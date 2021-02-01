@@ -34,6 +34,7 @@ class App extends Component {
 
   async withdraw(e) {
     //prevent button from default click
+    //check if this.state.dbank is ok
     //in try block call dBank withdraw();
   }
 
@@ -44,6 +45,7 @@ class App extends Component {
 
   async payOff(e) {
     //prevent button from default click
+    //check if this.state.dbank is ok
     //in try block check collateral ether, calc the fee, approve tokens to dbank address, call payOff
   }
 
