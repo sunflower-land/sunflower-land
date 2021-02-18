@@ -38,17 +38,6 @@ class App extends Component {
     //in try block call dBank withdraw();
   }
 
-  async borrow(amount) {
-    //check if this.state.dbank is ok
-      //in try block call dBank deposit();
-  }
-
-  async payOff(e) {
-    //prevent button from default click
-    //check if this.state.dbank is ok
-    //in try block check collateral ether, calc the fee, approve tokens to dbank address, call payOff
-  }
-
   constructor(props) {
     super(props)
     this.state = {
@@ -72,7 +61,7 @@ class App extends Component {
             rel="noopener noreferrer"
           >
         <img src={dbank} className="App-logo" alt="logo" height="32"/>
-          <b>d₿ank</b>
+          <b>dBank</b>
         </a>
         </nav>
         <div className="container-fluid mt-5 text-center">
@@ -86,8 +75,6 @@ class App extends Component {
               <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
                 {/*add Tab deposit*/}
                 {/*add Tab withdraw*/}
-                {/*add Tab borrow*/}
-                {/*add Tab payOff*/}
               </Tabs>
               </div>
             </main>
