@@ -1,3 +1,7 @@
+require("ts-node").register({
+  files: true,
+});
+
 require('babel-register');
 require('babel-polyfill');
 require('dotenv').config();

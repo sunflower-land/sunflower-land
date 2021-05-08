@@ -1,8 +1,8 @@
 {
-  "name": "dbank",
+  "name": "fruit-market",
   "version": "0.1.0",
-  "description": "Decentralized Bank",
-  "author": "dev@dappuniversity.com",
+  "description": "Fruit market contract",
+  "author": "adamhannigan81@gmail.com",
   "homepage": ".",
   "dependencies": {
     "@openzeppelin/contracts": "3.3.0",
@@ -14,7 +14,7 @@
     "babel-preset-stage-3": "6.24.1",
     "babel-register": "6.26.0",
     "bootstrap": "4.5.2",
-    "chai": "4.2.0",
+    "chai": "^4.3.4",
     "chai-as-promised": "7.1.1",
     "chai-bignumber": "3.0.0",
     "dotenv": "8.2.0",
@@ -30,7 +30,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate-types": "npx typechain --target=truffle-v5 'src/abis/*.json'",
+    "postinstall": "npx truffle compile && npm run generate-types"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,5 +42,14 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@typechain/truffle-v5": "^4.0.1",
+    "@types/chai": "^4.2.17",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^15.0.1",
+    "ts-node": "^9.1.1",
+    "typechain": "^4.0.3",
+    "typescript": "^4.2.4"
+  }
 }

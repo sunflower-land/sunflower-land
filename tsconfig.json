@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "ES2018"
+    ],
+    "module": "esnext",
+    "target": "ES2018",
+    "strict": true,
+    "esModuleInterop": true,
+    "types": [
+      "@types/node",
+      "@types/chai",
+      "@types/mocha"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react"
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "cache",
+    "artifacts"
+  ]
+}
