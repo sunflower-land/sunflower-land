@@ -10,7 +10,7 @@ contract Token is ERC20, ERC20Burnable {
   //add minter changed event
   event MinterChanged(address indexed from, address to);
 
-  constructor() public payable ERC20("Fruit Market Coin", "FMC") {
+  constructor() payable ERC20("Fruit Market Coin", "FMC") {
     minter = msg.sender;
   }
 

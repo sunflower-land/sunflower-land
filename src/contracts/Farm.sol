@@ -35,7 +35,7 @@ contract Farm {
         // Initial prices
         market[NOW_TIMESTAMP] = Prices({
             apples: 100, 
-            avocados: 300,
+            avocados: 400,
             timestamp: NOW_TIMESTAMP,
             previousTimestamp: 0
         });
@@ -73,8 +73,8 @@ contract Farm {
         uint landIndex;
     }
 
-    uint MAX_AVOCADO_PRICE = 5;
-    uint MIN_AVOCADO_PRICE = 3;
+    uint MAX_AVOCADO_PRICE = 500;
+    uint MIN_AVOCADO_PRICE = 300;
 
     struct Prices {
         uint apples;
@@ -207,26 +207,39 @@ contract Farm {
 
         // What is the biggest mover?
         for (uint i=0; i < _transactions.length; i += 1) {
-            if ( _transactions[i].commodity == Commodity.AppleSeed) {
+            if (_transactions[i].commodity == Commodity.AppleSeed) {
                 apples += 1;
-            } else if ( _transactions[i].commodity == Commodity.AppleSeed) {
+            } else if ( _transactions[i].commodity == Commodity.AvocadoSeed) {
                 avocados += 1;
             }
         }
 
         uint totalFruitTransactions = apples + avocados;
 
+        if (totalFruitTransactions == 0) {
+            return;
+        }
+
         // Percentage of transactions that were apples
-        uint applePercentage = apples / totalFruitTransactions * 100;
-        uint avocadoPercentage = avocados / totalFruitTransactions * 100;
-        uint expectedTransactions = 1 / FRUIT_COUNT * 100;
+        uint applePercentage = 0;
+        if (apples > 0) {
+            applePercentage = totalFruitTransactions * 100;
+        } 
+        uint avocadoPercentage = 0;
+        if (avocados > 0) {
+            // 35%
+            avocadoPercentage = avocados / totalFruitTransactions * 100;
+        } 
 
-        uint appleChange = applePercentage - expectedTransactions;
-        uint avocadoChange = avocadoPercentage - expectedTransactions;
+        // 30%
+        uint expectedTransactions = 100 / FRUIT_COUNT;
+
+        // 5% 
+        int avocadoChange = int(avocadoPercentage) - int(expectedTransactions);
 
 
-        // TODO even out the price from the previous hour - store transactions in the last hour?
-        uint transactionCount = 0;
+        //TODO even out the price from the previous hour - store transactions in the last hour?
+        int transactionCount = 1;
         uint tenMinutesAgo = block.timestamp - (60 * 10);
         Prices memory prices = market[NOW_TIMESTAMP];
         while (prices.timestamp > tenMinutesAgo) {
@@ -241,14 +254,22 @@ contract Farm {
 
         Prices memory currentPrices = market[NOW_TIMESTAMP];
 
-        // Apples are staple, they always stay at 1 FMC
-        uint relativeAvocadoChange = avocadoChange / transactionCount;
-        uint newAvocadoPrice = clamp(currentPrices.avocados * relativeAvocadoChange, MIN_AVOCADO_PRICE, MAX_AVOCADO_PRICE);
+        // To avoid major market shifts, divide it
+        int MARKET_IMPACT = 10;
+        // 5% / 3 Transactions = 1.8%
+        int relativeAvocadoChange = avocadoChange / transactionCount / MARKET_IMPACT;
+        // 98.2% - we want to decrease it a little.
+        int percentage = 100 - relativeAvocadoChange;
+        // $5.23
+        uint avocadoPrice = currentPrices.avocados * uint(percentage) / 100;
+        // $5
+        uint clampedAvocadoPrice = clamp(avocadoPrice, MIN_AVOCADO_PRICE, MAX_AVOCADO_PRICE);
 
         market[currentPrices.timestamp] = currentPrices;
         market[NOW_TIMESTAMP] = Prices({
-            apples: 1,
-            avocados: newAvocadoPrice,
+            // Staple crop
+            apples: 100,
+            avocados: clampedAvocadoPrice,
             timestamp: block.timestamp,
             previousTimestamp: currentPrices.timestamp
         });
@@ -268,18 +289,16 @@ contract Farm {
         land[0] = farm.land[0];
 
 
-        // Update the users FMC - mint or burn
-        int balanceChange = int(farm.balance) - int(balance);
-        if (balanceChange > 0) {
-            token.mint(msg.sender, uint(balanceChange));
-        } else if (balanceChange < 0) {
-            int amountToBurn = -1 * int(balanceChange);
-            token.burn(uint(amountToBurn));
+        // Update the balance - mint or burn
+        if (balance > farm.balance) {
+            uint profit = balance - farm.balance;
+            token.mint(msg.sender, profit);
+        } else if (farm.balance > balance) {
+            uint loss = farm.balance - balance;
+            token.burn(loss);
         }
 
-        // TODO - update the prices
-        // moveTheMarket(_transactions);
-
+        moveTheMarket(_transactions);
     }
 
     function addTransaction(Transaction[] memory _transactions, Transaction memory _transaction) private view returns (Transaction[] memory) {
@@ -333,7 +352,35 @@ contract Farm {
         return (updatedFarm);
     }
 
+    function buyAvocadoSeed(Transaction[] memory _transactions) public view returns (Farm memory farm, uint price) {
+        Prices memory currentPrices = market[NOW_TIMESTAMP];
+        Transaction memory buyAppleTransaction = Transaction(Action.Buy, Commodity.AvocadoSeed, currentPrices.timestamp, 0);
+        Transaction[] memory newTransactions = addTransaction(_transactions, buyAppleTransaction);
+
+
+        Farm memory updatedFarm = buildFarm(newTransactions);
+        return (updatedFarm,currentPrices.apples);
+    }
+
+    function sellAvocadoSeed(Transaction[] memory _transactions) public view returns (Farm memory farm, uint price) {
+        Prices memory currentPrices = market[NOW_TIMESTAMP];
+        Transaction memory sellAppleTransaction = Transaction(Action.Sell, Commodity.AvocadoSeed, currentPrices.timestamp, 0);
+        Transaction[] memory newTransactions = addTransaction(_transactions, sellAppleTransaction);
+
+
+        Farm memory updatedFarm = buildFarm(newTransactions);
+        return (updatedFarm, currentPrices.apples);
+    }
+
+    function getPrices() public view returns (Prices memory price) {
+        return market[NOW_TIMESTAMP];
+    }
+
     function getApplePrice() public view returns (uint price) {
         return market[NOW_TIMESTAMP].apples;
+    }
+
+    function getAvocadoPrice() public view returns (uint price) {
+        return market[NOW_TIMESTAMP].avocados;
     }
 }

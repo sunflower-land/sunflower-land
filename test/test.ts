@@ -228,17 +228,41 @@ contract('farm', ([deployer, user]) => {
     })
   })
 
-  describe('market', () => {
-    it('should move the avocado market', async () => {
-      farm = await getFarmWithFMC(100)
+  describe.only('market', () => {
+    it('should not move the apple market', async () => {
+      farm = await getFarmWithFMC(10000)
 
       await farm.createFarm({ from: user })
-      let myFarm = await farm.getInventory({ from: user })
+      let prices = await farm.getPrices({ from: user })
 
-      expect(myFarm.apples).to.eq('1')
+      expect(prices.apples).to.eq('100')
+      expect(prices.avocados).to.eq('400')
 
-      const response = await farm.buyAppleSeed([], { from: user })
-      expect(response[0].inventory.apples).to.be.eq('2')
+      let currentFarm = await farm.buyAppleSeed([], { from: user })
+      currentFarm = await farm.buyAppleSeed(currentFarm[0].transactions, { from: user })
+      await farm.sync(currentFarm[0].transactions, { from: user })
+
+      prices = await farm.getPrices({ from: user })
+      expect(prices.apples).to.be.eq('100')
+      expect(prices.avocados).to.eq('420')
+    })
+
+    it('should move the avocado market down', async () => {
+      farm = await getFarmWithFMC(10000)
+
+      await farm.createFarm({ from: user })
+      let prices = await farm.getPrices({ from: user })
+
+      expect(prices.avocados).to.eq('400')
+      expect(prices.apples).to.eq('100')
+
+      let currentFarm = await farm.buyAvocadoSeed([], { from: user })
+      currentFarm = await farm.buyAvocadoSeed(currentFarm[0].transactions, { from: user })
+      await farm.sync(currentFarm[0].transactions, { from: user })
+
+      prices = await farm.getPrices({ from: user })
+      expect(prices.avocados).to.be.eq('380')
+      expect(prices.apples).to.eq('100')
     })
   })
 })
