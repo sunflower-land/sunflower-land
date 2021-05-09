@@ -254,7 +254,6 @@ contract('farm', ([deployer, user]) => {
       let prices = await farm.getPrices({ from: user })
 
       expect(prices.avocados).to.eq('400')
-      expect(prices.apples).to.eq('100')
 
       let currentFarm = await farm.buyAvocadoSeed([], { from: user })
       currentFarm = await farm.buyAvocadoSeed(currentFarm[0].transactions, { from: user })
@@ -262,7 +261,14 @@ contract('farm', ([deployer, user]) => {
 
       prices = await farm.getPrices({ from: user })
       expect(prices.avocados).to.be.eq('380')
-      expect(prices.apples).to.eq('100')
+
+      currentFarm = await farm.buyAvocadoSeed([], { from: user })
+      currentFarm = await farm.buyAvocadoSeed(currentFarm[0].transactions, { from: user })
+      await farm.sync(currentFarm[0].transactions, { from: user })
+
+      // Should be proportionally less since people have been trading
+      prices = await farm.getPrices({ from: user })
+      expect(prices.avocados).to.be.eq('372')
     })
   })
 })

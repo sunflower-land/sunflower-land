@@ -245,11 +245,17 @@ contract Farm {
         while (prices.timestamp > tenMinutesAgo) {
             transactionCount++;
             
-            if (prices.previousTimestamp != 0) {
-                prices = market[prices.previousTimestamp];
-            } else {
+            // Endless loop if we do not have this???
+            if (transactionCount >= 2) {
                 break;
             }
+
+            // Back to the beginining
+            if (prices.previousTimestamp == 0) {
+                break;
+            }
+
+            prices = market[prices.previousTimestamp];
         }
 
         Prices memory currentPrices = market[NOW_TIMESTAMP];
