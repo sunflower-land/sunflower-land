@@ -16,7 +16,7 @@ contract('farm', ([deployer, user]) => {
 
   async function getFarmWithFMC(amount: number): Promise<FarmInstance> {
     token = await (Token as TokenContract).new()
-    token.mint(user, 100)
+    token.mint(user, amount)
     farm = await Farm.new(token.address)
     await token.passMinterRole(farm.address, {from: deployer})
 
@@ -125,9 +125,9 @@ contract('farm', ([deployer, user]) => {
     })
   })
 
-  describe('actions', () => {
+  describe('apples', () => {
     it('should buy apple', async () => {
-      farm = await getFarmWithFMC(100)
+      farm = await getFarmWithFMC(10000)
 
       await farm.createFarm({ from: user })
       let myFarm = await farm.getInventory({ from: user })
@@ -136,6 +136,7 @@ contract('farm', ([deployer, user]) => {
 
       const response = await farm.buyAppleSeed([], { from: user })
       expect(response[0].inventory.apples).to.be.eq('2')
+      expect(response[0].balance).to.be.eq('9900')
     })
 
     it('should throw an error when a user does not have enough money for apples', async () => {
@@ -144,7 +145,7 @@ contract('farm', ([deployer, user]) => {
       try {
         await farm.buyAppleSeed([], { from: user })
       } catch (error) {
-        expect(error.message).to.contain('You do not have enough money to buy apples')
+        expect(error.message).to.contain('Not enough money to buy seeds')
       }
     })
 
@@ -156,6 +157,7 @@ contract('farm', ([deployer, user]) => {
 
       const response = await farm.sellAppleSeed([], { from: user })
       expect(response[0].inventory.apples).to.be.eq('0')
+      expect(response[0].balance).to.be.eq('100')
     })
 
     it('should throw an error when a user does not have enough apple seeds to sell', async () => {
@@ -166,7 +168,7 @@ contract('farm', ([deployer, user]) => {
         const transactions = response[0].transactions
         await farm.sellAppleSeed(transactions, { from: user })
       } catch (error) {
-        expect(error.message).to.contain('No apples to sell')
+        expect(error.message).to.contain('No seeds to sell')
       }
     })
 
@@ -184,11 +186,11 @@ contract('farm', ([deployer, user]) => {
       await farm.createFarm({ from: user })
 
       try {
-        const response = await farm.plantAppleSeed([], 2, { from: user })
+        const response = await farm.plantAppleSeed([], 0, { from: user })
         const transactions = response.transactions
-        await farm.plantAppleSeed(transactions, 3, { from: user })
+        await farm.plantAppleSeed(transactions, 0, { from: user })
       } catch (error) {
-        expect(error.message).to.contain('Not enough apple seeds to plant')
+        expect(error.message).to.contain('Not enough seeds to plant')
       }
     })
 
@@ -211,7 +213,7 @@ contract('farm', ([deployer, user]) => {
       try {
         await farm.harvestAppleSeed(transactions, 0, { from: user })
       } catch (error) {
-        expect(error.message).to.contain('You do not have any apples ripe for harvest')
+        expect(error.message).to.contain('The fruit is not ripe')
       }
     })
 
@@ -221,7 +223,7 @@ contract('farm', ([deployer, user]) => {
       try {
         await farm.harvestAppleSeed([], 0, { from: user })
       } catch (error) {
-        expect(error.message).to.contain('That is not an apple')
+        expect(error.message).to.contain('No fruit exists')
       }
     })
   })

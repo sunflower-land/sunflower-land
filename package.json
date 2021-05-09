@@ -44,6 +44,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@babel/preset-env": "^7.14.1",
     "@typechain/truffle-v5": "^4.0.1",
     "@types/chai": "^4.2.17",
     "@types/mocha": "^8.2.2",
