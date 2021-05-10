@@ -41,7 +41,9 @@ contract Farm {
         });
     }
 
-    function createFarm() public {
+    uint INITIAL_FIELD_COUNT = 9;
+
+    function createFarm() public returns (Farm memory currentFarm) {
         require(!inventories[msg.sender].isInitialized, "Inventory already exists");
 
         Inventory storage inventory = inventories[msg.sender];
@@ -51,7 +53,20 @@ contract Farm {
         // Farm only has 1 block
         Square[] storage land = fields[msg.sender];
         Square memory empty = Square(Commodity.Empty, 0);
-        land.push(empty);
+        for (uint index = 0; index < INITIAL_FIELD_COUNT; index++) {
+            land.push(empty);
+        }
+
+        uint balance = token.balanceOf(msg.sender);
+        Transaction[] memory transactions;
+
+
+        return Farm({
+            inventory: inventory,
+            land: land,
+            balance: balance,
+            transactions: transactions
+        });
     }
 
     function getInventory() public view returns (Inventory memory) {
@@ -139,6 +154,9 @@ contract Farm {
 
     function buildFarm(Transaction[] memory _transactions) private view returns (Farm memory currentFarm) {
         Inventory memory inventory = inventories[msg.sender];
+
+        require(inventory.isInitialized, "Farm does not exist");
+
         Square[] memory land = fields[msg.sender];
         uint balance = token.balanceOf(msg.sender);
 

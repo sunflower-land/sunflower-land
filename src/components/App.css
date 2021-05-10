@@ -1,1 +1,16 @@
 /* Styles go here */
+.land {
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.field {
+    width: 30%;
+}
+
+.field-image {
+    width: 100%;
+}
