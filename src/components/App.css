@@ -1,7 +1,11 @@
+body {
+    background-image: url("./images/apples/terrain.png");
+}
+
 /* Styles go here */
 .land {
     width: 90%;
-    max-width: 400px;
+    max-width: 500px;
     margin: auto;
     display: flex;
     flex-wrap: wrap;
@@ -9,8 +13,15 @@
 
 .field {
     width: 30%;
+    padding: 5%;
+    cursor: pointer;
+}
+
+.field:hover{
+    transform: scale(1.1);
 }
 
 .field-image {
     width: 100%;
+    image-rendering: pixelated;
 }
