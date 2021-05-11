@@ -369,7 +369,7 @@ contract Farm {
     function harvestAppleSeed(Transaction[] memory _transactions, uint landIndex) public view returns (Farm memory farm) {
         // Add the new transaction
         Prices memory currentPrices = market[NOW_TIMESTAMP];
-        Transaction memory plantAppleTransaction = Transaction(Action.Harvest, Commodity.AppleSeed, currentPrices.timestamp, 0);
+        Transaction memory plantAppleTransaction = Transaction(Action.Harvest, Commodity.AppleSeed, currentPrices.timestamp, landIndex);
         Transaction[] memory newTransactions = addTransaction(_transactions, plantAppleTransaction);
 
         Farm memory updatedFarm = buildFarm(newTransactions);

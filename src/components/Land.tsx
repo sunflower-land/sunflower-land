@@ -1,27 +1,19 @@
 import React from 'react'
 import './App.css'
 import { Field }  from './Field'
-
-enum Commodity {
-    Apple = 1,
-    Avocado = 2
-}
-
-interface Square {
-    commodity: Commodity
-    createdAt: number
-}
+import { Square } from './types/contract'
 
 interface Props {
     land: Square[]
+    onClick: (landIndex: number) => void
 }
 
-export const Land: React.FC<Props> = ({ land }) => {
+export const Land: React.FC<Props> = ({ land, onClick }) => {
     return (
         <div className='land'>
             {
-                land.map(square => (
-                    <Field /> 
+                land.map((square, index) => (
+                    <Field square={square} onClick={() => onClick(index)}/> 
                 ))
             }
         </div>

@@ -7,7 +7,9 @@ import { FarmInstance } from '../../types/truffle-contracts/Farm'
 import Web3 from 'web3';
 import './App.css';
 
+import { Commodity, Square, Inventory } from './types/contract'
 import { Land } from './Land'
+import { InventoryBox } from './Inventory'
 
 type Web3Wrapper<Instance> = {
   
@@ -23,9 +25,11 @@ interface FarmC extends Contract {
 export const App: React.FC = () => {
   const [account, setAccount] = React.useState(null)
   const [balance, setBalance] = React.useState(0)
-  const [inventory, setInventory] = React.useState(null)
-  const [land, setLand] = React.useState(null)
+  const [inventory, setInventory] = React.useState<Inventory>(null)
+  const [land, setLand] = React.useState<Square[]>(null)
+  const [selectedFruit, setSelectedFruit] = React.useState<Commodity>(null)
   const farmContract = React.useRef<FarmC>(null)
+  const transactions = React.useRef<any[]>([])
 
   React.useEffect(() => {
     const init = async () => {
@@ -63,8 +67,48 @@ export const App: React.FC = () => {
 
   const onCreateFarm = async () => {
     const farm = await farmContract.current.methods.createFarm().send({from: account})
+    // TODO emit messages
+    console.log({ farm })
     setLand(farm.land)
     setInventory(farm.inventory)
+  }
+  
+  const onSelectLand = async (landIndex: number) => {
+    const field = land[landIndex]
+    console.log({ field })
+    console.log('Old trans: ', transactions.current)
+    console.log({ landIndex })
+
+    if (field.commodity == Commodity.Apple) {
+      const { transactions: newTransactions, land, inventory, balance } = await farmContract.current.methods.harvestAppleSeed(transactions.current, landIndex).call()
+      transactions.current = newTransactions;
+      console.log({
+        newTransactions,
+        land,
+        inventory,
+        balance
+      })
+      setLand(land)
+      setInventory(inventory)
+      setBalance(balance)
+    } else {
+      if (selectedFruit === null) {
+        return
+      }
+      const { transactions: newTransactions, land, inventory, balance } = await farmContract.current.methods.plantAppleSeed(transactions.current, landIndex).call()
+      transactions.current = newTransactions;
+      console.log({
+        newTransactions,
+        land,
+        inventory,
+        balance
+      })
+      setLand(land)
+      setInventory(inventory)
+      setBalance(balance)
+    }
+
+    setSelectedFruit(null)
   }
 
 
@@ -86,7 +130,16 @@ export const App: React.FC = () => {
           }
           {
             land && (
-              <Land land={land} />
+              <Land land={land} onClick={onSelectLand}/>
+            )
+          }
+          {
+            inventory && (
+              <InventoryBox
+                inventory={inventory}
+                selectedFruit={selectedFruit}
+                onSelectFruit={setSelectedFruit}
+              />
             )
           }
       </div>
