@@ -10,6 +10,7 @@ import './App.css';
 import { Commodity, Square, Inventory } from './types/contract'
 import { Land } from './Land'
 import { InventoryBox } from './Inventory'
+import { Prices, Props as CurrentPrices  } from './Prices'
 
 type Web3Wrapper<Instance> = {
   
@@ -21,21 +22,39 @@ interface TokenC extends Contract {
 interface FarmC extends Contract {
   methods: FarmInstance
 }
-
 export const App: React.FC = () => {
   const [account, setAccount] = React.useState(null)
   const [balance, setBalance] = React.useState(0)
+  const [error, setError] = React.useState('')
   const [inventory, setInventory] = React.useState<Inventory>(null)
+  const [prices, setPrices] = React.useState<CurrentPrices>(null)
   const [land, setLand] = React.useState<Square[]>(null)
   const [selectedFruit, setSelectedFruit] = React.useState<Commodity>(null)
   const farmContract = React.useRef<FarmC>(null)
   const transactions = React.useRef<any[]>([])
+
+  const onUpdateFarm = async () => {
+    const currentInventory = await farmContract.current.methods.getInventory().call()
+    console.log('Update farm: ', currentInventory)
+    if (currentInventory.isInitialized) {
+      setInventory(currentInventory)
+
+      const currentLand = await farmContract.current.methods.getLand().call()
+      setLand(currentLand)
+    }
+  }
+
+  const onGetPrice = async () => {
+    const prices = await farmContract.current.methods.getPrices().call()
+    setPrices(prices)
+  }
 
   React.useEffect(() => {
     const init = async () => {
       if (typeof (window as any).ethereum !== 'undefined') {
         //check if MetaMask exists
         const web3 = new Web3((window as any).ethereum);
+        web3.eth.handleRevert = true
         const netId = await web3.eth.net.getId();
         const accounts = await web3.eth.requestAccounts()
         // TODO set account
@@ -49,14 +68,30 @@ export const App: React.FC = () => {
 
         const balance = await token.methods.balanceOf(account).call()
         console.log({ balance})
-        setBalance(balance)
-        const playersItems = await farmContract.current.methods.getInventory().call()
-        if (playersItems.isInitialized) {
-          setInventory(playersItems)
+        setBalance(Number(balance))
+        await onUpdateFarm()
+        await onGetPrice()
 
-          const land = await farmContract.current.methods.getLand().call()
-          setLand(land)
-        }
+        farmContract.current.events.FarmCreated({
+            filter: { _address: account },
+        }, function(error, event){ console.log(event); })
+          .on('data', function(event){
+            console.log('Farm updated: ', event)
+            onUpdateFarm()
+          })
+          .on('changed', function(event){
+              // remove event from local database
+              console.log('ChangeL ', event)
+          })
+          .on('error', console.error);
+
+        farmContract.current.events.FarmSynced({
+            filter: { _address: account },
+        }, function(error, event){ console.log(event); })
+          .on('data', function(event){
+            console.log('Farm updated: ', event)
+            onUpdateFarm()
+          })
       } else {
         window.alert('Please install metamask')
       }
@@ -65,12 +100,12 @@ export const App: React.FC = () => {
     init()
   }, [])
 
-  const onCreateFarm = async () => {
-    const farm = await farmContract.current.methods.createFarm().send({from: account})
-    // TODO emit messages
-    console.log({ farm })
-    setLand(farm.land)
-    setInventory(farm.inventory)
+  const onCreateFarm = () => {
+    farmContract.current.methods.createFarm().send({from: account})
+  }
+
+  const onSyncFarm = () => {
+    farmContract.current.methods.sync(transactions.current).send({from: account})
   }
   
   const onSelectLand = async (landIndex: number) => {
@@ -79,36 +114,66 @@ export const App: React.FC = () => {
     console.log('Old trans: ', transactions.current)
     console.log({ landIndex })
 
-    if (field.commodity == Commodity.Apple) {
-      const { transactions: newTransactions, land, inventory, balance } = await farmContract.current.methods.harvestAppleSeed(transactions.current, landIndex).call()
-      transactions.current = newTransactions;
-      console.log({
-        newTransactions,
-        land,
-        inventory,
-        balance
-      })
-      setLand(land)
-      setInventory(inventory)
-      setBalance(balance)
+    if (field.commodity != Commodity.Empty) {
+      try {
+        const { transactions: newTransactions, land, inventory, balance } = await farmContract.current.methods.harvest(transactions.current, field.commodity, landIndex).call()
+        transactions.current = newTransactions;
+        console.log({
+          newTransactions,
+          land,
+          inventory,
+          balance
+        })
+        setLand(land)
+        setInventory(inventory)
+        setBalance(Number(balance))
+      }
+      catch (e) {
+        const errorJSON = e.message.slice(25)
+        setError(JSON.parse(errorJSON).message)
+      }
+
     } else {
       if (selectedFruit === null) {
         return
       }
-      const { transactions: newTransactions, land, inventory, balance } = await farmContract.current.methods.plantAppleSeed(transactions.current, landIndex).call()
-      transactions.current = newTransactions;
-      console.log({
-        newTransactions,
-        land,
-        inventory,
-        balance
-      })
-      setLand(land)
-      setInventory(inventory)
-      setBalance(balance)
+      try {
+        const { transactions: newTransactions, land, inventory, balance } = await farmContract.current.methods.plant(transactions.current, selectedFruit, landIndex).call()
+        transactions.current = newTransactions;
+        console.log({
+          newTransactions,
+          land,
+          inventory,
+          balance
+        })
+        setLand(land)
+        setInventory(inventory)
+        setBalance(Number(balance))
+      } catch (e) {
+        const errorJSON = e.message.slice(25)
+        setError(JSON.parse(errorJSON).message)
+      }
+
     }
 
     setSelectedFruit(null)
+  }
+
+  const onBuy = async (commodity: Commodity) => {
+    const response= await farmContract.current.methods.buy(transactions.current, commodity).call()
+    transactions.current = response[0].transactions;
+    setLand(response[0].land)
+    setInventory(response[0].inventory)
+    setBalance(Number(response[0].balance))
+  }
+
+  const onSell = async (commodity: Commodity) => {
+    const response= await farmContract.current.methods.sell(transactions.current, commodity).call()
+    transactions.current = response[0].transactions;
+    console.log('response: ', JSON.stringify(response, null, 2))
+    setLand(response[0].land)
+    setInventory(response[0].inventory)
+    setBalance(Number(response[0].balance))
   }
 
 
@@ -118,8 +183,36 @@ export const App: React.FC = () => {
         <h1>Welcome to Fruit Market</h1>
         <h2>{account}</h2>
         <h4>{balance}</h4>
-        <br></br>
+        {
+          inventory && prices && (
+            <>
+              <button onClick={onSyncFarm}>
+                Sync
+              </button>
+              <button disabled={balance < Number(prices.apples)} onClick={() => onBuy(Commodity.Apple)}>
+                Buy Apple
+              </button>
+              <button disabled={inventory.apples == 0} onClick={() => onSell(Commodity.Apple)}>
+                Sell Apple
+              </button>
+              <button disabled={balance < Number(prices.avocados)} onClick={() => onBuy(Commodity.Avocado)}>
+                Buy Avocado
+              </button>
+              <button disabled={inventory.avocados == 0} onClick={() => onSell(Commodity.Avocado)}>
+                Sell Avocado
+              </button>
+            </>
+          )
+        }
+        {
+          error && <span style={{color: 'red'}}>{error}</span>
+        }
       </div>
+      {
+        prices && (
+          <Prices {...prices} />
+        )
+      }
       <div className="row">
           {
             !inventory && (

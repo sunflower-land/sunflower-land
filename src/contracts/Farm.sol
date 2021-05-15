@@ -36,14 +36,17 @@ contract Farm {
         market[NOW_TIMESTAMP] = Prices({
             apples: 100, 
             avocados: 400,
-            timestamp: NOW_TIMESTAMP,
+            timestamp: block.timestamp,
             previousTimestamp: 0
         });
     }
 
     uint INITIAL_FIELD_COUNT = 9;
 
-    function createFarm() public returns (Farm memory currentFarm) {
+    event FarmCreated(address indexed _address);
+    event FarmSynced(address indexed _address);
+
+    function createFarm() public {
         require(!inventories[msg.sender].isInitialized, "Inventory already exists");
 
         Inventory storage inventory = inventories[msg.sender];
@@ -60,13 +63,8 @@ contract Farm {
         uint balance = token.balanceOf(msg.sender);
         Transaction[] memory transactions;
 
-
-        return Farm({
-            inventory: inventory,
-            land: land,
-            balance: balance,
-            transactions: transactions
-        });
+        //Emit an event
+        emit FarmCreated(msg.sender);
     }
 
     function getInventory() public view returns (Inventory memory) {
@@ -84,8 +82,10 @@ contract Farm {
     struct Transaction { 
         Action action;
         Commodity commodity;
+        // Unique prices key
         uint timestamp;
         uint landIndex;
+        uint createdAt;
     }
 
     uint MAX_AVOCADO_PRICE = 500;
@@ -107,7 +107,7 @@ contract Farm {
         Transaction[] transactions;
     }
 
-    uint APPLE_HARVEST_MILLSECONDS = 60 * 1000;
+    uint APPLE_HARVEST_SECONDS = 60;
 
     function getSeedFromInventory(Inventory memory _inventory, Commodity _commodity) private view returns (uint count) {
         if (_commodity == Commodity.AppleSeed) {
@@ -152,6 +152,37 @@ contract Farm {
         return _inventory;
     }
 
+    function concatenate(
+        string memory a,
+        string memory b)
+        internal
+        pure
+        returns(string memory) {
+            return string(abi.encodePacked(a, b));
+        }
+
+    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
+        if (_i == 0) {
+            return "0";
+        }
+        uint j = _i;
+        uint len;
+        while (j != 0) {
+            len++;
+            j /= 10;
+        }
+        bytes memory bstr = new bytes(len);
+        uint k = len;
+        while (_i != 0) {
+            k = k-1;
+            uint8 temp = (48 + uint8(_i - _i / 10 * 10));
+            bytes1 b1 = bytes1(temp);
+            bstr[k] = b1;
+            _i /= 10;
+        }
+        return string(bstr);
+    }
+
     function buildFarm(Transaction[] memory _transactions) private view returns (Farm memory currentFarm) {
         Inventory memory inventory = inventories[msg.sender];
 
@@ -171,16 +202,23 @@ contract Farm {
                 require(1 <= seedCount, "Invalid farm: No seeds to sell");
 
                 inventory = updateInventory(inventory, transaction.commodity, InventoryAction.Subtract, 1);
-                balance = balance.add(price);
+                // TODO price.apple not working
+                balance = balance.add(100);
             } else if (transaction.action == Action.Buy) {
                 require(balance >= price, "Invalid farm: Not enough money to buy seeds");
 
-                balance = balance.sub(price);
+                // TODO price.apple not working
+                balance = balance.sub(100);
                 inventory = updateInventory(inventory, transaction.commodity, InventoryAction.Add, 1);
             } else if (transaction.action == Action.Plant) {
                 require(seedCount > 0, "Invalid farm: Not enough seeds to plant");
 
-                Square memory plantedSeed = Square(transaction.commodity, transaction.timestamp);
+
+                Square memory plantedSeed = Square({
+                    commodity: transaction.commodity,
+                    // TODO - When they sync the farm, this will be at the time of the farm :(
+                    createdAt: transaction.createdAt
+                });
                 land[transaction.landIndex] = plantedSeed;
                 inventory = updateInventory(inventory, transaction.commodity, InventoryAction.Subtract, 1);
             } else if (transaction.action == Action.Harvest) {
@@ -188,7 +226,9 @@ contract Farm {
                 require(square.commodity == transaction.commodity, "Invalid farm: No fruit exists");
 
                 uint duration = block.timestamp - square.createdAt;
-                require(duration > APPLE_HARVEST_MILLSECONDS, "Invalid farm: The fruit is not ripe");
+                string memory durationString = uint2str(duration);
+                string memory message = concatenate("Invalid farm: The fruit is not ripe, please wait: ", durationString);
+                require(duration > APPLE_HARVEST_SECONDS, message);
 
                 // Clear the land
                 Square memory emptyLand = Square(Commodity.Empty, 0);
@@ -235,6 +275,7 @@ contract Farm {
         uint totalFruitTransactions = apples + avocados;
 
         if (totalFruitTransactions == 0) {
+            // TODO still update the timestamps being used
             return;
         }
 
@@ -305,24 +346,26 @@ contract Farm {
 
         // Update the inventory
         Inventory storage oldInventory = inventories[msg.sender];
-
         oldInventory.apples = farm.inventory.apples;
 
-        // TODO support more land
+        // Update the land
         Square[] storage land = fields[msg.sender];
-        land[0] = farm.land[0];
+        for (uint i=0; i < farm.land.length; i += 1) {
+            land[i] = farm.land[i];
+        }
 
 
         // Update the balance - mint or burn
-        if (balance > farm.balance) {
+        if (farm.balance > balance) {
             uint profit = balance - farm.balance;
             token.mint(msg.sender, profit);
-        } else if (farm.balance > balance) {
+        } else if (farm.balance < balance) {
             uint loss = farm.balance - balance;
             token.burn(loss);
         }
 
         moveTheMarket(_transactions);
+        emit FarmSynced(msg.sender);
     }
 
     function addTransaction(Transaction[] memory _transactions, Transaction memory _transaction) private view returns (Transaction[] memory) {
@@ -337,9 +380,15 @@ contract Farm {
         return newTransactions;
     }
 
-    function buyAppleSeed(Transaction[] memory _transactions) public view returns (Farm memory farm, uint price) {
+    function buy(Transaction[] memory _transactions, Commodity _commodity) public view returns (Farm memory farm, uint price) {
         Prices memory currentPrices = market[NOW_TIMESTAMP];
-        Transaction memory buyAppleTransaction = Transaction(Action.Buy, Commodity.AppleSeed, currentPrices.timestamp, 0);
+        Transaction memory buyAppleTransaction = Transaction({
+            action: Action.Buy,
+            commodity: _commodity,
+            timestamp: currentPrices.timestamp,
+            landIndex: 0,
+            createdAt: block.timestamp
+        });
         Transaction[] memory newTransactions = addTransaction(_transactions, buyAppleTransaction);
 
 
@@ -347,9 +396,15 @@ contract Farm {
         return (updatedFarm,currentPrices.apples);
     }
 
-    function sellAppleSeed(Transaction[] memory _transactions) public view returns (Farm memory farm, uint price) {
+    function sell(Transaction[] memory _transactions, Commodity _commodity) public view returns (Farm memory farm, uint price) {
         Prices memory currentPrices = market[NOW_TIMESTAMP];
-        Transaction memory sellAppleTransaction = Transaction(Action.Sell, Commodity.AppleSeed, currentPrices.timestamp, 0);
+        Transaction memory sellAppleTransaction = Transaction({
+            action: Action.Sell,
+            commodity: _commodity,
+            timestamp: currentPrices.timestamp,
+            landIndex: 0,
+            createdAt: block.timestamp
+        });
         Transaction[] memory newTransactions = addTransaction(_transactions, sellAppleTransaction);
 
 
@@ -357,43 +412,35 @@ contract Farm {
         return (updatedFarm, currentPrices.apples);
     }
 
-    function plantAppleSeed(Transaction[] memory _transactions, uint landIndex) public view returns (Farm memory farm) {
+    function plant(Transaction[] memory _transactions, Commodity _commodity, uint landIndex) public view returns (Farm memory farm) {
         Prices memory currentPrices = market[NOW_TIMESTAMP];
-        Transaction memory plantAppleTransaction = Transaction(Action.Plant, Commodity.AppleSeed, currentPrices.timestamp, landIndex);
+        Transaction memory plantAppleTransaction = Transaction({
+            action: Action.Plant,
+            commodity: _commodity,
+            timestamp: currentPrices.timestamp,
+            landIndex: landIndex,
+            createdAt: block.timestamp
+        });
         Transaction[] memory newTransactions = addTransaction(_transactions, plantAppleTransaction);
 
         Farm memory updatedFarm = buildFarm(newTransactions);
         return (updatedFarm);
     }
 
-    function harvestAppleSeed(Transaction[] memory _transactions, uint landIndex) public view returns (Farm memory farm) {
+    function harvest(Transaction[] memory _transactions, Commodity _commodity, uint landIndex) public view returns (Farm memory farm) {
         // Add the new transaction
         Prices memory currentPrices = market[NOW_TIMESTAMP];
-        Transaction memory plantAppleTransaction = Transaction(Action.Harvest, Commodity.AppleSeed, currentPrices.timestamp, landIndex);
+        Transaction memory plantAppleTransaction = Transaction({
+            action: Action.Harvest,
+            commodity: _commodity,
+            timestamp: currentPrices.timestamp,
+            landIndex: landIndex,
+            createdAt: block.timestamp
+        });
         Transaction[] memory newTransactions = addTransaction(_transactions, plantAppleTransaction);
 
         Farm memory updatedFarm = buildFarm(newTransactions);
         return (updatedFarm);
-    }
-
-    function buyAvocadoSeed(Transaction[] memory _transactions) public view returns (Farm memory farm, uint price) {
-        Prices memory currentPrices = market[NOW_TIMESTAMP];
-        Transaction memory buyAppleTransaction = Transaction(Action.Buy, Commodity.AvocadoSeed, currentPrices.timestamp, 0);
-        Transaction[] memory newTransactions = addTransaction(_transactions, buyAppleTransaction);
-
-
-        Farm memory updatedFarm = buildFarm(newTransactions);
-        return (updatedFarm,currentPrices.apples);
-    }
-
-    function sellAvocadoSeed(Transaction[] memory _transactions) public view returns (Farm memory farm, uint price) {
-        Prices memory currentPrices = market[NOW_TIMESTAMP];
-        Transaction memory sellAppleTransaction = Transaction(Action.Sell, Commodity.AvocadoSeed, currentPrices.timestamp, 0);
-        Transaction[] memory newTransactions = addTransaction(_transactions, sellAppleTransaction);
-
-
-        Farm memory updatedFarm = buildFarm(newTransactions);
-        return (updatedFarm, currentPrices.apples);
     }
 
     function getPrices() public view returns (Prices memory price) {
