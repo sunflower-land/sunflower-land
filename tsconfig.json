@@ -3,7 +3,7 @@
     "lib": [
       "ES2018"
     ],
-    "module": "esnext",
+    "module": "CommonJS",
     "target": "ES2018",
     "strict": true,
     "esModuleInterop": true,

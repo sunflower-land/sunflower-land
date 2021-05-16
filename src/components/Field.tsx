@@ -9,7 +9,35 @@ interface Props {
     onClick: () => void
 }
 
+const HARVEST_TIMES: Record<Commodity, number> = {
+    [Commodity.Apple]: 6,
+    [Commodity.Avocado]: 90,
+    [Commodity.Empty]: 0,
+}
+
 export const Field: React.FC<Props> = ({ square, onClick }) => {
+    const [timeLeft, setTimeLeft] = React.useState('')
+
+    const setHarvestTime = () => {
+        const secondsElapsed = (Date.now()/1000) - square.createdAt;
+        console.log(secondsElapsed)
+        if (secondsElapsed > HARVEST_TIMES[square.commodity]) {
+            setTimeLeft('ready')
+            return
+            // TODO - clear interval
+        }
+
+        const timeLeft = HARVEST_TIMES[square.commodity] - secondsElapsed
+        setTimeLeft(`${timeLeft.toFixed(2)} seconds`)
+    }
+
+    React.useEffect(() => {
+        if (square.commodity && square.commodity !== Commodity.Empty) {
+            const interval = window.setInterval(setHarvestTime, 1000)
+            return () => window.clearInterval(interval)
+        }
+    }, [square])
+
     const Content = () => {
         if (square.commodity == Commodity.Apple) {
             return (
@@ -25,9 +53,15 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
 
         return <img src={terrain} className="field-image"/>
     }
+
     return (
         <div className="field" onClick={onClick}>
             <Content />
+            <span>
+                {
+                    timeLeft
+                }
+            </span>
         </div>
     )
 }

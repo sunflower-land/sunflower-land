@@ -76,52 +76,35 @@ contract('farm', ([deployer, user]) => {
   })
 
   describe('sync', () => {
-    describe('success', () => {
-      it('should create a farm', async () => {
-        let myFarm = await farm.getInventory({ from: user })
-        expect(myFarm).to.eql([false, "0", "0"])
-        await farm.createFarm({ from: user })
+    it.only('should increase the balance', async () => {
+      await farm.createFarm({ from: user })
 
-        myFarm = await farm.getInventory({ from: user })
-        expect(myFarm).to.eql([true, "1", "0"])
+      let balance = await farm.getBalance({ from: user })
+      expect(balance.toNumber()).to.eq(0)
 
-        const myLand = await farm.getLand({ from: user })
-        expect(myLand).to.eql([["2", "0"]])
-      })
+      const response = await farm.sell([], 0, { from: user })
+      const transactions = response[0].transactions
 
-      it('should sell seeds', async () => {
-        await farm.createFarm({ from: user })
-        let myFarm = await farm.getInventory({ from: user })
-        expect(myFarm.apples).to.be.eq('1')
+      await farm.sync(transactions, { from: user });
 
-        // TODO enum types
-        await farm.sync([{
-            action: 1,
-            commodity: 0,
-            timestamp: Date.now(),
-            landIndex: 0,
-        }], { from: user })
+      balance = await farm.getBalance({ from: user })
+      expect(balance.toNumber()).to.eq(100)
+    })
 
-        myFarm = await farm.getInventory({ from: user })
-        expect(myFarm.apples).to.be.eq('0')
-      })
+    it.only('should decrease the balance', async () => {
+      farm = await getFarmWithFMC(10000)
+      await farm.createFarm({ from: user })
 
-      it('should throw an error when selling too many seeds', async () => {
-        await farm.createFarm({ from: user })
-        let myFarm = await farm.getInventory({ from: user })
-        expect(myFarm.apples).to.be.eq('1')
+      let balance = await farm.getBalance({ from: user })
+      expect(balance.toNumber()).to.eq(0)
 
-        try {
-          await farm.sync([{
-              action: 1,
-              commodity: 0,
-              timestamp: Date.now(),
-              landIndex: 0,
-          }], { from: user })
-        } catch (error) {
-          expect(error.message).to.contain('You do not have enough apple seeds')
-        }
-      })
+      const response = await farm.buy([], 0, { from: user })
+      const transactions = response[0].transactions
+
+      await farm.sync(transactions, { from: user });
+
+      balance = await farm.getBalance({ from: user })
+      expect(balance.toNumber()).to.eq(9900)
     })
   })
 
@@ -134,7 +117,7 @@ contract('farm', ([deployer, user]) => {
 
       expect(myFarm.apples).to.eq('1')
 
-      const response = await farm.buyAppleSeed([], { from: user })
+      const response = await farm.buy([], 1, { from: user })
       expect(response[0].inventory.apples).to.be.eq('2')
       expect(response[0].balance).to.be.eq('9900')
     })
@@ -143,7 +126,7 @@ contract('farm', ([deployer, user]) => {
       await farm.createFarm({ from: user })
 
       try {
-        await farm.buyAppleSeed([], { from: user })
+        await farm.buy([], 1, { from: user })
       } catch (error) {
         expect(error.message).to.contain('Not enough money to buy seeds')
       }
@@ -155,7 +138,7 @@ contract('farm', ([deployer, user]) => {
 
       expect(myFarm.apples).to.eq('1')
 
-      const response = await farm.sellAppleSeed([], { from: user })
+      const response = await farm.sell([], 1, { from: user })
       expect(response[0].inventory.apples).to.be.eq('0')
       expect(response[0].balance).to.be.eq('100')
     })
@@ -164,9 +147,9 @@ contract('farm', ([deployer, user]) => {
       await farm.createFarm({ from: user })
 
       try {
-        const response = await farm.sellAppleSeed([], { from: user })
+        const response = await farm.sell([], 1, { from: user })
         const transactions = response[0].transactions
-        await farm.sellAppleSeed(transactions, { from: user })
+        await farm.sell(transactions, 1, { from: user })
       } catch (error) {
         expect(error.message).to.contain('No seeds to sell')
       }
@@ -178,7 +161,7 @@ contract('farm', ([deployer, user]) => {
 
       expect(myFarm.apples).to.eq('1')
 
-      const response = await farm.plantAppleSeed([], 0, { from: user })
+      const response = await farm.plant([], 1, 0, { from: user })
       expect(response.inventory.apples).to.be.eq('0')
     })
 
@@ -186,9 +169,9 @@ contract('farm', ([deployer, user]) => {
       await farm.createFarm({ from: user })
 
       try {
-        const response = await farm.plantAppleSeed([], 0, { from: user })
+        const response = await farm.plant([], 1, 0, { from: user })
         const transactions = response.transactions
-        await farm.plantAppleSeed(transactions, 0, { from: user })
+        await farm.plant(transactions, 1, 0, { from: user })
       } catch (error) {
         expect(error.message).to.contain('Not enough seeds to plant')
       }
@@ -196,22 +179,22 @@ contract('farm', ([deployer, user]) => {
 
     it('should harvest apples', async () => {
       await farm.createFarm({ from: user })
-      const planted = await farm.plantAppleSeed([], 0, { from: user })
+      const planted = await farm.plant([], 1, 0, { from: user })
       const transactions = planted.transactions
       // Advance in time 
       await advanceTimeAndBlock(600000);
 
-      const response = await farm.harvestAppleSeed(transactions, 0, { from: user })
+      const response = await farm.harvest(transactions, 1, 0, { from: user })
       expect(response.inventory.apples).to.be.eq('2')
     })
 
     it('should not harvest non-ripe apples', async () => {
       await farm.createFarm({ from: user })
-      const planted = await farm.plantAppleSeed([], 0, { from: user })
+      const planted = await farm.plant([], 1, 0, { from: user })
       const transactions = planted.transactions
 
       try {
-        await farm.harvestAppleSeed(transactions, 0, { from: user })
+        await farm.harvest(transactions, 1, 0, { from: user })
       } catch (error) {
         expect(error.message).to.contain('The fruit is not ripe')
       }
@@ -221,14 +204,14 @@ contract('farm', ([deployer, user]) => {
       await farm.createFarm({ from: user })
 
       try {
-        await farm.harvestAppleSeed([], 0, { from: user })
+        await farm.harvest([], 1, 0, { from: user })
       } catch (error) {
         expect(error.message).to.contain('No fruit exists')
       }
     })
   })
 
-  describe.only('market', () => {
+  describe('market', () => {
     it('should not move the apple market', async () => {
       farm = await getFarmWithFMC(10000)
 
@@ -238,8 +221,8 @@ contract('farm', ([deployer, user]) => {
       expect(prices.apples).to.eq('100')
       expect(prices.avocados).to.eq('400')
 
-      let currentFarm = await farm.buyAppleSeed([], { from: user })
-      currentFarm = await farm.buyAppleSeed(currentFarm[0].transactions, { from: user })
+      let currentFarm = await farm.buy([], 1, { from: user })
+      currentFarm = await farm.buy(currentFarm[0].transactions, 1, { from: user })
       await farm.sync(currentFarm[0].transactions, { from: user })
 
       prices = await farm.getPrices({ from: user })
@@ -255,15 +238,15 @@ contract('farm', ([deployer, user]) => {
 
       expect(prices.avocados).to.eq('400')
 
-      let currentFarm = await farm.buyAvocadoSeed([], { from: user })
-      currentFarm = await farm.buyAvocadoSeed(currentFarm[0].transactions, { from: user })
+      let currentFarm = await farm.buy([], 1, { from: user })
+      currentFarm = await farm.buy(currentFarm[0].transactions, 1, { from: user })
       await farm.sync(currentFarm[0].transactions, { from: user })
 
       prices = await farm.getPrices({ from: user })
       expect(prices.avocados).to.be.eq('380')
 
-      currentFarm = await farm.buyAvocadoSeed([], { from: user })
-      currentFarm = await farm.buyAvocadoSeed(currentFarm[0].transactions, { from: user })
+      currentFarm = await farm.buy([], 1, { from: user })
+      currentFarm = await farm.buy(currentFarm[0].transactions, 1, { from: user })
       await farm.sync(currentFarm[0].transactions, { from: user })
 
       // Should be proportionally less since people have been trading

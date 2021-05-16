@@ -36,7 +36,7 @@ export const App: React.FC = () => {
   const onUpdateFarm = async () => {
     const currentInventory = await farmContract.current.methods.getInventory().call()
     console.log('Update farm: ', currentInventory)
-    if (currentInventory.isInitialized) {
+    if (currentInventory && currentInventory.isInitialized) {
       setInventory(currentInventory)
 
       const currentLand = await farmContract.current.methods.getLand().call()
@@ -68,7 +68,10 @@ export const App: React.FC = () => {
 
         const balance = await token.methods.balanceOf(account).call()
         console.log({ balance})
-        setBalance(Number(balance))
+        const farmBalance = await farmContract.current.methods.getBalance().call()
+        console.log({ farmBalance})
+
+        //setBalance(Number(balance))
         await onUpdateFarm()
         await onGetPrice()
 
@@ -154,6 +157,7 @@ export const App: React.FC = () => {
         setError(JSON.parse(errorJSON).message)
       }
 
+      setSelectedFruit(null)
     }
 
     setSelectedFruit(null)

@@ -27,4 +27,9 @@ contract Token is ERC20, ERC20Burnable {
     require(msg.sender == minter, "You are not the minter");
 		_mint(account, amount);
 	}
+
+  function burn(address account, uint256 amount) public {
+    require(msg.sender == minter, "You are not the minter");
+		_burn(account, amount);
+	}
 }

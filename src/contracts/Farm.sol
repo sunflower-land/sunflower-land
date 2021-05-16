@@ -10,7 +10,7 @@ contract Farm {
     //assign Token contract to variable
     Token private token;
     uint NOW_TIMESTAMP = 69;
-    uint DECIMAL_PLACES = 2;
+    //uint DECIMAL_PLACES = 2;
 
     struct Square {
         Commodity commodity;
@@ -107,7 +107,7 @@ contract Farm {
         Transaction[] transactions;
     }
 
-    uint APPLE_HARVEST_SECONDS = 60;
+    uint APPLE_HARVEST_SECONDS = 6;
 
     function getSeedFromInventory(Inventory memory _inventory, Commodity _commodity) private view returns (uint count) {
         if (_commodity == Commodity.AppleSeed) {
@@ -357,15 +357,28 @@ contract Farm {
 
         // Update the balance - mint or burn
         if (farm.balance > balance) {
-            uint profit = balance - farm.balance;
+            uint profit = farm.balance - balance;
             token.mint(msg.sender, profit);
         } else if (farm.balance < balance) {
-            uint loss = farm.balance - balance;
+            uint loss = balance - farm.balance;
             token.burn(loss);
         }
 
         moveTheMarket(_transactions);
         emit FarmSynced(msg.sender);
+    }
+
+    function minta(uint amount) public {
+        uint realAmount = amount * 10^18;
+        token.mint(msg.sender, amount);
+    }
+
+    function burna(uint amount) public {
+        token.burn(msg.sender, amount);
+    }
+
+    function getBalance() public view returns (uint balance) {
+        return token.balanceOf(msg.sender);
     }
 
     function addTransaction(Transaction[] memory _transactions, Transaction memory _transaction) private view returns (Transaction[] memory) {
