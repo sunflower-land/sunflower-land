@@ -96,7 +96,7 @@ contract('farm', ([deployer, user]) => {
       await farm.createFarm({ from: user })
 
       let balance = await farm.getBalance({ from: user })
-      expect(balance.toNumber()).to.eq(0)
+      expect(balance.toNumber()).to.eq(10000)
 
       const response = await farm.buy([], 0, { from: user })
       const transactions = response[0].transactions

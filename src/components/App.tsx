@@ -67,6 +67,7 @@ export const App: React.FC = () => {
         farmContract.current = new web3.eth.Contract(Farm.abi as any, farmAddress)
 
         const balance = await token.methods.balanceOf(account).call()
+        setBalance(balance)
         console.log({ balance})
         const farmBalance = await farmContract.current.methods.getBalance().call()
         console.log({ farmBalance})

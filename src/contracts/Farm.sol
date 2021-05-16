@@ -202,12 +202,12 @@ contract Farm {
                 require(1 <= seedCount, "Invalid farm: No seeds to sell");
 
                 inventory = updateInventory(inventory, transaction.commodity, InventoryAction.Subtract, 1);
-                // TODO price.apple not working
+                // TODO USE REAL PRICES
                 balance = balance.add(100);
             } else if (transaction.action == Action.Buy) {
                 require(balance >= price, "Invalid farm: Not enough money to buy seeds");
 
-                // TODO price.apple not working
+                // TODO USE REAL PRICES
                 balance = balance.sub(100);
                 inventory = updateInventory(inventory, transaction.commodity, InventoryAction.Add, 1);
             } else if (transaction.action == Action.Plant) {
@@ -228,6 +228,7 @@ contract Farm {
                 uint duration = block.timestamp - square.createdAt;
                 string memory durationString = uint2str(duration);
                 string memory message = concatenate("Invalid farm: The fruit is not ripe, please wait: ", durationString);
+                // TODO - normal times
                 require(duration > APPLE_HARVEST_SECONDS, message);
 
                 // Clear the land
@@ -361,7 +362,7 @@ contract Farm {
             token.mint(msg.sender, profit);
         } else if (farm.balance < balance) {
             uint loss = balance - farm.balance;
-            token.burn(loss);
+            token.burn(msg.sender, loss);
         }
 
         moveTheMarket(_transactions);
