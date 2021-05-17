@@ -76,7 +76,7 @@ contract('farm', ([deployer, user]) => {
   })
 
   describe('sync', () => {
-    it.only('should increase the balance', async () => {
+    it('should increase the balance', async () => {
       await farm.createFarm({ from: user })
 
       let balance = await farm.getBalance({ from: user })
@@ -91,7 +91,7 @@ contract('farm', ([deployer, user]) => {
       expect(balance.toNumber()).to.eq(100)
     })
 
-    it.only('should decrease the balance', async () => {
+    it('should decrease the balance', async () => {
       farm = await getFarmWithFMC(10000)
       await farm.createFarm({ from: user })
 
@@ -105,6 +105,32 @@ contract('farm', ([deployer, user]) => {
 
       balance = await farm.getBalance({ from: user })
       expect(balance.toNumber()).to.eq(9900)
+    })
+  })
+
+  describe('big moves', () => {
+    it.only('should throw an error when not enough money to buy space', async () => {
+      await farm.createFarm({ from: user })
+
+      try {
+        await farm.buyMoreSpace([], { from: user });
+      } catch (error) {
+        // TODO fix this strange number!
+        expect(error.message).to.contain('Not enough money to buy new fields: 6000')
+      }
+    })
+
+    it.only('should buy more space', async () => {
+      farm = await getFarmWithFMC(10000)
+      await farm.createFarm({ from: user })
+
+      let land = await farm.getLand({ from: user })
+      expect(land.length).to.eq(9)
+
+      await farm.buyMoreSpace([], { from: user });
+
+      land = await farm.getLand({ from: user })
+      expect(land.length).to.eq(16)
     })
   })
 

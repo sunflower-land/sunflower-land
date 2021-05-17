@@ -67,6 +67,45 @@ contract Farm {
         emit FarmCreated(msg.sender);
     }
 
+    function sqrt(uint x) private returns (uint y) {
+        uint z = (x + 1) / 2;
+        y = x;
+        while (z < y) {
+            y = z;
+            z = (x / z + z) / 2;
+        }
+    }
+
+    function buyMoreSpace(Transaction[] memory _transactions) public {
+        Farm memory farm = sync(_transactions);
+        Inventory memory inventory = inventories[msg.sender];
+        require(inventory.isInitialized, "Farm does not exist");
+
+        Square[] storage land = fields[msg.sender];
+        // 4
+        uint newWidth = sqrt(land.length) + 1;
+        // 16
+        uint newSize = newWidth * newWidth;
+        uint newFields = newSize.sub(land.length);
+
+        // TODO safemath
+        uint price = (newFields ^ (newWidth - 3)) * 1000;
+
+        string memory priceString = uint2str(price);
+        string memory message = concatenate("Not enough money to buy new fields: ", priceString);
+        require(farm.balance >= price, message);
+
+        Square memory empty = Square(Commodity.Empty, 0);
+        // Do not bother rearranging the array - it is already in a strange square!
+        for (uint index = 0; index < newFields; index++) {
+            land.push(empty);
+        }
+
+
+        // TODO - Add the new spots
+        token.burn(msg.sender, price);
+    }
+
     function getInventory() public view returns (Inventory memory) {
         return inventories[msg.sender];
     }
@@ -341,7 +380,7 @@ contract Farm {
         });
     }
 
-    function sync(Transaction[] memory _transactions) public {
+    function sync(Transaction[] memory _transactions) public returns (Farm memory) {
         uint balance = token.balanceOf(msg.sender);
         Farm memory farm = buildFarm(_transactions);
 
@@ -367,15 +406,7 @@ contract Farm {
 
         moveTheMarket(_transactions);
         emit FarmSynced(msg.sender);
-    }
-
-    function minta(uint amount) public {
-        uint realAmount = amount * 10^18;
-        token.mint(msg.sender, amount);
-    }
-
-    function burna(uint amount) public {
-        token.burn(msg.sender, amount);
+        return farm;
     }
 
     function getBalance() public view returns (uint balance) {
