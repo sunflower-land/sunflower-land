@@ -116,7 +116,7 @@ contract('farm', ([deployer, user]) => {
         await farm.buyMoreSpace([], { from: user });
       } catch (error) {
         // TODO fix this strange number!
-        expect(error.message).to.contain('Not enough money to buy new fields: 6000')
+        expect(error.message).to.contain('Not enough money to buy new fields: 60')
       }
     })
 

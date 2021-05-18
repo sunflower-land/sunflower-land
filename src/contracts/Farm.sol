@@ -83,13 +83,17 @@ contract Farm {
 
         Square[] storage land = fields[msg.sender];
         // 4
-        uint newWidth = sqrt(land.length) + 1;
+        uint newWidth = 3;
+        while (newWidth**2 <= land.length) {
+            newWidth = newWidth + 1;
+        }
+
         // 16
-        uint newSize = newWidth * newWidth;
+        uint newSize = newWidth**2;
         uint newFields = newSize.sub(land.length);
 
         // TODO safemath
-        uint price = (newFields ^ (newWidth - 3)) * 1000;
+        uint price = (newFields ^ (newWidth - 3)) * 10;
 
         string memory priceString = uint2str(price);
         string memory message = concatenate("Not enough money to buy new fields: ", priceString);

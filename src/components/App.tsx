@@ -111,6 +111,10 @@ export const App: React.FC = () => {
   const onSyncFarm = () => {
     farmContract.current.methods.sync(transactions.current).send({from: account})
   }
+
+  const onBuyMoreLand = () => {
+    farmContract.current.methods.buyMoreSpace(transactions.current).send({from: account})
+  }
   
   const onSelectLand = async (landIndex: number) => {
     const field = land[landIndex]
@@ -193,6 +197,9 @@ export const App: React.FC = () => {
             <>
               <button onClick={onSyncFarm}>
                 Sync
+              </button>
+              <button onClick={onBuyMoreLand}>
+                Buy more land
               </button>
               <button disabled={balance < Number(prices.apples)} onClick={() => onBuy(Commodity.Apple)}>
                 Buy Apple
