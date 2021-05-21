@@ -10,6 +10,7 @@ contract Farm {
     //assign Token contract to variable
     Token private token;
     uint NOW_TIMESTAMP = 69;
+    uint hoursHarvested = 0;
     //uint DECIMAL_PLACES = 2;
 
     struct Square {
@@ -21,6 +22,7 @@ contract Farm {
         bool isInitialized;
         uint apples;
         uint avocados;
+        // Last synced price - Limit rewards to last synced price = keeps 
     }
 
 
@@ -67,7 +69,7 @@ contract Farm {
         emit FarmCreated(msg.sender);
     }
 
-    function sqrt(uint x) private returns (uint y) {
+    function sqrt(uint x) private pure returns (uint y) {
         uint z = (x + 1) / 2;
         y = x;
         while (z < y) {
@@ -150,7 +152,15 @@ contract Farm {
         Transaction[] transactions;
     }
 
-    uint APPLE_HARVEST_SECONDS = 6;
+    function getHarvestSeconds(Commodity _commodity) private view returns (uint) {
+        if (_commodity == Commodity.AppleSeed) {
+            return 6;
+        } else if (_commodity == Commodity.AvocadoSeed) {
+            return 20;
+        }
+
+        return 0;
+    }
 
     function getSeedFromInventory(Inventory memory _inventory, Commodity _commodity) private view returns (uint count) {
         if (_commodity == Commodity.AppleSeed) {
@@ -259,7 +269,7 @@ contract Farm {
 
                 Square memory plantedSeed = Square({
                     commodity: transaction.commodity,
-                    // TODO - When they sync the farm, this will be at the time of the farm :(
+                    // TODO - When they sync the far6 will be at the time of the farm :(
                     createdAt: transaction.createdAt
                 });
                 land[transaction.landIndex] = plantedSeed;
@@ -271,8 +281,8 @@ contract Farm {
                 uint duration = block.timestamp - square.createdAt;
                 string memory durationString = uint2str(duration);
                 string memory message = concatenate("Invalid farm: The fruit is not ripe, please wait: ", durationString);
-                // TODO - normal times
-                require(duration > APPLE_HARVEST_SECONDS, message);
+                uint fruitHarvesetSeconds = getHarvestSeconds(transaction.commodity);
+                require(duration > fruitHarvesetSeconds, message);
 
                 // Clear the land
                 Square memory emptyLand = Square(Commodity.Empty, 0);
@@ -384,6 +394,17 @@ contract Farm {
         });
     }
 
+    function getHoursHarvested(Transaction[] memory _transactions) private view returns (uint) {
+        uint secondsHarvested = 0;
+        for (uint i=0; i < _transactions.length; i += 1) {
+            secondsHarvested = secondsHarvested + getHarvestSeconds(_transactions[i].commodity);
+        }
+
+        // Solidity uses integer division, which is equivalent to floored division.
+        // TESTING - return secondsHarvested / 3600;
+        return secondsHarvested * 10;
+    }
+
     function sync(Transaction[] memory _transactions) public returns (Farm memory) {
         uint balance = token.balanceOf(msg.sender);
         Farm memory farm = buildFarm(_transactions);
@@ -408,9 +429,47 @@ contract Farm {
             token.burn(msg.sender, loss);
         }
 
-        moveTheMarket(_transactions);
+        hoursHarvested += getHoursHarvested(_transactions);
+
         emit FarmSynced(msg.sender);
         return farm;
+    }
+
+    uint limit = 100000000;
+    uint multiplier = 10000000;
+
+    uint ORIGINAL_CONVERSION = 1000000;
+
+    function getConversion() public view returns (uint conversion) {
+        if (hoursHarvested == 0) {
+            return ORIGINAL_CONVERSION;
+        }
+
+        uint hourRoot = sqrt(hoursHarvested);
+
+        // We are at the maximum conversion rate, now it is 1:1
+        // This is when 1e+12 hours have been harvested
+        if (hourRoot > ORIGINAL_CONVERSION) {
+            return 1;
+        }
+
+        return ORIGINAL_CONVERSION - hourRoot;
+    }
+
+    function dollarToFMC(uint dollars) public view returns (uint fmc) {
+        uint conversion = getConversion();
+        uint realFMC = dollars * conversion;
+
+        // Remove the decimal points
+        return realFMC / 100;
+    }
+
+    // Decimal places to multiple by 100
+    function FMCToDollar(uint fmc) public view returns (uint dollars) {
+        uint conversion = getConversion();
+        uint realDollars = fmc * conversion;
+        // Support for decimal points
+        return realDollars * 100;
     }
 
     function getBalance() public view returns (uint balance) {

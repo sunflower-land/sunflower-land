@@ -76,6 +76,9 @@ export const App: React.FC = () => {
         await onUpdateFarm()
         await onGetPrice()
 
+        const conversion = await farmContract.current.methods.dollarToFMC(1000).call()
+        console.log({ conversion })
+
         farmContract.current.events.FarmCreated({
             filter: { _address: account },
         }, function(error, event){ console.log(event); })
