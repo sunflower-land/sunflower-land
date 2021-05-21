@@ -397,7 +397,9 @@ contract Farm {
     function getHoursHarvested(Transaction[] memory _transactions) private view returns (uint) {
         uint secondsHarvested = 0;
         for (uint i=0; i < _transactions.length; i += 1) {
-            secondsHarvested = secondsHarvested + getHarvestSeconds(_transactions[i].commodity);
+            if (_transactions[i].action == Action.Harvest) {
+                secondsHarvested = secondsHarvested + getHarvestSeconds(_transactions[i].commodity);
+            }
         }
 
         // Solidity uses integer division, which is equivalent to floored division.
