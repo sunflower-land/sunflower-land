@@ -7,7 +7,7 @@ import { FarmInstance } from '../../types/truffle-contracts/Farm'
 import Web3 from 'web3';
 import './App.css';
 
-import { Commodity, Square, Inventory } from './types/contract'
+import { Commodity, Square } from './types/contract'
 import { Land } from './Land'
 import { InventoryBox } from './Inventory'
 import { Prices, Props as CurrentPrices  } from './Prices'
@@ -26,20 +26,15 @@ export const App: React.FC = () => {
   const [account, setAccount] = React.useState(null)
   const [balance, setBalance] = React.useState(0)
   const [error, setError] = React.useState('')
-  const [inventory, setInventory] = React.useState<Inventory>(null)
   const [prices, setPrices] = React.useState<CurrentPrices>(null)
   const [land, setLand] = React.useState<Square[]>(null)
-  const [selectedFruit, setSelectedFruit] = React.useState<Commodity>(null)
+  const [fruit, setFruit] = React.useState<Commodity>(Commodity.Apple)
   const farmContract = React.useRef<FarmC>(null)
   const transactions = React.useRef<any[]>([])
 
   const onUpdateFarm = async () => {
-    const currentInventory = await farmContract.current.methods.getInventory().call()
-    console.log('Update farm: ', currentInventory)
-    if (currentInventory && currentInventory.isInitialized) {
-      setInventory(currentInventory)
-
-      const currentLand = await farmContract.current.methods.getLand().call()
+    const currentLand = await farmContract.current.methods.getLand().call()
+    if (currentLand.length > 0) {
       setLand(currentLand)
     }
   }
@@ -66,10 +61,10 @@ export const App: React.FC = () => {
         const farmAddress = Farm.networks[netId].address
         farmContract.current = new web3.eth.Contract(Farm.abi as any, farmAddress)
 
-        const balance = await token.methods.balanceOf(account).call()
-        setBalance(balance)
-        console.log({ balance})
+        const FMC = await token.methods.balanceOf(account).call()
+        console.log({ FMC })
         const farmBalance = await farmContract.current.methods.getBalance().call()
+        setBalance(farmBalance)
         console.log({ farmBalance})
 
         //setBalance(Number(balance))
@@ -125,18 +120,16 @@ export const App: React.FC = () => {
     console.log('Old trans: ', transactions.current)
     console.log({ landIndex })
 
-    if (field.commodity != Commodity.Empty) {
+    if (field.commodity != Commodity.None) {
       try {
-        const { transactions: newTransactions, land, inventory, balance } = await farmContract.current.methods.harvest(transactions.current, field.commodity, landIndex).call()
+        const { transactions: newTransactions, land, balance } = await farmContract.current.methods.harvest(transactions.current, field.commodity, landIndex).call()
         transactions.current = newTransactions;
         console.log({
           newTransactions,
           land,
-          inventory,
           balance
         })
         setLand(land)
-        setInventory(inventory)
         setBalance(Number(balance))
       }
       catch (e) {
@@ -145,76 +138,38 @@ export const App: React.FC = () => {
       }
 
     } else {
-      if (selectedFruit === null) {
-        return
-      }
       try {
-        const { transactions: newTransactions, land, inventory, balance } = await farmContract.current.methods.plant(transactions.current, selectedFruit, landIndex).call()
+        const { transactions: newTransactions, land, balance } = await farmContract.current.methods.plant(transactions.current, fruit, landIndex).call()
         transactions.current = newTransactions;
         console.log({
           newTransactions,
           land,
-          inventory,
           balance
         })
         setLand(land)
-        setInventory(inventory)
         setBalance(Number(balance))
       } catch (e) {
         const errorJSON = e.message.slice(25)
         setError(JSON.parse(errorJSON).message)
       }
 
-      setSelectedFruit(null)
     }
-
-    setSelectedFruit(null)
   }
-
-  const onBuy = async (commodity: Commodity) => {
-    const response= await farmContract.current.methods.buy(transactions.current, commodity).call()
-    transactions.current = response[0].transactions;
-    setLand(response[0].land)
-    setInventory(response[0].inventory)
-    setBalance(Number(response[0].balance))
-  }
-
-  const onSell = async (commodity: Commodity) => {
-    const response= await farmContract.current.methods.sell(transactions.current, commodity).call()
-    transactions.current = response[0].transactions;
-    console.log('response: ', JSON.stringify(response, null, 2))
-    setLand(response[0].land)
-    setInventory(response[0].inventory)
-    setBalance(Number(response[0].balance))
-  }
-
 
   return (
     <div className='text-monospace'>
       <div className="container-fluid mt-5 text-center">
         <h1>Welcome to Fruit Market</h1>
         <h2>{account}</h2>
-        <h4>{balance}</h4>
+        <h4>{(balance/100).toFixed(2)}</h4>
         {
-          inventory && prices && (
+          land && (
             <>
               <button onClick={onSyncFarm}>
                 Sync
               </button>
               <button onClick={onBuyMoreLand}>
                 Buy more land
-              </button>
-              <button disabled={balance < Number(prices.apples)} onClick={() => onBuy(Commodity.Apple)}>
-                Buy Apple
-              </button>
-              <button disabled={inventory.apples == 0} onClick={() => onSell(Commodity.Apple)}>
-                Sell Apple
-              </button>
-              <button disabled={balance < Number(prices.avocados)} onClick={() => onBuy(Commodity.Avocado)}>
-                Buy Avocado
-              </button>
-              <button disabled={inventory.avocados == 0} onClick={() => onSell(Commodity.Avocado)}>
-                Sell Avocado
               </button>
             </>
           )
@@ -230,7 +185,7 @@ export const App: React.FC = () => {
       }
       <div className="row">
           {
-            !inventory && (
+            !land && (
               <button onClick={onCreateFarm}>
                 Create Farm
               </button>
@@ -242,12 +197,8 @@ export const App: React.FC = () => {
             )
           }
           {
-            inventory && (
-              <InventoryBox
-                inventory={inventory}
-                selectedFruit={selectedFruit}
-                onSelectFruit={setSelectedFruit}
-              />
+            land && (
+              <InventoryBox selectedFruit={fruit} onSelectFruit={setFruit} />
             )
           }
       </div>

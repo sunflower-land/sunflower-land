@@ -1,6 +1,7 @@
 import React from 'react'
 import young from './images/apples/image_part_161.png'
 import avocado from './images/avocados/tree.png'
+import banana from './images/bananas/tree.png'
 import terrain from './images/apples/soil.png'
 
 import { Commodity, Square } from './types/contract'
@@ -10,9 +11,10 @@ interface Props {
 }
 
 const HARVEST_TIMES: Record<Commodity, number> = {
-    [Commodity.Apple]: 6,
-    [Commodity.Avocado]: 90,
-    [Commodity.Empty]: 0,
+    [Commodity.Apple]: 1,
+    [Commodity.Avocado]: 3,
+    [Commodity.Banana]: 8,
+    [Commodity.None]: 0,
 }
 
 export const Field: React.FC<Props> = ({ square, onClick }) => {
@@ -20,7 +22,6 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
 
     const setHarvestTime = () => {
         const secondsElapsed = (Date.now()/1000) - square.createdAt;
-        console.log(secondsElapsed)
         if (secondsElapsed > HARVEST_TIMES[square.commodity]) {
             setTimeLeft('ready')
             return
@@ -32,7 +33,7 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
     }
 
     React.useEffect(() => {
-        if (square.commodity && square.commodity !== Commodity.Empty) {
+        if (square.commodity && square.commodity !== Commodity.None) {
             const interval = window.setInterval(setHarvestTime, 1000)
             return () => window.clearInterval(interval)
         }
@@ -48,6 +49,12 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
         if (square.commodity == Commodity.Avocado) {
             return (
                 <img src={avocado} className="field-image"/>
+            )
+        }
+
+        if (square.commodity == Commodity.Banana) {
+            return (
+                <img src={banana} className="field-image"/>
             )
         }
 
