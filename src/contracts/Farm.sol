@@ -125,9 +125,10 @@ contract Farm {
             land.push(empty);
         }
 
-
+        // TODO can we include this in the sync burn?
         uint fmc = dollarToFMC(price);
         token.burn(msg.sender, fmc);
+        emit FarmSynced(msg.sender);
     }
 
     function getLand() public view returns (Square[] memory) {
@@ -163,6 +164,7 @@ contract Farm {
         Square[] land;
         uint balance;
         Transaction[] transactions;
+        uint level;
     }
 
     function getHarvestHours(Fruit _commodity) private view returns (uint) {
@@ -195,17 +197,17 @@ contract Farm {
             // $0.05
             return 5;
         } else if (_commodity == Fruit.Avocado) {
-            // $0.10
-            return 10;
+            // $0.30
+            return 30;
         } else if (_commodity == Fruit.Banana) {
-            // $0.20
-            return 20;
-        } else if (_commodity == Fruit.Coconut) {
             // $1
             return 100;
-        } else if (_commodity == Fruit.Pineapple) {
+        } else if (_commodity == Fruit.Coconut) {
             // $5
             return 500;
+        } else if (_commodity == Fruit.Pineapple) {
+            // $10
+            return 1000;
         } else if (_commodity == Fruit.Money) {
             // $50
             return 5000;
@@ -224,17 +226,17 @@ contract Farm {
             // $0.10
             return 10;
         } else if (_commodity == Fruit.Avocado) {
-            // $0.40
-            return 40;
+            // $0.60
+            return 60;
         } else if (_commodity == Fruit.Banana) {
-            // $2
-            return 200;
+            // $2.8
+            return 280;
         } else if (_commodity == Fruit.Coconut) {
-            // $7.5
-            return 750;
+            // $11.5
+            return 1150;
         } else if (_commodity == Fruit.Pineapple) {
-            // $27
-            return 2700;
+            // $32
+            return 3200;
         } else if (_commodity == Fruit.Money) {
             // $100
             return 10000;
@@ -285,9 +287,10 @@ contract Farm {
         Square[] memory land = fields[msg.sender];
         uint balance = getBalance();
         uint experience = playersExperience[msg.sender];
+        uint level = experienceToLevel(experience);
 
         for (uint index = 0; index < _transactions.length; index++) {
-            uint level = experienceToLevel(experience);
+            level = experienceToLevel(experience);
 
             Transaction memory transaction = _transactions[index];
             require(level >= uint(transaction.commodity), "You are not experienced enough to plant this fruit");
@@ -330,7 +333,8 @@ contract Farm {
         return Farm({
             land: land,
             balance: balance,
-            transactions: _transactions
+            transactions: _transactions,
+            level: level
         });
     }
 
@@ -474,9 +478,9 @@ contract Farm {
     }
 
     // TODO - store the conversion & prices together on chain
-    // With 25 fields 24/7 for 1 year a user would harvest 219000 hours
-    // This would need 4 million harvesters to get to this threshold
-    uint ORIGINAL_CONVERSION = 1000000;
+    // With 17 fields 24/7 for 1 year a user would harvest 148920 hours
+    // This would need 67,150 harvesters for 1 year to get to this threshold
+    uint ORIGINAL_CONVERSION = 100000;
 
     function getConversion() public view returns (uint conversion) {
         if (totalHoursHarvested == 0) {
@@ -486,7 +490,7 @@ contract Farm {
         uint hourRoot = sqrt(totalHoursHarvested);
 
         // We are at the maximum conversion rate, now it is 1:1
-        // This is when 1e+12 hours have been harvested
+        // This is when 10000000000 hours have been harvested
         if (hourRoot > ORIGINAL_CONVERSION) {
             return 1;
         }

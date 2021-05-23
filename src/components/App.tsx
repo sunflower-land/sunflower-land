@@ -113,46 +113,41 @@ export const App: React.FC = () => {
   const onBuyMoreLand = () => {
     farmContract.current.methods.buyMoreSpace(transactions.current).send({from: account})
   }
+
+  const onHarvest = async (landIndex: number) => {
+    try {
+      const { transactions: newTransactions, land: newLand, balance, level } = await farmContract.current.methods.harvest(transactions.current, land[landIndex].commodity, landIndex).call()
+      transactions.current = newTransactions;
+      console.log({
+        newTransactions,
+        newLand,
+        balance,
+        level
+      })
+      setLand(newLand)
+      setBalance(Number(balance))
+    }
+    catch (e) {
+      const errorJSON = e.message.slice(25)
+      setError(JSON.parse(errorJSON).message)
+    }
+  }
   
-  const onSelectLand = async (landIndex: number) => {
-    const field = land[landIndex]
-    console.log({ field })
-    console.log('Old trans: ', transactions.current)
-    console.log({ landIndex })
-
-    if (field.commodity != Commodity.None) {
-      try {
-        const { transactions: newTransactions, land, balance } = await farmContract.current.methods.harvest(transactions.current, field.commodity, landIndex).call()
-        transactions.current = newTransactions;
-        console.log({
-          newTransactions,
-          land,
-          balance
-        })
-        setLand(land)
-        setBalance(Number(balance))
-      }
-      catch (e) {
-        const errorJSON = e.message.slice(25)
-        setError(JSON.parse(errorJSON).message)
-      }
-
-    } else {
-      try {
-        const { transactions: newTransactions, land, balance } = await farmContract.current.methods.plant(transactions.current, fruit, landIndex).call()
-        transactions.current = newTransactions;
-        console.log({
-          newTransactions,
-          land,
-          balance
-        })
-        setLand(land)
-        setBalance(Number(balance))
-      } catch (e) {
-        const errorJSON = e.message.slice(25)
-        setError(JSON.parse(errorJSON).message)
-      }
-
+  const onPlant = async (landIndex: number) => {
+    try {
+      const { transactions: newTransactions, land: newLand, balance, level } = await farmContract.current.methods.plant(transactions.current, fruit, landIndex).call()
+      transactions.current = newTransactions;
+      console.log({
+        newTransactions,
+        newLand,
+        balance,
+        level
+      })
+      setLand(newLand)
+      setBalance(Number(balance))
+    } catch (e) {
+      const errorJSON = e.message.slice(25)
+      setError(JSON.parse(errorJSON).message)
     }
   }
 
@@ -193,7 +188,7 @@ export const App: React.FC = () => {
           }
           {
             land && (
-              <Land land={land} onClick={onSelectLand}/>
+              <Land land={land} onHarvest={onHarvest} onPlant={onPlant}/>
             )
           }
           {
