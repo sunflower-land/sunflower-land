@@ -2,6 +2,7 @@ import React from 'react'
 import young from './images/apples/image_part_161.png'
 import avocado from './images/avocados/tree.png'
 import banana from './images/bananas/tree.png'
+import coconut from './images/coconuts/tree.png'
 import terrain from './images/apples/soil.png'
 
 import { Commodity, Square } from './types/contract'
@@ -14,6 +15,7 @@ const HARVEST_TIMES: Record<Commodity, number> = {
     [Commodity.Apple]: 1,
     [Commodity.Avocado]: 3,
     [Commodity.Banana]: 8,
+    [Commodity.Coconut]: 24,
     [Commodity.None]: 0,
 }
 
@@ -55,6 +57,12 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
         if (square.commodity == Commodity.Banana) {
             return (
                 <img src={banana} className="field-image"/>
+            )
+        }
+
+        if (square.commodity == Commodity.Coconut) {
+            return (
+                <img src={coconut} className="field-image"/>
             )
         }
 

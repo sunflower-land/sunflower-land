@@ -293,6 +293,13 @@ contract Farm {
             level = experienceToLevel(experience);
 
             Transaction memory transaction = _transactions[index];
+
+            require(transaction.createdAt <= block.timestamp, "You can not perform an action in the future");
+
+            if (index > 0) {
+                require(transaction.createdAt >= _transactions[index - 1].createdAt, "Transactions are not in order");
+            }
+
             require(level >= uint(transaction.commodity), "You are not experienced enough to plant this fruit");
 
             Prices memory prices = market[transaction.timestamp];
@@ -313,7 +320,8 @@ contract Farm {
                 Square memory square = land[transaction.landIndex];
                 require(square.commodity == transaction.commodity, "Invalid farm: No fruit exists");
 
-                uint duration = block.timestamp - square.createdAt;
+                // TODO - fraud detection?
+                uint duration = transaction.createdAt - square.createdAt;
                 string memory durationString = uint2str(duration);
                 string memory message = concatenate("Invalid farm: The fruit is not ripe, please wait: ", durationString);
                 uint hoursToHarvest = getHarvestHours(transaction.commodity);

@@ -29,6 +29,8 @@ export const App: React.FC = () => {
   const [prices, setPrices] = React.useState<CurrentPrices>(null)
   const [land, setLand] = React.useState<Square[]>(null)
   const [fruit, setFruit] = React.useState<Commodity>(Commodity.Apple)
+  const [level, setLevel] = React.useState<string>('0')
+  const [conversion, setConversion] = React.useState<string>('0')
   const farmContract = React.useRef<FarmC>(null)
   const transactions = React.useRef<any[]>([])
 
@@ -37,6 +39,18 @@ export const App: React.FC = () => {
     if (currentLand.length > 0) {
       setLand(currentLand)
     }
+
+    const farmBalance = await farmContract.current.methods.getBalance().call()
+    setBalance(farmBalance)
+    console.log({ farmBalance})
+
+    const currentLevel = await farmContract.current.methods.getLevel().call()
+    setLevel(currentLevel)
+    console.log({ currentLevel })
+
+    const conversion = await farmContract.current.methods.getConversion().call()
+    setConversion(conversion)
+    console.log({ conversion })
   }
 
   const onGetPrice = async () => {
@@ -63,9 +77,6 @@ export const App: React.FC = () => {
 
         const FMC = await token.methods.balanceOf(account).call()
         console.log({ FMC })
-        const farmBalance = await farmContract.current.methods.getBalance().call()
-        setBalance(farmBalance)
-        console.log({ farmBalance})
 
         //setBalance(Number(balance))
         await onUpdateFarm()
@@ -91,7 +102,8 @@ export const App: React.FC = () => {
             filter: { _address: account },
         }, function(error, event){ console.log(event); })
           .on('data', function(event){
-            console.log('Farm updated: ', event)
+            console.log('Farm synced: ', event)
+            transactions.current = []
             onUpdateFarm()
           })
       } else {
@@ -173,11 +185,10 @@ export const App: React.FC = () => {
           error && <span style={{color: 'red'}}>{error}</span>
         }
       </div>
-      {
-        prices && (
-          <Prices {...prices} />
-        )
-      }
+      <div>
+        <pre>Level: {level}</pre>
+        <pre>Conversion: {conversion}</pre>
+      </div>
       <div className="row">
           {
             !land && (
