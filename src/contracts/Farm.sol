@@ -7,11 +7,9 @@ import "./Token.sol";
 contract Farm {
     using SafeMath for uint256;
 
-    //assign Token contract to variable
     Token private token;
-    uint NOW_TIMESTAMP = 69;
+
     uint totalHoursHarvested = 0;
-    //uint DECIMAL_PLACES = 2;
 
     struct Square {
         Fruit commodity;
@@ -20,31 +18,25 @@ contract Farm {
 
     mapping(address => Square[]) fields;
     mapping(address => uint) playersExperience;
+    mapping(address => uint) syncedAt;
 
     //pass as constructor argument deployed Token contract
     constructor(Token _token) public {
         //assign token deployed contract to variable
         token = _token;
-
-        // Initial prices
-        market[NOW_TIMESTAMP] = Prices({
-            apples: 100, 
-            avocados: 400,
-            timestamp: block.timestamp,
-            previousTimestamp: 0
-        });
     }
 
     event FarmCreated(address indexed _address);
     event FarmSynced(address indexed _address);
 
     function createFarm() public {
-        require(fields[msg.sender].length == 0, "Farm already exists");
+        require(syncedAt[msg.sender] == 0, "Farm does not exist");
 
         Square[] storage land = fields[msg.sender];
         Square memory empty = Square(Fruit.None, 0);
         Square memory apple = Square(Fruit.Apple, block.timestamp);
 
+        // Each farmer starts with 5 fields
         land.push(empty);
         land.push(apple);
         land.push(apple);
@@ -52,6 +44,8 @@ contract Farm {
         land.push(empty);
 
         Transaction[] memory transactions;
+
+        syncedAt[msg.sender] = block.timestamp;
 
         //Emit an event
         emit FarmCreated(msg.sender);
@@ -136,29 +130,14 @@ contract Farm {
     }
 
     enum Action { Plant, Harvest }
-    uint FRUIT_COUNT = 2;
     enum Fruit { None, Apple, Avocado, Banana, Coconut, Pineapple, Money, Diamond }
 
     struct Transaction { 
         Action action;
         Fruit commodity;
-        // Unique prices key
-        uint timestamp;
         uint landIndex;
         uint createdAt;
     }
-
-    uint MAX_AVOCADO_PRICE = 500;
-    uint MIN_AVOCADO_PRICE = 300;
-
-    struct Prices {
-        uint apples;
-        uint avocados;
-        uint timestamp;
-        uint previousTimestamp;
-    }
-     
-    mapping(uint => Prices) market;
 
     struct Farm {
         Square[] land;
@@ -192,7 +171,7 @@ contract Farm {
         return 9999999;
     }
 
-    function getSeedPrice(Prices memory prices, Fruit _commodity) private view returns (uint price) {
+    function getSeedPrice(Fruit _commodity) private view returns (uint price) {
         if (_commodity == Fruit.Apple) {
             // $0.05
             return 5;
@@ -218,10 +197,10 @@ contract Farm {
 
         require(false, "Invalid fruit");
 
-        return 0;
+        return 100000;
     }
 
-    function getFruitPrice(Prices memory prices, Fruit _commodity) private view returns (uint price) {
+    function getFruitPrice(Fruit _commodity) private view returns (uint price) {
         if (_commodity == Fruit.Apple) {
             // $0.10
             return 10;
@@ -282,18 +261,20 @@ contract Farm {
     }
 
     function buildFarm(Transaction[] memory _transactions) private view returns (Farm memory currentFarm) {
-        require(fields[msg.sender].length > 0, "Farm does not exist");
+        uint syncedAt = syncedAt[msg.sender];
+        require(syncedAt[msg.sender] == 0, "Farm does not exist");
 
         Square[] memory land = fields[msg.sender];
         uint balance = getBalance();
         uint experience = playersExperience[msg.sender];
-        uint level = experienceToLevel(experience);
+        uint level;
 
         for (uint index = 0; index < _transactions.length; index++) {
             level = experienceToLevel(experience);
 
             Transaction memory transaction = _transactions[index];
 
+            require(transaction.createdAt >= syncedAt, "You can not perform an action in the future");
             require(transaction.createdAt <= block.timestamp, "You can not perform an action in the future");
 
             if (index > 0) {
@@ -302,10 +283,8 @@ contract Farm {
 
             require(level >= uint(transaction.commodity), "You are not experienced enough to plant this fruit");
 
-            Prices memory prices = market[transaction.timestamp];
-            
             if (transaction.action == Action.Plant) {
-                uint price = getSeedPrice(prices, transaction.commodity);
+                uint price = getSeedPrice(transaction.commodity);
 
                 require(balance >= price, "Invalid farm: Not enough money to buy seeds");
                 balance = balance.sub(price);
@@ -331,7 +310,7 @@ contract Farm {
                 Square memory emptyLand = Square(Fruit.None, 0);
                 land[transaction.landIndex] = emptyLand;
 
-                uint price = getFruitPrice(prices, transaction.commodity);
+                uint price = getFruitPrice(transaction.commodity);
 
                 balance = balance.add(price);
                 experience += hoursToHarvest;
@@ -346,100 +325,6 @@ contract Farm {
         });
     }
 
-    function clamp(uint value, uint minimum, uint maximum) private pure returns (uint clamped) {
-        if (value < minimum) {
-            return minimum;
-        }
-
-        if (value > maximum) {
-            return maximum;
-        }
-
-        return value;
-    }
-
-    // Assume the proportional number of transactions is what influences price
-    // Since at the time of transaction, they will likely be buying something and have sold all their seeds
-    // function moveTheMarket(Transaction[] memory _transactions) public {
-    //     uint apples = 0;
-    //     uint avocados = 0;
-
-    //     // What is the biggest mover?
-    //     for (uint i=0; i < _transactions.length; i += 1) {
-    //         if (_transactions[i].commodity == Fruit.Apple) {
-    //             apples += 1;
-    //         } else if ( _transactions[i].commodity == Fruit.Avocado) {
-    //             avocados += 1;
-    //         }
-    //     }
-
-    //     uint totalFruitTransactions = apples + avocados;
-
-    //     if (totalFruitTransactions == 0) {
-    //         // TODO still update the timestamps being used
-    //         return;
-    //     }
-
-    //     // Percentage of transactions that were apples
-    //     uint applePercentage = 0;
-    //     if (apples > 0) {
-    //         applePercentage = totalFruitTransactions * 100;
-    //     } 
-    //     uint avocadoPercentage = 0;
-    //     if (avocados > 0) {
-    //         // 35%
-    //         avocadoPercentage = avocados / totalFruitTransactions * 100;
-    //     } 
-
-    //     // 30%
-    //     uint expectedTransactions = 100 / FRUIT_COUNT;
-
-    //     // 5% 
-    //     int avocadoChange = int(avocadoPercentage) - int(expectedTransactions);
-
-
-    //     //TODO even out the price from the previous hour - store transactions in the last hour?
-    //     int transactionCount = 1;
-    //     uint tenMinutesAgo = block.timestamp - (60 * 10);
-    //     Prices memory prices = market[NOW_TIMESTAMP];
-    //     while (prices.timestamp > tenMinutesAgo) {
-    //         transactionCount++;
-            
-    //         // Endless loop if we do not have this???
-    //         if (transactionCount >= 2) {
-    //             break;
-    //         }
-
-    //         // Back to the beginining
-    //         if (prices.previousTimestamp == 0) {
-    //             break;
-    //         }
-
-    //         prices = market[prices.previousTimestamp];
-    //     }
-
-    //     Prices memory currentPrices = market[NOW_TIMESTAMP];
-
-    //     // To avoid major market shifts, divide it
-    //     int MARKET_IMPACT = 10;
-    //     // 5% / 3 Transactions = 1.8%
-    //     int relativeAvocadoChange = avocadoChange / transactionCount / MARKET_IMPACT;
-    //     // 98.2% - we want to decrease it a little.
-    //     int percentage = 100 - relativeAvocadoChange;
-    //     // $5.23
-    //     uint avocadoPrice = currentPrices.avocados * uint(percentage) / 100;
-    //     // $5
-    //     uint clampedAvocadoPrice = clamp(avocadoPrice, MIN_AVOCADO_PRICE, MAX_AVOCADO_PRICE);
-
-    //     market[currentPrices.timestamp] = currentPrices;
-    //     market[NOW_TIMESTAMP] = Prices({
-    //         // Staple crop
-    //         apples: 100,
-    //         avocados: clampedAvocadoPrice,
-    //         timestamp: block.timestamp,
-    //         previousTimestamp: currentPrices.timestamp
-    //     });
-    // }
 
     function getHoursHarvested(Transaction[] memory _transactions) private view returns (uint) {
         uint secondsHarvested = 0;
@@ -480,6 +365,8 @@ contract Farm {
         playersExperience[msg.sender] += hoursFarmed;
 
         totalHoursHarvested += hoursFarmed;
+
+        syncedAt[msg.sender] = block.timestamp;
 
         emit FarmSynced(msg.sender);
         return farm;
@@ -539,11 +426,9 @@ contract Farm {
     }
 
     function plant(Transaction[] memory _transactions, Fruit _commodity, uint landIndex) public view returns (Farm memory farm) {
-        Prices memory currentPrices = market[NOW_TIMESTAMP];
         Transaction memory plantAppleTransaction = Transaction({
             action: Action.Plant,
             commodity: _commodity,
-            timestamp: currentPrices.timestamp,
             landIndex: landIndex,
             createdAt: block.timestamp
         });
@@ -555,11 +440,9 @@ contract Farm {
 
     function harvest(Transaction[] memory _transactions, Fruit _commodity, uint landIndex) public view returns (Farm memory farm) {
         // Add the new transaction
-        Prices memory currentPrices = market[NOW_TIMESTAMP];
         Transaction memory plantAppleTransaction = Transaction({
             action: Action.Harvest,
             commodity: _commodity,
-            timestamp: currentPrices.timestamp,
             landIndex: landIndex,
             createdAt: block.timestamp
         });
@@ -567,17 +450,5 @@ contract Farm {
 
         Farm memory updatedFarm = buildFarm(newTransactions);
         return (updatedFarm);
-    }
-
-    function getPrices() public view returns (Prices memory price) {
-        return market[NOW_TIMESTAMP];
-    }
-
-    function getApplePrice() public view returns (uint price) {
-        return market[NOW_TIMESTAMP].apples;
-    }
-
-    function getAvocadoPrice() public view returns (uint price) {
-        return market[NOW_TIMESTAMP].avocados;
     }
 }
