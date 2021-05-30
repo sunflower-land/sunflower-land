@@ -6,12 +6,14 @@ import "@openzeppelin/contracts/token/ERC20/ERC20Burnable.sol";
 
 contract Token is ERC20, ERC20Burnable {
   address public minter;
+  address private owner;
 
   //add minter changed event
   event MinterChanged(address indexed from, address to);
 
   constructor() payable ERC20("Fruit Market Coin", "FMC") {
     minter = msg.sender;
+    owner = msg.sender;
   }
 
   //Add pass minter role function
@@ -21,6 +23,10 @@ contract Token is ERC20, ERC20Burnable {
 
     emit MinterChanged(msg.sender, dBank);
     return true;
+  }
+  
+  function getOwner() public view returns (address) {
+      return owner;
   }
 
   function mint(address account, uint256 amount) public {

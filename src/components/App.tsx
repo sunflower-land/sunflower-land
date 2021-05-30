@@ -26,10 +26,8 @@ export const App: React.FC = () => {
   const [account, setAccount] = React.useState(null)
   const [balance, setBalance] = React.useState(0)
   const [error, setError] = React.useState('')
-  const [prices, setPrices] = React.useState<CurrentPrices>(null)
   const [land, setLand] = React.useState<Square[]>(null)
   const [fruit, setFruit] = React.useState<Commodity>(Commodity.Apple)
-  const [level, setLevel] = React.useState<string>('0')
   const [conversion, setConversion] = React.useState<string>('0')
   const farmContract = React.useRef<FarmC>(null)
   const transactions = React.useRef<any[]>([])
@@ -44,18 +42,9 @@ export const App: React.FC = () => {
     setBalance(farmBalance)
     console.log({ farmBalance})
 
-    const currentLevel = await farmContract.current.methods.getLevel().call()
-    setLevel(currentLevel)
-    console.log({ currentLevel })
-
     const conversion = await farmContract.current.methods.getConversion().call()
     setConversion(conversion)
     console.log({ conversion })
-  }
-
-  const onGetPrice = async () => {
-    const prices = await farmContract.current.methods.getPrices().call()
-    setPrices(prices)
   }
 
   React.useEffect(() => {
@@ -69,18 +58,18 @@ export const App: React.FC = () => {
         // TODO set account
         const account = accounts[0]
         setAccount(account)
-        console.log('My netId: ', netId)
   
-        const token: TokenC  = new web3.eth.Contract(Token.abi as any, Token.networks[netId].address)
-        const farmAddress = Farm.networks[netId].address
-        farmContract.current = new web3.eth.Contract(Farm.abi as any, farmAddress)
+        const ropstenTokenAddress = '0x2c28a8100f448294c15ed86cbb86190b4fa96feb'
+        //const token: TokenC = new web3.eth.Contract(Token.abi as any, Token.networks[netId].address)
+        const token: TokenC = new web3.eth.Contract(Token.abi as any, ropstenTokenAddress)
+        //const farmAddress = Farm.networks[netId].address
+        //farmContract.current = new web3.eth.Contract(Farm.abi as any, farmAddress)
+        farmContract.current = new web3.eth.Contract(Farm.abi as any, '0x9fbaae41d491625827d867a7b2218db0f11ebdc9')
 
         const FMC = await token.methods.balanceOf(account).call()
         console.log({ FMC })
 
-        //setBalance(Number(balance))
         await onUpdateFarm()
-        await onGetPrice()
 
         const conversion = await farmContract.current.methods.dollarToFMC(1000).call()
         console.log({ conversion })
@@ -123,18 +112,17 @@ export const App: React.FC = () => {
   }
 
   const onBuyMoreLand = () => {
-    farmContract.current.methods.buyMoreSpace(transactions.current).send({from: account})
+    farmContract.current.methods.levelUp().send({from: account})
   }
 
   const onHarvest = async (landIndex: number) => {
     try {
-      const { transactions: newTransactions, land: newLand, balance, level } = await farmContract.current.methods.harvest(transactions.current, land[landIndex].commodity, landIndex).call()
+      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.harvest(transactions.current, land[landIndex].commodity, landIndex).call()
       transactions.current = newTransactions;
       console.log({
         newTransactions,
         newLand,
         balance,
-        level
       })
       setLand(newLand)
       setBalance(Number(balance))
@@ -147,13 +135,12 @@ export const App: React.FC = () => {
   
   const onPlant = async (landIndex: number) => {
     try {
-      const { transactions: newTransactions, land: newLand, balance, level } = await farmContract.current.methods.plant(transactions.current, fruit, landIndex).call()
+      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.plant(transactions.current, fruit, landIndex).call()
       transactions.current = newTransactions;
       console.log({
         newTransactions,
         newLand,
         balance,
-        level
       })
       setLand(newLand)
       setBalance(Number(balance))
@@ -186,7 +173,6 @@ export const App: React.FC = () => {
         }
       </div>
       <div>
-        <pre>Level: {level}</pre>
         <pre>Conversion: {conversion}</pre>
       </div>
       <div className="row">
