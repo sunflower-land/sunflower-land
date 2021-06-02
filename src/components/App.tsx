@@ -7,7 +7,7 @@ import { FarmInstance } from '../../types/truffle-contracts/Farm'
 import Web3 from 'web3';
 import './App.css';
 
-import { Commodity, Square } from './types/contract'
+import { Fruit, Square } from './types/contract'
 import { Land } from './Land'
 import { InventoryBox } from './Inventory'
 import { Prices, Props as CurrentPrices  } from './Prices'
@@ -27,22 +27,25 @@ export const App: React.FC = () => {
   const [balance, setBalance] = React.useState(0)
   const [error, setError] = React.useState('')
   const [land, setLand] = React.useState<Square[]>(null)
-  const [fruit, setFruit] = React.useState<Commodity>(Commodity.Apple)
+  const [fruit, setFruit] = React.useState<Fruit>(Fruit.Apple)
   const [conversion, setConversion] = React.useState<string>('0')
   const farmContract = React.useRef<FarmC>(null)
+  const tokenContract = React.useRef<TokenC>(null)
   const transactions = React.useRef<any[]>([])
 
-  const onUpdateFarm = async () => {
+  const onUpdateFarm = async (accountAddress: string) => {
     const currentLand = await farmContract.current.methods.getLand().call()
+    console.log({ currentLand })
     if (currentLand.length > 0) {
       setLand(currentLand)
     }
 
-    const farmBalance = await farmContract.current.methods.getBalance().call()
+    console.log('Account: ', account)
+    const farmBalance = await tokenContract.current.methods.balanceOf(accountAddress).call()
     setBalance(farmBalance)
     console.log({ farmBalance})
 
-    const conversion = await farmContract.current.methods.getConversion().call()
+    const conversion = await farmContract.current.methods.getMarketRate().call()
     setConversion(conversion)
     console.log({ conversion })
   }
@@ -51,27 +54,36 @@ export const App: React.FC = () => {
     const init = async () => {
       if (typeof (window as any).ethereum !== 'undefined') {
         //check if MetaMask exists
+        // let web3 = new Web3(
+        //   // Replace YOUR-PROJECT-ID with a Project ID from your Infura Dashboard
+        //   new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/b484c5b4201c4bd2b8bf5575033cfacb")
+        // );
+        // await window.ethereum.enable();
+        // web3.eth.defaultAddress = '0xbd407263721492eBD521AB184DAc2C9f9E5D4c36'
+        //web3.eth.handleRevert = true
+        // const token: TokenC = new web3.eth.Contract(Token.abi as any, '0xF512B41Bd7551AA116508A0752A0263Abc6cC44f')
+        // farmContract.current = new web3.eth.Contract(Farm.abi as any, '0x088Dc1eC31D6339F804F475AaC1d850c16046368')
         const web3 = new Web3((window as any).ethereum);
-        web3.eth.handleRevert = true
+
         const netId = await web3.eth.net.getId();
+        console.log({ netId })
         const accounts = await web3.eth.requestAccounts()
         // TODO set account
         const account = accounts[0]
         setAccount(account)
+
   
-        const ropstenTokenAddress = '0x2c28a8100f448294c15ed86cbb86190b4fa96feb'
-        //const token: TokenC = new web3.eth.Contract(Token.abi as any, Token.networks[netId].address)
-        const token: TokenC = new web3.eth.Contract(Token.abi as any, ropstenTokenAddress)
-        //const farmAddress = Farm.networks[netId].address
-        //farmContract.current = new web3.eth.Contract(Farm.abi as any, farmAddress)
-        farmContract.current = new web3.eth.Contract(Farm.abi as any, '0x9fbaae41d491625827d867a7b2218db0f11ebdc9')
-
-        const FMC = await token.methods.balanceOf(account).call()
+        tokenContract.current = new web3.eth.Contract(Token.abi as any, Token.networks[netId].address)
+        const farmAddress = Farm.networks[netId].address
+        farmContract.current = new web3.eth.Contract(Farm.abi as any, farmAddress)
+        console.log('Read balance')
+        const FMC = await tokenContract.current.methods.balanceOf(account).call()
         console.log({ FMC })
+        const decimals = await tokenContract.current.methods.decimals().call()
+        console.log({ decimals })
 
-        await onUpdateFarm()
+        await onUpdateFarm(account)
 
-        const conversion = await farmContract.current.methods.dollarToFMC(1000).call()
         console.log({ conversion })
 
         farmContract.current.events.FarmCreated({
@@ -79,7 +91,7 @@ export const App: React.FC = () => {
         }, function(error, event){ console.log(event); })
           .on('data', function(event){
             console.log('Farm updated: ', event)
-            onUpdateFarm()
+            onUpdateFarm(account)
           })
           .on('changed', function(event){
               // remove event from local database
@@ -93,7 +105,7 @@ export const App: React.FC = () => {
           .on('data', function(event){
             console.log('Farm synced: ', event)
             transactions.current = []
-            onUpdateFarm()
+            onUpdateFarm(account)
           })
       } else {
         window.alert('Please install metamask')
@@ -108,16 +120,26 @@ export const App: React.FC = () => {
   }
 
   const onSyncFarm = () => {
-    farmContract.current.methods.sync(transactions.current).send({from: account})
+    try {
+      farmContract.current.methods.sync(transactions.current).send({from: account})
+    } catch (e) {
+        const errorJSON = e.message.slice(25)
+        setError(JSON.parse(errorJSON).message)
+      }
   }
 
   const onBuyMoreLand = () => {
-    farmContract.current.methods.levelUp().send({from: account})
+    try {
+      farmContract.current.methods.levelUp().send({from: account})
+    }catch (e) {
+        const errorJSON = e.message.slice(25)
+        setError(JSON.parse(errorJSON).message)
+      }
   }
 
   const onHarvest = async (landIndex: number) => {
     try {
-      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.harvest(transactions.current, land[landIndex].commodity, landIndex).call()
+      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.harvest(transactions.current, land[landIndex].fruit, landIndex).call()
       transactions.current = newTransactions;
       console.log({
         newTransactions,
@@ -155,7 +177,7 @@ export const App: React.FC = () => {
       <div className="container-fluid mt-5 text-center">
         <h1>Welcome to Fruit Market</h1>
         <h2>{account}</h2>
-        <h4>{(balance/100).toFixed(2)}</h4>
+        <h4>{(balance/10**18).toFixed(2)}</h4>
         {
           land && (
             <>

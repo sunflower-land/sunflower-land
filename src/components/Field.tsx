@@ -5,18 +5,18 @@ import banana from './images/bananas/tree.png'
 import coconut from './images/coconuts/tree.png'
 import terrain from './images/apples/soil.png'
 
-import { Commodity, Square } from './types/contract'
+import { Fruit, Square } from './types/contract'
 interface Props {
     square: Square
     onClick: () => void
 }
 
-const HARVEST_TIMES: Record<Commodity, number> = {
-    [Commodity.Apple]: 1,
-    [Commodity.Avocado]: 3,
-    [Commodity.Banana]: 8,
-    [Commodity.Coconut]: 24,
-    [Commodity.None]: 0,
+const HARVEST_TIMES: Record<Fruit, number> = {
+    [Fruit.Apple]: 1,
+    [Fruit.Avocado]: 3,
+    [Fruit.Banana]: 8,
+    [Fruit.Coconut]: 24,
+    [Fruit.None]: 0,
 }
 
 export const Field: React.FC<Props> = ({ square, onClick }) => {
@@ -24,43 +24,43 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
 
     const setHarvestTime = () => {
         const secondsElapsed = (Date.now()/1000) - square.createdAt;
-        if (secondsElapsed > HARVEST_TIMES[square.commodity]) {
+        if (secondsElapsed > HARVEST_TIMES[square.fruit]) {
             setTimeLeft('ready')
             return
             // TODO - clear interval
         }
 
-        const timeLeft = HARVEST_TIMES[square.commodity] - secondsElapsed
+        const timeLeft = HARVEST_TIMES[square.fruit] - secondsElapsed
         setTimeLeft(`${timeLeft.toFixed(2)} seconds`)
     }
 
     React.useEffect(() => {
-        if (square.commodity && square.commodity !== Commodity.None) {
+        if (square.fruit && square.fruit !== Fruit.None) {
             const interval = window.setInterval(setHarvestTime, 1000)
             return () => window.clearInterval(interval)
         }
     }, [square])
 
     const Content = () => {
-        if (square.commodity == Commodity.Apple) {
+        if (square.fruit == Fruit.Apple) {
             return (
                 <img src={young} className="field-image"/>
             )
         }
 
-        if (square.commodity == Commodity.Avocado) {
+        if (square.fruit == Fruit.Avocado) {
             return (
                 <img src={avocado} className="field-image"/>
             )
         }
 
-        if (square.commodity == Commodity.Banana) {
+        if (square.fruit == Fruit.Banana) {
             return (
                 <img src={banana} className="field-image"/>
             )
         }
 
-        if (square.commodity == Commodity.Coconut) {
+        if (square.fruit == Fruit.Coconut) {
             return (
                 <img src={coconut} className="field-image"/>
             )

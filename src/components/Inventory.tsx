@@ -3,12 +3,12 @@ import apple from './images/food.png'
 import avocado from './images/avocados/avocado.png'
 import banana from './images/bananas/banana.png'
 import coconut from './images/coconuts/coconut.png'
-import { Inventory, Commodity } from './types/contract'
+import { Inventory, Fruit } from './types/contract'
 import './App.css'
 
 interface Props {
-    selectedFruit: Commodity
-    onSelectFruit: (fruit: Commodity) => void
+    selectedFruit: Fruit
+    onSelectFruit: (fruit: Fruit) => void
 }
 
 export const InventoryBox: React.FC<Props> = ({
@@ -18,22 +18,22 @@ export const InventoryBox: React.FC<Props> = ({
     return (
         <div className='inventory'>
             <>
-                <div className='fruit-box' onClick={() => onSelectFruit(Commodity.Apple)} style={selectedFruit == Commodity.Apple ? {
+                <div className='fruit-box' onClick={() => onSelectFruit(Fruit.Apple)} style={selectedFruit == Fruit.Apple ? {
                     border: '1px solid white',
                 } : {}}>
                     <img src={apple} />
                 </div>
-                <div className='fruit-box' onClick={() => onSelectFruit(Commodity.Avocado)} style={selectedFruit == Commodity.Avocado ? {
+                <div className='fruit-box' onClick={() => onSelectFruit(Fruit.Avocado)} style={selectedFruit == Fruit.Avocado ? {
                     border: '1px solid white',
                 } : {}}>
                     <img src={avocado} />
                 </div>
-                <div className='fruit-box' onClick={() => onSelectFruit(Commodity.Banana)} style={selectedFruit == Commodity.Banana ? {
+                <div className='fruit-box' onClick={() => onSelectFruit(Fruit.Banana)} style={selectedFruit == Fruit.Banana ? {
                     border: '1px solid white',
                 } : {}}>
                     <img src={banana} />
                 </div>
-                <div className='fruit-box' onClick={() => onSelectFruit(Commodity.Coconut)} style={selectedFruit == Commodity.Coconut ? {
+                <div className='fruit-box' onClick={() => onSelectFruit(Fruit.Coconut)} style={selectedFruit == Fruit.Coconut ? {
                     border: '1px solid white',
                 } : {}}>
                     <img src={coconut} />

@@ -8,10 +8,9 @@ contract Farm {
     using SafeMath for uint256;
 
     Token private token;
-    uint private totalHoursHarvested = 0;
 
     struct Square {
-        Fruit commodity;
+        Fruit fruit;
         uint createdAt;
     }
 
@@ -30,8 +29,14 @@ contract Farm {
         require(synced == 0, "Farm already exists");
 
         Square[] storage land = fields[msg.sender];
-        Square memory empty = Square(Fruit.None, 0);
-        Square memory apple = Square(Fruit.Apple, block.timestamp);
+        Square memory empty = Square({
+            fruit: Fruit.None,
+            createdAt: block.timestamp
+        });
+        Square memory apple = Square({
+            fruit: Fruit.Apple,
+            createdAt: block.timestamp
+        });
 
         // Each farmer starts with 5 fields & 3 apples
         land.push(empty);
@@ -62,7 +67,7 @@ contract Farm {
 
     struct Transaction { 
         Action action;
-        Fruit commodity;
+        Fruit fruit;
         uint landIndex;
         uint createdAt;
     }
@@ -73,23 +78,23 @@ contract Farm {
         Transaction[] transactions;
     }
 
-    function getHarvestHours(Fruit _commodity) private view returns (uint) {
-        if (_commodity == Fruit.Apple) {
+    function getHarvestHours(Fruit _fruit) private view returns (uint) {
+        if (_fruit == Fruit.Apple) {
             return 1;
-        } else if (_commodity == Fruit.Avocado) {
+        } else if (_fruit == Fruit.Avocado) {
             return 3;
-        } else if (_commodity == Fruit.Banana) {
+        } else if (_fruit == Fruit.Banana) {
             return 8;
-        } else if (_commodity == Fruit.Coconut) {
+        } else if (_fruit == Fruit.Coconut) {
             // 1 Day
             return 24;
-        } else if (_commodity == Fruit.Pineapple) {
+        } else if (_fruit == Fruit.Pineapple) {
             // 3 days
             return 72;
-        } else if (_commodity == Fruit.Money) {
+        } else if (_fruit == Fruit.Money) {
             // 1 week
             return 168;
-        } else if (_commodity == Fruit.Diamond) {
+        } else if (_fruit == Fruit.Diamond) {
             // 4 weeks
             return 672;
         }
@@ -98,57 +103,61 @@ contract Farm {
         return 9999999;
     }
 
-    function getSeedPrice(Fruit _commodity) private view returns (uint price) {
-        if (_commodity == Fruit.Apple) {
-            // $0.05
-            return 5;
-        } else if (_commodity == Fruit.Avocado) {
-            // $0.30
-            return 30;
-        } else if (_commodity == Fruit.Banana) {
+    function getSeedPrice(Fruit _fruit) private view returns (uint price) {
+        uint decimals = token.decimals();
+
+        if (_fruit == Fruit.Apple) {
+            //$0.01
+            return 1 * 10**decimals / 100;
+        } else if (_fruit == Fruit.Avocado) {
+            // $0.06
+            return 6 * 10**decimals / 100;
+        } else if (_fruit == Fruit.Banana) {
+            // $0.20
+            return 20 * 10**decimals / 100;
+        } else if (_fruit == Fruit.Coconut) {
             // $1
-            return 100;
-        } else if (_commodity == Fruit.Coconut) {
-            // $5
-            return 500;
-        } else if (_commodity == Fruit.Pineapple) {
+            return 1 * 10**decimals;
+        } else if (_fruit == Fruit.Pineapple) {
+            // $2
+            return 2 * 10**decimals;
+        } else if (_fruit == Fruit.Money) {
             // $10
-            return 1000;
-        } else if (_commodity == Fruit.Money) {
-            // $50
-            return 5000;
-        } else if (_commodity == Fruit.Diamond) {
-            // $1000
-            return 100000;
+            return 10 * 10**decimals;
+        } else if (_fruit == Fruit.Diamond) {
+            // $200
+            return 200 * 10**decimals;
         }
 
         require(false, "Invalid fruit");
 
-        return 100000;
+        return 100000 * 10**decimals;
     }
 
-    function getFruitPrice(Fruit _commodity) private view returns (uint price) {
-        if (_commodity == Fruit.Apple) {
-            // $0.10
-            return 10;
-        } else if (_commodity == Fruit.Avocado) {
-            // $0.60
-            return 60;
-        } else if (_commodity == Fruit.Banana) {
-            // $2.8
-            return 280;
-        } else if (_commodity == Fruit.Coconut) {
-            // $11.5
-            return 1150;
-        } else if (_commodity == Fruit.Pineapple) {
-            // $32
-            return 3200;
-        } else if (_commodity == Fruit.Money) {
-            // $100
-            return 10000;
-        } else if (_commodity == Fruit.Diamond) {
-            // $1275
-            return 127500;
+    function getFruitPrice(Fruit _fruit) private view returns (uint price) {
+        uint decimals = token.decimals();
+
+        if (_fruit == Fruit.Apple) {
+            // $0.02
+            return 2 * 10**decimals / 100;
+        } else if (_fruit == Fruit.Avocado) {
+            // $0.12
+            return 12 * 10**decimals / 100;
+        } else if (_fruit == Fruit.Banana) {
+            // $0.56
+            return 56 * 10**decimals / 100;
+        } else if (_fruit == Fruit.Coconut) {
+            // $2.30
+            return 230 * 10**decimals / 100;
+        } else if (_fruit == Fruit.Pineapple) {
+            // $6.40
+            return 640 * 10**decimals / 100;
+        } else if (_fruit == Fruit.Money) {
+            // $20
+            return 20 * 10**decimals;
+        } else if (_fruit == Fruit.Diamond) {
+            // $250
+            return 250 * 10**decimals;
         }
 
         require(false, "Invalid fruit");
@@ -156,17 +165,16 @@ contract Farm {
         return 0;
     }
     
-    function requiredLandSize(Fruit _commodity) private view returns (uint size) {
-        if (_commodity == Fruit.Apple || _commodity == Fruit.Avocado) {
+    function requiredLandSize(Fruit _fruit) private view returns (uint size) {
+        if (_fruit == Fruit.Apple || _fruit == Fruit.Avocado) {
             return 5;
-        } else if (_commodity == Fruit.Banana || _commodity == Fruit.Coconut) {
+        } else if (_fruit == Fruit.Banana || _fruit == Fruit.Coconut) {
             return 8;
-        } else if (_commodity == Fruit.Pineapple) {
+        } else if (_fruit == Fruit.Pineapple) {
             return 11;
-        } else if (_commodity == Fruit.Money) {
+        } else if (_fruit == Fruit.Money) {
             return 14;
-        } else if (_commodity == Fruit.Diamond) {
-            // $32
+        } else if (_fruit == Fruit.Diamond) {
             return 17;
         }
 
@@ -177,19 +185,20 @@ contract Farm {
     
        
     function getLandPrice(uint landSize) private view returns (uint price) {
+        uint decimals = token.decimals();
         if (landSize <= 5) {
             // $5 - 10 hours of planting avocados on 5 fields
-            return 500;
+            return 5 * 10**decimals;
         } else if (landSize <= 8) {
             // $250 - 6 days planting coconuts on 8 fields
-            return 250000;
+            return 2500 * 10**decimals;
         } else if (landSize <= 11) {
-            // $2000 - 4 weeks planting pineapples on 11 fields
-            return 500000;
+            // $5000 - 4 weeks planting pineapples on 11 fields
+            return 5000 * 10**decimals;
         }
         
         // $8400 - 3 months of planting Money trees on 14 fields
-        return 8400000;
+        return 8400 * 10**decimals;
     }
 
 
@@ -229,49 +238,58 @@ contract Farm {
         require(lastSyncedAt > 0, "Farm does not exist");
 
         Square[] memory land = fields[msg.sender];
-        uint balance = getBalance();
+        uint balance = token.balanceOf(msg.sender);
+        
+        // Provide them the conversion at the time of planting
+        uint conversion = getMarketRate();
 
         for (uint index = 0; index < _transactions.length; index++) {
             Transaction memory transaction = _transactions[index];
 
-            // Fraud protection
+            // TODO - you cannot perform a transaction in the last hour
+
             require(transaction.createdAt >= lastSyncedAt, "You can not perform an action in the past");
             require(transaction.createdAt <= block.timestamp, "You can not perform an action in the future");
             if (index > 0) {
                 require(transaction.createdAt >= _transactions[index - 1].createdAt, "Transactions are not in order");
             }
 
-            require(land.length >= requiredLandSize(transaction.commodity), "Your farm is not ready to plant this fruit. Level up first.");
+            require(land.length >= requiredLandSize(transaction.fruit), "Your farm is not ready to plant this fruit. Level up first.");
 
             if (transaction.action == Action.Plant) {
-                uint price = getSeedPrice(transaction.commodity);
-                require(balance >= price, "Not enough money to buy seed");
+                uint price = getSeedPrice(transaction.fruit);
+                uint fmcPrice = price / conversion;
+                require(balance >= fmcPrice, "Not enough money to buy seed");
 
-                balance = balance.sub(price);
+                balance = balance.sub(fmcPrice);
 
                 Square memory plantedSeed = Square({
-                    commodity: transaction.commodity,
+                    fruit: transaction.fruit,
                     createdAt: transaction.createdAt
                 });
                 land[transaction.landIndex] = plantedSeed;
             } else if (transaction.action == Action.Harvest) {
                 Square memory square = land[transaction.landIndex];
-                require(square.commodity == transaction.commodity, "Invalid farm: No fruit exists");
+                require(square.fruit == transaction.fruit, "Invalid farm: No fruit exists");
 
                 // Currently seconds
                 uint duration = transaction.createdAt - square.createdAt;
-                uint hoursToHarvest = getHarvestHours(transaction.commodity);
+                uint hoursToHarvest = getHarvestHours(transaction.fruit);
                 string memory durationString = uint2str(hoursToHarvest - duration);
                 string memory message = concatenate("Invalid farm: The fruit is not ripe, please wait: ", durationString);
                 require(duration >= hoursToHarvest, message);
 
                 // Clear the land
-                Square memory emptyLand = Square(Fruit.None, 0);
+                Square memory emptyLand = Square({
+                    fruit: Fruit.None,
+                    createdAt: 0
+                });
                 land[transaction.landIndex] = emptyLand;
 
-                uint price = getFruitPrice(transaction.commodity);
+                uint price = getFruitPrice(transaction.fruit);
+                uint fmcPrice = price / conversion;
 
-                balance = balance.add(price);
+                balance = balance.add(fmcPrice);
             }
         }
 
@@ -283,21 +301,8 @@ contract Farm {
     }
 
 
-    function getHoursHarvested(Transaction[] memory _transactions) private view returns (uint) {
-        uint secondsHarvested = 0;
-        for (uint i=0; i < _transactions.length; i += 1) {
-            if (_transactions[i].action == Action.Harvest) {
-                secondsHarvested = secondsHarvested + getHarvestHours(_transactions[i].commodity);
-            }
-        }
-
-        // Solidity uses integer division, which is equivalent to floored division.
-        // TESTING - return secondsHarvested / 3600;
-        return secondsHarvested * 10;
-    }
-
     function sync(Transaction[] memory _transactions) public returns (Farm memory) {
-        uint balance = getBalance();
+        uint balance = token.balanceOf(msg.sender);
         Farm memory farm = buildFarm(_transactions);
 
         // Update the land
@@ -309,20 +314,12 @@ contract Farm {
 
         // Update the balance - mint or burn
         if (farm.balance > balance) {
-            uint profit = farm.balance - balance;
-            uint fmc = dollarToFMC(profit);
-            token.mint(msg.sender, fmc);
-            
-            // An additional 5% of profit goes to developers & designers of Fruit Market
-            uint commission = fmc / 5;
-            token.mint(token.getOwner(), commission);
+            uint profit = farm.balance.sub(balance);
+            token.mint(msg.sender, profit);
         } else if (farm.balance < balance) {
-            uint loss = balance - farm.balance;
-            uint fmc = dollarToFMC(loss);
-            token.burn(msg.sender, fmc);
+            uint loss = balance.sub(farm.balance);
+            token.burn(msg.sender, loss);
         }
-
-        totalHoursHarvested += getHoursHarvested(_transactions);
 
         syncedAt[msg.sender] = block.timestamp;
 
@@ -340,74 +337,78 @@ contract Farm {
 
         Square[] storage land = fields[msg.sender];
 
-        uint price = getLandPrice(land.length);
-        string memory priceString = uint2str(price);
-        string memory message = concatenate("Not enough money to level up: ", priceString);
-        uint balance = getBalance();
-        require(balance >= price, message);
+        uint conversion = getMarketRate();
 
-        Square memory empty = Square(Fruit.None, 0);
+        uint price = getLandPrice(land.length);
+        uint fmcPrice = price / conversion;
+        string memory priceString = uint2str(fmcPrice);
+        string memory message = concatenate("Not enough money to level up: ", priceString);
+
+        uint balance = token.balanceOf(msg.sender);
+        require(balance >= fmcPrice, message);
+
+        Square memory empty = Square({
+            fruit: Fruit.None,
+            createdAt: block.timestamp
+        });
 
         // Do not bother rearranging the array - it is already in a strange square - Add 3 fields
         for (uint index = 0; index < 3; index++) {
             land.push(empty);
         }
 
-        uint fmc = dollarToFMC(price);
-        token.burn(msg.sender, fmc);
+        token.burn(msg.sender, fmcPrice);
+
+        // Land tax - An additional 5% of profit goes to developers & designers of Fruit Market
+        uint commission = fmcPrice / 5;
+        token.mint(token.getOwner(), commission);
 
         emit FarmSynced(msg.sender);
     }
 
+    // FMC -> Dollars. How many FMC do you get per dollar
+    function getMarketRate() public view returns (uint conversion) {
+        // ERC decimal places
+        uint totalSupply = token.totalSupply();
+        uint decimals = token.decimals();
 
-    function sqrt(uint x) private pure returns (uint y) {
-        uint z = (x + 1) / 2;
-        y = x;
-        while (z < y) {
-            y = z;
-            z = (x / z + z) / 2;
-        }
-    }
-    
-    
-    // With 17 fields 24/7 for 1 year a user would harvest 148920 hours
-    // This is when 29784000000 hours have been harvested - I.e. 200,000 diamond farmers for 1 year 24/7
-    uint ORIGINAL_CONVERSION = 100000;
-    
-    function getConversion() public view returns (uint conversion) {
-        if (totalHoursHarvested == 0) {
-            return ORIGINAL_CONVERSION;
-        }
-
-        uint hourRoot = sqrt(totalHoursHarvested);
-
-        // We are at the maximum conversion rate, now it is 1:1
-        if (hourRoot > ORIGINAL_CONVERSION) {
+        // Less than 100, 000 FMC tokens
+        if (totalSupply < (1000000 * 10**decimals)) {
+            // 1 Farm Dollar gets you a FMC token
             return 1;
+            //return 10**decimals;
         }
 
-        return ORIGINAL_CONVERSION - hourRoot;
-    }
+        // Less than 1, 000, 000 FMC tokens
+        if (totalSupply < (10000 * 10**decimals)) {
+            return 10;
+            // 1 Farm Dollar gets you a 0.1 of FMC
+            //return 10**(decimals-1);
+        }
+        // Less than 10, 000, 000 FMC tokens
+        if (totalSupply < (100000 * 10**decimals)) {
+            return 100;
+            // 1 Farm Dollar gets you a 0.01 of FMC
+            //return 10**(decimals-2);
+        }
 
-    function dollarToFMC(uint dollars) public view returns (uint fmc) {
-        uint conversion = getConversion();
-        uint realFMC = dollars * conversion;
+        // Less than 100, 000, 000 FMC tokens
+        if (totalSupply < (100000 * 10**decimals)) {
+            // 1 Farm Dollar gets you a 0.001 of FMC
+            //return 10**(decimals-3);
+            return 1000;
+        }
 
-        // Remove the decimal places
-        return realFMC / 100;
-    }
+        // Less than 1, 000, 000, 000 FMC tokens
+        if (totalSupply < (100000 * 10**decimals)) {
+            // 1 Farm Dollar gets you a 0.0001 of FMC
+            //return 10**(decimals-4);
+            return 10000;
+        }
 
-    function FMCToDollar(uint fmc) public view returns (uint dollars) {
-        uint conversion = getConversion();
-        
-        //Add decimal places
-        uint fmcWithDecimals = fmc * 100;
-        return fmcWithDecimals / conversion;
-    }
-
-    function getBalance() public view returns (uint balance) {
-        uint fmc = token.balanceOf(msg.sender);
-        return FMCToDollar(fmc);
+        // 1 Farm Dollar gets you a 0.00001 of FMC
+        //return 10**(decimals-5);
+        return 100000;
     }
 
     // Append a transaction to the list
@@ -423,10 +424,10 @@ contract Farm {
         return newTransactions;
     }
 
-    function plant(Transaction[] memory _transactions, Fruit _commodity, uint landIndex) public view returns (Farm memory farm) {
+    function plant(Transaction[] memory _transactions, Fruit _fruit, uint landIndex) public view returns (Farm memory farm) {
         Transaction memory plantAppleTransaction = Transaction({
             action: Action.Plant,
-            commodity: _commodity,
+            fruit: _fruit,
             landIndex: landIndex,
             createdAt: block.timestamp
         });
@@ -436,11 +437,11 @@ contract Farm {
         return (updatedFarm);
     }
 
-    function harvest(Transaction[] memory _transactions, Fruit _commodity, uint landIndex) public view returns (Farm memory farm) {
+    function harvest(Transaction[] memory _transactions, Fruit _fruit, uint landIndex) public view returns (Farm memory farm) {
         // Add the new transaction
         Transaction memory plantAppleTransaction = Transaction({
             action: Action.Harvest,
-            commodity: _commodity,
+            fruit: _fruit,
             landIndex: landIndex,
             createdAt: block.timestamp
         });
