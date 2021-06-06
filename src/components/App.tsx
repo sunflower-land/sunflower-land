@@ -34,18 +34,18 @@ export const App: React.FC = () => {
   const transactions = React.useRef<any[]>([])
 
   const onUpdateFarm = async (accountAddress: string) => {
-    const currentLand = await farmContract.current.methods.getLand().call()
+    const currentLand = await farmContract.current.methods.getLand().call({ from: accountAddress})
     console.log({ currentLand })
     if (currentLand.length > 0) {
       setLand(currentLand)
     }
 
     console.log('Account: ', account)
-    const farmBalance = await tokenContract.current.methods.balanceOf(accountAddress).call()
+    const farmBalance = await tokenContract.current.methods.balanceOf(accountAddress).call({ from: accountAddress})
     setBalance(farmBalance)
     console.log({ farmBalance})
 
-    const conversion = await farmContract.current.methods.getMarketRate().call()
+    const conversion = await farmContract.current.methods.getMarketPrice(1).call({ from: accountAddress})
     setConversion(conversion)
     console.log({ conversion })
   }
@@ -63,18 +63,32 @@ export const App: React.FC = () => {
         //web3.eth.handleRevert = true
         // const token: TokenC = new web3.eth.Contract(Token.abi as any, '0xF512B41Bd7551AA116508A0752A0263Abc6cC44f')
         // farmContract.current = new web3.eth.Contract(Farm.abi as any, '0x088Dc1eC31D6339F804F475AaC1d850c16046368')
-        const web3 = new Web3((window as any).ethereum);
-
+        //const web3 = new Web3((window as any).ethereum);
+        //const web3 = new Web3('https://rpc-mumbai.matic.today')
+        const web3  = new Web3(ethereum);
+        try{
+          // Request account access if needed
+          await ethereum.enable();
+        } catch (error){
+          // User denied account access...
+        }
+        const maticAccounts = await web3.eth.getAccounts()
+        const account = maticAccounts[0]
+        setAccount(account)
+        console.log({ maticAccounts })
         const netId = await web3.eth.net.getId();
         console.log({ netId })
-        const accounts = await web3.eth.requestAccounts()
-        // TODO set account
-        const account = accounts[0]
-        setAccount(account)
+        // const accounts = await web3.eth.requestAccounts()
+        // // TODO set account
+        // const account = accounts[0]
+        // setAccount(account)
 
   
-        tokenContract.current = new web3.eth.Contract(Token.abi as any, Token.networks[netId].address)
-        const farmAddress = Farm.networks[netId].address
+        //tokenContract.current = new web3.eth.Contract(Token.abi as any, Token.networks[netId].address)
+        tokenContract.current = new web3.eth.Contract(Token.abi as any, '0x2427d3AceE848B07FC67e40223B0fc22589C7b24')
+
+        //const farmAddress = Farm.networks[netId].address
+        const farmAddress = '0x90002454c2A76E5E61eBEDBd3a92fBacbD246365'
         farmContract.current = new web3.eth.Contract(Farm.abi as any, farmAddress)
         console.log('Read balance')
         const FMC = await tokenContract.current.methods.balanceOf(account).call()
@@ -139,7 +153,7 @@ export const App: React.FC = () => {
 
   const onHarvest = async (landIndex: number) => {
     try {
-      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.harvest(transactions.current, land[landIndex].fruit, landIndex).call()
+      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.harvest(transactions.current, land[landIndex].fruit, landIndex).call({ from: account})
       transactions.current = newTransactions;
       console.log({
         newTransactions,
@@ -157,7 +171,7 @@ export const App: React.FC = () => {
   
   const onPlant = async (landIndex: number) => {
     try {
-      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.plant(transactions.current, fruit, landIndex).call()
+      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.plant(transactions.current, fruit, landIndex).call({ from: account})
       transactions.current = newTransactions;
       console.log({
         newTransactions,
