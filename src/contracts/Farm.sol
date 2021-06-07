@@ -45,8 +45,6 @@ contract Farm {
         land.push(apple);
         land.push(empty);
 
-        Transaction[] memory transactions;
-
         syncedAt[msg.sender] = block.timestamp;
 
         //Emit an event
@@ -65,7 +63,7 @@ contract Farm {
     enum Action { Plant, Harvest }
     enum Fruit { None, Apple, Avocado, Banana, Coconut, Pineapple, Money, Diamond }
 
-    struct Transaction { 
+    struct Event { 
         Action action;
         Fruit fruit;
         uint landIndex;
@@ -75,7 +73,6 @@ contract Farm {
     struct Farm {
         Square[] land;
         uint balance;
-        Transaction[] transactions;
     }
 
     function getHarvestHours(Fruit _fruit) private view returns (uint) {
@@ -187,18 +184,17 @@ contract Farm {
     function getLandPrice(uint landSize) private view returns (uint price) {
         uint decimals = token.decimals();
         if (landSize <= 5) {
-            // $1 - 10 hours of planting avocados on 5 fields
+            // $1
             return 1 * 10**decimals;
         } else if (landSize <= 8) {
-            // $25 - 6 days planting coconuts on 8 fields
+            // $5
             return 5 * 10**decimals;
         } else if (landSize <= 11) {
-            // $50 - 4 weeks planting pineapples on 11 fields
+            // $50
             return 50 * 10**decimals;
         }
         
-        // $8400 - 3 months of planting Money trees on 14 fields
-        return 500 * 10**decimals;
+        return 5000 * 10**decimals;
     }
 
 
@@ -240,47 +236,47 @@ contract Farm {
      
     uint private THIRTY_MINUTES = 30 * 60;
 
-    function buildFarm(Transaction[] memory _transactions) private view returns (Farm memory currentFarm) {
+    function buildFarm(Event[] memory _events) public view returns (Farm memory currentFarm) {
         Square[] memory land = fields[msg.sender];
         uint balance = token.balanceOf(msg.sender);
         
         // Provide them the conversion at the time of planting
         uint conversion = getMarketRate();
 
-        for (uint index = 0; index < _transactions.length; index++) {
-            Transaction memory transaction = _transactions[index];
+        for (uint index = 0; index < _events.length; index++) {
+            Event memory farmEvent = _events[index];
 
             uint thirtyMinutesAgo = block.timestamp - THIRTY_MINUTES; 
-            require(transaction.createdAt >= thirtyMinutesAgo, "Transactions can only be 30 minutes old");
+            require(farmEvent.createdAt >= thirtyMinutesAgo, "Events can only be 30 minutes old");
             
-            require(transaction.createdAt >= lastSyncedAt(), "You can not perform an action in the past");
-            require(transaction.createdAt <= block.timestamp, "You can not perform an action in the future");
+            require(farmEvent.createdAt >= lastSyncedAt(), "You can not perform an action in the past");
+            require(farmEvent.createdAt <= block.timestamp, "You can not perform an action in the future");
 
             if (index > 0) {
-                require(transaction.createdAt >= _transactions[index - 1].createdAt, "Transactions are not in order");
+                require(farmEvent.createdAt >= _events[index - 1].createdAt, "Events are not in order");
             }
 
-            require(land.length >= requiredLandSize(transaction.fruit), "Your farm is not ready to plant this fruit. Level up first.");
+            require(land.length >= requiredLandSize(farmEvent.fruit), "Your farm is not ready to plant this fruit. Level up first.");
 
-            if (transaction.action == Action.Plant) {
-                uint price = getSeedPrice(transaction.fruit);
+            if (farmEvent.action == Action.Plant) {
+                uint price = getSeedPrice(farmEvent.fruit);
                 uint fmcPrice = getMarketPrice(price);
                 require(balance >= fmcPrice, "Not enough money to buy seed");
 
                 balance = balance.sub(fmcPrice);
 
                 Square memory plantedSeed = Square({
-                    fruit: transaction.fruit,
-                    createdAt: transaction.createdAt
+                    fruit: farmEvent.fruit,
+                    createdAt: farmEvent.createdAt
                 });
-                land[transaction.landIndex] = plantedSeed;
-            } else if (transaction.action == Action.Harvest) {
-                Square memory square = land[transaction.landIndex];
-                require(square.fruit == transaction.fruit, "No fruit exists at this field");
+                land[farmEvent.landIndex] = plantedSeed;
+            } else if (farmEvent.action == Action.Harvest) {
+                Square memory square = land[farmEvent.landIndex];
+                require(square.fruit == farmEvent.fruit, "No fruit exists at this field");
 
                 // Currently seconds
-                uint duration = transaction.createdAt - square.createdAt;
-                uint hoursToHarvest = getHarvestHours(transaction.fruit);
+                uint duration = farmEvent.createdAt - square.createdAt;
+                uint hoursToHarvest = getHarvestHours(farmEvent.fruit);
                 string memory durationString = uint2str(hoursToHarvest - duration);
                 string memory message = concatenate("The fruit is not ripe, please wait: ", durationString);
                 require(duration >= hoursToHarvest, message);
@@ -290,9 +286,9 @@ contract Farm {
                     fruit: Fruit.None,
                     createdAt: 0
                 });
-                land[transaction.landIndex] = emptyLand;
+                land[farmEvent.landIndex] = emptyLand;
 
-                uint price = getFruitPrice(transaction.fruit);
+                uint price = getFruitPrice(farmEvent.fruit);
                 uint fmcPrice = getMarketPrice(price);
 
                 balance = balance.add(fmcPrice);
@@ -301,15 +297,14 @@ contract Farm {
 
         return Farm({
             land: land,
-            balance: balance,
-            transactions: _transactions
+            balance: balance
         });
     }
 
 
-    function sync(Transaction[] memory _transactions) public hasFarm returns (Farm memory) {
+    function sync(Event[] memory _events) public hasFarm returns (Farm memory) {
         uint balance = token.balanceOf(msg.sender);
-        Farm memory farm = buildFarm(_transactions);
+        Farm memory farm = buildFarm(_events);
 
         // Update the land
         Square[] storage land = fields[msg.sender];
@@ -410,43 +405,43 @@ contract Farm {
 
 
 
-    // Append a transaction to the list
-    function addTransaction(Transaction[] memory _transactions, Transaction memory _transaction) private view returns (Transaction[] memory) {
-        Transaction[] memory newTransactions = new Transaction[](_transactions.length + 1);
-        for (uint i=0; i < _transactions.length; i += 1) {
-            newTransactions[i] = _transactions[i];
-        }
+    // // Append a event to the list
+    // function addEvent(Event[] memory _events, Event memory _event) private view returns (Event[] memory) {
+    //     Event[] memory newEvents = new Event[](_events.length + 1);
+    //     for (uint i=0; i < _events.length; i += 1) {
+    //         newEvents[i] = _events[i];
+    //     }
 
-        // Add the new transaction
-        newTransactions[_transactions.length] = _transaction;
+    //     // Add the new event
+    //     newEvents[_events.length] = _event;
 
-        return newTransactions;
-    }
+    //     return newEvents;
+    // }
 
-    function plant(Transaction[] memory _transactions, Fruit _fruit, uint landIndex) public hasFarm view returns (Farm memory farm) {
-        Transaction memory plantAppleTransaction = Transaction({
-            action: Action.Plant,
-            fruit: _fruit,
-            landIndex: landIndex,
-            createdAt: block.timestamp
-        });
-        Transaction[] memory newTransactions = addTransaction(_transactions, plantAppleTransaction);
+    // function plant(Event[] memory _events, Fruit _fruit, uint landIndex) public hasFarm view returns (Farm memory farm) {
+    //     Event memory plantAppleEvent = Event({
+    //         action: Action.Plant,
+    //         fruit: _fruit,
+    //         landIndex: landIndex,
+    //         createdAt: block.timestamp
+    //     });
+    //     Event[] memory newEvents = addEvent(_events, plantAppleEvent);
 
-        Farm memory updatedFarm = buildFarm(newTransactions);
-        return (updatedFarm);
-    }
+    //     Farm memory updatedFarm = buildFarm(newEvents);
+    //     return (updatedFarm);
+    // }
 
-    function harvest(Transaction[] memory _transactions, Fruit _fruit, uint landIndex) public hasFarm view returns (Farm memory farm) {
-        // Add the new transaction
-        Transaction memory plantAppleTransaction = Transaction({
-            action: Action.Harvest,
-            fruit: _fruit,
-            landIndex: landIndex,
-            createdAt: block.timestamp
-        });
-        Transaction[] memory newTransactions = addTransaction(_transactions, plantAppleTransaction);
+    // function harvest(Event[] memory _events, Fruit _fruit, uint landIndex) public hasFarm view returns (Farm memory farm) {
+    //     // Add the new event
+    //     Event memory plantAppleEvent = Event({
+    //         action: Action.Harvest,
+    //         fruit: _fruit,
+    //         landIndex: landIndex,
+    //         createdAt: block.timestamp
+    //     });
+    //     Event[] memory newEvents = addEvent(_events, plantAppleEvent);
 
-        Farm memory updatedFarm = buildFarm(newTransactions);
-        return (updatedFarm);
-    }
+    //     Farm memory updatedFarm = buildFarm(newEvents);
+    //     return (updatedFarm);
+    // }
 }

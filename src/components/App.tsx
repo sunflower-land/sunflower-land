@@ -7,7 +7,7 @@ import { FarmInstance } from '../../types/truffle-contracts/Farm'
 import Web3 from 'web3';
 import './App.css';
 
-import { Fruit, Square } from './types/contract'
+import { Fruit, Square, Action, Transaction } from './types/contract'
 import { Land } from './Land'
 import { InventoryBox } from './Inventory'
 import { Prices, Props as CurrentPrices  } from './Prices'
@@ -72,23 +72,23 @@ export const App: React.FC = () => {
         } catch (error){
           // User denied account access...
         }
-        const maticAccounts = await web3.eth.getAccounts()
-        const account = maticAccounts[0]
-        setAccount(account)
-        console.log({ maticAccounts })
+        // const maticAccounts = await web3.eth.getAccounts()
+        // const account = maticAccounts[0]
+        // setAccount(account)
+        // console.log({ maticAccounts })
         const netId = await web3.eth.net.getId();
         console.log({ netId })
-        // const accounts = await web3.eth.requestAccounts()
-        // // TODO set account
-        // const account = accounts[0]
-        // setAccount(account)
+        const accounts = await web3.eth.requestAccounts()
+        // TODO set account
+        const account = accounts[0]
+        setAccount(account)
 
   
-        //tokenContract.current = new web3.eth.Contract(Token.abi as any, Token.networks[netId].address)
-        tokenContract.current = new web3.eth.Contract(Token.abi as any, '0x2427d3AceE848B07FC67e40223B0fc22589C7b24')
+        tokenContract.current = new web3.eth.Contract(Token.abi as any, Token.networks[netId].address)
+        //tokenContract.current = new web3.eth.Contract(Token.abi as any, '0x2427d3AceE848B07FC67e40223B0fc22589C7b24')
 
-        //const farmAddress = Farm.networks[netId].address
-        const farmAddress = '0x90002454c2A76E5E61eBEDBd3a92fBacbD246365'
+        const farmAddress = Farm.networks[netId].address
+        //const farmAddress = '0x90002454c2A76E5E61eBEDBd3a92fBacbD246365'
         farmContract.current = new web3.eth.Contract(Farm.abi as any, farmAddress)
         console.log('Read balance')
         const FMC = await tokenContract.current.methods.balanceOf(account).call()
@@ -153,13 +153,16 @@ export const App: React.FC = () => {
 
   const onHarvest = async (landIndex: number) => {
     try {
-      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.harvest(transactions.current, land[landIndex].fruit, landIndex).call({ from: account})
-      transactions.current = newTransactions;
-      console.log({
-        newTransactions,
-        newLand,
-        balance,
-      })
+      var d = new Date();
+      var seconds = Math.round(d.getTime() / 1000);
+      const transaction: Transaction = {
+        action: Action.Harvest,
+        fruit: Fruit.None,
+        landIndex,
+        createdAt: seconds,
+      }
+      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.buildFarm([...transactions.current, transaction]).call({ from: account})
+      transactions.current = [...newTransactions, transaction];
       setLand(newLand)
       setBalance(Number(balance))
     }
@@ -171,8 +174,14 @@ export const App: React.FC = () => {
   
   const onPlant = async (landIndex: number) => {
     try {
-      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.plant(transactions.current, fruit, landIndex).call({ from: account})
-      transactions.current = newTransactions;
+      const transaction: Transaction = {
+        action: Action.Plant,
+        fruit: Fruit.None,
+        landIndex,
+        createdAt: new Date().getUTCSeconds(),
+      }
+      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.buildFarm([...transactions.current, transaction]).call({ from: account})
+      transactions.current = [...newTransactions, transaction];
       console.log({
         newTransactions,
         newLand,
