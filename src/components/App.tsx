@@ -48,6 +48,8 @@ export const App: React.FC = () => {
     const conversion = await farmContract.current.methods.getMarketPrice(1).call({ from: accountAddress})
     setConversion(conversion)
     console.log({ conversion })
+    const now = await farmContract.current.methods.getNow().call({ from: accountAddress})
+    console.log({ now })
   }
 
   React.useEffect(() => {
@@ -153,16 +155,16 @@ export const App: React.FC = () => {
 
   const onHarvest = async (landIndex: number) => {
     try {
-      var d = new Date();
-      var seconds = Math.round(d.getTime() / 1000);
+      const now = await farmContract.current.methods.getNow().call({ from: account})
+
       const transaction: Transaction = {
         action: Action.Harvest,
         fruit: Fruit.None,
         landIndex,
-        createdAt: seconds,
+        createdAt: now,
       }
-      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.buildFarm([...transactions.current, transaction]).call({ from: account})
-      transactions.current = [...newTransactions, transaction];
+      const { land: newLand, balance } = await farmContract.current.methods.buildFarm([...transactions.current, transaction]).call({ from: account})
+      transactions.current = [...transactions.current, transaction];
       setLand(newLand)
       setBalance(Number(balance))
     }
@@ -174,16 +176,16 @@ export const App: React.FC = () => {
   
   const onPlant = async (landIndex: number) => {
     try {
+      const now = await farmContract.current.methods.getNow().call({ from: account})
       const transaction: Transaction = {
         action: Action.Plant,
-        fruit: Fruit.None,
+        fruit: fruit,
         landIndex,
-        createdAt: new Date().getUTCSeconds(),
+        createdAt: now,
       }
-      const { transactions: newTransactions, land: newLand, balance } = await farmContract.current.methods.buildFarm([...transactions.current, transaction]).call({ from: account})
-      transactions.current = [...newTransactions, transaction];
+      const { land: newLand, balance } = await farmContract.current.methods.buildFarm([...transactions.current, transaction]).call({ from: account})
+      transactions.current = [...transactions.current, transaction];
       console.log({
-        newTransactions,
         newLand,
         balance,
       })

@@ -26,7 +26,7 @@ contract Farm {
 
     function createFarm() public {
         uint synced = syncedAt[msg.sender];
-        require(synced == 0, "Farm already exists");
+        require(synced == 0, "FARM_EXISTS");
 
         Square[] storage land = fields[msg.sender];
         Square memory empty = Square({
@@ -96,7 +96,7 @@ contract Farm {
             return 672;
         }
 
-        require(false, "Invalid fruit");
+        require(false, "INVALID_FRUIT");
         return 9999999;
     }
 
@@ -126,7 +126,7 @@ contract Farm {
             return 200 * 10**decimals;
         }
 
-        require(false, "Invalid fruit");
+        require(false, "INVALID_FRUIT");
 
         return 100000 * 10**decimals;
     }
@@ -157,7 +157,7 @@ contract Farm {
             return 250 * 10**decimals;
         }
 
-        require(false, "Invalid fruit");
+        require(false, "INVALID_FRUIT);
 
         return 0;
     }
@@ -175,7 +175,7 @@ contract Farm {
             return 17;
         }
 
-        require(false, "Invalid fruit");
+        require(false, "INVALID_FRUIT");
 
         return 99;
     }
@@ -187,50 +187,18 @@ contract Farm {
             // $1
             return 1 * 10**decimals;
         } else if (landSize <= 8) {
-            // $5
-            return 5 * 10**decimals;
+            // $10
+            return 10 * 10**decimals;
         } else if (landSize <= 11) {
-            // $50
+            // $100
             return 50 * 10**decimals;
         }
         
-        return 5000 * 10**decimals;
+        return 250 * 10**decimals;
     }
 
-
-    function concatenate(
-        string memory a,
-        string memory b)
-        internal
-        pure
-        returns(string memory) {
-            return string(abi.encodePacked(a, b));
-        }
-
-    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
-        if (_i == 0) {
-            return "0";
-        }
-        uint j = _i;
-        uint len;
-        while (j != 0) {
-            len++;
-            j /= 10;
-        }
-        bytes memory bstr = new bytes(len);
-        uint k = len;
-        while (_i != 0) {
-            k = k-1;
-            uint8 temp = (48 + uint8(_i - _i / 10 * 10));
-            bytes1 b1 = bytes1(temp);
-            bstr[k] = b1;
-            _i /= 10;
-        }
-        return string(bstr);
-    }
-    
     modifier hasFarm {
-        require(lastSyncedAt() > 0, "Farm does not exist");
+        require(lastSyncedAt() > 0, "NO_FARM");
         _;
     }
      
@@ -240,28 +208,25 @@ contract Farm {
         Square[] memory land = fields[msg.sender];
         uint balance = token.balanceOf(msg.sender);
         
-        // Provide them the conversion at the time of planting
-        uint conversion = getMarketRate();
-
         for (uint index = 0; index < _events.length; index++) {
             Event memory farmEvent = _events[index];
 
             uint thirtyMinutesAgo = block.timestamp - THIRTY_MINUTES; 
-            require(farmEvent.createdAt >= thirtyMinutesAgo, "Events can only be 30 minutes old");
-            
-            require(farmEvent.createdAt >= lastSyncedAt(), "You can not perform an action in the past");
-            require(farmEvent.createdAt <= block.timestamp, "You can not perform an action in the future");
+            require(farmEvent.createdAt >= thirtyMinutesAgo, "EVENT_EXPIRED");
+            require(farmEvent.createdAt >= lastSyncedAt(), "EVENT_IN_PAST");
+            require(farmEvent.createdAt <= block.timestamp, "EVENT_IN_FUTURE");
 
             if (index > 0) {
-                require(farmEvent.createdAt >= _events[index - 1].createdAt, "Events are not in order");
+                require(farmEvent.createdAt >= _events[index - 1].createdAt, "INVALID_ORDER");
             }
 
-            require(land.length >= requiredLandSize(farmEvent.fruit), "Your farm is not ready to plant this fruit. Level up first.");
 
             if (farmEvent.action == Action.Plant) {
+                require(land.length >= requiredLandSize(farmEvent.fruit), "INVALID_LEVEL");
+                
                 uint price = getSeedPrice(farmEvent.fruit);
                 uint fmcPrice = getMarketPrice(price);
-                require(balance >= fmcPrice, "Not enough money to buy seed");
+                require(balance >= fmcPrice, "INSUFFICIENT_FUNDS");
 
                 balance = balance.sub(fmcPrice);
 
@@ -272,14 +237,12 @@ contract Farm {
                 land[farmEvent.landIndex] = plantedSeed;
             } else if (farmEvent.action == Action.Harvest) {
                 Square memory square = land[farmEvent.landIndex];
-                require(square.fruit == farmEvent.fruit, "No fruit exists at this field");
+                require(square.fruit != Fruit.None, "NO_FRUIT");
 
                 // Currently seconds
                 uint duration = farmEvent.createdAt - square.createdAt;
-                uint hoursToHarvest = getHarvestHours(farmEvent.fruit);
-                string memory durationString = uint2str(hoursToHarvest - duration);
-                string memory message = concatenate("The fruit is not ripe, please wait: ", durationString);
-                require(duration >= hoursToHarvest, message);
+                uint hoursToHarvest = getHarvestHours(square.fruit);
+                require(duration >= hoursToHarvest, "NOT_RIPE");
 
                 // Clear the land
                 Square memory emptyLand = Square({
@@ -288,7 +251,7 @@ contract Farm {
                 });
                 land[farmEvent.landIndex] = emptyLand;
 
-                uint price = getFruitPrice(farmEvent.fruit);
+                uint price = getFruitPrice(square.fruit);
                 uint fmcPrice = getMarketPrice(price);
 
                 balance = balance.add(fmcPrice);
@@ -312,7 +275,6 @@ contract Farm {
             land[i] = farm.land[i];
         }
 
-
         // Update the balance - mint or burn
         if (farm.balance > balance) {
             uint profit = farm.balance.sub(balance);
@@ -329,19 +291,15 @@ contract Farm {
     }
 
     function levelUp() public hasFarm {
-        require(fields[msg.sender].length <= 17, "You are at the maximum level");
+        require(fields[msg.sender].length <= 17, "MAX_LEVEL");
 
         Square[] storage land = fields[msg.sender];
 
-        uint conversion = getMarketRate();
-
         uint price = getLandPrice(land.length);
         uint fmcPrice = getMarketPrice(price);
-        string memory priceString = uint2str(fmcPrice);
-        string memory message = concatenate("Not enough money to level up: ", priceString);
-
         uint balance = token.balanceOf(msg.sender);
-        require(balance >= fmcPrice, message);
+
+        require(balance >= fmcPrice, "INSUFFICIENT_FUNDS");
 
         Square memory empty = Square({
             fruit: Fruit.None,
@@ -367,34 +325,33 @@ contract Farm {
         uint decimals = token.decimals();
         uint totalSupply = token.totalSupply();
 
-        // Less than 100, 000 FMC tokens
+        // Less than 10, 000 FMC tokens
         if (totalSupply < (1000000 * 10**decimals)) {
             // 1 Farm Dollar gets you a FMC token
             return 1;
         }
 
-        // Less than 1, 000, 000 FMC tokens
+        // Less than 100, 000 FMC tokens
         if (totalSupply < (10000 * 10**decimals)) {
             return 10;
         }
-        // Less than 10, 000, 000 FMC tokens
+        // Less than 1, 000, 000 FMC tokens
         if (totalSupply < (100000 * 10**decimals)) {
             return 100;
         }
 
-        // Less than 100, 000, 000 FMC tokens
+        // Less than 10, 000, 000 FMC tokens
         if (totalSupply < (100000 * 10**decimals)) {
             return 1000;
         }
 
-        // Less than 1, 000, 000, 000 FMC tokens
+        // Less than 100, 000, 000 FMC tokens
         if (totalSupply < (100000 * 10**decimals)) {
             return 10000;
         }
 
-        // 1 Farm Dollar gets you a 0.00001 of FMC
-        //return 10**(decimals-5);
-        return 100000;
+        // 1 Farm Dollar gets you a 0.00001 of FMC - Linear growth from here
+        return totalSupply / 10000;
     }
 
     function getMarketPrice(uint price) public view returns (uint conversion) {
@@ -403,45 +360,7 @@ contract Farm {
         return price / marketRate;
     }
 
-
-
-    // // Append a event to the list
-    // function addEvent(Event[] memory _events, Event memory _event) private view returns (Event[] memory) {
-    //     Event[] memory newEvents = new Event[](_events.length + 1);
-    //     for (uint i=0; i < _events.length; i += 1) {
-    //         newEvents[i] = _events[i];
-    //     }
-
-    //     // Add the new event
-    //     newEvents[_events.length] = _event;
-
-    //     return newEvents;
-    // }
-
-    // function plant(Event[] memory _events, Fruit _fruit, uint landIndex) public hasFarm view returns (Farm memory farm) {
-    //     Event memory plantAppleEvent = Event({
-    //         action: Action.Plant,
-    //         fruit: _fruit,
-    //         landIndex: landIndex,
-    //         createdAt: block.timestamp
-    //     });
-    //     Event[] memory newEvents = addEvent(_events, plantAppleEvent);
-
-    //     Farm memory updatedFarm = buildFarm(newEvents);
-    //     return (updatedFarm);
-    // }
-
-    // function harvest(Event[] memory _events, Fruit _fruit, uint landIndex) public hasFarm view returns (Farm memory farm) {
-    //     // Add the new event
-    //     Event memory plantAppleEvent = Event({
-    //         action: Action.Harvest,
-    //         fruit: _fruit,
-    //         landIndex: landIndex,
-    //         createdAt: block.timestamp
-    //     });
-    //     Event[] memory newEvents = addEvent(_events, plantAppleEvent);
-
-    //     Farm memory updatedFarm = buildFarm(newEvents);
-    //     return (updatedFarm);
-    // }
+    function getNow() public view returns (uint time) {
+        return block.timestamp;
+    }
 }

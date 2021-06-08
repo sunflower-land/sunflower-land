@@ -8,7 +8,6 @@ contract Token is ERC20, ERC20Burnable {
   address public minter;
   address private owner;
 
-  //add minter changed event
   event MinterChanged(address indexed from, address to);
 
   constructor() payable ERC20("Fruit Market Coin", "FMC") {
@@ -16,12 +15,11 @@ contract Token is ERC20, ERC20Burnable {
     owner = msg.sender;
   }
 
-  //Add pass minter role function
-  function passMinterRole(address dBank) public returns (bool) {
+  function passMinterRole(address farm) public returns (bool) {
     require(msg.sender==minter, "You are not minter");
-    minter = dBank;
+    minter = farm;
 
-    emit MinterChanged(msg.sender, dBank);
+    emit MinterChanged(msg.sender, farm);
     return true;
   }
   
