@@ -177,6 +177,12 @@ export const App: React.FC = () => {
   const onPlant = async (landIndex: number) => {
     try {
       const now = await farmContract.current.methods.getNow().call({ from: account})
+      console.log({ now })
+      const now2 = new Date()  
+const utcMilllisecondsSinceEpoch = now2.getTime() + (now2.getTimezoneOffset() * 60 * 1000)  
+const utcSecondsSinceEpoch = Math.round(utcMilllisecondsSinceEpoch / 1000)  
+      console.log({ utcSecondsSinceEpoch })
+      console.log({ normal: Math.round(Date.now() / 1000)})
       const transaction: Transaction = {
         action: Action.Plant,
         fruit: fruit,

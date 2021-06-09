@@ -157,7 +157,7 @@ contract Farm {
             return 250 * 10**decimals;
         }
 
-        require(false, "INVALID_FRUIT);
+        require(false, "INVALID_FRUIT");
 
         return 0;
     }
@@ -239,8 +239,8 @@ contract Farm {
                 Square memory square = land[farmEvent.landIndex];
                 require(square.fruit != Fruit.None, "NO_FRUIT");
 
-                // Currently seconds
                 uint duration = farmEvent.createdAt - square.createdAt;
+                // Currently seconds
                 uint hoursToHarvest = getHarvestHours(square.fruit);
                 require(duration >= hoursToHarvest, "NOT_RIPE");
 
@@ -313,8 +313,8 @@ contract Farm {
 
         token.burn(msg.sender, fmcPrice);
 
-        // Land tax - An additional 5% of profit goes to developers & designers of Fruit Market
-        uint commission = fmcPrice / 5;
+        // Land tax - An additional 1% of profit goes to maintainers of Fruit Market
+        uint commission = fmcPrice / 1;
         token.mint(token.getOwner(), commission);
 
         emit FarmSynced(msg.sender);
