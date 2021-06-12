@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "lib": [
-      "ES2018"
-    ],
+    "lib": ["es5", "es6", "dom"],
     "module": "esnext",
-    "target": "ES2018",
-    "strict": true,
+    "target": "es6",
+    "strict": false,
     "esModuleInterop": true,
     "types": [
       "@types/node",

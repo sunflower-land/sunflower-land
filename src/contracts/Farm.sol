@@ -25,8 +25,7 @@ contract Farm {
     event FarmSynced(address indexed _address);
 
     function createFarm() public {
-        uint synced = syncedAt[msg.sender];
-        require(synced == 0, "FARM_EXISTS");
+        require(syncedAt[msg.sender] == 0, "FARM_EXISTS");
 
         Square[] storage land = fields[msg.sender];
         Square memory empty = Square({
@@ -51,7 +50,7 @@ contract Farm {
         emit FarmCreated(msg.sender);
     }
     
-    function lastSyncedAt() public view returns(uint) {
+    function lastSyncedAt() private view returns(uint) {
         return syncedAt[msg.sender];
     }
 
@@ -75,7 +74,7 @@ contract Farm {
         uint balance;
     }
 
-    function getHarvestHours(Fruit _fruit) private view returns (uint) {
+    function getHarvestHours(Fruit _fruit) private pure returns (uint) {
         if (_fruit == Fruit.Apple) {
             return 1;
         } else if (_fruit == Fruit.Avocado) {
@@ -162,7 +161,7 @@ contract Farm {
         return 0;
     }
     
-    function requiredLandSize(Fruit _fruit) private view returns (uint size) {
+    function requiredLandSize(Fruit _fruit) private pure returns (uint size) {
         if (_fruit == Fruit.Apple || _fruit == Fruit.Avocado) {
             return 5;
         } else if (_fruit == Fruit.Banana || _fruit == Fruit.Coconut) {
@@ -187,14 +186,14 @@ contract Farm {
             // $1
             return 1 * 10**decimals;
         } else if (landSize <= 8) {
-            // $10
-            return 10 * 10**decimals;
+            // $30
+            return 30 * 10**decimals;
         } else if (landSize <= 11) {
-            // $100
-            return 50 * 10**decimals;
+            // $300
+            return 300 * 10**decimals;
         }
         
-        return 250 * 10**decimals;
+        return 1000 * 10**decimals;
     }
 
     modifier hasFarm {
@@ -204,14 +203,14 @@ contract Farm {
      
     uint private THIRTY_MINUTES = 30 * 60;
 
-    function buildFarm(Event[] memory _events) public view returns (Farm memory currentFarm) {
+    function buildFarm(Event[] memory _events) private view hasFarm returns (Farm memory currentFarm) {
         Square[] memory land = fields[msg.sender];
         uint balance = token.balanceOf(msg.sender);
         
         for (uint index = 0; index < _events.length; index++) {
             Event memory farmEvent = _events[index];
 
-            uint thirtyMinutesAgo = block.timestamp - THIRTY_MINUTES; 
+            uint thirtyMinutesAgo = block.timestamp.sub(THIRTY_MINUTES); 
             require(farmEvent.createdAt >= thirtyMinutesAgo, "EVENT_EXPIRED");
             require(farmEvent.createdAt >= lastSyncedAt(), "EVENT_IN_PAST");
             require(farmEvent.createdAt <= block.timestamp, "EVENT_IN_FUTURE");
@@ -239,7 +238,7 @@ contract Farm {
                 Square memory square = land[farmEvent.landIndex];
                 require(square.fruit != Fruit.None, "NO_FRUIT");
 
-                uint duration = farmEvent.createdAt - square.createdAt;
+                uint duration = farmEvent.createdAt.sub(square.createdAt);
                 // Currently seconds
                 uint hoursToHarvest = getHarvestHours(square.fruit);
                 require(duration >= hoursToHarvest, "NOT_RIPE");
@@ -266,7 +265,6 @@ contract Farm {
 
 
     function sync(Event[] memory _events) public hasFarm returns (Farm memory) {
-        uint balance = token.balanceOf(msg.sender);
         Farm memory farm = buildFarm(_events);
 
         // Update the land
@@ -274,7 +272,12 @@ contract Farm {
         for (uint i=0; i < farm.land.length; i += 1) {
             land[i] = farm.land[i];
         }
-
+        
+        syncedAt[msg.sender] = block.timestamp;
+        
+        emit FarmSynced(msg.sender);
+        
+        uint balance = token.balanceOf(msg.sender);
         // Update the balance - mint or burn
         if (farm.balance > balance) {
             uint profit = farm.balance.sub(balance);
@@ -283,16 +286,16 @@ contract Farm {
             uint loss = balance.sub(farm.balance);
             token.burn(msg.sender, loss);
         }
+        
 
-        syncedAt[msg.sender] = block.timestamp;
-
-        emit FarmSynced(msg.sender);
         return farm;
     }
 
     function levelUp() public hasFarm {
         require(fields[msg.sender].length <= 17, "MAX_LEVEL");
 
+        emit FarmSynced(msg.sender);
+        
         Square[] storage land = fields[msg.sender];
 
         uint price = getLandPrice(land.length);
@@ -300,7 +303,7 @@ contract Farm {
         uint balance = token.balanceOf(msg.sender);
 
         require(balance >= fmcPrice, "INSUFFICIENT_FUNDS");
-
+        
         Square memory empty = Square({
             fruit: Fruit.None,
             createdAt: block.timestamp
@@ -313,54 +316,50 @@ contract Farm {
 
         token.burn(msg.sender, fmcPrice);
 
-        // Land tax - An additional 1% of profit goes to maintainers of Fruit Market
-        uint commission = fmcPrice / 1;
+        // Land tax - An additional 5% of profit goes to maintainers of Fruit Market
+        uint commission = fmcPrice.div(1);
         token.mint(token.getOwner(), commission);
-
-        emit FarmSynced(msg.sender);
     }
 
     // How many FMC do you get per dollar
+    // Algorithm is totalSupply / 10000 but we do this in gradual steps to avoid widly flucating prices between plant & harvest
     function getMarketRate() private view returns (uint conversion) {
         uint decimals = token.decimals();
         uint totalSupply = token.totalSupply();
 
         // Less than 10, 000 FMC tokens
-        if (totalSupply < (1000000 * 10**decimals)) {
+        if (totalSupply < (10000 * 10**decimals)) {
             // 1 Farm Dollar gets you a FMC token
             return 1;
         }
 
         // Less than 100, 000 FMC tokens
-        if (totalSupply < (10000 * 10**decimals)) {
+        if (totalSupply < (100000 * 10**decimals)) {
             return 10;
         }
         // Less than 1, 000, 000 FMC tokens
-        if (totalSupply < (100000 * 10**decimals)) {
+        if (totalSupply < (1000000 * 10**decimals)) {
             return 100;
         }
 
         // Less than 10, 000, 000 FMC tokens
-        if (totalSupply < (100000 * 10**decimals)) {
+        if (totalSupply < (10000000 * 10**decimals)) {
             return 1000;
         }
 
         // Less than 100, 000, 000 FMC tokens
-        if (totalSupply < (100000 * 10**decimals)) {
+        if (totalSupply < (100000000 * 10**decimals)) {
             return 10000;
         }
 
+        // 200, 000, 000 -> 
         // 1 Farm Dollar gets you a 0.00001 of FMC - Linear growth from here
-        return totalSupply / 10000;
+        return totalSupply.div(10000);
     }
 
     function getMarketPrice(uint price) public view returns (uint conversion) {
         uint marketRate = getMarketRate();
 
-        return price / marketRate;
-    }
-
-    function getNow() public view returns (uint time) {
-        return block.timestamp;
+        return price.div(marketRate);
     }
 }
