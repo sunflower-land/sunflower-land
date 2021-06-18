@@ -91,13 +91,13 @@ export class BlockChain {
     }
 
     public save(events: Transaction[]) {
-        try {
-            const response = this.farm.methods.buildFarm(events).call({from: this.account})
-            console.log({ response })
-          } catch (e) {
-              const errorJSON = e.message.slice(25)
-              console.log({ errorJSON })
-        }
+        // try {
+        //     const response = this.farm.methods.buildFarm(events).call({from: this.account})
+        //     console.log({ response })
+        //   } catch (e) {
+        //       const errorJSON = e.message.slice(25)
+        //       console.log({ errorJSON })
+        // }
         try {
             this.farm.methods.sync(events).send({from: this.account})
           } catch (e) {

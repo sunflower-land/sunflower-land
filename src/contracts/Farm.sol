@@ -24,8 +24,34 @@ contract Farm {
     event FarmCreated(address indexed _address);
     event FarmSynced(address indexed _address);
 
-    function createFarm() public {
+    // Function to receive Ether. msg.data must be empty
+    receive() external payable {}
+
+    // Fallback function is called when msg.data is not empty
+    //fallback() external payable {}
+
+
+    function createFarm(address payable _charity) public payable {
         require(syncedAt[msg.sender] == 0, "FARM_EXISTS");
+
+        require(
+            msg.value > 1,
+            "INSUFFICIENT_DONATION"
+        );
+
+        require(
+            // The Water Project
+            _charity == address(0x060697E9d4EEa886EbeCe57A974Facd53A40865B)
+            // Heifer
+            || _charity == address(0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1)
+            // Cool Earth
+            || _charity == address(0x3c8cB169281196737c493AfFA8F49a9d823bB9c5),
+            "INVALID_CHARITY"
+        );
+
+        (bool sent, bytes memory data) = _charity.call{value: msg.value}("");
+        require(sent, "DONATION_FAILED");
+
 
         Square[] storage land = fields[msg.sender];
         Square memory empty = Square({
