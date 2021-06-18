@@ -34,13 +34,15 @@ contract Farm {
     function createFarm(address payable _charity) public payable {
         require(syncedAt[msg.sender] == 0, "FARM_EXISTS");
 
+        uint decimals = token.decimals();
+
         require(
-            msg.value > 1,
+            msg.value >= 1 * 10**decimals,
             "INSUFFICIENT_DONATION"
         );
 
         require(
-            // The Water Project
+            // The Water Project - double check
             _charity == address(0x060697E9d4EEa886EbeCe57A974Facd53A40865B)
             // Heifer
             || _charity == address(0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1)
@@ -219,6 +221,7 @@ contract Farm {
             return 300 * 10**decimals;
         }
         
+        // $1000
         return 1000 * 10**decimals;
     }
 
@@ -244,7 +247,6 @@ contract Farm {
             if (index > 0) {
                 require(farmEvent.createdAt >= _events[index - 1].createdAt, "INVALID_ORDER");
             }
-
 
             if (farmEvent.action == Action.Plant) {
                 require(land.length >= requiredLandSize(farmEvent.fruit), "INVALID_LEVEL");

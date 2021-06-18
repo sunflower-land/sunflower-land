@@ -14,7 +14,7 @@ interface Props {
 }
 export const App: React.FC<Props> = ({ blockChain }) => {
   const [balance, setBalance] = React.useState(0)
-  const [land, setLand] = React.useState<Square[]>(null)
+  const [land, setLand] = React.useState<Square[]>([])
   const [fruit, setFruit] = React.useState<Fruit>(Fruit.Apple)
   const [conversion, setConversion] = React.useState<string>('0')
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
@@ -24,6 +24,7 @@ export const App: React.FC<Props> = ({ blockChain }) => {
   const onUpdate = React.useCallback(async () => {
     const { farm, balance: currentBalance } = await blockChain.getAccount()
     setLand(farm)
+    console.log('Farm isL: ', farm)
     setBalance(currentBalance)
   }, [blockChain])
 
@@ -101,11 +102,13 @@ export const App: React.FC<Props> = ({ blockChain }) => {
       return <span>Loading...</span>
   }
 
+  const hasFarm = land.length > 0
+  
   return (
       <>
         <h4>{(balance/10**18).toFixed(2)}</h4>
         {
-          land && (
+          hasFarm && (
             <>
               <button onClick={onSync}>
                 Sync
@@ -121,19 +124,19 @@ export const App: React.FC<Props> = ({ blockChain }) => {
       </div>
       <div className="row">
           {
-            !land && (
+            !hasFarm && (
               <button onClick={onCreate}>
                 Create Farm
               </button>
             )
           }
           {
-            land && (
+            hasFarm && (
               <Land land={land} onHarvest={onHarvest} onPlant={onPlant}/>
             )
           }
           {
-            land && (
+            hasFarm && (
               <InventoryBox balance={balance} land={land} selectedFruit={fruit} onSelectFruit={setFruit} />
             )
           }
