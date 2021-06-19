@@ -3,8 +3,11 @@ import young from './images/apples/image_part_161.png'
 import avocado from './images/avocados/tree.png'
 import banana from './images/bananas/tree.png'
 import coconut from './images/coconuts/tree.png'
-import terrain from './images/apples/soil.png'
+import terrain from './images/land/soil/soil.png'
+import planted from './images/land/soil/planted.png'
+import seedling from './images/tree.png'
 
+import './Field.css'
 import { Fruit, Square } from './types/contract'
 interface Props {
     square: Square
@@ -39,7 +42,7 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
             const interval = window.setInterval(setHarvestTime, 1000)
             return () => window.clearInterval(interval)
         }
-    }, [square])
+    }, [setHarvestTime, square])
 
     const Content = () => {
         if (square.fruit == Fruit.Apple) {
@@ -71,12 +74,19 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
 
     return (
         <div className="field" onClick={onClick}>
-            <Content />
-            <span>
-                {
-                    timeLeft
-                }
-            </span>
+            {
+                square.fruit === Fruit.None && (
+                    <img src={terrain} className="soil"/>
+                )
+            }
+            {
+                square.fruit !== Fruit.None && (
+                    <>
+                        <img src={planted} className="soil"/>
+                        <img src={seedling} className='seedling'/>
+                    </>
+                )
+            }
         </div>
     )
 }

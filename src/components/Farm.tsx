@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 
 import { Fruit, Square, Action, Transaction } from './types/contract'
 import { Land } from './Land'
@@ -106,7 +105,7 @@ export const App: React.FC<Props> = ({ blockChain }) => {
   
   return (
       <>
-        <h4>{(balance/10**18).toFixed(2)}</h4>
+        {/* <h4>{(balance/10**18).toFixed(2)}</h4>
         {
           hasFarm && (
             <>
@@ -122,25 +121,25 @@ export const App: React.FC<Props> = ({ blockChain }) => {
       <div>
         <pre>Conversion: {conversion}</pre>
       </div>
-      <div className="row">
+      <div>
           {
             !hasFarm && (
               <button onClick={onCreate}>
                 Create Farm
               </button>
             )
-          }
+          } */}
           {
             hasFarm && (
               <Land land={land} onHarvest={onHarvest} onPlant={onPlant}/>
             )
           }
-          {
+          {/* {
             hasFarm && (
               <InventoryBox balance={balance} land={land} selectedFruit={fruit} onSelectFruit={setFruit} />
             )
           }
-        </div>
+        </div> */}
       </>
   )
 }

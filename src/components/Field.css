@@ -1,0 +1,34 @@
+body {
+    cursor: url("./images/ui/cursor_04.png"), auto;
+}
+
+.field {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: relative;
+}
+
+.field:hover {
+    border: 1px solid white;
+    border-style: dashed;
+    transform: scale(1.1);
+}
+.field:hover > img {
+    transform: scale(1.1);
+}
+
+.field > img {
+    width: 70%;
+}
+
+.seedling {
+    position: absolute;
+    top: -27px;
+    width: 100% !important;
+}
+
+

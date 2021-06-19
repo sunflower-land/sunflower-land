@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 
 import { BlockChain } from './Blockchain'
 import Farm from './Farm'
@@ -19,17 +18,17 @@ export const App: React.FC = () => {
   }, [])
 
   return (
-    <div className='text-monospace'>
-      <div className="container-fluid mt-5 text-center">
+    <div>
+      {/* <div>
         <h1>Welcome to Fruit Market</h1>
         {
           !blockChain && 'Loading...'
-        }
+        } */}
         {
           blockChain && (<Farm blockChain={blockChain} />)
         }
-        
-      </div>
+{/*         
+      </div> */}
     </div>
   )
 }

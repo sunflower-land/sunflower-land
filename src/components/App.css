@@ -1,8 +1,7 @@
-body {
+/* body {
     background-image: url("./images/apples/terrain.png");
 }
 
-/* Styles go here */
 .land {
     width: 90%;
     max-width: 500px;
@@ -66,4 +65,4 @@ body {
     text-shadow: 2px 2px #000000;
     font-smooth: never;
     -webkit-font-smoothing: none;
-}
+} */
