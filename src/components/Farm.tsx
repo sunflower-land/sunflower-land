@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './App.css'
+
 import { Fruit, Square, Action, Transaction } from './types/contract'
 import { Land } from './Land'
 import { InventoryBox } from './Inventory'
@@ -7,6 +9,8 @@ import { BlockChain } from './Blockchain'
 
 import { getBuyPrice } from './actions/buy'
 import { getSellPrice } from './actions/sell'
+
+import coin from './images/ui/coin.png'
 
 interface Props {
     blockChain: BlockChain
@@ -134,6 +138,10 @@ export const App: React.FC<Props> = ({ blockChain }) => {
               <Land land={land} onHarvest={onHarvest} onPlant={onPlant}/>
             )
           }
+          <div id="balance">
+            <img src={coin} />
+            {(balance/10^18).toFixed(2)}
+          </div>
           {/* {
             hasFarm && (
               <InventoryBox balance={balance} land={land} selectedFruit={fruit} onSelectFruit={setFruit} />

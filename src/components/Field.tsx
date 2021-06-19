@@ -5,6 +5,7 @@ import banana from './images/bananas/tree.png'
 import coconut from './images/coconuts/tree.png'
 import terrain from './images/land/soil/soil.png'
 import planted from './images/land/soil/planted.png'
+import progress from './images/land/soil/progress/greenbar_01.png'
 import seedling from './images/tree.png'
 
 import './Field.css'
@@ -84,6 +85,7 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
                     <>
                         <img src={planted} className="soil"/>
                         <img src={seedling} className='seedling'/>
+                        <img src={progress} className='progress'/>
                     </>
                 )
             }

@@ -31,4 +31,9 @@ body {
     width: 100% !important;
 }
 
+.progress {
+    position: absolute;
+    bottom: 1px;
+}
+
 
