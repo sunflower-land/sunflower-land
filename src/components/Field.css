@@ -1,6 +1,4 @@
-body {
-    cursor: url("./images/ui/cursor_04.png"), auto;
-}
+
 
 .field {
     flex: 1;
@@ -13,12 +11,14 @@ body {
 }
 
 .field:hover {
-    border: 1px solid white;
-    border-style: dashed;
     transform: scale(1.1);
 }
 .field:hover > img {
     transform: scale(1.1);
+}
+
+.field:hover .field-edges {
+    visibility: visible;
 }
 
 .field > img {
@@ -27,8 +27,16 @@ body {
 
 .seedling {
     position: absolute;
-    top: -27px;
+    top: 10px;
+    width: 50% !important;
+}
+
+
+.tree {
+    position: absolute;
+    top: -36%;
     width: 100% !important;
+    z-index: 1;
 }
 
 .progress {
@@ -36,4 +44,35 @@ body {
     bottom: 1px;
 }
 
+.harvest {
+    position: absolute;
+    top: -46%;
+    width: 143% !important;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    z-index: 2;
+}
 
+.field-edges {
+    position: absolute;
+    visibility: hidden;
+    width: 84%;
+    height: 84%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.field-edges > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.field-edges > div > img {
+    width: 13px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}

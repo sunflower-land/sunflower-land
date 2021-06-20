@@ -1,0 +1,99 @@
+#panel-left-edge {
+    position: absolute;
+    left: -5px;
+    top: 0px;
+    height: 100%;
+    width: 5px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+#panel-right-edge {
+    position: absolute;
+    right: -5px;
+    top: 0px;
+    height: 100%;
+    width: 5px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+#panel-bottom-edge {
+    position: absolute;
+    left: 0px;
+    bottom: -5px;
+    width: 100%;
+    height: 5px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+#panel-top-edge {
+    position: absolute;
+    left: 0px;
+    top: -5px;
+    width: 100%;
+    height: 5px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+#panel-top-left {
+    position: absolute;
+    left: -5px;
+    top: -5px;
+    width: 5px;
+    height: 5px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+#panel-bottom-left {
+    position: absolute;
+    left: -5px;
+    bottom: -5px;
+    width: 5px;
+    height: 5px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+#panel-bottom-right {
+    position: absolute;
+    right: -5px;
+    bottom: -5px;
+    width: 5px;
+    height: 5px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+
+#panel-top-right {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 5px;
+    height: 5px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.pixel-panel {
+    background: #b96f50;
+    padding: 5px;
+}
+
+.inner-pixel-panel {
+    background: #c28569;
+
+    position: relative;
+}

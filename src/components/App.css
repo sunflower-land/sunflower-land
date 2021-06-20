@@ -1,24 +1,86 @@
+@font-face {
+    font-family: 'Press Start 2p';
+}
+
+body {
+    overflow: hidden;
+    font-family: 'Press Start 2p';
+}
+
 #balance {
     position: fixed;
     top: 20px;
-    font-size: 26px;
-    color: white;
-    border-radius: 12px 0 0 12px;
-    right: -2px;
-    background: #c28569;
-    padding: 5px;
-    width: 200px;
-    border: 2px solid #ead4aa;
-    font-family: 'Common Pixel', sans-serif;
-    text-shadow: 2px 2px 0px black;
-    box-shadow: 2px 2px 0px #000;
+    right: -8px;
+}
 
+#inner {
+    font-size: 15px;
+    color: white;
+    text-shadow: 1px 1px black;
+    border-radius: 4px 0 0 4px;
+    padding: 5px;
+    min-width: 120px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-#balance > img {
-    width: 30px;
-    height: 30px;
+#inner > img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+
+#edge {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    position: absolute;
+    height: calc(100% + 8px);
+    top: -4px;
+    left: -15px;
+}
+
+
+#panel-bg {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    position: absolute;
+    height: calc(100% + 8px);
+    top: -4px;
+    left: 0px;
+    right: 14px;
+    z-index: -1;
+    width: 100%;
+}
+
+#save-button {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+
+    text-align: center;
+    display: inline-block;
+    /* margin: 5px; */
+    font-weight: bold;
+    padding: 10px 10px 10px 10px;
+    background-color: #c28569;
+    text-shadow: -1px -1px black, 1px 1px #945442;
+    color: white;
+    border-radius: 6px;
+    box-shadow: 0 0.2em #945442;
+    cursor: pointer;
+}
+
+#save-button:hover {
+	background: #945442;
+}
+
+#saving {
+    color: white;
+    text-align: center;
+    line-height: 20px;
+    padding: 10px;
 }

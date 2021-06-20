@@ -171,4 +171,8 @@ export class BlockChain {
     public async getMarketConversion(): Promise<number> {
         return await this.farm.methods.getMarketPrice(1).call({ from: this.account })
     }
+
+    public getWeb3() {
+        return this.web3
+    }
 }

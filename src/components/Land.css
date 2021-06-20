@@ -14,6 +14,10 @@
     background: url("./images/land/rock.png");
 }
 
+.pole {
+    background: url("./images/land/pole.png");
+}
+
 .tree-stump {
     background: url("./images/land/stump.png");
 }

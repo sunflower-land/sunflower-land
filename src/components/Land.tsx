@@ -4,6 +4,7 @@ import './Land.css'
 import { Field }  from './Field'
 import { Fruit, Square } from './types/contract'
 
+import disc from './images/ui/disc.png'
 interface Props {
     land: Square[]
     onHarvest: (landIndex: number) => void

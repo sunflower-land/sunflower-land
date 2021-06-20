@@ -1,0 +1,149 @@
+#basket {
+    position: fixed;
+    right: 0;
+    top: 80px;
+    background: #e7cda3;
+    cursor: pointer;
+}
+
+#basket:hover{
+}
+
+.basket-fruit {
+    width: 25px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.market {
+    font-size: 12px;
+    color: white;
+    text-shadow: 1px 1px black;
+}
+
+.board-content {
+    font-size: 26px;
+    color: white;
+    padding: 5px;
+    min-width: 200px;
+    height: 180px;
+    overflow-y:scroll;
+}
+
+#board-header {
+    z-index: 1;
+    color: white;
+    border-radius: 12px 12px 0 0px;
+    right: 42px;
+    padding: 5px 10px;
+    font-size: 19px;
+    height: 38px;
+    text-shadow: 1px 1px 0px #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#board-header > img {
+    width: 22px;
+    margin-right: 10px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.board-content > .item {
+    display: flex;
+    height: 45px;
+    padding-top: 5px;
+}
+
+.board-content > .item:not(:first-child) {
+    margin-top: 5px;
+    border-top: 1px solid #ead4aa;
+}
+
+.board-content .icon {
+    background: #945442;
+    width: 40px;
+    height: 40px;
+    border-radius: 3px;
+    border: 2px solid black;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.board-content .icon:hover{
+    background: #ead4aa;
+}
+
+.board-content .icon > .image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border: 2px solid #e7cda3;
+}
+
+.selected {
+    background: #c0cbdb !important;
+}
+
+.selected > .image {
+    border-color: white !important;
+}
+
+.icon > .image > img {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    width: 20px;
+}
+
+.fruit-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.fruit-details > .title {
+    text-shadow: 1px 1px 0px black;
+    font-size: 12px;
+}
+
+.price {
+    text-shadow: 1px 1px 0px black;
+    font-size: 11px;
+    line-height: 13px;
+    height: 18px;
+    background: #fdad33;
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 0 8px;
+    outline: white;
+    width: fit-content;
+    margin-right: 25px;
+}
+
+.fruit-breakdown {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fruit-time {
+    font-size: 12px;
+    text-shadow: 1px 1px black;
+    display: flex;
+    align-items: center;
+    margin-top: -34px;
+}
+
+.fruit-time > img {
+    width: 18px;
+    margin-right: 4px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+
+}

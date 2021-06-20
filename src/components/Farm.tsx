@@ -1,7 +1,7 @@
 import React from 'react';
+import Modal from 'react-bootstrap/Modal';
 
 import './App.css'
-
 import { Fruit, Square, Action, Transaction } from './types/contract'
 import { Land } from './Land'
 import { InventoryBox } from './Inventory'
@@ -11,13 +11,18 @@ import { getBuyPrice } from './actions/buy'
 import { getSellPrice } from './actions/sell'
 
 import coin from './images/ui/coin.png'
+import edge from './images/ui/label_left.png'
+import panelBG from './images/ui/label_middle.png'
+
+import { FruitBoard } from './FruitBoard'
+import { Panel } from './Panel'
 
 interface Props {
     blockChain: BlockChain
 }
 export const App: React.FC<Props> = ({ blockChain }) => {
   const [balance, setBalance] = React.useState(0)
-  const [land, setLand] = React.useState<Square[]>([])
+  const [land, setLand] = React.useState<Square[]>(Array(5).fill({}))
   const [fruit, setFruit] = React.useState<Fruit>(Fruit.Apple)
   const [conversion, setConversion] = React.useState<string>('0')
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
@@ -101,10 +106,6 @@ export const App: React.FC<Props> = ({ blockChain }) => {
     setIsLoading(false)
   }
 
-  if (isLoading) {
-      return <span>Loading...</span>
-  }
-
   const hasFarm = land.length > 0
   
   return (
@@ -133,15 +134,27 @@ export const App: React.FC<Props> = ({ blockChain }) => {
               </button>
             )
           } */}
-          {
-            hasFarm && (
-              <Land land={land} onHarvest={onHarvest} onPlant={onPlant}/>
-            )
-          }
+          <Land land={land} onHarvest={onHarvest} onPlant={onPlant}/>
+          <span id='save-button' onClick={onSync}>Save</span>
           <div id="balance">
-            <img src={coin} />
-            {(balance/10^18).toFixed(2)}
+            <Panel>
+              <div id="inner">
+                <img src={coin} />
+                {Number(blockChain.getWeb3().utils.fromWei(balance.toString())).toFixed(2)}
+              </div>
+            </Panel>
           </div>
+
+          <Modal centered show={isLoading}>
+            <Panel>
+              <div id="saving">
+                Saving to the chain...
+              </div>
+            </Panel>
+          </Modal>
+
+
+          <FruitBoard selectedFruit={fruit} onSelectFruit={setFruit} land={land} balance={balance}/>
           {/* {
             hasFarm && (
               <InventoryBox balance={balance} land={land} selectedFruit={fruit} onSelectFruit={setFruit} />
