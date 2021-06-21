@@ -20,22 +20,34 @@ import bottomRightInner from './images/ui/panel/lt_box_9slice_br.png'
 
 import './Panel.css'
 
-export const Panel: React.FC = ({
+interface Props {
+    hasInner?: boolean
+}
+export const Panel: React.FC<Props> = ({
     children,
+    hasInner = true,
 }) => {
     return (
         <div className="pixel-panel">
-            <div className="inner-pixel-panel">
-                { children }
-                <img id="panel-left-edge" src={leftEdgeInner} />
-                <img id="panel-right-edge" src={rightEdgeInner} />
-                <img id="panel-bottom-edge" src={bottomEdgeInner} />
-                <img id="panel-top-edge" src={topEdgeInner} />
-                <img id="panel-top-left" src={topLeftInner} />
-                <img id="panel-bottom-left" src={bottomLeftInner} />
-                <img id="panel-bottom-right" src={bottomRightInner} />
-                <img id="panel-top-right" src={topRightInner} />
-            </div>
+            {
+                !hasInner && children
+            }
+            {
+                hasInner && (
+                    <div className="inner-pixel-panel">
+                        { children }
+                        <img id="panel-left-edge" src={leftEdgeInner} />
+                        <img id="panel-right-edge" src={rightEdgeInner} />
+                        <img id="panel-bottom-edge" src={bottomEdgeInner} />
+                        <img id="panel-top-edge" src={topEdgeInner} />
+                        <img id="panel-top-left" src={topLeftInner} />
+                        <img id="panel-bottom-left" src={bottomLeftInner} />
+                        <img id="panel-bottom-right" src={bottomRightInner} />
+                        <img id="panel-top-right" src={topRightInner} />
+                    </div>
+                )
+            }
+           
             <img id="panel-left-edge" src={leftEdge} />
             <img id="panel-right-edge" src={rightEdge} />
             <img id="panel-bottom-edge" src={bottomEdge} />

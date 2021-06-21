@@ -13,9 +13,11 @@ import { getSellPrice } from './actions/sell'
 import coin from './images/ui/coin.png'
 import edge from './images/ui/label_left.png'
 import panelBG from './images/ui/label_middle.png'
-
+import exclamation from './images/ui/expression_alerted.png'
+import questionMark from './images/ui/expression_confused.png'
 import { FruitBoard } from './FruitBoard'
 import { Panel } from './Panel'
+import { Button } from './Button'
 
 interface Props {
     blockChain: BlockChain
@@ -135,7 +137,19 @@ export const App: React.FC<Props> = ({ blockChain }) => {
             )
           } */}
           <Land land={land} onHarvest={onHarvest} onPlant={onPlant}/>
-          <span id='save-button' onClick={onSync}>Save</span>
+
+          <span id='save-button'>
+            <Panel  hasInner={false}>
+              <Button  onClick={onSync}>
+                Save
+                <img src={exclamation} id="exclamation"/>
+              </Button>
+              <Button>
+                About
+                <img src={questionMark} id="question"/>
+              </Button>
+            </Panel>
+          </span>
           <div id="balance">
             <Panel>
               <div id="inner">

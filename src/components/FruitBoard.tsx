@@ -13,6 +13,7 @@ import { Fruit } from './types/contract'
 import './FruitBoard.css'
 
 import { Panel } from './Panel'
+import { Button } from './Button'
 
 interface Props {
     selectedFruit: Fruit
@@ -36,9 +37,10 @@ export const FruitBoard: React.FC<Props> = ({
     return (
         <>
         <div id="basket" onClick={() => setShowModal(true)}>
-            <Panel>
-                <span className="market">MARKET</span>
-                <img className="basket-fruit" src={apple}/>
+            <Panel hasInner={false}>
+                <Button>
+                    <img className="basket-fruit" src={apple}/>
+                </Button>
             </Panel>
         </div>
         <Modal show={showModal} centered onHide={() => setShowModal(false)}>

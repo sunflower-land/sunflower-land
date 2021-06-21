@@ -9,7 +9,7 @@ body {
 
 #balance {
     position: fixed;
-    top: 20px;
+    top: 15px;
     right: -8px;
 }
 
@@ -58,29 +58,58 @@ body {
 
 #save-button {
     position: fixed;
-    top: 10px;
+    top: 15px;
     left: 10px;
 
-    text-align: center;
-    display: inline-block;
-    /* margin: 5px; */
-    font-weight: bold;
-    padding: 10px 10px 10px 10px;
-    background-color: #c28569;
-    text-shadow: -1px -1px black, 1px 1px #945442;
-    color: white;
-    border-radius: 6px;
-    box-shadow: 0 0.2em #945442;
-    cursor: pointer;
 }
 
-#save-button:hover {
-	background: #945442;
-}
+
 
 #saving {
     color: white;
     text-align: center;
     line-height: 20px;
     padding: 10px;
+}
+
+.button {
+    background: #e6a873;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    padding: 2px 10px;
+    color: white;
+    font-size: 15px;
+    text-shadow: 1px 1px black;
+    box-shadow: 0px 3px 2px 2px black;
+    cursor: pointer;
+    margin: 5px 10px;
+}
+
+.button > img {
+    margin-left: 3px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+#exclamation {
+    width: 10px;
+
+}
+
+#question {
+    width: 14px;
+    height: 20px;
+}
+
+.button:hover {
+	opacity: 0.8
+}
+
+.header {
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 27px !important;
+    padding: 14px;
 }
