@@ -1,0 +1,18 @@
+#charity-container {
+    font-size: 20px;
+    color: white;
+    text-shadow: 1px 1px black;
+    text-align: center;
+}
+
+#charities {
+    display: flex;
+    margin-top: 20px;
+}
+
+.charity {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

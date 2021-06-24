@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
+import { useService } from '@xstate/react';
 
 import './App.css'
 import { Fruit, Square, Action, Transaction } from './types/contract'
@@ -10,42 +11,41 @@ import { BlockChain } from './Blockchain'
 import { getBuyPrice } from './actions/buy'
 import { getSellPrice } from './actions/sell'
 
+
+import { service, Context, BlockchainEvent, BlockchainState } from './machine'
+
 import coin from './images/ui/coin.png'
-import edge from './images/ui/label_left.png'
-import panelBG from './images/ui/label_middle.png'
 import exclamation from './images/ui/expression_alerted.png'
 import questionMark from './images/ui/expression_confused.png'
 import { FruitBoard } from './FruitBoard'
 import { Panel } from './Panel'
 import { Button } from './Button'
 
-interface Props {
-    blockChain: BlockChain
-}
-export const App: React.FC<Props> = ({ blockChain }) => {
+export const Farm: React.FC= () => {
   const [balance, setBalance] = React.useState(0)
-  const [land, setLand] = React.useState<Square[]>(Array(5).fill({}))
+  const [land, setLand] = React.useState<Square[]>(Array(16).fill({}))
   const [fruit, setFruit] = React.useState<Fruit>(Fruit.Apple)
-  const [conversion, setConversion] = React.useState<string>('0')
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const events = React.useRef<any[]>([])
 
-  const onUpdate = React.useCallback(async () => {
-    const { farm, balance: currentBalance } = await blockChain.getAccount()
-    setLand(farm)
-    console.log('Farm isL: ', farm)
-    setBalance(currentBalance)
-  }, [blockChain])
+  const [machineState, send] = useService<
+    Context,
+    BlockchainEvent,
+    BlockchainState
+  >(service);
 
-  React.useEffect(() => {
-    const init = async () => {
-        setIsLoading(true)
-        await onUpdate()
-        setIsLoading(false)
+
+  const onUpdate = React.useCallback(async () => {
+    if (machineState.matches('farming')) {
+      const { farm, balance: currentBalance } = await machineState.context.blockChain.getAccount()
+      setLand(farm)
+      setBalance(currentBalance)
     }
 
-    init()
+  }, [machineState])
+
+  React.useEffect(() => {
+    onUpdate()
   }, [onUpdate])
 
   const onHarvest = async (landIndex: number) => {
@@ -87,97 +87,45 @@ export const App: React.FC<Props> = ({ blockChain }) => {
     setBalance(balance - price)
   }
 
-  const onSync = async () => {
-    setIsLoading(true)
-    await blockChain.save(events.current)
-    onUpdate()
-    setIsLoading(false)
-}
-
-  const onLevelUp = async () => {
-    setIsLoading(true)
-    await blockChain.levelUp()
-    onUpdate()
-    setIsLoading(false)
+  const save = async () => {
+    send('SAVE', { events: events.current })
   }
 
-  const onCreate = async () => {
-    setIsLoading(true)
-    await blockChain.createFarm()
-    onUpdate()
-    setIsLoading(false)
+  const upgrade = async () => {
+    send('UPGRADE')
   }
 
-  const hasFarm = land.length > 0
   
   return (
       <>
-        {/* <h4>{(balance/10**18).toFixed(2)}</h4>
-        {
-          hasFarm && (
-            <>
-              <button onClick={onSync}>
-                Sync
-              </button>
-              <button onClick={onLevelUp}>
-                Buy more land
-              </button>
-            </>
-          )
-        }
-      <div>
-        <pre>Conversion: {conversion}</pre>
-      </div>
-      <div>
-          {
-            !hasFarm && (
-              <button onClick={onCreate}>
-                Create Farm
-              </button>
-            )
-          } */}
-          <Land land={land} onHarvest={onHarvest} onPlant={onPlant}/>
+        <Land land={land} onHarvest={onHarvest} onPlant={onPlant}/>
 
-          <span id='save-button'>
-            <Panel  hasInner={false}>
-              <Button  onClick={onSync}>
-                Save
-                <img src={exclamation} id="exclamation"/>
-              </Button>
-              <Button>
-                About
-                <img src={questionMark} id="question"/>
-              </Button>
-            </Panel>
-          </span>
-          <div id="balance">
-            <Panel>
-              <div id="inner">
-                <img src={coin} />
-                {Number(blockChain.getWeb3().utils.fromWei(balance.toString())).toFixed(2)}
-              </div>
-            </Panel>
-          </div>
+        <span id='save-button'>
+          <Panel  hasInner={false}>
+            <Button  onClick={save}>
+              Save
+              <img src={exclamation} id="exclamation"/>
+            </Button>
+            <Button onClick={() => {}}>
+              About
+              <img src={questionMark} id="question"/>
+            </Button>
+          </Panel>
+        </span>
 
-          <Modal centered show={isLoading}>
-            <Panel>
-              <div id="saving">
-                Saving to the chain...
-              </div>
-            </Panel>
-          </Modal>
+        <div id="balance">
+          <Panel>
+            <div id="inner">
+              <img src={coin} />
+              {machineState.context.blockChain.isConnected && Number(machineState.context.blockChain.getWeb3().utils.fromWei(balance.toString())).toFixed(2)}
+            </div>
+          </Panel>
+        </div>
 
-
-          <FruitBoard selectedFruit={fruit} onSelectFruit={setFruit} land={land} balance={balance}/>
-          {/* {
-            hasFarm && (
-              <InventoryBox balance={balance} land={land} selectedFruit={fruit} onSelectFruit={setFruit} />
-            )
-          }
-        </div> */}
+        <FruitBoard selectedFruit={fruit} onSelectFruit={setFruit} land={land} balance={balance}/>
       </>
   )
 }
 
-export default App
+export default Farm
 

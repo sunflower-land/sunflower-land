@@ -33,6 +33,8 @@ export class BlockChain {
     private farm: any | null = null
     private account: string | null = null
 
+    private details: Account = null
+
     private async connectToGanache() {
         const netId = await this.web3.eth.net.getId();
         console.log({ netId })
@@ -51,11 +53,19 @@ export class BlockChain {
         // web3.eth.defaultAddress = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'
         // web3.eth.handleRevert = true
 
-        this.token = new this.web3.eth.Contract(Token.abi as any, '0x768789dEa31Ae549CE9F4eAC41F51100671597fC')
-        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0x56a361c7E873ECD7AC48057eccA404Fa747D987a')
+        this.token = new this.web3.eth.Contract(Token.abi as any, '0x9D0d48e60E76b188B86afDc7c3BC7731b829609A')
+        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0xD47D08A780Fb06A3654ad96C17274fC3569523d1')
 
         //const maticAccounts = await web3.eth.getAccounts()
         this.account = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'//maticAccounts[0]
+    }
+
+    public get isConnected() {
+        return !!this.farm
+    }
+
+    public get hasFarm() {
+        return this.details && this.details.farm.length > 0
     }
 
     private async setupWeb3() {
@@ -75,6 +85,7 @@ export class BlockChain {
     }
 
     public async initialise() {
+        console.log('Run it')
         await this.setupWeb3()
         const chain = await this.web3.eth.net.getNetworkType()
         const chainId = await this.web3.eth.getChainId()
@@ -83,8 +94,8 @@ export class BlockChain {
         console.log({ chainId })
         if (chainId === 80001) {
             await this.connectToMatic()
-        } else {
-            await this.connectToGanache()
+
+            this.details = await this.getAccount()
         }
     }
 

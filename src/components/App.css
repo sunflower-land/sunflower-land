@@ -72,9 +72,21 @@ body {
     padding: 10px;
 }
 
+.message {
+    background: #c0cbdb;
+    position: relative;
+    padding: 2px 4px;
+    color: white;
+    font-size: 10px;
+    text-shadow: 1px 1px black;
+    margin: 5px 10px;
+    width: fit-content;
+}
+
 .button {
     background: #e6a873;
     display: flex;
+    align-items: center;
     flex-direction: row;
     position: relative;
     padding: 2px 10px;
@@ -112,4 +124,14 @@ body {
     text-shadow: 1px 1px black;
     font-size: 27px !important;
     padding: 14px;
+}
+
+#welcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 0;
+    align-items: center;
+    padding: 30px 30px 28px;
+    text-align: center;
 }

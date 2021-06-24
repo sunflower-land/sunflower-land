@@ -26,8 +26,16 @@ export const Land: React.FC<Props> = ({ land, onHarvest, onPlant }) => {
                     )
                 )
             }
-            <div className='rock' style={{ gridColumn: '2/3', gridRow: '3/4'}} />
-            <div className='rock' style={{ gridColumn: '4/5', gridRow: '7/8'}} />
+            {
+                land.length === 5 && (
+                    <>
+                        <div className='rock' style={{ gridColumn: '13/14', gridRow: '8/9'}} />
+                        <div className='rock' style={{ gridColumn: '13/14', gridRow: '9/10'}} />
+                        <div className='rock' style={{ gridColumn: '12/13', gridRow: '8/9'}} />
+                    </>
+                )
+            }
+
             <div className='tree-stump' style={{ gridColumn: '6/7', gridRow: '1/2'}} />
 
             <div className='dirt-corner1' style={{ gridColumn: '6/7', gridRow: '7/8'}} />
@@ -62,10 +70,19 @@ export const Land: React.FC<Props> = ({ land, onHarvest, onPlant }) => {
 
 
             <div className='dirt' style={{ gridColumn: '12/13', gridRow: '8/9'}}>
+                {
+                    land.length > 5 && (<Field square={land[5]} onClick={land[5].fruit === Fruit.None ? () => onPlant(5) : () => onHarvest(5)}/> )
+                }
             </div>
             <div className='dirt' style={{ gridColumn: '13/14', gridRow: '8/9'}}>
+                {
+                    land.length > 6 && (<Field square={land[6]} onClick={land[6].fruit === Fruit.None ? () => onPlant(6) : () => onHarvest(6)}/> )
+                }
             </div>
             <div className='dirt' style={{ gridColumn: '13/14', gridRow: '9/10'}}>
+                {
+                    land.length > 7 && (<Field square={land[7]} onClick={land[7].fruit === Fruit.None ? () => onPlant(7) : () => onHarvest(7)}/> )
+                }
             </div>
 
             <div className='left-edge' style={{ gridArea: '8 / 11 / 9 / 12' }} />

@@ -12,6 +12,8 @@
 
 .rock {
     background: url("./images/land/rock.png");
+    z-index:1;
+    cursor: pointer;
 }
 
 .pole {
