@@ -1,19 +1,32 @@
 #basket {
     position: fixed;
-    right: 0;
+    right: 28px;
     top: 80px;
-    background: #e7cda3;
     cursor: pointer;
 }
 
+#basket > .message {
+    position: absolute;
+    width: 69px;
+    right: -15px;
+    bottom: -34px;
+}
 #basket:hover{
 }
 
 .basket-fruit {
-    width: 25px;
+    width: 60px;
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
+}
+
+.selected-fruit {
+    position: absolute;
+    left: 10px;
+    top: 4px;
+    width: 39px;
+    image-rendering: pixelated;
 }
 
 .market {

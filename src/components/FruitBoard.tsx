@@ -6,8 +6,10 @@ import Modal from 'react-bootstrap/Modal';
 import apple from './images/food.png'
 import avocado from './images/avocados/avocado.png'
 import stopwatch from './images/ui/stopwatch.png'
-import basket from './images/ui/basket.png'
+import sunflower from './images/sunflower_05.png'
+import disc from './images/ui/disc.png'
 
+import { Message } from './Message'
 import { Fruit } from './types/contract'
 
 import './FruitBoard.css'
@@ -37,11 +39,11 @@ export const FruitBoard: React.FC<Props> = ({
     return (
         <>
         <div id="basket" onClick={() => setShowModal(true)}>
-            <Panel hasInner={false}>
-                <Button>
-                    <img className="basket-fruit" src={apple}/>
-                </Button>
-            </Panel>
+            <img className="basket-fruit" src={disc}/>
+            <img className="selected-fruit" src={sunflower}/>
+            <Message>
+                Change
+            </Message>
         </div>
         <Modal show={showModal} centered onHide={() => setShowModal(false)}>
             <div className='board'>
