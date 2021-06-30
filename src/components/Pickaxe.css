@@ -1,0 +1,39 @@
+.dig {
+    position: absolute;
+    color: white;
+    font-size: 12px;
+    text-shadow: 1px 1px black;
+}
+
+.disc {
+    position: absolute;
+    left: -12px;
+    top: 0;
+    z-index: 1;
+}
+
+.dig .inner-pixel-panel {
+    padding-left: 5px;
+}
+
+.discBackground {
+    position: absolute;
+    width: 34px;
+    left: -18px;
+    top: -9px;
+
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.pickaxe {
+    position: absolute;
+    width: 27px;
+    left: -17px;
+    top: -5px;
+
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}

@@ -6,7 +6,7 @@ import Farm from '../abis/Farm.json'
 import { TokenInstance } from '../../types/truffle-contracts/Token'
 import { FarmInstance } from '../../types/truffle-contracts/Farm'
 
-import { Transaction, Square  } from './types/contract'
+import { Transaction, Square, Charity  } from './types/contract'
 
 interface TokenContract extends Contract {
   methods: TokenInstance
@@ -19,12 +19,6 @@ interface FarmContract extends Contract {
 interface Account {
     farm: Square[]
     balance: number
-}
-
-enum Charity {
-    WaterProject = '0x060697E9d4EEa886EbeCe57A974Facd53A40865BA',
-    Heifer = '0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1',
-    CoolEarth = '0x3c8cB169281196737c493AfFA8F49a9d823bB9c5',
 }
 
 export class BlockChain {
@@ -53,8 +47,8 @@ export class BlockChain {
         // web3.eth.defaultAddress = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'
         // web3.eth.handleRevert = true
 
-        this.token = new this.web3.eth.Contract(Token.abi as any, '0x9D0d48e60E76b188B86afDc7c3BC7731b829609A')
-        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0xD47D08A780Fb06A3654ad96C17274fC3569523d1')
+        this.token = new this.web3.eth.Contract(Token.abi as any, '0x1c6227e91e4d3a81f56c1c2bD8250A69C7df4e2F')
+        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0xa4dFCE9ae06D1574A3672DF56cf84c82B7A6E8df')
 
         //const maticAccounts = await web3.eth.getAccounts()
         this.account = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'//maticAccounts[0]
@@ -100,21 +94,29 @@ export class BlockChain {
     }
 
     // TODO add charity support
-    public createFarm() {
-        const value = this.web3.utils.toWei('2', 'ether')
+    public createFarm(charity: Charity) {
+        console.log({ charity })
+        const value = this.web3.utils.toWei('0.01', 'ether')
         console.log({ value })
-        this.farm.methods.createFarm(Charity.CoolEarth).send({from: this.account, value, to: Charity.CoolEarth })
 
-        // Better polling method - https://medium.com/metamask/calling-a-smart-contract-with-a-button-d278b1e76705
-        return new Promise((resolve) => {
-            this.farm.events.FarmCreated({
-                filter: { _address: this.account },
-            }, function(error: string, event: string){
-                console.log(event)
+        return new Promise((resolve, reject) => {
+            this.farm.methods.createFarm(charity).send({from: this.account, value, to: charity })
+            .on('error', function(error){
+                console.log({ error })
+                reject(error)
             })
-            .on('data', async function (){
-                resolve(null)
+            .on('transactionHash', function(transactionHash){
+                console.log({ transactionHash })
             })
+            .on('receipt', function(receipt) {
+                console.log({ receipt })
+                resolve(receipt)
+            })
+            // .on('confirmation', function(confirmationNumber, receipt) {
+            //     console.log({ receipt })
+            //     resolve(receipt)
+            // })
+            console.log('Done')
         })
     }
 
@@ -126,31 +128,22 @@ export class BlockChain {
         //       const errorJSON = e.message.slice(25)
         //       console.log({ errorJSON })
         // }
-        try {
+        return new Promise((resolve, reject) => {
             this.farm.methods.sync(events).send({from: this.account})
-          } catch (e) {
-              const errorJSON = e.message.slice(25)
-              console.log({ errorJSON })
-        }
-
-        return new Promise( (resolve) => {
-            this.farm.events.FarmSynced({
-                filter: { _address: this.account },
-            }, function(error: string, event: string){
-                console.log(event)
+            .on('error', function(error){
+                console.log({ error })
+                reject(error)
             })
-            .on('data', async function (){
-                resolve(null)
+            .on('transactionHash', function(transactionHash){
+                console.log({ transactionHash })
             })
-            .on('changed', async function (){
-                console.log('changed')
-                resolve(null)
+            .on('receipt', function(receipt) {
+                console.log({ receipt })
+                resolve(receipt)
             })
-            .on('error', async function (){
-                console.log('error')
-                resolve(null)
-            })
+            console.log('Done')
         })
+
     }
 
     public levelUp() {

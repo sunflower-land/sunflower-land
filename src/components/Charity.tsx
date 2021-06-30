@@ -13,26 +13,40 @@ interface Props {
 export const Charity: React.FC<Props> = ({ onSelect }) => {
     return (
         <div id="charity-container">
-            Pick a charity
+            <span>
+                To start a farm, donate $1 MATIC to a charity of your choice
+            </span>
             <div id="charities">
-                <Button onClick={() => onSelect(Charities.TheWaterProject)} >
-                    <div className="charity">
-                        The Water project
-                        <Message>
-                            Choose
-                        </Message>
-                    </div>
-                </Button>
-                <Button onClick={() => onSelect(Charities.Heifer)} >
-                    <div className="charity">
-                        Heifer
-                    </div>
-                </Button>
-                <Button onClick={() => onSelect(Charities.CoolEarth)} >
-                    <div className="charity">
-                        Cool Earth
-                    </div>
-                </Button>
+                <div>
+                    <Message>
+                        <div className="charity">
+                            The Water project
+                        </div>
+                    </Message>
+                    <Button  onClick={() => onSelect(Charities.TheWaterProject)} >
+                        Donate
+                    </Button>
+                </div>
+                <div>
+                    <Message>
+                        <div className="charity">
+                            Heifer
+                        </div>
+                    </Message>
+                    <Button  onClick={() => onSelect(Charities.Heifer)} >
+                        Donate
+                    </Button>
+                </div>
+                <div>
+                    <Message>
+                        <div className="charity">
+                            Cool Earth
+                        </div>
+                    </Message>
+                    <Button  onClick={() => onSelect(Charities.CoolEarth)} >
+                        Donate
+                    </Button>
+                </div>
             </div>
         </div>
     )

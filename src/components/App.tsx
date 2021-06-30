@@ -22,6 +22,8 @@ export const App: React.FC = () => {
   }
 
   const createFarm = (charity: Charities) => {
+    send('DONATE', { charity })
+
     console.log({ charity })
   }
 
@@ -30,6 +32,16 @@ export const App: React.FC = () => {
   return (
     <div>
         <Farm />
+
+        <Modal centered show={machineState.matches('loading')}>
+          <Panel>
+            <div id="welcome">
+              <h1 className="header">
+                Connecting...
+              </h1>
+            </div>
+          </Panel>
+        </Modal>
 
         <Modal centered show={machineState.matches('initial')}>
           <Panel>
@@ -55,6 +67,14 @@ export const App: React.FC = () => {
         <Modal centered show={machineState.matches('registering')}>
           <Panel>
             <Charity onSelect={createFarm} />
+          </Panel>
+        </Modal>
+
+        <Modal centered show={machineState.matches('creating')}>
+          <Panel>
+            <div id="saving">
+              Creating...
+            </div>
           </Panel>
         </Modal>
 

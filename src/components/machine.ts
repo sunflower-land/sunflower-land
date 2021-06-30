@@ -1,5 +1,5 @@
 import { createMachine, Interpreter, EventObject, interpret, assign } from 'xstate';
-import { Transaction } from './types/contract'
+import { Transaction, Charity } from './types/contract'
 import { BlockChain } from './Blockchain';
 
 export interface Context {
@@ -35,6 +35,12 @@ export interface SaveEvent extends EventObject {
     events: Transaction[]
 }
 
+
+export interface DonateEvent extends EventObject {
+    type: 'DONATE';
+    charity: Charity
+}
+
 export interface UpgradeEvent extends EventObject {
     type: 'UPGRADE';
 }
@@ -45,12 +51,15 @@ export type BlockchainEvent =
     | GetStartedEvent
     | SaveEvent
     | UpgradeEvent
+    | DonateEvent
 
 
 export type BlockchainState = {
     value:
+        'loading'
         | 'initial'
         | 'registering'
+        | 'creating'
         | 'farming'
         | 'notConnected'
         | 'failure'
@@ -89,7 +98,7 @@ export const blockChainMachine = createMachine<
                     }
                 ],
                 onError: {
-                    target: 'failure',
+                    target: 'loading',
                 },
             },
         },
@@ -108,10 +117,21 @@ export const blockChainMachine = createMachine<
         },
         registering: {
             on: {
-                FARM_CREATED: {
-                    target: 'farming'
+                DONATE: {
+                    target: 'creating',
                 }
             }
+        },
+        creating: {
+            invoke: {
+                src: ({ blockChain }, event) => blockChain.createFarm((event as DonateEvent).charity),
+                onDone: {
+                    target: 'farming',
+                },
+                onError: {
+                    target: 'failure',
+                },
+            },
         },
         notConnected: {
             on: {

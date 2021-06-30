@@ -2,9 +2,9 @@ import React from 'react'
 import './App.css'
 import './Land.css'
 import { Field }  from './Field'
+import { Pickaxe }  from './Pickaxe'
 import { Fruit, Square } from './types/contract'
 
-import disc from './images/ui/disc.png'
 interface Props {
     land: Square[]
     onHarvest: (landIndex: number) => void
@@ -31,7 +31,9 @@ export const Land: React.FC<Props> = ({ land, onHarvest, onPlant }) => {
                     <>
                         <div className='rock' style={{ gridColumn: '13/14', gridRow: '8/9'}} />
                         <div className='rock' style={{ gridColumn: '13/14', gridRow: '9/10'}} />
-                        <div className='rock' style={{ gridColumn: '12/13', gridRow: '8/9'}} />
+                        <div className='rock' style={{ gridColumn: '12/13', gridRow: '8/9'}}>
+                            <Pickaxe />
+                        </div>
                     </>
                 )
             }

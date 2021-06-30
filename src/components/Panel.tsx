@@ -22,11 +22,29 @@ import './Panel.css'
 
 interface Props {
     hasInner?: boolean
+    hasOuter?: boolean
 }
 export const Panel: React.FC<Props> = ({
     children,
+    hasOuter = true,
     hasInner = true,
 }) => {
+    if (!hasOuter) {
+        return (
+            <div className="inner-pixel-panel">
+                { children }
+                <img id="panel-left-edge" src={leftEdgeInner} />
+                <img id="panel-right-edge" src={rightEdgeInner} />
+                <img id="panel-bottom-edge" src={bottomEdgeInner} />
+                <img id="panel-top-edge" src={topEdgeInner} />
+                <img id="panel-top-left" src={topLeftInner} />
+                <img id="panel-bottom-left" src={bottomLeftInner} />
+                <img id="panel-bottom-right" src={bottomRightInner} />
+                <img id="panel-top-right" src={topRightInner} />
+            </div>
+        )
+    }
+
     return (
         <div className="pixel-panel">
             {

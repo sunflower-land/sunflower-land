@@ -37,7 +37,8 @@ contract Farm {
         uint decimals = token.decimals();
 
         require(
-            msg.value >= 1 * 10**decimals,
+            // TODO use $1 in production
+            msg.value >= 1 * 10**(decimals - 2),
             "INSUFFICIENT_DONATION"
         );
 
