@@ -4,16 +4,17 @@ import './Land.css'
 import { Field }  from './Field'
 import { Pickaxe }  from './Pickaxe'
 import { Fruit, Square } from './types/contract'
-
+import { SecondLand } from './SecondLand'
 interface Props {
     land: Square[]
+    balance: number
     onHarvest: (landIndex: number) => void
     onPlant: (landIndex: number) => void
 }
 
 const grid = Array(16).fill(null)
 
-export const Land: React.FC<Props> = ({ land, onHarvest, onPlant }) => {
+export const Land: React.FC<Props> = ({ land, balance, onHarvest, onPlant }) => {
     return (
         <div className='farm'>
             {
@@ -26,17 +27,7 @@ export const Land: React.FC<Props> = ({ land, onHarvest, onPlant }) => {
                     )
                 )
             }
-            {
-                land.length === 5 && (
-                    <>
-                        <div className='rock' style={{ gridColumn: '13/14', gridRow: '8/9'}} />
-                        <div className='rock' style={{ gridColumn: '13/14', gridRow: '9/10'}} />
-                        <div className='rock' style={{ gridColumn: '12/13', gridRow: '8/9'}}>
-                            <Pickaxe />
-                        </div>
-                    </>
-                )
-            }
+            <SecondLand land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
 
             <div className='tree-stump' style={{ gridColumn: '6/7', gridRow: '1/2'}} />
 

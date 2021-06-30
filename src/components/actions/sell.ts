@@ -12,5 +12,5 @@ const prices: Record<Fruit, number> = {
 }
 
 export function getSellPrice(fruit: Fruit) {
-    return prices[fruit] * 10**18
+    return prices[fruit]
 }

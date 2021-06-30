@@ -12,7 +12,7 @@ const prices: Record<Fruit, number> = {
 }
 
 export function getBuyPrice(fruit: Fruit) {
-    return prices[fruit] * 10**18
+    return prices[fruit]
 }
 
 export function getRequireLevel(fruit: Fruit) {

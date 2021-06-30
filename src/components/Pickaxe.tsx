@@ -5,16 +5,19 @@ import { Panel } from './Panel'
 import disc from './images/ui/disc.png'
 import pickaxe from './images/ui/pickaxe.png'
 
-export const Pickaxe: React.FC = () => {
+interface Props {
+    onClick: () => void
+}
+export const Pickaxe: React.FC<Props> = ({ onClick }) => {
     return (
-        <div className="dig">
+        <div className="dig" onClick={onClick}>
             <div className="disc">
                 <img src={disc} className="discBackground"/>
                 <img src={pickaxe}  className="pickaxe"/>
 
             </div>
             <Panel hasOuter={false}>
-                Clear land
+                Clear
             </Panel>
 
         </div>

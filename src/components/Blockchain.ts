@@ -147,24 +147,35 @@ export class BlockChain {
     }
 
     public levelUp() {
-        this.farm.methods.levelUp().send({from: this.account})
-
-        return new Promise( (resolve) => {
-            this.farm.events.FarmSynced({
-                filter: { _address: this.account },
-            }, function(error: string, event: string){
-                console.log(event)
+        return new Promise((resolve, reject) => {
+            this.farm.methods.levelUp().send({from: this.account})
+            .on('error', function(error){
+                console.log({ error })
+                reject(error)
             })
-            .on('data', async function (){
-                resolve(null)
+            .on('transactionHash', function(transactionHash){
+                console.log({ transactionHash })
             })
+            .on('receipt', function(receipt) {
+                console.log({ receipt })
+                resolve(receipt)
+            })
+            console.log('Done')
         })
     }
 
     public async getAccount(): Promise<Account> {
-        const balance = await this.token.methods.balanceOf(this.account ).call({ from: this.account })
+        if (!this.web3) {
+            return {
+                farm: [],
+                balance: 0,
+            }
+        }
+
+        const rawBalance = await this.token.methods.balanceOf(this.account ).call({ from: this.account })
         const farm = await this.farm.methods.getLand().call({ from: this.account })
         
+        const balance = this.web3.utils.fromWei(rawBalance.toString())
         return {
             balance: Number(balance),
             farm,

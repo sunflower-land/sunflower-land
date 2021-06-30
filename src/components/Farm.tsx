@@ -51,6 +51,7 @@ export const Farm: React.FC= () => {
   const onHarvest = async (landIndex: number) => {
     const now = Math.floor(Date.now() / 1000)
 
+    const harvestedFruit = land[landIndex]
     const transaction: Transaction = {
       action: Action.Harvest,
       fruit: Fruit.None,
@@ -60,7 +61,7 @@ export const Farm: React.FC= () => {
     events.current = [...events.current, transaction];
 
     setLand(oldLand => oldLand.map((field, index) => index === landIndex ? { fruit: Fruit.None, createdAt: 0 } : field))
-    const price = getSellPrice(fruit)
+    const price = getSellPrice(harvestedFruit.fruit)
     setBalance(balance + price)
   }
   
@@ -98,7 +99,7 @@ export const Farm: React.FC= () => {
   
   return (
       <>
-        <Land land={land} onHarvest={onHarvest} onPlant={onPlant}/>
+        <Land land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
 
         <span id='save-button'>
           <Panel  hasInner={false}>
@@ -117,7 +118,7 @@ export const Farm: React.FC= () => {
           <Panel>
             <div id="inner">
               <img src={coin} />
-              {machineState.context.blockChain.isConnected && Number(machineState.context.blockChain.getWeb3().utils.fromWei(balance.toString())).toFixed(2)}
+              {machineState.context.blockChain.isConnected && balance.toFixed(2)}
             </div>
           </Panel>
         </div>

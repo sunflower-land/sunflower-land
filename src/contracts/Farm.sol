@@ -345,8 +345,8 @@ contract Farm {
 
         token.burn(msg.sender, fmcPrice);
 
-        // Land tax - An additional 5% of profit goes to maintainers of Fruit Market
-        uint commission = fmcPrice.div(1);
+        // Land tax - An additional 1% of profit goes to maintainers of Fruit Market
+        uint commission = fmcPrice.div(100);
         token.mint(token.getOwner(), commission);
     }
 

@@ -171,13 +171,12 @@ export const blockChainMachine = createMachine<
         },
         upgrading: {
             invoke: {
-                id: 'save',
+                id: 'upgrading',
                 src: async ({ blockChain }) => {
                     await blockChain.levelUp()
                 },
                 onDone: {
                     target: 'farming',
-                    // actions - assign() data?
                 },
                 onError: {
                     target: 'failure',

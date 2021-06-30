@@ -3,6 +3,8 @@
     color: white;
     font-size: 12px;
     text-shadow: 1px 1px black;
+    z-index: 2;
+    cursor: pointer;
 }
 
 .disc {
@@ -25,6 +27,7 @@
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
+    z-index: 2;
 }
 
 .pickaxe {
@@ -36,4 +39,5 @@
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
+    z-index: 2;
 }
