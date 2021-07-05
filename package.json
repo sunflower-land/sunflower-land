@@ -35,7 +35,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "generate-types": "npx typechain --target=truffle-v5 'src/abis/*.json'",
-    "postinstall": "npx truffle compile && npm run generate-types"
   },
   "eslintConfig": {
     "extends": "react-app"
