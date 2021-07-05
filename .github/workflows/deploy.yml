@@ -19,7 +19,7 @@ jobs:
     - name: Build
       run: yarn build
       env:
-        DISABLE_ESLINT_PLUGIN: 'true'
+        CI: false
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1

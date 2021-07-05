@@ -1,5 +1,6 @@
 #root {
     background: #62c84c;
+    overflow: scroll;
 }
 
 .item-a {
