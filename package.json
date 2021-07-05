@@ -34,7 +34,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate-types": "npx typechain --target=truffle-v5 'src/abis/*.json'",
+    "generate-types": "npx typechain --target=truffle-v5 'src/abis/*.json'"
   },
   "eslintConfig": {
     "extends": "react-app"
