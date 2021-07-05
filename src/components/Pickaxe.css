@@ -1,9 +1,9 @@
 .dig {
     position: absolute;
-    color: white;
-    font-size: 12px;
-    text-shadow: 1px 1px black;
+    color: #38242d;
+    font-size: 10px;
     z-index: 2;
+    top: 22px;
     cursor: pointer;
 }
 

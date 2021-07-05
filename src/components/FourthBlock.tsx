@@ -9,6 +9,7 @@ import { Panel } from './Panel'
 import { Button } from './Button'
 import { service } from './machine'
 
+
 interface Props {
     land: Square[]
     balance: number
@@ -16,7 +17,7 @@ interface Props {
     onPlant: (landIndex: number) => void
 }
 
-export const SecondLand: React.FC<Props> = ({ land, balance, onHarvest, onPlant }) => {
+export const FourthBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant }) => {
     const [showModal, setShowModal] = React.useState(false)
 
     const onClear = () => {
@@ -32,49 +33,56 @@ export const SecondLand: React.FC<Props> = ({ land, balance, onHarvest, onPlant 
         setShowModal(false)
     }
 
-    const isUnlocked = land.length > 5
+    const isUnlocked = land.length > 11
 
     return (
         <>
             {
                 !isUnlocked && (
                     <>
+                        <div className='rock' style={{ gridArea: '3 / 13 / 4 / 14'}} />
 
-                        <div className='rock' style={{ gridColumn: '13/14', gridRow: '8/9', zIndex: 2}}>
-                            <Pickaxe onClick={onClear} />
+                        <div className='rock' style={{ gridArea: '4 / 13 / 5 / 14', zIndex: 2}}>
+                            {
+                                land.length === 11 && (
+                                    <Pickaxe onClick={onClear} />
+                                )
+                            }
                         </div>
-                        <div className='rock' style={{ gridColumn: '13/14', gridRow: '9/10'}} />
-                        <div className='rock' style={{ gridColumn: '12/13', gridRow: '8/9'}}>
+                        <div className='rock' style={{ gridArea: '5 / 13 / 6 / 14' }}>
                         </div>
                     </>
                 )
             }
 
-            <div className='dirt' style={{ gridColumn: '12/13', gridRow: '8/9'}}>
-                {
-                    isUnlocked && (<Field square={land[5]} onClick={land[5].fruit === Fruit.None ? () => onPlant(5) : () => onHarvest(5)}/> )
-                }
-            </div>
-            <div className='dirt' style={{ gridColumn: '13/14', gridRow: '8/9'}}>
+            <div className='dirt' style={{ gridArea: '3 / 13 / 4 / 14'}}>
                 {
                     isUnlocked && (<Field square={land[6]} onClick={land[6].fruit === Fruit.None ? () => onPlant(6) : () => onHarvest(6)}/> )
                 }
             </div>
-            <div className='dirt' style={{ gridColumn: '13/14', gridRow: '9/10'}}>
+            <div className='dirt' style={{ gridArea: '4 / 13 / 5 / 14' }}>
+                {
+                    isUnlocked && (<Field square={land[5]} onClick={land[5].fruit === Fruit.None ? () => onPlant(5) : () => onHarvest(5)}/> )
+                }
+            </div>
+
+            <div className='dirt' style={{ gridArea: '5 / 13 / 6 / 14'}}>
                 {
                     isUnlocked && (<Field square={land[7]} onClick={land[7].fruit === Fruit.None ? () => onPlant(7) : () => onHarvest(7)}/> )
                 }
             </div>
 
-            <div className='left-edge' style={{ gridArea: '8 / 11 / 9 / 12' }} />
-            <div className='left-edge' style={{ gridArea: '9 / 12 / 10 / 13' }} />
-            <div className='right-edge' style={{ gridArea: '8 / 14 / 9 / 15' }} />
-            <div className='right-edge' style={{ gridArea: '9 / 14 / 10 / 15' }} />
+            <div className='left-edge' style={{ gridArea: '3 / 12 / 4 / 13' }} />
+            <div className='left-edge' style={{ gridArea: '4 / 12 / 5 / 13' }} />
+            <div className='left-edge' style={{ gridArea: '5 / 12 / 6 / 13' }} />
+            <div className='right-edge' style={{ gridArea: '3 / 14 / 4 / 15' }} />
+            <div className='right-edge' style={{ gridArea: '4 / 14 / 5 / 15' }} />
+            <div className='right-edge' style={{ gridArea: '5 / 14 / 6 / 15' }} />
 
-            <div className='bottom-edge' style={{ gridArea: '9 / 12 / 10 / 13' }} />
-            <div className='bottom-edge' style={{ gridArea: '10 / 13 / 11 / 14' }} />
-            <div className='top-edge' style={{ gridArea: '7 / 12 / 8 / 13' }} />
-            <div className='top-edge' style={{ gridArea: '7 / 13 / 8 / 14' }} />
+            <div className='top-edge' style={{ gridArea: '2 / 13 / 3 / 14' }} />
+
+            <div className='bottom-edge' style={{ gridArea: '6 / 13 / 7 / 14' }} />
+
 
 
             <Modal centered show={showModal} onHide={onClose}>

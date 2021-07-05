@@ -40,7 +40,7 @@
     color: white;
     padding: 5px;
     min-width: 200px;
-    height: 180px;
+    height: 225px;
     overflow-y:scroll;
 }
 
@@ -68,8 +68,13 @@
 
 .board-content > .item {
     display: flex;
-    height: 45px;
+    height: 83px;
     padding-top: 5px;
+}
+
+.locked {
+    opacity: 0.5;
+    pointer-events: none
 }
 
 .board-content > .item:not(:first-child) {
@@ -79,8 +84,8 @@
 
 .board-content .icon {
     background: #945442;
-    width: 40px;
-    height: 40px;
+    width: 75px;
+    height: 75px;
     border-radius: 3px;
     border: 2px solid black;
     margin-right: 8px;
@@ -111,30 +116,35 @@
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
-    width: 20px;
+    width: 40px;
+    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white) drop-shadow(0px -1px 0px white)
 }
 
 .fruit-details {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 4px;
 }
 
 .fruit-details > .title {
     text-shadow: 1px 1px 0px black;
-    font-size: 12px;
+    font-size: 18px;
 }
 
 .price {
     text-shadow: 1px 1px 0px black;
-    font-size: 11px;
-    line-height: 13px;
-    height: 18px;
+    font-size: 15px;
+    line-height: 29px;
+    height: 30px;
     background: #fdad33;
     border: 1px solid black;
     border-radius: 2px;
     padding: 0 8px;
     outline: white;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     margin-right: 25px;
 }
@@ -145,18 +155,38 @@
 }
 
 .fruit-time {
-    font-size: 12px;
+    font-size: 17px;
     text-shadow: 1px 1px black;
+    display: -webkit-flex;
     display: flex;
+    -webkit-align-items: start;
     align-items: center;
-    margin-top: -34px;
+    margin-top: -88px;
 }
 
 .fruit-time > img {
-    width: 18px;
-    margin-right: 4px;
+    width: 20px;
+    margin-right: 7px;
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
 
+}
+
+.upgrade-required {
+    margin: 10px auto 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.insufficient-funds-cross {
+    width: 19px;
+    image-rendering: pixelated;
+    margin-left: 6px;
+}
+
+.insufficient-funds-alert {
+    width: 10px;
+    image-rendering: pixelated;
+    margin-left: 6px;
 }

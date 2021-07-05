@@ -1,18 +1,20 @@
 import React from 'react'
-import young from './images/apples/image_part_161.png'
-import avocado from './images/avocados/tree.png'
-import banana from './images/bananas/tree.png'
-import coconut from './images/coconuts/tree.png'
-import terrain from './images/land/soil/soil.png'
+import sunflower from './images/sunflower/plant.png'
+import sunflowerSeedling from './images/sunflower/seedling.png'
+import pumpkin from './images/pumpkin/plant.png'
+import pumpkinSeedling from './images/pumpkin/seedling.png'
+import beetroot from './images/beetroot/plant.png'
+import beetrootSeedling from './images/beetroot/seedling.png'
+import cauliflower from './images/cauliflower/plant.png'
+import cauliflowerSeedling from './images/cauliflower/seedling.png'
+
 import planted from './images/land/soil/planted.png'
-import seedling from './images/land/soil/seedling.png'
-import tree from './images/tree.png'
+import terrain from './images/land/soil/soil.png'
 
 import progressStart from './images/ui/progress/start.png'
 import progressQuarter from './images/ui/progress/quarter.png'
 import progressHalf from './images/ui/progress/half.png'
 import progressAlmost from './images/ui/progress/almost.png'
-import harvest from './images/ui/harvest.png'
 
 import selectBoxTL from './images/ui/select-box/selectbox_tl.png'
 import selectBoxTR from './images/ui/select-box/selectbox_tr.png'
@@ -61,32 +63,40 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
     }, [square])
         /* eslint-enable */
 
-    const Content = () => {
-        if (square.fruit == Fruit.Apple) {
-            return (
-                <img src={young} className="field-image"/>
-            )
+    const Seedling = () => {
+        // TODO different plant seedlings
+        if (square.fruit === Fruit.Apple) {
+            return (<img src={sunflowerSeedling} className='seedling'/>)
         }
 
-        if (square.fruit == Fruit.Avocado) {
-            return (
-                <img src={avocado} className="field-image"/>
-            )
+        if (square.fruit === Fruit.Avocado) {
+            return (<img src={pumpkinSeedling} className='seedling'/>)
         }
 
-        if (square.fruit == Fruit.Banana) {
-            return (
-                <img src={banana} className="field-image"/>
-            )
+        if (square.fruit === Fruit.Banana) {
+            return (<img src={beetrootSeedling} className='seedling'/>)
         }
 
-        if (square.fruit == Fruit.Coconut) {
-            return (
-                <img src={coconut} className="field-image"/>
-            )
+        return (<img src={cauliflowerSeedling} className='seedling'/>)
+
+
+    }
+
+    const Plant = () => {
+        // TODO different plant seedlings
+        if (square.fruit === Fruit.Apple) {
+            return (<img src={sunflower} className='sunflower'/>)
         }
 
-        return <img src={terrain} className="field-image"/>
+        if (square.fruit === Fruit.Avocado) {
+            return (<img src={pumpkin} className='pumpkin'/>)
+        }
+
+        if (square.fruit === Fruit.Banana) {
+            return (<img src={beetroot} className='beetroot'/>)
+        }
+
+        return (<img src={cauliflower} className='cauliflower'/>)
     }
 
     const Progress = () => {
@@ -107,7 +117,7 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
             return <img src={progressAlmost} className='progress'/>
         }
 
-        return <img src={harvest} className='harvest'/>
+        return null
     }
 
     return (
@@ -120,12 +130,12 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
             {
                 timeLeft !== null && square.fruit !== Fruit.None && (
                     <>
-                        <img src={planted} className="soil"/>
+                        <img src={planted} className="planted-soil"/>
                         {
                             timeLeft > 0 ? (
-                                <img src={seedling} className='seedling'/>
+                                Seedling()
                             ) : (
-                                <img src={tree} className='tree'/>
+                                Plant()
                             )
                         }
                         {Progress()}

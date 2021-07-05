@@ -4,7 +4,11 @@ import './Land.css'
 import { Field }  from './Field'
 import { Pickaxe }  from './Pickaxe'
 import { Fruit, Square } from './types/contract'
+
+import { FirstBlock } from './FirstBlock'
 import { SecondLand } from './SecondLand'
+import { ThirdBlock } from './ThirdBlock'
+import { FourthBlock } from './FourthBlock'
 interface Props {
     land: Square[]
     balance: number
@@ -27,66 +31,10 @@ export const Land: React.FC<Props> = ({ land, balance, onHarvest, onPlant }) => 
                     )
                 )
             }
+            <FirstBlock land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
             <SecondLand land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
-
-            <div className='tree-stump' style={{ gridColumn: '6/7', gridRow: '1/2'}} />
-
-            <div className='dirt-corner1' style={{ gridColumn: '6/7', gridRow: '7/8'}} />
-            <div className='dirt-corner2' style={{ gridColumn: '8/9', gridRow: '7/8'}} />
-            <div className='dirt-corner3' style={{ gridColumn: '8/9', gridRow: '9/10'}} />
-            <div className='dirt-corner' style={{ gridColumn: '6/7', gridRow: '9/10'}} />
-
-            <div className='dirt' style={{ gridColumn: '7/8', gridRow: '7/8'}}>
-                <Field square={land[0]} onClick={land[0].fruit === Fruit.None ? () => onPlant(0) : () => onHarvest(0)}/> 
-            </div>
-            <div className='dirt' style={{ gridColumn: '6/7', gridRow: '8/9'}}>
-                <Field square={land[1]} onClick={land[1].fruit === Fruit.None ? () => onPlant(1) : () => onHarvest(1)}/> 
-
-            </div> 
-            <div className='dirt' style={{ gridColumn: '7/8', gridRow: '8/9'}}>
-                <Field square={land[2]} onClick={land[2].fruit === Fruit.None ? () => onPlant(2) : () => onHarvest(2)}/> 
-            </div>
-            <div className='dirt' style={{ gridColumn: '8/9', gridRow: '8/9'}}>
-                <Field square={land[3]} onClick={land[3].fruit === Fruit.None ? () => onPlant(3) : () => onHarvest(3)}/> 
-
-            </div> 
-            <div className='dirt' style={{ gridColumn: '7/8', gridRow: '9/10'}}>
-                <Field square={land[4]} onClick={land[4].fruit === Fruit.None ? () => onPlant(4) : () => onHarvest(4)}/> 
-            </div> 
-
-            <div className='left-edge' style={{ gridArea: '8 / 5 / 9 / 6' }} />
-            <div className='right-edge' style={{ gridArea: '8 / 9 / 9 / 10' }} />
-            <div className='top-edge' style={{ gridArea: '6 / 7 / 7 / 8' }} />
-            <div className='bottom-edge' style={{ gridArea: '10 / 7 / 11 / 8' }} />
-            <div className='top-corner' style={{ gridArea: '6 / 8 / 7 / 9' }} />
-            <div className='top-corner2' style={{ gridArea: '6 / 6 / 7 / 7' }} />
-
-
-            <div className='dirt' style={{ gridColumn: '12/13', gridRow: '8/9'}}>
-                {
-                    land.length > 5 && (<Field square={land[5]} onClick={land[5].fruit === Fruit.None ? () => onPlant(5) : () => onHarvest(5)}/> )
-                }
-            </div>
-            <div className='dirt' style={{ gridColumn: '13/14', gridRow: '8/9'}}>
-                {
-                    land.length > 6 && (<Field square={land[6]} onClick={land[6].fruit === Fruit.None ? () => onPlant(6) : () => onHarvest(6)}/> )
-                }
-            </div>
-            <div className='dirt' style={{ gridColumn: '13/14', gridRow: '9/10'}}>
-                {
-                    land.length > 7 && (<Field square={land[7]} onClick={land[7].fruit === Fruit.None ? () => onPlant(7) : () => onHarvest(7)}/> )
-                }
-            </div>
-
-            <div className='left-edge' style={{ gridArea: '8 / 11 / 9 / 12' }} />
-            <div className='left-edge' style={{ gridArea: '9 / 12 / 10 / 13' }} />
-            <div className='right-edge' style={{ gridArea: '8 / 14 / 9 / 15' }} />
-            <div className='right-edge' style={{ gridArea: '9 / 14 / 10 / 15' }} />
-
-            <div className='bottom-edge' style={{ gridArea: '9 / 12 / 10 / 13' }} />
-            <div className='bottom-edge' style={{ gridArea: '10 / 13 / 11 / 14' }} />
-            <div className='top-edge' style={{ gridArea: '7 / 12 / 8 / 13' }} />
-            <div className='top-edge' style={{ gridArea: '7 / 13 / 8 / 14' }} />
+            <ThirdBlock land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
+            <FourthBlock land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
 
 
             {/* {

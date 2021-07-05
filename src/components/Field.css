@@ -39,6 +39,41 @@
     z-index: 1;
 }
 
+.planted-soil {
+    position: absolute;
+    top: 32%;
+}
+
+.sunflower {
+    position: absolute;
+    top: -17%;
+    width: 55% !important;
+    z-index: 1;
+}
+
+.pumpkin {
+    position: absolute;
+    top: 0%;
+    width: 55% !important;
+    z-index: 1;
+}
+
+.beetroot {
+    position: absolute;
+    top: 5%;
+    width: 55% !important;
+    z-index: 1;
+}
+
+
+.cauliflower {
+    position: absolute;
+    top: 13%;
+    width: 55% !important;
+    z-index: 1;
+}
+
+
 .progress {
     position: absolute;
     bottom: 1px;

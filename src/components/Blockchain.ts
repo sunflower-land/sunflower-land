@@ -91,6 +91,7 @@ export class BlockChain {
 
             this.details = await this.getAccount()
         }
+        console.log('Resolved')
     }
 
     // TODO add charity support
@@ -103,6 +104,10 @@ export class BlockChain {
             this.farm.methods.createFarm(charity).send({from: this.account, value, to: charity })
             .on('error', function(error){
                 console.log({ error })
+                // User rejected
+                if (error.code === 4001) {
+                    return resolve(null)
+                }
                 reject(error)
             })
             .on('transactionHash', function(transactionHash){
@@ -132,6 +137,10 @@ export class BlockChain {
             this.farm.methods.sync(events).send({from: this.account})
             .on('error', function(error){
                 console.log({ error })
+                // User rejected
+                if (error.code === 4001) {
+                    return resolve(null)
+                }
                 reject(error)
             })
             .on('transactionHash', function(transactionHash){
@@ -151,6 +160,10 @@ export class BlockChain {
             this.farm.methods.levelUp().send({from: this.account})
             .on('error', function(error){
                 console.log({ error })
+                // User rejected
+                if (error.code === 4001) {
+                    return resolve(null)
+                }
                 reject(error)
             })
             .on('transactionHash', function(transactionHash){

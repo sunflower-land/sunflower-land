@@ -81,6 +81,8 @@ body {
     text-shadow: 1px 1px black;
     margin: 5px 10px;
     width: fit-content;
+    display: flex;
+    align-items: center;
 }
 
 .button {

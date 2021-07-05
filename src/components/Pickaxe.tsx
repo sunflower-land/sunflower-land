@@ -17,7 +17,7 @@ export const Pickaxe: React.FC<Props> = ({ onClick }) => {
 
             </div>
             <Panel hasOuter={false}>
-                Clear
+                Upgrade
             </Panel>
 
         </div>
