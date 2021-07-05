@@ -26,9 +26,6 @@ yarn-error.log*
 # truffle
 build
 
-# typechain
-types
-
 # buidler
 artifacts
 cache
