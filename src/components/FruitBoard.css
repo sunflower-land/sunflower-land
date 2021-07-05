@@ -3,6 +3,7 @@
     right: 28px;
     top: 80px;
     cursor: pointer;
+    z-index: 9;
 }
 
 #basket > .message {

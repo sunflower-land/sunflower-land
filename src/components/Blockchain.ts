@@ -75,11 +75,14 @@ export class BlockChain {
             }
         } else if ((window as any).web3) {
             this.web3 = new Web3((window as any).web3.currentProvider);
+        } else {
+            console.log('No web3 available')
         }
     }
 
     public async initialise() {
         console.log('Run it')
+        try {
         await this.setupWeb3()
         const chain = await this.web3.eth.net.getNetworkType()
         const chainId = await this.web3.eth.getChainId()
@@ -92,6 +95,10 @@ export class BlockChain {
             this.details = await this.getAccount()
         }
         console.log('Resolved')
+        }catch(e) {
+            console.error(e)
+            throw e
+        }
     }
 
     // TODO add charity support

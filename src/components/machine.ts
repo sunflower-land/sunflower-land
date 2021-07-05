@@ -98,7 +98,7 @@ export const blockChainMachine = createMachine<
                     }
                 ],
                 onError: {
-                    target: 'loading',
+                    target: 'failure',
                 },
             },
         },
