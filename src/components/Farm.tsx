@@ -19,6 +19,7 @@ import exclamation from './images/ui/expression_alerted.png'
 import questionMark from './images/ui/expression_confused.png'
 import { FruitBoard } from './FruitBoard'
 import { Panel } from './Panel'
+import { Timer } from './Timer'
 import { Button } from './Button'
 
 export const Farm: React.FC= () => {
@@ -26,7 +27,7 @@ export const Farm: React.FC= () => {
   const [land, setLand] = React.useState<Square[]>(Array(16).fill({}))
   const [fruit, setFruit] = React.useState<Fruit>(Fruit.Apple)
 
-  const events = React.useRef<any[]>([])
+  const events = React.useRef<Transaction[]>([])
 
   const [machineState, send] = useService<
     Context,
@@ -96,16 +97,21 @@ export const Farm: React.FC= () => {
     send('UPGRADE')
   }
 
+  const isDirty = events.current.length > 0
   
   return (
       <>
         <Land land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
 
         <span id='save-button'>
-          <Panel  hasInner={false}>
-            <Button  onClick={save}>
-              Save
-              <img src={exclamation} id="exclamation"/>
+          <Panel hasInner={false}>
+            <Button onClick={save}>
+                Save
+                {
+                  isDirty && (
+                    <Timer startAtSeconds={events.current[0].createdAt}/>
+                  )
+                }
             </Button>
             <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/')}>
               About
