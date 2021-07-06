@@ -107,7 +107,7 @@ export const Farm: React.FC= () => {
               Save
               <img src={exclamation} id="exclamation"/>
             </Button>
-            <Button onClick={() => {}}>
+            <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/')}>
               About
               <img src={questionMark} id="question"/>
             </Button>

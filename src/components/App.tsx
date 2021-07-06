@@ -47,7 +47,7 @@ export const App: React.FC = () => {
           <Panel>
             <div id="welcome">
               <h1 className="header">
-                Fruit Market Coin
+                Sunflower Coin
               </h1>
               <Button onClick={getStarted}>
                 <span>
