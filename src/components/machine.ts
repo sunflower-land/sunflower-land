@@ -4,13 +4,8 @@ import { BlockChain } from './Blockchain';
 
 export interface Context {
     blockChain: BlockChain
+    errorCode?: 'NO_WEB3' | 'WRONG_CHAIN'
 }
-
-const isConnected = (
-    { blockChain }: Context,
-) => {
-    return blockChain.isConnected;
-};
 
 const hasFarm = (
     { blockChain }: Context,
@@ -61,7 +56,6 @@ export type BlockchainState = {
         | 'registering'
         | 'creating'
         | 'farming'
-        | 'notConnected'
         | 'failure'
         | 'upgrading'
         | 'saving'
@@ -82,7 +76,8 @@ export const blockChainMachine = createMachine<
     id: 'farmMachine',
     initial: 'loading',
     context: {
-        blockChain: new BlockChain()
+        blockChain: new BlockChain(),
+        errorCode: null,
     },
     states: {
         loading: {
@@ -99,20 +94,17 @@ export const blockChainMachine = createMachine<
                 ],
                 onError: {
                     target: 'failure',
+                    actions:  assign({
+                        errorCode: (context, event) => event.data.message,
+                    }),
                 },
             },
         },
         initial: {
             on: {
-                GET_STARTED: [
-                    {
-                      target: 'registering',
-                      cond: isConnected
-                    },
-                    {
-                        target: 'notConnected'
-                    }
-                ]
+                GET_STARTED: {
+                    target: 'registering',
+                },
             }
         },
         registering: {

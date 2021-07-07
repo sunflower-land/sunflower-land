@@ -27,7 +27,7 @@ export const App: React.FC = () => {
     console.log({ charity })
   }
 
-  console.log(machineState.value)
+  console.log(machineState)
 
   return (
     <div>
@@ -58,12 +58,6 @@ export const App: React.FC = () => {
           </Panel>
         </Modal>
 
-        <Modal centered show={machineState.matches('notConnected')}>
-          <Panel>
-            Not Connected - Instructions to connect
-          </Panel>
-        </Modal>
-
         <Modal centered show={machineState.matches('registering')}>
           <Panel>
             <Charity onSelect={createFarm} />
@@ -88,7 +82,25 @@ export const App: React.FC = () => {
 
         <Modal centered show={machineState.matches('failure')}>
           <Panel>
-              Failure
+              Something went wrong
+              {
+                machineState.context.errorCode === 'NO_WEB3' && (
+                  <div id="saving">
+                    You are not connected to Metamask.
+
+                    <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>Connect</Button>
+                  </div>
+                )
+              }
+              {
+                machineState.context.errorCode === 'WRONG_CHAIN' && (
+                  <div id="saving">
+                    You are not connected to the right Blockchain.
+
+                    <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>Connect</Button>
+                  </div>
+                )
+              }
           </Panel>
         </Modal>
       {/*         

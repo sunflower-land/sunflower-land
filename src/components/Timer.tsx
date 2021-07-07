@@ -17,7 +17,6 @@ export const Timer: React.FC<Props> = ({ startAtSeconds }) => {
         const interval = window.setInterval(() => {
             const now = Math.floor(Date.now() / 1000)
             const difference = now - startAtSeconds
-            console.log({ difference, seconds: (THIRTY_MINUTES - difference) / 3600})
 
             setSecondsLeft(THIRTY_MINUTES - difference)
         }, 1000)

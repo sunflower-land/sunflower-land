@@ -59,18 +59,18 @@ contract Farm {
         Square[] storage land = fields[msg.sender];
         Square memory empty = Square({
             fruit: Fruit.None,
-            createdAt: block.timestamp
+            createdAt: 0
         });
-        Square memory apple = Square({
-            fruit: Fruit.Apple,
-            createdAt: block.timestamp
+        Square memory sunflower = Square({
+            fruit: Fruit.Sunflower,
+            createdAt: 0
         });
 
-        // Each farmer starts with 5 fields & 3 apples
+        // Each farmer starts with 5 fields & 3 Sunflowers
         land.push(empty);
-        land.push(apple);
-        land.push(apple);
-        land.push(apple);
+        land.push(sunflower);
+        land.push(sunflower);
+        land.push(sunflower);
         land.push(empty);
 
         syncedAt[msg.sender] = block.timestamp;
@@ -89,7 +89,7 @@ contract Farm {
     }
 
     enum Action { Plant, Harvest }
-    enum Fruit { None, Apple, Avocado, Banana, Coconut, Pineapple, Money, Diamond }
+    enum Fruit { None, Sunflower, Potato, Pumpkin, Beetroot, Cauliflower, Money, Diamond }
 
     struct Event { 
         Action action;
@@ -103,25 +103,26 @@ contract Farm {
         uint balance;
     }
 
+    // TODO this is currently in minutes
     function getHarvestHours(Fruit _fruit) private pure returns (uint) {
-        if (_fruit == Fruit.Apple) {
-            return 1;
-        } else if (_fruit == Fruit.Avocado) {
-            return 3;
-        } else if (_fruit == Fruit.Banana) {
-            return 8;
-        } else if (_fruit == Fruit.Coconut) {
+        if (_fruit == Fruit.Sunflower) {
+            return 1 * 60;
+        } else if (_fruit == Fruit.Potato) {
+            return 3 * 60;
+        } else if (_fruit == Fruit.Pumpkin) {
+            return 8 * 60;
+        } else if (_fruit == Fruit.Beetroot) {
             // 1 Day
-            return 24;
-        } else if (_fruit == Fruit.Pineapple) {
+            return 24 * 60;
+        } else if (_fruit == Fruit.Cauliflower) {
             // 3 days
-            return 72;
+            return 72 * 60;
         } else if (_fruit == Fruit.Money) {
             // 1 week
-            return 168;
+            return 168 * 60;
         } else if (_fruit == Fruit.Diamond) {
             // 4 weeks
-            return 672;
+            return 672 * 60;
         }
 
         require(false, "INVALID_FRUIT");
@@ -131,19 +132,19 @@ contract Farm {
     function getSeedPrice(Fruit _fruit) private view returns (uint price) {
         uint decimals = token.decimals();
 
-        if (_fruit == Fruit.Apple) {
+        if (_fruit == Fruit.Sunflower) {
             //$0.01
             return 1 * 10**decimals / 100;
-        } else if (_fruit == Fruit.Avocado) {
+        } else if (_fruit == Fruit.Potato) {
             // $0.06
             return 6 * 10**decimals / 100;
-        } else if (_fruit == Fruit.Banana) {
+        } else if (_fruit == Fruit.Pumpkin) {
             // $0.20
             return 20 * 10**decimals / 100;
-        } else if (_fruit == Fruit.Coconut) {
+        } else if (_fruit == Fruit.Beetroot) {
             // $1
             return 1 * 10**decimals;
-        } else if (_fruit == Fruit.Pineapple) {
+        } else if (_fruit == Fruit.Cauliflower) {
             // $2
             return 2 * 10**decimals;
         } else if (_fruit == Fruit.Money) {
@@ -162,19 +163,19 @@ contract Farm {
     function getFruitPrice(Fruit _fruit) private view returns (uint price) {
         uint decimals = token.decimals();
 
-        if (_fruit == Fruit.Apple) {
+        if (_fruit == Fruit.Sunflower) {
             // $0.02
             return 2 * 10**decimals / 100;
-        } else if (_fruit == Fruit.Avocado) {
+        } else if (_fruit == Fruit.Potato) {
             // $0.12
             return 12 * 10**decimals / 100;
-        } else if (_fruit == Fruit.Banana) {
+        } else if (_fruit == Fruit.Pumpkin) {
             // $0.56
             return 56 * 10**decimals / 100;
-        } else if (_fruit == Fruit.Coconut) {
+        } else if (_fruit == Fruit.Beetroot) {
             // $2.30
             return 230 * 10**decimals / 100;
-        } else if (_fruit == Fruit.Pineapple) {
+        } else if (_fruit == Fruit.Cauliflower) {
             // $6.40
             return 640 * 10**decimals / 100;
         } else if (_fruit == Fruit.Money) {
@@ -191,11 +192,11 @@ contract Farm {
     }
     
     function requiredLandSize(Fruit _fruit) private pure returns (uint size) {
-        if (_fruit == Fruit.Apple || _fruit == Fruit.Avocado) {
+        if (_fruit == Fruit.Sunflower || _fruit == Fruit.Potato) {
             return 5;
-        } else if (_fruit == Fruit.Banana || _fruit == Fruit.Coconut) {
+        } else if (_fruit == Fruit.Pumpkin || _fruit == Fruit.Beetroot) {
             return 8;
-        } else if (_fruit == Fruit.Pineapple) {
+        } else if (_fruit == Fruit.Cauliflower) {
             return 11;
         } else if (_fruit == Fruit.Money) {
             return 14;

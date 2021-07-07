@@ -21,7 +21,7 @@ import selectBoxTR from './images/ui/select-box/selectbox_tr.png'
 import selectBoxBR from './images/ui/select-box/selectbox_br.png'
 import selectBoxBL from './images/ui/select-box/selectbox_bl.png'
 
-
+import { getFruit } from './types/fruits'
 import './Field.css'
 import { Fruit, Square } from './types/contract'
 interface Props {
@@ -29,24 +29,17 @@ interface Props {
     onClick: () => void
 }
 
-const HARVEST_TIMES: Record<Fruit, number> = {
-    [Fruit.Apple]: 5,
-    [Fruit.Avocado]: 3,
-    [Fruit.Banana]: 8,
-    [Fruit.Coconut]: 24,
-    [Fruit.None]: 0,
-}
-
 export const Field: React.FC<Props> = ({ square, onClick }) => {
     const [timeLeft, setTimeLeft] = React.useState(null)
-    const totalTime = HARVEST_TIMES[square.fruit]
+    // TODO currently in minutes, set to hours in future
+    const fruit = getFruit(square.fruit)
+    const totalTime = fruit && (fruit.harvestHours  * 60)
 
     const setHarvestTime = () => {
         const secondsElapsed = (Date.now()/1000) - square.createdAt;
         if (secondsElapsed > totalTime) {
             setTimeLeft(0)
             return
-            // TODO - clear interval
         }
 
         const timeLeft = totalTime - secondsElapsed

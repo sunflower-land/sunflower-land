@@ -70,6 +70,13 @@ body {
     padding: 10px;
 }
 
+#saving .button {
+    width: 200px;
+    text-align: center;
+    justify-content: center;
+    margin: 20px auto;
+}
+
 .message {
     background: #c0cbdb;
     position: relative;

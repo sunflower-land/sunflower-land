@@ -35,6 +35,23 @@ export const Farm: React.FC= () => {
     BlockchainState
   >(service);
 
+  React.useEffect(() => {
+    window.onbeforeunload = function (e) {
+      if (events.current.length === 0) {
+        return undefined
+      }
+      e = e || window.event;
+  
+      // For IE and Firefox prior to version 4
+      if (e) {
+          e.returnValue = 'Sure?';
+      }
+  
+      // For Safari
+      return 'Sure?';
+  };
+  }, [])
+
 
   const onUpdate = React.useCallback(async () => {
     if (machineState.matches('farming')) {

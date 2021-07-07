@@ -47,8 +47,8 @@ export class BlockChain {
         // web3.eth.defaultAddress = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'
         // web3.eth.handleRevert = true
 
-        this.token = new this.web3.eth.Contract(Token.abi as any, '0x1c6227e91e4d3a81f56c1c2bD8250A69C7df4e2F')
-        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0xa4dFCE9ae06D1574A3672DF56cf84c82B7A6E8df')
+        this.token = new this.web3.eth.Contract(Token.abi as any, '0x49564553d2A2fd23AF01C1bcEAe31485746d2e72')
+        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0xcA82f127DA57faEfde149883520B10325025fbd7')
 
         //const maticAccounts = await web3.eth.getAccounts()
         this.account = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'//maticAccounts[0]
@@ -76,25 +76,27 @@ export class BlockChain {
         } else if ((window as any).web3) {
             this.web3 = new Web3((window as any).web3.currentProvider);
         } else {
-            console.log('No web3 available')
+            throw new Error('NO_WEB3')
         }
     }
 
     public async initialise() {
         console.log('Run it')
         try {
-        await this.setupWeb3()
-        const chain = await this.web3.eth.net.getNetworkType()
-        const chainId = await this.web3.eth.getChainId()
+            await this.setupWeb3()
+            const chain = await this.web3.eth.net.getNetworkType()
+            const chainId = await this.web3.eth.getChainId()
 
-        console.log({ chain })
-        console.log({ chainId })
-        if (chainId === 80001) {
-            await this.connectToMatic()
+            console.log({ chain })
+            console.log({ chainId })
+            if (chainId === 80001) {
+                await this.connectToMatic()
 
-            this.details = await this.getAccount()
-        }
-        console.log('Resolved')
+                this.details = await this.getAccount()
+            } else {
+                throw new Error('WRONG_CHAIN')
+            }
+            console.log('Resolved')
         }catch(e) {
             console.error(e)
             throw e
