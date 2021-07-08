@@ -55,9 +55,25 @@ export const fruits: Item[] = [{
     name: 'Potato',
     image: potato,
     buyPrice: 2,
-    sellPrice: 640,
+    sellPrice: 6.40,
     landRequired: 11,
     harvestHours: 72
+}, {
+    fruit: Fruit.Money,
+    name: 'Money (BETA)',
+    image: potato,
+    buyPrice: 10,
+    sellPrice: 20,
+    landRequired: 14,
+    harvestHours: 168
+}, {
+    fruit: Fruit.Pineapple,
+    name: 'Diamond (BETA)',
+    image: potato,
+    buyPrice: 200,
+    sellPrice: 250,
+    landRequired: 17,
+    harvestHours: 672
 }]
 
 export function getFruit(fruit: Fruit) {
