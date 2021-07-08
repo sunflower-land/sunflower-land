@@ -8,6 +8,7 @@ import { Panel } from './Panel'
 import { Button } from './Button'
 import { Charity } from './Charity'
 import { Charity as Charities } from './types/contract'
+import questionMark from './images/ui/expression_confused.png'
 
 
 export const App: React.FC = () => {
@@ -37,7 +38,7 @@ export const App: React.FC = () => {
           <Panel>
             <div id="welcome">
               <h1 className="header">
-                Connecting...
+                Connecting to metamask...
               </h1>
             </div>
           </Panel>
@@ -54,6 +55,10 @@ export const App: React.FC = () => {
                   Get Started
                 </span>
               </Button>
+              <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/')}>
+                  About
+                  <img src={questionMark} id="question"/>
+                </Button>
             </div>
           </Panel>
         </Modal>
@@ -82,25 +87,28 @@ export const App: React.FC = () => {
 
         <Modal centered show={machineState.matches('failure')}>
           <Panel>
-              Something went wrong
+            <div id="saving">
+              <p>Something went wrong. Try refresh the page</p>
               {
                 machineState.context.errorCode === 'NO_WEB3' && (
-                  <div id="saving">
-                    You are not connected to Metamask.
+                    <>
+                      You are not connected to Metamask.
 
-                    <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>Connect</Button>
-                  </div>
+                      <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>Connect</Button>
+                    </>
                 )
               }
               {
                 machineState.context.errorCode === 'WRONG_CHAIN' && (
-                  <div id="saving">
-                    You are not connected to the right Blockchain.
+                  <>
+                    <span>You are not connected to the Polygon network.</span>
+                    
 
-                    <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>Connect</Button>
-                  </div>
+                    <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>How to Connect</Button>
+                  </>
                 )
               }
+              </div>
           </Panel>
         </Modal>
       {/*         

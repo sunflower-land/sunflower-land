@@ -142,3 +142,9 @@ body {
     padding: 30px 30px 28px;
     text-align: center;
 }
+
+#welcome .button {
+    margin-bottom: 10px;
+    width: 50%;
+    justify-content: center;
+}

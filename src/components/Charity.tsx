@@ -14,7 +14,7 @@ export const Charity: React.FC<Props> = ({ onSelect }) => {
     return (
         <div id="charity-container">
             <span>
-                To start a farm, donate $1 MATIC to a charity of your choice
+                To start a farm, donate $0.01 MATIC to a charity of your choice
             </span>
             <div id="charities">
                 <div>

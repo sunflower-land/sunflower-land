@@ -111,7 +111,7 @@ export const blockChainMachine = createMachine<
             on: {
                 DONATE: {
                     target: 'creating',
-                }
+                },
             }
         },
         creating: {
@@ -122,6 +122,9 @@ export const blockChainMachine = createMachine<
                 },
                 onError: {
                     target: 'failure',
+                    actions:  assign({
+                        errorCode: (context, event) => event.data.message,
+                    }),
                 },
             },
         },

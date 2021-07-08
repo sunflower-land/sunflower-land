@@ -27,10 +27,6 @@ contract Farm {
     // Function to receive Ether. msg.data must be empty
     receive() external payable {}
 
-    // Fallback function is called when msg.data is not empty
-    //fallback() external payable {}
-
-
     function createFarm(address payable _charity) public payable {
         require(syncedAt[msg.sender] == 0, "FARM_EXISTS");
 

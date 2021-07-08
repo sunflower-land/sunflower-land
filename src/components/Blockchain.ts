@@ -47,11 +47,11 @@ export class BlockChain {
         // web3.eth.defaultAddress = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'
         // web3.eth.handleRevert = true
 
-        this.token = new this.web3.eth.Contract(Token.abi as any, '0x49564553d2A2fd23AF01C1bcEAe31485746d2e72')
-        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0xcA82f127DA57faEfde149883520B10325025fbd7')
+        this.token = new this.web3.eth.Contract(Token.abi as any, '0x4A10498c5b39bD249032E6a7Ab72d2412f9b2397')
+        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0x3286E4A875DC73cf2392Ea77C7877aaB7AA6fee2')
 
-        //const maticAccounts = await web3.eth.getAccounts()
-        this.account = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'//maticAccounts[0]
+        const maticAccounts = await this.web3.eth.getAccounts()
+        this.account = maticAccounts[0]
     }
 
     public get isConnected() {
@@ -113,10 +113,7 @@ export class BlockChain {
             this.farm.methods.createFarm(charity).send({from: this.account, value, to: charity })
             .on('error', function(error){
                 console.log({ error })
-                // User rejected
-                if (error.code === 4001) {
-                    return resolve(null)
-                }
+
                 reject(error)
             })
             .on('transactionHash', function(transactionHash){
