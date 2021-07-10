@@ -1,4 +1,4 @@
-# sunflower-coin
+# Sunflower Coin
 
 A blockchain based game where players can play to earn Sunflower Coins.
 
@@ -9,3 +9,7 @@ The BETA game is currently available [here](http://sunflower-coin-demo.s3-websit
 Smart Contracts can be found in `src/contracts`.
 
 Decentralized App (Dapp) can be found in `src/dapp`.
+
+# How to run?
+
+`yarn start`
