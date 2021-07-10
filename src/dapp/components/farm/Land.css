@@ -1,0 +1,131 @@
+#root {
+    background: #62c84c;
+    overflow: scroll;
+}
+
+.item-a {
+    grid-area: header;
+}
+
+.grass {
+    background: url("../../images/land/grass/tile023.png");
+}
+
+.grass1 {
+    background: url("../../images/land/grass/tile024.png");
+}
+
+.rock {
+    background: url("../../images/land/rock.png");
+    z-index:1;
+}
+
+.tree-stump {
+    background: url("../../images/land/stump.png");
+}
+
+
+.dirt {
+    background: url("../../images/land/dirt/plain.png");
+}
+
+.dirt-corner {
+    background: url("../../images/land/dirt/corner.png");
+}
+.dirt-corner1 {
+    background: url("../../images/land/dirt/corner1.png");
+}
+
+.dirt-corner2 {
+    background: url("../../images/land/dirt/corner2.png");
+}
+
+.dirt-corner3 {
+    background: url("../../images/land/dirt/corner3.png");
+}
+
+.left-edge {
+    background: url("../../images/land/dirt/left-edge.png");
+}
+
+.right-edge {
+    background: url("../../images/land/dirt/right-edge.png");
+}
+
+.bottom-edge {
+    background: url("../../images/land/dirt/bottom-edge.png");
+}
+
+.top-edge {
+    background: url("../../images/land/dirt/top-edge.png");
+}
+
+.top-corner {
+    background: url("../../images/land/dirt/top-corner.png");
+}
+.top-corner2 {
+    background: url("../../images/land/dirt/top-corner2.png");
+}
+
+
+
+.farm {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    grid-auto-rows: 1fr;
+    width: 1000px;
+    margin: auto;
+}
+
+.farm > div {
+    height: calc(1000px / 16);
+    background-size: cover;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+
+    position: relative;
+}
+
+#second-land {
+    position: relative;
+}
+
+#clear-buttons {
+    display: flex;
+    width: 80%;
+}
+
+#clear-buttons > .button {
+    width: 50%;
+    justify-content: center;
+}
+
+#clear-price {
+    background: #fcad31;
+    border: 1px solid white;
+    color: white;
+    text-shadow: 1px 1px black;
+    padding: 0 21px;
+    margin-bottom: 11px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 2px 0px black;
+}
+
+.lock {
+    width: 30px;
+    position: absolute;
+    /* box-shadow: 1px 1px #191425; */
+    filter: drop-shadow(2px 1px 0px #191425) drop-shadow(-2px 2px 0px #191425) drop-shadow(0px 0px 0px #191425) drop-shadow(0px -2px 0px #191425);
+    top: calc(50% - 15px);
+    left: calc(50% - 15px);
+}
+
+.upgrade-land {
+    position: absolute;
+    width: 95px;
+    text-align: center;
+    top: 11px;
+    left: -18px;
+}
