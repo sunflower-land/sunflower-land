@@ -1,6 +1,10 @@
 import React from 'react'
+import { useService } from '@xstate/react';
 
 import Modal from 'react-bootstrap/Modal';
+
+import { service, Context, BlockchainEvent, BlockchainState } from '../../machine'
+
 
 import cancel from '../../images/ui/cancel.png'
 
@@ -15,9 +19,53 @@ interface Props {
     onClose: () => void
     hasFunds: boolean
     cost: number
+    isDirty: boolean
 }
 
 export const UpgradeModal: React.FC<Props> = ({ isOpen, onConfirm, onClose, cost, hasFunds }) => {
+    // TODO: Read from blockchain
+    const [machineState] = useService<
+        Context,
+        BlockchainEvent,
+        BlockchainState
+    >(service);
+    const Content = () => {
+        if(!hasFunds) {
+            return (
+                <div className='upgrade-required'>
+                    <Message>
+                        Insufficient funds
+                        <img src={cancel} className="insufficient-funds-cross" />
+                    </Message>            
+                </div>
+            )
+        }
+
+        if (machineState.context.blockChain.isUnsaved()) {
+            return (
+                <>
+                    <div className='upgrade-required'>
+                        <Message>
+                            Unsaved game
+                            <img src={cancel} className="insufficient-funds-cross" />
+                        </Message>
+                    </div>
+                    <span className='upgrade-warning'>You must first save your farm to the blockchain before attempting to upgrade. </span>         
+                </>
+            )
+        }
+
+        return (
+            <div id="clear-buttons">
+                <Button onClick={onClose}>
+                    No
+                </Button>
+                <Button onClick={onConfirm}>
+                    Yes
+                </Button>
+            </div>
+        )
+    }
     return (
         <Modal centered show={isOpen} onHide={onClose}>
             <Panel>
@@ -30,25 +78,7 @@ export const UpgradeModal: React.FC<Props> = ({ isOpen, onConfirm, onClose, cost
                         {`$${cost}`}
                     </span>
 
-                    {
-                        hasFunds ? (
-                            <div id="clear-buttons">
-                                <Button onClick={onClose}>
-                                    No
-                                </Button>
-                                <Button onClick={onConfirm}>
-                                    Yes
-                                </Button>
-                            </div>
-                        ): (
-                            <div className='upgrade-required'>
-                                <Message>
-                                    Insufficient funds
-                                    <img src={cancel} className="insufficient-funds-cross" />
-                                </Message>            
-                            </div>
-                        )
-                    }
+                    <Content />
                 </div>
             </Panel>
         </Modal>

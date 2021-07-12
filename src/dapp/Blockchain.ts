@@ -26,8 +26,9 @@ export class BlockChain {
     private token: any | null = null
     private farm: any | null = null
     private account: string | null = null
-
     private details: Account = null
+
+    private events: Transaction[] = []
 
     private async connectToGanache() {
         const netId = await this.web3.eth.net.getId();
@@ -103,11 +104,8 @@ export class BlockChain {
         }
     }
 
-    // TODO add charity support
     public createFarm(charity: Charity) {
-        console.log({ charity })
         const value = this.web3.utils.toWei('0.01', 'ether')
-        console.log({ value })
 
         return new Promise((resolve, reject) => {
             this.farm.methods.createFarm(charity).send({from: this.account, value, to: charity })
@@ -123,40 +121,32 @@ export class BlockChain {
                 console.log({ receipt })
                 resolve(receipt)
             })
-            // .on('confirmation', function(confirmationNumber, receipt) {
-            //     console.log({ receipt })
-            //     resolve(receipt)
-            // })
-            console.log('Done')
         })
     }
 
-    public save(events: Transaction[]) {
-        // try {
-        //     const response = this.farm.methods.buildFarm(events).call({from: this.account})
-        //     console.log({ response })
-        //   } catch (e) {
-        //       const errorJSON = e.message.slice(25)
-        //       console.log({ errorJSON })
-        // }
+    public save() {
+        const blockChain = this
+
         return new Promise((resolve, reject) => {
-            this.farm.methods.sync(events).send({from: this.account})
-            .on('error', function(error){
-                console.log({ error })
-                // User rejected
-                if (error.code === 4001) {
-                    return resolve(null)
-                }
-                reject(error)
-            })
-            .on('transactionHash', function(transactionHash){
-                console.log({ transactionHash })
-            })
-            .on('receipt', function(receipt) {
-                console.log({ receipt })
-                resolve(receipt)
-            })
-            console.log('Done')
+            this.farm.methods.sync(this.events).send({from: this.account})
+                .on('error', function(error){
+                    console.log({ error })
+                    // User rejected
+                    if (error.code === 4001) {
+                        return resolve(null)
+                    }
+
+                    blockChain.events = []
+                    reject(error)
+                })
+                .on('transactionHash', function(transactionHash){
+                    console.log({ transactionHash })
+                })
+                .on('receipt', function(receipt) {
+                    console.log({ receipt })
+                    blockChain.events = []
+                    resolve(receipt)
+                })
         })
 
     }
@@ -208,5 +198,21 @@ export class BlockChain {
 
     public getWeb3() {
         return this.web3
+    }
+
+    public addEvent(event: Transaction) {
+        this.events = [...this.events, event]
+    }
+
+    public isUnsaved() {
+        return this.events.length > 0
+    }
+
+    public lastSaved() {
+        if (this.events.length === 0) {
+            return null
+        }
+
+        return this.events[0].createdAt
     }
 }

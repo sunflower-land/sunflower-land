@@ -23,8 +23,6 @@ export const Farm: React.FC= () => {
   const [land, setLand] = React.useState<Square[]>(Array(16).fill({}))
   const [fruit, setFruit] = React.useState<Fruit>(Fruit.Apple)
 
-  const events = React.useRef<Transaction[]>([])
-
   const [machineState, send] = useService<
     Context,
     BlockchainEvent,
@@ -34,7 +32,7 @@ export const Farm: React.FC= () => {
   // If they have unsaved changes, alert them before leaving
   React.useEffect(() => {
     window.onbeforeunload = function (e) {
-      if (events.current.length === 0) {
+      if (machineState.context.blockChain.isUnsaved()) {
         return undefined
       }
       e = e || window.event;
@@ -47,7 +45,7 @@ export const Farm: React.FC= () => {
       // For Safari
       return 'Sure?';
   };
-  }, [])
+  }, [machineState])
 
 
   const onUpdate = React.useCallback(async () => {
@@ -72,7 +70,7 @@ export const Farm: React.FC= () => {
       landIndex,
       createdAt: now,
     }
-    events.current = [...events.current, transaction];
+    machineState.context.blockChain.addEvent(transaction)
 
     setLand(oldLand => oldLand.map((field, index) => index === landIndex ? { fruit: Fruit.None, createdAt: 0 } : field))
     const price = getFruit(harvestedFruit.fruit).sellPrice
@@ -93,7 +91,7 @@ export const Farm: React.FC= () => {
       landIndex,
       createdAt: now,
     }
-    events.current = [...events.current, transaction];
+    machineState.context.blockChain.addEvent(transaction)
 
     setLand(oldLand => {
       const newLand = oldLand.map((field, index) => index === landIndex ? transaction : field)
@@ -103,10 +101,10 @@ export const Farm: React.FC= () => {
   }
 
   const save = async () => {
-    send('SAVE', { events: events.current })
+    send('SAVE')
   }
 
-  const isDirty = events.current.length > 0
+  const isDirty = machineState.context.blockChain.isUnsaved()
   
   return (
       <>
@@ -114,11 +112,11 @@ export const Farm: React.FC= () => {
 
         <span id='save-button'>
           <Panel hasInner={false}>
-            <Button onClick={save}>
+            <Button onClick={save} disabled={!isDirty}>
                 Save
                 {
                   isDirty && (
-                    <Timer startAtSeconds={events.current[0].createdAt}/>
+                    <Timer startAtSeconds={machineState.context.blockChain.lastSaved()}/>
                   )
                 }
             </Button>

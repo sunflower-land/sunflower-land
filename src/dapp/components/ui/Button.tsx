@@ -12,14 +12,16 @@ import bottomRightInner from '../../images/ui/panel/lt_box_9slice_br.png'
 import './Panel.css'
 
 interface Props {
-    onClick: () => void
+    onClick: () => void,
+    disabled?: boolean
 }
 export const Button: React.FC<Props> = ({
     children,
-    onClick
+    onClick,
+    disabled
 }) => {
     return (
-        <div className="button" onClick={onClick}>
+        <div className={disabled ? "button disabled" : "button"} onClick={onClick}>
             { children }
             <img id="panel-left-edge" src={leftEdgeInner} />
             <img id="panel-right-edge" src={rightEdgeInner} />

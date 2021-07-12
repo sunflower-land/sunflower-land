@@ -51,7 +51,7 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
 
     React.useEffect(() => {
         if (square.fruit && square.fruit !== Fruit.None) {
-            setTimeLeft(totalTime)
+            setHarvestTime()
             const interval = window.setInterval(setHarvestTime, 1000)
             return () => window.clearInterval(interval)
         }

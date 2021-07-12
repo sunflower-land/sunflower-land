@@ -9,6 +9,7 @@ import { Pickaxe }  from '../ui/Pickaxe'
 
 import { Panel } from '../ui/Panel'
 import { Button } from '../ui/Button'
+import { UpgradeModal } from '../ui/UpgradeModal'
 
 import { Field }  from './Field'
 
@@ -79,38 +80,13 @@ export const SecondLand: React.FC<Props> = ({ land, balance, onHarvest, onPlant 
             <div className='top-edge' style={{ gridArea: '7 / 12 / 8 / 13' }} />
             <div className='top-edge' style={{ gridArea: '7 / 13 / 8 / 14' }} />
 
-
-            <Modal centered show={showModal} onHide={onClose}>
-                <Panel>
-                    <div id="welcome">
-                        <h1 className="header">
-                            Do you want to clear the land?
-                        </h1>
-
-                        <span id="clear-price">
-                            $1
-                        </span>
-
-                        {
-                            balance > 1 ? (
-                                <div id="clear-buttons">
-                                    <Button onClick={onClose}>
-                                        No
-                                    </Button>
-                                    <Button onClick={onClearConfirm}>
-                                        Yes
-                                    </Button>
-                                </div>
-                            ): (
-                                <span>Insufficient funds</span>
-                            )
-                        }
-                        
-                        
-                    </div>
-                </Panel>
-            </Modal>
-
+            <UpgradeModal
+                isOpen={showModal}
+                onClose={onClose}
+                hasFunds={balance > 1}
+                onConfirm={onClearConfirm}
+                cost={1}
+            />
         </>
     )
 }

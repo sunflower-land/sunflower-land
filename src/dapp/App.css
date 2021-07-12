@@ -105,6 +105,10 @@ body {
     margin: 5px 10px;
 }
 
+.disabled {
+    opacity: 0.5;
+}
+
 .button > img {
     margin-left: 3px;
     image-rendering: pixelated;

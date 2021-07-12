@@ -180,6 +180,12 @@
     justify-content: center;
 }
 
+.upgrade-warning {
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 12px;
+}
+
 .insufficient-funds-cross {
     width: 19px;
     image-rendering: pixelated;

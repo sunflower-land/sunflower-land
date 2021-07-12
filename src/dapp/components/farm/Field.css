@@ -8,11 +8,9 @@
     justify-content: center;
     display: flex;
     position: relative;
+    cursor: pointer;
 }
 
-.field:hover {
-    transform: scale(1.1);
-}
 .field:hover > img {
     transform: scale(1.1);
 }

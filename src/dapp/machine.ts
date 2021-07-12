@@ -27,7 +27,6 @@ export interface GetStartedEvent extends EventObject {
 
 export interface SaveEvent extends EventObject {
     type: 'SAVE';
-    events: Transaction[]
 }
 
 
@@ -154,7 +153,7 @@ export const blockChainMachine = createMachine<
         saving: {
             invoke: {
                 id: 'save',
-                src: async ({ blockChain }, event) => blockChain.save((event as SaveEvent).events),
+                src: async ({ blockChain }, event) => blockChain.save(),
                 onDone: {
                     target: 'farming',
                     // actions - assign() data?
