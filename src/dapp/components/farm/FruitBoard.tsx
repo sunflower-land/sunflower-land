@@ -7,6 +7,8 @@ import stopwatch from '../../images/ui/stopwatch.png'
 import disc from '../../images/ui/disc.png'
 import cancel from '../../images/ui/cancel.png'
 import alert from '../../images/ui/expression_alerted.png'
+import coin from '../../images/ui/coin.png'
+import arrow from '../../images/ui/arrow_right.png'
 
 import { Fruit } from '../../types/contract'
 import { fruits, getFruit } from '../../types/fruits'
@@ -77,14 +79,30 @@ export const FruitBoard: React.FC<Props> = ({
                     </div>
                 </div>
                 <div className="fruit-details">
-                    <span className='title'>{fruit.name}</span>
-                    <div className="fruit-breakdown">
-                        <span className='price'>{`${fruit.buyPrice}c`}</span>
+                    <div>
+                        <span className='title'>{fruit.name}</span>
+
                         <div className="fruit-time">
                             <img src={stopwatch} />
                             <span>{`${fruit.harvestHours}mins`}</span>
                         </div>
-
+                    </div>
+                    <div className="fruit-breakdown">
+                        <div className='price'>
+                            <span className='price-label'>Buy</span>
+                            <img src={coin} />
+                            <span>{fruit.buyPrice}</span>
+                        </div>
+                        <div className="fruit-arrows">
+                            <img src={arrow} />
+                            <img src={arrow} />
+                            <img src={arrow} />
+                        </div>
+                        <div className='price'>
+                            <span className='price-label'>Sell</span>
+                            <img src={coin} />
+                            <span>{fruit.sellPrice}</span>
+                        </div>
                     </div>
                 </div>
             </div>

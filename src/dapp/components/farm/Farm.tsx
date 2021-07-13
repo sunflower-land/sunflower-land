@@ -29,10 +29,12 @@ export const Farm: React.FC= () => {
     BlockchainState
   >(service);
 
+  const isDirty = machineState.context.blockChain.isUnsaved()
+
   // If they have unsaved changes, alert them before leaving
   React.useEffect(() => {
     window.onbeforeunload = function (e) {
-      if (machineState.context.blockChain.isUnsaved()) {
+      if (!isDirty) {
         return undefined
       }
       e = e || window.event;
@@ -45,20 +47,21 @@ export const Farm: React.FC= () => {
       // For Safari
       return 'Sure?';
   };
-  }, [machineState])
+  }, [isDirty, machineState])
 
 
-  const onUpdate = React.useCallback(async () => {
-    if (machineState.matches('farming')) {
-      const { farm, balance: currentBalance } = await machineState.context.blockChain.getAccount()
-      setLand(farm)
-      setBalance(currentBalance)
-    }
-  }, [machineState])
 
   React.useEffect(() => {
-    onUpdate()
-  }, [onUpdate])
+    const load = async () => {
+      if (machineState.matches('farming')) {
+        const { farm, balance: currentBalance } = await machineState.context.blockChain.getAccount()
+        setLand(farm)
+        setBalance(currentBalance)
+      }
+    }
+
+    load()
+  }, [machineState])
 
   const onHarvest = async (landIndex: number) => {
     const now = Math.floor(Date.now() / 1000)
@@ -103,8 +106,6 @@ export const Farm: React.FC= () => {
   const save = async () => {
     send('SAVE')
   }
-
-  const isDirty = machineState.context.blockChain.isUnsaved()
   
   return (
       <>

@@ -109,3 +109,11 @@
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
 }
+
+.progress-text {
+    font-size: 10px;
+    position: absolute;
+    color: white;
+    text-shadow: 2px 2px black;
+    bottom: 14px;
+}
