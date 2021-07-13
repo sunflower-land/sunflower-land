@@ -9,3 +9,9 @@
     margin-right: 5px;
     image-rendering: pixelated;
 }
+
+.red-timer {
+    color: red;
+    text-shadow: 1px 1px white;
+    font-size: 12px !important;
+}

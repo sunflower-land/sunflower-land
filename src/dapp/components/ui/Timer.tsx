@@ -25,9 +25,9 @@ export const Timer: React.FC<Props> = ({ startAtSeconds }) => {
     }, [secondsLeft, startAtSeconds])
 
     return (
-        <div id="timer">
+        <div id="timer" className={secondsLeft < 60*5 ? "red-timer" : ""}>
             <img src={timer} />
-            {`${Math.floor(secondsLeft / 60)}:${secondsLeft % 60 }`}
+            {`${Math.floor(secondsLeft / 60)}:${(secondsLeft % 60).toString().padStart(2, '0') }`}
         </div>
     )
 }
