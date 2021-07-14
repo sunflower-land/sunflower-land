@@ -48,9 +48,6 @@ contract Farm {
             "INVALID_CHARITY"
         );
 
-        (bool sent, bytes memory data) = _charity.call{value: msg.value}("");
-        require(sent, "DONATION_FAILED");
-
 
         Square[] storage land = fields[msg.sender];
         Square memory empty = Square({
@@ -70,6 +67,9 @@ contract Farm {
         land.push(empty);
 
         syncedAt[msg.sender] = block.timestamp;
+
+        (bool sent, bytes memory data) = _charity.call{value: msg.value}("");
+        require(sent, "DONATION_FAILED");
 
         //Emit an event
         emit FarmCreated(msg.sender);
@@ -100,25 +100,28 @@ contract Farm {
     }
 
     // TODO this is currently in minutes
-    function getHarvestHours(Fruit _fruit) private pure returns (uint) {
+    function getHarvestSeconds(Fruit _fruit) private pure returns (uint) {
         if (_fruit == Fruit.Sunflower) {
+            // 1 minute
             return 1 * 60;
         } else if (_fruit == Fruit.Potato) {
-            return 3 * 60;
+            // 10 minutes
+            return 10 * 60;
         } else if (_fruit == Fruit.Pumpkin) {
-            return 8 * 60;
+            // 1 hour
+            return 1  * 60 * 60;
         } else if (_fruit == Fruit.Beetroot) {
-            // 1 Day
-            return 24 * 60;
+            // 4 hours
+            return 4 * 60 * 60;
         } else if (_fruit == Fruit.Cauliflower) {
-            // 3 days
-            return 72 * 60;
+            // 8 hours
+            return 8 * 60 * 60;
         } else if (_fruit == Fruit.Money) {
-            // 1 week
-            return 168 * 60;
+            // 1 day
+            return 24 * 60 * 60;
         } else if (_fruit == Fruit.Diamond) {
-            // 4 weeks
-            return 672 * 60;
+            // 3 days
+            return 3 * 24 * 60 * 60;
         }
 
         require(false, "INVALID_FRUIT");
@@ -132,23 +135,23 @@ contract Farm {
             //$0.01
             return 1 * 10**decimals / 100;
         } else if (_fruit == Fruit.Potato) {
-            // $0.06
-            return 6 * 10**decimals / 100;
-        } else if (_fruit == Fruit.Pumpkin) {
             // $0.20
             return 20 * 10**decimals / 100;
-        } else if (_fruit == Fruit.Beetroot) {
+        } else if (_fruit == Fruit.Pumpkin) {
             // $1
             return 1 * 10**decimals;
+        } else if (_fruit == Fruit.Beetroot) {
+            // $5
+            return 5 * 10**decimals;
         } else if (_fruit == Fruit.Cauliflower) {
-            // $2
-            return 2 * 10**decimals;
+            // $25
+            return 25 * 10**decimals;
         } else if (_fruit == Fruit.Money) {
-            // $10
-            return 10 * 10**decimals;
+            // $50
+            return 50 * 10**decimals;
         } else if (_fruit == Fruit.Diamond) {
-            // $200
-            return 200 * 10**decimals;
+            // $150
+            return 150 * 10**decimals;
         }
 
         require(false, "INVALID_FRUIT");
@@ -163,23 +166,23 @@ contract Farm {
             // $0.02
             return 2 * 10**decimals / 100;
         } else if (_fruit == Fruit.Potato) {
-            // $0.12
-            return 12 * 10**decimals / 100;
+            // $0.40
+            return 40 * 10**decimals / 100;
         } else if (_fruit == Fruit.Pumpkin) {
-            // $0.56
-            return 56 * 10**decimals / 100;
+            // $2
+            return 2 * 10**decimals;
         } else if (_fruit == Fruit.Beetroot) {
-            // $2.30
-            return 230 * 10**decimals / 100;
+            // $10
+            return 10 * 10**decimals;
         } else if (_fruit == Fruit.Cauliflower) {
-            // $6.40
-            return 640 * 10**decimals / 100;
+            // $50
+            return 50 * 10**decimals;
         } else if (_fruit == Fruit.Money) {
-            // $20
-            return 20 * 10**decimals;
+            // $150
+            return 150 * 10**decimals;
         } else if (_fruit == Fruit.Diamond) {
-            // $250
-            return 250 * 10**decimals;
+            // $300
+            return 300 * 10**decimals;
         }
 
         require(false, "INVALID_FRUIT");
@@ -212,15 +215,15 @@ contract Farm {
             // $1
             return 1 * 10**decimals;
         } else if (landSize <= 8) {
-            // $30
-            return 30 * 10**decimals;
+            // $100
+            return 100 * 10**decimals;
         } else if (landSize <= 11) {
-            // $300
-            return 300 * 10**decimals;
+            // $1000
+            return 1000 * 10**decimals;
         }
         
-        // $1000
-        return 1000 * 10**decimals;
+        // $10, 000
+        return 10000 * 10**decimals;
     }
 
     modifier hasFarm {
@@ -266,7 +269,7 @@ contract Farm {
 
                 uint duration = farmEvent.createdAt.sub(square.createdAt);
                 // Currently seconds
-                uint hoursToHarvest = getHarvestHours(square.fruit);
+                uint hoursToHarvest = getHarvestSeconds(square.fruit);
                 require(duration >= hoursToHarvest, "NOT_RIPE");
 
                 // Clear the land
@@ -353,32 +356,31 @@ contract Farm {
         uint decimals = token.decimals();
         uint totalSupply = token.totalSupply();
 
-        // Less than 10, 000 FMC tokens
-        if (totalSupply < (10000 * 10**decimals)) {
+        // Less than 100, 000 FMC tokens
+        if (totalSupply < (100000 * 10**decimals)) {
             // 1 Farm Dollar gets you a FMC token
             return 1;
         }
 
-        // Less than 100, 000 FMC tokens
-        if (totalSupply < (100000 * 10**decimals)) {
-            return 10;
-        }
         // Less than 1, 000, 000 FMC tokens
         if (totalSupply < (1000000 * 10**decimals)) {
-            return 100;
+            return 10;
         }
-
         // Less than 10, 000, 000 FMC tokens
         if (totalSupply < (10000000 * 10**decimals)) {
-            return 1000;
+            return 100;
         }
 
         // Less than 100, 000, 000 FMC tokens
         if (totalSupply < (100000000 * 10**decimals)) {
+            return 1000;
+        }
+
+        // Less than 1, 000, 000, 000 FMC tokens
+        if (totalSupply < (1000000000 * 10**decimals)) {
             return 10000;
         }
 
-        // 200, 000, 000 -> 
         // 1 Farm Dollar gets you a 0.00001 of FMC - Linear growth from here
         return totalSupply.div(10000);
     }
