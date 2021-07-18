@@ -7,6 +7,7 @@ import pumpkin from '../images/pumpkin/fruit.png'
 import beetroot from '../images/beetroot/fruit.png'
 import cauliflower from '../images/cauliflower/fruit.png'
 import potato from '../images/potato/fruit.png'
+import question from '../images/ui/expression_confused.png'
 
 interface Item {
     fruit: Fruit
@@ -15,65 +16,65 @@ interface Item {
     buyPrice: number
     sellPrice: number
     landRequired: number
-    harvestHours: number
+    harvestMinutes: number
 }
 
 export const fruits: Item[] = [{
-    fruit: Fruit.Apple,
+    fruit: Fruit.Sunflower,
     name: 'Sunflower',
     image: sunflower,
     buyPrice: 0.01,
     sellPrice: 0.02,
     landRequired: 5,
-    harvestHours: 1
+    harvestMinutes: 1
 }, {
-    fruit: Fruit.Avocado,
-    name: 'Pumpkin',
-    image: pumpkin,
-    buyPrice: 0.06,
-    sellPrice: 0.12,
-    landRequired: 5,
-    harvestHours: 3
-}, {
-    fruit: Fruit.Banana,
-    name: 'Beetroot',
-    image: beetroot,
-    buyPrice: 0.20,
-    sellPrice: 0.56,
-    landRequired: 8,
-    harvestHours: 8
-}, {
-    fruit: Fruit.Coconut,
-    name: 'Cauliflower',
-    image: cauliflower,
-    buyPrice: 1,
-    sellPrice: 2.30,
-    landRequired: 8,
-    harvestHours: 24
-}, {
-    fruit: Fruit.Pineapple,
+    fruit: Fruit.Potato,
     name: 'Potato',
     image: potato,
-    buyPrice: 2,
-    sellPrice: 6.40,
+    buyPrice: 0.1,
+    sellPrice: 0.2,
+    landRequired: 5,
+    harvestMinutes: 5
+}, {
+    fruit: Fruit.Pumpkin,
+    name: 'Pumpkin',
+    image: pumpkin,
+    buyPrice: 1,
+    sellPrice: 2,
+    landRequired: 8,
+    harvestMinutes: 60
+}, {
+    fruit: Fruit.Beetroot,
+    name: 'Beetroot',
+    image: beetroot,
+    buyPrice: 5,
+    sellPrice: 10,
+    landRequired: 8,
+    harvestMinutes: 4 * 60
+}, {
+    fruit: Fruit.Cauliflower,
+    name: 'Cauliflower',
+    image: cauliflower,
+    buyPrice: 25,
+    sellPrice: 50,
     landRequired: 11,
-    harvestHours: 72
+    harvestMinutes: 8 * 60
 }, {
     fruit: Fruit.Money,
     name: 'Money (BETA)',
-    image: potato,
-    buyPrice: 10,
-    sellPrice: 20,
+    image: question,
+    buyPrice: 50,
+    sellPrice: 150,
     landRequired: 14,
-    harvestHours: 168
+    harvestMinutes: 24 * 60
 }, {
-    fruit: Fruit.Pineapple,
+    fruit: Fruit.Diamond,
     name: 'Diamond (BETA)',
-    image: potato,
-    buyPrice: 200,
-    sellPrice: 250,
+    image: question,
+    buyPrice: 150,
+    sellPrice: 300,
     landRequired: 17,
-    harvestHours: 672
+    harvestMinutes: 3 * 24 * 60
 }]
 
 export function getFruit(fruit: Fruit) {

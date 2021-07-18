@@ -84,7 +84,7 @@ export const FruitBoard: React.FC<Props> = ({
 
                         <div className="fruit-time">
                             <img src={stopwatch} />
-                            <span>{`${fruit.harvestHours}mins`}</span>
+                            <span>{`${fruit.harvestMinutes}mins`}</span>
                         </div>
                     </div>
                     <div className="fruit-breakdown">

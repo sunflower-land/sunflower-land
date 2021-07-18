@@ -21,7 +21,7 @@ import { FruitBoard } from './FruitBoard'
 export const Farm: React.FC= () => {
   const [balance, setBalance] = React.useState(0)
   const [land, setLand] = React.useState<Square[]>(Array(16).fill({}))
-  const [fruit, setFruit] = React.useState<Fruit>(Fruit.Apple)
+  const [fruit, setFruit] = React.useState<Fruit>(Fruit.Sunflower)
 
   const [machineState, send] = useService<
     Context,

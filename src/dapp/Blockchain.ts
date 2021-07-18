@@ -48,12 +48,29 @@ export class BlockChain {
         // web3.eth.defaultAddress = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'
         // web3.eth.handleRevert = true
 
-        this.token = new this.web3.eth.Contract(Token.abi as any, '0x4A10498c5b39bD249032E6a7Ab72d2412f9b2397')
-        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0x3286E4A875DC73cf2392Ea77C7877aaB7AA6fee2')
+        this.token = new this.web3.eth.Contract(Token.abi as any, '0x4E07b77Dc6935C32fE9bc5B0A378b747D586E0cE')
+        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0xC3A16C56ba49F48baA81816c878EBd978eB69235')
 
         const maticAccounts = await this.web3.eth.getAccounts()
         this.account = maticAccounts[0]
     }
+
+    private async connectToHarmony(){
+        this.token = new this.web3.eth.Contract(Token.abi as any, '0xCFc5b0e65f9a684C0180037eef201EF025D37971')
+        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0x1ecE946c332C9AffC28b82D73B720Ac9D984f5fF')
+
+        const maticAccounts = await this.web3.eth.getAccounts()
+        this.account = maticAccounts[0]
+    }
+
+    private async connectToBinance(){
+        this.token = new this.web3.eth.Contract(Token.abi as any, '0xCFc5b0e65f9a684C0180037eef201EF025D37971')
+        this.farm = new this.web3.eth.Contract(Farm.abi as any, '0x1ecE946c332C9AffC28b82D73B720Ac9D984f5fF')
+
+        const maticAccounts = await this.web3.eth.getAccounts()
+        this.account = maticAccounts[0]
+    }
+
 
     public get isConnected() {
         return !!this.farm
@@ -94,7 +111,15 @@ export class BlockChain {
                 await this.connectToMatic()
 
                 this.details = await this.getAccount()
-            } else {
+            } else if (chainId === 1666700000) {
+                await this.connectToHarmony()
+
+                this.details = await this.getAccount()
+            } else if (chainId === 97) {
+                await this.connectToBinance()
+
+                this.details = await this.getAccount()
+            }else {
                 throw new Error('WRONG_CHAIN')
             }
             console.log('Resolved')

@@ -19,7 +19,6 @@ interface Props {
     onClose: () => void
     hasFunds: boolean
     cost: number
-    isDirty: boolean
 }
 
 export const UpgradeModal: React.FC<Props> = ({ isOpen, onConfirm, onClose, cost, hasFunds }) => {

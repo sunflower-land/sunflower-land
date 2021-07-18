@@ -56,6 +56,19 @@
     z-index: 1;
 }
 
+.potato {
+    position: absolute;
+    top: 5%;
+    left: 28%;
+    width: 44% !important;
+    z-index: 1;
+}
+
+.potato-seedling {
+    width: 36% !important;
+    top: 15px;
+}
+
 .beetroot {
     position: absolute;
     top: 5%;

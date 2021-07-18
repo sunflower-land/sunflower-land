@@ -1,10 +1,10 @@
 export enum Fruit {
     None = '0',
-    Apple = '1',
-    Avocado = '2',
-    Banana = '3',
-    Coconut = '4',
-    Pineapple = '5',
+    Sunflower = '1',
+    Potato = '2',
+    Pumpkin = '3',
+    Beetroot = '4',
+    Cauliflower = '5',
     Money = '6',
     Diamond = '7',
 }
@@ -20,11 +20,6 @@ export interface Square {
     createdAt: number
 }
 
-
-export interface Inventory {
-    apples: number;
-    avocados: number
-}
 
 export interface Transaction {
     fruit: Fruit

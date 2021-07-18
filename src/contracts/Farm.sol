@@ -105,8 +105,8 @@ contract Farm {
             // 1 minute
             return 1 * 60;
         } else if (_fruit == Fruit.Potato) {
-            // 10 minutes
-            return 10 * 60;
+            // 5 minutes
+            return 5 * 60;
         } else if (_fruit == Fruit.Pumpkin) {
             // 1 hour
             return 1  * 60 * 60;
@@ -135,8 +135,8 @@ contract Farm {
             //$0.01
             return 1 * 10**decimals / 100;
         } else if (_fruit == Fruit.Potato) {
-            // $0.20
-            return 20 * 10**decimals / 100;
+            // $0.10
+            return 10 * 10**decimals / 100;
         } else if (_fruit == Fruit.Pumpkin) {
             // $1
             return 1 * 10**decimals;
@@ -166,8 +166,8 @@ contract Farm {
             // $0.02
             return 2 * 10**decimals / 100;
         } else if (_fruit == Fruit.Potato) {
-            // $0.40
-            return 40 * 10**decimals / 100;
+            // $0.20
+            return 20 * 10**decimals / 100;
         } else if (_fruit == Fruit.Pumpkin) {
             // $2
             return 2 * 10**decimals;
@@ -333,21 +333,22 @@ contract Farm {
 
         require(balance >= fmcPrice, "INSUFFICIENT_FUNDS");
         
-        Square memory empty = Square({
-            fruit: Fruit.None,
-            createdAt: block.timestamp
-        });
-
-        // Do not bother rearranging the array - it is already in a strange square - Add 3 fields
-        for (uint index = 0; index < 3; index++) {
-            land.push(empty);
-        }
-
         token.burn(msg.sender, fmcPrice);
 
         // Land tax - An additional 1% of profit goes to maintainers of Fruit Market
         uint commission = fmcPrice.div(100);
         token.mint(token.getOwner(), commission);
+        
+        // Make them immediately harvestable in case they spent all their money
+        Square memory sunflower = Square({
+            fruit: Fruit.Sunflower,
+            createdAt: 0,
+        });
+
+        // Add 3 sunflower fields
+        for (uint index = 0; index < 3; index++) {
+            land.push(sunflower);
+        }
     }
 
     // How many FMC do you get per dollar

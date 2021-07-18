@@ -8,6 +8,8 @@ import beetroot from '../../images/beetroot/plant.png'
 import beetrootSeedling from '../../images/beetroot/seedling.png'
 import cauliflower from '../../images/cauliflower/plant.png'
 import cauliflowerSeedling from '../../images/cauliflower/seedling.png'
+import potato from '../../images/potato/plant.png'
+import potatoSeedling from '../../images/potato/seedling.png'
 
 import planted from '../../images/land/soil/planted.png'
 import terrain from '../../images/land/soil/soil.png'
@@ -47,9 +49,9 @@ interface Props {
 
 export const Field: React.FC<Props> = ({ square, onClick }) => {
     const [timeLeft, setTimeLeft] = React.useState(null)
-    // TODO currently in minutes, set to hours in future
+
     const fruit = getFruit(square.fruit)
-    const totalTime = fruit && (fruit.harvestHours  * 60)
+    const totalTime =fruit?.harvestMinutes * 60
 
     const setHarvestTime = () => {
         const secondsElapsed = (Date.now()/1000) - square.createdAt;
@@ -74,38 +76,53 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
 
     const Seedling = () => {
         // TODO different plant seedlings
-        if (square.fruit === Fruit.Apple) {
+        if (square.fruit === Fruit.Sunflower) {
             return (<img src={sunflowerSeedling} className='seedling'/>)
         }
 
-        if (square.fruit === Fruit.Avocado) {
+        if (square.fruit === Fruit.Potato) {
+            return (<img src={potatoSeedling} className='seedling potato-seedling'/>)
+        }
+
+        if (square.fruit === Fruit.Pumpkin) {
             return (<img src={pumpkinSeedling} className='seedling'/>)
         }
 
-        if (square.fruit === Fruit.Banana) {
+        if (square.fruit === Fruit.Beetroot) {
             return (<img src={beetrootSeedling} className='seedling'/>)
         }
 
-        return (<img src={cauliflowerSeedling} className='seedling'/>)
 
+        if (square.fruit === Fruit.Cauliflower) {
+            return (<img src={cauliflowerSeedling} className='seedling'/>)
+        }
 
+        return null
     }
 
     const Plant = () => {
         // TODO different plant seedlings
-        if (square.fruit === Fruit.Apple) {
+        if (square.fruit === Fruit.Sunflower) {
             return (<img src={sunflower} className='sunflower'/>)
         }
 
-        if (square.fruit === Fruit.Avocado) {
-            return (<img src={pumpkin} className='pumpkin'/>)
+        if (square.fruit === Fruit.Potato) {
+            return (<img src={potato} className='potato'/>)
         }
 
-        if (square.fruit === Fruit.Banana) {
+        if (square.fruit === Fruit.Pumpkin) {
+            return (<img src={beetroot} className='pumpkin'/>)
+        }
+
+        if (square.fruit === Fruit.Beetroot) {
             return (<img src={beetroot} className='beetroot'/>)
         }
 
-        return (<img src={cauliflower} className='cauliflower'/>)
+        if (square.fruit === Fruit.Cauliflower) {
+            return (<img src={beetroot} className='cauliflower'/>)
+        }
+
+        return null
     }
 
     const Progress = () => {
