@@ -3,6 +3,8 @@ import React from 'react'
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 
+import soil from '../../images/land/soil/soil.png'
+
 import { UpgradeOverlay } from '../ui/UpgradeModal'
 
 import { Fruit, Square } from '../../types/contract'
@@ -23,17 +25,23 @@ export const SecondLand: React.FC<Props> = ({ land, balance, onHarvest, onPlant 
         <>
             <div className='dirt' style={{ gridColumn: '2/3', gridRow: '8/9'}}>
                 {
-                    isUnlocked && (<Field square={land[5]} onClick={land[5].fruit === Fruit.None ? () => onPlant(5) : () => onHarvest(5)}/> )
+                    isUnlocked
+                        ? (<Field square={land[5]} onClick={land[5].fruit === Fruit.None ? () => onPlant(5) : () => onHarvest(5)}/> )
+                        : <div className='field'><img  src={soil} /></div>
                 }
             </div>
             <div className='dirt' style={{ gridColumn: '3/4', gridRow: '9/10'}}>
                 {
-                    isUnlocked && (<Field square={land[6]} onClick={land[6].fruit === Fruit.None ? () => onPlant(6) : () => onHarvest(6)}/> )
+                    isUnlocked
+                        ? (<Field square={land[6]} onClick={land[6].fruit === Fruit.None ? () => onPlant(6) : () => onHarvest(6)}/> )
+                        : <div className='field'><img  src={soil} /></div>
                 }
             </div>
             <div className='dirt' style={{ gridColumn: '2/3', gridRow: '9/10'}}>
                 {
-                    isUnlocked && (<Field square={land[7]} onClick={land[7].fruit === Fruit.None ? () => onPlant(7) : () => onHarvest(7)}/> )
+                    isUnlocked
+                        ? (<Field square={land[7]} onClick={land[7].fruit === Fruit.None ? () => onPlant(7) : () => onHarvest(7)}/> )
+                        : <div className='field'><img  src={soil} /></div>
                 }
             </div>
             <div className='dirt' style={{ gridColumn: '3/4', gridRow: '8/9'}} />
