@@ -9,6 +9,7 @@
     display: flex;
     position: relative;
     cursor: pointer;
+    z-index: 9;
 }
 
 .field:hover > img {

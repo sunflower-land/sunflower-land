@@ -46,6 +46,7 @@ export const UpgradeModal: React.FC<Props> = ({ isOpen, onClose, farmSize, balan
 
     const onConfirm = () => {
         send('UPGRADE')
+        onClose()
     }
 
     const price = getPrice(farmSize)
@@ -110,10 +111,8 @@ export const UpgradeModal: React.FC<Props> = ({ isOpen, onClose, farmSize, balan
 
 export const UpgradeOverlay = (props) => (
     <div id='tester' {...props}>
-        <Panel>
-            <span className='upgrade-overlay-message'>
-                Upgrade required
-            </span>
-        </Panel>
+        <Message>
+            Upgrade required
+        </Message>
     </div>
 )

@@ -215,14 +215,14 @@ contract Farm {
             // $1
             return 1 * 10**decimals;
         } else if (landSize <= 8) {
-            // $30
-            return 30 * 10**decimals;
+            // $75
+            return 75 * 10**decimals;
         } else if (landSize <= 11) {
-            // $100
+            // $500
             return 100 * 10**decimals;
         }
         
-        // $1000
+        // $3000
         return 1000 * 10**decimals;
     }
 

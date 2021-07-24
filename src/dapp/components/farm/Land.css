@@ -230,10 +230,3 @@
     cursor: url(../../images/ui/cancel.png) 0 0, pointer;
     z-index: 999;
 }
-
-.upgrade-overlay-message {
-    padding: 8px;
-    color: white;
-    text-shadow: 1px 1px black;
-    font-size: 13px;
-}
