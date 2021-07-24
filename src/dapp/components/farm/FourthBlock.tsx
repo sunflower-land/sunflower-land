@@ -1,12 +1,11 @@
 import React from 'react'
-import Modal from 'react-bootstrap/Modal';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 
+
+import { UpgradeOverlay } from '../ui/UpgradeModal'
+
+import soil from '../../images/land/soil/soil.png'
 import { Fruit, Square } from '../../types/contract'
-import { service } from '../../machine'
-
-import { Pickaxe }  from '../ui/Pickaxe'
-import { Panel } from '../ui/Panel'
-import { Button } from '../ui/Button'
 
 import { Field }  from './Field'
 
@@ -19,104 +18,53 @@ interface Props {
 }
 
 export const FourthBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant }) => {
-    const [showModal, setShowModal] = React.useState(false)
-
-    const onClear = () => {
-        setShowModal(true)
-    }
-
-    const onClearConfirm = () => {
-        service.send('UPGRADE')
-        setShowModal(false)
-    }
-
-    const onClose = () => {
-        setShowModal(false)
-    }
-
     const isUnlocked = land.length > 11
 
     return (
         <>
+            <div className='dirt' style={{ gridColumn: '11/12', gridRow: '3/4'}}>
+                {
+                    isUnlocked
+                        ? (<Field square={land[11]} onClick={land[11].fruit === Fruit.None ? () => onPlant(11) : () => onHarvest(11)}/> )
+                        : <div className='field'><img  src={soil} /></div>
+                }
+            </div>
+            <div className='dirt' style={{ gridColumn: '12/13', gridRow: '3/4'}}>
+                {
+                    isUnlocked
+                        ? (<Field square={land[12]} onClick={land[12].fruit === Fruit.None ? () => onPlant(12) : () => onHarvest(12)}/> )
+                        : <div className='field'><img  src={soil} /></div>
+                }
+            </div>
+
+            <div className='dirt' style={{ gridColumn: '12/13', gridRow: '4/5'}}>
+                {
+                    isUnlocked
+                        ? (<Field square={land[13]} onClick={land[13].fruit === Fruit.None ? () => onPlant(13) : () => onHarvest(13)}/> )
+                        : <div className='field'><img  src={soil} /></div>
+                }
+            </div>
+            <div className='dirt' style={{ gridColumn: '11/12', gridRow: '4/5'}} />
+
+            <div className='top-edge' style={{ gridColumn: '11/12', gridRow: '2/3'}} />
+            <div className='top-edge' style={{ gridColumn: '12/13', gridRow: '2/3'}} />
+
+            <div className='right-edge' style={{ gridColumn: '13/14', gridRow: '3/4'}} />
+            <div className='right-edge' style={{ gridColumn: '13/14', gridRow: '4/5'}} />
+
+            <div className='left-edge' style={{ gridColumn: '10/11', gridRow: '4/5'}} />
+            <div className='left-edge' style={{ gridColumn: '10/11', gridRow: '3/4'}} />
+
+            <div className='bottom-edge' style={{ gridColumn: '11/12', gridRow: '5/6'}} />
+            <div className='bottom-edge' style={{ gridColumn: '12/13', gridRow: '5/6'}} />
+
             {
                 !isUnlocked && (
-                    <>
-                        <div className='rock' style={{ gridArea: '3 / 13 / 4 / 14'}} />
-
-                        <div className='rock' style={{ gridArea: '4 / 13 / 5 / 14', zIndex: 2}}>
-                            {
-                                land.length === 11 && (
-                                    <Pickaxe onClick={onClear} />
-                                )
-                            }
-                        </div>
-                        <div className='rock' style={{ gridArea: '5 / 13 / 6 / 14' }}>
-                        </div>
-                    </>
+                    <OverlayTrigger  overlay={UpgradeOverlay} placement="bottom" delay={{ show: 250, hide: 400 }}>
+                        <div className='upgrade-overlay' style={{ gridColumn: '11/12', gridRow: '3/4' }} />
+                    </OverlayTrigger>
                 )
             }
-
-            <div className='dirt' style={{ gridArea: '3 / 13 / 4 / 14'}}>
-                {
-                    isUnlocked && (<Field square={land[6]} onClick={land[6].fruit === Fruit.None ? () => onPlant(6) : () => onHarvest(6)}/> )
-                }
-            </div>
-            <div className='dirt' style={{ gridArea: '4 / 13 / 5 / 14' }}>
-                {
-                    isUnlocked && (<Field square={land[5]} onClick={land[5].fruit === Fruit.None ? () => onPlant(5) : () => onHarvest(5)}/> )
-                }
-            </div>
-
-            <div className='dirt' style={{ gridArea: '5 / 13 / 6 / 14'}}>
-                {
-                    isUnlocked && (<Field square={land[7]} onClick={land[7].fruit === Fruit.None ? () => onPlant(7) : () => onHarvest(7)}/> )
-                }
-            </div>
-
-            <div className='left-edge' style={{ gridArea: '3 / 12 / 4 / 13' }} />
-            <div className='left-edge' style={{ gridArea: '4 / 12 / 5 / 13' }} />
-            <div className='left-edge' style={{ gridArea: '5 / 12 / 6 / 13' }} />
-            <div className='right-edge' style={{ gridArea: '3 / 14 / 4 / 15' }} />
-            <div className='right-edge' style={{ gridArea: '4 / 14 / 5 / 15' }} />
-            <div className='right-edge' style={{ gridArea: '5 / 14 / 6 / 15' }} />
-
-            <div className='top-edge' style={{ gridArea: '2 / 13 / 3 / 14' }} />
-
-            <div className='bottom-edge' style={{ gridArea: '6 / 13 / 7 / 14' }} />
-
-
-
-            <Modal centered show={showModal} onHide={onClose}>
-                <Panel>
-                    <div id="welcome">
-                        <h1 className="header">
-                            Do you want to clear the land?
-                        </h1>
-
-                        <span id="clear-price">
-                            $1
-                        </span>
-
-                        {
-                            balance > 1 ? (
-                                <div id="clear-buttons">
-                                    <Button onClick={onClose}>
-                                        No
-                                    </Button>
-                                    <Button onClick={onClearConfirm}>
-                                        Yes
-                                    </Button>
-                                </div>
-                            ): (
-                                <span>Insufficient funds</span>
-                            )
-                        }
-                        
-                        
-                    </div>
-                </Panel>
-            </Modal>
-
         </>
     )
 }

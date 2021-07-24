@@ -29,7 +29,6 @@ export const App: React.FC = () => {
   return (
     <div>
         <Farm />
-
         <Modal centered show={machineState.matches('loading')}>
           <Connecting/>
         </Modal>

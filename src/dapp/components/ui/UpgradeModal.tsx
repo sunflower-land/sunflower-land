@@ -15,19 +15,42 @@ import { Button } from './Button'
 
 interface Props {
     isOpen: boolean
-    onConfirm: () => void
     onClose: () => void
-    hasFunds: boolean
-    cost: number
+    farmSize: number
+    balance: number
 }
 
-export const UpgradeModal: React.FC<Props> = ({ isOpen, onConfirm, onClose, cost, hasFunds }) => {
+function getPrice(landSize: number) {
+    if (landSize < 8) {
+        return 1
+    }
+
+    if (landSize < 11) {
+        return 30
+    }
+
+    if (landSize < 14) {
+        return 100
+    }
+
+    return 1000
+}
+
+export const UpgradeModal: React.FC<Props> = ({ isOpen, onClose, farmSize, balance }) => {
     // TODO: Read from blockchain
-    const [machineState] = useService<
+    const [machineState, send] = useService<
         Context,
         BlockchainEvent,
         BlockchainState
     >(service);
+
+    const onConfirm = () => {
+        send('UPGRADE')
+    }
+
+    const price = getPrice(farmSize)
+    const hasFunds = balance >= price
+
     const Content = () => {
         if(!hasFunds) {
             return (
@@ -70,11 +93,11 @@ export const UpgradeModal: React.FC<Props> = ({ isOpen, onConfirm, onClose, cost
             <Panel>
                 <div id="welcome">
                     <h1 className="header">
-                        Do you want to clear the land?
+                        Do you want to upgrade your farm?
                     </h1>
 
                     <span id="clear-price">
-                        {`$${cost}`}
+                        {`$${price}`}
                     </span>
 
                     <Content />
@@ -83,3 +106,14 @@ export const UpgradeModal: React.FC<Props> = ({ isOpen, onConfirm, onClose, cost
         </Modal>
     )
 }
+
+
+export const UpgradeOverlay = (props) => (
+    <div id='tester' {...props}>
+        <Panel>
+            <span className='upgrade-overlay-message'>
+                Upgrade required
+            </span>
+        </Panel>
+    </div>
+)

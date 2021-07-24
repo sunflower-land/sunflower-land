@@ -215,15 +215,15 @@ contract Farm {
             // $1
             return 1 * 10**decimals;
         } else if (landSize <= 8) {
+            // $30
+            return 30 * 10**decimals;
+        } else if (landSize <= 11) {
             // $100
             return 100 * 10**decimals;
-        } else if (landSize <= 11) {
-            // $1000
-            return 1000 * 10**decimals;
         }
         
-        // $10, 000
-        return 10000 * 10**decimals;
+        // $1000
+        return 1000 * 10**decimals;
     }
 
     modifier hasFarm {

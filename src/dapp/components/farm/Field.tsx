@@ -111,7 +111,7 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
         }
 
         if (square.fruit === Fruit.Pumpkin) {
-            return (<img src={beetroot} className='pumpkin'/>)
+            return (<img src={pumpkin} className='pumpkin'/>)
         }
 
         if (square.fruit === Fruit.Beetroot) {
@@ -119,7 +119,7 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
         }
 
         if (square.fruit === Fruit.Cauliflower) {
-            return (<img src={beetroot} className='cauliflower'/>)
+            return (<img src={cauliflower} className='cauliflower'/>)
         }
 
         return null

@@ -5,6 +5,20 @@
     z-index: 2;
     top: 22px;
     cursor: pointer;
+    top: -29%;
+    left: 34%;
+
+    animation-name: floating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    margin-top: 5px;
+}
+
+@keyframes floating {
+    from { transform: translate(0,  0px); }
+    65%  { transform: translate(0, 5px); }
+    to   { transform: translate(0, -0px); }    
 }
 
 .disc {
@@ -40,4 +54,11 @@
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
     z-index: 2;
+}
+
+#upgrade {
+    color: white;
+    padding: 0 13px;
+    text-shadow: 1px 1px black;
+    position: relative;
 }

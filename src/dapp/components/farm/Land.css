@@ -58,6 +58,7 @@
 
 .top-edge {
     background: url("../../images/land/dirt/top-edge.png");
+    z-index: 1;
 }
 
 .top-corner {
@@ -76,6 +77,8 @@
     grid-auto-rows: 1fr;
     width: 1000px;
     margin: auto;
+    overflow-y: clip;
+    overflow-x: clip;
 }
 
 .farm > div {
@@ -128,4 +131,109 @@
     text-align: center;
     top: 11px;
     left: -18px;
+}
+
+#box1 {
+    width: 66%;
+    position: relative;
+    left: 63%;
+    top: 10%;
+}
+
+#cauliflower-box {
+    top: 9%;
+    position: absolute;
+    width: 34%;
+    left: 78%;
+}
+
+#potato-box-1 {
+    left: 19%;
+    width: 25%;
+    top: -41%;
+    position: absolute;
+}
+
+#potato-box-2 {
+    left: 43%;
+    width: 25%;
+    top: -41%;
+    position: absolute;
+}
+
+#box2 {
+    width: 66%;
+    position: relative;
+    top: -48%;
+    left: 13%;
+}
+
+.fence-horizontal {
+    width: 100%;
+    position: relative;
+    left: 33%;
+    bottom: -7%;
+    height: 60%;
+}
+
+.fence-post {
+    width: 52%;
+    position: relative;
+    left: 27%;
+    bottom: -7%;
+    height: 60%;
+}
+
+.water-edge {
+    width: 62.5px;
+    height: 62.5px;
+    z-index: 99;
+    top: 750px;
+    image-rendering: pixelated;
+}
+
+#water {
+    background: #2399db;
+    position: absolute;
+    top: 760px;
+    width: 10000%;
+    height: 500%;
+    left: -5000%;
+}
+
+.stone-vertical {
+    height: 200%;
+    width: 28px;
+    left: 32%;
+    top: 100%;
+    position: relative;
+}
+
+.stone-bl {
+    width: 35px;
+    top: 297%;
+    position: absolute;
+    left: 24px;
+}
+
+.stone-horizontal {
+    width: 300%;
+    height: 42px;
+    left: 47px;
+    position: absolute;
+    top: 299%;
+}
+
+.upgrade-overlay {
+    height: 200% !important;
+    width: 200%;
+    cursor: url(../../images/ui/cancel.png) 0 0, pointer;
+    z-index: 999;
+}
+
+.upgrade-overlay-message {
+    padding: 8px;
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 13px;
 }
