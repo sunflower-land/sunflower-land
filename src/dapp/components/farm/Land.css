@@ -230,3 +230,14 @@
     cursor: url(../../images/ui/cancel.png) 0 0, pointer;
     z-index: 999;
 }
+
+.bucket {
+    width: 89%;
+}
+
+.flowers {
+    width: 79%;
+    position: relative;
+    top: 10%;
+    left: 6%;
+}

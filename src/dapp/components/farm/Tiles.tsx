@@ -1,16 +1,11 @@
 import React from 'react'
 
-import house from '../../images/buildings/house.png'
 import tree from '../../images/decorations/tree.png'
-import box from '../../images/decorations/box.png'
-import cauliflower from '../../images/cauliflower/fruit.png'
-import potato from '../../images/potato/fruit.png'
 import woodHorizontal from '../../images/fence/wood_horizontal.png'
 import woodPost from '../../images/fence/wood_post.png'
-import stoneVertical from '../../images/fence/stone_vertical.png'
-import stoneBottomLeft from '../../images/fence/stone_bottom_left.png'
-import stoneHorizontal from '../../images/fence/stone-horizontal.png'
-import stoneFence from '../../images/fence/stone-fence.png'
+import bucket from '../../images/decorations/bucket.png'
+import flower1 from '../../images/decorations/flower1.png'
+import flower2 from '../../images/decorations/flower2.png'
 
 
 interface Props {}
@@ -117,6 +112,27 @@ export const Tiles: React.FC<Props> = () => {
             </div>
             <div style={{ gridColumn: '9/10', gridRow: '10/11'}}>
                 <img className='fence-post' src={woodPost} />
+            </div>
+
+            {/* Decorations */}
+            <div style={{ gridColumn: '12/13', gridRow: '10/11'}}>
+                <img className='bucket' src={bucket} />
+            </div>
+
+            <div style={{ gridColumn: '15/16', gridRow: '10/11'}}>
+                <img className='flowers' src={flower1} />
+            </div>
+            <div style={{ gridColumn: '15/16', gridRow: '3/4'}}>
+                <img className='flowers' src={flower2} />
+            </div>
+            <div style={{ gridColumn: '8/9', gridRow: '3/4'}}>
+                <img className='flowers' src={flower1} />
+            </div>
+            <div style={{ gridColumn: '4/5', gridRow: '4/5'}}>
+                <img className='flowers' src={flower2} />
+            </div>
+            <div style={{ gridColumn: '2/3', gridRow: '7/8'}}>
+                <img className='flowers' src={flower2} />
             </div>
         </>
     )
