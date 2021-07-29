@@ -99,7 +99,6 @@ export class BlockChain {
     }
 
     public async initialise() {
-        console.log('Run it')
         try {
             await this.setupWeb3()
             const chain = await this.web3.eth.net.getNetworkType()

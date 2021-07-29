@@ -13,6 +13,8 @@ import arrow from '../../images/ui/arrow_right.png'
 import { Fruit } from '../../types/contract'
 import { fruits, getFruit } from '../../types/fruits'
 
+import { secondsToString } from '../../utils/time'
+
 import './FruitBoard.css'
 
 import { Panel } from '../ui/Panel'
@@ -84,7 +86,7 @@ export const FruitBoard: React.FC<Props> = ({
 
                         <div className="fruit-time">
                             <img src={stopwatch} />
-                            <span>{`${fruit.harvestMinutes}mins`}</span>
+                            <span>{secondsToString(fruit.harvestMinutes * 60)}</span>
                         </div>
                     </div>
                     <div className="fruit-breakdown">

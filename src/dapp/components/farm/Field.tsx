@@ -26,22 +26,12 @@ import selectBoxBL from '../../images/ui/select-box/selectbox_bl.png'
 
 import { getFruit } from '../../types/fruits'
 import { Fruit, Square } from '../../types/contract'
+import { secondsToString } from '../../utils/time'
 
 import './Field.css'
 
 
-function secondsToString(seconds: number) {
-    // Less than 1 hour
-    if (seconds < 60 * 60) {
-        return `${Math.ceil(seconds / 60)}mins`
-    }
 
-    if (seconds < 60 * 60 * 24) {
-        return `${Math.ceil(seconds / 60 / 60)}hrs`
-    }
-
-    return `${Math.ceil(seconds / 60 / 60 / 24)}days`
-}
 interface Props {
     square: Square
     onClick: () => void
@@ -94,7 +84,7 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
 
 
         if (square.fruit === Fruit.Cauliflower) {
-            return (<img src={cauliflowerSeedling} className='seedling'/>)
+            return (<img src={cauliflowerSeedling} className='seedling cauliflower-seedling'/>)
         }
 
         return null
