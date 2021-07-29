@@ -53,7 +53,8 @@ export const Farm: React.FC= () => {
 
   React.useEffect(() => {
     const load = async () => {
-      if (machineState.matches('farming')) {
+      // Load fresh data from blockchain only if there are no unsaved changes
+      if (machineState.matches('farming') && !machineState.context.blockChain.isUnsaved()) {
         const { farm, balance: currentBalance } = await machineState.context.blockChain.getAccount()
         setLand(farm)
         setBalance(currentBalance)
