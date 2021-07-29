@@ -6,7 +6,7 @@ import { Fruit, Square } from '../../types/contract'
 
 import { UpgradeOverlay } from '../ui/UpgradeModal'
 
-import soil from '../../images/land/soil/soil.png'
+import soil from '../../images/land/soil/planted.png'
 
 import { Field }  from './Field'
 

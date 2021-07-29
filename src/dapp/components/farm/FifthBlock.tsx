@@ -2,7 +2,7 @@ import React from 'react'
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 
-import soil from '../../images/land/soil/soil.png'
+import soil from '../../images/land/soil/planted.png'
 import { Fruit, Square } from '../../types/contract'
 
 import { UpgradeOverlay } from '../ui/UpgradeModal'
