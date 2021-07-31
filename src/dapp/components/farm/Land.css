@@ -161,6 +161,34 @@
     position: absolute;
 }
 
+#sunflower-box-1 {
+    left: 19%;
+    width: 25%;
+    top: -50%;
+    position: absolute;
+}
+
+#sunflower-box-2 {
+    left: 43%;
+    width: 25%;
+    top: -50%;
+    position: absolute;
+}
+
+#pumpkin-box-1 {
+    left: 72%;
+    width: 25%;
+    top: 10%;
+    position: absolute;
+}
+
+#pumpkin-box-2 {
+    left: 95%;
+    width: 25%;
+    top: 10%;
+    position: absolute;
+}
+
 #box2 {
     width: 66%;
     position: relative;
@@ -240,4 +268,45 @@
     position: relative;
     top: 10%;
     left: 6%;
+}
+
+.man {
+    width: 63%;
+}
+
+.girl {
+    width: 74%;
+    position: relative;
+    left: -17px;
+    top: -1px;
+}
+
+.carrotMan {
+    width: 92%;
+    position: relative;
+    left: -23%;
+}
+
+.baldMan {
+    width: 60%;
+    position: relative;
+    top: 14%;
+}
+
+.chat {
+    width: 38%;
+    top: -25%;
+    left: -11%;
+    position: relative;
+
+    animation-name: floating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    margin-top: 5px;
+}
+
+#salesman:hover {
+    transform: scale(1.1);
+    cursor: pointer;
 }

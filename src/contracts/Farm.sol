@@ -218,11 +218,11 @@ contract Farm {
             // $75
             return 75 * 10**decimals;
         } else if (landSize <= 11) {
-            // $500
+            // $1000
             return 100 * 10**decimals;
         }
         
-        // $3000
+        // $10000
         return 1000 * 10**decimals;
     }
 
@@ -390,5 +390,9 @@ contract Farm {
         uint marketRate = getMarketRate();
 
         return price.div(marketRate);
+    }
+
+    function getTotalFarms() public view returns (uint count) {
+        return fields.length;
     }
 }

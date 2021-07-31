@@ -239,4 +239,16 @@ export class BlockChain {
 
         return this.events[0].createdAt
     }
+
+    public async totalSupply(): Promise<number> {
+        if (!this.web3 || !this.token) {
+            return 0
+        }
+
+        const totalSupply = await this.token.methods.totalSupply().call({ from: this.account })
+
+        const supply = this.web3.utils.fromWei(totalSupply)
+
+        return Number(supply)
+    }
 }

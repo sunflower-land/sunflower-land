@@ -5,7 +5,6 @@ import './Land.css'
 import { Square } from '../../types/contract'
 
 import waterEdge from '../../images/water/edge.png'
-import inlet from '../../images/water/inlet.png'
 
 import { FirstBlock } from './FirstBlock'
 import { SecondLand } from './SecondBlock'
@@ -14,6 +13,7 @@ import { FourthBlock } from './FourthBlock'
 import { FifthBlock } from './FifthBlock'
 import { Tiles } from './Tiles'
 import { Barn } from './Barn'
+import { Market } from './Market'
 
 interface Props {
     land: Square[]
@@ -53,6 +53,7 @@ export const Land: React.FC<Props> = ({ land, balance, onHarvest, onPlant }) => 
                 <FourthBlock land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
                 <FifthBlock land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
                 <Barn farmSize={land.length} balance={balance} />
+                <Market />
                 <Tiles />
 
                 {/* {

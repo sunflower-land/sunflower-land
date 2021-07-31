@@ -12,6 +12,8 @@ import sideHouse3 from '../../images/buildings/side-house-3.png'
 import box from '../../images/decorations/box.png'
 import cauliflower from '../../images/cauliflower/fruit.png'
 import potato from '../../images/potato/fruit.png'
+import sunflower from '../../images/sunflower/fruit.png'
+import pumpkin from '../../images/pumpkin/fruit.png'
 
 import { service } from '../../machine'
 
@@ -108,6 +110,17 @@ export const Barn: React.FC<Props> = ({ farmSize, balance }) => {
                 <img id='box2' src={box} />
                 <img id='potato-box-1' src={potato} />
                 <img id='potato-box-2' src={potato} />
+            </div>
+
+            <div style={{ gridColumn: '14/15', gridRow: '9/10'}}>
+                <img id='box2' src={box} />
+                <img id='sunflower-box-1' src={sunflower} />
+                <img id='sunflower-box-2' src={sunflower} />
+            </div>
+            <div style={{ gridColumn: '14/15', gridRow: '9/10'}}>
+                <img id='box1' src={box} />
+                <img id='pumpkin-box-1' src={pumpkin} />
+                <img id='pumpkin-box-2' src={pumpkin} />
             </div>
         </>
     )
