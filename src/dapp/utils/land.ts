@@ -11,5 +11,5 @@ export function getPrice(landSize: number) {
         return 500
     }
 
-    return 5000
+    return 2500
 }

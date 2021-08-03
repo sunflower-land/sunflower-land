@@ -99,7 +99,6 @@ contract Farm {
         uint balance;
     }
 
-    // TODO this is currently in minutes
     function getHarvestSeconds(Fruit _fruit) private pure returns (uint) {
         if (_fruit == Fruit.Sunflower) {
             // 1 minute
@@ -215,14 +214,14 @@ contract Farm {
             // $1
             return 1 * 10**decimals;
         } else if (landSize <= 8) {
-            // $75
+            // 50
             return 75 * 10**decimals;
         } else if (landSize <= 11) {
-            // $1000
+            // $500
             return 100 * 10**decimals;
         }
         
-        // $10000
+        // $2500
         return 1000 * 10**decimals;
     }
 
@@ -268,9 +267,8 @@ contract Farm {
                 require(square.fruit != Fruit.None, "NO_FRUIT");
 
                 uint duration = farmEvent.createdAt.sub(square.createdAt);
-                // Currently seconds
-                uint hoursToHarvest = getHarvestSeconds(square.fruit);
-                require(duration >= hoursToHarvest, "NOT_RIPE");
+                uint secondsToHarvest = getHarvestSeconds(square.fruit);
+                require(duration >= secondsToHarvest, "NOT_RIPE");
 
                 // Clear the land
                 Square memory emptyLand = Square({
