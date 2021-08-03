@@ -138,19 +138,19 @@ contract Farm {
             // $0.10
             return 10 * 10**decimals / 100;
         } else if (_fruit == Fruit.Pumpkin) {
+            // $0.40
+            return 40 * 10**decimals / 100;
+        } else if (_fruit == Fruit.Beetroot) {
             // $1
             return 1 * 10**decimals;
-        } else if (_fruit == Fruit.Beetroot) {
-            // $5
-            return 5 * 10**decimals;
         } else if (_fruit == Fruit.Cauliflower) {
-            // $25
-            return 25 * 10**decimals;
+            // $4
+            return 4 * 10**decimals;
         } else if (_fruit == Fruit.Money) {
-            // $50
+            // $10
             return 50 * 10**decimals;
         } else if (_fruit == Fruit.Diamond) {
-            // $150
+            // $50
             return 150 * 10**decimals;
         }
 
@@ -166,23 +166,23 @@ contract Farm {
             // $0.02
             return 2 * 10**decimals / 100;
         } else if (_fruit == Fruit.Potato) {
-            // $0.20
-            return 20 * 10**decimals / 100;
+            // $0.16
+            return 16 * 10**decimals / 100;
         } else if (_fruit == Fruit.Pumpkin) {
-            // $2
-            return 2 * 10**decimals;
+            // $0.80
+            return 80 * 10**decimals / 100;
         } else if (_fruit == Fruit.Beetroot) {
-            // $10
-            return 10 * 10**decimals;
+            // $1.8
+            return 180 * 10**decimals / 100;
         } else if (_fruit == Fruit.Cauliflower) {
-            // $50
-            return 50 * 10**decimals;
+            // $8
+            return 8 * 10**decimals;
         } else if (_fruit == Fruit.Money) {
-            // $150
-            return 150 * 10**decimals;
+            // $16
+            return 16 * 10**decimals;
         } else if (_fruit == Fruit.Diamond) {
-            // $300
-            return 300 * 10**decimals;
+            // $80
+            return 80 * 10**decimals;
         }
 
         require(false, "INVALID_FRUIT");
@@ -339,13 +339,13 @@ contract Farm {
         uint commission = fmcPrice.div(100);
         token.mint(token.getOwner(), commission);
         
-        // Make them immediately harvestable in case they spent all their money
+        // Add 3 sunflower fields in the new fields
         Square memory sunflower = Square({
             fruit: Fruit.Sunflower,
+            // Make them immediately harvestable in case they spent all their money
             createdAt: 0,
         });
 
-        // Add 3 sunflower fields
         for (uint index = 0; index < 3; index++) {
             land.push(sunflower);
         }
@@ -359,22 +359,43 @@ contract Farm {
 
         // Less than 100, 000 FMC tokens
         if (totalSupply < (100000 * 10**decimals)) {
-            // 1 Farm Dollar gets you a FMC token
+            // 1 Farm Dollar gets you 1 FMC token
             return 1;
+        }
+
+        // Less than 500, 000 FMC tokens
+        if (totalSupply < (500000 * 10**decimals)) {
+            return 5;
         }
 
         // Less than 1, 000, 000 FMC tokens
         if (totalSupply < (1000000 * 10**decimals)) {
             return 10;
         }
+
+        // Less than 5, 000, 000 FMC tokens
+        if (totalSupply < (5000000 * 10**decimals)) {
+            return 50;
+        }
+
         // Less than 10, 000, 000 FMC tokens
         if (totalSupply < (10000000 * 10**decimals)) {
             return 100;
         }
 
+        // Less than 50, 000, 000 FMC tokens
+        if (totalSupply < (50000000 * 10**decimals)) {
+            return 500;
+        }
+
         // Less than 100, 000, 000 FMC tokens
         if (totalSupply < (100000000 * 10**decimals)) {
             return 1000;
+        }
+
+        // Less than 500, 000, 000 FMC tokens
+        if (totalSupply < (500000000 * 10**decimals)) {
+            return 5000;
         }
 
         // Less than 1, 000, 000, 000 FMC tokens

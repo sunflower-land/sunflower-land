@@ -8,6 +8,8 @@ import { service, Context, BlockchainEvent, BlockchainState } from '../../machin
 
 import cancel from '../../images/ui/cancel.png'
 
+import { getPrice } from '../../utils/land'
+
 import { Panel } from './Panel'
 import { Message } from './Message'
 import { Button } from './Button'
@@ -20,24 +22,9 @@ interface Props {
     balance: number
 }
 
-function getPrice(landSize: number) {
-    if (landSize < 8) {
-        return 1
-    }
 
-    if (landSize < 11) {
-        return 30
-    }
-
-    if (landSize < 14) {
-        return 100
-    }
-
-    return 1000
-}
 
 export const UpgradeModal: React.FC<Props> = ({ isOpen, onClose, farmSize, balance }) => {
-    // TODO: Read from blockchain
     const [machineState, send] = useService<
         Context,
         BlockchainEvent,

@@ -32,47 +32,47 @@ export const fruits: Item[] = [{
     name: 'Potato',
     image: potato,
     buyPrice: 0.1,
-    sellPrice: 0.2,
+    sellPrice: 0.16,
     landRequired: 5,
     harvestMinutes: 5
 }, {
     fruit: Fruit.Pumpkin,
     name: 'Pumpkin',
     image: pumpkin,
-    buyPrice: 1,
-    sellPrice: 2,
+    buyPrice: 0.4,
+    sellPrice: 0.8,
     landRequired: 8,
     harvestMinutes: 60
 }, {
     fruit: Fruit.Beetroot,
     name: 'Beetroot',
     image: beetroot,
-    buyPrice: 5,
-    sellPrice: 10,
+    buyPrice: 1,
+    sellPrice: 1.8,
     landRequired: 8,
     harvestMinutes: 4 * 60
 }, {
     fruit: Fruit.Cauliflower,
     name: 'Cauliflower',
     image: cauliflower,
-    buyPrice: 25,
-    sellPrice: 50,
+    buyPrice: 4,
+    sellPrice: 8,
     landRequired: 11,
     harvestMinutes: 8 * 60
 }, {
     fruit: Fruit.Money,
     name: 'Money (BETA)',
     image: question,
-    buyPrice: 50,
-    sellPrice: 150,
+    buyPrice: 10,
+    sellPrice: 16,
     landRequired: 14,
     harvestMinutes: 24 * 60
 }, {
     fruit: Fruit.Diamond,
     name: 'Diamond (BETA)',
     image: question,
-    buyPrice: 150,
-    sellPrice: 300,
+    buyPrice: 50,
+    sellPrice: 80,
     landRequired: 17,
     harvestMinutes: 3 * 24 * 60
 }]
