@@ -2,6 +2,8 @@ pragma solidity >=0.6.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
 import "@openzeppelin/contracts/math/Math.sol";
+//import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/math/Math.sol";
+
 import "./Token.sol";
 
 contract Farm {
@@ -409,9 +411,5 @@ contract Farm {
         uint marketRate = getMarketRate();
 
         return price.div(marketRate);
-    }
-
-    function getTotalFarms() public view returns (uint count) {
-        return fields.length;
     }
 }
