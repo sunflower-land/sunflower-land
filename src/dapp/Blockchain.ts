@@ -43,13 +43,25 @@ export class BlockChain {
         // this.farm = new this.web3.eth.Contract(Farm.abi as any, farmAddress)
     }
 
-    private async connectToMatic(){
+    private async connectToMumbai(){
 
         // web3.eth.defaultAddress = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'
         // web3.eth.handleRevert = true
 
         this.token = new this.web3.eth.Contract(Token as any, '0x8B0e84C5D75C9b489119bde5fA9136212C7e86A8')
         this.farm = new this.web3.eth.Contract(Farm as any, '0x84a23593ba916aDACA311A19a0648e6f8cc90612')
+
+        const maticAccounts = await this.web3.eth.getAccounts()
+        this.account = maticAccounts[0]
+    }
+
+    private async connectToMatic(){
+
+        // web3.eth.defaultAddress = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'
+        // web3.eth.handleRevert = true
+
+        this.token = new this.web3.eth.Contract(Token as any, '0x05658De4C0e6134Bdd12740611Ee0f26f0183814')
+        this.farm = new this.web3.eth.Contract(Farm as any, '0xBa3C899EAe54D39E138464d3B704f0561ca6E335')
 
         const maticAccounts = await this.web3.eth.getAccounts()
         this.account = maticAccounts[0]
@@ -106,8 +118,13 @@ export class BlockChain {
 
             console.log({ chain })
             console.log({ chainId })
-            if (chainId === 80001) {
+
+            if (chainId === 137) {
                 await this.connectToMatic()
+
+                this.details = await this.getAccount()
+            } else if (chainId === 80001) {
+                await this.connectToMumbai()
 
                 this.details = await this.getAccount()
             } else if (chainId === 1666700000) {
