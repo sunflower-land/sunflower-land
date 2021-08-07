@@ -335,7 +335,7 @@
     cursor: pointer;
 }
 
-#environment {
+#environment-left {
     position: absolute;
     display: grid;
     grid-template-columns: repeat(16, 1fr);
@@ -343,5 +343,16 @@
     grid-auto-rows: 1fr;
     width: 1000px;
     left: 100%;
+    height: 100%;
+}
+
+#environment-right {
+    position: absolute;
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    grid-auto-rows: 1fr;
+    width: 1000px;
+    left: -100%;
     height: 100%;
 }

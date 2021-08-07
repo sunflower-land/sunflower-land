@@ -16,11 +16,11 @@ import grassLeaves2 from '../../images/decorations/grassLeaves2.png'
 
 interface Props {}
 
-const fields = [1, 4, 6, 9, 11, 13]
+const fields = [1, 4, 6, 10, 13, 15]
 
 // Repeated decorations to 
 const DecorationFiller = () =>  (
-    <div id='environment'>
+    <>
         {
             fields.map((position, index) => (
                 <>
@@ -62,7 +62,7 @@ const DecorationFiller = () =>  (
                 </>
             ))
         }
-    </div>
+    </>
 )
 export const Tiles: React.FC<Props> = () => {
     return (
@@ -294,7 +294,13 @@ export const Tiles: React.FC<Props> = () => {
                 <img className='rock1' src={rock2} />
             </div>
 
-            <DecorationFiller />
+            <div id='environment-left'>
+                <DecorationFiller />
+            </div>
+
+            <div id='environment-right'>
+                <DecorationFiller />
+            </div>
         </>
 
 
