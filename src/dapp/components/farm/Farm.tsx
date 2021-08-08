@@ -1,5 +1,6 @@
 import React from 'react';
 import { useService } from '@xstate/react';
+import Decimal from 'decimal.js-light'
 
 import { Land } from './Land'
 
@@ -19,7 +20,7 @@ import { Button } from '../ui/Button'
 import { FruitBoard } from './FruitBoard'
 
 export const Farm: React.FC= () => {
-  const [balance, setBalance] = React.useState(0)
+  const [balance, setBalance] = React.useState<Decimal>(new Decimal(0))
   const [land, setLand] = React.useState<Square[]>(Array(17).fill({}))
   const [fruit, setFruit] = React.useState<Fruit>(Fruit.Sunflower)
 
@@ -57,14 +58,14 @@ export const Farm: React.FC= () => {
       if (machineState.matches('farming') && !machineState.context.blockChain.isUnsaved()) {
         const { farm, balance: currentBalance } = await machineState.context.blockChain.getAccount()
         setLand(farm)
-        setBalance(currentBalance)
+        setBalance(new Decimal(currentBalance))
       }
     }
 
     load()
   }, [machineState])
 
-  const onHarvest = async (landIndex: number) => {
+  const onHarvest = React.useCallback(async (landIndex: number) => {
     const now = Math.floor(Date.now() / 1000)
 
     const harvestedFruit = land[landIndex]
@@ -78,10 +79,10 @@ export const Farm: React.FC= () => {
 
     setLand(oldLand => oldLand.map((field, index) => index === landIndex ? { fruit: Fruit.None, createdAt: 0 } : field))
     const price = getFruit(harvestedFruit.fruit).sellPrice
-    setBalance(balance + price)
-  }
+    setBalance(balance.plus(price))
+  }, [balance, land, machineState.context.blockChain])
   
-  const onPlant = async (landIndex: number) => {
+  const onPlant = React.useCallback(async (landIndex: number) => {
     const price = getFruit(fruit).buyPrice
 
     if (price > balance) {
@@ -101,16 +102,18 @@ export const Farm: React.FC= () => {
       const newLand = oldLand.map((field, index) => index === landIndex ? transaction : field)
       return newLand
     })
-    setBalance(balance - price)
-  }
+    setBalance(balance.minus(price))
+  }, [balance, fruit, machineState.context.blockChain])
 
   const save = async () => {
     send('SAVE')
   }
+
+  const safeBalance = balance.toNumber()
   
   return (
       <>
-        <Land land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
+        <Land land={land} balance={safeBalance} onHarvest={onHarvest} onPlant={onPlant}/>
 
         <span id='save-button'>
           <Panel hasInner={false}>
@@ -133,12 +136,12 @@ export const Farm: React.FC= () => {
           <Panel>
             <div id="inner">
               <img src={coin} />
-              {machineState.context.blockChain.isConnected && balance.toFixed(2)}
+              {machineState.context.blockChain.isConnected && safeBalance}
             </div>
           </Panel>
         </div>
 
-        <FruitBoard selectedFruit={fruit} onSelectFruit={setFruit} land={land} balance={balance}/>
+        <FruitBoard selectedFruit={fruit} onSelectFruit={setFruit} land={land} balance={safeBalance}/>
       </>
   )
 }

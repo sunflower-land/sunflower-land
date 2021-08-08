@@ -148,11 +148,11 @@ contract Farm {
             // $4
             return 4 * 10**decimals;
         } else if (_fruit == Fruit.Money) {
-            // $10
-            return 50 * 10**decimals;
+            // $10 (TODO was $50 - NEED TO REDEPLOY!)
+            return 10 * 10**decimals;
         } else if (_fruit == Fruit.Diamond) {
             // $50
-            return 150 * 10**decimals;
+            return 50 * 10**decimals;
         }
 
         require(false, "INVALID_FRUIT");
@@ -217,14 +217,14 @@ contract Farm {
             return 1 * 10**decimals;
         } else if (landSize <= 8) {
             // 50
-            return 75 * 10**decimals;
+            return 50 * 10**decimals;
         } else if (landSize <= 11) {
             // $500
-            return 100 * 10**decimals;
+            return 500 * 10**decimals;
         }
         
         // $2500
-        return 1000 * 10**decimals;
+        return 2500 * 10**decimals;
     }
 
     modifier hasFarm {
