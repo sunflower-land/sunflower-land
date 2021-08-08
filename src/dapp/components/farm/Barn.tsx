@@ -8,6 +8,8 @@ import window from '../../images/buildings/window.png'
 import sideHouse from '../../images/buildings/side-house-2.png'
 import roof from '../../images/buildings/roof.png'
 import sideHouse3 from '../../images/buildings/side-house-3.png'
+import chimney from '../../images/buildings/chimney.png'
+import smoke from '../../images/buildings/smoke.gif'
 
 import box from '../../images/decorations/box.png'
 import cauliflower from '../../images/cauliflower/fruit.png'
@@ -70,6 +72,8 @@ export const Barn: React.FC<Props> = ({ farmSize, balance }) => {
                     <img id='base' src={base} />
                     <img id='door' src={door} />
                     <img id='window' src={window} />
+                    <img id='chimney' src={chimney} />
+                    <img id='smoke' src={smoke} />
                     {
                         farmSize > 5 && (
                             <img id='level' src={level} />

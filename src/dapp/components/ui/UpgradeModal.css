@@ -1,0 +1,9 @@
+.upgrade-icons {
+    display: flex;;
+}
+.upgrade-fruit {
+    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white) drop-shadow(0px -1px 0px white);
+    width: 30px;
+    image-rendering: pixelated;
+    margin-right: 16px;
+}
