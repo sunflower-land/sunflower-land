@@ -1,0 +1,46 @@
+
+#saving, #error {
+    color: white;
+    text-shadow: 1px 1px black;
+    text-align: center;
+    line-height: 20px;
+    padding: 10px;
+}
+
+#saving > h6 {
+    padding-top: 16px;
+}
+
+#saving > span {
+    font-size: 10px;
+}
+#mining-animation {
+    position: relative;
+    height: 100px;
+}
+
+#mining-gif {
+    width: 205px;
+    position: absolute;
+    image-rendering: pixelated;
+    left: 50%;
+    margin-left: -112px;
+    z-index: 1;
+}
+
+#mining-rock {
+    width: 36px;
+    image-rendering: pixelated;
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    margin-left: 17px;
+    z-index: 0;
+
+
+}
+
+#error > .button {
+    display: block;
+    margin-top: 36px;
+}

@@ -21,7 +21,7 @@ export const Button: React.FC<Props> = ({
     disabled
 }) => {
     return (
-        <div className={disabled ? "button disabled" : "button"} onClick={onClick}>
+        <div className={disabled ? "button disabled" : "button"} onClick={disabled ? undefined : onClick}>
             { children }
             <img id="panel-left-edge" src={leftEdgeInner} />
             <img id="panel-right-edge" src={rightEdgeInner} />

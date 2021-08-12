@@ -157,7 +157,8 @@
 .price > img {
     width: 20px;
     margin-right: 8px;
-    filter: drop-shadow(1px 1px 0px black) drop-shadow(-1px 0px 0px black) drop-shadow(0px -1px 0px black)
+    filter: drop-shadow(1px 1px 0px black) drop-shadow(-1px 0px 0px black) drop-shadow(0px -1px 0px black);
+    image-rendering: pixelated;
 }
 
 .price-label {

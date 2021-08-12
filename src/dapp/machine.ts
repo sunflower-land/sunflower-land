@@ -17,8 +17,8 @@ export interface FarmCreatedEvent extends EventObject {
     type: 'FARM_CREATED';
 }
 
-export interface ConnectedEvent extends EventObject {
-    type: 'CONNECTED';
+export interface NetworkChangedEvent extends EventObject {
+    type: 'NETWORK_CHANGED';
 }
 
 export interface GetStartedEvent extends EventObject {
@@ -41,7 +41,7 @@ export interface UpgradeEvent extends EventObject {
 
 export type BlockchainEvent =
     | FarmCreatedEvent
-    | ConnectedEvent
+    | NetworkChangedEvent
     | GetStartedEvent
     | SaveEvent
     | UpgradeEvent
@@ -73,12 +73,19 @@ export const blockChainMachine = createMachine<
     BlockchainState
 >({
     id: 'farmMachine',
-    initial: 'loading',
+    initial: 'initial',
     context: {
         blockChain: new BlockChain(),
         errorCode: null,
     },
     states: {
+        initial: {
+            on: {
+                GET_STARTED: {
+                    target: 'loading',
+                },
+            }
+        },
         loading: {
             invoke: {
                 src: ({ blockChain }) => blockChain.initialise(),
@@ -88,7 +95,7 @@ export const blockChainMachine = createMachine<
                         cond: hasFarm,
                     },
                     {
-                        target: 'initial'
+                        target: 'registering'
                     }
                 ],
                 onError: {
@@ -98,13 +105,6 @@ export const blockChainMachine = createMachine<
                     }),
                 },
             },
-        },
-        initial: {
-            on: {
-                GET_STARTED: {
-                    target: 'registering',
-                },
-            }
         },
         registering: {
             on: {
@@ -126,19 +126,6 @@ export const blockChainMachine = createMachine<
                     }),
                 },
             },
-        },
-        notConnected: {
-            on: {
-                CONNECTED: [
-                    {
-                        target: 'farming',
-                        cond: hasFarm
-                    },
-                    {
-                      target: 'registering',
-                    },
-                ]
-            }
         },
         farming: {
             on: {
@@ -177,7 +164,13 @@ export const blockChainMachine = createMachine<
                 }
             }
         },
-        failure: {}
+        failure: {
+            on: {
+                NETWORK_CHANGED: {
+                    target: 'loading',
+                },
+            }
+        }
     }
   });
 

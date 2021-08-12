@@ -10,7 +10,7 @@ import { Fruit, Square, Action, Transaction } from '../../types/contract'
 
 import { service, Context, BlockchainEvent, BlockchainState } from '../../machine'
 
-import coin from '../../images/ui/coin.png'
+import coin from '../../images/ui/sunflower_coin.png'
 import questionMark from '../../images/ui/expression_confused.png'
 
 import { Panel } from '../ui/Panel'
@@ -21,7 +21,10 @@ import { FruitBoard } from './FruitBoard'
 
 export const Farm: React.FC= () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0))
-  const [land, setLand] = React.useState<Square[]>(Array(17).fill({}))
+  const [land, setLand] = React.useState<Square[]>(Array(5).fill({
+    fruit: Fruit.None,
+    createdAt: 0,
+  }))
   const [fruit, setFruit] = React.useState<Fruit>(Fruit.Sunflower)
 
   const [machineState, send] = useService<

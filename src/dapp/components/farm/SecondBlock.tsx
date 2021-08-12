@@ -20,6 +20,7 @@ interface Props {
 
 export const SecondLand: React.FC<Props> = ({ land, balance, onHarvest, onPlant }) => {
     const isUnlocked = land.length > 5
+    console.log({ land })
 
     return (
         <>

@@ -225,3 +225,26 @@
     z-index: 0;
     bottom: 0;
 }
+
+.harvest {
+    position: absolute;
+    top: 16px;
+    left: -2px;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.3s;
+    -webkit-transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.harvest-amount {
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 10px;
+}
+
+.harvest-coin {
+    width: 18px;
+    margin-left: 4px;
+    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white) drop-shadow(0px -1px 0px white);
+}

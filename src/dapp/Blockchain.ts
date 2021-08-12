@@ -1,20 +1,9 @@
-import { Contract } from 'web3-eth-contract';
 import Web3 from 'web3';
 
 import Token from '../abis/Token.json'
 import Farm from '../abis/Farm.json'
-import { TokenInstance } from '../../types/truffle-contracts/Token'
-import { FarmInstance } from '../../types/truffle-contracts/Farm'
 
 import { Transaction, Square, Charity  } from './types/contract'
-
-interface TokenContract extends Contract {
-  methods: TokenInstance
-}
-
-interface FarmContract extends Contract {
-  methods: FarmInstance
-}
 
 interface Account {
     farm: Square[]
@@ -60,11 +49,17 @@ export class BlockChain {
         // web3.eth.defaultAddress = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'
         // web3.eth.handleRevert = true
 
-        this.token = new this.web3.eth.Contract(Token as any, '0x05658De4C0e6134Bdd12740611Ee0f26f0183814')
-        this.farm = new this.web3.eth.Contract(Farm as any, '0xBa3C899EAe54D39E138464d3B704f0561ca6E335')
+        try {
+            this.token = new this.web3.eth.Contract(Token as any, '0x05658De4C0e6134Bdd12740611Ee0f26f0183814')
+            this.farm = new this.web3.eth.Contract(Farm as any, '0xBa3C899EAe54D39E138464d3B704f0561ca6E335')
+    
+            const maticAccounts = await this.web3.eth.getAccounts()
+            this.account = maticAccounts[0]
+        } catch(e){
+            console.error(e)
+            throw e
+        }
 
-        const maticAccounts = await this.web3.eth.getAccounts()
-        this.account = maticAccounts[0]
     }
 
     private async connectToHarmony(){

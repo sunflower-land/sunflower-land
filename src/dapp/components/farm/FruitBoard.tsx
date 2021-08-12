@@ -7,7 +7,7 @@ import stopwatch from '../../images/ui/stopwatch.png'
 import disc from '../../images/ui/disc.png'
 import cancel from '../../images/ui/cancel.png'
 import alert from '../../images/ui/expression_alerted.png'
-import coin from '../../images/ui/coin.png'
+import coin from '../../images/ui/sunflower_coin.png'
 import arrow from '../../images/ui/arrow_right.png'
 
 import { Fruit } from '../../types/contract'

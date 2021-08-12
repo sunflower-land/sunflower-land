@@ -10,6 +10,7 @@ import cauliflower from '../../images/cauliflower/plant.png'
 import cauliflowerSeedling from '../../images/cauliflower/seedling.png'
 import potato from '../../images/potato/plant.png'
 import potatoSeedling from '../../images/potato/seedling.png'
+import coin from '../../images/ui/sunflower_coin.png'
 
 import planted from '../../images/land/soil/planted.png'
 import terrain from '../../images/land/soil/soil.png'
@@ -37,22 +38,39 @@ interface Props {
     onClick: () => void
 }
 
+function getTimeLeft(createdAt: number, totalTime: number) {
+    const secondsElapsed = (Date.now()/1000) - createdAt;
+    if (secondsElapsed > totalTime) {
+        return 0
+    }
+
+    return totalTime - secondsElapsed
+}
+
 export const Field: React.FC<Props> = ({ square, onClick }) => {
-    const [timeLeft, setTimeLeft] = React.useState(null)
+    const [timer, setTimer] = React.useState<number>(0)
+    const [harvestPrice, setHarvestPrice] = React.useState<number>(null)
 
     const fruit = getFruit(square.fruit)
-    const totalTime =fruit?.harvestMinutes * 60
+    const totalTime = fruit?.harvestMinutes * 60
 
-    const setHarvestTime = () => {
-        const secondsElapsed = (Date.now()/1000) - square.createdAt;
-        if (secondsElapsed > totalTime) {
-            setTimeLeft(0)
-            return
+    const click = React.useCallback(() => {
+        // Show harvest price
+        if (square.fruit !== Fruit.None) {
+            // Harvest
+            const fruit = getFruit(square.fruit)
+            setHarvestPrice(fruit.buyPrice)
+
+            // Remove harvest price after X seconds
+            window.setTimeout(() => setHarvestPrice(null), 500)
         }
 
-        const timeLeft = totalTime - secondsElapsed
-        setTimeLeft(timeLeft)
-    }
+        onClick()
+    }, [onClick, square.fruit])
+
+    const setHarvestTime = React.useCallback(() => {
+        setTimer(count => count + 1)
+    }, [])
 
     React.useEffect(() => {
         if (square.fruit && square.fruit !== Fruit.None) {
@@ -136,27 +154,36 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
         return null
     }
 
+    const timeLeft = getTimeLeft(square.createdAt, totalTime)
+
     return (
-        <div className="field" onClick={!timeLeft ? onClick : undefined}>
+        <div className="field" onClick={!timeLeft ? click : undefined}>
+            <div className='harvest' style={{ opacity: !!harvestPrice ? '1' : '0'}}>
+                <span className='harvest-amount'>+0.01</span>
+                <img className='harvest-coin' src={coin} />
+            </div>
             {
                 square.fruit === Fruit.None && (
                     <img src={terrain} className="soil"/>
                 )
             }
             {
-                timeLeft !== null && square.fruit !== Fruit.None && (
+                square.fruit !== Fruit.None && (
                     <>
                         <img src={planted} className="planted-soil"/>
                         {
-                            timeLeft > 0 ? (
+                            timeLeft && timeLeft > 0 && (
                                 Seedling()
-                            ) : (
+                            )
+                        }
+                        {
+                            timeLeft === 0 && (
                                 Plant()
                             )
                         }
                         {Progress()}
                         {
-                            timeLeft > 0 && (
+                            timeLeft && timeLeft > 0 && (
                                 <span className='progress-text'>{secondsToString(timeLeft)}</span>
                             )
                         }

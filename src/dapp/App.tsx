@@ -18,6 +18,15 @@ export const App: React.FC = () => {
     BlockchainState
   >(service);
 
+  React.useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on('networkChanged', () => {
+        console.log('Network changed')
+        send('NETWORK_CHANGED')
+      });
+    }
+  }, [send])
+  
   const getStarted = () => {
     send('GET_STARTED')
   }

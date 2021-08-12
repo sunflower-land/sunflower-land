@@ -26,9 +26,10 @@ body {
 }
 
 #inner > img {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     margin-right: 10px;
+    image-rendering: pixelated;
 }
 
 
@@ -62,20 +63,6 @@ body {
     left: 10px;
 }
 
-
-#saving {
-    color: white;
-    text-align: center;
-    line-height: 20px;
-    padding: 10px;
-}
-
-#saving .button {
-    width: 200px;
-    text-align: center;
-    justify-content: center;
-    margin: 20px auto;
-}
 
 .message {
     background: #c0cbdb;
