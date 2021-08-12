@@ -33,6 +33,16 @@
     margin-top: 30px;
 }
 
+.current-price-supply-demand {
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 11px;
+    margin-top: 4px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
 .current-price-subheader {
     color: white;
     text-shadow: 1px 1px black;

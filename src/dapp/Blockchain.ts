@@ -4,6 +4,7 @@ import Token from '../abis/Token.json'
 import Farm from '../abis/Farm.json'
 
 import { Transaction, Square, Charity  } from './types/contract'
+import { threadId } from 'worker_threads';
 
 interface Account {
     farm: Square[]
@@ -163,8 +164,12 @@ export class BlockChain {
     public save() {
         const blockChain = this
 
-        return new Promise((resolve, reject) => {
-            this.farm.methods.sync(this.events).send({from: this.account})
+
+        return new Promise(async (resolve, reject) => {
+            const price = await this.web3.eth.getGasPrice()
+            const gasPrice = price ? Number(price) * 3 : undefined
+
+            this.farm.methods.sync(this.events).send({from: this.account, gasPrice })
                 .on('error', function(error){
                     console.log({ error })
                     // User rejected
@@ -172,7 +177,6 @@ export class BlockChain {
                         return resolve(null)
                     }
 
-                    blockChain.events = []
                     reject(error)
                 })
                 .on('transactionHash', function(transactionHash){

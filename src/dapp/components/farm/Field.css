@@ -229,7 +229,7 @@
 .harvest {
     position: absolute;
     top: 16px;
-    left: -2px;
+    left: -4px;
     display: flex;
     align-items: center;
     transition: opacity 0.3s;
@@ -240,7 +240,7 @@
 .harvest-amount {
     color: white;
     text-shadow: 1px 1px black;
-    font-size: 10px;
+    font-size: 11px;
 }
 
 .harvest-coin {

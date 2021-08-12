@@ -45,7 +45,7 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         <h3 className='current-price-header'>Current Price</h3>
                         <div className="current-price-container ">
                             <img className='sunflower-price' src={sunflower} />
-                            <span className='current-price'>= ${currentRate}</span>
+                            <span className='current-price'>= ${currentRate / 10}</span>
                         </div>
                     </div>
 
@@ -54,7 +54,7 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         <h3 className='current-price-subheader'>(When total supply reaches {nextHalving})</h3>
                         <div className="current-price-container ">
                             <img className='sunflower-price' src={sunflower} />
-                            <span className='current-price'>= ${nextRate}</span>
+                            <span className='current-price'>= ${nextRate / 10}</span>
                         </div>
                     </div>
 
@@ -64,6 +64,9 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
                             <span className='current-price'>{totalSupply}</span>
                         </div>
                     </div>
+
+                    <a href='https://adamhannigan81.gitbook.io/sunflower-coin/#supply-and-demand'><h3 className='current-price-supply-demand'>Read more about the supply & demand</h3></a>
+
 
                     <div>
 
