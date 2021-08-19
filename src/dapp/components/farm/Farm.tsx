@@ -61,6 +61,7 @@ export const Farm: React.FC= () => {
       if (machineState.matches('farming') && !machineState.context.blockChain.isUnsaved()) {
         const { farm, balance: currentBalance } = await machineState.context.blockChain.getAccount()
         setLand(farm)
+        console.log({ currentBalance })
         setBalance(new Decimal(currentBalance))
       }
     }
@@ -88,7 +89,7 @@ export const Farm: React.FC= () => {
   const onPlant = React.useCallback(async (landIndex: number) => {
     const price = getFruit(fruit).buyPrice
 
-    if (price > balance) {
+    if (balance.lt(price)) {
         return
     }
 

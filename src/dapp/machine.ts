@@ -1,5 +1,5 @@
 import { createMachine, Interpreter, EventObject, interpret, assign } from 'xstate';
-import { Transaction, Charity } from './types/contract'
+import { Charity } from './types/contract'
 import { BlockChain } from './Blockchain';
 
 export interface Context {
@@ -10,7 +10,7 @@ export interface Context {
 const hasFarm = (
     { blockChain }: Context,
 ) => {
-    return blockChain.hasFarm
+    return blockChain.isTrial ||  blockChain.hasFarm
 };
 
 export interface FarmCreatedEvent extends EventObject {
@@ -27,6 +27,10 @@ export interface GetStartedEvent extends EventObject {
 
 export interface SaveEvent extends EventObject {
     type: 'SAVE';
+}
+
+export interface TrialEvent extends EventObject {
+    type: 'TRIAL';
 }
 
 
@@ -46,6 +50,7 @@ export type BlockchainEvent =
     | SaveEvent
     | UpgradeEvent
     | DonateEvent
+    | TrialEvent
 
 
 export type BlockchainState = {
@@ -169,6 +174,10 @@ export const blockChainMachine = createMachine<
                 NETWORK_CHANGED: {
                     target: 'loading',
                 },
+                TRIAL: {
+                    target: 'farming',
+                    actions: (context) => { context.blockChain.startTrialMode() }
+                }
             }
         }
     }

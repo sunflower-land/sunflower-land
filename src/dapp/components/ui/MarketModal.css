@@ -33,6 +33,20 @@
     margin-top: 30px;
 }
 
+.current-price-prediction {
+    color: white;
+    text-shadow: 1px 1px black;
+    margin-top: 0;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+#prediction-alert {
+    image-rendering: pixelated;
+    width: 12px;
+    margin-right: 8px;
+}
+
 .current-price-supply-demand {
     color: white;
     text-shadow: 1px 1px black;

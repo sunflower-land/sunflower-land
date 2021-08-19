@@ -3,9 +3,9 @@ import Web3 from 'web3';
 import Token from '../abis/Token.json'
 import Farm from '../abis/Farm.json'
 
-import { Transaction, Square, Charity  } from './types/contract'
-import { threadId } from 'worker_threads';
+import { Transaction, Square, Charity, Fruit  } from './types/contract'
 
+const LOCAL_GAME_KEY = 'trial_game_data'
 interface Account {
     farm: Square[]
     balance: number
@@ -19,6 +19,8 @@ export class BlockChain {
     private details: Account = null
 
     private events: Transaction[] = []
+
+    private isTrialAccount: boolean = false
 
     private async connectToGanache() {
         // const netId = await this.web3.eth.net.getId();
@@ -57,8 +59,14 @@ export class BlockChain {
             const maticAccounts = await this.web3.eth.getAccounts()
             this.account = maticAccounts[0]
         } catch(e){
-            console.error(e)
-            throw e
+            // Timeout, retry
+            if (e.code === '-32005') {
+                console.error('Retrying...')
+                await new Promise(res => window.setTimeout(res, 3000))
+            } else {
+                console.error(e)
+                throw e
+            }
         }
 
     }
@@ -81,7 +89,7 @@ export class BlockChain {
 
 
     public get isConnected() {
-        return !!this.farm
+        return this.isTrial || !!this.farm
     }
 
     public get hasFarm() {
@@ -108,6 +116,8 @@ export class BlockChain {
 
     public async initialise() {
         try {
+            // It is actually quite fast, we won't to simulate slow loading to convey complexity
+            await new Promise(res => window.setTimeout(res, 1000))
             await this.setupWeb3()
             const chain = await this.web3.eth.net.getNetworkType()
             const chainId = await this.web3.eth.getChainId()
@@ -164,6 +174,9 @@ export class BlockChain {
     public save() {
         const blockChain = this
 
+        if (this.isTrial) {
+            throw new Error('Not implemented in simulated environment')
+        }
 
         return new Promise(async (resolve, reject) => {
             const price = await this.web3.eth.getGasPrice()
@@ -192,6 +205,10 @@ export class BlockChain {
     }
 
     public levelUp() {
+        if (this.isTrial) {
+            throw new Error('Not implemented in simulated environment')
+        }
+        
         return new Promise((resolve, reject) => {
             this.farm.methods.levelUp().send({from: this.account})
             .on('error', function(error){
@@ -221,6 +238,28 @@ export class BlockChain {
             }
         }
 
+        if (this.isTrial) {
+            return {
+                farm: [{
+                    createdAt: 0,
+                    fruit: Fruit.None
+                }, {
+                    createdAt: 0,
+                    fruit: Fruit.Sunflower
+                }, {
+                    createdAt: 0,
+                    fruit: Fruit.Sunflower
+                }, {
+                    createdAt: 0,
+                    fruit: Fruit.Sunflower
+                }, {
+                    createdAt: 0,
+                    fruit: Fruit.None
+                }],
+                balance: 0,
+            }
+        }
+
         const rawBalance = await this.token.methods.balanceOf(this.account).call({ from: this.account })
         const farm = await this.farm.methods.getLand().call({ from: this.account })
         
@@ -246,6 +285,14 @@ export class BlockChain {
 
     public isUnsaved() {
         return this.events.length > 0
+    }
+
+    public get isTrial() {
+        return this.isTrialAccount
+    }
+
+    public startTrialMode() {
+        this.isTrialAccount = true
     }
 
     public lastSaved() {

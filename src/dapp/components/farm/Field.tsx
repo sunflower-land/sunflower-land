@@ -50,6 +50,7 @@ function getTimeLeft(createdAt: number, totalTime: number) {
 export const Field: React.FC<Props> = ({ square, onClick }) => {
     const [timer, setTimer] = React.useState<number>(0)
     const [harvestPrice, setHarvestPrice] = React.useState<number>(null)
+    const [showPrice, setShowPrice] = React.useState(false)
 
     const fruit = getFruit(square.fruit)
     const totalTime = fruit?.harvestMinutes * 60
@@ -57,12 +58,15 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
     const click = React.useCallback(() => {
         // Show harvest price
         if (square.fruit !== Fruit.None) {
+            setShowPrice(true)
             // Harvest
             const fruit = getFruit(square.fruit)
-            setHarvestPrice(fruit.buyPrice)
+            setHarvestPrice(fruit.sellPrice)
 
             // Remove harvest price after X seconds
-            window.setTimeout(() => setHarvestPrice(null), 500)
+            window.setTimeout(() => {
+                setShowPrice(false)
+            }, 500)
         }
 
         onClick()
@@ -158,8 +162,8 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
 
     return (
         <div className="field" onClick={!timeLeft ? click : undefined}>
-            <div className='harvest' style={{ opacity: !!harvestPrice ? '1' : '0'}}>
-                <span className='harvest-amount'>+0.01</span>
+            <div className='harvest' style={{ opacity: !!showPrice ? '1' : '0'}}>
+                <span className='harvest-amount'>{`+${harvestPrice}`}</span>
                 <img className='harvest-coin' src={coin} />
             </div>
             {

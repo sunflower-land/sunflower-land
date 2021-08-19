@@ -1,4 +1,8 @@
 import React from 'react'
+
+import { useService } from '@xstate/react';
+import { service, Context, BlockchainEvent, BlockchainState } from '../../machine'
+
 import { Panel } from '../ui/Panel'
 import { Button } from '../ui/Button'
 
@@ -7,6 +11,16 @@ interface Props {
 }
 
 const Content: React.FC<Props> = ({ code }) => {
+    const [_, send] = useService<
+        Context,
+        BlockchainEvent,
+        BlockchainState
+    >(service);
+
+    const trial = () => {
+        send('TRIAL')
+    }
+
     if (code === 'NO_WEB3') {
         return (
             <>
@@ -19,12 +33,18 @@ const Content: React.FC<Props> = ({ code }) => {
 
     if (code === 'WRONG_CHAIN') {
         return (
-            <>
-                <span>Switch to the Polygon network to start your farm.</span>
-                
+            <div id='wrong-chain'>
+                <span>It looks like you are not connected to the Polygon Blockchain.</span>
 
                 <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>How to Connect</Button>
-            </>
+
+                <div id='try-it-out'></div>
+                <span >Otherwise, feel free to try a simulation & play without tokens</span>
+
+                <Button onClick={trial}>Try it out</Button>
+
+
+            </div>
         )
     }
 

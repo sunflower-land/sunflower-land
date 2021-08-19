@@ -44,3 +44,12 @@
     display: block;
     margin-top: 36px;
 }
+
+#wrong-chain > .button {
+    display: block;
+    margin-top: 10px;
+}
+
+#try-it-out {
+    margin-top: 40px;
+}
