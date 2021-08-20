@@ -39,7 +39,7 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
         <Panel>
             <div id="welcome">
                 <h1 className="header">
-                    Sunflower Coin
+                    Sunflower Farm
                 </h1>
                 <Button onClick={onGetStarted}>
                 <span>

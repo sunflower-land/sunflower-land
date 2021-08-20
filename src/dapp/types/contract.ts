@@ -5,8 +5,8 @@ export enum Fruit {
     Pumpkin = '3',
     Beetroot = '4',
     Cauliflower = '5',
-    Money = '6',
-    Diamond = '7',
+    Parsnip = '6',
+    Radish = '7',
 }
 
 export enum Charity {

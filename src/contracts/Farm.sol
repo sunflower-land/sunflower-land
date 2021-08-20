@@ -87,7 +87,7 @@ contract Farm {
     }
 
     enum Action { Plant, Harvest }
-    enum Fruit { None, Sunflower, Potato, Pumpkin, Beetroot, Cauliflower, Money, Diamond }
+    enum Fruit { None, Sunflower, Potato, Pumpkin, Beetroot, Cauliflower, Parsnip, Radish }
 
     struct Event { 
         Action action;
@@ -117,10 +117,10 @@ contract Farm {
         } else if (_fruit == Fruit.Cauliflower) {
             // 8 hours
             return 8 * 60 * 60;
-        } else if (_fruit == Fruit.Money) {
+        } else if (_fruit == Fruit.Parsnip) {
             // 1 day
             return 24 * 60 * 60;
-        } else if (_fruit == Fruit.Diamond) {
+        } else if (_fruit == Fruit.Radish) {
             // 3 days
             return 3 * 24 * 60 * 60;
         }
@@ -147,10 +147,10 @@ contract Farm {
         } else if (_fruit == Fruit.Cauliflower) {
             // $4
             return 4 * 10**decimals;
-        } else if (_fruit == Fruit.Money) {
+        } else if (_fruit == Fruit.Parsnip) {
             // $10 (TODO was $50 - NEED TO REDEPLOY!)
             return 10 * 10**decimals;
-        } else if (_fruit == Fruit.Diamond) {
+        } else if (_fruit == Fruit.Radish) {
             // $50
             return 50 * 10**decimals;
         }
@@ -178,10 +178,10 @@ contract Farm {
         } else if (_fruit == Fruit.Cauliflower) {
             // $8
             return 8 * 10**decimals;
-        } else if (_fruit == Fruit.Money) {
+        } else if (_fruit == Fruit.Parsnip) {
             // $16
             return 16 * 10**decimals;
-        } else if (_fruit == Fruit.Diamond) {
+        } else if (_fruit == Fruit.Radish) {
             // $80
             return 80 * 10**decimals;
         }
@@ -198,9 +198,9 @@ contract Farm {
             return 8;
         } else if (_fruit == Fruit.Cauliflower) {
             return 11;
-        } else if (_fruit == Fruit.Money) {
+        } else if (_fruit == Fruit.Parsnip) {
             return 14;
-        } else if (_fruit == Fruit.Diamond) {
+        } else if (_fruit == Fruit.Radish) {
             return 17;
         }
 
@@ -342,7 +342,7 @@ contract Farm {
         // Add 3 sunflower fields in the new fields
         Square memory sunflower = Square({
             fruit: Fruit.Sunflower,
-            // Make them immediately harvestable in case they spent all their money
+            // Make them immediately harvestable in case they spent all their Parsnip
             createdAt: 0,
         });
 

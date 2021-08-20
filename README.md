@@ -1,6 +1,6 @@
-# Sunflower Coin
+# Sunflower Farm
 
-A blockchain based game where players can play to earn Sunflower Coins.
+A blockchain based game where players can play to earn Sunflower Farm Tokens.
 
 For more details, please see the guide - https://app.gitbook.com/@adamhannigan81/s/sunflower-coin/~/drafts/-MeDRwr_G41KNf-iyqRg/
 

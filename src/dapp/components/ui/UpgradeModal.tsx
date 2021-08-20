@@ -11,7 +11,8 @@ import potato from '../../images/potato/fruit.png'
 import pumpkin from '../../images/pumpkin/fruit.png'
 import beetroot from '../../images/beetroot/fruit.png'
 import cauliflower from '../../images/cauliflower/fruit.png'
-import question from '../../images/ui/expression_confused.png'
+import parsnip from '../../images/parsnip/fruit.png'
+import radish from '../../images/radish/fruit.png'
 
 import cancel from '../../images/ui/cancel.png'
 
@@ -124,7 +125,7 @@ export const UpgradeModal: React.FC<Props> = ({ isOpen, onClose, farmSize, balan
                                 14 fields
                             </span>
                             <div className='upgrade-icons'>
-                                <img src={question} className='upgrade-fruit'/>
+                                <img src={parsnip} className='upgrade-fruit'/>
                             </div>
                             {
                                 farmSize < 14 && (
@@ -142,7 +143,7 @@ export const UpgradeModal: React.FC<Props> = ({ isOpen, onClose, farmSize, balan
                                 17 fields
                             </span>
                             <div className='upgrade-icons'>
-                                <img src={question} className='upgrade-fruit'/>
+                                <img src={radish} className='upgrade-fruit'/>
                             </div>
                             {
                                 farmSize < 17 && (

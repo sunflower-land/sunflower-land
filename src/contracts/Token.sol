@@ -14,7 +14,7 @@ contract Token is ERC20, ERC20Burnable {
 
   event MinterChanged(address indexed from, address to);
 
-  constructor() payable ERC20("Fruit Market Coin", "FMC") {
+  constructor() payable ERC20("Sunflower Farm", "SFF") {
     minter = msg.sender;
     owner = msg.sender;
   }

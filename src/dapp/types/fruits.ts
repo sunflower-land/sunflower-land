@@ -7,7 +7,8 @@ import pumpkin from '../images/pumpkin/fruit.png'
 import beetroot from '../images/beetroot/fruit.png'
 import cauliflower from '../images/cauliflower/fruit.png'
 import potato from '../images/potato/fruit.png'
-import question from '../images/ui/expression_confused.png'
+import radish from '../images/radish/fruit.png'
+import parsnip from '../images/parsnip/fruit.png'
 
 interface Item {
     fruit: Fruit
@@ -60,17 +61,17 @@ export const fruits: Item[] = [{
     landRequired: 11,
     harvestMinutes: 8 * 60
 }, {
-    fruit: Fruit.Money,
-    name: 'Money (BETA)',
-    image: question,
+    fruit: Fruit.Parsnip,
+    name: 'Parsnip',
+    image: parsnip,
     buyPrice: 10,
     sellPrice: 16,
     landRequired: 14,
     harvestMinutes: 24 * 60
 }, {
-    fruit: Fruit.Diamond,
-    name: 'Diamond (BETA)',
-    image: question,
+    fruit: Fruit.Radish,
+    name: 'Radish',
+    image: radish,
     buyPrice: 50,
     sellPrice: 80,
     landRequired: 17,
