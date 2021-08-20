@@ -15,9 +15,10 @@ interface Props {
     balance: number
     onHarvest: (landIndex: number) => void
     onPlant: (landIndex: number) => void
+    selectedFruit: Fruit
 }
 
-export const ThirdBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant }) => {
+export const ThirdBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant, selectedFruit }) => {
     const isUnlocked = land.length > 8
 
     return (
@@ -25,14 +26,14 @@ export const ThirdBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant 
             <div className='dirt' style={{ gridColumn: '6/7', gridRow: '3/4'}}>
                 {
                     isUnlocked
-                        ? (<Field square={land[8]} onClick={land[8].fruit === Fruit.None ? () => onPlant(8) : () => onHarvest(8)}/> )
+                        ? (<Field balance={balance} selectedFruit={selectedFruit} square={land[8]} onClick={land[8].fruit === Fruit.None ? () => onPlant(8) : () => onHarvest(8)}/> )
                         : <div className='field'><img  src={soil} /></div>
                 }
             </div>
             <div className='dirt' style={{ gridColumn: '7/8', gridRow: '2/3'}}>
                 {
                     isUnlocked
-                        ? (<Field square={land[9]} onClick={land[9].fruit === Fruit.None ? () => onPlant(9) : () => onHarvest(9)}/> )
+                        ? (<Field balance={balance} selectedFruit={selectedFruit} square={land[9]} onClick={land[9].fruit === Fruit.None ? () => onPlant(9) : () => onHarvest(9)}/> )
                         : <div className='field'><img  src={soil} /></div>
                 }
             </div>
@@ -40,7 +41,7 @@ export const ThirdBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant 
             <div className='dirt' style={{ gridColumn: '6/7', gridRow: '2/3'}}>
                 {
                     isUnlocked
-                        ? (<Field square={land[10]} onClick={land[10].fruit === Fruit.None ? () => onPlant(10) : () => onHarvest(10)}/> )
+                        ? (<Field balance={balance} selectedFruit={selectedFruit} square={land[10]} onClick={land[10].fruit === Fruit.None ? () => onPlant(10) : () => onHarvest(10)}/> )
                         : <div className='field'><img  src={soil} /></div>
                 }
             </div>

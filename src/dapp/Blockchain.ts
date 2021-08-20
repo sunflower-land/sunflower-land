@@ -5,7 +5,6 @@ import Farm from '../abis/Farm.json'
 
 import { Transaction, Square, Charity, Fruit  } from './types/contract'
 
-const LOCAL_GAME_KEY = 'trial_game_data'
 interface Account {
     farm: Square[]
     balance: number
@@ -175,7 +174,7 @@ export class BlockChain {
         const blockChain = this
 
         if (this.isTrial) {
-            throw new Error('Not implemented in simulated environment')
+            throw new Error('TRIAL_MODE')
         }
 
         return new Promise(async (resolve, reject) => {
@@ -206,9 +205,9 @@ export class BlockChain {
 
     public levelUp() {
         if (this.isTrial) {
-            throw new Error('Not implemented in simulated environment')
+            throw new Error('TRIAL_MODE')
         }
-        
+
         return new Promise((resolve, reject) => {
             this.farm.methods.levelUp().send({from: this.account})
             .on('error', function(error){
@@ -293,6 +292,10 @@ export class BlockChain {
 
     public startTrialMode() {
         this.isTrialAccount = true
+    }
+
+    public endTrialMode() {
+        this.isTrialAccount = false
     }
 
     public lastSaved() {

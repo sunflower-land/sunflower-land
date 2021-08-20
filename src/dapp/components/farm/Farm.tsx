@@ -117,7 +117,7 @@ export const Farm: React.FC= () => {
   
   return (
       <>
-        <Land land={land} balance={safeBalance} onHarvest={onHarvest} onPlant={onPlant}/>
+        <Land selectedFruit={fruit} land={land} balance={safeBalance} onHarvest={onHarvest} onPlant={onPlant}/>
 
         <span id='save-button'>
           <Panel hasInner={false}>

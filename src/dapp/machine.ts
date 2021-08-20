@@ -152,6 +152,9 @@ export const blockChainMachine = createMachine<
                 },
                 onError: {
                     target: 'failure',
+                    actions:  assign({
+                        errorCode: (context, event) => event.data.message,
+                    }),
                 }
             }
         },
@@ -166,6 +169,9 @@ export const blockChainMachine = createMachine<
                 },
                 onError: {
                     target: 'failure',
+                    actions:  assign({
+                        errorCode: (context, event) => event.data.message,
+                    }),
                 }
             }
         },
@@ -173,6 +179,7 @@ export const blockChainMachine = createMachine<
             on: {
                 NETWORK_CHANGED: {
                     target: 'loading',
+                    actions: (context) => { context.blockChain.endTrialMode() }
                 },
                 TRIAL: {
                     target: 'farming',

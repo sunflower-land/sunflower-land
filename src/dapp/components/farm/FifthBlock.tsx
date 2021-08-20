@@ -14,9 +14,10 @@ interface Props {
     balance: number
     onHarvest: (landIndex: number) => void
     onPlant: (landIndex: number) => void
+    selectedFruit: Fruit
 }
 
-export const FifthBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant }) => {
+export const FifthBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant, selectedFruit  }) => {
     const isUnlocked = land.length > 14
 
     return (
@@ -24,21 +25,21 @@ export const FifthBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant 
             <div className='dirt' style={{ gridColumn: '2/3', gridRow: '4/5'}}>
                 {
                     isUnlocked
-                        ? (<Field square={land[14]} onClick={land[14].fruit === Fruit.None ? () => onPlant(14) : () => onHarvest(14)}/> )
+                        ? (<Field balance={balance} selectedFruit={selectedFruit} square={land[14]} onClick={land[14].fruit === Fruit.None ? () => onPlant(14) : () => onHarvest(14)}/> )
                         : <div className='field'><img  src={soil} /></div>
                 }
             </div>
             <div className='dirt' style={{ gridColumn: '3/4', gridRow: '4/5'}}>
                 {
                     isUnlocked
-                        ? (<Field square={land[15]} onClick={land[15].fruit === Fruit.None ? () => onPlant(15) : () => onHarvest(15)}/> )
+                        ? (<Field balance={balance} selectedFruit={selectedFruit} square={land[15]} onClick={land[15].fruit === Fruit.None ? () => onPlant(15) : () => onHarvest(15)}/> )
                         : <div className='field'><img  src={soil} /></div>
                 }
             </div>
             <div className='dirt' style={{ gridColumn: '2/3', gridRow: '5/6'}}>
                 {
                     isUnlocked
-                        ? (<Field square={land[16]} onClick={land[16].fruit === Fruit.None ? () => onPlant(16) : () => onHarvest(16)}/> )
+                        ? (<Field balance={balance} selectedFruit={selectedFruit} square={land[16]} onClick={land[16].fruit === Fruit.None ? () => onPlant(16) : () => onHarvest(16)}/> )
                         : <div className='field'><img  src={soil} /></div>
                 }
             </div>

@@ -11,6 +11,7 @@ import cauliflowerSeedling from '../../images/cauliflower/seedling.png'
 import potato from '../../images/potato/plant.png'
 import potatoSeedling from '../../images/potato/seedling.png'
 import coin from '../../images/ui/sunflower_coin.png'
+import cancel from '../../images/ui/cancel.png'
 
 import planted from '../../images/land/soil/planted.png'
 import terrain from '../../images/land/soil/soil.png'
@@ -29,12 +30,16 @@ import { getFruit } from '../../types/fruits'
 import { Fruit, Square } from '../../types/contract'
 import { secondsToString } from '../../utils/time'
 
+import { Message } from '../ui/Message'
+
 import './Field.css'
 
 
 
 interface Props {
     square: Square
+    selectedFruit: Fruit
+    balance: number
     onClick: () => void
 }
 
@@ -47,30 +52,47 @@ function getTimeLeft(createdAt: number, totalTime: number) {
     return totalTime - secondsElapsed
 }
 
-export const Field: React.FC<Props> = ({ square, onClick }) => {
-    const [timer, setTimer] = React.useState<number>(0)
-    const [harvestPrice, setHarvestPrice] = React.useState<number>(null)
+export const Field: React.FC<Props> = ({ square, onClick, selectedFruit, balance }) => {
+    const [_, setTimer] = React.useState<number>(0)
+    const [harvestPrice, setHarvestPrice] = React.useState<string>(null)
     const [showPrice, setShowPrice] = React.useState(false)
+    const [showInsufficientFunds, setShowInsufficientFunds] = React.useState(false)
 
     const fruit = getFruit(square.fruit)
     const totalTime = fruit?.harvestMinutes * 60
 
     const click = React.useCallback(() => {
         // Show harvest price
-        if (square.fruit !== Fruit.None) {
-            setShowPrice(true)
-            // Harvest
-            const fruit = getFruit(square.fruit)
-            setHarvestPrice(fruit.sellPrice)
 
-            // Remove harvest price after X seconds
-            window.setTimeout(() => {
-                setShowPrice(false)
-            }, 500)
+        const fruit = getFruit(square.fruit)
+        // Harvest
+        if (fruit) {
+            setHarvestPrice(`+${fruit.sellPrice}`)
+        } else {
+            // Plant
+            const buyFruit = getFruit(selectedFruit)
+
+            if (buyFruit.buyPrice > balance) {
+                setShowInsufficientFunds(true)
+                window.setTimeout(() => {
+                    setShowInsufficientFunds(false)
+                }, 500)
+
+                return
+            }
+
+            setHarvestPrice(`-${buyFruit.buyPrice}`)
         }
 
+        setShowPrice(true)
+
+        // Remove harvest price after X seconds
+        window.setTimeout(() => {
+            setShowPrice(false)
+        }, 500)
+
         onClick()
-    }, [onClick, square.fruit])
+    }, [balance, onClick, selectedFruit, square.fruit])
 
     const setHarvestTime = React.useCallback(() => {
         setTimer(count => count + 1)
@@ -160,16 +182,26 @@ export const Field: React.FC<Props> = ({ square, onClick }) => {
 
     const timeLeft = getTimeLeft(square.createdAt, totalTime)
 
+    const plantingFruit = getFruit(selectedFruit)
+
     return (
         <div className="field" onClick={!timeLeft ? click : undefined}>
             <div className='harvest' style={{ opacity: !!showPrice ? '1' : '0'}}>
-                <span className='harvest-amount'>{`+${harvestPrice}`}</span>
+                <span className='harvest-amount'>{harvestPrice}</span>
                 <img className='harvest-coin' src={coin} />
             </div>
             {
                 square.fruit === Fruit.None && (
-                    <img src={terrain} className="soil"/>
+                    <>
+                        {!showPrice && (<img className='plant-hint' src={plantingFruit.image} />)}
+                        <img src={terrain} className="soil"/>
+                    </>
                 )
+            }
+            {
+                <span className='field-no-funds' style={{ opacity: !!showInsufficientFunds ? 1 : 0 }}>
+                    Insufficient funds
+                </span>  
             }
             {
                 square.fruit !== Fruit.None && (

@@ -48,6 +48,19 @@ const Content: React.FC<Props> = ({ code }) => {
         )
     }
 
+    if (code === 'TRIAL_MODE') {
+        return (
+            <div id='wrong-chain'>
+                <span>It looks like you are not connected to the Polygon Blockchain.</span>
+
+                <div id='try-it-out'></div>
+
+                <Button onClick={trial}>Keep Playing</Button>
+
+            </div>
+        )
+    }
+
     return (
         <p>Something went wrong. Try refresh the page</p>
     )

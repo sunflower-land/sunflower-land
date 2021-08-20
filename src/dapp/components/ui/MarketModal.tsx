@@ -30,7 +30,6 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
     const currentRate = getExchangeRate(totalSupply)
     const nextRate = currentRate / 10
-    const nextHalving = 10000 / nextRate
 
     return (
         <Modal centered show={isOpen} onHide={onClose}>
@@ -45,13 +44,13 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         <h3 className='current-price-header'>Current Price</h3>
                         <div className="current-price-container ">
                             <img className='sunflower-price' src={sunflower} />
-                            <span className='current-price'>= ${currentRate / 10}</span>
+                            <span className='current-price'>= ${currentRate / 100}</span>
                         </div>
                     </div>
 
                     <div>
                         <h3 className='current-price-header'>Upcoming Price</h3>
-                        <h3 className='current-price-subheader'>(When total supply reaches {nextHalving})</h3>
+                        <h3 className='current-price-subheader'>(When total supply increases)</h3>
                         <div className="current-price-container ">
                             <img className='sunflower-price' src={sunflower} />
                             <span className='current-price'>= ${nextRate / 10}</span>

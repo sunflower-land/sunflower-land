@@ -16,6 +16,10 @@
     transform: scale(1.1);
 }
 
+.field:hover > .plant-hint {
+    visibility: visible;
+}
+
 .field:hover .field-edges {
     visibility: visible;
 }
@@ -247,4 +251,24 @@
     width: 18px;
     margin-left: 4px;
     filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white) drop-shadow(0px -1px 0px white);
+}
+
+.plant-hint {
+    position: absolute;
+    width: 30% !important;
+    opacity: 0.8;
+    visibility: hidden;
+    z-index: 2;
+}
+
+.field-no-funds {
+    position: absolute;
+    transition: opacity 0.3s;
+    opacity: 1;
+    color: white;
+    font-size: 10px;
+    display: flex;
+    text-shadow: 1px 1px black;
+    text-align: center;
+    z-index: 9;
 }
