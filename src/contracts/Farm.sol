@@ -35,8 +35,8 @@ contract Farm {
         uint decimals = token.decimals();
 
         require(
-            // TODO use $1 in production
-            msg.value >= 1 * 10**(decimals - 2),
+            // Donation must be at least $0.10 to play
+            msg.value >= 1 * 10**(decimals - 1),
             "INSUFFICIENT_DONATION"
         );
 
@@ -148,7 +148,7 @@ contract Farm {
             // $4
             return 4 * 10**decimals;
         } else if (_fruit == Fruit.Parsnip) {
-            // $10 (TODO was $50 - NEED TO REDEPLOY!)
+            // $10
             return 10 * 10**decimals;
         } else if (_fruit == Fruit.Radish) {
             // $50
@@ -304,8 +304,6 @@ contract Farm {
         
         syncedAt[msg.sender] = block.timestamp;
         
-        emit FarmSynced(msg.sender);
-        
         uint balance = token.balanceOf(msg.sender);
         // Update the balance - mint or burn
         if (farm.balance > balance) {
@@ -315,7 +313,8 @@ contract Farm {
             uint loss = balance.sub(farm.balance);
             token.burn(msg.sender, loss);
         }
-        
+
+        emit FarmSynced(msg.sender);
 
         return farm;
     }
@@ -323,7 +322,6 @@ contract Farm {
     function levelUp() public hasFarm {
         require(fields[msg.sender].length <= 17, "MAX_LEVEL");
 
-        emit FarmSynced(msg.sender);
         
         Square[] storage land = fields[msg.sender];
 
@@ -335,75 +333,77 @@ contract Farm {
         
         token.burn(msg.sender, fmcPrice);
 
-        // Land tax - An additional 1% of profit goes to maintainers of Fruit Market
+        // Land tax - An additional 1% of profit goes to maintainers of Sunflower Farmers
         uint commission = fmcPrice.div(100);
         token.mint(token.getOwner(), commission);
         
         // Add 3 sunflower fields in the new fields
         Square memory sunflower = Square({
             fruit: Fruit.Sunflower,
-            // Make them immediately harvestable in case they spent all their Parsnip
+            // Make them immediately harvestable in case they spent all their tokens
             createdAt: 0,
         });
 
         for (uint index = 0; index < 3; index++) {
             land.push(sunflower);
         }
+
+        emit FarmSynced(msg.sender);
     }
 
-    // How many FMC do you get per dollar
+    // How many tokens do you get per dollar
     // Algorithm is totalSupply / 10000 but we do this in gradual steps to avoid widly flucating prices between plant & harvest
     function getMarketRate() private view returns (uint conversion) {
         uint decimals = token.decimals();
         uint totalSupply = token.totalSupply();
 
-        // Less than 100, 000 FMC tokens
+        // Less than 100, 000 tokens
         if (totalSupply < (100000 * 10**decimals)) {
             // 1 Farm Dollar gets you 1 FMC token
             return 1;
         }
 
-        // Less than 500, 000 FMC tokens
+        // Less than 500, 000 tokens
         if (totalSupply < (500000 * 10**decimals)) {
             return 5;
         }
 
-        // Less than 1, 000, 000 FMC tokens
+        // Less than 1, 000, 000 tokens
         if (totalSupply < (1000000 * 10**decimals)) {
             return 10;
         }
 
-        // Less than 5, 000, 000 FMC tokens
+        // Less than 5, 000, 000 tokens
         if (totalSupply < (5000000 * 10**decimals)) {
             return 50;
         }
 
-        // Less than 10, 000, 000 FMC tokens
+        // Less than 10, 000, 000 tokens
         if (totalSupply < (10000000 * 10**decimals)) {
             return 100;
         }
 
-        // Less than 50, 000, 000 FMC tokens
+        // Less than 50, 000, 000 tokens
         if (totalSupply < (50000000 * 10**decimals)) {
             return 500;
         }
 
-        // Less than 100, 000, 000 FMC tokens
+        // Less than 100, 000, 000 tokens
         if (totalSupply < (100000000 * 10**decimals)) {
             return 1000;
         }
 
-        // Less than 500, 000, 000 FMC tokens
+        // Less than 500, 000, 000 tokens
         if (totalSupply < (500000000 * 10**decimals)) {
             return 5000;
         }
 
-        // Less than 1, 000, 000, 000 FMC tokens
+        // Less than 1, 000, 000, 000 tokens
         if (totalSupply < (1000000000 * 10**decimals)) {
             return 10000;
         }
 
-        // 1 Farm Dollar gets you a 0.00001 of FMC - Linear growth from here
+        // 1 Farm Dollar gets you a 0.00001 of a token - Linear growth from here
         return totalSupply.div(10000);
     }
 

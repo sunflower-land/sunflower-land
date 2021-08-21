@@ -52,8 +52,8 @@ export class BlockChain {
         // web3.eth.handleRevert = true
 
         try {
-            this.token = new this.web3.eth.Contract(Token as any, '0x05658De4C0e6134Bdd12740611Ee0f26f0183814')
-            this.farm = new this.web3.eth.Contract(Farm as any, '0xBa3C899EAe54D39E138464d3B704f0561ca6E335')
+            this.token = new this.web3.eth.Contract(Token as any, '0x3b4F867D50231a9263cDAEd87C80C3962b1483D7')
+            this.farm = new this.web3.eth.Contract(Farm as any, '0xBc00E1aFBB8FC859a79E54902FDe8fa0B26412d6')
     
             const maticAccounts = await this.web3.eth.getAccounts()
             this.account = maticAccounts[0]
@@ -101,6 +101,8 @@ export class BlockChain {
                 // Request account access if needed
                 await (window as any).ethereum.enable();
                 this.web3 = new Web3((window as any).ethereum);
+
+                console.log({ value: this.web3.utils.toWei('3500')})
             }
             catch (error) {
                 // User denied account access...
@@ -151,7 +153,7 @@ export class BlockChain {
     }
 
     public createFarm(charity: Charity) {
-        const value = this.web3.utils.toWei('0.01', 'ether')
+        const value = this.web3.utils.toWei('0.1', 'ether')
 
         return new Promise((resolve, reject) => {
             this.farm.methods.createFarm(charity).send({from: this.account, value, to: charity })
