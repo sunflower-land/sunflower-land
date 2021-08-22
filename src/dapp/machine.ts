@@ -32,6 +32,9 @@ export interface SaveEvent extends EventObject {
 export interface TrialEvent extends EventObject {
     type: 'TRIAL';
 }
+export interface TimerCompleteEvent extends EventObject {
+    type: 'TIMER_COMPLETE';
+}
 
 
 export interface DonateEvent extends EventObject {
@@ -51,6 +54,7 @@ export type BlockchainEvent =
     | UpgradeEvent
     | DonateEvent
     | TrialEvent
+    | TimerCompleteEvent
 
 
 export type BlockchainState = {
@@ -63,6 +67,7 @@ export type BlockchainState = {
         | 'failure'
         | 'upgrading'
         | 'saving'
+        | 'timerComplete'
     context: Context;
 };
 
@@ -139,6 +144,9 @@ export const blockChainMachine = createMachine<
                 },
                 UPGRADE: {
                     target: 'upgrading'
+                },
+                TIMER_COMPLETE: {
+                    target: 'timerComplete'
                 }
             }
         },
@@ -186,6 +194,9 @@ export const blockChainMachine = createMachine<
                     actions: (context) => { context.blockChain.startTrialMode() }
                 }
             }
+        },
+        timerComplete: {
+            type: 'final'
         }
     }
   });
