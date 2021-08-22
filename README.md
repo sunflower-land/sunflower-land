@@ -2,7 +2,7 @@
 
 A blockchain based game where players can play to earn Sunflower Farmer Tokens.
 
-For more details, please see the guide - https://app.gitbook.com/@adamhannigan81/s/sunflower-coin/~/drafts/-MeDRwr_G41KNf-iyqRg/
+For more details, please see the guide - https://adamhannigan81.gitbook.io/sunflower-farmers/
 
 The BETA game is currently available [here](http://sunflower-coin-demo.s3-website-ap-southeast-2.amazonaws.com/)
 
