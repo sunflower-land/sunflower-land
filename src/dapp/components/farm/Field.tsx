@@ -10,6 +10,10 @@ import cauliflower from '../../images/cauliflower/plant.png'
 import cauliflowerSeedling from '../../images/cauliflower/seedling.png'
 import potato from '../../images/potato/plant.png'
 import potatoSeedling from '../../images/potato/seedling.png'
+import radish from '../../images/radish/plant.png'
+import radishSeedling from '../../images/radish/seedling.png'
+import parsnip from '../../images/parsnip/plant.png'
+import parsnipSeedling from '../../images/parsnip/seedling.png'
 import coin from '../../images/ui/sunflower_coin.png'
 import cancel from '../../images/ui/cancel.png'
 
@@ -131,6 +135,14 @@ export const Field: React.FC<Props> = ({ square, onClick, selectedFruit, balance
             return (<img src={cauliflowerSeedling} className='seedling cauliflower-seedling'/>)
         }
 
+        if (square.fruit === Fruit.Parsnip) {
+            return (<img src={parsnipSeedling} className='seedling parnsip-seedling'/>)
+        }
+
+        if (square.fruit === Fruit.Radish) {
+            return (<img src={radishSeedling} className='seedling radish-seedling'/>)
+        }
+
         return null
     }
 
@@ -154,6 +166,14 @@ export const Field: React.FC<Props> = ({ square, onClick, selectedFruit, balance
 
         if (square.fruit === Fruit.Cauliflower) {
             return (<img src={cauliflower} className='cauliflower'/>)
+        }
+
+        if (square.fruit === Fruit.Parsnip) {
+            return (<img src={parsnip} className='parsnip'/>)
+        }
+
+        if (square.fruit === Fruit.Radish) {
+            return (<img src={radish} className='radish'/>)
         }
 
         return null

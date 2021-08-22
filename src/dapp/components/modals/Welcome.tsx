@@ -14,7 +14,7 @@ interface Props {
 }
 
 // TODO: Hardcoded from reports, read from live API
-const predictedDate = new Date(2021, 10, 19, 8, 44, 55)
+const predictedDate = new Date(2021, 9, 19, 8, 44, 55)
 
 const makeTimeLeft = () => {
     const difference = predictedDate.getTime() - Date.now()

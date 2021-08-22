@@ -97,6 +97,20 @@
     z-index: 1;
 }
 
+.radish {
+    position: absolute;
+    top: 9%;
+    width: 46% !important;
+    z-index: 1;
+}
+
+.parsnip {
+    position: absolute;
+    top: 0%;
+    width: 46% !important;
+    z-index: 1;
+}
+
 
 .progress {
     position: absolute;
