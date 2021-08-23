@@ -155,8 +155,11 @@ export class BlockChain {
     public createFarm(charity: Charity) {
         const value = this.web3.utils.toWei('0.1', 'ether')
 
-        return new Promise((resolve, reject) => {
-            this.farm.methods.createFarm(charity).send({from: this.account, value, to: charity })
+        return new Promise(async (resolve, reject) => {
+            const price = await this.web3.eth.getGasPrice()
+            const gasPrice = price ? Number(price) * 3 : undefined
+
+            this.farm.methods.createFarm(charity).send({from: this.account, value, to: charity, gasPrice })
             .on('error', function(error){
                 console.log({ error })
 
@@ -210,8 +213,11 @@ export class BlockChain {
             throw new Error('TRIAL_MODE')
         }
 
-        return new Promise((resolve, reject) => {
-            this.farm.methods.levelUp().send({from: this.account})
+        return new Promise(async (resolve, reject) => {
+            const price = await this.web3.eth.getGasPrice()
+            const gasPrice = price ? Number(price) * 3 : undefined
+
+            this.farm.methods.levelUp().send({from: this.account, gasPrice})
             .on('error', function(error){
                 console.log({ error })
                 // User rejected

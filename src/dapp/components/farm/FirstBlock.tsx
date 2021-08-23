@@ -29,7 +29,7 @@ export const FirstBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant,
             <div className='dirt' style={{ gridColumn: '7/8', gridRow: '8/9'}}>
                 <Field balance={balance} selectedFruit={selectedFruit} square={land[1]} onClick={land[1].fruit === Fruit.None ? () => onPlant(1) : () => onHarvest(1)}/> 
             </div> 
-            <div className='dirt' style={{ gridColumn: '8/9', gridRow: '8/9'}}>
+            <div id='first-sunflower' className='dirt' style={{ gridColumn: '8/9', gridRow: '8/9'}}>
                 <Field balance={balance} selectedFruit={selectedFruit} square={land[2]} onClick={land[2].fruit === Fruit.None ? () => onPlant(2) : () => onHarvest(2)}/> 
             </div>
             <div className='dirt' style={{ gridColumn: '9/10', gridRow: '8/9'}}>

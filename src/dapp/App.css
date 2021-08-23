@@ -139,3 +139,19 @@ body {
     width: 50%;
     justify-content: center;
 }
+
+.farm-tour {
+    color: white;
+    text-shadow: 1px 1px black;
+    background-color: #b86f50;
+}
+
+.reactour__close {
+    color: white;
+}
+
+#tour-button {
+    text-align: center;
+    margin-top: 22px;
+    width: 98px;
+}

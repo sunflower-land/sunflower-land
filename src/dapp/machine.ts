@@ -43,6 +43,29 @@ export interface UpgradeEvent extends EventObject {
     type: 'UPGRADE';
 }
 
+export interface FinishEvent extends EventObject {
+    type: 'FINISH';
+}
+
+export interface CloseOnboardingEvent extends EventObject {
+    type: 'CLOSE';
+}
+
+export interface NextOnboardingEvent extends EventObject {
+    type: 'NEXT';
+}
+
+export interface HarvestedOnboardingEvent extends EventObject {
+    type: 'HARVEST';
+}
+
+export interface PlantedOnboardingEvent extends EventObject {
+    type: 'PLANT';
+}
+
+
+type OnboardingEvent = CloseOnboardingEvent | NextOnboardingEvent | HarvestedOnboardingEvent | PlantedOnboardingEvent
+
 export type BlockchainEvent =
     | FarmCreatedEvent
     | NetworkChangedEvent
@@ -51,7 +74,12 @@ export type BlockchainEvent =
     | UpgradeEvent
     | DonateEvent
     | TrialEvent
+    | FinishEvent
+    | CloseOnboardingEvent
+    | OnboardingEvent
 
+
+export type OnboardingStates = 'harvesting' | 'token' | 'planting' | 'saving' | 'market'
 
 export type BlockchainState = {
     value:
@@ -59,10 +87,12 @@ export type BlockchainState = {
         | 'initial'
         | 'registering'
         | 'creating'
+        | 'onboarding'
         | 'farming'
         | 'failure'
         | 'upgrading'
         | 'saving'
+        | OnboardingStates
     context: Context;
 };
 
@@ -122,7 +152,7 @@ export const blockChainMachine = createMachine<
             invoke: {
                 src: ({ blockChain }, event) => blockChain.createFarm((event as DonateEvent).charity),
                 onDone: {
-                    target: 'farming',
+                    target: 'onboarding',
                 },
                 onError: {
                     target: 'failure',
@@ -131,6 +161,41 @@ export const blockChainMachine = createMachine<
                     }),
                 },
             },
+        },
+        onboarding: {
+            on: {
+                FINISH: {
+                    target: 'farming'
+                },
+                CLOSE: {
+                    target: 'farming',
+                }
+            },
+            initial: 'harvesting',
+            states: {
+              harvesting: {
+                
+                on: {
+                    HARVEST: { target: 'token' }
+                }
+              },
+              token: {
+                on: {
+                    NEXT: { target: 'planting' }
+                }
+              },
+              planting: {
+                on: {
+                    PLANT: { target: 'saving' }
+                }
+              },
+              saving: {
+                  on: {
+                    NEXT: { target: 'market' }
+                  }
+              },
+              market: {},
+            }
         },
         farming: {
             on: {
@@ -182,7 +247,7 @@ export const blockChainMachine = createMachine<
                     actions: (context) => { context.blockChain.endTrialMode() }
                 },
                 TRIAL: {
-                    target: 'farming',
+                    target: 'onboarding',
                     actions: (context) => { context.blockChain.startTrialMode() }
                 }
             }

@@ -57,7 +57,7 @@
 
 .top-edge {
     background: url("../../images/land/dirt/top-edge.png");
-    z-index: 1;
+    z-index: 0;
 }
 
 .top-corner {
