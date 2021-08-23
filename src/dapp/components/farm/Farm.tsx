@@ -64,7 +64,6 @@ export const Farm: React.FC= () => {
       if (isFarming && !machineState.context.blockChain.isUnsaved()) {
         const { farm, balance: currentBalance } = await machineState.context.blockChain.getAccount()
         setLand(farm)
-        console.log({ currentBalance })
         setBalance(new Decimal(currentBalance))
       }
     }

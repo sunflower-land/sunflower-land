@@ -35,7 +35,9 @@ const steps: ReactourStep[] = [
     stepInteraction: false,
     content: () => (
       <div>
-        Don't forget to save your farm before leaving the game.
+        Don't forget to save your farm within 25 minutes of your first action.
+
+        Otherwise the blockchain will not be able to validate your farm.
         
         <br />
 
