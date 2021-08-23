@@ -174,7 +174,6 @@ export const blockChainMachine = createMachine<
             initial: 'harvesting',
             states: {
               harvesting: {
-                
                 on: {
                     HARVEST: { target: 'token' }
                 }

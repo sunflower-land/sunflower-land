@@ -122,6 +122,7 @@ export const Farm: React.FC= () => {
 
   const safeBalance = balance.toNumber()
   
+  console.log({ state: machineState.value })
   return (
       <>
         <Tour />

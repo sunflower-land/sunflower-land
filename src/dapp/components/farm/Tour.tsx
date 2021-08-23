@@ -56,7 +56,7 @@ const steps: ReactourStep[] = [
           <br />
   
           <div id='tour-button'>
-            <Button onClick={() => service.send('CLOSE')}>Done</Button>
+            <Button onClick={() => service.send('FINISH')}>Done</Button>
   
           </div>
         </div>
