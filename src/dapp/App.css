@@ -141,13 +141,13 @@ body {
 }
 
 .farm-tour {
-    color: white;
-    text-shadow: 1px 1px black;
-    background-color: #b86f50;
+    color: white !important;
+    text-shadow: 1px 1px black !important;
+    background-color: #b86f50 !important;
 }
 
 .reactour__close {
-    color: white;
+    color: white !important;
 }
 
 #tour-button {
