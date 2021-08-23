@@ -13,6 +13,12 @@ const hasFarm = (
     return blockChain.isTrial ||  blockChain.hasFarm
 };
 
+const MOBILE_DEVICES = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+
+const isMobile = () => {
+    return MOBILE_DEVICES.test(navigator.userAgent)
+};
+
 export interface FarmCreatedEvent extends EventObject {
     type: 'FARM_CREATED';
 }
@@ -92,6 +98,7 @@ export type BlockchainState = {
         | 'failure'
         | 'upgrading'
         | 'saving'
+        | 'unsupported'
         | OnboardingStates
     context: Context;
 };
@@ -116,9 +123,12 @@ export const blockChainMachine = createMachine<
     states: {
         initial: {
             on: {
-                GET_STARTED: {
+                GET_STARTED: [{
+                    target: 'unsupported',
+                    cond: isMobile,
+                }, {
                     target: 'loading',
-                },
+                }]
             }
         },
         loading: {
@@ -250,7 +260,8 @@ export const blockChainMachine = createMachine<
                     actions: (context) => { context.blockChain.startTrialMode() }
                 }
             }
-        }
+        },
+        unsupported: {},
     }
   });
 

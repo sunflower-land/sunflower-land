@@ -132,6 +132,9 @@ body {
     align-items: center;
     padding: 30px 30px 28px;
     text-align: center;
+
+    color: white;
+    text-shadow: 1px 1px black;
 }
 
 #welcome .button {
