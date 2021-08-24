@@ -196,6 +196,14 @@
     left: -9%;
 }
 
+#sunflower-pot {
+    position: absolute;
+    z-index: 2;
+    width: 49%;
+    bottom: -29%;
+    left: 215%;
+}
+
 #level {
     position: absolute;
     width: 145%;

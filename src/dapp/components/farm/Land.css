@@ -294,6 +294,14 @@
     top: 20%;
 }
 
+.bridge {
+    left: 0;
+    width: 135%;
+    z-index: 999;
+    position: absolute;
+    top: -66%;
+}
+
 .man {
     width: 63%;
 }
