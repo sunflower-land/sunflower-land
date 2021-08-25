@@ -15,3 +15,15 @@
     text-shadow: 1px 1px white;
     font-size: 12px !important;
 }
+
+@keyframes pulse {
+    from { transform: scale(1) }
+    50% { transform: scale(1.1) }
+    to { transform: scale(1) }
+}
+
+.pulse {
+    animation-name: pulse;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
