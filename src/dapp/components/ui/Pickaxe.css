@@ -15,6 +15,24 @@
     margin-top: 5px;
 }
 
+.mint {
+    position: absolute;
+    color: #38242d;
+    font-size: 10px;
+    z-index: 2;
+    top: 22px;
+    cursor: pointer;
+    left: 79%;
+    top: 200%;
+    z-index: 9;
+}
+
+#minter {
+    cursor: pointer;
+}
+
+
+
 @keyframes floating {
     from { transform: translate(0,  0px); }
     65%  { transform: translate(0, 5px); }
@@ -61,4 +79,5 @@
     padding: 0 13px;
     text-shadow: 1px 1px black;
     position: relative;
+    white-space: nowrap;
 }
