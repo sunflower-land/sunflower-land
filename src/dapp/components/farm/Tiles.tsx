@@ -12,6 +12,7 @@ import rock1 from '../../images/decorations/rock2.png'
 import rock2 from '../../images/decorations/rock3.png'
 import grassLeaves1 from '../../images/decorations/grassLeaves1.png'
 import grassLeaves2 from '../../images/decorations/grassLeaves2.png'
+import bridge from '../../images/decorations/bridge.png'
 
 
 interface Props {}
@@ -292,6 +293,10 @@ export const Tiles: React.FC<Props> = () => {
 
             <div style={{ gridColumn: '12/13', gridRow: '12/13'}}>
                 <img className='rock1' src={rock2} />
+            </div>
+
+            <div style={{ gridColumn: '5/6', gridRow: '14/15'}}>
+                <img className='bridge' src={bridge} />
             </div>
 
             <div id='environment-left'>

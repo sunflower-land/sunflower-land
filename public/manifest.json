@@ -1,11 +1,11 @@
 {
-  "short_name": "Starter Kit",
-  "name": "Dapp University Starter Kit",
+  "short_name": "Sunflower",
+  "name": "Sunflower Farms",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "sunflower_icon.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
     }
   ],
   "start_url": ".",

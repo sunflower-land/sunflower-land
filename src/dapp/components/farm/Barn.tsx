@@ -16,6 +16,7 @@ import cauliflower from '../../images/cauliflower/fruit.png'
 import potato from '../../images/potato/fruit.png'
 import sunflower from '../../images/sunflower/fruit.png'
 import pumpkin from '../../images/pumpkin/fruit.png'
+import sunflowerPot from '../../images/decorations/sunflower_pot.png'
 
 import { service } from '../../machine'
 
@@ -74,6 +75,8 @@ export const Barn: React.FC<Props> = ({ farmSize, balance }) => {
                     <img id='window' src={window} />
                     <img id='chimney' src={chimney} />
                     <img id='smoke' src={smoke} />
+                    <img id='sunflower-pot' src={sunflowerPot} />
+
                     {
                         farmSize > 5 && (
                             <img id='level' src={level} />

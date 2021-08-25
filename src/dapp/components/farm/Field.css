@@ -196,6 +196,14 @@
     left: -9%;
 }
 
+#sunflower-pot {
+    position: absolute;
+    z-index: 2;
+    width: 49%;
+    bottom: -29%;
+    left: 215%;
+}
+
 #level {
     position: absolute;
     width: 145%;
@@ -285,4 +293,17 @@
     text-shadow: 1px 1px black;
     text-align: center;
     z-index: 9;
+}
+
+#blacksmith {
+    width: 200%;
+    position: relative;
+    left: 50%;
+    z-index: 9;
+}
+
+#nft {
+    width: 100px;
+    image-rendering: pixelated;
+    margin-top: 25px;
 }

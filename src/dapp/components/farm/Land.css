@@ -57,7 +57,7 @@
 
 .top-edge {
     background: url("../../images/land/dirt/top-edge.png");
-    z-index: 1;
+    z-index: 0;
 }
 
 .top-corner {
@@ -292,6 +292,14 @@
     position: relative;
     left: 21%;
     top: 20%;
+}
+
+.bridge {
+    left: 0;
+    width: 135%;
+    z-index: 999;
+    position: absolute;
+    top: -66%;
 }
 
 .man {

@@ -10,7 +10,7 @@ interface Props {
     onTimerComplete: () => void
 }
 
-const THIRTY_MINUTES = 60 * 30
+const THIRTY_MINUTES = 60 * 25
 
 export const Timer: React.FC<Props> = ({ startAtSeconds, onTimerComplete }) => {
     const [secondsLeft, setSecondsLeft] = React.useState(THIRTY_MINUTES)

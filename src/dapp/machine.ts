@@ -13,6 +13,12 @@ const hasFarm = (
     return blockChain.isTrial ||  blockChain.hasFarm
 };
 
+const MOBILE_DEVICES = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+
+const isMobile = () => {
+    return MOBILE_DEVICES.test(navigator.userAgent)
+};
+
 export interface FarmCreatedEvent extends EventObject {
     type: 'FARM_CREATED';
 }
@@ -46,6 +52,29 @@ export interface UpgradeEvent extends EventObject {
     type: 'UPGRADE';
 }
 
+export interface FinishEvent extends EventObject {
+    type: 'FINISH';
+}
+
+export interface CloseOnboardingEvent extends EventObject {
+    type: 'CLOSE';
+}
+
+export interface NextOnboardingEvent extends EventObject {
+    type: 'NEXT';
+}
+
+export interface HarvestedOnboardingEvent extends EventObject {
+    type: 'HARVEST';
+}
+
+export interface PlantedOnboardingEvent extends EventObject {
+    type: 'PLANT';
+}
+
+
+type OnboardingEvent = CloseOnboardingEvent | NextOnboardingEvent | HarvestedOnboardingEvent | PlantedOnboardingEvent
+
 export type BlockchainEvent =
     | FarmCreatedEvent
     | NetworkChangedEvent
@@ -55,7 +84,12 @@ export type BlockchainEvent =
     | DonateEvent
     | TrialEvent
     | TimerCompleteEvent
+    | FinishEvent
+    | CloseOnboardingEvent
+    | OnboardingEvent
 
+
+export type OnboardingStates = 'harvesting' | 'token' | 'planting' | 'saving' | 'market'
 
 export type BlockchainState = {
     value:
@@ -63,11 +97,14 @@ export type BlockchainState = {
         | 'initial'
         | 'registering'
         | 'creating'
+        | 'onboarding'
         | 'farming'
         | 'failure'
         | 'upgrading'
         | 'saving'
         | 'timerComplete'
+        | 'unsupported'
+        | OnboardingStates
     context: Context;
 };
 
@@ -91,9 +128,12 @@ export const blockChainMachine = createMachine<
     states: {
         initial: {
             on: {
-                GET_STARTED: {
+                GET_STARTED: [{
+                    target: 'unsupported',
+                    cond: isMobile,
+                }, {
                     target: 'loading',
-                },
+                }]
             }
         },
         loading: {
@@ -127,7 +167,7 @@ export const blockChainMachine = createMachine<
             invoke: {
                 src: ({ blockChain }, event) => blockChain.createFarm((event as DonateEvent).charity),
                 onDone: {
-                    target: 'farming',
+                    target: 'onboarding',
                 },
                 onError: {
                     target: 'failure',
@@ -136,6 +176,40 @@ export const blockChainMachine = createMachine<
                     }),
                 },
             },
+        },
+        onboarding: {
+            on: {
+                FINISH: {
+                    target: 'farming'
+                },
+                CLOSE: {
+                    target: 'farming',
+                }
+            },
+            initial: 'harvesting',
+            states: {
+              harvesting: {
+                on: {
+                    HARVEST: { target: 'token' }
+                }
+              },
+              token: {
+                on: {
+                    NEXT: { target: 'planting' }
+                }
+              },
+              planting: {
+                on: {
+                    PLANT: { target: 'saving' }
+                }
+              },
+              saving: {
+                  on: {
+                    NEXT: { target: 'market' }
+                  }
+              },
+              market: {},
+            }
         },
         farming: {
             on: {
@@ -190,7 +264,7 @@ export const blockChainMachine = createMachine<
                     actions: (context) => { context.blockChain.endTrialMode() }
                 },
                 TRIAL: {
-                    target: 'farming',
+                    target: 'onboarding',
                     actions: (context) => { context.blockChain.startTrialMode() }
                 }
             }
@@ -198,6 +272,7 @@ export const blockChainMachine = createMachine<
         timerComplete: {
             type: 'final'
         }
+        unsupported: {},
     }
   });
 

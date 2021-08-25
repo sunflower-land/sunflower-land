@@ -18,6 +18,7 @@ import { Timer } from '../ui/Timer'
 import { Button } from '../ui/Button'
 
 import { FruitBoard } from './FruitBoard'
+import { Tour } from './Tour'
 
 export const Farm: React.FC= () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0))
@@ -57,11 +58,12 @@ export const Farm: React.FC= () => {
 
   React.useEffect(() => {
     const load = async () => {
+      const isFarming = machineState.matches('farming') || machineState.matches('onboarding')
+
       // Load fresh data from blockchain only if there are no unsaved changes
-      if (machineState.matches('farming') && !machineState.context.blockChain.isUnsaved()) {
+      if (isFarming && !machineState.context.blockChain.isUnsaved()) {
         const { farm, balance: currentBalance } = await machineState.context.blockChain.getAccount()
         setLand(farm)
-        console.log({ currentBalance })
         setBalance(new Decimal(currentBalance))
       }
     }
@@ -84,6 +86,8 @@ export const Farm: React.FC= () => {
     setLand(oldLand => oldLand.map((field, index) => index === landIndex ? { fruit: Fruit.None, createdAt: 0 } : field))
     const price = getFruit(harvestedFruit.fruit).sellPrice
     setBalance(balance.plus(price))
+
+    send('HARVEST')
   }, [balance, land, machineState.context.blockChain])
   
   const onPlant = React.useCallback(async (landIndex: number) => {
@@ -107,6 +111,8 @@ export const Farm: React.FC= () => {
       return newLand
     })
     setBalance(balance.minus(price))
+
+    send('PLANT')
   }, [balance, fruit, machineState.context.blockChain])
 
   const save = async () => {
@@ -119,8 +125,10 @@ export const Farm: React.FC= () => {
 
   const safeBalance = balance.toNumber()
   
+  console.log({ state: machineState.value })
   return (
       <>
+        <Tour />
         <Land selectedFruit={fruit} land={land} balance={safeBalance} onHarvest={onHarvest} onPlant={onPlant}/>
 
         <span id='save-button'>

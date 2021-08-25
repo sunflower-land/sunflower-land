@@ -101,8 +101,6 @@ export class BlockChain {
                 // Request account access if needed
                 await (window as any).ethereum.enable();
                 this.web3 = new Web3((window as any).ethereum);
-
-                console.log({ value: this.web3.utils.toWei('3500')})
             }
             catch (error) {
                 // User denied account access...
@@ -122,9 +120,6 @@ export class BlockChain {
             await this.setupWeb3()
             const chain = await this.web3.eth.net.getNetworkType()
             const chainId = await this.web3.eth.getChainId()
-
-            console.log({ chain })
-            console.log({ chainId })
 
             if (chainId === 137) {
                 await this.connectToMatic()
@@ -155,8 +150,11 @@ export class BlockChain {
     public createFarm(charity: Charity) {
         const value = this.web3.utils.toWei('0.1', 'ether')
 
-        return new Promise((resolve, reject) => {
-            this.farm.methods.createFarm(charity).send({from: this.account, value, to: charity })
+        return new Promise(async (resolve, reject) => {
+            const price = await this.web3.eth.getGasPrice()
+            const gasPrice = price ? Number(price) * 3 : undefined
+
+            this.farm.methods.createFarm(charity).send({from: this.account, value, to: charity, gasPrice })
             .on('error', function(error){
                 console.log({ error })
 
@@ -210,8 +208,11 @@ export class BlockChain {
             throw new Error('TRIAL_MODE')
         }
 
-        return new Promise((resolve, reject) => {
-            this.farm.methods.levelUp().send({from: this.account})
+        return new Promise(async (resolve, reject) => {
+            const price = await this.web3.eth.getGasPrice()
+            const gasPrice = price ? Number(price) * 3 : undefined
+
+            this.farm.methods.levelUp().send({from: this.account, gasPrice})
             .on('error', function(error){
                 console.log({ error })
                 // User rejected
@@ -227,7 +228,6 @@ export class BlockChain {
                 console.log({ receipt })
                 resolve(receipt)
             })
-            console.log('Done')
         })
     }
 
@@ -321,12 +321,10 @@ export class BlockChain {
     }
 
     public async getCharityBalances() {
-        console.log('Try get balances')
         const coolEarth = this.web3.eth.getBalance(Charity.CoolEarth)
         const waterProject = this.web3.eth.getBalance(Charity.TheWaterProject)
         const heifer = this.web3.eth.getBalance(Charity.Heifer)
         const [coolEarthBalance, waterBalance, heiferBalance] = await Promise.all([coolEarth, waterProject, heifer])
-        console.log({ coolEarthBalance })
 
         return {
             coolEarthBalance: this.web3.utils.fromWei(coolEarthBalance, "ether"),

@@ -6,7 +6,9 @@ import { service, Context, BlockchainEvent, BlockchainState } from './machine'
 
 import { Charity as Charities } from './types/contract'
 
-import { Charity, Connecting, Welcome, Creating, Saving, Error, TimerComplete } from './components/modals'
+
+import { Charity, Connecting, Welcome, Creating, Saving, Error, TimerComplete, Unsupported } from './components/modals'
+
 import Farm from './components/farm/Farm'
 
 import './App.css'
@@ -40,6 +42,10 @@ export const App: React.FC = () => {
         <Farm />
         <Modal centered show={machineState.matches('loading')}>
           <Connecting/>
+        </Modal>
+
+        <Modal centered show={machineState.matches('unsupported')}>
+          <Unsupported/>
         </Modal>
 
         <Modal centered show={machineState.matches('initial')}>
