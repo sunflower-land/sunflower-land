@@ -14,6 +14,7 @@
 #saving > span {
     font-size: 10px;
 }
+
 #mining-animation {
     position: relative;
     height: 100px;
@@ -36,8 +37,6 @@
     bottom: -5px;
     margin-left: 17px;
     z-index: 0;
-
-
 }
 
 #error > .button {

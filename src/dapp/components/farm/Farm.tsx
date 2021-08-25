@@ -119,6 +119,10 @@ export const Farm: React.FC= () => {
     send('SAVE')
   }
 
+  const handleTimerComplete = () => {
+      send('TIMER_COMPLETE')
+  }
+
   const safeBalance = balance.toNumber()
   
   console.log({ state: machineState.value })
@@ -129,11 +133,11 @@ export const Farm: React.FC= () => {
 
         <span id='save-button'>
           <Panel hasInner={false}>
-            <Button onClick={save} disabled={!isDirty}>
+            <Button onClick={save} disabled={!isDirty || machineState.matches('timerComplete')}>
                 Save
                 {
                   isDirty && (
-                    <Timer startAtSeconds={machineState.context.blockChain.lastSaved()}/>
+                    <Timer startAtSeconds={machineState.context.blockChain.lastSaved()} onTimerComplete={handleTimerComplete}/>
                   )
                 }
             </Button>
