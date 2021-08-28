@@ -11,7 +11,7 @@ interface Props {
     startAtSeconds: number
 }
 
-const THIRTY_MINUTES = 1 * 5
+const THIRTY_MINUTES = 60 * 25
 
 export const Timer: React.FC<Props> = ({ startAtSeconds }) => {
     const [secondsLeft, setSecondsLeft] = React.useState(THIRTY_MINUTES)
