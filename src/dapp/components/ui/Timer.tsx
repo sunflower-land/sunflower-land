@@ -1,18 +1,19 @@
 import React from 'react'
 import classnames from 'classnames'
 
+import { service } from '../../machine'
+
 import timer from '../../images/ui/timer.png'
 
 import './Timer.css'
 
 interface Props {
     startAtSeconds: number
-    onTimerComplete: () => void
 }
 
-const THIRTY_MINUTES = 60 * 25
+const THIRTY_MINUTES = 1 * 5
 
-export const Timer: React.FC<Props> = ({ startAtSeconds, onTimerComplete }) => {
+export const Timer: React.FC<Props> = ({ startAtSeconds }) => {
     const [secondsLeft, setSecondsLeft] = React.useState(THIRTY_MINUTES)
 
     React.useEffect(() => {
@@ -27,11 +28,11 @@ export const Timer: React.FC<Props> = ({ startAtSeconds, onTimerComplete }) => {
                 setSecondsLeft(time)
             }, 1000)
         } else {
-            onTimerComplete()
+            service.send('TIMER_COMPLETE')
         }
 
         return () => window.clearInterval(interval)
-    }, [onTimerComplete, secondsLeft, startAtSeconds])
+    }, [startAtSeconds, secondsLeft])
 
     return (
         <div id="timer" className={classnames(secondsLeft < 60*5 ? "red-timer" : "", (secondsLeft < 60*1 && secondsLeft !== 0) ? "pulse" : "")}>

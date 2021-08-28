@@ -270,7 +270,12 @@ export const blockChainMachine = createMachine<
             }
         },
         timerComplete: {
-            type: 'final'
+            on: {
+                SAVE: {
+                    target: 'saving',
+                    actions: (context) => { context.blockChain.offsetTime() }
+                },
+            }
         },
         unsupported: {},
     }

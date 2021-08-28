@@ -1,22 +1,36 @@
 import React from 'react'
 import { Panel } from '../ui/Panel'
+import { Button } from '../ui/Button'
 
 import alert from '../../images/ui/expression_alerted.png'
 
+import { service } from '../../machine'
+
 import './TimerComplete.css'
 
-export const TimerComplete: React.FC = () => (
-    <Panel>
-        <div id="timer-complete">
+export const TimerComplete: React.FC = () => {
+    const save = () => {
+        service.send('SAVE')
+    }
 
-            <img src={alert} />
+    return (
+        <Panel>
+            <div id="timer-complete">
 
-            <h4>Times up...</h4>
-            
-            <p>A farm must be saved within 30 minutes otherwise it cannot pass the smart contract validation.</p>
+                <img src={alert} />
 
-            <span>Please refresh the page to restart the timer.</span>
+                <h4>Times up...</h4>
+                
+                <p>A farm must be saved within 30 minutes otherwise it cannot pass the smart contract validation.</p>
 
-        </div>
-    </Panel>
-)
+                <span>Please save now.</span>
+
+                <Button onClick={save}>
+                    Save
+                </Button>
+
+            </div>
+        </Panel>
+    )
+    
+}

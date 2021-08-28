@@ -325,4 +325,17 @@ export class BlockChain {
             heiferBalance: this.web3.utils.fromWei(heiferBalance, "ether"),
         }
     }
+
+    // Used when a player did not save in time
+    public offsetTime() {
+        const latestTime = this.events[this.events.length - 1]
+        const now = Math.floor(Date.now() / 1000)
+        const difference = now - latestTime.createdAt
+
+        // For each event, add the time
+        this.events = this.events.map(event => ({
+            ...event,
+            createdAt: event.createdAt + difference,
+        }))
+    }
 }
