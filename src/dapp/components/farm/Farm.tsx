@@ -118,11 +118,7 @@ export const Farm: React.FC= () => {
   const save = async () => {
     send('SAVE')
   }
-
-  const handleTimerComplete = () => {
-      send('TIMER_COMPLETE')
-  }
-
+  
   const safeBalance = balance.toNumber()
   
   console.log({ state: machineState.value })
@@ -137,7 +133,7 @@ export const Farm: React.FC= () => {
                 Save
                 {
                   isDirty && (
-                    <Timer startAtSeconds={machineState.context.blockChain.lastSaved()} onTimerComplete={handleTimerComplete}/>
+                    <Timer startAtSeconds={machineState.context.blockChain.lastSaved()}/>
                   )
                 }
             </Button>
