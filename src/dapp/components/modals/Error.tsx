@@ -26,7 +26,12 @@ const Content: React.FC<Props> = ({ code }) => {
             <>
                 You are not connected to Metamask.
 
-                <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>Connect</Button>
+                <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>How to setup Metamask</Button>
+
+                <div id='try-it-out'></div>
+                <span >Otherwise, feel free to try a simulation & play without tokens</span>
+
+                <Button onClick={trial}>Try it out</Button>
             </>
         )
     }
@@ -42,8 +47,6 @@ const Content: React.FC<Props> = ({ code }) => {
                 <span >Otherwise, feel free to try a simulation & play without tokens</span>
 
                 <Button onClick={trial}>Try it out</Button>
-
-
             </div>
         )
     }

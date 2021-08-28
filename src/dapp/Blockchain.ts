@@ -232,14 +232,7 @@ export class BlockChain {
     }
 
     public async getAccount(): Promise<Account> {
-        if (!this.web3) {
-            return {
-                farm: [],
-                balance: 0,
-            }
-        }
-
-        if (this.isTrial) {
+        if (!this.web3 || this.isTrial) {
             return {
                 farm: [{
                     createdAt: 0,

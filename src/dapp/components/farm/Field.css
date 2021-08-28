@@ -294,3 +294,16 @@
     text-align: center;
     z-index: 9;
 }
+
+#blacksmith {
+    width: 200%;
+    position: relative;
+    left: 50%;
+    z-index: 9;
+}
+
+#nft {
+    width: 100px;
+    image-rendering: pixelated;
+    margin-top: 25px;
+}
