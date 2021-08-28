@@ -271,7 +271,7 @@ export const blockChainMachine = createMachine<
         },
         timerComplete: {
             type: 'final'
-        }
+        },
         unsupported: {},
     }
   });
