@@ -113,7 +113,7 @@ export class BlockChain {
         }
     }
 
-    public async initialise() {
+    public async initialise(retryCount = 0) {
         try {
             // It is actually quite fast, we won't to simulate slow loading to convey complexity
             await new Promise(res => window.setTimeout(res, 1000))
@@ -142,6 +142,13 @@ export class BlockChain {
             }
             console.log('Resolved')
         }catch(e) {
+            // If it is not a known error, keep trying
+            if (retryCount < 3 && e.message !== 'WRONG_CHAIN' && e.message !== 'NO_WEB3') {
+                console.log('Try again')
+                await new Promise(res => setTimeout(res, 2000))
+
+                return this.initialise(retryCount + 1)
+            }
             console.error(e)
             throw e
         }

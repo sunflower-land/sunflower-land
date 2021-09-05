@@ -7,7 +7,7 @@ import { service, Context, BlockchainEvent, BlockchainState } from './machine'
 import { Charity as Charities } from './types/contract'
 
 
-import { Charity, Connecting, Welcome, Creating, Saving, Error, TimerComplete, Unsupported } from './components/modals'
+import { Charity, Connecting, Welcome, Creating, Saving, Error, TimerComplete, Unsupported, SaveError } from './components/modals'
 
 import Farm from './components/farm/Farm'
 
@@ -70,6 +70,10 @@ export const App: React.FC = () => {
 
         <Modal centered show={machineState.matches('failure')}>
           <Error code={machineState.context.errorCode} />
+        </Modal>
+
+        <Modal centered show={machineState.matches('saveFailure')}>
+          <SaveError code={machineState.context.errorCode} />
         </Modal>
     </div>
   )

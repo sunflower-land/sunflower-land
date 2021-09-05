@@ -104,6 +104,7 @@ export type BlockchainState = {
         | 'saving'
         | 'timerComplete'
         | 'unsupported'
+        | 'saveFailure'
         | OnboardingStates
     context: Context;
 };
@@ -233,7 +234,7 @@ export const blockChainMachine = createMachine<
                     // actions - assign() data?
                 },
                 onError: {
-                    target: 'failure',
+                    target: 'saveFailure',
                     actions:  assign({
                         errorCode: (context, event) => event.data.message,
                     }),
@@ -267,6 +268,14 @@ export const blockChainMachine = createMachine<
                     target: 'onboarding',
                     actions: (context) => { context.blockChain.startTrialMode() }
                 }
+            }
+        },
+        saveFailure: {
+            on: {
+                SAVE: {
+                    target: 'saving',
+                    actions: (context) => { context.blockChain.offsetTime() }
+                },
             }
         },
         timerComplete: {
