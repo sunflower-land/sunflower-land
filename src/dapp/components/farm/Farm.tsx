@@ -26,7 +26,7 @@ export const Farm: React.FC= () => {
     fruit: Fruit.None,
     createdAt: 0,
   }))
-  const [fruit, setFruit] = React.useState<Fruit>(Fruit.Sunflower)
+  const [fruit, setFruit] = React.useState<Fruit>(localStorage.getItem('fruit') as Fruit || Fruit.Sunflower)
 
   const [machineState, send] = useService<
     Context,
@@ -71,6 +71,11 @@ export const Farm: React.FC= () => {
     load()
   }, [machineState])
 
+  const onChangeFruit = (fruit: Fruit) => {
+    setFruit(fruit)
+
+    localStorage.setItem('fruit', fruit)
+  }
   const onHarvest = React.useCallback(async (landIndex: number) => {
     const now = Math.floor(Date.now() / 1000)
 
@@ -153,7 +158,7 @@ export const Farm: React.FC= () => {
           </Panel>
         </div>
 
-        <FruitBoard selectedFruit={fruit} onSelectFruit={setFruit} land={land} balance={safeBalance}/>
+        <FruitBoard selectedFruit={fruit} onSelectFruit={onChangeFruit} land={land} balance={safeBalance}/>
       </>
   )
 }
