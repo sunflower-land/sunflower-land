@@ -63,7 +63,9 @@ export const UpgradeModal: React.FC<Props> = ({
 		onClose()
 	}
 
-	const price = getPrice(farmSize) / getMarketRate(totalSupply)
+	const marketRate = getMarketRate(totalSupply)
+
+	const price = getPrice(farmSize)
 
 	const hasFunds = balance >= price
 
@@ -118,7 +120,7 @@ export const UpgradeModal: React.FC<Props> = ({
 							</div>
 							{farmSize < 8 && (
 								<div className="charity-buttons">
-									<span>$1</span>
+									<span>{`$${1 / marketRate}`}</span>
 									<Button
 										disabled={balance < 1}
 										onClick={onUpgrade}
@@ -140,7 +142,7 @@ export const UpgradeModal: React.FC<Props> = ({
 							</div>
 							{farmSize < 11 && (
 								<div className="charity-buttons">
-									<span>$50</span>
+									<span>{`$${50 / marketRate}`}</span>
 									<Button
 										disabled={farmSize < 8 || balance < 50}
 										onClick={onUpgrade}
@@ -159,7 +161,7 @@ export const UpgradeModal: React.FC<Props> = ({
 							</div>
 							{farmSize < 14 && (
 								<div className="charity-buttons">
-									<span>$500</span>
+									<span>{`$${500 / marketRate}`}</span>
 									<Button
 										disabled={
 											farmSize < 11 || balance < 500
@@ -180,7 +182,7 @@ export const UpgradeModal: React.FC<Props> = ({
 							</div>
 							{farmSize < 17 && (
 								<div className="charity-buttons">
-									<span>$2500</span>
+									<span>{`$${2500 / marketRate}`}</span>
 									<Button
 										disabled={
 											farmSize < 14 || balance < 2500
