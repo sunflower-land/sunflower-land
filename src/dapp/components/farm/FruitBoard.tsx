@@ -51,7 +51,7 @@ export const FruitBoard: React.FC<Props> = ({
 		onSelectFruit(fruit)
 	}
 
-	const marketRate = getMarketRate(10000000)
+	const marketRate = getMarketRate(totalSupply)
 
 	const items = []
 	let needsUpgrade = false
