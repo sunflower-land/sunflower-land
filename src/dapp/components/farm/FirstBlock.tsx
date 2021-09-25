@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Field }  from './Field'
 import { Fruit, Square } from '../../types/contract'
+import watering from '../../images/characters/watering.gif'
 
 interface Props {
     land: Square[]
@@ -12,6 +13,23 @@ interface Props {
 }
 
 export const FirstBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant, selectedFruit }) => {
+    const [showWatering, setShowWatering] = React.useState(false)
+    const hasRendered = React.useRef(false)
+    React.useEffect(() => {
+        if (land[0].fruit === Fruit.None) {
+            setShowWatering(false)
+        } 
+
+        // Only show it on first load
+        if (!hasRendered.current && land[0].fruit !== Fruit.None) {
+            setShowWatering(true)
+        } 
+
+        if (balance) {
+            hasRendered.current = true
+        }
+    }, [land, balance])
+
     return (
         <>
            
@@ -21,6 +39,9 @@ export const FirstBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant,
 
             <div className='dirt' style={{ gridColumn: '7/8', gridRow: '7/8'}} />
             <div className='dirt' style={{ gridColumn: '8/9', gridRow: '7/8'}}>
+                {
+                    showWatering && <img id='watering' src={watering} />
+                }
                 <Field balance={balance} selectedFruit={selectedFruit} square={land[0]} onClick={land[0].fruit === Fruit.None ? () => onPlant(0) : () => onHarvest(0)}/> 
             </div>
             <div className='dirt' style={{ gridColumn: '9/10', gridRow: '7/8'}} />

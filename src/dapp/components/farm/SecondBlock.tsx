@@ -4,6 +4,7 @@ import React from 'react'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 
 import soil from '../../images/land/soil/planted.png'
+import watering from '../../images/characters/goblin_watering.gif'
 
 import { UpgradeOverlay } from '../ui/UpgradeModal'
 
@@ -21,11 +22,32 @@ interface Props {
 
 export const SecondLand: React.FC<Props> = ({ land, balance, onHarvest, onPlant, selectedFruit }) => {
     const isUnlocked = land.length > 5
-    console.log({ land })
+    const [showWatering, setShowWatering] = React.useState(false)
+    const hasRendered = React.useRef(false)
+    React.useEffect(() => {
+        if (!isUnlocked) {
+            return
+        }
+        if (land[5].fruit === Fruit.None) {
+            setShowWatering(false)
+        } 
+
+        // Only show it on first load
+        if (!hasRendered.current && land[5].fruit !== Fruit.None) {
+            setShowWatering(true)
+        } 
+
+        if (balance) {
+            hasRendered.current = true
+        }
+    }, [land, balance])
 
     return (
         <>
             <div className='dirt' style={{ gridColumn: '2/3', gridRow: '8/9'}}>
+            {
+                    showWatering && <img id='watering2' src={watering} />
+                }
                 {
                     isUnlocked
                         ? (<Field balance={balance} selectedFruit={selectedFruit} square={land[5]} onClick={land[5].fruit === Fruit.None ? () => onPlant(5) : () => onHarvest(5)}/> )

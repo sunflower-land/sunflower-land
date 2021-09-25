@@ -27,6 +27,7 @@ export const Farm: React.FC= () => {
     createdAt: 0,
   }))
   const [fruit, setFruit] = React.useState<Fruit>(Fruit.Sunflower)
+  const farmIsFresh = React.useRef(false)
 
   const [machineState, send] = useService<
     Context,
@@ -60,11 +61,19 @@ export const Farm: React.FC= () => {
     const load = async () => {
       const isFarming = machineState.matches('farming') || machineState.matches('onboarding')
 
+      const doRefresh = !farmIsFresh.current
+
+      // HACK: Upgrade modal does not upgrade balance and farm so mark farm as stale
+      if (machineState.matches('upgrading')) {
+        farmIsFresh.current = false
+      }
+    
       // Load fresh data from blockchain only if there are no unsaved changes
-      if (isFarming && !machineState.context.blockChain.isUnsaved()) {
+      if (isFarming && doRefresh && !machineState.context.blockChain.isUnsaved()) {
         const { farm, balance: currentBalance } = await machineState.context.blockChain.getAccount()
         setLand(farm)
         setBalance(new Decimal(currentBalance))
+        farmIsFresh.current = true
       }
     }
 

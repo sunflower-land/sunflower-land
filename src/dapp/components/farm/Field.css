@@ -307,3 +307,22 @@
     image-rendering: pixelated;
     margin-top: 25px;
 }
+
+#watering {
+    position: absolute;
+    left: -113px;
+    top: -61px;
+    width: 220px;
+    z-index: 99;
+    pointer-events: none;
+}
+
+#watering2 {
+    position: absolute;
+    left: -42px;
+    top: -61px;
+    width: 220px;
+    z-index: 99;
+    pointer-events: none;
+    transform: scaleX(-1);
+}
