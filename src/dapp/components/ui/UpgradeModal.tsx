@@ -122,7 +122,7 @@ export const UpgradeModal: React.FC<Props> = ({
 								<div className="charity-buttons">
 									<span>{`$${1 / marketRate}`}</span>
 									<Button
-										disabled={balance < 1}
+										disabled={balance < 1 / marketRate}
 										onClick={onUpgrade}
 									>
 										Upgrade
@@ -144,7 +144,7 @@ export const UpgradeModal: React.FC<Props> = ({
 								<div className="charity-buttons">
 									<span>{`$${50 / marketRate}`}</span>
 									<Button
-										disabled={farmSize < 8 || balance < 50}
+										disabled={farmSize < 8 || balance < 50 / marketRate}
 										onClick={onUpgrade}
 									>
 										Upgrade
@@ -164,7 +164,7 @@ export const UpgradeModal: React.FC<Props> = ({
 									<span>{`$${500 / marketRate}`}</span>
 									<Button
 										disabled={
-											farmSize < 11 || balance < 500
+											farmSize < 11 || balance < 500 / marketRate
 										}
 										onClick={onUpgrade}
 									>
@@ -185,7 +185,7 @@ export const UpgradeModal: React.FC<Props> = ({
 									<span>{`$${2500 / marketRate}`}</span>
 									<Button
 										disabled={
-											farmSize < 14 || balance < 2500
+											farmSize < 14 || balance < 2500 / marketRate
 										}
 										onClick={onUpgrade}
 									>

@@ -4,7 +4,7 @@ import Decimal from 'decimal.js-light'
 
 import { Land } from './Land'
 
-import { getFruit } from '../../types/fruits'
+import { FruitItem, FRUITS, getMarketFruits } from '../../types/fruits'
 import { Fruit, Square, Action, Transaction } from '../../types/contract'
 
 
@@ -19,6 +19,7 @@ import { Button } from '../ui/Button'
 
 import { FruitBoard } from './FruitBoard'
 import { Tour } from './Tour'
+import { getExchangeRate, getMarketRate } from '../../utils/supply';
 
 export const Farm: React.FC= () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0))
@@ -27,7 +28,7 @@ export const Farm: React.FC= () => {
     createdAt: 0,
   }))
   const [fruit, setFruit] = React.useState<Fruit>(localStorage.getItem('fruit') as Fruit || Fruit.Sunflower)
-
+  const [fruits, setFruits] = React.useState<FruitItem[]>(FRUITS)
   const [machineState, send] = useService<
     Context,
     BlockchainEvent,
@@ -65,6 +66,10 @@ export const Farm: React.FC= () => {
         const { farm, balance: currentBalance } = await machineState.context.blockChain.getAccount()
         setLand(farm)
         setBalance(new Decimal(currentBalance))
+
+        const marketRate = getMarketRate(machineState.context.blockChain.totalSupply())
+        const marketFruits = getMarketFruits(marketRate)
+        setFruits(marketFruits)
       }
     }
 
@@ -89,14 +94,15 @@ export const Farm: React.FC= () => {
     machineState.context.blockChain.addEvent(transaction)
 
     setLand(oldLand => oldLand.map((field, index) => index === landIndex ? { fruit: Fruit.None, createdAt: 0 } : field))
-    const price = getFruit(harvestedFruit.fruit).sellPrice
+    const price = fruits.find(item => item.fruit === harvestedFruit.fruit).sellPrice
+
     setBalance(balance.plus(price))
 
     send('HARVEST')
   }, [balance, land, machineState.context.blockChain])
   
   const onPlant = React.useCallback(async (landIndex: number) => {
-    const price = getFruit(fruit).buyPrice
+    const price = fruits.find(item => item.fruit === fruit).buyPrice
 
     if (balance.lt(price)) {
         return
@@ -130,7 +136,7 @@ export const Farm: React.FC= () => {
   return (
       <>
         <Tour />
-        <Land selectedFruit={fruit} land={land} balance={safeBalance} onHarvest={onHarvest} onPlant={onPlant}/>
+        <Land fruits={fruits} selectedFruit={fruit} land={land} balance={safeBalance} onHarvest={onHarvest} onPlant={onPlant}/>
 
         <span id='save-button'>
           <Panel hasInner={false}>
@@ -158,7 +164,7 @@ export const Farm: React.FC= () => {
           </Panel>
         </div>
 
-        <FruitBoard selectedFruit={fruit} onSelectFruit={onChangeFruit} land={land} balance={safeBalance}/>
+        <FruitBoard fruits={fruits} selectedFruit={fruit} onSelectFruit={onChangeFruit} land={land} balance={safeBalance}/>
       </>
   )
 }

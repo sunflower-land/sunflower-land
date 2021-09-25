@@ -8,6 +8,7 @@ import soil from '../../images/land/soil/planted.png'
 import { Fruit, Square } from '../../types/contract'
 
 import { Field }  from './Field'
+import { FruitItem } from '../../types/fruits'
 
 
 interface Props {
@@ -16,9 +17,10 @@ interface Props {
     onHarvest: (landIndex: number) => void
     onPlant: (landIndex: number) => void
     selectedFruit: Fruit
+    fruits: FruitItem[]
 }
 
-export const FourthBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant, selectedFruit }) => {
+export const FourthBlock: React.FC<Props> = ({ fruits, land, balance, onHarvest, onPlant, selectedFruit }) => {
     const isUnlocked = land.length > 11
 
     return (
@@ -26,14 +28,14 @@ export const FourthBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant
             <div className='dirt' style={{ gridColumn: '11/12', gridRow: '3/4'}}>
                 {
                     isUnlocked
-                        ? (<Field balance={balance} selectedFruit={selectedFruit} square={land[11]} onClick={land[11].fruit === Fruit.None ? () => onPlant(11) : () => onHarvest(11)}/> )
+                        ? (<Field fruits={fruits} balance={balance} selectedFruit={selectedFruit} square={land[11]} onClick={land[11].fruit === Fruit.None ? () => onPlant(11) : () => onHarvest(11)}/> )
                         : <div className='field'><img  src={soil} /></div>
                 }
             </div>
             <div className='dirt' style={{ gridColumn: '12/13', gridRow: '3/4'}}>
                 {
                     isUnlocked
-                        ? (<Field balance={balance} selectedFruit={selectedFruit} square={land[12]} onClick={land[12].fruit === Fruit.None ? () => onPlant(12) : () => onHarvest(12)}/> )
+                        ? (<Field fruits={fruits} balance={balance} selectedFruit={selectedFruit} square={land[12]} onClick={land[12].fruit === Fruit.None ? () => onPlant(12) : () => onHarvest(12)}/> )
                         : <div className='field'><img  src={soil} /></div>
                 }
             </div>
@@ -41,7 +43,7 @@ export const FourthBlock: React.FC<Props> = ({ land, balance, onHarvest, onPlant
             <div className='dirt' style={{ gridColumn: '12/13', gridRow: '4/5'}}>
                 {
                     isUnlocked
-                        ? (<Field balance={balance} selectedFruit={selectedFruit} square={land[13]} onClick={land[13].fruit === Fruit.None ? () => onPlant(13) : () => onHarvest(13)}/> )
+                        ? (<Field fruits={fruits} balance={balance} selectedFruit={selectedFruit} square={land[13]} onClick={land[13].fruit === Fruit.None ? () => onPlant(13) : () => onHarvest(13)}/> )
                         : <div className='field'><img  src={soil} /></div>
                 }
             </div>

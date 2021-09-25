@@ -8,7 +8,7 @@ import potato from "../images/potato/fruit.png";
 import radish from "../images/radish/fruit.png";
 import parsnip from "../images/parsnip/fruit.png";
 
-interface Item {
+export interface FruitItem {
 	fruit: Fruit;
 	name: string;
 	image: string;
@@ -18,7 +18,7 @@ interface Item {
 	harvestMinutes: number;
 }
 
-export const fruits: Item[] = [
+export const FRUITS: FruitItem[] = [
 	{
 		fruit: Fruit.Sunflower,
 		name: "Sunflower",
@@ -85,5 +85,14 @@ export const fruits: Item[] = [
 ];
 
 export function getFruit(fruit: Fruit) {
-	return fruits.find((item) => item.fruit === fruit);
+	return FRUITS.find((item) => item.fruit === fruit);
+}
+
+// Apply the market rate against to get the current buy and sell prices
+export function getMarketFruits(marketRate: number) {
+	return FRUITS.map(fruit => ({
+		...fruit,
+		buyPrice: fruit.buyPrice / marketRate,
+		sellPrice: fruit.sellPrice / marketRate,
+	}))
 }

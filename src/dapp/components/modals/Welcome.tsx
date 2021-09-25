@@ -10,7 +10,6 @@ import { secondsToLongString } from '../../utils/time'
 import { Panel } from '../ui/Panel'
 import { Button } from '../ui/Button'
 import { service } from '../../machine'
-import { getFruit } from '../../types/fruits'
 import { getMarketRate } from '../../utils/supply'
 
 interface Props {
