@@ -140,6 +140,8 @@ export class BlockChain {
             }else {
                 throw new Error('WRONG_CHAIN')
             }
+
+            await this.cacheTotalSupply()
             console.log('Resolved')
         }catch(e) {
             // If it is not a known error, keep trying
@@ -308,16 +310,22 @@ export class BlockChain {
         return this.events[0].createdAt
     }
 
-    public async totalSupply(): Promise<number> {
+    private cachedTotalSupply: number = 0
+
+    public async cacheTotalSupply() {
         if (!this.web3 || !this.token) {
-            return 0
+            this.cachedTotalSupply = 0
         }
 
         const totalSupply = await this.token.methods.totalSupply().call({ from: this.account })
 
         const supply = this.web3.utils.fromWei(totalSupply)
 
-        return Number(supply)
+        this.cachedTotalSupply = Number(supply)
+    }
+
+    public totalSupply() {
+        return this.cachedTotalSupply
     }
 
     public async getCharityBalances() {

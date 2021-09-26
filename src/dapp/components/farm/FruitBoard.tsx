@@ -11,7 +11,6 @@ import coin from '../../images/ui/sunflower_coin.png'
 import arrow from '../../images/ui/arrow_right.png'
 
 import { Fruit } from '../../types/contract'
-import { fruits, getFruit } from '../../types/fruits'
 
 import { secondsToString } from '../../utils/time'
 
@@ -21,44 +20,36 @@ import { Panel } from '../ui/Panel'
 import { Message } from '../ui/Message'
 import { service } from '../../machine'
 import { getMarketRate } from '../../utils/supply'
+import { FruitItem, getFruit } from '../../types/fruits'
 
 interface Props {
 	selectedFruit: Fruit
 	onSelectFruit: (fruit: Fruit) => void
 	balance: number
 	land: any[]
+	fruits: FruitItem[]
 }
 export const FruitBoard: React.FC<Props> = ({
 	balance,
 	land,
 	onSelectFruit,
 	selectedFruit,
+	fruits,
 }) => {
 	const [showModal, setShowModal] = React.useState(false)
-	const [totalSupply, setTotalSupply] = React.useState<number>(1)
-
-	React.useEffect(() => {
-		const load = async () => {
-			const supply = await service.machine.context.blockChain.totalSupply()
-			setTotalSupply(supply)
-		}
-
-		load()
-	}, [])
 
 	const selectFruit = (fruit: Fruit) => {
 		setShowModal(false)
 		onSelectFruit(fruit)
 	}
 
-	const marketRate = getMarketRate(totalSupply)
-
 	const items = []
 	let needsUpgrade = false
 	let needsMoreMoney = false
+
 	fruits.forEach((fruit) => {
-		const buyPrice = Big(fruit.buyPrice).div(marketRate).toNumber()
-		const sellPrice = Big(fruit.sellPrice).div(marketRate).toNumber()
+		const buyPrice = Big(fruit.buyPrice).toNumber()
+		const sellPrice = Big(fruit.sellPrice).toNumber()
 
 		if (!needsUpgrade && fruit.landRequired > land.length) {
 			items.push(

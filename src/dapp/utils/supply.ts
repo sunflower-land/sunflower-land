@@ -51,17 +51,17 @@ export function getMarketRate(supply: number) {
 	}
 
 	// Less than 1, 000, 000 tokens
-	if (supply < 10000000) {
+	if (supply < 1000000) {
 		return 10
 	}
 
 	// Less than 5, 000, 000 tokens
-	if (supply < 500000000) {
+	if (supply < 5000000) {
 		return 50
 	}
 
 	// Less than 10, 000, 000 tokens
-	if (supply < 1000000000) {
+	if (supply < 10000000) {
 		return 100
 	}
 
