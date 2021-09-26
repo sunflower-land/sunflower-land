@@ -65,6 +65,26 @@ export function getMarketRate(supply: number) {
 		return 100
 	}
 
+	// Less than 50, 000, 000 tokens
+	if (supply < 50000000) {
+		return 500
+	}
+
+	// Less than 100, 000, 000 tokens
+	if (supply < 100000000) {
+		return 1000
+	}
+
+	// Less than 500, 000, 000 tokens
+	if (supply < 500000000) {
+		return 5000
+	}
+
+	// Less than 1, 000, 000, 000 tokens
+	if (supply < 1000000000) {
+		return 10000
+	}
+
 	// 1 Farm Dollar gets you a 0.00001 of a token - Linear growth from here
 	return supply / 10000
 }
