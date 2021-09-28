@@ -21,130 +21,130 @@ import { Message } from '../ui/Message'
 import { FruitItem, getFruit } from '../../types/fruits'
 
 interface Props {
-	selectedFruit: Fruit
-	onSelectFruit: (fruit: Fruit) => void
-	balance: number
-	land: any[]
-	fruits: FruitItem[]
+    selectedFruit: Fruit
+    onSelectFruit: (fruit: Fruit) => void
+    balance: number
+    land: any[]
+    fruits: FruitItem[]
 }
 export const FruitBoard: React.FC<Props> = ({
-	balance,
-	land,
-	onSelectFruit,
-	selectedFruit,
-	fruits,
+    balance,
+    land,
+    onSelectFruit,
+    selectedFruit,
+    fruits,
 }) => {
-	const [showModal, setShowModal] = React.useState(false)
+    const [showModal, setShowModal] = React.useState(false)
 
-	const selectFruit = (fruit: Fruit) => {
-		setShowModal(false)
-		onSelectFruit(fruit)
-	}
+    const selectFruit = (fruit: Fruit) => {
+        setShowModal(false)
+        onSelectFruit(fruit)
+    }
 
-	const items = []
-	let needsUpgrade = false
-	let needsMoreMoney = false
-	fruits.forEach((fruit) => {
-		const buyPrice = Big(fruit.buyPrice).toNumber()
-		const sellPrice = Big(fruit.sellPrice).toNumber()
+    const items = []
+    let needsUpgrade = false
+    let needsMoreMoney = false
+    fruits.forEach((fruit) => {
+        const buyPrice = Big(fruit.buyPrice).toNumber()
+        const sellPrice = Big(fruit.sellPrice).toNumber()
 
-		if (!needsUpgrade && fruit.landRequired > land.length) {
-			needsUpgrade = true
-		}
+        if (!needsUpgrade && fruit.landRequired > land.length) {
+            needsUpgrade = true
+        }
 
-		if (!needsMoreMoney && fruit.buyPrice > balance) {
-			needsMoreMoney = true
-		}
+        if (!needsMoreMoney && fruit.buyPrice > balance) {
+            needsMoreMoney = true
+        }
 
-		const isLocked = needsUpgrade || needsMoreMoney
+        const isLocked = needsUpgrade || needsMoreMoney
 
-		items.push(
-			<div key={fruit.name} className={isLocked ? 'locked item' : 'item'}>
-				<div
-					className={
-						selectedFruit === fruit.fruit ? 'selected icon' : 'icon'
-					}
-					onClick={
-						!isLocked ? () => selectFruit(fruit.fruit) : undefined
-					}
-				>
-					<div className="image">
-						<img src={fruit.image} />
-					</div>
-				</div>
-				<div className="fruit-details">
-					<div>
-						<span className="title">{fruit.name}</span>
+        items.push(
+            <div key={fruit.name} className={isLocked ? 'locked item' : 'item'}>
+                <div
+                    className={
+                        selectedFruit === fruit.fruit ? 'selected icon' : 'icon'
+                    }
+                    onClick={
+                        !isLocked ? () => selectFruit(fruit.fruit) : undefined
+                    }
+                >
+                    <div className="image">
+                        <img src={fruit.image} />
+                    </div>
+                </div>
+                <div className="fruit-details">
+                    <div>
+                        <span className="title">{fruit.name}</span>
 
-						<div className="fruit-time">
-							<img src={stopwatch} />
-							<span>
-								{secondsToString(fruit.harvestMinutes * 60)}
-							</span>
-						</div>
-					</div>
-					<div className="fruit-breakdown">
-						<div className="price">
-							<span className="price-label">Buy</span>
-							<img src={coin} />
-							<span>{buyPrice}</span>
-						</div>
-						<div className="fruit-arrows">
-							<img src={arrow} />
-							<img src={arrow} />
-							<img src={arrow} />
-						</div>
-						<div className="price">
-							<span className="price-label">Sell</span>
-							<img src={coin} />
-							<span>{sellPrice}</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		)
+                        <div className="fruit-time">
+                            <img src={stopwatch} />
+                            <span>
+                                {secondsToString(fruit.harvestMinutes * 60)}
+                            </span>
+                        </div>
+                    </div>
+                    <div className="fruit-breakdown">
+                        <div className="price">
+                            <span className="price-label">Buy</span>
+                            <img src={coin} />
+                            <span>{buyPrice}</span>
+                        </div>
+                        <div className="fruit-arrows">
+                            <img src={arrow} />
+                            <img src={arrow} />
+                            <img src={arrow} />
+                        </div>
+                        <div className="price">
+                            <span className="price-label">Sell</span>
+                            <img src={coin} />
+                            <span>{sellPrice}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
 
-		if (needsUpgrade) {
-			items.push(
-				<div className="upgrade-required">
-					<Message>
-						Upgrade Required
-						<img src={alert} className="insufficient-funds-alert" />
-					</Message>
-				</div>
-			)
-		} else if (needsMoreMoney) {
-			items.push(
-				<div className="upgrade-required">
-					<Message>
-						Insufficient funds
-						<img
-							src={cancel}
-							className="insufficient-funds-cross"
-						/>
-					</Message>
-				</div>
-			)
-		}
-	})
+        if (needsUpgrade) {
+            items.push(
+                <div className="upgrade-required">
+                    <Message>
+                        Upgrade Required
+                        <img src={alert} className="insufficient-funds-alert" />
+                    </Message>
+                </div>
+            )
+        } else if (needsMoreMoney) {
+            items.push(
+                <div className="upgrade-required">
+                    <Message>
+                        Insufficient funds
+                        <img
+                            src={cancel}
+                            className="insufficient-funds-cross"
+                        />
+                    </Message>
+                </div>
+            )
+        }
+    })
 
-	return (
-		<>
-			<div id="basket" onClick={() => setShowModal(true)}>
-				<img className="basket-fruit" src={disc} />
-				<img
-					className="selected-fruit"
-					src={getFruit(selectedFruit).image}
-				/>
-				<Message>Change</Message>
-			</div>
-			<Modal show={showModal} centered onHide={() => setShowModal(false)}>
-				<div className="board">
-					<Panel>
-						<div className="board-content">{items}</div>
-					</Panel>
-				</div>
-			</Modal>
-		</>
-	)
+    return (
+        <>
+            <div id="basket" onClick={() => setShowModal(true)}>
+                <img className="basket-fruit" src={disc} />
+                <img
+                    className="selected-fruit"
+                    src={getFruit(selectedFruit).image}
+                />
+                <Message>Change</Message>
+            </div>
+            <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+                <div className="board">
+                    <Panel>
+                        <div className="board-content">{items}</div>
+                    </Panel>
+                </div>
+            </Modal>
+        </>
+    )
 }
