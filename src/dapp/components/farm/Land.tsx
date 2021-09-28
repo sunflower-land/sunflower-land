@@ -15,6 +15,7 @@ import { Tiles } from './Tiles'
 import { Barn } from './Barn'
 import { Blacksmith } from './Blacksmith'
 import { Market } from './Market'
+import { FruitItem } from '../../types/fruits'
 
 interface Props {
     land: Square[]
@@ -22,12 +23,13 @@ interface Props {
     onHarvest: (landIndex: number) => void
     onPlant: (landIndex: number) => void
     selectedFruit: Fruit
+    fruits: FruitItem[]
 }
 
 const columns = Array(60).fill(null)
 const rows = Array(20).fill(null)
 
-export const Land: React.FC<Props> = ({ land, balance, onHarvest, onPlant, selectedFruit }) => {
+export const Land: React.FC<Props> = ({ fruits, land, balance, onHarvest, onPlant, selectedFruit }) => {
     return (
         <>
                     {
@@ -49,11 +51,11 @@ export const Land: React.FC<Props> = ({ land, balance, onHarvest, onPlant, selec
                 )
             }
             <div className='farm'>
-                <FirstBlock selectedFruit={selectedFruit} land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
-                <SecondLand selectedFruit={selectedFruit} land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
-                <ThirdBlock selectedFruit={selectedFruit} land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
-                <FourthBlock selectedFruit={selectedFruit} land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
-                <FifthBlock selectedFruit={selectedFruit} land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
+                <FirstBlock fruits={fruits} selectedFruit={selectedFruit} land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
+                <SecondLand fruits={fruits} selectedFruit={selectedFruit} land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
+                <ThirdBlock fruits={fruits} selectedFruit={selectedFruit} land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
+                <FourthBlock fruits={fruits}selectedFruit={selectedFruit} land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
+                <FifthBlock fruits={fruits} selectedFruit={selectedFruit} land={land} balance={balance} onHarvest={onHarvest} onPlant={onPlant}/>
                 <Barn farmSize={land.length} balance={balance} />
                 <Blacksmith />
                 <Market />
