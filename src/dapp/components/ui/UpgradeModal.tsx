@@ -65,10 +65,6 @@ export const UpgradeModal: React.FC<Props> = ({
 
 	const marketRate = getMarketRate(totalSupply)
 
-	const price = getPrice(farmSize)
-
-	const hasFunds = balance >= price
-
 	const isUnsaved = machineState.context.blockChain.isUnsaved()
 
 	return (
@@ -76,27 +72,30 @@ export const UpgradeModal: React.FC<Props> = ({
 			<Panel>
 				<div id="charity-container">
 					<span>Upgrade Farm</span>
-					<span id="donate-description">
-						Upgrade your farm to unlock new plants and harvestable
-						fields.
-					</span>
-					{isUnsaved && (
+					
+					{isUnsaved ? (
 						<>
 							<div className="upgrade-required">
 								<Message>
-									Unsaved game
+									Save your farm first
 									<img
 										src={cancel}
 										className="insufficient-funds-cross"
 									/>
 								</Message>
 							</div>
-							<span className="upgrade-warning">
+							<span id="donate-description">
 								You must first save your farm to the blockchain
 								before attempting to upgrade.{' '}
 							</span>
 						</>
-					)}
+					) : (
+                        <span id="donate-description">
+                            Upgrade your farm to unlock new plants and harvestable
+                            fields.
+                        </span>
+                    )}
+
 					<div id="charities">
 						<div>
 							<span className="charity-description">
@@ -122,7 +121,7 @@ export const UpgradeModal: React.FC<Props> = ({
 								<div className="charity-buttons">
 									<span>{`$${1 / marketRate}`}</span>
 									<Button
-										disabled={balance < 1 / marketRate}
+										disabled={isUnsaved || balance < 1 / marketRate}
 										onClick={onUpgrade}
 									>
 										Upgrade
@@ -144,7 +143,7 @@ export const UpgradeModal: React.FC<Props> = ({
 								<div className="charity-buttons">
 									<span>{`$${50 / marketRate}`}</span>
 									<Button
-										disabled={farmSize < 8 || balance < 50 / marketRate}
+										disabled={isUnsaved || farmSize < 8 || balance < 50 / marketRate}
 										onClick={onUpgrade}
 									>
 										Upgrade
@@ -164,7 +163,7 @@ export const UpgradeModal: React.FC<Props> = ({
 									<span>{`$${500 / marketRate}`}</span>
 									<Button
 										disabled={
-											farmSize < 11 || balance < 500 / marketRate
+											isUnsaved || farmSize < 11 || balance < 500 / marketRate
 										}
 										onClick={onUpgrade}
 									>
@@ -185,7 +184,7 @@ export const UpgradeModal: React.FC<Props> = ({
 									<span>{`$${2500 / marketRate}`}</span>
 									<Button
 										disabled={
-											farmSize < 14 || balance < 2500 / marketRate
+											isUnsaved || farmSize < 14 || balance < 2500 / marketRate
 										}
 										onClick={onUpgrade}
 									>
