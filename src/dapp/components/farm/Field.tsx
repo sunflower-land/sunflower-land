@@ -30,11 +30,9 @@ import selectBoxTR from '../../images/ui/select-box/selectbox_tr.png'
 import selectBoxBR from '../../images/ui/select-box/selectbox_br.png'
 import selectBoxBL from '../../images/ui/select-box/selectbox_bl.png'
 
-import { getFruit } from '../../types/fruits'
+import { FruitItem } from '../../types/fruits'
 import { Fruit, Square } from '../../types/contract'
 import { secondsToString } from '../../utils/time'
-
-import { Message } from '../ui/Message'
 
 import './Field.css'
 
@@ -43,6 +41,7 @@ import './Field.css'
 interface Props {
     square: Square
     selectedFruit: Fruit
+    fruits: FruitItem[]
     balance: number
     onClick: () => void
 }
@@ -56,25 +55,25 @@ function getTimeLeft(createdAt: number, totalTime: number) {
     return totalTime - secondsElapsed
 }
 
-export const Field: React.FC<Props> = ({ square, onClick, selectedFruit, balance }) => {
+export const Field: React.FC<Props> = ({ square, onClick, selectedFruit, balance, fruits }) => {
     const [_, setTimer] = React.useState<number>(0)
     const [harvestPrice, setHarvestPrice] = React.useState<string>(null)
     const [showPrice, setShowPrice] = React.useState(false)
     const [showInsufficientFunds, setShowInsufficientFunds] = React.useState(false)
 
-    const fruit = getFruit(square.fruit)
+    const fruit = fruits.find(item => item.fruit === square.fruit)
     const totalTime = fruit?.harvestMinutes * 60
 
     const click = React.useCallback(() => {
         // Show harvest price
 
-        const fruit = getFruit(square.fruit)
+        const fruit = fruits.find(item => item.fruit === square.fruit)
         // Harvest
         if (fruit) {
             setHarvestPrice(`+${fruit.sellPrice}`)
         } else {
             // Plant
-            const buyFruit = getFruit(selectedFruit)
+            const buyFruit = fruits.find(item => item.fruit === selectedFruit)
 
             if (buyFruit.buyPrice > balance) {
                 setShowInsufficientFunds(true)
@@ -202,7 +201,7 @@ export const Field: React.FC<Props> = ({ square, onClick, selectedFruit, balance
 
     const timeLeft = getTimeLeft(square.createdAt, totalTime)
 
-    const plantingFruit = getFruit(selectedFruit)
+    const plantingFruit = fruits.find(item => item.fruit === selectedFruit)
 
     return (
         <div className="field" onClick={!timeLeft ? click : undefined}>

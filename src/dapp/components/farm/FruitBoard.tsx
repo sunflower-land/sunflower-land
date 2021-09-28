@@ -1,4 +1,5 @@
 import React from 'react'
+import Big from 'big.js'
 
 import Modal from 'react-bootstrap/Modal'
 
@@ -10,7 +11,6 @@ import coin from '../../images/ui/sunflower_coin.png'
 import arrow from '../../images/ui/arrow_right.png'
 
 import { Fruit } from '../../types/contract'
-import { fruits, getFruit } from '../../types/fruits'
 
 import { secondsToString } from '../../utils/time'
 
@@ -18,18 +18,21 @@ import './FruitBoard.css'
 
 import { Panel } from '../ui/Panel'
 import { Message } from '../ui/Message'
+import { FruitItem, getFruit } from '../../types/fruits'
 
 interface Props {
 	selectedFruit: Fruit
 	onSelectFruit: (fruit: Fruit) => void
 	balance: number
 	land: any[]
+	fruits: FruitItem[]
 }
 export const FruitBoard: React.FC<Props> = ({
 	balance,
 	land,
 	onSelectFruit,
 	selectedFruit,
+	fruits,
 }) => {
 	const [showModal, setShowModal] = React.useState(false)
 
@@ -42,7 +45,9 @@ export const FruitBoard: React.FC<Props> = ({
 	let needsUpgrade = false
 	let needsMoreMoney = false
 	fruits.forEach((fruit) => {
-		console.log({ items })
+		const buyPrice = Big(fruit.buyPrice).toNumber()
+		const sellPrice = Big(fruit.sellPrice).toNumber()
+
 		if (!needsUpgrade && fruit.landRequired > land.length) {
 			needsUpgrade = true
 		}
@@ -54,7 +59,7 @@ export const FruitBoard: React.FC<Props> = ({
 		const isLocked = needsUpgrade || needsMoreMoney
 
 		items.push(
-			<div className={isLocked ? 'locked item' : 'item'}>
+			<div key={fruit.name} className={isLocked ? 'locked item' : 'item'}>
 				<div
 					className={
 						selectedFruit === fruit.fruit ? 'selected icon' : 'icon'
@@ -82,7 +87,7 @@ export const FruitBoard: React.FC<Props> = ({
 						<div className="price">
 							<span className="price-label">Buy</span>
 							<img src={coin} />
-							<span>{fruit.buyPrice}</span>
+							<span>{buyPrice}</span>
 						</div>
 						<div className="fruit-arrows">
 							<img src={arrow} />
@@ -92,7 +97,7 @@ export const FruitBoard: React.FC<Props> = ({
 						<div className="price">
 							<span className="price-label">Sell</span>
 							<img src={coin} />
-							<span>{fruit.sellPrice}</span>
+							<span>{sellPrice}</span>
 						</div>
 					</div>
 				</div>
