@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import Token from '../abis/Token.json'
 import Farm from '../abis/Farm.json'
 
-import { Transaction, Square, Charity, Fruit  } from './types/contract'
+import { Transaction, Square, Charity, Fruit, Donation  } from './types/contract'
 
 interface Account {
     farm: Square[]
@@ -154,17 +154,16 @@ export class BlockChain {
         }
     }
 
-    public createFarm(charity: Charity) {
-        const value = this.web3.utils.toWei('0.1', 'ether')
+    public createFarm(donation: Donation) {
+        const value = this.web3.utils.toWei(donation.value, 'ether')
 
         return new Promise(async (resolve, reject) => {
             const price = await this.web3.eth.getGasPrice()
             const gasPrice = price ? Number(price) * 3 : undefined
 
-            this.farm.methods.createFarm(charity).send({from: this.account, value, to: charity, gasPrice })
+            this.farm.methods.createFarm(donation.charity).send({from: this.account, value, to: donation.charity, gasPrice })
             .on('error', function(error){
                 console.log({ error })
-
                 reject(error)
             })
             .on('transactionHash', function(transactionHash){
