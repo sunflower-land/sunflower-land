@@ -158,3 +158,9 @@ body {
     margin-top: 22px;
     width: 98px;
 }
+
+#logo {
+    max-width: 400px;
+    margin-top: -93px;
+    margin-bottom: -57px;
+}

@@ -3,6 +3,7 @@ import Big from 'big.js'
 
 import questionMark from '../../images/ui/expression_confused.png'
 import alert from '../../images/ui/expression_alerted.png'
+import logo from '../../images/ui/logo.png'
 import sunflower from '../../images/sunflower/fruit.png'
 
 import { secondsToLongString } from '../../utils/time'
@@ -54,7 +55,7 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
 	return (
 		<Panel>
 			<div id="welcome">
-				<h1 className="header">Sunflower Farmers</h1>
+				<img id="logo" src={logo} />
 				<Button onClick={onGetStarted}>
 					<span>Get Started</span>
 				</Button>
