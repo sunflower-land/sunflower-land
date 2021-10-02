@@ -20,17 +20,18 @@ function getFarms(): CachedFarms {
         return {}
     }
 
-    return JSON.parse(stored)
+    try {
+        const parsed = JSON.parse(stored)
+
+        return parsed
+    } catch (e) {
+        console.error("Parsing localstorage failed: ", e)
+        return {}
+    }
 }
 
 export function getFarm(accountId: string): FarmState {
-    const stored = localStorage.getItem(CACHED_FARMS_KEY)
-
-    if (!stored) {
-        return DEFAULT
-    }
-
-    const farms: CachedFarms = JSON.parse(stored)
+    const farms = getFarms()
     const farm = farms[accountId]
 
     if (!farm) {

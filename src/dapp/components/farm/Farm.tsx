@@ -76,7 +76,6 @@ export const Farm: React.FC = () => {
 
             // HACK: Upgrade modal does not upgrade balance and farm so mark farm as stale
             if (machineState.matches('upgrading') || machineState.matches('loading')) {
-                console.log('Refresh')
                 farmIsFresh.current = false
             }
 
