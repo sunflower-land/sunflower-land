@@ -26,6 +26,10 @@ export const App: React.FC = () => {
         console.log('Network changed')
         send('NETWORK_CHANGED')
       });
+
+      window.ethereum.on('accountsChanged', function (accounts) {
+        send('ACCOUNT_CHANGED')
+      })
     }
   }, [send])
   
