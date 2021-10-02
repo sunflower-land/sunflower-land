@@ -39,8 +39,7 @@ const steps: ReactourStep[] = [
 		content: () => (
 			<div>
 				Don't forget to save your farm within 25 minutes of your first
-				action. Otherwise the blockchain will not be able to validate
-				your farm.
+				action. Once you save you can close the browser and come back later to harvest your fields.
 				<br />
 				<div id="tour-button">
 					<Button onClick={() => service.send('NEXT')}>Next</Button>
