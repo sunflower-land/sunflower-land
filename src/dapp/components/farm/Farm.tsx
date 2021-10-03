@@ -6,6 +6,7 @@ import { Land } from './Land'
 
 import { FruitItem, FRUITS, getMarketFruits } from '../../types/fruits'
 import { Fruit, Square, Action, Transaction } from '../../types/contract'
+import { cacheAccountFarm, getFarm } from '../../utils/localStorage'
 
 import {
     service,
@@ -34,6 +35,7 @@ export const Farm: React.FC = () => {
         })
     )
     const farmIsFresh = React.useRef(false)
+    const accountId = React.useRef<string>()
     const [fruit, setFruit] = React.useState<Fruit>(
         (localStorage.getItem('fruit') as Fruit) || Fruit.Sunflower
     )
@@ -73,7 +75,7 @@ export const Farm: React.FC = () => {
             const doRefresh = !farmIsFresh.current
 
             // HACK: Upgrade modal does not upgrade balance and farm so mark farm as stale
-            if (machineState.matches('upgrading')) {
+            if (machineState.matches('upgrading') || machineState.matches('loading')) {
                 farmIsFresh.current = false
             }
 
@@ -86,10 +88,16 @@ export const Farm: React.FC = () => {
                 const {
                     farm,
                     balance: currentBalance,
+                    id,
                 } = await machineState.context.blockChain.getAccount()
+                console.log('Load latest')
                 setLand(farm)
                 setBalance(new Decimal(currentBalance))
                 farmIsFresh.current = true
+                accountId.current = id
+
+                const cachedFarm = getFarm(id)
+                setFruit(cachedFarm.selectedFruit)
 
                 const supply = await machineState.context.blockChain.totalSupply()
                 const marketRate = getMarketRate(supply)
@@ -104,6 +112,7 @@ export const Farm: React.FC = () => {
     const onChangeFruit = (fruit: Fruit) => {
         setFruit(fruit)
 
+        cacheAccountFarm(accountId.current, { selectedFruit: fruit })
         localStorage.setItem('fruit', fruit)
     }
     const onHarvest = React.useCallback(

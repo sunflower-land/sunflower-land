@@ -87,6 +87,9 @@ export type BlockchainEvent =
     | FinishEvent
     | CloseOnboardingEvent
     | OnboardingEvent
+    | {
+        type: 'ACCOUNT_CHANGED'
+    }
 
 
 export type OnboardingStates = 'harvesting' | 'token' | 'planting' | 'saving' | 'market'
@@ -222,6 +225,10 @@ export const blockChainMachine = createMachine<
                 },
                 TIMER_COMPLETE: {
                     target: 'timerComplete'
+                },
+                ACCOUNT_CHANGED: {
+                    target: 'loading',
+                    actions: (context) => context.blockChain.resetFarm()
                 }
             }
         },

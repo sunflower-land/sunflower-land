@@ -8,6 +8,7 @@ import { Transaction, Square, Charity, Fruit  } from './types/contract'
 interface Account {
     farm: Square[]
     balance: number
+    id: string
 }
 
 export class BlockChain {
@@ -21,23 +22,7 @@ export class BlockChain {
 
     private isTrialAccount: boolean = false
 
-    private async connectToGanache() {
-        // const netId = await this.web3.eth.net.getId();
-        // console.log({ netId })
-        // const accounts = await this.web3.eth.requestAccounts()
-        // this.account = accounts[0]
-
-        // console.log({ netId })
-        // this.token = new this.web3.eth.Contract(Token.abi as any, Token.networks[netId].address)
-
-        // const farmAddress = Farm.networks[netId].address
-        // this.farm = new this.web3.eth.Contract(Farm.abi as any, farmAddress)
-    }
-
     private async connectToMumbai(){
-
-        // web3.eth.defaultAddress = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'
-        // web3.eth.handleRevert = true
 
         this.token = new this.web3.eth.Contract(Token as any, '0x8B0e84C5D75C9b489119bde5fA9136212C7e86A8')
         this.farm = new this.web3.eth.Contract(Farm as any, '0x84a23593ba916aDACA311A19a0648e6f8cc90612')
@@ -47,10 +32,6 @@ export class BlockChain {
     }
 
     private async connectToMatic(){
-
-        // web3.eth.defaultAddress = '0xd94A0D37b54f540F6FB93c5bEcbf89b84518D621'
-        // web3.eth.handleRevert = true
-
         try {
             this.token = new this.web3.eth.Contract(Token as any, '0x3b4F867D50231a9263cDAEd87C80C3962b1483D7')
             this.farm = new this.web3.eth.Contract(Farm as any, '0xBc00E1aFBB8FC859a79E54902FDe8fa0B26412d6')
@@ -68,22 +49,6 @@ export class BlockChain {
             }
         }
 
-    }
-
-    private async connectToHarmony(){
-        // this.token = new this.web3.eth.Contract(Token.abi as any, '0xCFc5b0e65f9a684C0180037eef201EF025D37971')
-        // this.farm = new this.web3.eth.Contract(Farm.abi as any, '0x1ecE946c332C9AffC28b82D73B720Ac9D984f5fF')
-
-        // const maticAccounts = await this.web3.eth.getAccounts()
-        // this.account = maticAccounts[0]
-    }
-
-    private async connectToBinance(){
-        // this.token = new this.web3.eth.Contract(Token.abi as any, '0xCFc5b0e65f9a684C0180037eef201EF025D37971')
-        // this.farm = new this.web3.eth.Contract(Farm.abi as any, '0x1ecE946c332C9AffC28b82D73B720Ac9D984f5fF')
-
-        // const maticAccounts = await this.web3.eth.getAccounts()
-        // this.account = maticAccounts[0]
     }
 
 
@@ -118,7 +83,6 @@ export class BlockChain {
             // It is actually quite fast, we won't to simulate slow loading to convey complexity
             await new Promise(res => window.setTimeout(res, 1000))
             await this.setupWeb3()
-            const chain = await this.web3.eth.net.getNetworkType()
             const chainId = await this.web3.eth.getChainId()
 
             if (chainId === 137) {
@@ -129,15 +93,7 @@ export class BlockChain {
                 await this.connectToMumbai()
 
                 this.details = await this.getAccount()
-            } else if (chainId === 1666700000) {
-                await this.connectToHarmony()
-
-                this.details = await this.getAccount()
-            } else if (chainId === 97) {
-                await this.connectToBinance()
-
-                this.details = await this.getAccount()
-            }else {
+            } else {
                 throw new Error('WRONG_CHAIN')
             }
 
@@ -260,6 +216,7 @@ export class BlockChain {
                     fruit: Fruit.None
                 }],
                 balance: 0,
+                id: this.account,
             }
         }
 
@@ -270,6 +227,7 @@ export class BlockChain {
         return {
             balance: Number(balance),
             farm,
+            id: this.account,
         }
 
     }
@@ -352,5 +310,9 @@ export class BlockChain {
             ...event,
             createdAt: event.createdAt + difference,
         }))
+    }
+
+    public resetFarm() {
+        this.events = []
     }
 }
