@@ -4,7 +4,7 @@ import { useService } from '@xstate/react';
 
 import { service, Context, BlockchainEvent, BlockchainState } from './machine'
 
-import { Charity as Charities, Donation } from './types/contract'
+import { Donation } from './types/contract'
 
 
 import { Charity, Connecting, Welcome, Creating, Saving, Error, TimerComplete, Unsupported, SaveError } from './components/modals'

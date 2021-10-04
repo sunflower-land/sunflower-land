@@ -41,6 +41,7 @@
     display: block;
     font-size: 13px;
     margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 .charity-description {
@@ -64,4 +65,32 @@
     padding: 10px;
     width: fit-content;
     cursor: pointer;
+}
+
+#donation-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#donation-input {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    background: #e6a873;
+    color: white;
+    text-shadow: 1px 1px black;
+    width: 130px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.arrow {
+    display: flex;
+    height: 15px;
+}
+
+#donate-minimum-description {
+    display: block;
+    font-size: 9px;
+    margin-top: 4px;
 }
