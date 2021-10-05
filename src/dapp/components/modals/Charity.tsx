@@ -46,19 +46,20 @@ export const Charity: React.FC<Props> = ({ onSelect }) => {
         }
     }, [machineState.context.blockChain, machineState.context.blockChain.isConnected])
 
+    const roundToOneDecimal = number => Math.round(number * 10) / 10
+
     const handleDonationChange = (event) => { 
-        setDonation(event.currentTarget.value.toString())
+        setDonation(roundToOneDecimal(event.currentTarget.value))
     }
 
-
     const incrementDonation = () => {
-        setDonation(prevState => prevState + 0.1);
+        setDonation(prevState => roundToOneDecimal(prevState + 0.1));
     }
 
     const decrementDonation = () => {
-            if (donation.toPrecision(1) === '0.1') {
-                setDonation(0.1)
-            } else setDonation(prevState => prevState - 0.1);
+        if (donation === 0.1) {
+            setDonation(0.1)
+        } else setDonation(prevState => roundToOneDecimal(prevState - 0.1));
     }
 
     return (
@@ -71,7 +72,7 @@ export const Charity: React.FC<Props> = ({ onSelect }) => {
                     To start a farm, please donate to a charity of your choice.
                 </span>
                 <div id="donation-input-container">
-                    <input type="number" step="0.1" id="donation-input" min={0.1} value={donation.toFixed(1)} onChange={handleDonationChange} />
+                    <input type="number" step="0.1" id="donation-input" min={0.1} value={donation} onChange={handleDonationChange} />
                     <div id="arrow-container">
                         <img className="arrow" alt="Step up donation value" src={arrowUp} onClick={incrementDonation}/>
                         <img className="arrow" alt="Step down donation value" src={arrowDown} onClick={decrementDonation}/>
@@ -106,7 +107,7 @@ export const Charity: React.FC<Props> = ({ onSelect }) => {
                                 About
                                 <img src={questionMark} id="question"/>
                             </Button>
-                            <Button  onClick={() => onSelect({charity: Charities.TheWaterProject, value: donation.toFixed(1)})} >
+                            <Button  onClick={() => onSelect({charity: Charities.TheWaterProject, value: donation.toString()})} >
                                 Donate & Play
                             </Button>
                         </div>
@@ -135,7 +136,7 @@ export const Charity: React.FC<Props> = ({ onSelect }) => {
                                 About
                                 <img src={questionMark} id="question"/>
                             </Button>
-                            <Button  onClick={() => onSelect({charity: Charities.Heifer, value: donation.toFixed(1)})} >
+                            <Button  onClick={() => onSelect({charity: Charities.Heifer, value: donation.toString()})} >
                                 Donate & Play
                             </Button>
                         </div>
@@ -164,7 +165,7 @@ export const Charity: React.FC<Props> = ({ onSelect }) => {
                                 About
                                 <img src={questionMark} id="question"/>
                             </Button>
-                            <Button  onClick={() => onSelect({charity: Charities.CoolEarth, value: donation.toFixed(1)})} >
+                            <Button  onClick={() => onSelect({charity: Charities.CoolEarth, value: donation.toString()})} >
                                 Donate & Play
                             </Button>
                         </div>

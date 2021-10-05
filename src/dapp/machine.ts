@@ -169,7 +169,7 @@ export const blockChainMachine = createMachine<
         },
         creating: {
             invoke: {
-                src: ({ blockChain }, event) => blockChain.createFarm({charity: (event as DonateEvent).donation.charity, value: (event as DonateEvent).donation.value }),
+                src: ({ blockChain }, event) => blockChain.createFarm((event as DonateEvent).donation),
                 onDone: {
                     target: 'onboarding',
                 },
