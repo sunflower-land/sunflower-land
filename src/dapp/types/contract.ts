@@ -15,6 +15,10 @@ export enum Charity {
     CoolEarth = '0x3c8cB169281196737c493AfFA8F49a9d823bB9c5'
 }
 
+export interface Donation {
+    charity: Charity
+    value: string
+}
 export interface Square {
     fruit: Fruit
     createdAt: number

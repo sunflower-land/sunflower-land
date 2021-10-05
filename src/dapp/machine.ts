@@ -45,7 +45,10 @@ export interface TimerCompleteEvent extends EventObject {
 
 export interface DonateEvent extends EventObject {
     type: 'DONATE';
-    charity: Charity
+    donation: {
+        charity: Charity
+        value: string
+    }
 }
 
 export interface UpgradeEvent extends EventObject {
@@ -169,12 +172,12 @@ export const blockChainMachine = createMachine<
         },
         creating: {
             invoke: {
-                src: ({ blockChain }, event) => blockChain.createFarm((event as DonateEvent).charity),
+                src: ({ blockChain }, event) => blockChain.createFarm((event as DonateEvent).donation),
                 onDone: {
                     target: 'onboarding',
                 },
                 onError: {
-                    target: 'failure',
+                    target: 'registering',
                     actions:  assign({
                         errorCode: (context, event) => event.data.message,
                     }),

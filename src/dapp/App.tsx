@@ -4,7 +4,7 @@ import { useService } from '@xstate/react';
 
 import { service, Context, BlockchainEvent, BlockchainState } from './machine'
 
-import { Charity as Charities } from './types/contract'
+import { Donation } from './types/contract'
 
 
 import { Charity, Connecting, Welcome, Creating, Saving, Error, TimerComplete, Unsupported, SaveError } from './components/modals'
@@ -37,8 +37,8 @@ export const App: React.FC = () => {
     send('GET_STARTED')
   }
 
-  const createFarm = (charity: Charities) => {
-    send('DONATE', { charity })
+  const createFarm = (donation: Donation) => {
+    send('DONATE', { donation: {charity: donation.charity, value: donation.value} })
   }
 
   return (
