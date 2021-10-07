@@ -1,7 +1,7 @@
 #basket {
     position: fixed;
     right: 28px;
-    top: 150px;
+    top: 120px;
     cursor: pointer;
     z-index: 9;
 
@@ -15,7 +15,7 @@
     right: -15px;
     bottom: -34px;
 }
-#basket:hover{
+#basket:hover {
     -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
     filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
 }
@@ -47,7 +47,7 @@
     padding: 5px;
     min-width: 200px;
     height: 350px;
-    overflow-y:scroll;
+    overflow-y: scroll;
 }
 
 #board-header {
@@ -80,7 +80,7 @@
 
 .locked {
     opacity: 0.5;
-    pointer-events: none
+    pointer-events: none;
 }
 
 .board-content > .item:not(:first-child) {
@@ -98,7 +98,7 @@
     cursor: pointer;
 }
 
-.board-content .icon:hover{
+.board-content .icon:hover {
     background: #ead4aa;
 }
 
@@ -123,7 +123,8 @@
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
     width: 40px;
-    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white) drop-shadow(0px -1px 0px white)
+    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+        drop-shadow(0px -1px 0px white);
 }
 
 .fruit-details {
@@ -138,7 +139,6 @@
     display: flex;
     justify-content: space-between;
 }
-
 
 .title {
     text-shadow: 1px 1px 0px black;
@@ -162,7 +162,8 @@
 .price > img {
     width: 20px;
     margin-right: 8px;
-    filter: drop-shadow(1px 1px 0px black) drop-shadow(-1px 0px 0px black) drop-shadow(0px -1px 0px black);
+    filter: drop-shadow(1px 1px 0px black) drop-shadow(-1px 0px 0px black)
+        drop-shadow(0px -1px 0px black);
     image-rendering: pixelated;
 }
 
