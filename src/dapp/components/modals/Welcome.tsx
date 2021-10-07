@@ -72,10 +72,8 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
 
 				<div>
 					<h3 className="current-price-header">
-						<img src={alert} id="prediction-alert" />
-						Next predicted price change
+						We are reaching the first halvening event. Rewards will become 5x scarcer
 					</h3>
-					<h4 className="current-price-prediction">{timeLeft}</h4>
 					<div className="current-price-container ">
 						<img className="sunflower-price" src={sunflower} />
 						<span className="current-price">
