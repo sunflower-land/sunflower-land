@@ -17,6 +17,7 @@ import {
 
 import coin from '../../images/ui/sunflower_coin.png'
 import questionMark from '../../images/ui/expression_confused.png'
+import sunflower from '../../images/sunflower/plant.png'
 
 import { Panel } from '../ui/Panel'
 import { Timer } from '../ui/Timer'
@@ -25,6 +26,8 @@ import { Button } from '../ui/Button'
 import { FruitBoard } from './FruitBoard'
 import { Tour } from './Tour'
 import { getExchangeRate, getMarketRate } from '../../utils/supply'
+import { Message } from '../ui/Message'
+import { Modal } from 'react-bootstrap'
 
 export const Farm: React.FC = () => {
     const [balance, setBalance] = React.useState<Decimal>(new Decimal(0))
@@ -34,6 +37,7 @@ export const Farm: React.FC = () => {
             createdAt: 0,
         })
     )
+    const [showBuyModal, setShowBuyModal] = React.useState(false)
     const farmIsFresh = React.useRef(false)
     const accountId = React.useRef<string>()
     const [fruit, setFruit] = React.useState<Fruit>(
@@ -231,6 +235,13 @@ export const Farm: React.FC = () => {
                             safeBalance}
                     </div>
                 </Panel>
+
+            </div>
+
+            <div id="buy-now" onClick={() => setShowBuyModal(true)}>
+                <Message>
+                    Buy more
+                </Message>
             </div>
 
             <FruitBoard
@@ -240,6 +251,23 @@ export const Farm: React.FC = () => {
                 land={land}
                 balance={safeBalance}
             />
+
+            <Modal centered show={showBuyModal} onHide={() => setShowBuyModal(false)}>
+                <Panel>
+                    <div id="welcome">
+                        Sunflower Farmer Token is coming to Quickswap!
+
+                        <span style={{
+                            fontSize: '12px',
+                            marginTop: '20px'
+                        }}>
+                            You will be able to buy and sell Sunflower Farmer tokens on Quickswap. In the meantime the only way to earn more tokens is through playing the game.
+                        </span>
+
+                        <img id='nft' src={sunflower} />
+                    </div>
+                </Panel>
+            </Modal>
         </>
     )
 }

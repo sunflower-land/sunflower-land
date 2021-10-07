@@ -1,9 +1,12 @@
 #basket {
     position: fixed;
     right: 28px;
-    top: 80px;
+    top: 150px;
     cursor: pointer;
     z-index: 9;
+
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
 }
 
 #basket > .message {
@@ -13,6 +16,8 @@
     bottom: -34px;
 }
 #basket:hover{
+    -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
 }
 
 .basket-fruit {
