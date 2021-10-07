@@ -1,5 +1,6 @@
 import React from 'react'
 import Modal from 'react-bootstrap/Modal'
+import Big from 'big.js'
 
 import { service } from '../../machine'
 
@@ -20,7 +21,7 @@ interface Props {
     onClose: () => void
 }
 
-const ORIGINAL_SUNFLOWER_BUY_PRICE = 0.01
+const ORIGINAL_SUNFLOWER_BUY_PRICE = Big(0.01)
 
 export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
     const [totalSupply, setTotalSupply] = React.useState<number>(1)
@@ -39,9 +40,6 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
     const nextPrice =
         ORIGINAL_SUNFLOWER_BUY_PRICE / getNextMarketRate(totalSupply)
     const nextHalvingThreshold = getNextHalvingThreshold(totalSupply)
-
-    console.log('current', currentPrice)
-    console.log('next', nextPrice)
 
     return (
         <Modal centered show={isOpen} onHide={onClose}>
