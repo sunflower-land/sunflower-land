@@ -88,3 +88,35 @@ export function getMarketRate(supply: number) {
     // 1 Farm Dollar gets you a 0.00001 of a token - Linear growth from here
     return supply / 10000
 }
+
+export function getNextHalvingThreshold(supply: number): number {
+    const thresholds = [
+        100000,
+        500000,
+        1000000,
+        5000000,
+        10000000,
+        50000000,
+        100000000,
+        500000000,
+        1000000000,
+    ]
+
+    const currentThresholdIdx = thresholds.findIndex(
+        (threshold) => supply < threshold
+    )
+
+    if (currentThresholdIdx + 1 < thresholds.length) {
+        return thresholds[currentThresholdIdx + 1]
+    }
+
+    return null
+}
+
+export function getNextMarketRate(supply: number) {
+    const nextThreshold = getNextHalvingThreshold(supply)
+
+    if (nextThreshold) {
+        return getMarketRate(nextThreshold)
+    }
+}

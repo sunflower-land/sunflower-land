@@ -7,7 +7,11 @@ import alert from '../../images/ui/expression_alerted.png'
 import sunflower from '../../images/sunflower/fruit.png'
 
 import { Panel } from './Panel'
-import { getExchangeRate } from '../../utils/supply'
+import {
+    getMarketRate,
+    getNextHalvingThreshold,
+    getNextMarketRate,
+} from '../../utils/supply'
 
 import './MarketModal.css'
 
@@ -15,6 +19,8 @@ interface Props {
     isOpen: boolean
     onClose: () => void
 }
+
+const ORIGINAL_SUNFLOWER_BUY_PRICE = 0.01
 
 export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
     const [totalSupply, setTotalSupply] = React.useState<number>(1)
@@ -28,40 +34,83 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
         load()
     }, [isOpen])
 
-    const currentRate = getExchangeRate(totalSupply)
-    const nextRate = currentRate / 10
+    const currentPrice =
+        ORIGINAL_SUNFLOWER_BUY_PRICE / getMarketRate(totalSupply)
+    const nextPrice =
+        ORIGINAL_SUNFLOWER_BUY_PRICE / getNextMarketRate(totalSupply)
+    const nextHalvingThreshold = getNextHalvingThreshold(totalSupply)
+
+    console.log('current', currentPrice)
+    console.log('next', nextPrice)
 
     return (
         <Modal centered show={isOpen} onHide={onClose}>
             <Panel>
                 <div id="welcome">
                     <h1 className="price-header">
-                        Price is increasing
+                        Supply is growing!
                         <img src={alert} className="price-alert" />
                     </h1>
+
+                    <div className="current-price-info-container">
+                        <p className="current-price-info">
+                            As all dedicated farmers know, supply and demand can
+                            be a dangerous thing. When prices are high, fortunes
+                            can be made. But when prices are low, a lifetime of
+                            potato hustling can be lost.
+                        </p>
+                        <p className="current-price-info">
+                            When the supply is getting nearer to a halvening
+                            event you will want to ensure you are ready!
+                        </p>
+                    </div>
+
+                    <div className="current-price-info-container">
+                        {nextHalvingThreshold ? (
+                            <p className="current-price-info">
+                                The next halvening event will occur when total
+                                supply reaches{' '}
+                                {nextHalvingThreshold.toLocaleString()} tokens
+                            </p>
+                        ) : (
+                            <p className="current-price-info">
+                                No more halvening events!
+                            </p>
+                        )}
+                    </div>
+
+                    <a href="https://adamhannigan81.gitbook.io/sunflower-coin/#supply-and-demand">
+                        <h3 className="current-price-supply-demand">
+                            Read more about our tokenomics here
+                        </h3>
+                    </a>
 
                     <div>
                         <h3 className="current-price-header">Current Price</h3>
                         <div className="current-price-container ">
                             <img className="sunflower-price" src={sunflower} />
                             <span className="current-price">
-                                = ${currentRate / 100}
+                                = ${currentPrice}
                             </span>
                         </div>
                     </div>
 
-                    <div>
-                        <h3 className="current-price-header">Upcoming Price</h3>
-                        <h3 className="current-price-subheader">
-                            (When total supply increases)
-                        </h3>
-                        <div className="current-price-container ">
-                            <img className="sunflower-price" src={sunflower} />
-                            <span className="current-price">
-                                = ${nextRate / 10}
-                            </span>
+                    {nextHalvingThreshold && (
+                        <div>
+                            <h3 className="current-price-header">
+                                Upcoming Price
+                            </h3>
+                            <div className="current-price-container ">
+                                <img
+                                    className="sunflower-price"
+                                    src={sunflower}
+                                />
+                                <span className="current-price">
+                                    = ${nextPrice}
+                                </span>
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                     <div>
                         <h3 className="current-price-header">Total Supply</h3>
@@ -69,12 +118,6 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
                             <span className="current-price">{totalSupply}</span>
                         </div>
                     </div>
-
-                    <a href="https://adamhannigan81.gitbook.io/sunflower-coin/#supply-and-demand">
-                        <h3 className="current-price-supply-demand">
-                            Read more about the supply & demand
-                        </h3>
-                    </a>
 
                     <div></div>
                 </div>
