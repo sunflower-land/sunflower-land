@@ -13,6 +13,22 @@ body {
     right: -8px;
 }
 
+#buy-now {
+    position: fixed;
+    top: 70px;
+    right: -8px;
+    z-index: 999;
+    cursor: pointer;
+
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
+}
+
+#buy-now:hover {
+    -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
+}
+
 #inner {
     font-size: 15px;
     color: white;
