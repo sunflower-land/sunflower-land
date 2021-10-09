@@ -106,10 +106,8 @@ export function getNextHalvingThreshold(supply: number): number {
         (threshold) => supply < threshold
     )
 
-    if (currentThresholdIdx === 0) return thresholds[currentThresholdIdx]
-
-    if (currentThresholdIdx + 1 < thresholds.length) {
-        return thresholds[currentThresholdIdx + 1]
+    if (currentThresholdIdx >= 0) {
+        return thresholds[currentThresholdIdx]
     }
 
     return null
