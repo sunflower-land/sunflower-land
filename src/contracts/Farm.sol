@@ -1,8 +1,8 @@
 pragma solidity >=0.6.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
-import "@openzeppelin/contracts/math/Math.sol";
-//import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/math/Math.sol";
+//import "@openzeppelin/contracts/math/Math.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/math/Math.sol";
 
 import "./Token.sol";
 
@@ -335,16 +335,12 @@ contract Farm {
         require(balance >= fmcPrice, "INSUFFICIENT_FUNDS");
         
         token.burn(msg.sender, fmcPrice);
-
-        // Land tax - An additional 1% of profit goes to maintainers of Sunflower Farmers
-        uint commission = fmcPrice.div(100);
-        token.mint(token.getOwner(), commission);
         
         // Add 3 sunflower fields in the new fields
         Square memory sunflower = Square({
             fruit: Fruit.Sunflower,
             // Make them immediately harvestable in case they spent all their tokens
-            createdAt: 0,
+            createdAt: 0
         });
 
         for (uint index = 0; index < 3; index++) {
@@ -425,12 +421,14 @@ contract Farm {
         require(lastOpenDate < threeDaysAgo, "NO_REWARD_READY");
 
         // E.g. 0.2%
-        uint proportionOwned = token.balanceOf(msg.sender).div(token.supply());
+        uint decimals = token.decimals();
+        uint balance = token.balanceOf(msg.sender).mul(decimals);
+        uint proportionOwned = balance.div(token.totalSupply());
 
         // E.g. 0.2% * 2000 = 4
-        uint reward = token.balanceOf(address(this)).mul(proportionOwnder);
+        uint reward = token.balanceOf(address(this)).mul(proportionOwned).div(decimals);
 
-        return reward
+        return reward;
     }
 
     function receiveReward() public hasFarm {
@@ -438,8 +436,8 @@ contract Farm {
 
         require(amount > 0, "NO_REWARD_AMOUNT");
 
-        lastOpenDate[msg.sender] = block.timestamp;
+        rewardsOpenedAt[msg.sender] = block.timestamp;
 
-        token.transferFrom(address(this), msg.sender, amount);
+        token.transfer(msg.sender, amount);
     }
 }
