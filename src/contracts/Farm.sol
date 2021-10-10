@@ -16,15 +16,33 @@ contract Farm {
         uint createdAt;
     }
 
+    struct V1Farm {
+        address account;
+        uint tokenAmount;
+        Square[] fields;
+    }
+
     mapping(address => Square[]) fields;
     mapping(address => uint) syncedAt;
 
     mapping(address => uint) rewardsOpenedAt;
 
-    constructor(Token _token) public {
+    constructor(Token _token, V1Farm[] memory farms) public {
         token = _token;
-    }
 
+        // Carry over farms from V1
+        for (uint i=0; i < farms.length; i += 1) {
+            V1Farm memory farm = farms[i];
+
+            Square[] storage land = fields[farm.account];
+            for (uint i=0; i < farm.fields.length; i += 1) {
+                land[i] = farm.fields[i];
+            }
+        
+            _token.mint(farm.account, farm.tokenAmount);
+        }
+    }
+    
     event FarmCreated(address indexed _address);
     event FarmSynced(address indexed _address);
 
@@ -416,7 +434,7 @@ contract Farm {
         uint lastOpenDate = rewardsOpenedAt[msg.sender];
 
         // Block timestamp is seconds based
-        uint threeDaysAgo = block.timestamp.sub(60 * 60 * 24 * 3); 
+        uint threeDaysAgo = block.timestamp.sub(5); 
 
         require(lastOpenDate < threeDaysAgo, "NO_REWARD_READY");
 
