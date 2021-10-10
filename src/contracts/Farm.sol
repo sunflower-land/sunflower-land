@@ -19,6 +19,8 @@ contract Farm {
     mapping(address => Square[]) fields;
     mapping(address => uint) syncedAt;
 
+    mapping(address => uint) rewardsOpenedAt;
+
     constructor(Token _token) public {
         token = _token;
     }
@@ -311,7 +313,8 @@ contract Farm {
             token.mint(msg.sender, profit);
         } else if (farm.balance < balance) {
             uint loss = balance.sub(farm.balance);
-            token.burn(msg.sender, loss);
+            // Store rewards in the Farm Contract
+            token.transfer(address(this), loss);
         }
 
         emit FarmSynced(msg.sender);
@@ -411,5 +414,31 @@ contract Farm {
         uint marketRate = getMarketRate();
 
         return price.div(marketRate);
+    }
+
+    function myReward() public view hasFarm returns (uint amount) {        
+        uint lastOpenDate = rewardsOpenedAt[msg.sender];
+
+        uint threeDaysAgo = block.timestamp.sub(60 * 24 * 3); 
+
+        require(lastOpenDate < threeDaysAgo, "NO_REWARD_READY");
+
+        // E.g. 0.2%
+        uint proportionOwned = token.balanceOf(msg.sender).div(token.supply());
+
+        // E.g. 0.2% * 2000 = 4
+        uint reward = token.balanceOf(address(this)).mul(proportionOwnder);
+
+        return reward
+    }
+
+    function receiveReward() public hasFarm {
+        uint amount = myReward();
+
+        require(amount > 0, "NO_REWARD_AMOUNT");
+
+        lastOpenDate[msg.sender] = block.timestamp;
+
+        token.transferFrom(address(this), msg.sender, amount);
     }
 }
