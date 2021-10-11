@@ -44,6 +44,7 @@ contract Farm {
 
             Square[] storage land = fields[farm.account];
             for (uint i=0; i < farm.fields.length; i += 1) {
+                // TODO - treat them with a ripe plant
                 land[i] = farm.fields[i];
             }
         
@@ -467,6 +468,9 @@ contract Farm {
         token.transfer(msg.sender, amount);
     }
 
+    /**
+        Multi-token economy configurability
+     */
     struct Material {
         ControlledContract contract;
         uint amount;
@@ -483,16 +487,8 @@ contract Farm {
         uint dailyReturn;
     }
 
-    struct Labour {
-        uint started;
-        uint amount;
-        address resource;
-    }
-
     mapping(address => Resource) resources;
     mapping(address => Recipe) recipes;
-
-    mapping(address => Labour[]) workers;
 
     // Put down a resource - tokens have their own mechanism for reflecting rewards
     function stake(address resourceAddress, uint amount) public {
