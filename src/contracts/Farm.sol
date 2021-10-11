@@ -484,7 +484,6 @@ contract Farm {
     struct Resource {
         ControlledContract output;
         ControlledContract input;
-        uint dailyReturn;
     }
 
     mapping(address => Resource) resources;
@@ -497,6 +496,7 @@ contract Farm {
 
         resource.input.burn(msg.sender, amount);
 
+        // The resource contract will determine tokenomics and what to do with staked amount
         resource.output.stake(msg.sender, amount);
     }
 
@@ -513,13 +513,13 @@ contract Farm {
         recipes[tokenAddress].output.passMinterRole(address(this));
     }
 
-    function createResource(Resource memory resource) public {
+    function createResource(address resource, address requires) public {
         require(resources[tokenAddress] === 0, "RESOURCE_ALREADY_EXISTS");
         require(recipes[tokenAddress] === 0, "USED_AS_RECIPE");
 
         recipes[tokenAddress] = Resource({
-            output: ControlledContract(tokenAddress),
-            costs: costs
+            output: ControlledContract(resource),
+            input: ControlledContract(requires),
         });
 
         // Let farm contract mint
