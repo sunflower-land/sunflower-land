@@ -6,6 +6,14 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contr
 
 import "./Token.sol";
 
+interface ControlledContract {
+    function passMinterRole(address farm) public returns (bool);
+    function mint(address account, uint256 amount) public;
+    function burn(address account, uint256 amount) public;
+    function transfer(address recipient, uint256 amount) public;
+    function stake(address account, uint256 amount) public;
+}
+
 contract Farm {
     using SafeMath for uint256;
 
@@ -97,13 +105,13 @@ contract Farm {
         emit FarmCreated(msg.sender);
     }
     
-    function lastSyncedAt() private view returns(uint) {
-        return syncedAt[msg.sender];
+    function lastSyncedAt(address owner) private view returns(uint) {
+        return syncedAt[owner];
     }
 
 
-    function getLand() public view returns (Square[] memory) {
-        return fields[msg.sender];
+    function getLand(address owner) public view returns (Square[] memory) {
+        return fields[owner];
     }
 
     enum Action { Plant, Harvest }
@@ -331,8 +339,7 @@ contract Farm {
             token.mint(msg.sender, profit);
         } else if (farm.balance < balance) {
             uint loss = balance.sub(farm.balance);
-            // Store rewards in the Farm Contract
-            token.transfer(address(this), loss);
+            token.burn(msg.sender, loss);
         }
 
         emit FarmSynced(msg.sender);
@@ -352,7 +359,8 @@ contract Farm {
 
         require(balance >= fmcPrice, "INSUFFICIENT_FUNDS");
         
-        token.burn(msg.sender, fmcPrice);
+        // Store rewards in the Farm Contract to redistribute
+        token.transfer(address(this), fmcPrice);
         
         // Add 3 sunflower fields in the new fields
         Square memory sunflower = Square({
@@ -457,5 +465,106 @@ contract Farm {
         rewardsOpenedAt[msg.sender] = block.timestamp;
 
         token.transfer(msg.sender, amount);
+    }
+
+    struct Material {
+        ControlledContract contract;
+        uint amount;
+    }
+
+    struct Recipe {
+        ControlledContract output;
+        Materials[] costs;
+    }
+
+    struct Resource {
+        ControlledContract output;
+        ControlledContract input;
+        uint dailyReturn;
+    }
+
+    struct Labour {
+        uint started;
+        uint amount;
+        address resource;
+    }
+
+    mapping(address => Resource) resources;
+    mapping(address => Recipe) recipes;
+
+    mapping(address => Labour[]) workers;
+
+    // Put down a resource - tokens have their own mechanism for reflecting rewards
+    function stake(address resourceAddress, uint amount) public {
+        Resource resource = resources[tokenAddress]
+        require(resource !== 0, "RESOURCE_DOES_NOT_EXIST");
+
+        resource.input.burn(msg.sender, amount);
+
+        resource.output.stake(msg.sender, amount);
+    }
+
+    function createRecipe(address tokenAddress, Materials[] memory costs) public {
+        require(recipes[tokenAddress] === 0, "RECIPE_ALREADY_EXISTS");
+        require(resources[tokenAddress] === 0, "USED_AS_RESOURCE");
+
+        recipes[tokenAddress] = Recipe({
+            output: ControlledContract(tokenAddress),
+            costs: costs
+        });
+
+        // Let farm contract mint
+        recipes[tokenAddress].output.passMinterRole(address(this));
+    }
+
+    function createResource(Resource memory resource) public {
+        require(resources[tokenAddress] === 0, "RESOURCE_ALREADY_EXISTS");
+        require(recipes[tokenAddress] === 0, "USED_AS_RECIPE");
+
+        recipes[tokenAddress] = Resource({
+            output: ControlledContract(tokenAddress),
+            costs: costs
+        });
+
+        // Let farm contract mint
+        recipes[tokenAddress].output.passMinterRole(address(this));
+    }
+
+    function burnCosts(address recipeAddress, uint amount) private {
+        Recipe memory recipe = recipes[tokenAddress];
+
+        require(recipe !== 0, "RECIPE_DOES_NOT_EXIST");
+
+        // ERC20 contracts will validate as needed
+        for (uint i=0; i < recipe.costs.length; i += 1) {
+            Material memory material = recipe.costs[i];
+
+            uint price = recipe.amount * amount;
+
+            // Never burn SFF - Store rewards in the Farm Contract to redistribute
+            if (material.contract === token) {
+                token.transfer(address(this), price);
+            } else {
+                material.contract.burn(price);
+            }
+        }
+    }
+
+    function craft(address recipeAddress, uint amount) public {
+        burnCosts(recipeAddress, amount);
+
+        Recipe memory recipe = recipes[tokenAddress];
+
+        // Mint the resource - Do we need decimals?
+        recipe.mint(msg.sender, 1)
+    }
+
+    function mintNFT(address recipeAddress, uint tokenId) public {
+        burnCosts(recipeAddress, 1);
+
+        Recipe memory recipe = recipes[tokenAddress];
+
+        // Mint the resource - Do we need decimals?
+        recipe.mint(msg.sender, tokenId)
     }
 }
