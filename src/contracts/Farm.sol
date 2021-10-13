@@ -33,7 +33,6 @@ contract FarmV2 {
 
     mapping(address => Square[]) fields;
     mapping(address => uint) syncedAt;
-
     mapping(address => uint) rewardsOpenedAt;
 
     constructor(Token _token, V1Farm[] memory farms) public {
@@ -54,6 +53,8 @@ contract FarmV2 {
             for (uint j=0; j < farm.size; j += 1) {
                 land.push(plant);
             }
+
+            syncedAt[farm.account] = block.timestamp;
         
             _token.mint(farm.account, farm.tokenAmount);
         }
@@ -520,16 +521,12 @@ contract FarmV2 {
         for (uint i=0; i < costs.length; i += 1) {
             Recipe memory recipe = recipes[costs[i].inputAddress];
             require(recipe.exists, "MATERIAL_DOES_NOT_EXIST");
+            
+            recipes[tokenAddress].costs.push(costs[i]);
         }
 
-        recipes[tokenAddress] = Recipe({
-            output: ControlledContract(tokenAddress),
-            costs: costs,
-            exists: true
-        });
-
-        // Let farm contract mint
-        recipes[tokenAddress].output.passMinterRole(address(this));
+        recipes[tokenAddress].output = ControlledContract(tokenAddress);
+        recipes[tokenAddress].exists = true;
     }
 
     function createResource(address resource, address requires) public {
@@ -546,9 +543,6 @@ contract FarmV2 {
             inputAddress: requires,
             exists: true
         });
-
-        // Let farm contract mint
-        resources[resource].output.passMinterRole(address(this));
     }
 
     function burnCosts(address recipeAddress, uint total) private {
