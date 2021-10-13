@@ -480,21 +480,18 @@ contract FarmV2 {
         Multi-token economy configurability
      */
     struct Material {
-        ControlledContract input;
         address inputAddress;
         uint amount;
     }
 
     struct Recipe {
-        ControlledContract output;
+        address outputAddress;
         Material[] costs;
         bool exists;
     }
 
     struct Resource {
-        ControlledContract output;
         address outputAddress;
-        ControlledContract input;
         address inputAddress;
         bool exists;
     }
@@ -507,10 +504,11 @@ contract FarmV2 {
         Resource memory resource = resources[resourceAddress];
         require(resource.exists, "RESOURCE_DOES_NOT_EXIST");
 
-        resource.input.burn(msg.sender, amount);
+        ControlledContract(resource.inputAddress).burn(msg.sender, amount);
+ 
 
         // The resource contract will determine tokenomics and what to do with staked amount
-        resource.output.stake(msg.sender, amount);
+        ControlledContract(resource.outputAddress).stake(msg.sender, amount);
     }
 
     function createRecipe(address tokenAddress, Material[] memory costs) public {
@@ -519,13 +517,13 @@ contract FarmV2 {
 
         // Ensure all materials are setup
         for (uint i=0; i < costs.length; i += 1) {
-            Recipe memory recipe = recipes[costs[i].inputAddress];
-            require(recipe.exists, "MATERIAL_DOES_NOT_EXIST");
+            address input = costs[i].inputAddress;
+            Recipe memory recipe = recipes[input];
+            require(input == address(token) || recipe.exists, "MATERIAL_DOES_NOT_EXIST");
             
             recipes[tokenAddress].costs.push(costs[i]);
         }
 
-        recipes[tokenAddress].output = ControlledContract(tokenAddress);
         recipes[tokenAddress].exists = true;
     }
 
@@ -537,9 +535,7 @@ contract FarmV2 {
         require(recipes[requires].exists, "MATERIAL_DOES_NOT_EXIST");
 
         resources[resource] = Resource({
-            output: ControlledContract(resource),
             outputAddress: resource,
-            input: ControlledContract(requires),
             inputAddress: requires,
             exists: true
         });
@@ -560,7 +556,7 @@ contract FarmV2 {
             if (material.inputAddress == address(token)) {
                 token.transfer(address(this), price);
             } else {
-                material.input.burn(msg.sender, price);
+                ControlledContract(material.inputAddress).burn(msg.sender, price);
             }
         }
     }
@@ -571,7 +567,7 @@ contract FarmV2 {
         Recipe memory recipe = recipes[recipeAddress];
 
         // Mint the resource - Do we need decimals?
-        recipe.output.mint(msg.sender, 1);
+        ControlledContract(recipe.outputAddress).mint(msg.sender, 1);
     }
 
     function mintNFT(address recipeAddress, uint tokenId) public {
@@ -580,6 +576,6 @@ contract FarmV2 {
         Recipe memory recipe = recipes[recipeAddress];
 
         // Mint the resource - Do we need decimals?
-        recipe.output.mint(msg.sender, tokenId);
+        ControlledContract(recipe.outputAddress).mint(msg.sender, tokenId);
     }
 }
