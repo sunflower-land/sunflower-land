@@ -6,12 +6,13 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contr
 
 import "./Token.sol";
 
-interface ControlledContract {
-    function passMinterRole(address farm) external returns (bool);
+// Items, NFTs or resources
+interface ERCItem {
     function mint(address account, uint256 amount) external;
     function burn(address account, uint256 amount) external;
-    function transfer(address recipient, uint256 amount) external;
+    // Used by resources - items/NFTs won't have this will this be an issue?
     function stake(address account, uint256 amount) external;
+    function balanceOf(address acount) external returns (uint256);
 }
 
 contract FarmV2 {
@@ -31,6 +32,7 @@ contract FarmV2 {
         Fruit fruit;
     }
 
+    uint farmCount = 0;
     mapping(address => Square[]) fields;
     mapping(address => uint) syncedAt;
     mapping(address => uint) rewardsOpenedAt;
@@ -55,13 +57,17 @@ contract FarmV2 {
             }
 
             syncedAt[farm.account] = block.timestamp;
-        
-            _token.mint(farm.account, farm.tokenAmount);
+            rewardsOpenedAt[farm.account] = block.timestamp;
+            
+            token.mint(farm.account, farm.tokenAmount);
+            
+            farmCount += 1;
         }
     }
     
     event FarmCreated(address indexed _address);
     event FarmSynced(address indexed _address);
+    event ItemCrafted(address indexed _address, address _item);
 
     // Function to receive Ether. msg.data must be empty
     receive() external payable {}
@@ -106,10 +112,14 @@ contract FarmV2 {
         land.push(empty);
 
         syncedAt[msg.sender] = block.timestamp;
+        // They must wait X days before opening their first reward
+        rewardsOpenedAt[msg.sender] = block.timestamp;
 
         (bool sent, bytes memory data) = _charity.call{value: msg.value}("");
         require(sent, "DONATION_FAILED");
 
+        farmCount += 1;
+            
         //Emit an event
         emit FarmCreated(msg.sender);
     }
@@ -446,24 +456,44 @@ contract FarmV2 {
 
         return price.div(marketRate);
     }
+    
+    function getFarm(address account) public view returns (Square[] memory farm) {
+        return fields[account];
+    }
+    
+    function getFarmCount() public view returns (uint count) {
+        return farmCount;
+    }
 
+    
+    // Depending on the fields you have determines your cut of the rewards.
     function myReward() public view hasFarm returns (uint amount) {        
         uint lastOpenDate = rewardsOpenedAt[msg.sender];
 
-        // Block timestamp is seconds based
+        // Block timestamp is seconds based - TODO use actual 3 days
         uint threeDaysAgo = block.timestamp.sub(5); 
 
         require(lastOpenDate < threeDaysAgo, "NO_REWARD_READY");
 
-        // E.g. 0.2%
-        uint decimals = token.decimals();
-        uint balance = token.balanceOf(msg.sender).mul(decimals);
-        uint proportionOwned = balance.div(token.totalSupply());
+        uint landSize = fields[msg.sender].length;
+        // E.g. $1000
+        uint farmBalance = token.balanceOf(address(this));
+        // E.g. $1000 / 500 farms = $2 
+        uint farmShare = farmBalance / farmCount;
 
-        // E.g. 0.2% * 2000 = 4
-        uint reward = token.balanceOf(address(this)).mul(proportionOwned).div(decimals);
-
-        return reward;
+        if (landSize <= 5) {
+            // E.g $0.2
+            return farmShare.div(10);
+        } else if (landSize <= 8) {
+            // E.g $0.4
+            return farmShare.div(5);
+        } else if (landSize <= 11) {
+            // E.g $1
+            return farmShare.div(2);
+        }
+        
+        // E.g $3
+        return farmShare.mul(3).div(2);
     }
 
     function receiveReward() public hasFarm {
@@ -477,105 +507,137 @@ contract FarmV2 {
     }
 
     /**
-        Multi-token economy configurability
+        Multi-token economy configurability below
      */
+    // An in game material - Crafted Item, NFT or resource
     struct Material {
-        address inputAddress;
+        address materialAddress;
+        bool exists;
+    }
+    
+    struct Cost {
+        address materialAddress;
         uint amount;
     }
 
     struct Recipe {
         address outputAddress;
-        Material[] costs;
-        bool exists;
+        Cost[] costs;
     }
 
     struct Resource {
         address outputAddress;
         address inputAddress;
-        bool exists;
     }
 
     mapping(address => Resource) resources;
     mapping(address => Recipe) recipes;
+    mapping(address => Material) materials;
 
     // Put down a resource - tokens have their own mechanism for reflecting rewards
     function stake(address resourceAddress, uint amount) public {
-        Resource memory resource = resources[resourceAddress];
-        require(resource.exists, "RESOURCE_DOES_NOT_EXIST");
+        Material memory material = materials[resourceAddress];
+        require(material.exists, "RESOURCE_DOES_NOT_EXIST");
 
-        ControlledContract(resource.inputAddress).burn(msg.sender, amount);
- 
+        Resource memory resource = resources[resourceAddress];
+
+        ERCItem(resource.inputAddress).burn(msg.sender, amount);
+
 
         // The resource contract will determine tokenomics and what to do with staked amount
-        ControlledContract(resource.outputAddress).stake(msg.sender, amount);
+        ERCItem(resource.outputAddress).stake(msg.sender, amount);
     }
 
-    function createRecipe(address tokenAddress, Material[] memory costs) public {
-        require(!recipes[tokenAddress].exists, "RECIPE_ALREADY_EXISTS");
-        require(!resources[tokenAddress].exists, "USED_AS_RESOURCE");
+    function createRecipe(address tokenAddress, Cost[] memory costs) public {
+        require(!materials[tokenAddress].exists, "RECIPE_ALREADY_EXISTS");
 
         // Ensure all materials are setup
         for (uint i=0; i < costs.length; i += 1) {
-            address input = costs[i].inputAddress;
-            Recipe memory recipe = recipes[input];
-            require(input == address(token) || recipe.exists, "MATERIAL_DOES_NOT_EXIST");
+            address input = costs[i].materialAddress;
+            Material memory material = materials[input];
+
+            require(input == address(token) || material.exists, "MATERIAL_DOES_NOT_EXIST");
             
             recipes[tokenAddress].costs.push(costs[i]);
         }
 
-        recipes[tokenAddress].exists = true;
+        materials[tokenAddress] = Material({
+            exists: true,
+            materialAddress: tokenAddress
+        });
     }
 
-    function createResource(address resource, address requires) public {
-        require(!resources[resource].exists, "RESOURCE_ALREADY_EXISTS");
-        require(!recipes[resource].exists, "USED_AS_RECIPE");
+    function createResource(address resourceAddress, address requires) public {
+        require(!materials[resourceAddress].exists, "RESOURCE_ALREADY_EXISTS");
 
         // Check the required material is setup
-        require(recipes[requires].exists, "MATERIAL_DOES_NOT_EXIST");
+        require(materials[requires].exists, "MATERIAL_DOES_NOT_EXIST");
 
-        resources[resource] = Resource({
-            outputAddress: resource,
-            inputAddress: requires,
-            exists: true
+        resources[resourceAddress] = Resource({
+            outputAddress: resourceAddress,
+            inputAddress: requires
+        });
+        
+        materials[resourceAddress] = Material({
+            exists: true,
+            materialAddress: resourceAddress
         });
     }
 
     function burnCosts(address recipeAddress, uint total) private {
         Recipe memory recipe = recipes[recipeAddress];
 
-        require(recipe.exists, "RECIPE_DOES_NOT_EXIST");
-
         // ERC20 contracts will validate as needed
         for (uint i=0; i < recipe.costs.length; i += 1) {
-            Material memory material = recipe.costs[i];
+            Cost memory cost = recipe.costs[i];
 
-            uint price = material.amount * total;
+            uint price = cost.amount * total;
 
             // Never burn SFF - Store rewards in the Farm Contract to redistribute
-            if (material.inputAddress == address(token)) {
-                token.transfer(address(this), price);
+            if (cost.materialAddress == address(token)) {
+                token.transferFrom(msg.sender, address(this), price);
             } else {
-                ControlledContract(material.inputAddress).burn(msg.sender, price);
+                ERCItem(cost.materialAddress).burn(msg.sender, price);
             }
         }
     }
 
     function craft(address recipeAddress, uint amount) public {
+        Material memory material = materials[recipeAddress];
+                
+        require(material.exists, "RECIPE_DOES_NOT_EXIST");
+        
         burnCosts(recipeAddress, amount);
 
-        Recipe memory recipe = recipes[recipeAddress];
-
         // Mint the resource - Do we need decimals?
-        ControlledContract(recipe.outputAddress).mint(msg.sender, 1);
+        ERCItem(recipeAddress).mint(msg.sender, amount);
+        
+        emit ItemCrafted(msg.sender, recipeAddress);
     }
 
     function mintNFT(address recipeAddress, uint tokenId) public {
+        Material memory material = materials[recipeAddress];
+                
+        require(material.exists, "RECIPE_DOES_NOT_EXIST");
+        
         burnCosts(recipeAddress, 1);
 
-        Recipe memory recipe = recipes[recipeAddress];
-
         // Mint the resource - Do we need decimals?
-        ControlledContract(recipe.outputAddress).mint(msg.sender, tokenId);
+        ERCItem(recipeAddress).mint(msg.sender, tokenId);
+        
+        emit ItemCrafted(msg.sender, recipeAddress);
+    }
+    
+    function getRecipe(address recipeAddress) public view returns (Recipe memory recipe) {
+        return recipes[recipeAddress];
+    }
+    
+    function getResource(address recipeAddress) public view returns (Resource memory resource) {
+        return resources[recipeAddress];
+    }
+    
+    // Why is this not working?
+    function getMaterialBalance(address materialAddress) public returns (uint balance) {
+        return ERCItem(materialAddress).balanceOf(msg.sender);
     }
 }
