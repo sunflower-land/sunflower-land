@@ -474,8 +474,8 @@ contract FarmV2 {
     function myReward() public view hasFarm returns (uint amount) {        
         uint lastOpenDate = rewardsOpenedAt[msg.sender];
 
-        // Block timestamp is seconds based - TODO use actual 3 days
-        uint threeDaysAgo = block.timestamp.sub(5); 
+        // Block timestamp is seconds based
+        uint threeDaysAgo = block.timestamp.sub(60 * 60 * 24 * 3); 
 
         require(lastOpenDate < threeDaysAgo, "NO_REWARD_READY");
 

@@ -33,9 +33,10 @@ export class BlockChain {
 
     private async connectToMatic(){
         try {
-            this.token = new this.web3.eth.Contract(Token as any, '0x3b4F867D50231a9263cDAEd87C80C3962b1483D7')
-            this.farm = new this.web3.eth.Contract(Farm as any, '0xBc00E1aFBB8FC859a79E54902FDe8fa0B26412d6')
-    
+            // this.token = new this.web3.eth.Contract(Token as any, '0x3b4F867D50231a9263cDAEd87C80C3962b1483D7')
+            // this.farm = new this.web3.eth.Contract(Farm as any, '0xBc00E1aFBB8FC859a79E54902FDe8fa0B26412d6')
+            this.token = new this.web3.eth.Contract(Token as any, '0xF5d4d77705c2552d3451beE73A747e155a46eB9c')
+            this.farm = new this.web3.eth.Contract(Farm as any, '0xceCfc94e030706a0fD17112c9e2aA2514BBF40ec')
             const maticAccounts = await this.web3.eth.getAccounts()
             this.account = maticAccounts[0]
         } catch(e){
@@ -220,7 +221,7 @@ export class BlockChain {
         }
 
         const rawBalance = await this.token.methods.balanceOf(this.account).call({ from: this.account })
-        const farm = await this.farm.methods.getLand().call({ from: this.account })
+        const farm = await this.farm.methods.getLand(this.account).call({ from: this.account })
         
         const balance = this.web3.utils.fromWei(rawBalance.toString())
         return {
