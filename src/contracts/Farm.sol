@@ -20,7 +20,7 @@ interface ERCItem {
 contract FarmV2 {
     using SafeMath for uint256;
 
-    Token private token;
+    TokenV2 private token;
 
     struct Square {
         Fruit fruit;
@@ -35,12 +35,18 @@ contract FarmV2 {
     }
 
     uint farmCount = 0;
+    bool isMigrating = true;
     mapping(address => Square[]) fields;
     mapping(address => uint) syncedAt;
     mapping(address => uint) rewardsOpenedAt;
 
-    constructor(Token _token, V1Farm[] memory farms) public {
+    constructor(TokenV2 _token) public {
         token = _token;
+    }
+    
+    // Need to upload these in batches so separate from constructor
+    function uploadV1Farms(V1Farm[] memory farms) public {
+        require(isMigrating, "MIGRATION_COMPLETE");
 
         uint decimals = token.decimals();
         
@@ -67,6 +73,10 @@ contract FarmV2 {
             
             farmCount += 1;
         }
+    }
+    
+    function finishMigration() public {
+        isMigrating = false;
     }
     
     event FarmCreated(address indexed _address);
