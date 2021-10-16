@@ -42,6 +42,8 @@ contract FarmV2 {
     constructor(Token _token, V1Farm[] memory farms) public {
         token = _token;
 
+        uint decimals = token.decimals();
+        
         // Carry over farms from V1
         for (uint i=0; i < farms.length; i += 1) {
             V1Farm memory farm = farms[i];
@@ -61,7 +63,7 @@ contract FarmV2 {
             syncedAt[farm.account] = block.timestamp;
             rewardsOpenedAt[farm.account] = block.timestamp;
             
-            token.mint(farm.account, farm.tokenAmount);
+            token.mint(farm.account, farm.tokenAmount * (10**decimals));
             
             farmCount += 1;
         }
