@@ -45,10 +45,12 @@ contract TokenV2 is ERC20, ERC20Burnable {
         address recipient,
         uint256 amount
     ) public virtual override returns (bool) {
-        require(msg.sender == minter, "You are not the minter");
+        if (msg.sender == minter) {
+            _transfer(sender, recipient, amount);
+            return true;
+        }
         
-        _transfer(sender, recipient, amount);
-        
+        super.transferFrom(sender, recipient, amount);
        return true;
     }
 }
