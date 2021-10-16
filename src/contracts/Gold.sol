@@ -7,7 +7,7 @@ pragma solidity >=0.6.0 <0.8.0;
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/ERC20.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/ERC20Burnable.sol";
 
-// Example resource contract with staking
+
 contract Gold is ERC20, ERC20Burnable {
   address public minter;
   address private owner;

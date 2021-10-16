@@ -40,4 +40,16 @@ contract Token is ERC20, ERC20Burnable {
     require(msg.sender == minter, "You are not the minter");
 		_burn(account, amount);
 	}
+	
+  function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public virtual override returns (bool) {
+        require(msg.sender == minter, "You are not the minter");
+        
+        _transfer(sender, recipient, amount);
+        
+       return true;
+    }
 }

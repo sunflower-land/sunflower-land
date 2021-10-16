@@ -10,9 +10,11 @@ import "./Token.sol";
 interface ERCItem {
     function mint(address account, uint256 amount) external;
     function burn(address account, uint256 amount) external;
+    function balanceOf(address acount) external returns (uint256);
+    
     // Used by resources - items/NFTs won't have this will this be an issue?
     function stake(address account, uint256 amount) external;
-    function balanceOf(address acount) external returns (uint256);
+    function getStaked(address account) external returns(uint256);
 }
 
 contract FarmV2 {
@@ -549,6 +551,7 @@ contract FarmV2 {
     }
 
     function createRecipe(address tokenAddress, Cost[] memory costs) public {
+        require(tokenAddress != address(token), "SUNFLOWER_TOKEN_IN_USE");
         require(!materials[tokenAddress].exists, "RECIPE_ALREADY_EXISTS");
 
         // Ensure all materials are setup
@@ -568,6 +571,7 @@ contract FarmV2 {
     }
 
     function createResource(address resourceAddress, address requires) public {
+        require(resourceAddress != address(token), "SUNFLOWER_TOKEN_IN_USE");
         require(!materials[resourceAddress].exists, "RESOURCE_ALREADY_EXISTS");
 
         // Check the required material is setup
@@ -609,7 +613,6 @@ contract FarmV2 {
         
         burnCosts(recipeAddress, amount);
 
-        // Mint the resource - Do we need decimals?
         ERCItem(recipeAddress).mint(msg.sender, amount);
         
         emit ItemCrafted(msg.sender, recipeAddress);
@@ -622,7 +625,6 @@ contract FarmV2 {
         
         burnCosts(recipeAddress, 1);
 
-        // Mint the resource - Do we need decimals?
         ERCItem(recipeAddress).mint(msg.sender, tokenId);
         
         emit ItemCrafted(msg.sender, recipeAddress);
@@ -632,12 +634,25 @@ contract FarmV2 {
         return recipes[recipeAddress];
     }
     
-    function getResource(address recipeAddress) public view returns (Resource memory resource) {
-        return resources[recipeAddress];
+    struct StakedResource {
+        uint balance;
+        uint staked;
+    }
+
+    function getResource(address resourceAddress) public returns (StakedResource memory resource) {
+        ERCItem resource = ERCItem(resourceAddress);
+        
+        uint balance = resource.balanceOf(msg.sender);
+        uint staked = resource.getStaked(msg.sender);
+        
+        return StakedResource({
+            balance: balance,
+            staked: staked
+        });
     }
     
-    // Why is this not working?
-    function getMaterialBalance(address materialAddress) public returns (uint balance) {
-        return ERCItem(materialAddress).balanceOf(msg.sender);
+    function getItemBalance(address itemAddress) public returns (uint256) {
+        return ERCItem(itemAddress).balanceOf(msg.sender);
     }
+
 }

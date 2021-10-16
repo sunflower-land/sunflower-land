@@ -1,20 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.6.0 <0.8.0;
 
-//import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-//import "@openzeppelin/contracts/token/ERC20/ERC20Burnable.sol";
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/ERC20.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/ERC20Burnable.sol";
+// Example NFT contract
 
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC721/ERC721.sol";
 
-contract Pickaxe is ERC20, ERC20Burnable {
+contract Armor is ERC721 {
   address public minter;
   address private owner;
 
   event MinterChanged(address indexed from, address to);
 
-  constructor() payable ERC20("Pickaxe", "PXC") {
+  constructor() payable ERC721("Armour", "ARM") {
     minter = msg.sender;
     owner = msg.sender;
   }
@@ -31,23 +29,25 @@ contract Pickaxe is ERC20, ERC20Burnable {
       return owner;
   }
 
-  function mint(address account, uint256 amount) public {
+  function mint(address account, uint256 tokenId) public {
     require(msg.sender == minter, "You are not the minter");
-	_mint(account, amount);
-	}
+    
+    _safeMint(account, tokenId, "");
+  }
 
   function burn(address account, uint256 amount) public {
     require(msg.sender == minter, "You are not the minter");
-	_burn(account, amount);
+	_burn(amount);
   }
   
     function transferFrom(
         address sender,
         address recipient,
-        uint256 amount
-    ) public virtual override returns (bool) {
+        uint256 tokenId
+    ) public virtual override {
         require(msg.sender == minter, "You are not the minter");
         
-        _transfer(sender, recipient, amount);
+        _transfer(sender, recipient, tokenId);
     }
+
 }
