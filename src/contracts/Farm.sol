@@ -393,7 +393,7 @@ contract FarmV2 {
         require(balance >= fmcPrice, "INSUFFICIENT_FUNDS");
         
         // Store rewards in the Farm Contract to redistribute
-        token.transfer(address(this), fmcPrice);
+        token.transferFrom(msg.sender, address(this), fmcPrice);
         
         // Add 3 sunflower fields in the new fields
         Square memory sunflower = Square({

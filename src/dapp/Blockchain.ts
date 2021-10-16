@@ -35,8 +35,8 @@ export class BlockChain {
         try {
             // this.token = new this.web3.eth.Contract(Token as any, '0x3b4F867D50231a9263cDAEd87C80C3962b1483D7')
             // this.farm = new this.web3.eth.Contract(Farm as any, '0xBc00E1aFBB8FC859a79E54902FDe8fa0B26412d6')
-            this.token = new this.web3.eth.Contract(Token as any, '0x0Acf4CdE34796b0aab6bA0DD45c8A0aa8532BD12')
-            this.farm = new this.web3.eth.Contract(Farm as any, '0x9AbAb3bB2C708F397fC545f2BD1B3dCEB08Bea6a')
+            this.token = new this.web3.eth.Contract(Token as any, '0x21baf0AB619a703ee835cEc2b5a349204CE999be')
+            this.farm = new this.web3.eth.Contract(Farm as any, '0x2E1659524eC6997956aE02E3079e1E38b37Dc8f2')
             const maticAccounts = await this.web3.eth.getAccounts()
             this.account = maticAccounts[0]
         } catch(e){
