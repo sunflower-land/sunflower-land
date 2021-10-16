@@ -645,26 +645,8 @@ contract FarmV2 {
     function getRecipe(address recipeAddress) public view returns (Recipe memory recipe) {
         return recipes[recipeAddress];
     }
-    
-    struct StakedResource {
-        uint balance;
-        uint staked;
-    }
 
-    function getResource(address resourceAddress) public returns (StakedResource memory resource) {
-        ERCItem resource = ERCItem(resourceAddress);
-        
-        uint balance = resource.balanceOf(msg.sender);
-        uint staked = resource.getStaked(msg.sender);
-        
-        return StakedResource({
-            balance: balance,
-            staked: staked
-        });
+    function getResource(address resourceAddress) public view returns (Resource memory resource) {
+        return resources[resourceAddress];
     }
-    
-    function getItemBalance(address itemAddress) public returns (uint256) {
-        return ERCItem(itemAddress).balanceOf(msg.sender);
-    }
-
 }
