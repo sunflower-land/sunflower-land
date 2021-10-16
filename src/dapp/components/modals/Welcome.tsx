@@ -55,6 +55,19 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
     return (
         <Panel>
             <div id="welcome">
+                <h2>
+                    Under maintenance.
+                </h2>
+                <h3 className="current-price-header">
+                    The team are making some improvements to the game. This is expected to last 2-3 hours.
+                </h3>
+            </div>
+        </Panel>
+    )
+
+    return (
+        <Panel>
+            <div id="welcome">
                 <img id="logo" src={logo} />
                 <Button onClick={onGetStarted}>
                     <span>Get Started</span>
