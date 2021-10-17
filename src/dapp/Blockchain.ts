@@ -33,10 +33,8 @@ export class BlockChain {
 
     private async connectToMatic(){
         try {
-            // this.token = new this.web3.eth.Contract(Token as any, '0x3b4F867D50231a9263cDAEd87C80C3962b1483D7')
-            // this.farm = new this.web3.eth.Contract(Farm as any, '0xBc00E1aFBB8FC859a79E54902FDe8fa0B26412d6')
-            this.token = new this.web3.eth.Contract(Token as any, '0x21baf0AB619a703ee835cEc2b5a349204CE999be')
-            this.farm = new this.web3.eth.Contract(Farm as any, '0x2E1659524eC6997956aE02E3079e1E38b37Dc8f2')
+            this.token = new this.web3.eth.Contract(Token as any, '0xdf9B4b57865B403e08c85568442f95c26b7896b0')
+            this.farm = new this.web3.eth.Contract(Farm as any, '0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0')
             const maticAccounts = await this.web3.eth.getAccounts()
             this.account = maticAccounts[0]
         } catch(e){
