@@ -50,7 +50,7 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
 
     const marketRate = getMarketRate(totalSupply)
 
-    const sunflowerPrice = Big(0.01).div(marketRate)
+    const sunflowerPrice = Big(0.002).div(marketRate)
 
     return (
         <Panel>
@@ -71,10 +71,7 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
                 </Button>
 
                 <div>
-                    <h3 className="current-price-header">
-                        We are reaching the first halvening event. Rewards will
-                        become 5x scarcer
-                    </h3>
+
                     <br />
                     <div className="current-price-container">
                         <img className="sunflower-price" src={sunflower} />
