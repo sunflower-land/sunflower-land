@@ -15,6 +15,7 @@ import { Tiles } from './Tiles'
 import { Barn } from './Barn'
 import { Blacksmith } from './Blacksmith'
 import { Market } from './Market'
+import { Reward } from './Reward'
 import { FruitItem } from '../../types/fruits'
 
 interface Props {
@@ -60,6 +61,7 @@ export const Land: React.FC<Props> = ({ fruits, land, balance, onHarvest, onPlan
                 <Blacksmith />
                 <Market />
                 <Tiles />
+                <Reward />
 
                 {/* {
                     land.map((square, index) => (
