@@ -1,30 +1,87 @@
 pragma solidity >=0.6.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
-import "@openzeppelin/contracts/math/Math.sol";
-//import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/math/Math.sol";
+//import "@openzeppelin/contracts/math/Math.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/math/Math.sol";
 
 import "./Token.sol";
 
-contract Farm {
+// Items, NFTs or resources
+interface ERCItem {
+    function mint(address account, uint256 amount) external;
+    function burn(address account, uint256 amount) external;
+    function balanceOf(address acount) external returns (uint256);
+    
+    // Used by resources - items/NFTs won't have this will this be an issue?
+    function stake(address account, uint256 amount) external;
+    function getStaked(address account) external returns(uint256);
+}
+
+contract FarmV2 {
     using SafeMath for uint256;
 
-    Token private token;
+    TokenV2 private token;
 
     struct Square {
         Fruit fruit;
         uint createdAt;
     }
 
-    mapping(address => Square[]) fields;
-    mapping(address => uint) syncedAt;
-
-    constructor(Token _token) public {
-        token = _token;
+    struct V1Farm {
+        address account;
+        uint tokenAmount;
+        uint size;
+        Fruit fruit;
     }
 
+    uint farmCount = 0;
+    bool isMigrating = true;
+    mapping(address => Square[]) fields;
+    mapping(address => uint) syncedAt;
+    mapping(address => uint) rewardsOpenedAt;
+
+    constructor(TokenV2 _token) public {
+        token = _token;
+    }
+    
+    // Need to upload these in batches so separate from constructor
+    function uploadV1Farms(V1Farm[] memory farms) public {
+        require(isMigrating, "MIGRATION_COMPLETE");
+
+        uint decimals = token.decimals();
+        
+        // Carry over farms from V1
+        for (uint i=0; i < farms.length; i += 1) {
+            V1Farm memory farm = farms[i];
+
+            Square[] storage land = fields[farm.account];
+            
+            // Treat them with a ripe plant
+            Square memory plant = Square({
+                fruit: farm.fruit,
+                createdAt: 0
+            });
+            
+            for (uint j=0; j < farm.size; j += 1) {
+                land.push(plant);
+            }
+
+            syncedAt[farm.account] = block.timestamp;
+            rewardsOpenedAt[farm.account] = block.timestamp;
+            
+            token.mint(farm.account, farm.tokenAmount * (10**decimals));
+            
+            farmCount += 1;
+        }
+    }
+    
+    function finishMigration() public {
+        isMigrating = false;
+    }
+    
     event FarmCreated(address indexed _address);
     event FarmSynced(address indexed _address);
+    event ItemCrafted(address indexed _address, address _item);
 
     // Function to receive Ether. msg.data must be empty
     receive() external payable {}
@@ -69,21 +126,25 @@ contract Farm {
         land.push(empty);
 
         syncedAt[msg.sender] = block.timestamp;
+        // They must wait X days before opening their first reward
+        rewardsOpenedAt[msg.sender] = block.timestamp;
 
         (bool sent, bytes memory data) = _charity.call{value: msg.value}("");
         require(sent, "DONATION_FAILED");
 
+        farmCount += 1;
+            
         //Emit an event
         emit FarmCreated(msg.sender);
     }
     
-    function lastSyncedAt() private view returns(uint) {
-        return syncedAt[msg.sender];
+    function lastSyncedAt(address owner) private view returns(uint) {
+        return syncedAt[owner];
     }
 
 
-    function getLand() public view returns (Square[] memory) {
-        return fields[msg.sender];
+    function getLand(address owner) public view returns (Square[] memory) {
+        return fields[owner];
     }
 
     enum Action { Plant, Harvest }
@@ -228,7 +289,7 @@ contract Farm {
     }
 
     modifier hasFarm {
-        require(lastSyncedAt() > 0, "NO_FARM");
+        require(lastSyncedAt(msg.sender) > 0, "NO_FARM");
         _;
     }
      
@@ -243,7 +304,7 @@ contract Farm {
 
             uint thirtyMinutesAgo = block.timestamp.sub(THIRTY_MINUTES); 
             require(farmEvent.createdAt >= thirtyMinutesAgo, "EVENT_EXPIRED");
-            require(farmEvent.createdAt >= lastSyncedAt(), "EVENT_IN_PAST");
+            require(farmEvent.createdAt >= lastSyncedAt(msg.sender), "EVENT_IN_PAST");
             require(farmEvent.createdAt <= block.timestamp, "EVENT_IN_FUTURE");
 
             if (index > 0) {
@@ -331,17 +392,14 @@ contract Farm {
 
         require(balance >= fmcPrice, "INSUFFICIENT_FUNDS");
         
-        token.burn(msg.sender, fmcPrice);
-
-        // Land tax - An additional 1% of profit goes to maintainers of Sunflower Farmers
-        uint commission = fmcPrice.div(100);
-        token.mint(token.getOwner(), commission);
+        // Store rewards in the Farm Contract to redistribute
+        token.transferFrom(msg.sender, address(this), fmcPrice);
         
         // Add 3 sunflower fields in the new fields
         Square memory sunflower = Square({
             fruit: Fruit.Sunflower,
             // Make them immediately harvestable in case they spent all their tokens
-            createdAt: 0,
+            createdAt: 0
         });
 
         for (uint index = 0; index < 3; index++) {
@@ -411,5 +469,184 @@ contract Farm {
         uint marketRate = getMarketRate();
 
         return price.div(marketRate);
+    }
+    
+    function getFarm(address account) public view returns (Square[] memory farm) {
+        return fields[account];
+    }
+    
+    function getFarmCount() public view returns (uint count) {
+        return farmCount;
+    }
+
+    
+    // Depending on the fields you have determines your cut of the rewards.
+    function myReward() public view hasFarm returns (uint amount) {        
+        uint lastOpenDate = rewardsOpenedAt[msg.sender];
+
+        // Block timestamp is seconds based
+        uint threeDaysAgo = block.timestamp.sub(60 * 60 * 24 * 3); 
+
+        require(lastOpenDate < threeDaysAgo, "NO_REWARD_READY");
+
+        uint landSize = fields[msg.sender].length;
+        // E.g. $1000
+        uint farmBalance = token.balanceOf(address(this));
+        // E.g. $1000 / 500 farms = $2 
+        uint farmShare = farmBalance / farmCount;
+
+        if (landSize <= 5) {
+            // E.g $0.2
+            return farmShare.div(10);
+        } else if (landSize <= 8) {
+            // E.g $0.4
+            return farmShare.div(5);
+        } else if (landSize <= 11) {
+            // E.g $1
+            return farmShare.div(2);
+        }
+        
+        // E.g $3
+        return farmShare.mul(3).div(2);
+    }
+
+    function receiveReward() public hasFarm {
+        uint amount = myReward();
+
+        require(amount > 0, "NO_REWARD_AMOUNT");
+
+        rewardsOpenedAt[msg.sender] = block.timestamp;
+
+        token.transfer(msg.sender, amount);
+    }
+
+    /**
+        Multi-token economy configurability below
+     */
+    // An in game material - Crafted Item, NFT or resource
+    struct Material {
+        address materialAddress;
+        bool exists;
+    }
+    
+    struct Cost {
+        address materialAddress;
+        uint amount;
+    }
+
+    struct Recipe {
+        address outputAddress;
+        Cost[] costs;
+    }
+
+    struct Resource {
+        address outputAddress;
+        address inputAddress;
+    }
+
+    mapping(address => Resource) resources;
+    mapping(address => Recipe) recipes;
+    mapping(address => Material) materials;
+
+    // Put down a resource - tokens have their own mechanism for reflecting rewards
+    function stake(address resourceAddress, uint amount) public {
+        Material memory material = materials[resourceAddress];
+        require(material.exists, "RESOURCE_DOES_NOT_EXIST");
+
+        Resource memory resource = resources[resourceAddress];
+
+        ERCItem(resource.inputAddress).burn(msg.sender, amount);
+
+
+        // The resource contract will determine tokenomics and what to do with staked amount
+        ERCItem(resource.outputAddress).stake(msg.sender, amount);
+    }
+
+    function createRecipe(address tokenAddress, Cost[] memory costs) public {
+        require(tokenAddress != address(token), "SUNFLOWER_TOKEN_IN_USE");
+        require(!materials[tokenAddress].exists, "RECIPE_ALREADY_EXISTS");
+
+        // Ensure all materials are setup
+        for (uint i=0; i < costs.length; i += 1) {
+            address input = costs[i].materialAddress;
+            Material memory material = materials[input];
+
+            require(input == address(token) || material.exists, "MATERIAL_DOES_NOT_EXIST");
+            
+            recipes[tokenAddress].costs.push(costs[i]);
+        }
+
+        materials[tokenAddress] = Material({
+            exists: true,
+            materialAddress: tokenAddress
+        });
+    }
+
+    function createResource(address resourceAddress, address requires) public {
+        require(resourceAddress != address(token), "SUNFLOWER_TOKEN_IN_USE");
+        require(!materials[resourceAddress].exists, "RESOURCE_ALREADY_EXISTS");
+
+        // Check the required material is setup
+        require(materials[requires].exists, "MATERIAL_DOES_NOT_EXIST");
+
+        resources[resourceAddress] = Resource({
+            outputAddress: resourceAddress,
+            inputAddress: requires
+        });
+        
+        materials[resourceAddress] = Material({
+            exists: true,
+            materialAddress: resourceAddress
+        });
+    }
+
+    function burnCosts(address recipeAddress, uint total) private {
+        Recipe memory recipe = recipes[recipeAddress];
+
+        // ERC20 contracts will validate as needed
+        for (uint i=0; i < recipe.costs.length; i += 1) {
+            Cost memory cost = recipe.costs[i];
+
+            uint price = cost.amount * total;
+
+            // Never burn SFF - Store rewards in the Farm Contract to redistribute
+            if (cost.materialAddress == address(token)) {
+                token.transferFrom(msg.sender, address(this), price);
+            } else {
+                ERCItem(cost.materialAddress).burn(msg.sender, price);
+            }
+        }
+    }
+
+    function craft(address recipeAddress, uint amount) public {
+        Material memory material = materials[recipeAddress];
+                
+        require(material.exists, "RECIPE_DOES_NOT_EXIST");
+        
+        burnCosts(recipeAddress, amount);
+
+        ERCItem(recipeAddress).mint(msg.sender, amount);
+        
+        emit ItemCrafted(msg.sender, recipeAddress);
+    }
+
+    function mintNFT(address recipeAddress, uint tokenId) public {
+        Material memory material = materials[recipeAddress];
+                
+        require(material.exists, "RECIPE_DOES_NOT_EXIST");
+        
+        burnCosts(recipeAddress, 1);
+
+        ERCItem(recipeAddress).mint(msg.sender, tokenId);
+        
+        emit ItemCrafted(msg.sender, recipeAddress);
+    }
+    
+    function getRecipe(address recipeAddress) public view returns (Recipe memory recipe) {
+        return recipes[recipeAddress];
+    }
+
+    function getResource(address resourceAddress) public view returns (Resource memory resource) {
+        return resources[resourceAddress];
     }
 }
