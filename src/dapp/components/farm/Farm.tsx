@@ -197,6 +197,7 @@ export const Farm: React.FC = () => {
                 balance={safeBalance}
                 onHarvest={onHarvest}
                 onPlant={onPlant}
+                account={accountId.current}
             />
 
             <span id="save-button">

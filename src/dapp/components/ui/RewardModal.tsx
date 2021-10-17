@@ -12,6 +12,7 @@ import {
 
 
 import cancel from '../../images/ui/cancel.png'
+import coin from '../../images/ui/sunflower_coin.png'
 
 
 import { Panel } from './Panel'
@@ -23,11 +24,13 @@ import './UpgradeModal.css'
 interface Props {
 	isOpen: boolean
 	onClose: () => void
+	reward: number
 }
 
 export const RewardModal: React.FC<Props> = ({
 	isOpen,
 	onClose,
+	reward
 }) => {
 	const [machineState, send] = useService<
 		Context,
@@ -37,11 +40,15 @@ export const RewardModal: React.FC<Props> = ({
 
 	const isUnsaved = machineState.context.blockChain.isUnsaved()
 
+	const open = () => {
+
+	}
+
 	return (
 		<Modal centered show={isOpen} onHide={onClose}>
 			<Panel>
 				<div id="charity-container">
-					<span>Reward!</span>
+					<span>Collect your reward</span>
 					
 					{isUnsaved ? (
 						<>
@@ -60,9 +67,17 @@ export const RewardModal: React.FC<Props> = ({
 							</span>
 						</>
 					) : (
-                        <span id="donate-description">
-                            Here is your reward
-                        </span>
+						<div>
+							<div id='reward-holder'>
+								<span>{`$${reward}`}</span>
+								<img src={coin} id='reward-coin' />
+							</div>
+							<div id='reward-button'>
+								<Button onClick={open}>
+									Open
+								</Button>
+							</div>
+						</div>
                     )}
 				</div>
 			</Panel>

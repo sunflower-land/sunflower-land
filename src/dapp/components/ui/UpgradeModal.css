@@ -7,3 +7,18 @@
     image-rendering: pixelated;
     margin-right: 16px;
 }
+
+#reward-holder {
+    padding: 24px;
+}
+
+#reward-coin {
+    width: 43px;
+    image-rendering: pixelated;
+    margin-left: 10px;
+}
+
+#reward-button {
+    width: 100px;
+    margin: auto;
+}

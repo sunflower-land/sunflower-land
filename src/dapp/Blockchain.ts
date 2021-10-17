@@ -325,4 +325,51 @@ export class BlockChain {
     public resetFarm() {
         this.events = []
     }
+
+    public async getReward() {
+        try {
+            const reward = await this.farm.methods.myReward().call({ from: this.account })
+            
+            console.log({ reward })
+            if (!reward) {
+                return 0
+            }
+
+            const converted = this.web3.utils.fromWei(reward.toString())
+
+            return Number(converted)
+        } catch (e) {
+            // No reward ready
+            return null
+        }
+    }
+
+    public receiveReward() {
+        const blockChain = this
+
+        return new Promise(async (resolve, reject) => {
+            const price = await this.web3.eth.getGasPrice()
+            const gasPrice = price ? Number(price) * 2 : undefined
+
+            this.farm.methods.receiveReward().send({from: this.account, gasPrice })
+                .on('error', function(error){
+                    console.log({ error })
+                    // User rejected
+                    if (error.code === 4001) {
+                        return resolve(null)
+                    }
+
+                    reject(error)
+                })
+                .on('transactionHash', function(transactionHash){
+                    console.log({ transactionHash })
+                })
+                .on('receipt', function(receipt) {
+                    console.log({ receipt })
+                    blockChain.events = []
+                    resolve(receipt)
+                })
+        })
+
+    }
 }
