@@ -364,3 +364,12 @@
     left: -100%;
     height: 100%;
 }
+
+#present {
+    width: 100%;
+    cursor: pointer;
+}
+
+#present:hover {
+    transform: scale(1.1);
+}
