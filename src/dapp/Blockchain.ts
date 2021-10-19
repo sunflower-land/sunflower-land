@@ -116,7 +116,7 @@ export class BlockChain {
 
         return new Promise(async (resolve, reject) => {
             const price = await this.web3.eth.getGasPrice()
-            const gasPrice = price ? Number(price) * 3 : undefined
+            const gasPrice = price ? Number(price) * 1 : undefined
 
             this.farm.methods.createFarm(donation.charity).send({from: this.account, value, to: donation.charity, gasPrice })
             .on('error', function(error){
@@ -142,7 +142,7 @@ export class BlockChain {
 
         return new Promise(async (resolve, reject) => {
             const price = await this.web3.eth.getGasPrice()
-            const gasPrice = price ? Number(price) * 3 : undefined
+            const gasPrice = price ? Number(price) * 1 : undefined
 
             this.farm.methods.sync(this.events).send({from: this.account, gasPrice })
                 .on('error', function(error){
@@ -173,7 +173,7 @@ export class BlockChain {
 
         return new Promise(async (resolve, reject) => {
             const price = await this.web3.eth.getGasPrice()
-            const gasPrice = price ? Number(price) * 3 : undefined
+            const gasPrice = price ? Number(price) * 1 : undefined
 
             this.farm.methods.levelUp().send({from: this.account, gasPrice})
             .on('error', function(error){
