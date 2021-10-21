@@ -21,7 +21,7 @@ const steps: ReactourStep[] = [
 		selector: '#balance',
 		content: ({ goTo }) => (
 			<div>
-				You received $0.02 Sunflower Farmer Tokens for the harvest
+				You received $$$ Sunflower Farmer Tokens for the harvest
 				<br />
 				<div id="tour-button">
 					<Button onClick={() => service.send('NEXT')}>Next</Button>

@@ -111,10 +111,20 @@ export class BlockChain {
         }
     }
 
-    public createFarm(donation: Donation) {
+    private async waitForFarm(retryCount: number = 1) {
+        const wait = retryCount * 1000
+        await new Promise(res => setTimeout(res, wait))
+        const farm = await this.farm.methods.getLand(this.account).call({ from: this.account })
+
+        if (!farm || !farm.length) {
+            await this.waitForFarm(retryCount + 1)
+        }
+    }
+
+    public async createFarm(donation: Donation) {
         const value = this.web3.utils.toWei(donation.value, 'ether')
 
-        return new Promise(async (resolve, reject) => {
+        await new Promise(async (resolve, reject) => {
             const price = await this.web3.eth.getGasPrice()
             const gasPrice = price ? Number(price) * 1 : undefined
 
@@ -126,11 +136,13 @@ export class BlockChain {
             .on('transactionHash', function(transactionHash){
                 console.log({ transactionHash })
             })
-            .on('receipt', function(receipt) {
+            .on('receipt', async function(receipt) {
                 console.log({ receipt })
                 resolve(receipt)
             })
         })
+
+        await this.waitForFarm()
     }
 
     public save() {
