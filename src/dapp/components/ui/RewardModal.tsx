@@ -3,6 +3,8 @@ import { useService } from '@xstate/react'
 
 import Modal from 'react-bootstrap/Modal'
 
+import openTreasure from '../../images/decorations/open_treasure.png'
+
 import {
 	service,
 	Context,
@@ -24,13 +26,15 @@ import './UpgradeModal.css'
 interface Props {
 	isOpen: boolean
 	onClose: () => void
+	onReceive: () => void
 	reward: number
 }
 
 export const RewardModal: React.FC<Props> = ({
 	isOpen,
 	onClose,
-	reward
+	reward,
+	onReceive
 }) => {
 	const [machineState, send] = useService<
 		Context,
@@ -40,16 +44,16 @@ export const RewardModal: React.FC<Props> = ({
 
 	const isUnsaved = machineState.context.blockChain.isUnsaved()
 
-	const open = () => {
-
+	if (!reward) {
+		return null
 	}
 
 	return (
 		<Modal centered show={isOpen} onHide={onClose}>
 			<Panel>
-				<div id="charity-container">
+				<div id="reward-container">
 					<span>Collect your reward</span>
-					
+
 					{isUnsaved ? (
 						<>
 							<div className="upgrade-required">
@@ -68,13 +72,16 @@ export const RewardModal: React.FC<Props> = ({
 						</>
 					) : (
 						<div>
-							<div id='reward-holder'>
-								<span>{`$${reward}`}</span>
+							<div id="treasure-holder">
+								<img src={openTreasure} id='open-treasure' />
 								<img src={coin} id='reward-coin' />
 							</div>
+							<div id='reward-holder'>
+								<span>{`$${reward.toFixed(2)}`}</span>
+							</div>
 							<div id='reward-button'>
-								<Button onClick={open}>
-									Open
+								<Button onClick={onReceive}>
+									Collect
 								</Button>
 							</div>
 						</div>

@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-import present from '../../images/decorations/crate_base.jpg'
+import present from '../../images/decorations/treasure.png'
 
 
 import { RewardModal } from '../ui/RewardModal'
@@ -25,13 +25,16 @@ export const Reward: React.FC<Props> = ({ account }) => {
         BlockchainEvent,
         BlockchainState
     >(service)
+    const [isCollected, setIsCollected] = React.useState(false)
 
     const onUpgrade = () => {
         setShowModal(true)
     }
 
-    const onUpgradeConfirm = () => {
-        service.send('UPGRADE')
+    const onReceiveConfirm = () => {
+        setShowModal(false)
+        send('OPEN_REWARD')
+        setIsCollected(true)
     }
 
     React.useEffect(() => {
@@ -45,20 +48,21 @@ export const Reward: React.FC<Props> = ({ account }) => {
         if (account) {
             load()
 
+            setIsCollected(false)
         }
     }, [account])
 
-    // if (!reward) {
-    //     return null
-    // }
+    if (!reward || isCollected) {
+        return null
+    }
 
     return (
         <>
 
-            <RewardModal reward={reward} onClose={() => setShowModal(false)} isOpen={showModal}/>
+            <RewardModal reward={reward} onReceive={onReceiveConfirm} onClose={() => setShowModal(false)} isOpen={showModal}/>
 
             {/* Present */}
-            <div style={{ gridColumn: '14/15', gridRow: '10/11'}}>
+            <div style={{ gridColumn: '12/13', gridRow: '9/10'}}>
                 <img id='present' src={present} onClick={onUpgrade} />
             </div>
         </>

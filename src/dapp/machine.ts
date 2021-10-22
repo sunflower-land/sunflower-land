@@ -93,6 +93,9 @@ export type BlockchainEvent =
     | {
         type: 'ACCOUNT_CHANGED'
     }
+    | {
+        type: 'OPEN_REWARD'
+    }
 
 
 export type OnboardingStates = 'harvesting' | 'token' | 'planting' | 'saving' | 'market'
@@ -107,6 +110,7 @@ export type BlockchainState = {
         | 'farming'
         | 'failure'
         | 'upgrading'
+        | 'rewarding'
         | 'saving'
         | 'timerComplete'
         | 'unsupported'
@@ -226,6 +230,9 @@ export const blockChainMachine = createMachine<
                 UPGRADE: {
                     target: 'upgrading'
                 },
+                OPEN_REWARD: {
+                    target: 'rewarding'
+                },
                 TIMER_COMPLETE: {
                     target: 'timerComplete'
                 },
@@ -259,6 +266,22 @@ export const blockChainMachine = createMachine<
                 },
                 onDone: {
                     target: 'farming',
+                },
+                onError: {
+                    target: 'failure',
+                    actions:  assign({
+                        errorCode: (context, event) => event.data.message,
+                    }),
+                }
+            }
+        },
+        rewarding: {
+            invoke: {
+                id: 'rewarding',
+                src: async ({ blockChain }, event) => blockChain.receiveReward(),
+                onDone: {
+                    target: 'farming',
+                    // actions - assign() data?
                 },
                 onError: {
                     target: 'failure',

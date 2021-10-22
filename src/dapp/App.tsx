@@ -64,7 +64,7 @@ export const App: React.FC = () => {
           <Creating />
         </Modal>
 
-        <Modal centered show={machineState.matches('saving') || machineState.matches('upgrading')}>
+        <Modal centered show={machineState.matches('saving') || machineState.matches('upgrading') || machineState.matches('rewarding')}>
           <Saving />
         </Modal>
 
