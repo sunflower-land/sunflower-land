@@ -93,7 +93,7 @@ export const Farm: React.FC = () => {
                     farm,
                     balance: currentBalance,
                     id,
-                } = await machineState.context.blockChain.getAccount()
+                } = machineState.context.blockChain.myFarm
                 console.log('Load latest')
                 setLand(farm)
                 setBalance(new Decimal(currentBalance))

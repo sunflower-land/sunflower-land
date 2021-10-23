@@ -13,8 +13,11 @@ interface Account {
 
 export class BlockChain {
     private web3: Web3 | null = null
+    private alchemyWeb3: Web3 | null = null
     private token: any | null = null
+    private alchemyToken: any | null = null
     private farm: any | null = null
+    private alchemyFarm: any | null = null
     private account: string | null = null
     private details: Account = null
 
@@ -37,6 +40,11 @@ export class BlockChain {
             this.farm = new this.web3.eth.Contract(Farm as any, '0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0')
             const maticAccounts = await this.web3.eth.getAccounts()
             this.account = maticAccounts[0]
+
+            this.alchemyWeb3 = new Web3("https://polygon-mainnet.g.alchemy.com/v2/XuJyQ4q2Ay1Ju1I7fl4e_2xi_G2CmX-L");
+            this.alchemyToken = new this.alchemyWeb3.eth.Contract(Token as any, '0xdf9B4b57865B403e08c85568442f95c26b7896b0')
+            this.alchemyFarm = new this.alchemyWeb3.eth.Contract(Farm as any, '0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0')
+
         } catch(e){
             // Timeout, retry
             if (e.code === '-32005') {
@@ -57,6 +65,10 @@ export class BlockChain {
 
     public get hasFarm() {
         return this.details && this.details.farm.length > 0
+    }
+
+    public get myFarm() {
+        return this.details
     }
 
     private async setupWeb3() {
@@ -87,11 +99,12 @@ export class BlockChain {
             if (chainId === 137) {
                 await this.connectToMatic()
 
-                this.details = await this.getAccount()
+                await this.loadFarm()
             } else if (chainId === 80001) {
                 await this.connectToMumbai()
 
-                this.details = await this.getAccount()
+                await this.loadFarm()
+
             } else {
                 throw new Error('WRONG_CHAIN')
             }
@@ -109,6 +122,10 @@ export class BlockChain {
             console.error(e)
             throw e
         }
+    }
+
+    public async loadFarm() {
+        this.details = await this.getAccount()
     }
 
     private async waitForFarm(retryCount: number = 1) {
@@ -143,6 +160,8 @@ export class BlockChain {
         })
 
         await this.waitForFarm()
+
+        await this.loadFarm()
     }
 
     public save() {
@@ -178,35 +197,37 @@ export class BlockChain {
 
     }
 
-    public levelUp() {
+    public async levelUp() {
         if (this.isTrial) {
             throw new Error('TRIAL_MODE')
         }
 
-        return new Promise(async (resolve, reject) => {
+        await new Promise(async (resolve, reject) => {
             const price = await this.web3.eth.getGasPrice()
             const gasPrice = price ? Number(price) * 1 : undefined
 
             this.farm.methods.levelUp().send({from: this.account, gasPrice})
-            .on('error', function(error){
-                console.log({ error })
-                // User rejected
-                if (error.code === 4001) {
-                    return resolve(null)
-                }
-                reject(error)
-            })
-            .on('transactionHash', function(transactionHash){
-                console.log({ transactionHash })
-            })
-            .on('receipt', function(receipt) {
-                console.log({ receipt })
-                resolve(receipt)
-            })
+                .on('error', function(error){
+                    console.log({ error })
+                    // User rejected
+                    if (error.code === 4001) {
+                        return resolve(null)
+                    }
+                    reject(error)
+                })
+                .on('transactionHash', function(transactionHash){
+                    console.log({ transactionHash })
+                })
+                .on('receipt', async function(receipt) {
+                    console.log({ receipt })
+                    resolve(receipt)
+                })
         })
+
+        await this.loadFarm()
     }
 
-    public async getAccount(): Promise<Account> {
+    private async getAccount(): Promise<Account> {
         if (!this.web3 || this.isTrial) {
             return {
                 farm: [{
@@ -230,8 +251,8 @@ export class BlockChain {
             }
         }
 
-        const rawBalance = await this.token.methods.balanceOf(this.account).call({ from: this.account })
-        const farm = await this.farm.methods.getLand(this.account).call({ from: this.account })
+        const rawBalance = await this.alchemyToken.methods.balanceOf(this.account).call({ from: this.account })
+        const farm = await this.alchemyFarm.methods.getLand(this.account).call({ from: this.account })
         
         const balance = this.web3.utils.fromWei(rawBalance.toString())
         return {
@@ -281,11 +302,11 @@ export class BlockChain {
     private cachedTotalSupply: number = 0
 
     public async cacheTotalSupply() {
-        if (!this.web3 || !this.token) {
+        if (!this.web3 || !this.alchemyToken) {
             this.cachedTotalSupply = 0
         }
 
-        const totalSupply = await this.token.methods.totalSupply().call({ from: this.account })
+        const totalSupply = await this.alchemyToken.methods.totalSupply().call({ from: this.account })
 
         const supply = this.web3.utils.fromWei(totalSupply)
 
@@ -344,10 +365,8 @@ export class BlockChain {
         }
     }
 
-    public receiveReward() {
-        const blockChain = this
-
-        return new Promise(async (resolve, reject) => {
+    public async receiveReward() {
+        await new Promise(async (resolve, reject) => {
             const price = await this.web3.eth.getGasPrice()
             const gasPrice = price ? Number(price) * 2 : undefined
 
@@ -366,10 +385,10 @@ export class BlockChain {
                 })
                 .on('receipt', function(receipt) {
                     console.log({ receipt })
-                    blockChain.events = []
                     resolve(receipt)
                 })
         })
 
+        await this.loadFarm()
     }
 }
