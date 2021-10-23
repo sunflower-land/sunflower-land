@@ -164,14 +164,14 @@ export class BlockChain {
         await this.loadFarm()
     }
 
-    public save() {
+    public async save() {
         const blockChain = this
 
         if (this.isTrial) {
             throw new Error('TRIAL_MODE')
         }
 
-        return new Promise(async (resolve, reject) => {
+        await new Promise(async (resolve, reject) => {
             const price = await this.web3.eth.getGasPrice()
             const gasPrice = price ? Number(price) * 1 : undefined
 
@@ -194,6 +194,9 @@ export class BlockChain {
                     resolve(receipt)
                 })
         })
+
+        await this.loadFarm()
+
 
     }
 
