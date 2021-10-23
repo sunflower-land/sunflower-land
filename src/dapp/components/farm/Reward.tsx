@@ -39,9 +39,7 @@ export const Reward: React.FC<Props> = ({ account }) => {
 
     React.useEffect(() => {
         const load = async () => {
-            console.log('Load it')
             const reward = await machineState.context.blockChain.getReward()
-            console.log({ set: reward})
             setReward(reward)
         }
 

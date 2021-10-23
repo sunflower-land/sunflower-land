@@ -354,7 +354,6 @@ export class BlockChain {
         try {
             const reward = await this.farm.methods.myReward().call({ from: this.account })
             
-            console.log({ reward })
             if (!reward) {
                 return 0
             }
