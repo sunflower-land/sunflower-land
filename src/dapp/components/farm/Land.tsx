@@ -15,6 +15,7 @@ import { Tiles } from './Tiles'
 import { Barn } from './Barn'
 import { Blacksmith } from './Blacksmith'
 import { Market } from './Market'
+import { Reward } from './Reward'
 import { FruitItem } from '../../types/fruits'
 
 interface Props {
@@ -24,12 +25,13 @@ interface Props {
     onPlant: (landIndex: number) => void
     selectedFruit: Fruit
     fruits: FruitItem[]
+    account?: string
 }
 
 const columns = Array(60).fill(null)
 const rows = Array(20).fill(null)
 
-export const Land: React.FC<Props> = ({ fruits, land, balance, onHarvest, onPlant, selectedFruit }) => {
+export const Land: React.FC<Props> = ({ fruits, land, balance, onHarvest, onPlant, selectedFruit, account }) => {
     return (
         <>
                     {
@@ -60,6 +62,7 @@ export const Land: React.FC<Props> = ({ fruits, land, balance, onHarvest, onPlan
                 <Blacksmith />
                 <Market />
                 <Tiles />
+                <Reward account={account}/>
 
                 {/* {
                     land.map((square, index) => (

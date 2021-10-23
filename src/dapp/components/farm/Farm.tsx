@@ -79,7 +79,7 @@ export const Farm: React.FC = () => {
             const doRefresh = !farmIsFresh.current
 
             // HACK: Upgrade modal does not upgrade balance and farm so mark farm as stale
-            if (machineState.matches('upgrading') || machineState.matches('loading')) {
+            if (machineState.matches('upgrading') || machineState.matches('loading') || machineState.matches('rewarding')) {
                 farmIsFresh.current = false
             }
 
@@ -93,7 +93,7 @@ export const Farm: React.FC = () => {
                     farm,
                     balance: currentBalance,
                     id,
-                } = await machineState.context.blockChain.getAccount()
+                } = machineState.context.blockChain.myFarm
                 console.log('Load latest')
                 setLand(farm)
                 setBalance(new Decimal(currentBalance))
@@ -197,6 +197,7 @@ export const Farm: React.FC = () => {
                 balance={safeBalance}
                 onHarvest={onHarvest}
                 onPlant={onPlant}
+                account={accountId.current}
             />
 
             <span id="save-button">
@@ -232,7 +233,7 @@ export const Farm: React.FC = () => {
                     <div id="inner">
                         <img src={coin} />
                         {machineState.context.blockChain.isConnected &&
-                            safeBalance}
+                            safeBalance.toFixed(3)}
                     </div>
                 </Panel>
 
