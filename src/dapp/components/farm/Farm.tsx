@@ -218,7 +218,7 @@ export const Farm: React.FC = () => {
                     <Button
                         onClick={() =>
                             window.open(
-                                'https://adamhannigan81.gitbook.io/sunflower-coin/'
+                                'https://adamhannigan81.gitbook.io/sunflower-farmers/'
                             )
                         }
                     >

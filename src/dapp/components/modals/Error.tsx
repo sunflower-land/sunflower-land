@@ -26,7 +26,7 @@ const Content: React.FC<Props> = ({ code }) => {
             <>
                 You are not connected to Metamask.
 
-                <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>How to setup Metamask</Button>
+                <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-farmers/')}>How to setup Metamask</Button>
 
                 <div id='try-it-out'></div>
                 <span >Once you have installed Metamask, please refresh the page. Otherwise, feel free to try a simulation & play without tokens</span>
@@ -41,7 +41,7 @@ const Content: React.FC<Props> = ({ code }) => {
             <div id='wrong-chain'>
                 <span>It looks like you are not connected to the Polygon Blockchain.</span>
 
-                <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>How to Connect</Button>
+                <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-farmers/')}>How to Connect</Button>
 
                 <div id='try-it-out'></div>
                 <span >Otherwise, feel free to try a simulation & play without tokens</span>

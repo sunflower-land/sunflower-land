@@ -77,7 +77,7 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         )}
                     </div>
 
-                    <a href="https://adamhannigan81.gitbook.io/sunflower-coin/#supply-and-demand">
+                    <a href="https://adamhannigan81.gitbook.io/sunflower-farmers/tokenomics">
                         <h3 className="current-price-supply-demand">
                             Read more about our tokenomics here
                         </h3>

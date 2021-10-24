@@ -62,7 +62,7 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
                 <Button
                     onClick={() =>
                         window.open(
-                            'https://adamhannigan81.gitbook.io/sunflower-coin/'
+                            'https://adamhannigan81.gitbook.io/sunflower-farmers/'
                         )
                     }
                 >
@@ -80,7 +80,7 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
                         </span>
                     </div>
                     <br />
-                    <a href="https://adamhannigan81.gitbook.io/sunflower-coin/#supply-and-demand">
+                    <a href="https://adamhannigan81.gitbook.io/sunflower-farmers/tokenomics">
                         <h3 className="current-price-supply-demand">
                             Read more about the supply & demand
                         </h3>
