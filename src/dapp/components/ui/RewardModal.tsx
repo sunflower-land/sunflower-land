@@ -67,7 +67,7 @@ export const RewardModal: React.FC<Props> = ({
 							</div>
 							<span id="donate-description">
 								You must first save your farm to the blockchain
-								before attempting to upgrade.{' '}
+								before attempting to receive your reward.{' '}
 							</span>
 						</>
 					) : (

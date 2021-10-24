@@ -29,9 +29,9 @@ const Content: React.FC<Props> = ({ code }) => {
                 <Button onClick={() => window.open('https://adamhannigan81.gitbook.io/sunflower-coin/#how-to-setup')}>How to setup Metamask</Button>
 
                 <div id='try-it-out'></div>
-                <span >Otherwise, feel free to try a simulation & play without tokens</span>
+                <span >Once you have installed Metamask, please refresh the page. Otherwise, feel free to try a simulation & play without tokens</span>
 
-                <Button onClick={trial}>Try it out</Button>
+                <Button onClick={trial}>Play trial</Button>
             </>
         )
     }

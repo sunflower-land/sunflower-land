@@ -58,6 +58,27 @@ export const FirstBlock: React.FC<Props> = ({
                 className="dirt"
                 style={{ gridColumn: '7/8', gridRow: '7/8' }}
             />
+            <div
+                className="dirt"
+                style={{ gridColumn: '9/10', gridRow: '7/8' }}
+            />
+
+            <div
+                className="dirt"
+                style={{ gridColumn: '9/10', gridRow: '8/9' }}
+            >
+                <Field
+                    fruits={fruits}
+                    balance={balance}
+                    selectedFruit={selectedFruit}
+                    square={land[3]}
+                    onClick={
+                        land[3].fruit === Fruit.None
+                            ? () => onPlant(3)
+                            : () => onHarvest(3)
+                    }
+                />
+            </div>
             <div className="dirt" style={{ gridColumn: '8/9', gridRow: '7/8' }}>
                 {showWatering && <img id="watering" src={watering} />}
                 <Field
@@ -74,19 +95,17 @@ export const FirstBlock: React.FC<Props> = ({
             </div>
             <div
                 className="dirt"
-                style={{ gridColumn: '9/10', gridRow: '7/8' }}
-            />
-
-            <div className="dirt" style={{ gridColumn: '7/8', gridRow: '8/9' }}>
+                style={{ gridColumn: '8/9', gridRow: '9/10' }}
+            >
                 <Field
                     fruits={fruits}
                     balance={balance}
                     selectedFruit={selectedFruit}
-                    square={land[1]}
+                    square={land[4]}
                     onClick={
-                        land[1].fruit === Fruit.None
-                            ? () => onPlant(1)
-                            : () => onHarvest(1)
+                        land[4].fruit === Fruit.None
+                            ? () => onPlant(4)
+                            : () => onHarvest(4)
                     }
                 />
             </div>
@@ -107,19 +126,17 @@ export const FirstBlock: React.FC<Props> = ({
                     }
                 />
             </div>
-            <div
-                className="dirt"
-                style={{ gridColumn: '9/10', gridRow: '8/9' }}
-            >
+
+            <div className="dirt" style={{ gridColumn: '7/8', gridRow: '8/9' }}>
                 <Field
                     fruits={fruits}
                     balance={balance}
                     selectedFruit={selectedFruit}
-                    square={land[3]}
+                    square={land[1]}
                     onClick={
-                        land[3].fruit === Fruit.None
-                            ? () => onPlant(3)
-                            : () => onHarvest(3)
+                        land[1].fruit === Fruit.None
+                            ? () => onPlant(1)
+                            : () => onHarvest(1)
                     }
                 />
             </div>
@@ -128,22 +145,7 @@ export const FirstBlock: React.FC<Props> = ({
                 className="dirt"
                 style={{ gridColumn: '7/8', gridRow: '9/10' }}
             />
-            <div
-                className="dirt"
-                style={{ gridColumn: '8/9', gridRow: '9/10' }}
-            >
-                <Field
-                    fruits={fruits}
-                    balance={balance}
-                    selectedFruit={selectedFruit}
-                    square={land[4]}
-                    onClick={
-                        land[4].fruit === Fruit.None
-                            ? () => onPlant(4)
-                            : () => onHarvest(4)
-                    }
-                />
-            </div>
+
             <div
                 className="dirt"
                 style={{ gridColumn: '9/10', gridRow: '9/10' }}
@@ -170,6 +172,7 @@ export const FirstBlock: React.FC<Props> = ({
                 className="left-edge"
                 style={{ gridColumn: '6/7', gridRow: '9/10' }}
             />
+
 
             <div
                 className="right-edge"

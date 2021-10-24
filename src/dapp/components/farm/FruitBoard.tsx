@@ -85,7 +85,7 @@ export const FruitBoard: React.FC<Props> = ({
                     </div>
                     <div className="fruit-breakdown">
                         <div className="price">
-                            <span className="price-label">Buy</span>
+                            <span className="price-label">Plant</span>
                             <img src={coin} />
                             <span>{buyPrice}</span>
                         </div>
@@ -95,7 +95,7 @@ export const FruitBoard: React.FC<Props> = ({
                             <img src={arrow} />
                         </div>
                         <div className="price">
-                            <span className="price-label">Sell</span>
+                            <span className="price-label">Harvest</span>
                             <img src={coin} />
                             <span>{sellPrice}</span>
                         </div>

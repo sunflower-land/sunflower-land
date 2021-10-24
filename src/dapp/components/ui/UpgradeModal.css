@@ -50,3 +50,11 @@
     text-align: center;
     padding: 16px;
 }
+
+.insufficent-upgrade-funds {
+    text-align: end;
+    font-size: 9px;
+    text-decoration: underline;
+    font-size: 12px;
+    padding: 7px;
+}

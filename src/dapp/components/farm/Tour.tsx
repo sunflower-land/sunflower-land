@@ -15,7 +15,7 @@ import { Button } from '../ui/Button'
 const steps: ReactourStep[] = [
 	{
 		selector: '#first-sunflower',
-		content: 'This sunflower is ready for harvest. Click to harvest',
+		content: 'This sunflower is ready for harvest. Click on the sunflower.',
 	},
 	{
 		selector: '#balance',

@@ -92,7 +92,7 @@ export const Field: React.FC<Props> = ({ square, onClick, selectedFruit, balance
         // Remove harvest price after X seconds
         window.setTimeout(() => {
             setShowPrice(false)
-        }, 500)
+        }, 700)
 
         onClick()
     }, [balance, onClick, selectedFruit, square.fruit])

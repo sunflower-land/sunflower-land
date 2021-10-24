@@ -97,27 +97,19 @@ export const UpgradeModal: React.FC<Props> = ({
                     )}
 
 					<div id="charities">
-						<div>
-							<span className="charity-description">
-								5 fields
-							</span>
-							<div className="upgrade-icons">
-								<img
-									src={sunflower}
-									className="upgrade-fruit"
-								/>
-								<img src={potato} className="upgrade-fruit" />
-							</div>
-						</div>
-						<div>
-							<span className="charity-description">
-								8 fields
-							</span>
-							<div className="upgrade-icons">
-								<img src={pumpkin} className="upgrade-fruit" />
-								<img src={beetroot} className="upgrade-fruit" />
-							</div>
-							{farmSize < 8 && (
+						{
+							farmSize === 5 && (
+							<div>
+								<span className="charity-description">
+								Upgrade to 8 fields
+								</span>
+								<div className="upgrade-icons">
+									<span className="charity-description">
+										Unlock:
+									</span>
+									<img src={pumpkin} className="upgrade-fruit" />
+									<img src={beetroot} className="upgrade-fruit" />
+								</div>
 								<div className="charity-buttons">
 									<span>{`$${1 / marketRate}`}</span>
 									<Button
@@ -127,72 +119,119 @@ export const UpgradeModal: React.FC<Props> = ({
 										Upgrade
 									</Button>
 								</div>
-							)}
-						</div>
-						<div>
-							<span className="charity-description">
-								11 fields
-							</span>
-							<div className="upgrade-icons">
-								<img
-									src={cauliflower}
-									className="upgrade-fruit"
-								/>
+								{
+									balance < 1 / marketRate && (
+										<span className="insufficent-upgrade-funds">
+											Insufficent funds
+										</span>
+									)
+								}
+
 							</div>
-							{farmSize < 11 && (
-								<div className="charity-buttons">
-									<span>{`$${50 / marketRate}`}</span>
-									<Button
-										disabled={isUnsaved || farmSize < 8 || balance < 50 / marketRate}
-										onClick={onUpgrade}
-									>
-										Upgrade
-									</Button>
+							)
+						}
+						{
+							farmSize === 8 && (
+								<div>
+									<span className="charity-description">
+										Upgrade to 11 fields
+									</span>
+									<div className="upgrade-icons">
+										<span className="charity-description">
+											Unlock:
+										</span>
+										<img
+											src={cauliflower}
+											className="upgrade-fruit"
+										/>
+									</div>
+									<div className="charity-buttons">
+										<span>{`$${50 / marketRate}`}</span>
+										<Button
+											disabled={isUnsaved || farmSize < 8 || balance < 50 / marketRate}
+											onClick={onUpgrade}
+										>
+											Upgrade
+										</Button>
+									</div>
+									{
+										balance < 50 / marketRate && (
+											<span className="insufficent-upgrade-funds">
+												Insufficent funds
+											</span>
+										)
+									}
 								</div>
-							)}
-						</div>
-						<div>
-							<span className="charity-description">
-								14 fields
-							</span>
-							<div className="upgrade-icons">
-								<img src={parsnip} className="upgrade-fruit" />
-							</div>
-							{farmSize < 14 && (
-								<div className="charity-buttons">
-									<span>{`$${500 / marketRate}`}</span>
-									<Button
-										disabled={
-											isUnsaved || farmSize < 11 || balance < 500 / marketRate
-										}
-										onClick={onUpgrade}
-									>
-										Upgrade
-									</Button>
+							)
+						} 
+
+						{
+							farmSize === 11 && (
+								<div>
+									<span className="charity-description">
+										Upgrade to 14 fields
+									</span>
+									<div className="upgrade-icons">
+										<span className="charity-description">
+											Unlock:
+										</span>
+										<img src={parsnip} className="upgrade-fruit" />
+									</div>
+									<div className="charity-buttons">
+										<span>{`$${500 / marketRate}`}</span>
+										<Button
+											disabled={
+												isUnsaved || farmSize < 11 || balance < 500 / marketRate
+											}
+											onClick={onUpgrade}
+										>
+											Upgrade
+										</Button>
+									</div>
+									{
+										balance < 500 / marketRate && (
+											<span className="insufficent-upgrade-funds">
+												Insufficent funds
+											</span>
+										)
+									}
 								</div>
-							)}
-						</div>
-						<div>
-							<span className="charity-description">
-								17 fields
-							</span>
-							<div className="upgrade-icons">
-								<img src={radish} className="upgrade-fruit" />
-							</div>
-							{farmSize < 17 && (
-								<div className="charity-buttons">
-									<span>{`$${2500 / marketRate}`}</span>
-									<Button
-										disabled={
-											isUnsaved || farmSize < 14 || balance < 2500 / marketRate
-										}
-										onClick={onUpgrade}
-									>
-										Upgrade
-									</Button>
+							)
+						}
+
+						{
+							farmSize === 14 && (
+								<div>
+									<span className="charity-description">
+										Upgrade to 17 fields
+									</span>
+									<div className="upgrade-icons">
+										<span className="charity-description">
+											Unlock:
+										</span>
+										<img src={radish} className="upgrade-fruit" />
+									</div>
+									<div className="charity-buttons">
+										<span>{`$${2500 / marketRate}`}</span>
+										<Button
+											disabled={
+												isUnsaved || farmSize < 14 || balance < 2500 / marketRate
+											}
+											onClick={onUpgrade}
+										>
+											Upgrade
+										</Button>
+									</div>
+									{
+										balance < 2500 / marketRate && (
+											<span className="insufficent-upgrade-funds">
+												Insufficent funds
+											</span>
+										)
+									}
 								</div>
-							)}
-						</div>
+							)
+						}
 					</div>
 				</div>
 			</Panel>
