@@ -23,7 +23,7 @@ const Content: React.FC<Props> = ({ code }) => {
 
     return (
         <div id='wrong-chain'>
-            <span>There was an issue saving your farm to the blockchain.</span>
+            <span>There was an issue saving your farm to the blockchain. The Polygon Blockchain may be busy at the moment, try increasing the gas price.</span>
 
             <div id='try-it-out'></div>
 
