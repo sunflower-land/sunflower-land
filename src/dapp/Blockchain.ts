@@ -174,7 +174,9 @@ export class BlockChain {
         await new Promise(async (resolve, reject) => {
             const price = await this.web3.eth.getGasPrice()
             const gasPrice = price ? Number(price) * 1 : undefined
-
+            console.log(new Date().getTime())
+            console.log({ events: this.events })
+            console.log({ farm: this.myFarm })
             this.farm.methods.sync(this.events).send({from: this.account, gasPrice })
                 .on('error', function(error){
                     console.log({ error })
