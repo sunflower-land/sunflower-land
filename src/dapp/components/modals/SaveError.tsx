@@ -18,7 +18,7 @@ const Content: React.FC<Props> = ({ code }) => {
     >(service);
 
     const save = () => {
-        send('SAVE')
+        send('RETRY')
     }
 
     return (

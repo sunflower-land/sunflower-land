@@ -35,6 +35,10 @@ export interface SaveEvent extends EventObject {
     type: 'SAVE';
 }
 
+export interface RetryEvent extends EventObject {
+    type: 'RETRY';
+}
+
 export interface TrialEvent extends EventObject {
     type: 'TRIAL';
 }
@@ -90,6 +94,7 @@ export type BlockchainEvent =
     | FinishEvent
     | CloseOnboardingEvent
     | OnboardingEvent
+    | RetryEvent
     | {
         type: 'ACCOUNT_CHANGED'
     }
@@ -305,10 +310,25 @@ export const blockChainMachine = createMachine<
         },
         saveFailure: {
             on: {
-                SAVE: {
-                    target: 'saving',
+                RETRY: {
+                    target: 'retrying',
                     actions: (context) => { context.blockChain.offsetTime() }
                 },
+            }
+        },
+        retrying: {
+            invoke: {
+                id: 'retrying',
+                src: async ({ blockChain }, event) => blockChain.reSave(),
+                onDone: {
+                    target: 'farming',
+                },
+                onError: {
+                    target: 'saveFailure',
+                    actions:  assign({
+                        errorCode: (context, event) => event.data.message,
+                    }),
+                }
             }
         },
         timerComplete: {
