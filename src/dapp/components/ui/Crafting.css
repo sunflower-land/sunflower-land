@@ -1,0 +1,52 @@
+#crafting {
+    display: flex;
+}
+.box-panel {
+    background: #b96f50;
+    padding: 5px;
+    margin: 5px;
+    display: flex;
+    width: 50px;
+    height: 50px;
+}
+
+.box-pixel-panel {
+    background: #945542;
+    flex: 1;
+    width: 100%;
+    padding: 5px;
+
+    position: relative;
+}
+
+.box-item {
+    width: 100%;
+    image-rendering: pixelated;
+}
+
+#crafting-items {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    height: 124px;
+}
+
+#recipe {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#crafting-item {
+    width: 50%;
+    image-rendering: pixelated;
+    margin: auto;
+    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white) drop-shadow(0px -1px 0px white);
+}
+
+#recipe-title {
+    color: white;
+    text-shadow: 1px 1px black;
+    text-align: center;
+}

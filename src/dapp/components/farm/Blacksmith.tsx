@@ -6,30 +6,18 @@ import { Panel } from '../ui/Panel'
 import disc from '../../images/ui/disc.png'
 import hammer from '../../images/ui/hammer.png'
 import blacksmith from '../../images/decorations/blacksmith.png'
-import nft from '../../images/decorations/statue.png'
+import basket from '../../images/ui/basket.png'
+import { CraftingMenu } from '../ui/CraftingMenu';
 
-
-interface Props {}
 
 export const Blacksmith: React.FC= () => {
-    const [showModal, setShowModal] = React.useState(false)
+    const [showModal, setShowModal] = React.useState(true)
 
     return (
         <>
             <Modal centered show={showModal} onHide={() => setShowModal(false)}>
                 <Panel>
-                    <div id="welcome">
-                        NFTs are coming soon...
-
-                        <span style={{
-                            fontSize: '12px',
-                            marginTop: '20px'
-                        }}>
-                            You will be able to use Sunflower Farmer tokens to purchase collectibles and NFTs to decorate your farm.
-                        </span>
-
-                        <img id='nft' src={nft} />
-                    </div>
+                    <CraftingMenu />
                 </Panel>
             </Modal>
             <div style={{ gridColumn: '4/5', gridRow: '9/10'}} id='minter' onClick={() => setShowModal(true)}>
@@ -43,7 +31,7 @@ export const Blacksmith: React.FC= () => {
                         </div>
                         <Panel hasOuter={false}>
                             <span id='upgrade'>
-                                Mint NFTs
+                                Crafting
                             </span>
                         </Panel>
 

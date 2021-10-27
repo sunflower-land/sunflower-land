@@ -10,6 +10,8 @@ import { Donation } from './types/contract'
 import { Charity, Connecting, Welcome, Creating, Saving, Error, TimerComplete, Unsupported, SaveError } from './components/modals'
 
 import Farm from './components/farm/Farm'
+import { CraftingMenu } from './components/ui/CraftingMenu'
+import { Panel } from './components/ui/Panel'
 
 import './App.css'
 
@@ -43,7 +45,18 @@ export const App: React.FC = () => {
 
   return (
     <div id='container'>
+      <Modal centered show>
+        <Panel>
+        <CraftingMenu/>
+        </Panel>
+      </Modal>
+    </div>
+  )
+
+  return (
+    <div id='container'>
         <Farm />
+
         <Modal centered show={machineState.matches('loading')}>
           <Connecting/>
         </Modal>
