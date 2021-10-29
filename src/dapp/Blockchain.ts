@@ -164,48 +164,6 @@ export class BlockChain {
         await this.loadFarm()
     }
 
-    private lastSaveNonce: number = 0
-
-    public async reSave() {
-        const blockChain = this
-
-        const count = await this.web3.eth.getTransactionCount(this.account)
-        console.log('Retry')
-        console.log({ count })
-        console.log({ lastSaveNonce: blockChain.lastSaveNonce })
-
-        // Transaction went through while waiting
-        if (blockChain.lastSaveNonce > count) {
-            return
-        }
-
-        const previousNonce = blockChain.lastSaveNonce - 1
-
-        await new Promise(async (resolve, reject) => {
-            this.farm.methods.sync(this.events).send({from: this.account, nonce: count })
-                .on('error', function(error){
-                    console.log({ error })
-                    // User rejected
-                    if (error.code === 4001) {
-                        return resolve(null)
-                    }
-
-                    reject(error)
-                })
-                .on('transactionHash', function(transactionHash){
-                    console.log({ transactionHash })
-                })
-                .on('receipt', function(receipt) {
-                    console.log({ receipt })
-                    blockChain.events = []
-                    resolve(receipt)
-                })
-        })
-
-        await this.loadFarm()     
-    }
-
-
     public async save() {
         const blockChain = this
 
@@ -230,13 +188,11 @@ export class BlockChain {
                     reject(error)
                 })
                 .on('transactionHash', async function(transactionHash){
-                    blockChain.lastSaveNonce = await blockChain.web3.eth.getTransactionCount(blockChain.account)
                     console.log({ transactionHash })
                 })
                 .on('receipt', function(receipt) {
                     console.log({ receipt })
                     blockChain.events = []
-                    blockChain.lastSaveNonce = blockChain.lastSaveNonce + 1;
                     resolve(receipt)
                 })
         })
