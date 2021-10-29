@@ -1,52 +1,195 @@
 #crafting {
-    display: flex;
+  display: flex;
 }
 .box-panel {
-    background: #b96f50;
-    padding: 5px;
-    margin: 5px;
-    display: flex;
-    width: 50px;
-    height: 50px;
+  background: #b96f50;
+  padding: 5px;
+  margin: 5px;
+  display: flex;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.box-pixel-panel:hover {
+  background: #c28569;
+}
+
+.box-active {
+  background: #adb4be !important;
 }
 
 .box-pixel-panel {
-    background: #945542;
-    flex: 1;
-    width: 100%;
-    padding: 5px;
+  background: #945542;
+  flex: 1;
+  width: 100%;
+  padding: 5px;
 
-    position: relative;
+  position: relative;
 }
 
 .box-item {
-    width: 100%;
-    image-rendering: pixelated;
+  width: 100%;
+  image-rendering: pixelated;
 }
 
 #crafting-items {
-    display: flex;
-    flex-wrap: wrap;
-    width: 300px;
-    height: 124px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 300px;
+  height: 124px;
 }
 
 #recipe {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #9f6c54;
+  padding: 7px;
+  padding-top: 14px;
 }
 
 #crafting-item {
-    width: 50%;
-    image-rendering: pixelated;
-    margin: auto;
-    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white) drop-shadow(0px -1px 0px white);
+  width: 50%;
+  image-rendering: pixelated;
+  margin: auto;
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
 }
 
 #recipe-title {
-    color: white;
-    text-shadow: 1px 1px black;
-    text-align: center;
+  color: white;
+  text-shadow: 1px 1px black;
+  text-align: center;
+}
+
+#recipe-description {
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 11px;
+  margin-top: 12px;
+}
+
+#craft-button-text {
+  font-size: 12px;
+}
+
+#craft-action {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+#craft-count {
+  display: flex;
+}
+
+.craft-arrow {
+  display: -webkit-flex;
+  display: flex;
+  width: 11px;
+  cursor: pointer;
+  margin-bottom: 3px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+}
+
+#crafting-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ingredient {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ingredient-image {
+  width: 20px;
+  image-rendering: pixelated;
+  margin-right: 7px;
+}
+
+.ingredient-text {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 12px;
+}
+
+.ingredient-count {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 12px;
+}
+
+#ingredients {
+  border-top: 1px solid white;
+  margin-top: 8px;
+  padding-top: 4px;
+  border-bottom: 1px solid white;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+}
+
+#inventory-header {
+  display: flex;
+  margin-top: 4px;
+  margin-left: 4px;
+  align-items: center;
+}
+
+#inventory-header > img {
+  width: 25px;
+  height: 25px;
+  image-rendering: pixelated;
+  margin-right: 4px;
+}
+
+#inventory-header > span {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 13px;
+}
+
+#inventory {
+  display: flex;
+  flex-wrap: wrap;
+  width: 300px;
+  height: 124px;
+}
+
+.inventory-box {
+  width: 50px;
+  height: 50px;
+}
+
+.box-count {
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  z-index: 99;
+  font-size: 12px;
+  background: #bfcbda;
+  padding: 0 3px;
+  border-radius: 6px;
+  border: 2px solid black;
+  outline: white;
+  color: black;
+  text-shadow: 1px 1px white;
+}
+
+#recipe-type {
+  position: absolute;
+  top: 0px;
+  right: 0;
+  font-size: 9px;
+  color: white;
+  text-shadow: 1px 1px black;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: #fbad34;
 }
