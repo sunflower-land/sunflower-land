@@ -1,239 +1,239 @@
 #basket {
-    position: fixed;
-    right: 28px;
-    top: 120px;
-    cursor: pointer;
-    z-index: 9;
+  position: fixed;
+  right: 28px;
+  top: 120px;
+  cursor: pointer;
+  z-index: 9;
 
-    -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
-    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
+  -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
 }
 
 #basket > .message {
-    position: absolute;
-    width: 69px;
-    right: -15px;
-    bottom: -34px;
+  position: absolute;
+  width: 69px;
+  right: -15px;
+  bottom: -34px;
 }
 #basket:hover {
-    -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
-    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
+  -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
 }
 
 .basket-fruit {
-    width: 60px;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+  width: 60px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .selected-fruit {
-    position: absolute;
-    left: 10px;
-    top: 4px;
-    width: 39px;
-    image-rendering: pixelated;
+  position: absolute;
+  left: 10px;
+  top: 4px;
+  width: 39px;
+  image-rendering: pixelated;
 }
 
 .market {
-    font-size: 12px;
-    color: white;
-    text-shadow: 1px 1px black;
+  font-size: 12px;
+  color: white;
+  text-shadow: 1px 1px black;
 }
 
 .board-content {
-    font-size: 26px;
-    color: white;
-    padding: 5px;
-    min-width: 200px;
-    height: 350px;
-    overflow-y: scroll;
+  font-size: 26px;
+  color: white;
+  padding: 5px;
+  min-width: 200px;
+  height: 350px;
+  overflow-y: scroll;
 }
 
 #board-header {
-    z-index: 1;
-    color: white;
-    border-radius: 12px 12px 0 0px;
-    right: 42px;
-    padding: 5px 10px;
-    font-size: 19px;
-    height: 38px;
-    text-shadow: 1px 1px 0px #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  z-index: 1;
+  color: white;
+  border-radius: 12px 12px 0 0px;
+  right: 42px;
+  padding: 5px 10px;
+  font-size: 19px;
+  height: 38px;
+  text-shadow: 1px 1px 0px #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #board-header > img {
-    width: 22px;
-    margin-right: 10px;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+  width: 22px;
+  margin-right: 10px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .board-content > .item {
-    display: flex;
-    height: 83px;
-    padding-top: 5px;
+  display: flex;
+  height: 83px;
+  padding-top: 5px;
 }
 
 .locked {
-    opacity: 0.5;
-    pointer-events: none;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .board-content > .item:not(:first-child) {
-    margin-top: 5px;
-    border-top: 1px solid #ead4aa;
+  margin-top: 5px;
+  border-top: 1px solid #ead4aa;
 }
 
 .board-content .icon {
-    background: #945442;
-    width: 75px;
-    height: 75px;
-    border-radius: 3px;
-    border: 2px solid black;
-    margin-right: 8px;
-    cursor: pointer;
+  background: #945442;
+  width: 75px;
+  height: 75px;
+  border-radius: 3px;
+  border: 2px solid black;
+  margin-right: 8px;
+  cursor: pointer;
 }
 
 .board-content .icon:hover {
-    background: #ead4aa;
+  background: #ead4aa;
 }
 
 .board-content .icon > .image {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    border: 2px solid #e7cda3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border: 2px solid #e7cda3;
 }
 
 .selected {
-    background: #c0cbdb !important;
+  background: #c0cbdb !important;
 }
 
 .selected > .image {
-    border-color: white !important;
+  border-color: white !important;
 }
 
 .icon > .image > img {
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
-    width: 40px;
-    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
-        drop-shadow(0px -1px 0px white);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 40px;
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
 }
 
 .fruit-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-bottom: 4px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 4px;
 }
 
 .fruit-details > div {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .title {
-    text-shadow: 1px 1px 0px black;
-    font-size: 18px;
-    white-space: nowrap;
+  text-shadow: 1px 1px 0px black;
+  font-size: 18px;
+  white-space: nowrap;
 }
 
 .price {
-    font-size: 14px;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    padding: 4px 8px;
-    text-shadow: 1px 1px black;
-    position: relative;
-    background: #d6ad89;
-    border-radius: 2px;
+  font-size: 14px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  padding: 4px 8px;
+  text-shadow: 1px 1px black;
+  position: relative;
+  background: #d6ad89;
+  border-radius: 2px;
 }
 
 .price > img {
-    width: 20px;
-    margin-right: 8px;
-    filter: drop-shadow(1px 1px 0px black) drop-shadow(-1px 0px 0px black)
-        drop-shadow(0px -1px 0px black);
-    image-rendering: pixelated;
+  width: 20px;
+  margin-right: 8px;
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
+  image-rendering: pixelated;
 }
 
 .price-label {
-    left: 1px;
-    font-size: 8px;
-    position: absolute;
-    top: -13px;
+  left: 1px;
+  font-size: 8px;
+  position: absolute;
+  top: -13px;
 }
 
 .fruit-breakdown {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 }
 
 .fruit-time {
-    font-size: 17px;
-    text-shadow: 1px 1px black;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: start;
-    align-items: center;
-    align-self: flex-start;
+  font-size: 17px;
+  text-shadow: 1px 1px black;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: start;
+  align-items: center;
+  align-self: flex-start;
 }
 
 .fruit-time > img {
-    width: 20px;
-    margin-right: 7px;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+  width: 20px;
+  margin-right: 7px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .fruit-arrows {
-    position: absolute;
-    left: 110px;
-    right: 114px;
-    display: flex;
-    justify-content: space-around;
-    top: 9px;
+  position: absolute;
+  left: 110px;
+  right: 114px;
+  display: flex;
+  justify-content: space-around;
+  top: 9px;
 }
 
 .fruit-arrows > img {
-    width: 12px;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+  width: 12px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .upgrade-required {
-    margin: 10px auto 20px;
-    display: flex;
-    justify-content: center;
+  margin: 10px auto 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .upgrade-warning {
-    color: white;
-    text-shadow: 1px 1px black;
-    font-size: 12px;
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 12px;
 }
 
 .insufficient-funds-cross {
-    width: 19px;
-    image-rendering: pixelated;
-    margin-left: 6px;
+  width: 19px;
+  image-rendering: pixelated;
+  margin-left: 6px;
 }
 
 .insufficient-funds-alert {
-    width: 10px;
-    image-rendering: pixelated;
-    margin-left: 6px;
+  width: 10px;
+  image-rendering: pixelated;
+  margin-left: 6px;
 }

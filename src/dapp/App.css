@@ -1,195 +1,192 @@
 @font-face {
-    font-family: 'Press Start 2p';
+  font-family: "Press Start 2p";
 }
 
 body {
-    overflow: hidden;
-    font-family: 'Press Start 2p';
+  overflow: hidden;
+  font-family: "Press Start 2p";
 }
 
 #balance {
-    position: fixed;
-    top: 15px;
-    right: -8px;
+  position: fixed;
+  top: 15px;
+  right: -8px;
 }
 
 #buy-now {
-    position: fixed;
-    top: 70px;
-    right: -8px;
-    z-index: 999;
-    cursor: pointer;
+  position: fixed;
+  top: 70px;
+  right: -8px;
+  z-index: 999;
+  cursor: pointer;
 
-    -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
-    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
+  -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.596));
 }
 
 #buy-now:hover {
-    -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
-    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
+  -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
 }
 
 #inner {
-    font-size: 15px;
-    color: white;
-    text-shadow: 1px 1px black;
-    border-radius: 4px 0 0 4px;
-    padding: 5px;
-    min-width: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  font-size: 15px;
+  color: white;
+  text-shadow: 1px 1px black;
+  border-radius: 4px 0 0 4px;
+  padding: 5px;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 #inner > img {
-    width: 25px;
-    height: 25px;
-    margin-right: 10px;
-    image-rendering: pixelated;
+  width: 20px;
+  margin-right: 10px;
+  image-rendering: pixelated;
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
 }
-
 
 #edge {
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
-    position: absolute;
-    height: calc(100% + 8px);
-    top: -4px;
-    left: -15px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  position: absolute;
+  height: calc(100% + 8px);
+  top: -4px;
+  left: -15px;
 }
 
-
 #panel-bg {
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
-    position: absolute;
-    height: calc(100% + 8px);
-    top: -4px;
-    left: 0px;
-    right: 14px;
-    z-index: -1;
-    width: 100%;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  position: absolute;
+  height: calc(100% + 8px);
+  top: -4px;
+  left: 0px;
+  right: 14px;
+  z-index: -1;
+  width: 100%;
 }
 
 #save-button {
-    position: fixed;
-    top: 15px;
-    left: 10px;
+  position: fixed;
+  top: 15px;
+  left: 10px;
 }
 
-
 .message {
-    background: #c0cbdb;
-    position: relative;
-    padding: 2px 4px;
-    color: white;
-    font-size: 10px;
-    text-shadow: 1px 1px black;
-    margin: 5px 10px;
-    width: fit-content;
-    display: flex;
-    align-items: center;
+  background: #c0cbdb;
+  position: relative;
+  padding: 2px 4px;
+  color: white;
+  font-size: 10px;
+  text-shadow: 1px 1px black;
+  margin: 5px 10px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
 }
 
 .button {
-    background: #e6a873;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    position: relative;
-    padding: 2px 10px;
-    color: white;
-    font-size: 15px;
-    text-shadow: 1px 1px black;
-    box-shadow: 0px 3px 2px 2px black;
-    cursor: pointer;
-    margin: 5px 10px;
+  background: #e6a873;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+  padding: 2px 10px;
+  color: white;
+  font-size: 15px;
+  text-shadow: 1px 1px black;
+  box-shadow: 0px 3px 2px 2px black;
+  cursor: pointer;
+  margin: 5px 10px;
 }
 
 .disabled {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .button > img {
-    margin-left: 3px;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+  margin-left: 3px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 #exclamation {
-    width: 10px;
-
+  width: 10px;
 }
 
 #question {
-    width: 14px;
-    height: 20px;
+  width: 14px;
+  height: 20px;
 }
 
 .button:hover {
-	opacity: 0.8
+  opacity: 0.8;
 }
 
 .header {
-    color: white;
-    text-shadow: 1px 1px black;
-    font-size: 27px !important;
-    padding: 14px;
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 27px !important;
+  padding: 14px;
 }
 
 #welcome {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex-grow: 0;
-    align-items: center;
-    padding: 30px 30px 28px;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 0;
+  align-items: center;
+  padding: 30px 30px 28px;
+  text-align: center;
 
-    color: white;
-    text-shadow: 1px 1px black;
+  color: white;
+  text-shadow: 1px 1px black;
 }
 
 #welcome .button {
-    margin-bottom: 10px;
-    width: 50%;
-    justify-content: center;
+  margin-bottom: 10px;
+  width: 50%;
+  justify-content: center;
 }
 
 .farm-tour {
-    color: white !important;
-    text-shadow: 1px 1px black !important;
-    background-color: #b86f50 !important;
+  color: white !important;
+  text-shadow: 1px 1px black !important;
+  background-color: #b86f50 !important;
 }
 
 .reactour__close {
-    color: white !important;
+  color: white !important;
 }
 
 #tour-button {
-    text-align: center;
-    margin-top: 22px;
-    width: 98px;
+  text-align: center;
+  margin-top: 22px;
+  width: 98px;
 }
 
 #logo {
-    max-width: 400px;
-    margin-top: -93px;
-    margin-bottom: -57px;
+  max-width: 400px;
+  margin-top: -93px;
+  margin-bottom: -57px;
 }
 
 * {
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
- 
-    /*
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+
+  /*
       Introduced in Internet Explorer 10.
       See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
     */
-    -ms-user-select: none;
-    user-select: none;
- }
+  -ms-user-select: none;
+  user-select: none;
+}
