@@ -310,25 +310,10 @@ export const blockChainMachine = createMachine<
         },
         saveFailure: {
             on: {
-                RETRY: {
-                    target: 'retrying',
+                SAVE: {
+                    target: 'saving',
                     actions: (context) => { context.blockChain.offsetTime() }
                 },
-            }
-        },
-        retrying: {
-            invoke: {
-                id: 'retrying',
-                src: async ({ blockChain }, event) => blockChain.reSave(),
-                onDone: {
-                    target: 'farming',
-                },
-                onError: {
-                    target: 'saveFailure',
-                    actions:  assign({
-                        errorCode: (context, event) => event.data.message,
-                    }),
-                }
             }
         },
         timerComplete: {
