@@ -65,7 +65,13 @@ const Content: React.FC<Props> = ({ code }) => {
     }
 
     return (
-        <p>Something went wrong. Try refresh the page</p>
+        <div id='error-popup'>
+            <span id='error-title'>Oh no, something went wrong!</span>
+
+            <span id='error-text'>{code}</span>
+
+            <span id='error-text'>Thanks for your patience and being an early adopter! Head over to our <a id='error-link' href="https://discord.com/invite/3AmWWhbfNq" target="_blank">discord channel</a> and the team will try help out.</span>
+        </div>
     )
 }
 export const Error: React.FC<Props> = ({ code }) => (

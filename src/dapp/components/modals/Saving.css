@@ -52,3 +52,31 @@
 #try-it-out {
     margin-top: 40px;
 }
+
+#error-popup {
+    display: flex;
+    flex-direction: column;
+}
+
+#error-title {
+    display: block;
+}
+
+#error-text {
+    font-size: 12px;
+    padding: 16px 0;
+    margin-top: 14px;
+}
+
+#error-image {
+    vertical-align: middle;
+    border-style: none;
+    width: 66%;
+    margin: auto;
+    border-radius: 4px;
+}
+
+#error-link {
+    color: white;
+    text-decoration: underline;
+}
