@@ -23,11 +23,17 @@ import "./Panel.css";
 interface Props {
   isSelected?: boolean;
   count?: number;
+  onClick?: () => void;
 }
 
-export const Box: React.FC<Props> = ({ children, isSelected, count }) => {
+export const Box: React.FC<Props> = ({
+  children,
+  isSelected,
+  count,
+  onClick,
+}) => {
   return (
-    <div className={`box-panel`}>
+    <div className={`box-panel`} onClick={onClick}>
       {
         <div className={`box-pixel-panel ${isSelected && "box-active"}`}>
           {count && <span className={`box-count`}>{count}</span>}

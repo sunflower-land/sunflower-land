@@ -16,7 +16,7 @@
 }
 
 .box-active {
-  background: #adb4be !important;
+  background: #fff !important;
 }
 
 .box-pixel-panel {
@@ -112,6 +112,8 @@
   width: 20px;
   image-rendering: pixelated;
   margin-right: 7px;
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
 }
 
 .ingredient-text {

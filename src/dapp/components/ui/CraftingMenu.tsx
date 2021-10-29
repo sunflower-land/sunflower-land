@@ -5,19 +5,77 @@ import { Button } from "../ui/Button";
 import { Message } from "../ui/Message";
 
 import hammer from "../../images/ui/hammer.png";
+import pickaxe from "../../images/ui/pickaxe.png";
+import axe from "../../images/ui/axe.png";
 import basket from "../../images/ui/basket.png";
 
 import arrowUp from "../../images/ui/arrow_up.png";
 import arrowDown from "../../images/ui/arrow_down.png";
 import wood from "../../images/ui/wood.png";
 import stone from "../../images/ui/rock.png";
+import coin from "../../images/ui/sunflower_coin.png";
 
 import { Box } from "./Box";
 
 import "./Crafting.css";
 
+interface Ingredient {
+  name: "Wood" | "Stone" | "$SFF";
+  image: any;
+  amount: number;
+}
+
+interface Recipe {
+  name: string;
+  description: string;
+  image: any;
+  type: "ERC20" | "NFT";
+  ingredients: Ingredient[];
+}
+
+const recipes: Recipe[] = [
+  {
+    name: "Axe",
+    description: "Used for cutting and collecting wood",
+    image: axe,
+    type: "ERC20",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 10,
+        image: coin,
+      },
+    ],
+  },
+  {
+    name: "Pickaxe",
+    description: "Used for mining and collecting stone",
+    image: pickaxe,
+    type: "ERC20",
+    ingredients: [
+      {
+        name: "Wood",
+        amount: 5,
+        image: wood,
+      },
+      {
+        name: "$SFF",
+        amount: 5,
+        image: coin,
+      },
+    ],
+  },
+];
+
 export const CraftingMenu: React.FC = () => {
   const [amount, setAmount] = React.useState(1);
+  const [selectedRecipe, setSelectedRecipe] = React.useState(recipes[0]);
+
+  const changeRecipe = (recipe: Recipe) => {
+    setAmount(1);
+    setSelectedRecipe(recipe);
+  };
+
   return (
     <div id="crafting">
       <div id="crafting-left">
@@ -26,9 +84,14 @@ export const CraftingMenu: React.FC = () => {
           <span>Recipes</span>
         </div>
         <div id="crafting-items">
-          <Box isSelected>
-            <img src={hammer} className="box-item" />
-          </Box>
+          {recipes.map((recipe) => (
+            <Box
+              isSelected={recipe.name === selectedRecipe.name}
+              onClick={() => changeRecipe(recipe)}
+            >
+              <img src={recipe.image} className="box-item" />
+            </Box>
+          ))}
           <Box></Box>
           <Box></Box>
           <Box></Box>
@@ -58,29 +121,23 @@ export const CraftingMenu: React.FC = () => {
         </div>
       </div>
       <div id="recipe">
-        <span id="recipe-type">ERC20</span>
-        <span id="recipe-title">Hammer</span>
-        <img src={hammer} id="crafting-item" />
-        <span id="recipe-description">
-          Used for building coups, barns and other structures.
-        </span>
+        <span id="recipe-type">{selectedRecipe.type}</span>
+        <span id="recipe-title">{selectedRecipe.name}</span>
+        <img src={selectedRecipe.image} id="crafting-item" />
+        <span id="recipe-description">{selectedRecipe.description}</span>
 
         <div id="ingredients">
-          <div className="ingredient">
-            <div>
-              <img className="ingredient-image" src={wood} />
-              <span className="ingredient-count">Wood</span>
+          {selectedRecipe.ingredients.map((ingredient) => (
+            <div className="ingredient">
+              <div>
+                <img className="ingredient-image" src={ingredient.image} />
+                <span className="ingredient-count">{ingredient.name}</span>
+              </div>
+              <span className="ingredient-text">
+                {ingredient.amount * amount}
+              </span>
             </div>
-            <span className="ingredient-text">5</span>
-          </div>
-
-          <div className="ingredient">
-            <div>
-              <img className="ingredient-image" src={stone} />
-              <span className="ingredient-count">Stone</span>
-            </div>
-            <span className="ingredient-text">5</span>
-          </div>
+          ))}
         </div>
         <div id="craft-action">
           <div id="craft-count">
