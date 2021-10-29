@@ -35,6 +35,10 @@ export interface SaveEvent extends EventObject {
     type: 'SAVE';
 }
 
+export interface RetryEvent extends EventObject {
+    type: 'RETRY';
+}
+
 export interface TrialEvent extends EventObject {
     type: 'TRIAL';
 }
@@ -90,6 +94,7 @@ export type BlockchainEvent =
     | FinishEvent
     | CloseOnboardingEvent
     | OnboardingEvent
+    | RetryEvent
     | {
         type: 'ACCOUNT_CHANGED'
     }

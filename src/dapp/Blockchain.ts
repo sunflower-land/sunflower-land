@@ -187,7 +187,7 @@ export class BlockChain {
 
                     reject(error)
                 })
-                .on('transactionHash', function(transactionHash){
+                .on('transactionHash', async function(transactionHash){
                     console.log({ transactionHash })
                 })
                 .on('receipt', function(receipt) {
