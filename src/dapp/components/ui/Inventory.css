@@ -1,0 +1,9 @@
+#inventory-tabs {
+  position: absolute;
+  top: -33px;
+  background: #c28569;
+  z-index: 9;
+  padding: 4px;
+  left: 0;
+  display: flex;
+}
