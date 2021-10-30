@@ -130,7 +130,14 @@ export const FruitBoard: React.FC<Props> = ({
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
         <div className="board">
           <Panel hasTabs>
-            <Inventory />
+            <Inventory
+              balance={balance}
+              fruits={fruits}
+              selectedFruit={selectedFruit}
+              onSelectFruit={onSelectFruit}
+              land={land}
+              onClose={() => setShowModal(false)}
+            />
             {/* <div className="board-content">{items}</div> */}
           </Panel>
         </div>

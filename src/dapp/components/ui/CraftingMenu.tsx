@@ -5,67 +5,17 @@ import { Button } from "../ui/Button";
 import { Message } from "../ui/Message";
 
 import hammer from "../../images/ui/hammer.png";
-import pickaxe from "../../images/ui/pickaxe.png";
-import axe from "../../images/ui/axe.png";
 import basket from "../../images/ui/basket.png";
 
 import arrowUp from "../../images/ui/arrow_up.png";
 import arrowDown from "../../images/ui/arrow_down.png";
 import wood from "../../images/ui/wood.png";
 import stone from "../../images/ui/rock.png";
-import coin from "../../images/ui/sunflower_coin.png";
 
+import { recipes, Recipe } from "../../types/crafting";
 import { Box } from "./Box";
 
 import "./Crafting.css";
-
-interface Ingredient {
-  name: "Wood" | "Stone" | "$SFF";
-  image: any;
-  amount: number;
-}
-
-interface Recipe {
-  name: string;
-  description: string;
-  image: any;
-  type: "ERC20" | "NFT";
-  ingredients: Ingredient[];
-}
-
-const recipes: Recipe[] = [
-  {
-    name: "Axe",
-    description: "Used for cutting and collecting wood",
-    image: axe,
-    type: "ERC20",
-    ingredients: [
-      {
-        name: "$SFF",
-        amount: 10,
-        image: coin,
-      },
-    ],
-  },
-  {
-    name: "Pickaxe",
-    description: "Used for mining and collecting stone",
-    image: pickaxe,
-    type: "ERC20",
-    ingredients: [
-      {
-        name: "Wood",
-        amount: 5,
-        image: wood,
-      },
-      {
-        name: "$SFF",
-        amount: 5,
-        image: coin,
-      },
-    ],
-  },
-];
 
 export const CraftingMenu: React.FC = () => {
   const [amount, setAmount] = React.useState(1);
@@ -104,26 +54,28 @@ export const CraftingMenu: React.FC = () => {
           <span>Inventory</span>
         </div>
         <div id="inventory">
-          <Box count={2}>
+          <Box count={2} disabled>
             <img src={stone} className="box-item" />
           </Box>
-          <Box count={1}>
+          <Box count={1} disabled>
             <img src={wood} className="box-item" />
           </Box>
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
+          <Box disabled />
+          <Box disabled />
+          <Box disabled />
+          <Box disabled />
+          <Box disabled />
+          <Box disabled />
+          <Box disabled />
+          <Box disabled />
         </div>
       </div>
       <div id="recipe">
         <span id="recipe-type">{selectedRecipe.type}</span>
         <span id="recipe-title">{selectedRecipe.name}</span>
-        <img src={selectedRecipe.image} id="crafting-item" />
+        <div id="crafting-item">
+          <img src={selectedRecipe.image} />
+        </div>
         <span id="recipe-description">{selectedRecipe.description}</span>
 
         <div id="ingredients">

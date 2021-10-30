@@ -8,6 +8,7 @@ import topLeft from "../../images/ui/panel/dt_box_9slice_tl.png";
 import bottomLeft from "../../images/ui/panel/dt_box_9slice_bl.png";
 import topRight from "../../images/ui/panel/dt_box_9slice_tr.png";
 import bottomRight from "../../images/ui/panel/dt_box_9slice_br.png";
+import selectBox from "../../images/ui/select-box/select_box.png";
 
 import leftEdgeInner from "../../images/ui/panel/lt_box_9slice_lc.png";
 import rightEdgeInner from "../../images/ui/panel/lt_box_9slice_rc.png";
@@ -24,6 +25,7 @@ interface Props {
   isSelected?: boolean;
   count?: number;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export const Box: React.FC<Props> = ({
@@ -31,13 +33,19 @@ export const Box: React.FC<Props> = ({
   isSelected,
   count,
   onClick,
+  disabled,
 }) => {
   return (
     <div className={`box-panel`} onClick={onClick}>
       {
-        <div className={`box-pixel-panel ${isSelected && "box-active"}`}>
+        <div
+          className={`box-pixel-panel ${isSelected && "box-active"} ${
+            disabled && "box-disabled"
+          }`}
+        >
           {count && <span className={`box-count`}>{count}</span>}
           {children}
+          {isSelected && <img className="select-box" src={selectBox} />}
           <img id="panel-left-edge" src={leftEdgeInner} />
           <img id="panel-right-edge" src={rightEdgeInner} />
           <img id="panel-bottom-edge" src={bottomEdgeInner} />

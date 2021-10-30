@@ -16,7 +16,12 @@
 }
 
 .box-active {
-  background: #fff !important;
+  background: #c28569 !important;
+}
+
+.box-disabled {
+  background: #945542 !important;
+  cursor: default;
 }
 
 .box-pixel-panel {
@@ -44,13 +49,19 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   background: #9f6c54;
   padding: 7px;
   padding-top: 14px;
+  min-height: 300px;
 }
 
 #crafting-item {
+  height: 120px;
+  display: flex;
+}
+
+#crafting-item > img {
   width: 50%;
   image-rendering: pixelated;
   margin: auto;
@@ -62,6 +73,7 @@
   color: white;
   text-shadow: 1px 1px black;
   text-align: center;
+  padding-bottom: 4px;
 }
 
 #recipe-description {
