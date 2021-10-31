@@ -4,6 +4,8 @@ import Token from "../abis/Token.json";
 import Farm from "../abis/Farm.json";
 import Axe from "../abis/Axe.json";
 import Wood from "../abis/Wood.json";
+import Pickaxe from "../abis/Pickaxe.json";
+import Stone from "../abis/Stone.json";
 
 import {
   Transaction,
@@ -26,6 +28,8 @@ export class BlockChain {
   private token: any | null = null;
   private axe: any | null = null;
   private wood: any | null = null;
+  private stone: any | null = null;
+  private pickaxe: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
   private alchemyFarm: any | null = null;
@@ -81,6 +85,14 @@ export class BlockChain {
       this.wood = new this.alchemyWeb3.eth.Contract(
         Wood as any,
         "0xb655186C7dbA1A2EFCd9949Bbfb95A49E6aF9407"
+      );
+      this.stone = new this.alchemyWeb3.eth.Contract(
+        Stone as any,
+        "0x2B17CD53EaeaDcb4377e3a99BE478669e49f5F19"
+      );
+      this.pickaxe = new this.alchemyWeb3.eth.Contract(
+        Wood as any,
+        "0x7d55828BbA54feA2fcd8d9E4D9330c8CBb5Fa079"
       );
     } catch (e) {
       // Timeout, retry
@@ -550,12 +562,20 @@ export class BlockChain {
       .balanceOf(this.account)
       .call({ from: this.account });
 
+    const stone = await this.stone.methods
+      .balanceOf(this.account)
+      .call({ from: this.account });
+
+    const pickaxe = await this.pickaxe.methods
+      .balanceOf(this.account)
+      .call({ from: this.account });
+
     console.log({ axe });
     console.log({ wood });
     return {
       axe,
-      pickaxe: 0,
-      stone: 3,
+      pickaxe,
+      stone,
       wood,
     };
   }

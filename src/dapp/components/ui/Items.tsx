@@ -83,7 +83,7 @@ export const Items: React.FC<Props> = ({
   if (inventory.pickaxe > 0) {
     const item = items.find((recipe) => recipe.name === "Pickaxe");
     boxes.push({
-      count: inventory.axe,
+      count: inventory.pickaxe,
       onClick: () => onSelectItem(item),
       isSelected: selectedItem.name === "Pickaxe",
       image: item.image,

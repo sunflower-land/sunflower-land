@@ -42,16 +42,16 @@ export const recipes: Recipe[] = [
     description: "Used for mining and collecting stone",
     image: pickaxe,
     type: "ERC20",
-    address: "TODO",
+    address: "0x7d55828BbA54feA2fcd8d9E4D9330c8CBb5Fa079",
     ingredients: [
       {
         name: "Wood",
-        amount: 5,
+        amount: 2,
         image: wood,
       },
       {
         name: "$SFF",
-        amount: 5,
+        amount: 10,
         image: coin,
       },
     ],
@@ -65,7 +65,7 @@ export const items: Item[] = [
     description: "A natural resource in Sunflower Land used for crafting",
     image: stone,
     type: "ERC20",
-    address: "TODO",
+    address: "0x2B17CD53EaeaDcb4377e3a99BE478669e49f5F19",
   },
   {
     name: "Wood",
