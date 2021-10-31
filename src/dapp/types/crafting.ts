@@ -1,6 +1,7 @@
 import pickaxe from "../images/ui/pickaxe.png";
 import axe from "../images/ui/axe.png";
 import wood from "../images/ui/wood.png";
+import stone from "../images/ui/rock.png";
 import coin from "../images/ui/sunflower_coin.png";
 
 export interface Ingredient {
@@ -9,13 +10,16 @@ export interface Ingredient {
   amount: number;
 }
 
-export interface Recipe {
-  name: string;
+export interface Recipe extends Item {
+  ingredients: Ingredient[];
+}
+
+export interface Item {
+  name: "Axe" | "Pickaxe" | "Stone" | "Wood";
   description: string;
   address: string;
   image: any;
   type: "ERC20" | "NFT";
-  ingredients: Ingredient[];
 }
 
 export const recipes: Recipe[] = [
@@ -51,5 +55,23 @@ export const recipes: Recipe[] = [
         image: coin,
       },
     ],
+  },
+];
+
+export const items: Item[] = [
+  ...recipes,
+  {
+    name: "Stone",
+    description: "A natural resource in Sunflower Land used for crafting",
+    image: stone,
+    type: "ERC20",
+    address: "TODO",
+  },
+  {
+    name: "Wood",
+    description: "A bountiful resource in Sunflower Land used for crafting",
+    image: wood,
+    type: "ERC20",
+    address: "TODO",
   },
 ];

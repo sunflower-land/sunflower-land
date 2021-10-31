@@ -1,4 +1,12 @@
 import React from "react";
+import { useService } from "@xstate/react";
+
+import {
+  BlockchainEvent,
+  BlockchainState,
+  Context,
+  service,
+} from "../../machine";
 
 import wood from "../../images/ui/wood.png";
 import stone from "../../images/ui/rock.png";
@@ -26,6 +34,20 @@ export const Tools: React.FC<Props> = ({
   land,
   fruits,
 }) => {
+  const [machineState, send] = useService<
+    Context,
+    BlockchainEvent,
+    BlockchainState
+  >(service);
+
+  React.useEffect(() => {
+    const load = async () => {
+      const amount = await machineState.context.blockChain.getInventory();
+    };
+
+    load();
+  }, []);
+
   return (
     <div id="crafting">
       <div id="crafting-left">

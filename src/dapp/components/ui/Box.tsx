@@ -21,11 +21,12 @@ import bottomRightInner from "../../images/ui/panel/lt_box_9slice_br.png";
 
 import "./Panel.css";
 
-interface Props {
+export interface Props {
   isSelected?: boolean;
   count?: number;
   onClick?: () => void;
   disabled?: boolean;
+  image?: string;
 }
 
 export const Box: React.FC<Props> = ({
@@ -34,6 +35,7 @@ export const Box: React.FC<Props> = ({
   count,
   onClick,
   disabled,
+  image,
 }) => {
   return (
     <div className={`box-panel`} onClick={onClick}>
@@ -45,6 +47,7 @@ export const Box: React.FC<Props> = ({
         >
           {count && <span className={`box-count`}>{count}</span>}
           {children}
+          {image && <img src={image} className="box-item" />}
           {isSelected && <img className="select-box" src={selectBox} />}
           <img id="panel-left-edge" src={leftEdgeInner} />
           <img id="panel-right-edge" src={rightEdgeInner} />

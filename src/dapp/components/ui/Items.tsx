@@ -5,15 +5,22 @@ import stone from "../../images/ui/rock.png";
 
 import { FruitItem } from "../../types/fruits";
 
-import { Box } from "./Box";
+import { Box, Props as BoxProps } from "./Box";
 
-import { Recipe } from "../../types/crafting";
+import { Item, items, Recipe, recipes } from "../../types/crafting";
 
 import "./Inventory.css";
+import {
+  BlockchainEvent,
+  BlockchainState,
+  Context,
+  service,
+} from "../../machine";
+import { useService } from "@xstate/react";
 
 interface Props {
-  selectedItem: Recipe;
-  onSelectItem: (item: Recipe) => void;
+  selectedItem: Item;
+  onSelectItem: (item: Item) => void;
   balance: number;
   land: any[];
   fruits: FruitItem[];
@@ -26,24 +33,94 @@ export const Items: React.FC<Props> = ({
   land,
   fruits,
 }) => {
+  const [machineState, send] = useService<
+    Context,
+    BlockchainEvent,
+    BlockchainState
+  >(service);
+  const [inventory, setInventory] = React.useState({
+    axe: 0,
+    pickaxe: 0,
+    wood: 0,
+    stone: 0,
+  });
+  const [isLoading, setIsLoading] = React.useState(true);
+  React.useEffect(() => {
+    const load = async () => {
+      const amount = await machineState.context.blockChain.getInventory();
+      setInventory(amount);
+      setIsLoading(false);
+    };
+
+    load();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div id="crafting">
+        <div id="crafting-left">
+          <div id="inventory-loading">Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
+  const boxes: BoxProps[] = [];
+
+  if (inventory.axe > 0) {
+    const item = items.find((recipe) => recipe.name === "Axe");
+    boxes.push({
+      count: inventory.axe,
+      onClick: () => onSelectItem(item),
+      isSelected: selectedItem.name === "Axe",
+      image: item.image,
+    });
+  }
+
+  if (inventory.pickaxe > 0) {
+    const item = items.find((recipe) => recipe.name === "Pickaxe");
+    boxes.push({
+      count: inventory.axe,
+      onClick: () => onSelectItem(item),
+      isSelected: selectedItem.name === "Pickaxe",
+      image: item.image,
+    });
+  }
+
+  if (inventory.stone > 0) {
+    const item = items.find((recipe) => recipe.name === "Stone");
+    boxes.push({
+      count: inventory.stone,
+      onClick: () => onSelectItem(item),
+      isSelected: selectedItem.name === "Stone",
+      image: item.image,
+    });
+  }
+
+  if (inventory.wood > 0) {
+    const item = items.find((recipe) => recipe.name === "Wood");
+    boxes.push({
+      count: inventory.wood,
+      onClick: () => onSelectItem(item),
+      isSelected: selectedItem.name === "Wood",
+      image: item.image,
+    });
+  }
+
+  boxes.push({});
+
   return (
     <div id="crafting">
       <div id="crafting-left">
         <div id="inventory">
-          <Box count={2}>
-            <img src={stone} className="box-item" />
-          </Box>
-          <Box count={1}>
-            <img src={wood} className="box-item" />
-          </Box>
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
+          {boxes.map((box) => (
+            <Box
+              count={box.count}
+              onClick={box.onClick}
+              image={box.image}
+              isSelected={box.isSelected}
+            />
+          ))}
         </div>
       </div>
       <div id="recipe">

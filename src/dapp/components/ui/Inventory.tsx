@@ -16,12 +16,11 @@ import { Fruit } from "../../types/contract";
 
 import { Plants } from "./Plants";
 import { Items } from "./Items";
-import { Tools } from "./Tools";
 
 import "./Inventory.css";
-import { Recipe, recipes } from "../../types/crafting";
+import { Item, items, Recipe, recipes } from "../../types/crafting";
 
-type Tab = "Plants" | "Items" | "Tools";
+type Tab = "Plants" | "Items";
 
 interface Props {
   selectedFruit: Fruit;
@@ -42,7 +41,7 @@ export const Inventory: React.FC<Props> = ({
 }) => {
   const [tab, setTab] = React.useState<Tab>("Plants");
 
-  const [item, setItem] = React.useState<Recipe>(recipes[0]);
+  const [item, setItem] = React.useState<Item>(items[0]);
 
   return (
     <div>
@@ -64,22 +63,7 @@ export const Inventory: React.FC<Props> = ({
             </>
           )}
         </div>
-        <div
-          className={`inventory-tab ${tab === "Tools" && "active-tab"}`}
-          onClick={() => setTab("Tools")}
-        >
-          <img src={hammer} alt="basket" className="tab-icon" />
-          <span>Tools</span>
-          {tab === "Tools" && (
-            <>
-              <img id="panel-left-edge" src={leftEdgeInner} />
-              <img id="panel-right-edge" src={rightEdgeInner} />
-              <img id="panel-top-edge" src={topEdgeInner} />
-              <img id="panel-top-left" src={topLeftInner} />
-              <img id="panel-top-right" src={topRightInner} />
-            </>
-          )}
-        </div>
+
         <div
           className={`inventory-tab ${tab === "Items" && "active-tab"}`}
           onClick={() => setTab("Items")}
@@ -108,15 +92,6 @@ export const Inventory: React.FC<Props> = ({
       )}
       {tab === "Items" && (
         <Items
-          selectedItem={item}
-          onSelectItem={setItem}
-          fruits={fruits}
-          land={land}
-          balance={balance}
-        />
-      )}
-      {tab === "Tools" && (
-        <Tools
           selectedItem={item}
           onSelectItem={setItem}
           fruits={fruits}

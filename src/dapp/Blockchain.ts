@@ -2,6 +2,7 @@ import Web3 from "web3";
 
 import Token from "../abis/Token.json";
 import Farm from "../abis/Farm.json";
+import Axe from "../abis/Axe.json";
 
 import {
   Transaction,
@@ -22,6 +23,7 @@ export class BlockChain {
   private web3: Web3 | null = null;
   private alchemyWeb3: Web3 | null = null;
   private token: any | null = null;
+  private axe: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
   private alchemyFarm: any | null = null;
@@ -69,6 +71,10 @@ export class BlockChain {
       this.alchemyFarm = new this.alchemyWeb3.eth.Contract(
         Farm as any,
         "0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0"
+      );
+      this.axe = new this.alchemyWeb3.eth.Contract(
+        Axe as any,
+        "0xf7B363F60f4Fed06049F6B469e6506a231AB274A"
       );
     } catch (e) {
       // Timeout, retry
@@ -481,5 +487,19 @@ export class BlockChain {
     });
 
     await this.loadFarm();
+  }
+
+  public async getInventory() {
+    const axe = await this.axe.methods
+      .balanceOf(this.account)
+      .call({ from: this.account });
+
+    console.log({ axe });
+    return {
+      axe,
+      pickaxe: 0,
+      stone: 3,
+      wood: 5,
+    };
   }
 }
