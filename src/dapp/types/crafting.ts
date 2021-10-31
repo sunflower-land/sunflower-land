@@ -12,6 +12,7 @@ export interface Ingredient {
 export interface Recipe {
   name: string;
   description: string;
+  address: string;
   image: any;
   type: "ERC20" | "NFT";
   ingredients: Ingredient[];
@@ -23,10 +24,11 @@ export const recipes: Recipe[] = [
     description: "Used for cutting and collecting wood",
     image: axe,
     type: "ERC20",
+    address: "0xf7B363F60f4Fed06049F6B469e6506a231AB274A",
     ingredients: [
       {
         name: "$SFF",
-        amount: 10,
+        amount: 5,
         image: coin,
       },
     ],
@@ -36,6 +38,7 @@ export const recipes: Recipe[] = [
     description: "Used for mining and collecting stone",
     image: pickaxe,
     type: "ERC20",
+    address: "TODO",
     ingredients: [
       {
         name: "Wood",

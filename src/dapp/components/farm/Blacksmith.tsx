@@ -16,7 +16,7 @@ export const Blacksmith: React.FC = () => {
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
-          <CraftingMenu />
+          <CraftingMenu onClose={() => setShowModal(false)} />
         </Panel>
       </Modal>
       <div

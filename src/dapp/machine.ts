@@ -1,332 +1,385 @@
-import { createMachine, Interpreter, EventObject, interpret, assign } from 'xstate';
-import { Charity } from './types/contract'
-import { BlockChain } from './Blockchain';
+import {
+  createMachine,
+  Interpreter,
+  EventObject,
+  interpret,
+  assign,
+} from "xstate";
+import { Charity } from "./types/contract";
+import { BlockChain } from "./Blockchain";
+import { Recipe } from "./types/crafting";
 
 export interface Context {
-    blockChain: BlockChain
-    errorCode?: 'NO_WEB3' | 'WRONG_CHAIN'
+  blockChain: BlockChain;
+  errorCode?: "NO_WEB3" | "WRONG_CHAIN";
 }
 
-const hasFarm = (
-    { blockChain }: Context,
-) => {
-    return blockChain.isTrial ||  blockChain.hasFarm
+const hasFarm = ({ blockChain }: Context) => {
+  return blockChain.isTrial || blockChain.hasFarm;
 };
 
-const MOBILE_DEVICES = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+const MOBILE_DEVICES =
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 
 const isMobile = () => {
-    return MOBILE_DEVICES.test(navigator.userAgent)
+  return MOBILE_DEVICES.test(navigator.userAgent);
 };
 
 export interface FarmCreatedEvent extends EventObject {
-    type: 'FARM_CREATED';
+  type: "FARM_CREATED";
 }
 
 export interface NetworkChangedEvent extends EventObject {
-    type: 'NETWORK_CHANGED';
+  type: "NETWORK_CHANGED";
 }
 
 export interface GetStartedEvent extends EventObject {
-    type: 'GET_STARTED';
+  type: "GET_STARTED";
 }
 
 export interface SaveEvent extends EventObject {
-    type: 'SAVE';
+  type: "SAVE";
 }
 
 export interface TrialEvent extends EventObject {
-    type: 'TRIAL';
+  type: "TRIAL";
 }
 export interface TimerCompleteEvent extends EventObject {
-    type: 'TIMER_COMPLETE';
+  type: "TIMER_COMPLETE";
 }
 
-
 export interface DonateEvent extends EventObject {
-    type: 'DONATE';
-    donation: {
-        charity: Charity
-        value: string
-    }
+  type: "DONATE";
+  donation: {
+    charity: Charity;
+    value: string;
+  };
 }
 
 export interface UpgradeEvent extends EventObject {
-    type: 'UPGRADE';
+  type: "UPGRADE";
 }
 
 export interface FinishEvent extends EventObject {
-    type: 'FINISH';
+  type: "FINISH";
 }
 
 export interface CloseOnboardingEvent extends EventObject {
-    type: 'CLOSE';
+  type: "CLOSE";
 }
 
 export interface NextOnboardingEvent extends EventObject {
-    type: 'NEXT';
+  type: "NEXT";
 }
 
 export interface HarvestedOnboardingEvent extends EventObject {
-    type: 'HARVEST';
+  type: "HARVEST";
 }
 
 export interface PlantedOnboardingEvent extends EventObject {
-    type: 'PLANT';
+  type: "PLANT";
 }
 
+export interface CraftEvent extends EventObject {
+  type: "CRAFT";
+  recipe: Recipe;
+  amount: number;
+}
 
-type OnboardingEvent = CloseOnboardingEvent | NextOnboardingEvent | HarvestedOnboardingEvent | PlantedOnboardingEvent
+type OnboardingEvent =
+  | CloseOnboardingEvent
+  | NextOnboardingEvent
+  | HarvestedOnboardingEvent
+  | PlantedOnboardingEvent;
 
 export type BlockchainEvent =
-    | FarmCreatedEvent
-    | NetworkChangedEvent
-    | GetStartedEvent
-    | SaveEvent
-    | UpgradeEvent
-    | DonateEvent
-    | TrialEvent
-    | TimerCompleteEvent
-    | FinishEvent
-    | CloseOnboardingEvent
-    | OnboardingEvent
-    | {
-        type: 'ACCOUNT_CHANGED'
+  | FarmCreatedEvent
+  | NetworkChangedEvent
+  | GetStartedEvent
+  | SaveEvent
+  | UpgradeEvent
+  | DonateEvent
+  | TrialEvent
+  | TimerCompleteEvent
+  | FinishEvent
+  | CloseOnboardingEvent
+  | OnboardingEvent
+  | CraftEvent
+  | {
+      type: "ACCOUNT_CHANGED";
     }
-    | {
-        type: 'OPEN_REWARD'
-    }
+  | {
+      type: "OPEN_REWARD";
+    };
 
-
-export type OnboardingStates = 'harvesting' | 'token' | 'planting' | 'saving' | 'market'
+export type OnboardingStates =
+  | "harvesting"
+  | "token"
+  | "planting"
+  | "saving"
+  | "market";
 
 export type BlockchainState = {
-    value:
-        'loading'
-        | 'initial'
-        | 'registering'
-        | 'creating'
-        | 'onboarding'
-        | 'farming'
-        | 'failure'
-        | 'upgrading'
-        | 'rewarding'
-        | 'saving'
-        | 'timerComplete'
-        | 'unsupported'
-        | 'saveFailure'
-        | OnboardingStates
-    context: Context;
+  value:
+    | "loading"
+    | "initial"
+    | "registering"
+    | "creating"
+    | "onboarding"
+    | "farming"
+    | "failure"
+    | "upgrading"
+    | "rewarding"
+    | "saving"
+    | "crafting"
+    | "timerComplete"
+    | "unsupported"
+    | "saveFailure"
+    | OnboardingStates;
+  context: Context;
 };
 
 export type BlockchainInterpreter = Interpreter<
-        Context,
-        any,
-        BlockchainEvent,
-        BlockchainState
-    >
+  Context,
+  any,
+  BlockchainEvent,
+  BlockchainState
+>;
 export const blockChainMachine = createMachine<
-    Context,
-    BlockchainEvent,
-    BlockchainState
+  Context,
+  BlockchainEvent,
+  BlockchainState
 >({
-    id: 'farmMachine',
-    initial: 'initial',
-    context: {
-        blockChain: new BlockChain(),
-        errorCode: null,
+  id: "farmMachine",
+  initial: "initial",
+  context: {
+    blockChain: new BlockChain(),
+    errorCode: null,
+  },
+  states: {
+    initial: {
+      on: {
+        GET_STARTED: [
+          {
+            target: "unsupported",
+            cond: isMobile,
+          },
+          {
+            target: "loading",
+          },
+        ],
+      },
     },
-    states: {
-        initial: {
-            on: {
-                GET_STARTED: [{
-                    target: 'unsupported',
-                    cond: isMobile,
-                }, {
-                    target: 'loading',
-                }]
-            }
+    loading: {
+      invoke: {
+        src: ({ blockChain }) => blockChain.initialise(),
+        onDone: [
+          {
+            target: "farming",
+            cond: hasFarm,
+          },
+          {
+            target: "registering",
+          },
+        ],
+        onError: {
+          target: "failure",
+          actions: assign({
+            errorCode: (context, event) => event.data.message,
+          }),
         },
-        loading: {
-            invoke: {
-                src: ({ blockChain }) => blockChain.initialise(),
-                onDone: [
-                    {
-                        target: 'farming',
-                        cond: hasFarm,
-                    },
-                    {
-                        target: 'registering'
-                    }
-                ],
-                onError: {
-                    target: 'failure',
-                    actions:  assign({
-                        errorCode: (context, event) => event.data.message,
-                    }),
-                },
-            },
+      },
+    },
+    registering: {
+      on: {
+        DONATE: {
+          target: "creating",
         },
-        registering: {
-            on: {
-                DONATE: {
-                    target: 'creating',
-                },
-            }
+      },
+    },
+    creating: {
+      invoke: {
+        src: ({ blockChain }, event) =>
+          blockChain.createFarm((event as DonateEvent).donation),
+        onDone: {
+          target: "onboarding",
         },
-        creating: {
-            invoke: {
-                src: ({ blockChain }, event) => blockChain.createFarm((event as DonateEvent).donation),
-                onDone: {
-                    target: 'onboarding',
-                },
-                onError: {
-                    target: 'registering',
-                    actions:  assign({
-                        errorCode: (context, event) => event.data.message,
-                    }),
-                },
-            },
+        onError: {
+          target: "registering",
+          actions: assign({
+            errorCode: (context, event) => event.data.message,
+          }),
         },
-        onboarding: {
-            on: {
-                FINISH: {
-                    target: 'farming'
-                },
-                CLOSE: {
-                    target: 'farming',
-                }
-            },
-            initial: 'harvesting',
-            states: {
-              harvesting: {
-                on: {
-                    HARVEST: { target: 'token' }
-                }
-              },
-              token: {
-                on: {
-                    NEXT: { target: 'planting' }
-                }
-              },
-              planting: {
-                on: {
-                    PLANT: { target: 'saving' }
-                }
-              },
-              saving: {
-                  on: {
-                    NEXT: { target: 'market' }
-                  }
-              },
-              market: {},
-            }
+      },
+    },
+    onboarding: {
+      on: {
+        FINISH: {
+          target: "farming",
         },
-        farming: {
-            on: {
-                SAVE: {
-                    target: 'saving',
-                },
-                UPGRADE: {
-                    target: 'upgrading'
-                },
-                OPEN_REWARD: {
-                    target: 'rewarding'
-                },
-                TIMER_COMPLETE: {
-                    target: 'timerComplete'
-                },
-                ACCOUNT_CHANGED: {
-                    target: 'loading',
-                    actions: (context) => context.blockChain.resetFarm()
-                }
-            }
+        CLOSE: {
+          target: "farming",
+        },
+      },
+      initial: "harvesting",
+      states: {
+        harvesting: {
+          on: {
+            HARVEST: { target: "token" },
+          },
+        },
+        token: {
+          on: {
+            NEXT: { target: "planting" },
+          },
+        },
+        planting: {
+          on: {
+            PLANT: { target: "saving" },
+          },
         },
         saving: {
-            invoke: {
-                id: 'save',
-                src: async ({ blockChain }, event) => blockChain.save(),
-                onDone: {
-                    target: 'farming',
-                    // actions - assign() data?
-                },
-                onError: {
-                    target: 'saveFailure',
-                    actions:  assign({
-                        errorCode: (context, event) => event.data.message,
-                    }),
-                }
-            }
+          on: {
+            NEXT: { target: "market" },
+          },
         },
-        upgrading: {
-            invoke: {
-                id: 'upgrading',
-                src: async ({ blockChain }) => {
-                    await blockChain.levelUp()
-                },
-                onDone: {
-                    target: 'farming',
-                },
-                onError: {
-                    target: 'failure',
-                    actions:  assign({
-                        errorCode: (context, event) => event.data.message,
-                    }),
-                }
-            }
+        market: {},
+      },
+    },
+    farming: {
+      on: {
+        SAVE: {
+          target: "saving",
         },
-        rewarding: {
-            invoke: {
-                id: 'rewarding',
-                src: async ({ blockChain }, event) => blockChain.receiveReward(),
-                onDone: {
-                    target: 'farming',
-                    // actions - assign() data?
-                },
-                onError: {
-                    target: 'failure',
-                    actions:  assign({
-                        errorCode: (context, event) => event.data.message,
-                    }),
-                }
-            }
+        UPGRADE: {
+          target: "upgrading",
         },
-        failure: {
-            on: {
-                NETWORK_CHANGED: {
-                    target: 'loading',
-                    actions: (context) => { context.blockChain.endTrialMode() }
-                },
-                TRIAL: {
-                    target: 'onboarding',
-                    actions: (context) => { context.blockChain.startTrialMode() }
-                }
-            }
+        OPEN_REWARD: {
+          target: "rewarding",
         },
-        saveFailure: {
-            on: {
-                SAVE: {
-                    target: 'saving',
-                    actions: (context) => { context.blockChain.offsetTime() }
-                },
-            }
+        CRAFT: {
+          target: "crafting",
         },
-        timerComplete: {
-            on: {
-                SAVE: {
-                    target: 'saving',
-                    actions: (context) => { context.blockChain.offsetTime() }
-                },
-            }
+        TIMER_COMPLETE: {
+          target: "timerComplete",
         },
-        unsupported: {},
-    }
-  });
+        ACCOUNT_CHANGED: {
+          target: "loading",
+          actions: (context) => context.blockChain.resetFarm(),
+        },
+      },
+    },
+    saving: {
+      invoke: {
+        id: "save",
+        src: async ({ blockChain }, event) => blockChain.save(),
+        onDone: {
+          target: "farming",
+          // actions - assign() data?
+        },
+        onError: {
+          target: "saveFailure",
+          actions: assign({
+            errorCode: (context, event) => event.data.message,
+          }),
+        },
+      },
+    },
+    upgrading: {
+      invoke: {
+        id: "upgrading",
+        src: async ({ blockChain }) => {
+          await blockChain.levelUp();
+        },
+        onDone: {
+          target: "farming",
+        },
+        onError: {
+          target: "failure",
+          actions: assign({
+            errorCode: (context, event) => event.data.message,
+          }),
+        },
+      },
+    },
+    rewarding: {
+      invoke: {
+        id: "rewarding",
+        src: async ({ blockChain }, event) => blockChain.receiveReward(),
+        onDone: {
+          target: "farming",
+          // actions - assign() data?
+        },
+        onError: {
+          target: "failure",
+          actions: assign({
+            errorCode: (context, event) => event.data.message,
+          }),
+        },
+      },
+    },
+    crafting: {
+      invoke: {
+        id: "crafting",
+        src: async ({ blockChain }, event) =>
+          blockChain.craft(event as CraftEvent),
+        onDone: {
+          target: "farming",
+          // actions - assign() data?
+        },
+        onError: {
+          target: "failure",
+          actions: assign({
+            errorCode: (context, event) => event.data.message,
+          }),
+        },
+      },
+    },
+    failure: {
+      on: {
+        NETWORK_CHANGED: {
+          target: "loading",
+          actions: (context) => {
+            context.blockChain.endTrialMode();
+          },
+        },
+        TRIAL: {
+          target: "onboarding",
+          actions: (context) => {
+            context.blockChain.startTrialMode();
+          },
+        },
+      },
+    },
+    saveFailure: {
+      on: {
+        SAVE: {
+          target: "saving",
+          actions: (context) => {
+            context.blockChain.offsetTime();
+          },
+        },
+      },
+    },
+    timerComplete: {
+      on: {
+        SAVE: {
+          target: "saving",
+          actions: (context) => {
+            context.blockChain.offsetTime();
+          },
+        },
+      },
+    },
+    unsupported: {},
+  },
+});
 
-export const service = interpret<Context,
-    any,
-    BlockchainEvent,
-    BlockchainState
->(blockChainMachine)
+export const service = interpret<
+  Context,
+  any,
+  BlockchainEvent,
+  BlockchainState
+>(blockChainMachine);
 
-service.start()
+service.start();

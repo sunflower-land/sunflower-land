@@ -19,10 +19,9 @@ import {
 } from "./components/modals";
 
 import Farm from "./components/farm/Farm";
-import { CraftingMenu } from "./components/ui/CraftingMenu";
-import { Panel } from "./components/ui/Panel";
 
 import "./App.css";
+import { Crafting } from "./components/modals/Crafting";
 
 export const App: React.FC = () => {
   const [machineState, send] = useService<
@@ -87,6 +86,10 @@ export const App: React.FC = () => {
         }
       >
         <Saving />
+      </Modal>
+
+      <Modal centered show={machineState.matches("crafting")}>
+        <Crafting />
       </Modal>
 
       <Modal centered show={machineState.matches("timerComplete")}>

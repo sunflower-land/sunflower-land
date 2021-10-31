@@ -13,17 +13,29 @@ import wood from "../../images/ui/wood.png";
 import stone from "../../images/ui/rock.png";
 
 import { recipes, Recipe } from "../../types/crafting";
+import { service } from "../../machine";
 import { Box } from "./Box";
 
 import "./Crafting.css";
 
-export const CraftingMenu: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+export const CraftingMenu: React.FC<Props> = ({ onClose }) => {
   const [amount, setAmount] = React.useState(1);
   const [selectedRecipe, setSelectedRecipe] = React.useState(recipes[0]);
 
   const changeRecipe = (recipe: Recipe) => {
     setAmount(1);
     setSelectedRecipe(recipe);
+  };
+
+  const craft = () => {
+    service.send("CRAFT", {
+      recipe: selectedRecipe,
+      amount,
+    });
+    onClose();
   };
 
   return (
@@ -109,7 +121,7 @@ export const CraftingMenu: React.FC = () => {
               />
             </div>
           </div>
-          <Button>
+          <Button onClick={craft}>
             <span id="craft-button-text">Craft</span>
           </Button>
         </div>

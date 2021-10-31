@@ -1,54 +1,64 @@
-
-#saving, #error {
-    color: white;
-    text-shadow: 1px 1px black;
-    text-align: center;
-    line-height: 20px;
-    padding: 10px;
+#saving,
+#error {
+  color: white;
+  text-shadow: 1px 1px black;
+  text-align: center;
+  line-height: 20px;
+  padding: 10px;
 }
 
 #saving > h6 {
-    padding-top: 16px;
+  padding-top: 16px;
 }
 
 #saving > span {
-    font-size: 10px;
+  font-size: 10px;
 }
 
 #mining-animation {
-    position: relative;
-    height: 100px;
+  position: relative;
+  height: 100px;
 }
 
 #mining-gif {
-    width: 205px;
-    position: absolute;
-    image-rendering: pixelated;
-    left: 50%;
-    margin-left: -112px;
-    z-index: 1;
+  width: 205px;
+  position: absolute;
+  image-rendering: pixelated;
+  left: 50%;
+  margin-left: -112px;
+  z-index: 1;
+}
+
+#crafting-gif {
+  width: 250px;
+  position: absolute;
+  image-rendering: pixelated;
+  left: 50%;
+  margin-left: -142px;
+  top: -30px;
+  z-index: 1;
 }
 
 #mining-rock {
-    width: 36px;
-    image-rendering: pixelated;
-    position: absolute;
-    left: 50%;
-    bottom: -5px;
-    margin-left: 17px;
-    z-index: 0;
+  width: 36px;
+  image-rendering: pixelated;
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  margin-left: 17px;
+  z-index: 0;
 }
 
 #error > .button {
-    display: block;
-    margin-top: 36px;
+  display: block;
+  margin-top: 36px;
 }
 
 #wrong-chain > .button {
-    display: block;
-    margin-top: 10px;
+  display: block;
+  margin-top: 10px;
 }
 
 #try-it-out {
-    margin-top: 40px;
+  margin-top: 40px;
 }
