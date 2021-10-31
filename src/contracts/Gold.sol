@@ -33,16 +33,6 @@ contract Gold is ERC20, ERC20Burnable {
       return owner;
   }
 
-  function mint(address account, uint256 amount) public {
-    require(msg.sender == minter, "You are not the minter");
-	_mint(account, amount);
-	}
-
-  function burn(address account, uint256 amount) public {
-    require(msg.sender == minter, "You are not the minter");
-	_burn(account, amount);
-  }
-  
     function transferFrom(
         address sender,
         address recipient,
