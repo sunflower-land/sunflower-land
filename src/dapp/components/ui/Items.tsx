@@ -17,10 +17,11 @@ import {
   service,
 } from "../../machine";
 import { useService } from "@xstate/react";
+import { ActionableItem, isFruit } from "../../types/contract";
 
 interface Props {
-  selectedItem: Item;
-  onSelectItem: (item: Item) => void;
+  selectedItem: ActionableItem;
+  onSelectItem: (item: ActionableItem) => void;
   balance: number;
   land: any[];
   fruits: FruitItem[];
@@ -65,6 +66,8 @@ export const Items: React.FC<Props> = ({
     );
   }
 
+  const inventoryItem = !isFruit(selectedItem) && selectedItem;
+
   const boxes: BoxProps[] = [];
 
   if (inventory.axe > 0) {
@@ -107,7 +110,10 @@ export const Items: React.FC<Props> = ({
     });
   }
 
-  boxes.push({});
+  // Pad array with empty boxes
+  for (let i = boxes.length; i < 10; i++) {
+    boxes.push({});
+  }
 
   return (
     <div id="crafting">
@@ -124,13 +130,17 @@ export const Items: React.FC<Props> = ({
         </div>
       </div>
       <div id="recipe">
-        <span id="recipe-type">{selectedItem.type}</span>
-        <span id="recipe-title">{selectedItem.name}</span>
-        <div id="crafting-item">
-          <img src={selectedItem.image} />
-        </div>
+        {inventoryItem && (
+          <>
+            <span id="recipe-type">{selectedItem.type}</span>
+            <span id="recipe-title">{selectedItem.name}</span>
+            <div id="crafting-item">
+              <img src={selectedItem.image} />
+            </div>
 
-        <span id="recipe-description">{selectedItem.description}</span>
+            <span id="recipe-description">{selectedItem.description}</span>
+          </>
+        )}
       </div>
     </div>
   );

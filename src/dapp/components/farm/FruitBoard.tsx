@@ -10,7 +10,7 @@ import alert from "../../images/ui/expression_alerted.png";
 import coin from "../../images/ui/sunflower_coin.png";
 import arrow from "../../images/ui/arrow_right.png";
 
-import { Fruit } from "../../types/contract";
+import { ActionableItem, Fruit, isFruit } from "../../types/contract";
 
 import { secondsToString } from "../../utils/time";
 
@@ -22,8 +22,8 @@ import { FruitItem, getFruit } from "../../types/fruits";
 import { Inventory } from "../ui/Inventory";
 
 interface Props {
-  selectedFruit: Fruit;
-  onSelectFruit: (fruit: Fruit) => void;
+  selectedItem: ActionableItem;
+  onSelectItem: (item: ActionableItem) => void;
   balance: number;
   land: any[];
   fruits: FruitItem[];
@@ -31,15 +31,15 @@ interface Props {
 export const FruitBoard: React.FC<Props> = ({
   balance,
   land,
-  onSelectFruit,
-  selectedFruit,
+  onSelectItem,
+  selectedItem,
   fruits,
 }) => {
   const [showModal, setShowModal] = React.useState(false);
 
-  const selectFruit = (fruit: Fruit) => {
+  const selectFruit = (fruit: FruitItem) => {
     setShowModal(false);
-    onSelectFruit(fruit);
+    onSelectItem(fruit);
   };
 
   const items = [];
@@ -62,8 +62,12 @@ export const FruitBoard: React.FC<Props> = ({
     items.push(
       <div key={fruit.name} className={isLocked ? "locked item" : "item"}>
         <div
-          className={selectedFruit === fruit.fruit ? "selected icon" : "icon"}
-          onClick={!isLocked ? () => selectFruit(fruit.fruit) : undefined}
+          className={
+            isFruit(selectedItem) && selectedItem.fruit === fruit.fruit
+              ? "selected icon"
+              : "icon"
+          }
+          onClick={!isLocked ? () => selectFruit(fruit) : undefined}
         >
           <div className="image">
             <img src={fruit.image} />
@@ -124,7 +128,7 @@ export const FruitBoard: React.FC<Props> = ({
     <>
       <div id="basket" onClick={() => setShowModal(true)}>
         <img className="basket-fruit" src={disc} />
-        <img className="selected-fruit" src={getFruit(selectedFruit).image} />
+        <img className="selected-fruit" src={selectedItem.image} />
         <Message>Change</Message>
       </div>
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
@@ -133,8 +137,8 @@ export const FruitBoard: React.FC<Props> = ({
             <Inventory
               balance={balance}
               fruits={fruits}
-              selectedFruit={selectedFruit}
-              onSelectFruit={onSelectFruit}
+              selectedItem={selectedItem}
+              onSelectItem={onSelectItem}
               land={land}
               onClose={() => setShowModal(false)}
             />

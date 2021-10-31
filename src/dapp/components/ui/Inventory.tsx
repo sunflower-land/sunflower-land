@@ -12,7 +12,7 @@ import topLeftInner from "../../images/ui/panel/lt_box_9slice_tl.png";
 import topRightInner from "../../images/ui/panel/lt_box_9slice_tr.png";
 
 import { FruitItem } from "../../types/fruits";
-import { Fruit } from "../../types/contract";
+import { ActionableItem, Fruit } from "../../types/contract";
 
 import { Plants } from "./Plants";
 import { Items } from "./Items";
@@ -23,8 +23,8 @@ import { Item, items, Recipe, recipes } from "../../types/crafting";
 type Tab = "Plants" | "Items";
 
 interface Props {
-  selectedFruit: Fruit;
-  onSelectFruit: (fruit: Fruit) => void;
+  selectedItem: ActionableItem;
+  onSelectItem: (item: ActionableItem) => void;
   balance: number;
   land: any[];
   fruits: FruitItem[];
@@ -32,16 +32,14 @@ interface Props {
 }
 
 export const Inventory: React.FC<Props> = ({
-  selectedFruit,
-  onSelectFruit,
+  selectedItem,
+  onSelectItem,
   balance,
   land,
   fruits,
   onClose,
 }) => {
   const [tab, setTab] = React.useState<Tab>("Plants");
-
-  const [item, setItem] = React.useState<Item>(items[0]);
 
   return (
     <div>
@@ -83,8 +81,8 @@ export const Inventory: React.FC<Props> = ({
       </div>
       {tab === "Plants" && (
         <Plants
-          selectedFruit={selectedFruit}
-          onSelectFruit={onSelectFruit}
+          selectedItem={selectedItem}
+          onSelectItem={onSelectItem}
           fruits={fruits}
           land={land}
           balance={balance}
@@ -92,8 +90,8 @@ export const Inventory: React.FC<Props> = ({
       )}
       {tab === "Items" && (
         <Items
-          selectedItem={item}
-          onSelectItem={setItem}
+          selectedItem={selectedItem}
+          onSelectItem={onSelectItem}
           fruits={fruits}
           land={land}
           balance={balance}
