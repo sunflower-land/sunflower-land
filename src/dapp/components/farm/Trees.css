@@ -1,0 +1,16 @@
+.available-tree {
+  width: 100% !important;
+  cursor: pointer;
+}
+
+.available-tree:hover {
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
+}
+
+.wood-chopper {
+  width: 196px;
+  position: absolute;
+  left: -111px;
+  top: -11px;
+}

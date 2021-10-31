@@ -86,6 +86,12 @@ export interface CraftEvent extends EventObject {
   amount: number;
 }
 
+export interface ChopEvent extends EventObject {
+  type: "CHOP";
+  resource: string;
+  amount: number;
+}
+
 type OnboardingEvent =
   | CloseOnboardingEvent
   | NextOnboardingEvent
@@ -105,6 +111,7 @@ export type BlockchainEvent =
   | CloseOnboardingEvent
   | OnboardingEvent
   | CraftEvent
+  | ChopEvent
   | {
       type: "ACCOUNT_CHANGED";
     }
@@ -132,6 +139,7 @@ export type BlockchainState = {
     | "rewarding"
     | "saving"
     | "crafting"
+    | "chopping"
     | "timerComplete"
     | "unsupported"
     | "saveFailure"
@@ -260,6 +268,9 @@ export const blockChainMachine = createMachine<
         CRAFT: {
           target: "crafting",
         },
+        CHOP: {
+          target: "chopping",
+        },
         TIMER_COMPLETE: {
           target: "timerComplete",
         },
@@ -323,6 +334,23 @@ export const blockChainMachine = createMachine<
         id: "crafting",
         src: async ({ blockChain }, event) =>
           blockChain.craft(event as CraftEvent),
+        onDone: {
+          target: "farming",
+          // actions - assign() data?
+        },
+        onError: {
+          target: "failure",
+          actions: assign({
+            errorCode: (context, event) => event.data.message,
+          }),
+        },
+      },
+    },
+    chopping: {
+      invoke: {
+        id: "chopping",
+        src: async ({ blockChain }, event) =>
+          blockChain.stake(event as ChopEvent),
         onDone: {
           target: "farming",
           // actions - assign() data?

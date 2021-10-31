@@ -1,330 +1,325 @@
-
-
 .field {
-    flex: 1;
-    height: 100%;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    position: relative;
-    cursor: pointer;
-    z-index: 9;
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  z-index: 9;
 }
 
 .field:hover > img {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .field:hover > .plant-hint {
-    visibility: visible;
+  visibility: visible;
 }
 
 .field:hover .field-edges {
-    visibility: visible;
+  visibility: visible;
 }
 
 .field > img {
-    width: 70%;
+  width: 70%;
 }
 
 .seedling {
-    position: absolute;
-    top: 10px;
-    width: 50% !important;
+  position: absolute;
+  top: 10px;
+  width: 50% !important;
 }
 
-
 .tree {
-    width: 100% !important;
+  width: 100% !important;
 }
 
 .tree-offset {
-    width: 100% !important;
-    position: relative;
-    top: -50%;
+  width: 100% !important;
+  position: relative;
+  top: -50%;
 }
 
 .planted-soil {
-    position: absolute;
-    top: 32%;
+  position: absolute;
+  top: 32%;
 }
 
 .sunflower {
-    position: absolute;
-    top: -17%;
-    width: 55% !important;
-    z-index: 1;
+  position: absolute;
+  top: -17%;
+  width: 55% !important;
+  z-index: 1;
 }
 
 .pumpkin {
-    position: absolute;
-    top: 0%;
-    width: 55% !important;
-    z-index: 1;
+  position: absolute;
+  top: 0%;
+  width: 55% !important;
+  z-index: 1;
 }
 
 .potato {
-    position: absolute;
-    top: 5%;
-    left: 28%;
-    width: 44% !important;
-    z-index: 1;
+  position: absolute;
+  top: 5%;
+  left: 28%;
+  width: 44% !important;
+  z-index: 1;
 }
 
 .potato-seedling {
-    width: 36% !important;
-    top: 15px;
+  width: 36% !important;
+  top: 15px;
 }
 
 .cauliflower-seedling {
-    width: 38% !important;
-    top: 13px;
+  width: 38% !important;
+  top: 13px;
 }
 
 .beetroot {
-    position: absolute;
-    top: 5%;
-    width: 55% !important;
-    z-index: 1;
+  position: absolute;
+  top: 5%;
+  width: 55% !important;
+  z-index: 1;
 }
 
-
 .cauliflower {
-    position: absolute;
-    top: 13%;
-    width: 55% !important;
-    z-index: 1;
+  position: absolute;
+  top: 13%;
+  width: 55% !important;
+  z-index: 1;
 }
 
 .radish {
-    position: absolute;
-    top: 9%;
-    width: 46% !important;
-    z-index: 1;
+  position: absolute;
+  top: 9%;
+  width: 46% !important;
+  z-index: 1;
 }
 
 .parsnip {
-    position: absolute;
-    top: 0%;
-    width: 46% !important;
-    z-index: 1;
+  position: absolute;
+  top: 0%;
+  width: 46% !important;
+  z-index: 1;
 }
 
-
 .progress {
-    position: absolute;
-    bottom: 1px;
+  position: absolute;
+  bottom: 1px;
 }
 
 .harvest {
-    position: absolute;
-    top: -46%;
-    width: 143% !important;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
-    z-index: 2;
+  position: absolute;
+  top: -46%;
+  width: 143% !important;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  z-index: 2;
 }
 
 .field-edges {
-    position: absolute;
-    visibility: hidden;
-    width: 84%;
-    height: 84%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  position: absolute;
+  visibility: hidden;
+  width: 84%;
+  height: 84%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-
 .field-edges > div {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .field-edges > div > img {
-    width: 13px;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+  width: 13px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .progress-text {
-    font-size: 10px;
-    position: absolute;
-    color: white;
-    text-shadow: 2px 2px black;
-    bottom: 14px;
+  font-size: 10px;
+  position: absolute;
+  color: white;
+  text-shadow: 2px 2px black;
+  bottom: 14px;
 }
 
 #house {
-    position: relative;
-    bottom: 15px;
-    width: 100%;
-    height: 100%;
-    position: relative;
+  position: relative;
+  bottom: 15px;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 #base {
-    width: 300%;
-    position: absolute;
-    bottom: 0;
-    z-index: 1;
+  width: 300%;
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
 }
 
 #door {
-    position: absolute;
-    width: 77%;
-    bottom: 0;
-    left: 132%;
-    z-index: 2;
+  position: absolute;
+  width: 77%;
+  bottom: 0;
+  left: 132%;
+  z-index: 2;
 }
 
 #chimney {
-    position: absolute;
-    z-index: 2;
-    width: 66%;
-    top: -91%;
-    left: 5%;
+  position: absolute;
+  z-index: 2;
+  width: 66%;
+  top: -91%;
+  left: 5%;
 }
 
 #smoke {
-    position: absolute;
-    z-index: 2;
-    width: 66%;
-    top: -156%;
-    left: -9%;
+  position: absolute;
+  z-index: 2;
+  width: 66%;
+  top: -156%;
+  left: -9%;
 }
 
 #sunflower-pot {
-    position: absolute;
-    z-index: 2;
-    width: 49%;
-    bottom: -29%;
-    left: 215%;
+  position: absolute;
+  z-index: 2;
+  width: 49%;
+  bottom: -29%;
+  left: 215%;
 }
 
 #level {
-    position: absolute;
-    width: 145%;
-    bottom: 118%;
-    left: 126%;
-    z-index: 2;
+  position: absolute;
+  width: 145%;
+  bottom: 118%;
+  left: 126%;
+  z-index: 2;
 }
 
 #level2 {
-    position: absolute;
-    width: 143%;
-    bottom: 0;
-    left: 287%;
-    z-index: 0;
+  position: absolute;
+  width: 143%;
+  bottom: 0;
+  left: 287%;
+  z-index: 0;
 }
 
 #level2-roof {
-    position: absolute;
-    width: 143%;
-    bottom: 176%;
-    left: 287%;
-    z-index: 0;
+  position: absolute;
+  width: 143%;
+  bottom: 176%;
+  left: 287%;
+  z-index: 0;
 }
 
 #window {
-    width: 38%;
-    position: absolute;
-    left: 69%;
-    bottom: 18%;
-    z-index: 2;
+  width: 38%;
+  position: absolute;
+  left: 69%;
+  bottom: 18%;
+  z-index: 2;
 }
 
 #side-house {
-    width: 150%;
-    left: -129%;
-    position: absolute;
-    z-index: 0;
-    bottom: 0;
+  width: 150%;
+  left: -129%;
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
 }
 
 #side-house2 {
-    width: 130%;
-    left: 288%;
-    position: absolute;
-    z-index: 0;
-    bottom: 0;
+  width: 130%;
+  left: 288%;
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
 }
 
 .harvest {
-    position: absolute;
-    top: 16px;
-    left: -4px;
-    display: flex;
-    align-items: center;
-    transition: opacity 0.3s;
-    -webkit-transition: opacity 0.3s;
-    pointer-events: none;
-    z-index: 99;
+  position: absolute;
+  top: 16px;
+  left: -4px;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.3s;
+  -webkit-transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 99;
 }
 
 .harvest-amount {
-    color: white;
-    text-shadow: 1px 1px black;
-    font-size: 13px;
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 13px;
 }
 
 .harvest-coin {
-    width: 22px;
-    margin-left: 4px;
-    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white) drop-shadow(0px -1px 0px white);
+  width: 22px;
+  margin-left: 4px;
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
 }
 
 .plant-hint {
-    position: absolute;
-    width: 30% !important;
-    opacity: 0.8;
-    visibility: hidden;
-    z-index: 2;
+  position: absolute;
+  width: 30% !important;
+  opacity: 0.8;
+  visibility: hidden;
+  z-index: 2;
 }
 
 .field-no-funds {
-    position: absolute;
-    transition: opacity 0.3s;
-    opacity: 1;
-    color: white;
-    font-size: 10px;
-    display: flex;
-    text-shadow: 1px 1px black;
-    text-align: center;
-    z-index: 9;
-    pointer-events: none;
+  position: absolute;
+  transition: opacity 0.3s;
+  opacity: 1;
+  color: white;
+  font-size: 10px;
+  display: flex;
+  text-shadow: 1px 1px black;
+  text-align: center;
+  z-index: 9;
+  pointer-events: none;
 }
 
 #blacksmith {
-    width: 200%;
-    position: relative;
-    left: 50%;
-    z-index: 9;
+  width: 200%;
+  position: relative;
+  left: 50%;
+  z-index: 9;
 }
 
 #nft {
-    width: 100px;
-    image-rendering: pixelated;
-    margin-top: 25px;
+  width: 100px;
+  image-rendering: pixelated;
+  margin-top: 25px;
 }
 
 #watering {
-    position: absolute;
-    left: -113px;
-    top: -61px;
-    width: 220px;
-    z-index: 99;
-    pointer-events: none;
+  position: absolute;
+  left: -113px;
+  top: -61px;
+  width: 220px;
+  z-index: 99;
+  pointer-events: none;
 }
 
 #watering2 {
-    position: absolute;
-    left: -42px;
-    top: -61px;
-    width: 220px;
-    z-index: 99;
-    pointer-events: none;
-    transform: scaleX(-1);
+  position: absolute;
+  left: -42px;
+  top: -61px;
+  width: 220px;
+  z-index: 99;
+  pointer-events: none;
+  transform: scaleX(-1);
 }

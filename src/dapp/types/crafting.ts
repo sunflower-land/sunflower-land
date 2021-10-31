@@ -72,6 +72,6 @@ export const items: Item[] = [
     description: "A bountiful resource in Sunflower Land used for crafting",
     image: wood,
     type: "ERC20",
-    address: "TODO",
+    address: "0xb655186C7dbA1A2EFCd9949Bbfb95A49E6aF9407",
   },
 ];

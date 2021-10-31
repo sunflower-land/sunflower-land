@@ -3,6 +3,7 @@ import Web3 from "web3";
 import Token from "../abis/Token.json";
 import Farm from "../abis/Farm.json";
 import Axe from "../abis/Axe.json";
+import Wood from "../abis/Wood.json";
 
 import {
   Transaction,
@@ -24,6 +25,7 @@ export class BlockChain {
   private alchemyWeb3: Web3 | null = null;
   private token: any | null = null;
   private axe: any | null = null;
+  private wood: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
   private alchemyFarm: any | null = null;
@@ -75,6 +77,10 @@ export class BlockChain {
       this.axe = new this.alchemyWeb3.eth.Contract(
         Axe as any,
         "0xf7B363F60f4Fed06049F6B469e6506a231AB274A"
+      );
+      this.wood = new this.alchemyWeb3.eth.Contract(
+        Wood as any,
+        "0xb655186C7dbA1A2EFCd9949Bbfb95A49E6aF9407"
       );
     } catch (e) {
       // Timeout, retry
@@ -349,6 +355,51 @@ export class BlockChain {
     await this.loadFarm();
   }
 
+  /**
+   * ALWAYS ENSURE THAT A RESOURCE CONTRACT DOES NOT HAVE A PUBLIC MINT!
+   * A resource can only be gained through a "stake"
+   */
+  public async stake({
+    resource,
+    amount,
+  }: {
+    resource: string;
+    amount: number;
+  }) {
+    const blockChain = this;
+
+    if (this.isTrial) {
+      throw new Error("TRIAL_MODE");
+    }
+
+    console.log({ resource, amount });
+
+    await new Promise(async (resolve, reject) => {
+      this.farm.methods
+        .stake(resource, amount)
+        .send({ from: this.account })
+        .on("error", function (error) {
+          console.log({ error });
+          // User rejected
+          if (error.code === 4001) {
+            return resolve(null);
+          }
+
+          reject(error);
+        })
+        .on("transactionHash", function (transactionHash) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt) {
+          console.log({ receipt });
+          blockChain.events = [];
+          resolve(receipt);
+        });
+    });
+
+    await this.loadFarm();
+  }
+
   public async getMarketConversion(): Promise<number> {
     return await this.farm.methods
       .getMarketPrice(1)
@@ -489,17 +540,23 @@ export class BlockChain {
     await this.loadFarm();
   }
 
+  // TODO - Promise.all
   public async getInventory() {
     const axe = await this.axe.methods
       .balanceOf(this.account)
       .call({ from: this.account });
 
+    const wood = await this.wood.methods
+      .balanceOf(this.account)
+      .call({ from: this.account });
+
     console.log({ axe });
+    console.log({ wood });
     return {
       axe,
       pickaxe: 0,
       stone: 3,
-      wood: 5,
+      wood,
     };
   }
 }
