@@ -92,26 +92,32 @@ export const CraftingMenu: React.FC<Props> = ({ onClose }) => {
           ))}
         </div>
         <div id="craft-action">
-          <div id="craft-count">
-            <Message>{amount}</Message>
-            <div id="arrow-container">
-              <img
-                className="craft-arrow"
-                alt="Step up donation value"
-                src={arrowUp}
-                onClick={() => setAmount((r) => r + 1)}
-              />
-              <img
-                className="craft-arrow"
-                alt="Step down donation value"
-                src={arrowDown}
-                onClick={() => setAmount((r) => r - 1)}
-              />
-            </div>
-          </div>
-          <Button onClick={craft}>
-            <span id="craft-button-text">Craft</span>
-          </Button>
+          {selectedRecipe.isLocked ? (
+            <span id="recipe-description">Coming soon...</span>
+          ) : (
+            <>
+              <div id="craft-count">
+                <Message>{amount}</Message>
+                <div id="arrow-container">
+                  <img
+                    className="craft-arrow"
+                    alt="Step up donation value"
+                    src={arrowUp}
+                    onClick={() => setAmount((r) => r + 1)}
+                  />
+                  <img
+                    className="craft-arrow"
+                    alt="Step down donation value"
+                    src={arrowDown}
+                    onClick={() => setAmount((r) => r - 1)}
+                  />
+                </div>
+              </div>
+              <Button onClick={craft}>
+                <span id="craft-button-text">Craft</span>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>

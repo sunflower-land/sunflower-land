@@ -2,6 +2,7 @@ import pickaxe from "../images/ui/pickaxe.png";
 import axe from "../images/ui/axe.png";
 import wood from "../images/ui/wood.png";
 import stone from "../images/ui/rock.png";
+import chickenCoop from "../images/ui/chicken_coop.png";
 import coin from "../images/ui/sunflower_coin.png";
 
 export interface Ingredient {
@@ -15,11 +16,12 @@ export interface Recipe extends Item {
 }
 
 export interface Item {
-  name: "Axe" | "Pickaxe" | "Stone" | "Wood";
+  name: "Axe" | "Pickaxe" | "Stone" | "Wood" | "Chicken coop";
   description: string;
   address: string;
   image: any;
   type: "ERC20" | "NFT";
+  isLocked?: boolean;
 }
 
 export const recipes: Recipe[] = [
@@ -52,6 +54,31 @@ export const recipes: Recipe[] = [
       {
         name: "$SFF",
         amount: 10,
+        image: coin,
+      },
+    ],
+  },
+  {
+    name: "Chicken coop",
+    description: "A unique coop that produces chickens & eggs",
+    image: chickenCoop,
+    type: "NFT",
+    address: "TODO",
+    isLocked: true,
+    ingredients: [
+      {
+        name: "Wood",
+        amount: 100,
+        image: wood,
+      },
+      {
+        name: "Stone",
+        amount: 50,
+        image: stone,
+      },
+      {
+        name: "$SFF",
+        amount: 100,
         image: coin,
       },
     ],
