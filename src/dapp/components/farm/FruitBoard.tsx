@@ -19,7 +19,7 @@ import "./FruitBoard.css";
 import { Panel } from "../ui/Panel";
 import { Message } from "../ui/Message";
 import { FruitItem, getFruit } from "../../types/fruits";
-import { Inventory } from "../ui/Inventory";
+import { Items } from "../ui/Items";
 
 interface Props {
   selectedItem: ActionableItem;
@@ -134,7 +134,7 @@ export const FruitBoard: React.FC<Props> = ({
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
         <div className="board">
           <Panel hasTabs>
-            <Inventory
+            <Items
               balance={balance}
               fruits={fruits}
               selectedItem={selectedItem}

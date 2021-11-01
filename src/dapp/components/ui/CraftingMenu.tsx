@@ -3,6 +3,7 @@ import React from "react";
 import { Panel } from "../ui/Panel";
 import { Button } from "../ui/Button";
 import { Message } from "../ui/Message";
+import { InventoryItems } from "../ui/InventoryItems";
 
 import hammer from "../../images/ui/hammer.png";
 import basket from "../../images/ui/basket.png";
@@ -66,20 +67,7 @@ export const CraftingMenu: React.FC<Props> = ({ onClose }) => {
           <span>Inventory</span>
         </div>
         <div id="inventory">
-          <Box count={2} disabled>
-            <img src={stone} className="box-item" />
-          </Box>
-          <Box count={1} disabled>
-            <img src={wood} className="box-item" />
-          </Box>
-          <Box disabled />
-          <Box disabled />
-          <Box disabled />
-          <Box disabled />
-          <Box disabled />
-          <Box disabled />
-          <Box disabled />
-          <Box disabled />
+          <InventoryItems />
         </div>
       </div>
       <div id="recipe">

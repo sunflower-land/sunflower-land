@@ -1,23 +1,26 @@
 import React from "react";
 
-import wood from "../../images/ui/wood.png";
-import stone from "../../images/ui/rock.png";
+import basket from "../../images/ui/basket.png";
+import plantIcon from "../../images/ui/plant.png";
+import hammer from "../../images/ui/hammer.png";
+import close from "../../images/ui/close.png";
+
+import leftEdgeInner from "../../images/ui/panel/lt_box_9slice_lc.png";
+import rightEdgeInner from "../../images/ui/panel/lt_box_9slice_rc.png";
+import topEdgeInner from "../../images/ui/panel/lt_box_9slice_tc.png";
+import topLeftInner from "../../images/ui/panel/lt_box_9slice_tl.png";
+import topRightInner from "../../images/ui/panel/lt_box_9slice_tr.png";
 
 import { FruitItem } from "../../types/fruits";
+import { ActionableItem, Fruit, isFruit } from "../../types/contract";
 
-import { Box, Props as BoxProps } from "./Box";
-
-import { Item, items, Recipe, recipes } from "../../types/crafting";
+import { Plants } from "./Plants";
+import { Inventory } from "./Inventory";
 
 import "./Inventory.css";
-import {
-  BlockchainEvent,
-  BlockchainState,
-  Context,
-  service,
-} from "../../machine";
-import { useService } from "@xstate/react";
-import { ActionableItem, isFruit } from "../../types/contract";
+import { Item, items, Recipe, recipes } from "../../types/crafting";
+
+type Tab = "Plants" | "Items";
 
 interface Props {
   selectedItem: ActionableItem;
@@ -25,6 +28,7 @@ interface Props {
   balance: number;
   land: any[];
   fruits: FruitItem[];
+  onClose: () => void;
 }
 
 export const Items: React.FC<Props> = ({
@@ -33,115 +37,68 @@ export const Items: React.FC<Props> = ({
   balance,
   land,
   fruits,
+  onClose,
 }) => {
-  const [machineState, send] = useService<
-    Context,
-    BlockchainEvent,
-    BlockchainState
-  >(service);
-  const [inventory, setInventory] = React.useState({
-    axe: 0,
-    pickaxe: 0,
-    wood: 0,
-    stone: 0,
-  });
-  const [isLoading, setIsLoading] = React.useState(true);
-  React.useEffect(() => {
-    const load = async () => {
-      const amount = await machineState.context.blockChain.getInventory();
-      setInventory(amount);
-      setIsLoading(false);
-    };
-
-    load();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div id="crafting">
-        <div id="crafting-left">
-          <div id="inventory-loading">Loading...</div>
-        </div>
-      </div>
-    );
-  }
-
-  const inventoryItem = !isFruit(selectedItem) && selectedItem;
-
-  const boxes: BoxProps[] = [];
-
-  if (inventory.axe > 0) {
-    const item = items.find((recipe) => recipe.name === "Axe");
-    boxes.push({
-      count: inventory.axe,
-      onClick: () => onSelectItem(item),
-      isSelected: selectedItem.name === "Axe",
-      image: item.image,
-    });
-  }
-
-  if (inventory.pickaxe > 0) {
-    const item = items.find((recipe) => recipe.name === "Pickaxe");
-    boxes.push({
-      count: inventory.pickaxe,
-      onClick: () => onSelectItem(item),
-      isSelected: selectedItem.name === "Pickaxe",
-      image: item.image,
-    });
-  }
-
-  if (inventory.stone > 0) {
-    const item = items.find((recipe) => recipe.name === "Stone");
-    boxes.push({
-      count: inventory.stone,
-      onClick: () => onSelectItem(item),
-      isSelected: selectedItem.name === "Stone",
-      image: item.image,
-    });
-  }
-
-  if (inventory.wood > 0) {
-    const item = items.find((recipe) => recipe.name === "Wood");
-    boxes.push({
-      count: inventory.wood,
-      onClick: () => onSelectItem(item),
-      isSelected: selectedItem.name === "Wood",
-      image: item.image,
-    });
-  }
-
-  // Pad array with empty boxes
-  for (let i = boxes.length; i < 10; i++) {
-    boxes.push({});
-  }
+  const [tab, setTab] = React.useState<Tab>(
+    isFruit(selectedItem) ? "Plants" : "Items"
+  );
 
   return (
-    <div id="crafting">
-      <div id="crafting-left">
-        <div id="inventory">
-          {boxes.map((box) => (
-            <Box
-              count={box.count}
-              onClick={box.onClick}
-              image={box.image}
-              isSelected={box.isSelected}
-            />
-          ))}
+    <div>
+      <img src={close} className="close-icon" onClick={onClose} />
+      <div id="inventory-tabs">
+        <div
+          className={`inventory-tab ${tab === "Plants" && "active-tab"}`}
+          onClick={() => setTab("Plants")}
+        >
+          <img src={plantIcon} alt="basket" className="tab-icon" />
+          <span>Plants</span>
+          {tab === "Plants" && (
+            <>
+              <img id="panel-left-edge" src={leftEdgeInner} />
+              <img id="panel-right-edge" src={rightEdgeInner} />
+              <img id="panel-top-edge" src={topEdgeInner} />
+              <img id="panel-top-left" src={topLeftInner} />
+              <img id="panel-top-right" src={topRightInner} />
+            </>
+          )}
+        </div>
+
+        <div
+          className={`inventory-tab ${tab === "Items" && "active-tab"}`}
+          onClick={() => setTab("Items")}
+        >
+          <img src={basket} alt="basket" className="tab-icon" />
+          <span>Inventory</span>
+          {tab === "Items" && (
+            <>
+              <img id="panel-left-edge" src={leftEdgeInner} />
+              <img id="panel-right-edge" src={rightEdgeInner} />
+              <img id="panel-top-edge" src={topEdgeInner} />
+              <img id="panel-top-left" src={topLeftInner} />
+              <img id="panel-top-right" src={topRightInner} />
+            </>
+          )}
         </div>
       </div>
-      <div id="recipe">
-        {inventoryItem && (
-          <>
-            <span id="recipe-type">{selectedItem.type}</span>
-            <span id="recipe-title">{selectedItem.name}</span>
-            <div id="crafting-item">
-              <img src={selectedItem.image} />
-            </div>
-
-            <span id="recipe-description">{selectedItem.description}</span>
-          </>
-        )}
-      </div>
+      {tab === "Plants" && (
+        <Plants
+          selectedItem={selectedItem}
+          onSelectItem={onSelectItem}
+          fruits={fruits}
+          land={land}
+          balance={balance}
+        />
+      )}
+      {tab === "Items" && (
+        <Inventory
+          selectedItem={selectedItem}
+          onSelectItem={onSelectItem}
+          fruits={fruits}
+          land={land}
+          balance={balance}
+        />
+      )}
     </div>
   );
 };
