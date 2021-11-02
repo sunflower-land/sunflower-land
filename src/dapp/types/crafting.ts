@@ -4,6 +4,7 @@ import wood from "../images/ui/wood.png";
 import stone from "../images/ui/rock.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
 import coin from "../images/ui/sunflower_coin.png";
+import statue from "../images/ui/sunflower_statue.png";
 
 export interface Ingredient {
   name: "Wood" | "Stone" | "$SFF";
@@ -16,7 +17,13 @@ export interface Recipe extends Item {
 }
 
 export interface Item {
-  name: "Axe" | "Pickaxe" | "Stone" | "Wood" | "Chicken coop";
+  name:
+    | "Axe"
+    | "Pickaxe"
+    | "Stone"
+    | "Wood"
+    | "Chicken coop"
+    | "Sunflower Statue";
   description: string;
   address: string;
   image: any;
@@ -79,6 +86,26 @@ export const recipes: Recipe[] = [
       {
         name: "$SFF",
         amount: 100,
+        image: coin,
+      },
+    ],
+  },
+  {
+    name: "Sunflower Statue",
+    description: "A symbol of the holy token",
+    image: statue,
+    type: "NFT",
+    address: "TODO",
+    isLocked: true,
+    ingredients: [
+      {
+        name: "Stone",
+        amount: 500,
+        image: stone,
+      },
+      {
+        name: "$SFF",
+        amount: 1000,
         image: coin,
       },
     ],

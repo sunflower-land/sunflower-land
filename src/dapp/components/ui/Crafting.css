@@ -64,7 +64,7 @@
 }
 
 #crafting-item > img {
-  width: 50%;
+  height: 100%;
   image-rendering: pixelated;
   margin: auto;
   filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
