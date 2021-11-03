@@ -1,5 +1,9 @@
 import pickaxe from "../images/ui/pickaxe.png";
+import woodPickaxe from "../images/ui/wood_pickaxe.png";
 import axe from "../images/ui/axe.png";
+import hammer from "../images/ui/hammer.png";
+import rod from "../images/ui/rod.png";
+import sword from "../images/ui/sword.png";
 import wood from "../images/ui/wood.png";
 import stone from "../images/ui/rock.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
@@ -19,9 +23,13 @@ export interface Recipe extends Item {
 export interface Item {
   name:
     | "Axe"
-    | "Pickaxe"
+    | "Wood pickaxe"
+    | "Stone Pickaxe"
+    | "Fishing rod"
+    | "Hammer"
     | "Stone"
     | "Wood"
+    | "Sword"
     | "Chicken coop"
     | "Sunflower Statue";
   description: string;
@@ -47,8 +55,27 @@ export const recipes: Recipe[] = [
     ],
   },
   {
-    name: "Pickaxe",
+    name: "Wood pickaxe",
     description: "Used for mining and collecting stone",
+    image: woodPickaxe,
+    type: "ERC20",
+    address: "TODO",
+    ingredients: [
+      {
+        name: "Wood",
+        amount: 2,
+        image: wood,
+      },
+      {
+        name: "$SFF",
+        amount: 10,
+        image: coin,
+      },
+    ],
+  },
+  {
+    name: "Stone Pickaxe",
+    description: "Used for mining and collecting ore",
     image: pickaxe,
     type: "ERC20",
     address: "0x7d55828BbA54feA2fcd8d9E4D9330c8CBb5Fa079",
@@ -56,6 +83,71 @@ export const recipes: Recipe[] = [
       {
         name: "Wood",
         amount: 2,
+        image: wood,
+      },
+      {
+        name: "Stone",
+        amount: 2,
+        image: stone,
+      },
+      {
+        name: "$SFF",
+        amount: 10,
+        image: coin,
+      },
+    ],
+  },
+  {
+    name: "Hammer",
+    description: "Used for building barns, coops & other structures",
+    image: hammer,
+    type: "ERC20",
+    address: "TODO",
+    isLocked: true,
+    ingredients: [
+      {
+        name: "Wood",
+        amount: 5,
+        image: wood,
+      },
+      {
+        name: "$SFF",
+        amount: 10,
+        image: coin,
+      },
+    ],
+  },
+  {
+    name: "Fishing rod",
+    description: "Used for fishing and gathering fish",
+    image: rod,
+    type: "ERC20",
+    address: "TODO",
+    isLocked: true,
+    ingredients: [
+      {
+        name: "Wood",
+        amount: 5,
+        image: wood,
+      },
+      {
+        name: "$SFF",
+        amount: 10,
+        image: coin,
+      },
+    ],
+  },
+  {
+    name: "Sword",
+    description: "Used for fighting monsters and collecting rewards",
+    image: sword,
+    type: "ERC20",
+    address: "TODO",
+    isLocked: true,
+    ingredients: [
+      {
+        name: "Wood",
+        amount: 5,
         image: wood,
       },
       {

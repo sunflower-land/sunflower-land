@@ -68,7 +68,7 @@ export const InventoryItems: React.FC<Props> = ({
   }
 
   if (inventory.pickaxe > 0) {
-    const item = items.find((recipe) => recipe.name === "Pickaxe");
+    const item = items.find((recipe) => recipe.name === "Stone Pickaxe");
     boxes.push({
       count: inventory.pickaxe,
       onClick: onSelectItem ? () => onSelectItem(item) : undefined,
@@ -77,6 +77,17 @@ export const InventoryItems: React.FC<Props> = ({
       disabled: !onSelectItem,
     });
   }
+
+  // if (inventory.pickaxe > 0) {
+  //   const item = items.find((recipe) => recipe.name === "Wood pickaxe");
+  //   boxes.push({
+  //     count: inventory.pickaxe,
+  //     onClick: onSelectItem ? () => onSelectItem(item) : undefined,
+  //     isSelected: selectedItem?.name === "Wood pickaxe",
+  //     image: item.image,
+  //     disabled: !onSelectItem,
+  //   });
+  // }
 
   if (inventory.stone > 0) {
     const item = items.find((recipe) => recipe.name === "Stone");

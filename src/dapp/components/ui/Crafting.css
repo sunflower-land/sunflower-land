@@ -36,7 +36,9 @@
 }
 
 .box-item {
-  width: 75%;
+  min-height: 75%;
+  max-height: 40px;
+
   image-rendering: pixelated;
 }
 

@@ -15,7 +15,7 @@ import stone from "../../images/ui/rock.png";
 
 import { recipes, Recipe } from "../../types/crafting";
 import { service } from "../../machine";
-import { Box } from "./Box";
+import { Box, BoxProps } from "./Box";
 
 import "./Crafting.css";
 
@@ -39,6 +39,17 @@ export const CraftingMenu: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
+  const boxes: BoxProps[] = recipes.map((recipe) => ({
+    isSelected: recipe.name === selectedRecipe.name,
+    onClick: () => changeRecipe(recipe),
+    image: recipe.image,
+  }));
+
+  // Pad array with empty boxes
+  for (let i = boxes.length; i < 10; i++) {
+    boxes.push({ disabled: true });
+  }
+
   return (
     <div id="crafting">
       <div id="crafting-left">
@@ -47,20 +58,15 @@ export const CraftingMenu: React.FC<Props> = ({ onClose }) => {
           <span>Recipes</span>
         </div>
         <div id="crafting-items">
-          {recipes.map((recipe) => (
+          {boxes.map((box) => (
             <Box
-              isSelected={recipe.name === selectedRecipe.name}
-              onClick={() => changeRecipe(recipe)}
-            >
-              <img src={recipe.image} className="box-item" />
-            </Box>
+              count={box.count}
+              onClick={box.onClick}
+              image={box.image}
+              isSelected={box.isSelected}
+              disabled={box.disabled}
+            />
           ))}
-          <Box></Box>
-          <Box></Box>
-          <Box></Box>
-          <Box></Box>
-          <Box />
-          <Box />
         </div>
         <div id="inventory-header">
           <img src={basket} />
