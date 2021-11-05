@@ -17,7 +17,7 @@ import {
 
 import coin from "../../images/ui/sunflower_coin.png";
 import questionMark from "../../images/ui/expression_confused.png";
-import sunflower from "../../images/sunflower/plant.png";
+import sunflower_coin from "../../images/ui/sunflower_coin.png";
 
 import { Panel } from "../ui/Panel";
 import { Timer } from "../ui/Timer";
@@ -259,7 +259,7 @@ export const Farm: React.FC = () => {
               Quickswap. In the meantime the only way to earn more tokens is
               through playing the game.
             </span>
-            <img id="nft" src={sunflower} />
+            <img id="nft" src={sunflower_coin} />
           </div>
         </Panel>
       </Modal>
