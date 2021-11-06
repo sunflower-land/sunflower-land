@@ -80,11 +80,11 @@ export class BlockChain {
       );
       this.axe = new this.alchemyWeb3.eth.Contract(
         Axe as any,
-        "0xf7B363F60f4Fed06049F6B469e6506a231AB274A"
+        "0xc65C99E4c3AAb25322d4E808e5e96Ec774330696"
       );
       this.wood = new this.alchemyWeb3.eth.Contract(
         Wood as any,
-        "0xb655186C7dbA1A2EFCd9949Bbfb95A49E6aF9407"
+        "0xB06f46a26a53dC2a58F050ffB11a27Ef783cbeE1"
       );
       this.stone = new this.alchemyWeb3.eth.Contract(
         Stone as any,
@@ -341,9 +341,11 @@ export class BlockChain {
 
     console.log({ recipe, amount });
 
+    const gwei = this.web3.utils.toWei(amount.toString(), "ether");
+
     await new Promise(async (resolve, reject) => {
       this.farm.methods
-        .craft(recipe.address, amount)
+        .craft(recipe.address, gwei)
         .send({ from: this.account })
         .on("error", function (error) {
           console.log({ error });
@@ -385,10 +387,11 @@ export class BlockChain {
     }
 
     console.log({ resource, amount });
+    const gwei = this.web3.utils.toWei(amount.toString(), "ether");
 
     await new Promise(async (resolve, reject) => {
       this.farm.methods
-        .stake(resource, amount)
+        .stake(resource, gwei)
         .send({ from: this.account })
         .on("error", function (error) {
           console.log({ error });
@@ -573,10 +576,20 @@ export class BlockChain {
     console.log({ axe });
     console.log({ wood });
     return {
-      axe,
+      axe: this.web3.utils.fromWei(axe),
+      wood: this.web3.utils.fromWei(wood),
       pickaxe,
       stone,
-      wood,
+    };
+  }
+
+  public async getTreeStrength() {
+    const strength = await this.wood.methods
+      .getAvailable(this.account)
+      .call({ from: this.account });
+      
+    return {
+      strength: this.web3.utils.fromWei(strength),
     };
   }
 }

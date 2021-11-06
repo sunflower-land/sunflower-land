@@ -45,11 +45,11 @@ export const recipes: Recipe[] = [
     description: "Used for cutting and collecting wood",
     image: axe,
     type: "ERC20",
-    address: "0xf7B363F60f4Fed06049F6B469e6506a231AB274A",
+    address: "0xc65C99E4c3AAb25322d4E808e5e96Ec774330696",
     ingredients: [
       {
         name: "$SFF",
-        amount: 5,
+        amount: 1,
         image: coin,
       },
     ],
@@ -79,6 +79,7 @@ export const recipes: Recipe[] = [
     image: pickaxe,
     type: "ERC20",
     address: "0x7d55828BbA54feA2fcd8d9E4D9330c8CBb5Fa079",
+    isLocked: true,
     ingredients: [
       {
         name: "Wood",
@@ -218,7 +219,7 @@ export const items: Item[] = [
     description: "A bountiful resource in Sunflower Land used for crafting",
     image: wood,
     type: "ERC20",
-    address: "0xb655186C7dbA1A2EFCd9949Bbfb95A49E6aF9407",
+    address: "0xB06f46a26a53dC2a58F050ffB11a27Ef783cbeE1",
   },
 ];
 

@@ -41,14 +41,16 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
     BlockchainState
   >(service);
 
-  const [treeStrength, setTreeStrength] = React.useState(5);
+  const [treeStrength, setTreeStrength] = React.useState(10);
   const [amount, setAmount] = React.useState(1);
 
   useEffect(() => {
-    const load = () => {
+    const load = async () => {
       // TODO - fetch available food left and how long until it will be available again
-      setTreeStrength(5);
-
+      const { strength } =
+        await machineState.context.blockChain.getTreeStrength();
+      console.log({ strength });
+      setTreeStrength(Math.floor(Number(strength)));
       // TODO load axe count
     };
 
@@ -94,7 +96,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
             <Panel>
               <div className="gather-panel">
                 <div className="gather-materials">
-                  <span>{`Chop ${amount * 5} wood`}</span>
+                  <span>{`Chop ${amount} wood`}</span>
                   <img className="gather-axe" src={wood} />
                 </div>
                 <div className="gather-resources">

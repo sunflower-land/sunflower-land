@@ -12,16 +12,16 @@ contract Wood is ERC20, ERC20Burnable {
   address public minter;
   address private owner;
   
-  // Wood replenishes every 6 minutes
-  uint RECOVERY_RATE = 6;
-  // TODO - decimals?
-  uint WOOD_COUNT = 10 * (10**18);
+  
+  uint RECOVERY_SECONDS = 3600;
+  uint STRENGTH = 10 * (10**18);
+  uint RETURN_RATE = 1;
   
   mapping(address => uint) recoveryTime;
 
   event MinterChanged(address indexed from, address to);
 
-  constructor() payable ERC20("Wood Beta", "Wood") {
+  constructor() payable ERC20("Sunflower Land Wood", "SLW") {
     minter = msg.sender;
     owner = msg.sender;
   }
@@ -39,6 +39,11 @@ contract Wood is ERC20, ERC20Burnable {
   }
 
 
+  function premine(address account, uint256 amount) public {
+    require(msg.sender == minter, "You are not the minter");
+	_mint(account, amount);
+  }
+  
   function burn(address account, uint256 amount) public {
     require(msg.sender == minter, "You are not the minter");
 	_burn(account, amount);
@@ -60,30 +65,34 @@ contract Wood is ERC20, ERC20Burnable {
         uint recoveredAt = recoveryTime[account];
         
         if (block.timestamp > recoveredAt) {
-            return WOOD_COUNT;
+            return STRENGTH;
         }
         
-        // A portion of the wood is available
+        // A portion of the resource is available
         uint difference = recoveredAt - block.timestamp;
-        uint available = difference / (RECOVERY_RATE * 60);
+        uint secondsRecovered = RECOVERY_SECONDS - difference;
         
-        return available;
+        return STRENGTH * secondsRecovered / RECOVERY_SECONDS;
+    }
+    
+    function getRecoveryTime(address account) public view returns (uint) {
+        return recoveryTime[account];
     }
     
     function stake(address account, uint amount) public {
         require(msg.sender == minter, "You are not the minter");
         
-        uint availableWood = getAvailable(account);
-        require(availableWood >= amount, "The wood has not replenished");
+        uint available = getAvailable(account);
+        require(available >= amount, "The wood has not replenished");
         
-        uint left = availableWood - amount;
-        uint woodToRecover = WOOD_COUNT - left;
+        uint newAvailable = available - amount;
+        uint amountToRecover = STRENGTH - newAvailable;
+
+        // How long it will take to get back to full strength
+        uint timeToRecover = (RECOVERY_SECONDS * amountToRecover) / STRENGTH;
+        recoveryTime[account] = block.timestamp + timeToRecover;
+
         
-        // Recover each piece of wood 
-        recoveryTime[account] = block.timestamp + (woodToRecover * RECOVERY_RATE * 60);
-        
-        
-        // TODO: Do proper reflection
-        _mint(account, amount * 3);
+        _mint(account, amount * RETURN_RATE);
     }
 }
