@@ -3,26 +3,33 @@ import React from "react";
 import { FruitItem } from "../../types/fruits";
 
 import { ActionableItem, isFruit } from "../../types/contract";
+import {
+  Inventory as InventorySupply,
+  Item,
+  items,
+  Recipe,
+  recipes,
+} from "../../types/crafting";
 
 import { InventoryItems } from "./InventoryItems";
 import "./Inventory.css";
 
 interface Props {
-  selectedItem: ActionableItem;
-  onSelectItem: (item: ActionableItem) => void;
   balance: number;
   land: any[];
   fruits: FruitItem[];
+  inventory: InventorySupply;
 }
 
 export const Inventory: React.FC<Props> = ({
-  selectedItem,
-  onSelectItem,
   balance,
   land,
   fruits,
+  inventory,
 }) => {
-  const inventoryItem = !isFruit(selectedItem) && selectedItem;
+  const [selectedItem, onSelectItem] = React.useState<ActionableItem>(items[0]);
+
+  const item = selectedItem as Item;
 
   return (
     <div id="crafting">
@@ -30,20 +37,19 @@ export const Inventory: React.FC<Props> = ({
         <InventoryItems
           onSelectItem={onSelectItem}
           selectedItem={selectedItem}
+          inventory={inventory}
         />
       </div>
       <div id="recipe">
-        {inventoryItem && (
-          <>
-            <span id="recipe-type">{selectedItem.type}</span>
-            <span id="recipe-title">{selectedItem.name}</span>
-            <div id="crafting-item">
-              <img src={selectedItem.image} />
-            </div>
+        <>
+          <span id="recipe-type">{item.type}</span>
+          <span id="recipe-title">{item.name}</span>
+          <div id="crafting-item">
+            <img src={item.image} />
+          </div>
 
-            <span id="recipe-description">{selectedItem.description}</span>
-          </>
-        )}
+          <span id="recipe-description">{item.description}</span>
+        </>
       </div>
     </div>
   );

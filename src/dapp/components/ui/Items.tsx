@@ -18,7 +18,13 @@ import { Plants } from "./Plants";
 import { Inventory } from "./Inventory";
 
 import "./Inventory.css";
-import { Item, items, Recipe, recipes } from "../../types/crafting";
+import {
+  Inventory as InventorySupply,
+  Item,
+  items,
+  Recipe,
+  recipes,
+} from "../../types/crafting";
 
 type Tab = "Plants" | "Items";
 
@@ -29,6 +35,7 @@ interface Props {
   land: any[];
   fruits: FruitItem[];
   onClose: () => void;
+  inventory: InventorySupply;
 }
 
 export const Items: React.FC<Props> = ({
@@ -38,6 +45,7 @@ export const Items: React.FC<Props> = ({
   land,
   fruits,
   onClose,
+  inventory,
 }) => {
   const [tab, setTab] = React.useState<Tab>(
     isFruit(selectedItem) ? "Plants" : "Items"
@@ -97,6 +105,7 @@ export const Items: React.FC<Props> = ({
           fruits={fruits}
           land={land}
           balance={balance}
+          inventory={inventory}
         />
       )}
     </div>

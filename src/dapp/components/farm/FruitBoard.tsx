@@ -20,6 +20,7 @@ import { Panel } from "../ui/Panel";
 import { Message } from "../ui/Message";
 import { FruitItem, getFruit } from "../../types/fruits";
 import { Items } from "../ui/Items";
+import { Inventory } from "../../types/crafting";
 
 interface Props {
   selectedItem: ActionableItem;
@@ -27,6 +28,7 @@ interface Props {
   balance: number;
   land: any[];
   fruits: FruitItem[];
+  inventory: Inventory;
 }
 export const FruitBoard: React.FC<Props> = ({
   balance,
@@ -34,6 +36,7 @@ export const FruitBoard: React.FC<Props> = ({
   onSelectItem,
   selectedItem,
   fruits,
+  inventory,
 }) => {
   const [showModal, setShowModal] = React.useState(false);
 
@@ -141,6 +144,7 @@ export const FruitBoard: React.FC<Props> = ({
               onSelectItem={onSelectItem}
               land={land}
               onClose={() => setShowModal(false)}
+              inventory={inventory}
             />
             {/* <div className="board-content">{items}</div> */}
           </Panel>

@@ -13,7 +13,7 @@ import arrowDown from "../../images/ui/arrow_down.png";
 import wood from "../../images/ui/wood.png";
 import stone from "../../images/ui/rock.png";
 
-import { recipes, Recipe } from "../../types/crafting";
+import { recipes, Recipe, Inventory } from "../../types/crafting";
 import { service } from "../../machine";
 import { Box, BoxProps } from "./Box";
 
@@ -21,8 +21,9 @@ import "./Crafting.css";
 
 interface Props {
   onClose: () => void;
+  inventory: Inventory;
 }
-export const CraftingMenu: React.FC<Props> = ({ onClose }) => {
+export const CraftingMenu: React.FC<Props> = ({ onClose, inventory }) => {
   const [amount, setAmount] = React.useState(1);
   const [selectedRecipe, setSelectedRecipe] = React.useState(recipes[0]);
 
@@ -73,7 +74,7 @@ export const CraftingMenu: React.FC<Props> = ({ onClose }) => {
           <span>Inventory</span>
         </div>
         <div id="inventory">
-          <InventoryItems />
+          <InventoryItems inventory={inventory} />
         </div>
       </div>
       <div id="recipe">

@@ -221,3 +221,10 @@ export const items: Item[] = [
     address: "0xb655186C7dbA1A2EFCd9949Bbfb95A49E6aF9407",
   },
 ];
+
+export interface Inventory {
+  axe: number;
+  pickaxe: number;
+  wood: number;
+  stone: number;
+}

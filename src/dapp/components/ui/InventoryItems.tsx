@@ -7,7 +7,7 @@ import { FruitItem } from "../../types/fruits";
 
 import { Box, Props as BoxProps } from "./Box";
 
-import { Item, items, Recipe, recipes } from "../../types/crafting";
+import { Inventory, Item, items, Recipe, recipes } from "../../types/crafting";
 
 import "./Inventory.css";
 import {
@@ -22,38 +22,15 @@ import { ActionableItem, isFruit } from "../../types/contract";
 interface Props {
   selectedItem?: ActionableItem;
   onSelectItem?: (item: ActionableItem) => void;
+  inventory: Inventory;
 }
 
 export const InventoryItems: React.FC<Props> = ({
   selectedItem,
   onSelectItem,
+  inventory,
 }) => {
-  const [machineState, send] = useService<
-    Context,
-    BlockchainEvent,
-    BlockchainState
-  >(service);
-  const [inventory, setInventory] = React.useState({
-    axe: 0,
-    pickaxe: 0,
-    wood: 0,
-    stone: 0,
-  });
-  const [isLoading, setIsLoading] = React.useState(true);
-  React.useEffect(() => {
-    const load = async () => {
-      const amount = await machineState.context.blockChain.getInventory();
-      setInventory(amount);
-      setIsLoading(false);
-    };
-
-    load();
-  }, []);
-
-  if (isLoading) {
-    return <div id="inventory-loading">Loading...</div>;
-  }
-
+  console.log({ items: inventory });
   const boxes: BoxProps[] = [];
 
   if (inventory.axe > 0) {

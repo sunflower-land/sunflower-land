@@ -79,3 +79,11 @@
   margin-left: 4px;
   image-rendering: pixelated;
 }
+
+#arrow-container {
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: column;
+}

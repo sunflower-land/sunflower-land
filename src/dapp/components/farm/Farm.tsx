@@ -40,6 +40,7 @@ import { Tour } from "./Tour";
 import { getExchangeRate, getMarketRate } from "../../utils/supply";
 import { Message } from "../ui/Message";
 import { Modal } from "react-bootstrap";
+import { Inventory } from "../../types/crafting";
 
 export const Farm: React.FC = () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0));
@@ -49,6 +50,13 @@ export const Farm: React.FC = () => {
       createdAt: 0,
     })
   );
+  const [inventory, setInventory] = React.useState<Inventory>({
+    axe: 0,
+    pickaxe: 0,
+    wood: 0,
+    stone: 0,
+  });
+
   const [showBuyModal, setShowBuyModal] = React.useState(false);
   const farmIsFresh = React.useRef(false);
   const accountId = React.useRef<string>();
@@ -122,6 +130,12 @@ export const Farm: React.FC = () => {
         const marketRate = getMarketRate(supply);
         const marketFruits = getMarketFruits(marketRate);
         setFruits(marketFruits);
+      }
+
+      if (machineState.matches("farming")) {
+        const inventory = await machineState.context.blockChain.getInventory();
+        setInventory(inventory);
+        console.log({ inventory });
       }
     };
 
@@ -221,6 +235,7 @@ export const Farm: React.FC = () => {
         onHarvest={onHarvest}
         onPlant={onPlant}
         account={accountId.current}
+        inventory={inventory}
       />
 
       <span id="save-button">
@@ -269,6 +284,7 @@ export const Farm: React.FC = () => {
         onSelectItem={onChangeItem}
         land={land}
         balance={safeBalance}
+        inventory={inventory}
       />
 
       <Modal centered show={showBuyModal} onHide={() => setShowBuyModal(false)}>

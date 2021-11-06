@@ -19,6 +19,7 @@ import { Blacksmith } from "./Blacksmith";
 import { Market } from "./Market";
 import { Reward } from "./Reward";
 import { FruitItem } from "../../types/fruits";
+import { Inventory } from "../../types/crafting";
 
 interface Props {
   land: Square[];
@@ -28,6 +29,7 @@ interface Props {
   selectedItem: ActionableItem;
   fruits: FruitItem[];
   account?: string;
+  inventory: Inventory;
 }
 
 const columns = Array(60).fill(null);
@@ -41,6 +43,7 @@ export const Land: React.FC<Props> = ({
   onPlant,
   selectedItem,
   account,
+  inventory,
 }) => {
   return (
     <>
@@ -102,14 +105,7 @@ export const Land: React.FC<Props> = ({
           onHarvest={onHarvest}
           onPlant={onPlant}
         />
-        <Trees
-          fruits={fruits}
-          selectedItem={selectedItem}
-          land={land}
-          balance={balance}
-          onHarvest={onHarvest}
-          onPlant={onPlant}
-        />
+        <Trees inventory={inventory} />
 
         <Stones
           fruits={fruits}
@@ -118,10 +114,11 @@ export const Land: React.FC<Props> = ({
           balance={balance}
           onHarvest={onHarvest}
           onPlant={onPlant}
+          inventory={inventory}
         />
 
         <Barn farmSize={land.length} balance={balance} />
-        <Blacksmith />
+        <Blacksmith inventory={inventory} />
         <Market />
         <Tiles />
         <Reward account={account} />
