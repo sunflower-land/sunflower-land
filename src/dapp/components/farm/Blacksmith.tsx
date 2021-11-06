@@ -32,7 +32,7 @@ export const Blacksmith: React.FC = () => {
             <img src={hammer} className="pickaxe" />
           </div>
           <Panel hasOuter={false}>
-            <span id="upgrade">Crafting</span>
+            <span id="upgrade">Craft</span>
           </Panel>
         </div>
       </div>
