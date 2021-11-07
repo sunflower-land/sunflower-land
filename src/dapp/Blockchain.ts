@@ -557,25 +557,33 @@ export class BlockChain {
 
   // TODO - Promise.all
   public async getInventory(): Promise<Inventory> {
-    const token = await this.alchemyToken.methods
+    const tokenPromise = this.alchemyToken.methods
       .balanceOf(this.account)
       .call({ from: this.account });
 
-    const axe = await this.axe.methods
+    const axePromise = this.axe.methods
       .balanceOf(this.account)
       .call({ from: this.account });
 
-    const wood = await this.wood.methods
+    const woodPromise = this.wood.methods
       .balanceOf(this.account)
       .call({ from: this.account });
 
-    const stone = await this.stone.methods
+    const stonePromise = this.stone.methods
       .balanceOf(this.account)
       .call({ from: this.account });
 
-    const pickaxe = await this.pickaxe.methods
+    const pickaxePromise = this.pickaxe.methods
       .balanceOf(this.account)
       .call({ from: this.account });
+
+    const [token, axe, wood, pickaxe, stone] = await Promise.all([
+      tokenPromise,
+      axePromise,
+      woodPromise,
+      stonePromise,
+      pickaxePromise,
+    ]);
 
     console.log({ axe });
     console.log({ wood });

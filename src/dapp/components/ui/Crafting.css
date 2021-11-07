@@ -79,6 +79,7 @@
   text-shadow: 1px 1px black;
   text-align: center;
   padding-bottom: 4px;
+  padding-top: 4px;
 }
 
 #recipe-description {
@@ -215,7 +216,7 @@
   text-shadow: 1px 1px white;
 }
 
-#recipe-type {
+.recipe-type {
   position: absolute;
   top: 0px;
   right: 0;
@@ -224,5 +225,24 @@
   text-shadow: 1px 1px black;
   padding: 2px 7px;
   border-radius: 3px;
+}
+
+.recipe-nft {
+  background: #2399db;
+}
+
+.recipe-erc20 {
   background: #fbad34;
+}
+
+.nft-count {
+  position: absolute;
+  background: #2399db;
+  top: 0px;
+  right: 70px;
+  font-size: 9px;
+  color: white;
+  text-shadow: 1px 1px black;
+  padding: 2px 7px;
+  border-radius: 3px;
 }

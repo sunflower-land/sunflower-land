@@ -37,6 +37,7 @@ export interface Item {
   image: any;
   type: "ERC20" | "NFT";
   isLocked?: boolean;
+  supply?: number;
 }
 
 export const recipes: Recipe[] = [
@@ -80,7 +81,23 @@ export const recipes: Recipe[] = [
     type: "ERC20",
     address: "0x7d55828BbA54feA2fcd8d9E4D9330c8CBb5Fa079",
     isLocked: true,
-    ingredients: [],
+    ingredients: [
+      {
+        name: "Wood",
+        amount: 5,
+        image: wood,
+      },
+      {
+        name: "Stone",
+        amount: 5,
+        image: stone,
+      },
+      {
+        name: "$SFF",
+        amount: 2,
+        image: coin,
+      },
+    ],
   },
   {
     name: "Hammer",
@@ -166,6 +183,7 @@ export const recipes: Recipe[] = [
         image: coin,
       },
     ],
+    supply: 5000,
   },
   {
     name: "Sunflower Statue",
@@ -186,6 +204,7 @@ export const recipes: Recipe[] = [
         image: coin,
       },
     ],
+    supply: 1000,
   },
 ];
 

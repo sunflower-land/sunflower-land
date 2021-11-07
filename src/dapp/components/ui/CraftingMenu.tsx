@@ -96,7 +96,16 @@ export const CraftingMenu: React.FC<Props> = ({ onClose, inventory }) => {
         </div>
       </div>
       <div id="recipe">
-        <span id="recipe-type">{selectedRecipe.type}</span>
+        <span
+          className={`recipe-type ${
+            selectedRecipe.type === "ERC20" ? "recipe-erc20" : "recipe-nft"
+          }`}
+        >
+          {selectedRecipe.type}
+        </span>
+        {selectedRecipe.supply && (
+          <span className="nft-count">{`${selectedRecipe.supply} left!`}</span>
+        )}
         <span id="recipe-title">{selectedRecipe.name}</span>
         <div id="crafting-item">
           <img src={selectedRecipe.image} />
