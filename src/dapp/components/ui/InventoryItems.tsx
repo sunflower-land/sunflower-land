@@ -45,11 +45,11 @@ export const InventoryItems: React.FC<Props> = ({
   }
 
   if (inventory.pickaxe > 0) {
-    const item = items.find((recipe) => recipe.name === "Stone Pickaxe");
+    const item = items.find((recipe) => recipe.name === "Wood pickaxe");
     boxes.push({
       count: inventory.pickaxe,
       onClick: onSelectItem ? () => onSelectItem(item) : undefined,
-      isSelected: selectedItem?.name === "Pickaxe",
+      isSelected: selectedItem?.name === "Wood pickaxe",
       image: item.image,
       disabled: !onSelectItem,
     });

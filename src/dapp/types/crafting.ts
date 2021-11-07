@@ -59,16 +59,16 @@ export const recipes: Recipe[] = [
     description: "Used for mining and collecting stone",
     image: woodPickaxe,
     type: "ERC20",
-    address: "TODO",
+    address: "0x60E3De256b6D1e137FD7A9d9B78Fd0C304a32e81",
     ingredients: [
       {
         name: "Wood",
-        amount: 2,
+        amount: 5,
         image: wood,
       },
       {
         name: "$SFF",
-        amount: 10,
+        amount: 2,
         image: coin,
       },
     ],
@@ -80,23 +80,7 @@ export const recipes: Recipe[] = [
     type: "ERC20",
     address: "0x7d55828BbA54feA2fcd8d9E4D9330c8CBb5Fa079",
     isLocked: true,
-    ingredients: [
-      {
-        name: "Wood",
-        amount: 2,
-        image: wood,
-      },
-      {
-        name: "Stone",
-        amount: 2,
-        image: stone,
-      },
-      {
-        name: "$SFF",
-        amount: 10,
-        image: coin,
-      },
-    ],
+    ingredients: [],
   },
   {
     name: "Hammer",
@@ -212,7 +196,7 @@ export const items: Item[] = [
     description: "A natural resource in Sunflower Land used for crafting",
     image: stone,
     type: "ERC20",
-    address: "0x2B17CD53EaeaDcb4377e3a99BE478669e49f5F19",
+    address: "0xe38E8e52d79922a65eAB3EAA2aaFfba93CF1054B",
   },
   {
     name: "Wood",

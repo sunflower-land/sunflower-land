@@ -88,11 +88,11 @@ export class BlockChain {
       );
       this.stone = new this.alchemyWeb3.eth.Contract(
         Stone as any,
-        "0x2B17CD53EaeaDcb4377e3a99BE478669e49f5F19"
+        "0xe38E8e52d79922a65eAB3EAA2aaFfba93CF1054B"
       );
       this.pickaxe = new this.alchemyWeb3.eth.Contract(
-        Wood as any,
-        "0x7d55828BbA54feA2fcd8d9E4D9330c8CBb5Fa079"
+        Pickaxe as any,
+        "0x60E3De256b6D1e137FD7A9d9B78Fd0C304a32e81"
       );
     } catch (e) {
       // Timeout, retry
@@ -578,8 +578,8 @@ export class BlockChain {
     return {
       axe: this.web3.utils.fromWei(axe),
       wood: this.web3.utils.fromWei(wood),
-      pickaxe,
-      stone,
+      pickaxe: this.web3.utils.fromWei(pickaxe),
+      stone: this.web3.utils.fromWei(stone),
     };
   }
 
@@ -587,7 +587,17 @@ export class BlockChain {
     const strength = await this.wood.methods
       .getAvailable(this.account)
       .call({ from: this.account });
-      
+
+    return {
+      strength: this.web3.utils.fromWei(strength),
+    };
+  }
+
+  public async getStoneStrength() {
+    const strength = await this.stone.methods
+      .getAvailable(this.account)
+      .call({ from: this.account });
+
     return {
       strength: this.web3.utils.fromWei(strength),
     };
