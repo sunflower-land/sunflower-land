@@ -121,6 +121,7 @@ export type BlockchainEvent =
   | CloseOnboardingEvent
   | OnboardingEvent
   | CraftEvent
+  | RetryEvent
   | ChopEvent
   | MineEvent
   | {
