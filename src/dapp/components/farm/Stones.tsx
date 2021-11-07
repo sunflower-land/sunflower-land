@@ -66,7 +66,7 @@ export const Stones: React.FC<Props> = ({ inventory }) => {
   if (strength === 0) {
     return (
       <div style={{ gridColumn: "9/10", gridRow: "11/12" }}>
-        {/* TODO - empty stone placeholder */}
+        {/* crafting-leftTODO - empty stone placeholder */}
       </div>
     );
   }

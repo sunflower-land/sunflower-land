@@ -1,5 +1,6 @@
 #crafting {
   display: flex;
+  height: 330px;
 }
 .box-panel {
   background: #b96f50;
@@ -115,7 +116,6 @@
 #crafting-left {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .ingredient {
@@ -136,6 +136,10 @@
   font-size: 12px;
 }
 
+.ingredient-insufficient {
+  color: #f6757a;
+}
+
 .ingredient-count {
   color: white;
   text-shadow: 1px 1px black;
@@ -154,6 +158,7 @@
 #inventory-header {
   display: flex;
   margin-top: 4px;
+  margin-bottom: 4px;
   margin-left: 4px;
   align-items: center;
 }

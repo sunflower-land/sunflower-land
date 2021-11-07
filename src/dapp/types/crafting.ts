@@ -208,8 +208,21 @@ export const items: Item[] = [
 ];
 
 export interface Inventory {
+  sunflowerTokens: number;
   axe: number;
   pickaxe: number;
   wood: number;
   stone: number;
+}
+
+export function getItemAmount(inventory: Inventory, name: Ingredient["name"]) {
+  if (name === "Stone") {
+    return inventory.stone;
+  }
+
+  if (name === "Wood") {
+    return inventory.wood;
+  }
+
+  return inventory.sunflowerTokens;
 }

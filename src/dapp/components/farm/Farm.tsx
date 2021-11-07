@@ -55,6 +55,7 @@ export const Farm: React.FC = () => {
     pickaxe: 0,
     wood: 0,
     stone: 0,
+    sunflowerTokens: 0,
   });
 
   const [showBuyModal, setShowBuyModal] = React.useState(false);

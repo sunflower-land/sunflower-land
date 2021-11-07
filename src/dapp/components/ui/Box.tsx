@@ -21,7 +21,7 @@ import bottomRightInner from "../../images/ui/panel/lt_box_9slice_br.png";
 
 import "./Panel.css";
 
-export interface Props {
+export interface BoxProps {
   isSelected?: boolean;
   count?: number;
   onClick?: () => void;
@@ -29,7 +29,7 @@ export interface Props {
   image?: string;
 }
 
-export const Box: React.FC<Props> = ({
+export const Box: React.FC<BoxProps> = ({
   children,
   isSelected,
   count,

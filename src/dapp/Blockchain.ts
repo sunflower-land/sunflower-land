@@ -14,7 +14,7 @@ import {
   Fruit,
   Donation,
 } from "./types/contract";
-import { Recipe } from "./types/crafting";
+import { Inventory, Recipe } from "./types/crafting";
 
 interface Account {
   farm: Square[];
@@ -556,7 +556,11 @@ export class BlockChain {
   }
 
   // TODO - Promise.all
-  public async getInventory() {
+  public async getInventory(): Promise<Inventory> {
+    const token = await this.alchemyToken.methods
+      .balanceOf(this.account)
+      .call({ from: this.account });
+
     const axe = await this.axe.methods
       .balanceOf(this.account)
       .call({ from: this.account });
@@ -576,10 +580,11 @@ export class BlockChain {
     console.log({ axe });
     console.log({ wood });
     return {
-      axe: this.web3.utils.fromWei(axe),
-      wood: this.web3.utils.fromWei(wood),
-      pickaxe: this.web3.utils.fromWei(pickaxe),
-      stone: this.web3.utils.fromWei(stone),
+      axe: Number(this.web3.utils.fromWei(axe)),
+      wood: Number(this.web3.utils.fromWei(wood)),
+      pickaxe: Number(this.web3.utils.fromWei(pickaxe)),
+      stone: Number(this.web3.utils.fromWei(stone)),
+      sunflowerTokens: Number(this.web3.utils.fromWei(token)),
     };
   }
 

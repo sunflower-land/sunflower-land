@@ -13,7 +13,12 @@ import arrowDown from "../../images/ui/arrow_down.png";
 import wood from "../../images/ui/wood.png";
 import stone from "../../images/ui/rock.png";
 
-import { recipes, Recipe, Inventory } from "../../types/crafting";
+import {
+  recipes,
+  Recipe,
+  Inventory,
+  getItemAmount,
+} from "../../types/crafting";
 import { service } from "../../machine";
 import { Box, BoxProps } from "./Box";
 
@@ -51,6 +56,19 @@ export const CraftingMenu: React.FC<Props> = ({ onClose, inventory }) => {
     boxes.push({ disabled: true });
   }
 
+  const ingredientList = selectedRecipe.ingredients.map((ingredient) => {
+    const inventoryCount = getItemAmount(inventory, ingredient.name);
+    const price = ingredient.amount * amount;
+    return {
+      name: ingredient.name,
+      image: ingredient.image,
+      price,
+      canAfford: inventoryCount >= price,
+    };
+  });
+
+  const canAfford = ingredientList.every((ingredient) => ingredient.canAfford);
+
   return (
     <div id="crafting">
       <div id="crafting-left">
@@ -86,14 +104,18 @@ export const CraftingMenu: React.FC<Props> = ({ onClose, inventory }) => {
         <span id="recipe-description">{selectedRecipe.description}</span>
 
         <div id="ingredients">
-          {selectedRecipe.ingredients.map((ingredient) => (
+          {ingredientList.map((ingredient) => (
             <div className="ingredient">
               <div>
                 <img className="ingredient-image" src={ingredient.image} />
                 <span className="ingredient-count">{ingredient.name}</span>
               </div>
-              <span className="ingredient-text">
-                {ingredient.amount * amount}
+              <span
+                className={`ingredient-text ${
+                  !ingredient.canAfford && "ingredient-insufficient"
+                }`}
+              >
+                {ingredient.price}
               </span>
             </div>
           ))}
@@ -120,7 +142,7 @@ export const CraftingMenu: React.FC<Props> = ({ onClose, inventory }) => {
                   />
                 </div>
               </div>
-              <Button onClick={craft}>
+              <Button onClick={craft} disabled={!canAfford}>
                 <span id="craft-button-text">Craft</span>
               </Button>
             </>
