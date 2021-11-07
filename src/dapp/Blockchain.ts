@@ -581,8 +581,8 @@ export class BlockChain {
       tokenPromise,
       axePromise,
       woodPromise,
-      stonePromise,
       pickaxePromise,
+      stonePromise,
     ]);
 
     console.log({ axe });
