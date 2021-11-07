@@ -195,12 +195,12 @@ export const recipes: Recipe[] = [
     ingredients: [
       {
         name: "Stone",
-        amount: 500,
+        amount: 100,
         image: stone,
       },
       {
         name: "$SFF",
-        amount: 1000,
+        amount: 50,
         image: coin,
       },
     ],
