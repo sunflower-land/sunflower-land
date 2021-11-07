@@ -3,7 +3,7 @@ name: Upload Website
 on:
   push:
     branches:
-      - crafting-menu
+      - beta
 
 jobs:
   deploy:
