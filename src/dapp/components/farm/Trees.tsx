@@ -4,6 +4,7 @@ import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 import tree from "../../images/decorations/tree.png";
+import trunk from "../../images/decorations/trunk.png";
 import stump from "../../images/decorations/stump.png";
 import chopping from "../../images/characters/chopping.gif";
 import waiting from "../../images/characters/waiting.gif";
@@ -67,6 +68,23 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
     });
   };
 
+  if (machineState.matches("chopping")) {
+    return (
+      <div style={{ gridColumn: "9/10", gridRow: "3/4" }} className="gatherer">
+        {treeStrength === 10 ? (
+          <img src={tree} className="tree" alt="tree" />
+        ) : (
+          <img src={trunk} className="tree" alt="tree" />
+        )}
+        <img src={chopping} className="wood-chopper" />
+        <div className="gathered-resource-feedback">
+          <span>+</span>
+          <img src={wood} className="wood-chopped" />
+        </div>
+      </div>
+    );
+  }
+
   if (treeStrength === 0) {
     return (
       <div style={{ gridColumn: "9/10", gridRow: "3/4" }}>
@@ -75,18 +93,15 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
     );
   }
 
-  if (machineState.matches("chopping")) {
-    return (
-      <div style={{ gridColumn: "9/10", gridRow: "3/4" }} className="gatherer">
-        <img src={tree} className="tree" alt="tree" />
-        <img src={chopping} className="wood-chopper" />
-      </div>
-    );
-  }
+  const limit = Math.min(treeStrength, inventory.axe);
 
   return (
     <div style={{ gridColumn: "9/10", gridRow: "3/4" }} className="gatherer">
-      <img src={tree} className="tree" alt="tree" />
+      {treeStrength === 10 ? (
+        <img src={tree} className="tree" alt="tree" />
+      ) : (
+        <img src={trunk} className="tree" alt="tree" />
+      )}
       <OverlayTrigger
         trigger="click"
         rootClose
@@ -99,41 +114,42 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
                   <span>{`Chop ${amount} wood`}</span>
                   <img className="gather-axe" src={wood} />
                 </div>
-                <div className="gather-resources">
-                  <div id="craft-count">
-                    <img className="gather-axe" src={axe} />
-                    <Message>{amount}</Message>
-                    <div id="arrow-container">
-                      {amount < treeStrength ? (
-                        <img
-                          className="craft-arrow"
-                          alt="Step up donation value"
-                          src={arrowUp}
-                          onClick={() => setAmount((r) => r + 1)}
-                        />
-                      ) : (
-                        <div />
-                      )}
-
-                      {amount > 1 && (
-                        <img
-                          className="craft-arrow"
-                          alt="Step down donation value"
-                          src={arrowDown}
-                          onClick={() => setAmount((r) => r - 1)}
-                        />
-                      )}
-                    </div>
-                  </div>
-
-                  <Button onClick={chop} disabled={inventory.axe < amount}>
-                    <span id="craft-button-text">Chop</span>
-                  </Button>
-                </div>
-                {inventory.axe < amount && (
+                {inventory.axe < amount ? (
                   <Message>
-                    You need {amount - inventory.axe} more <img src={axe} />
+                    You need a <img src={axe} />
                   </Message>
+                ) : (
+                  <div className="gather-resources">
+                    <div id="craft-count">
+                      <img className="gather-axe" src={axe} />
+                      <Message>{amount}</Message>
+                      <div id="arrow-container">
+                        {amount < limit ? (
+                          <img
+                            className="craft-arrow"
+                            alt="Step up donation value"
+                            src={arrowUp}
+                            onClick={() => setAmount((r) => r + 1)}
+                          />
+                        ) : (
+                          <div />
+                        )}
+
+                        {amount > 1 && (
+                          <img
+                            className="craft-arrow"
+                            alt="Step down donation value"
+                            src={arrowDown}
+                            onClick={() => setAmount((r) => r - 1)}
+                          />
+                        )}
+                      </div>
+                    </div>
+
+                    <Button onClick={chop} disabled={inventory.axe < amount}>
+                      <span id="craft-button-text">Chop</span>
+                    </Button>
+                  </div>
                 )}
               </div>
             </Panel>

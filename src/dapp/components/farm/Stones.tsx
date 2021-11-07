@@ -83,6 +83,8 @@ export const Stones: React.FC<Props> = ({ inventory }) => {
     );
   }
 
+  const limit = Math.min(strength, inventory.pickaxe);
+
   return (
     <div style={{ gridColumn: "9/10", gridRow: "11/12" }} className="gatherer">
       <img src={rock} className="tree" alt="tree" />
@@ -98,41 +100,45 @@ export const Stones: React.FC<Props> = ({ inventory }) => {
                   <span>{`Mine ${amount} stone`}</span>
                   <img className="gather-axe" src={stone} />
                 </div>
-                <div className="gather-resources">
-                  <div id="craft-count">
-                    <img className="gather-axe" src={axe} />
-                    <Message>{amount}</Message>
-                    <div id="arrow-container">
-                      {amount < strength ? (
-                        <img
-                          className="craft-arrow"
-                          alt="Step up donation value"
-                          src={arrowUp}
-                          onClick={() => setAmount((r) => r + 1)}
-                        />
-                      ) : (
-                        <div />
-                      )}
-
-                      {amount > 1 && (
-                        <img
-                          className="craft-arrow"
-                          alt="Step down donation value"
-                          src={arrowDown}
-                          onClick={() => setAmount((r) => r - 1)}
-                        />
-                      )}
-                    </div>
-                  </div>
-
-                  <Button onClick={mine} disabled={inventory.pickaxe < amount}>
-                    <span id="craft-button-text">Mine</span>
-                  </Button>
-                </div>
-                {inventory.pickaxe < amount && (
+                {inventory.pickaxe < amount ? (
                   <Message>
-                    You need {amount - inventory.pickaxe} more <img src={axe} />
+                    You need a <img src={axe} />
                   </Message>
+                ) : (
+                  <div className="gather-resources">
+                    <div id="craft-count">
+                      <img className="gather-axe" src={axe} />
+                      <Message>{amount}</Message>
+                      <div id="arrow-container">
+                        {amount < limit ? (
+                          <img
+                            className="craft-arrow"
+                            alt="Step up donation value"
+                            src={arrowUp}
+                            onClick={() => setAmount((r) => r + 1)}
+                          />
+                        ) : (
+                          <div />
+                        )}
+
+                        {amount > 1 && (
+                          <img
+                            className="craft-arrow"
+                            alt="Step down donation value"
+                            src={arrowDown}
+                            onClick={() => setAmount((r) => r - 1)}
+                          />
+                        )}
+                      </div>
+                    </div>
+
+                    <Button
+                      onClick={mine}
+                      disabled={inventory.pickaxe < amount}
+                    >
+                      <span id="craft-button-text">Mine</span>
+                    </Button>
+                  </div>
                 )}
               </div>
             </Panel>

@@ -87,3 +87,31 @@
   align-items: start;
   flex-direction: column;
 }
+
+@keyframes mymove {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.gathered-resource-feedback {
+  opacity: 0;
+  font-size: 25px;
+  display: flex;
+  color: white;
+  text-shadow: 1px 1px black;
+  align-items: center;
+  position: absolute;
+  top: -15px;
+  animation: mymove 3s;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+}
+
+.wood-chopped {
+  width: 30px;
+  image-rendering: pixelated;
+}
