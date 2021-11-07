@@ -8,13 +8,13 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contr
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/ERC20Burnable.sol";
 
 
-contract PickAxe is ERC20, ERC20Burnable {
+contract Axe is ERC20, ERC20Burnable {
   address public minter;
   address private owner;
 
   event MinterChanged(address indexed from, address to);
 
-  constructor() payable ERC20("Sunflower Land PickAxe", "SLP") {
+  constructor() payable ERC20("Sunflower Land Axe", "SLA") {
     minter = msg.sender;
     owner = msg.sender;
   }

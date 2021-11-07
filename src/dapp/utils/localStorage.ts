@@ -1,52 +1,67 @@
-import { Fruit } from "../types/contract";
+import { ActionableItem, ACTIONABLE_ITEMS, Fruit } from "../types/contract";
+import { FRUITS } from "../types/fruits";
 
 interface FarmState {
-    selectedFruit: Fruit
+  selectedItem?: string;
 }
 
 // Account ID -> FarmState
-type CachedFarms = Record<string, FarmState>
+type CachedFarms = Record<string, FarmState>;
 
-const CACHED_FARMS_KEY = 'farms'
+const CACHED_FARMS_KEY = "farms";
 
 const DEFAULT: FarmState = {
-    selectedFruit: Fruit.Sunflower
-}
+  selectedItem: FRUITS[0].name,
+};
 
 function getFarms(): CachedFarms {
-    const stored = localStorage.getItem(CACHED_FARMS_KEY)
+  const stored = localStorage.getItem(CACHED_FARMS_KEY);
 
-    if (!stored) {
-        return {}
-    }
+  if (!stored) {
+    return {};
+  }
 
-    try {
-        const parsed = JSON.parse(stored)
+  try {
+    const parsed = JSON.parse(stored);
 
-        return parsed
-    } catch (e) {
-        console.error("Parsing localstorage failed: ", e)
-        return {}
-    }
+    return parsed;
+  } catch (e) {
+    console.error("Parsing localstorage failed: ", e);
+    return {};
+  }
 }
 
 export function getFarm(accountId: string): FarmState {
-    const farms = getFarms()
-    const farm = farms[accountId]
+  const farms = getFarms();
+  const farm = farms[accountId];
 
-    if (!farm) {
-        return DEFAULT
-    }
+  if (!farm) {
+    return DEFAULT;
+  }
 
-    return farm
+  return farm;
 }
 
 export function cacheAccountFarm(accountId: string, state: FarmState) {
-    const farms = getFarms()
-    const newFarms: CachedFarms = {
-        ...farms,
-        [accountId]: state,
-    }
+  const farms = getFarms();
+  const newFarms: CachedFarms = {
+    ...farms,
+    [accountId]: state,
+  };
 
-    localStorage.setItem(CACHED_FARMS_KEY, JSON.stringify(newFarms))
+  localStorage.setItem(CACHED_FARMS_KEY, JSON.stringify(newFarms));
+}
+
+export function getSelectedItem(accountId: string): ActionableItem {
+  const farms = getFarms();
+
+  const farm = farms[accountId];
+
+  if (!farm || !farm.selectedItem) {
+    return FRUITS[0];
+  }
+
+  const item = ACTIONABLE_ITEMS.find((item) => item.name === farm.selectedItem);
+
+  return item;
 }

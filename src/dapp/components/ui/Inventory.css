@@ -1,0 +1,85 @@
+#inventory-tabs {
+  position: absolute;
+  top: -33px;
+  z-index: 9;
+  padding: 4px;
+  left: 0;
+  display: flex;
+}
+
+.inventory-tab {
+  position: relative;
+  cursor: pointer;
+  cursor: pointer;
+  padding: 8px 8px;
+  font-size: 12px;
+  color: white;
+  text-shadow: 1px 1px black;
+  z-index: 9;
+  position: relative;
+  bottom: 10px;
+  left: -4px;
+}
+
+.inventory-tab:hover {
+  text-shadow: 2px 2px black;
+}
+
+.active-tab {
+  background: #c28569;
+}
+
+.tab-icon {
+  width: 20px;
+  image-rendering: pixelated;
+  margin-right: 8px;
+}
+
+#plant-to-harvest {
+  display: flex;
+}
+
+.plant-to-harvest-title {
+  color: white;
+  font-size: 11px;
+  text-shadow: 1px 1px black;
+  text-decoration: underline;
+}
+
+#plant-to-harvest {
+  justify-content: center;
+  /* text-decoration: underline; */
+  font-size: 13px;
+  color: white;
+  text-shadow: 1px 1px black;
+  margin-top: 8px;
+}
+
+#plants {
+  display: flex;
+  height: 270px;
+}
+
+.select-box {
+  position: absolute;
+  left: -7px;
+  right: -8px;
+  width: 104%;
+  z-index: 999;
+  width: 54px;
+  top: -7px;
+  image-rendering: pixelated;
+}
+
+.close-icon {
+  position: absolute;
+  right: 0;
+  top: -35px;
+  width: 22px;
+  image-rendering: pixelated;
+}
+
+.close-icon:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
