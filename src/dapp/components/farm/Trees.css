@@ -115,3 +115,23 @@
   width: 30px;
   image-rendering: pixelated;
 }
+
+.wood-toast {
+  position: absolute;
+  width: 90px;
+  height: 40px;
+  padding: 5px;
+  display: flex;
+  background: #c28569cc;
+  color: white;
+  text-shadow: 1px 1px black;
+  top: -43px;
+  left: -25px;
+  font-size: 13px;
+}
+
+.wood-toast-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

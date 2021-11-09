@@ -84,7 +84,7 @@ export class BlockChain {
       );
       this.wood = new this.alchemyWeb3.eth.Contract(
         Wood as any,
-        "0xB06f46a26a53dC2a58F050ffB11a27Ef783cbeE1"
+        "0x3846dCDA70f7c3E12F8084243d6AB5241B9f7116"
       );
       this.stone = new this.alchemyWeb3.eth.Contract(
         Stone as any,
