@@ -155,7 +155,6 @@ export class BlockChain {
         throw new Error("WRONG_CHAIN");
       }
 
-      await this.cacheTotalSupply();
       console.log("Resolved");
     } catch (e) {
       // If it is not a known error, keep trying
@@ -177,6 +176,7 @@ export class BlockChain {
   public async loadFarm() {
     this.details = await this.getAccount();
     this.inventory = await this.loadInventory();
+    await this.cacheTotalSupply();
   }
 
   private async waitForFarm(retryCount: number = 1) {
