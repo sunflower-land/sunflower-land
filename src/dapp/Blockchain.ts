@@ -35,6 +35,7 @@ export class BlockChain {
   private alchemyFarm: any | null = null;
   private account: string | null = null;
   private details: Account = null;
+  private inventory: Inventory = null;
 
   private events: Transaction[] = [];
 
@@ -175,6 +176,7 @@ export class BlockChain {
 
   public async loadFarm() {
     this.details = await this.getAccount();
+    this.inventory = await this.loadInventory();
   }
 
   private async waitForFarm(retryCount: number = 1) {
@@ -555,8 +557,7 @@ export class BlockChain {
     await this.loadFarm();
   }
 
-  // TODO - Promise.all
-  public async getInventory(): Promise<Inventory> {
+  private async loadInventory(): Promise<Inventory> {
     const tokenPromise = this.alchemyToken.methods
       .balanceOf(this.account)
       .call({ from: this.account });
@@ -594,6 +595,10 @@ export class BlockChain {
       stone: Number(this.web3.utils.fromWei(stone)),
       sunflowerTokens: Number(this.web3.utils.fromWei(token)),
     };
+  }
+
+  public getInventory() {
+    return this.inventory;
   }
 
   public async getTreeStrength() {

@@ -69,7 +69,7 @@ export const Tools: React.FC<Props> = ({
         </div>
       </div>
       <div id="recipe">
-        <span id="recipe-type">{selectedItem.type}</span>
+        <span className="recipe-type">{selectedItem.type}</span>
         <span id="recipe-title">{selectedItem.name}</span>
         <div id="crafting-item">
           <img src={selectedItem.image} />

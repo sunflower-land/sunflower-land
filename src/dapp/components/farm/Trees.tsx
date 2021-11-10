@@ -16,6 +16,12 @@ import axe from "../../images/ui/axe.png";
 import wood from "../../images/ui/wood.png";
 import timer from "../../images/ui/timer.png";
 
+import progressStart from "../../images/ui/progress/start.png";
+import progressQuarter from "../../images/ui/progress/quarter.png";
+import progressHalf from "../../images/ui/progress/half.png";
+import progressAlmost from "../../images/ui/progress/almost.png";
+import progressFull from "../../images/ui/progress/full.png";
+
 import { Panel } from "../ui/Panel";
 import { Message } from "../ui/Message";
 import { Button } from "../ui/Button";
@@ -32,6 +38,7 @@ import { Inventory, items } from "../../types/crafting";
 import { FruitItem } from "../../types/fruits";
 
 import "./Trees.css";
+import { secondsToString } from "../../utils/time";
 
 interface Props {
   inventory: Inventory;
@@ -44,7 +51,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
     BlockchainState
   >(service);
 
-  const [treeStrength, setTreeStrength] = React.useState(10);
+  const [treeStrength, setTreeStrength] = React.useState(0);
   const [amount, setAmount] = React.useState(1);
   const [choppedCount, setChoppedCount] = React.useState(0);
   const [showChoppedCount, setShowChoppedCount] = React.useState(false);
@@ -107,7 +114,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
     }
 
     if (treeStrength === 0) {
-      return <img src={stump} className="stump" alt="tree" />;
+      return <img src={stump} className="wood-stump" alt="tree" />;
     }
 
     const limit = Math.min(treeStrength, inventory.axe);
@@ -131,14 +138,10 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
                     <span>1 axe = 3-5</span>
                     <img className="gather-axe" src={wood} />
                   </div>
-                  <div className="gather-materials">
-                    <img className="gather-axe" src={tree} />
-                    <span>&nbsp;{treeStrength}0% left</span>
-                  </div>
 
                   {inventory.axe < amount ? (
                     <Message>
-                      You need a <img src={axe} />
+                      You need a <img src={axe} className="required-tool" />
                     </Message>
                   ) : (
                     <div className="gather-resources">
@@ -187,6 +190,28 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
     );
   };
 
+  const Progress = () => {
+    if (treeStrength === 10) {
+      return <img src={progressFull} className="tree-progress" />;
+    }
+    if (treeStrength > 10 * (3 / 4)) {
+      return <img src={progressAlmost} className="tree-progress" />;
+    }
+
+    if (treeStrength > 10 * (1 / 2)) {
+      return <img src={progressHalf} className="tree-progress" />;
+    }
+
+    if (treeStrength > 10 * (1 / 4)) {
+      return <img src={progressQuarter} className="tree-progress" />;
+    }
+
+    return <img src={progressStart} className="tree-progress" />;
+  };
+
+  // Ever 6 minutes it repairs 1/10th
+  const timeLeft = (10 - treeStrength) * 6 * 60;
+
   return (
     <div style={{ gridColumn: "9/10", gridRow: "3/4" }} className="gatherer">
       <Toast
@@ -202,6 +227,16 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
         </div>
       </Toast>
       {Content()}
+      {!machineState.matches("chopping") && (
+        <>
+          {Progress()}
+          {timeLeft > 0 && (
+            <span className="tree-progress-text">
+              {secondsToString(timeLeft)}
+            </span>
+          )}
+        </>
+      )}
     </div>
   );
 };

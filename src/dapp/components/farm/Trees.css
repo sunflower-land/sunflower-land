@@ -106,7 +106,7 @@
   align-items: center;
   position: absolute;
   top: -15px;
-  animation: mymove 3s;
+  animation: mymove 6s;
   animation-delay: 1s;
   animation-iteration-count: infinite;
 }
@@ -134,4 +134,34 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.tree-progress {
+  position: absolute;
+  bottom: -50%;
+  width: 40px;
+  left: 17%;
+}
+
+.tree-progress-text {
+  font-size: 10px;
+  color: white;
+  text-shadow: 2px 2px black;
+  position: absolute;
+  bottom: -75%;
+  width: 100%;
+  text-align: center;
+}
+
+.wood-stump {
+  width: 69%;
+  left: 15%;
+  top: 54%;
+  position: absolute;
+}
+
+.required-tool {
+  width: 25px;
+  image-rendering: pixelated;
+  margin-left: 9px;
 }

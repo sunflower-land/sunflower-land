@@ -42,7 +42,7 @@ export const Inventory: React.FC<Props> = ({
       </div>
       <div id="recipe">
         <>
-          <span id="recipe-type">{item.type}</span>
+          <span className="recipe-type">{item.type}</span>
           <span id="recipe-title">{item.name}</span>
           <div id="crafting-item">
             <img src={item.image} />
