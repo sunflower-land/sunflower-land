@@ -96,7 +96,7 @@ contract Wood is ERC20, ERC20Burnable {
         }
         
         // Seconds are even, increase multiplier
-        if (block.timestamp % 2 == 0) {
+        if ((block.timestamp / 10) % 2 == 0) {
             multiplier +=1;
         }
         
