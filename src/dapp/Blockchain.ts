@@ -89,11 +89,11 @@ export class BlockChain {
       );
       this.stone = new this.alchemyWeb3.eth.Contract(
         Stone as any,
-        "0xe38E8e52d79922a65eAB3EAA2aaFfba93CF1054B"
+        "0xE11e8ff4D9C10A7E4524e8fE6b4F1F3E8665eDCE"
       );
       this.pickaxe = new this.alchemyWeb3.eth.Contract(
         Pickaxe as any,
-        "0x60E3De256b6D1e137FD7A9d9B78Fd0C304a32e81"
+        "0x526439FCCd9494b61F9CfaA0c287Cb04a30F2D3f"
       );
     } catch (e) {
       // Timeout, retry

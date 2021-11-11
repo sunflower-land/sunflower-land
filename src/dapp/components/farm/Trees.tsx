@@ -227,7 +227,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
         </div>
       </Toast>
       {Content()}
-      {!machineState.matches("chopping") && (
+      {machineState.matches("farming") && (
         <>
           {Progress()}
           {timeLeft > 0 && (

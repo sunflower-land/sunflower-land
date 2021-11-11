@@ -153,6 +153,23 @@
   text-align: center;
 }
 
+.rock-progress {
+  position: absolute;
+  bottom: -20%;
+  width: 40px;
+  left: 17%;
+}
+
+.rock-progress-text {
+  font-size: 10px;
+  color: white;
+  text-shadow: 2px 2px black;
+  position: absolute;
+  bottom: -45%;
+  width: 100%;
+  text-align: center;
+}
+
 .wood-stump {
   width: 69%;
   left: 15%;

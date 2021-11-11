@@ -10,12 +10,11 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contr
 
 contract Stone is ERC20, ERC20Burnable {
   address public minter;
-  address private owner;
   
-  
-  uint RECOVERY_SECONDS = 3600;
+  // How long it takes - 2 hours
+  uint RECOVERY_SECONDS = 7200;
+  // How much stone a quarry has
   uint STRENGTH = 10 * (10**18);
-  uint RETURN_RATE = 1;
   
   mapping(address => uint) recoveryTime;
 
@@ -23,7 +22,6 @@ contract Stone is ERC20, ERC20Burnable {
 
   constructor() payable ERC20("Sunflower Land Stone", "SLS") {
     minter = msg.sender;
-    owner = msg.sender;
   }
 
   function passMinterRole(address farm) public returns (bool) {
@@ -32,10 +30,6 @@ contract Stone is ERC20, ERC20Burnable {
 
     emit MinterChanged(msg.sender, farm);
     return true;
-  }
-  
-  function getOwner() public view returns (address) {
-      return owner;
   }
 
 
@@ -83,7 +77,7 @@ contract Stone is ERC20, ERC20Burnable {
         require(msg.sender == minter, "You are not the minter");
         
         uint available = getAvailable(account);
-        require(available >= amount, "The stone has not replenished");
+        require(available >= amount, "The wood has not replenished");
         
         uint newAvailable = available - amount;
         uint amountToRecover = STRENGTH - newAvailable;
@@ -92,7 +86,20 @@ contract Stone is ERC20, ERC20Burnable {
         uint timeToRecover = (RECOVERY_SECONDS * amountToRecover) / STRENGTH;
         recoveryTime[account] = block.timestamp + timeToRecover;
 
+        // Pseudo random multiplier
+        uint multiplier = 2;
         
-        _mint(account, amount * RETURN_RATE);
+        // Total supply is even, increase multiplier
+        uint circulatingSupply = totalSupply() / (10 ** 18);
+        if (circulatingSupply % 2 == 0) {
+            multiplier +=1;
+        }
+        
+        // Seconds are even, increase multiplier
+        if ((block.timestamp / 10) % 2 == 0) {
+            multiplier +=1;
+        }
+        
+        _mint(account, amount * multiplier);
     }
 }
