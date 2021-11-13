@@ -26,7 +26,12 @@ export const Plants: React.FC<Props> = ({
   land,
   fruits,
 }) => {
-  const plant = isFruit(selectedItem) && selectedItem;
+  let plant = isFruit(selectedItem) && selectedItem;
+
+  // Grab the market price plant
+  if (plant) {
+    plant = fruits.find((f) => f.fruit === plant.fruit);
+  }
 
   return (
     <div id="crafting">

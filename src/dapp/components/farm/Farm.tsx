@@ -131,6 +131,7 @@ export const Farm: React.FC = () => {
         const supply = await machineState.context.blockChain.totalSupply();
         const marketRate = getMarketRate(supply);
         const marketFruits = getMarketFruits(marketRate);
+        console.log({ marketFruits });
         setFruits(marketFruits);
       }
 
