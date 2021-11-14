@@ -28,6 +28,8 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   React.useEffect(() => {
     const load = async () => {
+      if (isOpen) await service.machine.context.blockChain.cacheTotalSupply();
+
       const supply = await service.machine.context.blockChain.totalSupply();
       setTotalSupply(supply);
     };
@@ -79,30 +81,36 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
             </h3>
           </a>
 
-          <div>
-            <h3 className="current-price-header">Current Price</h3>
-            <div className="current-price-container ">
-              <img className="sunflower-price" src={sunflower} />
-              <span className="current-price">= ${currentPrice}</span>
-            </div>
-          </div>
-
-          {nextHalvingThreshold && (
-            <div>
-              <h3 className="current-price-header">Upcoming Price</h3>
-              <div className="current-price-container ">
-                <img className="sunflower-price" src={sunflower} />
-                <span className="current-price">= ${nextPrice}</span>
+          {totalSupply > 0 ? (
+            <>
+              <div>
+                <h3 className="current-price-header">Current Price</h3>
+                <div className="current-price-container ">
+                  <img className="sunflower-price" src={sunflower} />
+                  <span className="current-price">= ${currentPrice}</span>
+                </div>
               </div>
-            </div>
-          )}
 
-          <div>
-            <h3 className="current-price-header">Total Supply</h3>
-            <div className="current-price-container ">
-              <span className="current-price">{totalSupply}</span>
-            </div>
-          </div>
+              {nextHalvingThreshold && (
+                <div>
+                  <h3 className="current-price-header">Upcoming Price</h3>
+                  <div className="current-price-container ">
+                    <img className="sunflower-price" src={sunflower} />
+                    <span className="current-price">= ${nextPrice}</span>
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <h3 className="current-price-header">Total Supply</h3>
+                <div className="current-price-container ">
+                  <span className="current-price">{totalSupply}</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div>Loading...</div>
+          )}
 
           <div></div>
         </div>
