@@ -12,7 +12,7 @@ import { ThirdBlock } from "./ThirdBlock";
 import { FourthBlock } from "./FourthBlock";
 import { FifthBlock } from "./FifthBlock";
 import { Tiles } from "./Tiles";
-import { Trees } from "./Trees";
+import { Trees } from "./NewTrees";
 import { Stones } from "./Stones";
 import { Barn } from "./Barn";
 import { Blacksmith } from "./Blacksmith";

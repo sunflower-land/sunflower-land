@@ -2,6 +2,22 @@
   width: 100% !important;
 }
 
+.gather-modal {
+  width: 200px;
+}
+
+.gather-close-icon {
+  position: absolute;
+  right: 0;
+  top: 0px;
+  width: 22px;
+  image-rendering: pixelated;
+}
+
+.gather-close-icon:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
 .gatherer {
   cursor: pointer;
   z-index: 1;
@@ -12,6 +28,11 @@
   height: 100%;
 }
 .gatherer:hover {
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
+}
+
+.gatherer-selected {
   filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
     drop-shadow(0px -1px 0px white);
 }
