@@ -2,6 +2,10 @@
   width: 100% !important;
 }
 
+.gather-tree {
+  z-index: 9;
+}
+
 .gather-modal {
   width: 200px;
 }

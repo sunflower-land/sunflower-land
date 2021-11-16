@@ -49,8 +49,36 @@ const TREES: React.CSSProperties[] = [
     gridRow: "3/4",
   },
   {
+    gridColumn: "2/3",
+    gridRow: "2/3",
+  },
+  {
     gridColumn: "3/4",
     gridRow: "6/7",
+  },
+  {
+    gridColumn: "1/2",
+    gridRow: "8/9",
+  },
+  {
+    gridColumn: "3/4",
+    gridRow: "11/12",
+  },
+  {
+    gridColumn: "7/8",
+    gridRow: "11/12",
+  },
+  {
+    gridColumn: "12/13",
+    gridRow: "11/12",
+  },
+  {
+    gridColumn: "15/16",
+    gridRow: "3/4",
+  },
+  {
+    gridColumn: "12/13",
+    gridRow: "1/2",
   },
 ];
 
@@ -247,8 +275,8 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
         return (
           <div
             style={gridPosition}
-            className={classnames({
-              "gatherer-selected": amount > 1,
+            className={classnames("gather-tree", {
+              "gatherer-selected": amount > index + 1,
             })}
           >
             <img src={tree} className="tree" alt="tree" />
