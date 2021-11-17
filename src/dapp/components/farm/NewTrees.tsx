@@ -116,6 +116,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
 
     if (machineState.matches("farming")) {
       load();
+      setAmount(0);
     }
   }, [machineState.value]);
 
@@ -159,16 +160,17 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
   return (
     <>
       {TREES.map((gridPosition, index) => {
-        if (treeStrength < index + 1) {
+        const choppedTreeCount = 10 - treeStrength;
+        if (choppedTreeCount > index) {
           return (
             <div style={gridPosition}>
-              <img src={stump} className="wood-stump" alt="tree" />
+              <img src={stump} className="wood-stump gather-tree" alt="tree" />
             </div>
           );
         }
 
-        const isNextToChop = 10 - treeStrength === index;
-        const isHighlighted = amount >= index + 1;
+        const isNextToChop = choppedTreeCount === index;
+        const isHighlighted = amount + choppedTreeCount >= index + 1;
         const showWaiting =
           machineState.matches("farming") && (isNextToChop || isHighlighted);
 
@@ -189,9 +191,9 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
             {showWaiting && (
               <div>
                 <img src={waiting} className="wood-chopper" />
+                <img src={questionMark} className="chopper-question" />
               </div>
             )}
-            {isNextToChop}
           </div>
         );
       })}
