@@ -6,7 +6,7 @@ import Toast from "react-bootstrap/Toast";
 import Modal from "react-bootstrap/Modal";
 import classnames from "classnames";
 
-import close from "../../images/ui/close.png";
+import closeIcon from "../../images/ui/close.png";
 import tree from "../../images/decorations/tree.png";
 import trunk from "../../images/decorations/trunk.png";
 import stump from "../../images/decorations/stump.png";
@@ -44,6 +44,10 @@ import "./Trees.css";
 import { secondsToString } from "../../utils/time";
 
 const TREES: React.CSSProperties[] = [
+  {
+    gridColumn: "9/10",
+    gridRow: "3/4",
+  },
   {
     gridColumn: "5/6",
     gridRow: "3/4",
@@ -95,7 +99,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
 
   const [showModal, setShowModal] = React.useState(false);
   const [treeStrength, setTreeStrength] = React.useState(0);
-  const [amount, setAmount] = React.useState(1);
+  const [amount, setAmount] = React.useState(0);
   const [choppedCount, setChoppedCount] = React.useState(0);
   const [showChoppedCount, setShowChoppedCount] = React.useState(false);
   const previousInventory = useRef<Inventory | null>(null);
@@ -140,152 +144,54 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
     setShowModal(false);
   };
 
-  const Content = () => {
-    if (machineState.matches("chopping")) {
-      return (
-        <>
-          {treeStrength === 10 ? (
-            <img src={tree} className="tree" alt="tree" />
-          ) : (
-            <img src={trunk} className="tree" alt="tree" />
-          )}
-          <img src={chopping} className="wood-chopper" />
-          <div className="gathered-resource-feedback">
-            <span>+</span>
-            <img src={wood} className="wood-chopped" />
-          </div>
-        </>
-      );
-    }
+  const open = () => {
+    setShowModal(true);
+    setAmount(1);
+  };
 
-    if (treeStrength === 0) {
-      return <img src={stump} className="wood-stump" alt="tree" />;
-    }
-
-    const limit = Math.min(treeStrength, inventory.axe);
-
-    return (
-      <>
-        {treeStrength === 10 ? (
-          <img src={tree} className="tree" alt="tree" />
-        ) : (
-          <img src={trunk} className="tree" alt="tree" />
-        )}
-        <OverlayTrigger
-          trigger="click"
-          rootClose
-          placement="bottom"
-          overlay={
-            <Popover id="popover-wood">
-              <Panel>
-                <div className="gather-panel">
-                  <div className="gather-materials">
-                    <span>1 axe = 3-5</span>
-                    <img className="gather-axe" src={wood} />
-                  </div>
-
-                  {inventory.axe < amount ? (
-                    <Message>
-                      You need a <img src={axe} className="required-tool" />
-                    </Message>
-                  ) : (
-                    <div className="gather-resources">
-                      <div id="craft-count">
-                        <img className="gather-axe" src={axe} />
-                        <Message>{amount}</Message>
-                        <div id="arrow-container">
-                          {amount < limit ? (
-                            <img
-                              className="craft-arrow"
-                              alt="Step up donation value"
-                              src={arrowUp}
-                              onClick={() => setAmount((r) => r + 1)}
-                            />
-                          ) : (
-                            <div />
-                          )}
-
-                          {amount > 1 && (
-                            <img
-                              className="craft-arrow"
-                              alt="Step down donation value"
-                              src={arrowDown}
-                              onClick={() => setAmount((r) => r - 1)}
-                            />
-                          )}
-                        </div>
-                      </div>
-
-                      <Button onClick={chop} disabled={inventory.axe < amount}>
-                        <span id="craft-button-text">Chop</span>
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </Panel>
-            </Popover>
-          }
-        >
-          <div>
-            <img src={questionMark} className="chopper-question" />
-            <img src={waiting} className="wood-chopper" />
-          </div>
-        </OverlayTrigger>
-      </>
-    );
+  const close = () => {
+    setShowModal(false);
+    setAmount(0);
   };
 
   const limit = Math.min(treeStrength, inventory.axe);
 
   return (
     <>
-      {treeStrength > 0 ? (
-        <div
-          style={{ gridColumn: "9/10", gridRow: "3/4" }}
-          className={classnames("gatherer", {
-            "gatherer-selected": amount > 0,
-          })}
-          onClick={() => setShowModal(true)}
-        >
-          <img src={tree} className="tree" alt="tree" />
-          {machineState.matches("chopping") ? (
-            <img src={chopping} className="wood-chopper" />
-          ) : (
-            <div>
-              <img src={questionMark} className="chopper-question" />
-              <img src={waiting} className="wood-chopper" />
-            </div>
-          )}
-        </div>
-      ) : (
-        <div style={{ gridColumn: "9/10", gridRow: "3/4" }}>
-          <img src={stump} className="wood-stump" alt="tree" />;
-        </div>
-      )}
-
       {TREES.map((gridPosition, index) => {
-        if (treeStrength <= index + 1) {
+        if (treeStrength < index + 1) {
           return (
             <div style={gridPosition}>
-              <img src={stump} className="wood-stump" alt="tree" />;
+              <img src={stump} className="wood-stump" alt="tree" />
             </div>
           );
         }
 
+        const isNextToChop = 10 - treeStrength === index;
+        const isHighlighted = amount >= index + 1;
+        const showWaiting =
+          machineState.matches("farming") && (isNextToChop || isHighlighted);
+
+        console.log({ treeStrength, index });
         return (
           <div
             style={gridPosition}
             className={classnames("gather-tree", {
-              "gatherer-selected": amount > index + 1,
+              "gatherer-selected": isHighlighted,
+              gatherer: isNextToChop,
             })}
+            onClick={isNextToChop ? open : undefined}
           >
             <img src={tree} className="tree" alt="tree" />
-            {amount > index + 1 &&
-              (machineState.matches("chopping") ? (
-                <img src={chopping} className="wood-chopper" />
-              ) : (
+            {isHighlighted && machineState.matches("chopping") && (
+              <img src={chopping} className="wood-chopper" />
+            )}
+            {showWaiting && (
+              <div>
                 <img src={waiting} className="wood-chopper" />
-              ))}
+              </div>
+            )}
+            {isNextToChop}
           </div>
         );
       })}
@@ -294,16 +200,16 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
         <Modal
           show={showModal}
           centered
-          onHide={() => setShowModal(false)}
+          onHide={close}
           backdrop={false}
           dialogClassName="gather-modal"
         >
           <Panel>
             <div className="gather-panel">
               <img
-                src={close}
+                src={closeIcon}
                 className="gather-close-icon"
-                onClick={() => setShowModal(false)}
+                onClick={close}
               />
 
               <div className="gather-materials">
