@@ -20,6 +20,7 @@ import wood from "../../images/ui/wood.png";
 import { Panel } from "../ui/Panel";
 import { Message } from "../ui/Message";
 import { Button } from "../ui/Button";
+import { Progress } from "../ui/Progress";
 
 import {
   BlockchainEvent,
@@ -128,7 +129,6 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
   }, [machineState.value, inventory]);
 
   const chop = () => {
-    console.log("Chop!");
     service.send("CHOP", {
       resource: items.find((item) => item.name === "Wood").address,
       amount: amount,
@@ -154,9 +154,14 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
       {TREES.map((gridPosition, index) => {
         const choppedTreeCount = 10 - treeStrength;
         if (choppedTreeCount > index) {
+          const recovery = choppedTreeCount - index;
           return (
             <div style={gridPosition}>
               <img src={stump} className="wood-stump gather-tree" alt="tree" />
+              <Progress
+                percentage={(recovery * 6) / 60}
+                seconds={recovery * 6 * 60}
+              />
             </div>
           );
         }
