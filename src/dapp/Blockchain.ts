@@ -34,8 +34,11 @@ export class BlockChain {
   private farm: any | null = null;
   private alchemyFarm: any | null = null;
   private account: string | null = null;
+
   private details: Account = null;
   private inventory: Inventory = null;
+  private stoneStrength: number = 0;
+  private woodStrength: number = 0;
 
   private events: Transaction[] = [];
 
@@ -174,8 +177,17 @@ export class BlockChain {
   }
 
   public async loadFarm() {
-    this.details = await this.getAccount();
-    this.inventory = await this.loadInventory();
+    const [account, inventory, tree, stone] = await Promise.all([
+      this.getAccount(),
+      this.loadInventory(),
+      this.loadTreeStrength(),
+      this.loadStoneStrength(),
+    ]);
+    this.details = account;
+    this.inventory = inventory;
+    this.woodStrength = tree;
+    this.stoneStrength = stone;
+
     await this.cacheTotalSupply();
   }
 
@@ -601,23 +613,28 @@ export class BlockChain {
     return this.inventory;
   }
 
-  public async getTreeStrength() {
+  public async loadTreeStrength() {
     const strength = await this.wood.methods
       .getAvailable(this.account)
       .call({ from: this.account });
 
-    return {
-      strength: this.web3.utils.fromWei(strength),
-    };
+    return Number(this.web3.utils.fromWei(strength));
   }
 
-  public async getStoneStrength() {
+  public async loadStoneStrength() {
     const strength = await this.stone.methods
       .getAvailable(this.account)
       .call({ from: this.account });
 
-    return {
-      strength: this.web3.utils.fromWei(strength),
-    };
+    return Number(this.web3.utils.fromWei(strength));
+  }
+
+  public async getTreeStrength() {
+    console.log({ ws: this.woodStrength });
+    return this.woodStrength;
+  }
+
+  public async getStoneStrength() {
+    return this.stoneStrength;
   }
 }

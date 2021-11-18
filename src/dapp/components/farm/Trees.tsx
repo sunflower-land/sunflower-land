@@ -60,8 +60,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
   useEffect(() => {
     const load = async () => {
       // TODO - fetch available food left and how long until it will be available again
-      const { strength } =
-        await machineState.context.blockChain.getTreeStrength();
+      const strength = await machineState.context.blockChain.getTreeStrength();
       console.log({ strength });
       setTreeStrength(Math.floor(Number(strength)));
       // TODO load axe count

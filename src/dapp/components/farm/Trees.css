@@ -76,6 +76,7 @@
   display: flex;
   flex-direction: column;
   font-family: "Press Start 2p";
+  padding: 29px 4px 5px;
 }
 
 .gather-resources {
@@ -156,6 +157,9 @@
 }
 
 .wood-toast-body {
+  color: white;
+  text-shadow: 1px 1px black;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -206,4 +210,13 @@
   width: 25px;
   image-rendering: pixelated;
   margin-left: 9px;
+}
+
+#resource-increase-panel {
+  position: fixed;
+  top: 16px;
+  right: calc(50% - 50px);
+  z-index: 9;
+  height: 40px;
+  transition: opacity 0.3s;
 }

@@ -8,7 +8,6 @@ import classnames from "classnames";
 
 import closeIcon from "../../images/ui/close.png";
 import tree from "../../images/decorations/tree.png";
-import trunk from "../../images/decorations/trunk.png";
 import stump from "../../images/decorations/stump.png";
 import chopping from "../../images/characters/chopping.gif";
 import waiting from "../../images/characters/waiting.gif";
@@ -17,13 +16,6 @@ import arrowUp from "../../images/ui/arrow_up.png";
 import arrowDown from "../../images/ui/arrow_down.png";
 import axe from "../../images/ui/axe.png";
 import wood from "../../images/ui/wood.png";
-import timer from "../../images/ui/timer.png";
-
-import progressStart from "../../images/ui/progress/start.png";
-import progressQuarter from "../../images/ui/progress/quarter.png";
-import progressHalf from "../../images/ui/progress/half.png";
-import progressAlmost from "../../images/ui/progress/almost.png";
-import progressFull from "../../images/ui/progress/full.png";
 
 import { Panel } from "../ui/Panel";
 import { Message } from "../ui/Message";
@@ -107,8 +99,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
   useEffect(() => {
     const load = async () => {
       // TODO - fetch available food left and how long until it will be available again
-      const { strength } =
-        await machineState.context.blockChain.getTreeStrength();
+      const strength = await machineState.context.blockChain.getTreeStrength();
       console.log({ strength });
       setTreeStrength(Math.floor(Number(strength)));
       // TODO load axe count
@@ -132,6 +123,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
       const difference = inventory.wood - previousInventory.current.wood;
       setChoppedCount(difference);
       setShowChoppedCount(true);
+      setTimeout(() => setShowChoppedCount(false), 3000);
     }
   }, [machineState.value, inventory]);
 
@@ -186,7 +178,13 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
           >
             <img src={tree} className="tree" alt="tree" />
             {isHighlighted && machineState.matches("chopping") && (
-              <img src={chopping} className="wood-chopper" />
+              <>
+                <img src={chopping} className="wood-chopper" />
+                <div className="gathered-resource-feedback">
+                  <span>+</span>
+                  <img src={wood} className="wood-chopped" />
+                </div>
+              </>
             )}
             {showWaiting && (
               <div>
@@ -215,7 +213,8 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
               />
 
               <div className="gather-materials">
-                <span>1 axe = 3-5</span>
+                <span>1 tree = 3-5</span>
+
                 <img className="gather-axe" src={wood} />
               </div>
 
@@ -260,6 +259,19 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
           </Panel>
         </Modal>
       )}
+      <div
+        id="resource-increase-panel"
+        style={{
+          opacity: showChoppedCount ? 1 : 0,
+        }}
+      >
+        <Panel>
+          <div className="wood-toast-body">
+            +{choppedCount}
+            <img className="gather-axe" src={wood} />
+          </div>
+        </Panel>
+      </div>
     </>
   );
 };
