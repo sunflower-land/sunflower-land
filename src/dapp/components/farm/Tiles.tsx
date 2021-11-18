@@ -26,24 +26,6 @@ const DecorationFiller = () => (
         <div
           style={{
             gridColumn: `${position}/${position + 1}`,
-            gridRow: `${index + 4}/${index + 5}`,
-          }}
-        >
-          <img className="tree" src={tree} />
-        </div>
-
-        <div
-          style={{
-            gridColumn: `${position + 1}/${position + 2}`,
-            gridRow: `${index + 2}/${index + 3}`,
-          }}
-        >
-          <img className="tree-offset" src={tree} />
-        </div>
-
-        <div
-          style={{
-            gridColumn: `${position}/${position + 1}`,
             gridRow: `${index + 3}/${index + 4}`,
           }}
         >
@@ -56,7 +38,7 @@ const DecorationFiller = () => (
             gridRow: `${index + 6}/${index + 7}`,
           }}
         >
-          <img className="flowers" src={stump} />
+          <img className="flowers" src={grassLeaves1} />
         </div>
 
         <div
@@ -84,15 +66,6 @@ const DecorationFiller = () => (
           }}
         >
           <img className="rock1" src={rock1} />
-        </div>
-
-        <div
-          style={{
-            gridColumn: `${position + 1}/${position + 2}`,
-            gridRow: `${index + 10}/${index + 11}`,
-          }}
-        >
-          <img className="tree-offset" src={tree} />
         </div>
 
         <div
@@ -217,38 +190,6 @@ export const Tiles: React.FC<Props> = () => {
         style={{ gridColumn: "6/7", gridRow: "4/5" }}
       />
 
-      {/* Trees */}
-      <div style={{ gridColumn: "12/13", gridRow: "1/2" }}>
-        <img className="tree" src={tree} />
-      </div>
-      <div style={{ gridColumn: "9/10", gridRow: "1/2" }}>
-        <img className="tree" src={tree} />
-      </div>
-      <div style={{ gridColumn: "10/11", gridRow: "1/2" }}>
-        <img className="tree-offset" src={tree} />
-      </div>
-
-      <div style={{ gridColumn: "14/15", gridRow: "1/2" }}>
-        <img className="tree" src={tree} />
-      </div>
-      <div style={{ gridColumn: "15/16", gridRow: "1/2" }}>
-        <img className="tree-offset" src={tree} />
-      </div>
-
-      <div style={{ gridColumn: "4/5", gridRow: "1/2" }}>
-        <img className="tree" src={tree} />
-      </div>
-      <div style={{ gridColumn: "7/8", gridRow: "1/2" }}>
-        <img className="tree-offset" src={tree} />
-      </div>
-
-      <div style={{ gridColumn: "1/2", gridRow: "2/3" }}>
-        <img className="tree" src={tree} />
-      </div>
-      <div style={{ gridColumn: "2/3", gridRow: "2/3" }}>
-        <img className="tree-offset" src={tree} />
-      </div>
-
       {/* Fence */}
       <div style={{ gridColumn: "7/8", gridRow: "6/7" }}>
         <img className="fence-horizontal" src={woodHorizontal} />
@@ -317,11 +258,11 @@ export const Tiles: React.FC<Props> = () => {
       </div>
 
       <div style={{ gridColumn: "3/4", gridRow: "2/3" }}>
-        <img className="stump" src={stump} />
+        <img className="stump" src={flower1} />
       </div>
 
       <div style={{ gridColumn: "5/6", gridRow: "10/11" }}>
-        <img className="stump" src={stump} />
+        <img className="stump" src={flower1} />
       </div>
 
       <div style={{ gridColumn: "5/6", gridRow: "3/4" }}>
