@@ -103,7 +103,8 @@ export const Farm: React.FC = () => {
       if (
         machineState.matches("upgrading") ||
         machineState.matches("loading") ||
-        machineState.matches("rewarding")
+        machineState.matches("rewarding") ||
+        machineState.matches("crafting")
       ) {
         farmIsFresh.current = false;
       }
