@@ -206,6 +206,19 @@
   position: absolute;
 }
 
+.rock-mine {
+  width: 80%;
+  position: relative;
+  top: 10%;
+  left: 5%;
+}
+.mined-rock {
+  width: 69%;
+  left: 15%;
+  top: 28%;
+  position: absolute;
+}
+
 .required-tool {
   width: 25px;
   image-rendering: pixelated;

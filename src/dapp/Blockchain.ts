@@ -322,6 +322,7 @@ export class BlockChain {
       .call({ from: this.account });
 
     const balance = this.web3.utils.fromWei(rawBalance.toString());
+    console.log({ balance });
     return {
       balance: Number(balance),
       farm,

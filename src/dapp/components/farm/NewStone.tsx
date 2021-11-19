@@ -143,7 +143,7 @@ export const Stones: React.FC<Props> = ({ inventory }) => {
             <div style={gridPosition}>
               <img
                 src={smallRock}
-                className="wood-stump gather-tree"
+                className="mined-rock gather-tree"
                 alt="tree"
               />
             </div>
@@ -157,7 +157,6 @@ export const Stones: React.FC<Props> = ({ inventory }) => {
           !machineState.matches("mining") &&
           (isNextToChop || isHighlighted);
 
-        console.log({ treeStrength, index });
         return (
           <div
             style={gridPosition}
@@ -167,7 +166,7 @@ export const Stones: React.FC<Props> = ({ inventory }) => {
             })}
             onClick={isNextToChop ? open : undefined}
           >
-            <img src={rock} className="tree" alt="tree" />
+            <img src={rock} className="rock-mine" alt="tree" />
             {isHighlighted && machineState.matches("mining") && (
               <>
                 <img src={mining} className="miner" />

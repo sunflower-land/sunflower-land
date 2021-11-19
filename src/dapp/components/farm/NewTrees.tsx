@@ -152,7 +152,6 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
           !machineState.matches("chopping") &&
           (isNextToChop || isHighlighted);
 
-        console.log({ treeStrength, index });
         return (
           <div
             style={gridPosition}
