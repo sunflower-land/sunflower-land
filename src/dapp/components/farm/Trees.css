@@ -7,7 +7,7 @@
 }
 
 .gather-modal {
-  width: 200px;
+  width: 400px;
 }
 
 .gather-close-icon {
@@ -74,9 +74,9 @@
 
 .gather-panel {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   font-family: "Press Start 2p";
-  padding: 29px 4px 5px;
+  padding: 5px 4px 5px;
 }
 
 .gather-resources {
@@ -219,4 +219,55 @@
   z-index: 9;
   height: 40px;
   transition: opacity 0.3s;
+}
+
+.resource-materials {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.resource-material {
+  color: white;
+  text-shadow: 1px 1px black;
+  width: 200px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid white;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+.resource-material img {
+  height: 30px;
+  image-rendering: pixelated;
+  margin-left: 4px;
+}
+
+.resource-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.resource-title {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 13px;
+}
+
+.resource-description {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 11px;
+  text-align: center;
+}
+
+.resource-image {
+  width: 70px;
+  image-rendering: pixelated;
+  padding: 10px 0;
 }

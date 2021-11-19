@@ -35,9 +35,9 @@ export const Progress: React.FC<Props> = ({ percentage, seconds }) => {
   return (
     <>
       <Bar percentage={percentage} seconds={seconds} />
-      {seconds > 0 && (
+      {/* {seconds > 0 && (
         <span className="tree-progress-text">{secondsToString(seconds)}</span>
-      )}
+      )} */}
     </>
   );
 };

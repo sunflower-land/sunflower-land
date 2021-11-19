@@ -44,20 +44,6 @@ export class BlockChain {
 
   private isTrialAccount: boolean = false;
 
-  private async connectToMumbai() {
-    this.token = new this.web3.eth.Contract(
-      Token as any,
-      "0x8B0e84C5D75C9b489119bde5fA9136212C7e86A8"
-    );
-    this.farm = new this.web3.eth.Contract(
-      Farm as any,
-      "0x84a23593ba916aDACA311A19a0648e6f8cc90612"
-    );
-
-    const maticAccounts = await this.web3.eth.getAccounts();
-    this.account = maticAccounts[0];
-  }
-
   private async connectToMatic() {
     try {
       this.token = new this.web3.eth.Contract(
@@ -144,14 +130,11 @@ export class BlockChain {
       // It is actually quite fast, we won't to simulate slow loading to convey complexity
       await new Promise((res) => window.setTimeout(res, 1000));
       await this.setupWeb3();
+      this.oldInventory = null;
       const chainId = await this.web3.eth.getChainId();
 
       if (chainId === 137) {
         await this.connectToMatic();
-
-        await this.loadFarm();
-      } else if (chainId === 80001) {
-        await this.connectToMumbai();
 
         await this.loadFarm();
       } else {
@@ -353,6 +336,7 @@ export class BlockChain {
       throw new Error("TRIAL_MODE");
     }
 
+    this.oldInventory = this.inventory;
     console.log({ recipe, amount });
 
     const gwei = this.web3.utils.toWei(amount.toString(), "ether");
@@ -383,6 +367,7 @@ export class BlockChain {
     await this.loadFarm();
   }
 
+  private oldInventory: Inventory | null = null;
   /**
    * ALWAYS ENSURE THAT A RESOURCE CONTRACT DOES NOT HAVE A PUBLIC MINT!
    * A resource can only be gained through a "stake"
@@ -399,6 +384,9 @@ export class BlockChain {
     if (this.isTrial) {
       throw new Error("TRIAL_MODE");
     }
+
+    // Save old inventory for comparison
+    this.oldInventory = this.inventory;
 
     console.log({ resource, amount });
     const gwei = this.web3.utils.toWei(amount.toString(), "ether");
@@ -611,6 +599,27 @@ export class BlockChain {
 
   public getInventory() {
     return this.inventory;
+  }
+
+  public getInventoryChange(): Inventory {
+    if (!this.oldInventory) {
+      return {
+        wood: 0,
+        stone: 0,
+        axe: 0,
+        sunflowerTokens: 0,
+        pickaxe: 0,
+      };
+    }
+
+    return {
+      wood: this.inventory.wood - this.oldInventory.wood,
+      stone: this.inventory.stone - this.oldInventory.stone,
+      axe: this.inventory.axe - this.oldInventory.axe,
+      sunflowerTokens:
+        this.inventory.sunflowerTokens - this.oldInventory.sunflowerTokens,
+      pickaxe: this.inventory.pickaxe - this.oldInventory.pickaxe,
+    };
   }
 
   public async loadTreeStrength() {
