@@ -3,16 +3,17 @@ import React, { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import classnames from "classnames";
 
+import rock from "../../images/land/rock.png";
+import mining from "../../images/characters/mining.gif";
+import stone from "../../images/ui/rock.png";
+import smallRock from "../../images/decorations/rock2.png";
+import pickaxe from "../../images/ui/wood_pickaxe.png";
+
 import closeIcon from "../../images/ui/close.png";
-import tree from "../../images/decorations/tree.png";
-import stump from "../../images/decorations/stump.png";
-import chopping from "../../images/characters/chopping.gif";
 import waiting from "../../images/characters/waiting.gif";
 import questionMark from "../../images/ui/expression_confused.png";
 import arrowUp from "../../images/ui/arrow_up.png";
 import arrowDown from "../../images/ui/arrow_down.png";
-import axe from "../../images/ui/axe.png";
-import wood from "../../images/ui/wood.png";
 import timer from "../../images/ui/timer.png";
 
 import { Panel } from "../ui/Panel";
@@ -30,46 +31,46 @@ import { Inventory, items } from "../../types/crafting";
 
 import "./Trees.css";
 
-const TREES: React.CSSProperties[] = [
+const ROCKS: React.CSSProperties[] = [
   {
     gridColumn: "9/10",
-    gridRow: "3/4",
-  },
-  {
-    gridColumn: "5/6",
-    gridRow: "3/4",
-  },
-  {
-    gridColumn: "2/3",
-    gridRow: "2/3",
-  },
-  {
-    gridColumn: "3/4",
-    gridRow: "6/7",
-  },
-  {
-    gridColumn: "1/2",
-    gridRow: "8/9",
-  },
-  {
-    gridColumn: "3/4",
     gridRow: "11/12",
   },
   {
-    gridColumn: "7/8",
-    gridRow: "11/12",
-  },
-  {
-    gridColumn: "12/13",
+    gridColumn: "14/15",
     gridRow: "11/12",
   },
   {
     gridColumn: "15/16",
-    gridRow: "3/4",
+    gridRow: "8/9",
   },
   {
-    gridColumn: "12/13",
-    gridRow: "1/2",
+    gridColumn: "14/15",
+    gridRow: "2/3",
+  },
+  {
+    gridColumn: "11/12",
+    gridRow: "2/3",
+  },
+  {
+    gridColumn: "9/10",
+    gridRow: "2/3",
+  },
+  {
+    gridColumn: "4/5",
+    gridRow: "2/3",
+  },
+  {
+    gridColumn: "1/2",
+    gridRow: "4/5",
+  },
+  {
+    gridColumn: "6/7",
+    gridRow: "7/8",
+  },
+  {
+    gridColumn: "1/2",
+    gridRow: "11/12",
   },
 ];
 
@@ -77,7 +78,7 @@ interface Props {
   inventory: Inventory;
 }
 
-export const Trees: React.FC<Props> = ({ inventory }) => {
+export const Stones: React.FC<Props> = ({ inventory }) => {
   const [machineState, send] = useService<
     Context,
     BlockchainEvent,
@@ -92,7 +93,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
 
   useEffect(() => {
     const load = async () => {
-      const strength = await machineState.context.blockChain.getTreeStrength();
+      const strength = await machineState.context.blockChain.getStoneStrength();
       setTreeStrength(Math.floor(Number(strength)));
     };
 
@@ -105,16 +106,16 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
   useEffect(() => {
     const change = machineState.context.blockChain.getInventoryChange();
 
-    if (change.wood > 0) {
-      setChoppedCount(change.wood);
+    if (change.stone > 0) {
+      setChoppedCount(change.stone);
       setShowChoppedCount(true);
       setTimeout(() => setShowChoppedCount(false), 3000);
     }
   }, [machineState.value, inventory]);
 
   const chop = () => {
-    send("CHOP", {
-      resource: items.find((item) => item.name === "Wood").address,
+    send("MINE", {
+      resource: items.find((item) => item.name === "Stone").address,
       amount: amount,
     });
 
@@ -131,16 +132,20 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
     setAmount(0);
   };
 
-  const limit = Math.min(treeStrength, inventory.axe);
+  const limit = Math.min(treeStrength, inventory.pickaxe);
 
   return (
     <>
-      {TREES.map((gridPosition, index) => {
+      {ROCKS.map((gridPosition, index) => {
         const choppedTreeCount = 10 - treeStrength;
         if (choppedTreeCount > index || machineState.matches("onboarding")) {
           return (
             <div style={gridPosition}>
-              <img src={stump} className="wood-stump gather-tree" alt="tree" />
+              <img
+                src={smallRock}
+                className="wood-stump gather-tree"
+                alt="tree"
+              />
             </div>
           );
         }
@@ -149,7 +154,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
         const isHighlighted = amount + choppedTreeCount >= index + 1;
         const showWaiting =
           !machineState.matches("onboarding") &&
-          !machineState.matches("chopping") &&
+          !machineState.matches("mining") &&
           (isNextToChop || isHighlighted);
 
         console.log({ treeStrength, index });
@@ -162,20 +167,20 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
             })}
             onClick={isNextToChop ? open : undefined}
           >
-            <img src={tree} className="tree" alt="tree" />
-            {isHighlighted && machineState.matches("chopping") && (
+            <img src={rock} className="tree" alt="tree" />
+            {isHighlighted && machineState.matches("mining") && (
               <>
-                <img src={chopping} className="wood-chopper" />
+                <img src={mining} className="miner" />
                 <div className="gathered-resource-feedback">
                   <span>+</span>
-                  <img src={wood} className="wood-chopped" />
+                  <img src={stone} className="wood-chopped" />
                 </div>
               </>
             )}
             {showWaiting && (
               <div>
-                <img src={waiting} className="wood-chopper" />
-                <img src={questionMark} className="chopper-question" />
+                <img src={waiting} className="miner" />
+                <img src={questionMark} className="miner-question" />
               </div>
             )}
           </div>
@@ -202,30 +207,30 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
                 <div>
                   <div className="resource-material">
                     <span>Requires</span>
-                    <img src={axe} />
+                    <img src={pickaxe} />
                   </div>
                   <div className="resource-material">
-                    <span>Chops</span>
+                    <span>Mines</span>
                     <div>
-                      <span>3-5</span>
-                      <img src={wood} />
+                      <span>2-4</span>
+                      <img src={stone} />
                     </div>
                   </div>
                   <div className="resource-material">
-                    <span>Regrows every hour</span>
+                    <span>Regrows every 2 hours</span>
                     <div>
                       <img id="resource-timer" src={timer} />
                     </div>
                   </div>
                 </div>
-                {inventory.axe < amount ? (
+                {inventory.pickaxe < amount ? (
                   <Message>
-                    You need a <img src={axe} className="required-tool" />
+                    You need a <img src={pickaxe} className="required-tool" />
                   </Message>
                 ) : (
                   <div className="gather-resources">
                     <div id="craft-count">
-                      <img className="gather-axe" src={axe} />
+                      <img className="gather-axe" src={pickaxe} />
                       <Message>{amount}</Message>
                       <div id="arrow-container">
                         {amount < limit ? (
@@ -251,16 +256,16 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
                     </div>
 
                     <Button onClick={chop} disabled={inventory.axe < amount}>
-                      <span id="craft-button-text">Chop</span>
+                      <span id="craft-button-text">Mine</span>
                     </Button>
                   </div>
                 )}
               </div>
               <div className="resource-details">
-                <span className="resource-title">Tree</span>
-                <img src={tree} className="resource-image" />
+                <span className="resource-title">Rock</span>
+                <img src={rock} className="resource-image" />
                 <span className="resource-description">
-                  A bountiful resource that can be chopped for wood.
+                  A bountiful resource that can be mined for stone.
                 </span>
               </div>
             </div>
@@ -276,7 +281,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
         <Panel>
           <div className="wood-toast-body">
             +{choppedCount}
-            <img className="gather-axe" src={wood} />
+            <img className="gather-axe" src={stone} />
           </div>
         </Panel>
       </div>

@@ -251,6 +251,7 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
+  margin-left: 10px;
 }
 
 .resource-title {
