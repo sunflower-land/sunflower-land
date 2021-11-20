@@ -87,7 +87,6 @@ export const Tiles: React.FC<Props> = () => {
       <div className="dirt" style={{ gridColumn: "4/5", gridRow: "8/9" }} />
       <div className="dirt" style={{ gridColumn: "5/6", gridRow: "8/9" }} />
       <div className="dirt" style={{ gridColumn: "6/7", gridRow: "8/9" }} />
-      <div className="top-edge" style={{ gridColumn: "6/7", gridRow: "7/8" }} />
       <div className="top-edge" style={{ gridColumn: "4/5", gridRow: "7/8" }} />
       <div
         className="bottom-edge"
@@ -117,11 +116,7 @@ export const Tiles: React.FC<Props> = () => {
       />
       <div
         className="right-edge"
-        style={{ gridColumn: "6/7", gridRow: "6/7" }}
-      />
-      <div
-        className="right-edge"
-        style={{ gridColumn: "6/7", gridRow: "7/8" }}
+        style={{ gridColumn: "7/8", gridRow: "6/7" }}
       />
 
       {/*Third to fifth path*/}
@@ -149,10 +144,7 @@ export const Tiles: React.FC<Props> = () => {
         className="bottom-edge"
         style={{ gridColumn: "4/5", gridRow: "6/7" }}
       />
-      <div
-        className="bottom-edge"
-        style={{ gridColumn: "6/7", gridRow: "6/7" }}
-      />
+
       <div
         className="bottom-edge"
         style={{ gridColumn: "7/8", gridRow: "6/7" }}
@@ -233,7 +225,7 @@ export const Tiles: React.FC<Props> = () => {
       </div>
 
       {/* Decorations */}
-      <div style={{ gridColumn: "12/13", gridRow: "10/11" }}>
+      <div style={{ gridColumn: "10", gridRow: "10/11" }}>
         <img className="bucket" src={bucket} />
       </div>
 

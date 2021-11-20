@@ -14,6 +14,7 @@ import { FifthBlock } from "./FifthBlock";
 import { Tiles } from "./Tiles";
 import { Trees } from "./NewTrees";
 import { Stones } from "./NewStone";
+import { Statue } from "./Statue";
 import { Iron } from "./Iron";
 import { Barn } from "./Barn";
 import { Blacksmith } from "./Blacksmith";
@@ -127,6 +128,8 @@ export const Land: React.FC<Props> = ({
           onPlant={onPlant}
           inventory={inventory}
         />
+
+        <Statue />
 
         <Barn farmSize={land.length} balance={balance} />
         <Blacksmith inventory={inventory} />
