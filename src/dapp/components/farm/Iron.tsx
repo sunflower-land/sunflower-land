@@ -36,6 +36,14 @@ const ROCKS: React.CSSProperties[] = [
     gridColumn: "15/16",
     gridRow: "10/11",
   },
+  {
+    gridColumn: "5/6",
+    gridRow: "12/13",
+  },
+  {
+    gridColumn: "1/2",
+    gridRow: "7/8",
+  },
 ];
 
 interface Props {
@@ -50,14 +58,15 @@ export const Iron: React.FC<Props> = ({ inventory }) => {
   >(service);
 
   const [showModal, setShowModal] = React.useState(false);
-  const [treeStrength, setTreeStrength] = React.useState(10);
+  const [treeStrength, setTreeStrength] = React.useState(3);
   const [amount, setAmount] = React.useState(0);
   const [choppedCount, setChoppedCount] = React.useState(0);
   const [showChoppedCount, setShowChoppedCount] = React.useState(false);
 
   useEffect(() => {
     const load = async () => {
-      const strength = await machineState.context.blockChain.getStoneStrength();
+      const strength = await machineState.context.blockChain.getIronStrength();
+      console.log({ strength });
       setTreeStrength(Math.floor(Number(strength)));
     };
 
@@ -101,7 +110,7 @@ export const Iron: React.FC<Props> = ({ inventory }) => {
   return (
     <>
       {ROCKS.map((gridPosition, index) => {
-        const choppedTreeCount = 10 - treeStrength;
+        const choppedTreeCount = 3 - treeStrength;
         if (choppedTreeCount > index || machineState.matches("onboarding")) {
           return (
             <div style={gridPosition}>
