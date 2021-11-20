@@ -7,7 +7,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contr
 contract SunflowerFarmersStatue is ERC721, Ownable {
     address public minter;
 
-    constructor() ERC721("Sunflower Farmers Statue", "SFS") {}
+    constructor() public ERC721("Sunflower Farmers Statue", "SFS") {}
 
     function passMinterRole(address farm) public returns (bool) {
         require(msg.sender==minter, "You are not minter");
@@ -17,15 +17,7 @@ contract SunflowerFarmersStatue is ERC721, Ownable {
     }
 
     function baseTokenURI() public view returns (string memory) {
-        return "https://sunflower-farmers.com/play/nfts/";
-    }
-
-    function tokenURI(uint256 _tokenId) external view returns (string memory) {
-        return Strings.strConcat(
-            baseTokenURI(),
-            // Only support a single statue
-            "statue"
-        );
+        return "https://sunflower-farmers.com/play/nfts/statue/";
     }
 
     function mint(address account, uint256 amount) public {

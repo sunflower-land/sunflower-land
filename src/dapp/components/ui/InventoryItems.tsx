@@ -112,6 +112,17 @@ export const InventoryItems: React.FC<Props> = ({
     });
   }
 
+  if (inventory.statue > 0) {
+    const item = items.find((recipe) => recipe.name === "Sunflower Statue");
+    boxes.push({
+      count: inventory.statue,
+      onClick: onSelectItem ? () => onSelectItem(item) : undefined,
+      isSelected: selectedItem?.name === "Sunflower Statue",
+      image: item.image,
+      disabled: !onSelectItem,
+    });
+  }
+
   // Pad array with empty boxes
   for (let i = boxes.length; i < 10; i++) {
     boxes.push({ disabled: true });

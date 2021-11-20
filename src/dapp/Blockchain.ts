@@ -8,6 +8,7 @@ import Pickaxe from "../abis/Pickaxe.json";
 import StonePickaxe from "../abis/StonePickaxe.json";
 import Stone from "../abis/Stone.json";
 import Iron from "../abis/Iron.json";
+import Statue from "../abis/Statue.json";
 
 import {
   Transaction,
@@ -34,6 +35,7 @@ export class BlockChain {
   private stone: any | null = null;
   private pickaxe: any | null = null;
   private stonepickaxe: any | null = null;
+  private statue: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
   private alchemyFarm: any | null = null;
@@ -48,7 +50,7 @@ export class BlockChain {
   private events: Transaction[] = [];
 
   private isTrialAccount: boolean = false;
-
+  0x56b758326de2cf80e12a6ca885c768bef781d76d;
   private async connectToMatic() {
     try {
       this.token = new this.web3.eth.Contract(
@@ -97,6 +99,11 @@ export class BlockChain {
       this.iron = new this.alchemyWeb3.eth.Contract(
         Iron as any,
         "0x4a114F6EC3e0f6c57A9Db37140ca88Ee5525E55B"
+      );
+
+      this.statue = new this.alchemyWeb3.eth.Contract(
+        Statue as any,
+        "0x62F0c404b2f2C650bc33DBCd0a94D0a5Dd469672"
       );
     } catch (e) {
       // Timeout, retry
@@ -602,7 +609,12 @@ export class BlockChain {
     const ironPromise = this.iron.methods
       .balanceOf(this.account)
       .call({ from: this.account });
-    const [token, axe, wood, pickaxe, stone, stonePickaxe, iron] =
+
+    const statuePromise = this.statue.methods
+      .balanceOf(this.account)
+      .call({ from: this.account });
+
+    const [token, axe, wood, pickaxe, stone, stonePickaxe, iron, statue] =
       await Promise.all([
         tokenPromise,
         axePromise,
@@ -611,6 +623,7 @@ export class BlockChain {
         stonePromise,
         stonePickaxePromise,
         ironPromise,
+        statuePromise,
       ]);
 
     console.log({ axe });
@@ -622,6 +635,7 @@ export class BlockChain {
       stonePickaxe: Number(this.web3.utils.fromWei(stonePickaxe)),
       stone: Number(this.web3.utils.fromWei(stone)),
       iron: Number(this.web3.utils.fromWei(iron)),
+      statue: Number(statue),
       sunflowerTokens: Number(this.web3.utils.fromWei(token)),
     };
   }
@@ -640,6 +654,7 @@ export class BlockChain {
         pickaxe: 0,
         stonePickaxe: 0,
         iron: 0,
+        statue: 0,
       };
     }
 
@@ -647,6 +662,8 @@ export class BlockChain {
       wood: this.inventory.wood - this.oldInventory.wood,
       stone: this.inventory.stone - this.oldInventory.stone,
       axe: this.inventory.axe - this.oldInventory.axe,
+      statue: this.inventory.statue - this.oldInventory.statue,
+
       sunflowerTokens:
         this.inventory.sunflowerTokens - this.oldInventory.sunflowerTokens,
       pickaxe: this.inventory.pickaxe - this.oldInventory.pickaxe,

@@ -129,7 +129,7 @@ export const Land: React.FC<Props> = ({
           inventory={inventory}
         />
 
-        <Statue />
+        <Statue inventory={inventory} />
 
         <Barn farmSize={land.length} balance={balance} />
         <Blacksmith inventory={inventory} />

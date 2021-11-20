@@ -12,7 +12,7 @@ import coin from "../images/ui/sunflower_coin.png";
 import statue from "../images/ui/sunflower_statue.png";
 
 export interface Ingredient {
-  name: "Wood" | "Stone" | "$SFF";
+  name: "Wood" | "Stone" | "$SFF" | "Iron";
   image: any;
   amount: number;
 }
@@ -191,18 +191,22 @@ export const recipes: Recipe[] = [
     description: "A symbol of the holy token",
     image: statue,
     type: "NFT",
-    address: "TODO",
-    isLocked: true,
+    address: "0x62F0c404b2f2C650bc33DBCd0a94D0a5Dd469672",
     ingredients: [
-      {
-        name: "Stone",
-        amount: 100,
-        image: stone,
-      },
       {
         name: "$SFF",
         amount: 50,
         image: coin,
+      },
+      {
+        name: "Stone",
+        amount: 50,
+        image: stone,
+      },
+      {
+        name: "Iron",
+        amount: 50,
+        image: stone,
       },
     ],
     supply: 1000,
@@ -242,9 +246,10 @@ export interface Inventory {
   wood: number;
   stone: number;
   iron: number;
+  statue: number;
 }
 
-export function getItemAmount(inventory: Inventory, name: Ingredient["name"]) {
+export function getItemAmount(inventory: Inventory, name: Item["name"]) {
   if (name === "Stone") {
     return inventory.stone;
   }
@@ -252,6 +257,12 @@ export function getItemAmount(inventory: Inventory, name: Ingredient["name"]) {
   if (name === "Wood") {
     return inventory.wood;
   }
+
+  if (name === "Sunflower Statue") {
+    return inventory.statue;
+  }
+
+  // TODO more
 
   return inventory.sunflowerTokens;
 }
