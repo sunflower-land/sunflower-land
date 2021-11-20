@@ -38,12 +38,14 @@ export const Plants: React.FC<Props> = ({
       <div id="crafting-left">
         <div id="crafting-items">
           {fruits.map((fruit) => (
-            <Box
+            (fruit.landRequired > land.length) ?
+              (<Box disabled/>)
+            : (<Box
               isSelected={fruit.fruit === plant.fruit}
               onClick={() => onSelectItem(fruit)}
             >
               <img src={fruit.image} className="box-item" />
-            </Box>
+            </Box>)
           ))}
         </div>
       </div>
