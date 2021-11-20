@@ -46,8 +46,13 @@ const ROCKS: React.CSSProperties[] = [
   },
   {
     gridColumn: "14/15",
+    gridRow: "4/5",
+  },
+  {
+    gridColumn: "14/15",
     gridRow: "2/3",
   },
+
   {
     gridColumn: "11/12",
     gridRow: "2/3",
@@ -63,10 +68,6 @@ const ROCKS: React.CSSProperties[] = [
   {
     gridColumn: "1/2",
     gridRow: "4/5",
-  },
-  {
-    gridColumn: "6/7",
-    gridRow: "7/8",
   },
   {
     gridColumn: "1/2",
