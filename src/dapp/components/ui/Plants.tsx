@@ -39,7 +39,7 @@ export const Plants: React.FC<Props> = ({
         <div id="crafting-items">
           {fruits.map((fruit) => (
             (fruit.landRequired > land.length) ?
-              (<Box />)
+              (<Box disabled/>)
             : (<Box
               isSelected={fruit.fruit === plant.fruit}
               onClick={() => onSelectItem(fruit)}
