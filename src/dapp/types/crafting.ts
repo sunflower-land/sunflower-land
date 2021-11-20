@@ -5,6 +5,7 @@ import hammer from "../images/ui/hammer.png";
 import rod from "../images/ui/rod.png";
 import sword from "../images/ui/sword.png";
 import wood from "../images/ui/wood.png";
+import iron from "../images/ui/ore.png";
 import stone from "../images/ui/rock.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
 import coin from "../images/ui/sunflower_coin.png";
@@ -29,6 +30,7 @@ export interface Item {
     | "Hammer"
     | "Stone"
     | "Wood"
+    | "Iron"
     | "Sword"
     | "Chicken coop"
     | "Sunflower Statue";
@@ -79,8 +81,7 @@ export const recipes: Recipe[] = [
     description: "Used for mining and collecting ore",
     image: pickaxe,
     type: "ERC20",
-    address: "0x7d55828BbA54feA2fcd8d9E4D9330c8CBb5Fa079",
-    isLocked: true,
+    address: "0xBDc6814D29fBA97a426057778ABe702079480b80",
     ingredients: [
       {
         name: "Wood",
@@ -224,14 +225,23 @@ export const items: Item[] = [
     type: "ERC20",
     address: "0xC8A6fFc3720867470A2395D1634B3085BbDDf71a",
   },
+  {
+    name: "Iron",
+    description: "A bountiful resource in Sunflower Land used for crafting",
+    image: iron,
+    type: "ERC20",
+    address: "0x4a114F6EC3e0f6c57A9Db37140ca88Ee5525E55B",
+  },
 ];
 
 export interface Inventory {
   sunflowerTokens: number;
   axe: number;
   pickaxe: number;
+  stonePickaxe: number;
   wood: number;
   stone: number;
+  iron: number;
 }
 
 export function getItemAmount(inventory: Inventory, name: Ingredient["name"]) {

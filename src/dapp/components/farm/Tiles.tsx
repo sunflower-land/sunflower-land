@@ -237,9 +237,6 @@ export const Tiles: React.FC<Props> = () => {
         <img className="bucket" src={bucket} />
       </div>
 
-      <div style={{ gridColumn: "15/16", gridRow: "10/11" }}>
-        <img className="flowers" src={flower1} />
-      </div>
       <div style={{ gridColumn: "15/16", gridRow: "3/4" }}>
         <img className="flowers" src={flower2} />
       </div>
