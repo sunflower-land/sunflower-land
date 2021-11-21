@@ -37,17 +37,25 @@ export const Plants: React.FC<Props> = ({
     <div id="crafting">
       <div id="crafting-left">
         <div id="crafting-items">
-          {fruits.map((fruit) => (
-            (fruit.landRequired > land.length) ?
-              (<Box disabled/>)
-            : (<Box
-              isSelected={fruit.fruit === plant.fruit}
-              onClick={() => onSelectItem(fruit)}
-            >
-              <img src={fruit.image} className="box-item" />
-            </Box>)
-          ))}
+          {fruits.map((fruit) =>
+            fruit.landRequired > land.length ? (
+              <Box disabled />
+            ) : (
+              <Box
+                isSelected={fruit.fruit === plant.fruit}
+                onClick={() => onSelectItem(fruit)}
+              >
+                <img src={fruit.image} className="box-item" />
+              </Box>
+            )
+          )}
         </div>
+        <a
+          href="https://docs.sunflower-farmers.com/plant-guide"
+          target="_blank"
+        >
+          <h3 className="current-price-supply-demand">Read more</h3>
+        </a>
       </div>
       <div id="recipe">
         {plant && (

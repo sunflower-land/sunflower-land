@@ -105,7 +105,7 @@ export const Iron: React.FC<Props> = ({ inventory }) => {
     setAmount(0);
   };
 
-  const limit = Math.min(treeStrength, inventory.pickaxe);
+  const limit = Math.min(treeStrength, inventory.stonePickaxe);
 
   return (
     <>
@@ -242,6 +242,12 @@ export const Iron: React.FC<Props> = ({ inventory }) => {
                 <span className="resource-description">
                   A bountiful resource that can be mined for iron ore.
                 </span>
+                <a
+                  href="https://docs.sunflower-farmers.com/resources"
+                  target="_blank"
+                >
+                  <h3 className="current-price-supply-demand">Read more</h3>
+                </a>
               </div>
             </div>
           </Panel>

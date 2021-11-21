@@ -109,6 +109,9 @@ export const CraftingMenu: React.FC<Props> = ({
         <div id="inventory">
           <InventoryItems inventory={inventory} />
         </div>
+        <a href="https://docs.sunflower-farmers.com/crafting">
+          <h3 className="current-price-supply-demand">Read more</h3>
+        </a>
       </div>
       <div id="recipe">
         <span
