@@ -206,7 +206,7 @@ export const recipes: Recipe[] = [
       {
         name: "Iron",
         amount: 50,
-        image: stone,
+        image: iron,
       },
     ],
     supply: 1000,
@@ -260,6 +260,10 @@ export function getItemAmount(inventory: Inventory, name: Item["name"]) {
 
   if (name === "Wood") {
     return inventory.wood;
+  }
+
+  if (name === "Iron") {
+    return inventory.iron;
   }
 
   if (name === "Sunflower Statue") {
