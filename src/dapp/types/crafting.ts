@@ -249,6 +249,10 @@ export interface Inventory {
   statue: number;
 }
 
+export interface Supply {
+  statue: number;
+}
+
 export function getItemAmount(inventory: Inventory, name: Item["name"]) {
   if (name === "Stone") {
     return inventory.stone;

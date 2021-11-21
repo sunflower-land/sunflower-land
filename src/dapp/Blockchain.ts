@@ -17,7 +17,7 @@ import {
   Fruit,
   Donation,
 } from "./types/contract";
-import { Inventory, Recipe } from "./types/crafting";
+import { Inventory, Recipe, Supply } from "./types/crafting";
 
 interface Account {
   farm: Square[];
@@ -46,11 +46,11 @@ export class BlockChain {
   private stoneStrength: number = 0;
   private ironStrength: number = 0;
   private woodStrength: number = 0;
+  private statueSupply: number = 0;
 
   private events: Transaction[] = [];
 
   private isTrialAccount: boolean = false;
-  0x56b758326de2cf80e12a6ca885c768bef781d76d;
   private async connectToMatic() {
     try {
       this.token = new this.web3.eth.Contract(
@@ -181,18 +181,20 @@ export class BlockChain {
   }
 
   public async loadFarm() {
-    const [account, inventory, tree, stone, iron] = await Promise.all([
+    const [account, inventory, tree, stone, iron, statue] = await Promise.all([
       this.getAccount(),
       this.loadInventory(),
       this.loadTreeStrength(),
       this.loadStoneStrength(),
       this.loadIronStrength(),
+      this.loadStatueSupply(),
     ]);
     this.details = account;
     this.inventory = inventory;
     this.woodStrength = tree;
     this.stoneStrength = stone;
     this.ironStrength = iron;
+    this.statueSupply = statue;
 
     await this.cacheTotalSupply();
   }
@@ -708,5 +710,19 @@ export class BlockChain {
 
   public async getIronStrength() {
     return this.ironStrength;
+  }
+
+  public async loadStatueSupply() {
+    const supply = await this.statue.methods
+      .totalSupply()
+      .call({ from: this.account });
+
+    return Number(supply);
+  }
+
+  public getSupply(): Supply {
+    return {
+      statue: this.statueSupply,
+    };
   }
 }

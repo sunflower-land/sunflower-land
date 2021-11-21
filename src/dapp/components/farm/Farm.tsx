@@ -41,7 +41,7 @@ import { Tour } from "./Tour";
 import { getExchangeRate, getMarketRate } from "../../utils/supply";
 import { Message } from "../ui/Message";
 import { Modal } from "react-bootstrap";
-import { Inventory } from "../../types/crafting";
+import { Inventory, Supply } from "../../types/crafting";
 
 export const Farm: React.FC = () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0));
@@ -57,6 +57,13 @@ export const Farm: React.FC = () => {
     wood: 0,
     stone: 0,
     sunflowerTokens: 0,
+    statue: 0,
+    stonePickaxe: 0,
+    iron: 0,
+  });
+
+  const [supply, setSupply] = React.useState<Supply>({
+    statue: 0,
   });
 
   const [showBuyModal, setShowBuyModal] = React.useState(false);
@@ -139,6 +146,9 @@ export const Farm: React.FC = () => {
       if (machineState.matches("farming")) {
         const inventory = await machineState.context.blockChain.getInventory();
         setInventory(inventory);
+
+        const supply = await machineState.context.blockChain.getSupply();
+        setSupply(supply);
         console.log({ inventory });
       }
     };
@@ -240,6 +250,7 @@ export const Farm: React.FC = () => {
         onPlant={onPlant}
         account={accountId.current}
         inventory={inventory}
+        supply={supply}
       />
 
       <span id="save-button">

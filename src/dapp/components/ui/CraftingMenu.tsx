@@ -19,6 +19,7 @@ import {
   Inventory,
   getItemAmount,
   Item,
+  Supply,
 } from "../../types/crafting";
 import { service } from "../../machine";
 import { Box, BoxProps } from "./Box";
@@ -28,8 +29,13 @@ import "./Crafting.css";
 interface Props {
   onClose: () => void;
   inventory: Inventory;
+  supply: Supply;
 }
-export const CraftingMenu: React.FC<Props> = ({ onClose, inventory }) => {
+export const CraftingMenu: React.FC<Props> = ({
+  onClose,
+  inventory,
+  supply,
+}) => {
   const [amount, setAmount] = React.useState(1);
   const [selectedRecipe, setSelectedRecipe] = React.useState(recipes[0]);
 
@@ -58,7 +64,10 @@ export const CraftingMenu: React.FC<Props> = ({ onClose, inventory }) => {
   }
 
   const balance = getItemAmount(inventory, selectedRecipe.name);
-
+  // Currently only have statue supply so hardcode the rest to 5000
+  const amountLeft =
+    selectedRecipe.name === "Sunflower Statue" ? 1000 - supply.statue : 5000;
+  console.log({ supply });
   const ingredientList = selectedRecipe.ingredients.map((ingredient) => {
     const inventoryCount = getItemAmount(
       inventory,
@@ -110,7 +119,7 @@ export const CraftingMenu: React.FC<Props> = ({ onClose, inventory }) => {
           {selectedRecipe.type}
         </span>
         {selectedRecipe.supply && (
-          <span className="nft-count">{`${selectedRecipe.supply} left!`}</span>
+          <span className="nft-count">{`${amountLeft} left!`}</span>
         )}
         <span id="recipe-title">{selectedRecipe.name}</span>
         <div id="crafting-item">
