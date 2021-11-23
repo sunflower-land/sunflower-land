@@ -1,0 +1,107 @@
+:root {
+    --player-background: #b86f50;
+    --player-width:245px;
+    --player-height:50px;
+    --player-top:75px;
+}
+
+#audio-player-container{
+    position: absolute;
+    z-index: 200;
+    width: var(--player-width);
+    height: var(--player-height);
+    top: var(--player-top);
+    background: var(--player-background);
+    font-size: 0.8rem;
+    color: #FFFFFFCC;
+    transition: left .5s ease-in-out;
+}
+
+#audio-player-container::before{
+    content: '';
+    position: absolute;
+    right: -90px;
+    width: 90px;
+    height: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#audio-player-container > #note{
+    width: 90px;
+    height: 60px;
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+    transition: opacity .3s ease-in-out;
+    animation: floating 1s infinite alternate ease-in-out;
+}
+
+@keyframes floating {
+    to{
+        transform: translateY(-60%);
+    }
+}
+
+#audio-player-container > #audio-player {
+    display: none;
+}
+
+#audio-player-container > #display-song {
+    width: 245px;
+    white-space: nowrap;
+    height: 25px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+#song-name{
+    left: 50%;
+    animation: marquee-effect 10s infinite linear;
+    transform: translateX(100%);
+}
+
+#play-pause, #next{
+    width: 50px;
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+}
+
+#next:hover{
+    transform: scale(0.85);
+}
+
+#play-pause{
+    transform: translateY(5px);
+}
+
+#play-pause:hover{
+    transform: translateY(5px) scale(0.85);
+}
+
+#audio-player-container > #controls{
+    width: 245px;
+    height: fit-content;
+    position: relative;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: -15px;
+}
+
+#volume{
+    width: 100px;
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+#volume:hover{
+    cursor: pointer;
+}
+
+@keyframes marquee-effect {
+    to{
+        transform: translateX(-100%);
+    }
+}
