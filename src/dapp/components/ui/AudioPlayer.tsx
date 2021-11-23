@@ -18,7 +18,7 @@ export const AudioPlayer: React.FC = () => {
     const [onHover, setOnHover] = useState(false);
     const [isPlaying, setIsPlaying] = useState<Boolean>(true)
     const [music, setMusic] = useState(0);
-    const [volume, setVolume] = useState<number>(0.1);
+    const [volume, setVolume] = useState<number>(0.5);
     const file = useRef(null)
 
     const togglePlayStop = ( ) => {
@@ -76,7 +76,7 @@ export const AudioPlayer: React.FC = () => {
             <div id="controls">
                 <img onClick={()=> togglePlayStop()} id="play-pause" src={isPlaying ? pause : play} alt=""/>
                 <img onClick={()=> handleNext()} id="next" src={next} alt="next song"/>
-                <input type="range" defaultValue={10} min={0} max={100} onChange={e=> setVolume(Number(e.target.value)/100)} id="volume" />
+                <input type="range" defaultValue={50} min={0} max={100} onChange={e=> setVolume(Number(e.target.value)/100)} id="volume" />
             </div>
 
         </div>
