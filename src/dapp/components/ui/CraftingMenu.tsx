@@ -5,6 +5,13 @@ import { Button } from "../ui/Button";
 import { Message } from "../ui/Message";
 import { InventoryItems } from "../ui/InventoryItems";
 
+import {
+  Context,
+  BlockchainEvent,
+  BlockchainState,
+  service,
+} from "../../machine";
+
 import hammer from "../../images/ui/hammer.png";
 import basket from "../../images/ui/basket.png";
 
@@ -21,10 +28,10 @@ import {
   Item,
   Supply,
 } from "../../types/crafting";
-import { service } from "../../machine";
 import { Box, BoxProps } from "./Box";
 
 import "./Crafting.css";
+import { useService } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
@@ -38,6 +45,12 @@ export const CraftingMenu: React.FC<Props> = ({
 }) => {
   const [amount, setAmount] = React.useState(1);
   const [selectedRecipe, setSelectedRecipe] = React.useState(recipes[0]);
+  const [machineState, send] = useService<
+    Context,
+    BlockchainEvent,
+    BlockchainState
+  >(service);
+  const isUnsaved = machineState.context.blockChain.isUnsaved();
 
   const changeRecipe = (recipe: Recipe) => {
     setAmount(1);
@@ -82,6 +95,59 @@ export const CraftingMenu: React.FC<Props> = ({
     };
   });
 
+  const Action = () => {
+    if (selectedRecipe.isLocked) {
+      return <span id="recipe-description">Coming soon...</span>;
+    }
+
+    if (isUnsaved) {
+      return (
+        <div className="upgrade-required">
+          <Message>
+            Save your farm first
+            <img
+              //src={cancel}
+              className="insufficient-funds-cross"
+            />
+          </Message>
+        </div>
+      );
+    }
+
+    if (selectedRecipe.type === "ERC20" || balance === 0) {
+      return (
+        <>
+          <div id="craft-count">
+            <Message>{amount}</Message>
+            {selectedRecipe.type === "ERC20" && (
+              <div id="arrow-container">
+                <img
+                  className="craft-arrow"
+                  alt="Step up donation value"
+                  src={arrowUp}
+                  onClick={() => setAmount((r) => r + 1)}
+                />
+                {amount > 1 && (
+                  <img
+                    className="craft-arrow"
+                    alt="Step down donation value"
+                    src={arrowDown}
+                    onClick={() => setAmount((r) => r - 1)}
+                  />
+                )}
+              </div>
+            )}
+          </div>
+          <Button onClick={craft} disabled={!canAfford}>
+            <span id="craft-button-text">Craft</span>
+          </Button>
+        </>
+      );
+    }
+
+    return <span id="recipe-description">Already minted</span>;
+  };
+
   const canAfford = ingredientList.every((ingredient) => ingredient.canAfford);
 
   return (
@@ -109,7 +175,10 @@ export const CraftingMenu: React.FC<Props> = ({
         <div id="inventory">
           <InventoryItems inventory={inventory} />
         </div>
-        <a href="https://docs.sunflower-farmers.com/crafting">
+        <a
+          href="https://docs.sunflower-farmers.com/crafting-guide"
+          target="_blank"
+        >
           <h3 className="current-price-supply-demand">Read more</h3>
         </a>
       </div>
@@ -147,39 +216,7 @@ export const CraftingMenu: React.FC<Props> = ({
             </div>
           ))}
         </div>
-        <div id="craft-action">
-          {selectedRecipe.isLocked ? (
-            <span id="recipe-description">Coming soon...</span>
-          ) : // Can only mint an NFT once
-          selectedRecipe.type === "ERC20" || balance === 0 ? (
-            <>
-              <div id="craft-count">
-                <Message>{amount}</Message>
-                {selectedRecipe.type === "ERC20" && (
-                  <div id="arrow-container">
-                    <img
-                      className="craft-arrow"
-                      alt="Step up donation value"
-                      src={arrowUp}
-                      onClick={() => setAmount((r) => r + 1)}
-                    />
-                    <img
-                      className="craft-arrow"
-                      alt="Step down donation value"
-                      src={arrowDown}
-                      onClick={() => setAmount((r) => r - 1)}
-                    />
-                  </div>
-                )}
-              </div>
-              <Button onClick={craft} disabled={!canAfford}>
-                <span id="craft-button-text">Craft</span>
-              </Button>
-            </>
-          ) : (
-            <span id="recipe-description">Already minted</span>
-          )}
-        </div>
+        <div id="craft-action">{Action()}</div>
       </div>
     </div>
   );
