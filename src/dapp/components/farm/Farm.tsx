@@ -3,7 +3,6 @@ import { useService } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
 import { Land } from "./Land";
-
 import { FruitItem, FRUITS, getMarketFruits } from "../../types/fruits";
 import {
   Fruit,
@@ -35,6 +34,7 @@ import sunflower from "../../images/sunflower/plant.png";
 import { Panel } from "../ui/Panel";
 import { Timer } from "../ui/Timer";
 import { Button } from "../ui/Button";
+import {AudioPlayer} from "../ui/AudioPlayer";
 
 import { FruitBoard } from "./FruitBoard";
 import { Tour } from "./Tour";
@@ -252,7 +252,7 @@ export const Farm: React.FC = () => {
         inventory={inventory}
         supply={supply}
       />
-
+        <AudioPlayer  />
       <span id="save-button">
         <Panel hasInner={false}>
           <Button
