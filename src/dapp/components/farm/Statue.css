@@ -1,0 +1,12 @@
+#statue {
+  grid-column: 4;
+  grid-row: 6;
+  z-index: 99;
+}
+
+#statue > img {
+  width: 120%;
+  position: relative;
+  left: 144%;
+  bottom: 64%;
+}

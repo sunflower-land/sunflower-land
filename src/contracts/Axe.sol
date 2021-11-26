@@ -8,15 +8,13 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contr
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/ERC20Burnable.sol";
 
 
-contract Gold is ERC20, ERC20Burnable {
+contract Axe is ERC20, ERC20Burnable {
   address public minter;
   address private owner;
-  
-  mapping(address => uint) staked;
 
   event MinterChanged(address indexed from, address to);
 
-  constructor() payable ERC20("Gold", "GLD") {
+  constructor() payable ERC20("Sunflower Land Axe", "SLA") {
     minter = msg.sender;
     owner = msg.sender;
   }
@@ -51,19 +49,5 @@ contract Gold is ERC20, ERC20Burnable {
         require(msg.sender == minter, "You are not the minter");
         
         _transfer(sender, recipient, amount);
-        
-        return true;
-    }
-    
-    function stake(address account, uint amount) public {
-        require(msg.sender == minter, "You are not the minter");
-        staked[account] = amount;
-        
-        // TODO: Do proper reflection
-        _mint(account, amount * 2);
-    }
-    
-    function getStaked(address account) public view returns (uint) {
-        return staked[account];
     }
 }

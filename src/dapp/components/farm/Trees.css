@@ -1,0 +1,288 @@
+.available-tree {
+  width: 100% !important;
+}
+
+.gather-tree {
+  z-index: 9;
+}
+
+.gather-modal {
+  width: 400px;
+}
+
+.gather-close-icon {
+  position: absolute;
+  right: 0;
+  top: 0px;
+  width: 22px;
+  image-rendering: pixelated;
+}
+
+.gather-close-icon:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.gatherer {
+  cursor: pointer;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.gatherer:hover {
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
+}
+
+.gatherer-selected {
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
+  z-index: 99;
+}
+
+.wood-chopper {
+  width: 196px;
+  position: absolute;
+  left: -111px;
+  top: -11px;
+}
+
+.miner {
+  width: 196px;
+  position: absolute;
+  right: -117px;
+  top: -48px;
+  transform: scaleX(-1);
+}
+
+.chopper-question {
+  position: absolute;
+  top: 10px;
+  left: -19px;
+  width: 13px;
+  image-rendering: pixelated;
+}
+
+.miner-question {
+  position: absolute;
+  top: -27px;
+  right: -25px;
+  width: 13px;
+  image-rendering: pixelated;
+}
+
+.gather-panel {
+  display: flex;
+  flex-direction: row;
+  font-family: "Press Start 2p";
+  padding: 5px 4px 5px;
+}
+
+.gather-resources {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding-bottom: 4px;
+}
+
+.gather-axe {
+  width: 30px;
+  height: 30px;
+  image-rendering: pixelated;
+}
+
+.gather-materials {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 12px;
+  padding: 4px;
+}
+
+.gather-materials > img {
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
+  image-rendering: pixelated;
+}
+
+#arrow-container {
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: column;
+}
+
+@keyframes mymove {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.gathered-resource-feedback {
+  opacity: 0;
+  font-size: 25px;
+  display: flex;
+  color: white;
+  text-shadow: 1px 1px black;
+  align-items: center;
+  position: absolute;
+  top: -15px;
+  animation: mymove 6s;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+}
+
+.wood-chopped {
+  width: 30px;
+  image-rendering: pixelated;
+}
+
+.wood-toast {
+  position: absolute;
+  width: 90px;
+  height: 40px;
+  padding: 5px;
+  display: flex;
+  background: #c28569cc;
+  color: white;
+  text-shadow: 1px 1px black;
+  top: -43px;
+  left: -25px;
+  font-size: 13px;
+}
+
+.wood-toast-body {
+  color: white;
+  text-shadow: 1px 1px black;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tree-progress {
+  position: absolute;
+  bottom: -50%;
+  width: 40px;
+  left: 17%;
+}
+
+.tree-progress-text {
+  font-size: 10px;
+  color: white;
+  text-shadow: 2px 2px black;
+  position: absolute;
+  bottom: -75%;
+  width: 100%;
+  text-align: center;
+}
+
+.rock-progress {
+  position: absolute;
+  bottom: -20%;
+  width: 40px;
+  left: 17%;
+}
+
+.rock-progress-text {
+  font-size: 10px;
+  color: white;
+  text-shadow: 2px 2px black;
+  position: absolute;
+  bottom: -45%;
+  width: 100%;
+  text-align: center;
+}
+
+.wood-stump {
+  width: 69%;
+  left: 15%;
+  top: 54%;
+  position: absolute;
+}
+
+.rock-mine {
+  width: 80%;
+  position: relative;
+  top: 10%;
+  left: 5%;
+}
+.mined-rock {
+  width: 69%;
+  left: 15%;
+  top: 28%;
+  position: absolute;
+}
+
+.required-tool {
+  width: 25px;
+  image-rendering: pixelated;
+  margin-left: 9px;
+}
+
+#resource-increase-panel {
+  position: fixed;
+  top: 16px;
+  right: calc(50% - 50px);
+  z-index: 9;
+  height: 40px;
+  transition: opacity 0.3s;
+}
+
+.resource-materials {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.resource-material {
+  color: white;
+  text-shadow: 1px 1px black;
+  width: 200px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid white;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+.resource-material img {
+  height: 30px;
+  image-rendering: pixelated;
+  margin-left: 4px;
+}
+
+.resource-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  margin-left: 10px;
+}
+
+.resource-title {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 13px;
+}
+
+.resource-description {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 11px;
+  text-align: center;
+}
+
+.resource-image {
+  width: 70px;
+  image-rendering: pixelated;
+  padding: 10px 0;
+}

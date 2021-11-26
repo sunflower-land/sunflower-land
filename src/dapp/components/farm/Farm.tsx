@@ -3,10 +3,21 @@ import { useService } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
 import { Land } from "./Land";
-
 import { FruitItem, FRUITS, getMarketFruits } from "../../types/fruits";
-import { Fruit, Square, Action, Transaction } from "../../types/contract";
-import { cacheAccountFarm, getFarm } from "../../utils/localStorage";
+import {
+  Fruit,
+  Square,
+  Action,
+  Transaction,
+  ActionableItem,
+  isFruit,
+  ACTIONABLE_ITEMS,
+} from "../../types/contract";
+import {
+  cacheAccountFarm,
+  getFarm,
+  getSelectedItem,
+} from "../../utils/localStorage";
 
 import {
   service,
@@ -18,16 +29,19 @@ import {
 import coin from "../../images/ui/sunflower_coin.png";
 import questionMark from "../../images/ui/expression_confused.png";
 import sunflower_coin from "../../images/ui/sunflower_coin.png";
+import sunflower from "../../images/sunflower/plant.png";
 
 import { Panel } from "../ui/Panel";
 import { Timer } from "../ui/Timer";
 import { Button } from "../ui/Button";
+import {AudioPlayer} from "../ui/AudioPlayer";
 
 import { FruitBoard } from "./FruitBoard";
 import { Tour } from "./Tour";
 import { getExchangeRate, getMarketRate } from "../../utils/supply";
 import { Message } from "../ui/Message";
 import { Modal } from "react-bootstrap";
+import { Inventory, Supply } from "../../types/crafting";
 
 export const Farm: React.FC = () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0));
@@ -37,11 +51,26 @@ export const Farm: React.FC = () => {
       createdAt: 0,
     })
   );
+  const [inventory, setInventory] = React.useState<Inventory>({
+    axe: 0,
+    pickaxe: 0,
+    wood: 0,
+    stone: 0,
+    sunflowerTokens: 0,
+    statue: 0,
+    stonePickaxe: 0,
+    iron: 0,
+  });
+
+  const [supply, setSupply] = React.useState<Supply>({
+    statue: 0,
+  });
+
   const [showBuyModal, setShowBuyModal] = React.useState(false);
   const farmIsFresh = React.useRef(false);
   const accountId = React.useRef<string>();
-  const [fruit, setFruit] = React.useState<Fruit>(
-    (localStorage.getItem("fruit") as Fruit) || Fruit.Sunflower
+  const [selectedItem, setSelectedItem] = React.useState<ActionableItem>(
+    ACTIONABLE_ITEMS[0]
   );
   const [fruits, setFruits] = React.useState<FruitItem[]>(FRUITS);
   const [machineState, send] = useService<
@@ -81,7 +110,8 @@ export const Farm: React.FC = () => {
       if (
         machineState.matches("upgrading") ||
         machineState.matches("loading") ||
-        machineState.matches("rewarding")
+        machineState.matches("rewarding") ||
+        machineState.matches("crafting")
       ) {
         farmIsFresh.current = false;
       }
@@ -103,27 +133,41 @@ export const Farm: React.FC = () => {
         farmIsFresh.current = true;
         accountId.current = id;
 
-        const cachedFarm = getFarm(id);
-        setFruit(cachedFarm.selectedFruit);
+        const cachedItem = getSelectedItem(id);
+        setSelectedItem(cachedItem);
 
         const supply = await machineState.context.blockChain.totalSupply();
         const marketRate = getMarketRate(supply);
         const marketFruits = getMarketFruits(marketRate);
+        console.log({ marketFruits });
         setFruits(marketFruits);
+      }
+
+      if (machineState.matches("farming")) {
+        const inventory = await machineState.context.blockChain.getInventory();
+        setInventory(inventory);
+
+        const supply = await machineState.context.blockChain.getSupply();
+        setSupply(supply);
+        console.log({ inventory });
       }
     };
 
     load();
   }, [machineState]);
 
-  const onChangeFruit = (fruit: Fruit) => {
-    setFruit(fruit);
+  const onChangeItem = (item: ActionableItem) => {
+    setSelectedItem(item);
 
-    cacheAccountFarm(accountId.current, { selectedFruit: fruit });
-    localStorage.setItem("fruit", fruit);
+    cacheAccountFarm(accountId.current, { selectedItem: item.name });
+    // TODO - ?localStorage.setItem("fruit", fruit);
   };
   const onHarvest = React.useCallback(
     async (landIndex: number) => {
+      if (!isFruit(selectedItem)) {
+        return;
+      }
+
       const now = Math.floor(Date.now() / 1000);
 
       const harvestedFruit = land[landIndex];
@@ -153,7 +197,13 @@ export const Farm: React.FC = () => {
 
   const onPlant = React.useCallback(
     async (landIndex: number) => {
-      const price = fruits.find((item) => item.fruit === fruit).buyPrice;
+      if (!isFruit(selectedItem)) {
+        return;
+      }
+
+      const price = fruits.find(
+        (item) => item.fruit === selectedItem.fruit
+      ).buyPrice;
 
       if (balance.lt(price)) {
         return;
@@ -162,7 +212,7 @@ export const Farm: React.FC = () => {
       const now = Math.floor(Date.now() / 1000);
       const transaction: Transaction = {
         action: Action.Plant,
-        fruit: fruit,
+        fruit: selectedItem.fruit,
         landIndex,
         createdAt: now,
       };
@@ -178,7 +228,7 @@ export const Farm: React.FC = () => {
 
       send("PLANT");
     },
-    [balance, fruit, fruits, machineState.context.blockChain, send]
+    [balance, selectedItem, fruits, machineState.context.blockChain, send]
   );
 
   const save = async () => {
@@ -193,14 +243,16 @@ export const Farm: React.FC = () => {
       <Tour />
       <Land
         fruits={fruits}
-        selectedFruit={fruit}
+        selectedItem={selectedItem}
         land={land}
         balance={safeBalance}
         onHarvest={onHarvest}
         onPlant={onPlant}
         account={accountId.current}
+        inventory={inventory}
+        supply={supply}
       />
-
+        <AudioPlayer  />
       <span id="save-button">
         <Panel hasInner={false}>
           <Button
@@ -239,10 +291,11 @@ export const Farm: React.FC = () => {
 
       <FruitBoard
         fruits={fruits}
-        selectedFruit={fruit}
-        onSelectFruit={onChangeFruit}
+        selectedItem={selectedItem}
+        onSelectItem={onChangeItem}
         land={land}
         balance={safeBalance}
+        inventory={inventory}
       />
 
       <Modal centered show={showBuyModal} onHide={() => setShowBuyModal(false)}>
@@ -259,7 +312,7 @@ export const Farm: React.FC = () => {
               Quickswap. In the meantime the only way to earn more tokens is
               through playing the game.
             </span>
-            <img id="nft" src={sunflower_coin} />
+            <img id="nft" src={sunflower} />
           </div>
         </Panel>
       </Modal>
