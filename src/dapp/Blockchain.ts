@@ -103,7 +103,7 @@ export class BlockChain {
 
       this.statue = new this.alchemyWeb3.eth.Contract(
         Statue as any,
-        "0x62F0c404b2f2C650bc33DBCd0a94D0a5Dd469672"
+        "0x71556745dA70F2103C50f0E577C1ACF8A9aAC05E"
       );
     } catch (e) {
       // Timeout, retry
@@ -365,11 +365,15 @@ export class BlockChain {
     this.oldInventory = this.inventory;
     console.log({ recipe, amount });
 
-    const gwei = this.web3.utils.toWei(amount.toString(), "ether");
+    // ERC20 tokens are fractionalized so we need to multiply by 10^18 to get 1 whole one
+    const mintAmount =
+      recipe.type === "NFT"
+        ? amount
+        : this.web3.utils.toWei(amount.toString(), "ether");
 
     await new Promise(async (resolve, reject) => {
       this.farm.methods
-        .craft(recipe.address, gwei)
+        .craft(recipe.address, mintAmount)
         .send({ from: this.account })
         .on("error", function (error) {
           console.log({ error });

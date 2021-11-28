@@ -191,7 +191,7 @@ export const recipes: Recipe[] = [
     description: "A symbol of the holy token",
     image: statue,
     type: "NFT",
-    address: "0x62F0c404b2f2C650bc33DBCd0a94D0a5Dd469672",
+    address: "0x71556745dA70F2103C50f0E577C1ACF8A9aAC05E",
     ingredients: [
       {
         name: "$SFF",
