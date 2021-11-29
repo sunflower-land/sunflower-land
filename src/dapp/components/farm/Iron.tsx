@@ -79,8 +79,8 @@ export const Iron: React.FC<Props> = ({ inventory }) => {
   useEffect(() => {
     const change = machineState.context.blockChain.getInventoryChange();
 
-    if (change.iron > 0) {
-      setChoppedCount(change.iron);
+    if (change.Iron > 0) {
+      setChoppedCount(change.Iron);
       setShowChoppedCount(true);
       setTimeout(() => setShowChoppedCount(false), 3000);
     }
@@ -105,7 +105,7 @@ export const Iron: React.FC<Props> = ({ inventory }) => {
     setAmount(0);
   };
 
-  const limit = Math.min(treeStrength, inventory.stonePickaxe);
+  const limit = Math.min(treeStrength, inventory["Stone Pickaxe"]);
 
   return (
     <>
@@ -195,7 +195,7 @@ export const Iron: React.FC<Props> = ({ inventory }) => {
                     </div>
                   </div>
                 </div>
-                {inventory.stonePickaxe < amount ? (
+                {inventory["Stone Pickaxe"] < amount ? (
                   <Message>
                     You need a <img src={pickaxe} className="required-tool" />
                   </Message>
@@ -229,7 +229,7 @@ export const Iron: React.FC<Props> = ({ inventory }) => {
 
                     <Button
                       onClick={chop}
-                      disabled={inventory.stonePickaxe < amount}
+                      disabled={inventory["Stone Pickaxe"] < amount}
                     >
                       <span id="craft-button-text">Mine</span>
                     </Button>

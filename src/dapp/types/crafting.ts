@@ -1,3 +1,13 @@
+import Token from "../../abis/Token.json";
+import Farm from "../../abis/Farm.json";
+import Axe from "../../abis/Axe.json";
+import Wood from "../../abis/Wood.json";
+import Pickaxe from "../../abis/Pickaxe.json";
+import StonePickaxe from "../../abis/StonePickaxe.json";
+import Stone from "../../abis/Stone.json";
+import Iron from "../../abis/Iron.json";
+import Statue from "../../abis/Statue.json";
+
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
 import axe from "../images/ui/axe.png";
@@ -40,6 +50,7 @@ export interface Item {
   type: "ERC20" | "NFT";
   isLocked?: boolean;
   supply?: number;
+  abi?: any;
 }
 
 export const recipes: Recipe[] = [
@@ -56,6 +67,7 @@ export const recipes: Recipe[] = [
         image: coin,
       },
     ],
+    abi: Axe,
   },
   {
     name: "Wood pickaxe",
@@ -75,9 +87,11 @@ export const recipes: Recipe[] = [
         image: coin,
       },
     ],
+    abi: Pickaxe,
   },
   {
     name: "Stone Pickaxe",
+    abi: StonePickaxe,
     description: "Used for mining and collecting ore",
     image: pickaxe,
     type: "ERC20",
@@ -102,6 +116,7 @@ export const recipes: Recipe[] = [
   },
   {
     name: "Hammer",
+
     description: "Used for building barns, coops & other structures",
     image: hammer,
     type: "ERC20",
@@ -188,6 +203,7 @@ export const recipes: Recipe[] = [
   },
   {
     name: "Sunflower Statue",
+    abi: Statue,
     description: "A symbol of the holy token",
     image: statue,
     type: "NFT",
@@ -217,6 +233,7 @@ export const items: Item[] = [
   ...recipes,
   {
     name: "Stone",
+    abi: Stone,
     description: "A natural resource in Sunflower Land used for crafting",
     image: stone,
     type: "ERC20",
@@ -224,6 +241,7 @@ export const items: Item[] = [
   },
   {
     name: "Wood",
+    abi: Wood,
     description: "A bountiful resource in Sunflower Land used for crafting",
     image: wood,
     type: "ERC20",
@@ -231,6 +249,7 @@ export const items: Item[] = [
   },
   {
     name: "Iron",
+    abi: Iron,
     description: "A bountiful resource in Sunflower Land used for crafting",
     image: iron,
     type: "ERC20",
@@ -238,39 +257,29 @@ export const items: Item[] = [
   },
 ];
 
-export interface Inventory {
+export type Inventory = {
   sunflowerTokens: number;
-  axe: number;
-  pickaxe: number;
-  stonePickaxe: number;
-  wood: number;
-  stone: number;
-  iron: number;
-  statue: number;
-}
+} & Record<ItemName, number>;
 
 export interface Supply {
   statue: number;
 }
 
-export function getItemAmount(inventory: Inventory, name: Item["name"]) {
-  if (name === "Stone") {
-    return inventory.stone;
-  }
-
-  if (name === "Wood") {
-    return inventory.wood;
-  }
-
-  if (name === "Iron") {
-    return inventory.iron;
-  }
-
-  if (name === "Sunflower Statue") {
-    return inventory.statue;
-  }
-
-  // TODO more
-
-  return inventory.sunflowerTokens;
+export const DEFAULT_INVENTORY: Inventory = {
+  Wood: 0,
+  Stone: 0,
+  Axe: 0,
+  sunflowerTokens: 0,
+  "Wood pickaxe": 0,
+  "Stone Pickaxe": 0,
+  Iron: 0,
+  "Sunflower Statue": 0,
+  "Fishing rod": 0,
+  "Chicken coop": 0,
+  Hammer: 0,
+  Sword: 0,
+};
+export type ItemName = Item["name"];
+export function getItemAmount(inventory: Inventory, name: ItemName) {
+  return inventory[name] || inventory.sunflowerTokens;
 }
