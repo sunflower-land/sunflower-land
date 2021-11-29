@@ -13,7 +13,7 @@ export const Statue: React.FC<Props> = ({ inventory }) => {
   return (
     <>
       <div id="statue">
-        {inventory.statue > 0 && <img src={statue} alt="statue" />}
+        {inventory["Sunflower Statue"] > 0 && <img src={statue} alt="statue" />}
       </div>
       <div className="dirt" style={{ gridColumn: 6, gridRow: 7 }} />
       <div className="dirt" style={{ gridColumn: 6, gridRow: 6 }} />

@@ -34,14 +34,14 @@ import sunflower from "../../images/sunflower/plant.png";
 import { Panel } from "../ui/Panel";
 import { Timer } from "../ui/Timer";
 import { Button } from "../ui/Button";
-import {AudioPlayer} from "../ui/AudioPlayer";
+import { AudioPlayer } from "../ui/AudioPlayer";
 
 import { FruitBoard } from "./FruitBoard";
 import { Tour } from "./Tour";
 import { getExchangeRate, getMarketRate } from "../../utils/supply";
 import { Message } from "../ui/Message";
 import { Modal } from "react-bootstrap";
-import { Inventory, Supply } from "../../types/crafting";
+import { DEFAULT_INVENTORY, Inventory, Supply } from "../../types/crafting";
 
 export const Farm: React.FC = () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0));
@@ -51,16 +51,8 @@ export const Farm: React.FC = () => {
       createdAt: 0,
     })
   );
-  const [inventory, setInventory] = React.useState<Inventory>({
-    axe: 0,
-    pickaxe: 0,
-    wood: 0,
-    stone: 0,
-    sunflowerTokens: 0,
-    statue: 0,
-    stonePickaxe: 0,
-    iron: 0,
-  });
+  const [inventory, setInventory] =
+    React.useState<Inventory>(DEFAULT_INVENTORY);
 
   const [supply, setSupply] = React.useState<Supply>({
     statue: 0,
@@ -146,10 +138,6 @@ export const Farm: React.FC = () => {
       if (machineState.matches("farming")) {
         const inventory = await machineState.context.blockChain.getInventory();
         setInventory(inventory);
-
-        const supply = await machineState.context.blockChain.getSupply();
-        setSupply(supply);
-        console.log({ inventory });
       }
     };
 
@@ -252,7 +240,7 @@ export const Farm: React.FC = () => {
         inventory={inventory}
         supply={supply}
       />
-        <AudioPlayer  />
+      <AudioPlayer />
       <span id="save-button">
         <Panel hasInner={false}>
           <Button

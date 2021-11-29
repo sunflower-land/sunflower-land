@@ -17,7 +17,14 @@ import {
   Fruit,
   Donation,
 } from "./types/contract";
-import { Inventory, Recipe, Supply } from "./types/crafting";
+import {
+  Inventory,
+  ItemName,
+  Recipe,
+  Supply,
+  items,
+  DEFAULT_INVENTORY,
+} from "./types/crafting";
 
 interface Account {
   farm: Square[];
@@ -25,17 +32,12 @@ interface Account {
   id: string;
 }
 
+type Contracts = Record<ItemName, any>;
+
 export class BlockChain {
   private web3: Web3 | null = null;
   private alchemyWeb3: Web3 | null = null;
   private token: any | null = null;
-  private axe: any | null = null;
-  private wood: any | null = null;
-  private iron: any | null = null;
-  private stone: any | null = null;
-  private pickaxe: any | null = null;
-  private stonepickaxe: any | null = null;
-  private statue: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
   private alchemyFarm: any | null = null;
@@ -49,6 +51,8 @@ export class BlockChain {
   private statueSupply: number = 0;
 
   private events: Transaction[] = [];
+
+  private contracts: Contracts;
 
   private isTrialAccount: boolean = false;
   private async connectToMatic() {
@@ -67,6 +71,20 @@ export class BlockChain {
       this.alchemyWeb3 = new Web3(
         "https://polygon-mainnet.g.alchemy.com/v2/XuJyQ4q2Ay1Ju1I7fl4e_2xi_G2CmX-L"
       );
+
+      this.contracts = items
+        .filter((item) => !!item.abi)
+        .reduce(
+          (contracts, item) => ({
+            ...contracts,
+            [item.name]: new this.alchemyWeb3.eth.Contract(
+              item.abi as any,
+              item.address
+            ),
+          }),
+          {} as Contracts
+        );
+
       this.alchemyToken = new this.alchemyWeb3.eth.Contract(
         Token as any,
         "0xdf9B4b57865B403e08c85568442f95c26b7896b0"
@@ -74,36 +92,6 @@ export class BlockChain {
       this.alchemyFarm = new this.alchemyWeb3.eth.Contract(
         Farm as any,
         "0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0"
-      );
-      this.axe = new this.alchemyWeb3.eth.Contract(
-        Axe as any,
-        "0xc65C99E4c3AAb25322d4E808e5e96Ec774330696"
-      );
-      this.wood = new this.alchemyWeb3.eth.Contract(
-        Wood as any,
-        "0xC8A6fFc3720867470A2395D1634B3085BbDDf71a"
-      );
-      this.stone = new this.alchemyWeb3.eth.Contract(
-        Stone as any,
-        "0xE11e8ff4D9C10A7E4524e8fE6b4F1F3E8665eDCE"
-      );
-      this.pickaxe = new this.alchemyWeb3.eth.Contract(
-        Pickaxe as any,
-        "0x526439FCCd9494b61F9CfaA0c287Cb04a30F2D3f"
-      );
-      this.stonepickaxe = new this.alchemyWeb3.eth.Contract(
-        StonePickaxe as any,
-        "0xBDc6814D29fBA97a426057778ABe702079480b80"
-      );
-
-      this.iron = new this.alchemyWeb3.eth.Contract(
-        Iron as any,
-        "0x4a114F6EC3e0f6c57A9Db37140ca88Ee5525E55B"
-      );
-
-      this.statue = new this.alchemyWeb3.eth.Contract(
-        Statue as any,
-        "0x71556745dA70F2103C50f0E577C1ACF8A9aAC05E"
       );
     } catch (e) {
       // Timeout, retry
@@ -181,20 +169,18 @@ export class BlockChain {
   }
 
   public async loadFarm() {
-    const [account, inventory, tree, stone, iron, statue] = await Promise.all([
+    const [account, inventory, tree, stone, iron] = await Promise.all([
       this.getAccount(),
       this.loadInventory(),
       this.loadTreeStrength(),
       this.loadStoneStrength(),
       this.loadIronStrength(),
-      this.loadStatueSupply(),
     ]);
     this.details = account;
     this.inventory = inventory;
     this.woodStrength = tree;
     this.stoneStrength = stone;
     this.ironStrength = iron;
-    this.statueSupply = statue;
 
     await this.cacheTotalSupply();
   }
@@ -592,57 +578,30 @@ export class BlockChain {
       .balanceOf(this.account)
       .call({ from: this.account });
 
-    const axePromise = this.axe.methods
-      .balanceOf(this.account)
-      .call({ from: this.account });
+    const itemBalancesPromise = Object.values(this.contracts).map((contract) =>
+      contract.methods.balanceOf(this.account).call({ from: this.account })
+    );
 
-    const woodPromise = this.wood.methods
-      .balanceOf(this.account)
-      .call({ from: this.account });
+    const [token, ...itemBalances] = await Promise.all([
+      tokenPromise,
+      ...itemBalancesPromise,
+    ]);
 
-    const stonePromise = this.stone.methods
-      .balanceOf(this.account)
-      .call({ from: this.account });
+    const values: Record<ItemName, number> = Object.keys(this.contracts).reduce(
+      (itemValues, itemName, index) => ({
+        ...itemValues,
+        [itemName]: Math.ceil(
+          Number(this.web3.utils.fromWei(itemBalances[index]))
+        ),
+      }),
+      {} as Record<ItemName, number>
+    );
 
-    const pickaxePromise = this.pickaxe.methods
-      .balanceOf(this.account)
-      .call({ from: this.account });
+    console.log({ values });
 
-    const stonePickaxePromise = this.stonepickaxe.methods
-      .balanceOf(this.account)
-      .call({ from: this.account });
-
-    const ironPromise = this.iron.methods
-      .balanceOf(this.account)
-      .call({ from: this.account });
-
-    const statuePromise = this.statue.methods
-      .balanceOf(this.account)
-      .call({ from: this.account });
-
-    const [token, axe, wood, pickaxe, stone, stonePickaxe, iron, statue] =
-      await Promise.all([
-        tokenPromise,
-        axePromise,
-        woodPromise,
-        pickaxePromise,
-        stonePromise,
-        stonePickaxePromise,
-        ironPromise,
-        statuePromise,
-      ]);
-
-    console.log({ axe });
-    console.log({ wood });
     return {
-      axe: Number(this.web3.utils.fromWei(axe)),
-      wood: Number(this.web3.utils.fromWei(wood)),
-      pickaxe: Number(this.web3.utils.fromWei(pickaxe)),
-      stonePickaxe: Number(this.web3.utils.fromWei(stonePickaxe)),
-      stone: Number(this.web3.utils.fromWei(stone)),
-      iron: Number(this.web3.utils.fromWei(iron)),
-      statue: Number(statue),
       sunflowerTokens: Number(this.web3.utils.fromWei(token)),
+      ...values,
     };
   }
 
@@ -652,35 +611,27 @@ export class BlockChain {
 
   public getInventoryChange(): Inventory {
     if (!this.oldInventory) {
-      return {
-        wood: 0,
-        stone: 0,
-        axe: 0,
-        sunflowerTokens: 0,
-        pickaxe: 0,
-        stonePickaxe: 0,
-        iron: 0,
-        statue: 0,
-      };
+      return DEFAULT_INVENTORY;
     }
 
-    return {
-      wood: this.inventory.wood - this.oldInventory.wood,
-      stone: this.inventory.stone - this.oldInventory.stone,
-      axe: this.inventory.axe - this.oldInventory.axe,
-      statue: this.inventory.statue - this.oldInventory.statue,
+    // Calculate the difference since we last synced with the blockchain
+    const changes: Record<ItemName, number> = items.reduce(
+      (change, item) => ({
+        ...change,
+        [item.name]: this.inventory[item.name] - this.oldInventory[item.name],
+      }),
+      {} as Record<ItemName, number>
+    );
 
+    return {
       sunflowerTokens:
         this.inventory.sunflowerTokens - this.oldInventory.sunflowerTokens,
-      pickaxe: this.inventory.pickaxe - this.oldInventory.pickaxe,
-      stonePickaxe:
-        this.inventory.stonePickaxe - this.oldInventory.stonePickaxe,
-      iron: this.inventory.iron - this.oldInventory.iron,
+      ...changes,
     };
   }
 
   public async loadTreeStrength() {
-    const strength = await this.wood.methods
+    const strength = await this.contracts.Wood.methods
       .getAvailable(this.account)
       .call({ from: this.account });
 
@@ -688,7 +639,7 @@ export class BlockChain {
   }
 
   public async loadStoneStrength() {
-    const strength = await this.stone.methods
+    const strength = await this.contracts.Stone.methods
       .getAvailable(this.account)
       .call({ from: this.account });
 
@@ -696,7 +647,7 @@ export class BlockChain {
   }
 
   public async loadIronStrength() {
-    const strength = await this.iron.methods
+    const strength = await this.contracts.Iron.methods
       .getAvailable(this.account)
       .call({ from: this.account });
 
@@ -714,19 +665,5 @@ export class BlockChain {
 
   public async getIronStrength() {
     return this.ironStrength;
-  }
-
-  public async loadStatueSupply() {
-    const supply = await this.statue.methods
-      .totalSupply()
-      .call({ from: this.account });
-
-    return Number(supply);
-  }
-
-  public getSupply(): Supply {
-    return {
-      statue: this.statueSupply,
-    };
   }
 }

@@ -7,7 +7,14 @@ import { FruitItem } from "../../types/fruits";
 
 import { Box, Props as BoxProps } from "./Box";
 
-import { Inventory, Item, items, Recipe, recipes } from "../../types/crafting";
+import {
+  Inventory,
+  Item,
+  ItemName,
+  items,
+  Recipe,
+  recipes,
+} from "../../types/crafting";
 
 import "./Inventory.css";
 import {
@@ -31,97 +38,26 @@ export const InventoryItems: React.FC<Props> = ({
   inventory,
 }) => {
   console.log({ items: inventory });
-  const boxes: BoxProps[] = [];
+  const boxes: BoxProps[] = Object.keys(inventory)
+    // Don't show tokens here
+    .filter((name) => name !== "sunflowerTokens")
+    .map((name) => {
+      const item = items.find((i) => i.name === (name as ItemName));
+      console.log({
+        name,
+        item,
+        inventory,
+      });
 
-  if (inventory.axe > 0) {
-    const item = items.find((recipe) => recipe.name === "Axe");
-    boxes.push({
-      count: inventory.axe,
-      onClick: onSelectItem ? () => onSelectItem(item) : undefined,
-      isSelected: selectedItem?.name === "Axe",
-      image: item.image,
-      disabled: !onSelectItem,
-    });
-  }
-
-  if (inventory.pickaxe > 0) {
-    const item = items.find((recipe) => recipe.name === "Wood pickaxe");
-    boxes.push({
-      count: inventory.pickaxe,
-      onClick: onSelectItem ? () => onSelectItem(item) : undefined,
-      isSelected: selectedItem?.name === "Wood pickaxe",
-      image: item.image,
-      disabled: !onSelectItem,
-    });
-  }
-
-  if (inventory.stonePickaxe > 0) {
-    const item = items.find((recipe) => recipe.name === "Stone Pickaxe");
-    boxes.push({
-      count: inventory.stonePickaxe,
-      onClick: onSelectItem ? () => onSelectItem(item) : undefined,
-      isSelected: selectedItem?.name === "Stone Pickaxe",
-      image: item.image,
-      disabled: !onSelectItem,
-    });
-  }
-
-  // if (inventory.pickaxe > 0) {
-  //   const item = items.find((recipe) => recipe.name === "Wood pickaxe");
-  //   boxes.push({
-  //     count: inventory.pickaxe,
-  //     onClick: onSelectItem ? () => onSelectItem(item) : undefined,
-  //     isSelected: selectedItem?.name === "Wood pickaxe",
-  //     image: item.image,
-  //     disabled: !onSelectItem,
-  //   });
-  // }
-
-  if (inventory.stone > 0) {
-    const item = items.find((recipe) => recipe.name === "Stone");
-    boxes.push({
-      count: inventory.stone,
-      onClick: onSelectItem ? () => onSelectItem(item) : undefined,
-      isSelected: selectedItem?.name === "Stone",
-      image: item.image,
-      disabled: !onSelectItem,
-    });
-  }
-
-  console.log("Is disbaled: ", !onSelectItem);
-
-  if (inventory.wood > 0) {
-    const item = items.find((recipe) => recipe.name === "Wood");
-    boxes.push({
-      count: inventory.wood,
-      onClick: onSelectItem ? () => onSelectItem(item) : undefined,
-      isSelected: selectedItem?.name === "Wood",
-      image: item.image,
-      disabled: !onSelectItem,
-    });
-  }
-
-  if (inventory.iron > 0) {
-    const item = items.find((recipe) => recipe.name === "Iron");
-    boxes.push({
-      count: inventory.iron,
-      onClick: onSelectItem ? () => onSelectItem(item) : undefined,
-      isSelected: selectedItem?.name === "Iron",
-      image: item.image,
-      disabled: !onSelectItem,
-    });
-  }
-
-  if (inventory.statue > 0) {
-    const item = items.find((recipe) => recipe.name === "Sunflower Statue");
-    boxes.push({
-      count: inventory.statue,
-      onClick: onSelectItem ? () => onSelectItem(item) : undefined,
-      isSelected: selectedItem?.name === "Sunflower Statue",
-      image: item.image,
-      disabled: !onSelectItem,
-    });
-  }
+      return {
+        count: Number(inventory[name as ItemName]),
+        onClick: onSelectItem ? () => onSelectItem(item) : undefined,
+        isSelected: selectedItem?.name === "Axe",
+        image: item.image,
+        disabled: !onSelectItem,
+      };
+    })
+    .filter((item) => item.count > 0);
 
   // Pad array with empty boxes
   for (let i = boxes.length; i < 10; i++) {

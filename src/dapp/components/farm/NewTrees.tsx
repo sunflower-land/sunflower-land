@@ -105,8 +105,8 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
   useEffect(() => {
     const change = machineState.context.blockChain.getInventoryChange();
 
-    if (change.wood > 0) {
-      setChoppedCount(change.wood);
+    if (change.Wood > 0) {
+      setChoppedCount(change.Wood);
       setShowChoppedCount(true);
       setTimeout(() => setShowChoppedCount(false), 3000);
     }
@@ -131,7 +131,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
     setAmount(0);
   };
 
-  const limit = Math.min(treeStrength, inventory.axe);
+  const limit = Math.min(treeStrength, inventory.Axe);
 
   return (
     <>
@@ -217,7 +217,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
                     </div>
                   </div>
                 </div>
-                {inventory.axe < amount ? (
+                {inventory.Axe < amount ? (
                   <Message>
                     You need a <img src={axe} className="required-tool" />
                   </Message>
@@ -249,7 +249,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
                       </div>
                     </div>
 
-                    <Button onClick={chop} disabled={inventory.axe < amount}>
+                    <Button onClick={chop} disabled={inventory.Axe < amount}>
                       <span id="craft-button-text">Chop</span>
                     </Button>
                   </div>
