@@ -16,7 +16,6 @@ export enum Fruit {
   Parsnip = "6",
   Radish = "7",
 }
-console.log({ Fruit });
 
 export interface FruitItem {
   fruit: Fruit;

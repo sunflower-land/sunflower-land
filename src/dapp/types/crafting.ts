@@ -257,19 +257,12 @@ export const items: Item[] = [
   },
 ];
 
-export type Inventory = {
-  sunflowerTokens: number;
-} & Record<ItemName, number>;
-
-export interface Supply {
-  statue: number;
-}
+export type Inventory = Record<ItemName, number>;
 
 export const DEFAULT_INVENTORY: Inventory = {
   Wood: 0,
   Stone: 0,
   Axe: 0,
-  sunflowerTokens: 0,
   "Wood pickaxe": 0,
   "Stone Pickaxe": 0,
   Iron: 0,
@@ -280,6 +273,3 @@ export const DEFAULT_INVENTORY: Inventory = {
   Sword: 0,
 };
 export type ItemName = Item["name"];
-export function getItemAmount(inventory: Inventory, name: ItemName) {
-  return inventory[name] || inventory.sunflowerTokens;
-}

@@ -8,13 +8,18 @@ import hammer from "../../images/ui/hammer.png";
 import blacksmith from "../../images/decorations/blacksmith.png";
 import basket from "../../images/ui/basket.png";
 import { CraftingMenu } from "../ui/CraftingMenu";
-import { Inventory, Supply } from "../../types/crafting";
+import { Inventory } from "../../types/crafting";
 
 interface Props {
   inventory: Inventory;
-  supply: Supply;
+  totalItemSupplies: Inventory;
+  balance: number;
 }
-export const Blacksmith: React.FC<Props> = ({ inventory, supply }) => {
+export const Blacksmith: React.FC<Props> = ({
+  inventory,
+  totalItemSupplies,
+  balance,
+}) => {
   const [showModal, setShowModal] = React.useState(false);
 
   return (
@@ -24,7 +29,8 @@ export const Blacksmith: React.FC<Props> = ({ inventory, supply }) => {
           <CraftingMenu
             onClose={() => setShowModal(false)}
             inventory={inventory}
-            supply={supply}
+            totalItemSupplies={totalItemSupplies}
+            balance={balance}
           />
         </Panel>
       </Modal>

@@ -37,22 +37,16 @@ export const InventoryItems: React.FC<Props> = ({
   onSelectItem,
   inventory,
 }) => {
-  console.log({ items: inventory });
   const boxes: BoxProps[] = Object.keys(inventory)
     // Don't show tokens here
     .filter((name) => name !== "sunflowerTokens")
     .map((name) => {
       const item = items.find((i) => i.name === (name as ItemName));
-      console.log({
-        name,
-        item,
-        inventory,
-      });
 
       return {
         count: Number(inventory[name as ItemName]),
         onClick: onSelectItem ? () => onSelectItem(item) : undefined,
-        isSelected: selectedItem?.name === "Axe",
+        isSelected: selectedItem?.name === item.name,
         image: item.image,
         disabled: !onSelectItem,
       };

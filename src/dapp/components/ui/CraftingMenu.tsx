@@ -20,14 +20,7 @@ import arrowDown from "../../images/ui/arrow_down.png";
 import wood from "../../images/ui/wood.png";
 import stone from "../../images/ui/rock.png";
 
-import {
-  recipes,
-  Recipe,
-  Inventory,
-  getItemAmount,
-  Item,
-  Supply,
-} from "../../types/crafting";
+import { recipes, Recipe, Inventory, Item } from "../../types/crafting";
 import { Box, BoxProps } from "./Box";
 
 import "./Crafting.css";
@@ -35,13 +28,15 @@ import { useService } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
+  balance: number;
   inventory: Inventory;
-  supply: Supply;
+  totalItemSupplies: Inventory;
 }
 export const CraftingMenu: React.FC<Props> = ({
   onClose,
+  balance,
   inventory,
-  supply,
+  totalItemSupplies,
 }) => {
   const [amount, setAmount] = React.useState(1);
   const [selectedRecipe, setSelectedRecipe] = React.useState(recipes[0]);
@@ -76,16 +71,14 @@ export const CraftingMenu: React.FC<Props> = ({
     boxes.push({ disabled: true });
   }
 
-  const balance = getItemAmount(inventory, selectedRecipe.name);
   // Currently only have statue supply so hardcode the rest to 5000
   const amountLeft =
-    selectedRecipe.name === "Sunflower Statue" ? 1000 - supply.statue : 5000;
-  console.log({ supply });
+    selectedRecipe.name === "Sunflower Statue"
+      ? 1000 - totalItemSupplies["Sunflower Statue"]
+      : 5000;
   const ingredientList = selectedRecipe.ingredients.map((ingredient) => {
-    const inventoryCount = getItemAmount(
-      inventory,
-      ingredient.name as Item["name"]
-    );
+    const inventoryCount =
+      ingredient.name === "$SFF" ? balance : inventory[ingredient.name];
     const price = ingredient.amount * amount;
     return {
       name: ingredient.name,
@@ -114,7 +107,9 @@ export const CraftingMenu: React.FC<Props> = ({
       );
     }
 
-    if (selectedRecipe.type === "ERC20" || balance === 0) {
+    const itemCount = inventory[selectedRecipe.name];
+
+    if (selectedRecipe.type === "ERC20" || itemCount === 0) {
       return (
         <>
           <div id="craft-count">

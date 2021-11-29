@@ -54,6 +54,9 @@ export const Farm: React.FC = () => {
   const [inventory, setInventory] =
     React.useState<Inventory>(DEFAULT_INVENTORY);
 
+  const [totalItemSupplies, setTotalItemSupplies] =
+    React.useState<Inventory>(DEFAULT_INVENTORY);
+
   const [supply, setSupply] = React.useState<Supply>({
     statue: 0,
   });
@@ -119,7 +122,6 @@ export const Farm: React.FC = () => {
           balance: currentBalance,
           id,
         } = machineState.context.blockChain.myFarm;
-        console.log("Load latest");
         setLand(farm);
         setBalance(new Decimal(currentBalance));
         farmIsFresh.current = true;
@@ -131,13 +133,15 @@ export const Farm: React.FC = () => {
         const supply = await machineState.context.blockChain.totalSupply();
         const marketRate = getMarketRate(supply);
         const marketFruits = getMarketFruits(marketRate);
-        console.log({ marketFruits });
         setFruits(marketFruits);
       }
 
       if (machineState.matches("farming")) {
         const inventory = await machineState.context.blockChain.getInventory();
         setInventory(inventory);
+        const itemSupplies =
+          await machineState.context.blockChain.getTotalItemSupplies();
+        setTotalItemSupplies(itemSupplies);
       }
     };
 
@@ -225,7 +229,6 @@ export const Farm: React.FC = () => {
 
   const safeBalance = balance.toNumber();
 
-  console.log({ state: machineState.value });
   return (
     <>
       <Tour />
@@ -238,7 +241,7 @@ export const Farm: React.FC = () => {
         onPlant={onPlant}
         account={accountId.current}
         inventory={inventory}
-        supply={supply}
+        totalItemSupplies={totalItemSupplies}
       />
       <AudioPlayer />
       <span id="save-button">

@@ -32,7 +32,7 @@ interface Props {
   fruits: FruitItem[];
   account?: string;
   inventory: Inventory;
-  supply: Supply;
+  totalItemSupplies: Inventory;
 }
 
 const columns = Array(60).fill(null);
@@ -47,7 +47,7 @@ export const Land: React.FC<Props> = ({
   selectedItem,
   account,
   inventory,
-  supply,
+  totalItemSupplies,
 }) => {
   return (
     <>
@@ -134,7 +134,11 @@ export const Land: React.FC<Props> = ({
         <Statue inventory={inventory} />
 
         <Barn farmSize={land.length} balance={balance} />
-        <Blacksmith inventory={inventory} supply={supply} />
+        <Blacksmith
+          inventory={inventory}
+          totalItemSupplies={totalItemSupplies}
+          balance={balance}
+        />
         <Market />
         <Tiles />
         <Reward account={account} />

@@ -21,7 +21,6 @@ import {
   Inventory,
   ItemName,
   Recipe,
-  Supply,
   items,
   DEFAULT_INVENTORY,
 } from "./types/crafting";
@@ -45,6 +44,7 @@ export class BlockChain {
 
   private details: Account = null;
   private inventory: Inventory = null;
+  private totalItemSupplies: Inventory = null;
   private stoneStrength: number = 0;
   private ironStrength: number = 0;
   private woodStrength: number = 0;
@@ -169,15 +169,18 @@ export class BlockChain {
   }
 
   public async loadFarm() {
-    const [account, inventory, tree, stone, iron] = await Promise.all([
-      this.getAccount(),
-      this.loadInventory(),
-      this.loadTreeStrength(),
-      this.loadStoneStrength(),
-      this.loadIronStrength(),
-    ]);
+    const [account, inventory, itemSupplies, tree, stone, iron] =
+      await Promise.all([
+        this.getAccount(),
+        this.loadInventory(),
+        this.loadTotalItemSupplies(),
+        this.loadTreeStrength(),
+        this.loadStoneStrength(),
+        this.loadIronStrength(),
+      ]);
     this.details = account;
     this.inventory = inventory;
+    this.totalItemSupplies = itemSupplies;
     this.woodStrength = tree;
     this.stoneStrength = stone;
     this.ironStrength = iron;
@@ -574,18 +577,12 @@ export class BlockChain {
   }
 
   private async loadInventory(): Promise<Inventory> {
-    const tokenPromise = this.alchemyToken.methods
-      .balanceOf(this.account)
-      .call({ from: this.account });
-
+    // Call balanceOf on each item
     const itemBalancesPromise = Object.values(this.contracts).map((contract) =>
       contract.methods.balanceOf(this.account).call({ from: this.account })
     );
 
-    const [token, ...itemBalances] = await Promise.all([
-      tokenPromise,
-      ...itemBalancesPromise,
-    ]);
+    const itemBalances = await Promise.all(itemBalancesPromise);
 
     const values: Record<ItemName, number> = Object.keys(this.contracts).reduce(
       (itemValues, itemName, index) => ({
@@ -599,14 +596,36 @@ export class BlockChain {
 
     console.log({ values });
 
-    return {
-      sunflowerTokens: Number(this.web3.utils.fromWei(token)),
-      ...values,
-    };
+    return values;
+  }
+
+  private async loadTotalItemSupplies(): Promise<Inventory> {
+    // Call totalSupply on each item
+    const itemSupplyPromise = Object.values(this.contracts).map((contract) =>
+      contract.methods.totalSupply().call({ from: this.account })
+    );
+
+    const itemTotalSupplies = await Promise.all(itemSupplyPromise);
+
+    const values: Record<ItemName, number> = Object.keys(this.contracts).reduce(
+      (itemValues, itemName, index) => ({
+        ...itemValues,
+        [itemName]: itemTotalSupplies[index],
+      }),
+      {} as Record<ItemName, number>
+    );
+
+    console.log({ values });
+
+    return values;
   }
 
   public getInventory() {
     return this.inventory;
+  }
+
+  public getTotalItemSupplies() {
+    return this.totalItemSupplies;
   }
 
   public getInventoryChange(): Inventory {
@@ -624,8 +643,6 @@ export class BlockChain {
     );
 
     return {
-      sunflowerTokens:
-        this.inventory.sunflowerTokens - this.oldInventory.sunflowerTokens,
       ...changes,
     };
   }

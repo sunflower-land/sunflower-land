@@ -66,7 +66,6 @@ export const Iron: React.FC<Props> = ({ inventory }) => {
   useEffect(() => {
     const load = async () => {
       const strength = await machineState.context.blockChain.getIronStrength();
-      console.log({ strength });
       setTreeStrength(Math.floor(Number(strength)));
     };
 
