@@ -4,12 +4,12 @@ import { Prop } from "xstate/lib/model.types";
 import statue from "../../images/ui/sunflower_statue.png";
 import { Inventory } from "../../types/crafting";
 
-import "./Statue.css";
+import "./NFTs.css";
 
 interface Props {
   inventory: Inventory;
 }
-export const Statue: React.FC<Props> = ({ inventory }) => {
+export const NFTs: React.FC<Props> = ({ inventory }) => {
   return (
     <>
       <div id="statue">

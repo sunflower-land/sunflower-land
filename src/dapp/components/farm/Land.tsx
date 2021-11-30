@@ -14,7 +14,7 @@ import { FifthBlock } from "./FifthBlock";
 import { Tiles } from "./Tiles";
 import { Trees } from "./NewTrees";
 import { Stones } from "./NewStone";
-import { Statue } from "./Statue";
+import { NFTs } from "./NFTs";
 import { Iron } from "./Iron";
 import { Barn } from "./Barn";
 import { Blacksmith } from "./Blacksmith";
@@ -109,29 +109,12 @@ export const Land: React.FC<Props> = ({
           onHarvest={onHarvest}
           onPlant={onPlant}
         />
+
         <Trees inventory={inventory} />
+        <Stones inventory={inventory} />
+        <Iron inventory={inventory} />
 
-        <Stones
-          fruits={fruits}
-          selectedItem={selectedItem}
-          land={land}
-          balance={balance}
-          onHarvest={onHarvest}
-          onPlant={onPlant}
-          inventory={inventory}
-        />
-
-        <Iron
-          fruits={fruits}
-          selectedItem={selectedItem}
-          land={land}
-          balance={balance}
-          onHarvest={onHarvest}
-          onPlant={onPlant}
-          inventory={inventory}
-        />
-
-        <Statue inventory={inventory} />
+        <NFTs inventory={inventory} />
 
         <Barn farmSize={land.length} balance={balance} />
         <Blacksmith
