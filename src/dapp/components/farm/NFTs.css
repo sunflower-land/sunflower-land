@@ -10,3 +10,16 @@
   left: 144%;
   bottom: 64%;
 }
+
+#scarecrow {
+  grid-column: 6;
+  grid-row: 7;
+  z-index: 99;
+}
+
+#scarecrow > img {
+  width: 120%;
+  position: relative;
+  left: 144%;
+  bottom: 64%;
+}
