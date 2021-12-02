@@ -21,7 +21,7 @@ import stone from "../images/ui/rock.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
 import coin from "../images/ui/sunflower_coin.png";
 import statue from "../images/ui/sunflower_statue.png";
-import scarecrow from "../images/ui/scarecrow.gif";
+import scarecrow from "../images/ui/scarecrow.png";
 
 export interface Ingredient {
   name: "Wood" | "Stone" | "$SFF" | "Iron";

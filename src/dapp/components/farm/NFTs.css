@@ -12,14 +12,14 @@
 }
 
 #scarecrow {
-  grid-column: 6;
+  grid-column: 9;
   grid-row: 7;
   z-index: 99;
 }
 
 #scarecrow > img {
-  width: 120%;
+  width: 60%;
   position: relative;
-  left: 144%;
-  bottom: 64%;
+  left: 20%;
+  bottom: 30%;
 }
