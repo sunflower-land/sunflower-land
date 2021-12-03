@@ -73,9 +73,9 @@ export const CraftingMenu: React.FC<Props> = ({
 
   // Currently only have statue supply so hardcode the rest to 5000
   const amountLeft =
-    selectedRecipe.name === "Sunflower Statue"
-      ? 1000 - totalItemSupplies["Sunflower Statue"]
-      : 5000;
+    selectedRecipe.supply &&
+    selectedRecipe.supply - totalItemSupplies[selectedRecipe.name];
+
   const ingredientList = selectedRecipe.ingredients.map((ingredient) => {
     const inventoryCount =
       ingredient.name === "$SFF" ? balance : inventory[ingredient.name];
