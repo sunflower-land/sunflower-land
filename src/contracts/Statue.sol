@@ -8,7 +8,9 @@ contract SunflowerFarmersStatue is ERC721, Ownable {
     address public minter;
     uint public totalSupply;
 
-    constructor() public ERC721("Sunflower Farmers Statue", "SFS") {}
+    constructor() public ERC721("Sunflower Farmers Statue", "SFS") {
+        minter = msg.sender;
+    }
 
     function passMinterRole(address farm) public returns (bool) {
         require(msg.sender==minter, "You are not minter");
