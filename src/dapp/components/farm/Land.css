@@ -335,6 +335,7 @@
     animation-duration: 3s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
+    animation-direction: alternate;
     margin-top: 5px;
 }
 
