@@ -8,9 +8,9 @@ import hammer from '../../images/ui/hammer.png'
 interface Props {
     onClick: () => void
 }
-export const Pickaxe: React.FC<Props> = ({ onClick }) => {
+export const Pickaxe: React.FC<Props> = ({ className, onClick }) => {
     return (
-        <div className="dig" onClick={onClick}>
+        <div className={`dig ${className || ''}`} onClick={onClick}>
             <div className="disc">
                 <img src={disc} className="discBackground"/>
                 <img src={hammer}  className="pickaxe"/>

@@ -15,6 +15,10 @@
     margin-top: 5px;
 }
 
+.loop {
+  animation-direction: alternate;
+}
+
 .mint {
     position: absolute;
     color: #38242d;

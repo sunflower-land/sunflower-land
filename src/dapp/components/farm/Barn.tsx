@@ -102,7 +102,7 @@ export const Barn: React.FC<Props> = ({ farmSize, balance }) => {
                 </div>
                 {
                     farmSize < 17 && (
-                        <Pickaxe onClick={onUpgrade} />
+                        <Pickaxe className="loop" onClick={onUpgrade} />
                     )
                 }
                 <UpgradeModal onClose={() => setShowModal(false)} isOpen={showModal} farmSize={farmSize} balance={balance} />

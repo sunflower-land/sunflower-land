@@ -185,7 +185,7 @@ export const CraftingMenu: React.FC<Props> = ({
         >
           {selectedRecipe.type}
         </span>
-        {selectedRecipe.supply && (
+        {selectedRecipe.supply && !isNaN(amountLeft) && (
           <span className="nft-count">{`${amountLeft} left!`}</span>
         )}
         <span id="recipe-title">{selectedRecipe.name}</span>
