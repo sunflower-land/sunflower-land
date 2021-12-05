@@ -23,3 +23,16 @@
   left: 20%;
   bottom: 30%;
 }
+
+#christmas-tree {
+  grid-column: 13;
+  grid-row: 9;
+  z-index: 99;
+}
+
+#christmas-tree > img {
+  width: 120%;
+  position: relative;
+  left: -20%;
+  bottom: 50%;
+}

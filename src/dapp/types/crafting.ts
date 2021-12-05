@@ -7,6 +7,7 @@ import StonePickaxe from "../../abis/StonePickaxe.json";
 import Stone from "../../abis/Stone.json";
 import Iron from "../../abis/Iron.json";
 import Statue from "../../abis/Statue.json";
+import ChristmasTree from "../../abis/ChristmasTree.json";
 import Scarecrow from "../../abis/Scarecrow.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
@@ -21,6 +22,7 @@ import stone from "../images/ui/rock.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
 import coin from "../images/ui/sunflower_coin.png";
 import statue from "../images/ui/sunflower_statue.png";
+import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
 
 export interface Ingredient {
@@ -46,6 +48,7 @@ export interface Item {
     | "Sword"
     | "Chicken coop"
     | "Sunflower Statue"
+    | "Christmas Tree"
     | "Scarecrow";
   description: string;
   address: string;
@@ -251,6 +254,27 @@ export const recipes: Recipe[] = [
     ],
     supply: 5000,
   },
+  {
+    name: "Christmas Tree",
+    abi: ChristmasTree,
+    description: "A christmas tree for the holidays",
+    image: christmasTree,
+    type: "NFT",
+    address: "0x2fa133F8A7C9db0285BfF9984c29316482d9834d",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 300,
+        image: coin,
+      },
+      {
+        name: "Wood",
+        amount: 500,
+        image: wood,
+      },
+    ],
+    supply: 50,
+  },
 ];
 
 export const items: Item[] = [
@@ -296,5 +320,6 @@ export const DEFAULT_INVENTORY: Inventory = {
   Hammer: 0,
   Sword: 0,
   Scarecrow: 0,
+  "Christmas Tree": 0,
 };
 export type ItemName = Item["name"];
