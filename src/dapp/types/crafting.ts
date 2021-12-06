@@ -4,7 +4,9 @@ import Axe from "../../abis/Axe.json";
 import Wood from "../../abis/Wood.json";
 import Pickaxe from "../../abis/Pickaxe.json";
 import StonePickaxe from "../../abis/StonePickaxe.json";
+import IronPickaxe from "../../abis/IronPickaxe.json";
 import Stone from "../../abis/Stone.json";
+import Gold from "../../abis/Gold.json";
 import Iron from "../../abis/Iron.json";
 import Statue from "../../abis/Statue.json";
 import ChristmasTree from "../../abis/ChristmasTree.json";
@@ -26,7 +28,7 @@ import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
 
 export interface Ingredient {
-  name: "Wood" | "Stone" | "$SFF" | "Iron";
+  name: "Wood" | "Stone" | "$SFF" | "Iron" | "Gold";
   image: any;
   amount: number;
 }
@@ -40,11 +42,13 @@ export interface Item {
     | "Axe"
     | "Wood pickaxe"
     | "Stone Pickaxe"
+    | "Iron Pickaxe"
     | "Fishing rod"
     | "Hammer"
     | "Stone"
     | "Wood"
     | "Iron"
+    | "Gold"
     | "Sword"
     | "Chicken coop"
     | "Sunflower Statue"
@@ -116,6 +120,31 @@ export const recipes: Recipe[] = [
       {
         name: "$SFF",
         amount: 2,
+        image: coin,
+      },
+    ],
+  },
+  {
+    name: "Iron Pickaxe",
+    abi: IronPickaxe,
+    description: "Used for mining and collecting gold",
+    image: pickaxe,
+    type: "ERC20",
+    address: "0x4a223dDc81F3F73eeB2Cc7E625e6013A028fae62",
+    ingredients: [
+      {
+        name: "Wood",
+        amount: 10,
+        image: wood,
+      },
+      {
+        name: "Iron",
+        amount: 10,
+        image: iron,
+      },
+      {
+        name: "$SFF",
+        amount: 10,
         image: coin,
       },
     ],
@@ -295,6 +324,7 @@ export const items: Item[] = [
     type: "ERC20",
     address: "0xC8A6fFc3720867470A2395D1634B3085BbDDf71a",
   },
+
   {
     name: "Iron",
     abi: Iron,
@@ -302,6 +332,14 @@ export const items: Item[] = [
     image: iron,
     type: "ERC20",
     address: "0x4a114F6EC3e0f6c57A9Db37140ca88Ee5525E55B",
+  },
+  {
+    name: "Gold",
+    abi: Gold,
+    description: "A scarce resource in Sunflower Land used for crafting",
+    image: iron,
+    type: "ERC20",
+    address: "0xbc7B1c141218C5d7BD1BEb8098BDe5D8a1e327E6",
   },
 ];
 
@@ -313,7 +351,9 @@ export const DEFAULT_INVENTORY: Inventory = {
   Axe: 0,
   "Wood pickaxe": 0,
   "Stone Pickaxe": 0,
+  "Iron Pickaxe": 0,
   Iron: 0,
+  Gold: 0,
   "Sunflower Statue": 0,
   "Fishing rod": 0,
   "Chicken coop": 0,
