@@ -212,32 +212,6 @@ export const recipes: Recipe[] = [
     ],
   },
   {
-    name: "Chicken coop",
-    description: "A unique coop that produces chickens & eggs",
-    image: chickenCoop,
-    type: "NFT",
-    address: "TODO",
-    isLocked: true,
-    ingredients: [
-      {
-        name: "Wood",
-        amount: 100,
-        image: wood,
-      },
-      {
-        name: "Stone",
-        amount: 50,
-        image: stone,
-      },
-      {
-        name: "$SFF",
-        amount: 100,
-        image: coin,
-      },
-    ],
-    supply: 5000,
-  },
-  {
     name: "Sunflower Statue",
     abi: Statue,
     description: "A symbol of the holy token",
@@ -304,6 +278,32 @@ export const recipes: Recipe[] = [
       },
     ],
     supply: 50,
+  },
+  {
+    name: "Chicken coop",
+    abi: ChristmasTree,
+    description: "Produce eggs 3x as fast with this stylish coop",
+    image: chickenCoop,
+    type: "NFT",
+    address: "0x3D422610242E66aB04069349DF9e189B90A42449",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 200,
+        image: coin,
+      },
+      {
+        name: "Wood",
+        amount: 300,
+        image: wood,
+      },
+      {
+        name: "Gold",
+        amount: 25,
+        image: goldOre,
+      },
+    ],
+    supply: 2000,
   },
 ];
 

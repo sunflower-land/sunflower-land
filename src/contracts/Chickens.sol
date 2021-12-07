@@ -9,7 +9,6 @@ contract Egg is ERC20, ERC20Burnable {
   address private _farm;
   address private _chicken;
 
-  mapping(address => uint) _hatchedAt;
 
   event MinterChanged(address indexed from, address to);
 
@@ -42,6 +41,8 @@ contract Chicken is ERC20, ERC20Burnable {
   address private _coop;
   address private _egg;
 
+  mapping(address => uint) _hatchedAt;
+
   constructor(address coop, address egg) payable ERC20("Sunflower Land Chicken", "SLC") {
     _coop = coop;
     _minter = msg.sender;
@@ -64,8 +65,9 @@ contract Chicken is ERC20, ERC20Burnable {
   function collectEggs() public {
     uint chickens = super.balanceOf(msg.sender);
     require(chickens > 0, "You have no chickens");
+    require(block.timestamp - _hatchedAt[msg.sender] > 60 * 60 * 24, "You have to wait 24 hours before you can collect eggs");
 
-    // Is actually ERC721 but same principle
+    // It is actually ERC721 but same principle
     uint coop = ERC20(_coop).balanceOf(msg.sender);
 
     uint multiplier = 1;
@@ -73,6 +75,7 @@ contract Chicken is ERC20, ERC20Burnable {
       multiplier = 3;
     }
 
+    _hatchedAt[msg.sender] = block.timestamp;
 
     Egg(_egg).mint(msg.sender, chickens * multiplier);
   }
@@ -81,4 +84,19 @@ contract Chicken is ERC20, ERC20Burnable {
     require(msg.sender == _minter, "You are not the farm");
 	  _burn(account, amount);
   }
+
+  function transfer(address recipient, uint256 amount) public virtual override returns (bool) {
+      require(false, "The chickens like this farm and won't move!");
+      return false;
+  }
+
+  function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public virtual override returns (bool) {
+      require(false, "The chickens like this farm and won't move!");
+
+      return false;
+    }
 }
