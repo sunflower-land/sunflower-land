@@ -57,6 +57,10 @@
   transform: scaleX(-1);
 }
 
+.miner-reverse {
+  transform: scaleX(1) !important;
+}
+
 .chopper-question {
   position: absolute;
   top: 10px;

@@ -1,6 +1,6 @@
 #crafting {
   display: flex;
-  height: 330px;
+  min-height: 330px;
 }
 .box-panel {
   background: #b96f50;
@@ -47,7 +47,7 @@
   display: flex;
   flex-wrap: wrap;
   width: 300px;
-  height: 124px;
+  min-height: 124px;
 }
 
 #recipe {
@@ -181,7 +181,7 @@
   display: flex;
   flex-wrap: wrap;
   width: 300px;
-  height: 124px;
+  min-height: 124px;
 }
 
 #inventory-loading {

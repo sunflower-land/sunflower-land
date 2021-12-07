@@ -20,6 +20,7 @@ import rod from "../images/ui/rod.png";
 import sword from "../images/ui/sword.png";
 import wood from "../images/ui/wood.png";
 import iron from "../images/ui/ore.png";
+import goldOre from "../images/ui/gold_ore.png";
 import stone from "../images/ui/rock.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
 import coin from "../images/ui/sunflower_coin.png";
@@ -337,7 +338,7 @@ export const items: Item[] = [
     name: "Gold",
     abi: Gold,
     description: "A scarce resource in Sunflower Land used for crafting",
-    image: iron,
+    image: goldOre,
     type: "ERC20",
     address: "0xbc7B1c141218C5d7BD1BEb8098BDe5D8a1e327E6",
   },
