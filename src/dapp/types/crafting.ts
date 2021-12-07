@@ -57,6 +57,7 @@ export interface Item {
   isLocked?: boolean;
   supply?: number;
   abi?: any;
+  openSeaLink?: string;
 }
 
 export const recipes: Recipe[] = [
@@ -261,6 +262,8 @@ export const recipes: Recipe[] = [
     image: christmasTree,
     type: "NFT",
     address: "0x2fa133F8A7C9db0285BfF9984c29316482d9834d",
+    openSeaLink:
+      "https://opensea.io/collection/sunflower-farmers-christmas-tree",
     ingredients: [
       {
         name: "$SFF",

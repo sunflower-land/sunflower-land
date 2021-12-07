@@ -109,6 +109,21 @@ export const CraftingMenu: React.FC<Props> = ({
 
     const itemCount = inventory[selectedRecipe.name];
 
+    if (selectedRecipe.supply && amountLeft === 0) {
+      return (
+        <span id="recipe-description">
+          No supply left{" "}
+          <a
+            target="_blank"
+            href={selectedRecipe.openSeaLink}
+            style={{ color: "white", textDecoration: "underline" }}
+          >
+            View on OpenSea
+          </a>
+        </span>
+      );
+    }
+
     if (selectedRecipe.type === "ERC20" || itemCount === 0) {
       return (
         <>
