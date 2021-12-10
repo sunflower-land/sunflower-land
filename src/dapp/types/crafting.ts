@@ -7,6 +7,8 @@ import StonePickaxe from "../../abis/StonePickaxe.json";
 import IronPickaxe from "../../abis/IronPickaxe.json";
 import Stone from "../../abis/Stone.json";
 import Gold from "../../abis/Gold.json";
+import Egg from "../../abis/Egg.json";
+import Chicken from "../../abis/Chicken.json";
 import Iron from "../../abis/Iron.json";
 import Statue from "../../abis/Statue.json";
 import ChristmasTree from "../../abis/ChristmasTree.json";
@@ -22,6 +24,8 @@ import wood from "../images/ui/wood.png";
 import iron from "../images/ui/ore.png";
 import goldOre from "../images/ui/gold_ore.png";
 import stone from "../images/ui/rock.png";
+import chicken from "../images/ui/chicken.png";
+import egg from "../images/ui/egg.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
 import coin from "../images/ui/sunflower_coin.png";
 import statue from "../images/ui/sunflower_statue.png";
@@ -50,6 +54,8 @@ export interface Item {
     | "Wood"
     | "Iron"
     | "Gold"
+    | "Egg"
+    | "Chicken"
     | "Sword"
     | "Chicken coop"
     | "Sunflower Statue"
@@ -305,6 +311,21 @@ export const recipes: Recipe[] = [
     ],
     supply: 2000,
   },
+  {
+    name: "Chicken",
+    abi: Chicken,
+    description: "An animal used to produce eggs",
+    image: chicken,
+    type: "ERC20",
+    address: "0xe808C1A004c8b67A4929e739F673F7a63D2528F9",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 10,
+        image: coin,
+      },
+    ],
+  },
 ];
 
 export const items: Item[] = [
@@ -342,6 +363,14 @@ export const items: Item[] = [
     type: "ERC20",
     address: "0xbc7B1c141218C5d7BD1BEb8098BDe5D8a1e327E6",
   },
+  {
+    name: "Egg",
+    abi: Egg,
+    description: "A bountiful resource in Sunflower Land used for crafting",
+    image: egg,
+    type: "ERC20",
+    address: "0x4C88F4Bb1A08EaDC13f8bBe7812f6015466Cc013",
+  },
 ];
 
 export type Inventory = Record<ItemName, number>;
@@ -355,6 +384,8 @@ export const DEFAULT_INVENTORY: Inventory = {
   "Iron Pickaxe": 0,
   Iron: 0,
   Gold: 0,
+  Chicken: 0,
+  Egg: 0,
   "Sunflower Statue": 0,
   "Fishing rod": 0,
   "Chicken coop": 0,

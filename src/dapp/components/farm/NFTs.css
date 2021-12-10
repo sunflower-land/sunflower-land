@@ -36,3 +36,22 @@
   left: -20%;
   bottom: 50%;
 }
+
+#chicken-coop {
+  grid-column: 13;
+  grid-row: 3;
+  z-index: 99;
+  cursor: pointer;
+}
+
+#chicken-coop:hover {
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
+}
+
+#chicken-coop > img {
+  width: 120%;
+  position: relative;
+  left: 40%;
+  bottom: 50%;
+}

@@ -2,13 +2,7 @@ import Web3 from "web3";
 
 import Token from "../abis/Token.json";
 import Farm from "../abis/Farm.json";
-import Axe from "../abis/Axe.json";
-import Wood from "../abis/Wood.json";
-import Pickaxe from "../abis/Pickaxe.json";
-import StonePickaxe from "../abis/StonePickaxe.json";
-import Stone from "../abis/Stone.json";
-import Iron from "../abis/Iron.json";
-import Statue from "../abis/Statue.json";
+import Chicken from "../abis/Chicken.json";
 
 import {
   Transaction,
@@ -39,6 +33,7 @@ export class BlockChain {
   private token: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
+  private chickens: any | null = null;
   private alchemyFarm: any | null = null;
   private account: string | null = null;
 
@@ -64,6 +59,10 @@ export class BlockChain {
       this.farm = new this.web3.eth.Contract(
         Farm as any,
         "0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0"
+      );
+      this.chickens = new this.web3.eth.Contract(
+        Chicken as any,
+        "0xe808C1A004c8b67A4929e739F673F7a63D2528F9"
       );
       const maticAccounts = await this.web3.eth.getAccounts();
       this.account = maticAccounts[0];
@@ -556,6 +555,35 @@ export class BlockChain {
 
       this.farm.methods
         .receiveReward()
+        .send({ from: this.account, gasPrice })
+        .on("error", function (error) {
+          console.log({ error });
+          // User rejected
+          if (error.code === 4001) {
+            return resolve(null);
+          }
+
+          reject(error);
+        })
+        .on("transactionHash", function (transactionHash) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt) {
+          console.log({ receipt });
+          resolve(receipt);
+        });
+    });
+
+    await this.loadFarm();
+  }
+
+  public async collectEggs() {
+    await new Promise(async (resolve, reject) => {
+      const price = await this.web3.eth.getGasPrice();
+      const gasPrice = price ? Number(price) * 2 : undefined;
+
+      this.chickens.methods
+        .collectEggs()
         .send({ from: this.account, gasPrice })
         .on("error", function (error) {
           console.log({ error });

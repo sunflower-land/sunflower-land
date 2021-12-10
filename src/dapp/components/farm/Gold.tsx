@@ -33,12 +33,12 @@ import "./Trees.css";
 
 const ROCKS: React.CSSProperties[] = [
   {
-    gridColumn: "11/12",
-    gridRow: "10/11",
-  },
-  {
     gridColumn: "1/2",
     gridRow: "3/4",
+  },
+  {
+    gridColumn: "11/12",
+    gridRow: "10/11",
   },
 ];
 

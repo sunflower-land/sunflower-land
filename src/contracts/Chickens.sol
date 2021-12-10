@@ -62,6 +62,8 @@ contract Chicken is ERC20, ERC20Burnable {
 	  _mint(account, amount);
 	}
 
+  // TODO expose the hatched at time!!!! 
+
   function collectEggs() public {
     uint chickens = super.balanceOf(msg.sender);
     require(chickens > 0, "You have no chickens");
