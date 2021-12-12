@@ -49,7 +49,7 @@ const ROCKS: React.CSSProperties[] = [
     gridRow: "4/5",
   },
   {
-    gridColumn: "14/15",
+    gridColumn: "15/16",
     gridRow: "2/3",
   },
 
@@ -102,7 +102,7 @@ export const Stones: React.FC<Props> = ({ inventory }) => {
       load();
       setAmount(0);
     }
-  }, [machineState.value]);
+  }, [machineState, machineState.value]);
 
   useEffect(() => {
     const change = machineState.context.blockChain.getInventoryChange();
@@ -112,7 +112,7 @@ export const Stones: React.FC<Props> = ({ inventory }) => {
       setShowChoppedCount(true);
       setTimeout(() => setShowChoppedCount(false), 3000);
     }
-  }, [machineState.value, inventory]);
+  }, [machineState.value, inventory, machineState.context.blockChain]);
 
   const chop = () => {
     send("MINE", {
