@@ -51,15 +51,21 @@ export const Chickens: React.FC<Props> = ({ inventory }) => {
         {true && (
           <div>
             <img src={chickenCoop} alt="coop" />
-            <img id="eating-chicken" src={eatingChicken} alt="eating-chicken" />
             {inventory["Chicken"] > 1 && (
+              <img
+                id="eating-chicken"
+                src={eatingChicken}
+                alt="eating-chicken"
+              />
+            )}
+            {inventory["Chicken"] > 2 && (
               <img
                 id="walking-chicken"
                 src={walkingChicken}
                 alt="walking-chicken"
               />
             )}
-            {inventory["Chicken"] > 2 && (
+            {inventory["Chicken"] > 3 && (
               <img
                 id="eating-chicken-two"
                 src={eatingChickenTwo}
