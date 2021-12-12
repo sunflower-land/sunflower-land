@@ -12,6 +12,9 @@ import {
 
 import chickenCoop from "../../images/ui/chicken_barn.png";
 import chicken from "../../images/ui/chicken.png";
+import eatingChicken from "../../images/characters/eating-chicken.gif";
+import eatingChickenTwo from "../../images/characters/eating-chicken-two.gif";
+import walkingChicken from "../../images/characters/walking-chicken.gif";
 import closeIcon from "../../images/ui/close.png";
 import egg from "../../images/ui/egg.png";
 import { Panel } from "../ui/Panel";
@@ -42,11 +45,30 @@ export const Chickens: React.FC<Props> = ({ inventory }) => {
     setCollecting(false);
   };
 
+  console.log('inventory["Chicken"] ', inventory["Chicken"]);
+
   return (
     <>
       <div id="chicken-coop" onClick={() => setShowModal(true)}>
-        {inventory["Chicken coop"] > 0 && (
-          <img src={chickenCoop} alt="statue" />
+        {true && (
+          <div>
+            <img src={chickenCoop} alt="coop" />
+            <img id="eating-chicken" src={eatingChicken} alt="eating-chicken" />
+            {inventory["Chicken"] > 1 && (
+              <img
+                id="walking-chicken"
+                src={walkingChicken}
+                alt="walking-chicken"
+              />
+            )}
+            {inventory["Chicken"] > 2 && (
+              <img
+                id="eating-chicken-two"
+                src={eatingChickenTwo}
+                alt="eating-chicken"
+              />
+            )}
+          </div>
         )}
         {collecting && (
           <span

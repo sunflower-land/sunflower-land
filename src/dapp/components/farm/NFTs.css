@@ -38,10 +38,10 @@
 }
 
 #chicken-coop {
-  grid-column: 13;
-  grid-row: 3;
+  grid-area: 2 / 13 / 4 / 15;
   z-index: 99;
   cursor: pointer;
+  position: relative;
 }
 
 #chicken-coop:hover {
@@ -49,9 +49,49 @@
     drop-shadow(0px -1px 0px white);
 }
 
-#chicken-coop > img {
-  width: 120%;
+#chicken-coop > div > img:first-child {
+  width: 60%;
   position: relative;
   left: 40%;
-  bottom: 50%;
+}
+
+#eating-chicken {
+  position: absolute;
+  left: 80px;
+  top: 150%;
+}
+
+#walking-chicken {
+  position: absolute;
+  height: 45px;
+  left: 0;
+  top: 120%;
+  transform: rotatey(180deg);
+  animation: walking-chicken 30s infinite;
+  animation-timing-function: steps(30, start);
+}
+
+#eating-chicken-two {
+  position: absolute;
+  left: 12px;
+  top: 170%;
+  transform: rotateY(180deg);
+}
+
+@keyframes walking-chicken {
+  0% {
+    transform: translateX(0) rotatey(0);
+  }
+  49% {
+    transform: translateX(80px) rotatey(0);
+  }
+  50% {
+    transform: translateX(80px) rotatey(180deg);
+  }
+  99% {
+    transform: translateX(0) rotatey(180deg);
+  }
+  100% {
+    transform: translateX(0) rotatey(360deg);
+  }
 }
