@@ -45,8 +45,6 @@ export const Chickens: React.FC<Props> = ({ inventory }) => {
     setCollecting(false);
   };
 
-  console.log('inventory["Chicken"] ', inventory["Chicken"]);
-
   return (
     <>
       <div id="chicken-coop" onClick={() => setShowModal(true)}>
