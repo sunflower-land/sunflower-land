@@ -12,9 +12,9 @@ import {
 
 import chickenCoop from "../../images/ui/chicken_barn.png";
 import chicken from "../../images/ui/chicken.png";
-import eatingChicken from "../../images/characters/eating-chicken.gif";
-import eatingChickenTwo from "../../images/characters/eating-chicken-two.gif";
-import walkingChicken from "../../images/characters/walking-chicken.gif";
+import eatingChicken from "../../images/characters/white-eating-chicken.gif";
+import eatingChickenTwo from "../../images/characters/white-eating-chicken-two.gif";
+import walkingChicken from "../../images/characters/white-walking-chicken.gif";
 import closeIcon from "../../images/ui/close.png";
 import egg from "../../images/ui/egg.png";
 import { Panel } from "../ui/Panel";
