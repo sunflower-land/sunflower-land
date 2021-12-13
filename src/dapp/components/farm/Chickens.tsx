@@ -48,31 +48,23 @@ export const Chickens: React.FC<Props> = ({ inventory }) => {
   return (
     <>
       <div id="chicken-coop" onClick={() => setShowModal(true)}>
-        {true && (
-          <div>
-            <img src={chickenCoop} alt="coop" />
-            {inventory["Chicken"] > 0 && (
-              <img
-                id="eating-chicken"
-                src={eatingChicken}
-                alt="eating-chicken"
-              />
-            )}
-            {inventory["Chicken"] > 1 && (
-              <img
-                id="walking-chicken"
-                src={walkingChicken}
-                alt="walking-chicken"
-              />
-            )}
-            {inventory["Chicken"] > 2 && (
-              <img
-                id="eating-chicken-two"
-                src={eatingChickenTwo}
-                alt="eating-chicken"
-              />
-            )}
-          </div>
+        {inventory["Chicken coop"] > 0 && <img src={chickenCoop} alt="coop" />}
+        {inventory["Chicken"] > 0 && (
+          <img id="eating-chicken" src={eatingChicken} alt="eating-chicken" />
+        )}
+        {inventory["Chicken"] > 1 && (
+          <img
+            id="walking-chicken"
+            src={walkingChicken}
+            alt="walking-chicken"
+          />
+        )}
+        {inventory["Chicken"] > 2 && (
+          <img
+            id="eating-chicken-two"
+            src={eatingChickenTwo}
+            alt="eating-chicken"
+          />
         )}
         {collecting && (
           <span
