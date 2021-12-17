@@ -317,7 +317,7 @@ export const recipes: Recipe[] = [
     description: "An animal used to produce eggs",
     image: chicken,
     type: "ERC20",
-    address: "0xe808C1A004c8b67A4929e739F673F7a63D2528F9",
+    address: "0xf0F1Cc9192ca0064EB3D35e0DE1CE5e56572ecab",
     ingredients: [
       {
         name: "$SFF",
@@ -369,7 +369,7 @@ export const items: Item[] = [
     description: "A bountiful resource in Sunflower Land used for crafting",
     image: egg,
     type: "ERC20",
-    address: "0x4C88F4Bb1A08EaDC13f8bBe7812f6015466Cc013",
+    address: "0x3560B931b122fF740Db06CB5B4569A0dC5d28954",
   },
 ];
 

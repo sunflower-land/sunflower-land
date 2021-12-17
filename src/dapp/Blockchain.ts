@@ -44,6 +44,7 @@ export class BlockChain {
   private ironStrength: number = 0;
   private goldStrength: number = 0;
   private woodStrength: number = 0;
+  private eggCollectionTime: number = 0;
 
   private events: Transaction[] = [];
 
@@ -62,7 +63,7 @@ export class BlockChain {
       );
       this.chickens = new this.web3.eth.Contract(
         Chicken as any,
-        "0xe808C1A004c8b67A4929e739F673F7a63D2528F9"
+        "0xf0F1Cc9192ca0064EB3D35e0DE1CE5e56572ecab"
       );
       const maticAccounts = await this.web3.eth.getAccounts();
       this.account = maticAccounts[0];
@@ -168,16 +169,25 @@ export class BlockChain {
   }
 
   public async loadFarm() {
-    const [account, inventory, itemSupplies, tree, stone, iron, gold] =
-      await Promise.all([
-        this.getAccount(),
-        this.loadInventory(),
-        this.loadTotalItemSupplies(),
-        this.loadTreeStrength(),
-        this.loadStoneStrength(),
-        this.loadIronStrength(),
-        this.loadGoldStrength(),
-      ]);
+    const [
+      account,
+      inventory,
+      itemSupplies,
+      tree,
+      stone,
+      iron,
+      gold,
+      hatchTime,
+    ] = await Promise.all([
+      this.getAccount(),
+      this.loadInventory(),
+      this.loadTotalItemSupplies(),
+      this.loadTreeStrength(),
+      this.loadStoneStrength(),
+      this.loadIronStrength(),
+      this.loadGoldStrength(),
+      this.loadEggCollectionTime(),
+    ]);
     this.details = account;
     this.inventory = inventory;
     this.totalItemSupplies = itemSupplies;
@@ -185,6 +195,7 @@ export class BlockChain {
     this.stoneStrength = stone;
     this.ironStrength = iron;
     this.goldStrength = gold;
+    this.eggCollectionTime = hatchTime;
 
     await this.cacheTotalSupply();
   }
@@ -709,6 +720,14 @@ export class BlockChain {
     return Number(this.web3.utils.fromWei(strength));
   }
 
+  public async loadEggCollectionTime() {
+    const time = await this.chickens.methods
+      .hatchTime(this.account)
+      .call({ from: this.account });
+
+    return Number(time);
+  }
+
   public async getTreeStrength() {
     console.log({ ws: this.woodStrength });
     return this.woodStrength;
@@ -724,5 +743,9 @@ export class BlockChain {
 
   public async getGoldStrength() {
     return this.goldStrength;
+  }
+
+  public async getEggCollectionTime() {
+    return this.eggCollectionTime;
   }
 }

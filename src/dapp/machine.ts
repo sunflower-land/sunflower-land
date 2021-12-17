@@ -102,6 +102,10 @@ export interface MineEvent extends EventObject {
   amount: number;
 }
 
+export interface CollectEggs extends EventObject {
+  type: "COLLECT_EGGS";
+}
+
 type OnboardingEvent =
   | CloseOnboardingEvent
   | NextOnboardingEvent
@@ -124,6 +128,7 @@ export type BlockchainEvent =
   | RetryEvent
   | ChopEvent
   | MineEvent
+  | CollectEggs
   | {
       type: "ACCOUNT_CHANGED";
     }
@@ -152,6 +157,7 @@ export type BlockchainState = {
     | "saving"
     | "crafting"
     | "chopping"
+    | "collecting"
     | "mining"
     | "timerComplete"
     | "unsupported"
@@ -287,6 +293,9 @@ export const blockChainMachine = createMachine<
         MINE: {
           target: "mining",
         },
+        COLLECT_EGGS: {
+          target: "collecting",
+        },
         TIMER_COMPLETE: {
           target: "timerComplete",
         },
@@ -384,6 +393,21 @@ export const blockChainMachine = createMachine<
         id: "mining",
         src: async ({ blockChain }, event) =>
           blockChain.stake(event as ChopEvent),
+        onDone: {
+          target: "farming",
+        },
+        onError: {
+          target: "failure",
+          actions: assign({
+            errorCode: (context, event) => event.data.message,
+          }),
+        },
+      },
+    },
+    collecting: {
+      invoke: {
+        id: "collecting",
+        src: async ({ blockChain }) => blockChain.collectEggs(),
         onDone: {
           target: "farming",
         },

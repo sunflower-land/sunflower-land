@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 
 import { Inventory } from "../../types/crafting";
@@ -23,13 +23,14 @@ import { Button } from "../ui/Button";
 
 import "./NFTs.css";
 import { useService } from "@xstate/react";
+import { secondsToString } from "../../utils/time";
 
 interface Props {
   inventory: Inventory;
 }
 export const Chickens: React.FC<Props> = ({ inventory }) => {
   const [showModal, setShowModal] = React.useState(false);
-  const [collecting, setCollecting] = React.useState(false);
+  const [timeTillHatch, setTimeTillHatch] = React.useState("");
   const [machineState, send] = useService<
     Context,
     BlockchainEvent,
@@ -38,44 +39,67 @@ export const Chickens: React.FC<Props> = ({ inventory }) => {
 
   const collect = async () => {
     setShowModal(false);
-    setCollecting(true);
 
-    await machineState.context.blockChain.collectEggs();
+    send("COLLECT_EGGS");
 
-    setCollecting(false);
+    setTimeTillHatch("");
   };
+
+  useEffect(() => {
+    const load = async () => {
+      const hatchTime =
+        await machineState.context.blockChain.getEggCollectionTime();
+      console.log({ hatchTime });
+
+      if (hatchTime === 0) {
+        setTimeTillHatch("");
+        return;
+      }
+
+      const difference = Math.floor(Date.now() / 1000) - hatchTime;
+      const timeLeft = 60 * 60 * 24 - difference;
+      setTimeTillHatch(secondsToString(timeLeft));
+      console.log({ timeLeft });
+    };
+
+    if (machineState.matches("farming")) {
+      load();
+    }
+  }, [machineState]);
 
   return (
     <>
       <div id="chicken-coop" onClick={() => setShowModal(true)}>
         {inventory["Chicken coop"] > 0 && <img src={chickenCoop} alt="coop" />}
-        {inventory["Chicken"] > 0 && (
-          <img id="eating-chicken" src={eatingChicken} alt="eating-chicken" />
-        )}
-        {inventory["Chicken"] > 1 && (
-          <img
-            id="walking-chicken"
-            src={walkingChicken}
-            alt="walking-chicken"
-          />
-        )}
-        {inventory["Chicken"] > 2 && (
-          <img
-            id="eating-chicken-two"
-            src={eatingChickenTwo}
-            alt="eating-chicken"
-          />
-        )}
-        {collecting && (
-          <span
-            style={{
-              position: "absolute",
-              fontSize: "12px",
-            }}
-          >
-            Collecting...
-          </span>
-        )}
+        <div>
+          {inventory["Chicken"] > 0 && (
+            <>
+              {!timeTillHatch && <img id="egg-1" src={egg} alt="egg" />}
+              <img
+                id="eating-chicken"
+                src={eatingChicken}
+                alt="eating-chicken"
+              />
+            </>
+          )}
+          {inventory["Chicken"] > 1 && (
+            <>
+              {!timeTillHatch && <img id="egg-2" src={egg} alt="egg" />}
+              <img
+                id="eating-chicken-two"
+                src={eatingChickenTwo}
+                alt="eating-chicken"
+              />
+            </>
+          )}
+          {inventory["Chicken"] > 2 && (
+            <img
+              id="walking-chicken"
+              src={walkingChicken}
+              alt="walking-chicken"
+            />
+          )}
+        </div>
       </div>
       {showModal && (
         <Modal
@@ -100,15 +124,26 @@ export const Chickens: React.FC<Props> = ({ inventory }) => {
                   className="resource-description"
                   style={{ marginBottom: "1rem" }}
                 >
-                  Eggs are a valuable resource needed to fuel a farm.
+                  Eggs are a valuable resource needed to fuel a farm. If you
+                  have a Chicken Coop you will receive 3x eggs
                 </span>
                 {!inventory["Chicken"] ? (
                   <Message>
                     You need a <img src={chicken} className="required-tool" />
                   </Message>
+                ) : timeTillHatch ? (
+                  <Message>Eggs will be ready in {timeTillHatch}</Message>
                 ) : (
                   <Button onClick={collect}>
-                    <span id="craft-button-text">Collect</span>
+                    <span id="craft-button-text">
+                      {" "}
+                      <span id="craft-button-text">
+                        Collect{" "}
+                        {inventory["Chicken"] *
+                          (inventory["Chicken coop"] ? 3 : 1)}{" "}
+                        eggs
+                      </span>
+                    </span>
                   </Button>
                 )}
                 <a

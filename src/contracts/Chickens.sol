@@ -62,7 +62,9 @@ contract Chicken is ERC20, ERC20Burnable {
 	  _mint(account, amount);
 	}
 
-  // TODO expose the hatched at time!!!! 
+  function hatchTime(address account) public returns (uint) {
+    return _hatchedAt[msg.sender];
+  }
 
   function collectEggs() public {
     uint chickens = super.balanceOf(msg.sender);
