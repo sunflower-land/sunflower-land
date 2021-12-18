@@ -7,7 +7,7 @@ import rock from "../../images/land/gold.png";
 import mining from "../../images/characters/mining.gif";
 import stone from "../../images/ui/gold_ore.png";
 import smallRock from "../../images/decorations/rock2.png";
-import pickaxe from "../../images/ui/pickaxe.png";
+import pickaxe from "../../images/ui/iron_pickaxe.png";
 
 import closeIcon from "../../images/ui/close.png";
 import waiting from "../../images/characters/waiting.gif";
@@ -33,8 +33,8 @@ import "./Trees.css";
 
 const ROCKS: React.CSSProperties[] = [
   {
-    gridColumn: "1/2",
-    gridRow: "3/4",
+    gridColumn: "13/14",
+    gridRow: "111/12",
   },
   {
     gridColumn: "11/12",
@@ -105,7 +105,6 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
   return (
     <>
       {ROCKS.map((gridPosition, index) => {
-        console.log({ treeStrength });
         const choppedTreeCount = 2 - treeStrength;
         if (choppedTreeCount > index || machineState.matches("onboarding")) {
           return (

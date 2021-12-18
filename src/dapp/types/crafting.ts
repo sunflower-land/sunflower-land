@@ -16,6 +16,7 @@ import Scarecrow from "../../abis/Scarecrow.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
+import ironPickaxe from "../images/ui/iron_pickaxe.png";
 import axe from "../images/ui/axe.png";
 import hammer from "../images/ui/hammer.png";
 import rod from "../images/ui/rod.png";
@@ -135,7 +136,7 @@ export const recipes: Recipe[] = [
     name: "Iron Pickaxe",
     abi: IronPickaxe,
     description: "Used for mining and collecting gold",
-    image: pickaxe,
+    image: ironPickaxe,
     type: "ERC20",
     address: "0x4a223dDc81F3F73eeB2Cc7E625e6013A028fae62",
     ingredients: [

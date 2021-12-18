@@ -58,8 +58,13 @@ export const Chickens: React.FC<Props> = ({ inventory }) => {
 
       const difference = Math.floor(Date.now() / 1000) - hatchTime;
       const timeLeft = 60 * 60 * 24 - difference;
+
+      if (timeLeft <= 0) {
+        setTimeTillHatch("");
+        return;
+      }
+
       setTimeTillHatch(secondsToString(timeLeft));
-      console.log({ timeLeft });
     };
 
     if (machineState.matches("farming")) {
@@ -124,8 +129,8 @@ export const Chickens: React.FC<Props> = ({ inventory }) => {
                   className="resource-description"
                   style={{ marginBottom: "1rem" }}
                 >
-                  Eggs are a valuable resource needed to fuel a farm. If you
-                  have a Chicken Coop you will receive 3x eggs
+                  Eggs are a valuable resource needed to fuel recipes and your
+                  workers. If you have a Chicken Coop you will receive 3x eggs
                 </span>
                 {!inventory["Chicken"] ? (
                   <Message>
