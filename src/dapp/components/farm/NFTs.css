@@ -93,6 +93,14 @@
   top: 208%;
   z-index: 1;
 }
+
+#gold-egg {
+  position: absolute;
+  left: 61px;
+  top: 185%;
+  z-index: 1;
+  width: 15%;
+}
 #chicken-display {
   display: flex;
 }

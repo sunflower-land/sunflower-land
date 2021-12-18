@@ -28,13 +28,14 @@ import stone from "../images/ui/rock.png";
 import chicken from "../images/ui/chicken.png";
 import egg from "../images/ui/egg.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
+import goldEgg from "../images/ui/gold_egg.png";
 import coin from "../images/ui/sunflower_coin.png";
 import statue from "../images/ui/sunflower_statue.png";
 import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
 
 export interface Ingredient {
-  name: "Wood" | "Stone" | "$SFF" | "Iron" | "Gold";
+  name: "Wood" | "Stone" | "$SFF" | "Iron" | "Gold" | "Egg";
   image: any;
   amount: number;
 }
@@ -61,6 +62,7 @@ export interface Item {
     | "Chicken coop"
     | "Sunflower Statue"
     | "Christmas Tree"
+    | "Golden Egg"
     | "Scarecrow";
   description: string;
   address: string;
@@ -327,6 +329,27 @@ export const recipes: Recipe[] = [
       },
     ],
   },
+  {
+    name: "Golden Egg",
+    abi: Chicken,
+    description: "Will the golden egg bring you happiness?",
+    image: goldEgg,
+    isLocked: true,
+    type: "NFT",
+    address: "0xf0F1Cc9192ca0064EB3D35e0DE1CE5e56572ecab",
+    ingredients: [
+      {
+        name: "Gold",
+        amount: 50,
+        image: goldOre,
+      },
+      {
+        name: "Egg",
+        amount: 500,
+        image: egg,
+      },
+    ],
+  },
 ];
 
 export const items: Item[] = [
@@ -393,6 +416,7 @@ export const DEFAULT_INVENTORY: Inventory = {
   Hammer: 0,
   Sword: 0,
   Scarecrow: 0,
+  "Golden Egg": 0,
   "Christmas Tree": 0,
 };
 export type ItemName = Item["name"];

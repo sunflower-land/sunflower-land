@@ -11,6 +11,7 @@ import {
 } from "../../machine";
 
 import chickenCoop from "../../images/ui/chicken_barn.png";
+import goldEgg from "../../images/ui/gold_egg.png";
 import chicken from "../../images/ui/chicken.png";
 import eatingChicken from "../../images/characters/white-eating-chicken.gif";
 import eatingChickenTwo from "../../images/characters/white-eating-chicken-two.gif";
@@ -77,6 +78,9 @@ export const Chickens: React.FC<Props> = ({ inventory }) => {
       <div id="chicken-coop" onClick={() => setShowModal(true)}>
         {inventory["Chicken coop"] > 0 && <img src={chickenCoop} alt="coop" />}
         <div>
+          {inventory["Golden Egg"] > 0 && (
+            <img src={goldEgg} id="gold-egg" alt="goldEgg" />
+          )}
           {inventory["Chicken"] > 0 && (
             <>
               {!timeTillHatch && <img id="egg-1" src={egg} alt="egg" />}
