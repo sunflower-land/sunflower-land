@@ -107,6 +107,21 @@ export const CraftingMenu: React.FC<Props> = ({
       );
     }
 
+    if (selectedRecipe.supply && amountLeft === 0) {
+      return (
+        <span id="recipe-description">
+          No supply left{" "}
+          <a
+            target="_blank"
+            href={selectedRecipe.openSeaLink}
+            style={{ color: "white", textDecoration: "underline" }}
+          >
+            View on OpenSea
+          </a>
+        </span>
+      );
+    }
+
     const itemCount = inventory[selectedRecipe.name];
     const limit = selectedRecipe.limit || 1;
 
