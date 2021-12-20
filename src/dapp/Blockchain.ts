@@ -625,17 +625,23 @@ export class BlockChain {
 
     const itemBalances = await Promise.all(itemBalancesPromise);
 
+    console.log({ itemBalances });
     const values: Record<ItemName, number> = Object.keys(this.contracts).reduce(
-      (itemValues, itemName, index) => ({
-        ...itemValues,
-        [itemName]: Math.ceil(
-          Number(this.web3.utils.fromWei(itemBalances[index]))
-        ),
-      }),
+      (itemValues, itemName, index) => {
+        const isNFT =
+          items.find((item) => item.name === itemName).type === "NFT";
+        const balance = itemBalances[index];
+        return {
+          ...itemValues,
+          [itemName]: isNFT
+            ? Number(balance)
+            : Math.ceil(Number(this.web3.utils.fromWei(balance))),
+        };
+      },
       {} as Record<ItemName, number>
     );
 
-    console.log({ values });
+    console.log({ inventory: values });
 
     return values;
   }

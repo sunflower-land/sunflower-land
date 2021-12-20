@@ -70,6 +70,7 @@ export interface Item {
   type: "ERC20" | "NFT";
   isLocked?: boolean;
   supply?: number;
+  limit?: number;
   abi?: any;
 }
 
@@ -334,9 +335,10 @@ export const recipes: Recipe[] = [
     abi: Chicken,
     description: "Will the golden egg bring you happiness?",
     image: goldEgg,
-    isLocked: true,
     type: "NFT",
-    address: "0xf0F1Cc9192ca0064EB3D35e0DE1CE5e56572ecab",
+    address: "0x282aAE7B826D5de16e78eCDc2015eB2110918fd2",
+    limit: 300,
+    supply: 300,
     ingredients: [
       {
         name: "Gold",
@@ -345,7 +347,7 @@ export const recipes: Recipe[] = [
       },
       {
         name: "Egg",
-        amount: 500,
+        amount: 150,
         image: egg,
       },
     ],

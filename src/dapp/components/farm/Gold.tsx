@@ -100,7 +100,7 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
     setAmount(0);
   };
 
-  const limit = Math.min(treeStrength, inventory["Gold Pickaxe"]);
+  const limit = Math.min(treeStrength, inventory["Iron Pickaxe"]);
 
   return (
     <>

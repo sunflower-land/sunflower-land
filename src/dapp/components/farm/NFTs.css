@@ -85,6 +85,7 @@
   left: 119px;
   top: 188%;
   z-index: 1;
+  filter: drop-shadow(0px 2px 0px #4b9f4a);
 }
 
 #egg-2 {
@@ -92,6 +93,7 @@
   left: 12px;
   top: 208%;
   z-index: 1;
+  filter: drop-shadow(0px 2px 0px #4b9f4a);
 }
 
 #gold-egg {
@@ -100,6 +102,7 @@
   top: 185%;
   z-index: 1;
   width: 15%;
+  filter: drop-shadow(0px 4px 0px #4b9f4a);
 }
 #chicken-display {
   display: flex;
