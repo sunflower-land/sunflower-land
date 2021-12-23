@@ -82,7 +82,8 @@ export const App: React.FC = () => {
         show={
           machineState.matches("saving") ||
           machineState.matches("upgrading") ||
-          machineState.matches("rewarding")
+          machineState.matches("rewarding") ||
+          machineState.matches("collecting")
         }
       >
         <Saving />

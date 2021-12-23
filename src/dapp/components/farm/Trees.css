@@ -24,7 +24,7 @@
 }
 .gatherer {
   cursor: pointer;
-  z-index: 1;
+  z-index: 10;
   position: absolute;
   top: 0;
   left: 0;
@@ -55,6 +55,10 @@
   right: -117px;
   top: -48px;
   transform: scaleX(-1);
+}
+
+.miner-reverse {
+  transform: scaleX(1) !important;
 }
 
 .chopper-question {
