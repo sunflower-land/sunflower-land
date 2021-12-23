@@ -4,7 +4,11 @@ import Axe from "../../abis/Axe.json";
 import Wood from "../../abis/Wood.json";
 import Pickaxe from "../../abis/Pickaxe.json";
 import StonePickaxe from "../../abis/StonePickaxe.json";
+import IronPickaxe from "../../abis/IronPickaxe.json";
 import Stone from "../../abis/Stone.json";
+import Gold from "../../abis/Gold.json";
+import Egg from "../../abis/Egg.json";
+import Chicken from "../../abis/Chicken.json";
 import Iron from "../../abis/Iron.json";
 import Statue from "../../abis/Statue.json";
 import ChristmasTree from "../../abis/ChristmasTree.json";
@@ -12,21 +16,26 @@ import Scarecrow from "../../abis/Scarecrow.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
+import ironPickaxe from "../images/ui/iron_pickaxe.png";
 import axe from "../images/ui/axe.png";
 import hammer from "../images/ui/hammer.png";
 import rod from "../images/ui/rod.png";
 import sword from "../images/ui/sword.png";
 import wood from "../images/ui/wood.png";
 import iron from "../images/ui/ore.png";
+import goldOre from "../images/ui/gold_ore.png";
 import stone from "../images/ui/rock.png";
+import chicken from "../images/ui/chicken.png";
+import egg from "../images/ui/egg.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
+import goldEgg from "../images/ui/gold_egg.png";
 import coin from "../images/ui/sunflower_coin.png";
 import statue from "../images/ui/sunflower_statue.png";
 import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
 
 export interface Ingredient {
-  name: "Wood" | "Stone" | "$SFF" | "Iron";
+  name: "Wood" | "Stone" | "$SFF" | "Iron" | "Gold" | "Egg";
   image: any;
   amount: number;
 }
@@ -40,15 +49,20 @@ export interface Item {
     | "Axe"
     | "Wood pickaxe"
     | "Stone Pickaxe"
+    | "Iron Pickaxe"
     | "Fishing rod"
     | "Hammer"
     | "Stone"
     | "Wood"
     | "Iron"
+    | "Gold"
+    | "Egg"
+    | "Chicken"
     | "Sword"
     | "Chicken coop"
     | "Sunflower Statue"
     | "Christmas Tree"
+    | "Golden Egg"
     | "Scarecrow";
   description: string;
   address: string;
@@ -56,6 +70,7 @@ export interface Item {
   type: "ERC20" | "NFT";
   isLocked?: boolean;
   supply?: number;
+  limit?: number;
   abi?: any;
   openSeaLink?: string;
 }
@@ -122,6 +137,31 @@ export const recipes: Recipe[] = [
     ],
   },
   {
+    name: "Iron Pickaxe",
+    abi: IronPickaxe,
+    description: "Used for mining and collecting gold",
+    image: ironPickaxe,
+    type: "ERC20",
+    address: "0x4a223dDc81F3F73eeB2Cc7E625e6013A028fae62",
+    ingredients: [
+      {
+        name: "Wood",
+        amount: 10,
+        image: wood,
+      },
+      {
+        name: "Iron",
+        amount: 10,
+        image: iron,
+      },
+      {
+        name: "$SFF",
+        amount: 10,
+        image: coin,
+      },
+    ],
+  },
+  {
     name: "Hammer",
 
     description: "Used for building barns, coops & other structures",
@@ -181,32 +221,6 @@ export const recipes: Recipe[] = [
         image: coin,
       },
     ],
-  },
-  {
-    name: "Chicken coop",
-    description: "A unique coop that produces chickens & eggs",
-    image: chickenCoop,
-    type: "NFT",
-    address: "TODO",
-    isLocked: true,
-    ingredients: [
-      {
-        name: "Wood",
-        amount: 100,
-        image: wood,
-      },
-      {
-        name: "Stone",
-        amount: 50,
-        image: stone,
-      },
-      {
-        name: "$SFF",
-        amount: 100,
-        image: coin,
-      },
-    ],
-    supply: 5000,
   },
   {
     name: "Sunflower Statue",
@@ -278,6 +292,69 @@ export const recipes: Recipe[] = [
     ],
     supply: 50,
   },
+  {
+    name: "Chicken coop",
+    abi: ChristmasTree,
+    description: "Produce eggs 3x as fast with this stylish coop",
+    image: chickenCoop,
+    type: "NFT",
+    address: "0x3D422610242E66aB04069349DF9e189B90A42449",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 200,
+        image: coin,
+      },
+      {
+        name: "Wood",
+        amount: 300,
+        image: wood,
+      },
+      {
+        name: "Gold",
+        amount: 25,
+        image: goldOre,
+      },
+    ],
+    supply: 2000,
+  },
+  {
+    name: "Chicken",
+    abi: Chicken,
+    description: "An animal used to produce eggs",
+    image: chicken,
+    type: "ERC20",
+    address: "0xf0F1Cc9192ca0064EB3D35e0DE1CE5e56572ecab",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 10,
+        image: coin,
+      },
+    ],
+  },
+  {
+    name: "Golden Egg",
+    abi: Chicken,
+    description: "Will the golden egg bring you happiness?",
+    image: goldEgg,
+    type: "NFT",
+    address: "0x282aAE7B826D5de16e78eCDc2015eB2110918fd2",
+    limit: 300,
+    supply: 300,
+    ingredients: [
+      {
+        name: "Gold",
+        amount: 50,
+        image: goldOre,
+      },
+      {
+        name: "Egg",
+        amount: 150,
+        image: egg,
+      },
+    ],
+  },
 ];
 
 export const items: Item[] = [
@@ -298,6 +375,7 @@ export const items: Item[] = [
     type: "ERC20",
     address: "0xC8A6fFc3720867470A2395D1634B3085BbDDf71a",
   },
+
   {
     name: "Iron",
     abi: Iron,
@@ -305,6 +383,22 @@ export const items: Item[] = [
     image: iron,
     type: "ERC20",
     address: "0x4a114F6EC3e0f6c57A9Db37140ca88Ee5525E55B",
+  },
+  {
+    name: "Gold",
+    abi: Gold,
+    description: "A scarce resource in Sunflower Land used for crafting",
+    image: goldOre,
+    type: "ERC20",
+    address: "0xbc7B1c141218C5d7BD1BEb8098BDe5D8a1e327E6",
+  },
+  {
+    name: "Egg",
+    abi: Egg,
+    description: "A bountiful resource in Sunflower Land used for crafting",
+    image: egg,
+    type: "ERC20",
+    address: "0x3560B931b122fF740Db06CB5B4569A0dC5d28954",
   },
 ];
 
@@ -316,13 +410,18 @@ export const DEFAULT_INVENTORY: Inventory = {
   Axe: 0,
   "Wood pickaxe": 0,
   "Stone Pickaxe": 0,
+  "Iron Pickaxe": 0,
   Iron: 0,
+  Gold: 0,
+  Chicken: 0,
+  Egg: 0,
   "Sunflower Statue": 0,
   "Fishing rod": 0,
   "Chicken coop": 0,
   Hammer: 0,
   Sword: 0,
   Scarecrow: 0,
+  "Golden Egg": 0,
   "Christmas Tree": 0,
 };
 export type ItemName = Item["name"];

@@ -2,13 +2,7 @@ import Web3 from "web3";
 
 import Token from "../abis/Token.json";
 import Farm from "../abis/Farm.json";
-import Axe from "../abis/Axe.json";
-import Wood from "../abis/Wood.json";
-import Pickaxe from "../abis/Pickaxe.json";
-import StonePickaxe from "../abis/StonePickaxe.json";
-import Stone from "../abis/Stone.json";
-import Iron from "../abis/Iron.json";
-import Statue from "../abis/Statue.json";
+import Chicken from "../abis/Chicken.json";
 
 import {
   Transaction,
@@ -39,6 +33,7 @@ export class BlockChain {
   private token: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
+  private chickens: any | null = null;
   private alchemyFarm: any | null = null;
   private account: string | null = null;
 
@@ -47,8 +42,9 @@ export class BlockChain {
   private totalItemSupplies: Inventory = null;
   private stoneStrength: number = 0;
   private ironStrength: number = 0;
+  private goldStrength: number = 0;
   private woodStrength: number = 0;
-  private statueSupply: number = 0;
+  private eggCollectionTime: number = 0;
 
   private events: Transaction[] = [];
 
@@ -64,6 +60,10 @@ export class BlockChain {
       this.farm = new this.web3.eth.Contract(
         Farm as any,
         "0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0"
+      );
+      this.chickens = new this.web3.eth.Contract(
+        Chicken as any,
+        "0xf0F1Cc9192ca0064EB3D35e0DE1CE5e56572ecab"
       );
       const maticAccounts = await this.web3.eth.getAccounts();
       this.account = maticAccounts[0];
@@ -169,21 +169,33 @@ export class BlockChain {
   }
 
   public async loadFarm() {
-    const [account, inventory, itemSupplies, tree, stone, iron] =
-      await Promise.all([
-        this.getAccount(),
-        this.loadInventory(),
-        this.loadTotalItemSupplies(),
-        this.loadTreeStrength(),
-        this.loadStoneStrength(),
-        this.loadIronStrength(),
-      ]);
+    const [
+      account,
+      inventory,
+      itemSupplies,
+      tree,
+      stone,
+      iron,
+      gold,
+      hatchTime,
+    ] = await Promise.all([
+      this.getAccount(),
+      this.loadInventory(),
+      this.loadTotalItemSupplies(),
+      this.loadTreeStrength(),
+      this.loadStoneStrength(),
+      this.loadIronStrength(),
+      this.loadGoldStrength(),
+      this.loadEggCollectionTime(),
+    ]);
     this.details = account;
     this.inventory = inventory;
     this.totalItemSupplies = itemSupplies;
     this.woodStrength = tree;
     this.stoneStrength = stone;
     this.ironStrength = iron;
+    this.goldStrength = gold;
+    this.eggCollectionTime = hatchTime;
 
     await this.cacheTotalSupply();
   }
@@ -576,6 +588,35 @@ export class BlockChain {
     await this.loadFarm();
   }
 
+  public async collectEggs() {
+    await new Promise(async (resolve, reject) => {
+      const price = await this.web3.eth.getGasPrice();
+      const gasPrice = price ? Number(price) * 2 : undefined;
+
+      this.chickens.methods
+        .collectEggs()
+        .send({ from: this.account, gasPrice })
+        .on("error", function (error) {
+          console.log({ error });
+          // User rejected
+          if (error.code === 4001) {
+            return resolve(null);
+          }
+
+          reject(error);
+        })
+        .on("transactionHash", function (transactionHash) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt) {
+          console.log({ receipt });
+          resolve(receipt);
+        });
+    });
+
+    await this.loadFarm();
+  }
+
   private async loadInventory(): Promise<Inventory> {
     // Call balanceOf on each item
     const itemBalancesPromise = Object.values(this.contracts).map((contract) =>
@@ -584,17 +625,23 @@ export class BlockChain {
 
     const itemBalances = await Promise.all(itemBalancesPromise);
 
+    console.log({ itemBalances });
     const values: Record<ItemName, number> = Object.keys(this.contracts).reduce(
-      (itemValues, itemName, index) => ({
-        ...itemValues,
-        [itemName]: Math.ceil(
-          Number(this.web3.utils.fromWei(itemBalances[index]))
-        ),
-      }),
+      (itemValues, itemName, index) => {
+        const isNFT =
+          items.find((item) => item.name === itemName).type === "NFT";
+        const balance = itemBalances[index];
+        return {
+          ...itemValues,
+          [itemName]: isNFT
+            ? Number(balance)
+            : Math.ceil(Number(this.web3.utils.fromWei(balance))),
+        };
+      },
       {} as Record<ItemName, number>
     );
 
-    console.log({ values });
+    console.log({ inventory: values });
 
     return values;
   }
@@ -671,6 +718,22 @@ export class BlockChain {
     return Number(this.web3.utils.fromWei(strength));
   }
 
+  public async loadGoldStrength() {
+    const strength = await this.contracts.Gold.methods
+      .getAvailable(this.account)
+      .call({ from: this.account });
+
+    return Number(this.web3.utils.fromWei(strength));
+  }
+
+  public async loadEggCollectionTime() {
+    const time = await this.chickens.methods
+      .hatchTime(this.account)
+      .call({ from: this.account });
+
+    return Number(time);
+  }
+
   public async getTreeStrength() {
     console.log({ ws: this.woodStrength });
     return this.woodStrength;
@@ -682,5 +745,13 @@ export class BlockChain {
 
   public async getIronStrength() {
     return this.ironStrength;
+  }
+
+  public async getGoldStrength() {
+    return this.goldStrength;
+  }
+
+  public async getEggCollectionTime() {
+    return this.eggCollectionTime;
   }
 }

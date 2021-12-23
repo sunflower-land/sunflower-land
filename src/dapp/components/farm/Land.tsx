@@ -15,7 +15,9 @@ import { Tiles } from "./Tiles";
 import { Trees } from "./NewTrees";
 import { Stones } from "./NewStone";
 import { NFTs } from "./NFTs";
+import { Chickens } from "./Chickens";
 import { Iron } from "./Iron";
+import { Gold } from "./Gold";
 import { Barn } from "./Barn";
 import { Blacksmith } from "./Blacksmith";
 import { Market } from "./Market";
@@ -113,7 +115,9 @@ export const Land: React.FC<Props> = ({
         <Trees inventory={inventory} />
         <Stones inventory={inventory} />
         <Iron inventory={inventory} />
+        <Gold inventory={inventory} />
 
+        <Chickens inventory={inventory} />
         <NFTs inventory={inventory} />
 
         <Barn farmSize={land.length} balance={balance} />

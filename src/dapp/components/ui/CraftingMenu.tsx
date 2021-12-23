@@ -107,8 +107,6 @@ export const CraftingMenu: React.FC<Props> = ({
       );
     }
 
-    const itemCount = inventory[selectedRecipe.name];
-
     if (selectedRecipe.supply && amountLeft === 0) {
       return (
         <span id="recipe-description">
@@ -124,7 +122,10 @@ export const CraftingMenu: React.FC<Props> = ({
       );
     }
 
-    if (selectedRecipe.type === "ERC20" || itemCount === 0) {
+    const itemCount = inventory[selectedRecipe.name];
+    const limit = selectedRecipe.limit || 1;
+
+    if (selectedRecipe.type === "ERC20" || itemCount < limit) {
       return (
         <>
           <div id="craft-count">

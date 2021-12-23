@@ -36,3 +36,92 @@
   left: -20%;
   bottom: 50%;
 }
+
+#chicken-coop {
+  grid-area: 2 / 13 / 4 / 15;
+  z-index: 99;
+  cursor: pointer;
+  position: relative;
+}
+
+#chicken-coop:hover {
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
+}
+
+#chicken-coop > img:first-child {
+  width: 60%;
+  position: relative;
+  left: 40%;
+}
+
+#eating-chicken {
+  position: absolute;
+  left: 80px;
+  top: 150%;
+  z-index: 1;
+}
+
+#walking-chicken {
+  position: absolute;
+  height: 45px;
+  left: 0;
+  top: 120%;
+  transform: rotatey(180deg);
+  animation: walking-chicken 30s infinite;
+  animation-timing-function: steps(30, start);
+}
+
+#eating-chicken-two {
+  position: absolute;
+  left: 12px;
+  top: 170%;
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+
+#egg-1 {
+  position: absolute;
+  left: 119px;
+  top: 188%;
+  z-index: 1;
+  filter: drop-shadow(0px 2px 0px #4b9f4a);
+}
+
+#egg-2 {
+  position: absolute;
+  left: 12px;
+  top: 208%;
+  z-index: 1;
+  filter: drop-shadow(0px 2px 0px #4b9f4a);
+}
+
+#gold-egg {
+  position: absolute;
+  left: 61px;
+  top: 185%;
+  z-index: 1;
+  width: 15%;
+  filter: drop-shadow(0px 4px 0px #4b9f4a);
+}
+#chicken-display {
+  display: flex;
+}
+
+@keyframes walking-chicken {
+  0% {
+    transform: translateX(0) rotatey(0);
+  }
+  49% {
+    transform: translateX(80px) rotatey(0);
+  }
+  50% {
+    transform: translateX(80px) rotatey(180deg);
+  }
+  99% {
+    transform: translateX(0) rotatey(180deg);
+  }
+  100% {
+    transform: translateX(0) rotatey(360deg);
+  }
+}
