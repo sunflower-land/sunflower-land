@@ -179,7 +179,7 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
                   <div className="resource-material">
                     <span>Mines</span>
                     <div>
-                      <span>2-3</span>
+                      <span>1-2</span>
                       <img src={stone} />
                     </div>
                   </div>

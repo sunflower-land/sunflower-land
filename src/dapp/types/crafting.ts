@@ -267,6 +267,7 @@ export const recipes: Recipe[] = [
         image: wood,
       },
     ],
+    openSeaLink: "https://opensea.io/collection/sunflower-farmers-scarecrow",
     supply: 5000,
   },
   {
@@ -342,6 +343,7 @@ export const recipes: Recipe[] = [
     address: "0x282aAE7B826D5de16e78eCDc2015eB2110918fd2",
     limit: 300,
     supply: 300,
+    openSeaLink: "https://opensea.io/collection/sunflower-farmers-golden-egg",
     ingredients: [
       {
         name: "Gold",
