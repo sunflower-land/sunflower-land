@@ -50,7 +50,6 @@ export const Chickens: React.FC<Props> = ({ inventory }) => {
     const load = async () => {
       const hatchTime =
         await machineState.context.blockChain.getEggCollectionTime();
-      console.log({ hatchTime });
 
       if (hatchTime === 0) {
         setTimeTillHatch("");

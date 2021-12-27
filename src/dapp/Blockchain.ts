@@ -18,6 +18,7 @@ import {
   items,
   DEFAULT_INVENTORY,
 } from "./types/crafting";
+import { captureException } from "@sentry/react";
 
 interface Account {
   farm: Square[];
@@ -258,10 +259,13 @@ export class BlockChain {
         .send({ from: this.account, gasPrice })
         .on("error", function (error) {
           console.log({ error });
+
           // User rejected
           if (error.code === 4001) {
             return resolve(null);
           }
+
+          captureException(new Error(`${error.code}: ${error.message}`));
 
           reject(error);
         })
