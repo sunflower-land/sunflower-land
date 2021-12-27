@@ -10,13 +10,14 @@ body {
 #balance {
   position: fixed;
   top: 15px;
-  right: -8px;
+  right: 10px;
+
 }
 
 #buy-now {
   position: fixed;
   top: 70px;
-  right: -8px;
+  right: 0;
   z-index: 999;
   cursor: pointer;
 
