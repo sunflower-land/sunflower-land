@@ -13,11 +13,7 @@ import {
   isFruit,
   ACTIONABLE_ITEMS,
 } from "../../types/contract";
-import {
-  cacheAccountFarm,
-  getFarm,
-  getSelectedItem,
-} from "../../utils/localStorage";
+import { cacheAccountFarm, getSelectedItem } from "../../utils/localStorage";
 
 import {
   service,
@@ -28,8 +24,6 @@ import {
 
 import coin from "../../images/ui/sunflower_coin.png";
 import questionMark from "../../images/ui/expression_confused.png";
-import sunflower_coin from "../../images/ui/sunflower_coin.png";
-import sunflower from "../../images/sunflower/plant.png";
 
 import { Panel } from "../ui/Panel";
 import { Timer } from "../ui/Timer";
@@ -38,10 +32,9 @@ import { AudioPlayer } from "../ui/AudioPlayer";
 
 import { FruitBoard } from "./FruitBoard";
 import { Tour } from "./Tour";
-import { getExchangeRate, getMarketRate } from "../../utils/supply";
+import { getMarketRate } from "../../utils/supply";
 import { Message } from "../ui/Message";
-import { Modal } from "react-bootstrap";
-import { DEFAULT_INVENTORY, Inventory, Supply } from "../../types/crafting";
+import { DEFAULT_INVENTORY, Inventory } from "../../types/crafting";
 
 export const Farm: React.FC = () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0));
@@ -61,7 +54,6 @@ export const Farm: React.FC = () => {
     statue: 0,
   });
 
-  const [showBuyModal, setShowBuyModal] = React.useState(false);
   const farmIsFresh = React.useRef(false);
   const accountId = React.useRef<string>();
   const [selectedItem, setSelectedItem] = React.useState<ActionableItem>(
@@ -223,6 +215,13 @@ export const Farm: React.FC = () => {
     [balance, selectedItem, fruits, machineState.context.blockChain, send]
   );
 
+  const onBuyMore = () => {
+    window.open(
+      "https://quickswap.exchange/#/swap?outputCurrency=0xdf9B4b57865B403e08c85568442f95c26b7896b0",
+      "_blank"
+    );
+  };
+
   const save = async () => {
     send("SAVE");
   };
@@ -276,7 +275,7 @@ export const Farm: React.FC = () => {
         </Panel>
       </div>
 
-      <div id="buy-now" onClick={() => setShowBuyModal(true)}>
+      <div id="buy-now" onClick={onBuyMore}>
         <Message>Buy more</Message>
       </div>
 
@@ -288,25 +287,6 @@ export const Farm: React.FC = () => {
         balance={safeBalance}
         inventory={inventory}
       />
-
-      <Modal centered show={showBuyModal} onHide={() => setShowBuyModal(false)}>
-        <Panel>
-          <div id="welcome">
-            Sunflower Farmer Token is coming to Quickswap!
-            <span
-              style={{
-                fontSize: "12px",
-                marginTop: "20px",
-              }}
-            >
-              You will be able to buy and sell Sunflower Farmer tokens on
-              Quickswap. In the meantime the only way to earn more tokens is
-              through playing the game.
-            </span>
-            <img id="nft" src={sunflower} />
-          </div>
-        </Panel>
-      </Modal>
     </>
   );
 };
