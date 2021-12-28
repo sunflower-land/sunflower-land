@@ -25,7 +25,11 @@ const Content: React.FC<Props> = ({ code }) => {
     send("SAVE");
   };
 
-  if (code.includes("Transaction was not mined within 50 blocks")) {
+  const close = () => {
+    send("CLOSE");
+  };
+
+  if (code.includes("50 blocks")) {
     return (
       <div id="error-popup">
         <span id="error-title">The Blockchain is busy right now!</span>
@@ -39,6 +43,12 @@ const Content: React.FC<Props> = ({ code }) => {
         <span id="error-text">
           Once the transaction is succesful please refresh the page.
         </span>
+
+        <div id="save-error-buttons">
+          <Button onClick={close}>Close</Button>
+
+          <Button onClick={save}>Try again</Button>
+        </div>
       </div>
     );
   }
@@ -62,7 +72,12 @@ const Content: React.FC<Props> = ({ code }) => {
       </span>
 
       <span id="error-text">Otherwise, try again!</span>
-      <Button onClick={save}>Try again</Button>
+
+      <div id="save-error-buttons">
+        <Button onClick={close}>Close</Button>
+
+        <Button onClick={save}>Try again</Button>
+      </div>
     </div>
   );
 };

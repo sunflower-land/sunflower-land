@@ -311,7 +311,6 @@ export const blockChainMachine = createMachine<
         src: async ({ blockChain }, event) => blockChain.save(),
         onDone: {
           target: "farming",
-          // actions - assign() data?
         },
         onError: {
           target: "saveFailure",
@@ -442,6 +441,9 @@ export const blockChainMachine = createMachine<
           actions: (context) => {
             context.blockChain.offsetTime();
           },
+        },
+        CLOSE: {
+          target: "farming",
         },
       },
     },
