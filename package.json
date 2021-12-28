@@ -5,6 +5,7 @@
 	"author": "adamhannigan81@gmail.com",
 	"homepage": ".",
 	"dependencies": {
+		"@alch/alchemy-web3": "^1.1.9",
 		"@openzeppelin/contracts": "3.3.0",
 		"@sentry/react": "^6.16.1",
 		"@sentry/tracing": "^6.16.1",
