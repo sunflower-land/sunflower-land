@@ -65,3 +65,16 @@ export function getSelectedItem(accountId: string): ActionableItem {
 
   return item;
 }
+
+const ONBOARDED_KEY = "onboarded_time";
+
+/**
+ * Once a user has saved their farm
+ */
+export function onboarded() {
+  localStorage.setItem(ONBOARDED_KEY, Date.now().toString());
+}
+
+export function hasOnboarded() {
+  return !!localStorage.getItem(ONBOARDED_KEY);
+}
