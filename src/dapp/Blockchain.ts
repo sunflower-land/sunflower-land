@@ -83,7 +83,7 @@ export class BlockChain {
         .reduce(
           (contracts, item) => ({
             ...contracts,
-            [item.name]: new this.alchemyWeb3.eth.Contract(
+            [item.name]: new this.web3.eth.Contract(
               item.abi as any,
               item.address
             ),
@@ -91,11 +91,11 @@ export class BlockChain {
           {} as Contracts
         );
 
-      this.alchemyToken = new this.alchemyWeb3.eth.Contract(
+      this.alchemyToken = new this.web3.eth.Contract(
         Token as any,
         "0xdf9B4b57865B403e08c85568442f95c26b7896b0"
       );
-      this.alchemyFarm = new this.alchemyWeb3.eth.Contract(
+      this.alchemyFarm = new this.web3.eth.Contract(
         Farm as any,
         "0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0"
       );
