@@ -247,7 +247,11 @@ export const Farm: React.FC = () => {
         <Panel hasInner={false}>
           <Button
             onClick={save}
-            disabled={!isDirty || machineState.matches("timerComplete")}
+            disabled={
+              !isDirty ||
+              machineState.matches("timerComplete") ||
+              machineState.matches("saving")
+            }
           >
             Save
             {isDirty && (

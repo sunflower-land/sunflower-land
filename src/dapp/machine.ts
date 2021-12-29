@@ -8,10 +8,12 @@ import {
 import { Charity } from "./types/contract";
 import { BlockChain } from "./Blockchain";
 import { Recipe } from "./types/crafting";
+import { hasOnboarded } from "./utils/localStorage";
 
 export interface Context {
   blockChain: BlockChain;
   errorCode?: "NO_WEB3" | "WRONG_CHAIN";
+  gasPrice?: number;
 }
 
 const hasFarm = ({ blockChain }: Context) => {
@@ -134,6 +136,9 @@ export type BlockchainEvent =
     }
   | {
       type: "OPEN_REWARD";
+    }
+  | {
+      type: "CANCEL";
     };
 
 export type OnboardingStates =
@@ -155,6 +160,8 @@ export type BlockchainState = {
     | "upgrading"
     | "rewarding"
     | "saving"
+    | "warning"
+    | "confirming"
     | "crafting"
     | "chopping"
     | "collecting"
@@ -305,7 +312,49 @@ export const blockChainMachine = createMachine<
         },
       },
     },
+    warning: {
+      on: {
+        SAVE: "confirming",
+      },
+    },
     saving: {
+      invoke: {
+        id: "save",
+        src: async ({ blockChain }, event) => {
+          const estimate = await blockChain.estimate();
+
+          return { estimate };
+        },
+        onDone: [
+          {
+            cond: (_, event) => {
+              // First time saving, show the warning
+              if (!hasOnboarded()) {
+                return true;
+              }
+
+              console.log({ event });
+              // Woh! Gas prices are large, give the player a hint
+              return event.data.estimate > 40000000000;
+            },
+            target: "warning",
+            actions: assign({
+              gasPrice: (context, event) => event.data.estimate,
+            }),
+          },
+          {
+            target: "confirming",
+          },
+        ],
+        onError: {
+          target: "saveFailure",
+          actions: assign({
+            errorCode: (context, event) => event.data.message,
+          }),
+        },
+      },
+    },
+    confirming: {
       invoke: {
         id: "save",
         src: async ({ blockChain }, event) => blockChain.save(),

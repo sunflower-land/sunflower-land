@@ -16,6 +16,7 @@ import {
   TimerComplete,
   Unsupported,
   SaveError,
+  GasWarning,
 } from "./components/modals";
 
 import Farm from "./components/farm/Farm";
@@ -80,7 +81,7 @@ export const App: React.FC = () => {
       <Modal
         centered
         show={
-          machineState.matches("saving") ||
+          machineState.matches("confirming") ||
           machineState.matches("upgrading") ||
           machineState.matches("rewarding") ||
           machineState.matches("collecting")
@@ -99,6 +100,10 @@ export const App: React.FC = () => {
 
       <Modal centered show={machineState.matches("failure")}>
         <Error code={machineState.context.errorCode} />
+      </Modal>
+
+      <Modal centered show={machineState.matches("warning")}>
+        <GasWarning gasPrice={machineState.context.gasPrice} />
       </Modal>
 
       <Modal centered show={machineState.matches("saveFailure")}>

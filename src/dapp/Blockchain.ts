@@ -1,6 +1,7 @@
 import Web3 from "web3";
 
 import { AlchemyWeb3, createAlchemyWeb3 } from "@alch/alchemy-web3";
+import { captureException } from "@sentry/react";
 
 import Token from "../abis/Token.json";
 import Farm from "../abis/Farm.json";
@@ -20,7 +21,7 @@ import {
   items,
   DEFAULT_INVENTORY,
 } from "./types/crafting";
-import { captureException } from "@sentry/react";
+import { onboarded } from "./utils/localStorage";
 
 interface Account {
   farm: Square[];
@@ -29,6 +30,8 @@ interface Account {
 }
 
 type Contracts = Record<ItemName, any>;
+
+export const MINIMUM_GAS_PRICE = 33;
 
 export class BlockChain {
   private web3: Web3 | null = null;
@@ -251,11 +254,18 @@ export class BlockChain {
     }
 
     await new Promise(async (resolve, reject) => {
-      const price = await this.web3.eth.getGasPrice();
-      const gasPrice = price ? Number(price) * 1 : undefined;
+      const price = await this.estimate();
+      let gasPrice: any = price ? Number(price) * 1 : undefined;
+
+      const minimum = MINIMUM_GAS_PRICE * 1000000000;
+      if (!gasPrice || gasPrice < minimum) {
+        gasPrice = minimum;
+      }
+
       console.log(new Date().getTime());
       console.log({ events: this.events });
       console.log({ farm: this.myFarm });
+      console.log({ gasPrice });
       this.farm.methods
         .sync(this.events)
         .send({ from: this.account, gasPrice })
@@ -282,6 +292,11 @@ export class BlockChain {
     });
 
     await this.loadFarm();
+    onboarded();
+  }
+
+  public async estimate() {
+    return await this.web3.eth.getGasPrice();
   }
 
   public async levelUp() {
