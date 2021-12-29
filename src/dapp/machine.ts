@@ -310,6 +310,10 @@ export const blockChainMachine = createMachine<
           target: "loading",
           actions: (context) => context.blockChain.resetFarm(),
         },
+        NETWORK_CHANGED: {
+          target: "loading",
+          actions: (context) => context.blockChain.resetFarm(),
+        },
       },
     },
     warning: {
