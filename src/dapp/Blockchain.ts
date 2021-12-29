@@ -258,7 +258,7 @@ export class BlockChain {
       let gasPrice: any = price ? Number(price) * 1 : undefined;
 
       const minimum = MINIMUM_GAS_PRICE * 1000000000;
-      if (gasPrice < minimum) {
+      if (!gasPrice || gasPrice < minimum) {
         gasPrice = minimum;
       }
 

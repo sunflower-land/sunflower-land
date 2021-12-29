@@ -114,7 +114,7 @@ export const recipes: Recipe[] = [
   {
     name: "Stone Pickaxe",
     abi: StonePickaxe,
-    description: "Used for mining and collecting ore",
+    description: "Used for mining and collecting iron ore",
     image: pickaxe,
     type: "ERC20",
     address: "0xBDc6814D29fBA97a426057778ABe702079480b80",

@@ -53,7 +53,10 @@ export const GasWarning: React.FC<Props> = ({ gasPrice }) => {
 
         <h6 className="warning-text">Recommended gas price: </h6>
 
-        <h2>{price}</h2>
+        <h2 style={{ display: "inline-block" }}>{price}</h2>
+        <h6 className="warning-text" style={{ display: "inline-block" }}>
+          GWEI
+        </h6>
 
         <a
           href="https://metamask.zendesk.com/hc/en-us/articles/360015488771-How-to-adjust-Gas-Price-and-Gas-Limit"

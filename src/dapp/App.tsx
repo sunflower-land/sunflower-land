@@ -90,8 +90,6 @@ export const App: React.FC = () => {
         <Saving />
       </Modal>
 
-      <Modal show={machineState.matches("saving")} />
-
       <Modal centered show={machineState.matches("crafting")}>
         <Crafting />
       </Modal>
