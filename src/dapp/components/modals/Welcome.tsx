@@ -70,7 +70,7 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
           <br />
           <div className="current-price-container">
             <img className="sunflower-price" src={sunflower} />
-            <span className="current-price">= {`$${sunflowerPrice}`}</span>
+            <span className="current-price">= {`${sunflowerPrice} $SFF`}</span>
           </div>
           <br />
           <a href="https://docs.sunflower-farmers.com/tokenomics">
