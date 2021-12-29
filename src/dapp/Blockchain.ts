@@ -662,13 +662,15 @@ export class BlockChain {
         });
     });
 
-    const chickens = this.inventory.Egg;
+    const chickens = this.inventory.Chicken;
 
     if (this.inventory["Chicken coop"] > 0) {
       this.inventory.Egg += chickens * 3;
     } else {
       this.inventory.Egg += chickens;
     }
+
+    this.eggCollectionTime = Date.now() / 1000;
   }
 
   private async loadInventory(): Promise<Inventory> {
