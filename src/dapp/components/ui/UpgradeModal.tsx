@@ -1,246 +1,219 @@
-import React from 'react'
-import { useService } from '@xstate/react'
+import React from "react";
+import { useService } from "@xstate/react";
 
-import Modal from 'react-bootstrap/Modal'
+import Modal from "react-bootstrap/Modal";
 
 import {
-	service,
-	Context,
-	BlockchainEvent,
-	BlockchainState,
-} from '../../machine'
+  service,
+  Context,
+  BlockchainEvent,
+  BlockchainState,
+} from "../../machine";
 
-import sunflower from '../../images/sunflower/fruit.png'
-import potato from '../../images/potato/fruit.png'
-import pumpkin from '../../images/pumpkin/fruit.png'
-import beetroot from '../../images/beetroot/fruit.png'
-import cauliflower from '../../images/cauliflower/fruit.png'
-import parsnip from '../../images/parsnip/fruit.png'
-import radish from '../../images/radish/fruit.png'
+import sunflower from "../../images/sunflower/fruit.png";
+import potato from "../../images/potato/fruit.png";
+import pumpkin from "../../images/pumpkin/fruit.png";
+import beetroot from "../../images/beetroot/fruit.png";
+import cauliflower from "../../images/cauliflower/fruit.png";
+import parsnip from "../../images/parsnip/fruit.png";
+import radish from "../../images/radish/fruit.png";
 
-import cancel from '../../images/ui/cancel.png'
+import cancel from "../../images/ui/cancel.png";
 
-import { getPrice } from '../../utils/land'
-import { getMarketRate } from '../../utils/supply'
+import { getUpgradePrice } from "../../utils/land";
+import { getMarketRate } from "../../utils/supply";
 
-import { Panel } from './Panel'
-import { Message } from './Message'
-import { Button } from './Button'
+import { Panel } from "./Panel";
+import { Message } from "./Message";
+import { Button } from "./Button";
 
-import './UpgradeModal.css'
+import "./UpgradeModal.css";
 
 interface Props {
-	isOpen: boolean
-	onClose: () => void
-	farmSize: number
-	balance: number
+  isOpen: boolean;
+  onClose: () => void;
+  farmSize: number;
+  balance: number;
 }
 
 export const UpgradeModal: React.FC<Props> = ({
-	isOpen,
-	onClose,
-	farmSize,
-	balance,
+  isOpen,
+  onClose,
+  farmSize,
+  balance,
 }) => {
-	const [machineState, send] = useService<
-		Context,
-		BlockchainEvent,
-		BlockchainState
-	>(service)
-	const [totalSupply, setTotalSupply] = React.useState<number>(1)
+  const [machineState, send] = useService<
+    Context,
+    BlockchainEvent,
+    BlockchainState
+  >(service);
+  const [totalSupply, setTotalSupply] = React.useState<number>(1);
 
-	React.useEffect(() => {
-		const load = async () => {
-			const supply = await service.machine.context.blockChain.totalSupply()
-			setTotalSupply(supply)
-		}
+  React.useEffect(() => {
+    const load = async () => {
+      const supply = await service.machine.context.blockChain.totalSupply();
+      setTotalSupply(supply);
+    };
 
-		load()
-	}, [isOpen])
+    load();
+  }, [isOpen]);
 
-	const onUpgrade = () => {
-		send('UPGRADE')
-		onClose()
-	}
+  const onUpgrade = () => {
+    send("UPGRADE");
+    onClose();
+  };
 
-	const marketRate = getMarketRate(totalSupply)
+  const marketRate = getMarketRate(totalSupply);
 
-	const isUnsaved = machineState.context.blockChain.isUnsaved()
+  const isUnsaved = machineState.context.blockChain.isUnsaved();
 
-	return (
-		<Modal centered show={isOpen} onHide={onClose}>
-			<Panel>
-				<div id="charity-container">
-					<span>Upgrade Farm</span>
-					
-					{isUnsaved ? (
-						<>
-							<div className="upgrade-required">
-								<Message>
-									Save your farm first
-									<img
-										src={cancel}
-										className="insufficient-funds-cross"
-									/>
-								</Message>
-							</div>
-							<span id="donate-description">
-								You must first save your farm to the blockchain
-								before attempting to upgrade.{' '}
-							</span>
-						</>
-					) : (
-                        <span id="donate-description">
-                            Upgrade your farm to unlock new plants and harvestable
-                            fields.
-                        </span>
-                    )}
+  const levelOnePrice = getUpgradePrice({ farmSize, totalSupply });
+  const levelTwoPrice = getUpgradePrice({ farmSize, totalSupply });
+  const levelThreePrice = getUpgradePrice({ farmSize, totalSupply });
+  const levelFourPrice = getUpgradePrice({ farmSize, totalSupply });
 
-					<div id="charities">
-						{
-							farmSize === 5 && (
-							<div>
-								<span className="charity-description">
-								Upgrade to 8 fields
-								</span>
-								<div className="upgrade-icons">
-									<span className="charity-description">
-										Unlock:
-									</span>
-									<img src={pumpkin} className="upgrade-fruit" />
-									<img src={beetroot} className="upgrade-fruit" />
-								</div>
-								<div className="charity-buttons">
-									<span>{`$${1 / marketRate}`}</span>
-									<Button
-										disabled={isUnsaved || balance < 1 / marketRate}
-										onClick={onUpgrade}
-									>
-										Upgrade
-									</Button>
-								</div>
-								{
-									balance < 1 / marketRate && (
-										<span className="insufficent-upgrade-funds">
-											Insufficent funds
-										</span>
-									)
-								}
+  return (
+    <Modal centered show={isOpen} onHide={onClose}>
+      <Panel>
+        <div id="charity-container">
+          <span>Upgrade Farm</span>
 
-							</div>
-							)
-						}
-						{
-							farmSize === 8 && (
-								<div>
-									<span className="charity-description">
-										Upgrade to 11 fields
-									</span>
-									<div className="upgrade-icons">
-										<span className="charity-description">
-											Unlock:
-										</span>
-										<img
-											src={cauliflower}
-											className="upgrade-fruit"
-										/>
-									</div>
-									<div className="charity-buttons">
-										<span>{`$${50 / marketRate}`}</span>
-										<Button
-											disabled={isUnsaved || farmSize < 8 || balance < 50 / marketRate}
-											onClick={onUpgrade}
-										>
-											Upgrade
-										</Button>
-									</div>
-									{
-										balance < 50 / marketRate && (
-											<span className="insufficent-upgrade-funds">
-												Insufficent funds
-											</span>
-										)
-									}
-								</div>
-							)
-						} 
+          {isUnsaved ? (
+            <>
+              <div className="upgrade-required">
+                <Message>
+                  Save your farm first
+                  <img src={cancel} className="insufficient-funds-cross" />
+                </Message>
+              </div>
+              <span id="donate-description">
+                You must first save your farm to the blockchain before
+                attempting to upgrade.{" "}
+              </span>
+            </>
+          ) : (
+            <span id="donate-description">
+              Upgrade your farm to unlock new plants and harvestable fields.
+            </span>
+          )}
 
-						{
-							farmSize === 11 && (
-								<div>
-									<span className="charity-description">
-										Upgrade to 14 fields
-									</span>
-									<div className="upgrade-icons">
-										<span className="charity-description">
-											Unlock:
-										</span>
-										<img src={parsnip} className="upgrade-fruit" />
-									</div>
-									<div className="charity-buttons">
-										<span>{`$${500 / marketRate}`}</span>
-										<Button
-											disabled={
-												isUnsaved || farmSize < 11 || balance < 500 / marketRate
-											}
-											onClick={onUpgrade}
-										>
-											Upgrade
-										</Button>
-									</div>
-									{
-										balance < 500 / marketRate && (
-											<span className="insufficent-upgrade-funds">
-												Insufficent funds
-											</span>
-										)
-									}
-								</div>
-							)
-						}
+          <div id="charities">
+            {farmSize === 5 && (
+              <div>
+                <span className="charity-description">Upgrade to 8 fields</span>
+                <div className="upgrade-icons">
+                  <span className="charity-description">Unlock:</span>
+                  <img src={pumpkin} className="upgrade-fruit" />
+                  <img src={beetroot} className="upgrade-fruit" />
+                </div>
+                <div className="charity-buttons">
+                  <span>{`$${levelOnePrice}`}</span>
+                  <Button
+                    disabled={isUnsaved || balance < levelOnePrice}
+                    onClick={onUpgrade}
+                  >
+                    Upgrade
+                  </Button>
+                </div>
+                {balance < levelOnePrice && (
+                  <span className="insufficent-upgrade-funds">
+                    Insufficent funds
+                  </span>
+                )}
+              </div>
+            )}
+            {farmSize === 8 && (
+              <div>
+                <span className="charity-description">
+                  Upgrade to 11 fields
+                </span>
+                <div className="upgrade-icons">
+                  <span className="charity-description">Unlock:</span>
+                  <img src={cauliflower} className="upgrade-fruit" />
+                </div>
+                <div className="charity-buttons">
+                  <span>{`$${levelTwoPrice}`}</span>
+                  <Button
+                    disabled={
+                      isUnsaved || farmSize < 8 || balance < levelTwoPrice
+                    }
+                    onClick={onUpgrade}
+                  >
+                    Upgrade
+                  </Button>
+                </div>
+                {balance < levelTwoPrice && (
+                  <span className="insufficent-upgrade-funds">
+                    Insufficent funds
+                  </span>
+                )}
+              </div>
+            )}
 
-						{
-							farmSize === 14 && (
-								<div>
-									<span className="charity-description">
-										Upgrade to 17 fields
-									</span>
-									<div className="upgrade-icons">
-										<span className="charity-description">
-											Unlock:
-										</span>
-										<img src={radish} className="upgrade-fruit" />
-									</div>
-									<div className="charity-buttons">
-										<span>{`$${2500 / marketRate}`}</span>
-										<Button
-											disabled={
-												isUnsaved || farmSize < 14 || balance < 2500 / marketRate
-											}
-											onClick={onUpgrade}
-										>
-											Upgrade
-										</Button>
-									</div>
-									{
-										balance < 2500 / marketRate && (
-											<span className="insufficent-upgrade-funds">
-												Insufficent funds
-											</span>
-										)
-									}
-								</div>
-							)
-						}
-					</div>
-				</div>
-			</Panel>
-		</Modal>
-	)
-}
+            {farmSize === 11 && (
+              <div>
+                <span className="charity-description">
+                  Upgrade to 14 fields
+                </span>
+                <div className="upgrade-icons">
+                  <span className="charity-description">Unlock:</span>
+                  <img src={parsnip} className="upgrade-fruit" />
+                </div>
+                <div className="charity-buttons">
+                  <span>{`$${levelThreePrice}`}</span>
+                  <Button
+                    disabled={
+                      isUnsaved || farmSize < 11 || balance < levelThreePrice
+                    }
+                    onClick={onUpgrade}
+                  >
+                    Upgrade
+                  </Button>
+                </div>
+                {balance < levelThreePrice && (
+                  <span className="insufficent-upgrade-funds">
+                    Insufficent funds
+                  </span>
+                )}
+              </div>
+            )}
+
+            {farmSize === 14 && (
+              <div>
+                <span className="charity-description">
+                  Upgrade to 17 fields
+                </span>
+                <div className="upgrade-icons">
+                  <span className="charity-description">Unlock:</span>
+                  <img src={radish} className="upgrade-fruit" />
+                </div>
+                <div className="charity-buttons">
+                  <span>{`$${levelFourPrice}`}</span>
+                  <Button
+                    disabled={
+                      isUnsaved || farmSize < 14 || balance < levelFourPrice
+                    }
+                    onClick={onUpgrade}
+                  >
+                    Upgrade
+                  </Button>
+                </div>
+                {balance < levelFourPrice && (
+                  <span className="insufficent-upgrade-funds">
+                    Insufficent funds
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </Panel>
+    </Modal>
+  );
+};
 
 export const UpgradeOverlay = (props) => (
-	<div id="tester" {...props}>
-		<Message>Upgrade required</Message>
-	</div>
-)
+  <div id="tester" {...props}>
+    <Message>Upgrade required</Message>
+  </div>
+);

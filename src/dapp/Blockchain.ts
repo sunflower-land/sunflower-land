@@ -22,6 +22,7 @@ import {
   DEFAULT_INVENTORY,
 } from "./types/crafting";
 import { onboarded } from "./utils/localStorage";
+import { getUpgradePrice } from "./utils/land";
 
 interface Account {
   farm: Square[];
@@ -291,7 +292,6 @@ export class BlockChain {
         });
     });
 
-    await this.loadFarm();
     onboarded();
   }
 
@@ -328,7 +328,21 @@ export class BlockChain {
         });
     });
 
-    await this.loadFarm();
+    const price = getUpgradePrice({
+      totalSupply: this.totalSupply(),
+      farmSize: this.details.farm.length,
+    });
+
+    this.details = {
+      ...this.details,
+      balance: this.details.balance - price,
+      farm: [
+        ...this.details.farm,
+        { createdAt: 0, fruit: Fruit.Sunflower },
+        { createdAt: 0, fruit: Fruit.Sunflower },
+        { createdAt: 0, fruit: Fruit.Sunflower },
+      ],
+    };
   }
 
   private async getAccount(): Promise<Account> {
@@ -416,7 +430,18 @@ export class BlockChain {
         });
     });
 
-    await this.loadFarm();
+    this.inventory[recipe.name] += amount;
+
+    recipe.ingredients.forEach((ingredient) => {
+      if (ingredient.name === "$SFF") {
+        this.details = {
+          ...this.details,
+          balance: this.details.balance - ingredient.amount * amount,
+        };
+      } else {
+        this.inventory[ingredient.name] -= ingredient.amount * amount;
+      }
+    });
   }
 
   private oldInventory: Inventory | null = null;
@@ -465,6 +490,9 @@ export class BlockChain {
           resolve(receipt);
         });
     });
+
+    // TODO fix - Polygon data is stale so use this - We are waiting an extra 20 seconds
+    await new Promise((res) => setTimeout(res, 20 * 1000));
 
     await this.loadFarm();
   }
@@ -581,6 +609,8 @@ export class BlockChain {
   }
 
   public async receiveReward() {
+    const reward = await this.getReward();
+
     await new Promise(async (resolve, reject) => {
       const price = await this.web3.eth.getGasPrice();
       const gasPrice = price ? Number(price) * 2 : undefined;
@@ -606,7 +636,10 @@ export class BlockChain {
         });
     });
 
-    await this.loadFarm();
+    this.details = {
+      ...this.details,
+      balance: this.details.balance + reward,
+    };
   }
 
   public async collectEggs() {
@@ -635,7 +668,13 @@ export class BlockChain {
         });
     });
 
-    await this.loadFarm();
+    const chickens = this.inventory.Egg;
+
+    if (this.inventory["Chicken coop"] > 0) {
+      this.inventory.Egg += chickens * 3;
+    } else {
+      this.inventory.Egg += chickens;
+    }
   }
 
   private async loadInventory(): Promise<Inventory> {
