@@ -31,7 +31,7 @@ interface Account {
 
 type Contracts = Record<ItemName, any>;
 
-export const MINIMUM_GAS_PRICE = 33;
+export const MINIMUM_GAS_PRICE = 40;
 
 export class BlockChain {
   private web3: Web3 | null = null;
