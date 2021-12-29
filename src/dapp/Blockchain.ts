@@ -1,6 +1,5 @@
 import Web3 from "web3";
 
-import { AlchemyWeb3, createAlchemyWeb3 } from "@alch/alchemy-web3";
 import { captureException } from "@sentry/react";
 
 import Token from "../abis/Token.json";
@@ -36,7 +35,6 @@ export const MINIMUM_GAS_PRICE = 33;
 
 export class BlockChain {
   private web3: Web3 | null = null;
-  private alchemyWeb3: AlchemyWeb3 | null = null;
   private token: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
@@ -74,10 +72,6 @@ export class BlockChain {
       );
       const maticAccounts = await this.web3.eth.getAccounts();
       this.account = maticAccounts[0];
-
-      this.alchemyWeb3 = createAlchemyWeb3(
-        "https://polygon-mainnet.g.alchemy.com/v2/XuJyQ4q2Ay1Ju1I7fl4e_2xi_G2CmX-L"
-      );
 
       this.contracts = items
         .filter((item) => !!item.abi)
