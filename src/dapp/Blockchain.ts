@@ -30,6 +30,7 @@ interface Account {
 type Contracts = Record<ItemName, any>;
 
 export const MINIMUM_GAS_PRICE = 40;
+const SAVE_OFFSET_SECONDS = 5;
 
 export class BlockChain {
   private web3: Web3 | null = null;
@@ -52,6 +53,8 @@ export class BlockChain {
   private events: Transaction[] = [];
 
   private contracts: Contracts;
+
+  private saveCount: number = 0;
 
   private isTrialAccount: boolean = false;
   private async connectToMatic() {
@@ -134,6 +137,8 @@ export class BlockChain {
   }
 
   public async initialise(retryCount = 0) {
+    this.saveCount = 0;
+
     try {
       // It is actually quite fast, we won't to simulate slow loading to convey complexity
       await new Promise((res) => window.setTimeout(res, 1000));
@@ -245,6 +250,18 @@ export class BlockChain {
       throw new Error("TRIAL_MODE");
     }
 
+    // If this is second save, put a buffer between the saves to ensure blockchain state does overlap
+    if (this.saveCount > 0) {
+      await new Promise((res) => setTimeout(res, 1000 * SAVE_OFFSET_SECONDS));
+    } else {
+      // First save
+      // For each event, subtract 5 seconds to ensure we are not ahead of the Blockchain timestamp
+      this.events = this.events.map((event) => ({
+        ...event,
+        createdAt: event.createdAt - SAVE_OFFSET_SECONDS,
+      }));
+    }
+
     await new Promise(async (resolve, reject) => {
       const gasPrice = await this.estimate();
 
@@ -275,6 +292,7 @@ export class BlockChain {
     });
 
     onboarded();
+    this.saveCount += 1;
   }
 
   public async estimate(incr = 1) {
