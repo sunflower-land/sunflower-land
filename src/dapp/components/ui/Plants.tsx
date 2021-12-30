@@ -84,13 +84,13 @@ export const Plants: React.FC<Props> = ({
                 <div>
                   <span className="ingredient-count">Plant</span>
                 </div>
-                <span className="ingredient-text">{`$${plant.buyPrice}`}</span>
+                <span className="ingredient-text">{`${plant.buyPrice} $SFF`}</span>
               </div>
               <div className="ingredient">
                 <div>
                   <span className="ingredient-count">Harvest</span>
                 </div>
-                <span className="ingredient-text">{`$${plant.sellPrice}`}</span>
+                <span className="ingredient-text">{`${plant.sellPrice} $SFF `}</span>
               </div>
             </div>
           </>
