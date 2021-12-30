@@ -134,7 +134,7 @@ export const FruitBoard: React.FC<Props> = ({
         <img className="selected-fruit" src={selectedItem.image} />
         <Message>Change</Message>
       </div>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal show={showModal} dialogClassName="fruit-board-modal" centered onHide={() => setShowModal(false)}>
         <div className="board">
           <Panel hasTabs>
             <Items

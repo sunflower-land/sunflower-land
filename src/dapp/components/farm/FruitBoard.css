@@ -1,3 +1,7 @@
+.fruit-board-modal {
+min-width: 570px;
+}
+
 #basket {
   position: fixed;
   right: 28px;
