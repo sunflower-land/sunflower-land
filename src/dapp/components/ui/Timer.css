@@ -1,29 +1,35 @@
 #timer {
-    display: flex;
-    font-size: 9px;
-    margin-left: 7px;
+  display: flex;
+  font-size: 9px;
+  margin-left: 7px;
 }
 
 #timer > img {
-    width: 10px;
-    margin-right: 5px;
-    image-rendering: pixelated;
+  width: 10px;
+  margin-right: 5px;
+  image-rendering: pixelated;
 }
 
 .red-timer {
-    color: red;
-    text-shadow: 1px 1px white;
-    font-size: 12px !important;
+  color: red;
+  text-shadow: 1px 1px white;
+  font-size: 12px !important;
 }
 
 @keyframes pulse {
-    from { transform: scale(1) }
-    50% { transform: scale(1.1) }
-    to { transform: scale(1) }
+  from {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 .pulse {
-    animation-name: pulse;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
+  animation-name: pulse;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
 }

@@ -5,15 +5,8 @@
     "target": "es6",
     "strict": false,
     "esModuleInterop": true,
-    "types": [
-      "@types/node",
-      "@types/chai",
-      "@types/mocha"
-    ],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./types"
-    ],
+    "types": ["@types/node", "@types/chai", "@types/mocha"],
+    "typeRoots": ["./node_modules/@types", "./types"],
     "allowJs": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
@@ -25,12 +18,9 @@
     "jsx": "react"
   },
   "include": [
-    "**/*.ts"
-, "src/dapp/components/modals/Creating.tsx", "src/dapp/components/modals/Saving.tsx"  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "cache",
-    "artifacts"
-  ]
+    "**/*.ts",
+    "src/dapp/components/modals/Creating.tsx",
+    "src/dapp/components/modals/Saving.tsx"
+  ],
+  "exclude": ["node_modules", "build", "cache", "artifacts"]
 }

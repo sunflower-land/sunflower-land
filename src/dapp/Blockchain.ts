@@ -224,7 +224,12 @@ export class BlockChain {
 
       this.farm.methods
         .createFarm(donation.charity)
-        .send({ from: this.account, value, to: donation.charity, gasPrice })
+        .send({
+          from: this.account,
+          value,
+          to: donation.charity,
+          gasPrice,
+        })
         .on("error", function (error) {
           console.log({ error });
           reject(error);
@@ -252,7 +257,9 @@ export class BlockChain {
 
     // If this is second save, put a buffer between the saves to ensure blockchain state does overlap
     if (this.saveCount > 0) {
-      await new Promise((res) => setTimeout(res, 1000 * SAVE_OFFSET_SECONDS));
+      await new Promise((res) =>
+        setTimeout(res, 1000 * SAVE_OFFSET_SECONDS)
+      );
     } else {
       // First save
       // For each event, subtract 5 seconds to ensure we are not ahead of the Blockchain timestamp
@@ -397,7 +404,13 @@ export class BlockChain {
     };
   }
 
-  public async craft({ recipe, amount }: { recipe: Recipe; amount: number }) {
+  public async craft({
+    recipe,
+    amount,
+  }: {
+    recipe: Recipe;
+    amount: number;
+  }) {
     const blockChain = this;
 
     if (this.isTrial) {
@@ -565,11 +578,8 @@ export class BlockChain {
     const coolEarth = this.web3.eth.getBalance(Charity.CoolEarth);
     const waterProject = this.web3.eth.getBalance(Charity.TheWaterProject);
     const heifer = this.web3.eth.getBalance(Charity.Heifer);
-    const [coolEarthBalance, waterBalance, heiferBalance] = await Promise.all([
-      coolEarth,
-      waterProject,
-      heifer,
-    ]);
+    const [coolEarthBalance, waterBalance, heiferBalance] =
+      await Promise.all([coolEarth, waterProject, heifer]);
 
     return {
       coolEarthBalance: this.web3.utils.fromWei(coolEarthBalance, "ether"),
@@ -685,27 +695,29 @@ export class BlockChain {
 
   private async loadInventory(): Promise<Inventory> {
     // Call balanceOf on each item
-    const itemBalancesPromise = Object.values(this.contracts).map((contract) =>
-      contract.methods.balanceOf(this.account).call({ from: this.account })
+    const itemBalancesPromise = Object.values(this.contracts).map(
+      (contract) =>
+        contract.methods
+          .balanceOf(this.account)
+          .call({ from: this.account })
     );
 
     const itemBalances = await Promise.all(itemBalancesPromise);
 
     console.log({ itemBalances });
-    const values: Record<ItemName, number> = Object.keys(this.contracts).reduce(
-      (itemValues, itemName, index) => {
-        const isNFT =
-          items.find((item) => item.name === itemName).type === "NFT";
-        const balance = itemBalances[index];
-        return {
-          ...itemValues,
-          [itemName]: isNFT
-            ? Number(balance)
-            : Math.ceil(Number(this.web3.utils.fromWei(balance))),
-        };
-      },
-      {} as Record<ItemName, number>
-    );
+    const values: Record<ItemName, number> = Object.keys(
+      this.contracts
+    ).reduce((itemValues, itemName, index) => {
+      const isNFT =
+        items.find((item) => item.name === itemName).type === "NFT";
+      const balance = itemBalances[index];
+      return {
+        ...itemValues,
+        [itemName]: isNFT
+          ? Number(balance)
+          : Math.ceil(Number(this.web3.utils.fromWei(balance))),
+      };
+    }, {} as Record<ItemName, number>);
 
     console.log({ inventory: values });
 
@@ -714,13 +726,16 @@ export class BlockChain {
 
   private async loadTotalItemSupplies(): Promise<Inventory> {
     // Call totalSupply on each item
-    const itemSupplyPromise = Object.values(this.contracts).map((contract) =>
-      contract.methods.totalSupply().call({ from: this.account })
+    const itemSupplyPromise = Object.values(this.contracts).map(
+      (contract) =>
+        contract.methods.totalSupply().call({ from: this.account })
     );
 
     const itemTotalSupplies = await Promise.all(itemSupplyPromise);
 
-    const values: Record<ItemName, number> = Object.keys(this.contracts).reduce(
+    const values: Record<ItemName, number> = Object.keys(
+      this.contracts
+    ).reduce(
       (itemValues, itemName, index) => ({
         ...itemValues,
         [itemName]: itemTotalSupplies[index],
@@ -750,7 +765,8 @@ export class BlockChain {
     const changes: Record<ItemName, number> = items.reduce(
       (change, item) => ({
         ...change,
-        [item.name]: this.inventory[item.name] - this.oldInventory[item.name],
+        [item.name]:
+          this.inventory[item.name] - this.oldInventory[item.name],
       }),
       {} as Record<ItemName, number>
     );

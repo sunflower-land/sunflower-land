@@ -5,7 +5,8 @@
 import BN from "bn.js";
 import { EventData, PastEventOptions } from "web3-eth-contract";
 
-export interface InventoryContract extends Truffle.Contract<InventoryInstance> {
+export interface InventoryContract
+  extends Truffle.Contract<InventoryInstance> {
   "new"(
     _token: string,
     meta?: Truffle.TransactionDetails
@@ -20,7 +21,9 @@ export interface InventoryInstance extends Truffle.ContractInstance {
       Truffle.TransactionResponse<AllEvents>
     >;
     call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-    sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
+    sendTransaction(
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
     estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
   };
 
@@ -152,13 +155,17 @@ export interface InventoryInstance extends Truffle.ContractInstance {
         Truffle.TransactionResponse<AllEvents>
       >;
       call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-      sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
+      sendTransaction(
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
       estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
     };
 
-    getInventory(
-      txDetails?: Truffle.TransactionDetails
-    ): Promise<{ isInitialized: boolean; appleSeeds: BN; avocadoSeeds: BN }>;
+    getInventory(txDetails?: Truffle.TransactionDetails): Promise<{
+      isInitialized: boolean;
+      appleSeeds: BN;
+      avocadoSeeds: BN;
+    }>;
 
     getLand(
       txDetails?: Truffle.TransactionDetails
@@ -285,7 +292,10 @@ export interface InventoryInstance extends Truffle.ContractInstance {
     options: PastEventOptions,
     callback: (error: Error, event: EventData) => void
   ): Promise<EventData[]>;
-  getPastEvents(event: string, options: PastEventOptions): Promise<EventData[]>;
+  getPastEvents(
+    event: string,
+    options: PastEventOptions
+  ): Promise<EventData[]>;
   getPastEvents(
     event: string,
     callback: (error: Error, event: EventData) => void

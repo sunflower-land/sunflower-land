@@ -13,7 +13,9 @@ export interface MigrationsContract
 type AllEvents = never;
 
 export interface MigrationsInstance extends Truffle.ContractInstance {
-  last_completed_migration(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+  last_completed_migration(
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<BN>;
 
   owner(txDetails?: Truffle.TransactionDetails): Promise<string>;
 
@@ -69,7 +71,10 @@ export interface MigrationsInstance extends Truffle.ContractInstance {
     options: PastEventOptions,
     callback: (error: Error, event: EventData) => void
   ): Promise<EventData[]>;
-  getPastEvents(event: string, options: PastEventOptions): Promise<EventData[]>;
+  getPastEvents(
+    event: string,
+    options: PastEventOptions
+  ): Promise<EventData[]>;
   getPastEvents(
     event: string,
     callback: (error: Error, event: EventData) => void

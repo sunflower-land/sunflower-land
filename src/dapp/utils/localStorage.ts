@@ -1,4 +1,8 @@
-import { ActionableItem, ACTIONABLE_ITEMS, Fruit } from "../types/contract";
+import {
+  ActionableItem,
+  ACTIONABLE_ITEMS,
+  Fruit,
+} from "../types/contract";
 import { FRUITS } from "../types/fruits";
 
 interface FarmState {
@@ -61,7 +65,9 @@ export function getSelectedItem(accountId: string): ActionableItem {
     return FRUITS[0];
   }
 
-  const item = ACTIONABLE_ITEMS.find((item) => item.name === farm.selectedItem);
+  const item = ACTIONABLE_ITEMS.find(
+    (item) => item.name === farm.selectedItem
+  );
 
   return item;
 }

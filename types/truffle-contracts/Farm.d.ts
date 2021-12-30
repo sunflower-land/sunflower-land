@@ -97,7 +97,9 @@ export interface FarmInstance extends Truffle.ContractInstance {
       Truffle.TransactionResponse<AllEvents>
     >;
     call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-    sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
+    sendTransaction(
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
     estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
   };
 
@@ -173,7 +175,9 @@ export interface FarmInstance extends Truffle.ContractInstance {
         Truffle.TransactionResponse<AllEvents>
       >;
       call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-      sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
+      sendTransaction(
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
       estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
     };
 
@@ -189,7 +193,10 @@ export interface FarmInstance extends Truffle.ContractInstance {
     options: PastEventOptions,
     callback: (error: Error, event: EventData) => void
   ): Promise<EventData[]>;
-  getPastEvents(event: string, options: PastEventOptions): Promise<EventData[]>;
+  getPastEvents(
+    event: string,
+    options: PastEventOptions
+  ): Promise<EventData[]>;
   getPastEvents(
     event: string,
     callback: (error: Error, event: EventData) => void
