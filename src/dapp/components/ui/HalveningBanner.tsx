@@ -17,8 +17,8 @@ export const Banner: React.FC = () => {
       <img src={alert} />
       <div>
         <span>
-          When total supply reaches 500K, crop and upgrade prices will be
-          halved. Be prepared!
+          When total supply reaches 1 Million, crop and upgrade prices will be
+          divided by 1/5. Be prepared!
         </span>
         <a
           href="https://docs.sunflower-farmers.com/tokenomics#the-halvening"
