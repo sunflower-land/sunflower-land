@@ -1,7 +1,5 @@
 import Web3 from "web3";
 
-import { captureException } from "@sentry/react";
-
 import Token from "../abis/Token.json";
 import Farm from "../abis/Farm.json";
 import Chicken from "../abis/Chicken.json";
@@ -263,8 +261,6 @@ export class BlockChain {
           if (error.code === 4001) {
             return resolve(null);
           }
-
-          captureException(new Error(`${error.code}: ${error.message}`));
 
           reject(error);
         })

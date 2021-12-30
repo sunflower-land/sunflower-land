@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
 import alert from "../../images/ui/expression_alerted.png";
+import closeIcon from "../../images/ui/close.png";
 
 import "./Banner.css";
 
 export const Banner: React.FC = () => {
+  const [show, setShow] = useState(true);
+
+  if (!show) {
+    return null;
+  }
+
   return (
     <div id="halvening-banner">
       <img src={alert} />
@@ -20,6 +27,7 @@ export const Banner: React.FC = () => {
           Read more
         </a>
       </div>
+      <img src={closeIcon} id="banner-close" onClick={() => setShow(false)} />
     </div>
   );
 };
