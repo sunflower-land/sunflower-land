@@ -69,7 +69,7 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
       load();
       setAmount(0);
     }
-  }, [machineState.value]);
+  }, [machineState, machineState.value]);
 
   useEffect(() => {
     const change = machineState.context.blockChain.getInventoryChange();
@@ -79,7 +79,7 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
       setShowChoppedCount(true);
       setTimeout(() => setShowChoppedCount(false), 3000);
     }
-  }, [machineState.value, inventory]);
+  }, [machineState.value, inventory, machineState.context.blockChain]);
 
   const chop = () => {
     send("MINE", {
@@ -125,6 +125,32 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
           !machineState.matches("mining") &&
           (isNextToChop || isHighlighted);
 
+        const waitingBoundLimiterContainerStyle = {
+          width: "80px",
+          overflow: "hidden",
+          height: "100px",
+          position: "absolute",
+          right: "-60px",
+          top: "-33px",
+        }
+
+        // NOTE: ore shares logic with other resources, but never scales past
+        // 48px; this hardcodes it (least for gold) until it can be separated
+        const waitingBoundLimiterOreStyle = {
+          maxWidth: "48px",
+        }
+
+        const waitingBoundLimiterMinerStyle = {
+          position: "relative",
+          right: "calc(50% + 17px)",
+          top: "calc(50% - 61px)",
+        }
+
+        const waitingBoundLimiterMinerQuestion = {
+          right: "34px",
+          top: "9px",
+        }
+
         return (
           <div
             style={gridPosition}
@@ -134,7 +160,7 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
             })}
             onClick={isNextToChop ? open : undefined}
           >
-            <img src={rock} className="rock-mine" alt="tree" />
+            <img src={rock} className="rock-mine" alt="tree" style={waitingBoundLimiterOreStyle} />
             {isHighlighted && machineState.matches("mining") && (
               <>
                 <img src={mining} className="miner" />
@@ -145,9 +171,9 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
               </>
             )}
             {showWaiting && (
-              <div>
-                <img src={waiting} className="miner" />
-                <img src={questionMark} className="miner-question" />
+              <div style={waitingBoundLimiterContainerStyle}>
+                <img src={waiting} style={waitingBoundLimiterMinerStyle} className="miner" />
+                <img src={questionMark} style={waitingBoundLimiterMinerQuestion} className="miner-question" />
               </div>
             )}
           </div>
