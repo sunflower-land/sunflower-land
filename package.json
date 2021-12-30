@@ -36,11 +36,14 @@
     "xstate": "^4.20.0"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate-types": "npx typechain --target=truffle-v5 'src/abis/*.json'"
+    "generate-types": "npx typechain --target=truffle-v5 'src/abis/*.json'",
+    "lint": "prettier --check \"./**/*.{js,ts,json,sass,scss,css}\" --loglevel log",
+    "lint-fix": "prettier --write \"./**/*.{js,ts,json,sass,scss,css}\" --loglevel log",
+    "prepare": "if [ ! -d '.husky' ]; then husky install; fi",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -57,9 +60,33 @@
     "@types/chai": "^4.2.17",
     "@types/mocha": "^8.2.2",
     "@types/node": "^15.0.1",
-    "prettier": "2.4.1",
+    "@typescript-eslint/eslint-plugin": "4.18.0",
+    "@typescript-eslint/parser": "4.18.0",
+    "eslint": "7.22.0",
+    "eslint-config-prettier": "8.1.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsx-a11y": "6.4.1",
+    "eslint-plugin-prettier": "3.3.1",
+    "eslint-plugin-react": "7.22.0",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "eslint-plugin-simple-import-sort": "7.0.0",
+    "husky": "^7.0.4",
+    "prettier": "^2.5.1",
     "ts-node": "^9.1.1",
     "typechain": "^4.0.3",
     "typescript": "^4.2.4"
+  },
+  "prettier": {
+    "printWidth": 75,
+    "semi": true,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "useTabs": false
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss}": [
+      "prettier --write"
+    ]
   }
 }
