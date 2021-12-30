@@ -30,6 +30,7 @@ import {
 import { Inventory, items } from "../../types/crafting";
 
 import "./Trees.css";
+import "./Gold.css";
 
 const ROCKS: React.CSSProperties[] = [
   {
@@ -125,42 +126,18 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
           !machineState.matches("mining") &&
           (isNextToChop || isHighlighted);
 
-        const waitingBoundLimiterContainerStyle = {
-          width: "80px",
-          overflow: "hidden",
-          height: "100px",
-          position: "absolute",
-          right: "-60px",
-          top: "-33px",
-        }
-
-        // NOTE: ore shares logic with other resources, but never scales past
-        // 48px; this hardcodes it (least for gold) until it can be separated
-        const waitingBoundLimiterOreStyle = {
-          maxWidth: "48px",
-        }
-
-        const waitingBoundLimiterMinerStyle = {
-          position: "relative",
-          right: "calc(50% + 17px)",
-          top: "calc(50% - 61px)",
-        }
-
-        const waitingBoundLimiterMinerQuestion = {
-          right: "34px",
-          top: "9px",
-        }
-
         return (
           <div
             style={gridPosition}
             className={classnames("gather-tree", {
               "gatherer-selected": isHighlighted,
               gatherer: isNextToChop,
+              "game-object": true,
+              gold: true,
             })}
             onClick={isNextToChop ? open : undefined}
           >
-            <img src={rock} className="rock-mine" alt="tree" style={waitingBoundLimiterOreStyle} />
+            <img src={rock} className="rock-mine ore" alt="tree" />
             {isHighlighted && machineState.matches("mining") && (
               <>
                 <img src={mining} className="miner" />
@@ -171,9 +148,9 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
               </>
             )}
             {showWaiting && (
-              <div style={waitingBoundLimiterContainerStyle}>
-                <img src={waiting} style={waitingBoundLimiterMinerStyle} className="miner" />
-                <img src={questionMark} style={waitingBoundLimiterMinerQuestion} className="miner-question" />
+              <div className="boundary">
+                <img src={waiting} className="miner" />
+                <img src={questionMark} className="miner-question" />
               </div>
             )}
           </div>
