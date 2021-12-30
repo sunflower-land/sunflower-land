@@ -7,7 +7,7 @@ import stopwatch from "../../images/ui/stopwatch.png";
 import disc from "../../images/ui/disc.png";
 import cancel from "../../images/ui/cancel.png";
 import alert from "../../images/ui/expression_alerted.png";
-import coin from "../../images/ui/sunflower_coin.png";
+import coin from "../../images/ui/icon.png";
 import arrow from "../../images/ui/arrow_right.png";
 
 import { ActionableItem, Fruit, isFruit } from "../../types/contract";
@@ -134,7 +134,12 @@ export const FruitBoard: React.FC<Props> = ({
         <img className="selected-fruit" src={selectedItem.image} />
         <Message>Change</Message>
       </div>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal
+        show={showModal}
+        dialogClassName="fruit-board-modal"
+        centered
+        onHide={() => setShowModal(false)}
+      >
         <div className="board">
           <Panel hasTabs>
             <Items

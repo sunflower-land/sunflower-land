@@ -50,7 +50,7 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
 
   const marketRate = getMarketRate(totalSupply);
 
-  const sunflowerPrice = Big(0.002).div(marketRate);
+  const sunflowerPrice = Big(0.001).div(marketRate);
 
   return (
     <Panel>
@@ -70,7 +70,7 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
           <br />
           <div className="current-price-container">
             <img className="sunflower-price" src={sunflower} />
-            <span className="current-price">= {`$${sunflowerPrice}`}</span>
+            <span className="current-price">= {`${sunflowerPrice} $SFF`}</span>
           </div>
           <br />
           <a href="https://docs.sunflower-farmers.com/tokenomics">
