@@ -11,7 +11,13 @@ import "./NFTs.css";
 interface Props {
   inventory: Inventory;
 }
+
 export const NFTs: React.FC<Props> = ({ inventory }) => {
+  const now = new Date()
+  const hasInventoryChristmasTree = inventory["Christmas Tree"] > 0
+  const isProperTimingChristmasTree = now.getMonth() === 11 && now.getDate() <= 25
+  const showChristmasTree = hasInventoryChristmasTree && isProperTimingChristmasTree
+
   return (
     <>
       <div id="statue">
@@ -23,9 +29,7 @@ export const NFTs: React.FC<Props> = ({ inventory }) => {
       </div>
 
       <div id="christmas-tree">
-        {inventory["Christmas Tree"] > 0 && (
-          <img src={christmasTree} alt="christmasTree" />
-        )}
+        {showChristmasTree && <img src={christmasTree} alt="christmasTree" />}
       </div>
       <div className="dirt" style={{ gridColumn: 6, gridRow: 7 }} />
       <div className="dirt" style={{ gridColumn: 6, gridRow: 6 }} />
