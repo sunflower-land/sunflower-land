@@ -1,0 +1,29 @@
+#halvening-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #c28669;
+  padding: 10px 30px;
+  z-index: 99999;
+  color: white;
+  font-size: 12px;
+  text-shadow: 1px 1px black;
+  box-shadow: 0px -1px 3px black;
+}
+
+#halvening-banner {
+  display: flex;
+}
+
+#halvening-banner > img {
+  height: 20px;
+  image-rendering: pixelated;
+  margin-right: 15px;
+}
+
+#halvening-banner > div > a {
+  margin-left: 8px;
+  text-decoration: underline;
+  color: white;
+}

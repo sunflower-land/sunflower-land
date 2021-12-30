@@ -1,6 +1,5 @@
 import Web3 from "web3";
 
-import { AlchemyWeb3, createAlchemyWeb3 } from "@alch/alchemy-web3";
 import { captureException } from "@sentry/react";
 
 import Token from "../abis/Token.json";
@@ -22,6 +21,7 @@ import {
   DEFAULT_INVENTORY,
 } from "./types/crafting";
 import { onboarded } from "./utils/localStorage";
+import { getUpgradePrice } from "./utils/land";
 
 interface Account {
   farm: Square[];
@@ -31,11 +31,10 @@ interface Account {
 
 type Contracts = Record<ItemName, any>;
 
-export const MINIMUM_GAS_PRICE = 33;
+export const MINIMUM_GAS_PRICE = 40;
 
 export class BlockChain {
   private web3: Web3 | null = null;
-  private alchemyWeb3: AlchemyWeb3 | null = null;
   private token: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
@@ -74,16 +73,12 @@ export class BlockChain {
       const maticAccounts = await this.web3.eth.getAccounts();
       this.account = maticAccounts[0];
 
-      this.alchemyWeb3 = createAlchemyWeb3(
-        "https://polygon-mainnet.g.alchemy.com/v2/XuJyQ4q2Ay1Ju1I7fl4e_2xi_G2CmX-L"
-      );
-
       this.contracts = items
         .filter((item) => !!item.abi)
         .reduce(
           (contracts, item) => ({
             ...contracts,
-            [item.name]: new this.alchemyWeb3.eth.Contract(
+            [item.name]: new this.web3.eth.Contract(
               item.abi as any,
               item.address
             ),
@@ -91,11 +86,11 @@ export class BlockChain {
           {} as Contracts
         );
 
-      this.alchemyToken = new this.alchemyWeb3.eth.Contract(
+      this.alchemyToken = new this.web3.eth.Contract(
         Token as any,
         "0xdf9B4b57865B403e08c85568442f95c26b7896b0"
       );
-      this.alchemyFarm = new this.alchemyWeb3.eth.Contract(
+      this.alchemyFarm = new this.web3.eth.Contract(
         Farm as any,
         "0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0"
       );
@@ -222,8 +217,7 @@ export class BlockChain {
     const value = this.web3.utils.toWei(donation.value, "ether");
 
     await new Promise(async (resolve, reject) => {
-      const price = await this.web3.eth.getGasPrice();
-      const gasPrice = price ? Number(price) * 1 : undefined;
+      const gasPrice = await this.estimate();
 
       this.farm.methods
         .createFarm(donation.charity)
@@ -254,18 +248,11 @@ export class BlockChain {
     }
 
     await new Promise(async (resolve, reject) => {
-      const price = await this.estimate();
-      let gasPrice: any = price ? Number(price) * 1 : undefined;
-
-      const minimum = MINIMUM_GAS_PRICE * 1000000000;
-      if (!gasPrice || gasPrice < minimum) {
-        gasPrice = minimum;
-      }
+      const gasPrice = await this.estimate();
 
       console.log(new Date().getTime());
       console.log({ events: this.events });
       console.log({ farm: this.myFarm });
-      console.log({ gasPrice });
       this.farm.methods
         .sync(this.events)
         .send({ from: this.account, gasPrice })
@@ -291,12 +278,18 @@ export class BlockChain {
         });
     });
 
-    await this.loadFarm();
     onboarded();
   }
 
-  public async estimate() {
-    return await this.web3.eth.getGasPrice();
+  public async estimate(incr = 1) {
+    const e = await this.web3.eth.getGasPrice();
+    let gasPrice = e ? Number(e) * incr : undefined;
+    const minimum = MINIMUM_GAS_PRICE * 1000000000;
+    if (!gasPrice || gasPrice < minimum) {
+      gasPrice = minimum;
+    }
+    console.log({ gasPrice });
+    return gasPrice;
   }
 
   public async levelUp() {
@@ -305,8 +298,7 @@ export class BlockChain {
     }
 
     await new Promise(async (resolve, reject) => {
-      const price = await this.web3.eth.getGasPrice();
-      const gasPrice = price ? Number(price) * 1 : undefined;
+      const gasPrice = await this.estimate();
 
       this.farm.methods
         .levelUp()
@@ -328,7 +320,21 @@ export class BlockChain {
         });
     });
 
-    await this.loadFarm();
+    const price = getUpgradePrice({
+      totalSupply: this.totalSupply(),
+      farmSize: this.details.farm.length,
+    });
+
+    this.details = {
+      ...this.details,
+      balance: this.details.balance - price,
+      farm: [
+        ...this.details.farm,
+        { createdAt: 0, fruit: Fruit.Sunflower },
+        { createdAt: 0, fruit: Fruit.Sunflower },
+        { createdAt: 0, fruit: Fruit.Sunflower },
+      ],
+    };
   }
 
   private async getAccount(): Promise<Account> {
@@ -416,7 +422,18 @@ export class BlockChain {
         });
     });
 
-    await this.loadFarm();
+    this.inventory[recipe.name] += amount;
+
+    recipe.ingredients.forEach((ingredient) => {
+      if (ingredient.name === "$SFF") {
+        this.details = {
+          ...this.details,
+          balance: this.details.balance - ingredient.amount * amount,
+        };
+      } else {
+        this.inventory[ingredient.name] -= ingredient.amount * amount;
+      }
+    });
   }
 
   private oldInventory: Inventory | null = null;
@@ -465,6 +482,9 @@ export class BlockChain {
           resolve(receipt);
         });
     });
+
+    // TODO fix - Polygon data is stale so use this - We are waiting an extra 20 seconds
+    await new Promise((res) => setTimeout(res, 20 * 1000));
 
     await this.loadFarm();
   }
@@ -581,9 +601,10 @@ export class BlockChain {
   }
 
   public async receiveReward() {
+    const reward = await this.getReward();
+
     await new Promise(async (resolve, reject) => {
-      const price = await this.web3.eth.getGasPrice();
-      const gasPrice = price ? Number(price) * 2 : undefined;
+      const gasPrice = await this.estimate(2);
 
       this.farm.methods
         .receiveReward()
@@ -606,13 +627,15 @@ export class BlockChain {
         });
     });
 
-    await this.loadFarm();
+    this.details = {
+      ...this.details,
+      balance: this.details.balance + reward,
+    };
   }
 
   public async collectEggs() {
     await new Promise(async (resolve, reject) => {
-      const price = await this.web3.eth.getGasPrice();
-      const gasPrice = price ? Number(price) * 2 : undefined;
+      const gasPrice = await this.estimate(2);
 
       this.chickens.methods
         .collectEggs()
@@ -635,7 +658,15 @@ export class BlockChain {
         });
     });
 
-    await this.loadFarm();
+    const chickens = this.inventory.Chicken;
+
+    if (this.inventory["Chicken coop"] > 0) {
+      this.inventory.Egg += chickens * 3;
+    } else {
+      this.inventory.Egg += chickens;
+    }
+
+    this.eggCollectionTime = Date.now() / 1000;
   }
 
   private async loadInventory(): Promise<Inventory> {
