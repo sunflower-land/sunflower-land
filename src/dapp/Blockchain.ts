@@ -217,8 +217,7 @@ export class BlockChain {
     const value = this.web3.utils.toWei(donation.value, "ether");
 
     await new Promise(async (resolve, reject) => {
-      const price = await this.web3.eth.getGasPrice();
-      const gasPrice = price ? Number(price) * 1 : undefined;
+      const gasPrice = await this.estimate();
 
       this.farm.methods
         .createFarm(donation.charity)
@@ -249,18 +248,11 @@ export class BlockChain {
     }
 
     await new Promise(async (resolve, reject) => {
-      const price = await this.estimate();
-      let gasPrice: any = price ? Number(price) * 1 : undefined;
-
-      const minimum = MINIMUM_GAS_PRICE * 1000000000;
-      if (!gasPrice || gasPrice < minimum) {
-        gasPrice = minimum;
-      }
+      const gasPrice = await this.estimate();
 
       console.log(new Date().getTime());
       console.log({ events: this.events });
       console.log({ farm: this.myFarm });
-      console.log({ gasPrice });
       this.farm.methods
         .sync(this.events)
         .send({ from: this.account, gasPrice })
@@ -289,8 +281,15 @@ export class BlockChain {
     onboarded();
   }
 
-  public async estimate() {
-    return await this.web3.eth.getGasPrice();
+  public async estimate(incr = 1) {
+    const e = await this.web3.eth.getGasPrice();
+    let gasPrice = e ? Number(e) * incr : undefined;
+    const minimum = MINIMUM_GAS_PRICE * 1000000000;
+    if (!gasPrice || gasPrice < minimum) {
+      gasPrice = minimum;
+    }
+    console.log({ gasPrice });
+    return gasPrice;
   }
 
   public async levelUp() {
@@ -299,8 +298,7 @@ export class BlockChain {
     }
 
     await new Promise(async (resolve, reject) => {
-      const price = await this.web3.eth.getGasPrice();
-      const gasPrice = price ? Number(price) * 1 : undefined;
+      const gasPrice = await this.estimate();
 
       this.farm.methods
         .levelUp()
@@ -606,8 +604,7 @@ export class BlockChain {
     const reward = await this.getReward();
 
     await new Promise(async (resolve, reject) => {
-      const price = await this.web3.eth.getGasPrice();
-      const gasPrice = price ? Number(price) * 2 : undefined;
+      const gasPrice = await this.estimate(2);
 
       this.farm.methods
         .receiveReward()
@@ -638,8 +635,7 @@ export class BlockChain {
 
   public async collectEggs() {
     await new Promise(async (resolve, reject) => {
-      const price = await this.web3.eth.getGasPrice();
-      const gasPrice = price ? Number(price) * 2 : undefined;
+      const gasPrice = await this.estimate(2);
 
       this.chickens.methods
         .collectEggs()
