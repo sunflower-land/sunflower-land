@@ -281,9 +281,9 @@ export class BlockChain {
     onboarded();
   }
 
-  public async estimate() {
+  public async estimate(incr = 1) {
     const e = await this.web3.eth.getGasPrice();
-    let gasPrice = e ? Number(e) * 1 : undefined;
+    let gasPrice = e ? Number(e) * incr : undefined;
     const minimum = MINIMUM_GAS_PRICE * 1000000000;
     if (!gasPrice || gasPrice < minimum) {
       gasPrice = minimum;
@@ -604,7 +604,7 @@ export class BlockChain {
     const reward = await this.getReward();
 
     await new Promise(async (resolve, reject) => {
-      const gasPrice = await this.estimate();
+      const gasPrice = await this.estimate(2);
 
       this.farm.methods
         .receiveReward()
@@ -635,7 +635,7 @@ export class BlockChain {
 
   public async collectEggs() {
     await new Promise(async (resolve, reject) => {
-      const gasPrice = await this.estimate();
+      const gasPrice = await this.estimate(2);
 
       this.chickens.methods
         .collectEggs()
