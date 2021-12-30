@@ -14,6 +14,7 @@
 
 #halvening-banner {
   display: flex;
+  justify-content: space-between;
 }
 
 #halvening-banner > img {
@@ -26,4 +27,9 @@
   margin-left: 8px;
   text-decoration: underline;
   color: white;
+}
+
+#banner-close {
+  cursor: pointer;
+  margin-left: 4px;
 }

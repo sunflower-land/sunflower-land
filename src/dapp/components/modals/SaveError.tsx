@@ -43,12 +43,6 @@ const Content: React.FC<Props> = ({ code }) => {
         <span id="error-text">
           Once the transaction is succesful please refresh the page.
         </span>
-
-        <div id="save-error-buttons">
-          <Button onClick={close}>Close</Button>
-
-          <Button onClick={save}>Try again</Button>
-        </div>
       </div>
     );
   }
