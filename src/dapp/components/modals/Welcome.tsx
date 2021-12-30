@@ -50,7 +50,7 @@ export const Welcome: React.FC<Props> = ({ onGetStarted }) => {
 
   const marketRate = getMarketRate(totalSupply);
 
-  const sunflowerPrice = Big(0.002).div(marketRate);
+  const sunflowerPrice = Big(0.001).div(marketRate);
 
   return (
     <Panel>

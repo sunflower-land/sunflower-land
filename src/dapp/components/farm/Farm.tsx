@@ -22,7 +22,7 @@ import {
   BlockchainState,
 } from "../../machine";
 
-import coin from "../../images/ui/sunflower_coin.png";
+import coin from "../../images/ui/icon.png";
 import questionMark from "../../images/ui/expression_confused.png";
 
 import { Panel } from "../ui/Panel";

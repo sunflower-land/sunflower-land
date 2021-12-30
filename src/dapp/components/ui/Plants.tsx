@@ -1,6 +1,6 @@
 import React from "react";
 
-import coin from "../../images/ui/sunflower_coin.png";
+import coin from "../../images/ui/icon.png";
 import stopwatch from "../../images/ui/stopwatch.png";
 
 import { FruitItem, getFruit } from "../../types/fruits";

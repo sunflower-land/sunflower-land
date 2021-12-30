@@ -29,7 +29,7 @@ import chicken from "../images/ui/chicken.png";
 import egg from "../images/ui/egg.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
 import goldEgg from "../images/ui/gold_egg.png";
-import coin from "../images/ui/sunflower_coin.png";
+import coin from "../images/ui/icon.png";
 import statue from "../images/ui/sunflower_statue.png";
 import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
