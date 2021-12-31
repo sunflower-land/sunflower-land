@@ -1,0 +1,18 @@
+name: Lint Project
+
+on:
+  - push
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - run: yarn global add prettier
+      - run: yarn install
+      # Uses NPM to capitalise on `--if-present` flag
+      - run: npm run lint --if-present
