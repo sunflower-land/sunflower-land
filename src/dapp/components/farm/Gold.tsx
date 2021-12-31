@@ -129,12 +129,14 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
         return (
           <div
             style={gridPosition}
-            className={classnames("gather-tree", {
-              "gatherer-selected": isHighlighted,
-              gatherer: isNextToChop,
-              "game-object": true,
-              gold: true,
-            })}
+            className={classnames(
+              "gather-tree", 
+              "game-object",
+              "gold", {
+                "gatherer-selected": isHighlighted,
+                gatherer: isNextToChop,
+              }
+            )}
             onClick={isNextToChop ? open : undefined}
           >
             <img src={rock} className="rock-mine ore" alt="tree" />
