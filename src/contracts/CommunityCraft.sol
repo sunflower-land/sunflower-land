@@ -293,12 +293,21 @@ contract CommunityCrafting is ERC20, ERC20Burnable {
     }
 
     function payOut(uint amount, address owner) public payable returns (bool) {
-        (uint amountToken, uint amountETH, uint liquidity) = uniswapV2Router.addLiquidityETH(
+        address[] memory path = new address[](2);
+        // Sunflower Token
+        path[0] = 0xdf9B4b57865B403e08c85568442f95c26b7896b0;
+        // WETH
+        path[1] = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
+
+        uint[] memory values = uniswapV2Router.getAmountsIn(msg.value, path);
+
+        (uint amountToken, uint amountETH, uint liquidity) = uniswapV2Router.addLiquidityETH{ value: msg.value }(
             0xdf9B4b57865B403e08c85568442f95c26b7896b0,
-            amount,
-            0, // slippage is unavoidable
-            0, // slippage is unavoidable
-            address(this),
+            // Sunflower Tokens to use
+            values[0],
+            0, 
+            0,
+            0x000000000000000000000000000000000000dEaD,
             block.timestamp
         );
 
@@ -312,13 +321,29 @@ contract CommunityCrafting is ERC20, ERC20Burnable {
         return true;
     }
 
+    // TODO approve all liquidity pool asks
+
     function payLiquidity(uint amount, address owner) public payable returns (bool) {
+        address[] memory path = new address[](2);
+        // Sunflower Token
+        path[0] = 0xdf9B4b57865B403e08c85568442f95c26b7896b0;
+        // WETH
+        path[1] = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
+
+        uint[] memory values = uniswapV2Router.getAmountsIn(msg.value, path);
+
+        // TODO transfer tokens here first
+        ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).transferFrom(msg.sender, address(this), values[0]);
+        // Approve the router just in case
+        ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).approve(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff, values[0]);
+
         (uint amountToken, uint amountETH, uint liquidity) = uniswapV2Router.addLiquidityETH{ value: msg.value }(
             0xdf9B4b57865B403e08c85568442f95c26b7896b0,
-            amount,
-            0, // slippage is unavoidable
-            0, // slippage is unavoidable
-            msg.sender,
+            // Sunflower Tokens to use
+            values[0],
+            0, 
+            0,
+            0x000000000000000000000000000000000000dEaD,
             block.timestamp
         );
 
