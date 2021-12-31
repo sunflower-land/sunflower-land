@@ -23,7 +23,10 @@ declare global {
 }
 
 export { ERC20Contract, ERC20Instance } from "./ERC20";
-export { ERC20BurnableContract, ERC20BurnableInstance } from "./ERC20Burnable";
+export {
+  ERC20BurnableContract,
+  ERC20BurnableInstance,
+} from "./ERC20Burnable";
 export { FarmContract, FarmInstance } from "./Farm";
 export { IERC20Contract, IERC20Instance } from "./IERC20";
 export { MigrationsContract, MigrationsInstance } from "./Migrations";

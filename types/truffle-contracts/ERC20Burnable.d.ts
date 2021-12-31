@@ -483,7 +483,10 @@ export interface ERC20BurnableInstance extends Truffle.ContractInstance {
     options: PastEventOptions,
     callback: (error: Error, event: EventData) => void
   ): Promise<EventData[]>;
-  getPastEvents(event: string, options: PastEventOptions): Promise<EventData[]>;
+  getPastEvents(
+    event: string,
+    options: PastEventOptions
+  ): Promise<EventData[]>;
   getPastEvents(
     event: string,
     callback: (error: Error, event: EventData) => void

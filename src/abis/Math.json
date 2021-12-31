@@ -14,9 +14,7 @@
   "ast": {
     "absolutePath": "@openzeppelin/contracts/math/Math.sol",
     "exportedSymbols": {
-      "Math": [
-        1537
-      ]
+      "Math": [1537]
     },
     "id": 1538,
     "license": "MIT",
@@ -24,15 +22,7 @@
     "nodes": [
       {
         "id": 1466,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".0",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".0", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:4"
       },
@@ -49,9 +39,7 @@
         },
         "fullyImplemented": true,
         "id": 1537,
-        "linearizedBaseContracts": [
-          1537
-        ],
+        "linearizedBaseContracts": [1537],
         "name": "Math",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -932,24 +920,14 @@
     "attributes": {
       "absolutePath": "@openzeppelin/contracts/math/Math.sol",
       "exportedSymbols": {
-        "Math": [
-          1537
-        ]
+        "Math": [1537]
       },
       "license": "MIT"
     },
     "children": [
       {
         "attributes": {
-          "literals": [
-            "solidity",
-            ">=",
-            "0.6",
-            ".0",
-            "<",
-            "0.8",
-            ".0"
-          ]
+          "literals": ["solidity", ">=", "0.6", ".0", "<", "0.8", ".0"]
         },
         "id": 1466,
         "name": "PragmaDirective",
@@ -958,17 +936,11 @@
       {
         "attributes": {
           "abstract": false,
-          "baseContracts": [
-            null
-          ],
-          "contractDependencies": [
-            null
-          ],
+          "baseContracts": [null],
+          "contractDependencies": [null],
           "contractKind": "library",
           "fullyImplemented": true,
-          "linearizedBaseContracts": [
-            1537
-          ],
+          "linearizedBaseContracts": [1537],
           "name": "Math",
           "scope": 1538
         },
@@ -986,9 +958,7 @@
               "implemented": true,
               "isConstructor": false,
               "kind": "function",
-              "modifiers": [
-                null
-              ],
+              "modifiers": [null],
               "name": "max",
               "scope": 1537,
               "stateMutability": "pure",
@@ -1128,9 +1098,7 @@
                             "children": [
                               {
                                 "attributes": {
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
+                                  "overloadedDeclarations": [null],
                                   "referencedDeclaration": 1470,
                                   "type": "uint256",
                                   "value": "a"
@@ -1141,9 +1109,7 @@
                               },
                               {
                                 "attributes": {
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
+                                  "overloadedDeclarations": [null],
                                   "referencedDeclaration": 1472,
                                   "type": "uint256",
                                   "value": "b"
@@ -1159,9 +1125,7 @@
                           },
                           {
                             "attributes": {
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 1470,
                               "type": "uint256",
                               "value": "a"
@@ -1172,9 +1136,7 @@
                           },
                           {
                             "attributes": {
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 1472,
                               "type": "uint256",
                               "value": "b"
@@ -1208,9 +1170,7 @@
               "implemented": true,
               "isConstructor": false,
               "kind": "function",
-              "modifiers": [
-                null
-              ],
+              "modifiers": [null],
               "name": "min",
               "scope": 1537,
               "stateMutability": "pure",
@@ -1350,9 +1310,7 @@
                             "children": [
                               {
                                 "attributes": {
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
+                                  "overloadedDeclarations": [null],
                                   "referencedDeclaration": 1488,
                                   "type": "uint256",
                                   "value": "a"
@@ -1363,9 +1321,7 @@
                               },
                               {
                                 "attributes": {
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
+                                  "overloadedDeclarations": [null],
                                   "referencedDeclaration": 1490,
                                   "type": "uint256",
                                   "value": "b"
@@ -1381,9 +1337,7 @@
                           },
                           {
                             "attributes": {
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 1488,
                               "type": "uint256",
                               "value": "a"
@@ -1394,9 +1348,7 @@
                           },
                           {
                             "attributes": {
-                              "overloadedDeclarations": [
-                                null
-                              ],
+                              "overloadedDeclarations": [null],
                               "referencedDeclaration": 1490,
                               "type": "uint256",
                               "value": "b"
@@ -1430,9 +1382,7 @@
               "implemented": true,
               "isConstructor": false,
               "kind": "function",
-              "modifiers": [
-                null
-              ],
+              "modifiers": [null],
               "name": "average",
               "scope": 1537,
               "stateMutability": "pure",
@@ -1601,9 +1551,7 @@
                                     "children": [
                                       {
                                         "attributes": {
-                                          "overloadedDeclarations": [
-                                            null
-                                          ],
+                                          "overloadedDeclarations": [null],
                                           "referencedDeclaration": 1506,
                                           "type": "uint256",
                                           "value": "a"
@@ -1663,9 +1611,7 @@
                                     "children": [
                                       {
                                         "attributes": {
-                                          "overloadedDeclarations": [
-                                            null
-                                          ],
+                                          "overloadedDeclarations": [null],
                                           "referencedDeclaration": 1508,
                                           "type": "uint256",
                                           "value": "b"

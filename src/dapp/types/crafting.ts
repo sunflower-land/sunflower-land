@@ -267,7 +267,8 @@ export const recipes: Recipe[] = [
         image: wood,
       },
     ],
-    openSeaLink: "https://opensea.io/collection/sunflower-farmers-scarecrow",
+    openSeaLink:
+      "https://opensea.io/collection/sunflower-farmers-scarecrow",
     supply: 5000,
   },
   {
@@ -343,7 +344,8 @@ export const recipes: Recipe[] = [
     address: "0x282aAE7B826D5de16e78eCDc2015eB2110918fd2",
     limit: 300,
     supply: 300,
-    openSeaLink: "https://opensea.io/collection/sunflower-farmers-golden-egg",
+    openSeaLink:
+      "https://opensea.io/collection/sunflower-farmers-golden-egg",
     ingredients: [
       {
         name: "Gold",
@@ -372,7 +374,8 @@ export const items: Item[] = [
   {
     name: "Wood",
     abi: Wood,
-    description: "A bountiful resource in Sunflower Land used for crafting",
+    description:
+      "A bountiful resource in Sunflower Land used for crafting",
     image: wood,
     type: "ERC20",
     address: "0xC8A6fFc3720867470A2395D1634B3085BbDDf71a",
@@ -381,7 +384,8 @@ export const items: Item[] = [
   {
     name: "Iron",
     abi: Iron,
-    description: "A bountiful resource in Sunflower Land used for crafting",
+    description:
+      "A bountiful resource in Sunflower Land used for crafting",
     image: iron,
     type: "ERC20",
     address: "0x4a114F6EC3e0f6c57A9Db37140ca88Ee5525E55B",
@@ -397,7 +401,8 @@ export const items: Item[] = [
   {
     name: "Egg",
     abi: Egg,
-    description: "A bountiful resource in Sunflower Land used for crafting",
+    description:
+      "A bountiful resource in Sunflower Land used for crafting",
     image: egg,
     type: "ERC20",
     address: "0x3560B931b122fF740Db06CB5B4569A0dC5d28954",

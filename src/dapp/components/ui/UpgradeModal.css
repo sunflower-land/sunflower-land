@@ -1,60 +1,61 @@
 .upgrade-icons {
-    display: flex;;
+  display: flex;
 }
 .upgrade-fruit {
-    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white) drop-shadow(0px -1px 0px white);
-    width: 30px;
-    image-rendering: pixelated;
-    margin-right: 16px;
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+    drop-shadow(0px -1px 0px white);
+  width: 30px;
+  image-rendering: pixelated;
+  margin-right: 16px;
 }
 
 #reward-holder {
-    padding-bottom: 24px;
+  padding-bottom: 24px;
 }
 
 #treasure-holder {
-    position: relative;
+  position: relative;
 }
 #open-treasure {
-    width: 200px;
-    image-rendering: pixelated;
+  width: 200px;
+  image-rendering: pixelated;
 }
 #reward-coin {
-    width: 43px;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: pixelated;
-    margin-left: 10px;
-    position: absolute;
-    left: calc(50% - 29px);
-    top: 57px;
+  width: 43px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+  margin-left: 10px;
+  position: absolute;
+  left: calc(50% - 29px);
+  top: 57px;
 
-    animation-name: floating;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-    margin-top: 5px;
+  animation-name: floating;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  margin-top: 5px;
 
-    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
     drop-shadow(0px -1px 0px white);
 }
 
 #reward-button {
-    width: 140px;
-    margin: auto;
+  width: 140px;
+  margin: auto;
 }
 
 #reward-container {
-    font-size: 20px;
-    color: white;
-    text-shadow: 1px 1px black;
-    text-align: center;
-    padding: 16px;
+  font-size: 20px;
+  color: white;
+  text-shadow: 1px 1px black;
+  text-align: center;
+  padding: 16px;
 }
 
 .insufficent-upgrade-funds {
-    text-align: end;
-    font-size: 9px;
-    text-decoration: underline;
-    font-size: 12px;
-    padding: 7px;
+  text-align: end;
+  font-size: 9px;
+  text-decoration: underline;
+  font-size: 12px;
+  padding: 7px;
 }
