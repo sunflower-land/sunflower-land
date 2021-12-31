@@ -68,29 +68,29 @@
   left: 40%;
 }
 
-#eating-chicken {
+.chicken.walking.one {
+  transform: scale(1.9);
   position: absolute;
-  left: 0;
+  left: 15px;
   top: 70%;
   z-index: 1;
 }
 
-#walking-chicken {
+.chicken.walking.two {
   position: absolute;
-  height: 45px;
-  left: 0;
-  top: 120%;
-  transform: rotatey(180deg);
-  animation: walking-chicken 30s infinite;
-  animation-timing-function: steps(30, start);
+  left: 30px;
+  top: 170%;
+  transform: scale(1.9) rotateY(180deg);
+  z-index: 1;
 }
 
-#eating-chicken-two {
+.chicken.walking.three {
   position: absolute;
-  left: 12px;
-  top: 170%;
-  transform: rotateY(180deg);
-  z-index: 1;
+  left: 5px;
+  top: 120%;
+  transform: scale(1.9) rotatey(180deg);
+  animation: walking-chicken 30s infinite;
+  animation-timing-function: steps(30, start);
 }
 
 #egg-1 {
@@ -117,24 +117,25 @@
   width: 15%;
   filter: drop-shadow(0px 4px 0px #4b9f4a);
 }
+
 #chicken-display {
   display: flex;
 }
 
 @keyframes walking-chicken {
   0% {
-    transform: translateX(0) rotatey(0);
+    transform: scale(1.9) translateX(0) rotatey(0);
   }
   49% {
-    transform: translateX(80px) rotatey(0);
+    transform: scale(1.9) translateX(40px) rotatey(0);
   }
   50% {
-    transform: translateX(80px) rotatey(180deg);
+    transform: scale(1.9) translateX(40px) rotatey(180deg);
   }
   99% {
-    transform: translateX(0) rotatey(180deg);
+    transform: scale(1.9) translateX(0) rotatey(180deg);
   }
   100% {
-    transform: translateX(0) rotatey(360deg);
+    transform: scale(1.9) translateX(0) rotatey(360deg);
   }
 }
