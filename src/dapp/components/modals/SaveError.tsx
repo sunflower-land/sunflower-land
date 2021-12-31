@@ -34,8 +34,8 @@ const Content: React.FC<Props> = ({ code }) => {
       <div id="error-popup">
         <span id="error-title">The Blockchain is busy right now!</span>
         <span id="error-text">
-          You will need to increase the gas price for this transaction to go
-          through.
+          You will need to increase the gas price for this transaction to
+          go through.
         </span>
 
         <img src={speedUp} id="error-image" />
@@ -54,13 +54,14 @@ const Content: React.FC<Props> = ({ code }) => {
       <span id="error-text">{code.slice(0, 200)}</span>
 
       <span id="error-text">
-        Thanks for your patience and being an early adopter! Head over to our{" "}
+        Thanks for your patience and being an early adopter! Head over to
+        our{" "}
         <a
           id="error-link"
-          href="https://discord.com/invite/3AmWWhbfNq"
+          href="https://discord.gg/DZWHuhVUGN"
           target="_blank"
         >
-          discord channel
+          faq
         </a>{" "}
         and the team will try help out.
       </span>

@@ -29,14 +29,16 @@ const Content: React.FC<Props> = ({ code }) => {
       <>
         You are not connected to Metamask.
         <Button
-          onClick={() => window.open("https://docs.sunflower-farmers.com/")}
+          onClick={() =>
+            window.open("https://docs.sunflower-farmers.com/")
+          }
         >
           How to setup Metamask
         </Button>
         <div id="try-it-out"></div>
         <span>
-          Once you have installed Metamask, please refresh the page. Otherwise,
-          feel free to try a simulation & play without tokens
+          Once you have installed Metamask, please refresh the page.
+          Otherwise, feel free to try a simulation & play without tokens
         </span>
         <Button onClick={trial}>Play trial</Button>
       </>
@@ -51,7 +53,9 @@ const Content: React.FC<Props> = ({ code }) => {
         </span>
 
         <Button
-          onClick={() => window.open("https://docs.sunflower-farmers.com/")}
+          onClick={() =>
+            window.open("https://docs.sunflower-farmers.com/")
+          }
         >
           How to Connect
         </Button>
@@ -87,15 +91,16 @@ const Content: React.FC<Props> = ({ code }) => {
       <span id="error-text">{code}</span>
 
       <span id="error-text">
-        Thanks for your patience and being an early adopter! Head over to our{" "}
+        Thanks for your patience and being an early adopter! Head over to
+        our{" "}
         <a
           id="error-link"
-          href="https://discord.com/invite/3AmWWhbfNq"
+          href="https://discord.gg/DZWHuhVUGN"
           target="_blank"
         >
-          discord channel
+          faq
         </a>{" "}
-        and the team will try help out.
+        and see if we can help out
       </span>
     </div>
   );
