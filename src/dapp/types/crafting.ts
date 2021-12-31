@@ -254,7 +254,7 @@ export const recipes: Recipe[] = [
   {
     name: "Scarecrow",
     abi: Scarecrow,
-    description: "Helps keep the crows away",
+    description: "Grow wheat (coming soon) 3x faster.",
     image: scarecrow,
     type: "NFT",
     address: "0x143Ba32499065b5F89c518d5B75a38F3529cE324",
