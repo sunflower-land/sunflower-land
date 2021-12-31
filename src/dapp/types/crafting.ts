@@ -13,6 +13,7 @@ import Iron from "../../abis/Iron.json";
 import Statue from "../../abis/Statue.json";
 import ChristmasTree from "../../abis/ChristmasTree.json";
 import Scarecrow from "../../abis/Scarecrow.json";
+import PotatoStatue from "../../abis/PotatoStatue.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
@@ -31,6 +32,7 @@ import chickenCoop from "../images/ui/chicken_coop.png";
 import goldEgg from "../images/ui/gold_egg.png";
 import coin from "../images/ui/icon.png";
 import statue from "../images/ui/sunflower_statue.png";
+import potatoStatue from "../images/ui/potato_statue.png";
 import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
 
@@ -61,6 +63,7 @@ export interface Item {
     | "Sword"
     | "Chicken coop"
     | "Sunflower Statue"
+    | "OG Potato Statue"
     | "Christmas Tree"
     | "Golden Egg"
     | "Scarecrow";
@@ -359,6 +362,22 @@ export const recipes: Recipe[] = [
       },
     ],
   },
+  {
+    name: "OG Potato Statue",
+    abi: PotatoStatue,
+    description: "Flex your status as an original potato hustler",
+    image: potatoStatue,
+    type: "NFT",
+    address: "0x938a6942Bd09CfaC1bc4B2420F581A90fB5d5775",
+    ingredients: [
+      {
+        name: "Stone",
+        amount: 5,
+        image: stone,
+      },
+    ],
+    supply: 10000,
+  },
 ];
 
 export const items: Item[] = [
@@ -422,6 +441,7 @@ export const DEFAULT_INVENTORY: Inventory = {
   Gold: 0,
   Chicken: 0,
   Egg: 0,
+  "OG Potato Statue": 0,
   "Sunflower Statue": 0,
   "Fishing rod": 0,
   "Chicken coop": 0,
