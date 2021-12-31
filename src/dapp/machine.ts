@@ -229,6 +229,9 @@ export const blockChainMachine = createMachine<
         DONATE: {
           target: "creating",
         },
+        NETWORK_CHANGED: {
+          target: "loading",
+        },
       },
     },
     creating: {
