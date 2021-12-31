@@ -8,6 +8,19 @@
   width: 120%;
   position: relative;
   left: 144%;
+  bottom: 83%;
+}
+
+#potato-statue {
+  grid-column: 4;
+  grid-row: 8;
+  z-index: 99;
+}
+
+#potato-statue > img {
+  width: 120%;
+  position: relative;
+  left: 144%;
   bottom: 64%;
 }
 

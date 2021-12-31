@@ -27,6 +27,7 @@ contract SunflowerFarmersStatue is ERC721, Ownable {
 
 
     function mint(address account, uint256 amount) public {
+        require(amount == 1);
         require(msg.sender == minter, "You are not the minter");
         require(totalSupply < 1000, "Only 1000 statues can be minted");
         require(balanceOf(account) < 1, "A farm can only have 1 statue");
