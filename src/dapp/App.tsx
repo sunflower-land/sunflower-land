@@ -1,29 +1,31 @@
+import "./App.css";
+
+import { useService } from "@xstate/react";
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import { useService } from "@xstate/react";
 
-import { Banner } from "./components/ui/HalveningBanner";
-import { service, Context, BlockchainEvent, BlockchainState } from "./machine";
-
-import { Donation } from "./types/contract";
-
+import Farm from "./components/farm/Farm";
 import {
   Charity,
   Connecting,
-  Welcome,
   Creating,
-  Saving,
   Error,
+  GasWarning,
+  SaveError,
+  Saving,
   TimerComplete,
   Unsupported,
-  SaveError,
-  GasWarning,
+  Welcome,
 } from "./components/modals";
-
-import Farm from "./components/farm/Farm";
-
-import "./App.css";
 import { Crafting } from "./components/modals/Crafting";
+import { Banner } from "./components/ui/HalveningBanner";
+import {
+  BlockchainEvent,
+  BlockchainState,
+  Context,
+  service,
+} from "./machine";
+import { Donation } from "./types/contract";
 
 export const App: React.FC = () => {
   const [machineState, send] = useService<

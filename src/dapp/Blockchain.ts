@@ -1,25 +1,25 @@
 import Web3 from "web3";
 
-import Token from "../abis/Token.json";
-import Farm from "../abis/Farm.json";
 import Chicken from "../abis/Chicken.json";
-
+import Farm from "../abis/Farm.json";
+import Token from "../abis/Token.json";
 import {
-  Transaction,
-  Square,
   Charity,
-  Fruit,
   Donation,
+  Fruit,
+  Square,
+  Transaction,
 } from "./types/contract";
 import {
+  DEFAULT_INVENTORY,
   Inventory,
   ItemName,
-  Recipe,
   items,
-  DEFAULT_INVENTORY,
+  Recipe,
 } from "./types/crafting";
-import { onboarded } from "./utils/localStorage";
 import { getUpgradePrice } from "./utils/land";
+import { onboarded } from "./utils/localStorage";
+import Metamask from "./utils/metamask";
 
 interface Account {
   farm: Square[];
@@ -32,8 +32,11 @@ type Contracts = Record<ItemName, any>;
 export const MINIMUM_GAS_PRICE = 40;
 const SAVE_OFFSET_SECONDS = 5;
 
+const APP_PREFIX = "SUNFLOWER_FARMERS";
+
 export class BlockChain {
   private web3: Web3 | null = null;
+  private metamask: Metamask | null = null;
   private token: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
@@ -44,19 +47,19 @@ export class BlockChain {
   private details: Account = null;
   private inventory: Inventory = null;
   private totalItemSupplies: Inventory = null;
-  private stoneStrength: number = 0;
-  private ironStrength: number = 0;
-  private goldStrength: number = 0;
-  private woodStrength: number = 0;
-  private eggCollectionTime: number = 0;
+  private stoneStrength = 0;
+  private ironStrength = 0;
+  private goldStrength = 0;
+  private woodStrength = 0;
+  private eggCollectionTime = 0;
 
   private events: Transaction[] = [];
 
   private contracts: Contracts;
 
-  private saveCount: number = 0;
+  private saveCount = 0;
 
-  private isTrialAccount: boolean = false;
+  private isTrialAccount = false;
   private async connectToMatic() {
     try {
       this.token = new this.web3.eth.Contract(
@@ -136,13 +139,20 @@ export class BlockChain {
     }
   }
 
+  private async setupProviders() {
+    this.metamask = new Metamask();
+  }
+
   public async initialise(retryCount = 0) {
     this.saveCount = 0;
 
     try {
       // It is actually quite fast, we won't to simulate slow loading to convey complexity
       await new Promise((res) => window.setTimeout(res, 1000));
+
       await this.setupWeb3();
+      await this.setupProviders();
+
       this.oldInventory = null;
       const chainId = await this.web3.eth.getChainId();
 
@@ -170,6 +180,68 @@ export class BlockChain {
       console.error(e);
       throw e;
     }
+  }
+
+  public async ensurePolygonNetwork(): Promise<void> {
+    // Metamask (and similar providers) bind to the global `ethereum` object
+    const provider = (window as any).ethereum;
+
+    const setProvider = async () => {
+      if (!this.metamask) await this.setupProviders();
+
+      // attempt to switch to Polygon, if chain is setup...
+      try {
+        await provider.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x89" }],
+        });
+
+        // ...otherwise, try to add to wallet provider
+      } catch (error) {
+        if (
+          error.code === this.metamask.errors().REQUESTED_CHAIN_MISSING
+        ) {
+          await provider.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: "0x89",
+                chainName: "Polygon Mainnet",
+                rpcUrls: ["https://polygon-rpc.com"],
+                nativeCurrency: {
+                  name: "MATIC",
+                  symbol: "MATIC",
+                  decimals: 18,
+                },
+                blockExplorerUrls: ["https://polygonscan.com/"],
+              },
+            ],
+          });
+        }
+      }
+    };
+
+    // add a listener to the current tab/window context, in the case we need
+    // to switch back later when the context becomes active again, if
+    // necessary; save flag on provided global with app prefix to prevent
+    // duplicate event creation
+    if (
+      !provider[APP_PREFIX] ||
+      !provider[APP_PREFIX].networkEventSetupDone
+    ) {
+      document.addEventListener("visibilitychange", async () => {
+        if (!document.hidden) await setProvider();
+      });
+
+      await setProvider();
+      provider[APP_PREFIX] = {
+        ...(provider[APP_PREFIX] || {}),
+        networkEventSetupDone: true,
+      };
+    }
+
+    // proceed with initialisation as normal, if needed
+    if (!this.web3 || !this.token) await this.initialise();
   }
 
   public async loadFarm() {
@@ -204,7 +276,7 @@ export class BlockChain {
     await this.cacheTotalSupply();
   }
 
-  private async waitForFarm(retryCount: number = 1) {
+  private async waitForFarm(retryCount = 1) {
     const wait = retryCount * 1000;
     await new Promise((res) => setTimeout(res, wait));
     const farm = await this.farm.methods
@@ -554,7 +626,7 @@ export class BlockChain {
     return this.events[0].createdAt;
   }
 
-  private cachedTotalSupply: number = 0;
+  private cachedTotalSupply = 0;
 
   public async cacheTotalSupply() {
     if (!this.web3 || !this.alchemyToken) {

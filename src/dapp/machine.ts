@@ -1,12 +1,13 @@
 import {
+  assign,
   createMachine,
-  Interpreter,
   EventObject,
   interpret,
-  assign,
+  Interpreter,
 } from "xstate";
-import { Charity } from "./types/contract";
+
 import { BlockChain } from "./Blockchain";
+import { Charity } from "./types/contract";
 import { Recipe } from "./types/crafting";
 import { hasOnboarded } from "./utils/localStorage";
 
@@ -206,7 +207,7 @@ export const blockChainMachine = createMachine<
     },
     loading: {
       invoke: {
-        src: ({ blockChain }) => blockChain.initialise(),
+        src: ({ blockChain }) => blockChain.ensurePolygonNetwork(),
         onDone: [
           {
             target: "farming",
