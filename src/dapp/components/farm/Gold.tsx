@@ -24,8 +24,9 @@ import {
   service,
 } from "../../machine";
 import { Inventory, items } from "../../types/crafting";
-
-import "./Trees.css";
+import { Button } from "../ui/Button";
+import { Message } from "../ui/Message";
+import { Panel } from "../ui/Panel";
 
 const ROCKS: React.CSSProperties[] = [
   {
@@ -66,7 +67,7 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
       load();
       setAmount(0);
     }
-  }, [machineState.value]);
+  }, [machineState, machineState.value]);
 
   useEffect(() => {
     const change = machineState.context.blockChain.getInventoryChange();
@@ -76,7 +77,7 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
       setShowChoppedCount(true);
       setTimeout(() => setShowChoppedCount(false), 3000);
     }
-  }, [machineState.value, inventory]);
+  }, [machineState.value, inventory, machineState.context.blockChain]);
 
   const chop = () => {
     send("MINE", {
@@ -128,13 +129,13 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
         return (
           <div
             style={gridPosition}
-            className={classnames("gather-tree", {
+            className={classnames("gather-tree", "game-object", "gold", {
               "gatherer-selected": isHighlighted,
               gatherer: isNextToChop,
             })}
             onClick={isNextToChop ? open : undefined}
           >
-            <img src={rock} className="rock-mine" alt="tree" />
+            <img src={rock} className="rock-mine ore" alt="tree" />
             {isHighlighted && machineState.matches("mining") && (
               <div className="boundary show-overflow">
                 <img src={mining} className="miner" />
@@ -145,7 +146,7 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
               </div>
             )}
             {showWaiting && (
-              <div>
+              <div className="boundary">
                 <img src={waiting} className="miner" />
                 <img src={questionMark} className="miner-question" />
               </div>
