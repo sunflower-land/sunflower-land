@@ -113,6 +113,11 @@ export const App: React.FC = () => {
           <GasWarning
             gasPrice={machineState.context.gasPrice}
             supply={machineState.context.blockChain.totalSupply()}
+            action={
+              machineState.context.blockChain.isUnsaved()
+                ? "SYNC"
+                : "UPGRADE"
+            }
           />
         </Modal>
 

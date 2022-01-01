@@ -22,7 +22,7 @@ const Content: React.FC<Props> = ({ code }) => {
   );
 
   const save = () => {
-    send("SAVE");
+    send("SAVE", { action: "SYNC" });
   };
 
   const close = () => {

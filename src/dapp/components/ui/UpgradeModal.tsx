@@ -51,7 +51,8 @@ export const UpgradeModal: React.FC<Props> = ({
 
   React.useEffect(() => {
     const load = async () => {
-      const supply = await service.machine.context.blockChain.totalSupply();
+      const supply =
+        await service.machine.context.blockChain.totalSupply();
       setTotalSupply(supply);
     };
 
@@ -59,7 +60,7 @@ export const UpgradeModal: React.FC<Props> = ({
   }, [isOpen]);
 
   const onUpgrade = () => {
-    send("UPGRADE");
+    send("SAVE", { action: "UPGRADE" });
     onClose();
   };
 
@@ -93,14 +94,17 @@ export const UpgradeModal: React.FC<Props> = ({
             </>
           ) : (
             <span id="donate-description">
-              Upgrade your farm to unlock new plants and harvestable fields.
+              Upgrade your farm to unlock new plants and harvestable
+              fields.
             </span>
           )}
 
           <div id="charities">
             {farmSize === 5 && (
               <div>
-                <span className="charity-description">Upgrade to 8 fields</span>
+                <span className="charity-description">
+                  Upgrade to 8 fields
+                </span>
                 <div className="upgrade-icons">
                   <span className="charity-description">Unlock:</span>
                   <img src={pumpkin} className="upgrade-fruit" />
@@ -163,7 +167,9 @@ export const UpgradeModal: React.FC<Props> = ({
                   <span>{`${levelThreePrice} $SFF`}</span>
                   <Button
                     disabled={
-                      isUnsaved || farmSize < 11 || balance < levelThreePrice
+                      isUnsaved ||
+                      farmSize < 11 ||
+                      balance < levelThreePrice
                     }
                     onClick={onUpgrade}
                   >
@@ -191,7 +197,9 @@ export const UpgradeModal: React.FC<Props> = ({
                   <span>{`${levelFourPrice} $SFF`}</span>
                   <Button
                     disabled={
-                      isUnsaved || farmSize < 14 || balance < levelFourPrice
+                      isUnsaved ||
+                      farmSize < 14 ||
+                      balance < levelFourPrice
                     }
                     onClick={onUpgrade}
                   >

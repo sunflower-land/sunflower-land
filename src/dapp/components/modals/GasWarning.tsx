@@ -18,15 +18,20 @@ import { isNearHalvening } from "../../utils/supply";
 interface Props {
   gasPrice?: number;
   supply?: number;
+  action: "SYNC" | "UPGRADE";
 }
 
-export const GasWarning: React.FC<Props> = ({ gasPrice, supply }) => {
+export const GasWarning: React.FC<Props> = ({
+  gasPrice,
+  supply,
+  action,
+}) => {
   const [_, send] = useService<Context, BlockchainEvent, BlockchainState>(
     service
   );
 
   const save = () => {
-    send("SAVE");
+    send("SAVE", { action });
   };
 
   let price = gasPrice / 10 ** 9;

@@ -42,6 +42,7 @@ export interface GetStartedEvent extends EventObject {
 
 export interface SaveEvent extends EventObject {
   type: "SAVE";
+  action: "SYNC" | "UPGRADE";
 }
 
 export interface RetryEvent extends EventObject {
@@ -61,10 +62,6 @@ export interface DonateEvent extends EventObject {
     charity: Charity;
     value: string;
   };
-}
-
-export interface UpgradeEvent extends EventObject {
-  type: "UPGRADE";
 }
 
 export interface FinishEvent extends EventObject {
@@ -120,7 +117,6 @@ export type BlockchainEvent =
   | NetworkChangedEvent
   | GetStartedEvent
   | SaveEvent
-  | UpgradeEvent
   | DonateEvent
   | TrialEvent
   | TimerCompleteEvent
@@ -289,9 +285,6 @@ export const blockChainMachine = createMachine<
         SAVE: {
           target: "saving",
         },
-        UPGRADE: {
-          target: "upgrading",
-        },
         OPEN_REWARD: {
           target: "rewarding",
         },
@@ -322,16 +315,26 @@ export const blockChainMachine = createMachine<
     },
     warning: {
       on: {
-        SAVE: "confirming",
+        SAVE: [
+          {
+            cond: (_, event) => {
+              return event.action === "UPGRADE";
+            },
+            target: "upgrading",
+          },
+          {
+            target: "confirming",
+          },
+        ],
       },
     },
     saving: {
       invoke: {
         id: "save",
-        src: async ({ blockChain }, event) => {
+        src: async ({ blockChain }, event: SaveEvent) => {
           const estimate = await blockChain.estimate();
 
-          return { estimate };
+          return { estimate, action: event.action };
         },
         onDone: [
           {
@@ -345,7 +348,6 @@ export const blockChainMachine = createMachine<
                 return true;
               }
 
-              console.log({ event });
               // Woh! Gas prices are large, give the player a hint
               return event.data.estimate > 40000000000;
             },
@@ -354,13 +356,18 @@ export const blockChainMachine = createMachine<
               gasPrice: (context, event) => event.data.estimate,
             }),
           },
-
+          {
+            cond: (_, event) => {
+              return event.data.action === "UPGRADE";
+            },
+            target: "upgrading",
+          },
           {
             target: "confirming",
           },
         ],
         onError: {
-          target: "saveFailure",
+          target: "failure",
           actions: assign({
             errorCode: (context, event) => event.data.message,
           }),
@@ -370,7 +377,9 @@ export const blockChainMachine = createMachine<
     confirming: {
       invoke: {
         id: "save",
-        src: async ({ blockChain }, event) => blockChain.save(),
+        src: async ({ blockChain }, event) => {
+          return blockChain.save();
+        },
         onDone: {
           target: "farming",
         },

@@ -13,7 +13,10 @@ import {
   isFruit,
   ACTIONABLE_ITEMS,
 } from "../../types/contract";
-import { cacheAccountFarm, getSelectedItem } from "../../utils/localStorage";
+import {
+  cacheAccountFarm,
+  getSelectedItem,
+} from "../../utils/localStorage";
 
 import {
   service,
@@ -89,7 +92,8 @@ export const Farm: React.FC = () => {
   React.useEffect(() => {
     const load = async () => {
       const isFarming =
-        machineState.matches("farming") || machineState.matches("onboarding");
+        machineState.matches("farming") ||
+        machineState.matches("onboarding");
 
       const doRefresh = !farmIsFresh.current;
 
@@ -129,7 +133,8 @@ export const Farm: React.FC = () => {
       }
 
       if (machineState.matches("farming")) {
-        const inventory = await machineState.context.blockChain.getInventory();
+        const inventory =
+          await machineState.context.blockChain.getInventory();
         setInventory(inventory);
         const itemSupplies =
           await machineState.context.blockChain.getTotalItemSupplies();
@@ -223,7 +228,7 @@ export const Farm: React.FC = () => {
   };
 
   const save = async () => {
-    send("SAVE");
+    send("SAVE", { action: "SYNC" });
   };
 
   const safeBalance = balance.toNumber();
@@ -261,7 +266,9 @@ export const Farm: React.FC = () => {
             )}
           </Button>
           <Button
-            onClick={() => window.open("https://docs.sunflower-farmers.com/")}
+            onClick={() =>
+              window.open("https://docs.sunflower-farmers.com/")
+            }
           >
             About
             <img src={questionMark} id="question" />
@@ -280,7 +287,7 @@ export const Farm: React.FC = () => {
       </div>
 
       <div id="buy-now" onClick={onBuyMore}>
-        <Message>Buy more</Message>
+        <Message>Quickswap</Message>
       </div>
 
       <FruitBoard
