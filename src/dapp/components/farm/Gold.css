@@ -1,0 +1,37 @@
+.game-object.gold .boundary {
+  width: 80px;
+  height: 100px;
+  overflow: hidden;
+  position: absolute;
+  top: -33px;
+  right: -60px;
+}
+
+.game-object.gold .boundary.show-overflow {
+  overflow: visible;
+}
+
+/*
+ * NOTE: ore shares logic with other resources; but never scales past
+ * 48px; this hardcodes it (least for gold) until it can be separated
+ */
+.game-object.gold .ore {
+  max-width: 48px;
+}
+
+.game-object.gold .miner {
+  position: relative;
+  top: calc(50% - 61px);
+  right: calc(50% + 17px);
+}
+
+.game-object.gold .miner {
+  position: relative;
+  top: calc(50% - 61px);
+  right: calc(50% + 17px);
+}
+
+.game-object.gold .miner-question {
+  top: 9px;
+  right: 34px;
+}

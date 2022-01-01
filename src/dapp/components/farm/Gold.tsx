@@ -1,32 +1,28 @@
+import "./Trees.css";
+import "./Gold.css";
+
 import { useService } from "@xstate/react";
+import classnames from "classnames";
 import React, { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import classnames from "classnames";
 
-import rock from "../../images/land/gold.png";
 import mining from "../../images/characters/mining.gif";
-import stone from "../../images/ui/gold_ore.png";
-import smallRock from "../../images/decorations/rock2.png";
-import pickaxe from "../../images/ui/iron_pickaxe.png";
-
-import closeIcon from "../../images/ui/close.png";
 import waiting from "../../images/characters/waiting.gif";
-import questionMark from "../../images/ui/expression_confused.png";
-import arrowUp from "../../images/ui/arrow_up.png";
+import smallRock from "../../images/decorations/rock2.png";
+import rock from "../../images/land/gold.png";
 import arrowDown from "../../images/ui/arrow_down.png";
+import arrowUp from "../../images/ui/arrow_up.png";
+import closeIcon from "../../images/ui/close.png";
+import questionMark from "../../images/ui/expression_confused.png";
+import stone from "../../images/ui/gold_ore.png";
+import pickaxe from "../../images/ui/iron_pickaxe.png";
 import timer from "../../images/ui/timer.png";
-
-import { Panel } from "../ui/Panel";
-import { Message } from "../ui/Message";
-import { Button } from "../ui/Button";
-
 import {
   BlockchainEvent,
   BlockchainState,
   Context,
   service,
 } from "../../machine";
-
 import { Inventory, items } from "../../types/crafting";
 
 import "./Trees.css";
@@ -61,7 +57,8 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
 
   useEffect(() => {
     const load = async () => {
-      const strength = await machineState.context.blockChain.getGoldStrength();
+      const strength =
+        await machineState.context.blockChain.getGoldStrength();
       setTreeStrength(Math.floor(Number(strength)));
     };
 
@@ -106,7 +103,10 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
     <>
       {ROCKS.map((gridPosition, index) => {
         const choppedTreeCount = 2 - treeStrength;
-        if (choppedTreeCount > index || machineState.matches("onboarding")) {
+        if (
+          choppedTreeCount > index ||
+          machineState.matches("onboarding")
+        ) {
           return (
             <div style={gridPosition}>
               <img
@@ -136,13 +136,13 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
           >
             <img src={rock} className="rock-mine" alt="tree" />
             {isHighlighted && machineState.matches("mining") && (
-              <>
+              <div className="boundary show-overflow">
                 <img src={mining} className="miner" />
                 <div className="gathered-resource-feedback">
                   <span>+</span>
                   <img src={stone} className="wood-chopped" />
                 </div>
-              </>
+              </div>
             )}
             {showWaiting && (
               <div>
@@ -192,7 +192,8 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
                 </div>
                 {inventory["Iron Pickaxe"] < amount ? (
                   <Message>
-                    You need a <img src={pickaxe} className="required-tool" />
+                    You need a{" "}
+                    <img src={pickaxe} className="required-tool" />
                   </Message>
                 ) : (
                   <div className="gather-resources">
@@ -241,7 +242,9 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
                   href="https://docs.sunflower-farmers.com/resources"
                   target="_blank"
                 >
-                  <h3 className="current-price-supply-demand">Read more</h3>
+                  <h3 className="current-price-supply-demand">
+                    Read more
+                  </h3>
                 </a>
               </div>
             </div>
