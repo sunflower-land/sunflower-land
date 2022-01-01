@@ -56,7 +56,7 @@ export const Chickens: React.FC<Props> = ({ inventory }) => {
         return;
       }
 
-      const difference = Math.floor(Date.now() / 1000) - hatchTime;
+      const difference = Math.floor(Date.now() / 1000 - hatchTime);
       const timeLeft = 60 * 60 * 24 - difference;
 
       if (timeLeft <= 0) {
