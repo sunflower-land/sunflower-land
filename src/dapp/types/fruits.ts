@@ -1,3 +1,5 @@
+import Big from "big.js";
+
 import sunflower from "../images/sunflower/fruit.png";
 import pumpkin from "../images/pumpkin/fruit.png";
 import beetroot from "../images/beetroot/fruit.png";
@@ -99,9 +101,10 @@ export function getFruit(fruit: Fruit) {
 
 // Apply the market rate against to get the current buy and sell prices
 export function getMarketFruits(marketRate: number) {
+  console.log({ marketRate });
   return FRUITS.map((fruit) => ({
     ...fruit,
-    buyPrice: fruit.buyPrice / marketRate,
-    sellPrice: fruit.sellPrice / marketRate,
+    buyPrice: Big(fruit.buyPrice).div(marketRate).toNumber(),
+    sellPrice: Big(fruit.sellPrice).div(marketRate).toNumber(),
   }));
 }
