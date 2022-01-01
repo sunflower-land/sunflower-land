@@ -13,12 +13,14 @@ import { MINIMUM_GAS_PRICE } from "../../Blockchain";
 import exclamation from "../../images/ui/expression_alerted.png";
 
 import "./Saving.css";
+import { isNearHalvening } from "../../utils/supply";
 
 interface Props {
   gasPrice?: number;
+  supply?: number;
 }
 
-export const GasWarning: React.FC<Props> = ({ gasPrice }) => {
+export const GasWarning: React.FC<Props> = ({ gasPrice, supply }) => {
   const [_, send] = useService<Context, BlockchainEvent, BlockchainState>(
     service
   );
@@ -33,23 +35,20 @@ export const GasWarning: React.FC<Props> = ({ gasPrice }) => {
     price = MINIMUM_GAS_PRICE;
   }
 
+  const showHalveningWarning = isNearHalvening(supply);
+
   return (
     <Panel>
       <div id="saving">
         <h4>Save</h4>
 
-        <h6 className="warning-text">
-          Each time you save your farm to the Blockchain you must spend 'gas'.
-        </h6>
-
-        <h6 className="warning-text">
-          The gas price changes based on how busy the Blockchain is.
-        </h6>
-
-        <h6 className="warning-text">
-          Before confirming your transaction ensure the gas price is high enough
-          to succeed.
-        </h6>
+        {showHalveningWarning && (
+          <h6 className="warning-text">
+            We are approaching the halvening period. Plant and upgrade
+            prices may change before your transaction is saved.{" "}
+            <span className="underline"> Proceed at your own risk.</span>
+          </h6>
+        )}
 
         <h6 className="warning-text">Recommended gas price: </h6>
 

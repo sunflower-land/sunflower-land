@@ -99,3 +99,7 @@
 .warning-text {
   font-size: 12px;
 }
+
+.underline {
+  text-decoration: underline;
+}

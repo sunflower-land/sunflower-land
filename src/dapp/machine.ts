@@ -9,6 +9,7 @@ import { Charity } from "./types/contract";
 import { BlockChain } from "./Blockchain";
 import { Recipe } from "./types/crafting";
 import { hasOnboarded } from "./utils/localStorage";
+import { isNearHalvening } from "./utils/supply";
 
 export interface Context {
   blockChain: BlockChain;
@@ -334,7 +335,11 @@ export const blockChainMachine = createMachine<
         },
         onDone: [
           {
-            cond: (_, event) => {
+            cond: (context, event) => {
+              if (isNearHalvening(context.blockChain.totalSupply())) {
+                return true;
+              }
+
               // First time saving, show the warning
               if (!hasOnboarded()) {
                 return true;
@@ -349,6 +354,7 @@ export const blockChainMachine = createMachine<
               gasPrice: (context, event) => event.data.estimate,
             }),
           },
+
           {
             target: "confirming",
           },

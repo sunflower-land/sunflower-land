@@ -3,7 +3,12 @@ import Modal from "react-bootstrap/Modal";
 import { useService } from "@xstate/react";
 
 import { Banner } from "./components/ui/HalveningBanner";
-import { service, Context, BlockchainEvent, BlockchainState } from "./machine";
+import {
+  service,
+  Context,
+  BlockchainEvent,
+  BlockchainState,
+} from "./machine";
 
 import { Donation } from "./types/contract";
 
@@ -105,7 +110,10 @@ export const App: React.FC = () => {
         </Modal>
 
         <Modal centered show={machineState.matches("warning")}>
-          <GasWarning gasPrice={machineState.context.gasPrice} />
+          <GasWarning
+            gasPrice={machineState.context.gasPrice}
+            supply={machineState.context.blockChain.totalSupply()}
+          />
         </Modal>
 
         <Modal centered show={machineState.matches("saveFailure")}>

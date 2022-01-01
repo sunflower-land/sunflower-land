@@ -89,12 +89,12 @@ export function getMarketRate(supply: number) {
   return supply / 10000;
 }
 
-export function getNextHalvingThreshold(supply: number): number {
-  const thresholds = [
-    100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000,
-    500000000, 1000000000,
-  ];
+const thresholds = [
+  100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000,
+  500000000, 1000000000,
+];
 
+export function getNextHalvingThreshold(supply: number): number {
   const currentThresholdIdx = thresholds.findIndex(
     (threshold) => supply < threshold
   );
@@ -112,4 +112,13 @@ export function getNextMarketRate(supply: number) {
   if (nextThreshold) {
     return getMarketRate(nextThreshold);
   }
+}
+
+export function isNearHalvening(supply: number) {
+  return thresholds.some((threshold) => {
+    const minWarning = threshold - 5000;
+    const maxWarning = threshold + 5000;
+
+    return supply > minWarning && supply < maxWarning;
+  });
 }
