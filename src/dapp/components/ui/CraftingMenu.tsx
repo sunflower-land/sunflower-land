@@ -111,18 +111,7 @@ export const CraftingMenu: React.FC<Props> = ({
     }
 
     if (selectedRecipe.supply && amountLeft === 0) {
-      return (
-        <span id="recipe-description">
-          No supply left{" "}
-          <a
-            target="_blank"
-            href={selectedRecipe.openSeaLink}
-            style={{ color: "white", textDecoration: "underline" }}
-          >
-            View on OpenSea
-          </a>
-        </span>
-      );
+      return <span id="recipe-description">No supply left </span>;
     }
 
     const itemCount = inventory[selectedRecipe.name];
@@ -249,6 +238,17 @@ export const CraftingMenu: React.FC<Props> = ({
           </div>
         )}
         <div id="craft-action">{Action()}</div>
+        {selectedRecipe.openSeaLink && (
+          <span id="recipe-description">
+            <a
+              target="_blank"
+              href={selectedRecipe.openSeaLink}
+              style={{ color: "white", textDecoration: "underline" }}
+            >
+              View on OpenSea
+            </a>
+          </span>
+        )}
       </div>
     </div>
   );

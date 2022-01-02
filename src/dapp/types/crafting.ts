@@ -254,6 +254,7 @@ export const recipes: Recipe[] = [
       },
     ],
     supply: 1000,
+    openSeaLink: "https://opensea.io/collection/sunflower-farmers-statue",
   },
   {
     name: "Scarecrow",
@@ -326,6 +327,8 @@ export const recipes: Recipe[] = [
       },
     ],
     supply: 2000,
+    openSeaLink:
+      "https://opensea.io/collection/sunflower-farmers-chicken-coop",
   },
   {
     name: "Chicken",
@@ -381,6 +384,8 @@ export const recipes: Recipe[] = [
       },
     ],
     supply: 10000,
+    openSeaLink:
+      "https://opensea.io/collection/sunflower-farmers-og-potato-statue",
   },
   {
     name: "Farm Cat",
@@ -398,6 +403,7 @@ export const recipes: Recipe[] = [
     ],
     farmLevel: 5,
     supply: 75,
+    openSeaLink: "https://opensea.io/collection/sunflower-farmers-cat",
   },
 ];
 
