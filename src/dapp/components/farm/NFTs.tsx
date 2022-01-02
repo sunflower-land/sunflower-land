@@ -5,6 +5,7 @@ import statue from "../../images/ui/sunflower_statue.png";
 import potatoStatue from "../../images/ui/potato_statue.png";
 import scarecrow from "../../images/ui/scarecrow.png";
 import christmasTree from "../../images/ui/christmas_tree.png";
+import pebbletower from "../../images/ui/pebbletower.png";
 import { Inventory } from "../../types/crafting";
 
 import "./NFTs.css";
@@ -46,6 +47,11 @@ export const NFTs: React.FC<Props> = ({ inventory }) => {
           <img src={christmasTree} alt="christmasTree" />
         )}
       </div>
+      <div id="pebbletower">
+        {inventory["Pebbletower"] > 0 &&
+            <img src={pebbletower} alt="pebbletower" />
+        }
+    </div>
       <div className="dirt" style={{ gridColumn: 6, gridRow: 7 }} />
       <div className="dirt" style={{ gridColumn: 6, gridRow: 6 }} />
     </>
