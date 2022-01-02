@@ -7,10 +7,22 @@ body {
   font-family: "Press Start 2p";
 }
 
-#balance {
+#top {
   position: fixed;
   top: 15px;
+  left: 10px;
   right: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#balance {
+  position: relative;
+  display: flex;
+}
+
+#top-right-ui {
+  display: flex;
 }
 
 #buy-now {
@@ -29,22 +41,39 @@ body {
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.596));
 }
 
-#inner {
+.inner {
   font-size: 15px;
   color: white;
   text-shadow: 1px 1px black;
   border-radius: 4px 0 0 4px;
   padding: 5px;
-  min-width: 120px;
+  min-width: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-#inner > img {
+#account {
+  position: relative;
+  display: flex;
+  margin-right: 20px;
+}
+
+#account .inner {
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.inner > img {
+  width: 20px;
+  image-rendering: pixelated;
+}
+
+.inner > img.left-icon {
   width: 20px;
   margin-right: 10px;
-  image-rendering: pixelated;
   filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
     drop-shadow(0px -1px 0px white);
 }
@@ -73,9 +102,7 @@ body {
 }
 
 #save-button {
-  position: fixed;
-  top: 15px;
-  left: 10px;
+  position: relative;
 }
 
 .message {

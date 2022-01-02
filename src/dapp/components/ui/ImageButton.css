@@ -1,0 +1,10 @@
+.image-button {
+  opacity: 1;
+  image-rendering: pixelated;
+  min-height: 1em;
+}
+
+.image-button:hover {
+  cursor: pointer;
+  opacity: 0.75;
+}

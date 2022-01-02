@@ -38,6 +38,8 @@ import { Tour } from "./Tour";
 import { getMarketRate } from "../../utils/supply";
 import { Message } from "../ui/Message";
 import { DEFAULT_INVENTORY, Inventory } from "../../types/crafting";
+import { PlayerAvatar } from "../ui/PlayerAvatar";
+import { CollapsiblePanel } from "../ui/CollapsiblePanel";
 
 export const Farm: React.FC = () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0));
@@ -232,6 +234,9 @@ export const Farm: React.FC = () => {
   };
 
   const safeBalance = balance.toNumber();
+  const playerAvatar = (
+    <PlayerAvatar address={machineState.context.blockChain.address} />
+  );
 
   return (
     <>
@@ -248,42 +253,56 @@ export const Farm: React.FC = () => {
         totalItemSupplies={totalItemSupplies}
       />
       <AudioPlayer />
-      <span id="save-button">
-        <Panel hasInner={false}>
-          <Button
-            onClick={save}
-            disabled={
-              !isDirty ||
-              machineState.matches("timerComplete") ||
-              machineState.matches("saving")
-            }
-          >
-            Save
-            {isDirty && (
-              <Timer
-                startAtSeconds={machineState.context.blockChain.lastSaved()}
-              />
-            )}
-          </Button>
-          <Button
-            onClick={() =>
-              window.open("https://docs.sunflower-farmers.com/")
-            }
-          >
-            About
-            <img src={questionMark} id="question" />
-          </Button>
-        </Panel>
-      </span>
 
-      <div id="balance">
-        <Panel>
-          <div id="inner">
-            <img src={coin} />
-            {machineState.context.blockChain.isConnected &&
-              safeBalance.toFixed(3)}
+      <div id="top">
+        <span id="save-button">
+          <Panel hasInner={false}>
+            <Button
+              onClick={save}
+              disabled={
+                !isDirty ||
+                machineState.matches("timerComplete") ||
+                machineState.matches("saving")
+              }
+            >
+              Save
+              {isDirty && (
+                <Timer
+                  startAtSeconds={machineState.context.blockChain.lastSaved()}
+                />
+              )}
+            </Button>
+            <Button
+              onClick={() =>
+                window.open("https://docs.sunflower-farmers.com/")
+              }
+            >
+              About
+              <img src={questionMark} id="question" />
+            </Button>
+          </Panel>
+        </span>
+
+        {machineState.context.blockChain.isConnected && (
+          <div id="account">
+            <CollapsiblePanel closedContent={playerAvatar}>
+              {playerAvatar}
+              {machineState.context.blockChain.shortAddress}
+            </CollapsiblePanel>
           </div>
-        </Panel>
+        )}
+
+        <div id="top-right-ui">
+          <div id="balance">
+            <Panel>
+              <div className="inner">
+                <img className="left-icon" src={coin} />
+                {machineState.context.blockChain.isConnected &&
+                  safeBalance.toFixed(3)}
+              </div>
+            </Panel>
+          </div>
+        </div>
       </div>
 
       <div id="buy-now" onClick={onBuyMore}>
