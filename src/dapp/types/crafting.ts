@@ -66,7 +66,8 @@ export interface Item {
     | "OG Potato Statue"
     | "Christmas Tree"
     | "Golden Egg"
-    | "Scarecrow";
+    | "Scarecrow"
+    | "Pebble Tower";
   description: string;
   address: string;
   image: any;
@@ -275,6 +276,22 @@ export const recipes: Recipe[] = [
     supply: 5000,
   },
   {
+    name: "Pebble Tower",
+    abi : PebbleTower,
+    description: "A work of patience by those who wait",
+    image: pebbletower,
+    type: "NFT",
+    address: "0x87ace91e3d0a8900f2b06d17fdf9a73758dac15e",
+    ingredients: [
+      {
+        name: "Stone",
+        amount: 5,
+        image: stone,
+      },
+    ],
+    supply: 5432,
+  },
+  {
     name: "Christmas Tree",
     abi: ChristmasTree,
     description: "A christmas tree for the holidays",
@@ -450,5 +467,6 @@ export const DEFAULT_INVENTORY: Inventory = {
   Scarecrow: 0,
   "Golden Egg": 0,
   "Christmas Tree": 0,
+  "Pebble Tower" : 0,
 };
 export type ItemName = Item["name"];
