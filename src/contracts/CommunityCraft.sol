@@ -238,6 +238,7 @@ contract CommunityCrafting {
         uint eth;
         address owner;
         bool exists;
+        uint createdAt;
     }
 
     mapping(address => CommunityRecipe) recipes;
@@ -258,7 +259,8 @@ contract CommunityCrafting {
             itemAddress: itemAddress,
             eth: eth,
             owner: owner,
-            exists: true
+            exists: true,
+            createdAt: block.timestamp
         });
     }
 
@@ -266,28 +268,23 @@ contract CommunityCrafting {
     // Function to receive Ether. msg.data must be empty
     receive() external payable {}
 
-    function craft(address recipeAddress, uint256 amount) public payable {
-        require(amount > 0, "COMMUNITY_RECIPE_CRAFT_MORE");
-
+    function craft(address recipeAddress) public payable {
         // Grab the SFF cost
         CommunityRecipe memory recipe = recipes[recipeAddress];
 
         require(recipe.exists, "COMMUNITY_RECIPE_DOES_NOT_EXIST");
 
-        uint256 tokenAmount = recipe.eth.mul(amount);
+        require(msg.value >= recipe.eth, "COMMUNITY_RESOURCE_INSUFFICIENT_FUNDS");
 
-        require(msg.value == tokenAmount, "COMMUNITY_RESOURCE_INSUFFICIENT_FUNDS");
-
-        bool paid = payOut(tokenAmount, recipe.owner);
+        bool paid = payOut{value:msg.value}(recipe.eth, recipe.owner);
         require(paid, "COMMUNITY_CRAFTING_UNPAID");
 
-        CommunityItem(recipeAddress).mint(msg.sender, amount);
+        CommunityItem(recipeAddress).mint(msg.sender, 1);
     }
 
     function payOut(uint amount, address owner) public payable returns (bool) {
         // 80% goes into LP - 20% to owner
         uint liquidityTokens = amount.mul(80).div(100);
-        uint commission = amount.mul(20).div(100);
 
         address[] memory path = new address[](2);
         // Sunflower Token
@@ -297,7 +294,7 @@ contract CommunityCrafting {
 
         uint[] memory values = uniswapV2Router.getAmountsIn(liquidityTokens, path);
 
-        // TODO transfer tokens here first
+        // Transfer tokens to this address so we can provide liquidity
         ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).transferFrom(msg.sender, address(this), values[0]);
         // Approve the router just in case
         ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).approve(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff, values[0]);
@@ -312,10 +309,16 @@ contract CommunityCrafting {
             block.timestamp
         );
 
+        // Send the leftover to MATIC to the owner
+        uint commission = amount.sub(amountETH);
 
         (bool sent, bytes memory data) = owner.call{value: commission}("");
         require(sent, "COMMISION_FAILED");
 
         return true;
+    }
+
+    function getRecipe(address recipe) public view returns (CommunityRecipe memory) {
+        return recipes[recipe];
     }
 }
