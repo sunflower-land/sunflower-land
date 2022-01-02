@@ -30,6 +30,13 @@
   z-index: 99;
 }
 
+#pebbletower {
+ grid-column: 2;
+  grid-row: 2;
+  z-index: 99;
+}
+
+
 #scarecrow > img {
   width: 60%;
   position: relative;
@@ -49,6 +56,8 @@
   left: -20%;
   bottom: 50%;
 }
+
+
 
 #chicken-coop {
   grid-area: 2 / 13 / 4 / 15;
