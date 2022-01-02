@@ -14,6 +14,7 @@ import {
 
 import hammer from "../../images/ui/hammer.png";
 import basket from "../../images/ui/basket.png";
+import building from "../../images/buildings/side-house-2.png";
 
 import arrowUp from "../../images/ui/arrow_up.png";
 import arrowDown from "../../images/ui/arrow_down.png";
@@ -31,12 +32,14 @@ interface Props {
   balance: number;
   inventory: Inventory;
   totalItemSupplies: Inventory;
+  level: number;
 }
 export const CraftingMenu: React.FC<Props> = ({
   onClose,
   balance,
   inventory,
   totalItemSupplies,
+  level,
 }) => {
   const [amount, setAmount] = React.useState(1);
   const [selectedRecipe, setSelectedRecipe] = React.useState(recipes[0]);
@@ -159,7 +162,9 @@ export const CraftingMenu: React.FC<Props> = ({
     return <span id="recipe-description">Already minted</span>;
   };
 
-  const canAfford = ingredientList.every((ingredient) => ingredient.canAfford);
+  const canAfford = ingredientList.every(
+    (ingredient) => ingredient.canAfford
+  );
 
   return (
     <div id="crafting">
@@ -227,6 +232,22 @@ export const CraftingMenu: React.FC<Props> = ({
             </div>
           ))}
         </div>
+        {selectedRecipe.farmLevel && (
+          <div className="ingredient">
+            <div>
+              <img className="ingredient-image" src={building} />
+              <span className="ingredient-count">Farm level</span>
+            </div>
+            <span
+              className={`ingredient-text ${
+                level < selectedRecipe.farmLevel &&
+                "ingredient-insufficient"
+              }`}
+            >
+              {selectedRecipe.farmLevel}
+            </span>
+          </div>
+        )}
         <div id="craft-action">{Action()}</div>
       </div>
     </div>

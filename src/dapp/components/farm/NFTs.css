@@ -11,6 +11,20 @@
   bottom: 83%;
 }
 
+#farm-cat {
+  grid-column: 12;
+  grid-row: 6;
+  z-index: 99;
+}
+
+#farm-cat > img {
+  width: 46%;
+  position: relative;
+  left: 81%;
+  bottom: 22%;
+  filter: drop-shadow(0px 2px 0px #e43b43);
+}
+
 #potato-statue {
   grid-column: 4;
   grid-row: 8;

@@ -14,11 +14,13 @@ interface Props {
   inventory: Inventory;
   totalItemSupplies: Inventory;
   balance: number;
+  level: number;
 }
 export const Blacksmith: React.FC<Props> = ({
   inventory,
   totalItemSupplies,
   balance,
+  level,
 }) => {
   const [showModal, setShowModal] = React.useState(false);
 
@@ -31,6 +33,7 @@ export const Blacksmith: React.FC<Props> = ({
             inventory={inventory}
             totalItemSupplies={totalItemSupplies}
             balance={balance}
+            level={level}
           />
         </Panel>
       </Modal>

@@ -1,8 +1,8 @@
 import React from "react";
-import { Prop } from "xstate/lib/model.types";
 
 import statue from "../../images/ui/sunflower_statue.png";
 import potatoStatue from "../../images/ui/potato_statue.png";
+import farmCat from "../../images/ui/farm_cat.png";
 import scarecrow from "../../images/ui/scarecrow.png";
 import christmasTree from "../../images/ui/christmas_tree.png";
 import { Inventory } from "../../types/crafting";
@@ -39,6 +39,10 @@ export const NFTs: React.FC<Props> = ({ inventory }) => {
         {inventory["Scarecrow"] > 0 && (
           <img src={scarecrow} alt="statue" />
         )}
+      </div>
+
+      <div id="farm-cat">
+        {inventory["Farm Cat"] > 0 && <img src={farmCat} alt="farmCat" />}
       </div>
 
       <div id="christmas-tree">

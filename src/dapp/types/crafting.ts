@@ -14,6 +14,7 @@ import Statue from "../../abis/Statue.json";
 import ChristmasTree from "../../abis/ChristmasTree.json";
 import Scarecrow from "../../abis/Scarecrow.json";
 import PotatoStatue from "../../abis/PotatoStatue.json";
+import FarmCat from "../../abis/FarmCat.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
@@ -35,6 +36,7 @@ import statue from "../images/ui/sunflower_statue.png";
 import potatoStatue from "../images/ui/potato_statue.png";
 import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
+import farmCat from "../images/ui/farm_cat.png";
 
 export interface Ingredient {
   name: "Wood" | "Stone" | "$SFF" | "Iron" | "Gold" | "Egg";
@@ -66,7 +68,8 @@ export interface Item {
     | "OG Potato Statue"
     | "Christmas Tree"
     | "Golden Egg"
-    | "Scarecrow";
+    | "Scarecrow"
+    | "Farm Cat";
   description: string;
   address: string;
   image: any;
@@ -74,6 +77,7 @@ export interface Item {
   isLocked?: boolean;
   supply?: number;
   limit?: number;
+  farmLevel?: number;
   abi?: any;
   openSeaLink?: string;
 }
@@ -378,6 +382,23 @@ export const recipes: Recipe[] = [
     ],
     supply: 10000,
   },
+  {
+    name: "Farm Cat",
+    abi: FarmCat,
+    description: "A cat named Victoria that helps keep rats away.",
+    image: farmCat,
+    type: "NFT",
+    address: "0x446F9E51a1f511Af1385dfc88F0d395b5AAAE856",
+    ingredients: [
+      {
+        name: "Gold",
+        amount: 5,
+        image: goldOre,
+      },
+    ],
+    farmLevel: 5,
+    supply: 75,
+  },
 ];
 
 export const items: Item[] = [
@@ -450,5 +471,6 @@ export const DEFAULT_INVENTORY: Inventory = {
   Scarecrow: 0,
   "Golden Egg": 0,
   "Christmas Tree": 0,
+  "Farm Cat": 0,
 };
 export type ItemName = Item["name"];
