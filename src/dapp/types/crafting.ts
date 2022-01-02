@@ -14,6 +14,7 @@ import Statue from "../../abis/Statue.json";
 import ChristmasTree from "../../abis/ChristmasTree.json";
 import Scarecrow from "../../abis/Scarecrow.json";
 import PotatoStatue from "../../abis/PotatoStatue.json";
+import Pebbletower from "../../abis/Pebbletower.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
@@ -35,6 +36,7 @@ import statue from "../images/ui/sunflower_statue.png";
 import potatoStatue from "../images/ui/potato_statue.png";
 import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
+import pebbletower from "../images/ui/pebbletower.png";
 
 export interface Ingredient {
   name: "Wood" | "Stone" | "$SFF" | "Iron" | "Gold" | "Egg";
@@ -277,7 +279,7 @@ export const recipes: Recipe[] = [
   },
   {
     name: "Pebble Tower",
-    abi : PebbleTower,
+    abi : Pebbletower,
     description: "A work of patience by those who wait",
     image: pebbletower,
     type: "NFT",
