@@ -48,7 +48,7 @@ export const NFTs: React.FC<Props> = ({ inventory }) => {
         )}
       </div>
       <div id="pebbletower">
-        {inventory["Pebbletower"] > 0 &&
+        {inventory["Pebble Tower"] > 0 &&
             <img src={pebbletower} alt="pebbletower" />
         }
     </div>
