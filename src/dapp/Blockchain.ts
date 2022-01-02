@@ -115,11 +115,6 @@ export class BlockChain {
     return this.account || "";
   }
 
-  public get shortAddress(): string {
-    if (!this.account) return "";
-    return `${this.account.slice(0, 5)}...${this.account.slice(-4)}`;
-  }
-
   public get hasFarm() {
     return this.details && this.details.farm.length > 0;
   }

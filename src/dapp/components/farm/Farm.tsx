@@ -38,8 +38,7 @@ import { Tour } from "./Tour";
 import { getMarketRate } from "../../utils/supply";
 import { Message } from "../ui/Message";
 import { DEFAULT_INVENTORY, Inventory } from "../../types/crafting";
-import { PlayerAvatar } from "../ui/PlayerAvatar";
-import { CollapsiblePanel } from "../ui/CollapsiblePanel";
+import { Account } from "../ui/Account";
 
 export const Farm: React.FC = () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0));
@@ -234,9 +233,7 @@ export const Farm: React.FC = () => {
   };
 
   const safeBalance = balance.toNumber();
-  const playerAvatar = (
-    <PlayerAvatar address={machineState.context.blockChain.address} />
-  );
+  const address = machineState.context.blockChain.address;
 
   return (
     <>
@@ -285,10 +282,7 @@ export const Farm: React.FC = () => {
 
         {machineState.context.blockChain.isConnected && (
           <div id="account">
-            <CollapsiblePanel closedContent={playerAvatar}>
-              {playerAvatar}
-              {machineState.context.blockChain.shortAddress}
-            </CollapsiblePanel>
+            <Account address={address} />
           </div>
         )}
 
