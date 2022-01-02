@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/extensions/ERC20Burnable.sol";
-
-
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.4.1/contracts/token/ERC20/ERC20.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.4.1/contracts/utils/math/SafeMath.sol";
 
 // File: contracts/interfaces/IUniswapV2Router01.sol
 
@@ -230,19 +228,14 @@ interface CommunityItem {
     function mint(address account, uint256 amount) external;
 }
 
-interface Farm {
-    function createRecipe(address tokenAddress, Cost[] calldata costs) external;
-    function craft(address recipeAddress, uint amount) external;
-}
-
-contract CommunityCrafting is ERC20, ERC20Burnable {
-    Farm private farm;
+contract CommunityCrafting {
+    using SafeMath for uint256;
 
     IUniswapV2Router02 public immutable uniswapV2Router;
 
     struct CommunityRecipe {
         address itemAddress;
-        uint sunflowerTokens;
+        uint eth;
         address owner;
         bool exists;
     }
@@ -250,22 +243,21 @@ contract CommunityCrafting is ERC20, ERC20Burnable {
     mapping(address => CommunityRecipe) recipes;
 
 
-    constructor(Farm _farm) payable ERC20("Sunflower Farmers Craftables", "SFC") {
-        farm = _farm;
-
+    constructor() {
         IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff);
 
         // set the rest of the contract variables
         uniswapV2Router = _uniswapV2Router;
     }
 
-    function createRecipe(address itemAddress, uint tokens) public {
-        require(tokens > 0, "COMMUNITY_RECIPE_REQUIRES_SFF");
+    function createRecipe(address itemAddress, uint eth, address owner) public {
+        require(!recipes[itemAddress].exists, "RECIPE_ALREADY_EXISTS");
+        require(eth > 0, "COMMUNITY_RECIPE_REQUIRES_AMOUNT");
 
         recipes[itemAddress] = CommunityRecipe({
             itemAddress: itemAddress,
-            sunflowerTokens: tokens,
-            owner: msg.sender,
+            eth: eth,
+            owner: owner,
             exists: true
         });
     }
@@ -275,69 +267,42 @@ contract CommunityCrafting is ERC20, ERC20Burnable {
     receive() external payable {}
 
     function craft(address recipeAddress, uint256 amount) public payable {
+        require(amount > 0, "COMMUNITY_RECIPE_CRAFT_MORE");
+
         // Grab the SFF cost
         CommunityRecipe memory recipe = recipes[recipeAddress];
 
         require(recipe.exists, "COMMUNITY_RECIPE_DOES_NOT_EXIST");
 
-        uint256 tokenAmount = recipe.sunflowerTokens * amount;
+        uint256 tokenAmount = recipe.eth.mul(amount);
 
-        // 80% goes into LP - Where does other 20% go? - Burn!
-        uint liquidityTokens = tokenAmount * 100 / 80;
+        require(msg.value == tokenAmount, "COMMUNITY_RESOURCE_INSUFFICIENT_FUNDS");
 
-        bool paid = payOut(liquidityTokens, recipe.owner);
+        bool paid = payOut(tokenAmount, recipe.owner);
         require(paid, "COMMUNITY_CRAFTING_UNPAID");
 
-        // Mint the liquidity pool tokens that will be burnt in the recipe
         CommunityItem(recipeAddress).mint(msg.sender, amount);
     }
 
     function payOut(uint amount, address owner) public payable returns (bool) {
+        // 80% goes into LP - 20% to owner
+        uint liquidityTokens = amount.mul(80).div(100);
+        uint commission = amount.mul(20).div(100);
+
         address[] memory path = new address[](2);
         // Sunflower Token
         path[0] = 0xdf9B4b57865B403e08c85568442f95c26b7896b0;
         // WETH
         path[1] = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
 
-        uint[] memory values = uniswapV2Router.getAmountsIn(msg.value, path);
-
-        (uint amountToken, uint amountETH, uint liquidity) = uniswapV2Router.addLiquidityETH{ value: msg.value }(
-            0xdf9B4b57865B403e08c85568442f95c26b7896b0,
-            // Sunflower Tokens to use
-            values[0],
-            0, 
-            0,
-            0x000000000000000000000000000000000000dEaD,
-            block.timestamp
-        );
-
-        // 80% / 4 = 20% commission to designer
-        uint ethCommision = amountETH / 4;
-
-
-        (bool sent, bytes memory data) = owner.call{value: ethCommision}("");
-        require(sent, "COMMISION_FAILED");
-
-        return true;
-    }
-
-    // TODO approve all liquidity pool asks
-
-    function payLiquidity(uint amount, address owner) public payable returns (bool) {
-        address[] memory path = new address[](2);
-        // Sunflower Token
-        path[0] = 0xdf9B4b57865B403e08c85568442f95c26b7896b0;
-        // WETH
-        path[1] = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
-
-        uint[] memory values = uniswapV2Router.getAmountsIn(msg.value, path);
+        uint[] memory values = uniswapV2Router.getAmountsIn(liquidityTokens, path);
 
         // TODO transfer tokens here first
         ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).transferFrom(msg.sender, address(this), values[0]);
         // Approve the router just in case
         ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).approve(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff, values[0]);
 
-        (uint amountToken, uint amountETH, uint liquidity) = uniswapV2Router.addLiquidityETH{ value: msg.value }(
+        (uint amountToken, uint amountETH, uint liquidity) = uniswapV2Router.addLiquidityETH{ value: liquidityTokens }(
             0xdf9B4b57865B403e08c85568442f95c26b7896b0,
             // Sunflower Tokens to use
             values[0],
@@ -346,6 +311,10 @@ contract CommunityCrafting is ERC20, ERC20Burnable {
             0x000000000000000000000000000000000000dEaD,
             block.timestamp
         );
+
+
+        (bool sent, bytes memory data) = owner.call{value: commission}("");
+        require(sent, "COMMISION_FAILED");
 
         return true;
     }
