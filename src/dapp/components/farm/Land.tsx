@@ -40,6 +40,15 @@ interface Props {
 const columns = Array(60).fill(null);
 const rows = Array(20).fill(null);
 
+// based on the amount of fields, determine the level
+const landToLevel = {
+  5: 1,
+  8: 2,
+  11: 3,
+  14: 4,
+  17: 5,
+};
+
 export const Land: React.FC<Props> = ({
   fruits,
   land,
@@ -51,6 +60,8 @@ export const Land: React.FC<Props> = ({
   inventory,
   totalItemSupplies,
 }) => {
+  const level = landToLevel[land.length];
+
   return (
     <>
       {columns.map((_, column) =>
@@ -125,6 +136,7 @@ export const Land: React.FC<Props> = ({
           inventory={inventory}
           totalItemSupplies={totalItemSupplies}
           balance={balance}
+          level={level}
         />
         <Market />
         <Tiles />
