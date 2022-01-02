@@ -30,18 +30,24 @@
   z-index: 99;
 }
 
+#scarecrow > img {
+  width: 60%;
+  position: relative;
+  left: 20%;
+  bottom: 30%;
+}
+
 #pebbletower {
  grid-column: 2;
   grid-row: 2;
   z-index: 99;
 }
 
-
-#scarecrow > img {
-  width: 60%;
-  position: relative;
-  left: 20%;
-  bottom: 30%;
+#pebbletower > img {
+    width: 20%;
+    position: relative;
+    left: 42%;
+    top: -10%;
 }
 
 #christmas-tree {
