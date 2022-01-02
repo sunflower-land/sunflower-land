@@ -41,7 +41,6 @@ export const Banner: React.FC = () => {
 
   if (!show || !totalSupply) return null;
 
-  console.log("totalSupply : ", totalSupply);
   const nextHalvingThreshold = getNextHalvingThreshold(totalSupply);
 
   return (
