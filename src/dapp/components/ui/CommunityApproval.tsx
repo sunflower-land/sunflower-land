@@ -70,7 +70,7 @@ export const CommunityApproval: React.FC<Props> = ({
       );
       setIsApproved(true);
     } catch (e) {
-      setError(`Unable to approve: ${e}`);
+      setError(`Unable to approve`);
     } finally {
       setIsApproving(false);
     }
@@ -80,8 +80,7 @@ export const CommunityApproval: React.FC<Props> = ({
     <div id="crafting">
       <div id="community-left">
         <span className="community-guide-text">
-          By crafting this item you will be sending $SFF and $MATIC into
-          the Community QuickSwap pool.
+          Crafting this item will burn your tokens into the liquidity pool.
         </span>
         <span className="community-guide-text">
           Please note that prices change frequently and the $SFF amount may

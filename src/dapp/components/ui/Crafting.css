@@ -122,9 +122,11 @@
 
 #community-left {
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   padding-top: 4px;
   width: 300px;
+  padding-bottom: 16px;
 }
 
 .ingredient {
@@ -261,6 +263,7 @@
   font-size: 10px;
   display: block;
   padding-left: 4px;
+  padding-bottom: 4px;
 }
 
 #community-footer {

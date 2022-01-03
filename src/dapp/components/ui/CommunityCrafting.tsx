@@ -118,7 +118,7 @@ export const CommunityCrafting: React.FC<Props> = ({
     return (
       <CommunityApproval
         balance={balance}
-        onClose={() => setIsApproving(false)}
+        onClose={onClose}
         recipe={selectedRecipe}
         quickSwapRate={quickSwapRate}
       />
@@ -160,34 +160,38 @@ export const CommunityCrafting: React.FC<Props> = ({
   return (
     <div id="crafting">
       <div id="community-left">
-        <span className="community-description">
-          Features designed by farmers
-        </span>
-        <span className="community-description">
-          - 80% $SFF injected into LP
-        </span>
-        <span className="community-description">
-          - 20% $SFF to the designer
-        </span>
-        <div id="crafting-items">
-          {boxes.map((box) => (
-            <Box
-              count={box.count}
-              onClick={box.onClick}
-              image={box.image}
-              isSelected={box.isSelected}
-              disabled={box.disabled}
-            />
-          ))}
+        <div>
+          <span className="community-description">
+            Features designed by farmers
+          </span>
+          <span className="community-description">
+            - 80% $SFF burnt into LP
+          </span>
+          <span className="community-description">
+            - 16% sent to the designer
+          </span>
+          <span className="community-description">
+            - 4% sent to Sunflower Farmers
+          </span>
+          <div id="crafting-items">
+            {boxes.map((box) => (
+              <Box
+                count={box.count}
+                onClick={box.onClick}
+                image={box.image}
+                isSelected={box.isSelected}
+                disabled={box.disabled}
+              />
+            ))}
+          </div>
         </div>
         <div id="community-footer">
           <a
-            href="https://docs.sunflower-farmers.com/crafting-guide"
+            href="https://docs.sunflower-farmers.com/crafting-guide#crowd-sourced-crafting"
             target="_blank"
           >
             <h3 className="current-price-supply-demand">Read more</h3>
           </a>
-          <span className="current-price-supply-demand">(2.5% fee)</span>
         </div>
       </div>
       <div id="recipe">
@@ -227,17 +231,24 @@ export const CommunityCrafting: React.FC<Props> = ({
         </div>
 
         <div id="craft-action">{Action()}</div>
-        {selectedRecipe.openSeaLink && (
-          <span id="recipe-description">
-            <a
-              target="_blank"
-              href={selectedRecipe.openSeaLink}
-              style={{ color: "white", textDecoration: "underline" }}
-            >
-              View on OpenSea
-            </a>
-          </span>
-        )}
+        <span id="recipe-description">
+          <a
+            target="_blank"
+            href={selectedRecipe.communityMember.twitterLink}
+            style={{ color: "white", textDecoration: "underline" }}
+          >
+            {selectedRecipe.communityMember.twitterName}
+          </a>
+        </span>
+        <span id="recipe-description">
+          <a
+            target="_blank"
+            href={selectedRecipe.openSeaLink}
+            style={{ color: "white", textDecoration: "underline" }}
+          >
+            View on OpenSea
+          </a>
+        </span>
       </div>
     </div>
   );

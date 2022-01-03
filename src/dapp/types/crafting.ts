@@ -72,14 +72,14 @@ export interface Item {
     | "Golden Egg"
     | "Scarecrow"
     | "Farm Cat"
-    | "Community Crafting Test";
+    | "Community Test";
   description: string;
   address: string;
   image: any;
   type: "ERC20" | "NFT";
   communityMember?: {
-    name: string;
-    twitterHandle: string;
+    twitterName: string;
+    twitterLink: string;
   };
   isLocked?: boolean;
   supply?: number;
@@ -413,7 +413,7 @@ export const recipes: Recipe[] = [
     openSeaLink: "https://opensea.io/collection/sunflower-farmers-cat",
   },
   {
-    name: "Community Crafting Test",
+    name: "Community Test",
     abi: PotatoStatue,
     description: "Just for testing, will not exist in future",
     image: man,
@@ -427,8 +427,8 @@ export const recipes: Recipe[] = [
       },
     ],
     communityMember: {
-      name: "Bumpkin Builder",
-      twitterHandle: "@sunflowerfarmz",
+      twitterName: "@sunflowerfarmz",
+      twitterLink: "https://twitter.com/sunflowerfarmz",
     },
     supply: 10000,
     openSeaLink:
@@ -507,6 +507,6 @@ export const DEFAULT_INVENTORY: Inventory = {
   "Golden Egg": 0,
   "Christmas Tree": 0,
   "Farm Cat": 0,
-  "Community Potato Statue": 0,
+  "Community Test": 0,
 };
 export type ItemName = Item["name"];
