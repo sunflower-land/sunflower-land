@@ -18,7 +18,7 @@ import building from "../../images/buildings/side-house-2.png";
 
 import arrowUp from "../../images/ui/arrow_up.png";
 import arrowDown from "../../images/ui/arrow_down.png";
-import matic from "../../images/ui/matic.svg";
+import matic from "../../images/ui/matic.png";
 import coin from "../../images/ui/icon.png";
 
 import { recipes, Recipe, Inventory, Item } from "../../types/crafting";

@@ -27,7 +27,7 @@ import wood from "../images/ui/wood.png";
 import iron from "../images/ui/ore.png";
 import goldOre from "../images/ui/gold_ore.png";
 import stone from "../images/ui/rock.png";
-import matic from "../images/ui/matic.svg";
+import matic from "../images/ui/matic.png";
 import chicken from "../images/ui/chicken.png";
 import egg from "../images/ui/egg.png";
 import chickenCoop from "../images/ui/chicken_coop.png";

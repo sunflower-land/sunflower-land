@@ -12,7 +12,7 @@ import {
   service,
 } from "../../machine";
 
-import matic from "../../images/ui/matic.svg";
+import matic from "../../images/ui/matic.png";
 import icon from "../../images/ui/icon.png";
 import carry from "../../images/characters/goblin_carry.gif";
 

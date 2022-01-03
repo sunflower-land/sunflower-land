@@ -9,6 +9,7 @@ import hammer from "../../images/ui/hammer.png";
 import man from "../../images/characters/bald_man.png";
 import blacksmith from "../../images/decorations/blacksmith.png";
 import basket from "../../images/ui/basket.png";
+import gold from "../../images/ui/gold_egg.png";
 
 import leftEdgeInner from "../../images/ui/panel/lt_box_9slice_lc.png";
 import rightEdgeInner from "../../images/ui/panel/lt_box_9slice_rc.png";
@@ -35,8 +36,8 @@ export const Blacksmith: React.FC<Props> = ({
 }) => {
   const [showModal, setShowModal] = React.useState(false);
 
-  const [tab, setTab] = React.useState<"Tools" | "NFTs" | "Community">(
-    "Tools"
+  const [tab, setTab] = React.useState<"Craft" | "NFTs" | "Community">(
+    "Craft"
   );
 
   return (
@@ -51,13 +52,13 @@ export const Blacksmith: React.FC<Props> = ({
           <div id="inventory-tabs">
             <div
               className={`inventory-tab ${
-                tab === "Tools" && "active-tab"
+                tab === "Craft" && "active-tab"
               }`}
-              onClick={() => setTab("Tools")}
+              onClick={() => setTab("Craft")}
             >
               <img src={hammer} alt="basket" className="tab-icon" />
-              <span>Tools</span>
-              {tab === "Tools" && (
+              <span>Craft</span>
+              {tab === "Craft" && (
                 <>
                   <img id="panel-left-edge" src={leftEdgeInner} />
                   <img id="panel-right-edge" src={rightEdgeInner} />
@@ -72,7 +73,7 @@ export const Blacksmith: React.FC<Props> = ({
               className={`inventory-tab ${tab === "NFTs" && "active-tab"}`}
               onClick={() => setTab("NFTs")}
             >
-              <img src={basket} alt="basket" className="tab-icon" />
+              <img src={gold} alt="basket" className="tab-icon" />
               <span>NFTs</span>
               {tab === "NFTs" && (
                 <>
@@ -104,7 +105,7 @@ export const Blacksmith: React.FC<Props> = ({
               )}
             </div>
           </div>
-          {tab === "Tools" && (
+          {tab === "Craft" && (
             <Tools
               onClose={() => setShowModal(false)}
               inventory={inventory}
