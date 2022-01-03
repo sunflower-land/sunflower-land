@@ -276,15 +276,14 @@ contract CommunityCrafting {
 
         require(msg.value >= recipe.eth, "COMMUNITY_RESOURCE_INSUFFICIENT_FUNDS");
 
-        bool paid = payOut{value:msg.value}(recipe.eth, recipe.owner);
-        require(paid, "COMMUNITY_CRAFTING_UNPAID");
+        payOut(recipe.eth, recipe.owner);
 
         CommunityItem(recipeAddress).mint(msg.sender, 1);
     }
 
-    function payOut(uint amount, address owner) public payable returns (bool) {
+    function payOut(uint amount, address owner) public payable {
         // 80% goes into LP - 20% to owner
-        uint liquidityTokens = amount.mul(80).div(100);
+        uint ethDeposit = amount.mul(80).div(100);
 
         address[] memory path = new address[](2);
         // Sunflower Token
@@ -292,14 +291,14 @@ contract CommunityCrafting {
         // WETH
         path[1] = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
 
-        uint[] memory values = uniswapV2Router.getAmountsIn(liquidityTokens, path);
+        uint[] memory values = uniswapV2Router.getAmountsIn(ethDeposit, path);
 
-        // Transfer tokens to this address so we can provide liquidity
+        // Transfer tokens to this contract so we can provide liquidity
         ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).transferFrom(msg.sender, address(this), values[0]);
         // Approve the router just in case
         ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).approve(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff, values[0]);
 
-        (uint amountToken, uint amountETH, uint liquidity) = uniswapV2Router.addLiquidityETH{ value: liquidityTokens }(
+        (uint amountToken, uint amountETH, uint liquidity) = uniswapV2Router.addLiquidityETH{ value: ethDeposit }(
             0xdf9B4b57865B403e08c85568442f95c26b7896b0,
             // Sunflower Tokens to use
             values[0],
@@ -314,8 +313,6 @@ contract CommunityCrafting {
 
         (bool sent, bytes memory data) = owner.call{value: commission}("");
         require(sent, "COMMISION_FAILED");
-
-        return true;
     }
 
     function getRecipe(address recipe) public view returns (CommunityRecipe memory) {
