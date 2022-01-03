@@ -89,14 +89,36 @@ export function getMarketRate(supply: number) {
   return supply / 10000;
 }
 
-const thresholds = [
-  100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000,
-  500000000, 1000000000,
+interface Threshold {
+  amount: number;
+  halveningRate: number;
+}
+const thresholds: Threshold[] = [
+  { amount: 100000, halveningRate: 5 },
+  { amount: 500000, halveningRate: 2 },
+  { amount: 1000000, halveningRate: 5 },
+  { amount: 5000000, halveningRate: 2 },
+  { amount: 10000000, halveningRate: 5 },
+  { amount: 50000000, halveningRate: 2 },
+  { amount: 100000000, halveningRate: 5 },
+  { amount: 500000000, halveningRate: 2 },
+  // Soft supply limit at 1 billion tokens
+  { amount: 1000000000, halveningRate: 100000000000000 },
 ];
 
-export function getNextHalvingThreshold(supply: number): number {
+export function getHalveningRate(supply: number) {
+  for (let i = 0; i < thresholds.length; i++) {
+    if (supply < thresholds[i].amount) {
+      return thresholds[i].halveningRate;
+    }
+  }
+
+  return 0;
+}
+
+export function getNextHalvingThreshold(supply: number): Threshold {
   const currentThresholdIdx = thresholds.findIndex(
-    (threshold) => supply < threshold
+    (threshold) => supply < threshold.amount
   );
 
   if (currentThresholdIdx >= 0) {
@@ -110,14 +132,14 @@ export function getNextMarketRate(supply: number) {
   const nextThreshold = getNextHalvingThreshold(supply);
 
   if (nextThreshold) {
-    return getMarketRate(nextThreshold);
+    return getMarketRate(nextThreshold.amount);
   }
 }
 
 export function isNearHalvening(supply: number) {
   return thresholds.some((threshold) => {
-    const minWarning = threshold - 5000;
-    const maxWarning = threshold + 5000;
+    const minWarning = threshold.amount * 0.95;
+    const maxWarning = threshold.amount * 1.05;
 
     return supply > minWarning && supply < maxWarning;
   });
