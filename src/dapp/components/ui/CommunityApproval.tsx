@@ -34,6 +34,8 @@ export const CommunityApproval: React.FC<Props> = ({
   recipe,
 }) => {
   const [isApproving, setIsApproving] = useState(false);
+  const [isApproved, setIsApproved] = useState(false);
+  const [error, setError] = useState("");
   const [machineState, send] = useService<
     Context,
     BlockchainEvent,
@@ -42,6 +44,8 @@ export const CommunityApproval: React.FC<Props> = ({
   const isUnsaved = machineState.context.blockChain.isUnsaved();
 
   const quickSwapRate = 2;
+  const sunflowerTokens = recipe.ingredients[0].amount;
+  const maticPrice = sunflowerTokens * quickSwapRate;
 
   const craft = () => {
     // service.send("CRAFT", {
@@ -51,8 +55,19 @@ export const CommunityApproval: React.FC<Props> = ({
     onClose();
   };
 
-  const approve = () => {
+  const approve = async () => {
     setIsApproving(true);
+    setError("");
+
+    try {
+      await machineState.context.blockChain.approve("0x", 100);
+
+      setIsApproved(true);
+    } catch (e) {
+      setError(`Unable to approve: ${e}`);
+    } finally {
+      setIsApproving(false);
+    }
   };
 
   const sunflowerTokenAmount = recipe.ingredients[0].amount;
@@ -68,23 +83,32 @@ export const CommunityApproval: React.FC<Props> = ({
           Please note that prices change frequently and the $SFF amount may
           have a slippage. By crafting you accept these conditions.
         </span>
-        <div>
-          <span className="community-guide-text">
-            Step 1 - Approve $SFF
-          </span>
-          <Button onClick={approve}>Approve</Button>
-          {(isApproving || true) && (
-            <>
-              <div id="approving-animation">
-                <img id="approving-goblin" src={carry} />
-                <img id="approving-sff" src={icon} />
-              </div>
-              <span className="community-guide-text">Approving...</span>
-            </>
-          )}
-        </div>
+        {!isApproved && (
+          <div>
+            <span className="community-guide-text">
+              Step 1 - Approve $SFF
+            </span>
+            {!isApproving && <Button onClick={approve}>Approve</Button>}
+            {isApproving && (
+              <>
+                <div id="approving-animation">
+                  <img id="approving-goblin" src={carry} />
+                  <img id="approving-sff" src={icon} />
+                </div>
+                <span className="community-guide-text">Approving...</span>
+              </>
+            )}
+          </div>
+        )}
 
-        <span>Step 2 - Craft item</span>
+        {isApproved && (
+          <div>
+            <span className="community-guide-text">Step 2 - Craft</span>
+            <Button onClick={approve}>Craft</Button>
+          </div>
+        )}
+
+        {error && <span id="community-error">{error}</span>}
       </div>
       <div id="recipe">
         <span className={`recipe-type recipe-nft`}>NFT</span>
@@ -112,9 +136,7 @@ export const CommunityApproval: React.FC<Props> = ({
               <img className="ingredient-image" src={matic} />
               <span className="ingredient-count">$MATIC</span>
             </div>
-            <span className={`ingredient-text`}>
-              {sunflowerTokenAmount * quickSwapRate}
-            </span>
+            <span className={`ingredient-text`}>{maticPrice}</span>
           </div>
         </div>
       </div>

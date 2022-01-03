@@ -463,6 +463,65 @@ export class BlockChain {
     });
   }
 
+  public async communityCraft({
+    recipe,
+    amount,
+  }: {
+    recipe: Recipe;
+    amount: number;
+  }) {
+    const blockChain = this;
+
+    if (this.isTrial) {
+      throw new Error("TRIAL_MODE");
+    }
+
+    this.oldInventory = this.inventory;
+    console.log({ recipe, amount });
+
+    // ERC20 tokens are fractionalized so we need to multiply by 10^18 to get 1 whole one
+    const mintAmount =
+      recipe.type === "NFT"
+        ? amount
+        : this.web3.utils.toWei(amount.toString(), "ether");
+
+    await new Promise(async (resolve, reject) => {
+      this.farm.methods
+        .craft(recipe.address, mintAmount)
+        .send({ from: this.account })
+        .on("error", function (error) {
+          console.log({ error });
+          // User rejected
+          if (error.code === 4001) {
+            return resolve(null);
+          }
+
+          reject(error);
+        })
+        .on("transactionHash", function (transactionHash) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt) {
+          console.log({ receipt });
+          blockChain.events = [];
+          resolve(receipt);
+        });
+    });
+
+    this.inventory[recipe.name] += amount;
+
+    recipe.ingredients.forEach((ingredient) => {
+      if (ingredient.name === "$SFF") {
+        this.details = {
+          ...this.details,
+          balance: this.details.balance - ingredient.amount * amount,
+        };
+      } else {
+        this.inventory[ingredient.name] -= ingredient.amount * amount;
+      }
+    });
+  }
+
   private oldInventory: Inventory | null = null;
   /**
    * ALWAYS ENSURE THAT A RESOURCE CONTRACT DOES NOT HAVE A PUBLIC MINT!
@@ -691,6 +750,31 @@ export class BlockChain {
     }
 
     this.eggCollectionTime = Date.now() / 1000;
+  }
+
+  public async approve(address: string, amount: number) {
+    return new Promise(async (resolve, reject) => {
+      const gasPrice = await this.estimate(3);
+
+      try {
+        this.token.methods
+          .approve(address, amount)
+          .send({ from: this.account, gasPrice })
+          .on("error", function (error) {
+            console.log({ error });
+            reject(error);
+          })
+          .on("transactionHash", function (transactionHash) {
+            console.log({ transactionHash });
+          })
+          .on("receipt", function (receipt) {
+            console.log({ receipt });
+            resolve(receipt);
+          });
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   private async loadInventory(): Promise<Inventory> {

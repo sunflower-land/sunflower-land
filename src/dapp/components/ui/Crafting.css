@@ -271,11 +271,12 @@
   font-size: 11px;
   color: white;
   text-shadow: 1px 1px black;
-  padding: 4px;
+  padding: 8px;
 }
 
 #approving-animation {
   position: relative;
+  height: 50px;
 
   animation-name: running;
   animation-duration: 3s;
@@ -307,4 +308,11 @@
   to {
     transform: translate(100%, 0px);
   }
+}
+
+#community-error {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 12px;
+  padding: 8px;
 }

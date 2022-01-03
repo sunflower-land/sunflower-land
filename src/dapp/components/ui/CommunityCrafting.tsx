@@ -19,6 +19,7 @@ import building from "../../images/buildings/side-house-2.png";
 import arrowUp from "../../images/ui/arrow_up.png";
 import arrowDown from "../../images/ui/arrow_down.png";
 import matic from "../../images/ui/matic.svg";
+import coin from "../../images/ui/icon.png";
 
 import { recipes, Recipe, Inventory, Item } from "../../types/crafting";
 import { Box, BoxProps } from "./Box";
@@ -91,18 +92,6 @@ export const CommunityCrafting: React.FC<Props> = ({
     selectedRecipe.supply &&
     selectedRecipe.supply - totalItemSupplies[selectedRecipe.name];
 
-  const ingredientList = selectedRecipe.ingredients.map((ingredient) => {
-    const inventoryCount =
-      ingredient.name === "$SFF" ? balance : inventory[ingredient.name];
-    const price = ingredient.amount * amount;
-    return {
-      name: ingredient.name,
-      image: ingredient.image,
-      price,
-      canAfford: inventoryCount >= price,
-    };
-  });
-
   if (isApproving) {
     return (
       <CommunityApproval
@@ -148,9 +137,9 @@ export const CommunityCrafting: React.FC<Props> = ({
     return <span id="recipe-description">Already minted</span>;
   };
 
-  const canAfford = ingredientList.every(
-    (ingredient) => ingredient.canAfford
-  );
+  const sunflowerTokenPrice = selectedRecipe.ingredients[0].amount;
+  const maticPrice = sunflowerTokenPrice * quickSwapRate;
+  const canAfford = balance >= sunflowerTokenPrice;
 
   return (
     <div id="crafting">
@@ -197,29 +186,25 @@ export const CommunityCrafting: React.FC<Props> = ({
         <span id="recipe-description">{selectedRecipe.description}</span>
 
         <div id="ingredients">
-          {ingredientList.map((ingredient) => (
-            <div className="ingredient">
-              <div>
-                <img className="ingredient-image" src={ingredient.image} />
-                <span className="ingredient-count">{ingredient.name}</span>
-              </div>
-              <span
-                className={`ingredient-text ${
-                  !ingredient.canAfford && "ingredient-insufficient"
-                }`}
-              >
-                {ingredient.price}
-              </span>
+          <div className="ingredient">
+            <div>
+              <img className="ingredient-image" src={coin} />
+              <span className="ingredient-count">$SFF</span>
             </div>
-          ))}
+            <span
+              className={`ingredient-text ${
+                !canAfford && "ingredient-insufficient"
+              }`}
+            >
+              {sunflowerTokenPrice}
+            </span>
+          </div>
           <div className="ingredient">
             <div>
               <img className="ingredient-image" src={matic} />
               <span className="ingredient-count">$MATIC</span>
             </div>
-            <span className={`ingredient-text`}>
-              {ingredientList[0].price * quickSwapRate}
-            </span>
+            <span className={`ingredient-text`}>{maticPrice}</span>
           </div>
         </div>
 

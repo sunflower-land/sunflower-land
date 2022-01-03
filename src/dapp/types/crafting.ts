@@ -27,6 +27,7 @@ import wood from "../images/ui/wood.png";
 import iron from "../images/ui/ore.png";
 import goldOre from "../images/ui/gold_ore.png";
 import stone from "../images/ui/rock.png";
+import matic from "../images/ui/matic.svg";
 import chicken from "../images/ui/chicken.png";
 import egg from "../images/ui/egg.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
@@ -39,7 +40,7 @@ import scarecrow from "../images/ui/scarecrow.png";
 import farmCat from "../images/ui/farm_cat.png";
 
 export interface Ingredient {
-  name: "Wood" | "Stone" | "$SFF" | "Iron" | "Gold" | "Egg";
+  name: "Wood" | "Stone" | "$SFF" | "Iron" | "Gold" | "Egg" | "MATIC";
   image: any;
   amount: number;
 }
@@ -419,9 +420,9 @@ export const recipes: Recipe[] = [
     address: "0x938a6942Bd09CfaC1bc4B2420F581A90fB5d5775",
     ingredients: [
       {
-        name: "$SFF",
+        name: "MATIC",
         amount: 5,
-        image: coin,
+        image: matic,
       },
     ],
     communityMember: {

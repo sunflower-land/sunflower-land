@@ -427,8 +427,13 @@ export const blockChainMachine = createMachine<
     crafting: {
       invoke: {
         id: "crafting",
-        src: async ({ blockChain }, event) =>
-          blockChain.craft(event as CraftEvent),
+        src: async ({ blockChain }, event) => {
+          if ((event as CraftEvent).recipe.communityMember) {
+            return blockChain.communityCraft(event as CraftEvent);
+          }
+
+          return blockChain.craft(event as CraftEvent);
+        },
         onDone: {
           target: "farming",
           // actions - assign() data?
