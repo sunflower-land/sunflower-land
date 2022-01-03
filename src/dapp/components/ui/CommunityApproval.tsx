@@ -21,6 +21,7 @@ import { Box, BoxProps } from "./Box";
 
 import "./Crafting.css";
 import { useService } from "@xstate/react";
+import { COMMUNITY_CRAFTING_ADDRESS } from "../../Blockchain";
 
 interface Props {
   onClose: () => void;
@@ -44,15 +45,16 @@ export const CommunityApproval: React.FC<Props> = ({
     BlockchainState
   >(service);
   const isUnsaved = machineState.context.blockChain.isUnsaved();
+  const sunflowerTokenAmount = recipe.ingredients[0].amount;
 
   const sunflowerTokens = recipe.ingredients[0].amount;
   const maticPrice = sunflowerTokens * quickSwapRate;
 
   const craft = () => {
-    // service.send("CRAFT", {
-    //   recipe: selectedRecipe,
-    //   amount,
-    // });
+    service.send("CRAFT", {
+      recipe,
+      amount: 1,
+    });
     onClose();
   };
 
@@ -61,8 +63,10 @@ export const CommunityApproval: React.FC<Props> = ({
     setError("");
 
     try {
-      await machineState.context.blockChain.approve("0x", 100);
-
+      await machineState.context.blockChain.approve(
+        COMMUNITY_CRAFTING_ADDRESS,
+        sunflowerTokenAmount
+      );
       setIsApproved(true);
     } catch (e) {
       setError(`Unable to approve: ${e}`);
@@ -70,8 +74,6 @@ export const CommunityApproval: React.FC<Props> = ({
       setIsApproving(false);
     }
   };
-
-  const sunflowerTokenAmount = recipe.ingredients[0].amount;
 
   return (
     <div id="crafting">
@@ -105,7 +107,7 @@ export const CommunityApproval: React.FC<Props> = ({
         {isApproved && (
           <div>
             <span className="community-guide-text">Step 2 - Craft</span>
-            <Button onClick={approve}>Craft</Button>
+            <Button onClick={craft}>Craft</Button>
           </div>
         )}
 

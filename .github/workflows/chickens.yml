@@ -3,7 +3,7 @@ name: Upload Website
 on:
   push:
     branches:
-      - feat/chicken-coop
+      - feat/community-craft-ui
 
 jobs:
   deploy:
@@ -28,7 +28,7 @@ jobs:
           aws-region: ap-southeast-2
 
       - name: Deploy static site to S3 bucket
-        run: aws s3 sync ./build/ s3://sunflower-farmers.com/bukbuk --delete
+        run: aws s3 sync ./build/ s3://sunflower-farmers.com/community-crafting --delete
 
       - name: Invalidate Cloudfront Distribution
         uses: chetan/invalidate-cloudfront-action@master

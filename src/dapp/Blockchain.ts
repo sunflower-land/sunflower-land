@@ -2,6 +2,7 @@ import Web3 from "web3";
 
 import Token from "../abis/Token.json";
 import Farm from "../abis/Farm.json";
+import CommunityCrafting from "../abis/CommunityCrafting.json";
 import Chicken from "../abis/Chicken.json";
 import QuickSwap from "../abis/QuickSwapRouter.json";
 
@@ -32,6 +33,8 @@ type Contracts = Record<ItemName, any>;
 
 export const MINIMUM_GAS_PRICE = 40;
 const SAVE_OFFSET_SECONDS = 5;
+export const COMMUNITY_CRAFTING_ADDRESS =
+  "0x248b3f1ead0aB11A975c55A6ed8c690B5E5A10d1";
 
 export class BlockChain {
   private web3: Web3 | null = null;
@@ -39,6 +42,7 @@ export class BlockChain {
   private alchemyToken: any | null = null;
   private farm: any | null = null;
   private quickswap: any | null = null;
+  private communityCrafting: any | null = null;
   private chickens: any | null = null;
   private alchemyFarm: any | null = null;
   private account: string | null = null;
@@ -76,6 +80,10 @@ export class BlockChain {
       this.quickswap = new this.web3.eth.Contract(
         QuickSwap as any,
         "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
+      );
+      this.communityCrafting = new this.web3.eth.Contract(
+        CommunityCrafting as any,
+        COMMUNITY_CRAFTING_ADDRESS
       );
       const maticAccounts = await this.web3.eth.getAccounts();
       this.account = maticAccounts[0];
