@@ -26,12 +26,14 @@ interface Props {
   onClose: () => void;
   balance: number;
   recipe: Recipe;
+  quickSwapRate: number;
 }
 
 export const CommunityApproval: React.FC<Props> = ({
   onClose,
   balance,
   recipe,
+  quickSwapRate,
 }) => {
   const [isApproving, setIsApproving] = useState(false);
   const [isApproved, setIsApproved] = useState(false);
@@ -43,7 +45,6 @@ export const CommunityApproval: React.FC<Props> = ({
   >(service);
   const isUnsaved = machineState.context.blockChain.isUnsaved();
 
-  const quickSwapRate = 2;
   const sunflowerTokens = recipe.ingredients[0].amount;
   const maticPrice = sunflowerTokens * quickSwapRate;
 
@@ -121,10 +122,7 @@ export const CommunityApproval: React.FC<Props> = ({
         <div id="ingredients">
           <div className="ingredient">
             <div>
-              <img
-                className="ingredient-image"
-                src={recipe.ingredients[0].image}
-              />
+              <img className="ingredient-image" src={icon} />
               <span className="ingredient-count">$SFF</span>
             </div>
             <span className={`ingredient-text`}>
@@ -136,7 +134,9 @@ export const CommunityApproval: React.FC<Props> = ({
               <img className="ingredient-image" src={matic} />
               <span className="ingredient-count">$MATIC</span>
             </div>
-            <span className={`ingredient-text`}>{maticPrice}</span>
+            <span className={`ingredient-text`}>
+              {maticPrice.toFixed(2)}
+            </span>
           </div>
         </div>
       </div>

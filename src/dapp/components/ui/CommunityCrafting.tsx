@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Panel } from "../ui/Panel";
 import { Button } from "../ui/Button";
@@ -48,6 +48,7 @@ export const CommunityCrafting: React.FC<Props> = ({
   level,
 }) => {
   const [amount, setAmount] = React.useState(1);
+  const [quickSwapRate, setQuickSwapRate] = React.useState(0);
   const [isApproving, setIsApproving] = React.useState(false);
   const [selectedRecipe, setSelectedRecipe] = React.useState(
     COMMUNITY_RECIPES[0]
@@ -59,8 +60,24 @@ export const CommunityCrafting: React.FC<Props> = ({
   >(service);
   const isUnsaved = machineState.context.blockChain.isUnsaved();
 
-  const quickSwapRate = 2;
+  // Every 10 seconds fetch the quickswap rate
+  useEffect(() => {
+    const load = async () => {
+      const rate = await machineState.context.blockChain.quickswapRate();
+      // Always suggest a bit higher to prevent slippage issues
+      const safeRate = rate * 1.03;
+      console.log({ safeRate });
+      setQuickSwapRate(safeRate);
+    };
 
+    load();
+
+    const interval = setInterval(() => {
+      load();
+    }, 10 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
   const changeRecipe = (recipe: Recipe) => {
     setAmount(1);
     setSelectedRecipe(recipe);
@@ -98,6 +115,7 @@ export const CommunityCrafting: React.FC<Props> = ({
         balance={balance}
         onClose={() => setIsApproving(false)}
         recipe={selectedRecipe}
+        quickSwapRate={quickSwapRate}
       />
     );
   }
@@ -204,7 +222,9 @@ export const CommunityCrafting: React.FC<Props> = ({
               <img className="ingredient-image" src={matic} />
               <span className="ingredient-count">$MATIC</span>
             </div>
-            <span className={`ingredient-text`}>{maticPrice}</span>
+            <span className={`ingredient-text`}>
+              {maticPrice.toFixed(2)}
+            </span>
           </div>
         </div>
 

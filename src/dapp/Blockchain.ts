@@ -3,6 +3,7 @@ import Web3 from "web3";
 import Token from "../abis/Token.json";
 import Farm from "../abis/Farm.json";
 import Chicken from "../abis/Chicken.json";
+import QuickSwap from "../abis/QuickSwapRouter.json";
 
 import {
   Transaction,
@@ -37,6 +38,7 @@ export class BlockChain {
   private token: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
+  private quickswap: any | null = null;
   private chickens: any | null = null;
   private alchemyFarm: any | null = null;
   private account: string | null = null;
@@ -70,6 +72,10 @@ export class BlockChain {
       this.chickens = new this.web3.eth.Contract(
         Chicken as any,
         "0xf0F1Cc9192ca0064EB3D35e0DE1CE5e56572ecab"
+      );
+      this.quickswap = new this.web3.eth.Contract(
+        QuickSwap as any,
+        "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
       );
       const maticAccounts = await this.web3.eth.getAccounts();
       this.account = maticAccounts[0];
@@ -750,6 +756,19 @@ export class BlockChain {
     }
 
     this.eggCollectionTime = Date.now() / 1000;
+  }
+
+  // Sunflower Tokens -> MATIC
+  public async quickswapRate() {
+    const base = 10000000000;
+    const rate = await this.quickswap.methods
+      .getAmountsIn(base, [
+        "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        "0xdf9B4b57865B403e08c85568442f95c26b7896b0",
+      ])
+      .call({ from: this.account });
+
+    return Number(rate[0]) / Number(rate[1]);
   }
 
   public async approve(address: string, amount: number) {

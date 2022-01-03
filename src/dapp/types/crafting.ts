@@ -506,5 +506,6 @@ export const DEFAULT_INVENTORY: Inventory = {
   "Golden Egg": 0,
   "Christmas Tree": 0,
   "Farm Cat": 0,
+  "Community Potato Statue": 0,
 };
 export type ItemName = Item["name"];
