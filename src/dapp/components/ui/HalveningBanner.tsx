@@ -5,7 +5,12 @@ import React, { useState } from "react";
 
 import closeIcon from "../../images/ui/close.png";
 import alert from "../../images/ui/expression_alerted.png";
-import { service } from "../../machine";
+import {
+  BlockchainEvent,
+  Context,
+  BlockchainState,
+  service,
+} from "../../machine";
 import { numberWithBreaks } from "../../utils/number";
 import { getNextHalvingThreshold } from "../../utils/supply";
 
@@ -49,8 +54,9 @@ export const Banner: React.FC = () => {
       <div>
         <span>
           When total supply reaches{" "}
-          {numberWithBreaks(nextHalvingThreshold)}, crop and upgrade prices
-          will be divided by 1/5. Be prepared!
+          {numberWithBreaks(nextHalvingThreshold.amount)} crop and upgrade
+          prices will be divided by {nextHalvingThreshold.halveningRate}.
+          Be prepared!
         </span>
         <a
           href="https://docs.sunflower-farmers.com/tokenomics#the-halvening"
