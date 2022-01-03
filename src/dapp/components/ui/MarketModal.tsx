@@ -68,7 +68,7 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
             {nextHalvingThreshold ? (
               <p className="current-price-info">
                 The next halvening event will occur when total supply reaches{" "}
-                {nextHalvingThreshold.toLocaleString()} tokens
+                {nextHalvingThreshold.amount.toLocaleString()} tokens
               </p>
             ) : (
               <p className="current-price-info">No more halvening events!</p>
