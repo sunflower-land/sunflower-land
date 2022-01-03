@@ -69,11 +69,16 @@ export interface Item {
     | "Christmas Tree"
     | "Golden Egg"
     | "Scarecrow"
-    | "Farm Cat";
+    | "Farm Cat"
+    | "Community Potato Statue";
   description: string;
   address: string;
   image: any;
   type: "ERC20" | "NFT";
+  communityMember?: {
+    name: string;
+    twitterHandle: string;
+  };
   isLocked?: boolean;
   supply?: number;
   limit?: number;
@@ -404,6 +409,28 @@ export const recipes: Recipe[] = [
     farmLevel: 5,
     supply: 75,
     openSeaLink: "https://opensea.io/collection/sunflower-farmers-cat",
+  },
+  {
+    name: "Community Potato Statue",
+    abi: PotatoStatue,
+    description: "Flex your status as an original potato hustler",
+    image: potatoStatue,
+    type: "NFT",
+    address: "0x938a6942Bd09CfaC1bc4B2420F581A90fB5d5775",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 5,
+        image: coin,
+      },
+    ],
+    communityMember: {
+      name: "Bumpkin Builder",
+      twitterHandle: "@sunflowerfarmz",
+    },
+    supply: 10000,
+    openSeaLink:
+      "https://opensea.io/collection/sunflower-farmers-og-potato-statue",
   },
 ];
 

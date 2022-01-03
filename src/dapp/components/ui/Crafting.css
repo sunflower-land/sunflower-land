@@ -59,6 +59,7 @@
   padding: 7px;
   padding-top: 14px;
   min-height: 300px;
+  z-index: 9;
 }
 
 #crafting-item {
@@ -117,6 +118,12 @@
 #crafting-left {
   display: flex;
   flex-direction: column;
+}
+
+#community-left {
+  display: flex;
+  flex-direction: column;
+  padding-top: 4px;
 }
 
 .ingredient {
@@ -245,4 +252,59 @@
   text-shadow: 1px 1px black;
   padding: 2px 7px;
   border-radius: 3px;
+}
+
+.community-description {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 10px;
+  display: block;
+  padding-left: 4px;
+}
+
+#community-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.community-guide-text {
+  font-size: 11px;
+  color: white;
+  text-shadow: 1px 1px black;
+  padding: 4px;
+}
+
+#approving-animation {
+  position: relative;
+
+  animation-name: running;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+#approving-goblin {
+  position: absolute;
+  height: 100px;
+  left: -68px;
+  top: -12px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+  z-index: 9;
+}
+
+#approving-sff {
+  position: absolute;
+  height: 19px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+  z-index: 99;
+}
+@keyframes running {
+  from {
+    transform: translate(0px, 0px);
+  }
+  to {
+    transform: translate(100%, 0px);
+  }
 }

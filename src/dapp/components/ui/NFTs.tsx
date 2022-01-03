@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Panel } from "../ui/Panel";
 import { Button } from "../ui/Button";
 import { Message } from "../ui/Message";
 import { InventoryItems } from "../ui/InventoryItems";
@@ -13,9 +14,7 @@ import {
 
 import hammer from "../../images/ui/hammer.png";
 import basket from "../../images/ui/basket.png";
-
-import arrowUp from "../../images/ui/arrow_up.png";
-import arrowDown from "../../images/ui/arrow_down.png";
+import building from "../../images/buildings/side-house-2.png";
 
 import { recipes, Recipe, Inventory, Item } from "../../types/crafting";
 import { Box, BoxProps } from "./Box";
@@ -31,11 +30,8 @@ interface Props {
   level: number;
 }
 
-const TOOLS = recipes.filter(
-  (recipe) => recipe.type === "ERC20" && !recipe.communityMember
-);
-
-export const Tools: React.FC<Props> = ({
+const NFT_ITEMS = recipes.filter((recipe) => recipe.type === "NFT");
+export const NFTs: React.FC<Props> = ({
   onClose,
   balance,
   inventory,
@@ -43,7 +39,7 @@ export const Tools: React.FC<Props> = ({
   level,
 }) => {
   const [amount, setAmount] = React.useState(1);
-  const [selectedRecipe, setSelectedRecipe] = React.useState(TOOLS[0]);
+  const [selectedRecipe, setSelectedRecipe] = React.useState(NFT_ITEMS[0]);
   const [machineState, send] = useService<
     Context,
     BlockchainEvent,
@@ -64,7 +60,7 @@ export const Tools: React.FC<Props> = ({
     onClose();
   };
 
-  const boxes: BoxProps[] = TOOLS.map((recipe) => ({
+  const boxes: BoxProps[] = NFT_ITEMS.map((recipe) => ({
     isSelected: recipe.name === selectedRecipe.name,
     onClick: () => changeRecipe(recipe),
     image: recipe.image,
@@ -74,6 +70,11 @@ export const Tools: React.FC<Props> = ({
   for (let i = boxes.length; i < 10; i++) {
     boxes.push({ disabled: true });
   }
+
+  // Currently only have statue supply so hardcode the rest to 5000
+  const amountLeft =
+    selectedRecipe.supply &&
+    selectedRecipe.supply - totalItemSupplies[selectedRecipe.name];
 
   const ingredientList = selectedRecipe.ingredients.map((ingredient) => {
     const inventoryCount =
@@ -106,32 +107,27 @@ export const Tools: React.FC<Props> = ({
       );
     }
 
-    return (
-      <>
-        <div id="craft-count">
-          <Message>{amount}</Message>
-          <div id="arrow-container">
-            <img
-              className="craft-arrow"
-              alt="Step up donation value"
-              src={arrowUp}
-              onClick={() => setAmount((r) => r + 1)}
-            />
-            {amount > 1 && (
-              <img
-                className="craft-arrow"
-                alt="Step down donation value"
-                src={arrowDown}
-                onClick={() => setAmount((r) => r - 1)}
-              />
-            )}
+    if (selectedRecipe.supply && amountLeft === 0) {
+      return <span id="recipe-description">No supply left </span>;
+    }
+
+    const itemCount = inventory[selectedRecipe.name];
+    const limit = selectedRecipe.limit || 1;
+
+    if (itemCount < limit) {
+      return (
+        <>
+          <div id="craft-count">
+            <Message>{amount}</Message>
           </div>
-        </div>
-        <Button onClick={craft} disabled={!canAfford}>
-          <span id="craft-button-text">Craft</span>
-        </Button>
-      </>
-    );
+          <Button onClick={craft} disabled={!canAfford}>
+            <span id="craft-button-text">Craft</span>
+          </Button>
+        </>
+      );
+    }
+
+    return <span id="recipe-description">Already minted</span>;
   };
 
   const canAfford = ingredientList.every(
@@ -167,7 +163,10 @@ export const Tools: React.FC<Props> = ({
         </a>
       </div>
       <div id="recipe">
-        <span className={`recipe-type recipe-erc20`}>ERC20</span>
+        <span className={`recipe-type recipe-nft`}>NFT</span>
+        {selectedRecipe.supply && !isNaN(amountLeft) && (
+          <span className="nft-count">{`${amountLeft} left!`}</span>
+        )}
         <span id="recipe-title">{selectedRecipe.name}</span>
         <div id="crafting-item">
           <img src={selectedRecipe.image} />
@@ -191,7 +190,34 @@ export const Tools: React.FC<Props> = ({
             </div>
           ))}
         </div>
+        {selectedRecipe.farmLevel && (
+          <div className="ingredient">
+            <div>
+              <img className="ingredient-image" src={building} />
+              <span className="ingredient-count">Farm level</span>
+            </div>
+            <span
+              className={`ingredient-text ${
+                level < selectedRecipe.farmLevel &&
+                "ingredient-insufficient"
+              }`}
+            >
+              {selectedRecipe.farmLevel}
+            </span>
+          </div>
+        )}
         <div id="craft-action">{Action()}</div>
+        {selectedRecipe.openSeaLink && (
+          <span id="recipe-description">
+            <a
+              target="_blank"
+              href={selectedRecipe.openSeaLink}
+              style={{ color: "white", textDecoration: "underline" }}
+            >
+              View on OpenSea
+            </a>
+          </span>
+        )}
       </div>
     </div>
   );
