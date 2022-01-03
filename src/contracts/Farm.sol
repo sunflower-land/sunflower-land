@@ -462,7 +462,7 @@ contract FarmV2 {
         }
 
         // 1 Farm Dollar gets you a 0.00001 of a token - Linear growth from here
-        return totalSupply.div(10000);
+        return totalSupply.div(10000 * 10**decimals);
     }
 
     function getMarketPrice(uint price) public view returns (uint conversion) {
