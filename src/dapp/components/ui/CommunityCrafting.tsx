@@ -40,6 +40,14 @@ const COMMUNITY_RECIPES = recipes.filter(
   (recipe) => !!recipe.communityMember
 );
 
+// 20% for designer, 5% for the team
+const COMMISION = 0.25;
+
+// In case people take awhile to confirm the transaction
+const SLIPPAGE = 0.02;
+
+const MATIC_MULTIPLIER = 1 + COMMISION + SLIPPAGE;
+
 export const CommunityCrafting: React.FC<Props> = ({
   onClose,
   balance,
@@ -65,7 +73,7 @@ export const CommunityCrafting: React.FC<Props> = ({
     const load = async () => {
       const rate = await machineState.context.blockChain.quickswapRate();
       // Always suggest a bit higher to prevent slippage issues
-      const safeRate = rate * 1.03;
+      const safeRate = rate * MATIC_MULTIPLIER;
       console.log({ safeRate });
       setQuickSwapRate(safeRate);
     };
@@ -85,12 +93,9 @@ export const CommunityCrafting: React.FC<Props> = ({
 
   const craft = () => {
     setIsApproving(true);
-    // service.send("CRAFT", {
-    //   recipe: selectedRecipe,
-    //   amount,
-    // });
-    // onClose();
   };
+
+  console.log({ inventory });
 
   const boxes: BoxProps[] = COMMUNITY_RECIPES.map((recipe) => ({
     isSelected: recipe.name === selectedRecipe.name,
@@ -139,20 +144,13 @@ export const CommunityCrafting: React.FC<Props> = ({
       return <span id="recipe-description">No supply left </span>;
     }
 
-    const itemCount = inventory[selectedRecipe.name];
-    const limit = selectedRecipe.limit || 1;
-
-    if (itemCount < limit) {
-      return (
-        <>
-          <Button onClick={craft} disabled={!canAfford}>
-            <span id="craft-button-text">Craft</span>
-          </Button>
-        </>
-      );
-    }
-
-    return <span id="recipe-description">Already minted</span>;
+    return (
+      <>
+        <Button onClick={craft} disabled={!canAfford}>
+          <span id="craft-button-text">Craft</span>
+        </Button>
+      </>
+    );
   };
 
   const sunflowerTokenPrice = selectedRecipe.ingredients[0].amount;

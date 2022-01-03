@@ -88,6 +88,7 @@ export interface CraftEvent extends EventObject {
   type: "CRAFT";
   recipe: Recipe;
   amount: number;
+  eth?: number;
 }
 
 export interface ChopEvent extends EventObject {

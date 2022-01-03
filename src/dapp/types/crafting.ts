@@ -38,6 +38,7 @@ import potatoStatue from "../images/ui/potato_statue.png";
 import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
 import farmCat from "../images/ui/farm_cat.png";
+import man from "../images/characters/man.png";
 
 export interface Ingredient {
   name: "Wood" | "Stone" | "$SFF" | "Iron" | "Gold" | "Egg" | "MATIC";
@@ -71,7 +72,7 @@ export interface Item {
     | "Golden Egg"
     | "Scarecrow"
     | "Farm Cat"
-    | "Community Potato Statue";
+    | "Community Crafting Test";
   description: string;
   address: string;
   image: any;
@@ -412,17 +413,17 @@ export const recipes: Recipe[] = [
     openSeaLink: "https://opensea.io/collection/sunflower-farmers-cat",
   },
   {
-    name: "Community Potato Statue",
+    name: "Community Crafting Test",
     abi: PotatoStatue,
-    description: "Flex your status as an original potato hustler",
-    image: potatoStatue,
+    description: "Just for testing, will not exist in future",
+    image: man,
     type: "NFT",
-    address: "0x938a6942Bd09CfaC1bc4B2420F581A90fB5d5775",
+    address: "0xeCD74e973dfe413bc869dA546D23CC7c7aAf29F8",
     ingredients: [
       {
-        name: "MATIC",
-        amount: 5,
-        image: matic,
+        name: "$SFF",
+        amount: 0.1,
+        image: coin,
       },
     ],
     communityMember: {

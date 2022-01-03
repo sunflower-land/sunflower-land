@@ -480,9 +480,11 @@ export class BlockChain {
   public async communityCraft({
     recipe,
     amount,
+    eth = 0,
   }: {
     recipe: Recipe;
     amount: number;
+    eth?: number;
   }) {
     const blockChain = this;
 
@@ -493,16 +495,13 @@ export class BlockChain {
     this.oldInventory = this.inventory;
     console.log({ recipe, amount });
 
-    // ERC20 tokens are fractionalized so we need to multiply by 10^18 to get 1 whole one
-    const mintAmount =
-      recipe.type === "NFT"
-        ? amount
-        : this.web3.utils.toWei(amount.toString(), "ether");
+    const value = this.web3.utils.toWei(eth.toString(), "ether");
+    const gasPrice = await this.estimate(2);
 
     await new Promise(async (resolve, reject) => {
-      this.farm.methods
-        .craft(recipe.address, mintAmount)
-        .send({ from: this.account })
+      this.communityCrafting.methods
+        .craft(recipe.address)
+        .send({ from: this.account, value, gasPrice })
         .on("error", function (error) {
           console.log({ error });
           // User rejected
@@ -781,11 +780,13 @@ export class BlockChain {
 
   public async approve(address: string, amount: number) {
     return new Promise(async (resolve, reject) => {
-      const gasPrice = await this.estimate(3);
+      const gasPrice = await this.estimate(2);
+
+      const wei = this.web3.utils.toWei(amount.toString(), "ether");
 
       try {
         this.token.methods
-          .approve(address, amount)
+          .approve(address, wei)
           .send({ from: this.account, gasPrice })
           .on("error", function (error) {
             console.log({ error });

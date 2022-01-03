@@ -54,6 +54,7 @@ export const CommunityApproval: React.FC<Props> = ({
     service.send("CRAFT", {
       recipe,
       amount: 1,
+      eth: maticPrice,
     });
     onClose();
   };
