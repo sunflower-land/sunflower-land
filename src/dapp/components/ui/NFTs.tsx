@@ -30,7 +30,10 @@ interface Props {
   level: number;
 }
 
-const NFT_ITEMS = recipes.filter((recipe) => recipe.type === "NFT");
+const NFT_ITEMS = recipes.filter(
+  (recipe) => recipe.type === "NFT" && !recipe.communityMember
+);
+
 export const NFTs: React.FC<Props> = ({
   onClose,
   balance,
