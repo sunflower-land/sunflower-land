@@ -29,3 +29,4 @@ build
 # buidler
 artifacts
 cache
+package-lock.json
