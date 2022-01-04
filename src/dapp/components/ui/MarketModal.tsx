@@ -13,6 +13,7 @@ import {
   getNextHalvingThreshold,
   getNextMarketRate,
 } from "../../utils/supply";
+import { numberWithBreaks } from "../../utils/number";
 
 import "./MarketModal.css";
 
@@ -68,7 +69,7 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
             {nextHalvingThreshold ? (
               <p className="current-price-info">
                 The next halvening event will occur when total supply reaches{" "}
-                {nextHalvingThreshold.toLocaleString()} tokens
+                {numberWithBreaks(nextHalvingThreshold.amount)} tokens
               </p>
             ) : (
               <p className="current-price-info">No more halvening events!</p>
