@@ -16,6 +16,7 @@ import Scarecrow from "../../abis/Scarecrow.json";
 import PotatoStatue from "../../abis/PotatoStatue.json";
 import FarmCat from "../../abis/FarmCat.json";
 import FarmDog from "../../abis/FarmDog.json";
+import Bull from "../../abis/Bull.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
@@ -40,6 +41,7 @@ import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
 import farmCat from "../images/ui/farm_cat.png";
 import dog from "../images/ui/dog.png";
+import bull from "../images/ui/bull.png";
 import man from "../images/characters/man.png";
 
 export interface Ingredient {
@@ -75,7 +77,8 @@ export interface Item {
     | "Scarecrow"
     | "Farm Cat"
     | "Community Test"
-    | "Farm Dog";
+    | "Farm Dog"
+    | "Bull";
   description: string;
   address: string;
   image: any;
@@ -458,6 +461,28 @@ export const recipes: Recipe[] = [
     },
     supply: 500,
     openSeaLink: "https://opensea.io/collection/sunflower-farmers-dog",
+  },
+  {
+    name: "Bull",
+    abi: Bull,
+    description: "Allow your cows to make new cows with a big old bull.",
+    image: bull,
+    type: "NFT",
+    address: "0xd9145CCE52D386f254917e481eB44e9943F39138",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 50,
+        image: coin,
+      },
+    ],
+    isLocked: true,
+    communityMember: {
+      twitterName: "@sunflowerfarmz",
+      twitterLink: "https://twitter.com/sunflowerfarmz",
+    },
+    supply: 500,
+    openSeaLink: "https://opensea.io/collection/sunflower-farmers-bull",
   },
 ];
 
