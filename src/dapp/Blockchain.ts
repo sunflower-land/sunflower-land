@@ -2,7 +2,9 @@ import Web3 from "web3";
 
 import Token from "../abis/Token.json";
 import Farm from "../abis/Farm.json";
+import CommunityCrafting from "../abis/CommunityCrafting.json";
 import Chicken from "../abis/Chicken.json";
+import QuickSwap from "../abis/QuickSwapRouter.json";
 
 import {
   Transaction,
@@ -31,12 +33,16 @@ type Contracts = Record<ItemName, any>;
 
 export const MINIMUM_GAS_PRICE = 40;
 const SAVE_OFFSET_SECONDS = 5;
+export const COMMUNITY_CRAFTING_ADDRESS =
+  "0x248b3f1ead0aB11A975c55A6ed8c690B5E5A10d1";
 
 export class BlockChain {
   private web3: Web3 | null = null;
   private token: any | null = null;
   private alchemyToken: any | null = null;
   private farm: any | null = null;
+  private quickswap: any | null = null;
+  private communityCrafting: any | null = null;
   private chickens: any | null = null;
   private alchemyFarm: any | null = null;
   private account: string | null = null;
@@ -70,6 +76,14 @@ export class BlockChain {
       this.chickens = new this.web3.eth.Contract(
         Chicken as any,
         "0xf0F1Cc9192ca0064EB3D35e0DE1CE5e56572ecab"
+      );
+      this.quickswap = new this.web3.eth.Contract(
+        QuickSwap as any,
+        "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
+      );
+      this.communityCrafting = new this.web3.eth.Contract(
+        CommunityCrafting as any,
+        COMMUNITY_CRAFTING_ADDRESS
       );
       const maticAccounts = await this.web3.eth.getAccounts();
       this.account = maticAccounts[0];
@@ -463,6 +477,64 @@ export class BlockChain {
     });
   }
 
+  public async communityCraft({
+    recipe,
+    amount,
+    eth = 0,
+  }: {
+    recipe: Recipe;
+    amount: number;
+    eth?: number;
+  }) {
+    const blockChain = this;
+
+    if (this.isTrial) {
+      throw new Error("TRIAL_MODE");
+    }
+
+    this.oldInventory = this.inventory;
+    console.log({ recipe, amount });
+
+    const value = this.web3.utils.toWei(eth.toString(), "ether");
+    const gasPrice = await this.estimate(2);
+
+    await new Promise(async (resolve, reject) => {
+      this.communityCrafting.methods
+        .craft(recipe.address)
+        .send({ from: this.account, value, gasPrice })
+        .on("error", function (error) {
+          console.log({ error });
+          // User rejected
+          if (error.code === 4001) {
+            return resolve(null);
+          }
+
+          reject(error);
+        })
+        .on("transactionHash", function (transactionHash) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt) {
+          console.log({ receipt });
+          blockChain.events = [];
+          resolve(receipt);
+        });
+    });
+
+    this.inventory[recipe.name] += amount;
+
+    recipe.ingredients.forEach((ingredient) => {
+      if (ingredient.name === "$SFF") {
+        this.details = {
+          ...this.details,
+          balance: this.details.balance - ingredient.amount * amount,
+        };
+      } else {
+        this.inventory[ingredient.name] -= ingredient.amount * amount;
+      }
+    });
+  }
+
   private oldInventory: Inventory | null = null;
   /**
    * ALWAYS ENSURE THAT A RESOURCE CONTRACT DOES NOT HAVE A PUBLIC MINT!
@@ -691,6 +763,54 @@ export class BlockChain {
     }
 
     this.eggCollectionTime = Date.now() / 1000;
+  }
+
+  // Sunflower Tokens -> MATIC
+  public async quickswapRate() {
+    const base = 10000000000;
+    const rate = await this.quickswap.methods
+      .getAmountsIn(base, [
+        "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        "0xdf9B4b57865B403e08c85568442f95c26b7896b0",
+      ])
+      .call({ from: this.account });
+
+    return Number(rate[0]) / Number(rate[1]);
+  }
+
+  public async approve(address: string, amount: number) {
+    const alreadyApproved = await this.token.methods
+      .allowance(this.account, address)
+      .call({ from: this.account });
+
+    const wei = this.web3.utils.toWei(amount.toString(), "ether");
+
+    if (Number(alreadyApproved) >= Number(wei)) {
+      return true;
+    }
+
+    return new Promise(async (resolve, reject) => {
+      const gasPrice = await this.estimate(2);
+
+      try {
+        this.token.methods
+          .approve(address, wei)
+          .send({ from: this.account, gasPrice })
+          .on("error", function (error) {
+            console.log({ error });
+            reject(error);
+          })
+          .on("transactionHash", function (transactionHash) {
+            console.log({ transactionHash });
+          })
+          .on("receipt", function (receipt) {
+            console.log({ receipt });
+            resolve(receipt);
+          });
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   private async loadInventory(): Promise<Inventory> {
