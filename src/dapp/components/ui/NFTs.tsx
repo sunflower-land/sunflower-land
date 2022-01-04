@@ -50,6 +50,7 @@ export const NFTs: React.FC<Props> = ({
   >(service);
   const isUnsaved = machineState.context.blockChain.isUnsaved();
 
+  console.log({ inventory });
   const changeRecipe = (recipe: Recipe) => {
     setAmount(1);
     setSelectedRecipe(recipe);

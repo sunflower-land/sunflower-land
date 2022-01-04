@@ -161,17 +161,15 @@ export const CommunityCrafting: React.FC<Props> = ({
     <div id="crafting">
       <div id="community-left">
         <div>
+          <span className="community-title">Crowd Sourced Features</span>
           <span className="community-description">
-            Features designed by farmers
+            80% $SFF burnt into LP
           </span>
           <span className="community-description">
-            - 80% $SFF burnt into LP
+            16% sent to the designer
           </span>
           <span className="community-description">
-            - 16% sent to the designer
-          </span>
-          <span className="community-description">
-            - 4% sent to Sunflower Farmers
+            4% sent to the team
           </span>
           <div id="crafting-items">
             {boxes.map((box) => (
