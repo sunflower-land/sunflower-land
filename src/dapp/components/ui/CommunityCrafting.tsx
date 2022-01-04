@@ -19,6 +19,7 @@ import building from "../../images/buildings/side-house-2.png";
 import arrowUp from "../../images/ui/arrow_up.png";
 import arrowDown from "../../images/ui/arrow_down.png";
 import matic from "../../images/ui/matic.png";
+import discord from "../../images/ui/discord.jpeg";
 import coin from "../../images/ui/icon.png";
 
 import { recipes, Recipe, Inventory, Item } from "../../types/crafting";
@@ -234,13 +235,21 @@ export const CommunityCrafting: React.FC<Props> = ({
 
         <div id="craft-action">{Action()}</div>
         <span id="recipe-description">
-          <a
-            target="_blank"
-            href={selectedRecipe.communityMember.twitterLink}
-            style={{ color: "white", textDecoration: "underline" }}
-          >
-            {selectedRecipe.communityMember.twitterName}
-          </a>
+          {selectedRecipe.communityMember.twitterLink && (
+            <a
+              target="_blank"
+              href={selectedRecipe.communityMember.twitterLink}
+              style={{ color: "white", textDecoration: "underline" }}
+            >
+              {selectedRecipe.communityMember.twitterName}
+            </a>
+          )}
+          {selectedRecipe.communityMember.discordName && (
+            <span id="discord">
+              <img src={discord} />
+              {`@${selectedRecipe.communityMember.discordName}`}
+            </span>
+          )}
         </span>
         <span id="recipe-description">
           <a

@@ -16,6 +16,7 @@ import Scarecrow from "../../abis/Scarecrow.json";
 import PotatoStatue from "../../abis/PotatoStatue.json";
 import FarmCat from "../../abis/FarmCat.json";
 import FarmDog from "../../abis/FarmDog.json";
+import Gnome from "../../abis/Gnome.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
@@ -28,7 +29,7 @@ import wood from "../images/ui/wood.png";
 import iron from "../images/ui/ore.png";
 import goldOre from "../images/ui/gold_ore.png";
 import stone from "../images/ui/rock.png";
-import matic from "../images/ui/matic.png";
+import gnome from "../images/ui/gnome.png";
 import chicken from "../images/ui/chicken.png";
 import egg from "../images/ui/egg.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
@@ -74,15 +75,16 @@ export interface Item {
     | "Golden Egg"
     | "Scarecrow"
     | "Farm Cat"
-    | "Community Test"
-    | "Farm Dog";
+    | "Farm Dog"
+    | "Gnome";
   description: string;
   address: string;
   image: any;
   type: "ERC20" | "NFT";
   communityMember?: {
-    twitterName: string;
-    twitterLink: string;
+    twitterName?: string;
+    twitterLink?: string;
+    discordName?: string;
   };
   isLocked?: boolean;
   supply?: number;
@@ -416,31 +418,9 @@ export const recipes: Recipe[] = [
     openSeaLink: "https://opensea.io/collection/sunflower-farmers-cat",
   },
   {
-    name: "Community Test",
-    abi: PotatoStatue,
-    description: "Just for testing, will not exist in future",
-    image: man,
-    type: "NFT",
-    address: "0xeCD74e973dfe413bc869dA546D23CC7c7aAf29F8",
-    ingredients: [
-      {
-        name: "$SFF",
-        amount: 0.1,
-        image: coin,
-      },
-    ],
-    communityMember: {
-      twitterName: "@sunflowerfarmz",
-      twitterLink: "https://twitter.com/sunflowerfarmz",
-    },
-    supply: 10000,
-    openSeaLink:
-      "https://opensea.io/collection/sunflower-farmers-og-potato-statue",
-  },
-  {
     name: "Farm Dog",
     abi: FarmDog,
-    description: "Move sheep 4x faster with Charles the Dog.",
+    description: "Herd sheep 4x faster with Chonker the Dog.",
     image: dog,
     type: "NFT",
     address: "0x457ea0b03dD671baC515FA5bf324918Db4B12669",
@@ -458,6 +438,26 @@ export const recipes: Recipe[] = [
     },
     supply: 500,
     openSeaLink: "https://opensea.io/collection/sunflower-farmers-dog",
+  },
+  {
+    name: "Gnome",
+    abi: Gnome,
+    description: "Influence the weather with this magic gnome",
+    image: gnome,
+    type: "NFT",
+    address: "0x35bE1387D1bBC2d263b73ab2825eE91f1fd75CF3",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 5,
+        image: coin,
+      },
+    ],
+    communityMember: {
+      discordName: "firstmover",
+    },
+    supply: 1000,
+    openSeaLink: "https://opensea.io/collection/sunflower-farmers-gnome",
   },
 ];
 
@@ -533,6 +533,6 @@ export const DEFAULT_INVENTORY: Inventory = {
   "Christmas Tree": 0,
   "Farm Cat": 0,
   "Farm Dog": 0,
-  "Community Test": 0,
+  Gnome: 1,
 };
 export type ItemName = Item["name"];
