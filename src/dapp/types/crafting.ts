@@ -451,6 +451,7 @@ export const recipes: Recipe[] = [
         image: coin,
       },
     ],
+    isLocked: true,
     communityMember: {
       twitterName: "@sunflowerfarmz",
       twitterLink: "https://twitter.com/sunflowerfarmz",

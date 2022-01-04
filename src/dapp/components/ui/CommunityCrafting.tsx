@@ -126,6 +126,10 @@ export const CommunityCrafting: React.FC<Props> = ({
   }
 
   const Action = () => {
+    if (selectedRecipe.isLocked) {
+      return <span id="recipe-description">Coming soon...</span>;
+    }
+
     if (isUnsaved) {
       return (
         <div className="upgrade-required">
