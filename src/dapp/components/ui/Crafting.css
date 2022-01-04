@@ -330,3 +330,13 @@
   font-size: 12px;
   padding: 8px;
 }
+
+#discord > img {
+  display: inline-block;
+  width: 20px;
+  image-rendering: pixelated;
+  border-radius: 5px;
+  position: relative;
+  left: -5px;
+  top: -2px;
+}
