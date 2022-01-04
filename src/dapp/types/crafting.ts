@@ -41,10 +41,20 @@ import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
 import farmCat from "../images/ui/farm_cat.png";
 import dog from "../images/ui/dog.png";
-import man from "../images/characters/man.png";
+import wheatSeed from "../images/wheat/seed.png";
+import wheat from "../images/wheat/plant.png";
+import flour from "../images/wheat/flour.png";
 
 export interface Ingredient {
-  name: "Wood" | "Stone" | "$SFF" | "Iron" | "Gold" | "Egg" | "MATIC";
+  name:
+    | "Wood"
+    | "Stone"
+    | "$SFF"
+    | "Iron"
+    | "Gold"
+    | "Egg"
+    | "Wheat"
+    | "MATIC";
   image: any;
   amount: number;
 }
@@ -76,7 +86,9 @@ export interface Item {
     | "Scarecrow"
     | "Farm Cat"
     | "Farm Dog"
-    | "Gnome";
+    | "Gnome"
+    | "Wheat Seed"
+    | "Flour";
   description: string;
   address: string;
   image: any;
@@ -459,6 +471,36 @@ export const recipes: Recipe[] = [
     supply: 1000,
     openSeaLink: "https://opensea.io/collection/sunflower-farmers-gnome",
   },
+  {
+    name: "Wheat Seed",
+    description: "Used for planting wheat",
+    image: wheatSeed,
+    type: "ERC20",
+    address: "TODO",
+    isLocked: true,
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 0.1,
+        image: coin,
+      },
+    ],
+  },
+  {
+    name: "Flour",
+    description: "Used in recipes",
+    image: flour,
+    type: "ERC20",
+    address: "TODO",
+    isLocked: true,
+    ingredients: [
+      {
+        name: "Wheat",
+        amount: 1,
+        image: wheat,
+      },
+    ],
+  },
 ];
 
 export const items: Item[] = [
@@ -533,6 +575,8 @@ export const DEFAULT_INVENTORY: Inventory = {
   "Christmas Tree": 0,
   "Farm Cat": 0,
   "Farm Dog": 0,
-  Gnome: 1,
+  Gnome: 0,
+  "Wheat Seed": 0,
+  Flour: 0,
 };
 export type ItemName = Item["name"];
