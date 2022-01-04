@@ -779,10 +779,18 @@ export class BlockChain {
   }
 
   public async approve(address: string, amount: number) {
+    const alreadyApproved = await this.token.methods
+      .allowance(this.account, address)
+      .call({ from: this.account });
+
+    const wei = this.web3.utils.toWei(amount.toString(), "ether");
+
+    if (Number(alreadyApproved) >= Number(wei)) {
+      return true;
+    }
+
     return new Promise(async (resolve, reject) => {
       const gasPrice = await this.estimate(2);
-
-      const wei = this.web3.utils.toWei(amount.toString(), "ether");
 
       try {
         this.token.methods
