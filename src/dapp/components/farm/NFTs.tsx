@@ -3,6 +3,7 @@ import React from "react";
 import statue from "../../images/ui/sunflower_statue.png";
 import potatoStatue from "../../images/ui/potato_statue.png";
 import farmCat from "../../images/ui/farm_cat.png";
+import dog from "../../images/ui/dog.png";
 import scarecrow from "../../images/ui/scarecrow.png";
 import christmasTree from "../../images/ui/christmas_tree.png";
 import { Inventory } from "../../types/crafting";
@@ -43,6 +44,10 @@ export const NFTs: React.FC<Props> = ({ inventory }) => {
 
       <div id="farm-cat">
         {inventory["Farm Cat"] > 0 && <img src={farmCat} alt="farmCat" />}
+      </div>
+
+      <div id="farm-dog">
+        {inventory["Farm Dog"] > 0 && <img src={dog} alt="dog" />}
       </div>
 
       <div id="christmas-tree">
