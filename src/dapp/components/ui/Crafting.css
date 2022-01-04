@@ -331,6 +331,9 @@
   padding: 8px;
 }
 
+#discord {
+  font-size: 10px;
+}
 #discord > img {
   display: inline-block;
   width: 20px;

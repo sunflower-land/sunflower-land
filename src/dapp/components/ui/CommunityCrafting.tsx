@@ -244,12 +244,14 @@ export const CommunityCrafting: React.FC<Props> = ({
               {selectedRecipe.communityMember.twitterName}
             </a>
           )}
-          {selectedRecipe.communityMember.discordName && (
-            <span id="discord">
-              <img src={discord} />
-              {`@${selectedRecipe.communityMember.discordName}`}
-            </span>
-          )}
+          <div>
+            {selectedRecipe.communityMember.discordName && (
+              <span id="discord">
+                <img src={discord} />
+                {`@${selectedRecipe.communityMember.discordName}`}
+              </span>
+            )}
+          </div>
         </span>
         <span id="recipe-description">
           <a

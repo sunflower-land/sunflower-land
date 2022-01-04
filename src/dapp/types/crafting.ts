@@ -443,8 +443,8 @@ export const recipes: Recipe[] = [
         image: coin,
       },
     ],
-    isLocked: true,
     communityMember: {
+      discordName: "bumpkinbuilder",
       twitterName: "@sunflowerfarmz",
       twitterLink: "https://twitter.com/sunflowerfarmz",
     },
