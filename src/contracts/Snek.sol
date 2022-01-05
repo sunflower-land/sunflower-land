@@ -20,7 +20,7 @@ contract SunflowerFarmersSnek is ERC721, Ownable {
     }
 
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
-        require(tokenId <= 1000);
+        require(tokenId <= 3000);
 
         return "https://sunflower-farmers.com/play/nfts/snek/metadata";
     }
@@ -29,7 +29,7 @@ contract SunflowerFarmersSnek is ERC721, Ownable {
     function mint(address account, uint256 amount) public {
         require(amount == 1);
         require(msg.sender == minter, "You are not the minter");
-        require(totalSupply < 1000, "Only 1000 Sneks can be minted");
+        require(totalSupply < 3000, "Only 3000 Sneks can be minted");
 
         uint256 tokenId = totalSupply + 1;
         _mint(account, tokenId);
