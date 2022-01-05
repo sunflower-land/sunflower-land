@@ -17,6 +17,7 @@ import PotatoStatue from "../../abis/PotatoStatue.json";
 import FarmCat from "../../abis/FarmCat.json";
 import FarmDog from "../../abis/FarmDog.json";
 import Gnome from "../../abis/Gnome.json";
+import FarmSnek from "../../abis/FarmSnek.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
@@ -44,6 +45,7 @@ import dog from "../images/ui/dog.png";
 import wheatSeed from "../images/wheat/seed.png";
 import wheat from "../images/wheat/plant.png";
 import flour from "../images/wheat/flour.png";
+import snek from "../images/ui/snek.gif";
 
 export interface Ingredient {
   name:
@@ -88,6 +90,7 @@ export interface Item {
     | "Farm Dog"
     | "Gnome"
     | "Wheat Seed"
+	| "Snek"	
     | "Flour";
   description: string;
   address: string;
@@ -472,6 +475,32 @@ export const recipes: Recipe[] = [
     openSeaLink: "https://opensea.io/collection/sunflower-farmers-gnome",
   },
   {
+    name: "Snek",
+    abi: FarmSnek,
+    description: "This cute snek will scare away rats and mice to keep your crops safe",
+    image: snek,
+    type: "NFT",
+    address: "0x88aB216fb36A3D84Cfb67C744Fc5554F21360015",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 10,
+        image: coin,
+      },
+      {
+        name: "Wood",
+        amount: 3,
+        image: wood,
+      },
+    ],
+    communityMember: {
+      discordName: "cmraven9",
+	  twitterName: "@sunflowerfarmz",
+      twitterLink: "https://twitter.com/sunflowerfarmz",
+    },
+    supply: 1000,
+  }, 
+  {
     name: "Wheat Seed",
     description: "Used for planting wheat",
     image: wheatSeed,
@@ -578,5 +607,6 @@ export const DEFAULT_INVENTORY: Inventory = {
   Gnome: 0,
   "Wheat Seed": 0,
   Flour: 0,
+  Snek: 0,  
 };
 export type ItemName = Item["name"];
