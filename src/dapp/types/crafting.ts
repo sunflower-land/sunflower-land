@@ -495,8 +495,7 @@ export const recipes: Recipe[] = [
     ],
     communityMember: {
       discordName: "cmraven9",
-	  twitterName: "@sunflowerfarmz",
-      twitterLink: "https://twitter.com/sunflowerfarmz",
+      openSeaLink: "https://opensea.io/collection/sunflower-farmers-snek",
     },
     supply: 1000,
   }, 
