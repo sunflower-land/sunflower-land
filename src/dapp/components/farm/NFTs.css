@@ -25,6 +25,21 @@
   filter: drop-shadow(0px 2px 0px #e43b43);
 }
 
+#farm-dog {
+  grid-column: 4;
+  grid-row: 8;
+  z-index: 99;
+}
+
+#farm-dog > img {
+  width: 52%;
+  position: relative;
+  left: 110%;
+  bottom: 33%;
+  -webkit-filter: drop-shadow(0px 2px 0px #e43b43);
+  filter: drop-shadow(0px 3px 0px #b96f50);
+}
+
 #potato-statue {
   grid-column: 4;
   grid-row: 8;
@@ -152,4 +167,19 @@
   100% {
     transform: scale(1.9) translateX(0) rotatey(360deg);
   }
+}
+
+#farm-gnome {
+  grid-column: 14;
+  grid-row: 7;
+  z-index: 99;
+}
+
+#farm-gnome > img {
+  width: 33%;
+  position: relative;
+  left: 67%;
+  bottom: -43%;
+  -webkit-filter: drop-shadow(0px 2px 0px #e43b43);
+  filter: drop-shadow(0px 2px 0px #bb8566);
 }

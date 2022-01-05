@@ -59,6 +59,7 @@
   padding: 7px;
   padding-top: 14px;
   min-height: 300px;
+  z-index: 9;
 }
 
 #crafting-item {
@@ -117,6 +118,15 @@
 #crafting-left {
   display: flex;
   flex-direction: column;
+}
+
+#community-left {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-top: 4px;
+  width: 300px;
+  padding-bottom: 16px;
 }
 
 .ingredient {
@@ -245,4 +255,91 @@
   text-shadow: 1px 1px black;
   padding: 2px 7px;
   border-radius: 3px;
+}
+
+.community-title {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 12px;
+  display: block;
+  padding-left: 4px;
+  padding-bottom: 4px;
+  text-decoration: underline;
+}
+
+.community-description {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 12px;
+  display: block;
+  padding-left: 4px;
+  padding-bottom: 4px;
+}
+
+#community-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.community-guide-text {
+  font-size: 12px;
+  color: white;
+  text-shadow: 1px 1px black;
+  padding: 8px;
+}
+
+#approving-animation {
+  position: relative;
+  height: 50px;
+
+  animation-name: running;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+#approving-goblin {
+  position: absolute;
+  height: 100px;
+  left: -68px;
+  top: -12px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+  z-index: 9;
+}
+
+#approving-sff {
+  position: absolute;
+  height: 19px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+  z-index: 99;
+}
+@keyframes running {
+  from {
+    transform: translate(0px, 0px);
+  }
+  to {
+    transform: translate(100%, 0px);
+  }
+}
+
+#community-error {
+  color: white;
+  text-shadow: 1px 1px black;
+  font-size: 12px;
+  padding: 8px;
+}
+
+#discord {
+  font-size: 10px;
+}
+#discord > img {
+  display: inline-block;
+  width: 20px;
+  image-rendering: pixelated;
+  border-radius: 5px;
+  position: relative;
+  left: -5px;
+  top: -2px;
 }

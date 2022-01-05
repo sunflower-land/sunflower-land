@@ -15,6 +15,8 @@ import ChristmasTree from "../../abis/ChristmasTree.json";
 import Scarecrow from "../../abis/Scarecrow.json";
 import PotatoStatue from "../../abis/PotatoStatue.json";
 import FarmCat from "../../abis/FarmCat.json";
+import FarmDog from "../../abis/FarmDog.json";
+import Gnome from "../../abis/Gnome.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
@@ -27,6 +29,7 @@ import wood from "../images/ui/wood.png";
 import iron from "../images/ui/ore.png";
 import goldOre from "../images/ui/gold_ore.png";
 import stone from "../images/ui/rock.png";
+import gnome from "../images/ui/gnome.png";
 import chicken from "../images/ui/chicken.png";
 import egg from "../images/ui/egg.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
@@ -37,9 +40,21 @@ import potatoStatue from "../images/ui/potato_statue.png";
 import christmasTree from "../images/ui/christmas_tree.png";
 import scarecrow from "../images/ui/scarecrow.png";
 import farmCat from "../images/ui/farm_cat.png";
+import dog from "../images/ui/dog.png";
+import wheatSeed from "../images/wheat/seed.png";
+import wheat from "../images/wheat/plant.png";
+import flour from "../images/wheat/flour.png";
 
 export interface Ingredient {
-  name: "Wood" | "Stone" | "$SFF" | "Iron" | "Gold" | "Egg";
+  name:
+    | "Wood"
+    | "Stone"
+    | "$SFF"
+    | "Iron"
+    | "Gold"
+    | "Egg"
+    | "Wheat"
+    | "MATIC";
   image: any;
   amount: number;
 }
@@ -69,11 +84,20 @@ export interface Item {
     | "Christmas Tree"
     | "Golden Egg"
     | "Scarecrow"
-    | "Farm Cat";
+    | "Farm Cat"
+    | "Farm Dog"
+    | "Gnome"
+    | "Wheat Seed"
+    | "Flour";
   description: string;
   address: string;
   image: any;
   type: "ERC20" | "NFT";
+  communityMember?: {
+    twitterName?: string;
+    twitterLink?: string;
+    discordName?: string;
+  };
   isLocked?: boolean;
   supply?: number;
   limit?: number;
@@ -405,6 +429,78 @@ export const recipes: Recipe[] = [
     supply: 75,
     openSeaLink: "https://opensea.io/collection/sunflower-farmers-cat",
   },
+  {
+    name: "Farm Dog",
+    abi: FarmDog,
+    description: "Herd sheep 4x faster with Chonker the Dog.",
+    image: dog,
+    type: "NFT",
+    address: "0x457ea0b03dD671baC515FA5bf324918Db4B12669",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 30,
+        image: coin,
+      },
+    ],
+    communityMember: {
+      discordName: "bumpkinbuilder",
+      twitterName: "@sunflowerfarmz",
+      twitterLink: "https://twitter.com/sunflowerfarmz",
+    },
+    supply: 500,
+    openSeaLink: "https://opensea.io/collection/sunflower-farmers-dog",
+  },
+  {
+    name: "Gnome",
+    abi: Gnome,
+    description: "Influence the weather with this magic gnome",
+    image: gnome,
+    type: "NFT",
+    address: "0x35bE1387D1bBC2d263b73ab2825eE91f1fd75CF3",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 5,
+        image: coin,
+      },
+    ],
+    communityMember: {
+      discordName: "firstmover",
+    },
+    supply: 1000,
+    openSeaLink: "https://opensea.io/collection/sunflower-farmers-gnome",
+  },
+  {
+    name: "Wheat Seed",
+    description: "Used for planting wheat",
+    image: wheatSeed,
+    type: "ERC20",
+    address: "TODO",
+    isLocked: true,
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 0.1,
+        image: coin,
+      },
+    ],
+  },
+  {
+    name: "Flour",
+    description: "Used in recipes",
+    image: flour,
+    type: "ERC20",
+    address: "TODO",
+    isLocked: true,
+    ingredients: [
+      {
+        name: "Wheat",
+        amount: 1,
+        image: wheat,
+      },
+    ],
+  },
 ];
 
 export const items: Item[] = [
@@ -478,5 +574,9 @@ export const DEFAULT_INVENTORY: Inventory = {
   "Golden Egg": 0,
   "Christmas Tree": 0,
   "Farm Cat": 0,
+  "Farm Dog": 0,
+  Gnome: 0,
+  "Wheat Seed": 0,
+  Flour: 0,
 };
 export type ItemName = Item["name"];
