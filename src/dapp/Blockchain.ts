@@ -185,7 +185,9 @@ export class BlockChain {
       throw e;
     }
   }
-
+  public async loadFriend(acc) {
+    return this.getFriendAccount(acc);
+  }
   public async loadFarm() {
     const [
       account,
@@ -370,6 +372,57 @@ export class BlockChain {
         { createdAt: 0, fruit: Fruit.Sunflower },
       ],
     };
+  }
+
+  private async getFriendAccount(friendAccount): Promise<Account> {
+    if (!this.web3 || this.isTrial) {
+      return {
+        farm: [
+          {
+            createdAt: 0,
+            fruit: Fruit.None,
+          },
+          {
+            createdAt: 0,
+            fruit: Fruit.Sunflower,
+          },
+          {
+            createdAt: 0,
+            fruit: Fruit.Sunflower,
+          },
+          {
+            createdAt: 0,
+            fruit: Fruit.Sunflower,
+          },
+          {
+            createdAt: 0,
+            fruit: Fruit.None,
+          },
+        ],
+        balance: 0,
+        id: friendAccount,
+      };
+    }
+
+    const rawBalance = await this.alchemyToken.methods
+      .balanceOf(friendAccount)
+      .call({ from: friendAccount });
+    const farm = await this.alchemyFarm.methods
+      .getLand(friendAccount)
+      .call({ from: friendAccount });
+
+    const balance = this.web3.utils.fromWei(rawBalance.toString());
+
+    const inventory = await this.loadFriendInventory(friendAccount);
+
+    const data = {
+      balance: Number(balance),
+      farm,
+      inventory,
+      id: friendAccount,
+    };
+
+    return data;
   }
 
   private async getAccount(): Promise<Account> {
@@ -811,6 +864,37 @@ export class BlockChain {
         reject(e);
       }
     });
+  }
+
+  private async loadFriendInventory(friendAccount): Promise<Inventory> {
+    // Call balanceOf on each item
+    const itemBalancesPromise = Object.values(this.contracts).map(
+      (contract) =>
+        contract.methods
+          .balanceOf(friendAccount)
+          .call({ from: friendAccount })
+    );
+
+    const itemBalances = await Promise.all(itemBalancesPromise);
+
+    console.log({ itemBalances });
+    const values: Record<ItemName, number> = Object.keys(
+      this.contracts
+    ).reduce((itemValues, itemName, index) => {
+      const isNFT =
+        items.find((item) => item.name === itemName).type === "NFT";
+      const balance = itemBalances[index];
+      return {
+        ...itemValues,
+        [itemName]: isNFT
+          ? Number(balance)
+          : Math.ceil(Number(this.web3.utils.fromWei(balance))),
+      };
+    }, {} as Record<ItemName, number>);
+
+    // console.log({ inventory: values });
+
+    return values;
   }
 
   private async loadInventory(): Promise<Inventory> {

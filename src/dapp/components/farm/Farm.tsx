@@ -70,6 +70,11 @@ export const Farm: React.FC = () => {
   >(service);
 
   const isDirty = machineState.context.blockChain.isUnsaved();
+  console.log(
+    "%c 🥪 machineState.context.blockChain: ",
+    "font-size:12px;background-color: #2EAFB0;color:#fff;",
+    machineState.context.blockChain
+  );
 
   // If they have unsaved changes, alert them before leaving
   React.useEffect(() => {
@@ -227,13 +232,84 @@ export const Farm: React.FC = () => {
     );
   };
 
+  const getFriendFarm = async (acc) => {
+    const data = await machineState.context.blockChain.loadFriend(acc);
+    console.log(
+      "%c 🌽 data: ",
+      "font-size:12px;background-color: #ED9EC7;color:#fff;",
+      data
+    );
+    return data;
+  };
   const save = async () => {
     send("SAVE", { action: "SYNC" });
   };
 
   const safeBalance = balance.toNumber();
 
-  return (
+  const [friendFarm, setFriendFarm] = React.useState({
+    active: false,
+    data: null,
+  });
+
+  // TODO: modal to show input
+  const handleGetFriend = async () => {
+    const data = await getFriendFarm(
+      "0x2B49fF0f035A9eB04B9A560A04004726387afFE2" // TODO: input data
+    );
+    const log = {
+      fruits: fruits,
+      selectedItem: selectedItem,
+      land: land,
+      balance: safeBalance,
+      onHarvest: onHarvest,
+      onPlant: onPlant,
+      account: accountId.current,
+      inventory: inventory,
+      totalItemSupplies: totalItemSupplies,
+    };
+    console.log(
+      "%c 🍤 log: ",
+      "font-size:12px;background-color: #33A5FF;color:#fff;",
+      log
+    );
+    if (data) {
+      setFriendFarm({
+        active: true,
+        data,
+      });
+    }
+  };
+
+  const render = friendFarm.active ? (
+    <>
+      <Land
+        fruits={fruits}
+        selectedItem={selectedItem}
+        land={friendFarm.data.farm}
+        balance={safeBalance}
+        onHarvest={onHarvest}
+        onPlant={onPlant}
+        account={friendFarm.data.id}
+        inventory={friendFarm.data.inventory}
+        totalItemSupplies={totalItemSupplies}
+      />
+      <span id="save-button">
+        <Panel hasInner={false}>
+          <Button
+            onClick={() =>
+              setFriendFarm((prevState) => ({
+                ...prevState,
+                active: false,
+              }))
+            }
+          >
+            Go back
+          </Button>
+        </Panel>
+      </span>
+    </>
+  ) : (
     <>
       <Tour />
       <Land
@@ -273,6 +349,7 @@ export const Farm: React.FC = () => {
             About
             <img src={questionMark} id="question" />
           </Button>
+          <Button onClick={() => handleGetFriend()}>Visit a friend</Button>
         </Panel>
       </span>
 
@@ -300,6 +377,8 @@ export const Farm: React.FC = () => {
       />
     </>
   );
+
+  return render;
 };
 
 export default Farm;
