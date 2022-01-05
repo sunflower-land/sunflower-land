@@ -120,9 +120,9 @@ contract FarmV2 {
 
         // Each farmer starts with 5 fields & 3 Sunflowers
         land.push(empty);
-        land.push(sunflower);
-        land.push(sunflower);
-        land.push(sunflower);
+        for (uint index = 0; index < 3; index++) {
+            land.push(sunflower);
+        }
         land.push(empty);
 
         syncedAt[msg.sender] = block.timestamp;
@@ -302,8 +302,7 @@ contract FarmV2 {
         for (uint index = 0; index < _events.length; index++) {
             Event memory farmEvent = _events[index];
 
-            uint thirtyMinutesAgo = block.timestamp.sub(THIRTY_MINUTES); 
-            require(farmEvent.createdAt >= thirtyMinutesAgo, "EVENT_EXPIRED");
+            require(farmEvent.createdAt >= block.timestamp.sub(THIRTY_MINUTES), "EVENT_EXPIRED");
             require(farmEvent.createdAt >= lastSyncedAt(msg.sender), "EVENT_IN_PAST");
             require(farmEvent.createdAt <= block.timestamp, "EVENT_IN_FUTURE");
 
@@ -314,36 +313,29 @@ contract FarmV2 {
             if (farmEvent.action == Action.Plant) {
                 require(land.length >= requiredLandSize(farmEvent.fruit), "INVALID_LEVEL");
                 
-                uint price = getSeedPrice(farmEvent.fruit);
-                uint fmcPrice = getMarketPrice(price);
+                uint fmcPrice = getMarketPrice(getSeedPrice(farmEvent.fruit));
                 require(balance >= fmcPrice, "INSUFFICIENT_FUNDS");
 
                 balance = balance.sub(fmcPrice);
 
-                Square memory plantedSeed = Square({
+                land[farmEvent.landIndex] = Square({
                     fruit: farmEvent.fruit,
                     createdAt: farmEvent.createdAt
                 });
-                land[farmEvent.landIndex] = plantedSeed;
+                
             } else if (farmEvent.action == Action.Harvest) {
                 Square memory square = land[farmEvent.landIndex];
                 require(square.fruit != Fruit.None, "NO_FRUIT");
 
-                uint duration = farmEvent.createdAt.sub(square.createdAt);
-                uint secondsToHarvest = getHarvestSeconds(square.fruit);
-                require(duration >= secondsToHarvest, "NOT_RIPE");
+                require(farmEvent.createdAt.sub(square.createdAt) >= getHarvestSeconds(square.fruit), "NOT_RIPE");
 
                 // Clear the land
-                Square memory emptyLand = Square({
+                land[farmEvent.landIndex] = Square({
                     fruit: Fruit.None,
                     createdAt: 0
                 });
-                land[farmEvent.landIndex] = emptyLand;
 
-                uint price = getFruitPrice(square.fruit);
-                uint fmcPrice = getMarketPrice(price);
-
-                balance = balance.add(fmcPrice);
+                balance = balance.add(getMarketPrice(getFruitPrice(square.fruit)));
             }
         }
 
@@ -368,11 +360,9 @@ contract FarmV2 {
         uint balance = token.balanceOf(msg.sender);
         // Update the balance - mint or burn
         if (farm.balance > balance) {
-            uint profit = farm.balance.sub(balance);
-            token.mint(msg.sender, profit);
+            token.mint(msg.sender, farm.balance.sub(balance));
         } else if (farm.balance < balance) {
-            uint loss = balance.sub(farm.balance);
-            token.burn(msg.sender, loss);
+            token.burn(msg.sender, balance.sub(farm.balance));
         }
 
         emit FarmSynced(msg.sender);
@@ -382,15 +372,12 @@ contract FarmV2 {
 
     function levelUp() public hasFarm {
         require(fields[msg.sender].length <= 17, "MAX_LEVEL");
-
-        
+      
         Square[] storage land = fields[msg.sender];
 
-        uint price = getLandPrice(land.length);
-        uint fmcPrice = getMarketPrice(price);
-        uint balance = token.balanceOf(msg.sender);
+        uint fmcPrice = getMarketPrice(getLandPrice(land.length));
 
-        require(balance >= fmcPrice, "INSUFFICIENT_FUNDS");
+        require(token.balanceOf(msg.sender) >= fmcPrice, "INSUFFICIENT_FUNDS");
         
         // Store rewards in the Farm Contract to redistribute
         token.transferFrom(msg.sender, address(this), fmcPrice);
