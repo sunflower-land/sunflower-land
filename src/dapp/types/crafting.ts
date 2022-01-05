@@ -90,7 +90,7 @@ export interface Item {
     | "Farm Dog"
     | "Gnome"
     | "Wheat Seed"
-	| "Snek"	
+	| "Pest Patrol Snek"	
     | "Flour";
   description: string;
   address: string;
@@ -475,9 +475,9 @@ export const recipes: Recipe[] = [
     openSeaLink: "https://opensea.io/collection/sunflower-farmers-gnome",
   },
   {
-    name: "Snek",
+    name: "Pest Patrol Snek",
     abi: FarmSnek,
-    description: "This cute snek will scare away rats and mice to keep your crops safe",
+    description: "This cute snek will scare away rats and mice to keep your crops safe. Pest Patrol: Capture field mice - 2x rate.",
     image: snek,
     type: "NFT",
     address: "0x88aB216fb36A3D84Cfb67C744Fc5554F21360015",
@@ -494,10 +494,10 @@ export const recipes: Recipe[] = [
       },
     ],
     communityMember: {
-      discordName: "cmraven9",
-      openSeaLink: "https://opensea.io/collection/sunflower-farmers-snek",
+      discordName: "cmraven9",     
     },
-    supply: 1000,
+	openSeaLink: "https://opensea.io/collection/sunflower-farmers-snek",
+    supply: 3000,
   }, 
   {
     name: "Wheat Seed",
@@ -606,6 +606,6 @@ export const DEFAULT_INVENTORY: Inventory = {
   Gnome: 0,
   "Wheat Seed": 0,
   Flour: 0,
-  Snek: 0,  
+  "Pest Patrol Snek": 0,  
 };
 export type ItemName = Item["name"];
