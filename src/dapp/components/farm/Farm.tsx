@@ -39,9 +39,7 @@ import { getMarketRate } from "../../utils/supply";
 import { Message } from "../ui/Message";
 import { DEFAULT_INVENTORY, Inventory } from "../../types/crafting";
 
-import Modal from "react-bootstrap/Modal";
-
-import closeIcon from "../../images/ui/close.png";
+import { ExploreFarmModal } from "../ui/ExploreFarmModal";
 
 export const Farm: React.FC = () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0));
@@ -73,12 +71,10 @@ export const Farm: React.FC = () => {
     BlockchainState
   >(service);
 
+  const [showModal, setShowModal] = React.useState(false);
+  const [modalValue, setModalValue] = React.useState(null);
+
   const isDirty = machineState.context.blockChain.isUnsaved();
-  console.log(
-    "%c 🥪 machineState.context.blockChain: ",
-    "font-size:12px;background-color: #2EAFB0;color:#fff;",
-    machineState.context.blockChain
-  );
 
   // If they have unsaved changes, alert them before leaving
   React.useEffect(() => {
@@ -236,14 +232,8 @@ export const Farm: React.FC = () => {
     );
   };
 
-  const getFriendFarm = async (acc) => {
-    const data = await machineState.context.blockChain.loadFriend(acc);
-    console.log(
-      "%c 🌽 data: ",
-      "font-size:12px;background-color: #ED9EC7;color:#fff;",
-      data
-    );
-    return data;
+  const getFarm = async (id: string) => {
+    return machineState.context.blockChain.loadFriend(id);
   };
   const save = async () => {
     send("SAVE", { action: "SYNC" });
@@ -251,27 +241,29 @@ export const Farm: React.FC = () => {
 
   const safeBalance = balance.toNumber();
 
-  const [friendFarm, setFriendFarm] = React.useState({
+  const [exploringFarm, setExploringFarm] = React.useState({
     active: false,
     data: null,
   });
 
-  // TODO: return type
-  const handleGetFriend = async (account) => {
-    const data = await getFriendFarm(account).catch(() =>
-      console.log("Provided address is invalid")
-    );
+  const getExploringFarm = async (id: string) => {
+    send("SEARCH");
+
+    const data = await getFarm(id).catch(() => {
+      console.log("Provided address is invalid");
+      send("CLOSE");
+    });
 
     if (data) {
-      setFriendFarm({
+      send("EXPLORE");
+
+      setExploringFarm({
         active: true,
         data,
       });
     }
     return setModalValue(null);
   };
-  const [showModal, setShowModal] = React.useState(false);
-  const [modalValue, setModalValue] = React.useState(null);
 
   const openExploreFarmModal = () => {
     setShowModal(true);
@@ -282,75 +274,44 @@ export const Farm: React.FC = () => {
     setShowModal(false);
   };
 
-  const exploreFarmModal = showModal && (
-    <Modal
-      show={showModal}
-      centered
-      onHide={closeExploreFarmModal}
-      backdrop={false}
-      dialogClassName="gather-modal"
-    >
-      <Panel>
-        <div className="gather-panel">
-          <img
-            src={closeIcon}
-            className="gather-close-icon"
-            onClick={closeExploreFarmModal}
-          />
-          Enter wallet address
-        </div>
-        <div id="explore-input-container">
-          <input
-            type="text"
-            step="Address id"
-            id="explore-farm-input"
-            placeholder="Ex: 0x6e5fa679211d7f6b54e14e187d34ba547c5d3fe0"
-            onChange={(e) => setModalValue(e.target.value)}
-          />
-          <Button
-            disabled={!modalValue}
-            onClick={() => handleGetFriend(modalValue)}
-          >
-            Search
-          </Button>
-        </div>
-      </Panel>
-    </Modal>
-  );
+  const handleGoBack = () => {
+    setExploringFarm((prevState) => ({
+      ...prevState,
+      active: false,
+    }));
+    setShowModal(false);
+    send("CLOSE");
+  };
 
-  const render = friendFarm.active ? (
+  const render = exploringFarm.active ? (
     <>
       <Land
         fruits={fruits}
         selectedItem={selectedItem}
-        land={friendFarm.data.farm}
+        land={exploringFarm.data.farm}
         balance={safeBalance}
-        onHarvest={onHarvest}
-        onPlant={onPlant}
-        account={friendFarm.data.id}
-        inventory={friendFarm.data.inventory}
+        onHarvest={() => {}}
+        onPlant={() => {}}
+        account={exploringFarm.data.id}
+        inventory={exploringFarm.data.inventory}
         totalItemSupplies={totalItemSupplies}
       />
       <span id="save-button">
         <Panel hasInner={false}>
-          <Button
-            onClick={() => (
-              setFriendFarm((prevState) => ({
-                ...prevState,
-                active: false,
-              })),
-              setShowModal(false)
-            )}
-          >
-            Go back
-          </Button>
+          <Button onClick={() => handleGoBack()}>Go back</Button>
         </Panel>
       </span>
     </>
   ) : (
     <>
       <Tour />
-      {exploreFarmModal}
+      <ExploreFarmModal
+        showModal={showModal}
+        value={modalValue}
+        setValue={setModalValue}
+        closeModal={closeExploreFarmModal}
+        callback={getExploringFarm}
+      />
       <Land
         fruits={fruits}
         selectedItem={selectedItem}

@@ -65,7 +65,13 @@ export const App: React.FC = () => {
       <div id="container">
         <Farm />
 
-        <Modal centered show={machineState.matches("loading")}>
+        <Modal
+          centered
+          show={
+            machineState.matches("loading") ||
+            machineState.matches("displayLoading")
+          }
+        >
           <Connecting />
         </Modal>
 

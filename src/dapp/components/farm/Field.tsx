@@ -35,6 +35,13 @@ import { ActionableItem, Fruit, isFruit, Square } from "../../types/contract";
 import { secondsToString } from "../../utils/time";
 
 import "./Field.css";
+import { useService } from "@xstate/react";
+import {
+  BlockchainEvent,
+  BlockchainState,
+  Context,
+  service,
+} from "../../machine";
 
 interface Props {
   square: Square;
@@ -65,6 +72,11 @@ export const Field: React.FC<Props> = ({
   const [showPrice, setShowPrice] = React.useState(false);
   const [showInsufficientFunds, setShowInsufficientFunds] =
     React.useState(false);
+  const [machineState, send] = useService<
+    Context,
+    BlockchainEvent,
+    BlockchainState
+  >(service);
 
   const fruit = fruits.find((item) => item.fruit === square.fruit);
   const totalTime = fruit?.harvestMinutes * 60;
@@ -220,10 +232,15 @@ export const Field: React.FC<Props> = ({
 
   return (
     <div className="field" onClick={!timeLeft ? click : undefined}>
-      <div className="harvest" style={{ opacity: !!showPrice ? "1" : "0" }}>
-        <span className="harvest-amount">{harvestPrice}</span>
-        <img className="harvest-coin" src={coin} />
-      </div>
+      {!machineState.matches("exploring") && (
+        <div
+          className="harvest"
+          style={{ opacity: !!showPrice ? "1" : "0" }}
+        >
+          <span className="harvest-amount">{harvestPrice}</span>
+          <img className="harvest-coin" src={coin} />
+        </div>
+      )}
       {square.fruit === Fruit.None && (
         <>
           {!showPrice && (

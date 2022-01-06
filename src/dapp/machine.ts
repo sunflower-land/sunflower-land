@@ -107,6 +107,14 @@ export interface CollectEggs extends EventObject {
   type: "COLLECT_EGGS";
 }
 
+export interface ExploreFarmEvent extends EventObject {
+  type: "EXPLORE";
+}
+
+export interface SearchfarmEvent extends EventObject {
+  type: "SEARCH";
+}
+
 type OnboardingEvent =
   | CloseOnboardingEvent
   | NextOnboardingEvent
@@ -127,6 +135,8 @@ export type BlockchainEvent =
   | CraftEvent
   | RetryEvent
   | ChopEvent
+  | ExploreFarmEvent
+  | SearchfarmEvent
   | MineEvent
   | CollectEggs
   | {
@@ -149,11 +159,13 @@ export type OnboardingStates =
 export type BlockchainState = {
   value:
     | "loading"
+    | "displayLoading"
     | "initial"
     | "registering"
     | "creating"
     | "onboarding"
     | "farming"
+    | "exploring"
     | "failure"
     | "upgrading"
     | "rewarding"
@@ -200,6 +212,13 @@ export const blockChainMachine = createMachine<
             target: "loading",
           },
         ],
+      },
+    },
+    displayLoading: {
+      on: {
+        EXPLORE: {
+          target: "exploring",
+        },
       },
     },
     loading: {
@@ -311,6 +330,19 @@ export const blockChainMachine = createMachine<
         NETWORK_CHANGED: {
           target: "loading",
           actions: (context) => context.blockChain.resetFarm(),
+        },
+        EXPLORE: {
+          target: "exploring",
+        },
+        SEARCH: {
+          target: "displayLoading",
+        },
+      },
+    },
+    exploring: {
+      on: {
+        CLOSE: {
+          target: "farming",
         },
       },
     },
