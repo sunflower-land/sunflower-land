@@ -74,6 +74,11 @@ export const Farm: React.FC = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [modalValue, setModalValue] = React.useState(null);
 
+  const [exploringFarm, setExploringFarm] = React.useState({
+    active: false,
+    data: null,
+  });
+
   const isDirty = machineState.context.blockChain.isUnsaved();
 
   // If they have unsaved changes, alert them before leaving
@@ -233,18 +238,13 @@ export const Farm: React.FC = () => {
   };
 
   const getFarm = async (id: string) => {
-    return machineState.context.blockChain.loadFriend(id);
+    return machineState.context.blockChain.getExploringFarm(id);
   };
   const save = async () => {
     send("SAVE", { action: "SYNC" });
   };
 
   const safeBalance = balance.toNumber();
-
-  const [exploringFarm, setExploringFarm] = React.useState({
-    active: false,
-    data: null,
-  });
 
   const getExploringFarm = async (id: string) => {
     send("SEARCH");
@@ -283,7 +283,7 @@ export const Farm: React.FC = () => {
     send("CLOSE");
   };
 
-  const render = exploringFarm.active ? (
+  return exploringFarm.active ? (
     <>
       <Land
         fruits={fruits}
@@ -382,8 +382,6 @@ export const Farm: React.FC = () => {
       />
     </>
   );
-
-  return render;
 };
 
 export default Farm;

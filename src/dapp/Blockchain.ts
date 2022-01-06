@@ -185,8 +185,8 @@ export class BlockChain {
       throw e;
     }
   }
-  public async loadFriend(acc) {
-    return this.getFriendAccount(acc);
+  public async getExploringFarm(acc) {
+    return this.getExploringAccount(acc);
   }
   public async loadFarm() {
     const [
@@ -374,7 +374,7 @@ export class BlockChain {
     };
   }
 
-  private async getFriendAccount(friendAccount): Promise<Account> {
+  private async getExploringAccount(exploringAccount): Promise<Account> {
     if (!this.web3 || this.isTrial) {
       return {
         farm: [
@@ -400,26 +400,21 @@ export class BlockChain {
           },
         ],
         balance: 0,
-        id: friendAccount,
+        id: exploringAccount,
       };
     }
 
-    const rawBalance = await this.alchemyToken.methods
-      .balanceOf(friendAccount)
-      .call({ from: friendAccount });
     const farm = await this.alchemyFarm.methods
-      .getLand(friendAccount)
-      .call({ from: friendAccount });
+      .getLand(exploringAccount)
+      .call({ from: exploringAccount });
 
-    const balance = this.web3.utils.fromWei(rawBalance.toString());
-
-    const inventory = await this.loadFriendInventory(friendAccount);
+    const inventory = await this.loadExploringInventory(exploringAccount);
 
     const data = {
-      balance: Number(balance),
+      balance: 0,
       farm,
       inventory,
-      id: friendAccount,
+      id: exploringAccount,
     };
 
     return data;
@@ -866,18 +861,17 @@ export class BlockChain {
     });
   }
 
-  private async loadFriendInventory(friendAccount): Promise<Inventory> {
+  private async loadExploringInventory(exploringAccount): Promise<Inventory> {
     // Call balanceOf on each item
     const itemBalancesPromise = Object.values(this.contracts).map(
       (contract) =>
         contract.methods
-          .balanceOf(friendAccount)
-          .call({ from: friendAccount })
+          .balanceOf(exploringAccount)
+          .call({ from: exploringAccount })
     );
 
     const itemBalances = await Promise.all(itemBalancesPromise);
 
-    console.log({ itemBalances });
     const values: Record<ItemName, number> = Object.keys(
       this.contracts
     ).reduce((itemValues, itemName, index) => {
@@ -891,8 +885,6 @@ export class BlockChain {
           : Math.ceil(Number(this.web3.utils.fromWei(balance))),
       };
     }, {} as Record<ItemName, number>);
-
-    // console.log({ inventory: values });
 
     return values;
   }
