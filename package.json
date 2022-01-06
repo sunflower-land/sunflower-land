@@ -36,7 +36,7 @@
     "xstate": "^4.20.0"
   },
   "scripts": {
-    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "build": "PUBLIC_URL=https://s3.ap-southeast-2.amazonaws.com/sunflower-farmers.com/play/ DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "eject": "react-scripts eject",
     "generate-types": "npx typechain --target=truffle-v5 'src/abis/*.json'",
     "lint": "prettier --check \"./**/*.{js,ts,json,sass,scss,css}\" --loglevel log",
