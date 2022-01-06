@@ -40,13 +40,13 @@
   filter: drop-shadow(0px 3px 0px #b96f50);
 }
 
-#snek {
+#pestpsnek {
   grid-column: 11;
   grid-row: 8;
   z-index: 99;
 }
 
-#snek > img {
+#pestpsnek > img {
   width: 52%;
   position: relative;
   left: 30%;

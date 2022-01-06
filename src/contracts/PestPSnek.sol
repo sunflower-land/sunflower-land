@@ -4,11 +4,11 @@ pragma solidity ^0.8.0;
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 
-contract SunflowerFarmersSnek is ERC721, Ownable {
+contract PestPSnek is ERC721, Ownable {
     address public minter;
     uint public totalSupply;
 
-    constructor() public ERC721("Sunflower Farmers Snek", "SFS") {
+    constructor() public ERC721("Sunflower Farmers Pest Patrol Snek", "SFPPS") {
         minter = msg.sender;
     }
 
@@ -22,7 +22,7 @@ contract SunflowerFarmersSnek is ERC721, Ownable {
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         require(tokenId <= 3000);
 
-        return "https://sunflower-farmers.com/play/nfts/snek/metadata";
+        return "https://sunflower-farmers.com/play/nfts/pestp-snek/metadata";
     }
 
 

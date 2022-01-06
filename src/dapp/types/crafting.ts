@@ -17,7 +17,7 @@ import PotatoStatue from "../../abis/PotatoStatue.json";
 import FarmCat from "../../abis/FarmCat.json";
 import FarmDog from "../../abis/FarmDog.json";
 import Gnome from "../../abis/Gnome.json";
-import FarmSnek from "../../abis/FarmSnek.json";
+import PestPSnek from "../../abis/PestPSnek.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
@@ -45,7 +45,7 @@ import dog from "../images/ui/dog.png";
 import wheatSeed from "../images/wheat/seed.png";
 import wheat from "../images/wheat/plant.png";
 import flour from "../images/wheat/flour.png";
-import snek from "../images/ui/snek.gif";
+import pestpsnek from "../images/ui/pestpsnek.gif";
 
 export interface Ingredient {
   name:
@@ -476,27 +476,22 @@ export const recipes: Recipe[] = [
   },
   {
     name: "Pest Patrol Snek",
-    abi: FarmSnek,
+    abi: PestPSnek,
     description: "This cute snek will scare away rats and mice to keep your crops safe. Pest Patrol: Capture field mice - 2x rate.",
-    image: snek,
+    image: pestpsnek,
     type: "NFT",
-    address: "0x88aB216fb36A3D84Cfb67C744Fc5554F21360015",
+    address: "0x61af7472dC596966CA694E8AEF54B026cd003891",
     ingredients: [
       {
         name: "$SFF",
-        amount: 10,
+        amount: 0.0000001,
         image: coin,
-      },
-      {
-        name: "Wood",
-        amount: 3,
-        image: wood,
       },
     ],
     communityMember: {
       discordName: "cmraven9",     
     },
-	openSeaLink: "https://opensea.io/collection/sunflower-farmers-snek",
+	openSeaLink: "https://opensea.io/collection/sunflower-farmers-pestp-snek",
     supply: 3000,
   }, 
   {
