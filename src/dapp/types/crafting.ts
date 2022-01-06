@@ -484,7 +484,7 @@ export const recipes: Recipe[] = [
     ingredients: [
       {
         name: "$SFF",
-        amount: 0.0000001,
+        amount: 10,
         image: coin,
       },
     ],
