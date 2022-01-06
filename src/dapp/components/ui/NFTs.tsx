@@ -167,7 +167,6 @@ export const NFTs: React.FC<Props> = ({
         </a>
       </div>
       <div id="recipe">
-        <span className={`recipe-type recipe-nft`}>NFT</span>
         {selectedRecipe.supply && !isNaN(amountLeft) && (
           <span className="nft-count">{`${amountLeft} left!`}</span>
         )}

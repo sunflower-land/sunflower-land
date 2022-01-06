@@ -74,7 +74,7 @@ export const Blacksmith: React.FC<Props> = ({
               onClick={() => setTab("NFTs")}
             >
               <img src={gold} alt="basket" className="tab-icon" />
-              <span>NFTs</span>
+              <span>Special</span>
               {tab === "NFTs" && (
                 <>
                   <img id="panel-left-edge" src={leftEdgeInner} />
