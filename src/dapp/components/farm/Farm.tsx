@@ -39,6 +39,10 @@ import { getMarketRate } from "../../utils/supply";
 import { Message } from "../ui/Message";
 import { DEFAULT_INVENTORY, Inventory } from "../../types/crafting";
 
+import Modal from "react-bootstrap/Modal";
+
+import closeIcon from "../../images/ui/close.png";
+
 export const Farm: React.FC = () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0));
   const [land, setLand] = React.useState<Square[]>(
@@ -252,34 +256,67 @@ export const Farm: React.FC = () => {
     data: null,
   });
 
-  // TODO: modal to show input
-  const handleGetFriend = async () => {
-    const data = await getFriendFarm(
-      "0x2B49fF0f035A9eB04B9A560A04004726387afFE2" // TODO: input data
+  // TODO: return type
+  const handleGetFriend = async (account) => {
+    const data = await getFriendFarm(account).catch(() =>
+      console.log("Provided address is invalid")
     );
-    const log = {
-      fruits: fruits,
-      selectedItem: selectedItem,
-      land: land,
-      balance: safeBalance,
-      onHarvest: onHarvest,
-      onPlant: onPlant,
-      account: accountId.current,
-      inventory: inventory,
-      totalItemSupplies: totalItemSupplies,
-    };
-    console.log(
-      "%c 🍤 log: ",
-      "font-size:12px;background-color: #33A5FF;color:#fff;",
-      log
-    );
+
     if (data) {
       setFriendFarm({
         active: true,
         data,
       });
     }
+    return setModalValue(null);
   };
+  const [showModal, setShowModal] = React.useState(false);
+  const [modalValue, setModalValue] = React.useState(null);
+
+  const openExploreFarmModal = () => {
+    setShowModal(true);
+  };
+
+  const closeExploreFarmModal = () => {
+    setModalValue(null);
+    setShowModal(false);
+  };
+
+  const exploreFarmModal = showModal && (
+    <Modal
+      show={showModal}
+      centered
+      onHide={closeExploreFarmModal}
+      backdrop={false}
+      dialogClassName="gather-modal"
+    >
+      <Panel>
+        <div className="gather-panel">
+          <img
+            src={closeIcon}
+            className="gather-close-icon"
+            onClick={closeExploreFarmModal}
+          />
+          Enter wallet address
+        </div>
+        <div id="explore-input-container">
+          <input
+            type="text"
+            step="Address id"
+            id="explore-farm-input"
+            placeholder="Ex: 0x6e5fa679211d7f6b54e14e187d34ba547c5d3fe0"
+            onChange={(e) => setModalValue(e.target.value)}
+          />
+          <Button
+            disabled={!modalValue}
+            onClick={() => handleGetFriend(modalValue)}
+          >
+            Search
+          </Button>
+        </div>
+      </Panel>
+    </Modal>
+  );
 
   const render = friendFarm.active ? (
     <>
@@ -297,12 +334,13 @@ export const Farm: React.FC = () => {
       <span id="save-button">
         <Panel hasInner={false}>
           <Button
-            onClick={() =>
+            onClick={() => (
               setFriendFarm((prevState) => ({
                 ...prevState,
                 active: false,
-              }))
-            }
+              })),
+              setShowModal(false)
+            )}
           >
             Go back
           </Button>
@@ -312,6 +350,7 @@ export const Farm: React.FC = () => {
   ) : (
     <>
       <Tour />
+      {exploreFarmModal}
       <Land
         fruits={fruits}
         selectedItem={selectedItem}
@@ -349,7 +388,9 @@ export const Farm: React.FC = () => {
             About
             <img src={questionMark} id="question" />
           </Button>
-          <Button onClick={() => handleGetFriend()}>Visit a friend</Button>
+          <Button onClick={() => openExploreFarmModal()}>
+            Explore farms
+          </Button>
         </Panel>
       </span>
 
