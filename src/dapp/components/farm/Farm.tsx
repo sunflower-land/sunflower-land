@@ -299,6 +299,9 @@ export const Farm: React.FC = () => {
       <span id="save-button">
         <Panel hasInner={false}>
           <Button onClick={() => handleGoBack()}>Go back</Button>
+          <div id="exploring-farm-address" title={exploringFarm.data.id}>
+            {exploringFarm.data.id}
+          </div>
         </Panel>
       </span>
     </>

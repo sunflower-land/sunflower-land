@@ -6,6 +6,8 @@ import { Panel } from "./Panel";
 import { Button } from "./Button";
 import closeIcon from "../../images/ui/close.png";
 
+import "./ExploreFarmModal.css";
+
 interface Props {
   value: string;
   showModal: boolean;
@@ -22,19 +24,14 @@ export const ExploreFarmModal: React.FC<Props> = ({
   setValue,
 }) => {
   const render = showModal && (
-    <Modal
-      show={showModal}
-      centered
-      onHide={closeModal}
-      backdrop={false}
-      dialogClassName="gather-modal"
-    >
+    <Modal show={showModal} centered onHide={closeModal} backdrop={false}>
       <Panel>
         <div className="gather-panel">
           <img
             src={closeIcon}
             className="gather-close-icon"
             onClick={closeModal}
+            alt="close"
           />
           Enter wallet address
         </div>

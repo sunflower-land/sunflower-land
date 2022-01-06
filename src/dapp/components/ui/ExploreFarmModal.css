@@ -1,0 +1,25 @@
+#explore-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+#exploring-farm-address {
+    background: #e6a873;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    position: relative;
+    padding: 2px 10px;
+    color: white;
+    font-size: 15px;
+    text-shadow: 1px 1px black;
+    margin: 5px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
