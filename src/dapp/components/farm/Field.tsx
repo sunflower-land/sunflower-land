@@ -243,7 +243,7 @@ export const Field: React.FC<Props> = ({
       )}
       {square.fruit === Fruit.None && (
         <>
-          {!showPrice && (
+          {!showPrice && !machineState.matches("exploring") && (
             <img className="plant-hint" src={plantingFruit.image} />
           )}
           <img src={terrain} className="soil" />
@@ -264,20 +264,26 @@ export const Field: React.FC<Props> = ({
           {timeLeft === 0 && Plant()}
           {Progress()}
           {timeLeft && timeLeft > 0 && (
-            <span className="progress-text">{secondsToString(timeLeft)}</span>
+            <span className="progress-text">
+              {secondsToString(timeLeft)}
+            </span>
           )}
         </>
       )}
-      <div className="field-edges">
-        <div>
-          <img src={selectBoxTL} />
-          <img src={selectBoxTR} />
-        </div>
-        <div>
-          <img src={selectBoxBL} />
-          <img src={selectBoxBR} />
-        </div>
-      </div>
+      {!machineState.matches("exploring") && (
+        <>
+          <div className="field-edges">
+            <div>
+              <img src={selectBoxTL} />
+              <img src={selectBoxTR} />
+            </div>
+            <div>
+              <img src={selectBoxBL} />
+              <img src={selectBoxBR} />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

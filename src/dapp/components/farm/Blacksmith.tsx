@@ -21,6 +21,13 @@ import { Tools } from "../ui/Tools";
 import { NFTs } from "../ui/NFTs";
 import { CommunityCrafting } from "../ui/CommunityCrafting";
 import { Inventory } from "../../types/crafting";
+import { useService } from "@xstate/react";
+import {
+  BlockchainEvent,
+  BlockchainState,
+  Context,
+  service,
+} from "../../machine";
 
 interface Props {
   inventory: Inventory;
@@ -39,6 +46,19 @@ export const Blacksmith: React.FC<Props> = ({
   const [tab, setTab] = React.useState<"Craft" | "NFTs" | "Community">(
     "Craft"
   );
+
+  const [machineState, send] = useService<
+    Context,
+    BlockchainEvent,
+    BlockchainState
+  >(service);
+
+    const handleClick = () => {
+      if(machineState.matches("exploring")) {
+        return;
+      }
+      setShowModal(true)
+    }
 
   return (
     <>
@@ -137,19 +157,21 @@ export const Blacksmith: React.FC<Props> = ({
       <div
         style={{ gridColumn: "4/5", gridRow: "9/10" }}
         id="minter"
-        onClick={() => setShowModal(true)}
+        onClick={() => handleClick()}
       >
         <img id="blacksmith" src={blacksmith} />
 
-        <div className="mint">
-          <div className="disc">
-            <img src={disc} className="discBackground" />
-            <img src={hammer} className="pickaxe" />
+        {!machineState.matches("exploring") && (
+          <div className="mint">
+            <div className="disc">
+              <img src={disc} className="discBackground" />
+              <img src={hammer} className="pickaxe" />
+            </div>
+            <Panel hasOuter={false}>
+              <span id="upgrade">Craft</span>
+            </Panel>
           </div>
-          <Panel hasOuter={false}>
-            <span id="upgrade">Craft</span>
-          </Panel>
-        </div>
+        )}
       </div>
     </>
   );

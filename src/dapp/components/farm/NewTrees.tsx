@@ -145,11 +145,12 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
           );
         }
 
-        const isNextToChop = choppedTreeCount === index;
+        const isNextToChop = choppedTreeCount === index && !machineState.matches("exploring");
         const isHighlighted = amount + choppedTreeCount >= index + 1;
         const showWaiting =
           !machineState.matches("onboarding") &&
           !machineState.matches("chopping") &&
+          !machineState.matches("exploring") &&
           (isNextToChop || isHighlighted);
 
         return (
