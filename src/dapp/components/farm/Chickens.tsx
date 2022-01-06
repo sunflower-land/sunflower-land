@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 
 import walkingChicken from "../../images/characters/white-walking-chicken.gif";
 import chicken from "../../images/ui/chicken.png";
-import chickenCoop from "../../images/ui/chicken_barn.png";
+import chickenCoop from "../../images/ui/chicken_coop.png";
 import closeIcon from "../../images/ui/close.png";
 import egg from "../../images/ui/egg.png";
 import goldEgg from "../../images/ui/gold_egg.png";
