@@ -84,6 +84,8 @@
   z-index: 99;
   cursor: pointer;
   position: relative;
+  -webkit-filter: drop-shadow(0px 2px 0px #e43b43);
+  filter: drop-shadow(0px 3px 0px #b96f50);
 }
 
 #chicken-coop:hover {
@@ -95,6 +97,8 @@
   width: 60%;
   position: relative;
   left: 40%;
+  filter: drop-shadow(0px 3px 0px #3c8947);
+  color: #3c8947;
 }
 
 .chicken.walking.one {
