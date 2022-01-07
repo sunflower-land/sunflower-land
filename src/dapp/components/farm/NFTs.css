@@ -5,9 +5,9 @@
 }
 
 #statue > img {
-  width: 120%;
+  width: 95%;
   position: relative;
-  left: 144%;
+  left: 150%;
   bottom: 83%;
 }
 
@@ -47,10 +47,10 @@
 }
 
 #potato-statue > img {
-  width: 40%;
+  width: 48%;
   position: relative;
-  left: 144%;
-  bottom: 64%;
+  left: 165%;
+  bottom: 136%;
 }
 
 #scarecrow {
@@ -94,9 +94,9 @@
 }
 
 #chicken-coop > img:first-child {
-  width: 60%;
+  width: 78%;
   position: relative;
-  left: 40%;
+  left: 24%;
   filter: drop-shadow(0px 3px 0px #3c8947);
   color: #3c8947;
 }
