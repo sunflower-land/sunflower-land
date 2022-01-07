@@ -17,6 +17,7 @@ import PotatoStatue from "../../abis/PotatoStatue.json";
 import FarmCat from "../../abis/FarmCat.json";
 import FarmDog from "../../abis/FarmDog.json";
 import Gnome from "../../abis/Gnome.json";
+import Cow from "../../abis/Cow.json";
 
 import pickaxe from "../images/ui/pickaxe.png";
 import woodPickaxe from "../images/ui/wood_pickaxe.png";
@@ -30,6 +31,7 @@ import iron from "../images/ui/ore.png";
 import goldOre from "../images/ui/gold_ore.png";
 import stone from "../images/ui/rock.png";
 import gnome from "../images/ui/gnome.png";
+import cow from "../images/ui/cow.gif";
 import chicken from "../images/ui/chicken.png";
 import egg from "../images/ui/egg.png";
 import chickenCoop from "../images/ui/chicken_coop.png";
@@ -87,6 +89,7 @@ export interface Item {
     | "Farm Cat"
     | "Farm Dog"
     | "Gnome"
+    | "Farm Cow"
     | "Wheat Seed"
     | "Flour";
   description: string;
@@ -472,6 +475,26 @@ export const recipes: Recipe[] = [
     openSeaLink: "https://opensea.io/collection/sunflower-farmers-gnome",
   },
   {
+    name: "Farm Cow",
+    abi: Cow,
+    description: "Let's produce some milk !",
+    image: cow,
+    type: "NFT",
+    address: "0x30957FE0F5706faF7605a76DD9d1A5B97baA8460",
+    ingredients: [
+      {
+        name: "$SFF",
+        amount: 50,
+        image: coin,
+      },
+    ],
+    communityMember: {
+      discordName: "Benton#6428",
+    },
+    supply: 1000,
+    openSeaLink: "https://opensea.io/collection/sunflower-farmers-cow",
+  },
+  {
     name: "Wheat Seed",
     description: "Used for planting wheat",
     image: wheatSeed,
@@ -576,6 +599,7 @@ export const DEFAULT_INVENTORY: Inventory = {
   "Farm Cat": 0,
   "Farm Dog": 0,
   Gnome: 0,
+  "Farm Cow": 0,
   "Wheat Seed": 0,
   Flour: 0,
 };

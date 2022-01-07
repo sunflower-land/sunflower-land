@@ -8,7 +8,7 @@
     "@openzeppelin/contracts": "3.3.0",
     "@truffle/hdwallet-provider": "1.1.0",
     "@types/reactour": "^1.18.2",
-    "@xstate/react": "^1.3.4",
+    "@xstate/react": "^1.6.3",
     "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.7.0",
     "babel-preset-es2015": "6.24.1",
@@ -33,7 +33,7 @@
     "truffle": "5.1.63",
     "truffle-hdwallet-provider-privkey": "0.3.0",
     "web3": "1.2.6",
-    "xstate": "^4.20.0"
+    "xstate": "^4.27.0"
   },
   "scripts": {
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
@@ -55,11 +55,11 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/preset-env": "^7.14.1",
+    "@babel/preset-env": "^7.16.7",
     "@typechain/truffle-v5": "^4.0.1",
-    "@types/chai": "^4.2.17",
-    "@types/mocha": "^8.2.2",
-    "@types/node": "^15.0.1",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^8.2.3",
+    "@types/node": "^15.14.9",
     "@typescript-eslint/eslint-plugin": "4.18.0",
     "@typescript-eslint/parser": "4.18.0",
     "eslint-config-prettier": "8.1.0",
@@ -73,7 +73,7 @@
     "prettier": "^2.5.1",
     "ts-node": "^9.1.1",
     "typechain": "^4.0.3",
-    "typescript": "^4.2.4"
+    "typescript": "^4.5.4"
   },
   "prettier": {
     "printWidth": 75,

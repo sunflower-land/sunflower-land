@@ -183,3 +183,18 @@
   -webkit-filter: drop-shadow(0px 2px 0px #e43b43);
   filter: drop-shadow(0px 2px 0px #bb8566);
 }
+
+#farm-cow {
+  grid-column: 16;
+  grid-row: 8;
+  z-index: 99;
+}
+
+#farm-cow > img {
+  width: 125%;
+  position: relative;
+  left: -10%;
+  bottom: 0%;
+  -webkit-filter: drop-shadow(0px 2px 0px #726d6e);
+  filter: drop-shadow(0px 2px 0px #777675);
+}

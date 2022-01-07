@@ -4,6 +4,7 @@ import statue from "../../images/ui/sunflower_statue.png";
 import potatoStatue from "../../images/ui/potato_statue.png";
 import farmCat from "../../images/ui/farm_cat.png";
 import gnome from "../../images/ui/gnome.png";
+import cow from "../../images/ui/cow.gif";
 import dog from "../../images/ui/dog.png";
 import scarecrow from "../../images/ui/scarecrow.png";
 import christmasTree from "../../images/ui/christmas_tree.png";
@@ -39,7 +40,7 @@ export const NFTs: React.FC<Props> = ({ inventory }) => {
 
       <div id="scarecrow">
         {inventory["Scarecrow"] > 0 && (
-          <img src={scarecrow} alt="statue" />
+          <img src={scarecrow} alt="scarecrow" />
         )}
       </div>
 
@@ -53,6 +54,10 @@ export const NFTs: React.FC<Props> = ({ inventory }) => {
 
       <div id="farm-gnome">
         {inventory["Gnome"] > 0 && <img src={gnome} alt="gnome" />}
+      </div>
+
+      <div id="farm-cow">
+        {inventory["Farm Cow"] > 0 && <img src={cow} alt="cow" />}
       </div>
 
       <div id="christmas-tree">
