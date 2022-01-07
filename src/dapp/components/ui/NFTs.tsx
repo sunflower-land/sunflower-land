@@ -93,9 +93,7 @@ export const NFTs: React.FC<Props> = ({
   });
 
   const Action = () => {
-    if (selectedRecipe.isLocked) {
-      return <span id="recipe-description">Coming soon...</span>;
-    }
+    return <span id="recipe-description">Locked</span>;
 
     if (isUnsaved) {
       return (
