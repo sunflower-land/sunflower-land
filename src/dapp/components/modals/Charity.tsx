@@ -104,7 +104,7 @@ export const Charity: React.FC<Props> = ({ onSelect }) => {
 
         <span id="donate-minimum-description">Minimum of $0.1 MATIC </span>
         <div id="charities">
-          <div>
+          {/* <div>
             <div className="charity">Cool Earth</div>
             <span className="charity-description">
               Aim to halt deforestation and its impact on climate change.
@@ -144,7 +144,7 @@ export const Charity: React.FC<Props> = ({ onSelect }) => {
                 Donate & Play
               </Button>
             </div>
-          </div>
+          </div> */}
           <div>
             <div className="charity">The Water project</div>
             <span className="charity-description">
