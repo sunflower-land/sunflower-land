@@ -71,7 +71,7 @@ export const Farm: React.FC = () => {
     BlockchainState
   >(service);
 
-  const [showModal, setShowModal] = React.useState(false);
+  const [showExploreModal, setShowExploreModal] = React.useState(false);
   const [modalValue, setModalValue] = React.useState(null);
 
   const [exploringFarm, setExploringFarm] = React.useState({
@@ -266,120 +266,130 @@ export const Farm: React.FC = () => {
   };
 
   const openExploreFarmModal = () => {
-    setShowModal(true);
+    setShowExploreModal(true);
   };
 
   const closeExploreFarmModal = () => {
     setModalValue(null);
-    setShowModal(false);
+    setShowExploreModal(false);
   };
 
   const handleGoBack = () => {
+    machineState.context.blockChain.setOwnAccountId();
+
     setExploringFarm((prevState) => ({
       ...prevState,
       active: false,
     }));
-    setShowModal(false);
+    setShowExploreModal(false);
     send("CLOSE");
   };
 
-  return exploringFarm.active ? (
+  return (
     <>
-      <Land
-        fruits={fruits}
-        selectedItem={selectedItem}
-        land={exploringFarm.data.farm}
-        balance={safeBalance}
-        onHarvest={() => {}}
-        onPlant={() => {}}
-        account={exploringFarm.data.id}
-        inventory={exploringFarm.data.inventory}
-        totalItemSupplies={totalItemSupplies}
-      />
-      <span id="save-button">
-        <Panel hasInner={false}>
-          <Button onClick={() => handleGoBack()}>Go back</Button>
-          <div id="exploring-farm-address" title={exploringFarm.data.id}>
-            {exploringFarm.data.id}
-          </div>
-        </Panel>
-      </span>
-    </>
-  ) : (
-    <>
-      <Tour />
-      <ExploreFarmModal
-        showModal={showModal}
-        value={modalValue}
-        setValue={setModalValue}
-        closeModal={closeExploreFarmModal}
-        callback={getExploringFarm}
-      />
-      <Land
-        fruits={fruits}
-        selectedItem={selectedItem}
-        land={land}
-        balance={safeBalance}
-        onHarvest={onHarvest}
-        onPlant={onPlant}
-        account={accountId.current}
-        inventory={inventory}
-        totalItemSupplies={totalItemSupplies}
-      />
       <AudioPlayer />
-      <span id="save-button">
-        <Panel hasInner={false}>
-          <Button
-            onClick={save}
-            disabled={
-              !isDirty ||
-              machineState.matches("timerComplete") ||
-              machineState.matches("saving")
-            }
-          >
-            Save
-            {isDirty && (
-              <Timer
-                startAtSeconds={machineState.context.blockChain.lastSaved()}
-              />
-            )}
-          </Button>
-          <Button
-            onClick={() =>
-              window.open("https://docs.sunflower-farmers.com/")
-            }
-          >
-            About
-            <img src={questionMark} id="question" />
-          </Button>
-          <Button onClick={() => openExploreFarmModal()}>
-            Explore farms
-          </Button>
-        </Panel>
-      </span>
+      {exploringFarm.active ? (
+        <>
+          <Land
+            fruits={fruits}
+            selectedItem={selectedItem}
+            land={exploringFarm.data.farm}
+            balance={safeBalance}
+            onHarvest={() => {}}
+            onPlant={() => {}}
+            account={exploringFarm.data.id}
+            inventory={exploringFarm.data.inventory}
+            totalItemSupplies={totalItemSupplies}
+          />
+          <span id="save-button">
+            <Panel hasInner={false}>
+              <Button onClick={() => handleGoBack()}>Go back</Button>
+              <div
+                id="exploring-farm-address"
+                title={exploringFarm.data.id}
+              >
+                {exploringFarm.data.id}
+              </div>
+            </Panel>
+          </span>
+        </>
+      ) : (
+        <>
+          <Tour />
+          <ExploreFarmModal
+            showModal={showExploreModal}
+            value={modalValue}
+            setValue={setModalValue}
+            closeModal={closeExploreFarmModal}
+            callback={getExploringFarm}
+          />
+          <Land
+            fruits={fruits}
+            selectedItem={selectedItem}
+            land={land}
+            balance={safeBalance}
+            onHarvest={onHarvest}
+            onPlant={onPlant}
+            account={accountId.current}
+            inventory={inventory}
+            totalItemSupplies={totalItemSupplies}
+          />
+          <span id="save-button">
+            <Panel hasInner={false}>
+              <Button
+                onClick={save}
+                disabled={
+                  !isDirty ||
+                  machineState.matches("timerComplete") ||
+                  machineState.matches("saving")
+                }
+              >
+                Save
+                {isDirty && (
+                  <Timer
+                    startAtSeconds={machineState.context.blockChain.lastSaved()}
+                  />
+                )}
+              </Button>
+              <Button
+                onClick={() =>
+                  window.open("https://docs.sunflower-farmers.com/")
+                }
+              >
+                About
+                <img src={questionMark} id="question" />
+              </Button>
+              <Button onClick={() => openExploreFarmModal()}>
+                Explore farms
+              </Button>
+            </Panel>
+          </span>
 
-      <div id="balance">
-        <Panel>
-          <div id="inner">
-            <img src={coin} />
-            {machineState.context.blockChain.isConnected &&
-              safeBalance.toFixed(3)}
+          <div id="balance">
+            <Panel>
+              <div id="inner">
+                <img src={coin} />
+                {machineState.context.blockChain.isConnected &&
+                  safeBalance.toFixed(3)}
+              </div>
+            </Panel>
           </div>
-        </Panel>
-      </div>
 
-      <div id="buy-now" onClick={onBuyMore}>
-        <Message>Quickswap</Message>
-      </div>
+          <div id="buy-now" onClick={onBuyMore}>
+            <Message>Quickswap</Message>
+          </div>
 
-      <FruitBoard
-        fruits={fruits}
-        selectedItem={selectedItem}
-        onSelectItem={onChangeItem}
-        land={land}
-        balance={safeBalance}
-        inventory={inventory}
-      />
+          <FruitBoard
+            fruits={fruits}
+            selectedItem={selectedItem}
+            onSelectItem={onChangeItem}
+            land={land}
+            balance={safeBalance}
+            inventory={inventory}
+          />
+        </>
+      )}
+      ;
     </>
   );
 };

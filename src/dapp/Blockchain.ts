@@ -185,9 +185,20 @@ export class BlockChain {
       throw e;
     }
   }
-  public async getExploringFarm(acc) {
-    return this.getExploringAccount(acc);
+  public async getExploringFarm(id) {
+    this.account = id;
+    const accountData = await this.getAccount();
+    return {
+      ...accountData,
+      inventory: await this.loadInventory(),
+    };
   }
+
+  public async setOwnAccountId() {
+    const maticAccounts = await this.web3.eth.getAccounts();
+    this.account = maticAccounts[0];
+  }
+
   public async loadFarm() {
     const [
       account,
@@ -372,52 +383,6 @@ export class BlockChain {
         { createdAt: 0, fruit: Fruit.Sunflower },
       ],
     };
-  }
-
-  private async getExploringAccount(exploringAccount): Promise<Account> {
-    if (!this.web3 || this.isTrial) {
-      return {
-        farm: [
-          {
-            createdAt: 0,
-            fruit: Fruit.None,
-          },
-          {
-            createdAt: 0,
-            fruit: Fruit.Sunflower,
-          },
-          {
-            createdAt: 0,
-            fruit: Fruit.Sunflower,
-          },
-          {
-            createdAt: 0,
-            fruit: Fruit.Sunflower,
-          },
-          {
-            createdAt: 0,
-            fruit: Fruit.None,
-          },
-        ],
-        balance: 0,
-        id: exploringAccount,
-      };
-    }
-
-    const farm = await this.alchemyFarm.methods
-      .getLand(exploringAccount)
-      .call({ from: exploringAccount });
-
-    const inventory = await this.loadExploringInventory(exploringAccount);
-
-    const data = {
-      balance: 0,
-      farm,
-      inventory,
-      id: exploringAccount,
-    };
-
-    return data;
   }
 
   private async getAccount(): Promise<Account> {
@@ -859,34 +824,6 @@ export class BlockChain {
         reject(e);
       }
     });
-  }
-
-  private async loadExploringInventory(exploringAccount): Promise<Inventory> {
-    // Call balanceOf on each item
-    const itemBalancesPromise = Object.values(this.contracts).map(
-      (contract) =>
-        contract.methods
-          .balanceOf(exploringAccount)
-          .call({ from: exploringAccount })
-    );
-
-    const itemBalances = await Promise.all(itemBalancesPromise);
-
-    const values: Record<ItemName, number> = Object.keys(
-      this.contracts
-    ).reduce((itemValues, itemName, index) => {
-      const isNFT =
-        items.find((item) => item.name === itemName).type === "NFT";
-      const balance = itemBalances[index];
-      return {
-        ...itemValues,
-        [itemName]: isNFT
-          ? Number(balance)
-          : Math.ceil(Number(this.web3.utils.fromWei(balance))),
-      };
-    }, {} as Record<ItemName, number>);
-
-    return values;
   }
 
   private async loadInventory(): Promise<Inventory> {
