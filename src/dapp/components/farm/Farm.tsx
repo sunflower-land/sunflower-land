@@ -281,7 +281,7 @@ export const Farm: React.FC = () => {
           <div id="inner">
             <img src={coin} />
             {machineState.context.blockChain.isConnected &&
-              safeBalance.toFixed(3)}
+              safeBalance.toFixed(5)}
           </div>
         </Panel>
       </div>
