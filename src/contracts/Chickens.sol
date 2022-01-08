@@ -6,7 +6,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contr
 
 
 contract Egg is ERC20, ERC20Burnable {
-  address private _farm;
+  address private immutable _farm;
   address private _chicken;
 
 

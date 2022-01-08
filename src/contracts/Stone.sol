@@ -3,43 +3,28 @@ pragma solidity >=0.6.0 <0.8.0;
 
 //import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 //import "@openzeppelin/contracts/token/ERC20/ERC20Burnable.sol";
-
+import "./Minter.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/ERC20.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/ERC20Burnable.sol";
 
 
-contract Stone is ERC20, ERC20Burnable {
-  address public minter;
-  
+contract Stone is ERC20, ERC20Burnable, Minter {
   // How long it takes - 2 hours
-  uint RECOVERY_SECONDS = 7200;
+  uint constant RECOVERY_SECONDS = 7200;
   // How much stone a quarry has
-  uint STRENGTH = 10 * (10**18);
+  uint constant STRENGTH = 10 * (10**18);
   
   mapping(address => uint) recoveryTime;
-
-  event MinterChanged(address indexed from, address to);
 
   constructor() payable ERC20("Sunflower Land Stone", "SLS") {
     minter = msg.sender;
   }
 
-  function passMinterRole(address farm) public returns (bool) {
-    require(msg.sender==minter, "You are not minter");
-    minter = farm;
-
-    emit MinterChanged(msg.sender, farm);
-    return true;
-  }
-
-
-  function premine(address account, uint256 amount) public {
-    require(msg.sender == minter, "You are not the minter");
+  function premine(address account, uint256 amount) public onlyMinter {
 	_mint(account, amount);
   }
   
-  function burn(address account, uint256 amount) public {
-    require(msg.sender == minter, "You are not the minter");
+  function burn(address account, uint256 amount) public onlyMinter {
 	_burn(account, amount);
   }
   
@@ -47,8 +32,7 @@ contract Stone is ERC20, ERC20Burnable {
         address sender,
         address recipient,
         uint256 amount
-    ) public virtual override returns (bool) {
-        require(msg.sender == minter, "You are not the minter");
+    ) public virtual override onlyMinter returns (bool) {
         
         _transfer(sender, recipient, amount);
         
@@ -73,8 +57,7 @@ contract Stone is ERC20, ERC20Burnable {
         return recoveryTime[account];
     }
     
-    function stake(address account, uint amount) public {
-        require(msg.sender == minter, "You are not the minter");
+    function stake(address account, uint amount) public onlyMinter {
         
         uint available = getAvailable(account);
         require(available >= amount, "The wood has not replenished");

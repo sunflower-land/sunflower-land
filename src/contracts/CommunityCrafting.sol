@@ -233,7 +233,7 @@ contract CommunityCrafting {
 
     IUniswapV2Router02 public immutable uniswapV2Router;
 
-    address private sunflowerTeam;
+    address private immutable sunflowerTeam;
 
     struct CommunityRecipe {
         address itemAddress;

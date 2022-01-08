@@ -1,41 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "./Minter.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
-contract Gold is ERC20, ERC20Burnable {
-  address public minter;
-  
+contract Gold is ERC20, ERC20Burnable, Minter {
   // How long it takes - 12 hours
-  uint RECOVERY_SECONDS = 43200;
+  uint constant RECOVERY_SECONDS = 43200;
   // How much gold a goldmine has
-  uint STRENGTH = 2 * (10**18);
+  uint constant STRENGTH = 2 * (10**18);
   
   mapping(address => uint) recoveryTime;
-
-  event MinterChanged(address indexed from, address to);
 
   constructor() payable ERC20("Sunflower Land Gold", "SLG") {
     minter = msg.sender;
   }
 
-  function passMinterRole(address farm) public returns (bool) {
-    require(msg.sender==minter, "You are not minter");
-    minter = farm;
-
-    emit MinterChanged(msg.sender, farm);
-    return true;
-  }
-
   // Rewards / Christmas Giveaway
-  function premine(address account, uint256 amount) public {
-    require(msg.sender == minter, "You are not the minter");
+  function premine(address account, uint256 amount) public onlyMinter {
 	_mint(account, amount);
   }
   
-  function burn(address account, uint256 amount) public {
-    require(msg.sender == minter, "You are not the minter");
+  function burn(address account, uint256 amount) public onlyMinter {
 	_burn(account, amount);
   }
   
@@ -58,8 +45,7 @@ contract Gold is ERC20, ERC20Burnable {
         return recoveryTime[account];
     }
     
-    function stake(address account, uint amount) public {
-        require(msg.sender == minter, "You are not the minter");
+    function stake(address account, uint amount) public onlyMinter {
         
         uint available = getAvailable(account);
         require(available >= amount, "The gold has not replenished");

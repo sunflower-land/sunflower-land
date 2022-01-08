@@ -20,7 +20,7 @@ interface ERCItem {
 contract FarmV2 {
     using SafeMath for uint256;
 
-    TokenV2 private token;
+    TokenV2 private immutable token;
 
     struct Square {
         Fruit fruit;

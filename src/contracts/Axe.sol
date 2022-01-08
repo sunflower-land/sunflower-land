@@ -8,36 +8,23 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contr
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/ERC20Burnable.sol";
 
 
-contract Axe is ERC20, ERC20Burnable {
-  address public minter;
+contract Axe is ERC20, ERC20Burnable, Minter {
   address private owner;
-
-  event MinterChanged(address indexed from, address to);
 
   constructor() payable ERC20("Sunflower Land Axe", "SLA") {
     minter = msg.sender;
     owner = msg.sender;
-  }
-
-  function passMinterRole(address farm) public returns (bool) {
-    require(msg.sender==minter, "You are not minter");
-    minter = farm;
-
-    emit MinterChanged(msg.sender, farm);
-    return true;
   }
   
   function getOwner() public view returns (address) {
       return owner;
   }
 
-  function mint(address account, uint256 amount) public {
-    require(msg.sender == minter, "You are not the minter");
+  function mint(address account, uint256 amount) public onlyMinter {
 	_mint(account, amount);
 	}
 
-  function burn(address account, uint256 amount) public {
-    require(msg.sender == minter, "You are not the minter");
+  function burn(address account, uint256 amount) public onlyMinter {
 	_burn(account, amount);
   }
   
@@ -45,9 +32,7 @@ contract Axe is ERC20, ERC20Burnable {
         address sender,
         address recipient,
         uint256 amount
-    ) public virtual override returns (bool) {
-        require(msg.sender == minter, "You are not the minter");
-        
+    ) public virtual override onlyMinter returns (bool) {
         _transfer(sender, recipient, amount);
     }
 }
