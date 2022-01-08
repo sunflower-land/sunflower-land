@@ -53,7 +53,7 @@ export const Blacksmith: React.FC<Props> = ({
     BlockchainState
   >(service);
 
-    const handleClick = () => {
+    const handleOnClick = () => {
       if(machineState.matches("exploring")) {
         return;
       }
@@ -157,7 +157,7 @@ export const Blacksmith: React.FC<Props> = ({
       <div
         style={{ gridColumn: "4/5", gridRow: "9/10" }}
         id="minter"
-        onClick={() => handleClick()}
+        onClick={handleOnClick}
       >
         <img id="blacksmith" src={blacksmith} />
 

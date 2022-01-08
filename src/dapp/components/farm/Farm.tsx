@@ -303,7 +303,7 @@ export const Farm: React.FC = () => {
           />
           <span id="save-button">
             <Panel hasInner={false}>
-              <Button onClick={() => handleGoBack()}>Go back</Button>
+              <Button onClick={handleGoBack}>Go back</Button>
               <div
                 id="exploring-farm-address"
                 title={exploringFarm.data.id}
@@ -359,7 +359,7 @@ export const Farm: React.FC = () => {
                 About
                 <img src={questionMark} id="question" />
               </Button>
-              <Button onClick={() => openExploreFarmModal()}>
+              <Button onClick={openExploreFarmModal}>
                 Explore farms
               </Button>
             </Panel>
