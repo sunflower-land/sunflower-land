@@ -1,12 +1,12 @@
 import Big from "big.js";
 
-import sunflower from "../images/sunflower/fruit.png";
-import pumpkin from "../images/pumpkin/fruit.png";
 import beetroot from "../images/beetroot/fruit.png";
 import cauliflower from "../images/cauliflower/fruit.png";
-import potato from "../images/potato/fruit.png";
-import radish from "../images/radish/fruit.png";
 import parsnip from "../images/parsnip/fruit.png";
+import potato from "../images/potato/fruit.png";
+import pumpkin from "../images/pumpkin/fruit.png";
+import radish from "../images/radish/fruit.png";
+import sunflower from "../images/sunflower/fruit.png";
 
 export enum Fruit {
   None = "0",

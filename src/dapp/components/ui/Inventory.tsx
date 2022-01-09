@@ -1,18 +1,15 @@
+import "./Inventory.css";
+
 import React from "react";
 
-import { FruitItem } from "../../types/fruits";
-
-import { ActionableItem, isFruit } from "../../types/contract";
+import { ActionableItem } from "../../types/contract";
 import {
   Inventory as InventorySupply,
   Item,
   items,
-  Recipe,
-  recipes,
 } from "../../types/crafting";
-
+import { FruitItem } from "../../types/fruits";
 import { InventoryItems } from "./InventoryItems";
-import "./Inventory.css";
 
 interface Props {
   balance: number;
@@ -21,13 +18,10 @@ interface Props {
   inventory: InventorySupply;
 }
 
-export const Inventory: React.FC<Props> = ({
-  balance,
-  land,
-  fruits,
-  inventory,
-}) => {
-  const [selectedItem, onSelectItem] = React.useState<ActionableItem>(items[0]);
+export const Inventory: React.FC<Props> = ({ inventory }) => {
+  const [selectedItem, onSelectItem] = React.useState<ActionableItem>(
+    items[0]
+  );
 
   const item = selectedItem as Item;
 
@@ -42,6 +36,7 @@ export const Inventory: React.FC<Props> = ({
         <a
           href="https://docs.sunflower-farmers.com/crafting-guide"
           target="_blank"
+          rel="noreferrer"
         >
           <h3 className="current-price-supply-demand">Read more</h3>
         </a>

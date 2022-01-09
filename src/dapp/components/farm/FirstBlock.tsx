@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Field } from "./Field";
-import { ActionableItem, Fruit, Square } from "../../types/contract";
 import watering from "../../images/characters/watering.gif";
+import { ActionableItem, Fruit, Square } from "../../types/contract";
 import { FruitItem } from "../../types/fruits";
+import { Field } from "./Field";
 
 interface Props {
   land: Square[];
@@ -41,15 +41,27 @@ export const FirstBlock: React.FC<Props> = ({
 
   return (
     <>
-      <div className="top-edge" style={{ gridColumn: "7/8", gridRow: "6/7" }} />
-      <div className="top-edge" style={{ gridColumn: "8/9", gridRow: "6/7" }} />
+      <div
+        className="top-edge"
+        style={{ gridColumn: "7/8", gridRow: "6/7" }}
+      />
+      <div
+        className="top-edge"
+        style={{ gridColumn: "8/9", gridRow: "6/7" }}
+      />
       <div
         className="top-edge"
         style={{ gridColumn: "9/10", gridRow: "6/7" }}
       />
 
-      <div className="dirt" style={{ gridColumn: "7/8", gridRow: "7/8" }} />
-      <div className="dirt" style={{ gridColumn: "9/10", gridRow: "7/8" }} />
+      <div
+        className="dirt"
+        style={{ gridColumn: "7/8", gridRow: "7/8" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "9/10", gridRow: "7/8" }}
+      />
 
       <div className="dirt" style={{ gridColumn: "9/10", gridRow: "8/9" }}>
         <Field
@@ -58,7 +70,9 @@ export const FirstBlock: React.FC<Props> = ({
           selectedItem={selectedItem}
           square={land[3]}
           onClick={
-            land[3].fruit === Fruit.None ? () => onPlant(3) : () => onHarvest(3)
+            land[3].fruit === Fruit.None
+              ? () => onPlant(3)
+              : () => onHarvest(3)
           }
         />
       </div>
@@ -70,7 +84,9 @@ export const FirstBlock: React.FC<Props> = ({
           selectedItem={selectedItem}
           square={land[0]}
           onClick={
-            land[0].fruit === Fruit.None ? () => onPlant(0) : () => onHarvest(0)
+            land[0].fruit === Fruit.None
+              ? () => onPlant(0)
+              : () => onHarvest(0)
           }
         />
       </div>
@@ -81,7 +97,9 @@ export const FirstBlock: React.FC<Props> = ({
           selectedItem={selectedItem}
           square={land[4]}
           onClick={
-            land[4].fruit === Fruit.None ? () => onPlant(4) : () => onHarvest(4)
+            land[4].fruit === Fruit.None
+              ? () => onPlant(4)
+              : () => onHarvest(4)
           }
         />
       </div>
@@ -96,7 +114,9 @@ export const FirstBlock: React.FC<Props> = ({
           selectedItem={selectedItem}
           square={land[2]}
           onClick={
-            land[2].fruit === Fruit.None ? () => onPlant(2) : () => onHarvest(2)
+            land[2].fruit === Fruit.None
+              ? () => onPlant(2)
+              : () => onHarvest(2)
           }
         />
       </div>
@@ -108,14 +128,22 @@ export const FirstBlock: React.FC<Props> = ({
           selectedItem={selectedItem}
           square={land[1]}
           onClick={
-            land[1].fruit === Fruit.None ? () => onPlant(1) : () => onHarvest(1)
+            land[1].fruit === Fruit.None
+              ? () => onPlant(1)
+              : () => onHarvest(1)
           }
         />
       </div>
 
-      <div className="dirt" style={{ gridColumn: "7/8", gridRow: "9/10" }} />
+      <div
+        className="dirt"
+        style={{ gridColumn: "7/8", gridRow: "9/10" }}
+      />
 
-      <div className="dirt" style={{ gridColumn: "9/10", gridRow: "9/10" }} />
+      <div
+        className="dirt"
+        style={{ gridColumn: "9/10", gridRow: "9/10" }}
+      />
 
       <div
         className="bottom-edge"

@@ -1,21 +1,19 @@
+import "./MarketModal.css";
+
+import Big from "big.js";
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import Big from "big.js";
 
-import { service } from "../../machine";
-
-import alert from "../../images/ui/expression_alerted.png";
 import sunflower from "../../images/sunflower/fruit.png";
-
-import { Panel } from "./Panel";
+import alert from "../../images/ui/expression_alerted.png";
+import { service } from "../../machine";
+import { numberWithBreaks } from "../../utils/number";
 import {
   getMarketRate,
   getNextHalvingThreshold,
   getNextMarketRate,
 } from "../../utils/supply";
-import { numberWithBreaks } from "../../utils/number";
-
-import "./MarketModal.css";
+import { Panel } from "./Panel";
 
 interface Props {
   isOpen: boolean;
@@ -29,9 +27,11 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   React.useEffect(() => {
     const load = async () => {
-      if (isOpen) await service.machine.context.blockChain.cacheTotalSupply();
+      if (isOpen)
+        await service.machine.context.blockChain.cacheTotalSupply();
 
-      const supply = await service.machine.context.blockChain.totalSupply();
+      const supply =
+        await service.machine.context.blockChain.totalSupply();
       setTotalSupply(supply);
     };
 
@@ -56,23 +56,27 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
           <div className="current-price-info-container">
             <p className="current-price-info">
               As all dedicated farmers know, supply and demand can be a
-              dangerous thing. When prices are high, fortunes can be made. But
-              when prices are low, a lifetime of potato hustling can be lost.
+              dangerous thing. When prices are high, fortunes can be made.
+              But when prices are low, a lifetime of potato hustling can be
+              lost.
             </p>
             <p className="current-price-info">
-              When the supply is getting nearer to a halvening event you will
-              want to ensure you are ready!
+              When the supply is getting nearer to a halvening event you
+              will want to ensure you are ready!
             </p>
           </div>
 
           <div className="current-price-info-container">
             {nextHalvingThreshold ? (
               <p className="current-price-info">
-                The next halvening event will occur when total supply reaches{" "}
-                {numberWithBreaks(nextHalvingThreshold.amount)} tokens
+                The next halvening event will occur when total supply
+                reaches {numberWithBreaks(nextHalvingThreshold.amount)}{" "}
+                tokens
               </p>
             ) : (
-              <p className="current-price-info">No more halvening events!</p>
+              <p className="current-price-info">
+                No more halvening events!
+              </p>
             )}
           </div>
 
@@ -88,7 +92,9 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 <h3 className="current-price-header">Current Price</h3>
                 <div className="current-price-container ">
                   <img className="sunflower-price" src={sunflower} />
-                  <span className="current-price">= {currentPrice} $SFF</span>
+                  <span className="current-price">
+                    = {currentPrice} $SFF
+                  </span>
                 </div>
               </div>
 
@@ -97,7 +103,9 @@ export const MarketModal: React.FC<Props> = ({ isOpen, onClose }) => {
                   <h3 className="current-price-header">Upcoming Price</h3>
                   <div className="current-price-container ">
                     <img className="sunflower-price" src={sunflower} />
-                    <span className="current-price">= {nextPrice} $SFF</span>
+                    <span className="current-price">
+                      = {nextPrice} $SFF
+                    </span>
                   </div>
                 </div>
               )}

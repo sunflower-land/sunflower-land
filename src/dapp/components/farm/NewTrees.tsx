@@ -1,34 +1,31 @@
+import "./Trees.css";
+
 import { useService } from "@xstate/react";
+import classnames from "classnames";
 import React, { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import classnames from "classnames";
 
-import closeIcon from "../../images/ui/close.png";
-import tree from "../../images/decorations/tree.png";
-import stump from "../../images/decorations/stump.png";
 import chopping from "../../images/characters/chopping.gif";
 import waiting from "../../images/characters/waiting.gif";
-import questionMark from "../../images/ui/expression_confused.png";
-import arrowUp from "../../images/ui/arrow_up.png";
+import stump from "../../images/decorations/stump.png";
+import tree from "../../images/decorations/tree.png";
 import arrowDown from "../../images/ui/arrow_down.png";
+import arrowUp from "../../images/ui/arrow_up.png";
 import axe from "../../images/ui/axe.png";
-import wood from "../../images/ui/wood.png";
+import closeIcon from "../../images/ui/close.png";
+import questionMark from "../../images/ui/expression_confused.png";
 import timer from "../../images/ui/timer.png";
-
-import { Panel } from "../ui/Panel";
-import { Message } from "../ui/Message";
-import { Button } from "../ui/Button";
-
+import wood from "../../images/ui/wood.png";
 import {
   BlockchainEvent,
   BlockchainState,
   Context,
   service,
 } from "../../machine";
-
 import { Inventory, items } from "../../types/crafting";
-
-import "./Trees.css";
+import { Button } from "../ui/Button";
+import { Message } from "../ui/Message";
+import { Panel } from "../ui/Panel";
 
 const TREES: React.CSSProperties[] = [
   {
@@ -92,7 +89,8 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
 
   useEffect(() => {
     const load = async () => {
-      const strength = await machineState.context.blockChain.getTreeStrength();
+      const strength =
+        await machineState.context.blockChain.getTreeStrength();
       setTreeStrength(Math.floor(Number(strength)));
     };
 
@@ -137,10 +135,17 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
     <>
       {TREES.map((gridPosition, index) => {
         const choppedTreeCount = 10 - treeStrength;
-        if (choppedTreeCount > index || machineState.matches("onboarding")) {
+        if (
+          choppedTreeCount > index ||
+          machineState.matches("onboarding")
+        ) {
           return (
             <div style={gridPosition}>
-              <img src={stump} className="wood-stump gather-tree" alt="tree" />
+              <img
+                src={stump}
+                className="wood-stump gather-tree"
+                alt="tree"
+              />
             </div>
           );
         }
@@ -154,6 +159,7 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
 
         return (
           <div
+            key={index}
             style={gridPosition}
             className={classnames("gather-tree", {
               "gatherer-selected": isHighlighted,
@@ -249,7 +255,10 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
                       </div>
                     </div>
 
-                    <Button onClick={chop} disabled={inventory.Axe < amount}>
+                    <Button
+                      onClick={chop}
+                      disabled={inventory.Axe < amount}
+                    >
                       <span id="craft-button-text">Chop</span>
                     </Button>
                   </div>
@@ -264,8 +273,11 @@ export const Trees: React.FC<Props> = ({ inventory }) => {
                 <a
                   href="https://docs.sunflower-farmers.com/resources"
                   target="_blank"
+                  rel="noreferrer"
                 >
-                  <h3 className="current-price-supply-demand">Read more</h3>
+                  <h3 className="current-price-supply-demand">
+                    Read more
+                  </h3>
                 </a>
               </div>
             </div>

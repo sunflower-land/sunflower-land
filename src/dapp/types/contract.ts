@@ -1,5 +1,5 @@
 import { Item, items } from "./crafting";
-import { FruitItem, FRUITS, Fruit } from "./fruits";
+import { Fruit, FruitItem, FRUITS } from "./fruits";
 
 export { Fruit };
 

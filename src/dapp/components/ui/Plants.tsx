@@ -1,15 +1,13 @@
+import "./Inventory.css";
+
 import React from "react";
 
 import coin from "../../images/ui/icon.png";
 import stopwatch from "../../images/ui/stopwatch.png";
-
-import { FruitItem, getFruit } from "../../types/fruits";
-import { ActionableItem, Fruit, isFruit } from "../../types/contract";
-
-import { Box } from "./Box";
-
-import "./Inventory.css";
+import { ActionableItem, isFruit } from "../../types/contract";
+import { FruitItem } from "../../types/fruits";
 import { secondsToString } from "../../utils/time";
+import { Box } from "./Box";
 
 interface Props {
   selectedItem: ActionableItem;
@@ -22,7 +20,6 @@ interface Props {
 export const Plants: React.FC<Props> = ({
   selectedItem,
   onSelectItem,
-  balance,
   land,
   fruits,
 }) => {
@@ -53,6 +50,7 @@ export const Plants: React.FC<Props> = ({
         <a
           href="https://docs.sunflower-farmers.com/plant-guide"
           target="_blank"
+          rel="noreferrer"
         >
           <h3 className="current-price-supply-demand">Read more</h3>
         </a>

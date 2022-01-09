@@ -1,27 +1,22 @@
+import "./Crafting.css";
+
+import { useService } from "@xstate/react";
 import React from "react";
 
-import { Button } from "../ui/Button";
-import { Message } from "../ui/Message";
-import { InventoryItems } from "../ui/InventoryItems";
-
+import arrowDown from "../../images/ui/arrow_down.png";
+import arrowUp from "../../images/ui/arrow_up.png";
+import basket from "../../images/ui/basket.png";
 import {
-  Context,
   BlockchainEvent,
   BlockchainState,
+  Context,
   service,
 } from "../../machine";
-
-import hammer from "../../images/ui/hammer.png";
-import basket from "../../images/ui/basket.png";
-
-import arrowUp from "../../images/ui/arrow_up.png";
-import arrowDown from "../../images/ui/arrow_down.png";
-
-import { recipes, Recipe, Inventory, Item } from "../../types/crafting";
+import { Inventory, Recipe, recipes } from "../../types/crafting";
+import { Button } from "../ui/Button";
+import { InventoryItems } from "../ui/InventoryItems";
+import { Message } from "../ui/Message";
 import { Box, BoxProps } from "./Box";
-
-import "./Crafting.css";
-import { useService } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
@@ -39,12 +34,10 @@ export const Tools: React.FC<Props> = ({
   onClose,
   balance,
   inventory,
-  totalItemSupplies,
-  level,
 }) => {
   const [amount, setAmount] = React.useState(1);
   const [selectedRecipe, setSelectedRecipe] = React.useState(TOOLS[0]);
-  const [machineState, send] = useService<
+  const [machineState] = useService<
     Context,
     BlockchainEvent,
     BlockchainState
@@ -140,8 +133,9 @@ export const Tools: React.FC<Props> = ({
     <div id="crafting">
       <div id="crafting-left">
         <div id="crafting-items">
-          {boxes.map((box) => (
+          {boxes.map((box, index) => (
             <Box
+              key={index}
               count={box.count}
               onClick={box.onClick}
               image={box.image}
@@ -160,6 +154,7 @@ export const Tools: React.FC<Props> = ({
         <a
           href="https://docs.sunflower-farmers.com/crafting-guide"
           target="_blank"
+          rel="noreferrer"
         >
           <h3 className="current-price-supply-demand">Read more</h3>
         </a>
@@ -173,8 +168,8 @@ export const Tools: React.FC<Props> = ({
         <span id="recipe-description">{selectedRecipe.description}</span>
 
         <div id="ingredients">
-          {ingredientList.map((ingredient) => (
-            <div className="ingredient">
+          {ingredientList.map((ingredient, index) => (
+            <div className="ingredient" key={index}>
               <div>
                 <img className="ingredient-image" src={ingredient.image} />
                 <span className="ingredient-count">{ingredient.name}</span>

@@ -1,15 +1,15 @@
+import "./NFTs.css";
+
 import React from "react";
 
-import statue from "../../images/ui/sunflower_statue.png";
-import potatoStatue from "../../images/ui/potato_statue.png";
+import christmasTree from "../../images/ui/christmas_tree.png";
+import dog from "../../images/ui/dog.png";
 import farmCat from "../../images/ui/farm_cat.png";
 import gnome from "../../images/ui/gnome.png";
-import dog from "../../images/ui/dog.png";
+import potatoStatue from "../../images/ui/potato_statue.png";
 import scarecrow from "../../images/ui/scarecrow.png";
-import christmasTree from "../../images/ui/christmas_tree.png";
+import statue from "../../images/ui/sunflower_statue.png";
 import { Inventory } from "../../types/crafting";
-
-import "./NFTs.css";
 
 interface Props {
   inventory: Inventory;

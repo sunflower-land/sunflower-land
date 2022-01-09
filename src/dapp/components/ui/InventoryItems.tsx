@@ -1,30 +1,10 @@
+import "./Inventory.css";
+
 import React from "react";
 
-import wood from "../../images/ui/wood.png";
-import stone from "../../images/ui/rock.png";
-
-import { FruitItem } from "../../types/fruits";
-
+import { ActionableItem } from "../../types/contract";
+import { Inventory, ItemName, items } from "../../types/crafting";
 import { Box, Props as BoxProps } from "./Box";
-
-import {
-  Inventory,
-  Item,
-  ItemName,
-  items,
-  Recipe,
-  recipes,
-} from "../../types/crafting";
-
-import "./Inventory.css";
-import {
-  BlockchainEvent,
-  BlockchainState,
-  Context,
-  service,
-} from "../../machine";
-import { useService } from "@xstate/react";
-import { ActionableItem, isFruit } from "../../types/contract";
 
 interface Props {
   selectedItem?: ActionableItem;
@@ -60,8 +40,9 @@ export const InventoryItems: React.FC<Props> = ({
 
   return (
     <div id="inventory">
-      {boxes.map((box) => (
+      {boxes.map((box, index) => (
         <Box
+          key={index}
           count={box.count}
           onClick={box.onClick}
           image={box.image}

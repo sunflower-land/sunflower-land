@@ -1,15 +1,11 @@
 import React from "react";
-
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
-import { ActionableItem, Fruit, Square } from "../../types/contract";
-
-import { UpgradeOverlay } from "../ui/UpgradeModal";
-
 import soil from "../../images/land/soil/planted.png";
-
-import { Field } from "./Field";
+import { ActionableItem, Fruit, Square } from "../../types/contract";
 import { FruitItem } from "../../types/fruits";
+import { UpgradeOverlay } from "../ui/UpgradeModal";
+import { Field } from "./Field";
 
 interface Props {
   land: Square[];
@@ -90,7 +86,10 @@ export const ThirdBlock: React.FC<Props> = ({
           </div>
         )}
       </div>
-      <div className="dirt" style={{ gridColumn: "7/8", gridRow: "3/4" }} />
+      <div
+        className="dirt"
+        style={{ gridColumn: "7/8", gridRow: "3/4" }}
+      />
 
       <div
         className="left-edge"
@@ -100,8 +99,14 @@ export const ThirdBlock: React.FC<Props> = ({
         className="left-edge"
         style={{ gridColumn: "5/6", gridRow: "3/4" }}
       />
-      <div className="top-edge" style={{ gridColumn: "6/7", gridRow: "1/2" }} />
-      <div className="top-edge" style={{ gridColumn: "7/8", gridRow: "1/2" }} />
+      <div
+        className="top-edge"
+        style={{ gridColumn: "6/7", gridRow: "1/2" }}
+      />
+      <div
+        className="top-edge"
+        style={{ gridColumn: "7/8", gridRow: "1/2" }}
+      />
       <div
         className="right-edge"
         style={{ gridColumn: "8/9", gridRow: "2/3" }}

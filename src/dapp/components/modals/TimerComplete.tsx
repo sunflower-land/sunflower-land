@@ -1,36 +1,33 @@
-import React from 'react'
-import { Panel } from '../ui/Panel'
-import { Button } from '../ui/Button'
+import "./TimerComplete.css";
 
-import alert from '../../images/ui/expression_alerted.png'
+import React from "react";
 
-import { service } from '../../machine'
-
-import './TimerComplete.css'
+import alert from "../../images/ui/expression_alerted.png";
+import { service } from "../../machine";
+import { Button } from "../ui/Button";
+import { Panel } from "../ui/Panel";
 
 export const TimerComplete: React.FC = () => {
-    const save = () => {
-        service.send('SAVE')
-    }
+  const save = () => {
+    service.send("SAVE");
+  };
 
-    return (
-        <Panel>
-            <div id="timer-complete">
+  return (
+    <Panel>
+      <div id="timer-complete">
+        <img src={alert} />
 
-                <img src={alert} />
+        <h4>Times up...</h4>
 
-                <h4>Times up...</h4>
-                
-                <p>A farm must be saved within 30 minutes otherwise it cannot pass the smart contract validation.</p>
+        <p>
+          A farm must be saved within 30 minutes otherwise it cannot pass
+          the smart contract validation.
+        </p>
 
-                <span>Please save now.</span>
+        <span>Please save now.</span>
 
-                <Button onClick={save}>
-                    Save
-                </Button>
-
-            </div>
-        </Panel>
-    )
-    
-}
+        <Button onClick={save}>Save</Button>
+      </div>
+    </Panel>
+  );
+};

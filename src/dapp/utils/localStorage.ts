@@ -1,8 +1,4 @@
-import {
-  ActionableItem,
-  ACTIONABLE_ITEMS,
-  Fruit,
-} from "../types/contract";
+import { ACTIONABLE_ITEMS, ActionableItem } from "../types/contract";
 import { FRUITS } from "../types/fruits";
 
 interface FarmState {

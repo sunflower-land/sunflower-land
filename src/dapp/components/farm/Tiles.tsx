@@ -1,20 +1,16 @@
 import React from "react";
 
-import tree from "../../images/decorations/tree.png";
-import woodHorizontal from "../../images/fence/wood_horizontal.png";
-import woodPost from "../../images/fence/wood_post.png";
-import woodHalf from "../../images/fence/wood_half.png";
+import bridge from "../../images/decorations/bridge.png";
 import bucket from "../../images/decorations/bucket.png";
 import flower1 from "../../images/decorations/flower1.png";
 import flower2 from "../../images/decorations/flower2.png";
-import stump from "../../images/decorations/stump.png";
-import rock1 from "../../images/decorations/rock2.png";
-import rock2 from "../../images/decorations/rock3.png";
 import grassLeaves1 from "../../images/decorations/grassLeaves1.png";
 import grassLeaves2 from "../../images/decorations/grassLeaves2.png";
-import bridge from "../../images/decorations/bridge.png";
-
-interface Props {}
+import rock1 from "../../images/decorations/rock2.png";
+import rock2 from "../../images/decorations/rock3.png";
+import woodHalf from "../../images/fence/wood_half.png";
+import woodHorizontal from "../../images/fence/wood_horizontal.png";
+import woodPost from "../../images/fence/wood_post.png";
 
 const fields = [1, 4, 6, 10, 13, 15];
 
@@ -84,10 +80,22 @@ export const Tiles: React.FC<Props> = () => {
   return (
     <>
       {/*First to second path*/}
-      <div className="dirt" style={{ gridColumn: "4/5", gridRow: "8/9" }} />
-      <div className="dirt" style={{ gridColumn: "5/6", gridRow: "8/9" }} />
-      <div className="dirt" style={{ gridColumn: "6/7", gridRow: "8/9" }} />
-      <div className="top-edge" style={{ gridColumn: "4/5", gridRow: "7/8" }} />
+      <div
+        className="dirt"
+        style={{ gridColumn: "4/5", gridRow: "8/9" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "5/6", gridRow: "8/9" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "6/7", gridRow: "8/9" }}
+      />
+      <div
+        className="top-edge"
+        style={{ gridColumn: "4/5", gridRow: "7/8" }}
+      />
       <div
         className="bottom-edge"
         style={{ gridColumn: "4/5", gridRow: "9/10" }}
@@ -102,10 +110,22 @@ export const Tiles: React.FC<Props> = () => {
       />
 
       {/*Second to fourth path*/}
-      <div className="dirt" style={{ gridColumn: "5/6", gridRow: "7/8" }} />
-      <div className="dirt" style={{ gridColumn: "5/6", gridRow: "6/7" }} />
-      <div className="dirt" style={{ gridColumn: "4/5", gridRow: "5/6" }} />
-      <div className="dirt" style={{ gridColumn: "5/6", gridRow: "5/6" }} />
+      <div
+        className="dirt"
+        style={{ gridColumn: "5/6", gridRow: "7/8" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "5/6", gridRow: "6/7" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "4/5", gridRow: "5/6" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "5/6", gridRow: "5/6" }}
+      />
       <div
         className="left-edge"
         style={{ gridColumn: "4/5", gridRow: "6/7" }}
@@ -120,17 +140,50 @@ export const Tiles: React.FC<Props> = () => {
       />
 
       {/*Third to fifth path*/}
-      <div className="dirt" style={{ gridColumn: "6/7", gridRow: "5/6" }} />
-      <div className="dirt" style={{ gridColumn: "7/8", gridRow: "5/6" }} />
-      <div className="dirt" style={{ gridColumn: "7/8", gridRow: "4/5" }} />
-      <div className="dirt" style={{ gridColumn: "8/9", gridRow: "5/6" }} />
-      <div className="dirt" style={{ gridColumn: "9/10", gridRow: "5/6" }} />
-      <div className="dirt" style={{ gridColumn: "10/11", gridRow: "5/6" }} />
-      <div className="dirt" style={{ gridColumn: "11/12", gridRow: "5/6" }} />
-      <div className="top-edge" style={{ gridColumn: "4/5", gridRow: "4/5" }} />
-      <div className="top-edge" style={{ gridColumn: "5/6", gridRow: "4/5" }} />
-      <div className="top-edge" style={{ gridColumn: "6/7", gridRow: "4/5" }} />
-      <div className="top-edge" style={{ gridColumn: "8/9", gridRow: "4/5" }} />
+      <div
+        className="dirt"
+        style={{ gridColumn: "6/7", gridRow: "5/6" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "7/8", gridRow: "5/6" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "7/8", gridRow: "4/5" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "8/9", gridRow: "5/6" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "9/10", gridRow: "5/6" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "10/11", gridRow: "5/6" }}
+      />
+      <div
+        className="dirt"
+        style={{ gridColumn: "11/12", gridRow: "5/6" }}
+      />
+      <div
+        className="top-edge"
+        style={{ gridColumn: "4/5", gridRow: "4/5" }}
+      />
+      <div
+        className="top-edge"
+        style={{ gridColumn: "5/6", gridRow: "4/5" }}
+      />
+      <div
+        className="top-edge"
+        style={{ gridColumn: "6/7", gridRow: "4/5" }}
+      />
+      <div
+        className="top-edge"
+        style={{ gridColumn: "8/9", gridRow: "4/5" }}
+      />
       <div
         className="top-edge"
         style={{ gridColumn: "9/10", gridRow: "4/5" }}

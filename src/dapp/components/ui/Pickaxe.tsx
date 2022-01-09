@@ -1,27 +1,26 @@
-import React from 'react'
+import "./Pickaxe.css";
 
-import './Pickaxe.css'
-import { Panel } from './Panel'
-import disc from '../../images/ui/disc.png'
-import hammer from '../../images/ui/hammer.png'
+import React from "react";
+
+import disc from "../../images/ui/disc.png";
+import hammer from "../../images/ui/hammer.png";
+import { Panel } from "./Panel";
 
 interface Props {
-    onClick: () => void
+  onClick: () => void;
+  className: string;
 }
+
 export const Pickaxe: React.FC<Props> = ({ className, onClick }) => {
-    return (
-        <div className={`dig ${className || ''}`} onClick={onClick}>
-            <div className="disc">
-                <img src={disc} className="discBackground"/>
-                <img src={hammer}  className="pickaxe"/>
-
-            </div>
-            <Panel hasOuter={false}>
-                <span id='upgrade'>
-                    Upgrade
-                </span>
-            </Panel>
-
-        </div>
-    )
-}
+  return (
+    <div className={`dig ${className || ""}`} onClick={onClick}>
+      <div className="disc">
+        <img src={disc} className="discBackground" />
+        <img src={hammer} className="pickaxe" />
+      </div>
+      <Panel hasOuter={false}>
+        <span id="upgrade">Upgrade</span>
+      </Panel>
+    </div>
+  );
+};

@@ -1,24 +1,23 @@
+import "./Panel.css";
+
 import React from "react";
 
+import bottomEdge from "../../images/ui/panel/dt_box_9slice_bc.png";
+import bottomLeft from "../../images/ui/panel/dt_box_9slice_bl.png";
+import bottomRight from "../../images/ui/panel/dt_box_9slice_br.png";
 import leftEdge from "../../images/ui/panel/dt_box_9slice_lc.png";
 import rightEdge from "../../images/ui/panel/dt_box_9slice_rc.png";
-import bottomEdge from "../../images/ui/panel/dt_box_9slice_bc.png";
 import topEdge from "../../images/ui/panel/dt_box_9slice_tc.png";
 import topLeft from "../../images/ui/panel/dt_box_9slice_tl.png";
-import bottomLeft from "../../images/ui/panel/dt_box_9slice_bl.png";
 import topRight from "../../images/ui/panel/dt_box_9slice_tr.png";
-import bottomRight from "../../images/ui/panel/dt_box_9slice_br.png";
-
+import bottomEdgeInner from "../../images/ui/panel/lt_box_9slice_bc.png";
+import bottomLeftInner from "../../images/ui/panel/lt_box_9slice_bl.png";
+import bottomRightInner from "../../images/ui/panel/lt_box_9slice_br.png";
 import leftEdgeInner from "../../images/ui/panel/lt_box_9slice_lc.png";
 import rightEdgeInner from "../../images/ui/panel/lt_box_9slice_rc.png";
-import bottomEdgeInner from "../../images/ui/panel/lt_box_9slice_bc.png";
 import topEdgeInner from "../../images/ui/panel/lt_box_9slice_tc.png";
 import topLeftInner from "../../images/ui/panel/lt_box_9slice_tl.png";
-import bottomLeftInner from "../../images/ui/panel/lt_box_9slice_bl.png";
 import topRightInner from "../../images/ui/panel/lt_box_9slice_tr.png";
-import bottomRightInner from "../../images/ui/panel/lt_box_9slice_br.png";
-
-import "./Panel.css";
 
 interface Props {
   hasInner?: boolean;

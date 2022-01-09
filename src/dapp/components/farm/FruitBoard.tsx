@@ -1,26 +1,22 @@
-import React from "react";
-import Big from "big.js";
-
-import Modal from "react-bootstrap/Modal";
-
-import stopwatch from "../../images/ui/stopwatch.png";
-import disc from "../../images/ui/disc.png";
-import cancel from "../../images/ui/cancel.png";
-import alert from "../../images/ui/expression_alerted.png";
-import coin from "../../images/ui/icon.png";
-import arrow from "../../images/ui/arrow_right.png";
-
-import { ActionableItem, Fruit, isFruit } from "../../types/contract";
-
-import { secondsToString } from "../../utils/time";
-
 import "./FruitBoard.css";
 
-import { Panel } from "../ui/Panel";
-import { Message } from "../ui/Message";
-import { FruitItem, getFruit } from "../../types/fruits";
-import { Items } from "../ui/Items";
+import Big from "big.js";
+import React from "react";
+import Modal from "react-bootstrap/Modal";
+
+import arrow from "../../images/ui/arrow_right.png";
+import cancel from "../../images/ui/cancel.png";
+import disc from "../../images/ui/disc.png";
+import alert from "../../images/ui/expression_alerted.png";
+import coin from "../../images/ui/icon.png";
+import stopwatch from "../../images/ui/stopwatch.png";
+import { ActionableItem, isFruit } from "../../types/contract";
 import { Inventory } from "../../types/crafting";
+import { FruitItem } from "../../types/fruits";
+import { secondsToString } from "../../utils/time";
+import { Items } from "../ui/Items";
+import { Message } from "../ui/Message";
+import { Panel } from "../ui/Panel";
 
 interface Props {
   selectedItem: ActionableItem;

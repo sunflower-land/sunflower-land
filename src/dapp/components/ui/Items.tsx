@@ -1,30 +1,20 @@
+import "./Inventory.css";
+
 import React from "react";
 
 import basket from "../../images/ui/basket.png";
-import plantIcon from "../../images/ui/plant.png";
-import hammer from "../../images/ui/hammer.png";
 import close from "../../images/ui/close.png";
-
 import leftEdgeInner from "../../images/ui/panel/lt_box_9slice_lc.png";
 import rightEdgeInner from "../../images/ui/panel/lt_box_9slice_rc.png";
 import topEdgeInner from "../../images/ui/panel/lt_box_9slice_tc.png";
 import topLeftInner from "../../images/ui/panel/lt_box_9slice_tl.png";
 import topRightInner from "../../images/ui/panel/lt_box_9slice_tr.png";
-
+import plantIcon from "../../images/ui/plant.png";
+import { ActionableItem, isFruit } from "../../types/contract";
+import { Inventory as InventorySupply } from "../../types/crafting";
 import { FruitItem } from "../../types/fruits";
-import { ActionableItem, Fruit, isFruit } from "../../types/contract";
-
-import { Plants } from "./Plants";
 import { Inventory } from "./Inventory";
-
-import "./Inventory.css";
-import {
-  Inventory as InventorySupply,
-  Item,
-  items,
-  Recipe,
-  recipes,
-} from "../../types/crafting";
+import { Plants } from "./Plants";
 
 type Tab = "Plants" | "Items";
 

@@ -1,33 +1,25 @@
-import React from "react";
-import { useService } from "@xstate/react";
+import "./UpgradeModal.css";
 
+import { useService } from "@xstate/react";
+import React from "react";
 import Modal from "react-bootstrap/Modal";
 
-import {
-  service,
-  Context,
-  BlockchainEvent,
-  BlockchainState,
-} from "../../machine";
-
-import sunflower from "../../images/sunflower/fruit.png";
-import potato from "../../images/potato/fruit.png";
-import pumpkin from "../../images/pumpkin/fruit.png";
 import beetroot from "../../images/beetroot/fruit.png";
 import cauliflower from "../../images/cauliflower/fruit.png";
 import parsnip from "../../images/parsnip/fruit.png";
+import pumpkin from "../../images/pumpkin/fruit.png";
 import radish from "../../images/radish/fruit.png";
-
 import cancel from "../../images/ui/cancel.png";
-
+import {
+  BlockchainEvent,
+  BlockchainState,
+  Context,
+  service,
+} from "../../machine";
 import { getUpgradePrice } from "../../utils/land";
-import { getMarketRate } from "../../utils/supply";
-
-import { Panel } from "./Panel";
-import { Message } from "./Message";
 import { Button } from "./Button";
-
-import "./UpgradeModal.css";
+import { Message } from "./Message";
+import { Panel } from "./Panel";
 
 interface Props {
   isOpen: boolean;
@@ -63,8 +55,6 @@ export const UpgradeModal: React.FC<Props> = ({
     send("SAVE", { action: "UPGRADE" });
     onClose();
   };
-
-  const marketRate = getMarketRate(totalSupply);
 
   const isUnsaved = machineState.context.blockChain.isUnsaved();
 

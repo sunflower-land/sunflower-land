@@ -1,19 +1,18 @@
-import React from "react";
+import "./Saving.css";
+
 import { useService } from "@xstate/react";
+import React from "react";
+
+import { MINIMUM_GAS_PRICE } from "../../Blockchain";
 import {
-  service,
-  Context,
   BlockchainEvent,
   BlockchainState,
+  Context,
+  service,
 } from "../../machine";
-
-import { Panel } from "../ui/Panel";
-import { Button } from "../ui/Button";
-import { MINIMUM_GAS_PRICE } from "../../Blockchain";
-import exclamation from "../../images/ui/expression_alerted.png";
-
-import "./Saving.css";
 import { isNearHalvening } from "../../utils/supply";
+import { Button } from "../ui/Button";
+import { Panel } from "../ui/Panel";
 
 interface Props {
   gasPrice?: number;
@@ -26,7 +25,7 @@ export const GasWarning: React.FC<Props> = ({
   supply,
   action,
 }) => {
-  const [_, send] = useService<Context, BlockchainEvent, BlockchainState>(
+  const [, send] = useService<Context, BlockchainEvent, BlockchainState>(
     service
   );
 
@@ -65,6 +64,7 @@ export const GasWarning: React.FC<Props> = ({
         <a
           href="https://metamask.zendesk.com/hc/en-us/articles/360015488771-How-to-adjust-Gas-Price-and-Gas-Limit"
           target="_blank"
+          rel="noreferrer"
         >
           <h3 className="current-price-supply-demand">Read more</h3>
         </a>

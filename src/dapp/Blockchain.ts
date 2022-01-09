@@ -1,27 +1,26 @@
 import Web3 from "web3";
 
-import Token from "../abis/Token.json";
-import Farm from "../abis/Farm.json";
-import CommunityCrafting from "../abis/CommunityCrafting.json";
 import Chicken from "../abis/Chicken.json";
+import CommunityCrafting from "../abis/CommunityCrafting.json";
+import Farm from "../abis/Farm.json";
 import QuickSwap from "../abis/QuickSwapRouter.json";
-
+import Token from "../abis/Token.json";
 import {
-  Transaction,
-  Square,
   Charity,
-  Fruit,
   Donation,
+  Fruit,
+  Square,
+  Transaction,
 } from "./types/contract";
 import {
+  DEFAULT_INVENTORY,
   Inventory,
   ItemName,
-  Recipe,
   items,
-  DEFAULT_INVENTORY,
+  Recipe,
 } from "./types/crafting";
-import { onboarded } from "./utils/localStorage";
 import { getUpgradePrice } from "./utils/land";
+import { onboarded } from "./utils/localStorage";
 
 interface Account {
   farm: Square[];
@@ -50,19 +49,19 @@ export class BlockChain {
   private details: Account = null;
   private inventory: Inventory = null;
   private totalItemSupplies: Inventory = null;
-  private stoneStrength: number = 0;
-  private ironStrength: number = 0;
-  private goldStrength: number = 0;
-  private woodStrength: number = 0;
-  private eggCollectionTime: number = 0;
+  private stoneStrength = 0;
+  private ironStrength = 0;
+  private goldStrength = 0;
+  private woodStrength = 0;
+  private eggCollectionTime = 0;
 
   private events: Transaction[] = [];
 
   private contracts: Contracts;
 
-  private saveCount: number = 0;
+  private saveCount = 0;
 
-  private isTrialAccount: boolean = false;
+  private isTrialAccount = false;
   private async connectToMatic() {
     try {
       this.token = new this.web3.eth.Contract(
@@ -218,7 +217,7 @@ export class BlockChain {
     await this.cacheTotalSupply();
   }
 
-  private async waitForFarm(retryCount: number = 1) {
+  private async waitForFarm(retryCount = 1) {
     const wait = retryCount * 1000;
     await new Promise((res) => setTimeout(res, wait));
     const farm = await this.farm.methods
@@ -626,7 +625,7 @@ export class BlockChain {
     return this.events[0].createdAt;
   }
 
-  private cachedTotalSupply: number = 0;
+  private cachedTotalSupply = 0;
 
   public async cacheTotalSupply() {
     if (!this.web3 || !this.alchemyToken) {

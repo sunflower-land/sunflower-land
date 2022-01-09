@@ -1,27 +1,20 @@
+import "./Crafting.css";
+
+import { useService } from "@xstate/react";
 import React, { useState } from "react";
 
-import { Panel } from "../ui/Panel";
-import { Button } from "../ui/Button";
-import { Message } from "../ui/Message";
-import { InventoryItems } from "../ui/InventoryItems";
-
+import { COMMUNITY_CRAFTING_ADDRESS } from "../../Blockchain";
+import carry from "../../images/characters/goblin_carry.gif";
+import icon from "../../images/ui/icon.png";
+import matic from "../../images/ui/matic.png";
 import {
-  Context,
   BlockchainEvent,
   BlockchainState,
+  Context,
   service,
 } from "../../machine";
-
-import matic from "../../images/ui/matic.png";
-import icon from "../../images/ui/icon.png";
-import carry from "../../images/characters/goblin_carry.gif";
-
-import { recipes, Recipe, Inventory, Item } from "../../types/crafting";
-import { Box, BoxProps } from "./Box";
-
-import "./Crafting.css";
-import { useService } from "@xstate/react";
-import { COMMUNITY_CRAFTING_ADDRESS } from "../../Blockchain";
+import { Recipe } from "../../types/crafting";
+import { Button } from "../ui/Button";
 
 interface Props {
   onClose: () => void;
@@ -32,19 +25,17 @@ interface Props {
 
 export const CommunityApproval: React.FC<Props> = ({
   onClose,
-  balance,
   recipe,
   quickSwapRate,
 }) => {
   const [isApproving, setIsApproving] = useState(false);
   const [isApproved, setIsApproved] = useState(false);
   const [error, setError] = useState("");
-  const [machineState, send] = useService<
+  const [machineState] = useService<
     Context,
     BlockchainEvent,
     BlockchainState
   >(service);
-  const isUnsaved = machineState.context.blockChain.isUnsaved();
   const sunflowerTokenAmount = recipe.ingredients[0].amount;
 
   const sunflowerTokens = recipe.ingredients[0].amount;

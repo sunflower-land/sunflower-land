@@ -1,43 +1,39 @@
-import React from "react";
 import { useService } from "@xstate/react";
 import Decimal from "decimal.js-light";
+import React from "react";
 
-import { Land } from "./Land";
-import { FruitItem, FRUITS, getMarketFruits } from "../../types/fruits";
+import questionMark from "../../images/ui/expression_confused.png";
+import coin from "../../images/ui/icon.png";
 import {
-  Fruit,
-  Square,
+  BlockchainEvent,
+  BlockchainState,
+  Context,
+  service,
+} from "../../machine";
+import {
   Action,
-  Transaction,
-  ActionableItem,
-  isFruit,
   ACTIONABLE_ITEMS,
+  ActionableItem,
+  Fruit,
+  isFruit,
+  Square,
+  Transaction,
 } from "../../types/contract";
+import { DEFAULT_INVENTORY, Inventory } from "../../types/crafting";
+import { FruitItem, FRUITS, getMarketFruits } from "../../types/fruits";
 import {
   cacheAccountFarm,
   getSelectedItem,
 } from "../../utils/localStorage";
-
-import {
-  service,
-  Context,
-  BlockchainEvent,
-  BlockchainState,
-} from "../../machine";
-
-import coin from "../../images/ui/icon.png";
-import questionMark from "../../images/ui/expression_confused.png";
-
+import { getMarketRate } from "../../utils/supply";
+import { AudioPlayer } from "../ui/AudioPlayer";
+import { Button } from "../ui/Button";
+import { Message } from "../ui/Message";
 import { Panel } from "../ui/Panel";
 import { Timer } from "../ui/Timer";
-import { Button } from "../ui/Button";
-import { AudioPlayer } from "../ui/AudioPlayer";
-
 import { FruitBoard } from "./FruitBoard";
+import { Land } from "./Land";
 import { Tour } from "./Tour";
-import { getMarketRate } from "../../utils/supply";
-import { Message } from "../ui/Message";
-import { DEFAULT_INVENTORY, Inventory } from "../../types/crafting";
 
 export const Farm: React.FC = () => {
   const [balance, setBalance] = React.useState<Decimal>(new Decimal(0));
@@ -52,10 +48,6 @@ export const Farm: React.FC = () => {
 
   const [totalItemSupplies, setTotalItemSupplies] =
     React.useState<Inventory>(DEFAULT_INVENTORY);
-
-  const [supply, setSupply] = React.useState<Supply>({
-    statue: 0,
-  });
 
   const farmIsFresh = React.useRef(false);
   const accountId = React.useRef<string>();

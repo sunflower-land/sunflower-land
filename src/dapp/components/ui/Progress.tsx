@@ -1,11 +1,10 @@
 import React from "react";
 
-import progressStart from "../../images/ui/progress/start.png";
-import progressQuarter from "../../images/ui/progress/quarter.png";
-import progressHalf from "../../images/ui/progress/half.png";
 import progressAlmost from "../../images/ui/progress/almost.png";
 import progressFull from "../../images/ui/progress/full.png";
-import { secondsToString } from "../../utils/time";
+import progressHalf from "../../images/ui/progress/half.png";
+import progressQuarter from "../../images/ui/progress/quarter.png";
+import progressStart from "../../images/ui/progress/start.png";
 
 interface Props {
   percentage: number;

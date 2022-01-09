@@ -1,40 +1,40 @@
+import "./Field.css";
+
 import React from "react";
 
-import sunflower from "../../images/sunflower/plant.png";
-import sunflowerSeedling from "../../images/sunflower/seedling.png";
-import pumpkin from "../../images/pumpkin/plant.png";
-import pumpkinSeedling from "../../images/pumpkin/seedling.png";
 import beetroot from "../../images/beetroot/plant.png";
 import beetrootSeedling from "../../images/beetroot/seedling.png";
 import cauliflower from "../../images/cauliflower/plant.png";
 import cauliflowerSeedling from "../../images/cauliflower/seedling.png";
-import potato from "../../images/potato/plant.png";
-import potatoSeedling from "../../images/potato/seedling.png";
-import radish from "../../images/radish/plant.png";
-import radishSeedling from "../../images/radish/seedling.png";
-import parsnip from "../../images/parsnip/plant.png";
-import parsnipSeedling from "../../images/parsnip/seedling.png";
-import coin from "../../images/ui/icon.png";
-import cancel from "../../images/ui/cancel.png";
-
 import planted from "../../images/land/soil/planted.png";
 import terrain from "../../images/land/soil/soil.png";
-
-import progressStart from "../../images/ui/progress/start.png";
-import progressQuarter from "../../images/ui/progress/quarter.png";
-import progressHalf from "../../images/ui/progress/half.png";
+import parsnip from "../../images/parsnip/plant.png";
+import parsnipSeedling from "../../images/parsnip/seedling.png";
+import potato from "../../images/potato/plant.png";
+import potatoSeedling from "../../images/potato/seedling.png";
+import pumpkin from "../../images/pumpkin/plant.png";
+import pumpkinSeedling from "../../images/pumpkin/seedling.png";
+import radish from "../../images/radish/plant.png";
+import radishSeedling from "../../images/radish/seedling.png";
+import sunflower from "../../images/sunflower/plant.png";
+import sunflowerSeedling from "../../images/sunflower/seedling.png";
+import coin from "../../images/ui/icon.png";
 import progressAlmost from "../../images/ui/progress/almost.png";
-
+import progressHalf from "../../images/ui/progress/half.png";
+import progressQuarter from "../../images/ui/progress/quarter.png";
+import progressStart from "../../images/ui/progress/start.png";
+import selectBoxBL from "../../images/ui/select-box/selectbox_bl.png";
+import selectBoxBR from "../../images/ui/select-box/selectbox_br.png";
 import selectBoxTL from "../../images/ui/select-box/selectbox_tl.png";
 import selectBoxTR from "../../images/ui/select-box/selectbox_tr.png";
-import selectBoxBR from "../../images/ui/select-box/selectbox_br.png";
-import selectBoxBL from "../../images/ui/select-box/selectbox_bl.png";
-
+import {
+  ActionableItem,
+  Fruit,
+  isFruit,
+  Square,
+} from "../../types/contract";
 import { FruitItem } from "../../types/fruits";
-import { ActionableItem, Fruit, isFruit, Square } from "../../types/contract";
 import { secondsToString } from "../../utils/time";
-
-import "./Field.css";
 
 interface Props {
   square: Square;
@@ -60,7 +60,7 @@ export const Field: React.FC<Props> = ({
   balance,
   fruits,
 }) => {
-  const [_, setTimer] = React.useState<number>(0);
+  const [, setTimer] = React.useState<number>(0);
   const [harvestPrice, setHarvestPrice] = React.useState<string>(null);
   const [showPrice, setShowPrice] = React.useState(false);
   const [showInsufficientFunds, setShowInsufficientFunds] =
@@ -81,7 +81,9 @@ export const Field: React.FC<Props> = ({
       setHarvestPrice(`+${fruit.sellPrice}`);
     } else {
       // Plant
-      const buyFruit = fruits.find((item) => item.fruit === selectedItem.fruit);
+      const buyFruit = fruits.find(
+        (item) => item.fruit === selectedItem.fruit
+      );
 
       if (buyFruit.buyPrice > balance) {
         setShowInsufficientFunds(true);
@@ -126,7 +128,9 @@ export const Field: React.FC<Props> = ({
     }
 
     if (square.fruit === Fruit.Potato) {
-      return <img src={potatoSeedling} className="seedling potato-seedling" />;
+      return (
+        <img src={potatoSeedling} className="seedling potato-seedling" />
+      );
     }
 
     if (square.fruit === Fruit.Pumpkin) {
@@ -153,7 +157,9 @@ export const Field: React.FC<Props> = ({
     }
 
     if (square.fruit === Fruit.Radish) {
-      return <img src={radishSeedling} className="seedling radish-seedling" />;
+      return (
+        <img src={radishSeedling} className="seedling radish-seedling" />
+      );
     }
 
     return null;
@@ -220,7 +226,7 @@ export const Field: React.FC<Props> = ({
 
   return (
     <div className="field" onClick={!timeLeft ? click : undefined}>
-      <div className="harvest" style={{ opacity: !!showPrice ? "1" : "0" }}>
+      <div className="harvest" style={{ opacity: showPrice ? "1" : "0" }}>
         <span className="harvest-amount">{harvestPrice}</span>
         <img className="harvest-coin" src={coin} />
       </div>
@@ -235,7 +241,7 @@ export const Field: React.FC<Props> = ({
       {
         <span
           className="field-no-funds"
-          style={{ opacity: !!showInsufficientFunds ? 1 : 0 }}
+          style={{ opacity: showInsufficientFunds ? 1 : 0 }}
         >
           Insufficient funds
         </span>
@@ -247,7 +253,9 @@ export const Field: React.FC<Props> = ({
           {timeLeft === 0 && Plant()}
           {Progress()}
           {timeLeft && timeLeft > 0 && (
-            <span className="progress-text">{secondsToString(timeLeft)}</span>
+            <span className="progress-text">
+              {secondsToString(timeLeft)}
+            </span>
           )}
         </>
       )}

@@ -1,13 +1,10 @@
 import React from "react";
-
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 import soil from "../../images/land/soil/planted.png";
 import { ActionableItem, Fruit, Square } from "../../types/contract";
 import { FruitItem } from "../../types/fruits";
-
 import { UpgradeOverlay } from "../ui/UpgradeModal";
-
 import { Field } from "./Field";
 
 interface Props {
@@ -88,7 +85,10 @@ export const FifthBlock: React.FC<Props> = ({
           </div>
         )}
       </div>
-      <div className="dirt" style={{ gridColumn: "3/4", gridRow: "5/6" }} />
+      <div
+        className="dirt"
+        style={{ gridColumn: "3/4", gridRow: "5/6" }}
+      />
 
       <div
         className="left-edge"
@@ -102,8 +102,14 @@ export const FifthBlock: React.FC<Props> = ({
         className="right-edge"
         style={{ gridColumn: "4/5", gridRow: "4/5" }}
       />
-      <div className="top-edge" style={{ gridColumn: "2/3", gridRow: "3/4" }} />
-      <div className="top-edge" style={{ gridColumn: "3/4", gridRow: "3/4" }} />
+      <div
+        className="top-edge"
+        style={{ gridColumn: "2/3", gridRow: "3/4" }}
+      />
+      <div
+        className="top-edge"
+        style={{ gridColumn: "3/4", gridRow: "3/4" }}
+      />
       <div
         className="bottom-edge"
         style={{ gridColumn: "2/3", gridRow: "6/7" }}

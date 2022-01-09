@@ -7,8 +7,8 @@ import closeIcon from "../../images/ui/close.png";
 import alert from "../../images/ui/expression_alerted.png";
 import {
   BlockchainEvent,
-  Context,
   BlockchainState,
+  Context,
   service,
 } from "../../machine";
 import { numberWithBreaks } from "../../utils/number";
@@ -18,7 +18,7 @@ export const Banner: React.FC = () => {
   const [show, setShow] = useState(true);
   const [totalSupply, setTotalSupply] = React.useState<number>(0);
 
-  const [machineState, send] = useService<
+  const [machineState] = useService<
     Context,
     BlockchainEvent,
     BlockchainState
@@ -61,6 +61,7 @@ export const Banner: React.FC = () => {
         <a
           href="https://docs.sunflower-farmers.com/tokenomics#the-halvening"
           target="_blank"
+          rel="noreferrer"
         >
           Read more
         </a>

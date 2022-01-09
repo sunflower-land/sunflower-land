@@ -1,13 +1,11 @@
 import React from "react";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
-import { UpgradeOverlay } from "../ui/UpgradeModal";
-
 import soil from "../../images/land/soil/planted.png";
 import { ActionableItem, Fruit, Square } from "../../types/contract";
-
-import { Field } from "./Field";
 import { FruitItem } from "../../types/fruits";
+import { UpgradeOverlay } from "../ui/UpgradeModal";
+import { Field } from "./Field";
 
 interface Props {
   land: Square[];
@@ -30,7 +28,10 @@ export const FourthBlock: React.FC<Props> = ({
 
   return (
     <>
-      <div className="dirt" style={{ gridColumn: "11/12", gridRow: "3/4" }}>
+      <div
+        className="dirt"
+        style={{ gridColumn: "11/12", gridRow: "3/4" }}
+      >
         {isUnlocked ? (
           <Field
             fruits={fruits}
@@ -49,7 +50,10 @@ export const FourthBlock: React.FC<Props> = ({
           </div>
         )}
       </div>
-      <div className="dirt" style={{ gridColumn: "12/13", gridRow: "3/4" }}>
+      <div
+        className="dirt"
+        style={{ gridColumn: "12/13", gridRow: "3/4" }}
+      >
         {isUnlocked ? (
           <Field
             fruits={fruits}
@@ -69,7 +73,10 @@ export const FourthBlock: React.FC<Props> = ({
         )}
       </div>
 
-      <div className="dirt" style={{ gridColumn: "12/13", gridRow: "4/5" }}>
+      <div
+        className="dirt"
+        style={{ gridColumn: "12/13", gridRow: "4/5" }}
+      >
         {isUnlocked ? (
           <Field
             fruits={fruits}
@@ -88,7 +95,10 @@ export const FourthBlock: React.FC<Props> = ({
           </div>
         )}
       </div>
-      <div className="dirt" style={{ gridColumn: "11/12", gridRow: "4/5" }} />
+      <div
+        className="dirt"
+        style={{ gridColumn: "11/12", gridRow: "4/5" }}
+      />
 
       <div
         className="top-edge"

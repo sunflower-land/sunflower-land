@@ -1,35 +1,33 @@
-import React from "react";
+import "./Charity.css";
 
+import { useService } from "@xstate/react";
+import React from "react";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
-import { useService } from "@xstate/react";
+import arrowDown from "../../images/ui/arrow_down.png";
+import arrowUp from "../../images/ui/arrow_up.png";
+import questionMark from "../../images/ui/expression_confused.png";
 import {
-  service,
-  Context,
   BlockchainEvent,
   BlockchainState,
+  Context,
+  service,
 } from "../../machine";
-
 import { Charity as Charities, Donation } from "../../types/contract";
-
-import questionMark from "../../images/ui/expression_confused.png";
-
 import { Button } from "../ui/Button";
 import { Panel } from "../ui/Panel";
-
-import arrowUp from "../../images/ui/arrow_up.png";
-import arrowDown from "../../images/ui/arrow_down.png";
-import "./Charity.css";
 
 interface Props {
   onSelect: (donation: Donation) => void;
 }
 
 export const Charity: React.FC<Props> = ({ onSelect }) => {
-  const [machineState] = useService<Context, BlockchainEvent, BlockchainState>(
-    service
-  );
+  const [machineState] = useService<
+    Context,
+    BlockchainEvent,
+    BlockchainState
+  >(service);
 
   const [balances, setBalances] = React.useState({
     coolEarthBalance: "",
@@ -74,8 +72,8 @@ export const Charity: React.FC<Props> = ({ onSelect }) => {
       <div id="charity-container">
         <span>Donate to play.</span>
         <span id="donate-description">
-          To start a farm, please donate to a charity of your choice. Ensure you
-          are connected to the Polygon network.
+          To start a farm, please donate to a charity of your choice.
+          Ensure you are connected to the Polygon network.
         </span>
         <div id="donation-input-container">
           <input
@@ -159,14 +157,17 @@ export const Charity: React.FC<Props> = ({ onSelect }) => {
               )}
             >
               <span className="total-donated">
-                {balances.waterBalance && `$${balances.waterBalance} donated`}
+                {balances.waterBalance &&
+                  `$${balances.waterBalance} donated`}
               </span>
             </OverlayTrigger>
 
             <div className="charity-buttons">
               <Button
                 onClick={() =>
-                  window.open("https://thewaterproject.org/donate-ethereum")
+                  window.open(
+                    "https://thewaterproject.org/donate-ethereum"
+                  )
                 }
               >
                 About
@@ -198,7 +199,8 @@ export const Charity: React.FC<Props> = ({ onSelect }) => {
               )}
             >
               <span className="total-donated">
-                {balances.heiferBalance && `$${balances.heiferBalance} donated`}
+                {balances.heiferBalance &&
+                  `$${balances.heiferBalance} donated`}
               </span>
             </OverlayTrigger>
             <div className="charity-buttons">

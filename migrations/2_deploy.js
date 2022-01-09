@@ -1,4 +1,6 @@
+// eslint-disable-next-line no-undef
 const Token = artifacts.require("Token");
+// eslint-disable-next-line no-undef
 const farm = artifacts.require("Farm");
 
 module.exports = async function (deployer) {

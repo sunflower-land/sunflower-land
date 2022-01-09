@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const willowTree = require("./willow_tree.mp3");
 
 export const playlist = [

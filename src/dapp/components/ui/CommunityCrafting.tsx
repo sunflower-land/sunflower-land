@@ -1,32 +1,21 @@
-import React, { useEffect, useState } from "react";
+import "./Crafting.css";
 
-import { Panel } from "../ui/Panel";
-import { Button } from "../ui/Button";
-import { Message } from "../ui/Message";
-import { InventoryItems } from "../ui/InventoryItems";
+import { useService } from "@xstate/react";
+import React, { useEffect } from "react";
 
-import {
-  Context,
-  BlockchainEvent,
-  BlockchainState,
-  service,
-} from "../../machine";
-
-import hammer from "../../images/ui/hammer.png";
-import basket from "../../images/ui/basket.png";
-import building from "../../images/buildings/side-house-2.png";
-
-import arrowUp from "../../images/ui/arrow_up.png";
-import arrowDown from "../../images/ui/arrow_down.png";
-import matic from "../../images/ui/matic.png";
 import discord from "../../images/ui/discord.jpeg";
 import coin from "../../images/ui/icon.png";
-
-import { recipes, Recipe, Inventory, Item } from "../../types/crafting";
+import matic from "../../images/ui/matic.png";
+import {
+  BlockchainEvent,
+  BlockchainState,
+  Context,
+  service,
+} from "../../machine";
+import { Inventory, Recipe, recipes } from "../../types/crafting";
+import { Button } from "../ui/Button";
+import { Message } from "../ui/Message";
 import { Box, BoxProps } from "./Box";
-
-import "./Crafting.css";
-import { useService } from "@xstate/react";
 import { CommunityApproval } from "./CommunityApproval";
 
 interface Props {
@@ -54,15 +43,13 @@ export const CommunityCrafting: React.FC<Props> = ({
   balance,
   inventory,
   totalItemSupplies,
-  level,
 }) => {
-  const [amount, setAmount] = React.useState(1);
   const [quickSwapRate, setQuickSwapRate] = React.useState(0);
   const [isApproving, setIsApproving] = React.useState(false);
   const [selectedRecipe, setSelectedRecipe] = React.useState(
     COMMUNITY_RECIPES[0]
   );
-  const [machineState, send] = useService<
+  const [machineState] = useService<
     Context,
     BlockchainEvent,
     BlockchainState
@@ -87,8 +74,8 @@ export const CommunityCrafting: React.FC<Props> = ({
 
     return () => clearInterval(interval);
   }, []);
+
   const changeRecipe = (recipe: Recipe) => {
-    setAmount(1);
     setSelectedRecipe(recipe);
   };
 
@@ -175,8 +162,9 @@ export const CommunityCrafting: React.FC<Props> = ({
             4% sent to the team
           </span>
           <div id="crafting-items">
-            {boxes.map((box) => (
+            {boxes.map((box, index) => (
               <Box
+                key={index}
                 count={box.count}
                 onClick={box.onClick}
                 image={box.image}
@@ -190,6 +178,7 @@ export const CommunityCrafting: React.FC<Props> = ({
           <a
             href="https://docs.sunflower-farmers.com/crafting-guide#crowd-sourced-crafting"
             target="_blank"
+            rel="noreferrer"
           >
             <h3 className="current-price-supply-demand">Read more</h3>
           </a>
@@ -238,6 +227,7 @@ export const CommunityCrafting: React.FC<Props> = ({
               target="_blank"
               href={selectedRecipe.communityMember.twitterLink}
               style={{ color: "white", textDecoration: "underline" }}
+              rel="noreferrer"
             >
               {selectedRecipe.communityMember.twitterName}
             </a>
@@ -256,6 +246,7 @@ export const CommunityCrafting: React.FC<Props> = ({
             target="_blank"
             href={selectedRecipe.openSeaLink}
             style={{ color: "white", textDecoration: "underline" }}
+            rel="noreferrer"
           >
             View on OpenSea
           </a>

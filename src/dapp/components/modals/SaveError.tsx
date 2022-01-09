@@ -1,23 +1,22 @@
+import { useService } from "@xstate/react";
 import React from "react";
 
-import { useService } from "@xstate/react";
+import speedUp from "../../images/debug/speed-up.png";
 import {
-  service,
-  Context,
   BlockchainEvent,
   BlockchainState,
+  Context,
+  service,
 } from "../../machine";
-
-import speedUp from "../../images/debug/speed-up.png";
-import { Panel } from "../ui/Panel";
 import { Button } from "../ui/Button";
+import { Panel } from "../ui/Panel";
 
 interface Props {
   code?: string;
 }
 
 const Content: React.FC<Props> = ({ code }) => {
-  const [_, send] = useService<Context, BlockchainEvent, BlockchainState>(
+  const [, send] = useService<Context, BlockchainEvent, BlockchainState>(
     service
   );
 
@@ -60,6 +59,7 @@ const Content: React.FC<Props> = ({ code }) => {
           id="error-link"
           href="https://discord.gg/DZWHuhVUGN"
           target="_blank"
+          rel="noreferrer"
         >
           faq
         </a>{" "}

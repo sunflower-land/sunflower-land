@@ -128,6 +128,7 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
 
         return (
           <div
+            key={index}
             style={gridPosition}
             className={classnames("gather-tree", "game-object", "gold", {
               "gatherer-selected": isHighlighted,
@@ -242,6 +243,7 @@ export const Gold: React.FC<Props> = ({ inventory }) => {
                 <a
                   href="https://docs.sunflower-farmers.com/resources"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   <h3 className="current-price-supply-demand">
                     Read more

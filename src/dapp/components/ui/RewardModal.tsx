@@ -1,25 +1,21 @@
-import React from "react";
-import { useService } from "@xstate/react";
+import "./UpgradeModal.css";
 
+import { useService } from "@xstate/react";
+import React from "react";
 import Modal from "react-bootstrap/Modal";
 
 import openTreasure from "../../images/decorations/open_treasure.png";
-
-import {
-  service,
-  Context,
-  BlockchainEvent,
-  BlockchainState,
-} from "../../machine";
-
 import cancel from "../../images/ui/cancel.png";
 import coin from "../../images/ui/spinning_coin.gif";
-
-import { Panel } from "./Panel";
-import { Message } from "./Message";
+import {
+  BlockchainEvent,
+  BlockchainState,
+  Context,
+  service,
+} from "../../machine";
 import { Button } from "./Button";
-
-import "./UpgradeModal.css";
+import { Message } from "./Message";
+import { Panel } from "./Panel";
 
 interface Props {
   isOpen: boolean;
@@ -34,7 +30,7 @@ export const RewardModal: React.FC<Props> = ({
   reward,
   onReceive,
 }) => {
-  const [machineState, send] = useService<
+  const [machineState] = useService<
     Context,
     BlockchainEvent,
     BlockchainState

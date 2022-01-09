@@ -1,26 +1,22 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 
-import { Panel } from "../ui/Panel";
-
-import close from "../../images/ui/close.png";
-import disc from "../../images/ui/disc.png";
-import hammer from "../../images/ui/hammer.png";
 import man from "../../images/characters/bald_man.png";
 import blacksmith from "../../images/decorations/blacksmith.png";
-import basket from "../../images/ui/basket.png";
+import close from "../../images/ui/close.png";
+import disc from "../../images/ui/disc.png";
 import gold from "../../images/ui/gold_egg.png";
-
+import hammer from "../../images/ui/hammer.png";
 import leftEdgeInner from "../../images/ui/panel/lt_box_9slice_lc.png";
 import rightEdgeInner from "../../images/ui/panel/lt_box_9slice_rc.png";
 import topEdgeInner from "../../images/ui/panel/lt_box_9slice_tc.png";
 import topLeftInner from "../../images/ui/panel/lt_box_9slice_tl.png";
 import topRightInner from "../../images/ui/panel/lt_box_9slice_tr.png";
-
-import { Tools } from "../ui/Tools";
-import { NFTs } from "../ui/NFTs";
-import { CommunityCrafting } from "../ui/CommunityCrafting";
 import { Inventory } from "../../types/crafting";
+import { CommunityCrafting } from "../ui/CommunityCrafting";
+import { NFTs } from "../ui/NFTs";
+import { Panel } from "../ui/Panel";
+import { Tools } from "../ui/Tools";
 
 interface Props {
   inventory: Inventory;

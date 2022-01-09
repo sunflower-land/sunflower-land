@@ -1,31 +1,24 @@
+import "./Crafting.css";
+
+import { useService } from "@xstate/react";
 import React from "react";
 
-import { Panel } from "../ui/Panel";
-import { Button } from "../ui/Button";
-import { Message } from "../ui/Message";
-import { InventoryItems } from "../ui/InventoryItems";
-
+import building from "../../images/buildings/side-house-2.png";
+import arrowDown from "../../images/ui/arrow_down.png";
+import arrowUp from "../../images/ui/arrow_up.png";
+import basket from "../../images/ui/basket.png";
+import hammer from "../../images/ui/hammer.png";
 import {
-  Context,
   BlockchainEvent,
   BlockchainState,
+  Context,
   service,
 } from "../../machine";
-
-import hammer from "../../images/ui/hammer.png";
-import basket from "../../images/ui/basket.png";
-import building from "../../images/buildings/side-house-2.png";
-
-import arrowUp from "../../images/ui/arrow_up.png";
-import arrowDown from "../../images/ui/arrow_down.png";
-import wood from "../../images/ui/wood.png";
-import stone from "../../images/ui/rock.png";
-
-import { recipes, Recipe, Inventory, Item } from "../../types/crafting";
+import { Inventory, Recipe, recipes } from "../../types/crafting";
+import { Button } from "../ui/Button";
+import { InventoryItems } from "../ui/InventoryItems";
+import { Message } from "../ui/Message";
 import { Box, BoxProps } from "./Box";
-
-import "./Crafting.css";
-import { useService } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
@@ -43,7 +36,7 @@ export const CraftingMenu: React.FC<Props> = ({
 }) => {
   const [amount, setAmount] = React.useState(1);
   const [selectedRecipe, setSelectedRecipe] = React.useState(recipes[0]);
-  const [machineState, send] = useService<
+  const [machineState] = useService<
     Context,
     BlockchainEvent,
     BlockchainState
@@ -161,8 +154,9 @@ export const CraftingMenu: React.FC<Props> = ({
           <span>Recipes</span>
         </div>
         <div id="crafting-items">
-          {boxes.map((box) => (
+          {boxes.map((box, index) => (
             <Box
+              key={index}
               count={box.count}
               onClick={box.onClick}
               image={box.image}
@@ -181,6 +175,7 @@ export const CraftingMenu: React.FC<Props> = ({
         <a
           href="https://docs.sunflower-farmers.com/crafting-guide"
           target="_blank"
+          rel="noreferrer"
         >
           <h3 className="current-price-supply-demand">Read more</h3>
         </a>
@@ -203,8 +198,8 @@ export const CraftingMenu: React.FC<Props> = ({
         <span id="recipe-description">{selectedRecipe.description}</span>
 
         <div id="ingredients">
-          {ingredientList.map((ingredient) => (
-            <div className="ingredient">
+          {ingredientList.map((ingredient, index) => (
+            <div key={index} className="ingredient">
               <div>
                 <img className="ingredient-image" src={ingredient.image} />
                 <span className="ingredient-count">{ingredient.name}</span>
@@ -240,6 +235,7 @@ export const CraftingMenu: React.FC<Props> = ({
           <span id="recipe-description">
             <a
               target="_blank"
+              rel="noreferrer"
               href={selectedRecipe.openSeaLink}
               style={{ color: "white", textDecoration: "underline" }}
             >

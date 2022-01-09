@@ -52,47 +52,36 @@ module.exports = {
         "prettier/prettier": ["error", {}, { usePrettierrc: true }],
 
         // Why would you want unused vars?
-        "@typescript-eslint/no-unused-vars": ["error"],
-
-        // I suggest this setting for requiring return types on functions
-        // only where useful
-        "@typescript-eslint/explicit-function-return-type": [
-          "warn",
-          {
-            allowExpressions: true,
-            allowConciseArrowFunctionExpressionsStartingWithVoid: true,
-          },
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          { argsIgnorePattern: "^_" },
         ],
 
-        "@typescript-eslint/no-explicit-any": "off",
-        /*
-        "@typescript-eslint/await-thenable": "error",
-        "@typescript-eslint/no-floating-promises": "error",
-        "@typescript-eslint/no-for-in-array": "error",
-        "no-implied-eval": "off",
-        "@typescript-eslint/no-implied-eval": "error",
-        "@typescript-eslint/no-misused-promises": "error",
-        "@typescript-eslint/no-unnecessary-type-assertion": "error",
-        "@typescript-eslint/no-unsafe-assignment": "error",
-        "@typescript-eslint/no-unsafe-call": "error",
-        "@typescript-eslint/no-unsafe-member-access": "error",
-        "@typescript-eslint/no-unsafe-return": "error",
-        "@typescript-eslint/prefer-regexp-exec": "error",
-        "require-await": "off",
-        "@typescript-eslint/require-await": "error",
-        "@typescript-eslint/restrict-plus-operands": "error",
-        "@typescript-eslint/restrict-template-expressions": "error",
-        "@typescript-eslint/unbound-method": "error",
-        */
+        "@typescript-eslint/explicit-module-boundary-types": "off",
 
-        // Sorting on imports (autofix)
+        "@typescript-eslint/no-explicit-any": "off",
+
+        // Sorting imports (auto fix)
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
         "import/first": "error",
         "import/newline-after-import": "error",
         "import/no-duplicates": "error",
+
+        "no-async-promise-executor": "off",
+        "@typescript-eslint/no-this-alias": "off",
+
+        "jsx-a11y/alt-text": "off",
+        "jsx-a11y/no-noninteractive-element-interactions": "warn",
+        "jsx-a11y/click-events-have-key-events": "warn",
+        "jsx-a11y/no-static-element-interactions": "warn",
+        "jsx-a11y/media-has-caption": "warn",
+
+        "react/display-name": "off",
+        "react/no-unescaped-entities": "off",
       },
-      // Sorting on imports (autofix)
+
+      // Sorting imports (auto fix)
       plugins: ["simple-import-sort", "import"],
     },
   ],

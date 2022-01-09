@@ -1,29 +1,27 @@
-import React from "react";
-
 import "./Land.css";
 
-import { Square, Fruit, ActionableItem } from "../../types/contract";
+import React from "react";
 
 import waterEdge from "../../images/water/edge.png";
-
-import { FirstBlock } from "./FirstBlock";
-import { SecondLand } from "./SecondBlock";
-import { ThirdBlock } from "./ThirdBlock";
-import { FourthBlock } from "./FourthBlock";
-import { FifthBlock } from "./FifthBlock";
-import { Tiles } from "./Tiles";
-import { Trees } from "./NewTrees";
-import { Stones } from "./NewStone";
-import { NFTs } from "./NFTs";
-import { Chickens } from "./Chickens";
-import { Iron } from "./Iron";
-import { Gold } from "./Gold";
+import { ActionableItem, Square } from "../../types/contract";
+import { Inventory } from "../../types/crafting";
+import { FruitItem } from "../../types/fruits";
 import { Barn } from "./Barn";
 import { Blacksmith } from "./Blacksmith";
+import { Chickens } from "./Chickens";
+import { FifthBlock } from "./FifthBlock";
+import { FirstBlock } from "./FirstBlock";
+import { FourthBlock } from "./FourthBlock";
+import { Gold } from "./Gold";
+import { Iron } from "./Iron";
 import { Market } from "./Market";
+import { Stones } from "./NewStone";
+import { Trees } from "./NewTrees";
+import { NFTs } from "./NFTs";
 import { Reward } from "./Reward";
-import { FruitItem } from "../../types/fruits";
-import { Inventory, Supply } from "../../types/crafting";
+import { SecondLand } from "./SecondBlock";
+import { ThirdBlock } from "./ThirdBlock";
+import { Tiles } from "./Tiles";
 
 interface Props {
   land: Square[];
@@ -152,6 +150,7 @@ export const Land: React.FC<Props> = ({
       {/* Water */}
       {new Array(50).fill(null).map((_, index) => (
         <img
+          key={index}
           className="water-edge"
           src={waterEdge}
           style={{

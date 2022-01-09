@@ -1,12 +1,13 @@
 import {
+  assign,
   createMachine,
-  Interpreter,
   EventObject,
   interpret,
-  assign,
+  Interpreter,
 } from "xstate";
-import { Charity } from "./types/contract";
+
 import { BlockChain } from "./Blockchain";
+import { Charity } from "./types/contract";
 import { Recipe } from "./types/crafting";
 import { hasOnboarded } from "./utils/localStorage";
 import { isNearHalvening } from "./utils/supply";
@@ -378,7 +379,7 @@ export const blockChainMachine = createMachine<
     confirming: {
       invoke: {
         id: "save",
-        src: async ({ blockChain }, event) => {
+        src: async ({ blockChain }, _event) => {
           return blockChain.save();
         },
         onDone: {
@@ -412,7 +413,7 @@ export const blockChainMachine = createMachine<
     rewarding: {
       invoke: {
         id: "rewarding",
-        src: async ({ blockChain }, event) => blockChain.receiveReward(),
+        src: async ({ blockChain }, _event) => blockChain.receiveReward(),
         onDone: {
           target: "farming",
           // actions - assign() data?
