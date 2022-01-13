@@ -126,7 +126,8 @@ contract SunflowerFarmersDAO {
   }
 
   function getReferendum(uint _ref) public view returns(Referendum[] memory _referendum) {
-    return Referendum[_ref];
+    require(Referendums.length>=_ref,"That referendum doesn't exist.");
+    return Referendums[_ref-1];
   }
 
 
