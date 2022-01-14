@@ -2,7 +2,9 @@
 
 A blockchain based game where players can play to earn Sunflower Farmer Tokens.
 
-This game is purely experimental and is not recommended to play.
+# Test version only
+
+This game is purely experimental and is not recommended to play. Resources and items crafted are used for in-game mechanics only.
 
 # How does it work?
 
