@@ -2,7 +2,7 @@
 
 A blockchain based game where players can play to earn Sunflower Farmer Tokens.
 
-You can play the game here: https://www.sunflower-farmers.com/
+This game is purely experimental and is not recommended to play.
 
 # How does it work?
 
