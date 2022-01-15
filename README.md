@@ -27,10 +27,9 @@ The dapp is currently pointed at the production blockchain. You can switch to Po
 
 # Licensing 
 
-All code is under MIT licensing. We encourage people to improve the Sunflower Metaverse.
+All software code is under MIT licensing. We encourage people to improve the Sunflower Metaverse and also learn from the code base.
 
-Please check with the individual designers that you have permissions before using any of the in-game assets sprites. Doing so without permissions is illegal.
+Please check with the individual designers that you have permissions before using any of the in-game asset media, game play design and content. Doing so without permissions is illegal.
 
 We are open source and bootstrapped with zero funds. Hence we have used a base asset pack - https://danieldiggle.itch.io/sunnyside
 
-You can find the designer and his amazing work here - https://twitter.com/DanielDiggle
