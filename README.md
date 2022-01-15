@@ -2,9 +2,16 @@
 
 A blockchain based game where players can play to earn Sunflower Farmer Tokens.
 
-# Test version only
 
-This game is purely experimental and is not recommended to play. Resources and items crafted are used for in-game mechanics only.
+Originally https://sunflower-farmers.com, this open source game brought in over 50K DAU and 350K Blockchain accounts.
+
+The game was not perfect, and the team learnt a lot of lessons. It was taken down on January 7th.
+
+The new and improved version is in development and will be live early 2021. 
+
+You can stay up to date with development, beta registration and news at https://sunflower-land.com
+
+This version of the game is purely experimental and is not recommended to play. There are inherent flaws in the design and it is open for botting and malicious actors to find vulnerabilitys. Resources and items crafted are used for in-game mechanics only.
 
 # How does it work?
 
