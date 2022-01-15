@@ -7,7 +7,7 @@ Originally https://sunflower-farmers.com, this open source game brought in over 
 
 The game was not perfect, and the team learnt a lot of lessons. It was taken down on January 7th.
 
-The new and improved version is in development and will be live early 2021. 
+The new and improved version is in development and will be live early 2022.
 
 You can stay up to date with development, beta registration and news at https://sunflower-land.com
 
