@@ -10,6 +10,7 @@ import { CropName, CROPS } from "features/crops/lib/crops";
 import { cacheShortcuts, getShortcuts } from "features/hud/lib/shortcuts";
 import React from "react";
 import { useState } from "react";
+import Tinycon from "tinycon";
 import { ResourceName } from "./lib/resources";
 
 export type FieldItem = {
@@ -37,6 +38,7 @@ type GameState = {
       plantedAt: Date;
     };
   }[];
+  toCrop: number,
   level: number;
   inventory: Inventory;
   actions: GameAction[];
@@ -64,6 +66,10 @@ type GameAction =
       type: "crop.planted";
       item?: InventoryItemName;
       index: number;
+    }
+  | {
+      type: "crop.counter";
+      value: number;
     }
   | {
       type: "crop.harvested";
@@ -167,6 +173,20 @@ function eventReducer(state: GameState, action: GameAction) {
     };
   }
 
+  if (action.type === "crop.counter") {
+
+    if (action.value != -1 && action.value !== 1) {
+      throw new Error("This counter should increment or decrement by 1 only");
+    }
+
+    const toCrop = state.toCrop + action.value;
+    Tinycon.setBubble(toCrop);
+    return {
+      ...state,
+      toCrop
+    } as GameState;
+  }
+
   if (action.type === "crop.planted") {
     const fields = state.fields;
 
@@ -244,8 +264,12 @@ function eventReducer(state: GameState, action: GameAction) {
 
     const cropCount = state.inventory[field.crop.name] || 0;
 
+    const toCrop = state.toCrop - 1; // decrement crop number
+    Tinycon.setBubble(toCrop);
+
     return {
       ...state,
+      toCrop,
       fields: newFields,
       inventory: {
         ...state.inventory,
@@ -288,6 +312,7 @@ export const GameProvider: React.FC = ({ children }) => {
 
   const [state, setState] = useState<GameState>({
     balance: 50,
+    toCrop: 0,
     fields: EMPTY_FIELDS,
     inventory: {
       "Sunflower Seed": 2,

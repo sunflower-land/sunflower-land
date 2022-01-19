@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 
 import plantedSoil from "assets/land/planted.png";
 import soil from "assets/land/soil2.png";
@@ -6,7 +6,7 @@ import soil from "assets/land/soil2.png";
 import { getTimeLeft } from "lib/utils/time";
 
 import { ProgressBar } from "components/ui/ProgressBar";
-import { FieldItem } from "features/game/GameProvider";
+import {Context, FieldItem} from "features/game/GameProvider";
 
 import { CROPS } from "../lib/crops";
 
@@ -16,6 +16,8 @@ interface Props {
 
 export const Soil: React.FC<Props> = ({ field }) => {
   const [_, setTimer] = React.useState<number>(0);
+  const [badgeUpdated, setBadgeUpdated] = React.useState<boolean>(false);
+  const { dispatcher } = useContext(Context);
 
   const setHarvestTime = React.useCallback(() => {
     setTimer((count) => count + 1);
@@ -48,6 +50,14 @@ export const Soil: React.FC<Props> = ({ field }) => {
         </div>
       </div>
     );
+  }
+
+  if (timeLeft === 0 && !badgeUpdated) {
+    setBadgeUpdated(true);
+    const {} = dispatcher({
+      type: "crop.counter",
+      value: +1,
+    });
   }
 
   // Ready to harvest

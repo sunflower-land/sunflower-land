@@ -602,6 +602,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/tinycon@^0.6.3":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@types/tinycon/-/tinycon-0.6.3.tgz#bb3aed120be7b6f1ef1b7c8915ec26b3e9830429"
+  integrity sha512-TC42m8KAyp3AqyZKRXVkk5Qy+oIU8zo2U3362i16Qan0JgZNzLawO7oYnin4BJOy8FSZfOadYYvUWQnpaXoZwg==
+
 "@types/warning@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/warning/-/warning-3.0.0.tgz#0d2501268ad8f9962b740d387c4654f5f8e23e52"
@@ -3757,6 +3762,11 @@ timed-out@^4.0.0, timed-out@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
   integrity sha1-8y6srFoXW+ol1/q1Zas+2HQe9W8=
+
+tinycon@^0.6.8:
+  version "0.6.8"
+  resolved "https://registry.yarnpkg.com/tinycon/-/tinycon-0.6.8.tgz#e7da223e3ee0cbf9db7963fa335699bb21777a73"
+  integrity sha1-59oiPj7gy/nbeWP6M1aZuyF3enM=
 
 to-fast-properties@^2.0.0:
   version "2.0.0"
