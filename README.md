@@ -1,8 +1,8 @@
-# sunflower-land
+# Sunflower Land
 
 The goal of this project is to create a decentralized and community driven MetaVerse style game.
 
-This repo includes the front-end game which users can play and interact with the game on the Polygon Network.
+This repo includes the front-end game which users can play and interact with the game on the Polygon Network and off chain data.
 
 # Getting Started
 
@@ -29,10 +29,6 @@ The primary states include:
 - Unauthorised (when one of the above state transition fails)
 - Authorised (Play the game!)
 
-**State Management**
-
-We use Apollo as our GraphQL client and our state management tool. The Apollo cache is used extensively as the source of truth of the state of the game. The reactive nature of Apollo hooks ensures that when we update the cache, the application reflects this changes in real time.
-
 # Vite
 
 The app uses vite for bundling and development purposes. You can set build specific configuration in `vite.config.ts`
@@ -47,34 +43,19 @@ Tailwind is our CSS tool of choice. It enables us to:
 
 # Directory Organization
 
--- Assets
-
-Images, Music, Branding and other Media
-
--- Components
-
-Reusable react components
-
--- Features
-
-Core domain concepts that have their own use cases/boundaries.
-
-Each feature (e.g. crops) has a similar nested structure of components, graphql & lib that are specific only to that feature.
-
--- GraphQL
-
-GraphQL config
-
--- Lib
-
-Utils, classes, machines and more.
+Assets: Images, Music, Branding and other Media
+Components: Reusable react components
+Lib: Utils, classes, machines and more.
+Features: Core domain concepts that have their own use cases/boundaries.
+  Each feature (e.g. crops) has a similar nested structure of components, graphql & lib that are specific only to that feature.
 
 # Contributing Guidelines
 
 TODO
 
-# Licensing
+# No Licence
 
-Please refer to the Licence.MD for any code related licencing.
+The previous version was used in unethically on other Blockchains. The team is working on deciding the licence that will best suit our community. Until then, the code falls under No Licence and cannot be reused.
+
 
 All media assets (images and music) are not available for use in commercial or private projects.
