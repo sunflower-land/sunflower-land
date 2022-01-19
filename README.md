@@ -43,10 +43,10 @@ Tailwind is our CSS tool of choice. It enables us to:
 
 # Directory Organization
 
-Assets: Images, Music, Branding and other Media
-Components: Reusable react components
-Lib: Utils, classes, machines and more.
-Features: Core domain concepts that have their own use cases/boundaries.
+- Assets: Images, Music, Branding and other Media
+- Components: Reusable react components
+- Lib: Utils, classes, machines and more.
+- Features: Core domain concepts that have their own use cases/boundaries.
   Each feature (e.g. crops) has a similar nested structure of components, graphql & lib that are specific only to that feature.
 
 # Contributing Guidelines
