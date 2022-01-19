@@ -1,0 +1,64 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer utilities {
+  @variants responsive {
+    .text-shadow {
+      text-shadow: 1px 1px black;
+    }
+    .text-shadow-md {
+      text-shadow: 2px 2px black;
+    }
+    .text-shadow-none {
+      text-shadow: none;
+    }
+
+    .img-highlight {
+      filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+        drop-shadow(0px -1px 0px white);
+    }
+  }
+}
+
+body {
+  font-family: "Press Start 2p", sans-serif;
+  overflow: hidden;
+}
+
+* {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+
+  /*
+      Introduced in Internet Explorer 10.
+      See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+    */
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/*
+  Override React Bootstrap styles that don't play nicely
+*/
+.modal-content {
+  background: transparent;
+  border: none;
+}
+
+img {
+  image-rendering: pixelated;
+}
+
+@keyframes floating {
+  from {
+    transform: translate(0, 0px);
+  }
+  65% {
+    transform: translate(0, 10px);
+  }
+  to {
+    transform: translate(0, -0px);
+  }
+}

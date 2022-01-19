@@ -1,26 +1,27 @@
 {
   "compilerOptions": {
-    "lib": ["es5", "es6", "dom"],
-    "module": "esnext",
-    "target": "es6",
-    "strict": false,
-    "esModuleInterop": true,
-    "types": ["@types/node", "@types/chai", "@types/mocha"],
-    "typeRoots": ["./node_modules/@types", "./types"],
-    "allowJs": true,
-    "skipLibCheck": true,
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": false,
+    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "features/*": ["src/features/*"],
+      "assets/*": ["src/assets/*"],
+      "lib/*": ["src/lib/*"],
+      "components/*": ["src/components/*"]
+    }
   },
-  "include": [
-    "**/*.ts",
-    "src/dapp/components/modals/Creating.tsx",
-    "src/dapp/components/modals/Saving.tsx"
-  ],
-  "exclude": ["node_modules", "build", "cache", "artifacts"]
+  "include": ["./src"]
 }

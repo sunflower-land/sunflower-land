@@ -1,42 +1,80 @@
-# Sunflower Farmer
+# sunflower-land
 
-A blockchain based game where players can play to earn Sunflower Farmer Tokens.
+The goal of this project is to create a decentralized and community driven MetaVerse style game.
 
+This repo includes the front-end game which users can play and interact with the game on the Polygon Network.
 
-Originally https://sunflower-farmers.com, this open source game brought in over 50K DAU and 350K Blockchain accounts.
+# Getting Started
 
-The game was not perfect, and the team learned a lot of lessons. It was taken down on January 7th.
+Firstly, you will need to clone the repo locally. Once you have it ready navigate into the directory and run the following commands:
 
-The new and improved version is in development and will be live early 2022.
+1. `npm install --global yarn` (if you don't have yarn installed)
+2. `yarn install`
+3. `yarn dev`
 
-You can stay up to date with development, beta registration and news at https://sunflower-land.com
+# Testing
 
-This version of the game is purely experimental and is not recommended to play. There are inherent flaws in the design and it is open for botting and malicious actors to find vulnerabilities. Resources and items crafted are used for in-game mechanics only.
+TODO
 
-# How does it work?
+# Architecture
 
-For more details, please see the guide - https://docs.sunflower-farmers.com/
+We use `xstate` to control the manage the user and session using a State Machine approach. This prevents our application from getting into invalid states and handles the use cases of switching accounts, networks, etc.
 
-# Code Structure
+The primary states include:
 
-Smart Contracts can be found in `src/contracts`.
+- Connecting (connecting to MetaMask)
+- Ready (Waiting for user input - Start)
+- Signing (Sign a message to verify the account on the API)
+- Authorising (Checking if a user has an account/farm)
+- Unauthorised (when one of the above state transition fails)
+- Authorised (Play the game!)
 
-Decentralized App (Dapp) can be found in `src/dapp`.
+**State Management**
 
-# How to run?
+We use Apollo as our GraphQL client and our state management tool. The Apollo cache is used extensively as the source of truth of the state of the game. The reactive nature of Apollo hooks ensures that when we update the cache, the application reflects this changes in real time.
 
-The dapp is currently pointed at the production blockchain. You can switch to Polygon testnet and it should pick up the chainID automatically.
+# Vite
 
-`yarn`
-`yarn start`
+The app uses vite for bundling and development purposes. You can set build specific configuration in `vite.config.ts`
 
-<img width="527" alt="Screen Shot 2021-08-25 at 11 52 24 am" src="https://user-images.githubusercontent.com/11745561/130713259-f87fd1b4-a6f1-4b25-b8b9-4eff6beee9e9.png">
+# Tailwind
 
-# Licensing 
+Tailwind is our CSS tool of choice. It enables us to:
 
-All software code is under MIT licensing. We encourage people to improve the Sunflower Metaverse and also learn from the code base.
+- Use utility based classes
+- Consistent theming (view `tailwind.config.js`)
+- Perform CSS processing to minimize build sizes
 
-Please check with the individual designers that you have permissions before using any of the in-game asset media, game play design and content. Doing so without permissions is illegal.
+# Directory Organization
 
-We are open source and bootstrapped with zero funds. Hence we have used a base asset pack - https://danieldiggle.itch.io/sunnyside
+-- Assets
 
+Images, Music, Branding and other Media
+
+-- Components
+
+Reusable react components
+
+-- Features
+
+Core domain concepts that have their own use cases/boundaries.
+
+Each feature (e.g. crops) has a similar nested structure of components, graphql & lib that are specific only to that feature.
+
+-- GraphQL
+
+GraphQL config
+
+-- Lib
+
+Utils, classes, machines and more.
+
+# Contributing Guidelines
+
+TODO
+
+# Licensing
+
+Please refer to the Licence.MD for any code related licencing.
+
+All media assets (images and music) are not available for use in commercial or private projects.
