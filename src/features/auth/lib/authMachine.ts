@@ -43,13 +43,19 @@ export const authMachine = createMachine<
   BlockchainState
 >({
   id: "farmMachine",
-  //initial: "connecting",
-  initial: "authorised",
+  initial: "connecting",
+  //initial: "authorised",
   context: {},
   states: {
     connecting: {
       invoke: {
-        src: () => metamask.initialise(),
+        src: async () => {
+          await metamask.initialise();
+
+          // TODO - let them select farm, or create a farm if no tokenIds exist
+          const tokenIds = await metamask.getFarm()?.getFarmIds();
+          console.log({ tokenIds });
+        },
         onDone: "ready",
         onError: {
           target: "unauthorised",

@@ -2,6 +2,7 @@ import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { sha3 } from "web3-utils";
 import { LegacyFarm } from "./Legacy";
+import { Farm } from "./Farm";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -10,6 +11,7 @@ export class Metamask {
   private web3: Web3 | null = null;
 
   private legacyFarm: LegacyFarm | null = null;
+  private farm: Farm | null = null;
 
   private account: string | null = null;
 
@@ -19,6 +21,8 @@ export class Metamask {
         this.web3 as Web3,
         this.account as string
       );
+
+      this.farm = new Farm(this.web3 as Web3, this.account as string);
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
@@ -111,6 +115,10 @@ export class Metamask {
 
   public getLegacyFarm() {
     return this.legacyFarm;
+  }
+
+  public getFarm() {
+    return this.farm;
   }
 }
 
