@@ -28,8 +28,8 @@ function isSeed(crop: InventoryItemName): crop is SeedName {
 export function plant(state: GameState, action: PlantAction) {
   const fields = state.fields;
 
-  if (fields.length < action.index) {
-    throw new Error("Field is not unlocked");
+  if (action.index > 4 && !state.inventory["Pumpkin Soup"]) {
+    throw new Error("Goblin land!");
   }
 
   const field = fields[action.index];

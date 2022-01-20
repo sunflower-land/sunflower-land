@@ -2,7 +2,7 @@ import { FieldItem, GameState } from "../GameProvider";
 
 import { plant } from "./plant";
 
-const EMPTY_FIELDS: FieldItem[] = Array(5)
+const EMPTY_FIELDS: FieldItem[] = Array(20)
   .fill(null)
   .map((_, fieldIndex) => ({ fieldIndex }));
 
@@ -15,14 +15,40 @@ let GAME_STATE: GameState = {
 };
 
 describe("plant", () => {
-  it("does not plant if field is locked", () => {
+  it("does not plant if goblins are around", () => {
     expect(() =>
       plant(GAME_STATE, {
         type: "item.planted",
-        index: GAME_STATE.fields.length + 1,
+        index: 6,
         item: "Sunflower Seed",
       })
-    ).toThrow("Field is not unlocked");
+    ).toThrow("Goblin land!");
+  });
+
+  it("plants if they have pumpkin soup", () => {
+    const state = plant(
+      {
+        ...GAME_STATE,
+        inventory: {
+          "Pumpkin Soup": 1,
+          "Potato Seed": 2,
+        },
+      },
+      {
+        type: "item.planted",
+        index: 6,
+        item: "Potato Seed",
+      }
+    );
+
+    expect(state.inventory["Potato Seed"]).toEqual(1);
+    expect(state.fields[6]).toEqual({
+      crop: {
+        name: "Potato",
+        plantedAt: expect.any(Date),
+      },
+      fieldIndex: 6,
+    });
   });
 
   it("does not plant if crop already exists", () => {

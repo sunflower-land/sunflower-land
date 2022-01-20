@@ -12,6 +12,8 @@ import goldEgg from "assets/nfts/gold_egg.png";
 import potatoStatue from "assets/nfts/potato_statue.png";
 import scarecrow from "assets/nfts/scarecrow.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
+import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
+
 import { Craftable } from "features/game/events/craft";
 
 export type NFT =
@@ -23,7 +25,8 @@ export type NFT =
   | "Farm Dog"
   | "Gnome"
   | "Chicken Coop"
-  | "Gold Egg";
+  | "Gold Egg"
+  | "Pumpkin Soup";
 
 export type Tool = "Axe" | "Pickaxe";
 
@@ -183,6 +186,18 @@ export const NFTs: Record<NFT, Craftable> = {
       {
         item: "Wheat",
         amount: 10,
+      },
+    ],
+  },
+  "Pumpkin Soup": {
+    name: "Pumpkin Soup",
+    image: pumpkinSoup,
+    description: "A creamy soup that goblins love",
+    price: 5,
+    ingredients: [
+      {
+        item: "Pumpkin",
+        amount: 0,
       },
     ],
   },
