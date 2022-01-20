@@ -14,7 +14,11 @@ Firstly, you will need to clone the repo locally. Once you have it ready navigat
 
 # Testing
 
-TODO
+`yarn test`
+
+This runs a range of business logic unit tests in the repo.
+
+The plan is to use react testing library to test some of the core user interactions as well.
 
 # Architecture
 
