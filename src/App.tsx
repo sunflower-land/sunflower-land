@@ -2,7 +2,9 @@ import React from "react";
 
 import * as Auth from "features/auth/lib/Provider";
 
-import { Navigation } from "./Navigation";
+import {AppProvider} from "./AppProvider";
+
+import {Navigation} from "./Navigation";
 
 import "./styles.css";
 
@@ -11,8 +13,10 @@ import "./styles.css";
  */
 export const App: React.FC = () => {
   return (
-    <Auth.Provider>
-      <Navigation />
-    </Auth.Provider>
+    <AppProvider>
+      <Auth.Provider>
+        <Navigation/>
+      </Auth.Provider>
+    </AppProvider>
   );
 };
