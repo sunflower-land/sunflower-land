@@ -7,7 +7,7 @@ import { getTimeLeft } from "lib/utils/time";
 
 import { ProgressBar } from "components/ui/ProgressBar";
 import { FieldItem } from "features/game/GameProvider";
-import {AppIconContext} from '../AppIconProvider';
+import { AppIconContext } from 'features/crops/AppIconProvider';
 
 import { CROPS } from "../lib/crops";
 
@@ -28,7 +28,10 @@ export const Soil: React.FC<Props> = ({ field }) => {
     if (field) {
       setHarvestTime();
       const interval = window.setInterval(setHarvestTime, 1000);
-      return () => window.clearInterval(interval);
+      return () => {
+        window.clearInterval(interval);
+        setBadgeUpdated(false);
+      }
     }
   }, [field]);
 
@@ -52,12 +55,10 @@ export const Soil: React.FC<Props> = ({ field }) => {
       </div>
     );
   }
-  if (timeLeft > 0 && badgeUpdated) {
-    setBadgeUpdated(false); // clean dirty status
-  }
+
   if (timeLeft === 0 && !badgeUpdated) {
     setBadgeUpdated(true);
-    setTimeout(() => incrementHarvestable(1), 100)
+    incrementHarvestable(1);
   }
 
   // Ready to harvest
