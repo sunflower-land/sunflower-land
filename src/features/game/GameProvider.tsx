@@ -265,7 +265,7 @@ function eventReducer(state: GameState, action: GameAction) {
     const cropCount = state.inventory[field.crop.name] || 0;
 
     const toCrop = state.toCrop - 1; // decrement crop number
-    Tinycon.setBubble(toCrop);
+    Tinycon.setBubble(toCrop || null); // when 0 clear it
 
     return {
       ...state,
