@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 
 import {Context} from "features/game/GameProvider";
-import {CropsIconProvider} from "features/crops/CropsIconProvider";
+import {AppIconProvider} from "features/crops/AppIconProvider";
 
 import {Field} from "./components/Field";
 import {CROPS} from "./lib/crops";
@@ -19,7 +19,7 @@ export const Crops: React.FC<Props> = () => {
 
   return (
     // Container
-    <CropsIconProvider>
+    <AppIconProvider>
       <div
         style={{
           width: `${GRID_WIDTH_PX * 25}px`,
@@ -156,6 +156,6 @@ export const Crops: React.FC<Props> = () => {
           </div>
         </div>
       </div>
-    </CropsIconProvider>
+    </AppIconProvider>
   );
 };

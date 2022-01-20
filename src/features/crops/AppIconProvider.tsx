@@ -7,13 +7,13 @@ import { useState } from "react";
 import Tinycon from "tinycon";
 
 
-interface CropsIconContext {
+interface AppIconContext {
   incrementHarvestable: (value: number) => void;
 }
 
-export const CropsIconContext = React.createContext<CropsIconContext>({} as CropsIconContext);
+export const AppIconContext = React.createContext<AppIconContext>({} as AppIconContext);
 
-export const CropsIconProvider: React.FC = ({ children }) => {
+export const AppIconProvider: React.FC = ({ children }) => {
   const [harvestable, setHarvestable] = useState<number>(0);
 
   const incrementHarvestable = (value: number) => {
@@ -22,13 +22,12 @@ export const CropsIconProvider: React.FC = ({ children }) => {
     }
     const incrementedHarvestable = harvestable + value;
     setHarvestable(incrementedHarvestable);
-    debugger
     Tinycon.setBubble(incrementedHarvestable || null);
   }
 
   return (
-    <CropsIconContext.Provider value={{ incrementHarvestable }}>
+    <AppIconContext.Provider value={{ incrementHarvestable }}>
       {children}
-    </CropsIconContext.Provider>
+    </AppIconContext.Provider>
   );
 };
