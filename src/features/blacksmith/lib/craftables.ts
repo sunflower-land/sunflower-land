@@ -1,5 +1,3 @@
-import { InventoryItemName } from "features/game/GameProvider";
-
 // Tools
 import axe from "assets/tools/axe.png";
 import woodPickaxe from "assets/tools/wood_pickaxe.png";
@@ -14,10 +12,9 @@ import goldEgg from "assets/nfts/gold_egg.png";
 import potatoStatue from "assets/nfts/potato_statue.png";
 import scarecrow from "assets/nfts/scarecrow.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
+import { Craftable } from "features/game/events/craft";
 
-export type CraftableName = NFT | Tool;
-
-type NFT =
+export type NFT =
   | "Sunflower Statue"
   | "Potato Statue"
   | "Christmas Tree"
@@ -28,18 +25,7 @@ type NFT =
   | "Chicken Coop"
   | "Gold Egg";
 
-export type Craftable = {
-  name: CraftableName;
-  image: any;
-  description: string;
-  price: number;
-  ingredients: {
-    item: InventoryItemName;
-    amount: number;
-  }[];
-};
-
-type Tool = "Axe" | "Pickaxe";
+export type Tool = "Axe" | "Pickaxe";
 
 export const TOOLS: Record<Tool, Craftable> = {
   Axe: {
@@ -200,9 +186,4 @@ export const NFTs: Record<NFT, Craftable> = {
       },
     ],
   },
-};
-
-export const CRAFTABLES: Record<CraftableName, Craftable> = {
-  ...TOOLS,
-  ...NFTs,
 };

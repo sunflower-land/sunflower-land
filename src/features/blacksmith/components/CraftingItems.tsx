@@ -9,8 +9,8 @@ import { Context, InventoryItemName } from "features/game/GameProvider";
 
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
-import { Craftable } from "../lib/craftables";
 import { ITEM_DETAILS } from "features/game/lib/items";
+import { Craftable } from "features/game/events/craft";
 
 interface Props {
   items: Partial<Record<InventoryItemName, Craftable>>;
@@ -29,7 +29,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
 
   const craft = () => {
     dispatcher({
-      type: "item.craft",
+      type: "item.crafted",
       item: selected.name,
     });
 

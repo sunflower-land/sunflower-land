@@ -20,8 +20,8 @@ export const Plants: React.FC<Props> = ({}) => {
 
   const sell = () => {
     dispatcher({
-      type: "crop.sell",
-      crop: selected.name,
+      type: "item.sell",
+      item: selected.name,
     });
   };
 

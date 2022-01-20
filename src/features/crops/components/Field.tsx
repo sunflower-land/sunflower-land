@@ -41,7 +41,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
     if (!field.crop) {
       try {
         const {} = dispatcher({
-          type: "crop.planted",
+          type: "item.planted",
           index: field.fieldIndex,
           item: selectedItem,
         });
@@ -69,7 +69,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
 
     try {
       dispatcher({
-        type: "crop.harvested",
+        type: "item.harvested",
         index: field.fieldIndex,
       });
 

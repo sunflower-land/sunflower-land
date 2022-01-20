@@ -49,6 +49,8 @@ import wheatSeedling from "assets/crops/wheat/seedling.png";
 import wheatPlant from "assets/crops/wheat/plant.png";
 import wheatCrop from "assets/crops/wheat/crop.png";
 
+import { Craftable } from "features/game/events/craft";
+
 export type CropName =
   | "Sunflower"
   | "Potato"
@@ -213,5 +215,80 @@ export const CROPS: Record<CropName, Crop> = {
       ready: wheatPlant,
       shop: wheatCrop,
     },
+  },
+};
+
+export type SeedName = `${CropName} Seed`;
+
+export const SEEDS: Record<SeedName, Craftable> = {
+  "Sunflower Seed": {
+    name: "Sunflower Seed",
+    price: 0.01,
+    ingredients: [],
+    description: "A sunny flower",
+    image: sunflowerSeed,
+  },
+  "Potato Seed": {
+    name: "Potato Seed",
+    price: 0.1,
+    ingredients: [],
+    description: "A nutrious crop for any diet",
+    image: potatoSeed,
+  },
+  "Pumpkin Seed": {
+    name: "Pumpkin Seed",
+    description: "A nutrious crop for any diet",
+    price: 0.2,
+    ingredients: [],
+    image: pumpkinSeed,
+  },
+  "Carrot Seed": {
+    name: "Carrot Seed",
+    description: "A nutrious crop for any diet",
+    price: 0.5,
+    ingredients: [],
+    image: carrotSeed,
+  },
+  "Cabbage Seed": {
+    name: "Cabbage Seed",
+    description: "A nutrious crop for any diet",
+    price: 1,
+    ingredients: [],
+    image: cabbageSeed,
+  },
+  "Beetroot Seed": {
+    name: "Beetroot Seed",
+    description: "A nutrious crop for any diet",
+    price: 2,
+    ingredients: [],
+    image: beetrootSeed,
+  },
+  "Cauliflower Seed": {
+    name: "Cauliflower Seed",
+    description: "A nutrious crop for any diet",
+    price: 3,
+    ingredients: [],
+    image: cauliflowerSeed,
+  },
+  "Parsnip Seed": {
+    name: "Parsnip Seed",
+    description: "A nutrious crop for any diet",
+    price: 5,
+    ingredients: [],
+    image: parsnipSeed,
+  },
+  "Radish Seed": {
+    name: "Radish Seed",
+    description: "A nutrious crop for any diet",
+    price: 7,
+    ingredients: [],
+    image: radishSeed,
+  },
+  "Wheat Seed": {
+    name: "Wheat Seed",
+    description: "A nutrious crop for any diet",
+    price: 2,
+    ingredients: [],
+    image: wheatSeed,
   },
 };

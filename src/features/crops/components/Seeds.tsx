@@ -1,48 +1,52 @@
 import React, { useContext, useState } from "react";
+import classNames from "classnames";
 
 import token from "assets/icons/token.png";
 import timer from "assets/icons/timer.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
+import { Button } from "components/ui/Button";
+
+import { secondsToString } from "lib/utils/time";
 
 import { Context, InventoryItemName } from "features/game/GameProvider";
+import { Craftable } from "features/game/events/craft";
 
-import { Crop, CROPS } from "../lib/crops";
-import { secondsToString } from "lib/utils/time";
-import { Button } from "components/ui/Button";
-import classNames from "classnames";
+import { Crop, CropName, CROPS, SEEDS } from "../lib/crops";
 
 interface Props {}
 
 export const Seeds: React.FC<Props> = ({}) => {
-  const [selected, setSelected] = useState<Crop>(CROPS.Sunflower);
+  const [selected, setSelected] = useState<Craftable>(SEEDS["Sunflower Seed"]);
 
   const { state, dispatcher, shortcutItem } = useContext(Context);
   const inventory = state.inventory;
 
-  const hasFunds = state.balance >= selected.buyPrice;
+  const hasFunds = state.balance >= selected.price;
 
   const buy = () => {
-    const seed: InventoryItemName = `${selected.name} Seed`;
     dispatcher({
-      type: "seed.buy",
-      seed: seed,
+      type: "item.crafted",
+      item: selected.name,
     });
 
-    shortcutItem(seed);
+    shortcutItem(selected.name);
   };
+
+  const cropName = selected.name.split(" ")[0] as CropName;
+  const crop = CROPS[cropName];
 
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(CROPS).map((item) => (
+        {Object.values(SEEDS).map((item: Craftable) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}
             onClick={() => setSelected(item)}
-            image={item.images.seed}
-            count={inventory[`${item.name} Seed`]}
+            image={item.image}
+            count={inventory[item.name]}
           />
         ))}
       </div>
@@ -50,7 +54,7 @@ export const Seeds: React.FC<Props> = ({}) => {
         <div className="flex flex-col justify-center items-center p-2 ">
           <span className="text-base text-shadow text-center">{`${selected.name} Seed`}</span>
           <img
-            src={selected.images.seed}
+            src={selected.image}
             className="w-12 img-highlight mt-1"
             alt={selected.name}
           />
@@ -58,7 +62,7 @@ export const Seeds: React.FC<Props> = ({}) => {
             <div className="flex justify-center items-end">
               <img src={timer} className="h-5 me-2" />
               <span className="text-xs text-shadow text-center mt-2 ">
-                {secondsToString(selected.harvestSeconds)}
+                {secondsToString(crop.harvestSeconds)}
               </span>
             </div>
             <div className="flex justify-center items-end">
@@ -68,7 +72,7 @@ export const Seeds: React.FC<Props> = ({}) => {
                   "text-red-500": !hasFunds,
                 })}
               >
-                {`$${selected.buyPrice}`}
+                {`$${selected.price}`}
               </span>
             </div>
           </div>

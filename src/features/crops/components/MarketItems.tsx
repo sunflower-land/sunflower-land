@@ -7,8 +7,6 @@ import close from "assets/icons/close.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
-import { Crop, CROPS } from "../lib/crops";
-
 import { Seeds } from "./Seeds";
 import { Plants } from "./Plants";
 
