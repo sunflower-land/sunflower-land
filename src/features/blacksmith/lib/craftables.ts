@@ -68,8 +68,17 @@ export const NFTs: Record<NFT, Craftable> = {
     name: "Sunflower Statue",
     image: sunflowerStatue,
     description: "A symbol of the holy token",
-    price: 1,
-    ingredients: [],
+    price: 50,
+    ingredients: [
+      {
+        item: "Sunflower",
+        amount: 1000,
+      },
+      {
+        item: "Stone",
+        amount: 50,
+      },
+    ],
   },
   "Potato Statue": {
     name: "Potato Statue",
