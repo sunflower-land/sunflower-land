@@ -52,9 +52,12 @@ export const Soil: React.FC<Props> = ({ field }) => {
       </div>
     );
   }
+  if (timeLeft > 0 && badgeUpdated) {
+    setBadgeUpdated(false); // clean dirty status
+  }
   if (timeLeft === 0 && !badgeUpdated) {
     setBadgeUpdated(true);
-    incrementHarvestable(1);
+    setTimeout(() => incrementHarvestable(1), 100)
   }
 
   // Ready to harvest
