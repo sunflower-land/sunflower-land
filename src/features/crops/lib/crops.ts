@@ -48,7 +48,8 @@ import wheatSeed from "assets/crops/wheat/seed.png";
 import wheatSeedling from "assets/crops/wheat/seedling.png";
 import wheatPlant from "assets/crops/wheat/plant.png";
 import wheatCrop from "assets/crops/wheat/crop.png";
-import { Craftable } from "features/blacksmith/lib/craftables";
+
+import { Craftable } from "features/game/events/craft";
 
 export type CropName =
   | "Sunflower"

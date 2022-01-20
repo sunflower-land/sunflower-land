@@ -41,14 +41,6 @@ export function craft(state: GameState, action: CraftAction) {
     throw new Error("Insufficient tokens");
   }
 
-  const hasIngredients = item.ingredients.every(
-    (ingredient) => (state.inventory[ingredient.item] || 0) >= ingredient.amount
-  );
-
-  if (!hasIngredients) {
-    throw new Error("Insufficient ingredients");
-  }
-
   const subtractedInventory = item.ingredients.reduce(
     (inventory, ingredient) => {
       const count = inventory[ingredient.item] || 0;
