@@ -9,8 +9,10 @@ export type GameEvent = CraftAction | SellAction | PlantAction | HarvestAction;
 
 type EventName = Extract<GameEvent, { type: string }>["type"];
 
+/**
+ * Type which enables us to map the event name to the payload containing that event name
+ */
 type Handlers = {
-  // Each event name should have a key
   [Name in EventName]: (
     state: GameState,
     // Extract the correct event payload from the list of events
@@ -22,7 +24,7 @@ const EVENTS: Handlers = {
   "item.planted": plant,
   "item.harvested": harvest,
   "item.crafted": craft,
-  "crop.sell": sell,
+  "item.sell": sell,
 };
 
 export function processEvent(state: GameState, action: GameEvent): GameState {

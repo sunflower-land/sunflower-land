@@ -1,16 +1,23 @@
 import { CropName, CROPS } from "features/crops/lib/crops";
-import { GameState } from "../GameProvider";
+import { GameState, InventoryItemName } from "../GameProvider";
 
 export type SellAction = {
-  type: "crop.sell";
-  // Currently only crops are supported to sell
-  crop: CropName;
+  type: "item.sell";
+  item: InventoryItemName;
 };
 
-export function sell(state: GameState, action: SellAction): GameState {
-  const crop = CROPS[action.crop];
+function isCrop(crop: InventoryItemName): crop is CropName {
+  return crop in CROPS;
+}
 
-  const cropCount = state.inventory[action.crop] || 0;
+export function sell(state: GameState, action: SellAction): GameState {
+  if (!isCrop(action.item)) {
+    throw new Error("Not for sale");
+  }
+
+  const crop = CROPS[action.item];
+
+  const cropCount = state.inventory[action.item] || 0;
 
   if (cropCount === 0) {
     throw new Error("No crops to sell");

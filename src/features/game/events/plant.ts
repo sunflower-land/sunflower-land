@@ -1,4 +1,4 @@
-import { CropName } from "features/crops/lib/crops";
+import { CropName, SeedName } from "features/crops/lib/crops";
 import { GameState, InventoryItemName } from "../GameProvider";
 
 export type PlantAction = {
@@ -21,7 +21,7 @@ const VALID_SEEDS: InventoryItemName[] = [
   "Wheat Seed",
 ];
 
-function isSeed(crop: InventoryItemName): crop is CropName {
+function isSeed(crop: InventoryItemName): crop is SeedName {
   return VALID_SEEDS.includes(crop);
 }
 
