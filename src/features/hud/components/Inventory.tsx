@@ -42,6 +42,7 @@ export const Inventory: React.FC = () => {
       <div className="flex flex-col items-center mt-8">
         {shortcuts.map((item, index) => (
           <Box
+            key={index}
             isSelected={index === 0}
             image={ITEM_DETAILS[item].image}
             count={inventory[item]}
