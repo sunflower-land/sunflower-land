@@ -7,7 +7,7 @@ import { getTimeLeft } from "lib/utils/time";
 
 import { ProgressBar } from "components/ui/ProgressBar";
 import { FieldItem } from "features/game/GameProvider";
-import { AppContext } from "../../../AppProvider";
+import {CropsIconContext} from "../CropsIconProvider";
 
 import { CROPS } from "../lib/crops";
 
@@ -18,7 +18,7 @@ interface Props {
 export const Soil: React.FC<Props> = ({ field }) => {
   const [_, setTimer] = React.useState<number>(0);
   const [badgeUpdated, setBadgeUpdated] = React.useState<boolean>(false);
-  const { appDispatcher } = useContext(AppContext);
+  const { incrementHarvestable } = useContext(CropsIconContext);
 
   const setHarvestTime = React.useCallback(() => {
     setTimer((count) => count + 1);
@@ -54,10 +54,7 @@ export const Soil: React.FC<Props> = ({ field }) => {
   }
   if (timeLeft === 0 && !badgeUpdated) {
     setBadgeUpdated(true);
-    const {} = appDispatcher({
-      type: "harvestable.increment",
-      value: +1,
-    });
+    incrementHarvestable(1);
   }
 
   // Ready to harvest

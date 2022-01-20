@@ -10,7 +10,7 @@ import {
   InventoryItemName,
 } from "features/game/GameProvider";
 
-import { AppContext } from '../../../AppProvider';
+import {AppContext, CropsIconContext, CropsIconProvider} from '../CropsIconProvider';
 
 import { Soil } from "./Soil";
 import { Crop, CropName } from "../lib/crops";
@@ -29,7 +29,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
   const { dispatcher } = useContext(Context);
-  const { appDispatcher } = useContext(AppContext);
+  const { incrementHarvestable } = useContext(CropsIconContext);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -75,10 +75,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
         type: "crop.harvested",
         index: field.fieldIndex,
       });
-      appDispatcher({
-        type: "harvestable.increment",
-        value: -1,
-      })
+      incrementHarvestable(-1);
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
