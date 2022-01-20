@@ -63,13 +63,13 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
             {selected.description}
           </span>
           <div className="border-t border-white w-full mt-2 pt-1">
-            {selected.ingredients.map((ingredient) => {
+            {selected.ingredients.map((ingredient, index) => {
               const item = ITEM_DETAILS[ingredient.item];
               const hasFunds =
                 (inventory[ingredient.item] || 0) > ingredient.amount;
 
               return (
-                <div className="flex justify-center items-end">
+                <div className="flex justify-center items-end" key={index}>
                   <img src={item.image} className="h-5 me-2" />
                   <span
                     className={classNames(
