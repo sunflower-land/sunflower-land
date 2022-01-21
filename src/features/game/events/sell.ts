@@ -20,8 +20,8 @@ export function sell(state: GameState, action: SellAction): GameState {
 
   const cropCount = state.inventory[action.item] || 0;
 
-  if (cropCount === 0) {
-    throw new Error("No crops to sell");
+  if (cropCount < action.amount) {
+    throw new Error("Insufficient crops to sell");
   }
 
   return {
