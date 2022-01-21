@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 import hammer from "assets/icons/hammer.png";
-import nft from "assets/icons/nft.png";
 import close from "assets/icons/close.png";
+import nft from "assets/nfts/pumpkin_soup.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
@@ -22,11 +22,11 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
         <div className="flex">
           <Tab isActive={tab === "craft"} onClick={() => setTab("craft")}>
             <img src={hammer} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Crafting</span>
+            <span className="text-sm text-shadow">Tools</span>
           </Tab>
           <Tab isActive={tab === "nfts"} onClick={() => setTab("nfts")}>
             <img src={nft} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">NFTs</span>
+            <span className="text-sm text-shadow">Items</span>
           </Tab>
         </div>
         <img

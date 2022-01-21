@@ -35,9 +35,9 @@ module.exports = {
       },
       width: {
         gameboard: "4200px",
-        animation: {
-          float: "floating 3s ease-in-out infinite",
-        },
+      },
+      animation: {
+        float: "floating 3s ease-in-out infinite",
       },
     },
     variants: {

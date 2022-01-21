@@ -9,6 +9,7 @@ import { Panel } from "components/ui/Panel";
 import goblin from "assets/npcs/goblin.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
+import questionMark from "assets/icons/expression_confused.png";
 
 import { Field } from "./Field";
 
@@ -21,16 +22,28 @@ export const CropZoneTwo: React.FC<Props> = () => {
   return (
     <>
       {!state.inventory["Pumpkin Soup"] ? (
-        <img
-          src={goblin}
-          className="absolute z-10 hover:img-highlight cursor-pointer"
-          onClick={() => setShowModal(true)}
-          style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
-            left: `${GRID_WIDTH_PX * 1}px`,
-            bottom: `${GRID_WIDTH_PX * 0.25}px`,
-          }}
-        />
+        <>
+          {" "}
+          <img
+            src={questionMark}
+            className="absolute z-10 animate-float"
+            style={{
+              width: `${GRID_WIDTH_PX * 0.3}px`,
+              left: `${GRID_WIDTH_PX * 3.35}px`,
+              bottom: `${GRID_WIDTH_PX * 2.7}px`,
+            }}
+          />
+          <img
+            src={goblin}
+            className="absolute z-10 hover:img-highlight cursor-pointer"
+            onClick={() => setShowModal(true)}
+            style={{
+              width: `${GRID_WIDTH_PX * 5}px`,
+              left: `${GRID_WIDTH_PX * 1}px`,
+              bottom: `${GRID_WIDTH_PX * 0.25}px`,
+            }}
+          />
+        </>
       ) : (
         <>
           <img
@@ -86,7 +99,7 @@ export const CropZoneTwo: React.FC<Props> = () => {
             <div className="flex-1">
               <span className="text-shadow block">This is Goblin land!</span>
               <span className="text-shadow block mt-4">
-                Have you got any of that spicy pumpkin soup?
+                Have you got any of that creamy pumpkin soup?
               </span>
               <img
                 src={pumpkinSoup}

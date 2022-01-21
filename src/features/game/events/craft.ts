@@ -18,6 +18,11 @@ export type Craftable = {
     item: InventoryItemName;
     amount: number;
   }[];
+  limit?: number;
+  amountLeft?: number;
+  disabled?: boolean;
+  type?: "NFT";
+  requires?: InventoryItemName;
 };
 
 export const CRAFTABLES: Record<CraftableName, Craftable> = {
