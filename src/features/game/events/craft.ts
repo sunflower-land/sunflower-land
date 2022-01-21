@@ -5,6 +5,7 @@ import { GameState, InventoryItemName } from "../GameProvider";
 export type CraftAction = {
   type: "item.crafted";
   item: InventoryItemName;
+  amount: number;
 };
 
 export type CraftableName = NFT | Tool | SeedName;
@@ -37,7 +38,7 @@ export function craft(state: GameState, action: CraftAction) {
 
   const item = CRAFTABLES[action.item];
 
-  if (state.balance < item.price) {
+  if (state.balance < item.price * action.amount) {
     throw new Error("Insufficient tokens");
   }
 
@@ -59,10 +60,10 @@ export function craft(state: GameState, action: CraftAction) {
 
   return {
     ...state,
-    balance: state.balance - item.price,
+    balance: state.balance - item.price * action.amount,
     inventory: {
       ...subtractedInventory,
-      [action.item]: (state.inventory[action.item] || 0) + 1,
+      [action.item]: (state.inventory[action.item] || 0) + action.amount,
     },
   };
 }

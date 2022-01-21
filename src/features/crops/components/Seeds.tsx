@@ -25,10 +25,12 @@ export const Seeds: React.FC<Props> = ({}) => {
 
   const hasFunds = state.balance >= selected.price;
 
-  const buy = () => {
+  const buy = (amount = 1) => {
+    const seed: InventoryItemName = `${selected.name} Seed`;
     dispatcher({
       type: "item.crafted",
       item: selected.name,
+      amount,
     });
 
     shortcutItem(selected.name);
@@ -77,7 +79,10 @@ export const Seeds: React.FC<Props> = ({}) => {
             </div>
           </div>
           <Button disabled={!hasFunds} className="text-xs mt-1" onClick={buy}>
-            Buy
+            Buy 1
+          </Button>
+          <Button disabled={!hasFunds} className="text-xs mt-1" onClick={() => buy(10)}>
+            Buy 10
           </Button>
         </div>
       </OuterPanel>
