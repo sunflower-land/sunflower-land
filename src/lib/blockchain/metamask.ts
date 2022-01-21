@@ -94,23 +94,29 @@ export class Metamask {
     }
   }
 
-  public async signTransaction() {
+  public async signTransaction(data: string) {
     if (!this.web3) {
       throw new Error(ERRORS.NO_WEB3);
     }
 
-    const stringToHash = "Hello";
-    const hash = sha3(stringToHash) as string;
+    const hash = sha3(data) as string;
+    console.log({ hash });
+    console.log({ account: this.account });
+    console.log({ data });
     const signature = await this.web3.eth.personal.sign(
       hash,
       this.account as string,
-      "dog"
+      // Empty password, handled by Metamask
+      ""
     );
 
     // Example of verifying a transaction on the backend
     //const signingAddress = this.web3.eth.accounts.recover(hash, signature);
 
-    return signature;
+    return {
+      signature,
+      hash,
+    };
   }
 
   public getLegacyFarm() {
@@ -118,7 +124,7 @@ export class Metamask {
   }
 
   public getFarm() {
-    return this.farm;
+    return this.farm as Farm;
   }
 }
 

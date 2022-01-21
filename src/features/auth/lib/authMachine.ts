@@ -51,10 +51,6 @@ export const authMachine = createMachine<
       invoke: {
         src: async () => {
           await metamask.initialise();
-
-          // TODO - let them select farm, or create a farm if no tokenIds exist
-          const tokenIds = await metamask.getFarm()?.getFarmIds();
-          console.log({ tokenIds });
         },
         onDone: "ready",
         onError: {
@@ -81,13 +77,27 @@ export const authMachine = createMachine<
     signing: {
       invoke: {
         src: async () => {
+          /**
+           * TODO: Screen to let them select a farm
+           * For now, let's assume it is the first ID
+           */
+          const tokenIds = await metamask.getFarm()?.getFarmIds();
+          console.log({ tokenIds });
+          if (tokenIds?.length === 0) {
+            throw new Error("NO_FARM");
+          }
+
+          const farmId = tokenIds[0];
+
           // Already signed
           if (getSignedAddress()) {
             return;
           }
 
           // Sign transaction -
-          const signedAddress = await metamask.signTransaction();
+          const signedAddress = await metamask.signTransaction(
+            farmId.toString()
+          );
           saveSignedAddress(signedAddress);
         },
         onDone: "authorising",
