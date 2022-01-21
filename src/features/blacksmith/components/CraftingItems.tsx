@@ -14,9 +14,10 @@ import { Craftable } from "features/game/events/craft";
 
 interface Props {
   items: Partial<Record<InventoryItemName, Craftable>>;
+  isBulk: boolean;
 }
 
-export const CraftingItems: React.FC<Props> = ({ items }) => {
+export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
 
   const { state, dispatcher, shortcutItem } = useContext(Context);
@@ -102,15 +103,17 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
             className="text-xs mt-1"
             onClick={craft}
           >
-            Craft 1
+            Craft {isBulk && '1'}
           </Button>
-          <Button
-            disabled={lessFunds(10) || lessIngredients(10)}
-            className="text-xs mt-1"
-            onClick={(e) => craft(e, 10)}
-          >
-            Craft 10
-          </Button>
+          {isBulk &&
+            <Button
+              disabled={lessFunds(10) || lessIngredients(10)}
+              className="text-xs mt-1"
+              onClick={(e) => craft(e, 10)}
+            >
+              Craft 10
+            </Button>
+          }
         </div>
       </OuterPanel>
     </div>

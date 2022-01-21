@@ -24,7 +24,6 @@ export const Seeds: React.FC<Props> = ({}) => {
   const inventory = state.inventory;
 
   const buy = (e, amount = 1) => {
-    const seed: InventoryItemName = `${selected.name} Seed`;
     dispatcher({
       type: "item.crafted",
       item: selected.name,
