@@ -34,9 +34,7 @@ export const Seeds: React.FC<Props> = ({}) => {
     shortcutItem(selected.name);
   };
 
-  
-
-  const hasFunds = (amount = 1) => state.balance >= selected.price * amount;
+  const lessFunds = (amount = 1) => state.balance < selected.price * amount;
 
   const cropName = selected.name.split(" ")[0] as CropName;
   const crop = CROPS[cropName];
@@ -73,17 +71,17 @@ export const Seeds: React.FC<Props> = ({}) => {
               <img src={token} className="h-5 mr-1" />
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  "text-red-500": !hasFunds,
+                  "text-red-500": lessFunds(),
                 })}
               >
                 {`$${selected.price}`}
               </span>
             </div>
           </div>
-          <Button disabled={!hasFunds()} className="text-xs mt-1" onClick={buy}>
+          <Button disabled={lessFunds()} className="text-xs mt-1" onClick={buy}>
             Buy 1
           </Button>
-          <Button disabled={!hasFunds(10)} className="text-xs mt-1" onClick={(e) => buy(e, 10)}>
+          <Button disabled={lessFunds(10)} className="text-xs mt-1" onClick={(e) => buy(e, 10)}>
             Buy 10
           </Button>
         </div>
