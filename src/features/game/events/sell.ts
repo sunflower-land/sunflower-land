@@ -4,6 +4,7 @@ import { GameState, InventoryItemName } from "../GameProvider";
 export type SellAction = {
   type: "item.sell";
   item: InventoryItemName;
+  amount: number;
 };
 
 function isCrop(crop: InventoryItemName): crop is CropName {
@@ -25,10 +26,10 @@ export function sell(state: GameState, action: SellAction): GameState {
 
   return {
     ...state,
-    balance: state.balance + crop.sellPrice,
+    balance: state.balance + crop.sellPrice * action.amount,
     inventory: {
       ...state.inventory,
-      [crop.name]: cropCount - 1,
+      [crop.name]: cropCount - 1 * action.amount,
     },
   };
 }
