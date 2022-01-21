@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Panel } from "../../../components/ui/Panel";
 import { Label } from "components/ui/Label";
 
-import metamask from "assets/icons/metamask.png";
+import player from "assets/icons/player.png";
 import arrowLeft from "assets/icons/arrow_left.png";
 import arrowRight from "assets/icons/arrow_right.png";
 
@@ -38,7 +38,7 @@ export const Address: React.FC<Props> = ({ address }) => {
     <div className="fixed bottom-2 right-2 z-50  shadow-lg">
       <Panel>
         <div className="flex items-center">
-          <img src={metamask} className="h-8 mr-2 z-50" />
+          <img src={player} className="h-8 mr-2 z-50" />
 
           <span
             onMouseEnter={handleMouseEnter}

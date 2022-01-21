@@ -37,6 +37,19 @@ export const Seeds: React.FC<Props> = ({}) => {
   const cropName = selected.name.split(" ")[0] as CropName;
   const crop = CROPS[cropName];
 
+  const Action = () => {
+    const isLocked = selected.requires && !inventory[selected.requires];
+    if (isLocked) {
+      return <span className="text-xs mt-1 text-shadow">Locked</span>;
+    }
+
+    return (
+      <Button disabled={!hasFunds} className="text-xs mt-1" onClick={buy}>
+        Buy
+      </Button>
+    );
+  };
+
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
@@ -76,9 +89,7 @@ export const Seeds: React.FC<Props> = ({}) => {
               </span>
             </div>
           </div>
-          <Button disabled={!hasFunds} className="text-xs mt-1" onClick={buy}>
-            Buy
-          </Button>
+          {Action()}
         </div>
       </OuterPanel>
     </div>

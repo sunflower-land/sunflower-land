@@ -36,6 +36,28 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
     shortcutItem(selected.name);
   };
 
+  const soldOut = selected.amountLeft === 0;
+
+  const Action = () => {
+    if (soldOut) {
+      return null;
+    }
+
+    if (selected.disabled) {
+      return <span className="text-xs mt-1 text-shadow">Locked</span>;
+    }
+
+    return (
+      <Button
+        disabled={!hasFunds || !hasIngredients}
+        className="text-xs mt-1"
+        onClick={craft}
+      >
+        Craft
+      </Button>
+    );
+  };
+
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
@@ -50,7 +72,23 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
         ))}
       </div>
       <OuterPanel className="flex-1 w-1/3">
-        <div className="flex flex-col justify-center items-center p-2 ">
+        <div className="flex flex-col justify-center items-center p-2 relative">
+          {soldOut && (
+            <span className="bg-blue-600 text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md">
+              Sold out
+            </span>
+          )}
+          {!!selected.amountLeft && (
+            <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
+              {`${selected.amountLeft} left`}
+            </span>
+          )}
+          {selected.type === "NFT" && (
+            <span className="bg-blue-600 text-shadow border text-xxs absolute right-0 -top-4 p-1 rounded-md">
+              NFT
+            </span>
+          )}
+
           <span className="text-base text-shadow text-center">
             {selected.name}
           </span>
@@ -96,13 +134,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
               </span>
             </div>
           </div>
-          <Button
-            disabled={!hasFunds || !hasIngredients}
-            className="text-xs mt-1"
-            onClick={craft}
-          >
-            Craft
-          </Button>
+          {Action()}
         </div>
       </OuterPanel>
     </div>
