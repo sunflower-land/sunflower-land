@@ -36,11 +36,7 @@ export const Seeds: React.FC<Props> = ({}) => {
 
   
 
-  const hasFunds = (amount = 1) => {
-    console.log(state.balance);
-    console.log(selected.price * amount);
-    return state.balance >= selected.price * amount
-  };
+  const hasFunds = (amount = 1) => state.balance >= selected.price * amount;
 
   const cropName = selected.name.split(" ")[0] as CropName;
   const crop = CROPS[cropName];
