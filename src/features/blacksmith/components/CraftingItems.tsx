@@ -22,15 +22,16 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
   const { state, dispatcher, shortcutItem } = useContext(Context);
   const inventory = state.inventory;
 
-  const hasIngredients = selected.ingredients.every(
-    (ingredient) => (inventory[ingredient.item] || 0) >= ingredient.amount
+  const lessIngredients = (amount = 1) => selected.ingredients.some(
+    (ingredient) => (inventory[ingredient.item] || 0) < ingredient.amount * amount,
   );
-  const hasFunds = state.balance >= selected.price;
+  const lessFunds = (amount = 1) => state.balance < selected.price * amount;
 
-  const craft = () => {
+  const craft = (e, amount = 1) => {
     dispatcher({
       type: "item.crafted",
       item: selected.name,
+      amount,
     });
 
     shortcutItem(selected.name);
@@ -66,7 +67,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
             {selected.ingredients.map((ingredient, index) => {
               const item = ITEM_DETAILS[ingredient.item];
               const hasFunds =
-                (inventory[ingredient.item] || 0) > ingredient.amount;
+                (inventory[ingredient.item] || 0) >= ingredient.amount;
 
               return (
                 <div className="flex justify-center items-end" key={index}>
@@ -89,7 +90,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
               <img src={token} className="h-5 mr-1" />
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  "text-red-500": !hasFunds,
+                  "text-red-500": lessFunds(),
                 })}
               >
                 {`$${selected.price}`}
@@ -97,11 +98,18 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
             </div>
           </div>
           <Button
-            disabled={!hasFunds || !hasIngredients}
+            disabled={lessFunds() || lessIngredients()}
             className="text-xs mt-1"
             onClick={craft}
           >
-            Craft
+            Craft 1
+          </Button>
+          <Button
+            disabled={lessFunds(10) || lessIngredients(10)}
+            className="text-xs mt-1"
+            onClick={(e) => craft(e, 10)}
+          >
+            Craft 10
           </Button>
         </div>
       </OuterPanel>

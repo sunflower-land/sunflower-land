@@ -67,8 +67,11 @@ export const GameProvider: React.FC = ({ children }) => {
     fields: EMPTY_FIELDS,
     inventory: {
       "Sunflower Seed": 2,
-      Wood: 2,
+      Wood: 11,
       Gold: 2,
+      Sunflower: 30,
+      Cauliflower: 20,
+      Radish: 5,
     },
     level: 0,
     actions: [],
