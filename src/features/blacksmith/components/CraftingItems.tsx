@@ -28,7 +28,7 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
   );
   const lessFunds = (amount = 1) => state.balance < selected.price * amount;
 
-  const craft = (e, amount = 1) => {
+  const craft = (amount = 1) => {
     dispatcher({
       type: "item.crafted",
       item: selected.name,
@@ -101,7 +101,7 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
           <Button
             disabled={lessFunds() || lessIngredients()}
             className="text-xs mt-1"
-            onClick={craft}
+            onClick={() => craft()}
           >
             Craft {isBulk && '1'}
           </Button>
@@ -109,7 +109,7 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
             <Button
               disabled={lessFunds(10) || lessIngredients(10)}
               className="text-xs mt-1"
-              onClick={(e) => craft(e, 10)}
+              onClick={() => craft(10)}
             >
               Craft 10
             </Button>

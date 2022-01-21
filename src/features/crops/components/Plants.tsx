@@ -18,7 +18,7 @@ export const Plants: React.FC<Props> = ({}) => {
   const { state, dispatcher } = useContext(Context);
   const inventory = state.inventory;
 
-  const sell = (e, amount = 1) => {
+  const sell = (amount = 1) => {
     dispatcher({
       type: "item.sell",
       item: selected.name,
@@ -26,7 +26,7 @@ export const Plants: React.FC<Props> = ({}) => {
     });
   };
 
-  const lessPlants = (amount = 1) => inventory[selected.name] < amount;
+  const lessPlants = (amount = 1) => (inventory[selected.name] || 0) < amount;
 
   return (
     <div className="flex">
@@ -64,14 +64,14 @@ export const Plants: React.FC<Props> = ({}) => {
           <Button
             disabled={lessPlants()}
             className="text-xs mt-1"
-            onClick={sell}
+            onClick={() => sell()}
           >
             Sell 1
           </Button>
           <Button
             disabled={lessPlants(10)}
             className="text-xs mt-1"
-            onClick={(e) => sell(e, 10)}
+            onClick={() => sell(10)}
           >
             Sell 10
           </Button>

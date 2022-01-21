@@ -23,7 +23,7 @@ export const Seeds: React.FC<Props> = ({}) => {
   const { state, dispatcher, shortcutItem } = useContext(Context);
   const inventory = state.inventory;
 
-  const buy = (e, amount = 1) => {
+  const buy = (amount = 1) => {
     dispatcher({
       type: "item.crafted",
       item: selected.name,
@@ -77,10 +77,10 @@ export const Seeds: React.FC<Props> = ({}) => {
               </span>
             </div>
           </div>
-          <Button disabled={lessFunds()} className="text-xs mt-1" onClick={buy}>
+          <Button disabled={lessFunds()} className="text-xs mt-1" onClick={() => buy()}>
             Buy 1
           </Button>
-          <Button disabled={lessFunds(10)} className="text-xs mt-1" onClick={(e) => buy(e, 10)}>
+          <Button disabled={lessFunds(10)} className="text-xs mt-1" onClick={() => buy(10)}>
             Buy 10
           </Button>
         </div>
