@@ -20,7 +20,7 @@ export const CropZoneTwo: React.FC<Props> = () => {
 
   return (
     <>
-      {!state.inventory["Pumpkin Soup"] && (
+      {!state.inventory["Pumpkin Soup"] ? (
         <img
           src={goblin}
           className="absolute z-10 hover:img-highlight cursor-pointer"
@@ -31,6 +31,27 @@ export const CropZoneTwo: React.FC<Props> = () => {
             bottom: `${GRID_WIDTH_PX * 0.25}px`,
           }}
         />
+      ) : (
+        <>
+          <img
+            src={goblin}
+            className="absolute z-10"
+            style={{
+              width: `${GRID_WIDTH_PX * 5}px`,
+              left: `${GRID_WIDTH_PX * -3}px`,
+              bottom: `${GRID_WIDTH_PX * 3.25}px`,
+            }}
+          />
+          <img
+            src={pumpkinSoup}
+            className="absolute "
+            style={{
+              width: `${GRID_WIDTH_PX * 0.75}px`,
+              left: `${GRID_WIDTH_PX * 0.2}px`,
+              bottom: `${GRID_WIDTH_PX * 4.4}px`,
+            }}
+          />
+        </>
       )}
 
       <div
