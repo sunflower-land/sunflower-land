@@ -3,7 +3,7 @@ import { sell, SellAction } from "./sell";
 import { plant, PlantAction } from "./plant";
 import { harvest, HarvestAction } from "./harvest";
 
-import { GameState } from "../lib/types";
+import { GameState } from "../types/game";
 
 export type GameEvent = CraftAction | SellAction | PlantAction | HarvestAction;
 

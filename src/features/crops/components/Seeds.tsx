@@ -12,9 +12,8 @@ import { Button } from "components/ui/Button";
 import { secondsToString } from "lib/utils/time";
 
 import { Context } from "features/game/GameProvider";
-import { Craftable } from "features/game/events/craft";
-
-import { Crop, CropName, CROPS, SEEDS } from "../lib/crops";
+import { Craftable } from "features/game/types/craftables";
+import { CropName, CROPS, SEEDS } from "features/game/types/crops";
 
 interface Props {}
 

@@ -4,13 +4,14 @@ import classNames from "classnames";
 import selectBox from "assets/ui/select/select_box.png";
 
 import { Context } from "features/game/GameProvider";
-import { FieldItem, InventoryItemName } from "features/game/lib/types";
+import { FieldItem, InventoryItemName } from "features/game/types/game";
 import { AppIconContext } from "features/crops/AppIconProvider";
 
-import { Soil } from "./Soil";
-import { CropName } from "../lib/crops";
-import { ITEM_DETAILS } from "features/game/lib/items";
+import { CropName } from "features/game/types/crops";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+
+import { Soil } from "./Soil";
 
 const POPOVER_TIME_MS = 1000;
 

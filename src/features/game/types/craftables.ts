@@ -18,7 +18,32 @@ import scarecrow from "assets/nfts/scarecrow.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 
-import { Craftable } from "features/game/events/craft";
+import { SeedName, SEEDS } from "../types/crops";
+import { InventoryItemName } from "../types/game";
+
+export type CraftAction = {
+  type: "item.crafted";
+  item: InventoryItemName;
+  amount: number;
+};
+
+export type CraftableName = NFT | Tool | SeedName;
+
+export type Craftable = {
+  name: CraftableName;
+  image: any;
+  description: string;
+  price: number;
+  ingredients: {
+    item: InventoryItemName;
+    amount: number;
+  }[];
+  limit?: number;
+  amountLeft?: number;
+  disabled?: boolean;
+  type?: "NFT";
+  requires?: InventoryItemName;
+};
 
 export type NFT =
   | "Sunflower Statue"
@@ -282,4 +307,10 @@ export const NFTs: Record<NFT, Craftable> = {
     amountLeft: 82,
     type: "NFT",
   },
+};
+
+export const CRAFTABLES: Record<CraftableName, Craftable> = {
+  ...TOOLS,
+  ...NFTs,
+  ...SEEDS,
 };

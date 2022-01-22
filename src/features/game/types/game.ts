@@ -1,9 +1,8 @@
-import { CropName, SeedName } from "features/crops/lib/crops";
-
 import { GameEvent } from "../events";
-import { CraftableName } from "../events/craft";
 
-import { ResourceName } from "../lib/resources";
+import { CropName, SeedName } from "./crops";
+import { CraftableName } from "./craftables";
+import { ResourceName } from "./resources";
 
 export type FieldItem = {
   fieldIndex: number;

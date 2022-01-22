@@ -1,8 +1,6 @@
-import { CROPS } from "features/crops/lib/crops";
-
-import { NFTs, TOOLS } from "features/blacksmith/lib/craftables";
-
-import { InventoryItemName } from "./types";
+import { InventoryItemName } from "./game";
+import { NFTs, TOOLS } from "./craftables";
+import { CROPS } from "./crops";
 import { RESOURCES } from "./resources";
 
 export type ItemDetails = {
@@ -96,10 +94,6 @@ export const ITEM_DETAILS: Items = {
   },
 
   ...RESOURCES,
-
-  // TODO add tools
   ...TOOLS,
-
-  // TODO add NFTs
   ...NFTs,
 };

@@ -6,8 +6,9 @@ import nft from "assets/nfts/pumpkin_soup.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
+import { NFTs, TOOLS } from "features/game/types/craftables";
+
 import { CraftingItems } from "./CraftingItems";
-import { NFTs, TOOLS } from "../lib/craftables";
 
 interface Props {
   onClose: () => void;

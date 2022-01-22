@@ -49,7 +49,7 @@ import wheatSeedling from "assets/crops/wheat/seedling.png";
 import wheatPlant from "assets/crops/wheat/plant.png";
 import wheatCrop from "assets/crops/wheat/crop.png";
 
-import { Craftable } from "features/game/events/craft";
+import { Craftable } from "./craftables";
 
 export type CropName =
   | "Sunflower"
