@@ -1,36 +1,43 @@
 import React, { useContext, useState } from "react";
+import { useActor } from "@xstate/react";
+import classNames from "classnames";
 
 import token from "assets/icons/token.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
-
-import { Context, InventoryItemName } from "features/game/GameProvider";
-
 import { Button } from "components/ui/Button";
-import classNames from "classnames";
+
+import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/lib/items";
 import { Craftable } from "features/game/events/craft";
+import { InventoryItemName } from "features/game/lib/types";
 
 interface Props {
   items: Partial<Record<InventoryItemName, Craftable>>;
-  isBulk: boolean;
+  isBulk?: boolean;
 }
 
 export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
 
-  const { state, dispatcher, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const lessIngredients = (amount = 1) => selected.ingredients.some(
-    (ingredient) => (inventory[ingredient.item] || 0) < ingredient.amount * amount,
-  );
+  const lessIngredients = (amount = 1) =>
+    selected.ingredients.some(
+      (ingredient) =>
+        (inventory[ingredient.item] || 0) < ingredient.amount * amount
+    );
   const lessFunds = (amount = 1) => state.balance < selected.price * amount;
 
   const craft = (amount = 1) => {
-    dispatcher({
-      type: "item.crafted",
+    gameService.send("item.crafted", {
       item: selected.name,
       amount,
     });
@@ -56,9 +63,9 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
           className="text-xs mt-1"
           onClick={() => craft()}
         >
-          Craft {isBulk && '1'}
+          Craft {isBulk && "1"}
         </Button>
-        {isBulk &&
+        {isBulk && (
           <Button
             disabled={lessFunds(10) || lessIngredients(10)}
             className="text-xs mt-1"
@@ -66,7 +73,7 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
           >
             Craft 10
           </Button>
-        }
+        )}
       </>
     );
   };

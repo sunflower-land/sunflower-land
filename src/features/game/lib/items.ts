@@ -2,7 +2,7 @@ import { CROPS } from "features/crops/lib/crops";
 
 import { NFTs, TOOLS } from "features/blacksmith/lib/craftables";
 
-import { InventoryItemName } from "../GameProvider";
+import { InventoryItemName } from "./types";
 import { RESOURCES } from "./resources";
 
 export type ItemDetails = {

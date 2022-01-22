@@ -13,8 +13,6 @@ import pumpkinSoup from "asses/nfts/pumpkin_soup.png";
 interface Props {}
 
 export const Water: React.FC<Props> = () => {
-  const { state } = useContext(Context);
-
   return (
     // Container
     <div

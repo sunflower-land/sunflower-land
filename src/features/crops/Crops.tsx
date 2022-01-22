@@ -11,11 +11,17 @@ import { Market } from "./components/Market";
 
 import { CropZoneOne } from "./components/CropZoneOne";
 import { CropZoneTwo } from "./components/CropZoneTwo";
+import { useActor } from "@xstate/react";
 
 interface Props {}
 
 export const Crops: React.FC<Props> = () => {
-  const { state, selectedItem } = useContext(Context);
+  const { gameService, selectedItem } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   return (
     <AppIconProvider>

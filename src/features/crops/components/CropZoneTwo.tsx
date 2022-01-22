@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
@@ -17,7 +18,12 @@ interface Props {}
 
 export const CropZoneTwo: React.FC<Props> = () => {
   const [showModal, setShowModal] = useState(false);
-  const { state, selectedItem } = useContext(Context);
+  const { gameService, selectedItem } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   return (
     <>
