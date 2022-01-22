@@ -70,10 +70,6 @@ export class Metamask {
     this.account = maticAccounts[0];
   }
 
-  public get myAccount() {
-    return this.account;
-  }
-
   public async initialise(retryCount = 0): Promise<void> {
     try {
       // It is actually quite fast, we won't to simulate slow loading to convey complexity

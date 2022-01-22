@@ -15,7 +15,7 @@ import { InventoryItemName } from "features/game/lib/types";
 
 interface Props {
   items: Partial<Record<InventoryItemName, Craftable>>;
-  isBulk: boolean;
+  isBulk?: boolean;
 }
 
 export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
