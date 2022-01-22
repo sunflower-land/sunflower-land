@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
-import token from "assets/icons/token.png";
 import selectBox from "assets/ui/select/select_box.png";
 
 import { Context } from "features/game/GameProvider";
 import { FieldItem, InventoryItemName } from "features/game/lib/types";
+import { AppIconContext } from "features/crops/AppIconProvider";
 
 import { Soil } from "./Soil";
 import { CropName } from "../lib/crops";
@@ -24,6 +24,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
   const { gameService } = useContext(Context);
+  const { incrementHarvestable } = useContext(AppIconContext);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -67,6 +68,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
       gameService.send("item.harvested", {
         index: field.fieldIndex,
       });
+      incrementHarvestable(-1);
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">

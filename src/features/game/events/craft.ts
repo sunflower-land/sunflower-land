@@ -5,6 +5,7 @@ import { GameState, InventoryItemName } from "../lib/types";
 export type CraftAction = {
   type: "item.crafted";
   item: InventoryItemName;
+  amount: number;
 };
 
 export type CraftableName = NFT | Tool | SeedName;
@@ -18,6 +19,11 @@ export type Craftable = {
     item: InventoryItemName;
     amount: number;
   }[];
+  limit?: number;
+  amountLeft?: number;
+  disabled?: boolean;
+  type?: "NFT";
+  requires?: InventoryItemName;
 };
 
 export const CRAFTABLES: Record<CraftableName, Craftable> = {
@@ -36,22 +42,29 @@ export function craft(state: GameState, action: CraftAction) {
   }
 
   const item = CRAFTABLES[action.item];
+  const totalExpenses = item.price * action.amount;
 
-  if (state.balance < item.price) {
+  const isLocked = item.requires && !state.inventory[item.requires];
+  if (isLocked) {
+    throw new Error(`Missing ${item.requires}`);
+  }
+
+  if (state.balance < totalExpenses) {
     throw new Error("Insufficient tokens");
   }
 
   const subtractedInventory = item.ingredients.reduce(
     (inventory, ingredient) => {
       const count = inventory[ingredient.item] || 0;
+      const totalAmount = ingredient.amount * action.amount;
 
-      if (count < ingredient.amount) {
+      if (count < totalAmount) {
         throw new Error(`Insufficient ingredient: ${ingredient.item}`);
       }
 
       return {
         ...inventory,
-        [ingredient.item]: count - ingredient.amount,
+        [ingredient.item]: count - totalAmount,
       };
     },
     state.inventory
@@ -59,10 +72,10 @@ export function craft(state: GameState, action: CraftAction) {
 
   return {
     ...state,
-    balance: state.balance - item.price,
+    balance: state.balance - totalExpenses,
     inventory: {
       ...subtractedInventory,
-      [action.item]: (state.inventory[action.item] || 0) + 1,
+      [action.item]: (state.inventory[action.item] || 0) + action.amount,
     },
   };
 }

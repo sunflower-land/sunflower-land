@@ -29,27 +29,6 @@ export const GameProvider: React.FC = ({ children }) => {
     getShortcuts()
   );
 
-  // const dispatcher = React.useCallback(
-  //   (action: GameEvent) => {
-  //     const newState = processEvent(state, action);
-
-  //     const actions = [
-  //       ...state.actions,
-  //       {
-  //         ...action,
-  //         createdAt: new Date(),
-  //       },
-  //     ];
-
-  //     setState({
-  //       ...newState,
-  //       actions,
-  //     });
-  //     return newState;
-  //   },
-  //   [state]
-  // );
-
   const shortcutItem = (item: InventoryItemName) => {
     const items = cacheShortcuts(item);
     setShortcuts(items);

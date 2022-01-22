@@ -248,6 +248,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     price: 0.5,
     ingredients: [],
     image: carrotSeed,
+    requires: "Pumpkin Soup",
   },
   "Cabbage Seed": {
     name: "Cabbage Seed",
@@ -255,6 +256,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     price: 1,
     ingredients: [],
     image: cabbageSeed,
+    requires: "Pumpkin Soup",
   },
   "Beetroot Seed": {
     name: "Beetroot Seed",
@@ -262,6 +264,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     price: 2,
     ingredients: [],
     image: beetrootSeed,
+    requires: "Pumpkin Soup",
   },
   "Cauliflower Seed": {
     name: "Cauliflower Seed",
@@ -269,6 +272,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     price: 3,
     ingredients: [],
     image: cauliflowerSeed,
+    requires: "Pumpkin Soup",
   },
   "Parsnip Seed": {
     name: "Parsnip Seed",
@@ -276,6 +280,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     price: 5,
     ingredients: [],
     image: parsnipSeed,
+    requires: "Pumpkin Soup",
   },
   "Radish Seed": {
     name: "Radish Seed",
@@ -283,6 +288,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     price: 7,
     ingredients: [],
     image: radishSeed,
+    requires: "Pumpkin Soup",
   },
   "Wheat Seed": {
     name: "Wheat Seed",
@@ -290,5 +296,6 @@ export const SEEDS: Record<SeedName, Craftable> = {
     price: 2,
     ingredients: [],
     image: wheatSeed,
+    requires: "Pumpkin Soup",
   },
 };

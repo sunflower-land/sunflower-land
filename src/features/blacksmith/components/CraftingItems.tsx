@@ -15,9 +15,10 @@ import { InventoryItemName } from "features/game/lib/types";
 
 interface Props {
   items: Partial<Record<InventoryItemName, Craftable>>;
+  isBulk: boolean;
 }
 
-export const CraftingItems: React.FC<Props> = ({ items }) => {
+export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
 
   const { gameService, shortcutItem } = useContext(Context);
@@ -28,17 +29,53 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const hasIngredients = selected.ingredients.every(
-    (ingredient) => (inventory[ingredient.item] || 0) >= ingredient.amount
-  );
-  const hasFunds = state.balance >= selected.price;
+  const lessIngredients = (amount = 1) =>
+    selected.ingredients.some(
+      (ingredient) =>
+        (inventory[ingredient.item] || 0) < ingredient.amount * amount
+    );
+  const lessFunds = (amount = 1) => state.balance < selected.price * amount;
 
-  const craft = () => {
+  const craft = (amount = 1) => {
     gameService.send("item.crafted", {
       item: selected.name,
+      amount,
     });
 
     shortcutItem(selected.name);
+  };
+
+  const soldOut = selected.amountLeft === 0;
+
+  const Action = () => {
+    if (soldOut) {
+      return null;
+    }
+
+    if (selected.disabled) {
+      return <span className="text-xs mt-1 text-shadow">Locked</span>;
+    }
+
+    return (
+      <>
+        <Button
+          disabled={lessFunds() || lessIngredients()}
+          className="text-xs mt-1"
+          onClick={() => craft()}
+        >
+          Craft {isBulk && "1"}
+        </Button>
+        {isBulk && (
+          <Button
+            disabled={lessFunds(10) || lessIngredients(10)}
+            className="text-xs mt-1"
+            onClick={() => craft(10)}
+          >
+            Craft 10
+          </Button>
+        )}
+      </>
+    );
   };
 
   return (
@@ -55,7 +92,23 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
         ))}
       </div>
       <OuterPanel className="flex-1 w-1/3">
-        <div className="flex flex-col justify-center items-center p-2 ">
+        <div className="flex flex-col justify-center items-center p-2 relative">
+          {soldOut && (
+            <span className="bg-blue-600 text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md">
+              Sold out
+            </span>
+          )}
+          {!!selected.amountLeft && (
+            <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
+              {`${selected.amountLeft} left`}
+            </span>
+          )}
+          {selected.type === "NFT" && (
+            <span className="bg-blue-600 text-shadow border text-xxs absolute right-0 -top-4 p-1 rounded-md">
+              NFT
+            </span>
+          )}
+
           <span className="text-base text-shadow text-center">
             {selected.name}
           </span>
@@ -71,7 +124,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
             {selected.ingredients.map((ingredient, index) => {
               const item = ITEM_DETAILS[ingredient.item];
               const hasFunds =
-                (inventory[ingredient.item] || 0) > ingredient.amount;
+                (inventory[ingredient.item] || 0) >= ingredient.amount;
 
               return (
                 <div className="flex justify-center items-end" key={index}>
@@ -94,20 +147,14 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
               <img src={token} className="h-5 mr-1" />
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  "text-red-500": !hasFunds,
+                  "text-red-500": lessFunds(),
                 })}
               >
                 {`$${selected.price}`}
               </span>
             </div>
           </div>
-          <Button
-            disabled={!hasFunds || !hasIngredients}
-            className="text-xs mt-1"
-            onClick={craft}
-          >
-            Craft
-          </Button>
+          {Action()}
         </div>
       </OuterPanel>
     </div>
