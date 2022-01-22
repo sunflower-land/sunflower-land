@@ -4,7 +4,7 @@ The goal of this project is to create a decentralized and community driven MetaV
 
 This repo includes the front-end game which users can play and interact with the game on the Polygon Network and off chain data.
 
-Looking to help out? Read our contributing Guidlines - https://github.com/sunflower-land/sunflower-land/blob/main/CONTRIBUTING.md
+Looking to help out? Read our contributing Guidlines - https://github.com/sunflower-land/sunflower-land/blob/main/docs/CONTRIBUTING.md
 
 # Getting Started
 
@@ -62,6 +62,5 @@ TODO
 # No Licence
 
 The previous version was used in unethically on other Blockchains. The team is working on deciding the licence that will best suit our community. Until then, the code falls under No Licence and cannot be reused.
-
 
 All media assets (images and music) are not available for use in commercial or private projects.
