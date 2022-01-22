@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import * as Auth from "features/auth/lib/Provider";
 import { Loading } from "features/auth/components/Loading";
 import { Unauthorised } from "features/auth/Unauthorised";
-import { Game } from "features/game/Game";
+import { Session } from "features/game/Session";
 import { Welcome } from "features/auth/components/Welcome";
 import { Splash } from "features/auth/components/Splash";
 
@@ -18,7 +18,7 @@ export const Navigation: React.FC = () => {
   const [authState, send] = useActor(authService);
 
   useEffect(() => {
-    if (!authState.matches("authorised")) {
+    if (!(authState.matches("authorised") || authState.matches("visiting"))) {
       return;
     }
     // Start with crops centered
@@ -53,6 +53,8 @@ export const Navigation: React.FC = () => {
     authState.matches("connecting") ||
     authState.matches("signing");
 
+  const showGame =
+    authState.matches("authorised") || authState.matches("visiting");
   return (
     <>
       <Modal centered show={isLoading} backdrop={false}>
@@ -67,7 +69,7 @@ export const Navigation: React.FC = () => {
         <Unauthorised />
       </Modal>
 
-      {authState.matches("authorised") ? <Game /> : <Splash />}
+      {showGame ? <Session /> : <Splash />}
     </>
   );
 };

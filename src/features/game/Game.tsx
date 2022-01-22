@@ -1,35 +1,29 @@
-import React, { useState } from "react";
-
-import { GameProvider } from "./GameProvider";
+import React, { useContext } from "react";
+import { Modal } from "react-bootstrap";
 
 import { Hud } from "features/hud/Hud";
 import { Crops } from "features/crops/Crops";
 import { Blacksmith } from "features/blacksmith/Blacksmith";
-
-import background from "assets/land/background.png";
 import { Water } from "features/water/Water";
 
-// import "./Game.css";
+import { Context } from "./GameProvider";
+import { useActor } from "@xstate/react";
+import { Panel } from "components/ui/Panel";
 
 export const Game: React.FC = () => {
-  // Load data
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   return (
-    <GameProvider>
-      <div className="bg-green-background overflow-scroll relative w-full h-full">
-        <Hud />
+    <>
+      <Modal show={gameState.matches("loading")} centered>
+        <Panel>Loading...</Panel>
+      </Modal>
+      <Hud />
 
-        <div
-          id="gameboard"
-          className="relative h-gameboard w-gameboard"
-          // TODO dynamic game board size based on tile dimensions
-        >
-          <img src={background} className="absolute inset-0 w-full h-full" />
-
-          <Blacksmith />
-          <Crops />
-          <Water />
-        </div>
-      </div>
-    </GameProvider>
+      <Blacksmith />
+      <Crops />
+      <Water />
+    </>
   );
 };

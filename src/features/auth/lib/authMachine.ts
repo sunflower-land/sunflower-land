@@ -1,22 +1,38 @@
 import { ERRORS } from "lib/errors";
-import { getSignedAddress, saveSignedAddress } from "lib/session/localStorage";
 import { createMachine, Interpreter, interpret, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
 
 export interface Context {
   errorCode?: keyof typeof ERRORS;
+  farmId?: number;
+  sessionId?: string;
+  signature?: string;
+  hash?: string;
 }
 
+type StartEvent = {
+  type: "START";
+  farmId: number;
+  sessionId: string;
+};
+
+type VisitEvent = {
+  type: "VISIT";
+  farmId: number;
+};
+
 export type BlockchainEvent =
-  | {
-      type: "SIGN";
-    }
+  | StartEvent
+  | VisitEvent
   | {
       type: "NETWORK_CHANGED";
     }
   | {
       type: "ACCOUNT_CHANGED";
+    }
+  | {
+      type: "FARM_CREATED";
     };
 
 export type BlockchainState = {
@@ -24,11 +40,15 @@ export type BlockchainState = {
     | "connecting"
     | "ready"
     | "signing"
+    | "registering"
     | "authorising"
     | "authorised"
+    | "visiting"
     | "unauthorised";
   context: Context;
 };
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export type MachineInterpreter = Interpreter<
   Context,
@@ -43,13 +63,14 @@ export const authMachine = createMachine<
   BlockchainState
 >({
   id: "farmMachine",
-  //initial: "connecting",
-  initial: "authorised",
+  initial: API_URL ? "connecting" : "visiting",
   context: {},
   states: {
     connecting: {
       invoke: {
-        src: () => metamask.initialise(),
+        src: async () => {
+          await metamask.initialise();
+        },
         onDone: "ready",
         onError: {
           target: "unauthorised",
@@ -61,8 +82,17 @@ export const authMachine = createMachine<
     },
     ready: {
       on: {
-        SIGN: {
+        START: {
           target: "signing",
+        },
+        VISIT: {
+          target: "visiting",
+          actions: assign({
+            farmId: (context, event) => event.farmId,
+          }),
+        },
+        FARM_CREATED: {
+          target: "connecting",
         },
         ACCOUNT_CHANGED: {
           target: "connecting",
@@ -72,19 +102,31 @@ export const authMachine = createMachine<
         },
       },
     },
+
     signing: {
       invoke: {
-        src: async () => {
-          // Already signed
-          if (getSignedAddress()) {
-            return;
-          }
-
+        src: async (context, event) => {
           // Sign transaction -
-          const signedAddress = await metamask.signTransaction();
-          saveSignedAddress(signedAddress);
+          const { signature, hash } = await metamask.signTransaction(
+            ((event as StartEvent).farmId as number).toString()
+          );
+
+          return {
+            signature,
+            hash,
+            farmId: (event as StartEvent).farmId,
+            sessionId: (event as StartEvent).sessionId,
+          };
         },
-        onDone: "authorising",
+        onDone: {
+          target: "authorised",
+          actions: assign({
+            signature: (_, event) => event.data.signature,
+            hash: (_, event) => event.data.hash,
+            farmId: (_, event) => event.data.farmId,
+            sessionId: (_, event) => event.data.sessionId,
+          }),
+        },
         onError: {
           target: "unauthorised",
           actions: assign({
@@ -93,27 +135,18 @@ export const authMachine = createMachine<
         },
       },
     },
-    authorising: {
-      invoke: {
-        src: async () => {
-          // TODO - in the future, check the new NFT contract address
-          const hasFarm = await metamask.getLegacyFarm()?.hasFarm();
 
-          if (!hasFarm) {
-            throw new Error(ERRORS.NO_FARM);
-          }
-
-          return true;
+    registering: {
+      on: {
+        ACCOUNT_CHANGED: {
+          target: "connecting",
         },
-        onDone: "authorised",
-        onError: {
-          target: "unauthorised",
-          actions: assign({
-            errorCode: (context, event) => event.data.message,
-          }),
+        NETWORK_CHANGED: {
+          target: "connecting",
         },
       },
     },
+
     authorised: {
       on: {
         ACCOUNT_CHANGED: {
@@ -124,6 +157,10 @@ export const authMachine = createMachine<
         },
       },
     },
+
+    // An anonymous user is visiting a farm
+    visiting: {},
+
     unauthorised: {
       on: {
         ACCOUNT_CHANGED: {

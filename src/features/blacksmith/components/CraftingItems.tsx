@@ -1,36 +1,45 @@
 import React, { useContext, useState } from "react";
+import { useActor } from "@xstate/react";
+import classNames from "classnames";
 
 import token from "assets/icons/token.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
-
-import { Context, InventoryItemName } from "features/game/GameProvider";
-
 import { Button } from "components/ui/Button";
-import classNames from "classnames";
+
+import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/lib/items";
 import { Craftable } from "features/game/events/craft";
+import { InventoryItemName } from "features/game/lib/types";
 
 interface Props {
   items: Partial<Record<InventoryItemName, Craftable>>;
+  isBulk?: boolean;
 }
 
-export const CraftingItems: React.FC<Props> = ({ items }) => {
+export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
 
-  const { state, dispatcher, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const hasIngredients = selected.ingredients.every(
-    (ingredient) => (inventory[ingredient.item] || 0) >= ingredient.amount
-  );
-  const hasFunds = state.balance >= selected.price;
+  const lessIngredients = (amount = 1) =>
+    selected.ingredients.some(
+      (ingredient) =>
+        (inventory[ingredient.item] || 0) < ingredient.amount * amount
+    );
+  const lessFunds = (amount = 1) => state.balance < selected.price * amount;
 
-  const craft = () => {
-    dispatcher({
-      type: "item.crafted",
+  const craft = (amount = 1) => {
+    gameService.send("item.crafted", {
       item: selected.name,
+      amount,
     });
 
     shortcutItem(selected.name);
@@ -48,13 +57,24 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
     }
 
     return (
-      <Button
-        disabled={!hasFunds || !hasIngredients}
-        className="text-xs mt-1"
-        onClick={craft}
-      >
-        Craft
-      </Button>
+      <>
+        <Button
+          disabled={lessFunds() || lessIngredients()}
+          className="text-xs mt-1"
+          onClick={() => craft()}
+        >
+          Craft {isBulk && "1"}
+        </Button>
+        {isBulk && (
+          <Button
+            disabled={lessFunds(10) || lessIngredients(10)}
+            className="text-xs mt-1"
+            onClick={() => craft(10)}
+          >
+            Craft 10
+          </Button>
+        )}
+      </>
     );
   };
 
@@ -104,7 +124,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
             {selected.ingredients.map((ingredient, index) => {
               const item = ITEM_DETAILS[ingredient.item];
               const hasFunds =
-                (inventory[ingredient.item] || 0) > ingredient.amount;
+                (inventory[ingredient.item] || 0) >= ingredient.amount;
 
               return (
                 <div className="flex justify-center items-end" key={index}>
@@ -127,7 +147,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
               <img src={token} className="h-5 mr-1" />
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  "text-red-500": !hasFunds,
+                  "text-red-500": lessFunds(),
                 })}
               >
                 {`$${selected.price}`}

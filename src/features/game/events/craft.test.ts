@@ -1,13 +1,10 @@
-import { GameState } from "../GameProvider";
-
+import { GameState } from "../lib/types";
 import { craft } from "./craft";
 
 let GAME_STATE: GameState = {
   fields: [],
-  actions: [],
   balance: 0,
   inventory: {},
-  level: 1,
 };
 
 describe("craft", () => {
@@ -16,6 +13,7 @@ describe("craft", () => {
       craft(GAME_STATE, {
         type: "item.crafted",
         item: "Sunflower",
+        amount: 1,
       })
     ).toThrow("This item is not craftable: Sunflower");
   });
@@ -30,6 +28,7 @@ describe("craft", () => {
         {
           type: "item.crafted",
           item: "Sunflower Seed",
+          amount: 1,
         }
       )
     ).toThrow("Insufficient tokens");
@@ -46,6 +45,7 @@ describe("craft", () => {
         {
           type: "item.crafted",
           item: "Pickaxe",
+          amount: 1,
         }
       )
     ).toThrow("Insufficient ingredient: Wood");
@@ -60,6 +60,7 @@ describe("craft", () => {
       {
         type: "item.crafted",
         item: "Sunflower Seed",
+        amount: 1,
       }
     );
 
@@ -77,6 +78,7 @@ describe("craft", () => {
       {
         type: "item.crafted",
         item: "Pickaxe",
+        amount: 1,
       }
     );
 
@@ -96,6 +98,7 @@ describe("craft", () => {
         {
           type: "item.crafted",
           item: "Carrot Seed",
+          amount: 1,
         }
       )
     ).toThrow("Missing Pumpkin Soup");
@@ -111,10 +114,64 @@ describe("craft", () => {
       {
         type: "item.crafted",
         item: "Carrot Seed",
+        amount: 1,
       }
     );
 
     expect(state.balance).toBe(0.5);
     expect(state.inventory["Carrot Seed"]).toBe(1);
+  });
+
+  it("crafts item in bulk given sufficient balance", () => {
+    const state = craft(
+      {
+        ...GAME_STATE,
+        balance: 0.1,
+      },
+      {
+        type: "item.crafted",
+        item: "Sunflower Seed",
+        amount: 10,
+      }
+    );
+
+    expect(state.balance).toBe(0);
+    expect(state.inventory["Sunflower Seed"]).toBe(10);
+  });
+
+  it("crafts item in bulk given sufficient ingredients", () => {
+    const state = craft(
+      {
+        ...GAME_STATE,
+        balance: 10,
+        inventory: { Wood: 21 },
+      },
+      {
+        type: "item.crafted",
+        item: "Pickaxe",
+        amount: 10,
+      }
+    );
+
+    expect(state.balance).toBe(0);
+    expect(state.inventory["Pickaxe"]).toBe(10);
+    expect(state.inventory["Wood"]).toBe(1);
+  });
+
+  it("does not craft in bulk given insufficient ingredients", () => {
+    expect(() =>
+      craft(
+        {
+          ...GAME_STATE,
+          balance: 10,
+          inventory: { Wood: 8 },
+        },
+        {
+          type: "item.crafted",
+          item: "Pickaxe",
+          amount: 10,
+        }
+      )
+    ).toThrow("Insufficient ingredient: Wood");
   });
 });

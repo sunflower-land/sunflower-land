@@ -1,98 +1,31 @@
 /**
  * A wrapper that provides game state and dispatches events
  */
-
-import { CropName, SeedName } from "features/crops/lib/crops";
-import { cacheShortcuts, getShortcuts } from "features/hud/lib/shortcuts";
-import React from "react";
 import { useState } from "react";
-import { GameEvent, processEvent } from "./events";
-import { CraftableName } from "./events/craft";
-import { ResourceName } from "./lib/resources";
+import { useActor, useInterpret } from "@xstate/react";
+import React, { useContext } from "react";
 
-export type FieldItem = {
-  fieldIndex: number;
-  crop?: {
-    name: CropName;
-    plantedAt: Date;
-  };
-};
+import * as Auth from "features/auth/lib/Provider";
+import { cacheShortcuts, getShortcuts } from "features/hud/lib/shortcuts";
 
-export type InventoryItemName =
-  | CropName
-  | SeedName
-  | CraftableName
-  | ResourceName;
-
-export type Inventory = Partial<Record<InventoryItemName, number>>;
-
-type PastAction = GameEvent & {
-  createdAt: Date;
-};
-
-export type GameState = {
-  balance: number;
-  fields: {
-    fieldIndex: number;
-    crop?: {
-      name: CropName;
-      plantedAt: Date;
-    };
-  }[];
-  level: number;
-  inventory: Inventory;
-  actions: PastAction[];
-};
+import { startGame, MachineInterpreter } from "./lib/gameMachine";
+import { InventoryItemName } from "./lib/types";
 
 interface GameContext {
-  state: GameState;
-  dispatcher: (action: GameEvent) => GameState;
   shortcutItem: (item: InventoryItemName) => void;
   selectedItem?: InventoryItemName;
+  gameService: MachineInterpreter;
 }
 
 export const Context = React.createContext<GameContext>({} as GameContext);
 
-const EMPTY_FIELDS: FieldItem[] = Array(22)
-  .fill(null)
-  .map((_, fieldIndex) => ({ fieldIndex }));
-
 export const GameProvider: React.FC = ({ children }) => {
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
+
+  const gameService = useInterpret(startGame(authState.context));
   const [shortcuts, setShortcuts] = useState<InventoryItemName[]>(
     getShortcuts()
-  );
-
-  const [state, setState] = useState<GameState>({
-    balance: 50,
-    fields: EMPTY_FIELDS,
-    inventory: {
-      "Sunflower Seed": 2,
-      Wood: 2,
-      Gold: 2,
-    },
-    level: 0,
-    actions: [],
-  });
-
-  const dispatcher = React.useCallback(
-    (action: GameEvent) => {
-      const newState = processEvent(state, action);
-
-      const actions = [
-        ...state.actions,
-        {
-          ...action,
-          createdAt: new Date(),
-        },
-      ];
-
-      setState({
-        ...newState,
-        actions,
-      });
-      return newState;
-    },
-    [state]
   );
 
   const shortcutItem = (item: InventoryItemName) => {
@@ -103,7 +36,7 @@ export const GameProvider: React.FC = ({ children }) => {
   const selectedItem = shortcuts.length > 0 ? shortcuts[0] : undefined;
 
   return (
-    <Context.Provider value={{ state, dispatcher, shortcutItem, selectedItem }}>
+    <Context.Provider value={{ shortcutItem, selectedItem, gameService }}>
       {children}
     </Context.Provider>
   );

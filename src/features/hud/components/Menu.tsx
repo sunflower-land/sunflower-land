@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -10,8 +11,15 @@ import water from "assets/icons/expression_working.png";
 import token from "assets/icons/token.png";
 
 import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
+import { metamask } from "lib/blockchain/metamask";
+import * as Auth from "features/auth/lib/Provider";
+
+import { sync } from "features/game/actions/sync";
 
 export const Menu = () => {
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
+
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
   const ref = useRef<HTMLDivElement>(null);
@@ -49,6 +57,13 @@ export const Menu = () => {
     };
   }, []);
 
+  const save = async () => {
+    await sync({
+      farmId: authState.context.farmId as number,
+      sessionId: authState.context.sessionId as string,
+    });
+  };
+
   return (
     <div ref={ref} className="fixed top-2 left-2 z-50  shadow-lg">
       <OuterPanel>
@@ -64,7 +79,7 @@ export const Menu = () => {
             />
             <span className="hidden md:flex">Menu</span>
           </Button>
-          <Button onClick={() => {}}>
+          <Button onClick={save}>
             {/* <img className="md:hidden w-6" src={mobileSave} alt="save" /> */}
             <span>Save</span>
           </Button>

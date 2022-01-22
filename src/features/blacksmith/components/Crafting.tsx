@@ -41,7 +41,7 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
         />
       </div>
 
-      {tab === "craft" && <CraftingItems items={TOOLS} />}
+      {tab === "craft" && <CraftingItems items={TOOLS} isBulk />}
       {tab === "nfts" && <CraftingItems items={NFTs} />}
       {tab === "foods" && <CraftingItems items={FOODS} />}
     </Panel>

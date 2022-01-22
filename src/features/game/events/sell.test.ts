@@ -1,5 +1,4 @@
-import { FieldItem, GameState } from "../GameProvider";
-
+import { FieldItem, GameState } from "../lib/types";
 import { sell } from "./sell";
 
 const EMPTY_FIELDS: FieldItem[] = Array(5)
@@ -8,10 +7,9 @@ const EMPTY_FIELDS: FieldItem[] = Array(5)
 
 let GAME_STATE: GameState = {
   fields: EMPTY_FIELDS,
-  actions: [],
   balance: 0,
+
   inventory: {},
-  level: 1,
 };
 
 describe("sell", () => {
@@ -20,6 +18,7 @@ describe("sell", () => {
       sell(GAME_STATE, {
         type: "item.sell",
         item: "Axe",
+        amount: 1,
       })
     ).toThrow("Not for sale");
   });
@@ -29,8 +28,9 @@ describe("sell", () => {
       sell(GAME_STATE, {
         type: "item.sell",
         item: "Sunflower",
+        amount: 1,
       })
-    ).toThrow("No crops to sell");
+    ).toThrow("Insufficient crops to sell");
   });
 
   it("sells an item", () => {
@@ -44,10 +44,48 @@ describe("sell", () => {
       {
         type: "item.sell",
         item: "Sunflower",
+        amount: 1,
       }
     );
 
     expect(state.inventory.Sunflower).toEqual(4);
     expect(state.balance).toEqual(0.02);
+  });
+
+  it("sell an item in bulk given sufficient quantity", () => {
+    const state = sell(
+      {
+        ...GAME_STATE,
+        inventory: {
+          Sunflower: 11,
+        },
+      },
+      {
+        type: "item.sell",
+        item: "Sunflower",
+        amount: 10,
+      }
+    );
+
+    expect(state.inventory.Sunflower).toEqual(1);
+    expect(state.balance).toEqual(0.2);
+  });
+
+  it("does not sell an item in bulk given insufficient quantity", () => {
+    expect(() =>
+      sell(
+        {
+          ...GAME_STATE,
+          inventory: {
+            Sunflower: 2,
+          },
+        },
+        {
+          type: "item.sell",
+          item: "Sunflower",
+          amount: 10,
+        }
+      )
+    ).toThrow("Insufficient crops to sell");
   });
 });

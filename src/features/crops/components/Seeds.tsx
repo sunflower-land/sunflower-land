@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
+import { useActor } from "@xstate/react";
 
 import token from "assets/icons/token.png";
 import timer from "assets/icons/timer.png";
@@ -10,7 +11,7 @@ import { Button } from "components/ui/Button";
 
 import { secondsToString } from "lib/utils/time";
 
-import { Context, InventoryItemName } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
 import { Craftable } from "features/game/events/craft";
 
 import { Crop, CropName, CROPS, SEEDS } from "../lib/crops";
@@ -20,19 +21,25 @@ interface Props {}
 export const Seeds: React.FC<Props> = ({}) => {
   const [selected, setSelected] = useState<Craftable>(SEEDS["Sunflower Seed"]);
 
-  const { state, dispatcher, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
   const inventory = state.inventory;
 
-  const hasFunds = state.balance >= selected.price;
-
-  const buy = () => {
-    dispatcher({
-      type: "item.crafted",
+  const buy = (amount = 1) => {
+    gameService.send("item.crafted", {
       item: selected.name,
+      amount,
     });
 
     shortcutItem(selected.name);
   };
+
+  const lessFunds = (amount = 1) => state.balance < selected.price * amount;
 
   const cropName = selected.name.split(" ")[0] as CropName;
   const crop = CROPS[cropName];
@@ -44,9 +51,22 @@ export const Seeds: React.FC<Props> = ({}) => {
     }
 
     return (
-      <Button disabled={!hasFunds} className="text-xs mt-1" onClick={buy}>
-        Buy
-      </Button>
+      <>
+        <Button
+          disabled={lessFunds()}
+          className="text-xs mt-1"
+          onClick={() => buy()}
+        >
+          Buy 1
+        </Button>
+        <Button
+          disabled={lessFunds(10)}
+          className="text-xs mt-1"
+          onClick={() => buy(10)}
+        >
+          Buy 10
+        </Button>
+      </>
     );
   };
 
@@ -65,7 +85,9 @@ export const Seeds: React.FC<Props> = ({}) => {
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 ">
-          <span className="text-base text-shadow text-center">{`${selected.name} Seed`}</span>
+          <span className="text-base text-shadow text-center">
+            {selected.name}
+          </span>
           <img
             src={selected.image}
             className="w-12 img-highlight mt-1"
@@ -82,7 +104,7 @@ export const Seeds: React.FC<Props> = ({}) => {
               <img src={token} className="h-5 mr-1" />
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  "text-red-500": !hasFunds,
+                  "text-red-500": lessFunds(),
                 })}
               >
                 {`$${selected.price}`}
