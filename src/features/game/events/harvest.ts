@@ -1,6 +1,5 @@
 import { CROPS } from "features/crops/lib/crops";
-
-import { GameState } from "../GameProvider";
+import { GameState } from "../lib/types";
 
 export type HarvestAction = {
   type: "item.harvested";

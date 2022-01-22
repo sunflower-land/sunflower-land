@@ -1,18 +1,14 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
-import token from "assets/icons/token.png";
 import selectBox from "assets/ui/select/select_box.png";
 
-import {
-  Context,
-  FieldItem,
-  InventoryItemName,
-} from "features/game/GameProvider";
-import { AppIconContext } from 'features/crops/AppIconProvider';
+import { Context } from "features/game/GameProvider";
+import { FieldItem, InventoryItemName } from "features/game/lib/types";
+import { AppIconContext } from "features/crops/AppIconProvider";
 
 import { Soil } from "./Soil";
-import { Crop, CropName } from "../lib/crops";
+import { CropName } from "../lib/crops";
 import { ITEM_DETAILS } from "features/game/lib/items";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
@@ -27,7 +23,7 @@ interface Props {
 export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
-  const { dispatcher } = useContext(Context);
+  const { gameService } = useContext(Context);
   const { incrementHarvestable } = useContext(AppIconContext);
 
   const displayPopover = async (element: JSX.Element) => {
@@ -42,8 +38,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
     // Plant
     if (!field.crop) {
       try {
-        const {} = dispatcher({
-          type: "item.planted",
+        gameService.send("item.planted", {
           index: field.fieldIndex,
           item: selectedItem,
         });
@@ -70,8 +65,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
     }
 
     try {
-      dispatcher({
-        type: "item.harvested",
+      gameService.send("item.harvested", {
         index: field.fieldIndex,
       });
       incrementHarvestable(-1);

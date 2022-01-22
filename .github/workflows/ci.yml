@@ -10,5 +10,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install modules
         run: yarn
+      - name: Typescript check
+        run: yarn tsc
       - name: Run tests
         run: yarn test

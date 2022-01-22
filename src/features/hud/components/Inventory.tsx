@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import { useActor } from "@xstate/react";
+
 import basket from "assets/icons/basket.png";
 import button from "assets/ui/button/round_button.png";
 
 import { Label } from "components/ui/Label";
-import { OuterPanel, Panel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 
 import { InventoryItems } from "./InventoryItems";
@@ -15,8 +16,9 @@ import { ITEM_DETAILS } from "features/game/lib/items";
 
 export const Inventory: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { state, shortcutItem } = useContext(Context);
-  const inventory = state.inventory;
+  const { shortcutItem, gameService } = useContext(Context);
+  const [game] = useActor(gameService);
+  const inventory = game.context.state.inventory;
 
   const shortcuts = getShortcuts();
 
