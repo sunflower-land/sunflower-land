@@ -10,6 +10,7 @@ export type PlantAction = {
 // Seeds which are implemented
 const VALID_SEEDS: InventoryItemName[] = [
   "Sunflower Seed",
+  "Test Seed",
   "Potato Seed",
   "Beetroot Seed",
   "Cabbage Seed",

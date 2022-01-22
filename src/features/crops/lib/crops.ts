@@ -49,6 +49,11 @@ import wheatSeedling from "assets/crops/wheat/seedling.png";
 import wheatPlant from "assets/crops/wheat/plant.png";
 import wheatCrop from "assets/crops/wheat/crop.png";
 
+import testSeed from "assets/crops/test/seed.png";
+import testSeedling from "assets/crops/test/seedling.png";
+import testPlant from "assets/crops/test/plant.png";
+import testCrop from "assets/crops/test/crop.png";
+
 import { Craftable } from "features/game/events/craft";
 
 export type CropName =
