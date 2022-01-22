@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c999212-df7a-4ac0-ae86-dd683544749d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/blacksmith/lib/craftables.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/blacksmith/lib/craftables.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/crops/components/MarketItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/crops/components/MarketItems.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/crops/lib/crops.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/crops/lib/crops.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/game/events/plant.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/game/events/plant.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,9 +48,11 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2021.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
@@ -67,7 +67,7 @@
       <option name="presentableId" value="Default" />
       <updated>1642817134271</updated>
       <workItem from="1642817136108" duration="2872000" />
-      <workItem from="1642820056981" duration="252000" />
+      <workItem from="1642820056981" duration="615000" />
     </task>
     <servers />
   </component>

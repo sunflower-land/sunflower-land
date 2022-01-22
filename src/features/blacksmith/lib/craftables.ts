@@ -232,7 +232,7 @@ export const NFTs: Record<NFT, Craftable> = {
         amount: 50,
       },
     ],
-    amountLeft: 0,
+    amountLeft: 1,
     type: "NFT",
   },
   "Chicken Coop": {
@@ -264,7 +264,7 @@ export const NFTs: Record<NFT, Craftable> = {
     description: "Keep the rats away",
     price: 50,
     ingredients: [],
-    amountLeft: 0,
+    amountLeft: 1,
     type: "NFT",
   },
   "Farm Dog": {
@@ -273,7 +273,7 @@ export const NFTs: Record<NFT, Craftable> = {
     description: "Herd sheep 4x faster",
     price: 75,
     ingredients: [],
-    amountLeft: 0,
+    amountLeft: 1,
     type: "NFT",
   },
   Gnome: {
@@ -282,14 +282,14 @@ export const NFTs: Record<NFT, Craftable> = {
     description: "A lucky gnome",
     price: 10,
     ingredients: [],
-    amountLeft: 0,
+    amountLeft: 1,
     type: "NFT",
   },
   "Gold Egg": {
     name: "Gold Egg",
     image: goldEgg,
     description: "A rare egg, what lays inside?",
-    price: 0,
+    price: 1,
     ingredients: [
       {
         item: "Egg",
