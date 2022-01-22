@@ -96,6 +96,5 @@ export const ITEM_DETAILS: Items = {
   ...RESOURCES,
   ...TOOLS,
   ...NFTs,
-
   ...FOODS,
 };
