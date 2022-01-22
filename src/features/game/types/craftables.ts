@@ -16,6 +16,9 @@ import goldEgg from "assets/nfts/gold_egg.png";
 import potatoStatue from "assets/nfts/potato_statue.png";
 import scarecrow from "assets/nfts/scarecrow.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
+
+// Foods
+import flour from "assets/crops/wheat/flour.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 
 import { SeedName, SEEDS } from "../types/crops";
@@ -27,7 +30,7 @@ export type CraftAction = {
   amount: number;
 };
 
-export type CraftableName = NFT | Tool | SeedName;
+export type CraftableName = NFT | Tool | SeedName | Food;
 
 export type Craftable = {
   name: CraftableName;
@@ -54,8 +57,7 @@ export type NFT =
   | "Farm Dog"
   | "Gnome"
   | "Chicken Coop"
-  | "Gold Egg"
-  | "Pumpkin Soup";
+  | "Gold Egg";
 
 export type Tool =
   | "Axe"
@@ -64,6 +66,36 @@ export type Tool =
   | "Iron Pickaxe"
   | "Hammer"
   | "Rod";
+
+export type Food = "Flour" | "Pumpkin Soup";
+
+export const FOODS: Record<Food, Craftable> = {
+  "Pumpkin Soup": {
+    name: "Pumpkin Soup",
+    image: pumpkinSoup,
+    description: "A creamy soup that goblins love",
+    price: 5,
+    ingredients: [
+      {
+        item: "Pumpkin",
+        amount: 5,
+      },
+    ],
+    limit: 1,
+  },
+  Flour: {
+    name: "Flour",
+    image: flour,
+    description: "Ground Wheat",
+    price: 0.1,
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: 3,
+      },
+    ],
+  },
+};
 
 export const TOOLS: Record<Tool, Craftable> = {
   Axe: {
@@ -150,20 +182,6 @@ export const TOOLS: Record<Tool, Craftable> = {
 };
 
 export const NFTs: Record<NFT, Craftable> = {
-  "Pumpkin Soup": {
-    name: "Pumpkin Soup",
-    image: pumpkinSoup,
-    description: "A creamy soup that goblins love",
-    price: 5,
-    ingredients: [
-      {
-        item: "Pumpkin",
-        amount: 5,
-      },
-    ],
-    limit: 1,
-    type: "NFT",
-  },
   "Sunflower Statue": {
     name: "Sunflower Statue",
     image: sunflowerStatue,
@@ -313,4 +331,5 @@ export const CRAFTABLES: Record<CraftableName, Craftable> = {
   ...TOOLS,
   ...NFTs,
   ...SEEDS,
+  ...FOODS,
 };

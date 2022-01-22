@@ -1,5 +1,5 @@
 import { InventoryItemName } from "./game";
-import { NFTs, TOOLS } from "./craftables";
+import { FOODS, NFTs, TOOLS } from "./craftables";
 import { CROPS } from "./crops";
 import { RESOURCES } from "./resources";
 
@@ -96,4 +96,6 @@ export const ITEM_DETAILS: Items = {
   ...RESOURCES,
   ...TOOLS,
   ...NFTs,
+
+  ...FOODS,
 };
