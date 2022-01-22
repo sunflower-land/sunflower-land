@@ -4,6 +4,8 @@ The goal of this project is to create a decentralized and community driven MetaV
 
 This repo includes the front-end game which users can play and interact with the game on the Polygon Network and off chain data.
 
+Looking to help out? Read our contributing Guidlines - https://github.com/sunflower-land/sunflower-land/blob/main/CONTRIBUTING.md
+
 # Getting Started
 
 Firstly, you will need to clone the repo locally. Once you have it ready navigate into the directory and run the following commands:
