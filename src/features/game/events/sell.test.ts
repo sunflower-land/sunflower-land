@@ -1,4 +1,4 @@
-import { FieldItem, GameState } from "../lib/types";
+import { FieldItem, GameState } from "../types/game";
 import { sell } from "./sell";
 
 const EMPTY_FIELDS: FieldItem[] = Array(5)

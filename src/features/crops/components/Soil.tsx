@@ -1,15 +1,14 @@
 import React, { useContext } from "react";
 
-import plantedSoil from "assets/land/planted.png";
 import soil from "assets/land/soil2.png";
 
 import { getTimeLeft } from "lib/utils/time";
 
 import { ProgressBar } from "components/ui/ProgressBar";
-import { FieldItem } from "features/game/lib/types";
-import { AppIconContext } from "features/crops/AppIconProvider";
 
-import { CROPS } from "../lib/crops";
+import { FieldItem } from "features/game/types/game";
+import { AppIconContext } from "features/crops/AppIconProvider";
+import { CROPS } from "features/game/types/crops";
 
 interface Props {
   field: FieldItem;

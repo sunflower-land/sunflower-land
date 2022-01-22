@@ -2,8 +2,8 @@ import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
-import { ITEM_DETAILS } from "features/game/lib/items";
-import { InventoryItemName } from "features/game/lib/types";
+import { ITEM_DETAILS } from "features/game/types/items";
+import { InventoryItemName } from "features/game/types/game";
 import React, { useContext, useState } from "react";
 
 export const InventoryItems: React.FC = () => {

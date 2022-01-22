@@ -1,5 +1,5 @@
-import { CropName, SeedName } from "features/crops/lib/crops";
-import { GameState, InventoryItemName } from "../lib/types";
+import { CropName, SeedName } from "../types/crops";
+import { GameState, InventoryItemName } from "../types/game";
 
 export type PlantAction = {
   type: "item.planted";

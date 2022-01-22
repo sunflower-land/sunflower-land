@@ -1,4 +1,4 @@
-import { GameState } from "../lib/types";
+import { GameState } from "../types/game";
 import { craft } from "./craft";
 
 let GAME_STATE: GameState = {

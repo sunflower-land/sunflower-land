@@ -6,7 +6,7 @@ import { EVENTS, GameEvent, processEvent } from "../events";
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
 
-import { DEFAULT_FARM, GameState } from "./types";
+import { DEFAULT_FARM, GameState } from "../types/game";
 import { loadSession } from "../actions/loadSession";
 
 type PastAction = GameEvent & {

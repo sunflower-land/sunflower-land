@@ -2,20 +2,21 @@ import React, { useState } from "react";
 
 import hammer from "assets/icons/hammer.png";
 import close from "assets/icons/close.png";
-import nft from "assets/nfts/pumpkin_soup.png";
-import food from "assets/foods/flour.png"
+import nft from "assets/nfts/gnome.png";
+import food from "assets/crops/wheat/flour.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
+import { NFTs, TOOLS, FOODS } from "features/game/types/craftables";
+
 import { CraftingItems } from "./CraftingItems";
-import { NFTs, TOOLS, FOODS } from "../lib/craftables";
 
 interface Props {
   onClose: () => void;
 }
 
 export const Crafting: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState<"craft" | "foods" |"nfts">("craft");
+  const [tab, setTab] = useState<"craft" | "foods" | "nfts">("craft");
 
   return (
     <Panel className="pt-5 relative">

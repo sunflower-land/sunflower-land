@@ -8,7 +8,7 @@ import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
 
-import { Crop, CROPS } from "../lib/crops";
+import { Crop, CROPS } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
 
 interface Props {}
