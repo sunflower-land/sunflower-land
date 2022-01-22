@@ -63,7 +63,7 @@ export const authMachine = createMachine<
   BlockchainState
 >({
   id: "farmMachine",
-  initial: API_URL ? "connecting" : "visting",
+  initial: API_URL ? "connecting" : "visiting",
   context: {},
   states: {
     connecting: {
