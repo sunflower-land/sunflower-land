@@ -48,6 +48,8 @@ export type BlockchainState = {
   context: Context;
 };
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export type MachineInterpreter = Interpreter<
   Context,
   any,
@@ -61,8 +63,7 @@ export const authMachine = createMachine<
   BlockchainState
 >({
   id: "farmMachine",
-  initial: "connecting",
-  // initial: "visiting",
+  initial: API_URL ? "connecting" : "visting",
   context: {},
   states: {
     connecting: {

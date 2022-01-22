@@ -1,4 +1,4 @@
-import { createMachine, Interpreter, assign } from "xstate";
+import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
 
 import { EVENTS, GameEvent, processEvent } from "../events";
 
@@ -23,27 +23,26 @@ export type BlockchainEvent =
     }
   | GameEvent;
 
-const GAME_EVENT_HANDLERS = Object.keys(EVENTS).reduce(
-  (events, eventName) => ({
-    ...events,
-    [eventName]: {
-      target: "playing",
-      actions: assign({
-        state: (context: Context, event: GameEvent) =>
-          processEvent(context.state as GameState, event),
-        actions: (_, event: GameEvent) => [
-          {
-            ...event,
-            createdAt: new Date(),
-          },
-        ],
-      }),
-    },
-  }),
-  {}
-);
-
-console.log({ GAME_EVENT_HANDLERS });
+// For each game event, convert it to an XState event + handler
+const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
+  Object.keys(EVENTS).reduce(
+    (events, eventName) => ({
+      ...events,
+      [eventName]: {
+        target: "playing",
+        actions: assign((context: Context, event: GameEvent) => ({
+          state: processEvent(context.state as GameState, event) as GameState,
+          actions: [
+            {
+              ...event,
+              createdAt: new Date(),
+            },
+          ],
+        })),
+      },
+    }),
+    {}
+  );
 
 export type BlockchainState = {
   value: "loading" | "playing" | "readonly" | "saving" | "error";
@@ -102,9 +101,7 @@ export function startGame(authContext: AuthContext) {
         },
       },
       playing: {
-        on: {
-          ...GAME_EVENT_HANDLERS,
-        },
+        on: GAME_EVENT_HANDLERS,
       },
       readonly: {},
       error: {},

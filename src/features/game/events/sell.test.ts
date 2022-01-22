@@ -8,6 +8,7 @@ const EMPTY_FIELDS: FieldItem[] = Array(5)
 let GAME_STATE: GameState = {
   fields: EMPTY_FIELDS,
   balance: 0,
+
   inventory: {},
 };
 
