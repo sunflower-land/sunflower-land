@@ -19,7 +19,6 @@ export async function sync(request: Request) {
   });
 
   const data = await response.json();
-  console.log({ data });
 
   return data;
 }

@@ -78,8 +78,6 @@ export function startGame(authContext: AuthContext) {
                 sender: metamask.myAccount as string,
               });
 
-              console.log({ game });
-
               return { state: game };
             }
 

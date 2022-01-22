@@ -33,8 +33,6 @@ export class Farm {
       .getFarms(this.account)
       .call({ from: this.account });
 
-    console.log({ accounts });
-
     return accounts;
   }
 }

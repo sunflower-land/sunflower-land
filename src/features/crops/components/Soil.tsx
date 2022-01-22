@@ -19,7 +19,6 @@ export const Soil: React.FC<Props> = ({ field }) => {
   const [_, setTimer] = React.useState<number>(0);
   const [badgeUpdated, setBadgeUpdated] = React.useState<boolean>(false);
   const { incrementHarvestable } = useContext(AppIconContext);
-  console.log({ field });
   const setHarvestTime = React.useCallback(() => {
     setTimer((count) => count + 1);
   }, []);

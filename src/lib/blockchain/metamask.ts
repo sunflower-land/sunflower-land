@@ -73,12 +73,10 @@ export class Metamask {
   public async initialise(retryCount = 0): Promise<void> {
     try {
       // It is actually quite fast, we won't to simulate slow loading to convey complexity
-      console.log("lets go!");
       await this.setupWeb3();
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();
-      console.log({ chainId });
       if (
         !(chainId === POLYGON_CHAIN_ID || chainId === POLYGON_TESTNET_CHAIN_ID)
       ) {
@@ -87,7 +85,6 @@ export class Metamask {
 
       await this.initialiseContracts();
     } catch (e: any) {
-      console.log({ e });
       // If it is a user error, we don't want to retry
       if (e.message === ERRORS.WRONG_CHAIN || e.message === ERRORS.NO_WEB3) {
         throw e;
@@ -110,9 +107,6 @@ export class Metamask {
     }
 
     const hash = sha3(data) as string;
-    console.log({ hash });
-    console.log({ account: this.account });
-    console.log({ data });
     const signature = await this.web3.eth.personal.sign(
       hash,
       this.account as string,

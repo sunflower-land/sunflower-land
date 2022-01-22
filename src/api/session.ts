@@ -21,6 +21,5 @@ export async function loadSession(request: Request) {
   });
 
   const { farm } = await response.json();
-  console.log({ farm });
   return farm;
 }

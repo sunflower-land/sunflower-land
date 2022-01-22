@@ -24,7 +24,6 @@ export const GameProvider: React.FC = ({ children }) => {
   const [authState] = useActor(authService);
 
   const gameService = useInterpret(startGame(authState.context));
-  console.log({ gameService });
   const [shortcuts, setShortcuts] = useState<InventoryItemName[]>(
     getShortcuts()
   );

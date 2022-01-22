@@ -106,12 +106,10 @@ export const authMachine = createMachine<
     signing: {
       invoke: {
         src: async (context, event) => {
-          console.log({ event });
           // Sign transaction -
           const { signature, hash } = await metamask.signTransaction(
             ((event as StartEvent).farmId as number).toString()
           );
-          console.log({ signature, hash });
 
           return {
             signature,

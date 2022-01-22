@@ -60,7 +60,6 @@ export const Menu = () => {
       sessionId:
         "0x0000000000000000000000000000000000000000000000000000000000000000",
     });
-    console.log({ data });
     metamask.getSunflowerLand().sync(data);
   };
 

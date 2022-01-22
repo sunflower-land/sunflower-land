@@ -27,7 +27,6 @@ export class SunflowerLand {
       .getSessionId(farmId)
       .call({ from: this.account });
 
-    console.log({ sessionId });
     return sessionId;
   }
 

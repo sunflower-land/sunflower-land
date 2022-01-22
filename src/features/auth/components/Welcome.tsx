@@ -47,7 +47,6 @@ export const Welcome: React.FC = () => {
   }, []);
 
   const start = () => {
-    console.log({ farm });
     authService.send("START", {
       farmId: farm?.id,
       sessionId: farm?.sessionId,
