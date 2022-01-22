@@ -19,6 +19,11 @@ export type Craftable = {
     item: InventoryItemName;
     amount: number;
   }[];
+  limit?: number;
+  amountLeft?: number;
+  disabled?: boolean;
+  type?: "NFT";
+  requires?: InventoryItemName;
 };
 
 export const CRAFTABLES: Record<CraftableName, Craftable> = {
@@ -38,6 +43,11 @@ export function craft(state: GameState, action: CraftAction) {
 
   const item = CRAFTABLES[action.item];
   const totalExpenses = item.price * action.amount;
+
+  const isLocked = item.requires && !state.inventory[item.requires];
+  if (isLocked) {
+    throw new Error(`Missing ${item.requires}`);
+  }
 
   if (state.balance < totalExpenses) {
     throw new Error("Insufficient tokens");

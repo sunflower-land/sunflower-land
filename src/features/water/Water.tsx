@@ -8,7 +8,7 @@ import { Section } from "lib/utils/useScrollIntoView";
 import chick from "assets/animals/chick.gif";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
-import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
+import pumpkinSoup from "asses/nfts/pumpkin_soup.png";
 
 interface Props {}
 
@@ -34,31 +34,15 @@ export const Water: React.FC<Props> = () => {
         />
 
         <img src={chick} className="absolute right-0 w-5 top-8" />
-        {
-          // Pumpkin soup keeps the Goblins away!
-          true && (
-            <>
-              <img
-                src={goblinSwimming}
-                className="absolute "
-                style={{
-                  width: `${GRID_WIDTH_PX * 5}px`,
-                  left: `${GRID_WIDTH_PX * 5.5}px`,
-                  top: `${GRID_WIDTH_PX * 2}px`,
-                }}
-              />
-              <img
-                src={pumpkinSoup}
-                className="absolute "
-                style={{
-                  width: `${GRID_WIDTH_PX * 0.5}px`,
-                  left: `${GRID_WIDTH_PX * 9.5}px`,
-                  top: `${GRID_WIDTH_PX * 3}px`,
-                }}
-              />
-            </>
-          )
-        }
+        <img
+          src={goblinSwimming}
+          className="absolute "
+          style={{
+            width: `${GRID_WIDTH_PX * 5}px`,
+            left: `${GRID_WIDTH_PX * 5.5}px`,
+            top: `${GRID_WIDTH_PX * 2}px`,
+          }}
+        />
       </div>
     </div>
   );

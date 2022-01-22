@@ -87,7 +87,40 @@ describe("craft", () => {
 
     expect(state.balance).toBe(0);
     expect(state.inventory["Pickaxe"]).toBe(1);
-    expect(state.inventory["Wood"]).toBe(9);
+    expect(state.inventory["Wood"]).toBe(8);
+  });
+
+  it("requires a certain item before crafting", () => {
+    expect(() =>
+      craft(
+        {
+          ...GAME_STATE,
+          balance: 1,
+          inventory: { Wood: 10 },
+        },
+        {
+          type: "item.crafted",
+          item: "Carrot Seed",
+        }
+      )
+    ).toThrow("Missing Pumpkin Soup");
+  });
+
+  it("crafts an item if they have sufficient materials", () => {
+    const state = craft(
+      {
+        ...GAME_STATE,
+        balance: 1,
+        inventory: { "Pumpkin Soup": 1 },
+      },
+      {
+        type: "item.crafted",
+        item: "Carrot Seed",
+      }
+    );
+
+    expect(state.balance).toBe(0.5);
+    expect(state.inventory["Carrot Seed"]).toBe(1);
   });
 
   it("crafts item in bulk given sufficient balance", () => {
