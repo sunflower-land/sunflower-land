@@ -1,9 +1,9 @@
-import { GameState } from "../GameProvider";
-
 import { craft, CraftAction } from "./craft";
 import { sell, SellAction } from "./sell";
 import { plant, PlantAction } from "./plant";
 import { harvest, HarvestAction } from "./harvest";
+
+import { GameState } from "../lib/types";
 
 export type GameEvent = CraftAction | SellAction | PlantAction | HarvestAction;
 

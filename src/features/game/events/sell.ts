@@ -1,5 +1,5 @@
 import { CropName, CROPS } from "features/crops/lib/crops";
-import { GameState, InventoryItemName } from "../GameProvider";
+import { GameState, InventoryItemName } from "../lib/types";
 
 export type SellAction = {
   type: "item.sell";

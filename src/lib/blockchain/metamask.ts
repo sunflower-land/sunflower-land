@@ -144,6 +144,10 @@ export class Metamask {
   public getSunflowerLand() {
     return this.sunflowerLand as SunflowerLand;
   }
+
+  public get myAccount() {
+    return this.account;
+  }
 }
 
 export const metamask = new Metamask();

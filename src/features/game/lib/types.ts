@@ -35,7 +35,6 @@ export type GameState = {
     };
   }[];
   inventory: Inventory;
-  actions: PastAction[];
 };
 
 export interface Context {
@@ -55,5 +54,4 @@ export const DEFAULT_FARM: GameState = {
     Wood: 2,
     Gold: 2,
   },
-  actions: [],
 };

@@ -1,13 +1,10 @@
-import { GameState } from "../GameProvider";
-
+import { GameState } from "../lib/types";
 import { craft } from "./craft";
 
 let GAME_STATE: GameState = {
   fields: [],
-  actions: [],
   balance: 0,
   inventory: {},
-  level: 1,
 };
 
 describe("craft", () => {
@@ -162,7 +159,7 @@ describe("craft", () => {
   });
 
   it("does not craft in bulk given insufficient ingredients", () => {
-    expect(() => 
+    expect(() =>
       craft(
         {
           ...GAME_STATE,

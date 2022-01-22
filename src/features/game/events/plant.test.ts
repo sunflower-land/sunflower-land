@@ -1,5 +1,4 @@
-import { FieldItem, GameState } from "../GameProvider";
-
+import { FieldItem, GameState } from "../lib/types";
 import { plant } from "./plant";
 
 const EMPTY_FIELDS: FieldItem[] = Array(20)
@@ -8,10 +7,8 @@ const EMPTY_FIELDS: FieldItem[] = Array(20)
 
 let GAME_STATE: GameState = {
   fields: EMPTY_FIELDS,
-  actions: [],
   balance: 0,
   inventory: {},
-  level: 1,
 };
 
 describe("plant", () => {

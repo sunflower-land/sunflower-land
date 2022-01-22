@@ -16,6 +16,7 @@ export const CropZoneOne: React.FC<Props> = () => {
     },
   ] = useActor(gameService);
 
+  console.log({ fields: state.fields });
   return (
     <div
       className="absolute flex justify-center flex-col"
