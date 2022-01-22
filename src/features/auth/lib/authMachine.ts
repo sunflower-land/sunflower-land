@@ -32,7 +32,7 @@ export type BlockchainEvent =
       type: "ACCOUNT_CHANGED";
     }
   | {
-      type: "CREATE_FARM";
+      type: "FARM_CREATED";
     };
 
 export type BlockchainState = {
@@ -91,8 +91,8 @@ export const authMachine = createMachine<
             farmId: (context, event) => event.farmId,
           }),
         },
-        CREATE_FARM: {
-          target: "registering",
+        FARM_CREATED: {
+          target: "connecting",
         },
         ACCOUNT_CHANGED: {
           target: "connecting",

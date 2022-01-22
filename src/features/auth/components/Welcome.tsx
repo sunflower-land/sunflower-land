@@ -6,6 +6,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
+import { createFarm } from "../actions/createFarm";
 
 type Farm = {
   id: number;
@@ -27,6 +28,8 @@ export const Welcome: React.FC = () => {
         setIsLoading(false);
         return;
       }
+
+      console.log({ farmAccounts });
 
       // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
       const farmAccount = farmAccounts[0];
@@ -53,8 +56,9 @@ export const Welcome: React.FC = () => {
     });
   };
 
-  const create = () => {
-    send("CREATE_FARM");
+  const create = async () => {
+    await createFarm();
+    send("FARM_CREATED");
   };
 
   return (
@@ -71,7 +75,7 @@ export const Welcome: React.FC = () => {
             </>
           ) : (
             <>
-              <Button onClick={create} disabled className="overflow-hidden">
+              <Button onClick={create} className="overflow-hidden">
                 Create a farm
               </Button>
             </>

@@ -1,12 +1,13 @@
 import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
+import { fromWei } from "web3-utils";
 
 import { EVENTS, GameEvent, processEvent } from "../events";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
-import { loadSession } from "src/api/session";
 
 import { DEFAULT_FARM, GameState } from "./types";
+import { loadSession } from "../actions/loadSession";
 
 type PastAction = GameEvent & {
   createdAt: Date;
@@ -78,7 +79,15 @@ export function startGame(authContext: AuthContext) {
                 sender: metamask.myAccount as string,
               });
 
-              return { state: game };
+              console.log({ balance: game.balance });
+              console.log({ balance: fromWei(game.balance.toString()) });
+
+              return {
+                state: {
+                  ...game,
+                  balance: Number(fromWei(game.balance.toString())),
+                },
+              };
             }
 
             // They are an anonymous user
