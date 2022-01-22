@@ -29,3 +29,7 @@ build
 # buidler
 artifacts
 cache
+
+#ide Settings
+
+/.idea

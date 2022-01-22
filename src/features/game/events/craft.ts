@@ -1,4 +1,4 @@
-import { NFT, NFTs, Tool, TOOLS } from "features/blacksmith/lib/craftables";
+import { NFT, NFTs, Tool, TOOLS, Food, FOODS } from "features/blacksmith/lib/craftables";
 import { SeedName, SEEDS } from "features/crops/lib/crops";
 import { GameState, InventoryItemName } from "../lib/types";
 
@@ -8,7 +8,7 @@ export type CraftAction = {
   amount: number;
 };
 
-export type CraftableName = NFT | Tool | SeedName;
+export type CraftableName = NFT | Tool | SeedName | Food;
 
 export type Craftable = {
   name: CraftableName;
@@ -30,6 +30,7 @@ export const CRAFTABLES: Record<CraftableName, Craftable> = {
   ...TOOLS,
   ...NFTs,
   ...SEEDS,
+  ...FOODS,
 };
 
 function isCraftable(item: InventoryItemName): item is CraftableName {
