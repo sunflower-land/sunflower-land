@@ -9,7 +9,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { cacheShortcuts, getShortcuts } from "features/hud/lib/shortcuts";
 
 import { startGame, MachineInterpreter } from "./lib/gameMachine";
-import { InventoryItemName } from "./lib/types";
+import { InventoryItemName } from "./types/game";
 
 interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;

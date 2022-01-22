@@ -5,7 +5,6 @@ import { AppIconProvider } from "features/crops/AppIconProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { Field } from "./components/Field";
-import { CROPS } from "./lib/crops";
 import { Section } from "lib/utils/useScrollIntoView";
 import { Market } from "./components/Market";
 
