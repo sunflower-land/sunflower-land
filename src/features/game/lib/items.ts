@@ -1,6 +1,6 @@
 import { CROPS } from "features/crops/lib/crops";
 
-import { NFTs, TOOLS } from "features/blacksmith/lib/craftables";
+import { NFTs, TOOLS, FOODS } from "features/blacksmith/lib/craftables";
 
 import { InventoryItemName } from "../GameProvider";
 import { RESOURCES } from "./resources";
@@ -102,4 +102,7 @@ export const ITEM_DETAILS: Items = {
 
   // TODO add NFTs
   ...NFTs,
+
+  // TODO add Foods
+  ...FOODS,
 };
