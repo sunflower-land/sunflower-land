@@ -4,6 +4,7 @@ import { GameState, InventoryItemName } from "../GameProvider";
 export type SellAction = {
   type: "item.sell";
   item: InventoryItemName;
+  amount: number;
 };
 
 function isCrop(crop: InventoryItemName): crop is CropName {
@@ -19,16 +20,16 @@ export function sell(state: GameState, action: SellAction): GameState {
 
   const cropCount = state.inventory[action.item] || 0;
 
-  if (cropCount === 0) {
-    throw new Error("No crops to sell");
+  if (cropCount < action.amount) {
+    throw new Error("Insufficient crops to sell");
   }
 
   return {
     ...state,
-    balance: state.balance + crop.sellPrice,
+    balance: state.balance + crop.sellPrice * action.amount,
     inventory: {
       ...state.inventory,
-      [crop.name]: cropCount - 1,
+      [crop.name]: cropCount - 1 * action.amount,
     },
   };
 }

@@ -23,16 +23,17 @@ export const Seeds: React.FC<Props> = ({}) => {
   const { state, dispatcher, shortcutItem } = useContext(Context);
   const inventory = state.inventory;
 
-  const hasFunds = state.balance >= selected.price;
-
-  const buy = () => {
+  const buy = (amount = 1) => {
     dispatcher({
       type: "item.crafted",
       item: selected.name,
+      amount,
     });
 
     shortcutItem(selected.name);
   };
+
+  const lessFunds = (amount = 1) => state.balance < selected.price * amount;
 
   const cropName = selected.name.split(" ")[0] as CropName;
   const crop = CROPS[cropName];
@@ -44,9 +45,14 @@ export const Seeds: React.FC<Props> = ({}) => {
     }
 
     return (
-      <Button disabled={!hasFunds} className="text-xs mt-1" onClick={buy}>
-        Buy
-      </Button>
+      <>
+        <Button disabled={lessFunds()} className="text-xs mt-1" onClick={() => buy()}>
+          Buy 1
+        </Button>
+        <Button disabled={lessFunds(10)} className="text-xs mt-1" onClick={() => buy(10)}>
+          Buy 10
+        </Button>
+      </>
     );
   };
 
@@ -65,7 +71,7 @@ export const Seeds: React.FC<Props> = ({}) => {
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 ">
-          <span className="text-base text-shadow text-center">{`${selected.name} Seed`}</span>
+          <span className="text-base text-shadow text-center">{selected.name}</span>
           <img
             src={selected.image}
             className="w-12 img-highlight mt-1"
@@ -82,7 +88,7 @@ export const Seeds: React.FC<Props> = ({}) => {
               <img src={token} className="h-5 mr-1" />
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  "text-red-500": !hasFunds,
+                  "text-red-500": lessFunds(),
                 })}
               >
                 {`$${selected.price}`}
