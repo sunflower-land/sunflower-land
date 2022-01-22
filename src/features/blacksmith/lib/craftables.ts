@@ -157,7 +157,7 @@ export const NFTs: Record<NFT, Craftable> = {
         amount: 5,
       },
     ],
-    limit: 1,
+    limit: 0,
     type: "NFT",
   },
   "Sunflower Statue": {

@@ -1,0 +1,250 @@
+Index: src/features/crops/lib/crops.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// TODO - import types\r\nimport sunflowerSeed from \"assets/crops/sunflower/seed.png\";\r\nimport sunflowerSeedling from \"assets/crops/sunflower/seedling.png\";\r\nimport sunflowerPlant from \"assets/crops/sunflower/planted.png\";\r\nimport sunflowerCrop from \"assets/crops/sunflower/crop.png\";\r\n\r\nimport potatoSeed from \"assets/crops/potato/seed.png\";\r\nimport potatoSeedling from \"assets/crops/potato/seedling.png\";\r\nimport potatoPlant from \"assets/crops/potato/plant.png\";\r\nimport potatoCrop from \"assets/crops/potato/crop.png\";\r\n\r\nimport pumpkinSeed from \"assets/crops/pumpkin/seed.png\";\r\nimport pumpkinSeedling from \"assets/crops/pumpkin/seedling.png\";\r\nimport pumpkinPlant from \"assets/crops/pumpkin/plant.png\";\r\nimport pumpkinCrop from \"assets/crops/pumpkin/crop.png\";\r\n\r\nimport carrotSeed from \"assets/crops/carrot/seed.png\";\r\nimport carrotSeedling from \"assets/crops/carrot/seedling.png\";\r\nimport carrotPlant from \"assets/crops/carrot/plant.png\";\r\nimport carrotCrop from \"assets/crops/carrot/crop.png\";\r\n\r\nimport cabbageSeed from \"assets/crops/cabbage/seed.png\";\r\nimport cabbageSeedling from \"assets/crops/cabbage/seedling.png\";\r\nimport cabbagePlant from \"assets/crops/cabbage/plant.png\";\r\nimport cabbageCrop from \"assets/crops/cabbage/crop.png\";\r\n\r\nimport beetrootSeed from \"assets/crops/beetroot/seed.png\";\r\nimport beetrootSeedling from \"assets/crops/beetroot/seedling.png\";\r\nimport beetrootPlant from \"assets/crops/beetroot/plant.png\";\r\nimport beetrootCrop from \"assets/crops/beetroot/crop.png\";\r\n\r\nimport cauliflowerSeed from \"assets/crops/cauliflower/seed.png\";\r\nimport cauliflowerSeedling from \"assets/crops/cauliflower/seedling.png\";\r\nimport cauliflowerPlant from \"assets/crops/cauliflower/plant.png\";\r\nimport cauliflowerCrop from \"assets/crops/cauliflower/crop.png\";\r\n\r\nimport parsnipSeed from \"assets/crops/parsnip/seed.png\";\r\nimport parsnipSeedling from \"assets/crops/parsnip/seedling.png\";\r\nimport parsnipPlant from \"assets/crops/parsnip/plant.png\";\r\nimport parsnipCrop from \"assets/crops/parsnip/crop.png\";\r\n\r\nimport radishSeed from \"assets/crops/radish/seed.png\";\r\nimport radishSeedling from \"assets/crops/radish/seedling.png\";\r\nimport radishPlant from \"assets/crops/radish/plant.png\";\r\nimport radishCrop from \"assets/crops/radish/crop.png\";\r\n\r\nimport wheatSeed from \"assets/crops/wheat/seed.png\";\r\nimport wheatSeedling from \"assets/crops/wheat/seedling.png\";\r\nimport wheatPlant from \"assets/crops/wheat/plant.png\";\r\nimport wheatCrop from \"assets/crops/wheat/crop.png\";\r\n\r\nimport testSeed from \"assets/crops/test/seed.png\";\r\nimport testSeedling from \"assets/crops/test/seedling.png\";\r\nimport testPlant from \"assets/crops/test/plant.png\";\r\nimport testCrop from \"assets/crops/test/crop.png\";\r\n\r\nimport { Craftable } from \"features/game/events/craft\";\r\n\r\nexport type CropName =\r\n  | \"Sunflower\"\r\n  | \"Potato\"\r\n  | \"Pumpkin\"\r\n  | \"Carrot\"\r\n  | \"Cabbage\"\r\n  | \"Beetroot\"\r\n  | \"Cauliflower\"\r\n  | \"Parsnip\"\r\n  | \"Radish\"\r\n  | \"Wheat\";\r\n\r\nexport type Crop = {\r\n  buyPrice: number;\r\n  sellPrice: number;\r\n  harvestSeconds: number;\r\n  name: CropName;\r\n  description: string;\r\n  images: {\r\n    seed: any;\r\n    seedling: any;\r\n    ready: any;\r\n    shop: any;\r\n  };\r\n};\r\n\r\n/**\r\n * Crops and their original prices\r\n * TODO - use crop name from GraphQL API\r\n */\r\nexport const CROPS: Record<CropName, Crop> = {\r\n  Sunflower: {\r\n    buyPrice: 0.01,\r\n    sellPrice: 0.02,\r\n    harvestSeconds: 1 * 60,\r\n    name: \"Sunflower\",\r\n    description: \"A sunny flower\",\r\n    images: {\r\n      seed: sunflowerSeed,\r\n      seedling: sunflowerSeedling,\r\n      ready: sunflowerPlant,\r\n      shop: sunflowerCrop,\r\n    },\r\n  },\r\n  Potato: {\r\n    buyPrice: 0.1,\r\n    sellPrice: 0.14,\r\n    harvestSeconds: 5 * 60,\r\n    name: \"Potato\",\r\n    description: \"A nutrious crop for any diet\",\r\n    images: {\r\n      seed: potatoSeed,\r\n      seedling: potatoSeedling,\r\n      ready: potatoPlant,\r\n      shop: potatoCrop,\r\n    },\r\n  },\r\n  Pumpkin: {\r\n    buyPrice: 0.2,\r\n    sellPrice: 0.4,\r\n    harvestSeconds: 30 * 60,\r\n    name: \"Pumpkin\",\r\n    description: \"A nutrious crop for any diet\",\r\n    images: {\r\n      seed: pumpkinSeed,\r\n      seedling: pumpkinSeedling,\r\n      ready: pumpkinPlant,\r\n      shop: pumpkinCrop,\r\n    },\r\n  },\r\n  Carrot: {\r\n    buyPrice: 0.5,\r\n    sellPrice: 0.8,\r\n    harvestSeconds: 60 * 60,\r\n    name: \"Carrot\",\r\n    description: \"A nutrious crop for any diet\",\r\n    images: {\r\n      seed: carrotSeed,\r\n\r\n      seedling: carrotSeedling,\r\n      ready: carrotPlant,\r\n      shop: carrotCrop,\r\n    },\r\n  },\r\n  Cabbage: {\r\n    buyPrice: 1,\r\n    sellPrice: 1.5,\r\n    harvestSeconds: 2 * 60 * 60,\r\n    name: \"Cabbage\",\r\n    description: \"A nutrious crop for any diet\",\r\n    images: {\r\n      seed: cabbageSeed,\r\n      seedling: cabbageSeedling,\r\n      ready: cabbagePlant,\r\n      shop: cabbageCrop,\r\n    },\r\n  },\r\n  Beetroot: {\r\n    buyPrice: 2,\r\n    sellPrice: 2.8,\r\n    harvestSeconds: 4 * 60 * 60,\r\n\r\n    name: \"Beetroot\",\r\n\r\n    description: \"A nutrious crop for any diet\",\r\n    images: {\r\n      seed: beetrootSeed,\r\n      seedling: beetrootSeedling,\r\n      ready: beetrootPlant,\r\n      shop: beetrootCrop,\r\n    },\r\n  },\r\n  Cauliflower: {\r\n    buyPrice: 3,\r\n    sellPrice: 4.25,\r\n    harvestSeconds: 8 * 60 * 60,\r\n    name: \"Cauliflower\",\r\n    description: \"A nutrious crop for any diet\",\r\n\r\n    images: {\r\n      seed: cauliflowerSeed,\r\n      seedling: cauliflowerSeedling,\r\n      ready: cauliflowerPlant,\r\n      shop: cauliflowerCrop,\r\n    },\r\n  },\r\n  Parsnip: {\r\n    buyPrice: 5,\r\n    sellPrice: 6.5,\r\n    harvestSeconds: 12 * 60 * 60,\r\n    name: \"Parsnip\",\r\n    description: \"A nutrious crop for any diet\",\r\n    images: {\r\n      seed: parsnipSeed,\r\n      seedling: parsnipSeedling,\r\n      ready: parsnipPlant,\r\n      shop: parsnipCrop,\r\n    },\r\n  },\r\n  Radish: {\r\n    buyPrice: 7,\r\n    sellPrice: 9.5,\r\n    harvestSeconds: 24 * 60 * 60,\r\n    name: \"Radish\",\r\n    description: \"A nutrious crop for any diet\",\r\n    images: {\r\n      seed: radishSeed,\r\n      seedling: radishSeedling,\r\n      ready: radishPlant,\r\n      shop: radishCrop,\r\n    },\r\n  },\r\n  Wheat: {\r\n    buyPrice: 0.1,\r\n    sellPrice: 0.14,\r\n    harvestSeconds: 5 * 60,\r\n    name: \"Wheat\",\r\n    description: \"A nutrious crop for any diet\",\r\n    images: {\r\n      seed: wheatSeed,\r\n      seedling: wheatSeedling,\r\n      ready: wheatPlant,\r\n      shop: wheatCrop,\r\n    },\r\n  },\r\n};\r\n\r\nexport type SeedName = `${CropName} Seed`;\r\n\r\nexport const SEEDS: Record<SeedName, Craftable> = {\r\n  \"Sunflower Seed\": {\r\n    name: \"Sunflower Seed\",\r\n    price: 0.01,\r\n    ingredients: [],\r\n    description: \"A sunny flower\",\r\n    image: sunflowerSeed,\r\n  },\r\n  \"Potato Seed\": {\r\n    name: \"Potato Seed\",\r\n    price: 0.1,\r\n    ingredients: [],\r\n    description: \"A nutrious crop for any diet\",\r\n    image: potatoSeed,\r\n  },\r\n  \"Pumpkin Seed\": {\r\n    name: \"Pumpkin Seed\",\r\n    description: \"A nutrious crop for any diet\",\r\n    price: 0.2,\r\n    ingredients: [],\r\n    image: pumpkinSeed,\r\n  },\r\n  \"Carrot Seed\": {\r\n    name: \"Carrot Seed\",\r\n    description: \"A nutrious crop for any diet\",\r\n    price: 0.5,\r\n    ingredients: [],\r\n    image: carrotSeed,\r\n    requires: \"Pumpkin Soup\",\r\n  },\r\n  \"Cabbage Seed\": {\r\n    name: \"Cabbage Seed\",\r\n    description: \"A nutrious crop for any diet\",\r\n    price: 1,\r\n    ingredients: [],\r\n    image: cabbageSeed,\r\n    requires: \"Pumpkin Soup\",\r\n  },\r\n  \"Beetroot Seed\": {\r\n    name: \"Beetroot Seed\",\r\n    description: \"A nutrious crop for any diet\",\r\n    price: 2,\r\n    ingredients: [],\r\n    image: beetrootSeed,\r\n    requires: \"Pumpkin Soup\",\r\n  },\r\n  \"Cauliflower Seed\": {\r\n    name: \"Cauliflower Seed\",\r\n    description: \"A nutrious crop for any diet\",\r\n    price: 3,\r\n    ingredients: [],\r\n    image: cauliflowerSeed,\r\n    requires: \"Pumpkin Soup\",\r\n  },\r\n  \"Parsnip Seed\": {\r\n    name: \"Parsnip Seed\",\r\n    description: \"A nutrious crop for any diet\",\r\n    price: 5,\r\n    ingredients: [],\r\n    image: parsnipSeed,\r\n    requires: \"Pumpkin Soup\",\r\n  },\r\n  \"Radish Seed\": {\r\n    name: \"Radish Seed\",\r\n    description: \"A nutrious crop for any diet\",\r\n    price: 7,\r\n    ingredients: [],\r\n    image: radishSeed,\r\n    requires: \"Pumpkin Soup\",\r\n  },\r\n  \"Wheat Seed\": {\r\n    name: \"Wheat Seed\",\r\n    description: \"A nutrious crop for any diet\",\r\n    price: 2,\r\n    ingredients: [],\r\n    image: wheatSeed,\r\n    requires: \"Pumpkin Soup\",\r\n  },\r\n};\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/crops/lib/crops.ts b/src/features/crops/lib/crops.ts
+--- a/src/features/crops/lib/crops.ts	(revision 5982280794f3587b0052939c599d4deaf537d938)
++++ b/src/features/crops/lib/crops.ts	(date 1642819042998)
+@@ -49,11 +49,6 @@
+ import wheatPlant from "assets/crops/wheat/plant.png";
+ import wheatCrop from "assets/crops/wheat/crop.png";
+ 
+-import testSeed from "assets/crops/test/seed.png";
+-import testSeedling from "assets/crops/test/seedling.png";
+-import testPlant from "assets/crops/test/plant.png";
+-import testCrop from "assets/crops/test/crop.png";
+-
+ import { Craftable } from "features/game/events/craft";
+ 
+ export type CropName =
+Index: src/features/game/events/plant.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { CropName, SeedName } from \"features/crops/lib/crops\";\r\nimport { GameState, InventoryItemName } from \"../GameProvider\";\r\n\r\nexport type PlantAction = {\r\n  type: \"item.planted\";\r\n  item?: InventoryItemName;\r\n  index: number;\r\n};\r\n\r\n// Seeds which are implemented\r\nconst VALID_SEEDS: InventoryItemName[] = [\r\n  \"Sunflower Seed\",\r\n  \"Test Seed\",\r\n  \"Potato Seed\",\r\n  \"Beetroot Seed\",\r\n  \"Cabbage Seed\",\r\n  \"Carrot Seed\",\r\n  \"Cauliflower Seed\",\r\n  \"Pumpkin Seed\",\r\n  \"Parsnip Seed\",\r\n  \"Radish Seed\",\r\n  \"Wheat Seed\",\r\n];\r\n\r\nfunction isSeed(crop: InventoryItemName): crop is SeedName {\r\n  return VALID_SEEDS.includes(crop);\r\n}\r\n\r\nexport function plant(state: GameState, action: PlantAction) {\r\n  const fields = state.fields;\r\n\r\n  if (action.index > 4 && !state.inventory[\"Pumpkin Soup\"]) {\r\n    throw new Error(\"Goblin land!\");\r\n  }\r\n\r\n  const field = fields[action.index];\r\n  if (field.crop) {\r\n    throw new Error(\"Crop is already planted\");\r\n  }\r\n\r\n  if (!action.item) {\r\n    throw new Error(\"No seed selected\");\r\n  }\r\n\r\n  if (!isSeed(action.item)) {\r\n    throw new Error(\"Not a seed\");\r\n  }\r\n\r\n  const seedCount = state.inventory[action.item] || 0;\r\n  if (seedCount === 0) {\r\n    throw new Error(\"Not enough seeds\");\r\n  }\r\n\r\n  const newFields = fields;\r\n\r\n  const crop = action.item.split(\" \")[0] as CropName;\r\n\r\n  newFields[action.index] = {\r\n    ...newFields[action.index],\r\n    crop: {\r\n      plantedAt: new Date(),\r\n      name: crop,\r\n    },\r\n  };\r\n\r\n  return {\r\n    ...state,\r\n    inventory: {\r\n      ...state.inventory,\r\n      [action.item]: seedCount - 1,\r\n    },\r\n    fields: newFields,\r\n  } as GameState;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/game/events/plant.ts b/src/features/game/events/plant.ts
+--- a/src/features/game/events/plant.ts	(revision 5982280794f3587b0052939c599d4deaf537d938)
++++ b/src/features/game/events/plant.ts	(date 1642817988562)
+@@ -10,7 +10,6 @@
+ // Seeds which are implemented
+ const VALID_SEEDS: InventoryItemName[] = [
+   "Sunflower Seed",
+-  "Test Seed",
+   "Potato Seed",
+   "Beetroot Seed",
+   "Cabbage Seed",
+Index: src/features/crops/components/Special.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/crops/components/Special.tsx b/src/features/crops/components/Special.tsx
+new file mode 100644
+--- /dev/null	(date 1642819731848)
++++ b/src/features/crops/components/Special.tsx	(date 1642819731848)
+@@ -0,0 +1,97 @@
++import React, { useContext, useState } from "react";
++import classNames from "classnames";
++
++import token from "assets/icons/token.png";
++import timer from "assets/icons/timer.png";
++
++import { Box } from "components/ui/Box";
++import { OuterPanel } from "components/ui/Panel";
++import { Button } from "components/ui/Button";
++
++import { secondsToString } from "lib/utils/time";
++
++import { Context, InventoryItemName } from "features/game/GameProvider";
++import { Craftable } from "features/game/events/craft";
++
++import { Crop, CropName, CROPS, SEEDS } from "../lib/crops";
++
++interface Props {}
++
++export const Seeds: React.FC<Props> = ({}) => {
++    const [selected, setSelected] = useState<Craftable>(SEEDS["Sunflower Seed"]);
++
++    const { state, dispatcher, shortcutItem } = useContext(Context);
++    const inventory = state.inventory;
++
++    const hasFunds = state.balance >= selected.price;
++
++    const buy = () => {
++        dispatcher({
++            type: "item.crafted",
++            item: selected.name,
++        });
++
++        shortcutItem(selected.name);
++    };
++
++    const cropName = selected.name.split(" ")[0] as CropName;
++    const crop = CROPS[cropName];
++
++    const Action = () => {
++        const isLocked = selected.requires && !inventory[selected.requires];
++        if (isLocked) {
++            return <span className="text-xs mt-1 text-shadow">Locked</span>;
++        }
++
++        return (
++            <Button disabled={!hasFunds} className="text-xs mt-1" onClick={buy}>
++                Buy
++            </Button>
++        );
++    };
++
++    return (
++        <div className="flex">
++            <div className="w-3/5 flex flex-wrap h-fit">
++                {Object.values(SEEDS).map((item: Craftable) => (
++                    <Box
++                        isSelected={selected.name === item.name}
++                        key={item.name}
++                        onClick={() => setSelected(item)}
++                        image={item.image}
++                        count={inventory[item.name]}
++                    />
++                ))}
++            </div>
++            <OuterPanel className="flex-1 w-1/3">
++                <div className="flex flex-col justify-center items-center p-2 ">
++                    <span className="text-base text-shadow text-center">{`${selected.name} Seed`}</span>
++                    <img
++                        src={selected.image}
++                        className="w-12 img-highlight mt-1"
++                        alt={selected.name}
++                    />
++                    <div className="border-t border-white w-full mt-2 pt-1">
++                        <div className="flex justify-center items-end">
++                            <img src={timer} className="h-5 me-2" />
++                            <span className="text-xs text-shadow text-center mt-2 ">
++                {secondsToString(crop.harvestSeconds)}
++              </span>
++                        </div>
++                        <div className="flex justify-center items-end">
++                            <img src={token} className="h-5 mr-1" />
++                            <span
++                                className={classNames("text-xs text-shadow text-center mt-2 ", {
++                                    "text-red-500": !hasFunds,
++                                })}
++                            >
++                {`$${selected.price}`}
++              </span>
++                        </div>
++                    </div>
++                    {Action()}
++                </div>
++            </OuterPanel>
++        </div>
++    );
++};
+Index: src/features/crops/lib/special.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/crops/lib/special.ts b/src/features/crops/lib/special.ts
+new file mode 100644
+--- /dev/null	(date 1642819606554)
++++ b/src/features/crops/lib/special.ts	(date 1642819606554)
+@@ -0,0 +1,48 @@
++import wheatSeed from "assets/crops/wheat/seed.png";
++import wheatSeedling from "assets/crops/wheat/seedling.png";
++import wheatPlant from "assets/crops/wheat/plant.png";
++import wheatCrop from "assets/crops/wheat/crop.png";
++import {Craftable} from "features/game/events/craft";
++
++
++export type SpecialName =
++    | "Test";
++
++export type SpecialCrop = {
++    buyPrice: number;
++    harvestSeconds: number;
++    name: SpecialName;
++    description: string;
++    images: {
++        seed: any;
++        seedling: any;
++        ready: any;
++        shop: any;
++    };
++};
++
++export const SPECIAL: Record<SpecialName, SpecialCrop> = {
++    Test: {
++        buyPrice: 1,
++        harvestSeconds: 2 * 30,
++        name: "Test",
++        description: "A simple Test Crop",
++        images:{
++            seed:wheatSeed,
++            seedling:wheatSeedling,
++            ready:wheatPlant,
++            shop:wheatCrop,
++        }
++    }
++}
++
++export type SeedSpecialName = `${SpecialName} Seed`;
++export const SPECIALS: Record<SpecialName, Craftable> = {
++    "Test": {
++        name: "Test",
++        price: 0.01,
++        ingredients: [],
++        description: "A sunny flower",
++        image: wheatSeed,
++    }
++}
+Index: src/features/crops/components/MarketItems.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useState } from \"react\";\r\n\r\nimport seeds from \"assets/icons/seeds.png\";\r\nimport sunflowerPlant from \"assets/crops/sunflower/crop.png\";\r\nimport close from \"assets/icons/close.png\";\r\n\r\nimport { Panel } from \"components/ui/Panel\";\r\nimport { Tab } from \"components/ui/Tab\";\r\n\r\nimport { Seeds } from \"./Seeds\";\r\nimport { Plants } from \"./Plants\";\r\n\r\ninterface Props {\r\n  onClose: () => void;\r\n}\r\n\r\nexport const MarketItems: React.FC<Props> = ({ onClose }) => {\r\n  const [tab, setTab] = useState<\"buy\" | \"sell\">(\"buy\");\r\n\r\n  return (\r\n    <Panel className=\"pt-5 relative\">\r\n      <div className=\"flex justify-between absolute top-1.5 left-0.5 right-0 items-center\">\r\n        <div className=\"flex\">\r\n          <Tab isActive={tab === \"buy\"} onClick={() => setTab(\"buy\")}>\r\n            <img src={seeds} className=\"h-5 mr-2\" />\r\n            <span className=\"text-sm text-shadow\">Buy</span>\r\n          </Tab>\r\n          <Tab isActive={tab === \"sell\"} onClick={() => setTab(\"sell\")}>\r\n            <img src={sunflowerPlant} className=\"h-5 mr-2\" />\r\n            <span className=\"text-sm text-shadow\">Sell</span>\r\n          </Tab>\r\n        </div>\r\n        <img\r\n          src={close}\r\n          className=\"h-6 cursor-pointer mr-2 mb-1\"\r\n          onClick={onClose}\r\n        />\r\n      </div>\r\n\r\n      {tab === \"buy\" && <Seeds />}\r\n      {tab === \"sell\" && <Plants />}\r\n    </Panel>\r\n  );\r\n};\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/crops/components/MarketItems.tsx b/src/features/crops/components/MarketItems.tsx
+--- a/src/features/crops/components/MarketItems.tsx	(revision 5982280794f3587b0052939c599d4deaf537d938)
++++ b/src/features/crops/components/MarketItems.tsx	(date 1642818595194)
+@@ -9,13 +9,14 @@
+ 
+ import { Seeds } from "./Seeds";
+ import { Plants } from "./Plants";
++import { Special } from "./Special";
+ 
+ interface Props {
+   onClose: () => void;
+ }
+ 
+ export const MarketItems: React.FC<Props> = ({ onClose }) => {
+-  const [tab, setTab] = useState<"buy" | "sell">("buy");
++  const [tab, setTab] = useState<"buy" | "special" |"sell">("buy");
+ 
+   return (
+     <Panel className="pt-5 relative">
+@@ -28,6 +29,10 @@
+           <Tab isActive={tab === "sell"} onClick={() => setTab("sell")}>
+             <img src={sunflowerPlant} className="h-5 mr-2" />
+             <span className="text-sm text-shadow">Sell</span>
++          </Tab>
++          <Tab isActive={tab === "special"} onClick={() => setTab("special")}>
++            <img src={seeds} className="h-5 mr-2" />
++            <span className="text-sm text-shadow">Specialty Crops</span>
+           </Tab>
+         </div>
+         <img
+@@ -39,6 +44,7 @@
+ 
+       {tab === "buy" && <Seeds />}
+       {tab === "sell" && <Plants />}
++      {tab == "special" && <Special />}
+     </Panel>
+   );
+ };

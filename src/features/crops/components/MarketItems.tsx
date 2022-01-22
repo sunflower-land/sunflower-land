@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const MarketItems: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState<"buy" | "sell">("buy");
+  const [tab, setTab] = useState<"buy" | "special" |"sell">("buy");
 
   return (
     <Panel className="pt-5 relative">
