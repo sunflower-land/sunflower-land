@@ -1,5 +1,8 @@
 # Sunflower Land
 
+![dqcw](https://user-images.githubusercontent.com/11745561/150654347-cb1abc19-28d6-4714-b21a-eafffaa59785.png)
+
+
 The goal of this project is to create a decentralized and community driven MetaVerse style game.
 
 This repo includes the front-end game which users can play and interact with the game on the Polygon Network and off chain data.
