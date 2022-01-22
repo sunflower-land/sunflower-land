@@ -31,7 +31,7 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
           </Tab>
           <Tab isActive={tab === "foods"} onClick={() => setTab("foods")}>
             <img src={food} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Foods</span>
+            <span className="text-sm text-shadow">Food</span>
           </Tab>
         </div>
         <img
