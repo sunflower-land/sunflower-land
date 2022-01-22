@@ -78,4 +78,31 @@ export class SunflowerLand {
         });
     });
   }
+
+  public async createFarm({
+    signature,
+    charity,
+    amount,
+  }: {
+    signature: string;
+    charity: string;
+    amount: number;
+  }): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+      this.contract.methods
+        .createFarm(signature, charity, amount)
+        .send({ from: this.account })
+        .on("error", function (error: any) {
+          console.log({ error });
+
+          reject(error);
+        })
+        .on("transactionHash", function (transactionHash: any) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt: any) {
+          console.log({ receipt });
+        });
+    });
+  }
 }

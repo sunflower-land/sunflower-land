@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -10,10 +11,15 @@ import water from "assets/icons/expression_working.png";
 import token from "assets/icons/token.png";
 
 import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
-import { sync } from "src/api/sync";
 import { metamask } from "lib/blockchain/metamask";
+import * as Auth from "features/auth/lib/Provider";
+
+import { sync } from "features/game/actions/sync";
 
 export const Menu = () => {
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
+
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
   const ref = useRef<HTMLDivElement>(null);
@@ -52,15 +58,10 @@ export const Menu = () => {
   }, []);
 
   const save = async () => {
-    const data = await sync({
-      farmId: 1,
-      // TODO
-      sender: "0x0000000000000000000000000000000000000000",
-      // TODO
-      sessionId:
-        "0x0000000000000000000000000000000000000000000000000000000000000000",
+    await sync({
+      farmId: authState.context.farmId as number,
+      sessionId: authState.context.sessionId as string,
     });
-    metamask.getSunflowerLand().sync(data);
   };
 
   return (
