@@ -101,6 +101,7 @@ describe("craft", () => {
         {
           type: "item.crafted",
           item: "Carrot Seed",
+          amount: 1,
         }
       )
     ).toThrow("Missing Pumpkin Soup");
@@ -116,6 +117,7 @@ describe("craft", () => {
       {
         type: "item.crafted",
         item: "Carrot Seed",
+        amount: 1,
       }
     );
 
@@ -145,7 +147,7 @@ describe("craft", () => {
       {
         ...GAME_STATE,
         balance: 10,
-        inventory: { Wood: 11 },
+        inventory: { Wood: 21 },
       },
       {
         type: "item.crafted",
