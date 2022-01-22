@@ -20,7 +20,7 @@ type Handlers = {
   ) => GameState;
 };
 
-const EVENTS: Handlers = {
+export const EVENTS: Handlers = {
   "item.planted": plant,
   "item.harvested": harvest,
   "item.crafted": craft,

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
+import { useActor } from "@xstate/react";
 
 import token from "assets/icons/token.png";
 import timer from "assets/icons/timer.png";
@@ -10,7 +11,7 @@ import { Button } from "components/ui/Button";
 
 import { secondsToString } from "lib/utils/time";
 
-import { Context, InventoryItemName } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
 import { Craftable } from "features/game/events/craft";
 
 import { Crop, CropName, CROPS, SEEDS } from "../lib/crops";
@@ -20,14 +21,18 @@ interface Props {}
 export const Seeds: React.FC<Props> = ({}) => {
   const [selected, setSelected] = useState<Craftable>(SEEDS["Sunflower Seed"]);
 
-  const { state, dispatcher, shortcutItem } = useContext(Context);
-  const inventory = state.inventory;
+  const { gameService, shortcutItem } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
+  const inventory = state.inventory;
   const hasFunds = state.balance >= selected.price;
 
   const buy = () => {
-    dispatcher({
-      type: "item.crafted",
+    gameService.send("item.crafted", {
       item: selected.name,
     });
 

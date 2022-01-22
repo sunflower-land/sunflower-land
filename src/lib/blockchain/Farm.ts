@@ -2,6 +2,12 @@ import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import FarmABI from "./abis/Farm.json";
 
+type FarmAccount = {
+  account: string;
+  owner: string;
+  tokenId: number;
+};
+
 /**
  * Farm NFT contract
  */
@@ -16,35 +22,19 @@ export class Farm {
     this.account = account;
     this.farm = new this.web3.eth.Contract(
       FarmABI as AbiItem[],
-      "0x191d3cd967bb3d51fab4d03dc2383cc8f8afc6f3"
+      // Testnet
+      "0x7f6279D037587d647b529F1C6ACA43E4E314d392"
     );
   }
 
-  public async getFarmIds(): Promise<number[]> {
-    const balance = await this.farm.methods
-      .balanceOf(this.account)
+  // TODO - simplify the smart contract to fetch this in 1 call
+  public async getFarms(): Promise<FarmAccount[]> {
+    const accounts = await this.farm.methods
+      .getFarms(this.account)
       .call({ from: this.account });
 
-    if (balance === 0) {
-      return [];
-    }
+    console.log({ accounts });
 
-    const items = Array(Number(balance)).fill(null);
-
-    // Loop through and find the tokenID they own
-    const tokenIds: number[] = await items.reduce(
-      async (tokenIds, _, index) => {
-        const ids = await tokenIds;
-
-        const tokenId = await this.farm.methods
-          .tokenOfOwnerByIndex(this.account, index.toString())
-          .call({ from: this.account });
-
-        return [...ids, tokenId];
-      },
-      Promise.resolve([])
-    );
-
-    return tokenIds;
+    return accounts;
   }
 }

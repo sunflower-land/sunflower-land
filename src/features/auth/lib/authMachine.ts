@@ -1,22 +1,38 @@
 import { ERRORS } from "lib/errors";
-import { getSignedAddress, saveSignedAddress } from "lib/session/localStorage";
 import { createMachine, Interpreter, interpret, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
 
 export interface Context {
   errorCode?: keyof typeof ERRORS;
+  farmId?: number;
+  sessionId?: string;
+  signature?: string;
+  hash?: string;
 }
 
+type StartEvent = {
+  type: "START";
+  farmId: number;
+  sessionId: string;
+};
+
+type VisitEvent = {
+  type: "VISIT";
+  farmId: number;
+};
+
 export type BlockchainEvent =
-  | {
-      type: "SIGN";
-    }
+  | StartEvent
+  | VisitEvent
   | {
       type: "NETWORK_CHANGED";
     }
   | {
       type: "ACCOUNT_CHANGED";
+    }
+  | {
+      type: "CREATE_FARM";
     };
 
 export type BlockchainState = {
@@ -24,8 +40,10 @@ export type BlockchainState = {
     | "connecting"
     | "ready"
     | "signing"
+    | "registering"
     | "authorising"
     | "authorised"
+    | "visiting"
     | "unauthorised";
   context: Context;
 };
@@ -43,8 +61,8 @@ export const authMachine = createMachine<
   BlockchainState
 >({
   id: "farmMachine",
-  initial: "connecting",
-  //initial: "authorised",
+  //initial: "connecting",
+  initial: "visiting",
   context: {},
   states: {
     connecting: {
@@ -63,8 +81,17 @@ export const authMachine = createMachine<
     },
     ready: {
       on: {
-        SIGN: {
+        START: {
           target: "signing",
+        },
+        VISIT: {
+          target: "visiting",
+          actions: assign({
+            farmId: (context, event) => event.farmId,
+          }),
+        },
+        CREATE_FARM: {
+          target: "registering",
         },
         ACCOUNT_CHANGED: {
           target: "connecting",
@@ -74,33 +101,33 @@ export const authMachine = createMachine<
         },
       },
     },
+
     signing: {
       invoke: {
-        src: async () => {
-          /**
-           * TODO: Screen to let them select a farm
-           * For now, let's assume it is the first ID
-           */
-          const tokenIds = await metamask.getFarm()?.getFarmIds();
-          console.log({ tokenIds });
-          if (tokenIds?.length === 0) {
-            throw new Error("NO_FARM");
-          }
-
-          const farmId = tokenIds[0];
-
-          // Already signed
-          if (getSignedAddress()) {
-            return;
-          }
-
+        src: async (context, event) => {
+          console.log({ event });
           // Sign transaction -
-          const signedAddress = await metamask.signTransaction(
-            farmId.toString()
+          const { signature, hash } = await metamask.signTransaction(
+            ((event as StartEvent).farmId as number).toString()
           );
-          saveSignedAddress(signedAddress);
+          console.log({ signature, hash });
+
+          return {
+            signature,
+            hash,
+            farmId: (event as StartEvent).farmId,
+            sessionId: (event as StartEvent).sessionId,
+          };
         },
-        onDone: "authorising",
+        onDone: {
+          target: "authorised",
+          actions: assign({
+            signature: (_, event) => event.data.signature,
+            hash: (_, event) => event.data.hash,
+            farmId: (_, event) => event.data.farmId,
+            sessionId: (_, event) => event.data.sessionId,
+          }),
+        },
         onError: {
           target: "unauthorised",
           actions: assign({
@@ -109,27 +136,18 @@ export const authMachine = createMachine<
         },
       },
     },
-    authorising: {
-      invoke: {
-        src: async () => {
-          // TODO - in the future, check the new NFT contract address
-          const hasFarm = await metamask.getLegacyFarm()?.hasFarm();
 
-          if (!hasFarm) {
-            throw new Error(ERRORS.NO_FARM);
-          }
-
-          return true;
+    registering: {
+      on: {
+        ACCOUNT_CHANGED: {
+          target: "connecting",
         },
-        onDone: "authorised",
-        onError: {
-          target: "unauthorised",
-          actions: assign({
-            errorCode: (context, event) => event.data.message,
-          }),
+        NETWORK_CHANGED: {
+          target: "connecting",
         },
       },
     },
+
     authorised: {
       on: {
         ACCOUNT_CHANGED: {
@@ -140,6 +158,10 @@ export const authMachine = createMachine<
         },
       },
     },
+
+    // An anonymous user is visiting a farm
+    visiting: {},
+
     unauthorised: {
       on: {
         ACCOUNT_CHANGED: {

@@ -10,6 +10,8 @@ import water from "assets/icons/expression_working.png";
 import token from "assets/icons/token.png";
 
 import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
+import { sync } from "src/api/sync";
+import { metamask } from "lib/blockchain/metamask";
 
 export const Menu = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
@@ -49,6 +51,19 @@ export const Menu = () => {
     };
   }, []);
 
+  const save = async () => {
+    const data = await sync({
+      farmId: 1,
+      // TODO
+      sender: "0x0000000000000000000000000000000000000000",
+      // TODO
+      sessionId:
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+    });
+    console.log({ data });
+    metamask.getSunflowerLand().sync(data);
+  };
+
   return (
     <div ref={ref} className="fixed top-2 left-2 z-50  shadow-lg">
       <OuterPanel>
@@ -64,7 +79,7 @@ export const Menu = () => {
             />
             <span className="hidden md:flex">Menu</span>
           </Button>
-          <Button onClick={() => {}}>
+          <Button onClick={save}>
             {/* <img className="md:hidden w-6" src={mobileSave} alt="save" /> */}
             <span>Save</span>
           </Button>

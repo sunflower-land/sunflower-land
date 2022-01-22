@@ -6,7 +6,7 @@ import soil from "assets/land/soil2.png";
 import { getTimeLeft } from "lib/utils/time";
 
 import { ProgressBar } from "components/ui/ProgressBar";
-import { FieldItem } from "features/game/GameProvider";
+import { FieldItem } from "features/game/lib/types";
 
 import { CROPS } from "../lib/crops";
 

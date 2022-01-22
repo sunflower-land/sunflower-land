@@ -2,8 +2,11 @@ import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { sha3 } from "web3-utils";
 import { LegacyFarm } from "./Legacy";
+import { SunflowerLand } from "./SunflowerLand";
 import { Farm } from "./Farm";
 
+const POLYGON_CHAIN_ID = 137;
+const POLYGON_TESTNET_CHAIN_ID = 80001;
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
@@ -12,17 +15,22 @@ export class Metamask {
 
   private legacyFarm: LegacyFarm | null = null;
   private farm: Farm | null = null;
+  private sunflowerLand: SunflowerLand | null = null;
 
   private account: string | null = null;
 
   private async initialiseContracts() {
     try {
-      this.legacyFarm = new LegacyFarm(
+      // this.legacyFarm = new LegacyFarm(
+      //   this.web3 as Web3,
+      //   this.account as string
+      // );
+
+      this.farm = new Farm(this.web3 as Web3, this.account as string);
+      this.sunflowerLand = new SunflowerLand(
         this.web3 as Web3,
         this.account as string
       );
-
-      this.farm = new Farm(this.web3 as Web3, this.account as string);
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
@@ -62,6 +70,10 @@ export class Metamask {
     this.account = maticAccounts[0];
   }
 
+  public get myAccount() {
+    return this.account;
+  }
+
   public async initialise(retryCount = 0): Promise<void> {
     try {
       // It is actually quite fast, we won't to simulate slow loading to convey complexity
@@ -70,8 +82,10 @@ export class Metamask {
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();
-
-      if (chainId !== 137) {
+      console.log({ chainId });
+      if (
+        !(chainId === POLYGON_CHAIN_ID || chainId === POLYGON_TESTNET_CHAIN_ID)
+      ) {
         throw new Error(ERRORS.WRONG_CHAIN);
       }
 
@@ -125,6 +139,10 @@ export class Metamask {
 
   public getFarm() {
     return this.farm as Farm;
+  }
+
+  public getSunflowerLand() {
+    return this.sunflowerLand as SunflowerLand;
   }
 }
 

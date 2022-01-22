@@ -9,18 +9,24 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 
 import { Crop, CROPS } from "../lib/crops";
+import { useActor } from "@xstate/react";
 
 interface Props {}
 
 export const Plants: React.FC<Props> = ({}) => {
   const [selected, setSelected] = useState<Crop>(CROPS.Sunflower);
 
-  const { state, dispatcher } = useContext(Context);
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
   const inventory = state.inventory;
 
   const sell = () => {
-    dispatcher({
-      type: "item.sell",
+    gameService.send("item.sell", {
       item: selected.name,
     });
   };
