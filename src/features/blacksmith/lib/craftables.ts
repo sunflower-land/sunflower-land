@@ -20,6 +20,9 @@ import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 
 import { Craftable } from "features/game/events/craft";
 
+// Foods
+import flour from "assets/foods/flour.png";
+
 export type NFT =
   | "Sunflower Statue"
   | "Potato Statue"
@@ -39,6 +42,25 @@ export type Tool =
   | "Iron Pickaxe"
   | "Hammer"
   | "Rod";
+
+export type Food =
+    | "Flour";
+
+export const FOODS: Record<Food, Craftable> = {
+  Flour: {
+    name: "Flour",
+    image: flour,
+    description: "Ground Wheat",
+    price: 0.1,
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: 3,
+      },
+
+    ],
+  }
+}
 
 export const TOOLS: Record<Tool, Craftable> = {
   Axe: {
