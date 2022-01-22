@@ -1,8 +1,13 @@
 # Sunflower Land
 
+![dqcw](https://user-images.githubusercontent.com/11745561/150654347-cb1abc19-28d6-4714-b21a-eafffaa59785.png)
+
+
 The goal of this project is to create a decentralized and community driven MetaVerse style game.
 
 This repo includes the front-end game which users can play and interact with the game on the Polygon Network and off chain data.
+
+Looking to help out? Read our contributing Guidlines - https://github.com/sunflower-land/sunflower-land/blob/main/docs/CONTRIBUTING.md
 
 # Getting Started
 
@@ -60,6 +65,5 @@ TODO
 # No Licence
 
 The previous version was used in unethically on other Blockchains. The team is working on deciding the licence that will best suit our community. Until then, the code falls under No Licence and cannot be reused.
-
 
 All media assets (images and music) are not available for use in commercial or private projects.
