@@ -5,14 +5,16 @@ import { Context } from "features/game/GameProvider";
 import { AppIconProvider } from "features/crops/AppIconProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-import { Field } from "./components/Field";
 import { Section } from "lib/utils/useScrollIntoView";
-import { Market } from "./components/Market";
+
+import house from "assets/buildings/house.png";
+import smoke from "assets/buildings/smoke.gif";
 
 import { CropZoneOne } from "./components/CropZoneOne";
 import { CropZoneTwo } from "./components/CropZoneTwo";
 import { CropZoneThree } from "./components/CropZoneThree";
 import { CropZoneFour } from "./components/CropZoneFour";
+import { Market } from "./components/Market";
 
 interface Props {}
 
@@ -48,6 +50,27 @@ export const Crops: React.FC<Props> = () => {
         <CropZoneTwo />
         <CropZoneThree />
         <CropZoneFour />
+
+        <div
+          style={{
+            width: `${GRID_WIDTH_PX * 4}px`,
+            position: "absolute",
+            right: `${GRID_WIDTH_PX * 0.5}px`,
+            top: `${GRID_WIDTH_PX * 0.8}px`,
+          }}
+          className="relative"
+        >
+          <img src={house} alt="house" className="w-full" />
+          <img
+            src={smoke}
+            style={{
+              width: `${GRID_WIDTH_PX * 1}px`,
+              position: "absolute",
+              left: `${GRID_WIDTH_PX * 0.1}px`,
+              top: `${GRID_WIDTH_PX * 0.8}px`,
+            }}
+          />
+        </div>
       </div>
     </AppIconProvider>
   );
