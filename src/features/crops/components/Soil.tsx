@@ -34,9 +34,7 @@ export const Soil: React.FC<Props> = ({ field }) => {
   }, [field]);
 
   React.useEffect(() => {
-    if (!badgeUpdated) return;
-
-    incrementHarvestable(1);
+    if (badgeUpdated) incrementHarvestable(1);
   }, [badgeUpdated]);
 
   if (!field.crop) {
