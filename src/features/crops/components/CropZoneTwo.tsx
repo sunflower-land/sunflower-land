@@ -11,6 +11,7 @@ import goblin from "assets/npcs/goblin.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import questionMark from "assets/icons/expression_confused.png";
+import heart from "assets/icons/heart.png";
 
 import { Field } from "./Field";
 
@@ -52,6 +53,15 @@ export const CropZoneTwo: React.FC<Props> = () => {
         </>
       ) : (
         <>
+          <img
+            src={heart}
+            className="absolute z-10 animate-float"
+            style={{
+              width: `${GRID_WIDTH_PX * 0.3}px`,
+              left: `${GRID_WIDTH_PX * -0.6}px`,
+              bottom: `${GRID_WIDTH_PX * 5.7}px`,
+            }}
+          />
           <img
             src={goblin}
             className="absolute z-10"

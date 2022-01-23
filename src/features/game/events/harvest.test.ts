@@ -1,3 +1,4 @@
+import { INITIAL_FARM } from "../lib/constants";
 import { FieldItem, GameState } from "../types/game";
 import { harvest } from "./harvest";
 
@@ -12,15 +13,6 @@ let GAME_STATE: GameState = {
 };
 
 describe("harvest", () => {
-  it("does not harvest if the field is not unlocked", () => {
-    expect(() =>
-      harvest(GAME_STATE, {
-        type: "item.harvested",
-        index: GAME_STATE.fields.length + 1,
-      })
-    ).toThrow("Field is not unlocked");
-  });
-
   it("does not harvest empty air", () => {
     expect(() =>
       harvest(GAME_STATE, {
@@ -40,7 +32,7 @@ describe("harvest", () => {
               fieldIndex: 0,
               crop: {
                 name: "Sunflower",
-                plantedAt: new Date(Date.now() - 100),
+                plantedAt: Date.now() - 100,
               },
             },
           ],
@@ -62,7 +54,7 @@ describe("harvest", () => {
             fieldIndex: 0,
             crop: {
               name: "Sunflower",
-              plantedAt: new Date(Date.now() - 2 * 60 * 1000),
+              plantedAt: Date.now() - 2 * 60 * 1000,
             },
           },
         ],
@@ -80,5 +72,77 @@ describe("harvest", () => {
         crop: undefined,
       },
     ]);
+  });
+
+  it("does not harvest on the first goblin land", () => {
+    expect(() =>
+      harvest(
+        { ...INITIAL_FARM, inventory: {} },
+        {
+          type: "item.harvested",
+          index: 6,
+        }
+      )
+    ).toThrow("Goblin land!");
+  });
+
+  it("harvests once the first goblin is gone", () => {
+    const state = harvest(
+      { ...INITIAL_FARM, inventory: { "Pumpkin Soup": 1 } },
+      {
+        type: "item.harvested",
+        index: 5,
+      }
+    );
+
+    expect(state.inventory.Carrot).toBe(1);
+  });
+
+  it("does not harvest on the second goblin land", () => {
+    expect(() =>
+      harvest(
+        { ...INITIAL_FARM, inventory: {} },
+        {
+          type: "item.harvested",
+          index: 11,
+        }
+      )
+    ).toThrow("Goblin land!");
+  });
+
+  it("harvests once the second goblin is gone", () => {
+    const state = harvest(
+      { ...INITIAL_FARM, inventory: { "Cabbage Soup": 1 } },
+      {
+        type: "item.harvested",
+        index: 10,
+      }
+    );
+
+    expect(state.inventory.Cauliflower).toBe(1);
+  });
+
+  it("does not harvest on the third goblin land", () => {
+    expect(() =>
+      harvest(
+        { ...INITIAL_FARM, inventory: {} },
+        {
+          type: "item.harvested",
+          index: 16,
+        }
+      )
+    ).toThrow("Goblin land!");
+  });
+
+  it("harvests once the third goblin is gone", () => {
+    const state = harvest(
+      { ...INITIAL_FARM, inventory: { "Cauliflower Rice": 1 } },
+      {
+        type: "item.harvested",
+        index: 16,
+      }
+    );
+
+    expect(state.inventory.Parsnip).toBe(1);
   });
 });

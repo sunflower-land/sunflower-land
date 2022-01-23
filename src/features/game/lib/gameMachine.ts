@@ -6,8 +6,9 @@ import { EVENTS, GameEvent, processEvent } from "../events";
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
 
-import { DEFAULT_FARM, GameState } from "../types/game";
+import { GameState } from "../types/game";
 import { loadSession } from "../actions/loadSession";
+import { INITIAL_FARM } from "./constants";
 
 type PastAction = GameEvent & {
   createdAt: Date;
@@ -63,7 +64,7 @@ export function startGame(authContext: AuthContext) {
     initial: "loading",
     context: {
       actions: [],
-      state: DEFAULT_FARM,
+      state: INITIAL_FARM,
     },
     states: {
       loading: {
@@ -93,7 +94,7 @@ export function startGame(authContext: AuthContext) {
             // They are an anonymous user
             // TODO: Load from Web3
 
-            return { state: DEFAULT_FARM };
+            return { state: INITIAL_FARM };
           },
           onDone: {
             //target: authContext.sessionId ? "playing" : "readonly",

@@ -8,7 +8,8 @@ export type FieldItem = {
   fieldIndex: number;
   crop?: {
     name: CropName;
-    plantedAt: Date;
+    // Epoch time in milliseconds
+    plantedAt: number;
   };
 };
 
@@ -26,13 +27,7 @@ type PastAction = GameEvent & {
 
 export type GameState = {
   balance: number;
-  fields: {
-    fieldIndex: number;
-    crop?: {
-      name: CropName;
-      plantedAt: Date;
-    };
-  }[];
+  fields: FieldItem[];
   inventory: Inventory;
 };
 
@@ -40,17 +35,3 @@ export interface Context {
   state?: GameState;
   actions: PastAction[];
 }
-
-const EMPTY_FIELDS: FieldItem[] = Array(22)
-  .fill(null)
-  .map((_, fieldIndex) => ({ fieldIndex }));
-
-export const DEFAULT_FARM: GameState = {
-  balance: 50,
-  fields: EMPTY_FIELDS,
-  inventory: {
-    "Sunflower Seed": 2,
-    Wood: 2,
-    Gold: 2,
-  },
-};

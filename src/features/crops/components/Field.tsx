@@ -48,7 +48,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
           <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
             <img
               src={ITEM_DETAILS[selectedItem as CropName].image}
-              className="w-4 h-4 mr-1"
+              className="w-4 mr-1"
             />
             <span>-1</span>
           </div>
@@ -73,10 +73,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
-          <img
-            src={ITEM_DETAILS[field.crop.name].image}
-            className="w-4 h-4 mr-1"
-          />
+          <img src={ITEM_DETAILS[field.crop.name].image} className="w-4 mr-1" />
           <span>+1</span>
         </div>
       );
