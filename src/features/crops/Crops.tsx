@@ -8,6 +8,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/useScrollIntoView";
 
 import house from "assets/buildings/house.png";
+import smoke from "assets/buildings/smoke.gif";
 
 import { CropZoneOne } from "./components/CropZoneOne";
 import { CropZoneTwo } from "./components/CropZoneTwo";
@@ -57,8 +58,18 @@ export const Crops: React.FC<Props> = () => {
             right: `${GRID_WIDTH_PX * 0.5}px`,
             top: `${GRID_WIDTH_PX * 0.8}px`,
           }}
+          className="relative"
         >
           <img src={house} alt="house" className="w-full" />
+          <img
+            src={smoke}
+            style={{
+              width: `${GRID_WIDTH_PX * 1}px`,
+              position: "absolute",
+              left: `${GRID_WIDTH_PX * 0.1}px`,
+              top: `${GRID_WIDTH_PX * 0.8}px`,
+            }}
+          />
         </div>
       </div>
     </AppIconProvider>

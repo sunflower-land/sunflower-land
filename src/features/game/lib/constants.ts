@@ -111,6 +111,5 @@ export const INITIAL_FARM: GameState = {
   inventory: {
     "Sunflower Seed": 3,
     "Pumpkin Soup": 1,
-    "Cabbage Soup": 1,
   },
 };
