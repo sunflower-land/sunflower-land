@@ -1,15 +1,16 @@
 import React from "react";
+import ScrollContainer from 'react-indiana-drag-scroll'
 
 import background from "assets/land/background.png";
 
-import { GameProvider } from "./GameProvider";
 import { Game } from "./Game";
+import { GameProvider } from "./GameProvider";
 
 export const Session: React.FC = () => {
   // Load data
   return (
     <GameProvider>
-      <div className="bg-green-background overflow-scroll relative w-full h-full">
+      <ScrollContainer className="bg-green-background overflow-scroll relative w-full h-full">
         <div
           id="gameboard"
           className="relative h-gameboard w-gameboard"
@@ -19,7 +20,7 @@ export const Session: React.FC = () => {
 
           <Game />
         </div>
-      </div>
+      </ScrollContainer>
     </GameProvider>
   );
 };
