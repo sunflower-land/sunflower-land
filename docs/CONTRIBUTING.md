@@ -1,19 +1,16 @@
-# Welcome to Sunflower Land docs contributing guide 
+# Welcome to Sunflower Land docs contributing guide
 
 Thank you for joining our journey and helping us build the #1 Community Metaverse game
 
 In this guide you will get an overview of the contribution workflow from opening an issue, creating a PR, reviewing, and merging the PR.
 
-
 ## New contributor guide
 
 To get an overview of the project, read the [README](README.md). Here are some resources to help you get started with open source contributions:
 
-
 ### Disclaimer
 
-By contributing to this repository you provide Sunflower Land the rights to use your work in the game indefintely. 
-
+By contributing to this repository you provide Sunflower Land the rights to use your work in the game indefintely. While we often reward open source developers with NFTs, contributing does not guarantee any sort of rewards from the game.
 
 ## Getting started
 
@@ -23,7 +20,7 @@ Please read the README.md for details on how to setup and run the repo locally.
 
 #### Create a new issue
 
-If you spot a problem with the docs, [search if an issue already exists](https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-issues-and-pull-requests#search-by-the-title-body-or-comments). If a related issue doesn't exist, you can open a new issue using a relevant [issue form](https://github.com/github/docs/issues/new/choose). 
+If you spot a problem with the docs, [search if an issue already exists](https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-issues-and-pull-requests#search-by-the-title-body-or-comments). If a related issue doesn't exist, you can open a new issue using a relevant [issue form](https://github.com/github/docs/issues/new/choose).
 
 #### Solve an issue
 
@@ -61,7 +58,6 @@ Before you submit, ensure you have done the following:
 - Written tests for any business logic code
 - Provided sufficient comments on the code
 
-
 ### Pull Request
 
 When you're finished with the changes, create a pull request, also known as a PR.
@@ -80,10 +76,10 @@ For example - "[FEAT] Craft a sausage"
 - If you run into any merge issues, checkout this [git tutorial](https://lab.github.com/githubtraining/managing-merge-conflicts) to help you resolve merge conflicts and other issues.
 
 When a PR is opened we run Github Actions to ensure the quality of the code is up to standards. This includes:
+
 - Typescript check
 - Jest (unit testing)
 
-
 ### Your PR is merged!
 
-Congratulations :tada::tada: The Sunflower Land team thanks you :sparkles:. 
+Congratulations :tada::tada: The Sunflower Land team thanks you :sparkles:.
