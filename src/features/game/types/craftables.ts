@@ -20,6 +20,8 @@ import sunflowerStatue from "assets/nfts/sunflower_statue.png";
 // Foods
 import flour from "assets/crops/wheat/flour.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
+import cauliflowerRice from "assets/crops/cauliflower/c_rice.png";
+import cabbageSoup from "assets/crops/cabbage/c_soup.png";
 
 import { SeedName, SEEDS } from "../types/crops";
 import { InventoryItemName } from "../types/game";
@@ -67,7 +69,11 @@ export type Tool =
   | "Hammer"
   | "Rod";
 
-export type Food = "Flour" | "Pumpkin Soup";
+export type Food =
+    | "Flour"
+    | "Pumpkin Soup"
+    | "Cauliflower Rice"
+    | "Cabbage Soup";
 
 export const FOODS: Record<Food, Craftable> = {
   "Pumpkin Soup": {
@@ -93,6 +99,30 @@ export const FOODS: Record<Food, Craftable> = {
         item: "Wheat",
         amount: 3,
       },
+    ],
+  },
+  "Cauliflower Rice": {
+    name: "Cauliflower Rice",
+    image: cauliflowerRice,
+    description: "Riced Cauliflower",
+    price: 0.1,
+    ingredients: [
+      {
+        item: "Cauliflower",
+        amount: 3,
+      },
+    ],
+  },
+  "Cabbage Soup": {
+    name: "Cabbage Soup",
+    image: cabbageSoup,
+    description: "Soup of Cabbage",
+    price: 0.1,
+    ingredients: [
+        {
+          item: "Cabbage",
+          amount: 3,
+        },
     ],
   },
 };
