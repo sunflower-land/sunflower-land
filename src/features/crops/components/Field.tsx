@@ -48,14 +48,15 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
           item: selectedItem,
         });
 
-        const seedCount = inventory[selectedItem]-1 || 0;
-        if (seedCount  == 0) {
-          const shortcuts = getShortcuts();
-          if (inventory[shortcuts[1]] > 0) {
-            shortcutItem(shortcuts[1]);
-          } else if (inventory[shortcuts[2]] > 0) {
-            shortcutItem(shortcuts[2]);
-          }          
+        if (selectedItem) {
+          if (((inventory[selectedItem] || 0)-1) == 0) {
+            const shortcuts = getShortcuts();
+            if ((inventory[shortcuts[1]] || 0) > 0) {
+               shortcutItem(shortcuts[1]);
+            } else if ((inventory[shortcuts[2]] || 0) > 0) {
+              shortcutItem(shortcuts[2]);
+            }
+          }
         }
 
         displayPopover(
