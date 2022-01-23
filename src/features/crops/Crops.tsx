@@ -58,11 +58,7 @@ export const Crops: React.FC<Props> = () => {
             top: `${GRID_WIDTH_PX * 0.8}px`,
           }}
         >
-          <img
-            src={house}
-            alt="house"
-            className="cursor-pointer w-full hover:img-highlight"
-          />
+          <img src={house} alt="house" className="w-full" />
         </div>
       </div>
     </AppIconProvider>
