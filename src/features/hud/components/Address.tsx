@@ -23,6 +23,9 @@ export const Address: React.FC<Props> = ({ address }) => {
   const copyToClipboard = (): void => {
     navigator.clipboard.writeText(address);
     setTooltipMessage("Copied!");
+    setTimeout(() => {
+      setTooltipMessage("Click to copy");
+    }, 2000)
   };
 
   const handleMouseEnter = () => {
@@ -31,7 +34,6 @@ export const Address: React.FC<Props> = ({ address }) => {
 
   const handleMouseLeave = () => {
     setShowLabel(false);
-    setTooltipMessage("Click to copy");
   };
 
   return (
