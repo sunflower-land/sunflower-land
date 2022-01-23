@@ -25,6 +25,7 @@
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.1",
     "react-dom": "^17.0.2",
+    "react-indiana-drag-scroll": "^2.1.0",
     "stream-browserify": "^3.0.0",
     "tinycon": "^0.6.8",
     "util": "^0.12.4",
