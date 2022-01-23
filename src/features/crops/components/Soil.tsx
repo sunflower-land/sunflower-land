@@ -33,6 +33,12 @@ export const Soil: React.FC<Props> = ({ field }) => {
     }
   }, [field]);
 
+  React.useEffect(() => {
+    if (!badgeUpdated) return;
+
+    incrementHarvestable(1);
+  }, [badgeUpdated]);
+
   if (!field.crop) {
     return <img src={soil} className="w-full" />;
   }
@@ -55,7 +61,6 @@ export const Soil: React.FC<Props> = ({ field }) => {
   }
   if (timeLeft === 0 && !badgeUpdated) {
     setBadgeUpdated(true);
-    incrementHarvestable(1);
   }
   // Ready to harvest
   return <img src={crop.images.ready} className="w-full" />;
