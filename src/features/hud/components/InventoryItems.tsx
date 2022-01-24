@@ -2,7 +2,7 @@ import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
-import { ITEM_DETAILS } from "features/game/types/items";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
 import React, { useContext, useState } from "react";
 

@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { FieldItem, GameState } from "../types/game";
 import { plant } from "./plant";
 
@@ -6,8 +7,9 @@ const EMPTY_FIELDS: FieldItem[] = Array(22)
   .map((_, fieldIndex) => ({ fieldIndex }));
 
 let GAME_STATE: GameState = {
+  id: 1,
   fields: EMPTY_FIELDS,
-  balance: 0,
+  balance: new Decimal(0),
   inventory: {},
 };
 
@@ -99,7 +101,7 @@ describe("plant", () => {
       {
         ...GAME_STATE,
         inventory: {
-          "Cauliflower Rice": 1,
+          "Roasted Cauliflower": 1,
           "Pumpkin Seed": 2,
         },
       },

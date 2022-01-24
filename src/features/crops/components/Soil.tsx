@@ -9,6 +9,7 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { FieldItem } from "features/game/types/game";
 import { AppIconContext } from "features/crops/AppIconProvider";
 import { CROPS } from "features/game/types/crops";
+import { LIFECYCLE } from "../lib/plant";
 
 interface Props {
   field: FieldItem;
@@ -42,6 +43,7 @@ export const Soil: React.FC<Props> = ({ field }) => {
   }
 
   const crop = CROPS[field.crop.name];
+  const lifecycle = LIFECYCLE[field.crop.name];
   const timeLeft = getTimeLeft(field.crop.plantedAt, crop.harvestSeconds);
 
   // Seedling
@@ -50,7 +52,7 @@ export const Soil: React.FC<Props> = ({ field }) => {
 
     return (
       <div className="relative w-full h-full">
-        <img src={crop.images.seedling} className="w-full" />
+        <img src={lifecycle.seedling} className="w-full" />
         <div className="absolute w-full -bottom-10 z-10">
           <ProgressBar percentage={percentage} seconds={timeLeft} />
         </div>
@@ -61,5 +63,5 @@ export const Soil: React.FC<Props> = ({ field }) => {
     setBadgeUpdated(true);
   }
   // Ready to harvest
-  return <img src={crop.images.ready} className="w-full" />;
+  return <img src={lifecycle.ready} className="w-full" />;
 };

@@ -14,6 +14,7 @@ import { secondsToString } from "lib/utils/time";
 import { Context } from "features/game/GameProvider";
 import { Craftable } from "features/game/types/craftables";
 import { CropName, CROPS, SEEDS } from "features/game/types/crops";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {}
 
@@ -38,7 +39,8 @@ export const Seeds: React.FC<Props> = ({}) => {
     shortcutItem(selected.name);
   };
 
-  const lessFunds = (amount = 1) => state.balance < selected.price * amount;
+  const lessFunds = (amount = 1) =>
+    state.balance.lessThan(selected.price * amount);
 
   const cropName = selected.name.split(" ")[0] as CropName;
   const crop = CROPS[cropName];
@@ -77,7 +79,7 @@ export const Seeds: React.FC<Props> = ({}) => {
             isSelected={selected.name === item.name}
             key={item.name}
             onClick={() => setSelected(item)}
-            image={item.image}
+            image={ITEM_DETAILS[item.name].image}
             count={inventory[item.name]}
           />
         ))}
@@ -88,7 +90,7 @@ export const Seeds: React.FC<Props> = ({}) => {
             {selected.name}
           </span>
           <img
-            src={selected.image}
+            src={ITEM_DETAILS[selected.name].image}
             className="w-12 img-highlight mt-1"
             alt={selected.name}
           />

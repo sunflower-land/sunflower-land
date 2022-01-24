@@ -3,6 +3,7 @@ import { metamask } from "lib/blockchain/metamask";
 type Request = {
   charity: string;
   donation: number;
+  address: string;
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -27,9 +28,15 @@ export async function createFarm() {
   const signature = await signTransaction({
     donation: 0,
     charity: "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377",
+    address: metamask.myAccount as string,
   });
 
-  console.log({ signature });
+  console.log({
+    signature,
+    donation: 0,
+    charity: "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377",
+    address: metamask.myAccount as string,
+  });
 
   await metamask.getSunflowerLand().createFarm({
     signature,

@@ -1,6 +1,6 @@
 import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
 import { fromWei } from "web3-utils";
-
+import { Decimal } from "decimal.js-light";
 import { EVENTS, GameEvent, processEvent } from "../events";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
@@ -80,13 +80,10 @@ export function startGame(authContext: AuthContext) {
                 sender: metamask.myAccount as string,
               });
 
-              console.log({ balance: game.balance });
-              console.log({ balance: fromWei(game.balance.toString()) });
-
               return {
                 state: {
                   ...game,
-                  balance: Number(fromWei(game.balance.toString())),
+                  balance: new Decimal(fromWei(game.balance.toString())),
                 },
               };
             }
