@@ -24,7 +24,7 @@ export function craft(state: GameState, action: CraftAction) {
     throw new Error(`Missing ${item.requires}`);
   }
 
-  if (state.balance < totalExpenses) {
+  if (state.balance.lessThan(totalExpenses)) {
     throw new Error("Insufficient tokens");
   }
 
@@ -47,7 +47,7 @@ export function craft(state: GameState, action: CraftAction) {
 
   return {
     ...state,
-    balance: state.balance - totalExpenses,
+    balance: state.balance.sub(totalExpenses),
     inventory: {
       ...subtractedInventory,
       [action.item]: (state.inventory[action.item] || 0) + action.amount,

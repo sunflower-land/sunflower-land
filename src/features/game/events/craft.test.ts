@@ -1,10 +1,11 @@
+import Decimal from "decimal.js-light";
 import { GameState } from "../types/game";
 import { craft } from "./craft";
 
 let GAME_STATE: GameState = {
   id: 1,
   fields: [],
-  balance: 0,
+  balance: new Decimal(0),
   inventory: {},
 };
 
@@ -24,7 +25,7 @@ describe("craft", () => {
       craft(
         {
           ...GAME_STATE,
-          balance: 0.005,
+          balance: new Decimal(0.005),
         },
         {
           type: "item.crafted",
@@ -40,7 +41,7 @@ describe("craft", () => {
       craft(
         {
           ...GAME_STATE,
-          balance: 10,
+          balance: new Decimal(10),
           inventory: { Wood: 0 },
         },
         {
@@ -56,7 +57,7 @@ describe("craft", () => {
     const state = craft(
       {
         ...GAME_STATE,
-        balance: 1,
+        balance: new Decimal(1),
       },
       {
         type: "item.crafted",
@@ -65,7 +66,7 @@ describe("craft", () => {
       }
     );
 
-    expect(state.balance).toBe(0.99);
+    expect(state.balance).toEqual(new Decimal(0.99));
     expect(state.inventory["Sunflower Seed"]).toBe(1);
   });
 
@@ -73,7 +74,7 @@ describe("craft", () => {
     const state = craft(
       {
         ...GAME_STATE,
-        balance: 1,
+        balance: new Decimal(1),
         inventory: { Wood: 10 },
       },
       {
@@ -83,7 +84,7 @@ describe("craft", () => {
       }
     );
 
-    expect(state.balance).toBe(0);
+    expect(state.balance).toEqual(new Decimal(0));
     expect(state.inventory["Pickaxe"]).toBe(1);
     expect(state.inventory["Wood"]).toBe(8);
   });
@@ -93,7 +94,7 @@ describe("craft", () => {
       craft(
         {
           ...GAME_STATE,
-          balance: 1,
+          balance: new Decimal(1),
           inventory: { Wood: 10 },
         },
         {
@@ -109,7 +110,7 @@ describe("craft", () => {
     const state = craft(
       {
         ...GAME_STATE,
-        balance: 1,
+        balance: new Decimal(1),
         inventory: { "Pumpkin Soup": 1 },
       },
       {
@@ -119,7 +120,7 @@ describe("craft", () => {
       }
     );
 
-    expect(state.balance).toBe(0.5);
+    expect(state.balance).toEqual(new Decimal(0.5));
     expect(state.inventory["Carrot Seed"]).toBe(1);
   });
 
@@ -127,7 +128,7 @@ describe("craft", () => {
     const state = craft(
       {
         ...GAME_STATE,
-        balance: 0.1,
+        balance: new Decimal(0.1),
       },
       {
         type: "item.crafted",
@@ -136,7 +137,7 @@ describe("craft", () => {
       }
     );
 
-    expect(state.balance).toBe(0);
+    expect(state.balance).toEqual(new Decimal(0));
     expect(state.inventory["Sunflower Seed"]).toBe(10);
   });
 
@@ -144,7 +145,7 @@ describe("craft", () => {
     const state = craft(
       {
         ...GAME_STATE,
-        balance: 10,
+        balance: new Decimal(10),
         inventory: { Wood: 21 },
       },
       {
@@ -154,7 +155,7 @@ describe("craft", () => {
       }
     );
 
-    expect(state.balance).toBe(0);
+    expect(state.balance).toEqual(new Decimal(0));
     expect(state.inventory["Pickaxe"]).toBe(10);
     expect(state.inventory["Wood"]).toBe(1);
   });
@@ -164,7 +165,7 @@ describe("craft", () => {
       craft(
         {
           ...GAME_STATE,
-          balance: 10,
+          balance: new Decimal(10),
           inventory: { Wood: 8 },
         },
         {
