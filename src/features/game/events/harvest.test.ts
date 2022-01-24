@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "../lib/constants";
 import { FieldItem, GameState } from "../types/game";
 import { harvest } from "./harvest";
@@ -7,8 +8,9 @@ const EMPTY_FIELDS: FieldItem[] = Array(5)
   .map((_, fieldIndex) => ({ fieldIndex }));
 
 let GAME_STATE: GameState = {
+  id: 1,
   fields: EMPTY_FIELDS,
-  balance: 0,
+  balance: new Decimal(0),
   inventory: {},
 };
 

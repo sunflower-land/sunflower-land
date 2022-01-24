@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { FieldItem, GameState } from "../types/game";
 import { sell } from "./sell";
 
@@ -6,8 +7,9 @@ const EMPTY_FIELDS: FieldItem[] = Array(5)
   .map((_, fieldIndex) => ({ fieldIndex }));
 
 let GAME_STATE: GameState = {
+  id: 1,
   fields: EMPTY_FIELDS,
-  balance: 0,
+  balance: new Decimal(0),
 
   inventory: {},
 };
@@ -49,7 +51,7 @@ describe("sell", () => {
     );
 
     expect(state.inventory.Sunflower).toEqual(4);
-    expect(state.balance).toEqual(0.02);
+    expect(state.balance).toEqual(new Decimal(0.02));
   });
 
   it("sell an item in bulk given sufficient quantity", () => {
@@ -68,7 +70,7 @@ describe("sell", () => {
     );
 
     expect(state.inventory.Sunflower).toEqual(1);
-    expect(state.balance).toEqual(0.2);
+    expect(state.balance).toEqual(new Decimal(0.2));
   });
 
   it("does not sell an item in bulk given insufficient quantity", () => {

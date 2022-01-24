@@ -33,6 +33,9 @@ export type BlockchainEvent =
     }
   | {
       type: "FARM_CREATED";
+    }
+  | {
+      type: "REFRESH";
     };
 
 export type BlockchainState = {
@@ -64,6 +67,7 @@ export const authMachine = createMachine<
 >({
   id: "farmMachine",
   initial: API_URL ? "connecting" : "visiting",
+  //initial: "visiting",
   context: {},
   states: {
     connecting: {
@@ -153,6 +157,9 @@ export const authMachine = createMachine<
           target: "connecting",
         },
         NETWORK_CHANGED: {
+          target: "connecting",
+        },
+        REFRESH: {
           target: "connecting",
         },
       },

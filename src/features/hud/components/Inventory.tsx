@@ -12,7 +12,7 @@ import { InventoryItems } from "./InventoryItems";
 import { Context } from "features/game/GameProvider";
 
 import { getShortcuts } from "../lib/shortcuts";
-import { ITEM_DETAILS } from "features/game/types/items";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const Inventory: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

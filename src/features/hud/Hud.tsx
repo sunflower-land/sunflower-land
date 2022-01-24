@@ -15,8 +15,7 @@ export const Hud: React.FC = () => {
       <Menu />
       <Balance />
       <Inventory />
-      {/* TODO: Pass actual address */}
-      <Address address="0xc23Ea4b3fFA70DF89874ff65759031d78e40251d" />
+      <Address />
     </>
   );
 };
