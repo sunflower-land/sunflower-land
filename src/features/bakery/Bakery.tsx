@@ -1,8 +1,8 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-import blacksmith from "assets/buildings/blacksmith.png";
-import hammer from "assets/icons/hammer.png";
+import bakery from "assets/buildings/house.png";
+import soup from "assets/icons/bakery.png";
 
 import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
@@ -15,14 +15,14 @@ export const Bakery: React.FC = () => {
       className="z-10 absolute"
       // TODO some sort of coordinate system
       style={{
-        width: `${GRID_WIDTH_PX * 3}px`,
-        height: `${GRID_WIDTH_PX * 2.5}px`,
-        left: `calc(50% - ${GRID_WIDTH_PX * 1}px)`,
-        top: `calc(50% - ${GRID_WIDTH_PX * 11.3}px)`,
+        width: `${GRID_WIDTH_PX * 5}px`,
+        height: `${GRID_WIDTH_PX * 2.9}px`,
+        left: `calc(50% - ${GRID_WIDTH_PX * -13}px)`,
+        top: `calc(50% - ${GRID_WIDTH_PX * 17}px)`,
       }}
     >
       <img
-        src={blacksmith}
+        src={bakery}
         alt="market"
         onClick={() => setIsOpen(true)}
         className="cursor-pointer hover:img-highlight"
@@ -33,7 +33,7 @@ export const Bakery: React.FC = () => {
       <Action
         className="absolute -bottom-8 left-0"
         text="Bake"
-        icon={hammer}
+        icon={soup}
         onClick={() => setIsOpen(true)}
       />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
