@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "author": "developer@sunflower-land.com",
   "scripts": {
-    "dev": "set NODE_ENV=development && vite --port 3001",
+    "dev": "set NODE_ENV=development && vite --port 3000",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "generate": "graphql-codegen",
