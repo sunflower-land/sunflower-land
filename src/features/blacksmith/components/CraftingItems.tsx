@@ -34,7 +34,8 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
       (ingredient) =>
         (inventory[ingredient.item] || 0) < ingredient.amount * amount
     );
-  const lessFunds = (amount = 1) => state.balance < selected.price * amount;
+  const lessFunds = (amount = 1) =>
+    state.balance.lessThan(selected.price * amount);
 
   const craft = (amount = 1) => {
     gameService.send("item.crafted", {
@@ -86,7 +87,7 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
             isSelected={selected.name === item.name}
             key={item.name}
             onClick={() => setSelected(item)}
-            image={item.image}
+            image={ITEM_DETAILS[item.name].image}
             count={inventory[item.name]}
           />
         ))}
@@ -113,7 +114,7 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
             {selected.name}
           </span>
           <img
-            src={selected.image}
+            src={ITEM_DETAILS[selected.name].image}
             className="h-16 img-highlight mt-1"
             alt={selected.name}
           />

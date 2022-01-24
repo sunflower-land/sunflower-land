@@ -212,7 +212,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Christmas Tree": {
     ...NFTs["Christmas Tree"],
-    image: scarecrow,
+    image: christmasTree,
   },
   Gnome: {
     ...NFTs["Gnome"],
