@@ -2,6 +2,7 @@ import { GameState } from "../types/game";
 import { craft } from "./craft";
 
 let GAME_STATE: GameState = {
+  id: 1,
   fields: [],
   balance: 0,
   inventory: {},

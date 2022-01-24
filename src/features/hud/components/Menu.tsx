@@ -15,6 +15,7 @@ import { metamask } from "lib/blockchain/metamask";
 import * as Auth from "features/auth/lib/Provider";
 
 import { sync } from "features/game/actions/sync";
+import { Withdraw } from "./Withdraw";
 
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
@@ -22,6 +23,9 @@ export const Menu = () => {
 
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
+
+  const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
+
   const ref = useRef<HTMLDivElement>(null);
 
   const handleMenuClick = () => {
@@ -43,6 +47,11 @@ export const Menu = () => {
     // inside click
     if (ref?.current?.contains(e.target as Node)) return;
     // outside click
+    setMenuOpen(false);
+  };
+
+  const withdraw = () => {
+    setShowWithdrawModal(true);
     setMenuOpen(false);
   };
 
@@ -117,7 +126,7 @@ export const Menu = () => {
               </Button>
             </li>
             <li className="p-1">
-              <Button onClick={() => {}}>
+              <Button onClick={withdraw}>
                 <span className="text-sm">Withdraw</span>
                 <img src={token} className="w-4 ml-2" alt="token" />
               </Button>
@@ -125,6 +134,11 @@ export const Menu = () => {
           </ul>
         </div>
       </OuterPanel>
+
+      <Withdraw
+        isOpen={showWithdrawModal}
+        onClose={() => setShowWithdrawModal(false)}
+      />
     </div>
   );
 };

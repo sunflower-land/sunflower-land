@@ -1,5 +1,6 @@
+import Decimal from "decimal.js-light";
 import Web3 from "web3";
-import { AbiItem } from "web3-utils";
+import { AbiItem, toWei } from "web3-utils";
 import SunflowerLandABI from "./abis/SunflowerLand.json";
 
 /**
@@ -17,8 +18,7 @@ export class SunflowerLand {
     this.contract = new this.web3.eth.Contract(
       SunflowerLandABI as AbiItem[],
       // Testnet
-      //"0x5101CBCBe1b8D591950B0890609A080a5A1F0830"
-      "0x94D0B644ba90602f8fcA74904F72BC67C8FCab47"
+      "0x8206e986f7DE5e4eDe74bF75f6f5103D5045DCEf"
     );
   }
 
@@ -75,6 +75,7 @@ export class SunflowerLand {
         })
         .on("receipt", function (receipt: any) {
           console.log({ receipt });
+          resolve(receipt);
         });
     });
   }
@@ -102,6 +103,45 @@ export class SunflowerLand {
         })
         .on("receipt", function (receipt: any) {
           console.log({ receipt });
+          resolve(receipt);
+        });
+    });
+  }
+
+  public async withdraw({
+    farmId,
+    to,
+    ids,
+    amounts,
+    tokens,
+  }: {
+    farmId: number;
+    to: string;
+    ids: number[];
+    amounts: Decimal[];
+    tokens: Decimal;
+  }): Promise<string> {
+    const weiAmounts = amounts.map((amount) =>
+      toWei(amount.toString(), "ether")
+    );
+    const weiTokens = toWei(tokens.toString(), "ether");
+
+    console.log({ farmId, to, ids, amounts, tokens });
+    return new Promise(async (resolve, reject) => {
+      this.contract.methods
+        .withdraw(farmId, to, ids, weiAmounts, weiTokens)
+        .send({ from: this.account })
+        .on("error", function (error: any) {
+          console.log({ error });
+
+          reject(error);
+        })
+        .on("transactionHash", function (transactionHash: any) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt: any) {
+          console.log({ receipt });
+          resolve(receipt);
         });
     });
   }

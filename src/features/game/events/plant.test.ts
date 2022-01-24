@@ -6,6 +6,7 @@ const EMPTY_FIELDS: FieldItem[] = Array(22)
   .map((_, fieldIndex) => ({ fieldIndex }));
 
 let GAME_STATE: GameState = {
+  id: 1,
   fields: EMPTY_FIELDS,
   balance: 0,
   inventory: {},

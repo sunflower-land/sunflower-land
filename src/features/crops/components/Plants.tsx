@@ -10,6 +10,7 @@ import { Context } from "features/game/GameProvider";
 
 import { Crop, CROPS } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {}
 
@@ -42,7 +43,7 @@ export const Plants: React.FC<Props> = ({}) => {
             isSelected={selected.name === item.name}
             key={item.name}
             onClick={() => setSelected(item)}
-            image={item.images.shop}
+            image={ITEM_DETAILS[item.name].image}
             count={inventory[item.name]}
           />
         ))}
@@ -51,7 +52,7 @@ export const Plants: React.FC<Props> = ({}) => {
         <div className="flex flex-col justify-center items-center p-2 ">
           <span className="text-base text-shadow">{selected.name}</span>
           <img
-            src={selected.images.shop}
+            src={ITEM_DETAILS[selected.name].image}
             className="w-12"
             alt={selected.name}
           />

@@ -1,3 +1,4 @@
+import { Decimal } from "decimal.js-light";
 import { GameEvent } from "../events";
 
 import { CropName, SeedName } from "./crops";
@@ -26,9 +27,13 @@ type PastAction = GameEvent & {
 };
 
 export type GameState = {
-  balance: number;
+  balance: Decimal;
   fields: FieldItem[];
   inventory: Inventory;
+
+  // Session values
+  id: number;
+  address?: string;
 };
 
 export interface Context {

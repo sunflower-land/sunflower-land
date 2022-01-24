@@ -9,7 +9,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
-import { ITEM_DETAILS } from "features/game/types/items";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { Craftable } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 

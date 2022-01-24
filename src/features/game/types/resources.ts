@@ -1,32 +1,28 @@
-import stone from "assets/resources/stone.png";
-import wood from "assets/resources/wood.png";
-import egg from "assets/resources/egg.png";
-import iron from "assets/resources/iron_ore.png";
-import gold from "assets/resources/gold_ore.png";
-
-import { ItemDetails } from "./items";
-
 export type ResourceName = "Wood" | "Stone" | "Iron" | "Gold" | "Egg";
 
-export const RESOURCES: Record<ResourceName, ItemDetails> = {
+export type Resource = {
+  id: number;
+  description: string;
+};
+export const RESOURCES: Record<ResourceName, Resource> = {
   Wood: {
-    image: wood,
     description: "Used to craft items",
+    id: 301,
   },
   Stone: {
-    image: stone,
     description: "Used to craft items",
+    id: 302,
   },
   Iron: {
-    image: iron,
     description: "Used to craft items",
+    id: 303,
   },
   Gold: {
-    image: gold,
     description: "Used to craft items",
+    id: 304,
   },
   Egg: {
-    image: egg,
     description: "Used to craft items",
+    id: 305,
   },
 };

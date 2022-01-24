@@ -1,9 +1,12 @@
+import Decimal from "decimal.js-light";
+import { fromWei } from "web3-utils";
 import { GameState } from "../types/game";
 
 export const GRID_WIDTH_PX = 42;
 
 export const INITIAL_FARM: GameState = {
-  balance: 10,
+  id: 1,
+  balance: new Decimal(fromWei("2999999999999999990")),
   fields: [
     {
       fieldIndex: 0,
