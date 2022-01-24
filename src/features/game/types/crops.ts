@@ -172,7 +172,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     description: "A nutrious crop for any diet",
     price: 5,
     ingredients: [],
-    requires: "Cauliflower Rice",
+    requires: "Roasted Cauliflower",
   },
   "Radish Seed": {
     id: 209,
@@ -180,7 +180,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     description: "A nutrious crop for any diet",
     price: 7,
     ingredients: [],
-    requires: "Cauliflower Rice",
+    requires: "Roasted Cauliflower",
   },
   "Wheat Seed": {
     id: 210,

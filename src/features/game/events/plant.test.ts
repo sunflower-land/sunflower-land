@@ -101,7 +101,7 @@ describe("plant", () => {
       {
         ...GAME_STATE,
         inventory: {
-          "Cauliflower Rice": 1,
+          "Roasted Cauliflower": 1,
           "Pumpkin Seed": 2,
         },
       },

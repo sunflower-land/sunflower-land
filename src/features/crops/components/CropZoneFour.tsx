@@ -10,7 +10,7 @@ import { Panel } from "components/ui/Panel";
 import goblin from "assets/npcs/goblin_jump.gif";
 import goblinDig from "assets/npcs/goblin_dig.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
-import cauliflowerRice from "assets/nfts/cauliflower_rice.png";
+import cauliflowerRice from "assets/nfts/roasted_cauliflower.png";
 
 import { Field } from "./Field";
 
@@ -27,7 +27,7 @@ export const CropZoneFour: React.FC<Props> = () => {
 
   return (
     <>
-      {!state.inventory["Cauliflower Rice"] ? (
+      {!state.inventory["Roasted Cauliflower"] ? (
         <>
           <img
             src={goblinDig}
@@ -90,7 +90,7 @@ export const CropZoneFour: React.FC<Props> = () => {
             <img src={goblinHead} className="w-16 img-highlight mr-2" />
             <div className="flex-1">
               <span className="text-shadow block">
-                I will keep digging until I find Cauliflower rice
+                I will keep digging until I find some Cauliflowers to roast!
               </span>
               <img
                 src={cauliflowerRice}

@@ -43,7 +43,7 @@ import sunflowerStatue from "assets/nfts/sunflower_statue.png";
 import flour from "assets/crops/wheat/flour.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import cabbageSoup from "assets/nfts/cabbage_soup.png";
-import cauliflowerRice from "assets/nfts/cauliflower_rice.png";
+import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
 
 // Resources
 import stone from "assets/resources/stone.png";
@@ -244,9 +244,9 @@ export const ITEM_DETAILS: Items = {
     ...FOODS["Cabbage Soup"],
     image: cabbageSoup,
   },
-  "Cauliflower Rice": {
-    ...FOODS["Cauliflower Rice"],
-    image: cauliflowerRice,
+  "Roasted Cauliflower": {
+    ...FOODS["Roasted Cauliflower"],
+    image: roastedCaulfilower,
   },
   Flour: {
     ...FOODS["Flour"],

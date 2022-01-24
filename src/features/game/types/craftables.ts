@@ -47,7 +47,7 @@ export type Tool =
 export type Food =
   | "Flour"
   | "Pumpkin Soup"
-  | "Cauliflower Rice"
+  | "Roasted Cauliflower"
   | "Cabbage Soup";
 
 export const FOODS: Record<Food, Craftable> = {
@@ -76,10 +76,10 @@ export const FOODS: Record<Food, Craftable> = {
       },
     ],
   },
-  "Cauliflower Rice": {
+  "Roasted Cauliflower": {
     id: 503,
-    name: "Cauliflower Rice",
-    description: "Riced Cauliflower",
+    name: "Roasted Cauliflower",
+    description: "A Goblin's favourite",
     price: 0.1,
     ingredients: [
       {
