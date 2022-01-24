@@ -66,20 +66,17 @@ export const Welcome: React.FC = () => {
       {isLoading && <span className="text-shadow">Loading your farms...</span>}
       {!isLoading && (
         <>
-          {farm ? (
+          {farm && (
             <>
               <span className="text-shadow text-xs">{farm?.address}</span>
               <Button onClick={start} className="overflow-hidden">
                 Lets go!
               </Button>
             </>
-          ) : (
-            <>
-              <Button onClick={create} className="overflow-hidden">
-                Create a farm
-              </Button>
-            </>
           )}
+          <Button onClick={create} className="overflow-hidden">
+            Create a farm
+          </Button>
           <Button onClick={() => {}} disabled className="overflow-hidden">
             Explore a friend's farm
           </Button>
