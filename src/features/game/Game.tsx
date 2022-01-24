@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import { Hud } from "features/hud/Hud";
 import { Crops } from "features/crops/Crops";
 import { Blacksmith } from "features/blacksmith/Blacksmith";
+import { Bakery } from "features/bakery/Bakery";
 import { Water } from "features/water/Water";
 
 import { Context } from "./GameProvider";
@@ -22,6 +23,7 @@ export const Game: React.FC = () => {
       <Hud />
 
       <Blacksmith />
+        <Bakery />
       <Crops />
       <Water />
     </>
