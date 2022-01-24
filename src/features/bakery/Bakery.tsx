@@ -15,8 +15,8 @@ export const Bakery: React.FC = () => {
       className="z-10 absolute"
       // TODO some sort of coordinate system
       style={{
-        width: `${GRID_WIDTH_PX * 10}px`,
-        height: `${GRID_WIDTH_PX * 4.9}px`,
+        width: `${GRID_WIDTH_PX * 100}px`,
+        height: `${GRID_WIDTH_PX * 5.2}px`,
         left: `calc(50% - ${GRID_WIDTH_PX * -12}px)`,
         top: `calc(50% - ${GRID_WIDTH_PX * 19}px)`,
       }}
@@ -27,12 +27,12 @@ export const Bakery: React.FC = () => {
         onClick={() => setIsOpen(true)}
         className="cursor-pointer hover:img-highlight"
         style={{
-          width: "250px",
-          height: "250px",
+          width: "300px",
+          height: "300px",
         }}
       />
       <Action
-        className="absolute -bottom-10 left-20"
+        className="relative bottom-9 left-28"
         text="Bake"
         icon={soup}
         onClick={() => setIsOpen(true)}
