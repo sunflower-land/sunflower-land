@@ -55,8 +55,8 @@ export const CropZoneFour: React.FC<Props> = () => {
             src={cauliflowerRice}
             className="absolute "
             style={{
-              width: `${GRID_WIDTH_PX * 0.5}px`,
-              left: `${GRID_WIDTH_PX * 5.5}px`,
+              width: `${GRID_WIDTH_PX * 0.8}px`,
+              left: `${GRID_WIDTH_PX * 5.3}px`,
               top: `${GRID_WIDTH_PX * -1.5}px`,
             }}
           />
