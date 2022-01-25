@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
+import Modal from "react-bootstrap/Modal";
 
 import * as Auth from "features/auth/lib/Provider";
 
@@ -7,6 +8,9 @@ import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
 import { createFarm } from "../actions/createFarm";
+
+import jumpingGoblin from "assets/npcs/goblin_jump.gif";
+import { Charity } from "./Charity";
 
 type Farm = {
   id: number;
@@ -18,7 +22,8 @@ export const Welcome: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState, send] = useActor(authService);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showDonation, setShowDonation] = useState(false);
   const [farm, setFarm] = useState<Farm>();
 
   useEffect(() => {
@@ -61,27 +66,45 @@ export const Welcome: React.FC = () => {
     send("FARM_CREATED");
   };
 
+  const donate = async () => {
+    // TODO: implement donation logic
+    setShowDonation(false);
+    await create();
+  };
+
   return (
-    <Panel>
-      {isLoading && <span className="text-shadow">Loading your farms...</span>}
-      {!isLoading && (
-        <>
-          {farm && (
-            <>
-              <span className="text-shadow text-xs">{farm?.address}</span>
-              <Button onClick={start} className="overflow-hidden">
-                Lets go!
-              </Button>
-            </>
-          )}
-          <Button onClick={create} className="overflow-hidden">
-            Create a farm
-          </Button>
-          <Button onClick={() => {}} disabled className="overflow-hidden">
-            Explore a friend's farm
-          </Button>
-        </>
-      )}
-    </Panel>
+    <div className="relative">
+      <img src={jumpingGoblin} className="absolute w-52 -top-11 -z-10" />
+      <Panel className="p-1 mt-10">
+        {isLoading && (
+          <span className="text-shadow">Loading your farms...</span>
+        )}
+        {!isLoading && (
+          <div className="p-1">
+            {farm && (
+              <>
+                <span className="text-shadow text-xs">{farm?.address}</span>
+                <Button onClick={start} className="overflow-hidden">
+                  Lets go!
+                </Button>
+              </>
+            )}
+            <Button
+              onClick={() => setShowDonation(true)}
+              className="overflow-hidden mb-2"
+            >
+              Create a farm
+            </Button>
+            <Button onClick={() => {}} disabled className="overflow-hidden">
+              Explore a friend's farm
+            </Button>
+          </div>
+        )}
+      </Panel>
+
+      <Modal centered show={showDonation} backdrop={false}>
+        <Charity onDonate={donate} />
+      </Modal>
+    </div>
   );
 };
