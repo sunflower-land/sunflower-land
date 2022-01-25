@@ -12,7 +12,7 @@ import {FieldItem} from "features/game/types/game";
 
 
 interface AppIconContext {
-  updateHarvestable: (value: number) => void,
+  updateHarvestable: () => void,
 }
 
 export const AppIconContext = React.createContext<AppIconContext>({} as AppIconContext);
