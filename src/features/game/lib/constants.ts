@@ -115,5 +115,6 @@ export const INITIAL_FARM: GameState = {
     "Sunflower Seed": 3,
     "Pumpkin Soup": 1,
     "Roasted Cauliflower": 1,
+    Sauerkraut: 1,
   },
 };

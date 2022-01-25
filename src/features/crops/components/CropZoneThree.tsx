@@ -10,7 +10,7 @@ import { Panel } from "components/ui/Panel";
 import goblin from "assets/npcs/goblin.gif";
 import goblinWatering from "assets/npcs/goblin_watering.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
-import cabbageSoup from "assets/nfts/cabbage_soup.png";
+import cabbageSoup from "assets/nfts/saurrerkrat.png";
 
 import { Field } from "./Field";
 
@@ -27,7 +27,7 @@ export const CropZoneThree: React.FC<Props> = () => {
 
   return (
     <>
-      {!state.inventory["Cabbage Soup"] ? (
+      {!state.inventory["Sauerkraut"] ? (
         <>
           <img
             src={goblinWatering}
@@ -55,7 +55,7 @@ export const CropZoneThree: React.FC<Props> = () => {
             src={cabbageSoup}
             className="absolute "
             style={{
-              width: `${GRID_WIDTH_PX * 0.5}px`,
+              width: `${GRID_WIDTH_PX * 0.3}px`,
               left: `${GRID_WIDTH_PX * 5}px`,
               top: `${GRID_WIDTH_PX * -1.5}px`,
             }}

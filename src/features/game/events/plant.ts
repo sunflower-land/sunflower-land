@@ -39,7 +39,7 @@ export function plant(state: GameState, action: PlantAction) {
   if (
     action.index >= 10 &&
     action.index <= 15 &&
-    !state.inventory["Cabbage Soup"]
+    !state.inventory["Sauerkraut"]
   ) {
     throw new Error("Goblin land!");
   }

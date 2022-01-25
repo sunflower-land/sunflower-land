@@ -60,12 +60,12 @@ describe("plant", () => {
     ).toThrow("Goblin land!");
   });
 
-  it("plants if they have cabbage soup", () => {
+  it("plants if they have Sauerkraut", () => {
     const state = plant(
       {
         ...GAME_STATE,
         inventory: {
-          "Cabbage Soup": 1,
+          Sauerkraut: 1,
           "Pumpkin Seed": 2,
         },
       },
