@@ -16,7 +16,6 @@ export const Player: React.FC = () => {
   const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
   const musicPlayer = useRef<any>(null)
-  
 
   const handlePlayState = () => {
     if (musicPlayer.current.paused) {
