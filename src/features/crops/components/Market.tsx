@@ -24,6 +24,7 @@ export const Market: React.FC = () => {
         src={market}
         alt="market"
         onClick={() => setIsOpen(true)}
+        style={{ filter: 'drop-shadow(-2px 5px 3px rgb(0, 0, 0, .4))' }}
         className="cursor-pointer w-full hover:img-highlight"
       />
       <Action

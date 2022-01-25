@@ -26,6 +26,7 @@ export default defineConfig({
   css: {
     modules: {},
   },
+  base: "./",
   build: {
     chunkSizeWarningLimit: 1000,
     assetsDir: "assets",

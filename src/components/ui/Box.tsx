@@ -51,7 +51,10 @@ export const Box: React.FC<BoxProps> = ({
         )}
       </div>
       {isSelected && (
-        <img className="absolute w-14 h-14 top-0.5 left-0.5" src={selectBox} />
+        <img
+          className="absolute w-14 h-14 top-0.5 left-0.5 pointer-events-none"
+          src={selectBox}
+        />
       )}
     </div>
   );

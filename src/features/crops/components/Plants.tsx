@@ -8,22 +8,32 @@ import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
 
-import { Crop, CROPS } from "../lib/crops";
+import { Crop, CROPS } from "features/game/types/crops";
+import { useActor } from "@xstate/react";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {}
 
 export const Plants: React.FC<Props> = ({}) => {
   const [selected, setSelected] = useState<Crop>(CROPS.Sunflower);
 
-  const { state, dispatcher } = useContext(Context);
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
   const inventory = state.inventory;
 
-  const sell = () => {
-    dispatcher({
-      type: "item.sell",
+  const sell = (amount = 1) => {
+    gameService.send("item.sell", {
       item: selected.name,
+      amount,
     });
   };
+
+  const lessPlants = (amount = 1) => (inventory[selected.name] || 0) < amount;
 
   return (
     <div className="flex">
@@ -33,7 +43,7 @@ export const Plants: React.FC<Props> = ({}) => {
             isSelected={selected.name === item.name}
             key={item.name}
             onClick={() => setSelected(item)}
-            image={item.images.shop}
+            image={ITEM_DETAILS[item.name].image}
             count={inventory[item.name]}
           />
         ))}
@@ -42,7 +52,7 @@ export const Plants: React.FC<Props> = ({}) => {
         <div className="flex flex-col justify-center items-center p-2 ">
           <span className="text-base text-shadow">{selected.name}</span>
           <img
-            src={selected.images.shop}
+            src={ITEM_DETAILS[selected.name].image}
             className="w-12"
             alt={selected.name}
           />
@@ -59,11 +69,18 @@ export const Plants: React.FC<Props> = ({}) => {
             </div>
           </div>
           <Button
-            disabled={!inventory[selected.name]}
+            disabled={lessPlants()}
             className="text-xs mt-1"
-            onClick={sell}
+            onClick={() => sell()}
           >
-            Sell
+            Sell 1
+          </Button>
+          <Button
+            disabled={lessPlants(10)}
+            className="text-xs mt-1"
+            onClick={() => sell(10)}
+          >
+            Sell 10
           </Button>
         </div>
       </OuterPanel>

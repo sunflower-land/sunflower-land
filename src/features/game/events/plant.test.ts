@@ -1,21 +1,20 @@
-import { FieldItem, GameState } from "../GameProvider";
-
+import Decimal from "decimal.js-light";
+import { FieldItem, GameState } from "../types/game";
 import { plant } from "./plant";
 
-const EMPTY_FIELDS: FieldItem[] = Array(20)
+const EMPTY_FIELDS: FieldItem[] = Array(22)
   .fill(null)
   .map((_, fieldIndex) => ({ fieldIndex }));
 
 let GAME_STATE: GameState = {
+  id: 1,
   fields: EMPTY_FIELDS,
-  actions: [],
-  balance: 0,
+  balance: new Decimal(0),
   inventory: {},
-  level: 1,
 };
 
 describe("plant", () => {
-  it("does not plant if goblins are around", () => {
+  it("does not plant if first goblin is around", () => {
     expect(() =>
       plant(GAME_STATE, {
         type: "item.planted",
@@ -45,9 +44,81 @@ describe("plant", () => {
     expect(state.fields[6]).toEqual({
       crop: {
         name: "Potato",
-        plantedAt: expect.any(Date),
+        plantedAt: expect.any(Number),
       },
       fieldIndex: 6,
+    });
+  });
+
+  it("does not plant if second goblin is around", () => {
+    expect(() =>
+      plant(GAME_STATE, {
+        type: "item.planted",
+        index: 11,
+        item: "Sunflower Seed",
+      })
+    ).toThrow("Goblin land!");
+  });
+
+  it("plants if they have cabbage soup", () => {
+    const state = plant(
+      {
+        ...GAME_STATE,
+        inventory: {
+          "Cabbage Soup": 1,
+          "Pumpkin Seed": 2,
+        },
+      },
+      {
+        type: "item.planted",
+        index: 12,
+        item: "Pumpkin Seed",
+      }
+    );
+
+    expect(state.inventory["Pumpkin Seed"]).toEqual(1);
+    expect(state.fields[12]).toEqual({
+      crop: {
+        name: "Pumpkin",
+        plantedAt: expect.any(Number),
+      },
+      fieldIndex: 12,
+    });
+  });
+
+  it("does not plant if third goblin is around", () => {
+    expect(() =>
+      plant(GAME_STATE, {
+        type: "item.planted",
+        index: 11,
+        item: "Sunflower Seed",
+      })
+    ).toThrow("Goblin land!");
+  });
+
+  it("plants if they have cauliflower rice", () => {
+    const state = plant(
+      {
+        ...GAME_STATE,
+        inventory: {
+          "Roasted Cauliflower": 1,
+          "Pumpkin Seed": 2,
+        },
+      },
+      {
+        type: "item.planted",
+        index: 20,
+        item: "Pumpkin Seed",
+      }
+    );
+
+    expect(state.inventory["Pumpkin Seed"]).toEqual(1);
+    expect(state.fields[20]).toEqual({
+      crop: {
+        name: "Pumpkin",
+        plantedAt: expect.any(Number),
+      },
+      fieldIndex: 20,
     });
   });
 
@@ -61,7 +132,7 @@ describe("plant", () => {
               fieldIndex: 0,
               crop: {
                 name: "Sunflower",
-                plantedAt: new Date(),
+                plantedAt: Date.now(),
               },
             },
           ],
@@ -119,7 +190,7 @@ describe("plant", () => {
         {
           crop: {
             name: "Sunflower",
-            plantedAt: expect.any(Date),
+            plantedAt: expect.any(Number),
           },
           fieldIndex: 0,
         },

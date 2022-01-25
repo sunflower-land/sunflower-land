@@ -1,12 +1,15 @@
+import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";
-import { Context, InventoryItemName } from "features/game/GameProvider";
-import { ITEM_DETAILS } from "features/game/lib/items";
+import { Context } from "features/game/GameProvider";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { InventoryItemName } from "features/game/types/game";
 import React, { useContext, useState } from "react";
 
 export const InventoryItems: React.FC = () => {
-  const { state, selectedItem, shortcutItem } = useContext(Context);
-  const inventory = state.inventory;
+  const { gameService, selectedItem, shortcutItem } = useContext(Context);
+  const [game] = useActor(gameService);
+  const inventory = game.context.state.inventory;
 
   const items = Object.keys(inventory) as InventoryItemName[];
   const validItems = items.filter((itemName) => !!inventory[itemName]);

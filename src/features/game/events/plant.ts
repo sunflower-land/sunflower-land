@@ -1,5 +1,5 @@
-import { CropName, SeedName } from "features/crops/lib/crops";
-import { GameState, InventoryItemName } from "../GameProvider";
+import { CropName, SeedName } from "../types/crops";
+import { GameState, InventoryItemName } from "../types/game";
 
 export type PlantAction = {
   type: "item.planted";
@@ -28,7 +28,27 @@ function isSeed(crop: InventoryItemName): crop is SeedName {
 export function plant(state: GameState, action: PlantAction) {
   const fields = state.fields;
 
-  if (action.index > 4 && !state.inventory["Pumpkin Soup"]) {
+  if (
+    action.index >= 5 &&
+    action.index <= 9 &&
+    !state.inventory["Pumpkin Soup"]
+  ) {
+    throw new Error("Goblin land!");
+  }
+
+  if (
+    action.index >= 10 &&
+    action.index <= 15 &&
+    !state.inventory["Cabbage Soup"]
+  ) {
+    throw new Error("Goblin land!");
+  }
+
+  if (
+    action.index >= 16 &&
+    action.index <= 21 &&
+    !state.inventory["Roasted Cauliflower"]
+  ) {
     throw new Error("Goblin land!");
   }
 
@@ -57,7 +77,7 @@ export function plant(state: GameState, action: PlantAction) {
   newFields[action.index] = {
     ...newFields[action.index],
     crop: {
-      plantedAt: new Date(),
+      plantedAt: Date.now(),
       name: crop,
     },
   };
