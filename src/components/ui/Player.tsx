@@ -12,7 +12,7 @@ import {getSong, getSongCount} from 'assets/songs/playlist'
 
 export const Player: React.FC = () => {
   const [volume, setVolume] = useState<number>(0.8);
-  const [visible, setIsVisible] = useState<boolean>(true);
+  const [visible, setIsVisible] = useState<boolean>(false);
   const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
   const musicPlayer = useRef<any>(null)
