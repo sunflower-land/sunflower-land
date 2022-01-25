@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
-import { Panel } from "../../../components/ui/Panel";
-import { Label } from "components/ui/Label";
+import {Panel} from "../../../components/ui/Panel";
+import {Label} from "components/ui/Label";
 
 import player from "assets/icons/player.png";
 import arrowLeft from "assets/icons/arrow_left.png";
@@ -15,7 +15,7 @@ export const shortAddress = (address: string): string => {
   return `${address.slice(0, 5)}...${address.slice(-4)}`;
 };
 
-export const Address: React.FC<Props> = ({ address }) => {
+export const Address: React.FC<Props> = ({address}) => {
   const [tooltipMessage, setTooltipMessage] = useState("Click to copy");
   const [showAddress, setShowAddress] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
@@ -38,7 +38,7 @@ export const Address: React.FC<Props> = ({ address }) => {
     <div className="fixed bottom-2 right-2 z-50  shadow-lg">
       <Panel>
         <div className="flex items-center">
-          <img src={player} className="h-8 mr-2 z-50" />
+          <img src={player} className="h-8 mr-2 z-50"/>
 
           <span
             onMouseEnter={handleMouseEnter}
@@ -62,7 +62,7 @@ export const Address: React.FC<Props> = ({ address }) => {
           />
         </div>
         <div
-          className={`absolute mr-5 bottom-20 -right-[1rem] transition ${
+          className={`absolute mr-5 bottom-20 -right-[1rem] transition pointer-events-none ${
             showLabel ? "opacity-100" : "opacity-0"
           }`}
         >
