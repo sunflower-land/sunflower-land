@@ -5,12 +5,13 @@ import Modal from "react-bootstrap/Modal";
 import * as Auth from "features/auth/lib/Provider";
 
 import { Panel } from "components/ui/Panel";
+import { Charity } from "./Charity";
 import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
 import { createFarm } from "../actions/createFarm";
 
 import jumpingGoblin from "assets/npcs/goblin_jump.gif";
-import { Charity } from "./Charity";
+import curly from "assets/npcs/curly_hair.png";
 
 type Farm = {
   id: number;
