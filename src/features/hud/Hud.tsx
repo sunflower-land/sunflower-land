@@ -1,9 +1,10 @@
 import React from "react";
 
-import { Balance } from "./components/Balance";
-import { Inventory } from "./components/Inventory";
-import { Menu } from "./components/Menu";
-import { Address } from "./components/Address";
+import {Balance} from "./components/Balance";
+import {Inventory} from "./components/Inventory";
+import {Menu} from "./components/Menu";
+import {Address} from "./components/Address";
+import {Player} from "components/ui/Player";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -12,11 +13,12 @@ import { Address } from "./components/Address";
 export const Hud: React.FC = () => {
   return (
     <>
-      <Menu />
-      <Balance />
-      <Inventory />
+      <Menu/>
+      <Balance/>
+      <Inventory/>
       {/* TODO: Pass actual address */}
-      <Address address="0xc23Ea4b3fFA70DF89874ff65759031d78e40251d" />
+      <Player/>
+      <Address address="0xc23Ea4b3fFA70DF89874ff65759031d78e40251d"/>
     </>
   );
 };
