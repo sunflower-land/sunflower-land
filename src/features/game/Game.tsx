@@ -9,6 +9,7 @@ import { Water } from "features/water/Water";
 import { Context } from "./GameProvider";
 import { useActor } from "@xstate/react";
 import { Panel } from "components/ui/Panel";
+import { ToastManager } from "./toast/ToastManager";
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -16,6 +17,7 @@ export const Game: React.FC = () => {
 
   return (
     <>
+      <ToastManager />
       <Modal show={gameState.matches("loading")} centered>
         <Panel>Loading...</Panel>
       </Modal>
