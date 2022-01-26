@@ -54,6 +54,8 @@ export const Navigation: React.FC = () => {
     authState.matches("connecting") ||
     authState.matches("signing");
 
+  console.log(authState.value);
+
   const showGame =
     authState.matches("authorised") || authState.matches("visiting");
   return (
