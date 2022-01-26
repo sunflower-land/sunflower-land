@@ -26,6 +26,14 @@ const isHarvestable = (field: FieldItem) : boolean => {
   return timeLeft <= 0;
 }
 
+const debounce = (func: Function, timeout: number = 300) => {
+  let timer: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+  };
+}
+
 export const AppIconProvider: React.FC = ({ children }) => {
   const { gameService } = useContext(Context);
   const [
@@ -34,10 +42,11 @@ export const AppIconProvider: React.FC = ({ children }) => {
     },
   ] = useActor(gameService);
 
-  const updateHarvestable = () : void => {
+  const updateHarvestable = debounce(() : void => {
+    console.log(Date.now(), 'Update')
     const total = state.fields.filter(isHarvestable).length;
     Tinycon.setBubble(total || null);
-  }
+  })
 
   return (
     <AppIconContext.Provider value={{ updateHarvestable }}>
