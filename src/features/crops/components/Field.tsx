@@ -65,7 +65,6 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
         }
 
         setToast({content: "Item planted"});
-        console.log({content: "Item planted"});
 
         displayPopover(
           <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
@@ -93,6 +92,8 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
         index: field.fieldIndex,
       });
       incrementHarvestable(-1);
+
+      setToast({content: "Item harvested"});
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">

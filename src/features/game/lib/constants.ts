@@ -6,7 +6,7 @@ export const GRID_WIDTH_PX = 42;
 
 export const INITIAL_FARM: GameState = {
   id: 1,
-  balance: new Decimal(fromWei("2999999999999999990")),
+  balance: new Decimal(fromWei("5999999999999999990")),
   fields: [
     {
       fieldIndex: 0,

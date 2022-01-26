@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 
 import { ToastContext } from './ToastQueueProvider';
-import { ToastItem } from './ToastItem';
 
 export const ToastManager = () => {
   const { toastList, removeToast } = useContext(ToastContext);
