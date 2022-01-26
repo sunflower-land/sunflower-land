@@ -14,7 +14,7 @@ export const Balance: React.FC = () => {
   const [isShown, setIsShown] = useState(false);
 
   return (
-    <InnerPanel className="fixed top-2 right-2 z-50 flex items-center shadow-lg">
+    <InnerPanel className="fixed top-2 right-2 z-50 flex items-center shadow-lg cursor-pointer">
       <img src={token} className="w-8 img-highlight" />
       <span
         className="text-white text-sm text-shadow ml-2"
