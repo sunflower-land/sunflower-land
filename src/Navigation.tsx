@@ -8,9 +8,6 @@ import { Unauthorised } from "features/auth/Unauthorised";
 import { Session } from "features/game/Session";
 import { Welcome } from "features/auth/components/Welcome";
 import { Splash } from "features/auth/components/Splash";
-import jumpingGoblin from "assets/npcs/goblin_jump.gif";
-import curlyHair from "assets/npcs/curly_hair.png";
-import { Charity } from "features/auth/components/Charity";
 
 /**
  * Entry point for game which reflects the user session state
