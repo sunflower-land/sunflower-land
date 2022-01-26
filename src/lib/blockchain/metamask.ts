@@ -2,7 +2,11 @@ import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { sha3 } from "web3-utils";
 import { LegacyFarm } from "./Legacy";
+import { SunflowerLand } from "./SunflowerLand";
+import { Farm } from "./Farm";
 
+const POLYGON_CHAIN_ID = 137;
+const POLYGON_TESTNET_CHAIN_ID = 80001;
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
@@ -10,12 +14,20 @@ export class Metamask {
   private web3: Web3 | null = null;
 
   private legacyFarm: LegacyFarm | null = null;
+  private farm: Farm | null = null;
+  private sunflowerLand: SunflowerLand | null = null;
 
   private account: string | null = null;
 
   private async initialiseContracts() {
     try {
-      this.legacyFarm = new LegacyFarm(
+      // this.legacyFarm = new LegacyFarm(
+      //   this.web3 as Web3,
+      //   this.account as string
+      // );
+
+      this.farm = new Farm(this.web3 as Web3, this.account as string);
+      this.sunflowerLand = new SunflowerLand(
         this.web3 as Web3,
         this.account as string
       );
@@ -61,19 +73,18 @@ export class Metamask {
   public async initialise(retryCount = 0): Promise<void> {
     try {
       // It is actually quite fast, we won't to simulate slow loading to convey complexity
-      console.log("lets go!");
       await this.setupWeb3();
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();
-
-      if (chainId !== 137) {
+      if (
+        !(chainId === POLYGON_CHAIN_ID || chainId === POLYGON_TESTNET_CHAIN_ID)
+      ) {
         throw new Error(ERRORS.WRONG_CHAIN);
       }
 
       await this.initialiseContracts();
     } catch (e: any) {
-      console.log({ e });
       // If it is a user error, we don't want to retry
       if (e.message === ERRORS.WRONG_CHAIN || e.message === ERRORS.NO_WEB3) {
         throw e;
@@ -90,27 +101,42 @@ export class Metamask {
     }
   }
 
-  public async signTransaction() {
+  public async signTransaction(data: string) {
     if (!this.web3) {
       throw new Error(ERRORS.NO_WEB3);
     }
 
-    const stringToHash = "Hello";
-    const hash = sha3(stringToHash) as string;
+    const hash = sha3(data) as string;
     const signature = await this.web3.eth.personal.sign(
       hash,
       this.account as string,
-      "dog"
+      // Empty password, handled by Metamask
+      ""
     );
 
     // Example of verifying a transaction on the backend
     //const signingAddress = this.web3.eth.accounts.recover(hash, signature);
 
-    return signature;
+    return {
+      signature,
+      hash,
+    };
   }
 
   public getLegacyFarm() {
     return this.legacyFarm;
+  }
+
+  public getFarm() {
+    return this.farm as Farm;
+  }
+
+  public getSunflowerLand() {
+    return this.sunflowerLand as SunflowerLand;
+  }
+
+  public get myAccount() {
+    return this.account;
   }
 }
 

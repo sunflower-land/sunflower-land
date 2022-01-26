@@ -39,8 +39,8 @@ export function secondsToLongString(time: number) {
     .join(" ");
 }
 
-export function getTimeLeft(createdAt: Date, totalTime: number) {
-  const millisecondsElapsed = Date.now() - createdAt.getTime();
+export function getTimeLeft(createdAt: number, totalTime: number) {
+  const millisecondsElapsed = Date.now() - createdAt;
   if (millisecondsElapsed > totalTime * 1000) {
     return 0;
   }

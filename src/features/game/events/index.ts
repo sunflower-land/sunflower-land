@@ -1,9 +1,9 @@
-import { GameState } from "../GameProvider";
-
 import { craft, CraftAction } from "./craft";
 import { sell, SellAction } from "./sell";
 import { plant, PlantAction } from "./plant";
 import { harvest, HarvestAction } from "./harvest";
+
+import { GameState } from "../types/game";
 
 export type GameEvent = CraftAction | SellAction | PlantAction | HarvestAction;
 
@@ -20,7 +20,7 @@ type Handlers = {
   ) => GameState;
 };
 
-const EVENTS: Handlers = {
+export const EVENTS: Handlers = {
   "item.planted": plant,
   "item.harvested": harvest,
   "item.crafted": craft,

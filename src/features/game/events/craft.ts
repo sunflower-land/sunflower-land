@@ -1,34 +1,10 @@
-import { NFT, NFTs, Tool, TOOLS } from "features/blacksmith/lib/craftables";
-import { SeedName, SEEDS } from "features/crops/lib/crops";
-import { GameState, InventoryItemName } from "../GameProvider";
+import { CraftableName, CRAFTABLES } from "../types/craftables";
+import { GameState, InventoryItemName } from "../types/game";
 
 export type CraftAction = {
   type: "item.crafted";
   item: InventoryItemName;
-};
-
-export type CraftableName = NFT | Tool | SeedName;
-
-export type Craftable = {
-  name: CraftableName;
-  image: any;
-  description: string;
-  price: number;
-  ingredients: {
-    item: InventoryItemName;
-    amount: number;
-  }[];
-  limit?: number;
-  amountLeft?: number;
-  disabled?: boolean;
-  type?: "NFT";
-  requires?: InventoryItemName;
-};
-
-export const CRAFTABLES: Record<CraftableName, Craftable> = {
-  ...TOOLS,
-  ...NFTs,
-  ...SEEDS,
+  amount: number;
 };
 
 function isCraftable(item: InventoryItemName): item is CraftableName {
@@ -41,27 +17,29 @@ export function craft(state: GameState, action: CraftAction) {
   }
 
   const item = CRAFTABLES[action.item];
+  const totalExpenses = item.price * action.amount;
 
   const isLocked = item.requires && !state.inventory[item.requires];
   if (isLocked) {
     throw new Error(`Missing ${item.requires}`);
   }
 
-  if (state.balance < item.price) {
+  if (state.balance.lessThan(totalExpenses)) {
     throw new Error("Insufficient tokens");
   }
 
   const subtractedInventory = item.ingredients.reduce(
     (inventory, ingredient) => {
       const count = inventory[ingredient.item] || 0;
+      const totalAmount = ingredient.amount * action.amount;
 
-      if (count < ingredient.amount) {
+      if (count < totalAmount) {
         throw new Error(`Insufficient ingredient: ${ingredient.item}`);
       }
 
       return {
         ...inventory,
-        [ingredient.item]: count - ingredient.amount,
+        [ingredient.item]: count - totalAmount,
       };
     },
     state.inventory
@@ -69,10 +47,10 @@ export function craft(state: GameState, action: CraftAction) {
 
   return {
     ...state,
-    balance: state.balance - item.price,
+    balance: state.balance.sub(totalExpenses),
     inventory: {
       ...subtractedInventory,
-      [action.item]: (state.inventory[action.item] || 0) + 1,
+      [action.item]: (state.inventory[action.item] || 0) + action.amount,
     },
   };
 }

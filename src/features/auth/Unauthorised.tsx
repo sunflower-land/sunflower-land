@@ -18,11 +18,6 @@ export const Unauthorised: React.FC<Props> = () => {
   const { authService } = useContext(Auth.Context);
   const [authState, send] = useActor(authService);
 
-  const onGetStarted = () => {
-    console.log("Lets go!");
-  };
-
-  console.log({ Login: authState.context.errorCode });
   if (authState.context.errorCode === "NO_WEB3") {
     return (
       <Panel>
