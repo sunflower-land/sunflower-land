@@ -1,4 +1,5 @@
 import { metamask } from "lib/blockchain/metamask";
+import { CharityAddress } from "../components/Donation";
 
 type Request = {
   charity: string;
@@ -24,17 +25,17 @@ export async function signTransaction(request: Request) {
   return signature;
 }
 
-export async function createFarm() {
+export async function createFarm(charity: CharityAddress, donation: number) {
   const signature = await signTransaction({
-    donation: 0,
-    charity: "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377",
+    donation,
+    charity,
     address: metamask.myAccount as string,
   });
 
   console.log({
     signature,
-    donation: 0,
-    charity: "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377",
+    donation,
+    charity,
     address: metamask.myAccount as string,
   });
 

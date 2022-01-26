@@ -7,29 +7,45 @@ import question from "assets/icons/expression_confused.png";
 
 const roundToOneDecimal = (number: number) => Math.round(number * 10) / 10;
 
+export enum CharityAddress {
+  TheWaterProject = "0x060697E9d4EEa886EbeCe57A974Facd53A40865B",
+  Heifer = "0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1",
+  CoolEarth = "0x3c8cB169281196737c493AfFA8F49a9d823bB9c5",
+}
+
+interface Charity {
+  name: string;
+  info: string;
+  url: string;
+  address: CharityAddress;
+}
+
 const CHARITIES = [
   {
     name: "The Water Project",
     info: "You can provide clean, safe and reliable water today.",
     url: "https://thewaterproject.org/donate-ethereum",
+    address: CharityAddress.TheWaterProject,
   },
   {
     name: "The Heifer Project",
     info: "We do more than train farmers. We grow incomes.",
     url: "https://www.heifer.org/give/other/digital-currency.html",
+    address: CharityAddress.Heifer,
   },
   {
     name: "Cool Earth",
     info: "Aim to halt deforestation and its impact on climate change.",
     url: "https://www.coolearth.org/cryptocurrency-donations/",
+    address: CharityAddress.CoolEarth,
   },
 ];
 
 interface Props {
-  onDonate: () => void;
+  onDonate: (charityAddress: CharityAddress, donation: number) => void;
 }
 
-export const Charity: React.FC<Props> = ({ onDonate }) => {
+export const Donation: React.FC<Props> = ({ onDonate }) => {
   const [donation, setDonation] = React.useState(0.3);
 
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,8 +67,8 @@ export const Charity: React.FC<Props> = ({ onDonate }) => {
     window.open(url);
   };
 
-  const onDonateAndPlayClick = () => {
-    onDonate();
+  const onDonateAndPlayClick = (charityAddress: CharityAddress) => {
+    onDonate(charityAddress, donation);
   };
 
   // TODO: Connect Donate and Play
@@ -92,7 +108,7 @@ export const Charity: React.FC<Props> = ({ onDonate }) => {
           Minumum of 0.1 MATIC
         </span>
       </div>
-      {CHARITIES.map(({ name, info, url }) => (
+      {CHARITIES.map(({ name, info, url, address }) => (
         <OuterPanel key={url} className="flex flex-col mt-4 last:mb-1">
           <div className="flex flex-col items-center mb-3">
             <h5 className="text-sm text-shadow underline mb-3">{name}</h5>
@@ -104,7 +120,10 @@ export const Charity: React.FC<Props> = ({ onDonate }) => {
               <span className="text-xs mr-1">About</span>
               <img src={question} className="scale-110" alt="question-mark" />
             </Button>
-            <Button className="w-full ml-1" onClick={onDonateAndPlayClick}>
+            <Button
+              className="w-full ml-1"
+              onClick={() => onDonateAndPlayClick(address)}
+            >
               <span className="text-xs whitespace-nowrap">Donate & Play</span>
             </Button>
           </div>

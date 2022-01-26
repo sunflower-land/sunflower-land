@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import * as Auth from "features/auth/lib/Provider";
 
 import { Panel } from "components/ui/Panel";
-import { Charity } from "./Charity";
+import { CharityAddress, Donation } from "./Donation";
 import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
 import { createFarm } from "../actions/createFarm";
@@ -62,19 +62,26 @@ export const Welcome: React.FC = () => {
     });
   };
 
-  const create = async () => {
-    await createFarm();
+  const create = async (charityAddress: CharityAddress, donation: number) => {
+    await createFarm(charityAddress, donation);
     send("FARM_CREATED");
   };
 
-  const donate = async () => {
+  const donate = async (charityAddress: CharityAddress, donation: number) => {
     // TODO: implement donation logic
     setShowDonation(false);
-    await create();
+    await create(charityAddress, donation);
   };
 
   return (
     <div className="relative">
+      <div className="relative w-full h-full">
+        <img
+          id="curly"
+          src={curly}
+          className="absolute w-54 -top-1 right-4 -z-10 scale-[4]"
+        />
+      </div>
       <img src={jumpingGoblin} className="absolute w-52 -top-11 -z-10" />
       <Panel className="p-1 mt-10">
         {isLoading && (
@@ -104,7 +111,7 @@ export const Welcome: React.FC = () => {
       </Panel>
 
       <Modal centered show={showDonation} backdrop={false}>
-        <Charity onDonate={donate} />
+        <Donation onDonate={donate} />
       </Modal>
     </div>
   );
