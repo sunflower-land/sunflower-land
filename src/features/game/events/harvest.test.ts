@@ -114,7 +114,7 @@ describe("harvest", () => {
 
   it("harvests once the second goblin is gone", () => {
     const state = harvest(
-      { ...INITIAL_FARM, inventory: { "Cabbage Soup": 1 } },
+      { ...INITIAL_FARM, inventory: { Sauerkraut: 1 } },
       {
         type: "item.harvested",
         index: 10,

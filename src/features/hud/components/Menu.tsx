@@ -13,13 +13,15 @@ import token from "assets/icons/token.png";
 import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
 import { metamask } from "lib/blockchain/metamask";
 import * as Auth from "features/auth/lib/Provider";
-
 import { sync } from "features/game/actions/sync";
+import { Context } from "features/game/GameProvider";
+
 import { Withdraw } from "./Withdraw";
 
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
+  const { gameService } = useContext(Context);
 
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
@@ -66,11 +68,15 @@ export const Menu = () => {
     };
   }, []);
 
-  const save = async () => {
+  const syncOnChain = async () => {
     await sync({
       farmId: authState.context.farmId as number,
       sessionId: authState.context.sessionId as string,
     });
+  };
+
+  const autosave = async () => {
+    gameService.send("SAVE");
   };
 
   return (
@@ -88,7 +94,7 @@ export const Menu = () => {
             />
             <span className="hidden md:flex">Menu</span>
           </Button>
-          <Button onClick={save}>
+          <Button onClick={autosave}>
             {/* <img className="md:hidden w-6" src={mobileSave} alt="save" /> */}
             <span>Save</span>
           </Button>
@@ -123,6 +129,11 @@ export const Menu = () => {
               <Button onClick={() => handleNavigationClick(Section.Water)}>
                 <span className="text-sm">Water</span>
                 <img src={water} className="w-4 ml-2" alt="water" />
+              </Button>
+            </li>
+            <li className="p-1">
+              <Button onClick={syncOnChain}>
+                <span className="text-sm">Sync on chain</span>
               </Button>
             </li>
             <li className="p-1">
