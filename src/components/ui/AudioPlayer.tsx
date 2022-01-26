@@ -6,11 +6,11 @@ import skip_forward from 'assets/ui/player/skip-forward.png'
 import music_note from 'assets/ui/player/music-note.png'
 import chevron_right from 'assets/ui/player/chevron-right.png'
 import {Button} from "components/ui/Button";
-import lightBorder from "assets/ui/panel/light_border.png";
 import icon from 'assets/brand/icon.png'
 import {getSong, getSongCount} from 'assets/songs/playlist'
+import {Panel} from "components/ui/Panel";
 
-export const Player: React.FC = () => {
+export const AudioPlayer: React.FC = () => {
   const [volume, setVolume] = useState<number>(0.8);
   const [visible, setIsVisible] = useState<boolean>(false);
   const [isPlaying, setPlaying] = useState<boolean>(true);
@@ -37,45 +37,30 @@ export const Player: React.FC = () => {
     } else {
       setSongIndex(songIndex + 1)
     }
-    setPlaying(true)
   }
 
   const song = getSong(songIndex);
 
   return (
-    <div className={`
-      position-fixed 
-      right-2 
-      bottom-20 
-      z-50
-      w-48
-      h-fit
-      -translate-x-50
-      transition-all
-      duration-500
-      ease-in-out     
-      `}
-         style={{
-           transform: `translateX(${visible ? 0 : 'calc(100% + 8px)'})`
-         }}
+    <div
+      className='position-fixed right-2 bottom-20 z-50 w-48 h-fit -translate-x-50 transition-all duration-500 ease-in-out'
+      style={{
+        transform: `translateX(${visible ? 0 : 'calc(100% + 8px)'})`
+      }}
     >
-      <div
-        className='bg-brown-200'
-        style={{
-          border: "6px solid blue",
-          borderImage: `url(${lightBorder}) 30 stretch`,
-          borderImageSlice: "25%",
-          imageRendering: "pixelated",
-          borderImageRepeat: "repeat",
-          borderRadius: "20px",
-        }}
-      >
+      <Panel>
         <audio
-          ref={musicPlayer} onEnded={handleNextSong} src={song.path} className='d-none' autoPlay
+          ref={musicPlayer}
+          onEnded={handleNextSong}
+          onPause={() => setPlaying(!musicPlayer.current.paused)}
+          onPlay={() => setPlaying(!musicPlayer.current.paused)}
+          src={song.path}
+          className='d-none'
+          autoPlay
           controls
         />
         <div className='p-1'>
-          <div className='mb-1.5 overflow-hidden bg-brown-300'>
+          <div className='mb-1.5 overflow-hidden bg-brown-200'>
             <p className='whitespace-no-wrap w-fit text-white font-italic text-sm'
                style={{
                  animation: 'marquee-like-effect 10s infinite linear',
@@ -120,9 +105,9 @@ export const Player: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Panel>
       <div
-        className={`position-absolute ${visible ? '-left-7 sm:-left-10' : '-left-11 sm:-left-14'} bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex align-items-center overflow-hidden`}
+        className={`position-absolute ${visible ? '-left-7 sm:-left-9' : '-left-11 sm:-left-12 sm:-translate-x-1'} bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex align-items-center overflow-hidden`}
       >
         <Button
           onClick={() => setIsVisible(!visible)}
@@ -130,7 +115,7 @@ export const Player: React.FC = () => {
           <img
             src={visible ? chevron_right : music_note}
             alt="show/hide music player"
-            className='w-4 h-4 sm:w-7 sm:h-6'
+            className='w-4 h-4 sm:w-6 sm:h-5'
           />
         </Button>
       </div>
