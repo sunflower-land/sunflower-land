@@ -4,11 +4,11 @@
 
 import React, {useContext} from "react";
 import Tinycon from "tinycon";
-import {CROPS} from "features/game/types/crops";
-import {getTimeLeft} from "lib/utils/time";
-import {Context} from "features/game/GameProvider";
 import {useActor} from "@xstate/react";
+import {CROPS} from "features/game/types/crops";
+import {Context} from "features/game/GameProvider";
 import {FieldItem} from "features/game/types/game";
+import {getTimeLeft} from "lib/utils/time";
 
 
 interface AppIconContext {
@@ -17,6 +17,11 @@ interface AppIconContext {
 
 export const AppIconContext = React.createContext<AppIconContext>({} as AppIconContext);
 
+/**
+ * Checks if Field is harvestable
+ *
+ * @param field
+ */
 const isHarvestable = (field: FieldItem) : boolean => {
   if (!field.crop) {
     return false;
@@ -25,8 +30,13 @@ const isHarvestable = (field: FieldItem) : boolean => {
   const timeLeft = getTimeLeft(field.crop.plantedAt, crop.harvestSeconds);
   return timeLeft <= 0;
 }
-
-const debounce = (func: Function, timeout: number = 300) => {
+/**
+ * Apply debounce to function
+ *
+ * @param func
+ * @param timeout
+ */
+const debounce = (func: Function, timeout: number = 500) => {
   let timer: NodeJS.Timeout;
   return (...args: any[]) => {
     clearTimeout(timer);
@@ -43,7 +53,6 @@ export const AppIconProvider: React.FC = ({ children }) => {
   ] = useActor(gameService);
 
   const updateHarvestable = debounce(() : void => {
-    console.log(Date.now(), 'Update')
     const total = state.fields.filter(isHarvestable).length;
     Tinycon.setBubble(total || null);
   })
