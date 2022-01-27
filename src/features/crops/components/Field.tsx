@@ -23,13 +23,11 @@ const POPOVER_TIME_MS = 1000;
 
 interface Props {
   selectedItem?: InventoryItemName;
-  field: FieldItem;
   fieldIndex: number;
   className?: string;
 }
 
 export const Field: React.FC<Props> = ({
-  field,
   selectedItem,
   className,
   fieldIndex,
@@ -40,6 +38,7 @@ export const Field: React.FC<Props> = ({
   const { updateHarvestable } = useContext(AppIconContext);
   const [game] = useActor(gameService);
   const inventory = game.context.state.inventory;
+  const field = game.context.state.fields[fieldIndex];
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
