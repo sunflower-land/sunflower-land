@@ -7,7 +7,7 @@ export type HarvestAction = {
 };
 
 export function harvest(state: GameState, action: HarvestAction) {
-  const fields = state.fields;
+  const fields = { ...state.fields };
 
   if (
     action.index >= 5 &&
@@ -33,35 +33,32 @@ export function harvest(state: GameState, action: HarvestAction) {
     throw new Error("Goblin land!");
   }
 
-  if (fields.length < action.index) {
-    throw new Error("Field is not unlocked");
+  if (action.index > 21) {
+    throw new Error("Field does not exist");
   }
 
   const field = fields[action.index];
-  if (!field.crop) {
+  if (!field) {
     throw new Error("Nothing was planted");
   }
 
-  const crop = CROPS[field.crop.name];
+  const crop = CROPS[field.name];
 
-  if (Date.now() - field.crop.plantedAt < crop.harvestSeconds * 1000) {
+  if (Date.now() - field.plantedAt < crop.harvestSeconds * 1000) {
     throw new Error("Crop is not ready to harvest");
   }
 
   const newFields = fields;
-  newFields[action.index] = {
-    ...newFields[action.index],
-    crop: undefined,
-  };
+  delete newFields[action.index];
 
-  const cropCount = state.inventory[field.crop.name] || 0;
+  const cropCount = state.inventory[field.name] || 0;
 
   return {
     ...state,
     fields: newFields,
     inventory: {
       ...state.inventory,
-      [field.crop.name]: cropCount + 1,
+      [field.name]: cropCount + 1,
     },
   } as GameState;
 }

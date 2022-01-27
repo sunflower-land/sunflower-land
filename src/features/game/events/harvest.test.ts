@@ -3,13 +3,9 @@ import { INITIAL_FARM } from "../lib/constants";
 import { FieldItem, GameState } from "../types/game";
 import { harvest } from "./harvest";
 
-const EMPTY_FIELDS: FieldItem[] = Array(5)
-  .fill(null)
-  .map((_, fieldIndex) => ({ fieldIndex }));
-
 let GAME_STATE: GameState = {
   id: 1,
-  fields: EMPTY_FIELDS,
+  fields: {},
   balance: new Decimal(0),
   inventory: {},
 };
@@ -29,15 +25,12 @@ describe("harvest", () => {
       harvest(
         {
           ...GAME_STATE,
-          fields: [
-            {
-              fieldIndex: 0,
-              crop: {
-                name: "Sunflower",
-                plantedAt: Date.now() - 100,
-              },
+          fields: {
+            0: {
+              name: "Sunflower",
+              plantedAt: Date.now() - 100,
             },
-          ],
+          },
         },
         {
           type: "item.harvested",
@@ -51,15 +44,12 @@ describe("harvest", () => {
     const state = harvest(
       {
         ...GAME_STATE,
-        fields: [
-          {
-            fieldIndex: 0,
-            crop: {
-              name: "Sunflower",
-              plantedAt: Date.now() - 2 * 60 * 1000,
-            },
+        fields: {
+          0: {
+            name: "Sunflower",
+            plantedAt: Date.now() - 2 * 60 * 1000,
           },
-        ],
+        },
       },
       {
         type: "item.harvested",
@@ -68,12 +58,7 @@ describe("harvest", () => {
     );
 
     expect(state.inventory.Sunflower).toBe(1);
-    expect(state.fields).toEqual([
-      {
-        fieldIndex: 0,
-        crop: undefined,
-      },
-    ]);
+    expect(state.fields).toEqual({});
   });
 
   it("does not harvest on the first goblin land", () => {

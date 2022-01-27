@@ -26,7 +26,7 @@ function isSeed(crop: InventoryItemName): crop is SeedName {
 }
 
 export function plant(state: GameState, action: PlantAction) {
-  const fields = state.fields;
+  const fields = { ...state.fields };
 
   if (
     action.index >= 5 &&
@@ -52,8 +52,12 @@ export function plant(state: GameState, action: PlantAction) {
     throw new Error("Goblin land!");
   }
 
+  if (action.index > 21) {
+    throw new Error("Field does not exist");
+  }
+
   const field = fields[action.index];
-  if (field.crop) {
+  if (field) {
     throw new Error("Crop is already planted");
   }
 
@@ -75,11 +79,8 @@ export function plant(state: GameState, action: PlantAction) {
   const crop = action.item.split(" ")[0] as CropName;
 
   newFields[action.index] = {
-    ...newFields[action.index],
-    crop: {
-      plantedAt: Date.now(),
-      name: crop,
-    },
+    plantedAt: Date.now(),
+    name: crop,
   };
 
   return {

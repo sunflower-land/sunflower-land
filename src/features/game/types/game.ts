@@ -6,12 +6,9 @@ import { CraftableName } from "./craftables";
 import { ResourceName } from "./resources";
 
 export type FieldItem = {
-  fieldIndex: number;
-  crop?: {
-    name: CropName;
-    // Epoch time in milliseconds
-    plantedAt: number;
-  };
+  name: CropName;
+  // Epoch time in milliseconds
+  plantedAt: number;
 };
 
 export type InventoryItemName =
@@ -28,7 +25,7 @@ type PastAction = GameEvent & {
 
 export type GameState = {
   balance: Decimal;
-  fields: FieldItem[];
+  fields: Record<number, FieldItem>;
   inventory: Inventory;
 
   // Session values
