@@ -33,8 +33,8 @@ export function harvest(state: GameState, action: HarvestAction) {
     throw new Error("Goblin land!");
   }
 
-  if (fields.length < action.index) {
-    throw new Error("Field is not unlocked");
+  if (action.index > 21) {
+    throw new Error("Field does not exist");
   }
 
   const field = fields[action.index];

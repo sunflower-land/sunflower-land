@@ -52,6 +52,10 @@ export function plant(state: GameState, action: PlantAction) {
     throw new Error("Goblin land!");
   }
 
+  if (action.index > 21) {
+    throw new Error("Field does not exist");
+  }
+
   const field = fields[action.index];
   if (field.crop) {
     throw new Error("Crop is already planted");
