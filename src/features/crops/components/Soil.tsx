@@ -18,7 +18,7 @@ interface Props {
 export const Soil: React.FC<Props> = ({ field }) => {
   const [_, setTimer] = React.useState<number>(0);
   const [badgeUpdated, setBadgeUpdated] = React.useState<boolean>(false);
-  const { incrementHarvestable } = useContext(AppIconContext);
+  const { updateHarvestable } = useContext(AppIconContext);
   const setHarvestTime = React.useCallback(() => {
     setTimer((count) => count + 1);
   }, []);
@@ -35,7 +35,7 @@ export const Soil: React.FC<Props> = ({ field }) => {
   }, [field]);
 
   React.useEffect(() => {
-    if (badgeUpdated) incrementHarvestable(1);
+    if (badgeUpdated) updateHarvestable();
   }, [badgeUpdated]);
 
   if (!field.crop) {

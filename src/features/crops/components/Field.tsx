@@ -31,7 +31,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
   const { gameService, shortcutItem } = useContext(Context);
-  const { incrementHarvestable } = useContext(AppIconContext);
+  const { updateHarvestable } = useContext(AppIconContext);
   const [game] = useActor(gameService);
   const inventory = game.context.state.inventory;
 
@@ -88,7 +88,7 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
       gameService.send("item.harvested", {
         index: field.fieldIndex,
       });
-      incrementHarvestable(-1);
+      updateHarvestable();
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
