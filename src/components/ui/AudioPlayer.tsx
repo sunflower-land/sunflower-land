@@ -14,7 +14,6 @@ export const AudioPlayer: React.FC = () => {
   const [visible, setIsVisible] = useState<boolean>(false);
   const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
-  const [isChrome, setIsChrome] = useState<boolean>(false);
   const musicPlayer = useRef<any>(null)
 
   const handlePlayState = () => {
@@ -43,11 +42,11 @@ export const AudioPlayer: React.FC = () => {
 
   useEffect(() => {
     if (navigator.userAgent.match(/chrome|chromium|crios/i)) {
-      setIsChrome(true)
+      // by the default Chrome policy doesn't allow autoplay
       setPlaying(false)
       musicPlayer.current.pause()
     }
-  }, [isChrome])
+  }, [])
 
   return (
     <div
