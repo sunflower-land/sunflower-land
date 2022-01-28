@@ -1,5 +1,4 @@
-import React, {useRef, useState} from "react";
-
+import React, {useEffect, useRef, useState} from "react";
 import play from 'assets/ui/player/play.png'
 import pause from 'assets/ui/player/pause.png'
 import skip_forward from 'assets/ui/player/skip-forward.png'
@@ -15,6 +14,7 @@ export const AudioPlayer: React.FC = () => {
   const [visible, setIsVisible] = useState<boolean>(false);
   const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
+  const [isChrome, setIsChrome] = useState<boolean>(false);
   const musicPlayer = useRef<any>(null)
 
   const handlePlayState = () => {
@@ -40,6 +40,14 @@ export const AudioPlayer: React.FC = () => {
   }
 
   const song = getSong(songIndex);
+
+  useEffect(() => {
+    if (navigator.userAgent.match(/chrome|chromium|crios/i)) {
+      setIsChrome(true)
+      setPlaying(false)
+      musicPlayer.current.pause()
+    }
+  }, [isChrome])
 
   return (
     <div
