@@ -44,16 +44,16 @@ export const Address: React.FC<Props> = () => {
     setShowLabel(false);
   };
 
-  // Readonly session
-  if (!state.address) {
-    return null;
-  }
+  // // Readonly session
+  // if (!state.address) {
+  //   return null;
+  // }
 
   return (
     <div className="fixed bottom-2 right-2 z-50  shadow-lg">
       <Panel>
         <div className="flex items-center">
-          <img src={player} className="h-8 mr-2 z-50"/>
+          <img src={player} className="h-8 mr-2 z-50" />
 
           <span
             onMouseEnter={handleMouseEnter}
@@ -65,7 +65,7 @@ export const Address: React.FC<Props> = () => {
                 : "scale-x-0 opacity-0 max-w-[0px] -mr-1"
             }`}
           >
-            {shortAddress(state.address as string)}
+            {shortAddress("0xD2a0e78D34667775607cc0edC3f70eE0Fe930432")}
           </span>
 
           <img
