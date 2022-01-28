@@ -1,14 +1,10 @@
 import Decimal from "decimal.js-light";
-import { FieldItem, GameState } from "../types/game";
+import { GameState } from "../types/game";
 import { plant } from "./plant";
-
-const EMPTY_FIELDS: FieldItem[] = Array(22)
-  .fill(null)
-  .map((_, fieldIndex) => ({ fieldIndex }));
 
 let GAME_STATE: GameState = {
   id: 1,
-  fields: EMPTY_FIELDS,
+  fields: {},
   balance: new Decimal(0),
   inventory: {},
 };
@@ -42,11 +38,8 @@ describe("plant", () => {
 
     expect(state.inventory["Potato Seed"]).toEqual(1);
     expect(state.fields[6]).toEqual({
-      crop: {
-        name: "Potato",
-        plantedAt: expect.any(Number),
-      },
-      fieldIndex: 6,
+      name: "Potato",
+      plantedAt: expect.any(Number),
     });
   });
 
@@ -78,11 +71,8 @@ describe("plant", () => {
 
     expect(state.inventory["Pumpkin Seed"]).toEqual(1);
     expect(state.fields[12]).toEqual({
-      crop: {
-        name: "Pumpkin",
-        plantedAt: expect.any(Number),
-      },
-      fieldIndex: 12,
+      name: "Pumpkin",
+      plantedAt: expect.any(Number),
     });
   });
 
@@ -114,11 +104,8 @@ describe("plant", () => {
 
     expect(state.inventory["Pumpkin Seed"]).toEqual(1);
     expect(state.fields[20]).toEqual({
-      crop: {
-        name: "Pumpkin",
-        plantedAt: expect.any(Number),
-      },
-      fieldIndex: 20,
+      name: "Pumpkin",
+      plantedAt: expect.any(Number),
     });
   });
 
@@ -127,15 +114,12 @@ describe("plant", () => {
       plant(
         {
           ...GAME_STATE,
-          fields: [
-            {
-              fieldIndex: 0,
-              crop: {
-                name: "Sunflower",
-                plantedAt: Date.now(),
-              },
+          fields: {
+            0: {
+              name: "Sunflower",
+              plantedAt: Date.now(),
             },
-          ],
+          },
         },
         {
           type: "item.planted",
@@ -186,16 +170,12 @@ describe("plant", () => {
       inventory: {
         "Sunflower Seed": 4,
       },
-      fields: [
-        {
-          crop: {
-            name: "Sunflower",
-            plantedAt: expect.any(Number),
-          },
-          fieldIndex: 0,
+      fields: {
+        0: {
+          name: "Sunflower",
+          plantedAt: expect.any(Number),
         },
-        ...EMPTY_FIELDS.slice(1),
-      ],
+      },
     });
   });
 });
