@@ -20,6 +20,10 @@ export async function autosave(request: Request) {
     }),
   });
 
+  if (response.status !== 200 || !response.ok) {
+    throw new Error("Could not save game");
+  }
+
   const data = await response.json();
 
   return data;
