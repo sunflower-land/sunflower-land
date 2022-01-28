@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
@@ -10,6 +11,7 @@ import goblin from "assets/npcs/goblin.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import questionMark from "assets/icons/expression_confused.png";
+import heart from "assets/icons/heart.png";
 
 import { Field } from "./Field";
 
@@ -17,7 +19,12 @@ interface Props {}
 
 export const CropZoneTwo: React.FC<Props> = () => {
   const [showModal, setShowModal] = useState(false);
-  const { state, selectedItem } = useContext(Context);
+  const { gameService, selectedItem } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   return (
     <>
@@ -46,6 +53,15 @@ export const CropZoneTwo: React.FC<Props> = () => {
         </>
       ) : (
         <>
+          <img
+            src={heart}
+            className="absolute z-10 animate-float"
+            style={{
+              width: `${GRID_WIDTH_PX * 0.3}px`,
+              left: `${GRID_WIDTH_PX * -0.6}px`,
+              bottom: `${GRID_WIDTH_PX * 5.7}px`,
+            }}
+          />
           <img
             src={goblin}
             className="absolute z-10"

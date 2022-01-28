@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
-import FarmABI from "./abis/Farm.json";
+import FarmABI from "./abis/Legacy.json";
 
 /**
  * Legacy Farm contract used for Beta mode

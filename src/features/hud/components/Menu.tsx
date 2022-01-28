@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -10,10 +11,21 @@ import water from "assets/icons/expression_working.png";
 import token from "assets/icons/token.png";
 
 import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
+import { metamask } from "lib/blockchain/metamask";
+import * as Auth from "features/auth/lib/Provider";
+
+import { sync } from "features/game/actions/sync";
+import { Withdraw } from "./Withdraw";
 
 export const Menu = () => {
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
+
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
+
+  const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
+
   const ref = useRef<HTMLDivElement>(null);
 
   const handleMenuClick = () => {
@@ -38,6 +50,11 @@ export const Menu = () => {
     setMenuOpen(false);
   };
 
+  const withdraw = () => {
+    setShowWithdrawModal(true);
+    setMenuOpen(false);
+  };
+
   // Handles closing the menu if someone clicks outside
   useEffect(() => {
     document.addEventListener("mousedown", handleClick);
@@ -48,6 +65,13 @@ export const Menu = () => {
       document.addEventListener("touchstart", handleClick);
     };
   }, []);
+
+  const save = async () => {
+    await sync({
+      farmId: authState.context.farmId as number,
+      sessionId: authState.context.sessionId as string,
+    });
+  };
 
   return (
     <div ref={ref} className="fixed top-2 left-2 z-50  shadow-lg">
@@ -64,7 +88,7 @@ export const Menu = () => {
             />
             <span className="hidden md:flex">Menu</span>
           </Button>
-          <Button onClick={() => {}}>
+          <Button onClick={save}>
             {/* <img className="md:hidden w-6" src={mobileSave} alt="save" /> */}
             <span>Save</span>
           </Button>
@@ -102,7 +126,7 @@ export const Menu = () => {
               </Button>
             </li>
             <li className="p-1">
-              <Button onClick={() => {}}>
+              <Button onClick={withdraw}>
                 <span className="text-sm">Withdraw</span>
                 <img src={token} className="w-4 ml-2" alt="token" />
               </Button>
@@ -110,6 +134,11 @@ export const Menu = () => {
           </ul>
         </div>
       </OuterPanel>
+
+      <Withdraw
+        isOpen={showWithdrawModal}
+        onClose={() => setShowWithdrawModal(false)}
+      />
     </div>
   );
 };

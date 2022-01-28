@@ -1,4 +1,4 @@
-import { InventoryItemName } from "features/game/GameProvider";
+import { InventoryItemName } from "features/game/types/game";
 
 /**
  * Cache selected items in local storage so we can remember next time we open the HUD.

@@ -1,20 +1,23 @@
 import React, { useContext, useState } from "react";
+import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
-import token from "assets/icons/token.png";
 import selectBox from "assets/ui/select/select_box.png";
 
+import { Context } from "features/game/GameProvider";
 import {
-  Context,
+  GameState,
   FieldItem,
   InventoryItemName,
-} from "features/game/GameProvider";
-import { AppIconContext } from 'features/crops/AppIconProvider';
+} from "features/game/types/game";
+import { AppIconContext } from "features/crops/AppIconProvider";
+
+import { CropName } from "features/game/types/crops";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { getShortcuts } from "../../hud/lib/shortcuts";
 
 import { Soil } from "./Soil";
-import { Crop, CropName } from "../lib/crops";
-import { ITEM_DETAILS } from "features/game/lib/items";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -27,8 +30,10 @@ interface Props {
 export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
-  const { dispatcher } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
   const { incrementHarvestable } = useContext(AppIconContext);
+  const [game] = useActor(gameService);
+  const inventory = game.context.state.inventory;
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -42,17 +47,27 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
     // Plant
     if (!field.crop) {
       try {
-        const {} = dispatcher({
-          type: "item.planted",
+        gameService.send("item.planted", {
           index: field.fieldIndex,
           item: selectedItem,
         });
+
+        if (selectedItem) {
+          if ((inventory[selectedItem] || 0) - 1 == 0) {
+            const shortcuts = getShortcuts();
+            if ((inventory[shortcuts[1]] || 0) > 0) {
+              shortcutItem(shortcuts[1]);
+            } else if ((inventory[shortcuts[2]] || 0) > 0) {
+              shortcutItem(shortcuts[2]);
+            }
+          }
+        }
 
         displayPopover(
           <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
             <img
               src={ITEM_DETAILS[selectedItem as CropName].image}
-              className="w-4 h-4 mr-1"
+              className="w-4 mr-1"
             />
             <span>-1</span>
           </div>
@@ -70,18 +85,14 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
     }
 
     try {
-      dispatcher({
-        type: "item.harvested",
+      gameService.send("item.harvested", {
         index: field.fieldIndex,
       });
       incrementHarvestable(-1);
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
-          <img
-            src={ITEM_DETAILS[field.crop.name].image}
-            className="w-4 h-4 mr-1"
-          />
+          <img src={ITEM_DETAILS[field.crop.name].image} className="w-4 mr-1" />
           <span>+1</span>
         </div>
       );
