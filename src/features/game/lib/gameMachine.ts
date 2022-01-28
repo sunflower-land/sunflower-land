@@ -128,15 +128,30 @@ export function startGame(authContext: AuthContext) {
         },
         invoke: {
           src: async (context) => {
-            await autosave({
-              farmId: Number(authContext.farmId),
-              sessionId: authContext.sessionId as string,
-              sender: metamask.myAccount as string,
-              actions: context.actions,
-            });
+            const saveAt = new Date();
+
+            if (context.actions.length > 0) {
+              await autosave({
+                farmId: Number(authContext.farmId),
+                sessionId: authContext.sessionId as string,
+                sender: metamask.myAccount as string,
+                actions: context.actions,
+              });
+            }
+
+            return {
+              saveAt,
+            };
           },
           onDone: {
             target: "playing",
+            // Remove the events that were submitted
+            actions: assign((context: Context, event) => ({
+              actions: context.actions.filter(
+                (action) =>
+                  action.createdAt.getTime() > event.data.saveAt.getTime()
+              ),
+            })),
           },
           onError: {
             target: "error",
