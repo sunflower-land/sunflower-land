@@ -20,6 +20,9 @@ export const Game: React.FC = () => {
       <Modal show={gameState.matches("loading")} centered>
         <Panel>Loading...</Panel>
       </Modal>
+      <Modal show={gameState.matches("error")} centered>
+        <Panel>Something went wrong!</Panel>
+      </Modal>
       <Hud />
 
       <Blacksmith />

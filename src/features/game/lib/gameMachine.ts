@@ -9,8 +9,9 @@ import { metamask } from "../../../lib/blockchain/metamask";
 import { GameState } from "../types/game";
 import { loadSession } from "../actions/loadSession";
 import { INITIAL_FARM } from "./constants";
+import { autosave } from "../actions/autosave";
 
-type PastAction = GameEvent & {
+export type PastAction = GameEvent & {
   createdAt: Date;
 };
 
@@ -35,6 +36,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
         actions: assign((context: Context, event: GameEvent) => ({
           state: processEvent(context.state as GameState, event) as GameState,
           actions: [
+            ...context.actions,
             {
               ...event,
               createdAt: new Date(),
@@ -47,7 +49,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   );
 
 export type BlockchainState = {
-  value: "loading" | "playing" | "readonly" | "saving" | "error";
+  value: "loading" | "playing" | "readonly" | "autosaving" | "error";
   context: Context;
 };
 
@@ -72,18 +74,25 @@ export function startGame(authContext: AuthContext) {
           src: async () => {
             // Load the farm session
             if (authContext.sessionId) {
+              console.log({ authContext });
               const game = await loadSession({
-                farmId: authContext.farmId as number,
+                farmId: Number(authContext.farmId),
                 sessionId: authContext.sessionId as string,
                 signature: authContext.signature as string,
                 hash: authContext.hash as string,
                 sender: metamask.myAccount as string,
               });
 
+              console.log({ game });
+
+              if (!game) {
+                throw new Error("NO_FARM");
+              }
+
               return {
                 state: {
                   ...game,
-                  balance: new Decimal(fromWei(game.balance.toString())),
+                  balance: new Decimal(game.balance),
                 },
               };
             }
@@ -106,7 +115,33 @@ export function startGame(authContext: AuthContext) {
         },
       },
       playing: {
-        on: GAME_EVENT_HANDLERS,
+        on: {
+          ...GAME_EVENT_HANDLERS,
+          SAVE: {
+            target: "autosaving",
+          },
+        },
+      },
+      autosaving: {
+        on: {
+          ...GAME_EVENT_HANDLERS,
+        },
+        invoke: {
+          src: async (context) => {
+            await autosave({
+              farmId: Number(authContext.farmId),
+              sessionId: authContext.sessionId as string,
+              sender: metamask.myAccount as string,
+              actions: context.actions,
+            });
+          },
+          onDone: {
+            target: "playing",
+          },
+          onError: {
+            target: "error",
+          },
+        },
       },
       readonly: {},
       error: {},

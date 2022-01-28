@@ -53,7 +53,7 @@ export const Address: React.FC<Props> = () => {
     <div className="fixed bottom-2 right-2 z-50  shadow-lg">
       <Panel>
         <div className="flex items-center">
-          <img src={player} className="h-8 mr-2 z-50" />
+          <img src={player} className="h-8 mr-2 z-50"/>
 
           <span
             onMouseEnter={handleMouseEnter}
@@ -77,7 +77,7 @@ export const Address: React.FC<Props> = () => {
           />
         </div>
         <div
-          className={`absolute mr-5 bottom-20 -right-[1rem] transition ${
+          className={`absolute mr-5 bottom-20 -right-[1rem] transition pointer-events-none ${
             showLabel ? "opacity-100" : "opacity-0"
           }`}
         >
