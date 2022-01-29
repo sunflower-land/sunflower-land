@@ -19,6 +19,9 @@ export const ToastProvider: FC = ({ children }) => {
   const [toastList, setToastList] = useState<Toast[]>([]);
 
   const setToast = (toast: Omit<Toast, 'id'>) => {
+    if (toastList.length > 4) {
+      setToastList(toastList.slice(0, MAX_TOAST));
+    }
     const id = Date.now();
     const interval = window.setTimeout(() => {removeToast(id);}, 3000);
     const newToast = { id: id, ...toast };
@@ -29,13 +32,6 @@ export const ToastProvider: FC = ({ children }) => {
   const removeToast = (toastId: number) => {
     setToastList(toastList => [...toastList.filter(({ id }) => id !== toastId)]);
   };
-
-  // If the toast list becomes too big, drop the oldest item(s).
-  useLayoutEffect(() => {
-    if (toastList.length > 4) {
-      setToastList(toastList.slice(0, MAX_TOAST));
-    }
-  }, [toastList]);
 
   return (
     <ToastContext.Provider value={{ removeToast, setToast, toastList }}>
