@@ -22,17 +22,22 @@ const POPOVER_TIME_MS = 1000;
 
 interface Props {
   selectedItem?: InventoryItemName;
-  field: FieldItem;
+  fieldIndex: number;
   className?: string;
 }
 
-export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
+export const Field: React.FC<Props> = ({
+  selectedItem,
+  className,
+  fieldIndex,
+}) => {
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
   const { gameService, shortcutItem } = useContext(Context);
-  const { incrementHarvestable } = useContext(AppIconContext);
+  const { updateHarvestable } = useContext(AppIconContext);
   const [game] = useActor(gameService);
   const inventory = game.context.state.inventory;
+  const field = game.context.state.fields[fieldIndex];
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -44,10 +49,10 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
 
   const onClick = () => {
     // Plant
-    if (!field.crop) {
+    if (!field) {
       try {
         gameService.send("item.planted", {
-          index: field.fieldIndex,
+          index: fieldIndex,
           item: selectedItem,
         });
 
@@ -85,13 +90,13 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
 
     try {
       gameService.send("item.harvested", {
-        index: field.fieldIndex,
+        index: fieldIndex,
       });
-      incrementHarvestable(-1);
+      updateHarvestable();
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
-          <img src={ITEM_DETAILS[field.crop.name].image} className="w-4 mr-1" />
+          <img src={ITEM_DETAILS[field.name].image} className="w-4 mr-1" />
           <span>+1</span>
         </div>
       );

@@ -108,7 +108,24 @@ export class Metamask {
 
     const hash = sha3(data) as string;
     const signature = await this.web3.eth.personal.sign(
-      hash,
+      `
+      Welcome to Sunflower Land!
+
+Click to sign in and accept the Sunflower Land Terms of Service:
+https://docs.sunflower-land.com/support/terms-of-service
+
+This request will not trigger a blockchain transaction or cost any gas fees.
+
+Your authentication status will reset after each session.
+
+Wallet address:
+${this.account}
+
+Farm ID:
+22
+
+Nonce:
+895647`,
       this.account as string,
       // Empty password, handled by Metamask
       ""

@@ -94,17 +94,17 @@ export const CropZoneTwo: React.FC<Props> = () => {
       >
         {/* Top row */}
         <div className="flex justify-between">
-          <Field selectedItem={selectedItem} field={state.fields[5]} />
-          <Field selectedItem={selectedItem} field={state.fields[6]} />
+          <Field selectedItem={selectedItem} fieldIndex={5} />
+          <Field selectedItem={selectedItem} fieldIndex={6} />
         </div>
         {/* Middle row */}
         <div className="flex justify-center">
-          <Field selectedItem={selectedItem} field={state.fields[7]} />
+          <Field selectedItem={selectedItem} fieldIndex={7} />
         </div>
         {/* Bottom row */}
         <div className="flex justify-between">
-          <Field selectedItem={selectedItem} field={state.fields[8]} />
-          <Field selectedItem={selectedItem} field={state.fields[9]} />
+          <Field selectedItem={selectedItem} fieldIndex={8} />
+          <Field selectedItem={selectedItem} fieldIndex={9} />
         </div>
       </div>
 

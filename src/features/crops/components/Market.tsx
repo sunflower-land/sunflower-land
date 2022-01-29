@@ -14,9 +14,9 @@ export const Market: React.FC = () => {
   return (
     <div
       style={{
-        width: `${GRID_WIDTH_PX * 4}px`,
+        width: `${GRID_WIDTH_PX * 4.5}px`,
         position: "absolute",
-        left: `${GRID_WIDTH_PX * 15.8}px`,
+        left: `${GRID_WIDTH_PX * 15.5}px`,
         bottom: `${GRID_WIDTH_PX * 1.3}px`,
       }}
     >
@@ -24,11 +24,11 @@ export const Market: React.FC = () => {
         src={market}
         alt="market"
         onClick={() => setIsOpen(true)}
-        style={{ filter: 'drop-shadow(-2px 5px 3px rgb(0, 0, 0, .4))' }}
+        style={{ filter: "drop-shadow(rgba(0, 0, 0, 0.3) 0px 3px 0.5px)" }}
         className="cursor-pointer w-full hover:img-highlight"
       />
       <Action
-        className="absolute top-5 left-8"
+        className="absolute top-5 left-10"
         text="Shop"
         icon={plant}
         onClick={() => setIsOpen(true)}
