@@ -18,7 +18,7 @@ export class SunflowerLand {
     this.contract = new this.web3.eth.Contract(
       SunflowerLandABI as AbiItem[],
       // Testnet
-      "0x8206e986f7DE5e4eDe74bF75f6f5103D5045DCEf"
+      "0xD0020634bC7146fA7cA305EA04dE184Fc474b51E"
     );
   }
 

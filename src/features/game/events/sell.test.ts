@@ -1,14 +1,10 @@
 import Decimal from "decimal.js-light";
-import { FieldItem, GameState } from "../types/game";
+import { GameState } from "../types/game";
 import { sell } from "./sell";
-
-const EMPTY_FIELDS: FieldItem[] = Array(5)
-  .fill(null)
-  .map((_, fieldIndex) => ({ fieldIndex }));
 
 let GAME_STATE: GameState = {
   id: 1,
-  fields: EMPTY_FIELDS,
+  fields: {},
   balance: new Decimal(0),
 
   inventory: {},

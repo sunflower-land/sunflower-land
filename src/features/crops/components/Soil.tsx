@@ -12,13 +12,13 @@ import { CROPS } from "features/game/types/crops";
 import { LIFECYCLE } from "../lib/plant";
 
 interface Props {
-  field: FieldItem;
+  field?: FieldItem;
 }
 
 export const Soil: React.FC<Props> = ({ field }) => {
   const [_, setTimer] = React.useState<number>(0);
   const [badgeUpdated, setBadgeUpdated] = React.useState<boolean>(false);
-  const { incrementHarvestable } = useContext(AppIconContext);
+  const { updateHarvestable } = useContext(AppIconContext);
   const setHarvestTime = React.useCallback(() => {
     setTimer((count) => count + 1);
   }, []);
@@ -35,16 +35,16 @@ export const Soil: React.FC<Props> = ({ field }) => {
   }, [field]);
 
   React.useEffect(() => {
-    if (badgeUpdated) incrementHarvestable(1);
+    if (badgeUpdated) updateHarvestable();
   }, [badgeUpdated]);
 
-  if (!field.crop) {
+  if (!field) {
     return <img src={soil} className="w-full" />;
   }
 
-  const crop = CROPS[field.crop.name];
-  const lifecycle = LIFECYCLE[field.crop.name];
-  const timeLeft = getTimeLeft(field.crop.plantedAt, crop.harvestSeconds);
+  const crop = CROPS[field.name];
+  const lifecycle = LIFECYCLE[field.name];
+  const timeLeft = getTimeLeft(field.plantedAt, crop.harvestSeconds);
 
   // Seedling
   if (timeLeft > 0) {

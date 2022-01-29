@@ -28,17 +28,17 @@ export const CropZoneOne: React.FC<Props> = () => {
     >
       {/* Top row */}
       <div className="flex justify-between">
-        <Field selectedItem={selectedItem} field={state.fields[0]} />
-        <Field selectedItem={selectedItem} field={state.fields[1]} />
+        <Field selectedItem={selectedItem} fieldIndex={0} />
+        <Field selectedItem={selectedItem} fieldIndex={1} />
       </div>
       {/* Middle row */}
       <div className="flex justify-center">
-        <Field selectedItem={selectedItem} field={state.fields[2]} />
+        <Field selectedItem={selectedItem} fieldIndex={2} />
       </div>
       {/* Bottom row */}
       <div className="flex justify-between">
-        <Field selectedItem={selectedItem} field={state.fields[3]} />
-        <Field selectedItem={selectedItem} field={state.fields[4]} />
+        <Field selectedItem={selectedItem} fieldIndex={3} />
+        <Field selectedItem={selectedItem} fieldIndex={4} />
       </div>
     </div>
   );
