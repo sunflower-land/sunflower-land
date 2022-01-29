@@ -32,7 +32,7 @@ export const Plants: React.FC<Props> = ({}) => {
       item: selected.name,
       amount,
     });
-    setToast({content: "Item selled"});
+    setToast({content: "SFL +$"+(selected.sellPrice*amount)});
   };
 
   const lessPlants = (amount = 1) => (inventory[selected.name] || 0) < amount;

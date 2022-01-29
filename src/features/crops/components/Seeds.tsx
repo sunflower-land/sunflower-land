@@ -36,7 +36,7 @@ export const Seeds: React.FC<Props> = ({}) => {
       item: selected.name,
       amount,
     });
-    setToast({content: "Item crafted"});
+    setToast({content: "SFL -$"+(selected.price*amount)});
     shortcutItem(selected.name);
   };
 

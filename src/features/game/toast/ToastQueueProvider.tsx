@@ -13,7 +13,7 @@ export const ToastContext = createContext<{
   toastList: Toast[];
 }>({ removeToast: () => {}, setToast: () => {}, toastList: [] });
 
-const MAX_TOAST = 4;
+const MAX_TOAST = 5;
 
 export const ToastProvider: FC = ({ children }) => {
   const [toastList, setToastList] = useState<Toast[]>([]);
@@ -22,7 +22,7 @@ export const ToastProvider: FC = ({ children }) => {
     const id = Date.now();
     const interval = window.setTimeout(() => {removeToast(id);}, 3000);
     const newToast = { id: id, ...toast };
-    setToastList([newToast, ...toastList]);
+    setToastList(toastList => [newToast, ...toastList]);
 
   };
 

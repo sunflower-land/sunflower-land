@@ -16,7 +16,6 @@ import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { getShortcuts } from "../../hud/lib/shortcuts";
-import { ToastContext } from 'features/game/toast/ToastQueueProvider';
 import { Soil } from "./Soil";
 
 const POPOVER_TIME_MS = 1000;
@@ -34,7 +33,6 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
   const { incrementHarvestable } = useContext(AppIconContext);
   const [game] = useActor(gameService);
   const inventory = game.context.state.inventory;
-  const { setToast } = useContext(ToastContext);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -64,8 +62,6 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
           }
         }
 
-        setToast({content: "Item planted"});
-
         displayPopover(
           <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
             <img
@@ -92,8 +88,6 @@ export const Field: React.FC<Props> = ({ field, selectedItem, className }) => {
         index: field.fieldIndex,
       });
       incrementHarvestable(-1);
-
-      setToast({content: "Item harvested"});
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">

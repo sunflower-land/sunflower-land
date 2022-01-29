@@ -7,7 +7,7 @@ export const ToastManager = () => {
   const [listed, setListed] = useState<boolean>(false);
 
   return (
-    <div className="bg-brown-600 p-0.5 text-white shadow-lg flex flex-col items-end mr-2 sm:block fixed top-20 left-2 z-50">
+    <div className="bg-brown-600 p-0.5 text-white shadow-lg flex flex-col items-end mr-2 sm:block fixed top-20 left-2 z-[99999]">
       {toastList.map(({ content, id }) => (
         <div className="relative" key={id}>
           {content}

@@ -42,7 +42,11 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
       item: selected.name,
       amount,
     });
-    setToast({content: "Item crafted"});
+    setToast({content: "SFL -$"+(selected.price*amount)});
+    selected.ingredients.map((ingredient, index) => {
+      setToast({content: "Item "+ingredient.item+" -"+(ingredient.amount*amount)});
+    });
+    
     shortcutItem(selected.name);
   };
 
