@@ -1,12 +1,9 @@
-import Decimal from "decimal.js-light";
-import { fromWei } from "web3-utils";
 import { GameState } from "../types/game";
 
 export const GRID_WIDTH_PX = 42;
 
 export const INITIAL_FARM: GameState = {
-  id: 1,
-  balance: new Decimal(fromWei("59999999999999999900")),
+  balance: 10,
   fields: [
     {
       fieldIndex: 0,
@@ -114,8 +111,5 @@ export const INITIAL_FARM: GameState = {
   inventory: {
     "Sunflower Seed": 3,
     "Pumpkin Soup": 1,
-    "Roasted Cauliflower": 1,
-    "Wood": 50,
-    "Stone": 20
   },
 };
