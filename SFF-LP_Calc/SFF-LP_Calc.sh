@@ -23,15 +23,21 @@
 #
 # prompt> ./SFF-LP_Calc.sh
 #
+# The final output is a CSV file with the following fields:
+# contract_name,contract_ticker_symbol,contract_address,address,balance_adjusted,percent,block_height,award
+# Where "award" is the number of SFF tokens a given wallet was managing.
+#
 
 APIKEY= # REQUIRED
 SOURCEDATA=https://api.covalenthq.com
-DAIBALANCE=2500
-ETHBALANCE=23000
-WMATICBALANCE=100000
-USDCBALANCE=2000
-USDTBALANCE=300
-QUICKBALANCE=300
+BLOCK=23451693 # This is the block height at which you are checking.
+PAGESIZE=200 # For Sunflower Land, this is the maximum pagesize required.  Your project might need a higher value.
+DAIBALANCE=2626.81801121502069791
+ETHBALANCE=21479.571815287322932462
+WMATICBALANCE=21479.571815287322932462
+USDCBALANCE=7971.234589050222694769
+USDTBALANCE=201.549277087792448983
+QUICKBALANCE=201.549277087792448983
 
 # Confirms API key was entered above in variable section
 if [ -z ${APIKEY} ]; then
@@ -43,32 +49,32 @@ fi
 
 # Quickswap SFF/DAI Pool
 echo "Polling data for SFF/DAI on Quickswap."
-curl $SOURCEDATA/v1/137/tokens/0xe5b2c4d8bcbe27115b34c9a8400fff984fe480e8/token_holders/?block-height=23451693 -u $APIKEY: -H 'Content-Type: application/json' > sff-dai.json
+curl "$SOURCEDATA/v1/137/tokens/0xe5b2c4d8bcbe27115b34c9a8400fff984fe480e8/token_holders/?key=$APIKEY&block-height=$BLOCK&page-size=$PAGESIZE" > sff-dai.json
 echo ""
 
 # Quickswap SFF/ETH Pool
 echo "Polling data for SFF/ETH on Quickswap."
-curl $SOURCEDATA/v1/137/tokens/0x90c2bcab97204b1f06baea3ccdf5258f599dfa29/token_holders/?block-height=23451693 -u $APIKEY: -H 'Content-Type: application/json' > sff-eth.json
+curl "$SOURCEDATA/v1/137/tokens/0x90c2bcab97204b1f06baea3ccdf5258f599dfa29/token_holders/?key=$APIKEY&block-height=$BLOCK&page-size=$PAGESIZE" > sff-eth.json
 echo ""
 
 # Quickswap SFF/WMATIC Pool
 echo "Polling data for SFF/WMATIC on Quickswap."
-curl $SOURCEDATA/v1/137/tokens/0xcea1571d21de966aa5bcc23cec9bf16b7fec40d7/token_holders/?block-height=23451693 -u $APIKEY: -H 'Content-Type: application/json' > sff-wmatic.json
+curl "$SOURCEDATA/v1/137/tokens/0xcea1571d21de966aa5bcc23cec9bf16b7fec40d7/token_holders/?key=$APIKEY&block-height=$BLOCK&page-size=$PAGESIZE" > sff-wmatic.json
 echo ""
 
 # Quickswap SFF/USDC Pool
 echo "Polling data for SFF/USDC on Quickswap."
-curl $SOURCEDATA/v1/137/tokens/0xfab88a7cdb9b0c81f958f0c8ccc1e9cbb6299704/token_holders/?block-height=23451693 -u $APIKEY: -H 'Content-Type: application/json' > sff-usdc.json
+curl "$SOURCEDATA/v1/137/tokens/0xfab88a7cdb9b0c81f958f0c8ccc1e9cbb6299704/token_holders/?key=$APIKEY&block-height=$BLOCK&page-size=$PAGESIZE" > sff-usdc.json
 echo ""
 
 # Quickswap SFF/USDT Pool
 echo "Polling data for SFF/USDT on Quickswap."
-curl $SOURCEDATA/v1/137/tokens/0xc5b4f981831a055849d628a06cc5bbc4ad9448fd/token_holders/?block-height=23451693 -u $APIKEY: -H 'Content-Type: application/json' > sff-usdt.json
+curl "$SOURCEDATA/v1/137/tokens/0xfab88a7cdb9b0c81f958f0c8ccc1e9cbb6299704/token_holders/?key=$APIKEY&block-height=$BLOCK&page-size=$PAGESIZE" > sff-usdt.json
 echo ""
 
 # Quickswap SFF/QUICK Pool
 echo "Polling data for SFF/QUICK on Quickswap."
-curl $SOURCEDATA/v1/137/tokens/0x4eb58cc0d969daa476b131432f51590cfdb5f7fa/token_holders/?block-height=23451693 -u $APIKEY: -H 'Content-Type: application/json' > sff-quick.json
+curl "$SOURCEDATA/v1/137/tokens/0xfab88a7cdb9b0c81f958f0c8ccc1e9cbb6299704/token_holders/?key=$APIKEY&block-height=$BLOCK&page-size=$PAGESIZE" > sff-quick.json
 echo ""
 echo ""
 
@@ -89,3 +95,4 @@ php SFF-LP_Calc.php sff-usdt.json sff-usdt-pool-balance.csv $USDTBALANCE
 echo ""
 php SFF-LP_Calc.php sff-quick.json sff-quick-pool-balance.csv $QUICKBALANCE
 echo ""
+
