@@ -22,4 +22,8 @@
 # To run this calculator module, just execute SFF-LP_Calc.sh.
 #
 # prompt> ./SFF-LP_Calc.sh
-
+#
+# The final output is a CSV file with the following fields:
+# contract_name,contract_ticker_symbol,contract_address,address,balance_adjusted,percent,block_height,award
+# Where "award" is the number of SFF tokens a given wallet was managing.
+#
