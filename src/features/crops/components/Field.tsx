@@ -16,7 +16,6 @@ import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { getShortcuts } from "../../hud/lib/shortcuts";
-
 import { Soil } from "./Soil";
 
 const POPOVER_TIME_MS = 1000;

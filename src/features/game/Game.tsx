@@ -9,6 +9,7 @@ import { Water } from "features/water/Water";
 
 import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
+import { ToastManager } from "./toast/ToastManager";
 
 import { GameError } from "./components/GameError";
 
@@ -18,6 +19,7 @@ export const Game: React.FC = () => {
 
   return (
     <>
+      <ToastManager />
       <Modal show={gameState.matches("loading")} centered>
         <Panel>Loading...</Panel>
       </Modal>
