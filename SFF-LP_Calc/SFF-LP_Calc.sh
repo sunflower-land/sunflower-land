@@ -69,12 +69,12 @@ echo ""
 
 # Quickswap SFF/USDT Pool
 echo "Polling data for SFF/USDT on Quickswap."
-curl "$SOURCEDATA/v1/137/tokens/0xfab88a7cdb9b0c81f958f0c8ccc1e9cbb6299704/token_holders/?key=$APIKEY&block-height=$BLOCK&page-size=$PAGESIZE" > sff-usdt.json
+curl "$SOURCEDATA/v1/137/tokens/0xc5b4f981831a055849d628a06cc5bbc4ad9448fd/token_holders/?key=$APIKEY&block-height=$BLOCK&page-size=$PAGESIZE" > sff-usdt.json
 echo ""
 
 # Quickswap SFF/QUICK Pool
 echo "Polling data for SFF/QUICK on Quickswap."
-curl "$SOURCEDATA/v1/137/tokens/0xfab88a7cdb9b0c81f958f0c8ccc1e9cbb6299704/token_holders/?key=$APIKEY&block-height=$BLOCK&page-size=$PAGESIZE" > sff-quick.json
+curl "$SOURCEDATA/v1/137/tokens/0x4eb58cc0d969daa476b131432f51590cfdb5f7fa/token_holders/?key=$APIKEY&block-height=$BLOCK&page-size=$PAGESIZE" > sff-quick.json
 echo ""
 echo ""
 
