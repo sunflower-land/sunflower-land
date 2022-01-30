@@ -17,7 +17,7 @@ export const ToastManager = () => {
   return (
     <div>
       {listed &&
-        <div className="bg-brown-600 p-0.5 text-white shadow-lg flex flex-col items-end mr-2 sm:block fixed top-20 left-2 z-[99999]">
+        <div className="text-shadow p-0.5 text-white shadow-lg flex flex-col items-end mr-2 sm:block fixed top-20 left-2 z-[99999]">
           <Panel>
             {toastList.map(({ content, id }) => (
               <div className="relative" key={id}>
