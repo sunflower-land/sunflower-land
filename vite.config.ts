@@ -18,6 +18,7 @@ export default defineConfig({
   // Addresses web3 issue
   resolve: {
     alias: {
+      web3: "web3/dist/web3.min.js",
       process: "process/browser",
       stream: "stream-browserify",
       zlib: "browserify-zlib",
@@ -31,8 +32,5 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1000,
     assetsDir: "assets",
-    rollupOptions: {
-      plugins: [inject({ Buffer: ["Buffer", "Buffer"] })],
-    },
   },
 });
