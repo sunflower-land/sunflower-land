@@ -18,6 +18,10 @@ Don't have any ideas? We would suggest scanning the open issues and seeing if th
 
 If you are looking for something to work on, the team manages an open list of art requests on Github you can check out - https://github.com/sunflower-land/sunflower-land/issues?q=is%3Aopen+label%3A%22art+request%22+sort%3Aupdated-desc
 
+You can also check out our latest artwork preview at https://sunflower-land.com/art-preview-only/
+
+Something doesn't look quite right? Design a better version, submit it and help us improve the game. 🤗
+
 ## Artwork specs
 
 Sunflower Land is based on an asset pack - https://danieldiggle.itch.io/sunnyside
