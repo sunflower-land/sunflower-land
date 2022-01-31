@@ -21,6 +21,24 @@ describe("sell", () => {
     ).toThrow("Not for sale");
   });
 
+  it("does not sell  an unusual amount", () => {
+    expect(() =>
+      sell(
+        {
+          ...GAME_STATE,
+          inventory: {
+            Sunflower: 5,
+          },
+        },
+        {
+          type: "item.sell",
+          item: "Sunflower",
+          amount: 2,
+        }
+      )
+    ).toThrow("Invalid amount");
+  });
+
   it("does not sell a missing item", () => {
     expect(() =>
       sell(GAME_STATE, {

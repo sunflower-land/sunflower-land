@@ -16,6 +16,10 @@ export function sell(state: GameState, action: SellAction): GameState {
     throw new Error("Not for sale");
   }
 
+  if (action.amount !== 1 && action.amount !== 10) {
+    throw new Error("Invalid amount");
+  }
+
   const crop = CROPS[action.item];
 
   const cropCount = state.inventory[action.item] || 0;
