@@ -141,6 +141,7 @@ export function startGame(authContext: AuthContext) {
                 sessionId: authContext.sessionId as string,
                 sender: metamask.myAccount as string,
                 actions: context.actions,
+                signature: authContext.signature as string,
               });
             }
 

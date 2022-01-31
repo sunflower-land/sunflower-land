@@ -5,6 +5,7 @@ type Request = {
   farmId: number;
   sender: string;
   sessionId: string;
+  signature: string;
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
