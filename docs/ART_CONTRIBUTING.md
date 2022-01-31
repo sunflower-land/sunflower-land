@@ -24,7 +24,7 @@ Sunflower Land is based on an asset pack - https://danieldiggle.itch.io/sunnysid
 
 To submit art, you will want to use the same color palette, proportions and pixellated effect of the current artwork.
 
-_Dimensions_
+**Dimensions**
 
 The artwork is heavily pixellated which gives it a light and friendly appearance.
 
@@ -32,13 +32,30 @@ We recommend that most artwork falls within the 20x30 pixels. If you are designi
 
 When submitting your artwork, ensure that a square pixel is actually 1x1. This helps keep the raw assets small and makes the game load faster for players.
 
-_Style_
+**Needs improving**
+
+In this example, you can see that 1 pixel is actually 3px wide 😢
+
+<img width="430" alt="Screen Shot 2022-01-31 at 6 06 04 pm" src="https://user-images.githubusercontent.com/11745561/151874769-874ffbb2-564a-4dea-a669-8da3f5aab764.png">
+
+**Perfect**
+
+In this example, 1 pixel is 1px wide 🏆
+
+<img width="419" alt="Screen Shot 2022-01-31 at 6 06 58 pm" src="https://user-images.githubusercontent.com/11745561/151874904-4e625b63-07fa-4c52-ba28-0fb29b3c0190.png">
+
+
+## Style
 
 Artwork is always quite subjective. Once you are happy with your art, overlay it on the map using the preview URL below.
 
 https://sunflower-land.com/art-preview-only/
 
-Here is an example of the statue - Make sure you include other surrounding elements to ensure that it matches with them
+Here is an example of the potato statue - Make sure you include other surrounding elements to ensure that it matches with them. 
+
+<img width="549" alt="Screen Shot 2022-01-31 at 6 17 50 pm" src="https://user-images.githubusercontent.com/11745561/151874609-182d4d11-64a1-4156-bbf4-755563215181.png">
+
+You will want your pixel width to match up with the pixel width that is used in the game. Also consider adding a thin border on the bottom of your creation for a shadow effect.
 
 _Colour palette is coming soon..._
 
