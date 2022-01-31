@@ -3,7 +3,6 @@ type Request = {
   farmId: number;
   sender: string;
   signature: string;
-  hash: string;
   hasV1Tokens: boolean;
   hasV1Farm: boolean;
 };

@@ -79,7 +79,6 @@ export function startGame(authContext: AuthContext) {
                 farmId: Number(authContext.farmId),
                 sessionId: authContext.sessionId as string,
                 signature: authContext.signature as string,
-                hash: authContext.hash as string,
                 sender: metamask.myAccount as string,
                 /**
                  * TODO - use Web3 to see if they have V1 tokens
