@@ -4,6 +4,8 @@ type Request = {
   sender: string;
   signature: string;
   hash: string;
+  hasV1Tokens: boolean;
+  hasV1Farm: boolean;
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
