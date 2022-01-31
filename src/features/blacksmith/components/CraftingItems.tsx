@@ -7,7 +7,7 @@ import token from "assets/icons/token.png";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-
+import { ToastContext } from 'features/game/toast/ToastQueueProvider';
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Craftable } from "features/game/types/craftables";
@@ -20,7 +20,7 @@ interface Props {
 
 export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
-
+  const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
@@ -42,7 +42,11 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
       item: selected.name,
       amount,
     });
-
+    setToast({content: "SFL -$"+(selected.price*amount)});
+    selected.ingredients.map((ingredient, index) => {
+      setToast({content: "Item "+ingredient.item+" -"+(ingredient.amount*amount)});
+    });
+    
     shortcutItem(selected.name);
   };
 
