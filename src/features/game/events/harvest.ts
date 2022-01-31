@@ -9,6 +9,14 @@ export type HarvestAction = {
 export function harvest(state: GameState, action: HarvestAction) {
   const fields = { ...state.fields };
 
+  if (action.index < 0) {
+    throw new Error("Field does not exist");
+  }
+
+  if (!Number.isInteger(action.index)) {
+    throw new Error("Field does not exist");
+  }
+
   if (
     action.index >= 5 &&
     action.index <= 9 &&

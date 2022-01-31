@@ -70,6 +70,22 @@ describe("craft", () => {
     expect(state.inventory["Sunflower Seed"]).toBe(1);
   });
 
+  it("does not craft an item with an unusual amount", () => {
+    expect(() =>
+      craft(
+        {
+          ...GAME_STATE,
+          balance: new Decimal(1),
+        },
+        {
+          type: "item.crafted",
+          item: "Sunflower Seed",
+          amount: 2,
+        }
+      )
+    ).toThrow("Invalid amount");
+  });
+
   it("crafts item with sufficient ingredients", () => {
     const state = craft(
       {

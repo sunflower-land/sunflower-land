@@ -10,6 +10,26 @@ let GAME_STATE: GameState = {
 };
 
 describe("plant", () => {
+  it("does not plant on non-existent field", () => {
+    expect(() =>
+      plant(GAME_STATE, {
+        type: "item.planted",
+        index: -1,
+        item: "Sunflower Seed",
+      })
+    ).toThrow("Field does not exist");
+  });
+
+  it("does not plant on non-integer field", () => {
+    expect(() =>
+      plant(GAME_STATE, {
+        type: "item.planted",
+        index: 1.2,
+        item: "Sunflower Seed",
+      })
+    ).toThrow("Field does not exist");
+  });
+
   it("does not plant if first goblin is around", () => {
     expect(() =>
       plant(GAME_STATE, {
@@ -107,6 +127,25 @@ describe("plant", () => {
       name: "Pumpkin",
       plantedAt: expect.any(Number),
     });
+  });
+
+  it("does not plant on non-existent field", () => {
+    expect(() =>
+      plant(
+        {
+          ...GAME_STATE,
+          inventory: {
+            "Roasted Cauliflower": 1,
+            "Pumpkin Seed": 2,
+          },
+        },
+        {
+          type: "item.planted",
+          index: 22,
+          item: "Pumpkin Seed",
+        }
+      )
+    ).toThrow("Field does not exist");
   });
 
   it("does not plant if crop already exists", () => {

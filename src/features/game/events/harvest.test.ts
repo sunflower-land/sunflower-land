@@ -11,6 +11,24 @@ let GAME_STATE: GameState = {
 };
 
 describe("harvest", () => {
+  it("does not harvest on non-existent field", () => {
+    expect(() =>
+      harvest(GAME_STATE, {
+        type: "item.harvested",
+        index: -1,
+      })
+    ).toThrow("Field does not exist");
+  });
+
+  it("does not harvest on non-integer field", () => {
+    expect(() =>
+      harvest(GAME_STATE, {
+        type: "item.harvested",
+        index: 1.2,
+      })
+    ).toThrow("Field does not exist");
+  });
+
   it("does not harvest empty air", () => {
     expect(() =>
       harvest(GAME_STATE, {

@@ -16,6 +16,10 @@ export function craft(state: GameState, action: CraftAction) {
     throw new Error(`This item is not craftable: ${action.item}`);
   }
 
+  if (action.amount !== 1 && action.amount !== 10) {
+    throw new Error("Invalid amount");
+  }
+
   const item = CRAFTABLES[action.item];
   const totalExpenses = item.price * action.amount;
 

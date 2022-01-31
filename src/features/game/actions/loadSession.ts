@@ -11,7 +11,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export async function loadSession(request: Request) {
   const response = await window.fetch(`${API_URL}/session`, {
-    // learn more about this API here: https://graphql-pokemon2.vercel.app/
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

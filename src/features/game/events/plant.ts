@@ -18,7 +18,6 @@ const VALID_SEEDS: InventoryItemName[] = [
   "Pumpkin Seed",
   "Parsnip Seed",
   "Radish Seed",
-  "Wheat Seed",
 ];
 
 function isSeed(crop: InventoryItemName): crop is SeedName {
@@ -27,6 +26,14 @@ function isSeed(crop: InventoryItemName): crop is SeedName {
 
 export function plant(state: GameState, action: PlantAction) {
   const fields = { ...state.fields };
+
+  if (action.index < 0) {
+    throw new Error("Field does not exist");
+  }
+
+  if (!Number.isInteger(action.index)) {
+    throw new Error("Field does not exist");
+  }
 
   if (
     action.index >= 5 &&
