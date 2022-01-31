@@ -35,6 +35,7 @@
     "xstate": "^4.27.0"
   },
   "devDependencies": {
+    "@rollup/plugin-inject": "^4.0.4",
     "@types/jest": "^27.4.0",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
