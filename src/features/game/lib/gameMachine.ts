@@ -6,7 +6,7 @@ import { EVENTS, GameEvent, processEvent } from "../events";
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
 
-import { GameState } from "../types/game";
+import { GameState, InventoryItemName } from "../types/game";
 import { loadSession } from "../actions/loadSession";
 import { INITIAL_FARM } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -95,10 +95,7 @@ export function startGame(authContext: AuthContext) {
               }
 
               return {
-                state: {
-                  ...game,
-                  balance: new Decimal(game.balance),
-                },
+                state: game,
               };
             }
 

@@ -58,7 +58,6 @@ import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 
 export type ItemDetails = {
-  id: number;
   description: string;
   image: any;
 };

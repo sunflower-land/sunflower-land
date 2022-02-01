@@ -45,8 +45,8 @@ describe("plant", () => {
       {
         ...GAME_STATE,
         inventory: {
-          "Pumpkin Soup": 1,
-          "Potato Seed": 2,
+          "Pumpkin Soup": new Decimal(1),
+          "Potato Seed": new Decimal(2),
         },
       },
       {
@@ -56,7 +56,7 @@ describe("plant", () => {
       }
     );
 
-    expect(state.inventory["Potato Seed"]).toEqual(1);
+    expect(state.inventory["Potato Seed"]).toEqual(new Decimal(1));
     expect(state.fields[6]).toEqual({
       name: "Potato",
       plantedAt: expect.any(Number),
@@ -78,8 +78,8 @@ describe("plant", () => {
       {
         ...GAME_STATE,
         inventory: {
-          Sauerkraut: 1,
-          "Pumpkin Seed": 2,
+          Sauerkraut: new Decimal(1),
+          "Pumpkin Seed": new Decimal(2),
         },
       },
       {
@@ -89,7 +89,7 @@ describe("plant", () => {
       }
     );
 
-    expect(state.inventory["Pumpkin Seed"]).toEqual(1);
+    expect(state.inventory["Pumpkin Seed"]).toEqual(new Decimal(1));
     expect(state.fields[12]).toEqual({
       name: "Pumpkin",
       plantedAt: expect.any(Number),
@@ -111,8 +111,8 @@ describe("plant", () => {
       {
         ...GAME_STATE,
         inventory: {
-          "Roasted Cauliflower": 1,
-          "Pumpkin Seed": 2,
+          "Roasted Cauliflower": new Decimal(1),
+          "Pumpkin Seed": new Decimal(2),
         },
       },
       {
@@ -122,7 +122,7 @@ describe("plant", () => {
       }
     );
 
-    expect(state.inventory["Pumpkin Seed"]).toEqual(1);
+    expect(state.inventory["Pumpkin Seed"]).toEqual(new Decimal(1));
     expect(state.fields[20]).toEqual({
       name: "Pumpkin",
       plantedAt: expect.any(Number),
@@ -135,8 +135,8 @@ describe("plant", () => {
         {
           ...GAME_STATE,
           inventory: {
-            "Roasted Cauliflower": 1,
-            "Pumpkin Seed": 2,
+            "Roasted Cauliflower": new Decimal(1),
+            "Pumpkin Seed": new Decimal(2),
           },
         },
         {
@@ -194,7 +194,7 @@ describe("plant", () => {
       {
         ...GAME_STATE,
         inventory: {
-          "Sunflower Seed": 5,
+          "Sunflower Seed": new Decimal(5),
         },
       },
       {
@@ -207,7 +207,7 @@ describe("plant", () => {
     expect(state).toEqual({
       ...GAME_STATE,
       inventory: {
-        "Sunflower Seed": 4,
+        "Sunflower Seed": new Decimal(4),
       },
       fields: {
         0: {

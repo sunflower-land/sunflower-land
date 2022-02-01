@@ -1,5 +1,6 @@
 import { GameState } from "../types/game";
 import { CROPS } from "../types/crops";
+import Decimal from "decimal.js-light";
 
 export type HarvestAction = {
   type: "item.harvested";
@@ -53,20 +54,20 @@ export function harvest(state: GameState, action: HarvestAction) {
   const crop = CROPS[field.name];
 
   if (Date.now() - field.plantedAt < crop.harvestSeconds * 1000) {
-    throw new Error("Crop is not ready to harvest");
+    throw new Error("Not ready");
   }
 
   const newFields = fields;
   delete newFields[action.index];
 
-  const cropCount = state.inventory[field.name] || 0;
+  const cropCount = state.inventory[field.name] || new Decimal(0);
 
   return {
     ...state,
     fields: newFields,
     inventory: {
       ...state.inventory,
-      [field.name]: cropCount + 1,
+      [field.name]: cropCount.add(1),
     },
   } as GameState;
 }

@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { CropName, SeedName } from "../types/crops";
 import { GameState, InventoryItemName } from "../types/game";
 
@@ -76,8 +77,8 @@ export function plant(state: GameState, action: PlantAction) {
     throw new Error("Not a seed");
   }
 
-  const seedCount = state.inventory[action.item] || 0;
-  if (seedCount === 0) {
+  const seedCount = state.inventory[action.item] || new Decimal(0);
+  if (seedCount.lessThan(1)) {
     throw new Error("Not enough seeds");
   }
 
@@ -94,7 +95,7 @@ export function plant(state: GameState, action: PlantAction) {
     ...state,
     inventory: {
       ...state.inventory,
-      [action.item]: seedCount - 1,
+      [action.item]: seedCount.sub(1),
     },
     fields: newFields,
   } as GameState;

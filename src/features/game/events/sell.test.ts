@@ -27,7 +27,7 @@ describe("sell", () => {
         {
           ...GAME_STATE,
           inventory: {
-            Sunflower: 5,
+            Sunflower: new Decimal(5),
           },
         },
         {
@@ -54,7 +54,7 @@ describe("sell", () => {
       {
         ...GAME_STATE,
         inventory: {
-          Sunflower: 5,
+          Sunflower: new Decimal(5),
         },
       },
       {
@@ -64,7 +64,7 @@ describe("sell", () => {
       }
     );
 
-    expect(state.inventory.Sunflower).toEqual(4);
+    expect(state.inventory.Sunflower).toEqual(new Decimal(4));
     expect(state.balance).toEqual(new Decimal(0.02));
   });
 
@@ -73,7 +73,7 @@ describe("sell", () => {
       {
         ...GAME_STATE,
         inventory: {
-          Sunflower: 11,
+          Sunflower: new Decimal(11),
         },
       },
       {
@@ -83,7 +83,7 @@ describe("sell", () => {
       }
     );
 
-    expect(state.inventory.Sunflower).toEqual(1);
+    expect(state.inventory.Sunflower).toEqual(new Decimal(1));
     expect(state.balance).toEqual(new Decimal(0.2));
   });
 
@@ -93,7 +93,7 @@ describe("sell", () => {
         {
           ...GAME_STATE,
           inventory: {
-            Sunflower: 2,
+            Sunflower: new Decimal(2),
           },
         },
         {

@@ -55,7 +55,7 @@ describe("harvest", () => {
           index: 0,
         }
       )
-    ).toThrow("Crop is not ready to harvest");
+    ).toThrow("Not ready");
   });
 
   it("harvests a crop", () => {
@@ -75,7 +75,7 @@ describe("harvest", () => {
       }
     );
 
-    expect(state.inventory.Sunflower).toBe(1);
+    expect(state.inventory.Sunflower).toEqual(new Decimal(1));
     expect(state.fields).toEqual({});
   });
 
@@ -93,14 +93,14 @@ describe("harvest", () => {
 
   it("harvests once the first goblin is gone", () => {
     const state = harvest(
-      { ...INITIAL_FARM, inventory: { "Pumpkin Soup": 1 } },
+      { ...INITIAL_FARM, inventory: { "Pumpkin Soup": new Decimal(1) } },
       {
         type: "item.harvested",
         index: 5,
       }
     );
 
-    expect(state.inventory.Carrot).toBe(1);
+    expect(state.inventory.Carrot).toEqual(new Decimal(1));
   });
 
   it("does not harvest on the second goblin land", () => {
@@ -117,14 +117,14 @@ describe("harvest", () => {
 
   it("harvests once the second goblin is gone", () => {
     const state = harvest(
-      { ...INITIAL_FARM, inventory: { Sauerkraut: 1 } },
+      { ...INITIAL_FARM, inventory: { Sauerkraut: new Decimal(1) } },
       {
         type: "item.harvested",
         index: 10,
       }
     );
 
-    expect(state.inventory.Cauliflower).toBe(1);
+    expect(state.inventory.Cauliflower).toEqual(new Decimal(1));
   });
 
   it("does not harvest on the third goblin land", () => {
@@ -141,13 +141,13 @@ describe("harvest", () => {
 
   it("harvests once the third goblin is gone", () => {
     const state = harvest(
-      { ...INITIAL_FARM, inventory: { "Roasted Cauliflower": 1 } },
+      { ...INITIAL_FARM, inventory: { "Roasted Cauliflower": new Decimal(1) } },
       {
         type: "item.harvested",
         index: 16,
       }
     );
 
-    expect(state.inventory.Parsnip).toBe(1);
+    expect(state.inventory.Parsnip).toEqual(new Decimal(1));
   });
 });

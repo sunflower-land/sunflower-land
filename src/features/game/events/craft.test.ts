@@ -42,7 +42,7 @@ describe("craft", () => {
         {
           ...GAME_STATE,
           balance: new Decimal(10),
-          inventory: { Wood: 0 },
+          inventory: {},
         },
         {
           type: "item.crafted",
@@ -67,7 +67,7 @@ describe("craft", () => {
     );
 
     expect(state.balance).toEqual(new Decimal(0.99));
-    expect(state.inventory["Sunflower Seed"]).toBe(1);
+    expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(1));
   });
 
   it("does not craft an item with an unusual amount", () => {
@@ -91,7 +91,7 @@ describe("craft", () => {
       {
         ...GAME_STATE,
         balance: new Decimal(1),
-        inventory: { Wood: 10 },
+        inventory: { Wood: new Decimal(10) },
       },
       {
         type: "item.crafted",
@@ -101,8 +101,8 @@ describe("craft", () => {
     );
 
     expect(state.balance).toEqual(new Decimal(0));
-    expect(state.inventory["Pickaxe"]).toBe(1);
-    expect(state.inventory["Wood"]).toBe(8);
+    expect(state.inventory["Pickaxe"]).toEqual(new Decimal(1));
+    expect(state.inventory["Wood"]).toEqual(new Decimal(8));
   });
 
   it("requires a certain item before crafting", () => {
@@ -111,7 +111,7 @@ describe("craft", () => {
         {
           ...GAME_STATE,
           balance: new Decimal(1),
-          inventory: { Wood: 10 },
+          inventory: { Wood: new Decimal(10) },
         },
         {
           type: "item.crafted",
@@ -127,7 +127,7 @@ describe("craft", () => {
       {
         ...GAME_STATE,
         balance: new Decimal(1),
-        inventory: { "Pumpkin Soup": 1 },
+        inventory: { "Pumpkin Soup": new Decimal(1) },
       },
       {
         type: "item.crafted",
@@ -137,7 +137,7 @@ describe("craft", () => {
     );
 
     expect(state.balance).toEqual(new Decimal(0.5));
-    expect(state.inventory["Carrot Seed"]).toBe(1);
+    expect(state.inventory["Carrot Seed"]).toEqual(new Decimal(1));
   });
 
   it("crafts item in bulk given sufficient balance", () => {
@@ -154,7 +154,7 @@ describe("craft", () => {
     );
 
     expect(state.balance).toEqual(new Decimal(0));
-    expect(state.inventory["Sunflower Seed"]).toBe(10);
+    expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(10));
   });
 
   it("crafts item in bulk given sufficient ingredients", () => {
@@ -162,7 +162,7 @@ describe("craft", () => {
       {
         ...GAME_STATE,
         balance: new Decimal(10),
-        inventory: { Wood: 21 },
+        inventory: { Wood: new Decimal(21) },
       },
       {
         type: "item.crafted",
@@ -172,8 +172,8 @@ describe("craft", () => {
     );
 
     expect(state.balance).toEqual(new Decimal(0));
-    expect(state.inventory["Pickaxe"]).toBe(10);
-    expect(state.inventory["Wood"]).toBe(1);
+    expect(state.inventory["Pickaxe"]).toEqual(new Decimal(10));
+    expect(state.inventory["Wood"]).toEqual(new Decimal(1));
   });
 
   it("does not craft in bulk given insufficient ingredients", () => {
@@ -182,7 +182,7 @@ describe("craft", () => {
         {
           ...GAME_STATE,
           balance: new Decimal(10),
-          inventory: { Wood: 8 },
+          inventory: { Wood: new Decimal(8) },
         },
         {
           type: "item.crafted",
