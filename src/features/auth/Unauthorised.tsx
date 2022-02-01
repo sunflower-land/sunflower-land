@@ -21,6 +21,7 @@ export const Unauthorised: React.FC<Props> = () => {
   if (authState.context.errorCode === "NO_WEB3") {
     return (
       <Panel>
+        {/* Instructions on how to sort out metamask */}
         <Web3Missing />
       </Panel>
     );
@@ -39,7 +40,7 @@ export const Unauthorised: React.FC<Props> = () => {
   }
 
   return (
-    <Panel>
+    <Panel className="text-shadow">
       Catch all other connecting errors :/
       {/* <div className="flex flex-col justify-center items-center">
         <div className="w-56">
