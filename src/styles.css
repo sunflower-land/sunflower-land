@@ -24,6 +24,7 @@
 body {
   font-family: "Press Start 2p", sans-serif;
   overflow: hidden;
+  text-shadow: 1px 1px black;
 }
 
 * {

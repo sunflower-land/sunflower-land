@@ -1,7 +1,9 @@
 import { ERRORS } from "lib/errors";
-import { createMachine, Interpreter, interpret, assign } from "xstate";
+import { createMachine, Interpreter, interpret, assign, actions } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
+import { createFarm } from "../actions/createFarm";
+import { CharityAddress } from "../components/Donation";
 
 export interface Context {
   errorCode?: keyof typeof ERRORS;
@@ -22,6 +24,12 @@ type VisitEvent = {
   farmId: number;
 };
 
+type CreateFarmEvent = {
+  type: "CREATING_FARM";
+  charityAddress: CharityAddress;
+  donation: number;
+};
+
 export type BlockchainEvent =
   | StartEvent
   | VisitEvent
@@ -29,10 +37,17 @@ export type BlockchainEvent =
       type: "NETWORK_CHANGED";
     }
   | {
-      type: "ACCOUNT_CHANGED";
+      type: "LOADING_FARMS";
     }
   | {
-      type: "FARM_CREATED";
+      type: "NO_FARMS";
+    }
+  | {
+      type: "ACCOUNT_CHANGED";
+    }
+  | CreateFarmEvent
+  | {
+      type: "FARMS_LOADED";
     }
   | {
       type: "REFRESH";
@@ -41,6 +56,8 @@ export type BlockchainEvent =
 export type BlockchainState = {
   value:
     | "connecting"
+    | "creating"
+    | "loadingFarms"
     | "ready"
     | "signing"
     | "registering"
@@ -86,6 +103,9 @@ export const authMachine = createMachine<
     },
     ready: {
       on: {
+        LOADING_FARMS: {
+          target: "loadingFarms",
+        },
         START: {
           target: "signing",
         },
@@ -95,14 +115,41 @@ export const authMachine = createMachine<
             farmId: (context, event) => event.farmId,
           }),
         },
-        FARM_CREATED: {
-          target: "connecting",
+        CREATING_FARM: {
+          target: "creating",
         },
         ACCOUNT_CHANGED: {
           target: "connecting",
         },
         NETWORK_CHANGED: {
           target: "connecting",
+        },
+      },
+    },
+
+    creating: {
+      invoke: {
+        src: async (context, event) => {
+          const charityAddress = (event as CreateFarmEvent)
+            .charityAddress as CharityAddress;
+          const donation = (event as CreateFarmEvent).donation as number;
+
+          await createFarm(charityAddress, donation);
+        },
+        onDone: "loadingFarms",
+        onError: {
+          target: "unauthorised",
+          actions: assign({
+            errorCode: (context, event) => event.data.message,
+          }),
+        },
+      },
+    },
+
+    loadingFarms: {
+      on: {
+        FARMS_LOADED: {
+          target: "ready",
         },
       },
     },

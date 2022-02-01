@@ -17,7 +17,7 @@ export const Game: React.FC = () => {
   return (
     <>
       <Modal show={gameState.matches("loading")} centered>
-        <Panel>Loading...</Panel>
+        <Panel className="text-shadow">Loading...</Panel>
       </Modal>
       <Modal show={gameState.matches("error")} centered>
         <Panel>Something went wrong!</Panel>

@@ -8,6 +8,7 @@ import { Unauthorised } from "features/auth/Unauthorised";
 import { Session } from "features/game/Session";
 import { Welcome } from "features/auth/components/Welcome";
 import { Splash } from "features/auth/components/Splash";
+import { SettingUpFarm } from "features/auth/components/SettingUpFarm";
 
 /**
  * Entry point for game which reflects the user session state
@@ -54,20 +55,29 @@ export const Navigation: React.FC = () => {
     authState.matches("connecting") ||
     authState.matches("signing");
 
-  console.log(authState.value);
-
   const showGame =
     authState.matches("authorised") || authState.matches("visiting");
+
   return (
     <>
       <Modal centered show={isLoading} backdrop={false}>
         <Loading />
       </Modal>
 
-      <Modal centered show={authState.matches("ready")} backdrop={false}>
+      <Modal
+        centered
+        show={authState.matches("ready") || authState.matches("loadingFarms")}
+        backdrop={false}
+      >
         <Welcome />
       </Modal>
 
+      <Modal centered show={authState.matches("creating")} backdrop={false}>
+        {/* Farms loaded, select farm, start */}
+        <SettingUpFarm />
+      </Modal>
+
+      {/* Not connected || Wrong chain || Error */}
       <Modal centered show={authState.matches("unauthorised")} backdrop={false}>
         <Unauthorised />
       </Modal>

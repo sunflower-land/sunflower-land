@@ -1,19 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
-import Modal from "react-bootstrap/Modal";
 
 import * as Auth from "features/auth/lib/Provider";
 
 import { Panel } from "components/ui/Panel";
-import { CharityAddress, Donation } from "./Donation";
-import { Button } from "components/ui/Button";
+import { StartFarm } from "./StartFarm";
+import { CreateFarm } from "./CreateFarm";
 import { metamask } from "lib/blockchain/metamask";
-import { createFarm } from "../actions/createFarm";
 
 import jumpingGoblin from "assets/npcs/goblin_jump.gif";
 import curly from "assets/npcs/curly_hair.png";
 
-type Farm = {
+export type Farm = {
   id: number;
   sessionId: string;
   address: string;
@@ -21,21 +19,20 @@ type Farm = {
 
 export const Welcome: React.FC = () => {
   const { authService } = useContext(Auth.Context);
-  const [authState, send] = useActor(authService);
+  const [authState, _] = useActor(authService);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [showDonation, setShowDonation] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
+
   const [farm, setFarm] = useState<Farm>();
 
   useEffect(() => {
     const load = async () => {
+      authService.send("LOADING_FARMS");
       const farmAccounts = await metamask.getFarm()?.getFarms();
       if (farmAccounts?.length === 0) {
-        setIsLoading(false);
+        authService.send("FARMS_LOADED");
         return;
       }
-
-      console.log({ farmAccounts });
 
       // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
       const farmAccount = farmAccounts[0];
@@ -44,34 +41,24 @@ export const Welcome: React.FC = () => {
         .getSunflowerLand()
         .getSessionId(farmAccount.tokenId);
 
-      setIsLoading(false);
       setFarm({
         id: farmAccount.tokenId,
         sessionId,
         address: farmAccount.account,
       });
+
+      authService.send("FARMS_LOADED");
+      // setIsLoading(false);
     };
 
     load();
   }, []);
 
-  const start = () => {
-    authService.send("START", {
-      farmId: farm?.id,
-      sessionId: farm?.sessionId,
-    });
-  };
+  const loadingFarms = authState.value === "loadingFarms";
 
-  const create = async (charityAddress: CharityAddress, donation: number) => {
-    await createFarm(charityAddress, donation);
-    send("FARM_CREATED");
-  };
+  if (loadingFarms) return <div className="relative w-full h-full"></div>;
 
-  const donate = async (charityAddress: CharityAddress, donation: number) => {
-    // TODO: implement donation logic
-    setShowDonation(false);
-    await create(charityAddress, donation);
-  };
+  const hasFarm = !!farm && authState.value === "ready";
 
   return (
     <div className="relative">
@@ -84,35 +71,23 @@ export const Welcome: React.FC = () => {
       </div>
       <img src={jumpingGoblin} className="absolute w-52 -top-11 -z-10" />
       <Panel className="p-1 mt-10">
-        {isLoading && (
+        {/* Loading Farm */}
+        {loadingFarms && (
           <span className="text-shadow">Loading your farms...</span>
         )}
-        {!isLoading && (
+        {/* Farms Loaded */}
+        {!loadingFarms && (
           <div className="p-1">
-            {farm && (
-              <>
-                <span className="text-shadow text-xs">{farm?.address}</span>
-                <Button onClick={start} className="overflow-hidden">
-                  Lets go!
-                </Button>
-              </>
+            {/* Already have a farm */}
+            {hasFarm ? (
+              <StartFarm farm={farm} />
+            ) : (
+              // No Farm Create
+              <CreateFarm />
             )}
-            <Button
-              onClick={() => setShowDonation(true)}
-              className="overflow-hidden mb-2"
-            >
-              Create a farm
-            </Button>
-            <Button onClick={() => {}} disabled className="overflow-hidden">
-              Explore a friend's farm
-            </Button>
           </div>
         )}
       </Panel>
-
-      <Modal centered show={showDonation} backdrop={false}>
-        <Donation onDonate={donate} />
-      </Modal>
     </div>
   );
 };
