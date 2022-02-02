@@ -35,7 +35,9 @@ export const Box: React.FC<BoxProps> = ({
         onClick={onClick}
         // Custom styles to get pixellated border effect
         style={{
-          border: "6px solid transparent",
+          // border: "6px solid transparent",
+          borderStyle: "solid",
+          borderWidth: "6px",
           borderImage: `url(${darkBorder}) 30 stretch`,
           borderImageSlice: "25%",
           imageRendering: "pixelated",
