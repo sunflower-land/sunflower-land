@@ -7,7 +7,7 @@ import token from "assets/icons/token.png";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { ToastContext } from 'features/game/toast/ToastQueueProvider';
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Craftable } from "features/game/types/craftables";
@@ -42,11 +42,13 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
       item: selected.name,
       amount,
     });
-    setToast({content: "SFL -$"+(selected.price*amount)});
+    setToast({ content: "SFL -$" + selected.price * amount });
     selected.ingredients.map((ingredient, index) => {
-      setToast({content: "Item "+ingredient.item+" -"+(ingredient.amount*amount)});
+      setToast({
+        content: "Item " + ingredient.item + " -" + ingredient.amount * amount,
+      });
     });
-    
+
     shortcutItem(selected.name);
   };
 
@@ -106,11 +108,6 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
           {!!selected.amountLeft && (
             <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
               {`${selected.amountLeft} left`}
-            </span>
-          )}
-          {selected.type === "NFT" && (
-            <span className="bg-blue-600 text-shadow border text-xxs absolute right-0 -top-4 p-1 rounded-md">
-              NFT
             </span>
           )}
 

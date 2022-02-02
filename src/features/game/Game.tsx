@@ -12,6 +12,7 @@ import { Panel } from "components/ui/Panel";
 import { ToastManager } from "./toast/ToastManager";
 
 import { GameError } from "./components/GameError";
+import { Decorations } from "./components/Decorations";
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -33,6 +34,7 @@ export const Game: React.FC = () => {
       <Blacksmith />
       <Crops />
       <Water />
+      <Decorations />
     </>
   );
 };

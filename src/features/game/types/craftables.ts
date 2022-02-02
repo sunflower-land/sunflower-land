@@ -33,7 +33,10 @@ export type NFT =
   | "Farm Dog"
   | "Gnome"
   | "Chicken Coop"
-  | "Gold Egg";
+  | "Gold Egg"
+  | "Golden Cauliflower"
+  | "Sunflower Tombstone"
+  | "Sunflower Rock";
 
 export type Tool =
   | "Axe"
@@ -178,7 +181,7 @@ export const TOOLS: Record<Tool, Craftable> = {
 export const NFTs: Record<NFT, Craftable> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
-    description: "A symbol of the holy token",
+    description: "Earn beta access to new features",
     price: 5,
     ingredients: [
       {
@@ -309,6 +312,46 @@ export const NFTs: Record<NFT, Craftable> = {
     ],
     amountLeft: 82,
     type: "NFT",
+  },
+  "Sunflower Tombstone": {
+    name: "Sunflower Tombstone",
+    description: "In memory of Sunflower Farmers",
+    price: 0,
+    ingredients: [],
+    amountLeft: 0,
+    type: "NFT",
+  },
+  "Golden Cauliflower": {
+    name: "Golden Cauliflower",
+    description: "Double the rewards from cauliflowers",
+    price: 100,
+    ingredients: [
+      {
+        item: "Cauliflower",
+        amount: 100,
+      },
+      {
+        item: "Gold",
+        amount: 10,
+      },
+    ],
+    amountLeft: 100,
+  },
+  "Sunflower Rock": {
+    name: "Sunflower Rock",
+    description: "The game that broke Polygon",
+    price: 100,
+    ingredients: [
+      {
+        item: "Sunflower",
+        amount: 10000,
+      },
+      {
+        item: "Iron",
+        amount: 100,
+      },
+    ],
+    amountLeft: 50,
   },
 };
 
