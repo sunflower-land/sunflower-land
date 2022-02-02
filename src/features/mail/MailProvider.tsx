@@ -1,5 +1,5 @@
 /**
- * A wrapper that provides mailbox state and dispatches events
+ * A wrapper that provides mail state and dispatches events
  */
 import React, { useState, useEffect, useCallback } from "react";
 
@@ -13,6 +13,7 @@ type Message = {
 }
 
 interface MailContext {
+  hasUnread: boolean;
   inbox: Message[];
   setRead: (index: number) => void;
 }
@@ -25,11 +26,11 @@ export const Context = React.createContext<MailContext>({} as MailContext);
  */
 export const MailProvider: React.FC = ({ children }) => {
   const [inbox, setInbox] = useState<Message[]>([]);
+  const [hasUnread, setHasUnread] = useState<boolean>(false);
 
   /**
    * Return list of messages
    * MVP1: 
-   *  - update this to reflect new announcements
    *  - always change id to reflect unread
    *  - remove useCallback when fetching from API?
    */
@@ -73,7 +74,7 @@ export const MailProvider: React.FC = ({ children }) => {
 
     setInbox(_inbox);
 
-    // cleanup non existing ids
+    // exclude non existing ids
     const newReadMessages = _inbox.filter((msg) => !msg.unread).map((msg) => msg.id);
 
     if (newReadMessages.length) {
@@ -83,8 +84,14 @@ export const MailProvider: React.FC = ({ children }) => {
     }
   }, []);
 
+  useEffect(() => {
+    const _hasUnread = inbox.some((msg) => msg.unread);
+
+    setHasUnread(_hasUnread);
+  }, [inbox]);
+
   return (
-    <Context.Provider value={{ inbox, setRead }}>
+    <Context.Provider value={{ hasUnread, inbox, setRead }}>
       {children}
     </Context.Provider>
   );

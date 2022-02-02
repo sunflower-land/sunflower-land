@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Accordion } from "react-bootstrap";
 
-import { InnerPanel, Panel, OuterPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Context } from "../MailProvider";
 
 interface Props {
