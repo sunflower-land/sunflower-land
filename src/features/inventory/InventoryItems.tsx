@@ -21,10 +21,8 @@ interface Props {
 export const InventoryItems: React.FC<Props> = ({ onClose }) => {
 
   const currentTab = localStorage.getItem("inventory.tab") ?? "seeds";
-
-  const [tab, setTab] = useState<"seeds" | "crops" | "foods" | "nfts">(currentTab);
-
-  const cached = localStorage.getItem("inventory.tab");
+  
+  const [tab, setTab] = useState(currentTab  as "seeds" | "crops" | "foods" | "nfts");
   
   return (
     <Panel className="pt-5 relative">
