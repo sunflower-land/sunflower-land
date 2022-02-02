@@ -25,7 +25,7 @@ export const Inbox: React.FC<Props> = () => {
       {inbox.length
         ? <Accordion>
             {inbox.map(({ title, body, unread }, index) => 
-              <Accordion.Item key={index} eventKey={index} className="flex-grow-1 bg-transparent" as={OuterPanel}>
+              <Accordion.Item key={index} eventKey={index.toString()} className="flex-grow-1 bg-transparent" as={OuterPanel}>
                 <Accordion.Button onClick={() => readMessage(index)} className="p-2 text-white text-shadow bg-transparent">
                   {unread && <span className="text-red-500">!-</span>}
                   <span>{title || `${body.slice(0, 10)}...`}</span>
