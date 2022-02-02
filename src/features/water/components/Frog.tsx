@@ -38,7 +38,7 @@ export const Frog: React.FC<Props> = () => {
           <div className="flex items-start">
             <img src={frog} className="w-12 img-highlight mr-2" />
             <div className="flex-1">
-              <span className="text-shadow block">Lily the Frog</span>
+              <span className="text-shadow block">Lilly the Frog</span>
               <span className="text-shadow block mt-4">Ribbbbbit!</span>
             </div>
           </div>
