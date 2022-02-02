@@ -1,18 +1,16 @@
+import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { useActor } from "@xstate/react";
 
 import basket from "assets/icons/basket.png";
 import button from "assets/ui/button/round_button.png";
-
-import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
-
-import { InventoryItems } from "./InventoryItems";
+import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-
-import { getShortcuts } from "../lib/shortcuts";
 import { ITEM_DETAILS } from "features/game/types/images";
+
+import { InventoryItems } from "../../inventory/InventoryItems";
+import { getShortcuts } from "../lib/shortcuts";
 
 export const Inventory: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +36,7 @@ export const Inventory: React.FC = () => {
       </div>
 
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems />
+        <InventoryItems onClose={() => setIsOpen(false)} />
       </Modal>
 
       <div className="flex flex-col items-center sm:mt-8">

@@ -10,6 +10,7 @@ export type CraftAction = {
 export type CraftableName = NFT | Tool | SeedName | Food;
 
 export type Craftable = {
+  item_type: string;
   name: CraftableName;
   description: string;
   price: number;
@@ -51,6 +52,7 @@ export type Food =
 
 export const FOODS: Record<Food, Craftable> = {
   "Pumpkin Soup": {
+    item_type: "food",
     name: "Pumpkin Soup",
     description: "A creamy soup that goblins love",
     price: 5,
@@ -63,6 +65,7 @@ export const FOODS: Record<Food, Craftable> = {
     limit: 1,
   },
   Flour: {
+    item_type: "food",
     name: "Flour",
     description: "Ground Wheat",
     price: 0.1,
@@ -74,6 +77,7 @@ export const FOODS: Record<Food, Craftable> = {
     ],
   },
   "Roasted Cauliflower": {
+    item_type: "food",
     name: "Roasted Cauliflower",
     description: "A Goblin's favourite",
     price: 0.1,
@@ -85,6 +89,7 @@ export const FOODS: Record<Food, Craftable> = {
     ],
   },
   Sauerkraut: {
+    item_type: "food",
     name: "Sauerkraut",
     description: "Fermented cabbage",
     price: 0.1,
@@ -99,12 +104,14 @@ export const FOODS: Record<Food, Craftable> = {
 
 export const TOOLS: Record<Tool, Craftable> = {
   Axe: {
+    item_type: "tool",
     name: "Axe",
     description: "Used to collect wood",
     price: 1,
     ingredients: [],
   },
   Pickaxe: {
+    item_type: "tool",
     name: "Pickaxe",
     description: "Used to collect stone",
     price: 1,
@@ -116,6 +123,7 @@ export const TOOLS: Record<Tool, Craftable> = {
     ],
   },
   "Stone Pickaxe": {
+    item_type: "tool",
     name: "Stone Pickaxe",
     description: "Used to collect iron",
     price: 2,
@@ -131,6 +139,7 @@ export const TOOLS: Record<Tool, Craftable> = {
     ],
   },
   "Iron Pickaxe": {
+    item_type: "tool",
     name: "Iron Pickaxe",
     description: "Used to collect gold",
     price: 5,
@@ -146,6 +155,7 @@ export const TOOLS: Record<Tool, Craftable> = {
     ],
   },
   Hammer: {
+    item_type: "tool",
     name: "Hammer",
     description: "Used to construct buildings",
     price: 5,
@@ -162,6 +172,7 @@ export const TOOLS: Record<Tool, Craftable> = {
     disabled: true,
   },
   Rod: {
+    item_type: "tool",
     name: "Rod",
     description: "Used to fish trout",
     price: 10,
@@ -177,6 +188,7 @@ export const TOOLS: Record<Tool, Craftable> = {
 
 export const NFTs: Record<NFT, Craftable> = {
   "Sunflower Statue": {
+    item_type: "nft",
     name: "Sunflower Statue",
     description: "A symbol of the holy token",
     price: 5,
@@ -195,6 +207,7 @@ export const NFTs: Record<NFT, Craftable> = {
     type: "NFT",
   },
   "Potato Statue": {
+    item_type: "nft",
     name: "Potato Statue",
     description: "The OG potato hustler flex",
     price: 0,
@@ -213,6 +226,7 @@ export const NFTs: Record<NFT, Craftable> = {
     type: "NFT",
   },
   Scarecrow: {
+    item_type: "nft",
     name: "Scarecrow",
     description: "Grow wheat faster",
     price: 50,
@@ -231,6 +245,7 @@ export const NFTs: Record<NFT, Craftable> = {
     type: "NFT",
   },
   "Christmas Tree": {
+    item_type: "nft",
     name: "Christmas Tree",
     description: "Receieve a Santa Airdrop on Christmas day",
     price: 50,
@@ -248,6 +263,7 @@ export const NFTs: Record<NFT, Craftable> = {
     type: "NFT",
   },
   "Chicken Coop": {
+    item_type: "nft",
     name: "Chicken Coop",
     description: "Collect 3x the amount of eggs",
     price: 50,
@@ -270,6 +286,7 @@ export const NFTs: Record<NFT, Craftable> = {
     type: "NFT",
   },
   "Farm Cat": {
+    item_type: "nft",
     name: "Farm Cat",
     description: "Keep the rats away",
     price: 50,
@@ -278,6 +295,7 @@ export const NFTs: Record<NFT, Craftable> = {
     type: "NFT",
   },
   "Farm Dog": {
+    item_type: "nft",
     name: "Farm Dog",
     description: "Herd sheep 4x faster",
     price: 75,
@@ -286,6 +304,7 @@ export const NFTs: Record<NFT, Craftable> = {
     type: "NFT",
   },
   Gnome: {
+    item_type: "nft",
     name: "Gnome",
     description: "A lucky gnome",
     price: 10,
@@ -294,6 +313,7 @@ export const NFTs: Record<NFT, Craftable> = {
     type: "NFT",
   },
   "Gold Egg": {
+    item_type: "nft",
     name: "Gold Egg",
     description: "A rare egg, what lays inside?",
     price: 0,
