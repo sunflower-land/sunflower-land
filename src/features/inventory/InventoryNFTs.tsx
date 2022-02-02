@@ -8,29 +8,35 @@ import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-import { SeedName, SEEDS } from '../game/types/crops';
+import { Craftable, CraftableName, NFT, NFTs, Tool, TOOLS } from '../game/types/craftables';
 
 interface Props {}
 
-export const InventorySeeds: React.FC<Props> = ({}) => {
+export const InventoryNFTs: React.FC<Props> = ({}) => {
   
-  localStorage.setItem("inventory.tab", 'seeds');
+  localStorage.setItem("inventory.tab", 'nfts');
 
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const [game] = useActor(gameService);
   const inventory = game.context.state.inventory;
 
   const items = Object.keys(inventory) as InventoryItemName[];
-  const seeds = Object.keys(SEEDS) as InventoryItemName[];
+  const nfts = Object.keys(NFTs) as InventoryItemName[];
+  const tool = Object.keys(TOOLS) as InventoryItemName[];
+  
+  const VALID_NFTs: InventoryItemName[] = nfts;
+  const VALID_TOOLS: InventoryItemName[] = tool;
 
-  const VALID_SEEDS: InventoryItemName[] = seeds;
+  function isNFT(nft: InventoryItemName): nft is NFT {
+    return VALID_NFTs.includes(nft);
+  }
 
-  function isSeed(crop: InventoryItemName): crop is SeedName {
-    return VALID_SEEDS.includes(crop);
+  function isTool(tool: InventoryItemName): tool is Tool {
+    return VALID_TOOLS.includes(tool);
   }
   
   const validItems = items.filter(function(itemName){
-    if(isSeed(itemName))
+    if(isNFT(itemName) || isTool(itemName))
     {
       return inventory[itemName];
     }

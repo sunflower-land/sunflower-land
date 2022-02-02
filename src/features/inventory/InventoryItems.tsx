@@ -2,12 +2,16 @@ import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
 import sunflowerPlant from "assets/crops/sunflower/crop.png";
+import flour from "assets/crops/wheat/flour.png";
 import close from "assets/icons/close.png";
 import seeds from "assets/icons/seeds.png";
+import gnome from "assets/nfts/gnome.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
+import { InventoryCrops } from "./InventoryCrops";
 import { InventoryFoods } from "./InventoryFoods";
+import { InventoryNFTs } from "./InventoryNFTs";
 import { InventorySeeds } from "./InventorySeeds";
 
 interface Props {
@@ -16,10 +20,12 @@ interface Props {
 
 export const InventoryItems: React.FC<Props> = ({ onClose }) => {
 
-  const [tab, setTab] = useState<"seeds" | "food">("seeds");
+  const currentTab = localStorage.getItem("inventory.tab") ?? "seeds";
 
+  const [tab, setTab] = useState<"seeds" | "crops" | "foods" | "nfts">(currentTab);
+
+  const cached = localStorage.getItem("inventory.tab");
   
-
   return (
     <Panel className="pt-5 relative">
  
@@ -27,11 +33,19 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
         <div className="flex">
           <Tab isActive={tab === "seeds"} onClick={() => setTab("seeds")}>
             <img src={seeds} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Seeds</span>
+            <span className="text-xs text-shadow">Seeds</span>
           </Tab>
-          <Tab isActive={tab === "food"} onClick={() => setTab("food")}>
+          <Tab isActive={tab === "crops"} onClick={() => setTab("crops")}>
             <img src={sunflowerPlant} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Food</span>
+            <span className="text-xs text-shadow">Crops</span>
+          </Tab>
+          <Tab isActive={tab === "foods"} onClick={() => setTab("foods")}>
+            <img src={flour} className="h-5 mr-2" />
+            <span className="text-xs text-shadow">Foods</span>
+          </Tab>
+          <Tab isActive={tab === "nfts"} onClick={() => setTab("nfts")}>
+            <img src={gnome} className="h-5 mr-2" />
+            <span className="text-xs text-shadow">Items</span>
           </Tab>
         </div>
         <img
@@ -41,7 +55,9 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
         />
       </div>
       {tab === "seeds" && <InventorySeeds />}
-      {tab === "food" && <InventoryFoods />}
+      {tab === "crops" && <InventoryCrops />}
+      {tab === "foods" && <InventoryFoods />}
+      {tab === "nfts" && <InventoryNFTs />}
       
     </Panel>
   );

@@ -8,33 +8,33 @@ import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-import { SeedName, SEEDS } from '../game/types/crops';
+import { CropName, CROPS } from '../game/types/crops';
 
 interface Props {}
 
-export const InventorySeeds: React.FC<Props> = ({}) => {
+export const InventoryCrops: React.FC<Props> = ({}) => {
   
-  localStorage.setItem("inventory.tab", 'seeds');
+    localStorage.setItem("inventory.tab", 'crops');
 
-  const { gameService, selectedItem, shortcutItem } = useContext(Context);
-  const [game] = useActor(gameService);
-  const inventory = game.context.state.inventory;
+    const { gameService, selectedItem, shortcutItem } = useContext(Context);
+    const [game] = useActor(gameService);
+    const inventory = game.context.state.inventory;
 
-  const items = Object.keys(inventory) as InventoryItemName[];
-  const seeds = Object.keys(SEEDS) as InventoryItemName[];
+    const items = Object.keys(inventory) as InventoryItemName[];
+    const crops = Object.keys(CROPS) as InventoryItemName[];
 
-  const VALID_SEEDS: InventoryItemName[] = seeds;
+    const VALID_CROPS: InventoryItemName[] = crops;
 
-  function isSeed(crop: InventoryItemName): crop is SeedName {
-    return VALID_SEEDS.includes(crop);
-  }
-  
-  const validItems = items.filter(function(itemName){
-    if(isSeed(itemName))
-    {
-      return inventory[itemName];
+    function isCrop(crop: InventoryItemName): crop is CropName {
+        return VALID_CROPS.includes(crop);
     }
- });
+    
+    const validItems = items.filter(function(itemName){
+        if(isCrop(itemName))
+        {
+        return inventory[itemName];
+        }
+    });
 
   return (
     <div className="flex">

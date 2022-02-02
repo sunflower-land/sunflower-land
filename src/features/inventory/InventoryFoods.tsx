@@ -15,6 +15,8 @@ interface Props {}
 
 export const InventoryFoods: React.FC<Props> = ({}) => {
   
+  localStorage.setItem("inventory.tab", 'foods');
+
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const [game] = useActor(gameService);
   const inventory = game.context.state.inventory;
@@ -31,7 +33,6 @@ export const InventoryFoods: React.FC<Props> = ({}) => {
   const validItems = items.filter(function(itemName){
     if(isFood(itemName))
     {
-      // let selectedItem = itemName;
       return inventory[itemName];
     }
  });
@@ -40,7 +41,7 @@ export const InventoryFoods: React.FC<Props> = ({}) => {
     <div className="flex">
         <div className="w-3/5 flex flex-wrap  h-fit">
           {validItems.length === 0 && (
-            <span className="text-white text-shadow">
+            <span className="text-white text-shadow text-xs">
               You have no items in your inventory.
             </span>
           )}
