@@ -4,7 +4,7 @@ import { Modal } from "react-bootstrap";
 import { Inbox } from "./components/Inbox";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-import { Message } from "../types/message";
+import { Message } from "./types/message";
 
 import baldMan from "assets/npcs/bald_man.png";
 import alerted from "assets/icons/expression_alerted.png";
