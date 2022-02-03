@@ -5,6 +5,7 @@ import { useActor } from "@xstate/react";
 import { Hud } from "features/hud/Hud";
 import { Crops } from "features/crops/Crops";
 import { Blacksmith } from "features/blacksmith/Blacksmith";
+import { Mail } from "features/mail/Mail";
 import { Water } from "features/water/Water";
 
 import { Context } from "./GameProvider";
@@ -33,6 +34,7 @@ export const Game: React.FC = () => {
       <Hud />
 
       <Blacksmith />
+      <Mail />
       <Crops />
       <Water />
       <Animals />
