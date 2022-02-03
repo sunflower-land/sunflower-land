@@ -22,17 +22,17 @@ const getInbox = () => {
     {
       id: '1',
       title: 'Announcements!',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      body: 'This feature is Work in Progress. Stay tuned. https://discord.gg/sunflowerland',
     },
     {
       id: '2',
-      title: '',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque aliquam ipsum velit, ac mattis est porttitor ac. Etiam in mi consequat sapien fermentum blandit.',
+      title: 'Greetings!',
+      body: 'You made it! Good job :D',
     },
     {
       id: '3',
-      title: 'Greetings!',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque aliquam ipsum velit, ac mattis est porttitor ac. Etiam in mi consequat sapien fermentum blandit. https://discord.gg/sunflowerland',
+      title: '',
+      body: 'Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing.',
     },
   ];
 }
@@ -80,7 +80,7 @@ export const Mail: React.FC = () => {
   
   return (
     <div
-      className="z-10 absolute align-items-center w-10"
+      className="z-5 absolute align-items-center w-10"
       style={{
         left: `calc(50% - ${GRID_WIDTH_PX * -12}px)`,
         // trial and error
