@@ -1,8 +1,12 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-import market from "assets/buildings/market.gif";
+import market from "assets/buildings/market.png";
 import plant from "assets/icons/plant.png";
+
+import sunflower from "assets/crops/sunflower/crop.png";
+import pumpkin from "assets/crops/pumpkin/crop.png";
+import cauliflower from "assets/crops/cauliflower/crop.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
@@ -14,21 +18,35 @@ export const Market: React.FC = () => {
   return (
     <div
       style={{
-        width: `${GRID_WIDTH_PX * 4.5}px`,
+        width: `${GRID_WIDTH_PX * 3.2}px`,
         position: "absolute",
-        left: `${GRID_WIDTH_PX * 15.5}px`,
-        bottom: `${GRID_WIDTH_PX * 1.3}px`,
+        left: `${GRID_WIDTH_PX * 16}px`,
+        bottom: `${GRID_WIDTH_PX * 2.2}px`,
       }}
     >
       <img
         src={market}
         alt="market"
         onClick={() => setIsOpen(true)}
-        style={{ filter: "drop-shadow(rgba(0, 0, 0, 0.3) 0px 3px 0.5px)" }}
         className="cursor-pointer w-full hover:img-highlight"
       />
+      <img
+        src={sunflower}
+        alt="sunflower"
+        className="w-6 absolute bottom-6 left-2"
+      />
+      <img
+        src={pumpkin}
+        alt="pumpkin"
+        className="w-6 absolute bottom-6 left-14"
+      />
+      <img
+        src={cauliflower}
+        alt="cauliflower"
+        className="w-6 absolute bottom-6 right-2"
+      />
       <Action
-        className="absolute top-5 left-10"
+        className="absolute -bottom-3 left-6"
         text="Shop"
         icon={plant}
         onClick={() => setIsOpen(true)}
