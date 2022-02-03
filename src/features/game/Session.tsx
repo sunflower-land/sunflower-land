@@ -1,7 +1,7 @@
 import React from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import background from "assets/land/background_new.png";
+import background from "assets/land/background.png";
 
 import { Game } from "./Game";
 import { GameProvider } from "./GameProvider";
