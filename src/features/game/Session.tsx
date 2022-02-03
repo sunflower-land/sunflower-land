@@ -1,11 +1,11 @@
 import React from "react";
-import ScrollContainer from 'react-indiana-drag-scroll'
+import ScrollContainer from "react-indiana-drag-scroll";
 
-import background from "assets/land/background.png";
+import background from "assets/land/background_new.png";
 
 import { Game } from "./Game";
 import { GameProvider } from "./GameProvider";
-import { ToastProvider } from './toast/ToastQueueProvider';
+import { ToastProvider } from "./toast/ToastQueueProvider";
 
 export const Session: React.FC = () => {
   // Load data

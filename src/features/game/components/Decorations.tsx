@@ -12,7 +12,7 @@ export const Decorations: React.FC = () => {
       <img
         style={{
           width: `${GRID_WIDTH_PX * 4}px`,
-          right: `${GRID_WIDTH_PX * 27.5}px`,
+          right: `${GRID_WIDTH_PX * 29}px`,
           top: `${GRID_WIDTH_PX * 27.5}px`,
         }}
         className="absolute"
@@ -22,8 +22,8 @@ export const Decorations: React.FC = () => {
       <img
         style={{
           width: `${GRID_WIDTH_PX * 1}px`,
-          left: `${GRID_WIDTH_PX * 22}px`,
-          top: `${GRID_WIDTH_PX * 26.8}px`,
+          left: `${GRID_WIDTH_PX * 29}px`,
+          top: `${GRID_WIDTH_PX * 36.8}px`,
         }}
         className="absolute"
         src={sunflowerTombstone}
