@@ -7,6 +7,7 @@ import plant from "assets/icons/plant.png";
 import sunflower from "assets/crops/sunflower/crop.png";
 import pumpkin from "assets/crops/pumpkin/crop.png";
 import cauliflower from "assets/crops/cauliflower/crop.png";
+import bobMarley from "assets/npcs/bob_marley.gif";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
@@ -29,6 +30,17 @@ export const Market: React.FC = () => {
         alt="market"
         onClick={() => setIsOpen(true)}
         className="cursor-pointer w-full hover:img-highlight"
+      />
+      <img
+        src={bobMarley}
+        alt="bobMarley"
+        className="absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 1.8}px`,
+          position: "absolute",
+          left: `${GRID_WIDTH_PX * 0.7}px`,
+          bottom: `${GRID_WIDTH_PX * 0.8}px`,
+        }}
       />
       <img
         src={sunflower}
