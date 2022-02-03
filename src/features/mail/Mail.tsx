@@ -1,17 +1,82 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 
 import { Inbox } from "./components/Inbox";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-import { Context } from "./MailProvider";
+import { Message } from "../types/message";
 
-import baldMan from "../../assets/npcs/bald_man.png";
-import exclamation from "../../assets/icons/expression_alerted.png";
+import baldMan from "assets/npcs/bald_man.png";
+import alerted from "assets/icons/expression_alerted.png";
+
+const MESSAGES_KEY = 'readMessages';
+
+/**
+ * MVP1: 
+ *  - always change id to reflect unread
+ * TODO:
+ * - api call (separate file)
+ */
+const getInbox = () => {
+  return [
+    {
+      id: '1',
+      title: 'Announcements!',
+      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    },
+    {
+      id: '2',
+      title: '',
+      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque aliquam ipsum velit, ac mattis est porttitor ac. Etiam in mi consequat sapien fermentum blandit.',
+    },
+    {
+      id: '3',
+      title: 'Greetings!',
+      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque aliquam ipsum velit, ac mattis est porttitor ac. Etiam in mi consequat sapien fermentum blandit. https://discord.gg/sunflowerland',
+    },
+  ];
+}
 
 export const Mail: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { hasUnread } = useContext(Context);
+  const [inbox, setInbox] = useState<Message[]>([]);
+  const [hasUnread, setHasUnread] = useState<boolean>(false);
+
+  useEffect(() => {
+    const readMessages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
+    const _inbox = getInbox().map((msg) => ({ ...msg, unread: !readMessages?.includes(msg.id) }));
+
+    setInbox(_inbox);
+
+    // exclude non existing ids
+    const newReadMessages = _inbox.filter((msg) => !msg.unread).map((msg) => msg.id);
+
+    if (newReadMessages.length) {
+      localStorage.setItem(MESSAGES_KEY, JSON.stringify(newReadMessages));
+    } else {
+      localStorage.removeItem(MESSAGES_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    const _hasUnread = inbox.some((msg) => msg.unread);
+
+    setHasUnread(_hasUnread);
+  }, [inbox]);
+
+  const onRead = (index: number) => {
+    if (!inbox[index].unread) return;
+
+    const newInbox = [...inbox];
+
+    newInbox[index].unread = false;
+    setInbox(newInbox);
+
+    const readMessages = localStorage.getItem(MESSAGES_KEY);
+    const newReadMessages = [...JSON.parse(readMessages || '[]'), newInbox[index].id];
+
+    localStorage.setItem(MESSAGES_KEY, JSON.stringify(newReadMessages));
+  };
   
   return (
     <div
@@ -19,21 +84,21 @@ export const Mail: React.FC = () => {
       style={{
         left: `calc(50% - ${GRID_WIDTH_PX * -12}px)`,
         // trial and error
-        top: `calc(50% - ${GRID_WIDTH_PX * (hasUnread ? 12.7 : 12.05)}px)`,
+        top: `calc(50% - ${GRID_WIDTH_PX * (hasUnread ? 12.9 : 12.06)}px)`,
       }}
     >
       {hasUnread 
         && <img
-              src={exclamation}
-              className="w-3 mx-3"
+              src={alerted}
+              className="w-3 mx-3 pb-2 animate-float"
             />}
       <img
         src={baldMan}
-        className="absolute w-10 hover:cursor-pointer"
+        className="absolute w-10 hover:cursor-pointer hover:img-highlight"
         onClick={() => setIsOpen(true)}
       />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Inbox />
+        <Inbox inbox={inbox} onRead={onRead}/>
       </Modal>
     </div>
   );
