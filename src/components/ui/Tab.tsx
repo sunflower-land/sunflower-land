@@ -40,7 +40,9 @@ export const Tab: React.FC<Props> = ({
       )}
       // Custom styles to get pixellated border effect
       style={{
-        border: "6px solid transparent",
+        // border: "6px solid transparent",
+        borderStyle: "solid",
+        borderWidth: "6px",
         borderImage: `url(${tabBorder}) 30 stretch`,
         borderImageSlice: "25%",
         imageRendering: "pixelated",

@@ -28,7 +28,9 @@ export const InnerPanel: React.FC<Props> = ({ children, className }) => {
       className={classNames("bg-brown-300 p-1", className)}
       // Custom styles to get pixellated border effect
       style={{
-        border: "6px solid transparent",
+        // border: "6px solid transparent",
+        borderStyle: "solid",
+        borderWidth: "6px",
         borderImage: `url(${lightBorder}) 30 stretch`,
         borderImageSlice: "25%",
         imageRendering: "pixelated",
@@ -53,7 +55,9 @@ export const OuterPanel: React.FC<Props> = ({ children, className }) => {
       )}
       // Custom styles to get pixellated border effect
       style={{
-        border: "6px solid transparent",
+        // border: "6px solid transparent",
+        borderStyle: "solid",
+        borderWidth: "6px",
         borderImage: `url(${darkBorder}) 30 stretch`,
         borderImageSlice: "25%",
         imageRendering: "pixelated",

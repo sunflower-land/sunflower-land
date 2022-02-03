@@ -14,7 +14,9 @@ export const Label: React.FC<Props> = ({ children, className }) => {
       )}
       // Custom styles to get pixellated border effect
       style={{
-        border: "5px solid transparent",
+        // border: "5px solid transparent",
+        borderStyle: "solid",
+        borderWidth: "5px",
         borderImage: `url(${border}) 30 stretch`,
         borderImageSlice: "25%",
         imageRendering: "pixelated",
