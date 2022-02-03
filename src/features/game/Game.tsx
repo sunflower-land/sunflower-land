@@ -13,6 +13,7 @@ import { ToastManager } from "./toast/ToastManager";
 
 import { GameError } from "./components/GameError";
 import { Decorations } from "./components/Decorations";
+import { Animals } from "features/animals/Animals";
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -34,6 +35,7 @@ export const Game: React.FC = () => {
       <Blacksmith />
       <Crops />
       <Water />
+      <Animals />
       <Decorations />
     </>
   );
