@@ -7,9 +7,11 @@
     .text-shadow {
       text-shadow: 1px 1px black;
     }
+
     .text-shadow-md {
       text-shadow: 2px 2px black;
     }
+
     .text-shadow-none {
       text-shadow: none;
     }
@@ -33,9 +35,9 @@ body {
   -webkit-user-select: none;
 
   /*
-      Introduced in Internet Explorer 10.
-      See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
-    */
+        Introduced in Internet Explorer 10.
+        See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+      */
   -ms-user-select: none;
   user-select: none;
 }
@@ -61,5 +63,14 @@ img {
   }
   to {
     transform: translate(0, -0px);
+  }
+}
+
+@keyframes marquee-like-effect {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
   }
 }

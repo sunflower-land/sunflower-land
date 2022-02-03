@@ -44,10 +44,10 @@ export const Address: React.FC<Props> = () => {
     setShowLabel(false);
   };
 
-  // Readonly session
-  if (!state.address) {
-    return null;
-  }
+  // // Readonly session
+  // if (!state.address) {
+  //   return null;
+  // }
 
   return (
     <div className="fixed bottom-2 right-2 z-50  shadow-lg">
@@ -65,7 +65,7 @@ export const Address: React.FC<Props> = () => {
                 : "scale-x-0 opacity-0 max-w-[0px] -mr-1"
             }`}
           >
-            {shortAddress(state.address as string)}
+            {shortAddress("0xD2a0e78D34667775607cc0edC3f70eE0Fe930432")}
           </span>
 
           <img
@@ -77,7 +77,7 @@ export const Address: React.FC<Props> = () => {
           />
         </div>
         <div
-          className={`absolute mr-5 bottom-20 -right-[1rem] transition ${
+          className={`absolute mr-5 bottom-20 -right-[1rem] transition pointer-events-none ${
             showLabel ? "opacity-100" : "opacity-0"
           }`}
         >

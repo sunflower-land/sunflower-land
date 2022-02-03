@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../types/game";
+import { CROPS } from "../types/crops";
 import { sell } from "./sell";
 
 let GAME_STATE: GameState = {
@@ -21,6 +22,24 @@ describe("sell", () => {
     ).toThrow("Not for sale");
   });
 
+  it("does not sell  an unusual amount", () => {
+    expect(() =>
+      sell(
+        {
+          ...GAME_STATE,
+          inventory: {
+            Sunflower: new Decimal(5),
+          },
+        },
+        {
+          type: "item.sell",
+          item: "Sunflower",
+          amount: 2,
+        }
+      )
+    ).toThrow("Invalid amount");
+  });
+
   it("does not sell a missing item", () => {
     expect(() =>
       sell(GAME_STATE, {
@@ -36,7 +55,7 @@ describe("sell", () => {
       {
         ...GAME_STATE,
         inventory: {
-          Sunflower: 5,
+          Sunflower: new Decimal(5),
         },
       },
       {
@@ -46,7 +65,7 @@ describe("sell", () => {
       }
     );
 
-    expect(state.inventory.Sunflower).toEqual(4);
+    expect(state.inventory.Sunflower).toEqual(new Decimal(4));
     expect(state.balance).toEqual(new Decimal(0.02));
   });
 
@@ -55,7 +74,7 @@ describe("sell", () => {
       {
         ...GAME_STATE,
         inventory: {
-          Sunflower: 11,
+          Sunflower: new Decimal(11),
         },
       },
       {
@@ -65,7 +84,7 @@ describe("sell", () => {
       }
     );
 
-    expect(state.inventory.Sunflower).toEqual(1);
+    expect(state.inventory.Sunflower).toEqual(new Decimal(1));
     expect(state.balance).toEqual(new Decimal(0.2));
   });
 
@@ -75,7 +94,7 @@ describe("sell", () => {
         {
           ...GAME_STATE,
           inventory: {
-            Sunflower: 2,
+            Sunflower: new Decimal(2),
           },
         },
         {
@@ -85,5 +104,42 @@ describe("sell", () => {
         }
       )
     ).toThrow("Insufficient crops to sell");
+  });
+
+  it("sells a cauliflower for a normal price", () => {
+    const state = sell(
+      {
+        ...GAME_STATE,
+        inventory: {
+          Cauliflower: new Decimal(1),
+        },
+      },
+      {
+        type: "item.sell",
+        item: "Cauliflower",
+        amount: 1,
+      }
+    );
+
+    expect(state.balance).toEqual(new Decimal(CROPS.Cauliflower.sellPrice));
+  });
+
+  it("sells a cauliflower for a double the price if they have golden cauliflower", () => {
+    const state = sell(
+      {
+        ...GAME_STATE,
+        inventory: {
+          Cauliflower: new Decimal(1),
+          "Golden Cauliflower": new Decimal(1),
+        },
+      },
+      {
+        type: "item.sell",
+        item: "Cauliflower",
+        amount: 1,
+      }
+    );
+
+    expect(state.balance).toEqual(new Decimal(CROPS.Cauliflower.sellPrice * 2));
   });
 });

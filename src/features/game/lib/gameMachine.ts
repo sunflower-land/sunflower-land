@@ -6,7 +6,7 @@ import { EVENTS, GameEvent, processEvent } from "../events";
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
 
-import { GameState } from "../types/game";
+import { GameState, InventoryItemName } from "../types/game";
 import { loadSession } from "../actions/loadSession";
 import { INITIAL_FARM } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -79,8 +79,13 @@ export function startGame(authContext: AuthContext) {
                 farmId: Number(authContext.farmId),
                 sessionId: authContext.sessionId as string,
                 signature: authContext.signature as string,
-                hash: authContext.hash as string,
                 sender: metamask.myAccount as string,
+                /**
+                 * TODO - use Web3 to see if they have V1 tokens
+                 * This saves the backend from checking the DB for the user
+                 */
+                hasV1Farm: true,
+                hasV1Tokens: true,
               });
 
               console.log({ game });
@@ -90,10 +95,7 @@ export function startGame(authContext: AuthContext) {
               }
 
               return {
-                state: {
-                  ...game,
-                  balance: new Decimal(game.balance),
-                },
+                state: game,
               };
             }
 
@@ -128,15 +130,31 @@ export function startGame(authContext: AuthContext) {
         },
         invoke: {
           src: async (context) => {
-            await autosave({
-              farmId: Number(authContext.farmId),
-              sessionId: authContext.sessionId as string,
-              sender: metamask.myAccount as string,
-              actions: context.actions,
-            });
+            const saveAt = new Date();
+
+            if (context.actions.length > 0) {
+              await autosave({
+                farmId: Number(authContext.farmId),
+                sessionId: authContext.sessionId as string,
+                sender: metamask.myAccount as string,
+                actions: context.actions,
+                signature: authContext.signature as string,
+              });
+            }
+
+            return {
+              saveAt,
+            };
           },
           onDone: {
             target: "playing",
+            // Remove the events that were submitted
+            actions: assign((context: Context, event) => ({
+              actions: context.actions.filter(
+                (action) =>
+                  action.createdAt.getTime() > event.data.saveAt.getTime()
+              ),
+            })),
           },
           onError: {
             target: "error",

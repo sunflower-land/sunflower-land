@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { CropName, CROPS } from "../types/crops";
 import { GameState, InventoryItemName } from "../types/game";
 
@@ -16,20 +17,32 @@ export function sell(state: GameState, action: SellAction): GameState {
     throw new Error("Not for sale");
   }
 
+  if (action.amount !== 1 && action.amount !== 10) {
+    throw new Error("Invalid amount");
+  }
+
   const crop = CROPS[action.item];
 
-  const cropCount = state.inventory[action.item] || 0;
+  const cropCount = state.inventory[action.item] || new Decimal(0);
 
-  if (cropCount < action.amount) {
+  if (cropCount.lessThan(action.amount)) {
     throw new Error("Insufficient crops to sell");
+  }
+
+  let price = crop.sellPrice;
+  if (
+    crop.name === "Cauliflower" &&
+    state.inventory["Golden Cauliflower"]?.greaterThanOrEqualTo(1)
+  ) {
+    price = price * 2;
   }
 
   return {
     ...state,
-    balance: state.balance.add(crop.sellPrice * action.amount),
+    balance: state.balance.add(price * action.amount),
     inventory: {
       ...state.inventory,
-      [crop.name]: cropCount - 1 * action.amount,
+      [crop.name]: cropCount.sub(1 * action.amount),
     },
   };
 }

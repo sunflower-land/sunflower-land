@@ -46,9 +46,9 @@ export const INITIAL_FARM: GameState = {
     },
   },
   inventory: {
-    "Sunflower Seed": 3,
-    "Pumpkin Soup": 1,
-    "Roasted Cauliflower": 1,
-    Sauerkraut: 1,
+    "Sunflower Seed": new Decimal(3),
+    "Pumpkin Soup": new Decimal(1),
+    "Sunflower Tombstone": new Decimal(1),
+    "Sunflower Rock": new Decimal(1),
   },
 };

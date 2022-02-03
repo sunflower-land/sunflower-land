@@ -72,6 +72,7 @@ export const Menu = () => {
     await sync({
       farmId: authState.context.farmId as number,
       sessionId: authState.context.sessionId as string,
+      signature: authState.context.signature as string,
     });
   };
 

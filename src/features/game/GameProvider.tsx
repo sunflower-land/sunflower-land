@@ -1,7 +1,7 @@
 /**
  * A wrapper that provides game state and dispatches events
  */
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext } from "react";
 
@@ -10,6 +10,7 @@ import { cacheShortcuts, getShortcuts } from "features/hud/lib/shortcuts";
 
 import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
+
 
 interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
@@ -28,10 +29,10 @@ export const GameProvider: React.FC = ({ children }) => {
     getShortcuts()
   );
 
-  const shortcutItem = (item: InventoryItemName) => {
+  const shortcutItem = useCallback((item: InventoryItemName) => {
     const items = cacheShortcuts(item);
     setShortcuts(items);
-  };
+  }, []);
 
   const selectedItem = shortcuts.length > 0 ? shortcuts[0] : undefined;
 

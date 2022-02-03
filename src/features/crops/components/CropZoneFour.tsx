@@ -80,7 +80,7 @@ export const CropZoneFour: React.FC<Props> = () => {
         <div className="flex justify-between items-center z-10">
           <Field selectedItem={selectedItem} fieldIndex={19} />
           <Field selectedItem={selectedItem} fieldIndex={20} />
-          <Field selectedItem={selectedItem} fieldIndex={22} />
+          <Field selectedItem={selectedItem} fieldIndex={21} />
         </div>
       </div>
 

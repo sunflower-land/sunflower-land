@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { CropName, SeedName } from "../types/crops";
 import { GameState, InventoryItemName } from "../types/game";
 
@@ -18,7 +19,6 @@ const VALID_SEEDS: InventoryItemName[] = [
   "Pumpkin Seed",
   "Parsnip Seed",
   "Radish Seed",
-  "Wheat Seed",
 ];
 
 function isSeed(crop: InventoryItemName): crop is SeedName {
@@ -27,6 +27,14 @@ function isSeed(crop: InventoryItemName): crop is SeedName {
 
 export function plant(state: GameState, action: PlantAction) {
   const fields = { ...state.fields };
+
+  if (action.index < 0) {
+    throw new Error("Field does not exist");
+  }
+
+  if (!Number.isInteger(action.index)) {
+    throw new Error("Field does not exist");
+  }
 
   if (
     action.index >= 5 &&
@@ -69,8 +77,8 @@ export function plant(state: GameState, action: PlantAction) {
     throw new Error("Not a seed");
   }
 
-  const seedCount = state.inventory[action.item] || 0;
-  if (seedCount === 0) {
+  const seedCount = state.inventory[action.item] || new Decimal(0);
+  if (seedCount.lessThan(1)) {
     throw new Error("Not enough seeds");
   }
 
@@ -87,7 +95,7 @@ export function plant(state: GameState, action: PlantAction) {
     ...state,
     inventory: {
       ...state.inventory,
-      [action.item]: seedCount - 1,
+      [action.item]: seedCount.sub(1),
     },
     fields: newFields,
   } as GameState;

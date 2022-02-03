@@ -10,7 +10,6 @@ export interface Context {
   farmId?: number;
   sessionId?: string;
   signature?: string;
-  hash?: string;
 }
 
 type StartEvent = {
@@ -158,13 +157,12 @@ export const authMachine = createMachine<
       invoke: {
         src: async (context, event) => {
           // Sign transaction -
-          const { signature, hash } = await metamask.signTransaction(
-            ((event as StartEvent).farmId as number).toString()
+          const { signature } = await metamask.signTransaction(
+            Number((event as StartEvent).farmId)
           );
 
           return {
             signature,
-            hash,
             farmId: (event as StartEvent).farmId,
             sessionId: (event as StartEvent).sessionId,
           };
@@ -173,7 +171,6 @@ export const authMachine = createMachine<
           target: "authorised",
           actions: assign({
             signature: (_, event) => event.data.signature,
-            hash: (_, event) => event.data.hash,
             farmId: (_, event) => event.data.farmId,
             sessionId: (_, event) => event.data.sessionId,
           }),

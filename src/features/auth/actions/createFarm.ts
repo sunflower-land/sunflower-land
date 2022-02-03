@@ -39,9 +39,7 @@ export async function createFarm(charity: CharityAddress, donation: number) {
     address: metamask.myAccount as string,
   });
 
-  // TODO: Fix donation to sunflower land plus 10% to NGO
-
-  await metamask.getSunflowerLand().createFarm({
+  await metamask.getBeta().createFarm({
     signature,
     amount: donation,
     charity,

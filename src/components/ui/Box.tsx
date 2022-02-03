@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import Decimal from "decimal.js-light";
 
 import lightBorder from "assets/ui/panel/light_border.png";
 import darkBorder from "assets/ui/panel/dark_border.png";
@@ -8,7 +9,7 @@ import { Label } from "./Label";
 
 export interface BoxProps {
   isSelected?: boolean;
-  count?: number;
+  count?: Decimal;
   onClick?: () => void;
   disabled?: boolean;
   image: any;
@@ -46,7 +47,7 @@ export const Box: React.FC<BoxProps> = ({
 
         {!!count && (
           <Label className="absolute -top-4 -right-3 px-0.5 text-xs z-10">
-            {count}
+            {count.toString()}
           </Label>
         )}
       </div>
