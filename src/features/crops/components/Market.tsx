@@ -34,7 +34,7 @@ export const Market: React.FC = () => {
       <img
         src={bobMarley}
         alt="bobMarley"
-        className="absolute"
+        className="absolute pointer-events-none"
         style={{
           width: `${GRID_WIDTH_PX * 1.8}px`,
           position: "absolute",
@@ -45,17 +45,17 @@ export const Market: React.FC = () => {
       <img
         src={sunflower}
         alt="sunflower"
-        className="w-6 absolute bottom-6 left-2"
+        className="w-6 absolute bottom-6 left-2 pointer-events-none"
       />
       <img
         src={pumpkin}
         alt="pumpkin"
-        className="w-6 absolute bottom-6 left-14"
+        className="w-6 absolute bottom-6 left-14 pointer-events-none"
       />
       <img
         src={cauliflower}
         alt="cauliflower"
-        className="w-6 absolute bottom-6 right-2"
+        className="w-6 absolute bottom-6 right-2 pointer-events-none"
       />
       <Action
         className="absolute -bottom-3 left-6"
