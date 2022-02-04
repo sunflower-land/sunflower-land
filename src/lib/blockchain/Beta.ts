@@ -18,7 +18,7 @@ export class Beta {
     this.contract = new this.web3.eth.Contract(
       BetaJSON as AbiItem[],
       // Testnet
-      "0xe7f4148E87A35c889F4691DeB7b2D602CEA764Ba"
+      "0x38D138b1eaA6c4769401c5A79D86fF484b23DD2d"
     );
   }
 
