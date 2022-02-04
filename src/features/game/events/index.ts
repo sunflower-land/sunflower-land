@@ -13,11 +13,11 @@ type EventName = Extract<GameEvent, { type: string }>["type"];
  * Type which enables us to map the event name to the payload containing that event name
  */
 type Handlers = {
-  [Name in EventName]: (
-    state: GameState,
+  [Name in EventName]: (options: {
+    state: GameState;
     // Extract the correct event payload from the list of events
-    event: Extract<GameEvent, { type: Name }>
-  ) => GameState;
+    action: Extract<GameEvent, { type: Name }>;
+  }) => GameState;
 };
 
 export const EVENTS: Handlers = {
@@ -26,14 +26,3 @@ export const EVENTS: Handlers = {
   "item.crafted": craft,
   "item.sell": sell,
 };
-
-export function processEvent(state: GameState, action: GameEvent): GameState {
-  const handler = EVENTS[action.type];
-
-  if (!handler) {
-    throw new Error(`Unknown event type: ${action}`);
-  }
-
-  // TODO - fix any
-  return handler(state, action as any);
-}

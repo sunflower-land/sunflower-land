@@ -1,7 +1,8 @@
 import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
 import { fromWei } from "web3-utils";
 import { Decimal } from "decimal.js-light";
-import { EVENTS, GameEvent, processEvent } from "../events";
+import { EVENTS, GameEvent } from "../events";
+import { processEvent } from "./processEvent";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";

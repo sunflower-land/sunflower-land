@@ -25,7 +25,13 @@ function isSeed(crop: InventoryItemName): crop is SeedName {
   return VALID_SEEDS.includes(crop);
 }
 
-export function plant(state: GameState, action: PlantAction) {
+type Options = {
+  state: GameState;
+  action: PlantAction;
+  createdAt?: number;
+};
+
+export function plant({ state, action, createdAt = Date.now() }: Options) {
   const fields = { ...state.fields };
 
   if (action.index < 0) {
@@ -87,7 +93,7 @@ export function plant(state: GameState, action: PlantAction) {
   const crop = action.item.split(" ")[0] as CropName;
 
   newFields[action.index] = {
-    plantedAt: Date.now(),
+    plantedAt: createdAt,
     name: crop,
   };
 
