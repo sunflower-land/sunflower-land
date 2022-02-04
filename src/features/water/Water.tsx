@@ -8,6 +8,7 @@ import chick from "assets/animals/chick.gif";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import { Frog } from "./components/Frog";
+import { SharkLTR, SharkRTL } from "./components/Sharks";
 
 interface Props {}
 
@@ -43,6 +44,13 @@ export const Water: React.FC<Props> = () => {
             top: `${GRID_WIDTH_PX * 2}px`,
           }}
         />
+
+      {/* Shark animation Left to Right --> (60 sec interval) */}
+        <SharkLTR />
+        
+      {/* Shark animation Right to Left <-- (60 sec interval) */}
+        <SharkRTL />
+
       </div>
     </div>
   );
