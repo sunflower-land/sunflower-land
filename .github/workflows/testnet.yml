@@ -1,4 +1,4 @@
-name: Upload Website
+name: Testnet deploy
 
 on:
   push:
