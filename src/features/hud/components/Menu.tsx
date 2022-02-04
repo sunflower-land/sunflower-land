@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
-import { OuterPanel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 
 import mobileMenu from "assets/icons/hamburger_menu.png";
 import questionMark from "assets/icons/expression_confused.png";
@@ -17,6 +17,7 @@ import { sync } from "features/game/actions/sync";
 import { Context } from "features/game/GameProvider";
 
 import { Withdraw } from "./Withdraw";
+import { Modal } from "react-bootstrap";
 
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
@@ -27,6 +28,7 @@ export const Menu = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
+  const [showComingSoon, setShowComingSoon] = React.useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -56,6 +58,12 @@ export const Menu = () => {
     setShowWithdrawModal(true);
     setMenuOpen(false);
   };
+
+  // TODO - Remove function when withdraw and Sync on Chain functionalities are implemnented
+  const handleComingSoonModal = () => {
+    setShowComingSoon(true)
+    setMenuOpen(false)
+  }
 
   // Handles closing the menu if someone clicks outside
   useEffect(() => {
@@ -133,12 +141,14 @@ export const Menu = () => {
               </Button>
             </li>
             <li className="p-1">
-              <Button onClick={syncOnChain}>
+              {/* <Button onClick={syncOnChain}> */}
+              <Button onClick={() => handleComingSoonModal()}>
                 <span className="text-sm">Sync on chain</span>
               </Button>
             </li>
             <li className="p-1">
-              <Button onClick={withdraw}>
+              {/* <Button onClick={withdraw}> */}
+              <Button onClick={() => handleComingSoonModal()}>
                 <span className="text-sm">Withdraw</span>
                 <img src={token} className="w-4 ml-2" alt="token" />
               </Button>
@@ -151,6 +161,12 @@ export const Menu = () => {
         isOpen={showWithdrawModal}
         onClose={() => setShowWithdrawModal(false)}
       />
+
+      {/* TODO - To be deleted when withdraw and "Sync on chain" are implemented */}
+      <Modal show={showComingSoon} onHide={() => setShowComingSoon(false)} centered>
+        <Panel>Coming soon!</Panel>
+      </Modal>
+
     </div>
   );
 };
