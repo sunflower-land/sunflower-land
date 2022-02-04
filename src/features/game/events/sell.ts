@@ -29,9 +29,17 @@ export function sell(state: GameState, action: SellAction): GameState {
     throw new Error("Insufficient crops to sell");
   }
 
+  let price = crop.sellPrice;
+  if (
+    crop.name === "Cauliflower" &&
+    state.inventory["Golden Cauliflower"]?.greaterThanOrEqualTo(1)
+  ) {
+    price = price * 2;
+  }
+
   return {
     ...state,
-    balance: state.balance.add(crop.sellPrice * action.amount),
+    balance: state.balance.add(price * action.amount),
     inventory: {
       ...state.inventory,
       [crop.name]: cropCount.sub(1 * action.amount),

@@ -38,7 +38,7 @@ export async function createFarm() {
     address: metamask.myAccount as string,
   });
 
-  await metamask.getSunflowerLand().createFarm({
+  await metamask.getBeta().createFarm({
     signature,
     amount: 0,
     charity: "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377",

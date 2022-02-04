@@ -48,6 +48,17 @@ body {
     border: none;
 }
 
+/* Disable default border */
+.accordion-button {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Replace default chevron image */
+.accordion-button::after {
+    background-image: url("./assets/icons/indicator.png") !important;
+}
+
 img {
     image-rendering: pixelated;
 }

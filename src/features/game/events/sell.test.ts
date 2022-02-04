@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../types/game";
+import { CROPS } from "../types/crops";
 import { sell } from "./sell";
 
 let GAME_STATE: GameState = {
@@ -103,5 +104,42 @@ describe("sell", () => {
         }
       )
     ).toThrow("Insufficient crops to sell");
+  });
+
+  it("sells a cauliflower for a normal price", () => {
+    const state = sell(
+      {
+        ...GAME_STATE,
+        inventory: {
+          Cauliflower: new Decimal(1),
+        },
+      },
+      {
+        type: "item.sell",
+        item: "Cauliflower",
+        amount: 1,
+      }
+    );
+
+    expect(state.balance).toEqual(new Decimal(CROPS.Cauliflower.sellPrice));
+  });
+
+  it("sells a cauliflower for a double the price if they have golden cauliflower", () => {
+    const state = sell(
+      {
+        ...GAME_STATE,
+        inventory: {
+          Cauliflower: new Decimal(1),
+          "Golden Cauliflower": new Decimal(1),
+        },
+      },
+      {
+        type: "item.sell",
+        item: "Cauliflower",
+        amount: 1,
+      }
+    );
+
+    expect(state.balance).toEqual(new Decimal(CROPS.Cauliflower.sellPrice * 2));
   });
 });

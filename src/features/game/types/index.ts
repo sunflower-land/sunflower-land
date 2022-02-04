@@ -39,6 +39,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Gnome: 407,
   "Chicken Coop": 408,
   "Gold Egg": 409,
+  "Golden Cauliflower": 410,
+  "Sunflower Tombstone": 411,
+  "Sunflower Rock": 412,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,

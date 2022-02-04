@@ -38,6 +38,9 @@ import goldEgg from "assets/nfts/gold_egg.png";
 import potatoStatue from "assets/nfts/potato_statue.png";
 import scarecrow from "assets/nfts/scarecrow.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
+import sunflowerRock from "assets/nfts/sunflower_rock.png";
+import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
+import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
 
 // Foods
 import flour from "assets/crops/wheat/flour.png";
@@ -174,7 +177,7 @@ export const ITEM_DETAILS: Items = {
   // TOOLS
   Axe: {
     ...TOOLS["Axe"],
-    image: woodPickaxe,
+    image: axe,
   },
   Pickaxe: {
     ...TOOLS["Pickaxe"],
@@ -233,12 +236,26 @@ export const ITEM_DETAILS: Items = {
     ...NFTs["Chicken Coop"],
     image: chickenCoop,
   },
+  "Golden Cauliflower": {
+    ...NFTs["Golden Cauliflower"],
+    image: goldenCauliflower,
+  },
+  "Sunflower Rock": {
+    ...NFTs["Sunflower Rock"],
+    image: sunflowerRock,
+  },
+  "Sunflower Tombstone": {
+    ...NFTs["Sunflower Tombstone"],
+    image: sunflowerTombstone,
+  },
+
+  // FOOD
+
   "Pumpkin Soup": {
     ...FOODS["Pumpkin Soup"],
     image: pumpkinSoup,
   },
 
-  // FOOD
   Sauerkraut: {
     ...FOODS["Sauerkraut"],
     image: cabbageSoup,

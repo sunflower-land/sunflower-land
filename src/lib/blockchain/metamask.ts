@@ -4,6 +4,7 @@ import { sha3 } from "web3-utils";
 import { LegacyFarm } from "./Legacy";
 import { SunflowerLand } from "./SunflowerLand";
 import { Farm } from "./Farm";
+import { Beta } from "./Beta";
 
 const POLYGON_CHAIN_ID = 137;
 const POLYGON_TESTNET_CHAIN_ID = 80001;
@@ -16,6 +17,7 @@ export class Metamask {
   private legacyFarm: LegacyFarm | null = null;
   private farm: Farm | null = null;
   private sunflowerLand: SunflowerLand | null = null;
+  private beta: Beta | null = null;
 
   private account: string | null = null;
 
@@ -31,6 +33,7 @@ export class Metamask {
         this.web3 as Web3,
         this.account as string
       );
+      this.beta = new Beta(this.web3 as Web3, this.account as string);
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
@@ -156,6 +159,10 @@ export class Metamask {
 
   public getFarm() {
     return this.farm as Farm;
+  }
+
+  public getBeta() {
+    return this.beta as Beta;
   }
 
   public getSunflowerLand() {
