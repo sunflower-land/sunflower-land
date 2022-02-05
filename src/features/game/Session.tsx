@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useRef, useEffect} from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import background from "assets/land/background.png";
@@ -6,11 +6,19 @@ import background from "assets/land/background.png";
 import { Game } from "./Game";
 import { GameProvider } from "./GameProvider";
 import { ToastProvider } from "./toast/ToastQueueProvider";
-import mapMovementSetup from "./lib/mapMovement";
+import mapMovement from "./lib/mapMovement";
 
 export const Session: React.FC = () => {
+  // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
-  mapMovementSetup(container)
+
+  useEffect(() => {
+    mapMovement.addListeners(container.current)
+    return () => {
+      mapMovement.removeListeners()
+    }
+  }, [container])
+
   // Load data
   return (
     <GameProvider>
