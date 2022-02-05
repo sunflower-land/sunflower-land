@@ -13,7 +13,7 @@ export type CropName =
   | "Wheat";
 
 export type Crop = {
-  item_type: string;
+  itemType: "food" | "tool" | "nft" | "crop" | "seed"
   buyPrice: number;
   sellPrice: number;
   harvestSeconds: number;
@@ -27,7 +27,7 @@ export type Crop = {
  */
 export const CROPS: Record<CropName, Crop> = {
   Sunflower: {
-    item_type: "crop",
+    itemType: "crop",
     buyPrice: 0.01,
     sellPrice: 0.02,
     harvestSeconds: 1 * 60,
@@ -35,7 +35,7 @@ export const CROPS: Record<CropName, Crop> = {
     description: "A sunny flower",
   },
   Potato: {
-    item_type: "crop",
+    itemType: "crop",
     buyPrice: 0.1,
     sellPrice: 0.14,
     harvestSeconds: 5 * 60,
@@ -43,7 +43,7 @@ export const CROPS: Record<CropName, Crop> = {
     description: "A nutrious crop for any diet",
   },
   Pumpkin: {
-    item_type: "crop",
+    itemType: "crop",
     buyPrice: 0.2,
     sellPrice: 0.4,
     harvestSeconds: 30 * 60,
@@ -51,7 +51,7 @@ export const CROPS: Record<CropName, Crop> = {
     description: "A nutrious crop for any diet",
   },
   Carrot: {
-    item_type: "crop",
+    itemType: "crop",
     buyPrice: 0.5,
     sellPrice: 0.8,
     harvestSeconds: 60 * 60,
@@ -59,7 +59,7 @@ export const CROPS: Record<CropName, Crop> = {
     description: "A nutrious crop for any diet",
   },
   Cabbage: {
-    item_type: "crop",
+    itemType: "crop",
     buyPrice: 1,
     sellPrice: 1.5,
     harvestSeconds: 2 * 60 * 60,
@@ -67,7 +67,7 @@ export const CROPS: Record<CropName, Crop> = {
     description: "A nutrious crop for any diet",
   },
   Beetroot: {
-    item_type: "crop",
+    itemType: "crop",
     buyPrice: 2,
     sellPrice: 2.8,
     harvestSeconds: 4 * 60 * 60,
@@ -77,7 +77,7 @@ export const CROPS: Record<CropName, Crop> = {
     description: "A nutrious crop for any diet",
   },
   Cauliflower: {
-    item_type: "crop",
+    itemType: "crop",
     buyPrice: 3,
     sellPrice: 4.25,
     harvestSeconds: 8 * 60 * 60,
@@ -85,7 +85,7 @@ export const CROPS: Record<CropName, Crop> = {
     description: "A nutrious crop for any diet",
   },
   Parsnip: {
-    item_type: "crop",
+    itemType: "crop",
     buyPrice: 5,
     sellPrice: 6.5,
     harvestSeconds: 12 * 60 * 60,
@@ -93,7 +93,7 @@ export const CROPS: Record<CropName, Crop> = {
     description: "A nutrious crop for any diet",
   },
   Radish: {
-    item_type: "crop",
+    itemType: "crop",
     buyPrice: 7,
     sellPrice: 9.5,
     harvestSeconds: 24 * 60 * 60,
@@ -101,7 +101,7 @@ export const CROPS: Record<CropName, Crop> = {
     description: "A nutrious crop for any diet",
   },
   Wheat: {
-    item_type: "crop",
+    itemType: "crop",
     buyPrice: 0.1,
     sellPrice: 0.14,
     harvestSeconds: 5 * 60,
@@ -114,28 +114,28 @@ export type SeedName = `${CropName} Seed`;
 
 export const SEEDS: Record<SeedName, Craftable> = {
   "Sunflower Seed": {
-    item_type: "seed",
+    itemType: "seed",
     name: "Sunflower Seed",
     price: 0.01,
     ingredients: [],
     description: "A sunny flower",
   },
   "Potato Seed": {
-    item_type: "seed",
+    itemType: "seed",
     name: "Potato Seed",
     price: 0.1,
     ingredients: [],
     description: "A nutrious crop for any diet",
   },
   "Pumpkin Seed": {
-    item_type: "seed",
+    itemType: "seed",
     name: "Pumpkin Seed",
     description: "A nutrious crop for any diet",
     price: 0.2,
     ingredients: [],
   },
   "Carrot Seed": {
-    item_type: "seed",
+    itemType: "seed",
     name: "Carrot Seed",
     description: "A nutrious crop for any diet",
     price: 0.5,
@@ -143,7 +143,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     requires: "Pumpkin Soup",
   },
   "Cabbage Seed": {
-    item_type: "seed",
+    itemType: "seed",
     name: "Cabbage Seed",
     description: "A nutrious crop for any diet",
     price: 1,
@@ -151,7 +151,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     requires: "Pumpkin Soup",
   },
   "Beetroot Seed": {
-    item_type: "seed",
+    itemType: "seed",
     name: "Beetroot Seed",
     description: "A nutrious crop for any diet",
     price: 2,
@@ -159,7 +159,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     requires: "Sauerkraut",
   },
   "Cauliflower Seed": {
-    item_type: "seed",
+    itemType: "seed",
     name: "Cauliflower Seed",
     description: "A nutrious crop for any diet",
     price: 3,
@@ -167,7 +167,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     requires: "Sauerkraut",
   },
   "Parsnip Seed": {
-    item_type: "seed",
+    itemType: "seed",
     name: "Parsnip Seed",
     description: "A nutrious crop for any diet",
     price: 5,
@@ -175,7 +175,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     requires: "Roasted Cauliflower",
   },
   "Radish Seed": {
-    item_type: "seed",
+    itemType: "seed",
     name: "Radish Seed",
     description: "A nutrious crop for any diet",
     price: 7,
@@ -183,7 +183,7 @@ export const SEEDS: Record<SeedName, Craftable> = {
     requires: "Roasted Cauliflower",
   },
   "Wheat Seed": {
-    item_type: "seed",
+    itemType: "seed",
     name: "Wheat Seed",
     description: "A nutrious crop for any diet",
     price: 2,

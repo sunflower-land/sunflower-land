@@ -9,10 +9,10 @@ import gnome from "assets/nfts/gnome.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
-import { InventoryCrops } from "./InventoryCrops";
-import { InventoryFoods } from "./InventoryFoods";
-import { InventoryNFTs } from "./InventoryNFTs";
-import { InventorySeeds } from "./InventorySeeds";
+import { NFTs, TOOLS, FOODS } from "features/game/types/craftables";
+import { CROPS, SEEDS } from 'features/game//types/crops';
+
+import { InventoryPreview } from "./InventoryPreview";
 
 interface Props {
   onClose: () => void;
@@ -52,10 +52,15 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
           onClick={onClose}
         />
       </div>
-      {tab === "seeds" && <InventorySeeds />}
-      {tab === "crops" && <InventoryCrops />}
-      {tab === "foods" && <InventoryFoods />}
-      {tab === "nfts" && <InventoryNFTs />}
+
+      {/* {tab === "craft" && <CraftingItems items={TOOLS} isBulk />}
+      {tab === "nfts" && <CraftingItems items={NFTs} />}
+      {tab === "foods" && <CraftingItems items={FOODS} />} */}
+      
+      {tab === "seeds" && <InventoryPreview items={SEEDS} />}
+      {tab === "crops" && <InventoryPreview items={CROPS} />}
+      {tab === "foods" && <InventoryPreview items={FOODS} />}
+      {tab === "nfts" && <InventoryPreview items={Object.assign(TOOLS,NFTs)} />}
       
     </Panel>
   );
