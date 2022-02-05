@@ -54,6 +54,7 @@ import wood from "assets/resources/wood.png";
 import egg from "assets/resources/egg.png";
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
+import chicken from "assets/resources/chicken.png";
 
 import { InventoryItemName } from "./game";
 import { FOODS, NFTs, TOOLS } from "./craftables";
@@ -172,6 +173,10 @@ export const ITEM_DETAILS: Items = {
   Egg: {
     ...RESOURCES["Egg"],
     image: egg,
+  },
+  Chicken: {
+    ...RESOURCES["Chicken"],
+    image: chicken,
   },
 
   // TOOLS
