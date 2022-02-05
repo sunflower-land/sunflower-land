@@ -12,7 +12,11 @@ function isCraftable(item: InventoryItemName): item is CraftableName {
   return (item as CraftableName) in CRAFTABLES;
 }
 
-export function craft(state: GameState, action: CraftAction) {
+type Options = {
+  state: GameState;
+  action: CraftAction;
+};
+export function craft({ state, action }: Options) {
   if (!isCraftable(action.item)) {
     throw new Error(`This item is not craftable: ${action.item}`);
   }

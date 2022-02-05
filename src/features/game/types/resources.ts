@@ -1,4 +1,10 @@
-export type ResourceName = "Wood" | "Stone" | "Iron" | "Gold" | "Egg";
+export type ResourceName =
+  | "Wood"
+  | "Stone"
+  | "Iron"
+  | "Gold"
+  | "Egg"
+  | "Chicken";
 
 export type Resource = {
   description: string;
@@ -18,5 +24,8 @@ export const RESOURCES: Record<ResourceName, Resource> = {
   },
   Egg: {
     description: "Used to craft items",
+  },
+  Chicken: {
+    description: "Used to lay eggs",
   },
 };

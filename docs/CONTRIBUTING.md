@@ -6,7 +6,7 @@ In this guide you will get an overview of the contribution workflow from opening
 
 ## New contributor guide
 
-To get an overview of the project, read the [README](README.md). Here are some resources to help you get started with open source contributions:
+To get an overview of the project, read the [README](../README.md). Here are some resources to help you get started with open source contributions:
 
 ### Disclaimer
 
@@ -14,7 +14,7 @@ By contributing to this repository you provide Sunflower Land the rights to use 
 
 ## Getting started
 
-Please read the README.md for details on how to setup and run the repo locally.
+Please read the [README.md](../README.md) for details on how to setup and run the repo locally.
 
 ### Issues
 
@@ -24,7 +24,7 @@ If you spot a problem with the docs, [search if an issue already exists](https:/
 
 #### Solve an issue
 
-Scan through our [existing issues](https://github.com/github/docs/issues) to find one that interests you. You can narrow down the search using `labels` as filters. See [Labels](/contributing/how-to-use-labels.md) for more information.
+Scan through our [existing issues](https://github.com/sunflower-land/sunflower-land/issues) to find one that interests you. You can narrow down the search using `labels` as filters. See [Labels](https://docs.github.com/en/issues/tracking-your-work-with-issues/filtering-and-searching-issues-and-pull-requests#filtering-issues-and-pull-requests-by-labels) for more information.
 
 As a general rule, we assign features with deadlines to core team members. If a ticket is already assigned and you are passionate about it, please reach out to the developer on the issue comments and help them out.
 
