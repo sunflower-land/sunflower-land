@@ -1,21 +1,27 @@
 import { ERRORS } from "lib/errors";
-import { createMachine, Interpreter, interpret, assign, actions } from "xstate";
+import { createMachine, Interpreter, assign, DoneInvokeEvent } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
-import { createFarm } from "../actions/createFarm";
+import { createFarm as createFarmAction } from "../actions/createFarm";
 import { CharityAddress } from "../components/Donation";
+
+type Farm = {
+  farmId: number;
+  sessionId: string;
+  address: string;
+};
 
 export interface Context {
   errorCode?: keyof typeof ERRORS;
   farmId?: number;
   sessionId?: string;
   signature?: string;
+  hash?: string;
+  address?: string;
 }
 
-type StartEvent = {
-  type: "START";
-  farmId: number;
-  sessionId: string;
+type StartEvent = Farm & {
+  type: "START_GAME";
 };
 
 type VisitEvent = {
@@ -24,7 +30,7 @@ type VisitEvent = {
 };
 
 type CreateFarmEvent = {
-  type: "CREATING_FARM";
+  type: "CREATE_FARM";
   charityAddress: CharityAddress;
   donation: number;
 };
@@ -32,21 +38,12 @@ type CreateFarmEvent = {
 export type BlockchainEvent =
   | StartEvent
   | VisitEvent
+  | CreateFarmEvent
   | {
       type: "NETWORK_CHANGED";
     }
   | {
-      type: "LOADING_FARMS";
-    }
-  | {
-      type: "NO_FARMS";
-    }
-  | {
       type: "ACCOUNT_CHANGED";
-    }
-  | CreateFarmEvent
-  | {
-      type: "FARMS_LOADED";
     }
   | {
       type: "REFRESH";
@@ -54,15 +51,17 @@ export type BlockchainEvent =
 
 export type BlockchainState = {
   value:
+    | "visiting"
     | "connecting"
-    | "creating"
-    | "loadingFarms"
-    | "ready"
+    | "connected"
+    | { connected: "loadingFarm" }
+    | { connected: "farmLoaded" }
+    | { connected: "noFarmLoaded" }
+    | { connected: "creatingFarm" }
+    | "readyToStart"
     | "signing"
     | "registering"
-    | "authorising"
     | "authorised"
-    | "visiting"
     | "unauthorised";
   context: Context;
 };
@@ -80,147 +79,191 @@ export const authMachine = createMachine<
   Context,
   BlockchainEvent,
   BlockchainState
->({
-  id: "farmMachine",
-  initial: API_URL ? "connecting" : "visiting",
-  //initial: "visiting",
-  context: {},
-  states: {
-    connecting: {
-      invoke: {
-        src: async () => {
-          await metamask.initialise();
-        },
-        onDone: "ready",
-        onError: {
-          target: "unauthorised",
-          actions: assign({
-            errorCode: (context, event) => event.data.message,
-          }),
+>(
+  {
+    id: "authMachine",
+    initial: API_URL ? "connecting" : "visiting",
+    context: {},
+    states: {
+      connecting: {
+        invoke: {
+          src: "initMetamask",
+          onDone: "connected",
+          onError: {
+            target: "unauthorised",
+            actions: "assingErrorMessage",
+          },
         },
       },
-    },
-    ready: {
-      on: {
-        LOADING_FARMS: {
-          target: "loadingFarms",
+      connected: {
+        initial: "loadingFarm",
+        states: {
+          loadingFarm: {
+            invoke: {
+              src: "loadFarm",
+              onDone: [
+                {
+                  target: "#readyToStart",
+                  actions: "assignFarm",
+                  cond: "hasFarm",
+                },
+                { target: "noFarmLoaded" },
+              ],
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
+            },
+          },
+          creatingFarm: {
+            invoke: {
+              src: "createFarm",
+              onDone: "loadingFarm",
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
+            },
+          },
+          noFarmLoaded: {
+            on: {
+              CREATE_FARM: {
+                target: "creatingFarm",
+              },
+            },
+          },
+          farmLoaded: {
+            always: {
+              target: "#readyToStart",
+            },
+          },
         },
-        START: {
-          target: "signing",
-        },
-        VISIT: {
-          target: "visiting",
-          actions: assign({
-            farmId: (context, event) => event.farmId,
-          }),
-        },
-        CREATING_FARM: {
-          target: "creating",
-        },
-        ACCOUNT_CHANGED: {
-          target: "connecting",
-        },
-        NETWORK_CHANGED: {
-          target: "connecting",
-        },
-      },
-    },
-
-    creating: {
-      invoke: {
-        src: async (context, event) => {
-          const charityAddress = (event as CreateFarmEvent)
-            .charityAddress as CharityAddress;
-          const donation = (event as CreateFarmEvent).donation as number;
-
-          await createFarm(charityAddress, donation);
-        },
-        onDone: "loadingFarms",
-        onError: {
-          target: "unauthorised",
-          actions: assign({
-            errorCode: (context, event) => event.data.message,
-          }),
-        },
-      },
-    },
-
-    loadingFarms: {
-      on: {
-        FARMS_LOADED: {
-          target: "ready",
-        },
-      },
-    },
-
-    signing: {
-      invoke: {
-        src: async (context, event) => {
-          // Sign transaction -
-          const { signature } = await metamask.signTransaction(
-            Number((event as StartEvent).farmId)
-          );
-
-          return {
-            signature,
-            farmId: (event as StartEvent).farmId,
-            sessionId: (event as StartEvent).sessionId,
-          };
-        },
-        onDone: {
-          target: "authorised",
-          actions: assign({
-            signature: (_, event) => event.data.signature,
-            farmId: (_, event) => event.data.farmId,
-            sessionId: (_, event) => event.data.sessionId,
-          }),
-        },
-        onError: {
-          target: "unauthorised",
-          actions: assign({
-            errorCode: (context, event) => event.data.message,
-          }),
+        on: {
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+          },
+          NETWORK_CHANGED: {
+            target: "connecting",
+          },
         },
       },
-    },
-
-    registering: {
-      on: {
-        ACCOUNT_CHANGED: {
-          target: "connecting",
-        },
-        NETWORK_CHANGED: {
-          target: "connecting",
-        },
-      },
-    },
-
-    authorised: {
-      on: {
-        ACCOUNT_CHANGED: {
-          target: "connecting",
-        },
-        NETWORK_CHANGED: {
-          target: "connecting",
-        },
-        REFRESH: {
-          target: "connecting",
+      readyToStart: {
+        id: "readyToStart",
+        on: {
+          START_GAME: {
+            target: "signing",
+          },
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+          },
+          NETWORK_CHANGED: {
+            target: "connecting",
+          },
         },
       },
-    },
-
-    // An anonymous user is visiting a farm
-    visiting: {},
-
-    unauthorised: {
-      on: {
-        ACCOUNT_CHANGED: {
-          target: "connecting",
-        },
-        NETWORK_CHANGED: {
-          target: "connecting",
+      signing: {
+        invoke: {
+          src: "sign",
+          onDone: {
+            target: "authorised",
+            actions: "assignSignature",
+          },
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
         },
       },
+      authorised: {
+        on: {
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+          },
+          NETWORK_CHANGED: {
+            target: "connecting",
+          },
+          REFRESH: {
+            target: "connecting",
+          },
+        },
+      },
+      unauthorised: {
+        id: "unauthorised",
+        on: {
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+          },
+          NETWORK_CHANGED: {
+            target: "connecting",
+          },
+        },
+      },
+      // An anonymous user is visiting a farm
+      visiting: {},
     },
   },
-});
+  {
+    services: {
+      initMetamask: async (): Promise<void> => {
+        await metamask.initialise();
+      },
+      loadFarm: async (): Promise<Farm | undefined> => {
+        const farmAccounts = await metamask.getFarm()?.getFarms();
+
+        if (farmAccounts?.length === 0) {
+          return;
+        }
+
+        // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
+        const farmAccount = farmAccounts[0];
+
+        const sessionId = await metamask
+          .getSunflowerLand()
+          .getSessionId(farmAccount.tokenId);
+
+        return {
+          farmId: farmAccount.tokenId,
+          address: farmAccount.account,
+          sessionId,
+        };
+      },
+      createFarm: async (_context: Context, event: any): Promise<void> => {
+        const charityAddress = (event as CreateFarmEvent)
+          .charityAddress as CharityAddress;
+        const donation = (event as CreateFarmEvent).donation as number;
+
+        await createFarmAction(charityAddress, donation);
+      },
+      sign: async (context: Context): Promise<{ signature: string }> => {
+        // Sign transaction -
+        const { signature } = await metamask.signTransaction(context.farmId!);
+
+        return {
+          signature,
+        };
+      },
+    },
+    actions: {
+      assignFarm: assign<Context, any>({
+        farmId: (_context, event) => event.data.farmId,
+        address: (_context, event) => event.data.address,
+        sessionId: (_context, event) => event.data.sessionId,
+      }),
+      assignSignature: assign<Context, any>({
+        signature: (_context, event) => event.data.signature,
+      }),
+      assignErrorMessage: assign<Context, any>({
+        errorCode: (_context, event) => event.data.message,
+      }),
+    },
+    guards: {
+      hasFarm: (_context: Context, event: any) => {
+        if (!event.data) return false;
+
+        const { farmId, address } = event.data;
+
+        return !!farmId && !!address;
+      },
+    },
+  }
+);
