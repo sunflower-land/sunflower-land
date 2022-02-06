@@ -16,10 +16,15 @@ import { GameError } from "./components/GameError";
 import { Decorations } from "./components/Decorations";
 import { Loading } from "features/auth/components";
 import { Animals } from "features/animals/Animals";
+import { useInterval } from "lib/utils/useInterval";
+
+const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const [gameState, send] = useActor(gameService);
+
+  useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 
   return (
     <>

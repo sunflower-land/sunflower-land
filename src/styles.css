@@ -50,6 +50,15 @@ body {
   border: none;
 }
 
+.carousel-control-next,
+.carousel-control-prev {
+  opacity: 1;
+}
+
+.carousel-indicators {
+  bottom: -42px;
+}
+
 /* Disable default border */
 .accordion-button {
   outline: none !important;
@@ -92,6 +101,18 @@ img {
   }
 }
 
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .two-line-ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -116,18 +137,4 @@ img {
   text-align: left;
   content: "\A.\A..\A...";
   animation: ellipsis 1s steps(4) infinite;
-}
-
-/* Bootstrap override */
-.carousel-control-next,
-.carousel-control-prev {
-  opacity: 1;
-}
-
-.carousel-indicators {
-  bottom: -42px;
-}
-
-#default-radio:checked[type="radio"] {
-  background-image: url(assets/icons/confirm.png);
 }
