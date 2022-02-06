@@ -1,6 +1,5 @@
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
-import { LegacyFarm } from "./Legacy";
 import { SunflowerLand } from "./SunflowerLand";
 import { Farm } from "./Farm";
 import { Beta } from "./Beta";
@@ -13,7 +12,6 @@ const POLYGON_TESTNET_CHAIN_ID = Number(import.meta.env.VITE_CHAIN_ID);
 export class Metamask {
   private web3: Web3 | null = null;
 
-  private legacyFarm: LegacyFarm | null = null;
   private farm: Farm | null = null;
   private sunflowerLand: SunflowerLand | null = null;
   private beta: Beta | null = null;
@@ -149,10 +147,6 @@ export class Metamask {
     ].join("\n\n");
 
     return MESSAGE;
-  }
-
-  public getLegacyFarm() {
-    return this.legacyFarm;
   }
 
   public getFarm() {
