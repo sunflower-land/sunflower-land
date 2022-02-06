@@ -151,13 +151,13 @@ export const Donation: React.FC<Props> = ({ onDonate }) => {
           <img
             src={upArrow}
             alt="increment donation value"
-            className="absolute -right-4 top-0"
+            className="cursor-pointer absolute -right-4 top-0"
             onClick={incrementDonation}
           />
           <img
             src={downArrow}
             alt="decrement donation value"
-            className="absolute -right-4 bottom-0"
+            className="cursor-pointer absolute -right-4 bottom-0"
             onClick={decrementDonation}
           />
         </div>
