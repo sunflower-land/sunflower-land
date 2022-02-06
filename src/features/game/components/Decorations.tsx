@@ -69,7 +69,7 @@ export const Decorations: React.FC = () => {
         <img
           style={{
             width: `${GRID_WIDTH_PX * 1}px`,
-            left: `${GRID_WIDTH_PX * 29}px`,
+            left: `${GRID_WIDTH_PX * 30}px`,
             top: `${GRID_WIDTH_PX * 36.8}px`,
           }}
           className="absolute"

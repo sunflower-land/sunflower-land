@@ -50,5 +50,6 @@ export const INITIAL_FARM: GameState = {
     "Pumpkin Soup": new Decimal(1),
     "Sunflower Tombstone": new Decimal(1),
     "Sunflower Rock": new Decimal(1),
+    "Chicken Coop": new Decimal(1),
   },
 };
