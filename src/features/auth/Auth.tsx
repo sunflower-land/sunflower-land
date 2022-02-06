@@ -16,7 +16,7 @@ export const Auth: React.FC = () => {
   const [authState] = useActor(authService);
 
   return (
-    <Modal centered show={!authState.matches("authorised")} backdrop={false}>
+    <Modal centered show={!authState.matches("authorised") && !authState.matches('visiting')} backdrop={false}>
       <div className="relative">
         <img
           id="curly"
