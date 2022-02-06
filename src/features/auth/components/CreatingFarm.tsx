@@ -1,6 +1,6 @@
 import React from "react";
 
-import donating from "assets/splash/donation_small.gif";
+import donating from "assets/splash/goblin_donation.gif";
 
 export const CreatingFarm: React.FC = () => {
   return (
