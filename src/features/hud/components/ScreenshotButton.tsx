@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import html2canvas from "html2canvas";
-import basket from "assets/icons/basket.png";
+import screenshotIcon from "assets/icons/screenshot-icon.png";
 import button from "assets/ui/button/round_button.png";
 import { Modal, ModalTitle } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
@@ -55,31 +55,38 @@ export const ScreenshotButton: React.FC = () => {
 
   return (
     <div
-      className="flex flex-col items-end mr-2 sm:block fixed right-0 z-50"
-      style={{ bottom: "8rem", marginRight: "-1.5rem" }}
+      className="position-fixed flex bottom-44 p-1 right-2 w-fit z-50 cursor-pointer"
       data-html2canvas-ignore="true"
     >
-      <div
-        className="w-16 h-16 sm:mx-8 mt-2 relative flex justify-center items-center shadow rounded-full cursor-pointer"
-        onClick={() => getScreenshot()}
-      >
-        <img
+      {/* <div className="w-8 h-8 sm:mx-8 mt-2 relative flex justify-center items-center shadow rounded-full cursor-pointer"> */}
+      <Button onClick={() => getScreenshot()}>
+        {/* <img
           src={button}
           className="absolute w-full h-full -z-10"
           alt="screenshotButton"
+        /> */}
+        <img
+          src={screenshotIcon}
+          className="w-8 mb-1 sm:w-6 sm:h-5"
+          alt="screenshot"
         />
-        <img src={basket} className="w-8 mb-1" alt="screenshot" />
-        {/* <Label className="hidden sm:block absolute -bottom-7">Screenshot</Label> */}
-      </div>
+      </Button>
+      {/* <Label className="hidden sm:block absolute -bottom-7">Screenshot</Label> */}
+      {/* </div> */}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel>
           <Modal.Header closeButton>
-            <h1>Show off to your friends</h1>
+            <h1>Show off to fellow farmers</h1>
           </Modal.Header>
           <Modal.Body>
             <div className="flex">
               <div className="flex flex-wrap h-fit">
-                <img src={ssImg} id="ss-image" alt="Screenshot of Farm" />
+                <img
+                  src={ssImg}
+                  id="ss-image"
+                  alt="Screenshot of Farm"
+                  style={{ maxHeight: "40vh" }}
+                />
               </div>
             </div>
           </Modal.Body>
