@@ -1,14 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { useActor } from "@xstate/react";
-import Modal from "react-bootstrap/Modal";
 
 import * as AuthProvider from "features/auth/lib/Provider";
-import { Loading } from "features/auth/components/Loading";
-import { Unauthorised } from "features/auth/Unauthorised";
+
 import { Session } from "features/game/Session";
-import { Welcome } from "features/auth/components/Welcome";
 import { Splash } from "features/auth/components/Splash";
-import { SettingUpFarm } from "features/auth/components/SettingUpFarm";
 import { Auth } from "features/auth/Auth";
 
 /**
@@ -41,7 +37,6 @@ export const Navigation: React.FC = () => {
     console.log("window.ethereum", window.ethereum);
     if (window.ethereum) {
       window.ethereum.on("networkChanged", () => {
-        console.log("Network changed");
         send("NETWORK_CHANGED");
       });
 
@@ -51,18 +46,12 @@ export const Navigation: React.FC = () => {
     }
   }, [send]);
 
-  let isLoading =
-    authState.matches("authorising") ||
-    authState.matches("connecting") ||
-    authState.matches("signing");
-
   const showGame =
     authState.matches("authorised") || authState.matches("visiting");
 
   return (
     <>
       <Auth />
-
       {showGame ? <Session /> : <Splash />}
     </>
   );
