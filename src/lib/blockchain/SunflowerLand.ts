@@ -3,6 +3,8 @@ import Web3 from "web3";
 import { AbiItem, toWei } from "web3-utils";
 import SunflowerLandABI from "./abis/SunflowerLand.json";
 
+const address = import.meta.env.VITE_SUNFLOWER_LAND_CONTRACT;
+
 /**
  * Sunflower Land contract
  */
@@ -18,7 +20,7 @@ export class SunflowerLand {
     this.contract = new this.web3.eth.Contract(
       SunflowerLandABI as AbiItem[],
       // Testnet
-      "0xD0020634bC7146fA7cA305EA04dE184Fc474b51E"
+      address as string
     );
   }
 
