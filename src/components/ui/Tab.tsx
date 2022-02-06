@@ -26,6 +26,7 @@ export const Tab: React.FC<Props> = ({
           className
         )}
         onClick={onClick}
+        data-html2canvas-ignore="true"
       >
         {children}
       </div>
