@@ -21,6 +21,7 @@ jobs:
         env:
           CI: false
           VITE_API_URL: ${{ secrets.API_URL }}
+          VITE_CHAIN_ID: 137
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9

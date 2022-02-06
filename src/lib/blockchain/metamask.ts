@@ -6,8 +6,8 @@ import { SunflowerLand } from "./SunflowerLand";
 import { Farm } from "./Farm";
 import { Beta } from "./Beta";
 
-const POLYGON_CHAIN_ID = 137;
-const POLYGON_TESTNET_CHAIN_ID = 80001;
+const POLYGON_TESTNET_CHAIN_ID = import.meta.env.VITE_CHAIN_ID;
+
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
@@ -81,9 +81,7 @@ export class Metamask {
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();
-      if (
-        !(chainId === POLYGON_CHAIN_ID || chainId === POLYGON_TESTNET_CHAIN_ID)
-      ) {
+      if (!(chainId === POLYGON_TESTNET_CHAIN_ID)) {
         throw new Error(ERRORS.WRONG_CHAIN);
       }
 
