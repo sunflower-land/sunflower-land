@@ -107,7 +107,7 @@ export const AudioPlayer: React.FC = () => {
               </div>
               <input
                 type="range" value={volume * 100} onChange={e => handleVolume(parseFloat(e.target.value))}
-                className='w-full position-absolute top-50 -translate-y-1/2 opacity-0 hover:cursor-pointer'
+                className='w-full position-absolute top-50 -translate-y-1/2 opacity-0 hover:cursor-pointer prevent-drag-scroll'
               />
             </div>
           </div>
