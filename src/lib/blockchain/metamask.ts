@@ -6,8 +6,7 @@ import { SunflowerLand } from "./SunflowerLand";
 import { Farm } from "./Farm";
 import { Beta } from "./Beta";
 
-const POLYGON_TESTNET_CHAIN_ID = import.meta.env.VITE_CHAIN_ID;
-
+const POLYGON_TESTNET_CHAIN_ID = Number(import.meta.env.VITE_CHAIN_ID);
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
