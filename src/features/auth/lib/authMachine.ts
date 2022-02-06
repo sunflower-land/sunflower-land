@@ -138,26 +138,12 @@ export const authMachine = createMachine<
             },
           },
         },
-        on: {
-          ACCOUNT_CHANGED: {
-            target: "connecting",
-          },
-          NETWORK_CHANGED: {
-            target: "connecting",
-          },
-        },
       },
       readyToStart: {
         id: "readyToStart",
         on: {
           START_GAME: {
             target: "signing",
-          },
-          ACCOUNT_CHANGED: {
-            target: "connecting",
-          },
-          NETWORK_CHANGED: {
-            target: "connecting",
           },
         },
       },
@@ -176,12 +162,6 @@ export const authMachine = createMachine<
       },
       authorised: {
         on: {
-          ACCOUNT_CHANGED: {
-            target: "connecting",
-          },
-          NETWORK_CHANGED: {
-            target: "connecting",
-          },
           REFRESH: {
             target: "connecting",
           },
@@ -189,17 +169,17 @@ export const authMachine = createMachine<
       },
       unauthorised: {
         id: "unauthorised",
-        on: {
-          ACCOUNT_CHANGED: {
-            target: "connecting",
-          },
-          NETWORK_CHANGED: {
-            target: "connecting",
-          },
-        },
       },
       // An anonymous user is visiting a farm
       visiting: {},
+    },
+    on: {
+      ACCOUNT_CHANGED: {
+        target: "connecting",
+      },
+      NETWORK_CHANGED: {
+        target: "connecting",
+      },
     },
   },
   {
