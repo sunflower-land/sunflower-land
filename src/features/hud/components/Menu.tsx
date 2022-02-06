@@ -61,9 +61,9 @@ export const Menu = () => {
 
   // TODO - Remove function when withdraw and Sync on Chain functionalities are implemnented
   const handleComingSoonModal = () => {
-    setShowComingSoon(true)
-    setMenuOpen(false)
-  }
+    setShowComingSoon(true);
+    setMenuOpen(false);
+  };
 
   // Handles closing the menu if someone clicks outside
   useEffect(() => {
@@ -89,7 +89,11 @@ export const Menu = () => {
   };
 
   return (
-    <div ref={ref} className="fixed top-2 left-2 z-50  shadow-lg">
+    <div
+      ref={ref}
+      className="fixed top-2 left-2 z-50  shadow-lg"
+      data-html2canvas-ignore="true"
+    >
       <OuterPanel>
         <div className="flex justify-center p-1">
           <Button
@@ -163,10 +167,13 @@ export const Menu = () => {
       />
 
       {/* TODO - To be deleted when withdraw and "Sync on chain" are implemented */}
-      <Modal show={showComingSoon} onHide={() => setShowComingSoon(false)} centered>
+      <Modal
+        show={showComingSoon}
+        onHide={() => setShowComingSoon(false)}
+        centered
+      >
         <Panel>Coming soon!</Panel>
       </Modal>
-
     </div>
   );
 };
