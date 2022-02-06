@@ -8,11 +8,12 @@ import selectBox from "assets/ui/select/select_box.png";
 import { Label } from "./Label";
 
 export interface BoxProps {
+  image: any;
   isSelected?: boolean;
   count?: Decimal;
   onClick?: () => void;
   disabled?: boolean;
-  image: any;
+  ssIgnore?: boolean;
 }
 
 export const Box: React.FC<BoxProps> = ({
@@ -21,9 +22,10 @@ export const Box: React.FC<BoxProps> = ({
   count,
   onClick,
   disabled,
+  ssIgnore = true,
 }) => {
   return (
-    <div className="relative">
+    <div className="relative" data-html2canvas-ignore={ssIgnore}>
       <div
         className={classNames(
           "w-12 h-12 bg-brown-600  m-1.5 cursor-pointer flex items-center justify-center relative",
