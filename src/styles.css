@@ -3,83 +3,96 @@
 @import "tailwindcss/utilities";
 
 @layer utilities {
-    @variants responsive {
-        .text-shadow {
-            text-shadow: 1px 1px black;
-        }
-
-        .text-shadow-md {
-            text-shadow: 2px 2px black;
-        }
-
-        .text-shadow-none {
-            text-shadow: none;
-        }
-
-        .img-highlight {
-            filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white) drop-shadow(0px -1px 0px white);
-        }
+  @variants responsive {
+    .text-shadow {
+      text-shadow: 1px 1px black;
     }
+
+    .text-shadow-md {
+      text-shadow: 2px 2px black;
+    }
+
+    .text-shadow-none {
+      text-shadow: none;
+    }
+
+    .img-highlight {
+      filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+        drop-shadow(0px -1px 0px white);
+    }
+  }
 }
 
 body {
-    font-family: "Press Start 2p", sans-serif;
-    overflow: hidden;
+  font-family: "Press Start 2p", sans-serif;
+  overflow: hidden;
 }
 
 * {
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
 
-    /*
+  /*
         Introduced in Internet Explorer 10.
         See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
       */
-    -ms-user-select: none;
-    user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /*
   Override React Bootstrap styles that don't play nicely
 */
 .modal-content {
-    background: transparent;
-    border: none;
+  background: transparent;
+  border: none;
 }
 
 /* Disable default border */
 .accordion-button {
-    outline: none !important;
-    box-shadow: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* Replace default chevron image */
 .accordion-button::after {
-    background-image: url("./assets/icons/indicator.png") !important;
+  background-image: url("./assets/icons/indicator.png") !important;
 }
 
 img {
-    image-rendering: pixelated;
+  image-rendering: pixelated;
 }
 
 @keyframes floating {
-    from {
-        transform: translate(0, 0px);
-    }
-    65% {
-        transform: translate(0, 10px);
-    }
-    to {
-        transform: translate(0, -0px);
-    }
+  from {
+    transform: translate(0, 0px);
+  }
+  65% {
+    transform: translate(0, 10px);
+  }
+  to {
+    transform: translate(0, -0px);
+  }
 }
 
 @keyframes marquee-like-effect {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(-100%);
-    }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
