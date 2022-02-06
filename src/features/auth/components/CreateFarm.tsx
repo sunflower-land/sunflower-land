@@ -7,7 +7,7 @@ import { CharityAddress, Donation } from "./Donation";
 
 export const CreateFarm: React.FC = () => {
   const { authService } = useContext(Auth.Context);
-  const [showDonation, setShowDonation] = useState(true);
+  const [showDonation, setShowDonation] = useState(false);
 
   const create = async (charityAddress: CharityAddress, donation: number) => {
     setShowDonation(false);
