@@ -19,6 +19,7 @@ export const Button: React.FC<Props> = ({
         "bg-brown-200 w-full p-1 shadow-sm text-white text-shadow object-contain justify-center items-center hover:bg-brown-300 cursor-pointer flex disabled:opacity-50 ",
         className
       )}
+      data-html2canvas-ignore="true"
       disabled={disabled}
       onClick={onClick}
       // Custom styles to get pixellated border effect
