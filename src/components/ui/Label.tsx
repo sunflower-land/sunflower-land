@@ -23,6 +23,7 @@ export const Label: React.FC<Props> = ({ children, className }) => {
         borderImageRepeat: "repeat",
         borderRadius: "15px",
       }}
+      data-html2canvas-ignore="true"
     >
       {children}
     </div>
