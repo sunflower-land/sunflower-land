@@ -1,28 +1,26 @@
 import React, { useContext } from "react";
-import { Button } from "components/ui/Button";
+import { useActor } from "@xstate/react";
 
 import * as Auth from "features/auth/lib/Provider";
+
+import { Button } from "components/ui/Button";
 import { shortAddress } from "features/hud/components/Address";
-import { Farm } from "./Welcome";
 
-interface Props {
-  farm: Farm;
-}
-
-export const StartFarm: React.FC<Props> = ({ farm }) => {
+export const StartFarm: React.FC = () => {
   const { authService } = useContext(Auth.Context);
+  const [authState, send] = useActor(authService);
 
   const start = () => {
-    authService.send("START", {
-      farmId: farm?.id,
-      sessionId: farm?.sessionId,
-    });
+    send("START_GAME");
   };
+
+  // We can only ever show this state if the address is not undefin
+  const farmAddress = authState.context.address!;
 
   return (
     <>
-      <p className="text-shadow text-xs mb-2 px-1">
-        Farm Address: {shortAddress(farm?.address)}
+      <p className="text-shadow text-small mb-2 px-1">
+        Farm: {shortAddress(farmAddress)}
       </p>
       <Button onClick={start} className="overflow-hidden mb-2">
         Lets go!

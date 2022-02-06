@@ -4,7 +4,6 @@ import { useActor } from "@xstate/react";
 import * as Auth from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
-import { Panel } from "components/ui/Panel";
 
 import questionMark from "assets/icons/expression_confused.png";
 
@@ -19,20 +18,11 @@ export const Unauthorised: React.FC<Props> = () => {
   const [authState, send] = useActor(authService);
 
   if (authState.context.errorCode === "NO_WEB3") {
-    return (
-      <Panel>
-        {/* Instructions on how to sort out metamask */}
-        <Web3Missing />
-      </Panel>
-    );
+    return <Web3Missing />;
   }
 
   if (authState.context.errorCode === "WRONG_CHAIN") {
-    return (
-      <Panel>
-        <WrongChain />
-      </Panel>
-    );
+    return <WrongChain />;
   }
 
   if (authState.context.errorCode === "NO_FARM") {
@@ -40,8 +30,8 @@ export const Unauthorised: React.FC<Props> = () => {
   }
 
   return (
-    <Panel className="text-shadow">
-      Catch all other connecting errors :/
+    <>
+      <span>Catch all other connecting errors :/</span>
       {/* <div className="flex flex-col justify-center items-center">
         <div className="w-56">
           <Button onClick={onGetStarted}>Get Started</Button>
@@ -54,6 +44,6 @@ export const Unauthorised: React.FC<Props> = () => {
           </Button>
         </div>
       </div> */}
-    </Panel>
+    </>
   );
 };

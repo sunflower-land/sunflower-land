@@ -1,10 +1,9 @@
 import React from "react";
-import { Panel } from "components/ui/Panel";
 
-export const Loading: React.FC = () => {
-  return (
-    <Panel>
-      <span className="text-shadow">Loading...</span>
-    </Panel>
-  );
+interface Props {
+  text?: string;
+}
+
+export const Loading: React.FC<Props> = ({ text }) => {
+  return <span className="text-shadow">{text || "Loading..."}</span>;
 };
