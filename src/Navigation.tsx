@@ -34,7 +34,6 @@ export const Navigation: React.FC = () => {
    * TODO: move into a hook
    */
   useEffect(() => {
-    console.log("window.ethereum", window.ethereum);
     if (window.ethereum) {
       window.ethereum.on("networkChanged", () => {
         send("NETWORK_CHANGED");
