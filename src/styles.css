@@ -74,3 +74,26 @@ img {
     transform: translateX(-100%);
   }
 }
+
+.two-line-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Bootstrap override */
+.carousel-control-next,
+.carousel-control-prev {
+  opacity: 1;
+}
+
+.carousel-indicators {
+  bottom: -42px;
+}
+
+#default-radio:checked[type="radio"] {
+  background-image: url(assets/icons/confirm.png);
+}
