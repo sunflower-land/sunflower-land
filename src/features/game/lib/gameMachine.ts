@@ -74,7 +74,6 @@ export function startGame(authContext: AuthContext) {
           src: async () => {
             // Load the farm session
             if (authContext.sessionId) {
-              console.log({ authContext });
               const game = await loadSession({
                 farmId: Number(authContext.farmId),
                 sessionId: authContext.sessionId as string,
@@ -87,8 +86,6 @@ export function startGame(authContext: AuthContext) {
                 hasV1Farm: true,
                 hasV1Tokens: true,
               });
-
-              console.log({ game });
 
               if (!game) {
                 throw new Error("NO_FARM");

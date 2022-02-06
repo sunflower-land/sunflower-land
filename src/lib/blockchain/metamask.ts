@@ -114,7 +114,7 @@ export class Metamask {
       address: this.account as string,
       farmId,
     });
-    console.log({ message });
+
     const signature = await this.web3.eth.personal.sign(
       message,
       this.account as string,

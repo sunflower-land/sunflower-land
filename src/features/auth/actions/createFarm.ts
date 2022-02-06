@@ -32,23 +32,9 @@ export async function createFarm(charity: CharityAddress, donation: number) {
     address: metamask.myAccount as string,
   });
 
-  console.log({
-    signature,
-    donation,
-    charity,
-    address: metamask.myAccount as string,
-  });
-
   await metamask.getBeta().createFarm({
     signature,
     amount: donation,
     charity,
   });
-
-  // Need to poll for the actual farm id
-  // getFarms
-  // Once I have the farm Id
-  // get started
-
-  console.log("Created!");
 }
