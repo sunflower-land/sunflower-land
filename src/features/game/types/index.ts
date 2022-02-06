@@ -53,6 +53,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Iron: 603,
   Gold: 604,
   Egg: 605,
+  Chicken: 606,
 };
 
 // The reverse of above

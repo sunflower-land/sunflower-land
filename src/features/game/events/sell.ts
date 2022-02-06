@@ -12,7 +12,11 @@ function isCrop(crop: InventoryItemName): crop is CropName {
   return crop in CROPS;
 }
 
-export function sell(state: GameState, action: SellAction): GameState {
+type Options = {
+  state: GameState;
+  action: SellAction;
+};
+export function sell({ state, action }: Options): GameState {
   if (!isCrop(action.item)) {
     throw new Error("Not for sale");
   }

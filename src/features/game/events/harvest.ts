@@ -7,7 +7,13 @@ export type HarvestAction = {
   index: number;
 };
 
-export function harvest(state: GameState, action: HarvestAction) {
+type Options = {
+  state: GameState;
+  action: HarvestAction;
+  createdAt?: number;
+};
+
+export function harvest({ state, action, createdAt = Date.now() }: Options) {
   const fields = { ...state.fields };
 
   if (action.index < 0) {
@@ -53,7 +59,7 @@ export function harvest(state: GameState, action: HarvestAction) {
 
   const crop = CROPS[field.name];
 
-  if (Date.now() - field.plantedAt < crop.harvestSeconds * 1000) {
+  if (createdAt - field.plantedAt < crop.harvestSeconds * 1000) {
     throw new Error("Not ready");
   }
 
