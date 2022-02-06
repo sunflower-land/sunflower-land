@@ -31,9 +31,3 @@ jobs:
 
       - name: Deploy static site to S3 bucket
         run: aws s3 sync ./dist/ s3://sunflower-land.com/testnet --delete
-
-      - name: Invalidate Cloudfront Distribution
-        uses: chetan/invalidate-cloudfront-action@master
-        env:
-          PATHS: "/*"
-          DISTRIBUTION: E22HJM3WADWA8K
