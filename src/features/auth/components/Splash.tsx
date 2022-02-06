@@ -11,7 +11,7 @@ export const Splash: React.FC = () => {
       <div className="relative mb-96 animate-float z-10">
         <img
           src={pumpkin}
-          className="absolute w-8 -rotate-12 z-10 -top-7 sm:w-12"
+          className="absolute w-8 -rotate-[20deg] z-10 -top-5 sm:-left-3 sm:-rotate-[30deg] sm:w-12 sm:-top-7"
         />
         <img src={logo} />
       </div>

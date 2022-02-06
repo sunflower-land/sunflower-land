@@ -13,6 +13,7 @@ import { ToastManager } from "./toast/ToastManager";
 
 import { GameError } from "./components/GameError";
 import { Decorations } from "./components/Decorations";
+import { Loading } from "features/auth/components";
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -22,7 +23,9 @@ export const Game: React.FC = () => {
     <>
       <ToastManager />
       <Modal show={gameState.matches("loading")} centered>
-        <Panel className="text-shadow">Loading...</Panel>
+        <Panel className="text-shadow">
+          <Loading />
+        </Panel>
       </Modal>
       <Modal show={gameState.matches("error")} centered>
         <Panel>

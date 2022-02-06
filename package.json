@@ -16,12 +16,15 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "@types/lodash.shuffle": "^4.2.6",
+    "@xstate/inspect": "^0.6.2",
     "@xstate/react": "^1.6.3",
     "browserify-zlib": "^0.2.0",
     "classnames": "^2.3.1",
     "decimal.js-light": "^2.5.1",
     "events": "^3.3.0",
     "graphql": "^16.2.0",
+    "lodash.shuffle": "^4.2.0",
     "process": "^0.11.10",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.1",
