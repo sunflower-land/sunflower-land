@@ -14,6 +14,7 @@ import { ToastManager } from "./toast/ToastManager";
 
 import { GameError } from "./components/GameError";
 import { Decorations } from "./components/Decorations";
+import { Loading } from "features/auth/components";
 import { Animals } from "features/animals/Animals";
 import { useInterval } from "lib/utils/useInterval";
 
@@ -29,7 +30,9 @@ export const Game: React.FC = () => {
     <>
       <ToastManager />
       <Modal show={gameState.matches("loading")} centered>
-        <Panel>Loading...</Panel>
+        <Panel className="text-shadow">
+          <Loading />
+        </Panel>
       </Modal>
       <Modal show={gameState.matches("error")} centered>
         <Panel>

@@ -75,7 +75,8 @@ export class Metamask {
 
   public async initialise(retryCount = 0): Promise<void> {
     try {
-      // It is actually quite fast, we won't to simulate slow loading to convey complexity
+      // Smooth out the loading state
+      await new Promise((res) => setTimeout(res, 1000));
       await this.setupWeb3();
       await this.loadAccount();
 
@@ -113,7 +114,7 @@ export class Metamask {
       address: this.account as string,
       farmId,
     });
-    console.log({ message });
+
     const signature = await this.web3.eth.personal.sign(
       message,
       this.account as string,

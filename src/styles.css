@@ -26,6 +26,7 @@
 body {
   font-family: "Press Start 2p", sans-serif;
   overflow: hidden;
+  text-shadow: 1px 1px black;
 }
 
 * {
@@ -47,6 +48,15 @@ body {
 .modal-content {
   background: transparent;
   border: none;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+  opacity: 1;
+}
+
+.carousel-indicators {
+  bottom: -42px;
 }
 
 /* Disable default border */
@@ -85,6 +95,12 @@ img {
   }
 }
 
+@keyframes ellipsis {
+  to {
+    transform: translateY(-6em);
+  }
+}
+
 @keyframes pulsate {
   0% {
     transform: scale(1);
@@ -95,4 +111,30 @@ img {
   100% {
     transform: scale(1);
   }
+}
+
+.two-line-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Loading ellipsis animation that will be added to the end of text ie Loading... */
+.loading {
+  display: inline-block;
+  overflow: hidden;
+  height: 1.5rem;
+  line-height: 1.5em;
+  vertical-align: text-bottom;
+}
+
+.loading::after {
+  display: inline-table;
+  white-space: pre;
+  text-align: left;
+  content: "\A.\A..\A...";
+  animation: ellipsis 1s steps(4) infinite;
 }

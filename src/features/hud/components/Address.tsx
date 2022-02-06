@@ -50,7 +50,7 @@ export const Address: React.FC<Props> = () => {
   // }
 
   return (
-    <div className="fixed bottom-2 right-2 z-50  shadow-lg">
+    <div className="fixed bottom-2 right-2 z-50 shadow-lg">
       <Panel>
         <div className="flex items-center">
           <img src={player} className="h-8 mr-2 z-50" />

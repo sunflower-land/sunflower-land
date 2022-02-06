@@ -1,20 +1,18 @@
 import React, { useContext, useEffect } from "react";
 import { useActor } from "@xstate/react";
-import Modal from "react-bootstrap/Modal";
 
-import * as Auth from "features/auth/lib/Provider";
-import { Loading } from "features/auth/components/Loading";
-import { Unauthorised } from "features/auth/Unauthorised";
+import * as AuthProvider from "features/auth/lib/Provider";
+
 import { Session } from "features/game/Session";
-import { Welcome } from "features/auth/components/Welcome";
 import { Splash } from "features/auth/components/Splash";
+import { Auth } from "features/auth/Auth";
 
 /**
  * Entry point for game which reflects the user session state
  * Controls flow of authorised and unauthorised games
  */
 export const Navigation: React.FC = () => {
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
 
   useEffect(() => {
@@ -36,9 +34,9 @@ export const Navigation: React.FC = () => {
    * TODO: move into a hook
    */
   useEffect(() => {
+    console.log("window.ethereum", window.ethereum);
     if (window.ethereum) {
       window.ethereum.on("networkChanged", () => {
-        console.log("Network changed");
         send("NETWORK_CHANGED");
       });
 
@@ -48,27 +46,12 @@ export const Navigation: React.FC = () => {
     }
   }, [send]);
 
-  const isLoading =
-    authState.matches("authorising") ||
-    authState.matches("connecting") ||
-    authState.matches("signing");
-
   const showGame =
     authState.matches("authorised") || authState.matches("visiting");
+
   return (
     <>
-      <Modal centered show={isLoading} backdrop={false}>
-        <Loading />
-      </Modal>
-
-      <Modal centered show={authState.matches("ready")} backdrop={false}>
-        <Welcome />
-      </Modal>
-
-      <Modal centered show={authState.matches("unauthorised")} backdrop={false}>
-        <Unauthorised />
-      </Modal>
-
+      <Auth />
       {showGame ? <Session /> : <Splash />}
     </>
   );
