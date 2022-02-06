@@ -16,25 +16,25 @@ const keyDownListener = (event: KeyboardEvent) => {
   const key = event.key.toLowerCase()
   if (container) {
     if (key === 'w' || key === 'arrowup') {
-      if (movementIntervals.moveUp == undefined) {
+      if (movementIntervals.moveUp === undefined) {
         movementIntervals.moveUp = setInterval(() => {
           container.scrollTop -= sensitivity
         }, intervalTime)
       }
     } else if (key === 'a' || key === 'arrowleft') {
-      if (movementIntervals.moveLeft == undefined) {
+      if (movementIntervals.moveLeft === undefined) {
         movementIntervals.moveLeft = setInterval(() => {
           container.scrollLeft -= sensitivity
         }, intervalTime)
       }
     } else if (key === 's' || key === 'arrowdown') {
-      if (movementIntervals.moveDown == undefined) {
+      if (movementIntervals.moveDown === undefined) {
         movementIntervals.moveDown = setInterval(() => {
           container.scrollTop += sensitivity
         }, intervalTime)
       }
     } else if (key === 'd' || key === 'arrowright') {
-      if (movementIntervals.moveRight == undefined) {
+      if (movementIntervals.moveRight === undefined) {
         movementIntervals.moveRight = setInterval(() => {
           container.scrollLeft += sensitivity
         }, intervalTime)
@@ -51,22 +51,22 @@ const keyUpListener = (event: KeyboardEvent) => {
   const key = event.key.toLowerCase()
   if (container) {
     if (key === 'w' || key === 'arrowup') {
-      if (movementIntervals.moveUp != undefined){
+      if (movementIntervals.moveUp !== undefined){
         clearInterval(movementIntervals.moveUp)
         delete movementIntervals.moveUp
       }
     } else if (key === 'a' || key === 'arrowleft') {
-      if (movementIntervals.moveLeft != undefined){
+      if (movementIntervals.moveLeft !== undefined){
         clearInterval(movementIntervals.moveLeft)
         delete movementIntervals.moveLeft
       }
     } else if (key === 's' || key === 'arrowdown') {
-      if (movementIntervals.moveDown != undefined){
+      if (movementIntervals.moveDown !== undefined){
         clearInterval(movementIntervals.moveDown)
         delete movementIntervals.moveDown
       }
     } else if (key === 'd' || key === 'arrowright') {
-      if (movementIntervals.moveRight != undefined){
+      if (movementIntervals.moveRight !== undefined){
         clearInterval(movementIntervals.moveRight)
         delete movementIntervals.moveRight
       }
@@ -75,7 +75,7 @@ const keyUpListener = (event: KeyboardEvent) => {
 }
 
 const addListeners = (containerPointer?: HTMLElement | null) => {
-  if (containerPointer != undefined){
+  if (containerPointer !== undefined && containerPointer !== null){
     container = containerPointer
   }
   // adding setintervals for smooth movement for each relevant keypress and removing them on keyup 
