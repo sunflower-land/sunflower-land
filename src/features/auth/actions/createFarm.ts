@@ -21,12 +21,12 @@ export async function signTransaction(request: Request) {
     }),
   });
 
-  const { signature } = await response.json();
-  return signature;
+  const { signature, charity, donation } = await response.json();
+  return { signature, charity, donation };
 }
 
 export async function createFarm(charity: CharityAddress, donation: number) {
-  const signature = await signTransaction({
+  const { signature, donation: amount } = await signTransaction({
     donation,
     charity,
     address: metamask.myAccount as string,
@@ -34,7 +34,7 @@ export async function createFarm(charity: CharityAddress, donation: number) {
 
   await metamask.getBeta().createFarm({
     signature,
-    amount: donation,
+    amount,
     charity,
   });
 }

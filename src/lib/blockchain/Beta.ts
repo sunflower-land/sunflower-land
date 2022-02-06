@@ -34,7 +34,7 @@ export class Beta {
     return new Promise(async (resolve, reject) => {
       this.contract.methods
         .createFarm(signature, charity, amount)
-        .send({ from: this.account })
+        .send({ from: this.account, value: amount })
         .on("error", function (error: any) {
           console.log({ error });
 
