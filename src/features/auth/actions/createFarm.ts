@@ -27,6 +27,7 @@ export async function signTransaction(request: Request) {
   }
 
   const { signature, charity, donation } = await response.json();
+  
   return { signature, charity, donation };
 }
 
