@@ -11,7 +11,6 @@ import { cacheShortcuts, getShortcuts } from "features/hud/lib/shortcuts";
 import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 
-
 interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
   selectedItem?: InventoryItemName;
