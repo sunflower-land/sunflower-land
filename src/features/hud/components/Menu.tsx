@@ -19,6 +19,8 @@ import water from "assets/icons/expression_working.png";
 import token from "assets/icons/token.png";
 import timer from "assets/icons/timer.png";
 
+const NETWORK = import.meta.env.VITE_NETWORK;
+
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
@@ -78,6 +80,12 @@ export const Menu = () => {
   }, []);
 
   const syncOnChain = async () => {
+    if (NETWORK === "mainnet") {
+      setShowComingSoon(true);
+      setMenuOpen(false);
+      return;
+    }
+
     await sync({
       farmId: authState.context.farmId as number,
       sessionId: authState.context.sessionId as string,
@@ -146,7 +154,7 @@ export const Menu = () => {
             </li>
             <li className="p-1">
               {/* <Button onClick={syncOnChain}> */}
-              <Button onClick={() => handleComingSoonModal()}>
+              <Button onClick={syncOnChain}>
                 <span className="text-sm">Sync on chain</span>
               </Button>
             </li>

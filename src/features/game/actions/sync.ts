@@ -41,5 +41,5 @@ export async function sync({ farmId, sessionId, signature }: Options) {
 
   console.log({ transaction });
 
-  metamask.getSunflowerLand().sync(transaction);
+  metamask.getSessionManager().sync(transaction);
 }

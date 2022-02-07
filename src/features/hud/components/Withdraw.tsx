@@ -50,7 +50,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
     setState("withdrawing");
 
     try {
-      await metamask.getSunflowerLand().withdraw({
+      await metamask.getSessionManager().withdraw({
         farmId: game.context.state.id,
         amounts: selected.map(
           (itemName) => new Decimal(inventory[itemName] || 0)

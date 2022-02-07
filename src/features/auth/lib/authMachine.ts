@@ -198,7 +198,7 @@ export const authMachine = createMachine<
         const farmAccount = farmAccounts[0];
 
         const sessionId = await metamask
-          .getSunflowerLand()
+          .getSessionManager()
           .getSessionId(farmAccount.tokenId);
 
         return {

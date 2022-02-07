@@ -1,14 +1,15 @@
 import Decimal from "decimal.js-light";
 import Web3 from "web3";
 import { AbiItem, toWei } from "web3-utils";
-import SunflowerLandABI from "./abis/SunflowerLand.json";
+import SessionABI from "./abis/Session.json";
 
-const address = import.meta.env.VITE_SUNFLOWER_LAND_CONTRACT;
+const address = import.meta.env.VITE_SESSION_CONTRACT;
+const NETWORK = import.meta.env.VITE_NETWORK;
 
 /**
- * Sunflower Land contract
+ * Sessions contract
  */
-export class SunflowerLand {
+export class SessionManager {
   private web3: Web3;
   private account: string;
 
@@ -18,8 +19,7 @@ export class SunflowerLand {
     this.web3 = web3;
     this.account = account;
     this.contract = new this.web3.eth.Contract(
-      SunflowerLandABI as AbiItem[],
-      // Testnet
+      SessionABI as AbiItem[],
       address as string
     );
   }
@@ -35,46 +35,55 @@ export class SunflowerLand {
   public async sync({
     signature,
     sessionId,
+    deadline,
     farmId,
-    sfl,
-    ids,
-    amounts,
+    mintIds,
+    mintAmounts,
+    burnIds,
+    burnAmounts,
+    tokens,
   }: {
     signature: string;
     sessionId: string;
+    deadline: number;
+    // Data
     farmId: number;
-    sfl: number[];
-    ids: number[];
-    amounts: number[];
-  }): Promise<string> {
-    throw new Error("NOT IMPLEMENTED");
-    // return new Promise(async (resolve, reject) => {
-    //   this.contract.methods
-    //     .save(
-    //       signature,
-    //       sessionId,
-    //       farmId,
-    //       mintIds,
-    //       mintAmounts,
-    //       burnIds,
-    //       burnAmounts,
-    //       mintTokens,
-    //       burnTokens
-    //     )
-    //     .send({ from: this.account })
-    //     .on("error", function (error: any) {
-    //       console.log({ error });
+    mintIds: number[];
+    mintAmounts: number[];
+    burnIds: number[];
+    burnAmounts: number[];
+    tokens: number;
+  }) {
+    if (NETWORK === "mainnet") {
+      throw new Error("NOT IMPLEMENTED");
+    }
+    return new Promise(async (resolve, reject) => {
+      this.contract.methods
+        .sync(
+          signature,
+          sessionId,
+          deadline,
+          farmId,
+          mintIds,
+          mintAmounts,
+          burnIds,
+          burnAmounts,
+          tokens
+        )
+        .send({ from: this.account })
+        .on("error", function (error: any) {
+          console.log({ error });
 
-    //       reject(error);
-    //     })
-    //     .on("transactionHash", function (transactionHash: any) {
-    //       console.log({ transactionHash });
-    //     })
-    //     .on("receipt", function (receipt: any) {
-    //       console.log({ receipt });
-    //       resolve(receipt);
-    //     });
-    // });
+          reject(error);
+        })
+        .on("transactionHash", function (transactionHash: any) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt: any) {
+          console.log({ receipt });
+          resolve(receipt);
+        });
+    });
   }
 
   public async createFarm({

@@ -1,10 +1,12 @@
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
-import { SunflowerLand } from "./SunflowerLand";
+import { SessionManager } from "./Sessions";
 import { Farm } from "./Farm";
 import { Beta } from "./Beta";
 
-const POLYGON_TESTNET_CHAIN_ID = Number(import.meta.env.VITE_CHAIN_ID);
+const NETWORK = import.meta.env.VITE_NETWORK;
+
+const POLYGON_TESTNET_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -13,7 +15,7 @@ export class Metamask {
   private web3: Web3 | null = null;
 
   private farm: Farm | null = null;
-  private sunflowerLand: SunflowerLand | null = null;
+  private session: SessionManager | null = null;
   private beta: Beta | null = null;
 
   private account: string | null = null;
@@ -26,7 +28,7 @@ export class Metamask {
       // );
 
       this.farm = new Farm(this.web3 as Web3, this.account as string);
-      this.sunflowerLand = new SunflowerLand(
+      this.session = new SessionManager(
         this.web3 as Web3,
         this.account as string
       );
@@ -157,8 +159,8 @@ export class Metamask {
     return this.beta as Beta;
   }
 
-  public getSunflowerLand() {
-    return this.sunflowerLand as SunflowerLand;
+  public getSessionManager() {
+    return this.session as SessionManager;
   }
 
   public get myAccount() {
