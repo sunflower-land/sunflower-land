@@ -1,4 +1,5 @@
 import { metamask } from "lib/blockchain/metamask";
+import { ERRORS } from "lib/errors";
 import { CharityAddress } from "../components/Donation";
 
 type Request = {
@@ -21,7 +22,12 @@ export async function signTransaction(request: Request) {
     }),
   });
 
+  if (response.status >= 400 ) {
+    throw new Error(ERRORS.FAILED_REQUEST)
+  }
+
   const { signature, charity, donation } = await response.json();
+  
   return { signature, charity, donation };
 }
 
