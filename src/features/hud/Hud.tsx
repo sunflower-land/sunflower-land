@@ -13,13 +13,13 @@ import { ScreenshotButton } from "./components/ScreenshotButton";
  */
 export const Hud: React.FC = () => {
   return (
-    <>
+    <div data-html2canvas-ignore="true" aria-label="Hud">
       <Menu />
       <Balance />
       <Inventory />
       <ScreenshotButton />
       <AudioPlayer />
       <Address />
-    </>
+    </div>
   );
 };
