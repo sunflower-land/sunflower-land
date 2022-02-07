@@ -11,6 +11,8 @@ type Request = {
 const API_URL = import.meta.env.VITE_API_URL;
 
 export async function autosave(request: Request) {
+  if (process.env.NODE_ENV === 'development') return;
+
   // Serialize values before sending
   const actions = request.actions.map((action) => ({
     ...action,

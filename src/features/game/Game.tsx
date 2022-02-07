@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
 
@@ -24,7 +24,11 @@ export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
 
-  useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
+  useInterval(() => {
+    if (process.env.NODE_ENV !== 'development') {
+      send("SAVE");
+    }
+  }, AUTO_SAVE_INTERVAL);
 
   return (
     <>
