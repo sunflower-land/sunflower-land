@@ -1,0 +1,40 @@
+name: Testnet deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    environment: develop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+        env:
+          CI: false
+          VITE_API_URL: ${{ secrets.API_URL }}
+          VITE_CHAIN_ID: 80001
+          VITE_BETA_CONTRACT: "0x38D138b1eaA6c4769401c5A79D86fF484b23DD2d"
+          VITE_SUNFLOWER_LAND_CONTRACT: "0xD0020634bC7146fA7cA305EA04dE184Fc474b51E"
+          VITE_FARM_CONTRACT: "0x7f6279D037587d647b529F1C6ACA43E4E314d392"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1.5.9
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./dist/ s3://sunflower-land.com/testnet --delete
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./dist/ s3://www.sunflower-land.com/testnet --delete

@@ -17,7 +17,7 @@ export type InventoryItemName =
   | CraftableName
   | ResourceName;
 
-export type Inventory = Partial<Record<InventoryItemName, number>>;
+export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
 type PastAction = GameEvent & {
   createdAt: Date;

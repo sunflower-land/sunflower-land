@@ -7,6 +7,7 @@ import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import * as Auth from "features/auth/lib/Provider";
+import { KNOWN_IDS } from "features/game/types";
 
 import { Panel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
@@ -54,7 +55,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
         amounts: selected.map(
           (itemName) => new Decimal(inventory[itemName] || 0)
         ),
-        ids: selected.map((itemName) => ITEM_DETAILS[itemName].id),
+        ids: selected.map((itemName) => KNOWN_IDS[itemName]),
         to,
         tokens: amount,
       });

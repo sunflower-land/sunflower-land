@@ -15,23 +15,20 @@ export const Blacksmith: React.FC = () => {
       className="z-10 absolute"
       // TODO some sort of coordinate system
       style={{
-        width: `${GRID_WIDTH_PX * 3}px`,
+        width: `${GRID_WIDTH_PX * 2.7}px`,
         height: `${GRID_WIDTH_PX * 2.5}px`,
-        left: `calc(50% - ${GRID_WIDTH_PX * 5}px)`,
-        top: `calc(50% - ${GRID_WIDTH_PX * 11.3}px)`,
+        left: `calc(50% - ${GRID_WIDTH_PX * 5.7}px)`,
+        top: `calc(50% - ${GRID_WIDTH_PX * 11.8}px)`,
       }}
     >
       <img
         src={blacksmith}
         alt="market"
         onClick={() => setIsOpen(true)}
-        className="cursor-pointer hover:img-highlight"
-        style={{
-          width: "100px",
-        }}
+        className="cursor-pointer hover:img-highlight w-full"
       />
       <Action
-        className="absolute -bottom-8 left-0"
+        className="absolute -bottom-10 left-0"
         text="Craft"
         icon={hammer}
         onClick={() => setIsOpen(true)}

@@ -1,4 +1,5 @@
 import { metamask } from "lib/blockchain/metamask";
+import { CharityAddress } from "../components/Donation";
 
 type Request = {
   charity: string;
@@ -20,29 +21,20 @@ export async function signTransaction(request: Request) {
     }),
   });
 
-  const { signature } = await response.json();
-  return signature;
+  const { signature, charity, donation } = await response.json();
+  return { signature, charity, donation };
 }
 
-export async function createFarm() {
-  const signature = await signTransaction({
-    donation: 0,
-    charity: "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377",
+export async function createFarm(charity: CharityAddress, donation: number) {
+  const { signature, donation: amount } = await signTransaction({
+    donation,
+    charity,
     address: metamask.myAccount as string,
   });
 
-  console.log({
+  await metamask.getBeta().createFarm({
     signature,
-    donation: 0,
-    charity: "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377",
-    address: metamask.myAccount as string,
+    amount,
+    charity,
   });
-
-  await metamask.getSunflowerLand().createFarm({
-    signature,
-    amount: 0,
-    charity: "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377",
-  });
-
-  console.log("Created!");
 }

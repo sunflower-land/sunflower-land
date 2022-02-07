@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { CraftableName, CRAFTABLES } from "../types/craftables";
 import { GameState, InventoryItemName } from "../types/game";
 
@@ -11,9 +12,17 @@ function isCraftable(item: InventoryItemName): item is CraftableName {
   return (item as CraftableName) in CRAFTABLES;
 }
 
-export function craft(state: GameState, action: CraftAction) {
+type Options = {
+  state: GameState;
+  action: CraftAction;
+};
+export function craft({ state, action }: Options) {
   if (!isCraftable(action.item)) {
     throw new Error(`This item is not craftable: ${action.item}`);
+  }
+
+  if (action.amount !== 1 && action.amount !== 10) {
+    throw new Error("Invalid amount");
   }
 
   const item = CRAFTABLES[action.item];
@@ -30,27 +39,29 @@ export function craft(state: GameState, action: CraftAction) {
 
   const subtractedInventory = item.ingredients.reduce(
     (inventory, ingredient) => {
-      const count = inventory[ingredient.item] || 0;
+      const count = inventory[ingredient.item] || new Decimal(0);
       const totalAmount = ingredient.amount * action.amount;
 
-      if (count < totalAmount) {
+      if (count.lessThan(totalAmount)) {
         throw new Error(`Insufficient ingredient: ${ingredient.item}`);
       }
 
       return {
         ...inventory,
-        [ingredient.item]: count - totalAmount,
+        [ingredient.item]: count.sub(totalAmount),
       };
     },
     state.inventory
   );
+
+  const oldAmount = state.inventory[action.item] || new Decimal(0);
 
   return {
     ...state,
     balance: state.balance.sub(totalExpenses),
     inventory: {
       ...subtractedInventory,
-      [action.item]: (state.inventory[action.item] || 0) + action.amount,
+      [action.item]: oldAmount.add(action.amount),
     },
   };
 }

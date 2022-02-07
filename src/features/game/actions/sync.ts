@@ -4,6 +4,7 @@ type Request = {
   sessionId: string;
   farmId: number;
   sender: string;
+  signature: string;
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -28,12 +29,14 @@ async function signTransaction(request: Request) {
 type Options = {
   farmId: number;
   sessionId: string;
+  signature: string;
 };
-export async function sync({ farmId, sessionId }: Options) {
+export async function sync({ farmId, sessionId, signature }: Options) {
   const transaction = await signTransaction({
     farmId,
     sessionId,
     sender: metamask.myAccount as string,
+    signature,
   });
 
   console.log({ transaction });

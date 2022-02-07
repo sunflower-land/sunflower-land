@@ -23,7 +23,9 @@ export const Button: React.FC<Props> = ({
       onClick={onClick}
       // Custom styles to get pixellated border effect
       style={{
-        border: "5px solid transparent",
+        // border: "5px solid transparent",
+        borderStyle: "solid",
+        borderWidth: "5px",
         borderImage: `url(${border}) 30 stretch`,
         borderImageSlice: "25%",
         imageRendering: "pixelated",

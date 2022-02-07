@@ -3,6 +3,8 @@ import Web3 from "web3";
 import { AbiItem, toWei } from "web3-utils";
 import SunflowerLandABI from "./abis/SunflowerLand.json";
 
+const address = import.meta.env.VITE_SUNFLOWER_LAND_CONTRACT;
+
 /**
  * Sunflower Land contract
  */
@@ -18,7 +20,7 @@ export class SunflowerLand {
     this.contract = new this.web3.eth.Contract(
       SunflowerLandABI as AbiItem[],
       // Testnet
-      "0xD0020634bC7146fA7cA305EA04dE184Fc474b51E"
+      address as string
     );
   }
 
@@ -34,50 +36,45 @@ export class SunflowerLand {
     signature,
     sessionId,
     farmId,
-    mintIds,
-    mintAmounts,
-    burnIds,
-    burnAmounts,
-    mintTokens,
-    burnTokens,
+    sfl,
+    ids,
+    amounts,
   }: {
     signature: string;
     sessionId: string;
     farmId: number;
-    mintIds: number[];
-    mintAmounts: number[];
-    burnIds: number[];
-    burnAmounts: number[];
-    mintTokens: number;
-    burnTokens: number;
+    sfl: number[];
+    ids: number[];
+    amounts: number[];
   }): Promise<string> {
-    return new Promise(async (resolve, reject) => {
-      this.contract.methods
-        .save(
-          signature,
-          sessionId,
-          farmId,
-          mintIds,
-          mintAmounts,
-          burnIds,
-          burnAmounts,
-          mintTokens,
-          burnTokens
-        )
-        .send({ from: this.account })
-        .on("error", function (error: any) {
-          console.log({ error });
+    throw new Error("NOT IMPLEMENTED");
+    // return new Promise(async (resolve, reject) => {
+    //   this.contract.methods
+    //     .save(
+    //       signature,
+    //       sessionId,
+    //       farmId,
+    //       mintIds,
+    //       mintAmounts,
+    //       burnIds,
+    //       burnAmounts,
+    //       mintTokens,
+    //       burnTokens
+    //     )
+    //     .send({ from: this.account })
+    //     .on("error", function (error: any) {
+    //       console.log({ error });
 
-          reject(error);
-        })
-        .on("transactionHash", function (transactionHash: any) {
-          console.log({ transactionHash });
-        })
-        .on("receipt", function (receipt: any) {
-          console.log({ receipt });
-          resolve(receipt);
-        });
-    });
+    //       reject(error);
+    //     })
+    //     .on("transactionHash", function (transactionHash: any) {
+    //       console.log({ transactionHash });
+    //     })
+    //     .on("receipt", function (receipt: any) {
+    //       console.log({ receipt });
+    //       resolve(receipt);
+    //     });
+    // });
   }
 
   public async createFarm({

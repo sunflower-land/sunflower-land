@@ -5,11 +5,18 @@ type Request = {
   farmId: number;
   sender: string;
   sessionId: string;
+  signature: string;
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export async function autosave(request: Request) {
+  // Serialize values before sending
+  const actions = request.actions.map((action) => ({
+    ...action,
+    createdAt: action.createdAt.toUTCString(),
+  }));
+
   const response = await window.fetch(`${API_URL}/actions`, {
     method: "POST",
     headers: {
@@ -17,6 +24,7 @@ export async function autosave(request: Request) {
     },
     body: JSON.stringify({
       ...request,
+      actions,
     }),
   });
 

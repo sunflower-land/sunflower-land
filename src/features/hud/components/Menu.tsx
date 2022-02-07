@@ -1,32 +1,35 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
-import { OuterPanel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
+
+import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
+import * as Auth from "features/auth/lib/Provider";
+import { sync } from "features/game/actions/sync";
+import { Context } from "features/game/GameProvider";
+
+import { Withdraw } from "./Withdraw";
+import { Modal } from "react-bootstrap";
 
 import mobileMenu from "assets/icons/hamburger_menu.png";
 import questionMark from "assets/icons/expression_confused.png";
 import radish from "assets/icons/radish.png";
 import water from "assets/icons/expression_working.png";
 import token from "assets/icons/token.png";
-
-import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
-import { metamask } from "lib/blockchain/metamask";
-import * as Auth from "features/auth/lib/Provider";
-import { sync } from "features/game/actions/sync";
-import { Context } from "features/game/GameProvider";
-
-import { Withdraw } from "./Withdraw";
+import timer from "assets/icons/timer.png";
 
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
+  const [authState] = useActor(authService);
+  const [gameState] = useActor(gameService);
 
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
 
   const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
+  const [showComingSoon, setShowComingSoon] = React.useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -57,6 +60,12 @@ export const Menu = () => {
     setMenuOpen(false);
   };
 
+  // TODO - Remove function when withdraw and Sync on Chain functionalities are implemnented
+  const handleComingSoonModal = () => {
+    setShowComingSoon(true);
+    setMenuOpen(false);
+  };
+
   // Handles closing the menu if someone clicks outside
   useEffect(() => {
     document.addEventListener("mousedown", handleClick);
@@ -72,6 +81,7 @@ export const Menu = () => {
     await sync({
       farmId: authState.context.farmId as number,
       sessionId: authState.context.sessionId as string,
+      signature: authState.context.signature as string,
     });
   };
 
@@ -95,8 +105,11 @@ export const Menu = () => {
             <span className="hidden md:flex">Menu</span>
           </Button>
           <Button onClick={autosave}>
-            {/* <img className="md:hidden w-6" src={mobileSave} alt="save" /> */}
-            <span>Save</span>
+            {gameState.matches("autosaving") ? (
+              <img src={timer} className="animate-pulsate" alt="saving" />
+            ) : (
+              <span>Save</span>
+            )}
           </Button>
         </div>
         <div
@@ -132,12 +145,14 @@ export const Menu = () => {
               </Button>
             </li>
             <li className="p-1">
-              <Button onClick={syncOnChain}>
+              {/* <Button onClick={syncOnChain}> */}
+              <Button onClick={() => handleComingSoonModal()}>
                 <span className="text-sm">Sync on chain</span>
               </Button>
             </li>
             <li className="p-1">
-              <Button onClick={withdraw}>
+              {/* <Button onClick={withdraw}> */}
+              <Button onClick={() => handleComingSoonModal()}>
                 <span className="text-sm">Withdraw</span>
                 <img src={token} className="w-4 ml-2" alt="token" />
               </Button>
@@ -150,6 +165,15 @@ export const Menu = () => {
         isOpen={showWithdrawModal}
         onClose={() => setShowWithdrawModal(false)}
       />
+
+      {/* TODO - To be deleted when withdraw and "Sync on chain" are implemented */}
+      <Modal
+        show={showComingSoon}
+        onHide={() => setShowComingSoon(false)}
+        centered
+      >
+        <Panel>Coming soon!</Panel>
+      </Modal>
     </div>
   );
 };

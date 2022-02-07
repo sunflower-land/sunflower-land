@@ -16,8 +16,8 @@ import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { getShortcuts } from "../../hud/lib/shortcuts";
-
 import { Soil } from "./Soil";
+import Decimal from "decimal.js-light";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -58,7 +58,7 @@ export const Field: React.FC<Props> = ({
         });
 
         if (selectedItem) {
-          if ((inventory[selectedItem] || 0) - 1 == 0) {
+          if ((inventory[selectedItem] || new Decimal(0)).sub(1).equals(0)) {
             const shortcuts = getShortcuts();
             if ((inventory[shortcuts[1]] || 0) > 0) {
               shortcutItem(shortcuts[1]);

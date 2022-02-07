@@ -8,6 +8,8 @@ In this guide you will get an overview of the contribution workflow for getting 
 
 By contributing to this repository you provide Sunflower Land the rights to use your work in the game indefintely. While we often reward open source developers with NFTs, contributing does not guarantee any sort of rewards from the game.
 
+You confirm that the artwork is original and completely your design. Copying others artwork can land yourself and the project in trouble.
+
 ## How can I help?
 
 If you have a bright idea, open an issue or join our active Discord #artists-chat first and start a discussion. We love to bring in the community ideas where possible!
@@ -16,9 +18,60 @@ Don't have any ideas? We would suggest scanning the open issues and seeing if th
 
 If you are looking for something to work on, the team manages an open list of art requests on Github you can check out - https://github.com/sunflower-land/sunflower-land/issues?q=is%3Aopen+label%3A%22art+request%22+sort%3Aupdated-desc
 
+You can also check out our latest artwork preview at https://sunflower-land.com/art-preview-only/
+
+Something doesn't look quite right? Design a better version, submit it and help us improve the game. 🤗
+
+## Artwork specs
+
+Sunflower Land is based on an asset pack - https://danieldiggle.itch.io/sunnyside
+
+To submit art, you will want to use the same color palette, proportions and pixellated effect of the current artwork.
+
+**Dimensions**
+
+The artwork is heavily pixellated which gives it a light and friendly appearance.
+
+We recommend that most artwork falls within the 20x30 pixels. If you are designing a smaller item (like an icon, meal or pot plant), aim for 10x10.
+
+When submitting your artwork, ensure that a square pixel is actually 1x1. This helps keep the raw assets small and makes the game load faster for players.
+
+**Needs improving**
+
+In this example, you can see that 1 pixel is actually 3px wide 😢
+
+<img width="430" alt="Screen Shot 2022-01-31 at 6 06 04 pm" src="https://user-images.githubusercontent.com/11745561/151874769-874ffbb2-564a-4dea-a669-8da3f5aab764.png">
+
+**Perfect**
+
+In this example, 1 pixel is 1px wide 🏆
+
+<img width="419" alt="Screen Shot 2022-01-31 at 6 06 58 pm" src="https://user-images.githubusercontent.com/11745561/151874904-4e625b63-07fa-4c52-ba28-0fb29b3c0190.png">
+
+
+## Style
+
+Artwork is always quite subjective. Once you are happy with your art, overlay it on the map using the preview URL below.
+
+https://sunflower-land.com/art-preview-only/
+
+Here is an example of the potato statue - Make sure you include other surrounding elements to ensure that it matches with them. 
+
+<img width="549" alt="Screen Shot 2022-01-31 at 6 17 50 pm" src="https://user-images.githubusercontent.com/11745561/151874609-182d4d11-64a1-4156-bbf4-755563215181.png">
+
+You will want your pixel width to match up with the pixel width that is used in the game. Also consider adding a thin border on the bottom of your creation for a shadow effect.
+
+_Colour palette is coming soon..._
+
 ## How do I submit the art work?
 
 To help organize what art work the project needs, what is being voted on and what is accepted please upload your image as an attachment to the Github issue.
+
+You will need to include:
+
+- The raw asset - minified version (1px units) and an enlarged preview version
+- A screenshot of the asset in the game
+- Your Polygon address (often used for airdropping assets to the winning designer)
 
 ## How does the art get accepted?
 

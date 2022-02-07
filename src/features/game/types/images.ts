@@ -38,6 +38,9 @@ import goldEgg from "assets/nfts/gold_egg.png";
 import potatoStatue from "assets/nfts/potato_statue.png";
 import scarecrow from "assets/nfts/scarecrow.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
+import sunflowerRock from "assets/nfts/sunflower_rock.png";
+import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
+import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
 
 // Foods
 import flour from "assets/crops/wheat/flour.png";
@@ -51,6 +54,7 @@ import wood from "assets/resources/wood.png";
 import egg from "assets/resources/egg.png";
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
+import chicken from "assets/resources/chicken.png";
 
 import { InventoryItemName } from "./game";
 import { FOODS, NFTs, TOOLS } from "./craftables";
@@ -58,7 +62,6 @@ import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 
 export type ItemDetails = {
-  id: number;
   description: string;
   image: any;
 };
@@ -171,11 +174,15 @@ export const ITEM_DETAILS: Items = {
     ...RESOURCES["Egg"],
     image: egg,
   },
+  Chicken: {
+    ...RESOURCES["Chicken"],
+    image: chicken,
+  },
 
   // TOOLS
   Axe: {
     ...TOOLS["Axe"],
-    image: woodPickaxe,
+    image: axe,
   },
   Pickaxe: {
     ...TOOLS["Pickaxe"],
@@ -234,12 +241,26 @@ export const ITEM_DETAILS: Items = {
     ...NFTs["Chicken Coop"],
     image: chickenCoop,
   },
+  "Golden Cauliflower": {
+    ...NFTs["Golden Cauliflower"],
+    image: goldenCauliflower,
+  },
+  "Sunflower Rock": {
+    ...NFTs["Sunflower Rock"],
+    image: sunflowerRock,
+  },
+  "Sunflower Tombstone": {
+    ...NFTs["Sunflower Tombstone"],
+    image: sunflowerTombstone,
+  },
+
+  // FOOD
+
   "Pumpkin Soup": {
     ...FOODS["Pumpkin Soup"],
     image: pumpkinSoup,
   },
 
-  // FOOD
   Sauerkraut: {
     ...FOODS["Sauerkraut"],
     image: cabbageSoup,
