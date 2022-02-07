@@ -89,11 +89,7 @@ export const Menu = () => {
   };
 
   return (
-    <div
-      ref={ref}
-      className="fixed top-2 left-2 z-50  shadow-lg"
-      data-html2canvas-ignore="true"
-    >
+    <div ref={ref} className="fixed top-2 left-2 z-50 shadow-lg">
       <OuterPanel>
         <div className="flex justify-center p-1">
           <Button

@@ -6,7 +6,6 @@ import lightBorder from "assets/ui/panel/light_border.png";
 
 interface Props {
   className?: string;
-  ssIgnore?: boolean;
 }
 
 /**
@@ -23,11 +22,7 @@ export const Panel: React.FC<Props> = ({ children, className }) => {
 /**
  * Light panel with border effect
  */
-export const InnerPanel: React.FC<Props> = ({
-  children,
-  className,
-  ssIgnore = true,
-}) => {
+export const InnerPanel: React.FC<Props> = ({ children, className }) => {
   return (
     <div
       className={classNames("bg-brown-300 p-1", className)}
@@ -42,7 +37,6 @@ export const InnerPanel: React.FC<Props> = ({
         borderImageRepeat: "repeat",
         borderRadius: "20px",
       }}
-      data-html2canvas-ignore={ssIgnore}
     >
       {children}
     </div>
@@ -52,11 +46,7 @@ export const InnerPanel: React.FC<Props> = ({
 /**
  * A panel with a single layered pixel effect
  */
-export const OuterPanel: React.FC<Props> = ({
-  children,
-  className,
-  ssIgnore = true,
-}) => {
+export const OuterPanel: React.FC<Props> = ({ children, className }) => {
   return (
     <div
       className={classNames(
@@ -74,7 +64,6 @@ export const OuterPanel: React.FC<Props> = ({
         borderImageRepeat: "repeat",
         borderRadius: "20px",
       }}
-      data-html2canvas-ignore={ssIgnore}
     >
       {children}
     </div>

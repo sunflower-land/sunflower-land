@@ -54,7 +54,6 @@ export const AudioPlayer: React.FC = () => {
       style={{
         transform: `translateX(${visible ? 0 : "calc(100% + 8px)"})`,
       }}
-      data-html2canvas-ignore="true"
     >
       <Panel>
         <audio

@@ -54,17 +54,8 @@ export const ScreenshotButton: React.FC = () => {
   }
 
   return (
-    <div
-      className="position-fixed flex bottom-44 p-1 right-2 w-fit z-50 cursor-pointer"
-      data-html2canvas-ignore="true"
-    >
-      {/* <div className="w-8 h-8 sm:mx-8 mt-2 relative flex justify-center items-center shadow rounded-full cursor-pointer"> */}
+    <div className="position-fixed flex bottom-44 p-1 right-2 w-fit z-50 cursor-pointer">
       <Button onClick={() => getScreenshot()}>
-        {/* <img
-          src={button}
-          className="absolute w-full h-full -z-10"
-          alt="screenshotButton"
-        /> */}
         <img
           src={screenshotIcon}
           className="w-8 mb-1 sm:w-6 sm:h-5"
@@ -72,14 +63,13 @@ export const ScreenshotButton: React.FC = () => {
         />
       </Button>
       {/* <Label className="hidden sm:block absolute -bottom-7">Screenshot</Label> */}
-      {/* </div> */}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel>
           <Modal.Header closeButton>
             <h1>Show off to fellow farmers</h1>
           </Modal.Header>
           <Modal.Body>
-            <div className="flex">
+            <div className="flex justify-content-center">
               <div className="flex flex-wrap h-fit">
                 <img
                   src={ssImg}
