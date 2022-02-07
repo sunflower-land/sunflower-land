@@ -27,7 +27,7 @@ export function craft({ state, action }: Options) {
     throw new Error("This item is disabled");
   }
 
-  if (item.amountLeft === 0) {
+  if (item.supply === 0) {
     throw new Error("There are no items left");
   }
 
