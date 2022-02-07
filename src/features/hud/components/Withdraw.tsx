@@ -70,12 +70,27 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
     authService.send("REFRESH");
   };
 
-  const toggle = (item: InventoryItemName) => {
-    if (selected.includes(item)) {
-      setSelected(selected.filter((i) => i !== item));
+  const toggle = (item: InventoryItemName, type: string) => {
+    const itemIndex = selected.findIndex(inv => inv.item === item);
+    if (itemIndex > -1) {
+      if (type == 'plus')
+        selected[itemIndex].qtd = selected[itemIndex].qtd+1;
+      else if (type == 'minus')
+        selected[itemIndex].qtd = selected[itemIndex].qtd-1;
+
+      if (type == 'plus')
+        inventory[item] = inventory[item] -1;
+      else if (type == 'minus')
+        inventory[item] = inventory[item] +1;
+      console.log(selected[itemIndex]);
+      if (selected[itemIndex].qtd == 0)
+        selected.splice(itemIndex, 1);
+      setSelected([...selected]);
     } else {
-      setSelected([...selected, item]);
+      setSelected([...selected, {item:item, qtd:1}]);
+      inventory[item] = inventory[item] -1;
     }
+    console.log(game.context)
   };
 
   const Content = () => {
@@ -85,7 +100,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
           <h1 className="text-shadow">Save your farm first!</h1>
 
           <h1 className="text-shadow mt-4">
-            Which resources would you like to withdraw?
+            Resources available to withdraw:
           </h1>
 
           <div className="w-3/5 flex flex-wrap  h-fit mt-2">
@@ -97,12 +112,28 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
             {validItems.map((itemName) => (
               <Box
                 count={inventory[itemName]}
-                isSelected={selected.includes(itemName)}
+                // isSelected={selected.includes(itemName)}
                 key={itemName}
-                onClick={() => toggle(itemName)}
+                onClick={() => toggle(itemName, 'plus')}
                 image={ITEM_DETAILS[itemName].image}
               />
             ))}
+          </div>
+
+          <h1 className="text-shadow mt-4">
+            Resources you will withdraw:
+          </h1>
+
+          <div>
+          {selected.map((item) => (
+            <Box
+              count={item.qtd}
+              // isSelected={selected.includes(itemName)}
+              key={item.item}
+              onClick={() => toggle(item.item, 'minus')}
+              image={ITEM_DETAILS[item.item].image}
+            />
+          ))}
           </div>
 
           <h1 className="text-shadow mt-4">
