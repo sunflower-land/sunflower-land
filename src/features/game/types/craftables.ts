@@ -196,6 +196,7 @@ export const NFTs: Record<NFT, Craftable> = {
     limit: 1,
     amountLeft: 812,
     type: "NFT",
+    disabled: true,
   },
   "Potato Statue": {
     name: "Potato Statue",
@@ -214,6 +215,7 @@ export const NFTs: Record<NFT, Craftable> = {
     limit: 1,
     amountLeft: 3412,
     type: "NFT",
+    disabled: true,
   },
   Scarecrow: {
     name: "Scarecrow",
@@ -232,6 +234,7 @@ export const NFTs: Record<NFT, Craftable> = {
     limit: 1,
     amountLeft: 1700,
     type: "NFT",
+    disabled: true,
   },
   "Christmas Tree": {
     name: "Christmas Tree",
@@ -249,6 +252,7 @@ export const NFTs: Record<NFT, Craftable> = {
     ],
     amountLeft: 0,
     type: "NFT",
+    disabled: true,
   },
   "Chicken Coop": {
     name: "Chicken Coop",
@@ -271,6 +275,7 @@ export const NFTs: Record<NFT, Craftable> = {
     amountLeft: 1856,
     limit: 1,
     type: "NFT",
+    disabled: true,
   },
   "Farm Cat": {
     name: "Farm Cat",
@@ -312,6 +317,7 @@ export const NFTs: Record<NFT, Craftable> = {
     ],
     amountLeft: 82,
     type: "NFT",
+    disabled: true,
   },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
@@ -336,6 +342,7 @@ export const NFTs: Record<NFT, Craftable> = {
       },
     ],
     amountLeft: 100,
+    disabled: true,
   },
   "Sunflower Rock": {
     name: "Sunflower Rock",
@@ -351,7 +358,8 @@ export const NFTs: Record<NFT, Craftable> = {
         amount: 100,
       },
     ],
-    amountLeft: 50,
+    amountLeft: 150,
+    disabled: true,
   },
 };
 

@@ -23,6 +23,32 @@ describe("craft", () => {
     ).toThrow("This item is not craftable: Sunflower");
   });
 
+  it("throws an error if item is disabled", () => {
+    expect(() =>
+      craft({
+        state: GAME_STATE,
+        action: {
+          type: "item.crafted",
+          item: "Golden Cauliflower",
+          amount: 1,
+        },
+      })
+    ).toThrow("This item is disabled");
+  });
+
+  it("throws an error if there is no items left", () => {
+    expect(() =>
+      craft({
+        state: GAME_STATE,
+        action: {
+          type: "item.crafted",
+          item: "Farm Cat",
+          amount: 1,
+        },
+      })
+    ).toThrow("There are no items left");
+  });
+
   it("does not craft item if there is not enough funds", () => {
     expect(() =>
       craft({

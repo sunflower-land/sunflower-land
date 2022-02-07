@@ -21,11 +21,20 @@ export function craft({ state, action }: Options) {
     throw new Error(`This item is not craftable: ${action.item}`);
   }
 
+  const item = CRAFTABLES[action.item];
+
+  if (item.disabled) {
+    throw new Error("This item is disabled");
+  }
+
+  if (item.amountLeft === 0) {
+    throw new Error("There are no items left");
+  }
+
   if (action.amount !== 1 && action.amount !== 10) {
     throw new Error("Invalid amount");
   }
 
-  const item = CRAFTABLES[action.item];
   const totalExpenses = item.price * action.amount;
 
   const isLocked = item.requires && !state.inventory[item.requires];

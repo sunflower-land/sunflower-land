@@ -28,7 +28,7 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
           </Tab>
           <Tab isActive={tab === "nfts"} onClick={() => setTab("nfts")}>
             <img src={nft} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Items</span>
+            <span className="text-sm text-shadow">Rare</span>
           </Tab>
           <Tab isActive={tab === "foods"} onClick={() => setTab("foods")}>
             <img src={food} className="h-5 mr-2" />
