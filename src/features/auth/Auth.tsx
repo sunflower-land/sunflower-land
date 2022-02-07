@@ -28,9 +28,9 @@ export const Auth: React.FC = () => {
           {(authState.matches("connecting") ||
             authState.matches({ connected: "loadingFarm" })) && <Loading />}
           {authState.matches({ connected: "noFarmLoaded" }) && <CreateFarm />}
+          {authState.matches({ connected: "signing" }) && <Loading text="Signing" />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches("readyToStart") && <StartFarm />}
-          {authState.matches("signing") && <Loading text="Signing" />}
           {authState.matches("unauthorised") && <Unauthorised />}
         </Panel>
       </div>

@@ -57,9 +57,9 @@ export type BlockchainState = {
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
     | { connected: "noFarmLoaded" }
+    | { connected: "signing" }
     | { connected: "creatingFarm" }
     | "readyToStart"
-    | "signing"
     | "registering"
     | "authorised"
     | "unauthorised";
@@ -115,6 +115,19 @@ export const authMachine = createMachine<
               },
             },
           },
+          signing: {
+            invoke: {
+              src: "sign",
+              onDone: {
+                target: "creatingFarm",
+                actions: "assignSignature",
+              },
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
+            },
+          },
           creatingFarm: {
             invoke: {
               src: "createFarm",
@@ -128,7 +141,7 @@ export const authMachine = createMachine<
           noFarmLoaded: {
             on: {
               CREATE_FARM: {
-                target: "creatingFarm",
+                target: "signing",
               },
             },
           },
@@ -143,20 +156,7 @@ export const authMachine = createMachine<
         id: "readyToStart",
         on: {
           START_GAME: {
-            target: "signing",
-          },
-        },
-      },
-      signing: {
-        invoke: {
-          src: "sign",
-          onDone: {
             target: "authorised",
-            actions: "assignSignature",
-          },
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
           },
         },
       },
