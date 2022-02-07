@@ -71,7 +71,7 @@ const CharityDetail = ({
         </p>
       </div>
 
-      <div className="flex w-full">
+      <div className="flex w-full z-10">
         <Button className="w-full mr-1" onClick={() => onAboutClick(url)}>
           <span className="text-xs mr-1">About</span>
           <img src={question} className="scale-110" alt="question-mark" />

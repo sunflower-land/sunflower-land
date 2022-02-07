@@ -102,14 +102,13 @@ export class Metamask {
     }
   }
 
-  public async signTransaction(farmId: number) {
+  public async signTransaction() {
     if (!this.web3) {
       throw new Error(ERRORS.NO_WEB3);
     }
 
     const message = this.generateSignatureMessage({
-      address: this.account as string,
-      farmId,
+      address: this.account as string
     });
 
     const signature = await this.web3.eth.personal.sign(
@@ -120,8 +119,6 @@ export class Metamask {
     );
 
     const recovered = await this.web3.eth.accounts.recover(message, signature);
-    console.log({ signature });
-    console.log({ recovered });
 
     // Example of verifying a transaction on the backend
     //const signingAddress = this.web3.eth.accounts.recover(hash, signature);
@@ -131,21 +128,13 @@ export class Metamask {
     };
   }
 
-  private generateSignatureMessage({
-    address,
-    farmId,
-  }: {
-    address: string;
-    farmId: number;
-  }) {
-    console.log({ address, farmId });
+  private generateSignatureMessage({ address }: { address: string }) {
     const MESSAGE = [
       "Welcome to Sunflower Land!",
       "Click to sign in and accept the Sunflower Land Terms of Service: https://docs.sunflower-land.com/support/terms-of-service",
       "This request will not trigger a blockchain transaction or cost any gas fees.",
       "Your authentication status will reset after each session.",
       `Wallet address: ${address}`,
-      `Farm ID: ${farmId}`,
     ].join("\n\n");
 
     return MESSAGE;
