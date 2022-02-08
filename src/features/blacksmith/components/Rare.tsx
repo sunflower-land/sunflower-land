@@ -80,13 +80,13 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
   const soldOut = amountLeft <= 0;
 
   const Action = () => {
-    // if (soldOut) {
-    //   return null;
-    // }
+    if (soldOut) {
+      return null;
+    }
 
-    // if (selected.disabled) {
-    //   return <span className="text-xs mt-1 text-shadow">Locked</span>;
-    // }
+    if (selected.disabled) {
+      return <span className="text-xs mt-1 text-shadow">Locked</span>;
+    }
 
     return (
       <>
@@ -121,7 +121,7 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
               Sold out
             </span>
           )}
-          {!!selected.supply && (
+          {!!selected.supply && amountLeft > 0 && (
             <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
               {`${amountLeft} left`}
             </span>

@@ -36,8 +36,6 @@ export class Inventory {
       .totalSupplyBatch(ids)
       .call({ from: this.account });
 
-    console.log({ supplies });
-
     return supplies.reduce(
       (items, supply, index) => ({
         ...items,
