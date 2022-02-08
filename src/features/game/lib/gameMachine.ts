@@ -11,6 +11,9 @@ import { GameState, InventoryItemName } from "../types/game";
 import { loadSession } from "../actions/loadSession";
 import { INITIAL_FARM } from "./constants";
 import { autosave } from "../actions/autosave";
+import { mint } from "../actions/mint";
+import { LimitedItem } from "../types/craftables";
+import { sync } from "../actions/sync";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -21,11 +24,19 @@ export interface Context {
   actions: PastAction[];
 }
 
+type MintEvent = {
+  type: "MINT";
+  item: LimitedItem;
+};
 export type BlockchainEvent =
   | {
       type: "SAVE";
     }
-  | GameEvent;
+  | {
+      type: "SYNC";
+    }
+  | GameEvent
+  | MintEvent;
 
 // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
@@ -50,7 +61,15 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   );
 
 export type BlockchainState = {
-  value: "loading" | "playing" | "readonly" | "autosaving" | "error";
+  value:
+    | "loading"
+    | "playing"
+    | "readonly"
+    | "autosaving"
+    | "minting"
+    | "success"
+    | "syncing"
+    | "error";
   context: Context;
 };
 
@@ -120,6 +139,12 @@ export function startGame(authContext: AuthContext) {
           SAVE: {
             target: "autosaving",
           },
+          MINT: {
+            target: "minting",
+          },
+          SYNC: {
+            target: "syncing",
+          },
         },
       },
       autosaving: {
@@ -162,8 +187,67 @@ export function startGame(authContext: AuthContext) {
           },
         },
       },
+      minting: {
+        invoke: {
+          src: async (context, event) => {
+            // Autosave just in case
+            if (context.actions.length > 0) {
+              await autosave({
+                farmId: Number(authContext.farmId),
+                sessionId: authContext.sessionId as string,
+                sender: metamask.myAccount as string,
+                actions: context.actions,
+                signature: authContext.signature as string,
+              });
+            }
+
+            await mint({
+              farmId: Number(authContext.farmId),
+              sessionId: authContext.sessionId as string,
+              sender: metamask.myAccount as string,
+              signature: authContext.signature as string,
+              item: (event as MintEvent).item,
+            });
+          },
+          onDone: {
+            target: "success",
+          },
+          onError: {
+            target: "error",
+          },
+        },
+      },
+      syncing: {
+        invoke: {
+          src: async (context) => {
+            // Autosave just in case
+            if (context.actions.length > 0) {
+              await autosave({
+                farmId: Number(authContext.farmId),
+                sessionId: authContext.sessionId as string,
+                sender: metamask.myAccount as string,
+                actions: context.actions,
+                signature: authContext.signature as string,
+              });
+            }
+
+            await sync({
+              farmId: Number(authContext.farmId),
+              sessionId: authContext.sessionId as string,
+              signature: authContext.signature as string,
+            });
+          },
+          onDone: {
+            target: "success",
+          },
+          onError: {
+            target: "error",
+          },
+        },
+      },
       readonly: {},
       error: {},
+      success: {},
     },
   });
 }

@@ -1,23 +1,39 @@
 import Decimal from "decimal.js-light";
-import { CraftableName, CRAFTABLES } from "../types/craftables";
+import { CraftableName, CRAFTABLES, FOODS, TOOLS } from "../types/craftables";
+import { SEEDS } from "../types/crops";
 import { GameState, InventoryItemName } from "../types/game";
 
 export type CraftAction = {
   type: "item.crafted";
   item: InventoryItemName;
   amount: number;
+  valid?: CraftableName[];
 };
 
-function isCraftable(item: InventoryItemName): item is CraftableName {
-  return (item as CraftableName) in CRAFTABLES;
+/**
+ * Only tools, seeds and food can be crafted through the craft function
+ * NFTs are not crafted through this function, they are a direct call to the Polygon Blockchain
+ */
+const VALID_ITEMS = Object.keys({
+  ...TOOLS,
+  ...SEEDS,
+  ...FOODS,
+}) as CraftableName[];
+
+function isCraftable(
+  item: InventoryItemName,
+  names: CraftableName[]
+): item is CraftableName {
+  return (item as CraftableName) in names;
 }
 
 type Options = {
   state: GameState;
   action: CraftAction;
 };
+
 export function craft({ state, action }: Options) {
-  if (!isCraftable(action.item)) {
+  if (!isCraftable(action.item, action.valid || VALID_ITEMS)) {
     throw new Error(`This item is not craftable: ${action.item}`);
   }
 
@@ -25,10 +41,6 @@ export function craft({ state, action }: Options) {
 
   if (item.disabled) {
     throw new Error("This item is disabled");
-  }
-
-  if (item.supply === 0) {
-    throw new Error("There are no items left");
   }
 
   if (action.amount !== 1 && action.amount !== 10) {

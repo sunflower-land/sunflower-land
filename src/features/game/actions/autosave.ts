@@ -11,7 +11,7 @@ type Request = {
 const API_URL = import.meta.env.VITE_API_URL;
 
 export async function autosave(request: Request) {
-  if (process.env.NODE_ENV === 'development') return;
+  if (!API_URL) return;
 
   // Serialize values before sending
   const actions = request.actions.map((action) => ({
@@ -19,7 +19,7 @@ export async function autosave(request: Request) {
     createdAt: action.createdAt.toUTCString(),
   }));
 
-  const response = await window.fetch(`${API_URL}/actions`, {
+  const response = await window.fetch(`${API_URL}/autosave`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

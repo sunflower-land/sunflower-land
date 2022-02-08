@@ -197,7 +197,6 @@ export const authMachine = createMachine<
     services: {
       initMetamask: async (): Promise<void> => {
         await metamask.initialise();
-        await metamask.getInventory().totalSupply();
       },
       loadFarm: async (): Promise<Farm | undefined> => {
         const farmAccounts = await metamask.getFarm()?.getFarms();

@@ -17,22 +17,24 @@ import {
 } from "features/game/types/craftables";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { metamask } from "lib/blockchain/metamask";
+import { ItemSupply } from "lib/blockchain/Inventory";
 
-interface Props {}
+interface Props {
+  onClose: () => void;
+}
 
-export const Rare: React.FC<Props> = () => {
+export const Rare: React.FC<Props> = ({ onClose }) => {
   const [selected, setSelected] = useState<Craftable>(
     Object.values(LimitedItems)[0]
   );
-  const { setToast } = useContext(ToastContext);
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [
     {
       context: { state },
     },
   ] = useActor(gameService);
   const [isLoading, setIsLoading] = useState(true);
-  const [supply, setSupply] = useState<Inventory>();
+  const [supply, setSupply] = useState<ItemSupply>();
 
   useEffect(() => {
     const load = async () => {
@@ -54,6 +56,9 @@ export const Rare: React.FC<Props> = () => {
     state.balance.lessThan(selected.price * amount);
 
   const craft = () => {
+    console.log("Craft it!");
+    gameService.send("MINT", { item: selected.name });
+    onClose();
     // TODO fire off API mint call
     // setToast({ content: "SFL -$" + selected.price });
     // selected.ingredients.map((ingredient) => {
@@ -67,22 +72,26 @@ export const Rare: React.FC<Props> = () => {
     return <span>Loading...</span>;
   }
 
-  const soldOut =
-    supply && supply[selected.name]?.greaterThan(selected.supply || 0);
+  let amountLeft = 0;
+  if (supply && selected.supply) {
+    amountLeft = selected.supply - supply[selected.name]?.toNumber();
+  }
+
+  const soldOut = amountLeft <= 0;
 
   const Action = () => {
-    if (soldOut) {
-      return null;
-    }
+    // if (soldOut) {
+    //   return null;
+    // }
 
-    if (selected.disabled) {
-      return <span className="text-xs mt-1 text-shadow">Locked</span>;
-    }
+    // if (selected.disabled) {
+    //   return <span className="text-xs mt-1 text-shadow">Locked</span>;
+    // }
 
     return (
       <>
         <Button
-          disabled={lessFunds() || lessIngredients()}
+          //disabled={lessFunds() || lessIngredients()}
           className="text-xs mt-1"
           onClick={() => craft()}
         >
@@ -114,7 +123,7 @@ export const Rare: React.FC<Props> = () => {
           )}
           {!!selected.supply && (
             <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
-              {`${selected.supply} left`}
+              {`${amountLeft} left`}
             </span>
           )}
 

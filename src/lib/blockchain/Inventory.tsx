@@ -1,14 +1,13 @@
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
-import {
-  InventoryItemName,
-  Inventory as IInventory,
-} from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import InventoryJSON from "./abis/Inventory.json";
 
 const address = import.meta.env.VITE_INVENTORY_CONTRACT;
+
+export type ItemSupply = Record<InventoryItemName, Decimal>;
 
 /**
  * Inventory contract
@@ -29,6 +28,7 @@ export class Inventory {
   }
 
   public async totalSupply() {
+    await new Promise((res) => setTimeout(res, 1000));
     const ids = Object.values(KNOWN_IDS);
     const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
 
@@ -43,7 +43,7 @@ export class Inventory {
         ...items,
         [names[index]]: new Decimal(supply),
       }),
-      {} as IInventory
+      {} as ItemSupply
     );
   }
 }
