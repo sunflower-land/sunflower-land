@@ -16,7 +16,12 @@ export const Navigation: React.FC = () => {
   const [authState, send] = useActor(authService);
 
   useEffect(() => {
-    if (!(authState.matches("authorised") || authState.matches("visiting"))) {
+    if (
+      !(
+        authState.matches({ connected: "authorised" }) ||
+        authState.matches("visiting")
+      )
+    ) {
       return;
     }
     // Start with crops centered
@@ -46,7 +51,8 @@ export const Navigation: React.FC = () => {
   }, [send]);
 
   const showGame =
-    authState.matches("authorised") || authState.matches("visiting");
+    authState.matches({ connected: "authorised" }) ||
+    authState.matches("visiting");
 
   return (
     <>

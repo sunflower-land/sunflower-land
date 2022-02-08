@@ -1,4 +1,5 @@
 import { ERRORS } from "lib/errors";
+import context from "react-bootstrap/esm/AccordionContext";
 import { createMachine, Interpreter, assign, DoneInvokeEvent } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
@@ -59,9 +60,8 @@ export type BlockchainState = {
     | { connected: "noFarmLoaded" }
     | { connected: "signing" }
     | { connected: "creatingFarm" }
-    | "readyToStart"
-    | "registering"
-    | "authorised"
+    | { connected: "readyToStart" }
+    | { connected: "authorised" }
     | "unauthorised";
   context: Context;
 };
@@ -86,6 +86,7 @@ export const authMachine = createMachine<
     context: {},
     states: {
       connecting: {
+        id: "connecting",
         invoke: {
           src: "initMetamask",
           onDone: "connected",
@@ -103,7 +104,7 @@ export const authMachine = createMachine<
               src: "loadFarm",
               onDone: [
                 {
-                  target: "#readyToStart",
+                  target: "readyToStart",
                   actions: "assignFarm",
                   cond: "hasFarm",
                 },
@@ -118,10 +119,17 @@ export const authMachine = createMachine<
           signing: {
             invoke: {
               src: "sign",
-              onDone: {
-                target: "creatingFarm",
-                actions: "assignSignature",
-              },
+              onDone: [
+                {
+                  target: "authorised",
+                  actions: "assignSignature",
+                  cond: "hasFarm",
+                },
+                {
+                  target: "creatingFarm",
+                  actions: "assignSignature",
+                },
+              ],
               onError: {
                 target: "#unauthorised",
                 actions: "assignErrorMessage",
@@ -147,23 +155,26 @@ export const authMachine = createMachine<
           },
           farmLoaded: {
             always: {
-              target: "#readyToStart",
+              target: "readyToStart",
             },
           },
-        },
-      },
-      readyToStart: {
-        id: "readyToStart",
-        on: {
-          START_GAME: {
-            target: "authorised",
+          readyToStart: {
+            on: {
+              START_GAME: [
+                {
+                  target: "authorised",
+                  cond: "hasSignature",
+                },
+                { target: "signing" },
+              ],
+            },
           },
-        },
-      },
-      authorised: {
-        on: {
-          REFRESH: {
-            target: "connecting",
+          authorised: {
+            on: {
+              REFRESH: {
+                target: "#connecting",
+              },
+            },
           },
         },
       },
@@ -237,13 +248,18 @@ export const authMachine = createMachine<
       }),
     },
     guards: {
-      hasFarm: (_context: Context, event: any) => {
-        if (!event.data) return false;
+      hasFarm: (context: Context, event: any) => {
+        // If coming from the loadingFarm transition the farmId with show up on the event
+        // else we check for it on the context
+        if (event.data?.farmId) {
+          const { farmId } = event.data;
 
-        const { farmId, address } = event.data;
+          return !!farmId;
+        }
 
-        return !!farmId && !!address;
+        return !!context.farmId;
       },
+      hasSignature: (context: Context) => !!context.signature,
     },
   }
 );
