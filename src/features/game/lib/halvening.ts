@@ -9,7 +9,7 @@ function getHalveningRate() {
    * Will be updated closer to halvening
    */
   if (now < 1650204736000) {
-    return 0.05;
+    return 0.2;
   }
 
   /**
@@ -18,10 +18,10 @@ function getHalveningRate() {
    * Will be updated closer to halvening
    */
   if (now < 1655475136000) {
-    return 0.025;
+    return 0.1;
   }
 
-  return 0.0125;
+  return 0.05;
 }
 
 /**
@@ -30,6 +30,5 @@ function getHalveningRate() {
  */
 export function marketRate(value: number) {
   const rate = getHalveningRate();
-
-  return value * rate;
+  return new Decimal(value).mul(rate);
 }

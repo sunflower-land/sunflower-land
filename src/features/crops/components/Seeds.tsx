@@ -77,7 +77,7 @@ export const Seeds: React.FC<Props> = ({}) => {
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(SEEDS).map((item: Craftable) => (
+        {Object.values(SEEDS()).map((item: Craftable) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}

@@ -38,12 +38,12 @@ export function sell({ state, action }: Options): GameState {
     crop.name === "Cauliflower" &&
     state.inventory["Golden Cauliflower"]?.greaterThanOrEqualTo(1)
   ) {
-    price = price * 2;
+    price = price.mul(2);
   }
 
   return {
     ...state,
-    balance: state.balance.add(price * action.amount),
+    balance: state.balance.add(price.mul(action.amount)),
     inventory: {
       ...state.inventory,
       [crop.name]: cropCount.sub(1 * action.amount),

@@ -30,22 +30,22 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
   const inventory = state.inventory;
 
   const lessIngredients = (amount = 1) =>
-    selected.ingredients.some(
-      (ingredient) =>
-        (inventory[ingredient.item] || 0) < ingredient.amount * amount
+    selected.ingredients.some((ingredient) =>
+      ingredient.amount.mul(amount).greaterThan(inventory[ingredient.item] || 0)
     );
   const lessFunds = (amount = 1) =>
-    state.balance.lessThan(selected.price * amount);
+    state.balance.lessThan(selected.price.mul(amount));
 
   const craft = (amount = 1) => {
     gameService.send("item.crafted", {
       item: selected.name,
       amount,
     });
-    setToast({ content: "SFL -$" + selected.price * amount });
+    setToast({ content: "SFL -$" + selected.price.mul(amount) });
     selected.ingredients.map((ingredient, index) => {
       setToast({
-        content: "Item " + ingredient.item + " -" + ingredient.amount * amount,
+        content:
+          "Item " + ingredient.item + " -" + ingredient.amount.mul(amount),
       });
     });
 
@@ -139,7 +139,7 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
                       }
                     )}
                   >
-                    {ingredient.amount}
+                    {ingredient.amount.toNumber()}
                   </span>
                 </div>
               );
@@ -152,7 +152,7 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${selected.price}`}
+                {`$${selected.price.toNumber()}`}
               </span>
             </div>
           </div>

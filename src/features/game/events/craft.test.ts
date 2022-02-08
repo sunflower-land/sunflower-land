@@ -1,4 +1,6 @@
 import Decimal from "decimal.js-light";
+import { CRAFTABLES } from "../types/craftables";
+import { CROPS, SEEDS } from "../types/crops";
 import { GameState } from "../types/game";
 import { craft } from "./craft";
 
@@ -41,7 +43,7 @@ describe("craft", () => {
       craft({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(0.005),
+          balance: new Decimal(0.0000005),
         },
         action: {
           type: "item.crafted",
@@ -82,7 +84,9 @@ describe("craft", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(0.99));
+    expect(state.balance).toEqual(
+      new Decimal(1).minus(SEEDS()["Sunflower Seed"].price)
+    );
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(1));
   });
 
@@ -152,7 +156,9 @@ describe("craft", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(0.5));
+    expect(state.balance).toEqual(
+      new Decimal(1).sub(SEEDS()["Carrot Seed"].price)
+    );
     expect(state.inventory["Carrot Seed"]).toEqual(new Decimal(1));
   });
 
@@ -169,7 +175,9 @@ describe("craft", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(0));
+    expect(state.balance).toEqual(
+      new Decimal(0.1).sub(SEEDS()["Sunflower Seed"].price.mul(10))
+    );
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(10));
   });
 

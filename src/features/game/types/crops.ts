@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { Craftable } from "./craftables";
 
@@ -14,8 +15,8 @@ export type CropName =
   | "Wheat";
 
 export type Crop = {
-  buyPrice: number;
-  sellPrice: number;
+  buyPrice: Decimal;
+  sellPrice: Decimal;
   harvestSeconds: number;
   name: CropName;
   description: string;
@@ -28,7 +29,7 @@ export type Crop = {
 export const CROPS: () => Record<CropName, Crop> = () => ({
   Sunflower: {
     buyPrice: marketRate(0.01),
-    sellPrice: 0.02,
+    sellPrice: marketRate(0.02),
     harvestSeconds: 1 * 60,
     name: "Sunflower",
     description: "A sunny flower",
