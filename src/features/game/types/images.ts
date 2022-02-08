@@ -57,7 +57,7 @@ import gold from "assets/resources/gold_ore.png";
 import chicken from "assets/resources/chicken.png";
 
 import { InventoryItemName } from "./game";
-import { FOODS, NFTs, TOOLS } from "./craftables";
+import { FOODS, LimitedItems, TOOLS } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 
@@ -206,51 +206,51 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Sunflower Statue": {
-    ...NFTs["Sunflower Statue"],
+    ...LimitedItems["Sunflower Statue"],
     image: sunflowerStatue,
   },
   "Potato Statue": {
-    ...NFTs["Potato Statue"],
+    ...LimitedItems["Potato Statue"],
     image: potatoStatue,
   },
   Scarecrow: {
-    ...NFTs["Scarecrow"],
+    ...LimitedItems["Scarecrow"],
     image: scarecrow,
   },
   "Christmas Tree": {
-    ...NFTs["Christmas Tree"],
+    ...LimitedItems["Christmas Tree"],
     image: christmasTree,
   },
   Gnome: {
-    ...NFTs["Gnome"],
+    ...LimitedItems["Gnome"],
     image: gnome,
   },
   "Gold Egg": {
-    ...NFTs["Gold Egg"],
+    ...LimitedItems["Gold Egg"],
     image: goldEgg,
   },
   "Farm Cat": {
-    ...NFTs["Farm Cat"],
+    ...LimitedItems["Farm Cat"],
     image: farmCat,
   },
   "Farm Dog": {
-    ...NFTs["Farm Dog"],
+    ...LimitedItems["Farm Dog"],
     image: farmDog,
   },
   "Chicken Coop": {
-    ...NFTs["Chicken Coop"],
+    ...LimitedItems["Chicken Coop"],
     image: chickenCoop,
   },
   "Golden Cauliflower": {
-    ...NFTs["Golden Cauliflower"],
+    ...LimitedItems["Golden Cauliflower"],
     image: goldenCauliflower,
   },
   "Sunflower Rock": {
-    ...NFTs["Sunflower Rock"],
+    ...LimitedItems["Sunflower Rock"],
     image: sunflowerRock,
   },
   "Sunflower Tombstone": {
-    ...NFTs["Sunflower Tombstone"],
+    ...LimitedItems["Sunflower Tombstone"],
     image: sunflowerTombstone,
   },
 

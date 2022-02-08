@@ -7,7 +7,7 @@ export type CraftAction = {
   amount: number;
 };
 
-export type CraftableName = Rare | Tool | SeedName | Food;
+export type CraftableName = LimitedItem | Tool | SeedName | Food;
 
 export type Craftable = {
   name: CraftableName;
@@ -23,7 +23,7 @@ export type Craftable = {
   requires?: InventoryItemName;
 };
 
-export type Rare =
+export type LimitedItem =
   | "Sunflower Statue"
   | "Potato Statue"
   | "Christmas Tree"
@@ -177,7 +177,7 @@ export const TOOLS: Record<Tool, Craftable> = {
   },
 };
 
-export const NFTs: Record<Rare, Craftable> = {
+export const LimitedItems: Record<LimitedItem, Craftable> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
     description: "Earn beta access to new features",
@@ -354,7 +354,7 @@ export const NFTs: Record<Rare, Craftable> = {
 
 export const CRAFTABLES: Record<CraftableName, Craftable> = {
   ...TOOLS,
-  ...NFTs,
+  ...LimitedItems,
   ...SEEDS,
   ...FOODS,
 };
