@@ -10,11 +10,7 @@ import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
-  Craftable,
-  CRAFTABLES,
-  LimitedItems,
-} from "features/game/types/craftables";
+import { Craftable, LimitedItems } from "features/game/types/craftables";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
@@ -48,12 +44,11 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
   const inventory = state.inventory;
 
   const lessIngredients = (amount = 1) =>
-    selected.ingredients.some(
-      (ingredient) =>
-        (inventory[ingredient.item] || 0) < ingredient.amount * amount
+    selected.ingredients.some((ingredient) =>
+      ingredient.amount.mul(amount).greaterThan(inventory[ingredient.item] || 0)
     );
   const lessFunds = (amount = 1) =>
-    state.balance.lessThan(selected.price * amount);
+    state.balance.lessThan(selected.price.mul(amount));
 
   const craft = () => {
     console.log("Craft it!");
@@ -87,7 +82,7 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
     return (
       <>
         <Button
-          //disabled={lessFunds() || lessIngredients()}
+          disabled={lessFunds() || lessIngredients()}
           className="text-xs mt-1"
           onClick={() => craft()}
         >
@@ -151,7 +146,7 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
                       }
                     )}
                   >
-                    {ingredient.amount}
+                    {ingredient.amount.toNumber()}
                   </span>
                 </div>
               );
@@ -164,7 +159,7 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${selected.price}`}
+                {`$${selected.price.toNumber()}`}
               </span>
             </div>
           </div>

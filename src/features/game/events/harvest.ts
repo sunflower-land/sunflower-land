@@ -57,7 +57,7 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Nothing was planted");
   }
 
-  const crop = CROPS[field.name];
+  const crop = CROPS()[field.name];
 
   if (createdAt - field.plantedAt < crop.harvestSeconds * 1000) {
     throw new Error("Not ready");

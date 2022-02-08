@@ -72,7 +72,9 @@ describe("sell", () => {
     });
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(4));
-    expect(state.balance).toEqual(new Decimal(0.02));
+    expect(state.balance).toEqual(
+      GAME_STATE.balance.add(CROPS().Sunflower.sellPrice)
+    );
   });
 
   it("sell an item in bulk given sufficient quantity", () => {
@@ -91,7 +93,9 @@ describe("sell", () => {
     });
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(1));
-    expect(state.balance).toEqual(new Decimal(0.2));
+    expect(state.balance).toEqual(
+      GAME_STATE.balance.add(CROPS().Sunflower.sellPrice.mul(10))
+    );
   });
 
   it("does not sell an item in bulk given insufficient quantity", () => {
@@ -127,7 +131,7 @@ describe("sell", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(CROPS.Cauliflower.sellPrice));
+    expect(state.balance).toEqual(new Decimal(CROPS().Cauliflower.sellPrice));
   });
 
   it("sells a cauliflower for a double the price if they have golden cauliflower", () => {
@@ -146,6 +150,8 @@ describe("sell", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(CROPS.Cauliflower.sellPrice * 2));
+    expect(state.balance).toEqual(
+      new Decimal(CROPS().Cauliflower.sellPrice.mul(2))
+    );
   });
 });

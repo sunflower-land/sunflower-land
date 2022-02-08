@@ -15,7 +15,7 @@ export type CraftAction = {
  */
 const VALID_ITEMS = Object.keys({
   ...TOOLS,
-  ...SEEDS,
+  ...SEEDS(),
   ...FOODS,
 }) as CraftableName[];
 
@@ -37,7 +37,7 @@ export function craft({ state, action, available }: Options) {
     throw new Error(`This item is not craftable: ${action.item}`);
   }
 
-  const item = CRAFTABLES[action.item];
+  const item = CRAFTABLES()[action.item];
 
   if (item.disabled) {
     throw new Error("This item is disabled");
@@ -47,7 +47,7 @@ export function craft({ state, action, available }: Options) {
     throw new Error("Invalid amount");
   }
 
-  const totalExpenses = item.price * action.amount;
+  const totalExpenses = item.price.mul(action.amount);
 
   const isLocked = item.requires && !state.inventory[item.requires];
   if (isLocked) {
@@ -61,7 +61,7 @@ export function craft({ state, action, available }: Options) {
   const subtractedInventory = item.ingredients.reduce(
     (inventory, ingredient) => {
       const count = inventory[ingredient.item] || new Decimal(0);
-      const totalAmount = ingredient.amount * action.amount;
+      const totalAmount = ingredient.amount.mul(action.amount);
 
       if (count.lessThan(totalAmount)) {
         throw new Error(`Insufficient ingredient: ${ingredient.item}`);

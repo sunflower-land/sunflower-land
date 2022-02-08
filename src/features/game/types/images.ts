@@ -68,88 +68,90 @@ export type ItemDetails = {
 
 type Items = Record<InventoryItemName, ItemDetails>;
 
+const crops = CROPS();
+const seeds = SEEDS();
 export const ITEM_DETAILS: Items = {
   // Crops
   Sunflower: {
-    ...CROPS.Sunflower,
+    ...crops.Sunflower,
     image: sunflowerCrop,
   },
   Potato: {
-    ...CROPS.Potato,
+    ...crops.Potato,
     image: potatoCrop,
   },
   Pumpkin: {
-    ...CROPS.Pumpkin,
+    ...crops.Pumpkin,
     image: pumpkinCrop,
   },
   Carrot: {
-    ...CROPS.Carrot,
+    ...crops.Carrot,
     image: carrotCrop,
   },
   Cabbage: {
-    ...CROPS.Cabbage,
+    ...crops.Cabbage,
     image: cabbageCrop,
   },
   Beetroot: {
-    ...CROPS.Beetroot,
+    ...crops.Beetroot,
     image: beetrootCrop,
   },
   Cauliflower: {
-    ...CROPS.Cauliflower,
+    ...crops.Cauliflower,
     image: cauliflowerCrop,
   },
   Parsnip: {
-    ...CROPS.Parsnip,
+    ...crops.Parsnip,
     image: parsnipCrop,
   },
   Radish: {
-    ...CROPS.Radish,
+    ...crops.Radish,
     image: radishCrop,
   },
   Wheat: {
-    ...CROPS.Wheat,
+    ...crops.Wheat,
     image: wheatCrop,
   },
 
   // Seeds
   "Sunflower Seed": {
-    ...SEEDS["Sunflower Seed"],
+    ...seeds["Sunflower Seed"],
     image: sunflowerSeed,
   },
   "Potato Seed": {
-    ...SEEDS["Potato Seed"],
+    ...seeds["Potato Seed"],
     image: potatoSeed,
   },
   "Pumpkin Seed": {
-    ...SEEDS["Pumpkin Seed"],
+    ...seeds["Pumpkin Seed"],
     image: pumpkinSeed,
   },
   "Carrot Seed": {
-    ...SEEDS["Carrot Seed"],
+    ...seeds["Carrot Seed"],
     image: carrotSeed,
   },
   "Cabbage Seed": {
-    ...SEEDS["Cabbage Seed"],
+    ...seeds["Cabbage Seed"],
     image: cabbageSeed,
   },
   "Beetroot Seed": {
-    ...SEEDS["Beetroot Seed"],
+    ...seeds["Beetroot Seed"],
     image: beetrootSeed,
   },
   "Cauliflower Seed": {
-    ...SEEDS["Cauliflower Seed"],
+    ...seeds["Cauliflower Seed"],
     image: cauliflowerSeed,
   },
   "Parsnip Seed": {
-    ...SEEDS["Parsnip Seed"],
+    ...seeds["Parsnip Seed"],
     image: parsnipSeed,
   },
   "Radish Seed": {
-    ...SEEDS["Radish Seed"],
+    ...seeds["Radish Seed"],
     image: radishSeed,
   },
   "Wheat Seed": {
-    ...SEEDS["Wheat Seed"],
+    ...seeds["Wheat Seed"],
     image: wheatSeed,
   },
 

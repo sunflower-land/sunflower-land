@@ -27,7 +27,7 @@ const isHarvestable = (field: FieldItem): boolean => {
   if (!field) {
     return false;
   }
-  const crop = CROPS[field.name];
+  const crop = CROPS()[field.name];
   const timeLeft = getTimeLeft(field.plantedAt, crop.harvestSeconds);
   return timeLeft <= 0;
 };
