@@ -111,8 +111,7 @@ export const Field: React.FC<Props> = ({
 
   return (
     <div
-      onClick={onClick}
-      className={classNames("relative group cursor-pointer", className)}
+      className={classNames("relative group", className)}
       style={{
         width: `${GRID_WIDTH_PX}px`,
         height: `${GRID_WIDTH_PX}px`,
@@ -137,7 +136,8 @@ export const Field: React.FC<Props> = ({
         style={{
           opacity: 0.1,
         }}
-        className="absolute inset-0 w-full top-7 opacity-0 group-hover:opacity-100 hover:!opacity-100 z-10"
+        className="absolute inset-0 w-full top-7 opacity-0 group-hover:opacity-100 hover:!opacity-100 z-10 cursor-pointer"
+        onClick={onClick}
       />
     </div>
   );
