@@ -5,9 +5,8 @@ import { GameState, InventoryItemName } from "../types/game";
 
 export type CraftAction = {
   type: "item.crafted";
-  item: InventoryItemName;
+  item: CraftableName;
   amount: number;
-  valid?: CraftableName[];
 };
 
 /**
@@ -21,19 +20,20 @@ const VALID_ITEMS = Object.keys({
 }) as CraftableName[];
 
 function isCraftable(
-  item: InventoryItemName,
+  item: CraftableName,
   names: CraftableName[]
 ): item is CraftableName {
-  return (item as CraftableName) in names;
+  return names.includes(item);
 }
 
 type Options = {
   state: GameState;
   action: CraftAction;
+  available?: CraftableName[];
 };
 
-export function craft({ state, action }: Options) {
-  if (!isCraftable(action.item, action.valid || VALID_ITEMS)) {
+export function craft({ state, action, available }: Options) {
+  if (!isCraftable(action.item, available || VALID_ITEMS)) {
     throw new Error(`This item is not craftable: ${action.item}`);
   }
 
