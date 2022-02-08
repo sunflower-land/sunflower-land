@@ -8,7 +8,8 @@ import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import * as Auth from "features/auth/lib/Provider";
 import { KNOWN_IDS } from "features/game/types";
-
+import { Crop, SEEDS } from "features/game/types/crops";
+import { Craftable, FOODS, TOOLS, NFTs } from "features/game/types/craftables";
 import { Panel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -17,6 +18,11 @@ import { metamask } from "lib/blockchain/metamask";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+}
+
+type SelectedItem = {
+  item: InventoryItemName;
+  amount: Decimal;
 }
 
 type WithdrawState = "input" | "withdrawing" | "success" | "error";
@@ -28,10 +34,10 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
   const inventory = game.context.state.inventory;
 
   const [state, setState] = useState<WithdrawState>("input");
-  const [selected, setSelected] = useState<InventoryItemName[]>([]);
+  const [selected, setSelected] = useState<SelectedItem[]>([]);
   const [to, setTo] = useState(metamask.myAccount as string);
   // TODO: add a way to let them specify the amount to withdraw
-  const [amount, setAmount] = useState(game.context.state.balance);
+  const [amount, setAmount] = useState(new Decimal(0));
 
   const items = Object.keys(inventory) as InventoryItemName[];
   const validItems = items.filter((itemName) => !!inventory[itemName]);
@@ -42,8 +48,9 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
       setState("input");
       setSelected([]);
       setTo(metamask.myAccount as string);
-      setAmount(game.context.state.balance);
+      setAmount(new Decimal(0));
     }
+
   }, [isOpen]);
 
   const onWithdraw = async () => {
@@ -52,10 +59,8 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
     try {
       await metamask.getSunflowerLand().withdraw({
         farmId: game.context.state.id,
-        amounts: selected.map(
-          (itemName) => new Decimal(inventory[itemName] || 0)
-        ),
-        ids: selected.map((itemName) => KNOWN_IDS[itemName]),
+        amounts: selected.map((item) => item.amount),
+        ids: selected.map((itemName) => KNOWN_IDS[itemName.item]),
         to,
         tokens: amount,
       });
@@ -71,27 +76,55 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
     authService.send("REFRESH");
   };
 
-  const toggle = (item: InventoryItemName, type: string) => {
-    const itemIndex = selected.findIndex(inv => inv.item === item);
+  const toggle = (itemName: InventoryItemName, type: string) => {
+    let itemInfo: any = undefined;
+    Object.values(FOODS).forEach((item) => {
+      if (item.name == itemName) {
+        itemInfo = item;
+      }
+    });
+    Object.values(TOOLS).forEach((item) => {
+      if (item.name == itemName) {
+        itemInfo = item;
+      }
+    });
+    Object.values(SEEDS).forEach((item) => {
+      if (item.name == itemName) {
+        itemInfo = item;
+      }
+    });
+    Object.values(NFTs).forEach((item) => {
+      if (item.name == itemName) {
+        itemInfo = item;
+      }
+    });
+    const itemIndex = selected.findIndex(inv => inv.item === itemName);
     if (itemIndex > -1) {
       if (type == 'plus')
-        selected[itemIndex].qtd = selected[itemIndex].qtd+1;
+        selected[itemIndex].amount = selected[itemIndex].amount.plus(1);
       else if (type == 'minus')
-        selected[itemIndex].qtd = selected[itemIndex].qtd-1;
+        selected[itemIndex].amount = selected[itemIndex].amount.minus(1);
 
       if (type == 'plus')
-        inventory[item] = inventory[item] -1;
+        inventory[itemName] = inventory[itemName]?.minus(1);
       else if (type == 'minus')
-        inventory[item] = inventory[item] +1;
-      console.log(selected[itemIndex]);
-      if (selected[itemIndex].qtd == 0)
+        inventory[itemName] = inventory[itemName]?.plus(1);
+      if (selected[itemIndex]?.amount.toNumber() == 0)
         selected.splice(itemIndex, 1);
       setSelected([...selected]);
     } else {
-      setSelected([...selected, {item:item, qtd:1}]);
-      inventory[item] = inventory[item] -1;
+      setSelected([...selected, {item:itemName, amount:new Decimal(1)}]);
+      inventory[itemName] = inventory[itemName]?.minus(1);
     }
-    console.log(game.context)
+    if (type == 'plus') {
+      if (itemInfo.price) {
+        setAmount(amount?.plus(itemInfo.price));
+      }
+    } else if (type == 'minus') {
+      if (itemInfo.price) {
+        setAmount(amount?.minus(itemInfo.price));
+      }
+    }
   };
 
   const Content = () => {
@@ -104,31 +137,32 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
             Resources available to withdraw:
           </h1>
 
-          <div className="w-3/5 flex flex-wrap  h-fit mt-2">
+          <div className="flex flex-wrap  h-fit mt-2">
             {validItems.length === 0 && (
               <span className="text-white text-shadow">
                 You have no items in your inventory.
               </span>
             )}
-            {validItems.map((itemName) => (
-              <Box
-                count={inventory[itemName]}
-                // isSelected={selected.includes(itemName)}
-                key={itemName}
-                onClick={() => toggle(itemName, 'plus')}
-                image={ITEM_DETAILS[itemName].image}
-              />
-            ))}
+            {validItems.map((itemName) => {
+              if (inventory[itemName]!.toNumber() > 0)
+                return <Box
+                  count={inventory[itemName]}
+                  // isSelected={selected.includes(itemName)}
+                  key={itemName}
+                  onClick={() => toggle(itemName, 'plus')}
+                  image={ITEM_DETAILS[itemName].image}
+                />
+            })}
           </div>
 
           <h1 className="text-shadow mt-4">
             Resources you will withdraw:
           </h1>
 
-          <div>
+          <div className="flex flex-wrap  h-fit mt-2">
           {selected.map((item) => (
             <Box
-              count={item.qtd}
+              count={item.amount}
               // isSelected={selected.includes(itemName)}
               key={item.item}
               onClick={() => toggle(item.item, 'minus')}
