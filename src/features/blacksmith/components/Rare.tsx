@@ -84,10 +84,6 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
       return null;
     }
 
-    if (selected.disabled) {
-      return <span className="text-xs mt-1 text-shadow">Locked</span>;
-    }
-
     return (
       <>
         <Button

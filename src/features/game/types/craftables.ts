@@ -194,7 +194,6 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     ],
     limit: 1,
     supply: 812,
-    disabled: true,
   },
   "Potato Statue": {
     name: "Potato Statue",
@@ -212,7 +211,6 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     ],
     limit: 1,
     supply: 3412,
-    disabled: true,
   },
   Scarecrow: {
     name: "Scarecrow",
@@ -247,7 +245,6 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 0,
-    disabled: true,
   },
   "Chicken Coop": {
     name: "Chicken Coop",
@@ -269,7 +266,6 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     ],
     supply: 1856,
     limit: 1,
-    disabled: true,
   },
   "Farm Cat": {
     name: "Farm Cat",
@@ -307,7 +303,6 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 82,
-    disabled: true,
   },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
@@ -331,7 +326,6 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 100,
-    disabled: true,
   },
   "Sunflower Rock": {
     name: "Sunflower Rock",
@@ -348,7 +342,6 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 150,
-    disabled: true,
   },
 };
 
