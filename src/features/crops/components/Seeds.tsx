@@ -38,12 +38,12 @@ export const Seeds: React.FC<Props> = ({}) => {
       item: selected.name,
       amount,
     });
-    setToast({ content: "SFL -$" + selected.price * amount });
+    setToast({ content: "SFL -$" + selected.price.mul(amount).toString() });
     shortcutItem(selected.name);
   };
 
   const lessFunds = (amount = 1) =>
-    state.balance.lessThan(selected.price * amount);
+    state.balance.lessThan(selected.price.mul(amount).toString());
 
   const cropName = selected.name.split(" ")[0] as CropName;
   const crop = CROPS()[cropName];
