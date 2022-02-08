@@ -3,6 +3,7 @@ import Web3 from "web3";
 import { SessionManager } from "./Sessions";
 import { Farm } from "./Farm";
 import { Beta } from "./Beta";
+import { Inventory } from "./Inventory";
 
 const NETWORK = import.meta.env.VITE_NETWORK;
 
@@ -17,6 +18,7 @@ export class Metamask {
   private farm: Farm | null = null;
   private session: SessionManager | null = null;
   private beta: Beta | null = null;
+  private inventory: Inventory | null = null;
 
   private account: string | null = null;
 
@@ -33,6 +35,7 @@ export class Metamask {
         this.account as string
       );
       this.beta = new Beta(this.web3 as Web3, this.account as string);
+      this.inventory = new Inventory(this.web3 as Web3, this.account as string);
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
@@ -108,7 +111,7 @@ export class Metamask {
     }
 
     const message = this.generateSignatureMessage({
-      address: this.account as string
+      address: this.account as string,
     });
 
     const signature = await this.web3.eth.personal.sign(
@@ -142,6 +145,10 @@ export class Metamask {
 
   public getFarm() {
     return this.farm as Farm;
+  }
+
+  public getInventory() {
+    return this.inventory as Inventory;
   }
 
   public getBeta() {

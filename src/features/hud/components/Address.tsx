@@ -66,7 +66,7 @@ export const Address: React.FC<Props> = () => {
                 : "scale-x-0 opacity-0 max-w-[0px] -mr-1"
             }`}
           >
-            {shortAddress(metamask.myAccount!)}
+            {shortAddress(metamask.myAccount! || "XXXX")}
           </span>
 
           <img
