@@ -89,10 +89,23 @@ export const authMachine = createMachine<
         id: "connecting",
         invoke: {
           src: "initMetamask",
-          onDone: "connected",
+          onDone: "signing",
           onError: {
             target: "unauthorised",
             actions: "assingErrorMessage",
+          },
+        },
+      },
+      signing: {
+        invoke: {
+          src: "sign",
+          onDone: {
+            target: "connected",
+            actions: "assignSignature",
+          },
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
           },
         },
       },
@@ -116,26 +129,7 @@ export const authMachine = createMachine<
               },
             },
           },
-          signing: {
-            invoke: {
-              src: "sign",
-              onDone: [
-                {
-                  target: "authorised",
-                  actions: "assignSignature",
-                  cond: "hasFarm",
-                },
-                {
-                  target: "creatingFarm",
-                  actions: "assignSignature",
-                },
-              ],
-              onError: {
-                target: "#unauthorised",
-                actions: "assignErrorMessage",
-              },
-            },
-          },
+
           creatingFarm: {
             invoke: {
               src: "createFarm",
@@ -149,7 +143,7 @@ export const authMachine = createMachine<
           noFarmLoaded: {
             on: {
               CREATE_FARM: {
-                target: "signing",
+                target: "creatingFarm",
               },
             },
           },
@@ -160,13 +154,9 @@ export const authMachine = createMachine<
           },
           readyToStart: {
             on: {
-              START_GAME: [
-                {
-                  target: "authorised",
-                  cond: "hasSignature",
-                },
-                { target: "signing" },
-              ],
+              START_GAME: {
+                target: "authorised",
+              },
             },
           },
           authorised: {
@@ -222,7 +212,7 @@ export const authMachine = createMachine<
         const charityAddress = (event as CreateFarmEvent)
           .charityAddress as CharityAddress;
         const donation = (event as CreateFarmEvent).donation as number;
-
+        console.log({ donation });
         await createFarmAction(charityAddress, donation);
       },
       sign: async (context: Context): Promise<{ signature: string }> => {

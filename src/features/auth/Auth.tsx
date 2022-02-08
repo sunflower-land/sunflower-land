@@ -16,7 +16,14 @@ export const Auth: React.FC = () => {
   const [authState] = useActor(authService);
 
   return (
-    <Modal centered show={!authState.matches({ connected: "authorised" }) && !authState.matches('visiting')} backdrop={false}>
+    <Modal
+      centered
+      show={
+        !authState.matches({ connected: "authorised" }) &&
+        !authState.matches("visiting")
+      }
+      backdrop={false}
+    >
       <div className="relative">
         <img
           id="curly"
@@ -26,9 +33,9 @@ export const Auth: React.FC = () => {
         <img src={jumpingGoblin} className="absolute w-52 -top-[83px] -z-10" />
         <Panel>
           {(authState.matches("connecting") ||
+            authState.matches("signing") ||
             authState.matches({ connected: "loadingFarm" })) && <Loading />}
           {authState.matches({ connected: "noFarmLoaded" }) && <CreateFarm />}
-          {authState.matches({ connected: "signing" }) && <Loading text="Signing" />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
           {authState.matches("unauthorised") && <Unauthorised />}
