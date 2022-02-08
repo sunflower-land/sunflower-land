@@ -345,9 +345,9 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
   },
 };
 
-export const CRAFTABLES: Record<CraftableName, Craftable> = {
+export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...TOOLS,
   ...LimitedItems,
-  ...SEEDS,
+  ...SEEDS(),
   ...FOODS,
-};
+});

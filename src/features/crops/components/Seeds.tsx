@@ -15,12 +15,14 @@ import { Context } from "features/game/GameProvider";
 import { Craftable } from "features/game/types/craftables";
 import { CropName, CROPS, SEEDS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from 'features/game/toast/ToastQueueProvider';
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 interface Props {}
 
 export const Seeds: React.FC<Props> = ({}) => {
-  const [selected, setSelected] = useState<Craftable>(SEEDS["Sunflower Seed"]);
+  const [selected, setSelected] = useState<Craftable>(
+    SEEDS()["Sunflower Seed"]
+  );
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
@@ -36,7 +38,7 @@ export const Seeds: React.FC<Props> = ({}) => {
       item: selected.name,
       amount,
     });
-    setToast({content: "SFL -$"+(selected.price*amount)});
+    setToast({ content: "SFL -$" + selected.price * amount });
     shortcutItem(selected.name);
   };
 
@@ -44,7 +46,7 @@ export const Seeds: React.FC<Props> = ({}) => {
     state.balance.lessThan(selected.price * amount);
 
   const cropName = selected.name.split(" ")[0] as CropName;
-  const crop = CROPS[cropName];
+  const crop = CROPS()[cropName];
 
   const Action = () => {
     const isLocked = selected.requires && !inventory[selected.requires];

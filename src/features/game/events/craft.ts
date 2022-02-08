@@ -15,7 +15,7 @@ export type CraftAction = {
  */
 const VALID_ITEMS = Object.keys({
   ...TOOLS,
-  ...SEEDS,
+  ...SEEDS(),
   ...FOODS,
 }) as CraftableName[];
 
@@ -37,7 +37,7 @@ export function craft({ state, action, available }: Options) {
     throw new Error(`This item is not craftable: ${action.item}`);
   }
 
-  const item = CRAFTABLES[action.item];
+  const item = CRAFTABLES()[action.item];
 
   if (item.disabled) {
     throw new Error("This item is disabled");

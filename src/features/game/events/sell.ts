@@ -9,7 +9,7 @@ export type SellAction = {
 };
 
 function isCrop(crop: InventoryItemName): crop is CropName {
-  return crop in CROPS;
+  return crop in CROPS();
 }
 
 type Options = {
@@ -25,7 +25,7 @@ export function sell({ state, action }: Options): GameState {
     throw new Error("Invalid amount");
   }
 
-  const crop = CROPS[action.item];
+  const crop = CROPS()[action.item];
 
   const cropCount = state.inventory[action.item] || new Decimal(0);
 
