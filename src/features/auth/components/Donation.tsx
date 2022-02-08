@@ -96,7 +96,9 @@ export const Donation: React.FC<Props> = ({ onDonate }) => {
   const [activeIdx, setActiveIndex] = useState(0);
 
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDonation(roundToOneDecimal(e.target.valueAsNumber));
+    // If keyboard input "" convert to 0
+    // Typed input validation will happen in onBlur
+    setDonation(roundToOneDecimal(Number(e.target.value)));
   };
 
   const incrementDonation = () => {
@@ -127,7 +129,7 @@ export const Donation: React.FC<Props> = ({ onDonate }) => {
   };
 
   return (
-    <div className="mb-4 relative">
+    <form className="mb-4 relative">
       <div className="flex flex-col text-shadow items-center">
         <h2 className="text-base mb-2">Donate to play.</h2>
         <p className="text-xs mb-3 text-center">
@@ -146,7 +148,11 @@ export const Donation: React.FC<Props> = ({ onDonate }) => {
             step="0.1"
             min={1.0}
             value={donation}
+            required
             onChange={onDonationChange}
+            onBlur={() => {
+              if (donation < 1) setDonation(1.0);
+            }}
           />
           <img
             src={upArrow}
@@ -193,6 +199,6 @@ export const Donation: React.FC<Props> = ({ onDonate }) => {
           </CarouselItem>
         ))}
       </Carousel>
-    </div>
+    </form>
   );
 };
