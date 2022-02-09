@@ -10,6 +10,7 @@ import { Button } from "components/ui/Button";
 export const ScreenshotButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [ssImg, setSSImg] = useState("");
+  const [isZoomed, setIsZoomed] = useState(false);
 
   const handleTweetClick = () => {
     window.open(
@@ -22,8 +23,8 @@ export const ScreenshotButton: React.FC = () => {
   const clearUrl = (url: string) => url.replace(/^data:image\/\w+;base64,/, "");
 
   const downloadImage = (
-    name: string = "My Sunflower Land Farm",
     content: string,
+    name: string = "My Sunflower Land Farm",
     type: string = "jpeg"
   ) => {
     let link: HTMLAnchorElement = document.createElement("a");
@@ -38,9 +39,10 @@ export const ScreenshotButton: React.FC = () => {
   };
 
   const handleSaveImage = () =>
-    downloadImage("My Farm", clearUrl(ssImg), "jpeg");
+    downloadImage(clearUrl(ssImg), "My Farm", "jpeg");
 
   function getScreenshot(): void {
+    //, {scale: 1,width: 1600,height: 1600, }
     html2canvas(document.body)
       .then(async function (canvas: HTMLCanvasElement): Promise<string> {
         const img: string = await canvas.toDataURL("image/jpeg");
@@ -51,11 +53,57 @@ export const ScreenshotButton: React.FC = () => {
         setIsOpen(true);
         // window.open("", "_blank")?.document.write('<img src="' + img + '" />');
       });
+    // .then(() => zoomInOut());
   }
+
+  function zoomInOut(): void {
+    if (!isZoomed) document.body.classList.toggle("zoomed");
+    setIsZoomed(true);
+  }
+
+  // start of test feat
+  function getScreenshotOfElement(
+    element: HTMLElement,
+    posX: number = 0,
+    posY: number = 0,
+    width: number = 1600,
+    height: number = 1600
+  ) {
+    html2canvas(element, {
+      width: width,
+      height: height,
+      useCORS: true,
+      allowTaint: false,
+    }).then(
+      () =>
+        function (canvas: HTMLCanvasElement) {
+          const context = canvas.getContext("2d");
+          const imageData =
+            context?.getImageData(posX, posY, width, height).data || [];
+          const outputCanvas = document.createElement("canvas");
+          const outputContext = outputCanvas.getContext("2d");
+          outputCanvas.width = width;
+          outputCanvas.height = height;
+
+          const idata = outputContext?.createImageData(width, height) || [];
+          idata.data.set(imageData);
+          outputContext?.putImageData(idata, 0, 0);
+          // callback(outputCanvas.toDataURL("image/jpeg").replace("data:image/jpeg;base64,", ""));
+          setSSImg(outputCanvas.toDataURL("image/jpeg"));
+          setIsOpen(true);
+        }
+    );
+  }
+  // end of test feat
 
   return (
     <div className="position-fixed flex bottom-44 p-1 right-2 w-fit z-50 cursor-pointer">
-      <Button onClick={() => getScreenshot()}>
+      <Button
+        onClick={() => {
+          // getScreenshot();
+          getScreenshotOfElement(document.body);
+        }}
+      >
         <img
           src={screenshotIcon}
           className="w-8 mb-1 sm:w-6 sm:h-5"
