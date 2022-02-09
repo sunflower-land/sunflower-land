@@ -16,7 +16,7 @@ export async function autosave(request: Request) {
   // Serialize values before sending
   const actions = request.actions.map((action) => ({
     ...action,
-    createdAt: action.createdAt.toUTCString(),
+    createdAt: action.createdAt.toISOString(),
   }));
 
   const response = await window.fetch(`${API_URL}/autosave`, {
