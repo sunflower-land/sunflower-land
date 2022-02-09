@@ -208,12 +208,16 @@ export const authMachine = createMachine<
           sessionId,
         };
       },
-      createFarm: async (_context: Context, event: any): Promise<void> => {
+      createFarm: async (context: Context, event: any): Promise<void> => {
         const charityAddress = (event as CreateFarmEvent)
           .charityAddress as CharityAddress;
         const donation = (event as CreateFarmEvent).donation as number;
         console.log({ donation });
-        await createFarmAction(charityAddress, donation);
+        await createFarmAction({
+          charity: charityAddress,
+          donation,
+          signature: context.signature as string,
+        });
       },
       sign: async (context: Context): Promise<{ signature: string }> => {
         // Sign transaction -

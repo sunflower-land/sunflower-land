@@ -6,6 +6,7 @@ type Request = {
   charity: string;
   donation: number;
   address: string;
+  signature: string;
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -22,25 +23,32 @@ export async function signTransaction(request: Request) {
     }),
   });
 
-  if (response.status >= 400 ) {
-    throw new Error(ERRORS.FAILED_REQUEST)
+  if (response.status >= 400) {
+    throw new Error(ERRORS.FAILED_REQUEST);
   }
 
   const { signature, charity, donation } = await response.json();
-  
+
   return { signature, charity, donation };
 }
 
-export async function createFarm(charity: CharityAddress, donation: number) {
-  const { signature, donation: amount } = await signTransaction({
+type CreateFarmOptions = {
+  charity: CharityAddress;
+  donation: number;
+  signature: string;
+};
+
+export async function createFarm({
+  donation,
+  charity,
+  signature,
+}: CreateFarmOptions) {
+  const transaction = await signTransaction({
     donation,
     charity,
     address: metamask.myAccount as string,
+    signature,
   });
 
-  await metamask.getBeta().createFarm({
-    signature,
-    amount,
-    charity,
-  });
+  await metamask.getBeta().createFarm(transaction);
 }
