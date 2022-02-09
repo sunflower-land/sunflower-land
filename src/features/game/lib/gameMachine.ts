@@ -98,12 +98,6 @@ export function startGame(authContext: AuthContext) {
                 sessionId: authContext.sessionId as string,
                 signature: authContext.signature as string,
                 sender: metamask.myAccount as string,
-                /**
-                 * TODO - use Web3 to see if they have V1 tokens
-                 * This saves the backend from checking the DB for the user
-                 */
-                hasV1Farm: true,
-                hasV1Tokens: true,
               });
 
               if (!game) {

@@ -6,8 +6,6 @@ type Request = {
   farmId: number;
   sender: string;
   signature: string;
-  hasV1Tokens: boolean;
-  hasV1Farm: boolean;
 };
 
 type Response = {
