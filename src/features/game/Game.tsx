@@ -31,8 +31,11 @@ export const Game: React.FC = () => {
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 
   useEffect(() => {
-    const handleBeforeUnload = (event: Event) => {
-      event.returnValue = gameState.context.actions.length === 0;
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (gameState.context.actions.length === 0) return;
+
+      event.preventDefault();
+      event.returnValue = '';
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
