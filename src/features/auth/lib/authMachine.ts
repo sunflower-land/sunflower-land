@@ -249,7 +249,6 @@ export const authMachine = createMachine<
 
         return !!context.farmId;
       },
-      hasSignature: (context: Context) => !!context.signature,
     },
   }
 );
