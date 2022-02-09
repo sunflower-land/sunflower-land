@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
 
@@ -29,6 +29,22 @@ export const Game: React.FC = () => {
   const [gameState, send] = useActor(gameService);
 
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (gameState.context.actions.length === 0) return;
+
+      event.preventDefault();
+      event.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // cleanup on every gameState update
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [gameState]);
 
   return (
     <>
