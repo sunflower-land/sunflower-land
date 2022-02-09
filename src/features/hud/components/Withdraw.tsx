@@ -14,6 +14,8 @@ import { Panel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
+import upArrow from "assets/icons/arrow_up.png";
+import downArrow from "assets/icons/arrow_down.png";
 
 interface Props {
   isOpen: boolean;
@@ -37,7 +39,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
   const [selected, setSelected] = useState<SelectedItem[]>([]);
   const [to, setTo] = useState(metamask.myAccount as string);
   // TODO: add a way to let them specify the amount to withdraw
-  const [amount, setAmount] = useState(new Decimal(0));
+  const [amount, setAmount] = useState(game.context.state.balance);
 
   const items = Object.keys(inventory) as InventoryItemName[];
   const validItems = items.filter((itemName) => !!inventory[itemName]);
@@ -48,7 +50,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
       setState("input");
       setSelected([]);
       setTo(metamask.myAccount as string);
-      setAmount(new Decimal(0));
+      setAmount(game.context.state.balance);
     }
 
   }, [isOpen]);
@@ -116,14 +118,29 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
       setSelected([...selected, {item:itemName, amount:new Decimal(1)}]);
       inventory[itemName] = inventory[itemName]?.minus(1);
     }
-    if (type == 'plus') {
-      if (itemInfo.price) {
-        setAmount(amount?.plus(itemInfo.price));
-      }
-    } else if (type == 'minus') {
-      if (itemInfo.price) {
-        setAmount(amount?.minus(itemInfo.price));
-      }
+  };
+  const roundToOneDecimal = (number: number) => Math.round(number * 10) / 10;
+
+  const onWithdrawChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.valueAsNumber > 0) {
+      if (e.target.valueAsNumber < game.context.state.balance.toDecimalPlaces(2).toNumber())
+        setAmount(new Decimal(e.target.valueAsNumber));
+    }
+  };
+
+  const setMax = () => {
+    setAmount(game.context.state.balance);
+  }
+
+  const incrementWithdraw = () => {
+    if (amount.plus(0.1).toNumber() < game.context.state.balance.toDecimalPlaces(2,1).toNumber())
+      setAmount((prevState) => prevState.plus(0.1));
+  };
+
+  const decrementWithdraw = () => {
+    if (amount.toNumber() > 0.01 ) {
+      if (amount.minus(0.1).toNumber() >= 0)
+        setAmount((prevState) => prevState.minus(0.1));
     }
   };
 
@@ -172,7 +189,32 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
           </div>
 
           <h1 className="text-shadow mt-4">
-            Tokens: {amount.toDecimalPlaces(2, Decimal.ROUND_DOWN).toString()}
+            <div className="flex items-center mb-3">
+              <div className="relative mr-4">
+                Tokens:
+                <input
+                  type="number"
+                  className="text-shadow shadow-inner shadow-black bg-brown-200 w-24 p-2 text-center"
+                  step="0.1"
+                  min={0}
+                  value={amount.toDecimalPlaces(2, Decimal.ROUND_DOWN).toNumber()}
+                  onChange={onWithdrawChange}
+                />
+                <img
+                  src={upArrow}
+                  alt="increment donation value"
+                  className="cursor-pointer absolute -right-4 top-0"
+                  onClick={incrementWithdraw}
+                />
+                <img
+                  src={downArrow}
+                  alt="decrement donation value"
+                  className="cursor-pointer absolute -right-4 bottom-0"
+                  onClick={decrementWithdraw}
+                />
+              </div>
+              <Button className="w-24 ml-6" onClick={setMax}>Max</Button>
+            </div>
           </h1>
 
           <h1 className="text-shadow mt-4">Your address: {to}</h1>
