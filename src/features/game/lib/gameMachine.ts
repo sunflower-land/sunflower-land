@@ -44,7 +44,6 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
     (events, eventName) => ({
       ...events,
       [eventName]: {
-        target: "playing",
         actions: assign((context: Context, event: GameEvent) => ({
           state: processEvent(context.state as GameState, event) as GameState,
           actions: [
