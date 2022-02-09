@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.png";
 
@@ -35,7 +36,7 @@ export const Plants: React.FC<Props> = ({}) => {
     setToast({ content: "SFL +$" + selected.sellPrice.mul(amount).toString() });
   };
 
-  const lessPlants = (amount = 1) => (inventory[selected.name] || 0) < amount;
+  const lessPlants = (amount = 1) => new Decimal(inventory[selected.name] || 0).lessThan(amount);
 
   return (
     <div className="flex">

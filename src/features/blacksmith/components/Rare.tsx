@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
+import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.png";
 
@@ -132,8 +133,8 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
           <div className="border-t border-white w-full mt-2 pt-1">
             {selected.ingredients.map((ingredient, index) => {
               const item = ITEM_DETAILS[ingredient.item];
-              const hasFunds =
-                (inventory[ingredient.item] || 0) >= ingredient.amount;
+              const lessIngredient =
+                new Decimal(inventory[ingredient.item] || 0).lessThan(ingredient.amount);
 
               return (
                 <div className="flex justify-center items-end" key={index}>
@@ -142,7 +143,7 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
                     className={classNames(
                       "text-xs text-shadow text-center mt-2 ",
                       {
-                        "text-red-500": !hasFunds,
+                        "text-red-500": lessIngredient,
                       }
                     )}
                   >
