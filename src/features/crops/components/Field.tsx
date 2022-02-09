@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
@@ -37,6 +37,7 @@ export const Field: React.FC<Props> = ({
   const { gameService, shortcutItem } = useContext(Context);
   const { updateHarvestable } = useContext(AppIconContext);
   const [game] = useActor(gameService);
+  const clickedAt = useRef<number>(0);
   const inventory = game.context.state.inventory;
   const field = game.context.state.fields[fieldIndex];
 
@@ -49,6 +50,14 @@ export const Field: React.FC<Props> = ({
   };
 
   const onClick = () => {
+    // Small buffer to prevent accidental double clicks
+    const now = Date.now();
+    if (now - clickedAt.current < 100) {
+      return;
+    }
+
+    clickedAt.current = now;
+
     // Plant
     if (!field) {
       try {
