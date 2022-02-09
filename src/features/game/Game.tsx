@@ -9,6 +9,7 @@ import { Mail } from "features/mail/Mail";
 import { Water } from "features/water/Water";
 import { Loading } from "features/auth/components";
 import { Animals } from "features/animals/Animals";
+import { WishingWell } from "features/wishingWell/WishingWell";
 
 import { useInterval } from "lib/utils/useInterval";
 
@@ -35,10 +36,10 @@ export const Game: React.FC = () => {
       if (gameState.context.actions.length === 0) return;
 
       event.preventDefault();
-      event.returnValue = '';
+      event.returnValue = "";
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     // cleanup on every gameState update
     return () => {
@@ -83,6 +84,7 @@ export const Game: React.FC = () => {
       <Hud />
 
       <Blacksmith />
+      <WishingWell />
       <Mail />
       <Crops />
       <Water />
