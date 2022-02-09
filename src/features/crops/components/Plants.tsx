@@ -28,7 +28,7 @@ export const Plants: React.FC<Props> = ({}) => {
 
   const inventory = state.inventory;
 
-  const sell = (amount: 1) => {
+  const sell = (amount: number = 1) => {
     gameService.send("item.sell", {
       item: selected.name,
       amount,
@@ -82,7 +82,7 @@ export const Plants: React.FC<Props> = ({}) => {
           <Button
             disabled={noCrop}
             className="text-xs mt-1"
-            onClick={() => sell(cropAmount)}
+            onClick={() => sell(cropAmount.toNumber())}
           >
             Sell All
           </Button>
