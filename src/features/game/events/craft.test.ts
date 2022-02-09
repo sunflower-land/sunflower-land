@@ -100,7 +100,7 @@ describe("craft", () => {
         action: {
           type: "item.crafted",
           item: "Sunflower Seed",
-          amount: 2,
+          amount: 0.2,
         },
       })
     ).toThrow("Invalid amount");

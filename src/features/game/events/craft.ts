@@ -38,12 +38,11 @@ export function craft({ state, action, available }: Options) {
   }
 
   const item = CRAFTABLES()[action.item];
-
   if (item.disabled) {
     throw new Error("This item is disabled");
   }
 
-  if (action.amount !== 1 && action.amount !== 10) {
+  if (action.amount < 1) {
     throw new Error("Invalid amount");
   }
 
