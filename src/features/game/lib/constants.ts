@@ -51,5 +51,17 @@ export const INITIAL_FARM: GameState = {
     "Sunflower Tombstone": new Decimal(1),
     "Sunflower Rock": new Decimal(1),
     "Chicken Coop": new Decimal(1),
+    "Carrot Seed": new Decimal(2),
+    "Cabbage Seed": new Decimal(3),
+    "Beetroot Seed": new Decimal(2),
+    "Cauliflower Seed": new Decimal(100),
+    "Sunflower Statue": new Decimal(1),
+    "Christmas Tree": new Decimal(1),
+    "Scarecrow": new Decimal(1),
+    "Farm Cat": new Decimal(1),
+    "Farm Dog": new Decimal(1),
+    "Gnome": new Decimal(1),
+    "Gold Egg": new Decimal(1),
+    "Roasted Cauliflower": new Decimal(2)
   },
 };
