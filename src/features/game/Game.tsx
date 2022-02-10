@@ -22,6 +22,7 @@ import { Decorations } from "./components/Decorations";
 import { Minting } from "./components/Minting";
 import { Success } from "./components/Success";
 import { Syncing } from "./components/Syncing";
+import { Withdrawing } from "./components/Withdrawing";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 
@@ -78,6 +79,12 @@ export const Game: React.FC = () => {
       <Modal show={gameState.matches("syncing")} centered>
         <Panel>
           <Syncing />
+        </Panel>
+      </Modal>
+
+      <Modal show={gameState.matches("withdrawing")} centered>
+        <Panel>
+          <Withdrawing />
         </Panel>
       </Modal>
 

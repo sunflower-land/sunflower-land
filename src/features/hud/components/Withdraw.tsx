@@ -14,6 +14,8 @@ import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
 import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";
+import { withdraw } from "features/game/actions/withdraw";
+import { toWei } from "web3-utils";
 
 interface Props {
   isOpen: boolean;
@@ -53,22 +55,12 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
   }, [isOpen]);
 
   const onWithdraw = async () => {
-    setState("withdrawing");
-
-    try {
-      await metamask.getSessionManager().withdraw({
-        farmId: game.context.state.id,
-        amounts: selected.map((item) => item.amount),
-        ids: selected.map((itemName) => KNOWN_IDS[itemName.item]),
-        to,
-        tokens: amount,
-      });
-
-      setState("success");
-    } catch {
-      setState("error");
-      // TODO: handle error
-    }
+    gameService.send("WITHDRAW", {
+      // TODO
+      ids: [],
+      amounts: [],
+      sfl: toWei(amount.toString()),
+    });
   };
 
   const onKeepPlaying = () => {

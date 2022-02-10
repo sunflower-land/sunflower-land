@@ -14,6 +14,7 @@ import { autosave } from "../actions/autosave";
 import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
 import { sync } from "../actions/sync";
+import { withdraw } from "../actions/withdraw";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -28,6 +29,14 @@ type MintEvent = {
   type: "MINT";
   item: LimitedItem;
 };
+
+type WithdrawEvent = {
+  type: "WITHDRAW";
+  sfl: number;
+  ids: number[];
+  amounts: string[];
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -35,6 +44,7 @@ export type BlockchainEvent =
   | {
       type: "SYNC";
     }
+  | WithdrawEvent
   | GameEvent
   | MintEvent;
 
@@ -68,6 +78,7 @@ export type BlockchainState = {
     | "minting"
     | "success"
     | "syncing"
+    | "withdrawing"
     | "error";
   context: Context;
 };
@@ -137,6 +148,9 @@ export function startGame(authContext: AuthContext) {
           },
           SYNC: {
             target: "syncing",
+          },
+          WITHDRAW: {
+            target: "withdrawing",
           },
         },
       },
@@ -228,6 +242,27 @@ export function startGame(authContext: AuthContext) {
               farmId: Number(authContext.farmId),
               sessionId: authContext.sessionId as string,
               signature: authContext.signature as string,
+            });
+          },
+          onDone: {
+            target: "success",
+          },
+          onError: {
+            target: "error",
+          },
+        },
+      },
+      withdrawing: {
+        invoke: {
+          src: async (_, event) => {
+            const { amounts, ids, sfl } = event as WithdrawEvent;
+            await withdraw({
+              farmId: Number(authContext.farmId),
+              sessionId: authContext.sessionId as string,
+              signature: authContext.signature as string,
+              amounts,
+              ids,
+              sfl,
             });
           },
           onDone: {
