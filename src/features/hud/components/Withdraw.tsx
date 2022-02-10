@@ -79,38 +79,16 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const toggle = (itemName: InventoryItemName, type: string) => {
-    let itemInfo: any = undefined;
-    Object.values(FOODS).forEach((item) => {
-      if (item.name == itemName) {
-        itemInfo = item;
-      }
-    });
-    Object.values(TOOLS).forEach((item) => {
-      if (item.name == itemName) {
-        itemInfo = item;
-      }
-    });
-    Object.values(SEEDS).forEach((item) => {
-      if (item.name == itemName) {
-        itemInfo = item;
-      }
-    });
-    Object.values(NFTs).forEach((item) => {
-      if (item.name == itemName) {
-        itemInfo = item;
-      }
-    });
     const itemIndex = selected.findIndex(inv => inv.item === itemName);
     if (itemIndex > -1) {
-      if (type == 'plus')
+      if (type === 'plus') {
         selected[itemIndex].amount = selected[itemIndex].amount.plus(1);
-      else if (type == 'minus')
-        selected[itemIndex].amount = selected[itemIndex].amount.minus(1);
-
-      if (type == 'plus')
         inventory[itemName] = inventory[itemName]?.minus(1);
-      else if (type == 'minus')
+      } else if (type === 'minus') {
+        selected[itemIndex].amount = selected[itemIndex].amount.minus(1);
         inventory[itemName] = inventory[itemName]?.plus(1);
+      }
+
       if (selected[itemIndex]?.amount.toNumber() == 0)
         selected.splice(itemIndex, 1);
       setSelected([...selected]);
@@ -160,16 +138,16 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
                 You have no items in your inventory.
               </span>
             )}
-            {validItems.map((itemName) => {
-              if (inventory[itemName]!.toNumber() > 0)
-                return <Box
+            {validItems.map((itemName) => (
+              inventory[itemName]!.toNumber() > 0
+                && <Box
                   count={inventory[itemName]}
                   // isSelected={selected.includes(itemName)}
                   key={itemName}
                   onClick={() => toggle(itemName, 'plus')}
                   image={ITEM_DETAILS[itemName].image}
                 />
-            })}
+            ))}
           </div>
 
           <h1 className="text-shadow mt-4">
