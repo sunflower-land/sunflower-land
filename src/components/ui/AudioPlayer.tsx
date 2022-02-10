@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import play from "assets/ui/player/play.png";
-import pause from "assets/ui/player/pause.png";
-import skip_forward from "assets/ui/player/skip-forward.png";
-import music_note from "assets/ui/player/music-note.png";
-import chevron_right from "assets/ui/player/chevron-right.png";
-import volume_down from "assets/ui/player/volume-down.png";
-import volume_up from "assets/ui/player/volume-up.png";
+import play from "assets/ui/music_player/play.png";
+import pause from "assets/ui/music_player/pause.png";
+import skip_forward from "assets/ui/music_player/skip-forward.png";
+import music_note from "assets/ui/music_player/music-note.png";
+import chevron_right from "assets/ui/music_player/chevron-right.png";
+import volume_down from "assets/ui/music_player/volume-down.png";
+import volume_up from "assets/ui/music_player/volume-up.png";
 import { Button } from "components/ui/Button";
 import { getSong, getSongCount } from "assets/songs/playlist";
 import { Panel } from "components/ui/Panel";
