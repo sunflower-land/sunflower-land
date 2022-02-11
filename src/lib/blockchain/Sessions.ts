@@ -1,4 +1,3 @@
-import Decimal from "decimal.js-light";
 import Web3 from "web3";
 import { AbiItem, toWei } from "web3-utils";
 import SessionABI from "./abis/Session.json";

@@ -4,6 +4,9 @@ import { SessionManager } from "./Sessions";
 import { Farm } from "./Farm";
 import { Beta } from "./Beta";
 import { Inventory } from "./Inventory";
+import { Pair } from "./Pair";
+import { WishingWell } from "./WishingWell";
+import { Token } from "./Token";
 
 const NETWORK = import.meta.env.VITE_NETWORK;
 
@@ -19,6 +22,9 @@ export class Metamask {
   private session: SessionManager | null = null;
   private beta: Beta | null = null;
   private inventory: Inventory | null = null;
+  private pair: Pair | null = null;
+  private wishingWell: WishingWell | null = null;
+  private token: Token | null = null;
 
   private account: string | null = null;
 
@@ -36,6 +42,12 @@ export class Metamask {
       );
       this.beta = new Beta(this.web3 as Web3, this.account as string);
       this.inventory = new Inventory(this.web3 as Web3, this.account as string);
+      this.pair = new Pair(this.web3 as Web3, this.account as string);
+      this.token = new Token(this.web3 as Web3, this.account as string);
+      this.wishingWell = new WishingWell(
+        this.web3 as Web3,
+        this.account as string
+      );
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
@@ -157,6 +169,18 @@ export class Metamask {
 
   public getSessionManager() {
     return this.session as SessionManager;
+  }
+
+  public getPair() {
+    return this.pair as Pair;
+  }
+
+  public getWishingWell() {
+    return this.wishingWell as WishingWell;
+  }
+
+  public getToken() {
+    return this.token as Token;
   }
 
   public get myAccount() {

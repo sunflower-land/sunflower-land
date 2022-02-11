@@ -2,12 +2,14 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 import wishingWell from "assets/buildings/wishing_well.png";
+import icon from "assets/brand/icon.png";
 
 import { WishingWellModal } from "./components/WishingWellModal";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { Action } from "components/ui/Action";
 
 export const WishingWell: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(true);
   return (
     <div
       className="z-10 absolute"
@@ -25,8 +27,17 @@ export const WishingWell: React.FC = () => {
         onClick={() => setIsOpen(true)}
         className="cursor-pointer hover:img-highlight w-full"
       />
+      <Action
+        className="absolute -bottom-8 -left-2"
+        text="Wish"
+        icon={icon}
+        onClick={() => setIsOpen(true)}
+      />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <WishingWellModal onClose={() => setIsOpen(false)} />
+        <WishingWellModal
+          key={isOpen ? "1" : "0"}
+          onClose={() => setIsOpen(false)}
+        />
       </Modal>
     </div>
   );
