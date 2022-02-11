@@ -5,7 +5,7 @@ import { GameState, Inventory } from "../types/game";
 export const GRID_WIDTH_PX = 42;
 
 export const INITIAL_STOCK: Inventory = {
-  "Sunflower Seed": new Decimal(20),
+  "Sunflower Seed": new Decimal(1000),
   "Potato Seed": new Decimal(300),
   "Pumpkin Seed": new Decimal(200),
   "Carrot Seed": new Decimal(100),
