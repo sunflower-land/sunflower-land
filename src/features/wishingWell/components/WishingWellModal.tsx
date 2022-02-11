@@ -155,12 +155,20 @@ export const WishingWellModal: React.FC<Props> = ({}) => {
               <img src={timer} className="w-2 mr-2" />
               <span className="text-xxs">{wishingWell.lockedTime} left</span>
             </div>
-            <Button className="text-sm mt-1" onClick={() => send("WITHDRAW")}>
+            <Button
+              disabled={!!wishingWell.lockedTime}
+              className="text-sm mt-1"
+              onClick={() => send("WITHDRAW")}
+            >
               Withdraw {fromWei(wishingWell.myTokensInWell.toString())} LP
             </Button>
             <span className="text-xxs pt-1">OR</span>
 
-            <Button className="text-sm mt-1" onClick={() => send("SEARCH")}>
+            <Button
+              disabled={!!wishingWell.lockedTime}
+              className="text-sm mt-1"
+              onClick={() => send("SEARCH")}
+            >
               Search well for SFL
             </Button>
           </div>
