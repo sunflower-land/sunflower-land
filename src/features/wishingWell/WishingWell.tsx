@@ -9,7 +9,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 
 export const WishingWell: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
   return (
     <div
       className="z-10 absolute"
