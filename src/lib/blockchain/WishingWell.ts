@@ -101,9 +101,17 @@ export class WishingWell {
 
   public async canCollect(): Promise<boolean> {
     const canCollect = await this.contract.methods
-      .canCollect()
+      .canCollect(this.account)
       .call({ from: this.account });
 
     return canCollect;
+  }
+
+  public async lastCollected(): Promise<number> {
+    const lastUpdatedAt = await this.contract.methods
+      .lastUpdatedAt(this.account)
+      .call({ from: this.account });
+
+    return lastUpdatedAt;
   }
 }

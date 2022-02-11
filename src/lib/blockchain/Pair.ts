@@ -23,7 +23,7 @@ export class Pair {
     );
   }
 
-  public async balanceOf() {
+  public async getBalance() {
     const balance: string = await this.contract.methods
       .balanceOf(this.account)
       .call({ from: this.account });
