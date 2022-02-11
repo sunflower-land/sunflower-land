@@ -28,7 +28,6 @@ export class Inventory {
   }
 
   public async totalSupply() {
-    await new Promise((res) => setTimeout(res, 1000));
     const ids = Object.values(KNOWN_IDS);
     const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
 
