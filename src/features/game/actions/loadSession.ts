@@ -36,6 +36,13 @@ export async function loadSession(request: Request): Promise<GameState> {
       }),
       {} as Record<InventoryItemName, Decimal>
     ),
+    stock: Object.keys(farm.stock).reduce(
+      (items, item) => ({
+        ...items,
+        [item]: new Decimal(farm.stock[item]),
+      }),
+      {} as Record<InventoryItemName, Decimal>
+    ),
     balance: new Decimal(farm.balance),
     fields: farm.fields,
     id: farm.id,

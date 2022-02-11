@@ -170,5 +170,6 @@ export const SEEDS: () => Record<SeedName, Craftable> = () => ({
     price: marketRate(2),
     ingredients: [],
     requires: "Pumpkin Soup",
+    disabled: true,
   },
 });

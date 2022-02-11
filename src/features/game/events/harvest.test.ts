@@ -1,9 +1,10 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "../lib/constants";
-import { FieldItem, GameState } from "../types/game";
+import { GameState } from "../types/game";
 import { harvest } from "./harvest";
 
 let GAME_STATE: GameState = {
+  ...INITIAL_FARM,
   id: 1,
   fields: {},
   balance: new Decimal(0),

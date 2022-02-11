@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { CRAFTABLES } from "../types/craftables";
-import { CROPS, SEEDS } from "../types/crops";
+import { INITIAL_FARM } from "../lib/constants";
+import { SEEDS } from "../types/crops";
 import { GameState } from "../types/game";
 import { craft } from "./craft";
 
@@ -9,6 +9,7 @@ let GAME_STATE: GameState = {
   fields: [],
   balance: new Decimal(0),
   inventory: {},
+  stock: INITIAL_FARM.stock,
 };
 
 describe("craft", () => {
@@ -215,5 +216,24 @@ describe("craft", () => {
         },
       })
     ).toThrow("Insufficient ingredient: Wood");
+  });
+
+  it("does not craft an item that is not in stock", () => {
+    expect(() =>
+      craft({
+        state: {
+          ...GAME_STATE,
+          stock: {
+            "Sunflower Seed": new Decimal(0),
+          },
+          balance: new Decimal(10),
+        },
+        action: {
+          type: "item.crafted",
+          item: "Sunflower Seed",
+          amount: 1,
+        },
+      })
+    ).toThrow("Not enough stock");
   });
 });

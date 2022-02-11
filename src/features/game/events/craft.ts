@@ -46,6 +46,10 @@ export function craft({ state, action, available }: Options) {
     throw new Error("Invalid amount");
   }
 
+  if (state.stock[action.item]?.lt(action.amount)) {
+    throw new Error("Not enough stock");
+  }
+
   const totalExpenses = item.price.mul(action.amount);
 
   const isLocked = item.requires && !state.inventory[item.requires];
@@ -82,6 +86,10 @@ export function craft({ state, action, available }: Options) {
     inventory: {
       ...subtractedInventory,
       [action.item]: oldAmount.add(action.amount),
+    },
+    stock: {
+      ...state.stock,
+      [action.item]: state.stock[action.item]?.minus(action.amount),
     },
   };
 }

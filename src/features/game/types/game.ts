@@ -27,6 +27,7 @@ export type GameState = {
   balance: Decimal;
   fields: Record<number, FieldItem>;
   inventory: Inventory;
+  stock: Inventory;
 
   // Session values
   id: number;
