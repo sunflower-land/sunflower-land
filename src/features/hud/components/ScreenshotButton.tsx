@@ -2,15 +2,13 @@ import React, { useState } from "react";
 
 import html2canvas from "html2canvas";
 import screenshotIcon from "assets/icons/screenshot-icon.png";
-import button from "assets/ui/button/round_button.png";
-import { Modal, ModalTitle } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
 export const ScreenshotButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [ssImg, setSSImg] = useState("");
-  const [isZoomed, setIsZoomed] = useState(false);
 
   const handleTweetClick = () => {
     window.open(
@@ -39,7 +37,7 @@ export const ScreenshotButton: React.FC = () => {
   };
 
   const handleSaveImage = () =>
-    downloadImage(clearUrl(ssImg), "My Farm", "jpeg");
+    downloadImage(clearUrl(ssImg), "My SFL Farm", "jpeg");
 
   function getScreenshot(): void {
     //, {scale: 1,width: 1600,height: 1600, }
@@ -53,55 +51,18 @@ export const ScreenshotButton: React.FC = () => {
         setIsOpen(true);
         // window.open("", "_blank")?.document.write('<img src="' + img + '" />');
       });
-    // .then(() => zoomInOut());
   }
 
-  function zoomInOut(): void {
+  /*function zoomInOut(): void {
     if (!isZoomed) document.body.classList.toggle("zoomed");
     setIsZoomed(true);
-  }
-
-  // start of test feat
-  function getScreenshotOfElement(
-    element: HTMLElement,
-    posX: number = 0,
-    posY: number = 0,
-    width: number = 1600,
-    height: number = 1600
-  ) {
-    html2canvas(element, {
-      width: width,
-      height: height,
-      useCORS: true,
-      allowTaint: false,
-    }).then(
-      () =>
-        function (canvas: HTMLCanvasElement) {
-          const context = canvas.getContext("2d");
-          const imageData =
-            context?.getImageData(posX, posY, width, height).data || [];
-          const outputCanvas = document.createElement("canvas");
-          const outputContext = outputCanvas.getContext("2d");
-          outputCanvas.width = width;
-          outputCanvas.height = height;
-
-          const idata = outputContext?.createImageData(width, height) || [];
-          idata.data.set(imageData);
-          outputContext?.putImageData(idata, 0, 0);
-          // callback(outputCanvas.toDataURL("image/jpeg").replace("data:image/jpeg;base64,", ""));
-          setSSImg(outputCanvas.toDataURL("image/jpeg"));
-          setIsOpen(true);
-        }
-    );
-  }
-  // end of test feat
+  }*/
 
   return (
     <div className="position-fixed flex bottom-44 p-1 right-2 w-fit z-50 cursor-pointer">
       <Button
         onClick={() => {
-          // getScreenshot();
-          getScreenshotOfElement(document.body);
+          getScreenshot();
         }}
       >
         <img
@@ -110,7 +71,6 @@ export const ScreenshotButton: React.FC = () => {
           alt="screenshot"
         />
       </Button>
-      {/* <Label className="hidden sm:block absolute -bottom-7">Screenshot</Label> */}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel>
           <Modal.Header closeButton>
