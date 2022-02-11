@@ -57,11 +57,33 @@ export const INITIAL_FARM: GameState = {
     "Cauliflower Seed": new Decimal(100),
     "Sunflower Statue": new Decimal(1),
     "Christmas Tree": new Decimal(1),
-    "Scarecrow": new Decimal(1),
+    Scarecrow: new Decimal(1),
     "Farm Cat": new Decimal(1),
     "Farm Dog": new Decimal(1),
-    "Gnome": new Decimal(1),
+    Gnome: new Decimal(1),
     "Gold Egg": new Decimal(1),
-    "Roasted Cauliflower": new Decimal(2)
+    "Roasted Cauliflower": new Decimal(2),
+  },
+  stock: {
+    "Sunflower Seed": new Decimal(20),
+    "Potato Seed": new Decimal(300),
+    "Pumpkin Seed": new Decimal(200),
+    "Carrot Seed": new Decimal(100),
+    "Cabbage Seed": new Decimal(90),
+    "Beetroot Seed": new Decimal(80),
+    "Cauliflower Seed": new Decimal(70),
+    "Parsnip Seed": new Decimal(50),
+    "Radish Seed": new Decimal(40),
+    "Wheat Seed": new Decimal(0),
+
+    Axe: new Decimal(50),
+    Pickaxe: new Decimal(50),
+    "Stone Pickaxe": new Decimal(50),
+    "Iron Pickaxe": new Decimal(50),
+
+    // One off items
+    "Pumpkin Soup": new Decimal(1),
+    Sauerkraut: new Decimal(1),
+    "Roasted Cauliflower": new Decimal(1),
   },
 };

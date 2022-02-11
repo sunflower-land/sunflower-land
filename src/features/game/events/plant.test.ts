@@ -1,8 +1,10 @@
 import Decimal from "decimal.js-light";
+import { INITIAL_FARM } from "../lib/constants";
 import { GameState } from "../types/game";
 import { plant } from "./plant";
 
 let GAME_STATE: GameState = {
+  ...INITIAL_FARM,
   id: 1,
   fields: {},
   balance: new Decimal(0),
