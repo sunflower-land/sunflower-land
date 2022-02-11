@@ -1,13 +1,16 @@
 import { metamask } from "lib/blockchain/metamask";
 import { secondsToLongString } from "lib/utils/time";
 
+const wishingWellAddress = import.meta.env.VITE_WISHING_WELL_CONTRACT;
+
 // 3 days
 export const LOCKED_SECONDS = 3 * 24 * 60 * 60;
 
 export type WishingWellTokens = {
-  tokensInWell: number;
+  myTokensInWell: string;
+  totalTokensInWell: string;
   canCollect: boolean;
-  lpTokens: number;
+  lpTokens: string;
   lockedTime?: string;
 };
 
@@ -18,27 +21,36 @@ export async function loadWishingWell(): Promise<WishingWellTokens> {
   const tokensInWellPromise = metamask.getWishingWell().getBalance();
   const canCollectPromise = metamask.getWishingWell().canCollect();
   const lastCollectedPromise = metamask.getWishingWell().lastCollected();
-
   const lpTokensPromise = metamask.getPair().getBalance();
+  const totalTokensInWellPromise = metamask
+    .getToken()
+    .balanceOf(wishingWellAddress as string);
 
-  const [tokensInWell, canCollect, lpTokens, lastCollected] = await Promise.all(
-    [
-      tokensInWellPromise,
-      canCollectPromise,
-      lpTokensPromise,
-      lastCollectedPromise,
-    ]
-  );
+  const [
+    myTokensInWell,
+    canCollect,
+    lpTokens,
+    lastCollected,
+    totalTokensInWell,
+  ] = await Promise.all([
+    tokensInWellPromise,
+    canCollectPromise,
+    lpTokensPromise,
+    lastCollectedPromise,
+    totalTokensInWellPromise,
+  ]);
 
   let lockedTime;
-  const timeSinceLock = new Date().getTime() / 1000 - lastCollected;
+  const secondsSinceLock = new Date().getTime() / 1000 - lastCollected;
 
-  if (timeSinceLock > LOCKED_SECONDS * 1000) {
-    lockedTime = secondsToLongString(timeSinceLock);
+  if (secondsSinceLock <= LOCKED_SECONDS) {
+    const remaining = LOCKED_SECONDS - secondsSinceLock;
+    lockedTime = secondsToLongString(remaining);
   }
 
   return {
-    tokensInWell,
+    myTokensInWell,
+    totalTokensInWell,
     canCollect,
     lpTokens,
     lockedTime,

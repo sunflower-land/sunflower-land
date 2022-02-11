@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import { AbiItem, fromWei } from "web3-utils";
+import { AbiItem } from "web3-utils";
 import TokenJSON from "./abis/Token.json";
 
 const address = import.meta.env.VITE_PAIR_CONTRACT;
@@ -28,10 +28,10 @@ export class Pair {
       .balanceOf(this.account)
       .call({ from: this.account });
 
-    return Number(fromWei(balance));
+    return balance;
   }
 
-  public async approve(amount: number) {
+  public async approve(amount: string) {
     return new Promise(async (resolve, reject) => {
       this.contract.methods
         .approve(wishingWellAddress, amount)

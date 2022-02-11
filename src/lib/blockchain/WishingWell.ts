@@ -1,9 +1,8 @@
 import Web3 from "web3";
-import { AbiItem, fromWei } from "web3-utils";
+import { AbiItem, fromWei, toWei } from "web3-utils";
 import WishingWellJSON from "./abis/WishingWell.json";
 
 const address = import.meta.env.VITE_WISHING_WELL_CONTRACT;
-const NETWORK = import.meta.env.VITE_NETWORK;
 
 /**
  * WishingWell contract
@@ -23,7 +22,8 @@ export class WishingWell {
     );
   }
 
-  public async throwTokens(amount: number) {
+  public async throwTokens(amount: string) {
+    console.log({ amount });
     return new Promise(async (resolve, reject) => {
       this.contract.methods
         .throwTokens(amount)
@@ -43,7 +43,7 @@ export class WishingWell {
     });
   }
 
-  public async takeOut(amount: number) {
+  public async takeOut(amount: string) {
     return new Promise(async (resolve, reject) => {
       this.contract.methods
         .takeOut(amount)
@@ -88,15 +88,8 @@ export class WishingWell {
       .balanceOf(this.account)
       .call({ from: this.account });
 
-    return Number(fromWei(balance));
-  }
-
-  public async totalSupply() {
-    const supply = await this.contract.methods
-      .totalSupply()
-      .call({ from: this.account });
-
-    return Number(fromWei(supply));
+    console.log({ balance });
+    return balance;
   }
 
   public async canCollect(): Promise<boolean> {

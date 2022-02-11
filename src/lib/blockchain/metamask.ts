@@ -6,6 +6,7 @@ import { Beta } from "./Beta";
 import { Inventory } from "./Inventory";
 import { Pair } from "./Pair";
 import { WishingWell } from "./WishingWell";
+import { Token } from "./Token";
 
 const NETWORK = import.meta.env.VITE_NETWORK;
 
@@ -23,6 +24,7 @@ export class Metamask {
   private inventory: Inventory | null = null;
   private pair: Pair | null = null;
   private wishingWell: WishingWell | null = null;
+  private token: Token | null = null;
 
   private account: string | null = null;
 
@@ -41,6 +43,7 @@ export class Metamask {
       this.beta = new Beta(this.web3 as Web3, this.account as string);
       this.inventory = new Inventory(this.web3 as Web3, this.account as string);
       this.pair = new Pair(this.web3 as Web3, this.account as string);
+      this.token = new Token(this.web3 as Web3, this.account as string);
       this.wishingWell = new WishingWell(
         this.web3 as Web3,
         this.account as string
@@ -174,6 +177,10 @@ export class Metamask {
 
   public getWishingWell() {
     return this.wishingWell as WishingWell;
+  }
+
+  public getToken() {
+    return this.token as Token;
   }
 
   public get myAccount() {
