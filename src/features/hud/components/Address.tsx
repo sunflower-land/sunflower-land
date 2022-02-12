@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import { metamask } from "lib/blockchain/metamask";
 
 import { Context } from "features/game/GameProvider";
 
@@ -10,7 +9,6 @@ import { Panel } from "components/ui/Panel";
 import player from "assets/icons/player.png";
 import arrowLeft from "assets/icons/arrow_left.png";
 import arrowRight from "assets/icons/arrow_right.png";
-import context from "react-bootstrap/esm/AccordionContext";
 
 interface Props {}
 
