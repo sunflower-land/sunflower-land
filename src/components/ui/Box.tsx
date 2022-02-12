@@ -8,11 +8,11 @@ import selectBox from "assets/ui/select/select_box.png";
 import { Label } from "./Label";
 
 export interface BoxProps {
+  image: any;
   isSelected?: boolean;
   count?: Decimal;
   onClick?: () => void;
   disabled?: boolean;
-  image: any;
 }
 
 export const Box: React.FC<BoxProps> = ({

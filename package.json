@@ -25,6 +25,7 @@
     "events": "^3.3.0",
     "graphql": "^16.2.0",
     "lodash.shuffle": "^4.2.0",
+    "html2canvas": "^1.4.1",
     "process": "^0.11.10",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.1",
