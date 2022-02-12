@@ -16,6 +16,7 @@ import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";
 import { withdraw } from "features/game/actions/withdraw";
 import { toWei } from "web3-utils";
+import { shortAddress } from "features/hud/components/Address";
 
 interface Props {
   isOpen: boolean;
@@ -192,7 +193,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
             </div>
           </h1>
 
-          <h1 className="text-shadow mt-4">Your address: {to}</h1>
+          <h1 className="text-shadow mt-4">Your address: {shortAddress(to! || "XXXX")}</h1>
           <span className="text-xs">TODO: disclaimer</span>
           <Button onClick={onWithdraw}>Withdraw</Button>
         </>
