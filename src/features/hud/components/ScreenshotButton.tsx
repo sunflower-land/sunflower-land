@@ -15,7 +15,6 @@ export const ScreenshotButton: React.FC = () => {
       "https://twitter.com/intent/tweet?text=Checkout%20my%20Sunflower%20Land%20Farm%3A%0A%0A&ref_src=https%3A%2F%2Fsunflower-land.com&hashtags=SunflowerLand",
       "_blank"
     );
-    // setIsOpen(false);
   };
 
   const clearUrl = (url: string) => url.replace(/^data:image\/\w+;base64,/, "");
@@ -39,7 +38,6 @@ export const ScreenshotButton: React.FC = () => {
     downloadImage(clearUrl(ssImg), "My SFL Farm", "jpeg");
 
   function getScreenshot(): void {
-    //, {scale: 1,width: 1600,height: 1600, }
     html2canvas(document.body)
       .then(async function (canvas: HTMLCanvasElement): Promise<string> {
         const img: string = await canvas.toDataURL("image/jpeg");
@@ -48,7 +46,6 @@ export const ScreenshotButton: React.FC = () => {
       .then((img: string) => {
         setSSImg(img);
         setIsOpen(true);
-        // window.open("", "_blank")?.document.write('<img src="' + img + '" />');
       });
   }
 
@@ -56,7 +53,6 @@ export const ScreenshotButton: React.FC = () => {
     <div className="position-fixed flex bottom-44 p-1 right-2 w-10 z-50 cursor-pointer sm:w-12 md:w-18 lg:w-fit">
       <Button onClick={() => getScreenshot()} className="p-0">
         <img src={screenshotIcon} className="w-fit" alt="screenshot" />
-        {/* img: w-8 mb-1 sm:w-6 sm:h-5 */}
       </Button>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel>
