@@ -1,17 +1,10 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
 import { OuterPanel, Panel } from "components/ui/Panel";
 
-import mobileMenu from "assets/icons/hamburger_menu.png";
-import questionMark from "assets/icons/expression_confused.png";
-import radish from "assets/icons/radish.png";
-import water from "assets/icons/expression_working.png";
-import token from "assets/icons/token.png";
-
 import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
-import { metamask } from "lib/blockchain/metamask";
 import * as Auth from "features/auth/lib/Provider";
 import { sync } from "features/game/actions/sync";
 import { Context } from "features/game/GameProvider";
@@ -19,10 +12,20 @@ import { Context } from "features/game/GameProvider";
 import { Withdraw } from "./Withdraw";
 import { Modal } from "react-bootstrap";
 
+import mobileMenu from "assets/icons/hamburger_menu.png";
+import questionMark from "assets/icons/expression_confused.png";
+import radish from "assets/icons/radish.png";
+import water from "assets/icons/expression_working.png";
+import token from "assets/icons/token.png";
+import timer from "assets/icons/timer.png";
+
+const NETWORK = import.meta.env.VITE_NETWORK;
+
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
+  const [authState] = useActor(authService);
+  const [gameState] = useActor(gameService);
 
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
@@ -77,11 +80,13 @@ export const Menu = () => {
   }, []);
 
   const syncOnChain = async () => {
-    await sync({
-      farmId: authState.context.farmId as number,
-      sessionId: authState.context.sessionId as string,
-      signature: authState.context.signature as string,
-    });
+    if (NETWORK === "mainnet") {
+      setShowComingSoon(true);
+      setMenuOpen(false);
+      return;
+    }
+
+    gameService.send("SYNC");
   };
 
   const autosave = async () => {
@@ -104,8 +109,11 @@ export const Menu = () => {
             <span className="hidden md:flex">Menu</span>
           </Button>
           <Button onClick={autosave}>
-            {/* <img className="md:hidden w-6" src={mobileSave} alt="save" /> */}
-            <span>Save</span>
+            {gameState.matches("autosaving") ? (
+              <img src={timer} className="animate-pulsate" alt="saving" />
+            ) : (
+              <span>Save</span>
+            )}
           </Button>
         </div>
         <div
@@ -142,13 +150,13 @@ export const Menu = () => {
             </li>
             <li className="p-1">
               {/* <Button onClick={syncOnChain}> */}
-              <Button onClick={() => handleComingSoonModal()}>
+              <Button onClick={syncOnChain}>
                 <span className="text-sm">Sync on chain</span>
               </Button>
             </li>
             <li className="p-1">
-              {/* <Button onClick={withdraw}> */}
-              <Button onClick={() => handleComingSoonModal()}>
+              <Button onClick={withdraw}>
+              
                 <span className="text-sm">Withdraw</span>
                 <img src={token} className="w-4 ml-2" alt="token" />
               </Button>

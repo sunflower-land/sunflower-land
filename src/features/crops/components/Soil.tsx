@@ -42,7 +42,7 @@ export const Soil: React.FC<Props> = ({ field }) => {
     return <img src={soil} className="w-full" />;
   }
 
-  const crop = CROPS[field.name];
+  const crop = CROPS()[field.name];
   const lifecycle = LIFECYCLE[field.name];
   const timeLeft = getTimeLeft(field.plantedAt, crop.harvestSeconds);
 

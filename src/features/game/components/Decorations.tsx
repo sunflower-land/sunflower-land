@@ -69,7 +69,7 @@ export const Decorations: React.FC = () => {
         <img
           style={{
             width: `${GRID_WIDTH_PX * 1}px`,
-            left: `${GRID_WIDTH_PX * 29}px`,
+            left: `${GRID_WIDTH_PX * 30}px`,
             top: `${GRID_WIDTH_PX * 36.8}px`,
           }}
           className="absolute"
@@ -81,9 +81,9 @@ export const Decorations: React.FC = () => {
       {state.inventory["Farm Cat"] && (
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 0.7}px`,
-            right: `${GRID_WIDTH_PX * 39.74}px`,
-            top: `${GRID_WIDTH_PX * 28}px`,
+            width: `${GRID_WIDTH_PX * 0.9}px`,
+            right: `${GRID_WIDTH_PX * 39.68}px`,
+            top: `${GRID_WIDTH_PX * 28.2}px`,
           }}
           className="absolute"
           src={cat}
@@ -94,7 +94,7 @@ export const Decorations: React.FC = () => {
       {state.inventory["Farm Dog"] && (
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 0.7}px`,
+            width: `${GRID_WIDTH_PX * 0.8}px`,
             right: `${GRID_WIDTH_PX * 37.8}px`,
             top: `${GRID_WIDTH_PX * 32}px`,
           }}

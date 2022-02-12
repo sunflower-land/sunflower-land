@@ -1,4 +1,6 @@
 import Decimal from "decimal.js-light";
+import { INITIAL_FARM } from "../lib/constants";
+import { SEEDS } from "../types/crops";
 import { GameState } from "../types/game";
 import { craft } from "./craft";
 
@@ -7,6 +9,7 @@ let GAME_STATE: GameState = {
   fields: [],
   balance: new Decimal(0),
   inventory: {},
+  stock: INITIAL_FARM.stock,
 };
 
 describe("craft", () => {
@@ -16,11 +19,24 @@ describe("craft", () => {
         state: GAME_STATE,
         action: {
           type: "item.crafted",
-          item: "Sunflower",
+          item: "Sunflower Statue",
           amount: 1,
         },
       })
     ).toThrow("This item is not craftable: Sunflower");
+  });
+
+  it("throws an error if item is disabled", () => {
+    expect(() =>
+      craft({
+        state: GAME_STATE,
+        action: {
+          type: "item.crafted",
+          item: "Rod",
+          amount: 1,
+        },
+      })
+    ).toThrow("This item is disabled");
   });
 
   it("does not craft item if there is not enough funds", () => {
@@ -28,7 +44,7 @@ describe("craft", () => {
       craft({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(0.005),
+          balance: new Decimal(0.0000005),
         },
         action: {
           type: "item.crafted",
@@ -69,7 +85,9 @@ describe("craft", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(0.99));
+    expect(state.balance).toEqual(
+      new Decimal(1).minus(SEEDS()["Sunflower Seed"].price)
+    );
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(1));
   });
 
@@ -83,7 +101,7 @@ describe("craft", () => {
         action: {
           type: "item.crafted",
           item: "Sunflower Seed",
-          amount: 2,
+          amount: 0.2,
         },
       })
     ).toThrow("Invalid amount");
@@ -139,7 +157,9 @@ describe("craft", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(0.5));
+    expect(state.balance).toEqual(
+      new Decimal(1).sub(SEEDS()["Carrot Seed"].price)
+    );
     expect(state.inventory["Carrot Seed"]).toEqual(new Decimal(1));
   });
 
@@ -156,7 +176,9 @@ describe("craft", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(0));
+    expect(state.balance).toEqual(
+      new Decimal(0.1).sub(SEEDS()["Sunflower Seed"].price.mul(10))
+    );
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(10));
   });
 
@@ -194,5 +216,24 @@ describe("craft", () => {
         },
       })
     ).toThrow("Insufficient ingredient: Wood");
+  });
+
+  it("does not craft an item that is not in stock", () => {
+    expect(() =>
+      craft({
+        state: {
+          ...GAME_STATE,
+          stock: {
+            "Sunflower Seed": new Decimal(0),
+          },
+          balance: new Decimal(10),
+        },
+        action: {
+          type: "item.crafted",
+          item: "Sunflower Seed",
+          amount: 1,
+        },
+      })
+    ).toThrow("Not enough stock");
   });
 });

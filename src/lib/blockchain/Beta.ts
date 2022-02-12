@@ -1,7 +1,8 @@
-import Decimal from "decimal.js-light";
 import Web3 from "web3";
-import { AbiItem, toWei } from "web3-utils";
+import { AbiItem } from "web3-utils";
 import BetaJSON from "./abis/Beta.json";
+
+const address = import.meta.env.VITE_BETA_CONTRACT;
 
 /**
  * Beta contract
@@ -17,24 +18,23 @@ export class Beta {
     this.account = account;
     this.contract = new this.web3.eth.Contract(
       BetaJSON as AbiItem[],
-      // Testnet
-      "0x38D138b1eaA6c4769401c5A79D86fF484b23DD2d"
+      address as string
     );
   }
 
   public async createFarm({
     signature,
     charity,
-    amount,
+    donation,
   }: {
     signature: string;
     charity: string;
-    amount: number;
+    donation: number;
   }): Promise<string> {
     return new Promise(async (resolve, reject) => {
       this.contract.methods
-        .createFarm(signature, charity, amount)
-        .send({ from: this.account })
+        .createFarm(signature, charity, donation)
+        .send({ from: this.account, value: donation })
         .on("error", function (error: any) {
           console.log({ error });
 

@@ -5,7 +5,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/useScrollIntoView";
 
 import chick from "assets/animals/chick.gif";
-import Shark from "../Sharks/Shark";
+import Shark from "./components/Shark";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import { Frog } from "./components/Frog";

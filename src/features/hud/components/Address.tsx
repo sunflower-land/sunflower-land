@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
+import { metamask } from "lib/blockchain/metamask";
 
 import { Context } from "features/game/GameProvider";
 
@@ -65,7 +66,7 @@ export const Address: React.FC<Props> = () => {
                 : "scale-x-0 opacity-0 max-w-[0px] -mr-1"
             }`}
           >
-            {shortAddress("0xD2a0e78D34667775607cc0edC3f70eE0Fe930432")}
+            {shortAddress(metamask.myAccount! || "XXXX")}
           </span>
 
           <img

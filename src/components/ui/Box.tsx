@@ -47,7 +47,7 @@ export const Box: React.FC<BoxProps> = ({
       >
         <img src={image} className="h-8 w-auto" alt="item" />
 
-        {!!count && (
+        {!!count && count.greaterThan(0) && (
           <Label className="absolute -top-4 -right-3 px-0.5 text-xs z-10">
             {count.toString()}
           </Label>

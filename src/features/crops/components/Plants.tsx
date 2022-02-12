@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.png";
 
@@ -11,12 +12,12 @@ import { Context } from "features/game/GameProvider";
 import { Crop, CROPS } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from 'features/game/toast/ToastQueueProvider';
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 interface Props {}
 
 export const Plants: React.FC<Props> = ({}) => {
-  const [selected, setSelected] = useState<Crop>(CROPS.Sunflower);
+  const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
   const { setToast } = useContext(ToastContext);
   const { gameService } = useContext(Context);
   const [
@@ -27,20 +28,21 @@ export const Plants: React.FC<Props> = ({}) => {
 
   const inventory = state.inventory;
 
-  const sell = (amount = 1) => {
+  const sell = (amount: number = 1) => {
     gameService.send("item.sell", {
       item: selected.name,
       amount,
     });
-    setToast({content: "SFL +$"+(selected.sellPrice*amount)});
+    setToast({ content: "SFL +$" + selected.sellPrice.mul(amount).toString() });
   };
 
-  const lessPlants = (amount = 1) => (inventory[selected.name] || 0) < amount;
+  const cropAmount = new Decimal(inventory[selected.name] || 0);
+  const noCrop = cropAmount.equals(0);
 
   return (
     <div className="flex">
       <div className="w-3/5 flex  flex-wrap h-fit">
-        {Object.values(CROPS).map((item) => (
+        {Object.values(CROPS()).map((item) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}
@@ -71,18 +73,18 @@ export const Plants: React.FC<Props> = ({}) => {
             </div>
           </div>
           <Button
-            disabled={lessPlants()}
+            disabled={noCrop}
             className="text-xs mt-1"
-            onClick={() => sell()}
+            onClick={() => sell(1)}
           >
             Sell 1
           </Button>
           <Button
-            disabled={lessPlants(10)}
+            disabled={noCrop}
             className="text-xs mt-1"
-            onClick={() => sell(10)}
+            onClick={() => sell(cropAmount.toNumber())}
           >
-            Sell 10
+            Sell All
           </Button>
         </div>
       </OuterPanel>

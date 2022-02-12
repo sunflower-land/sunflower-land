@@ -7,9 +7,10 @@ import food from "assets/crops/wheat/flour.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { NFTs, TOOLS, FOODS } from "features/game/types/craftables";
+import { TOOLS, FOODS } from "features/game/types/craftables";
 
 import { CraftingItems } from "./CraftingItems";
+import { Rare } from "./Rare";
 
 interface Props {
   onClose: () => void;
@@ -28,7 +29,7 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
           </Tab>
           <Tab isActive={tab === "nfts"} onClick={() => setTab("nfts")}>
             <img src={nft} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Items</span>
+            <span className="text-sm text-shadow">Rare</span>
           </Tab>
           <Tab isActive={tab === "foods"} onClick={() => setTab("foods")}>
             <img src={food} className="h-5 mr-2" />
@@ -42,9 +43,15 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
         />
       </div>
 
-      {tab === "craft" && <CraftingItems items={TOOLS} isBulk />}
-      {tab === "nfts" && <CraftingItems items={NFTs} />}
-      {tab === "foods" && <CraftingItems items={FOODS} />}
+      <div
+        style={{
+          minHeight: "200px",
+        }}
+      >
+        {tab === "craft" && <CraftingItems items={TOOLS} isBulk />}
+        {tab === "nfts" && <Rare onClose={onClose} />}
+        {tab === "foods" && <CraftingItems items={FOODS} />}
+      </div>
     </Panel>
   );
 };

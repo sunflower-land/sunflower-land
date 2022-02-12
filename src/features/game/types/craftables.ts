@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { SeedName, SEEDS } from "../types/crops";
 import { InventoryItemName } from "../types/game";
 
@@ -7,24 +8,23 @@ export type CraftAction = {
   amount: number;
 };
 
-export type CraftableName = NFT | Tool | SeedName | Food;
+export type CraftableName = LimitedItem | Tool | SeedName | Food;
 
 export type Craftable = {
   name: CraftableName;
   description: string;
-  price: number;
+  price: Decimal;
   ingredients: {
     item: InventoryItemName;
-    amount: number;
+    amount: Decimal;
   }[];
   limit?: number;
-  amountLeft?: number;
+  supply?: number;
   disabled?: boolean;
-  type?: "NFT";
   requires?: InventoryItemName;
 };
 
-export type NFT =
+export type LimitedItem =
   | "Sunflower Statue"
   | "Potato Statue"
   | "Christmas Tree"
@@ -56,11 +56,11 @@ export const FOODS: Record<Food, Craftable> = {
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
     description: "A creamy soup that goblins love",
-    price: 5,
+    price: new Decimal(5),
     ingredients: [
       {
         item: "Pumpkin",
-        amount: 5,
+        amount: new Decimal(5),
       },
     ],
     limit: 1,
@@ -68,33 +68,33 @@ export const FOODS: Record<Food, Craftable> = {
   Flour: {
     name: "Flour",
     description: "Ground Wheat",
-    price: 0.1,
+    price: new Decimal(0.1),
     ingredients: [
       {
         item: "Wheat",
-        amount: 3,
+        amount: new Decimal(3),
       },
     ],
   },
   "Roasted Cauliflower": {
     name: "Roasted Cauliflower",
     description: "A Goblin's favourite",
-    price: 0.1,
+    price: new Decimal(0.1),
     ingredients: [
       {
         item: "Cauliflower",
-        amount: 3,
+        amount: new Decimal(3),
       },
     ],
   },
   Sauerkraut: {
     name: "Sauerkraut",
     description: "Fermented cabbage",
-    price: 0.1,
+    price: new Decimal(0.1),
     ingredients: [
       {
         item: "Cabbage",
-        amount: 3,
+        amount: new Decimal(3),
       },
     ],
   },
@@ -104,62 +104,62 @@ export const TOOLS: Record<Tool, Craftable> = {
   Axe: {
     name: "Axe",
     description: "Used to collect wood",
-    price: 1,
+    price: new Decimal(1),
     ingredients: [],
   },
   Pickaxe: {
     name: "Pickaxe",
     description: "Used to collect stone",
-    price: 1,
+    price: new Decimal(1),
     ingredients: [
       {
         item: "Wood",
-        amount: 2,
+        amount: new Decimal(2),
       },
     ],
   },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
     description: "Used to collect iron",
-    price: 2,
+    price: new Decimal(2),
     ingredients: [
       {
         item: "Wood",
-        amount: 3,
+        amount: new Decimal(3),
       },
       {
         item: "Stone",
-        amount: 3,
+        amount: new Decimal(3),
       },
     ],
   },
   "Iron Pickaxe": {
     name: "Iron Pickaxe",
     description: "Used to collect gold",
-    price: 5,
+    price: new Decimal(5),
     ingredients: [
       {
         item: "Wood",
-        amount: 5,
+        amount: new Decimal(5),
       },
       {
         item: "Iron",
-        amount: 3,
+        amount: new Decimal(3),
       },
     ],
   },
   Hammer: {
     name: "Hammer",
     description: "Used to construct buildings",
-    price: 5,
+    price: new Decimal(5),
     ingredients: [
       {
         item: "Wood",
-        amount: 5,
+        amount: new Decimal(5),
       },
       {
         item: "Iron",
-        amount: 2,
+        amount: new Decimal(2),
       },
     ],
     disabled: true,
@@ -167,197 +167,188 @@ export const TOOLS: Record<Tool, Craftable> = {
   Rod: {
     name: "Rod",
     description: "Used to fish trout",
-    price: 10,
+    price: new Decimal(10),
     ingredients: [
       {
         item: "Wood",
-        amount: 50,
+        amount: new Decimal(50),
       },
     ],
     disabled: true,
   },
 };
 
-export const NFTs: Record<NFT, Craftable> = {
+export const LimitedItems: Record<LimitedItem, Craftable> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
     description: "Earn beta access to new features",
-    price: 5,
+    price: new Decimal(5),
     ingredients: [
       {
         item: "Sunflower",
-        amount: 1000,
+        amount: new Decimal(1000),
       },
       {
         item: "Stone",
-        amount: 50,
+        amount: new Decimal(50),
       },
     ],
     limit: 1,
-    amountLeft: 812,
-    type: "NFT",
+    supply: 812,
   },
   "Potato Statue": {
     name: "Potato Statue",
     description: "The OG potato hustler flex",
-    price: 0,
+    price: new Decimal(0),
     ingredients: [
       {
         item: "Potato",
-        amount: 100,
+        amount: new Decimal(100),
       },
       {
         item: "Stone",
-        amount: 20,
+        amount: new Decimal(20),
       },
     ],
     limit: 1,
-    amountLeft: 3412,
-    type: "NFT",
+    supply: 3412,
   },
   Scarecrow: {
     name: "Scarecrow",
     description: "Grow wheat faster",
-    price: 50,
+    price: new Decimal(50),
     ingredients: [
       {
         item: "Wheat",
-        amount: 10,
+        amount: new Decimal(10),
       },
       {
         item: "Wood",
-        amount: 10,
+        amount: new Decimal(10),
       },
     ],
     limit: 1,
-    amountLeft: 1700,
-    type: "NFT",
+    supply: 1700,
+    disabled: true,
   },
   "Christmas Tree": {
     name: "Christmas Tree",
     description: "Receieve a Santa Airdrop on Christmas day",
-    price: 50,
+    price: new Decimal(50),
     ingredients: [
       {
         item: "Wood",
-        amount: 100,
+        amount: new Decimal(100),
       },
       {
         item: "Stone",
-        amount: 50,
+        amount: new Decimal(50),
       },
     ],
-    amountLeft: 0,
-    type: "NFT",
+    supply: 0,
   },
   "Chicken Coop": {
     name: "Chicken Coop",
     description: "Collect 3x the amount of eggs",
-    price: 50,
+    price: new Decimal(50),
     ingredients: [
       {
         item: "Wood",
-        amount: 10,
+        amount: new Decimal(10),
       },
       {
         item: "Stone",
-        amount: 10,
+        amount: new Decimal(10),
       },
       {
         item: "Gold",
-        amount: 10,
+        amount: new Decimal(10),
       },
     ],
-    amountLeft: 1856,
+    supply: 1856,
     limit: 1,
-    type: "NFT",
   },
   "Farm Cat": {
     name: "Farm Cat",
     description: "Keep the rats away",
-    price: 50,
+    price: new Decimal(50),
     ingredients: [],
-    amountLeft: 0,
-    type: "NFT",
+    supply: 0,
   },
   "Farm Dog": {
     name: "Farm Dog",
     description: "Herd sheep 4x faster",
-    price: 75,
+    price: new Decimal(75),
     ingredients: [],
-    amountLeft: 0,
-    type: "NFT",
+    supply: 0,
   },
   Gnome: {
     name: "Gnome",
     description: "A lucky gnome",
-    price: 10,
+    price: new Decimal(10),
     ingredients: [],
-    amountLeft: 0,
-    type: "NFT",
+    supply: 0,
   },
   "Gold Egg": {
     name: "Gold Egg",
     description: "A rare egg, what lays inside?",
-    price: 0,
+    price: new Decimal(0),
     ingredients: [
       {
         item: "Egg",
-        amount: 150,
+        amount: new Decimal(150),
       },
       {
         item: "Gold",
-        amount: 50,
+        amount: new Decimal(50),
       },
     ],
-    amountLeft: 82,
-    type: "NFT",
+    supply: 82,
   },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
     description: "In memory of Sunflower Farmers",
-    price: 0,
+    price: new Decimal(0),
     ingredients: [],
-    amountLeft: 0,
-    type: "NFT",
+    supply: 0,
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
     description: "Double the rewards from cauliflowers",
-    price: 100,
+    price: new Decimal(100),
     ingredients: [
       {
         item: "Cauliflower",
-        amount: 100,
+        amount: new Decimal(100),
       },
       {
         item: "Gold",
-        amount: 10,
+        amount: new Decimal(10),
       },
     ],
-    amountLeft: 100,
+    supply: 100,
   },
   "Sunflower Rock": {
     name: "Sunflower Rock",
     description: "The game that broke Polygon",
-    price: 100,
+    price: new Decimal(100),
     ingredients: [
       {
         item: "Sunflower",
-        amount: 10000,
+        amount: new Decimal(10000),
       },
       {
         item: "Iron",
-        amount: 100,
+        amount: new Decimal(100),
       },
     ],
-    amountLeft: 50,
+    supply: 150,
   },
 };
 
-export const CRAFTABLES: Record<CraftableName, Craftable> = {
+export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...TOOLS,
-  ...NFTs,
-  ...SEEDS,
+  ...LimitedItems,
+  ...SEEDS(),
   ...FOODS,
-};
+});

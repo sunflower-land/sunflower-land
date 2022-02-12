@@ -37,7 +37,7 @@ export const MarketItems: React.FC<Props> = ({ onClose }) => {
         />
       </div>
 
-      {tab === "buy" && <Seeds />}
+      {tab === "buy" && <Seeds onClose={onClose} />}
       {tab === "sell" && <Plants />}
     </Panel>
   );

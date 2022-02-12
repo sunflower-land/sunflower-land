@@ -1,9 +1,12 @@
 import { metamask } from "lib/blockchain/metamask";
+import { ERRORS } from "lib/errors";
+import { CharityAddress } from "../components/Donation";
 
 type Request = {
   charity: string;
   donation: number;
   address: string;
+  signature: string;
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -20,29 +23,32 @@ export async function signTransaction(request: Request) {
     }),
   });
 
-  const { signature } = await response.json();
-  return signature;
+  if (response.status >= 400) {
+    throw new Error(ERRORS.FAILED_REQUEST);
+  }
+
+  const { signature, charity, donation } = await response.json();
+
+  return { signature, charity, donation };
 }
 
-export async function createFarm() {
-  const signature = await signTransaction({
-    donation: 0,
-    charity: "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377",
+type CreateFarmOptions = {
+  charity: CharityAddress;
+  donation: number;
+  signature: string;
+};
+
+export async function createFarm({
+  donation,
+  charity,
+  signature,
+}: CreateFarmOptions) {
+  const transaction = await signTransaction({
+    donation,
+    charity,
     address: metamask.myAccount as string,
-  });
-
-  console.log({
     signature,
-    donation: 0,
-    charity: "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377",
-    address: metamask.myAccount as string,
   });
 
-  await metamask.getBeta().createFarm({
-    signature,
-    amount: 0,
-    charity: "0x63FaC9201494f0bd17B9892B9fae4d52fe3BD377",
-  });
-
-  console.log("Created!");
+  await metamask.getBeta().createFarm(transaction);
 }

@@ -2,6 +2,8 @@ import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import FarmABI from "./abis/Farm.json";
 
+const address = import.meta.env.VITE_FARM_CONTRACT;
+
 type FarmAccount = {
   account: string;
   owner: string;
@@ -22,8 +24,7 @@ export class Farm {
     this.account = account;
     this.farm = new this.web3.eth.Contract(
       FarmABI as AbiItem[],
-      // Testnet
-      "0x7f6279D037587d647b529F1C6ACA43E4E314d392"
+      address as string
     );
   }
 

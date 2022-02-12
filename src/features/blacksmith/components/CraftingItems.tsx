@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
+import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.png";
 
@@ -30,29 +31,29 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
   const inventory = state.inventory;
 
   const lessIngredients = (amount = 1) =>
-    selected.ingredients.some(
-      (ingredient) =>
-        (inventory[ingredient.item] || 0) < ingredient.amount * amount
+    selected.ingredients.some((ingredient) =>
+      ingredient.amount.mul(amount).greaterThan(inventory[ingredient.item] || 0)
     );
   const lessFunds = (amount = 1) =>
-    state.balance.lessThan(selected.price * amount);
+    state.balance.lessThan(selected.price.mul(amount));
 
   const craft = (amount = 1) => {
     gameService.send("item.crafted", {
       item: selected.name,
       amount,
     });
-    setToast({ content: "SFL -$" + selected.price * amount });
+    setToast({ content: "SFL -$" + selected.price.mul(amount) });
     selected.ingredients.map((ingredient, index) => {
       setToast({
-        content: "Item " + ingredient.item + " -" + ingredient.amount * amount,
+        content:
+          "Item " + ingredient.item + " -" + ingredient.amount.mul(amount),
       });
     });
 
     shortcutItem(selected.name);
   };
 
-  const soldOut = selected.amountLeft === 0;
+  const soldOut = selected.supply === 0;
 
   const Action = () => {
     if (soldOut) {
@@ -105,9 +106,9 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
               Sold out
             </span>
           )}
-          {!!selected.amountLeft && (
+          {!!selected.supply && (
             <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
-              {`${selected.amountLeft} left`}
+              {`${selected.supply} left`}
             </span>
           )}
 
@@ -125,8 +126,8 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
           <div className="border-t border-white w-full mt-2 pt-1">
             {selected.ingredients.map((ingredient, index) => {
               const item = ITEM_DETAILS[ingredient.item];
-              const hasFunds =
-                (inventory[ingredient.item] || 0) >= ingredient.amount;
+              const lessIngredient =
+                new Decimal(inventory[ingredient.item] || 0).lessThan(ingredient.amount);
 
               return (
                 <div className="flex justify-center items-end" key={index}>
@@ -135,11 +136,11 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
                     className={classNames(
                       "text-xs text-shadow text-center mt-2 ",
                       {
-                        "text-red-500": !hasFunds,
+                        "text-red-500": lessIngredient,
                       }
                     )}
                   >
-                    {ingredient.amount}
+                    {ingredient.amount.toNumber()}
                   </span>
                 </div>
               );
@@ -152,7 +153,7 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${selected.price}`}
+                {`$${selected.price.toNumber()}`}
               </span>
             </div>
           </div>

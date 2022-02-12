@@ -1,23 +1,30 @@
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
-import { sha3 } from "web3-utils";
-import { LegacyFarm } from "./Legacy";
-import { SunflowerLand } from "./SunflowerLand";
+import { SessionManager } from "./Sessions";
 import { Farm } from "./Farm";
 import { Beta } from "./Beta";
+import { Inventory } from "./Inventory";
+import { Pair } from "./Pair";
+import { WishingWell } from "./WishingWell";
+import { Token } from "./Token";
 
-const POLYGON_CHAIN_ID = 137;
-const POLYGON_TESTNET_CHAIN_ID = 80001;
+const NETWORK = import.meta.env.VITE_NETWORK;
+
+const POLYGON_TESTNET_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
+
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
 export class Metamask {
   private web3: Web3 | null = null;
 
-  private legacyFarm: LegacyFarm | null = null;
   private farm: Farm | null = null;
-  private sunflowerLand: SunflowerLand | null = null;
+  private session: SessionManager | null = null;
   private beta: Beta | null = null;
+  private inventory: Inventory | null = null;
+  private pair: Pair | null = null;
+  private wishingWell: WishingWell | null = null;
+  private token: Token | null = null;
 
   private account: string | null = null;
 
@@ -29,11 +36,18 @@ export class Metamask {
       // );
 
       this.farm = new Farm(this.web3 as Web3, this.account as string);
-      this.sunflowerLand = new SunflowerLand(
+      this.session = new SessionManager(
         this.web3 as Web3,
         this.account as string
       );
       this.beta = new Beta(this.web3 as Web3, this.account as string);
+      this.inventory = new Inventory(this.web3 as Web3, this.account as string);
+      this.pair = new Pair(this.web3 as Web3, this.account as string);
+      this.token = new Token(this.web3 as Web3, this.account as string);
+      this.wishingWell = new WishingWell(
+        this.web3 as Web3,
+        this.account as string
+      );
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
@@ -75,14 +89,13 @@ export class Metamask {
 
   public async initialise(retryCount = 0): Promise<void> {
     try {
-      // It is actually quite fast, we won't to simulate slow loading to convey complexity
+      // Smooth out the loading state
+      await new Promise((res) => setTimeout(res, 1000));
       await this.setupWeb3();
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();
-      if (
-        !(chainId === POLYGON_CHAIN_ID || chainId === POLYGON_TESTNET_CHAIN_ID)
-      ) {
+      if (!(chainId === POLYGON_TESTNET_CHAIN_ID)) {
         throw new Error(ERRORS.WRONG_CHAIN);
       }
 
@@ -104,16 +117,15 @@ export class Metamask {
     }
   }
 
-  public async signTransaction(farmId: number) {
+  public async signTransaction() {
     if (!this.web3) {
       throw new Error(ERRORS.NO_WEB3);
     }
 
     const message = this.generateSignatureMessage({
       address: this.account as string,
-      farmId,
     });
-    console.log({ message });
+
     const signature = await this.web3.eth.personal.sign(
       message,
       this.account as string,
@@ -122,8 +134,6 @@ export class Metamask {
     );
 
     const recovered = await this.web3.eth.accounts.recover(message, signature);
-    console.log({ signature });
-    console.log({ recovered });
 
     // Example of verifying a transaction on the backend
     //const signingAddress = this.web3.eth.accounts.recover(hash, signature);
@@ -133,40 +143,44 @@ export class Metamask {
     };
   }
 
-  private generateSignatureMessage({
-    address,
-    farmId,
-  }: {
-    address: string;
-    farmId: number;
-  }) {
-    console.log({ address, farmId });
+  private generateSignatureMessage({ address }: { address: string }) {
     const MESSAGE = [
       "Welcome to Sunflower Land!",
       "Click to sign in and accept the Sunflower Land Terms of Service: https://docs.sunflower-land.com/support/terms-of-service",
       "This request will not trigger a blockchain transaction or cost any gas fees.",
       "Your authentication status will reset after each session.",
       `Wallet address: ${address}`,
-      `Farm ID: ${farmId}`,
     ].join("\n\n");
 
     return MESSAGE;
-  }
-
-  public getLegacyFarm() {
-    return this.legacyFarm;
   }
 
   public getFarm() {
     return this.farm as Farm;
   }
 
+  public getInventory() {
+    return this.inventory as Inventory;
+  }
+
   public getBeta() {
     return this.beta as Beta;
   }
 
-  public getSunflowerLand() {
-    return this.sunflowerLand as SunflowerLand;
+  public getSessionManager() {
+    return this.session as SessionManager;
+  }
+
+  public getPair() {
+    return this.pair as Pair;
+  }
+
+  public getWishingWell() {
+    return this.wishingWell as WishingWell;
+  }
+
+  public getToken() {
+    return this.token as Token;
   }
 
   public get myAccount() {

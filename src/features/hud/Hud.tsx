@@ -1,4 +1,5 @@
 import React from "react";
+import { metamask } from "lib/blockchain/metamask";
 
 import { Balance } from "./components/Balance";
 import { Inventory } from "./components/Inventory";
@@ -14,12 +15,12 @@ import { ScreenshotButton } from "./components/ScreenshotButton";
 export const Hud: React.FC = () => {
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
-      <Menu />
-      <Balance />
-      <Inventory />
+      <Menu/>
+      <Balance/>
+      <Inventory/>
       <ScreenshotButton />
-      <AudioPlayer />
-      <Address />
+      <AudioPlayer/>
+      {metamask.myAccount && <Address />}
     </div>
   );
 };

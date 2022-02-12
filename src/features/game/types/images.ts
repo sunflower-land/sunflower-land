@@ -57,7 +57,7 @@ import gold from "assets/resources/gold_ore.png";
 import chicken from "assets/resources/chicken.png";
 
 import { InventoryItemName } from "./game";
-import { FOODS, NFTs, TOOLS } from "./craftables";
+import { FOODS, LimitedItems, TOOLS } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 
@@ -68,88 +68,90 @@ export type ItemDetails = {
 
 type Items = Record<InventoryItemName, ItemDetails>;
 
+const crops = CROPS();
+const seeds = SEEDS();
 export const ITEM_DETAILS: Items = {
   // Crops
   Sunflower: {
-    ...CROPS.Sunflower,
+    ...crops.Sunflower,
     image: sunflowerCrop,
   },
   Potato: {
-    ...CROPS.Potato,
+    ...crops.Potato,
     image: potatoCrop,
   },
   Pumpkin: {
-    ...CROPS.Pumpkin,
+    ...crops.Pumpkin,
     image: pumpkinCrop,
   },
   Carrot: {
-    ...CROPS.Carrot,
+    ...crops.Carrot,
     image: carrotCrop,
   },
   Cabbage: {
-    ...CROPS.Cabbage,
+    ...crops.Cabbage,
     image: cabbageCrop,
   },
   Beetroot: {
-    ...CROPS.Beetroot,
+    ...crops.Beetroot,
     image: beetrootCrop,
   },
   Cauliflower: {
-    ...CROPS.Cauliflower,
+    ...crops.Cauliflower,
     image: cauliflowerCrop,
   },
   Parsnip: {
-    ...CROPS.Parsnip,
+    ...crops.Parsnip,
     image: parsnipCrop,
   },
   Radish: {
-    ...CROPS.Radish,
+    ...crops.Radish,
     image: radishCrop,
   },
   Wheat: {
-    ...CROPS.Wheat,
+    ...crops.Wheat,
     image: wheatCrop,
   },
 
   // Seeds
   "Sunflower Seed": {
-    ...SEEDS["Sunflower Seed"],
+    ...seeds["Sunflower Seed"],
     image: sunflowerSeed,
   },
   "Potato Seed": {
-    ...SEEDS["Potato Seed"],
+    ...seeds["Potato Seed"],
     image: potatoSeed,
   },
   "Pumpkin Seed": {
-    ...SEEDS["Pumpkin Seed"],
+    ...seeds["Pumpkin Seed"],
     image: pumpkinSeed,
   },
   "Carrot Seed": {
-    ...SEEDS["Carrot Seed"],
+    ...seeds["Carrot Seed"],
     image: carrotSeed,
   },
   "Cabbage Seed": {
-    ...SEEDS["Cabbage Seed"],
+    ...seeds["Cabbage Seed"],
     image: cabbageSeed,
   },
   "Beetroot Seed": {
-    ...SEEDS["Beetroot Seed"],
+    ...seeds["Beetroot Seed"],
     image: beetrootSeed,
   },
   "Cauliflower Seed": {
-    ...SEEDS["Cauliflower Seed"],
+    ...seeds["Cauliflower Seed"],
     image: cauliflowerSeed,
   },
   "Parsnip Seed": {
-    ...SEEDS["Parsnip Seed"],
+    ...seeds["Parsnip Seed"],
     image: parsnipSeed,
   },
   "Radish Seed": {
-    ...SEEDS["Radish Seed"],
+    ...seeds["Radish Seed"],
     image: radishSeed,
   },
   "Wheat Seed": {
-    ...SEEDS["Wheat Seed"],
+    ...seeds["Wheat Seed"],
     image: wheatSeed,
   },
 
@@ -206,51 +208,51 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Sunflower Statue": {
-    ...NFTs["Sunflower Statue"],
+    ...LimitedItems["Sunflower Statue"],
     image: sunflowerStatue,
   },
   "Potato Statue": {
-    ...NFTs["Potato Statue"],
+    ...LimitedItems["Potato Statue"],
     image: potatoStatue,
   },
   Scarecrow: {
-    ...NFTs["Scarecrow"],
+    ...LimitedItems["Scarecrow"],
     image: scarecrow,
   },
   "Christmas Tree": {
-    ...NFTs["Christmas Tree"],
+    ...LimitedItems["Christmas Tree"],
     image: christmasTree,
   },
   Gnome: {
-    ...NFTs["Gnome"],
+    ...LimitedItems["Gnome"],
     image: gnome,
   },
   "Gold Egg": {
-    ...NFTs["Gold Egg"],
+    ...LimitedItems["Gold Egg"],
     image: goldEgg,
   },
   "Farm Cat": {
-    ...NFTs["Farm Cat"],
+    ...LimitedItems["Farm Cat"],
     image: farmCat,
   },
   "Farm Dog": {
-    ...NFTs["Farm Dog"],
+    ...LimitedItems["Farm Dog"],
     image: farmDog,
   },
   "Chicken Coop": {
-    ...NFTs["Chicken Coop"],
+    ...LimitedItems["Chicken Coop"],
     image: chickenCoop,
   },
   "Golden Cauliflower": {
-    ...NFTs["Golden Cauliflower"],
+    ...LimitedItems["Golden Cauliflower"],
     image: goldenCauliflower,
   },
   "Sunflower Rock": {
-    ...NFTs["Sunflower Rock"],
+    ...LimitedItems["Sunflower Rock"],
     image: sunflowerRock,
   },
   "Sunflower Tombstone": {
-    ...NFTs["Sunflower Tombstone"],
+    ...LimitedItems["Sunflower Tombstone"],
     image: sunflowerTombstone,
   },
 

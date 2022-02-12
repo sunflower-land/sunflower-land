@@ -10,8 +10,7 @@ type Request = {
 const API_URL = import.meta.env.VITE_API_URL;
 
 async function signTransaction(request: Request) {
-  const response = await window.fetch(`${API_URL}/save`, {
-    // learn more about this API here: https://graphql-pokemon2.vercel.app/
+  const response = await window.fetch(`${API_URL}/sync`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -32,6 +31,8 @@ type Options = {
   signature: string;
 };
 export async function sync({ farmId, sessionId, signature }: Options) {
+  if (!API_URL) return;
+
   const transaction = await signTransaction({
     farmId,
     sessionId,
@@ -41,5 +42,5 @@ export async function sync({ farmId, sessionId, signature }: Options) {
 
   console.log({ transaction });
 
-  metamask.getSunflowerLand().sync(transaction);
+  await metamask.getSessionManager().sync(transaction);
 }

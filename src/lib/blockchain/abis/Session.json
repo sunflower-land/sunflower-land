@@ -15,6 +15,11 @@
         "internalType": "contract SunflowerLandFarm",
         "name": "_farm",
         "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_wishingWell",
+        "type": "address"
       }
     ],
     "stateMutability": "payable",
@@ -38,29 +43,6 @@
     ],
     "name": "OwnershipTransferred",
     "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes",
-        "name": "signature",
-        "type": "bytes"
-      },
-      {
-        "internalType": "address",
-        "name": "charity",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "createFarm",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
   },
   {
     "inputs": [],
@@ -149,6 +131,77 @@
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "sessions",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "_liquify",
+        "type": "bool"
+      }
+    ],
+    "name": "setLiquify",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_fee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setSyncFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tax",
+        "type": "uint256"
+      }
+    ],
+    "name": "setWishingWellTax",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_fee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setWithdrawFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes",
         "name": "signature",
         "type": "bytes"
@@ -157,6 +210,11 @@
         "internalType": "bytes32",
         "name": "sessionId",
         "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "deadline",
+        "type": "uint256"
       },
       {
         "internalType": "uint256",
@@ -184,38 +242,20 @@
         "type": "uint256[]"
       },
       {
-        "internalType": "uint256",
-        "name": "mintTokens",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "burnTokens",
-        "type": "uint256"
+        "internalType": "int256",
+        "name": "tokens",
+        "type": "int256"
       }
     ],
-    "name": "save",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "sessions",
+    "name": "sync",
     "outputs": [
       {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
+        "internalType": "bool",
+        "name": "success",
+        "type": "bool"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -247,6 +287,19 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "_team",
+        "type": "address"
+      }
+    ],
+    "name": "transferTeam",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes32",
         "name": "hash",
         "type": "bytes32"
@@ -271,14 +324,24 @@
   {
     "inputs": [
       {
+        "internalType": "bytes",
+        "name": "signature",
+        "type": "bytes"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "sessionId",
+        "type": "bytes32"
+      },
+      {
         "internalType": "uint256",
-        "name": "farmId",
+        "name": "deadline",
         "type": "uint256"
       },
       {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "farmId",
+        "type": "uint256"
       },
       {
         "internalType": "uint256[]",
@@ -292,12 +355,23 @@
       },
       {
         "internalType": "uint256",
-        "name": "tokenAmount",
+        "name": "sfl",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tax",
         "type": "uint256"
       }
     ],
     "name": "withdraw",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   }

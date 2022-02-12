@@ -26,6 +26,7 @@
 body {
   font-family: "Press Start 2p", sans-serif;
   overflow: hidden;
+  text-shadow: 1px 1px black;
 }
 
 * {
@@ -34,11 +35,22 @@ body {
   -webkit-user-select: none;
 
   /*
-    Introduced in Internet Explorer 10.
-    See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
-  */
+        Introduced in Internet Explorer 10.
+        See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+      */
   -ms-user-select: none;
   user-select: none;
+}
+
+/* Disable html number input arrows  */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /*
@@ -47,6 +59,15 @@ body {
 .modal-content {
   background: transparent;
   border: none;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+  opacity: 1;
+}
+
+.carousel-indicators {
+  bottom: -42px;
 }
 
 /* Disable default border */
@@ -83,4 +104,48 @@ img {
   to {
     transform: translateX(-100%);
   }
+}
+
+@keyframes ellipsis {
+  to {
+    transform: translateY(-6em);
+  }
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.two-line-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Loading ellipsis animation that will be added to the end of text ie Loading... */
+.loading {
+  display: inline-block;
+  overflow: hidden;
+  height: 1.5rem;
+  line-height: 1.5em;
+  vertical-align: text-bottom;
+}
+
+.loading::after {
+  display: inline-table;
+  white-space: pre;
+  text-align: left;
+  content: "\A.\A..\A...";
+  animation: ellipsis 1s steps(4) infinite;
 }

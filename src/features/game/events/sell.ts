@@ -9,7 +9,7 @@ export type SellAction = {
 };
 
 function isCrop(crop: InventoryItemName): crop is CropName {
-  return crop in CROPS;
+  return crop in CROPS();
 }
 
 type Options = {
@@ -21,11 +21,11 @@ export function sell({ state, action }: Options): GameState {
     throw new Error("Not for sale");
   }
 
-  if (action.amount !== 1 && action.amount !== 10) {
+  if (action.amount < 1) {
     throw new Error("Invalid amount");
   }
 
-  const crop = CROPS[action.item];
+  const crop = CROPS()[action.item];
 
   const cropCount = state.inventory[action.item] || new Decimal(0);
 
@@ -38,12 +38,12 @@ export function sell({ state, action }: Options): GameState {
     crop.name === "Cauliflower" &&
     state.inventory["Golden Cauliflower"]?.greaterThanOrEqualTo(1)
   ) {
-    price = price * 2;
+    price = price.mul(2);
   }
 
   return {
     ...state,
-    balance: state.balance.add(price * action.amount),
+    balance: state.balance.add(price.mul(action.amount)),
     inventory: {
       ...state.inventory,
       [crop.name]: cropCount.sub(1 * action.amount),

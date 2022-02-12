@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import play from "assets/ui/player/play.png";
-import pause from "assets/ui/player/pause.png";
-import skip_forward from "assets/ui/player/skip-forward.png";
-import music_note from "assets/ui/player/music-note.png";
-import chevron_right from "assets/ui/player/chevron-right.png";
+import play from "assets/ui/music_player/play.png";
+import pause from "assets/ui/music_player/pause.png";
+import skip_forward from "assets/ui/music_player/skip-forward.png";
+import music_note from "assets/ui/music_player/music-note.png";
+import chevron_right from "assets/ui/music_player/chevron-right.png";
+import volume_down from "assets/ui/music_player/volume-down.png";
+import volume_up from "assets/ui/music_player/volume-up.png";
 import { Button } from "components/ui/Button";
-import icon from "assets/brand/icon.png";
 import { getSong, getSongCount } from "assets/songs/playlist";
 import { Panel } from "components/ui/Panel";
 
@@ -25,9 +26,17 @@ export const AudioPlayer: React.FC = () => {
     setPlaying(!isPlaying);
   };
 
-  const handleVolume = (value: number) => {
-    setVolume(value / 100);
-    musicPlayer.current.volume = value / 100;
+  const decreaseVolume = () => {
+    if (volume > 0) {
+      setVolume(volume - 0.1);
+      musicPlayer.current.volume = volume - 0.1;
+    }
+  };
+  const increaseVolume = () => {
+    if (volume < 1) {
+      setVolume(volume + 0.1);
+      musicPlayer.current.volume = volume + 0.1;
+    }
   };
 
   const handleNextSong = () => {
@@ -50,12 +59,14 @@ export const AudioPlayer: React.FC = () => {
 
   return (
     <div
-      className="position-fixed right-2 bottom-20 z-50 w-48 h-fit -translate-x-50 transition-all duration-500 ease-in-out"
+      className={`position-fixed ${
+        visible ? "-right-6 sm:right-10" : "right-2"
+      } sm:right-2 bottom-20 z-50 w-48 h-fit  sm:-translate-x-50 transition-all duration-500 ease-in-out`}
       style={{
         transform: `translateX(${visible ? 0 : "calc(100% + 8px)"})`,
       }}
     >
-      <Panel>
+      <Panel className="pointer-events-auto w-40 sm:w-56">
         <audio
           ref={musicPlayer}
           onEnded={handleNextSong}
@@ -66,8 +77,8 @@ export const AudioPlayer: React.FC = () => {
           autoPlay
           controls
         />
-        <div className="p-1">
-          <div className="mb-1.5 overflow-hidden bg-brown-200">
+        <div className="p-1 sm:mr-2 relative">
+          <div className="mb-1.5 overflow-hidden bg-brown-200 ">
             <p
               className="whitespace-no-wrap w-fit text-white font-italic text-sm"
               style={{
@@ -80,39 +91,32 @@ export const AudioPlayer: React.FC = () => {
             </p>
           </div>
           {/* Controls */}
-          <div className="flex space-x-1 justify-content-between">
-            <Button onClick={handlePlayState} className="w-8 h-8 sm:w-9 sm:h-8">
+          <div className="flex space-x-2 justify-content-between ">
+            <Button onClick={handlePlayState} className="w-10 h-8">
               <img src={isPlaying ? pause : play} alt="play / pause button " />
             </Button>
-            <Button onClick={handleNextSong} className="w-8 h-8 sm:w-9 sm:h-8">
+            <Button onClick={handleNextSong} className="w-10 h-8">
               <img src={skip_forward} alt="next song button" />
             </Button>
             {/*Custom volume range */}
-            <div className="position-relative w-20">
-              <div className="h-full w-full position-absolute left-0 pointer-events-none">
-                {/*Thumb*/}
-                <img
-                  src={icon}
-                  className="w-5 position-absolute top-50 z-50 pointer-events-none"
-                  style={{
-                    transform: `translate(${volume * 300}%,-50%)`,
-                  }}
-                />
-                {/*Track*/}
-                <div className="w-full h-1.5 bg-brown-600 position-absolute top-50 -translate-y-1/2 rounded-md" />
-                {/*Track progress*/}
-                <div
-                  className="h-1.5 bg-white position-absolute top-50 -translate-y-1/2 rounded-md pointer-events-none"
-                  style={{
-                    width: `${volume * 100}%`,
-                  }}
-                />
-              </div>
-              <input
-                type="range"
-                value={volume * 100}
-                onChange={(e) => handleVolume(parseFloat(e.target.value))}
-                className="w-full position-absolute top-50 -translate-y-1/2 opacity-0 hover:cursor-pointer"
+            <Button
+              onClick={() => decreaseVolume()}
+              className="w-10 h-8 hidden sm:flex"
+            >
+              <img src={volume_down} alt="next song button" />
+            </Button>
+            <Button
+              onClick={() => increaseVolume()}
+              className="w-10 h-8 hidden sm:flex"
+            >
+              <img src={volume_up} alt="next song button" />
+            </Button>
+            <div className="absolute -right-2 bottom-0 bg-brown-400 h-full w-1.5 rotate-180 rounded-sm hidden sm:block">
+              <div
+                className="bg-white h-1.5 transition-all duration-200 rounded-sm"
+                style={{
+                  height: `${volume * 100}%`,
+                }}
               />
             </div>
           </div>

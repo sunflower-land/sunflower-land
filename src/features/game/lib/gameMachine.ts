@@ -11,6 +11,10 @@ import { GameState, InventoryItemName } from "../types/game";
 import { loadSession } from "../actions/loadSession";
 import { INITIAL_FARM } from "./constants";
 import { autosave } from "../actions/autosave";
+import { mint } from "../actions/mint";
+import { LimitedItem } from "../types/craftables";
+import { sync } from "../actions/sync";
+import { withdraw } from "../actions/withdraw";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -21,11 +25,28 @@ export interface Context {
   actions: PastAction[];
 }
 
+type MintEvent = {
+  type: "MINT";
+  item: LimitedItem;
+};
+
+type WithdrawEvent = {
+  type: "WITHDRAW";
+  sfl: number;
+  ids: number[];
+  amounts: string[];
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
     }
-  | GameEvent;
+  | {
+      type: "SYNC";
+    }
+  | WithdrawEvent
+  | GameEvent
+  | MintEvent;
 
 // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
@@ -33,7 +54,6 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
     (events, eventName) => ({
       ...events,
       [eventName]: {
-        target: "playing",
         actions: assign((context: Context, event: GameEvent) => ({
           state: processEvent(context.state as GameState, event) as GameState,
           actions: [
@@ -50,7 +70,16 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   );
 
 export type BlockchainState = {
-  value: "loading" | "playing" | "readonly" | "autosaving" | "error";
+  value:
+    | "loading"
+    | "playing"
+    | "readonly"
+    | "autosaving"
+    | "minting"
+    | "success"
+    | "syncing"
+    | "withdrawing"
+    | "error";
   context: Context;
 };
 
@@ -75,21 +104,12 @@ export function startGame(authContext: AuthContext) {
           src: async () => {
             // Load the farm session
             if (authContext.sessionId) {
-              console.log({ authContext });
               const game = await loadSession({
                 farmId: Number(authContext.farmId),
                 sessionId: authContext.sessionId as string,
                 signature: authContext.signature as string,
                 sender: metamask.myAccount as string,
-                /**
-                 * TODO - use Web3 to see if they have V1 tokens
-                 * This saves the backend from checking the DB for the user
-                 */
-                hasV1Farm: true,
-                hasV1Tokens: true,
               });
-
-              console.log({ game });
 
               if (!game) {
                 throw new Error("NO_FARM");
@@ -123,6 +143,15 @@ export function startGame(authContext: AuthContext) {
           SAVE: {
             target: "autosaving",
           },
+          MINT: {
+            target: "minting",
+          },
+          SYNC: {
+            target: "syncing",
+          },
+          WITHDRAW: {
+            target: "withdrawing",
+          },
         },
       },
       autosaving: {
@@ -142,6 +171,9 @@ export function startGame(authContext: AuthContext) {
                 signature: authContext.signature as string,
               });
             }
+            // This gives the UI time to indicate that a save is taking place both when clicking save
+            // and when autosaving
+            await new Promise((res) => setTimeout(res, 1000));
 
             return {
               saveAt,
@@ -162,8 +194,88 @@ export function startGame(authContext: AuthContext) {
           },
         },
       },
+      minting: {
+        invoke: {
+          src: async (context, event) => {
+            // Autosave just in case
+            if (context.actions.length > 0) {
+              await autosave({
+                farmId: Number(authContext.farmId),
+                sessionId: authContext.sessionId as string,
+                sender: metamask.myAccount as string,
+                actions: context.actions,
+                signature: authContext.signature as string,
+              });
+            }
+
+            await mint({
+              farmId: Number(authContext.farmId),
+              sessionId: authContext.sessionId as string,
+              sender: metamask.myAccount as string,
+              signature: authContext.signature as string,
+              item: (event as MintEvent).item,
+            });
+          },
+          onDone: {
+            target: "success",
+          },
+          onError: {
+            target: "error",
+          },
+        },
+      },
+      syncing: {
+        invoke: {
+          src: async (context) => {
+            // Autosave just in case
+            if (context.actions.length > 0) {
+              await autosave({
+                farmId: Number(authContext.farmId),
+                sessionId: authContext.sessionId as string,
+                sender: metamask.myAccount as string,
+                actions: context.actions,
+                signature: authContext.signature as string,
+              });
+            }
+
+            await sync({
+              farmId: Number(authContext.farmId),
+              sessionId: authContext.sessionId as string,
+              signature: authContext.signature as string,
+            });
+          },
+          onDone: {
+            target: "success",
+          },
+          onError: {
+            target: "error",
+          },
+        },
+      },
+      withdrawing: {
+        invoke: {
+          src: async (_, event) => {
+            const { amounts, ids, sfl } = event as WithdrawEvent;
+            await withdraw({
+              farmId: Number(authContext.farmId),
+              sessionId: authContext.sessionId as string,
+              signature: authContext.signature as string,
+              amounts,
+              ids,
+              sfl,
+            });
+          },
+          onDone: {
+            target: "success",
+          },
+          onError: {
+            target: "error",
+          },
+        },
+      },
       readonly: {},
       error: {},
+      success: {},
     },
   });
 }

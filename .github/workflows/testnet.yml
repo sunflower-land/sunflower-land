@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    environment: develop
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,7 +20,15 @@ jobs:
         run: yarn build
         env:
           CI: false
-          VITE_API_URL: https://p7gvmsggkd.execute-api.us-east-1.amazonaws.com
+          VITE_API_URL: ${{ secrets.API_URL }}
+          VITE_NETWORK: testnet
+          VITE_BETA_CONTRACT: "0x38D138b1eaA6c4769401c5A79D86fF484b23DD2d"
+          VITE_SESSION_CONTRACT: "0x6586276eFB22d4aeF38Aa75A1130d5acF52DbbF5"
+          VITE_FARM_CONTRACT: "0x7f6279D037587d647b529F1C6ACA43E4E314d392"
+          VITE_INVENTORY_CONTRACT: "0xca870f18ECCF75157a0622eB6BBebbbCD784D1Fe"
+          VITE_WISHING_WELL_CONTRACT: "0xd0C5c7469c2DD3e67cF34aA73F6e0B6d50f5C891"
+          VITE_PAIR_CONTRACT: "0xaE42EA9864C36820627068a11959915f817ce809"
+          VITE_TOKEN_CONTRACT: "0x2A46262e9340132F7958812c76D23E0b370824b1"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
@@ -31,8 +40,5 @@ jobs:
       - name: Deploy static site to S3 bucket
         run: aws s3 sync ./dist/ s3://sunflower-land.com/testnet --delete
 
-      - name: Invalidate Cloudfront Distribution
-        uses: chetan/invalidate-cloudfront-action@master
-        env:
-          PATHS: "/*"
-          DISTRIBUTION: E22HJM3WADWA8K
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./dist/ s3://www.sunflower-land.com/testnet --delete
