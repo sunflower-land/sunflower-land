@@ -31,7 +31,7 @@ export type GameState = {
 
   // Session values
   id: number;
-  address?: string;
+  farmAddress?: string;
 };
 
 export interface Context {
