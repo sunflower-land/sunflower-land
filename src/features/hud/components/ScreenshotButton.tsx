@@ -26,7 +26,6 @@ export const ScreenshotButton: React.FC = () => {
     type: string = "jpeg"
   ) => {
     let link: HTMLAnchorElement = document.createElement("a");
-    // link.style = "position: fixed; left -10000px;";
     link.href = `data:application/octet-stream;base64,${encodeURIComponent(
       content
     )}`;
@@ -53,23 +52,11 @@ export const ScreenshotButton: React.FC = () => {
       });
   }
 
-  /*function zoomInOut(): void {
-    if (!isZoomed) document.body.classList.toggle("zoomed");
-    setIsZoomed(true);
-  }*/
-
   return (
-    <div className="position-fixed flex bottom-44 p-1 right-2 w-fit z-50 cursor-pointer">
-      <Button
-        onClick={() => {
-          getScreenshot();
-        }}
-      >
-        <img
-          src={screenshotIcon}
-          className="w-8 mb-1 sm:w-6 sm:h-5"
-          alt="screenshot"
-        />
+    <div className="position-fixed flex bottom-44 p-1 right-2 w-10 z-50 cursor-pointer sm:w-12 md:w-18 lg:w-fit">
+      <Button onClick={() => getScreenshot()} className="p-0">
+        <img src={screenshotIcon} className="w-fit" alt="screenshot" />
+        {/* img: w-8 mb-1 sm:w-6 sm:h-5 */}
       </Button>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel>
