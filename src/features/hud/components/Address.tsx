@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useActor } from "@xstate/react";
 import { metamask } from "lib/blockchain/metamask";
 
@@ -10,6 +10,7 @@ import { Panel } from "components/ui/Panel";
 import player from "assets/icons/player.png";
 import arrowLeft from "assets/icons/arrow_left.png";
 import arrowRight from "assets/icons/arrow_right.png";
+import context from "react-bootstrap/esm/AccordionContext";
 
 interface Props {}
 
@@ -25,15 +26,15 @@ export const Address: React.FC<Props> = () => {
     },
   ] = useActor(gameService);
 
-  const [tooltipMessage, setTooltipMessage] = useState("Click to copy");
+  const [tooltipMessage, setTooltipMessage] = useState("Click to copy farm address");
   const [showAddress, setShowAddress] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
 
   const copyToClipboard = (): void => {
-    navigator.clipboard.writeText(state.address as string);
+    navigator.clipboard.writeText(state.farmAddress as string);
     setTooltipMessage("Copied!");
     setTimeout(() => {
-      setTooltipMessage("Click to copy");
+      setTooltipMessage("Click to copy farm address");
     }, 2000);
   };
 
@@ -66,7 +67,7 @@ export const Address: React.FC<Props> = () => {
                 : "scale-x-0 opacity-0 max-w-[0px] -mr-1"
             }`}
           >
-            {shortAddress(metamask.myAccount! || "XXXX")}
+            {shortAddress(state.farmAddress! || "XXXX")}
           </span>
 
           <img

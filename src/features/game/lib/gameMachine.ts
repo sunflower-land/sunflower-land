@@ -115,6 +115,9 @@ export function startGame(authContext: AuthContext) {
                 throw new Error("NO_FARM");
               }
 
+              // add farm address
+              game.farmAddress = authContext.address;
+
               return {
                 state: game,
               };
