@@ -47,9 +47,6 @@ export type BlockchainEvent =
       type: "ACCOUNT_CHANGED";
     }
   | {
-      type: "REJECTED_TRANSACTION";
-    }
-  | {
       type: "REFRESH";
     };
 
@@ -182,6 +179,9 @@ export const authMachine = createMachine<
         target: "connecting",
       },
       NETWORK_CHANGED: {
+        target: "connecting",
+      },
+      REFRESH: {
         target: "connecting",
       },
     },

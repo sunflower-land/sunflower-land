@@ -10,7 +10,8 @@ import questionMark from "assets/icons/expression_confused.png";
 import { Web3Missing } from "./components/Web3Missing";
 import { WrongChain } from "./components/WrongChain";
 import { Beta } from "./components/Beta";
-import { GameError } from "features/game/components/GameError";
+import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
+import { ConnectingError } from "./components/Connecting";
 
 interface Props {}
 
@@ -26,9 +27,13 @@ export const Unauthorised: React.FC<Props> = () => {
     return <WrongChain />;
   }
 
+  if (authState.context.errorCode === "REJECTED_TRANSACTION") {
+    return <RejectedSignTransaction onTryAgain={() => send("REFRESH")} />;
+  }
+
   if (authState.context.errorCode === "NO_FARM") {
     return <Beta />;
   }
 
-  return <GameError />;
+  return <ConnectingError />;
 };
