@@ -5,15 +5,18 @@ import alert from "assets/icons/expression_alerted.png";
 
 export const Web3Missing: React.FC = () => {
   const goToMetamaskSetupDocs = () => {
-    window.open("https://docs.sunflower-farmers.com/untitled", "_blank");
+    window.open(
+      "https://docs.sunflower-farmers.com/untitled#metamask-setup",
+      "_blank"
+    );
   };
 
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
       <div className="flex mb-3 items-center">
         <img src={alert} alt="Warning" className="w-3 mr-3" />
-        <span>Web3 Not Found</span>
       </div>
+      <p className="text-center mb-3">Web3 Not Found</p>
 
       <p className="text-center mb-4 text-xs">
         Check out this guide to help you get started.
