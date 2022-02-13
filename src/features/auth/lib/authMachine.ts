@@ -47,6 +47,9 @@ export type BlockchainEvent =
       type: "ACCOUNT_CHANGED";
     }
   | {
+      type: "REJECTED_TRANSACTION";
+    }
+  | {
       type: "REFRESH";
     };
 
@@ -92,7 +95,7 @@ export const authMachine = createMachine<
           onDone: "signing",
           onError: {
             target: "unauthorised",
-            actions: "assingErrorMessage",
+            actions: "assignErrorMessage",
           },
         },
       },
@@ -219,8 +222,7 @@ export const authMachine = createMachine<
           signature: context.signature as string,
         });
       },
-      sign: async (context: Context): Promise<{ signature: string }> => {
-        // Sign transaction -
+      sign: async (context: Context, sd): Promise<{ signature: string }> => {
         const { signature } = await metamask.signTransaction();
 
         return {
