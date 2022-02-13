@@ -6,7 +6,7 @@ import alert from "assets/icons/expression_alerted.png";
 export const WrongChain: React.FC = () => {
   const goToPolygonSetupDocs = () => {
     window.open(
-      "https://docs.sunflower-farmers.com/untitled#polygon-setup",
+      "https://docs.sunflower-land.com/guides/getting-setup#polygon-setup",
       "_blank"
     );
   };
