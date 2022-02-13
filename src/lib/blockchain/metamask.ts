@@ -69,7 +69,7 @@ export class Metamask {
         this.web3 = new Web3((window as any).ethereum);
       } catch (error) {
         // User denied account access...
-        console.error(error);
+        console.error("Error inside setupWeb3", error);
       }
     } else if ((window as any).web3) {
       this.web3 = new Web3((window as any).web3.currentProvider);
@@ -95,6 +95,7 @@ export class Metamask {
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();
+
       if (!(chainId === POLYGON_TESTNET_CHAIN_ID)) {
         throw new Error(ERRORS.WRONG_CHAIN);
       }
@@ -126,21 +127,32 @@ export class Metamask {
       address: this.account as string,
     });
 
-    const signature = await this.web3.eth.personal.sign(
-      message,
-      this.account as string,
-      // Empty password, handled by Metamask
-      ""
-    );
+    try {
+      const signature = await this.web3.eth.personal.sign(
+        message,
+        this.account as string,
+        // Empty password, handled by Metamask
+        ""
+      );
 
-    const recovered = await this.web3.eth.accounts.recover(message, signature);
+      const recovered = await this.web3.eth.accounts.recover(
+        message,
+        signature
+      );
 
-    // Example of verifying a transaction on the backend
-    //const signingAddress = this.web3.eth.accounts.recover(hash, signature);
+      // Example of verifying a transaction on the backend
+      //const signingAddress = this.web3.eth.accounts.recover(hash, signature);
 
-    return {
-      signature,
-    };
+      return {
+        signature,
+      };
+    } catch (error: any) {
+      if (error.code === 4001) {
+        throw new Error(ERRORS.REJECTED_TRANSACTION);
+      }
+
+      throw error;
+    }
   }
 
   private generateSignatureMessage({ address }: { address: string }) {
