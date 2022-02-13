@@ -7,6 +7,8 @@ import { Game } from "./Game";
 import { GameProvider } from "./GameProvider";
 import { ToastProvider } from "./toast/ToastQueueProvider";
 import mapMovement from "./lib/mapMovement";
+import { TourProvider } from '@reactour/tour'
+import {stepList} from './components/Tour'
 
 export const Session: React.FC = () => {
   // catching and passing scroll container to keyboard listeners
@@ -21,23 +23,22 @@ export const Session: React.FC = () => {
 
   // Load data
   return (
-    <GameProvider>
-      <ToastProvider>
-        <ScrollContainer
-          className="bg-green-background overflow-scroll relative w-full h-full"
-          innerRef={container}
-        >
-          <div
-            id="gameboard"
-            className="relative h-gameboard w-gameboard"
-            // TODO dynamic game board size based on tile dimensions
-          >
-            <img src={background} className="absolute inset-0 w-full h-full" />
-
-            <Game />
-          </div>
-        </ScrollContainer>
-      </ToastProvider>
-    </GameProvider>
+    <TourProvider steps={stepList} disableDotsNavigation={true} >
+      <GameProvider>
+        <ToastProvider>
+          <ScrollContainer className="bg-green-background overflow-scroll relative w-full h-full" innerRef={container}>
+            <div
+              id="gameboard"
+              className="relative h-gameboard w-gameboard"
+              // TODO dynamic game board size based on tile dimensions
+            >
+              <img src={background} className="absolute inset-0 w-full h-full" />
+              <Game />
+            </div>
+          </ScrollContainer>
+        </ToastProvider>
+      </GameProvider>
+    </TourProvider>
+    
   );
 };
