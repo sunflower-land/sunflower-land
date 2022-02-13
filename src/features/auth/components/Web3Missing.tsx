@@ -6,7 +6,7 @@ import alert from "assets/icons/expression_alerted.png";
 export const Web3Missing: React.FC = () => {
   const goToMetamaskSetupDocs = () => {
     window.open(
-      "https://docs.sunflower-farmers.com/untitled#metamask-setup",
+      "https://docs.sunflower-land.com/guides/getting-setup#metamask-setup",
       "_blank"
     );
   };
