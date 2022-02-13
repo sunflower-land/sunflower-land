@@ -23,7 +23,7 @@ export const Session: React.FC = () => {
 
   // Load data
   return (
-    <TourProvider steps={stepList} disableDotsNavigation={true} >
+    <TourProvider steps={stepList} showNavigation={false} showBadge={false} >
       <GameProvider>
         <ToastProvider>
           <ScrollContainer className="bg-green-background overflow-scroll relative w-full h-full" innerRef={container}>
