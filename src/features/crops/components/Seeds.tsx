@@ -16,6 +16,7 @@ import { Craftable } from "features/game/types/craftables";
 import { CropName, CROPS, SEEDS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
+import { Decimal } from "decimal.js-light";
 
 interface Props {
   onClose: () => void;
@@ -56,7 +57,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const cropName = selected.name.split(" ")[0] as CropName;
   const crop = CROPS()[cropName];
 
-  const stock = state.stock[selected.name];
+  const stock = state.stock[selected.name] || new Decimal(0);
 
   const Action = () => {
     const isLocked = selected.requires && !inventory[selected.requires];
