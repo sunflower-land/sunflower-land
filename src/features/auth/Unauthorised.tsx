@@ -3,15 +3,11 @@ import { useActor } from "@xstate/react";
 
 import * as Auth from "features/auth/lib/Provider";
 
-import { Button } from "components/ui/Button";
-
-import questionMark from "assets/icons/expression_confused.png";
-
 import { Web3Missing } from "./components/Web3Missing";
 import { WrongChain } from "./components/WrongChain";
 import { Beta } from "./components/Beta";
 import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
-import { ConnectingError } from "./components/Connecting";
+import { ConnectingError } from "./components/ConnectingError";
 
 interface Props {}
 
