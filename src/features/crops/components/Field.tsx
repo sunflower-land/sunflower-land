@@ -18,6 +18,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { getShortcuts } from "../../hud/lib/shortcuts";
 import { Soil } from "./Soil";
 import Decimal from "decimal.js-light";
+import { useTour } from "@reactour/tour";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -25,13 +26,16 @@ interface Props {
   selectedItem?: InventoryItemName;
   fieldIndex: number;
   className?: string;
+  onboarding?: boolean;
 }
 
 export const Field: React.FC<Props> = ({
   selectedItem,
   className,
   fieldIndex,
+  onboarding
 }) => {
+  const { isOpen: tourIsOpen, setCurrentStep: setCurrentTourStep, currentStep: currentTourStep } = useTour()
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
   const { gameService, shortcutItem } = useContext(Context);
@@ -54,6 +58,10 @@ export const Field: React.FC<Props> = ({
     const now = Date.now();
     if (now - clickedAt.current < 100) {
       return;
+    }
+
+    if (onboarding && tourIsOpen && currentTourStep === 0) {
+        setCurrentTourStep(1)
     }
 
     clickedAt.current = now;
