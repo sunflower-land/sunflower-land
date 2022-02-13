@@ -30,7 +30,7 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
           onClick={onClose}
         />
       </div>
-      <div className="flex">
+      <div className="flex" id="inventory">
         <div className="w-3/5 flex flex-wrap  h-fit">
           {validItems.length === 0 && (
             <span className="text-white text-shadow">

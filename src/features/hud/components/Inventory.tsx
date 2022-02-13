@@ -13,8 +13,10 @@ import { Context } from "features/game/GameProvider";
 
 import { getShortcuts } from "../lib/shortcuts";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useTour } from "@reactour/tour";
 
 export const Inventory: React.FC = () => {
+  const { setCurrentStep: setCurrentTourStep, isOpen: tourIsOpen, currentStep } = useTour()
   const [isOpen, setIsOpen] = useState(false);
   const { shortcutItem, gameService } = useContext(Context);
   const [game] = useActor(gameService);
@@ -22,11 +24,20 @@ export const Inventory: React.FC = () => {
 
   const shortcuts = getShortcuts();
 
+  const handleInventoryClick = () => {
+    setIsOpen(true) 
+    if (tourIsOpen && currentStep === 1) {
+      setCurrentTourStep(2)
+    }
+  }
+
+
   return (
     <div className="flex flex-col items-end mr-2 sm:block fixed top-16 right-0 z-50">
       <div
         className="w-16 h-16 sm:mx-8 mt-2 relative flex justify-center items-center shadow rounded-full cursor-pointer"
-        onClick={() => setIsOpen(true)}
+        onClick={() => handleInventoryClick()}
+        id="open-inventory"
       >
         <img
           src={button}
