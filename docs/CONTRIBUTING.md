@@ -50,6 +50,19 @@ You can search by labels as well to see which items are more urgent than others.
 
 Commit the changes once you are happy with them. We prefer atomic commits that are easily revertable.
 
+> **TIP:** If your changes include **only** documentation updates/additions/deletions,
+> make sure that you add below line to your commit message while commiting:
+> 
+> **`[skip ci]`**
+>
+> This **_won't_** trigger the GitHub Actions CI Workflow in turn, it **_won't_** waste the resources. 🤗 🌏
+> > E.g.
+> > ```
+> > [CHORE] Update README.md
+> > [skip ci]
+> > ```
+
+
 ### Preparing to submit
 
 Before you submit, ensure you have done the following:
