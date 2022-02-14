@@ -23,6 +23,7 @@ import { Minting } from "./components/Minting";
 import { Success } from "./components/Success";
 import { Syncing } from "./components/Syncing";
 import { Withdrawing } from "./components/Withdrawing";
+import { Quarry } from "features/quarry/Quarry";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 
@@ -97,6 +98,7 @@ export const Game: React.FC = () => {
       <Water />
       <Animals />
       <Decorations />
+      <Quarry />
     </>
   );
 };
