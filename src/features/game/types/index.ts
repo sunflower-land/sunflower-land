@@ -4,7 +4,8 @@ export type CATEGORY_ID = 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface CATEGORY {
   id: CATEGORY_ID;
-  name: string
+  name: string;
+  img: string
 }
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {

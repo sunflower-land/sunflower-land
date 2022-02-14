@@ -9,7 +9,14 @@ import React, { useContext, useState, useRef } from "react";
 import { Tab } from "components/ui/Tab";
 
 import close from "assets/icons/close.png";
-
+import arrowLeft from "assets/icons/arrow_left.png";
+import arrowRight from "assets/icons/arrow_right.png";
+import seed from "assets/crops/beetroot/seed.png";
+import crop from "assets/crops/sunflower/crop.png";
+import tool from "assets/tools/hammer.png";
+import nft from "assets/nfts/gnome.png";
+import food from "assets/crops/wheat/flour.png";
+import resource from "assets/resources/wood.png";
 interface Props {
   onClose: () => void;
 }
@@ -17,27 +24,33 @@ interface Props {
 export const categories: CATEGORY[] = [
   {
     id: 1,
-    name: "Seeds"
+    name: "Seeds",
+    img: seed
   },
   {
     id: 2,
-    name: "Crops"
+    name: "Crops",
+    img: crop
   },
   {
     id: 3,
-    name: "Tools"
+    name: "Tools",
+    img: tool
   },
   {
     id: 4,
-    name: "NFTs"
+    name: "NFTs",
+    img: nft
   },
   {
     id: 5,
-    name: "Foods"
+    name: "Foods",
+    img: food
   },
   {
     id: 6,
-    name: "Resources"
+    name: "Resources",
+    img: resource
   },
 ];
 
@@ -45,7 +58,7 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const scrollDiv = useRef<any>(null);
 
-  const [tab, setTab] = useState<CATEGORY_ID>(1);
+  const [tab, setTab] = useState<CATEGORY_ID | number>(1);
   // states for drag to scroll
   const [isMouseDown, setIsMouseDown] = useState<Boolean>(false);
   const [startx, setStartx] = useState<number>(0);
@@ -79,6 +92,24 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
 
   return (
     <Panel className="pt-5 relative">
+      <img
+        className="d-block d-lg-none absolute end-0 hover:opacity-80 cursor-pointer h-6"
+        style={{top: "-12%"}}
+        src={tab === categories.at(-1)?.id ? "" : arrowRight} // check if on last tab
+        onClick={() => setTab(tab + 1)}
+      />
+      <img
+        className="d-block d-lg-none absolute hover:opacity-80 cursor-pointer h-6"
+        style={{right: "10%", top: "-12%"}}
+        src={tab === 1 ? "" : arrowLeft} // check if on 1st tab
+        onClick={() => setTab(tab - 1)}
+      />
+      <img
+        src={close}
+        className="absolute h-6 cursor-pointer"
+        style={{top: "2%", right: "1%", zIndex: "1"}}
+        onClick={onClose}
+      />
       <div 
         ref={scrollDiv}
         // horizontal drag to scroll
@@ -93,15 +124,13 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
         <div className="flex">
           {categories.map((category) => (
             <Tab isActive={tab === category.id} onClick={() => setTab(category.id)}>
-              <span className="text-sm text-shadow">{category.name}</span>
+              <div>
+                <img src={category.img} className="h-5 mr-5" />
+              </div>
+              <span className="text-sm text-shadow ml-2">{category.name}</span>
             </Tab>
           ))}
         </div>
-        <img
-          src={close}
-          className="h-6 cursor-pointer mr-2 mb-1"
-          onClick={onClose}
-        />
       </div>
 
       <div className="flex">
@@ -111,20 +140,16 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
               You have no items in your inventory.
             </span>
           )}
-          {validItems.map((itemName) => {
-            if (Number(String(KNOWN_IDS[itemName]).charAt(0)) === tab) {
-              return (
-                <Box
-                  count={inventory[itemName]}
-                  isSelected={selectedItem === itemName}
-                  key={itemName}
-                  onClick={() => shortcutItem(itemName)}
-                  image={ITEM_DETAILS[itemName].image}
-                />
-              )
-            } 
-            return null;
-          })}
+          {validItems.map((itemName) => (
+            Number(String(KNOWN_IDS[itemName]).charAt(0)) === tab &&
+              <Box
+                count={inventory[itemName]}
+                isSelected={selectedItem === itemName}
+                key={itemName}
+                onClick={() => shortcutItem(itemName)}
+                image={ITEM_DETAILS[itemName].image}
+              />
+          ))}
         </div>
 
         <OuterPanel className="flex-1">
