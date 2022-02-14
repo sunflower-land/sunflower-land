@@ -1,5 +1,5 @@
+import { canCreateFarm } from "features/game/lib/whitelist";
 import { ERRORS } from "lib/errors";
-import context from "react-bootstrap/esm/AccordionContext";
 import { createMachine, Interpreter, assign, DoneInvokeEvent } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
@@ -190,6 +190,11 @@ export const authMachine = createMachine<
     services: {
       initMetamask: async (): Promise<void> => {
         await metamask.initialise();
+
+        const isWhitelisted = canCreateFarm(metamask.myAccount as string);
+        if (!isWhitelisted) {
+          throw new Error(ERRORS.BLOCKED);
+        }
       },
       loadFarm: async (): Promise<Farm | undefined> => {
         const farmAccounts = await metamask.getFarm()?.getFarms();
@@ -215,7 +220,7 @@ export const authMachine = createMachine<
         const charityAddress = (event as CreateFarmEvent)
           .charityAddress as CharityAddress;
         const donation = (event as CreateFarmEvent).donation as number;
-        console.log({ donation });
+
         await createFarmAction({
           charity: charityAddress,
           donation,

@@ -8,6 +8,7 @@ import { WrongChain } from "./components/WrongChain";
 import { Beta } from "./components/Beta";
 import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
 import { ConnectingError } from "./components/ConnectingError";
+import { Blocked } from "./components/Blocked";
 
 interface Props {}
 
@@ -29,6 +30,10 @@ export const Unauthorised: React.FC<Props> = () => {
 
   if (authState.context.errorCode === "NO_FARM") {
     return <Beta />;
+  }
+
+  if (authState.context.errorCode === "BLOCKED") {
+    return <Blocked />;
   }
 
   return <ConnectingError />;
