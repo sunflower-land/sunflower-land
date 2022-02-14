@@ -71,8 +71,6 @@ export const INITIAL_FARM: GameState = {
   id: 1,
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
-  inventory: {
-    "Sunflower Seed": new Decimal(3),
-  },
+  inventory: {},
   stock: INITIAL_STOCK,
 };

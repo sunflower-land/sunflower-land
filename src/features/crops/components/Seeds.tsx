@@ -117,9 +117,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
+          {/* <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
             {`${stock} in stock`}
-          </span>
+          </span> */}
           <span className="text-base text-shadow text-center">
             {selected.name}
           </span>
