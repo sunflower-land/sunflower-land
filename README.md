@@ -1,7 +1,7 @@
 <h1 align="center">Sunflower Land</h1>
 <p align="center">
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/ci.yml/"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/ci.yml/badge.svg" alt="CI Build Status" /></a>
-<a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/deploy.yml/"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/deploy.yml/badge.svg" alt="Deploy Status" /></a>
+<a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/testnet.yml"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/testnet.yml/badge.svg" alt="Testnet deploy" /></a>
 <a href="https://twitter.com/0xSunflowerLand"><img src="https://img.shields.io/twitter/follow/0xSunflowerLand?style=social" height="100%" alt="Twitter Follow: 0xSunflowerLand" /></a>
 <a href="https://www.youtube.com/channel/UCA08g3x6EGPPZE_4093q3PQ?sub_confirmation=1"><img src="https://img.shields.io/youtube/channel/subscribers/UCA08g3x6EGPPZE_4093q3PQ?style=social&label=Sunflower%20Land" alt="Youtube Subscribe: Sunflower Land" /></a>
 <a href="https://discord.gg/sunflowerland"><img src="https://img.shields.io/discord/880987707214544966?label=Sunflower%20Land&logo=Discord&style=social" alt="Discord: Sunflower Land" /></a>
