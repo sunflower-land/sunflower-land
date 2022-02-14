@@ -56,7 +56,7 @@ export const FOODS: Record<Food, Craftable> = {
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
     description: "A creamy soup that goblins love",
-    price: new Decimal(5),
+    price: new Decimal(0),
     ingredients: [
       {
         item: "Pumpkin",
@@ -65,6 +65,28 @@ export const FOODS: Record<Food, Craftable> = {
     ],
     limit: 1,
   },
+  Sauerkraut: {
+    name: "Sauerkraut",
+    description: "Fermented cabbage",
+    price: new Decimal(0),
+    ingredients: [
+      {
+        item: "Cabbage",
+        amount: new Decimal(20),
+      },
+    ],
+  },
+  "Roasted Cauliflower": {
+    name: "Roasted Cauliflower",
+    description: "A Goblin's favourite",
+    price: new Decimal(0),
+    ingredients: [
+      {
+        item: "Cauliflower",
+        amount: new Decimal(100),
+      },
+    ],
+  },
   Flour: {
     name: "Flour",
     description: "Ground Wheat",
@@ -72,28 +94,6 @@ export const FOODS: Record<Food, Craftable> = {
     ingredients: [
       {
         item: "Wheat",
-        amount: new Decimal(3),
-      },
-    ],
-  },
-  "Roasted Cauliflower": {
-    name: "Roasted Cauliflower",
-    description: "A Goblin's favourite",
-    price: new Decimal(0.1),
-    ingredients: [
-      {
-        item: "Cauliflower",
-        amount: new Decimal(3),
-      },
-    ],
-  },
-  Sauerkraut: {
-    name: "Sauerkraut",
-    description: "Fermented cabbage",
-    price: new Decimal(0.1),
-    ingredients: [
-      {
-        item: "Cabbage",
         amount: new Decimal(3),
       },
     ],
