@@ -43,12 +43,20 @@ export async function createFarm({
   charity,
   signature,
 }: CreateFarmOptions) {
+  const address = metamask.myAccount as string;
   const transaction = await signTransaction({
     donation,
     charity,
-    address: metamask.myAccount as string,
+    address,
     signature,
   });
 
+  const tokenIdListener = metamask.getFarm().onCreated(address);
+
   await metamask.getBeta().createFarm(transaction);
+
+  const tokenId = await tokenIdListener;
+  console.log({ tokenId });
+
+  return tokenId;
 }

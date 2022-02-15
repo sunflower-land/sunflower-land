@@ -39,7 +39,38 @@ export class Farm {
 
   public async getFarm(tokenId: number): Promise<FarmAccount> {
     const account = await this.farm.methods.getFarm(tokenId).call();
-    
+
     return account;
+  }
+
+  public async onCreated(owner: string): Promise<number> {
+    const latest = await this.web3.eth.getBlockNumber();
+    console.log({ latest });
+    const options = {
+      filter: { to: [owner] },
+      fromBlock: latest,
+    };
+
+    // TODO if the user cancels the transaction we also need to clear the interval
+
+    // Every second poll for the new ID
+    return new Promise((res, rej) => {
+      const timer = setInterval(() => {
+        this.farm
+          .getPastEvents("Transfer", options)
+          .then((results: any) => {
+            console.log({ results });
+            if (results.length > 0) {
+              clearInterval(timer);
+              res(results[0].returnValues.tokenId);
+            }
+          })
+          .catch((err: any) => {
+            clearInterval(timer);
+            console.log({ err });
+            rej(err);
+          });
+      }, 1000);
+    });
   }
 }
