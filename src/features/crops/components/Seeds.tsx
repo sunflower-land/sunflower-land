@@ -16,13 +16,20 @@ import { Craftable } from "features/game/types/craftables";
 import { CropName, CROPS, SEEDS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
+<<<<<<< HEAD
 import { Decimal } from "decimal.js-light";
+=======
+import { useTour } from "@reactour/tour";
+>>>>>>> 294ff04 (add buy and sell handlers)
 
 interface Props {
   onClose: () => void;
 }
 
+
+
 export const Seeds: React.FC<Props> = ({ onClose }) => {
+  const { setCurrentStep: setCurrentTourStep, isOpen: tourIsOpen, currentStep: currentTourStep } = useTour()
   const [selected, setSelected] = useState<Craftable>(
     SEEDS()["Sunflower Seed"]
   );
@@ -45,6 +52,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     shortcutItem(selected.name);
   };
 
+  const handlBuyOne = () => {
+    buy()
+    if (tourIsOpen && currentTourStep === 6) {
+      setCurrentTourStep(7)
+      onClose()
+    }
+  }
+  
   const restock = () => {
     gameService.send("SYNC");
 
@@ -87,7 +102,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         <Button
           disabled={lessFunds() || stock?.lessThan(1)}
           className="text-xs mt-1"
-          onClick={() => buy()}
+          onClick={() => handlBuyOne()}
         >
           Buy 1
         </Button>
