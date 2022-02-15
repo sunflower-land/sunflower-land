@@ -62,6 +62,7 @@ export const WishingWellModal: React.FC<Props> = ({}) => {
             className="text-xxs underline cursor-pointer text-center mt-1"
             href="https://docs.sunflower-land.com/fundamentals/wishing-well-locked-liquidity"
             target="_blank"
+            rel="noreferrer"
           >
             Read more
           </a>
@@ -143,6 +144,7 @@ export const WishingWellModal: React.FC<Props> = ({}) => {
               className="text-xxs underline cursor-pointer"
               href="https://docs.sunflower-land.com/fundamentals/wishing-well-locked-liquidity"
               target="_blank"
+              rel="noreferrer"
             >
               How do I do get tokens?
             </a>
@@ -204,6 +206,7 @@ export const WishingWellModal: React.FC<Props> = ({}) => {
             className="text-xs underline cursor-pointer text-center mt-1"
             href="https://docs.sunflower-land.com/fundamentals/wishing-well-locked-liquidity"
             target="_blank"
+            rel="noreferrer"
           >
             Read more
           </a>

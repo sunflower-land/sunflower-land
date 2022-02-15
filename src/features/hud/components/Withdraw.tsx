@@ -223,6 +223,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
               className="text-xs underline"
               href="https://docs.sunflower-land.com/fundamentals/withdrawing"
               target="_blank"
+              rel="noreferrer"
             >
               {tax}% fee
             </a>
@@ -248,6 +249,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing"
               target="_blank"
+              rel="noreferrer"
             >
               Read more
             </a>
