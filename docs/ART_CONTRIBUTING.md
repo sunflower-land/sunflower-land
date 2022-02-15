@@ -73,6 +73,10 @@ You will need to include:
 - A screenshot of the asset in the game
 - Your Polygon address (often used for airdropping assets to the winning designer)
 
+A good example that includes the minified, enlarged and screenshot preview
+
+<img width="736" alt="Screen Shot 2022-02-09 at 4 27 24 pm" src="https://user-images.githubusercontent.com/11745561/153275622-34c67e56-8a57-4247-a203-09195995a7d5.png">
+
 ## How does the art get accepted?
 
 The team is exploring DAO mechanisms and voting rights for people with certain NFTs. Until we have this automated system, artwork is picked by community consensus in Discord and on the Github issue.

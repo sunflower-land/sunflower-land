@@ -1,5 +1,5 @@
+import { canCreateFarm } from "features/game/lib/whitelist";
 import { ERRORS } from "lib/errors";
-import context from "react-bootstrap/esm/AccordionContext";
 import { createMachine, Interpreter, assign, DoneInvokeEvent } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
@@ -92,7 +92,7 @@ export const authMachine = createMachine<
           onDone: "signing",
           onError: {
             target: "unauthorised",
-            actions: "assingErrorMessage",
+            actions: "assignErrorMessage",
           },
         },
       },
@@ -181,12 +181,20 @@ export const authMachine = createMachine<
       NETWORK_CHANGED: {
         target: "connecting",
       },
+      REFRESH: {
+        target: "connecting",
+      },
     },
   },
   {
     services: {
       initMetamask: async (): Promise<void> => {
         await metamask.initialise();
+
+        const isWhitelisted = canCreateFarm(metamask.myAccount as string);
+        if (!isWhitelisted) {
+          throw new Error(ERRORS.BLOCKED);
+        }
       },
       loadFarm: async (): Promise<Farm | undefined> => {
         const farmAccounts = await metamask.getFarm()?.getFarms();
@@ -208,15 +216,19 @@ export const authMachine = createMachine<
           sessionId,
         };
       },
-      createFarm: async (_context: Context, event: any): Promise<void> => {
+      createFarm: async (context: Context, event: any): Promise<void> => {
         const charityAddress = (event as CreateFarmEvent)
           .charityAddress as CharityAddress;
         const donation = (event as CreateFarmEvent).donation as number;
-        console.log({ donation });
-        await createFarmAction(charityAddress, donation);
+
+        await createFarmAction({
+          charity: charityAddress,
+          donation,
+          signature: context.signature as string,
+        });
       },
-      sign: async (context: Context): Promise<{ signature: string }> => {
-        // Sign transaction -
+      sign: async (context: Context, sd): Promise<{ signature: string }> => {
+        console.log("SIGN!");
         const { signature } = await metamask.signTransaction();
 
         return {

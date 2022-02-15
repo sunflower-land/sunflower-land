@@ -3,13 +3,12 @@ import { useActor } from "@xstate/react";
 
 import * as Auth from "features/auth/lib/Provider";
 
-import { Button } from "components/ui/Button";
-
-import questionMark from "assets/icons/expression_confused.png";
-
 import { Web3Missing } from "./components/Web3Missing";
 import { WrongChain } from "./components/WrongChain";
 import { Beta } from "./components/Beta";
+import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
+import { ConnectingError } from "./components/ConnectingError";
+import { Blocked } from "./components/Blocked";
 
 interface Props {}
 
@@ -25,25 +24,17 @@ export const Unauthorised: React.FC<Props> = () => {
     return <WrongChain />;
   }
 
+  if (authState.context.errorCode === "REJECTED_TRANSACTION") {
+    return <RejectedSignTransaction onTryAgain={() => send("REFRESH")} />;
+  }
+
   if (authState.context.errorCode === "NO_FARM") {
     return <Beta />;
   }
 
-  return (
-    <>
-      <span>Catch all other connecting errors :/</span>
-      {/* <div className="flex flex-col justify-center items-center">
-        <div className="w-56">
-          <Button onClick={onGetStarted}>Get Started</Button>
-          <Button
-            onClick={() => window.open("https://docs.sunflower-farmers.com/")}
-            className="mt-2"
-          >
-            About
-            <img className="h-4 ml-2" src={questionMark} />
-          </Button>
-        </div>
-      </div> */}
-    </>
-  );
+  if (authState.context.errorCode === "BLOCKED") {
+    return <Blocked />;
+  }
+
+  return <ConnectingError />;
 };

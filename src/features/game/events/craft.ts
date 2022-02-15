@@ -38,14 +38,17 @@ export function craft({ state, action, available }: Options) {
   }
 
   const item = CRAFTABLES()[action.item];
-
   if (item.disabled) {
     throw new Error("This item is disabled");
   }
 
-  if (action.amount !== 1 && action.amount !== 10) {
+  if (action.amount < 1) {
     throw new Error("Invalid amount");
   }
+
+  // if (state.stock[action.item]?.lt(action.amount)) {
+  //   throw new Error("Not enough stock");
+  // }
 
   const totalExpenses = item.price.mul(action.amount);
 
@@ -83,6 +86,10 @@ export function craft({ state, action, available }: Options) {
     inventory: {
       ...subtractedInventory,
       [action.item]: oldAmount.add(action.amount),
+    },
+    stock: {
+      ...state.stock,
+      [action.item]: state.stock[action.item]?.minus(action.amount),
     },
   };
 }

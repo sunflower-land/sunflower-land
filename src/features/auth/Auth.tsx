@@ -10,6 +10,7 @@ import { CreateFarm, CreatingFarm, Loading, StartFarm } from "./components";
 
 import jumpingGoblin from "assets/npcs/goblin_jump.gif";
 import curly from "assets/npcs/curly_hair.png";
+import { Signing } from "./components/Signing";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -32,9 +33,9 @@ export const Auth: React.FC = () => {
         />
         <img src={jumpingGoblin} className="absolute w-52 -top-[83px] -z-10" />
         <Panel>
-          {(authState.matches("connecting") ||
-            authState.matches("signing") ||
-            authState.matches({ connected: "loadingFarm" })) && <Loading />}
+          {authState.matches({ connected: "loadingFarm" }) && <Loading />}
+          {authState.matches("connecting") && <Loading text="Connecting" />}
+          {authState.matches("signing") && <Signing />}
           {authState.matches({ connected: "noFarmLoaded" }) && <CreateFarm />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches({ connected: "readyToStart" }) && <StartFarm />}

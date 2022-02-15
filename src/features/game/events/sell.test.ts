@@ -2,8 +2,10 @@ import Decimal from "decimal.js-light";
 import { GameState } from "../types/game";
 import { CROPS } from "../types/crops";
 import { sell } from "./sell";
+import { INITIAL_FARM } from "../lib/constants";
 
 let GAME_STATE: GameState = {
+  ...INITIAL_FARM,
   id: 1,
   fields: {},
   balance: new Decimal(0),
@@ -37,7 +39,7 @@ describe("sell", () => {
         action: {
           type: "item.sell",
           item: "Sunflower",
-          amount: 2,
+          amount: 0.2,
         },
       })
     ).toThrow("Invalid amount");

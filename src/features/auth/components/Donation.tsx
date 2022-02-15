@@ -13,7 +13,7 @@ import rightArrow from "assets/icons/arrow_right.png";
 
 const roundToOneDecimal = (number: number) => Math.round(number * 10) / 10;
 export enum CharityAddress {
-  TheWaterProject = "0x060697E9d4EEa886EbeCe57A974Facd53A40865B",
+  TheWaterProject = "0xBCf9bf2F0544252761BCA9c76Fe2aA18733C48db",
   Heifer = "0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1",
   CoolEarth = "0x3c8cB169281196737c493AfFA8F49a9d823bB9c5",
 }

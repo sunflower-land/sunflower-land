@@ -16,10 +16,13 @@ import { Craftable } from "features/game/types/craftables";
 import { CropName, CROPS, SEEDS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
+import { Decimal } from "decimal.js-light";
 
-interface Props {}
+interface Props {
+  onClose: () => void;
+}
 
-export const Seeds: React.FC<Props> = ({}) => {
+export const Seeds: React.FC<Props> = ({ onClose }) => {
   const [selected, setSelected] = useState<Craftable>(
     SEEDS()["Sunflower Seed"]
   );
@@ -42,29 +45,54 @@ export const Seeds: React.FC<Props> = ({}) => {
     shortcutItem(selected.name);
   };
 
+  const restock = () => {
+    gameService.send("SYNC");
+
+    onClose();
+  };
+
   const lessFunds = (amount = 1) =>
     state.balance.lessThan(selected.price.mul(amount).toString());
 
   const cropName = selected.name.split(" ")[0] as CropName;
   const crop = CROPS()[cropName];
 
+  const stock = state.stock[selected.name] || new Decimal(0);
+
   const Action = () => {
     const isLocked = selected.requires && !inventory[selected.requires];
-    if (isLocked) {
+    if (isLocked || selected.disabled) {
       return <span className="text-xs mt-1 text-shadow">Locked</span>;
+    }
+
+    console.log({ stock: stock?.toString() });
+    if (stock?.equals(0)) {
+      return (
+        <div>
+          <p className="text-xxs no-wrap text-center my-1 underline">
+            Sold out
+          </p>
+          <p className="text-xxs text-center">
+            Sync your farm to the Blockchain to restock
+          </p>
+          <Button className="text-xs mt-1" onClick={restock}>
+            Sync
+          </Button>
+        </div>
+      );
     }
 
     return (
       <>
         <Button
-          disabled={lessFunds()}
+          disabled={lessFunds() || stock?.lessThan(1)}
           className="text-xs mt-1"
           onClick={() => buy()}
         >
           Buy 1
         </Button>
         <Button
-          disabled={lessFunds(10)}
+          disabled={lessFunds(10) || stock?.lessThan(10)}
           className="text-xs mt-1"
           onClick={() => buy(10)}
         >
@@ -88,7 +116,10 @@ export const Seeds: React.FC<Props> = ({}) => {
         ))}
       </div>
       <OuterPanel className="flex-1 w-1/3">
-        <div className="flex flex-col justify-center items-center p-2 ">
+        <div className="flex flex-col justify-center items-center p-2 relative">
+          {/* <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
+            {`${stock} in stock`}
+          </span> */}
           <span className="text-base text-shadow text-center">
             {selected.name}
           </span>

@@ -21,7 +21,7 @@ export function sell({ state, action }: Options): GameState {
     throw new Error("Not for sale");
   }
 
-  if (action.amount !== 1 && action.amount !== 10) {
+  if (action.amount < 1) {
     throw new Error("Invalid amount");
   }
 

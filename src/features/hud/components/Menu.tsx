@@ -46,7 +46,7 @@ export const Menu = () => {
   };
 
   const handleAboutClick = () => {
-    window.open("https://docs.sunflower-farmers.com/");
+    window.open("https://docs.sunflower-land.com/", "_blank");
     setMenuOpen(false);
   };
 
@@ -94,7 +94,7 @@ export const Menu = () => {
   };
 
   return (
-    <div ref={ref} className="fixed top-2 left-2 z-50  shadow-lg">
+    <div ref={ref} className="fixed top-2 left-2 z-50 shadow-lg">
       <OuterPanel>
         <div className="flex justify-center p-1">
           <Button
@@ -155,8 +155,8 @@ export const Menu = () => {
               </Button>
             </li>
             <li className="p-1">
-              {/* <Button onClick={withdraw}> */}
-              <Button onClick={() => handleComingSoonModal()}>
+              <Button onClick={withdraw}>
+              
                 <span className="text-sm">Withdraw</span>
                 <img src={token} className="w-4 ml-2" alt="token" />
               </Button>

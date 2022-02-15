@@ -4,6 +4,9 @@ import { SessionManager } from "./Sessions";
 import { Farm } from "./Farm";
 import { Beta } from "./Beta";
 import { Inventory } from "./Inventory";
+import { Pair } from "./Pair";
+import { WishingWell } from "./WishingWell";
+import { Token } from "./Token";
 
 const NETWORK = import.meta.env.VITE_NETWORK;
 
@@ -19,6 +22,9 @@ export class Metamask {
   private session: SessionManager | null = null;
   private beta: Beta | null = null;
   private inventory: Inventory | null = null;
+  private pair: Pair | null = null;
+  private wishingWell: WishingWell | null = null;
+  private token: Token | null = null;
 
   private account: string | null = null;
 
@@ -36,6 +42,12 @@ export class Metamask {
       );
       this.beta = new Beta(this.web3 as Web3, this.account as string);
       this.inventory = new Inventory(this.web3 as Web3, this.account as string);
+      this.pair = new Pair(this.web3 as Web3, this.account as string);
+      this.token = new Token(this.web3 as Web3, this.account as string);
+      this.wishingWell = new WishingWell(
+        this.web3 as Web3,
+        this.account as string
+      );
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
@@ -57,7 +69,7 @@ export class Metamask {
         this.web3 = new Web3((window as any).ethereum);
       } catch (error) {
         // User denied account access...
-        console.error(error);
+        console.error("Error inside setupWeb3", error);
       }
     } else if ((window as any).web3) {
       this.web3 = new Web3((window as any).web3.currentProvider);
@@ -83,6 +95,7 @@ export class Metamask {
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();
+
       if (!(chainId === POLYGON_TESTNET_CHAIN_ID)) {
         throw new Error(ERRORS.WRONG_CHAIN);
       }
@@ -114,21 +127,32 @@ export class Metamask {
       address: this.account as string,
     });
 
-    const signature = await this.web3.eth.personal.sign(
-      message,
-      this.account as string,
-      // Empty password, handled by Metamask
-      ""
-    );
+    try {
+      const signature = await this.web3.eth.personal.sign(
+        message,
+        this.account as string,
+        // Empty password, handled by Metamask
+        ""
+      );
 
-    const recovered = await this.web3.eth.accounts.recover(message, signature);
+      const recovered = await this.web3.eth.accounts.recover(
+        message,
+        signature
+      );
 
-    // Example of verifying a transaction on the backend
-    //const signingAddress = this.web3.eth.accounts.recover(hash, signature);
+      // Example of verifying a transaction on the backend
+      //const signingAddress = this.web3.eth.accounts.recover(hash, signature);
 
-    return {
-      signature,
-    };
+      return {
+        signature,
+      };
+    } catch (error: any) {
+      if (error.code === 4001) {
+        throw new Error(ERRORS.REJECTED_TRANSACTION);
+      }
+
+      throw error;
+    }
   }
 
   private generateSignatureMessage({ address }: { address: string }) {
@@ -157,6 +181,18 @@ export class Metamask {
 
   public getSessionManager() {
     return this.session as SessionManager;
+  }
+
+  public getPair() {
+    return this.pair as Pair;
+  }
+
+  public getWishingWell() {
+    return this.wishingWell as WishingWell;
+  }
+
+  public getToken() {
+    return this.token as Token;
   }
 
   public get myAccount() {

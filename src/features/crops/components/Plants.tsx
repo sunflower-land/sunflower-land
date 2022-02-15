@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.png";
 
@@ -27,7 +28,7 @@ export const Plants: React.FC<Props> = ({}) => {
 
   const inventory = state.inventory;
 
-  const sell = (amount = 1) => {
+  const sell = (amount: number = 1) => {
     gameService.send("item.sell", {
       item: selected.name,
       amount,
@@ -35,7 +36,8 @@ export const Plants: React.FC<Props> = ({}) => {
     setToast({ content: "SFL +$" + selected.sellPrice.mul(amount).toString() });
   };
 
-  const lessPlants = (amount = 1) => (inventory[selected.name] || 0) < amount;
+  const cropAmount = new Decimal(inventory[selected.name] || 0);
+  const noCrop = cropAmount.equals(0);
 
   return (
     <div className="flex">
@@ -71,18 +73,18 @@ export const Plants: React.FC<Props> = ({}) => {
             </div>
           </div>
           <Button
-            disabled={lessPlants()}
+            disabled={noCrop}
             className="text-xs mt-1"
-            onClick={() => sell()}
+            onClick={() => sell(1)}
           >
             Sell 1
           </Button>
           <Button
-            disabled={lessPlants(10)}
+            disabled={noCrop}
             className="text-xs mt-1"
-            onClick={() => sell(10)}
+            onClick={() => sell(cropAmount.toNumber())}
           >
-            Sell 10
+            Sell All
           </Button>
         </div>
       </OuterPanel>

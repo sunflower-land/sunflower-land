@@ -23,7 +23,7 @@ export const Balance: React.FC = () => {
       >
         {isShown === false ? (
           game.context.state.balance
-            .toDecimalPlaces(2, Decimal.ROUND_DOWN)
+            .toDecimalPlaces(3, Decimal.ROUND_DOWN)
             .toString()
         ) : (
           <small>{game.context.state.balance.toString()}</small>

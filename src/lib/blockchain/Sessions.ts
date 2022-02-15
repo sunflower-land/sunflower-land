@@ -1,4 +1,3 @@
-import Decimal from "decimal.js-light";
 import Web3 from "web3";
 import { AbiItem, toWei } from "web3-utils";
 import SessionABI from "./abis/Session.json";
@@ -57,6 +56,9 @@ export class SessionManager {
     if (NETWORK === "mainnet") {
       throw new Error("NOT IMPLEMENTED");
     }
+
+    const fee = toWei("0.1");
+
     return new Promise(async (resolve, reject) => {
       this.contract.methods
         .sync(
@@ -70,35 +72,7 @@ export class SessionManager {
           burnAmounts,
           tokens
         )
-        .send({ from: this.account })
-        .on("error", function (error: any) {
-          console.log({ error });
-
-          reject(error);
-        })
-        .on("transactionHash", function (transactionHash: any) {
-          console.log({ transactionHash });
-        })
-        .on("receipt", function (receipt: any) {
-          console.log({ receipt });
-          resolve(receipt);
-        });
-    });
-  }
-
-  public async createFarm({
-    signature,
-    charity,
-    amount,
-  }: {
-    signature: string;
-    charity: string;
-    amount: number;
-  }): Promise<string> {
-    return new Promise(async (resolve, reject) => {
-      this.contract.methods
-        .createFarm(signature, charity, amount)
-        .send({ from: this.account })
+        .send({ from: this.account, value: fee })
         .on("error", function (error: any) {
           console.log({ error });
 
@@ -115,27 +89,41 @@ export class SessionManager {
   }
 
   public async withdraw({
+    signature,
+    sessionId,
+    deadline,
     farmId,
-    to,
     ids,
     amounts,
-    tokens,
+    tax,
+    sfl,
   }: {
+    signature: string;
+    sessionId: string;
+    deadline: number;
+    // Data
     farmId: number;
-    to: string;
     ids: number[];
-    amounts: Decimal[];
-    tokens: Decimal;
-  }): Promise<string> {
-    const weiAmounts = amounts.map((amount) =>
-      toWei(amount.toString(), "ether")
-    );
-    const weiTokens = toWei(tokens.toString(), "ether");
+    amounts: number[];
+    sfl: number;
+    tax: number;
+  }) {
+    if (NETWORK === "mainnet") {
+      throw new Error("NOT IMPLEMENTED");
+    }
 
-    console.log({ farmId, to, ids, amounts, tokens });
     return new Promise(async (resolve, reject) => {
       this.contract.methods
-        .withdraw(farmId, to, ids, weiAmounts, weiTokens)
+        .withdraw(
+          signature,
+          sessionId,
+          deadline,
+          farmId,
+          ids,
+          amounts,
+          sfl,
+          tax
+        )
         .send({ from: this.account })
         .on("error", function (error: any) {
           console.log({ error });

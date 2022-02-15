@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import sharkRight from "../../assets/animals/shark-right.gif";
-import sharkLeft from "../../assets/animals/shark-left.gif";
+import sharkRight from "assets/animals/shark-right.gif";
+import sharkLeft from "assets/animals/shark-left.gif";
 
 const randomBetweenMaxInclusive = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);

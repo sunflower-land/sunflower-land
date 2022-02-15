@@ -9,6 +9,7 @@ import { Mail } from "features/mail/Mail";
 import { Water } from "features/water/Water";
 import { Loading } from "features/auth/components";
 import { Animals } from "features/animals/Animals";
+import { WishingWell } from "features/wishingWell/WishingWell";
 
 import { useInterval } from "lib/utils/useInterval";
 
@@ -21,6 +22,8 @@ import { Decorations } from "./components/Decorations";
 import { Minting } from "./components/Minting";
 import { Success } from "./components/Success";
 import { Syncing } from "./components/Syncing";
+import { Withdrawing } from "./components/Withdrawing";
+import { Quarry } from "features/quarry/Quarry";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 
@@ -80,14 +83,22 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
 
+      <Modal show={gameState.matches("withdrawing")} centered>
+        <Panel>
+          <Withdrawing />
+        </Panel>
+      </Modal>
+
       <Hud />
 
       <Blacksmith />
+      <WishingWell />
       <Mail />
       <Crops />
       <Water />
       <Animals />
       <Decorations />
+      <Quarry />
     </>
   );
 };

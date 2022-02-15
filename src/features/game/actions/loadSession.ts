@@ -6,8 +6,6 @@ type Request = {
   farmId: number;
   sender: string;
   signature: string;
-  hasV1Tokens: boolean;
-  hasV1Farm: boolean;
 };
 
 type Response = {
@@ -35,6 +33,13 @@ export async function loadSession(request: Request): Promise<GameState> {
       (items, item) => ({
         ...items,
         [item]: new Decimal(farm.inventory[item]),
+      }),
+      {} as Record<InventoryItemName, Decimal>
+    ),
+    stock: Object.keys(farm.stock).reduce(
+      (items, item) => ({
+        ...items,
+        [item]: new Decimal(farm.stock[item]),
       }),
       {} as Record<InventoryItemName, Decimal>
     ),

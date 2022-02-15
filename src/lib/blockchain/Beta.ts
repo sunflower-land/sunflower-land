@@ -25,16 +25,16 @@ export class Beta {
   public async createFarm({
     signature,
     charity,
-    amount,
+    donation,
   }: {
     signature: string;
     charity: string;
-    amount: number;
+    donation: number;
   }): Promise<string> {
     return new Promise(async (resolve, reject) => {
       this.contract.methods
-        .createFarm(signature, charity, amount)
-        .send({ from: this.account, value: amount })
+        .createFarm(signature, charity, donation)
+        .send({ from: this.account, value: donation })
         .on("error", function (error: any) {
           console.log({ error });
 
