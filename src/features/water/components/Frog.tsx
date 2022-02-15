@@ -1,25 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { useActor } from "@xstate/react";
 
-import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { Panel } from "components/ui/Panel";
 
 import frog from "assets/animals/frog.png";
-import goblinHead from "assets/npcs/goblin_head.png";
 
-interface Props {}
-
-export const Frog: React.FC<Props> = () => {
+export const Frog: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const { gameService, selectedItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   return (
     <>

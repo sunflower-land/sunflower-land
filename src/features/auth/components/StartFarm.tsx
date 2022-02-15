@@ -22,8 +22,8 @@ export const StartFarm: React.FC = () => {
       <Button onClick={start} className="overflow-hidden mb-2">
         Lets go!
       </Button>
-      <Button onClick={() => {}} disabled className="overflow-hidden">
-        Explore a friend's farm
+      <Button onClick={console.log} disabled className="overflow-hidden">
+        {`Explore a friend's farm`}
       </Button>
     </>
   );

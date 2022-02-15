@@ -19,7 +19,7 @@ export const Blocked: React.FC = () => {
       <p className="text-center mb-3">Beta testers only!</p>
 
       <p className="text-center mb-4 text-xs">
-        We are launching soon. Join us on Discord so you don't miss the launch!
+        {`We are launching soon. Join us on Discord so you don't miss the launch!`}
       </p>
       <Button onClick={readMore} className="overflow-hidden mb-2">
         <span>Go to guide</span>

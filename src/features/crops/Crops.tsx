@@ -1,7 +1,5 @@
-import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import React from "react";
 
-import { Context } from "features/game/GameProvider";
 import { AppIconProvider } from "features/crops/AppIconProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
@@ -16,16 +14,7 @@ import { CropZoneThree } from "./components/CropZoneThree";
 import { CropZoneFour } from "./components/CropZoneFour";
 import { Market } from "./components/Market";
 
-interface Props {}
-
-export const Crops: React.FC<Props> = () => {
-  const { gameService, selectedItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-
+export const Crops: React.FC = () => {
   return (
     <AppIconProvider>
       {/*Container*/}
