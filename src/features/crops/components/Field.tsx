@@ -60,8 +60,8 @@ export const Field: React.FC<Props> = ({
       return;
     }
 
-    if (onboarding && tourIsOpen && currentTourStep === 0) {
-        setCurrentTourStep(1)
+    if (onboarding && tourIsOpen) {
+      currentTourStep === 0 ? setCurrentTourStep(1) : setCurrentTourStep(8)
     }
 
     clickedAt.current = now;
