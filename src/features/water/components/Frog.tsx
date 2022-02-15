@@ -7,7 +7,8 @@ import { Panel } from "components/ui/Panel";
 
 import frog from "assets/animals/frog.png";
 
-export const Frog: React.FC = () => {
+interface Props {}
+export const Frog: React.FC<Props> = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
