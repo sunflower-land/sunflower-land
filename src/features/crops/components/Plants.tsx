@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 
-import token from "assets/icons/token.png";
+import token from "assets/icons/token.gif";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";

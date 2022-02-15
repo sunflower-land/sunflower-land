@@ -16,7 +16,7 @@ import mobileMenu from "assets/icons/hamburger_menu.png";
 import questionMark from "assets/icons/expression_confused.png";
 import radish from "assets/icons/radish.png";
 import water from "assets/icons/expression_working.png";
-import token from "assets/icons/token.png";
+import token from "assets/icons/token.gif";
 import timer from "assets/icons/timer.png";
 
 const NETWORK = import.meta.env.VITE_NETWORK;

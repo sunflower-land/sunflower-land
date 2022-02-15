@@ -3,7 +3,7 @@ import { useActor } from "@xstate/react";
 
 import { InnerPanel } from "components/ui/Panel";
 
-import token from "assets/icons/token.png";
+import token from "assets/icons/token.gif";
 
 import { Context } from "features/game/GameProvider";
 import Decimal from "decimal.js-light";

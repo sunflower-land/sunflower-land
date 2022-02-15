@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
-import token from "assets/icons/token.png";
+import token from "assets/icons/token.gif";
 import timer from "assets/icons/timer.png";
 
 import { Box } from "components/ui/Box";
