@@ -30,7 +30,9 @@ export const Market: React.FC = () => {
   const handleMarketClick = () => {
     setIsOpen(true)
     if (tourIsOpen && currentTourStep === 3) {
-      setCurrentTourStep(4)
+      setTimeout(() => {
+        setCurrentTourStep(4)
+      }, 300)
     }
   }
 

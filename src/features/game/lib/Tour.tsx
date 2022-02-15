@@ -1,3 +1,4 @@
+import React from 'react'
 import { Button } from 'components/ui/Button'
 import { StepType} from '@reactour/tour'
 import { Panel } from 'components/ui/Panel'
@@ -39,7 +40,6 @@ export const stepList: StepType[] = [
 				<Button onClick={() => setCurrentStep(3)}>Next</Button>
 			</Panel>
 		),
-		padding: { mask: [20, 60], popover: 45 },
 		styles: {popover: tourStyles}
 	},
 	{
@@ -53,19 +53,16 @@ export const stepList: StepType[] = [
 	{
 		selector: '.shop',
 		content: () => <Panel>Click on the sell tab to sell the Sunflower you just harvested.</Panel>,
-		padding: { mask: [1, 50], popover: 30 },
 		styles: {popover: tourStyles}
 	},
 	{
 		selector: '.shop',
 		content: () => <Panel>Select the sunflower and click on the `SELL 1` button.</Panel>,
-		padding: { mask: [1, 50], popover: 30 },
 		styles: {popover: tourStyles}
 	},
 	{
 		selector: '.shop',
 		content: () => <Panel>Now you can go back to the BUY tab and buy sunflower seeds.</Panel>,
-		padding: { mask: [1, 50], popover: 30 },
 		position: "bottom",
 		styles: {popover: tourStyles}
 	},
@@ -86,7 +83,7 @@ export const stepList: StepType[] = [
 	},
 	{
 		selector: '.open-menu',
-		content: () => <Panel>Open the menu now.</Panel>,
+		content: () => <Panel>Open the menu.</Panel>,
 		styles: {popover: tourStyles}
 	},
 	{

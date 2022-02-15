@@ -14,7 +14,6 @@ import { LimitedItem } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { withdraw } from "../actions/withdraw";
 import { getVisitState } from "../actions/visit";
-import { useTour } from "@reactour/tour";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -39,6 +38,9 @@ type WithdrawEvent = {
 };
 
 export type BlockchainEvent =
+  | {
+      type: "TOUR_COMPLETE";
+    }
   | {
       type: "SAVE";
     }
@@ -76,6 +78,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 export type BlockchainState = {
   value:
     | "loading"
+    | "touring"
     | "playing"
     | "readonly"
     | "autosaving"
@@ -98,7 +101,15 @@ export type MachineInterpreter = Interpreter<
 >;
 
 export function startGame(authContext: AuthContext) {
-  const { setIsOpen: openTour } = useTour();
+  const handleInitialState = () => {
+    if (window.localStorage.getItem("tourStatus") !== "done") {
+      return "touring";
+    }
+    if (authContext.sessionId || !authContext.address) {
+      return "playing";
+    }
+    return "readonly";
+  };
   return createMachine<Context, BlockchainEvent, BlockchainState>({
     id: "gameMachine",
     initial: "loading",
@@ -144,10 +155,7 @@ export function startGame(authContext: AuthContext) {
             return { state: INITIAL_FARM };
           },
           onDone: {
-            target:
-              authContext.sessionId || !authContext.address
-                ? "onboarding"
-                : "readonly",
+            target: handleInitialState(),
             actions: assign({
               state: (context, event) => event.data.state,
             }),
@@ -158,14 +166,15 @@ export function startGame(authContext: AuthContext) {
         },
       },
       // TODO: Find a better place to trigger tour
-      onboarding: {
-        invoke: {
-          src: async () => {
-            openTour(true);
+      touring: {
+        on: {
+          ...GAME_EVENT_HANDLERS,
+          TOUR_COMPLETE: {
+            target: "playing",
+            actions: () => {
+              window.localStorage.setItem("tourStatus", "done");
+            },
           },
-        },
-        onDone: {
-          target: "playing",
         },
       },
       playing: {

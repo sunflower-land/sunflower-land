@@ -4,11 +4,11 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import background from "assets/land/background.png";
 
 import { Game } from "./Game";
-import { GameProvider } from "./GameProvider";
+import { Context, GameProvider } from "./GameProvider";
 import { ToastProvider } from "./toast/ToastQueueProvider";
 import mapMovement from "./lib/mapMovement";
-import { TourProvider } from '@reactour/tour'
-import {stepList} from './components/Tour'
+import { TourProvider, useTour } from '@reactour/tour'
+import {stepList} from './lib/Tour'
 
 export const Session: React.FC = () => {
   // catching and passing scroll container to keyboard listeners
@@ -23,7 +23,7 @@ export const Session: React.FC = () => {
 
   // Load data
   return (
-    <TourProvider steps={stepList} showNavigation={false} showBadge={false} >
+    <TourProvider steps={stepList} showNavigation={false} showBadge={false} showCloseButton={false} onClickMask={() => {}}>
       <GameProvider>
         <ToastProvider>
           <ScrollContainer className="bg-green-background overflow-scroll relative w-full h-full" innerRef={container}>

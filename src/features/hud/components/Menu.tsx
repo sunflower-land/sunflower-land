@@ -27,7 +27,7 @@ export const Menu = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
-  const [gameState] = useActor(gameService);
+  const [gameState, send] = useActor(gameService);
 
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
@@ -84,11 +84,13 @@ export const Menu = () => {
     };
   }, []);
 
+  const onTourEnd = () => {
+    setTourIsOpen(false)
+    send("TOUR_COMPLETE")
+  }
+
   const syncOnChain = async () => {
-    console.log(tourIsOpen) 
-    if (tourIsOpen) {
-      setTourIsOpen(false)
-     }
+
     
     if (NETWORK === "mainnet") {
       setShowComingSoon(true);
@@ -96,11 +98,17 @@ export const Menu = () => {
       return;
     }
 
-    gameService.send("SYNC");
+    if (tourIsOpen) {
+      onTourEnd()
+    } else {
+      gameService.send("SYNC");
+    }
+    
   };
 
   const autosave = async () => {
     gameService.send("SAVE");
+
     if (tourIsOpen) {
       setCurrentTourStep(9)
     }

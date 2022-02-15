@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useActor } from "@xstate/react";
 
@@ -27,10 +27,15 @@ export const Inventory: React.FC = () => {
   const handleInventoryClick = () => {
     setIsOpen(true) 
     if (tourIsOpen && currentStep === 1) {
-      setCurrentTourStep(2)
+      setTimeout(() => {
+        setCurrentTourStep(2)
+      }, 300)
     }
   }
 
+  useEffect(() => {
+    if (tourIsOpen && currentStep === 3) setIsOpen(false)
+  }, [currentStep])
 
   return (
     <div className="flex flex-col items-end mr-2 sm:block fixed top-16 right-0 z-50">
