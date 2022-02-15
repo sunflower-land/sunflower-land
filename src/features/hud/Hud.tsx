@@ -7,6 +7,7 @@ import { Menu } from "./components/Menu";
 import { Address } from "./components/Address";
 import { AudioPlayer } from "components/ui/AudioPlayer";
 import { ScreenshotButton } from "./components/ScreenshotButton";
+import { VisitBanner } from "./components/VisitBanner";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -20,6 +21,7 @@ export const Hud: React.FC = () => {
       <Inventory/>
       <ScreenshotButton />
       <AudioPlayer/>
+      <VisitBanner />
       {metamask.myAccount && <Address />}
     </div>
   );

@@ -216,6 +216,7 @@ export const authMachine = createMachine<
         on: {
           RETURN: {
             target: "connecting",
+            actions: "resetFarm",
           }
         }
       },
@@ -303,6 +304,11 @@ export const authMachine = createMachine<
       }),
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
+      }),
+      resetFarm: assign<Context, any>({
+        farmId: (_context, event) => undefined,
+        address: (_context, event) => undefined,
+        sessionId: (_context, event) => undefined,
       }),
     },
     guards: {
