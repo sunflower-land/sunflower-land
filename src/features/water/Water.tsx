@@ -10,9 +10,7 @@ import Shark from "./components/Shark";
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import { Frog } from "./components/Frog";
 
-interface Props {}
-
-export const Water: React.FC<Props> = () => {
+export const Water: React.FC = () => {
   return (
     // Container
     <div

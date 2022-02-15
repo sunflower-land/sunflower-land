@@ -10,13 +10,11 @@ import player from "assets/icons/player.png";
 import arrowLeft from "assets/icons/arrow_left.png";
 import arrowRight from "assets/icons/arrow_right.png";
 
-interface Props {}
-
 export const shortAddress = (address: string): string => {
   return `${address.slice(0, 5)}...${address.slice(-4)}`;
 };
 
-export const Address: React.FC<Props> = () => {
+export const Address: React.FC = () => {
   const { gameService } = useContext(Context);
   const [
     {

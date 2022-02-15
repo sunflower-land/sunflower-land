@@ -23,7 +23,10 @@ export const GameProvider: React.FC = ({ children }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
-  const gameService = useInterpret(startGame(authState.context));
+  // TODO - Typescript error
+  const gameService = useInterpret(
+    startGame(authState.context) as any
+  ) as MachineInterpreter;
   const [shortcuts, setShortcuts] = useState<InventoryItemName[]>(
     getShortcuts()
   );

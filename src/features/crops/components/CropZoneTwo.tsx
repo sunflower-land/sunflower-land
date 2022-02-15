@@ -15,9 +15,7 @@ import heart from "assets/icons/heart.png";
 
 import { Field } from "./Field";
 
-interface Props {}
-
-export const CropZoneTwo: React.FC<Props> = () => {
+export const CropZoneTwo: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService, selectedItem } = useContext(Context);
   const [

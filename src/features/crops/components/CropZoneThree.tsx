@@ -14,9 +14,7 @@ import cabbageSoup from "assets/nfts/saurrerkrat.png";
 
 import { Field } from "./Field";
 
-interface Props {}
-
-export const CropZoneThree: React.FC<Props> = () => {
+export const CropZoneThree: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService, selectedItem } = useContext(Context);
   const [

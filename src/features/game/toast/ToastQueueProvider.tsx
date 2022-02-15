@@ -1,4 +1,4 @@
-import React, { FC, useState, useLayoutEffect } from "react";
+import React, { FC, useState } from "react";
 
 import { createContext } from "react";
 
@@ -11,7 +11,7 @@ export const ToastContext = createContext<{
   removeToast: (id: number) => void;
   setToast: (toast: Omit<Toast, "id">) => void;
   toastList: Toast[];
-}>({ removeToast: () => {}, setToast: () => {}, toastList: [] });
+}>({ removeToast: console.log, setToast: console.log, toastList: [] });
 
 const MAX_TOAST = 5;
 
@@ -23,7 +23,7 @@ export const ToastProvider: FC = ({ children }) => {
       setToastList(toastList.slice(0, MAX_TOAST));
     }
     const id = Date.now();
-    const interval = window.setTimeout(() => {
+    window.setTimeout(() => {
       removeToast(id);
     }, 3000);
     const newToast = { id: id, ...toast };
