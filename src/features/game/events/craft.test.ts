@@ -4,7 +4,7 @@ import { SEEDS } from "../types/crops";
 import { GameState } from "../types/game";
 import { craft } from "./craft";
 
-let GAME_STATE: GameState = {
+const GAME_STATE: GameState = {
   id: 1,
   fields: [],
   balance: new Decimal(0),
