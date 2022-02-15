@@ -46,7 +46,7 @@ export const Menu = () => {
   };
 
   const handleAboutClick = () => {
-    window.open("https://docs.sunflower-farmers.com/", "_blank");
+    window.open("https://docs.sunflower-land.com/", "_blank");
     setMenuOpen(false);
   };
 
