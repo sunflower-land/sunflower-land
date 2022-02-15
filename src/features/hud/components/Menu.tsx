@@ -156,7 +156,6 @@ export const Menu = () => {
             </li>
             <li className="p-1">
               <Button onClick={withdraw}>
-              
                 <span className="text-sm">Withdraw</span>
                 <img src={token} className="w-4 ml-2" alt="token" />
               </Button>

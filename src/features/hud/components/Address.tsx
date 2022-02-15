@@ -24,7 +24,9 @@ export const Address: React.FC<Props> = () => {
     },
   ] = useActor(gameService);
 
-  const [tooltipMessage, setTooltipMessage] = useState("Click to copy farm address");
+  const [tooltipMessage, setTooltipMessage] = useState(
+    "Click to copy farm address"
+  );
   const [showAddress, setShowAddress] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
 
