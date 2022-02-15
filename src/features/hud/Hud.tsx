@@ -14,10 +14,10 @@ import { AudioPlayer } from "components/ui/AudioPlayer";
 export const Hud: React.FC = () => {
   return (
     <>
-      <Menu/>
-      <Balance/>
-      <Inventory/>
-      <AudioPlayer/>
+      <Menu />
+      <Balance />
+      <Inventory />
+      <AudioPlayer />
       {metamask.myAccount && <Address />}
     </>
   );

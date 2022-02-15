@@ -35,10 +35,10 @@ export const Game: React.FC = () => {
       if (gameState.context.actions.length === 0) return;
 
       event.preventDefault();
-      event.returnValue = '';
+      event.returnValue = "";
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     // cleanup on every gameState update
     return () => {
