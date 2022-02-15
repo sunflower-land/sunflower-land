@@ -140,14 +140,16 @@ export const Field: React.FC<Props> = ({
         {popover}
       </div>
 
-      <img
-        src={selectBox}
-        style={{
-          opacity: 0.1,
-        }}
-        className="absolute inset-0 w-full top-7 opacity-0 group-hover:opacity-100 hover:!opacity-100 z-10 cursor-pointer"
-        onClick={onClick}
-      />
+      {game.matches("playing") && (
+        <img
+          src={selectBox}
+          style={{
+            opacity: 0.1,
+          }}
+          className="absolute inset-0 w-full top-7 opacity-0 group-hover:opacity-100 hover:!opacity-100 z-10 cursor-pointer"
+          onClick={onClick}
+        />
+      )}
     </div>
   );
 };

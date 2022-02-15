@@ -1,9 +1,11 @@
 import Decimal from "decimal.js-light";
-import { KNOWN_IDS } from "features/game/types";
+import { KNOWN_IDS, IDS } from "features/game/types";
 import { InventoryItemName } from "features/game/types/game";
 import Web3 from "web3";
-import { AbiItem } from "web3-utils";
+import { AbiItem, fromWei } from "web3-utils";
 import InventoryJSON from "./abis/Inventory.json";
+import { TOOLS } from "features/game/types/craftables";
+import { RESOURCES } from "features/game/types/resources";
 
 const address = import.meta.env.VITE_INVENTORY_CONTRACT;
 
@@ -42,5 +44,22 @@ export class Inventory {
       }),
       {} as ItemSupply
     );
+  }
+
+  public async getBalances(farmAddress: string) {
+    const batchAccounts = Array(IDS.length).fill(farmAddress);
+    const balances = await this.contract.methods.balanceOfBatch(batchAccounts, IDS).call();
+    const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
+
+    return balances.reduce((items: Inventory, balance: string, index: number) => {
+      const unit = names[index] in TOOLS || names[index] in RESOURCES ? "ether" : "wei";
+      const value = new Decimal(fromWei(balance, unit));
+
+      if (value.equals(0)) {
+        return items;
+      }
+
+      return { ...items, [names[index]]: value };
+    }, {} as Inventory);
   }
 }

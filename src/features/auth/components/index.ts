@@ -6,5 +6,6 @@ export * from "./Loading";
 export * from "./Migrate";
 export * from "./Splash";
 export * from "./StartFarm";
+export * from "./VisitFarm";
 export * from "./Web3Missing";
 export * from "./WrongChain";

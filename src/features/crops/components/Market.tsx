@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
+import classNames from "classnames";
+
+import { Context } from "features/game/GameProvider";
 
 import market from "assets/buildings/market.png";
 import plant from "assets/icons/plant.png";
@@ -15,7 +19,12 @@ import { Action } from "components/ui/Action";
 import { MarketItems } from "./MarketItems";
 
 export const Market: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const isNotReadOnly = !gameState.matches("readonly");
+
   return (
     <div
       style={{
@@ -28,8 +37,11 @@ export const Market: React.FC = () => {
       <img
         src={market}
         alt="market"
-        onClick={() => setIsOpen(true)}
-        className="cursor-pointer w-full hover:img-highlight"
+        onClick={isNotReadOnly ? () => setIsOpen(true) : () => {}}
+        className={classNames(" w-full", {
+          "cursor-pointer": isNotReadOnly,
+          "hover:img-highlight": isNotReadOnly,
+        })}
       />
       <img
         src={bobMarley}
@@ -57,12 +69,14 @@ export const Market: React.FC = () => {
         alt="cauliflower"
         className="w-6 absolute bottom-6 right-2 pointer-events-none"
       />
-      <Action
-        className="absolute -bottom-3 left-6"
-        text="Shop"
-        icon={plant}
-        onClick={() => setIsOpen(true)}
-      />
+      {isNotReadOnly && (
+        <Action
+          className="absolute -bottom-3 left-6"
+          text="Shop"
+          icon={plant}
+          onClick={() => setIsOpen(true)}
+        />
+      )}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <MarketItems onClose={() => setIsOpen(false)} />
       </Modal>
