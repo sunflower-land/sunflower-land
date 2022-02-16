@@ -48,7 +48,9 @@ export class Inventory {
 
   public async getBalances(farmAddress: string) {
     const batchAccounts = Array(IDS.length).fill(farmAddress);
-    const balances = await this.contract.methods.balanceOfBatch(batchAccounts, IDS).call();
+    const balances = await this.contract.methods
+      .balanceOfBatch(batchAccounts, IDS)
+      .call();
 
     return balances;
   }

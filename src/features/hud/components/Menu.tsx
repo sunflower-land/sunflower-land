@@ -122,7 +122,9 @@ export const Menu = () => {
             </Button>
           )}
           {gameState.matches("readonly") && (
-            <Button onClick={goBack}><span>Back</span></Button>
+            <Button onClick={goBack}>
+              <span>Back</span>
+            </Button>
           )}
         </div>
         <div

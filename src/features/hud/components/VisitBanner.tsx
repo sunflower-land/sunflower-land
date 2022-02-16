@@ -14,7 +14,9 @@ export const VisitBanner = () => {
       {gameState.matches("readonly") && (
         <OuterPanel>
           <div className="flex justify-center p-1">
-            <span className="text-sm">You are visiting Farm {gameState.context.state.id}</span>
+            <span className="text-sm">
+              You are visiting Farm {gameState.context.state.id}
+            </span>
           </div>
         </OuterPanel>
       )}

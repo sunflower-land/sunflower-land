@@ -15,10 +15,12 @@ type Response = {
 };
 const API_URL = import.meta.env.VITE_API_URL;
 
-export async function loadSession(request: Request): Promise<GameState | undefined> {
+export async function loadSession(
+  request: Request
+): Promise<GameState | undefined> {
   if (!API_URL) return;
 
-  console.log('calling /session');
+  console.log("calling /session");
 
   const response = await window.fetch(`${API_URL}/session`, {
     method: "POST",

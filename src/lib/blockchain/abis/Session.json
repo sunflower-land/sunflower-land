@@ -2,23 +2,18 @@
   {
     "inputs": [
       {
-        "internalType": "contract SunflowerLandInventory",
+        "internalType": "contract PotatoLandInventory",
         "name": "_inventory",
         "type": "address"
       },
       {
-        "internalType": "contract SunflowerLandToken",
+        "internalType": "contract PotatoLandToken",
         "name": "_token",
         "type": "address"
       },
       {
-        "internalType": "contract SunflowerLandFarm",
+        "internalType": "contract PotatoLand",
         "name": "_farm",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_wishingWell",
         "type": "address"
       }
     ],
@@ -42,6 +37,31 @@
       }
     ],
     "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "sessionId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "farmId",
+        "type": "uint256"
+      }
+    ],
+    "name": "SessionChanged",
     "type": "event"
   },
   {
@@ -109,6 +129,25 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getWithdrawnAt",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "owner",
     "outputs": [
@@ -169,6 +208,19 @@
       }
     ],
     "name": "setSyncFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_wishingWell",
+        "type": "address"
+      }
+    ],
+    "name": "setWishingWell",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -373,6 +425,25 @@
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdrawnAt",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ]
