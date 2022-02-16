@@ -41,17 +41,19 @@ export const Inventory: React.FC = () => {
         <InventoryItems onClose={() => setIsOpen(false)} />
       </Modal>
 
-      <div className="flex flex-col items-center sm:mt-8">
-        {shortcuts.map((item, index) => (
-          <Box
-            key={index}
-            isSelected={index === 0}
-            image={ITEM_DETAILS[item].image}
-            count={inventory[item]}
-            onClick={() => shortcutItem(item)}
-          />
-        ))}
-      </div>
+      {!game.matches("readonly") && (
+        <div className="flex flex-col items-center sm:mt-8">
+          {shortcuts.map((item, index) => (
+            <Box
+              key={index}
+              isSelected={index === 0}
+              image={ITEM_DETAILS[item].image}
+              count={inventory[item]}
+              onClick={() => shortcutItem(item)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

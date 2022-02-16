@@ -31,7 +31,7 @@ export class Beta {
     charity: string;
     donation: number;
   }): Promise<string> {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.contract.methods
         .createFarm(signature, charity, donation)
         .send({ from: this.account, value: donation })

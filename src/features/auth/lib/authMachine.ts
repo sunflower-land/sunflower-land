@@ -6,6 +6,10 @@ import { metamask } from "../../../lib/blockchain/metamask";
 import { createFarm as createFarmAction } from "../actions/createFarm";
 import { CharityAddress } from "../components/Donation";
 
+// Hashed eth 0 value
+const INITIAL_SESSION =
+  "0x0000000000000000000000000000000000000000000000000000000000000000";
+
 type Farm = {
   farmId: number;
   sessionId: string;
@@ -25,9 +29,17 @@ type StartEvent = Farm & {
   type: "START_GAME";
 };
 
+type ExploreEvent = {
+  type: "EXPLORE";
+};
+
 type VisitEvent = {
   type: "VISIT";
   farmId: number;
+};
+
+type ReturnEvent = {
+  type: "RETURN";
 };
 
 type CreateFarmEvent = {
@@ -38,7 +50,9 @@ type CreateFarmEvent = {
 
 export type BlockchainEvent =
   | StartEvent
+  | ExploreEvent
   | VisitEvent
+  | ReturnEvent
   | CreateFarmEvent
   | {
       type: "NETWORK_CHANGED";
@@ -62,6 +76,8 @@ export type BlockchainState = {
     | { connected: "creatingFarm" }
     | { connected: "readyToStart" }
     | { connected: "authorised" }
+    | "exploring"
+    | "checkFarm"
     | "unauthorised";
   context: Context;
 };
@@ -133,7 +149,10 @@ export const authMachine = createMachine<
           creatingFarm: {
             invoke: {
               src: "createFarm",
-              onDone: "loadingFarm",
+              onDone: {
+                target: "authorised",
+                actions: "assignFarm",
+              },
               onError: {
                 target: "#unauthorised",
                 actions: "assignErrorMessage",
@@ -144,6 +163,9 @@ export const authMachine = createMachine<
             on: {
               CREATE_FARM: {
                 target: "creatingFarm",
+              },
+              EXPLORE: {
+                target: "#exploring",
               },
             },
           },
@@ -156,6 +178,9 @@ export const authMachine = createMachine<
             on: {
               START_GAME: {
                 target: "authorised",
+              },
+              EXPLORE: {
+                target: "#exploring",
               },
             },
           },
@@ -171,8 +196,37 @@ export const authMachine = createMachine<
       unauthorised: {
         id: "unauthorised",
       },
+      exploring: {
+        id: "exploring",
+        on: {
+          VISIT: {
+            target: "checkFarm",
+          },
+        },
+      },
       // An anonymous user is visiting a farm
-      visiting: {},
+      checkFarm: {
+        invoke: {
+          src: "visitFarm",
+          onDone: {
+            target: "visiting",
+            actions: "assignFarm",
+            cond: "hasFarm",
+          },
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
+        },
+      },
+      visiting: {
+        on: {
+          RETURN: {
+            target: "connecting",
+            actions: "resetFarm",
+          },
+        },
+      },
     },
     on: {
       ACCOUNT_CHANGED: {
@@ -216,16 +270,22 @@ export const authMachine = createMachine<
           sessionId,
         };
       },
-      createFarm: async (context: Context, event: any): Promise<void> => {
+      createFarm: async (context: Context, event: any): Promise<Context> => {
         const charityAddress = (event as CreateFarmEvent)
           .charityAddress as CharityAddress;
         const donation = (event as CreateFarmEvent).donation as number;
 
-        await createFarmAction({
+        const newFarm = await createFarmAction({
           charity: charityAddress,
           donation,
           signature: context.signature as string,
         });
+
+        return {
+          farmId: newFarm.tokenId,
+          address: newFarm.landAddress,
+          sessionId: INITIAL_SESSION,
+        };
       },
       sign: async (context: Context, sd): Promise<{ signature: string }> => {
         console.log("SIGN!");
@@ -233,6 +293,19 @@ export const authMachine = createMachine<
 
         return {
           signature,
+        };
+      },
+      visitFarm: async (
+        context: Context,
+        event: any
+      ): Promise<Farm | undefined> => {
+        const farmId = (event as VisitEvent).farmId;
+        const farmAccount = await metamask.getFarm()?.getFarm(farmId);
+
+        return {
+          farmId: farmAccount.tokenId,
+          address: farmAccount.account,
+          sessionId: "",
         };
       },
     },
@@ -247,6 +320,11 @@ export const authMachine = createMachine<
       }),
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
+      }),
+      resetFarm: assign<Context, any>({
+        farmId: (_context, event) => undefined,
+        address: (_context, event) => undefined,
+        sessionId: (_context, event) => undefined,
       }),
     },
     guards: {

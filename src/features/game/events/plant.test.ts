@@ -3,7 +3,7 @@ import { INITIAL_FARM } from "../lib/constants";
 import { GameState } from "../types/game";
 import { plant } from "./plant";
 
-let GAME_STATE: GameState = {
+const GAME_STATE: GameState = {
   ...INITIAL_FARM,
   id: 1,
   fields: {},

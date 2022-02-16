@@ -13,6 +13,10 @@ export const StartFarm: React.FC = () => {
     send("START_GAME");
   };
 
+  const explore = async () => {
+    send("EXPLORE");
+  };
+
   // We can only ever show this state if the address is not undefin
   const farmId = authState.context.farmId!;
 
@@ -22,7 +26,7 @@ export const StartFarm: React.FC = () => {
       <Button onClick={start} className="overflow-hidden mb-2">
         Lets go!
       </Button>
-      <Button onClick={console.log} disabled className="overflow-hidden">
+      <Button onClick={explore} className="overflow-hidden">
         {`Explore a friend's farm`}
       </Button>
     </>

@@ -32,7 +32,7 @@ export class Pair {
   }
 
   public async approve(amount: string) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.contract.methods
         .approve(wishingWellAddress, amount)
         .send({ from: this.account })
