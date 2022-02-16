@@ -19,7 +19,7 @@ import { Button } from "components/ui/Button";
 
 import { metamask } from "lib/blockchain/metamask";
 
-import token from "assets/icons/token.png";
+import token from "assets/icons/token.gif";
 import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";
 
@@ -223,6 +223,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
               className="text-xs underline"
               href="https://docs.sunflower-land.com/fundamentals/withdrawing"
               target="_blank"
+              rel="noreferrer"
             >
               {tax}% fee
             </a>
@@ -248,6 +249,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing"
               target="_blank"
+              rel="noreferrer"
             >
               Read more
             </a>

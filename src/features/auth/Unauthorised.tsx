@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -10,9 +10,7 @@ import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
 import { ConnectingError } from "./components/ConnectingError";
 import { Blocked } from "./components/Blocked";
 
-interface Props {}
-
-export const Unauthorised: React.FC<Props> = () => {
+export const Unauthorised: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState, send] = useActor(authService);
 

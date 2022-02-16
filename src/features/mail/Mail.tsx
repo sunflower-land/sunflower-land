@@ -9,10 +9,10 @@ import { Message } from "./types/message";
 import baldMan from "assets/npcs/bald_man.png";
 import alerted from "assets/icons/expression_alerted.png";
 
-const MESSAGES_KEY = 'readMessages';
+const MESSAGES_KEY = "readMessages";
 
 /**
- * MVP1: 
+ * MVP1:
  *  - always change id to reflect unread
  * TODO:
  * - api call (separate file)
@@ -20,22 +20,22 @@ const MESSAGES_KEY = 'readMessages';
 const getInbox = () => {
   return [
     {
-      id: '1',
-      title: 'Announcements!',
-      body: 'This feature is Work in Progress. Stay tuned. https://discord.gg/sunflowerland',
+      id: "1",
+      title: "Announcements!",
+      body: "This feature is Work in Progress. Stay tuned. https://discord.gg/sunflowerland",
     },
     {
-      id: '2',
-      title: 'Greetings!',
-      body: 'You made it! Good job :D',
+      id: "2",
+      title: "Greetings!",
+      body: "You made it! Good job :D",
     },
     {
-      id: '3',
-      title: '',
-      body: 'Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing.',
+      id: "3",
+      title: "",
+      body: "Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing.",
     },
   ];
-}
+};
 
 export const Mail: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -43,13 +43,18 @@ export const Mail: React.FC = () => {
   const [hasUnread, setHasUnread] = useState<boolean>(false);
 
   useEffect(() => {
-    const readMessages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
-    const _inbox = getInbox().map((msg) => ({ ...msg, unread: !readMessages?.includes(msg.id) }));
+    const readMessages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || "[]");
+    const _inbox = getInbox().map((msg) => ({
+      ...msg,
+      unread: !readMessages?.includes(msg.id),
+    }));
 
     setInbox(_inbox);
 
     // exclude non existing ids
-    const newReadMessages = _inbox.filter((msg) => !msg.unread).map((msg) => msg.id);
+    const newReadMessages = _inbox
+      .filter((msg) => !msg.unread)
+      .map((msg) => msg.id);
 
     if (newReadMessages.length) {
       localStorage.setItem(MESSAGES_KEY, JSON.stringify(newReadMessages));
@@ -73,11 +78,14 @@ export const Mail: React.FC = () => {
     setInbox(newInbox);
 
     const readMessages = localStorage.getItem(MESSAGES_KEY);
-    const newReadMessages = [...JSON.parse(readMessages || '[]'), newInbox[index].id];
+    const newReadMessages = [
+      ...JSON.parse(readMessages || "[]"),
+      newInbox[index].id,
+    ];
 
     localStorage.setItem(MESSAGES_KEY, JSON.stringify(newReadMessages));
   };
-  
+
   return (
     <div
       className="z-5 absolute align-items-center w-10"
@@ -87,18 +95,16 @@ export const Mail: React.FC = () => {
         top: `calc(50% - ${GRID_WIDTH_PX * (hasUnread ? 12.9 : 12.06)}px)`,
       }}
     >
-      {hasUnread 
-        && <img
-              src={alerted}
-              className="w-3 mx-3 pb-2 animate-float"
-            />}
+      {hasUnread && (
+        <img src={alerted} className="w-3 mx-3 pb-2 animate-float" />
+      )}
       <img
         src={baldMan}
         className="absolute w-10 hover:cursor-pointer hover:img-highlight"
         onClick={() => setIsOpen(true)}
       />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Inbox inbox={inbox} onRead={onRead}/>
+        <Inbox inbox={inbox} onRead={onRead} />
       </Modal>
     </div>
   );

@@ -16,11 +16,11 @@ import { VisitBanner } from "./components/VisitBanner";
 export const Hud: React.FC = () => {
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
-      <Menu/>
-      <Balance/>
-      <Inventory/>
+      <Menu />
+      <Balance />
+      <Inventory />
       <ScreenshotButton />
-      <AudioPlayer/>
+      <AudioPlayer />
       <VisitBanner />
       {metamask.myAccount && <Address />}
     </div>

@@ -93,9 +93,9 @@ export const Field: React.FC<Props> = ({
             {e.message}
           </span>
         );
-      } finally {
-        return;
       }
+
+      return;
     }
 
     try {

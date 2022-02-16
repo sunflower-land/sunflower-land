@@ -9,7 +9,7 @@ import timer from "assets/icons/timer.png";
 
 import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
-import { wishingWellMachine } from "../wishingWellMachine";
+import { wishingWellMachine, MachineInterpreter } from "../wishingWellMachine";
 import { fromWei } from "web3-utils";
 
 export const shortAddress = (address: string): string => {
@@ -20,8 +20,9 @@ interface Props {
   onClose: () => void;
 }
 
-export const WishingWellModal: React.FC<Props> = ({}) => {
-  const [machine, send] = useMachine(wishingWellMachine);
+export const WishingWellModal: React.FC<Props> = () => {
+  // TODO - Typescript error
+  const [machine, send] = useMachine(wishingWellMachine as any) as any;
 
   const Content = () => {
     if (machine.matches("error")) {
@@ -62,6 +63,7 @@ export const WishingWellModal: React.FC<Props> = ({}) => {
             className="text-xxs underline cursor-pointer text-center mt-1"
             href="https://docs.sunflower-land.com/fundamentals/wishing-well-locked-liquidity"
             target="_blank"
+            rel="noreferrer"
           >
             Read more
           </a>
@@ -137,12 +139,13 @@ export const WishingWellModal: React.FC<Props> = ({}) => {
         ) : (
           <div className="py-2 mt-2 border-white flex flex-col items-center">
             <span className="text-xs text-center">
-              You don't have any LP in your wallet.
+              {`You don't have any LP in your wallet.`}
             </span>
             <a
               className="text-xxs underline cursor-pointer"
               href="https://docs.sunflower-land.com/fundamentals/wishing-well-locked-liquidity"
               target="_blank"
+              rel="noreferrer"
             >
               How do I do get tokens?
             </a>
@@ -204,6 +207,7 @@ export const WishingWellModal: React.FC<Props> = ({}) => {
             className="text-xs underline cursor-pointer text-center mt-1"
             href="https://docs.sunflower-land.com/fundamentals/wishing-well-locked-liquidity"
             target="_blank"
+            rel="noreferrer"
           >
             Read more
           </a>

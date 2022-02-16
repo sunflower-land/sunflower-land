@@ -27,7 +27,7 @@ export const StartFarm: React.FC = () => {
         Lets go!
       </Button>
       <Button onClick={explore} className="overflow-hidden">
-        Explore a friend's farm
+        {`Explore a friend's farm`}
       </Button>
     </>
   );

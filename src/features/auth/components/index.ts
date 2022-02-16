@@ -3,7 +3,6 @@ export * from "./CreateFarm";
 export * from "./CreatingFarm";
 export * from "./Donation";
 export * from "./Loading";
-export * from "./Migrate";
 export * from "./Splash";
 export * from "./StartFarm";
 export * from "./VisitFarm";

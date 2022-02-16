@@ -1,20 +1,12 @@
 import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { Field } from "./Field";
 
-interface Props {}
-
-export const CropZoneOne: React.FC<Props> = () => {
-  const { gameService, selectedItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+export const CropZoneOne: React.FC = () => {
+  const { selectedItem } = useContext(Context);
 
   return (
     <div

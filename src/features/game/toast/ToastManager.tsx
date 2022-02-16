@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from "react";
 import { Panel } from "components/ui/Panel";
-import { ToastContext } from './ToastQueueProvider';
+import { ToastContext } from "./ToastQueueProvider";
 
 export const ToastManager = () => {
   const { toastList, removeToast } = useContext(ToastContext);
@@ -16,7 +16,7 @@ export const ToastManager = () => {
 
   return (
     <div>
-      {listed &&
+      {listed && (
         <div className="text-shadow p-0.5 text-white shadow-lg flex flex-col items-end mr-2 sm:block fixed top-20 left-2 z-[99999]">
           <Panel>
             {toastList.map(({ content, id }) => (
@@ -24,9 +24,9 @@ export const ToastManager = () => {
                 {content}
               </div>
             ))}
-           </Panel>
+          </Panel>
         </div>
-      }
+      )}
     </div>
   );
 };
