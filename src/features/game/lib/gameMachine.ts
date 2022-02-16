@@ -1,13 +1,11 @@
 import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
-import { fromWei } from "web3-utils";
-import { Decimal } from "decimal.js-light";
 import { EVENTS, GameEvent } from "../events";
 import { processEvent } from "./processEvent";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
 
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState } from "../types/game";
 import { loadSession } from "../actions/loadSession";
 import { INITIAL_FARM } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -15,6 +13,7 @@ import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { withdraw } from "../actions/withdraw";
+import { getVisitState } from "../actions/visit";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -123,14 +122,19 @@ export function startGame(authContext: AuthContext) {
               };
             }
 
-            // They are an anonymous user
-            // TODO: Load from Web3
+            // Visit farm 
+            if (authContext.address) {
+              const game = await getVisitState(authContext.address as string);
+
+              game.id = authContext.farmId as number;
+
+              return { state: game };
+            }
 
             return { state: INITIAL_FARM };
           },
           onDone: {
-            //target: authContext.sessionId ? "playing" : "readonly",
-            target: authContext.sessionId ? "playing" : "playing",
+            target: authContext.sessionId || !authContext.address ? "playing" : "readonly",
             actions: assign({
               state: (context, event) => event.data.state,
             }),

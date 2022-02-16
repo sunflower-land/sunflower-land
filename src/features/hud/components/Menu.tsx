@@ -93,6 +93,10 @@ export const Menu = () => {
     gameService.send("SAVE");
   };
 
+  const goBack = () => {
+    authService.send("RETURN");
+  };
+
   return (
     <div ref={ref} className="fixed top-2 left-2 z-50 shadow-lg">
       <OuterPanel>
@@ -108,13 +112,18 @@ export const Menu = () => {
             />
             <span className="hidden md:flex">Menu</span>
           </Button>
-          <Button onClick={autosave}>
-            {gameState.matches("autosaving") ? (
-              <img src={timer} className="animate-pulsate" alt="saving" />
-            ) : (
-              <span>Save</span>
-            )}
-          </Button>
+          {!gameState.matches("readonly") && (
+            <Button onClick={autosave}>
+              {gameState.matches("autosaving") ? (
+                <img src={timer} className="animate-pulsate" alt="saving" />
+              ) : (
+                <span>Save</span>
+              )}
+            </Button>
+          )}
+          {gameState.matches("readonly") && (
+            <Button onClick={goBack}><span>Back</span></Button>
+          )}
         </div>
         <div
           className={`transition-all ease duration-200 ${
@@ -148,18 +157,21 @@ export const Menu = () => {
                 <img src={water} className="w-4 ml-2" alt="water" />
               </Button>
             </li>
-            <li className="p-1">
-              {/* <Button onClick={syncOnChain}> */}
-              <Button onClick={syncOnChain}>
-                <span className="text-sm">Sync on chain</span>
-              </Button>
-            </li>
-            <li className="p-1">
-              <Button onClick={withdraw}>
-                <span className="text-sm">Withdraw</span>
-                <img src={token} className="w-4 ml-2" alt="token" />
-              </Button>
-            </li>
+            {!gameState.matches("readonly") && (
+              <>
+                <li className="p-1">
+                  <Button onClick={syncOnChain}>
+                    <span className="text-sm">Sync on chain</span>
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button onClick={withdraw}>
+                    <span className="text-sm">Withdraw</span>
+                    <img src={token} className="w-4 ml-2" alt="token" />
+                  </Button>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </OuterPanel>

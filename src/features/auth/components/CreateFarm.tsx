@@ -14,6 +14,10 @@ export const CreateFarm: React.FC = () => {
     authService.send("CREATE_FARM", { charityAddress, donation });
   };
 
+  const explore = () => {
+    authService.send("EXPLORE");
+  };
+
   if (showDonation) return <Donation onDonate={create} />;
 
   return (
@@ -24,7 +28,7 @@ export const CreateFarm: React.FC = () => {
       >
         Create a farm
       </Button>
-      <Button onClick={console.log} disabled className="overflow-hidden">
+      <Button onClick={explore} className="overflow-hidden">
         {`Explore a friend's farm`}
       </Button>
     </>
