@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
 
-import { Inventory, InventoryItemName, FieldItem } from "features/game/types/game";
+import {
+  Inventory,
+  InventoryItemName,
+  FieldItem,
+} from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 import { TOOLS } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
@@ -9,17 +13,20 @@ import { RESOURCES } from "features/game/types/resources";
 export function balancesToInventory(balances: Array<any>) {
   const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
 
-  const reduced = 
-    balances.reduce((items: Inventory, balance: string, index: number) => {
-      const unit = names[index] in TOOLS || names[index] in RESOURCES ? "ether" : "wei";
-        const value = new Decimal(fromWei(balance, unit));
+  const reduced = balances.reduce(
+    (items: Inventory, balance: string, index: number) => {
+      const unit =
+        names[index] in TOOLS || names[index] in RESOURCES ? "ether" : "wei";
+      const value = new Decimal(fromWei(balance, unit));
 
-        if (value.equals(0)) {
-          return items;
-        }
+      if (value.equals(0)) {
+        return items;
+      }
 
-        return { ...items, [names[index]]: value };
-    }, {} as Inventory);
+      return { ...items, [names[index]]: value };
+    },
+    {} as Inventory
+  );
 
   return reduced;
 }
@@ -29,8 +36,8 @@ export function balancesToInventory(balances: Array<any>) {
  */
 export function populateFields(inventory: Inventory) {
   const sunflower = { name: "Sunflower", plantedAt: 0 };
-  let fields = {} as Record<number, FieldItem>;
-  let indices = [];
+  const fields = {} as Record<number, FieldItem>;
+  const indices = [];
 
   console.log(inventory);
 
@@ -51,7 +58,7 @@ export function populateFields(inventory: Inventory) {
 
   for (let i = 0; i < 22; i += 1) {
     // fill zone one
-    if (i >= 0 && i <= 4 || indices.includes(i)) {
+    if ((i >= 0 && i <= 4) || indices.includes(i)) {
       fields[i] = sunflower as FieldItem;
     }
   }

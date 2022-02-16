@@ -70,7 +70,7 @@ export class SessionManager {
       fromBlock: latest,
     };
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       // We resolve once the session changed event comes through
       const timer = setInterval(() => {
         this.contract
@@ -146,7 +146,7 @@ export class SessionManager {
       fromBlock: latest,
     };
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       // We resolve once the session changed event comes through
       const timer = setInterval(() => {
         this.contract
