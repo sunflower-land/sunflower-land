@@ -12,9 +12,6 @@ type Options = {
 };
 
 export function mine({ state, action, createdAt = Date.now() }: Options) {
-  if (true) {
-    throw new Error("Coming soon!");
-  }
-
+  throw new Error("Coming soon!");
   return state;
 }

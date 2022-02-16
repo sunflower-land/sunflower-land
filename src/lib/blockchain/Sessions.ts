@@ -59,7 +59,7 @@ export class SessionManager {
 
     const fee = toWei("0.1");
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.contract.methods
         .sync(
           signature,
@@ -112,7 +112,7 @@ export class SessionManager {
       throw new Error("NOT IMPLEMENTED");
     }
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.contract.methods
         .withdraw(
           signature,
