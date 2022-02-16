@@ -9,7 +9,7 @@ import { InventoryItemName } from "features/game/types/game";
 import close from "assets/icons/close.png";
 
 interface Props {
-  onClose: () => {};
+  onClose: () => void;
 }
 
 export const InventoryItems: React.FC<Props> = ({ onClose }) => {
