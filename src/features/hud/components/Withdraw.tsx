@@ -53,12 +53,18 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
   const [state, setState] = useState<WithdrawState>("input");
   const [selected, setSelected] = useState<SelectedItem[]>([]);
   const [to, setTo] = useState(metamask.myAccount as string);
-  const [amount, setAmount] = useState(new Decimal(0));
+  const [amount, setAmount] = useState<Decimal | string>(new Decimal(0));
 
   const items = Object.keys(inventory) as InventoryItemName[];
   const validItems = items.filter(
     (itemName) => !!inventory[itemName] && WITHDRAWABLE_ITEMS.includes(itemName)
   );
+
+  // In order to be able to type into the input box amount needs to be able to be a string
+  // for when the user deletes the 0. safeAmount is a getter that will return amount as a Decimal
+  const safeAmount = (value: Decimal | string): Decimal => {
+    return typeof value !== "string" ? value : new Decimal(0);
+  };
 
   // Reset the input on open
   useEffect(() => {
@@ -88,6 +94,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const toggle = (itemName: InventoryItemName, type: "plus" | "minus") => {
     const itemIndex = selected.findIndex((inv) => inv.item === itemName);
+
     if (itemIndex > -1) {
       if (type === "plus") {
         selected[itemIndex].amount = selected[itemIndex].amount.plus(1);
@@ -107,7 +114,11 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const onWithdrawChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(new Decimal(e.target.valueAsNumber));
+    if (e.target.value === "") {
+      setAmount("");
+    } else {
+      setAmount(new Decimal(Number(e.target.value)));
+    }
   };
 
   const setMax = () => {
@@ -116,28 +127,28 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const incrementWithdraw = () => {
     if (
-      amount.plus(0.1).toNumber() <
+      safeAmount(amount).plus(0.1).toNumber() <
       game.context.state.balance.toDecimalPlaces(2, 1).toNumber()
     )
-      setAmount((prevState) => prevState.plus(0.1));
+      setAmount((prevState) => safeAmount(prevState).plus(0.1));
   };
 
   const decrementWithdraw = () => {
-    if (amount.toNumber() > 0.01) {
-      if (amount.minus(0.1).toNumber() >= 0)
-        setAmount((prevState) => prevState.minus(0.1));
+    if (safeAmount(amount).toNumber() > 0.01) {
+      if (safeAmount(amount).minus(0.1).toNumber() >= 0)
+        setAmount((prevState) => safeAmount(prevState).minus(0.1));
     }
   };
 
   // Use base 1000
-  const tax = getTax(amount) / 10;
+  const tax = getTax(typeof amount !== "string" ? amount : new Decimal(0)) / 10;
 
   const Content = () => {
     if (state === "input") {
       return (
         <>
           <h1 className="text-shadow">
-            You can only withdraw items that you have synced to the Blockchain.
+            You can only withdraw items that you have synced to the blockchain.
           </h1>
 
           <h1 className="text-shadow mt-4 underline">Available resources:</h1>
@@ -198,7 +209,11 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
                 className="text-shadow shadow-inner shadow-black bg-brown-200 w-32 p-2 text-center"
                 step="0.1"
                 min={0}
-                value={amount.toDecimalPlaces(2, Decimal.ROUND_DOWN).toNumber()}
+                value={
+                  typeof amount === "string"
+                    ? ""
+                    : amount.toDecimalPlaces(2, Decimal.ROUND_DOWN).toNumber()
+                }
                 onChange={onWithdrawChange}
               />
               <img
@@ -230,7 +245,9 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
           </div>
           <div className="flex items-center">
             <span className="text-xs">
-              You will recieve: {amount.mul((100 - tax) / 100).toFixed(1)}
+              {`You will recieve: ${safeAmount(amount)
+                .mul((100 - tax) / 100)
+                .toFixed(1)}`}
             </span>
             <img src={token} className="w-4 ml-2 img-highlight" />
           </div>
@@ -241,7 +258,7 @@ export const Withdraw: React.FC<Props> = ({ isOpen, onClose }) => {
 
           <Button
             onClick={onWithdraw}
-            disabled={amount.gte(game.context.state.balance)}
+            disabled={safeAmount(amount).gte(game.context.state.balance)}
           >
             Withdraw
           </Button>
