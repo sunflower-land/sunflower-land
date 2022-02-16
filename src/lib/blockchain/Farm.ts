@@ -37,7 +37,7 @@ export class Farm {
     return accounts;
   }
 
-  public async visitFarm(tokenId: number): Promise<FarmAccount> {
+  public async getFarm(tokenId: number): Promise<FarmAccount> {
     const account = await this.farm.methods.getFarm(tokenId).call();
     
     return account;

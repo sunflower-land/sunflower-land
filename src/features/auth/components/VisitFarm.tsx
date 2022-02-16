@@ -26,13 +26,15 @@ export const VisitFarm: React.FC = () => {
   return (
     <>
       <form onSubmit={visit}>
-        <span className="text-shadow text-small mb-2 px-1">Enter Farm ID: </span>
+        <span className="text-shadow text-small mb-2 px-1">
+          Enter Farm ID:{" "}
+        </span>
         <input
           type="text"
           name="farmId"
           className="text-shadow shadow-inner shadow-black bg-brown-200 w-24 p-2 m-2 text-center"
         />
-        <Button className="overflow-hidden" type="submit" onClick={() => {}}>
+        <Button className="overflow-hidden" type="submit">
           Visit
         </Button>
       </form>

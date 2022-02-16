@@ -33,7 +33,7 @@ export const WishingWell: React.FC = () => {
       <img
         src={wishingWell}
         alt="market"
-        onClick={isNotReadOnly ? () => setIsOpen(true) : () => {}}
+        onClick={isNotReadOnly ? () => setIsOpen(true) : undefined}
         className={classNames("w-full", {
           "cursor-pointer": isNotReadOnly,
           "hover:img-highlight": isNotReadOnly,

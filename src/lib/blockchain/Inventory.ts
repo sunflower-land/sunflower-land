@@ -49,17 +49,7 @@ export class Inventory {
   public async getBalances(farmAddress: string) {
     const batchAccounts = Array(IDS.length).fill(farmAddress);
     const balances = await this.contract.methods.balanceOfBatch(batchAccounts, IDS).call();
-    const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
 
-    return balances.reduce((items: Inventory, balance: string, index: number) => {
-      const unit = names[index] in TOOLS || names[index] in RESOURCES ? "ether" : "wei";
-      const value = new Decimal(fromWei(balance, unit));
-
-      if (value.equals(0)) {
-        return items;
-      }
-
-      return { ...items, [names[index]]: value };
-    }, {} as Inventory);
+    return balances;
   }
 }

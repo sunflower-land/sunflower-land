@@ -284,7 +284,7 @@ export const authMachine = createMachine<
       },
       visitFarm: async (context: Context, event: any): Promise<Farm | undefined> => {
         const farmId = (event as VisitEvent).farmId;
-        const farmAccount = await metamask.getFarm()?.visitFarm(farmId);
+        const farmAccount = await metamask.getFarm()?.getFarm(farmId);
 
         return {
           farmId: farmAccount.tokenId,

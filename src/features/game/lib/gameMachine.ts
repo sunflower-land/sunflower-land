@@ -123,17 +123,18 @@ export function startGame(authContext: AuthContext) {
             }
 
             // Visit farm 
-            const address = authContext.address as string;
-            const game = await getVisitState(address);
+            if (authContext.address) {
+              const game = await getVisitState(authContext.address as string);
 
-            game.id = authContext.farmId as number;
+              game.id = authContext.farmId as number;
 
-            return { state: game };
+              return { state: game };
+            }
 
-            // return { state: INITIAL_FARM };
+            return { state: INITIAL_FARM };
           },
           onDone: {
-            target: authContext.sessionId ? "playing" : "readonly",
+            target: authContext.sessionId || !authContext.address ? "playing" : "readonly",
             actions: assign({
               state: (context, event) => event.data.state,
             }),
