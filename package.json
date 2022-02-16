@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "set NODE_ENV=development && vite --port 3000",
     "build": "tsc && vite build",
-    "format": "./node_modules/.bin/eslint --ext .tsx . --fix",
+    "format": "./node_modules/.bin/eslint --ext .tsx,.ts . --fix",
     "preview": "vite preview",
     "generate": "graphql-codegen",
     "test": "jest"
