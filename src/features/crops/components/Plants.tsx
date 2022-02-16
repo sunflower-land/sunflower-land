@@ -58,7 +58,7 @@ export const Plants: React.FC = () => {
             className="w-8 sm:w-12"
             alt={selected.name}
           />
-          <span className="text-xs text-shadow text-center mt-2">
+          <span className="text-shadow text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
 

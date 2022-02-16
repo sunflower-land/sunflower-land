@@ -118,7 +118,7 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
             className="h-16 img-highlight mt-1"
             alt={selected.name}
           />
-          <span className="text-shadow text-center mt-2">
+          <span className="text-shadow text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
           <div className="border-t border-white w-full mt-2 pt-1">
