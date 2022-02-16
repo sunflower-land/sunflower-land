@@ -36,7 +36,9 @@ export type LimitedItem =
   | "Gold Egg"
   | "Golden Cauliflower"
   | "Sunflower Tombstone"
-  | "Sunflower Rock";
+  | "Sunflower Rock"
+  | "Goblin Crown"
+  | "Fountain";
 
 export type Tool =
   | "Axe"
@@ -343,6 +345,25 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 150,
+  },
+  "Goblin Crown": {
+    name: "Goblin Crown",
+    description: "Summon the leader of the Goblins",
+    price: new Decimal(5),
+    ingredients: [],
+    supply: 5000,
+  },
+  Fountain: {
+    name: "Fountain",
+    description: "A relaxing fountain for your farm",
+    price: new Decimal(5),
+    ingredients: [
+      {
+        amount: new Decimal(1),
+        item: "Stone",
+      },
+    ],
+    supply: 10000,
   },
 };
 

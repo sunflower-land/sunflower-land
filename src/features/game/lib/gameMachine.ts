@@ -223,16 +223,23 @@ export function startGame(authContext: AuthContext) {
               });
             }
 
-            await mint({
+            const session = await mint({
               farmId: Number(authContext.farmId),
               sessionId: context.sessionId as string,
               sender: metamask.myAccount as string,
               signature: authContext.signature as string,
               item: (event as MintEvent).item,
             });
+
+            return {
+              sessionId: session?.sessionId,
+            };
           },
           onDone: {
             target: "success",
+            actions: assign({
+              sessionId: (_, event) => event.data.sessionId,
+            }),
           },
           onError: {
             target: "error",
