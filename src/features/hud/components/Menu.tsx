@@ -131,7 +131,7 @@ export const Menu = () => {
           >
             <li className="p-1">
               <Button onClick={handleAboutClick}>
-                <span className="text-sm">About</span>
+                <span className="sm:text-sm">About</span>
                 <img
                   src={questionMark}
                   className="w-3 ml-2"
@@ -141,25 +141,25 @@ export const Menu = () => {
             </li>
             <li className="p-1">
               <Button onClick={() => handleNavigationClick(Section.Crops)}>
-                <span className="text-sm">Crops</span>
+                <span className="sm:text-sm">Crops</span>
                 <img src={radish} className="w-4 ml-2" alt="crop" />
               </Button>
             </li>
             <li className="p-1">
               <Button onClick={() => handleNavigationClick(Section.Water)}>
-                <span className="text-sm">Water</span>
+                <span className="sm:text-sm">Water</span>
                 <img src={water} className="w-4 ml-2" alt="water" />
               </Button>
             </li>
             <li className="p-1">
               {/* <Button onClick={syncOnChain}> */}
               <Button onClick={syncOnChain}>
-                <span className="text-sm">Sync on chain</span>
+                <span className="sm:text-sm">Sync on chain</span>
               </Button>
             </li>
             <li className="p-1">
               <Button onClick={withdraw}>
-                <span className="text-sm">Withdraw</span>
+                <span className="sm:text-sm">Withdraw</span>
                 <img src={token} className="w-4 ml-2" alt="token" />
               </Button>
             </li>
