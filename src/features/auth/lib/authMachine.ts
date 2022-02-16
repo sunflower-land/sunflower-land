@@ -224,8 +224,8 @@ export const authMachine = createMachine<
           RETURN: {
             target: "connecting",
             actions: "resetFarm",
-          }
-        }
+          },
+        },
       },
     },
     on: {
@@ -295,7 +295,10 @@ export const authMachine = createMachine<
           signature,
         };
       },
-      visitFarm: async (context: Context, event: any): Promise<Farm | undefined> => {
+      visitFarm: async (
+        context: Context,
+        event: any
+      ): Promise<Farm | undefined> => {
         const farmId = (event as VisitEvent).farmId;
         const farmAccount = await metamask.getFarm()?.getFarm(farmId);
 
@@ -304,7 +307,7 @@ export const authMachine = createMachine<
           address: farmAccount.account,
           sessionId: "",
         };
-      }
+      },
     },
     actions: {
       assignFarm: assign<Context, any>({
