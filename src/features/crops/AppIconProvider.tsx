@@ -37,7 +37,7 @@ const isHarvestable = (field: FieldItem): boolean => {
  * @param func
  * @param timeout
  */
-const debounce = (func: Function, timeout: number = 500) => {
+const debounce = (func: (...args: any) => void, timeout = 500) => {
   let timer: NodeJS.Timeout;
   return (...args: any[]) => {
     clearTimeout(timer);

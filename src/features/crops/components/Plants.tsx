@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 
-import token from "assets/icons/token.png";
+import token from "assets/icons/token.gif";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -14,9 +14,7 @@ import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
-interface Props {}
-
-export const Plants: React.FC<Props> = ({}) => {
+export const Plants: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
   const { setToast } = useContext(ToastContext);
   const { gameService } = useContext(Context);
@@ -28,7 +26,7 @@ export const Plants: React.FC<Props> = ({}) => {
 
   const inventory = state.inventory;
 
-  const sell = (amount: number = 1) => {
+  const sell = (amount = 1) => {
     gameService.send("item.sell", {
       item: selected.name,
       amount,

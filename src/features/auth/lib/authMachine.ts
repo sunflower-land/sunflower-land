@@ -228,6 +228,7 @@ export const authMachine = createMachine<
         });
       },
       sign: async (context: Context, sd): Promise<{ signature: string }> => {
+        console.log("SIGN!");
         const { signature } = await metamask.signTransaction();
 
         return {

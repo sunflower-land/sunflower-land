@@ -1,8 +1,6 @@
 import React from "react";
 
-interface Props {}
-
-export const Signing: React.FC<Props> = () => {
+export const Signing: React.FC = () => {
   return (
     <>
       <span className="text-shadow loading">Waiting for you...</span>

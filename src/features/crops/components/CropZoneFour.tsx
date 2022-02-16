@@ -14,9 +14,7 @@ import cauliflowerRice from "assets/nfts/roasted_cauliflower.png";
 
 import { Field } from "./Field";
 
-interface Props {}
-
-export const CropZoneFour: React.FC<Props> = () => {
+export const CropZoneFour: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService, selectedItem } = useContext(Context);
   const [

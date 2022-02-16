@@ -21,10 +21,10 @@ export const ScreenshotButton: React.FC = () => {
 
   const downloadImage = (
     content: string,
-    name: string = "My Sunflower Land Farm",
-    type: string = "jpeg"
+    name = "My Sunflower Land Farm",
+    type = "jpeg"
   ) => {
-    let link: HTMLAnchorElement = document.createElement("a");
+    const link: HTMLAnchorElement = document.createElement("a");
     link.href = `data:application/octet-stream;base64,${encodeURIComponent(
       content
     )}`;

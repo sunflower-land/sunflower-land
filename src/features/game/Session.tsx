@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from "react";
+import React, { useRef, useEffect } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import background from "assets/land/background.png";
@@ -13,17 +13,20 @@ export const Session: React.FC = () => {
   const container = useRef(null);
 
   useEffect(() => {
-    mapMovement.addListeners(container.current)
+    mapMovement.addListeners(container.current);
     return () => {
-      mapMovement.removeListeners()
-    }
-  }, [container])
+      mapMovement.removeListeners();
+    };
+  }, [container]);
 
   // Load data
   return (
     <GameProvider>
       <ToastProvider>
-        <ScrollContainer className="bg-green-background overflow-scroll relative w-full h-full" innerRef={container}>
+        <ScrollContainer
+          className="bg-green-background overflow-scroll relative w-full h-full"
+          innerRef={container}
+        >
           <div
             id="gameboard"
             className="relative h-gameboard w-gameboard"

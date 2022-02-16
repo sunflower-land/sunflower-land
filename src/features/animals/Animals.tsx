@@ -5,9 +5,7 @@ import { Section } from "lib/utils/useScrollIntoView";
 import { Chickens } from "./components/Chickens";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-interface Props {}
-
-export const Animals: React.FC<Props> = () => {
+export const Animals: React.FC = () => {
   return (
     // Container
     <div

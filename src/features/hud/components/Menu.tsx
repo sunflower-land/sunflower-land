@@ -16,7 +16,7 @@ import mobileMenu from "assets/icons/hamburger_menu.png";
 import questionMark from "assets/icons/expression_confused.png";
 import radish from "assets/icons/radish.png";
 import water from "assets/icons/expression_working.png";
-import token from "assets/icons/token.png";
+import token from "assets/icons/token.gif";
 import timer from "assets/icons/timer.png";
 
 const NETWORK = import.meta.env.VITE_NETWORK;
@@ -46,7 +46,7 @@ export const Menu = () => {
   };
 
   const handleAboutClick = () => {
-    window.open("https://docs.sunflower-farmers.com/", "_blank");
+    window.open("https://docs.sunflower-land.com/", "_blank");
     setMenuOpen(false);
   };
 
@@ -156,7 +156,6 @@ export const Menu = () => {
             </li>
             <li className="p-1">
               <Button onClick={withdraw}>
-              
                 <span className="text-sm">Withdraw</span>
                 <img src={token} className="w-4 ml-2" alt="token" />
               </Button>

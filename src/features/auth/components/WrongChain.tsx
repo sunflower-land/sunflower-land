@@ -16,7 +16,7 @@ export const WrongChain: React.FC = () => {
       <div className="flex mb-3 items-center">
         <img src={alert} alt="Warning" className="w-3 mr-3" />
       </div>
-      <p className="text-center mb-3">You're not connected to Polygon</p>
+      <p className="text-center mb-3">{`You're not connected to Polygon`}</p>
 
       <p className="text-center mb-4 text-xs">
         Check out this guide to help you get connected.
