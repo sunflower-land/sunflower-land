@@ -79,7 +79,7 @@ export const Plants: React.FC = () => {
           </Button>
           <Button
             disabled={noCrop}
-            className="text-xs mt-1"
+            className="text-xs mt-1 whitespace-nowrap"
             onClick={() => sell(cropAmount.toNumber())}
           >
             Sell All
