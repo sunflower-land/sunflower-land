@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useLayoutEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
 
@@ -24,8 +24,20 @@ import { Success } from "./components/Success";
 import { Syncing } from "./components/Syncing";
 import { Withdrawing } from "./components/Withdrawing";
 import { Quarry } from "features/quarry/Quarry";
+import { StateValues } from "./lib/gameMachine";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
+const SHOW_MODAL: Record<StateValues, boolean> = {
+  loading: true,
+  playing: false,
+  readonly: false,
+  autosaving: false,
+  minting: true,
+  success: true,
+  syncing: true,
+  withdrawing: true,
+  error: true,
+};
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -53,39 +65,14 @@ export const Game: React.FC = () => {
     <>
       <ToastManager />
 
-      <Modal show={gameState.matches("loading")} centered>
+      <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">
-          <Loading />
-        </Panel>
-      </Modal>
-
-      <Modal show={gameState.matches("error")} centered>
-        <Panel>
-          <GameError />
-        </Panel>
-      </Modal>
-
-      <Modal show={gameState.matches("minting")} centered>
-        <Panel>
-          <Minting />
-        </Panel>
-      </Modal>
-
-      <Modal show={gameState.matches("success")} centered>
-        <Panel>
-          <Success />
-        </Panel>
-      </Modal>
-
-      <Modal show={gameState.matches("syncing")} centered>
-        <Panel>
-          <Syncing />
-        </Panel>
-      </Modal>
-
-      <Modal show={gameState.matches("withdrawing")} centered>
-        <Panel>
-          <Withdrawing />
+          {gameState.matches("loading") && <Loading />}
+          {gameState.matches("error") && <GameError />}
+          {gameState.matches("minting") && <Minting />}
+          {gameState.matches("success") && <Success />}
+          {gameState.matches("syncing") && <Syncing />}
+          {gameState.matches("withdrawing") && <Withdrawing />}
         </Panel>
       </Modal>
 

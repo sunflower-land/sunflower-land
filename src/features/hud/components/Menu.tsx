@@ -98,7 +98,10 @@ export const Menu = () => {
   };
 
   return (
-    <div ref={ref} className="fixed top-2 left-2 z-50 shadow-lg">
+    <div
+      ref={ref}
+      className="w-5/12 sm:w-auto fixed top-2 left-2 z-50 shadow-lg"
+    >
       <OuterPanel>
         <div className="flex justify-center p-1">
           <Button
@@ -139,7 +142,7 @@ export const Menu = () => {
           >
             <li className="p-1">
               <Button onClick={handleAboutClick}>
-                <span className="text-sm">About</span>
+                <span className="sm:text-sm">About</span>
                 <img
                   src={questionMark}
                   className="w-3 ml-2"
@@ -149,13 +152,13 @@ export const Menu = () => {
             </li>
             <li className="p-1">
               <Button onClick={() => handleNavigationClick(Section.Crops)}>
-                <span className="text-sm">Crops</span>
+                <span className="sm:text-sm">Crops</span>
                 <img src={radish} className="w-4 ml-2" alt="crop" />
               </Button>
             </li>
             <li className="p-1">
               <Button onClick={() => handleNavigationClick(Section.Water)}>
-                <span className="text-sm">Water</span>
+                <span className="sm:text-sm">Water</span>
                 <img src={water} className="w-4 ml-2" alt="water" />
               </Button>
             </li>

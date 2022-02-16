@@ -38,7 +38,7 @@ export const Inventory: React.FC = () => {
       </div>
 
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems />
+        <InventoryItems onClose={() => setIsOpen(false)} />
       </Modal>
 
       {!game.matches("readonly") && (

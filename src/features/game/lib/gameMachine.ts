@@ -86,6 +86,9 @@ export type BlockchainState = {
   context: Context;
 };
 
+export type StateKeys = keyof Omit<BlockchainState, "context">;
+export type StateValues = BlockchainState[StateKeys];
+
 export type MachineInterpreter = Interpreter<
   Context,
   any,
