@@ -45,7 +45,7 @@ export const Box: React.FC<BoxProps> = ({
           borderRadius: "20px",
         }}
       >
-        <img src={image} className="h-8 w-auto" alt="item" />
+        <img src={image} className="h-full w-full object-contain" alt="item" />
 
         {!!count && count.greaterThan(0) && (
           <Label className="absolute -top-4 -right-3 px-0.5 text-xs z-10">

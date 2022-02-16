@@ -24,7 +24,7 @@ export class WishingWell {
 
   public async throwTokens(amount: string) {
     console.log({ amount });
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.contract.methods
         .throwTokens(amount)
         .send({ from: this.account })
@@ -44,7 +44,7 @@ export class WishingWell {
   }
 
   public async takeOut(amount: string) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.contract.methods
         .takeOut(amount)
         .send({ from: this.account })
@@ -64,7 +64,7 @@ export class WishingWell {
   }
 
   public async collectFromWell() {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.contract.methods
         .collectFromWell()
         .send({ from: this.account })

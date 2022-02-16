@@ -41,6 +41,8 @@ import sunflowerStatue from "assets/nfts/sunflower_statue.png";
 import sunflowerRock from "assets/nfts/sunflower_rock.png";
 import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
 import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
+import crown from "assets/nfts/goblin_crown.png";
+import fountain from "assets/nfts/fountain.gif";
 
 // Foods
 import flour from "assets/crops/wheat/flour.png";
@@ -255,9 +257,16 @@ export const ITEM_DETAILS: Items = {
     ...LimitedItems["Sunflower Tombstone"],
     image: sunflowerTombstone,
   },
+  "Goblin Crown": {
+    ...LimitedItems["Goblin Crown"],
+    image: crown,
+  },
+  Fountain: {
+    ...LimitedItems["Fountain"],
+    image: fountain,
+  },
 
   // FOOD
-
   "Pumpkin Soup": {
     ...FOODS["Pumpkin Soup"],
     image: pumpkinSoup,

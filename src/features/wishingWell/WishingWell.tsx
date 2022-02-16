@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
+import classNames from "classnames";
+
+import { Context } from "features/game/GameProvider";
 
 import wishingWell from "assets/buildings/wishing_well.png";
 import icon from "assets/brand/icon.png";
@@ -9,7 +13,12 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 
 export const WishingWell: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const isNotReadOnly = !gameState.matches("readonly");
+
   return (
     <div
       className="z-10 absolute"
@@ -24,15 +33,20 @@ export const WishingWell: React.FC = () => {
       <img
         src={wishingWell}
         alt="market"
-        onClick={() => setIsOpen(true)}
-        className="cursor-pointer hover:img-highlight w-full"
+        onClick={isNotReadOnly ? () => setIsOpen(true) : undefined}
+        className={classNames("w-full", {
+          "cursor-pointer": isNotReadOnly,
+          "hover:img-highlight": isNotReadOnly,
+        })}
       />
-      <Action
-        className="absolute -bottom-8 -left-2"
-        text="Wish"
-        icon={icon}
-        onClick={() => setIsOpen(true)}
-      />
+      {isNotReadOnly && (
+        <Action
+          className="absolute -bottom-8 -left-2"
+          text="Wish"
+          icon={icon}
+          onClick={() => setIsOpen(true)}
+        />
+      )}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <WishingWellModal
           key={isOpen ? "1" : "0"}

@@ -36,5 +36,7 @@ async function mintRequest(request: Request) {
 
 export async function mint(request: Request) {
   const transaction = await mintRequest(request);
-  await metamask.getSessionManager().sync(transaction);
+  const session = await metamask.getSessionManager().sync(transaction);
+
+  return session;
 }
