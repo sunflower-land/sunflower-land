@@ -21,7 +21,7 @@ jobs:
         env:
           CI: false
           VITE_API_URL: ${{ secrets.API_URL }}
-          VITE_NETWORK: testnet
+          VITE_NETWORK: mumbai
           VITE_BETA_CONTRACT: "0x379813013a8cC1078f3c01254aE97C8A75e385c7"
           VITE_SESSION_CONTRACT: "0x2F794df7EFaF3b47ed70C232e4A1f6289A143FB3"
           VITE_FARM_CONTRACT: "0xB554607D04D6C3EecAb4Cd19A0cF8218BD82fff0"
