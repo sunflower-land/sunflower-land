@@ -52,10 +52,10 @@ export const Plants: React.FC = () => {
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 ">
-          <span className="text-base text-shadow">{selected.name}</span>
+          <span className="text-shadow">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
-            className="w-12"
+            className="w-8 sm:w-12"
             alt={selected.name}
           />
           <span className="text-xs text-shadow text-center mt-2">

@@ -38,7 +38,7 @@ export const Inventory: React.FC = () => {
       </div>
 
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems />
+        <InventoryItems onClose={() => setIsOpen(false)} />
       </Modal>
 
       <div className="flex flex-col items-center sm:mt-8">
