@@ -5,6 +5,11 @@ import SessionABI from "./abis/Session.json";
 const address = import.meta.env.VITE_SESSION_CONTRACT;
 const NETWORK = import.meta.env.VITE_NETWORK;
 
+type SessionChangedEvent = {
+  owner: string;
+  sessionId: string;
+  farmId: number;
+};
 /**
  * Sessions contract
  */
@@ -52,14 +57,37 @@ export class SessionManager {
     burnIds: number[];
     burnAmounts: number[];
     tokens: number;
-  }) {
+  }): Promise<SessionChangedEvent> {
     if (NETWORK === "mainnet") {
       throw new Error("NOT IMPLEMENTED");
     }
 
     const fee = toWei("0.1");
 
-    return new Promise((resolve, reject) => {
+    const latest = await this.web3.eth.getBlockNumber();
+    const options = {
+      filter: { account: [this.account] },
+      fromBlock: latest,
+    };
+
+    return new Promise(async (resolve, reject) => {
+      // We resolve once the session changed event comes through
+      const timer = setInterval(() => {
+        this.contract
+          .getPastEvents("SessionChanged", options)
+          .then((results: any) => {
+            if (results.length > 0) {
+              clearInterval(timer);
+              resolve(results[0].returnValues);
+            }
+          })
+          .catch((err: any) => {
+            clearInterval(timer);
+            console.log({ err });
+            reject(err);
+          });
+      }, 1000);
+
       this.contract.methods
         .sync(
           signature,
@@ -75,6 +103,7 @@ export class SessionManager {
         .send({ from: this.account, value: fee })
         .on("error", function (error: any) {
           console.log({ error });
+          clearInterval(timer);
 
           reject(error);
         })
@@ -83,7 +112,6 @@ export class SessionManager {
         })
         .on("receipt", function (receipt: any) {
           console.log({ receipt });
-          resolve(receipt);
         });
     });
   }
@@ -107,12 +135,35 @@ export class SessionManager {
     amounts: number[];
     sfl: number;
     tax: number;
-  }) {
+  }): Promise<SessionChangedEvent> {
     if (NETWORK === "mainnet") {
       throw new Error("NOT IMPLEMENTED");
     }
 
-    return new Promise((resolve, reject) => {
+    const latest = await this.web3.eth.getBlockNumber();
+    const options = {
+      filter: { account: [this.account] },
+      fromBlock: latest,
+    };
+
+    return new Promise(async (resolve, reject) => {
+      // We resolve once the session changed event comes through
+      const timer = setInterval(() => {
+        this.contract
+          .getPastEvents("SessionChanged", options)
+          .then((results: any) => {
+            if (results.length > 0) {
+              clearInterval(timer);
+              resolve(results[0].returnValues);
+            }
+          })
+          .catch((err: any) => {
+            clearInterval(timer);
+            console.log({ err });
+            reject(err);
+          });
+      }, 1000);
+
       this.contract.methods
         .withdraw(
           signature,
@@ -127,6 +178,7 @@ export class SessionManager {
         .send({ from: this.account })
         .on("error", function (error: any) {
           console.log({ error });
+          clearInterval(timer);
 
           reject(error);
         })
@@ -135,7 +187,6 @@ export class SessionManager {
         })
         .on("receipt", function (receipt: any) {
           console.log({ receipt });
-          resolve(receipt);
         });
     });
   }

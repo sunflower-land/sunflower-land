@@ -6,6 +6,10 @@ import { metamask } from "../../../lib/blockchain/metamask";
 import { createFarm as createFarmAction } from "../actions/createFarm";
 import { CharityAddress } from "../components/Donation";
 
+// Hashed eth 0 value
+const INITIAL_SESSION =
+  "0x0000000000000000000000000000000000000000000000000000000000000000";
+
 type Farm = {
   farmId: number;
   sessionId: string;
@@ -145,7 +149,10 @@ export const authMachine = createMachine<
           creatingFarm: {
             invoke: {
               src: "createFarm",
-              onDone: "loadingFarm",
+              onDone: {
+                target: "authorised",
+                actions: "assignFarm",
+              },
               onError: {
                 target: "#unauthorised",
                 actions: "assignErrorMessage",
@@ -263,16 +270,22 @@ export const authMachine = createMachine<
           sessionId,
         };
       },
-      createFarm: async (context: Context, event: any): Promise<void> => {
+      createFarm: async (context: Context, event: any): Promise<Context> => {
         const charityAddress = (event as CreateFarmEvent)
           .charityAddress as CharityAddress;
         const donation = (event as CreateFarmEvent).donation as number;
 
-        await createFarmAction({
+        const newFarm = await createFarmAction({
           charity: charityAddress,
           donation,
           signature: context.signature as string,
         });
+
+        return {
+          farmId: newFarm.tokenId,
+          address: newFarm.landAddress,
+          sessionId: INITIAL_SESSION,
+        };
       },
       sign: async (context: Context, sd): Promise<{ signature: string }> => {
         console.log("SIGN!");

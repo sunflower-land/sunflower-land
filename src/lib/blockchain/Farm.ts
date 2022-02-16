@@ -10,6 +10,11 @@ type FarmAccount = {
   tokenId: number;
 };
 
+type FarmCreatedEvent = {
+  owner: string;
+  landAddress: string;
+  tokenId: number;
+};
 /**
  * Farm NFT contract
  */
@@ -43,11 +48,10 @@ export class Farm {
     return account;
   }
 
-  public async onCreated(owner: string): Promise<number> {
+  public async onCreated(owner: string): Promise<FarmCreatedEvent> {
     const latest = await this.web3.eth.getBlockNumber();
-    console.log({ latest });
     const options = {
-      filter: { to: [owner] },
+      filter: { account: [owner] },
       fromBlock: latest,
     };
 
@@ -57,12 +61,11 @@ export class Farm {
     return new Promise((res, rej) => {
       const timer = setInterval(() => {
         this.farm
-          .getPastEvents("Transfer", options)
+          .getPastEvents("LandCreated", options)
           .then((results: any) => {
-            console.log({ results });
             if (results.length > 0) {
               clearInterval(timer);
-              res(results[0].returnValues.tokenId);
+              res(results[0].returnValues);
             }
           })
           .catch((err: any) => {

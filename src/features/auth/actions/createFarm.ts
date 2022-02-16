@@ -51,12 +51,12 @@ export async function createFarm({
     signature,
   });
 
-  const tokenIdListener = metamask.getFarm().onCreated(address);
+  const farm = metamask.getFarm().onCreated(address);
 
   await metamask.getBeta().createFarm(transaction);
 
-  const tokenId = await tokenIdListener;
-  console.log({ tokenId });
+  const newFarm = await farm;
+  console.log({ newFarm });
 
-  return tokenId;
+  return newFarm;
 }
