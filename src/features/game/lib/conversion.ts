@@ -1,4 +1,4 @@
-import { TOOLS } from "../types/craftables";
+import { CROPS } from "../types/crops";
 import { InventoryItemName } from "../types/game";
 import { RESOURCES } from "../types/resources";
 
@@ -7,7 +7,7 @@ import { RESOURCES } from "../types/resources";
  * Other items (NFTs) and collectibles have 1
  */
 export function getItemUnit(name: InventoryItemName) {
-  if (name in TOOLS || name in RESOURCES) {
+  if (name in CROPS() || name in RESOURCES) {
     return "ether";
   }
 
