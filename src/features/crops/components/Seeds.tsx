@@ -16,11 +16,8 @@ import { Craftable } from "features/game/types/craftables";
 import { CropName, CROPS, SEEDS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-<<<<<<< HEAD
 import { Decimal } from "decimal.js-light";
-=======
 import { useTour } from "@reactour/tour";
->>>>>>> 294ff04 (add buy and sell handlers)
 
 interface Props {
   onClose: () => void;
