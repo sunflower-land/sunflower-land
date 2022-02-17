@@ -287,7 +287,7 @@ export const authMachine = createMachine<
           sessionId: INITIAL_SESSION,
         };
       },
-      sign: async (context: Context, sd): Promise<{ signature: string }> => {
+      sign: async (): Promise<{ signature: string }> => {
         console.log("SIGN!");
         const { signature } = await metamask.signTransaction();
 
@@ -296,7 +296,7 @@ export const authMachine = createMachine<
         };
       },
       visitFarm: async (
-        context: Context,
+        _context: Context,
         event: any
       ): Promise<Farm | undefined> => {
         const farmId = (event as VisitEvent).farmId;
@@ -322,9 +322,9 @@ export const authMachine = createMachine<
         errorCode: (_context, event) => event.data.message,
       }),
       resetFarm: assign<Context, any>({
-        farmId: (_context, event) => undefined,
-        address: (_context, event) => undefined,
-        sessionId: (_context, event) => undefined,
+        farmId: () => undefined,
+        address: () => undefined,
+        sessionId: () => undefined,
       }),
     },
     guards: {
