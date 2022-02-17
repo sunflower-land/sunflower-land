@@ -21,7 +21,7 @@ export const WrongChain: React.FC = () => {
     };
 
     load();
-  });
+  }, []);
 
   const initialiseNetwork = async () => {
     await metamask.initialiseNetwork();

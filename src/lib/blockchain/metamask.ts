@@ -10,7 +10,7 @@ import { Token } from "./Token";
 
 const NETWORK = import.meta.env.VITE_NETWORK;
 
-const POLYGON_TESTNET_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
+const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -96,7 +96,7 @@ export class Metamask {
 
       const chainId = await this.web3?.eth.getChainId();
 
-      if (!(chainId === POLYGON_TESTNET_CHAIN_ID)) {
+      if (!(chainId === POLYGON_CHAIN_ID)) {
         throw new Error(ERRORS.WRONG_CHAIN);
       }
 
@@ -168,9 +168,9 @@ export class Metamask {
   }
 
   private getDefaultChainParam(){
-    if (POLYGON_TESTNET_CHAIN_ID === 137) {
+    if (POLYGON_CHAIN_ID === 137) {
       return {
-        chainId: `0x${Number(POLYGON_TESTNET_CHAIN_ID).toString(16)}`,
+        chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}`,
         chainName: "Polygon Mainnet",
         nativeCurrency: {
           name: "MATIC",
@@ -182,7 +182,7 @@ export class Metamask {
       }
     } else {
       return {
-        chainId: `0x${Number(POLYGON_TESTNET_CHAIN_ID).toString(16)}`,
+        chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}`,
         chainName: "Polygon Testnet Mumbai",
         nativeCurrency: {
           name: "MATIC",
@@ -197,13 +197,13 @@ export class Metamask {
 
   public async checkDefaultNetwork() {
     const chainId = await this.web3?.eth.getChainId();
-    return chainId === POLYGON_TESTNET_CHAIN_ID;
+    return chainId === POLYGON_CHAIN_ID;
   }
 
   public async switchNetwork() {
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: `0x${Number(POLYGON_TESTNET_CHAIN_ID).toString(16)}` }],
+      params: [{ chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}` }],
     });
   }
 
