@@ -10,12 +10,6 @@ import { cacheShortcuts, getShortcuts } from "features/hud/lib/shortcuts";
 
 import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
-import { inspect } from "@xstate/inspect";
-
-inspect({
-  url: 'https://statecharts.io/inspect', // (default)
-  iframe: false // open in new window
-});
 
 interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
