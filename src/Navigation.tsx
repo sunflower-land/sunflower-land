@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -14,25 +14,20 @@ import { Auth } from "features/auth/Auth";
 export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
+  const [showGame, setShowGame] = useState(false);
 
   useEffect(() => {
-    if (
-      !(
-        authState.matches({ connected: "authorised" }) ||
-        authState.matches("visiting")
-      )
-    ) {
-      return;
-    }
     // Start with crops centered
-    const el = document.getElementById("crops");
+    if (showGame) {
+      const el = document.getElementById("crops");
 
-    el?.scrollIntoView({
-      behavior: "auto",
-      block: "center",
-      inline: "center",
-    });
-  }, [authState]);
+      el?.scrollIntoView({
+        behavior: "auto",
+        block: "center",
+        inline: "center",
+      });
+    }
+  }, [showGame]);
 
   /**
    * Listen to web3 account/network changes
@@ -50,9 +45,17 @@ export const Navigation: React.FC = () => {
     }
   }, [send]);
 
-  const showGame =
-    authState.matches({ connected: "authorised" }) ||
-    authState.matches("visiting");
+  useEffect(() => {
+    if (
+      authState.matches({ connected: "authorised" }) ||
+      authState.matches("visiting")
+    ) {
+      // TODO: look into this further
+      // This is to prevent a modal clash when the authmachine switches
+      // to the game machine.
+      setTimeout(() => setShowGame(true), 20);
+    }
+  }, [authState.value]);
 
   return (
     <>

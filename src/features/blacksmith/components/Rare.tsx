@@ -119,15 +119,13 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
             </span>
           )}
 
-          <span className="text-base text-shadow text-center">
-            {selected.name}
-          </span>
+          <span className="text-shadow text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
             className="h-16 img-highlight mt-1"
             alt={selected.name}
           />
-          <span className="text-xs text-shadow text-center mt-2">
+          <span className="text-shadow text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
           <div className="border-t border-white w-full mt-2 pt-1">

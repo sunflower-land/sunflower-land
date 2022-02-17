@@ -50,6 +50,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Golden Cauliflower": 410,
   "Sunflower Tombstone": 411,
   "Sunflower Rock": 412,
+  "Goblin Crown": 413,
+  Fountain: 414,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,

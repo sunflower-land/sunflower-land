@@ -1,13 +1,11 @@
 import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
-import { fromWei } from "web3-utils";
-import { Decimal } from "decimal.js-light";
 import { EVENTS, GameEvent } from "../events";
 import { processEvent } from "./processEvent";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
 
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState } from "../types/game";
 import { loadSession } from "../actions/loadSession";
 import { INITIAL_FARM } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -15,6 +13,7 @@ import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { withdraw } from "../actions/withdraw";
+import { getVisitState } from "../actions/visit";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -23,6 +22,7 @@ export type PastAction = GameEvent & {
 export interface Context {
   state: GameState;
   actions: PastAction[];
+  sessionId?: string;
 }
 
 type MintEvent = {
@@ -43,6 +43,9 @@ export type BlockchainEvent =
     }
   | {
       type: "SYNC";
+    }
+  | {
+      type: "REFRESH";
     }
   | WithdrawEvent
   | GameEvent
@@ -83,6 +86,9 @@ export type BlockchainState = {
   context: Context;
 };
 
+export type StateKeys = keyof Omit<BlockchainState, "context">;
+export type StateValues = BlockchainState[StateKeys];
+
 export type MachineInterpreter = Interpreter<
   Context,
   any,
@@ -97,16 +103,17 @@ export function startGame(authContext: AuthContext) {
     context: {
       actions: [],
       state: INITIAL_FARM,
+      sessionId: authContext.sessionId,
     },
     states: {
       loading: {
         invoke: {
-          src: async () => {
+          src: async (context) => {
             // Load the farm session
-            if (authContext.sessionId) {
+            if (context.sessionId) {
               const game = await loadSession({
                 farmId: Number(authContext.farmId),
-                sessionId: authContext.sessionId as string,
+                sessionId: context.sessionId as string,
                 signature: authContext.signature as string,
                 sender: metamask.myAccount as string,
               });
@@ -123,14 +130,22 @@ export function startGame(authContext: AuthContext) {
               };
             }
 
-            // They are an anonymous user
-            // TODO: Load from Web3
+            // Visit farm
+            if (authContext.address) {
+              const game = await getVisitState(authContext.address as string);
+
+              game.id = authContext.farmId as number;
+
+              return { state: game };
+            }
 
             return { state: INITIAL_FARM };
           },
           onDone: {
-            //target: authContext.sessionId ? "playing" : "readonly",
-            target: authContext.sessionId ? "playing" : "playing",
+            target:
+              authContext.sessionId || !authContext.address
+                ? "playing"
+                : "readonly",
             actions: assign({
               state: (context, event) => event.data.state,
             }),
@@ -168,7 +183,7 @@ export function startGame(authContext: AuthContext) {
             if (context.actions.length > 0) {
               await autosave({
                 farmId: Number(authContext.farmId),
-                sessionId: authContext.sessionId as string,
+                sessionId: context.sessionId as string,
                 sender: metamask.myAccount as string,
                 actions: context.actions,
                 signature: authContext.signature as string,
@@ -204,23 +219,30 @@ export function startGame(authContext: AuthContext) {
             if (context.actions.length > 0) {
               await autosave({
                 farmId: Number(authContext.farmId),
-                sessionId: authContext.sessionId as string,
+                sessionId: context.sessionId as string,
                 sender: metamask.myAccount as string,
                 actions: context.actions,
                 signature: authContext.signature as string,
               });
             }
 
-            await mint({
+            const session = await mint({
               farmId: Number(authContext.farmId),
-              sessionId: authContext.sessionId as string,
+              sessionId: context.sessionId as string,
               sender: metamask.myAccount as string,
               signature: authContext.signature as string,
               item: (event as MintEvent).item,
             });
+
+            return {
+              sessionId: session?.sessionId,
+            };
           },
           onDone: {
             target: "success",
+            actions: assign({
+              sessionId: (_, event) => event.data.sessionId,
+            }),
           },
           onError: {
             target: "error",
@@ -234,21 +256,28 @@ export function startGame(authContext: AuthContext) {
             if (context.actions.length > 0) {
               await autosave({
                 farmId: Number(authContext.farmId),
-                sessionId: authContext.sessionId as string,
+                sessionId: context.sessionId as string,
                 sender: metamask.myAccount as string,
                 actions: context.actions,
                 signature: authContext.signature as string,
               });
             }
 
-            await sync({
+            const session = await sync({
               farmId: Number(authContext.farmId),
-              sessionId: authContext.sessionId as string,
+              sessionId: context.sessionId as string,
               signature: authContext.signature as string,
             });
+
+            return {
+              sessionId: session?.sessionId,
+            };
           },
           onDone: {
             target: "success",
+            actions: assign({
+              sessionId: (_, event) => event.data.sessionId,
+            }),
           },
           onError: {
             target: "error",
@@ -257,19 +286,26 @@ export function startGame(authContext: AuthContext) {
       },
       withdrawing: {
         invoke: {
-          src: async (_, event) => {
+          src: async (context, event) => {
             const { amounts, ids, sfl } = event as WithdrawEvent;
-            await withdraw({
+            const session = await withdraw({
               farmId: Number(authContext.farmId),
-              sessionId: authContext.sessionId as string,
+              sessionId: context.sessionId as string,
               signature: authContext.signature as string,
               amounts,
               ids,
               sfl,
             });
+
+            return {
+              sessionId: session?.sessionId,
+            };
           },
           onDone: {
             target: "success",
+            actions: assign({
+              sessionId: (_, event) => event.data.sessionId,
+            }),
           },
           onError: {
             target: "error",
@@ -278,7 +314,13 @@ export function startGame(authContext: AuthContext) {
       },
       readonly: {},
       error: {},
-      success: {},
+      success: {
+        on: {
+          REFRESH: {
+            target: "loading",
+          },
+        },
+      },
     },
   });
 }

@@ -12,6 +12,8 @@ import dog from "assets/nfts/farm_dog.png";
 import cat from "assets/nfts/farm_cat.png";
 import gnome from "assets/nfts/gnome.png";
 import scarecrow from "assets/nfts/scarecrow.png";
+import goblinKing from "assets/nfts/goblin_king.png";
+import fountain from "assets/nfts/fountain.gif";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Context } from "../GameProvider";
@@ -127,6 +129,32 @@ export const Decorations: React.FC = () => {
           className="absolute"
           src={scarecrow}
           alt="Scarecrow"
+        />
+      )}
+
+      {state.inventory["Fountain"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2}px`,
+            left: `${GRID_WIDTH_PX * 36}px`,
+            top: `${GRID_WIDTH_PX * 30}px`,
+          }}
+          className="absolute"
+          src={fountain}
+          alt="Fountain"
+        />
+      )}
+
+      {state.inventory["Goblin Crown"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 3}px`,
+            left: `${GRID_WIDTH_PX * 52}px`,
+            top: `${GRID_WIDTH_PX * 62}px`,
+          }}
+          className="absolute"
+          src={goblinKing}
+          alt="GoblinKing"
         />
       )}
     </>

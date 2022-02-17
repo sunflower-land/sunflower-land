@@ -120,12 +120,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           {/* <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
             {`${stock} in stock`}
           </span> */}
-          <span className="text-base text-shadow text-center">
-            {selected.name}
-          </span>
+          <span className="text-shadow text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
-            className="w-12 img-highlight mt-1"
+            className="w-8 sm:w-12 img-highlight mt-1"
             alt={selected.name}
           />
           <div className="border-t border-white w-full mt-2 pt-1">
