@@ -209,6 +209,8 @@ export const ITEM_DETAILS: Items = {
     image: rod,
   },
 
+  // NFTs
+
   "Sunflower Statue": {
     ...LimitedItems["Sunflower Statue"],
     image: sunflowerStatue,
