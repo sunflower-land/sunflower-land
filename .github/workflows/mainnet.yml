@@ -21,7 +21,15 @@ jobs:
         env:
           CI: false
           VITE_API_URL: ${{ secrets.API_URL }}
-          VITE_NETWORK: mainnet
+          VITE_NETWORK: mumbai
+          VITE_BETA_CONTRACT: "0x48AfE14AE52987F6fE6E2F69aB74DC7Ac5a10fd2"
+          VITE_FARM_CONTRACT: "0x2B4A66557A79263275826AD31a4cDDc2789334bD"
+          # Testing only
+          VITE_SESSION_CONTRACT: "0x2C5206E0AbF5B560413503EB4f41ebCefc254C8B"
+          VITE_INVENTORY_CONTRACT: "0x3c84Fa6b2dC77BcD38F6b01f3659b5611c861319"
+          VITE_TOKEN_CONTRACT: "0x1D24F82b5d9d72450C2ed065F51827Eb280FFA38"
+          VITE_WISHING_WELL_CONTRACT: "0xD1f9c58e33933a993A3891F8acFe05a68E1afC05"
+          VITE_PAIR_CONTRACT: "0xaE42EA9864C36820627068a11959915f817ce809"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
