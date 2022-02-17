@@ -10,7 +10,7 @@ import { Token } from "./Token";
 
 const NETWORK = import.meta.env.VITE_NETWORK;
 
-const POLYGON_TESTNET_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
+const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -96,7 +96,7 @@ export class Metamask {
 
       const chainId = await this.web3?.eth.getChainId();
 
-      if (!(chainId === POLYGON_TESTNET_CHAIN_ID)) {
+      if (!(chainId === POLYGON_CHAIN_ID)) {
         throw new Error(ERRORS.WRONG_CHAIN);
       }
 
@@ -165,6 +165,73 @@ export class Metamask {
     ].join("\n\n");
 
     return MESSAGE;
+  }
+
+  private getDefaultChainParam(){
+    if (POLYGON_CHAIN_ID === 137) {
+      return {
+        chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}`,
+        chainName: "Polygon Mainnet",
+        nativeCurrency: {
+          name: "MATIC",
+          symbol: "MATIC",
+          decimals: 18
+        },
+        rpcUrls: ["https://polygon-rpc.com/"],
+        blockExplorerUrls: ["https://polygonscan.com/"]
+      }
+    } else {
+      return {
+        chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}`,
+        chainName: "Polygon Testnet Mumbai",
+        nativeCurrency: {
+          name: "MATIC",
+          symbol: "MATIC",
+          decimals: 18
+        },
+        rpcUrls: ["https://matic-mumbai.chainstacklabs.com"],
+        blockExplorerUrls: ["https://mumbai.polygonscan.com/"]
+      }
+    }
+  }
+
+  public async checkDefaultNetwork() {
+    const chainId = await this.web3?.eth.getChainId();
+    return chainId === POLYGON_CHAIN_ID;
+  }
+
+  public async switchNetwork() {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}` }],
+    });
+  }
+
+  public async addNetwork() {
+    try {
+      let defaultChainParam = this.getDefaultChainParam();
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            ...defaultChainParam
+          },
+        ],
+      });
+    } catch (addError) {
+      throw new Error(ERRORS.WRONG_CHAIN);
+    }
+  }
+
+  public async initialiseNetwork(){
+    try {
+      await this.switchNetwork();
+    } catch (e: any) {
+      if (e.code === 4902) {
+        await this.addNetwork();
+      }
+      throw e;
+    }
   }
 
   public getFarm() {
