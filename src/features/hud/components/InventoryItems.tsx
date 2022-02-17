@@ -5,10 +5,9 @@ import { OuterPanel, Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
-import { KNOWN_IDS, CATEGORY_ID, CATEGORY } from "features/game/types";
 
 import { SEEDS, CROPS } from "features/game/types/crops";
-import { FOODS, TOOLS, LimitedItem } from "features/game/types/craftables";
+import { FOODS, TOOLS, LimitedItems } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 
 import arrowLeft from "assets/icons/arrow_left.png";
@@ -26,64 +25,59 @@ interface Props {
   onClose: () => void;
 }
 
-// type Tab = "Seeds" | "Crops" | "Tools" | "NFTs" | "Foods" | "Resources";
+type Tab = "Seeds" | "Crops" | "Tools" | "NFTs" | "Foods" | "Resources";
 
-export const categories: CATEGORY[] = [
-  {
-    id: 1,
-    name: "Seeds",
+export const CATEGORIES: Record<Tab, { img: string; items: object }> = {
+  Seeds: {
     img: seed,
+    items: SEEDS(),
   },
-  {
-    id: 2,
-    name: "Crops",
+  Crops: {
     img: crop,
+    items: CROPS(),
   },
-  {
-    id: 3,
-    name: "Tools",
+  Tools: {
     img: tool,
+    items: TOOLS,
   },
-  {
-    id: 4,
-    name: "NFTs",
+  NFTs: {
     img: nft,
+    items: LimitedItems,
   },
-  {
-    id: 5,
-    name: "Foods",
+  Foods: {
     img: food,
+    items: FOODS,
   },
-  {
-    id: 6,
-    name: "Resources",
+  Resources: {
     img: resource,
+    items: RESOURCES,
   },
-];
+};
 
 export const InventoryItems: React.FC<Props> = ({ onClose }) => {
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
-
-  const [tab, setTab] = useState<CATEGORY_ID | number>(1);
-
+  const [currentTab, setCurrentTab] = useState<Tab>("Seeds");
   const [game] = useActor(gameService);
   const inventory = game.context.state.inventory;
-  console.log({inventory})
 
+  const tabSequence = Object.keys(CATEGORIES) as Tab[];
   const items = Object.keys(inventory) as InventoryItemName[];
   const validItems = items.filter((itemName) => !!inventory[itemName]);
-  let categoryWithItems = validItems.map((itemName) =>
-    Number(String(KNOWN_IDS[itemName]).charAt(0))
-  ) as CATEGORY_ID[] | number[];
-  categoryWithItems = [...new Set<CATEGORY_ID | number>(categoryWithItems)];
+  const isCategoryEmpty = !validItems.some(
+    (itemName) => itemName in CATEGORIES[currentTab].items
+  );
+  const len = Object.keys(CATEGORIES).length;
 
-  const len = categories.length;
+  const getCurrentTabIndex = () => tabSequence.indexOf(currentTab);
+
   const nextCategory = () => {
-    setTab(tab === len ? 1 : tab + 1);
+    const index = getCurrentTabIndex();
+    setCurrentTab(index === len - 1 ? tabSequence[0] : tabSequence[index + 1]);
   };
 
   const prevCategory = () => {
-    setTab(tab === 1 ? len : tab - 1);
+    const index = getCurrentTabIndex();
+    setCurrentTab(index === 0 ? tabSequence[len - 1] : tabSequence[index - 1]);
   };
 
   return (
@@ -100,16 +94,18 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
           src={arrowLeft}
           onClick={prevCategory}
         />
-        {categories.map((category, idx) => (
+        {tabSequence.map((category) => (
           <div
-            key={category.name}
-            className={`${idx + 1 === tab ? "" : "hidden"} flex items-center justify-center`}
-            style={{minWidth: "10rem"}}
+            key={category}
+            className={`${
+              currentTab === category ? "" : "hidden"
+            } flex items-center justify-center`}
+            style={{ minWidth: "10rem" }}
           >
             <div>
-              <img src={category.img} className="h-5" />
+              <img src={CATEGORIES[category].img} className="h-5" />
             </div>
-            <span className="text-sm text-shadow ml-2">{category.name}</span>
+            <span className="text-sm text-shadow ml-2">{category}</span>
           </div>
         ))}
         <img
@@ -121,22 +117,23 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
 
       <div className="flex">
         <div className="w-3/5 flex flex-wrap h-fit">
-          {!categoryWithItems.includes(tab) && (
+          {isCategoryEmpty ? (
             <span className="text-white text-shadow">
-              You have no {categories[tab - 1].name} in your inventory.
+              You have no {currentTab} in your inventory.
             </span>
-          )}
-          {validItems.map(
-            (itemName) =>
-              Number(String(KNOWN_IDS[itemName]).charAt(0)) === tab && (
-                <Box
-                  count={inventory[itemName]}
-                  isSelected={selectedItem === itemName}
-                  key={itemName}
-                  onClick={() => shortcutItem(itemName)}
-                  image={ITEM_DETAILS[itemName].image}
-                />
-              )
+          ) : (
+            validItems.map(
+              (itemName) =>
+                itemName in CATEGORIES[currentTab].items && (
+                  <Box
+                    count={inventory[itemName]}
+                    isSelected={selectedItem === itemName}
+                    key={itemName}
+                    onClick={() => shortcutItem(itemName)}
+                    image={ITEM_DETAILS[itemName].image}
+                  />
+                )
+            )
           )}
         </div>
 

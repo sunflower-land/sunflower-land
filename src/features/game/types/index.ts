@@ -1,13 +1,5 @@
 import { InventoryItemName } from "./game";
 
-export type CATEGORY_ID = 1 | 2 | 3 | 4 | 5 | 6;
-
-export interface CATEGORY {
-  id: CATEGORY_ID;
-  name: string;
-  img: string
-}
-
 export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Seed": 101,
   "Potato Seed": 102,
