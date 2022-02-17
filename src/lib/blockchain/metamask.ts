@@ -226,10 +226,11 @@ export class Metamask {
   public async initialiseNetwork(){
     try {
       await this.switchNetwork();
-    } catch (switchError) {
-      if (switchError.code === 4902) {
+    } catch (e: any) {
+      if (e.code === 4902) {
         await this.addNetwork();
       }
+      throw e;
     }
   }
 
