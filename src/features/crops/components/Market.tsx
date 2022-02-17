@@ -25,16 +25,20 @@ export const Market: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const isNotReadOnly = !gameState.matches("readonly");
-  const { setCurrentStep: setCurrentTourStep, isOpen: tourIsOpen, currentStep: currentTourStep } = useTour()
+  const {
+    setCurrentStep: setCurrentTourStep,
+    isOpen: tourIsOpen,
+    currentStep: currentTourStep,
+  } = useTour();
 
   const handleMarketClick = () => {
-    setIsOpen(true)
+    setIsOpen(true);
     if (tourIsOpen && currentTourStep === 3) {
       setTimeout(() => {
-        setCurrentTourStep(4)
-      }, 300)
+        setCurrentTourStep(4);
+      }, 300);
     }
-  }
+  };
 
   return (
     <div

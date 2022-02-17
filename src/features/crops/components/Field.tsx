@@ -33,9 +33,13 @@ export const Field: React.FC<Props> = ({
   selectedItem,
   className,
   fieldIndex,
-  onboarding
+  onboarding,
 }) => {
-  const { isOpen: tourIsOpen, setCurrentStep: setCurrentTourStep, currentStep: currentTourStep } = useTour()
+  const {
+    isOpen: tourIsOpen,
+    setCurrentStep: setCurrentTourStep,
+    currentStep: currentTourStep,
+  } = useTour();
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
   const { gameService, shortcutItem } = useContext(Context);
@@ -61,7 +65,7 @@ export const Field: React.FC<Props> = ({
     }
 
     if (onboarding && tourIsOpen) {
-      currentTourStep === 0 ? setCurrentTourStep(1) : setCurrentTourStep(8)
+      currentTourStep === 0 ? setCurrentTourStep(1) : setCurrentTourStep(8);
     }
 
     clickedAt.current = now;

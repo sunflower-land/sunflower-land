@@ -16,7 +16,11 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { useTour } from "@reactour/tour";
 
 export const Plants: React.FC = () => {
-  const { setCurrentStep: setCurrentTourStep, isOpen: tourIsOpen, currentStep: currentTourStep } = useTour()
+  const {
+    setCurrentStep: setCurrentTourStep,
+    isOpen: tourIsOpen,
+    currentStep: currentTourStep,
+  } = useTour();
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
   const { setToast } = useContext(ToastContext);
   const { gameService } = useContext(Context);
@@ -40,11 +44,11 @@ export const Plants: React.FC = () => {
   const noCrop = cropAmount.equals(0);
 
   const handleSellOne = () => {
-    sell(1)
+    sell(1);
     if (tourIsOpen) {
-      setCurrentTourStep(6)
+      setCurrentTourStep(6);
     }
-  }
+  };
 
   return (
     <div className="flex">

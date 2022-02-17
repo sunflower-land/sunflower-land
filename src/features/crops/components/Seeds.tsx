@@ -23,10 +23,12 @@ interface Props {
   onClose: () => void;
 }
 
-
-
 export const Seeds: React.FC<Props> = ({ onClose }) => {
-  const { setCurrentStep: setCurrentTourStep, isOpen: tourIsOpen, currentStep: currentTourStep } = useTour()
+  const {
+    setCurrentStep: setCurrentTourStep,
+    isOpen: tourIsOpen,
+    currentStep: currentTourStep,
+  } = useTour();
   const [selected, setSelected] = useState<Craftable>(
     SEEDS()["Sunflower Seed"]
   );
@@ -50,13 +52,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const handlBuyOne = () => {
-    buy()
+    buy();
     if (tourIsOpen && currentTourStep === 6) {
-      setCurrentTourStep(7)
-      onClose()
+      setCurrentTourStep(7);
+      onClose();
     }
-  }
-  
+  };
+
   const restock = () => {
     gameService.send("SYNC");
 

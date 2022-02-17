@@ -44,7 +44,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
-    const { setIsOpen: openTour } = useTour();
+  const { setIsOpen: openTour } = useTour();
 
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 
@@ -66,9 +66,9 @@ export const Game: React.FC = () => {
 
   useEffect(() => {
     if (gameState.matches("touring")) {
-      openTour(true)
-  }
-  }, [gameState])
+      openTour(true);
+    }
+  }, [gameState]);
 
   return (
     <>

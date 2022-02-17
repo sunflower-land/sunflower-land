@@ -23,7 +23,11 @@ import { useTour } from "@reactour/tour";
 const NETWORK = import.meta.env.VITE_NETWORK;
 
 export const Menu = () => {
-  const { isOpen: tourIsOpen, setCurrentStep: setCurrentTourStep, setIsOpen: setTourIsOpen } = useTour()
+  const {
+    isOpen: tourIsOpen,
+    setCurrentStep: setCurrentTourStep,
+    setIsOpen: setTourIsOpen,
+  } = useTour();
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
@@ -40,7 +44,7 @@ export const Menu = () => {
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
     if (tourIsOpen) {
-      setCurrentTourStep(10)
+      setCurrentTourStep(10);
     }
   };
 
@@ -85,13 +89,11 @@ export const Menu = () => {
   }, []);
 
   const onTourEnd = () => {
-    setTourIsOpen(false)
-    send("TOUR_COMPLETE")
-  }
+    setTourIsOpen(false);
+    send("TOUR_COMPLETE");
+  };
 
   const syncOnChain = async () => {
-
-    
     if (NETWORK === "mainnet") {
       setShowComingSoon(true);
       setMenuOpen(false);
@@ -99,18 +101,17 @@ export const Menu = () => {
     }
 
     if (tourIsOpen) {
-      onTourEnd()
+      onTourEnd();
     } else {
       gameService.send("SYNC");
     }
-    
   };
 
   const autosave = async () => {
     gameService.send("SAVE");
 
     if (tourIsOpen) {
-      setCurrentTourStep(9)
+      setCurrentTourStep(9);
     }
   };
 
@@ -124,7 +125,6 @@ export const Menu = () => {
       className="w-5/12 sm:w-auto fixed top-2 left-2 z-50 shadow-lg"
       id="menu"
     >
-
       <OuterPanel>
         <div className="flex justify-center p-1">
           <Button
