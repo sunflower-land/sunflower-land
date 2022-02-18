@@ -14,6 +14,7 @@ import { Context } from "features/game/GameProvider";
 import { getShortcuts } from "../lib/shortcuts";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
 
 export const Inventory: React.FC = () => {
   const {
@@ -30,9 +31,9 @@ export const Inventory: React.FC = () => {
 
   const handleInventoryClick = () => {
     setIsOpen(true);
-    if (tourIsOpen && currentStep === 1) {
+    if (tourIsOpen && currentStep === TourStep.openInventory) {
       setTimeout(() => {
-        setCurrentTourStep(2);
+        setCurrentTourStep(TourStep.inventory);
       }, 300);
     }
   };

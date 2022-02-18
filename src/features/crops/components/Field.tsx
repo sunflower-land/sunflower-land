@@ -5,11 +5,7 @@ import classNames from "classnames";
 import selectBox from "assets/ui/select/select_box.png";
 
 import { Context } from "features/game/GameProvider";
-import {
-  GameState,
-  FieldItem,
-  InventoryItemName,
-} from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 import { AppIconContext } from "features/crops/AppIconProvider";
 
 import { CropName } from "features/game/types/crops";
@@ -19,6 +15,7 @@ import { getShortcuts } from "../../hud/lib/shortcuts";
 import { Soil } from "./Soil";
 import Decimal from "decimal.js-light";
 import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -65,7 +62,9 @@ export const Field: React.FC<Props> = ({
     }
 
     if (onboarding && tourIsOpen) {
-      currentTourStep === 0 ? setCurrentTourStep(1) : setCurrentTourStep(8);
+      currentTourStep === TourStep.harvest
+        ? setCurrentTourStep(TourStep.openInventory)
+        : setCurrentTourStep(TourStep.save);
     }
 
     clickedAt.current = now;
@@ -130,6 +129,7 @@ export const Field: React.FC<Props> = ({
     }
   };
 
+  const playingOrTouring = game.matches("playing") || game.matches("touring");
   return (
     <div
       className={classNames("relative group", className)}
@@ -151,8 +151,7 @@ export const Field: React.FC<Props> = ({
       >
         {popover}
       </div>
-
-      {game.matches("playing") && (
+      {playingOrTouring && (
         <img
           src={selectBox}
           style={{

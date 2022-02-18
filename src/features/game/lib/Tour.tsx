@@ -11,6 +11,19 @@ function tourStyles(base: any) {
   };
 }
 
+export enum TourStep {
+  harvest = 0,
+  openInventory = 1,
+  inventory = 2,
+  openShop = 3,
+  openSellTab = 4,
+  sellSunflower = 5,
+  buy = 6,
+  plant = 7,
+  save = 8,
+  openMenu = 9,
+  sync = 10,
+}
 export const stepList: StepType[] = [
   {
     selector: "#first-sunflower",

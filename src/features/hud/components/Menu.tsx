@@ -19,6 +19,7 @@ import water from "assets/icons/expression_working.png";
 import token from "assets/icons/token.gif";
 import timer from "assets/icons/timer.png";
 import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
 
 const NETWORK = import.meta.env.VITE_NETWORK;
 
@@ -44,7 +45,7 @@ export const Menu = () => {
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
     if (tourIsOpen) {
-      setCurrentTourStep(10);
+      setCurrentTourStep(TourStep.sync);
     }
   };
 
@@ -111,7 +112,7 @@ export const Menu = () => {
     gameService.send("SAVE");
 
     if (tourIsOpen) {
-      setCurrentTourStep(9);
+      setCurrentTourStep(TourStep.openMenu);
     }
   };
 

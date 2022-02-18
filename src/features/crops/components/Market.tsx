@@ -18,6 +18,7 @@ import { Action } from "components/ui/Action";
 
 import { MarketItems } from "./MarketItems";
 import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
 
 export const Market: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -33,9 +34,9 @@ export const Market: React.FC = () => {
 
   const handleMarketClick = () => {
     setIsOpen(true);
-    if (tourIsOpen && currentTourStep === 3) {
+    if (tourIsOpen && currentTourStep === TourStep.openShop) {
       setTimeout(() => {
-        setCurrentTourStep(4);
+        setCurrentTourStep(TourStep.openSellTab);
       }, 300);
     }
   };

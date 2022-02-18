@@ -10,6 +10,7 @@ import { Tab } from "components/ui/Tab";
 import { Seeds } from "./Seeds";
 import { Plants } from "./Plants";
 import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
 
 interface Props {
   onClose: () => void;
@@ -26,7 +27,9 @@ export const MarketItems: React.FC<Props> = ({ onClose }) => {
   const handleTabClick = (tab: "buy" | "sell") => {
     setTab(tab);
     if (tourIsOpen) {
-      currentTourStep === 4 ? setCurrentTourStep(5) : setCurrentTourStep(6);
+      currentTourStep === TourStep.openSellTab
+        ? setCurrentTourStep(TourStep.sellSunflower)
+        : setCurrentTourStep(TourStep.buy);
     }
   };
 

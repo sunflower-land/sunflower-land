@@ -14,6 +14,7 @@ import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
 
 export const Plants: React.FC = () => {
   const {
@@ -46,7 +47,7 @@ export const Plants: React.FC = () => {
   const handleSellOne = () => {
     sell(1);
     if (tourIsOpen) {
-      setCurrentTourStep(6);
+      setCurrentTourStep(TourStep.buy);
     }
   };
 
