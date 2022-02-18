@@ -23,33 +23,30 @@ export const Session: React.FC = () => {
 
   // Load data
   return (
-    <TourProvider
-      steps={stepList}
-      showNavigation={false}
-      showBadge={false}
-      showCloseButton={false}
-      onClickMask={() => null}
-    >
-      <GameProvider>
-        <ToastProvider>
-          <ScrollContainer
-            className="bg-green-background overflow-scroll relative w-full h-full"
-            innerRef={container}
+    <GameProvider>
+      <ToastProvider>
+        <ScrollContainer
+          className="bg-green-background overflow-scroll relative w-full h-full"
+          innerRef={container}
+        >
+          <div
+            id="gameboard"
+            className="relative h-gameboard w-gameboard"
+            // TODO dynamic game board size based on tile dimensions
           >
-            <div
-              id="gameboard"
-              className="relative h-gameboard w-gameboard"
-              // TODO dynamic game board size based on tile dimensions
+            <img src={background} className="absolute inset-0 w-full h-full" />
+            <TourProvider
+              steps={stepList}
+              showNavigation={false}
+              showBadge={false}
+              showCloseButton={false}
+              onClickMask={() => null}
             >
-              <img
-                src={background}
-                className="absolute inset-0 w-full h-full"
-              />
               <Game />
-            </div>
-          </ScrollContainer>
-        </ToastProvider>
-      </GameProvider>
-    </TourProvider>
+            </TourProvider>
+          </div>
+        </ScrollContainer>
+      </ToastProvider>
+    </GameProvider>
   );
 };

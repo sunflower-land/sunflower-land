@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
-import { StepType } from "@reactour/tour";
+import { StepType, useTour } from "@reactour/tour";
 import { Panel } from "components/ui/Panel";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 function tourStyles(base: any) {
   return {
@@ -24,6 +26,26 @@ export enum TourStep {
   openMenu = 9,
   sync = 10,
 }
+
+const TourEnd: React.FC = () => {
+  const { setIsOpen: setTourIsOpen } = useTour();
+  const { gameService } = useContext(Context);
+  const [gameState, send] = useActor(gameService);
+
+  const onTourEnd = () => {
+    setTourIsOpen(false);
+    send("TOUR_COMPLETE");
+  };
+
+  return (
+    <Panel>
+      After farming for a couple of days, you can move your assets onto the
+      Blockchain by clicking on Sync on Chain.
+      <Button onClick={() => onTourEnd()}>Done</Button>
+    </Panel>
+  );
+};
+
 export const stepList: StepType[] = [
   {
     selector: "#first-sunflower",
@@ -52,7 +74,7 @@ export const stepList: StepType[] = [
       <Panel>
         All your items can be found in the inventory. You can select items to
         perform actions on your farm!
-        <Button onClick={() => setCurrentStep(3)}>Next</Button>
+        <Button onClick={() => setCurrentStep(TourStep.openShop)}>Next</Button>
       </Panel>
     ),
     styles: { popover: tourStyles },
@@ -119,11 +141,7 @@ export const stepList: StepType[] = [
   },
   {
     selector: "#menu",
-    content: () => (
-      <Panel>
-        Now click on Sync on Chain, this will sync your farm to the Blockchain.
-      </Panel>
-    ),
+    content: () => <TourEnd />,
     position: "bottom",
     padding: { mask: [1, 120], popover: [-30, 130] },
     styles: { popover: tourStyles },

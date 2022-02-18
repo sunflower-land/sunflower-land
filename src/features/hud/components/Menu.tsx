@@ -26,11 +26,7 @@ import { metamask } from "lib/blockchain/metamask";
 const NETWORK = import.meta.env.VITE_NETWORK;
 
 export const Menu = () => {
-  const {
-    isOpen: tourIsOpen,
-    setCurrentStep: setCurrentTourStep,
-    setIsOpen: setTourIsOpen,
-  } = useTour();
+  const { isOpen: tourIsOpen, setCurrentStep: setCurrentTourStep } = useTour();
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
@@ -96,11 +92,6 @@ export const Menu = () => {
     };
   }, []);
 
-  const onTourEnd = () => {
-    setTourIsOpen(false);
-    send("TOUR_COMPLETE");
-  };
-
   const syncOnChain = async () => {
     if (!canSync(metamask.myAccount as string)) {
       setShowComingSoon(true);
@@ -108,11 +99,7 @@ export const Menu = () => {
       return;
     }
 
-    if (tourIsOpen) {
-      onTourEnd();
-    } else {
-      gameService.send("SYNC");
-    }
+    gameService.send("SYNC");
   };
 
   const autosave = async () => {
