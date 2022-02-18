@@ -241,7 +241,7 @@ export class Metamask {
       params: [
         {
           from: metamask.myAccount,
-          to: "0x4Ff17fE136e936B0201fBa097F4c7a0F606bA770",
+          to: "0x6D18a54E0fd87FCb84a0510A3eCd8855b7226715",
           value: toHex(toWei(donation.toString(), "ether")),
         },
       ],
