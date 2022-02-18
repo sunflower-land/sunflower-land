@@ -1,9 +1,10 @@
+import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import TokenJSON from "./abis/Token.json";
 
-const address = import.meta.env.VITE_PAIR_CONTRACT;
-const wishingWellAddress = import.meta.env.VITE_WISHING_WELL_CONTRACT;
+const address = CONFIG.PAIR_CONTRACT;
+const wishingWellAddress = CONFIG.WISHING_WELL_CONTRACT;
 
 /**
  * Pair contract

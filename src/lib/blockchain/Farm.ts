@@ -1,8 +1,9 @@
+import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import FarmABI from "./abis/Farm.json";
 
-const address = import.meta.env.VITE_FARM_CONTRACT;
+const address = CONFIG.FARM_CONTRACT;
 
 type FarmAccount = {
   account: string;

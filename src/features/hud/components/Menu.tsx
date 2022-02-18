@@ -23,8 +23,6 @@ import { TourStep } from "features/game/lib/Tour";
 import { canSync } from "features/game/lib/whitelist";
 import { metamask } from "lib/blockchain/metamask";
 
-const NETWORK = import.meta.env.VITE_NETWORK;
-
 export const Menu = () => {
   const { isOpen: tourIsOpen, setCurrentStep: setCurrentTourStep } = useTour();
   const { authService } = useContext(Auth.Context);

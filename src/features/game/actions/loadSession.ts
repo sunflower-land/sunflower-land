@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
 import { GameState, InventoryItemName } from "../types/game";
 
 type Request = {
@@ -13,7 +14,7 @@ type Response = {
   inventory: Record<InventoryItemName, string>;
   fields: GameState["fields"];
 };
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = CONFIG.API_URL;
 
 export async function loadSession(
   request: Request

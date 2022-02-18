@@ -1,7 +1,8 @@
 import { metamask } from "lib/blockchain/metamask";
+import { CONFIG } from "lib/config";
 import { secondsToLongString } from "lib/utils/time";
 
-const wishingWellAddress = import.meta.env.VITE_WISHING_WELL_CONTRACT;
+const wishingWellAddress = CONFIG.WISHING_WELL_CONTRACT;
 
 // 3 days
 export const LOCKED_SECONDS = 3 * 24 * 60 * 60;

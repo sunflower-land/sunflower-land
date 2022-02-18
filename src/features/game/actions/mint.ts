@@ -1,4 +1,5 @@
 import { metamask } from "lib/blockchain/metamask";
+import { CONFIG } from "lib/config";
 import { LimitedItem } from "../types/craftables";
 
 type Request = {
@@ -9,7 +10,7 @@ type Request = {
   item: LimitedItem;
 };
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = CONFIG.API_URL;
 
 async function mintRequest(request: Request) {
   if (!API_URL) return;

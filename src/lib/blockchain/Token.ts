@@ -1,8 +1,9 @@
+import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, fromWei } from "web3-utils";
 import TokenJSON from "./abis/Token.json";
 
-const address = import.meta.env.VITE_TOKEN_CONTRACT;
+const address = CONFIG.TOKEN_CONTRACT;
 
 /**
  * Token contract
