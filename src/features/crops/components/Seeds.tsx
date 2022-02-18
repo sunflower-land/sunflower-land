@@ -17,12 +17,19 @@ import { CropName, CROPS, SEEDS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
+import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
 
 interface Props {
   onClose: () => void;
 }
 
 export const Seeds: React.FC<Props> = ({ onClose }) => {
+  const {
+    setCurrentStep: setCurrentTourStep,
+    isOpen: tourIsOpen,
+    currentStep: currentTourStep,
+  } = useTour();
   const [selected, setSelected] = useState<Craftable>(
     SEEDS()["Sunflower Seed"]
   );
@@ -43,6 +50,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     });
     setToast({ content: "SFL -$" + selected.price.mul(amount).toString() });
     shortcutItem(selected.name);
+  };
+
+  const handlBuyOne = () => {
+    buy();
+    if (tourIsOpen && currentTourStep === TourStep.buy) {
+      setCurrentTourStep(TourStep.plant);
+      onClose();
+    }
   };
 
   const restock = () => {
@@ -87,7 +102,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         <Button
           disabled={lessFunds() || stock?.lessThan(1)}
           className="text-xs mt-1"
-          onClick={() => buy()}
+          onClick={() => handlBuyOne()}
         >
           Buy 1
         </Button>

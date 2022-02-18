@@ -39,6 +39,9 @@ type WithdrawEvent = {
 
 export type BlockchainEvent =
   | {
+      type: "TOUR_COMPLETE";
+    }
+  | {
       type: "SAVE";
     }
   | {
@@ -75,6 +78,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 export type BlockchainState = {
   value:
     | "loading"
+    | "touring"
     | "playing"
     | "readonly"
     | "autosaving"
@@ -97,6 +101,15 @@ export type MachineInterpreter = Interpreter<
 >;
 
 export function startGame(authContext: AuthContext) {
+  const handleInitialState = () => {
+    if (window.localStorage.getItem("tourStatus") !== "done") {
+      return "touring";
+    }
+    if (authContext.sessionId || !authContext.address) {
+      return "playing";
+    }
+    return "readonly";
+  };
   return createMachine<Context, BlockchainEvent, BlockchainState>({
     id: "gameMachine",
     initial: "loading",
@@ -142,16 +155,25 @@ export function startGame(authContext: AuthContext) {
             return { state: INITIAL_FARM };
           },
           onDone: {
-            target:
-              authContext.sessionId || !authContext.address
-                ? "playing"
-                : "readonly",
+            target: handleInitialState(),
             actions: assign({
               state: (context, event) => event.data.state,
             }),
           },
           onError: {
             target: "error",
+          },
+        },
+      },
+      // TODO: Find a better place to trigger tour
+      touring: {
+        on: {
+          ...GAME_EVENT_HANDLERS,
+          TOUR_COMPLETE: {
+            target: "playing",
+            actions: () => {
+              window.localStorage.setItem("tourStatus", "done");
+            },
           },
         },
       },
@@ -179,7 +201,6 @@ export function startGame(authContext: AuthContext) {
         invoke: {
           src: async (context) => {
             const saveAt = new Date();
-
             if (context.actions.length > 0) {
               await autosave({
                 farmId: Number(authContext.farmId),

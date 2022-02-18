@@ -81,7 +81,7 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <Panel className="pt-5 relative">
+    <Panel className="pt-5 relative inventory">
       <img
         src={close}
         className="absolute h-6 cursor-pointer"

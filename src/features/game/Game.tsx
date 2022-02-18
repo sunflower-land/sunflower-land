@@ -25,12 +25,14 @@ import { Syncing } from "./components/Syncing";
 import { Withdrawing } from "./components/Withdrawing";
 import { Quarry } from "features/quarry/Quarry";
 import { StateValues } from "./lib/gameMachine";
+import { useTour } from "@reactour/tour";
 import { TeamDonation } from "features/teamDonation/TeamDonation";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   playing: false,
+  touring: false,
   readonly: false,
   autosaving: false,
   minting: true,
@@ -43,6 +45,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
+  const { setIsOpen: openTour } = useTour();
 
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 
@@ -60,6 +63,12 @@ export const Game: React.FC = () => {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
+  }, [gameState]);
+
+  useEffect(() => {
+    if (gameState.matches("touring")) {
+      openTour(true);
+    }
   }, [gameState]);
 
   return (

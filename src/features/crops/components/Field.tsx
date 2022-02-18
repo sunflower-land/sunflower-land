@@ -5,11 +5,7 @@ import classNames from "classnames";
 import selectBox from "assets/ui/select/select_box.png";
 
 import { Context } from "features/game/GameProvider";
-import {
-  GameState,
-  FieldItem,
-  InventoryItemName,
-} from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 import { AppIconContext } from "features/crops/AppIconProvider";
 
 import { CropName } from "features/game/types/crops";
@@ -18,6 +14,8 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { getShortcuts } from "../../hud/lib/shortcuts";
 import { Soil } from "./Soil";
 import Decimal from "decimal.js-light";
+import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -25,13 +23,20 @@ interface Props {
   selectedItem?: InventoryItemName;
   fieldIndex: number;
   className?: string;
+  onboarding?: boolean;
 }
 
 export const Field: React.FC<Props> = ({
   selectedItem,
   className,
   fieldIndex,
+  onboarding,
 }) => {
+  const {
+    isOpen: tourIsOpen,
+    setCurrentStep: setCurrentTourStep,
+    currentStep: currentTourStep,
+  } = useTour();
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
   const { gameService, shortcutItem } = useContext(Context);
@@ -54,6 +59,12 @@ export const Field: React.FC<Props> = ({
     const now = Date.now();
     if (now - clickedAt.current < 100) {
       return;
+    }
+
+    if (onboarding && tourIsOpen) {
+      currentTourStep === TourStep.harvest
+        ? setCurrentTourStep(TourStep.openInventory)
+        : setCurrentTourStep(TourStep.save);
     }
 
     clickedAt.current = now;
@@ -118,6 +129,7 @@ export const Field: React.FC<Props> = ({
     }
   };
 
+  const playingOrTouring = game.matches("playing") || game.matches("touring");
   return (
     <div
       className={classNames("relative group", className)}
@@ -139,8 +151,7 @@ export const Field: React.FC<Props> = ({
       >
         {popover}
       </div>
-
-      {game.matches("playing") && (
+      {playingOrTouring && (
         <img
           src={selectBox}
           style={{

@@ -17,6 +17,8 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@reactour/tour": "^2.9.0",
     "@types/lodash.shuffle": "^4.2.6",
     "@xstate/inspect": "^0.6.2",
     "@xstate/react": "^1.6.3",
@@ -44,6 +46,7 @@
     "@types/jest": "^27.4.0",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
+    "@types/reactour": "^1.18.2",
     "@types/tinycon": "^0.6.3",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
