@@ -59,6 +59,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "jest": "^27.4.7",
+    "pixel-scale": "^1.0.0",
     "prettier": "^2.5.1",
     "tailwindcss": "^3.0.13",
     "tailwindscss": "^0.3.0",
