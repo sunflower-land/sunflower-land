@@ -38,16 +38,7 @@ export const TeamDonation: React.FC = () => {
   const onDonate = async () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     try {
-      await window.ethereum.request({
-        method: "eth_sendTransaction",
-        params: [
-          {
-            from: metamask.myAccount,
-            to: "0x4Ff17fE136e936B0201fBa097F4c7a0F606bA770",
-            value: toHex(toWei(donation.toString(), "ether")),
-          },
-        ],
-      });
+      await metamask.donateToTheTeam(donation);
 
       setIsOpen(false);
       setHadDonated(true);
