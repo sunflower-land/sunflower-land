@@ -1,3 +1,4 @@
+import { CONFIG } from "lib/config";
 import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { CraftAction } from "../types/craftables";
@@ -10,7 +11,7 @@ type Request = {
   signature: string;
 };
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = CONFIG.API_URL;
 
 function squashEvents(events: PastAction[]): PastAction[] {
   return events.reduce((items, event, index) => {

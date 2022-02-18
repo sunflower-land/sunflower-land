@@ -1,4 +1,5 @@
 import { metamask } from "lib/blockchain/metamask";
+import { CONFIG } from "lib/config";
 
 type Request = {
   sessionId: string;
@@ -7,7 +8,7 @@ type Request = {
   signature: string;
 };
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = CONFIG.API_URL;
 
 async function signTransaction(request: Request) {
   const response = await window.fetch(`${API_URL}/sync`, {

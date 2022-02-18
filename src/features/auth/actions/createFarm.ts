@@ -1,4 +1,5 @@
 import { metamask } from "lib/blockchain/metamask";
+import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { CharityAddress } from "../components/Donation";
 
@@ -9,7 +10,7 @@ type Request = {
   signature: string;
 };
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = CONFIG.API_URL;
 
 export async function signTransaction(request: Request) {
   const response = await window.fetch(`${API_URL}/farm`, {

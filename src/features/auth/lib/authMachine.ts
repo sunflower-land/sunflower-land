@@ -1,4 +1,5 @@
 import { canCreateFarm } from "features/game/lib/whitelist";
+import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { createMachine, Interpreter, assign } from "xstate";
 
@@ -11,12 +12,13 @@ const INITIAL_SESSION =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 
 const getFarmUrl = () => {
-  const farmId = new URLSearchParams(window.location.search).get('farmId');
+  const farmId = new URLSearchParams(window.location.search).get("farmId");
 
   return parseInt(farmId!);
 };
 
-const deleteFarmUrl = () => (window.history.pushState({}, '', window.location.pathname));
+const deleteFarmUrl = () =>
+  window.history.pushState({}, "", window.location.pathname);
 
 type Farm = {
   farmId: number;
@@ -90,7 +92,7 @@ export type BlockchainState = {
   context: Context;
 };
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = CONFIG.API_URL;
 
 export type MachineInterpreter = Interpreter<
   Context,

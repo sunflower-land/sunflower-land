@@ -1,9 +1,9 @@
+import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, toWei } from "web3-utils";
 import SessionABI from "./abis/Session.json";
 
-const address = import.meta.env.VITE_SESSION_CONTRACT;
-const NETWORK = import.meta.env.VITE_NETWORK;
+const address = CONFIG.SESSION_CONTRACT;
 
 type SessionChangedEvent = {
   owner: string;

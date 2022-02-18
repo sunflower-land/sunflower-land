@@ -1,4 +1,6 @@
-const network = import.meta.env.VITE_NETWORK as "mumbai" | "mainnet";
+import { CONFIG } from "lib/config";
+
+const network = CONFIG.NETWORK;
 
 const SYNC_WHITELIST = [
   "0xD755984F4A5D885919451eD25e1a854daa5086C9",

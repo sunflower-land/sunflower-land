@@ -1,8 +1,9 @@
+import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import BetaJSON from "./abis/Beta.json";
 
-const address = import.meta.env.VITE_BETA_CONTRACT;
+const address = CONFIG.BETA_CONTRACT;
 
 /**
  * Beta contract

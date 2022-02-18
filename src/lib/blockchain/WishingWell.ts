@@ -1,8 +1,9 @@
+import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, fromWei, toWei } from "web3-utils";
 import WishingWellJSON from "./abis/WishingWell.json";
 
-const address = import.meta.env.VITE_WISHING_WELL_CONTRACT;
+const address = CONFIG.WISHING_WELL_CONTRACT;
 
 /**
  * WishingWell contract

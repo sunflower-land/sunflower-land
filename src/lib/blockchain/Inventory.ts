@@ -6,8 +6,9 @@ import { AbiItem, fromWei } from "web3-utils";
 import InventoryJSON from "./abis/Inventory.json";
 import { TOOLS } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
+import { CONFIG } from "lib/config";
 
-const address = import.meta.env.VITE_INVENTORY_CONTRACT;
+const address = CONFIG.INVENTORY_CONTRACT;
 
 export type ItemSupply = Record<InventoryItemName, Decimal>;
 

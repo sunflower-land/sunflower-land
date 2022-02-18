@@ -8,10 +8,7 @@ import { Pair } from "./Pair";
 import { WishingWell } from "./WishingWell";
 import { Token } from "./Token";
 import { toHex, toWei } from "web3-utils";
-
-const NETWORK = import.meta.env.VITE_NETWORK;
-
-const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
+import { CONFIG } from "lib/config";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -97,7 +94,7 @@ export class Metamask {
 
       const chainId = await this.web3?.eth.getChainId();
 
-      if (!(chainId === POLYGON_CHAIN_ID)) {
+      if (!(chainId === CONFIG.POLYGON_CHAIN_ID)) {
         throw new Error(ERRORS.WRONG_CHAIN);
       }
 
@@ -169,9 +166,9 @@ export class Metamask {
   }
 
   private getDefaultChainParam() {
-    if (POLYGON_CHAIN_ID === 137) {
+    if (CONFIG.POLYGON_CHAIN_ID === 137) {
       return {
-        chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}`,
+        chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
         chainName: "Polygon Mainnet",
         nativeCurrency: {
           name: "MATIC",
@@ -183,7 +180,7 @@ export class Metamask {
       };
     } else {
       return {
-        chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}`,
+        chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
         chainName: "Polygon Testnet Mumbai",
         nativeCurrency: {
           name: "MATIC",
@@ -198,13 +195,15 @@ export class Metamask {
 
   public async checkDefaultNetwork() {
     const chainId = await this.web3?.eth.getChainId();
-    return chainId === POLYGON_CHAIN_ID;
+    return chainId === CONFIG.POLYGON_CHAIN_ID;
   }
 
   public async switchNetwork() {
     await window.ethereum.request({
       method: "wallet_switchEthereumChain",
-      params: [{ chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}` }],
+      params: [
+        { chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}` },
+      ],
     });
   }
 
@@ -236,15 +235,11 @@ export class Metamask {
   }
 
   public async donateToTheTeam(donation: number) {
-    await window.ethereum.request({
-      method: "eth_sendTransaction",
-      params: [
-        {
-          from: metamask.myAccount,
-          to: "0x6D18a54E0fd87FCb84a0510A3eCd8855b7226715",
-          value: toHex(toWei(donation.toString(), "ether")),
-        },
-      ],
+    console.log({ donation: CONFIG.DONATION_ADDRESS });
+    await this.web3?.eth.sendTransaction({
+      from: metamask.myAccount as string,
+      to: CONFIG.DONATION_ADDRESS as string,
+      value: toHex(toWei(donation.toString(), "ether")),
     });
   }
 
