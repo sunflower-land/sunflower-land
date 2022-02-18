@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-// import * as Auth from "features/auth/lib/Provider";
 import html2canvas from "html2canvas";
 import screenshotIcon from "assets/icons/screenshot-icon.png";
 import { Modal } from "react-bootstrap";
@@ -8,8 +7,6 @@ import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
 export const ScreenshotButton: React.FC = () => {
-  // const { authService } = useContext(Auth.Context);
-  // const [authState] = useActor(authService);
   const [isOpen, setIsOpen] = useState(false);
   const [ssImg, setSSImg] = useState("");
 
@@ -18,16 +15,6 @@ export const ScreenshotButton: React.FC = () => {
       "https://twitter.com/intent/tweet?text=Checkout%20my%20Sunflower%20Land%20Farm%3A%0A%0A&ref_src=https%3A%2F%2Fsunflower-land.com&hashtags=SunflowerLand",
       "_blank"
     );
-  };
-
-  const getFarmUrl = () => {
-    const farmId = new URLSearchParams(window.location.search).get("farmId");
-
-    return parseInt(farmId!);
-  };
-
-  const handleCopy = () => {
-    console.log("FARM ID: ", getFarmUrl());
   };
 
   const clearUrl = (url: string) => url.replace(/^data:image\/\w+;base64,/, "");
@@ -90,9 +77,6 @@ export const ScreenshotButton: React.FC = () => {
             </Button>
             <Button className="text-s w-1/4 px-1" onClick={handleTweetClick}>
               Tweet
-            </Button>
-            <Button className="text-s w-1/4 px-1" onClick={handleCopy}>
-              Copy Farm URl
             </Button>
           </Modal.Footer>
         </Panel>
