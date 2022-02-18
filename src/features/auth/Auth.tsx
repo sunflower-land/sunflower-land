@@ -39,14 +39,14 @@ export const Auth: React.FC = () => {
         />
         <img src={jumpingGoblin} className="absolute w-52 -top-[83px] -z-10" />
         <Panel>
-          {authState.matches({ connected: "loadingFarm" }) && <Loading />}
+          {(authState.matches({ connected: "loadingFarm" }) ||
+            authState.matches("checkFarm")) && <Loading />}
           {authState.matches("connecting") && <Loading text="Connecting" />}
           {authState.matches("signing") && <Signing />}
           {authState.matches({ connected: "noFarmLoaded" }) && <CreateFarm />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
-          {(authState.matches("exploring") ||
-            authState.matches("checkFarm")) && <VisitFarm />}
+          {authState.matches("exploring") && <VisitFarm />}
           {authState.matches("unauthorised") && <Unauthorised />}
         </Panel>
       </div>
