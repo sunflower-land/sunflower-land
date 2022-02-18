@@ -10,6 +10,14 @@ import { CharityAddress } from "../components/Donation";
 const INITIAL_SESSION =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 
+const getFarmUrl = () => {
+  const farmId = new URLSearchParams(window.location.search).get('farmId');
+
+  return parseInt(farmId!);
+};
+
+const deleteFarmUrl = () => (window.history.pushState({}, '', window.location.pathname));
+
 type Farm = {
   farmId: number;
   sessionId: string;
@@ -105,7 +113,13 @@ export const authMachine = createMachine<
         id: "connecting",
         invoke: {
           src: "initMetamask",
-          onDone: "signing",
+          onDone: [
+            {
+              target: "checkFarm",
+              cond: "hasFarmIdUrl",
+            },
+            { target: "signing" },
+          ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
@@ -223,7 +237,7 @@ export const authMachine = createMachine<
         on: {
           RETURN: {
             target: "connecting",
-            actions: "resetFarm",
+            actions: ["resetFarm", "deleteFarmIdUrl"],
           },
         },
       },
@@ -299,7 +313,7 @@ export const authMachine = createMachine<
         _context: Context,
         event: any
       ): Promise<Farm | undefined> => {
-        const farmId = (event as VisitEvent).farmId;
+        const farmId = getFarmUrl() || (event as VisitEvent).farmId;
         const farmAccount = await metamask.getFarm()?.getFarm(farmId);
 
         return {
@@ -326,6 +340,7 @@ export const authMachine = createMachine<
         address: () => undefined,
         sessionId: () => undefined,
       }),
+      deleteFarmIdUrl: () => deleteFarmUrl(),
     },
     guards: {
       hasFarm: (context: Context, event: any) => {
@@ -339,6 +354,7 @@ export const authMachine = createMachine<
 
         return !!context.farmId;
       },
+      hasFarmIdUrl: () => !isNaN(getFarmUrl()),
     },
   }
 );
