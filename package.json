@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "generate": "graphql-codegen",
     "test": "jest",
-    "erc1155": "ts-node _scripts/erc1155Metadata.ts"
+    "erc1155": "ts-node --project _scripts/node.tsconfig.json _scripts/erc1155Metadata.ts "
   },
   "browserslist": [
     ">0.2%",
