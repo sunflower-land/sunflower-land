@@ -25,7 +25,11 @@ export const GameProvider: React.FC = ({ children }) => {
 
   // TODO - Typescript error
   const gameService = useInterpret(
-    startGame(authState.context) as any
+    startGame({
+      ...authState.context,
+      // If the last event was a create farm, walk them through the tutorial
+      isNoob: authState.history?.event.type === "CREATE_FARM",
+    }) as any
   ) as MachineInterpreter;
   const [shortcuts, setShortcuts] = useState<InventoryItemName[]>(
     getShortcuts()

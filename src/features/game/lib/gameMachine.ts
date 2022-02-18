@@ -100,9 +100,10 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
-export function startGame(authContext: AuthContext) {
+type Options = AuthContext & { isNoob: boolean };
+export function startGame(authContext: Options) {
   const handleInitialState = () => {
-    if (window.localStorage.getItem("tourStatus") !== "done") {
+    if (authContext.isNoob) {
       return "touring";
     }
     if (authContext.sessionId || !authContext.address) {
