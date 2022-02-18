@@ -59,7 +59,7 @@ const CharityDetail = ({
   onDonateAndPlayClick,
 }: CharityDetailProps) => {
   const onAboutClick = (url: string) => {
-    window.open(url);
+    window.open(url, "_blank");
   };
 
   return (
