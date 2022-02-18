@@ -47,7 +47,7 @@ export const stepList: StepType[] = [
     styles: { popover: tourStyles },
   },
   {
-    selector: "#inventory",
+    selector: ".inventory",
     content: ({ setCurrentStep }) => (
       <Panel>
         All your items can be found in the inventory. You can select items to

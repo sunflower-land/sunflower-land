@@ -20,6 +20,8 @@ import token from "assets/icons/token.gif";
 import timer from "assets/icons/timer.png";
 import { useTour } from "@reactour/tour";
 import { TourStep } from "features/game/lib/Tour";
+import { canSync } from "features/game/lib/whitelist";
+import { metamask } from "lib/blockchain/metamask";
 
 const NETWORK = import.meta.env.VITE_NETWORK;
 
@@ -68,6 +70,11 @@ export const Menu = () => {
   };
 
   const withdraw = () => {
+    if (!canSync(metamask.myAccount as string)) {
+      setShowComingSoon(true);
+      setMenuOpen(false);
+      return;
+    }
     setShowWithdrawModal(true);
     setMenuOpen(false);
   };
@@ -95,7 +102,7 @@ export const Menu = () => {
   };
 
   const syncOnChain = async () => {
-    if (NETWORK === "mainnet") {
+    if (!canSync(metamask.myAccount as string)) {
       setShowComingSoon(true);
       setMenuOpen(false);
       return;

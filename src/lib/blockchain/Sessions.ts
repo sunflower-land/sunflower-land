@@ -58,10 +58,6 @@ export class SessionManager {
     burnAmounts: number[];
     tokens: number;
   }): Promise<SessionChangedEvent> {
-    if (NETWORK === "mainnet") {
-      throw new Error("NOT IMPLEMENTED");
-    }
-
     const fee = toWei("0.1");
 
     const latest = await this.web3.eth.getBlockNumber();
@@ -136,10 +132,6 @@ export class SessionManager {
     sfl: number;
     tax: number;
   }): Promise<SessionChangedEvent> {
-    if (NETWORK === "mainnet") {
-      throw new Error("NOT IMPLEMENTED");
-    }
-
     const latest = await this.web3.eth.getBlockNumber();
     const options = {
       filter: { account: [this.account] },

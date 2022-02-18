@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
 
@@ -26,6 +26,7 @@ import { Withdrawing } from "./components/Withdrawing";
 import { Quarry } from "features/quarry/Quarry";
 import { StateValues } from "./lib/gameMachine";
 import { useTour } from "@reactour/tour";
+import { TeamDonation } from "features/teamDonation/TeamDonation";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -86,7 +87,7 @@ export const Game: React.FC = () => {
       </Modal>
 
       <Hud />
-
+      <TeamDonation />
       <Blacksmith />
       <WishingWell />
       <Mail />
