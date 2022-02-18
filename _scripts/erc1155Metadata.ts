@@ -294,6 +294,7 @@ const items: ERC1155Metadata = {
 async function convert() {
   const names = Object.keys(items) as InventoryItemName[];
 
+  /* eslint-disable @typescript-eslint/no-var-requires */
   const scalePixelArt = require("scale-pixel-art");
 
   await Promise.all(
