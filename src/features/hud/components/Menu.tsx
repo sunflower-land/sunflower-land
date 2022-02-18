@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
 import { OuterPanel, Panel } from "components/ui/Panel";
 
 import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
@@ -36,6 +37,11 @@ export const Menu = () => {
   const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
   const [showComingSoon, setShowComingSoon] = React.useState(false);
 
+  const [tooltipMessage, setTooltipMessage] = useState(
+    "Click to copy farm URL, and share it on socials"
+  );
+  const [showLabel, setShowLabel] = useState(false);
+
   const ref = useRef<HTMLDivElement>(null);
 
   const handleMenuClick = () => {
@@ -51,9 +57,33 @@ export const Menu = () => {
     setMenuOpen(false);
   };
 
+  const handleMouseEnter = () => {
+    setShowLabel(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowLabel(false);
+  };
+
   const handleAboutClick = () => {
     window.open("https://docs.sunflower-land.com/", "_blank");
     setMenuOpen(false);
+  };
+
+  const handleCopyFarmURL = (): void => {
+    const farmId = authState.context.farmId!;
+    navigator.clipboard.writeText(
+      `${
+        window.location.href.includes("?")
+          ? window.location.href.split("?")[0]
+          : window.location.href
+      }?farmId=${farmId.toString()}` as string
+    );
+    setTooltipMessage("Copied!");
+    setMenuOpen(false);
+    setTimeout(() => {
+      setTooltipMessage("Click to copy farm URL, and share it on socials");
+    }, 2000);
   };
 
   const handleClick = (e: Event) => {
@@ -132,7 +162,11 @@ export const Menu = () => {
             <span className="hidden md:flex">Menu</span>
           </Button>
           {!gameState.matches("readonly") && (
-            <Button onClick={autosave} className="save">
+            <Button
+              onClick={autosave}
+              className="save"
+              disabled={gameState.matches("autosaving") ? true : false}
+            >
               {gameState.matches("autosaving") ? (
                 <img src={timer} className="animate-pulsate" alt="saving" />
               ) : (
@@ -178,6 +212,15 @@ export const Menu = () => {
                 <img src={water} className="w-4 ml-2" alt="water" />
               </Button>
             </li>
+            <li
+              className="p-1"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <Button onClick={() => handleCopyFarmURL()}>
+                <span className="sm:text-sm">Copy Farm URL</span>
+              </Button>
+            </li>
             {!gameState.matches("readonly") && (
               <>
                 <li className="p-1">
@@ -194,6 +237,13 @@ export const Menu = () => {
               </>
             )}
           </ul>
+          <div
+            className={`absolute mr-5 transition duration-600 pointer-events-none ${
+              showLabel ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Label>{tooltipMessage}</Label>
+          </div>
         </div>
       </OuterPanel>
 
