@@ -5,17 +5,19 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { roundToOneDecimal } from "features/auth/components";
 import { metamask } from "lib/blockchain/metamask";
+import { Button } from "components/ui/Button";
+import { toHex, toWei } from "web3-utils";
 
 import begger from "assets/npcs/begger.gif";
+import richBegger from "assets/npcs/rich_begger.png";
 import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";
 import token from "assets/icons/token.png";
-import { Button } from "components/ui/Button";
-import { toHex, toWei } from "web3-utils";
 
 export const TeamDonation: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [donation, setDonation] = useState(0.1);
+  const [hasDonated, setHadDonated] = useState(false);
 
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // If keyboard input "" convert to 0
@@ -48,6 +50,7 @@ export const TeamDonation: React.FC = () => {
       });
 
       setIsOpen(false);
+      setHadDonated(true);
     } catch (error) {
       console.log("error");
       setIsOpen(false);
@@ -58,17 +61,26 @@ export const TeamDonation: React.FC = () => {
     <div
       className="z-5 absolute align-items-center w-[72px]"
       style={{
-        left: `calc(50% - ${GRID_WIDTH_PX * -11.3}px)`,
+        left: `calc(50% - ${GRID_WIDTH_PX * -9.8}px)`,
         // trial and error
-        top: `calc(50% - ${GRID_WIDTH_PX * 18.1}px)`,
+        top: `calc(50% - ${GRID_WIDTH_PX * 17.2}px)`,
       }}
     >
-      <img
-        id="begger"
-        src={begger}
-        className="absolute hover:cursor-pointer hover:img-highlight"
-        onClick={() => setIsOpen(true)}
-      />
+      {!hasDonated ? (
+        <img
+          id="begger"
+          src={begger}
+          className="absolute hover:cursor-pointer hover:img-highlight z-10"
+          onClick={() => setIsOpen(true)}
+        />
+      ) : (
+        <img
+          id="rich_begger"
+          src={richBegger}
+          className="absolute hover:cursor-pointer hover:img-highlight z-10"
+          onClick={() => setIsOpen(true)}
+        />
+      )}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel>
           <div className="flex flex-col items-center mb-1">

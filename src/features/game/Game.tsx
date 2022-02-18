@@ -25,6 +25,7 @@ import { Syncing } from "./components/Syncing";
 import { Withdrawing } from "./components/Withdrawing";
 import { Quarry } from "features/quarry/Quarry";
 import { StateValues } from "./lib/gameMachine";
+import { TeamDonation } from "features/teamDonation/TeamDonation";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -77,7 +78,7 @@ export const Game: React.FC = () => {
       </Modal>
 
       <Hud />
-
+      <TeamDonation />
       <Blacksmith />
       <WishingWell />
       <Mail />
