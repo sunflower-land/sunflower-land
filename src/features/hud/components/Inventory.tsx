@@ -39,7 +39,7 @@ export const Inventory: React.FC = () => {
   };
 
   useEffect(() => {
-    if (tourIsOpen && currentStep === 3) setIsOpen(false);
+    if (tourIsOpen && currentStep === TourStep.openShop) setIsOpen(false);
   }, [currentStep]);
 
   return (
