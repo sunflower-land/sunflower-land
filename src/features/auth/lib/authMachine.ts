@@ -1,6 +1,6 @@
 import { canCreateFarm } from "features/game/lib/whitelist";
 import { ERRORS } from "lib/errors";
-import { createMachine, Interpreter, assign, DoneInvokeEvent } from "xstate";
+import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
 import { createFarm as createFarmAction } from "../actions/createFarm";

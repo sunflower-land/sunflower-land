@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { inspect } from "@xstate/inspect";
 import { assign, createMachine } from "xstate";
 import { useMachine } from "@xstate/react";
 
