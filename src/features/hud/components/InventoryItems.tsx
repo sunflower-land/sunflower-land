@@ -62,7 +62,9 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
 
   const tabSequence = Object.keys(CATEGORIES) as Tab[];
   const items = Object.keys(inventory) as InventoryItemName[];
-  const validItems = items.filter((itemName) => !!inventory[itemName] && !inventory[itemName]?.equals(0));
+  const validItems = items.filter(
+    (itemName) => !!inventory[itemName] && !inventory[itemName]?.equals(0)
+  );
   const isCategoryEmpty = !validItems.some(
     (itemName) => itemName in CATEGORIES[currentTab].items
   );

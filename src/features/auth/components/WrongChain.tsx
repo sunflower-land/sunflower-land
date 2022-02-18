@@ -13,10 +13,10 @@ export const WrongChain: React.FC = () => {
       "_blank"
     );
   };
-  
+
   useEffect(() => {
     const load = async () => {
-      let defaultNetworkStatus = await metamask.checkDefaultNetwork();
+      const defaultNetworkStatus = await metamask.checkDefaultNetwork();
       setIsDefaultNetwork(defaultNetworkStatus);
     };
 
@@ -25,7 +25,7 @@ export const WrongChain: React.FC = () => {
 
   const initialiseNetwork = async () => {
     await metamask.initialiseNetwork();
-  }
+  };
 
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
@@ -40,14 +40,12 @@ export const WrongChain: React.FC = () => {
       <Button onClick={goToPolygonSetupDocs} className="overflow-hidden mb-2">
         <span>Go to guide</span>
       </Button>
-      {
-        !isDefaultNetwork && (
-          <Button onClick={initialiseNetwork} className="overflow-hidden mb-2">
-            <img src={metamaskIcon} alt="Metamask Icon" className="mr-2" />
-            <span>Add or Switch Network</span>
-          </Button>
-        )
-      }
+      {!isDefaultNetwork && (
+        <Button onClick={initialiseNetwork} className="overflow-hidden mb-2">
+          <img src={metamaskIcon} alt="Metamask Icon" className="mr-2" />
+          <span>Add or Switch Network</span>
+        </Button>
+      )}
     </div>
   );
 };

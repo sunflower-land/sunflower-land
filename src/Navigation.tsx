@@ -46,7 +46,9 @@ export const Navigation: React.FC = () => {
   }, [send]);
 
   useEffect(() => {
-    const _showGame = authState.matches({ connected: "authorised" }) || authState.matches("visiting");
+    const _showGame =
+      authState.matches({ connected: "authorised" }) ||
+      authState.matches("visiting");
 
     // TODO: look into this further
     // This is to prevent a modal clash when the authmachine switches
