@@ -7,6 +7,7 @@ import { Inventory } from "./Inventory";
 import { Pair } from "./Pair";
 import { WishingWell } from "./WishingWell";
 import { Token } from "./Token";
+import { toHex, toWei } from "web3-utils";
 
 const NETWORK = import.meta.env.VITE_NETWORK;
 
@@ -167,7 +168,7 @@ export class Metamask {
     return MESSAGE;
   }
 
-  private getDefaultChainParam(){
+  private getDefaultChainParam() {
     if (POLYGON_CHAIN_ID === 137) {
       return {
         chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}`,
@@ -175,11 +176,11 @@ export class Metamask {
         nativeCurrency: {
           name: "MATIC",
           symbol: "MATIC",
-          decimals: 18
+          decimals: 18,
         },
         rpcUrls: ["https://polygon-rpc.com/"],
-        blockExplorerUrls: ["https://polygonscan.com/"]
-      }
+        blockExplorerUrls: ["https://polygonscan.com/"],
+      };
     } else {
       return {
         chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}`,
@@ -187,11 +188,11 @@ export class Metamask {
         nativeCurrency: {
           name: "MATIC",
           symbol: "MATIC",
-          decimals: 18
+          decimals: 18,
         },
         rpcUrls: ["https://matic-mumbai.chainstacklabs.com"],
-        blockExplorerUrls: ["https://mumbai.polygonscan.com/"]
-      }
+        blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+      };
     }
   }
 
@@ -202,19 +203,19 @@ export class Metamask {
 
   public async switchNetwork() {
     await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
+      method: "wallet_switchEthereumChain",
       params: [{ chainId: `0x${Number(POLYGON_CHAIN_ID).toString(16)}` }],
     });
   }
 
   public async addNetwork() {
     try {
-      let defaultChainParam = this.getDefaultChainParam();
+      const defaultChainParam = this.getDefaultChainParam();
       await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
+        method: "wallet_addEthereumChain",
         params: [
           {
-            ...defaultChainParam
+            ...defaultChainParam,
           },
         ],
       });
@@ -223,7 +224,7 @@ export class Metamask {
     }
   }
 
-  public async initialiseNetwork(){
+  public async initialiseNetwork() {
     try {
       await this.switchNetwork();
     } catch (e: any) {
@@ -232,6 +233,19 @@ export class Metamask {
       }
       throw e;
     }
+  }
+
+  public async donateToTheTeam(donation: number) {
+    await window.ethereum.request({
+      method: "eth_sendTransaction",
+      params: [
+        {
+          from: metamask.myAccount,
+          to: "0x6D18a54E0fd87FCb84a0510A3eCd8855b7226715",
+          value: toHex(toWei(donation.toString(), "ether")),
+        },
+      ],
+    });
   }
 
   public getFarm() {

@@ -11,7 +11,9 @@ import question from "assets/icons/expression_confused.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 
-const roundToOneDecimal = (number: number) => Math.round(number * 10) / 10;
+export const roundToOneDecimal = (number: number) =>
+  Math.round(number * 10) / 10;
+
 export enum CharityAddress {
   TheWaterProject = "0xBCf9bf2F0544252761BCA9c76Fe2aA18733C48db",
   Heifer = "0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1",
@@ -92,7 +94,7 @@ interface Props {
 }
 
 export const Donation: React.FC<Props> = ({ onDonate }) => {
-  const [donation, setDonation] = React.useState(1.0);
+  const [donation, setDonation] = useState(1.0);
   const [activeIdx, setActiveIndex] = useState(0);
 
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
