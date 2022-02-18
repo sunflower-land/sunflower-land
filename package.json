@@ -8,7 +8,8 @@
     "format": "./node_modules/.bin/eslint --ext .tsx,.ts . --fix",
     "preview": "vite preview",
     "generate": "graphql-codegen",
-    "test": "jest"
+    "test": "jest",
+    "erc1155": "ts-node _scripts/erc1155Metadata.ts"
   },
   "browserslist": [
     ">0.2%",
