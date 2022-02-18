@@ -59,7 +59,7 @@ const CharityDetail = ({
   onDonateAndPlayClick,
 }: CharityDetailProps) => {
   const onAboutClick = (url: string) => {
-    window.open(url);
+    window.open(url, "_blank");
   };
 
   return (
@@ -74,7 +74,12 @@ const CharityDetail = ({
       </div>
 
       <div className="flex w-full z-10">
-        <Button className="w-full mr-1" onClick={() => onAboutClick(url)}>
+        <Button
+          className="w-full mr-1"
+          onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            onAboutClick(url), e.preventDefault();
+          }}
+        >
           <span className="text-xs mr-1">About</span>
           <img src={question} className="scale-110" alt="question-mark" />
         </Button>

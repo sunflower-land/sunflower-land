@@ -3,7 +3,7 @@ import classnames from "classnames";
 import border from "assets/ui/panel/light_border.png";
 
 interface Props {
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   disabled?: boolean;
   className?: string;
   type?: "submit" | undefined;
