@@ -30,13 +30,21 @@ export const VisitFarm: React.FC = () => {
           Enter Farm ID:{" "}
         </span>
         <input
-          type="text"
+          type="number"
           name="farmId"
           className="text-shadow shadow-inner shadow-black bg-brown-200 w-24 p-2 m-2 text-center"
         />
-        <Button className="overflow-hidden" type="submit">
-          Visit
-        </Button>
+        <div className="flex">
+          <Button
+            className="overflow-hidden" 
+            onClick={() => authService.send("LOAD_FARM")}
+          >
+            Back
+          </Button>
+          <Button className="overflow-hidden" type="submit">
+            Visit
+          </Button>
+        </div>
       </form>
     </>
   );

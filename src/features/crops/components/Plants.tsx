@@ -15,6 +15,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { useTour } from "@reactour/tour";
 import { TourStep } from "features/game/lib/Tour";
+import { getSellPrice } from "features/game/lib/pricing";
 
 export const Plants: React.FC = () => {
   const {
@@ -51,9 +52,11 @@ export const Plants: React.FC = () => {
     }
   };
 
+  const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
+
   return (
     <div className="flex">
-      <div className="w-3/5 flex  flex-wrap h-fit">
+      <div className="w-3/5 flex flex-wrap h-fit">
         {Object.values(CROPS()).map((item) => (
           <Box
             isSelected={selected.name === item.name}
@@ -80,7 +83,7 @@ export const Plants: React.FC = () => {
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               <span className="text-xs text-shadow text-center mt-2 ">
-                {`$${selected.sellPrice}`}
+                {`$${displaySellPrice(selected)}`}
               </span>
             </div>
           </div>

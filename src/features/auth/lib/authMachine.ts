@@ -58,12 +58,17 @@ type CreateFarmEvent = {
   donation: number;
 };
 
+type LoadFarmEvent = {
+  type: "LOAD_FARM";
+};
+
 export type BlockchainEvent =
   | StartEvent
   | ExploreEvent
   | VisitEvent
   | ReturnEvent
   | CreateFarmEvent
+  | LoadFarmEvent
   | {
       type: "NETWORK_CHANGED";
     }
@@ -145,6 +150,7 @@ export const authMachine = createMachine<
         initial: "loadingFarm",
         states: {
           loadingFarm: {
+            id: "loadingFarm",
             invoke: {
               src: "loadFarm",
               onDone: [
@@ -215,6 +221,9 @@ export const authMachine = createMachine<
       exploring: {
         id: "exploring",
         on: {
+          LOAD_FARM: {
+            target: "#loadingFarm",
+          },
           VISIT: {
             target: "checkFarm",
           },
