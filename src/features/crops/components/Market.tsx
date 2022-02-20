@@ -94,7 +94,11 @@ export const Market: React.FC = () => {
           onClick={() => handleMarketClick()}
         />
       )}
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal
+        centered
+        show={isOpen}
+        onHide={() => (tourIsOpen ? null : setIsOpen(false))}
+      >
         <MarketItems onClose={() => setIsOpen(false)} />
       </Modal>
     </div>
