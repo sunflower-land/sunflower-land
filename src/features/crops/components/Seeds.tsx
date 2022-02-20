@@ -96,17 +96,36 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     //   );
     // }
 
+    // return (
+    //   <>
+    //     <Button
+    //       disabled={lessFunds() || stock?.lessThan(1)}
+    //       className="text-xs mt-1"
+    //       onClick={() => handlBuyOne()}
+    //     >
+    //       Buy 1
+    //     </Button>
+    //     <Button
+    //       disabled={lessFunds(10) || stock?.lessThan(10)}
+    //       className="text-xs mt-1"
+    //       onClick={() => buy(10)}
+    //     >
+    //       Buy 10
+    //     </Button>
+    //   </>
+    // );
+
     return (
       <>
         <Button
-          disabled={lessFunds() || stock?.lessThan(1)}
+          disabled={lessFunds()}
           className="text-xs mt-1"
           onClick={() => handlBuyOne()}
         >
           Buy 1
         </Button>
         <Button
-          disabled={lessFunds(10) || stock?.lessThan(10)}
+          disabled={lessFunds(10)}
           className="text-xs mt-1"
           onClick={() => buy(10)}
         >
