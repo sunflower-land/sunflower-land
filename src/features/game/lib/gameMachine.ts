@@ -7,7 +7,7 @@ import { metamask } from "../../../lib/blockchain/metamask";
 
 import { GameState } from "../types/game";
 import { loadSession } from "../actions/loadSession";
-import { INITIAL_FARM } from "./constants";
+import { INITIAL_FARM, EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
@@ -116,7 +116,7 @@ export function startGame(authContext: Options) {
     initial: "loading",
     context: {
       actions: [],
-      state: INITIAL_FARM,
+      state: EMPTY,
       sessionId: authContext.sessionId,
     },
     states: {

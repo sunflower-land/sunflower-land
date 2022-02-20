@@ -99,7 +99,7 @@ export const Field: React.FC<Props> = ({
       gameService.send("item.harvested", {
         index: fieldIndex,
       });
-      updateHarvestable();
+      updateHarvestable("minus");
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
