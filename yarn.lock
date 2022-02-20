@@ -5860,6 +5860,11 @@ react-refresh@^0.11.0:
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.11.0.tgz"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
 
+react-responsive-spritesheet@^2.3.9:
+  version "2.3.9"
+  resolved "https://registry.yarnpkg.com/react-responsive-spritesheet/-/react-responsive-spritesheet-2.3.9.tgz#58822bd7532a46de8d564042c40d90e1d2aaafc5"
+  integrity sha512-7x1co8f6mg01wy5a8KsRDGOQ6a1inxhakdc/z2gXVhOBgRPQznUipWdGYZXHw7ecI5kPdXC1uXvFIXmWip3vnA==
+
 react-sprite-animator@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/react-sprite-animator/-/react-sprite-animator-2.0.2.tgz#1c3813a55b9f7ce52fec6aa1847aa03d169919a2"

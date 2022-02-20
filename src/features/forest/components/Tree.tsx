@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useSprite } from "react-sprite-animator";
+import Spritesheet from "react-responsive-spritesheet";
 import tree from "assets/resources/tree/tree.png";
 import sheet from "assets/resources/tree/chopped_cut.png";
 
@@ -48,8 +49,6 @@ export const Tree: React.FC<Props> = ({ image }) => {
   };
 
   const mine = async () => {
-    setShouldAnimate(true);
-
     try {
       gameService.send("rock.mined", {
         index: 0,
@@ -64,13 +63,31 @@ export const Tree: React.FC<Props> = ({ image }) => {
 
   return (
     <div>
-      <TreeAnimation
-        shouldAnimate={shouldAnimate}
-        key={shouldAnimate ? "1" : "2"}
+      <Spritesheet
+        className="w-full hover:img-highlight cursor-pointer"
+        image={sheet}
+        widthFrame={266}
+        heightFrame={168}
+        fps={18}
+        steps={11}
+        direction={`forward`}
+        autoplay={false}
+        loop={true}
+        // getInstance={(spritesheet) => {
+        //   this.spriteInstance = spritesheet;
+        // }}
+        onClick={(spritesheet) => {
+          //spritesheet.play();
+          spritesheet.goToAndPlay(0);
+          //mine();
+        }}
+        onLoopComplete={(spritesheet) => {
+          console.log("onLoopComplete");
+          spritesheet.pause();
+        }}
       />
       <img
         src={tree}
-        className="w-full hover:img-highlight cursor-pointer"
         style={{
           width: `${GRID_WIDTH_PX * 4}px`,
         }}
