@@ -10,7 +10,7 @@ import { metamask } from "lib/blockchain/metamask";
 import { Button } from "components/ui/Button";
 
 import begger from "assets/npcs/begger.gif";
-import richBegger from "assets/npcs/rich_begger.png";
+import richBegger from "assets/npcs/rich_begger.gif";
 import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";
 import token from "assets/icons/token.png";
@@ -120,6 +120,9 @@ export const TeamDonation: React.FC = () => {
           id="begger"
           src={begger}
           className="absolute hover:cursor-pointer hover:img-highlight z-10"
+          style={{
+            width: `${GRID_WIDTH_PX * 1.8}px`,
+          }}
           onClick={() => send("BEGGER_CLICK")}
         />
       ) : (
@@ -127,6 +130,9 @@ export const TeamDonation: React.FC = () => {
           id="rich_begger"
           src={richBegger}
           className="absolute hover:cursor-pointer hover:img-highlight z-10"
+          style={{
+            width: `${GRID_WIDTH_PX * 1.8}px`,
+          }}
           onClick={() => send("BEGGER_CLICK")}
         />
       )}
