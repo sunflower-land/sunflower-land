@@ -37,7 +37,7 @@ export const Soil: React.FC<Props> = ({ field, className }) => {
   }, [field]);
 
   React.useEffect(() => {
-    if (badgeUpdated) updateHarvestable();
+    if (badgeUpdated) updateHarvestable("plus");
   }, [badgeUpdated]);
 
   if (!field) {

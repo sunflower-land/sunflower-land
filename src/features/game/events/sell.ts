@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { CropName, CROPS } from "../types/crops";
 import { GameState, InventoryItemName } from "../types/game";
+import { getSellPrice } from "../lib/pricing";
 
 export type SellAction = {
   type: "item.sell";
@@ -33,13 +34,7 @@ export function sell({ state, action }: Options): GameState {
     throw new Error("Insufficient crops to sell");
   }
 
-  let price = crop.sellPrice;
-  if (
-    crop.name === "Cauliflower" &&
-    state.inventory["Golden Cauliflower"]?.greaterThanOrEqualTo(1)
-  ) {
-    price = price.mul(2);
-  }
+  let price = getSellPrice(crop, state.inventory);
 
   return {
     ...state,

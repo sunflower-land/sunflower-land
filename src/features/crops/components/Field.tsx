@@ -11,9 +11,7 @@ import { AppIconContext } from "features/crops/AppIconProvider";
 import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { getShortcuts } from "../../hud/lib/shortcuts";
 import { Soil } from "./Soil";
-import Decimal from "decimal.js-light";
 import { useTour } from "@reactour/tour";
 import { TourStep } from "features/game/lib/Tour";
 
@@ -43,7 +41,6 @@ export const Field: React.FC<Props> = ({
   const { updateHarvestable } = useContext(AppIconContext);
   const [game] = useActor(gameService);
   const clickedAt = useRef<number>(0);
-  const inventory = game.context.state.inventory;
   const field = game.context.state.fields[fieldIndex];
 
   const displayPopover = async (element: JSX.Element) => {
@@ -77,17 +74,6 @@ export const Field: React.FC<Props> = ({
           item: selectedItem,
         });
 
-        if (selectedItem) {
-          if ((inventory[selectedItem] || new Decimal(0)).sub(1).equals(0)) {
-            const shortcuts = getShortcuts();
-            if ((inventory[shortcuts[1]] || 0) > 0) {
-              shortcutItem(shortcuts[1]);
-            } else if ((inventory[shortcuts[2]] || 0) > 0) {
-              shortcutItem(shortcuts[2]);
-            }
-          }
-        }
-
         displayPopover(
           <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
             <img
@@ -113,7 +99,7 @@ export const Field: React.FC<Props> = ({
       gameService.send("item.harvested", {
         index: fieldIndex,
       });
-      updateHarvestable();
+      updateHarvestable("minus");
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
