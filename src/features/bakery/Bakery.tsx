@@ -24,10 +24,10 @@ export const Bakery: React.FC = () => {
             className="z-10 absolute"
             // TODO some sort of coordinate system
             style={{
-                width: `${GRID_WIDTH_PX * 2.7}px`,
-                height: `${GRID_WIDTH_PX * 2.5}px`,
-                left: `calc(50% - ${GRID_WIDTH_PX * -12.2}px)`,
-                top: `calc(50% - ${GRID_WIDTH_PX * 16}px)`,
+                width: `${GRID_WIDTH_PX * 3.7}px`,
+                height: `${GRID_WIDTH_PX * 3.5}px`,
+                left: `calc(50% - ${GRID_WIDTH_PX * -11.8}px)`,
+                top: `calc(50% - ${GRID_WIDTH_PX * 17}px)`,
             }}
         >
             <img
@@ -41,7 +41,7 @@ export const Bakery: React.FC = () => {
             />
             {isNotReadOnly && (
                 <Action
-                    className="absolute -bottom-10 left-4"
+                    className="absolute -bottom-8 -left-6"
                     text="Bake"
                     icon={soup}
                     onClick={() => setIsOpen(true)}
