@@ -42,7 +42,7 @@ export const Bakery: React.FC = () => {
       {isNotReadOnly && (
         <Action
           className="absolute -bottom-10 left-10"
-          text="Bake"
+          text="Cook"
           icon={soup}
           onClick={() => setIsOpen(true)}
         />
