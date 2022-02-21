@@ -35,7 +35,7 @@ export const Soil: React.FC<Props> = ({ field }) => {
   }, [field]);
 
   React.useEffect(() => {
-    if (badgeUpdated) updateHarvestable();
+    if (badgeUpdated) updateHarvestable("plus");
   }, [badgeUpdated]);
 
   if (!field) {
@@ -53,7 +53,7 @@ export const Soil: React.FC<Props> = ({ field }) => {
     return (
       <div className="relative w-full h-full">
         <img src={lifecycle.seedling} className="w-full" />
-        <div className="absolute w-full -bottom-10 z-10">
+        <div className="absolute w-full -bottom-10 z-20">
           <ProgressBar percentage={percentage} seconds={timeLeft} />
         </div>
       </div>

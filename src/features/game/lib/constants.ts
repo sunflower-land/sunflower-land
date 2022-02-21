@@ -74,3 +74,11 @@ export const INITIAL_FARM: GameState = {
   inventory: {},
   stock: INITIAL_STOCK,
 };
+
+export const EMPTY: GameState = {
+  id: 1,
+  balance: new Decimal(fromWei("0")),
+  fields: {},
+  inventory: {},
+  stock: {},
+};
