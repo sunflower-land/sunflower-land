@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Tree } from "./components/Tree";
+import { Context } from "features/game/GameProvider";
 
 export const Forest: React.FC = () => {
   return (
@@ -9,7 +10,7 @@ export const Forest: React.FC = () => {
       style={{
         height: `${GRID_WIDTH_PX * 6}px`,
         width: `${GRID_WIDTH_PX * 6}px`,
-        left: `calc(50% +  ${GRID_WIDTH_PX * 14}px)`,
+        left: `calc(50% +  ${GRID_WIDTH_PX * 20}px)`,
         top: `calc(50% -  ${GRID_WIDTH_PX * 17}px)`,
       }}
       className="absolute "
