@@ -43,13 +43,12 @@ export const WrongChain: React.FC = () => {
         <span>Go to guide</span>
       </Button>
       {/* This doesn't work on metamask browser so we won't show if on mobile */}
-      {!isDefaultNetwork ||
-        (!isMobile && (
-          <Button onClick={initialiseNetwork} className="overflow-hidden mb-2">
-            <img src={metamaskIcon} alt="Metamask Icon" className="mr-2" />
-            <span>Add or Switch Network</span>
-          </Button>
-        ))}
+      {(!isDefaultNetwork || !isMobile) && (
+        <Button onClick={initialiseNetwork} className="overflow-hidden mb-2">
+          <img src={metamaskIcon} alt="Metamask Icon" className="mr-2" />
+          <span>Add or Switch Network</span>
+        </Button>
+      )}
     </div>
   );
 };
