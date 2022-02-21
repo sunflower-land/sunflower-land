@@ -2,16 +2,11 @@
  * A wrapper that provides crops favicon harvestable items management
  */
 
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Tinycon from "tinycon";
-import { useActor } from "@xstate/react";
-import { CROPS } from "features/game/types/crops";
-import { Context } from "features/game/GameProvider";
-import { FieldItem } from "features/game/types/game";
-import { getTimeLeft } from "lib/utils/time";
 
 interface AppIconContext {
-  updateHarvestable: () => void;
+  updateHarvestable: (op: "plus" | "minus") => void;
 }
 
 export const AppIconContext = React.createContext<AppIconContext>(
@@ -25,7 +20,7 @@ export const AppIconProvider: React.FC = ({ children }) => {
     setCounter((prevCounter) => prevCounter + (op === "plus" ? 1 : -1));
   };
 
-  // apply force update
+  // apply force update (reverts to title update and not bubble)
   useEffect(() => {
     Tinycon.setOptions({ fallback: "force" });
   }, []);
