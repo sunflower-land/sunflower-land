@@ -10,12 +10,14 @@ import { FieldItem } from "features/game/types/game";
 import { AppIconContext } from "features/crops/AppIconProvider";
 import { CROPS } from "features/game/types/crops";
 import { LIFECYCLE } from "../lib/plant";
+import classnames from "classnames";
 
 interface Props {
   field?: FieldItem;
+  className?: string;
 }
 
-export const Soil: React.FC<Props> = ({ field }) => {
+export const Soil: React.FC<Props> = ({ field, className }) => {
   const [_, setTimer] = React.useState<number>(0);
   const [badgeUpdated, setBadgeUpdated] = React.useState<boolean>(false);
   const { updateHarvestable } = useContext(AppIconContext);
@@ -39,7 +41,7 @@ export const Soil: React.FC<Props> = ({ field }) => {
   }, [badgeUpdated]);
 
   if (!field) {
-    return <img src={soil} className="w-full" />;
+    return <img src={soil} className={classnames("w-full", className)} />;
   }
 
   const crop = CROPS()[field.name];
@@ -51,9 +53,12 @@ export const Soil: React.FC<Props> = ({ field }) => {
     const percentage = 100 - (timeLeft / crop.harvestSeconds) * 100;
 
     return (
-      <div className="relative w-full h-full">
-        <img src={lifecycle.seedling} className="w-full" />
-        <div className="absolute w-full -bottom-10 z-20">
+      <div className={"relative w-full h-full"}>
+        <img
+          src={lifecycle.seedling}
+          className={classnames("w-full", className)}
+        />
+        <div className="absolute w-full -bottom-4 z-10">
           <ProgressBar percentage={percentage} seconds={timeLeft} />
         </div>
       </div>
@@ -63,5 +68,7 @@ export const Soil: React.FC<Props> = ({ field }) => {
     setBadgeUpdated(true);
   }
   // Ready to harvest
-  return <img src={lifecycle.ready} className="w-full" />;
+  return (
+    <img src={lifecycle.ready} className={classnames("w-full", className)} />
+  );
 };
