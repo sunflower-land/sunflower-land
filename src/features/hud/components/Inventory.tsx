@@ -61,7 +61,7 @@ export const Inventory: React.FC = () => {
       <Modal
         centered
         show={isOpen}
-        onHide={() => (tourIsOpen ? null : setIsOpen(false))}
+        onHide={tourIsOpen ? undefined : () => setIsOpen(false)}
       >
         <InventoryItems
           onClose={() => (tourIsOpen ? null : setIsOpen(false))}

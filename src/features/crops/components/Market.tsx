@@ -97,7 +97,7 @@ export const Market: React.FC = () => {
       <Modal
         centered
         show={isOpen}
-        onHide={() => (tourIsOpen ? null : setIsOpen(false))}
+        onHide={tourIsOpen ? undefined : () => setIsOpen(false)}
       >
         <MarketItems onClose={() => setIsOpen(false)} />
       </Modal>

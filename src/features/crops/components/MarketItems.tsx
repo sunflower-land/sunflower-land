@@ -49,7 +49,7 @@ export const MarketItems: React.FC<Props> = ({ onClose }) => {
         <img
           src={close}
           className="h-6 cursor-pointer mr-2 mb-1"
-          onClick={() => (tourIsOpen ? null : onClose)}
+          onClick={tourIsOpen ? undefined : () => onClose()}
         />
       </div>
 
