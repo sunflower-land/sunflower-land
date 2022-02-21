@@ -60,6 +60,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     }
   };
 
+  const handleBuyTen = () => {
+    buy(10);
+    if (tourIsOpen && currentTourStep === TourStep.buy) {
+      setCurrentTourStep(TourStep.plant);
+      onClose();
+    }
+  };
+
   const restock = () => {
     gameService.send("SYNC");
 
@@ -127,7 +135,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         <Button
           disabled={lessFunds(10)}
           className="text-xs mt-1"
-          onClick={() => buy(10)}
+          onClick={() => handleBuyTen()}
         >
           Buy 10
         </Button>

@@ -83,11 +83,12 @@ export const CropZoneTwo: React.FC = () => {
 
       <div
         className="absolute flex justify-center flex-col"
+        id="cropzone-two"
         style={{
           width: `${GRID_WIDTH_PX * 3}px`,
           height: `${GRID_WIDTH_PX * 3}px`,
           left: `${GRID_WIDTH_PX * 1}px`,
-          bottom: `${GRID_WIDTH_PX * 1}px`,
+          bottom: `${GRID_WIDTH_PX * 0.6}px`,
         }}
       >
         {/* Top row */}

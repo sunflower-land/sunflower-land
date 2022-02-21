@@ -63,11 +63,12 @@ export const CropZoneFour: React.FC = () => {
 
       <div
         className="absolute flex justify-between flex-col"
+        id="cropzone-four"
         style={{
           width: `${GRID_WIDTH_PX * 4}px`,
           height: `${GRID_WIDTH_PX * 2.3}px`,
           left: `${GRID_WIDTH_PX * 3}px`,
-          top: `${GRID_WIDTH_PX * 2.5}px`,
+          top: `${GRID_WIDTH_PX * 3}px`,
         }}
       >
         <div className="flex justify-between items-center">

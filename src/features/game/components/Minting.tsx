@@ -8,7 +8,7 @@ export const Minting: React.FC = () => {
       <span className="text-shadow text-center">Minting</span>
       <img src={mintingAnimation} className="w-1/2 mt-2 mb-3 ml-8" />
       <span className="text-shadow text-xs text-center">
-        Please be patient while our minons mint something special for you.
+        Please be patient while our minions mint something special for you.
       </span>
     </div>
   );
