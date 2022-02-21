@@ -9,6 +9,7 @@ type Request = {
   sender: string;
   sessionId: string;
   signature: string;
+  offset: number;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -39,17 +40,21 @@ function squashEvents(events: PastAction[]): PastAction[] {
   }, [] as PastAction[]);
 }
 
+function serialize(events: PastAction[], offset: number) {
+  return events.map((action) => ({
+    ...action,
+    createdAt: new Date(action.createdAt.getTime() + offset).toISOString(),
+  }));
+}
+
 export async function autosave(request: Request) {
   if (!API_URL) return;
 
   // Shorten the payload
-  const squashedEvents = squashEvents(request.actions);
+  const events = squashEvents(request.actions);
 
   // Serialize values before sending
-  const actions = squashedEvents.map((action) => ({
-    ...action,
-    createdAt: action.createdAt.toISOString(),
-  }));
+  const actions = serialize(events, request.offset);
 
   const response = await window.fetch(`${API_URL}/autosave`, {
     method: "POST",
@@ -57,7 +62,10 @@ export async function autosave(request: Request) {
       "content-type": "application/json;charset=UTF-8",
     },
     body: JSON.stringify({
-      ...request,
+      farmId: request.farmId,
+      sender: request.sender,
+      sessionId: request.sessionId,
+      signature: request.signature,
       actions,
     }),
   });
