@@ -138,7 +138,7 @@ export const Field: React.FC<Props> = ({
         height: `${GRID_WIDTH_PX}px`,
       }}
     >
-      <Soil field={field} />
+      <Soil className="absolute bottom-0" field={field} />
 
       <div
         className={classNames(
@@ -157,7 +157,7 @@ export const Field: React.FC<Props> = ({
           style={{
             opacity: 0.1,
           }}
-          className="absolute inset-0 w-full top-7 opacity-0 group-hover:opacity-100 hover:!opacity-100 z-10 cursor-pointer"
+          className="absolute inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-20 cursor-pointer"
           onClick={onClick}
         />
       )}
