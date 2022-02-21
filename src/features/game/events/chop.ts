@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName } from "../types/game";
 
 export type ChopAction = {
@@ -16,9 +17,18 @@ export function chop({ state, action }: Options) {
     throw new Error("You need an axe!");
   }
 
-  if (state.inventory.Axe?.lessThan(1)) {
+  const axeAmount = state.inventory.Axe || new Decimal(0);
+  if (axeAmount.lessThan(1)) {
     throw new Error("No axes left!");
   }
 
-  return state;
+  const woodAmount = state.inventory.Wood || new Decimal(0);
+  return {
+    ...state,
+    inventory: {
+      ...state.inventory,
+      Axe: axeAmount.sub(1),
+      Wood: woodAmount.add(1),
+    },
+  };
 }
