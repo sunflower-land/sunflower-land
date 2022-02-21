@@ -16,7 +16,7 @@ export const CropZoneOne: React.FC = () => {
         width: `${GRID_WIDTH_PX * 3}px`,
         height: `${GRID_WIDTH_PX * 3}px`,
         left: `${GRID_WIDTH_PX * 13}px`,
-        top: `${GRID_WIDTH_PX * 0.25}px`,
+        top: `${GRID_WIDTH_PX * 0.85}px`,
       }}
     >
       {/* Top row */}

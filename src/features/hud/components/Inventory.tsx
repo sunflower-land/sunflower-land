@@ -58,8 +58,14 @@ export const Inventory: React.FC = () => {
         <Label className="hidden sm:block absolute -bottom-7">Inventory</Label>
       </div>
 
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems onClose={() => setIsOpen(false)} />
+      <Modal
+        centered
+        show={isOpen}
+        onHide={tourIsOpen ? undefined : () => setIsOpen(false)}
+      >
+        <InventoryItems
+          onClose={() => (tourIsOpen ? null : setIsOpen(false))}
+        />
       </Modal>
 
       {!game.matches("readonly") && (
