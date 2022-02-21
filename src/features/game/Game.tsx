@@ -10,6 +10,7 @@ import { Water } from "features/water/Water";
 import { Loading } from "features/auth/components";
 import { Animals } from "features/animals/Animals";
 import { WishingWell } from "features/wishingWell/WishingWell";
+import { Bakery } from "features/bakery/Bakery";
 
 import { useInterval } from "lib/utils/useInterval";
 
@@ -96,6 +97,7 @@ export const Game: React.FC = () => {
       <Animals />
       <Decorations />
       <Quarry />
+      <Bakery />
     </>
   );
 };

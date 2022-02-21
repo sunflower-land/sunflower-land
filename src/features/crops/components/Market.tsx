@@ -45,7 +45,7 @@ export const Market: React.FC = () => {
     <div
       id="open-shop"
       style={{
-        width: `${GRID_WIDTH_PX * 3.2}px`,
+        width: `${GRID_WIDTH_PX * 2.8}px`,
         position: "absolute",
         left: `${GRID_WIDTH_PX * 16}px`,
         bottom: `${GRID_WIDTH_PX * 2.2}px`,
@@ -65,7 +65,7 @@ export const Market: React.FC = () => {
         alt="bobMarley"
         className="absolute pointer-events-none"
         style={{
-          width: `${GRID_WIDTH_PX * 1.8}px`,
+          width: `${GRID_WIDTH_PX * 1.65}px`,
           position: "absolute",
           left: `${GRID_WIDTH_PX * 0.7}px`,
           bottom: `${GRID_WIDTH_PX * 0.8}px`,
@@ -88,7 +88,7 @@ export const Market: React.FC = () => {
       />
       {isNotReadOnly && (
         <Action
-          className="absolute -bottom-3 left-6"
+          className="absolute -bottom-3 left-3"
           text="Shop"
           icon={plant}
           onClick={() => handleMarketClick()}
