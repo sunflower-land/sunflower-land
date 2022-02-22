@@ -3,7 +3,7 @@ import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 
 import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
 import * as Auth from "features/auth/lib/Provider";
@@ -34,9 +34,20 @@ export const Menu = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
 
+  const farmURL = `${
+    window.location.href.includes("?")
+      ? window.location.href.split("?")[0]
+      : window.location.href
+  }?farmId=${authState.context.farmId!.toString()}`;
+
   const [showShareModal, setShowShareModal] = React.useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
   const [showComingSoon, setShowComingSoon] = React.useState(false);
+
+  const [tooltipMessage, setTooltipMessage] = useState(
+    "Click to copy farm link (URL)"
+  );
+  const [showLabel, setShowLabel] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -49,7 +60,6 @@ export const Menu = () => {
 
   const handleNavigationClick = (section: Section) => {
     scrollIntoView(section);
-
     setMenuOpen(false);
   };
 
@@ -59,19 +69,27 @@ export const Menu = () => {
   };
 
   const handleCopyFarmURL = (): void => {
-    const farmId = authState.context.farmId!;
-    navigator.clipboard.writeText(
-      `${
-        window.location.href.includes("?")
-          ? window.location.href.split("?")[0]
-          : window.location.href
-      }?farmId=${farmId.toString()}` as string
-    );
-    // setTooltipMessage("Copied!");
+    navigator.clipboard.writeText(farmURL as string);
+    setTooltipMessage("Copied!");
+    setShowLabel(true);
     setMenuOpen(false);
-    /*setTimeout(() => {
-      setTooltipMessage("Click to copy farm URL, and share it on socials");
-    }, 2000);*/
+    setTimeout(() => {
+      setTooltipMessage("Click to copy farm link (URL)");
+      setShowLabel(false);
+    }, 1500);
+  };
+
+  const handleShareClick = () => {
+    setShowShareModal(true);
+    setMenuOpen(false);
+  };
+
+  const handleMouseEnter = () => {
+    setShowLabel(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowLabel(false);
   };
 
   const handleClick = (e: Event) => {
@@ -201,7 +219,7 @@ export const Menu = () => {
               </Button>
             </li>
             <li className="p-1">
-              <Button onClick={() => handleCopyFarmURL()}>
+              <Button onClick={() => handleShareClick()}>
                 <span className="sm:text-sm">Share</span>
               </Button>
             </li>
@@ -229,7 +247,45 @@ export const Menu = () => {
         onHide={() => setShowShareModal(false)}
         centered
       >
-        <Panel>Share Modal</Panel>
+        <Panel>
+          <Modal.Header className="justify-content-center">
+            <h1>Share Your Farm Link</h1>
+          </Modal.Header>
+          <Modal.Body>
+            <p className="text-xs">
+              Show off to fellow farmers by sharing your farm link (URL), to
+              directly visit your farm !
+            </p>
+            <InnerPanel className="mt-4 hover:bg-brown-200 !p-0">
+              <div
+                className="p-1 cursor-pointer hover:bg-brown-200"
+                onClick={handleCopyFarmURL}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <span className="text-xs hover:bg-brown-200">{farmURL}</span>
+              </div>
+            </InnerPanel>
+            <div
+              className={`absolute mr-5 transition duration-400 pointer-events-none ${
+                showLabel ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <Label>{tooltipMessage}</Label>
+            </div>
+          </Modal.Body>
+          <Modal.Footer className="justify-content-center">
+            <Button className="text-s w-1/4 px-1" onClick={handleCopyFarmURL}>
+              Copy
+            </Button>
+            <Button
+              className="text-s w-1/4 px-1"
+              onClick={() => window.open(farmURL, "_blank")}
+            >
+              Visit
+            </Button>
+          </Modal.Footer>
+        </Panel>
       </Modal>
 
       <Withdraw
