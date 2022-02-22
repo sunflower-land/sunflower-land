@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useActor } from "@xstate/react";
 
 import soil from "assets/land/soil2.png";
 
@@ -7,6 +8,7 @@ import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 
 import { FieldItem } from "features/game/types/game";
+import { Context } from "features/game/GameProvider";
 import { AppIconContext } from "features/crops/AppIconProvider";
 import { CROPS } from "features/game/types/crops";
 import { LIFECYCLE } from "../lib/plant";
@@ -21,6 +23,8 @@ interface Props {
 export const Soil: React.FC<Props> = ({ field, className, canHarvest }) => {
   const [_, setTimer] = React.useState<number>(0);
   const [badgeUpdated, setBadgeUpdated] = React.useState<boolean>(false);
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const { updateHarvestable } = useContext(AppIconContext);
   const setHarvestTime = React.useCallback(() => {
     setTimer((count) => count + 1);
@@ -38,7 +42,10 @@ export const Soil: React.FC<Props> = ({ field, className, canHarvest }) => {
   }, [field]);
 
   React.useEffect(() => {
-    if (badgeUpdated && canHarvest) updateHarvestable("plus");
+    // ignore game state dep to avoid incorrect trigger
+    if (badgeUpdated && canHarvest && !gameState.matches("readonly")) {
+      updateHarvestable("plus");
+    }
   }, [badgeUpdated, canHarvest]);
 
   if (!field) {
