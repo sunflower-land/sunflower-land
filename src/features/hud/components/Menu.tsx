@@ -19,6 +19,7 @@ import radish from "assets/icons/radish.png";
 import water from "assets/icons/expression_working.png";
 import token from "assets/icons/token.gif";
 import timer from "assets/icons/timer.png";
+import close from "assets/icons/close.png";
 import farmImg from "/farms/farm.png";
 import { useTour } from "@reactour/tour";
 import { TourStep } from "features/game/lib/Tour";
@@ -250,8 +251,13 @@ export const Menu = () => {
         centered
       >
         <Panel>
-          <Modal.Header className="justify-content-center">
-            <h1>Share Your Farm Link</h1>
+          <Modal.Header className="justify-content-space-between">
+            <h1 className="ml-2">Share Your Farm Link</h1>
+            <img
+              src={close}
+              className="h-6 cursor-pointer mr-2 mb-1 justify-content-end"
+              onClick={() => setShowShareModal(false)}
+            />
           </Modal.Header>
           <Modal.Body>
             <div className="row justify-content-center align-items-center">
