@@ -15,10 +15,9 @@ import classnames from "classnames";
 interface Props {
   field?: FieldItem;
   className?: string;
-  canHarvest?: boolean;
 }
 
-export const Soil: React.FC<Props> = ({ field, className, canHarvest }) => {
+export const Soil: React.FC<Props> = ({ field, className }) => {
   const [_, setTimer] = React.useState<number>(0);
   const [badgeUpdated, setBadgeUpdated] = React.useState<boolean>(false);
   const { updateHarvestable } = useContext(AppIconContext);
@@ -38,8 +37,8 @@ export const Soil: React.FC<Props> = ({ field, className, canHarvest }) => {
   }, [field]);
 
   React.useEffect(() => {
-    if (badgeUpdated && canHarvest) updateHarvestable("plus");
-  }, [badgeUpdated, canHarvest]);
+    if (badgeUpdated) updateHarvestable("plus");
+  }, [badgeUpdated]);
 
   if (!field) {
     return <img src={soil} className={classnames("w-full", className)} />;

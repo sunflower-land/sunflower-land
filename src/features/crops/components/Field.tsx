@@ -22,7 +22,6 @@ interface Props {
   fieldIndex: number;
   className?: string;
   onboarding?: boolean;
-  canHarvest?: boolean;
 }
 
 export const Field: React.FC<Props> = ({
@@ -30,7 +29,6 @@ export const Field: React.FC<Props> = ({
   className,
   fieldIndex,
   onboarding,
-  canHarvest,
 }) => {
   const {
     isOpen: tourIsOpen,
@@ -126,11 +124,7 @@ export const Field: React.FC<Props> = ({
         height: `${GRID_WIDTH_PX}px`,
       }}
     >
-      <Soil
-        className="absolute bottom-0"
-        field={field}
-        canHarvest={canHarvest}
-      />
+      <Soil className="absolute bottom-0" field={field} />
 
       <div
         className={classNames(

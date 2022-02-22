@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useActor } from "@xstate/react";
 
@@ -23,15 +23,10 @@ export const CropZoneTwo: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
-  const [canHarvest, setCanHarvest] = useState(false);
-
-  useEffect(() => {
-    setCanHarvest(!!state.inventory["Pumpkin Soup"]);
-  }, [state.inventory]);
 
   return (
     <>
-      {!canHarvest ? (
+      {!state.inventory["Pumpkin Soup"] ? (
         <>
           {" "}
           <img
@@ -98,37 +93,17 @@ export const CropZoneTwo: React.FC = () => {
       >
         {/* Top row */}
         <div className="flex justify-between">
-          <Field
-            selectedItem={selectedItem}
-            fieldIndex={5}
-            canHarvest={canHarvest}
-          />
-          <Field
-            selectedItem={selectedItem}
-            fieldIndex={6}
-            canHarvest={canHarvest}
-          />
+          <Field selectedItem={selectedItem} fieldIndex={5} />
+          <Field selectedItem={selectedItem} fieldIndex={6} />
         </div>
         {/* Middle row */}
         <div className="flex justify-center">
-          <Field
-            selectedItem={selectedItem}
-            fieldIndex={7}
-            canHarvest={canHarvest}
-          />
+          <Field selectedItem={selectedItem} fieldIndex={7} />
         </div>
         {/* Bottom row */}
         <div className="flex justify-between">
-          <Field
-            selectedItem={selectedItem}
-            fieldIndex={8}
-            canHarvest={canHarvest}
-          />
-          <Field
-            selectedItem={selectedItem}
-            fieldIndex={9}
-            canHarvest={canHarvest}
-          />
+          <Field selectedItem={selectedItem} fieldIndex={8} />
+          <Field selectedItem={selectedItem} fieldIndex={9} />
         </div>
       </div>
 

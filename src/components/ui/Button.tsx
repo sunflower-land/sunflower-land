@@ -6,7 +6,7 @@ interface Props {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   disabled?: boolean;
   className?: string;
-  type?: "button" | "submit" | undefined;
+  type?: "submit" | undefined;
 }
 export const Button: React.FC<Props> = ({
   children,
