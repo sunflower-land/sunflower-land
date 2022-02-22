@@ -1209,6 +1209,14 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-responsive-spritesheet@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-responsive-spritesheet/-/react-responsive-spritesheet-1.0.0.tgz#e140ec65d262961d31a00b99840bd0549d177350"
+  integrity sha512-PoV4fAypylL+/0dP0zlp/T7K0S2pGC4KDOgAC7TIwAXzOY8Ltnx40ikkBKeaM4S97iva6f4EkrxCmEipD1yzlw==
+  dependencies:
+    "@types/react" "*"
+    csstype "^3.0.10"
+
 "@types/react-transition-group@^4.4.1":
   version "4.4.4"
   resolved "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-4.4.4.tgz"
@@ -2354,7 +2362,7 @@ cssstyle@^2.3.0:
   dependencies:
     cssom "~0.3.6"
 
-csstype@^3.0.2:
+csstype@^3.0.10, csstype@^3.0.2:
   version "3.0.10"
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.0.10.tgz"
   integrity sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==
@@ -5748,13 +5756,6 @@ quick-lru@^5.1.1:
   resolved "https://registry.npmjs.org/quick-lru/-/quick-lru-5.1.1.tgz"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
 
-raf@^3.2.0:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
-  integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==
-  dependencies:
-    performance-now "^2.1.0"
-
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/randombytes/-/randombytes-2.1.0.tgz"
@@ -5864,14 +5865,6 @@ react-responsive-spritesheet@^2.3.9:
   version "2.3.9"
   resolved "https://registry.yarnpkg.com/react-responsive-spritesheet/-/react-responsive-spritesheet-2.3.9.tgz#58822bd7532a46de8d564042c40d90e1d2aaafc5"
   integrity sha512-7x1co8f6mg01wy5a8KsRDGOQ6a1inxhakdc/z2gXVhOBgRPQznUipWdGYZXHw7ecI5kPdXC1uXvFIXmWip3vnA==
-
-react-sprite-animator@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/react-sprite-animator/-/react-sprite-animator-2.0.2.tgz#1c3813a55b9f7ce52fec6aa1847aa03d169919a2"
-  integrity sha512-KFjXPPGR/Yu8rRGOPHjG+yi6eCCCtA+ZqNHM5Wt0WYPhsGpLbsonsjyUK5kQ12l7vYVf+pMsLfvEwA8uN0pW5Q==
-  dependencies:
-    prop-types "^15.7.2"
-    raf "^3.2.0"
 
 react-transition-group@^4.4.1:
   version "4.4.2"
