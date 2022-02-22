@@ -11,6 +11,12 @@ export type FieldItem = {
   plantedAt: number;
 };
 
+export type Tree = {
+  wood: number;
+  // Epoch time in milliseconds
+  choppedAt: number;
+};
+
 export type InventoryItemName =
   | CropName
   | SeedName
@@ -26,6 +32,7 @@ type PastAction = GameEvent & {
 export type GameState = {
   balance: Decimal;
   fields: Record<number, FieldItem>;
+  trees: Record<number, Tree>;
   inventory: Inventory;
   stock: Inventory;
 

@@ -23,7 +23,7 @@ export const Forest: React.FC = () => {
           top: `${GRID_WIDTH_PX * 3}px`,
         }}
       >
-        <Tree />
+        <Tree treeIndex={0} />
       </div>
 
       <div
@@ -35,7 +35,7 @@ export const Forest: React.FC = () => {
           top: `${GRID_WIDTH_PX * 0}px`,
         }}
       >
-        <Tree />
+        <Tree treeIndex={1} />
       </div>
 
       <div
@@ -47,7 +47,7 @@ export const Forest: React.FC = () => {
           top: `${GRID_WIDTH_PX * 0.5}px`,
         }}
       >
-        <Tree />
+        <Tree treeIndex={2} />
       </div>
     </div>
   );

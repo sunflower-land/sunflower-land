@@ -75,6 +75,20 @@ export const INITIAL_FARM: GameState = {
     Axe: new Decimal(3),
   },
   stock: INITIAL_STOCK,
+  trees: {
+    0: {
+      wood: 3,
+      choppedAt: 0,
+    },
+    1: {
+      wood: 4,
+      choppedAt: 0,
+    },
+    2: {
+      wood: 5,
+      choppedAt: 0,
+    },
+  },
 };
 
 export const EMPTY: GameState = {

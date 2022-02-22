@@ -9,20 +9,29 @@ import wood from "assets/resources/wood.png";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import classNames from "classnames";
+import { useActor } from "@xstate/react";
 
 const POPOVER_TIME_MS = 1000;
 
-export const Tree: React.FC = () => {
+interface Props {
+  treeIndex: number;
+}
+export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
+  const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(false);
   const [popover, setPopover] = useState<JSX.Element | null>();
 
+  const [touchCount, setTouchCount] = useState(0);
+  // When to hide the wood that pops out
+  const [collected, setCollected] = useState(false);
+
   const gif = useRef<Spritesheet>();
 
-  const [touchCount, setTouchCount] = useState(0);
-  const [chopped, setChopped] = useState(false);
-  const [collected, setCollected] = useState(false);
+  const tree = game.context.state.trees[treeIndex];
+
+  const chopped = tree.wood === 0;
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -42,27 +51,31 @@ export const Tree: React.FC = () => {
 
     setTouchCount((count) => count + 1);
 
+    // On third shake, chop
     if (touchCount === 2) {
-      try {
-        gameService.send("tree.chopped", {
-          index: 0,
-          item: selectedItem,
-        });
+      chop();
+    }
+  };
 
-        setChopped(true);
-        displayPopover(
-          <span className="text-xs text-white text-shadow">Testing only!</span>
-        );
-        await new Promise((res) => setTimeout(res, 2000));
-        setCollected(true);
-      } catch (e: any) {
-        // TODO - catch more elaborate errors
-        displayPopover(
-          <span className="text-xs text-white text-shadow">{e.message}</span>
-        );
+  const chop = async () => {
+    try {
+      gameService.send("tree.chopped", {
+        index: treeIndex,
+        item: selectedItem,
+      });
 
-        setTouchCount(0);
-      }
+      displayPopover(
+        <span className="text-xs text-white text-shadow">Testing only!</span>
+      );
+      await new Promise((res) => setTimeout(res, 1000));
+      setCollected(true);
+    } catch (e: any) {
+      // TODO - catch more elaborate errors
+      displayPopover(
+        <span className="text-xs text-white text-shadow">{e.message}</span>
+      );
+
+      setTouchCount(0);
     }
   };
 
@@ -83,7 +96,7 @@ export const Tree: React.FC = () => {
             image={shakeSheet}
             widthFrame={266}
             heightFrame={168}
-            fps={18}
+            fps={24}
             steps={11}
             direction={`forward`}
             autoplay={false}
@@ -108,7 +121,7 @@ export const Tree: React.FC = () => {
             image={choppedSheet}
             widthFrame={266}
             heightFrame={168}
-            fps={18}
+            fps={24}
             steps={11}
             direction={`forward`}
             autoplay={true}
