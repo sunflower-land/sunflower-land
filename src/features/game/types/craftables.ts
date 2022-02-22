@@ -196,7 +196,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     limit: 1,
-    supply: 858,
+    supply: 1000,
   },
   "Potato Statue": {
     name: "Potato Statue",
@@ -213,7 +213,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     limit: 1,
-    supply: 3412,
+    supply: 5000,
   },
   Scarecrow: {
     name: "Scarecrow",
@@ -230,12 +230,12 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     limit: 1,
-    supply: 1987,
+    supply: 5000,
     disabled: true,
   },
   "Christmas Tree": {
     name: "Christmas Tree",
-    description: "Receive a Santa Airdrop on Christmas day",
+    description: "Receieve a Santa Airdrop on Christmas day",
     price: new Decimal(50),
     ingredients: [
       {
@@ -267,7 +267,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
         amount: new Decimal(10),
       },
     ],
-    supply: 928,
+    supply: 2000,
     limit: 1,
   },
   "Farm Cat": {
@@ -305,7 +305,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
         amount: new Decimal(50),
       },
     ],
-    supply: 154,
+    supply: 250,
   },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
@@ -328,7 +328,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
         amount: new Decimal(10),
       },
     ],
-    supply: 88,
+    supply: 100,
   },
   "Sunflower Rock": {
     name: "Sunflower Rock",
@@ -344,7 +344,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
         amount: new Decimal(100),
       },
     ],
-    supply: 61,
+    supply: 150,
   },
   "Goblin Crown": {
     name: "Goblin Crown",
