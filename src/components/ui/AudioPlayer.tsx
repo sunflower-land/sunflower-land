@@ -61,7 +61,7 @@ export const AudioPlayer: React.FC = () => {
     <div
       className={`position-fixed ${
         visible ? "-right-6 sm:right-10" : "right-2"
-      } sm:right-2 bottom-20 z-50 w-48 h-fit  sm:-translate-x-50 transition-all duration-500 ease-in-out`}
+      } sm:right-2 bottom-4 z-50 w-48 h-fit  sm:-translate-x-50 transition-all duration-500 ease-in-out`}
       style={{
         transform: `translateX(${visible ? 0 : "calc(100% + 8px)"})`,
       }}

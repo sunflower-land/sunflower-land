@@ -6,7 +6,9 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
 
-import { SEEDS, CROPS } from "features/game/types/crops";
+import { secondsToString } from "lib/utils/time";
+
+import { SEEDS, CROPS, CropName } from "features/game/types/crops";
 import { FOODS, TOOLS, LimitedItems } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 
@@ -18,6 +20,7 @@ import tool from "assets/tools/hammer.png";
 import nft from "assets/nfts/gnome.png";
 import food from "assets/crops/wheat/flour.png";
 import resource from "assets/resources/wood.png";
+import timer from "assets/icons/timer.png";
 
 import close from "assets/icons/close.png";
 
@@ -79,6 +82,8 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
   const len = Object.keys(CATEGORIES).length;
 
   const getCurrentTabIndex = () => tabSequence.indexOf(currentTab);
+  const getCropHarvestTime = (crop = "") =>
+    secondsToString(CROPS()[crop.split(" ")[0] as CropName].harvestSeconds);
 
   const nextCategory = () => {
     const index = getCurrentTabIndex();
@@ -163,6 +168,16 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
                 className="h-12 w-12"
                 alt={selectedItem}
               />
+              {currentTab === "Seeds" && (
+                <div className="border-t border-white w-full mt-2 pt-1">
+                  <div className="flex justify-center items-end">
+                    <img src={timer} className="h-5 me-2" />
+                    <span className="text-xs text-shadow text-center mt-2 ">
+                      {getCropHarvestTime(selectedItem)}
+                    </span>
+                  </div>
+                </div>
+              )}
               <span className="text-xs text-shadow text-center mt-2">
                 {ITEM_DETAILS[selectedItem].description}
               </span>
