@@ -4,9 +4,7 @@ import { metamask } from "lib/blockchain/metamask";
 import { Balance } from "./components/Balance";
 import { Inventory } from "./components/Inventory";
 import { Menu } from "./components/Menu";
-import { Address } from "./components/Address";
 import { AudioPlayer } from "components/ui/AudioPlayer";
-import { ScreenshotButton } from "./components/ScreenshotButton";
 import { VisitBanner } from "./components/VisitBanner";
 
 /**
@@ -19,10 +17,8 @@ export const Hud: React.FC = () => {
       <Menu />
       <Balance />
       <Inventory />
-      <ScreenshotButton />
       <AudioPlayer />
       <VisitBanner />
-      {metamask.myAccount && <Address />}
     </div>
   );
 };
