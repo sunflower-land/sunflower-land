@@ -92,7 +92,7 @@ export const Mail: React.FC = () => {
       style={{
         left: `calc(50% - ${GRID_WIDTH_PX * -12}px)`,
         // trial and error
-        top: `calc(50% - ${GRID_WIDTH_PX * (hasUnread ? 12.9 : 12.06)}px)`,
+        top: `calc(50% - ${GRID_WIDTH_PX * (hasUnread ? 11.9 : 11.06)}px)`,
       }}
     >
       {hasUnread && (

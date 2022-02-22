@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -55,17 +55,27 @@ export const CATEGORIES: Record<Tab, { img: string; items: object }> = {
 };
 
 export const InventoryItems: React.FC<Props> = ({ onClose }) => {
-  const { gameService, selectedItem, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
   const [currentTab, setCurrentTab] = useState<Tab>("Seeds");
+  const [selectedItem, setSelectedItem] = useState<InventoryItemName>();
   const [game] = useActor(gameService);
   const inventory = game.context.state.inventory;
 
   const tabSequence = Object.keys(CATEGORIES) as Tab[];
   const items = Object.keys(inventory) as InventoryItemName[];
-  const validItems = items.filter((itemName) => !!inventory[itemName] && !inventory[itemName]?.equals(0));
-  const isCategoryEmpty = !validItems.some(
+  const validItems = items.filter(
+    (itemName) => !!inventory[itemName] && !inventory[itemName]?.equals(0)
+  );
+  const firstItem = validItems.find(
     (itemName) => itemName in CATEGORIES[currentTab].items
   );
+
+  useEffect(() => {
+    // the first valid item found in a category should be the default selected item
+    // re-render when firstItem changes
+    setSelectedItem(firstItem);
+  }, [firstItem]);
+
   const len = Object.keys(CATEGORIES).length;
 
   const getCurrentTabIndex = () => tabSequence.indexOf(currentTab);
@@ -73,11 +83,13 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
   const nextCategory = () => {
     const index = getCurrentTabIndex();
     setCurrentTab(index === len - 1 ? tabSequence[0] : tabSequence[index + 1]);
+    setSelectedItem(undefined);
   };
 
   const prevCategory = () => {
     const index = getCurrentTabIndex();
     setCurrentTab(index === 0 ? tabSequence[len - 1] : tabSequence[index - 1]);
+    setSelectedItem(undefined);
   };
 
   return (
@@ -117,7 +129,7 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
 
       <div className="flex">
         <div className="w-3/5 flex flex-wrap h-fit">
-          {isCategoryEmpty ? (
+          {!selectedItem ? (
             <span className="text-white text-shadow">
               You have no {currentTab} in your inventory.
             </span>
@@ -129,7 +141,10 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
                     count={inventory[itemName]}
                     isSelected={selectedItem === itemName}
                     key={itemName}
-                    onClick={() => shortcutItem(itemName)}
+                    onClick={() => {
+                      shortcutItem(itemName);
+                      setSelectedItem(itemName);
+                    }}
                     image={ITEM_DETAILS[itemName].image}
                   />
                 )

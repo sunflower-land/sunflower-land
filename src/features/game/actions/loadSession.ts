@@ -10,15 +10,15 @@ type Request = {
 };
 
 type Response = {
-  balance: string;
-  inventory: Record<InventoryItemName, string>;
-  fields: GameState["fields"];
+  game: GameState;
+  offset: number;
 };
+
 const API_URL = CONFIG.API_URL;
 
 export async function loadSession(
   request: Request
-): Promise<GameState | undefined> {
+): Promise<Response | undefined> {
   if (!API_URL) return;
 
   console.log("calling /session");
@@ -33,25 +33,37 @@ export async function loadSession(
     }),
   });
 
-  const { farm } = await response.json();
+  const { farm, startedAt } = await response.json();
+
+  const startedTime = new Date(startedAt);
+
+  let offset = 0;
+  // Clock is not in sync with actual UTC time
+  if (Math.abs(startedTime.getTime() - Date.now()) > 1000 * 30) {
+    console.log("Not in sync!", startedTime.getTime() - Date.now());
+    offset = startedTime.getTime() - Date.now();
+  }
 
   return {
-    inventory: Object.keys(farm.inventory).reduce(
-      (items, item) => ({
-        ...items,
-        [item]: new Decimal(farm.inventory[item]),
-      }),
-      {} as Record<InventoryItemName, Decimal>
-    ),
-    stock: Object.keys(farm.stock).reduce(
-      (items, item) => ({
-        ...items,
-        [item]: new Decimal(farm.stock[item]),
-      }),
-      {} as Record<InventoryItemName, Decimal>
-    ),
-    balance: new Decimal(farm.balance),
-    fields: farm.fields,
-    id: farm.id,
+    offset,
+    game: {
+      inventory: Object.keys(farm.inventory).reduce(
+        (items, item) => ({
+          ...items,
+          [item]: new Decimal(farm.inventory[item]),
+        }),
+        {} as Record<InventoryItemName, Decimal>
+      ),
+      stock: Object.keys(farm.stock).reduce(
+        (items, item) => ({
+          ...items,
+          [item]: new Decimal(farm.stock[item]),
+        }),
+        {} as Record<InventoryItemName, Decimal>
+      ),
+      balance: new Decimal(farm.balance),
+      fields: farm.fields,
+      id: farm.id,
+    },
   };
 }

@@ -16,8 +16,9 @@ export const roundToOneDecimal = (number: number) =>
 
 export enum CharityAddress {
   TheWaterProject = "0xBCf9bf2F0544252761BCA9c76Fe2aA18733C48db",
-  Heifer = "0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1",
-  CoolEarth = "0x3c8cB169281196737c493AfFA8F49a9d823bB9c5",
+  PCF = "0x8c6A1870D922279dB6F91CB6798592c7A7133BBD",
+  // Heifer = "0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1",
+  // CoolEarth = "0x3c8cB169281196737c493AfFA8F49a9d823bB9c5",
 }
 interface Charity {
   name: string;
@@ -34,17 +35,23 @@ const CHARITIES: Charity[] = shuffle([
     address: CharityAddress.TheWaterProject,
   },
   {
-    name: "The Heifer Project",
-    info: "We do more than train farmers. We grow incomes.",
-    url: "https://www.heifer.org/give/other/digital-currency.html",
-    address: CharityAddress.Heifer,
+    name: "Purple Community Fund",
+    info: "To help poverty stricken families and communities transform their own lives with our skills training, education, health and nutrition programmes.",
+    url: "https://www.p-c-f.org/",
+    address: CharityAddress.PCF,
   },
-  {
-    name: "Cool Earth",
-    info: "Aim to halt deforestation and its impact on our climate.",
-    url: "https://www.coolearth.org/cryptocurrency-donations/",
-    address: CharityAddress.CoolEarth,
-  },
+  // {
+  //   name: "The Heifer Project",
+  //   info: "We do more than train farmers. We grow incomes.",
+  //   url: "https://www.heifer.org/give/other/digital-currency.html",
+  //   address: CharityAddress.Heifer,
+  // },
+  // {
+  //   name: "Cool Earth",
+  //   info: "Aim to halt deforestation and its impact on our climate.",
+  //   url: "https://www.coolearth.org/cryptocurrency-donations/",
+  //   address: CharityAddress.CoolEarth,
+  // },
 ]);
 
 interface CharityDetailProps extends Charity {

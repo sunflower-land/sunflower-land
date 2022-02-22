@@ -3,11 +3,10 @@ import React, { useState } from "react";
 import hammer from "assets/icons/hammer.png";
 import close from "assets/icons/close.png";
 import nft from "assets/nfts/gnome.png";
-import food from "assets/crops/wheat/flour.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { TOOLS, FOODS } from "features/game/types/craftables";
+import { TOOLS } from "features/game/types/craftables";
 
 import { CraftingItems } from "./CraftingItems";
 import { Rare } from "./Rare";
@@ -31,10 +30,6 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
             <img src={nft} className="h-5 mr-2" />
             <span className="text-sm text-shadow">Rare</span>
           </Tab>
-          <Tab isActive={tab === "foods"} onClick={() => setTab("foods")}>
-            <img src={food} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Food</span>
-          </Tab>
         </div>
         <img
           src={close}
@@ -50,7 +45,6 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
       >
         {tab === "craft" && <CraftingItems items={TOOLS} isBulk />}
         {tab === "nfts" && <Rare onClose={onClose} />}
-        {tab === "foods" && <CraftingItems items={FOODS} />}
       </div>
     </Panel>
   );

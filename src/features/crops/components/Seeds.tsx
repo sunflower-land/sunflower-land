@@ -60,6 +60,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     }
   };
 
+  const handleBuyTen = () => {
+    buy(10);
+    if (tourIsOpen && currentTourStep === TourStep.buy) {
+      setCurrentTourStep(TourStep.plant);
+      onClose();
+    }
+  };
+
   const restock = () => {
     gameService.send("SYNC");
 
@@ -80,36 +88,54 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return <span className="text-xs mt-1 text-shadow">Locked</span>;
     }
 
-    console.log({ stock: stock?.toString() });
-    if (stock?.equals(0)) {
-      return (
-        <div>
-          <p className="text-xxs no-wrap text-center my-1 underline">
-            Sold out
-          </p>
-          <p className="text-xxs text-center">
-            Sync your farm to the Blockchain to restock
-          </p>
-          <Button className="text-xs mt-1" onClick={restock}>
-            Sync
-          </Button>
-        </div>
-      );
-    }
+    // if (stock?.equals(0)) {
+    //   return (
+    //     <div>
+    //       <p className="text-xxs no-wrap text-center my-1 underline">
+    //         Sold out
+    //       </p>
+    //       <p className="text-xxs text-center">
+    //         Sync your farm to the Blockchain to restock
+    //       </p>
+    //       <Button className="text-xs mt-1" onClick={restock}>
+    //         Sync
+    //       </Button>
+    //     </div>
+    //   );
+    // }
+
+    // return (
+    //   <>
+    //     <Button
+    //       disabled={lessFunds() || stock?.lessThan(1)}
+    //       className="text-xs mt-1"
+    //       onClick={() => handlBuyOne()}
+    //     >
+    //       Buy 1
+    //     </Button>
+    //     <Button
+    //       disabled={lessFunds(10) || stock?.lessThan(10)}
+    //       className="text-xs mt-1"
+    //       onClick={() => buy(10)}
+    //     >
+    //       Buy 10
+    //     </Button>
+    //   </>
+    // );
 
     return (
       <>
         <Button
-          disabled={lessFunds() || stock?.lessThan(1)}
+          disabled={lessFunds()}
           className="text-xs mt-1"
           onClick={() => handlBuyOne()}
         >
           Buy 1
         </Button>
         <Button
-          disabled={lessFunds(10) || stock?.lessThan(10)}
+          disabled={lessFunds(10)}
           className="text-xs mt-1"
-          onClick={() => buy(10)}
+          onClick={() => handleBuyTen()}
         >
           Buy 10
         </Button>

@@ -7,7 +7,7 @@ import { metamask } from "../../../lib/blockchain/metamask";
 
 import { GameState } from "../types/game";
 import { loadSession } from "../actions/loadSession";
-import { INITIAL_FARM } from "./constants";
+import { INITIAL_FARM, EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
@@ -23,6 +23,7 @@ export interface Context {
   state: GameState;
   actions: PastAction[];
   sessionId?: string;
+  offset: number;
 }
 
 type MintEvent = {
@@ -100,9 +101,10 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
-export function startGame(authContext: AuthContext) {
+type Options = AuthContext & { isNoob: boolean };
+export function startGame(authContext: Options) {
   const handleInitialState = () => {
-    if (window.localStorage.getItem("tourStatus") !== "done") {
+    if (authContext.isNoob) {
       return "touring";
     }
     if (authContext.sessionId || !authContext.address) {
@@ -115,8 +117,9 @@ export function startGame(authContext: AuthContext) {
     initial: "loading",
     context: {
       actions: [],
-      state: INITIAL_FARM,
+      state: EMPTY,
       sessionId: authContext.sessionId,
+      offset: 0,
     },
     states: {
       loading: {
@@ -124,22 +127,25 @@ export function startGame(authContext: AuthContext) {
           src: async (context) => {
             // Load the farm session
             if (context.sessionId) {
-              const game = await loadSession({
+              const response = await loadSession({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 signature: authContext.signature as string,
                 sender: metamask.myAccount as string,
               });
 
-              if (!game) {
+              if (!response) {
                 throw new Error("NO_FARM");
               }
+
+              const { game, offset } = response;
 
               // add farm address
               game.farmAddress = authContext.address;
 
               return {
                 state: game,
+                offset,
               };
             }
 
@@ -157,7 +163,8 @@ export function startGame(authContext: AuthContext) {
           onDone: {
             target: handleInitialState(),
             actions: assign({
-              state: (context, event) => event.data.state,
+              state: (_, event) => event.data.state,
+              offset: (_, event) => event.data.offset,
             }),
           },
           onError: {
@@ -208,6 +215,7 @@ export function startGame(authContext: AuthContext) {
                 sender: metamask.myAccount as string,
                 actions: context.actions,
                 signature: authContext.signature as string,
+                offset: context.offset,
               });
             }
             // This gives the UI time to indicate that a save is taking place both when clicking save
@@ -244,6 +252,7 @@ export function startGame(authContext: AuthContext) {
                 sender: metamask.myAccount as string,
                 actions: context.actions,
                 signature: authContext.signature as string,
+                offset: context.offset,
               });
             }
 
@@ -281,6 +290,7 @@ export function startGame(authContext: AuthContext) {
                 sender: metamask.myAccount as string,
                 actions: context.actions,
                 signature: authContext.signature as string,
+                offset: context.offset,
               });
             }
 
