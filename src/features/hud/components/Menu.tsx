@@ -34,13 +34,9 @@ export const Menu = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
 
+  const [showShareModal, setShowShareModal] = React.useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
   const [showComingSoon, setShowComingSoon] = React.useState(false);
-
-  const [tooltipMessage, setTooltipMessage] = useState(
-    "Click to copy farm URL, and share it on socials"
-  );
-  const [showLabel, setShowLabel] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -57,14 +53,6 @@ export const Menu = () => {
     setMenuOpen(false);
   };
 
-  const handleMouseEnter = () => {
-    setShowLabel(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowLabel(false);
-  };
-
   const handleAboutClick = () => {
     window.open("https://docs.sunflower-land.com/", "_blank");
     setMenuOpen(false);
@@ -79,11 +67,11 @@ export const Menu = () => {
           : window.location.href
       }?farmId=${farmId.toString()}` as string
     );
-    setTooltipMessage("Copied!");
+    // setTooltipMessage("Copied!");
     setMenuOpen(false);
-    setTimeout(() => {
+    /*setTimeout(() => {
       setTooltipMessage("Click to copy farm URL, and share it on socials");
-    }, 2000);
+    }, 2000);*/
   };
 
   const handleClick = (e: Event) => {
@@ -212,13 +200,9 @@ export const Menu = () => {
                 <img src={water} className="w-4 ml-2" alt="water" />
               </Button>
             </li>
-            <li
-              className="p-1"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
+            <li className="p-1">
               <Button onClick={() => handleCopyFarmURL()}>
-                <span className="sm:text-sm">Copy Farm URL</span>
+                <span className="sm:text-sm">Share</span>
               </Button>
             </li>
             {!gameState.matches("readonly") && (
@@ -237,15 +221,16 @@ export const Menu = () => {
               </>
             )}
           </ul>
-          <div
-            className={`absolute mr-5 transition duration-600 pointer-events-none ${
-              showLabel ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Label>{tooltipMessage}</Label>
-          </div>
         </div>
       </OuterPanel>
+
+      <Modal
+        show={showShareModal}
+        onHide={() => setShowShareModal(false)}
+        centered
+      >
+        <Panel>Share Modal</Panel>
+      </Modal>
 
       <Withdraw
         isOpen={showWithdrawModal}
