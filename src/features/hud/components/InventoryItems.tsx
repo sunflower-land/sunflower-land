@@ -168,7 +168,7 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
                 className="h-12 w-12"
                 alt={selectedItem}
               />
-              {getCurrentTabIndex() === 0 && (
+              {currentTab === "Seeds" && (
                 <div className="border-t border-white w-full mt-2 pt-1">
                   <div className="flex justify-center items-end">
                     <img src={timer} className="h-5 me-2" />
