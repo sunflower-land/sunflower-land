@@ -16,7 +16,7 @@ export const Quarry: React.FC = () => {
       style={{
         height: `${GRID_WIDTH_PX * 6}px`,
         width: `${GRID_WIDTH_PX * 6}px`,
-        left: `calc(50% +  ${GRID_WIDTH_PX * 15}px)`,
+        left: `calc(50% +  ${GRID_WIDTH_PX * 17}px)`,
         top: `calc(50% -  ${GRID_WIDTH_PX * 17}px)`,
       }}
       className="absolute "

@@ -36,7 +36,7 @@ export const VisitFarm: React.FC = () => {
         />
         <div className="flex">
           <Button
-            className="overflow-hidden" 
+            className="overflow-hidden"
             onClick={() => authService.send("LOAD_FARM")}
           >
             Back

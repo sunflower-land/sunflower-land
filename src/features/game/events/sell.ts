@@ -34,7 +34,7 @@ export function sell({ state, action }: Options): GameState {
     throw new Error("Insufficient crops to sell");
   }
 
-  let price = getSellPrice(crop, state.inventory);
+  const price = getSellPrice(crop, state.inventory);
 
   return {
     ...state,
