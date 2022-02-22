@@ -229,12 +229,12 @@ export const Menu = () => {
               <>
                 <li className="p-1">
                   <Button onClick={syncOnChain}>
-                    <span className="text-sm">Sync on chain</span>
+                    <span className="sm:text-sm">Sync on chain</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={withdraw}>
-                    <span className="text-sm">Withdraw</span>
+                    <span className="sm:text-sm">Withdraw</span>
                     <img src={token} className="w-4 ml-2" alt="token" />
                   </Button>
                 </li>
