@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useActor } from "@xstate/react";
 
@@ -22,10 +22,15 @@ export const CropZoneThree: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+  const [canHarvest, setCanHarvest] = useState(false);
+
+  useEffect(() => {
+    setCanHarvest(!!state.inventory["Sauerkraut"]);
+  }, [state.inventory]);
 
   return (
     <>
-      {!state.inventory["Sauerkraut"] ? (
+      {!canHarvest ? (
         <>
           <img
             src={goblinWatering}
@@ -73,15 +78,39 @@ export const CropZoneThree: React.FC = () => {
       >
         {/* Top row */}
         <div className="flex justify-between items-center">
-          <Field selectedItem={selectedItem} fieldIndex={10} />
-          <Field selectedItem={selectedItem} fieldIndex={11} />
-          <Field selectedItem={selectedItem} fieldIndex={12} />
+          <Field
+            selectedItem={selectedItem}
+            fieldIndex={10}
+            canHarvest={canHarvest}
+          />
+          <Field
+            selectedItem={selectedItem}
+            fieldIndex={11}
+            canHarvest={canHarvest}
+          />
+          <Field
+            selectedItem={selectedItem}
+            fieldIndex={12}
+            canHarvest={canHarvest}
+          />
         </div>
         {/* Bottom row */}
         <div className="flex justify-between items-center z-10">
-          <Field selectedItem={selectedItem} fieldIndex={13} />
-          <Field selectedItem={selectedItem} fieldIndex={14} />
-          <Field selectedItem={selectedItem} fieldIndex={15} />
+          <Field
+            selectedItem={selectedItem}
+            fieldIndex={13}
+            canHarvest={canHarvest}
+          />
+          <Field
+            selectedItem={selectedItem}
+            fieldIndex={14}
+            canHarvest={canHarvest}
+          />
+          <Field
+            selectedItem={selectedItem}
+            fieldIndex={15}
+            canHarvest={canHarvest}
+          />
         </div>
       </div>
 
