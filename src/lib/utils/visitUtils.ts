@@ -52,7 +52,7 @@ export function populateFields(inventory: Inventory) {
   }
 
   // zone four
-  if (inventory["Roasted Cauliflower"]) {
+  if (inventory["Pumpkin Soup"]) {
     indices.push(16, 17, 18, 19, 20, 21);
   }
 
