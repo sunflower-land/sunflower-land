@@ -11,7 +11,13 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
-import { CHOP_ERRORS } from "features/game/events/chop";
+import {
+  canChop,
+  CHOP_ERRORS,
+  TREE_RECOVERY_SECONDS,
+} from "features/game/events/chop";
+import { getTimeLeft } from "lib/utils/time";
+import { ProgressBar } from "components/ui/ProgressBar";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -33,7 +39,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
   const tree = game.context.state.trees[treeIndex];
 
-  const chopped = tree.wood === 0;
+  // Users will need to refresh to chop the tree again
+  const chopped = !canChop(tree);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -54,7 +61,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setTouchCount((count) => count + 1);
 
     // On third shake, chop
-    if (touchCount > 0 && touchCount % 2 === 0) {
+    if (touchCount > 0 && (touchCount + 1) % 3 === 0) {
       chop();
     }
   };
@@ -67,7 +74,10 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       });
 
       displayPopover(
-        <span className="text-xs text-white text-shadow">Testing only!</span>
+        <div className="flex">
+          <img src={wood} className="w-5 h-5 mr-2" />
+          <span className="text-sm text-white text-shadow">{`+${tree.wood}`}</span>
+        </div>
       );
       await new Promise((res) => setTimeout(res, 1000));
       setCollected(true);
@@ -101,6 +111,9 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       setTouchCount(0);
     }
   };
+
+  const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
+  const percentage = 100 - (timeLeft / TREE_RECOVERY_SECONDS) * 100;
 
   return (
     <div className="relative" style={{ height: "106px" }}>
@@ -144,11 +157,10 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
             image={choppedSheet}
             widthFrame={266}
             heightFrame={168}
-            fps={24}
+            fps={20}
             steps={11}
             direction={`forward`}
             autoplay={true}
-            loop={false}
           />
           <img
             src={stump}
@@ -159,6 +171,9 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               left: "5px",
             }}
           />
+          <div className="absolute -bottom-4">
+            <ProgressBar percentage={percentage} seconds={timeLeft} />
+          </div>
         </>
       )}
 

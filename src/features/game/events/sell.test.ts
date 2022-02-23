@@ -11,6 +11,7 @@ const GAME_STATE: GameState = {
   balance: new Decimal(0),
 
   inventory: {},
+  trees: {},
 };
 
 describe("sell", () => {

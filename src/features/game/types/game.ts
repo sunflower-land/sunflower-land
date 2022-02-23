@@ -12,7 +12,7 @@ export type FieldItem = {
 };
 
 export type Tree = {
-  wood: number;
+  wood: Decimal;
   // Epoch time in milliseconds
   choppedAt: number;
 };

@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
-import { FOODS, LimitedItems } from "../types/craftables";
 import { GameState, Inventory } from "../types/game";
 
 export const GRID_WIDTH_PX = 42;
@@ -67,28 +66,28 @@ export const INITIAL_FIELDS: GameState["fields"] = {
   },
 };
 
+export const INITIAL_TREES: GameState["trees"] = {
+  0: {
+    wood: new Decimal(3),
+    choppedAt: 0,
+  },
+  1: {
+    wood: new Decimal(4),
+    choppedAt: 0,
+  },
+  2: {
+    wood: new Decimal(5),
+    choppedAt: 0,
+  },
+};
+
 export const INITIAL_FARM: GameState = {
   id: 1,
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
-  inventory: {
-    Axe: new Decimal(3),
-  },
+  inventory: {},
   stock: INITIAL_STOCK,
-  trees: {
-    0: {
-      wood: 3,
-      choppedAt: 0,
-    },
-    1: {
-      wood: 4,
-      choppedAt: 0,
-    },
-    2: {
-      wood: 5,
-      choppedAt: 0,
-    },
-  },
+  trees: INITIAL_TREES,
 };
 
 export const EMPTY: GameState = {
