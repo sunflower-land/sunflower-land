@@ -256,12 +256,15 @@ export const authMachine = createMachine<
     on: {
       ACCOUNT_CHANGED: {
         target: "connecting",
+        actions: "resetFarm",
       },
       NETWORK_CHANGED: {
         target: "connecting",
+        actions: "resetFarm",
       },
       REFRESH: {
         target: "connecting",
+        actions: "resetFarm",
       },
     },
   },
