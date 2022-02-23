@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
@@ -9,6 +9,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { sync } from "features/game/actions/sync";
 import { Context } from "features/game/GameProvider";
 
+import { Share } from "./Share";
 import { Withdraw } from "./Withdraw";
 import { Modal } from "react-bootstrap";
 
@@ -33,8 +34,18 @@ export const Menu = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
 
+  const [showShareModal, setShowShareModal] = React.useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
   const [showComingSoon, setShowComingSoon] = React.useState(false);
+
+  // farm link (URL)
+  const farmURL = authState.context.farmId
+    ? `${
+        window.location.href.includes("?")
+          ? window.location.href.split("?")[0]
+          : window.location.href
+      }?farmId=${authState.context.farmId!.toString()}`
+    : "https://sunflower-land.com/play/";
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -47,12 +58,16 @@ export const Menu = () => {
 
   const handleNavigationClick = (section: Section) => {
     scrollIntoView(section);
-
     setMenuOpen(false);
   };
 
   const handleAboutClick = () => {
     window.open("https://docs.sunflower-land.com/", "_blank");
+    setMenuOpen(false);
+  };
+
+  const handleShareClick = () => {
+    setShowShareModal(true);
     setMenuOpen(false);
   };
 
@@ -132,7 +147,11 @@ export const Menu = () => {
             <span className="hidden md:flex">Menu</span>
           </Button>
           {!gameState.matches("readonly") && (
-            <Button onClick={autosave} className="save">
+            <Button
+              onClick={autosave}
+              className="save"
+              disabled={gameState.matches("autosaving") ? true : false}
+            >
               {gameState.matches("autosaving") ? (
                 <img src={timer} className="animate-pulsate" alt="saving" />
               ) : (
@@ -178,16 +197,21 @@ export const Menu = () => {
                 <img src={water} className="w-4 ml-2" alt="water" />
               </Button>
             </li>
+            <li className="p-1">
+              <Button onClick={() => handleShareClick()}>
+                <span className="sm:text-sm">Share</span>
+              </Button>
+            </li>
             {!gameState.matches("readonly") && (
               <>
                 <li className="p-1">
                   <Button onClick={syncOnChain}>
-                    <span className="text-sm">Sync on chain</span>
+                    <span className="sm:text-sm">Sync on chain</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={withdraw}>
-                    <span className="text-sm">Withdraw</span>
+                    <span className="sm:text-sm">Withdraw</span>
                     <img src={token} className="w-4 ml-2" alt="token" />
                   </Button>
                 </li>
@@ -196,6 +220,12 @@ export const Menu = () => {
           </ul>
         </div>
       </OuterPanel>
+
+      <Share
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        farmURL={farmURL}
+      />
 
       <Withdraw
         isOpen={showWithdrawModal}
