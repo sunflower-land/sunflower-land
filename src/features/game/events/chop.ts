@@ -2,13 +2,13 @@ import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName, Tree } from "../types/game";
 
 export enum CHOP_ERRORS {
-  MISSING_AXE = "No axe selected",
+  MISSING_AXE = "No axe",
   NO_AXES = "No axes left",
   STILL_GROWING = "Tree is still growing",
 }
 
-// 1 hour
-export const TREE_RECOVERY_SECONDS = 5;
+// 2 hours
+export const TREE_RECOVERY_SECONDS = 2 * 60 * 60;
 
 export function canChop(tree: Tree, now: number = Date.now()) {
   return now - tree.choppedAt > TREE_RECOVERY_SECONDS * 1000;

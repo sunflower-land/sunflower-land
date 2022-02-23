@@ -277,7 +277,7 @@ export const authMachine = createMachine<
       },
       loadFarm: async (): Promise<Farm | undefined> => {
         const farmAccounts = await metamask.getFarm()?.getFarms();
-
+        console.log({ farmAccounts });
         if (farmAccounts?.length === 0) {
           return;
         }
@@ -288,6 +288,7 @@ export const authMachine = createMachine<
         const sessionId = await metamask
           .getSessionManager()
           .getSessionId(farmAccount.tokenId);
+        console.log({ sessionId });
 
         return {
           farmId: farmAccount.tokenId,

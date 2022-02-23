@@ -33,9 +33,10 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
   const [touchCount, setTouchCount] = useState(0);
   // When to hide the wood that pops out
-  const [collected, setCollected] = useState(false);
+  const [collecting, setCollecting] = useState(false);
 
-  const gif = useRef<Spritesheet>();
+  const shakeGif = useRef<Spritesheet>();
+  const choppedGif = useRef<Spritesheet>();
 
   const tree = game.context.state.trees[treeIndex];
 
@@ -51,18 +52,23 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   };
 
   const shake = async () => {
-    const isPlaying = gif.current?.getInfo("isPlaying");
+    const isPlaying = shakeGif.current?.getInfo("isPlaying");
     if (isPlaying) {
       return;
     }
 
-    gif.current?.goToAndPlay(0);
+    shakeGif.current?.goToAndPlay(0);
 
     setTouchCount((count) => count + 1);
 
+    // Randomise the shakes to break
+    const shakesToBreak = ((tree.wood.toNumber() + treeIndex) % 3) + 2;
+    console.log({ shakesToBreak });
+    console.log({ touchCount });
     // On third shake, chop
-    if (touchCount > 0 && (touchCount + 1) % 3 === 0) {
+    if (touchCount > 0 && touchCount === shakesToBreak) {
       chop();
+      setTouchCount(0);
     }
   };
 
@@ -72,6 +78,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
         index: treeIndex,
         item: selectedItem,
       });
+      setCollecting(true);
+      choppedGif.current?.goToAndPlay(0);
 
       displayPopover(
         <div className="flex">
@@ -79,16 +87,15 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
           <span className="text-sm text-white text-shadow">{`+${tree.wood}`}</span>
         </div>
       );
-      await new Promise((res) => setTimeout(res, 1000));
-      setCollected(true);
+
+      await new Promise((res) => setTimeout(res, 2000));
+      setCollecting(false);
     } catch (e: any) {
       if (e.message === CHOP_ERRORS.MISSING_AXE) {
         displayPopover(
           <div className="flex">
             <img src={axe} className="w-4 h-4 mr-2" />
-            <span className="text-xs text-white text-shadow">
-              No axe selected
-            </span>
+            <span className="text-xs text-white text-shadow">No axe</span>
           </div>
         );
         return;
@@ -127,7 +134,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
             }}
             getInstance={(spritesheet) => {
-              gif.current = spritesheet;
+              shakeGif.current = spritesheet;
             }}
             image={shakeSheet}
             widthFrame={266}
@@ -144,24 +151,33 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
         </div>
       )}
 
+      <Spritesheet
+        style={{
+          width: `${GRID_WIDTH_PX * 4}px`,
+          // Line it up with the click area
+          transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+          opacity: collecting ? 1 : 0,
+          transition: "opacity 0.2s ease-in",
+        }}
+        className="absolute bottom-0 pointer-events-none"
+        getInstance={(spritesheet) => {
+          choppedGif.current = spritesheet;
+        }}
+        image={choppedSheet}
+        widthFrame={266}
+        heightFrame={168}
+        fps={20}
+        steps={11}
+        direction={`forward`}
+        autoplay={false}
+        loop={true}
+        onLoopComplete={(spritesheet) => {
+          spritesheet.pause();
+        }}
+      />
+
       {chopped && (
         <>
-          <Spritesheet
-            style={{
-              width: `${GRID_WIDTH_PX * 4}px`,
-              // Line it up with the click area
-              transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
-              opacity: collected ? 0 : 1,
-              transition: "opacity 0.2s ease-in",
-            }}
-            image={choppedSheet}
-            widthFrame={266}
-            heightFrame={168}
-            fps={20}
-            steps={11}
-            direction={`forward`}
-            autoplay={true}
-          />
           <img
             src={stump}
             className="absolute"
@@ -171,7 +187,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               left: "5px",
             }}
           />
-          <div className="absolute -bottom-4">
+          <div className="absolute -bottom-4 left-1.5">
             <ProgressBar percentage={percentage} seconds={timeLeft} />
           </div>
         </>
@@ -188,6 +204,18 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       >
         {popover}
       </div>
+
+      {/* Load in as early as possible so its fully downloaded when animation starts*/}
+      <Spritesheet
+        image={choppedSheet}
+        className="hidden"
+        widthFrame={266}
+        heightFrame={168}
+        fps={20}
+        steps={11}
+        direction={`forward`}
+        loop={false}
+      />
     </div>
   );
 };

@@ -23,7 +23,7 @@ describe("chop", () => {
           index: 0,
         },
       })
-    ).toThrow("No axe selected");
+    ).toThrow("No axe");
   });
 
   it("throws an error if no axes are left", () => {
