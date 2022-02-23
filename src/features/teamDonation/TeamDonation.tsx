@@ -136,7 +136,7 @@ export const TeamDonation: React.FC = () => {
           onClick={() => send("BEGGER_CLICK")}
         />
       )}
-      <Modal centered show={!state.matches("idle")}>
+      <Modal centered show={!state.matches("idle")} onHide={() => send("CLOSE")}>
         <Panel>
           {state.matches("begging") && (
             <div className="flex flex-col items-center mb-1">
