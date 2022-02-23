@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -7,7 +7,7 @@ import { InnerPanel, Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 
 import close from "assets/icons/close.png";
-import farmImg from "/farms/farm.png";
+import farmImg from "assets/brand/nft.png";
 
 interface Props {
   farmURL: string;
@@ -16,10 +16,10 @@ interface Props {
 }
 
 export const Share: React.FC<Props> = ({ farmURL, isOpen, onClose }) => {
-  const [tooltipMessage, setTooltipMessage] = useState(
+  const [tooltipMessage, setTooltipMessage] = React.useState(
     "Click to copy farm link (URL)"
   );
-  const [showLabel, setShowLabel] = useState(false);
+  const [showLabel, setShowLabel] = React.useState(false);
 
   const handleCopyFarmURL = (): void => {
     // copy farm link to clipboard
