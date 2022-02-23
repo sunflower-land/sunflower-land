@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 import { Context } from "features/game/GameProvider";
 
-import bakery from "assets/buildings/bakery.png";
+import bakery from "assets/buildings/bakery.gif";
 import soup from "assets/nfts/roasted_cauliflower.png";
 
 import { Crafting } from "./components/Crafting";
