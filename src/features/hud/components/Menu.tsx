@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
-import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 
 import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
 import * as Auth from "features/auth/lib/Provider";
 import { sync } from "features/game/actions/sync";
 import { Context } from "features/game/GameProvider";
 
+import { Share } from "./Share";
 import { Withdraw } from "./Withdraw";
 import { Modal } from "react-bootstrap";
 
@@ -19,8 +19,6 @@ import radish from "assets/icons/radish.png";
 import water from "assets/icons/expression_working.png";
 import token from "assets/icons/token.gif";
 import timer from "assets/icons/timer.png";
-import close from "assets/icons/close.png";
-import farmImg from "/farms/farm.png";
 import { useTour } from "@reactour/tour";
 import { TourStep } from "features/game/lib/Tour";
 import { canSync } from "features/game/lib/whitelist";
@@ -36,20 +34,15 @@ export const Menu = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
 
+  const [showShareModal, setShowShareModal] = React.useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
+  const [showComingSoon, setShowComingSoon] = React.useState(false);
+
   const farmURL = `${
     window.location.href.includes("?")
       ? window.location.href.split("?")[0]
       : window.location.href
   }?farmId=${authState.context.farmId!.toString()}`;
-
-  const [showShareModal, setShowShareModal] = React.useState(false);
-  const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
-  const [showComingSoon, setShowComingSoon] = React.useState(false);
-
-  const [tooltipMessage, setTooltipMessage] = useState(
-    "Click to copy farm link (URL)"
-  );
-  const [showLabel, setShowLabel] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -70,29 +63,9 @@ export const Menu = () => {
     setMenuOpen(false);
   };
 
-  const handleCopyFarmURL = (): void => {
-    // copy to clipboard
-    navigator.clipboard.writeText(farmURL as string);
-    setTooltipMessage("Copied!");
-    setShowLabel(true);
-    setMenuOpen(false);
-    setTimeout(() => {
-      setTooltipMessage("Click to copy farm link (URL)");
-      setShowLabel(false);
-    }, 1500);
-  };
-
   const handleShareClick = () => {
     setShowShareModal(true);
     setMenuOpen(false);
-  };
-
-  const handleMouseEnter = () => {
-    setShowLabel(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowLabel(false);
   };
 
   const handleClick = (e: Event) => {
@@ -245,69 +218,11 @@ export const Menu = () => {
         </div>
       </OuterPanel>
 
-      <Modal
-        show={showShareModal}
-        onHide={() => setShowShareModal(false)}
-        centered
-      >
-        <Panel>
-          <Modal.Header className="justify-content-space-between">
-            <h1 className="ml-2">Share Your Farm Link</h1>
-            <img
-              src={close}
-              className="h-6 cursor-pointer mr-2 mb-1 justify-content-end"
-              onClick={() => setShowShareModal(false)}
-            />
-          </Modal.Header>
-          <Modal.Body>
-            <div className="row justify-content-center align-items-center">
-              <div className="flex d-none d-sm-block col-sm col justify-content-center align-items-center">
-                <p className="text-sm whitespace-normal">
-                  Show off to fellow farmers by sharing your farm link (URL), to
-                  directly visit your farm !
-                </p>
-              </div>
-              <div className="flex col-sm-12 col justify-content-center md-px-4 lg-px-4 align-items-center">
-                <img
-                  src={farmImg}
-                  className="w-64 md-mt-2"
-                  alt="Sunflower-Land Farm NFT Image"
-                />
-              </div>
-            </div>
-            <InnerPanel className="mt-2 hover:bg-brown-200 !p-0">
-              <div
-                className="p-1 cursor-pointer hover:bg-brown-200"
-                onClick={handleCopyFarmURL}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              >
-                <span className="text-xs hover:bg-brown-200 whitespace-normal">
-                  {farmURL}
-                </span>
-              </div>
-            </InnerPanel>
-            <div
-              className={`absolute mr-5 transition duration-400 pointer-events-none ${
-                showLabel ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <Label>{tooltipMessage}</Label>
-            </div>
-          </Modal.Body>
-          <Modal.Footer className="justify-content-center">
-            <Button className="text-s w-1/4 px-1" onClick={handleCopyFarmURL}>
-              Copy
-            </Button>
-            <Button
-              className="text-s w-1/4 px-1"
-              onClick={() => window.open(farmURL, "_blank")}
-            >
-              Visit
-            </Button>
-          </Modal.Footer>
-        </Panel>
-      </Modal>
+      <Share
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        farmURL={farmURL}
+      />
 
       <Withdraw
         isOpen={showWithdrawModal}
