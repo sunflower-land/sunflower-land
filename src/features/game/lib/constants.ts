@@ -93,9 +93,7 @@ export const INITIAL_FARM: GameState = {
   id: 1,
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
-  inventory: {
-    Axe: new Decimal(1000),
-  },
+  inventory: {},
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
 };

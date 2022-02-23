@@ -36,7 +36,6 @@ export class Farm {
 
   // TODO - simplify the smart contract to fetch this in 1 call
   public async getFarms(): Promise<FarmAccount[]> {
-    console.log("Get those farms");
     const accounts = await this.farm.methods
       .getFarms(this.account)
       .call({ from: this.account });
