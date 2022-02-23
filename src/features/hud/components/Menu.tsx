@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
@@ -38,11 +38,14 @@ export const Menu = () => {
   const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
   const [showComingSoon, setShowComingSoon] = React.useState(false);
 
-  const farmURL = `${
-    window.location.href.includes("?")
-      ? window.location.href.split("?")[0]
-      : window.location.href
-  }?farmId=${authState.context.farmId!.toString()}`;
+  // farm link (URL)
+  const farmURL = authState.context.farmId
+    ? `${
+        window.location.href.includes("?")
+          ? window.location.href.split("?")[0]
+          : window.location.href
+      }?farmId=${authState.context.farmId!.toString()}`
+    : "https://sunflower-land.com/play/";
 
   const ref = useRef<HTMLDivElement>(null);
 
