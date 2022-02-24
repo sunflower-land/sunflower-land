@@ -136,6 +136,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               width: `${GRID_WIDTH_PX * 4}px`,
               // Line it up with the click area
               transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+              imageRendering: "pixelated",
             }}
             getInstance={(spritesheet) => {
               shakeGif.current = spritesheet;
@@ -162,6 +163,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
           transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
+          imageRendering: "pixelated",
         }}
         className="absolute bottom-0 pointer-events-none"
         getInstance={(spritesheet) => {
@@ -208,18 +210,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       >
         {popover}
       </div>
-
-      {/* Load in as early as possible so its fully downloaded when animation starts*/}
-      {/* <Spritesheet
-        image={choppedSheet}
-        className="hidden"
-        widthFrame={266}
-        heightFrame={168}
-        fps={20}
-        steps={11}
-        direction={`forward`}
-        loop={false}
-      /> */}
     </div>
   );
 };
