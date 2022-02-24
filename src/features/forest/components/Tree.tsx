@@ -1,5 +1,8 @@
 import React, { useContext, useRef, useState } from "react";
-import Spritesheet from "react-responsive-spritesheet";
+
+import Spritesheet, {
+  SpriteSheetInstance,
+} from "components/animation/SpriteAnimator";
 
 import shakeSheet from "assets/resources/tree/shake_sheet.png";
 import choppedSheet from "assets/resources/tree/chopped_sheet.png";
@@ -35,8 +38,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   // When to hide the wood that pops out
   const [collecting, setCollecting] = useState(false);
 
-  const shakeGif = useRef<Spritesheet>();
-  const choppedGif = useRef<Spritesheet>();
+  const shakeGif = useRef<SpriteSheetInstance>();
+  const choppedGif = useRef<SpriteSheetInstance>();
 
   const tree = game.context.state.trees[treeIndex];
 
@@ -121,6 +124,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
   const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
   const percentage = 100 - (timeLeft / TREE_RECOVERY_SECONDS) * 100;
+  console.log({ tree });
 
   return (
     <div className="relative" style={{ height: "106px" }}>
@@ -206,7 +210,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       </div>
 
       {/* Load in as early as possible so its fully downloaded when animation starts*/}
-      <Spritesheet
+      {/* <Spritesheet
         image={choppedSheet}
         className="hidden"
         widthFrame={266}
@@ -215,7 +219,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
         steps={11}
         direction={`forward`}
         loop={false}
-      />
+      /> */}
     </div>
   );
 };

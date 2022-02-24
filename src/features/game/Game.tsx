@@ -99,7 +99,7 @@ export const Game: React.FC = () => {
       <Decorations />
       <Quarry />
       <Bakery />
-      {/* <Forest /> */}
+      <Forest />
     </>
   );
 };
