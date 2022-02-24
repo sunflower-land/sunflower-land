@@ -4,10 +4,9 @@ import { LimitedItem } from "../types/craftables";
 
 type Request = {
   farmId: number;
-  sender: string;
   sessionId: string;
-  signature: string;
   item: LimitedItem;
+  token: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -20,9 +19,12 @@ async function mintRequest(request: Request) {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${request.token}`,
     },
     body: JSON.stringify({
-      ...request,
+      farmId: request.farmId,
+      sessionId: request.sessionId,
+      item: request.item,
     }),
   });
 

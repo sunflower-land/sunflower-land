@@ -5,8 +5,7 @@ import { GameState, InventoryItemName, Tree } from "../types/game";
 type Request = {
   sessionId: string;
   farmId: number;
-  sender: string;
-  signature: string;
+  token: string;
 };
 
 type Response = {
@@ -27,9 +26,11 @@ export async function loadSession(
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${request.token}`,
     },
     body: JSON.stringify({
-      ...request,
+      sessionId: request.sessionId,
+      farmId: request.farmId,
     }),
   });
 
