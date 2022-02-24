@@ -9,6 +9,7 @@ const GAME_STATE: GameState = {
   fields: {},
   balance: new Decimal(0),
   inventory: {},
+  trees: {},
 };
 
 describe("plant", () => {

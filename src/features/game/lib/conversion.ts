@@ -1,15 +1,14 @@
-import { CROPS } from "../types/crops";
 import { InventoryItemName } from "../types/game";
-import { RESOURCES } from "../types/resources";
+import { FOODS, LimitedItems } from "../types/craftables";
 
 /**
- * Tools and resources have 18 decimal places
- * Other items (NFTs) and collectibles have 1
+ * Food and limited items have a unit of 1
+ * Other items use 18 decimals for decimal point storage
  */
 export function getItemUnit(name: InventoryItemName) {
-  if (name in CROPS() || name in RESOURCES) {
-    return "ether";
+  if (name in FOODS || name in LimitedItems) {
+    return "wei";
   }
 
-  return "wei";
+  return "ether";
 }

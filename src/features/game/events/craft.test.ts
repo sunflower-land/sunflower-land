@@ -10,6 +10,7 @@ const GAME_STATE: GameState = {
   balance: new Decimal(0),
   inventory: {},
   stock: INITIAL_FARM.stock,
+  trees: {},
 };
 
 describe("craft", () => {

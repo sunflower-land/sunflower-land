@@ -28,6 +28,7 @@ import { Quarry } from "features/quarry/Quarry";
 import { StateValues } from "./lib/gameMachine";
 import { useTour } from "@reactour/tour";
 import { TeamDonation } from "features/teamDonation/TeamDonation";
+import { Forest } from "features/forest/Forest";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -98,6 +99,7 @@ export const Game: React.FC = () => {
       <Decorations />
       <Quarry />
       <Bakery />
+      <Forest />
     </>
   );
 };

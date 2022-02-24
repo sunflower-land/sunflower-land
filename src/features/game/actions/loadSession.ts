@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState, InventoryItemName, Tree } from "../types/game";
 
 type Request = {
   sessionId: string;
@@ -60,6 +60,16 @@ export async function loadSession(
           [item]: new Decimal(farm.stock[item]),
         }),
         {} as Record<InventoryItemName, Decimal>
+      ),
+      trees: Object.keys(farm.trees).reduce(
+        (items, item) => ({
+          ...items,
+          [item]: {
+            ...farm.trees[item],
+            wood: new Decimal(farm.trees[item].wood),
+          },
+        }),
+        {} as Record<number, Tree>
       ),
       balance: new Decimal(farm.balance),
       fields: farm.fields,

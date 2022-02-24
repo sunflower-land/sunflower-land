@@ -1209,6 +1209,14 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-responsive-spritesheet@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-responsive-spritesheet/-/react-responsive-spritesheet-1.0.0.tgz#e140ec65d262961d31a00b99840bd0549d177350"
+  integrity sha512-PoV4fAypylL+/0dP0zlp/T7K0S2pGC4KDOgAC7TIwAXzOY8Ltnx40ikkBKeaM4S97iva6f4EkrxCmEipD1yzlw==
+  dependencies:
+    "@types/react" "*"
+    csstype "^3.0.10"
+
 "@types/react-transition-group@^4.4.1":
   version "4.4.4"
   resolved "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-4.4.4.tgz"
@@ -2354,7 +2362,7 @@ cssstyle@^2.3.0:
   dependencies:
     cssom "~0.3.6"
 
-csstype@^3.0.2:
+csstype@^3.0.10, csstype@^3.0.2:
   version "3.0.10"
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.0.10.tgz"
   integrity sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==
@@ -5852,6 +5860,11 @@ react-refresh@^0.11.0:
   version "0.11.0"
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.11.0.tgz"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
+
+react-responsive-spritesheet@^2.3.9:
+  version "2.3.9"
+  resolved "https://registry.yarnpkg.com/react-responsive-spritesheet/-/react-responsive-spritesheet-2.3.9.tgz#58822bd7532a46de8d564042c40d90e1d2aaafc5"
+  integrity sha512-7x1co8f6mg01wy5a8KsRDGOQ6a1inxhakdc/z2gXVhOBgRPQznUipWdGYZXHw7ecI5kPdXC1uXvFIXmWip3vnA==
 
 react-transition-group@^4.4.1:
   version "4.4.2"

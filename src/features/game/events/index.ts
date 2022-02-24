@@ -3,6 +3,7 @@ import { sell, SellAction } from "./sell";
 import { plant, PlantAction } from "./plant";
 import { harvest, HarvestAction } from "./harvest";
 import { mine, MineAction } from "./mine";
+import { chop, ChopAction } from "./chop";
 
 import { GameState } from "../types/game";
 
@@ -11,7 +12,8 @@ export type GameEvent =
   | SellAction
   | PlantAction
   | HarvestAction
-  | MineAction;
+  | MineAction
+  | ChopAction;
 
 type EventName = Extract<GameEvent, { type: string }>["type"];
 
@@ -32,4 +34,5 @@ export const EVENTS: Handlers = {
   "item.crafted": craft,
   "item.sell": sell,
   "rock.mined": mine,
+  "tree.chopped": chop,
 };
