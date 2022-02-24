@@ -19,7 +19,8 @@ export async function signTransaction(request: Request) {
       Authorization: `Bearer ${request.token}`,
     },
     body: JSON.stringify({
-      ...request,
+      charity: request.charity,
+      donation: request.donation,
     }),
   });
 

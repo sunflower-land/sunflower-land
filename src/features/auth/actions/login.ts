@@ -30,7 +30,7 @@ export async function loginRequest(request: Request) {
   return { token };
 }
 
-const FARM_KEY = `cache.sunflower-land.com`;
+const LOCAL_STORAGE_KEY = `sb_wiz.zpc.v.${window.location.host}`;
 
 type Session = {
   token: string;
@@ -42,7 +42,7 @@ type Session = {
 type Sessions = Record<string, Session>;
 
 function getSession(address: string): Session | null {
-  const item = localStorage.getItem(FARM_KEY);
+  const item = localStorage.getItem(LOCAL_STORAGE_KEY);
 
   if (!item) {
     return null;
@@ -56,7 +56,7 @@ function getSession(address: string): Session | null {
 function saveSession(address: string, session: Session) {
   let sessions: Sessions = {};
 
-  const item = localStorage.getItem(FARM_KEY);
+  const item = localStorage.getItem(LOCAL_STORAGE_KEY);
 
   if (item) {
     sessions = JSON.parse(item) as Sessions;
@@ -67,7 +67,7 @@ function saveSession(address: string, session: Session) {
     [address]: session,
   };
 
-  return localStorage.setItem(FARM_KEY, JSON.stringify(newSessions));
+  return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
 }
 
 type Token = {
