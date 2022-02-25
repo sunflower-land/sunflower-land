@@ -5,6 +5,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
 import { createFarm as createFarmAction } from "../actions/createFarm";
+import { login } from "../actions/login";
 import { CharityAddress } from "../components/Donation";
 
 // Hashed eth 0 value
@@ -30,7 +31,7 @@ export interface Context {
   errorCode?: keyof typeof ERRORS;
   farmId?: number;
   sessionId?: string;
-  signature?: string;
+  token?: string;
   hash?: string;
   address?: string;
 }
@@ -135,10 +136,10 @@ export const authMachine = createMachine<
       },
       signing: {
         invoke: {
-          src: "sign",
+          src: "login",
           onDone: {
             target: "connected",
-            actions: "assignSignature",
+            actions: "assignToken",
           },
           onError: {
             target: "unauthorised",
@@ -305,7 +306,7 @@ export const authMachine = createMachine<
         const newFarm = await createFarmAction({
           charity: charityAddress,
           donation,
-          signature: context.signature as string,
+          token: context.token as string,
         });
 
         return {
@@ -314,12 +315,12 @@ export const authMachine = createMachine<
           sessionId: INITIAL_SESSION,
         };
       },
-      sign: async (): Promise<{ signature: string }> => {
+      login: async (): Promise<{ token: string }> => {
         console.log("SIGN!");
-        const { signature } = await metamask.signTransaction();
+        const { token } = await login();
 
         return {
-          signature,
+          token,
         };
       },
       visitFarm: async (
@@ -342,8 +343,8 @@ export const authMachine = createMachine<
         address: (_context, event) => event.data.address,
         sessionId: (_context, event) => event.data.sessionId,
       }),
-      assignSignature: assign<Context, any>({
-        signature: (_context, event) => event.data.signature,
+      assignToken: assign<Context, any>({
+        token: (_context, event) => event.data.token,
       }),
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,

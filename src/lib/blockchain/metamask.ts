@@ -116,13 +116,14 @@ export class Metamask {
     }
   }
 
-  public async signTransaction() {
+  public async signTransaction(nonce: number) {
     if (!this.web3) {
       throw new Error(ERRORS.NO_WEB3);
     }
 
     const message = this.generateSignatureMessage({
       address: this.account as string,
+      nonce,
     });
 
     try {
@@ -153,13 +154,20 @@ export class Metamask {
     }
   }
 
-  private generateSignatureMessage({ address }: { address: string }) {
+  private generateSignatureMessage({
+    address,
+    nonce,
+  }: {
+    address: string;
+    nonce: number;
+  }) {
     const MESSAGE = [
       "Welcome to Sunflower Land!",
       "Click to sign in and accept the Sunflower Land Terms of Service: https://docs.sunflower-land.com/support/terms-of-service",
       "This request will not trigger a blockchain transaction or cost any gas fees.",
       "Your authentication status will reset after each session.",
       `Wallet address: ${address}`,
+      `Nonce: ${nonce}`,
     ].join("\n\n");
 
     return MESSAGE;

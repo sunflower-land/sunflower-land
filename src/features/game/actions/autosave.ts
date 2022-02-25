@@ -6,9 +6,8 @@ import { CraftAction } from "../types/craftables";
 type Request = {
   actions: PastAction[];
   farmId: number;
-  sender: string;
   sessionId: string;
-  signature: string;
+  token: string;
   offset: number;
 };
 
@@ -60,12 +59,11 @@ export async function autosave(request: Request) {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${request.token}`,
     },
     body: JSON.stringify({
       farmId: request.farmId,
-      sender: request.sender,
       sessionId: request.sessionId,
-      signature: request.signature,
       actions,
     }),
   });

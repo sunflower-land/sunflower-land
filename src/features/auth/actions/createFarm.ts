@@ -6,21 +6,21 @@ import { CharityAddress } from "../components/Donation";
 type Request = {
   charity: string;
   donation: number;
-  address: string;
-  signature: string;
+  token: string;
 };
 
 const API_URL = CONFIG.API_URL;
 
 export async function signTransaction(request: Request) {
   const response = await window.fetch(`${API_URL}/farm`, {
-    // learn more about this API here: https://graphql-pokemon2.vercel.app/
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${request.token}`,
     },
     body: JSON.stringify({
-      ...request,
+      charity: request.charity,
+      donation: request.donation,
     }),
   });
 
@@ -36,22 +36,21 @@ export async function signTransaction(request: Request) {
 type CreateFarmOptions = {
   charity: CharityAddress;
   donation: number;
-  signature: string;
+  token: string;
 };
 
 export async function createFarm({
   donation,
   charity,
-  signature,
+  token,
 }: CreateFarmOptions) {
-  const address = metamask.myAccount as string;
   const transaction = await signTransaction({
     donation,
     charity,
-    address,
-    signature,
+    token,
   });
 
+  const address = metamask.myAccount as string;
   const farm = metamask.getFarm().onCreated(address);
 
   await metamask.getBeta().createFarm(transaction);

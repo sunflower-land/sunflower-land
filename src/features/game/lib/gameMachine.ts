@@ -130,8 +130,7 @@ export function startGame(authContext: Options) {
               const response = await loadSession({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
-                signature: authContext.signature as string,
-                sender: metamask.myAccount as string,
+                token: authContext.token as string,
               });
 
               if (!response) {
@@ -212,9 +211,8 @@ export function startGame(authContext: Options) {
               await autosave({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
-                sender: metamask.myAccount as string,
                 actions: context.actions,
-                signature: authContext.signature as string,
+                token: authContext.token as string,
                 offset: context.offset,
               });
             }
@@ -249,9 +247,8 @@ export function startGame(authContext: Options) {
               await autosave({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
-                sender: metamask.myAccount as string,
                 actions: context.actions,
-                signature: authContext.signature as string,
+                token: authContext.token as string,
                 offset: context.offset,
               });
             }
@@ -259,8 +256,7 @@ export function startGame(authContext: Options) {
             const session = await mint({
               farmId: Number(authContext.farmId),
               sessionId: context.sessionId as string,
-              sender: metamask.myAccount as string,
-              signature: authContext.signature as string,
+              token: authContext.token as string,
               item: (event as MintEvent).item,
             });
 
@@ -287,9 +283,8 @@ export function startGame(authContext: Options) {
               await autosave({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
-                sender: metamask.myAccount as string,
                 actions: context.actions,
-                signature: authContext.signature as string,
+                token: authContext.token as string,
                 offset: context.offset,
               });
             }
@@ -297,7 +292,7 @@ export function startGame(authContext: Options) {
             const session = await sync({
               farmId: Number(authContext.farmId),
               sessionId: context.sessionId as string,
-              signature: authContext.signature as string,
+              token: authContext.token as string,
             });
 
             return {
@@ -322,7 +317,7 @@ export function startGame(authContext: Options) {
             const session = await withdraw({
               farmId: Number(authContext.farmId),
               sessionId: context.sessionId as string,
-              signature: authContext.signature as string,
+              token: authContext.token as string,
               amounts,
               ids,
               sfl,

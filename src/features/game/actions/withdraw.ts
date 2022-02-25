@@ -4,11 +4,10 @@ import { CONFIG } from "lib/config";
 type Request = {
   sessionId: string;
   farmId: number;
-  sender: string;
-  signature: string;
   sfl: number;
   ids: number[];
   amounts: string[];
+  token: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -18,9 +17,14 @@ async function signTransaction(request: Request) {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${request.token}`,
     },
     body: JSON.stringify({
-      ...request,
+      sessionId: request.sessionId,
+      farmId: request.farmId,
+      sfl: request.sfl,
+      ids: request.ids,
+      amounts: request.amounts,
     }),
   });
 
@@ -32,29 +36,28 @@ async function signTransaction(request: Request) {
 type Options = {
   farmId: number;
   sessionId: string;
-  signature: string;
   sfl: number;
   ids: number[];
   amounts: string[];
+  token: string;
 };
 export async function withdraw({
   farmId,
   sessionId,
-  signature,
   sfl,
   ids,
   amounts,
+  token,
 }: Options) {
   if (!API_URL) return;
 
   const transaction = await signTransaction({
     farmId,
     sessionId,
-    sender: metamask.myAccount as string,
-    signature,
     sfl,
     ids,
     amounts,
+    token,
   });
 
   console.log({ transaction });
