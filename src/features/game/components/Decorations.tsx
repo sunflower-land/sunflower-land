@@ -149,8 +149,8 @@ export const Decorations: React.FC = () => {
         <img
           style={{
             width: `${GRID_WIDTH_PX * 3}px`,
-            left: `${GRID_WIDTH_PX * 52}px`,
-            top: `${GRID_WIDTH_PX * 62}px`,
+            right: `${GRID_WIDTH_PX * 27.5}px`,
+            bottom: `${GRID_WIDTH_PX * 5.5}px`,
           }}
           className="absolute"
           src={goblinKing}

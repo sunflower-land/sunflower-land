@@ -93,7 +93,9 @@ export const INITIAL_FARM: GameState = {
   id: 1,
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
-  inventory: {},
+  inventory: {
+    "Goblin Crown": new Decimal(1),
+  },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
 };
