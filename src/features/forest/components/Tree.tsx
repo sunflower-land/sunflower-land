@@ -66,8 +66,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
     // Randomise the shakes to break
     const shakesToBreak = ((tree.wood.toNumber() + treeIndex) % 3) + 2;
-    console.log({ shakesToBreak });
-    console.log({ touchCount });
+
     // On third shake, chop
     if (touchCount > 0 && touchCount === shakesToBreak) {
       chop();
@@ -124,7 +123,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
   const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
   const percentage = 100 - (timeLeft / TREE_RECOVERY_SECONDS) * 100;
-  console.log({ tree });
 
   return (
     <div className="relative" style={{ height: "106px" }}>
