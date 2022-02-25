@@ -79,6 +79,12 @@ function decodeToken(token: string): Token {
   return jwt_decode(token);
 }
 
+/**
+ * Reduce 4 hours as a buffer for a user session
+ * This will mitigate people in the middle of their session becoming unauthorised
+ */
+const TOKEN_BUFFER_MS = 1000 * 60 * 4;
+
 export async function login(): Promise<{ token: string }> {
   const address = metamask.myAccount as string;
   const session = getSession(address);
@@ -86,8 +92,7 @@ export async function login(): Promise<{ token: string }> {
   if (session) {
     const token = decodeToken(session.token);
 
-    // Reduce 2 hours as a buffer for a user session
-    const isFresh = token.exp * 1000 > Date.now();
+    const isFresh = token.exp * 1000 > Date.now() - TOKEN_BUFFER_MS;
 
     if (isFresh) {
       // Raw token
