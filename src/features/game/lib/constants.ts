@@ -99,10 +99,11 @@ export const INITIAL_FARM: GameState = {
 };
 
 export const EMPTY: GameState = {
-  id: 1,
   balance: new Decimal(fromWei("0")),
   fields: {},
   inventory: {},
   stock: {},
   trees: INITIAL_TREES,
+  // unused
+  id: 1000,
 };
