@@ -6,7 +6,10 @@ import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 
 import bakery from "assets/buildings/bakery.gif";
+import smoke from "assets/buildings/bakery_smoke.gif";
 import soup from "assets/nfts/roasted_cauliflower.png";
+import goblinJump from "assets/npcs/goblin_jump.gif";
+import heart from "assets/icons/heart.png";
 
 import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
@@ -32,12 +35,42 @@ export const Bakery: React.FC = () => {
     >
       <img
         src={bakery}
-        alt="market"
+        alt="bakery"
         onClick={isNotReadOnly ? () => setIsOpen(true) : undefined}
         className={classNames("w-full", {
           "cursor-pointer": isNotReadOnly,
           "hover:img-highlight": isNotReadOnly,
         })}
+      />
+      <img
+        src={smoke}
+        onClick={isNotReadOnly ? () => setIsOpen(true) : undefined}
+        style={{
+          position: "absolute",
+          bottom: `${GRID_WIDTH_PX * 0.35}px`,
+          left: `${GRID_WIDTH_PX * 0.85}px`,
+          width: `${GRID_WIDTH_PX * 0.5}px`,
+        }}
+      />
+      <img
+        src={heart}
+        className="absolute z-10 animate-float"
+        style={{
+          width: `${GRID_WIDTH_PX * 0.3}px`,
+          right: `${GRID_WIDTH_PX * -0.55}px`,
+          bottom: `${GRID_WIDTH_PX * 1.75}px`,
+        }}
+      />
+      <img
+        src={goblinJump}
+        onClick={isNotReadOnly ? () => setIsOpen(true) : undefined}
+        style={{
+          position: "absolute",
+          bottom: `${GRID_WIDTH_PX * -0.35}px`,
+          right: `${GRID_WIDTH_PX * -2.4}px`,
+          width: `${GRID_WIDTH_PX * 8}px`,
+          transform: "scaleX(-1)",
+        }}
       />
       {isNotReadOnly && (
         <Action
