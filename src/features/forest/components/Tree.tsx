@@ -21,6 +21,7 @@ import {
 } from "features/game/events/chop";
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
+import { Label } from "components/ui/Label";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -32,12 +33,14 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(true);
+  const [showLabel, setShowLabel] = useState(false);
   const [popover, setPopover] = useState<JSX.Element | null>();
 
   const [touchCount, setTouchCount] = useState(0);
   // When to hide the wood that pops out
   const [collecting, setCollecting] = useState(false);
 
+  const treeRef = useRef<HTMLDivElement>(null);
   const shakeGif = useRef<SpriteSheetInstance>();
   const choppedGif = useRef<SpriteSheetInstance>();
 
@@ -55,6 +58,10 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   };
 
   const shake = async () => {
+    if (selectedItem !== "Axe") {
+      return;
+    }
+
     const isPlaying = shakeGif.current?.getInfo("isPlaying");
     if (isPlaying) {
       return;
@@ -93,16 +100,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       await new Promise((res) => setTimeout(res, 2000));
       setCollecting(false);
     } catch (e: any) {
-      if (e.message === CHOP_ERRORS.MISSING_AXE) {
-        displayPopover(
-          <div className="flex">
-            <img src={axe} className="w-4 h-4 mr-2" />
-            <span className="text-xs text-white text-shadow">No axe</span>
-          </div>
-        );
-        return;
-      }
-
       if (e.message === CHOP_ERRORS.NO_AXES) {
         displayPopover(
           <div className="flex">
@@ -121,13 +118,25 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     }
   };
 
+  const handleHover = (method: "add" | "remove") => {
+    if (selectedItem === "Axe") return;
+    treeRef.current?.classList[method]("cursor-not-allowed")
+    setShowLabel(prev => !prev)
+  }
+
   const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
   const percentage = 100 - (timeLeft / TREE_RECOVERY_SECONDS) * 100;
 
   return (
     <div className="relative" style={{ height: "106px" }}>
       {!chopped && (
-        <div className="group cursor-pointer  w-full h-full" onClick={shake}>
+        <div 
+          onMouseEnter={() => handleHover("add")}
+          onMouseLeave={() => handleHover("remove")}
+          ref={treeRef} 
+          className="group cursor-pointer  w-full h-full" 
+          onClick={shake}
+        >
           <Spritesheet
             className="group-hover:img-highlight pointer-events-none transform"
             style={{
@@ -153,6 +162,13 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
           />
         </div>
       )}
+      <div
+        className={`absolute bottom-8 -right-[1rem] transition pointer-events-none w-28 ${
+          showLabel ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <Label>Equip an axe first</Label>
+      </div>
 
       <Spritesheet
         style={{
