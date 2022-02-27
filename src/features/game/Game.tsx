@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { createRef, useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
+import { useTour } from "@reactour/tour";
 
 import { Hud } from "features/hud/Hud";
 import { Crops } from "features/crops/Crops";
@@ -16,19 +17,20 @@ import { useInterval } from "lib/utils/useInterval";
 
 import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
+import { Captcha } from "./components/Captcha";
 import { ToastManager } from "./toast/ToastManager";
-
 import { GameError } from "./components/GameError";
 import { Decorations } from "./components/Decorations";
 import { Minting } from "./components/Minting";
 import { Success } from "./components/Success";
 import { Syncing } from "./components/Syncing";
 import { Withdrawing } from "./components/Withdrawing";
+
 import { Quarry } from "features/quarry/Quarry";
-import { StateValues } from "./lib/gameMachine";
-import { useTour } from "@reactour/tour";
 import { TeamDonation } from "features/teamDonation/TeamDonation";
 import { Forest } from "features/forest/Forest";
+
+import { StateValues } from "./lib/gameMachine";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -42,6 +44,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   syncing: true,
   withdrawing: true,
   error: true,
+  captcha: false,
 };
 
 export const Game: React.FC = () => {
@@ -76,6 +79,7 @@ export const Game: React.FC = () => {
   return (
     <>
       <ToastManager />
+      <Captcha />
 
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">
