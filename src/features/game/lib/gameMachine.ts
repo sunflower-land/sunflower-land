@@ -8,7 +8,7 @@ import { metamask } from "../../../lib/blockchain/metamask";
 import { GameState } from "../types/game";
 import { loadSession } from "../actions/loadSession";
 import { INITIAL_FARM, EMPTY } from "./constants";
-import { autosave } from "../actions/autosave";
+import { autosave, solveCaptcha } from "../actions/autosave";
 import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
 import { sync } from "../actions/sync";
@@ -22,8 +22,9 @@ export type PastAction = GameEvent & {
 export interface Context {
   state: GameState;
   actions: PastAction[];
-  sessionId?: string;
   offset: number;
+  sessionId?: string;
+  captcha?: string;
 }
 
 type MintEvent = {
@@ -83,6 +84,7 @@ export type BlockchainState = {
     | "playing"
     | "readonly"
     | "autosaving"
+    | "captcha"
     | "minting"
     | "success"
     | "syncing"
@@ -205,33 +207,68 @@ export function startGame(authContext: Options) {
           ...GAME_EVENT_HANDLERS,
         },
         invoke: {
-          src: async (context) => {
-            const saveAt = new Date();
-            if (context.actions.length > 0) {
-              await autosave({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                actions: context.actions,
-                token: authContext.token as string,
-                offset: context.offset,
-              });
+          src: async (context, event) => {
+            const saveAt = (event as any)?.data?.saveAt || new Date();
+
+            if (context.actions.length === 0) {
+              return { verified: true, saveAt };
             }
+
+            const { verified } = await autosave({
+              farmId: Number(authContext.farmId),
+              sessionId: context.sessionId as string,
+              actions: context.actions,
+              token: authContext.token as string,
+              offset: context.offset,
+              captcha: context.captcha,
+            });
+
             // This gives the UI time to indicate that a save is taking place both when clicking save
             // and when autosaving
             await new Promise((res) => setTimeout(res, 1000));
 
             return {
               saveAt,
+              verified,
+            };
+          },
+          onDone: [
+            {
+              target: "captcha",
+              cond: (_, event) => {
+                return !event.data.verified;
+              },
+            },
+            {
+              target: "playing",
+              // Remove the events that were submitted
+              actions: assign((context: Context, event) => ({
+                actions: context.actions.filter(
+                  (action) =>
+                    action.createdAt.getTime() > event.data.saveAt.getTime()
+                ),
+              })),
+            },
+          ],
+          onError: {
+            target: "error",
+          },
+        },
+      },
+      captcha: {
+        invoke: {
+          src: async (_, event) => {
+            const captcha = await solveCaptcha();
+
+            return {
+              captcha,
+              ...event.data,
             };
           },
           onDone: {
-            target: "playing",
-            // Remove the events that were submitted
+            target: "autosaving",
             actions: assign((context: Context, event) => ({
-              actions: context.actions.filter(
-                (action) =>
-                  action.createdAt.getTime() > event.data.saveAt.getTime()
-              ),
+              captcha: event.data.captcha,
             })),
           },
           onError: {
