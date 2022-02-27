@@ -257,7 +257,7 @@ export function startGame(authContext: Options) {
       },
       captcha: {
         invoke: {
-          src: async (_, event) => {
+          src: async (_, event: any) => {
             const captcha = await solveCaptcha();
 
             return {

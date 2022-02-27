@@ -84,6 +84,8 @@ export async function autosave(request: Request) {
   return { verified: true, data };
 }
 
+declare const grecaptcha: any;
+
 let captchaId: number;
 let captchaToken = "";
 
