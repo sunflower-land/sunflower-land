@@ -71,7 +71,6 @@ export async function autosave(request: Request) {
     }),
   });
 
-  console.log({ response });
   if (response.status === 429) {
     return { verified: false };
   }
