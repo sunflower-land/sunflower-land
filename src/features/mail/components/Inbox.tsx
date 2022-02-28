@@ -2,6 +2,7 @@ import React from "react";
 import { Accordion } from "react-bootstrap";
 
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { Markdown } from "components/ui/Markdown";
 import { Message } from "../types/message";
 
 import alerted from "assets/icons/expression_alerted.png";
@@ -11,10 +12,6 @@ interface Props {
   onRead: (index: number) => void;
 }
 
-/**
- * TODO
- * - markdown message body?
- */
 export const Inbox: React.FC<Props> = ({ inbox, onRead }) => {
   return (
     <OuterPanel className="relative">
@@ -32,13 +29,13 @@ export const Inbox: React.FC<Props> = ({ inbox, onRead }) => {
                 className="p-2 text-white text-shadow bg-transparent"
               >
                 {unread && <img src={alerted} className="w-3 mx-3" />}
-                <span>{title || `${body.slice(0, 10)}...`}</span>
+                <Markdown>{title || `${body.slice(0, 10)}...`}</Markdown>
               </Accordion.Button>
               <Accordion.Body
                 className="text-sm mt-2 text-shadow text-break"
                 as={InnerPanel}
               >
-                {body}
+                <Markdown>{body}</Markdown>
               </Accordion.Body>
             </Accordion.Item>
           ))}
