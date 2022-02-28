@@ -1,9 +1,8 @@
 import React from "react";
 import { Accordion } from "react-bootstrap";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm"; // url, table, etc support
 
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { Markdown } from "components/ui/Markdown";
 import { Message } from "../types/message";
 
 import alerted from "assets/icons/expression_alerted.png";
@@ -30,17 +29,13 @@ export const Inbox: React.FC<Props> = ({ inbox, onRead }) => {
                 className="p-2 text-white text-shadow bg-transparent"
               >
                 {unread && <img src={alerted} className="w-3 mx-3" />}
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {title || `${body.slice(0, 10)}...`}
-                </ReactMarkdown>
+                <Markdown>{title || `${body.slice(0, 10)}...`}</Markdown>
               </Accordion.Button>
               <Accordion.Body
                 className="text-sm mt-2 text-shadow text-break"
                 as={InnerPanel}
               >
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {body}
-                </ReactMarkdown>
+                <Markdown>{body}</Markdown>
               </Accordion.Body>
             </Accordion.Item>
           ))}
