@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -43,6 +43,19 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const treeRef = useRef<HTMLDivElement>(null);
   const shakeGif = useRef<SpriteSheetInstance>();
   const choppedGif = useRef<SpriteSheetInstance>();
+
+  // Reset the shake count when clicking outside of the component
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (treeRef.current && !treeRef.current.contains(event.target)) {
+        setTouchCount(0);
+      }
+    };
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, []);
 
   const tree = game.context.state.trees[treeIndex];
 
@@ -118,11 +131,24 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     }
   };
 
-  const handleHover = (method: "add" | "remove") => {
-    if (selectedItem === "Axe") return;
-    treeRef.current?.classList[method]("cursor-not-allowed")
-    setShowLabel(prev => !prev)
-  }
+  const handleHover = () => {
+    if (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
+      return;
+    treeRef.current?.classList["add"]("cursor-not-allowed");
+    setShowLabel((prev) => !prev);
+  };
+
+  const handleMouseLeave = () => {
+    if (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
+      return;
+    treeRef.current?.classList["remove"]("cursor-not-allowed");
+    setShowLabel((prev) => !prev);
+  };
+
+  const handleBlur = () => {
+    console.log("Handle blue");
+    setTouchCount(0);
+  };
 
   const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
   const percentage = 100 - (timeLeft / TREE_RECOVERY_SECONDS) * 100;
@@ -130,11 +156,11 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   return (
     <div className="relative" style={{ height: "106px" }}>
       {!chopped && (
-        <div 
-          onMouseEnter={() => handleHover("add")}
-          onMouseLeave={() => handleHover("remove")}
-          ref={treeRef} 
-          className="group cursor-pointer  w-full h-full" 
+        <div
+          onMouseEnter={handleHover}
+          onMouseLeave={handleMouseLeave}
+          ref={treeRef}
+          className="group cursor-pointer  w-full h-full"
           onClick={shake}
         >
           <Spritesheet
