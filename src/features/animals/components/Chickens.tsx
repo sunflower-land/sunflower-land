@@ -21,8 +21,8 @@ export const Chickens: React.FC = () => {
           src={coop}
           style={{
             width: `${GRID_WIDTH_PX * 2.5}px`,
-            right: `${GRID_WIDTH_PX * 1.3}px`,
-            top: `${GRID_WIDTH_PX * 2.6}px`,
+            right: `${GRID_WIDTH_PX * 0.8}px`,
+            top: `${GRID_WIDTH_PX * 1.3}px`,
           }}
           className="absolute"
         />

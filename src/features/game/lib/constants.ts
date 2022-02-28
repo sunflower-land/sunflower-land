@@ -95,6 +95,7 @@ export const INITIAL_FARM: GameState = {
   fields: INITIAL_FIELDS,
   inventory: {
     "Goblin Crown": new Decimal(1),
+    "Chicken Coop": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,

@@ -32,8 +32,8 @@ export const Decorations: React.FC = () => {
         <img
           style={{
             width: `${GRID_WIDTH_PX * 4}px`,
-            right: `${GRID_WIDTH_PX * 29}px`,
-            top: `${GRID_WIDTH_PX * 27.5}px`,
+            right: `${GRID_WIDTH_PX * 24}px`,
+            top: `${GRID_WIDTH_PX * 30.5}px`,
           }}
           className="absolute"
           src={sunflowerRock}
