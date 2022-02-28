@@ -20,19 +20,22 @@ const MESSAGES_KEY = "readMessages";
 const getInbox = () => {
   return [
     {
-      id: "1",
+      id: "2022-02-28-1",
       title: "Announcements!",
-      body: "This feature is Work in Progress. Stay tuned. https://discord.gg/sunflowerland",
+      body: "This feature is Work in Progress. Stay tuned and head over to our Discord: https://discord.gg/sunflowerland",
     },
     {
-      id: "2",
+      id: "2022-02-28-2",
       title: "Greetings!",
-      body: "You made it! Good job :D",
+      body: "*You made it! **Good** job :D*",
     },
     {
-      id: "3",
+      id: "2022-02-28-3",
       title: "",
-      body: "Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. Long text ahead for testing.",
+      body: `*Long text ahead for testing*. **Long text** ahead for testing. ~~Long text ahead for testing.~~ 
+        Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. 
+        Long text ahead for testing. Long text ahead for testing.
+        [Inline link](https://discord.gg/sunflowerland)`,
     },
   ];
 };
