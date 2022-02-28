@@ -26,7 +26,7 @@ export const WishingWell: React.FC = () => {
       style={{
         width: `${GRID_WIDTH_PX * 2}px`,
         height: `${GRID_WIDTH_PX * 2.5}px`,
-        left: `calc(50% - ${GRID_WIDTH_PX * -4}px)`,
+        left: `calc(50% - ${GRID_WIDTH_PX * -14}px)`,
         top: `calc(50% - ${GRID_WIDTH_PX * 11}px)`,
       }}
     >

@@ -29,6 +29,7 @@ import { Withdrawing } from "./components/Withdrawing";
 import { Quarry } from "features/quarry/Quarry";
 import { TeamDonation } from "features/teamDonation/TeamDonation";
 import { Forest } from "features/forest/Forest";
+import { Bank } from "features/bank/Bank";
 
 import { StateValues } from "./lib/gameMachine";
 
@@ -104,6 +105,7 @@ export const Game: React.FC = () => {
       <Quarry />
       <Bakery />
       <Forest />
+      <Bank />
     </>
   );
 };

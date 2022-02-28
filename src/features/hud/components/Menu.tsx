@@ -10,7 +10,6 @@ import { sync } from "features/game/actions/sync";
 import { Context } from "features/game/GameProvider";
 
 import { Share } from "./Share";
-import { Withdraw } from "./Withdraw";
 import { Modal } from "react-bootstrap";
 
 import mobileMenu from "assets/icons/hamburger_menu.png";
@@ -35,7 +34,6 @@ export const Menu = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   const [showShareModal, setShowShareModal] = React.useState(false);
-  const [showWithdrawModal, setShowWithdrawModal] = React.useState(false);
   const [showComingSoon, setShowComingSoon] = React.useState(false);
 
   // farm link (URL)
@@ -75,16 +73,6 @@ export const Menu = () => {
     // inside click
     if (ref?.current?.contains(e.target as Node)) return;
     // outside click
-    setMenuOpen(false);
-  };
-
-  const withdraw = () => {
-    if (!canSync(metamask.myAccount as string)) {
-      setShowComingSoon(true);
-      setMenuOpen(false);
-      return;
-    }
-    setShowWithdrawModal(true);
     setMenuOpen(false);
   };
 
@@ -209,12 +197,6 @@ export const Menu = () => {
                     <span className="sm:text-sm">Sync on chain</span>
                   </Button>
                 </li>
-                <li className="p-1">
-                  <Button onClick={withdraw}>
-                    <span className="sm:text-sm">Withdraw</span>
-                    <img src={token} className="w-4 ml-2" alt="token" />
-                  </Button>
-                </li>
               </>
             )}
           </ul>
@@ -225,11 +207,6 @@ export const Menu = () => {
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
         farmURL={farmURL}
-      />
-
-      <Withdraw
-        isOpen={showWithdrawModal}
-        onClose={() => setShowWithdrawModal(false)}
       />
 
       {/* TODO - To be deleted when withdraw and "Sync on chain" are implemented */}
