@@ -145,11 +145,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setShowLabel((prev) => !prev);
   };
 
-  const handleBlur = () => {
-    console.log("Handle blue");
-    setTouchCount(0);
-  };
-
   const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
   const percentage = 100 - (timeLeft / TREE_RECOVERY_SECONDS) * 100;
 
