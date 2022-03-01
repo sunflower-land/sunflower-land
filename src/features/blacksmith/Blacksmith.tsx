@@ -11,6 +11,7 @@ import hammer from "assets/icons/hammer.png";
 import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import blacksmithMp3 from "../../assets/sound-effects/blacksmith.mp3";
 
 export const Blacksmith: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -18,6 +19,14 @@ export const Blacksmith: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const isNotReadOnly = !gameState.matches("readonly");
+
+  const blacksmithAudio = new Audio(blacksmithMp3);
+  blacksmithAudio.volume = 0.3;
+
+  const open = () => {
+    blacksmithAudio.play();
+    setIsOpen(true);
+  };
 
   return (
     <div
@@ -32,7 +41,7 @@ export const Blacksmith: React.FC = () => {
       <img
         src={blacksmith}
         alt="market"
-        onClick={isNotReadOnly ? () => setIsOpen(true) : undefined}
+        onClick={isNotReadOnly ? () => open() : undefined}
         className={classNames("w-full", {
           "cursor-pointer": isNotReadOnly,
           "hover:img-highlight": isNotReadOnly,
@@ -43,7 +52,7 @@ export const Blacksmith: React.FC = () => {
           className="absolute -bottom-8 left-1"
           text="Craft"
           icon={hammer}
-          onClick={() => setIsOpen(true)}
+          onClick={open}
         />
       )}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
