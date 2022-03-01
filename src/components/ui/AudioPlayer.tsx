@@ -11,7 +11,7 @@ import { getSong, getSongCount } from "assets/songs/playlist";
 import { Panel } from "components/ui/Panel";
 
 export const AudioPlayer: React.FC = () => {
-  const [volume, setVolume] = useState<number>(0.8);
+  const [volume, setVolume] = useState<number>(0.3);
   const [visible, setIsVisible] = useState<boolean>(false);
   const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
@@ -50,6 +50,7 @@ export const AudioPlayer: React.FC = () => {
   const song = getSong(songIndex);
 
   useEffect(() => {
+    musicPlayer.current.volume = volume;
     if (navigator.userAgent.match(/chrome|chromium|crios/i)) {
       // by the default Chrome policy doesn't allow autoplay
       setPlaying(false);
@@ -74,6 +75,7 @@ export const AudioPlayer: React.FC = () => {
           onPlay={() => setPlaying(!musicPlayer.current.paused)}
           src={song.path}
           className="d-none"
+          id="audio-player"
           autoPlay
           controls
         />
