@@ -6,16 +6,25 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 
 import frog from "assets/animals/frog.png";
+import frogMp3 from "../../../assets/sound-effects/frog.mp3";
 
 export const Frog: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
+
+  const frogAudio = new Audio(frogMp3);
+  frogAudio.volume = 0.2;
+
+  const open = () => {
+    frogAudio.play();
+    setShowModal(true);
+  };
 
   return (
     <>
       <img
         src={frog}
         className="absolute hover:img-highlight cursor-pointer"
-        onClick={() => setShowModal(true)}
+        onClick={() => open()}
         style={{
           width: `${GRID_WIDTH_PX * 0.7}px`,
           right: `${GRID_WIDTH_PX * 5.1}px`,
