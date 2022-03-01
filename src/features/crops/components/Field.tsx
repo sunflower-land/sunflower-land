@@ -13,6 +13,8 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Soil } from "./Soil";
 import { useTour } from "@reactour/tour";
 import { TourStep } from "features/game/lib/Tour";
+import plant from "../../../assets/sound-effects/plant.mp3";
+import harvest from "../../../assets/sound-effects/harvest.mp3";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -63,6 +65,8 @@ export const Field: React.FC<Props> = ({
     }
 
     clickedAt.current = now;
+    const harvestAudio = new Audio(plant);
+    const plantingAudio = new Audio(harvest);
 
     // Plant
     if (!field) {
@@ -71,6 +75,9 @@ export const Field: React.FC<Props> = ({
           index: fieldIndex,
           item: selectedItem,
         });
+
+        harvestAudio.volume = 0.2;
+        harvestAudio.play();
 
         displayPopover(
           <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
@@ -97,6 +104,9 @@ export const Field: React.FC<Props> = ({
       gameService.send("item.harvested", {
         index: fieldIndex,
       });
+
+      plantingAudio.volume = 0.2;
+      plantingAudio.play();
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
