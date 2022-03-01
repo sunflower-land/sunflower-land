@@ -11,6 +11,7 @@ import token from "assets/icons/token.gif";
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { BankModal } from "./components/BankModal";
+import bankMp3 from "../../assets/sound-effects/bank.mp3";
 
 export const Bank: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -18,6 +19,9 @@ export const Bank: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const isNotReadOnly = !gameState.matches("readonly");
+
+  const bankAudio = new Audio(bankMp3);
+  bankAudio.volume = 0.3;
 
   const open = () => {
     setIsOpen(true);
@@ -47,7 +51,7 @@ export const Bank: React.FC = () => {
           className="absolute -bottom-6 left-2"
           text="Bank"
           icon={token}
-          onClick={() => setIsOpen(true)}
+          onClick={open}
         />
       )}
       <Modal
