@@ -75,7 +75,6 @@ export const AudioPlayer: React.FC = () => {
           onPlay={() => setPlaying(!musicPlayer.current.paused)}
           src={song.path}
           className="d-none"
-          id="audio-player"
           autoPlay
           controls
         />
