@@ -5,11 +5,9 @@ import classNames from "classnames";
 
 import { Context } from "features/game/GameProvider";
 
-import bakery from "assets/buildings/bakery.gif";
+import bakery from "assets/buildings/bakery_building.png";
 import smoke from "assets/buildings/bakery_smoke.gif";
-import soup from "assets/nfts/roasted_cauliflower.png";
-import goblinJump from "assets/npcs/goblin_jump.gif";
-import heart from "assets/icons/heart.png";
+import soup from "assets/icons/goblin_head.png";
 
 import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
@@ -27,10 +25,9 @@ export const Bakery: React.FC = () => {
       className="z-10 absolute"
       // TODO some sort of coordinate system
       style={{
-        width: `${GRID_WIDTH_PX * 4}px`,
-        height: `${GRID_WIDTH_PX * 3.5}px`,
-        left: `calc(50% - ${GRID_WIDTH_PX * -11.8}px)`,
-        top: `calc(50% - ${GRID_WIDTH_PX * 17}px)`,
+        width: `${GRID_WIDTH_PX * 3}px`,
+        right: `${GRID_WIDTH_PX * 7}px`,
+        top: `${GRID_WIDTH_PX * 1}px`,
       }}
     >
       <img
@@ -47,35 +44,15 @@ export const Bakery: React.FC = () => {
         onClick={isNotReadOnly ? () => setIsOpen(true) : undefined}
         style={{
           position: "absolute",
-          bottom: `${GRID_WIDTH_PX * 0.35}px`,
-          left: `${GRID_WIDTH_PX * 0.85}px`,
-          width: `${GRID_WIDTH_PX * 0.5}px`,
-        }}
-      />
-      <img
-        src={heart}
-        className="absolute z-10 animate-float"
-        style={{
-          width: `${GRID_WIDTH_PX * 0.3}px`,
-          right: `${GRID_WIDTH_PX * -0.55}px`,
-          bottom: `${GRID_WIDTH_PX * 1.75}px`,
-        }}
-      />
-      <img
-        src={goblinJump}
-        onClick={isNotReadOnly ? () => setIsOpen(true) : undefined}
-        style={{
-          position: "absolute",
-          bottom: `${GRID_WIDTH_PX * -0.35}px`,
-          right: `${GRID_WIDTH_PX * -2.4}px`,
-          width: `${GRID_WIDTH_PX * 8}px`,
-          transform: "scaleX(-1)",
+          top: `-${GRID_WIDTH_PX * 2.2}px`,
+          left: `${GRID_WIDTH_PX * 0.5}px`,
+          width: `${GRID_WIDTH_PX * 1}px`,
         }}
       />
       {isNotReadOnly && (
         <Action
-          className="absolute -bottom-10 left-10"
-          text="Cook"
+          className="absolute bottom-14 left-0"
+          text="Kitchen"
           icon={soup}
           onClick={() => setIsOpen(true)}
         />

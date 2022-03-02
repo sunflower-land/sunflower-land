@@ -41,10 +41,7 @@ export async function sync({ farmId, sessionId, token }: Options) {
     token,
   });
 
-  console.log({ transaction });
-
   const session = await metamask.getSessionManager().sync(transaction);
-  console.log({ session });
 
   return session;
 }

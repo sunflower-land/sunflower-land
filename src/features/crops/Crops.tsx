@@ -12,7 +12,6 @@ import { CropZoneOne } from "./components/CropZoneOne";
 import { CropZoneTwo } from "./components/CropZoneTwo";
 import { CropZoneThree } from "./components/CropZoneThree";
 import { CropZoneFour } from "./components/CropZoneFour";
-import { Market } from "./components/Market";
 
 export const Crops: React.FC = () => {
   return (
@@ -33,8 +32,6 @@ export const Crops: React.FC = () => {
           className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
         />
 
-        <Market />
-
         <CropZoneOne />
         <CropZoneTwo />
         <CropZoneThree />
@@ -42,10 +39,10 @@ export const Crops: React.FC = () => {
 
         <div
           style={{
-            width: `${GRID_WIDTH_PX * 4}px`,
+            width: `${GRID_WIDTH_PX * 3.2}px`,
             position: "absolute",
             right: `${GRID_WIDTH_PX * 0.5}px`,
-            top: `${GRID_WIDTH_PX * 0.8}px`,
+            top: `${GRID_WIDTH_PX * 1.8}px`,
           }}
           className="relative"
         >
@@ -53,10 +50,10 @@ export const Crops: React.FC = () => {
           <img
             src={smoke}
             style={{
-              width: `${GRID_WIDTH_PX * 1}px`,
+              width: `${GRID_WIDTH_PX * 0.7}px`,
               position: "absolute",
-              left: `${GRID_WIDTH_PX * 0.1}px`,
-              top: `${GRID_WIDTH_PX * 0.8}px`,
+              left: `${GRID_WIDTH_PX * 0.12}px`,
+              top: `${GRID_WIDTH_PX * 0.77}px`,
             }}
           />
         </div>

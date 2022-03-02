@@ -60,8 +60,6 @@ export async function withdraw({
     token,
   });
 
-  console.log({ transaction });
-
   const session = await metamask.getSessionManager().withdraw(transaction);
 
   return session;

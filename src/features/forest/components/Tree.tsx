@@ -85,7 +85,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setTouchCount((count) => count + 1);
 
     // Randomise the shakes to break
-    const shakesToBreak = ((tree.wood.toNumber() + treeIndex) % 3) + 2;
+    const shakesToBreak = tree.wood.toNumber();
 
     // On third shake, chop
     if (touchCount > 0 && touchCount === shakesToBreak) {

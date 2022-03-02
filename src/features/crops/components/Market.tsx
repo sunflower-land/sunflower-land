@@ -1,17 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import classNames from "classnames";
 
 import { Context } from "features/game/GameProvider";
 
-import market from "assets/buildings/market.png";
+import market from "assets/buildings/market_building.png";
 import plant from "assets/icons/plant.png";
-
-import sunflower from "assets/crops/sunflower/crop.png";
-import pumpkin from "assets/crops/pumpkin/crop.png";
-import cauliflower from "assets/crops/cauliflower/crop.png";
-import bobMarley from "assets/npcs/bob_marley.gif";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
@@ -19,6 +14,7 @@ import { Action } from "components/ui/Action";
 import { MarketItems } from "./MarketItems";
 import { useTour } from "@reactour/tour";
 import { TourStep } from "features/game/lib/Tour";
+import { Section } from "lib/utils/useScrollIntoView";
 
 export const Market: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -43,12 +39,12 @@ export const Market: React.FC = () => {
 
   return (
     <div
-      id="open-shop"
+      id={Section.Shop}
+      className="absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 2.8}px`,
-        position: "absolute",
-        left: `${GRID_WIDTH_PX * 16}px`,
-        bottom: `${GRID_WIDTH_PX * 2.2}px`,
+        width: `${GRID_WIDTH_PX * 3}px`,
+        left: `${GRID_WIDTH_PX * 3}px`,
+        top: `${GRID_WIDTH_PX * 5}px`,
       }}
     >
       <img
@@ -60,35 +56,9 @@ export const Market: React.FC = () => {
           "hover:img-highlight": isNotReadOnly,
         })}
       />
-      <img
-        src={bobMarley}
-        alt="bobMarley"
-        className="absolute pointer-events-none"
-        style={{
-          width: `${GRID_WIDTH_PX * 1.65}px`,
-          position: "absolute",
-          left: `${GRID_WIDTH_PX * 0.7}px`,
-          bottom: `${GRID_WIDTH_PX * 0.8}px`,
-        }}
-      />
-      <img
-        src={sunflower}
-        alt="sunflower"
-        className="w-6 absolute bottom-6 left-2 pointer-events-none"
-      />
-      <img
-        src={pumpkin}
-        alt="pumpkin"
-        className="w-6 absolute bottom-6 left-14 pointer-events-none"
-      />
-      <img
-        src={cauliflower}
-        alt="cauliflower"
-        className="w-6 absolute bottom-6 right-2 pointer-events-none"
-      />
       {isNotReadOnly && (
         <Action
-          className="absolute -bottom-3 left-3"
+          className="absolute top-5 left-4"
           text="Shop"
           icon={plant}
           onClick={() => handleMarketClick()}

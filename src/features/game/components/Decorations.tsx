@@ -8,6 +8,7 @@ import sunflowerRock from "assets/nfts/sunflower_rock.png";
 import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
 import potatoStatue from "assets/nfts/potato_statue.png";
+import christmasTree from "assets/nfts/christmas_tree.png";
 import dog from "assets/nfts/farm_dog.png";
 import cat from "assets/nfts/farm_cat.png";
 import gnome from "assets/nfts/gnome.png";
@@ -38,6 +39,19 @@ export const Decorations: React.FC = () => {
           className="absolute"
           src={sunflowerRock}
           alt="Sunflower rock"
+        />
+      )}
+
+      {state.inventory["Christmas Tree"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2}px`,
+            right: `${GRID_WIDTH_PX * 16}px`,
+            top: `${GRID_WIDTH_PX * 1}px`,
+          }}
+          className="absolute"
+          src={christmasTree}
+          alt="Christmas Tree"
         />
       )}
 

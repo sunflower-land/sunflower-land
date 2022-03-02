@@ -15,6 +15,7 @@ import { getShortcuts } from "../lib/shortcuts";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useTour } from "@reactour/tour";
 import { TourStep } from "features/game/lib/Tour";
+import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
 
 export const Inventory: React.FC = () => {
   const {
@@ -22,6 +23,8 @@ export const Inventory: React.FC = () => {
     isOpen: tourIsOpen,
     currentStep,
   } = useTour();
+  const [scrollIntoView] = useScrollIntoView();
+
   const [isOpen, setIsOpen] = useState(false);
   const { shortcutItem, gameService } = useContext(Context);
   const [game] = useActor(gameService);
@@ -39,7 +42,12 @@ export const Inventory: React.FC = () => {
   };
 
   useEffect(() => {
-    if (tourIsOpen && currentStep === TourStep.openShop) setIsOpen(false);
+    if (tourIsOpen && currentStep === TourStep.openShop) {
+      setIsOpen(false);
+      setTimeout(() => {
+        scrollIntoView(Section.Town);
+      }, 100);
+    }
   }, [currentStep]);
 
   return (
@@ -55,7 +63,7 @@ export const Inventory: React.FC = () => {
           alt="inventoryButton"
         />
         <img src={basket} className="w-8 mb-1" alt="inventory" />
-        <Label className="hidden sm:block absolute -bottom-7">Inventory</Label>
+        <Label className="hidden sm:block absolute -bottom-7">Items</Label>
       </div>
 
       <Modal

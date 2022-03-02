@@ -56,7 +56,6 @@ export async function createFarm({
   await metamask.getBeta().createFarm(transaction);
 
   const newFarm = await farm;
-  console.log({ newFarm });
 
   return newFarm;
 }

@@ -4,6 +4,7 @@ import { StepType, useTour } from "@reactour/tour";
 import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { Section } from "lib/utils/useScrollIntoView";
 
 function tourStyles(base: any) {
   return {
@@ -80,7 +81,7 @@ export const stepList: StepType[] = [
     styles: { popover: tourStyles },
   },
   {
-    selector: "#open-shop",
+    selector: `#${Section.Shop}`,
     content: () => (
       <Panel>
         Next you will learn how to sell your crops and buy more seeds. Click on

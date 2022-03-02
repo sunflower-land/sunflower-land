@@ -93,9 +93,8 @@ export const Mail: React.FC = () => {
     <div
       className="z-5 absolute align-items-center w-10"
       style={{
-        left: `calc(50% - ${GRID_WIDTH_PX * -12}px)`,
-        // trial and error
-        top: `calc(50% - ${GRID_WIDTH_PX * (hasUnread ? 11.9 : 11.06)}px)`,
+        left: `${GRID_WIDTH_PX * 10.5}px`,
+        top: `${GRID_WIDTH_PX * 3.5}px`,
       }}
     >
       {hasUnread && (

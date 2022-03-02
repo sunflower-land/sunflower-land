@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 import { Context } from "features/game/GameProvider";
 
-import blacksmith from "assets/buildings/blacksmith.gif";
+import blacksmith from "assets/buildings/blacksmith_building.png";
 import hammer from "assets/icons/hammer.png";
 
 import { Crafting } from "./components/Crafting";
@@ -24,10 +24,9 @@ export const Blacksmith: React.FC = () => {
       className="z-10 absolute"
       // TODO some sort of coordinate system
       style={{
-        width: `${GRID_WIDTH_PX * 2.7}px`,
-        height: `${GRID_WIDTH_PX * 2.5}px`,
-        left: `calc(50% - ${GRID_WIDTH_PX * 5.7}px)`,
-        top: `calc(50% - ${GRID_WIDTH_PX * 11.8}px)`,
+        width: `${GRID_WIDTH_PX * 6}px`,
+        left: `${GRID_WIDTH_PX * 9}px`,
+        top: `${GRID_WIDTH_PX * 6}px`,
       }}
     >
       <img
@@ -41,7 +40,7 @@ export const Blacksmith: React.FC = () => {
       />
       {isNotReadOnly && (
         <Action
-          className="absolute -bottom-10 left-0"
+          className="absolute -bottom-8 left-1"
           text="Craft"
           icon={hammer}
           onClick={() => setIsOpen(true)}

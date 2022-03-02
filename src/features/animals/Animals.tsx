@@ -13,7 +13,7 @@ export const Animals: React.FC = () => {
         height: `${GRID_WIDTH_PX * 6}px`,
         width: `${GRID_WIDTH_PX * 20}px`,
         left: `calc(50% -  ${GRID_WIDTH_PX * 8}px)`,
-        top: `calc(50% -  ${GRID_WIDTH_PX * 30}px)`,
+        top: `calc(50% -  ${GRID_WIDTH_PX * 32}px)`,
       }}
       className="absolute"
     >

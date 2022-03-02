@@ -36,10 +36,9 @@ export const Bank: React.FC = () => {
       className="z-10 absolute"
       // TODO some sort of coordinate system
       style={{
-        width: `${GRID_WIDTH_PX * 3}px`,
-        height: `${GRID_WIDTH_PX * 2.5}px`,
-        left: `calc(50% - ${GRID_WIDTH_PX * -5}px)`,
-        top: `calc(50% - ${GRID_WIDTH_PX * 11.5}px)`,
+        width: `${GRID_WIDTH_PX * 2.7}px`,
+        right: `${GRID_WIDTH_PX * 3.8}px`,
+        top: `${GRID_WIDTH_PX * 4.65}px`,
       }}
     >
       <img
@@ -53,7 +52,7 @@ export const Bank: React.FC = () => {
       />
       {isNotReadOnly && (
         <Action
-          className="absolute -bottom-6 left-3 "
+          className="absolute -bottom-6 left-2"
           text="Bank"
           icon={token}
           onClick={() => setIsOpen(true)}

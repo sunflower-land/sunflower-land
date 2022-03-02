@@ -20,9 +20,9 @@ export const Chickens: React.FC = () => {
         <img
           src={coop}
           style={{
-            width: `${GRID_WIDTH_PX * 2.5}px`,
-            right: `${GRID_WIDTH_PX * 0.8}px`,
-            top: `${GRID_WIDTH_PX * 1.3}px`,
+            width: `${GRID_WIDTH_PX * 2}px`,
+            right: `${GRID_WIDTH_PX * 1.1}px`,
+            top: `${GRID_WIDTH_PX * 0}px`,
           }}
           className="absolute"
         />

@@ -24,10 +24,9 @@ export const WishingWell: React.FC = () => {
       className="z-10 absolute"
       // TODO some sort of coordinate system
       style={{
-        width: `${GRID_WIDTH_PX * 2}px`,
-        height: `${GRID_WIDTH_PX * 2.5}px`,
-        left: `calc(50% - ${GRID_WIDTH_PX * -14}px)`,
-        top: `calc(50% - ${GRID_WIDTH_PX * 11}px)`,
+        width: `${GRID_WIDTH_PX * 1.6}px`,
+        left: `${GRID_WIDTH_PX * 10.4}px`,
+        top: `${GRID_WIDTH_PX * -3}px`,
       }}
     >
       <img
@@ -41,7 +40,7 @@ export const WishingWell: React.FC = () => {
       />
       {isNotReadOnly && (
         <Action
-          className="absolute -bottom-8 -left-2"
+          className="absolute -bottom-6 -left-3"
           text="Wish"
           icon={icon}
           onClick={() => setIsOpen(true)}

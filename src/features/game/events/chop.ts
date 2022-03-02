@@ -41,7 +41,6 @@ export function chop({
   }
 
   const tree = state.trees[action.index];
-  console.log({ tree, createdAt });
   if (!canChop(tree, createdAt)) {
     throw new Error(CHOP_ERRORS.STILL_GROWING);
   }
