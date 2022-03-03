@@ -71,6 +71,11 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   };
 
   const shake = async () => {
+    if (game.matches("readonly")) {
+      shakeGif.current?.goToAndPlay(0);
+      return;
+    }
+
     if (selectedItem !== "Axe") {
       return;
     }
@@ -132,14 +137,14 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   };
 
   const handleHover = () => {
-    if (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
+    if (game.matches("readonly") || selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
       return;
     treeRef.current?.classList["add"]("cursor-not-allowed");
     setShowLabel((prev) => !prev);
   };
 
   const handleMouseLeave = () => {
-    if (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
+    if (game.matches("readonly") || selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
       return;
     treeRef.current?.classList["remove"]("cursor-not-allowed");
     setShowLabel((prev) => !prev);
