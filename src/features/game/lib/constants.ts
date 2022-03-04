@@ -5,21 +5,21 @@ import { GameState, Inventory } from "../types/game";
 export const GRID_WIDTH_PX = 42;
 
 export const INITIAL_STOCK: Inventory = {
-  "Sunflower Seed": new Decimal(1000),
-  "Potato Seed": new Decimal(300),
-  "Pumpkin Seed": new Decimal(200),
+  "Sunflower Seed": new Decimal(400),
+  "Potato Seed": new Decimal(200),
+  "Pumpkin Seed": new Decimal(100),
   "Carrot Seed": new Decimal(100),
   "Cabbage Seed": new Decimal(90),
   "Beetroot Seed": new Decimal(80),
-  "Cauliflower Seed": new Decimal(70),
-  "Parsnip Seed": new Decimal(50),
+  "Cauliflower Seed": new Decimal(80),
+  "Parsnip Seed": new Decimal(40),
   "Radish Seed": new Decimal(40),
   "Wheat Seed": new Decimal(0),
 
   Axe: new Decimal(50),
-  Pickaxe: new Decimal(50),
-  "Stone Pickaxe": new Decimal(50),
-  "Iron Pickaxe": new Decimal(50),
+  Pickaxe: new Decimal(30),
+  "Stone Pickaxe": new Decimal(10),
+  "Iron Pickaxe": new Decimal(5),
 
   // One off items
   "Pumpkin Soup": new Decimal(1),

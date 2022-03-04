@@ -43,7 +43,9 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
           minHeight: "200px",
         }}
       >
-        {tab === "craft" && <CraftingItems items={TOOLS} isBulk />}
+        {tab === "craft" && (
+          <CraftingItems items={TOOLS} isBulk onClose={onClose} />
+        )}
         {tab === "nfts" && <Rare onClose={onClose} />}
       </div>
     </Panel>

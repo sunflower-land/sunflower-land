@@ -33,8 +33,8 @@ export const Decorations: React.FC = () => {
         <img
           style={{
             width: `${GRID_WIDTH_PX * 4}px`,
-            right: `${GRID_WIDTH_PX * 24}px`,
-            top: `${GRID_WIDTH_PX * 30.5}px`,
+            right: `${GRID_WIDTH_PX * 11.5}px`,
+            top: `${GRID_WIDTH_PX * 22}px`,
           }}
           className="absolute"
           src={sunflowerRock}
@@ -98,7 +98,7 @@ export const Decorations: React.FC = () => {
         <img
           style={{
             width: `${GRID_WIDTH_PX * 1}px`,
-            right: `${GRID_WIDTH_PX * 39.68}px`,
+            right: `${GRID_WIDTH_PX * 39.28}px`,
             top: `${GRID_WIDTH_PX * 28.2}px`,
           }}
           className="absolute"
@@ -124,8 +124,8 @@ export const Decorations: React.FC = () => {
         <img
           style={{
             width: `${GRID_WIDTH_PX * 0.4}px`,
-            right: `${GRID_WIDTH_PX * 42.5}px`,
-            top: `${GRID_WIDTH_PX * 32}px`,
+            right: "493px",
+            top: "449px",
           }}
           className="absolute"
           src={gnome}

@@ -88,54 +88,35 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return <span className="text-xs mt-1 text-shadow">Locked</span>;
     }
 
-    // if (stock?.equals(0)) {
-    //   return (
-    //     <div>
-    //       <p className="text-xxs no-wrap text-center my-1 underline">
-    //         Sold out
-    //       </p>
-    //       <p className="text-xxs text-center">
-    //         Sync your farm to the Blockchain to restock
-    //       </p>
-    //       <Button className="text-xs mt-1" onClick={restock}>
-    //         Sync
-    //       </Button>
-    //     </div>
-    //   );
-    // }
-
-    // return (
-    //   <>
-    //     <Button
-    //       disabled={lessFunds() || stock?.lessThan(1)}
-    //       className="text-xs mt-1"
-    //       onClick={() => handlBuyOne()}
-    //     >
-    //       Buy 1
-    //     </Button>
-    //     <Button
-    //       disabled={lessFunds(10) || stock?.lessThan(10)}
-    //       className="text-xs mt-1"
-    //       onClick={() => buy(10)}
-    //     >
-    //       Buy 10
-    //     </Button>
-    //   </>
-    // );
+    if (stock?.equals(0)) {
+      return (
+        <div>
+          <p className="text-xxs no-wrap text-center my-1 underline">
+            Sold out
+          </p>
+          <p className="text-xxs text-center">
+            Sync your farm to the Blockchain to restock
+          </p>
+          <Button className="text-xs mt-1" onClick={restock}>
+            Sync
+          </Button>
+        </div>
+      );
+    }
 
     return (
       <>
         <Button
-          disabled={lessFunds()}
+          disabled={lessFunds() || stock?.lessThan(1)}
           className="text-xs mt-1"
           onClick={() => handlBuyOne()}
         >
           Buy 1
         </Button>
         <Button
-          disabled={lessFunds(10)}
+          disabled={lessFunds(10) || stock?.lessThan(10)}
           className="text-xs mt-1"
-          onClick={() => handleBuyTen()}
+          onClick={() => buy(10)}
         >
           Buy 10
         </Button>
@@ -158,9 +139,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          {/* <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
+          <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
             {`${stock} in stock`}
-          </span> */}
+          </span>
           <span className="text-shadow text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
