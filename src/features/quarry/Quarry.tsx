@@ -20,6 +20,26 @@ export const Quarry: React.FC = () => {
       <div
         className="absolute"
         style={{
+          left: `${GRID_WIDTH_PX * 15}px`,
+          top: `${GRID_WIDTH_PX * 43}px`,
+        }}
+      >
+        <Stone rockIndex={1} />
+      </div>
+
+      <div
+        className="absolute"
+        style={{
+          right: `${GRID_WIDTH_PX * 10}px`,
+          top: `${GRID_WIDTH_PX * 50}px`,
+        }}
+      >
+        <Stone rockIndex={2} />
+      </div>
+
+      <div
+        className="absolute"
+        style={{
           left: `${GRID_WIDTH_PX * 25}px`,
           top: `${GRID_WIDTH_PX * 20}px`,
         }}

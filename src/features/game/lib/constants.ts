@@ -91,7 +91,7 @@ export const INITIAL_TREES: GameState["trees"] = {
 
 export const INITIAL_STONE: GameState["stones"] = {
   0: {
-    amount: new Decimal(3),
+    amount: new Decimal(2),
     minedAt: 0,
   },
   1: {
@@ -99,14 +99,14 @@ export const INITIAL_STONE: GameState["stones"] = {
     minedAt: 0,
   },
   2: {
-    amount: new Decimal(3),
+    amount: new Decimal(4),
     minedAt: 0,
   },
 };
 
 export const INITIAL_IRON: GameState["iron"] = {
   0: {
-    amount: new Decimal(3),
+    amount: new Decimal(2),
     minedAt: 0,
   },
   1: {
@@ -117,7 +117,7 @@ export const INITIAL_IRON: GameState["iron"] = {
 
 export const INITIAL_GOLD: GameState["gold"] = {
   0: {
-    amount: new Decimal(3),
+    amount: new Decimal(2),
     minedAt: 0,
   },
 };

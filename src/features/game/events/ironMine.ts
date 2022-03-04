@@ -1,10 +1,9 @@
 import Decimal from "decimal.js-light";
-import { GameState, Rock, InventoryItemName } from "../types/game";
+import { GameState, Rock } from "../types/game";
 
 export type IronMineAction = {
   type: "iron.mined";
   index: number;
-  item: InventoryItemName;
 };
 
 type Options = {
@@ -32,7 +31,7 @@ export function mineIron({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const rock = state.gold[action.index];
+  const rock = state.iron[action.index];
 
   if (!rock) {
     throw new Error(MINE_ERRORS.NO_ROCK);
@@ -60,7 +59,7 @@ export function mineIron({
       ...state.iron,
       [action.index]: {
         minedAt: Date.now(),
-        // Always 2?
+        // Placeholder, server does randomization
         amount: new Decimal(2),
       },
     },

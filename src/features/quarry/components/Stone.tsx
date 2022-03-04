@@ -82,7 +82,6 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
     try {
       gameService.send("stone.mined", {
         index: rockIndex,
-        item: selectedItem,
       });
       setCollecting(true);
       minedGif.current?.goToAndPlay(0);
