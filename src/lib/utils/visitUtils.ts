@@ -7,16 +7,14 @@ import {
   FieldItem,
 } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
-import { TOOLS } from "features/game/types/craftables";
-import { RESOURCES } from "features/game/types/resources";
+import { getItemUnit } from "features/game/lib/conversion";
 
 export function balancesToInventory(balances: Array<any>) {
   const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
 
   const reduced = balances.reduce(
     (items: Inventory, balance: string, index: number) => {
-      const unit =
-        names[index] in TOOLS || names[index] in RESOURCES ? "ether" : "wei";
+      const unit = getItemUnit(names[index]);
       const value = new Decimal(fromWei(balance, unit));
 
       if (value.equals(0)) {
