@@ -10,24 +10,16 @@ import token from "assets/icons/token.gif";
 
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { canWithdraw } from "features/game/lib/whitelist";
-import { metamask } from "lib/blockchain/metamask";
-import { Panel } from "components/ui/Panel";
 import { BankModal } from "./components/BankModal";
 
 export const Bank: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [isOpen, setIsOpen] = React.useState(false);
-  const [showComingSoon, setShowComingSoon] = React.useState(false);
 
   const isNotReadOnly = !gameState.matches("readonly");
 
   const open = () => {
-    if (!canWithdraw(metamask.myAccount as string)) {
-      setShowComingSoon(true);
-      return;
-    }
     setIsOpen(true);
   };
 
@@ -65,15 +57,6 @@ export const Bank: React.FC = () => {
         dialogClassName="w-full sm:w-2/3 max-w-6xl"
       >
         <BankModal onClose={() => setIsOpen(false)} />
-      </Modal>
-
-      {/* TODO - To be deleted when withdraw and "Sync on chain" are implemented */}
-      <Modal
-        show={showComingSoon}
-        onHide={() => setShowComingSoon(false)}
-        centered
-      >
-        <Panel>Coming soon!</Panel>
       </Modal>
     </div>
   );

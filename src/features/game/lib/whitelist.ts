@@ -1,3 +1,5 @@
+const NETWORK = import.meta.env.VITE_NETWORK as "mainnet" | "mumbai";
+
 const WITHDRAW_WHITELIST = [
   "0xD755984F4A5D885919451eD25e1a854daa5086C9",
   "0xc23Ea4b3fFA70DF89874ff65759031d78e40251d",
@@ -169,32 +171,28 @@ const PLAY_WHITELIST = [
 ];
 
 export function canCreateFarm(address: string) {
-  const network = process.env.NETWORK as "mumbai" | "mainnet";
-  if (network !== "mainnet") {
+  if (NETWORK !== "mainnet") {
     return true;
   }
   return PLAY_WHITELIST.includes(address);
 }
 
 export function canSync(address: string) {
-  const network = process.env.NETWORK as "mumbai" | "mainnet";
-  if (network !== "mainnet") {
+  if (NETWORK !== "mainnet") {
     return true;
   }
   return PLAY_WHITELIST.includes(address);
 }
 
 export function canMint(address: string) {
-  const network = process.env.NETWORK as "mumbai" | "mainnet";
-  if (network !== "mainnet") {
+  if (NETWORK !== "mainnet") {
     return true;
   }
   return WITHDRAW_WHITELIST.includes(address);
 }
 
 export function canWithdraw(address: string) {
-  const network = process.env.NETWORK as "mumbai" | "mainnet";
-  if (network !== "mainnet") {
+  if (NETWORK !== "mainnet") {
     return true;
   }
   return WITHDRAW_WHITELIST.includes(address);
