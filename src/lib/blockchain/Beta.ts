@@ -2,9 +2,9 @@ import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import BetaJSON from "./abis/Beta.json";
+import { estimateGasPrice } from "./utils";
 
 const address = CONFIG.BETA_CONTRACT;
-const MINIMUM_GAS_PRICE = 40;
 
 /**
  * Beta contract
@@ -24,17 +24,6 @@ export class Beta {
     );
   }
 
-  public async estimate(incr = 1) {
-    const e = await this.web3.eth.getGasPrice();
-    let gasPrice = e ? Number(e) * incr : undefined;
-    const minimum = MINIMUM_GAS_PRICE * 1000000000;
-    if (!gasPrice || gasPrice < minimum) {
-      gasPrice = minimum;
-    }
-    console.log({ gasPrice });
-    return gasPrice;
-  }
-
   public async createFarm({
     signature,
     charity,
@@ -44,7 +33,8 @@ export class Beta {
     charity: string;
     donation: number;
   }): Promise<string> {
-    const gasPrice = await this.estimate();
+    const gasPrice = await estimateGasPrice(this.web3);
+
     return new Promise((resolve, reject) => {
       this.contract.methods
         .createFarm(signature, charity, donation)

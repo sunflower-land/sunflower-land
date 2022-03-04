@@ -9,6 +9,7 @@ import { WishingWell } from "./WishingWell";
 import { Token } from "./Token";
 import { toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
+import { estimateGasPrice } from "./utils";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -244,10 +245,13 @@ export class Metamask {
 
   public async donateToTheTeam(donation: number) {
     console.log({ donation: CONFIG.DONATION_ADDRESS });
+    const gasPrice = await estimateGasPrice(this.web3 as Web3);
+
     await this.web3?.eth.sendTransaction({
       from: metamask.myAccount as string,
       to: CONFIG.DONATION_ADDRESS as string,
       value: toHex(toWei(donation.toString(), "ether")),
+      gasPrice,
     });
   }
 

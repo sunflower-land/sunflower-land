@@ -1,31 +1,23 @@
-import { CONFIG } from "lib/config";
-
-const network = CONFIG.NETWORK;
-
-const SYNC_WHITELIST = [
+const WITHDRAW_WHITELIST = [
   "0xD755984F4A5D885919451eD25e1a854daa5086C9",
-  "0x481a58b9385868267Ff39ab285D22234B50871eD",
   "0xc23Ea4b3fFA70DF89874ff65759031d78e40251d",
+  "0x481a58b9385868267Ff39ab285D22234B50871eD",
   "0xA9Fe8878e901eF014a789feC3257F72A51d4103F",
   "0x95485461fc996a39a4f60749489b93ad2d835452",
 ];
 
 // Lots of duplicates but does not really matter
-const CREATE_FARM_WHITELIST = [
-  ...SYNC_WHITELIST,
-
-  // Team/Advisors
+const PLAY_WHITELIST = [
   "0x1ecb0a64f8AADdDF5AC176E890A8D418694ec666",
   "0x43B1633AE106Ab279db9CE79bc2b051F85Ab0738",
   "0xcC9bb698585E78355211710cc1c48fa15868a5d4",
 
   // Testing
-  "0xf199968e2Aa67c3f8eb5913547DD1f9e9A578798",
   "0x66686477D5Ba3e108ba57b23E52D24eAC4172572",
   "0x74979aCF69d007cFa1e40Edc67D7f3f5bF59972D",
 
-  // Streamers
-  "0xb9a90580c5ae5511fDb6cbA0785eFDFcC6d0e5E2",
+  // Max
+  "0xd32f25Dfa932b8064A81B8254E7997CAeBc85F97",
 
   // Artists
   "0x002287ec2A4232467A06a92457306157a94ad9DC",
@@ -140,7 +132,6 @@ const CREATE_FARM_WHITELIST = [
   "0x93c1ff68200506cE5e7E1707968F0ba9Cf76c433",
   "0xDb457e5889f4d4c7ed2F443fF4003754582cf7FC",
   "0x14656c7B1DB495f9efca0B6770d8306297FEe34A",
-  "0xd32f25Dfa932b8064A81B8254E7997CAeBc85F97",
 
   "0x25F733235028c96d758E2D0332B340C3B920a7B8",
   "0x3B5A583C1B0d0A85a592d2060Ff57da2cB754eB3",
@@ -166,9 +157,9 @@ const CREATE_FARM_WHITELIST = [
   "0x8b9006503C7fc05A677d2612d7931DF8f898f6c3",
   "0x08317190d8D942C9E9CC55DAA49E46E3c11f4650",
   "0x99827F0D6A099237Dc654d05A6B919920Adc3A46",
-  "0x766022f44BED48EF670160f61b051B89A1182dCE",
   "0x04d8B1aD508661FeB1C4fa4EFD78621458c7B2EE",
   "0x7e07dAD511db83Fce05f99dB2dD0e9a91c540CA1",
+  "0x766022f44BED48EF670160f61b051B89A1182dCE",
   "0x0e85B66196A1F639BE68B012cd1E4ca516BfaD24",
   "0xf9bBbc96FF924aD33b3699624387Ec6E488Ff92C",
   "0xf5d5A404827f272EAb6C7BEf3eBB633A5796EB64",
@@ -177,22 +168,33 @@ const CREATE_FARM_WHITELIST = [
 ];
 
 export function canCreateFarm(address: string) {
+  const network = process.env.NETWORK as "mumbai" | "mainnet";
   if (network !== "mainnet") {
     return true;
   }
-  return CREATE_FARM_WHITELIST.includes(address);
+  return PLAY_WHITELIST.includes(address);
 }
 
 export function canSync(address: string) {
+  const network = process.env.NETWORK as "mumbai" | "mainnet";
   if (network !== "mainnet") {
     return true;
   }
-  return SYNC_WHITELIST.includes(address);
+  return PLAY_WHITELIST.includes(address);
 }
 
 export function canMint(address: string) {
+  const network = process.env.NETWORK as "mumbai" | "mainnet";
   if (network !== "mainnet") {
     return true;
   }
-  return SYNC_WHITELIST.includes(address);
+  return WITHDRAW_WHITELIST.includes(address);
+}
+
+export function canWithdraw(address: string) {
+  const network = process.env.NETWORK as "mumbai" | "mainnet";
+  if (network !== "mainnet") {
+    return true;
+  }
+  return WITHDRAW_WHITELIST.includes(address);
 }

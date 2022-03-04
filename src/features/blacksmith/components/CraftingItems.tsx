@@ -17,9 +17,14 @@ import { InventoryItemName } from "features/game/types/game";
 interface Props {
   items: Partial<Record<InventoryItemName, Craftable>>;
   isBulk?: boolean;
+  onClose: () => void;
 }
 
-export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
+export const CraftingItems: React.FC<Props> = ({
+  items,
+  onClose,
+  isBulk = false,
+}) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
@@ -53,6 +58,12 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
     shortcutItem(selected.name);
   };
 
+  const restock = () => {
+    gameService.send("SYNC");
+
+    onClose();
+  };
+
   const soldOut = selected.supply === 0;
 
   const Action = () => {
@@ -64,10 +75,26 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
       return <span className="text-xs mt-1 text-shadow">Locked</span>;
     }
 
+    if (stock?.equals(0)) {
+      return (
+        <div>
+          <p className="text-xxs no-wrap text-center my-1 underline">
+            Sold out
+          </p>
+          <p className="text-xxs text-center">
+            Sync your farm to the Blockchain to restock
+          </p>
+          <Button className="text-xs mt-1" onClick={restock}>
+            Sync
+          </Button>
+        </div>
+      );
+    }
+
     return (
       <>
         <Button
-          disabled={lessFunds() || lessIngredients()}
+          disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
           className="text-xs mt-1"
           onClick={() => craft()}
         >
@@ -75,7 +102,9 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
         </Button>
         {isBulk && (
           <Button
-            disabled={lessFunds(10) || lessIngredients(10)}
+            disabled={
+              lessFunds(10) || lessIngredients(10) || stock?.lessThan(10)
+            }
             className="text-xs mt-1 whitespace-nowrap"
             onClick={() => craft(10)}
           >
@@ -85,6 +114,8 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
       </>
     );
   };
+
+  const stock = state.stock[selected.name] || new Decimal(0);
 
   return (
     <div className="flex">
@@ -101,6 +132,9 @@ export const CraftingItems: React.FC<Props> = ({ items, isBulk = false }) => {
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
+          <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
+            {`${stock} in stock`}
+          </span>
           {soldOut && (
             <span className="bg-blue-600 text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md">
               Sold out

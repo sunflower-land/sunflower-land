@@ -10,7 +10,7 @@ import token from "assets/icons/token.gif";
 
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { canSync } from "features/game/lib/whitelist";
+import { canWithdraw } from "features/game/lib/whitelist";
 import { metamask } from "lib/blockchain/metamask";
 import { Panel } from "components/ui/Panel";
 import { BankModal } from "./components/BankModal";
@@ -24,7 +24,7 @@ export const Bank: React.FC = () => {
   const isNotReadOnly = !gameState.matches("readonly");
 
   const open = () => {
-    if (!canSync(metamask.myAccount as string)) {
+    if (!canWithdraw(metamask.myAccount as string)) {
       setShowComingSoon(true);
       return;
     }

@@ -2,6 +2,7 @@ import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, toWei } from "web3-utils";
 import SessionABI from "./abis/Session.json";
+import { estimateGasPrice } from "./utils";
 
 const address = CONFIG.SESSION_CONTRACT;
 
@@ -66,6 +67,8 @@ export class SessionManager {
       fromBlock: latest,
     };
 
+    const gasPrice = await estimateGasPrice(this.web3);
+
     return new Promise((resolve, reject) => {
       // We resolve once the session changed event comes through
       const timer = setInterval(() => {
@@ -96,7 +99,7 @@ export class SessionManager {
           burnAmounts,
           tokens
         )
-        .send({ from: this.account, value: fee })
+        .send({ from: this.account, value: fee, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });
           clearInterval(timer);

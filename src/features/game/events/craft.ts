@@ -46,9 +46,9 @@ export function craft({ state, action, available }: Options) {
     throw new Error("Invalid amount");
   }
 
-  // if (state.stock[action.item]?.lt(action.amount)) {
-  //   throw new Error("Not enough stock");
-  // }
+  if (state.stock[action.item]?.lt(action.amount)) {
+    throw new Error("Not enough stock");
+  }
 
   const totalExpenses = item.price.mul(action.amount);
 
