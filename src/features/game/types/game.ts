@@ -17,6 +17,12 @@ export type Tree = {
   choppedAt: number;
 };
 
+export type Rock = {
+  amount: Decimal;
+  // Epoch time in milliseconds
+  minedAt: number;
+};
+
 export type InventoryItemName =
   | CropName
   | SeedName
@@ -32,12 +38,15 @@ type PastAction = GameEvent & {
 export type GameState = {
   balance: Decimal;
   fields: Record<number, FieldItem>;
+
   trees: Record<number, Tree>;
+  stones: Record<number, Rock>;
+  iron: Record<number, Rock>;
+  gold: Record<number, Rock>;
+
   inventory: Inventory;
   stock: Inventory;
 
-  // Session values
-  id: number;
   farmAddress?: string;
 };
 

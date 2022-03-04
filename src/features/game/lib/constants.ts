@@ -89,16 +89,54 @@ export const INITIAL_TREES: GameState["trees"] = {
   },
 };
 
+export const INITIAL_STONE: GameState["stones"] = {
+  0: {
+    amount: new Decimal(3),
+    minedAt: 0,
+  },
+  1: {
+    amount: new Decimal(3),
+    minedAt: 0,
+  },
+  2: {
+    amount: new Decimal(3),
+    minedAt: 0,
+  },
+};
+
+export const INITIAL_IRON: GameState["iron"] = {
+  0: {
+    amount: new Decimal(3),
+    minedAt: 0,
+  },
+  1: {
+    amount: new Decimal(3),
+    minedAt: 0,
+  },
+};
+
+export const INITIAL_GOLD: GameState["gold"] = {
+  0: {
+    amount: new Decimal(3),
+    minedAt: 0,
+  },
+};
+
 export const INITIAL_FARM: GameState = {
-  id: 1,
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
   inventory: {
     "Goblin Crown": new Decimal(1),
     "Chicken Coop": new Decimal(1),
+    "Iron Pickaxe": new Decimal(10),
+    "Stone Pickaxe": new Decimal(10),
+    Pickaxe: new Decimal(10),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
+  stones: INITIAL_STONE,
+  iron: INITIAL_IRON,
+  gold: INITIAL_GOLD,
 };
 
 export const EMPTY: GameState = {
@@ -107,6 +145,7 @@ export const EMPTY: GameState = {
   inventory: {},
   stock: {},
   trees: INITIAL_TREES,
-  // unused
-  id: 1000,
+  stones: INITIAL_STONE,
+  iron: INITIAL_IRON,
+  gold: INITIAL_GOLD,
 };

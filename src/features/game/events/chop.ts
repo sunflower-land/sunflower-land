@@ -4,6 +4,7 @@ import { GameState, InventoryItemName, Tree } from "../types/game";
 export enum CHOP_ERRORS {
   MISSING_AXE = "No axe",
   NO_AXES = "No axes left",
+  NO_TREE = "No tree",
   STILL_GROWING = "Tree is still growing",
 }
 
@@ -41,6 +42,11 @@ export function chop({
   }
 
   const tree = state.trees[action.index];
+
+  if (!tree) {
+    throw new Error(CHOP_ERRORS.NO_TREE);
+  }
+
   if (!canChop(tree, createdAt)) {
     throw new Error(CHOP_ERRORS.STILL_GROWING);
   }
