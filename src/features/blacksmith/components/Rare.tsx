@@ -15,7 +15,7 @@ import { Craftable, LimitedItems } from "features/game/types/craftables";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
-import { canSync } from "features/game/lib/whitelist";
+import { canWithdraw } from "features/game/lib/whitelist";
 
 interface Props {
   onClose: () => void;
@@ -81,7 +81,7 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
       return null;
     }
 
-    if (!canSync(metamask.myAccount as string)) {
+    if (!canWithdraw(metamask.myAccount as string)) {
       return "Locked";
     }
 
