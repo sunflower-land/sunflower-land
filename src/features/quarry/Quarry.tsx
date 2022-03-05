@@ -49,7 +49,7 @@ export const Quarry: React.FC = () => {
       <div
         className="absolute"
         style={{
-          right: `${GRID_WIDTH_PX * 2}px`,
+          right: `${GRID_WIDTH_PX * 1}px`,
           top: `${GRID_WIDTH_PX * 40}px`,
         }}
       >
