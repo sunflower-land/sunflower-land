@@ -101,6 +101,7 @@ export const Game: React.FC = () => {
       <Animals />
       <Decorations />
       <Forest />
+      <Quarry />
       <Town />
     </>
   );

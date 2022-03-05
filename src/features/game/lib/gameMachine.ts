@@ -154,8 +154,6 @@ export function startGame(authContext: Options) {
             if (authContext.address) {
               const game = await getVisitState(authContext.address as string);
 
-              game.id = authContext.farmId as number;
-
               return { state: game };
             }
 
@@ -214,7 +212,7 @@ export function startGame(authContext: Options) {
               return { verified: true, saveAt };
             }
 
-            const { verified } = await autosave({
+            const { verified, farm } = await autosave({
               farmId: Number(authContext.farmId),
               sessionId: context.sessionId as string,
               actions: context.actions,
@@ -230,6 +228,7 @@ export function startGame(authContext: Options) {
             return {
               saveAt,
               verified,
+              farm,
             };
           },
           onDone: [
@@ -247,6 +246,16 @@ export function startGame(authContext: Options) {
                   (action) =>
                     action.createdAt.getTime() > event.data.saveAt.getTime()
                 ),
+                state: event.data.farm
+                  ? {
+                      ...context.state,
+                      // Update any random numbers from the server
+                      trees: event.data.farm.trees,
+                      stones: event.data.farm.stones,
+                      iron: event.data.farm.iron,
+                      gold: event.data.farm.gold,
+                    }
+                  : context.state,
               })),
             },
           ],

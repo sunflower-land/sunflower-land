@@ -6,7 +6,6 @@ import { INITIAL_FARM } from "../lib/constants";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
-  id: 1,
   fields: {},
   balance: new Decimal(0),
 

@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
-import { GameState, InventoryItemName, Tree } from "../types/game";
+import { makeGame } from "../lib/transforms";
+import { GameState, InventoryItemName, Rock, Tree } from "../types/game";
 
 type Request = {
   sessionId: string;
@@ -47,34 +48,6 @@ export async function loadSession(
 
   return {
     offset,
-    game: {
-      inventory: Object.keys(farm.inventory).reduce(
-        (items, item) => ({
-          ...items,
-          [item]: new Decimal(farm.inventory[item]),
-        }),
-        {} as Record<InventoryItemName, Decimal>
-      ),
-      stock: Object.keys(farm.stock).reduce(
-        (items, item) => ({
-          ...items,
-          [item]: new Decimal(farm.stock[item]),
-        }),
-        {} as Record<InventoryItemName, Decimal>
-      ),
-      trees: Object.keys(farm.trees).reduce(
-        (items, item) => ({
-          ...items,
-          [item]: {
-            ...farm.trees[item],
-            wood: new Decimal(farm.trees[item].wood),
-          },
-        }),
-        {} as Record<number, Tree>
-      ),
-      balance: new Decimal(farm.balance),
-      fields: farm.fields,
-      id: farm.id,
-    },
+    game: makeGame(farm),
   };
 }

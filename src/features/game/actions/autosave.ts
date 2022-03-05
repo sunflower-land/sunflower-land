@@ -2,6 +2,7 @@ import { CONFIG } from "lib/config";
 import { CAPTCHA_CONTAINER, CAPTCHA_ELEMENT } from "../components/Captcha";
 import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
+import { makeGame } from "../lib/transforms";
 import { CraftAction } from "../types/craftables";
 
 type Request = {
@@ -81,7 +82,9 @@ export async function autosave(request: Request) {
 
   const data = await response.json();
 
-  return { verified: true, data };
+  const farm = makeGame(data.farm);
+
+  return { verified: true, farm };
 }
 
 declare const grecaptcha: any;
