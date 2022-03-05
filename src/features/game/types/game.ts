@@ -36,6 +36,7 @@ type PastAction = GameEvent & {
 };
 
 export type GameState = {
+  id?: number;
   balance: Decimal;
   fields: Record<number, FieldItem>;
 

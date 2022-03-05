@@ -136,10 +136,7 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
         <div className="w-3/5 flex flex-wrap h-fit">
           {!selectedItem ? (
             <span className="text-white text-shadow">
-              {game.matches("readonly") 
-                ? `Farm ${game.context.state.id} has no ${currentTab} in their inventory` 
-                : `You have no ${currentTab} in your inventory`
-              }
+              {`No ${currentTab} in inventory`}
             </span>
           ) : (
             validItems.map(
