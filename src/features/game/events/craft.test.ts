@@ -4,14 +4,7 @@ import { SEEDS } from "../types/crops";
 import { GameState } from "../types/game";
 import { craft } from "./craft";
 
-const GAME_STATE: GameState = {
-  id: 1,
-  fields: [],
-  balance: new Decimal(0),
-  inventory: {},
-  stock: INITIAL_FARM.stock,
-  trees: {},
-};
+const GAME_STATE: GameState = INITIAL_FARM;
 
 describe("craft", () => {
   it("throws an error if item is not craftable", () => {

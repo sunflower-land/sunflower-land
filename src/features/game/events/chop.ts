@@ -64,11 +64,8 @@ export function chop({
       ...state.trees,
       [action.index]: {
         choppedAt: Date.now(),
-        /**
-         *  A pseudo random number to keep players engaged with variable rewards
-         *  Cycles between 3-5 rewards
-         */
-        wood: new Decimal(Math.max(tree.wood.add(1).toNumber() % 6, 3)),
+        // Placeholder, server does randomization
+        wood: new Decimal(3),
       },
     },
   };
