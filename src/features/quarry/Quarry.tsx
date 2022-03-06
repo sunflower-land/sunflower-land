@@ -53,7 +53,7 @@ export const Quarry: React.FC = () => {
           top: `${GRID_WIDTH_PX * 40}px`,
         }}
       >
-        <Iron rockIndex={0} />
+        <Iron rockIndex={1} />
       </div>
 
       <div
