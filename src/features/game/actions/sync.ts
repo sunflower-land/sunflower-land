@@ -1,5 +1,6 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
 
 type Request = {
   sessionId: string;
@@ -35,13 +36,21 @@ type Options = {
 export async function sync({ farmId, sessionId, token }: Options) {
   if (!API_URL) return;
 
-  const transaction = await signTransaction({
-    farmId,
-    sessionId,
-    token,
-  });
+  try {
+    const transaction = await signTransaction({
+      farmId,
+      sessionId,
+      token,
+    });
 
-  const session = await metamask.getSessionManager().sync(transaction);
+    const session = await metamask.getSessionManager().sync(transaction);
 
-  return session;
+    return session;
+  } catch (error: any) {
+    if (error.code === 4001) {
+      throw new Error(ERRORS.REJECTED_TRANSACTION);
+    }
+
+    throw error;
+  }
 }

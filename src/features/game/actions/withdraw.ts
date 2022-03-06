@@ -1,5 +1,6 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
 
 type Request = {
   sessionId: string;
@@ -51,16 +52,24 @@ export async function withdraw({
 }: Options) {
   if (!API_URL) return;
 
-  const transaction = await signTransaction({
-    farmId,
-    sessionId,
-    sfl,
-    ids,
-    amounts,
-    token,
-  });
+  try {
+    const transaction = await signTransaction({
+      farmId,
+      sessionId,
+      sfl,
+      ids,
+      amounts,
+      token,
+    });
 
-  const session = await metamask.getSessionManager().withdraw(transaction);
+    const session = await metamask.getSessionManager().withdraw(transaction);
 
-  return session;
+    return session;
+  } catch (error: any) {
+    if (error.code === 4001) {
+      throw new Error(ERRORS.REJECTED_TRANSACTION);
+    }
+
+    throw error;
+  }
 }
