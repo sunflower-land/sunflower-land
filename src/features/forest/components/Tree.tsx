@@ -137,14 +137,20 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   };
 
   const handleHover = () => {
-    if (game.matches("readonly") || selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
+    if (
+      game.matches("readonly") ||
+      (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
+    )
       return;
     treeRef.current?.classList["add"]("cursor-not-allowed");
     setShowLabel((prev) => !prev);
   };
 
   const handleMouseLeave = () => {
-    if (game.matches("readonly") || selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
+    if (
+      game.matches("readonly") ||
+      (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
+    )
       return;
     treeRef.current?.classList["remove"]("cursor-not-allowed");
     setShowLabel((prev) => !prev);
