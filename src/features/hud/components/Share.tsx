@@ -1,13 +1,13 @@
 import React from "react";
 
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { Panel } from "components/ui/Panel";
 
 import { Modal } from "react-bootstrap";
 
 import close from "assets/icons/close.png";
 import farmImg from "assets/brand/nft.png";
+import { CopyField } from "components/ui/CopyField";
 
 interface Props {
   farmURL: string;
@@ -16,22 +16,6 @@ interface Props {
 }
 
 export const Share: React.FC<Props> = ({ farmURL, isOpen, onClose }) => {
-  const [tooltipMessage, setTooltipMessage] = React.useState(
-    "Click to copy farm link (URL)"
-  );
-  const [showLabel, setShowLabel] = React.useState(false);
-
-  const handleCopyFarmURL = (): void => {
-    // copy farm link to clipboard
-    navigator.clipboard.writeText(farmURL as string);
-    setTooltipMessage("Copied!");
-    setShowLabel(true);
-    setTimeout(() => {
-      setTooltipMessage("Click to copy farm link (URL)");
-      setShowLabel(false);
-    }, 1500);
-  };
-
   const handleTweetClick = () => {
     window.open(
       encodeURI(
@@ -39,14 +23,6 @@ export const Share: React.FC<Props> = ({ farmURL, isOpen, onClose }) => {
       ),
       "_blank"
     );
-  };
-
-  const handleMouseEnter = () => {
-    setShowLabel(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowLabel(false);
   };
 
   return (
@@ -76,45 +52,7 @@ export const Share: React.FC<Props> = ({ farmURL, isOpen, onClose }) => {
               />
             </div>
           </div>
-          <div className="mt-2 bg-brown-200 p-1">
-            <div className="flex justify-content-between p-1 align-items-center">
-              <span className="text-[0.55rem] sm:text-xs whitespace-normal mr-2">
-                {farmURL}
-              </span>
-              <span
-                className="cursor-pointer scale-[1.5]"
-                onClick={handleCopyFarmURL}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              >
-                <svg
-                  className="fill-white hover:fill-brown-300"
-                  aria-hidden="true"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  version="1.1"
-                  width="16"
-                  data-view-component="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"
-                  ></path>
-                  <path
-                    fillRule="evenodd"
-                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"
-                  ></path>
-                </svg>
-              </span>
-            </div>
-          </div>
-          <div
-            className={`absolute mr-5 transition duration-400 pointer-events-none ${
-              showLabel ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Label>{tooltipMessage}</Label>
-          </div>
+          <CopyField text={farmURL} copyFieldMessage={"Copy farm URL"} />
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
           <Button className="text-s w-1/4 px-1" onClick={handleTweetClick}>
