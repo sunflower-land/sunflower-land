@@ -162,15 +162,10 @@ export class Metamask {
     address: string;
     nonce: number;
   }) {
-    const MESSAGE = [
-      "Welcome to Sunflower Land!",
-      "Click to sign in and accept the Sunflower Land Terms of Service: https://docs.sunflower-land.com/support/terms-of-service",
-      "This request will not trigger a blockchain transaction or cost any gas fees.",
-      "Your authentication status will reset after each session.",
-      `Wallet address: ${address}`,
-      `Nonce: ${nonce}`,
-    ].join("\n\n");
-
+    const MESSAGE = `🌻 Welcome to Sunflower Land! 🌻\n\nClick to sign in and accept the Sunflower Land\n📜 Terms of Service:\nhttps://docs.sunflower-land.com/support/terms-of-service\n\nThis request will not trigger a blockchain\ntransaction or cost any gas fees.\n\nYour authentication status will reset after\neach session.\n\n👛 Wallet address:\n${address.substring(
+      0,
+      19
+    )}...${address.substring(24)}\n\n🔑 Nonce: ${nonce}`;
     return MESSAGE;
   }
 
