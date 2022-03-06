@@ -14,6 +14,7 @@ import { LimitedItem } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { withdraw } from "../actions/withdraw";
 import { getVisitState } from "../actions/visit";
+import { ERRORS } from "lib/errors";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -351,9 +352,16 @@ export function startGame(authContext: Options) {
               sessionId: (_, event) => event.data.sessionId,
             }),
           },
-          onError: {
-            target: "error",
-          },
+          onError: [
+            {
+              target: "playing",
+              cond: (_, event: any) =>
+                event.data.message === ERRORS.REJECTED_TRANSACTION,
+            },
+            {
+              target: "error",
+            },
+          ],
         },
       },
       withdrawing: {
@@ -379,9 +387,16 @@ export function startGame(authContext: Options) {
               sessionId: (_, event) => event.data.sessionId,
             }),
           },
-          onError: {
-            target: "error",
-          },
+          onError: [
+            {
+              target: "playing",
+              cond: (_, event: any) =>
+                event.data.message === ERRORS.REJECTED_TRANSACTION,
+            },
+            {
+              target: "error",
+            },
+          ],
         },
       },
       readonly: {},

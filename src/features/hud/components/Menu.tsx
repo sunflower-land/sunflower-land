@@ -96,11 +96,11 @@ export const Menu = () => {
   const syncOnChain = async () => {
     if (!canSync(metamask.myAccount as string)) {
       setShowComingSoon(true);
-      setMenuOpen(false);
       return;
     }
 
     gameService.send("SYNC");
+    setMenuOpen(false);
   };
 
   const autosave = async () => {

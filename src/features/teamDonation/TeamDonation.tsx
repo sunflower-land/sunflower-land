@@ -15,6 +15,7 @@ import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";
 import token from "assets/icons/token.png";
 import humanDeath from "assets/npcs/human_death.gif";
+import { ERRORS } from "lib/errors";
 
 type DonateEvent = {
   type: "DONATE";
@@ -66,7 +67,16 @@ const teamDonationMachine = createMachine<Context, Event, State>({
           target: "donated",
           actions: assign({ hasDonated: (_context, _event) => true }),
         },
-        onError: "error",
+        onError: [
+          {
+            target: "idle",
+            cond: (_, event: any) =>
+              event.data.message === ERRORS.REJECTED_TRANSACTION,
+          },
+          {
+            target: "error",
+          },
+        ],
       },
     },
     donated: {

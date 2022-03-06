@@ -6,7 +6,6 @@ import selectBox from "assets/ui/select/select_box.png";
 
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
-import { AppIconContext } from "features/crops/AppIconProvider";
 
 import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -38,7 +37,6 @@ export const Field: React.FC<Props> = ({
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
   const { gameService, shortcutItem } = useContext(Context);
-  const { updateHarvestable } = useContext(AppIconContext);
   const [game] = useActor(gameService);
   const clickedAt = useRef<number>(0);
   const field = game.context.state.fields[fieldIndex];
@@ -99,7 +97,6 @@ export const Field: React.FC<Props> = ({
       gameService.send("item.harvested", {
         index: fieldIndex,
       });
-      updateHarvestable("minus");
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">

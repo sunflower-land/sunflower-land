@@ -30,23 +30,23 @@ export const WishingWellModal: React.FC<Props> = () => {
     }
 
     if (machine.matches("loading")) {
-      return <span>Loading...</span>;
+      return <span className="loading">Loading</span>;
     }
 
     if (machine.matches("withdrawing")) {
-      return <span>Withdrawing...</span>;
+      return <span className="loading">Withdrawing</span>;
     }
 
     if (machine.matches("depositing")) {
-      return <span>Throwing in tokens...</span>;
+      return <span className="loading">Throwing in tokens</span>;
     }
 
     if (machine.matches("searching")) {
-      return <span>Searching...</span>;
+      return <span className="loading">Searching</span>;
     }
 
     if (machine.matches("approving")) {
-      return <span>Approving...</span>;
+      return <span className="loading">Approving</span>;
     }
 
     if (machine.matches("throwing")) {

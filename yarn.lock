@@ -1280,11 +1280,6 @@
   resolved "https://registry.npmjs.org/@types/stack-utils/-/stack-utils-2.0.1.tgz"
   integrity sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==
 
-"@types/tinycon@^0.6.3":
-  version "0.6.3"
-  resolved "https://registry.npmjs.org/@types/tinycon/-/tinycon-0.6.3.tgz"
-  integrity sha512-TC42m8KAyp3AqyZKRXVkk5Qy+oIU8zo2U3362i16Qan0JgZNzLawO7oYnin4BJOy8FSZfOadYYvUWQnpaXoZwg==
-
 "@types/unist@*", "@types/unist@^2.0.0":
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.6.tgz#250a7b16c3b91f672a24552ec64678eeb1d3a08d"
@@ -7228,11 +7223,6 @@ timed-out@^4.0.0, timed-out@^4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/timed-out/-/timed-out-4.0.1.tgz"
   integrity sha1-8y6srFoXW+ol1/q1Zas+2HQe9W8=
-
-tinycon@^0.6.8:
-  version "0.6.8"
-  resolved "https://registry.npmjs.org/tinycon/-/tinycon-0.6.8.tgz"
-  integrity sha1-59oiPj7gy/nbeWP6M1aZuyF3enM=
 
 tmpl@1.0.5:
   version "1.0.5"
