@@ -247,12 +247,20 @@ export class Metamask {
     console.log({ donation: CONFIG.DONATION_ADDRESS });
     const gasPrice = await estimateGasPrice(this.web3 as Web3);
 
-    await this.web3?.eth.sendTransaction({
-      from: metamask.myAccount as string,
-      to: CONFIG.DONATION_ADDRESS as string,
-      value: toHex(toWei(donation.toString(), "ether")),
-      gasPrice,
-    });
+    try {
+      await this.web3?.eth.sendTransaction({
+        from: metamask.myAccount as string,
+        to: CONFIG.DONATION_ADDRESS as string,
+        value: toHex(toWei(donation.toString(), "ether")),
+        gasPrice,
+      });
+    } catch (error: any) {
+      if (error.code === 4001) {
+        throw new Error(ERRORS.REJECTED_TRANSACTION);
+      }
+
+      throw error;
+    }
   }
 
   public getFarm() {

@@ -387,9 +387,16 @@ export function startGame(authContext: Options) {
               sessionId: (_, event) => event.data.sessionId,
             }),
           },
-          onError: {
-            target: "error",
-          },
+          onError: [
+            {
+              target: "playing",
+              cond: (_, event: any) =>
+                event.data.message === ERRORS.REJECTED_TRANSACTION,
+            },
+            {
+              target: "error",
+            },
+          ],
         },
       },
       readonly: {},
