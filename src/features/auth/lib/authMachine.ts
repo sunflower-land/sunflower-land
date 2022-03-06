@@ -168,7 +168,6 @@ export const authMachine = createMachine<
               },
             },
           },
-
           creatingFarm: {
             invoke: {
               src: "createFarm",
