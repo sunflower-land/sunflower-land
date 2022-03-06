@@ -25,9 +25,9 @@ export const StartFarm: React.FC = () => {
 
   return (
     <>
-      <p className="text-shadow text-small mb-2 px-1">Farm ID: {farmId}</p>
       {imagesPreloaded ? (
         <>
+          <p className="text-shadow text-small mb-2 px-1">Farm ID: {farmId}</p>
           <Button onClick={start} className="overflow-hidden mb-2">
             Lets go!
           </Button>
