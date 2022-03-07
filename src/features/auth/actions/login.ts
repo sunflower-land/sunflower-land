@@ -92,7 +92,7 @@ export async function login(): Promise<{ token: string }> {
   if (session) {
     const token = decodeToken(session.token);
 
-    const isFresh = token.exp * 1000 > Date.now() - TOKEN_BUFFER_MS;
+    const isFresh = token.exp * 1000 > Date.now() + TOKEN_BUFFER_MS;
 
     if (isFresh) {
       // Raw token
