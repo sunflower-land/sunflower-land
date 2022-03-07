@@ -1,4 +1,4 @@
-name: Testnet deploy
+name: Mainnet deploy
 
 on:
   release:
