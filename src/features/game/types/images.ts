@@ -66,6 +66,7 @@ import { RESOURCES } from "./resources";
 export type ItemDetails = {
   description: string;
   image: any;
+  cropImage?: any;
 };
 
 type Items = Record<InventoryItemName, ItemDetails>;
@@ -119,42 +120,52 @@ export const ITEM_DETAILS: Items = {
   "Sunflower Seed": {
     ...seeds["Sunflower Seed"],
     image: sunflowerSeed,
+    cropImage: sunflowerCrop,
   },
   "Potato Seed": {
     ...seeds["Potato Seed"],
     image: potatoSeed,
+    cropImage: potatoCrop,
   },
   "Pumpkin Seed": {
     ...seeds["Pumpkin Seed"],
     image: pumpkinSeed,
+    cropImage: pumpkinCrop,
   },
   "Carrot Seed": {
     ...seeds["Carrot Seed"],
     image: carrotSeed,
+    cropImage: carrotCrop,
   },
   "Cabbage Seed": {
     ...seeds["Cabbage Seed"],
     image: cabbageSeed,
+    cropImage: cabbageCrop,
   },
   "Beetroot Seed": {
     ...seeds["Beetroot Seed"],
     image: beetrootSeed,
+    cropImage: beetrootCrop,
   },
   "Cauliflower Seed": {
     ...seeds["Cauliflower Seed"],
     image: cauliflowerSeed,
+    cropImage: cauliflowerCrop,
   },
   "Parsnip Seed": {
     ...seeds["Parsnip Seed"],
     image: parsnipSeed,
+    cropImage: parsnipCrop,
   },
   "Radish Seed": {
     ...seeds["Radish Seed"],
     image: radishSeed,
+    cropImage: radishCrop,
   },
   "Wheat Seed": {
     ...seeds["Wheat Seed"],
     image: wheatSeed,
+    cropImage: wheatCrop,
   },
 
   // Resources

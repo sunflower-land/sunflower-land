@@ -9,6 +9,7 @@ import { Label } from "./Label";
 
 export interface BoxProps {
   image: any;
+  cropImage?: any;
   isSelected?: boolean;
   count?: Decimal;
   onClick?: () => void;
@@ -17,6 +18,7 @@ export interface BoxProps {
 
 export const Box: React.FC<BoxProps> = ({
   image,
+  cropImage,
   isSelected,
   count,
   onClick,
@@ -26,7 +28,7 @@ export const Box: React.FC<BoxProps> = ({
     <div className="relative">
       <div
         className={classNames(
-          "w-12 h-12 bg-brown-600  m-1.5 cursor-pointer flex items-center justify-center relative",
+          "w-14 h-14 bg-brown-600  m-1.5 cursor-pointer flex items-center justify-center relative",
           {
             "bg-brown-600 cursor-not-allowed": disabled,
             "bg-brown-200": isSelected,
@@ -45,7 +47,14 @@ export const Box: React.FC<BoxProps> = ({
           borderRadius: "20px",
         }}
       >
-        <img src={image} className="h-full w-full object-contain" alt="item" />
+        {cropImage ? (
+          <>
+            <img src={image} className="absolute right-4 top-2 w-2/3 h-2/3 object-contain" alt="item" />
+            <img src={cropImage} className="absolute left-6 top-4 w-1/2 h-1/2 object-contain" alt="crop" />
+          </>
+        ) : (
+          <img src={image} className="h-full w-full object-contain" alt="item" />
+        )}
 
         {!!count && count.greaterThan(0) && (
           <Label className="absolute -top-4 -right-3 px-0.5 text-xs z-10">
@@ -55,7 +64,7 @@ export const Box: React.FC<BoxProps> = ({
       </div>
       {isSelected && (
         <img
-          className="absolute w-14 h-14 top-0.5 left-0.5 pointer-events-none"
+          className="absolute w-16 h-16 top-0.5 left-0.5 pointer-events-none"
           src={selectBox}
         />
       )}
