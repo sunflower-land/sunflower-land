@@ -58,6 +58,9 @@ input[type="number"]::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+  /* Enable user-select, for ios(Safari) compatibility */
+  -webkit-user-select: auto;
+  user-select: auto;
 }
 
 /*
