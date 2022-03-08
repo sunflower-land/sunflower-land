@@ -159,3 +159,15 @@ img {
   content: "\A.\A..\A...";
   animation: ellipsis 1s steps(4) infinite;
 }
+
+.npc-shadow::after {
+  content: "";
+  height: 14px;
+  width: 28px;
+  border-radius: 50%;
+  background: #32323273;
+  position: absolute;
+  z-index: 0;
+  bottom: -43px;
+  left: 7px;
+}
