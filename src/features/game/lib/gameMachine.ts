@@ -155,6 +155,8 @@ export function startGame(authContext: Options) {
             if (authContext.address) {
               const game = await getVisitState(authContext.address as string);
 
+              game.id = authContext.farmId as number;
+
               return { state: game };
             }
 
