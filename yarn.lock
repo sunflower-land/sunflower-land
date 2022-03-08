@@ -7712,6 +7712,13 @@ web3-eth@1.6.1:
     web3-net "1.6.1"
     web3-utils "1.6.1"
 
+web3-health-check@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/web3-health-check/-/web3-health-check-0.0.2.tgz#025329d45275fb842e8e8fc474d71f2778bf1906"
+  integrity sha512-vbiMSyIp9tIn0rUWXchchynsqvNdXuD1iSqSQtvjlxrfctNyKVP2iyhWmTgYg5dJN/kmbbVlBsfRxcIxSz6NOg==
+  dependencies:
+    web3 "^1.6.1"
+
 web3-net@1.6.1:
   version "1.6.1"
   resolved "https://registry.npmjs.org/web3-net/-/web3-net-1.6.1.tgz"

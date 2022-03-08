@@ -1,3 +1,4 @@
+import { pingHealthCheck } from "web3-health-check";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { SessionManager } from "./Sessions";
@@ -47,6 +48,12 @@ export class Metamask {
         this.web3 as Web3,
         this.account as string
       );
+
+      const pinger = await pingHealthCheck(
+        this.web3 as Web3,
+        this.account as string
+      );
+      console.log({ pinger });
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
