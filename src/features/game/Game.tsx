@@ -28,6 +28,7 @@ import { Forest } from "features/forest/Forest";
 
 import { StateValues } from "./lib/gameMachine";
 import { Town } from "features/town/Town";
+import { Clouds } from "./components/Clouds";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -98,6 +99,7 @@ export const Game: React.FC = () => {
       <Forest />
       <Quarry />
       <Town />
+      <Clouds />
     </>
   );
 };
