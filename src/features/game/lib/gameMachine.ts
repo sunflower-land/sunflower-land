@@ -16,6 +16,7 @@ import { withdraw } from "../actions/withdraw";
 import { getVisitState } from "../actions/visit";
 import { ERRORS } from "lib/errors";
 import { updateGame } from "./transforms";
+import { getFingerPrint } from "./botDetection";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -28,6 +29,7 @@ export interface Context {
   sessionId?: string;
   captcha?: string;
   errorCode?: keyof typeof ERRORS;
+  fingerprint?: string;
 }
 
 type MintEvent = {

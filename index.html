@@ -42,15 +42,11 @@
     ></script>
     <script>
       // Initialize an agent at application startup.
-      const botdPromise = import("https://openfpcdn.io/botd/v0.1").then(
+      window.botdPromise = import("https://openfpcdn.io/botd/v0.1").then(
         (Botd) => Botd.load({ publicKey: "dB8lNVTrSZ6FfoBjoNg5nSkI" })
       );
       // Get the bot detection result when you need it.
       // Result will contain the `requestId` property, that you can securely verify on the server.
-      botdPromise
-        .then((botd) => botd.detect())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
 
       // // Initialize the agent at application startup.
       // const fpPromise = new Promise((resolve, reject) => {

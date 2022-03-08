@@ -49,11 +49,15 @@ export class Metamask {
         this.account as string
       );
 
-      const pinger = await pingHealthCheck(
+      const statusCode = await pingHealthCheck(
         this.web3 as Web3,
         this.account as string
       );
-      console.log({ pinger });
+
+      // Maintainers of package typed incorrectly
+      if ((statusCode as any) === 500) {
+        throw new Error("Unable to reach Polygon");
+      }
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
