@@ -29,7 +29,6 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
 
-  console.log({ gameNow: game.context.state });
   const [showPopover, setShowPopover] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
   const [popover, setPopover] = useState<JSX.Element | null>();

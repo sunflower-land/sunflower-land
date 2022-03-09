@@ -59,11 +59,17 @@ export const Game: React.FC = () => {
       event.returnValue = "";
     };
 
+    const save = () => {
+      send("SAVE");
+    };
+
     window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("blur", save);
 
     // cleanup on every gameState update
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("blur", save);
     };
   }, [gameState]);
 
