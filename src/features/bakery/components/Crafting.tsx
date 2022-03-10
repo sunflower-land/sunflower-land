@@ -7,7 +7,7 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { FOODS } from "features/game/types/craftables";
 
-import { CraftingItems } from "features/blacksmith/components/CraftingItems";
+import { CraftingItems } from "./CraftingItems";
 
 interface Props {
   onClose: () => void;
@@ -37,7 +37,7 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
           minHeight: "200px",
         }}
       >
-        {tab === "foods" && <CraftingItems items={FOODS} onClose={onClose} />}
+        {tab === "foods" && <CraftingItems items={FOODS} />}
       </div>
     </Panel>
   );
