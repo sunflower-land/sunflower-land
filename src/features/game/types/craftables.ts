@@ -38,7 +38,8 @@ export type LimitedItem =
   | "Sunflower Tombstone"
   | "Sunflower Rock"
   | "Goblin Crown"
-  | "Fountain";
+  | "Fountain"
+  | "Beaver";
 
 export type Tool =
   | "Axe"
@@ -364,6 +365,18 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 10000,
+  },
+  Beaver: {
+    name: "Beaver",
+    description: "Chop trees without axes",
+    price: new Decimal(200),
+    ingredients: [
+      {
+        amount: new Decimal(1000),
+        item: "Wood",
+      },
+    ],
+    supply: 100,
   },
 };
 

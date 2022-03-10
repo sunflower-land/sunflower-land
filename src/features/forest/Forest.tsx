@@ -9,12 +9,12 @@ export const Forest: React.FC = () => {
   return (
     <div
       style={{
-        height: `${GRID_WIDTH_PX * 6}px`,
-        width: `${GRID_WIDTH_PX * 8}px`,
+        height: `${GRID_WIDTH_PX * 9}px`,
+        width: `${GRID_WIDTH_PX * 11}px`,
         // left: `calc(50% + ${GRID_WIDTH_PX * 20}px)`,
         // top: `calc(50% +  ${GRID_WIDTH_PX * 5}px)`,
-        left: `calc(50% - ${GRID_WIDTH_PX * -22.4}px)`,
-        top: `calc(50% - ${GRID_WIDTH_PX * 3}px)`,
+        left: `calc(50% - ${GRID_WIDTH_PX * -21.4}px)`,
+        top: `calc(50% - ${GRID_WIDTH_PX * 4}px)`,
       }}
       className="absolute "
     >
@@ -25,7 +25,7 @@ export const Forest: React.FC = () => {
           height: `${GRID_WIDTH_PX * 1.5}px`,
           width: `${GRID_WIDTH_PX * 1.5}px`,
           right: `${GRID_WIDTH_PX * 0}px`,
-          top: `${GRID_WIDTH_PX * 3}px`,
+          top: `${GRID_WIDTH_PX * 5.5}px`,
         }}
       >
         <Tree treeIndex={0} />
@@ -36,8 +36,8 @@ export const Forest: React.FC = () => {
         style={{
           height: `${GRID_WIDTH_PX * 1.5}px`,
           width: `${GRID_WIDTH_PX * 1.5}px`,
-          left: `${GRID_WIDTH_PX * 0}px`,
-          top: `${GRID_WIDTH_PX * 0}px`,
+          left: `${GRID_WIDTH_PX * 0.5}px`,
+          top: `${GRID_WIDTH_PX * 0.5}px`,
         }}
       >
         <Tree treeIndex={1} />
@@ -60,7 +60,7 @@ export const Forest: React.FC = () => {
         style={{
           height: `${GRID_WIDTH_PX * 1.5}px`,
           width: `${GRID_WIDTH_PX * 1.5}px`,
-          left: `${GRID_WIDTH_PX * 2.5}px`,
+          left: `${GRID_WIDTH_PX * 4.5}px`,
           bottom: `${GRID_WIDTH_PX * 0.5}px`,
         }}
       >

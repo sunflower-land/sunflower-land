@@ -19,9 +19,9 @@ export const Lumberjack: React.FC = () => {
         className="absolute z-10 animate-float"
         style={{
           width: `${GRID_WIDTH_PX * 0.3}px`,
-          right: `${GRID_WIDTH_PX * 3.8}px`,
+          right: `${GRID_WIDTH_PX * 5}px`,
 
-          top: `${GRID_WIDTH_PX * 2.4}px`,
+          top: `${GRID_WIDTH_PX * 2.8}px`,
         }}
       />
       <img
@@ -30,8 +30,8 @@ export const Lumberjack: React.FC = () => {
         className="absolute cursor-pointer hover:img-highlight"
         style={{
           width: `${GRID_WIDTH_PX * 1}px`,
-          right: `${GRID_WIDTH_PX * 3.45}px`,
-          top: `${GRID_WIDTH_PX * 3}px`,
+          right: `${GRID_WIDTH_PX * 4.65}px`,
+          top: `${GRID_WIDTH_PX * 3.4}px`,
         }}
       />
 

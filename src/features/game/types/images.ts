@@ -43,6 +43,7 @@ import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
 import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
 import crown from "assets/nfts/goblin_crown.png";
 import fountain from "assets/nfts/fountain.gif";
+import beaver from "assets/nfts/beaver.png";
 
 // Foods
 import flour from "assets/crops/wheat/flour.png";
@@ -277,6 +278,10 @@ export const ITEM_DETAILS: Items = {
   Fountain: {
     ...LimitedItems["Fountain"],
     image: fountain,
+  },
+  Beaver: {
+    ...LimitedItems["Beaver"],
+    image: beaver,
   },
 
   // FOOD
