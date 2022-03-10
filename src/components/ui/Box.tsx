@@ -9,6 +9,7 @@ import { Label } from "./Label";
 
 export interface BoxProps {
   image: any;
+  secondaryImage?: any;
   isSelected?: boolean;
   count?: Decimal;
   onClick?: () => void;
@@ -17,6 +18,7 @@ export interface BoxProps {
 
 export const Box: React.FC<BoxProps> = ({
   image,
+  secondaryImage,
   isSelected,
   count,
   onClick,
@@ -45,7 +47,23 @@ export const Box: React.FC<BoxProps> = ({
           borderRadius: "20px",
         }}
       >
-        <img src={image} className="h-full w-full object-contain" alt="item" />
+        {secondaryImage ? (
+          <div className="w-full flex">
+            <img src={image} className="w-4/5 object-contain" alt="item" />
+
+            <img
+              src={secondaryImage}
+              className="absolute right-0 bottom-1 w-1/2 h-1/2 object-contain"
+              alt="crop"
+            />
+          </div>
+        ) : (
+          <img
+            src={image}
+            className="h-full w-full object-contain"
+            alt="item"
+          />
+        )}
 
         {!!count && count.greaterThan(0) && (
           <Label className="absolute -top-4 -right-3 px-0.5 text-xs z-10">
