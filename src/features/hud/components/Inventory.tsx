@@ -83,7 +83,7 @@ export const Inventory: React.FC = () => {
               key={index}
               isSelected={index === 0}
               image={ITEM_DETAILS[item].image}
-              cropImage={ITEM_DETAILS[item].cropImage}
+              secondaryImage={ITEM_DETAILS[item].secondaryImage}
               count={inventory[item]}
               onClick={() => shortcutItem(item)}
             />

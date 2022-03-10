@@ -9,7 +9,7 @@ import { Label } from "./Label";
 
 export interface BoxProps {
   image: any;
-  cropImage?: any;
+  secondaryImage?: any;
   isSelected?: boolean;
   count?: Decimal;
   onClick?: () => void;
@@ -18,7 +18,7 @@ export interface BoxProps {
 
 export const Box: React.FC<BoxProps> = ({
   image,
-  cropImage,
+  secondaryImage,
   isSelected,
   count,
   onClick,
@@ -28,7 +28,7 @@ export const Box: React.FC<BoxProps> = ({
     <div className="relative">
       <div
         className={classNames(
-          "w-14 h-14 bg-brown-600  m-1.5 cursor-pointer flex items-center justify-center relative",
+          "w-12 h-12 bg-brown-600  m-1.5 cursor-pointer flex items-center justify-center relative",
           {
             "bg-brown-600 cursor-not-allowed": disabled,
             "bg-brown-200": isSelected,
@@ -47,13 +47,22 @@ export const Box: React.FC<BoxProps> = ({
           borderRadius: "20px",
         }}
       >
-        {cropImage ? (
-          <>
-            <img src={image} className="absolute right-4 top-2 w-2/3 h-2/3 object-contain" alt="item" />
-            <img src={cropImage} className="absolute left-6 top-4 w-1/2 h-1/2 object-contain" alt="crop" />
-          </>
+        {secondaryImage ? (
+          <div className="w-full flex">
+            <img src={image} className="w-4/5 object-contain" alt="item" />
+
+            <img
+              src={secondaryImage}
+              className="absolute right-0 bottom-1 w-1/2 h-1/2 object-contain"
+              alt="crop"
+            />
+          </div>
         ) : (
-          <img src={image} className="h-full w-full object-contain" alt="item" />
+          <img
+            src={image}
+            className="h-full w-full object-contain"
+            alt="item"
+          />
         )}
 
         {!!count && count.greaterThan(0) && (
@@ -64,7 +73,7 @@ export const Box: React.FC<BoxProps> = ({
       </div>
       {isSelected && (
         <img
-          className="absolute w-16 h-16 top-0.5 left-0.5 pointer-events-none"
+          className="absolute w-14 h-14 top-0.5 left-0.5 pointer-events-none"
           src={selectBox}
         />
       )}
