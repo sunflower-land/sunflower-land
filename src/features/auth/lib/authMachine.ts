@@ -100,6 +100,7 @@ export type BlockchainState = {
     | { connected: "noFarmLoaded" }
     | { connected: "creatingFarm" }
     | { connected: "readyToStart" }
+    | { connected: "oauthorised" }
     | { connected: "authorised" }
     | "exploring"
     | "checkFarm"

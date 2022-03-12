@@ -46,7 +46,7 @@ export const Auth: React.FC = () => {
           {authState.matches("signing") && <Signing />}
           {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
           {authState.matches("oauthorising") && <Loading />}
-          {authState.matches({ connected: "creatingFarm" }) && <CreateFarm />}
+          {authState.matches({ connected: "oauthorised" }) && <CreateFarm />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
           {authState.matches("exploring") && <VisitFarm />}

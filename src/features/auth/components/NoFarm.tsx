@@ -23,7 +23,7 @@ export const NoFarm: React.FC = () => {
 
   return (
     <>
-      {authState.context.token?.userAccess.createFarm ? (
+      {authState.context.token ? (
         <Button onClick={create} className="overflow-hidden mb-2">
           Create Farm
         </Button>
