@@ -23,7 +23,7 @@ import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import chopAudio from "../../../assets/sound-effects/chop.mp3";
-import treeFalling from "../../../assets/sound-effects/tree_falling.mp3";
+import treeFalling from "../../../assets/sound-effects/tree_fall.mp3";
 
 const POPOVER_TIME_MS = 1000;
 
