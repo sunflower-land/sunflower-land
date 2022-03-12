@@ -11,7 +11,7 @@ import { getSong, getSongCount } from "assets/songs/playlist";
 import { Panel } from "components/ui/Panel";
 
 export const AudioPlayer: React.FC = () => {
-  const [volume, setVolume] = useState<number>(0.3);
+  const [volume, setVolume] = useState<number>(0.1);
   const [visible, setIsVisible] = useState<boolean>(false);
   const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
