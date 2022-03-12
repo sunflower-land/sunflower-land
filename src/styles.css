@@ -175,3 +175,25 @@ img {
   bottom: -43px;
   left: 7px;
 }
+
+/* Custom scrollbar for item modal */
+.scrollable::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+  border-radius: 5px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color:#f5f5f5;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  border: 2px solid black;	
+	background-color: #eea368;
+}
+
