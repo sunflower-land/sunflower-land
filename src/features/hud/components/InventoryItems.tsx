@@ -109,18 +109,24 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
       <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
         <div className="flex">
           <Tab
+            className="flex items-center"
             isActive={currentTab === "basket"}
             onClick={() => handleTabClick("basket")}
           >
-            <img src={seeds} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Basket</span>
+            <img src={seeds} className="h-4 sm:h-5 mr-2" />
+            <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
+              Basket
+            </span>
           </Tab>
           <Tab
+            className="flex items-center"
             isActive={currentTab === "collectibles"}
             onClick={() => handleTabClick("collectibles")}
           >
-            <img src={sunflowerPlant} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Collectibles</span>
+            <img src={sunflowerPlant} className="h-4 sm:h-5 mr-2" />
+            <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
+              Collectibles
+            </span>
           </Tab>
         </div>
         <img
