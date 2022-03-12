@@ -2,7 +2,7 @@ import React from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-import { Section } from "lib/utils/useScrollIntoView";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import house from "assets/buildings/house.png";
 import smoke from "assets/buildings/smoke.gif";

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import classNames from "classnames";
@@ -14,8 +14,8 @@ import { Action } from "components/ui/Action";
 import { MarketItems } from "./MarketItems";
 import { useTour } from "@reactour/tour";
 import { TourStep } from "features/game/lib/Tour";
-import { Section } from "lib/utils/useScrollIntoView";
 import shopMP3 from "../../../assets/sound-effects/shop.mp3";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 export const Market: React.FC = () => {
   const { gameService } = useContext(Context);

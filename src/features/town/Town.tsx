@@ -7,7 +7,7 @@ import { Blacksmith } from "features/blacksmith/Blacksmith";
 import { Market } from "features/crops/components/Market";
 import { WishingWell } from "features/wishingWell/WishingWell";
 import { Mail } from "features/mail/Mail";
-import { Section } from "lib/utils/useScrollIntoView";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 export const Town: React.FC = () => {
   return (

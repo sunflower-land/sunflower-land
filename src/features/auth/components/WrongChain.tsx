@@ -4,7 +4,7 @@ import { Button } from "components/ui/Button";
 import alert from "assets/icons/expression_alerted.png";
 import metamaskIcon from "assets/icons/metamask-icon.png";
 import { metamask } from "lib/blockchain/metamask";
-import { useIsMobile } from "lib/utils/useIsMobile";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 export const WrongChain: React.FC = () => {
   const [isDefaultNetwork, setIsDefaultNetwork] = useState(false);

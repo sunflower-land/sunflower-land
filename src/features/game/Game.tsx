@@ -9,7 +9,7 @@ import { Water } from "features/water/Water";
 import { Loading } from "features/auth/components";
 import { Animals } from "features/animals/Animals";
 
-import { useInterval } from "lib/utils/useInterval";
+import { useInterval } from "lib/utils/hooks/useInterval";
 
 import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
