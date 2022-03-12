@@ -25,6 +25,7 @@ export const Bank: React.FC = () => {
 
   const open = () => {
     setIsOpen(true);
+    bankAudio.play();
   };
 
   return (
