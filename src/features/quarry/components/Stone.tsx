@@ -26,9 +26,6 @@ interface Props {
   rockIndex: number;
 }
 
-const miningAudio = new Audio(miningMP3);
-miningAudio.volume = 0.5;
-
 export const Stone: React.FC<Props> = ({ rockIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
@@ -44,6 +41,9 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
+
+  const miningAudio = new Audio(miningMP3);
+  miningAudio.volume = 0.5;
 
   const tool = "Pickaxe";
   const rock = game.context.state.stones[rockIndex];
