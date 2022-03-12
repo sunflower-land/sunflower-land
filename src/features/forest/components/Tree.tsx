@@ -72,12 +72,12 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setShowPopover(false);
   };
 
-  const choppingAudio = new Audio(chopAudio);
-  choppingAudio.volume = 0.3;
-  const treeFallingAudio = new Audio(treeFalling);
-  treeFallingAudio.volume = 0.3;
-
   const shake = async () => {
+    const choppingAudio = new Audio(chopAudio);
+    const treeFallingAudio = new Audio(treeFalling);
+    choppingAudio.volume = 0.3;
+    treeFallingAudio.volume = 0.3;
+
     if (game.matches("readonly")) {
       shakeGif.current?.goToAndPlay(0);
       return;

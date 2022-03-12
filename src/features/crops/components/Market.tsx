@@ -22,9 +22,6 @@ export const Market: React.FC = () => {
   const [gameState] = useActor(gameService);
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const shopAudio = new Audio(shopMP3);
-  shopAudio.volume = 0.2;
-
   const isNotReadOnly = !gameState.matches("readonly");
   const {
     setCurrentStep: setCurrentTourStep,
@@ -33,6 +30,9 @@ export const Market: React.FC = () => {
   } = useTour();
 
   const handleMarketClick = () => {
+    const shopAudio = new Audio(shopMP3);
+    shopAudio.volume = 0.2;
+
     setIsOpen(true);
     shopAudio.play();
     if (tourIsOpen && currentTourStep === TourStep.openShop) {

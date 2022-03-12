@@ -20,10 +20,10 @@ export const WishingWell: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const whishingWellAudio = new Audio(wishingWellMp3);
-  whishingWellAudio.volume = 0.5;
-
   const open = () => {
+    const whishingWellAudio = new Audio(wishingWellMp3);
+    whishingWellAudio.volume = 0.5;
+
     whishingWellAudio.play();
     setIsOpen(true);
   };

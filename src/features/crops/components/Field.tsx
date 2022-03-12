@@ -67,6 +67,8 @@ export const Field: React.FC<Props> = ({
     clickedAt.current = now;
     const harvestAudio = new Audio(plant);
     const plantingAudio = new Audio(harvest);
+    harvestAudio.volume = 0.2;
+    plantingAudio.volume = 0.2;
 
     // Plant
     if (!field) {
@@ -76,7 +78,6 @@ export const Field: React.FC<Props> = ({
           item: selectedItem,
         });
 
-        harvestAudio.volume = 0.2;
         harvestAudio.play();
 
         displayPopover(
@@ -105,7 +106,6 @@ export const Field: React.FC<Props> = ({
         index: fieldIndex,
       });
 
-      plantingAudio.volume = 0.2;
       plantingAudio.play();
 
       displayPopover(

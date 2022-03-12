@@ -19,6 +19,7 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { canMine, IRON_RECOVERY_TIME } from "features/game/events/ironMine";
 import miningMP3 from "../../../assets/sound-effects/mining.mp3";
+import miningFallMP3 from "../../../assets/sound-effects/mining_fall.mp3";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -42,9 +43,6 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
 
-  const miningAudio = new Audio(miningMP3);
-  miningAudio.volume = 0.5;
-
   const tool = "Stone Pickaxe";
   const rock = game.context.state.iron[rockIndex];
   // Users will need to refresh to chop the tree again
@@ -59,6 +57,10 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
   };
 
   const shake = () => {
+    const miningAudio = new Audio(miningMP3);
+    const miningFallAudio = new Audio(miningFallMP3);
+    miningFallAudio.volume = 0.5;
+    miningAudio.volume = 0.5;
     const isPlaying = sparkGif.current?.getInfo("isPlaying");
 
     if (selectedItem == tool && !isPlaying) {
