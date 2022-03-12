@@ -15,7 +15,7 @@ import { getShortcuts } from "../lib/shortcuts";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useTour } from "@reactour/tour";
 import { TourStep } from "features/game/lib/Tour";
-import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 export const Inventory: React.FC = () => {
   const {
@@ -68,6 +68,7 @@ export const Inventory: React.FC = () => {
 
       <Modal
         centered
+        scrollable
         show={isOpen}
         onHide={tourIsOpen ? undefined : () => setIsOpen(false)}
       >
