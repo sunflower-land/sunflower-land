@@ -11,7 +11,7 @@ import hammer from "assets/icons/hammer.png";
 import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import blacksmithMp3 from "../../assets/sound-effects/blacksmith.mp3";
+import blacksmithMp3 from "../../assets/sound-effects/blacksmith1.mp3";
 
 export const Blacksmith: React.FC = () => {
   const { gameService } = useContext(Context);
