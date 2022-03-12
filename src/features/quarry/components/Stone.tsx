@@ -63,7 +63,6 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
 
     if (selectedItem == tool && !isPlaying) {
       miningAudio.play();
-      console.log("hit");
 
       sparkGif.current?.goToAndPlay(0);
 
