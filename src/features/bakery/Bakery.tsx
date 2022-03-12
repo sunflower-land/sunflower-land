@@ -12,6 +12,7 @@ import soup from "assets/icons/goblin_head.png";
 import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import kitchenMP3 from "../../assets/sound-effects/kitchen.mp3";
 
 export const Bakery: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -20,6 +21,13 @@ export const Bakery: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
+  const kitchenAudio = new Audio(kitchenMP3);
+  kitchenAudio.volume = 0.2;
+
+  const open = () => {
+    setIsOpen(true);
+    kitchenAudio.play();
+  };
   return (
     <div
       className="z-10 absolute"
@@ -33,7 +41,7 @@ export const Bakery: React.FC = () => {
       <img
         src={bakery}
         alt="bakery"
-        onClick={isNotReadOnly ? () => setIsOpen(true) : undefined}
+        onClick={isNotReadOnly ? () => open() : undefined}
         className={classNames("w-full", {
           "cursor-pointer": isNotReadOnly,
           "hover:img-highlight": isNotReadOnly,
@@ -41,7 +49,7 @@ export const Bakery: React.FC = () => {
       />
       <img
         src={smoke}
-        onClick={isNotReadOnly ? () => setIsOpen(true) : undefined}
+        onClick={isNotReadOnly ? () => open() : undefined}
         style={{
           position: "absolute",
           top: `-${GRID_WIDTH_PX * 2.2}px`,
@@ -54,7 +62,7 @@ export const Bakery: React.FC = () => {
           className="absolute bottom-14 left-0"
           text="Kitchen"
           icon={soup}
-          onClick={() => setIsOpen(true)}
+          onClick={() => open()}
         />
       )}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>

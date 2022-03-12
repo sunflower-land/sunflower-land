@@ -16,6 +16,7 @@ import downArrow from "assets/icons/arrow_down.png";
 import token from "assets/icons/token.png";
 import humanDeath from "assets/npcs/human_death.gif";
 import { ERRORS } from "lib/errors";
+import beggarMP3 from "../../assets/sound-effects/beggar.mp3";
 
 type DonateEvent = {
   type: "DONATE";
@@ -116,6 +117,13 @@ export const TeamDonation: React.FC = () => {
     } else setDonation((prevState) => roundToOneDecimal(prevState - 0.1));
   };
 
+  const beggarAudio = new Audio(beggarMP3);
+  beggarAudio.volume = 0.3;
+
+  const beggarClick = () => {
+    send("BEGGER_CLICK");
+    beggarAudio.play();
+  };
   return (
     <div
       className="z-5 absolute align-items-center w-[72px]"
@@ -133,7 +141,7 @@ export const TeamDonation: React.FC = () => {
           style={{
             width: `${GRID_WIDTH_PX * 1.8}px`,
           }}
-          onClick={() => send("BEGGER_CLICK")}
+          onClick={beggarClick}
         />
       ) : (
         <img
@@ -143,7 +151,7 @@ export const TeamDonation: React.FC = () => {
           style={{
             width: `${GRID_WIDTH_PX * 1.8}px`,
           }}
-          onClick={() => send("BEGGER_CLICK")}
+          onClick={beggarClick}
         />
       )}
       <Modal

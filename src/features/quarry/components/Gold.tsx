@@ -18,6 +18,7 @@ import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { canMine, GOLD_RECOVERY_TIME } from "features/game/events/goldMine";
+import miningMP3 from "../../../assets/sound-effects/mining.mp3";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -41,6 +42,9 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
 
+  const miningAudio = new Audio(miningMP3);
+  miningAudio.volume = 0.5;
+
   const tool = "Iron Pickaxe";
   const rock = game.context.state.gold[rockIndex];
   // Users will need to refresh to chop the tree again
@@ -54,28 +58,25 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
     setShowPopover(false);
   };
 
-  const shake = async () => {
-    if (selectedItem !== tool) {
-      return;
-    }
-
+  const shake = () => {
     const isPlaying = sparkGif.current?.getInfo("isPlaying");
-    if (isPlaying) {
-      return;
-    }
 
-    sparkGif.current?.goToAndPlay(0);
+    if (selectedItem == tool && !isPlaying) {
+      miningAudio.play();
 
-    setTouchCount((count) => count + 1);
+      sparkGif.current?.goToAndPlay(0);
 
-    // Randomise the shakes to break
-    const shakesToBreak = rock.amount.toNumber();
+      setTouchCount((count) => count + 1);
 
-    // On third shake, chop
-    if (touchCount > 0 && touchCount === shakesToBreak) {
-      mine();
-      setTouchCount(0);
-    }
+      // Randomise the shakes to break
+      const shakesToBreak = rock.amount.toNumber();
+
+      // On third shake, chop
+      if (touchCount > 0 && touchCount === shakesToBreak) {
+        mine();
+        setTouchCount(0);
+      }
+    } else return;
   };
 
   const mine = async () => {
