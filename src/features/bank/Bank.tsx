@@ -20,10 +20,10 @@ export const Bank: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const bankAudio = new Audio(bankMp3);
-  bankAudio.volume = 0.3;
-
   const open = () => {
+    const bankAudio = new Audio(bankMp3);
+    bankAudio.volume = 0.3;
+
     setIsOpen(true);
     bankAudio.play();
   };

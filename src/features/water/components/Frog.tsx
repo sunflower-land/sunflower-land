@@ -11,10 +11,10 @@ import frogMp3 from "../../../assets/sound-effects/frog.mp3";
 export const Frog: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
-  const frogAudio = new Audio(frogMp3);
-  frogAudio.volume = 0.2;
-
   const open = () => {
+    const frogAudio = new Audio(frogMp3);
+    frogAudio.volume = 0.2;
+
     frogAudio.play();
     setShowModal(true);
   };

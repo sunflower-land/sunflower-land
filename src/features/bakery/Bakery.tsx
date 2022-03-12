@@ -21,10 +21,10 @@ export const Bakery: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const kitchenAudio = new Audio(kitchenMP3);
-  kitchenAudio.volume = 0.2;
-
   const open = () => {
+    const kitchenAudio = new Audio(kitchenMP3);
+    kitchenAudio.volume = 0.2;
+
     setIsOpen(true);
     kitchenAudio.play();
   };

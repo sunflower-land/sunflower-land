@@ -117,10 +117,10 @@ export const TeamDonation: React.FC = () => {
     } else setDonation((prevState) => roundToOneDecimal(prevState - 0.1));
   };
 
-  const beggarAudio = new Audio(beggarMP3);
-  beggarAudio.volume = 0.3;
-
   const beggarClick = () => {
+    const beggarAudio = new Audio(beggarMP3);
+    beggarAudio.volume = 0.3;
+
     send("BEGGER_CLICK");
     beggarAudio.play();
   };
