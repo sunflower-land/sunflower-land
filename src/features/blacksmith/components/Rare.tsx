@@ -8,20 +8,23 @@ import token from "assets/icons/token.gif";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
+import * as Auth from "features/auth/lib/Provider";
+
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Craftable, LimitedItems } from "features/game/types/craftables";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
-import { canWithdraw } from "features/game/lib/whitelist";
 
 interface Props {
   onClose: () => void;
 }
 
 export const Rare: React.FC<Props> = ({ onClose }) => {
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
+
   const [selected, setSelected] = useState<Craftable>(
     Object.values(LimitedItems)[0]
   );
@@ -81,7 +84,7 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
       return null;
     }
 
-    if (!canWithdraw(metamask.myAccount as string)) {
+    if (!authState.context.token?.userAccess.mintCollectible) {
       return "Locked";
     }
 

@@ -23,7 +23,6 @@ import downArrow from "assets/icons/arrow_down.png";
 import { getTax } from "lib/utils/tax";
 import { getItemUnit } from "features/game/lib/conversion";
 import { Box } from "components/ui/Box";
-import { canWithdraw } from "features/game/lib/whitelist";
 
 type SelectedItem = {
   item: InventoryItemName;
@@ -40,6 +39,9 @@ interface Props {
   onClose: () => void;
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
+
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
   const inventory = game.context.state.inventory;
@@ -121,7 +123,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   // Use base 1000
   const tax = getTax(typeof amount !== "string" ? amount : new Decimal(0)) / 10;
 
-  const enabled = canWithdraw(metamask.myAccount as string);
+  const enabled = authState.context.token?.userAccess.withdraw;
 
   if (!enabled) {
     return <span>Coming soon...</span>;

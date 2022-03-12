@@ -53,7 +53,7 @@ function getSession(address: string): Session | null {
   return sessions[address];
 }
 
-function saveSession(address: string, session: Session) {
+export function saveSession(address: string, session: Session) {
   let sessions: Sessions = {};
 
   const item = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -70,12 +70,18 @@ function saveSession(address: string, session: Session) {
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
 }
 
-type Token = {
-  account: string;
+export type Token = {
+  address: string;
   exp: number;
+  userAccess: {
+    withdraw: boolean;
+    createFarm: boolean;
+    sync: boolean;
+    mintCollectible: boolean;
+  };
 };
 
-function decodeToken(token: string): Token {
+export function decodeToken(token: string): Token {
   return jwt_decode(token);
 }
 

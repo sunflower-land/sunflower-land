@@ -7,11 +7,12 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Unauthorised } from "./Unauthorised";
 import { Panel } from "components/ui/Panel";
 import {
-  CreateFarm,
+  NoFarm,
   CreatingFarm,
   Loading,
   StartFarm,
   VisitFarm,
+  CreateFarm,
 } from "./components";
 
 import jumpingGoblin from "assets/npcs/goblin_jump.gif";
@@ -43,7 +44,9 @@ export const Auth: React.FC = () => {
             authState.matches("checkFarm")) && <Loading />}
           {authState.matches("connecting") && <Loading text="Connecting" />}
           {authState.matches("signing") && <Signing />}
-          {authState.matches({ connected: "noFarmLoaded" }) && <CreateFarm />}
+          {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
+          {authState.matches("oauthorising") && <Loading />}
+          {authState.matches({ connected: "creatingFarm" }) && <CreateFarm />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
           {authState.matches("exploring") && <VisitFarm />}
