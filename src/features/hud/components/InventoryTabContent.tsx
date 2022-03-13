@@ -82,15 +82,13 @@ export const InventoryTabContent = ({
             style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
             className="flex flex-col justify-evenly items-center p-2"
           >
-            <span className="text-base text-center text-shadow">
-              {selectedItem}
-            </span>
+            <span className="text-center text-shadow">{selectedItem}</span>
             <img
               src={ITEM_DETAILS[selectedItem].image}
-              className="h-12 w-12"
+              className="h-12"
               alt={selectedItem}
             />
-            <span className="text-xs text-shadow text-center mt-2">
+            <span className="text-xs text-shadow text-center mt-2 w-80">
               {ITEM_DETAILS[selectedItem].description}
             </span>
             {isSeed(selectedItem) && (
