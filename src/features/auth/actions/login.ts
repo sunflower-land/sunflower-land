@@ -22,8 +22,6 @@ export async function loginRequest(request: Request) {
   });
 
   if (response.status >= 400) {
-    removeSession(request.address);
-
     throw new Error(ERRORS.FAILED_REQUEST);
   }
 
