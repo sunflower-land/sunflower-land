@@ -4,7 +4,7 @@ import { StepType, useTour } from "@reactour/tour";
 import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { Section } from "lib/utils/useScrollIntoView";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 function tourStyles(base: any) {
   return {
