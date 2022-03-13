@@ -1,3 +1,5 @@
+import { removeSession } from "features/auth/actions/login";
+import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { CAPTCHA_CONTAINER, CAPTCHA_ELEMENT } from "../components/Captcha";
 import { SellAction } from "../events/sell";
@@ -71,6 +73,10 @@ export async function autosave(request: Request) {
       captcha: request.captcha,
     }),
   });
+
+  if (response.status === 401) {
+    removeSession(metamask.myAccount as string);
+  }
 
   if (response.status === 429) {
     return { verified: false };
