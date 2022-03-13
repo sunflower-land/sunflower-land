@@ -106,7 +106,8 @@ export const InventoryTabContent = ({
       </OuterPanel>
       <div
         ref={itemContainerRef}
-        className={classNames("h-96 overflow-y-scroll", {
+        className={classNames("h-96", {
+          "overflow-y-scroll": showScrollbar,
           scrollable: showScrollbar,
         })}
       >
