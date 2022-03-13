@@ -28,7 +28,8 @@ export const GameProvider: React.FC = ({ children }) => {
     startGame({
       ...authState.context,
       // If the last event was a create farm, walk them through the tutorial
-      isNoob: authState.history?.event.type === "CREATE_FARM",
+      // For now hide the tutorial until we can figure out an approach that is maintainable
+      isNoob: false, //authState.history?.event.type === "CREATE_FARM",
     }) as any
   ) as MachineInterpreter;
   const [shortcuts, setShortcuts] = useState<InventoryItemName[]>(
