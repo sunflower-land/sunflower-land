@@ -1,7 +1,7 @@
 /**
  * A wrapper that provides game state and dispatches events
  */
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext } from "react";
 
@@ -22,16 +22,17 @@ export const Context = React.createContext<GameContext>({} as GameContext);
 export const GameProvider: React.FC = ({ children }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
-
-  // TODO - Typescript error
-  const gameService = useInterpret(
+  const [gameMachine] = useState(
     startGame({
       ...authState.context,
       // If the last event was a create farm, walk them through the tutorial
       // For now hide the tutorial until we can figure out an approach that is maintainable
       isNoob: false, //authState.history?.event.type === "CREATE_FARM",
     }) as any
-  ) as MachineInterpreter;
+  );
+
+  // TODO - Typescript error
+  const gameService = useInterpret(gameMachine) as MachineInterpreter;
   const [shortcuts, setShortcuts] = useState<InventoryItemName[]>(
     getShortcuts()
   );

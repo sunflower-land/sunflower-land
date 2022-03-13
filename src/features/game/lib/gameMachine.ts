@@ -105,6 +105,7 @@ export type MachineInterpreter = Interpreter<
 >;
 
 type Options = AuthContext & { isNoob: boolean };
+
 export function startGame(authContext: Options) {
   const handleInitialState = () => {
     if (authContext.isNoob) {
@@ -115,6 +116,7 @@ export function startGame(authContext: Options) {
     }
     return "readonly";
   };
+
   return createMachine<Context, BlockchainEvent, BlockchainState>({
     id: "gameMachine",
     initial: "loading",
