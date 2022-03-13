@@ -21,8 +21,6 @@ export async function loadSession(
 ): Promise<Response | undefined> {
   if (!API_URL) return;
 
-  console.log("calling /session");
-
   const response = await window.fetch(`${API_URL}/session`, {
     method: "POST",
     headers: {

@@ -9,11 +9,13 @@ import { Beta } from "./components/Beta";
 import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
 import { ConnectingError } from "./components/ConnectingError";
 import { Blocked } from "./components/Blocked";
+import { DuplicateUser } from "./components/DuplicateUser";
 
 export const Unauthorised: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState, send] = useActor(authService);
 
+  console.log({ code: authState.context.errorCode });
   if (authState.context.errorCode === "NO_WEB3") {
     return <Web3Missing />;
   }
@@ -32,6 +34,10 @@ export const Unauthorised: React.FC = () => {
 
   if (authState.context.errorCode === "BLOCKED") {
     return <Blocked />;
+  }
+
+  if (authState.context.errorCode === "DISCORD_USER_EXISTS") {
+    return <DuplicateUser />;
   }
 
   return <ConnectingError />;

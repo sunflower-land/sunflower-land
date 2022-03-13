@@ -56,7 +56,6 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
     state.balance.lessThan(selected.price.mul(amount));
 
   const craft = () => {
-    console.log("Craft it!");
     gameService.send("MINT", { item: selected.name });
     onClose();
     // TODO fire off API mint call

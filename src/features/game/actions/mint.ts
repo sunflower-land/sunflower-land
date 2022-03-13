@@ -13,7 +13,6 @@ const API_URL = CONFIG.API_URL;
 
 async function mintRequest(request: Request) {
   if (!API_URL) return;
-  console.log("Send off that request");
 
   const response = await window.fetch(`${API_URL}/mint`, {
     method: "POST",

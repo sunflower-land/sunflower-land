@@ -37,8 +37,6 @@ export function populateFields(inventory: Inventory) {
   const fields = {} as Record<number, FieldItem>;
   const indices = [];
 
-  console.log(inventory);
-
   // zone two
   if (inventory["Pumpkin Soup"]) {
     indices.push(5, 6, 7, 8, 9);

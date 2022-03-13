@@ -22,11 +22,11 @@ export async function oauthoriseRequest(request: Request) {
     }),
   });
 
-  if (response.status >= 400) {
-    throw new Error(ERRORS.FAILED_REQUEST);
-  }
+  const { token, errorCode } = await response.json();
 
-  const { token } = await response.json();
+  if (response.status >= 400) {
+    throw new Error(errorCode || ERRORS.FAILED_REQUEST);
+  }
 
   return { token };
 }
@@ -42,6 +42,9 @@ export async function oauthorise(code: string): Promise<{ token: string }> {
   });
 
   saveSession(address, { token });
+
+  // Remove query parameters from url
+  window.history.pushState({}, "", window.location.pathname);
 
   return { token };
 }

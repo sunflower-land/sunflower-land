@@ -79,6 +79,7 @@ export type Token = {
     sync: boolean;
     mintCollectible: boolean;
   };
+  discordId?: string;
 };
 
 export function decodeToken(token: string): Token {

@@ -97,7 +97,6 @@ let captchaToken = "";
  */
 export async function solveCaptcha() {
   try {
-    console.log("TIME TO SOLVE!");
     // Captcha takes a little while to mount
     await new Promise((res) => setTimeout(res, 50));
     if (!captchaId) {

@@ -349,7 +349,6 @@ export const authMachine = createMachine<
         };
       },
       login: async (): Promise<{ token: string }> => {
-        console.log("SIGN!");
         const { token } = await login();
 
         return {
