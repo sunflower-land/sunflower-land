@@ -22,6 +22,8 @@ export async function loginRequest(request: Request) {
   });
 
   if (response.status >= 400) {
+    removeSession(request.address);
+
     throw new Error(ERRORS.FAILED_REQUEST);
   }
 
@@ -68,6 +70,20 @@ export function saveSession(address: string, session: Session) {
   };
 
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
+}
+
+export function removeSession(address: string) {
+  let sessions: Sessions = {};
+
+  const item = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+  if (item) {
+    sessions = JSON.parse(item) as Sessions;
+  }
+
+  delete sessions[address];
+
+  return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(sessions));
 }
 
 export type Token = {
