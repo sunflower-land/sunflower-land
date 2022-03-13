@@ -32,6 +32,9 @@ export async function oauthoriseRequest(request: Request) {
 }
 
 export async function oauthorise(code: string): Promise<{ token: string }> {
+  // Remove query parameters from url
+  window.history.pushState({}, "", window.location.pathname);
+
   const address = metamask.myAccount as string;
 
   const { token: oldToken } = await login();
@@ -42,9 +45,6 @@ export async function oauthorise(code: string): Promise<{ token: string }> {
   });
 
   saveSession(address, { token });
-
-  // Remove query parameters from url
-  window.history.pushState({}, "", window.location.pathname);
 
   return { token };
 }
