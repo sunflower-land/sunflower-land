@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "author": "developer@sunflower-land.com",
   "scripts": {
-    "dev": "set NODE_ENV=development && vite --port 3000",
+    "dev": "set NODE_ENV=development && vite --port 3000 --host",
     "build": "tsc && vite build",
     "format": "./node_modules/.bin/eslint --ext .tsx,.ts . --fix",
     "preview": "vite preview",

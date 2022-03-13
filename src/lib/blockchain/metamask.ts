@@ -239,7 +239,6 @@ export class Metamask {
   }
 
   public async donateToTheTeam(donation: number) {
-    console.log({ donation: CONFIG.DONATION_ADDRESS });
     const gasPrice = await estimateGasPrice(this.web3 as Web3);
 
     try {

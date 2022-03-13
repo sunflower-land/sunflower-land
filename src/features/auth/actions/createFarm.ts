@@ -1,7 +1,7 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { CharityAddress } from "../components/Donation";
+import { CharityAddress } from "../components/CreateFarm";
 
 type Request = {
   charity: string;

@@ -110,8 +110,6 @@ export const WishingWellModal: React.FC<Props> = () => {
 
     const wishingWell = machine.context.state;
 
-    console.log({ wishingWell });
-
     // machine.matches('ready')
     return (
       <div>

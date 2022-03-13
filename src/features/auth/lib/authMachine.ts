@@ -1,12 +1,12 @@
-import { canCreateFarm } from "features/game/lib/whitelist";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
 import { createFarm as createFarmAction } from "../actions/createFarm";
-import { login } from "../actions/login";
-import { CharityAddress } from "../components/Donation";
+import { login, Token, decodeToken } from "../actions/login";
+import { oauthorise, redirectOAuth } from "../actions/oauth";
+import { CharityAddress } from "../components/CreateFarm";
 
 // Hashed eth 0 value
 const INITIAL_SESSION =
@@ -16,6 +16,12 @@ const getFarmUrl = () => {
   const farmId = new URLSearchParams(window.location.search).get("farmId");
 
   return parseInt(farmId!);
+};
+
+const getDiscordCode = () => {
+  const code = new URLSearchParams(window.location.search).get("code");
+
+  return code;
 };
 
 const deleteFarmUrl = () =>
@@ -31,9 +37,10 @@ export interface Context {
   errorCode?: keyof typeof ERRORS;
   farmId?: number;
   sessionId?: string;
-  token?: string;
   hash?: string;
   address?: string;
+  token?: Token;
+  rawToken?: string;
 }
 
 type StartEvent = Farm & {
@@ -78,7 +85,8 @@ export type BlockchainEvent =
     }
   | {
       type: "REFRESH";
-    };
+    }
+  | { type: "CONNECT_TO_DISCORD" };
 
 export type BlockchainState = {
   value:
@@ -86,11 +94,13 @@ export type BlockchainState = {
     | "connecting"
     | "connected"
     | "signing"
+    | "oauthorising"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
     | { connected: "noFarmLoaded" }
     | { connected: "creatingFarm" }
     | { connected: "readyToStart" }
+    | { connected: "oauthorised" }
     | { connected: "authorised" }
     | "exploring"
     | "checkFarm"
@@ -126,6 +136,10 @@ export const authMachine = createMachine<
               target: "checkFarm",
               cond: "hasFarmIdUrl",
             },
+            {
+              target: "oauthorising",
+              cond: "hasDiscordCode",
+            },
             { target: "signing" },
           ],
           onError: {
@@ -139,6 +153,19 @@ export const authMachine = createMachine<
           src: "login",
           onDone: {
             target: "connected",
+            actions: "assignToken",
+          },
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
+        },
+      },
+      oauthorising: {
+        invoke: {
+          src: "oauthorise",
+          onDone: {
+            target: "connected.oauthorised",
             actions: "assignToken",
           },
           onError: {
@@ -168,6 +195,13 @@ export const authMachine = createMachine<
               },
             },
           },
+          oauthorised: {
+            on: {
+              CREATE_FARM: {
+                target: "creatingFarm",
+              },
+            },
+          },
           creatingFarm: {
             invoke: {
               src: "createFarm",
@@ -184,7 +218,12 @@ export const authMachine = createMachine<
           noFarmLoaded: {
             on: {
               CREATE_FARM: {
-                target: "creatingFarm",
+                target: "oauthorised",
+              },
+              CONNECT_TO_DISCORD: {
+                // Redirects to Discord OAuth so no need for a state change
+                target: "noFarmLoaded",
+                actions: () => redirectOAuth(),
               },
               EXPLORE: {
                 target: "#exploring",
@@ -272,11 +311,6 @@ export const authMachine = createMachine<
     services: {
       initMetamask: async (): Promise<void> => {
         await metamask.initialise();
-
-        const isWhitelisted = canCreateFarm(metamask.myAccount as string);
-        if (!isWhitelisted) {
-          throw new Error(ERRORS.BLOCKED);
-        }
       },
       loadFarm: async (): Promise<Farm | undefined> => {
         const farmAccounts = await metamask.getFarm()?.getFarms();
@@ -305,7 +339,7 @@ export const authMachine = createMachine<
         const newFarm = await createFarmAction({
           charity: charityAddress,
           donation,
-          token: context.token as string,
+          token: context.rawToken as string,
         });
 
         return {
@@ -315,12 +349,18 @@ export const authMachine = createMachine<
         };
       },
       login: async (): Promise<{ token: string }> => {
-        console.log("SIGN!");
         const { token } = await login();
 
         return {
           token,
         };
+      },
+      oauthorise: async () => {
+        const code = getDiscordCode() as string;
+        // Navigates to Discord OAuth Flow
+        const { token } = await oauthorise(code);
+
+        return { token };
       },
       visitFarm: async (
         _context: Context,
@@ -343,7 +383,8 @@ export const authMachine = createMachine<
         sessionId: (_context, event) => event.data.sessionId,
       }),
       assignToken: assign<Context, any>({
-        token: (_context, event) => event.data.token,
+        token: (_context, event) => decodeToken(event.data.token),
+        rawToken: (_context, event) => event.data.token,
       }),
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
@@ -368,6 +409,7 @@ export const authMachine = createMachine<
         return !!context.farmId;
       },
       hasFarmIdUrl: () => !isNaN(getFarmUrl()),
+      hasDiscordCode: () => !!getDiscordCode(),
     },
   }
 );
