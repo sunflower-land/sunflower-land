@@ -27,7 +27,8 @@ export const NoFarm: React.FC = () => {
 
   return (
     <>
-      {authState.context.token?.discordId ? (
+      {!!authState.context.token?.userAccess.createFarm ||
+      !!authState.context.token?.discordId ? (
         <Button onClick={create} className="overflow-hidden mb-2">
           Create Farm
         </Button>
