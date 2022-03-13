@@ -101,7 +101,10 @@ export async function login(): Promise<{ token: string }> {
 
     const isFresh = token.exp * 1000 > Date.now() + TOKEN_BUFFER_MS;
 
-    if (isFresh) {
+    // Migration from token that did not have user access
+    const isValid = !!token.userAccess;
+
+    if (isFresh && isValid) {
       // Raw token
       return { token: session.token };
     }
