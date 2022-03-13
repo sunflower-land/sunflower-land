@@ -28,15 +28,8 @@ export const CopyField: React.FC<Props> = ({ text = "", copyFieldMessage }) => {
   return (
     <div className="mb-4">
       <div className="mt-2 bg-brown-200 p-1">
-        <div className="flex justify-content-between p-1 align-items-center">
-          <span
-            className="text-[0.55rem] sm:text-xs whitespace-normal text-center"
-            style={{
-              overflowWrap: "anywhere",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
+        <div className="flex justify-content-between p-2 gap-x-2 align-items-center">
+          <span className="text-[0.55rem] sm:text-xs m-auto break-all select-text">
             {text}
           </span>
           <span
