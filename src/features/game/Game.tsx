@@ -28,6 +28,7 @@ import { Forest } from "features/forest/Forest";
 import { StateValues } from "./lib/gameMachine";
 import { Town } from "features/town/Town";
 import { ErrorCode } from "lib/errors";
+import { ErrorMessage } from "features/auth/ErrorMessage";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -80,7 +81,9 @@ export const Game: React.FC = () => {
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
           {gameState.matches("error") && (
-            <GameError errorCode={gameState.context.errorCode as ErrorCode} />
+            <ErrorMessage
+              errorCode={gameState.context.errorCode as ErrorCode}
+            />
           )}
           {gameState.matches("minting") && <Minting />}
           {gameState.matches("success") && <Success />}

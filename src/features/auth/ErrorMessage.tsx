@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useActor } from "@xstate/react";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -10,34 +10,50 @@ import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
 import { ConnectingError } from "./components/ConnectingError";
 import { Blocked } from "./components/Blocked";
 import { DuplicateUser } from "./components/DuplicateUser";
+import { Congestion } from "./components/Congestion";
+import { ErrorCode } from "lib/errors";
 
-export const Unauthorised: React.FC = () => {
+interface Props {
+  errorCode: ErrorCode;
+}
+export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
   const { authService } = useContext(Auth.Context);
-  const [authState, send] = useActor(authService);
+  const [_, send] = useActor(authService);
 
-  console.log({ code: authState.context.errorCode });
-  if (authState.context.errorCode === "NO_WEB3") {
+  useEffect(() => {
+    const body = document.querySelector("body");
+
+    if (body) {
+      body.style.pointerEvents = "none";
+    }
+  }, []);
+
+  if (errorCode === "NO_WEB3") {
     return <Web3Missing />;
   }
 
-  if (authState.context.errorCode === "WRONG_CHAIN") {
+  if (errorCode === "WRONG_CHAIN") {
     return <WrongChain />;
   }
 
-  if (authState.context.errorCode === "REJECTED_TRANSACTION") {
+  if (errorCode === "REJECTED_TRANSACTION") {
     return <RejectedSignTransaction onTryAgain={() => send("REFRESH")} />;
   }
 
-  if (authState.context.errorCode === "NO_FARM") {
+  if (errorCode === "NO_FARM") {
     return <Beta />;
   }
 
-  if (authState.context.errorCode === "BLOCKED") {
+  if (errorCode === "BLOCKED") {
     return <Blocked />;
   }
 
-  if (authState.context.errorCode === "DISCORD_USER_EXISTS") {
+  if (errorCode === "DISCORD_USER_EXISTS") {
     return <DuplicateUser />;
+  }
+
+  if (errorCode === "NETWORK_CONGESTED") {
+    return <Congestion />;
   }
 
   return <ConnectingError />;

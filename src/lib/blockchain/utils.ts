@@ -25,6 +25,7 @@ export function parseMetamaskError(error: any): Error {
   }
 
   if (error.code === -32603) {
+    console.log("Congested!");
     return new Error(ERRORS.NETWORK_CONGESTED);
   }
 
