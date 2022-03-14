@@ -1,7 +1,9 @@
 import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import FarmABI from "./abis/Farm.json";
+import { parseMetamaskError } from "./utils";
 
 const address = CONFIG.FARM_CONTRACT;
 
@@ -35,12 +37,23 @@ export class Farm {
   }
 
   // TODO - simplify the smart contract to fetch this in 1 call
-  public async getFarms(): Promise<FarmAccount[]> {
-    const accounts = await this.farm.methods
-      .getFarms(this.account)
-      .call({ from: this.account });
+  public async getFarms(attempts = 0): Promise<FarmAccount[]> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
 
-    return accounts;
+    try {
+      const accounts = await this.farm.methods
+        .getFarms(this.account)
+        .call({ from: this.account });
+
+      return accounts;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.getFarms(attempts + 1);
+      }
+
+      throw error;
+    }
   }
 
   public async getFarm(tokenId: number): Promise<FarmAccount> {
@@ -49,17 +62,17 @@ export class Farm {
     return account;
   }
 
-  public async onCreated(owner: string): Promise<FarmCreatedEvent> {
-    const latest = await this.web3.eth.getBlockNumber();
+  public async getFarmCreated(
+    fromBlock: number,
+    attempts = 1
+  ): Promise<FarmCreatedEvent> {
     const options = {
-      filter: { account: [owner] },
-      fromBlock: latest,
+      filter: { account: [this.account] },
+      fromBlock: fromBlock,
     };
 
-    // TODO if the user cancels the transaction we also need to clear the interval
-
-    // Every second poll for the new ID
     return new Promise((res, rej) => {
+      // Every 3 seconds ping for the new SessionID
       const timer = setInterval(() => {
         this.farm
           .getPastEvents("LandCreated", options)
@@ -71,10 +84,16 @@ export class Farm {
           })
           .catch((err: any) => {
             clearInterval(timer);
-            console.log({ err });
+
+            // Retry on fails
+            if (attempts < 3) {
+              console.log({ err });
+
+              return this.getFarmCreated(fromBlock, attempts + 1);
+            }
             rej(err);
           });
-      }, 1000);
+      }, 3000 * attempts);
     });
   }
 }

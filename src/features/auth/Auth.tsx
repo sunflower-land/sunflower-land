@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/esm/Modal";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import { Unauthorised } from "./Unauthorised";
+import { ErrorMessage } from "./ErrorMessage";
 import { Panel } from "components/ui/Panel";
 import {
   NoFarm,
@@ -18,6 +18,7 @@ import {
 import jumpingGoblin from "assets/npcs/goblin_jump.gif";
 import curly from "assets/npcs/curly_hair.png";
 import { Signing } from "./components/Signing";
+import { ErrorCode } from "lib/errors";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -50,7 +51,11 @@ export const Auth: React.FC = () => {
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
           {authState.matches("exploring") && <VisitFarm />}
-          {authState.matches("unauthorised") && <Unauthorised />}
+          {authState.matches("unauthorised") && (
+            <ErrorMessage
+              errorCode={authState.context.errorCode as ErrorCode}
+            />
+          )}
         </Panel>
       </div>
     </Modal>

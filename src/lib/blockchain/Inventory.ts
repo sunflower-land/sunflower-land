@@ -7,6 +7,7 @@ import InventoryJSON from "./abis/Inventory.json";
 import { TOOLS } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 import { CONFIG } from "lib/config";
+import { parseMetamaskError } from "./utils";
 
 const address = CONFIG.INVENTORY_CONTRACT;
 
@@ -30,13 +31,33 @@ export class Inventory {
     );
   }
 
+  private async loadSupplyBatch(
+    ids: number[],
+    attempts = 0
+  ): Promise<number[]> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const supplies: number[] = await this.contract.methods
+        .totalSupplyBatch(ids)
+        .call({ from: this.account });
+
+      return supplies;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.loadSupplyBatch(ids, attempts + 1);
+      }
+
+      throw error;
+    }
+  }
+
   public async totalSupply() {
     const ids = Object.values(KNOWN_IDS);
     const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
 
-    const supplies: number[] = await this.contract.methods
-      .totalSupplyBatch(ids)
-      .call({ from: this.account });
+    const supplies: number[] = await this.loadSupplyBatch(ids);
 
     return supplies.reduce(
       (items, supply, index) => ({

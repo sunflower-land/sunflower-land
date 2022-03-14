@@ -14,7 +14,6 @@ import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
 import { Captcha } from "./components/Captcha";
 import { ToastManager } from "./toast/ToastManager";
-import { GameError } from "./components/GameError";
 import { Decorations } from "./components/Decorations";
 import { Minting } from "./components/Minting";
 import { Success } from "./components/Success";
@@ -27,6 +26,8 @@ import { Forest } from "features/forest/Forest";
 
 import { StateValues } from "./lib/gameMachine";
 import { Town } from "features/town/Town";
+import { ErrorCode } from "lib/errors";
+import { ErrorMessage } from "features/auth/ErrorMessage";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -78,7 +79,11 @@ export const Game: React.FC = () => {
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
-          {gameState.matches("error") && <GameError />}
+          {gameState.matches("error") && (
+            <ErrorMessage
+              errorCode={gameState.context.errorCode as ErrorCode}
+            />
+          )}
           {gameState.matches("minting") && <Minting />}
           {gameState.matches("success") && <Success />}
           {gameState.matches("syncing") && <Syncing />}

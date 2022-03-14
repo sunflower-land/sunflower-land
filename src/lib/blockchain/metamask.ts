@@ -9,7 +9,7 @@ import { WishingWell } from "./WishingWell";
 import { Token } from "./Token";
 import { toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
-import { estimateGasPrice } from "./utils";
+import { estimateGasPrice, parseMetamaskError } from "./utils";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -135,23 +135,12 @@ export class Metamask {
         ""
       );
 
-      const recovered = await this.web3.eth.accounts.recover(
-        message,
-        signature
-      );
-
-      // Example of verifying a transaction on the backend
-      //const signingAddress = this.web3.eth.accounts.recover(hash, signature);
-
       return {
         signature,
       };
     } catch (error: any) {
-      if (error.code === 4001) {
-        throw new Error(ERRORS.REJECTED_TRANSACTION);
-      }
-
-      throw error;
+      const parsed = parseMetamaskError(error);
+      throw parsed;
     }
   }
 
@@ -249,11 +238,9 @@ export class Metamask {
         gasPrice,
       });
     } catch (error: any) {
-      if (error.code === 4001) {
-        throw new Error(ERRORS.REJECTED_TRANSACTION);
-      }
+      const parsed = parseMetamaskError(error);
 
-      throw error;
+      throw parsed;
     }
   }
 
@@ -287,6 +274,22 @@ export class Metamask {
 
   public get myAccount() {
     return this.account;
+  }
+
+  public async getBlockNumber() {
+    try {
+      const number = await this.web3?.eth.getBlockNumber();
+
+      if (!number) {
+        throw new Error(ERRORS.NETWORK_CONGESTED);
+      }
+
+      return number;
+    } catch (error: any) {
+      const parsed = parseMetamaskError(error);
+
+      throw parsed;
+    }
   }
 }
 

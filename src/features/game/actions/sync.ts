@@ -36,21 +36,13 @@ type Options = {
 export async function sync({ farmId, sessionId, token }: Options) {
   if (!API_URL) return;
 
-  try {
-    const transaction = await signTransaction({
-      farmId,
-      sessionId,
-      token,
-    });
+  const transaction = await signTransaction({
+    farmId,
+    sessionId,
+    token,
+  });
 
-    const session = await metamask.getSessionManager().sync(transaction);
+  const session = await metamask.getSessionManager().sync(transaction);
 
-    return session;
-  } catch (error: any) {
-    if (error.code === 4001) {
-      throw new Error(ERRORS.REJECTED_TRANSACTION);
-    }
-
-    throw error;
-  }
+  return session;
 }
