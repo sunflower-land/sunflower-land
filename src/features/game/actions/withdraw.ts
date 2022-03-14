@@ -52,24 +52,16 @@ export async function withdraw({
 }: Options) {
   if (!API_URL) return;
 
-  try {
-    const transaction = await signTransaction({
-      farmId,
-      sessionId,
-      sfl,
-      ids,
-      amounts,
-      token,
-    });
+  const transaction = await signTransaction({
+    farmId,
+    sessionId,
+    sfl,
+    ids,
+    amounts,
+    token,
+  });
 
-    const session = await metamask.getSessionManager().withdraw(transaction);
+  const session = await metamask.getSessionManager().withdraw(transaction);
 
-    return session;
-  } catch (error: any) {
-    if (error.code === 4001) {
-      throw new Error(ERRORS.REJECTED_TRANSACTION);
-    }
-
-    throw error;
-  }
+  return session;
 }
