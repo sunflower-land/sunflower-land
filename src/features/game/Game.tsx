@@ -19,6 +19,7 @@ import { Minting } from "./components/Minting";
 import { Success } from "./components/Success";
 import { Syncing } from "./components/Syncing";
 import { Withdrawing } from "./components/Withdrawing";
+import { Blacklisted } from "./components/Blacklisted";
 
 import { Quarry } from "features/quarry/Quarry";
 import { TeamDonation } from "features/teamDonation/TeamDonation";
@@ -41,6 +42,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   withdrawing: true,
   error: true,
   captcha: false,
+  blacklisted: true,
 };
 
 export const Game: React.FC = () => {
@@ -84,6 +86,7 @@ export const Game: React.FC = () => {
               errorCode={gameState.context.errorCode as ErrorCode}
             />
           )}
+          {gameState.matches("blacklisted") && <Blacklisted />}
           {gameState.matches("minting") && <Minting />}
           {gameState.matches("success") && <Success />}
           {gameState.matches("syncing") && <Syncing />}

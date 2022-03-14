@@ -80,7 +80,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
             {selected.description}
           </span>
 
-          {!hasSelectedFood && 
+          {!hasSelectedFood && (
             <div className="border-t border-white w-full mt-2 pt-1">
               {selected.ingredients.map((ingredient, index) => {
                 const item = ITEM_DETAILS[ingredient.item];
@@ -108,15 +108,18 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
               <div className="flex justify-center items-end">
                 <img src={token} className="h-5 mr-1" />
                 <span
-                  className={classNames("text-xs text-shadow text-center mt-2 ", {
-                    "text-red-500": lessFunds(),
-                  })}
+                  className={classNames(
+                    "text-xs text-shadow text-center mt-2 ",
+                    {
+                      "text-red-500": lessFunds(),
+                    }
+                  )}
                 >
                   {`$${selected.price.toNumber()}`}
                 </span>
               </div>
             </div>
-          }
+          )}
           <Button
             disabled={hasSelectedFood ? false : !canCraft}
             className={`${hasSelectedFood ? "pe-none" : ""} text-xs mt-1`}
@@ -129,4 +132,3 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
     </div>
   );
 };
-

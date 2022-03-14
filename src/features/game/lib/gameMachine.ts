@@ -87,7 +87,8 @@ export type BlockchainState = {
     | "success"
     | "syncing"
     | "withdrawing"
-    | "error";
+    | "error"
+    | "blacklisted";
   context: Context;
 };
 
@@ -137,7 +138,7 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const { game, offset } = response;
+                const { game, offset, isBlacklisted } = response;
 
                 // add farm address
                 game.farmAddress = authContext.address;
@@ -145,6 +146,7 @@ export function startGame(authContext: Options) {
                 return {
                   state: game,
                   offset,
+                  isBlacklisted,
                 };
               }
 
@@ -159,13 +161,19 @@ export function startGame(authContext: Options) {
 
               return { state: INITIAL_FARM };
             },
-            onDone: {
-              target: handleInitialState(),
-              actions: assign({
-                state: (_, event) => event.data.state,
-                offset: (_, event) => event.data.offset,
-              }),
-            },
+            onDone: [
+              {
+                target: "blacklisted",
+                cond: (_, event) => event.data.isBlacklisted,
+              },
+              {
+                target: handleInitialState(),
+                actions: assign({
+                  state: (_, event) => event.data.state,
+                  offset: (_, event) => event.data.offset,
+                }),
+              },
+            ],
             onError: {
               target: "error",
             },
@@ -393,6 +401,7 @@ export function startGame(authContext: Options) {
         },
         readonly: {},
         error: {},
+        blacklisted: {},
         success: {
           on: {
             REFRESH: {
