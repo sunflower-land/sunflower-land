@@ -108,7 +108,7 @@ export const Field: React.FC<Props> = ({
     }
   };
 
-  const playing = game.matches("playing");
+  const playing = game.matches("playing") || game.matches("autosaving");
 
   return (
     <div
