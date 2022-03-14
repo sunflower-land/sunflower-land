@@ -106,7 +106,8 @@ export const InventoryTabContent = ({
       </OuterPanel>
       <div
         ref={itemContainerRef}
-        className={classNames("h-96 overflow-y-scroll", {
+        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+        className={classNames("overflow-y-scroll", {
           scrollable: showScrollbar,
         })}
       >
