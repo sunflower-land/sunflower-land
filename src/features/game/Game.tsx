@@ -14,7 +14,6 @@ import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
 import { Captcha } from "./components/Captcha";
 import { ToastManager } from "./toast/ToastManager";
-import { GameError } from "./components/GameError";
 import { Decorations } from "./components/Decorations";
 import { Minting } from "./components/Minting";
 import { Success } from "./components/Success";
