@@ -13,16 +13,9 @@ import { Crop, CROPS } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { useTour } from "@reactour/tour";
-import { TourStep } from "features/game/lib/Tour";
 import { getSellPrice } from "features/game/lib/pricing";
 
 export const Plants: React.FC = () => {
-  const {
-    setCurrentStep: setCurrentTourStep,
-    isOpen: tourIsOpen,
-    currentStep: currentTourStep,
-  } = useTour();
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
   const { setToast } = useContext(ToastContext);
   const { gameService } = useContext(Context);
@@ -47,9 +40,6 @@ export const Plants: React.FC = () => {
 
   const handleSellOne = () => {
     sell(1);
-    if (tourIsOpen) {
-      setCurrentTourStep(TourStep.buy);
-    }
   };
 
   const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);

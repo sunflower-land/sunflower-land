@@ -17,8 +17,6 @@ import { CropName, CROPS, SEEDS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
-import { useTour } from "@reactour/tour";
-import { TourStep } from "features/game/lib/Tour";
 import { Stock } from "components/ui/Stock";
 
 interface Props {
@@ -26,11 +24,6 @@ interface Props {
 }
 
 export const Seeds: React.FC<Props> = ({ onClose }) => {
-  const {
-    setCurrentStep: setCurrentTourStep,
-    isOpen: tourIsOpen,
-    currentStep: currentTourStep,
-  } = useTour();
   const [selected, setSelected] = useState<Craftable>(
     SEEDS()["Sunflower Seed"]
   );
@@ -55,18 +48,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const handlBuyOne = () => {
     buy();
-    if (tourIsOpen && currentTourStep === TourStep.buy) {
-      setCurrentTourStep(TourStep.plant);
-      onClose();
-    }
   };
 
   const handleBuyTen = () => {
     buy(10);
-    if (tourIsOpen && currentTourStep === TourStep.buy) {
-      setCurrentTourStep(TourStep.plant);
-      onClose();
-    }
   };
 
   const restock = () => {

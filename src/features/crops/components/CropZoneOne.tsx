@@ -11,7 +11,6 @@ export const CropZoneOne: React.FC = () => {
   return (
     <div
       className="absolute flex justify-center flex-col "
-      id="first-sunflower"
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
         height: `${GRID_WIDTH_PX * 3}px`,
@@ -21,12 +20,12 @@ export const CropZoneOne: React.FC = () => {
     >
       {/* Top row */}
       <div className="flex justify-between">
-        <Field selectedItem={selectedItem} fieldIndex={0} onboarding />
-        <Field selectedItem={selectedItem} fieldIndex={1} onboarding />
+        <Field selectedItem={selectedItem} fieldIndex={0} />
+        <Field selectedItem={selectedItem} fieldIndex={1} />
       </div>
       {/* Middle row */}
       <div className="flex justify-center">
-        <Field selectedItem={selectedItem} fieldIndex={2} onboarding />
+        <Field selectedItem={selectedItem} fieldIndex={2} />
       </div>
       {/* Bottom row */}
       <div className="flex justify-between">

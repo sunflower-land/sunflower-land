@@ -75,6 +75,11 @@ input[type="number"] {
   border: none;
 }
 
+/* If modal content overflows the screen height then allow the window to scroll */
+.modal-dialog-scrollable .modal-content {
+  overflow: initial;
+}
+
 .carousel-control-next,
 .carousel-control-prev {
   opacity: 1;

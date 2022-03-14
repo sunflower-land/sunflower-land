@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
-import { useTour } from "@reactour/tour";
 
 import { Hud } from "features/hud/Hud";
 import { Crops } from "features/crops/Crops";
@@ -33,7 +32,6 @@ const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   playing: false,
-  touring: false,
   readonly: false,
   autosaving: false,
   minting: true,
@@ -47,7 +45,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
-  const { setIsOpen: openTour } = useTour();
 
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 
@@ -71,12 +68,6 @@ export const Game: React.FC = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
       window.removeEventListener("blur", save);
     };
-  }, [gameState]);
-
-  useEffect(() => {
-    if (gameState.matches("touring")) {
-      openTour(true);
-    }
   }, [gameState]);
 
   return (

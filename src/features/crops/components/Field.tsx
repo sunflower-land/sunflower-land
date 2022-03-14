@@ -11,8 +11,6 @@ import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Soil } from "./Soil";
-import { useTour } from "@reactour/tour";
-import { TourStep } from "features/game/lib/Tour";
 import plant from "../../../assets/sound-effects/plant.mp3";
 import harvest from "../../../assets/sound-effects/harvest.mp3";
 
@@ -29,13 +27,7 @@ export const Field: React.FC<Props> = ({
   selectedItem,
   className,
   fieldIndex,
-  onboarding,
 }) => {
-  const {
-    isOpen: tourIsOpen,
-    setCurrentStep: setCurrentTourStep,
-    currentStep: currentTourStep,
-  } = useTour();
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
   const { gameService, shortcutItem } = useContext(Context);
@@ -56,12 +48,6 @@ export const Field: React.FC<Props> = ({
     const now = Date.now();
     if (now - clickedAt.current < 100) {
       return;
-    }
-
-    if (onboarding && tourIsOpen) {
-      currentTourStep === TourStep.harvest
-        ? setCurrentTourStep(TourStep.openInventory)
-        : setCurrentTourStep(TourStep.save);
     }
 
     clickedAt.current = now;
@@ -122,7 +108,8 @@ export const Field: React.FC<Props> = ({
     }
   };
 
-  const playingOrTouring = game.matches("playing") || game.matches("touring");
+  const playing = game.matches("playing");
+
   return (
     <div
       className={classNames("relative group", className)}
@@ -144,7 +131,7 @@ export const Field: React.FC<Props> = ({
       >
         {popover}
       </div>
-      {playingOrTouring && (
+      {playing && (
         <img
           src={selectBox}
           style={{

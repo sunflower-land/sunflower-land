@@ -12,8 +12,6 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 
 import { MarketItems } from "./MarketItems";
-import { useTour } from "@reactour/tour";
-import { TourStep } from "features/game/lib/Tour";
 import shopMP3 from "../../../assets/sound-effects/shop.mp3";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
@@ -23,11 +21,6 @@ export const Market: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const isNotReadOnly = !gameState.matches("readonly");
-  const {
-    setCurrentStep: setCurrentTourStep,
-    isOpen: tourIsOpen,
-    currentStep: currentTourStep,
-  } = useTour();
 
   const handleMarketClick = () => {
     const shopAudio = new Audio(shopMP3);
@@ -35,11 +28,6 @@ export const Market: React.FC = () => {
 
     setIsOpen(true);
     shopAudio.play();
-    if (tourIsOpen && currentTourStep === TourStep.openShop) {
-      setTimeout(() => {
-        setCurrentTourStep(TourStep.openSellTab);
-      }, 300);
-    }
   };
 
   return (
@@ -69,11 +57,7 @@ export const Market: React.FC = () => {
           onClick={() => handleMarketClick()}
         />
       )}
-      <Modal
-        centered
-        show={isOpen}
-        onHide={tourIsOpen ? undefined : () => setIsOpen(false)}
-      >
+      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <MarketItems onClose={() => setIsOpen(false)} />
       </Modal>
     </div>
