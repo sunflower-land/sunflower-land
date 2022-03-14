@@ -19,6 +19,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { useTour } from "@reactour/tour";
 import { TourStep } from "features/game/lib/Tour";
+import { Stock } from "components/ui/Stock";
 
 interface Props {
   onClose: () => void;
@@ -139,9 +140,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
-            {`${stock} in stock`}
-          </span>
+          <Stock item={selected}/>
           <span className="text-shadow text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
