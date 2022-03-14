@@ -26,6 +26,12 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     if (body) {
       body.style.pointerEvents = "none";
     }
+
+    () => {
+      if (body) {
+        body.style.pointerEvents = "initial";
+      }
+    };
   }, []);
 
   if (errorCode === "NO_WEB3") {
