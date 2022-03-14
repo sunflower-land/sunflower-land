@@ -9,6 +9,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 
 import { Share } from "./Share";
+import { HowToPlay } from "./HowToPlay";
 import { Modal } from "react-bootstrap";
 
 import mobileMenu from "assets/icons/hamburger_menu.png";
@@ -16,7 +17,6 @@ import questionMark from "assets/icons/expression_confused.png";
 import radish from "assets/icons/radish.png";
 import water from "assets/icons/expression_working.png";
 import timer from "assets/icons/timer.png";
-import { metamask } from "lib/blockchain/metamask";
 
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
@@ -29,6 +29,7 @@ export const Menu = () => {
 
   const [showShareModal, setShowShareModal] = React.useState(false);
   const [showComingSoon, setShowComingSoon] = React.useState(false);
+  const [showHowToPlay, setShowHowToPlay] = React.useState(true);
 
   // farm link (URL)
   const farmURL = authState.context.farmId
@@ -187,6 +188,11 @@ export const Menu = () => {
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
         farmURL={farmURL}
+      />
+
+      <HowToPlay
+        isOpen={showHowToPlay}
+        onClose={() => setShowHowToPlay(false)}
       />
 
       {/* TODO - To be deleted when withdraw and "Sync on chain" are implemented */}
