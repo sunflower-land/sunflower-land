@@ -27,7 +27,7 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
       body.style.pointerEvents = "none";
     }
 
-    () => {
+    return () => {
       if (body) {
         body.style.pointerEvents = "initial";
       }
