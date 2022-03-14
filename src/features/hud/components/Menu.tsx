@@ -16,12 +16,9 @@ import questionMark from "assets/icons/expression_confused.png";
 import radish from "assets/icons/radish.png";
 import water from "assets/icons/expression_working.png";
 import timer from "assets/icons/timer.png";
-import { useTour } from "@reactour/tour";
-import { TourStep } from "features/game/lib/Tour";
 import { metamask } from "lib/blockchain/metamask";
 
 export const Menu = () => {
-  const { isOpen: tourIsOpen, setCurrentStep: setCurrentTourStep } = useTour();
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
@@ -47,9 +44,6 @@ export const Menu = () => {
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
-    if (tourIsOpen) {
-      setCurrentTourStep(TourStep.sync);
-    }
   };
 
   const handleNavigationClick = (section: Section) => {
@@ -71,12 +65,6 @@ export const Menu = () => {
     // inside click
     if (ref?.current?.contains(e.target as Node)) return;
     // outside click
-    setMenuOpen(false);
-  };
-
-  // TODO - Remove function when withdraw and Sync on Chain functionalities are implemnented
-  const handleComingSoonModal = () => {
-    setShowComingSoon(true);
     setMenuOpen(false);
   };
 
@@ -103,10 +91,6 @@ export const Menu = () => {
 
   const autosave = async () => {
     gameService.send("SAVE");
-
-    if (tourIsOpen) {
-      setCurrentTourStep(TourStep.openMenu);
-    }
   };
 
   const goBack = () => {
@@ -117,12 +101,11 @@ export const Menu = () => {
     <div
       ref={ref}
       className="w-5/12 sm:w-auto fixed top-2 left-2 z-50 shadow-lg"
-      id="menu"
     >
       <OuterPanel>
         <div className="flex justify-center p-1">
           <Button
-            className="mr-2 bg-brown-200 active:bg-brown-200 open-menu"
+            className="mr-2 bg-brown-200 active:bg-brown-200"
             onClick={handleMenuClick}
           >
             <img
@@ -135,7 +118,6 @@ export const Menu = () => {
           {!gameState.matches("readonly") && (
             <Button
               onClick={autosave}
-              className="save"
               disabled={gameState.matches("autosaving") ? true : false}
             >
               {gameState.matches("autosaving") ? (
