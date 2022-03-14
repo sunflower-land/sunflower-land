@@ -13,18 +13,8 @@ import { Context } from "features/game/GameProvider";
 
 import { getShortcuts } from "../lib/shortcuts";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { useTour } from "@reactour/tour";
-import { TourStep } from "features/game/lib/Tour";
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 export const Inventory: React.FC = () => {
-  const {
-    setCurrentStep: setCurrentTourStep,
-    isOpen: tourIsOpen,
-    currentStep,
-  } = useTour();
-  const [scrollIntoView] = useScrollIntoView();
-
   const [isOpen, setIsOpen] = useState(false);
   const { shortcutItem, gameService } = useContext(Context);
   const [game] = useActor(gameService);
@@ -34,28 +24,13 @@ export const Inventory: React.FC = () => {
 
   const handleInventoryClick = () => {
     setIsOpen(true);
-    if (tourIsOpen && currentStep === TourStep.openInventory) {
-      setTimeout(() => {
-        setCurrentTourStep(TourStep.inventory);
-      }, 300);
-    }
   };
-
-  useEffect(() => {
-    if (tourIsOpen && currentStep === TourStep.openShop) {
-      setIsOpen(false);
-      setTimeout(() => {
-        scrollIntoView(Section.Town);
-      }, 100);
-    }
-  }, [currentStep]);
 
   return (
     <div className="flex flex-col items-end mr-2 sm:block fixed top-16 right-0 z-50">
       <div
         className="w-16 h-16 sm:mx-8 mt-2 relative flex justify-center items-center shadow rounded-full cursor-pointer"
         onClick={() => handleInventoryClick()}
-        id="open-inventory"
       >
         <img
           src={button}
@@ -66,15 +41,8 @@ export const Inventory: React.FC = () => {
         <Label className="hidden sm:block absolute -bottom-7">Items</Label>
       </div>
 
-      <Modal
-        centered
-        scrollable
-        show={isOpen}
-        onHide={tourIsOpen ? undefined : () => setIsOpen(false)}
-      >
-        <InventoryItems
-          onClose={() => (tourIsOpen ? null : setIsOpen(false))}
-        />
+      <Modal centered scrollable show={isOpen} onHide={() => setIsOpen(false)}>
+        <InventoryItems onClose={() => setIsOpen(false)} />
       </Modal>
 
       {!game.matches("readonly") && (

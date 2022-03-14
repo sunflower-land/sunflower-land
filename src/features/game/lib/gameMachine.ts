@@ -42,9 +42,6 @@ type WithdrawEvent = {
 
 export type BlockchainEvent =
   | {
-      type: "TOUR_COMPLETE";
-    }
-  | {
       type: "SAVE";
     }
   | {
@@ -81,7 +78,6 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 export type BlockchainState = {
   value:
     | "loading"
-    | "touring"
     | "playing"
     | "readonly"
     | "autosaving"
@@ -108,9 +104,6 @@ type Options = AuthContext & { isNoob: boolean };
 
 export function startGame(authContext: Options) {
   const handleInitialState = () => {
-    if (authContext.isNoob) {
-      return "touring";
-    }
     if (authContext.sessionId || !authContext.address) {
       return "playing";
     }
@@ -173,18 +166,6 @@ export function startGame(authContext: Options) {
           },
           onError: {
             target: "error",
-          },
-        },
-      },
-      // TODO: Find a better place to trigger tour
-      touring: {
-        on: {
-          ...GAME_EVENT_HANDLERS,
-          TOUR_COMPLETE: {
-            target: "playing",
-            actions: () => {
-              window.localStorage.setItem("tourStatus", "done");
-            },
           },
         },
       },

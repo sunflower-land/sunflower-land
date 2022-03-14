@@ -21,8 +21,6 @@ import nft from "assets/nfts/gnome.png";
 import food from "assets/crops/wheat/flour.png";
 import resource from "assets/resources/wood.png";
 
-import { useTour } from "@reactour/tour";
-import { TourStep } from "features/game/lib/Tour";
 import Decimal from "decimal.js-light";
 import { InventoryTabContent } from "./InventoryTabContent";
 
@@ -84,19 +82,8 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
   );
   const [selectedItem, setSelectedItem] = useState<InventoryItemName>();
 
-  const {
-    setCurrentStep: setCurrentTourStep,
-    isOpen: tourIsOpen,
-    currentStep: currentTourStep,
-  } = useTour();
-
   const handleTabClick = (tab: Tab) => {
     setCurrentTab(tab);
-    if (tourIsOpen) {
-      currentTourStep === TourStep.openSellTab
-        ? setCurrentTourStep(TourStep.sellSunflower)
-        : setCurrentTourStep(TourStep.buy);
-    }
   };
 
   const handleItemSelected = (item: InventoryItemName) => {
@@ -132,7 +119,7 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
         <img
           src={close}
           className="h-6 cursor-pointer mr-2 mb-1"
-          onClick={tourIsOpen ? undefined : () => onClose()}
+          onClick={() => onClose()}
         />
       </div>
 
