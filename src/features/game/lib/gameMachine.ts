@@ -157,34 +157,18 @@ export function startGame(authContext: Options) {
                 return { state: game };
               }
 
-            return { state: INITIAL_FARM };
-          },
-          onDone: {
-            target: handleInitialState(),
-            actions: assign({
-              state: (_, event) => event.data.state,
-              offset: (_, event) => event.data.offset,
-            }),
-          },
-          onError: {
-            target: "error",
-          },
-        },
-      },
-      playing: {
-        on: {
-          ...GAME_EVENT_HANDLERS,
-          SAVE: {
-            target: "autosaving",
-          },
-          MINT: {
-            target: "minting",
-          },
-          SYNC: {
-            target: "syncing",
-          },
-          WITHDRAW: {
-            target: "withdrawing",
+              return { state: INITIAL_FARM };
+            },
+            onDone: {
+              target: handleInitialState(),
+              actions: assign({
+                state: (_, event) => event.data.state,
+                offset: (_, event) => event.data.offset,
+              }),
+            },
+            onError: {
+              target: "error",
+            },
           },
         },
         playing: {
