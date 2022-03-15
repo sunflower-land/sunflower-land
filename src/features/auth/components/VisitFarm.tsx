@@ -36,13 +36,13 @@ export const VisitFarm: React.FC = () => {
         />
         <div className="flex">
           <Button
-            className="overflow-hidden"
+            className="overflow-hidden mr-1"
             type="button"
             onClick={() => authService.send("LOAD_FARM")}
           >
             Back
           </Button>
-          <Button className="overflow-hidden" type="submit">
+          <Button className="overflow-hidden ml-1" type="submit">
             Visit
           </Button>
         </div>
