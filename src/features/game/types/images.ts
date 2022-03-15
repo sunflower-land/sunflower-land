@@ -63,11 +63,13 @@ import { InventoryItemName } from "./game";
 import { FOODS, LimitedItems, TOOLS } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 export type ItemDetails = {
   description: string;
   image: any;
   secondaryImage?: any;
+  section?: Section;
 };
 
 type Items = Record<InventoryItemName, ItemDetails>;

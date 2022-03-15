@@ -4,10 +4,26 @@ export enum Section {
   Animals = "animals",
   Shop = "shop",
   Town = "town",
+
+  // NFT IDs
+  "Sunflower Statue" = "sunflower-statue",
+  "Potato Statue" = "potato-statue",
+  "Christmas Tree" = "christmas-tree",
+  Scarecrow = "scarecrow",
+  "Farm Cat" = "farm-cat",
+  "Farm Dog" = "farm-dog",
+  Gnome = "gnome",
+  "Chicken Coop" = "chicken-coop",
+  "Sunflower Tombstone" = "sunflower-tombstone",
+  "Sunflower Rock" = "sunflower-rock",
+  "Goblin Crown" = "goblin-crown",
+  Fountain = "fountain",
 }
 
 export const useScrollIntoView = () => {
-  const scrollIntoView = (id: Section) => {
+  const scrollIntoView = (id: Section | undefined) => {
+    if (!id) return;
+
     const el = document.getElementById(id);
 
     el?.scrollIntoView({

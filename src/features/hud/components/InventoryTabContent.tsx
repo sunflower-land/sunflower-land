@@ -11,6 +11,7 @@ import timer from "assets/icons/timer.png";
 import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
+import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
@@ -38,6 +39,7 @@ export const InventoryTabContent = ({
 }: Props) => {
   const { ref: itemContainerRef, showScrollbar } =
     useShowScrollbar(TAB_CONTENT_HEIGHT);
+  const [scrollIntoView] = useScrollIntoView();
   const categories = Object.keys(tabItems) as InventoryItemName[];
 
   useEffect(() => {
@@ -73,6 +75,14 @@ export const InventoryTabContent = ({
 
   const getCropHarvestTime = (crop = "") =>
     secondsToString(CROPS()[crop.split(" ")[0] as CropName].harvestSeconds);
+
+  const handleItemClick = (item: InventoryItemName) => {
+    onClick(item);
+
+    if (item && ITEM_DETAILS[item].section) {
+      scrollIntoView(ITEM_DETAILS[item].section);
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -121,9 +131,7 @@ export const InventoryTabContent = ({
                     count={inventory[item]}
                     isSelected={selectedItem === item}
                     key={item}
-                    onClick={() => {
-                      onClick(item);
-                    }}
+                    onClick={() => handleItemClick(item)}
                     image={ITEM_DETAILS[item].image}
                   />
                 ))}
