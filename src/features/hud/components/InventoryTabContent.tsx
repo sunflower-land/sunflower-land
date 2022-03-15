@@ -76,9 +76,11 @@ export const InventoryTabContent = ({
   const getCropHarvestTime = (crop = "") =>
     secondsToString(CROPS()[crop.split(" ")[0] as CropName].harvestSeconds);
 
-  const handleImageClick = () => {
-    if (selectedItem && ITEM_DETAILS[selectedItem].section) {
-      scrollIntoView(ITEM_DETAILS[selectedItem].section);
+  const handleItemClick = (item: InventoryItemName) => {
+    onClick(item);
+
+    if (item && ITEM_DETAILS[item].section) {
+      scrollIntoView(ITEM_DETAILS[item].section);
     }
   };
 
@@ -90,15 +92,7 @@ export const InventoryTabContent = ({
             style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
             className="flex flex-col justify-evenly items-center p-2"
           >
-            <span
-              className={classNames("text-center text-shadow", {
-                underline: !!ITEM_DETAILS[selectedItem].section,
-                "cursor-pointer": !!ITEM_DETAILS[selectedItem].section,
-              })}
-              onClick={() => handleImageClick()}
-            >
-              {selectedItem}
-            </span>
+            <span className="text-center text-shadow">{selectedItem}</span>
             <img
               src={ITEM_DETAILS[selectedItem].image}
               className="h-12"
@@ -137,9 +131,7 @@ export const InventoryTabContent = ({
                     count={inventory[item]}
                     isSelected={selectedItem === item}
                     key={item}
-                    onClick={() => {
-                      onClick(item);
-                    }}
+                    onClick={() => handleItemClick(item)}
                     image={ITEM_DETAILS[item].image}
                   />
                 ))}
