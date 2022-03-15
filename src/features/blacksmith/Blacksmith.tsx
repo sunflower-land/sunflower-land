@@ -11,7 +11,7 @@ import hammer from "assets/icons/hammer.png";
 import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import blacksmithMp3 from "../../assets/sound-effects/blacksmith.mp3";
+import { blacksmithAudio } from "lib/utils/sfx";
 
 export const Blacksmith: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -21,11 +21,8 @@ export const Blacksmith: React.FC = () => {
   const isNotReadOnly = !gameState.matches("readonly");
 
   const open = () => {
-    const blacksmithAudio = new Audio(blacksmithMp3);
-    blacksmithAudio.volume = 0.3;
-
-    blacksmithAudio.play();
     setIsOpen(true);
+    blacksmithAudio.play();
   };
 
   return (

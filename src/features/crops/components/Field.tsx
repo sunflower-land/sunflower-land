@@ -11,8 +11,7 @@ import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Soil } from "./Soil";
-import plant from "../../../assets/sound-effects/plant.mp3";
-import harvest from "../../../assets/sound-effects/harvest.mp3";
+import { harvestAudio, plantAudio } from "lib/utils/sfx";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -51,10 +50,6 @@ export const Field: React.FC<Props> = ({
     }
 
     clickedAt.current = now;
-    const harvestAudio = new Audio(plant);
-    const plantingAudio = new Audio(harvest);
-    harvestAudio.volume = 0.2;
-    plantingAudio.volume = 0.2;
 
     // Plant
     if (!field) {
@@ -64,7 +59,7 @@ export const Field: React.FC<Props> = ({
           item: selectedItem,
         });
 
-        harvestAudio.play();
+        plantAudio.play();
 
         displayPopover(
           <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
@@ -92,7 +87,7 @@ export const Field: React.FC<Props> = ({
         index: fieldIndex,
       });
 
-      plantingAudio.play();
+      harvestAudio.play();
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">

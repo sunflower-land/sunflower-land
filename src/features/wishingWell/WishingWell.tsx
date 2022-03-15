@@ -11,7 +11,7 @@ import icon from "assets/brand/icon.png";
 import { WishingWellModal } from "./components/WishingWellModal";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
-import wishingWellMp3 from "../../assets/sound-effects/wishing_well.mp3";
+import { whishingWellAudio } from "lib/utils/sfx";
 
 export const WishingWell: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -21,9 +21,6 @@ export const WishingWell: React.FC = () => {
   const isNotReadOnly = !gameState.matches("readonly");
 
   const open = () => {
-    const whishingWellAudio = new Audio(wishingWellMp3);
-    whishingWellAudio.volume = 0.5;
-
     whishingWellAudio.play();
     setIsOpen(true);
   };

@@ -16,7 +16,7 @@ import downArrow from "assets/icons/arrow_down.png";
 import token from "assets/icons/token.png";
 import humanDeath from "assets/npcs/human_death.gif";
 import { ERRORS } from "lib/errors";
-import beggarMP3 from "../../assets/sound-effects/beggar.mp3";
+import { beggarAudio } from "lib/utils/sfx";
 
 type DonateEvent = {
   type: "DONATE";
@@ -118,9 +118,6 @@ export const TeamDonation: React.FC = () => {
   };
 
   const beggarClick = () => {
-    const beggarAudio = new Audio(beggarMP3);
-    beggarAudio.volume = 0.3;
-
     send("BEGGER_CLICK");
     beggarAudio.play();
   };

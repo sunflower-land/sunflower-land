@@ -6,17 +6,14 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 
 import frog from "assets/animals/frog.png";
-import frogMp3 from "../../../assets/sound-effects/frog.mp3";
+import { frogAudio } from "lib/utils/sfx";
 
 export const Frog: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const open = () => {
-    const frogAudio = new Audio(frogMp3);
-    frogAudio.volume = 0.2;
-
-    frogAudio.play();
     setShowModal(true);
+    frogAudio.play();
   };
 
   return (
