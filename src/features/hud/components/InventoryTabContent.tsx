@@ -11,6 +11,7 @@ import timer from "assets/icons/timer.png";
 import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
+import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
@@ -38,6 +39,7 @@ export const InventoryTabContent = ({
 }: Props) => {
   const { ref: itemContainerRef, showScrollbar } =
     useShowScrollbar(TAB_CONTENT_HEIGHT);
+  const [scrollIntoView] = useScrollIntoView();
   const categories = Object.keys(tabItems) as InventoryItemName[];
 
   useEffect(() => {
@@ -74,6 +76,12 @@ export const InventoryTabContent = ({
   const getCropHarvestTime = (crop = "") =>
     secondsToString(CROPS()[crop.split(" ")[0] as CropName].harvestSeconds);
 
+  const handleImageClick = () => {
+    if (selectedItem && ITEM_DETAILS[selectedItem].section) {
+      scrollIntoView(ITEM_DETAILS[selectedItem].section);
+    }
+  };
+
   return (
     <div className="flex flex-col">
       <OuterPanel className="flex-1 mb-3">
@@ -82,7 +90,15 @@ export const InventoryTabContent = ({
             style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
             className="flex flex-col justify-evenly items-center p-2"
           >
-            <span className="text-center text-shadow">{selectedItem}</span>
+            <span
+              className={classNames("text-center text-shadow", {
+                underline: !!ITEM_DETAILS[selectedItem].section,
+                "cursor-pointer": !!ITEM_DETAILS[selectedItem].section,
+              })}
+              onClick={() => handleImageClick()}
+            >
+              {selectedItem}
+            </span>
             <img
               src={ITEM_DETAILS[selectedItem].image}
               className="h-12"

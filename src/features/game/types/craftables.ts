@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { SeedName, SEEDS } from "../types/crops";
 import { InventoryItemName } from "../types/game";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 export type CraftAction = {
   type: "item.crafted";
@@ -22,6 +23,7 @@ export type Craftable = {
   supply?: number;
   disabled?: boolean;
   requires?: InventoryItemName;
+  section?: Section;
 };
 
 export type LimitedItem =
@@ -198,6 +200,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     ],
     limit: 1,
     supply: 1000,
+    section: Section["Sunflower Statue"],
   },
   "Potato Statue": {
     name: "Potato Statue",
@@ -215,6 +218,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     ],
     limit: 1,
     supply: 5000,
+    section: Section["Potato Statue"],
   },
   Scarecrow: {
     name: "Scarecrow",
@@ -233,6 +237,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     limit: 1,
     supply: 5000,
     disabled: true,
+    section: Section.Scarecrow,
   },
   "Christmas Tree": {
     name: "Christmas Tree",
@@ -249,6 +254,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 0,
+    section: Section["Christmas Tree"],
   },
   "Chicken Coop": {
     name: "Chicken Coop",
@@ -270,6 +276,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     ],
     supply: 2000,
     limit: 1,
+    section: Section["Chicken Coop"],
   },
   "Farm Cat": {
     name: "Farm Cat",
@@ -277,6 +284,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     price: new Decimal(50),
     ingredients: [],
     supply: 0,
+    section: Section["Farm Cat"],
   },
   "Farm Dog": {
     name: "Farm Dog",
@@ -284,6 +292,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     price: new Decimal(75),
     ingredients: [],
     supply: 0,
+    section: Section["Farm Dog"],
   },
   Gnome: {
     name: "Gnome",
@@ -291,6 +300,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     price: new Decimal(10),
     ingredients: [],
     supply: 0,
+    section: Section.Gnome,
   },
   "Gold Egg": {
     name: "Gold Egg",
@@ -314,6 +324,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     price: new Decimal(0),
     ingredients: [],
     supply: 0,
+    section: Section["Sunflower Tombstone"],
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
@@ -346,6 +357,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 150,
+    section: Section["Sunflower Rock"],
   },
   "Goblin Crown": {
     name: "Goblin Crown",
@@ -353,6 +365,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     price: new Decimal(5),
     ingredients: [],
     supply: 5000,
+    section: Section["Goblin Crown"],
   },
   Fountain: {
     name: "Fountain",
@@ -365,6 +378,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 10000,
+    section: Section.Fountain,
   },
   Beaver: {
     name: "Beaver",

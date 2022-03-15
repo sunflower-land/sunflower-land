@@ -5,6 +5,7 @@ import coop from "assets/nfts/chicken_coop.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 export const Chickens: React.FC = () => {
   const { gameService, selectedItem } = useContext(Context);
@@ -24,6 +25,7 @@ export const Chickens: React.FC = () => {
             right: `${GRID_WIDTH_PX * 1.1}px`,
             top: `${GRID_WIDTH_PX * 0}px`,
           }}
+          id={Section["Chicken Coop"]}
           className="absolute"
         />
       )}
