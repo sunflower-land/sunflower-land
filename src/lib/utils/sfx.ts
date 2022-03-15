@@ -49,7 +49,7 @@ export const beggarAudio = new Howl({
   volume: 0.3,
 });
 
-export const whishingWellAudio = new Howl({
+export const wishingWellAudio = new Howl({
   src: [wishingWellMp3],
   volume: 0.5,
 });
