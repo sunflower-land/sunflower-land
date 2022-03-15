@@ -66,6 +66,25 @@ export function makeGame(farm: any): GameState {
   };
 }
 
+type Rocks = Record<number, Rock>;
+
+/**
+ * Updates a rock with the new amount of mineral inside of it
+ */
+function updateRocks(oldRocks: Rocks, newRocks: Rocks): Rocks {
+  return Object.keys(oldRocks).reduce((rocks, rockId) => {
+    const id = Number(rockId);
+    const rock = oldRocks[id];
+    return {
+      ...rocks,
+      [id]: {
+        ...rock,
+        amount: newRocks[id].amount,
+      } as Rock,
+    };
+  }, {} as Record<number, Rock>);
+}
+
 /**
  * Merges in server side changes into the local state
  */
@@ -80,7 +99,7 @@ export function updateGame(
   // Only update random number values generated from the server
   return {
     ...oldGameState,
-    // Update any random numbers from the server
+    // Update tree with the random amount of wood from the server
     trees: Object.keys(oldGameState.trees).reduce((trees, treeId) => {
       const id = Number(treeId);
       const tree = oldGameState.trees[id];
@@ -92,38 +111,8 @@ export function updateGame(
         },
       };
     }, {} as Record<number, Tree>),
-    stones: Object.keys(oldGameState.stones).reduce((stones, treeId) => {
-      const id = Number(treeId);
-      const rock = oldGameState.stones[id];
-      return {
-        ...stones,
-        [id]: {
-          ...rock,
-          amount: newGameState.stones[id].amount,
-        } as Rock,
-      };
-    }, {} as Record<number, Rock>),
-    iron: Object.keys(oldGameState.iron).reduce((iron, treeId) => {
-      const id = Number(treeId);
-      const rock = oldGameState.iron[id];
-      return {
-        ...iron,
-        [id]: {
-          ...rock,
-          amount: newGameState.iron[id].amount,
-        } as Rock,
-      };
-    }, {} as Record<number, Rock>),
-    gold: Object.keys(oldGameState.gold).reduce((gold, treeId) => {
-      const id = Number(treeId);
-      const rock = oldGameState.gold[id];
-      return {
-        ...gold,
-        [id]: {
-          ...rock,
-          amount: newGameState.gold[id].amount,
-        } as Rock,
-      };
-    }, {} as Record<number, Rock>),
+    stones: updateRocks(oldGameState.stones, newGameState.stones),
+    iron: updateRocks(oldGameState.iron, newGameState.iron),
+    gold: updateRocks(oldGameState.gold, newGameState.gold),
   };
 }
