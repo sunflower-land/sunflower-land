@@ -241,7 +241,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
   },
   "Christmas Tree": {
     name: "Christmas Tree",
-    description: "Receieve a Santa Airdrop on Christmas day",
+    description: "Receive a Santa Airdrop on Christmas day",
     price: new Decimal(50),
     ingredients: [
       {
