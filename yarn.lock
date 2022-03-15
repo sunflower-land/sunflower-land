@@ -978,6 +978,11 @@
   dependencies:
     "@types/unist" "*"
 
+"@types/howler@^2.2.6":
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/@types/howler/-/howler-2.2.6.tgz#84389d2d09c1cdfaa99514cbe9f0363ae091cc5c"
+  integrity sha512-9cLZICB6CFNIbwk0kJGvIvlEVI7D0dbbtcj00Uin81jQSMeKafaLq7r3v0RWQOX8BkM+KqboJaOeH5S/qpNqJg==
+
 "@types/invariant@^2.2.33":
   version "2.2.35"
   resolved "https://registry.npmjs.org/@types/invariant/-/invariant-2.2.35.tgz"
@@ -3661,6 +3666,11 @@ hmac-drbg@^1.0.1:
     hash.js "^1.0.3"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
+
+howler@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.2.3.tgz#a2eff9b08b586798e7a2ee17a602a90df28715da"
+  integrity sha512-QM0FFkw0LRX1PR8pNzJVAY25JhIWvbKMBFM4gqk+QdV+kPXOhleWGCB6AiAF/goGjIHK2e/nIElplvjQwhr0jg==
 
 html-encoding-sniffer@^2.0.1:
   version "2.0.1"
