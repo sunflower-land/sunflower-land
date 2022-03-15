@@ -12,8 +12,8 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 
 import { MarketItems } from "./MarketItems";
-import shopMP3 from "../../../assets/sound-effects/shop.mp3";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { marketAudio } from "lib/utils/sfx";
 
 export const Market: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -23,11 +23,8 @@ export const Market: React.FC = () => {
   const isNotReadOnly = !gameState.matches("readonly");
 
   const handleMarketClick = () => {
-    const shopAudio = new Audio(shopMP3);
-    shopAudio.volume = 0.2;
-
     setIsOpen(true);
-    shopAudio.play();
+    marketAudio.play();
   };
 
   return (

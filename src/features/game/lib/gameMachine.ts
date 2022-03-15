@@ -15,6 +15,7 @@ import { sync } from "../actions/sync";
 import { withdraw } from "../actions/withdraw";
 import { getVisitState } from "../actions/visit";
 import { ERRORS } from "lib/errors";
+import { updateGame } from "./transforms";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -242,16 +243,7 @@ export function startGame(authContext: Options) {
                     (action) =>
                       action.createdAt.getTime() > event.data.saveAt.getTime()
                   ),
-                  state: event.data.farm
-                    ? {
-                        ...context.state,
-                        // Update any random numbers from the server
-                        trees: event.data.farm.trees,
-                        stones: event.data.farm.stones,
-                        iron: event.data.farm.iron,
-                        gold: event.data.farm.gold,
-                      }
-                    : context.state,
+                  state: updateGame(event.data.farm, context.state),
                 })),
               },
             ],

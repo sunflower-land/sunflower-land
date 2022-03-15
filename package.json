@@ -26,6 +26,7 @@
     "decimal.js-light": "^2.5.1",
     "events": "^3.3.0",
     "graphql": "^16.2.0",
+    "howler": "^2.2.3",
     "html2canvas": "^1.4.1",
     "jwt-decode": "^3.1.2",
     "lodash.shuffle": "^4.2.0",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-inject": "^4.0.4",
+    "@types/howler": "^2.2.6",
     "@types/jest": "^27.4.0",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
