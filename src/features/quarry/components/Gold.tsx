@@ -18,8 +18,7 @@ import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { canMine, GOLD_RECOVERY_TIME } from "features/game/events/goldMine";
-import miningMP3 from "../../../assets/sound-effects/mining.mp3";
-import miningFallMP3 from "../../../assets/sound-effects/mining_fall.mp3";
+import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -57,11 +56,6 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
   };
 
   const shake = () => {
-    const miningAudio = new Audio(miningMP3);
-    const miningFallAudio = new Audio(miningFallMP3);
-    miningFallAudio.volume = 0.5;
-    miningAudio.volume = 0.5;
-
     const isPlaying = sparkGif.current?.getInfo("isPlaying");
 
     if (selectedItem == tool && !isPlaying) {
@@ -77,6 +71,7 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
       // On third shake, chop
       if (touchCount > 0 && touchCount === shakesToBreak) {
         mine();
+        miningFallAudio.play();
         setTouchCount(0);
       }
     } else return;
