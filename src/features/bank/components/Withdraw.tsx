@@ -227,7 +227,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       </div>
       <div className="flex items-center">
         <span className="text-xs">
-          {`You will recieve: ${safeAmount(amount)
+          {`You will receive: ${safeAmount(amount)
             .mul((100 - tax) / 100)
             .toFixed(1)}`}
         </span>
