@@ -65,3 +65,65 @@ export function makeGame(farm: any): GameState {
     id: farm.id,
   };
 }
+
+/**
+ * Merges in server side changes into the local state
+ */
+export function updateGame(
+  newGameState: GameState,
+  oldGameState: GameState
+): GameState {
+  if (!newGameState) {
+    return oldGameState;
+  }
+
+  // Only update random number values generated from the server
+  return {
+    ...oldGameState,
+    // Update any random numbers from the server
+    trees: Object.keys(oldGameState.trees).reduce((trees, treeId) => {
+      const id = Number(treeId);
+      const tree = oldGameState.trees[id];
+      return {
+        ...trees,
+        [id]: {
+          ...tree,
+          wood: newGameState.trees[id].wood,
+        },
+      };
+    }, {} as Record<number, Tree>),
+    stones: Object.keys(oldGameState.stones).reduce((stones, treeId) => {
+      const id = Number(treeId);
+      const rock = oldGameState.stones[id];
+      return {
+        ...stones,
+        [id]: {
+          ...rock,
+          amount: newGameState.stones[id].amount,
+        } as Rock,
+      };
+    }, {} as Record<number, Rock>),
+    iron: Object.keys(oldGameState.iron).reduce((iron, treeId) => {
+      const id = Number(treeId);
+      const rock = oldGameState.iron[id];
+      return {
+        ...iron,
+        [id]: {
+          ...rock,
+          amount: newGameState.iron[id].amount,
+        } as Rock,
+      };
+    }, {} as Record<number, Rock>),
+    gold: Object.keys(oldGameState.gold).reduce((gold, treeId) => {
+      const id = Number(treeId);
+      const rock = oldGameState.gold[id];
+      return {
+        ...gold,
+        [id]: {
+          ...rock,
+          amount: newGameState.gold[id].amount,
+        } as Rock,
+      };
+    }, {} as Record<number, Rock>),
+  };
+}
