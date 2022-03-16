@@ -43,7 +43,7 @@ export const Soil: React.FC<Props> = ({ field, className }) => {
     const percentage = 100 - (timeLeft / crop.harvestSeconds) * 100;
 
     return (
-      <div className={"relative w-full h-full"}>
+      <div className="relative w-full h-full">
         <img
           src={lifecycle.seedling}
           className={classnames("w-full", className)}

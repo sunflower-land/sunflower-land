@@ -91,7 +91,7 @@ export const CropZoneThree: React.FC = () => {
             <img src={goblinHead} className="w-16 img-highlight mr-2" />
             <div className="flex-1">
               <span className="text-shadow block">
-                The only thing I like more than farming is Cabbage soup
+                The only thing I like more than farming is Sauerkraut
               </span>
               <img
                 src={cabbageSoup}
