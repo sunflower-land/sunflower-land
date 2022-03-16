@@ -160,7 +160,7 @@ export const Menu = () => {
             <li className="p-1">
               <Button onClick={() => handleNavigationClick(Section.Town)}>
                 <span className="sm:text-sm">Town</span>
-                <img src={town} className="w-4 ml-2" alt="town" />
+                <img src={town} className="w-6 ml-2" alt="town" />
               </Button>
             </li>
             <li className="p-1">
