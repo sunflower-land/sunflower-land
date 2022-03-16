@@ -1,3 +1,4 @@
+import { pingHealthCheck } from "web3-health-check";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { SessionManager } from "./Sessions";
@@ -47,6 +48,13 @@ export class Metamask {
         this.web3 as Web3,
         this.account as string
       );
+
+      const isHealthy = await this.healthCheck();
+
+      // Maintainers of package typed incorrectly
+      if (!isHealthy) {
+        throw new Error("Unable to reach Polygon");
+      }
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
@@ -75,6 +83,17 @@ export class Metamask {
     } else {
       throw new Error(ERRORS.NO_WEB3);
     }
+  }
+
+  public async healthCheck() {
+    const statusCode = await pingHealthCheck(
+      this.web3 as Web3,
+      this.account as string
+    );
+
+    const isHealthy = (statusCode as any) !== 500;
+
+    return isHealthy;
   }
 
   private async loadAccount() {
