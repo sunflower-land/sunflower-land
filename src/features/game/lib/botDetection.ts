@@ -2,7 +2,8 @@
  * Produces a timestamped fingerprint of the OS
  */
 export async function getFingerPrint() {
-  let fingerprint = "";
+  // Fallback fingerprint
+  let fingerprint = "0x123";
 
   try {
     fingerprint = await new Promise((res, rej) => {

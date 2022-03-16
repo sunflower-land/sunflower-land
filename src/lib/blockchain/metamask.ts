@@ -49,13 +49,10 @@ export class Metamask {
         this.account as string
       );
 
-      const statusCode = await pingHealthCheck(
-        this.web3 as Web3,
-        this.account as string
-      );
+      const isHealthy = await this.healthCheck();
 
       // Maintainers of package typed incorrectly
-      if ((statusCode as any) === 500) {
+      if (!isHealthy) {
         throw new Error("Unable to reach Polygon");
       }
     } catch (e: any) {
@@ -86,6 +83,17 @@ export class Metamask {
     } else {
       throw new Error(ERRORS.NO_WEB3);
     }
+  }
+
+  public async healthCheck() {
+    const statusCode = await pingHealthCheck(
+      this.web3 as Web3,
+      this.account as string
+    );
+
+    const isHealthy = (statusCode as any) !== 500;
+
+    return isHealthy;
   }
 
   private async loadAccount() {

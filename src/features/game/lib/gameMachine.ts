@@ -146,10 +146,13 @@ export function startGame(authContext: Options) {
                 // add farm address
                 game.farmAddress = authContext.address;
 
+                const fingerprint = await getFingerPrint();
+
                 return {
                   state: game,
                   offset,
                   isBlacklisted,
+                  fingerprint,
                 };
               }
 
@@ -174,6 +177,7 @@ export function startGame(authContext: Options) {
                 actions: assign({
                   state: (_, event) => event.data.state,
                   offset: (_, event) => event.data.offset,
+                  fingerprint: (_, event) => event.data.fingerprint,
                 }),
               },
             ],
@@ -218,6 +222,7 @@ export function startGame(authContext: Options) {
                 token: authContext.rawToken as string,
                 offset: context.offset,
                 captcha: context.captcha,
+                fingerprint: context.fingerprint as string,
               });
 
               // This gives the UI time to indicate that a save is taking place both when clicking save
@@ -288,6 +293,7 @@ export function startGame(authContext: Options) {
                   actions: context.actions,
                   token: authContext.rawToken as string,
                   offset: context.offset,
+                  fingerprint: context.fingerprint as string,
                 });
               }
 
@@ -325,6 +331,7 @@ export function startGame(authContext: Options) {
                   actions: context.actions,
                   token: authContext.rawToken as string,
                   offset: context.offset,
+                  fingerprint: context.fingerprint as string,
                 });
               }
 
