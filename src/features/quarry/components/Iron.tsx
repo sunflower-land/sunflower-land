@@ -28,6 +28,7 @@ interface Props {
 
 export const Iron: React.FC<Props> = ({ rockIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(true);
@@ -42,6 +43,7 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
 
+  const readonly = gameState.matches("readonly");
   const tool = "Stone Pickaxe";
   const rock = game.context.state.iron[rockIndex];
   // Users will need to refresh to chop the tree again
@@ -58,7 +60,13 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
   const shake = () => {
     const isPlaying = sparkGif.current?.getInfo("isPlaying");
 
-    if (selectedItem == tool && !isPlaying) {
+    if (readonly) {
+      miningAudio.play();
+      sparkGif.current?.goToAndPlay(0);
+      return;
+    }
+
+    if (selectedItem === tool && !isPlaying) {
       miningAudio.play();
 
       sparkGif.current?.goToAndPlay(0);
@@ -102,14 +110,14 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
   };
 
   const handleHover = () => {
-    if (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
+    if (readonly || selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
       return;
     containerRef.current?.classList["add"]("cursor-not-allowed");
     setShowLabel((prev) => !prev);
   };
 
   const handleMouseLeave = () => {
-    if (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
+    if (readonly || selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
       return;
     containerRef.current?.classList["remove"]("cursor-not-allowed");
     setShowLabel((prev) => !prev);

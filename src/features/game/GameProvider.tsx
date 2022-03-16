@@ -38,6 +38,10 @@ export const GameProvider: React.FC = ({ children }) => {
   );
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
+    if (gameService.state.matches("readonly")) {
+      return;
+    }
+
     const items = cacheShortcuts(item);
     setShortcuts(items);
   }, []);
