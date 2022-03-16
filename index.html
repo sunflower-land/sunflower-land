@@ -45,29 +45,6 @@
       window.botdPromise = import("https://openfpcdn.io/botd/v0.1").then(
         (Botd) => Botd.load({ publicKey: "dB8lNVTrSZ6FfoBjoNg5nSkI" })
       );
-      // Get the bot detection result when you need it.
-      // Result will contain the `requestId` property, that you can securely verify on the server.
-
-      // // Initialize the agent at application startup.
-      // const fpPromise = new Promise((resolve, reject) => {
-      //   const script = document.createElement("script");
-      //   script.onload = resolve;
-      //   script.onerror = reject;
-      //   script.async = true;
-      //   script.src =
-      //     "https://cdn.jsdelivr.net/npm/" +
-      //     "@fingerprintjs/fingerprintjs-pro@3/dist/fp.min.js";
-      //   document.head.appendChild(script);
-      // }).then(() =>
-      //   FingerprintJS.load({
-      //     apiKey: "VRa55eu9OVr8yyCTvoOb",
-      //   })
-      // );
-
-      // // Get the visitor identifier when you need it.
-      // fpPromise
-      //   .then((fp) => fp.get())
-      //   .then((result) => console.log(result.visitorId));
     </script>
   </body>
 </html>
