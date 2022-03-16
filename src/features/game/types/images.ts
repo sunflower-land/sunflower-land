@@ -58,6 +58,7 @@ import egg from "assets/resources/egg.png";
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
 import chicken from "assets/resources/chicken.png";
+import questionMark from "assets/icons/expression_confused.png";
 
 import { InventoryItemName } from "./game";
 import { FOODS, LimitedItems, TOOLS } from "./craftables";
@@ -195,6 +196,18 @@ export const ITEM_DETAILS: Items = {
   Chicken: {
     ...RESOURCES["Chicken"],
     image: chicken,
+  },
+  Cow: {
+    ...RESOURCES["Chicken"],
+    image: questionMark,
+  },
+  Sheep: {
+    ...RESOURCES["Chicken"],
+    image: questionMark,
+  },
+  Pig: {
+    ...RESOURCES["Chicken"],
+    image: questionMark,
   },
 
   // TOOLS
