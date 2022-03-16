@@ -147,13 +147,13 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
                   <img src={item.image} className="h-5 me-2" />
                   <span
                     className={classNames(
-                      "text-xs text-shadow text-center mt-2 ",
-                      {
-                        "text-red-500": lessIngredient,
-                      }
+                      "text-xs text-shadow text-center mt-2 "
+                      // {
+                      //   "text-red-500": lessIngredient,
+                      // }
                     )}
                   >
-                    {ingredient.amount.toNumber()}
+                    {/* {ingredient.amount.toNumber()} */}?
                   </span>
                 </div>
               );
@@ -163,10 +163,10 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
               <img src={token} className="h-5 mr-1" />
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  "text-red-500": lessFunds(),
+                  // "text-red-500": lessFunds(),
                 })}
               >
-                {`$${selected.price.toNumber()}`}
+                {/* {`$${selected.price.toNumber()}`} */}?
               </span>
             </div>
           </div>
