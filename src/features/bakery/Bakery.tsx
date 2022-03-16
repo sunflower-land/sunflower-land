@@ -41,17 +41,9 @@ export const Bakery: React.FC = () => {
       }}
     >
       <img
-        src={bakery}
-        alt="bakery"
-        onClick={isNotReadOnly ? open : undefined}
-        className={classNames("w-full", {
-          "cursor-pointer": isNotReadOnly,
-          "hover:img-highlight": isNotReadOnly,
-        })}
-      />
-      <img
         src={smoke}
         onClick={isNotReadOnly ? open : undefined}
+        className="z-10"
         style={{
           position: "absolute",
           top: `-${GRID_WIDTH_PX * 2.2}px`,
@@ -59,14 +51,27 @@ export const Bakery: React.FC = () => {
           width: `${GRID_WIDTH_PX * 1}px`,
         }}
       />
-      {isNotReadOnly && (
-        <Action
-          className="absolute bottom-14 left-0"
-          text="Kitchen"
-          icon={soup}
-          onClick={open}
+      <div
+        className={classNames({
+          "cursor-pointer": isNotReadOnly,
+          "hover:img-highlight": isNotReadOnly,
+        })}
+      >
+        <img
+          src={bakery}
+          alt="bakery"
+          onClick={isNotReadOnly ? open : undefined}
+          className="w-full"
         />
-      )}
+        {isNotReadOnly && (
+          <Action
+            className="absolute bottom-14 left-0"
+            text="Kitchen"
+            icon={soup}
+            onClick={open}
+          />
+        )}
+      </div>
       <Modal centered show={isOpen} onHide={close}>
         <Crafting onClose={close} />
       </Modal>
