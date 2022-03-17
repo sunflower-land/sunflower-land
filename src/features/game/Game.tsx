@@ -56,9 +56,11 @@ export const Game: React.FC = () => {
   useEffect(() => {
     const handleNavigatorOnline = () => {
       setIsOffline(false);
+      console.log("Online :)");
     };
     const handleNavigatorOffline = () => {
       setIsOffline(true);
+      console.log("Offline :(");
     };
 
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -80,6 +82,9 @@ export const Game: React.FC = () => {
 
     // cleanup on every gameState update
     return () => {
+      window.removeEventListener("online", handleNavigatorOnline);
+      window.removeEventListener("offline", handleNavigatorOffline);
+
       window.removeEventListener("beforeunload", handleBeforeUnload);
       window.removeEventListener("blur", save);
     };
