@@ -250,6 +250,9 @@ export const authMachine = createMachine<
               REFRESH: {
                 target: "#connecting",
               },
+              EXPLORE: {
+                target: "#exploring",
+              }
             },
           },
         },

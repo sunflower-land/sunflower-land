@@ -100,6 +100,10 @@ export const Menu = () => {
     authService.send("RETURN");
   };
 
+  const visitFarm = () => {
+    authService.send("EXPLORE");
+  };
+
   return (
     <div
       ref={ref}
@@ -173,6 +177,15 @@ export const Menu = () => {
                 <span className="sm:text-sm">Share</span>
               </Button>
             </li>
+            {!gameState.matches("readonly") && (
+              <>
+                <li className="p-1">
+                  <Button onClick={visitFarm}>
+                    <span className="sm:text-sm">Visit Farm</span>
+                  </Button>
+                </li>
+              </>
+            )}
             {!gameState.matches("readonly") && (
               <>
                 <li className="p-1">
