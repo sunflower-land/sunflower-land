@@ -4,6 +4,7 @@ export enum Section {
   Animals = "animals",
   Shop = "shop",
   Town = "town",
+  Forest = "forest",
 
   // NFT IDs
   "Sunflower Statue" = "sunflower-statue",

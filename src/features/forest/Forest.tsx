@@ -8,6 +8,7 @@ import { Lumberjack } from "./components/Lumberjack";
 export const Forest: React.FC = () => {
   return (
     <div
+      id="forest"
       style={{
         height: `${GRID_WIDTH_PX * 9}px`,
         width: `${GRID_WIDTH_PX * 11}px`,

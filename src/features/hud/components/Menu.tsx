@@ -17,6 +17,7 @@ import questionMark from "assets/icons/expression_confused.png";
 import radish from "assets/icons/radish.png";
 import water from "assets/icons/expression_working.png";
 import timer from "assets/icons/timer.png";
+import wood from "assets/resources/wood.png";
 
 import { hasOnboarded } from "../lib/onboarding";
 
@@ -171,6 +172,12 @@ export const Menu = () => {
             <li className="p-1">
               <Button onClick={() => handleShareClick()}>
                 <span className="sm:text-sm">Share</span>
+              </Button>
+            </li>
+            <li className="p-1">
+              <Button onClick={() => handleNavigationClick(Section.Forest)}>
+                <span className="sm:text-sm">Forest</span>
+                <img src={wood} className="w-4 ml-2" alt="wood" />
               </Button>
             </li>
             {!gameState.matches("readonly") && (
