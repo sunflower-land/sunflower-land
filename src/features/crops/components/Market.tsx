@@ -30,7 +30,10 @@ export const Market: React.FC = () => {
   return (
     <div
       id={Section.Shop}
-      className="absolute"
+      className={classNames("absolute", {
+        "cursor-pointer": isNotReadOnly,
+        "hover:img-highlight": isNotReadOnly,
+      })}
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
         left: `${GRID_WIDTH_PX * 3}px`,
@@ -41,10 +44,7 @@ export const Market: React.FC = () => {
         src={market}
         alt="market"
         onClick={isNotReadOnly ? () => handleMarketClick() : undefined}
-        className={classNames(" w-full", {
-          "cursor-pointer": isNotReadOnly,
-          "hover:img-highlight": isNotReadOnly,
-        })}
+        className="w-full"
       />
       {isNotReadOnly && (
         <Action
