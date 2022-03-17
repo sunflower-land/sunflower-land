@@ -41,7 +41,9 @@ export type LimitedItem =
   | "Sunflower Rock"
   | "Goblin Crown"
   | "Fountain"
-  | "Beaver";
+  | "Woody the Beaver"
+  | "Apprentice Beaver"
+  | "Foreman Beaver";
 
 export type Tool =
   | "Axe"
@@ -382,17 +384,49 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
     supply: 10000,
     section: Section.Fountain,
   },
-  Beaver: {
-    name: "Beaver",
-    description: "Chop trees without axes",
+  "Woody the Beaver": {
+    name: "Woody the Beaver",
+    description: "Increase wood drops by 1",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(200),
+        item: "Wood",
+      },
+    ],
+    supply: 500000,
+  },
+  "Apprentice Beaver": {
+    name: "Apprentice Beaver",
+    description: "Trees recover twice as fast",
+    price: new Decimal(100),
+    ingredients: [
+      {
+        amount: new Decimal(500),
+        item: "Wood",
+      },
+      {
+        amount: new Decimal(500),
+        item: "Woody the Beaver",
+      },
+    ],
+    supply: 5000,
+  },
+  "Foreman Beaver": {
+    name: "Foreman Beaver",
+    description: "Cut trees without axes",
     price: new Decimal(200),
     ingredients: [
       {
         amount: new Decimal(1000),
         item: "Wood",
       },
+      {
+        amount: new Decimal(500),
+        item: "Apprentice Beaver",
+      },
     ],
-    supply: 100,
+    supply: 300,
   },
 };
 
