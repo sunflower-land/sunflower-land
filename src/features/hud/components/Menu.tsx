@@ -144,7 +144,7 @@ export const Menu = () => {
         </div>
         <div
           className={`transition-all ease duration-200 ${
-            menuOpen ? "max-h-80" : "max-h-0"
+            menuOpen ? "max-h-100" : "max-h-0"
           }`}
         >
           <ul
@@ -181,14 +181,14 @@ export const Menu = () => {
               </Button>
             </li>
             <li className="p-1">
-              <Button onClick={() => handleShareClick()}>
-                <span className="sm:text-sm">Share</span>
-              </Button>
-            </li>
-            <li className="p-1">
               <Button onClick={() => handleNavigationClick(Section.Forest)}>
                 <span className="sm:text-sm">Forest</span>
                 <img src={wood} className="w-4 ml-2" alt="wood" />
+              </Button>
+            </li>
+            <li className="p-1">
+              <Button onClick={() => handleShareClick()}>
+                <span className="sm:text-sm">Share</span>
               </Button>
             </li>
             {!gameState.matches("readonly") && (
