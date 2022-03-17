@@ -40,11 +40,13 @@
     "stream-browserify": "^3.0.0",
     "util": "^0.12.4",
     "web3": "^1.6.1",
+    "web3-health-check": "1.0.13",
     "web3-utils": "^1.6.1",
     "xstate": "^4.27.0"
   },
   "devDependencies": {
     "@rollup/plugin-inject": "^4.0.4",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/howler": "^2.2.6",
     "@types/jest": "^27.4.0",
     "@types/react": "^17.0.33",

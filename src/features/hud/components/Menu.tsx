@@ -15,8 +15,10 @@ import { Modal } from "react-bootstrap";
 import mobileMenu from "assets/icons/hamburger_menu.png";
 import questionMark from "assets/icons/expression_confused.png";
 import radish from "assets/icons/radish.png";
+import town from "assets/icons/town.png";
 import water from "assets/icons/expression_working.png";
 import timer from "assets/icons/timer.png";
+import wood from "assets/resources/wood.png";
 
 import { hasOnboarded } from "../lib/onboarding";
 
@@ -100,6 +102,10 @@ export const Menu = () => {
     authService.send("RETURN");
   };
 
+  const visitFarm = () => {
+    authService.send("EXPLORE");
+  };
+
   return (
     <div
       ref={ref}
@@ -138,7 +144,7 @@ export const Menu = () => {
         </div>
         <div
           className={`transition-all ease duration-200 ${
-            menuOpen ? "max-h-80" : "max-h-0"
+            menuOpen ? "max-h-100" : "max-h-0"
           }`}
         >
           <ul
@@ -157,6 +163,12 @@ export const Menu = () => {
               </Button>
             </li>
             <li className="p-1">
+              <Button onClick={() => handleNavigationClick(Section.Town)}>
+                <span className="sm:text-sm">Town</span>
+                <img src={town} className="w-6 ml-2" alt="town" />
+              </Button>
+            </li>
+            <li className="p-1">
               <Button onClick={() => handleNavigationClick(Section.Crops)}>
                 <span className="sm:text-sm">Crops</span>
                 <img src={radish} className="w-4 ml-2" alt="crop" />
@@ -169,12 +181,23 @@ export const Menu = () => {
               </Button>
             </li>
             <li className="p-1">
+              <Button onClick={() => handleNavigationClick(Section.Forest)}>
+                <span className="sm:text-sm">Forest</span>
+                <img src={wood} className="w-4 ml-2" alt="wood" />
+              </Button>
+            </li>
+            <li className="p-1">
               <Button onClick={() => handleShareClick()}>
                 <span className="sm:text-sm">Share</span>
               </Button>
             </li>
             {!gameState.matches("readonly") && (
               <>
+                <li className="p-1">
+                  <Button onClick={visitFarm}>
+                    <span className="sm:text-sm">Visit Farm</span>
+                  </Button>
+                </li>
                 <li className="p-1">
                   <Button onClick={syncOnChain}>
                     <span className="sm:text-sm">Sync on chain</span>

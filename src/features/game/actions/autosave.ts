@@ -14,6 +14,7 @@ type Request = {
   token: string;
   offset: number;
   captcha?: string;
+  fingerprint: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -65,6 +66,7 @@ export async function autosave(request: Request) {
     headers: {
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${request.token}`,
+      "X-Fingerprint": request.fingerprint,
     },
     body: JSON.stringify({
       farmId: request.farmId,

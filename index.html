@@ -40,5 +40,11 @@
       async
       defer
     ></script>
+    <script>
+      // Initialize an agent at application startup.
+      window.botdPromise = import("https://openfpcdn.io/botd/v0.1").then(
+        (Botd) => Botd.load({ publicKey: "dB8lNVTrSZ6FfoBjoNg5nSkI" })
+      );
+    </script>
   </body>
 </html>

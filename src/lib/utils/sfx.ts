@@ -26,7 +26,7 @@ export const plantAudio = new Howl({
 
 export const bakeryAudio = new Howl({
   src: [kitchenMp3],
-  volume: 0.2,
+  volume: 0.5,
 });
 
 export const blacksmithAudio = new Howl({
