@@ -44,6 +44,8 @@ import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
 import crown from "assets/nfts/goblin_crown.png";
 import fountain from "assets/nfts/fountain.gif";
 import beaver from "assets/nfts/beaver.png";
+import apprenticeBeaver from "assets/nfts/apprentice_beaver.png";
+import constructionBeaver from "assets/nfts/construction_beaver.png";
 
 // Foods
 import flour from "assets/crops/wheat/flour.png";
@@ -294,9 +296,17 @@ export const ITEM_DETAILS: Items = {
     ...LimitedItems["Fountain"],
     image: fountain,
   },
-  Beaver: {
-    ...LimitedItems["Beaver"],
+  "Woody the Beaver": {
+    ...LimitedItems["Woody the Beaver"],
     image: beaver,
+  },
+  "Apprentice Beaver": {
+    ...LimitedItems["Apprentice Beaver"],
+    image: apprenticeBeaver,
+  },
+  "Foreman Beaver": {
+    ...LimitedItems["Foreman Beaver"],
+    image: constructionBeaver,
   },
 
   // FOOD
