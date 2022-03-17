@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-inject": "^4.0.4",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/howler": "^2.2.6",
     "@types/jest": "^27.4.0",
     "@types/react": "^17.0.33",
