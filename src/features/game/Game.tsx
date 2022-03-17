@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
 
@@ -20,6 +20,7 @@ import { Success } from "./components/Success";
 import { Syncing } from "./components/Syncing";
 import { Withdrawing } from "./components/Withdrawing";
 import { Blacklisted } from "./components/Blacklisted";
+import { Offline } from "./components/Offline";
 
 import { Quarry } from "features/quarry/Quarry";
 import { TeamDonation } from "features/teamDonation/TeamDonation";
@@ -46,12 +47,20 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 };
 
 export const Game: React.FC = () => {
+  const [isOffline, setIsOffline] = useState(false);
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
 
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 
   useEffect(() => {
+    const handleNavigatorOnline = () => {
+      setIsOffline(false);
+    };
+    const handleNavigatorOffline = () => {
+      setIsOffline(true);
+    };
+
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (gameState.context.actions.length === 0) return;
 
@@ -62,6 +71,9 @@ export const Game: React.FC = () => {
     const save = () => {
       send("SAVE");
     };
+
+    window.addEventListener("online", handleNavigatorOnline);
+    window.addEventListener("offline", handleNavigatorOffline);
 
     window.addEventListener("beforeunload", handleBeforeUnload);
     window.addEventListener("blur", save);
@@ -78,21 +90,29 @@ export const Game: React.FC = () => {
       <ToastManager />
       <Captcha />
 
-      <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
+      <Modal show={isOffline} centered>
         <Panel className="text-shadow">
-          {gameState.matches("loading") && <Loading />}
-          {gameState.matches("error") && (
-            <ErrorMessage
-              errorCode={gameState.context.errorCode as ErrorCode}
-            />
-          )}
-          {gameState.matches("blacklisted") && <Blacklisted />}
-          {gameState.matches("minting") && <Minting />}
-          {gameState.matches("success") && <Success />}
-          {gameState.matches("syncing") && <Syncing />}
-          {gameState.matches("withdrawing") && <Withdrawing />}
+          <Offline />
         </Panel>
       </Modal>
+
+      {!isOffline && (
+        <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
+          <Panel className="text-shadow">
+            {gameState.matches("loading") && <Loading />}
+            {gameState.matches("error") && (
+              <ErrorMessage
+                errorCode={gameState.context.errorCode as ErrorCode}
+              />
+            )}
+            {gameState.matches("blacklisted") && <Blacklisted />}
+            {gameState.matches("minting") && <Minting />}
+            {gameState.matches("success") && <Success />}
+            {gameState.matches("syncing") && <Syncing />}
+            {gameState.matches("withdrawing") && <Withdrawing />}
+          </Panel>
+        </Modal>
+      )}
 
       <Hud />
       <TeamDonation />
