@@ -4,13 +4,14 @@ import Decimal from "decimal.js-light";
 import token from "assets/icons/token.gif";
 
 import { Box } from "components/ui/Box";
-import { OuterPanel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
 
 import { Crop, CROPS } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
+import { Modal } from "react-bootstrap";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getSellPrice } from "features/game/lib/pricing";
@@ -18,6 +19,7 @@ import { getSellPrice } from "features/game/lib/pricing";
 export const Plants: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
   const { setToast } = useContext(ToastContext);
+  const [isOpen, setIsOpen] = React.useState(false);
   const { gameService } = useContext(Context);
   const [
     {
@@ -37,12 +39,29 @@ export const Plants: React.FC = () => {
 
   const cropAmount = new Decimal(inventory[selected.name] || 0);
   const noCrop = cropAmount.equals(0);
+  const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
 
   const handleSellOne = () => {
     sell(1);
   };
 
-  const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
+  const handleSellAll = () => {
+    sell(cropAmount.toNumber());
+    setIsOpen(false);
+  };
+
+  // ask confirmation if crop supply is greater than 1
+  const openConfirmationModal = () => {
+    if (cropAmount.toNumber() > 1) {
+      setIsOpen(true);
+    } else {
+      handleSellOne();
+    }
+  };
+
+  const closeConfirmationModal = () => {
+    setIsOpen(false);
+  };
 
   return (
     <div className="flex">
@@ -87,12 +106,36 @@ export const Plants: React.FC = () => {
           <Button
             disabled={noCrop}
             className="text-xs mt-1 whitespace-nowrap"
-            onClick={() => sell(cropAmount.toNumber())}
+            onClick={() => openConfirmationModal()}
           >
             Sell All
           </Button>
         </div>
       </OuterPanel>
+      <Modal centered show={isOpen} onHide={close}>
+        <Panel>
+          <span className="text-sm text-shadow">
+            Are you sure you want to sell all your{" "}
+            {`${cropAmount.toNumber()} ${selected.name}`}s?
+          </span>
+          <div className="flex">
+            <Button
+              disabled={noCrop}
+              className="text-xs mt-1 whitespace-nowrap"
+              onClick={() => handleSellAll()}
+            >
+              Yes
+            </Button>
+            <Button
+              disabled={noCrop}
+              className="text-xs mt-1 whitespace-nowrap"
+              onClick={closeConfirmationModal}
+            >
+              No
+            </Button>
+          </div>
+        </Panel>
+      </Modal>
     </div>
   );
 };
