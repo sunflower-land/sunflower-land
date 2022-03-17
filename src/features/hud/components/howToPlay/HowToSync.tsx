@@ -11,7 +11,7 @@ export const HowToSync: React.FC = () => {
         <h1 className="ml-2">How to sync?</h1>
       </Modal.Header>
       <Modal.Body>
-        <p className="text-xs p-2 text-center">
+        <p className="text-xs p-2 sm:text-sm text-center">
           All of your progress is saved on our game server. You will need to
           sync on chain when you want to move your tokens, NFTs and resources
           onto Polygon.
