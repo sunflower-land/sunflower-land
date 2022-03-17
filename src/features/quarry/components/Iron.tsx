@@ -110,14 +110,20 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
   };
 
   const handleHover = () => {
-    if (readonly || selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
+    if (
+      readonly ||
+      (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
+    )
       return;
     containerRef.current?.classList["add"]("cursor-not-allowed");
     setShowLabel((prev) => !prev);
   };
 
   const handleMouseLeave = () => {
-    if (readonly || selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
+    if (
+      readonly ||
+      (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
+    )
       return;
     containerRef.current?.classList["remove"]("cursor-not-allowed");
     setShowLabel((prev) => !prev);
