@@ -115,8 +115,8 @@ export const Plants: React.FC = () => {
       <Modal centered show={isOpen} onHide={close}>
         <Panel>
           <span className="text-sm text-shadow">
-            Are you sure you want to sell all your{" "}
-            {`${cropAmount.toNumber()} ${selected.name}`}s?
+            Are you sure you want to sell all your
+            {` (${cropAmount.toNumber()}) ${selected.name}`}?
           </span>
           <div className="flex">
             <Button
