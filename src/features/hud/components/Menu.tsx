@@ -15,6 +15,7 @@ import { Modal } from "react-bootstrap";
 import mobileMenu from "assets/icons/hamburger_menu.png";
 import questionMark from "assets/icons/expression_confused.png";
 import radish from "assets/icons/radish.png";
+import town from "assets/icons/town.png";
 import water from "assets/icons/expression_working.png";
 import timer from "assets/icons/timer.png";
 import wood from "assets/resources/wood.png";
@@ -159,6 +160,12 @@ export const Menu = () => {
                   className="w-3 ml-2"
                   alt="question-mark"
                 />
+              </Button>
+            </li>
+            <li className="p-1">
+              <Button onClick={() => handleNavigationClick(Section.Town)}>
+                <span className="sm:text-sm">Town</span>
+                <img src={town} className="w-6 ml-2" alt="town" />
               </Button>
             </li>
             <li className="p-1">
