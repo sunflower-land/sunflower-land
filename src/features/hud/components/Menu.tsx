@@ -144,7 +144,7 @@ export const Menu = () => {
         </div>
         <div
           className={`transition-all ease duration-200 ${
-            menuOpen ? "max-h-80" : "max-h-0"
+            menuOpen ? "max-h-100" : "max-h-0"
           }`}
         >
           <ul
