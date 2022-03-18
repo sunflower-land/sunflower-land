@@ -40,6 +40,7 @@ export const House: React.FC = () => {
           top: `${GRID_WIDTH_PX * 28.8}px`,
         }}
         className="relative cursor-pointer hover:img-highlight"
+        onClick={() => open()}
       >
         <img src={house} alt="house" className="w-full" />
         <img

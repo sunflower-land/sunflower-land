@@ -104,11 +104,11 @@ export const Decorations: React.FC = () => {
         <img
           style={{
             width: `${GRID_WIDTH_PX * 1}px`,
-            right: `${GRID_WIDTH_PX * 39.28}px`,
+            right: `${GRID_WIDTH_PX * 39.78}px`,
             top: `${GRID_WIDTH_PX * 28.2}px`,
           }}
           id={Section["Farm Cat"]}
-          className="absolute"
+          className="absolute z-10"
           src={cat}
           alt="Farm cat"
         />
