@@ -44,7 +44,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Rock": 412,
   "Goblin Crown": 413,
   Fountain: 414,
-  Beaver: 415,
+  "Woody the Beaver": 415,
+  "Apprentice Beaver": 416,
+  "Foreman Beaver": 417,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
