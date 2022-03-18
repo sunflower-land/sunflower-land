@@ -17,17 +17,17 @@ import { bakeryAudio } from "lib/utils/sfx";
 export const Bakery: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isBakeryModalOpen, showBakeryModal] = React.useState(false);
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const open = () => {
-    setIsOpen(true);
+  const openBakeryModal = () => {
+    showBakeryModal(true);
     bakeryAudio.play();
   };
 
-  const close = () => {
-    setIsOpen(false);
+  const closeBakeryModal = () => {
+    showBakeryModal(false);
   };
 
   return (
@@ -42,7 +42,7 @@ export const Bakery: React.FC = () => {
     >
       <img
         src={smoke}
-        onClick={isNotReadOnly ? open : undefined}
+        onClick={isNotReadOnly ? openBakeryModal : undefined}
         className="z-10"
         style={{
           position: "absolute",
@@ -60,7 +60,7 @@ export const Bakery: React.FC = () => {
         <img
           src={bakery}
           alt="bakery"
-          onClick={isNotReadOnly ? open : undefined}
+          onClick={isNotReadOnly ? openBakeryModal : undefined}
           className="w-full"
         />
         {isNotReadOnly && (
@@ -68,12 +68,12 @@ export const Bakery: React.FC = () => {
             className="absolute bottom-14 left-0"
             text="Kitchen"
             icon={soup}
-            onClick={open}
+            onClick={openBakeryModal}
           />
         )}
       </div>
-      <Modal centered show={isOpen} onHide={close}>
-        <Crafting onClose={close} />
+      <Modal centered show={isBakeryModalOpen} onHide={closeBakeryModal}>
+        <Crafting onClose={openBakeryModal} />
       </Modal>
     </div>
   );
