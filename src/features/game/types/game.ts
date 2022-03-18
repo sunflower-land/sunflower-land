@@ -49,6 +49,11 @@ export type GameState = {
   stock: Inventory;
 
   farmAddress?: string;
+
+  skills: {
+    farming: Decimal;
+    gathering: Decimal;
+  };
 };
 
 export interface Context {

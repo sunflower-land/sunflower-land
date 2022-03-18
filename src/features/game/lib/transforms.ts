@@ -60,6 +60,10 @@ export function makeGame(farm: any): GameState {
       }),
       {} as Record<number, Rock>
     ),
+    skills: {
+      farming: new Decimal(farm.skills.farming),
+      gathering: new Decimal(farm.skills.gathering),
+    },
     balance: new Decimal(farm.balance),
     fields: farm.fields,
     id: farm.id,

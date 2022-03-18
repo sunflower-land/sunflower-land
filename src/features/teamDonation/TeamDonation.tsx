@@ -99,7 +99,7 @@ const teamDonationMachine = createMachine<Context, Event, State>({
 
 export const TeamDonation: React.FC = () => {
   const [state, send] = useMachine(teamDonationMachine);
-  const [donation, setDonation] = useState(0.1);
+  const [donation, setDonation] = useState(1);
 
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // If keyboard input "" convert to 0

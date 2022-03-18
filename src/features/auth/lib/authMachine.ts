@@ -252,7 +252,7 @@ export const authMachine = createMachine<
               },
               EXPLORE: {
                 target: "#exploring",
-              }
+              },
             },
           },
         },
