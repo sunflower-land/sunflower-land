@@ -19,7 +19,7 @@ import { getSellPrice } from "features/game/lib/pricing";
 export const Plants: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
   const { setToast } = useContext(ToastContext);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isSellAllModalOpen, showSellAllModal] = React.useState(false);
   const { gameService } = useContext(Context);
   const [
     {
@@ -47,20 +47,20 @@ export const Plants: React.FC = () => {
 
   const handleSellAll = () => {
     sell(cropAmount.toNumber());
-    setIsOpen(false);
+    showSellAllModal(false);
   };
 
   // ask confirmation if crop supply is greater than 1
   const openConfirmationModal = () => {
     if (cropAmount.toNumber() > 1) {
-      setIsOpen(true);
+      showSellAllModal(true);
     } else {
       handleSellOne();
     }
   };
 
   const closeConfirmationModal = () => {
-    setIsOpen(false);
+    showSellAllModal(false);
   };
 
   return (
@@ -112,7 +112,7 @@ export const Plants: React.FC = () => {
           </Button>
         </div>
       </OuterPanel>
-      <Modal centered show={isOpen} onHide={close}>
+      <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
         <Panel>
           <span className="text-sm text-shadow">
             Are you sure you want to sell all your
