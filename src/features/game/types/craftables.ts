@@ -321,6 +321,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 250,
+    requires: "Barn Manager",
   },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
@@ -345,6 +346,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 100,
+    requires: "Green Thumb",
   },
   "Sunflower Rock": {
     name: "Sunflower Rock",
@@ -410,6 +412,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
         item: "Woody the Beaver",
       },
     ],
+    requires: "Lumberjack",
     supply: 5000,
   },
   "Foreman Beaver": {
@@ -427,6 +430,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 300,
+    requires: "Lumberjack",
   },
 };
 

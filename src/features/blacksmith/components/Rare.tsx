@@ -87,6 +87,20 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
       return "Locked";
     }
 
+    if (selected.requires && !state.inventory[selected.requires]) {
+      return (
+        <div className="flex items-center">
+          <img
+            src={ITEM_DETAILS[selected.requires].image}
+            className="w-6 h-6 mr-1"
+          />
+          <span className="text-xs text-shadow text-center mt-2">
+            {`${selected.requires}s only`}
+          </span>
+        </div>
+      );
+    }
+
     return (
       <>
         <Button
