@@ -347,7 +347,7 @@ export const authMachine = createMachine<
 
         return {
           farmId: newFarm.tokenId,
-          address: newFarm.landAddress,
+          address: newFarm.account,
           sessionId: INITIAL_SESSION,
         };
       },

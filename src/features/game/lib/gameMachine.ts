@@ -309,7 +309,7 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const session = await mint({
+              const sessionId = await mint({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
@@ -317,7 +317,7 @@ export function startGame(authContext: Options) {
               });
 
               return {
-                sessionId: session?.sessionId,
+                sessionId,
               };
             },
             onDone: {
@@ -348,14 +348,14 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const session = await sync({
+              const sessionId = await sync({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
               });
 
               return {
-                sessionId: session?.sessionId,
+                sessionId: sessionId,
               };
             },
             onDone: {
@@ -382,7 +382,7 @@ export function startGame(authContext: Options) {
           invoke: {
             src: async (context, event) => {
               const { amounts, ids, sfl } = event as WithdrawEvent;
-              const session = await withdraw({
+              const sessionId = await withdraw({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
@@ -392,7 +392,7 @@ export function startGame(authContext: Options) {
               });
 
               return {
-                sessionId: session?.sessionId,
+                sessionId,
               };
             },
             onDone: {
