@@ -398,7 +398,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
   },
   "Apprentice Beaver": {
     name: "Apprentice Beaver",
-    description: "Trees recover twice as fast",
+    description: "Trees recover 50% faster",
     price: new Decimal(100),
     ingredients: [
       {

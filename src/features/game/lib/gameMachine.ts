@@ -17,6 +17,8 @@ import { getVisitState } from "../actions/visit";
 import { ERRORS } from "lib/errors";
 import { updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
+import { SkillName } from "../types/skills";
+import { levelUp } from "../actions/levelUp";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -35,6 +37,11 @@ export interface Context {
 type MintEvent = {
   type: "MINT";
   item: LimitedItem;
+};
+
+type LevelUpEvent = {
+  type: "LEVEL_UP";
+  skill: SkillName;
 };
 
 type WithdrawEvent = {
@@ -56,7 +63,8 @@ export type BlockchainEvent =
     }
   | WithdrawEvent
   | GameEvent
-  | MintEvent;
+  | MintEvent
+  | LevelUpEvent;
 
 // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
@@ -89,6 +97,7 @@ export type BlockchainState = {
     | "minting"
     | "success"
     | "syncing"
+    | "levelling"
     | "withdrawing"
     | "error"
     | "blacklisted";
@@ -201,6 +210,9 @@ export function startGame(authContext: Options) {
             WITHDRAW: {
               target: "withdrawing",
             },
+            LEVEL_UP: {
+              target: "levelling",
+            },
           },
         },
         autosaving: {
@@ -310,9 +322,10 @@ export function startGame(authContext: Options) {
             },
             onDone: {
               target: "success",
-              actions: assign({
-                sessionId: (_, event) => event.data.sessionId,
-              }),
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
             },
             onError: {
               target: "error",
@@ -347,9 +360,10 @@ export function startGame(authContext: Options) {
             },
             onDone: {
               target: "success",
-              actions: assign({
-                sessionId: (_, event) => event.data.sessionId,
-              }),
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
             },
             onError: [
               {
@@ -398,6 +412,50 @@ export function startGame(authContext: Options) {
                 actions: "assignErrorMessage",
               },
             ],
+          },
+        },
+        levelling: {
+          invoke: {
+            src: async (context, event) => {
+              // Autosave just in case
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(authContext.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.rawToken as string,
+                  offset: context.offset,
+                  fingerprint: context.fingerprint as string,
+                });
+              }
+
+              const { farm } = await levelUp({
+                farmId: Number(authContext.farmId),
+                sessionId: context.sessionId as string,
+                token: authContext.rawToken as string,
+                fingerprint: context.fingerprint as string,
+                skill: (event as LevelUpEvent).skill,
+              });
+
+              return {
+                farm,
+              };
+            },
+            onDone: [
+              {
+                target: "playing",
+                actions: assign((_, event) => ({
+                  // Remove events
+                  actions: [],
+                  // Update immediately with state from server
+                  state: event.data.farm,
+                })),
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
           },
         },
         readonly: {},

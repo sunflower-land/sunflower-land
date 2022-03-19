@@ -62,11 +62,15 @@ import gold from "assets/resources/gold_ore.png";
 import chicken from "assets/resources/chicken.png";
 import questionMark from "assets/icons/expression_confused.png";
 
+// Skills
+import plant from "assets/icons/plant.png";
+
 import { InventoryItemName } from "./game";
 import { FOODS, LimitedItems, TOOLS } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { SKILL_TREE } from "./skills";
 
 export type ItemDetails = {
   description: string;
@@ -326,5 +330,38 @@ export const ITEM_DETAILS: Items = {
   Flour: {
     ...FOODS["Flour"],
     image: flour,
+  },
+
+  "Green Thumb": {
+    ...SKILL_TREE["Green Thumb"],
+    image: plant,
+  },
+  "Barn Manager": {
+    ...SKILL_TREE["Barn Manager"],
+    image: plant,
+  },
+  "Seed Specialist": {
+    ...SKILL_TREE["Seed Specialist"],
+    image: plant,
+  },
+  Wrangler: {
+    ...SKILL_TREE["Wrangler"],
+    image: plant,
+  },
+  Lumberjack: {
+    ...SKILL_TREE["Lumberjack"],
+    image: stonePickaxe,
+  },
+  Prospector: {
+    ...SKILL_TREE["Prospector"],
+    image: stonePickaxe,
+  },
+  Logger: {
+    ...SKILL_TREE["Logger"],
+    image: stonePickaxe,
+  },
+  "Gold Rush": {
+    ...SKILL_TREE["Gold Rush"],
+    image: stonePickaxe,
   },
 };
