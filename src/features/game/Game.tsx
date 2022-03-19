@@ -44,6 +44,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   error: true,
   captcha: false,
   blacklisted: true,
+  levelling: false,
 };
 
 export const Game: React.FC = () => {
