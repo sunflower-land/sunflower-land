@@ -130,7 +130,7 @@ export function getLevel(experience: Decimal) {
 }
 
 export function getAvailableUpgrades(game: GameState): SkillName[] {
-  const farmingLevel = getLevel(new Decimal(1000)); //game.skills.farming);
+  const farmingLevel = getLevel(game.skills.farming);
 
   if (
     farmingLevel >= 5 &&
