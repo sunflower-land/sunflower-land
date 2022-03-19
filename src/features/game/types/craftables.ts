@@ -447,7 +447,7 @@ export const ANIMALS: Record<Animal, Craftable> = {
   },
   Pig: {
     name: "Pig",
-    description: "Produces maneure. Requires wheat for feeding",
+    description: "Produces manure. Requires wheat for feeding",
     price: new Decimal(20),
     ingredients: [],
     disabled: true,
