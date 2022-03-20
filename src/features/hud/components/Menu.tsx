@@ -34,16 +34,9 @@ export const Menu = () => {
   const [showShareModal, setShowShareModal] = React.useState(false);
   const [showComingSoon, setShowComingSoon] = React.useState(false);
   const [showHowToPlay, setShowHowToPlay] = React.useState(!hasOnboarded());
-
-  // farm link (URL)
-  const farmURL = authState.context.farmId
-    ? `${
-        window.location.href.includes("?")
-          ? window.location.href.split("?")[0]
-          : window.location.href
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      }?farmId=${authState.context.farmId!.toString()}`
-    : "https://sunflower-land.com/play/";
+  const [farmURL, setFarmURL] = React.useState("");
+  const [menuStruct, setMenuStruct] = React.useState({});
+  const [menuLevel, setMenuLevel] = React.useState("ROOT");
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -73,17 +66,6 @@ export const Menu = () => {
     setMenuOpen(false);
   };
 
-  // Handles closing the menu if someone clicks outside
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("touchstart", handleClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.addEventListener("touchstart", handleClick);
-    };
-  }, []);
-
   const syncOnChain = async () => {
     if (!authState.context.token?.userAccess.sync) {
       setShowComingSoon(true);
@@ -105,6 +87,113 @@ export const Menu = () => {
   const visitFarm = () => {
     authService.send("EXPLORE");
   };
+
+  // Handles closing the menu if someone clicks outside
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("touchstart", handleClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.addEventListener("touchstart", handleClick);
+    };
+  }, []);
+
+  // setup menu structure
+  useEffect(() => {
+    const _menuStruct = {
+      "ROOT": [
+        {
+          label: "Sync on chain",
+          onClick: syncOnChain,
+          hideCond: gameState.matches("readonly"),
+        },
+        {
+          label: "Land",
+          onClick: () => setMenuLevel("LAND"),
+        },
+        {
+          label: "View",
+          onClick: () => setMenuLevel("VIEW"),
+        },
+        {
+          label: "How to play",
+          image: {
+            src: questionMark,
+            alt: "question-mark",
+          },
+          onClick: handleHowToPlay,
+        },
+      ],
+      "LAND": [
+        {
+          label: "Back",
+          onClick: () => setMenuLevel("ROOT"),
+        },
+        {
+          label: "Town",
+          image: {
+            src: town,
+            alt: "town"
+          },
+          onClick: () => handleNavigationClick(Section.Town),
+        },
+        {
+          label: "Crops",
+          image: {
+            src: radish,
+            alt: "crops"
+          },
+          onClick: () => handleNavigationClick(Section.Crops),
+        },
+        {
+          label: "Water",
+          image: {
+            src: water,
+            alt: "water"
+          },
+          onClick: () => handleNavigationClick(Section.Water),
+        },
+        {
+          label: "Forest",
+          image: {
+            src: wood,
+            alt: "wood"
+          },
+          onClick: () => handleNavigationClick(Section.Forest),
+        },
+      ],
+      "VIEW": [
+        {
+          label: "Back",
+          onClick: () => setMenuLevel("ROOT"),
+        },
+        {
+          label: "Share",
+          onClick: handleShareClick,
+        },
+        {
+          label: "Visit Farm",
+          onClick: visitFarm,
+        },
+      ],
+    };
+
+    setMenuStruct(_menuStruct);
+  }, [gameState.value]);
+
+  React.useEffect(() => {
+    const farmURL = authState.context.farmId
+      ? `${
+          window.location.href.includes("?")
+            ? window.location.href.split("?")[0]
+            : window.location.href
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        }?farmId=${authState.context.farmId!.toString()}`
+      : "https://sunflower-land.com/play/";
+
+    setFarmURL(farmURL);
+  }, [authState.context.farmId]);
 
   return (
     <div
@@ -152,7 +241,23 @@ export const Menu = () => {
               menuOpen ? "scale-y-1" : "scale-y-0"
             }`}
           >
-            <li className="p-1">
+            {(menuStruct[menuLevel] || []).map((option, index) => {
+              return !option.hideCond && (
+                <li className="p-1" key={index}>
+                  <Button onClick={option.onClick}>
+                    <span className="sm:text-sm">{option.label}</span>
+                    {option.image && (
+                      <img
+                        src={option.image.src}
+                        className="w-3 ml-2"
+                        alt={option.image.alt}
+                      />
+                    )}
+                  </Button>
+                </li>
+              )
+            })}
+            {/* <li className="p-1">
               <Button onClick={handleHowToPlay}>
                 <span className="sm:text-sm">How to play</span>
                 <img
@@ -204,7 +309,7 @@ export const Menu = () => {
                   </Button>
                 </li>
               </>
-            )}
+            )} */}
           </ul>
         </div>
       </OuterPanel>
