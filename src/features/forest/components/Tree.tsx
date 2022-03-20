@@ -146,7 +146,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     )
       return;
     treeRef.current?.classList["add"]("cursor-not-allowed");
-    setShowLabel((prev) => !prev);
+    setShowLabel(true);
   };
 
   const handleMouseLeave = () => {
@@ -156,7 +156,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     )
       return;
     treeRef.current?.classList["remove"]("cursor-not-allowed");
-    setShowLabel((prev) => !prev);
+    setShowLabel(false);
   };
 
   const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
@@ -195,15 +195,15 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               spritesheet.pause();
             }}
           />
+          <div
+            className={`absolute bottom-8 -right-[1rem] transition pointer-events-none w-28 z-20 ${
+              showLabel ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Label>Equip an axe first</Label>
+          </div>
         </div>
       )}
-      <div
-        className={`absolute bottom-8 -right-[1rem] transition pointer-events-none w-28 ${
-          showLabel ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <Label>Equip an axe first</Label>
-      </div>
 
       <Spritesheet
         style={{

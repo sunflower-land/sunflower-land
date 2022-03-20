@@ -116,7 +116,7 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
     )
       return;
     containerRef.current?.classList["add"]("cursor-not-allowed");
-    setShowLabel((prev) => !prev);
+    setShowLabel(true);
   };
 
   const handleMouseLeave = () => {
@@ -126,7 +126,7 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
     )
       return;
     containerRef.current?.classList["remove"]("cursor-not-allowed");
-    setShowLabel((prev) => !prev);
+    setShowLabel(false);
   };
 
   const recoveryTime = IRON_RECOVERY_TIME;
@@ -165,15 +165,15 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
               spritesheet.pause();
             }}
           />
+          <div
+            className={`absolute top-5 transition pointer-events-none w-28 z-20 ${
+              showLabel ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Label>Equip {tool.toLowerCase()}</Label>
+          </div>
         </div>
       )}
-      <div
-        className={`absolute top-5 transition pointer-events-none w-28 ${
-          showLabel ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <Label>Equip {tool.toLowerCase()}</Label>
-      </div>
 
       <Spritesheet
         style={{
