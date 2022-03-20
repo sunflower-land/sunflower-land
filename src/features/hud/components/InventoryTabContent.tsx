@@ -117,7 +117,7 @@ export const InventoryTabContent = ({
       <div
         ref={itemContainerRef}
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-        className={classNames("overflow-y-scroll", {
+        className={classNames("overflow-y-auto", {
           scrollable: showScrollbar,
         })}
       >
