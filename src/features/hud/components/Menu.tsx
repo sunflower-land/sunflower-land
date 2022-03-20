@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
@@ -19,8 +19,22 @@ import town from "assets/icons/town.png";
 import water from "assets/icons/expression_working.png";
 import timer from "assets/icons/timer.png";
 import wood from "assets/resources/wood.png";
+import leftArrow from "assets/icons/arrow_left.png";
+import rightArrow from "assets/icons/arrow_right.png";
 
 import { hasOnboarded } from "../lib/onboarding";
+
+/**
+ * TODO:
+ * create menu level parent mapping if more than 2 levels.
+ * currently only 1 level deep so setMenuLevel("ROOT") satisfies
+ */
+
+enum MENU_LEVELS {
+  ROOT = "root",
+  MAP = "map",
+  VIEW = "view",
+}
 
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
@@ -28,22 +42,14 @@ export const Menu = () => {
   const [authState] = useActor(authService);
   const [gameState] = useActor(gameService);
 
-  const [menuOpen, setMenuOpen] = React.useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [scrollIntoView] = useScrollIntoView();
 
-  const [showShareModal, setShowShareModal] = React.useState(false);
-  const [showComingSoon, setShowComingSoon] = React.useState(false);
-  const [showHowToPlay, setShowHowToPlay] = React.useState(!hasOnboarded());
-
-  // farm link (URL)
-  const farmURL = authState.context.farmId
-    ? `${
-        window.location.href.includes("?")
-          ? window.location.href.split("?")[0]
-          : window.location.href
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      }?farmId=${authState.context.farmId!.toString()}`
-    : "https://sunflower-land.com/play/";
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
+  const [showHowToPlay, setShowHowToPlay] = useState(!hasOnboarded());
+  const [farmURL, setFarmURL] = useState("");
+  const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -73,17 +79,6 @@ export const Menu = () => {
     setMenuOpen(false);
   };
 
-  // Handles closing the menu if someone clicks outside
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("touchstart", handleClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.addEventListener("touchstart", handleClick);
-    };
-  }, []);
-
   const syncOnChain = async () => {
     if (!authState.context.token?.userAccess.sync) {
       setShowComingSoon(true);
@@ -106,11 +101,32 @@ export const Menu = () => {
     authService.send("EXPLORE");
   };
 
+  // Handles closing the menu if someone clicks outside
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("touchstart", handleClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("touchstart", handleClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    const _farmURL = authState.context.farmId
+      ? `${
+          window.location.href.includes("?")
+            ? window.location.href.split("?")[0]
+            : window.location.href
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        }?farmId=${authState.context.farmId!.toString()}`
+      : "https://sunflower-land.com/play/";
+
+    setFarmURL(_farmURL);
+  }, [authState.context.farmId]);
+
   return (
-    <div
-      ref={ref}
-      className="w-5/12 sm:w-auto fixed top-2 left-2 z-50 shadow-lg"
-    >
+    <div ref={ref} className="w-5/12 sm:w-60 fixed top-2 left-2 z-50 shadow-lg">
       <OuterPanel>
         <div className="flex justify-center p-1">
           <Button
@@ -152,57 +168,96 @@ export const Menu = () => {
               menuOpen ? "scale-y-1" : "scale-y-0"
             }`}
           >
-            <li className="p-1">
-              <Button onClick={handleHowToPlay}>
-                <span className="sm:text-sm">How to play</span>
-                <img
-                  src={questionMark}
-                  className="w-3 ml-2"
-                  alt="question-mark"
-                />
-              </Button>
-            </li>
-            <li className="p-1">
-              <Button onClick={() => handleNavigationClick(Section.Town)}>
-                <span className="sm:text-sm">Town</span>
-                <img src={town} className="w-6 ml-2" alt="town" />
-              </Button>
-            </li>
-            <li className="p-1">
-              <Button onClick={() => handleNavigationClick(Section.Crops)}>
-                <span className="sm:text-sm">Crops</span>
-                <img src={radish} className="w-4 ml-2" alt="crop" />
-              </Button>
-            </li>
-            <li className="p-1">
-              <Button onClick={() => handleNavigationClick(Section.Water)}>
-                <span className="sm:text-sm">Water</span>
-                <img src={water} className="w-4 ml-2" alt="water" />
-              </Button>
-            </li>
-            <li className="p-1">
-              <Button onClick={() => handleNavigationClick(Section.Forest)}>
-                <span className="sm:text-sm">Forest</span>
-                <img src={wood} className="w-4 ml-2" alt="wood" />
-              </Button>
-            </li>
-            <li className="p-1">
-              <Button onClick={() => handleShareClick()}>
-                <span className="sm:text-sm">Share</span>
-              </Button>
-            </li>
-            {!gameState.matches("readonly") && (
+            {/* Root menu */}
+            {menuLevel === MENU_LEVELS.ROOT && (
+              <>
+                {!gameState.matches("readonly") && (
+                  <li className="p-1">
+                    <Button onClick={syncOnChain}>
+                      <span className="sm:text-sm">Sync on chain</span>
+                    </Button>
+                  </li>
+                )}
+                <li className="p-1">
+                  <Button onClick={() => setMenuLevel(MENU_LEVELS.MAP)}>
+                    <span className="sm:text-sm">Map</span>
+                    <img src={rightArrow} className="w-4 ml-2" alt="right" />
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}>
+                    <span className="sm:text-sm">View</span>
+                    <img src={rightArrow} className="w-4 ml-2" alt="right" />
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button onClick={handleHowToPlay}>
+                    <span className="sm:text-sm">How to play</span>
+                    <img
+                      src={questionMark}
+                      className="w-3 ml-2"
+                      alt="question-mark"
+                    />
+                  </Button>
+                </li>
+              </>
+            )}
+
+            {/* Back button when not Root */}
+            {menuLevel !== MENU_LEVELS.ROOT && (
+              <li className="p-1">
+                <Button onClick={() => setMenuLevel(MENU_LEVELS.ROOT)}>
+                  <img src={leftArrow} className="w-4 mr-2" alt="left" />
+                  <span className="sm:text-sm">Back</span>
+                </Button>
+              </li>
+            )}
+
+            {/* Map menu */}
+            {menuLevel === MENU_LEVELS.MAP && (
               <>
                 <li className="p-1">
-                  <Button onClick={visitFarm}>
-                    <span className="sm:text-sm">Visit Farm</span>
+                  <Button onClick={() => handleNavigationClick(Section.Town)}>
+                    <span className="sm:text-sm">Town</span>
+                    <img src={town} className="w-6 ml-2" alt="town" />
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button onClick={syncOnChain}>
-                    <span className="sm:text-sm">Sync on chain</span>
+                  <Button onClick={() => handleNavigationClick(Section.Crops)}>
+                    <span className="sm:text-sm">Crops</span>
+                    <img src={radish} className="w-4 ml-2" alt="crop" />
                   </Button>
                 </li>
+                <li className="p-1">
+                  <Button onClick={() => handleNavigationClick(Section.Water)}>
+                    <span className="sm:text-sm">Water</span>
+                    <img src={water} className="w-4 ml-2" alt="water" />
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button onClick={() => handleNavigationClick(Section.Forest)}>
+                    <span className="sm:text-sm">Forest</span>
+                    <img src={wood} className="w-4 ml-2" alt="wood" />
+                  </Button>
+                </li>
+              </>
+            )}
+
+            {/* View menu */}
+            {menuLevel === MENU_LEVELS.VIEW && (
+              <>
+                <li className="p-1">
+                  <Button onClick={() => handleShareClick()}>
+                    <span className="sm:text-sm">Share</span>
+                  </Button>
+                </li>
+                {!gameState.matches("readonly") && (
+                  <li className="p-1">
+                    <Button onClick={visitFarm}>
+                      <span className="sm:text-sm">Visit Farm</span>
+                    </Button>
+                  </li>
+                )}
               </>
             )}
           </ul>
