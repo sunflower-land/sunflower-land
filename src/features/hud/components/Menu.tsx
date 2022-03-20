@@ -22,7 +22,7 @@ import wood from "assets/resources/wood.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 
-import { hasOnboarded } from "../lib/onboarding";
+import { isNewFarm } from "../lib/onboarding";
 
 /**
  * TODO:
@@ -47,7 +47,7 @@ export const Menu = () => {
 
   const [showShareModal, setShowShareModal] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
-  const [showHowToPlay, setShowHowToPlay] = useState(!hasOnboarded());
+  const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
   const [farmURL, setFarmURL] = useState("");
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
