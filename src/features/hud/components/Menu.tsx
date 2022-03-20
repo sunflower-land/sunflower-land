@@ -45,7 +45,9 @@ export const Menu = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollIntoView] = useScrollIntoView();
 
-  const [showHowToPlay, setShowHowToPlay] = React.useState(isNewFarm());
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
+  const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
   const [farmURL, setFarmURL] = useState("");
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
