@@ -113,22 +113,27 @@ export const Plants: React.FC = () => {
         </div>
       </OuterPanel>
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
-        <Panel>
-          <span className="text-sm text-shadow">
-            Are you sure you want to sell all your
-            {` (${cropAmount.toNumber()}) ${selected.name}`}?
-          </span>
-          <div className="flex">
+        <Panel className="md:w-4/5 m-auto">
+          <div className="m-auto flex flex-col">
+            <span className="text-sm text-center text-shadow">
+              Are you sure you want to <br className="hidden md:block" />
+              sell all your {selected.name}?
+            </span>
+            <span className="text-sm text-center text-shadow mt-1">
+              Total: {cropAmount.toNumber()}
+            </span>
+          </div>
+          <div className="flex justify-content-around p-1">
             <Button
               disabled={noCrop}
-              className="text-xs mt-1 whitespace-nowrap"
+              className="text-xs"
               onClick={() => handleSellAll()}
             >
               Yes
             </Button>
             <Button
               disabled={noCrop}
-              className="text-xs mt-1 whitespace-nowrap"
+              className="text-xs ml-2"
               onClick={closeConfirmationModal}
             >
               No
