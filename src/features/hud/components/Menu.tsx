@@ -20,7 +20,7 @@ import water from "assets/icons/expression_working.png";
 import timer from "assets/icons/timer.png";
 import wood from "assets/resources/wood.png";
 
-import { hasOnboarded } from "../lib/onboarding";
+import { isNewFarm } from "../lib/onboarding";
 
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
@@ -33,7 +33,7 @@ export const Menu = () => {
 
   const [showShareModal, setShowShareModal] = React.useState(false);
   const [showComingSoon, setShowComingSoon] = React.useState(false);
-  const [showHowToPlay, setShowHowToPlay] = React.useState(!hasOnboarded());
+  const [showHowToPlay, setShowHowToPlay] = React.useState(isNewFarm());
 
   // farm link (URL)
   const farmURL = authState.context.farmId

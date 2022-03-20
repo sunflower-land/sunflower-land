@@ -10,8 +10,8 @@ import close from "assets/icons/close.png";
 import { HowToFarm } from "./HowToFarm";
 import { HowToUpgrade } from "./HowToUpgrade";
 import { HowToSync } from "./HowToSync";
-import { finishOnboarding, hasOnboarded } from "features/hud/lib/onboarding";
 import { LetsGo } from "./LetsGo";
+import { isNewFarm } from "features/hud/lib/onboarding";
 
 enum Steps {
   HowToFarm = 1,
@@ -38,10 +38,9 @@ export const HowToPlay: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const finish = () => {
     onClose();
-    finishOnboarding();
   };
 
-  const canClose = hasOnboarded();
+  const canClose = !isNewFarm();
 
   return (
     <Modal show={isOpen} onHide={canClose ? onClose : undefined} centered>
