@@ -178,26 +178,30 @@ export const Menu = () => {
                     </Button>
                   </li>
                 )}
-                <li className="p-1">
-                  <Button onClick={() => setMenuLevel(MENU_LEVELS.MAP)}>
-                    <span className="sm:text-sm">Map</span>
-                    <img src={rightArrow} className="w-4 ml-2" alt="right" />
-                  </Button>
-                </li>
-                <li className="p-1">
-                  <Button onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}>
-                    <span className="sm:text-sm">View</span>
-                    <img src={rightArrow} className="w-4 ml-2" alt="right" />
-                  </Button>
-                </li>
-                <li className="p-1">
+                <li className="p-1 flex">
                   <Button onClick={handleHowToPlay}>
-                    <span className="sm:text-sm">How to play</span>
+                    <span className="sm:text-sm flex-1">How to play</span>
                     <img
                       src={questionMark}
                       className="w-3 ml-2"
                       alt="question-mark"
                     />
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={() => setMenuLevel(MENU_LEVELS.MAP)}
+                  >
+                    <span className="sm:text-sm flex-1">Map</span>
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}
+                  >
+                    <span className="sm:text-sm flex-1">Community</span>
                   </Button>
                 </li>
               </>
@@ -208,7 +212,6 @@ export const Menu = () => {
               <li className="p-1">
                 <Button onClick={() => setMenuLevel(MENU_LEVELS.ROOT)}>
                   <img src={leftArrow} className="w-4 mr-2" alt="left" />
-                  <span className="sm:text-sm">Back</span>
                 </Button>
               </li>
             )}
@@ -217,26 +220,38 @@ export const Menu = () => {
             {menuLevel === MENU_LEVELS.MAP && (
               <>
                 <li className="p-1">
-                  <Button onClick={() => handleNavigationClick(Section.Town)}>
-                    <span className="sm:text-sm">Town</span>
+                  <Button
+                    className="flex justify-between"
+                    onClick={() => handleNavigationClick(Section.Town)}
+                  >
+                    <span className="sm:text-sm flex-1">Town</span>
                     <img src={town} className="w-6 ml-2" alt="town" />
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button onClick={() => handleNavigationClick(Section.Crops)}>
-                    <span className="sm:text-sm">Crops</span>
+                  <Button
+                    className="flex justify-between"
+                    onClick={() => handleNavigationClick(Section.Crops)}
+                  >
+                    <span className="sm:text-sm flex-1">Crops</span>
                     <img src={radish} className="w-4 ml-2" alt="crop" />
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button onClick={() => handleNavigationClick(Section.Water)}>
-                    <span className="sm:text-sm">Water</span>
+                  <Button
+                    className="flex justify-between"
+                    onClick={() => handleNavigationClick(Section.Water)}
+                  >
+                    <span className="sm:text-sm flex-1">Water</span>
                     <img src={water} className="w-4 ml-2" alt="water" />
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button onClick={() => handleNavigationClick(Section.Forest)}>
-                    <span className="sm:text-sm">Forest</span>
+                  <Button
+                    className="flex justify-between"
+                    onClick={() => handleNavigationClick(Section.Forest)}
+                  >
+                    <span className="sm:text-sm flex-1">Forest</span>
                     <img src={wood} className="w-4 ml-2" alt="wood" />
                   </Button>
                 </li>
