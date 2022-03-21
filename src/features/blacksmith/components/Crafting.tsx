@@ -6,7 +6,7 @@ import nft from "assets/nfts/gnome.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { TOOLS } from "features/game/types/craftables";
+import { LimitedItems, TOOLS } from "features/game/types/craftables";
 
 import { CraftingItems } from "./CraftingItems";
 import { Rare } from "./Rare";
@@ -46,7 +46,7 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
         {tab === "craft" && (
           <CraftingItems items={TOOLS} isBulk onClose={onClose} />
         )}
-        {tab === "nfts" && <Rare onClose={onClose} />}
+        {tab === "nfts" && <Rare items={LimitedItems} onClose={onClose} />}
       </div>
     </Panel>
   );

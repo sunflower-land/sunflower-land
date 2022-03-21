@@ -2,6 +2,9 @@ import Decimal from "decimal.js-light";
 import { SeedName, SEEDS } from "../types/crops";
 import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { Flag, FLAGS } from "./flags";
+
+export { FLAGS };
 
 export type CraftAction = {
   type: "item.crafted";
@@ -9,7 +12,13 @@ export type CraftAction = {
   amount: number;
 };
 
-export type CraftableName = LimitedItem | Tool | SeedName | Food | Animal;
+export type CraftableName =
+  | LimitedItem
+  | Tool
+  | SeedName
+  | Food
+  | Animal
+  | Flag;
 
 export type Craftable = {
   name: CraftableName;
@@ -471,4 +480,5 @@ export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...SEEDS(),
   ...FOODS,
   ...ANIMALS,
+  ...FLAGS,
 });
