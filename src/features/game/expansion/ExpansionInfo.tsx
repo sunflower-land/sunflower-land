@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import curly from "assets/npcs/curly_hair.png";
+import cloudGazer from "assets/npcs/cloud-gazer.gif";
 import questionMark from "assets/icons/expression_confused.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
@@ -26,10 +26,14 @@ export const ExpansionInfo: React.FC = () => {
           src={questionMark}
           className="absolute w-3 left-[42%] z-10 animate-float"
         />
+        <div
+          style={{ borderRadius: "50%" }}
+          className="absolute h-3 w-8 bg-black opacity-20 bottom-1 left-[39%]"
+        />
         <img
-          src={curly}
+          src={cloudGazer}
           onClick={() => setShowModal(true)}
-          className="absolute w-20 bottom-0 left-1/2 -translate-x-1/2 cursor-pointer hover:img-highlight"
+          className="absolute w-20 bottom-0 left-1/2 -translate-x-1/2 cursor-pointer hover:img-highlight drop-shadow-md"
         />
       </div>
 
