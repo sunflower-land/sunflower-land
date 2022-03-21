@@ -13,6 +13,7 @@ import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
+import { getShortcuts } from "../lib/shortcuts";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -43,12 +44,7 @@ export const InventoryTabContent = ({
   const categories = Object.keys(tabItems) as InventoryItemName[];
 
   useEffect(() => {
-    const firstCategoryWithItem = categories.find(
-      (category) => !!inventoryMapping[category]?.length
-    );
-
-    const defaultSelectedItem =
-      firstCategoryWithItem && inventoryMapping[firstCategoryWithItem][0];
+    const defaultSelectedItem = getShortcuts()[0];
 
     if (defaultSelectedItem) {
       setDefaultSelectedItem(defaultSelectedItem);
@@ -69,7 +65,7 @@ export const InventoryTabContent = ({
     return acc;
   }, {} as Record<string, InventoryItemName[]>);
 
-  console.log({ inventoryMapping });
+  console.log({ selectedItem });
 
   const findIfItemsExistForCategory = (category: string) => {
     return Object.keys(inventoryMapping).includes(category);
