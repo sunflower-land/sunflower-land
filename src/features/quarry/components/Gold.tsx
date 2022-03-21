@@ -166,7 +166,7 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
             }}
           />
           <div
-            className={`absolute top-8 transition pointer-events-none w-28 z-20${
+            className={`absolute top-8 transition pointer-events-none w-28 z-20 ${
               showLabel ? "opacity-100" : "opacity-0"
             }`}
           >
