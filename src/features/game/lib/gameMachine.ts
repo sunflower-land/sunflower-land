@@ -370,6 +370,9 @@ export function startGame(authContext: Options) {
                 target: "playing",
                 cond: (_, event: any) =>
                   event.data.message === ERRORS.REJECTED_TRANSACTION,
+                actions: assign((_) => ({
+                  actions: [],
+                })),
               },
               {
                 target: "error",
@@ -474,6 +477,7 @@ export function startGame(authContext: Options) {
       actions: {
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,
+          actions: [],
         }),
       },
     }
