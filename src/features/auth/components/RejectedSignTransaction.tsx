@@ -16,7 +16,8 @@ export const RejectedSignTransaction: React.FC<Props> = ({ onTryAgain }) => {
       <p className="text-center mb-3">Transaction Rejected!</p>
 
       <p className="text-center mb-4 text-xs">
-        {`You need to accept the transaction in the metamask popup to continue`}{" "}
+        {`You need to click "Sign" in the metamask popup to accept the Sunflower
+        Land`}{" "}
         <a
           className="underline"
           href="https://docs.sunflower-land.com/support/terms-of-service"

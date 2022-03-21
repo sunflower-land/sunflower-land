@@ -6,12 +6,14 @@ import selectBox from "assets/ui/select/select_box.png";
 
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
+import { AppIconContext } from "features/crops/AppIconProvider";
 
 import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Soil } from "./Soil";
-import { harvestAudio, plantAudio } from "lib/utils/sfx";
+import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -26,10 +28,17 @@ export const Field: React.FC<Props> = ({
   selectedItem,
   className,
   fieldIndex,
+  onboarding,
 }) => {
+  const {
+    isOpen: tourIsOpen,
+    setCurrentStep: setCurrentTourStep,
+    currentStep: currentTourStep,
+  } = useTour();
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
   const { gameService, shortcutItem } = useContext(Context);
+  const { updateHarvestable } = useContext(AppIconContext);
   const [game] = useActor(gameService);
   const clickedAt = useRef<number>(0);
   const field = game.context.state.fields[fieldIndex];
@@ -49,6 +58,12 @@ export const Field: React.FC<Props> = ({
       return;
     }
 
+    if (onboarding && tourIsOpen) {
+      currentTourStep === TourStep.harvest
+        ? setCurrentTourStep(TourStep.openInventory)
+        : setCurrentTourStep(TourStep.save);
+    }
+
     clickedAt.current = now;
 
     // Plant
@@ -58,8 +73,6 @@ export const Field: React.FC<Props> = ({
           index: fieldIndex,
           item: selectedItem,
         });
-
-        plantAudio.play();
 
         displayPopover(
           <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
@@ -86,8 +99,7 @@ export const Field: React.FC<Props> = ({
       gameService.send("item.harvested", {
         index: fieldIndex,
       });
-
-      harvestAudio.play();
+      updateHarvestable("minus");
 
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
@@ -103,8 +115,7 @@ export const Field: React.FC<Props> = ({
     }
   };
 
-  const playing = game.matches("playing") || game.matches("autosaving");
-
+  const playingOrTouring = game.matches("playing") || game.matches("touring");
   return (
     <div
       className={classNames("relative group", className)}
@@ -126,7 +137,7 @@ export const Field: React.FC<Props> = ({
       >
         {popover}
       </div>
-      {playing && (
+      {playingOrTouring && (
         <img
           src={selectBox}
           style={{

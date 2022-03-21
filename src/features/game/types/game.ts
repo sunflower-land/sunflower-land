@@ -4,7 +4,6 @@ import { GameEvent } from "../events";
 import { CropName, SeedName } from "./crops";
 import { CraftableName } from "./craftables";
 import { ResourceName } from "./resources";
-import { SkillName } from "./skills";
 
 export type FieldItem = {
   name: CropName;
@@ -28,8 +27,7 @@ export type InventoryItemName =
   | CropName
   | SeedName
   | CraftableName
-  | ResourceName
-  | SkillName;
+  | ResourceName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -51,11 +49,6 @@ export type GameState = {
   stock: Inventory;
 
   farmAddress?: string;
-
-  skills: {
-    farming: Decimal;
-    gathering: Decimal;
-  };
 };
 
 export interface Context {

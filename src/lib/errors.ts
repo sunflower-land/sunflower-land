@@ -5,13 +5,4 @@ export const ERRORS = {
   FAILED_REQUEST: "FAILED_REQUEST",
   REJECTED_TRANSACTION: "REJECTED_TRANSACTION",
   BLOCKED: "BLOCKED",
-  NETWORK_CONGESTED: "NETWORK_CONGESTED",
-
-  // Blockchain session has changed - they are doing something sneaky refreshing the browser
-  SESSION_EXPIRED: "SESSION_EXPIRED",
-
-  // Server errors
-  DISCORD_USER_EXISTS: "DISCORD_USER_EXISTS",
 };
-
-export type ErrorCode = keyof typeof ERRORS;

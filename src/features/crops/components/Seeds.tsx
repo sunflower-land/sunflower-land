@@ -17,13 +17,19 @@ import { CropName, CROPS, SEEDS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
-import { Stock } from "components/ui/Stock";
+import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
 
 interface Props {
   onClose: () => void;
 }
 
 export const Seeds: React.FC<Props> = ({ onClose }) => {
+  const {
+    setCurrentStep: setCurrentTourStep,
+    isOpen: tourIsOpen,
+    currentStep: currentTourStep,
+  } = useTour();
   const [selected, setSelected] = useState<Craftable>(
     SEEDS()["Sunflower Seed"]
   );
@@ -48,10 +54,18 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const handlBuyOne = () => {
     buy();
+    if (tourIsOpen && currentTourStep === TourStep.buy) {
+      setCurrentTourStep(TourStep.plant);
+      onClose();
+    }
   };
 
   const handleBuyTen = () => {
     buy(10);
+    if (tourIsOpen && currentTourStep === TourStep.buy) {
+      setCurrentTourStep(TourStep.plant);
+      onClose();
+    }
   };
 
   const restock = () => {
@@ -125,7 +139,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <Stock item={selected} />
+          <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
+            {`${stock} in stock`}
+          </span>
           <span className="text-shadow text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}

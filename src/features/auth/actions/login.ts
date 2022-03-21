@@ -30,7 +30,7 @@ export async function loginRequest(request: Request) {
   return { token };
 }
 
-const LOCAL_STORAGE_KEY = `sb_wiz.zpc.v.${window.location.host}-${window.location.pathname}`;
+const LOCAL_STORAGE_KEY = `sb_wiz.zpc.v.${window.location.host}`;
 
 type Session = {
   token: string;
@@ -53,7 +53,7 @@ function getSession(address: string): Session | null {
   return sessions[address];
 }
 
-export function saveSession(address: string, session: Session) {
+function saveSession(address: string, session: Session) {
   let sessions: Sessions = {};
 
   const item = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -70,33 +70,12 @@ export function saveSession(address: string, session: Session) {
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
 }
 
-export function removeSession(address: string) {
-  let sessions: Sessions = {};
-
-  const item = localStorage.getItem(LOCAL_STORAGE_KEY);
-
-  if (item) {
-    sessions = JSON.parse(item) as Sessions;
-  }
-
-  delete sessions[address];
-
-  return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(sessions));
-}
-
-export type Token = {
-  address: string;
+type Token = {
+  account: string;
   exp: number;
-  userAccess: {
-    withdraw: boolean;
-    createFarm: boolean;
-    sync: boolean;
-    mintCollectible: boolean;
-  };
-  discordId?: string;
 };
 
-export function decodeToken(token: string): Token {
+function decodeToken(token: string): Token {
   return jwt_decode(token);
 }
 
@@ -104,7 +83,7 @@ export function decodeToken(token: string): Token {
  * Reduce 4 hours as a buffer for a user session
  * This will mitigate people in the middle of their session becoming unauthorised
  */
-const TOKEN_BUFFER_MS = 1000 * 60 * 60 * 4;
+const TOKEN_BUFFER_MS = 1000 * 60 * 4;
 
 export async function login(): Promise<{ token: string }> {
   const address = metamask.myAccount as string;
@@ -113,12 +92,9 @@ export async function login(): Promise<{ token: string }> {
   if (session) {
     const token = decodeToken(session.token);
 
-    const isFresh = token.exp * 1000 > Date.now() + TOKEN_BUFFER_MS;
+    const isFresh = token.exp * 1000 > Date.now() - TOKEN_BUFFER_MS;
 
-    // Migration from token that did not have user access
-    const isValid = !!token.userAccess;
-
-    if (isFresh && isValid) {
+    if (isFresh) {
       // Raw token
       return { token: session.token };
     }

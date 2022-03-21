@@ -13,7 +13,6 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Craftable } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
-import { Stock } from "components/ui/Stock";
 
 interface Props {
   items: Partial<Record<InventoryItemName, Craftable>>;
@@ -78,7 +77,7 @@ export const CraftingItems: React.FC<Props> = ({
 
     if (stock?.equals(0)) {
       return (
-        <div>
+        <div >
           <p className="text-xxs no-wrap text-center my-1 underline">
             Sold out
           </p>
@@ -101,17 +100,7 @@ export const CraftingItems: React.FC<Props> = ({
         >
           Craft {isBulk && "1"}
         </Button>
-        {isBulk && (
-          <Button
-            disabled={
-              lessFunds(10) || lessIngredients(10) || stock?.lessThan(10)
-            }
-            className="text-xs mt-1 whitespace-nowrap"
-            onClick={() => craft(10)}
-          >
-            Craft 10
-          </Button>
-        )}
+       
       </>
     );
   };
@@ -133,7 +122,20 @@ export const CraftingItems: React.FC<Props> = ({
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <Stock item={selected} />
+          <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
+            {`${stock} in stock`}
+          </span>
+          {soldOut && (
+            <span className="bg-blue-600 text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md">
+              Sold out
+            </span>
+          )}
+          {!!selected.supply && (
+            <span className="bg-blue-600 text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md">
+              {`${selected.supply} left`}
+            </span>
+          )}
+
           <span className="text-shadow text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
@@ -143,7 +145,6 @@ export const CraftingItems: React.FC<Props> = ({
           <span className="text-shadow text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
-
           <div className="border-t border-white w-full mt-2 pt-1">
             {selected.ingredients.map((ingredient, index) => {
               const item = ITEM_DETAILS[ingredient.item];
@@ -162,7 +163,7 @@ export const CraftingItems: React.FC<Props> = ({
                       }
                     )}
                   >
-                    {ingredient.amount.toNumber()}
+                    {ingredient.amount.toNumber()} 
                   </span>
                 </div>
               );

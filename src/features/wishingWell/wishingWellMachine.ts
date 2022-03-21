@@ -159,6 +159,7 @@ export const wishingWellMachine = createMachine<
     withdrawing: {
       invoke: {
         src: async (context) => {
+          console.log("WITHDRAW IT!");
           // Take out all tokens
           const amount = context.state.myTokensInWell.toString();
           await metamask.getWishingWell().takeOut(amount);

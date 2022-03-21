@@ -1,7 +1,5 @@
-import { removeSession } from "features/auth/actions/login";
-import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
-import { CAPTCHA_ELEMENT } from "../components/Captcha";
+import { CAPTCHA_CONTAINER, CAPTCHA_ELEMENT } from "../components/Captcha";
 import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
@@ -14,7 +12,6 @@ type Request = {
   token: string;
   offset: number;
   captcha?: string;
-  fingerprint: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -66,7 +63,6 @@ export async function autosave(request: Request) {
     headers: {
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${request.token}`,
-      "X-Fingerprint": request.fingerprint,
     },
     body: JSON.stringify({
       farmId: request.farmId,
@@ -75,10 +71,6 @@ export async function autosave(request: Request) {
       captcha: request.captcha,
     }),
   });
-
-  if (response.status === 401) {
-    removeSession(metamask.myAccount as string);
-  }
 
   if (response.status === 429) {
     return { verified: false };
@@ -105,6 +97,7 @@ let captchaToken = "";
  */
 export async function solveCaptcha() {
   try {
+    console.log("TIME TO SOLVE!");
     // Captcha takes a little while to mount
     await new Promise((res) => setTimeout(res, 50));
     if (!captchaId) {

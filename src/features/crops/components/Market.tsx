@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import classNames from "classnames";
@@ -12,8 +12,9 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 
 import { MarketItems } from "./MarketItems";
-import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { marketAudio } from "lib/utils/sfx";
+import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
+import { Section } from "lib/utils/useScrollIntoView";
 
 export const Market: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -21,19 +22,25 @@ export const Market: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const isNotReadOnly = !gameState.matches("readonly");
+  const {
+    setCurrentStep: setCurrentTourStep,
+    isOpen: tourIsOpen,
+    currentStep: currentTourStep,
+  } = useTour();
 
   const handleMarketClick = () => {
     setIsOpen(true);
-    marketAudio.play();
+    if (tourIsOpen && currentTourStep === TourStep.openShop) {
+      setTimeout(() => {
+        setCurrentTourStep(TourStep.openSellTab);
+      }, 300);
+    }
   };
 
   return (
     <div
       id={Section.Shop}
-      className={classNames("absolute", {
-        "cursor-pointer": isNotReadOnly,
-        "hover:img-highlight": isNotReadOnly,
-      })}
+      className="absolute"
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
         left: `${GRID_WIDTH_PX * 3}px`,
@@ -44,7 +51,10 @@ export const Market: React.FC = () => {
         src={market}
         alt="market"
         onClick={isNotReadOnly ? () => handleMarketClick() : undefined}
-        className="w-full"
+        className={classNames(" w-full", {
+          "cursor-pointer": isNotReadOnly,
+          "hover:img-highlight": isNotReadOnly,
+        })}
       />
       {isNotReadOnly && (
         <Action
@@ -54,7 +64,11 @@ export const Market: React.FC = () => {
           onClick={() => handleMarketClick()}
         />
       )}
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal
+        centered
+        show={isOpen}
+        onHide={tourIsOpen ? undefined : () => setIsOpen(false)}
+      >
         <MarketItems onClose={() => setIsOpen(false)} />
       </Modal>
     </div>

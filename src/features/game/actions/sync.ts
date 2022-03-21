@@ -1,6 +1,5 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
-import { ERRORS } from "lib/errors";
 
 type Request = {
   sessionId: string;
@@ -42,7 +41,7 @@ export async function sync({ farmId, sessionId, token }: Options) {
     token,
   });
 
-  const newSessionId = await metamask.getSessionManager().sync(transaction);
+  const session = await metamask.getSessionManager().sync(transaction);
 
-  return newSessionId;
+  return session;
 }

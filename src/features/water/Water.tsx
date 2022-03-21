@@ -2,13 +2,12 @@ import React from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { Section } from "lib/utils/useScrollIntoView";
 
 import chick from "assets/animals/chick.gif";
 import Shark from "./components/Shark";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
-import swimmer from "assets/npcs/swimmer.gif";
 import { Frog } from "./components/Frog";
 
 export const Water: React.FC = () => {
@@ -41,17 +40,6 @@ export const Water: React.FC = () => {
             width: `${GRID_WIDTH_PX * 5}px`,
             left: `${GRID_WIDTH_PX * 5.5}px`,
             top: `${GRID_WIDTH_PX * 2}px`,
-          }}
-        />
-
-        <img
-          src={swimmer}
-          className="absolute "
-          style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
-            left: `${GRID_WIDTH_PX * 58.5}px`,
-            top: `${GRID_WIDTH_PX * 2}px`,
-            transform: "scaleX(-1)",
           }}
         />
       </div>

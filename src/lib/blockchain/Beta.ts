@@ -2,7 +2,7 @@ import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import BetaJSON from "./abis/Beta.json";
-import { estimateGasPrice, parseMetamaskError } from "./utils";
+import { estimateGasPrice } from "./utils";
 
 const address = CONFIG.BETA_CONTRACT;
 
@@ -41,9 +41,8 @@ export class Beta {
         .send({ from: this.account, value: donation, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });
-          const parsed = parseMetamaskError(error);
 
-          reject(parsed);
+          reject(error);
         })
         .on("transactionHash", function (transactionHash: any) {
           console.log({ transactionHash });

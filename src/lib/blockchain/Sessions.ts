@@ -2,10 +2,15 @@ import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, toWei } from "web3-utils";
 import SessionABI from "./abis/Session.json";
-import { estimateGasPrice, parseMetamaskError } from "./utils";
+import { estimateGasPrice } from "./utils";
 
 const address = CONFIG.SESSION_CONTRACT;
 
+type SessionChangedEvent = {
+  owner: string;
+  sessionId: string;
+  farmId: number;
+};
 /**
  * Sessions contract
  */
@@ -24,40 +29,10 @@ export class SessionManager {
     );
   }
 
-  public async getSessionId(farmId: number, attempts = 0): Promise<string> {
-    await new Promise((res) => setTimeout(res, 3000 * attempts));
-
-    try {
-      const sessionId = await this.contract.methods
-        .getSessionId(farmId)
-        .call({ from: this.account });
-
-      return sessionId;
-    } catch (e) {
-      const error = parseMetamaskError(e);
-      if (attempts < 3) {
-        return this.getSessionId(farmId, attempts + 1);
-      }
-
-      throw error;
-    }
-  }
-
-  /**
-   * Poll until data is ready
-   */
-  public async getNextSessionId(
-    farmId: number,
-    oldSessionId: string
-  ): Promise<string> {
-    await new Promise((res) => setTimeout(res, 3000));
-
-    const sessionId = await this.getSessionId(farmId);
-
-    // Try again
-    if (sessionId === oldSessionId) {
-      return this.getNextSessionId(farmId, oldSessionId);
-    }
+  public async getSessionId(farmId: number): Promise<string> {
+    const sessionId = await this.contract.methods
+      .getSessionId(farmId)
+      .call({ from: this.account });
 
     return sessionId;
   }
@@ -83,13 +58,35 @@ export class SessionManager {
     burnIds: number[];
     burnAmounts: number[];
     tokens: number;
-  }): Promise<string> {
+  }): Promise<SessionChangedEvent> {
     const fee = toWei("0.1");
 
-    const oldSessionId = await this.getSessionId(farmId);
+    const latest = await this.web3.eth.getBlockNumber();
+    const options = {
+      filter: { account: [this.account] },
+      fromBlock: latest,
+    };
+
     const gasPrice = await estimateGasPrice(this.web3);
 
-    await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
+      // We resolve once the session changed event comes through
+      const timer = setInterval(() => {
+        this.contract
+          .getPastEvents("SessionChanged", options)
+          .then((results: any) => {
+            if (results.length > 0) {
+              clearInterval(timer);
+              resolve(results[0].returnValues);
+            }
+          })
+          .catch((err: any) => {
+            clearInterval(timer);
+            console.log({ err });
+            reject(err);
+          });
+      }, 1000);
+
       this.contract.methods
         .sync(
           signature,
@@ -105,19 +102,17 @@ export class SessionManager {
         .send({ from: this.account, value: fee, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });
-          const parsed = parseMetamaskError(error);
-          reject(parsed);
+          clearInterval(timer);
+
+          reject(error);
         })
         .on("transactionHash", function (transactionHash: any) {
           console.log({ transactionHash });
         })
         .on("receipt", function (receipt: any) {
-          resolve(receipt);
+          console.log({ receipt });
         });
     });
-
-    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
-    return newSessionId;
   }
 
   public async withdraw({
@@ -139,11 +134,31 @@ export class SessionManager {
     amounts: number[];
     sfl: number;
     tax: number;
-  }): Promise<string> {
-    const oldSessionId = await this.getSessionId(farmId);
-    const gasPrice = await estimateGasPrice(this.web3);
+  }): Promise<SessionChangedEvent> {
+    const latest = await this.web3.eth.getBlockNumber();
+    const options = {
+      filter: { account: [this.account] },
+      fromBlock: latest,
+    };
 
-    await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
+      // We resolve once the session changed event comes through
+      const timer = setInterval(() => {
+        this.contract
+          .getPastEvents("SessionChanged", options)
+          .then((results: any) => {
+            if (results.length > 0) {
+              clearInterval(timer);
+              resolve(results[0].returnValues);
+            }
+          })
+          .catch((err: any) => {
+            clearInterval(timer);
+            console.log({ err });
+            reject(err);
+          });
+      }, 1000);
+
       this.contract.methods
         .withdraw(
           signature,
@@ -155,22 +170,19 @@ export class SessionManager {
           sfl,
           tax
         )
-        .send({ from: this.account, gasPrice })
+        .send({ from: this.account })
         .on("error", function (error: any) {
-          const parsed = parseMetamaskError(error);
-          console.log({ parsedIt: parsed });
-          reject(parsed);
+          console.log({ error });
+          clearInterval(timer);
+
+          reject(error);
         })
         .on("transactionHash", function (transactionHash: any) {
           console.log({ transactionHash });
         })
         .on("receipt", function (receipt: any) {
           console.log({ receipt });
-          resolve(receipt);
         });
     });
-
-    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
-    return newSessionId;
   }
 }

@@ -43,9 +43,6 @@ import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
 import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
 import crown from "assets/nfts/goblin_crown.png";
 import fountain from "assets/nfts/fountain.gif";
-import beaver from "assets/nfts/beaver.png";
-import apprenticeBeaver from "assets/nfts/apprentice_beaver.png";
-import constructionBeaver from "assets/nfts/construction_beaver.png";
 
 // Foods
 import flour from "assets/crops/wheat/flour.png";
@@ -89,23 +86,27 @@ import egg from "assets/resources/egg.png";
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
 import chicken from "assets/resources/chicken.png";
-import questionMark from "assets/icons/expression_confused.png";
 
-// Skills
-import plant from "assets/icons/plant.png";
+// Perks
+import perk1 from "assets/perks/perkPumpkin.png";
+import perk2 from "assets/perks/perk1.png";
+import perk3 from "assets/perks/perk1.png";
+import questionMark from "assets/icons/expression_confused.png"
+
+
 
 import { InventoryItemName } from "./game";
+<<<<<<< Updated upstream
 import { FOODS, LimitedItems, TOOLS, FLAGS } from "./craftables";
+=======
+import { FOODS, LimitedItems, PERKS, TOOLS } from "./craftables";
+>>>>>>> Stashed changes
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
-import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { SKILL_TREE } from "./skills";
 
 export type ItemDetails = {
   description: string;
   image: any;
-  secondaryImage?: any;
-  section?: Section;
 };
 
 type Items = Record<InventoryItemName, ItemDetails>;
@@ -159,52 +160,42 @@ export const ITEM_DETAILS: Items = {
   "Sunflower Seed": {
     ...seeds["Sunflower Seed"],
     image: sunflowerSeed,
-    secondaryImage: sunflowerCrop,
   },
   "Potato Seed": {
     ...seeds["Potato Seed"],
     image: potatoSeed,
-    secondaryImage: potatoCrop,
   },
   "Pumpkin Seed": {
     ...seeds["Pumpkin Seed"],
     image: pumpkinSeed,
-    secondaryImage: pumpkinCrop,
   },
   "Carrot Seed": {
     ...seeds["Carrot Seed"],
     image: carrotSeed,
-    secondaryImage: carrotCrop,
   },
   "Cabbage Seed": {
     ...seeds["Cabbage Seed"],
     image: cabbageSeed,
-    secondaryImage: cabbageCrop,
   },
   "Beetroot Seed": {
     ...seeds["Beetroot Seed"],
     image: beetrootSeed,
-    secondaryImage: beetrootCrop,
   },
   "Cauliflower Seed": {
     ...seeds["Cauliflower Seed"],
     image: cauliflowerSeed,
-    secondaryImage: cauliflowerCrop,
   },
   "Parsnip Seed": {
     ...seeds["Parsnip Seed"],
     image: parsnipSeed,
-    secondaryImage: parsnipCrop,
   },
   "Radish Seed": {
     ...seeds["Radish Seed"],
     image: radishSeed,
-    secondaryImage: radishCrop,
   },
   "Wheat Seed": {
     ...seeds["Wheat Seed"],
     image: wheatSeed,
-    secondaryImage: wheatCrop,
   },
 
   // Resources
@@ -231,18 +222,6 @@ export const ITEM_DETAILS: Items = {
   Chicken: {
     ...RESOURCES["Chicken"],
     image: chicken,
-  },
-  Cow: {
-    ...RESOURCES["Chicken"],
-    image: questionMark,
-  },
-  Sheep: {
-    ...RESOURCES["Chicken"],
-    image: questionMark,
-  },
-  Pig: {
-    ...RESOURCES["Chicken"],
-    image: questionMark,
   },
 
   // TOOLS
@@ -329,18 +308,6 @@ export const ITEM_DETAILS: Items = {
     ...LimitedItems["Fountain"],
     image: fountain,
   },
-  "Woody the Beaver": {
-    ...LimitedItems["Woody the Beaver"],
-    image: beaver,
-  },
-  "Apprentice Beaver": {
-    ...LimitedItems["Apprentice Beaver"],
-    image: apprenticeBeaver,
-  },
-  "Foreman Beaver": {
-    ...LimitedItems["Foreman Beaver"],
-    image: constructionBeaver,
-  },
 
   // FOOD
   "Pumpkin Soup": {
@@ -361,6 +328,7 @@ export const ITEM_DETAILS: Items = {
     image: flour,
   },
 
+<<<<<<< Updated upstream
   /**
    * Skills
    */
@@ -387,15 +355,24 @@ export const ITEM_DETAILS: Items = {
   Prospector: {
     ...SKILL_TREE["Prospector"],
     image: stonePickaxe,
+=======
+
+  //perks
+
+  Perk1: {
+    ...PERKS["Perk1"],
+    image: perk1,
+>>>>>>> Stashed changes
   },
-  Logger: {
-    ...SKILL_TREE["Logger"],
-    image: stonePickaxe,
+  Perk2: {
+    ...PERKS["Perk2"],
+    image: perk2,
   },
-  "Gold Rush": {
-    ...SKILL_TREE["Gold Rush"],
-    image: stonePickaxe,
+  Perk3: {
+    ...PERKS["Perk3"],
+    image: questionMark,
   },
+<<<<<<< Updated upstream
 
   /**
    * Flags
@@ -508,4 +485,7 @@ export const ITEM_DETAILS: Items = {
     ...FLAGS["Vietnamese Flag"],
     image: vietnamFlag,
   },
+=======
+ 
+>>>>>>> Stashed changes
 };

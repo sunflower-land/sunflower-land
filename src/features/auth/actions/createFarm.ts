@@ -1,7 +1,7 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { CharityAddress } from "../components/CreateFarm";
+import { CharityAddress } from "../components/Donation";
 
 type Request = {
   charity: string;
@@ -50,9 +50,12 @@ export async function createFarm({
     token,
   });
 
+  const address = metamask.myAccount as string;
+  const farm = metamask.getFarm().onCreated(address);
+
   await metamask.getBeta().createFarm(transaction);
 
-  const farm = await metamask.getFarm().getNewFarm();
+  const newFarm = await farm;
 
-  return farm;
+  return newFarm;
 }

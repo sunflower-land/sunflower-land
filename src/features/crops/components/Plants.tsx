@@ -4,22 +4,27 @@ import Decimal from "decimal.js-light";
 import token from "assets/icons/token.gif";
 
 import { Box } from "components/ui/Box";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
 
 import { Crop, CROPS } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
+import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
 import { getSellPrice } from "features/game/lib/pricing";
 
 export const Plants: React.FC = () => {
+  const {
+    setCurrentStep: setCurrentTourStep,
+    isOpen: tourIsOpen,
+    currentStep: currentTourStep,
+  } = useTour();
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
   const { setToast } = useContext(ToastContext);
-  const [isSellAllModalOpen, showSellAllModal] = React.useState(false);
   const { gameService } = useContext(Context);
   const [
     {
@@ -39,29 +44,15 @@ export const Plants: React.FC = () => {
 
   const cropAmount = new Decimal(inventory[selected.name] || 0);
   const noCrop = cropAmount.equals(0);
-  const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
 
   const handleSellOne = () => {
     sell(1);
-  };
-
-  const handleSellAll = () => {
-    sell(cropAmount.toNumber());
-    showSellAllModal(false);
-  };
-
-  // ask confirmation if crop supply is greater than 1
-  const openConfirmationModal = () => {
-    if (cropAmount.toNumber() > 1) {
-      showSellAllModal(true);
-    } else {
-      handleSellOne();
+    if (tourIsOpen) {
+      setCurrentTourStep(TourStep.buy);
     }
   };
 
-  const closeConfirmationModal = () => {
-    showSellAllModal(false);
-  };
+  const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
 
   return (
     <div className="flex">
@@ -106,41 +97,12 @@ export const Plants: React.FC = () => {
           <Button
             disabled={noCrop}
             className="text-xs mt-1 whitespace-nowrap"
-            onClick={() => openConfirmationModal()}
+            onClick={() => sell(cropAmount.toNumber())}
           >
             Sell All
           </Button>
         </div>
       </OuterPanel>
-      <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
-        <Panel className="md:w-4/5 m-auto">
-          <div className="m-auto flex flex-col">
-            <span className="text-sm text-center text-shadow">
-              Are you sure you want to <br className="hidden md:block" />
-              sell all your {selected.name}?
-            </span>
-            <span className="text-sm text-center text-shadow mt-1">
-              Total: {cropAmount.toNumber()}
-            </span>
-          </div>
-          <div className="flex justify-content-around p-1">
-            <Button
-              disabled={noCrop}
-              className="text-xs"
-              onClick={() => handleSellAll()}
-            >
-              Yes
-            </Button>
-            <Button
-              disabled={noCrop}
-              className="text-xs ml-2"
-              onClick={closeConfirmationModal}
-            >
-              No
-            </Button>
-          </div>
-        </Panel>
-      </Modal>
     </div>
   );
 };

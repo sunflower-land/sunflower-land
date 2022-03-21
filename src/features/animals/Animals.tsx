@@ -1,10 +1,9 @@
 import React from "react";
 
-import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { Section } from "lib/utils/useScrollIntoView";
 
 import { Chickens } from "./components/Chickens";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { Barn } from "./components/Barn";
 
 export const Animals: React.FC = () => {
   return (
@@ -24,8 +23,6 @@ export const Animals: React.FC = () => {
           id={Section.Animals}
           className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
         />
-
-        <Barn />
 
         <Chickens />
       </div>

@@ -11,7 +11,6 @@ import token from "assets/icons/token.gif";
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { BankModal } from "./components/BankModal";
-import { bankAudio } from "lib/utils/sfx";
 
 export const Bank: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -22,7 +21,6 @@ export const Bank: React.FC = () => {
 
   const open = () => {
     setIsOpen(true);
-    bankAudio.play();
   };
 
   return (
@@ -49,7 +47,7 @@ export const Bank: React.FC = () => {
           className="absolute -bottom-6 left-2"
           text="Bank"
           icon={token}
-          onClick={open}
+          onClick={() => setIsOpen(true)}
         />
       )}
       <Modal

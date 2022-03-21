@@ -5,13 +5,12 @@ import classNames from "classnames";
 
 import { Context } from "features/game/GameProvider";
 
-import blacksmith from "assets/buildings/blacksmith_building.gif";
+import blacksmith from "assets/buildings/blacksmith_building.png";
 import hammer from "assets/icons/hammer.png";
 
 import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { blacksmithAudio } from "lib/utils/sfx";
 
 export const Blacksmith: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -19,11 +18,6 @@ export const Blacksmith: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const isNotReadOnly = !gameState.matches("readonly");
-
-  const open = () => {
-    setIsOpen(true);
-    blacksmithAudio.play();
-  };
 
   return (
     <div
@@ -38,7 +32,7 @@ export const Blacksmith: React.FC = () => {
       <img
         src={blacksmith}
         alt="market"
-        onClick={isNotReadOnly ? () => open() : undefined}
+        onClick={isNotReadOnly ? () => setIsOpen(true) : undefined}
         className={classNames("w-full", {
           "cursor-pointer": isNotReadOnly,
           "hover:img-highlight": isNotReadOnly,
@@ -49,7 +43,7 @@ export const Blacksmith: React.FC = () => {
           className="absolute -bottom-8 left-1"
           text="Craft"
           icon={hammer}
-          onClick={open}
+          onClick={() => setIsOpen(true)}
         />
       )}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>

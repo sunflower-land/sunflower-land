@@ -1,60 +1,57 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
 import { OuterPanel, Panel } from "components/ui/Panel";
 
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { Section, useScrollIntoView } from "lib/utils/useScrollIntoView";
 import * as Auth from "features/auth/lib/Provider";
+import { sync } from "features/game/actions/sync";
 import { Context } from "features/game/GameProvider";
 
 import { Share } from "./Share";
-import { HowToPlay } from "./howToPlay/HowToPlay";
 import { Modal } from "react-bootstrap";
 
 import mobileMenu from "assets/icons/hamburger_menu.png";
 import questionMark from "assets/icons/expression_confused.png";
 import radish from "assets/icons/radish.png";
-import town from "assets/icons/town.png";
 import water from "assets/icons/expression_working.png";
+import token from "assets/icons/token.gif";
 import timer from "assets/icons/timer.png";
-import wood from "assets/resources/wood.png";
-import leftArrow from "assets/icons/arrow_left.png";
-import rightArrow from "assets/icons/arrow_right.png";
-
-import { isNewFarm } from "../lib/onboarding";
-
-/**
- * TODO:
- * create menu level parent mapping if more than 2 levels.
- * currently only 1 level deep so setMenuLevel("ROOT") satisfies
- */
-
-enum MENU_LEVELS {
-  ROOT = "root",
-  MAP = "map",
-  VIEW = "view",
-}
+import { useTour } from "@reactour/tour";
+import { TourStep } from "features/game/lib/Tour";
+import { canSync } from "features/game/lib/whitelist";
+import { metamask } from "lib/blockchain/metamask";
 
 export const Menu = () => {
+  const { isOpen: tourIsOpen, setCurrentStep: setCurrentTourStep } = useTour();
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
-  const [gameState] = useActor(gameService);
+  const [gameState, send] = useActor(gameService);
 
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
   const [scrollIntoView] = useScrollIntoView();
 
-  const [showShareModal, setShowShareModal] = useState(false);
-  const [showComingSoon, setShowComingSoon] = useState(false);
-  const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
-  const [farmURL, setFarmURL] = useState("");
-  const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
+  const [showShareModal, setShowShareModal] = React.useState(false);
+  const [showComingSoon, setShowComingSoon] = React.useState(false);
+
+  // farm link (URL)
+  const farmURL = authState.context.farmId
+    ? `${
+        window.location.href.includes("?")
+          ? window.location.href.split("?")[0]
+          : window.location.href
+      }?farmId=${authState.context.farmId!.toString()}`
+    : "https://sunflower-land.com/play/";
 
   const ref = useRef<HTMLDivElement>(null);
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
+    if (tourIsOpen) {
+      setCurrentTourStep(TourStep.sync);
+    }
   };
 
   const handleNavigationClick = (section: Section) => {
@@ -62,8 +59,8 @@ export const Menu = () => {
     setMenuOpen(false);
   };
 
-  const handleHowToPlay = () => {
-    setShowHowToPlay(true);
+  const handleAboutClick = () => {
+    window.open("https://docs.sunflower-land.com/", "_blank");
     setMenuOpen(false);
   };
 
@@ -79,26 +76,10 @@ export const Menu = () => {
     setMenuOpen(false);
   };
 
-  const syncOnChain = async () => {
-    if (!authState.context.token?.userAccess.sync) {
-      setShowComingSoon(true);
-      return;
-    }
-
-    gameService.send("SYNC");
+  // TODO - Remove function when withdraw and Sync on Chain functionalities are implemnented
+  const handleComingSoonModal = () => {
+    setShowComingSoon(true);
     setMenuOpen(false);
-  };
-
-  const autosave = async () => {
-    gameService.send("SAVE");
-  };
-
-  const goBack = () => {
-    authService.send("RETURN");
-  };
-
-  const visitFarm = () => {
-    authService.send("EXPLORE");
   };
 
   // Handles closing the menu if someone clicks outside
@@ -108,29 +89,42 @@ export const Menu = () => {
 
     return () => {
       document.removeEventListener("mousedown", handleClick);
-      document.removeEventListener("touchstart", handleClick);
+      document.addEventListener("touchstart", handleClick);
     };
   }, []);
 
-  useEffect(() => {
-    const _farmURL = authState.context.farmId
-      ? `${
-          window.location.href.includes("?")
-            ? window.location.href.split("?")[0]
-            : window.location.href
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        }?farmId=${authState.context.farmId!.toString()}`
-      : "https://sunflower-land.com/play/";
+  const syncOnChain = async () => {
+    if (!canSync(metamask.myAccount as string)) {
+      setShowComingSoon(true);
+      setMenuOpen(false);
+      return;
+    }
 
-    setFarmURL(_farmURL);
-  }, [authState.context.farmId]);
+    gameService.send("SYNC");
+  };
+
+  const autosave = async () => {
+    gameService.send("SAVE");
+
+    if (tourIsOpen) {
+      setCurrentTourStep(TourStep.openMenu);
+    }
+  };
+
+  const goBack = () => {
+    authService.send("RETURN");
+  };
 
   return (
-    <div ref={ref} className="w-5/12 sm:w-60 fixed top-2 left-2 z-50 shadow-lg">
+    <div
+      ref={ref}
+      className="w-5/12 sm:w-auto fixed top-2 left-2 z-50 shadow-lg"
+      id="menu"
+    >
       <OuterPanel>
         <div className="flex justify-center p-1">
           <Button
-            className="mr-2 bg-brown-200 active:bg-brown-200"
+            className="mr-2 bg-brown-200 active:bg-brown-200 open-menu"
             onClick={handleMenuClick}
           >
             <img
@@ -143,6 +137,7 @@ export const Menu = () => {
           {!gameState.matches("readonly") && (
             <Button
               onClick={autosave}
+              className="save"
               disabled={gameState.matches("autosaving") ? true : false}
             >
               {gameState.matches("autosaving") ? (
@@ -160,7 +155,7 @@ export const Menu = () => {
         </div>
         <div
           className={`transition-all ease duration-200 ${
-            menuOpen ? "max-h-100" : "max-h-0"
+            menuOpen ? "max-h-80" : "max-h-0"
           }`}
         >
           <ul
@@ -168,111 +163,40 @@ export const Menu = () => {
               menuOpen ? "scale-y-1" : "scale-y-0"
             }`}
           >
-            {/* Root menu */}
-            {menuLevel === MENU_LEVELS.ROOT && (
-              <>
-                {!gameState.matches("readonly") && (
-                  <li className="p-1">
-                    <Button onClick={syncOnChain}>
-                      <span className="sm:text-sm">Sync on chain</span>
-                    </Button>
-                  </li>
-                )}
-                <li className="p-1 flex">
-                  <Button onClick={handleHowToPlay}>
-                    <span className="sm:text-sm flex-1">How to play</span>
-                    <img
-                      src={questionMark}
-                      className="w-3 ml-2"
-                      alt="question-mark"
-                    />
-                  </Button>
-                </li>
-                <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => setMenuLevel(MENU_LEVELS.MAP)}
-                  >
-                    <span className="sm:text-sm flex-1">Map</span>
-                  </Button>
-                </li>
-                <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}
-                  >
-                    <span className="sm:text-sm flex-1">Community</span>
-                  </Button>
-                </li>
-              </>
-            )}
-
-            {/* Back button when not Root */}
-            {menuLevel !== MENU_LEVELS.ROOT && (
-              <li className="p-1">
-                <Button onClick={() => setMenuLevel(MENU_LEVELS.ROOT)}>
-                  <img src={leftArrow} className="w-4 mr-2" alt="left" />
-                </Button>
-              </li>
-            )}
-
-            {/* Map menu */}
-            {menuLevel === MENU_LEVELS.MAP && (
+            <li className="p-1">
+              <Button onClick={handleAboutClick}>
+                <span className="sm:text-sm">About</span>
+                <img
+                  src={questionMark}
+                  className="w-3 ml-2"
+                  alt="question-mark"
+                />
+              </Button>
+            </li>
+            <li className="p-1">
+              <Button onClick={() => handleNavigationClick(Section.Crops)}>
+                <span className="sm:text-sm">Crops</span>
+                <img src={radish} className="w-4 ml-2" alt="crop" />
+              </Button>
+            </li>
+            <li className="p-1">
+              <Button onClick={() => handleNavigationClick(Section.Water)}>
+                <span className="sm:text-sm">Water</span>
+                <img src={water} className="w-4 ml-2" alt="water" />
+              </Button>
+            </li>
+            <li className="p-1">
+              <Button onClick={() => handleShareClick()}>
+                <span className="sm:text-sm">Share</span>
+              </Button>
+            </li>
+            {!gameState.matches("readonly") && (
               <>
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => handleNavigationClick(Section.Town)}
-                  >
-                    <span className="sm:text-sm flex-1">Town</span>
-                    <img src={town} className="w-6 ml-2" alt="town" />
+                  <Button onClick={syncOnChain}>
+                    <span className="sm:text-sm">Sync on chain</span>
                   </Button>
                 </li>
-                <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => handleNavigationClick(Section.Crops)}
-                  >
-                    <span className="sm:text-sm flex-1">Crops</span>
-                    <img src={radish} className="w-4 ml-2" alt="crop" />
-                  </Button>
-                </li>
-                <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => handleNavigationClick(Section.Water)}
-                  >
-                    <span className="sm:text-sm flex-1">Water</span>
-                    <img src={water} className="w-4 ml-2" alt="water" />
-                  </Button>
-                </li>
-                <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => handleNavigationClick(Section.Forest)}
-                  >
-                    <span className="sm:text-sm flex-1">Forest</span>
-                    <img src={wood} className="w-4 ml-2" alt="wood" />
-                  </Button>
-                </li>
-              </>
-            )}
-
-            {/* View menu */}
-            {menuLevel === MENU_LEVELS.VIEW && (
-              <>
-                <li className="p-1">
-                  <Button onClick={() => handleShareClick()}>
-                    <span className="sm:text-sm">Share</span>
-                  </Button>
-                </li>
-                {!gameState.matches("readonly") && (
-                  <li className="p-1">
-                    <Button onClick={visitFarm}>
-                      <span className="sm:text-sm">Visit Farm</span>
-                    </Button>
-                  </li>
-                )}
               </>
             )}
           </ul>
@@ -283,11 +207,6 @@ export const Menu = () => {
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
         farmURL={farmURL}
-      />
-
-      <HowToPlay
-        isOpen={showHowToPlay}
-        onClose={() => setShowHowToPlay(false)}
       />
 
       {/* TODO - To be deleted when withdraw and "Sync on chain" are implemented */}

@@ -18,8 +18,11 @@ import fountain from "assets/nfts/fountain.gif";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Context } from "../GameProvider";
+<<<<<<< Updated upstream
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
+=======
+>>>>>>> Stashed changes
 
 export const Decorations: React.FC = () => {
   const { gameService, selectedItem } = useContext(Context);
@@ -39,7 +42,6 @@ export const Decorations: React.FC = () => {
             right: `${GRID_WIDTH_PX * 11.5}px`,
             top: `${GRID_WIDTH_PX * 22}px`,
           }}
-          id={Section["Sunflower Rock"]}
           className="absolute"
           src={sunflowerRock}
           alt="Sunflower rock"
@@ -53,7 +55,6 @@ export const Decorations: React.FC = () => {
             right: `${GRID_WIDTH_PX * 16}px`,
             top: `${GRID_WIDTH_PX * 1}px`,
           }}
-          id={Section["Christmas Tree"]}
           className="absolute"
           src={christmasTree}
           alt="Christmas Tree"
@@ -67,7 +68,6 @@ export const Decorations: React.FC = () => {
             left: `${GRID_WIDTH_PX * 45.5}px`,
             top: `${GRID_WIDTH_PX * 32}px`,
           }}
-          id={Section["Sunflower Statue"]}
           className="absolute"
           src={sunflowerStatue}
           alt="Sunflower Statue"
@@ -81,7 +81,6 @@ export const Decorations: React.FC = () => {
             left: `${GRID_WIDTH_PX * 52}px`,
             top: `${GRID_WIDTH_PX * 39}px`,
           }}
-          id={Section["Potato Statue"]}
           className="absolute"
           src={potatoStatue}
           alt="Potato Statue"
@@ -95,7 +94,6 @@ export const Decorations: React.FC = () => {
             left: `${GRID_WIDTH_PX * 30}px`,
             top: `${GRID_WIDTH_PX * 36.8}px`,
           }}
-          id={Section["Sunflower Tombstone"]}
           className="absolute"
           src={sunflowerTombstone}
           alt="Sunflower tombstone"
@@ -106,11 +104,10 @@ export const Decorations: React.FC = () => {
         <img
           style={{
             width: `${GRID_WIDTH_PX * 1}px`,
-            right: `${GRID_WIDTH_PX * 39.78}px`,
+            right: `${GRID_WIDTH_PX * 39.28}px`,
             top: `${GRID_WIDTH_PX * 28.2}px`,
           }}
-          id={Section["Farm Cat"]}
-          className="absolute z-10"
+          className="absolute"
           src={cat}
           alt="Farm cat"
         />
@@ -123,7 +120,6 @@ export const Decorations: React.FC = () => {
             right: `${GRID_WIDTH_PX * 37.8}px`,
             top: `${GRID_WIDTH_PX * 32}px`,
           }}
-          id={Section["Farm Dog"]}
           className="absolute"
           src={dog}
           alt="Farm dog"
@@ -137,7 +133,6 @@ export const Decorations: React.FC = () => {
             right: "493px",
             top: "449px",
           }}
-          id={Section.Gnome}
           className="absolute"
           src={gnome}
           alt="Gnome"
@@ -151,7 +146,6 @@ export const Decorations: React.FC = () => {
             left: `${GRID_WIDTH_PX * 38.9}px`,
             top: `${GRID_WIDTH_PX * 34}px`,
           }}
-          id={Section.Scarecrow}
           className="absolute"
           src={scarecrow}
           alt="Scarecrow"
@@ -165,7 +159,6 @@ export const Decorations: React.FC = () => {
             left: `${GRID_WIDTH_PX * 36}px`,
             top: `${GRID_WIDTH_PX * 30}px`,
           }}
-          id={Section.Fountain}
           className="absolute"
           src={fountain}
           alt="Fountain"
@@ -179,7 +172,6 @@ export const Decorations: React.FC = () => {
             right: `${GRID_WIDTH_PX * 27.5}px`,
             bottom: `${GRID_WIDTH_PX * 5.5}px`,
           }}
-          id={Section["Goblin Crown"]}
           className="absolute"
           src={goblinKing}
           alt="GoblinKing"

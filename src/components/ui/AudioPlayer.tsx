@@ -9,10 +9,9 @@ import volume_up from "assets/ui/music_player/volume-up.png";
 import { Button } from "components/ui/Button";
 import { getSong, getSongCount } from "assets/songs/playlist";
 import { Panel } from "components/ui/Panel";
-import { useStepper } from "lib/utils/hooks/useStepper";
 
 export const AudioPlayer: React.FC = () => {
-  const volume = useStepper({ initial: 0.1, step: 0.1, max: 1, min: 0 });
+  const [volume, setVolume] = useState<number>(0.8);
   const [visible, setIsVisible] = useState<boolean>(false);
   const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
@@ -27,6 +26,19 @@ export const AudioPlayer: React.FC = () => {
     setPlaying(!isPlaying);
   };
 
+  const decreaseVolume = () => {
+    if (volume > 0) {
+      setVolume(volume - 0.1);
+      musicPlayer.current.volume = volume - 0.1;
+    }
+  };
+  const increaseVolume = () => {
+    if (volume < 1) {
+      setVolume(volume + 0.1);
+      musicPlayer.current.volume = volume + 0.1;
+    }
+  };
+
   const handleNextSong = () => {
     if (getSongCount() === songIndex + 1) {
       setSongIndex(0);
@@ -36,10 +48,6 @@ export const AudioPlayer: React.FC = () => {
   };
 
   const song = getSong(songIndex);
-
-  useEffect(() => {
-    musicPlayer.current.volume = volume.value;
-  }, [volume.value]);
 
   useEffect(() => {
     if (navigator.userAgent.match(/chrome|chromium|crios/i)) {
@@ -53,7 +61,7 @@ export const AudioPlayer: React.FC = () => {
     <div
       className={`position-fixed ${
         visible ? "-right-6 sm:right-10" : "right-2"
-      } sm:right-2 bottom-4 z-50 md:w-56 w-48 h-fit  sm:-translate-x-50 transition-all duration-500 ease-in-out`}
+      } sm:right-2 bottom-4 z-50 w-48 h-fit  sm:-translate-x-50 transition-all duration-500 ease-in-out`}
       style={{
         transform: `translateX(${visible ? 0 : "calc(100% + 8px)"})`,
       }}
@@ -92,13 +100,13 @@ export const AudioPlayer: React.FC = () => {
             </Button>
             {/*Custom volume range */}
             <Button
-              onClick={volume.decrease}
+              onClick={() => decreaseVolume()}
               className="w-10 h-8 hidden sm:flex"
             >
               <img src={volume_down} alt="next song button" />
             </Button>
             <Button
-              onClick={volume.increase}
+              onClick={() => increaseVolume()}
               className="w-10 h-8 hidden sm:flex"
             >
               <img src={volume_up} alt="next song button" />
@@ -107,7 +115,7 @@ export const AudioPlayer: React.FC = () => {
               <div
                 className="bg-white h-1.5 transition-all duration-200 rounded-sm"
                 style={{
-                  height: `${volume.value * 100}%`,
+                  height: `${volume * 100}%`,
                 }}
               />
             </div>

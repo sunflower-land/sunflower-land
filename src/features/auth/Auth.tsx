@@ -4,21 +4,19 @@ import Modal from "react-bootstrap/esm/Modal";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import { ErrorMessage } from "./ErrorMessage";
+import { Unauthorised } from "./Unauthorised";
 import { Panel } from "components/ui/Panel";
 import {
-  NoFarm,
+  CreateFarm,
   CreatingFarm,
   Loading,
   StartFarm,
   VisitFarm,
-  CreateFarm,
 } from "./components";
 
 import jumpingGoblin from "assets/npcs/goblin_jump.gif";
 import curly from "assets/npcs/curly_hair.png";
 import { Signing } from "./components/Signing";
-import { ErrorCode } from "lib/errors";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -45,17 +43,11 @@ export const Auth: React.FC = () => {
             authState.matches("checkFarm")) && <Loading />}
           {authState.matches("connecting") && <Loading text="Connecting" />}
           {authState.matches("signing") && <Signing />}
-          {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
-          {authState.matches("oauthorising") && <Loading />}
-          {authState.matches({ connected: "oauthorised" }) && <CreateFarm />}
+          {authState.matches({ connected: "noFarmLoaded" }) && <CreateFarm />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
           {authState.matches("exploring") && <VisitFarm />}
-          {authState.matches("unauthorised") && (
-            <ErrorMessage
-              errorCode={authState.context.errorCode as ErrorCode}
-            />
-          )}
+          {authState.matches("unauthorised") && <Unauthorised />}
         </Panel>
       </div>
     </Modal>

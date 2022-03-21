@@ -2,8 +2,6 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import React, { useContext } from "react";
 
-import { CopyField } from "components/ui/CopyField";
-
 export const Deposit: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -13,10 +11,15 @@ export const Deposit: React.FC = () => {
       <span className="text-shadow underline text-center text-xs block mt-1">
         {"Your farm's address"}
       </span>
-      <CopyField
-        text={gameState.context.state.farmAddress as string}
-        copyFieldMessage={"Click to copy farm address"}
-      />
+      <span
+        className="text-shadow text-sm block select-text text-center mt-2"
+        style={{
+          overflowWrap: "anywhere",
+        }}
+      >
+        {gameState.context.state.farmAddress}
+      </span>
+
       <span className="text-sm text-shadow underline block mt-6 text-center">
         How to deposit?
       </span>

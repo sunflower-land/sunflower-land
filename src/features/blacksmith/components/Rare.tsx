@@ -8,25 +8,32 @@ import token from "assets/icons/token.gif";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import * as Auth from "features/auth/lib/Provider";
-
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Craftable } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
+import { canWithdraw } from "features/game/lib/whitelist";
 
 interface Props {
   onClose: () => void;
   items: Partial<Record<InventoryItemName, Craftable>>;
 }
 
+<<<<<<< Updated upstream
 export const Rare: React.FC<Props> = ({ onClose, items }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
+=======
+export const Rare: React.FC<Props> = ({ onClose }) => {
+  const [selected, setSelected] = useState<Craftable>(
+    Object.values(LimitedItems)[0]
+  );
+>>>>>>> Stashed changes
   const { gameService } = useContext(Context);
   const [
     {
@@ -55,6 +62,7 @@ export const Rare: React.FC<Props> = ({ onClose, items }) => {
     state.balance.lessThan(selected.price.mul(amount));
 
   const craft = () => {
+    console.log("Craft it!");
     gameService.send("MINT", { item: selected.name });
     onClose();
     // TODO fire off API mint call
@@ -82,26 +90,17 @@ export const Rare: React.FC<Props> = ({ onClose, items }) => {
       return null;
     }
 
+<<<<<<< Updated upstream
     if (!authState.context.token?.userAccess.mintCollectible) {
       return <span className="text-sm text-center">Locked</span>;
     }
 
     if (state.inventory[selected.name]) {
       return <span className="text-sm text-center">Already minted</span>;
-    }
-
-    if (selected.requires && !state.inventory[selected.requires]) {
-      return (
-        <div className="flex items-center">
-          <img
-            src={ITEM_DETAILS[selected.requires].image}
-            className="w-6 h-6 mr-1"
-          />
-          <span className="text-xs text-shadow text-center mt-2">
-            {`${selected.requires}s only`}
-          </span>
-        </div>
-      );
+=======
+    if (!canWithdraw(metamask.myAccount as string)) {
+      return "Locked";
+>>>>>>> Stashed changes
     }
 
     return (
@@ -164,13 +163,13 @@ export const Rare: React.FC<Props> = ({ onClose, items }) => {
                   <img src={item.image} className="h-5 me-2" />
                   <span
                     className={classNames(
-                      "text-xs text-shadow text-center mt-2 "
-                      // {
-                      //   "text-red-500": lessIngredient,
-                      // }
+                      "text-xs text-shadow text-center mt-2 ",
+                      {
+                        "text-red-500": lessIngredient,
+                      }
                     )}
                   >
-                    {/* {ingredient.amount.toNumber()} */}?
+                    {ingredient.amount.toNumber()}
                   </span>
                 </div>
               );
@@ -180,10 +179,10 @@ export const Rare: React.FC<Props> = ({ onClose, items }) => {
               <img src={token} className="h-5 mr-1" />
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  // "text-red-500": lessFunds(),
+                  "text-red-500": lessFunds(),
                 })}
               >
-                {/* {`$${selected.price.toNumber()}`} */}?
+                {`$${selected.price.toNumber()}`}
               </span>
             </div>
           </div>

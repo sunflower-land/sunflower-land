@@ -1,41 +1,52 @@
-import React, { useContext, useEffect } from "react";
+import React, { createRef, useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
+import { useTour } from "@reactour/tour";
 
 import { Hud } from "features/hud/Hud";
 import { Crops } from "features/crops/Crops";
+import { Blacksmith } from "features/blacksmith/Blacksmith";
+import { Mail } from "features/mail/Mail";
 import { Water } from "features/water/Water";
 import { Loading } from "features/auth/components";
 import { Animals } from "features/animals/Animals";
+import { WishingWell } from "features/wishingWell/WishingWell";
+import { Bakery } from "features/bakery/Bakery";
 
-import { useInterval } from "lib/utils/hooks/useInterval";
+import { useInterval } from "lib/utils/useInterval";
 
 import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
 import { Captcha } from "./components/Captcha";
 import { ToastManager } from "./toast/ToastManager";
+import { GameError } from "./components/GameError";
 import { Decorations } from "./components/Decorations";
 import { Minting } from "./components/Minting";
 import { Success } from "./components/Success";
 import { Syncing } from "./components/Syncing";
 import { Withdrawing } from "./components/Withdrawing";
-import { Blacklisted } from "./components/Blacklisted";
 
 import { Quarry } from "features/quarry/Quarry";
 import { TeamDonation } from "features/teamDonation/TeamDonation";
 import { Forest } from "features/forest/Forest";
+import { Bank } from "features/bank/Bank";
 
 import { StateValues } from "./lib/gameMachine";
 import { Town } from "features/town/Town";
+<<<<<<< Updated upstream
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { House } from "features/house/House";
 import { Tailor } from "features/tailor/Tailor";
 
+=======
+ 
+>>>>>>> Stashed changes
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   playing: false,
+  touring: false,
   readonly: false,
   autosaving: false,
   minting: true,
@@ -44,13 +55,12 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   withdrawing: true,
   error: true,
   captcha: false,
-  blacklisted: true,
-  levelling: false,
 };
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
+  const { setIsOpen: openTour } = useTour();
 
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 
@@ -62,18 +72,18 @@ export const Game: React.FC = () => {
       event.returnValue = "";
     };
 
-    const save = () => {
-      send("SAVE");
-    };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
-    window.addEventListener("blur", save);
 
     // cleanup on every gameState update
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
-      window.removeEventListener("blur", save);
     };
+  }, [gameState]);
+
+  useEffect(() => {
+    if (gameState.matches("touring")) {
+      openTour(true);
+    }
   }, [gameState]);
 
   return (
@@ -84,12 +94,7 @@ export const Game: React.FC = () => {
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
-          {gameState.matches("error") && (
-            <ErrorMessage
-              errorCode={gameState.context.errorCode as ErrorCode}
-            />
-          )}
-          {gameState.matches("blacklisted") && <Blacklisted />}
+          {gameState.matches("error") && <GameError />}
           {gameState.matches("minting") && <Minting />}
           {gameState.matches("success") && <Success />}
           {gameState.matches("syncing") && <Syncing />}
@@ -106,8 +111,12 @@ export const Game: React.FC = () => {
       <Forest />
       <Quarry />
       <Town />
+<<<<<<< Updated upstream
       <House />
       <Tailor />
+=======
+     
+>>>>>>> Stashed changes
     </>
   );
 };

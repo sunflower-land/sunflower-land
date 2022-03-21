@@ -1,6 +1,5 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
-import { ERRORS } from "lib/errors";
 
 type Request = {
   sessionId: string;
@@ -61,7 +60,7 @@ export async function withdraw({
     token,
   });
 
-  const newSessionId = await metamask.getSessionManager().withdraw(transaction);
+  const session = await metamask.getSessionManager().withdraw(transaction);
 
-  return newSessionId;
+  return session;
 }

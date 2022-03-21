@@ -22,8 +22,11 @@ import {
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
+<<<<<<< Updated upstream
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
+=======
+>>>>>>> Stashed changes
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -88,7 +91,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       return;
     }
 
-    chopAudio.play();
     shakeGif.current?.goToAndPlay(0);
 
     setTouchCount((count) => count + 1);
@@ -96,7 +98,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     // On third shake, chop
     if (touchCount > 0 && touchCount === HITS - 1) {
       chop();
-      treeFallAudio.play();
       setTouchCount(0);
     }
   };
@@ -139,23 +140,17 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   };
 
   const handleHover = () => {
-    if (
-      game.matches("readonly") ||
-      (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
-    )
+    if (game.matches("readonly") || selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
       return;
     treeRef.current?.classList["add"]("cursor-not-allowed");
-    setShowLabel(true);
+    setShowLabel((prev) => !prev);
   };
 
   const handleMouseLeave = () => {
-    if (
-      game.matches("readonly") ||
-      (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
-    )
+    if (game.matches("readonly") || selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
       return;
     treeRef.current?.classList["remove"]("cursor-not-allowed");
-    setShowLabel(false);
+    setShowLabel((prev) => !prev);
   };
 
   const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
@@ -194,15 +189,15 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               spritesheet.pause();
             }}
           />
-          <div
-            className={`absolute bottom-8 -right-[1rem] transition pointer-events-none w-28 z-20 ${
-              showLabel ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Label>Equip an axe first</Label>
-          </div>
         </div>
       )}
+      <div
+        className={`absolute bottom-8 -right-[1rem] transition pointer-events-none w-28 ${
+          showLabel ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <Label>Equip an axe first</Label>
+      </div>
 
       <Spritesheet
         style={{

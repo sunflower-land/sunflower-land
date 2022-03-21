@@ -1,4 +1,3 @@
-import { pingHealthCheck } from "web3-health-check";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { SessionManager } from "./Sessions";
@@ -10,7 +9,7 @@ import { WishingWell } from "./WishingWell";
 import { Token } from "./Token";
 import { toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
-import { estimateGasPrice, parseMetamaskError } from "./utils";
+import { estimateGasPrice } from "./utils";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -48,13 +47,6 @@ export class Metamask {
         this.web3 as Web3,
         this.account as string
       );
-
-      const isHealthy = await this.healthCheck();
-
-      // Maintainers of package typed incorrectly
-      if (!isHealthy) {
-        throw new Error("Unable to reach Polygon");
-      }
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
@@ -83,17 +75,6 @@ export class Metamask {
     } else {
       throw new Error(ERRORS.NO_WEB3);
     }
-  }
-
-  public async healthCheck() {
-    const statusCode = await pingHealthCheck(
-      this.web3 as Web3,
-      this.account as string
-    );
-
-    const isHealthy = (statusCode as any) !== 500;
-
-    return isHealthy;
   }
 
   private async loadAccount() {
@@ -154,12 +135,23 @@ export class Metamask {
         ""
       );
 
+      const recovered = await this.web3.eth.accounts.recover(
+        message,
+        signature
+      );
+
+      // Example of verifying a transaction on the backend
+      //const signingAddress = this.web3.eth.accounts.recover(hash, signature);
+
       return {
         signature,
       };
     } catch (error: any) {
-      const parsed = parseMetamaskError(error);
-      throw parsed;
+      if (error.code === 4001) {
+        throw new Error(ERRORS.REJECTED_TRANSACTION);
+      }
+
+      throw error;
     }
   }
 
@@ -170,15 +162,20 @@ export class Metamask {
     address: string;
     nonce: number;
   }) {
-    const MESSAGE = `🌻 Welcome to Sunflower Land! 🌻\n\nClick to sign in and accept the Sunflower Land\n📜 Terms of Service:\nhttps://docs.sunflower-land.com/support/terms-of-service\n\nThis request will not trigger a blockchain\ntransaction or cost any gas fees.\n\nYour authentication status will reset after\neach session.\n\n👛 Wallet address:\n${address.substring(
-      0,
-      19
-    )}...${address.substring(24)}\n\n🔑 Nonce: ${nonce}`;
+    const MESSAGE = [
+      "Welcome to Sunflower Land!",
+      "Click to sign in and accept the Sunflower Land Terms of Service: https://docs.sunflower-land.com/support/terms-of-service",
+      "This request will not trigger a blockchain transaction or cost any gas fees.",
+      "Your authentication status will reset after each session.",
+      `Wallet address: ${address}`,
+      `Nonce: ${nonce}`,
+    ].join("\n\n");
+
     return MESSAGE;
   }
 
   private getDefaultChainParam() {
-    if (CONFIG.POLYGON_CHAIN_ID === 137) {
+    if (CONFIG.POLYGON_CHAIN_ID === 80001) {
       return {
         chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
         chainName: "Polygon Mainnet",
@@ -247,20 +244,15 @@ export class Metamask {
   }
 
   public async donateToTheTeam(donation: number) {
+    console.log({ donation: CONFIG.DONATION_ADDRESS });
     const gasPrice = await estimateGasPrice(this.web3 as Web3);
 
-    try {
-      await this.web3?.eth.sendTransaction({
-        from: metamask.myAccount as string,
-        to: CONFIG.DONATION_ADDRESS as string,
-        value: toHex(toWei(donation.toString(), "ether")),
-        gasPrice,
-      });
-    } catch (error: any) {
-      const parsed = parseMetamaskError(error);
-
-      throw parsed;
-    }
+    await this.web3?.eth.sendTransaction({
+      from: metamask.myAccount as string,
+      to: CONFIG.DONATION_ADDRESS as string,
+      value: toHex(toWei(donation.toString(), "ether")),
+      gasPrice,
+    });
   }
 
   public getFarm() {
@@ -293,22 +285,6 @@ export class Metamask {
 
   public get myAccount() {
     return this.account;
-  }
-
-  public async getBlockNumber() {
-    try {
-      const number = await this.web3?.eth.getBlockNumber();
-
-      if (!number) {
-        throw new Error(ERRORS.NETWORK_CONGESTED);
-      }
-
-      return number;
-    } catch (error: any) {
-      const parsed = parseMetamaskError(error);
-
-      throw parsed;
-    }
   }
 }
 

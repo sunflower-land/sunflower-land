@@ -18,7 +18,6 @@ import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { canMine, GOLD_RECOVERY_TIME } from "features/game/events/goldMine";
-import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 
 const POPOVER_TIME_MS = 1000;
 
@@ -28,9 +27,9 @@ interface Props {
 
 export const Gold: React.FC<Props> = ({ rockIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const [game] = useActor(gameService);
 
+  console.log({ gameNow: game.context.state });
   const [showPopover, setShowPopover] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
   const [popover, setPopover] = useState<JSX.Element | null>();
@@ -43,7 +42,6 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
 
-  const readonly = gameState.matches("readonly");
   const tool = "Iron Pickaxe";
   const rock = game.context.state.gold[rockIndex];
   // Users will need to refresh to chop the tree again
@@ -57,32 +55,28 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
     setShowPopover(false);
   };
 
-  const shake = () => {
-    const isPlaying = sparkGif.current?.getInfo("isPlaying");
-
-    if (readonly) {
-      miningAudio.play();
-      sparkGif.current?.goToAndPlay(0);
+  const shake = async () => {
+    if (selectedItem !== tool) {
       return;
     }
 
-    if (selectedItem == tool && !isPlaying) {
-      miningAudio.play();
+    const isPlaying = sparkGif.current?.getInfo("isPlaying");
+    if (isPlaying) {
+      return;
+    }
 
-      sparkGif.current?.goToAndPlay(0);
+    sparkGif.current?.goToAndPlay(0);
 
-      setTouchCount((count) => count + 1);
+    setTouchCount((count) => count + 1);
 
-      // Randomise the shakes to break
-      const shakesToBreak = rock.amount.toNumber();
+    // Randomise the shakes to break
+    const shakesToBreak = rock.amount.toNumber();
 
-      // On third shake, chop
-      if (touchCount > 0 && touchCount === shakesToBreak) {
-        mine();
-        miningFallAudio.play();
-        setTouchCount(0);
-      }
-    } else return;
+    // On third shake, chop
+    if (touchCount > 0 && touchCount === shakesToBreak) {
+      mine();
+      setTouchCount(0);
+    }
   };
 
   const mine = async () => {
@@ -110,23 +104,17 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
   };
 
   const handleHover = () => {
-    if (
-      readonly ||
-      (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
-    )
+    if (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
       return;
     goldRef.current?.classList["add"]("cursor-not-allowed");
-    setShowLabel(true);
+    setShowLabel((prev) => !prev);
   };
 
   const handleMouseLeave = () => {
-    if (
-      readonly ||
-      (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
-    )
+    if (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
       return;
     goldRef.current?.classList["remove"]("cursor-not-allowed");
-    setShowLabel(false);
+    setShowLabel((prev) => !prev);
   };
 
   const recoveryTime = GOLD_RECOVERY_TIME;
@@ -165,15 +153,15 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
               spritesheet.pause();
             }}
           />
-          <div
-            className={`absolute top-8 transition pointer-events-none w-28 z-20 ${
-              showLabel ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Label>Equip {tool.toLowerCase()}</Label>
-          </div>
         </div>
       )}
+      <div
+        className={`absolute bottom-20 -right-[1rem] transition pointer-events-none w-28 ${
+          showLabel ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <Label>Equip {tool.toLowerCase()}</Label>
+      </div>
 
       <Spritesheet
         style={{

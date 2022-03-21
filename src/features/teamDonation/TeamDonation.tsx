@@ -15,8 +15,6 @@ import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";
 import token from "assets/icons/token.png";
 import humanDeath from "assets/npcs/human_death.gif";
-import { ERRORS } from "lib/errors";
-import { beggarAudio } from "lib/utils/sfx";
 
 type DonateEvent = {
   type: "DONATE";
@@ -68,16 +66,7 @@ const teamDonationMachine = createMachine<Context, Event, State>({
           target: "donated",
           actions: assign({ hasDonated: (_context, _event) => true }),
         },
-        onError: [
-          {
-            target: "idle",
-            cond: (_, event: any) =>
-              event.data.message === ERRORS.REJECTED_TRANSACTION,
-          },
-          {
-            target: "error",
-          },
-        ],
+        onError: "error",
       },
     },
     donated: {
@@ -99,7 +88,7 @@ const teamDonationMachine = createMachine<Context, Event, State>({
 
 export const TeamDonation: React.FC = () => {
   const [state, send] = useMachine(teamDonationMachine);
-  const [donation, setDonation] = useState(1);
+  const [donation, setDonation] = useState(0.1);
 
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // If keyboard input "" convert to 0
@@ -117,10 +106,6 @@ export const TeamDonation: React.FC = () => {
     } else setDonation((prevState) => roundToOneDecimal(prevState - 0.1));
   };
 
-  const beggarClick = () => {
-    send("BEGGER_CLICK");
-    beggarAudio.play();
-  };
   return (
     <div
       className="z-5 absolute align-items-center w-[72px]"
@@ -138,7 +123,7 @@ export const TeamDonation: React.FC = () => {
           style={{
             width: `${GRID_WIDTH_PX * 1.8}px`,
           }}
-          onClick={beggarClick}
+          onClick={() => send("BEGGER_CLICK")}
         />
       ) : (
         <img
@@ -148,7 +133,7 @@ export const TeamDonation: React.FC = () => {
           style={{
             width: `${GRID_WIDTH_PX * 1.8}px`,
           }}
-          onClick={beggarClick}
+          onClick={() => send("BEGGER_CLICK")}
         />
       )}
       <Modal

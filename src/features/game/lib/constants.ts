@@ -131,10 +131,6 @@ export const INITIAL_FARM: GameState = {
   stones: INITIAL_STONE,
   iron: INITIAL_IRON,
   gold: INITIAL_GOLD,
-  skills: {
-    farming: new Decimal(0),
-    gathering: new Decimal(0),
-  },
 };
 
 export const EMPTY: GameState = {
@@ -146,8 +142,4 @@ export const EMPTY: GameState = {
   stones: INITIAL_STONE,
   iron: INITIAL_IRON,
   gold: INITIAL_GOLD,
-  skills: {
-    farming: new Decimal(0),
-    gathering: new Decimal(0),
-  },
 };

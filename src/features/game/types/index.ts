@@ -44,9 +44,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Rock": 412,
   "Goblin Crown": 413,
   Fountain: 414,
-  "Woody the Beaver": 415,
-  "Apprentice Beaver": 416,
-  "Foreman Beaver": 417,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -59,6 +56,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Gold: 604,
   Egg: 605,
   Chicken: 606,
+<<<<<<< Updated upstream
   Cow: 607,
   Pig: 608,
   Sheep: 609,
@@ -99,6 +97,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Ukraine Flag": 825,
   "USA Flag": 826,
   "Vietnamese Flag": 827,
+=======
+>>>>>>> Stashed changes
 };
 
 // The reverse of above

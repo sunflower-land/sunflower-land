@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "author": "developer@sunflower-land.com",
   "scripts": {
-    "dev": "set NODE_ENV=development && vite --port 3000 --host",
+    "dev": "set NODE_ENV=development && vite --port 3000",
     "build": "tsc && vite build",
     "format": "./node_modules/.bin/eslint --ext .tsx,.ts . --fix",
     "preview": "vite preview",
@@ -18,6 +18,8 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@reactour/tour": "^2.9.0",
     "@types/lodash.shuffle": "^4.2.6",
     "@xstate/inspect": "^0.6.2",
     "@xstate/react": "^1.6.3",
@@ -26,7 +28,6 @@
     "decimal.js-light": "^2.5.1",
     "events": "^3.3.0",
     "graphql": "^16.2.0",
-    "howler": "^2.2.3",
     "html2canvas": "^1.4.1",
     "jwt-decode": "^3.1.2",
     "lodash.shuffle": "^4.2.0",
@@ -38,19 +39,19 @@
     "react-markdown": "^8.0.0",
     "remark-gfm": "^3.0.1",
     "stream-browserify": "^3.0.0",
+    "tinycon": "^0.6.8",
     "util": "^0.12.4",
     "web3": "^1.6.1",
-    "web3-health-check": "1.0.13",
     "web3-utils": "^1.6.1",
     "xstate": "^4.27.0"
   },
   "devDependencies": {
     "@rollup/plugin-inject": "^4.0.4",
-    "@testing-library/react-hooks": "^7.0.2",
-    "@types/howler": "^2.2.6",
     "@types/jest": "^27.4.0",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
+    "@types/reactour": "^1.18.2",
+    "@types/tinycon": "^0.6.3",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "@vitejs/plugin-react": "^1.0.7",

@@ -102,10 +102,9 @@ export const Mail: React.FC = () => {
       )}
       <img
         src={baldMan}
-        className="absolute w-10 z-10 hover:cursor-pointer hover:img-highlight npc-shadow"
+        className="absolute w-10 hover:cursor-pointer hover:img-highlight"
         onClick={() => setIsOpen(true)}
       />
-      <span className="npc-shadow" />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Inbox inbox={inbox} onRead={onRead} />
       </Modal>

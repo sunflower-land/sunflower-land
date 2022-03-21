@@ -5,9 +5,11 @@ import { Bank } from "features/bank/Bank";
 import { Bakery } from "features/bakery/Bakery";
 import { Blacksmith } from "features/blacksmith/Blacksmith";
 import { Market } from "features/crops/components/Market";
-import { WishingWell } from "features/wishingWell/WishingWell";
+ 
 import { Mail } from "features/mail/Mail";
-import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { Section } from "lib/utils/useScrollIntoView";
+import { WishingWell } from "features/wishingWell/WishingWell";
+import { Event } from "features/Event/Event";
 
 export const Town: React.FC = () => {
   return (
@@ -27,6 +29,7 @@ export const Town: React.FC = () => {
       <Bakery />
       <Blacksmith />
       <WishingWell />
+      <Event />
       <Mail />
     </div>
   );

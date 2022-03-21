@@ -13,6 +13,7 @@ const API_URL = CONFIG.API_URL;
 
 async function mintRequest(request: Request) {
   if (!API_URL) return;
+  console.log("Send off that request");
 
   const response = await window.fetch(`${API_URL}/mint`, {
     method: "POST",
@@ -38,7 +39,7 @@ async function mintRequest(request: Request) {
 
 export async function mint(request: Request) {
   const transaction = await mintRequest(request);
-  const sessionId = await metamask.getSessionManager().sync(transaction);
+  const session = await metamask.getSessionManager().sync(transaction);
 
-  return sessionId;
+  return session;
 }
