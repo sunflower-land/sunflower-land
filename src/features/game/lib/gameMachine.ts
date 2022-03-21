@@ -14,7 +14,7 @@ import { LimitedItem } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { withdraw } from "../actions/withdraw";
 import { getVisitState } from "../actions/visit";
-import { ERRORS } from "lib/errors";
+import { ErrorCode, ERRORS } from "lib/errors";
 import { updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
@@ -60,6 +60,9 @@ export type BlockchainEvent =
     }
   | {
       type: "REFRESH";
+    }
+  | {
+      type: "EXPIRED";
     }
   | WithdrawEvent
   | GameEvent
@@ -196,6 +199,31 @@ export function startGame(authContext: Options) {
           },
         },
         playing: {
+          invoke: {
+            /**
+             * An in game loop that checks if Blockchain becomes out of sync
+             * It is a rare event but it saves a user from making too much progress that would not be synced
+             */
+            src: (context) => (cb) => {
+              const interval = setInterval(async () => {
+                const sessionID = await metamask
+                  .getSessionManager()
+                  .getSessionId(authContext?.farmId as number);
+
+                if (sessionID !== context.sessionId) {
+                  cb("EXPIRED");
+                }
+              }, 1000 * 20);
+
+              return () => {
+                clearInterval(interval);
+              };
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
           on: {
             ...GAME_EVENT_HANDLERS,
             SAVE: {
@@ -212,6 +240,12 @@ export function startGame(authContext: Options) {
             },
             LEVEL_UP: {
               target: "levelling",
+            },
+            EXPIRED: {
+              target: "error",
+              actions: assign((_) => ({
+                errorCode: ERRORS.SESSION_EXPIRED as ErrorCode,
+              })),
             },
           },
         },
