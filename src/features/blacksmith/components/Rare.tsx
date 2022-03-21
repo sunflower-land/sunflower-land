@@ -12,22 +12,21 @@ import * as Auth from "features/auth/lib/Provider";
 
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Craftable, LimitedItems } from "features/game/types/craftables";
-import { Inventory, InventoryItemName } from "features/game/types/game";
+import { Craftable } from "features/game/types/craftables";
+import { InventoryItemName } from "features/game/types/game";
 import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 
 interface Props {
   onClose: () => void;
+  items: Partial<Record<InventoryItemName, Craftable>>;
 }
 
-export const Rare: React.FC<Props> = ({ onClose }) => {
+export const Rare: React.FC<Props> = ({ onClose, items }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
-  const [selected, setSelected] = useState<Craftable>(
-    Object.values(LimitedItems)[0]
-  );
+  const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
   const { gameService } = useContext(Context);
   const [
     {
@@ -117,7 +116,7 @@ export const Rare: React.FC<Props> = ({ onClose }) => {
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(LimitedItems).map((item) => (
+        {Object.values(items).map((item) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}

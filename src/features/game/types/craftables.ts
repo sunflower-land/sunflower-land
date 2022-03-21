@@ -9,7 +9,13 @@ export type CraftAction = {
   amount: number;
 };
 
-export type CraftableName = LimitedItem | Tool | SeedName | Food | Animal;
+export type CraftableName =
+  | LimitedItem
+  | Tool
+  | SeedName
+  | Food
+  | Animal
+  | Flag;
 
 export type Craftable = {
   name: CraftableName;
@@ -60,6 +66,8 @@ export type Food =
   | "Sauerkraut";
 
 export type Animal = "Chicken" | "Cow" | "Pig" | "Sheep";
+
+export type Flag = "Sunflower Flag" | "Pakistan Flag";
 
 export const FOODS: Record<Food, Craftable> = {
   "Pumpkin Soup": {
@@ -465,10 +473,30 @@ export const ANIMALS: Record<Animal, Craftable> = {
   },
 };
 
+export const FLAGS: Record<Flag, Craftable> = {
+  "Sunflower Flag": {
+    name: "Sunflower Flag",
+    description: "Sunflower citizens flag",
+    price: new Decimal(50),
+    ingredients: [],
+    disabled: true,
+    supply: 1000,
+  },
+  "Pakistan Flag": {
+    name: "Pakistan Flag",
+    description: "A pakistani flag",
+    price: new Decimal(50),
+    ingredients: [],
+    disabled: true,
+    supply: 50000,
+  },
+};
+
 export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...TOOLS,
   ...LimitedItems,
   ...SEEDS(),
   ...FOODS,
   ...ANIMALS,
+  ...FLAGS,
 });

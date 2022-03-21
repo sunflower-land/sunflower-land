@@ -53,6 +53,10 @@ import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import cabbageSoup from "assets/nfts/saurrerkrat.png";
 import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
 
+// Flags
+import sunflowerFlag from "assets/nfts/flags/sunflower.gif";
+import pakistanFlag from "assets/nfts/flags/pakistan.gif";
+
 // Resources
 import stone from "assets/resources/stone.png";
 import wood from "assets/resources/wood.png";
@@ -66,7 +70,7 @@ import questionMark from "assets/icons/expression_confused.png";
 import plant from "assets/icons/plant.png";
 
 import { InventoryItemName } from "./game";
-import { FOODS, LimitedItems, TOOLS } from "./craftables";
+import { FOODS, LimitedItems, TOOLS, FLAGS } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
@@ -332,6 +336,9 @@ export const ITEM_DETAILS: Items = {
     image: flour,
   },
 
+  /**
+   * Skills
+   */
   "Green Thumb": {
     ...SKILL_TREE["Green Thumb"],
     image: plant,
@@ -363,5 +370,17 @@ export const ITEM_DETAILS: Items = {
   "Gold Rush": {
     ...SKILL_TREE["Gold Rush"],
     image: stonePickaxe,
+  },
+
+  /**
+   * Flags
+   */
+  "Sunflower Flag": {
+    ...FLAGS["Sunflower Flag"],
+    image: sunflowerFlag,
+  },
+  "Pakistan Flag": {
+    ...FLAGS["Pakistan Flag"],
+    image: pakistanFlag,
   },
 };

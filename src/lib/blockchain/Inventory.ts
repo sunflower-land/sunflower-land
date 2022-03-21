@@ -59,6 +59,7 @@ export class Inventory {
 
     const supplies: number[] = await this.loadSupplyBatch(ids);
 
+    console.log({ supplies });
     return supplies.reduce(
       (items, supply, index) => ({
         ...items,

@@ -71,6 +71,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Prospector: 706,
   Logger: 707,
   "Gold Rush": 708,
+
+  "Sunflower Flag": 801,
+  "Pakistan Flag": 802,
 };
 
 // The reverse of above
