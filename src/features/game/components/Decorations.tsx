@@ -19,6 +19,7 @@ import fountain from "assets/nfts/fountain.gif";
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Context } from "../GameProvider";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { Flags } from "./Flags";
 
 export const Decorations: React.FC = () => {
   const { gameService, selectedItem } = useContext(Context);
@@ -30,6 +31,7 @@ export const Decorations: React.FC = () => {
 
   return (
     <>
+      <Flags />
       {state.inventory["Sunflower Rock"] && (
         <img
           style={{
