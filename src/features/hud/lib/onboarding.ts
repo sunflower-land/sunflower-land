@@ -1,9 +1,14 @@
-const LOCAL_STORAGE_KEY = "onboarded_at";
+import { useActor } from "@xstate/react";
+import { Context } from "features/auth/lib/Provider";
+import { useContext } from "react";
 
-export function hasOnboarded() {
-  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
-}
+export function isNewFarm() {
+  const { authService } = useContext(Context);
+  const [{ history }] = useActor(authService);
 
-export function finishOnboarding() {
-  localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toISOString());
+  if (history?.event.type === "CREATE_FARM") {
+    return true;
+  }
+
+  return false;
 }

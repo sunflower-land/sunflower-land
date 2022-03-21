@@ -61,7 +61,7 @@ export async function withdraw({
     token,
   });
 
-  const session = await metamask.getSessionManager().withdraw(transaction);
+  const newSessionId = await metamask.getSessionManager().withdraw(transaction);
 
-  return session;
+  return newSessionId;
 }

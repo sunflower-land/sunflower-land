@@ -50,11 +50,9 @@ export async function createFarm({
     token,
   });
 
-  const blocknumber = await metamask.getBlockNumber();
-
   await metamask.getBeta().createFarm(transaction);
 
-  const newFarm = await metamask.getFarm().getFarmCreated(blocknumber);
+  const farm = await metamask.getFarm().getNewFarm();
 
-  return newFarm;
+  return farm;
 }

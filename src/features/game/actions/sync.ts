@@ -42,7 +42,7 @@ export async function sync({ farmId, sessionId, token }: Options) {
     token,
   });
 
-  const session = await metamask.getSessionManager().sync(transaction);
+  const newSessionId = await metamask.getSessionManager().sync(transaction);
 
-  return session;
+  return newSessionId;
 }

@@ -321,6 +321,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 250,
+    requires: "Barn Manager",
   },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
@@ -345,6 +346,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 100,
+    requires: "Green Thumb",
   },
   "Sunflower Rock": {
     name: "Sunflower Rock",
@@ -398,7 +400,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
   },
   "Apprentice Beaver": {
     name: "Apprentice Beaver",
-    description: "Trees recover twice as fast",
+    description: "Trees recover 50% faster",
     price: new Decimal(100),
     ingredients: [
       {
@@ -410,6 +412,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
         item: "Woody the Beaver",
       },
     ],
+    requires: "Lumberjack",
     supply: 5000,
   },
   "Foreman Beaver": {
@@ -427,6 +430,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
       },
     ],
     supply: 300,
+    requires: "Lumberjack",
   },
 };
 
@@ -447,7 +451,7 @@ export const ANIMALS: Record<Animal, Craftable> = {
   },
   Pig: {
     name: "Pig",
-    description: "Produces maneure. Requires wheat for feeding",
+    description: "Produces manure. Requires wheat for feeding",
     price: new Decimal(20),
     ingredients: [],
     disabled: true,

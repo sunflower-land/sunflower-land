@@ -143,6 +143,7 @@ export const CraftingItems: React.FC<Props> = ({
           <span className="text-shadow text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
+
           <div className="border-t border-white w-full mt-2 pt-1">
             {selected.ingredients.map((ingredient, index) => {
               const item = ITEM_DETAILS[ingredient.item];

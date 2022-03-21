@@ -116,7 +116,7 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
     )
       return;
     goldRef.current?.classList["add"]("cursor-not-allowed");
-    setShowLabel((prev) => !prev);
+    setShowLabel(true);
   };
 
   const handleMouseLeave = () => {
@@ -126,7 +126,7 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
     )
       return;
     goldRef.current?.classList["remove"]("cursor-not-allowed");
-    setShowLabel((prev) => !prev);
+    setShowLabel(false);
   };
 
   const recoveryTime = GOLD_RECOVERY_TIME;
@@ -165,15 +165,15 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
               spritesheet.pause();
             }}
           />
+          <div
+            className={`absolute top-8 transition pointer-events-none w-28 z-20${
+              showLabel ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Label>Equip {tool.toLowerCase()}</Label>
+          </div>
         </div>
       )}
-      <div
-        className={`absolute top-8 transition pointer-events-none w-28 ${
-          showLabel ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <Label>Equip {tool.toLowerCase()}</Label>
-      </div>
 
       <Spritesheet
         style={{

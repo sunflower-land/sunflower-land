@@ -1,7 +1,7 @@
 import { removeSession } from "features/auth/actions/login";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
-import { CAPTCHA_CONTAINER, CAPTCHA_ELEMENT } from "../components/Captcha";
+import { CAPTCHA_ELEMENT } from "../components/Captcha";
 import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";

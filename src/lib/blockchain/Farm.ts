@@ -62,38 +62,16 @@ export class Farm {
     return account;
   }
 
-  public async getFarmCreated(
-    fromBlock: number,
-    attempts = 1
-  ): Promise<FarmCreatedEvent> {
-    const options = {
-      filter: { account: [this.account] },
-      fromBlock: fromBlock,
-    };
+  public async getNewFarm(oldTokenId?: number): Promise<FarmAccount> {
+    await new Promise((res) => setTimeout(res, 3000));
 
-    return new Promise((res, rej) => {
-      // Every 3 seconds ping for the new SessionID
-      const timer = setInterval(() => {
-        this.farm
-          .getPastEvents("LandCreated", options)
-          .then((results: any) => {
-            if (results.length > 0) {
-              clearInterval(timer);
-              res(results[0].returnValues);
-            }
-          })
-          .catch((err: any) => {
-            clearInterval(timer);
+    const farms = await this.getFarms();
 
-            // Retry on fails
-            if (attempts < 3) {
-              console.log({ err });
+    // Try again
+    if (farms.length === 0) {
+      return this.getNewFarm(oldTokenId);
+    }
 
-              return this.getFarmCreated(fromBlock, attempts + 1);
-            }
-            rej(err);
-          });
-      }, 3000 * attempts);
-    });
+    return farms[0];
   }
 }

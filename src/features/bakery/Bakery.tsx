@@ -73,7 +73,7 @@ export const Bakery: React.FC = () => {
         )}
       </div>
       <Modal centered show={isBakeryModalOpen} onHide={closeBakeryModal}>
-        <Crafting onClose={openBakeryModal} />
+        <Crafting onClose={closeBakeryModal} />
       </Modal>
     </div>
   );

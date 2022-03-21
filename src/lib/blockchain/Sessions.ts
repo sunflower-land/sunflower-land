@@ -1,18 +1,11 @@
 import { CONFIG } from "lib/config";
-import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { AbiItem, toWei } from "web3-utils";
 import SessionABI from "./abis/Session.json";
-import { metamask } from "./metamask";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
 const address = CONFIG.SESSION_CONTRACT;
 
-type SessionChangedEvent = {
-  owner: string;
-  sessionId: string;
-  farmId: number;
-};
 /**
  * Sessions contract
  */
@@ -50,39 +43,23 @@ export class SessionManager {
     }
   }
 
-  private async getNextSessionId(
-    fromBlock: number,
-    attempts = 1
-  ): Promise<SessionChangedEvent> {
-    const options = {
-      filter: { account: [this.account] },
-      fromBlock: fromBlock,
-    };
+  /**
+   * Poll until data is ready
+   */
+  public async getNextSessionId(
+    farmId: number,
+    oldSessionId: string
+  ): Promise<string> {
+    await new Promise((res) => setTimeout(res, 3000));
 
-    return new Promise((res, rej) => {
-      // Every 3 seconds ping for the new SessionID
-      const timer = setInterval(() => {
-        this.contract
-          .getPastEvents("SessionChanged", options)
-          .then((results: any) => {
-            if (results.length > 0) {
-              clearInterval(timer);
-              res(results[0].returnValues);
-            }
-          })
-          .catch((err: any) => {
-            clearInterval(timer);
+    const sessionId = await this.getSessionId(farmId);
 
-            // Retry on fails
-            if (attempts < 3) {
-              console.log({ err });
+    // Try again
+    if (sessionId === oldSessionId) {
+      return this.getNextSessionId(farmId, oldSessionId);
+    }
 
-              return this.getNextSessionId(fromBlock, attempts + 1);
-            }
-            rej(err);
-          });
-      }, 3000 * attempts);
-    });
+    return sessionId;
   }
 
   public async sync({
@@ -106,10 +83,10 @@ export class SessionManager {
     burnIds: number[];
     burnAmounts: number[];
     tokens: number;
-  }): Promise<SessionChangedEvent> {
+  }): Promise<string> {
     const fee = toWei("0.1");
 
-    const blocknumber = await metamask.getBlockNumber();
+    const oldSessionId = await this.getSessionId(farmId);
     const gasPrice = await estimateGasPrice(this.web3);
 
     await new Promise((resolve, reject) => {
@@ -139,7 +116,7 @@ export class SessionManager {
         });
     });
 
-    const newSessionId = await this.getNextSessionId(blocknumber);
+    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
     return newSessionId;
   }
 
@@ -162,8 +139,8 @@ export class SessionManager {
     amounts: number[];
     sfl: number;
     tax: number;
-  }): Promise<SessionChangedEvent> {
-    const blocknumber = await metamask.getBlockNumber();
+  }): Promise<string> {
+    const oldSessionId = await this.getSessionId(farmId);
     const gasPrice = await estimateGasPrice(this.web3);
 
     await new Promise((resolve, reject) => {
@@ -193,7 +170,7 @@ export class SessionManager {
         });
     });
 
-    const newSessionId = await this.getNextSessionId(blocknumber);
+    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
     return newSessionId;
   }
 }

@@ -17,6 +17,8 @@ import { getVisitState } from "../actions/visit";
 import { ERRORS } from "lib/errors";
 import { updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
+import { SkillName } from "../types/skills";
+import { levelUp } from "../actions/levelUp";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -35,6 +37,11 @@ export interface Context {
 type MintEvent = {
   type: "MINT";
   item: LimitedItem;
+};
+
+type LevelUpEvent = {
+  type: "LEVEL_UP";
+  skill: SkillName;
 };
 
 type WithdrawEvent = {
@@ -56,7 +63,8 @@ export type BlockchainEvent =
     }
   | WithdrawEvent
   | GameEvent
-  | MintEvent;
+  | MintEvent
+  | LevelUpEvent;
 
 // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
@@ -89,6 +97,7 @@ export type BlockchainState = {
     | "minting"
     | "success"
     | "syncing"
+    | "levelling"
     | "withdrawing"
     | "error"
     | "blacklisted";
@@ -201,6 +210,9 @@ export function startGame(authContext: Options) {
             WITHDRAW: {
               target: "withdrawing",
             },
+            LEVEL_UP: {
+              target: "levelling",
+            },
           },
         },
         autosaving: {
@@ -297,7 +309,7 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const session = await mint({
+              const sessionId = await mint({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
@@ -305,14 +317,15 @@ export function startGame(authContext: Options) {
               });
 
               return {
-                sessionId: session?.sessionId,
+                sessionId,
               };
             },
             onDone: {
               target: "success",
-              actions: assign({
-                sessionId: (_, event) => event.data.sessionId,
-              }),
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
             },
             onError: {
               target: "error",
@@ -335,14 +348,54 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const session = await sync({
+              const sessionId = await sync({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
               });
 
               return {
-                sessionId: session?.sessionId,
+                sessionId: sessionId,
+              };
+            },
+            onDone: {
+              target: "success",
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+                actions: assign((_) => ({
+                  actions: [],
+                })),
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
+          },
+        },
+        withdrawing: {
+          invoke: {
+            src: async (context, event) => {
+              const { amounts, ids, sfl } = event as WithdrawEvent;
+              const sessionId = await withdraw({
+                farmId: Number(authContext.farmId),
+                sessionId: context.sessionId as string,
+                token: authContext.rawToken as string,
+                amounts,
+                ids,
+                sfl,
+              });
+
+              return {
+                sessionId,
               };
             },
             onDone: {
@@ -364,40 +417,48 @@ export function startGame(authContext: Options) {
             ],
           },
         },
-        withdrawing: {
+        levelling: {
           invoke: {
             src: async (context, event) => {
-              const { amounts, ids, sfl } = event as WithdrawEvent;
-              const session = await withdraw({
+              // Autosave just in case
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(authContext.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.rawToken as string,
+                  offset: context.offset,
+                  fingerprint: context.fingerprint as string,
+                });
+              }
+
+              const { farm } = await levelUp({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
-                amounts,
-                ids,
-                sfl,
+                fingerprint: context.fingerprint as string,
+                skill: (event as LevelUpEvent).skill,
               });
 
               return {
-                sessionId: session?.sessionId,
+                farm,
               };
             },
-            onDone: {
-              target: "success",
-              actions: assign({
-                sessionId: (_, event) => event.data.sessionId,
-              }),
-            },
-            onError: [
+            onDone: [
               {
                 target: "playing",
-                cond: (_, event: any) =>
-                  event.data.message === ERRORS.REJECTED_TRANSACTION,
-              },
-              {
-                target: "error",
-                actions: "assignErrorMessage",
+                actions: assign((_, event) => ({
+                  // Remove events
+                  actions: [],
+                  // Update immediately with state from server
+                  state: event.data.farm,
+                })),
               },
             ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
           },
         },
         readonly: {},
@@ -416,6 +477,7 @@ export function startGame(authContext: Options) {
       actions: {
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,
+          actions: [],
         }),
       },
     }
