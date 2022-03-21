@@ -83,7 +83,11 @@ export const Rare: React.FC<Props> = ({ onClose, items }) => {
     }
 
     if (!authState.context.token?.userAccess.mintCollectible) {
-      return "Locked";
+      return <span className="text-sm text-center">Locked</span>;
+    }
+
+    if (state.inventory[selected.name]) {
+      return <span className="text-sm text-center">Already minted</span>;
     }
 
     if (selected.requires && !state.inventory[selected.requires]) {

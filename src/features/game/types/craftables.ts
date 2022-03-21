@@ -2,6 +2,9 @@ import Decimal from "decimal.js-light";
 import { SeedName, SEEDS } from "../types/crops";
 import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { Flag, FLAGS } from "./flags";
+
+export { FLAGS };
 
 export type CraftAction = {
   type: "item.crafted";
@@ -66,8 +69,6 @@ export type Food =
   | "Sauerkraut";
 
 export type Animal = "Chicken" | "Cow" | "Pig" | "Sheep";
-
-export type Flag = "Sunflower Flag" | "Pakistan Flag";
 
 export const FOODS: Record<Food, Craftable> = {
   "Pumpkin Soup": {
@@ -470,25 +471,6 @@ export const ANIMALS: Record<Animal, Craftable> = {
     price: new Decimal(20),
     ingredients: [],
     disabled: true,
-  },
-};
-
-export const FLAGS: Record<Flag, Craftable> = {
-  "Sunflower Flag": {
-    name: "Sunflower Flag",
-    description: "Sunflower citizens flag",
-    price: new Decimal(50),
-    ingredients: [],
-    disabled: true,
-    supply: 1000,
-  },
-  "Pakistan Flag": {
-    name: "Pakistan Flag",
-    description: "A pakistani flag",
-    price: new Decimal(50),
-    ingredients: [],
-    disabled: true,
-    supply: 50000,
   },
 };
 

@@ -54,8 +54,33 @@ import cabbageSoup from "assets/nfts/saurrerkrat.png";
 import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
 
 // Flags
-import sunflowerFlag from "assets/nfts/flags/sunflower.gif";
-import pakistanFlag from "assets/nfts/flags/pakistan.gif";
+import australiaFlag from "assets/nfts/flags/australia_flag.gif";
+import belgiumFlag from "assets/nfts/flags/belgium_flag.gif";
+import brazilFlag from "assets/nfts/flags/brazil_flag.gif";
+import chinaFlag from "assets/nfts/flags/china_flag.gif";
+import finlandFlag from "assets/nfts/flags/finland_flag.gif";
+import franceFlag from "assets/nfts/flags/france_flag.gif";
+import germanFlag from "assets/nfts/flags/germany_flag.gif";
+import indiaFlag from "assets/nfts/flags/india_flag.gif";
+import indonesiaFlag from "assets/nfts/flags/indonesia_flag.gif";
+import iranFlag from "assets/nfts/flags/iran_flag.gif";
+import italyFlag from "assets/nfts/flags/italy_flag.gif";
+import japanFlag from "assets/nfts/flags/japan_flag.gif";
+import moroccoFlag from "assets/nfts/flags/morocco_flag.gif";
+import netherlandsFlag from "assets/nfts/flags/netherlands_flag.gif";
+import phillipinesFlag from "assets/nfts/flags/philippines_flag.gif";
+import polandFlag from "assets/nfts/flags/poland_flag.gif";
+import portugalFlag from "assets/nfts/flags/portugal_flag.gif";
+import russiaFlag from "assets/nfts/flags/russia_flag.gif";
+import saudiArabiaFlag from "assets/nfts/flags/saudi_arabia_flag.gif";
+import southKoreaFlag from "assets/nfts/flags/south_korea_flag.gif";
+import sunflowerFlag from "assets/nfts/flags/sunflower_flag.gif";
+import spainFlag from "assets/nfts/flags/spain_flag.gif";
+import thailandFlag from "assets/nfts/flags/thailand_flag.gif";
+import turkeyFlag from "assets/nfts/flags/turkey_flag.gif";
+import ukraineFlag from "assets/nfts/flags/ukraine_flag.gif";
+import usaFlag from "assets/nfts/flags/usa_flag.gif";
+import vietnamFlag from "assets/nfts/flags/vietnam_flag.gif";
 
 // Resources
 import stone from "assets/resources/stone.png";
@@ -375,12 +400,112 @@ export const ITEM_DETAILS: Items = {
   /**
    * Flags
    */
+  "Australian Flag": {
+    ...FLAGS["Australian Flag"],
+    image: australiaFlag,
+  },
+  "Belgium Flag": {
+    ...FLAGS["Belgium Flag"],
+    image: belgiumFlag,
+  },
+  "Brazillian Flag": {
+    ...FLAGS["Brazillian Flag"],
+    image: brazilFlag,
+  },
+  "Chinese Flag": {
+    ...FLAGS["Chinese Flag"],
+    image: chinaFlag,
+  },
+  "Finland Flag": {
+    ...FLAGS["Finland Flag"],
+    image: finlandFlag,
+  },
+  "French Flag": {
+    ...FLAGS["French Flag"],
+    image: franceFlag,
+  },
+  "Germany Flag": {
+    ...FLAGS["Germany Flag"],
+    image: germanFlag,
+  },
+  "Indonesian Flag": {
+    ...FLAGS["Indonesian Flag"],
+    image: indonesiaFlag,
+  },
+  "Indian Flag": {
+    ...FLAGS["Indian Flag"],
+    image: indiaFlag,
+  },
+  "Iran Flag": {
+    ...FLAGS["Iran Flag"],
+    image: iranFlag,
+  },
+  "Italian Flag": {
+    ...FLAGS["Italian Flag"],
+    image: italyFlag,
+  },
+  "Japanese Flag": {
+    ...FLAGS["Japanese Flag"],
+    image: japanFlag,
+  },
+  "Moroccan Flag": {
+    ...FLAGS["Moroccan Flag"],
+    image: moroccoFlag,
+  },
+  "Netherlands Flag": {
+    ...FLAGS["Netherlands Flag"],
+    image: netherlandsFlag,
+  },
+  "Philippines Flag": {
+    ...FLAGS["Philippines Flag"],
+    image: phillipinesFlag,
+  },
+  "Poland Flag": {
+    ...FLAGS["Poland Flag"],
+    image: polandFlag,
+  },
+  "Portugal Flag": {
+    ...FLAGS["Portugal Flag"],
+    image: portugalFlag,
+  },
+  "Russian Flag": {
+    ...FLAGS["Russian Flag"],
+    image: russiaFlag,
+  },
+  "Saudi Arabia Flag": {
+    ...FLAGS["Saudi Arabia Flag"],
+    image: saudiArabiaFlag,
+  },
+  "South Korean Flag": {
+    ...FLAGS["South Korean Flag"],
+    image: southKoreaFlag,
+  },
+  "Spain Flag": {
+    ...FLAGS["Spain Flag"],
+    image: spainFlag,
+  },
   "Sunflower Flag": {
     ...FLAGS["Sunflower Flag"],
     image: sunflowerFlag,
   },
-  "Pakistan Flag": {
-    ...FLAGS["Pakistan Flag"],
-    image: pakistanFlag,
+  "Thailand Flag": {
+    ...FLAGS["Thailand Flag"],
+    image: thailandFlag,
+  },
+  "Turkish Flag": {
+    ...FLAGS["Turkish Flag"],
+    image: turkeyFlag,
+  },
+  "Ukraine Flag": {
+    ...FLAGS["Ukraine Flag"],
+    image: ukraineFlag,
+  },
+  "USA Flag": {
+    ...FLAGS["USA Flag"],
+    image: usaFlag,
+  },
+  "Vietnamese Flag": {
+    ...FLAGS["Vietnamese Flag"],
+    image: vietnamFlag,
   },
 };

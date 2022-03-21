@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import close from "assets/icons/close.png";
-import flag from "assets/nfts/flags/sunflower.gif";
+import flag from "assets/nfts/flags/sunflower_flag.gif";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
@@ -38,6 +38,7 @@ export const TailorSale: React.FC<Props> = ({ onClose }) => {
         }}
       >
         <Rare items={FLAGS} onClose={onClose} />
+        <span className="text-xs p-2 underline">Max 2 flags per farm</span>
       </div>
     </Panel>
   );

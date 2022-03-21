@@ -19,6 +19,7 @@ export enum Section {
   "Sunflower Rock" = "sunflower-rock",
   "Goblin Crown" = "goblin-crown",
   Fountain = "fountain",
+  Flags = "flags",
 }
 
 export const useScrollIntoView = () => {

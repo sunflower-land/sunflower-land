@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import { Context } from "features/game/GameProvider";
 
 import tailor from "assets/buildings/tailor.gif";
-import flag from "assets/nfts/flags/sunflower.gif";
+import flag from "assets/nfts/flags/sunflower_flag.gif";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
