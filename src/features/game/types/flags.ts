@@ -17,7 +17,7 @@ export type Flag =
   | "Japanese Flag"
   | "Moroccan Flag"
   | "Dutch Flag"
-  | "Filipino Flag"
+  | "Philippine Flag"
   | "Polish Flag"
   | "Portuguese Flag"
   | "Russian Flag"
@@ -228,9 +228,9 @@ export const FLAGS: Record<Flag, Craftable> = {
     supply: 50000,
     section: Section["Flags"],
   },
-  "Filipino Flag": {
-    name: "Filipino Flag",
-    description: "Filipino flag",
+  "Philippine Flag": {
+    name: "Philippine Flag",
+    description: "Philippine flag",
     price: new Decimal(50),
     ingredients: [
       {
