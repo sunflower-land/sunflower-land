@@ -3,15 +3,15 @@ import Decimal from "decimal.js-light";
 function getHalveningRate() {
   const now = new Date().getTime();
 
-  console.log({ now });
   /**
    * Estimated Block number + timestamp
    * March 22nd 12am
    * Will be updated closer to halvening
    */
-  if (now < 1647907200) {
-    return 0.2;
-  }
+  // if (now < 1647907200000) {
+  //   console.log("Previous");
+  //   return 0.2;
+  // }
 
   /**
    * Estimated Block number + timestamp
