@@ -20,7 +20,7 @@ export const Blacksmith: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const open = () => {
+  const openBlacksmith = () => {
     setIsOpen(true);
     blacksmithAudio.play();
   };
@@ -35,23 +35,28 @@ export const Blacksmith: React.FC = () => {
         top: `${GRID_WIDTH_PX * 6}px`,
       }}
     >
-      <img
-        src={blacksmith}
-        alt="market"
-        onClick={isNotReadOnly ? () => open() : undefined}
-        className={classNames("w-full", {
+      <div
+        className={classNames({
           "cursor-pointer": isNotReadOnly,
           "hover:img-highlight": isNotReadOnly,
         })}
-      />
-      {isNotReadOnly && (
-        <Action
-          className="absolute -bottom-8 left-1"
-          text="Craft"
-          icon={hammer}
-          onClick={open}
+      >
+        <img
+          src={blacksmith}
+          alt="market"
+          onClick={isNotReadOnly ? openBlacksmith : undefined}
+          className="w-full"
         />
-      )}
+        {isNotReadOnly && (
+          <Action
+            className="absolute -bottom-8 left-1"
+            text="Craft"
+            icon={hammer}
+            onClick={openBlacksmith}
+          />
+        )}
+      </div>
+
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Crafting onClose={() => setIsOpen(false)} />
       </Modal>
