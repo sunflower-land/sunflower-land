@@ -29,7 +29,6 @@ export const Barn: React.FC = () => {
         left: `${-GRID_WIDTH_PX * 1}px`,
         top: `${-GRID_WIDTH_PX * 2}px`,
       }}
-      onClick={() => handleBarnClick()}
     >
       {isNotReadOnly && (
         <Action

@@ -31,7 +31,6 @@ export const Tailor: React.FC = () => {
         right: `${GRID_WIDTH_PX * 6}px`,
         top: `${GRID_WIDTH_PX * 36}px`,
       }}
-      onClick={() => openTailor()}
     >
       <div
         className={classNames({
