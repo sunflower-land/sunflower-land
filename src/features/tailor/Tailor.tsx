@@ -10,6 +10,7 @@ import flag from "assets/nfts/flags/sunflower_flag.gif";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import { TailorSale } from "./components/TailorSale";
+import classNames from "classnames";
 
 export const Tailor: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -18,7 +19,7 @@ export const Tailor: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const handleMarketClick = () => {
+  const openTailor = () => {
     setIsOpen(true);
   };
 
@@ -31,15 +32,27 @@ export const Tailor: React.FC = () => {
         top: `${GRID_WIDTH_PX * 36}px`,
       }}
     >
-      <img src={tailor} className="w-full" />
-      {isNotReadOnly && (
-        <Action
-          className="absolute -bottom-7 -left-2"
-          text="Tailor"
-          icon={flag}
-          onClick={() => handleMarketClick()}
+      <div
+        className={classNames({
+          "cursor-pointer": isNotReadOnly,
+          "hover:img-highlight": isNotReadOnly,
+        })}
+      >
+        <img
+          src={tailor}
+          className="w-full"
+          onClick={isNotReadOnly ? openTailor : undefined}
         />
-      )}
+        {isNotReadOnly && (
+          <Action
+            className="absolute -bottom-7 -left-2"
+            text="Tailor"
+            icon={flag}
+            onClick={openTailor}
+          />
+        )}
+      </div>
+
       {isOpen && (
         <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
           <TailorSale onClose={() => setIsOpen(false)} />
