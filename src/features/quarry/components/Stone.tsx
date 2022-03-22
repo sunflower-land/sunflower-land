@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -19,8 +19,10 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { canMine, STONE_RECOVERY_TIME } from "features/game/events/stoneMine";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
+import { HealthBar } from "components/ui/HealthBar";
 
 const POPOVER_TIME_MS = 1000;
+const HITS = 3;
 
 interface Props {
   rockIndex: number;
@@ -49,6 +51,22 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
   // Users will need to refresh to chop the tree again
   const mined = !canMine(rock);
 
+  // Reset the shake count when clicking outside of the component
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setTouchCount(0);
+      }
+    };
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, []);
+
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
     setShowPopover(true);
@@ -73,11 +91,8 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
 
       setTouchCount((count) => count + 1);
 
-      // Randomise the shakes to break
-      const shakesToBreak = rock.amount.toNumber();
-
       // On third shake, chop
-      if (touchCount > 0 && touchCount === shakesToBreak) {
+      if (touchCount > 0 && touchCount === HITS - 1) {
         mine();
         miningFallAudio.play();
         setTouchCount(0);
@@ -86,6 +101,8 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
   };
 
   const mine = async () => {
+    setTouchCount(0);
+
     try {
       gameService.send("stone.mined", {
         index: rockIndex,
@@ -207,6 +224,18 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
           width: `${GRID_WIDTH_PX * 5}px`,
         }}
       />
+
+      <div
+        className={classNames(
+          "transition-opacity pointer-events-none absolute top-12 left-8",
+          {
+            "opacity-100": touchCount > 0,
+            "opacity-0": touchCount === 0,
+          }
+        )}
+      >
+        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
+      </div>
 
       {mined && (
         <>

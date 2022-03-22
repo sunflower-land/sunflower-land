@@ -11,7 +11,12 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
 import { SEEDS, CROPS } from "features/game/types/crops";
-import { FOODS, TOOLS, LimitedItems } from "features/game/types/craftables";
+import {
+  FOODS,
+  TOOLS,
+  LimitedItems,
+  FLAGS,
+} from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 
 import seed from "assets/crops/beetroot/seed.png";
@@ -54,7 +59,7 @@ const BASKET_CATEGORIES: TabItems = {
 const COLLECTIBLE_CATEGORIES: TabItems = {
   NFTs: {
     img: nft,
-    items: LimitedItems,
+    items: { ...LimitedItems, ...FLAGS },
   },
   Foods: {
     img: food,

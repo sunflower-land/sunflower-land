@@ -11,6 +11,7 @@ import { ConnectingError } from "./components/ConnectingError";
 import { Blocked } from "./components/Blocked";
 import { DuplicateUser } from "./components/DuplicateUser";
 import { Congestion } from "./components/Congestion";
+import { SessionExpired } from "./components/SessionExpired";
 import { ErrorCode } from "lib/errors";
 
 interface Props {
@@ -60,6 +61,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === "NETWORK_CONGESTED") {
     return <Congestion />;
+  }
+
+  if (errorCode === "SESSION_EXPIRED") {
+    return <SessionExpired />;
   }
 
   return <ConnectingError />;
