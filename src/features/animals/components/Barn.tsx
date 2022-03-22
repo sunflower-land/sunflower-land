@@ -17,7 +17,7 @@ export const Barn: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const handleBarnClick = () => {
+  const openBarn = () => {
     setIsOpen(true);
   };
 
@@ -35,7 +35,7 @@ export const Barn: React.FC = () => {
           className="absolute top-5 left-4"
           text="Barn"
           icon={chicken}
-          onClick={() => handleBarnClick()}
+          onClick={() => openBarn()}
         />
       )}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
