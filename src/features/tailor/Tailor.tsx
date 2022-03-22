@@ -25,7 +25,7 @@ export const Tailor: React.FC = () => {
 
   return (
     <div
-      className="absolute cursor-pointer hover:img-highlight"
+      className="absolute"
       style={{
         width: `${GRID_WIDTH_PX * 3.5}px`,
         right: `${GRID_WIDTH_PX * 6}px`,
