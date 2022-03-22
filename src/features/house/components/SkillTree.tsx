@@ -30,7 +30,7 @@ export const SkillTree: React.FC = () => {
                 <img
                   src={ITEM_DETAILS[skillName].image}
                   alt="farming"
-                  className="w-6 h-6 mx-2"
+                  className="w-6 mx-2"
                 />
               </div>
               <ul className="list-disc">

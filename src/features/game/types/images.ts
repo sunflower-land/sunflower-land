@@ -92,6 +92,13 @@ import questionMark from "assets/icons/expression_confused.png";
 
 // Skills
 import plant from "assets/icons/plant.png";
+import goldRush from "assets/skills/gold_rush.png";
+import prospector from "assets/skills/prospector.png";
+import wrangler from "assets/skills/wrangler.png";
+import barnManager from "assets/skills/barn_manager.png";
+import seedSpecialist from "assets/skills/seed_specialist.png";
+import logger from "assets/skills/logger.png";
+import lumberjack from "assets/skills/lumberjack.png";
 
 import { InventoryItemName } from "./game";
 import { FOODS, LimitedItems, TOOLS, FLAGS } from "./craftables";
@@ -365,31 +372,31 @@ export const ITEM_DETAILS: Items = {
   },
   "Barn Manager": {
     description: SKILL_TREE["Barn Manager"].perks[0],
-    image: plant,
+    image: barnManager,
   },
   "Seed Specialist": {
     description: SKILL_TREE["Seed Specialist"].perks[0],
-    image: plant,
+    image: seedSpecialist,
   },
   Wrangler: {
     description: SKILL_TREE["Wrangler"].perks[0],
-    image: plant,
+    image: wrangler,
   },
   Lumberjack: {
     description: SKILL_TREE["Lumberjack"].perks[0],
-    image: stonePickaxe,
+    image: lumberjack,
   },
   Prospector: {
     description: SKILL_TREE["Prospector"].perks[0],
-    image: stonePickaxe,
+    image: prospector,
   },
   Logger: {
     description: SKILL_TREE["Logger"].perks[0],
-    image: stonePickaxe,
+    image: logger,
   },
   "Gold Rush": {
     description: SKILL_TREE["Gold Rush"].perks[0],
-    image: stonePickaxe,
+    image: goldRush,
   },
 
   /**

@@ -20,7 +20,6 @@ import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
-import * as AuthProvider from "features/auth/lib/Provider";
 
 import { SkillUpgrade } from "./components/SkillUpgrade";
 import { SkillTree } from "./components/SkillTree";
@@ -28,9 +27,6 @@ import { SkillTree } from "./components/SkillTree";
 export const House: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
 
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSkillTreeOpen, setIsSkillTreeOpen] = React.useState(false);
@@ -67,7 +63,7 @@ export const House: React.FC = () => {
             key={badge}
             src={ITEM_DETAILS[badge].image}
             alt={badge}
-            className="w-6 h-6 mr-2"
+            className="h-6 mr-2"
           />
         );
       }
@@ -87,11 +83,6 @@ export const House: React.FC = () => {
   };
 
   const Content = () => {
-    // During dev, hide behind the withdraw flag
-    if (!authState.context.token?.userAccess.withdraw) {
-      return <span>Coming soon</span>;
-    }
-
     if (gameState.matches("levelling")) {
       return <span className="loading">Levelling up</span>;
     }
