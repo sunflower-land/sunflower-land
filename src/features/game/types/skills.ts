@@ -20,60 +20,63 @@ export const SKILL_TREE: Record<
     profession: Profession;
     conflicts: SkillName;
     requires?: SkillName;
-    description: string;
+    perks: string[];
   }
 > = {
   "Green Thumb": {
     level: 5,
     conflicts: "Barn Manager",
     profession: "farming",
-    description: "Crops are worth 10% more",
+    perks: ["Crops are worth 5% more", "Increase mutant crop chance"],
   },
   "Barn Manager": {
     level: 5,
     conflicts: "Green Thumb",
     profession: "farming",
-    description: "Animals yield 10% more goods",
+    perks: ["Animals yield 10% more goods", "Increase mutant animal chance"],
   },
   "Seed Specialist": {
     level: 10,
     conflicts: "Wrangler",
     requires: "Green Thumb",
     profession: "farming",
-    description: "",
+    perks: ["Crops grow 10% faster", "Increase mutant crop chance"],
   },
   Wrangler: {
     level: 10,
     conflicts: "Seed Specialist",
     requires: "Barn Manager",
     profession: "farming",
-    description: "",
+    perks: [
+      "Animals produce goods 10% faster",
+      "Increase mutant animal chance",
+    ],
   },
   Lumberjack: {
     level: 5,
     conflicts: "Prospector",
     profession: "gathering",
-    description: "",
+    perks: ["Increase wood drops by 10%"],
   },
   Prospector: {
     level: 5,
     conflicts: "Lumberjack",
     profession: "gathering",
-    description: "",
+    perks: ["Increase stone drops by 20%"],
   },
   Logger: {
     level: 10,
     requires: "Lumberjack",
     conflicts: "Gold Rush",
     profession: "gathering",
-    description: "",
+    perks: ["Axes can be used on 2 trees"],
   },
   "Gold Rush": {
     level: 10,
     requires: "Prospector",
     conflicts: "Logger",
     profession: "gathering",
-    description: "",
+    perks: ["Increase gold drops by 50%"],
   },
 };
 

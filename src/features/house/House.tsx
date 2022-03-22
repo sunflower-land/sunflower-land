@@ -4,42 +4,44 @@ import { Modal } from "react-bootstrap";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import {
-  getAvailableUpgrades,
-  getLevel,
-  SkillName,
-  SKILL_TREE,
-} from "features/game/types/skills";
+import { getAvailableUpgrades, getLevel } from "features/game/types/skills";
+
 import house from "assets/buildings/house.png";
 import smoke from "assets/buildings/smoke.gif";
 import player from "assets/icons/player.png";
 import questionMark from "assets/icons/expression_confused.png";
+import close from "assets/icons/close.png";
 
 import plant from "assets/icons/plant.png";
 import pickaxe from "assets/tools/stone_pickaxe.png";
 
-import * as AuthProvider from "features/auth/lib/Provider";
-
 import { Action } from "components/ui/Action";
 import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
-import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
+import * as AuthProvider from "features/auth/lib/Provider";
+
+import { SkillUpgrade } from "./components/SkillUpgrade";
+import { SkillTree } from "./components/SkillTree";
 
 export const House: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [isOpen, setIsOpen] = React.useState(false);
 
-  const open = () => {
-    setIsOpen(true);
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
+
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [isSkillTreeOpen, setIsSkillTreeOpen] = React.useState(false);
+
+  const openSkillTree = () => {
+    setIsSkillTreeOpen(true);
   };
 
-  const chooseSkill = (skill: SkillName) => {
-    gameService.send("LEVEL_UP", { skill });
+  const open = () => {
+    setIsSkillTreeOpen(false);
+    setIsOpen(true);
   };
 
   const toolLevel = getLevel(gameState.context.state.skills.gathering);
@@ -94,62 +96,21 @@ export const House: React.FC = () => {
       return <span className="loading">Levelling up</span>;
     }
 
+    if (isSkillTreeOpen) {
+      return <SkillTree />;
+    }
+
     const choices = getAvailableUpgrades(gameState.context.state);
     if (choices.length > 0) {
-      const firstChoice = SKILL_TREE[choices[0]];
-      return (
-        <div className="flex flex-col items-center">
-          {firstChoice.profession === "farming" && (
-            <div className="flex justify-between">
-              <img src={plant} alt="farming" className="w-6 h-6 mx-2" />
-              <span>
-                Level {firstChoice.level} {firstChoice.profession}
-              </span>
-              <img src={plant} alt="farming" className="w-6 h-6 mx-2" />
-            </div>
-          )}
-          {firstChoice.profession === "gathering" && (
-            <div className="flex justify-between">
-              <img src={pickaxe} alt="farming" className="w-6 h-6 mx-2" />
-              <span>
-                Level {firstChoice.level} {firstChoice.profession}
-              </span>
-
-              <img src={pickaxe} alt="farming" className="w-6 h-6 mx-2" />
-            </div>
-          )}
-
-          <span className="text-center text-sm underline">Choose a skill</span>
-          {/* TODO - update badge images */}
-          <div className="flex w-full mt-3">
-            {choices.map((choice) => {
-              const details = ITEM_DETAILS[choice];
-              return (
-                <Button
-                  key={choice}
-                  className="flex flex-col items-center mx-2"
-                  onClick={() => chooseSkill(choice)}
-                >
-                  <span className="text-sm">{choice}</span>
-                  <img
-                    className="w-1/3  my-2"
-                    src={details.image}
-                    alt="green thumb"
-                  />
-                  <span className="text-xs">{details.description}</span>
-                </Button>
-              );
-            })}
-          </div>
-        </div>
-      );
+      return <SkillUpgrade />;
     }
 
     return (
       <>
-        <div className="flex sm:flex-col flex-row">
+        <div className="flex sm:flex-col flex-row pt-2">
           <InnerPanel className="w-1/3 p-2 flex flex-col items-center">
             <img src={questionMark} className="w-1/2 mb-2" />
+            <span className="text-xxs">Farmer NFT</span>
             <span className="text-sm text-shadow">Name: ?</span>
             <span className="text-sm text-shadow">{`Level: ${totalLevel}`}</span>
           </InnerPanel>
@@ -202,6 +163,12 @@ export const House: React.FC = () => {
               })}
               <span>{toolLevel}</span>
             </div>
+            <span
+              className="underline text-xs cursor-pointer"
+              onClick={openSkillTree}
+            >
+              View all skills
+            </span>
           </div>
         </div>
 
@@ -244,7 +211,14 @@ export const House: React.FC = () => {
         />
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Panel>{Content()}</Panel>
+        <Panel className="relative">
+          <img
+            src={close}
+            className="h-6 cursor-pointer top-3 right-4 absolute"
+            onClick={() => setIsOpen(false)}
+          />
+          {Content()}
+        </Panel>
       </Modal>
     </>
   );

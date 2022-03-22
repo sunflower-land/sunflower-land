@@ -360,35 +360,35 @@ export const ITEM_DETAILS: Items = {
    * Skills
    */
   "Green Thumb": {
-    ...SKILL_TREE["Green Thumb"],
+    description: SKILL_TREE["Green Thumb"].perks[0],
     image: plant,
   },
   "Barn Manager": {
-    ...SKILL_TREE["Barn Manager"],
+    description: SKILL_TREE["Barn Manager"].perks[0],
     image: plant,
   },
   "Seed Specialist": {
-    ...SKILL_TREE["Seed Specialist"],
+    description: SKILL_TREE["Seed Specialist"].perks[0],
     image: plant,
   },
   Wrangler: {
-    ...SKILL_TREE["Wrangler"],
+    description: SKILL_TREE["Wrangler"].perks[0],
     image: plant,
   },
   Lumberjack: {
-    ...SKILL_TREE["Lumberjack"],
+    description: SKILL_TREE["Lumberjack"].perks[0],
     image: stonePickaxe,
   },
   Prospector: {
-    ...SKILL_TREE["Prospector"],
+    description: SKILL_TREE["Prospector"].perks[0],
     image: stonePickaxe,
   },
   Logger: {
-    ...SKILL_TREE["Logger"],
+    description: SKILL_TREE["Logger"].perks[0],
     image: stonePickaxe,
   },
   "Gold Rush": {
-    ...SKILL_TREE["Gold Rush"],
+    description: SKILL_TREE["Gold Rush"].perks[0],
     image: stonePickaxe,
   },
 
