@@ -90,14 +90,19 @@ import gold from "assets/resources/gold_ore.png";
 import chicken from "assets/resources/chicken.png";
 import questionMark from "assets/icons/expression_confused.png";
 
+//Potions
+import potion1 from "assets/potions/perkPumpkin.png";
+import potion2 from "assets/potions/perk1.png";
+
+
 // Skills
 import plant from "assets/icons/plant.png";
 
 import { InventoryItemName } from "./game";
-import { FOODS, LimitedItems, TOOLS, FLAGS } from "./craftables";
+import { FOODS, LimitedItems, TOOLS, FLAGS, POTIONS } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
-import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { Section } from "lib/utils/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 
 export type ItemDetails = {
@@ -503,4 +508,22 @@ export const ITEM_DETAILS: Items = {
     ...FLAGS["Vietnamese Flag"],
     image: vietnamFlag,
   },
+
+
+  //Elder Potions
+
+  "Pumpkin Potion": {
+    ...POTIONS["Pumpkin Potion"],
+    image: potion1,
+  },
+  "Carrot Potion": {
+    ...POTIONS["Carrot Potion"],
+    image: potion2,
+  },
+
+
+
 };
+
+
+

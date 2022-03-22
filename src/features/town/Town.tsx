@@ -8,6 +8,7 @@ import { Market } from "features/crops/components/Market";
 import { WishingWell } from "features/wishingWell/WishingWell";
 import { Mail } from "features/mail/Mail";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { Elder } from "features/elder/Elder";
 
 export const Town: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ export const Town: React.FC = () => {
       <Bakery />
       <Blacksmith />
       <WishingWell />
+      <Elder/>
       <Mail />
     </div>
   );

@@ -19,7 +19,8 @@ export type CraftableName =
   | SeedName
   | Food
   | Animal
-  | Flag;
+  | Flag
+  | Potion;
 
 export type Craftable = {
   name: CraftableName;
@@ -384,7 +385,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
   },
   "Woody the Beaver": {
     name: "Woody the Beaver",
-    description: "Increase wood drops by 20%",
+    description: "Increase wood drops by 1",
     price: new Decimal(50),
     ingredients: [
       {
@@ -404,7 +405,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
         item: "Wood",
       },
       {
-        amount: new Decimal(1),
+        amount: new Decimal(500),
         item: "Woody the Beaver",
       },
     ],
@@ -421,7 +422,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
         item: "Wood",
       },
       {
-        amount: new Decimal(1),
+        amount: new Decimal(500),
         item: "Apprentice Beaver",
       },
     ],
@@ -461,6 +462,25 @@ export const ANIMALS: Record<Animal, Craftable> = {
   },
 };
 
+export type Potion = | "Pumpkin Potion" | "Carrot Potion";
+
+export const POTIONS : Record<Potion,Craftable> = {
+  "Pumpkin Potion":{
+    name:"Pumpkin Potion",
+    description:"Double the reward of your next pumpkin batch",
+    price : new Decimal(60),
+    ingredients:[],
+    disabled:true,
+  },
+  "Carrot Potion":{
+    name:"Carrot Potion",
+    description:"Double the reward of your next carrot batch",
+    price: new Decimal(80),
+    ingredients:[],
+    disabled:true,
+  }
+}
+
 export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...TOOLS,
   ...LimitedItems,
@@ -468,4 +488,5 @@ export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...FOODS(),
   ...ANIMALS,
   ...FLAGS,
+  ...POTIONS,
 });
