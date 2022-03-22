@@ -111,7 +111,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
     }
 
     if (state.inventory[selected.name]) {
-      return <span className="text-sm text-center">Already minted</span>;
+      return <span className="text-xs mt-1 text-center">Already minted</span>;
     }
 
     if (selected.requires && !state.inventory[selected.requires]) {
@@ -171,41 +171,49 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
           <span className="text-shadow text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
-          <div className="border-t border-white w-full mt-2 pt-1">
-            {selected.ingredients.map((ingredient, index) => {
-              const item = ITEM_DETAILS[ingredient.item];
-              const lessIngredient = new Decimal(
-                inventory[ingredient.item] || 0
-              ).lessThan(ingredient.amount);
+          {hasAccess ? (
+            <div className="border-t border-white w-full mt-2 pt-1">
+              {selected.ingredients.map((ingredient, index) => {
+                const item = ITEM_DETAILS[ingredient.item];
+                const lessIngredient = new Decimal(
+                  inventory[ingredient.item] || 0
+                ).lessThan(ingredient.amount);
 
-              return (
-                <div className="flex justify-center items-end" key={index}>
-                  <img src={item.image} className="h-5 me-2" />
-                  <span
-                    className={classNames(
-                      "text-xs text-shadow text-center mt-2 "
-                      // {
-                      //   "text-red-500": lessIngredient,
-                      // }
-                    )}
-                  >
-                    {/* {ingredient.amount.toNumber()} */}?
-                  </span>
-                </div>
-              );
-            })}
+                return (
+                  <div className="flex justify-center items-end" key={index}>
+                    <img src={item.image} className="h-5 me-2" />
+                    <span
+                      className={classNames(
+                        "text-xs text-shadow text-center mt-2 ",
+                        {
+                          "text-red-500": lessIngredient,
+                        }
+                      )}
+                    >
+                      {ingredient.amount.toNumber()}
+                    </span>
+                  </div>
+                );
+              })}
 
-            <div className="flex justify-center items-end">
-              <img src={token} className="h-5 mr-1" />
-              <span
-                className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  // "text-red-500": lessFunds(),
-                })}
-              >
-                {/* {`$${selected.price.toNumber()}`} */}?
-              </span>
+              <div className="flex justify-center items-end">
+                <img src={token} className="h-5 mr-1" />
+                <span
+                  className={classNames(
+                    "text-xs text-shadow text-center mt-2 ",
+                    {
+                      "text-red-500": lessFunds(),
+                    }
+                  )}
+                >
+                  {`$${selected.price.toNumber()}`}
+                </span>
+              </div>
             </div>
-          </div>
+          ) : (
+            <span>?</span>
+          )}
+
           {Action()}
         </div>
       </OuterPanel>

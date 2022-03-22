@@ -384,7 +384,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
   },
   "Woody the Beaver": {
     name: "Woody the Beaver",
-    description: "Increase wood drops by 1",
+    description: "Increase wood drops by 20%",
     price: new Decimal(50),
     ingredients: [
       {
@@ -404,7 +404,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
         item: "Wood",
       },
       {
-        amount: new Decimal(500),
+        amount: new Decimal(1),
         item: "Woody the Beaver",
       },
     ],
@@ -421,7 +421,7 @@ export const LimitedItems: Record<LimitedItem, Craftable> = {
         item: "Wood",
       },
       {
-        amount: new Decimal(500),
+        amount: new Decimal(1),
         item: "Apprentice Beaver",
       },
     ],
