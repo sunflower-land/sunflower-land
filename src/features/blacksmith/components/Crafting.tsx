@@ -55,7 +55,7 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
           <Rare
             items={LimitedItems}
             onClose={onClose}
-            hasAccess={authState.context.token?.userAccess.mintCollectible}
+            hasAccess={!!authState.context.token?.userAccess.mintCollectible}
           />
         )}
       </div>
