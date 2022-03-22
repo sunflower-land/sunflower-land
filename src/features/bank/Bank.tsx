@@ -21,8 +21,12 @@ export const Bank: React.FC = () => {
   const isNotReadOnly = !gameState.matches("readonly");
 
   const openBank = () => {
-    setIsOpen(true);
-    bankAudio.play();
+    if (isNotReadOnly) {
+      setIsOpen(true);
+      bankAudio.play();
+    } else {
+      return;
+    }
   };
 
   return (
@@ -44,7 +48,7 @@ export const Bank: React.FC = () => {
         <img
           src={bank}
           alt="bank"
-          onClick={isNotReadOnly ? openBank : undefined}
+          onClick={openBank}
           className="w-full"
         />
         {isNotReadOnly && (

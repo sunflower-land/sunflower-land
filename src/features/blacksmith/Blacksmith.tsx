@@ -21,8 +21,12 @@ export const Blacksmith: React.FC = () => {
   const isNotReadOnly = !gameState.matches("readonly");
 
   const openBlacksmith = () => {
-    setIsOpen(true);
-    blacksmithAudio.play();
+    if (isNotReadOnly) {
+      setIsOpen(true);
+      blacksmithAudio.play();
+    } else {
+      return;
+    }
   };
 
   return (
@@ -44,7 +48,7 @@ export const Blacksmith: React.FC = () => {
         <img
           src={blacksmith}
           alt="market"
-          onClick={isNotReadOnly ? openBlacksmith : undefined}
+          onClick={openBlacksmith}
           className="w-full"
         />
         {isNotReadOnly && (

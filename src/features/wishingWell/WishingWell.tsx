@@ -21,8 +21,12 @@ export const WishingWell: React.FC = () => {
   const isNotReadOnly = !gameState.matches("readonly");
 
   const openWell = () => {
-    wishingWellAudio.play();
-    setIsOpen(true);
+    if (isNotReadOnly) {
+      wishingWellAudio.play();
+      setIsOpen(true);
+    } else {
+      return;
+    }
   };
   return (
     <div
@@ -43,7 +47,7 @@ export const WishingWell: React.FC = () => {
         <img
           src={wishingWell}
           alt="market"
-          onClick={isNotReadOnly ? openWell : undefined}
+          onClick={openWell}
           className="w-full"
         />
         {isNotReadOnly && (

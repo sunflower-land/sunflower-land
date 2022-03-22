@@ -42,7 +42,7 @@ export const Barn: React.FC = () => {
             className="absolute top-5 left-4"
             text="Barn"
             icon={chicken}
-            onClick={() => openBarn()}
+            onClick={openBarn}
           />
         )}
       </div>
