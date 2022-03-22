@@ -18,18 +18,19 @@ export const Tailor: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const handleMarketClick = () => {
+  const handleTailorClick = () => {
     setIsOpen(true);
   };
 
   return (
     <div
-      className="absolute"
+      className="absolute cursor-pointer hover:img-highlight"
       style={{
         width: `${GRID_WIDTH_PX * 3.5}px`,
         right: `${GRID_WIDTH_PX * 6}px`,
         top: `${GRID_WIDTH_PX * 36}px`,
       }}
+      onClick={() => handleTailorClick()}
     >
       <img src={tailor} className="w-full" />
       {isNotReadOnly && (
@@ -37,7 +38,7 @@ export const Tailor: React.FC = () => {
           className="absolute -bottom-7 -left-2"
           text="Tailor"
           icon={flag}
-          onClick={() => handleMarketClick()}
+          onClick={() => handleTailorClick()}
         />
       )}
       {isOpen && (

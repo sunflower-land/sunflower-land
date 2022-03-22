@@ -17,25 +17,26 @@ export const Barn: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const handleMarketClick = () => {
+  const handleBarnClick = () => {
     setIsOpen(true);
   };
 
   return (
     <div
-      className="absolute"
+      className="absolute cursor-pointer hover:img-highlight"
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
         left: `${-GRID_WIDTH_PX * 1}px`,
         top: `${-GRID_WIDTH_PX * 2}px`,
       }}
+      onClick={() => handleBarnClick()}
     >
       {isNotReadOnly && (
         <Action
           className="absolute top-5 left-4"
           text="Barn"
           icon={chicken}
-          onClick={() => handleMarketClick()}
+          onClick={() => handleBarnClick()}
         />
       )}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
