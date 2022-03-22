@@ -38,7 +38,7 @@ export const TailorSale: React.FC<Props> = ({ onClose }) => {
         }}
       >
         <Rare items={FLAGS} onClose={onClose} hasAccess={true} />
-        <span className="text-xs p-2 underline">Max 2 flags per farm</span>
+        <p className="text-xxs p-1 m-1 underline text-center">Max 2 flags per farm. Crafting flags will sync your farm to the blockchain.</p>
       </div>
     </Panel>
   );
