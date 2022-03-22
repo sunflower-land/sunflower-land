@@ -48,7 +48,6 @@ import apprenticeBeaver from "assets/nfts/apprentice_beaver.png";
 import constructionBeaver from "assets/nfts/construction_beaver.png";
 
 // Foods
-import flour from "assets/crops/wheat/flour.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import cabbageSoup from "assets/nfts/saurrerkrat.png";
 import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
@@ -344,21 +343,17 @@ export const ITEM_DETAILS: Items = {
 
   // FOOD
   "Pumpkin Soup": {
-    ...FOODS["Pumpkin Soup"],
+    ...FOODS()["Pumpkin Soup"],
     image: pumpkinSoup,
   },
 
   Sauerkraut: {
-    ...FOODS["Sauerkraut"],
+    ...FOODS()["Sauerkraut"],
     image: cabbageSoup,
   },
   "Roasted Cauliflower": {
-    ...FOODS["Roasted Cauliflower"],
+    ...FOODS()["Roasted Cauliflower"],
     image: roastedCaulfilower,
-  },
-  Flour: {
-    ...FOODS["Flour"],
-    image: flour,
   },
 
   /**
@@ -408,8 +403,8 @@ export const ITEM_DETAILS: Items = {
     ...FLAGS["Belgian Flag"],
     image: belgiumFlag,
   },
-  "Brazillian Flag": {
-    ...FLAGS["Brazillian Flag"],
+  "Brazilian Flag": {
+    ...FLAGS["Brazilian Flag"],
     image: brazilFlag,
   },
   "Chinese Flag": {

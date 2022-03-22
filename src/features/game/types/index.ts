@@ -51,7 +51,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
   Sauerkraut: 503,
-  Flour: 504,
 
   Wood: 601,
   Stone: 602,
@@ -74,7 +73,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
-  "Brazillian Flag": 803,
+  "Brazilian Flag": 803,
   "Chinese Flag": 804,
   "Finnish Flag": 805,
   "French Flag": 806,

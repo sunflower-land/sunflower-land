@@ -16,7 +16,7 @@ export type CraftAction = {
 const VALID_ITEMS = Object.keys({
   ...TOOLS,
   ...SEEDS(),
-  ...FOODS,
+  ...FOODS(),
 }) as CraftableName[];
 
 function isCraftable(

@@ -5,7 +5,7 @@ import { Craftable } from "./craftables";
 export type Flag =
   | "Australian Flag"
   | "Belgian Flag"
-  | "Brazillian Flag"
+  | "Brazilian Flag"
   | "Chinese Flag"
   | "Finnish Flag"
   | "French Flag"
@@ -60,8 +60,8 @@ export const FLAGS: Record<Flag, Craftable> = {
     supply: 50000,
     section: Section["Flags"],
   },
-  "Brazillian Flag": {
-    name: "Brazillian Flag",
+  "Brazilian Flag": {
+    name: "Brazilian Flag",
     description: "Brazillian flag",
     price: new Decimal(50),
     ingredients: [

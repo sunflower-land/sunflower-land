@@ -3,6 +3,7 @@ import { SeedName, SEEDS } from "../types/crops";
 import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
+import { marketRate } from "../lib/halvening";
 
 export { FLAGS };
 
@@ -62,19 +63,15 @@ export type Tool =
   | "Hammer"
   | "Rod";
 
-export type Food =
-  | "Flour"
-  | "Pumpkin Soup"
-  | "Roasted Cauliflower"
-  | "Sauerkraut";
+export type Food = "Pumpkin Soup" | "Roasted Cauliflower" | "Sauerkraut";
 
 export type Animal = "Chicken" | "Cow" | "Pig" | "Sheep";
 
-export const FOODS: Record<Food, Craftable> = {
+export const FOODS: () => Record<Food, Craftable> = () => ({
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
     description: "A creamy soup that goblins love",
-    price: new Decimal(0),
+    price: marketRate(3),
     ingredients: [
       {
         item: "Pumpkin",
@@ -86,37 +83,27 @@ export const FOODS: Record<Food, Craftable> = {
   Sauerkraut: {
     name: "Sauerkraut",
     description: "Fermented cabbage",
-    price: new Decimal(0),
+    price: marketRate(25),
+
     ingredients: [
       {
         item: "Cabbage",
-        amount: new Decimal(20),
+        amount: new Decimal(10),
       },
     ],
   },
   "Roasted Cauliflower": {
     name: "Roasted Cauliflower",
     description: "A Goblin's favourite",
-    price: new Decimal(0),
+    price: marketRate(150),
     ingredients: [
       {
         item: "Cauliflower",
-        amount: new Decimal(100),
+        amount: new Decimal(30),
       },
     ],
   },
-  Flour: {
-    name: "Flour",
-    description: "Ground Wheat",
-    price: new Decimal(0.1),
-    ingredients: [
-      {
-        item: "Wheat",
-        amount: new Decimal(3),
-      },
-    ],
-  },
-};
+});
 
 export const TOOLS: Record<Tool, Craftable> = {
   Axe: {
@@ -478,7 +465,7 @@ export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...TOOLS,
   ...LimitedItems,
   ...SEEDS(),
-  ...FOODS,
+  ...FOODS(),
   ...ANIMALS,
   ...FLAGS,
 });

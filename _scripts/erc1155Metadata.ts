@@ -231,7 +231,7 @@ const items: ERC1155Metadata = {
     image: "src/assets/nfts/fountain.gif",
   },
 
-  // FOODS
+  // FOODS()
   "Pumpkin Soup": {
     description: "A creamy soup which Goblins love",
     decimals: 0,
