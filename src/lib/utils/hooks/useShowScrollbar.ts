@@ -15,7 +15,7 @@ export const useShowScrollbar = (scrollableDivHeight: number) => {
     if (scrollHeight && scrollHeight > scrollableDivHeight) {
       setShowScrollbar(true);
     }
-  }, []);
+  }, [ref.current]);
 
   return { ref, showScrollbar };
 };

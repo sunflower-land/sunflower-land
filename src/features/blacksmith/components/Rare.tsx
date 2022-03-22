@@ -8,24 +8,55 @@ import token from "assets/icons/token.gif";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import * as Auth from "features/auth/lib/Provider";
 
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Craftable } from "features/game/types/craftables";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
+import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
+
+const TAB_CONTENT_HEIGHT = 360;
 
 interface Props {
   onClose: () => void;
   items: Partial<Record<InventoryItemName, Craftable>>;
+  hasAccess: boolean;
 }
 
-export const Rare: React.FC<Props> = ({ onClose, items }) => {
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+const Items: React.FC<{
+  items: Props["items"];
+  selected: InventoryItemName;
+  inventory: GameState["inventory"];
+  onClick: (item: Craftable) => void;
+}> = ({ items, selected, inventory, onClick }) => {
+  const { ref: itemContainerRef, showScrollbar } =
+    useShowScrollbar(TAB_CONTENT_HEIGHT);
 
+  return (
+    <div
+      ref={itemContainerRef}
+      style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+      className={classNames("overflow-y-auto w-3/5 pt-1 mr-2", {
+        scrollable: showScrollbar,
+      })}
+    >
+      <div className="flex flex-wrap h-fit">
+        {Object.values(items).map((item) => (
+          <Box
+            isSelected={selected === item.name}
+            key={item.name}
+            onClick={() => onClick(item)}
+            image={ITEM_DETAILS[item.name].image}
+            count={inventory[item.name]}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
   const { gameService } = useContext(Context);
   const [
@@ -57,13 +88,6 @@ export const Rare: React.FC<Props> = ({ onClose, items }) => {
   const craft = () => {
     gameService.send("MINT", { item: selected.name });
     onClose();
-    // TODO fire off API mint call
-    // setToast({ content: "SFL -$" + selected.price });
-    // selected.ingredients.map((ingredient) => {
-    //   setToast({
-    //     content: "Item " + ingredient.item + " -" + ingredient.amount,
-    //   });
-    // });
   };
 
   if (isLoading) {
@@ -82,7 +106,7 @@ export const Rare: React.FC<Props> = ({ onClose, items }) => {
       return null;
     }
 
-    if (!authState.context.token?.userAccess.mintCollectible) {
+    if (!hasAccess) {
       return <span className="text-sm text-center">Locked</span>;
     }
 
@@ -119,17 +143,12 @@ export const Rare: React.FC<Props> = ({ onClose, items }) => {
 
   return (
     <div className="flex">
-      <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(items).map((item) => (
-          <Box
-            isSelected={selected.name === item.name}
-            key={item.name}
-            onClick={() => setSelected(item)}
-            image={ITEM_DETAILS[item.name].image}
-            count={inventory[item.name]}
-          />
-        ))}
-      </div>
+      <Items
+        items={items}
+        selected={selected.name}
+        inventory={inventory}
+        onClick={setSelected}
+      />
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
           {soldOut && (

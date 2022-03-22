@@ -37,7 +37,7 @@ export const TailorSale: React.FC<Props> = ({ onClose }) => {
           minHeight: "200px",
         }}
       >
-        <Rare items={FLAGS} onClose={onClose} />
+        <Rare items={FLAGS} onClose={onClose} hasAccess={true} />
         <span className="text-xs p-2 underline">Max 2 flags per farm</span>
       </div>
     </Panel>
