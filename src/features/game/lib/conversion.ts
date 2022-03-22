@@ -6,7 +6,7 @@ import { FOODS, LimitedItems, FLAGS } from "../types/craftables";
  * Other items use 18 decimals for decimal point storage
  */
 export function getItemUnit(name: InventoryItemName) {
-  if (name in FOODS || name in LimitedItems || name in FLAGS) {
+  if (name in FOODS() || name in LimitedItems || name in FLAGS) {
     return "wei";
   }
 

@@ -13,7 +13,10 @@ import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import questionMark from "assets/icons/expression_confused.png";
 import heart from "assets/icons/heart.png";
 
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+
 import { Field } from "./Field";
+import { Button } from "components/ui/Button";
 
 export const CropZoneTwo: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -23,6 +26,13 @@ export const CropZoneTwo: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+
+  const [scrollIntoView] = useScrollIntoView();
+
+  const goToKitchen = () => {
+    setShowModal(false);
+    scrollIntoView(Section.Town);
+  };
 
   return (
     <>
@@ -114,12 +124,15 @@ export const CropZoneTwo: React.FC = () => {
             <div className="flex-1">
               <span className="text-shadow block">This is Goblin land!</span>
               <span className="text-shadow block mt-4">
-                Have you got any of that creamy pumpkin soup?
+                I will trade this land for some creamy pumpkin soup.
               </span>
               <img
                 src={pumpkinSoup}
-                className="w-8 img-highlight float-right mr-1"
+                className="w-8 img-highlight float-right mr-1 mb-1"
               />
+              <Button className="text-sm" onClick={goToKitchen}>
+                Go to the kitchen
+              </Button>
             </div>
           </div>
         </Panel>

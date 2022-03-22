@@ -13,6 +13,7 @@ import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
+import { getShortcuts } from "../lib/shortcuts";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -43,12 +44,7 @@ export const InventoryTabContent = ({
   const categories = Object.keys(tabItems) as InventoryItemName[];
 
   useEffect(() => {
-    const firstCategoryWithItem = categories.find(
-      (category) => !!inventoryMapping[category]?.length
-    );
-
-    const defaultSelectedItem =
-      firstCategoryWithItem && inventoryMapping[firstCategoryWithItem][0];
+    const defaultSelectedItem = getShortcuts()[0];
 
     if (defaultSelectedItem) {
       setDefaultSelectedItem(defaultSelectedItem);
@@ -69,6 +65,8 @@ export const InventoryTabContent = ({
     return acc;
   }, {} as Record<string, InventoryItemName[]>);
 
+  console.log({ selectedItem });
+
   const findIfItemsExistForCategory = (category: string) => {
     return Object.keys(inventoryMapping).includes(category);
   };
@@ -84,36 +82,42 @@ export const InventoryTabContent = ({
     }
   };
 
+  const inventoryIsEmpty = Object.values(inventoryMapping).every(
+    (value) => value.length === 0
+  );
+
   return (
     <div className="flex flex-col">
-      <OuterPanel className="flex-1 mb-3">
-        {selectedItem && (
-          <div
-            style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
-            className="flex flex-col justify-evenly items-center p-2"
-          >
-            <span className="text-center text-shadow">{selectedItem}</span>
-            <img
-              src={ITEM_DETAILS[selectedItem].image}
-              className="h-12"
-              alt={selectedItem}
-            />
-            <span className="text-xs text-shadow text-center mt-2 w-80">
-              {ITEM_DETAILS[selectedItem].description}
-            </span>
-            {isSeed(selectedItem) && (
-              <div className="w-full pt-1">
-                <div className="flex justify-center items-end">
-                  <img src={timer} className="h-5 me-2" />
-                  <span className="text-xs text-shadow text-center mt-2 ">
-                    {getCropHarvestTime(selectedItem)}
-                  </span>
+      {!inventoryIsEmpty && (
+        <OuterPanel className="flex-1 mb-3">
+          {selectedItem && (
+            <div
+              style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
+              className="flex flex-col justify-evenly items-center p-2"
+            >
+              <span className="text-center text-shadow">{selectedItem}</span>
+              <img
+                src={ITEM_DETAILS[selectedItem].image}
+                className="h-12"
+                alt={selectedItem}
+              />
+              <span className="text-xs text-shadow text-center mt-2 w-80">
+                {ITEM_DETAILS[selectedItem].description}
+              </span>
+              {isSeed(selectedItem) && (
+                <div className="w-full pt-1">
+                  <div className="flex justify-center items-end">
+                    <img src={timer} className="h-5 me-2" />
+                    <span className="text-xs text-shadow text-center mt-2 ">
+                      {getCropHarvestTime(selectedItem)}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        )}
-      </OuterPanel>
+              )}
+            </div>
+          )}
+        </OuterPanel>
+      )}
       <div
         ref={itemContainerRef}
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}

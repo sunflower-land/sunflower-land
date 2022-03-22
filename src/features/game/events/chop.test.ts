@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { EMPTY, INITIAL_FARM } from "../lib/constants";
 import { GameState } from "../types/game";
 import { chop, ChopAction } from "./chop";
 
@@ -22,7 +22,7 @@ describe("chop", () => {
   it("throws an error if no axes are left", () => {
     expect(() =>
       chop({
-        state: GAME_STATE,
+        state: EMPTY,
         action: {
           type: "tree.chopped",
           item: "Axe",

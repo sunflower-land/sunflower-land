@@ -63,7 +63,7 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
   },
   Foods: {
     img: food,
-    items: FOODS,
+    items: FOODS(),
   },
 };
 

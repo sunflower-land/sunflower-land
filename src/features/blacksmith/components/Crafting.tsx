@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import hammer from "assets/icons/hammer.png";
 import close from "assets/icons/close.png";
@@ -6,10 +6,13 @@ import nft from "assets/nfts/gnome.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
+
 import { LimitedItems, TOOLS } from "features/game/types/craftables";
+import * as Auth from "features/auth/lib/Provider";
 
 import { CraftingItems } from "./CraftingItems";
 import { Rare } from "./Rare";
+import { useActor } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
@@ -17,6 +20,8 @@ interface Props {
 
 export const Crafting: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState<"craft" | "foods" | "nfts">("craft");
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
 
   return (
     <Panel className="pt-5 relative">
@@ -46,7 +51,13 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
         {tab === "craft" && (
           <CraftingItems items={TOOLS} isBulk onClose={onClose} />
         )}
-        {tab === "nfts" && <Rare items={LimitedItems} onClose={onClose} />}
+        {tab === "nfts" && (
+          <Rare
+            items={LimitedItems}
+            onClose={onClose}
+            hasAccess={!!authState.context.token?.userAccess.mintCollectible}
+          />
+        )}
       </div>
     </Panel>
   );

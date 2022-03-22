@@ -48,7 +48,6 @@ import apprenticeBeaver from "assets/nfts/apprentice_beaver.png";
 import constructionBeaver from "assets/nfts/construction_beaver.png";
 
 // Foods
-import flour from "assets/crops/wheat/flour.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import cabbageSoup from "assets/nfts/saurrerkrat.png";
 import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
@@ -344,21 +343,17 @@ export const ITEM_DETAILS: Items = {
 
   // FOOD
   "Pumpkin Soup": {
-    ...FOODS["Pumpkin Soup"],
+    ...FOODS()["Pumpkin Soup"],
     image: pumpkinSoup,
   },
 
   Sauerkraut: {
-    ...FOODS["Sauerkraut"],
+    ...FOODS()["Sauerkraut"],
     image: cabbageSoup,
   },
   "Roasted Cauliflower": {
-    ...FOODS["Roasted Cauliflower"],
+    ...FOODS()["Roasted Cauliflower"],
     image: roastedCaulfilower,
-  },
-  Flour: {
-    ...FOODS["Flour"],
-    image: flour,
   },
 
   /**
@@ -404,28 +399,28 @@ export const ITEM_DETAILS: Items = {
     ...FLAGS["Australian Flag"],
     image: australiaFlag,
   },
-  "Belgium Flag": {
-    ...FLAGS["Belgium Flag"],
+  "Belgian Flag": {
+    ...FLAGS["Belgian Flag"],
     image: belgiumFlag,
   },
-  "Brazillian Flag": {
-    ...FLAGS["Brazillian Flag"],
+  "Brazilian Flag": {
+    ...FLAGS["Brazilian Flag"],
     image: brazilFlag,
   },
   "Chinese Flag": {
     ...FLAGS["Chinese Flag"],
     image: chinaFlag,
   },
-  "Finland Flag": {
-    ...FLAGS["Finland Flag"],
+  "Finnish Flag": {
+    ...FLAGS["Finnish Flag"],
     image: finlandFlag,
   },
   "French Flag": {
     ...FLAGS["French Flag"],
     image: franceFlag,
   },
-  "Germany Flag": {
-    ...FLAGS["Germany Flag"],
+  "German Flag": {
+    ...FLAGS["German Flag"],
     image: germanFlag,
   },
   "Indonesian Flag": {
@@ -436,8 +431,8 @@ export const ITEM_DETAILS: Items = {
     ...FLAGS["Indian Flag"],
     image: indiaFlag,
   },
-  "Iran Flag": {
-    ...FLAGS["Iran Flag"],
+  "Iranian Flag": {
+    ...FLAGS["Iranian Flag"],
     image: iranFlag,
   },
   "Italian Flag": {
@@ -452,56 +447,56 @@ export const ITEM_DETAILS: Items = {
     ...FLAGS["Moroccan Flag"],
     image: moroccoFlag,
   },
-  "Netherlands Flag": {
-    ...FLAGS["Netherlands Flag"],
+  "Dutch Flag": {
+    ...FLAGS["Dutch Flag"],
     image: netherlandsFlag,
   },
-  "Philippines Flag": {
-    ...FLAGS["Philippines Flag"],
+  "Philippine Flag": {
+    ...FLAGS["Philippine Flag"],
     image: phillipinesFlag,
   },
-  "Poland Flag": {
-    ...FLAGS["Poland Flag"],
+  "Polish Flag": {
+    ...FLAGS["Polish Flag"],
     image: polandFlag,
   },
-  "Portugal Flag": {
-    ...FLAGS["Portugal Flag"],
+  "Portuguese Flag": {
+    ...FLAGS["Portuguese Flag"],
     image: portugalFlag,
   },
   "Russian Flag": {
     ...FLAGS["Russian Flag"],
     image: russiaFlag,
   },
-  "Saudi Arabia Flag": {
-    ...FLAGS["Saudi Arabia Flag"],
+  "Saudi Arabian Flag": {
+    ...FLAGS["Saudi Arabian Flag"],
     image: saudiArabiaFlag,
   },
   "South Korean Flag": {
     ...FLAGS["South Korean Flag"],
     image: southKoreaFlag,
   },
-  "Spain Flag": {
-    ...FLAGS["Spain Flag"],
+  "Spanish Flag": {
+    ...FLAGS["Spanish Flag"],
     image: spainFlag,
   },
   "Sunflower Flag": {
     ...FLAGS["Sunflower Flag"],
     image: sunflowerFlag,
   },
-  "Thailand Flag": {
-    ...FLAGS["Thailand Flag"],
+  "Thai Flag": {
+    ...FLAGS["Thai Flag"],
     image: thailandFlag,
   },
   "Turkish Flag": {
     ...FLAGS["Turkish Flag"],
     image: turkeyFlag,
   },
-  "Ukraine Flag": {
-    ...FLAGS["Ukraine Flag"],
+  "Ukrainian Flag": {
+    ...FLAGS["Ukrainian Flag"],
     image: ukraineFlag,
   },
-  "USA Flag": {
-    ...FLAGS["USA Flag"],
+  "American Flag": {
+    ...FLAGS["American Flag"],
     image: usaFlag,
   },
   "Vietnamese Flag": {

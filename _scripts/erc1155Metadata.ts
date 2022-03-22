@@ -3,6 +3,7 @@ import * as path from "path";
 
 import { InventoryItemName } from "../src/features/game/types/game";
 import { KNOWN_IDS } from "../src/features/game/types/index";
+import { ITEM_DETAILS } from "../src/features/game/types/images";
 
 type ERC1155Metadata = Record<
   InventoryItemName,
@@ -207,12 +208,12 @@ const items: ERC1155Metadata = {
     description:
       "A rare homage to the game that broke Polygon. Owned by the 100+ designers, developers and contributors of the project.",
     decimals: 0,
-    image: "src/assets/nfts/sunflower_statue.png",
+    image: "src/assets/nfts/sunflower_rock.png",
   },
   "Sunflower Tombstone": {
     description: "RIP SFF",
     decimals: 0,
-    image: "src/assets/nfts/sunflower_statue.png",
+    image: "src/assets/nfts/sunflower_tombstone.png",
   },
   "Golden Cauliflower": {
     description:
@@ -230,8 +231,227 @@ const items: ERC1155Metadata = {
     decimals: 0,
     image: "src/assets/nfts/fountain.gif",
   },
+  "Woody the Beaver": {
+    description: "Increase wood drops by 20%",
+    decimals: 0,
+    image: "src/assets/nfts/beaver.png",
+  },
+  "Apprentice Beaver": {
+    description: "Trees recover 50% faster",
+    decimals: 0,
+    image: "src/assets/nfts/apprentice_beaver.png",
+  },
+  "Foreman Beaver": {
+    description: "Cut trees without axes",
+    decimals: 0,
+    image: "src/assets/nfts/construction_beaver.png",
+  },
 
-  // FOODS
+  // TODO IMAGES - Skills
+  "Green Thumb": {
+    description: "A skill that provides a unique boost",
+    decimals: 0,
+    image: "src/assets/icons/expression_confused.png",
+  },
+  "Barn Manager": {
+    description: "A skill that provides a unique boost",
+    decimals: 0,
+    image: "src/assets/icons/expression_confused.png",
+  },
+  "Seed Specialist": {
+    description: "A skill that provides a unique boost",
+    decimals: 0,
+    image: "src/assets/icons/expression_confused.png",
+  },
+  Wrangler: {
+    description: "A skill that provides a unique boost",
+    decimals: 0,
+    image: "src/assets/icons/expression_confused.png",
+  },
+  Lumberjack: {
+    description: "A skill that provides a unique boost",
+    decimals: 0,
+    image: "src/assets/icons/expression_confused.png",
+  },
+  Prospector: {
+    description: "A skill that provides a unique boost",
+    decimals: 0,
+    image: "src/assets/icons/expression_confused.png",
+  },
+  Logger: {
+    description: "A skill that provides a unique boost",
+    decimals: 0,
+    image: "src/assets/icons/expression_confused.png",
+  },
+  "Gold Rush": {
+    description: "A skill that provides a unique boost",
+    decimals: 0,
+    image: "src/assets/icons/expression_confused.png",
+  },
+
+  "Australian Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/australia_flag.gif",
+  },
+  "Belgian Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/belgium_flag.gif",
+  },
+  "Brazilian Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/brazil_flag.gif",
+  },
+  "Chinese Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/china_flag.gif",
+  },
+  "Finnish Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/finland_flag.gif",
+  },
+  "French Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/france_flag.gif",
+  },
+  "German Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/germany_flag.gif",
+  },
+  "Indian Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/india_flag.gif",
+  },
+  "Indonesian Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/indonesia_flag.gif",
+  },
+  "Iranian Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/iran_flag.gif",
+  },
+  "Italian Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/italy_flag.gif",
+  },
+  "Japanese Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/japan_flag.gif",
+  },
+  "Moroccan Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/morocco_flag.gif",
+  },
+  "Dutch Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/netherlands_flag.gif",
+  },
+  "Philippine Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/philippines_flag.gif",
+  },
+  "Polish Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/poland_flag.gif",
+  },
+  "Portuguese Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/portugal_flag.gif",
+  },
+  "Russian Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/russia_flag.gif",
+  },
+  "Saudi Arabian Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/saudi_arabia_flag.gif",
+  },
+  "South Korean Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/south_korea_flag.gif",
+  },
+  "Spanish Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/spain_flag.gif",
+  },
+  "Sunflower Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/sunflower_flag.gif",
+  },
+  "Thai Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/thailand_flag.gif",
+  },
+  "Turkish Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/turkey_flag.gif",
+  },
+  "Ukrainian Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/ukraine_flag.gif",
+  },
+  "American Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/usa_flag.gif",
+  },
+  "Vietnamese Flag": {
+    decimals: 0,
+    description:
+      "A beautiful flag crafted at Sunflower Land using wood and SFL",
+    image: "src/assets/nfts/flags/vietnam_flag.gif",
+  },
+
   "Pumpkin Soup": {
     description: "A creamy soup which Goblins love",
     decimals: 0,
@@ -247,11 +467,6 @@ const items: ERC1155Metadata = {
       "A delicious cauliflower that is roasted. Helps keep Goblins off your farm",
     decimals: 0,
     image: "src/assets/nfts/roasted_cauliflower.png",
-  },
-  Flour: {
-    description: "A flour that is used to make bread",
-    decimals: 0,
-    image: "src/assets/crops/wheat/flour.png",
   },
 
   // Resources
@@ -285,6 +500,23 @@ const items: ERC1155Metadata = {
     decimals: 18,
     image: "src/assets/resources/egg.png",
   },
+  Cow: {
+    description: "An animal user for producing resources",
+    decimals: 18,
+    image: "src/assets/icons/expression_confused.png",
+  },
+  Pig: {
+    description: "An animal user for producing resources",
+    decimals: 18,
+    image: "src/assets/icons/expression_confused.png",
+  },
+  Sheep: {
+    description: "An animal user for producing resources",
+    decimals: 18,
+    image: "src/assets/icons/expression_confused.png",
+  },
+
+  // Flags
 };
 
 /**
@@ -302,10 +534,11 @@ async function convert() {
       const item = items[name];
       const id = KNOWN_IDS[name];
 
+      const fileType = item.image.split(".").pop();
       const json = {
         name,
         description: item.description,
-        image: `https://sunflower-land.com/play/erc1155/${id}.png`,
+        image: `https://sunflower-land.com/play/erc1155/${id}.${fileType}`,
         decimals: item.decimals,
       };
 
@@ -319,7 +552,7 @@ async function convert() {
       const buffer = fs.readFileSync(oldImagePath);
 
       const scaledImage = await scalePixelArt(buffer, 20);
-      const fileType = item.image.split(".").pop();
+      console.log({ scaled: id });
       const imagePath = path.join(
         __dirname,
         "../public/erc1155",
