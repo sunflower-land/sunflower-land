@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { EMPTY, INITIAL_FARM } from "../lib/constants";
 import { GameState } from "../types/game";
 import { mineGold, GoldMineAction } from "./goldMine";
 
@@ -13,7 +13,7 @@ describe("mineGold", () => {
   it("throws an error if no axes are left", () => {
     expect(() =>
       mineGold({
-        state: GAME_STATE,
+        state: EMPTY,
         action: {
           type: "gold.mined",
           index: 0,
