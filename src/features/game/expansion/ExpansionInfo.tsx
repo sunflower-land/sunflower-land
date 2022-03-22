@@ -24,7 +24,7 @@ export const ExpansionInfo: React.FC = () => {
       <div className="relative h-full">
         <img
           src={questionMark}
-          className="absolute w-3 left-[42%] z-10 animate-float"
+          className="absolute w-3 left-[50%] z-10 animate-float"
         />
         <div
           style={{ borderRadius: "50%" }}
