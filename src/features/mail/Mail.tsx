@@ -21,21 +21,8 @@ const getInbox = () => {
   return [
     {
       id: "2022-02-28-1",
-      title: "Announcements!",
-      body: "This feature is Work in Progress. Stay tuned and head over to our Discord: https://discord.gg/sunflowerland",
-    },
-    {
-      id: "2022-02-28-2",
-      title: "Greetings!",
-      body: "*You made it! **Good** job :D*",
-    },
-    {
-      id: "2022-02-28-3",
-      title: "",
-      body: `*Long text ahead for testing*. **Long text** ahead for testing. ~~Long text ahead for testing.~~ 
-        Long text ahead for testing. Long text ahead for testing. Long text ahead for testing. 
-        Long text ahead for testing. Long text ahead for testing.
-        [Inline link](https://discord.gg/sunflowerland)`,
+      title: "Welcome to Beta!",
+      body: `Welcome to open beta! The game is still in it's early stages and we are so grateful that you are here.`,
     },
   ];
 };
