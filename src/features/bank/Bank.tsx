@@ -45,12 +45,7 @@ export const Bank: React.FC = () => {
           "hover:img-highlight": isNotReadOnly,
         })}
       >
-        <img
-          src={bank}
-          alt="bank"
-          onClick={openBank}
-          className="w-full"
-        />
+        <img src={bank} alt="bank" onClick={openBank} className="w-full" />
         {isNotReadOnly && (
           <Action
             className="absolute -bottom-6 left-2"
