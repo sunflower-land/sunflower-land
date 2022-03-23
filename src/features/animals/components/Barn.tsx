@@ -9,6 +9,7 @@ import chicken from "assets/resources/chicken.png";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import { BarnSale } from "./BarnSale";
+import classNames from "classnames";
 
 export const Barn: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -17,7 +18,7 @@ export const Barn: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const handleMarketClick = () => {
+  const openBarn = () => {
     setIsOpen(true);
   };
 
@@ -30,14 +31,21 @@ export const Barn: React.FC = () => {
         top: `${-GRID_WIDTH_PX * 2}px`,
       }}
     >
-      {isNotReadOnly && (
-        <Action
-          className="absolute top-5 left-4"
-          text="Barn"
-          icon={chicken}
-          onClick={() => handleMarketClick()}
-        />
-      )}
+      <div
+        className={classNames({
+          "cursor-pointer": isNotReadOnly,
+          "hover:img-highlight": isNotReadOnly,
+        })}
+      >
+        {isNotReadOnly && (
+          <Action
+            className="absolute top-5 left-4"
+            text="Barn"
+            icon={chicken}
+            onClick={openBarn}
+          />
+        )}
+      </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <BarnSale onClose={() => setIsOpen(false)} />
       </Modal>

@@ -20,9 +20,13 @@ export const WishingWell: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const open = () => {
-    wishingWellAudio.play();
-    setIsOpen(true);
+  const openWell = () => {
+    if (isNotReadOnly) {
+      wishingWellAudio.play();
+      setIsOpen(true);
+    } else {
+      return;
+    }
   };
   return (
     <div
@@ -34,23 +38,28 @@ export const WishingWell: React.FC = () => {
         top: `${GRID_WIDTH_PX * -3}px`,
       }}
     >
-      <img
-        src={wishingWell}
-        alt="market"
-        onClick={isNotReadOnly ? () => open() : undefined}
-        className={classNames("w-full", {
+      <div
+        className={classNames({
           "cursor-pointer": isNotReadOnly,
           "hover:img-highlight": isNotReadOnly,
         })}
-      />
-      {isNotReadOnly && (
-        <Action
-          className="absolute -bottom-6 -left-3"
-          text="Wish"
-          icon={icon}
-          onClick={() => open()}
+      >
+        <img
+          src={wishingWell}
+          alt="market"
+          onClick={openWell}
+          className="w-full"
         />
-      )}
+        {isNotReadOnly && (
+          <Action
+            className="absolute -bottom-6 -left-3"
+            text="Wish"
+            icon={icon}
+            onClick={openWell}
+          />
+        )}
+      </div>
+
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <WishingWellModal
           key={isOpen ? "1" : "0"}

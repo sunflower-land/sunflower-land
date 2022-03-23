@@ -20,9 +20,13 @@ export const Bank: React.FC = () => {
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const open = () => {
-    setIsOpen(true);
-    bankAudio.play();
+  const openBank = () => {
+    if (isNotReadOnly) {
+      setIsOpen(true);
+      bankAudio.play();
+    } else {
+      return;
+    }
   };
 
   return (
@@ -35,23 +39,28 @@ export const Bank: React.FC = () => {
         top: `${GRID_WIDTH_PX * 4.65}px`,
       }}
     >
-      <img
-        src={bank}
-        alt="bank"
-        onClick={isNotReadOnly ? open : undefined}
-        className={classNames("w-full", {
+      <div
+        className={classNames({
           "cursor-pointer": isNotReadOnly,
           "hover:img-highlight": isNotReadOnly,
         })}
-      />
-      {isNotReadOnly && (
-        <Action
-          className="absolute -bottom-6 left-2"
-          text="Bank"
-          icon={token}
-          onClick={open}
+      >
+        <img
+          src={bank}
+          alt="bank"
+          onClick={openBank}
+          className="w-full"
         />
-      )}
+        {isNotReadOnly && (
+          <Action
+            className="absolute -bottom-6 left-2"
+            text="Bank"
+            icon={token}
+            onClick={openBank}
+          />
+        )}
+      </div>
+
       <Modal
         show={isOpen}
         onHide={() => setIsOpen(false)}
