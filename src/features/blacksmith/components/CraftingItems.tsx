@@ -51,8 +51,7 @@ export const CraftingItems: React.FC<Props> = ({
     setToast({ content: "SFL -$" + selected.price.mul(amount) });
     selected.ingredients.map((ingredient, index) => {
       setToast({
-        content:
-          "Item " + ingredient.item + " -" + ingredient.amount.mul(amount),
+        content: ingredient.item + " -" + ingredient.amount.mul(amount),
       });
     });
 
