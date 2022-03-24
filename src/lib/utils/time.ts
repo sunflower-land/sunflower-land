@@ -1,6 +1,12 @@
 export function secondsToString(seconds: number) {
-  if (seconds <= 60) {
-    return "1min";
+  const secondsCeil = Math.ceil(seconds);
+
+  if (secondsCeil < 60) {
+    return `${secondsCeil}secs`;
+  }
+
+  if (secondsCeil === 60) {
+    return `1min`;
   }
 
   // Less than 1 hour
