@@ -98,6 +98,21 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Ukrainian Flag": 825,
   "American Flag": 826,
   "Vietnamese Flag": 827,
+  "Canadian Flag": 828,
+  "Singaporean Flag": 829,
+  "British Flag": 830,
+  "Sierra Leone Flag": 831,
+  "Romanian Flag": 832,
+  "Rainbow Flag": 833,
+  "Goblin Flag": 834,
+  "Pirate Flag": 835,
+  "Algerian Flag": 836,
+  "Mexican Flag": 837,
+  "Dominican Republic Flag": 838,
+  "Argentinian Flag": 839,
+  "Lithuanian Flag": 840,
+  "Malaysian Flag": 841,
+  "Colombian Flag": 842,
 };
 
 // The reverse of above

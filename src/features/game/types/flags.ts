@@ -29,7 +29,22 @@ export type Flag =
   | "Turkish Flag"
   | "Ukrainian Flag"
   | "American Flag"
-  | "Vietnamese Flag";
+  | "Vietnamese Flag"
+  | "Canadian Flag"
+  | "Singaporean Flag"
+  | "British Flag"
+  | "Sierra Leone Flag"
+  | "Romanian Flag"
+  | "Rainbow Flag"
+  | "Goblin Flag"
+  | "Pirate Flag"
+  | "Algerian Flag"
+  | "Mexican Flag"
+  | "Dominican Republic Flag"
+  | "Argentinian Flag"
+  | "Lithuanian Flag"
+  | "Malaysian Flag"
+  | "Colombian Flag";
 
 export const FLAGS: Record<Flag, Craftable> = {
   "Australian Flag": {
@@ -42,7 +57,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Belgian Flag": {
@@ -55,7 +70,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Brazilian Flag": {
@@ -68,7 +83,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 200000,
+    supply: 5000,
     section: Section["Flags"],
   },
   "Chinese Flag": {
@@ -81,7 +96,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 200000,
+    supply: 5000,
     section: Section["Flags"],
   },
   "Finnish Flag": {
@@ -94,7 +109,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "French Flag": {
@@ -107,7 +122,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "German Flag": {
@@ -120,7 +135,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Indian Flag": {
@@ -133,7 +148,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Indonesian Flag": {
@@ -146,7 +161,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 5000,
     section: Section["Flags"],
   },
   "Iranian Flag": {
@@ -159,7 +174,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Italian Flag": {
@@ -172,7 +187,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Japanese Flag": {
@@ -185,7 +200,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Moroccan Flag": {
@@ -198,7 +213,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Dutch Flag": {
@@ -211,7 +226,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Philippine Flag": {
@@ -224,7 +239,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 500000,
+    supply: 5000,
     section: Section["Flags"],
   },
   "Polish Flag": {
@@ -237,7 +252,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Portuguese Flag": {
@@ -250,7 +265,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Russian Flag": {
@@ -262,8 +277,12 @@ export const FLAGS: Record<Flag, Craftable> = {
         amount: new Decimal(10),
         item: "Wood",
       },
+      {
+        item: "Potato",
+        amount: new Decimal(100),
+      },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Saudi Arabian Flag": {
@@ -276,7 +295,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "South Korean Flag": {
@@ -289,7 +308,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Spanish Flag": {
@@ -302,7 +321,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Sunflower Flag": {
@@ -319,7 +338,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Thai Flag": {
@@ -332,7 +351,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Turkish Flag": {
@@ -345,7 +364,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Ukrainian Flag": {
@@ -362,7 +381,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 200000,
+    supply: 5000,
     section: Section["Flags"],
   },
   "American Flag": {
@@ -375,7 +394,7 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
     section: Section["Flags"],
   },
   "Vietnamese Flag": {
@@ -388,7 +407,203 @@ export const FLAGS: Record<Flag, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 50000,
+    supply: 1000,
+    section: Section["Flags"],
+  },
+
+  "Canadian Flag": {
+    name: "Canadian Flag",
+    description: "Canadian flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Singaporean Flag": {
+    name: "Singaporean Flag",
+    description: "Singaporean flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "British Flag": {
+    name: "British Flag",
+    description: "British flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Sierra Leone Flag": {
+    name: "Sierra Leone Flag",
+    description: "Sierra Leone flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Romanian Flag": {
+    name: "Romanian Flag",
+    description: "Romanian flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Rainbow Flag": {
+    name: "Rainbow Flag",
+    description: "Rainbow flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Goblin Flag": {
+    name: "Goblin Flag",
+    description: "Goblin flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Pirate Flag": {
+    name: "Pirate Flag",
+    description: "Pirate flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Algerian Flag": {
+    name: "Algerian Flag",
+    description: "Algerian flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Mexican Flag": {
+    name: "Mexican Flag",
+    description: "Mexican flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Dominican Republic Flag": {
+    name: "Dominican Republic Flag",
+    description: "Dominican Republic flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Argentinian Flag": {
+    name: "Argentinian Flag",
+    description: "Argentinian flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Lithuanian Flag": {
+    name: "Lithuanian Flag",
+    description: "Lithuanian flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Malaysian Flag": {
+    name: "Malaysian Flag",
+    description: "Malaysian flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Flags"],
+  },
+  "Colombian Flag": {
+    name: "Colombian Flag",
+    description: "Colombian flag",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
     section: Section["Flags"],
   },
 };

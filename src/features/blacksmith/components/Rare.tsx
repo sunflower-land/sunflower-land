@@ -34,6 +34,10 @@ const Items: React.FC<{
   const { ref: itemContainerRef, showScrollbar } =
     useShowScrollbar(TAB_CONTENT_HEIGHT);
 
+  const ordered = Object.values(items).sort((a, b) =>
+    a.name > b.name ? 1 : -1
+  );
+
   return (
     <div
       ref={itemContainerRef}
@@ -43,7 +47,7 @@ const Items: React.FC<{
       })}
     >
       <div className="flex flex-wrap h-fit">
-        {Object.values(items).map((item) => (
+        {ordered.map((item) => (
           <Box
             isSelected={selected === item.name}
             key={item.name}

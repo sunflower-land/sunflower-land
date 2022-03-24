@@ -80,6 +80,21 @@ import turkeyFlag from "assets/nfts/flags/turkey_flag.gif";
 import ukraineFlag from "assets/nfts/flags/ukraine_flag.gif";
 import usaFlag from "assets/nfts/flags/usa_flag.gif";
 import vietnamFlag from "assets/nfts/flags/vietnam_flag.gif";
+import algerian_flag from "assets/nfts/flags/algerian_flag.gif";
+import argentinian_flag from "assets/nfts/flags/argentinian_flag.gif";
+import british_flag from "assets/nfts/flags/british_flag.gif";
+import canadian_flag from "assets/nfts/flags/canadian_flag.gif";
+import colombian_flag from "assets/nfts/flags/colombian_flag.gif";
+import dominican_republic_flag from "assets/nfts/flags/dominican_republic_flag.gif";
+import goblin_flag from "assets/nfts/flags/goblin_flag.gif";
+import lithuanian_flag from "assets/nfts/flags/lithuanian_flag.gif";
+import malaysian_flag from "assets/nfts/flags/malaysian_flag.gif";
+import mexican_flag from "assets/nfts/flags/mexican_flag.gif";
+import pirate_flag from "assets/nfts/flags/pirate_flag.gif";
+import rainbow_flag from "assets/nfts/flags/rainbow_flag.gif";
+import romanian_flag from "assets/nfts/flags/romanian_flag.gif";
+import sierra_leone_flag from "assets/nfts/flags/sierra_leone_flag.gif";
+import singaporean_flag from "assets/nfts/flags/singaporean_flag.gif";
 
 // Resources
 import stone from "assets/resources/stone.png";
@@ -509,5 +524,65 @@ export const ITEM_DETAILS: Items = {
   "Vietnamese Flag": {
     ...FLAGS["Vietnamese Flag"],
     image: vietnamFlag,
+  },
+  "Canadian Flag": {
+    ...FLAGS["Canadian Flag"],
+    image: canadian_flag,
+  },
+  "Singaporean Flag": {
+    ...FLAGS["Singaporean Flag"],
+    image: singaporean_flag,
+  },
+  "British Flag": {
+    ...FLAGS["British Flag"],
+    image: british_flag,
+  },
+  "Sierra Leone Flag": {
+    ...FLAGS["Sierra Leone Flag"],
+    image: sierra_leone_flag,
+  },
+  "Romanian Flag": {
+    ...FLAGS["Romanian Flag"],
+    image: romanian_flag,
+  },
+  "Rainbow Flag": {
+    ...FLAGS["Rainbow Flag"],
+    image: rainbow_flag,
+  },
+  "Goblin Flag": {
+    ...FLAGS["Goblin Flag"],
+    image: goblin_flag,
+  },
+  "Pirate Flag": {
+    ...FLAGS["Pirate Flag"],
+    image: pirate_flag,
+  },
+  "Algerian Flag": {
+    ...FLAGS["Algerian Flag"],
+    image: algerian_flag,
+  },
+  "Mexican Flag": {
+    ...FLAGS["Mexican Flag"],
+    image: mexican_flag,
+  },
+  "Dominican Republic Flag": {
+    ...FLAGS["Dominican Republic Flag"],
+    image: dominican_republic_flag,
+  },
+  "Argentinian Flag": {
+    ...FLAGS["Argentinian Flag"],
+    image: argentinian_flag,
+  },
+  "Lithuanian Flag": {
+    ...FLAGS["Lithuanian Flag"],
+    image: lithuanian_flag,
+  },
+  "Malaysian Flag": {
+    ...FLAGS["Malaysian Flag"],
+    image: malaysian_flag,
+  },
+  "Colombian Flag": {
+    ...FLAGS["Colombian Flag"],
+    image: colombian_flag,
   },
 };
