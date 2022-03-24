@@ -1,1 +1,8 @@
-{"name":"Radish Seed","description":"A seed for a radish plant.","image":"https://sunflower-land.com/play/erc1155/109.png","decimals":0}
+{
+  "name": "Radish Seed",
+  "description": "A seed for a radish plant. You can buy these in game at the market",
+  "image": "https://sunflower-land.com/play/erc1155/109.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "5ec14c"
+}

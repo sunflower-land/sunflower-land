@@ -1,1 +1,34 @@
-{"name":"Foreman Beaver","description":"Cut trees without axes","image":"https://sunflower-land.com/play/erc1155/417.png","decimals":0}
+{
+  "name": "Foreman Beaver",
+  "description": "Cut trees without axes",
+  "image": "https://sunflower-land.com/play/erc1155/417.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "attributes": [
+    {
+      "display_type": "number",
+      "trait_type": "Total Supply",
+      "value": 300
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Sunflower Land Tokens",
+      "value": 200
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Wood",
+      "value": 1000
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Apprencitce Beaver",
+      "value": 1
+    },
+    {
+      "display_type": "boost_number",
+      "trait_type": "Cut trees without axe",
+      "value": 1
+    }
+  ]
+}

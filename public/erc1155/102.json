@@ -1,1 +1,8 @@
-{"name":"Potato Seed","description":"A seed for a potato plant.","image":"https://sunflower-land.com/play/erc1155/102.png","decimals":0}
+{
+  "name": "Potato Seed",
+  "description": "A seed for a potato plant. You can buy these inside the game at the market.",
+  "image": "https://sunflower-land.com/play/erc1155/102.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "5ec14c"
+}

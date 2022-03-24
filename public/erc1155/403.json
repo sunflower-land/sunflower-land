@@ -1,1 +1,24 @@
-{"name":"Christmas Tree","description":"A christmas tree that shows during christmas. It helps santa find your farm and airdrop presents.","image":"https://sunflower-land.com/play/erc1155/403.png","decimals":0}
+{
+  "name": "Christmas Tree",
+  "description": "A christmas tree that shows during christmas. It helps santa find your farm and airdrop presents.",
+  "image": "https://sunflower-land.com/play/erc1155/403.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "attributes": [
+    {
+      "display_type": "number",
+      "trait_type": "Total Supply",
+      "value": 50
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Wood",
+      "value": 100
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Stone",
+      "value": 50
+    }
+  ]
+}

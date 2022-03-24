@@ -1,1 +1,8 @@
-{"name":"Beetroot Seed","description":"A seed for a beetroot plant.","image":"https://sunflower-land.com/play/erc1155/106.png","decimals":0}
+{
+  "name": "Beetroot Seed",
+  "description": "A seed for a beetroot plant. You can buy these in game at the market",
+  "image": "https://sunflower-land.com/play/erc1155/106.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "5ec14c"
+}

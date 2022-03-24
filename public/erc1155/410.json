@@ -1,1 +1,29 @@
-{"name":"Golden Cauliflower","description":"A lucky cauliflower that gives you 2x rewards when selling your cauliflowers","image":"https://sunflower-land.com/play/erc1155/410.png","decimals":0}
+{
+  "name": "Golden Cauliflower",
+  "description": "A lucky cauliflower that gives you 2x rewards when selling your cauliflowers",
+  "image": "https://sunflower-land.com/play/erc1155/410.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "attributes": [
+    {
+      "display_type": "number",
+      "trait_type": "Total Supply",
+      "value": 100
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Sunflower Land Tokens",
+      "value": 100
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Cauliflower",
+      "value": 100
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Gold",
+      "value": 50
+    }
+  ]
+}

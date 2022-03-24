@@ -1,1 +1,24 @@
-{"name":"Farm Dog","description":"Bella the dog. Move sheep faster with bella on your farm.","image":"https://sunflower-land.com/play/erc1155/406.png","decimals":0}
+{
+  "name": "Farm Dog",
+  "description": "Bella the dog. Move sheep faster with bella on your farm.",
+  "image": "https://sunflower-land.com/play/erc1155/406.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "attributes": [
+    {
+      "display_type": "number",
+      "trait_type": "Total Supply",
+      "value": 75
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Sunflower Land Tokens",
+      "value": 75
+    },
+    {
+      "display_type": "boost_percentage",
+      "trait_type": "Wool production",
+      "value": 200
+    }
+  ]
+}

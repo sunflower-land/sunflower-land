@@ -1,1 +1,8 @@
-{"name":"Axe","description":"A tool used to cut down trees.","image":"https://sunflower-land.com/play/erc1155/301.png","decimals":0}
+{
+  "name": "Axe",
+  "description": "A tool used to cut down trees. You can craft these in the game at the Blacksmith.",
+  "image": "https://sunflower-land.com/play/erc1155/301.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "e5a672"
+}

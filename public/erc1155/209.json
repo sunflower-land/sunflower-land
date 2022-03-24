@@ -1,1 +1,8 @@
-{"name":"Radish","description":"A radish that was harvested.","image":"https://sunflower-land.com/play/erc1155/209.png","decimals":18}
+{
+  "name": "Radish",
+  "description": "A radish that was harvested. You can grow these in the game using Radish Seeds.",
+  "image": "https://sunflower-land.com/play/erc1155/209.png",
+  "decimals": 18,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "5ec14c"
+}

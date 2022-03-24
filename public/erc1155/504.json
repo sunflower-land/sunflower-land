@@ -1,1 +1,8 @@
-{"name":"Flour","description":"A flour that is used to make bread","image":"https://sunflower-land.com/play/erc1155/504.png","decimals":0}
+{
+  "name": "Flour",
+  "description": "A flour that is used to make bread",
+  "image": "https://sunflower-land.com/play/erc1155/504.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "E5A66A"
+}

@@ -1,1 +1,24 @@
-{"name":"Gold Egg","description":"A golden egg. What lays inside is a mystery but it looks like it will hatch soon.","image":"https://sunflower-land.com/play/erc1155/409.png","decimals":0}
+{
+  "name": "Gold Egg",
+  "description": "A golden egg. What lays inside is a mystery but it looks like it will hatch soon.",
+  "image": "https://sunflower-land.com/play/erc1155/409.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "attributes": [
+    {
+      "display_type": "number",
+      "trait_type": "Total Supply",
+      "value": 1000
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Gold",
+      "value": 50
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Eggs",
+      "value": 150
+    }
+  ]
+}

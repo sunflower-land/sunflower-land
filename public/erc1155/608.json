@@ -1,1 +1,8 @@
-{"name":"Pig","description":"An animal user for producing resources","image":"https://sunflower-land.com/play/erc1155/608.png","decimals":18}
+{
+  "name": "Pig",
+  "description": "An animal user for producing resources",
+  "image": "https://sunflower-land.com/play/erc1155/608.png",
+  "decimals": 18,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "5ec14c"
+}

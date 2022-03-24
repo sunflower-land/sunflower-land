@@ -1,1 +1,29 @@
-{"name":"Woody the Beaver","description":"Increase wood drops by 20%","image":"https://sunflower-land.com/play/erc1155/415.png","decimals":0}
+{
+  "name": "Woody the Beaver",
+  "description": "Increase wood drops by 20%",
+  "image": "https://sunflower-land.com/play/erc1155/415.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "attributes": [
+    {
+      "display_type": "number",
+      "trait_type": "Total Supply",
+      "value": 50000
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Sunflower Land Tokens",
+      "value": 50
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Wood",
+      "value": 200
+    },
+    {
+      "display_type": "boost_percentage",
+      "trait_type": "Increase Wood Drops",
+      "value": 20
+    }
+  ]
+}

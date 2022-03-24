@@ -1,1 +1,39 @@
-{"name":"Chicken Coop","description":"A chicken coop that can be used to raise chickens. Chickens produce 3x more eggs with this.","image":"https://sunflower-land.com/play/erc1155/408.png","decimals":0}
+{
+  "name": "Chicken Coop",
+  "description": "A chicken coop that can be used to raise chickens. Chickens produce 3x more eggs with this.",
+  "image": "https://sunflower-land.com/play/erc1155/408.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "attributes": [
+    {
+      "display_type": "number",
+      "trait_type": "Total Supply",
+      "value": 1000
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Sunflower Land Tokens",
+      "value": 50
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Wood",
+      "value": 50
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Stone",
+      "value": 50
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Gold",
+      "value": 50
+    },
+    {
+      "display_type": "boost_percentage",
+      "trait_type": "Egg production",
+      "value": 300
+    }
+  ]
+}

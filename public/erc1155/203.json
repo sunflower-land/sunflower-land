@@ -1,1 +1,8 @@
-{"name":"Pumpkin","description":"A pumpkin that was harvested.","image":"https://sunflower-land.com/play/erc1155/203.png","decimals":18}
+{
+  "name": "Pumpkin",
+  "description": "A pumpkin that was harvested. You can grow these in the game using Pumpkin Seeds.",
+  "image": "https://sunflower-land.com/play/erc1155/203.png",
+  "decimals": 18,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "5ec14c"
+}

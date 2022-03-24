@@ -1,1 +1,8 @@
-{"name":"Iron Pickaxe","description":"A tool used to mine rocks.","image":"https://sunflower-land.com/play/erc1155/304.png","decimals":0}
+{
+  "name": "Iron Pickaxe",
+  "description": "A tool used to mine rocks. You can craft these in the game at the Blacksmith.",
+  "image": "https://sunflower-land.com/play/erc1155/304.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "e5a672"
+}

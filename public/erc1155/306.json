@@ -1,1 +1,8 @@
-{"name":"Rod","description":"A tool used to fish.","image":"https://sunflower-land.com/play/erc1155/306.png","decimals":0}
+{
+  "name": "Rod",
+  "description": "A tool used to fish. You can craft these in the game at the Blacksmith.",
+  "image": "https://sunflower-land.com/play/erc1155/306.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "e5a672"
+}

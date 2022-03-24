@@ -1,1 +1,34 @@
-{"name":"Apprentice Beaver","description":"Trees recover 50% faster","image":"https://sunflower-land.com/play/erc1155/416.png","decimals":0}
+{
+  "name": "Apprentice Beaver",
+  "description": "Trees recover 50% faster",
+  "image": "https://sunflower-land.com/play/erc1155/416.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "attributes": [
+    {
+      "display_type": "number",
+      "trait_type": "Total Supply",
+      "value": 5000
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Sunflower Land Tokens",
+      "value": 100
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Wood",
+      "value": 500
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Woody the Beaver",
+      "value": 1
+    },
+    {
+      "display_type": "boost_percentage",
+      "trait_type": "Tree Recovery Speed",
+      "value": 500
+    }
+  ]
+}

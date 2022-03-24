@@ -1,1 +1,24 @@
-{"name":"Potato Statue","description":"A statue of a potato. It's a potato statue. Potato blood is in my veins","image":"https://sunflower-land.com/play/erc1155/402.png","decimals":0}
+{
+  "name": "Potato Statue",
+  "description": "A statue of a potato. It's a potato statue. Potato blood is in my veins",
+  "image": "https://sunflower-land.com/play/erc1155/402.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "attributes": [
+    {
+      "display_type": "number",
+      "trait_type": "Total Supply",
+      "value": 2000
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Potatoes",
+      "value": 100
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Stone",
+      "value": 20
+    }
+  ]
+}

@@ -1,1 +1,29 @@
-{"name":"Sunflower Statue","description":"The holy statue","image":"https://sunflower-land.com/play/erc1155/401.png","decimals":0}
+{
+  "name": "Sunflower Statue",
+  "description": "A collectible statue crafted by the early players of the game.",
+  "image": "https://sunflower-land.com/play/erc1155/401.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "attributes": [
+    {
+      "display_type": "number",
+      "trait_type": "Total Supply",
+      "value": 1000
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Sunflower Land Tokens",
+      "value": 5
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Sunflowers",
+      "value": 1000
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Stone",
+      "value": 50
+    }
+  ]
+}
