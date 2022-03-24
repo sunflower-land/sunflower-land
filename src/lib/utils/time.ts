@@ -1,8 +1,8 @@
 export function secondsToString(seconds: number) {
-  const secondsCeil = Math.ceil(seconds % 60);
+  const secondsCeil = Math.ceil(seconds);
 
   if (secondsCeil < 60) {
-    return `${secondsCeil}sec`;
+    return `${secondsCeil}secs`;
   }
 
   if (secondsCeil === 60) {
