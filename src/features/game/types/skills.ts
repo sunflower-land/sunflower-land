@@ -13,6 +13,19 @@ export type SkillName =
 
 export type Profession = "farming" | "gathering";
 
+enum REQUIRED_XP {
+  LEVEL_1 = 0,
+  LEVEL_2 = 50,
+  LEVEL_3 = 150,
+  LEVEL_4 = 350,
+  LEVEL_5 = 700,
+  LEVEL_6 = 1100,
+  LEVEL_7 = 1400,
+  LEVEL_8 = 2000,
+  LEVEL_9 = 3000,
+  LEVEL_10 = 5000,
+}
+
 export const SKILL_TREE: Record<
   SkillName,
   {
@@ -85,47 +98,47 @@ export const SKILL_TREE: Record<
  */
 export function getLevel(experience: Decimal) {
   // Around 3 months farming
-  if (experience.gt(5000)) {
+  if (experience.gt(REQUIRED_XP.LEVEL_10)) {
     return 10;
   }
 
   // Around 2 months farming
-  if (experience.gt(3000)) {
+  if (experience.gt(REQUIRED_XP.LEVEL_9)) {
     return 9;
   }
 
   // Around 6 weeks farming
-  if (experience.gt(2000)) {
+  if (experience.gt(REQUIRED_XP.LEVEL_8)) {
     return 8;
   }
 
   // Around 4 weeks farming
-  if (experience.gt(1400)) {
+  if (experience.gt(REQUIRED_XP.LEVEL_7)) {
     return 7;
   }
 
   // Around 3 weeks farming
-  if (experience.gt(1100)) {
+  if (experience.gt(REQUIRED_XP.LEVEL_6)) {
     return 6;
   }
 
   // Around 2 weeks farming
-  if (experience.gt(700)) {
+  if (experience.gt(REQUIRED_XP.LEVEL_5)) {
     return 5;
   }
 
   // Around 1 weeks farming
-  if (experience.gt(350)) {
+  if (experience.gt(REQUIRED_XP.LEVEL_4)) {
     return 4;
   }
 
   // Around three days farming
-  if (experience.gt(150)) {
+  if (experience.gt(REQUIRED_XP.LEVEL_3)) {
     return 3;
   }
 
   // Around one day farming
-  if (experience.gt(50)) {
+  if (experience.gt(REQUIRED_XP.LEVEL_2)) {
     return 2;
   }
 
@@ -178,4 +191,14 @@ export function getAvailableUpgrades(game: GameState): SkillName[] {
   }
 
   return [];
+}
+
+type Level = 10 | 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1;
+
+export function getRequiredXpToLevelUp(level: Level) {
+  if (level === 10) return;
+
+  const levelNum = (level + 1) as Level;
+
+  return REQUIRED_XP[`LEVEL_${levelNum}`];
 }
