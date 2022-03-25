@@ -4,6 +4,8 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
+import Decimal from "decimal.js-light";
+
 import shakeSheet from "assets/resources/tree/shake_sheet.png";
 import choppedSheet from "assets/resources/tree/chopped_sheet.png";
 import stump from "assets/resources/tree/stump.png";
@@ -16,21 +18,25 @@ import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import {
   canChop,
+  ChopAction,
   CHOP_ERRORS,
   TREE_RECOVERY_SECONDS,
 } from "features/game/events/chop";
+
+
+
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
-import { HealthBar } from "components/ui/HealthBar";
+
 
 const POPOVER_TIME_MS = 1000;
-const HITS = 3;
 
 interface Props {
   treeIndex: number;
 }
+
 export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
@@ -82,6 +88,11 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     if (selectedItem !== "Axe") {
       return;
     }
+    const axeAmount = game.context.state.inventory.Axe || new Decimal(0); 
+    if(axeAmount.lessThanOrEqualTo(0))
+     return;
+    
+  
 
     const isPlaying = shakeGif.current?.getInfo("isPlaying");
     if (isPlaying) {
@@ -93,8 +104,11 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
     setTouchCount((count) => count + 1);
 
+    // Randomise the shakes to break
+    const shakesToBreak = tree.wood.toNumber();
+
     // On third shake, chop
-    if (touchCount > 0 && touchCount === HITS - 1) {
+    if (touchCount > 0 && touchCount === shakesToBreak) {
       chop();
       treeFallAudio.play();
       setTouchCount(0);
@@ -102,8 +116,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   };
 
   const chop = async () => {
-    setTouchCount(0);
-
     try {
       gameService.send("tree.chopped", {
         index: treeIndex,
@@ -135,6 +147,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       displayPopover(
         <span className="text-xs text-white text-shadow">{e.message}</span>
       );
+
+      setTouchCount(0);
     }
   };
 
@@ -246,18 +260,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
           </div>
         </>
       )}
-
-      <div
-        className={classNames(
-          "transition-opacity pointer-events-none absolute top-4 left-2",
-          {
-            "opacity-100": touchCount > 0,
-            "opacity-0": touchCount === 0,
-          }
-        )}
-      >
-        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
-      </div>
 
       <div
         className={classNames(
