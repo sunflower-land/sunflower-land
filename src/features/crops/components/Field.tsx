@@ -101,7 +101,7 @@ export const Field: React.FC<Props> = ({
       displayPopover(
         <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
           <img src={ITEM_DETAILS[field.name].image} className="w-4 mr-1" />
-          <span>+1</span>
+          <span>{`+${field.multiplier || 1}`}</span>
         </div>
       );
     } catch (e: any) {

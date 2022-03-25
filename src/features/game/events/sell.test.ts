@@ -135,25 +135,4 @@ describe("sell", () => {
 
     expect(state.balance).toEqual(new Decimal(CROPS().Cauliflower.sellPrice));
   });
-
-  it("sells a cauliflower for a double the price if they have golden cauliflower", () => {
-    const state = sell({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          Cauliflower: new Decimal(1),
-          "Golden Cauliflower": new Decimal(1),
-        },
-      },
-      action: {
-        type: "item.sell",
-        item: "Cauliflower",
-        amount: 1,
-      },
-    });
-
-    expect(state.balance).toEqual(
-      new Decimal(CROPS().Cauliflower.sellPrice.mul(2))
-    );
-  });
 });

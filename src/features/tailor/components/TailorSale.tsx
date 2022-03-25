@@ -6,8 +6,8 @@ import flag from "assets/nfts/flags/sunflower_flag.gif";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { FLAGS } from "features/game/types/craftables";
-import { CraftingItems } from "features/blacksmith/components/CraftingItems";
 import { Rare } from "features/blacksmith/components/Rare";
+import { Flag } from "features/game/types/flags";
 
 interface Props {
   onClose: () => void;
@@ -15,6 +15,14 @@ interface Props {
 
 export const TailorSale: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState<"flags">("flags");
+
+  // Alphabetically sort the flags
+  const sortedFlags = (Object.keys(FLAGS) as Flag[])
+    .sort()
+    .reduce((obj, key) => {
+      obj[key] = FLAGS[key];
+      return obj;
+    }, {} as typeof FLAGS);
 
   return (
     <Panel className="pt-5 relative">
@@ -37,7 +45,7 @@ export const TailorSale: React.FC<Props> = ({ onClose }) => {
           minHeight: "200px",
         }}
       >
-        <Rare items={FLAGS} onClose={onClose} hasAccess={true} />
+        <Rare items={sortedFlags} onClose={onClose} hasAccess={true} />
         <p className="text-xxs p-1 m-1 underline text-center">
           Max 2 flags per farm. Crafting flags will sync your farm to the
           blockchain.

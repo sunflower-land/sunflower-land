@@ -67,13 +67,14 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   delete newFields[action.index];
 
   const cropCount = state.inventory[field.name] || new Decimal(0);
+  const multiplier = field.multiplier || 1;
 
   return {
     ...state,
     fields: newFields,
     inventory: {
       ...state.inventory,
-      [field.name]: cropCount.add(1),
+      [field.name]: cropCount.add(multiplier),
     },
   } as GameState;
 }

@@ -22,7 +22,7 @@ const getInbox = () => {
     {
       id: "2022-02-28-1",
       title: "Welcome to Beta!",
-      body: `Welcome to open beta! The game is still in it's early stages and we are so grateful that you are here.`,
+      body: `Welcome to open beta! The game is still in its early stages and we are so grateful that you are here.`,
     },
   ];
 };

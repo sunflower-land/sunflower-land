@@ -1,14 +1,22 @@
 import { InventoryItemName } from "../types/game";
-import { FOODS, LimitedItems, FLAGS } from "../types/craftables";
+import { TOOLS } from "../types/craftables";
+import { CROPS, SEEDS } from "../types/crops";
+import { RESOURCES } from "../types/resources";
 
 /**
- * Food and limited items have a unit of 1
- * Other items use 18 decimals for decimal point storage
+ * Tradeable items use 18 decimals for decimal point storage
+ * Collectibles use 1 decimal
  */
 export function getItemUnit(name: InventoryItemName) {
-  if (name in FOODS() || name in LimitedItems || name in FLAGS) {
-    return "wei";
+  if (
+    name in CROPS() ||
+    name in RESOURCES ||
+    name in SEEDS() ||
+    name in TOOLS
+  ) {
+    return "ether";
   }
 
-  return "ether";
+  // Limited items, Food, Skills, Flags
+  return "wei";
 }
