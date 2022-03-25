@@ -23,12 +23,13 @@ import {
   TREE_RECOVERY_SECONDS,
 } from "features/game/events/chop";
 
-
+import {chop} from "features/game/events/chop";
 
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
+import { GameState } from "features/game/types/game";
 
 
 const POPOVER_TIME_MS = 1000;
@@ -88,11 +89,10 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     if (selectedItem !== "Axe") {
       return;
     }
-    const axeAmount = game.context.state.inventory.Axe || new Decimal(0); 
-    if(axeAmount.lessThanOrEqualTo(0))
-     return;
-    
   
+    const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
+    if(axeAmount.lessThanOrEqualTo(0))
+    return;
 
     const isPlaying = shakeGif.current?.getInfo("isPlaying");
     if (isPlaying) {
