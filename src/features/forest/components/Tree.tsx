@@ -18,11 +18,11 @@ import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import {
   canChop,
+  ChopAction,
   CHOP_ERRORS,
   TREE_RECOVERY_SECONDS,
 } from "features/game/events/chop";
 
-import {chop} from "features/game/events/chop";
 
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
