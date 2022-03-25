@@ -163,8 +163,8 @@ export const TOOLS: Record<Tool, Craftable> = {
         amount: new Decimal(5),
       },
       {
-        item: "Iron",
-        amount: new Decimal(2),
+        item: "Stone",
+        amount: new Decimal(5),
       },
     ],
     disabled: true,
@@ -172,11 +172,11 @@ export const TOOLS: Record<Tool, Craftable> = {
   Rod: {
     name: "Rod",
     description: "Used to fish trout",
-    price: new Decimal(10),
+    price: new Decimal(5),
     ingredients: [
       {
         item: "Wood",
-        amount: new Decimal(50),
+        amount: new Decimal(5),
       },
     ],
     disabled: true,
