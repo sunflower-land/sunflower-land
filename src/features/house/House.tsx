@@ -4,7 +4,11 @@ import { Modal } from "react-bootstrap";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { getAvailableUpgrades, getLevel } from "features/game/types/skills";
+import {
+  getAvailableUpgrades,
+  getLevel,
+  getRequiredXpToLevelUp,
+} from "features/game/types/skills";
 
 import house from "assets/buildings/house.png";
 import smoke from "assets/buildings/smoke.gif";
@@ -40,9 +44,15 @@ export const House: React.FC = () => {
     setIsOpen(true);
   };
 
-  const toolLevel = getLevel(gameState.context.state.skills.gathering);
-  const farmingLevel = getLevel(gameState.context.state.skills.farming);
+  const gatheringXp = gameState.context.state.skills.gathering;
+  const farmingXp = gameState.context.state.skills.farming;
+
+  const toolLevel = getLevel(gatheringXp);
+  const farmingLevel = getLevel(farmingXp);
   const totalLevel = toolLevel + farmingLevel;
+
+  const gatheringRequiredXp = getRequiredXpToLevelUp(toolLevel);
+  const farmingRequiredXp = getRequiredXpToLevelUp(farmingLevel);
 
   const Badges = () => {
     const BADGES: InventoryItemName[] = [
@@ -104,12 +114,20 @@ export const House: React.FC = () => {
             <span className="text-xxs">Farmer NFT</span>
             <span className="text-sm text-shadow">Name: ?</span>
             <span className="text-sm text-shadow">{`Level: ${totalLevel}`}</span>
+            <span className="text-xxs text-shadow">
+              {farmingXp.toNumber() + gatheringXp.toNumber()} XP
+            </span>
           </InnerPanel>
           <div className="px-2 overflow-hidden">
             <div className="flex items-center">
               <span className="text-sm">Farming</span>
               <img src={plant} className="w-4 h-4 ml-2" />
             </div>
+            <span className="text-xxs">
+              {farmingRequiredXp
+                ? `${farmingXp.toNumber()} XP/${farmingRequiredXp} XP`
+                : `${farmingXp.toNumber()} XP`}
+            </span>
             <div className="flex items-center mt-1 flex-wrap">
               {new Array(10).fill(null).map((_, index) => {
                 if (index < farmingLevel) {
@@ -134,6 +152,11 @@ export const House: React.FC = () => {
               <span className="text-sm">Tools</span>
               <img src={pickaxe} className="w-4 h-4 ml-2" />
             </div>
+            <span className="text-xxs">
+              {gatheringRequiredXp
+                ? `${gatheringXp.toNumber()} XP/${gatheringRequiredXp} XP`
+                : `${gatheringXp.toNumber()} XP`}
+            </span>
             <div className="flex items-center mt-1 flex-wrap">
               {new Array(10).fill(null).map((_, index) => {
                 if (index < toolLevel) {
