@@ -124,7 +124,11 @@ export const Field: React.FC<Props> = ({
         height: `${GRID_WIDTH_PX}px`,
       }}
     >
-      <Soil className="absolute bottom-0" field={field} showCropDetails={showCropDetails}/>
+      <Soil
+        className="absolute bottom-0"
+        field={field}
+        showCropDetails={showCropDetails}
+      />
 
       <div
         className={classNames(

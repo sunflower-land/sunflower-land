@@ -16,10 +16,14 @@ import classnames from "classnames";
 interface Props {
   field?: FieldItem;
   className?: string;
-  showCropDetails?: Boolean;
+  showCropDetails?: boolean;
 }
 
-export const Soil: React.FC<Props> = ({ field, className, showCropDetails }) => {
+export const Soil: React.FC<Props> = ({
+  field,
+  className,
+  showCropDetails,
+}) => {
   const [_, setTimer] = React.useState<number>(0);
   const setHarvestTime = React.useCallback(() => {
     setTimer((count) => count + 1);
