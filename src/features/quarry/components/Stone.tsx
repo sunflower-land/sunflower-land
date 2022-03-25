@@ -86,8 +86,8 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
       return;
     }
    
-    const wpickAmount = game.context.state.inventory.Pickaxe || new Decimal(0);
-    if(wpickAmount.lessThanOrEqualTo(0))
+    const pickaxeAmount = game.context.state.inventory.Pickaxe || new Decimal(0);
+    if(pickaxeAmount.lessThanOrEqualTo(0))
     return;
     
   
