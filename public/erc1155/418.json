@@ -1,0 +1,14 @@
+{
+  "name": "Mysterious Parsnip",
+  "description": "When this parsnip is around something strange happens and all of the parsnip seedlings grow faster!",
+  "image": "https://sunflower-land.com/play/erc1155/418.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "attributes": [
+    {
+      "display_type": "boost_percentage",
+      "trait_type": "Parsnip Growth Speed",
+      "value": 50
+    }
+  ]
+}

@@ -46,6 +46,8 @@ import fountain from "assets/nfts/fountain.gif";
 import beaver from "assets/nfts/beaver.png";
 import apprenticeBeaver from "assets/nfts/apprentice_beaver.png";
 import constructionBeaver from "assets/nfts/construction_beaver.png";
+import mysteriousParsnip from "assets/nfts/mysterious_parsnip.png";
+import carrotSword from "assets/nfts/carrot_sword.png";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
@@ -368,6 +370,14 @@ export const ITEM_DETAILS: Items = {
   "Foreman Beaver": {
     ...BLACKSMITH_ITEMS["Foreman Beaver"],
     image: constructionBeaver,
+  },
+  "Mysterious Parsnip": {
+    ...MARKET_ITEMS["Mysterious Parsnip"],
+    image: mysteriousParsnip,
+  },
+  "Carrot Sword": {
+    ...MARKET_ITEMS["Carrot Sword"],
+    image: carrotSword,
   },
 
   // FOOD

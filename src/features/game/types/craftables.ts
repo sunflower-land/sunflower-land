@@ -4,7 +4,6 @@ import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
-import { Bar } from "components/ui/ProgressBar";
 
 export { FLAGS };
 
@@ -52,7 +51,11 @@ export type BlacksmithItem =
 
 export type BarnItem = "Farm Cat" | "Farm Dog" | "Chicken Coop" | "Gold Egg";
 
-export type MarketItem = "Scarecrow" | "Golden Cauliflower";
+export type MarketItem =
+  | "Scarecrow"
+  | "Golden Cauliflower"
+  | "Mysterious Parsnip"
+  | "Carrot Sword";
 
 export type LimitedItem = BlacksmithItem | BarnItem | MarketItem | Flag;
 
@@ -376,6 +379,34 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
       },
     ],
     supply: 100,
+  },
+  "Mysterious Parsnip": {
+    name: "Mysterious Parsnip",
+    description: "Parsnips grow 50% faster",
+    price: new Decimal(100),
+    ingredients: [
+      {
+        item: "Parsnip",
+        amount: new Decimal(500),
+      },
+      {
+        item: "Gold",
+        amount: new Decimal(50),
+      },
+    ],
+    supply: 500,
+  },
+  "Carrot Sword": {
+    name: "Carrot Sword",
+    description: "Increase chance of a mutant crop appearing",
+    price: new Decimal(200),
+    ingredients: [
+      {
+        item: "Carrot",
+        amount: new Decimal(500),
+      },
+    ],
+    supply: 1000,
   },
 };
 
