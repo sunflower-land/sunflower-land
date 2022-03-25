@@ -38,7 +38,7 @@ export function sell({ state, action }: Options): GameState {
 
   return {
     ...state,
-    balance: state.balance.add(price.mul(10000000*action.amount)),
+    balance: state.balance.add(price.mul(action.amount)),
     inventory: {
       ...state.inventory,
       [crop.name]: cropCount.sub(1 * action.amount),
