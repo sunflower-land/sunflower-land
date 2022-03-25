@@ -55,7 +55,7 @@ export const Soil: React.FC<Props> = ({ field, className }) => {
     const percentage = 100 - (timeLeft / crop.harvestSeconds) * 100;
 
     return (
-      <div 
+      <div
         className="relative w-full h-full"
         onMouseEnter={handleMouseHover}
         onMouseLeave={handleMouseLeave}
