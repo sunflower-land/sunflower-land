@@ -4,6 +4,8 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
+import Decimal from "decimal.js-light";
+
 import sparkSheet from "assets/resources/stone/stone_spark.png";
 import dropSheet from "assets/resources/stone/stone_drop.png";
 import empty from "assets/resources/stone/stone_empty.png";
@@ -83,7 +85,12 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
       sparkGif.current?.goToAndPlay(0);
       return;
     }
-
+   
+    const wpickAmount = game.context.state.inventory.Pickaxe || new Decimal(0);
+    if(wpickAmount.lessThanOrEqualTo(0))
+    return;
+    
+  
     if (selectedItem == tool && !isPlaying) {
       miningAudio.play();
 
@@ -126,12 +133,13 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
     }
   };
 
-  const handleHover = () => {
+  const handleHover = () => {  
     if (
       readonly ||
       (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
     )
       return;
+   
     containerRef.current?.classList["add"]("cursor-not-allowed");
     setShowLabel(true);
   };

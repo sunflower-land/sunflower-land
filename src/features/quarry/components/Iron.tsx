@@ -4,6 +4,8 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
+import Decimal from "decimal.js-light";
+
 import sparkSheet from "assets/resources/iron/iron_spark.png";
 import dropSheet from "assets/resources/iron/iron_dropped.png";
 import empty from "assets/resources/iron/iron_empty.png";
@@ -83,7 +85,11 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
       sparkGif.current?.goToAndPlay(0);
       return;
     }
-
+   
+    const spickAmount = game.context.state.inventory["Stone Pickaxe"] || new Decimal(0);
+    if(spickAmount.lessThanOrEqualTo(0))
+    return;
+    
     if (selectedItem === tool && !isPlaying) {
       miningAudio.play();
 
