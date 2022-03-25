@@ -4,16 +4,24 @@ import { SkillName, SKILL_TREE } from "features/game/types/skills";
 
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
+import arrowLeft from "assets/icons/arrow_left.png";
 
-export const SkillTree: React.FC = () => {
+interface Props {
+  back: () => void;
+}
+
+export const SkillTree: React.FC<Props> = ({ back }) => {
   return (
     <>
-      <span className="text-base">Skills</span>
+      <div className="flex">
+        <img className="h-6 mr-3 cursor-pointer" src={arrowLeft} alt="back" onClick={back} />
+        <span className="text-base">Skills</span>
+      </div>
       <div className="flex flex-wrap justify-around overflow-y-auto scrollable max-h-96 pt-2 pr-1 mt-2">
         {(Object.keys(SKILL_TREE) as SkillName[]).map((skillName) => {
           const skill = SKILL_TREE[skillName];
           return (
-            <OuterPanel className="w-full  my-2 p-1 relative" key={skillName}>
+            <OuterPanel className="w-full my-2 p-1 relative" key={skillName}>
               <span
                 className={classNames(
                   "text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md capitalize",

@@ -88,7 +88,7 @@ export const House: React.FC = () => {
     }
 
     if (isSkillTreeOpen) {
-      return <SkillTree />;
+      return <SkillTree back={open} />;
     }
 
     const choices = getAvailableUpgrades(gameState.context.state);
