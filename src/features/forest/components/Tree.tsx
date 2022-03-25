@@ -88,13 +88,12 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     if (selectedItem !== "Axe") {
       return;
     }
-    const axeAmount = game.context.state.inventory.Axe || new Decimal(0); 
+    
+  const axeAmount = game.context.state.inventory.Axe || new Decimal(0); 
     if(axeAmount.lessThanOrEqualTo(0))
      return;
     
-  
-
-    const isPlaying = shakeGif.current?.getInfo("isPlaying");
+  const isPlaying = shakeGif.current?.getInfo("isPlaying");
     if (isPlaying) {
       return;
     }
