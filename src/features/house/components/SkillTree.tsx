@@ -14,7 +14,12 @@ export const SkillTree: React.FC<Props> = ({ back }) => {
   return (
     <>
       <div className="flex">
-        <img className="h-6 mr-3 cursor-pointer" src={arrowLeft} alt="back" onClick={back} />
+        <img
+          className="h-6 mr-3 cursor-pointer"
+          src={arrowLeft}
+          alt="back"
+          onClick={back}
+        />
         <span className="text-base">Skills</span>
       </div>
       <div className="flex flex-wrap justify-around overflow-y-auto scrollable max-h-96 pt-2 pr-1 mt-2">

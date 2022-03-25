@@ -16,6 +16,7 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
+import { KNOWN_IDS } from "features/game/types";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -34,14 +35,14 @@ const Items: React.FC<{
   const { ref: itemContainerRef, showScrollbar } =
     useShowScrollbar(TAB_CONTENT_HEIGHT);
 
-  const ordered = Object.values(items).sort((a, b) =>
-    a.name > b.name ? 1 : -1
-  );
-
+  const ordered = Object.values(items);
   return (
     <div
       ref={itemContainerRef}
-      style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+      style={{
+        maxHeight: TAB_CONTENT_HEIGHT,
+        minHeight: (TAB_CONTENT_HEIGHT * 2) / 3,
+      }}
       className={classNames("overflow-y-auto w-3/5 pt-1 mr-2", {
         scrollable: showScrollbar,
       })}
@@ -153,7 +154,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
         inventory={inventory}
         onClick={setSelected}
       />
-      <OuterPanel className="flex-1 w-1/3">
+      <OuterPanel className="flex-1 w-1/3 flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative">
           {soldOut && (
             <span className="bg-blue-600 text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md">
@@ -220,6 +221,16 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
 
           {Action()}
         </div>
+        <a
+          href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${
+            KNOWN_IDS[selected.name]
+          }`}
+          className="underline text-xs hover:text-blue-500 mt-1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open Sea
+        </a>
       </OuterPanel>
     </div>
   );

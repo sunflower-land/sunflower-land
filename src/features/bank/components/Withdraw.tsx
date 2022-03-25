@@ -9,7 +9,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import * as Auth from "features/auth/lib/Provider";
 import { KNOWN_IDS } from "features/game/types";
 import { shortAddress } from "features/hud/components/Address";
-import { LimitedItems, TOOLS } from "features/game/types/craftables";
+import { BLACKSMITH_ITEMS, TOOLS } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 
 import { Button } from "components/ui/Button";
@@ -30,7 +30,7 @@ type SelectedItem = {
 };
 
 const WITHDRAWABLE_ITEMS = Object.keys({
-  ...LimitedItems,
+  ...BLACKSMITH_ITEMS,
   ...TOOLS,
   ...RESOURCES,
 }) as InventoryItemName[];
