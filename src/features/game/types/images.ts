@@ -106,7 +106,7 @@ import chicken from "assets/resources/chicken.png";
 import questionMark from "assets/icons/expression_confused.png";
 
 // Skills
-import plant from "assets/icons/plant.png";
+import greenThumb from "assets/skills/green_thumb.png";
 import goldRush from "assets/skills/gold_rush.png";
 import prospector from "assets/skills/prospector.png";
 import wrangler from "assets/skills/wrangler.png";
@@ -390,7 +390,7 @@ export const ITEM_DETAILS: Items = {
    */
   "Green Thumb": {
     description: SKILL_TREE["Green Thumb"].perks[0],
-    image: plant,
+    image: greenThumb,
   },
   "Barn Manager": {
     description: SKILL_TREE["Barn Manager"].perks[0],
