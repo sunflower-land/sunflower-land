@@ -114,12 +114,9 @@ export const House: React.FC = () => {
             <span className="text-xxs">Farmer NFT</span>
             <span className="text-sm text-shadow">Name: ?</span>
             <span className="text-sm text-shadow">{`Level: ${totalLevel}`}</span>
-            <span className="text-xxs text-shadow">
-              {farmingXp.toNumber() + gatheringXp.toNumber()} XP
-            </span>
           </InnerPanel>
           <div className="px-2 overflow-hidden">
-            <div className="flex items-center">
+            <div className="flex items-center -mb-2">
               <span className="text-sm">Farming</span>
               <img src={plant} className="w-4 h-4 ml-2" />
             </div>
@@ -148,7 +145,7 @@ export const House: React.FC = () => {
               })}
               <span>{farmingLevel}</span>
             </div>
-            <div className="flex items-center mt-1">
+            <div className="flex items-center mt-2  -mb-2">
               <span className="text-sm">Tools</span>
               <img src={pickaxe} className="w-4 h-4 ml-2" />
             </div>
