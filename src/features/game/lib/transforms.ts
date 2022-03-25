@@ -1,5 +1,13 @@
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName, Rock, Tree } from "../types/game";
+import {
+  FieldItem,
+  GameState,
+  InventoryItemName,
+  Rock,
+  Tree,
+} from "../types/game";
+import { PastAction } from "./gameMachine";
+import { processEvent } from "./processEvent";
 
 /**
  * Converts API response into a game state
@@ -70,53 +78,20 @@ export function makeGame(farm: any): GameState {
   };
 }
 
-type Rocks = Record<number, Rock>;
-
 /**
- * Updates a rock with the new amount of mineral inside of it
- */
-function updateRocks(oldRocks: Rocks, newRocks: Rocks): Rocks {
-  return Object.keys(oldRocks).reduce((rocks, rockId) => {
-    const id = Number(rockId);
-    const rock = oldRocks[id];
-    return {
-      ...rocks,
-      [id]: {
-        ...rock,
-        amount: newRocks[id].amount,
-      } as Rock,
-    };
-  }, {} as Record<number, Rock>);
-}
-
-/**
- * Merges in server side changes into the local state
+ * Reapply local events to the server version of the game
  */
 export function updateGame(
   newGameState: GameState,
-  oldGameState: GameState
+  actions: PastAction[]
 ): GameState {
-  if (!newGameState) {
-    return oldGameState;
+  if (actions.length === 0) {
+    return newGameState;
   }
 
-  // Only update random number values generated from the server
-  return {
-    ...oldGameState,
-    // Update tree with the random amount of wood from the server
-    trees: Object.keys(oldGameState.trees).reduce((trees, treeId) => {
-      const id = Number(treeId);
-      const tree = oldGameState.trees[id];
-      return {
-        ...trees,
-        [id]: {
-          ...tree,
-          wood: newGameState.trees[id].wood,
-        },
-      };
-    }, {} as Record<number, Tree>),
-    stones: updateRocks(oldGameState.stones, newGameState.stones),
-    iron: updateRocks(oldGameState.iron, newGameState.iron),
-    gold: updateRocks(oldGameState.gold, newGameState.gold),
-  };
+  const updated = actions.reduce((state, action) => {
+    return processEvent(state, action);
+  }, newGameState);
+
+  return updated;
 }

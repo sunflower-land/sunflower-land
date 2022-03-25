@@ -258,7 +258,7 @@ export function startGame(authContext: Options) {
               const saveAt = (event as any)?.data?.saveAt || new Date();
 
               if (context.actions.length === 0) {
-                return { verified: true, saveAt };
+                return { verified: true, saveAt, farm: context.state };
               }
 
               const { verified, farm } = await autosave({
@@ -290,14 +290,17 @@ export function startGame(authContext: Options) {
               },
               {
                 target: "playing",
-                // Remove the events that were submitted
-                actions: assign((context: Context, event) => ({
-                  actions: context.actions.filter(
+                actions: assign((context: Context, event) => {
+                  // Actions that occured since the server request
+                  const recentActions = context.actions.filter(
                     (action) =>
                       action.createdAt.getTime() > event.data.saveAt.getTime()
-                  ),
-                  state: updateGame(event.data.farm, context.state),
-                })),
+                  );
+                  return {
+                    actions: recentActions,
+                    state: updateGame(event.data.farm, recentActions),
+                  };
+                }),
               },
             ],
             onError: {
