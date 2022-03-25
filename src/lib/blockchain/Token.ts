@@ -33,4 +33,15 @@ export class Token {
 
     return balance;
   }
+
+  /**
+   * Onchain SFL balance
+   */
+  public async totalSupply() {
+    const supply = await this.contract.methods
+      .totalSupply()
+      .call({ from: this.account });
+
+    return supply;
+  }
 }
