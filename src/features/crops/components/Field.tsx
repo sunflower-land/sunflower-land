@@ -33,6 +33,7 @@ export const Field: React.FC<Props> = ({
   const [game] = useActor(gameService);
   const clickedAt = useRef<number>(0);
   const field = game.context.state.fields[fieldIndex];
+  const [showCropDetails, setShowCropDetails] = useState(false);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -40,6 +41,14 @@ export const Field: React.FC<Props> = ({
 
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
     setShowPopover(false);
+  };
+
+  const handleMouseHover = () => {
+    setShowCropDetails(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowCropDetails(false);
   };
 
   const onClick = () => {
@@ -107,13 +116,15 @@ export const Field: React.FC<Props> = ({
 
   return (
     <div
+      onMouseEnter={handleMouseHover}
+      onMouseLeave={handleMouseLeave}
       className={classNames("relative group", className)}
       style={{
         width: `${GRID_WIDTH_PX}px`,
         height: `${GRID_WIDTH_PX}px`,
       }}
     >
-      <Soil className="absolute bottom-0" field={field} />
+      <Soil className="absolute bottom-0" field={field} showCropDetails={showCropDetails}/>
 
       <div
         className={classNames(
