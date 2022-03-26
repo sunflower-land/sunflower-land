@@ -83,8 +83,8 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
       return;
     }
 
-    const IronpickaxeAmount = game.context.state.inventory["Iron Pickaxe"] || new Decimal(0);
-    if(IronpickaxeAmount.lessThanOrEqualTo(0))
+    const ironpickaxeAmount = game.context.state.inventory["Iron Pickaxe"] || new Decimal(0);
+    if(ironpickaxeAmount.lessThanOrEqualTo(0))
     return;
     
     if (selectedItem == tool && !isPlaying) {
