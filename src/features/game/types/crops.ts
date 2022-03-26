@@ -20,6 +20,7 @@ export type Crop = {
   harvestSeconds: number;
   name: CropName;
   description: string;
+  experience: number;
 };
 
 /**
@@ -33,6 +34,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 1 * 60,
     name: "Sunflower",
     description: "A sunny flower",
+    experience: 0.01,
   },
   Potato: {
     buyPrice: marketRate(0.1),
@@ -40,6 +42,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 5 * 60,
     name: "Potato",
     description: "A nutritious crop for any diet",
+    experience: 0.03,
   },
   Pumpkin: {
     buyPrice: marketRate(0.2),
@@ -47,6 +50,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 30 * 60,
     name: "Pumpkin",
     description: "A nutritious crop for any diet",
+    experience: 0.1,
   },
   Carrot: {
     buyPrice: marketRate(0.5),
@@ -54,6 +58,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 60 * 60,
     name: "Carrot",
     description: "A nutritious crop for any diet",
+    experience: 0.15,
   },
   Cabbage: {
     buyPrice: marketRate(1),
@@ -61,15 +66,15 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 2 * 60 * 60,
     name: "Cabbage",
     description: "A nutritious crop for any diet",
+    experience: 0.25,
   },
   Beetroot: {
     buyPrice: marketRate(2),
     sellPrice: marketRate(2.8),
     harvestSeconds: 4 * 60 * 60,
-
     name: "Beetroot",
-
     description: "A nutritious crop for any diet",
+    experience: 0.5,
   },
   Cauliflower: {
     buyPrice: marketRate(3),
@@ -77,6 +82,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 8 * 60 * 60,
     name: "Cauliflower",
     description: "A nutritious crop for any diet",
+    experience: 1,
   },
   Parsnip: {
     buyPrice: marketRate(5),
@@ -84,6 +90,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 12 * 60 * 60,
     name: "Parsnip",
     description: "A nutritious crop for any diet",
+    experience: 1.5,
   },
   Radish: {
     buyPrice: marketRate(7),
@@ -91,6 +98,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 24 * 60 * 60,
     name: "Radish",
     description: "A nutritious crop for any diet",
+    experience: 2,
   },
   Wheat: {
     buyPrice: marketRate(0.1),
@@ -98,6 +106,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 5 * 60,
     name: "Wheat",
     description: "A nutritious crop for any diet",
+    experience: 100,
   },
 });
 

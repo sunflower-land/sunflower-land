@@ -7,7 +7,7 @@ import selectBox from "assets/ui/select/select_box.png";
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
 
-import { CropName } from "features/game/types/crops";
+import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Soil } from "./Soil";
@@ -89,10 +89,17 @@ export const Field: React.FC<Props> = ({
 
       harvestAudio.play();
 
+      const amountHarvested = field.multiplier || 1;
+      const expPerCrop = CROPS()[field.name].experience;
+      const expGained = field.multiplier ? field.multiplier * expPerCrop : expPerCrop;
+
       displayPopover(
-        <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
-          <img src={ITEM_DETAILS[field.name].image} className="w-4 mr-1" />
-          <span>{`+${field.multiplier || 1}`}</span>
+        <div className="flex flex-col items-center justify-center text-xs text-white text-shadow overflow-visible">
+          <div className="flex">
+            <img src={ITEM_DETAILS[field.name].image} className="w-4 mr-1" />
+            <span>{`+${amountHarvested}`}</span>
+          </div>
+          <span>{`+${expGained} XP`}</span>
         </div>
       );
     } catch (e: any) {
@@ -117,7 +124,7 @@ export const Field: React.FC<Props> = ({
 
       <div
         className={classNames(
-          "transition-opacity absolute -bottom-2 w-40 -left-16 z-20 pointer-events-none",
+          "transition-opacity absolute -bottom-3 w-40 -left-16 z-20 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
