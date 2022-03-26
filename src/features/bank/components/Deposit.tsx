@@ -1,6 +1,6 @@
+import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import React, { useContext, useState } from "react";
 
 import { CopySvg } from "components/ui/CopyField";
 import { OuterPanel } from "components/ui/Panel";
@@ -59,6 +59,7 @@ export const Deposit: React.FC = () => {
 
   return (
     <div>
+      {/* Address card */}
       <div className="h-14 w-full" style={{ perspective: "1000px" }}>
         <div className="relative">
           <OuterPanel
@@ -71,7 +72,7 @@ export const Deposit: React.FC = () => {
             }
           >
             <div
-              className="flex items-center absolute w-full h-full px-2"
+              className="flex items-center absolute w-full h-full px-2 rotate-0"
               style={{ backfaceVisibility: "hidden" }}
             >
               <img src={farm} className="h-8 mr-2 z-50" />
@@ -118,6 +119,7 @@ export const Deposit: React.FC = () => {
           </div>
         </div>
       </div>
+      {/* Instructions */}
       <span className="text-sm sm:text-lg text-shadow underline block text-center mb-4 mt-6">
         How to deposit?
       </span>
