@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import classNames from "classnames";
 import { SkillName, SKILL_TREE } from "features/game/types/skills";
 
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import arrowLeft from "assets/icons/arrow_left.png";
+import { useActor } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   back: () => void;
 }
 
 export const SkillTree: React.FC<Props> = ({ back }) => {
+  const { gameService } = useContext(Context);
+  const [{ context: { state } }] = useActor(gameService);
+
   return (
     <>
       <div className="flex">
@@ -25,14 +30,16 @@ export const SkillTree: React.FC<Props> = ({ back }) => {
       <div className="flex flex-wrap justify-around overflow-y-auto scrollable max-h-96 pt-2 pr-1 mt-2">
         {(Object.keys(SKILL_TREE) as SkillName[]).map((skillName) => {
           const skill = SKILL_TREE[skillName];
+          const skillAcquired = state.inventory[skillName]?.equals(1);
           return (
-            <OuterPanel className="w-full my-2 p-1 relative" key={skillName}>
+            <OuterPanel className={classNames("w-full my-2 p-1 relative", { "grayscale-[50%]": !skillAcquired })} key={skillName}>
               <span
                 className={classNames(
                   "text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md capitalize",
                   {
                     "bg-green-600": skill.profession === "farming",
-                    "bg-stone-500": skill.profession === "gathering",
+                    "bg-[#7C4700]": skill.profession === "gathering",
+                    "grayscale-[60%]": !skillAcquired
                   }
                 )}
               >
@@ -43,7 +50,7 @@ export const SkillTree: React.FC<Props> = ({ back }) => {
                 <img
                   src={ITEM_DETAILS[skillName].image}
                   alt="farming"
-                  className="w-6 mx-2"
+                  className={classNames("w-6 mx-2", { grayscale: !skillAcquired })}
                 />
               </div>
               <ul className="list-disc">
