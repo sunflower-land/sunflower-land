@@ -137,7 +137,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
       <>
         <Button
           disabled={lessFunds() || lessIngredients()}
-          className="text-xs mt-1"
+          className="text-xs mt-1 w-11/12"
           onClick={() => craft()}
         >
           Craft
