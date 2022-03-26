@@ -44,7 +44,14 @@ export const InventoryTabContent = ({
   const categories = Object.keys(tabItems) as InventoryItemName[];
 
   useEffect(() => {
-    const defaultSelectedItem = getShortcuts()[0];
+    const firstCategoryWithItem = categories.find(
+      (category) => !!inventoryMapping[category]?.length
+    );
+
+    const defaultSelectedItem =
+      getShortcuts()[0] ||
+      // Fallback for when a no active item selected
+      (firstCategoryWithItem && inventoryMapping[firstCategoryWithItem][0]);
 
     if (defaultSelectedItem) {
       setDefaultSelectedItem(defaultSelectedItem);
@@ -64,8 +71,6 @@ export const InventoryTabContent = ({
 
     return acc;
   }, {} as Record<string, InventoryItemName[]>);
-
-  console.log({ selectedItem });
 
   const findIfItemsExistForCategory = (category: string) => {
     return Object.keys(inventoryMapping).includes(category);
