@@ -5,27 +5,10 @@ import { Inbox } from "./components/Inbox";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { Message } from "./types/message";
+import { cleanupCache, getInbox, getReadMessages, updateCache } from "./lib/mail";
 
 import baldMan from "assets/npcs/bald_man.png";
 import alerted from "assets/icons/expression_alerted.png";
-
-const MESSAGES_KEY = "readMessages";
-
-/**
- * MVP1:
- *  - always change id to reflect unread
- * TODO:
- * - api call (separate file)
- */
-const getInbox = () => {
-  return [
-    {
-      id: "2022-02-28-1",
-      title: "Welcome to Beta!",
-      body: `Welcome to open beta! The game is still in its early stages and we are so grateful that you are here.`,
-    },
-  ];
-};
 
 export const Mail: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -33,24 +16,21 @@ export const Mail: React.FC = () => {
   const [hasUnread, setHasUnread] = useState<boolean>(false);
 
   useEffect(() => {
-    const readMessages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || "[]");
-    const _inbox = getInbox().map((msg) => ({
-      ...msg,
-      unread: !readMessages?.includes(msg.id),
-    }));
+    const readMessages = getReadMessages();
 
-    setInbox(_inbox);
+    const initialize = async () => {
+      let _inbox: any = await getInbox();
 
-    // exclude non existing ids
-    const newReadMessages = _inbox
-      .filter((msg) => !msg.unread)
-      .map((msg) => msg.id);
+      _inbox = _inbox.map((msg: Message) => ({
+        ...msg,
+        unread: !readMessages?.includes(msg.id),
+      }));
 
-    if (newReadMessages.length) {
-      localStorage.setItem(MESSAGES_KEY, JSON.stringify(newReadMessages));
-    } else {
-      localStorage.removeItem(MESSAGES_KEY);
-    }
+      setInbox(_inbox);
+      cleanupCache(_inbox);
+    };
+
+    initialize();
   }, []);
 
   useEffect(() => {
@@ -67,13 +47,7 @@ export const Mail: React.FC = () => {
     newInbox[index].unread = false;
     setInbox(newInbox);
 
-    const readMessages = localStorage.getItem(MESSAGES_KEY);
-    const newReadMessages = [
-      ...JSON.parse(readMessages || "[]"),
-      newInbox[index].id,
-    ];
-
-    localStorage.setItem(MESSAGES_KEY, JSON.stringify(newReadMessages));
+    updateCache(newInbox[index].id);
   };
 
   return (

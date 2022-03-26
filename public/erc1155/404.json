@@ -1,34 +1,14 @@
 {
-  "name": "Sunflower Statue",
-  "description": "Keep the crows away from your wheat with this rare item.",
+  "name": "Scarecrow",
+  "description": "Keep the crows away from your crops with this rare item.",
   "image": "https://sunflower-land.com/play/erc1155/401.png",
   "decimals": 0,
   "external_url": "https://docs.sunflower-land.com/crafting-guide",
   "attributes": [
     {
       "display_type": "boost_percentage",
-      "trait_type": "Wheat Growth Speed",
-      "value": 100
-    },
-    {
-      "display_type": "number",
-      "trait_type": "Total Supply",
-      "value": 2000
-    },
-    {
-      "display_type": "number",
-      "trait_type": "Sunflower Land Tokens",
-      "value": 50
-    },
-    {
-      "display_type": "number",
-      "trait_type": "Wheat",
-      "value": 10
-    },
-    {
-      "display_type": "number",
-      "trait_type": "Wood",
-      "value": 10
+      "trait_type": "Crop Growth Speed",
+      "value": 20
     }
   ]
 }

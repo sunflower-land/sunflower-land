@@ -318,16 +318,15 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
         item: "Woody the Beaver",
       },
     ],
-    requires: "Lumberjack",
     supply: 5000,
   },
   "Foreman Beaver": {
     name: "Foreman Beaver",
     description: "Cut trees without axes",
-    price: new Decimal(200),
+    price: new Decimal(0),
     ingredients: [
       {
-        amount: new Decimal(1000),
+        amount: new Decimal(5000),
         item: "Wood",
       },
       {
@@ -336,27 +335,26 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
       },
     ],
     supply: 300,
-    requires: "Lumberjack",
   },
 };
 
 export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
   Scarecrow: {
     name: "Scarecrow",
-    description: "Grow wheat faster",
+    description: "Grow crops 20% faster",
     price: new Decimal(50),
     ingredients: [
       {
         item: "Wheat",
-        amount: new Decimal(10),
+        amount: new Decimal(100),
       },
       {
         item: "Wood",
-        amount: new Decimal(10),
+        amount: new Decimal(50),
       },
     ],
     limit: 1,
-    supply: 5000,
+    supply: 50000,
     disabled: true,
     section: Section.Scarecrow,
   },
@@ -367,15 +365,14 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
     ingredients: [
       {
         item: "Cauliflower",
-        amount: new Decimal(100),
+        amount: new Decimal(500),
       },
       {
         item: "Gold",
-        amount: new Decimal(10),
+        amount: new Decimal(100),
       },
     ],
     supply: 100,
-    requires: "Green Thumb",
   },
 };
 
@@ -387,18 +384,18 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
     ingredients: [
       {
         item: "Wood",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(10),
+        amount: new Decimal(100),
       },
       {
         item: "Gold",
-        amount: new Decimal(10),
+        amount: new Decimal(50),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(2000),
       },
     ],
-    supply: 2000,
+    supply: 1000,
     limit: 1,
     section: Section["Chicken Coop"],
   },
@@ -433,7 +430,6 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
       },
     ],
     supply: 250,
-    requires: "Barn Manager",
   },
 };
 
