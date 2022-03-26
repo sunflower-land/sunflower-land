@@ -14,6 +14,7 @@ import { Soil } from "./Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 
 const POPOVER_TIME_MS = 1000;
+const HOVER_TIMEOUT = 1000;
 
 interface Props {
   selectedItem?: InventoryItemName;
@@ -43,15 +44,33 @@ export const Field: React.FC<Props> = ({
     setShowPopover(false);
   };
 
+  let timeoutId: null | ReturnType<typeof setTimeout> = null
+
   const handleMouseHover = () => {
-    setShowCropDetails(true);
+    setShowCropDetails(false);
+
+    // Only show hover details after 1s hover
+    timeoutId = setTimeout(() => {
+      setShowCropDetails(true);
+    }, HOVER_TIMEOUT);
   };
 
   const handleMouseLeave = () => {
     setShowCropDetails(false);
+    clearHoverTimeout()
   };
 
+  // Detects and clears if timeout function is running
+  const clearHoverTimeout = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  }
+
   const onClick = () => {
+    // Prevents triggering hover when speed planting
+    clearHoverTimeout()
+
     // Small buffer to prevent accidental double clicks
     const now = Date.now();
     if (now - clickedAt.current < 100) {
