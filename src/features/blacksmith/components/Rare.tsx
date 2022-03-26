@@ -96,7 +96,11 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
   };
 
   if (isLoading) {
-    return <span>Loading...</span>;
+    return (
+      <div className="h-60">
+        <span className="loading">Loading...</span>
+      </div>
+    );
   }
 
   let amountLeft = 0;
@@ -137,7 +141,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
       <>
         <Button
           disabled={lessFunds() || lessIngredients()}
-          className="text-xs mt-1 w-11/12"
+          className="text-xs mt-1"
           onClick={() => craft()}
         >
           Craft
@@ -154,8 +158,8 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
         inventory={inventory}
         onClick={setSelected}
       />
-      <OuterPanel className="flex-1 w-1/3 flex flex-col justify-between items-center">
-        <div className="flex flex-col justify-center items-center p-2 relative">
+      <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
+        <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {soldOut && (
             <span className="bg-blue-600 text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md">
               Sold out
