@@ -10,6 +10,7 @@ export type FieldItem = {
   name: CropName;
   // Epoch time in milliseconds
   plantedAt: number;
+  multiplier?: number;
 };
 
 export type Tree = {

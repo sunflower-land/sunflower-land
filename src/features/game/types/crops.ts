@@ -95,7 +95,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
   Wheat: {
     buyPrice: marketRate(0.1),
     sellPrice: marketRate(0.14),
-    harvestSeconds: 5 * 60,
+    harvestSeconds: 72 * 60 * 60,
     name: "Wheat",
     description: "A nutritious crop for any diet",
   },
@@ -167,7 +167,7 @@ export const SEEDS: () => Record<SeedName, Craftable> = () => ({
   "Wheat Seed": {
     name: "Wheat Seed",
     description: "A nutritious crop for any diet",
-    price: marketRate(2),
+    price: marketRate(10),
     ingredients: [],
     requires: "Pumpkin Soup",
     disabled: true,

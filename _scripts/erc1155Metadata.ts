@@ -569,6 +569,33 @@ import { ITEM_DETAILS } from "../src/features/game/types/images";
 
 async function jsonFiles() {
   const names = [
+    "Australian Flag",
+    "Belgian Flag",
+    "Brazilian Flag",
+    "Chinese Flag",
+    "Finnish Flag",
+    "French Flag",
+    "German Flag",
+    "Indonesian Flag",
+    "Indian Flag",
+    "Iranian Flag",
+    "Italian Flag",
+    "Japanese Flag",
+    "Moroccan Flag",
+    "Dutch Flag",
+    "Philippine Flag",
+    "Polish Flag",
+    "Portuguese Flag",
+    "Russian Flag",
+    "Saudi Arabian Flag",
+    "South Korean Flag",
+    "Spanish Flag",
+    "Sunflower Flag",
+    "Thai Flag",
+    "Turkish Flag",
+    "Ukrainian Flag",
+    "American Flag",
+    "Vietnamese Flag",
     "Canadian Flag",
     "Singaporean Flag",
     "British Flag",
@@ -597,23 +624,7 @@ async function jsonFiles() {
         image: `https://sunflower-land.com/play/erc1155/${id}.gif`,
         decimals: 0,
         external_url: "https://docs.sunflower-land.com/crafting-guide",
-        attributes: [
-          {
-            display_type: "number",
-            trait_type: "Total Supply",
-            value: 5000,
-          },
-          {
-            display_type: "number",
-            trait_type: "Sunflower Land Tokens",
-            value: 50,
-          },
-          {
-            display_type: "number",
-            trait_type: "Wood",
-            value: 10,
-          },
-        ],
+        attributes: [],
       };
 
       const fileName = `${id}.json`;

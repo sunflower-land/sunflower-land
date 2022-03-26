@@ -1,1 +1,18 @@
-{"name":"Barn Manager","description":"A skill that provides a unique boost","image":"https://sunflower-land.com/play/erc1155/702.png","decimals":0}
+{
+  "name": "Barn Manager",
+  "description": "A level 5 farming skill badge",
+  "image": "https://sunflower-land.com/play/erc1155/702.png",
+  "decimals": 0,
+  "attributes": [
+    {
+      "display_type": "boost_percentage",
+      "trait_type": "Animal Produce increase",
+      "value": 5
+    },
+    {
+      "display_type": "number",
+      "trait_type": "Level",
+      "value": 5
+    }
+  ]
+}

@@ -106,7 +106,7 @@ import chicken from "assets/resources/chicken.png";
 import questionMark from "assets/icons/expression_confused.png";
 
 // Skills
-import plant from "assets/icons/plant.png";
+import greenThumb from "assets/skills/green_thumb.png";
 import goldRush from "assets/skills/gold_rush.png";
 import prospector from "assets/skills/prospector.png";
 import wrangler from "assets/skills/wrangler.png";
@@ -116,7 +116,14 @@ import logger from "assets/skills/logger.png";
 import lumberjack from "assets/skills/lumberjack.png";
 
 import { InventoryItemName } from "./game";
-import { FOODS, LimitedItems, TOOLS, FLAGS } from "./craftables";
+import {
+  FOODS,
+  TOOLS,
+  FLAGS,
+  BLACKSMITH_ITEMS,
+  MARKET_ITEMS,
+  BARN_ITEMS,
+} from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
@@ -295,71 +302,71 @@ export const ITEM_DETAILS: Items = {
   // NFTs
 
   "Sunflower Statue": {
-    ...LimitedItems["Sunflower Statue"],
+    ...BLACKSMITH_ITEMS["Sunflower Statue"],
     image: sunflowerStatue,
   },
   "Potato Statue": {
-    ...LimitedItems["Potato Statue"],
+    ...BLACKSMITH_ITEMS["Potato Statue"],
     image: potatoStatue,
   },
   Scarecrow: {
-    ...LimitedItems["Scarecrow"],
+    ...MARKET_ITEMS["Scarecrow"],
     image: scarecrow,
   },
   "Christmas Tree": {
-    ...LimitedItems["Christmas Tree"],
+    ...BLACKSMITH_ITEMS["Christmas Tree"],
     image: christmasTree,
   },
   Gnome: {
-    ...LimitedItems["Gnome"],
+    ...BLACKSMITH_ITEMS["Gnome"],
     image: gnome,
   },
   "Gold Egg": {
-    ...LimitedItems["Gold Egg"],
+    ...BARN_ITEMS["Gold Egg"],
     image: goldEgg,
   },
   "Farm Cat": {
-    ...LimitedItems["Farm Cat"],
+    ...BARN_ITEMS["Farm Cat"],
     image: farmCat,
   },
   "Farm Dog": {
-    ...LimitedItems["Farm Dog"],
+    ...BARN_ITEMS["Farm Dog"],
     image: farmDog,
   },
   "Chicken Coop": {
-    ...LimitedItems["Chicken Coop"],
+    ...BARN_ITEMS["Chicken Coop"],
     image: chickenCoop,
   },
   "Golden Cauliflower": {
-    ...LimitedItems["Golden Cauliflower"],
+    ...MARKET_ITEMS["Golden Cauliflower"],
     image: goldenCauliflower,
   },
   "Sunflower Rock": {
-    ...LimitedItems["Sunflower Rock"],
+    ...BLACKSMITH_ITEMS["Sunflower Rock"],
     image: sunflowerRock,
   },
   "Sunflower Tombstone": {
-    ...LimitedItems["Sunflower Tombstone"],
+    ...BLACKSMITH_ITEMS["Sunflower Tombstone"],
     image: sunflowerTombstone,
   },
   "Goblin Crown": {
-    ...LimitedItems["Goblin Crown"],
+    ...BLACKSMITH_ITEMS["Goblin Crown"],
     image: crown,
   },
   Fountain: {
-    ...LimitedItems["Fountain"],
+    ...BLACKSMITH_ITEMS["Fountain"],
     image: fountain,
   },
   "Woody the Beaver": {
-    ...LimitedItems["Woody the Beaver"],
+    ...BLACKSMITH_ITEMS["Woody the Beaver"],
     image: beaver,
   },
   "Apprentice Beaver": {
-    ...LimitedItems["Apprentice Beaver"],
+    ...BLACKSMITH_ITEMS["Apprentice Beaver"],
     image: apprenticeBeaver,
   },
   "Foreman Beaver": {
-    ...LimitedItems["Foreman Beaver"],
+    ...BLACKSMITH_ITEMS["Foreman Beaver"],
     image: constructionBeaver,
   },
 
@@ -383,7 +390,7 @@ export const ITEM_DETAILS: Items = {
    */
   "Green Thumb": {
     description: SKILL_TREE["Green Thumb"].perks[0],
-    image: plant,
+    image: greenThumb,
   },
   "Barn Manager": {
     description: SKILL_TREE["Barn Manager"].perks[0],

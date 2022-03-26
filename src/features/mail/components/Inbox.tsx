@@ -9,13 +9,16 @@ import alerted from "assets/icons/expression_alerted.png";
 
 interface Props {
   inbox: Message[];
+  isLoading: boolean;
   onRead: (index: number) => void;
 }
 
-export const Inbox: React.FC<Props> = ({ inbox, onRead }) => {
+export const Inbox: React.FC<Props> = ({ inbox, isLoading, onRead }) => {
   return (
     <OuterPanel className="relative">
-      {inbox.length ? (
+      {isLoading ? (
+        <InnerPanel>Loading...</InnerPanel>
+      ) : inbox.length ? (
         <Accordion>
           {inbox.map(({ title, body, unread }, index) => (
             <Accordion.Item
@@ -41,7 +44,7 @@ export const Inbox: React.FC<Props> = ({ inbox, onRead }) => {
           ))}
         </Accordion>
       ) : (
-        <span>No messages</span>
+        <InnerPanel>No messages</InnerPanel>
       )}
     </OuterPanel>
   );

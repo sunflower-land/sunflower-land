@@ -6,26 +6,6 @@
   "external_url": "https://docs.sunflower-land.com/crafting-guide",
   "attributes": [
     {
-      "display_type": "number",
-      "trait_type": "Total Supply",
-      "value": 5000
-    },
-    {
-      "display_type": "number",
-      "trait_type": "Sunflower Land Tokens",
-      "value": 100
-    },
-    {
-      "display_type": "number",
-      "trait_type": "Wood",
-      "value": 500
-    },
-    {
-      "display_type": "number",
-      "trait_type": "Woody the Beaver",
-      "value": 1
-    },
-    {
       "display_type": "boost_percentage",
       "trait_type": "Tree Recovery Speed",
       "value": 500

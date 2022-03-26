@@ -4,21 +4,5 @@
   "image": "https://sunflower-land.com/play/erc1155/413.png",
   "decimals": 0,
   "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "attributes": [
-    {
-      "display_type": "number",
-      "trait_type": "Total Supply",
-      "value": 5000
-    },
-    {
-      "display_type": "number",
-      "trait_type": "Sunflower Land Tokens",
-      "value": 5
-    },
-    {
-      "display_type": "number",
-      "trait_type": "Gold",
-      "value": 1
-    }
-  ]
+  "attributes": []
 }
