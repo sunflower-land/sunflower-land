@@ -43,7 +43,7 @@ export async function getInbox() {
       title: "SFL Supply",
       body: `Total SFL: ${sflBalance.toDecimalPlaces(3, Decimal.ROUND_DOWN)}  
         &nbsp;  
-        Note: this value is read from the Blockchain. Farmers may not have synced yet.
+        Note: this value is read from the Blockchain. Other farmers may not have synced yet.
       `,
     },
     {
