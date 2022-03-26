@@ -6,14 +6,15 @@ import lightBorder from "assets/ui/panel/light_border.png";
 
 interface Props {
   className?: string;
+  style?: { [key: string]: React.CSSProperties };
 }
 
 /**
  * Default panel has the double layered pixel effect
  */
-export const Panel: React.FC<Props> = ({ children, className }) => {
+export const Panel: React.FC<Props> = ({ children, className, style }) => {
   return (
-    <OuterPanel className={className}>
+    <OuterPanel className={className} style={style}>
       <InnerPanel>{children}</InnerPanel>
     </OuterPanel>
   );
@@ -22,7 +23,7 @@ export const Panel: React.FC<Props> = ({ children, className }) => {
 /**
  * Light panel with border effect
  */
-export const InnerPanel: React.FC<Props> = ({ children, className }) => {
+export const InnerPanel: React.FC<Props> = ({ children, className, style }) => {
   return (
     <div
       className={classNames("bg-brown-300 p-1", className)}
@@ -36,6 +37,7 @@ export const InnerPanel: React.FC<Props> = ({ children, className }) => {
         imageRendering: "pixelated",
         borderImageRepeat: "repeat",
         borderRadius: "20px",
+        ...style,
       }}
     >
       {children}
@@ -46,7 +48,7 @@ export const InnerPanel: React.FC<Props> = ({ children, className }) => {
 /**
  * A panel with a single layered pixel effect
  */
-export const OuterPanel: React.FC<Props> = ({ children, className }) => {
+export const OuterPanel: React.FC<Props> = ({ children, className, style }) => {
   return (
     <div
       className={classNames(
@@ -63,6 +65,7 @@ export const OuterPanel: React.FC<Props> = ({ children, className }) => {
         imageRendering: "pixelated",
         borderImageRepeat: "repeat",
         borderRadius: "20px",
+        ...style,
       }}
     >
       {children}

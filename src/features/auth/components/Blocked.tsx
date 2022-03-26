@@ -1,7 +1,6 @@
 import React from "react";
 import { Button } from "components/ui/Button";
 
-import alert from "assets/icons/expression_alerted.png";
 import humanDeath from "assets/npcs/human_death.gif";
 
 export const Blocked: React.FC = () => {

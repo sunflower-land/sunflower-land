@@ -1,36 +1,176 @@
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
-import { CopyField } from "components/ui/CopyField";
+import { CopySvg } from "components/ui/CopyField";
+import { OuterPanel } from "components/ui/Panel";
+import { shortAddress } from "features/hud/components/Address";
+
+import farm from "assets/brand/nft.png";
+import alert from "assets/icons/expression_alerted.png";
+import { Label } from "components/ui/Label";
+
+const EyeSvg = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    className="bi bi-eye-fill"
+    viewBox="0 0 16 16"
+  >
+    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+  </svg>
+);
+
+const CloseEyeSvg = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    className="bi bi-eye-slash-fill"
+    viewBox="0 0 16 16"
+  >
+    <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z" />
+    <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z" />
+  </svg>
+);
+
+const TOOL_TIP_MESSAGE = "Copy Farm Address";
 
 export const Deposit: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const [showFullAddress, setShowFullAddress] = useState(false);
+  const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
+  const [showLabel, setShowLabel] = useState(false);
+
+  const farmAddress = gameState.context.state?.farmAddress as string;
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(farmAddress);
+    setTooltipMessage("Copied!");
+    setTimeout(() => {
+      setTooltipMessage(TOOL_TIP_MESSAGE);
+    }, 2000);
+  };
 
   return (
     <div>
-      <span className="text-shadow underline text-center text-xs block mt-1">
-        {"Your farm's address"}
-      </span>
-      <CopyField
-        text={gameState.context.state.farmAddress as string}
-        copyFieldMessage={"Click to copy farm address"}
-      />
-      <span className="text-sm text-shadow underline block mt-6 text-center">
+      <div className="h-14 w-full" style={{ perspective: "1000px" }}>
+        <div className="relative">
+          <OuterPanel
+            className="w-full transition-transform duration-700 h-14"
+            style={
+              {
+                transformStyle: "preserve-3d",
+                transform: showFullAddress ? "rotateX(180deg)" : undefined,
+              } as { [key: string]: React.CSSProperties }
+            }
+          >
+            <div
+              className="flex items-center absolute w-full h-full px-2"
+              style={{ backfaceVisibility: "hidden" }}
+            >
+              <img src={farm} className="h-8 mr-2 z-50" />
+              <div className="flex flex-1 justify-center items-center">
+                <span>{shortAddress(farmAddress)}</span>
+                <span
+                  className="cursor-pointer ml-3"
+                  onMouseEnter={() => setShowLabel(true)}
+                  onMouseLeave={() => setShowLabel(false)}
+                  onClick={copyToClipboard}
+                >
+                  <CopySvg />
+                </span>
+              </div>
+              <span
+                className="cursor-pointer"
+                onClick={() => setShowFullAddress(true)}
+              >
+                <EyeSvg />
+              </span>
+            </div>
+            <div
+              className="flex items-center justify-center absolute w-full h-full px-2"
+              style={{
+                backfaceVisibility: "hidden",
+                transform: "rotateX(180deg)",
+              }}
+              onClick={() => setShowFullAddress(false)}
+            >
+              <span className="text-[10px] sm:text-xs mt-2 break-all">
+                {farmAddress}
+              </span>
+              <span className="cursor-pointer ml-3 mt-2">
+                <CloseEyeSvg />
+              </span>
+            </div>
+          </OuterPanel>
+          <div
+            className={`absolute top-12 right-16 mr-5 transition duration-400 pointer-events-none ${
+              showLabel ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Label>{tooltipMessage}</Label>
+          </div>
+        </div>
+      </div>
+      <span className="text-sm sm:text-lg text-shadow underline block text-center mb-4 mt-6">
         How to deposit?
       </span>
-
-      <span className="text-shadow block text-sm mt-2 text-center">
-        1.Send SFL or items to the address above
-      </span>
-      <span className="text-shadow block text-sm text-center">
-        {"2.Go to the menu and 'Sync on chain'"}
-      </span>
-
-      <span className="text-shadow block text-xxs underline text-center mt-4">
-        Do not send MATIC or any other tokens to the address above
-      </span>
+      <ol>
+        <li className="flex text-xs mb-3">
+          <span className="mr-1">1.</span>
+          <span>
+            {
+              'Go to MetaMask and under "Assets" tab click on SFL or the item token to wish to deposit'
+            }
+          </span>
+        </li>
+        <li className="flex text-xs mb-3">
+          <span className="mr-1">2.</span>
+          <span>{`Click "Send" on the token's main page`}</span>
+        </li>
+        <li className="flex text-xs mb-3">
+          <span className="mr-1">3.</span>
+          <span>
+            {
+              'Copy your farm address from above and paste into the "Add Recipient" field'
+            }
+          </span>
+        </li>
+        <li className="flex text-xs mb-3">
+          <span className="mr-1">4.</span>
+          <span>
+            {
+              'In the "Amount" field, enter the amount of the token you want to deposit'
+            }
+          </span>
+        </li>
+        <li className="flex text-xs mb-3">
+          <span className="mr-1">5.</span>
+          <span>
+            {'Review the transaction detail and click "Confirm" to send'}
+          </span>
+        </li>
+        <li className="flex text-xs mb-3">
+          <span className="mr-1">6.</span>
+          <span>
+            {
+              'Once the transaction has completed successfully, open the menu inside Sunflower Land and click "Sync on Chain"'
+            }
+          </span>
+        </li>
+      </ol>
+      <div className="flex items-center border-2 rounded-md border-black p-2 bg-[#009ada]">
+        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+        <span className="text-xs">
+          DO NOT SEND MATIC OR ANY OTHER NON SFL TOKENS TO YOUR FARM ADDRESS
+        </span>
+      </div>
     </div>
   );
 };

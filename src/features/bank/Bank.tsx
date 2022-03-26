@@ -56,12 +56,7 @@ export const Bank: React.FC = () => {
         )}
       </div>
 
-      <Modal
-        show={isOpen}
-        onHide={() => setIsOpen(false)}
-        centered
-        dialogClassName="w-full sm:w-2/3 max-w-6xl"
-      >
+      <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
         <BankModal onClose={() => setIsOpen(false)} />
       </Modal>
     </div>
