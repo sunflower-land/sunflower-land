@@ -124,7 +124,7 @@ export const Field: React.FC<Props> = ({
 
       <div
         className={classNames(
-          "transition-opacity absolute -bottom-3 w-40 -left-16 z-20 pointer-events-none",
+          "transition-opacity absolute top-10 w-40 -left-16 z-20 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
