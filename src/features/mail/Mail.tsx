@@ -5,39 +5,38 @@ import { Inbox } from "./components/Inbox";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { Message } from "./types/message";
-import { cleanupCache, getInbox, getReadMessages, updateCache } from "./lib/mail";
+import {
+  cleanupCache,
+  getInbox,
+  getReadMessages,
+  updateCache,
+} from "./lib/mail";
 
 import baldMan from "assets/npcs/bald_man.png";
 import alerted from "assets/icons/expression_alerted.png";
 
 export const Mail: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inbox, setInbox] = useState<Message[]>([]);
   const [hasUnread, setHasUnread] = useState<boolean>(false);
 
-  useEffect(() => {
+  const getMessages = async () => {
+    setIsLoading(true);
+
     const readMessages = getReadMessages();
 
-    const initialize = async () => {
-      let _inbox: any = await getInbox();
+    let _inbox: any = await getInbox();
 
-      _inbox = _inbox.map((msg: Message) => ({
-        ...msg,
-        unread: !readMessages?.includes(msg.id),
-      }));
+    _inbox = _inbox.map((msg: Message) => ({
+      ...msg,
+      unread: !readMessages?.includes(msg.id),
+    }));
 
-      setInbox(_inbox);
-      cleanupCache(_inbox);
-    };
-
-    initialize();
-  }, []);
-
-  useEffect(() => {
-    const _hasUnread = inbox.some((msg) => msg.unread);
-
-    setHasUnread(_hasUnread);
-  }, [inbox]);
+    setInbox(_inbox);
+    cleanupCache(_inbox);
+    setIsLoading(false);
+  };
 
   const onRead = (index: number) => {
     if (!inbox[index].unread) return;
@@ -49,6 +48,23 @@ export const Mail: React.FC = () => {
 
     updateCache(newInbox[index].id);
   };
+
+  useEffect(() => {
+    getMessages();
+  }, []);
+
+  // refresh data
+  useEffect(() => {
+    if (isOpen) {
+      getMessages();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const _hasUnread = inbox.some((msg) => msg.unread);
+
+    setHasUnread(_hasUnread);
+  }, [inbox]);
 
   return (
     <div
@@ -68,7 +84,7 @@ export const Mail: React.FC = () => {
       />
       <span className="npc-shadow" />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Inbox inbox={inbox} onRead={onRead} />
+        <Inbox inbox={inbox} isLoading={isLoading} onRead={onRead} />
       </Modal>
     </div>
   );

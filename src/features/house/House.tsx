@@ -73,7 +73,7 @@ export const House: React.FC = () => {
             key={badge}
             src={ITEM_DETAILS[badge].image}
             alt={badge}
-            className="h-6 mr-2"
+            className="h-6 mr-2 mb-2 md:mb-0"
           />
         );
       }
@@ -89,7 +89,7 @@ export const House: React.FC = () => {
       );
     }
 
-    return <div className="flex">{badges}</div>;
+    return <div className="flex flex-wrap">{badges}</div>;
   };
 
   const Content = () => {
@@ -108,15 +108,15 @@ export const House: React.FC = () => {
 
     return (
       <>
-        <div className="flex sm:flex-col flex-row pt-2">
-          <InnerPanel className="w-1/3 p-2 flex flex-col items-center">
-            <img src={questionMark} className="w-1/2 mb-2" />
+        <div className="flex flex-col md:flex-row pt-8 md:pt-2">
+          <InnerPanel className="w-full md:w-1/3 p-2 flex flex-col items-center mb-2 md:mb-0">
+            <img src={questionMark} className="w-1/4 md:w-1/2 mb-2" />
             <span className="text-xxs">Farmer NFT</span>
             <span className="text-sm text-shadow">Name: ?</span>
             <span className="text-sm text-shadow">{`Level: ${totalLevel}`}</span>
           </InnerPanel>
           <div className="px-2 overflow-hidden">
-            <div className="flex items-center -mb-2">
+            <div className="flex items-center -mb-.5 md:-mb-2">
               <span className="text-sm">Farming</span>
               <img src={plant} className="w-4 h-4 ml-2" />
             </div>
@@ -145,7 +145,7 @@ export const House: React.FC = () => {
               })}
               <span>{farmingLevel}</span>
             </div>
-            <div className="flex items-center mt-2  -mb-2">
+            <div className="flex items-center mt-2 -mb-.5 md:-mb-2">
               <span className="text-sm">Tools</span>
               <img src={pickaxe} className="w-4 h-4 ml-2" />
             </div>
@@ -154,7 +154,7 @@ export const House: React.FC = () => {
                 ? `${gatheringXp.toNumber()} XP/${gatheringRequiredXp} XP`
                 : `${gatheringXp.toNumber()} XP`}
             </span>
-            <div className="flex items-center mt-1 flex-wrap">
+            <div className="flex items-center mt-1 flex-wrap mb-1 md:mb-0">
               {new Array(10).fill(null).map((_, index) => {
                 if (index < toolLevel) {
                   return (
@@ -183,7 +183,7 @@ export const House: React.FC = () => {
           </div>
         </div>
 
-        <InnerPanel className="flex w-1/2 sm:w-1/3 mt-2 ">
+        <InnerPanel className="flex w-1/2 sm:w-1/3 mt-2">
           <img src={player} className="h-5 mr-2" />
           <span className="text-sm text-shadow">Skills</span>
         </InnerPanel>
