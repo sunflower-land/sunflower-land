@@ -20,6 +20,7 @@ import { Label } from "components/ui/Label";
 import { canMine, STONE_RECOVERY_TIME } from "features/game/events/stoneMine";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
+import { RESOURCES } from "features/game/types/resources";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -110,10 +111,16 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
       setCollecting(true);
       minedGif.current?.goToAndPlay(0);
 
+      const amounStone = rock.amount;
+      const expGained = RESOURCES["Stone"].experience;
+
       displayPopover(
-        <div className="flex">
-          <img src={stone} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${rock.amount}`}</span>
+        <div className="flex flex-col items-center justify-center">
+          <div className="flex">
+            <img src={stone} className="w-5 h-5 mr-2" />
+            <span className="text-sm text-white text-shadow">{`+${amounStone}`}</span>
+          </div>
+          <span className="text-sm text-white text-shadow">{`+${expGained} XP`}</span>
         </div>
       );
 
@@ -253,7 +260,7 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity absolute top-24 w-40 left-20 z-20 pointer-events-none",
+          "transition-opacity absolute -bottom-3 w-40 left-20 z-20 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
