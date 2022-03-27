@@ -279,7 +279,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity absolute -bottom-5 w-40 left-8 z-20 pointer-events-none",
+          "transition-opacity absolute -bottom-5 w-40 right-8 z-20 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
