@@ -1,13 +1,21 @@
 import React from "react";
 
 import { Modal } from "react-bootstrap";
+import { HowToModalHeader } from "features/hud/components/howToPlay/HowToModalHeader";
 
-export const LetsGo: React.FC = () => {
+interface Props {
+  onClose: () => void;
+  onBack: () => void;
+}
+
+export const LetsGo: React.FC<Props> = ({ onClose, onBack }) => {
   return (
     <>
-      <Modal.Header className="justify-content-space-between">
-        <h1 className="ml-2">Time to play!</h1>
-      </Modal.Header>
+      <HowToModalHeader
+        title="Time to play!"
+        onClose={onClose}
+        onBack={onBack}
+      />
       <Modal.Body>
         <p className="text-xs p-2 sm:text-sm text-center">
           Thanks for playing beta! We are still working on the game and

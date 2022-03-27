@@ -1,11 +1,7 @@
 import React, { useEffect } from "react";
-
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
-
 import { Modal } from "react-bootstrap";
-
-import close from "assets/icons/close.png";
 
 import { HowToFarm } from "./HowToFarm";
 import { HowToUpgrade } from "./HowToUpgrade";
@@ -32,6 +28,11 @@ export const HowToPlay: React.FC<Props> = ({ isOpen, onClose }) => {
       setStep(Steps.HowToFarm);
     }
   }, [isOpen]);
+
+  const previous = () => {
+    setStep(step - 1);
+  };
+
   const next = () => {
     setStep(step + 1);
   };
@@ -45,17 +46,16 @@ export const HowToPlay: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
     <Modal show={isOpen} onHide={canClose ? onClose : undefined} centered>
       <Panel>
-        {canClose && (
-          <img
-            src={close}
-            className="h-6 cursor-pointer absolute top-8 right-8"
-            onClick={onClose}
-          />
+        {step === Steps.HowToFarm && <HowToFarm onClose={onClose} />}
+        {step === Steps.HowToUpgrade && (
+          <HowToUpgrade onClose={onClose} onBack={previous} />
         )}
-        {step === Steps.HowToFarm && <HowToFarm />}
-        {step === Steps.HowToUpgrade && <HowToUpgrade />}
-        {step === Steps.HowToSync && <HowToSync />}
-        {step === Steps.LetsGo && <LetsGo />}
+        {step === Steps.HowToSync && (
+          <HowToSync onClose={onClose} onBack={previous} />
+        )}
+        {step === Steps.LetsGo && (
+          <LetsGo onClose={onClose} onBack={previous} />
+        )}
 
         <Modal.Footer className="justify-content-center">
           {step === Steps.LetsGo ? (

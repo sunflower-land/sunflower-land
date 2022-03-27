@@ -3,13 +3,21 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 import timer from "assets/icons/timer.png";
+import { HowToModalHeader } from "features/hud/components/howToPlay/HowToModalHeader";
 
-export const HowToSync: React.FC = () => {
+interface Props {
+  onClose: () => void;
+  onBack: () => void;
+}
+
+export const HowToSync: React.FC<Props> = ({ onClose, onBack }) => {
   return (
     <>
-      <Modal.Header className="justify-content-space-between">
-        <h1 className="ml-2">How to sync?</h1>
-      </Modal.Header>
+      <HowToModalHeader
+        title="How to sync?"
+        onClose={onClose}
+        onBack={onBack}
+      />
       <Modal.Body>
         <p className="text-xs p-2 sm:text-sm text-center">
           All of your progress is saved on our game server. You will need to
