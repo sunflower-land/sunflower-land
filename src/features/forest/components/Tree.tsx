@@ -24,6 +24,7 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
+import { RESOURCES } from "features/game/types/resources";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -111,11 +112,17 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       });
       setCollecting(true);
       choppedGif.current?.goToAndPlay(0);
+      
+      const amounWood = tree.wood;
+      const expGained = RESOURCES["Wood"].experience;
 
       displayPopover(
-        <div className="flex">
-          <img src={wood} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${tree.wood}`}</span>
+        <div className="flex flex-col items-center justify-center">
+          <div className="flex">
+            <img src={wood} className="w-5 h-5 mr-2" />
+            <span className="text-sm text-white text-shadow">{`+${amounWood}`}</span>
+          </div>
+          <span className="text-sm text-white text-shadow">{`+${expGained} XP`}</span>
         </div>
       );
 
@@ -261,7 +268,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity absolute -bottom-5 w-40 -left-16 z-20 pointer-events-none",
+          "transition-opacity absolute -bottom-5 w-40 left-8 z-20 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
