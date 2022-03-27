@@ -7,7 +7,7 @@ import selectBox from "assets/ui/select/select_box.png";
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
 
-import { CropName } from "features/game/types/crops";
+import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Soil } from "./Soil";
@@ -44,33 +44,30 @@ export const Field: React.FC<Props> = ({
     setShowPopover(false);
   };
 
-  let timeoutId: null | ReturnType<typeof setTimeout> = null
+  const timeoutId: null | ReturnType<typeof setTimeout> = null;
 
   const handleMouseHover = () => {
-    setShowCropDetails(false);
+    // check field if there is a crop
+    if (field) {
+      const crop = CROPS()[field.name];
+      const now = Date.now();
+      const isCropReady = now - field.plantedAt > crop.harvestSeconds * 1000;
+      const isJustPlanted = now - field.plantedAt < 1000;
 
-    // Only show hover details after 1s hover
-    timeoutId = setTimeout(() => {
-      setShowCropDetails(true);
-    }, HOVER_TIMEOUT);
+      // show details if field is NOT ready and NOT just planted
+      if (!isCropReady && !isJustPlanted) {
+        setShowCropDetails(true);
+      }
+    }
+
+    return;
   };
 
   const handleMouseLeave = () => {
     setShowCropDetails(false);
-    clearHoverTimeout()
   };
 
-  // Detects and clears if timeout function is running
-  const clearHoverTimeout = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-  }
-
   const onClick = () => {
-    // Prevents triggering hover when speed planting
-    clearHoverTimeout()
-
     // Small buffer to prevent accidental double clicks
     const now = Date.now();
     if (now - clickedAt.current < 100) {
