@@ -9,6 +9,7 @@ import { shortAddress } from "features/hud/components/Address";
 import farm from "assets/brand/nft.png";
 import alert from "assets/icons/expression_alerted.png";
 import { Label } from "components/ui/Label";
+import { Button } from "components/ui/Button";
 
 const EyeSvg = () => (
   <svg
@@ -38,7 +39,73 @@ const CloseEyeSvg = () => (
   </svg>
 );
 
+const SFLTokenInstructions = () => (
+  <ol>
+    <li className="flex text-xs mb-3">
+      <span className="mr-1">1.</span>
+      <span>
+        {
+          'Go to MetaMask and under "Assets" tab click on SFL or the item token to wish to deposit'
+        }
+      </span>
+    </li>
+    <li className="flex text-xs mb-3">
+      <span className="mr-1">2.</span>
+      <span>{`Click "Send" on the token's main page`}</span>
+    </li>
+    <li className="flex text-xs mb-3">
+      <span className="mr-1">3.</span>
+      <span>
+        {
+          'Copy your farm address from above and paste into the "Add Recipient" field'
+        }
+      </span>
+    </li>
+    <li className="flex text-xs mb-3">
+      <span className="mr-1">4.</span>
+      <span>
+        {
+          'In the "Amount" field, enter the amount of the token you want to deposit'
+        }
+      </span>
+    </li>
+    <li className="flex text-xs mb-3">
+      <span className="mr-1">5.</span>
+      <span>{'Review the transaction detail and click "Confirm" to send'}</span>
+    </li>
+    <li className="flex text-xs mb-3">
+      <span className="mr-1">6.</span>
+      <span>
+        {
+          'Once the transaction has completed successfully, open the menu inside Sunflower Land and click "Sync on Chain"'
+        }
+      </span>
+    </li>
+  </ol>
+);
+
+const SFLItemsInstructions = () => (
+  <ol>
+    <li className="flex text-xs mb-3">
+      <span className="mr-1">1.</span>
+      <span>{'Go to Opensea and click the "Transfer" button'}</span>
+    </li>
+    <li className="flex text-xs mb-3">
+      <span className="mr-1">2.</span>
+      <span>
+        {'Copy your farm address from above and paste into the "Address" field'}
+      </span>
+    </li>
+    <li className="flex text-xs mb-3">
+      <span className="mr-1">3.</span>
+      <span>Follow the prompts</span>
+    </li>
+  </ol>
+);
+
 const TOOL_TIP_MESSAGE = "Copy Farm Address";
+
+type INSTRUCTION_TYPE = "token" | "item";
 
 export const Deposit: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -46,6 +113,9 @@ export const Deposit: React.FC = () => {
   const [showFullAddress, setShowFullAddress] = useState(false);
   const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
   const [showLabel, setShowLabel] = useState(false);
+  const [instructions, setInstructions] = useState<INSTRUCTION_TYPE | null>(
+    null
+  );
 
   const farmAddress = gameState.context.state?.farmAddress as string;
 
@@ -56,6 +126,9 @@ export const Deposit: React.FC = () => {
       setTooltipMessage(TOOL_TIP_MESSAGE);
     }, 2000);
   };
+
+  const showTokenInstructions = instructions === "token";
+  const showItemInstructions = instructions === "item";
 
   return (
     <div>
@@ -100,12 +173,14 @@ export const Deposit: React.FC = () => {
                 backfaceVisibility: "hidden",
                 transform: "rotateX(180deg)",
               }}
-              onClick={() => setShowFullAddress(false)}
             >
-              <span className="text-[10px] sm:text-xs mt-2 break-all">
+              <span className="text-[10px] sm:text-xs mt-2 break-all select-text">
                 {farmAddress}
               </span>
-              <span className="cursor-pointer ml-3 mt-2">
+              <span
+                className="cursor-pointer ml-3 mt-2"
+                onClick={() => setShowFullAddress(false)}
+              >
                 <CloseEyeSvg />
               </span>
             </div>
@@ -123,50 +198,25 @@ export const Deposit: React.FC = () => {
       <span className="text-sm sm:text-lg text-shadow underline block text-center mb-4 mt-6">
         How to deposit?
       </span>
-      <ol>
-        <li className="flex text-xs mb-3">
-          <span className="mr-1">1.</span>
-          <span>
-            {
-              'Go to MetaMask and under "Assets" tab click on SFL or the item token to wish to deposit'
-            }
-          </span>
-        </li>
-        <li className="flex text-xs mb-3">
-          <span className="mr-1">2.</span>
-          <span>{`Click "Send" on the token's main page`}</span>
-        </li>
-        <li className="flex text-xs mb-3">
-          <span className="mr-1">3.</span>
-          <span>
-            {
-              'Copy your farm address from above and paste into the "Add Recipient" field'
-            }
-          </span>
-        </li>
-        <li className="flex text-xs mb-3">
-          <span className="mr-1">4.</span>
-          <span>
-            {
-              'In the "Amount" field, enter the amount of the token you want to deposit'
-            }
-          </span>
-        </li>
-        <li className="flex text-xs mb-3">
-          <span className="mr-1">5.</span>
-          <span>
-            {'Review the transaction detail and click "Confirm" to send'}
-          </span>
-        </li>
-        <li className="flex text-xs mb-3">
-          <span className="mr-1">6.</span>
-          <span>
-            {
-              'Once the transaction has completed successfully, open the menu inside Sunflower Land and click "Sync on Chain"'
-            }
-          </span>
-        </li>
-      </ol>
+
+      <div className="flex mb-3">
+        <Button
+          className={"mr-1 focus:bg-brown-300"}
+          onClick={() => setInstructions("token")}
+        >
+          SFL Token
+        </Button>
+        <Button
+          className="ml-1 focus:bg-brown-300"
+          onClick={() => setInstructions("item")}
+        >
+          SFL Items
+        </Button>
+      </div>
+
+      {showTokenInstructions && <SFLTokenInstructions />}
+      {showItemInstructions && <SFLItemsInstructions />}
+
       <div className="flex items-center border-2 rounded-md border-black p-2 bg-[#009ada]">
         <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
         <span className="text-xs">
