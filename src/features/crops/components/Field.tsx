@@ -91,7 +91,9 @@ export const Field: React.FC<Props> = ({
 
       const amountHarvested = field.multiplier || 1;
       const expPerCrop = CROPS()[field.name].experience;
-      const expGained = field.multiplier ? field.multiplier * expPerCrop : expPerCrop;
+      const expGained = field.multiplier
+        ? field.multiplier * expPerCrop
+        : expPerCrop;
 
       displayPopover(
         <div className="flex flex-col items-center justify-center text-xs text-white text-shadow overflow-visible">
