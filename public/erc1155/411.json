@@ -1,8 +1,1 @@
-{
-  "name": "Sunflower Tombstone",
-  "description": "RIP SFF",
-  "image": "https://sunflower-land.com/play/erc1155/411.png",
-  "decimals": 0,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "attributes": []
-}
+{"name":"Sunflower Tombstone","description":"## Sunflower Tombstone\n\nA commemorative homage to Sunflower Farmers, the prototype which birthed Sunflower Land\n\nThis item was airdropped to anyone who maxed out their farm to level 5.\n\n## Supply\n\n?\n\n### Crafting Costs\n\n---\n\n- Level 5 farm in Sunflower Farmers (pre-launch)\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/411.png","decimals":0,"external_url":"https://docs.sunflower-land.com/crafting-guide","attributes":[{"trait_type":"Purpose","value":"Decoration"}]}

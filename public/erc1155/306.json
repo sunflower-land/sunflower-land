@@ -1,8 +1,1 @@
-{
-  "name": "Rod",
-  "description": "A tool used to fish. You can craft these in the game at the Blacksmith.",
-  "image": "https://sunflower-land.com/play/erc1155/306.png",
-  "decimals": 0,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "background_color": "e5a672"
-}
+{"name":"Rod","description":"## Fishing Rod (Coming Soon)\n\nA tool used to capture fish\n\nYou can craft a rod at the Blacksmith in the game.\n\n## Supply\n\nUnlimited\n\n### Crafting Costs\n\n---\n\n- 5 SFL\n- 5 Wood\n- 3 Iron\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/306.png","decimals":0,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"e5a672","attributes":[{"trait_type":"Purpose","value":"Tool"}]}

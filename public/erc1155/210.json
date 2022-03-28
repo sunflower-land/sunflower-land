@@ -1,8 +1,1 @@
-{
-  "name": "Wheat",
-  "description": "Wheat that was harvested. You can grow these in the game using Wheat Seeds.",
-  "image": "https://sunflower-land.com/play/erc1155/210.png",
-  "decimals": 18,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "background_color": "5ec14c"
-}
+{"name":"Wheat","image":"https://sunflower-land.com/play/erc1155/210.png","decimals":18,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"5ec14c","attributes":[{"trait_type":"Purpose","value":"Resource"}]}

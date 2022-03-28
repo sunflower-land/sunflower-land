@@ -1,8 +1,1 @@
-{
-  "name": "Roasted Cauliflower",
-  "description": "A delicious cauliflower that is roasted. Helps keep Goblins off your farm",
-  "image": "https://sunflower-land.com/play/erc1155/502.png",
-  "decimals": 0,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "background_color": "E5A66A"
-}
+{"name":"Roasted Cauliflower","description":"## Roasted Cauliflower\n\nA goblin's favourite! Owning this item unlocks fields and new seeds\n\nYou can craft a rod at the Kitchen in the game.\n\n## Supply\n\nUnlimited\n\n### Crafting Costs\n\n---\n\n?\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/502.png","decimals":0,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"E5A66A","attributes":[{"trait_type":"Purpose","value":"Resource"}]}

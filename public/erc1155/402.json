@@ -1,8 +1,1 @@
-{
-  "name": "Potato Statue",
-  "description": "A statue of a potato. It's a potato statue. Potato blood is in my veins",
-  "image": "https://sunflower-land.com/play/erc1155/402.png",
-  "decimals": 0,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "attributes": []
-}
+{"name":"Potato Statue","description":"## Potato Statue\n\nA rare collectible for the potato hustlers of Sunflower Land.\n\nYou can craft a Sunflower Statue at the blacksmith in the game. Collect the required resources and craft this item before the supply runs out!\n\n## Supply\n\n5000\n\n### Crafting Costs\n\n---\n\n- 100 Potatos\n- 20 Stone\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/402.png","decimals":0,"external_url":"https://docs.sunflower-land.com/crafting-guide","attributes":[{"trait_type":"Purpose","value":"Decoration"}]}

@@ -5,25 +5,39 @@ import { InventoryItemName } from "../src/features/game/types/game";
 import { KNOWN_IDS } from "../src/features/game/types/index";
 import { ITEM_DETAILS } from "../src/features/game/types/images";
 
-const oldImagePath = path.join(__dirname, "./markdown/101.md");
+/**
+ * Stringifies the markdown files for the JSON metadata
+ */
+async function convertMarkdown() {
+  Object.values(KNOWN_IDS).forEach((id) => {
+    try {
+      // All flags use the same markdown
+      const fileName = id.toString().startsWith("8") ? "801" : id;
+      const oldImagePath = path.join(__dirname, `./markdown/${fileName}.md`);
 
-fs.readFile(oldImagePath, "utf8", (err, data) => {
-  console.log({ err, data });
-  console.log(typeof data);
+      fs.readFile(oldImagePath, "utf8", (err, data) => {
+        console.log({ err, data });
+        console.log(typeof data);
 
-  const json = path.join(__dirname, "../public/erc1155/101.json");
-  fs.readFile(json, "utf8", (err, jsonData) => {
-    const newJson = {
-      ...JSON.parse(jsonData),
-      description: data,
-    };
+        const jsonPath = path.join(__dirname, `../public/erc1155/${id}.json`);
+        fs.readFile(jsonPath, "utf8", (err, jsonData) => {
+          const newJson = {
+            ...JSON.parse(jsonData),
+            description: data,
+          };
 
-    const filePath = path.join(__dirname, "../public/erc1155/101.json");
-    fs.writeFile(filePath, JSON.stringify(newJson), () => {
-      console.log(`Wrote file`);
-    });
+          fs.writeFile(jsonPath, JSON.stringify(newJson), () => {
+            console.log(`Wrote file`);
+          });
+        });
+      });
+    } catch (e) {
+      console.log("Unable to write: ", id, e);
+    }
   });
-});
+}
+
+//convertMarkdown();
 
 // type ERC1155Metadata = Record<
 //   InventoryItemName,

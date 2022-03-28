@@ -1,8 +1,1 @@
-{
-  "name": "Sheep",
-  "description": "An animal user for producing resources",
-  "image": "https://sunflower-land.com/play/erc1155/609.png",
-  "decimals": 18,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "background_color": "5ec14c"
-}
+{"name":"Sheep","image":"https://sunflower-land.com/play/erc1155/609.png","decimals":18,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"5ec14c","attributes":[{"trait_type":"Purpose","value":"Resource"}]}
