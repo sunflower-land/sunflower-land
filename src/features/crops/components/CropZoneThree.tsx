@@ -10,7 +10,7 @@ import { Panel } from "components/ui/Panel";
 import goblin from "assets/npcs/goblin.gif";
 import goblinWatering from "assets/npcs/goblin_watering.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
-import cabbageSoup from "assets/nfts/saurrerkrat.png";
+import cabbageSoup from "assets/nfts/saurekrat_small.png";
 
 import { Field } from "./Field";
 

@@ -1,6 +1,6 @@
 {
   "name": "Egg",
-  "description": "A resource that can be used in cooking recipes",
+  "description": "A resource that can be used in cooking recipes. You can collect this in the game by growing chickens.",
   "image": "https://sunflower-land.com/play/erc1155/605.png",
   "decimals": 18,
   "external_url": "https://docs.sunflower-land.com/crafting-guide",

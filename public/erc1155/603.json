@@ -1,6 +1,6 @@
 {
-  "name": "Iron",
-  "description": "A resource that can be used to craft items",
+  "name": "Iron Ore",
+  "description": "A resource that can be used to craft items. You can collect this in the game by mining iron.",
   "image": "https://sunflower-land.com/play/erc1155/603.png",
   "decimals": 18,
   "external_url": "https://docs.sunflower-land.com/crafting-guide",
