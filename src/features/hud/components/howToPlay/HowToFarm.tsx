@@ -9,13 +9,16 @@ import cursor from "assets/ui/cursor.png";
 import token from "assets/icons/token.gif";
 
 import market from "assets/buildings/market_building.png";
+import { HowToModalHeader } from "./HowToModalHeader";
 
-export const HowToFarm: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+
+export const HowToFarm: React.FC<Props> = ({ onClose }) => {
   return (
     <>
-      <Modal.Header className="justify-content-space-between">
-        <h1 className="ml-2">How to Farm?</h1>
-      </Modal.Header>
+      <HowToModalHeader title="How to Farm?" onClose={onClose} />
       <Modal.Body>
         <div className="flex items-center">
           <p className="text-xs sm:text-sm p-2">

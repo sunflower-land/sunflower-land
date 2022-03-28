@@ -11,7 +11,7 @@ import { FLAGS } from "../types/flags";
 import { ITEM_DETAILS } from "../types/images";
 
 export const Flags: React.FC = () => {
-  const { gameService, selectedItem } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [
     {
       context: { state },

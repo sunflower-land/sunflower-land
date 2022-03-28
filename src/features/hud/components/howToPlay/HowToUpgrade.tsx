@@ -7,13 +7,21 @@ import cursor from "assets/ui/cursor.png";
 import kitchen from "assets/buildings/bakery_building.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import carrot from "assets/crops/carrot/plant.png";
+import { HowToModalHeader } from "./HowToModalHeader";
 
-export const HowToUpgrade: React.FC = () => {
+interface Props {
+  onClose: () => void;
+  onBack: () => void;
+}
+
+export const HowToUpgrade: React.FC<Props> = ({ onClose, onBack }) => {
   return (
     <>
-      <Modal.Header className="justify-content-space-between">
-        <h1 className="ml-2">How to upgrade?</h1>
-      </Modal.Header>
+      <HowToModalHeader
+        title="How to upgrade?"
+        onClose={onClose}
+        onBack={onBack}
+      />
       <Modal.Body>
         <div className="flex items-center">
           <p className="text-xs sm:text-sm p-2">
