@@ -85,11 +85,11 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
       sparkGif.current?.goToAndPlay(0);
       return;
     }
-   
-    const stonepickAmount = game.context.state.inventory["Stone Pickaxe"] || new Decimal(0);
-    if(stonepickAmount.lessThanOrEqualTo(0))
-    return;
-    
+
+    const stonepickAmount =
+      game.context.state.inventory["Stone Pickaxe"] || new Decimal(0);
+    if (stonepickAmount.lessThanOrEqualTo(0)) return;
+
     if (selectedItem === tool && !isPlaying) {
       miningAudio.play();
 

@@ -21,8 +21,8 @@ export const Tailor: React.FC = () => {
   const isNotReadOnly = !gameState.matches("readonly");
 
   const openTailor = () => {
-      setIsOpen(true);
-      tailorAudio.play();
+    setIsOpen(true);
+    tailorAudio.play();
   };
 
   return (

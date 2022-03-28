@@ -29,7 +29,6 @@ import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 
-
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 
@@ -89,11 +88,10 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       return;
     }
 
-  const axeAmount = game.context.state.inventory.Axe || new Decimal(0); 
-    if(axeAmount.lessThanOrEqualTo(0))
-     return;
-    
-  const isPlaying = shakeGif.current?.getInfo("isPlaying");
+    const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
+    if (axeAmount.lessThanOrEqualTo(0)) return;
+
+    const isPlaying = shakeGif.current?.getInfo("isPlaying");
 
     if (isPlaying) {
       return;
@@ -258,17 +256,17 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
         </>
       )}
 
-      <div 
-      className={classNames(
-        "transition-opacity pointer-events-none absolute top-4 left-2",
-        {
-          "opacity-100": touchCount > 0,
-          "opacity-0": touchCount === 0,
-        }
-      )}
-    >
-      <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
-    </div>
+      <div
+        className={classNames(
+          "transition-opacity pointer-events-none absolute top-4 left-2",
+          {
+            "opacity-100": touchCount > 0,
+            "opacity-0": touchCount === 0,
+          }
+        )}
+      >
+        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
+      </div>
 
       <div
         className={classNames(

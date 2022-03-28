@@ -13,7 +13,11 @@ import { wishingWellMachine, MachineInterpreter } from "../wishingWellMachine";
 import { fromWei } from "web3-utils";
 
 export const shortAddress = (address: string): string => {
-  return `${address.slice(0, 5)}...${address.slice(-4)}`;
+  // check if there is an address
+  if (address) {
+    return `${address.slice(0, 5)}...${address.slice(-4)}`;
+  }
+  return ``;
 };
 
 interface Props {
