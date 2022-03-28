@@ -11,7 +11,11 @@ import arrowLeft from "assets/icons/arrow_left.png";
 import arrowRight from "assets/icons/arrow_right.png";
 
 export const shortAddress = (address: string): string => {
-  return `${address.slice(0, 5)}...${address.slice(-4)}`;
+  // check if there is an address
+  if (address) {
+    return `${address.slice(0, 5)}...${address.slice(-4)}`;
+  } 
+  return ``;
 };
 
 export const Address: React.FC = () => {
