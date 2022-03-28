@@ -5,6 +5,26 @@ import { InventoryItemName } from "../src/features/game/types/game";
 import { KNOWN_IDS } from "../src/features/game/types/index";
 import { ITEM_DETAILS } from "../src/features/game/types/images";
 
+const oldImagePath = path.join(__dirname, "./markdown/101.md");
+
+fs.readFile(oldImagePath, "utf8", (err, data) => {
+  console.log({ err, data });
+  console.log(typeof data);
+
+  const json = path.join(__dirname, "../public/erc1155/101.json");
+  fs.readFile(json, "utf8", (err, jsonData) => {
+    const newJson = {
+      ...JSON.parse(jsonData),
+      description: data,
+    };
+
+    const filePath = path.join(__dirname, "../public/erc1155/101.json");
+    fs.writeFile(filePath, JSON.stringify(newJson), () => {
+      console.log(`Wrote file`);
+    });
+  });
+});
+
 // type ERC1155Metadata = Record<
 //   InventoryItemName,
 //   {
@@ -636,4 +656,4 @@ async function jsonFiles() {
   );
 }
 
-jsonFiles();
+// jsonFiles();
