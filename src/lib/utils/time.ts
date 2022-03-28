@@ -30,7 +30,7 @@ export function secondsToString(seconds: number) {
 }
 
 export function secondsToLongString(time: number) {
-  const seconds = Math.floor(time % 60);
+  const seconds = Math.ceil(time % 60);
   const minutes = Math.floor((time / 60) % 60);
   const hours = Math.floor((time / 60 / 60) % 24);
   const days = Math.floor(time / 60 / 60 / 24);

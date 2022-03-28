@@ -7,13 +7,14 @@ import selectBox from "assets/ui/select/select_box.png";
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
 
-import { CropName } from "features/game/types/crops";
+import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Soil } from "./Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 
 const POPOVER_TIME_MS = 1000;
+const HOVER_TIMEOUT = 1000;
 
 interface Props {
   selectedItem?: InventoryItemName;
@@ -33,6 +34,7 @@ export const Field: React.FC<Props> = ({
   const [game] = useActor(gameService);
   const clickedAt = useRef<number>(0);
   const field = game.context.state.fields[fieldIndex];
+  const [showCropDetails, setShowCropDetails] = useState(false);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -40,6 +42,29 @@ export const Field: React.FC<Props> = ({
 
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
     setShowPopover(false);
+  };
+
+  const timeoutId: null | ReturnType<typeof setTimeout> = null;
+
+  const handleMouseHover = () => {
+    // check field if there is a crop
+    if (field) {
+      const crop = CROPS()[field.name];
+      const now = Date.now();
+      const isCropReady = now - field.plantedAt > crop.harvestSeconds * 1000;
+      const isJustPlanted = now - field.plantedAt < 1000;
+
+      // show details if field is NOT ready and NOT just planted
+      if (!isCropReady && !isJustPlanted) {
+        setShowCropDetails(true);
+      }
+    }
+
+    return;
+  };
+
+  const handleMouseLeave = () => {
+    setShowCropDetails(false);
   };
 
   const onClick = () => {
@@ -107,13 +132,19 @@ export const Field: React.FC<Props> = ({
 
   return (
     <div
+      onMouseEnter={handleMouseHover}
+      onMouseLeave={handleMouseLeave}
       className={classNames("relative group", className)}
       style={{
         width: `${GRID_WIDTH_PX}px`,
         height: `${GRID_WIDTH_PX}px`,
       }}
     >
-      <Soil className="absolute bottom-0" field={field} />
+      <Soil
+        className="absolute bottom-0"
+        field={field}
+        showCropDetails={showCropDetails}
+      />
 
       <div
         className={classNames(

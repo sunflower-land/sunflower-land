@@ -1,10 +1,12 @@
 import React from "react";
 
+import classNames from "classnames";
 import soil from "assets/land/soil2.png";
 
 import { getTimeLeft } from "lib/utils/time";
 
 import { ProgressBar } from "components/ui/ProgressBar";
+import { InnerPanel, Panel } from "components/ui/Panel";
 
 import { FieldItem } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
@@ -14,9 +16,14 @@ import classnames from "classnames";
 interface Props {
   field?: FieldItem;
   className?: string;
+  showCropDetails?: boolean;
 }
 
-export const Soil: React.FC<Props> = ({ field, className }) => {
+export const Soil: React.FC<Props> = ({
+  field,
+  className,
+  showCropDetails,
+}) => {
   const [_, setTimer] = React.useState<number>(0);
   const setHarvestTime = React.useCallback(() => {
     setTimer((count) => count + 1);
@@ -51,6 +58,20 @@ export const Soil: React.FC<Props> = ({ field, className }) => {
         <div className="absolute w-full -bottom-4 z-10">
           <ProgressBar percentage={percentage} seconds={timeLeft} />
         </div>
+        <InnerPanel
+          className={classNames(
+            "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-1 z-20 pointer-events-none",
+            {
+              "opacity-100": showCropDetails,
+              "opacity-0": !showCropDetails,
+            }
+          )}
+        >
+          <div className="flex items-center justify-center text-xxs text-white text-shadow ml-2 mr-2">
+            <img src={lifecycle.ready} className="w-4 mr-1" />
+            <span className="flex-1">{field.name}</span>
+          </div>
+        </InnerPanel>
       </div>
     );
   }
