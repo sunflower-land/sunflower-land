@@ -1,1 +1,9 @@
-{"name":"Stone Pickaxe","description":"## Stone Pickaxe\n\nA tool used to mine iron. It is burnt after use.\n\nYou can craft a stone axe at the Blacksmith in the game.\n\n## Supply\n\nUnlimited\n\n### Crafting Costs\n\n---\n\n- 2 SFL\n- 3 Wood\n- 3 Stone\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/303.png","decimals":0,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"e5a672","attributes":[{"trait_type":"Purpose","value":"Tool"}]}
+{
+  "name": "Stone Pickaxe",
+  "description": "## Stone Pickaxe\n\nA tool used to mine iron. It is burnt after use.\n\nYou can craft a stone axe at the Blacksmith in the game.\n\n## Supply\n\nUnlimited\n\n### Crafting Costs\n\n---\n\n- 2 SFL\n- 3 Wood\n- 3 Stone\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n",
+  "image": "https://sunflower-land.com/play/erc1155/303.png",
+  "decimals": 18,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "e5a672",
+  "attributes": [{ "trait_type": "Purpose", "value": "Tool" }]
+}
