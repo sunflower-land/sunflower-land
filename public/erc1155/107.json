@@ -2,7 +2,7 @@
   "name": "Cauliflower Seed",
   "description": "A seed for a cauliflower plant. You can buy these in game at the market",
   "image": "https://sunflower-land.com/play/erc1155/107.png",
-  "decimals": 0,
+  "decimals": 18,
   "external_url": "https://docs.sunflower-land.com/crafting-guide",
   "background_color": "5ec14c"
 }
