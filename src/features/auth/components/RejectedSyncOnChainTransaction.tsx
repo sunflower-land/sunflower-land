@@ -6,7 +6,9 @@ interface Props {
   onTryAgain: () => void;
 }
 
-export const RejectedSynconchainTransaction: React.FC<Props> = ({ onTryAgain }) => {
+export const RejectedSynconchainTransaction: React.FC<Props> = ({
+  onTryAgain,
+}) => {
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
       <div className="flex mb-3 items-center">
