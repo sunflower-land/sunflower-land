@@ -7,12 +7,14 @@ import { Web3Missing } from "./components/Web3Missing";
 import { WrongChain } from "./components/WrongChain";
 import { Beta } from "./components/Beta";
 import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
+import { RejectedSyncOnChainTransaction } from "./components/RejectedSyncOnChainTransation";
 import { ConnectingError } from "./components/ConnectingError";
 import { Blocked } from "./components/Blocked";
 import { DuplicateUser } from "./components/DuplicateUser";
 import { Congestion } from "./components/Congestion";
 import { SessionExpired } from "./components/SessionExpired";
 import { ErrorCode } from "lib/errors";
+
 
 interface Props {
   errorCode: ErrorCode;
@@ -43,8 +45,12 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     return <WrongChain />;
   }
 
-  if (errorCode === "REJECTED_TRANSACTION") {
+  if (errorCode === "REJECTED_SIGN_TRANSACTION") {
     return <RejectedSignTransaction onTryAgain={() => send("REFRESH")} />;
+  }
+
+  if (errorCode === "REJECTED_SYNC_TRANSACTION") {
+    return <RejectedSyncOnChainTransaction onTryAgain={() => send("RETURN")} />;
   }
 
   if (errorCode === "NO_FARM") {
