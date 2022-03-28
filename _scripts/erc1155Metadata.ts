@@ -11,7 +11,9 @@ import { ITEM_DETAILS } from "../src/features/game/types/images";
 async function convertMarkdown() {
   Object.values(KNOWN_IDS).forEach((id) => {
     try {
-      const oldImagePath = path.join(__dirname, `./markdown/${id}.md`);
+      // All flags use the same markdown
+      const fileName = id.toString().startsWith("8") ? "801" : id;
+      const oldImagePath = path.join(__dirname, `./markdown/${fileName}.md`);
 
       fs.readFile(oldImagePath, "utf8", (err, data) => {
         console.log({ err, data });

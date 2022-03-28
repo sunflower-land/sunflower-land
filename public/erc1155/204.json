@@ -1,14 +1,1 @@
-{
-  "name": "Carrot",
-  "description": "A carrot that was harvested. You can grow these in the game using Carrot Seeds.",
-  "image": "https://sunflower-land.com/play/erc1155/204.png",
-  "decimals": 18,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "background_color": "5ec14c",
-  "attributes": [
-    {
-      "trait_type": "Purpose",
-      "value": "Resource"
-    }
-  ]
-}
+{"name":"Carrot","description":"## Carrot\n\nA crop grown at Sunflower Land.\n\nThey’re good for your eyes!\n\n## Supply\n\nUnlimited\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/204.png","decimals":18,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"5ec14c","attributes":[{"trait_type":"Purpose","value":"Resource"}]}

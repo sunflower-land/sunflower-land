@@ -1,13 +1,1 @@
-{
-  "name": "Gnome",
-  "description": "A lucky gnome",
-  "image": "https://sunflower-land.com/play/erc1155/407.png",
-  "decimals": 0,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "attributes": [
-    {
-      "trait_type": "Purpose",
-      "value": "Decoration"
-    }
-  ]
-}
+{"name":"Gnome","description":"## Gnome\n\nA lucky gnome. Currently used for decoration purposes\n\n~~You can craft a gnome at the blacksmith in the game.~~ **Sold out!**\n\n## Supply\n\n1000\n\n### Crafting Costs\n\n---\n\n- 10 SFL\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/407.png","decimals":0,"external_url":"https://docs.sunflower-land.com/crafting-guide","attributes":[{"trait_type":"Purpose","value":"Decoration"}]}

@@ -1,14 +1,1 @@
-{
-  "name": "Cabbage Seed",
-  "description": "A seed for a cabbage plant. You can buy these in game at the market",
-  "image": "https://sunflower-land.com/play/erc1155/105.png",
-  "decimals": 18,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "background_color": "5ec14c",
-  "attributes": [
-    {
-      "trait_type": "Purpose",
-      "value": "Resource"
-    }
-  ]
-}
+{"name":"Cabbage Seed","description":"## Cabbage Seed\n\nA seed used to grow cabbage.\n\nYou can buy cabbage seeds in game at the market.\n\n## Supply\n\nUnlimited\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/105.png","decimals":18,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"5ec14c","attributes":[{"trait_type":"Purpose","value":"Resource"}]}

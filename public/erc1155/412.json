@@ -1,13 +1,1 @@
-{
-  "name": "Sunflower Rock",
-  "description": "A rare homage to the game that broke Polygon. Owned by the 100+ designers, developers and contributors of the project.",
-  "image": "https://sunflower-land.com/play/erc1155/412.png",
-  "decimals": 0,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "attributes": [
-    {
-      "trait_type": "Purpose",
-      "value": "Decoration"
-    }
-  ]
-}
+{"name":"Sunflower Rock","description":"## Sunflower Rock\n\nRemember the time Sunflower Farmers 'broke' Polygon? Those days are gone with Sunflower Land!\n\nThis is an extremely rare decoration for your farm.\n\nYou can craft this item at the Blacksmith in the game.\n\n## Supply\n\n150\n\n### Crafting Costs\n\n---\n\n- 100 SFL\n- 10000 Sunflowers\n- 100 Iron\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/412.png","decimals":0,"external_url":"https://docs.sunflower-land.com/crafting-guide","attributes":[{"trait_type":"Purpose","value":"Decoration"}]}
