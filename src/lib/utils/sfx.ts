@@ -13,9 +13,9 @@ import miningMp3 from "../../assets/sound-effects/mining.mp3";
 import miningFallMp3 from "../../assets/sound-effects/mining_fall.mp3";
 import chopMp3 from "../../assets/sound-effects/chop.mp3";
 import treeFallMp3 from "../../assets/sound-effects/tree_fall.mp3";
-import tailorMp3 from "../../assets/sound-effects/tailor.mp3"
-import homeDoorMp3 from "../../assets/sound-effects/home_door.mp3"
-import barnMp3 from "../../assets/sound-effects/barn.mp3"
+import tailorMp3 from "../../assets/sound-effects/tailor.mp3";
+import homeDoorMp3 from "../../assets/sound-effects/home_door.mp3";
+import barnMp3 from "../../assets/sound-effects/barn.mp3";
 
 export const harvestAudio = new Howl({
   src: [harvestMp3],

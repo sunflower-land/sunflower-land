@@ -7,7 +7,7 @@ import { Web3Missing } from "./components/Web3Missing";
 import { WrongChain } from "./components/WrongChain";
 import { Beta } from "./components/Beta";
 import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
-import { RejectedSyncOnChainTransaction } from "./components/RejectedSyncOnChainTransation";
+import { RejectedSyncOnChainTransaction } from "./components/RejectedSyncOnChainTransaction";
 import { ConnectingError } from "./components/ConnectingError";
 import { Blocked } from "./components/Blocked";
 import { DuplicateUser } from "./components/DuplicateUser";
