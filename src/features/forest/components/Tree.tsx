@@ -18,11 +18,10 @@ import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import {
   canChop,
+  ChopAction,
   CHOP_ERRORS,
   TREE_RECOVERY_SECONDS,
 } from "features/game/events/chop";
-
-
 
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
@@ -89,12 +88,13 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     if (selectedItem !== "Axe") {
       return;
     }
-    
+
   const axeAmount = game.context.state.inventory.Axe || new Decimal(0); 
     if(axeAmount.lessThanOrEqualTo(0))
      return;
     
   const isPlaying = shakeGif.current?.getInfo("isPlaying");
+
     if (isPlaying) {
       return;
     }
