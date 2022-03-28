@@ -298,7 +298,7 @@ export function startGame(authContext: Options) {
                   );
                   return {
                     actions: recentActions,
-                    state: updateGame(event.data.farm, recentActions),
+                    state: updateGame(event.data.farm, recentActions, context.state),
                   };
                 }),
               },

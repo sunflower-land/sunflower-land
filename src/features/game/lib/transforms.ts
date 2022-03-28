@@ -83,8 +83,11 @@ export function makeGame(farm: any): GameState {
  */
 export function updateGame(
   newGameState: GameState,
-  actions: PastAction[]
+  actions: PastAction[],
+  oldGameState: GameState,
 ): GameState {
+  newGameState.farmAddress = oldGameState.farmAddress;
+
   if (actions.length === 0) {
     return newGameState;
   }
