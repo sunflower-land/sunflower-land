@@ -8,13 +8,19 @@ import arrowLeft from "assets/icons/arrow_left.png";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
+import lock from "assets/skills/lock.png";
+
 interface Props {
   back: () => void;
 }
 
 export const SkillTree: React.FC<Props> = ({ back }) => {
   const { gameService } = useContext(Context);
-  const [{ context: { state } }] = useActor(gameService);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   return (
     <>
@@ -31,15 +37,15 @@ export const SkillTree: React.FC<Props> = ({ back }) => {
         {(Object.keys(SKILL_TREE) as SkillName[]).map((skillName) => {
           const skill = SKILL_TREE[skillName];
           const skillAcquired = state.inventory[skillName]?.equals(1);
+          
           return (
-            <OuterPanel className={classNames("w-full my-2 p-1 relative", { "grayscale-[50%]": !skillAcquired })} key={skillName}>
+            <OuterPanel className="w-full my-2 p-1 relative" key={skillName} >
               <span
                 className={classNames(
                   "text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md capitalize",
                   {
                     "bg-green-600": skill.profession === "farming",
                     "bg-[#7C4700]": skill.profession === "gathering",
-                    "grayscale-[60%]": !skillAcquired
                   }
                 )}
               >
@@ -48,9 +54,9 @@ export const SkillTree: React.FC<Props> = ({ back }) => {
               <div className="flex justify-between h-12 items-center border-b border-white mb-2">
                 <span className="text-sm">{skillName}</span>
                 <img
-                  src={ITEM_DETAILS[skillName].image}
+                  src={skillAcquired ? ITEM_DETAILS[skillName].image : lock}
                   alt="farming"
-                  className={classNames("w-6 mx-2", { grayscale: !skillAcquired })}
+                  className="w-6 mx-2"
                 />
               </div>
               <ul className="list-disc">
