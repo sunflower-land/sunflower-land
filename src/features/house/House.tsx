@@ -27,6 +27,7 @@ import { InventoryItemName } from "features/game/types/game";
 
 import { SkillUpgrade } from "./components/SkillUpgrade";
 import { SkillTree } from "./components/SkillTree";
+import { homeDoorAudio } from "lib/utils/sfx";
 
 export const House: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -42,6 +43,7 @@ export const House: React.FC = () => {
   const open = () => {
     setIsSkillTreeOpen(false);
     setIsOpen(true);
+    homeDoorAudio.play()
   };
 
   const gatheringXp = gameState.context.state.skills.gathering;

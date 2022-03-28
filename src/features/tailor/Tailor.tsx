@@ -11,6 +11,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import { TailorSale } from "./components/TailorSale";
 import classNames from "classnames";
+import { tailorAudio } from "lib/utils/sfx";
 
 export const Tailor: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -20,7 +21,8 @@ export const Tailor: React.FC = () => {
   const isNotReadOnly = !gameState.matches("readonly");
 
   const openTailor = () => {
-    setIsOpen(true);
+      setIsOpen(true);
+      tailorAudio.play();
   };
 
   return (

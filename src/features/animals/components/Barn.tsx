@@ -5,6 +5,7 @@ import { Modal } from "react-bootstrap";
 import { Context } from "features/game/GameProvider";
 
 import chicken from "assets/resources/chicken.png";
+import { barnAudio } from "lib/utils/sfx";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
@@ -20,6 +21,7 @@ export const Barn: React.FC = () => {
 
   const openBarn = () => {
     setIsOpen(true);
+    barnAudio.play()
   };
 
   return (
