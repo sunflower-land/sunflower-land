@@ -50,7 +50,7 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
   }
 
   if (errorCode === "REJECTED_SYNC_TRANSACTION") {
-    return <RejectedSyncOnChainTransaction onTryAgain={() => send("RETURN")} />;
+    return <RejectedSyncOnChainTransaction onTryAgain={() => send("REFRESH")} />;
   }
 
   if (errorCode === "NO_FARM") {
