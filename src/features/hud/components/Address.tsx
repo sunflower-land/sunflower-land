@@ -14,7 +14,7 @@ export const shortAddress = (address: string): string => {
   // check if there is an address
   if (address) {
     return `${address.slice(0, 5)}...${address.slice(-4)}`;
-  } 
+  }
   return ``;
 };
 
