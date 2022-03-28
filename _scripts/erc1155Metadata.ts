@@ -37,7 +37,7 @@ async function convertMarkdown() {
   });
 }
 
-convertMarkdown();
+//convertMarkdown();
 
 // type ERC1155Metadata = Record<
 //   InventoryItemName,
