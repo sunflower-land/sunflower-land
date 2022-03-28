@@ -10,9 +10,8 @@
       "value": 20
     },
     {
-      "display_type": "number",
-      "trait_type": "Level",
-      "value": 5
+      "trait_type": "Purpose",
+      "value": "Boost"
     }
   ]
 }

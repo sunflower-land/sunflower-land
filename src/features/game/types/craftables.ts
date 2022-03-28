@@ -302,7 +302,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 500000,
+    supply: 5000,
   },
   "Apprentice Beaver": {
     name: "Apprentice Beaver",

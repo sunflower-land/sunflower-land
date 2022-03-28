@@ -9,6 +9,10 @@
       "display_type": "boost_percentage",
       "trait_type": "Tree Recovery Speed",
       "value": 500
+    },
+    {
+      "trait_type": "Purpose",
+      "value": "Boost"
     }
   ]
 }

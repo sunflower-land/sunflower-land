@@ -4,5 +4,10 @@
   "image": "https://sunflower-land.com/play/erc1155/401.png",
   "decimals": 0,
   "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "attributes": []
+  "attributes": [
+    {
+      "trait_type": "Purpose",
+      "value": "Decoration"
+    }
+  ]
 }

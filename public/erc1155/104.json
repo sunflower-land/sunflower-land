@@ -4,5 +4,11 @@
   "image": "https://sunflower-land.com/play/erc1155/104.png",
   "decimals": 18,
   "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "background_color": "5ec14c"
+  "background_color": "5ec14c",
+  "attributes": [
+    {
+      "trait_type": "Purpose",
+      "value": "Resource"
+    }
+  ]
 }
