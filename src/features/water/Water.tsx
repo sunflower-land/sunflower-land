@@ -5,6 +5,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import chick from "assets/animals/chick.gif";
+import dragonfly from "assets/decorations/dragonfly.gif";
 import Shark from "./components/Shark";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
@@ -31,6 +32,10 @@ export const Water: React.FC = () => {
         />
 
         <img src={chick} className="absolute right-0 w-5 top-8" />
+        <img
+          src={dragonfly}
+          className="absolute right-16 w-10 bottom-36 animate-float"
+        />
 
         <Frog />
         <Shark />
