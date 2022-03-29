@@ -31,6 +31,7 @@ import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { House } from "features/house/House";
 import { Tailor } from "features/tailor/Tailor";
+import { Lore } from "./components/Lore";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -108,6 +109,7 @@ export const Game: React.FC = () => {
       <Town />
       <House />
       <Tailor />
+      <Lore />
     </>
   );
 };
