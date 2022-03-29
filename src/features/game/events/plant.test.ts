@@ -71,6 +71,7 @@ describe("plant", () => {
     expect(state.fields[6]).toEqual({
       name: "Potato",
       plantedAt: expect.any(Number),
+      multiplier: 1,
     });
   });
 
@@ -107,6 +108,7 @@ describe("plant", () => {
     expect(state.fields[12]).toEqual({
       name: "Pumpkin",
       plantedAt: expect.any(Number),
+      multiplier: 1,
     });
   });
 
@@ -143,6 +145,7 @@ describe("plant", () => {
     expect(state.fields[20]).toEqual({
       name: "Pumpkin",
       plantedAt: expect.any(Number),
+      multiplier: 1,
     });
   });
 
@@ -236,6 +239,7 @@ describe("plant", () => {
         0: {
           name: "Sunflower",
           plantedAt: expect.any(Number),
+          multiplier: 1,
         },
       },
     });

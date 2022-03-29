@@ -37,9 +37,9 @@ export const SkillTree: React.FC<Props> = ({ back }) => {
         {(Object.keys(SKILL_TREE) as SkillName[]).map((skillName) => {
           const skill = SKILL_TREE[skillName];
           const skillAcquired = state.inventory[skillName]?.equals(1);
-          
+
           return (
-            <OuterPanel className="w-full my-2 p-1 relative" key={skillName} >
+            <OuterPanel className="w-full my-2 p-1 relative" key={skillName}>
               <span
                 className={classNames(
                   "text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md capitalize",

@@ -303,6 +303,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
       },
     ],
     supply: 5000,
+    section: Section.Beaver,
   },
   "Apprentice Beaver": {
     name: "Apprentice Beaver",
@@ -319,6 +320,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
       },
     ],
     supply: 5000,
+    section: Section.Beaver,
   },
   "Foreman Beaver": {
     name: "Foreman Beaver",
@@ -335,6 +337,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
       },
     ],
     supply: 300,
+    section: Section.Beaver,
   },
 };
 

@@ -15,6 +15,9 @@ import gnome from "assets/nfts/gnome.png";
 import scarecrow from "assets/nfts/scarecrow.png";
 import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
+import beaver from "assets/nfts/beaver.png";
+import apprentice from "assets/nfts/apprentice_beaver.png";
+import foreman from "assets/nfts/construction_beaver.png";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Context } from "../GameProvider";
@@ -183,6 +186,48 @@ export const Decorations: React.FC = () => {
           className="absolute"
           src={goblinKing}
           alt="GoblinKing"
+        />
+      )}
+
+      {state.inventory["Woody the Beaver"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.2}px`,
+            right: `${GRID_WIDTH_PX * 24}px`,
+            top: `${GRID_WIDTH_PX * 49}px`,
+          }}
+          id={Section["Beaver"]}
+          className="absolute"
+          src={beaver}
+          alt="Beaver"
+        />
+      )}
+
+      {state.inventory["Apprentice Beaver"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.2}px`,
+            right: `${GRID_WIDTH_PX * 24}px`,
+            top: `${GRID_WIDTH_PX * 49}px`,
+          }}
+          id={Section["Beaver"]}
+          className="absolute"
+          src={apprentice}
+          alt="Beaver"
+        />
+      )}
+
+      {state.inventory["Foreman Beaver"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 0.8}px`,
+            right: `${GRID_WIDTH_PX * 24}px`,
+            top: `${GRID_WIDTH_PX * 49}px`,
+          }}
+          id={Section["Beaver"]}
+          className="absolute"
+          src={foreman}
+          alt="Beaver"
         />
       )}
     </>
