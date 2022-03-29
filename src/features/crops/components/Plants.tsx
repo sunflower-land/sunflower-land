@@ -29,20 +29,17 @@ export const Plants: React.FC = () => {
 
   const inventory = state.inventory;
 
+
+
   const sell = (amount = 1) => {
     gameService.send("item.sell", {
       item: selected.name,
       amount,
     })
-      
-    if (inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) 
-     {
-       setToast({ content: "SFL +$" + selected.sellPrice.mul(1.05*amount).toString() });
-     }
-      else
-     {
-       setToast({ content: "SFL +$" + selected.sellPrice.mul(amount).toString() });
-    }
+      {
+        setToast({ content: "SFL +$" +   displaySellPrice(selected).mul(cropAmount).toString() });
+      }
+
   };
 
   const cropAmount = new Decimal(inventory[selected.name] || 0);
