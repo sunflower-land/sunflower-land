@@ -41,7 +41,7 @@ export const Plants: React.FC = () => {
      }
       else
      {
-      setToast({ content: "SFL +$" + selected.sellPrice.mul(amount).toString() });
+       setToast({ content: "SFL +$" + selected.sellPrice.mul(amount).toString() });
     }
   };
 
