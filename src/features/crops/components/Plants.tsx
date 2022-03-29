@@ -33,8 +33,16 @@ export const Plants: React.FC = () => {
     gameService.send("item.sell", {
       item: selected.name,
       amount,
-    });
-    setToast({ content: "SFL +$" + selected.sellPrice.mul(amount).toString() });
+    })
+      
+    if (inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) 
+     {
+       setToast({ content: "SFL +$" + selected.sellPrice.mul(1.05*amount).toString() });
+     }
+      else
+     {
+      setToast({ content: "SFL +$" + selected.sellPrice.mul(amount).toString() });
+    }
   };
 
   const cropAmount = new Decimal(inventory[selected.name] || 0);
