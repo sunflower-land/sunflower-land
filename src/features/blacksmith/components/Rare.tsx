@@ -17,6 +17,7 @@ import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
+import { FLAGS } from "features/game/types/flags";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -110,6 +111,10 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
 
   const soldOut = amountLeft <= 0;
 
+  const maxFlags = Object.values(FLAGS).filter(
+    (flag) => flag.name in items && flag.name in state.inventory
+  ).length === 2;
+
   const Action = () => {
     if (soldOut) {
       return null;
@@ -136,6 +141,8 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
         </div>
       );
     }
+
+    if (maxFlags) return;
 
     return (
       <>
@@ -188,6 +195,8 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
                   inventory[ingredient.item] || 0
                 ).lessThan(ingredient.amount);
 
+                if (maxFlags) return;
+
                 return (
                   <div className="flex justify-center items-end" key={index}>
                     <img src={item.image} className="h-5 me-2" />
@@ -205,19 +214,21 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
                 );
               })}
 
-              <div className="flex justify-center items-end">
-                <img src={token} className="h-5 mr-1" />
-                <span
-                  className={classNames(
-                    "text-xs text-shadow text-center mt-2 ",
-                    {
-                      "text-red-500": lessFunds(),
-                    }
-                  )}
-                >
-                  {`$${selected.price.toNumber()}`}
-                </span>
-              </div>
+              {!maxFlags && (
+                <div className="flex justify-center items-end">
+                  <img src={token} className="h-5 mr-1" />
+                  <span
+                    className={classNames(
+                      "text-xs text-shadow text-center mt-2 ",
+                      {
+                        "text-red-500": lessFunds(),
+                      }
+                    )}
+                  >
+                    {`${selected.price.toNumber()}`}
+                  </span>
+                </div>
+              )}
             </div>
           ) : (
             <span>?</span>
