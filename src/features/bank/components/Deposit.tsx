@@ -97,7 +97,7 @@ const SFLItemsInstructions = () => (
       <span>Follow the prompts</span>
     </li>
     <li className="flex text-xs mb-3">
-      <span className="mr-1">6.</span>
+      <span className="mr-1">4.</span>
       <span>
         {
           'Once the transaction has completed successfully, open the menu inside Sunflower Land and click "Sync on Chain"'

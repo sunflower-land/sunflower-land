@@ -43,7 +43,7 @@ export const House: React.FC = () => {
   const open = () => {
     setIsSkillTreeOpen(false);
     setIsOpen(true);
-    homeDoorAudio.play()
+    homeDoorAudio.play();
   };
 
   const gatheringXp = gameState.context.state.skills.gathering;

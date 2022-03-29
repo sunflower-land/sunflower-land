@@ -6,6 +6,12 @@ import { Message } from "../types/message";
 
 const MESSAGES_KEY = "readMessages";
 
+// starts at 5mm, every 10mm tokens half again after milestone_2
+enum Halvening {
+  MILESTONE_1 = "5e+6",
+  MILESTONE_2 = "10e+6"
+} 
+
 async function getSFLSupply() {
   const supply = await metamask.getToken().totalSupply();
 
@@ -27,6 +33,19 @@ export function cleanupCache(oldInbox: Message[]) {
   }
 }
 
+function getNextHalvening(currentSupply: Decimal) {
+  if (currentSupply.lessThan(new Decimal(Halvening.MILESTONE_1))) {
+    return new Decimal(Halvening.MILESTONE_1);
+  }
+  if (currentSupply.lessThan(new Decimal(Halvening.MILESTONE_2))) {
+    return new Decimal(Halvening.MILESTONE_2);
+  }
+  
+  // (12e+6/10e+6) + 1 * 10 = 20 -> next halving of 12e+6
+  const integerVal = currentSupply.idiv(Halvening.MILESTONE_2).add(1).times(10);
+  return new Decimal(`${integerVal}e+6`);
+}
+
 /**
  * MVP1:
  * - always change id to reflect unread
@@ -35,15 +54,18 @@ export function cleanupCache(oldInbox: Message[]) {
  */
 export async function getInbox() {
   const sflBalance = await getSFLSupply();
+  const nextHalvening = getNextHalvening(sflBalance);
 
   return [
     // double space for line break
     {
       id: "sfl-supply",
       title: "SFL Supply",
-      body: `Total SFL: ${sflBalance.toDecimalPlaces(3, Decimal.ROUND_DOWN)}  
+      body: `Total SFL: ${sflBalance.toDecimalPlaces(3, Decimal.ROUND_DOWN).toNumber().toLocaleString()}  
         &nbsp;  
-        Note: this value is read from the Blockchain. Other farmers may not have synced yet.
+        Next halvening is at ${nextHalvening.toNumber().toLocaleString()}  
+        &nbsp;   
+        **Note: this value is read from the Blockchain. Other farmers may not have synced yet.**
       `,
     },
     {
