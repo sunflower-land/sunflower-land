@@ -25,6 +25,7 @@ interface Props {
   onClose: () => void;
   items: Partial<Record<InventoryItemName, Craftable>>;
   hasAccess: boolean;
+  canCraft?: boolean;
 }
 
 const Items: React.FC<{
@@ -62,7 +63,7 @@ const Items: React.FC<{
     </div>
   );
 };
-export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
+export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = true }) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
   const { gameService } = useContext(Context);
   const [
@@ -111,10 +112,6 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
 
   const soldOut = amountLeft <= 0;
 
-  const maxFlags = Object.values(FLAGS).filter(
-    (flag) => flag.name in items && flag.name in state.inventory
-  ).length === 2;
-
   const Action = () => {
     if (soldOut) {
       return null;
@@ -142,7 +139,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
       );
     }
 
-    if (maxFlags) return;
+    if (!canCraft) return;
 
     return (
       <>
@@ -195,7 +192,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
                   inventory[ingredient.item] || 0
                 ).lessThan(ingredient.amount);
 
-                if (maxFlags) return;
+                if (!canCraft) return;
 
                 return (
                   <div className="flex justify-center items-end" key={index}>
@@ -214,7 +211,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
                 );
               })}
 
-              {!maxFlags && (
+              {canCraft && (
                 <div className="flex justify-center items-end">
                   <img src={token} className="h-5 mr-1" />
                   <span
