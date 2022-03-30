@@ -5,7 +5,7 @@ import { secondsToLongString } from "lib/utils/time";
 const wishingWellAddress = CONFIG.WISHING_WELL_CONTRACT;
 
 // 3 days
-export const LOCKED_SECONDS = 3 * 24 * 60 * 60;
+export const LOCKED_SECONDS = 60; //3 * 24 * 60 * 60;
 
 export type WishingWellTokens = {
   myTokensInWell: string;
