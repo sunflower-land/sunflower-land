@@ -36,10 +36,7 @@ export const Plants: React.FC = () => {
       item: selected.name,
       amount,
     })
-      {
         setToast({ content: "SFL +$" +   displaySellPrice(selected).mul(cropAmount).toString() });
-      }
-
   };
 
   const cropAmount = new Decimal(inventory[selected.name] || 0);
