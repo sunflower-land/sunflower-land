@@ -1,5 +1,5 @@
 {
-  "name": "Scarecrow",
+  "name": "Nancy",
   "description": "Keep the crows away from your crops with this rare item.",
   "image": "https://sunflower-land.com/play/erc1155/401.png",
   "decimals": 0,
@@ -7,8 +7,8 @@
   "attributes": [
     {
       "display_type": "boost_percentage",
-      "trait_type": "Crop Yield Increase",
-      "value": 20
+      "trait_type": "Crop Growth Speed",
+      "value": 15
     }
   ]
 }

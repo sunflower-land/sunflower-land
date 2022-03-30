@@ -6,9 +6,9 @@
   "external_url": "https://docs.sunflower-land.com/crafting-guide",
   "attributes": [
     {
-      "display_type": "boost_percentage",
-      "trait_type": "Crop Yield Increase",
-      "value": 20
+      "display_type": "boost_number",
+      "trait_type": "Seed Cost",
+      "value": 0
     }
   ]
 }

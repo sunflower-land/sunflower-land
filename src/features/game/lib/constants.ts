@@ -125,7 +125,9 @@ export const INITIAL_GOLD: GameState["gold"] = {
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
-  inventory: {},
+  inventory: {
+    Kuebiko: new Decimal(1),
+  },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,

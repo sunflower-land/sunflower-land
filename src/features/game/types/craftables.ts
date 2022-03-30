@@ -52,7 +52,9 @@ export type BlacksmithItem =
 export type BarnItem = "Farm Cat" | "Farm Dog" | "Chicken Coop" | "Gold Egg";
 
 export type MarketItem =
+  | "Nancy"
   | "Scarecrow"
+  | "Kuebiko"
   | "Golden Cauliflower"
   | "Mysterious Parsnip"
   | "Carrot Sword";
@@ -345,10 +347,10 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
 };
 
 export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
-  Scarecrow: {
-    name: "Scarecrow",
-    description: "Grow crops 20% faster",
-    price: new Decimal(50),
+  Nancy: {
+    name: "Nancy",
+    description: "Keeps a few crows away. Crops grow 15% faster",
+    price: new Decimal(10),
     ingredients: [
       {
         item: "Wheat",
@@ -358,11 +360,52 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         item: "Wood",
         amount: new Decimal(50),
       },
+      {
+        item: "Scarecrow",
+        amount: new Decimal(1),
+      },
+    ],
+    supply: 50000,
+  },
+  Scarecrow: {
+    name: "Scarecrow",
+    description: "A goblin scarecrow. Grow crops 20% faster",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: new Decimal(400),
+      },
+      {
+        item: "Wood",
+        amount: new Decimal(50),
+      },
+      {
+        item: "Nancy",
+        amount: new Decimal(1),
+      },
     ],
     limit: 1,
-    supply: 50000,
+    supply: 5000,
     disabled: true,
     section: Section.Scarecrow,
+  },
+  Kuebiko: {
+    name: "Kuebiko",
+    description:
+      "Even the shopkeeper is scared of this scarecrow. Seeds are free",
+    price: new Decimal(300),
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: new Decimal(600),
+      },
+      {
+        item: "Scarecrow",
+        amount: new Decimal(1),
+      },
+    ],
+    supply: 200,
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",

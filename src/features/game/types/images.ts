@@ -48,6 +48,8 @@ import apprenticeBeaver from "assets/nfts/apprentice_beaver.png";
 import constructionBeaver from "assets/nfts/construction_beaver.png";
 import mysteriousParsnip from "assets/nfts/mysterious_parsnip.png";
 import carrotSword from "assets/nfts/carrot_sword.png";
+import nancy from "assets/nfts/nancy.png";
+import kuebiko from "assets/nfts/kuebiko.gif";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
@@ -311,9 +313,17 @@ export const ITEM_DETAILS: Items = {
     ...BLACKSMITH_ITEMS["Potato Statue"],
     image: potatoStatue,
   },
+  Nancy: {
+    ...MARKET_ITEMS["Nancy"],
+    image: nancy,
+  },
   Scarecrow: {
     ...MARKET_ITEMS["Scarecrow"],
     image: scarecrow,
+  },
+  Kuebiko: {
+    ...MARKET_ITEMS["Kuebiko"],
+    image: kuebiko,
   },
   "Christmas Tree": {
     ...BLACKSMITH_ITEMS["Christmas Tree"],
