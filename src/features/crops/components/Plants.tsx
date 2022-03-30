@@ -29,14 +29,14 @@ export const Plants: React.FC = () => {
 
   const inventory = state.inventory;
 
-
-
   const sell = (amount = 1) => {
     gameService.send("item.sell", {
       item: selected.name,
       amount,
-    })
-        setToast({ content: "SFL +$" +   displaySellPrice(selected).mul(cropAmount).toString() });
+    });
+    setToast({
+      content: "SFL +$" + displaySellPrice(selected).mul(amount).toString(),
+    });
   };
 
   const cropAmount = new Decimal(inventory[selected.name] || 0);
