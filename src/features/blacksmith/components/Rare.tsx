@@ -17,6 +17,7 @@ import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
+import { FLAGS } from "features/game/types/flags";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -24,6 +25,7 @@ interface Props {
   onClose: () => void;
   items: Partial<Record<InventoryItemName, Craftable>>;
   hasAccess: boolean;
+  canCraft?: boolean;
 }
 
 const Items: React.FC<{
@@ -61,7 +63,7 @@ const Items: React.FC<{
     </div>
   );
 };
-export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
+export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = true }) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
   const { gameService } = useContext(Context);
   const [
@@ -137,6 +139,8 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
       );
     }
 
+    if (!canCraft) return;
+
     return (
       <>
         <Button
@@ -188,6 +192,8 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
                   inventory[ingredient.item] || 0
                 ).lessThan(ingredient.amount);
 
+                if (!canCraft) return;
+
                 return (
                   <div className="flex justify-center items-end" key={index}>
                     <img src={item.image} className="h-5 me-2" />
@@ -205,19 +211,21 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess }) => {
                 );
               })}
 
-              <div className="flex justify-center items-end">
-                <img src={token} className="h-5 mr-1" />
-                <span
-                  className={classNames(
-                    "text-xs text-shadow text-center mt-2 ",
-                    {
-                      "text-red-500": lessFunds(),
-                    }
-                  )}
-                >
-                  {`$${selected.price.toNumber()}`}
-                </span>
-              </div>
+              {canCraft && (
+                <div className="flex justify-center items-end">
+                  <img src={token} className="h-5 mr-1" />
+                  <span
+                    className={classNames(
+                      "text-xs text-shadow text-center mt-2 ",
+                      {
+                        "text-red-500": lessFunds(),
+                      }
+                    )}
+                  >
+                    {`${selected.price.toNumber()}`}
+                  </span>
+                </div>
+              )}
             </div>
           ) : (
             <span>?</span>

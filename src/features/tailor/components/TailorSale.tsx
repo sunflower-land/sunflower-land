@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import close from "assets/icons/close.png";
 import flag from "assets/nfts/flags/sunflower_flag.gif";
@@ -8,12 +8,20 @@ import { Tab } from "components/ui/Tab";
 import { FLAGS } from "features/game/types/craftables";
 import { Rare } from "features/blacksmith/components/Rare";
 import { Flag } from "features/game/types/flags";
+import { useActor } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   onClose: () => void;
 }
 
 export const TailorSale: React.FC<Props> = ({ onClose }) => {
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const [tab, setTab] = useState<"flags">("flags");
 
   // Alphabetically sort the flags
@@ -23,6 +31,10 @@ export const TailorSale: React.FC<Props> = ({ onClose }) => {
       obj[key] = FLAGS[key];
       return obj;
     }, {} as typeof FLAGS);
+
+  const maxFlags = Object.values(FLAGS).filter(
+    (flag) => flag.name in state.inventory
+  ).length === 2;
 
   return (
     <Panel className="pt-5 relative">
@@ -45,7 +57,7 @@ export const TailorSale: React.FC<Props> = ({ onClose }) => {
           minHeight: "200px",
         }}
       >
-        <Rare items={sortedFlags} onClose={onClose} hasAccess={true} />
+        <Rare items={sortedFlags} onClose={onClose} hasAccess={true} canCraft={!maxFlags} />
         <p className="text-xxs p-1 m-1 underline text-center">
           Max 2 flags per farm. Crafting flags will sync your farm to the
           blockchain.
