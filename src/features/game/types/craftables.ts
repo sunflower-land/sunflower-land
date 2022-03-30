@@ -360,10 +360,6 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         item: "Wood",
         amount: new Decimal(50),
       },
-      {
-        item: "Scarecrow",
-        amount: new Decimal(1),
-      },
     ],
     supply: 50000,
   },
