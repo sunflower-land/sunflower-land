@@ -10,6 +10,7 @@ import farm from "assets/brand/nft.png";
 import alert from "assets/icons/expression_alerted.png";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
+import classNames from "classnames";
 
 const EyeSvg = () => (
   <svg
@@ -109,7 +110,10 @@ const SFLItemsInstructions = () => (
 
 const TOOL_TIP_MESSAGE = "Copy Farm Address";
 
-type INSTRUCTION_TYPE = "token" | "item";
+enum Instructions {
+  "token",
+  "item",
+}
 
 export const Deposit: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -117,9 +121,7 @@ export const Deposit: React.FC = () => {
   const [showFullAddress, setShowFullAddress] = useState(false);
   const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
   const [showLabel, setShowLabel] = useState(false);
-  const [instructions, setInstructions] = useState<INSTRUCTION_TYPE | null>(
-    null
-  );
+  const [instructions, setInstructions] = useState<Instructions | null>(null);
 
   const farmAddress = gameState.context.state?.farmAddress as string;
 
@@ -131,8 +133,8 @@ export const Deposit: React.FC = () => {
     }, 2000);
   };
 
-  const showTokenInstructions = instructions === "token";
-  const showItemInstructions = instructions === "item";
+  const showTokenInstructions = instructions === Instructions.token;
+  const showItemInstructions = instructions === Instructions.item;
 
   return (
     <div>
@@ -205,14 +207,18 @@ export const Deposit: React.FC = () => {
 
       <div className="flex mb-3">
         <Button
-          className={"mr-1 focus:bg-brown-300"}
-          onClick={() => setInstructions("token")}
+          className={classNames("mr-1", {
+            "bg-brown-300": showTokenInstructions,
+          })}
+          onClick={() => setInstructions(Instructions.token)}
         >
           SFL Token
         </Button>
         <Button
-          className="ml-1 focus:bg-brown-300"
-          onClick={() => setInstructions("item")}
+          className={classNames("ml-1", {
+            "bg-brown-300": showItemInstructions,
+          })}
+          onClick={() => setInstructions(Instructions.item)}
         >
           SFL Items
         </Button>
