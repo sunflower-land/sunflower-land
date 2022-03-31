@@ -69,7 +69,11 @@ export type Tool =
   | "Hammer"
   | "Rod";
 
-export type Food = "Pumpkin Soup" | "Roasted Cauliflower" | "Sauerkraut";
+export type Food =
+  | "Pumpkin Soup"
+  | "Roasted Cauliflower"
+  | "Sauerkraut"
+  | "Radish Pie";
 
 export type Animal = "Chicken" | "Cow" | "Pig" | "Sheep";
 
@@ -106,6 +110,17 @@ export const FOODS: () => Record<Food, Craftable> = () => ({
       {
         item: "Cauliflower",
         amount: new Decimal(30),
+      },
+    ],
+  },
+  "Radish Pie": {
+    name: "Radish Pie",
+    description: "Despised by humans, loved by goblins",
+    price: marketRate(300),
+    ingredients: [
+      {
+        item: "Radish",
+        amount: new Decimal(60),
       },
     ],
   },
