@@ -14,7 +14,7 @@ export const INITIAL_STOCK: Inventory = {
   "Cauliflower Seed": new Decimal(80),
   "Parsnip Seed": new Decimal(40),
   "Radish Seed": new Decimal(40),
-  "Wheat Seed": new Decimal(0),
+  "Wheat Seed": new Decimal(40),
 
   Axe: new Decimal(50),
   Pickaxe: new Decimal(30),
@@ -126,7 +126,7 @@ export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
   inventory: {
-    Kuebiko: new Decimal(1),
+    "Radish Pie": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,

@@ -55,6 +55,7 @@ import kuebiko from "assets/nfts/kuebiko.gif";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import cabbageSoup from "assets/nfts/saurrerkrat.png";
 import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
+import radishPie from "assets/nfts/radish_pie.png";
 
 // Flags
 import australiaFlag from "assets/nfts/flags/australia_flag.gif";
@@ -403,6 +404,10 @@ export const ITEM_DETAILS: Items = {
   "Roasted Cauliflower": {
     ...FOODS()["Roasted Cauliflower"],
     image: roastedCaulfilower,
+  },
+  "Radish Pie": {
+    ...FOODS()["Radish Pie"],
+    image: radishPie,
   },
 
   /**

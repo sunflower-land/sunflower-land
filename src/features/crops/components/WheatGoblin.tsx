@@ -9,7 +9,7 @@ import { Panel } from "components/ui/Panel";
 
 import goblin from "assets/npcs/wheat_goblin.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
-import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
+import radishPie from "assets/nfts/radish_pie.png";
 import questionMark from "assets/icons/expression_confused.png";
 import heart from "assets/icons/heart.png";
 
@@ -36,33 +36,27 @@ export const WheatGoblin: React.FC = () => {
   return (
     <>
       <div
-        className="absolute z-10 animate-float"
+        className="absolute z-10"
         style={{
-          width: `${GRID_WIDTH_PX * 0.3}px`,
-          left: `${GRID_WIDTH_PX * 3.35}px`,
-          bottom: `${GRID_WIDTH_PX * 2.7}px`,
+          right: `${GRID_WIDTH_PX * 30}px`,
+          top: `${GRID_WIDTH_PX * 30}px`,
+          width: `${GRID_WIDTH_PX}px`,
         }}
       >
-        {!state.inventory["Pumpkin Soup"] ? (
+        {!state.inventory["Radish Pie"] ? (
           <>
             {" "}
             <img
               src={questionMark}
-              className="absolute z-10 animate-float"
-              style={{
-                width: `${GRID_WIDTH_PX * 0.3}px`,
-                left: `${GRID_WIDTH_PX * 3.35}px`,
-                bottom: `${GRID_WIDTH_PX * 2.7}px`,
-              }}
+              className="absolute z-10 animate-float w-3 -top-8 left-4"
             />
             <img
               src={goblin}
-              className="absolute z-10 hover:img-highlight cursor-pointer"
+              className="z-10 w-full hover:img-highlight cursor-pointer"
               onClick={() => setShowModal(true)}
               style={{
-                width: `${GRID_WIDTH_PX * 5}px`,
-                left: `${GRID_WIDTH_PX * 1}px`,
-                bottom: `${GRID_WIDTH_PX * 0.25}px`,
+                width: `${GRID_WIDTH_PX * 1}px`,
+                transform: "scaleX(-1)",
               }}
             />
           </>
@@ -70,29 +64,24 @@ export const WheatGoblin: React.FC = () => {
           <>
             <img
               src={heart}
-              className="absolute z-10 animate-float"
-              style={{
-                width: `${GRID_WIDTH_PX * 0.3}px`,
-                left: `${GRID_WIDTH_PX * -0.6}px`,
-                bottom: `${GRID_WIDTH_PX * 5.7}px`,
-              }}
+              className="absolute z-10 animate-float w-3 -top-6 left-4"
             />
             <img
               src={goblin}
-              className="absolute z-10 pointer-events-none"
+              className="z-10 w-full"
+              onClick={() => setShowModal(true)}
               style={{
-                width: `${GRID_WIDTH_PX * 5}px`,
-                left: `${GRID_WIDTH_PX * -3}px`,
-                bottom: `${GRID_WIDTH_PX * 3.25}px`,
+                width: `${GRID_WIDTH_PX * 1}px`,
+                transform: "scaleX(-1)",
               }}
             />
             <img
-              src={pumpkinSoup}
+              src={radishPie}
               className="absolute "
               style={{
-                width: `${GRID_WIDTH_PX * 0.75}px`,
-                left: `${GRID_WIDTH_PX * 0.2}px`,
-                bottom: `${GRID_WIDTH_PX * 4.4}px`,
+                width: `${GRID_WIDTH_PX * 0.7}px`,
+                left: `-${GRID_WIDTH_PX * 0.85}px`,
+                bottom: `${GRID_WIDTH_PX * 0.33}px`,
               }}
             />
           </>
@@ -104,17 +93,15 @@ export const WheatGoblin: React.FC = () => {
           <div className="flex items-start">
             <img src={goblinHead} className="w-16 img-highlight mr-2" />
             <div className="flex-1">
-              <span className="text-shadow block">This is Goblin land!</span>
+              <span className="text-shadow block">Goblin Farmer</span>
               <span className="text-shadow block mt-4">
-                I will trade this land for some creamy pumpkin soup.
+                Do you want to know the secret to growing wheat? Perhaps a
+                radish pie will refresh my memory
               </span>
               <img
-                src={pumpkinSoup}
+                src={radishPie}
                 className="w-8 img-highlight float-right mr-1 mb-1"
               />
-              <Button className="text-sm" onClick={goToKitchen}>
-                Go to the kitchen
-              </Button>
             </div>
           </div>
         </Panel>
