@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
-import lightBorder from "assets/ui/panel/light_border.png";
 import darkBorder from "assets/ui/panel/dark_border.png";
 import selectBox from "assets/ui/select/select_box.png";
 import { Label } from "./Label";
@@ -16,6 +15,32 @@ export interface BoxProps {
   disabled?: boolean;
 }
 
+// scoped to this component?
+Decimal.set({
+  rounding: Decimal.ROUND_FLOOR,
+});
+
+/**
+ * Format like in shortAddress
+ * Rules/Limits:
+ * - rounded down via Decimal.set
+ * - denominate by k, m for now
+ */
+const shortenCount = (count: Decimal | undefined): string => {
+  if (!count) return "";
+
+  if (count.lessThan(1)) return count.toDecimalPlaces(2).toString();
+
+  if (count.lessThan(1000)) return count.toInteger().toString();
+
+  const isThousand = count.lessThan(1e6);
+
+  return `${count
+    .div(isThousand ? 1000 : 1e6)
+    .toDecimalPlaces(1)
+    .toString()}${isThousand ? "k" : "m"}`;
+};
+
 export const Box: React.FC<BoxProps> = ({
   image,
   secondaryImage,
@@ -24,8 +49,18 @@ export const Box: React.FC<BoxProps> = ({
   onClick,
   disabled,
 }) => {
+  const [isHover, setIsHover] = useState(false);
+  const [shortCount, setShortCount] = useState("");
+
+  // re execute function on count change
+  useEffect(() => setShortCount(shortenCount(count)), [count]);
+
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+    >
       <div
         className={classNames(
           "w-12 h-12 bg-brown-600  m-1.5 cursor-pointer flex items-center justify-center relative",
@@ -66,12 +101,19 @@ export const Box: React.FC<BoxProps> = ({
         )}
 
         {!!count && count.greaterThan(0) && (
-          <Label className="absolute -top-4 -right-3 px-0.5 text-xs z-10">
-            {count.toString()}
+          <Label
+            className={classNames(
+              "absolute -top-4 -right-3 px-0.5 text-xs z-10",
+              {
+                "z-20": isHover,
+              }
+            )}
+          >
+            {isHover ? count.toString() : shortCount}
           </Label>
         )}
       </div>
-      {isSelected && (
+      {(isSelected || isHover) && (
         <img
           className="absolute w-14 h-14 top-0.5 left-0.5 pointer-events-none"
           src={selectBox}
