@@ -15,29 +15,26 @@ export interface BoxProps {
   disabled?: boolean;
 }
 
-// scoped to this component?
-Decimal.set({
-  rounding: Decimal.ROUND_FLOOR,
-});
-
 /**
  * Format like in shortAddress
  * Rules/Limits:
- * - rounded down via Decimal.set
+ * - rounded down explicitly
  * - denominate by k, m for now
  */
 const shortenCount = (count: Decimal | undefined): string => {
   if (!count) return "";
 
-  if (count.lessThan(1)) return count.toDecimalPlaces(2).toString();
+  if (count.lessThan(1))
+    return count.toDecimalPlaces(2, Decimal.ROUND_FLOOR).toString();
 
-  if (count.lessThan(1000)) return count.toInteger().toString();
+  if (count.lessThan(1000))
+    return count.toDecimalPlaces(0, Decimal.ROUND_FLOOR).toString();
 
   const isThousand = count.lessThan(1e6);
 
   return `${count
     .div(isThousand ? 1000 : 1e6)
-    .toDecimalPlaces(1)
+    .toDecimalPlaces(1, Decimal.ROUND_FLOOR)
     .toString()}${isThousand ? "k" : "m"}`;
 };
 
