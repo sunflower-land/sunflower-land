@@ -6,11 +6,19 @@ import { CraftableName } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 
+export type Reward = {
+  items: {
+    name: InventoryItemName;
+    amount: number;
+  }[];
+};
+
 export type FieldItem = {
   name: CropName;
   // Epoch time in milliseconds
   plantedAt: number;
   multiplier?: number;
+  reward?: Reward;
 };
 
 export type Tree = {

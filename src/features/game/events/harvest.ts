@@ -1,4 +1,4 @@
-import { GameState } from "../types/game";
+import { GameState, Inventory } from "../types/game";
 import { CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
 
@@ -69,12 +69,14 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   const cropCount = state.inventory[field.name] || new Decimal(0);
   const multiplier = field.multiplier || 1;
 
+  const inventory: Inventory = {
+    ...state.inventory,
+    [field.name]: cropCount.add(multiplier),
+  };
+
   return {
     ...state,
     fields: newFields,
-    inventory: {
-      ...state.inventory,
-      [field.name]: cropCount.add(multiplier),
-    },
+    inventory,
   } as GameState;
 }
