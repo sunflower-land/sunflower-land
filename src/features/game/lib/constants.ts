@@ -125,9 +125,7 @@ export const INITIAL_GOLD: GameState["gold"] = {
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
-  inventory: {
-    "Radish Pie": new Decimal(1),
-  },
+  inventory: {},
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,
