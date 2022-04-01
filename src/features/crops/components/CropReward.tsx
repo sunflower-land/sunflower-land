@@ -30,7 +30,7 @@ export const CropReward: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [opened, setOpened] = useState(false);
 
-  const offset = useRef(randomIntFromInterval(10, 300));
+  const offset = useRef(randomIntFromInterval(30, 100));
 
   if (!reward) {
     return null;
@@ -66,16 +66,19 @@ export const CropReward: React.FC<Props> = ({
             </>
           ) : (
             <>
-              <div className="flex items-center">
+              <div
+                className="flex items-center justify-between"
+                style={{
+                  width: `${offset.current}%`,
+                  // Randomly flip the side it is on
+                  transform: `scaleX(${offset.current % 2 === 0 ? 1 : -1})`,
+                }}
+              >
                 <img src={idle} className="w-16" />
                 <img
                   src={secure}
                   className="w-16 hover:img-highlight cursor-pointer"
                   onClick={open}
-                  // Random offset to make it unpredictable to click
-                  style={{
-                    marginLeft: `${offset.current}px`,
-                  }}
                 />
               </div>
 
