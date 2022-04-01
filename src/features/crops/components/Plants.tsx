@@ -3,6 +3,7 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.gif";
+import lightning from "assets/icons/lightning.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -27,7 +28,7 @@ export const Plants: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
-  const [isTimeBoosted, setIsTimeBoosted] = useState(false);
+  const [isPriceBoosted, setIsPriceBoosted] = useState(false);
 
   const inventory = state.inventory;
 
@@ -67,7 +68,9 @@ export const Plants: React.FC = () => {
     showSellAllModal(false);
   };
 
-  useEffect(() => setIsTimeBoosted(hasSellBoost(inventory)), [state.inventory]);
+  useEffect(() => {
+    setIsPriceBoosted(hasSellBoost(inventory));
+  }, [state.inventory]);
 
   return (
     <div className="flex">
@@ -97,9 +100,10 @@ export const Plants: React.FC = () => {
           <div className="border-t border-white w-full mt-2 pt-1">
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
+              {isPriceBoosted && <img src={lightning} className="h-6 me-2" />}
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  "text-green-400": isTimeBoosted,
+                  "text-green-400": isPriceBoosted,
                 })}
               >
                 {`$${displaySellPrice(selected)}`}

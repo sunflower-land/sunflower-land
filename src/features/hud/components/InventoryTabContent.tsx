@@ -7,6 +7,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { SEEDS, CROPS, CropName } from "features/game/types/crops";
 
 import timer from "assets/icons/timer.png";
+import lightning from "assets/icons/lightning.png";
 
 import { secondsToMidString, secondsToString } from "lib/utils/time";
 import classNames from "classnames";
@@ -123,6 +124,9 @@ export const InventoryTabContent = ({
                 <div className="w-full pt-1">
                   <div className="flex justify-center items-end">
                     <img src={timer} className="h-5 me-2" />
+                    {isTimeBoosted && (
+                      <img src={lightning} className="h-6 me-2" />
+                    )}
                     <span
                       className={classNames(
                         "text-xs text-shadow text-center mt-2 ",
