@@ -5,13 +5,15 @@ import classNames from "classnames";
 import selectBox from "assets/ui/select/select_box.png";
 
 import { Context } from "features/game/GameProvider";
-import { InventoryItemName } from "features/game/types/game";
+import { InventoryItemName, Reward } from "features/game/types/game";
 
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Soil } from "./Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
+import { HealthBar } from "components/ui/HealthBar";
+import { CropReward } from "./CropReward";
 
 const POPOVER_TIME_MS = 1000;
 const HOVER_TIMEOUT = 1000;
@@ -30,7 +32,9 @@ export const Field: React.FC<Props> = ({
 }) => {
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService } = useContext(Context);
+  const [touchCount, setTouchCount] = useState(0);
+  const [reward, setReward] = useState<Reward | null>(null);
   const [game] = useActor(gameService);
   const clickedAt = useRef<number>(0);
   const field = game.context.state.fields[fieldIndex];
@@ -44,7 +48,14 @@ export const Field: React.FC<Props> = ({
     setShowPopover(false);
   };
 
-  const timeoutId: null | ReturnType<typeof setTimeout> = null;
+  const onCollectReward = () => {
+    setReward(null);
+    setTouchCount(0);
+
+    gameService.send("item.harvested", {
+      index: fieldIndex,
+    });
+  };
 
   const handleMouseHover = () => {
     // check field if there is a crop
@@ -75,6 +86,18 @@ export const Field: React.FC<Props> = ({
     }
 
     clickedAt.current = now;
+
+    if (field?.reward) {
+      if (touchCount < 1) {
+        setTouchCount((count) => count + 1);
+        return;
+      }
+
+      // They have touched enough!
+      setReward(field.reward);
+
+      return;
+    }
 
     // Plant
     if (!field) {
@@ -126,6 +149,8 @@ export const Field: React.FC<Props> = ({
         <span className="text-xs text-white text-shadow">{e.message}</span>
       );
     }
+
+    setTouchCount(0);
   };
 
   const playing = game.matches("playing") || game.matches("autosaving");
@@ -148,6 +173,18 @@ export const Field: React.FC<Props> = ({
 
       <div
         className={classNames(
+          "transition-opacity pointer-events-none absolute -bottom-2 left-1",
+          {
+            "opacity-100": touchCount > 0,
+            "opacity-0": touchCount === 0,
+          }
+        )}
+      >
+        <HealthBar percentage={100 - touchCount * 50} />
+      </div>
+
+      <div
+        className={classNames(
           "transition-opacity absolute -bottom-2 w-40 -left-16 z-20 pointer-events-none",
           {
             "opacity-100": showPopover,
@@ -167,6 +204,11 @@ export const Field: React.FC<Props> = ({
           onClick={onClick}
         />
       )}
+      <CropReward
+        reward={reward}
+        onCollected={onCollectReward}
+        fieldIndex={fieldIndex}
+      />
     </div>
   );
 };
