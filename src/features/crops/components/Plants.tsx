@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.gif";
@@ -101,11 +100,7 @@ export const Plants: React.FC = () => {
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               {isPriceBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span
-                className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  "text-green-400": isPriceBoosted,
-                })}
-              >
+              <span className="text-xs text-shadow text-center mt-2 ">
                 {`$${displaySellPrice(selected)}`}
               </span>
             </div>

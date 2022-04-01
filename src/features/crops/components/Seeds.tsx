@@ -141,11 +141,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             <div className="flex justify-center items-center">
               <img src={timer} className="h-5 me-2" />
               {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span
-                className={classNames("text-xs text-shadow text-center mt-2", {
-                  "text-green-400": isTimeBoosted,
-                })}
-              >
+              <span className="text-xs text-shadow text-center mt-2">
                 {isTimeBoosted
                   ? secondsToMidString(
                       getReducedPlantTime(crop.harvestSeconds, inventory)
