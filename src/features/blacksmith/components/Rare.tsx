@@ -63,7 +63,12 @@ const Items: React.FC<{
     </div>
   );
 };
-export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = true }) => {
+export const Rare: React.FC<Props> = ({
+  onClose,
+  items,
+  hasAccess,
+  canCraft = true,
+}) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
   const { gameService } = useContext(Context);
   const [

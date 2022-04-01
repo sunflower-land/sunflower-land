@@ -130,6 +130,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 
 export type ItemDetails = {
+  name: string;
   description: string;
   image: any;
   secondaryImage?: any;
@@ -239,38 +240,47 @@ export const ITEM_DETAILS: Items = {
   Wood: {
     ...RESOURCES["Wood"],
     image: wood,
+    name: "WOOD",
   },
   Stone: {
     ...RESOURCES["Stone"],
     image: stone,
+    name: "STONE",
   },
   Iron: {
     ...RESOURCES["Iron"],
     image: iron,
+    name: "IRON",
   },
   Gold: {
     ...RESOURCES["Gold"],
     image: gold,
+    name: "GOLD",
   },
   Egg: {
     ...RESOURCES["Egg"],
     image: egg,
+    name: "EGG",
   },
   Chicken: {
     ...RESOURCES["Chicken"],
     image: chicken,
+    name: "CHICKEN",
   },
   Cow: {
     ...RESOURCES["Chicken"],
     image: questionMark,
+    name: "COW",
   },
   Sheep: {
     ...RESOURCES["Chicken"],
     image: questionMark,
+    name: "SHEEP",
   },
   Pig: {
     ...RESOURCES["Chicken"],
     image: questionMark,
+    name: "PIG",
   },
 
   // TOOLS
@@ -391,34 +401,42 @@ export const ITEM_DETAILS: Items = {
   "Green Thumb": {
     description: SKILL_TREE["Green Thumb"].perks[0],
     image: greenThumb,
+    name: wood,
   },
   "Barn Manager": {
     description: SKILL_TREE["Barn Manager"].perks[0],
     image: barnManager,
+    name: wood,
   },
   "Seed Specialist": {
     description: SKILL_TREE["Seed Specialist"].perks[0],
     image: seedSpecialist,
+    name: wood,
   },
   Wrangler: {
     description: SKILL_TREE["Wrangler"].perks[0],
     image: wrangler,
+    name: wood,
   },
   Lumberjack: {
     description: SKILL_TREE["Lumberjack"].perks[0],
     image: lumberjack,
+    name: wood,
   },
   Prospector: {
     description: SKILL_TREE["Prospector"].perks[0],
     image: prospector,
+    name: wood,
   },
   Logger: {
     description: SKILL_TREE["Logger"].perks[0],
     image: logger,
+    name: wood,
   },
   "Gold Rush": {
     description: SKILL_TREE["Gold Rush"].perks[0],
     image: goldRush,
+    name: wood,
   },
 
   /**

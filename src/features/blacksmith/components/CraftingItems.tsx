@@ -15,8 +15,6 @@ import { Craftable } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { Stock } from "components/ui/Stock";
 
-
-
 const POPOVER_TIME_MS = 1000;
 const HOVER_TIMEOUT = 1000;
 
@@ -170,7 +168,10 @@ export const CraftingItems: React.FC<Props> = ({
                       }
                     )}
                   >
-                    <div className="flex justify-center h-fit items-end " key={index}>
+                    <div
+                      className="flex justify-center h-fit items-end "
+                      key={index}
+                    >
                       <img src={item.image} className="h-5 me-2" />
 
                       <span
@@ -184,22 +185,19 @@ export const CraftingItems: React.FC<Props> = ({
                         {ingredient.amount.toNumber()}
 
                         <InnerPanel
-          className={classNames(
-            "ml-10 transition-opacity absolute whitespace-nowrap bind sm:opacity-0 bottom-5 w-fit  z-20 pointer-events-none",
-            {
-              "opacity-100": isHover,
-              "opacity-0": !isHover,
-            }
-          )}
-        >
-          <div className="flex items-center justify-center text-xxs text-white text-shadow ml-2 mr-2">
-            <img src={item.image} className="w-6 mr-1" />
-            <span className="flex-1">
-              {item.name}
-              </span>
-          </div>
-        </InnerPanel>
-                        
+                          className={classNames(
+                            "ml-10 transition-opacity absolute whitespace-nowrap bind sm:opacity-0 bottom-5 w-fit  z-20 pointer-events-none",
+                            {
+                              "opacity-100": isHover,
+                              "opacity-0": !isHover,
+                            }
+                          )}
+                        >
+                          <div className="flex items-center justify-center text-xxs text-white text-shadow ml-2 mr-2">
+                            <img src={item.image} className="w-6 mr-1" />
+                            <span className="flex-1">{item.name}</span>
+                          </div>
+                        </InnerPanel>
                       </span>
                     </div>
                   </div>
