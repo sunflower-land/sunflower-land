@@ -88,30 +88,26 @@ export function updateGame(
 ): GameState {
   newGameState.farmAddress = oldGameState.farmAddress;
 
-  // // Lets not copy time based values from the server as users clocks are often not in sync
-  newGameState.fields = Object.keys(newGameState.fields).reduce(
-    (acc, fieldNumber) => {
-      const id = Number(fieldNumber);
+  // FIX: Helps people with clocks out of sync
+  Object.keys(oldGameState.fields).forEach((fieldId) => {
+    const id = Number(fieldId);
 
-      return {
-        [id]: {
-          ...newGameState.fields[id],
-          plantedAt:
-            oldGameState.fields[id]?.plantedAt ||
-            newGameState.fields[id].plantedAt,
-        },
-        ...acc,
-      };
-    },
-    {} as GameState["fields"]
-  );
+    if (newGameState.fields[id]) {
+      newGameState.fields[id].plantedAt = oldGameState.fields[id].plantedAt;
+    }
+  });
 
   if (actions.length === 0) {
     return newGameState;
   }
 
   const updated = actions.reduce((state, action) => {
-    return processEvent(state, action);
+    try {
+      // User defined error/action just ignore
+      return processEvent(state, action);
+    } catch {
+      return state;
+    }
   }, newGameState);
 
   return updated;
