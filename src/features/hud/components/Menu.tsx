@@ -23,6 +23,7 @@ import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 
 import { isNewFarm } from "../lib/onboarding";
+import { Settings } from "./settings/settings";
 
 /**
  * TODO:
@@ -46,6 +47,7 @@ export const Menu = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
   const [farmURL, setFarmURL] = useState("");
@@ -69,6 +71,11 @@ export const Menu = () => {
 
   const handleShareClick = () => {
     setShowShareModal(true);
+    setMenuOpen(false);
+  };
+
+  const handleSettingsClick = () => {
+    setShowSettingsModal(true);
     setMenuOpen(false);
   };
 
@@ -258,6 +265,12 @@ export const Menu = () => {
               </>
             )}
 
+            <li className="p-1">
+              <Button onClick={() => handleSettingsClick()}>
+                <span className="sm:text-sm">Settings</span>
+              </Button>
+            </li>
+
             {/* View menu */}
             {menuLevel === MENU_LEVELS.VIEW && (
               <>
@@ -278,6 +291,11 @@ export const Menu = () => {
           </ul>
         </div>
       </OuterPanel>
+
+      <Settings
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+      />
 
       <Share
         isOpen={showShareModal}
