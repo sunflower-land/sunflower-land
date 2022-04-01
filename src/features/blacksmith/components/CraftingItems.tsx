@@ -156,11 +156,13 @@ export const CraftingItems: React.FC<Props> = ({
 
               return (
                 <div
+                  key={1}
                   className="relative"
                   onMouseEnter={() => setIsHover(true)}
                   onMouseLeave={() => setIsHover(false)}
                 >
                   <div
+                    key={2}
                     className={classNames(
                       "flex  justify-center items-end px-1",
                       {
