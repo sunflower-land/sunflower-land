@@ -23,88 +23,63 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <>
-      <Modal show={isOpen} onHide={onClose} centered>
-        <Panel className="pt-5 relative max-w-5xl">
-          <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-            <div className="flex">
-              <Tab isActive={tab === "volume"} onClick={() => setTab("volume")}>
-                <img src={token} className="h-5 mr-2" />
-                <span className="text-sm text-shadow">Volume</span>
-              </Tab>
-              <Tab
-                isActive={tab === "session"}
-                onClick={() => setTab("session")}
-              >
-                <img src={token} className="h-5 mr-2" />
-                <span className="text-sm text-shadow">Session</span>
-              </Tab>
-            </div>
-            <img
-              src={close}
-              className="h-6 cursor-pointer mr-2 mb-1"
-              onClick={onClose}
-            />
+    <Modal
+      show={isOpen}
+      onHide={() => {
+        onClose();
+        setTab("volume");
+      }}
+      centered
+    >
+      <Panel className="pt-5 relative max-w-5xl">
+        <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
+          <div className="flex">
+            <Tab isActive={tab === "volume"} onClick={() => setTab("volume")}>
+              <img src={token} className="h-5 mr-2" />
+              <span className="text-sm text-shadow">Volume</span>
+            </Tab>
+            <Tab isActive={tab === "session"} onClick={() => setTab("session")}>
+              <img src={token} className="h-5 mr-2" />
+              <span className="text-sm text-shadow">Session</span>
+            </Tab>
+            <Tab isActive={tab === "other"} onClick={() => setTab("other")}>
+              <img src={token} className="h-5 mr-2" />
+              <span className="text-sm text-shadow">Other</span>
+            </Tab>
           </div>
-
-          <div
-            style={{
-              minHeight: "200px",
+          <img
+            src={close}
+            className="h-6 cursor-pointer mr-2 mb-1"
+            onClick={() => {
+              onClose();
+              setTab("volume");
             }}
-          >
-            {tab === "volume" && <Volume />}
-            {tab === "session" && <Session />}
-            {tab === "other" && (
-              <div>
-                Other Settings / Controls / Preferences are being developed by
-                the team &amp;3 SFL
-              </div>
-            )}
-          </div>
-          <div className="justify-content-center">
-            <Button className="text-s w-1/4 px-1" onClick={handleSaveClick}>
-              Save
-            </Button>
-          </div>
-        </Panel>
-      </Modal>
-      {/* OG Modal */}
-      {/*
-      <Modal show={isOpen} onHide={onClose} centered>
-        <Panel>
-          <Modal.Header className="justify-content-space-between">
-            <h1 className="ml-2">Settings and Preferences</h1>
-            <img
-              src={close}
-              className="h-6 cursor-pointer mr-2 mb-1 justify-content-end"
-              onClick={onClose}
-            />
-          </Modal.Header>
-          <Modal.Body>
-            <div className="row justify-content-center align-items-center">
-              <div className="flex d-none d-sm-block col-sm col justify-content-center align-items-center">
-                <p className="text-sm whitespace-normal">
-                  Settings for the game are not fully developed yet they are
-                  still in beta.
-                </p>
-              </div>
-              <div className="flex col-sm-12 col justify-content-center md-px-4 lg-px-4 align-items-center">
-                <img
-                  src={farmImg}
-                  className="w-64 md-mt-2"
-                  alt="Sunflower-Land Farm NFT Image"
-                />
-              </div>
+          />
+        </div>
+
+        <div
+          style={{
+            minHeight: "200px",
+          }}
+        >
+          {tab === "volume" && <Volume />}
+          {tab === "session" && <Session />}
+          {tab === "other" && (
+            <div>
+              <p>
+                Other Settings/ Controls/ Preferences are being developed by the
+                SFL team and community developers.
+              </p>
+              <p>Please request/ suggest other settings TBA, on discord :)</p>
             </div>
-          </Modal.Body>
-          <Modal.Footer className="justify-content-center">
-            <Button className="text-s w-1/4 px-1" onClick={handleSaveClick}>
-              Save
-            </Button>
-          </Modal.Footer>
-        </Panel>
-      </Modal>
-    */}
-    </>
+          )}
+        </div>
+        <div className="flex justify-center">
+          <Button className="text-s w-1/4 px-1" onClick={handleSaveClick}>
+            Save
+          </Button>
+        </div>
+      </Panel>
+    </Modal>
   );
 };

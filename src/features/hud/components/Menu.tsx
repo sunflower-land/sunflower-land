@@ -293,8 +293,8 @@ export const Menu = () => {
       </OuterPanel>
 
       <Settings
-        isOpen={showShareModal}
-        onClose={() => setShowShareModal(false)}
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
       />
 
       <Share

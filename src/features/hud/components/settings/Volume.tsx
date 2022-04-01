@@ -6,5 +6,5 @@ export default function Volume() {
 
   console.log("Audio Context initiated by useAudioContext hook :)");
 
-  return <div>Volume Controls</div>;
+  return <div>Master Volume (SFX) Controls</div>;
 }
