@@ -32,6 +32,8 @@ export interface Context {
   captcha?: string;
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
+  // Workaround for transition into a previous states
+  redirect?: BlockchainState["value"];
 }
 
 type MintEvent = {
@@ -287,6 +289,9 @@ export function startGame(authContext: Options) {
                 cond: (_, event) => {
                   return !event.data.verified;
                 },
+                actions: assign((_) => ({
+                  redirect: "autosaving",
+                })),
               },
               {
                 target: "playing",
@@ -315,7 +320,7 @@ export function startGame(authContext: Options) {
         },
         captcha: {
           invoke: {
-            src: async (_, event: any) => {
+            src: async (_, event: any, t) => {
               const captcha = await solveCaptcha();
 
               return {
@@ -323,12 +328,26 @@ export function startGame(authContext: Options) {
                 ...event.data,
               };
             },
-            onDone: {
-              target: "autosaving",
-              actions: assign((context: Context, event) => ({
-                captcha: event.data.captcha,
-              })),
-            },
+            onDone: [
+              // HACK for transition back to state which needed captcha verification
+              {
+                target: "syncing",
+                cond: (context) => context.redirect === "syncing",
+                actions: assign((context: Context, event) => {
+                  return {
+                    captcha: event.data.captcha,
+                  };
+                }),
+              },
+              {
+                target: "autosaving",
+                actions: assign((context: Context, event) => {
+                  return {
+                    captcha: event.data.captcha,
+                  };
+                }),
+              },
+            ],
             onError: {
               target: "error",
               actions: "assignErrorMessage",
@@ -389,23 +408,36 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const sessionId = await sync({
+              const { sessionId, verified } = await sync({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
+                captcha: context.captcha,
               });
 
               return {
                 sessionId: sessionId,
+                verified,
               };
             },
-            onDone: {
-              target: "success",
-              actions: assign((_, event) => ({
-                sessionId: event.data.sessionId,
-                actions: [],
-              })),
-            },
+            onDone: [
+              {
+                target: "captcha",
+                actions: assign((_) => ({
+                  redirect: "syncing",
+                })),
+                cond: (_, event) => {
+                  return !event.data.verified;
+                },
+              },
+              {
+                target: "success",
+                actions: assign((_, event) => ({
+                  sessionId: event.data.sessionId,
+                  actions: [],
+                })),
+              },
+            ],
             onError: [
               {
                 target: "playing",
