@@ -88,7 +88,7 @@ export const Field: React.FC<Props> = ({
     clickedAt.current = now;
 
     if (field?.reward) {
-      if (touchCount < 2) {
+      if (touchCount < 1) {
         setTouchCount((count) => count + 1);
         return;
       }
@@ -180,7 +180,7 @@ export const Field: React.FC<Props> = ({
           }
         )}
       >
-        <HealthBar percentage={100 - touchCount * 33} />
+        <HealthBar percentage={100 - touchCount * 50} />
       </div>
 
       <div
