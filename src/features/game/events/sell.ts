@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { CropName, CROPS } from "../types/crops";
 import { GameState, InventoryItemName } from "../types/game";
-import { getSellPrice } from "../lib/pricing";
+import { getSellPrice } from "../lib/boosts";
 
 export type SellAction = {
   type: "item.sell";

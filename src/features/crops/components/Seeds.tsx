@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
@@ -9,7 +9,7 @@ import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
-import { secondsToString } from "lib/utils/time";
+import { secondsToString, secondsToMidString } from "lib/utils/time";
 
 import { Context } from "features/game/GameProvider";
 import { Craftable } from "features/game/types/craftables";
@@ -18,6 +18,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
+import { getReducedPlantTime, hasTimeBoost } from "features/game/lib/boosts";
 
 interface Props {
   onClose: () => void;
@@ -34,6 +35,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       context: { state },
     },
   ] = useActor(gameService);
+  const [isTimeBoosted, setIsTimeBoosted] = useState(false);
 
   const inventory = state.inventory;
 
@@ -67,6 +69,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const crop = CROPS()[cropName];
 
   const stock = state.stock[selected.name] || new Decimal(0);
+
+  useEffect(() => setIsTimeBoosted(hasTimeBoost(inventory)), [state.inventory]);
 
   const Action = () => {
     const isLocked = selected.requires && !inventory[selected.requires];
@@ -133,16 +137,22 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             alt={selected.name}
           />
           <div className="border-t border-white w-full mt-2 pt-1">
-            <div className="flex justify-center items-end">
+            <div className="flex justify-center items-center">
               <img src={timer} className="h-5 me-2" />
-              <span className="text-xs text-shadow text-center mt-2 ">
-                {secondsToString(crop.harvestSeconds)}
+              <span
+                className={classNames("text-xs text-shadow text-center mt-2", {
+                  "text-green-400": isTimeBoosted,
+                })}
+              >
+                {secondsToMidString(
+                  getReducedPlantTime(crop.harvestSeconds, inventory)
+                )}
               </span>
             </div>
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               <span
-                className={classNames("text-xs text-shadow text-center mt-2 ", {
+                className={classNames("text-xs text-shadow text-center mt-2", {
                   "text-red-500": lessFunds(),
                 })}
               >

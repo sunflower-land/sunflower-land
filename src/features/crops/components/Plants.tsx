@@ -14,7 +14,7 @@ import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { getSellPrice } from "features/game/lib/pricing";
+import { getSellPrice } from "features/game/lib/boosts";
 
 export const Plants: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);

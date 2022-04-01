@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -8,12 +8,13 @@ import { SEEDS, CROPS, CropName } from "features/game/types/crops";
 
 import timer from "assets/icons/timer.png";
 
-import { secondsToString } from "lib/utils/time";
+import { secondsToString, secondsToMidString } from "lib/utils/time";
 import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
 import { getShortcuts } from "../lib/shortcuts";
+import { getReducedPlantTime, hasTimeBoost } from "features/game/lib/boosts";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -42,6 +43,7 @@ export const InventoryTabContent = ({
     useShowScrollbar(TAB_CONTENT_HEIGHT);
   const [scrollIntoView] = useScrollIntoView();
   const categories = Object.keys(tabItems) as InventoryItemName[];
+  const [isTimeBoosted, setIsTimeBoosted] = useState(false);
 
   useEffect(() => {
     const firstCategoryWithItem = categories.find(
@@ -57,6 +59,8 @@ export const InventoryTabContent = ({
       setDefaultSelectedItem(defaultSelectedItem);
     }
   }, []);
+
+  useEffect(() => setIsTimeBoosted(hasTimeBoost(inventory)), [inventory]);
 
   const inventoryMapping = inventoryItems.reduce((acc, curr) => {
     const category = categories.find(
@@ -76,8 +80,12 @@ export const InventoryTabContent = ({
     return Object.keys(inventoryMapping).includes(category);
   };
 
-  const getCropHarvestTime = (crop = "") =>
-    secondsToString(CROPS()[crop.split(" ")[0] as CropName].harvestSeconds);
+  const getCropHarvestTime = (crop = "") => {
+    const harvestSeconds =
+      CROPS()[crop.split(" ")[0] as CropName].harvestSeconds;
+
+    return secondsToMidString(getReducedPlantTime(harvestSeconds, inventory));
+  };
 
   const handleItemClick = (item: InventoryItemName) => {
     onClick(item);
@@ -113,7 +121,14 @@ export const InventoryTabContent = ({
                 <div className="w-full pt-1">
                   <div className="flex justify-center items-end">
                     <img src={timer} className="h-5 me-2" />
-                    <span className="text-xs text-shadow text-center mt-2 ">
+                    <span
+                      className={classNames(
+                        "text-xs text-shadow text-center mt-2 ",
+                        {
+                          "text-green-400": isTimeBoosted,
+                        }
+                      )}
+                    >
                       {getCropHarvestTime(selectedItem)}
                     </span>
                   </div>

@@ -1,3 +1,17 @@
+function getTimeUnits(time: number) {
+  const seconds = Math.ceil(time % 60);
+  const minutes = Math.floor((time / 60) % 60);
+  const hours = Math.floor((time / 60 / 60) % 24);
+  const days = Math.floor(time / 60 / 60 / 24);
+
+  return [
+    days && `${days}days`,
+    hours && `${hours}hrs`,
+    minutes && `${minutes}mins`,
+    seconds && `${seconds}secs`,
+  ].filter(Boolean);
+}
+
 export function secondsToString(seconds: number) {
   const secondsCeil = Math.ceil(seconds);
 
@@ -29,20 +43,13 @@ export function secondsToString(seconds: number) {
   return `${Math.ceil(seconds / 60 / 60 / 24)}days`;
 }
 
-export function secondsToLongString(time: number) {
-  const seconds = Math.ceil(time % 60);
-  const minutes = Math.floor((time / 60) % 60);
-  const hours = Math.floor((time / 60 / 60) % 24);
-  const days = Math.floor(time / 60 / 60 / 24);
+// first 2 units
+export function secondsToMidString(time: number) {
+  return getTimeUnits(time).slice(0, 2).join(" ");
+}
 
-  return [
-    days && `${days}days`,
-    hours && `${hours}hrs`,
-    minutes && `${minutes}mins`,
-    seconds && `${seconds}s`,
-  ]
-    .filter(Boolean)
-    .join(" ");
+export function secondsToLongString(time: number) {
+  return getTimeUnits(time).join(" ");
 }
 
 export function getTimeLeft(createdAt: number, totalTime: number) {
