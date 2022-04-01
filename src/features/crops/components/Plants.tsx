@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.gif";
@@ -14,7 +15,7 @@ import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { getSellPrice } from "features/game/lib/boosts";
+import { getSellPrice, hasSellBoost } from "features/game/lib/boosts";
 
 export const Plants: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
@@ -26,6 +27,7 @@ export const Plants: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+  const [isTimeBoosted, setIsTimeBoosted] = useState(false);
 
   const inventory = state.inventory;
 
@@ -65,6 +67,8 @@ export const Plants: React.FC = () => {
     showSellAllModal(false);
   };
 
+  useEffect(() => setIsTimeBoosted(hasSellBoost(inventory)), [state.inventory]);
+
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
@@ -93,7 +97,11 @@ export const Plants: React.FC = () => {
           <div className="border-t border-white w-full mt-2 pt-1">
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
-              <span className="text-xs text-shadow text-center mt-2 ">
+              <span
+                className={classNames("text-xs text-shadow text-center mt-2 ", {
+                  "text-green-400": isTimeBoosted,
+                })}
+              >
                 {`$${displaySellPrice(selected)}`}
               </span>
             </div>

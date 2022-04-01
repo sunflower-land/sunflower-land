@@ -8,7 +8,7 @@ import { SEEDS, CROPS, CropName } from "features/game/types/crops";
 
 import timer from "assets/icons/timer.png";
 
-import { secondsToString, secondsToMidString } from "lib/utils/time";
+import { secondsToMidString, secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
@@ -84,7 +84,9 @@ export const InventoryTabContent = ({
     const harvestSeconds =
       CROPS()[crop.split(" ")[0] as CropName].harvestSeconds;
 
-    return secondsToMidString(getReducedPlantTime(harvestSeconds, inventory));
+    return isTimeBoosted
+      ? secondsToMidString(getReducedPlantTime(harvestSeconds, inventory))
+      : secondsToString(harvestSeconds);
   };
 
   const handleItemClick = (item: InventoryItemName) => {

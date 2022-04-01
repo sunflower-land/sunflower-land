@@ -15,6 +15,14 @@ export const getSellPrice = (crop: Crop, inventory: Inventory) => {
 };
 
 /**
+ * To be used as boolean flag
+ * Update if more upcoming boosts
+ */
+export const hasSellBoost = (inventory: Inventory) => {
+  return inventory["Green Thumb"]?.greaterThanOrEqualTo(1) || false;
+};
+
+/**
  * Reduced plant time
  * Update if more upcoming boosts
  */

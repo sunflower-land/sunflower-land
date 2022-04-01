@@ -9,7 +9,7 @@ import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
-import { secondsToString, secondsToMidString } from "lib/utils/time";
+import { secondsToMidString, secondsToString } from "lib/utils/time";
 
 import { Context } from "features/game/GameProvider";
 import { Craftable } from "features/game/types/craftables";
@@ -144,9 +144,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   "text-green-400": isTimeBoosted,
                 })}
               >
-                {secondsToMidString(
-                  getReducedPlantTime(crop.harvestSeconds, inventory)
-                )}
+                {isTimeBoosted
+                  ? secondsToMidString(
+                      getReducedPlantTime(crop.harvestSeconds, inventory)
+                    )
+                  : secondsToString(crop.harvestSeconds)}
               </span>
             </div>
             <div className="flex justify-center items-end">
