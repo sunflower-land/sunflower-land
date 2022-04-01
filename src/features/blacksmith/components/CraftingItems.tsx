@@ -6,7 +6,7 @@ import Decimal from "decimal.js-light";
 import token from "assets/icons/token.gif";
 
 import { Box } from "components/ui/Box";
-import { OuterPanel } from "components/ui/Panel";
+import { OuterPanel, InnerPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
@@ -14,6 +14,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Craftable } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { Stock } from "components/ui/Stock";
+
+
+
+const POPOVER_TIME_MS = 1000;
+const HOVER_TIMEOUT = 1000;
 
 interface Props {
   items: Partial<Record<InventoryItemName, Craftable>>;
@@ -116,6 +121,7 @@ export const CraftingItems: React.FC<Props> = ({
   };
 
   const stock = state.stock[selected.name] || new Decimal(0);
+  const [isHover, setIsHover] = useState(false);
 
   return (
     <div className="flex">
@@ -151,18 +157,52 @@ export const CraftingItems: React.FC<Props> = ({
               ).lessThan(ingredient.amount);
 
               return (
-                <div className="flex justify-center items-end" key={index}>
-                  <img src={item.image} className="h-5 me-2" />
-                  <span
+                <div
+                  className="relative"
+                  onMouseEnter={() => setIsHover(true)}
+                  onMouseLeave={() => setIsHover(false)}
+                >
+                  <div
                     className={classNames(
-                      "text-xs text-shadow text-center mt-2 ",
+                      "flex  justify-center items-end px-1",
                       {
-                        "text-red-500": lessIngredient,
+                        "px-1": isHover,
                       }
                     )}
                   >
-                    {ingredient.amount.toNumber()}
-                  </span>
+                    <div className="flex justify-center h-fit items-end " key={index}>
+                      <img src={item.image} className="h-5 me-2" />
+
+                      <span
+                        className={classNames(
+                          "text-xs text-shadow text-center mt-2 ",
+                          {
+                            "text-red-500": lessIngredient,
+                          }
+                        )}
+                      >
+                        {ingredient.amount.toNumber()}
+
+                        <InnerPanel
+          className={classNames(
+            "ml-10 transition-opacity absolute whitespace-nowrap bind sm:opacity-0 bottom-5 w-fit  z-20 pointer-events-none",
+            {
+              "opacity-100": isHover,
+              "opacity-0": !isHover,
+            }
+          )}
+        >
+          <div className="flex items-center justify-center text-xxs text-white text-shadow ml-2 mr-2">
+            <img src={item.image} className="w-6 mr-1" />
+            <span className="flex-1">
+              {item.name}
+              </span>
+          </div>
+        </InnerPanel>
+                        
+                      </span>
+                    </div>
+                  </div>
                 </div>
               );
             })}
