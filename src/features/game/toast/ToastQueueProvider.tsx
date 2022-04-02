@@ -5,7 +5,11 @@ import { createContext } from "react";
 export interface Toast {
   content: string;
   id: number;
+  icon?: string;
+  timeout?: number;
 }
+
+export type SetToast = (toast: Omit<Toast, "id">) => void;
 
 export const ToastContext = createContext<{
   removeToast: (id: number) => void;
@@ -18,14 +22,14 @@ const MAX_TOAST = 5;
 export const ToastProvider: FC = ({ children }) => {
   const [toastList, setToastList] = useState<Toast[]>([]);
 
-  const setToast = (toast: Omit<Toast, "id">) => {
+  const setToast: SetToast = (toast) => {
     if (toastList.length > 4) {
       setToastList(toastList.slice(0, MAX_TOAST));
     }
     const id = Date.now();
     window.setTimeout(() => {
       removeToast(id);
-    }, 3000);
+    }, toast.timeout || 3000);
     const newToast = { id: id, ...toast };
     setToastList((toastList) => [newToast, ...toastList]);
   };

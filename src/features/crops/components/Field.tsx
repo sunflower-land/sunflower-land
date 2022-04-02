@@ -5,6 +5,8 @@ import classNames from "classnames";
 import selectBox from "assets/ui/select/select_box.png";
 
 import { Context } from "features/game/GameProvider";
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
+import { skillUpgradeToast } from "features/game/toast/lib/skillUpgradeToast";
 import { InventoryItemName, Reward } from "features/game/types/game";
 
 import { CropName, CROPS } from "features/game/types/crops";
@@ -33,6 +35,7 @@ export const Field: React.FC<Props> = ({
   const [showPopover, setShowPopover] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>(null);
   const { gameService } = useContext(Context);
+  const { setToast } = useContext(ToastContext);
   const [touchCount, setTouchCount] = useState(0);
   const [reward, setReward] = useState<Reward | null>(null);
   const [game] = useActor(gameService);
@@ -143,6 +146,8 @@ export const Field: React.FC<Props> = ({
           <span>{`+${field.multiplier || 1}`}</span>
         </div>
       );
+
+      skillUpgradeToast("farming", game.context.state, setToast);
     } catch (e: any) {
       // TODO - catch more elaborate errors
       displayPopover(
