@@ -36,15 +36,15 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
           <div className="flex">
             <Tab isActive={tab === "volume"} onClick={() => setTab("volume")}>
               <img src={token} className="h-5 mr-2" />
-              <span className="text-sm text-shadow">Volume</span>
+              <span className="text-xs text-shadow sm:text-sm">Volume</span>
             </Tab>
             <Tab isActive={tab === "session"} onClick={() => setTab("session")}>
               <img src={token} className="h-5 mr-2" />
-              <span className="text-sm text-shadow">Session</span>
+              <span className="text-xs text-shadow sm:text-sm">Session</span>
             </Tab>
             <Tab isActive={tab === "other"} onClick={() => setTab("other")}>
               <img src={token} className="h-5 mr-2" />
-              <span className="text-sm text-shadow">Other</span>
+              <span className="text-xs text-shadow sm:text-sm">Other</span>
             </Tab>
           </div>
           <img
