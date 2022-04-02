@@ -13,8 +13,6 @@ import gold from "assets/resources/gold_ore.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { skillUpgradeToast } from "features/game/toast/lib/skillUpgradeToast";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
@@ -34,7 +32,6 @@ interface Props {
 
 export const Gold: React.FC<Props> = ({ rockIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const { setToast } = useContext(ToastContext);
   const [gameState] = useActor(gameService);
   const [game] = useActor(gameService);
 
@@ -122,8 +119,6 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
           <span className="text-sm text-white text-shadow">{`+${rock.amount}`}</span>
         </div>
       );
-
-      skillUpgradeToast("gathering", game.context.state, setToast);
 
       await new Promise((res) => setTimeout(res, 2000));
       setCollecting(false);

@@ -3,7 +3,7 @@ import { Panel } from "components/ui/Panel";
 import { ToastContext } from "./ToastQueueProvider";
 
 export const ToastManager = () => {
-  const { toastList, removeToast } = useContext(ToastContext);
+  const { toastList } = useContext(ToastContext);
   const [listed, setListed] = useState<boolean>(false);
 
   useEffect(() => {
