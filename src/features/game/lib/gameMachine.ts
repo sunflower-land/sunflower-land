@@ -208,7 +208,7 @@ export function startGame(authContext: Options) {
               const interval = setInterval(async () => {
                 const sessionID = await metamask
                   .getSessionManager()
-                  .getSessionId(authContext?.farmId as number);
+                  ?.getSessionId(authContext?.farmId as number);
 
                 if (sessionID !== context.sessionId) {
                   cb("EXPIRED");

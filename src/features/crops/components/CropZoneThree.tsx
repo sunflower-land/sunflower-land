@@ -64,6 +64,7 @@ export const CropZoneThree: React.FC = () => {
       <div
         className="absolute flex justify-between flex-col"
         id="cropzone-three"
+        onClick={() => setShowModal(true)}
         style={{
           width: `${GRID_WIDTH_PX * 4}px`,
           height: `${GRID_WIDTH_PX * 2.3}px`,

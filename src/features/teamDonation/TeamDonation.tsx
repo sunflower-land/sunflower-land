@@ -13,7 +13,7 @@ import begger from "assets/npcs/begger.gif";
 import richBegger from "assets/npcs/rich_begger.gif";
 import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";
-import token from "assets/icons/token.png";
+import team from "assets/npcs/team.png";
 import humanDeath from "assets/npcs/human_death.gif";
 import { ERRORS } from "lib/errors";
 import { beggarAudio } from "lib/utils/sfx";
@@ -112,8 +112,8 @@ export const TeamDonation: React.FC = () => {
   };
 
   const decrementDonation = () => {
-    if (donation === 0.1) {
-      setDonation(0.1);
+    if (donation === 0.2) {
+      setDonation(0.2);
     } else setDonation((prevState) => roundToOneDecimal(prevState - 0.1));
   };
 
@@ -159,7 +159,7 @@ export const TeamDonation: React.FC = () => {
         <Panel>
           {state.matches("begging") && (
             <div className="flex flex-col items-center mb-1">
-              <img src={token} alt="sunflower token" className="w-12 mb-3" />
+              <img src={team} alt="sunflower token" className="w-full mb-3" />
               <div className="flex flex-col text-shadow items-center">
                 <h2 className="text-sm sm:text-base mb-2 text-center pb-2">
                   Buy the team a coffee!

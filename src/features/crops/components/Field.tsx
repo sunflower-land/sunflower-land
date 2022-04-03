@@ -3,6 +3,7 @@ import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
 import selectBox from "assets/ui/select/select_box.png";
+import cancel from "assets/icons/cancel.png";
 
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName, Reward } from "features/game/types/game";
@@ -34,7 +35,7 @@ export const Field: React.FC<Props> = ({
   fieldIndex,
 }) => {
   const [showPopover, setShowPopover] = useState(true);
-  const [popover, setPopover] = useState<JSX.Element | null>(null);
+  const [popover, setPopover] = useState<JSX.Element | null>();
   const { gameService } = useContext(Context);
   const [touchCount, setTouchCount] = useState(0);
   const [reward, setReward] = useState<Reward | null>(null);
@@ -127,11 +128,7 @@ export const Field: React.FC<Props> = ({
         );
       } catch (e: any) {
         // TODO - catch more elaborate errors
-        displayPopover(
-          <span className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
-            {e.message}
-          </span>
-        );
+        displayPopover(<img className="w-5" src={cancel} />);
       }
 
       return;
@@ -152,9 +149,7 @@ export const Field: React.FC<Props> = ({
       );
     } catch (e: any) {
       // TODO - catch more elaborate errors
-      displayPopover(
-        <span className="text-xs text-white text-shadow">{e.message}</span>
-      );
+      displayPopover(<img className="w-5" src={cancel} />);
     }
 
     setTouchCount(0);
@@ -192,7 +187,7 @@ export const Field: React.FC<Props> = ({
 
       <div
         className={classNames(
-          "transition-opacity absolute -bottom-2 w-40 -left-16 z-20 pointer-events-none",
+          "transition-opacity absolute -bottom-2 w-full z-20 pointer-events-none flex justify-center",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
