@@ -250,7 +250,7 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
           <div
             className="absolute"
             style={{
-              top: "106px",
+              top: "96px",
               left: "29px",
             }}
           >
