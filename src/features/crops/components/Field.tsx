@@ -25,6 +25,9 @@ interface Props {
   onboarding?: boolean;
 }
 
+const isCropReady = (now: number, plantedAt: number, harvestSeconds: number) =>
+  now - plantedAt > harvestSeconds * 1000;
+
 export const Field: React.FC<Props> = ({
   selectedItem,
   className,
@@ -62,11 +65,11 @@ export const Field: React.FC<Props> = ({
     if (field) {
       const crop = CROPS()[field.name];
       const now = Date.now();
-      const isCropReady = now - field.plantedAt > crop.harvestSeconds * 1000;
+      const isReady = isCropReady(now, field.plantedAt, crop.harvestSeconds);
       const isJustPlanted = now - field.plantedAt < 1000;
 
       // show details if field is NOT ready and NOT just planted
-      if (!isCropReady && !isJustPlanted) {
+      if (!isReady && !isJustPlanted) {
         setShowCropDetails(true);
       }
     }
@@ -85,9 +88,13 @@ export const Field: React.FC<Props> = ({
       return;
     }
 
+    const crop = CROPS()[field.name];
     clickedAt.current = now;
 
-    if (field?.reward) {
+    if (
+      field?.reward &&
+      isCropReady(now, field.plantedAt, crop.harvestSeconds)
+    ) {
       if (touchCount < 1) {
         setTouchCount((count) => count + 1);
         return;
