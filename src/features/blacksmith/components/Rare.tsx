@@ -18,6 +18,7 @@ import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
 import { FLAGS } from "features/game/types/flags";
+import { CaptchaModal } from "features/game/components/Captcha";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -63,7 +64,12 @@ const Items: React.FC<{
     </div>
   );
 };
-export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = true }) => {
+export const Rare: React.FC<Props> = ({
+  onClose,
+  items,
+  hasAccess,
+  canCraft = true,
+}) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
   const { gameService } = useContext(Context);
   const [
@@ -73,6 +79,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = tr
   ] = useActor(gameService);
   const [isLoading, setIsLoading] = useState(true);
   const [supply, setSupply] = useState<ItemSupply>();
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -93,6 +100,11 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = tr
     state.balance.lessThan(selected.price.mul(amount));
 
   const craft = () => {
+    setShowCaptcha(true);
+  };
+
+  const onCaptchaSolved = () => {
+    setShowCaptcha(false);
     gameService.send("MINT", { item: selected.name });
     onClose();
   };
@@ -244,6 +256,8 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = tr
           Open Sea
         </a>
       </OuterPanel>
+
+      {showCaptcha && <CaptchaModal onSolved={onCaptchaSolved} />}
     </div>
   );
 };

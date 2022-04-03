@@ -10,7 +10,7 @@ type Options = {
   ids: number[];
   amounts: string[];
   token: string;
-  captcha?: string;
+  captcha: string;
 };
 export async function withdraw({
   farmId,

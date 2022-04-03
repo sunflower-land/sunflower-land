@@ -23,6 +23,7 @@ import downArrow from "assets/icons/arrow_down.png";
 import { getTax } from "lib/utils/tax";
 import { getItemUnit } from "features/game/lib/conversion";
 import { Box } from "components/ui/Box";
+import { CaptchaModal } from "features/game/components/Captcha";
 
 type SelectedItem = {
   item: InventoryItemName;
@@ -48,6 +49,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const [selected, setSelected] = useState<SelectedItem[]>([]);
   const [amount, setAmount] = useState<Decimal | string>(new Decimal(0));
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
   const items = Object.keys(inventory) as InventoryItemName[];
   const validItems = items.filter(
@@ -61,6 +63,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   };
 
   const onWithdraw = async () => {
+    setShowCaptcha(true);
+  };
+
+  const onCaptchaSolved = () => {
     gameService.send("WITHDRAW", {
       ids: selected.map(({ item }) => KNOWN_IDS[item]),
       amounts: selected.map(({ item, amount }) =>
@@ -68,7 +74,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       ),
       sfl: toWei(amount.toString()),
     });
-
+    setShowCaptcha(false);
     onClose();
   };
 
@@ -125,9 +131,9 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const enabled = authState.context.token?.userAccess.withdraw;
 
-  if (!enabled) {
-    return <span>Coming soon...</span>;
-  }
+  // if (!enabled) {
+  //   return <span>Coming soon...</span>;
+  // }
 
   return (
     <>
@@ -240,7 +246,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
       <Button
         onClick={onWithdraw}
-        disabled={safeAmount(amount).gte(game.context.state.balance)}
+        //disabled={safeAmount(amount).gte(game.context.state.balance)}
       >
         Withdraw
       </Button>
@@ -253,6 +259,8 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           Read more
         </a>
       </span>
+
+      {showCaptcha && <CaptchaModal onSolved={onCaptchaSolved} />}
     </>
   );
 };

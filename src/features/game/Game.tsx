@@ -12,7 +12,6 @@ import { useInterval } from "lib/utils/hooks/useInterval";
 
 import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
-import { CaptchaModal } from "./components/Captcha";
 import { ToastManager } from "./toast/ToastManager";
 import { Decorations } from "./components/Decorations";
 import { Minting } from "./components/Minting";
@@ -47,9 +46,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   error: true,
   blacklisted: true,
   levelling: false,
-  verifyMint: false,
-  verifySync: false,
-  verifyWithdraw: false,
 };
 
 export const Game: React.FC = () => {
@@ -81,15 +77,9 @@ export const Game: React.FC = () => {
     };
   }, [gameState]);
 
-  const showCaptcha =
-    gameState.matches("verifyMint") ||
-    gameState.matches("verifySync") ||
-    gameState.matches("verifyWithdraw");
-
   return (
     <>
       <ToastManager />
-      <CaptchaModal show={showCaptcha} />
 
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">

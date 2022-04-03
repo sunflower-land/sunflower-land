@@ -7,7 +7,7 @@ type Request = {
   sessionId: string;
   item: LimitedItem;
   token: string;
-  captcha?: string;
+  captcha: string;
 };
 
 const API_URL = CONFIG.API_URL;

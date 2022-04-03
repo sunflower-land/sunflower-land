@@ -1,7 +1,7 @@
 import { removeSession } from "features/auth/actions/login";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
-import { CAPTCHA_ELEMENT } from "../components/Captcha";
+import { CAPTCHA_CONTAINER, CAPTCHA_ELEMENT } from "../components/Captcha";
 import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
@@ -13,7 +13,6 @@ type Request = {
   sessionId: string;
   token: string;
   offset: number;
-  captcha?: string;
   fingerprint: string;
 };
 
@@ -72,7 +71,6 @@ export async function autosave(request: Request) {
       farmId: request.farmId,
       sessionId: request.sessionId,
       actions,
-      captcha: request.captcha,
     }),
   });
 
@@ -106,7 +104,14 @@ let captchaToken = "";
 export async function solveCaptcha() {
   try {
     // Captcha takes a little while to mount
-    await new Promise((res) => setTimeout(res, 50));
+    await new Promise((res) => setTimeout(res, 2000));
+
+    console.log({ CAPTCHA_CONTAINER });
+    document.getElementById(CAPTCHA_CONTAINER)?.remove();
+
+    await new Promise((res) => setTimeout(res, 200000));
+
+    return "123";
     if (!captchaId) {
       captchaId = grecaptcha.render(CAPTCHA_ELEMENT, {
         sitekey: "6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s",

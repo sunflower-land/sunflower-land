@@ -23,6 +23,7 @@ import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 
 import { isNewFarm } from "../lib/onboarding";
+import { Captcha, CaptchaModal } from "features/game/components/Captcha";
 
 /**
  * TODO:
@@ -48,6 +49,7 @@ export const Menu = () => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
+  const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
@@ -80,13 +82,17 @@ export const Menu = () => {
   };
 
   const syncOnChain = async () => {
-    if (!authState.context.token?.userAccess.sync) {
-      setShowComingSoon(true);
-      return;
-    }
+    // if (!authState.context.token?.userAccess.sync) {
+    //   setShowComingSoon(true);
+    //   return;
+    // }
+    setShowCaptcha(true);
+  };
 
-    gameService.send("SYNC");
+  const onCaptchaSolved = (captcha: string) => {
+    gameService.send("SYNC", { captcha });
     setMenuOpen(false);
+    setShowCaptcha(false);
   };
 
   const autosave = async () => {
@@ -289,6 +295,8 @@ export const Menu = () => {
         isOpen={showHowToPlay}
         onClose={() => setShowHowToPlay(false)}
       />
+
+      {showCaptcha && <CaptchaModal onSolved={onCaptchaSolved} />}
 
       {/* TODO - To be deleted when withdraw and "Sync on chain" are implemented */}
       <Modal
