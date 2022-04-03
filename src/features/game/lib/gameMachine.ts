@@ -1,4 +1,11 @@
-import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
+import {
+  createMachine,
+  Interpreter,
+  assign,
+  TransitionsConfig,
+  StateNodesConfig,
+  StateNodeConfig,
+} from "xstate";
 import { EVENTS, GameEvent } from "../events";
 import { processEvent } from "./processEvent";
 
@@ -32,8 +39,6 @@ export interface Context {
   captcha?: string;
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
-  // Workaround for transition into a previous states
-  redirect?: BlockchainState["value"];
 }
 
 type MintEvent = {
@@ -98,16 +103,49 @@ export type BlockchainState = {
     | "playing"
     | "readonly"
     | "autosaving"
-    | "captcha"
     | "minting"
     | "success"
     | "syncing"
     | "levelling"
     | "withdrawing"
     | "error"
-    | "blacklisted";
+    | "blacklisted"
+    | "verifySync"
+    | "verifyMint"
+    | "verifyWithdraw";
+  // Captcha state;
   context: Context;
 };
+
+/**
+ * Perform a captcha before transitioning into the destined state
+ */
+const captchaVerificationState = (
+  transitionTo: StateValues
+): StateNodeConfig<Context, any, any> => ({
+  invoke: {
+    src: async (_: Context, event: any) => {
+      const captcha = await solveCaptcha();
+
+      return {
+        captcha,
+        ...event.data,
+      };
+    },
+    onDone: {
+      target: transitionTo,
+      actions: assign((_: Context, event) => {
+        return {
+          captcha: (event as any).data.captcha,
+        };
+      }),
+    },
+    onError: {
+      target: "error",
+      actions: "assignErrorMessage",
+    },
+  },
+});
 
 export type StateKeys = keyof Omit<BlockchainState, "context">;
 export type StateValues = BlockchainState[StateKeys];
@@ -232,13 +270,13 @@ export function startGame(authContext: Options) {
               target: "autosaving",
             },
             MINT: {
-              target: "minting",
+              target: "verifyMint",
             },
             SYNC: {
-              target: "syncing",
+              target: "verifySync",
             },
             WITHDRAW: {
-              target: "withdrawing",
+              target: "verifyWithdraw",
             },
             LEVEL_UP: {
               target: "levelling",
@@ -285,15 +323,6 @@ export function startGame(authContext: Options) {
             },
             onDone: [
               {
-                target: "captcha",
-                cond: (_, event) => {
-                  return !event.data.verified;
-                },
-                actions: assign((_) => ({
-                  redirect: "autosaving",
-                })),
-              },
-              {
                 target: "playing",
                 actions: assign((context: Context, event) => {
                   // Actions that occured since the server request
@@ -318,42 +347,9 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        captcha: {
-          invoke: {
-            src: async (_, event: any, t) => {
-              const captcha = await solveCaptcha();
-
-              return {
-                captcha,
-                ...event.data,
-              };
-            },
-            onDone: [
-              // HACK for transition back to state which needed captcha verification
-              {
-                target: "syncing",
-                cond: (context) => context.redirect === "syncing",
-                actions: assign((context: Context, event) => {
-                  return {
-                    captcha: event.data.captcha,
-                  };
-                }),
-              },
-              {
-                target: "autosaving",
-                actions: assign((context: Context, event) => {
-                  return {
-                    captcha: event.data.captcha,
-                  };
-                }),
-              },
-            ],
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
+        verifySync: captchaVerificationState("syncing"),
+        verifyMint: captchaVerificationState("minting"),
+        verifyWithdraw: captchaVerificationState("withdrawing"),
         minting: {
           invoke: {
             src: async (context, event) => {
@@ -369,24 +365,33 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const sessionId = await mint({
+              // Either passed through a direct event or state transition
+              const item =
+                (event as MintEvent).item || (event as any).data.item;
+
+              const { sessionId, verified } = await mint({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
-                item: (event as MintEvent).item,
+                item,
+                captcha: context.captcha,
               });
 
               return {
                 sessionId,
+                verified,
+                item,
               };
             },
-            onDone: {
-              target: "success",
-              actions: assign((_, event) => ({
-                sessionId: event.data.sessionId,
-                actions: [],
-              })),
-            },
+            onDone: [
+              {
+                target: "success",
+                actions: assign((_, event) => ({
+                  sessionId: event.data.sessionId,
+                  actions: [],
+                })),
+              },
+            ],
             onError: {
               target: "error",
               actions: "assignErrorMessage",
@@ -422,15 +427,6 @@ export function startGame(authContext: Options) {
             },
             onDone: [
               {
-                target: "captcha",
-                actions: assign((_) => ({
-                  redirect: "syncing",
-                })),
-                cond: (_, event) => {
-                  return !event.data.verified;
-                },
-              },
-              {
                 target: "success",
                 actions: assign((_, event) => ({
                   sessionId: event.data.sessionId,
@@ -457,26 +453,43 @@ export function startGame(authContext: Options) {
         withdrawing: {
           invoke: {
             src: async (context, event) => {
-              const { amounts, ids, sfl } = event as WithdrawEvent;
-              const sessionId = await withdraw({
+              console.log("Withdraw!", { event });
+              // Payload may be passed directly from event, or transitioned from other state (on data field)
+              const withdrawPayload: WithdrawEvent = (event as WithdrawEvent)
+                .amounts
+                ? event
+                : (event as any).data;
+
+              const { amounts, ids, sfl } = withdrawPayload;
+
+              const { sessionId, verified } = await withdraw({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
                 amounts,
                 ids,
                 sfl,
+                captcha: context.captcha,
               });
 
               return {
                 sessionId,
+                verified,
+
+                // Pass through event payload if needed
+                amounts,
+                ids,
+                sfl,
               };
             },
-            onDone: {
-              target: "success",
-              actions: assign({
-                sessionId: (_, event) => event.data.sessionId,
-              }),
-            },
+            onDone: [
+              {
+                target: "success",
+                actions: assign({
+                  sessionId: (_, event) => event.data.sessionId,
+                }),
+              },
+            ],
             onError: [
               {
                 target: "playing",
