@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
+import { Modal } from "react-bootstrap";
 
 import token from "assets/icons/token.gif";
 import close from "assets/icons/close.png";
+
 import Volume from "./Volume";
-import Session from "./Session";
-import { Modal } from "react-bootstrap";
+import ResetSession from "./ResetSession";
 
 interface Props {
   isOpen: boolean;
@@ -63,7 +64,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
           }}
         >
           {tab === "volume" && <Volume />}
-          {tab === "session" && <Session />}
+          {tab === "session" && <ResetSession />}
           {tab === "other" && (
             <div>
               <p>
