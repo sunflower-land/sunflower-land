@@ -45,13 +45,7 @@ export const Captcha: React.FC = () => {
       id={CAPTCHA_CONTAINER}
       className="w-full h-full z-40 flex items-center justify-center"
     >
-      <div className="flex flex-col items-center p-4">
-        <img src={goblin} className="w-20 h-20" />
-        <span className="text-shadow text-xs text-center underline mb-4">
-          Please verify you are not a goblin.
-        </span>
-        <div id={CAPTCHA_ELEMENT} />
-      </div>
+      <div id={CAPTCHA_ELEMENT} />
     </div>
   );
 };

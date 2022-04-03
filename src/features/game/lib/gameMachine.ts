@@ -1,11 +1,4 @@
-import {
-  createMachine,
-  Interpreter,
-  assign,
-  TransitionsConfig,
-  StateNodesConfig,
-  StateNodeConfig,
-} from "xstate";
+import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
 import { EVENTS, GameEvent } from "../events";
 import { processEvent } from "./processEvent";
 
@@ -103,49 +96,16 @@ export type BlockchainState = {
     | "playing"
     | "readonly"
     | "autosaving"
+    | "captcha"
     | "minting"
     | "success"
     | "syncing"
     | "levelling"
     | "withdrawing"
     | "error"
-    | "blacklisted"
-    | "verifySync"
-    | "verifyMint"
-    | "verifyWithdraw";
-  // Captcha state;
+    | "blacklisted";
   context: Context;
 };
-
-/**
- * Perform a captcha before transitioning into the destined state
- */
-const captchaVerificationState = (
-  transitionTo: StateValues
-): StateNodeConfig<Context, any, any> => ({
-  invoke: {
-    src: async (_: Context, event: any) => {
-      const captcha = await solveCaptcha();
-
-      return {
-        captcha,
-        ...event.data,
-      };
-    },
-    onDone: {
-      target: transitionTo,
-      actions: assign((_: Context, event) => {
-        return {
-          captcha: (event as any).data.captcha,
-        };
-      }),
-    },
-    onError: {
-      target: "error",
-      actions: "assignErrorMessage",
-    },
-  },
-});
 
 export type StateKeys = keyof Omit<BlockchainState, "context">;
 export type StateValues = BlockchainState[StateKeys];
@@ -248,7 +208,7 @@ export function startGame(authContext: Options) {
               const interval = setInterval(async () => {
                 const sessionID = await metamask
                   .getSessionManager()
-                  .getSessionId(authContext?.farmId as number);
+                  ?.getSessionId(authContext?.farmId as number);
 
                 if (sessionID !== context.sessionId) {
                   cb("EXPIRED");
@@ -270,13 +230,13 @@ export function startGame(authContext: Options) {
               target: "autosaving",
             },
             MINT: {
-              target: "verifyMint",
+              target: "minting",
             },
             SYNC: {
-              target: "verifySync",
+              target: "syncing",
             },
             WITHDRAW: {
-              target: "verifyWithdraw",
+              target: "withdrawing",
             },
             LEVEL_UP: {
               target: "levelling",
@@ -323,6 +283,12 @@ export function startGame(authContext: Options) {
             },
             onDone: [
               {
+                target: "captcha",
+                cond: (_, event) => {
+                  return !event.data.verified;
+                },
+              },
+              {
                 target: "playing",
                 actions: assign((context: Context, event) => {
                   // Actions that occured since the server request
@@ -347,9 +313,28 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        verifySync: captchaVerificationState("syncing"),
-        verifyMint: captchaVerificationState("minting"),
-        verifyWithdraw: captchaVerificationState("withdrawing"),
+        captcha: {
+          invoke: {
+            src: async (_, event: any) => {
+              const captcha = await solveCaptcha();
+
+              return {
+                captcha,
+                ...event.data,
+              };
+            },
+            onDone: {
+              target: "autosaving",
+              actions: assign((context: Context, event) => ({
+                captcha: event.data.captcha,
+              })),
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
         minting: {
           invoke: {
             src: async (context, event) => {
@@ -365,33 +350,24 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              // Either passed through a direct event or state transition
-              const item =
-                (event as MintEvent).item || (event as any).data.item;
-
-              const { sessionId, verified } = await mint({
+              const sessionId = await mint({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
-                item,
-                captcha: context.captcha,
+                item: (event as MintEvent).item,
               });
 
               return {
                 sessionId,
-                verified,
-                item,
               };
             },
-            onDone: [
-              {
-                target: "success",
-                actions: assign((_, event) => ({
-                  sessionId: event.data.sessionId,
-                  actions: [],
-                })),
-              },
-            ],
+            onDone: {
+              target: "success",
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
+            },
             onError: {
               target: "error",
               actions: "assignErrorMessage",
@@ -413,27 +389,23 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const { sessionId, verified } = await sync({
+              const sessionId = await sync({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
-                captcha: context.captcha,
               });
 
               return {
                 sessionId: sessionId,
-                verified,
               };
             },
-            onDone: [
-              {
-                target: "success",
-                actions: assign((_, event) => ({
-                  sessionId: event.data.sessionId,
-                  actions: [],
-                })),
-              },
-            ],
+            onDone: {
+              target: "success",
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
+            },
             onError: [
               {
                 target: "playing",
@@ -453,43 +425,26 @@ export function startGame(authContext: Options) {
         withdrawing: {
           invoke: {
             src: async (context, event) => {
-              console.log("Withdraw!", { event });
-              // Payload may be passed directly from event, or transitioned from other state (on data field)
-              const withdrawPayload: WithdrawEvent = (event as WithdrawEvent)
-                .amounts
-                ? event
-                : (event as any).data;
-
-              const { amounts, ids, sfl } = withdrawPayload;
-
-              const { sessionId, verified } = await withdraw({
+              const { amounts, ids, sfl } = event as WithdrawEvent;
+              const sessionId = await withdraw({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
                 amounts,
                 ids,
                 sfl,
-                captcha: context.captcha,
               });
 
               return {
                 sessionId,
-                verified,
-
-                // Pass through event payload if needed
-                amounts,
-                ids,
-                sfl,
               };
             },
-            onDone: [
-              {
-                target: "success",
-                actions: assign({
-                  sessionId: (_, event) => event.data.sessionId,
-                }),
-              },
-            ],
+            onDone: {
+              target: "success",
+              actions: assign({
+                sessionId: (_, event) => event.data.sessionId,
+              }),
+            },
             onError: [
               {
                 target: "playing",
