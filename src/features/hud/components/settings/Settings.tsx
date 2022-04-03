@@ -76,9 +76,11 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
           )}
         </div>
         <div className="flex justify-center">
-          <Button className="text-s w-1/4 px-1" onClick={handleSaveClick}>
-            Save
-          </Button>
+          {tab !== "session" && (
+            <Button className="text-sm w-1/4 px-1" onClick={handleSaveClick}>
+              Save
+            </Button>
+          )}
         </div>
       </Panel>
     </Modal>

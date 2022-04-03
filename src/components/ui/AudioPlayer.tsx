@@ -16,6 +16,7 @@ export const AudioPlayer: React.FC = () => {
   const [visible, setIsVisible] = useState<boolean>(false);
   const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const musicPlayer = useRef<any>(null);
 
   const handlePlayState = () => {
@@ -38,7 +39,10 @@ export const AudioPlayer: React.FC = () => {
   const song = getSong(songIndex);
 
   useEffect(() => {
-    musicPlayer.current.volume = volume.value;
+    document.getElementsByTagName("audio")[0]
+      ? (musicPlayer.current.volume =
+          document.getElementsByTagName("audio")[0].volume)
+      : (musicPlayer.current.volume = volume.value);
   }, [volume.value]);
 
   useEffect(() => {
@@ -47,6 +51,10 @@ export const AudioPlayer: React.FC = () => {
       setPlaying(false);
       musicPlayer.current.pause();
     }
+    document.getElementsByTagName("audio")[0]
+      ? (musicPlayer.current.volume =
+          document.getElementsByTagName("audio")[0].volume)
+      : (musicPlayer.current.volume = volume.value);
   }, []);
 
   return (
