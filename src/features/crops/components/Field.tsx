@@ -89,12 +89,11 @@ export const Field: React.FC<Props> = ({
       return;
     }
 
-    const crop = CROPS()[field.name];
     clickedAt.current = now;
 
     if (
       field?.reward &&
-      isCropReady(now, field.plantedAt, crop.harvestSeconds)
+      isCropReady(now, field.plantedAt, CROPS()[field.name].harvestSeconds)
     ) {
       if (touchCount < 1) {
         setTouchCount((count) => count + 1);
