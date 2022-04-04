@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import token from "assets/icons/token.gif";
 
@@ -17,7 +18,6 @@ import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
-import { FLAGS } from "features/game/types/flags";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -63,7 +63,12 @@ const Items: React.FC<{
     </div>
   );
 };
-export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = true }) => {
+export const Rare: React.FC<Props> = ({
+  onClose,
+  items,
+  hasAccess,
+  canCraft = true,
+}) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
   const { gameService } = useContext(Context);
   const [
@@ -73,6 +78,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = tr
   ] = useActor(gameService);
   const [isLoading, setIsLoading] = useState(true);
   const [supply, setSupply] = useState<ItemSupply>();
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -93,7 +99,13 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = tr
     state.balance.lessThan(selected.price.mul(amount));
 
   const craft = () => {
-    gameService.send("MINT", { item: selected.name });
+    setShowCaptcha(true);
+  };
+
+  const onCaptchaSolved = async (token: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    gameService.send("MINT", { item: selected.name, captcha: token });
     onClose();
   };
 
@@ -153,6 +165,17 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = tr
       </>
     );
   };
+
+  if (showCaptcha) {
+    return (
+      <ReCAPTCHA
+        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        onChange={onCaptchaSolved}
+        onExpired={() => setShowCaptcha(false)}
+        className="w-full m-4 flex items-center justify-center"
+      />
+    );
+  }
 
   return (
     <div className="flex">

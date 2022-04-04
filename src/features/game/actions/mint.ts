@@ -1,5 +1,6 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
 import { LimitedItem } from "../types/craftables";
 
 type Request = {
@@ -7,13 +8,12 @@ type Request = {
   sessionId: string;
   item: LimitedItem;
   token: string;
+  captcha: string;
 };
 
 const API_URL = CONFIG.API_URL;
 
-async function mintRequest(request: Request) {
-  if (!API_URL) return;
-
+export async function mint(request: Request) {
   const response = await window.fetch(`${API_URL}/mint`, {
     method: "POST",
     headers: {
@@ -24,21 +24,21 @@ async function mintRequest(request: Request) {
       farmId: request.farmId,
       sessionId: request.sessionId,
       item: request.item,
+      captcha: request.captcha,
     }),
   });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
 
   if (response.status !== 200 || !response.ok) {
     throw new Error("Could not mint your object");
   }
 
-  const data = await response.json();
+  const transaction = await response.json();
 
-  return data;
-}
-
-export async function mint(request: Request) {
-  const transaction = await mintRequest(request);
   const sessionId = await metamask.getSessionManager().sync(transaction);
 
-  return sessionId;
+  return { sessionId, verified: true };
 }

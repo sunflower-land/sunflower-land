@@ -8,7 +8,7 @@ import { metamask } from "../../../lib/blockchain/metamask";
 import { GameState } from "../types/game";
 import { loadSession } from "../actions/loadSession";
 import { INITIAL_FARM, EMPTY } from "./constants";
-import { autosave, solveCaptcha } from "../actions/autosave";
+import { autosave } from "../actions/autosave";
 import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
 import { sync } from "../actions/sync";
@@ -29,7 +29,6 @@ export interface Context {
   actions: PastAction[];
   offset: number;
   sessionId?: string;
-  captcha?: string;
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
 }
@@ -37,6 +36,7 @@ export interface Context {
 type MintEvent = {
   type: "MINT";
   item: LimitedItem;
+  captcha: string;
 };
 
 type LevelUpEvent = {
@@ -49,20 +49,27 @@ type WithdrawEvent = {
   sfl: number;
   ids: number[];
   amounts: string[];
+  captcha: string;
+};
+
+type SyncEvent = {
+  captcha: string;
+  type: "SYNC";
 };
 
 export type BlockchainEvent =
   | {
       type: "SAVE";
     }
-  | {
-      type: "SYNC";
-    }
+  | SyncEvent
   | {
       type: "REFRESH";
     }
   | {
       type: "EXPIRED";
+    }
+  | {
+      type: "CONTINUE";
     }
   | WithdrawEvent
   | GameEvent
@@ -96,7 +103,6 @@ export type BlockchainState = {
     | "playing"
     | "readonly"
     | "autosaving"
-    | "captcha"
     | "minting"
     | "success"
     | "syncing"
@@ -267,7 +273,6 @@ export function startGame(authContext: Options) {
                 actions: context.actions,
                 token: authContext.rawToken as string,
                 offset: context.offset,
-                captcha: context.captcha,
                 fingerprint: context.fingerprint as string,
               });
 
@@ -282,12 +287,6 @@ export function startGame(authContext: Options) {
               };
             },
             onDone: [
-              {
-                target: "captcha",
-                cond: (_, event) => {
-                  return !event.data.verified;
-                },
-              },
               {
                 target: "playing",
                 actions: assign((context: Context, event) => {
@@ -313,28 +312,6 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        captcha: {
-          invoke: {
-            src: async (_, event: any) => {
-              const captcha = await solveCaptcha();
-
-              return {
-                captcha,
-                ...event.data,
-              };
-            },
-            onDone: {
-              target: "autosaving",
-              actions: assign((context: Context, event) => ({
-                captcha: event.data.captcha,
-              })),
-            },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
         minting: {
           invoke: {
             src: async (context, event) => {
@@ -350,11 +327,14 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const sessionId = await mint({
+              const { item, captcha } = event as MintEvent;
+
+              const { sessionId } = await mint({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
-                item: (event as MintEvent).item,
+                item,
+                captcha,
               });
 
               return {
@@ -376,7 +356,7 @@ export function startGame(authContext: Options) {
         },
         syncing: {
           invoke: {
-            src: async (context) => {
+            src: async (context, event) => {
               // Autosave just in case
               if (context.actions.length > 0) {
                 await autosave({
@@ -389,10 +369,11 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const sessionId = await sync({
+              const { sessionId } = await sync({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
+                captcha: (event as SyncEvent).captcha,
               });
 
               return {
@@ -425,14 +406,15 @@ export function startGame(authContext: Options) {
         withdrawing: {
           invoke: {
             src: async (context, event) => {
-              const { amounts, ids, sfl } = event as WithdrawEvent;
-              const sessionId = await withdraw({
+              const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
+              const { sessionId } = await withdraw({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
                 amounts,
                 ids,
                 sfl,
+                captcha,
               });
 
               return {
@@ -503,7 +485,11 @@ export function startGame(authContext: Options) {
           },
         },
         readonly: {},
-        error: {},
+        error: {
+          on: {
+            CONTINUE: "playing",
+          },
+        },
         blacklisted: {},
         success: {
           on: {

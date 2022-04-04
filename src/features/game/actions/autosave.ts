@@ -1,7 +1,7 @@
 import { removeSession } from "features/auth/actions/login";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
-import { CAPTCHA_ELEMENT } from "../components/Captcha";
+import { ERRORS } from "lib/errors";
 import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
@@ -13,7 +13,6 @@ type Request = {
   sessionId: string;
   token: string;
   offset: number;
-  captcha?: string;
   fingerprint: string;
 };
 
@@ -72,7 +71,6 @@ export async function autosave(request: Request) {
       farmId: request.farmId,
       sessionId: request.sessionId,
       actions,
-      captcha: request.captcha,
     }),
   });
 
@@ -81,7 +79,7 @@ export async function autosave(request: Request) {
   }
 
   if (response.status === 429) {
-    return { verified: false };
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
   if (response.status !== 200 || !response.ok) {
@@ -93,47 +91,4 @@ export async function autosave(request: Request) {
   const farm = makeGame(data.farm);
 
   return { verified: true, farm };
-}
-
-declare const grecaptcha: any;
-
-let captchaId: number;
-let captchaToken = "";
-
-/**
- * Programatically renders a captcha to solve
- */
-export async function solveCaptcha() {
-  try {
-    // Captcha takes a little while to mount
-    await new Promise((res) => setTimeout(res, 50));
-    if (!captchaId) {
-      captchaId = grecaptcha.render(CAPTCHA_ELEMENT, {
-        sitekey: "6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s",
-        callback: (token: string) => {
-          captchaToken = token;
-        },
-      });
-    } else {
-      grecaptcha.reset(captchaId);
-    }
-
-    // Poll until the token changes
-    const previousToken = captchaToken;
-    const token: string = await new Promise((res) => {
-      const interval = setInterval(() => {
-        if (captchaToken !== previousToken) {
-          res(captchaToken);
-          clearInterval(interval);
-        }
-      });
-    });
-
-    await new Promise((res) => setTimeout(res, 1000));
-
-    return token;
-  } catch (e) {
-    console.log({ e });
-    throw e;
-  }
 }

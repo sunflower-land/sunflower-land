@@ -41,6 +41,7 @@ export interface Context {
   address?: string;
   token?: Token;
   rawToken?: string;
+  captcha?: string;
 }
 
 type StartEvent = Farm & {
@@ -64,6 +65,7 @@ type CreateFarmEvent = {
   type: "CREATE_FARM";
   charityAddress: CharityAddress;
   donation: number;
+  captcha: string;
 };
 
 type LoadFarmEvent = {
@@ -335,14 +337,13 @@ export const authMachine = createMachine<
         };
       },
       createFarm: async (context: Context, event: any): Promise<Context> => {
-        const charityAddress = (event as CreateFarmEvent)
-          .charityAddress as CharityAddress;
-        const donation = (event as CreateFarmEvent).donation as number;
+        const { charityAddress, donation, captcha } = event as CreateFarmEvent;
 
         const newFarm = await createFarmAction({
           charity: charityAddress,
           donation,
           token: context.rawToken as string,
+          captcha: captcha,
         });
 
         return {

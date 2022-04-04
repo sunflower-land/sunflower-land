@@ -13,6 +13,7 @@ import { DuplicateUser } from "./components/DuplicateUser";
 import { Congestion } from "./components/Congestion";
 import { SessionExpired } from "./components/SessionExpired";
 import { ErrorCode } from "lib/errors";
+import { TooManyRequests } from "./components/TooManyRequests";
 
 interface Props {
   errorCode: ErrorCode;
@@ -65,6 +66,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === "SESSION_EXPIRED") {
     return <SessionExpired />;
+  }
+
+  if (errorCode === "TOO_MANY_REQUESTS") {
+    return <TooManyRequests />;
   }
 
   return <ConnectingError />;

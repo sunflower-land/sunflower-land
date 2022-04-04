@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { Button } from "components/ui/Button";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -20,7 +21,6 @@ import water from "assets/icons/expression_working.png";
 import timer from "assets/icons/timer.png";
 import wood from "assets/resources/wood.png";
 import leftArrow from "assets/icons/arrow_left.png";
-import rightArrow from "assets/icons/arrow_right.png";
 
 import { isNewFarm } from "../lib/onboarding";
 
@@ -48,6 +48,7 @@ export const Menu = () => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
+  const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
@@ -84,9 +85,15 @@ export const Menu = () => {
       setShowComingSoon(true);
       return;
     }
+    setShowCaptcha(true);
+  };
 
-    gameService.send("SYNC");
+  const onCaptchaSolved = async (captcha: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    gameService.send("SYNC", { captcha });
     setMenuOpen(false);
+    setShowCaptcha(false);
   };
 
   const autosave = async () => {
@@ -289,6 +296,23 @@ export const Menu = () => {
         isOpen={showHowToPlay}
         onClose={() => setShowHowToPlay(false)}
       />
+
+      {showCaptcha && (
+        <Modal
+          show={showCaptcha}
+          onHide={() => setShowComingSoon(false)}
+          centered
+        >
+          <Panel>
+            <ReCAPTCHA
+              sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+              onChange={onCaptchaSolved}
+              onExpired={() => setShowCaptcha(false)}
+              className="w-full m-4 flex items-center justify-center"
+            />
+          </Panel>
+        </Modal>
+      )}
 
       {/* TODO - To be deleted when withdraw and "Sync on chain" are implemented */}
       <Modal

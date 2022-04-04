@@ -2,6 +2,7 @@ import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 import { toWei } from "web3-utils";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
@@ -48,6 +49,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const [selected, setSelected] = useState<SelectedItem[]>([]);
   const [amount, setAmount] = useState<Decimal | string>(new Decimal(0));
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
   const items = Object.keys(inventory) as InventoryItemName[];
   const validItems = items.filter(
@@ -61,14 +63,20 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   };
 
   const onWithdraw = async () => {
+    setShowCaptcha(true);
+  };
+
+  const onCaptchaSolved = async (token: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
     gameService.send("WITHDRAW", {
       ids: selected.map(({ item }) => KNOWN_IDS[item]),
       amounts: selected.map(({ item, amount }) =>
         toWei(amount.toString(), getItemUnit(item))
       ),
       sfl: toWei(amount.toString()),
+      captcha: token,
     });
-
     onClose();
   };
 
@@ -127,6 +135,17 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   if (!enabled) {
     return <span>Coming soon...</span>;
+  }
+
+  if (showCaptcha) {
+    return (
+      <ReCAPTCHA
+        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        onChange={onCaptchaSolved}
+        onExpired={() => setShowCaptcha(false)}
+        className="w-full m-4 flex items-center justify-center"
+      />
+    );
   }
 
   return (
@@ -240,7 +259,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
       <Button
         onClick={onWithdraw}
-        disabled={safeAmount(amount).gte(game.context.state.balance)}
+        //disabled={safeAmount(amount).gte(game.context.state.balance)}
       >
         Withdraw
       </Button>
