@@ -1,4 +1,3 @@
-import { solveCaptcha } from "features/game/actions/autosave";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { createMachine, Interpreter, assign } from "xstate";
@@ -66,6 +65,7 @@ type CreateFarmEvent = {
   type: "CREATE_FARM";
   charityAddress: CharityAddress;
   donation: number;
+  captcha: string;
 };
 
 type LoadFarmEvent = {
@@ -101,7 +101,6 @@ export type BlockchainState = {
     | { connected: "farmLoaded" }
     | { connected: "noFarmLoaded" }
     | { connected: "creatingFarm" }
-    | { connected: "captcha" }
     | { connected: "readyToStart" }
     | { connected: "oauthorised" }
     | { connected: "authorised" }
@@ -168,7 +167,7 @@ export const authMachine = createMachine<
         invoke: {
           src: "oauthorise",
           onDone: {
-            target: "connected.captcha",
+            target: "connected.oauthorised",
             actions: "assignToken",
           },
           onError: {
@@ -205,30 +204,6 @@ export const authMachine = createMachine<
               },
             },
           },
-          captcha: {
-            invoke: {
-              src: async (_, event: any) => {
-                const captcha = await solveCaptcha();
-
-                return {
-                  captcha,
-                  ...event.data,
-                };
-              },
-              onDone: {
-                target: "oauthorised",
-                actions: assign((context: Context, event) => {
-                  return {
-                    captcha: event.data.captcha,
-                  };
-                }),
-              },
-              onError: {
-                target: "#unauthorised",
-                actions: "assignErrorMessage",
-              },
-            },
-          },
           creatingFarm: {
             invoke: {
               src: "createFarm",
@@ -245,7 +220,7 @@ export const authMachine = createMachine<
           noFarmLoaded: {
             on: {
               CREATE_FARM: {
-                target: "captcha",
+                target: "oauthorised",
               },
               CONNECT_TO_DISCORD: {
                 // Redirects to Discord OAuth so no need for a state change
@@ -362,15 +337,13 @@ export const authMachine = createMachine<
         };
       },
       createFarm: async (context: Context, event: any): Promise<Context> => {
-        const charityAddress = (event as CreateFarmEvent)
-          .charityAddress as CharityAddress;
-        const donation = (event as CreateFarmEvent).donation as number;
+        const { charityAddress, donation, captcha } = event as CreateFarmEvent;
 
         const newFarm = await createFarmAction({
           charity: charityAddress,
           donation,
           token: context.rawToken as string,
-          captcha: context.captcha as string,
+          captcha: captcha,
         });
 
         return {

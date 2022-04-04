@@ -1,5 +1,6 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
 
@@ -24,7 +25,7 @@ export async function sync({ farmId, sessionId, token, captcha }: Options) {
   });
 
   if (response.status === 429) {
-    return { verified: false };
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
   const transaction = await response.json();

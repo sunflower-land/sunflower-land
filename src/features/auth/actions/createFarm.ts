@@ -26,6 +26,10 @@ export async function signTransaction(request: Request) {
     }),
   });
 
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
   if (response.status >= 400) {
     throw new Error(ERRORS.FAILED_REQUEST);
   }

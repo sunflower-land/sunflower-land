@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import token from "assets/icons/token.gif";
 
@@ -17,8 +18,6 @@ import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
-import { FLAGS } from "features/game/types/flags";
-import { CaptchaModal } from "features/game/components/Captcha";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -103,9 +102,10 @@ export const Rare: React.FC<Props> = ({
     setShowCaptcha(true);
   };
 
-  const onCaptchaSolved = () => {
-    setShowCaptcha(false);
-    gameService.send("MINT", { item: selected.name });
+  const onCaptchaSolved = async (token: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    gameService.send("MINT", { item: selected.name, captcha: token });
     onClose();
   };
 
@@ -165,6 +165,17 @@ export const Rare: React.FC<Props> = ({
       </>
     );
   };
+
+  if (showCaptcha) {
+    return (
+      <ReCAPTCHA
+        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        onChange={onCaptchaSolved}
+        onExpired={() => setShowCaptcha(false)}
+        className="w-full m-4 flex items-center justify-center"
+      />
+    );
+  }
 
   return (
     <div className="flex">
@@ -256,8 +267,6 @@ export const Rare: React.FC<Props> = ({
           Open Sea
         </a>
       </OuterPanel>
-
-      {showCaptcha && <CaptchaModal onSolved={onCaptchaSolved} />}
     </div>
   );
 };

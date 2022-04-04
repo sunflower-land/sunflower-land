@@ -68,6 +68,9 @@ export type BlockchainEvent =
   | {
       type: "EXPIRED";
     }
+  | {
+      type: "CONTINUE";
+    }
   | WithdrawEvent
   | GameEvent
   | MintEvent
@@ -326,7 +329,7 @@ export function startGame(authContext: Options) {
 
               const { item, captcha } = event as MintEvent;
 
-              const sessionId = await mint({
+              const { sessionId } = await mint({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
@@ -366,7 +369,7 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const sessionId = await sync({
+              const { sessionId } = await sync({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
@@ -404,7 +407,7 @@ export function startGame(authContext: Options) {
           invoke: {
             src: async (context, event) => {
               const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
-              const sessionId = await withdraw({
+              const { sessionId } = await withdraw({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
@@ -482,7 +485,11 @@ export function startGame(authContext: Options) {
           },
         },
         readonly: {},
-        error: {},
+        error: {
+          on: {
+            CONTINUE: "playing",
+          },
+        },
         blacklisted: {},
         success: {
           on: {

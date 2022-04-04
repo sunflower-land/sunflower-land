@@ -3,7 +3,6 @@ import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/esm/Modal";
 
 import * as AuthProvider from "features/auth/lib/Provider";
-import { Captcha } from "features/game/components/Captcha";
 
 import { ErrorMessage } from "./ErrorMessage";
 import { Panel } from "components/ui/Panel";
@@ -57,9 +56,6 @@ export const Auth: React.FC = () => {
               errorCode={authState.context.errorCode as ErrorCode}
             />
           )}
-          {authState.matches({ connected: "captcha" }) && <Captcha />}
-
-          {/* <Captcha show={authState.matches({ connected: "captcha" })} /> */}
         </Panel>
       </div>
     </Modal>

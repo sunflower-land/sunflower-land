@@ -1,5 +1,6 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
 import { LimitedItem } from "../types/craftables";
 
 type Request = {
@@ -23,12 +24,14 @@ export async function mint(request: Request) {
       farmId: request.farmId,
       sessionId: request.sessionId,
       item: request.item,
+      captcha: request.captcha,
     }),
   });
 
   if (response.status === 429) {
-    return { verified: false };
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
+
   if (response.status !== 200 || !response.ok) {
     throw new Error("Could not mint your object");
   }

@@ -2,6 +2,7 @@ import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 import { toWei } from "web3-utils";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
@@ -23,7 +24,6 @@ import downArrow from "assets/icons/arrow_down.png";
 import { getTax } from "lib/utils/tax";
 import { getItemUnit } from "features/game/lib/conversion";
 import { Box } from "components/ui/Box";
-import { CaptchaModal } from "features/game/components/Captcha";
 
 type SelectedItem = {
   item: InventoryItemName;
@@ -66,15 +66,17 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     setShowCaptcha(true);
   };
 
-  const onCaptchaSolved = () => {
+  const onCaptchaSolved = async (token: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
     gameService.send("WITHDRAW", {
       ids: selected.map(({ item }) => KNOWN_IDS[item]),
       amounts: selected.map(({ item, amount }) =>
         toWei(amount.toString(), getItemUnit(item))
       ),
       sfl: toWei(amount.toString()),
+      captcha: token,
     });
-    setShowCaptcha(false);
     onClose();
   };
 
@@ -134,6 +136,17 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   // if (!enabled) {
   //   return <span>Coming soon...</span>;
   // }
+
+  if (showCaptcha) {
+    return (
+      <ReCAPTCHA
+        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        onChange={onCaptchaSolved}
+        onExpired={() => setShowCaptcha(false)}
+        className="w-full m-4 flex items-center justify-center"
+      />
+    );
+  }
 
   return (
     <>
@@ -259,8 +272,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           Read more
         </a>
       </span>
-
-      {showCaptcha && <CaptchaModal onSolved={onCaptchaSolved} />}
     </>
   );
 };

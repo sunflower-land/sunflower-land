@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Carousel, CarouselItem } from "react-bootstrap";
 import shuffle from "lodash.shuffle";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -107,12 +108,20 @@ const CharityDetail = ({
 
 export const CreateFarm: React.FC = () => {
   const [donation, setDonation] = useState(1.0);
+  const [charity, setCharity] = useState<string>();
   const [activeIdx, setActiveIndex] = useState(0);
   const { authService } = useContext(Context);
   const [authState, send] = useActor(authService);
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
-  const create = async (charityAddress: CharityAddress, donation: number) => {
-    authService.send("CREATE_FARM", { charityAddress, donation });
+  const onCaptchaSolved = async (token: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    authService.send("CREATE_FARM", {
+      charityAddress: charity,
+      donation,
+      captcha: token,
+    });
   };
 
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -132,7 +141,8 @@ export const CreateFarm: React.FC = () => {
   };
 
   const onDonateAndPlayClick = (charityAddress: CharityAddress) => {
-    create(charityAddress, donation);
+    setCharity(charityAddress);
+    setShowCaptcha(true);
   };
 
   const updateActiveIndex = (newIdx: number) => {
@@ -150,6 +160,17 @@ export const CreateFarm: React.FC = () => {
 
   if (!authState.context.token?.userAccess.createFarm) {
     return <Blocked />;
+  }
+
+  if (showCaptcha) {
+    return (
+      <ReCAPTCHA
+        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        onChange={onCaptchaSolved}
+        onExpired={() => setShowCaptcha(false)}
+        className="w-full m-4 flex items-center justify-center"
+      />
+    );
   }
 
   return (
