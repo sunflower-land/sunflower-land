@@ -81,10 +81,10 @@ export const Menu = () => {
   };
 
   const syncOnChain = async () => {
-    // if (!authState.context.token?.userAccess.sync) {
-    //   setShowComingSoon(true);
-    //   return;
-    // }
+    if (!authState.context.token?.userAccess.sync) {
+      setShowComingSoon(true);
+      return;
+    }
     setShowCaptcha(true);
   };
 
