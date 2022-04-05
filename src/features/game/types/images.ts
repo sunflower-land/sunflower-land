@@ -46,11 +46,16 @@ import fountain from "assets/nfts/fountain.gif";
 import beaver from "assets/nfts/beaver.png";
 import apprenticeBeaver from "assets/nfts/apprentice_beaver.png";
 import constructionBeaver from "assets/nfts/construction_beaver.png";
+import mysteriousParsnip from "assets/nfts/mysterious_parsnip.png";
+import carrotSword from "assets/nfts/carrot_sword.png";
+import nancy from "assets/nfts/nancy.png";
+import kuebiko from "assets/nfts/kuebiko.gif";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import cabbageSoup from "assets/nfts/saurrerkrat.png";
 import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
+import radishPie from "assets/nfts/radish_pie.png";
 
 // Flags
 import australiaFlag from "assets/nfts/flags/australia_flag.gif";
@@ -309,9 +314,17 @@ export const ITEM_DETAILS: Items = {
     ...BLACKSMITH_ITEMS["Potato Statue"],
     image: potatoStatue,
   },
+  Nancy: {
+    ...MARKET_ITEMS["Nancy"],
+    image: nancy,
+  },
   Scarecrow: {
     ...MARKET_ITEMS["Scarecrow"],
     image: scarecrow,
+  },
+  Kuebiko: {
+    ...MARKET_ITEMS["Kuebiko"],
+    image: kuebiko,
   },
   "Christmas Tree": {
     ...BLACKSMITH_ITEMS["Christmas Tree"],
@@ -369,6 +382,14 @@ export const ITEM_DETAILS: Items = {
     ...BLACKSMITH_ITEMS["Foreman Beaver"],
     image: constructionBeaver,
   },
+  "Mysterious Parsnip": {
+    ...MARKET_ITEMS["Mysterious Parsnip"],
+    image: mysteriousParsnip,
+  },
+  "Carrot Sword": {
+    ...MARKET_ITEMS["Carrot Sword"],
+    image: carrotSword,
+  },
 
   // FOOD
   "Pumpkin Soup": {
@@ -383,6 +404,10 @@ export const ITEM_DETAILS: Items = {
   "Roasted Cauliflower": {
     ...FOODS()["Roasted Cauliflower"],
     image: roastedCaulfilower,
+  },
+  "Radish Pie": {
+    ...FOODS()["Radish Pie"],
+    image: radishPie,
   },
 
   /**

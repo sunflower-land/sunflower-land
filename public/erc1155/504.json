@@ -1,14 +1,9 @@
 {
-  "name": "Flour",
-  "description": "A flour that is used to make bread",
+  "name": "Radish Pie",
+  "description": "## Radish Pie\n\nDespised by humans, loved by Goblins! Owning this item unlocks crop seeds\n\nYou can craft this item at the Kitchen in the game.\n\n## Supply\n\nUnlimited\n\n### Crafting Costs\n\n---\n\n?\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n",
   "image": "https://sunflower-land.com/play/erc1155/504.png",
   "decimals": 0,
   "external_url": "https://docs.sunflower-land.com/crafting-guide",
   "background_color": "E5A66A",
-  "attributes": [
-    {
-      "trait_type": "Purpose",
-      "value": "Resource"
-    }
-  ]
+  "attributes": [{ "trait_type": "Purpose", "value": "Resource" }]
 }

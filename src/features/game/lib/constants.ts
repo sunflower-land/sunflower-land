@@ -14,7 +14,7 @@ export const INITIAL_STOCK: Inventory = {
   "Cauliflower Seed": new Decimal(80),
   "Parsnip Seed": new Decimal(40),
   "Radish Seed": new Decimal(40),
-  "Wheat Seed": new Decimal(0),
+  "Wheat Seed": new Decimal(40),
 
   Axe: new Decimal(50),
   Pickaxe: new Decimal(30),

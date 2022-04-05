@@ -12,7 +12,9 @@ import christmasTree from "assets/nfts/christmas_tree.png";
 import dog from "assets/nfts/farm_dog.png";
 import cat from "assets/nfts/farm_cat.png";
 import gnome from "assets/nfts/gnome.png";
+import nancy from "assets/nfts/nancy.png";
 import scarecrow from "assets/nfts/scarecrow.png";
+import kuebiko from "assets/nfts/kuebiko.gif";
 import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
 import beaver from "assets/nfts/beaver.png";
@@ -23,6 +25,50 @@ import { GRID_WIDTH_PX } from "../lib/constants";
 import { Context } from "../GameProvider";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
+import { Inventory } from "../types/game";
+
+// Only show 1 scarecrow at a time
+export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
+  inventory,
+}) => {
+  if (inventory.Kuebiko) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 2}px`,
+        }}
+        src={kuebiko}
+        alt="Scarecrow"
+      />
+    );
+  }
+
+  if (inventory.Scarecrow) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.3}px`,
+        }}
+        src={scarecrow}
+        alt="Scarecrow"
+      />
+    );
+  }
+
+  if (inventory.Nancy) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.2}px`,
+        }}
+        src={nancy}
+        alt="Scarecrow"
+      />
+    );
+  }
+
+  return null;
+};
 
 export const Decorations: React.FC = () => {
   const { gameService, selectedItem } = useContext(Context);
@@ -146,20 +192,18 @@ export const Decorations: React.FC = () => {
           alt="Gnome"
         />
       )}
-
-      {state.inventory["Scarecrow"] && (
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 1.2}px`,
-            left: `${GRID_WIDTH_PX * 38.9}px`,
-            top: `${GRID_WIDTH_PX * 34}px`,
-          }}
-          id={Section.Scarecrow}
-          className="absolute"
-          src={scarecrow}
-          alt="Scarecrow"
-        />
-      )}
+      {/* Scarecrows */}
+      <div
+        className="flex justify-center absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 3}px`,
+          left: `${GRID_WIDTH_PX * 38}px`,
+          top: `${GRID_WIDTH_PX * 34}px`,
+        }}
+        id={Section.Scarecrow}
+      >
+        <Scarecrows inventory={state.inventory} />
+      </div>
 
       {state.inventory["Fountain"] && (
         <img

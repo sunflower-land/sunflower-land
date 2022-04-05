@@ -4,7 +4,6 @@ import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
-import { Bar } from "components/ui/ProgressBar";
 
 export { FLAGS };
 
@@ -52,7 +51,13 @@ export type BlacksmithItem =
 
 export type BarnItem = "Farm Cat" | "Farm Dog" | "Chicken Coop" | "Gold Egg";
 
-export type MarketItem = "Scarecrow" | "Golden Cauliflower";
+export type MarketItem =
+  | "Nancy"
+  | "Scarecrow"
+  | "Kuebiko"
+  | "Golden Cauliflower"
+  | "Mysterious Parsnip"
+  | "Carrot Sword";
 
 export type LimitedItem = BlacksmithItem | BarnItem | MarketItem | Flag;
 
@@ -64,7 +69,11 @@ export type Tool =
   | "Hammer"
   | "Rod";
 
-export type Food = "Pumpkin Soup" | "Roasted Cauliflower" | "Sauerkraut";
+export type Food =
+  | "Pumpkin Soup"
+  | "Roasted Cauliflower"
+  | "Sauerkraut"
+  | "Radish Pie";
 
 export type Animal = "Chicken" | "Cow" | "Pig" | "Sheep";
 
@@ -101,6 +110,17 @@ export const FOODS: () => Record<Food, Craftable> = () => ({
       {
         item: "Cauliflower",
         amount: new Decimal(30),
+      },
+    ],
+  },
+  "Radish Pie": {
+    name: "Radish Pie",
+    description: "Despised by humans, loved by goblins",
+    price: marketRate(300),
+    ingredients: [
+      {
+        item: "Radish",
+        amount: new Decimal(60),
       },
     ],
   },
@@ -342,10 +362,10 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
 };
 
 export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
-  Scarecrow: {
-    name: "Scarecrow",
-    description: "Grow crops 20% faster",
-    price: new Decimal(50),
+  Nancy: {
+    name: "Nancy",
+    description: "Keeps a few crows away. Crops grow 15% faster",
+    price: new Decimal(10),
     ingredients: [
       {
         item: "Wheat",
@@ -356,10 +376,47 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(50),
       },
     ],
-    limit: 1,
     supply: 50000,
+  },
+  Scarecrow: {
+    name: "Scarecrow",
+    description: "A goblin scarecrow. Grow crops 20% faster",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: new Decimal(400),
+      },
+      {
+        item: "Wood",
+        amount: new Decimal(50),
+      },
+      {
+        item: "Nancy",
+        amount: new Decimal(1),
+      },
+    ],
+    limit: 1,
+    supply: 5000,
     disabled: true,
     section: Section.Scarecrow,
+  },
+  Kuebiko: {
+    name: "Kuebiko",
+    description:
+      "Even the shopkeeper is scared of this scarecrow. Seeds are free",
+    price: new Decimal(300),
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: new Decimal(600),
+      },
+      {
+        item: "Scarecrow",
+        amount: new Decimal(1),
+      },
+    ],
+    supply: 200,
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
@@ -376,6 +433,34 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
       },
     ],
     supply: 100,
+  },
+  "Mysterious Parsnip": {
+    name: "Mysterious Parsnip",
+    description: "Parsnips grow 50% faster",
+    price: new Decimal(100),
+    ingredients: [
+      {
+        item: "Parsnip",
+        amount: new Decimal(500),
+      },
+      {
+        item: "Gold",
+        amount: new Decimal(50),
+      },
+    ],
+    supply: 500,
+  },
+  "Carrot Sword": {
+    name: "Carrot Sword",
+    description: "Increase chance of a mutant crop appearing",
+    price: new Decimal(200),
+    ingredients: [
+      {
+        item: "Carrot",
+        amount: new Decimal(500),
+      },
+    ],
+    supply: 1000,
   },
 };
 

@@ -19,6 +19,7 @@ const VALID_SEEDS: InventoryItemName[] = [
   "Pumpkin Seed",
   "Parsnip Seed",
   "Radish Seed",
+  "Wheat Seed",
 ];
 
 function isSeed(crop: InventoryItemName): crop is SeedName {
