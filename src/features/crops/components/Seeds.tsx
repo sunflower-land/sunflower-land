@@ -11,7 +11,7 @@ import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
-import { secondsToMidString, secondsToString } from "lib/utils/time";
+import { secondsToMidString } from "lib/utils/time";
 
 import { Context } from "features/game/GameProvider";
 import { Craftable } from "features/game/types/craftables";
@@ -20,7 +20,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
-import { getReducedPlantTime, hasTimeBoost } from "features/game/lib/boosts";
+import { getReducedPlantTime, hasBoost } from "features/game/lib/boosts";
 import { getBuyPrice } from "features/game/events/craft";
 
 interface Props {
@@ -81,7 +81,16 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const stock = state.stock[selected.name] || new Decimal(0);
 
-  useEffect(() => setIsTimeBoosted(hasTimeBoost(inventory)), [state.inventory]);
+  useEffect(
+    () =>
+      setIsTimeBoosted(
+        hasBoost({
+          item: selected.name,
+          inventory,
+        })
+      ),
+    [state.inventory]
+  );
 
   if (showCaptcha) {
     return (
@@ -162,11 +171,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
               <img src={timer} className="h-5 me-2" />
               {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
               <span className="text-xs text-shadow text-center mt-2">
-                {isTimeBoosted
-                  ? secondsToMidString(
-                      getReducedPlantTime(crop.harvestSeconds, inventory)
-                    )
-                  : secondsToString(crop.harvestSeconds)}
+                {secondsToMidString(
+                  getReducedPlantTime(crop.harvestSeconds, inventory)
+                )}
               </span>
             </div>
             <div className="flex justify-center items-end">
