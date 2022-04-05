@@ -22,7 +22,7 @@ const VALID_SEEDS: InventoryItemName[] = [
   "Wheat Seed",
 ];
 
-function isSeed(crop: InventoryItemName): crop is SeedName {
+export function isSeed(crop: InventoryItemName): crop is SeedName {
   return VALID_SEEDS.includes(crop);
 }
 

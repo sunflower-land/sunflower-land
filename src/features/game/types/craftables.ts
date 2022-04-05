@@ -380,7 +380,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
   },
   Scarecrow: {
     name: "Scarecrow",
-    description: "A goblin scarecrow. Grow crops 20% faster",
+    description: "A goblin scarecrow. Yield 20% more crops",
     price: new Decimal(50),
     ingredients: [
       {
@@ -453,11 +453,11 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
   "Carrot Sword": {
     name: "Carrot Sword",
     description: "Increase chance of a mutant crop appearing",
-    price: new Decimal(200),
+    price: new Decimal(100),
     ingredients: [
       {
         item: "Carrot",
-        amount: new Decimal(500),
+        amount: new Decimal(2000),
       },
     ],
     supply: 1000,

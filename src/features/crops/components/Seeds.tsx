@@ -21,6 +21,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
 import { getReducedPlantTime, hasTimeBoost } from "features/game/lib/boosts";
+import { getBuyPrice } from "features/game/events/craft";
 
 interface Props {
   onClose: () => void;
@@ -42,12 +43,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const inventory = state.inventory;
 
+  const price = getBuyPrice(selected, inventory);
   const buy = (amount = 1) => {
     gameService.send("item.crafted", {
       item: selected.name,
       amount,
     });
-    setToast({ content: "SFL -$" + selected.price.mul(amount).toString() });
+    setToast({ content: "SFL -$" + price.mul(amount).toString() });
     shortcutItem(selected.name);
   };
 
@@ -72,7 +74,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const lessFunds = (amount = 1) =>
-    state.balance.lessThan(selected.price.mul(amount).toString());
+    state.balance.lessThan(price.mul(amount).toString());
 
   const cropName = selected.name.split(" ")[0] as CropName;
   const crop = CROPS()[cropName];
@@ -174,7 +176,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${selected.price}`}
+                {`$${price}`}
               </span>
             </div>
           </div>
