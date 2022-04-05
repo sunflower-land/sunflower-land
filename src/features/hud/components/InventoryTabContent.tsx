@@ -15,7 +15,7 @@ import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
 import { getShortcuts } from "../lib/shortcuts";
-import { getReducedPlantTime, hasTimeBoost } from "features/game/lib/boosts";
+import { getReducedPlantTime, hasBoost } from "features/game/lib/boosts";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -61,7 +61,16 @@ export const InventoryTabContent = ({
     }
   }, []);
 
-  useEffect(() => setIsTimeBoosted(hasTimeBoost(inventory)), [inventory]);
+  useEffect(
+    () =>
+      setIsTimeBoosted(
+        hasBoost({
+          item: selectedItem as InventoryItemName,
+          inventory,
+        })
+      ),
+    [inventory]
+  );
 
   const inventoryMapping = inventoryItems.reduce((acc, curr) => {
     const category = categories.find(
@@ -85,9 +94,7 @@ export const InventoryTabContent = ({
     const harvestSeconds =
       CROPS()[crop.split(" ")[0] as CropName].harvestSeconds;
 
-    return isTimeBoosted
-      ? secondsToMidString(getReducedPlantTime(harvestSeconds, inventory))
-      : secondsToString(harvestSeconds);
+    return secondsToMidString(getReducedPlantTime(harvestSeconds, inventory));
   };
 
   const handleItemClick = (item: InventoryItemName) => {

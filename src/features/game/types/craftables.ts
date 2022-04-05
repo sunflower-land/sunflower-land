@@ -322,7 +322,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 5000,
+    supply: 50000,
     section: Section.Beaver,
   },
   "Apprentice Beaver": {
@@ -437,7 +437,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
   "Mysterious Parsnip": {
     name: "Mysterious Parsnip",
     description: "Parsnips grow 50% faster",
-    price: new Decimal(100),
+    price: new Decimal(0),
     ingredients: [
       {
         item: "Parsnip",
@@ -453,7 +453,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
   "Carrot Sword": {
     name: "Carrot Sword",
     description: "Increase chance of a mutant crop appearing",
-    price: new Decimal(100),
+    price: new Decimal(50),
     ingredients: [
       {
         item: "Carrot",
