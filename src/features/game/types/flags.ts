@@ -205,7 +205,7 @@ export const FLAGS: Record<Flag, Craftable> = {
   },
   "Moroccan Flag": {
     name: "Moroccan Flag",
-    description: "Morrocan flag",
+    description: "Moroccan flag",
     price: new Decimal(50),
     ingredients: [
       {
