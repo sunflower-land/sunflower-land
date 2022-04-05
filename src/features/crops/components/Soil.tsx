@@ -48,11 +48,12 @@ export const Soil: React.FC<Props> = ({
   // Seedling
   if (timeLeft > 0) {
     const percentage = 100 - (timeLeft / crop.harvestSeconds) * 100;
+    const isAlmostReady = percentage >= 50;
 
     return (
       <div className="relative w-full h-full">
         <img
-          src={lifecycle.seedling}
+          src={isAlmostReady ? lifecycle.almost : lifecycle.seedling}
           className={classnames("w-full", className)}
         />
         <div className="absolute w-full -bottom-4 z-10">
