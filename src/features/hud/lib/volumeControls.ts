@@ -1,17 +1,10 @@
 import { useState } from "react";
-import { useAudioContext } from "lib/utils/hooks/useAudioContext";
 import { useStepper } from "lib/utils/hooks/useStepper";
 import { roundToOneDecimal } from "features/auth/components";
 
 import * as sfx from "lib/utils/sfx";
 
 export const useVolumeControls = () => {
-  const [audioContext] = useAudioContext();
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const gainNode: GainNode = audioContext.createGain();
-  // {Todo: Use gainNode to manage audio controls, uses web audio api}
-
   const allAudioElements = document.getElementsByTagName("audio");
 
   const sfxActions = [
@@ -54,7 +47,6 @@ export const useVolumeControls = () => {
   const VOLUME_STEP = 0.1;
 
   const postMasterAudioVolume = () => {
-    console.log("#Audio Elements:", allAudioElements.length);
     if (
       masterAudioVolume <= MAX_AUDIO_VOLUME &&
       masterAudioVolume >= MIN_AUDIO_VOLUME
@@ -66,15 +58,12 @@ export const useVolumeControls = () => {
     console.log("Master Audio Volume:", masterAudioVolume);
   };
   const incMasterAudioVolume = () => {
-    console.log("Master Audio Volume before inc:", masterAudioVolume);
     masterAudioVolume < MAX_AUDIO_VOLUME
       ? setMasterAudioVolume((prevState) => {
           const tmp = roundToOneDecimal(prevState + VOLUME_STEP);
-          console.log("Rounded Vol:", tmp);
           return tmp;
         })
       : console.log("Warning: Maximum Volume Already Set!");
-    console.log("Master Audio Volume after inc:", masterAudioVolume);
     postMasterAudioVolume();
   };
   const decMasterAudioVolume = () => {
@@ -104,7 +93,6 @@ export const useVolumeControls = () => {
   const getMasterSfxActVolume = () => masterSfxActVolume;
 
   const setMasterSfxActVolume = () => {
-    console.log("Master SFX in-game Actions Volume:", masterSfxActVolume.value);
     sfxActions.forEach((ele) => {
       ele.volume(masterSfxActVolume.value as number);
     });
@@ -132,12 +120,16 @@ export const useVolumeControls = () => {
   });
 
   const getMasterSfxModalVolume = () => masterSfxModalVolume;
+  const toggleAllSFX = () => {
+    sfxActions.forEach((ele) => {
+      ele.mute();
+    });
+    sfxModals.forEach((ele) => {
+      ele.mute();
+    });
+  };
 
   const setMasterSfxModalVolume = () => {
-    console.log(
-      "Master SFX in-game Modals Volume:",
-      masterSfxModalVolume.value
-    );
     sfxModals.forEach((ele) => {
       ele.volume(masterSfxModalVolume.value as number);
     });
@@ -169,6 +161,7 @@ export const useVolumeControls = () => {
     decMasterSfxModalVolume as () => void,
     muteMasterSfxModalVolume as () => void,
     getMasterAudioVolume as () => number,
+    toggleAllSFX as () => void,
     getMasterSfxActVolume as () => {
       decrease: () => void;
       increase: () => void;
