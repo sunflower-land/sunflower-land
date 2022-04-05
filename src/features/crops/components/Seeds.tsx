@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import token from "assets/icons/token.gif";
 import timer from "assets/icons/timer.png";
@@ -37,6 +38,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
   const [isTimeBoosted, setIsTimeBoosted] = useState(false);
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
   const inventory = state.inventory;
 
@@ -58,7 +60,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const restock = () => {
-    gameService.send("SYNC");
+    setShowCaptcha(true);
+  };
+
+  const onCaptchaSolved = async (captcha: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    gameService.send("SYNC", { captcha });
 
     onClose();
   };
@@ -73,6 +81,16 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   useEffect(() => setIsTimeBoosted(hasTimeBoost(inventory)), [state.inventory]);
 
+  if (showCaptcha) {
+    return (
+      <ReCAPTCHA
+        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        onChange={onCaptchaSolved}
+        onExpired={() => setShowCaptcha(false)}
+        className="w-full m-4 flex items-center justify-center"
+      />
+    );
+  }
   const Action = () => {
     const isLocked = selected.requires && !inventory[selected.requires];
     if (isLocked || selected.disabled) {

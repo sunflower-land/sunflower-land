@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import token from "assets/icons/token.gif";
 
@@ -29,6 +30,8 @@ export const CraftingItems: React.FC<Props> = ({
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
+  const [showCaptcha, setShowCaptcha] = useState(false);
+
   const [
     {
       context: { state },
@@ -58,11 +61,28 @@ export const CraftingItems: React.FC<Props> = ({
     shortcutItem(selected.name);
   };
 
-  const restock = () => {
-    gameService.send("SYNC");
+  const onCaptchaSolved = async (captcha: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    gameService.send("SYNC", { captcha });
 
     onClose();
   };
+
+  const restock = () => {
+    setShowCaptcha(true);
+  };
+
+  if (showCaptcha) {
+    return (
+      <ReCAPTCHA
+        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        onChange={onCaptchaSolved}
+        onExpired={() => setShowCaptcha(false)}
+        className="w-full m-4 flex items-center justify-center"
+      />
+    );
+  }
 
   const soldOut = selected.supply === 0;
 
