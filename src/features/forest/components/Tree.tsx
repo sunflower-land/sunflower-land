@@ -20,6 +20,7 @@ import {
   canChop,
   ChopAction,
   CHOP_ERRORS,
+  getRequiredAxeAmount,
   TREE_RECOVERY_SECONDS,
 } from "features/game/events/chop";
 
@@ -78,18 +79,22 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setShowPopover(false);
   };
 
+  const axesNeeded = getRequiredAxeAmount(game.context.state.inventory);
+  const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
+
+  // Has enough axes to chop the tree
+  const hasAxes =
+    (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
+
   const shake = async () => {
     if (game.matches("readonly")) {
       shakeGif.current?.goToAndPlay(0);
       return;
     }
 
-    if (selectedItem !== "Axe") {
+    if (!hasAxes) {
       return;
     }
-
-    const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
-    if (axeAmount.lessThanOrEqualTo(0)) return;
 
     const isPlaying = shakeGif.current?.getInfo("isPlaying");
 
@@ -148,21 +153,13 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   };
 
   const handleHover = () => {
-    if (
-      game.matches("readonly") ||
-      (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
-    )
-      return;
+    if (game.matches("readonly") || hasAxes) return;
     treeRef.current?.classList["add"]("cursor-not-allowed");
     setShowLabel(true);
   };
 
   const handleMouseLeave = () => {
-    if (
-      game.matches("readonly") ||
-      (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
-    )
-      return;
+    if (game.matches("readonly") || hasAxes) return;
     treeRef.current?.classList["remove"]("cursor-not-allowed");
     setShowLabel(false);
   };

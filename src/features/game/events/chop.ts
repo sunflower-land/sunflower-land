@@ -34,7 +34,7 @@ function getChoppedAt({ inventory, createdAt }: GetChoppedAtAtgs): number {
 /**
  * Returns the amount of axe required to chop down a tree
  */
-function getRequiredAxeAmount(inventory: Inventory) {
+export function getRequiredAxeAmount(inventory: Inventory) {
   if (inventory["Foreman Beaver"]) {
     return new Decimal(0);
   }
@@ -63,12 +63,12 @@ export function chop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  if (action.item !== "Axe") {
+  const requiredAxes = getRequiredAxeAmount(state.inventory);
+  if (action.item !== "Axe" && requiredAxes.gt(0)) {
     throw new Error(CHOP_ERRORS.MISSING_AXE);
   }
 
   const axeAmount = state.inventory.Axe || new Decimal(0);
-  const requiredAxes = getRequiredAxeAmount(state.inventory);
   if (axeAmount.lessThan(requiredAxes)) {
     throw new Error(CHOP_ERRORS.NO_AXES);
   }
