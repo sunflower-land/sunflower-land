@@ -19,6 +19,7 @@ import jumpingGoblin from "assets/npcs/goblin_jump.gif";
 import curly from "assets/npcs/curly_hair.png";
 import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
+import { SupplyReached } from "./components/SupplyReached";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -42,10 +43,14 @@ export const Auth: React.FC = () => {
         <img src={jumpingGoblin} className="absolute w-52 -top-[83px] -z-10" />
         <Panel>
           {(authState.matches({ connected: "loadingFarm" }) ||
-            authState.matches("checkFarm")) && <Loading />}
+            authState.matches("checkFarm") ||
+            authState.matches({ connected: "checkingSupply" })) && <Loading />}
           {authState.matches("connecting") && <Loading text="Connecting" />}
           {authState.matches("signing") && <Signing />}
           {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
+          {authState.matches({ connected: "supplyReached" }) && (
+            <SupplyReached />
+          )}
           {authState.matches("oauthorising") && <Loading />}
           {authState.matches({ connected: "oauthorised" }) && <CreateFarm />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}

@@ -99,6 +99,8 @@ export type BlockchainState = {
     | "oauthorising"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
+    | { connected: "checkingSupply" }
+    | { connected: "supplyReached" }
     | { connected: "noFarmLoaded" }
     | { connected: "creatingFarm" }
     | { connected: "readyToStart" }
@@ -189,7 +191,31 @@ export const authMachine = createMachine<
                   actions: "assignFarm",
                   cond: "hasFarm",
                 },
-                { target: "noFarmLoaded" },
+                { target: "checkingSupply" },
+              ],
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
+            },
+          },
+          checkingSupply: {
+            id: "checkingSupply",
+            invoke: {
+              src: async () => {
+                const totalSupply = await metamask.getFarm()?.getTotalSupply();
+                console.log({ totalSupply });
+
+                return {
+                  totalSupply,
+                };
+              },
+              onDone: [
+                {
+                  target: "noFarmLoaded",
+                  cond: (_, event) => Number(event.data.totalSupply) < 100000,
+                },
+                { target: "supplyReached" },
               ],
               onError: {
                 target: "#unauthorised",
@@ -257,6 +283,7 @@ export const authMachine = createMachine<
               },
             },
           },
+          supplyReached: {},
         },
       },
       unauthorised: {

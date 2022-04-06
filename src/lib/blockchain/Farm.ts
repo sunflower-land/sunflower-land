@@ -74,4 +74,23 @@ export class Farm {
 
     return farms[0];
   }
+
+  public async getTotalSupply(attempts = 0): Promise<number> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const accounts = await this.farm.methods
+        .totalSupply()
+        .call({ from: this.account });
+
+      return accounts;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.getFarms(attempts + 1);
+      }
+
+      throw error;
+    }
+  }
 }
