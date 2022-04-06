@@ -87,7 +87,7 @@ export class Farm {
     } catch (e) {
       const error = parseMetamaskError(e);
       if (attempts < 3) {
-        return this.getFarms(attempts + 1);
+        return this.getTotalSupply(attempts + 1);
       }
 
       throw error;
