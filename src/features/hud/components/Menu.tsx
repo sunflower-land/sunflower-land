@@ -46,7 +46,6 @@ export const Menu = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   const [showShareModal, setShowShareModal] = useState(false);
-  const [showComingSoon, setShowComingSoon] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
@@ -81,10 +80,6 @@ export const Menu = () => {
   };
 
   const syncOnChain = async () => {
-    if (!authState.context.token?.userAccess.sync) {
-      setShowComingSoon(true);
-      return;
-    }
     setShowCaptcha(true);
   };
 
@@ -313,15 +308,6 @@ export const Menu = () => {
           </Panel>
         </Modal>
       )}
-
-      {/* TODO - To be deleted when withdraw and "Sync on chain" are implemented */}
-      <Modal
-        show={showComingSoon}
-        onHide={() => setShowComingSoon(false)}
-        centered
-      >
-        <Panel>Coming soon!</Panel>
-      </Modal>
     </div>
   );
 };
