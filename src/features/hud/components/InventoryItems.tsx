@@ -24,7 +24,7 @@ import { RESOURCES } from "features/game/types/resources";
 import seed from "assets/crops/beetroot/seed.png";
 import crop from "assets/crops/sunflower/crop.png";
 import tool from "assets/tools/hammer.png";
-import nft from "assets/nfts/gnome.png";
+import nft from "assets/nfts/gnome.gif";
 import food from "assets/crops/wheat/flour.png";
 import resource from "assets/resources/wood.png";
 

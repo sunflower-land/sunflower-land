@@ -11,7 +11,7 @@ import potatoStatue from "assets/nfts/potato_statue.png";
 import christmasTree from "assets/nfts/christmas_tree.png";
 import dog from "assets/nfts/farm_dog.png";
 import cat from "assets/nfts/farm_cat.png";
-import gnome from "assets/nfts/gnome.png";
+import gnome from "assets/nfts/gnome.gif";
 import nancy from "assets/nfts/nancy.png";
 import scarecrow from "assets/nfts/scarecrow.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
@@ -182,9 +182,9 @@ export const Decorations: React.FC = () => {
       {state.inventory["Gnome"] && (
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 0.4}px`,
-            right: "493px",
-            top: "449px",
+            width: `${GRID_WIDTH_PX * 1}px`,
+            right: "481px",
+            top: "441px",
           }}
           id={Section.Gnome}
           className="absolute"
