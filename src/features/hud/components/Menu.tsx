@@ -293,11 +293,7 @@ export const Menu = () => {
       />
 
       {showCaptcha && (
-        <Modal
-          show={showCaptcha}
-          onHide={() => setShowComingSoon(false)}
-          centered
-        >
+        <Modal show={showCaptcha} centered>
           <Panel>
             <ReCAPTCHA
               sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
