@@ -18,8 +18,12 @@ export const Blocked: React.FC = () => {
       </div>
       <p className="text-center mb-3">Beta testers only!</p>
 
+      <p className="text-center mb-2 text-xs">
+        {`You don't have access to this feature yet`}
+      </p>
       <p className="text-center mb-4 text-xs">
-        {`You don't have access to this feature yet. You can follow the Discord announcements for when this will become publicly available.`}
+        {`Make sure you have joined the Sunflower Land Discord server and have the
+        "farmer" role`}
       </p>
       <Button onClick={readMore} className="overflow-hidden mb-2">
         <span>View roadmap</span>
