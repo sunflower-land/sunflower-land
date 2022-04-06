@@ -34,9 +34,6 @@ import { Tailor } from "features/tailor/Tailor";
 import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
 
-import { skillUpgradeToast } from "./toast/lib/skillUpgradeToast";
-import { ToastContext } from "./toast/ToastQueueProvider";
-
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
@@ -55,7 +52,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
-  const { setToast } = useContext(ToastContext);
   const [gameState, send] = useActor(gameService);
 
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
@@ -75,10 +71,6 @@ export const Game: React.FC = () => {
 
     window.addEventListener("beforeunload", handleBeforeUnload);
     window.addEventListener("blur", save);
-
-    if (gameService.state.context.state.farmAddress) {
-      skillUpgradeToast(gameService.state.context.state, setToast);
-    }
 
     // cleanup on every gameState update
     return () => {

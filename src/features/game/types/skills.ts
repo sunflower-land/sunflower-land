@@ -193,6 +193,11 @@ export function getAvailableUpgrades(game: GameState): SkillName[] {
   return [];
 }
 
+export function upgradeAvailable(state: GameState) {
+  const upgrades = getAvailableUpgrades(state);
+  return upgrades.length > 0;
+}
+
 type Level = 10 | 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1;
 
 export function getRequiredXpToLevelUp(level: Level) {
