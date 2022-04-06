@@ -207,15 +207,13 @@ export const Rare: React.FC<Props> = ({
           <span className="text-shadow text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
-          {hasAccess ? (
+          {canCraft && (
             <div className="border-t border-white w-full mt-2 pt-1">
               {selected.ingredients.map((ingredient, index) => {
                 const item = ITEM_DETAILS[ingredient.item];
                 const lessIngredient = new Decimal(
                   inventory[ingredient.item] || 0
                 ).lessThan(ingredient.amount);
-
-                if (!canCraft) return;
 
                 return (
                   <div className="flex justify-center items-end" key={index}>
@@ -234,24 +232,20 @@ export const Rare: React.FC<Props> = ({
                 );
               })}
 
-              {canCraft && (
-                <div className="flex justify-center items-end">
-                  <img src={token} className="h-5 mr-1" />
-                  <span
-                    className={classNames(
-                      "text-xs text-shadow text-center mt-2 ",
-                      {
-                        "text-red-500": lessFunds(),
-                      }
-                    )}
-                  >
-                    {`${selected.price.toNumber()}`}
-                  </span>
-                </div>
-              )}
+              <div className="flex justify-center items-end">
+                <img src={token} className="h-5 mr-1" />
+                <span
+                  className={classNames(
+                    "text-xs text-shadow text-center mt-2 ",
+                    {
+                      "text-red-500": lessFunds(),
+                    }
+                  )}
+                >
+                  {`${selected.price.toNumber()}`}
+                </span>
+              </div>
             </div>
-          ) : (
-            <span>?</span>
           )}
 
           {Action()}
