@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { INITIAL_STOCK } from "../lib/constants";
 import {
   Craftable,
   CraftableName,
@@ -6,7 +7,7 @@ import {
   FOODS,
   TOOLS,
 } from "../types/craftables";
-import { SEEDS } from "../types/crops";
+import { SeedName, SEEDS } from "../types/crops";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { isSeed } from "./plant";
 
@@ -63,6 +64,12 @@ export function craft({ state, action, available }: Options) {
 
   if (state.stock[action.item]?.lt(action.amount)) {
     throw new Error("Not enough stock");
+  }
+
+  if (isSeed(action.item)) {
+    if (state.inventory[action.item] > INITIAL_STOCK[action.item]) {
+      throw new Error("Reached max amount");
+    }
   }
 
   const price = getBuyPrice(item, state.inventory);

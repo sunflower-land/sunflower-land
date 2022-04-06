@@ -20,8 +20,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
-import { getReducedPlantTime, hasBoost } from "features/game/lib/boosts";
+import { hasBoost } from "features/game/lib/boosts";
 import { getBuyPrice } from "features/game/events/craft";
+import { getCropTime } from "features/game/events/plant";
+import { INITIAL_STOCK } from "features/game/lib/constants";
 
 interface Props {
   onClose: () => void;
@@ -124,6 +126,15 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       );
     }
 
+    const max = INITIAL_STOCK[selected.name];
+    if (max && inventory[selected.name]?.gt(max)) {
+      return (
+        <span className="text-xs mt-1 text-shadow text-center">
+          No space left
+        </span>
+      );
+    }
+
     return (
       <>
         <Button
@@ -171,9 +182,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
               <img src={timer} className="h-5 me-2" />
               {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
               <span className="text-xs text-shadow text-center mt-2">
-                {secondsToMidString(
-                  getReducedPlantTime(crop.harvestSeconds, inventory)
-                )}
+                {secondsToMidString(getCropTime(crop.name, inventory))}
               </span>
             </div>
             <div className="flex justify-center items-end">

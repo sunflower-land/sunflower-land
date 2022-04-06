@@ -23,17 +23,6 @@ export const hasSellBoost = (inventory: Inventory) => {
   return inventory["Green Thumb"]?.greaterThanOrEqualTo(1) || false;
 };
 
-/**
- * Reduced plant time
- * Update if more upcoming boosts
- */
-export const getReducedPlantTime = (seconds: number, inventory: Inventory) => {
-  // Scarecrow: 15% reduction
-  if (inventory.Scarecrow?.greaterThanOrEqualTo(1)) return seconds * 0.85;
-
-  return seconds;
-};
-
 type HasBoostArgs = {
   item: InventoryItemName;
   inventory: Inventory;

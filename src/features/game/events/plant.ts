@@ -39,6 +39,28 @@ type GetPlantedAtArgs = {
 };
 
 /**
+ * Based on boosts, how long a crop will take
+ */
+export const getCropTime = (crop: CropName, inventory: Inventory) => {
+  let seconds = CROPS()[crop].harvestSeconds;
+
+  if (crop === "Parsnip" && inventory["Mysterious Parsnip"]?.gte(1)) {
+    seconds = seconds * 0.5;
+  }
+
+  // Scarecrow: 15% reduction
+  if (
+    inventory.Nancy?.greaterThanOrEqualTo(1) ||
+    inventory.Scarecrow?.greaterThanOrEqualTo(1) ||
+    inventory.Kuebiko?.greaterThanOrEqualTo(1)
+  ) {
+    seconds = seconds * 0.85;
+  }
+
+  return seconds;
+};
+
+/**
  * Set a plantedAt in the past to make a crop grow faster
  */
 function getPlantedAt({
@@ -46,12 +68,12 @@ function getPlantedAt({
   inventory,
   createdAt,
 }: GetPlantedAtArgs): number {
-  // 15% speed boost with scarecrow
-  if (inventory.Scarecrow?.gte(1)) {
-    return createdAt - CROPS()[crop].harvestSeconds * 1000 * 0.15;
-  }
+  const cropTime = CROPS()[crop].harvestSeconds;
+  const boostedTime = getCropTime(crop, inventory);
 
-  return createdAt;
+  const offset = cropTime - boostedTime;
+
+  return createdAt - offset * 1000;
 }
 
 type GetFieldArgs = {

@@ -4,18 +4,19 @@ import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
 
-import { SEEDS, CROPS, CropName } from "features/game/types/crops";
+import { SEEDS, CropName } from "features/game/types/crops";
 
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
 
-import { secondsToMidString, secondsToString } from "lib/utils/time";
+import { secondsToMidString } from "lib/utils/time";
 import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
 import { getShortcuts } from "../lib/shortcuts";
-import { getReducedPlantTime, hasBoost } from "features/game/lib/boosts";
+import { hasBoost } from "features/game/lib/boosts";
+import { getCropTime } from "features/game/events/plant";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -90,11 +91,10 @@ export const InventoryTabContent = ({
     return Object.keys(inventoryMapping).includes(category);
   };
 
-  const getCropHarvestTime = (crop = "") => {
-    const harvestSeconds =
-      CROPS()[crop.split(" ")[0] as CropName].harvestSeconds;
+  const getCropHarvestTime = (seedName = "") => {
+    const crop = seedName.split(" ")[0] as CropName;
 
-    return secondsToMidString(getReducedPlantTime(harvestSeconds, inventory));
+    return secondsToMidString(getCropTime(crop, inventory));
   };
 
   const handleItemClick = (item: InventoryItemName) => {
