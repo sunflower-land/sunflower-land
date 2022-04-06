@@ -28,6 +28,10 @@ export async function sync({ farmId, sessionId, token, captcha }: Options) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
+  if (response.status >= 400) {
+    throw new Error(ERRORS.FAILED_REQUEST);
+  }
+
   const transaction = await response.json();
 
   const newSessionId = await metamask.getSessionManager().sync(transaction);
