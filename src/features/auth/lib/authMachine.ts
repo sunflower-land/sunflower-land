@@ -228,6 +228,9 @@ export const authMachine = createMachine<
               CREATE_FARM: {
                 target: "creatingFarm",
               },
+              REFRESH: {
+                target: "#connecting",
+              },
             },
           },
           creatingFarm: {
