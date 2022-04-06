@@ -427,6 +427,8 @@ export const authMachine = createMachine<
         farmId: () => undefined,
         address: () => undefined,
         sessionId: () => undefined,
+        token: () => undefined,
+        rawToken: () => undefined,
       }),
       deleteFarmIdUrl: () => deleteFarmUrl(),
     },
