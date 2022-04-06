@@ -14,6 +14,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Craftable } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { Stock } from "components/ui/Stock";
+import { Label } from "components/ui/Label";
 
 const POPOVER_TIME_MS = 1000;
 const HOVER_TIMEOUT = 1000;
@@ -161,54 +162,40 @@ export const CraftingItems: React.FC<Props> = ({
                   onMouseEnter={() => setIsHover(true)}
                   onMouseLeave={() => setIsHover(false)}
                 >
-                  <div
-                    key={2}
-                    className={classNames(
-                      "flex  justify-center items-end px-1",
-                      {
-                        "px-1": isHover,
-                      }
-                    )}
-                  >
+                 
                     <div
-                      className="flex justify-center h-fit items-end "
+                      className="flex h-fit items-end "
                       key={index}
                     >
-                      <img src={item.image} className="h-5 me-2" />
-
+                      <img src={item.image} className="absolute left-8 h-6 mr-4" />
+                      <div className="flex  text-white text-shadow ml-20 mr-2">
+                            
+                            <span className="flex ">{item.name}</span>
+                          </div>
+                      <Label
+                    key={2}
+                    className="flex absolute  right-20 -bottom-2 h-5  z-10"
+  
+                  >
                       <span
                         className={classNames(
-                          "text-xs text-shadow text-center mt-2 ",
+                          "text-xs text-shadow text-center  ",
                           {
                             "text-red-500": lessIngredient,
                           }
                         )}
                       >
                         {ingredient.amount.toNumber()}
-
-                        <InnerPanel
-                          className={classNames(
-                            "ml-10 transition-opacity absolute whitespace-nowrap bind sm:opacity-0 bottom-5 w-fit  z-20 pointer-events-none",
-                            {
-                              "opacity-100": isHover,
-                              "opacity-0": !isHover,
-                            }
-                          )}
-                        >
-                          <div className="flex items-center justify-center text-xxs text-white text-shadow ml-2 mr-2">
-                            <img src={item.image} className="w-6 mr-1" />
-                            <span className="flex-1">{item.name}</span>
-                          </div>
-                        </InnerPanel>
+                        
                       </span>
-                    </div>
+                     </Label>
                   </div>
                 </div>
               );
             })}
 
-            <div className="flex justify-center items-end">
-              <img src={token} className="h-5 mr-1" />
+            <div className="flex justify-center items-end ">
+              <img src={token} className="h-6 mr-4" />
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ", {
                   "text-red-500": lessFunds(),
