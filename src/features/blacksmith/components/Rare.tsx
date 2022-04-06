@@ -130,7 +130,7 @@ export const Rare: React.FC<Props> = ({
     }
 
     if (!hasAccess) {
-      return <span className="text-sm text-center">Locked</span>;
+      return <span className="text-sm text-center">Available April 15th</span>;
     }
 
     if (state.inventory[selected.name]) {
