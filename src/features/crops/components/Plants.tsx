@@ -56,10 +56,10 @@ export const Plants: React.FC = () => {
 
   // ask confirmation if crop supply is greater than 1
   const openConfirmationModal = () => {
-    if (cropAmount.toNumber() > 1) {
-      showSellAllModal(true);
-    } else {
+    if (cropAmount.equals(1)) {
       handleSellOne();
+    } else {
+      showSellAllModal(true);
     }
   };
 
@@ -106,7 +106,7 @@ export const Plants: React.FC = () => {
             </div>
           </div>
           <Button
-            disabled={noCrop}
+            disabled={cropAmount.lessThan(1)}
             className="text-xs mt-1"
             onClick={() => handleSellOne()}
           >

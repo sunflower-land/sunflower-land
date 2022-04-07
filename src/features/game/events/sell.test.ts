@@ -39,7 +39,7 @@ describe("sell", () => {
         action: {
           type: "item.sell",
           item: "Sunflower",
-          amount: 0.2,
+          amount: 0,
         },
       })
     ).toThrow("Invalid amount");
