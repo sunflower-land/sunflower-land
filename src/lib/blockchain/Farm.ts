@@ -56,20 +56,38 @@ export class Farm {
     }
   }
 
+  public async ownerOf(tokenId: number): Promise<string> {
+    const account = await this.farm.methods.ownerOf(tokenId).call();
+
+    return account;
+  }
+
   public async getFarm(tokenId: number): Promise<FarmAccount> {
     const account = await this.farm.methods.getFarm(tokenId).call();
 
     return account;
   }
 
-  public async getNewFarm(oldTokenId?: number): Promise<FarmAccount> {
+  public async getNewFarm(): Promise<FarmAccount> {
     await new Promise((res) => setTimeout(res, 3000));
 
     const farms = await this.getFarms();
 
     // Try again
     if (farms.length === 0) {
-      return this.getNewFarm(oldTokenId);
+      return this.getNewFarm();
+    }
+
+    /**
+     * TODO: Temporary logs for debugging
+     */
+    console.log({ farm: farms[0] });
+    // Double check they are the owner
+    const owner = await this.ownerOf(farms[0].tokenId);
+    console.log({ owner });
+    console.log({ account: this.account });
+    if (owner !== this.account) {
+      return this.getNewFarm();
     }
 
     return farms[0];
