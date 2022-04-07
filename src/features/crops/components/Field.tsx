@@ -91,6 +91,11 @@ export const Field: React.FC<Props> = ({
 
     clickedAt.current = now;
 
+    // Already looking at a reward
+    if (reward) {
+      return;
+    }
+
     if (
       field?.reward &&
       isCropReady(now, field.plantedAt, CROPS()[field.name].harvestSeconds)
