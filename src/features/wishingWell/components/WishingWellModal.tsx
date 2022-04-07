@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useActor, useMachine } from "@xstate/react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { Panel } from "components/ui/Panel";
 import wisingWell from "assets/buildings/wishing_well.png";
@@ -37,6 +38,16 @@ export const WishingWellModal: React.FC<Props> = () => {
   const Content = () => {
     if (machine.matches("error")) {
       return <span>Something went wrong!</span>;
+    }
+
+    if (machine.matches("captcha")) {
+      return (
+        <ReCAPTCHA
+          sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+          onChange={(captcha: string | null) => send("VERIFIED", { captcha })}
+          className="w-full m-0 flex items-center justify-center"
+        />
+      );
     }
 
     if (machine.matches("loading")) {

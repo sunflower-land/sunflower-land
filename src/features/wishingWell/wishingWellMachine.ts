@@ -1,4 +1,4 @@
-import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
+import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "lib/blockchain/metamask";
 
@@ -11,6 +11,10 @@ export interface Context {
   state: WishingWellTokens;
 }
 
+type CaptchaEvent = {
+  type: "VERIFIED";
+  captcha: string;
+};
 export type BlockchainEvent =
   | {
       type: "WISH";
@@ -20,7 +24,8 @@ export type BlockchainEvent =
     }
   | {
       type: "SEARCH";
-    };
+    }
+  | CaptchaEvent;
 
 export type BlockchainState = {
   value:
@@ -28,6 +33,7 @@ export type BlockchainState = {
     | "ready"
     | "wishing"
     | "wished"
+    | "captcha"
     | "searching"
     | "searched"
     | "error";
@@ -81,11 +87,17 @@ export const wishingWellMachine = (authContext: AuthContext) =>
             target: "wishing",
           },
           SEARCH: {
+            target: "captcha",
+          },
+        },
+      },
+      captcha: {
+        on: {
+          VERIFIED: {
             target: "searching",
           },
         },
       },
-
       wishing: {
         invoke: {
           src: async () => {
@@ -101,19 +113,21 @@ export const wishingWellMachine = (authContext: AuthContext) =>
       },
       searching: {
         invoke: {
-          src: async (context) => {
+          src: async (context, event) => {
             console.log({ contextIs: context.state });
             const tokensToPull = Math.min(
               Number(context.state.lpTokens),
               Number(context.state.totalTokensInWell)
             );
             console.log({ tokensToPull });
+            console.log({ event });
 
             await collectFromWell({
               farmId: authContext.farmId as number,
               sessionId: authContext.sessionId as string,
               amount: tokensToPull.toString(),
               token: authContext.rawToken as string,
+              captcha: (event as CaptchaEvent).captcha,
             });
           },
           onDone: {
