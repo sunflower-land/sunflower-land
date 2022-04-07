@@ -1,19 +1,23 @@
-import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
+import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "lib/blockchain/metamask";
 
+import { Context as AuthContext } from "features/auth/lib/authMachine";
+
 import { WishingWellTokens, loadWishingWell } from "./actions/loadWishingWell";
+import { collectFromWell } from "./actions/collectFromWell";
 
 export interface Context {
   state: WishingWellTokens;
 }
 
+type CaptchaEvent = {
+  type: "VERIFIED";
+  captcha: string;
+};
 export type BlockchainEvent =
   | {
-      type: "THROW";
-    }
-  | {
-      type: "APPROVE";
+      type: "WISH";
     }
   | {
       type: "SEND";
@@ -21,21 +25,15 @@ export type BlockchainEvent =
   | {
       type: "SEARCH";
     }
-  | {
-      type: "WITHDRAW";
-    };
+  | CaptchaEvent;
 
 export type BlockchainState = {
   value:
     | "loading"
     | "ready"
-    | "throwing"
-    | "approving"
-    | "approved"
-    | "depositing"
-    | "thrown"
-    | "withdrawing"
-    | "withdrawn"
+    | "wishing"
+    | "wished"
+    | "captcha"
     | "searching"
     | "searched"
     | "error";
@@ -49,139 +47,105 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
-export const wishingWellMachine = createMachine<
-  Context,
-  BlockchainEvent,
-  BlockchainState
->({
-  id: "wishingWell",
-  initial: "loading",
-  context: {
-    state: {
-      canCollect: false,
-      lpTokens: "0",
-      myTokensInWell: "0",
-      totalTokensInWell: "0",
-      lockedTime: "",
+export const wishingWellMachine = (authContext: AuthContext) =>
+  createMachine<Context, BlockchainEvent, BlockchainState>({
+    id: "wishingWell",
+    initial: "loading",
+    context: {
+      state: {
+        canCollect: false,
+        lpTokens: "0",
+        myTokensInWell: "0",
+        totalTokensInWell: "0",
+        lockedTime: "",
+      },
     },
-  },
-  states: {
-    loading: {
-      invoke: {
-        src: async () => {
-          const well = await loadWishingWell();
+    states: {
+      loading: {
+        invoke: {
+          src: async () => {
+            const well = await loadWishingWell();
 
-          return {
-            state: well,
-          };
-        },
-        onDone: {
-          target: "ready",
-          actions: assign({
-            state: (context, event) => event.data.state,
-          }),
-        },
-        onError: {
-          target: "error",
-        },
-      },
-    },
-    ready: {
-      on: {
-        THROW: {
-          target: "throwing",
-        },
-        SEARCH: {
-          target: "searching",
-        },
-        WITHDRAW: {
-          target: "withdrawing",
+            return {
+              state: well,
+            };
+          },
+          onDone: {
+            target: "ready",
+            actions: assign({
+              state: (context, event) => event.data.state,
+            }),
+          },
+          onError: {
+            target: "error",
+          },
         },
       },
-    },
-    throwing: {
-      on: {
-        APPROVE: {
-          target: "approving",
+      ready: {
+        on: {
+          WISH: {
+            target: "wishing",
+          },
+          SEARCH: {
+            target: "captcha",
+          },
         },
       },
-    },
-    approving: {
-      invoke: {
-        src: async (context) => {
-          // Approve all
-          const amount = context.state.lpTokens.toString();
-          await metamask.getPair().approve(amount);
-        },
-        onDone: {
-          target: "approved",
-        },
-        onError: {
-          target: "error",
+      captcha: {
+        on: {
+          VERIFIED: {
+            target: "searching",
+          },
         },
       },
-    },
-    approved: {
-      on: {
-        SEND: {
-          target: "depositing",
+      wishing: {
+        invoke: {
+          src: async () => {
+            await metamask.getWishingWell().wish();
+          },
+          onDone: {
+            target: "wished",
+          },
+          onError: {
+            target: "error",
+          },
         },
       },
-    },
-    depositing: {
-      invoke: {
-        src: async (context) => {
-          const amount = context.state.lpTokens.toString();
-          // Approve all
-          await metamask.getWishingWell().throwTokens(amount);
-        },
-        onDone: {
-          target: "thrown",
-        },
-        onError: {
-          target: "error",
-        },
-      },
-    },
-    searching: {
-      invoke: {
-        src: async () => {
-          await metamask.getWishingWell().collectFromWell();
-        },
-        onDone: {
-          target: "searched",
-        },
-        onError: {
-          target: "error",
-        },
-      },
-    },
-    withdrawing: {
-      invoke: {
-        src: async (context) => {
-          // Take out all tokens
-          const amount = context.state.myTokensInWell.toString();
-          await metamask.getWishingWell().takeOut(amount);
-        },
-        onDone: {
-          target: "withdrawn",
-        },
-        onError: {
-          target: "error",
+      searching: {
+        invoke: {
+          src: async (context, event) => {
+            console.log({ contextIs: context.state });
+            const tokensToPull = Math.min(
+              Number(context.state.lpTokens),
+              Number(context.state.totalTokensInWell)
+            );
+            console.log({ tokensToPull });
+            console.log({ event });
+
+            await collectFromWell({
+              farmId: authContext.farmId as number,
+              sessionId: authContext.sessionId as string,
+              amount: tokensToPull.toString(),
+              token: authContext.rawToken as string,
+              captcha: (event as CaptchaEvent).captcha,
+            });
+          },
+          onDone: {
+            target: "searched",
+          },
+          onError: {
+            target: "error",
+          },
         },
       },
+      wished: {
+        type: "final",
+      },
+      searched: {
+        type: "final",
+      },
+      error: {
+        type: "final",
+      },
     },
-    thrown: {
-      type: "final",
-    },
-    withdrawn: {
-      type: "final",
-    },
-    searched: {
-      type: "final",
-    },
-    error: {
-      type: "final",
-    },
-  },
-});
+  });
