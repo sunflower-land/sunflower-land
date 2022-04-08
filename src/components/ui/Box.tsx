@@ -4,15 +4,17 @@ import Decimal from "decimal.js-light";
 
 import darkBorder from "assets/ui/panel/dark_border.png";
 import selectBox from "assets/ui/select/select_box.png";
+import cancel from "assets/icons/cancel.png";
 import { Label } from "./Label";
 
 export interface BoxProps {
-  image: any;
+  image?: any;
   secondaryImage?: any;
   isSelected?: boolean;
   count?: Decimal;
   onClick?: () => void;
   disabled?: boolean;
+  locked?: boolean;
 }
 
 /**
@@ -45,6 +47,7 @@ export const Box: React.FC<BoxProps> = ({
   count,
   onClick,
   disabled,
+  locked,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [shortCount, setShortCount] = useState("");
@@ -52,6 +55,7 @@ export const Box: React.FC<BoxProps> = ({
   // re execute function on count change
   useEffect(() => setShortCount(shortenCount(count)), [count]);
 
+  const canClick = !locked && !disabled;
   return (
     <div
       className="relative"
@@ -64,9 +68,11 @@ export const Box: React.FC<BoxProps> = ({
           {
             "bg-brown-600 cursor-not-allowed": disabled,
             "bg-brown-200": isSelected,
+            "opacity-75": locked,
+            "cursor-pointer": canClick,
           }
         )}
-        onClick={onClick}
+        onClick={canClick ? onClick : undefined}
         // Custom styles to get pixellated border effect
         style={{
           // border: "6px solid transparent",
@@ -90,14 +96,23 @@ export const Box: React.FC<BoxProps> = ({
             />
           </div>
         ) : (
+          image && (
+            <img
+              src={image}
+              className="h-full w-full object-contain"
+              alt="item"
+            />
+          )
+        )}
+
+        {locked && (
           <img
-            src={image}
-            className="h-full w-full object-contain"
-            alt="item"
+            src={cancel}
+            className="absolute w-6 -top-3 -right-3 px-0.5 z-20"
           />
         )}
 
-        {!!count && count.greaterThan(0) && (
+        {!locked && !!count && count.greaterThan(0) && (
           <Label
             className={classNames(
               "absolute -top-4 -right-3 px-0.5 text-xs z-10",
@@ -110,7 +125,7 @@ export const Box: React.FC<BoxProps> = ({
           </Label>
         )}
       </div>
-      {(isSelected || isHover) && (
+      {(isSelected || isHover) && !locked && !disabled && (
         <img
           className="absolute w-14 h-14 top-0.5 left-0.5 pointer-events-none"
           src={selectBox}
