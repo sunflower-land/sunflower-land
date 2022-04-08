@@ -24,6 +24,25 @@ export class Beta {
     );
   }
 
+  public async getCreatedAt(address: string, attempts = 1): Promise<number> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const createdAt = await this.contract.methods
+        .farmCreatedAt(address)
+        .call({ from: this.account });
+
+      return createdAt;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.getCreatedAt(address, attempts + 1);
+      }
+
+      throw error;
+    }
+  }
+
   public async createFarm({
     signature,
     charity,

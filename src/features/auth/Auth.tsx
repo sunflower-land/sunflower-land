@@ -20,6 +20,7 @@ import curly from "assets/npcs/curly_hair.png";
 import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
 import { SupplyReached } from "./components/SupplyReached";
+import { Countdown } from "./components/Countdown";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -53,6 +54,7 @@ export const Auth: React.FC = () => {
           )}
           {authState.matches("oauthorising") && <Loading />}
           {authState.matches({ connected: "oauthorised" }) && <CreateFarm />}
+          {authState.matches({ connected: "countdown" }) && <Countdown />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
           {authState.matches("exploring") && <VisitFarm />}

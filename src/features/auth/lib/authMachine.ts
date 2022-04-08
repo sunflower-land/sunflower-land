@@ -31,6 +31,7 @@ type Farm = {
   farmId: number;
   sessionId: string;
   address: string;
+  createdAt: number;
 };
 
 export interface Context {
@@ -103,6 +104,7 @@ export type BlockchainState = {
     | { connected: "supplyReached" }
     | { connected: "noFarmLoaded" }
     | { connected: "creatingFarm" }
+    | { connected: "countdown" }
     | { connected: "readyToStart" }
     | { connected: "oauthorised" }
     | { connected: "authorised" }
@@ -187,6 +189,10 @@ export const authMachine = createMachine<
               src: "loadFarm",
               onDone: [
                 {
+                  target: "countdown",
+                  cond: "isFresh",
+                },
+                {
                   target: "readyToStart",
                   actions: "assignFarm",
                   cond: "hasFarm",
@@ -237,12 +243,18 @@ export const authMachine = createMachine<
             invoke: {
               src: "createFarm",
               onDone: {
-                target: "authorised",
-                actions: "assignFarm",
+                target: "#connecting",
               },
               onError: {
                 target: "#unauthorised",
                 actions: "assignErrorMessage",
+              },
+            },
+          },
+          countdown: {
+            on: {
+              REFRESH: {
+                target: "#connecting",
               },
             },
           },
@@ -353,6 +365,10 @@ export const authMachine = createMachine<
           return;
         }
 
+        const createdAt = await metamask
+          .getBeta()
+          ?.getCreatedAt(metamask.myAccount as string);
+
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
         const farmAccount = farmAccounts[0];
 
@@ -364,6 +380,7 @@ export const authMachine = createMachine<
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           sessionId,
+          createdAt,
         };
       },
       createFarm: async (context: Context, event: any): Promise<Context> => {
@@ -407,6 +424,7 @@ export const authMachine = createMachine<
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           sessionId: "",
+          createdAt: 0,
         };
       },
     },
@@ -433,6 +451,16 @@ export const authMachine = createMachine<
       deleteFarmIdUrl: () => deleteFarmUrl(),
     },
     guards: {
+      isFresh: (context: Context, event: any) => {
+        if (!event.data?.farmId) {
+          return false;
+        }
+
+        console.log({ event: event.data });
+        const secondsElapsed =
+          Date.now() / 1000 - (event.data as Farm).createdAt;
+        return secondsElapsed < 60;
+      },
       hasFarm: (context: Context, event: any) => {
         // If coming from the loadingFarm transition the farmId with show up on the event
         // else we check for it on the context

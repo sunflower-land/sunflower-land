@@ -9,6 +9,7 @@ export const CreatingFarm: React.FC = () => {
         Sending your donation and creating your farm.
       </p>
       <img src={donating} alt="donation loading" className="w-full" />
+      <p className="mb-1 text-center underline">Do not refresh your browser!</p>
     </div>
   );
 };
