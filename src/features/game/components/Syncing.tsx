@@ -10,6 +10,9 @@ export const Syncing: React.FC = () => {
       <span className="text-shadow text-xs text-center">
         Please bear with us while we sync all of your data on chain.
       </span>
+      <span className="text-shadow text-xs text-center underline mt-2">
+        Do not refresh your browser
+      </span>
     </div>
   );
 };
