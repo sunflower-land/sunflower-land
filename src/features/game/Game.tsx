@@ -32,6 +32,7 @@ import { House } from "features/house/House";
 import { Tailor } from "features/tailor/Tailor";
 import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
+import { TooManyRequests } from "features/auth/components/TooManyRequests";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -89,7 +90,7 @@ export const Game: React.FC = () => {
               errorCode={gameState.context.errorCode as ErrorCode}
             />
           )}
-          {gameState.matches("blacklisted") && <Blacklisted />}
+          {gameState.matches("blacklisted") && <TooManyRequests />}
           {gameState.matches("minting") && <Minting />}
           {gameState.matches("success") && <Success />}
           {gameState.matches("syncing") && <Syncing />}
