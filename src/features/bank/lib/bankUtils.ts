@@ -14,6 +14,7 @@ function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
 }
 
 export function canWithdraw({ item, game }: CanWithdrawArgs) {
+  console.log({ item });
   // Coming soon
   if (isSeed(item)) {
     return false;
@@ -25,7 +26,7 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
   }
 
   // Coming soon
-  if (item in FOODS) {
+  if (item in FOODS()) {
     return false;
   }
 
