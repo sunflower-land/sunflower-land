@@ -69,7 +69,6 @@ export const WheatGoblin: React.FC = () => {
             <img
               src={goblin}
               className="z-10 w-full"
-              onClick={() => setShowModal(true)}
               style={{
                 width: `${GRID_WIDTH_PX * 1}px`,
                 transform: "scaleX(-1)",
