@@ -7,7 +7,7 @@ import { balancesToInventory, populateFields } from "lib/utils/visitUtils";
 import { GameState } from "../types/game";
 import { EMPTY } from "../lib/constants";
 
-export async function getVisitState(farmAddress: string): Promise<GameState> {
+export async function getOnChainState(farmAddress: string): Promise<GameState> {
   const balance = await metamask.getToken().balanceOf(farmAddress);
   const balances = await metamask.getInventory().getBalances(farmAddress);
   const inventory = balancesToInventory(balances);

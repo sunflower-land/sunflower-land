@@ -29,6 +29,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const [showCaptcha, setShowCaptcha] = useState(false);
 
   const onWithdrawTokens = async (sfl: string) => {
+    console.log({ sfl });
     withdrawAmount.current = {
       ids: [],
       amounts: [],

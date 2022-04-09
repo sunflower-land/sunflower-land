@@ -13,7 +13,7 @@ import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { withdraw } from "../actions/withdraw";
-import { getVisitState } from "../actions/visit";
+import { getOnChainState } from "../actions/visit";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
@@ -176,7 +176,9 @@ export function startGame(authContext: Options) {
 
               // Visit farm
               if (authContext.address) {
-                const game = await getVisitState(authContext.address as string);
+                const game = await getOnChainState(
+                  authContext.address as string
+                );
 
                 game.id = authContext.farmId as number;
 

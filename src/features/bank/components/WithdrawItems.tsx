@@ -1,30 +1,23 @@
 import { useActor } from "@xstate/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { Context } from "features/game/GameProvider";
-import { InventoryItemName } from "features/game/types/game";
+import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { BLACKSMITH_ITEMS, TOOLS } from "features/game/types/craftables";
-import { RESOURCES } from "features/game/types/resources";
-
-import { Button } from "components/ui/Button";
-
-import { Box } from "components/ui/Box";
+import { shortAddress } from "features/hud/components/Address";
 import { KNOWN_IDS } from "features/game/types";
-import { toWei } from "web3-utils";
 import { getItemUnit } from "features/game/lib/conversion";
 
-type SelectedItem = {
-  item: InventoryItemName;
-  amount: Decimal;
-};
+import { Button } from "components/ui/Button";
+import { Box } from "components/ui/Box";
 
-const WITHDRAWABLE_ITEMS = Object.keys({
-  ...BLACKSMITH_ITEMS,
-  ...TOOLS,
-  ...RESOURCES,
-}) as InventoryItemName[];
+import player from "assets/icons/player.png";
+
+import { toWei } from "web3-utils";
+import { metamask } from "lib/blockchain/metamask";
+import { canWithdraw } from "../lib/bankUtils";
+import { getOnChainState } from "features/game/actions/visit";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -32,91 +25,133 @@ interface Props {
 export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
-  const inventory = game.context.state.inventory;
 
-  const [selected, setSelected] = useState<SelectedItem[]>([]);
-  const items = Object.keys(inventory) as InventoryItemName[];
-  const validItems = items.filter(
-    (itemName) => !!inventory[itemName] && WITHDRAWABLE_ITEMS.includes(itemName)
-  );
+  const [isLoading, setIsLoading] = useState(true);
+  const [inventory, setInventory] = useState<Inventory>({});
+  const [selected, setSelected] = useState<Inventory>({});
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    const load = async () => {
+      const state = await getOnChainState(
+        game.context.state.farmAddress as string
+      );
+
+      setInventory(state.inventory);
+      setIsLoading(false);
+    };
+
+    setSelected({});
+    load();
+  }, []);
 
   const withdraw = () => {
-    onWithdraw(
-      selected.map(({ item }) => KNOWN_IDS[item]),
-      selected.map(({ item, amount }) =>
-        toWei(amount.toString(), getItemUnit(item))
-      )
+    const ids = (Object.keys(selected) as InventoryItemName[]).map(
+      (item) => KNOWN_IDS[item]
     );
+    const amounts = (Object.keys(selected) as InventoryItemName[]).map((item) =>
+      toWei(selected[item]?.toString() as string, getItemUnit(item))
+    );
+
+    onWithdraw(ids, amounts);
   };
 
-  const toggle = (itemName: InventoryItemName, type: "plus" | "minus") => {
-    const itemIndex = selected.findIndex((inv) => inv.item === itemName);
+  const onAdd = (itemName: InventoryItemName) => {
+    setSelected((prev) => ({
+      ...prev,
+      [itemName]: (prev[itemName] || new Decimal(0)).add(1),
+    }));
 
-    if (itemIndex > -1) {
-      if (type === "plus") {
-        selected[itemIndex].amount = selected[itemIndex].amount.plus(1);
-        inventory[itemName] = inventory[itemName]?.minus(1);
-      } else if (type === "minus") {
-        selected[itemIndex].amount = selected[itemIndex].amount.minus(1);
-        inventory[itemName] = inventory[itemName]?.plus(1);
-      }
-
-      if (selected[itemIndex]?.amount.toNumber() == 0)
-        selected.splice(itemIndex, 1);
-      setSelected([...selected]);
-    } else {
-      setSelected([...selected, { item: itemName, amount: new Decimal(1) }]);
-      inventory[itemName] = inventory[itemName]?.minus(1);
-    }
+    setInventory((prev) => ({
+      ...prev,
+      [itemName]: prev[itemName]?.minus(1),
+    }));
   };
+
+  const onRemove = (itemName: InventoryItemName) => {
+    setInventory((prev) => ({
+      ...prev,
+      [itemName]: (prev[itemName] || new Decimal(0)).add(1),
+    }));
+
+    setSelected((prev) => ({
+      ...prev,
+      [itemName]: prev[itemName]?.minus(1),
+    }));
+  };
+
+  if (isLoading) {
+    return <span className="text-shadow loading">Loading</span>;
+  }
+
+  const inventoryItems = (Object.keys(inventory) as InventoryItemName[]).filter(
+    (item) => inventory[item]?.gt(0)
+  );
+
+  console.log({ inventoryItems });
+
+  const selectedItems = (Object.keys(selected) as InventoryItemName[]).filter(
+    (item) => selected[item]?.gt(0)
+  );
+
   return (
     <>
-      <h1 className="text-shadow mt-4 underline">Available resources:</h1>
+      <span className="text-shadow text-base">Select items to withdraw</span>
 
-      <div className="flex flex-wrap  h-fit mt-2">
-        {validItems.length === 0 && (
-          <span className="text-white text-shadow text-sm">
-            You have no items in your inventory.
-          </span>
-        )}
-        {validItems.map(
-          (itemName) =>
-            inventory[itemName]!.toNumber() > 0 && (
-              <Box
-                count={inventory[itemName]}
-                // isSelected={selected.includes(itemName)}
-                key={itemName}
-                onClick={() => toggle(itemName, "plus")}
-                image={ITEM_DETAILS[itemName].image}
-              />
-            )
-        )}
+      <div className="flex flex-wrap h-fit">
+        {inventoryItems.map((itemName) => (
+          <Box
+            count={inventory[itemName]}
+            // isSelected={selected.includes(itemName)}
+            key={itemName}
+            onClick={() => onAdd(itemName)}
+            image={ITEM_DETAILS[itemName].image}
+            locked={!canWithdraw({ item: itemName, game: game.context.state })}
+          />
+        ))}
+        {/* Pad with empty boxes */}
+        {inventoryItems.length < 4 &&
+          new Array(4 - inventoryItems.length)
+            .fill(null)
+            .map((_, index) => <Box disabled key={index} />)}
       </div>
 
-      {validItems.length > 0 && (
-        <>
-          <h1 className="text-shadow mt-4 underline">Selected resources:</h1>
+      <div className="mt-2">
+        <span className="text-shadow text-base">Selected</span>
 
-          {selected.length === 0 && (
-            <span className="text-white text-shadow text-sm">
-              No items selected
-            </span>
-          )}
-          <div className="flex flex-wrap  h-fit mt-2">
-            {selected.map((item) => (
+        <div className="flex flex-wrap h-fit mt-2">
+          {selectedItems.map((itemName) => {
+            return (
               <Box
-                count={item.amount}
-                // isSelected={selected.includes(itemName)}
-                key={item.item}
-                onClick={() => toggle(item.item, "minus")}
-                image={ITEM_DETAILS[item.item].image}
+                count={selected[itemName]}
+                key={itemName}
+                onClick={() => onRemove(itemName)}
+                image={ITEM_DETAILS[itemName].image}
               />
-            ))}
-          </div>
-        </>
-      )}
+            );
+          })}
+          {/* Pad with empty boxes */}
+          {selectedItems.length < 4 &&
+            new Array(4 - selectedItems.length)
+              .fill(null)
+              .map((_, index) => <Box disabled key={index} />)}
+        </div>
+      </div>
 
-      <Button onClick={withdraw}>Withdraw</Button>
+      <div className="flex items-center mt-2 mb-2">
+        <img src={player} className="h-8 mr-2" />
+        <div>
+          <p className="text-shadow text-sm">Sent to your wallet</p>
+          <p className="text-shadow text-sm">
+            {shortAddress(metamask.myAccount || "XXXX")}
+          </p>
+        </div>
+      </div>
+
+      <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
+        Withdraw
+      </Button>
       <span className="text-xs underline">
         <a
           href="https://docs.sunflower-land.com/fundamentals/withdrawing"
