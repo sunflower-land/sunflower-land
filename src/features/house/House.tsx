@@ -40,6 +40,13 @@ export const House: React.FC = () => {
 
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSkillTreeOpen, setIsSkillTreeOpen] = React.useState(false);
+  const [isUpgradeAvailable, setIsUpgradeAvailable] = React.useState(false);
+
+  React.useEffect(() => {
+    const upgrades = upgradeAvailable(state);
+    setIsUpgradeAvailable(upgrades);
+    if (upgrades && state.farmAddress) skillUpgradeToast(state, setToast);
+  }, [state.farmAddress]);
 
   const openSkillTree = () => {
     setIsSkillTreeOpen(true);
@@ -59,9 +66,6 @@ export const House: React.FC = () => {
 
   const gatheringRequiredXp = getRequiredXpToLevelUp(toolLevel);
   const farmingRequiredXp = getRequiredXpToLevelUp(farmingLevel);
-
-  const upgrades = upgradeAvailable(state);
-  if (upgrades && state.farmAddress) skillUpgradeToast(state, setToast);
 
   const Badges = () => {
     const BADGES: InventoryItemName[] = [
@@ -110,7 +114,7 @@ export const House: React.FC = () => {
       return <SkillTree back={open} />;
     }
 
-    if (upgrades) {
+    if (isUpgradeAvailable) {
       return <SkillUpgrade />;
     }
 
@@ -212,7 +216,7 @@ export const House: React.FC = () => {
         className="relative cursor-pointer hover:img-highlight"
         onClick={() => open()}
       >
-        {upgrades && 
+        {isUpgradeAvailable && 
           <img
             className="animate-float"
             src={alert}
