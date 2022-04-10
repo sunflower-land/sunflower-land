@@ -35,9 +35,10 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
     setIsLoading(true);
 
     const load = async () => {
-      const state = await getOnChainState(
-        game.context.state.farmAddress as string
-      );
+      const { game: state } = await getOnChainState({
+        id: game.context.state.id as number,
+        farmAddress: game.context.state.farmAddress as string,
+      });
 
       setBalance(state.balance);
       setIsLoading(false);

@@ -176,13 +176,14 @@ export function startGame(authContext: Options) {
 
               // Visit farm
               if (authContext.address) {
-                const game = await getOnChainState(
-                  authContext.address as string
-                );
+                const { game, isBlacklisted } = await getOnChainState({
+                  farmAddress: authContext.address as string,
+                  id: Number(authContext.farmId),
+                });
 
                 game.id = authContext.farmId as number;
 
-                return { state: game };
+                return { state: game, isBlacklisted };
               }
 
               return { state: INITIAL_FARM };

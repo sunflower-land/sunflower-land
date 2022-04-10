@@ -11,8 +11,8 @@ export const Blacklisted: React.FC = () => {
         Uh oh, looks like the goblins detected some automated bots.
       </span>
       <span className="text-shadow text-xs text-center mt-2">
-        We are new and still working on our anti-bot solution. The team will
-        review this case and resolve it within 2-3 days.
+        This farm has been identified for using automated software to mint farms
+        and play the game or banned for multi-accounting.
       </span>
     </div>
   );
