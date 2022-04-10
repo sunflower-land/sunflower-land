@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { removeSession } from "features/auth/actions/login";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
 import { makeGame } from "../lib/transforms";
 import { GameState, InventoryItemName, Rock, Tree } from "../types/game";
 
@@ -35,6 +36,10 @@ export async function loadSession(
       farmId: request.farmId,
     }),
   });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
 
   if (response.status === 401) {
     removeSession(metamask.myAccount as string);
