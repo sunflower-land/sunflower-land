@@ -36,6 +36,7 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     };
   }, []);
 
+  console.log({ errorCode });
   if (errorCode === "NO_WEB3") {
     return <Web3Missing />;
   }
