@@ -203,6 +203,7 @@ export function startGame(authContext: Options) {
             ],
             onError: {
               target: "error",
+              actions: "assignErrorMessage",
             },
           },
         },
