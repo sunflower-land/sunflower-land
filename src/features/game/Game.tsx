@@ -90,7 +90,7 @@ export const Game: React.FC = () => {
               errorCode={gameState.context.errorCode as ErrorCode}
             />
           )}
-          {gameState.matches("blacklisted") && <TooManyRequests />}
+          {gameState.matches("blacklisted") && <Blacklisted />}
           {gameState.matches("minting") && <Minting />}
           {gameState.matches("success") && <Success />}
           {gameState.matches("syncing") && <Syncing />}
