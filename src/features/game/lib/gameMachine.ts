@@ -31,6 +31,7 @@ export interface Context {
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
+  whitelistedAt?: Date;
 }
 
 type MintEvent = {
@@ -159,8 +160,9 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const { game, offset, isBlacklisted } = response;
+                const { game, offset, isBlacklisted, whitelistedAt } = response;
 
+                console.log({ whitelistedAt });
                 // add farm address
                 game.farmAddress = authContext.address;
 
@@ -173,6 +175,7 @@ export function startGame(authContext: Options) {
                   },
                   offset,
                   isBlacklisted,
+                  whitelistedAt,
                   fingerprint,
                 };
               }
@@ -195,6 +198,10 @@ export function startGame(authContext: Options) {
               {
                 target: "blacklisted",
                 cond: (_, event) => event.data.isBlacklisted,
+                actions: assign({
+                  whitelistedAt: (_, event) =>
+                    new Date(event.data.whitelistedAt),
+                }),
               },
               {
                 target: handleInitialState(),
