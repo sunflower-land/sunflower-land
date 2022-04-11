@@ -29,7 +29,17 @@ export const Auth: React.FC = () => {
 
   useEffect(() => {
     const resized = () => {
-      send("REFRESH");
+      const isFullScreen = window.screenTop === 0 && window.screenY === 0;
+
+      // Minimised and gone full screen
+      if (authState.matches("minimised") && isFullScreen) {
+        send("REFRESH");
+      }
+
+      // Was playing and then minimised
+      if (!authState.matches("minimised") && !isFullScreen) {
+        send("REFRESH");
+      }
     };
 
     window.addEventListener("resize", resized);
