@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/esm/Modal";
 
@@ -21,10 +21,23 @@ import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
 import { SupplyReached } from "./components/SupplyReached";
 import { Countdown } from "./components/Countdown";
+import { Minimized } from "./components/Minimized";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const [authState, send] = useActor(authService);
+
+  useEffect(() => {
+    const resized = () => {
+      send("REFRESH");
+    };
+
+    window.addEventListener("resize", resized);
+
+    return () => {
+      window.removeEventListener("resize", resized);
+    };
+  }, [authState]);
 
   return (
     <Modal
@@ -58,6 +71,7 @@ export const Auth: React.FC = () => {
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
           {authState.matches("exploring") && <VisitFarm />}
+          {authState.matches("minimised") && <Minimized />}
           {authState.matches("unauthorised") && (
             <ErrorMessage
               errorCode={authState.context.errorCode as ErrorCode}
