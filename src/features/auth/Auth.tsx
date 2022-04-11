@@ -28,7 +28,8 @@ export const Auth: React.FC = () => {
   const [authState, send] = useActor(authService);
 
   useEffect(() => {
-    const resized = () => {
+    const resized = async () => {
+      await new Promise((res) => setTimeout(res, 2000));
       const isFullScreen = window.screenTop === 0 && window.screenY === 0;
 
       // Minimised and gone full screen

@@ -167,7 +167,10 @@ export function startGame(authContext: Options) {
                 const fingerprint = await getFingerPrint();
 
                 return {
-                  state: game,
+                  state: {
+                    ...game,
+                    id: Number(authContext.farmId),
+                  },
                   offset,
                   isBlacklisted,
                   fingerprint,
