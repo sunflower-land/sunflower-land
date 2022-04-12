@@ -50,6 +50,8 @@ import mysteriousParsnip from "assets/nfts/mysterious_parsnip.png";
 import carrotSword from "assets/nfts/carrot_sword.png";
 import nancy from "assets/nfts/nancy.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
+import nyonStatue from "assets/nfts/nyon_statue.png";
+import nyonStatueGold from "assets/nfts/nyon_statue_gold.png";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
@@ -389,6 +391,14 @@ export const ITEM_DETAILS: Items = {
   "Carrot Sword": {
     ...MARKET_ITEMS["Carrot Sword"],
     image: carrotSword,
+  },
+  "Nyon Statue": {
+    ...BLACKSMITH_ITEMS["Nyon Statue"],
+    image: nyonStatue,
+  },
+  "Nyon Statue Gold": {
+    ...BLACKSMITH_ITEMS["Nyon Statue Gold"],
+    image: nyonStatueGold,
   },
 
   // FOOD

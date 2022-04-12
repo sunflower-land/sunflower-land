@@ -20,6 +20,8 @@ import fountain from "assets/nfts/fountain.gif";
 import beaver from "assets/nfts/beaver.png";
 import apprentice from "assets/nfts/apprentice_beaver.png";
 import foreman from "assets/nfts/construction_beaver.png";
+import nyonStatue from "assets/nfts/nyon_statue.png";
+import nyonStatueGold from "assets/nfts/nyon_statue_gold.png";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Context } from "../GameProvider";
@@ -65,6 +67,37 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
         alt="Scarecrow"
       />
     );
+  }
+
+  return null;
+};
+
+// Only show 1 Nyon statue at a time
+export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
+  inventory,
+}) => {
+  if (inventory["Nyon Statue"]) {
+    return (
+      <img  
+      style={{
+        width: `${GRID_WIDTH_PX * 2}px`,
+      }}
+      src={nyonStatue}
+      alt="Nyon Statue"
+      />
+      )
+    }
+    
+  if (inventory["Nyon Statue Gold"]) {
+    return (
+      <img  
+        style={{
+          width: `${GRID_WIDTH_PX * 2}px`,
+        }}
+        src={nyonStatueGold}
+        alt="Nyon Statue Gold"
+      />
+    )
   }
 
   return null;
@@ -203,6 +236,19 @@ export const Decorations: React.FC = () => {
         id={Section.Scarecrow}
       >
         <Scarecrows inventory={state.inventory} />
+      </div>
+
+      {/* Nyon Statues */}
+      <div
+        className="flex justify-center absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 3}px`,
+          left: `${GRID_WIDTH_PX * 42.5}px`,
+          top: `${GRID_WIDTH_PX * 40.5}px`,
+        }}
+        id={Section["Nyon Statue"]}
+      >
+        <NyonStatues inventory={state.inventory} />
       </div>
 
       {state.inventory["Fountain"] && (
