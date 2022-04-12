@@ -139,10 +139,10 @@ export const authMachine = createMachine<
         invoke: {
           src: "initMetamask",
           onDone: [
-            {
-              target: "minimised",
-              cond: () => !(window.screenTop === 0 && window.screenY === 0),
-            },
+            // {
+            //   target: "minimised",
+            //   cond: () => !(window.screenTop === 0 && window.screenY === 0),
+            // },
             {
               target: "checkFarm",
               cond: "hasFarmIdUrl",
