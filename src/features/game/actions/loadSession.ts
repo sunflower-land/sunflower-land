@@ -16,6 +16,7 @@ type Response = {
   game: GameState;
   offset: number;
   isBlacklisted?: boolean;
+  whitelistedAt?: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -49,7 +50,8 @@ export async function loadSession(
       removeSession(metamask.myAccount as string);
     }
 
-    const { farm, startedAt, isBlacklisted } = await response.json();
+    const { farm, startedAt, isBlacklisted, whitelistedAt } =
+      await response.json();
 
     const startedTime = new Date(startedAt);
 
@@ -64,6 +66,7 @@ export async function loadSession(
       offset,
       game: makeGame(farm),
       isBlacklisted,
+      whitelistedAt,
     };
   } catch (e) {
     console.error({ e });

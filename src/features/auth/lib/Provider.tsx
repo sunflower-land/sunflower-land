@@ -9,8 +9,7 @@ interface AuthContext {
 export const Context = React.createContext<AuthContext>({} as AuthContext);
 
 export const Provider: React.FC = ({ children }) => {
-  // TODO - Typescript error
-  const authService = useInterpret(authMachine as any) as MachineInterpreter;
+  const authService = useInterpret(authMachine) as MachineInterpreter;
 
   return (
     <Context.Provider value={{ authService }}>{children}</Context.Provider>

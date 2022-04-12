@@ -94,6 +94,7 @@ export type BlockchainEvent =
 export type BlockchainState = {
   value:
     | "visiting"
+    | "minimised"
     | "connecting"
     | "connected"
     | "signing"
@@ -138,6 +139,10 @@ export const authMachine = createMachine<
         invoke: {
           src: "initMetamask",
           onDone: [
+            {
+              target: "minimised",
+              cond: () => !(window.screenTop === 0 && window.screenY === 0),
+            },
             {
               target: "checkFarm",
               cond: "hasFarmIdUrl",
@@ -338,6 +343,7 @@ export const authMachine = createMachine<
           },
         },
       },
+      minimised: {},
     },
     on: {
       ACCOUNT_CHANGED: {
