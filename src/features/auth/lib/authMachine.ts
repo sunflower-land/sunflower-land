@@ -215,7 +215,6 @@ export const authMachine = createMachine<
             invoke: {
               src: async () => {
                 const totalSupply = await metamask.getFarm()?.getTotalSupply();
-                console.log({ totalSupply });
 
                 return {
                   totalSupply,
@@ -462,7 +461,6 @@ export const authMachine = createMachine<
           return false;
         }
 
-        console.log({ event: event.data });
         const secondsElapsed =
           Date.now() / 1000 - (event.data as Farm).createdAt;
         return secondsElapsed < 60;

@@ -40,7 +40,6 @@ export async function loadSession(
         farmId: request.farmId,
       }),
     });
-    console.log({ response });
 
     if (response.status === 429) {
       throw new Error(ERRORS.TOO_MANY_REQUESTS);

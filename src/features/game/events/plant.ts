@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { screenTracker } from "lib/utils/screen";
 import { CropName, CROPS, SeedName } from "../types/crops";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 
@@ -152,6 +153,10 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
   const seedCount = state.inventory[action.item] || new Decimal(0);
   if (seedCount.lessThan(1)) {
     throw new Error("Not enough seeds");
+  }
+
+  if (!screenTracker.calculate()) {
+    throw new Error("Invalid plant");
   }
 
   const newFields = fields;

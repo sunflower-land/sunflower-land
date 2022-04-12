@@ -12,7 +12,6 @@ export const Blacklisted: React.FC = () => {
     },
   ] = useActor(gameService);
 
-  console.log({ whitelistedAt });
   return (
     <div className="flex flex-col items-center p-2">
       <span className="text-shadow text-center">Goblins detected!</span>

@@ -162,7 +162,6 @@ export function startGame(authContext: Options) {
 
                 const { game, offset, isBlacklisted, whitelistedAt } = response;
 
-                console.log({ whitelistedAt });
                 // add farm address
                 game.farmAddress = authContext.address;
 
@@ -309,13 +308,10 @@ export function startGame(authContext: Options) {
                     (action) =>
                       action.createdAt.getTime() > event.data.saveAt.getTime()
                   );
+
                   return {
                     actions: recentActions,
-                    state: updateGame(
-                      event.data.farm,
-                      recentActions,
-                      context.state
-                    ),
+                    state: updateGame(event.data.farm, context.state),
                   };
                 }),
               },

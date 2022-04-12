@@ -78,37 +78,70 @@ export function makeGame(farm: any): GameState {
   };
 }
 
+type Rocks = Record<number, Rock>;
+
 /**
- * Reapply local events to the server version of the game
+ * Updates a rock with the new amount of mineral inside of it
+ */
+function updateRocks(oldRocks: Rocks, newRocks: Rocks): Rocks {
+  return Object.keys(oldRocks).reduce((rocks, rockId) => {
+    const id = Number(rockId);
+    const rock = oldRocks[id];
+    return {
+      ...rocks,
+      [id]: {
+        ...rock,
+        amount: newRocks[id].amount,
+      } as Rock,
+    };
+  }, {} as Record<number, Rock>);
+}
+
+/**
+ * Merge RNG from server
  */
 export function updateGame(
   newGameState: GameState,
-  actions: PastAction[],
   oldGameState: GameState
 ): GameState {
-  newGameState.farmAddress = oldGameState.farmAddress;
-
-  // FIX: Helps people with clocks out of sync
-  Object.keys(oldGameState.fields).forEach((fieldId) => {
-    const id = Number(fieldId);
-
-    if (newGameState.fields[id]) {
-      newGameState.fields[id].plantedAt = oldGameState.fields[id].plantedAt;
-    }
-  });
-
-  if (actions.length === 0) {
-    return newGameState;
+  if (!newGameState) {
+    return oldGameState;
   }
 
-  const updated = actions.reduce((state, action) => {
-    try {
-      // User defined error/action just ignore
-      return processEvent(state, action);
-    } catch {
-      return state;
-    }
-  }, newGameState);
-
-  return updated;
+  // Only update random number values generated from the server
+  try {
+    return {
+      ...oldGameState,
+      // Update random reward
+      fields: Object.keys(oldGameState.fields).reduce((fields, fieldId) => {
+        const id = Number(fieldId);
+        const field = oldGameState.fields[id];
+        return {
+          ...fields,
+          [id]: {
+            ...field,
+            reward: newGameState.fields[id].reward,
+          },
+        };
+      }, {} as Record<number, FieldItem>),
+      // Update tree with the random amount of wood from the server
+      trees: Object.keys(oldGameState.trees).reduce((trees, treeId) => {
+        const id = Number(treeId);
+        const tree = oldGameState.trees[id];
+        return {
+          ...trees,
+          [id]: {
+            ...tree,
+            wood: newGameState.trees[id].wood,
+          },
+        };
+      }, {} as Record<number, Tree>),
+      stones: updateRocks(oldGameState.stones, newGameState.stones),
+      iron: updateRocks(oldGameState.iron, newGameState.iron),
+      gold: updateRocks(oldGameState.gold, newGameState.gold),
+    };
+  } catch (e) {
+    console.log({ e });
+    return oldGameState;
+  }
 }
