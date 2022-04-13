@@ -5,9 +5,9 @@ import { Modal } from "react-bootstrap";
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import {
-  getAvailableUpgrades,
   getLevel,
   getRequiredXpToLevelUp,
+  upgradeAvailable,
 } from "features/game/types/skills";
 
 import house from "assets/buildings/house.png";
@@ -15,6 +15,7 @@ import smoke from "assets/buildings/smoke.gif";
 import player from "assets/icons/player.png";
 import questionMark from "assets/icons/expression_confused.png";
 import close from "assets/icons/close.png";
+import alert from "assets/icons/expression_alerted.png";
 
 import plant from "assets/icons/plant.png";
 import pickaxe from "assets/tools/stone_pickaxe.png";
@@ -24,6 +25,8 @@ import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
+import { skillUpgradeToast } from "features/game/toast/lib/skillUpgradeToast";
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import { SkillUpgrade } from "./components/SkillUpgrade";
 import { SkillTree } from "./components/SkillTree";
@@ -31,10 +34,19 @@ import { homeDoorAudio } from "lib/utils/sfx";
 
 export const House: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { setToast } = useContext(ToastContext);
   const [gameState] = useActor(gameService);
+  const { state } = gameState.context;
 
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSkillTreeOpen, setIsSkillTreeOpen] = React.useState(false);
+  const [isUpgradeAvailable, setIsUpgradeAvailable] = React.useState(false);
+
+  React.useEffect(() => {
+    const upgrades = upgradeAvailable(state);
+    setIsUpgradeAvailable(upgrades);
+    if (upgrades && state.farmAddress) skillUpgradeToast(state, setToast);
+  }, [state.farmAddress]);
 
   const openSkillTree = () => {
     setIsSkillTreeOpen(true);
@@ -46,11 +58,10 @@ export const House: React.FC = () => {
     homeDoorAudio.play();
   };
 
-  const gatheringXp = gameState.context.state.skills.gathering;
-  const farmingXp = gameState.context.state.skills.farming;
+  const { gathering, farming } = state.skills;
 
-  const toolLevel = getLevel(gatheringXp);
-  const farmingLevel = getLevel(farmingXp);
+  const toolLevel = getLevel(gathering);
+  const farmingLevel = getLevel(farming);
   const totalLevel = toolLevel + farmingLevel;
 
   const gatheringRequiredXp = getRequiredXpToLevelUp(toolLevel);
@@ -103,8 +114,7 @@ export const House: React.FC = () => {
       return <SkillTree back={open} />;
     }
 
-    const choices = getAvailableUpgrades(gameState.context.state);
-    if (choices.length > 0) {
+    if (isUpgradeAvailable) {
       return <SkillUpgrade />;
     }
 
@@ -124,8 +134,8 @@ export const House: React.FC = () => {
             </div>
             <span className="text-xxs">
               {farmingRequiredXp
-                ? `${farmingXp.toNumber()} XP/${farmingRequiredXp} XP`
-                : `${farmingXp.toNumber()} XP`}
+                ? `${farming.toNumber()} XP/${farmingRequiredXp} XP`
+                : `${farming.toNumber()} XP`}
             </span>
             <div className="flex items-center mt-1 flex-wrap">
               {new Array(10).fill(null).map((_, index) => {
@@ -153,8 +163,8 @@ export const House: React.FC = () => {
             </div>
             <span className="text-xxs">
               {gatheringRequiredXp
-                ? `${gatheringXp.toNumber()} XP/${gatheringRequiredXp} XP`
-                : `${gatheringXp.toNumber()} XP`}
+                ? `${gathering.toNumber()} XP/${gatheringRequiredXp} XP`
+                : `${gathering.toNumber()} XP`}
             </span>
             <div className="flex items-center mt-1 flex-wrap mb-1 md:mb-0">
               {new Array(10).fill(null).map((_, index) => {
@@ -206,6 +216,18 @@ export const House: React.FC = () => {
         className="relative cursor-pointer hover:img-highlight"
         onClick={() => open()}
       >
+        {isUpgradeAvailable && 
+          <img
+            className="animate-float"
+            src={alert}
+            style={{
+              width: `${GRID_WIDTH_PX * 0.55}px`,
+              position: "absolute",
+              left: `${GRID_WIDTH_PX * 1.641}px`,
+              bottom: `${GRID_WIDTH_PX * 4.571}px`,
+            }}
+          />
+        }
         <img src={house} alt="house" className="w-full" />
         <img
           src={smoke}
