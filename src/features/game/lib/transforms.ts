@@ -139,6 +139,7 @@ export function updateGame(
       stones: updateRocks(oldGameState.stones, newGameState.stones),
       iron: updateRocks(oldGameState.iron, newGameState.iron),
       gold: updateRocks(oldGameState.gold, newGameState.gold),
+      skills: newGameState.skills,
     };
   } catch (e) {
     console.log({ e });
