@@ -13,7 +13,7 @@ export const TimeLeftPanel: React.FC<Props> = ({ text = "", showTimeLeft = false
   return (
     <InnerPanel
       className={classNames(
-        "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-9 z-20 pointer-events-none",
+        "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-5 z-20 pointer-events-none",
         {
           "opacity-100": showTimeLeft,
           "opacity-0": !showTimeLeft,
