@@ -22,6 +22,7 @@ import { Label } from "components/ui/Label";
 import { canMine, IRON_RECOVERY_TIME } from "features/game/events/ironMine";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
+import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -47,11 +48,26 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
 
+  const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
+  const [_, setTimer] = React.useState<number>(0);
+  const setHarvestTime = React.useCallback(() => {
+    setTimer((count) => count + 1);
+  }, []);
+
   const readonly = gameState.matches("readonly");
   const tool = "Stone Pickaxe";
   const rock = game.context.state.iron[rockIndex];
   // Users will need to refresh to chop the tree again
   const mined = !canMine(rock);
+
+  // if mined - start timer (so timeLeft automatically updates per second)
+  React.useEffect(() => {
+    if (mined) {
+      setHarvestTime();
+      const interval = window.setInterval(setHarvestTime, 1000);
+      return () => window.clearInterval(interval);
+    }
+  }, [mined]);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -75,6 +91,17 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
 
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
     setShowPopover(false);
+  };
+
+  // Show/Hide Time left on hover
+
+  const handleMouseHoverRock = () => {
+    if (mined)
+      setShowRockTimeLeft(true);
+  }
+
+  const handleMouseLeaveRock = () => {
+    setShowRockTimeLeft(false);
   };
 
   const shake = () => {
@@ -160,7 +187,11 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
   const percentage = 100 - (timeLeft / recoveryTime) * 100;
 
   return (
-    <div className="relative z-10">
+    <div 
+      className="relative z-10"
+      onMouseEnter={handleMouseHoverRock}
+      onMouseLeave={handleMouseLeaveRock}
+    >
       {!mined && (
         <div
           onMouseEnter={handleHover}
@@ -255,6 +286,11 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
             }}
           >
             <ProgressBar percentage={percentage} seconds={timeLeft} />
+            <TimeLeftPanel 
+              text="Recovers in:" 
+              timeLeft={timeLeft} 
+              showTimeLeft={showRockTimeLeft} 
+            />
           </div>
         </>
       )}
