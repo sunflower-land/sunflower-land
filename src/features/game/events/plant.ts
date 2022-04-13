@@ -45,6 +45,10 @@ type GetPlantedAtArgs = {
 export const getCropTime = (crop: CropName, inventory: Inventory) => {
   let seconds = CROPS()[crop].harvestSeconds;
 
+  if (inventory["Seed Specialist"]?.gte(1)) {
+    seconds = seconds * 0.9;
+  }
+
   if (crop === "Parsnip" && inventory["Mysterious Parsnip"]?.gte(1)) {
     seconds = seconds * 0.5;
   }
