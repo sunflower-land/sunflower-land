@@ -29,6 +29,7 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
+import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -53,6 +54,12 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const shakeGif = useRef<SpriteSheetInstance>();
   const choppedGif = useRef<SpriteSheetInstance>();
 
+  const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
+  const [_, setTimer] = React.useState<number>(0);
+  const setHarvestTime = React.useCallback(() => {
+    setTimer((count) => count + 1);
+  }, []);
+
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -71,12 +78,31 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   // Users will need to refresh to chop the tree again
   const chopped = !canChop(tree);
 
+  // if chopped - start timer (so timeLeft automatically updates per second)
+  React.useEffect(() => {
+    if (chopped) {
+      setHarvestTime();
+      const interval = window.setInterval(setHarvestTime, 1000);
+      return () => window.clearInterval(interval);
+    }
+  }, [chopped]);
+
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
     setShowPopover(true);
 
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
     setShowPopover(false);
+  };
+
+  // Show/Hide Time left on hover
+
+  const handleMouseHoverStump = () => {
+    setShowStumpTimeLeft(true);
+  }
+
+  const handleMouseLeaveStump = () => {
+    setShowStumpTimeLeft(false);
   };
 
   const axesNeeded = getRequiredAxeAmount(game.context.state.inventory);
@@ -246,10 +272,18 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               bottom: "9px",
               left: "5px",
             }}
+            onMouseEnter={handleMouseHoverStump}
+            onMouseLeave={handleMouseLeaveStump}
           />
           <div className="absolute -bottom-4 left-1.5">
             <ProgressBar percentage={percentage} seconds={timeLeft} />
           </div>
+          <TimeLeftPanel 
+            text="Recovers in:" 
+            timeLeft={timeLeft} 
+            showTimeLeft={showStumpTimeLeft} 
+          >
+          </TimeLeftPanel>
         </>
       )}
 
