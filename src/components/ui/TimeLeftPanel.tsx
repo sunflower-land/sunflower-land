@@ -6,10 +6,14 @@ import classNames from "classnames";
 interface Props {
   text?: string;
   timeLeft: number;
-  showTimeLeft?: Boolean;
+  showTimeLeft?: boolean;
 }
 
-export const TimeLeftPanel: React.FC<Props> = ({ text = "", showTimeLeft = false, timeLeft }) => {
+export const TimeLeftPanel: React.FC<Props> = ({
+  text = "",
+  showTimeLeft = false,
+  timeLeft,
+}) => {
   return (
     <InnerPanel
       className={classNames(

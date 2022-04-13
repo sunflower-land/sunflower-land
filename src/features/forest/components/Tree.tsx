@@ -99,7 +99,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
   const handleMouseHoverStump = () => {
     setShowStumpTimeLeft(true);
-  }
+  };
 
   const handleMouseLeaveStump = () => {
     setShowStumpTimeLeft(false);
@@ -278,12 +278,11 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
           <div className="absolute -bottom-4 left-1.5">
             <ProgressBar percentage={percentage} seconds={timeLeft} />
           </div>
-          <TimeLeftPanel 
-            text="Recovers in:" 
-            timeLeft={timeLeft} 
-            showTimeLeft={showStumpTimeLeft} 
-          >
-          </TimeLeftPanel>
+          <TimeLeftPanel
+            text="Recovers in:"
+            timeLeft={timeLeft}
+            showTimeLeft={showStumpTimeLeft}
+          />
         </>
       )}
 

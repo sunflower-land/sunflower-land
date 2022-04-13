@@ -96,9 +96,8 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
   // Show/Hide Time left on hover
 
   const handleMouseHoverRock = () => {
-    if (mined)
-      setShowRockTimeLeft(true);
-  }
+    if (mined) setShowRockTimeLeft(true);
+  };
 
   const handleMouseLeaveRock = () => {
     setShowRockTimeLeft(false);
@@ -186,7 +185,7 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
   const percentage = 100 - (timeLeft / recoveryTime) * 100;
 
   return (
-    <div 
+    <div
       className="relative z-10"
       onMouseEnter={handleMouseHoverRock}
       onMouseLeave={handleMouseLeaveRock}
@@ -285,10 +284,10 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
             }}
           >
             <ProgressBar percentage={percentage} seconds={timeLeft} />
-            <TimeLeftPanel 
-              text="Recovers in:" 
-              timeLeft={timeLeft} 
-              showTimeLeft={showRockTimeLeft} 
+            <TimeLeftPanel
+              text="Recovers in:"
+              timeLeft={timeLeft}
+              showTimeLeft={showRockTimeLeft}
             />
           </div>
         </>
