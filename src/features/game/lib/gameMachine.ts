@@ -105,10 +105,11 @@ export type BlockchainState = {
     | "readonly"
     | "autosaving"
     | "minting"
-    | "success"
     | "syncing"
+    | "synced"
     | "levelling"
     | "withdrawing"
+    | "withdrawn"
     | "error"
     | "blacklisted";
   context: Context;
@@ -352,7 +353,7 @@ export function startGame(authContext: Options) {
               };
             },
             onDone: {
-              target: "success",
+              target: "synced",
               actions: assign((_, event) => ({
                 sessionId: event.data.sessionId,
                 actions: [],
@@ -391,7 +392,7 @@ export function startGame(authContext: Options) {
               };
             },
             onDone: {
-              target: "success",
+              target: "synced",
               actions: assign((_, event) => ({
                 sessionId: event.data.sessionId,
                 actions: [],
@@ -432,7 +433,7 @@ export function startGame(authContext: Options) {
               };
             },
             onDone: {
-              target: "success",
+              target: "withdrawn",
               actions: assign({
                 sessionId: (_, event) => event.data.sessionId,
               }),
@@ -501,7 +502,14 @@ export function startGame(authContext: Options) {
           },
         },
         blacklisted: {},
-        success: {
+        synced: {
+          on: {
+            REFRESH: {
+              target: "loading",
+            },
+          },
+        },
+        withdrawn: {
           on: {
             REFRESH: {
               target: "loading",
