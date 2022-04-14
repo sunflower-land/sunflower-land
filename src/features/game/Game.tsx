@@ -33,6 +33,7 @@ import { House } from "features/house/House";
 import { Tailor } from "features/tailor/Tailor";
 import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
+import { useVolumeControls } from "features/hud/lib/volumeControls";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -53,6 +54,19 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
+  const [initMasterVolume] = useVolumeControls();
+
+  // Init the master volume; loads from cached settings
+  useEffect(() => {
+    const initSettings = () => {
+      console.log("calling initMasterVolume");
+      (initMasterVolume as () => void)();
+    };
+    initSettings();
+    // window.addEventListener("load", initSettings);
+
+    // return window.removeEventListener("load", initSettings);
+  }, []);
 
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 

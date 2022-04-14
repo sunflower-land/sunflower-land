@@ -39,10 +39,11 @@ export const AudioPlayer: React.FC = () => {
   const song = getSong(songIndex);
 
   useEffect(() => {
-    document.getElementsByTagName("audio")[0]
+    /*document.getElementsByTagName("audio")[0]
       ? (musicPlayer.current.volume =
           document.getElementsByTagName("audio")[0].volume)
-      : (musicPlayer.current.volume = volume.value);
+      : (musicPlayer.current.volume = volume.value);*/
+    musicPlayer.current.volume = volume.value;
   }, [volume.value]);
 
   useEffect(() => {
@@ -51,10 +52,6 @@ export const AudioPlayer: React.FC = () => {
       setPlaying(false);
       musicPlayer.current.pause();
     }
-    document.getElementsByTagName("audio")[0]
-      ? (musicPlayer.current.volume =
-          document.getElementsByTagName("audio")[0].volume)
-      : (musicPlayer.current.volume = volume.value);
   }, []);
 
   return (

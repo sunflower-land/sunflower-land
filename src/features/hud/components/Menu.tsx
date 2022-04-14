@@ -23,7 +23,7 @@ import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 
 import { isNewFarm } from "../lib/onboarding";
-import { Settings } from "./settings/settings";
+import { Settings } from "./Settings";
 
 /**
  * TODO:
