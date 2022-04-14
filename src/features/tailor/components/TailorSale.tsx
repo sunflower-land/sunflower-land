@@ -64,8 +64,7 @@ export const TailorSale: React.FC<Props> = ({ onClose }) => {
           canCraft={!maxFlags}
         />
         <p className="text-xxs p-1 m-1 underline text-center">
-          Max 3 flags per farm. Crafting flags will sync your farm to the
-          blockchain.
+          Max 3 flags per farm.
         </p>
       </div>
     </Panel>

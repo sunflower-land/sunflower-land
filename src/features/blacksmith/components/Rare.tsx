@@ -18,6 +18,8 @@ import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
+import { mintCooldown } from "../lib/mintUtils";
+import { secondsToString } from "lib/utils/time";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -73,13 +75,14 @@ export const Rare: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [
     {
-      context: { state },
+      context: { state, itemsMintedAt },
     },
   ] = useActor(gameService);
   const [isLoading, setIsLoading] = useState(true);
   const [supply, setSupply] = useState<ItemSupply>();
   const [showCaptcha, setShowCaptcha] = useState(false);
 
+  console.log({ itemsMintedAt })
   useEffect(() => {
     const load = async () => {
       const supply = await metamask.getInventory().totalSupply();
@@ -137,6 +140,16 @@ export const Rare: React.FC<Props> = ({
       return <span className="text-xs mt-1 text-center">Already minted</span>;
     }
 
+    const cooldown = mintCooldown({ item: selected.name, itemsMintedAt })
+    if (cooldown > 0) {
+      return (
+        <div className="text-center">
+          <span className="text-xs mt-1 text-center underline block">Cooldown</span>
+          <span className="text-xs text-center">{secondsToString(cooldown)}</span>
+        </div>
+      )
+    }
+
     if (selected.requires && !state.inventory[selected.requires]) {
       return (
         <div className="flex items-center">
@@ -168,12 +181,18 @@ export const Rare: React.FC<Props> = ({
 
   if (showCaptcha) {
     return (
-      <ReCAPTCHA
-        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
-        onChange={onCaptchaSolved}
-        onExpired={() => setShowCaptcha(false)}
-        className="w-full m-4 flex items-center justify-center"
-      />
+      <>
+        <ReCAPTCHA
+          sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+          onChange={onCaptchaSolved}
+          onExpired={() => setShowCaptcha(false)}
+          className="w-full m-4 flex items-center justify-center"
+        />
+        <p className="text-xxs p-1 m-1 underline text-center">
+          Crafting an item will sync your farm to the
+          blockchain.
+        </p>
+      </>
     );
   }
 
