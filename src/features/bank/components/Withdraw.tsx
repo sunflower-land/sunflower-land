@@ -65,12 +65,17 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   if (showCaptcha) {
     return (
+      <>
       <ReCAPTCHA
         sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
         onChange={onCaptchaSolved}
         onExpired={() => setShowCaptcha(false)}
         className="w-full m-4 flex items-center justify-center"
       />
+      <p className="text-xxs p-1 m-1 underline text-center">
+        Any unsaved progress will be lost.
+      </p>
+      </>
     );
   }
 

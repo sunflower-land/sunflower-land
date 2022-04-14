@@ -6,7 +6,7 @@ import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
 
 import { GameState } from "../types/game";
-import { loadSession } from "../actions/loadSession";
+import { loadSession, MintedAt } from "../actions/loadSession";
 import { INITIAL_FARM, EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { mint } from "../actions/mint";
@@ -32,6 +32,7 @@ export interface Context {
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
   whitelistedAt?: Date;
+  itemsMintedAt?: MintedAt
 }
 
 type MintEvent = {
@@ -161,7 +162,7 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const { game, offset, isBlacklisted, whitelistedAt } = response;
+                const { game, offset, isBlacklisted, whitelistedAt, itemsMintedAt } = response;
 
                 // add farm address
                 game.farmAddress = authContext.address;
@@ -177,6 +178,7 @@ export function startGame(authContext: Options) {
                   isBlacklisted,
                   whitelistedAt,
                   fingerprint,
+                  itemsMintedAt,
                 };
               }
 
@@ -209,6 +211,7 @@ export function startGame(authContext: Options) {
                   state: (_, event) => event.data.state,
                   offset: (_, event) => event.data.offset,
                   fingerprint: (_, event) => event.data.fingerprint,
+                  itemsMintedAt: (_, event) => event.data.itemsMintedAt,
                 }),
               },
             ],

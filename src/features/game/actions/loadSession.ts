@@ -12,11 +12,13 @@ type Request = {
   token: string;
 };
 
+export type MintedAt = Partial<Record<InventoryItemName, number>>
 type Response = {
   game: GameState;
   offset: number;
   isBlacklisted?: boolean;
   whitelistedAt?: string;
+  itemsMintedAt?: MintedAt
 };
 
 const API_URL = CONFIG.API_URL;
@@ -49,7 +51,7 @@ export async function loadSession(
       removeSession(metamask.myAccount as string);
     }
 
-    const { farm, startedAt, isBlacklisted, whitelistedAt } =
+    const { farm, startedAt, isBlacklisted, whitelistedAt, itemsMintedAt } =
       await response.json();
 
     const startedTime = new Date(startedAt);
@@ -66,6 +68,7 @@ export async function loadSession(
       game: makeGame(farm),
       isBlacklisted,
       whitelistedAt,
+      itemsMintedAt,
     };
   } catch (e) {
     console.error({ e });
