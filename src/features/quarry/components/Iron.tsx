@@ -49,25 +49,12 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
   const minedGif = useRef<SpriteSheetInstance>();
 
   const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
-  const [_, setTimer] = React.useState<number>(0);
-  const setHarvestTime = React.useCallback(() => {
-    setTimer((count) => count + 1);
-  }, []);
 
   const readonly = gameState.matches("readonly");
   const tool = "Stone Pickaxe";
   const rock = game.context.state.iron[rockIndex];
   // Users will need to refresh to chop the tree again
   const mined = !canMine(rock);
-
-  // if mined - start timer (so timeLeft automatically updates per second)
-  React.useEffect(() => {
-    if (mined) {
-      setHarvestTime();
-      const interval = window.setInterval(setHarvestTime, 1000);
-      return () => window.clearInterval(interval);
-    }
-  }, [mined]);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {

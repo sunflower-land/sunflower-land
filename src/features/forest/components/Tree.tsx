@@ -55,10 +55,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const choppedGif = useRef<SpriteSheetInstance>();
 
   const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
-  const [_, setTimer] = React.useState<number>(0);
-  const setHarvestTime = React.useCallback(() => {
-    setTimer((count) => count + 1);
-  }, []);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -77,15 +73,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
   // Users will need to refresh to chop the tree again
   const chopped = !canChop(tree);
-
-  // if chopped - start timer (so timeLeft automatically updates per second)
-  React.useEffect(() => {
-    if (chopped) {
-      setHarvestTime();
-      const interval = window.setInterval(setHarvestTime, 1000);
-      return () => window.clearInterval(interval);
-    }
-  }, [chopped]);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
