@@ -46,7 +46,7 @@ export const House: React.FC = () => {
     const upgrades = upgradeAvailable(state);
     setIsUpgradeAvailable(upgrades);
     if (upgrades && state.farmAddress) skillUpgradeToast(state, setToast);
-  }, [state.farmAddress]);
+  }, [state]);
 
   const openSkillTree = () => {
     setIsSkillTreeOpen(true);
