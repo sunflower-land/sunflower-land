@@ -27,33 +27,35 @@ export const Logout: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
     <Modal show={isOpen} onHide={onClose} centered>
       <Panel className="p-0">
-        <img
-          src={close}
-          className="h-6 top-3 right-4 absolute cursor-pointer"
-          alt="Close Logout Confirmation Modal"
-          onClick={onClose}
-        />
-        <div className="p-2 text-center">
-          <span className="text-sm">
-            Are you sure that you want to &quot;logout&quot;?
-          </span>
-          <form
-            onSubmit={handleLogoutConf}
-            className="row justify-between mt-3"
-          >
-            <Button className="col w-1/3 p-1" type="submit">
-              Yes
-            </Button>
-            <Button
-              className="col w-1/3 p-1"
-              onClick={(evt) => {
-                evt.preventDefault();
-                onClose();
-              }}
+        <div className="p-2">
+          <img
+            src={close}
+            className="h-6 top-3 right-4 absolute cursor-pointer"
+            alt="Close Logout Confirmation Modal"
+            onClick={onClose}
+          />
+          <div className="p-3 text-center">
+            <span className="text-sm">
+              Are you sure that you want to &quot;logout&quot;?
+            </span>
+            <form
+              onSubmit={handleLogoutConf}
+              className="row justify-between mt-3"
             >
-              No
-            </Button>
-          </form>
+              <Button className="col w-1/3 p-1" type="submit">
+                Yes
+              </Button>
+              <Button
+                className="col w-1/3 p-1"
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  onClose();
+                }}
+              >
+                No
+              </Button>
+            </form>
+          </div>
         </div>
       </Panel>
     </Modal>
