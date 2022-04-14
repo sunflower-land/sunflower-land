@@ -207,7 +207,7 @@ export const TOOLS: Record<Tool, Craftable> = {
 export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
-    description: "Earn beta access to new features",
+    description: "A symbol of the holy token",
     price: new Decimal(5),
     ingredients: [
       {
