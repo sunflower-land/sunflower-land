@@ -24,7 +24,10 @@ type GetChoppedAtAtgs = {
  * Set a chopped in the past to make it replenish faster
  */
 function getChoppedAt({ inventory, createdAt }: GetChoppedAtAtgs): number {
-  if (inventory["Apprentice Beaver"]?.gte(1)) {
+  if (
+    inventory["Apprentice Beaver"]?.gte(1) ||
+    inventory["Foreman Beaver"]?.gte(1)
+  ) {
     return createdAt - (TREE_RECOVERY_SECONDS / 2) * 1000;
   }
 
