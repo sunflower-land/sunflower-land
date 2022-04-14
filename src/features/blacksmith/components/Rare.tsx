@@ -18,8 +18,8 @@ import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
-import { canMintAt, mintCooldown } from "../lib/mintUtils";
-import { secondsToLongString, secondsToString } from "lib/utils/time";
+import { mintCooldown } from "../lib/mintUtils";
+import { secondsToString } from "lib/utils/time";
 
 const TAB_CONTENT_HEIGHT = 360;
 
