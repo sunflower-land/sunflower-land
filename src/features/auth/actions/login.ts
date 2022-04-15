@@ -30,7 +30,8 @@ export async function loginRequest(request: Request) {
   return { token };
 }
 
-const LOCAL_STORAGE_KEY = `sb_wiz.zpc.v.${window.location.host}-${window.location.pathname}`;
+const host = window.location.hostname.replace(/^www\./,'')
+const LOCAL_STORAGE_KEY = `sb_wiz.zpc.v.${host}-${window.location.pathname}`;
 
 type Session = {
   token: string;
