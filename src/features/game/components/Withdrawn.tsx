@@ -22,7 +22,7 @@ export const Withdrawn: React.FC = () => {
       <span className="text-center text-sm mb-2">
         View on <a
           className="underline hover:text-white"
-          href="https://opensea.io/collection/sunflower-land-collectibles"
+          href="https://opensea.io/account?search[resultModel]=ASSETS&search[sortBy]=LAST_TRANSFER_DATE&search[query]=sunflower%20land"
           target="_blank"
           rel="noreferrer"
         >
