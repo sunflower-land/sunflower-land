@@ -74,5 +74,10 @@
     "vite": "^2.7.2",
     "vite-plugin-html": "^2.1.2",
     "vite-tsconfig-paths": "^3.3.17"
+  },
+  "resolutions": {
+    "async": "^2.6.4",
+    "minimist": "^1.2.6",
+    "simple-get": "^2.8.2"
   }
 }
