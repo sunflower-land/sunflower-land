@@ -1,10 +1,8 @@
-import { useActor } from "@xstate/react";
 import React, { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import { Context } from "features/game/GameProvider";
 
-import * as Auth from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
 import { WithdrawTokens } from "./WithdrawTokens";
@@ -14,8 +12,6 @@ interface Props {
   onClose: () => void;
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
   const [page, setPage] = useState<"warning" | "tokens" | "items">("warning");
