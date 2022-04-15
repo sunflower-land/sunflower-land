@@ -8,7 +8,7 @@ const LOCAL_STORAGE_KEY = "settings.volumeControls";
 
 /**
  * Used to cache settings in browser's localStorage.
- * TODO: Use more generic props to allow multiple types of settings to be cached
+ * TODO: Use more generic props to allow various of settings to be cached
  */
 export function cacheSettings(volumeControls: MasterVolumeControls) {
   console.log("cacheSettings called\n", volumeControls);
@@ -25,10 +25,8 @@ export function cacheSettings(volumeControls: MasterVolumeControls) {
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function getSettings(): MasterVolumeControls {
   const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
-  // console.log("getSettings called\ncached settings:", cached);
 
   if (!cached) {
-    // console.log("no cache!!");
     return {
       bgMusicMuted: true,
       sfxMuted: true,
