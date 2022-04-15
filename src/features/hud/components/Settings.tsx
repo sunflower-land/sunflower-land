@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
 
 import { metamask } from "lib/blockchain/metamask";
 import { removeSession } from "features/auth/actions/login";
 
+import { MasterVolumeControls } from ".././types/settings";
 import { useVolumeControls } from "features/hud/lib/volumeControls";
 import { cacheSettings, getSettings } from "features/hud/lib/settings";
 
@@ -18,30 +20,25 @@ interface Props {
 }
 
 export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
-  const [settings, setSettings] = useState<{
-    bgMusicMuted: boolean;
-    sfxMuted: boolean;
-  }>(getSettings());
+  const [settings, setSettings] = useState<MasterVolumeControls>(getSettings());
+  // TODO: Add More Settings and refactor
 
-  const [isBgMusicMuted, setIsBgMusicMuted] = useState(settings.bgMusicMuted);
-  const [isSFXMuted, setIsSFXMuted] = useState(settings.sfxMuted);
   const [isResetConfOpen, setIsResetConfOpen] = useState(false);
   const [toggleAllSFX, toggleAllBgMusic] = useVolumeControls();
 
-  const saveSettings = () =>
-    cacheSettings({ bgMusicMuted: isBgMusicMuted, sfxMuted: isSFXMuted });
+  const saveSettings = () => {
+    cacheSettings(settings);
+  };
 
   const handleToggleBgMusic = () => {
-    setIsBgMusicMuted(!isBgMusicMuted);
-    toggleAllBgMusic(isBgMusicMuted);
+    settings.bgMusicMuted = !settings.bgMusicMuted;
+    toggleAllBgMusic(settings.bgMusicMuted);
     saveSettings();
-    tmpLog();
   };
   const handleToggleSFX = () => {
-    setIsSFXMuted(!isSFXMuted);
-    toggleAllSFX(isSFXMuted);
+    settings.sfxMuted = !settings.sfxMuted;
+    toggleAllSFX(settings.sfxMuted);
     saveSettings();
-    tmpLog();
   };
 
   const address = metamask.myAccount as string;
@@ -52,10 +49,9 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const confirmResetSession = () => setIsResetConfOpen(true);
 
-  const tmpLog = () => {
-    console.log("isBgMusicMuted:", isBgMusicMuted);
-    console.log("isSFXMuted:", isSFXMuted);
-  };
+  useEffect(() => {
+    saveSettings();
+  }, [settings.bgMusicMuted, settings.sfxMuted]);
 
   return (
     <>
@@ -78,7 +74,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
                     role="switch"
                     id="bgMusicSwitch"
                     value={1}
-                    checked={isBgMusicMuted}
+                    checked={settings.bgMusicMuted}
                     onChange={(evt) => handleToggleBgMusic()}
                   />
                 </div>
@@ -94,9 +90,9 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
                     type="checkbox"
                     role="switch"
                     id="sfxSwitch"
-                    checked={isSFXMuted}
+                    checked={settings.sfxMuted}
                     value={1}
-                    onChange={(evt) => handleToggleSFX()}
+                    onChange={(_evt) => handleToggleSFX()}
                   />
                 </div>
               </div>
