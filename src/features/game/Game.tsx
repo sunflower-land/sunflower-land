@@ -9,6 +9,7 @@ import { Loading } from "features/auth/components";
 import { Animals } from "features/animals/Animals";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
+import { useVolumeControls } from "features/hud/lib/volumeControls";
 
 import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
@@ -33,7 +34,6 @@ import { House } from "features/house/House";
 import { Tailor } from "features/tailor/Tailor";
 import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
-import { useVolumeControls } from "features/hud/lib/volumeControls";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -63,9 +63,6 @@ export const Game: React.FC = () => {
       (initMasterVolume as () => void)();
     };
     initSettings();
-    // window.addEventListener("load", initSettings);
-
-    // return window.removeEventListener("load", initSettings);
   }, []);
 
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
