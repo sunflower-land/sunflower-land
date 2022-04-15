@@ -40,7 +40,7 @@
     "stream-browserify": "^3.0.0",
     "util": "^0.12.4",
     "web3": "^1.6.1",
-    "web3-health-check": "1.0.13",
+    "web3-health-check": "1.0.14",
     "web3-utils": "^1.6.1",
     "xstate": "^4.27.0"
   },
