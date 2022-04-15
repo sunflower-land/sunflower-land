@@ -436,6 +436,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
       },
     ],
     supply: 100,
+    disabled: true,
   },
   "Mysterious Parsnip": {
     name: "Mysterious Parsnip",
