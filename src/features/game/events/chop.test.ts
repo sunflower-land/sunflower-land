@@ -108,7 +108,7 @@ describe("chop", () => {
     expect(game.trees["1"].wood.toNumber()).toBeGreaterThan(2);
   });
 
-  it("gives 20% more wood when you have Woody the Beaver NFT", () => {
+  it("gives 20% more wood when you have Beaver NFT", () => {
     const game = chop({
       state: {
         ...GAME_STATE,
