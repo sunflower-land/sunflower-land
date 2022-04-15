@@ -57,12 +57,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const enabled = authState.context.token?.userAccess.withdraw;
-
-  if (!enabled) {
-    return <span>Available April 15th</span>;
-  }
-
   if (showCaptcha) {
     return (
       <>

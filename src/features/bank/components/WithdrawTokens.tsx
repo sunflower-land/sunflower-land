@@ -10,6 +10,7 @@ import { shortAddress } from "features/hud/components/Address";
 import { Button } from "components/ui/Button";
 
 import { metamask } from "lib/blockchain/metamask";
+import * as Auth from "features/auth/lib/Provider";
 
 import token from "assets/icons/token.gif";
 import player from "assets/icons/player.png";
@@ -23,6 +24,9 @@ interface Props {
   onWithdraw: (sfl: string) => void;
 }
 export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
+
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -89,6 +93,12 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
   // Use base 1000
   const tax = getTax(typeof amount !== "string" ? amount : new Decimal(0)) / 10;
+
+  const enabled = authState.context.token?.userAccess.withdraw;
+
+  if (!enabled) {
+    return <span>Available May 9th</span>;
+  }
 
   return (
     <>
