@@ -1,10 +1,15 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useStepper } from "lib/utils/hooks/useStepper";
-import { roundToOneDecimal } from "features/auth/components";
 
 import * as sfx from "lib/utils/sfx";
 import { getSettings } from "./settings";
 
+/**
+ * Hook for volume controls.
+ * Note: Do update the return, to return functions which are going to be used.
+ *       It's OP, use carefully.
+ * TODO: refactor
+ */
 export const useVolumeControls = () => {
   const allAudioElements = document.getElementsByTagName("audio");
 
@@ -29,21 +34,21 @@ export const useVolumeControls = () => {
     sfx.wishingWellAudio,
   ];
 
-  // object to control master (audio) bg music volume
+  const MAX_AUDIO_VOLUME = 1.0;
+  const MIN_AUDIO_VOLUME = 0.0;
+  const VOLUME_STEP = 0.1;
+  const DEFAULT_BG_MUSIC_VOLUME = 0.6;
+  const DEFAULT_SFX_VOLUME = 0.6;
+
+  /**
+   * State to control the master (audio) bg music volume
+   */
   const masterAudioVolume = useStepper({
-    initial: getSettings().bgMusicMuted ? 0 : 0.6,
+    initial: getSettings().bgMusicMuted ? 0 : DEFAULT_BG_MUSIC_VOLUME,
     step: 0.1,
     max: 1.0,
     min: 0,
   });
-  const MAX_AUDIO_VOLUME = 1.0;
-  const MIN_AUDIO_VOLUME = 0.0;
-  const VOLUME_STEP = 0.1;
-  const DEFAULT_AUDIO_VOLUME = 0.6;
-  /* const [masterAudioVolume, setMasterAudioVolume] = useState(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    allAudioElements.item(0)?.volume as number | 0.6
-  ); */
 
   const getMasterAudioVolume = (): number => masterAudioVolume.value;
 
@@ -59,38 +64,24 @@ export const useVolumeControls = () => {
     console.log("Master Audio Volume:", masterAudioVolume);
   };
   const incMasterAudioVolume = (): void => {
-    /* ? setMasterAudioVolume((prevState) => {
-        const tmp = roundToOneDecimal(prevState + VOLUME_STEP);
-        return tmp;
-      }) */
     masterAudioVolume.value < MAX_AUDIO_VOLUME
       ? masterAudioVolume.increase()
       : console.log("Warning: Maximum Volume (1) Already Set!");
     postMasterAudioVolume();
   };
   const decMasterAudioVolume = (): void => {
-    /* ? setMasterAudioVolume((prevState) =>
-        roundToOneDecimal(prevState - VOLUME_STEP)
-      ) */
     masterAudioVolume.value > MIN_AUDIO_VOLUME
       ? masterAudioVolume.decrease()
       : console.log("Warning: Minimum Volume (0) Already Set!");
     postMasterAudioVolume();
   };
   const muteMasterAudioVolume = (): void => {
-    // ? setMasterAudioVolume(MIN_AUDIO_VOLUME)
     masterAudioVolume.value > MIN_AUDIO_VOLUME
       ? (masterAudioVolume.value = MIN_AUDIO_VOLUME)
       : console.log("Warning: Volume Already Muted!");
     postMasterAudioVolume();
   };
   const toggleAllBgMusic = (_isMuted: boolean): void => {
-    console.log("-->in toggleAllBgMusic _isMuted:", _isMuted);
-    /* if (masterAudioVolume === undefined || isNaN(masterAudioVolume.value)) {
-      setMasterAudioVolume(DEFAULT_AUDIO_VOLUME);
-      console.log("default value set!!", masterAudioVolume);
-    } */
-    console.log("-->in toggleAllBgMusic masterAudioVolume:", masterAudioVolume);
     if (!_isMuted) {
       for (const ele of allAudioElements) {
         ele.volume = masterAudioVolume.value;
@@ -99,16 +90,19 @@ export const useVolumeControls = () => {
     } else {
       for (const ele of allAudioElements) {
         ele.muted = true;
+        ele.pause();
       }
       // should postMasterAudioVolume be called => ig no
     }
   };
 
-  // object to control master SFX volume for in-game Actions
+  /**
+   * State to control the master SFX volume for in-game Actions
+   */
   const masterSfxActVolume = useStepper({
     initial: sfxActions[0].volume() as number,
     step: 0.1,
-    //temporarily max is set to 0.7 to avoid extra loud SFX
+    //temp max is set to 0.7 to avoid extra loud SFX
     max: 0.7,
     min: 0,
   });
@@ -137,11 +131,14 @@ export const useVolumeControls = () => {
     setMasterSfxActVolume();
   };
 
-  // object to control master SFX volume for Modals
+  /**
+   * State to control the master SFX volume for in-game Modals
+   * like houseDoor
+   */
   const masterSfxModalVolume = useStepper({
     initial: sfxModals[0].volume() as number,
     step: 0.1,
-    //temporarily max is set to 0.6 to avoid extra loud SFX
+    //temp max is set to 0.6 to avoid extra loud SFX, the housedoor (o_O)
     max: 0.6,
     min: 0,
   });
@@ -156,20 +153,22 @@ export const useVolumeControls = () => {
     console.log("--> in toggleAllSFX _isMuted:", _isMuted);
     if (!_isMuted) {
       sfxActions.forEach((ele) => {
-        ele.volume(0.6); // 0.6 is the default
+        ele.volume(DEFAULT_SFX_VOLUME); // 0.6 is the default
       });
       sfxModals.forEach((ele) => {
-        ele.volume(0.6); // 0.6 is the default
+        ele.volume(DEFAULT_SFX_VOLUME); // 0.6 is the default
       });
       // should setMasterSfxModalVolume be called
     } else {
       sfxActions.forEach((ele) => {
         ele.mute(); //not working oO
         ele.volume(0);
+        // ele.pause();
       });
       sfxModals.forEach((ele) => {
         ele.mute(); // not working oO
         ele.volume(0);
+        // ele.pause();
       });
       // should setMasterSfxModalVolume be called
     }
@@ -194,39 +193,16 @@ export const useVolumeControls = () => {
   };
 
   /**
-   * Init the master volume from cached settings.
-   * TODO: refactor
+   * Init the master volume states from cached settings.
+   * TODO: refactor (o O)
    */
   const initMasterVolume = (): void => {
     const cached = getSettings();
-    /* setMasterAudioVolume(cached.bgMusicMuted ? 0.0 : masterAudioVolume);
-    masterSfxActVolume.value = cached.sfxMuted ? 0.0 : masterSfxActVolume.value;
-    masterSfxModalVolume.value = cached.sfxMuted
-      ? 0.0
-      : masterSfxModalVolume.value; */
-    console.log("initMasterVolume was called..");
+    console.log("[INIT]: volume state");
     toggleAllBgMusic(cached.bgMusicMuted);
     toggleAllSFX(cached.sfxMuted);
   };
 
-  return [
-    initMasterVolume,
-    postMasterAudioVolume,
-    incMasterAudioVolume,
-    decMasterAudioVolume,
-    muteMasterAudioVolume,
-    setMasterSfxActVolume,
-    incMasterSfxActVolume,
-    decMasterSfxActVolume,
-    muteMasterSfxActVolume,
-    setMasterSfxModalVolume,
-    incMasterSfxModalVolume,
-    decMasterSfxModalVolume,
-    muteMasterSfxModalVolume,
-    getMasterAudioVolume,
-    toggleAllBgMusic,
-    toggleAllSFX,
-    getMasterSfxActVolume,
-    getMasterSfxModalVolume,
-  ];
+  // TODO: update the return if you use OP volumeControls to + or - the vol
+  return [initMasterVolume, toggleAllBgMusic, toggleAllSFX];
 };
