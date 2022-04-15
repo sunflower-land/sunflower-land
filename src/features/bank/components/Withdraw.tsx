@@ -62,7 +62,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         onExpired={() => setShowCaptcha(false)}
         className="w-full m-4 flex items-center justify-center"
       />
-      <p className="text-xxs p-1 m-1 underline text-center">
+      <p className="text-xxs p-1 m-1 text-center">
         Any unsaved progress will be lost.
       </p>
       </>
