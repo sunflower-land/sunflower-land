@@ -132,8 +132,8 @@ export const Rare: React.FC<Props> = ({
       return null;
     }
 
-    if (!hasAccess) {
-      return <span className="text-sm text-center">Available April 15th</span>;
+    if (!hasAccess && selected.disabled) {
+      return <span className="text-xs text-center mt-1">Coming soon</span>;
     }
 
     if (state.inventory[selected.name]) {
