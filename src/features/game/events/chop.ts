@@ -46,6 +46,21 @@ export function getRequiredAxeAmount(inventory: Inventory) {
   return new Decimal(1);
 }
 
+/**
+ * Returns multiplier based on Beaver boost
+ */
+export function getMultiplier(inventory: Inventory) {
+  if (
+    inventory["Woody the Beaver"]?.gte(1) ||
+    inventory["Apprentice Beaver"]?.gte(1) ||
+    inventory["Foreman Beaver"]?.gte(1)
+  ) {
+    return new Decimal(1.2);
+  }
+
+  return new Decimal(1);
+}
+
 export type ChopAction = {
   type: "tree.chopped";
   index: number;
@@ -90,7 +105,7 @@ export function chop({
     inventory: {
       ...state.inventory,
       Axe: axeAmount.sub(requiredAxes),
-      Wood: woodAmount.add(tree.wood),
+      Wood: woodAmount.add(tree.wood.mul(getMultiplier(state.inventory))),
     },
     trees: {
       ...state.trees,

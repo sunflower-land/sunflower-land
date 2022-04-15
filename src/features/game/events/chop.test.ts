@@ -107,4 +107,24 @@ describe("chop", () => {
     expect(game.trees["0"].wood.toNumber()).toBeGreaterThan(2);
     expect(game.trees["1"].wood.toNumber()).toBeGreaterThan(2);
   });
+
+  it("gives 20% more wood when you have Woody the Beaver NFT", () => {
+    const game = chop({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Axe: new Decimal(3),
+          "Woody the Beaver": new Decimal(1),
+        },
+      },
+      action: {
+        type: "tree.chopped",
+        item: "Axe",
+        index: 0,
+      } as ChopAction,
+    });
+
+    // placeholder per tree is 3 wood
+    expect(game.inventory.Wood).toEqual(new Decimal(3.6));
+  });
 });
