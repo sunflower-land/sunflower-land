@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+
 import play from "assets/ui/music_player/play.png";
 import pause from "assets/ui/music_player/pause.png";
 import skip_forward from "assets/ui/music_player/skip-forward.png";
@@ -6,9 +7,11 @@ import music_note from "assets/ui/music_player/music-note.png";
 import chevron_right from "assets/ui/music_player/chevron-right.png";
 import volume_down from "assets/ui/music_player/volume-down.png";
 import volume_up from "assets/ui/music_player/volume-up.png";
+
 import { Button } from "components/ui/Button";
-import { getSong, getSongCount } from "assets/songs/playlist";
 import { Panel } from "components/ui/Panel";
+
+import { getSong, getSongCount } from "assets/songs/playlist";
 import { useStepper } from "lib/utils/hooks/useStepper";
 
 export const AudioPlayer: React.FC = () => {
@@ -39,14 +42,22 @@ export const AudioPlayer: React.FC = () => {
   const song = getSong(songIndex);
 
   useEffect(() => {
-    /*document.getElementsByTagName("audio")[0]
-      ? (musicPlayer.current.volume =
-          document.getElementsByTagName("audio")[0].volume)
-      : (musicPlayer.current.volume = volume.value);*/
+    // do refactor this if you use OP volumeControls to + or - vol
     musicPlayer.current.volume = volume.value;
+
+    // update pause state when user Toggles the master settings
+    if (document.getElementsByTagName("audio")[0]?.paused) {
+      musicPlayer.current.pause();
+    }
   }, [volume.value]);
 
   useEffect(() => {
+    // use the default volume which is set after initMasterVolume
+    if (document.getElementsByTagName("audio")[0]) {
+      volume.value = document.getElementsByTagName("audio")[0].volume;
+    }
+    musicPlayer.current.volume = volume.value;
+
     if (navigator.userAgent.match(/chrome|chromium|crios/i)) {
       // by the default Chrome policy doesn't allow autoplay
       setPlaying(false);
