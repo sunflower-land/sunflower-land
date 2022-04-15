@@ -144,8 +144,15 @@ export const Rare: React.FC<Props> = ({
     if (cooldown > 0) {
       return (
         <div className="text-center">
-          <span className="text-xs mt-1 text-center underline block">Cooldown</span>
-          <span className="text-xs text-center">{secondsToString(cooldown)}</span>
+          <a
+          href={`https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#crafting-limits`}
+          className="underline text-xs hover:text-blue-500 mt-1 block"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Already minted
+        </a>
+          <span className="text-xs text-center">Available in {secondsToString(cooldown)}</span>
         </div>
       )
     }
