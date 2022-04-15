@@ -7785,10 +7785,10 @@ web3-eth@1.6.1:
     web3-net "1.6.1"
     web3-utils "1.6.1"
 
-web3-health-check@1.0.14:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/web3-health-check/-/web3-health-check-1.0.14.tgz#09806777fe6d107c60d20f6be38edcd492447e30"
-  integrity sha512-0dTorTLCtpZcwtvkJni7oa3ly/uhJ0OYt5vLBT9N3sPfTNnFZmUWWPmyOZqkAbePoCnG9buvLruzf/x4YcPYug==
+web3-health-check@1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/web3-health-check/-/web3-health-check-1.0.15.tgz#d51d77ee0148510c18bcda21e4a807d57db8aa38"
+  integrity sha512-35AkaXpjMwt33lL7I6x3lacoPBPcgFGfzIV5/35psJTVcp4DFdic1DAFaZn5D9PSwJiW6TaaKUucETIn5fnWgg==
   dependencies:
     web3 "^1.6.1"
 
