@@ -49,7 +49,12 @@ export type BlacksmithItem =
   | "Apprentice Beaver"
   | "Foreman Beaver";
 
-export type BarnItem = "Farm Cat" | "Farm Dog" | "Chicken Coop" | "Gold Egg";
+export type BarnItem =
+  | "Farm Cat"
+  | "Farm Dog"
+  | "Chicken Coop"
+  | "Gold Egg"
+  | "Egg Basket";
 
 export type MarketItem =
   | "Nancy"
@@ -525,6 +530,22 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
     ],
     supply: 250,
     disabled: true,
+  },
+  "Egg Basket": {
+    name: "Egg Basket",
+    description: "Give you access to the egg hunt accros the map",
+    price: new Decimal(5),
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(50),
+      },
+      {
+        item: "Carrot",
+        amount: new Decimal(50),
+      },
+    ],
+    limit: 1,
   },
 };
 
