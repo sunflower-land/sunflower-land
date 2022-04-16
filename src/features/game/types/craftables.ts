@@ -49,7 +49,8 @@ export type BlacksmithItem =
   | "Apprentice Beaver"
   | "Foreman Beaver"
   | "Nyon Statue"
-  | "Nyon Statue Gold";
+  | "Nyon Statue Gold"
+  | "Homeless Tent";
 
 export type BarnItem = "Farm Cat" | "Farm Dog" | "Chicken Coop" | "Gold Egg";
 
@@ -267,6 +268,28 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ingredients: [],
     supply: 0,
     section: Section.Gnome,
+  },
+  "Homeless Tent": {
+    name: "Homeless Tent",
+    description: "A nice and cozy tent",
+    price: new Decimal (0),
+    ingredients: [
+      {      
+        item: "Wheat",
+        amount: new Decimal(5),
+      },
+      {      
+        item: "Wood",
+        amount: new Decimal(5),
+      },
+      {      
+        item: "Stone",
+        amount: new Decimal(5),
+      },
+    ],
+    limit: 1,
+    supply: 1000,
+    section: Section.Tent,
   },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",

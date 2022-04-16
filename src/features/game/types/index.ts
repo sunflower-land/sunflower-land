@@ -53,6 +53,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Kuebiko: 421,
   "Nyon Statue": 422,
   "Nyon Statue Gold": 423,
+  "Homeless Tent": 424,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,

@@ -22,6 +22,7 @@ import apprentice from "assets/nfts/apprentice_beaver.png";
 import foreman from "assets/nfts/construction_beaver.png";
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import nyonStatueGold from "assets/nfts/nyon_statue_gold.png";
+import homelessTent from "assets/nfts/homeless_tent.png";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Context } from "../GameProvider";
@@ -318,6 +319,20 @@ export const Decorations: React.FC = () => {
           className="absolute"
           src={foreman}
           alt="Beaver"
+        />
+      )}
+
+      {state.inventory["Homeless Tent"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2}px`,
+            right: `${GRID_WIDTH_PX * 34.5}px`,
+            top: `${GRID_WIDTH_PX * 31}px`,
+          }}
+          id={Section.Tent}
+          className="absolute"
+          src={homelessTent}
+          alt="Homeless Tent"
         />
       )}
     </>

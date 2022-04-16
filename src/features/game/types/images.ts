@@ -52,6 +52,7 @@ import nancy from "assets/nfts/nancy.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import nyonStatueGold from "assets/nfts/nyon_statue_gold.png";
+import homelessTemt from "assets/nfts/homeless_tent.png";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
@@ -399,6 +400,10 @@ export const ITEM_DETAILS: Items = {
   "Nyon Statue Gold": {
     ...BLACKSMITH_ITEMS["Nyon Statue Gold"],
     image: nyonStatueGold,
+  },
+  "Homeless Tent": {
+    ...BLACKSMITH_ITEMS["Homeless Tent"],
+    image: homelessTemt,
   },
 
   // FOOD
