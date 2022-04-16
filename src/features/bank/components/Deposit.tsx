@@ -92,7 +92,7 @@ const SFLItemsInstructions = () => (
           target="_blank"
           rel="noreferrer"
         >
-          Sunflower Land Collection
+          Sunflower Land Collectibles
         </a>
       </span>
     </div>
