@@ -81,7 +81,7 @@ export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
     return (
       <img  
       style={{
-        width: `${GRID_WIDTH_PX * 2}px`,
+        width: `${GRID_WIDTH_PX * 1.5}px`,
       }}
       src={nyonStatue}
       alt="Nyon Statue"
@@ -93,7 +93,7 @@ export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
     return (
       <img  
         style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
+          width: `${GRID_WIDTH_PX * 1.5}px`,
         }}
         src={nyonStatueGold}
         alt="Nyon Statue Gold"
@@ -245,7 +245,7 @@ export const Decorations: React.FC = () => {
         style={{
           width: `${GRID_WIDTH_PX * 3}px`,
           left: `${GRID_WIDTH_PX * 42.5}px`,
-          top: `${GRID_WIDTH_PX * 40.5}px`,
+          top: `${GRID_WIDTH_PX * 41}px`,
         }}
         id={Section["Nyon Statue"]}
       >
