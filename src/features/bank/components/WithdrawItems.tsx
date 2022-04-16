@@ -150,9 +150,14 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
         </div>
       </div>
 
+      <span className="text-center text-xs mb-4">
+        Once withdrawn, you will be able to view your items on Open Sea.
+      </span>
+
       <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
         Withdraw
       </Button>
+      
       <span className="text-xs underline">
         <a
           href="https://docs.sunflower-land.com/fundamentals/withdrawing"

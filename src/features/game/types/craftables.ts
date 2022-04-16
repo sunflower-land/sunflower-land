@@ -209,7 +209,7 @@ export const TOOLS: Record<Tool, Craftable> = {
 export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
-    description: "Earn beta access to new features",
+    description: "A symbol of the holy token",
     price: new Decimal(5),
     ingredients: [
       {
@@ -377,6 +377,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 5000,
     section: Section.Beaver,
+    disabled: true,
   },
   "Foreman Beaver": {
     name: "Foreman Beaver",
@@ -394,6 +395,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 300,
     section: Section.Beaver,
+    disabled: true,
   },
 };
 
@@ -453,6 +455,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
       },
     ],
     supply: 200,
+    disabled: true,
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
@@ -469,6 +472,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
       },
     ],
     supply: 100,
+    disabled: true,
   },
   "Mysterious Parsnip": {
     name: "Mysterious Parsnip",
@@ -485,6 +489,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
       },
     ],
     supply: 500,
+    disabled: true,
   },
   "Carrot Sword": {
     name: "Carrot Sword",
@@ -522,6 +527,7 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
     supply: 1000,
     limit: 1,
     section: Section["Chicken Coop"],
+    disabled: true,
   },
   "Farm Cat": {
     name: "Farm Cat",
@@ -554,6 +560,7 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
       },
     ],
     supply: 250,
+    disabled: true,
   },
 };
 

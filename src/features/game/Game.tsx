@@ -33,6 +33,8 @@ import { Tailor } from "features/tailor/Tailor";
 import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
 import { TooManyRequests } from "features/auth/components/TooManyRequests";
+import { screenTracker } from "lib/utils/screen";
+import { Withdrawn } from "./components/Withdrawn";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -41,9 +43,10 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   readonly: false,
   autosaving: false,
   minting: true,
-  success: true,
   syncing: true,
+  synced: true,
   withdrawing: true,
+  withdrawn: true,
   error: true,
   blacklisted: true,
   levelling: false,
@@ -55,7 +58,6 @@ export const Game: React.FC = () => {
 
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 
-  console.log({ offset: gameState.context.offset });
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (gameState.context.actions.length === 0) return;
@@ -64,19 +66,29 @@ export const Game: React.FC = () => {
       event.returnValue = "";
     };
 
-    const save = () => {
-      send("SAVE");
-    };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
-    window.addEventListener("blur", save);
 
     // cleanup on every gameState update
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
-      window.removeEventListener("blur", save);
     };
   }, [gameState]);
+
+  useEffect(() => {
+    const save = () => {
+      send("SAVE");
+    };
+
+    window.addEventListener("blur", save);
+
+    screenTracker.start();
+
+    // cleanup on every gameState update
+    return () => {
+      window.removeEventListener("blur", save);
+      screenTracker.pause();
+    };
+  }, []);
 
   return (
     <>
@@ -92,9 +104,10 @@ export const Game: React.FC = () => {
           )}
           {gameState.matches("blacklisted") && <Blacklisted />}
           {gameState.matches("minting") && <Minting />}
-          {gameState.matches("success") && <Success />}
+          {gameState.matches("synced") && <Success />}
           {gameState.matches("syncing") && <Syncing />}
           {gameState.matches("withdrawing") && <Withdrawing />}
+          {gameState.matches("withdrawn") && <Withdrawn />}
         </Panel>
       </Modal>
 

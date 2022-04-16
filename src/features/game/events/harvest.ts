@@ -1,6 +1,7 @@
 import { GameState, Inventory } from "../types/game";
 import { CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
+import { screenTracker } from "lib/utils/screen";
 
 export type HarvestAction = {
   type: "item.harvested";
@@ -61,6 +62,10 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
 
   if (createdAt - field.plantedAt < crop.harvestSeconds * 1000) {
     throw new Error("Not ready");
+  }
+
+  if (!screenTracker.calculate()) {
+    throw new Error("Invalid harvest");
   }
 
   const newFields = fields;

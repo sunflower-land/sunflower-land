@@ -6,7 +6,7 @@ import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
 
 import { GameState } from "../types/game";
-import { loadSession } from "../actions/loadSession";
+import { loadSession, MintedAt } from "../actions/loadSession";
 import { INITIAL_FARM, EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { mint } from "../actions/mint";
@@ -31,6 +31,8 @@ export interface Context {
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
+  whitelistedAt?: Date;
+  itemsMintedAt?: MintedAt
 }
 
 type MintEvent = {
@@ -104,10 +106,11 @@ export type BlockchainState = {
     | "readonly"
     | "autosaving"
     | "minting"
-    | "success"
     | "syncing"
+    | "synced"
     | "levelling"
     | "withdrawing"
+    | "withdrawn"
     | "error"
     | "blacklisted";
   context: Context;
@@ -159,7 +162,7 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const { game, offset, isBlacklisted } = response;
+                const { game, offset, isBlacklisted, whitelistedAt, itemsMintedAt } = response;
 
                 // add farm address
                 game.farmAddress = authContext.address;
@@ -173,7 +176,9 @@ export function startGame(authContext: Options) {
                   },
                   offset,
                   isBlacklisted,
+                  whitelistedAt,
                   fingerprint,
+                  itemsMintedAt,
                 };
               }
 
@@ -195,6 +200,10 @@ export function startGame(authContext: Options) {
               {
                 target: "blacklisted",
                 cond: (_, event) => event.data.isBlacklisted,
+                actions: assign({
+                  whitelistedAt: (_, event) =>
+                    new Date(event.data.whitelistedAt),
+                }),
               },
               {
                 target: handleInitialState(),
@@ -202,6 +211,7 @@ export function startGame(authContext: Options) {
                   state: (_, event) => event.data.state,
                   offset: (_, event) => event.data.offset,
                   fingerprint: (_, event) => event.data.fingerprint,
+                  itemsMintedAt: (_, event) => event.data.itemsMintedAt,
                 }),
               },
             ],
@@ -302,13 +312,10 @@ export function startGame(authContext: Options) {
                     (action) =>
                       action.createdAt.getTime() > event.data.saveAt.getTime()
                   );
+
                   return {
                     actions: recentActions,
-                    state: updateGame(
-                      event.data.farm,
-                      recentActions,
-                      context.state
-                    ),
+                    state: updateGame(event.data.farm, context.state),
                   };
                 }),
               },
@@ -349,7 +356,7 @@ export function startGame(authContext: Options) {
               };
             },
             onDone: {
-              target: "success",
+              target: "synced",
               actions: assign((_, event) => ({
                 sessionId: event.data.sessionId,
                 actions: [],
@@ -388,7 +395,7 @@ export function startGame(authContext: Options) {
               };
             },
             onDone: {
-              target: "success",
+              target: "synced",
               actions: assign((_, event) => ({
                 sessionId: event.data.sessionId,
                 actions: [],
@@ -429,7 +436,7 @@ export function startGame(authContext: Options) {
               };
             },
             onDone: {
-              target: "success",
+              target: "withdrawn",
               actions: assign({
                 sessionId: (_, event) => event.data.sessionId,
               }),
@@ -498,7 +505,14 @@ export function startGame(authContext: Options) {
           },
         },
         blacklisted: {},
-        success: {
+        synced: {
+          on: {
+            REFRESH: {
+              target: "loading",
+            },
+          },
+        },
+        withdrawn: {
           on: {
             REFRESH: {
               target: "loading",

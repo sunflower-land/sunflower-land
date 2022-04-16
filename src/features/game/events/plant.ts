@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { screenTracker } from "lib/utils/screen";
 import { CropName, CROPS, SeedName } from "../types/crops";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 
@@ -43,6 +44,10 @@ type GetPlantedAtArgs = {
  */
 export const getCropTime = (crop: CropName, inventory: Inventory) => {
   let seconds = CROPS()[crop].harvestSeconds;
+
+  if (inventory["Seed Specialist"]?.gte(1)) {
+    seconds = seconds * 0.9;
+  }
 
   if (crop === "Parsnip" && inventory["Mysterious Parsnip"]?.gte(1)) {
     seconds = seconds * 0.5;
@@ -90,7 +95,10 @@ function getMultiplier({ crop, inventory }: GetFieldArgs): number {
     multiplier *= 2;
   }
 
-  if (inventory.Scarecrow?.gte(1)) {
+  if (
+    inventory.Scarecrow?.gte(1) ||
+    inventory.Kuebiko?.gte(1)
+  ) {
     multiplier *= 1.2;
   }
 
@@ -152,6 +160,10 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
   const seedCount = state.inventory[action.item] || new Decimal(0);
   if (seedCount.lessThan(1)) {
     throw new Error("Not enough seeds");
+  }
+
+  if (!screenTracker.calculate()) {
+    throw new Error("Invalid plant");
   }
 
   const newFields = fields;

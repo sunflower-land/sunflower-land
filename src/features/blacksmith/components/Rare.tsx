@@ -18,6 +18,8 @@ import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
+import { mintCooldown } from "../lib/mintUtils";
+import { secondsToString } from "lib/utils/time";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -73,13 +75,14 @@ export const Rare: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [
     {
-      context: { state },
+      context: { state, itemsMintedAt },
     },
   ] = useActor(gameService);
   const [isLoading, setIsLoading] = useState(true);
   const [supply, setSupply] = useState<ItemSupply>();
   const [showCaptcha, setShowCaptcha] = useState(false);
 
+  console.log({ itemsMintedAt })
   useEffect(() => {
     const load = async () => {
       const supply = await metamask.getInventory().totalSupply();
@@ -129,12 +132,29 @@ export const Rare: React.FC<Props> = ({
       return null;
     }
 
-    if (!hasAccess) {
-      return <span className="text-sm text-center">Available April 15th</span>;
+    if (!hasAccess && selected.disabled) {
+      return <span className="text-xs text-center mt-1">Coming soon</span>;
     }
 
     if (state.inventory[selected.name]) {
       return <span className="text-xs mt-1 text-center">Already minted</span>;
+    }
+
+    const cooldown = mintCooldown({ item: selected.name, itemsMintedAt })
+    if (cooldown > 0) {
+      return (
+        <div className="text-center">
+          <a
+          href={`https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#crafting-limits`}
+          className="underline text-xs hover:text-blue-500 mt-1 block"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Already minted
+        </a>
+          <span className="text-xs text-center">Available in {secondsToString(cooldown)}</span>
+        </div>
+      )
     }
 
     if (selected.requires && !state.inventory[selected.requires]) {
@@ -168,12 +188,18 @@ export const Rare: React.FC<Props> = ({
 
   if (showCaptcha) {
     return (
-      <ReCAPTCHA
-        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
-        onChange={onCaptchaSolved}
-        onExpired={() => setShowCaptcha(false)}
-        className="w-full m-4 flex items-center justify-center"
-      />
+      <>
+        <ReCAPTCHA
+          sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+          onChange={onCaptchaSolved}
+          onExpired={() => setShowCaptcha(false)}
+          className="w-full m-4 flex items-center justify-center"
+        />
+        <p className="text-xxs p-1 m-1 text-center">
+          Crafting an item will sync your farm to the
+          blockchain.
+        </p>
+      </>
     );
   }
 
