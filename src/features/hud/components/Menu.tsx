@@ -9,9 +9,10 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 
+import { Modal } from "react-bootstrap";
 import { Share } from "./Share";
 import { HowToPlay } from "./howToPlay/HowToPlay";
-import { Modal } from "react-bootstrap";
+import { Logout } from "./Logout";
 
 import mobileMenu from "assets/icons/hamburger_menu.png";
 import questionMark from "assets/icons/expression_confused.png";
@@ -46,6 +47,7 @@ export const Menu = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
@@ -69,6 +71,11 @@ export const Menu = () => {
 
   const handleShareClick = () => {
     setShowShareModal(true);
+    setMenuOpen(false);
+  };
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
     setMenuOpen(false);
   };
 
@@ -206,6 +213,14 @@ export const Menu = () => {
                     <span className="sm:text-sm flex-1">Community</span>
                   </Button>
                 </li>
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={() => handleLogoutClick()}
+                  >
+                    <span className="sm:text-sm flex-1">Logout</span>
+                  </Button>
+                </li>
               </>
             )}
 
@@ -290,6 +305,11 @@ export const Menu = () => {
       <HowToPlay
         isOpen={showHowToPlay}
         onClose={() => setShowHowToPlay(false)}
+      />
+
+      <Logout
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
       />
 
       {showCaptcha && (
