@@ -8,6 +8,8 @@ import { Button } from "components/ui/Button";
 import { WithdrawTokens } from "./WithdrawTokens";
 import { WithdrawItems } from "./WithdrawItems";
 
+import alert from "assets/icons/expression_alerted.png";
+
 interface Props {
   onClose: () => void;
 }
@@ -79,12 +81,16 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   return (
     <div className="p-2 flex flex-col justify-center">
-      <span className="text-shadow text-sm text-center">
+      <span className="text-shadow text-sm text-center pb-2">
         You can only withdraw items that you have synced to the blockchain.
       </span>
-      <span className="text-shadow text-sm text-center mt-4 block">
-        Any progress that has not been synced will be lost.
-      </span>
+
+      <div className="flex items-center border-2 rounded-md border-black p-2 bg-[#e43b44]">
+        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+        <span className="text-xs">
+          ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST.
+        </span>
+      </div>
 
       <div className="flex mt-4">
         <Button className="mr-1" onClick={() => setPage("tokens")}>
