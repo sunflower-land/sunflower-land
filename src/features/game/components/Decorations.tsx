@@ -79,26 +79,26 @@ export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
 }) => {
   if (inventory["Nyon Statue"]) {
     return (
-      <img  
-      style={{
-        width: `${GRID_WIDTH_PX * 1.5}px`,
-      }}
-      src={nyonStatue}
-      alt="Nyon Statue"
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.5}px`,
+        }}
+        src={nyonStatue}
+        alt="Nyon Statue"
       />
-      )
-    }
-    
+    );
+  }
+
   if (inventory["Nyon Statue Gold"]) {
     return (
-      <img  
+      <img
         style={{
           width: `${GRID_WIDTH_PX * 1.5}px`,
         }}
         src={nyonStatueGold}
         alt="Nyon Statue Gold"
       />
-    )
+    );
   }
 
   return null;
