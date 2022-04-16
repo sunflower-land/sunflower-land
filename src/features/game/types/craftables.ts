@@ -47,7 +47,9 @@ export type BlacksmithItem =
   | "Fountain"
   | "Woody the Beaver"
   | "Apprentice Beaver"
-  | "Foreman Beaver";
+  | "Foreman Beaver"
+  | "Bird Bath"
+  | "Goblin Bath";
 
 export type BarnItem = "Farm Cat" | "Farm Dog" | "Chicken Coop" | "Gold Egg";
 
@@ -360,6 +362,40 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     supply: 300,
     section: Section.Beaver,
     disabled: true,
+  },
+  "Bird Bath": {
+    name: "Bird Bath",
+    description: "A chilling bath for the birds",
+    price: new Decimal(10),
+    ingredients: [
+      {
+        amount: new Decimal(100),
+        item: "Beetroot",
+      },
+      {
+        amount: new Decimal(100),
+        item: "Wood",
+      },
+    ],
+    supply: 1000,
+    section: Section["Bath"],
+  },
+  "Goblin Bath": {
+    name: "Goblin Bath",
+    description: "A toxic bath for the goblins",
+    price: new Decimal(25),
+    ingredients: [
+      {
+        amount: new Decimal(1),
+        item: "Bird Bath",
+      },
+      {
+        amount: new Decimal(65),
+        item: "Iron",
+      },
+    ],
+    supply: 300,
+    section: Section["Bath"],
   },
 };
 

@@ -20,6 +20,8 @@ import fountain from "assets/nfts/fountain.gif";
 import beaver from "assets/nfts/beaver.png";
 import apprentice from "assets/nfts/apprentice_beaver.png";
 import foreman from "assets/nfts/construction_beaver.png";
+import birdBath from "assets/nfts/bird_bath.gif";
+import goblinBath from "assets/nfts/goblin_bath.gif";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Context } from "../GameProvider";
@@ -63,6 +65,37 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
         }}
         src={nancy}
         alt="Scarecrow"
+      />
+    );
+  }
+
+  return null;
+};
+
+//only show 1 Bath at a time
+export const Bath: React.FC<{ inventory: Inventory }> = ({
+  inventory,
+}) => {
+  if (inventory["Bird Bath"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 0.7}px`,
+        }}
+        src={birdBath}
+        alt="Bird Bath"
+      />
+    );
+  }
+
+  if (inventory["Goblin Bath"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 0.7}px`,
+        }}
+        src={goblinBath}
+        alt="Goblin Bath"
       />
     );
   }
@@ -272,6 +305,34 @@ export const Decorations: React.FC = () => {
           className="absolute"
           src={foreman}
           alt="Beaver"
+        />
+      )}
+
+      {state.inventory["Bird Bath"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 4}px`,
+            left: `${GRID_WIDTH_PX * 47.7}px`,
+            top: `${GRID_WIDTH_PX * 38.3}px`,
+          }}
+          id={Section["Bath"]}
+          className="absolute"
+          src={birdBath}
+          alt="Bird Bath"
+        />
+      )}
+
+      {state.inventory["Goblin Bath"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 4}px`,
+            left: `${GRID_WIDTH_PX * 48}px`,
+            top: `${GRID_WIDTH_PX * 38}px`,
+          }}
+          id={Section["Bath"]}
+          className="absolute"
+          src={goblinBath}
+          alt="Goblin Bath"
         />
       )}
     </>
