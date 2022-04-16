@@ -80,7 +80,7 @@ export const Bath: React.FC<{ inventory: Inventory }> = ({
     return (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 0.7}px`,
+          width: `${GRID_WIDTH_PX * 4}px`,
         }}
         src={birdBath}
         alt="Bird Bath"
@@ -92,7 +92,7 @@ export const Bath: React.FC<{ inventory: Inventory }> = ({
     return (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 0.7}px`,
+          width: `${GRID_WIDTH_PX * 4}px`,
         }}
         src={goblinBath}
         alt="Goblin Bath"
@@ -308,33 +308,18 @@ export const Decorations: React.FC = () => {
         />
       )}
 
-      {state.inventory["Bird Bath"] && (
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 4}px`,
-            left: `${GRID_WIDTH_PX * 47.7}px`,
-            top: `${GRID_WIDTH_PX * 38.3}px`,
-          }}
-          id={Section["Bath"]}
-          className="absolute"
-          src={birdBath}
-          alt="Bird Bath"
-        />
-      )}
-
-      {state.inventory["Goblin Bath"] && (
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 4}px`,
-            left: `${GRID_WIDTH_PX * 48}px`,
-            top: `${GRID_WIDTH_PX * 38}px`,
-          }}
-          id={Section["Bath"]}
-          className="absolute"
-          src={goblinBath}
-          alt="Goblin Bath"
-        />
-      )}
+      {/* Baths */}
+      <div
+        className="flex justify-center absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 4}px`,
+          left: `${GRID_WIDTH_PX * 48}px`,
+          top: `${GRID_WIDTH_PX * 38}px`,
+        }}
+        id={Section.Bath}
+      >
+        <Bath inventory={state.inventory} />
+      </div>
     </>
   );
 };
