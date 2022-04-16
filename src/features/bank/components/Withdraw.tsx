@@ -3,7 +3,6 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 import { Context } from "features/game/GameProvider";
 
-
 import { Button } from "components/ui/Button";
 import { WithdrawTokens } from "./WithdrawTokens";
 import { WithdrawItems } from "./WithdrawItems";
@@ -12,7 +11,6 @@ interface Props {
   onClose: () => void;
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
-
   const { gameService } = useContext(Context);
   const [page, setPage] = useState<"warning" | "tokens" | "items">("warning");
 
@@ -56,15 +54,15 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   if (showCaptcha) {
     return (
       <>
-      <ReCAPTCHA
-        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
-        onChange={onCaptchaSolved}
-        onExpired={() => setShowCaptcha(false)}
-        className="w-full m-4 flex items-center justify-center"
-      />
-      <p className="text-xxs p-1 m-1 text-center">
-        Any unsaved progress will be lost.
-      </p>
+        <ReCAPTCHA
+          sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+          onChange={onCaptchaSolved}
+          onExpired={() => setShowCaptcha(false)}
+          className="w-full m-4 flex items-center justify-center"
+        />
+        <p className="text-xxs p-1 m-1 text-center">
+          Any unsaved progress will be lost.
+        </p>
       </>
     );
   }

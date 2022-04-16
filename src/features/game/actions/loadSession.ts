@@ -12,13 +12,13 @@ type Request = {
   token: string;
 };
 
-export type MintedAt = Partial<Record<InventoryItemName, number>>
+export type MintedAt = Partial<Record<InventoryItemName, number>>;
 type Response = {
   game: GameState;
   offset: number;
   isBlacklisted?: boolean;
   whitelistedAt?: string;
-  itemsMintedAt?: MintedAt
+  itemsMintedAt?: MintedAt;
 };
 
 const API_URL = CONFIG.API_URL;

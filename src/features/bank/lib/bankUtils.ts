@@ -2,7 +2,11 @@ import { canChop } from "features/game/events/chop";
 import { isSeed } from "features/game/events/plant";
 import { FOODS } from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/crops";
-import { GameState, Inventory, InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  Inventory,
+  InventoryItemName,
+} from "features/game/types/game";
 import { SKILL_TREE } from "features/game/types/skills";
 
 type CanWithdrawArgs = {
@@ -11,12 +15,14 @@ type CanWithdrawArgs = {
 };
 
 function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
-  const isPlanted = Object.values(game.fields).some((field) => field.name === item);
-  return isPlanted
+  const isPlanted = Object.values(game.fields).some(
+    (field) => field.name === item
+  );
+  return isPlanted;
 }
 
 function hasSeeds(inventory: Inventory) {
-  return Object.keys(inventory).some(name => name in SEEDS())
+  return Object.keys(inventory).some((name) => name in SEEDS());
 }
 
 export function canWithdraw({ item, game }: CanWithdrawArgs) {
@@ -44,15 +50,14 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return Object.values(game.trees).every((tree) => canChop(tree));
   }
 
-  if (item === 'Kuebiko' && hasSeeds(game.inventory)) {
-    return false
+  if (item === "Kuebiko" && hasSeeds(game.inventory)) {
+    return false;
   }
 
   // Make sure no crops are planted
   if (item === "Scarecrow" || item === "Nancy" || item === "Kuebiko") {
     return Object.values(game.fields).length === 0;
   }
-
 
   if (item === "Golden Cauliflower") {
     return !cropIsPlanted({ item: "Cauliflower", game });

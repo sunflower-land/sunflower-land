@@ -73,9 +73,7 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
 };
 
 //only show 1 Bath at a time
-export const Bath: React.FC<{ inventory: Inventory }> = ({
-  inventory,
-}) => {
+export const Bath: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   if (inventory["Bird Bath"]) {
     return (
       <img

@@ -216,7 +216,7 @@ export const House: React.FC = () => {
         className="relative cursor-pointer hover:img-highlight"
         onClick={() => open()}
       >
-        {isUpgradeAvailable && 
+        {isUpgradeAvailable && (
           <img
             className="animate-float"
             src={alert}
@@ -227,7 +227,7 @@ export const House: React.FC = () => {
               bottom: `${GRID_WIDTH_PX * 4.571}px`,
             }}
           />
-        }
+        )}
         <img src={house} alt="house" className="w-full" />
         <img
           src={smoke}

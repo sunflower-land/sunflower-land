@@ -394,11 +394,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Bird Bath": {
     ...BLACKSMITH_ITEMS["Bird Bath"],
-    image: birdBath
+    image: birdBath,
   },
   "Goblin Bath": {
     ...BLACKSMITH_ITEMS["Goblin Bath"],
-    image: goblinBath
+    image: goblinBath,
   },
 
   // FOOD

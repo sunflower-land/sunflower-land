@@ -32,7 +32,7 @@ export interface Context {
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
   whitelistedAt?: Date;
-  itemsMintedAt?: MintedAt
+  itemsMintedAt?: MintedAt;
 }
 
 type MintEvent = {
@@ -162,7 +162,13 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const { game, offset, isBlacklisted, whitelistedAt, itemsMintedAt } = response;
+                const {
+                  game,
+                  offset,
+                  isBlacklisted,
+                  whitelistedAt,
+                  itemsMintedAt,
+                } = response;
 
                 // add farm address
                 game.farmAddress = authContext.address;
