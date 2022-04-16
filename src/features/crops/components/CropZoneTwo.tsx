@@ -86,7 +86,7 @@ export const CropZoneTwo: React.FC = () => {
             style={{
               width: `${GRID_WIDTH_PX * 0.75}px`,
               left: `${GRID_WIDTH_PX * 0.2}px`,
-              bottom: `${GRID_WIDTH_PX * 4.4}px`,
+              bottom: `${GRID_WIDTH_PX * 4.5}px`,
             }}
           />
         </>
