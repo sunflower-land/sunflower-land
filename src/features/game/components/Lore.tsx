@@ -85,8 +85,8 @@ export const Lore: React.FC = () => {
         onClick={() => setShowTombstone(true)}
         style={{
           width: `${GRID_WIDTH_PX * 0.88}px`,
-          left: `${GRID_WIDTH_PX * 31.05}px`,
-          top: `${GRID_WIDTH_PX * 37.05}px`,
+          left: `${GRID_WIDTH_PX * 31.07}px`,
+          top: `${GRID_WIDTH_PX * 36.94}px`,
         }}
       />
       {showTombstone && (
