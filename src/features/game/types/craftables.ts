@@ -272,7 +272,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
   "Homeless Tent": {
     name: "Homeless Tent",
     description: "A nice and cozy tent",
-    price: new Decimal(0),
+    price: new Decimal(10),
     ingredients: [
       {
         item: "Wheat",
@@ -340,14 +340,14 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
   "Nyon Statue": {
     name: "Nyon Statue",
     description: "In memory of Nyon Lann",
-    price: new Decimal(10),
+    price: new Decimal(50),
     ingredients: [
       {
-        amount: new Decimal(50),
+        amount: new Decimal(100),
         item: "Stone",
       },
       {
-        amount: new Decimal(5),
+        amount: new Decimal(50),
         item: "Iron",
       },
     ],
@@ -357,10 +357,10 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
   "Nyon Statue Gold": {
     name: "Nyon Statue Gold",
     description: "In memory of Nyon Lann",
-    price: new Decimal(25),
+    price: new Decimal(100),
     ingredients: [
       {
-        amount: new Decimal(15),
+        amount: new Decimal(75),
         item: "Gold",
       },
       {
