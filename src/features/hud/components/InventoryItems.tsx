@@ -71,7 +71,13 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
   Eggs: {
     img: food,
     items: {
-      "Pink Egg": ITEM_DETAILS["Pink Egg"]
+      "Pink Egg": ITEM_DETAILS["Pink Egg"],
+      "Purple Egg": ITEM_DETAILS["Purple Egg"],
+      "Red Egg": ITEM_DETAILS["Red Egg"],
+      "Blue Egg": ITEM_DETAILS["Blue Egg"],
+      "Orange Egg": ITEM_DETAILS["Orange Egg"],
+      "Green Egg": ITEM_DETAILS["Green Egg"],
+      "Yellow Egg": ITEM_DETAILS["Yellow Egg"],
     }
   }
 };

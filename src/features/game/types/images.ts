@@ -129,6 +129,7 @@ import greenEgg from "src/assets/nfts/easter/green_egg.gif";
 import orangeEgg from "src/assets/nfts/easter/orange_egg.gif";
 import pinkEgg from "src/assets/nfts/easter/pink_egg.gif";
 import easterBasket from "src/assets/nfts/easter/basket.png";
+import easterBunny from "src/assets/nfts/easter/easter_bunny.gif";
 
 import { InventoryItemName } from "./game";
 import {
@@ -633,6 +634,10 @@ export const ITEM_DETAILS: Items = {
     ...CRAFTABLES()["Egg Basket"],
     image: easterBasket,
   },
+  "Easter Bunny": {
+    ...CRAFTABLES()["Easter Bunny"],
+    image: easterBunny,
+  },
   "Blue Egg": {
     description: "A blue easter egg",
     image: blueEgg,
@@ -660,5 +665,5 @@ export const ITEM_DETAILS: Items = {
   "Purple Egg": {
     description: "A purple easter egg",
     image: purpleEgg,
-  }
+  },
 };
