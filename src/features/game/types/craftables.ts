@@ -47,14 +47,14 @@ export type BlacksmithItem =
   | "Fountain"
   | "Woody the Beaver"
   | "Apprentice Beaver"
-  | "Foreman Beaver";
+  | "Foreman Beaver"
+  | "Egg Basket";
 
 export type BarnItem =
   | "Farm Cat"
   | "Farm Dog"
   | "Chicken Coop"
-  | "Gold Egg"
-  | "Egg Basket";
+  | "Gold Egg";
 
 export type MarketItem =
   | "Nancy"
@@ -366,6 +366,22 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     section: Section.Beaver,
     disabled: true,
   },
+  "Egg Basket": {
+    name: "Egg Basket",
+    description: "Gives access to the Easter Egg Hunt",
+    price: new Decimal(0),
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Carrot",
+        amount: new Decimal(5),
+      },
+    ],
+    supply: 100000,
+  },
 };
 
 export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
@@ -530,22 +546,6 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
     ],
     supply: 250,
     disabled: true,
-  },
-  "Egg Basket": {
-    name: "Egg Basket",
-    description: "Give you access to the egg hunt accros the map",
-    price: new Decimal(5),
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(50),
-      },
-      {
-        item: "Carrot",
-        amount: new Decimal(50),
-      },
-    ],
-    limit: 1,
   },
 };
 

@@ -1,29 +1,17 @@
 import * as React from "react";
-import red from "src/assets/nfts/easter/red_egg.gif";
-import yellow from "src/assets/nfts/easter/yellow_egg.gif";
-import purple from "src/assets/nfts/easter/purple_egg.gif";
-import blue from "src/assets/nfts/easter/blue_egg.gif";
-import green from "src/assets/nfts/easter/green_egg.gif";
-import orange from "src/assets/nfts/easter/orange_egg.gif";
-import pink from "src/assets/nfts/easter/pink_egg.gif";
+
 
 import { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { EasterEgg } from "features/game/types/game";
+import { availableEgg } from "features/game/events/collectEgg";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 type Props = {
   positionIndex: number;
 };
 
-const eggList = [
-  { src: red, name: "Red Easter Egg" },
-  { src: yellow, name: "Yellow Easter Egg" },
-  { src: purple, name: "Purple Easter Egg" },
-  { src: blue, name: "Blue Easter Egg" },
-  { src: green, name: "Green Easter Egg" },
-  { src: orange, name: "Orange Easter Egg" },
-  { src: pink, name: "Pink Easter Egg" },
-];
 
 const positions = [
   { top: 6.5, left: 9 },
@@ -58,34 +46,8 @@ const positions = [
   { top: 15, left: 60 },
 ];
 
-export const Area = (props: Props) => {
+export const EasterEggHunt: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [currentIteration, setCurrentIteration] = useState(0);
-  const [currentEggSource, setCurrentEggSource] = useState(red);
-
-  const fourHours = 1000 * 60 * 60 * 4;
-  let startDateTime = new Date(Date.UTC(2022, 3, 12, 12));
-
-  let periods: { egg: string; time: Date }[] = [];
-  let eggIndexTemp = 0;
-
-  for (
-    let time = startDateTime;
-    time < new Date(Date.UTC(2022, 3, 25, 12));
-    time = new Date(time.getTime() + fourHours)
-  ) {
-    // @ts-ignore
-    if (new Date() > periods[periods.length - 1] && new Date() < time) {
-      setCurrentIteration(currentIteration + 1);
-    }
-    periods.push({ time, egg: eggList[eggIndexTemp].name });
-
-    if (eggIndexTemp < 6) {
-      eggIndexTemp++;
-    } else {
-      eggIndexTemp = 0;
-    }
-  }
 
   const [
     {
@@ -93,39 +55,41 @@ export const Area = (props: Props) => {
     },
   ] = useActor(gameService);
 
-  const { positionIndex } = props;
+  const [egg, setEgg] = useState<EasterEgg | null>(null)
+
   const [position, setPosition] = useState<any>(null);
-  const [eggIndex, setEggIndex] = useState(0);
 
   const mintEgg = () => {
     //mint egg
+    gameService.send("easterEgg.collected")
+    setEgg(null)
   };
 
   useEffect(() => {
     // check inventory
-
-    setCurrentEggSource(
-      eggList.find((item) => item.name === periods[currentIteration].egg)?.src
-    );
-
-    // check period egg and inventory
-    if (state.inventory[eggList[currentIteration].name]) {
-      setPosition(null);
-    } else {
-      setPosition(positions[positionIndex]);
+    const collectibleEgg = availableEgg()
+    console.log({ collectibleEgg, inventory: state.inventory })
+    if (!state.inventory[collectibleEgg] && state.inventory["Egg Basket"]) {
+      console.log("render egg")
+      setEgg(collectibleEgg)
+      const randomPosition = Math.floor(Math.random() * 29)
+      setPosition(positions[randomPosition]);
     }
-  }, []);
+  }, [state.inventory]);
 
-  console.log(position, currentEggSource);
+  if (!egg) {
+    return null
+  }
 
-  console.log(periods);
+  console.log({ position})
 
   return (
     <div className="w-full h-full absolute top-0 left-0">
       <img
-        src={currentEggSource}
+        src={ITEM_DETAILS[egg].image}
         alt=""
         onClick={() => mintEgg()}
+        className="hover:img-highlight cursor-pointer"
         style={{
           position: "absolute",
           top: `${position?.top}%`,

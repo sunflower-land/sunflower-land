@@ -33,12 +33,15 @@ export type Rock = {
   minedAt: number;
 };
 
+export type EasterEgg = 'Red Egg' | 'Orange Egg' | 'Green Egg' | 'Blue Egg' | 'Pink Egg' | 'Purple Egg' | 'Yellow Egg'
+
 export type InventoryItemName =
   | CropName
   | SeedName
   | CraftableName
   | ResourceName
-  | SkillName;
+  | SkillName
+  | EasterEgg;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

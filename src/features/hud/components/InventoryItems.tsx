@@ -30,6 +30,7 @@ import resource from "assets/resources/wood.png";
 
 import Decimal from "decimal.js-light";
 import { InventoryTabContent } from "./InventoryTabContent";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 type Tab = "basket" | "collectibles";
 
@@ -67,6 +68,12 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
     img: food,
     items: FOODS(),
   },
+  Eggs: {
+    img: food,
+    items: {
+      "Pink Egg": ITEM_DETAILS["Pink Egg"]
+    }
+  }
 };
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
