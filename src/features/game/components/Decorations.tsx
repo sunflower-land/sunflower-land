@@ -79,11 +79,7 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
 export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
   inventory,
 }) => {
-  const [showModal, setShowModal] = useState(false);
-
-  const open = () => {
-    setShowModal(true);
-  };
+  const [showNyonLore, setShowNyonLore] = useState(false);
 
   if (inventory["Nyon Statue"]) {
     return (
@@ -97,8 +93,7 @@ export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
     );
   }
 
-  // if (inventory["Gold Nyon Statue"]) {
-    if (true) {
+  if (inventory["Gold Nyon Statue"]) {
     return (
       <>
         <img
@@ -108,13 +103,17 @@ export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
           className="hover:img-highlight cursor-pointer"
           src={goldNyonStatue}
           alt="Gold Nyon Statue"
-          onClick={() => open()}
+          onClick={() => setShowNyonLore(true)}
         />
-        <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+        <Modal
+          centered
+          show={showNyonLore}
+          onHide={() => setShowNyonLore(false)}
+        >
           <Panel>
             <div className="flex flex-col items-cetner justify-content-between">
               <div className="flex justify-content m-2">
-                <img           
+                <img
                   style={{
                     width: `${GRID_WIDTH_PX * 1.5}px`,
                   }}
@@ -123,16 +122,19 @@ export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
                   alt="Gold Nyon Statue"
                 />
                 <div className="ml-2 mt-3">
-                  <span className="text-shadow text-xs block">In memory of</span>
+                  <span className="text-shadow text-xs block">
+                    In memory of
+                  </span>
                   <span className="text-shadow block">Nyon Lann</span>
                 </div>
               </div>
               <div className="flex-1 ml-2 mr-2">
                 <span className="text-shadow block mb-2 text-xs">
-                  The legendary knight responsible for bringing the Goblin Miner, 
-                  the same goblin who made his armor and taught everyone about the art of mining.
-                  After his death from an injury acquired in the battle of the 3 trees, 
-                  the people present this statue with his armor to commemorate his conquests.
+                  The legendary knight responsible for bringing the Goblin
+                  Miner, the same goblin who made his armor and taught everyone
+                  about the art of mining. After his death from an injury
+                  acquired in the battle of the 3 trees, the people present this
+                  statue with his armor to commemorate his conquests.
                 </span>
               </div>
             </div>
