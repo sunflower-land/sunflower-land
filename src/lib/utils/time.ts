@@ -26,49 +26,38 @@ function getTimeUnits(seconds: number) {
 
 export function secondsToString(seconds: number) {
   const secondsCeil = Math.ceil(seconds);
-
-  if (secondsCeil < 60) {
-    return `${secondsCeil}secs`;
+  if (secondsCeil < ONE_MIN) {
+    return timeToStr(secondsCeil, "sec");
   }
 
-  if (secondsCeil === 60) {
-    return `1min`;
+  if (seconds < ONE_HR) {
+    const minutesCeil = Math.ceil(seconds / ONE_MIN);
+    return timeToStr(minutesCeil, "min");
   }
 
-  // Less than 1 hour
-  if (seconds < 60 * 60) {
-    return `${Math.ceil(seconds / 60)}mins`;
+  if (seconds < ONE_DAY) {
+    const hoursCeil = Math.ceil(seconds / ONE_HR);
+    return timeToStr(hoursCeil, "hr");
   }
 
-  if (seconds === 60 * 60) {
-    return "1hr";
-  }
-
-  if (seconds < 60 * 60 * 24) {
-    return `${Math.ceil(seconds / 60 / 60)}hrs`;
-  }
-
-  if (seconds === 60 * 60 * 24) {
-    return "1day";
-  }
-
-  return `${Math.ceil(seconds / 60 / 60 / 24)}days`;
+  const daysCeil = Math.ceil(seconds / ONE_DAY);
+  return timeToStr(daysCeil, "day");
 }
 
 // first 2 units
-export function secondsToMidString(time: number) {
-  return getTimeUnits(time).slice(0, 2).join(" ");
+export function secondsToMidString(seconds: number) {
+  return getTimeUnits(seconds).slice(0, 2).join(" ");
 }
 
-export function secondsToLongString(time: number) {
-  return getTimeUnits(time).join(" ");
+export function secondsToLongString(seconds: number) {
+  return getTimeUnits(seconds).join(" ");
 }
 
-export function getTimeLeft(createdAt: number, totalTime: number) {
+export function getTimeLeft(createdAt: number, totalTimeInSeconds: number) {
   const millisecondsElapsed = Date.now() - createdAt;
-  if (millisecondsElapsed > totalTime * 1000) {
+  if (millisecondsElapsed > totalTimeInSeconds * 1000) {
     return 0;
   }
 
-  return totalTime - millisecondsElapsed / 1000;
+  return totalTimeInSeconds - millisecondsElapsed / 1000;
 }
