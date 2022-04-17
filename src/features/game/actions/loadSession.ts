@@ -19,6 +19,7 @@ type Response = {
   isBlacklisted?: boolean;
   whitelistedAt?: string;
   itemsMintedAt?: MintedAt
+  blacklistStatus?: 'investigating' | 'permanent'
 };
 
 const API_URL = CONFIG.API_URL;
@@ -51,7 +52,7 @@ export async function loadSession(
       removeSession(metamask.myAccount as string);
     }
 
-    const { farm, startedAt, isBlacklisted, whitelistedAt, itemsMintedAt } =
+    const { farm, startedAt, isBlacklisted, whitelistedAt, itemsMintedAt, blacklistStatus } =
       await response.json();
 
     const startedTime = new Date(startedAt);
@@ -69,6 +70,7 @@ export async function loadSession(
       isBlacklisted,
       whitelistedAt,
       itemsMintedAt,
+      blacklistStatus,
     };
   } catch (e) {
     console.error({ e });
