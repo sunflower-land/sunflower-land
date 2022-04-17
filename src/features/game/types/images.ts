@@ -51,8 +51,8 @@ import carrotSword from "assets/nfts/carrot_sword.png";
 import nancy from "assets/nfts/nancy.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
 import nyonStatue from "assets/nfts/nyon_statue.png";
-import nyonStatueGold from "assets/nfts/nyon_statue_gold.png";
-import homelessTemt from "assets/nfts/homeless_tent.png";
+import goldNyonStatue from "assets/nfts/gold_nyon_statue.png";
+import homelessTent from "assets/nfts/homeless_tent.png";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
@@ -397,13 +397,13 @@ export const ITEM_DETAILS: Items = {
     ...BLACKSMITH_ITEMS["Nyon Statue"],
     image: nyonStatue,
   },
-  "Nyon Statue Gold": {
-    ...BLACKSMITH_ITEMS["Nyon Statue Gold"],
-    image: nyonStatueGold,
+  "Gold Nyon Statue": {
+    ...BLACKSMITH_ITEMS["Gold Nyon Statue"],
+    image: goldNyonStatue,
   },
   "Homeless Tent": {
     ...BLACKSMITH_ITEMS["Homeless Tent"],
-    image: homelessTemt,
+    image: homelessTent,
   },
 
   // FOOD

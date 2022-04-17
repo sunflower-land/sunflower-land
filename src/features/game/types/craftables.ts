@@ -49,7 +49,7 @@ export type BlacksmithItem =
   | "Apprentice Beaver"
   | "Foreman Beaver"
   | "Nyon Statue"
-  | "Nyon Statue Gold"
+  | "Gold Nyon Statue"
   | "Homeless Tent";
 
 export type BarnItem = "Farm Cat" | "Farm Dog" | "Chicken Coop" | "Gold Egg";
@@ -354,9 +354,9 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     limit: 1,
     supply: 1000,
   },
-  "Nyon Statue Gold": {
-    name: "Nyon Statue Gold",
-    description: "In memory of Nyon Lann",
+  "Gold Nyon Statue": {
+    name: "Gold Nyon Statue",
+    description: "In memory of Nyon Lann. Exclusive Gold version",
     price: new Decimal(100),
     ingredients: [
       {

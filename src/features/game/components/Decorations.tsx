@@ -21,7 +21,7 @@ import beaver from "assets/nfts/beaver.png";
 import apprentice from "assets/nfts/apprentice_beaver.png";
 import foreman from "assets/nfts/construction_beaver.png";
 import nyonStatue from "assets/nfts/nyon_statue.png";
-import nyonStatueGold from "assets/nfts/nyon_statue_gold.png";
+import goldNyonStatue from "assets/nfts/gold_nyon_statue.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
@@ -89,14 +89,14 @@ export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
     );
   }
 
-  if (inventory["Nyon Statue Gold"]) {
+  if (inventory["Gold Nyon Statue"]) {
     return (
       <img
         style={{
           width: `${GRID_WIDTH_PX * 1.5}px`,
         }}
-        src={nyonStatueGold}
-        alt="Nyon Statue Gold"
+        src={goldNyonStatue}
+        alt="Gold Nyon Statue"
       />
     );
   }
