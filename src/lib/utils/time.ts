@@ -1,14 +1,26 @@
-function getTimeUnits(time: number) {
-  const seconds = Math.ceil(time % 60);
-  const minutes = Math.floor((time / 60) % 60);
-  const hours = Math.floor((time / 60 / 60) % 24);
-  const days = Math.floor(time / 60 / 60 / 24);
+const ONE_SEC = 1;
+const ONE_MIN = ONE_SEC * 60;
+const ONE_HR = ONE_MIN * 60;
+const ONE_DAY = ONE_HR * 24;
+
+type TimeUnit = "sec" | "min" | "hr" | "day";
+
+function timeToStr(amount: number, unit: TimeUnit) {
+  const pluralizedUnit = amount === 1 ? unit : `${unit}s`;
+  return `${amount}${pluralizedUnit}`;
+}
+
+function getTimeUnits(seconds: number) {
+  const secondsPart = Math.ceil(seconds % ONE_MIN);
+  const minutesPart = Math.floor((seconds / ONE_MIN) % ONE_MIN);
+  const hoursPart = Math.floor((seconds / ONE_HR) % 24);
+  const daysPart = Math.floor(seconds / ONE_DAY);
 
   return [
-    days && `${days}days`,
-    hours && `${hours}hrs`,
-    minutes && `${minutes}mins`,
-    seconds && `${seconds}secs`,
+    daysPart && timeToStr(daysPart, "day"),
+    hoursPart && timeToStr(hoursPart, "hr"),
+    minutesPart && timeToStr(minutesPart, "min"),
+    secondsPart && timeToStr(secondsPart, "sec"),
   ].filter(Boolean);
 }
 
