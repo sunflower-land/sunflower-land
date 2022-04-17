@@ -97,7 +97,8 @@ export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
     );
   }
 
-  if (inventory["Gold Nyon Statue"]) {
+  // if (inventory["Gold Nyon Statue"]) {
+    if (true) {
     return (
       <>
         <img
@@ -112,7 +113,7 @@ export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
         <Modal centered show={showModal} onHide={() => setShowModal(false)}>
           <Panel>
             <div className="flex flex-col items-cetner justify-content-between">
-              <div className="flex">
+              <div className="flex justify-content m-2">
                 <img           
                   style={{
                     width: `${GRID_WIDTH_PX * 1.5}px`,
@@ -126,8 +127,8 @@ export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
                   <span className="text-shadow block">Nyon Lann</span>
                 </div>
               </div>
-              <div className="flex-1">
-                <span className="text-shadow block mt-2 text-xs">
+              <div className="flex-1 ml-2 mr-2">
+                <span className="text-shadow block mb-2 text-xs">
                   The legendary knight responsible for bringing the Goblin Miner, 
                   the same goblin who made his armor and taught everyone about the art of mining.
                   After his death from an injury acquired in the battle of the 3 trees, 
