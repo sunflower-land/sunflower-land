@@ -15,10 +15,13 @@ describe("time", () => {
     it("should return correct string", () => {
       expect(secondsToString(ONE_SEC)).toBe("1sec");
       expect(secondsToString(2 * ONE_SEC)).toBe("2secs");
+      expect(secondsToString(59 * ONE_SEC)).toBe("59secs");
       expect(secondsToString(ONE_MIN)).toBe("1min");
       expect(secondsToString(ONE_MIN + ONE_SEC)).toBe("2mins");
+      expect(secondsToString(59 * ONE_MIN)).toBe("59mins");
       expect(secondsToString(ONE_HR)).toBe("1hr");
       expect(secondsToString(ONE_HR + ONE_SEC)).toBe("2hrs");
+      expect(secondsToString(23 * ONE_HR)).toBe("23hrs");
       expect(secondsToString(ONE_DAY)).toBe("1day");
       expect(secondsToString(ONE_DAY + ONE_SEC)).toBe("2days");
     });
