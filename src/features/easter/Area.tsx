@@ -70,7 +70,6 @@ export const EasterEggHunt: React.FC = () => {
     const collectibleEgg = availableEgg()
     console.log({ collectibleEgg, inventory: state.inventory })
     if (!state.inventory[collectibleEgg] && state.inventory["Egg Basket"]) {
-      console.log("render egg")
       setEgg(collectibleEgg)
       const randomPosition = Math.floor(Math.random() * 29)
       setPosition(positions[randomPosition]);
@@ -80,8 +79,6 @@ export const EasterEggHunt: React.FC = () => {
   if (!egg) {
     return null
   }
-
-  console.log({ position})
 
   return (
     <div className="w-full h-full absolute top-0 left-0">
