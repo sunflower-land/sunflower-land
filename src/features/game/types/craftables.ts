@@ -365,8 +365,8 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
   },
   "Bird Bath": {
     name: "Bird Bath",
-    description: "A chilling bath for the birds",
-    price: new Decimal(10),
+    description: "A chilling bath for the farmers",
+    price: new Decimal(25),
     ingredients: [
       {
         amount: new Decimal(100),
@@ -377,7 +377,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 1000,
+    supply: 5000,
     section: Section["Bath"],
   },
   "Goblin Bath": {
@@ -386,15 +386,15 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     price: new Decimal(25),
     ingredients: [
       {
-        amount: new Decimal(1),
-        item: "Bird Bath",
+        amount: new Decimal(180),
+        item: "Cabbage",
       },
       {
-        amount: new Decimal(65),
+        amount: new Decimal(15),
         item: "Iron",
       },
     ],
-    supply: 300,
+    supply: 5000,
     section: Section["Bath"],
   },
 };
