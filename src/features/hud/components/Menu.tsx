@@ -22,6 +22,7 @@ import water from "assets/icons/expression_working.png";
 import timer from "assets/icons/timer.png";
 import wood from "assets/resources/wood.png";
 import leftArrow from "assets/icons/arrow_left.png";
+import close from "assets/icons/close.png";
 
 import { isNewFarm } from "../lib/onboarding";
 
@@ -313,8 +314,14 @@ export const Menu = () => {
       />
 
       {showCaptcha && (
-        <Modal show={showCaptcha} centered>
+        <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>
           <Panel>
+            <img
+              src={close}
+              className="h-6 top-3 right-4 absolute cursor-pointer"
+              alt="Close Logout Confirmation Modal"
+              onClick={() => setShowCaptcha(false)}
+            />
             <ReCAPTCHA
               sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
               onChange={onCaptchaSolved}
