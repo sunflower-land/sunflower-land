@@ -121,13 +121,13 @@ import logger from "assets/skills/logger.png";
 import lumberjack from "assets/skills/lumberjack.png";
 
 // Egg
-import redEgg from "src/assets/nfts/easter/red_egg.gif";
-import yellowEgg from "src/assets/nfts/easter/yellow_egg.gif";
-import purpleEgg from "src/assets/nfts/easter/purple_egg.gif";
-import blueEgg from "src/assets/nfts/easter/blue_egg.gif";
-import greenEgg from "src/assets/nfts/easter/green_egg.gif";
-import orangeEgg from "src/assets/nfts/easter/orange_egg.gif";
-import pinkEgg from "src/assets/nfts/easter/pink_egg.gif";
+import redEgg from "src/assets/nfts/easter/red_egg.png";
+import yellowEgg from "src/assets/nfts/easter/yellow_egg.png";
+import purpleEgg from "src/assets/nfts/easter/purple_egg.png";
+import blueEgg from "src/assets/nfts/easter/blue_egg.png";
+import greenEgg from "src/assets/nfts/easter/green_egg.png";
+import orangeEgg from "src/assets/nfts/easter/orange_egg.png";
+import pinkEgg from "src/assets/nfts/easter/pink_egg.png";
 import easterBasket from "src/assets/nfts/easter/basket.png";
 import easterBunny from "src/assets/nfts/easter/easter_bunny.gif";
 
