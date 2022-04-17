@@ -1,8 +1,9 @@
 /**
  * Placeholder for future decorations that will fall on a different grid
  */
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
+import Modal from "react-bootstrap/Modal";
 
 import sunflowerRock from "assets/nfts/sunflower_rock.png";
 import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
@@ -29,6 +30,7 @@ import { Context } from "../GameProvider";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
 import { Inventory } from "../types/game";
+import { Panel } from "components/ui/Panel";
 
 // Only show 1 scarecrow at a time
 export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
@@ -77,6 +79,12 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
 export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
   inventory,
 }) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const open = () => {
+    setShowModal(true);
+  };
+
   if (inventory["Nyon Statue"]) {
     return (
       <img
@@ -91,13 +99,45 @@ export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
 
   if (inventory["Gold Nyon Statue"]) {
     return (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.5}px`,
-        }}
-        src={goldNyonStatue}
-        alt="Gold Nyon Statue"
-      />
+      <>
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.5}px`,
+          }}
+          className="hover:img-highlight cursor-pointer"
+          src={goldNyonStatue}
+          alt="Gold Nyon Statue"
+          onClick={() => open()}
+        />
+        <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+          <Panel>
+            <div className="flex flex-col items-cetner justify-content-between">
+              <div className="flex">
+                <img           
+                  style={{
+                    width: `${GRID_WIDTH_PX * 1.5}px`,
+                  }}
+                  className="img-highlight mr-2"
+                  src={goldNyonStatue}
+                  alt="Gold Nyon Statue"
+                />
+                <div className="ml-2 mt-3">
+                  <span className="text-shadow text-xs block">In memory of</span>
+                  <span className="text-shadow block">Nyon Lann</span>
+                </div>
+              </div>
+              <div className="flex-1">
+                <span className="text-shadow block mt-2 text-xs">
+                  The legendary knight responsible for bringing the Goblin Miner, 
+                  the same goblin who made his armor and taught everyone about the art of mining.
+                  After his death from an injury acquired in the battle of the 3 trees, 
+                  the people present this statue with his armor to commemorate his conquests.
+                </span>
+              </div>
+            </div>
+          </Panel>
+        </Modal>
+      </>
     );
   }
 

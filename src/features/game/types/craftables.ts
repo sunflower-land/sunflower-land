@@ -356,7 +356,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
   },
   "Gold Nyon Statue": {
     name: "Gold Nyon Statue",
-    description: "In memory of Nyon Lann. Exclusive Gold version",
+    description: "Nyon Statue exclusive gold version",
     price: new Decimal(100),
     ingredients: [
       {
