@@ -30,7 +30,7 @@ export async function loadSession(
   if (!API_URL) return;
 
   try {
-    const response = await window.fetch(`${API_URL}/session`, {
+    const response = await window.fetch(`${API_URL}/session/${request.farmId}`, {
       method: "POST",
       //mode: "no-cors",
       headers: {
@@ -40,7 +40,6 @@ export async function loadSession(
       },
       body: JSON.stringify({
         sessionId: request.sessionId,
-        farmId: request.farmId,
       }),
     });
 

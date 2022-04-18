@@ -22,7 +22,7 @@ export async function withdraw({
   token,
   captcha,
 }: Options) {
-  const response = await window.fetch(`${API_URL}/withdraw`, {
+  const response = await window.fetch(`${API_URL}/withdraw/${farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -30,7 +30,6 @@ export async function withdraw({
     },
     body: JSON.stringify({
       sessionId: sessionId,
-      farmId: farmId,
       sfl: sfl,
       ids: ids,
       amounts: amounts,
