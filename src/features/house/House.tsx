@@ -31,6 +31,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { SkillUpgrade } from "./components/SkillUpgrade";
 import { SkillTree } from "./components/SkillTree";
 import { homeDoorAudio } from "lib/utils/sfx";
+import { Button } from "components/ui/Button";
 
 export const House: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -186,12 +187,9 @@ export const House: React.FC = () => {
               })}
               <span>{toolLevel}</span>
             </div>
-            <span
-              className="underline text-xs cursor-pointer"
-              onClick={openSkillTree}
-            >
+            <Button className="text-xs mt-3" onClick={openSkillTree}>
               View all skills
-            </span>
+            </Button>
           </div>
         </div>
 

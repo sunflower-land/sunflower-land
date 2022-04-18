@@ -19,6 +19,8 @@ import { metamask } from "lib/blockchain/metamask";
 import { canWithdraw } from "../lib/bankUtils";
 import { getOnChainState } from "features/game/actions/visit";
 
+import alert from "assets/icons/expression_alerted.png";
+
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
 }
@@ -153,6 +155,13 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
       <span className="text-center text-xs mb-4">
         Once withdrawn, you will be able to view your items on Open Sea.
       </span>
+
+      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
+        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+        <span className="text-xs">
+          ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST.
+        </span>
+      </div>
 
       <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
         Withdraw

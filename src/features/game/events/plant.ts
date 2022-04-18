@@ -95,7 +95,14 @@ function getMultiplier({ crop, inventory }: GetFieldArgs): number {
     multiplier *= 2;
   }
 
-  if (inventory.Scarecrow?.gte(1) || inventory.Kuebiko?.gte(1)) {
+  if (crop === "Carrot" && inventory["Easter Bunny"]?.gte(1)) {
+    multiplier *= 1.2;
+  }
+
+  if (
+    inventory.Scarecrow?.gte(1) ||
+    inventory.Kuebiko?.gte(1)
+  ) {
     multiplier *= 1.2;
   }
 
