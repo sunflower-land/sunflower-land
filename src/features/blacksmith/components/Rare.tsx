@@ -136,7 +136,7 @@ export const Rare: React.FC<Props> = ({
       return <span className="text-xs text-center mt-1">Coming soon</span>;
     }
 
-    const cooldown = mintCooldown({ item: selected.name, itemsMintedAt })
+    const cooldown = mintCooldown({ item: selected.name, itemsMintedAt });
     if (cooldown > 0) {
       return (
         <div className="text-center">

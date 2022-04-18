@@ -15,7 +15,7 @@ interface Props {
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const [game] = useActor(gameService)
+  const [game] = useActor(gameService);
   const [page, setPage] = useState<"warning" | "tokens" | "items">("warning");
 
   const withdrawAmount = useRef({
@@ -55,13 +55,15 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const isBlacklisted = !!game.context.whitelistedAt
+  const isBlacklisted = !!game.context.whitelistedAt;
   if (isBlacklisted) {
     return (
       <div className="p-2 text-sm text-center">
-        The anti-bot detection system is relatively new and has picked up some strange behaviour. Withdrawing is temporarily restricted while the team investigates this case. Thanks for your patience!
+        The anti-bot detection system is relatively new and has picked up some
+        strange behaviour. Withdrawing is temporarily restricted while the team
+        investigates this case. Thanks for your patience!
       </div>
-    )
+    );
   }
 
   if (showCaptcha) {

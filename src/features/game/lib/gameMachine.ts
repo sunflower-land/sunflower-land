@@ -32,8 +32,8 @@ export interface Context {
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
   whitelistedAt?: Date;
-  itemsMintedAt?: MintedAt
-  blacklistStatus?: 'investigating' | 'permanent'
+  itemsMintedAt?: MintedAt;
+  blacklistStatus?: "investigating" | "permanent";
 }
 
 type MintEvent = {
@@ -165,11 +165,17 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const { game, offset, isBlacklisted, whitelistedAt, itemsMintedAt, blacklistStatus } = response;
+                const {
+                  game,
+                  offset,
+                  isBlacklisted,
+                  whitelistedAt,
+                  itemsMintedAt,
+                  blacklistStatus,
+                } = response;
 
                 // add farm address
                 game.farmAddress = authContext.address;
-
 
                 return {
                   state: {
@@ -514,8 +520,8 @@ export function startGame(authContext: Options) {
         },
         blacklisted: {
           on: {
-            CONTINUE: "playing"
-          }
+            CONTINUE: "playing",
+          },
         },
         synced: {
           on: {

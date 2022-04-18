@@ -306,7 +306,7 @@ export const Decorations: React.FC = () => {
           alt="Beaver"
         />
       )}
-      
+
       {state.inventory["Easter Bunny"] && (
         <img
           style={{
@@ -320,7 +320,7 @@ export const Decorations: React.FC = () => {
           alt="Easter Bunny"
         />
       )}
-      
+
       {/* Baths */}
       <div
         className="flex justify-center absolute"
