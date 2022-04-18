@@ -2,7 +2,7 @@ import { canChop } from "features/game/events/chop";
 import { isSeed } from "features/game/events/plant";
 import { FOODS } from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/crops";
-import { GameState, Inventory, InventoryItemName } from "features/game/types/game";
+import { EasterEgg, EASTER_EGGS, GameState, Inventory, InventoryItemName } from "features/game/types/game";
 import { SKILL_TREE } from "features/game/types/skills";
 
 type CanWithdrawArgs = {
@@ -23,6 +23,10 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
   // Coming soon
   if (isSeed(item)) {
     return false;
+  }
+
+  if (EASTER_EGGS.includes(item as EasterEgg)) {
+    return false
   }
 
   // Coming soon
