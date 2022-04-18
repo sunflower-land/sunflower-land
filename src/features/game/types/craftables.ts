@@ -550,7 +550,7 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
   },
   "Easter Bunny": {
     name: "Easter Bunny",
-    description: "20% more Carrots",
+    description: "Earn 20% more Carrots",
     price: new Decimal(0),
     ingredients: [
       {

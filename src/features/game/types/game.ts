@@ -35,6 +35,8 @@ export type Rock = {
 
 export type EasterEgg = 'Red Egg' | 'Orange Egg' | 'Green Egg' | 'Blue Egg' | 'Pink Egg' | 'Purple Egg' | 'Yellow Egg' 
 
+export const EASTER_EGGS: EasterEgg[] = ['Blue Egg', "Green Egg", "Orange Egg", "Pink Egg", "Purple Egg", "Red Egg", "Yellow Egg"]
+
 export type EasterBunny = 'Easter Bunny'
 
 export type InventoryItemName =
