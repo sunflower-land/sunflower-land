@@ -19,6 +19,7 @@ import { updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
+import { reset } from "features/hud/actions/reset";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -32,8 +33,8 @@ export interface Context {
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
   whitelistedAt?: Date;
-  itemsMintedAt?: MintedAt
-  blacklistStatus?: 'investigating' | 'permanent'
+  itemsMintedAt?: MintedAt;
+  blacklistStatus?: "investigating" | "permanent";
 }
 
 type MintEvent = {
@@ -74,6 +75,9 @@ export type BlockchainEvent =
   | {
       type: "CONTINUE";
     }
+  | {
+      type: "RESET";
+    }
   | WithdrawEvent
   | GameEvent
   | MintEvent
@@ -113,7 +117,8 @@ export type BlockchainState = {
     | "withdrawing"
     | "withdrawn"
     | "error"
-    | "blacklisted";
+    | "blacklisted"
+    | "resetting";
   context: Context;
 };
 
@@ -165,11 +170,17 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const { game, offset, isBlacklisted, whitelistedAt, itemsMintedAt, blacklistStatus } = response;
+                const {
+                  game,
+                  offset,
+                  isBlacklisted,
+                  whitelistedAt,
+                  itemsMintedAt,
+                  blacklistStatus,
+                } = response;
 
                 // add farm address
                 game.farmAddress = authContext.address;
-
 
                 return {
                   state: {
@@ -277,6 +288,9 @@ export function startGame(authContext: Options) {
               actions: assign((_) => ({
                 errorCode: ERRORS.SESSION_EXPIRED as ErrorCode,
               })),
+            },
+            RESET: {
+              target: "resetting",
             },
           },
         },
@@ -506,6 +520,31 @@ export function startGame(authContext: Options) {
             },
           },
         },
+        resetting: {
+          invoke: {
+            src: async (context, event) => {
+              // Autosave just in case
+              const { success } = await reset({
+                farmId: Number(authContext.farmId),
+                token: authContext.rawToken as string,
+                fingerprint: context.fingerprint as string,
+              });
+
+              return {
+                success,
+              };
+            },
+            onDone: [
+              {
+                target: "loading",
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
         readonly: {},
         error: {
           on: {
@@ -514,8 +553,8 @@ export function startGame(authContext: Options) {
         },
         blacklisted: {
           on: {
-            CONTINUE: "playing"
-          }
+            CONTINUE: "playing",
+          },
         },
         synced: {
           on: {
