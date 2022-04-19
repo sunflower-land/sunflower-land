@@ -36,6 +36,7 @@ import { TooManyRequests } from "features/auth/components/TooManyRequests";
 import { screenTracker } from "lib/utils/screen";
 import { Withdrawn } from "./components/Withdrawn";
 import { EasterEggHunt } from "features/easter/Area";
+import { Resetting } from "features/auth/components/Resetting";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -51,6 +52,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   error: true,
   blacklisted: true,
   levelling: false,
+  resetting: true,
 };
 
 export const Game: React.FC = () => {
@@ -98,6 +100,7 @@ export const Game: React.FC = () => {
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
+          {gameState.matches("resetting") && <Resetting />}
           {gameState.matches("error") && (
             <ErrorMessage
               errorCode={gameState.context.errorCode as ErrorCode}

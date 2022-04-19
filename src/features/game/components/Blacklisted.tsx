@@ -25,6 +25,14 @@ export const Blacklisted: React.FC = () => {
         The anti-bot detection system is relatively new and has picked up some
         strange behaviour. Some actions may be temporarily restricted.
       </span>
+      <a
+        href={`https://forms.gle/ajhNS6kr3c6U3YLT9`}
+        className="underline text-center text-xs hover:text-blue-500 mt-1 mb-2 block"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Share details to help us improve our system
+      </a>
       <Button onClick={continuePlaying}>Continue Playing</Button>
     </div>
   );

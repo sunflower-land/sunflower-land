@@ -19,6 +19,7 @@ import { updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
+import { reset } from "features/hud/actions/reset";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -74,6 +75,9 @@ export type BlockchainEvent =
   | {
       type: "CONTINUE";
     }
+  | {
+      type: "RESET";
+    }
   | WithdrawEvent
   | GameEvent
   | MintEvent
@@ -113,7 +117,8 @@ export type BlockchainState = {
     | "withdrawing"
     | "withdrawn"
     | "error"
-    | "blacklisted";
+    | "blacklisted"
+    | "resetting";
   context: Context;
 };
 
@@ -283,6 +288,9 @@ export function startGame(authContext: Options) {
               actions: assign((_) => ({
                 errorCode: ERRORS.SESSION_EXPIRED as ErrorCode,
               })),
+            },
+            RESET: {
+              target: "resetting",
             },
           },
         },
@@ -504,6 +512,31 @@ export function startGame(authContext: Options) {
                   // Update immediately with state from server
                   state: event.data.farm,
                 })),
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        resetting: {
+          invoke: {
+            src: async (context, event) => {
+              // Autosave just in case
+              const { success } = await reset({
+                farmId: Number(authContext.farmId),
+                token: authContext.rawToken as string,
+                fingerprint: context.fingerprint as string,
+              });
+
+              return {
+                success,
+              };
+            },
+            onDone: [
+              {
+                target: "loading",
               },
             ],
             onError: {
