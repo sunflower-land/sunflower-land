@@ -1,6 +1,5 @@
 import * as React from "react";
 
-
 import { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -11,7 +10,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 type Props = {
   positionIndex: number;
 };
-
 
 const positions = [
   { top: 6.5, left: 9 },
@@ -55,33 +53,33 @@ export const EasterEggHunt: React.FC = () => {
     },
   ] = useActor(gameService);
 
-  const [egg, setEgg] = useState<EasterEgg | null>(null)
+  const [egg, setEgg] = useState<EasterEgg | null>(null);
 
   const [position, setPosition] = useState<any>(null);
 
   const mintEgg = () => {
     //mint egg
-    gameService.send("easterEgg.collected")
-    setEgg(null)
+    gameService.send("easterEgg.collected");
+    setEgg(null);
   };
 
   useEffect(() => {
     // check inventory
-    const collectibleEgg = availableEgg()
-    console.log({ collectibleEgg, inventory: state.inventory })
+    const collectibleEgg = availableEgg();
+    console.log({ collectibleEgg, inventory: state.inventory });
     if (!state.inventory[collectibleEgg] && state.inventory["Egg Basket"]) {
-      console.log("render egg")
-      setEgg(collectibleEgg)
-      const randomPosition = Math.floor(Math.random() * 29)
+      console.log("render egg");
+      setEgg(collectibleEgg);
+      const randomPosition = Math.floor(Math.random() * 29);
       setPosition(positions[randomPosition]);
     }
   }, [state.inventory]);
 
   if (!egg) {
-    return null
+    return null;
   }
 
-  console.log({ position})
+  console.log({ position });
 
   return (
     <div className="w-full h-full absolute top-0 left-0">
