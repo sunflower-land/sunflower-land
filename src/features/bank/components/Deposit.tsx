@@ -84,7 +84,7 @@ const SFLTokenInstructions = () => (
 const SFLItemsInstructions = () => (
   <ol>
     <div className="text-xs mb-3 text-center">
-      <span  >
+      <span>
         Only send items from the
         <a
           className="underline ml-2"
