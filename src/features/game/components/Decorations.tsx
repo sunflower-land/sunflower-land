@@ -377,6 +377,8 @@ export const Decorations: React.FC = () => {
           className="absolute"
           src={homelessTent}
           alt="Homeless Tent"
+        />
+      )}
       
       {state.inventory["Easter Bunny"] && (
         <img
