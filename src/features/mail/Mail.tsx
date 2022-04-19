@@ -12,7 +12,7 @@ import {
   updateCache,
 } from "./lib/mail";
 
-import baldMan from "assets/npcs/bald_man.png";
+import baldMan from "assets/npcs/bald_man.gif";
 import alerted from "assets/icons/expression_alerted.png";
 
 export const Mail: React.FC = () => {

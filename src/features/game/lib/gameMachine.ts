@@ -33,6 +33,7 @@ export interface Context {
   fingerprint?: string;
   whitelistedAt?: Date;
   itemsMintedAt?: MintedAt
+  blacklistStatus?: 'investigating' | 'permanent'
 }
 
 type MintEvent = {
@@ -152,6 +153,8 @@ export function startGame(authContext: Options) {
             src: async (context) => {
               // Load the farm session
               if (context.sessionId) {
+                const fingerprint = await getFingerPrint();
+
                 const response = await loadSession({
                   farmId: Number(authContext.farmId),
                   sessionId: context.sessionId as string,
@@ -162,12 +165,11 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const { game, offset, isBlacklisted, whitelistedAt, itemsMintedAt } = response;
+                const { game, offset, isBlacklisted, whitelistedAt, itemsMintedAt, blacklistStatus } = response;
 
                 // add farm address
                 game.farmAddress = authContext.address;
 
-                const fingerprint = await getFingerPrint();
 
                 return {
                   state: {
@@ -179,6 +181,7 @@ export function startGame(authContext: Options) {
                   whitelistedAt,
                   fingerprint,
                   itemsMintedAt,
+                  blacklistStatus,
                 };
               }
 
@@ -203,6 +206,11 @@ export function startGame(authContext: Options) {
                 actions: assign({
                   whitelistedAt: (_, event) =>
                     new Date(event.data.whitelistedAt),
+                  blacklistStatus: (_, event) => event.data.blacklistStatus,
+                  state: (_, event) => event.data.state,
+                  offset: (_, event) => event.data.offset,
+                  fingerprint: (_, event) => event.data.fingerprint,
+                  itemsMintedAt: (_, event) => event.data.itemsMintedAt,
                 }),
               },
               {
@@ -504,7 +512,11 @@ export function startGame(authContext: Options) {
             CONTINUE: "playing",
           },
         },
-        blacklisted: {},
+        blacklisted: {
+          on: {
+            CONTINUE: "playing"
+          }
+        },
         synced: {
           on: {
             REFRESH: {

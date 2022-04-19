@@ -20,6 +20,8 @@ import downArrow from "assets/icons/arrow_down.png";
 import { getTax } from "lib/utils/tax";
 import { getOnChainState } from "features/game/actions/visit";
 
+import alert from "assets/icons/expression_alerted.png";
+
 interface Props {
   onWithdraw: (sfl: string) => void;
 }
@@ -177,6 +179,13 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
             {shortAddress(metamask.myAccount || "XXXX")}
           </p>
         </div>
+      </div>
+
+      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
+        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+        <span className="text-xs">
+          ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST.
+        </span>
       </div>
 
       <Button onClick={withdraw} disabled={safeAmount(amount).gte(balance)}>

@@ -79,8 +79,8 @@ export const WheatGoblin: React.FC = () => {
               className="absolute "
               style={{
                 width: `${GRID_WIDTH_PX * 0.7}px`,
-                left: `-${GRID_WIDTH_PX * 0.85}px`,
-                bottom: `${GRID_WIDTH_PX * 0.33}px`,
+                left: `-${GRID_WIDTH_PX * 0.86}px`,
+                bottom: `${GRID_WIDTH_PX * 0.42}px`,
               }}
             />
           </>

@@ -19,6 +19,7 @@ type Response = {
   isBlacklisted?: boolean;
   whitelistedAt?: string;
   itemsMintedAt?: MintedAt
+  blacklistStatus?: 'investigating' | 'permanent'
 };
 
 const API_URL = CONFIG.API_URL;
@@ -29,7 +30,7 @@ export async function loadSession(
   if (!API_URL) return;
 
   try {
-    const response = await window.fetch(`${API_URL}/session`, {
+    const response = await window.fetch(`${API_URL}/session/${request.farmId}`, {
       method: "POST",
       //mode: "no-cors",
       headers: {
@@ -39,7 +40,6 @@ export async function loadSession(
       },
       body: JSON.stringify({
         sessionId: request.sessionId,
-        farmId: request.farmId,
       }),
     });
 
@@ -51,7 +51,7 @@ export async function loadSession(
       removeSession(metamask.myAccount as string);
     }
 
-    const { farm, startedAt, isBlacklisted, whitelistedAt, itemsMintedAt } =
+    const { farm, startedAt, isBlacklisted, whitelistedAt, itemsMintedAt, blacklistStatus } =
       await response.json();
 
     const startedTime = new Date(startedAt);
@@ -69,6 +69,7 @@ export async function loadSession(
       isBlacklisted,
       whitelistedAt,
       itemsMintedAt,
+      blacklistStatus,
     };
   } catch (e) {
     console.error({ e });
