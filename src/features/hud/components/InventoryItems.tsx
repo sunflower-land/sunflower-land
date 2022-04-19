@@ -78,8 +78,8 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
       "Orange Egg": ITEM_DETAILS["Orange Egg"],
       "Green Egg": ITEM_DETAILS["Green Egg"],
       "Yellow Egg": ITEM_DETAILS["Yellow Egg"],
-    }
-  }
+    },
+  },
 };
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;

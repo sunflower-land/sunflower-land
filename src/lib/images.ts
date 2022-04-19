@@ -1,11 +1,9 @@
-var iW = 0; // image width
-var iH = 0; // image height
-var p1 = 0.99;
-var p2 = 0.99;
-var p3 = 0.99;
-var er = 0; // extra red
-var eg = 0; // extra green
-var eb = 0; // extra blue
+//var p1 = 0.99;
+const p2 = 0.99;
+const p3 = 0.99;
+const er = 0; // extra red
+const eg = 0; // extra green
+const eb = 0; // extra blue
 
 // Filters functions
 export const RandomID = function () {
@@ -32,11 +30,11 @@ export async function addNoise(id: string) {
     img.naturalHeight
   );
 
-  for (var i = 0, n = imgData.data.length; i < n; i += 4) {
+  for (let i = 0, n = imgData.data.length; i < n; i += 4) {
     // generating random color coefficients
-    var randColor1 = 0.9 + Math.random() * 0.4;
-    var randColor2 = 0.9 + Math.random() * 0.4;
-    var randColor3 = 0.9 + Math.random() * 0.4;
+    const randColor1 = 0.9 + Math.random() * 0.4;
+    const randColor2 = 0.9 + Math.random() * 0.4;
+    const randColor3 = 0.9 + Math.random() * 0.4;
 
     // assigning random colors to our data
     imgData.data[i] = imgData.data[i] * p2 * randColor1 + er; // green
@@ -45,7 +43,7 @@ export async function addNoise(id: string) {
   }
 
   context.putImageData(imgData, 0, 0);
-  var base64URI = canvas.toDataURL();
+  const base64URI = canvas.toDataURL();
 
   img.src = base64URI;
   return base64URI;

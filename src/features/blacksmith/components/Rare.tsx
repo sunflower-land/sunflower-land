@@ -82,7 +82,7 @@ export const Rare: React.FC<Props> = ({
   const [supply, setSupply] = useState<ItemSupply>();
   const [showCaptcha, setShowCaptcha] = useState(false);
 
-  console.log({ itemsMintedAt })
+  console.log({ itemsMintedAt });
   useEffect(() => {
     const load = async () => {
       const supply = await metamask.getInventory().totalSupply();
@@ -136,21 +136,23 @@ export const Rare: React.FC<Props> = ({
       return <span className="text-xs text-center mt-1">Coming soon</span>;
     }
 
-    const cooldown = mintCooldown({ item: selected.name, itemsMintedAt })
+    const cooldown = mintCooldown({ item: selected.name, itemsMintedAt });
     if (cooldown > 0) {
       return (
         <div className="text-center">
           <a
-          href={`https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#crafting-limits`}
-          className="underline text-xs hover:text-blue-500 mt-1 block"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Already minted
-        </a>
-          <span className="text-xs text-center">Available in {secondsToString(cooldown)}</span>
+            href={`https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#crafting-limits`}
+            className="underline text-xs hover:text-blue-500 mt-1 block"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Already minted
+          </a>
+          <span className="text-xs text-center">
+            Available in {secondsToString(cooldown)}
+          </span>
         </div>
-      )
+      );
     }
 
     if (selected.requires && !state.inventory[selected.requires]) {
@@ -192,8 +194,7 @@ export const Rare: React.FC<Props> = ({
           className="w-full m-4 flex items-center justify-center"
         />
         <p className="text-xxs p-1 m-1 text-center">
-          Crafting an item will sync your farm to the
-          blockchain.
+          Crafting an item will sync your farm to the blockchain.
         </p>
       </>
     );

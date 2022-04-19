@@ -166,7 +166,7 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
       <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
         Withdraw
       </Button>
-      
+
       <span className="text-xs underline">
         <a
           href="https://docs.sunflower-land.com/fundamentals/withdrawing"

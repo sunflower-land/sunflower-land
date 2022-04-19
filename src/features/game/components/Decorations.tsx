@@ -275,7 +275,7 @@ export const Decorations: React.FC = () => {
           alt="Beaver"
         />
       )}
-      
+
       {state.inventory["Easter Bunny"] && (
         <img
           style={{
