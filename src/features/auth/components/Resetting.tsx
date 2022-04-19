@@ -1,7 +1,5 @@
 import React from "react";
 
-interface Props {}
-
-export const Resetting: React.FC<Props> = () => {
+export const Resetting: React.FC = () => {
   return <span className="text-shadow loading">Resetting</span>;
 };

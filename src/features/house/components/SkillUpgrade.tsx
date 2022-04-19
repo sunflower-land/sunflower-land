@@ -24,7 +24,7 @@ export const SkillUpgrade: React.FC = () => {
 
   const choices = getAvailableUpgrades(gameState.context.state);
   if (choices.length === 0) {
-    return null
+    return null;
   }
 
   const firstChoice = SKILL_TREE[choices[0]];
