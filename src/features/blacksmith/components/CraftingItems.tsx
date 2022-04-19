@@ -116,7 +116,7 @@ export const CraftingItems: React.FC<Props> = ({
         <Button
           disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
           className="text-xs mt-1"
-          onClick={craft}
+          onClick={() => craft()}
         >
           Craft {isBulk && "1"}
         </Button>
