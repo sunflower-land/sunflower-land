@@ -9,9 +9,10 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 
+import { Modal } from "react-bootstrap";
 import { Share } from "./Share";
 import { HowToPlay } from "./howToPlay/HowToPlay";
-import { Modal } from "react-bootstrap";
+import { Logout } from "./Logout";
 
 import mobileMenu from "assets/icons/hamburger_menu.png";
 import questionMark from "assets/icons/expression_confused.png";
@@ -21,6 +22,7 @@ import water from "assets/icons/expression_working.png";
 import timer from "assets/icons/timer.png";
 import wood from "assets/resources/wood.png";
 import leftArrow from "assets/icons/arrow_left.png";
+import close from "assets/icons/close.png";
 
 import { isNewFarm } from "../lib/onboarding";
 
@@ -46,6 +48,7 @@ export const Menu = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
@@ -69,6 +72,11 @@ export const Menu = () => {
 
   const handleShareClick = () => {
     setShowShareModal(true);
+    setMenuOpen(false);
+  };
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
     setMenuOpen(false);
   };
 
@@ -206,6 +214,14 @@ export const Menu = () => {
                     <span className="sm:text-sm flex-1">Community</span>
                   </Button>
                 </li>
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={() => handleLogoutClick()}
+                  >
+                    <span className="sm:text-sm flex-1">Logout</span>
+                  </Button>
+                </li>
               </>
             )}
 
@@ -292,9 +308,20 @@ export const Menu = () => {
         onClose={() => setShowHowToPlay(false)}
       />
 
+      <Logout
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+      />
+
       {showCaptcha && (
-        <Modal show={showCaptcha} centered>
+        <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>
           <Panel>
+            <img
+              src={close}
+              className="h-6 top-3 right-4 absolute cursor-pointer"
+              alt="Close Logout Confirmation Modal"
+              onClick={() => setShowCaptcha(false)}
+            />
             <ReCAPTCHA
               sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
               onChange={onCaptchaSolved}

@@ -118,6 +118,17 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Lithuanian Flag": 840,
   "Malaysian Flag": 841,
   "Colombian Flag": 842,
+
+  // Special events
+  "Egg Basket": 901,
+  "Red Egg": 902,
+  "Blue Egg": 903,
+  "Yellow Egg": 904,
+  "Pink Egg": 905,
+  "Purple Egg": 906,
+  "Orange Egg": 907,
+  "Green Egg": 908,
+  "Easter Bunny": 909,
 };
 
 // The reverse of above

@@ -45,6 +45,10 @@ type GetPlantedAtArgs = {
 export const getCropTime = (crop: CropName, inventory: Inventory) => {
   let seconds = CROPS()[crop].harvestSeconds;
 
+  if (inventory["Seed Specialist"]?.gte(1)) {
+    seconds = seconds * 0.9;
+  }
+
   if (crop === "Parsnip" && inventory["Mysterious Parsnip"]?.gte(1)) {
     seconds = seconds * 0.5;
   }
@@ -91,7 +95,14 @@ function getMultiplier({ crop, inventory }: GetFieldArgs): number {
     multiplier *= 2;
   }
 
-  if (inventory.Scarecrow?.gte(1)) {
+  if (crop === "Carrot" && inventory["Easter Bunny"]?.gte(1)) {
+    multiplier *= 1.2;
+  }
+
+  if (
+    inventory.Scarecrow?.gte(1) ||
+    inventory.Kuebiko?.gte(1)
+  ) {
     multiplier *= 1.2;
   }
 

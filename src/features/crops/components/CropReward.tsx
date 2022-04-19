@@ -41,6 +41,11 @@ export const CropReward: React.FC<Props> = ({
     gameService.send("reward.opened", { fieldIndex });
   };
 
+  const close = () => {
+    onCollected();
+    setOpened(false);
+  };
+
   return (
     <Modal centered show={true}>
       <Panel>
@@ -60,7 +65,7 @@ export const CropReward: React.FC<Props> = ({
                   </span>
                 </div>
               ))}
-              <Button onClick={onCollected} className="mt-4 w-28">
+              <Button onClick={close} className="mt-4 w-28">
                 Close
               </Button>
             </>

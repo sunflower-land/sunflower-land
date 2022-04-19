@@ -30,10 +30,7 @@ interface Props {
 export const WishingWellModal: React.FC<Props> = () => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
-  // TODO - Typescript error
-  const [machine, send] = useMachine(
-    wishingWellMachine(authState.context)
-  ) as any;
+  const [machine, send] = useMachine(wishingWellMachine(authState.context));
 
   const Content = () => {
     if (machine.matches("error")) {

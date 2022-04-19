@@ -6,7 +6,7 @@ import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
 
 import { GameState } from "../types/game";
-import { loadSession } from "../actions/loadSession";
+import { loadSession, MintedAt } from "../actions/loadSession";
 import { INITIAL_FARM, EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { mint } from "../actions/mint";
@@ -32,6 +32,8 @@ export interface Context {
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
   whitelistedAt?: Date;
+  itemsMintedAt?: MintedAt
+  blacklistStatus?: 'investigating' | 'permanent'
 }
 
 type MintEvent = {
@@ -105,10 +107,11 @@ export type BlockchainState = {
     | "readonly"
     | "autosaving"
     | "minting"
-    | "success"
     | "syncing"
+    | "synced"
     | "levelling"
     | "withdrawing"
+    | "withdrawn"
     | "error"
     | "blacklisted";
   context: Context;
@@ -150,6 +153,8 @@ export function startGame(authContext: Options) {
             src: async (context) => {
               // Load the farm session
               if (context.sessionId) {
+                const fingerprint = await getFingerPrint();
+
                 const response = await loadSession({
                   farmId: Number(authContext.farmId),
                   sessionId: context.sessionId as string,
@@ -160,12 +165,11 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const { game, offset, isBlacklisted, whitelistedAt } = response;
+                const { game, offset, isBlacklisted, whitelistedAt, itemsMintedAt, blacklistStatus } = response;
 
                 // add farm address
                 game.farmAddress = authContext.address;
 
-                const fingerprint = await getFingerPrint();
 
                 return {
                   state: {
@@ -176,6 +180,8 @@ export function startGame(authContext: Options) {
                   isBlacklisted,
                   whitelistedAt,
                   fingerprint,
+                  itemsMintedAt,
+                  blacklistStatus,
                 };
               }
 
@@ -200,6 +206,11 @@ export function startGame(authContext: Options) {
                 actions: assign({
                   whitelistedAt: (_, event) =>
                     new Date(event.data.whitelistedAt),
+                  blacklistStatus: (_, event) => event.data.blacklistStatus,
+                  state: (_, event) => event.data.state,
+                  offset: (_, event) => event.data.offset,
+                  fingerprint: (_, event) => event.data.fingerprint,
+                  itemsMintedAt: (_, event) => event.data.itemsMintedAt,
                 }),
               },
               {
@@ -208,6 +219,7 @@ export function startGame(authContext: Options) {
                   state: (_, event) => event.data.state,
                   offset: (_, event) => event.data.offset,
                   fingerprint: (_, event) => event.data.fingerprint,
+                  itemsMintedAt: (_, event) => event.data.itemsMintedAt,
                 }),
               },
             ],
@@ -352,7 +364,7 @@ export function startGame(authContext: Options) {
               };
             },
             onDone: {
-              target: "success",
+              target: "synced",
               actions: assign((_, event) => ({
                 sessionId: event.data.sessionId,
                 actions: [],
@@ -391,7 +403,7 @@ export function startGame(authContext: Options) {
               };
             },
             onDone: {
-              target: "success",
+              target: "synced",
               actions: assign((_, event) => ({
                 sessionId: event.data.sessionId,
                 actions: [],
@@ -432,7 +444,7 @@ export function startGame(authContext: Options) {
               };
             },
             onDone: {
-              target: "success",
+              target: "withdrawn",
               actions: assign({
                 sessionId: (_, event) => event.data.sessionId,
               }),
@@ -500,8 +512,19 @@ export function startGame(authContext: Options) {
             CONTINUE: "playing",
           },
         },
-        blacklisted: {},
-        success: {
+        blacklisted: {
+          on: {
+            CONTINUE: "playing"
+          }
+        },
+        synced: {
+          on: {
+            REFRESH: {
+              target: "loading",
+            },
+          },
+        },
+        withdrawn: {
           on: {
             REFRESH: {
               target: "loading",

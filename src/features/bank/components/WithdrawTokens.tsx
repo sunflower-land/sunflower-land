@@ -10,6 +10,7 @@ import { shortAddress } from "features/hud/components/Address";
 import { Button } from "components/ui/Button";
 
 import { metamask } from "lib/blockchain/metamask";
+import * as Auth from "features/auth/lib/Provider";
 
 import token from "assets/icons/token.gif";
 import player from "assets/icons/player.png";
@@ -19,10 +20,15 @@ import downArrow from "assets/icons/arrow_down.png";
 import { getTax } from "lib/utils/tax";
 import { getOnChainState } from "features/game/actions/visit";
 
+import alert from "assets/icons/expression_alerted.png";
+
 interface Props {
   onWithdraw: (sfl: string) => void;
 }
 export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
+
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -89,6 +95,12 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
   // Use base 1000
   const tax = getTax(typeof amount !== "string" ? amount : new Decimal(0)) / 10;
+
+  const enabled = authState.context.token?.userAccess.withdraw;
+
+  if (!enabled) {
+    return <span>Available May 9th</span>;
+  }
 
   return (
     <>
@@ -167,6 +179,13 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
             {shortAddress(metamask.myAccount || "XXXX")}
           </p>
         </div>
+      </div>
+
+      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
+        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+        <span className="text-xs">
+          ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST.
+        </span>
       </div>
 
       <Button onClick={withdraw} disabled={safeAmount(amount).gte(balance)}>
