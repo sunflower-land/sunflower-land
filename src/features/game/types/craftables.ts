@@ -4,6 +4,7 @@ import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
+import { Bath } from "../components/Decorations";
 
 export { FLAGS };
 
@@ -49,7 +50,7 @@ export type BlacksmithItem =
   | "Apprentice Beaver"
   | "Foreman Beaver"
   | "Egg Basket"
-  | "Bird Bath"
+  | "Farmer Bath"
   | "Goblin Bath";
 
 export type BarnItem =
@@ -385,8 +386,8 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 100000,
   },
-  "Bird Bath": {
-    name: "Bird Bath",
+  "Farmer Bath": {
+    name: "Farmer Bath",
     description: "A chilling bath for the farmers",
     price: new Decimal(25),
     ingredients: [

@@ -50,7 +50,7 @@ import mysteriousParsnip from "assets/nfts/mysterious_parsnip.png";
 import carrotSword from "assets/nfts/carrot_sword.png";
 import nancy from "assets/nfts/nancy.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
-import birdBath from "assets/nfts/bird_bath.gif";
+import farmerBath from "assets/nfts/farmer_bath.gif";
 import goblinBath from "assets/nfts/goblin_bath.gif";
 
 // Foods
@@ -404,9 +404,9 @@ export const ITEM_DETAILS: Items = {
     ...MARKET_ITEMS["Carrot Sword"],
     image: carrotSword,
   },
-  "Bird Bath": {
-    ...BLACKSMITH_ITEMS["Bird Bath"],
-    image: birdBath,
+  "Farmer Bath": {
+    ...BLACKSMITH_ITEMS["Farmer Bath"],
+    image: farmerBath,
   },
   "Goblin Bath": {
     ...BLACKSMITH_ITEMS["Goblin Bath"],

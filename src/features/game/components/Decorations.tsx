@@ -21,7 +21,7 @@ import beaver from "assets/nfts/beaver.png";
 import apprentice from "assets/nfts/apprentice_beaver.png";
 import foreman from "assets/nfts/construction_beaver.png";
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
-import birdBath from "assets/nfts/bird_bath.gif";
+import farmerBath from "assets/nfts/farmer_bath.gif";
 import goblinBath from "assets/nfts/goblin_bath.gif";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
@@ -75,14 +75,14 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
 
 //only show 1 Bath at a time
 export const Bath: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
-  if (inventory["Bird Bath"]) {
+  if (inventory["Farmer Bath"]) {
     return (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 4}px`,
+          width: `${GRID_WIDTH_PX * 3}px`,
         }}
-        src={birdBath}
-        alt="Bird Bath"
+        src={farmerBath}
+        alt="Farmer Bath"
       />
     );
   }
@@ -91,7 +91,7 @@ export const Bath: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
     return (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 4}px`,
+          width: `${GRID_WIDTH_PX * 3}px`,
         }}
         src={goblinBath}
         alt="Goblin Bath"
@@ -325,9 +325,9 @@ export const Decorations: React.FC = () => {
       <div
         className="flex justify-center absolute"
         style={{
-          width: `${GRID_WIDTH_PX * 4}px`,
-          left: `${GRID_WIDTH_PX * 48}px`,
-          top: `${GRID_WIDTH_PX * 38}px`,
+          width: `${GRID_WIDTH_PX * 3}px`,
+          left: `${GRID_WIDTH_PX * 48.5}px`,
+          top: `${GRID_WIDTH_PX * 38.8}px`,
         }}
         id={Section.Bath}
       >
