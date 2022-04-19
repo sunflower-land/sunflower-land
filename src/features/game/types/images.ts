@@ -120,6 +120,17 @@ import seedSpecialist from "assets/skills/seed_specialist.png";
 import logger from "assets/skills/logger.png";
 import lumberjack from "assets/skills/lumberjack.png";
 
+// Egg
+import redEgg from "src/assets/nfts/easter/red_egg.png";
+import yellowEgg from "src/assets/nfts/easter/yellow_egg.png";
+import purpleEgg from "src/assets/nfts/easter/purple_egg.png";
+import blueEgg from "src/assets/nfts/easter/blue_egg.png";
+import greenEgg from "src/assets/nfts/easter/green_egg.png";
+import orangeEgg from "src/assets/nfts/easter/orange_egg.png";
+import pinkEgg from "src/assets/nfts/easter/pink_egg.png";
+import easterBasket from "src/assets/nfts/easter/basket.png";
+import easterBunny from "src/assets/nfts/easter/easter_bunny.gif";
+
 import { InventoryItemName } from "./game";
 import {
   FOODS,
@@ -128,6 +139,7 @@ import {
   BLACKSMITH_ITEMS,
   MARKET_ITEMS,
   BARN_ITEMS,
+  CRAFTABLES,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
@@ -616,5 +628,42 @@ export const ITEM_DETAILS: Items = {
   "Colombian Flag": {
     ...FLAGS["Colombian Flag"],
     image: colombian_flag,
+  },
+
+  "Egg Basket": {
+    ...CRAFTABLES()["Egg Basket"],
+    image: easterBasket,
+  },
+  "Easter Bunny": {
+    ...CRAFTABLES()["Easter Bunny"],
+    image: easterBunny,
+  },
+  "Blue Egg": {
+    description: "A blue easter egg",
+    image: blueEgg,
+  },
+  "Orange Egg": {
+    description: "An orange easter egg",
+    image: orangeEgg,
+  },
+  "Green Egg": {
+    description: "A green easter egg",
+    image: greenEgg,
+  },
+  "Yellow Egg": {
+    description: "A yellow easter egg",
+    image: yellowEgg,
+  },
+  "Red Egg": {
+    description: "A red easter egg",
+    image: redEgg,
+  },
+  "Pink Egg": {
+    description: "A pink easter egg",
+    image: pinkEgg,
+  },
+  "Purple Egg": {
+    description: "A purple easter egg",
+    image: purpleEgg,
   },
 };
