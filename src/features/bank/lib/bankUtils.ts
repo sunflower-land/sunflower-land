@@ -65,6 +65,10 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return Object.values(game.fields).length === 0;
   }
 
+  if (item === "Easter Bunny") {
+    return !cropIsPlanted({ item: "Carrot", game });
+  }
+
   if (item === "Golden Cauliflower") {
     return !cropIsPlanted({ item: "Cauliflower", game });
   }
