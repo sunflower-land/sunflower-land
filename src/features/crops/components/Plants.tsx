@@ -108,14 +108,14 @@ export const Plants: React.FC = () => {
           <Button
             disabled={cropAmount.lessThan(1)}
             className="text-xs mt-1"
-            onClick={() => handleSellOne()}
+            onClick={handleSellOne}
           >
             Sell 1
           </Button>
           <Button
             disabled={noCrop}
             className="text-xs mt-1 whitespace-nowrap"
-            onClick={() => openConfirmationModal()}
+            onClick={openConfirmationModal}
           >
             Sell All
           </Button>
@@ -136,7 +136,7 @@ export const Plants: React.FC = () => {
             <Button
               disabled={noCrop}
               className="text-xs"
-              onClick={() => handleSellAll()}
+              onClick={handleSellAll}
             >
               Yes
             </Button>

@@ -51,7 +51,7 @@ export const ScreenshotButton: React.FC = () => {
 
   return (
     <div className="position-fixed flex bottom-44 p-1 right-2 w-10 z-50 cursor-pointer sm:w-12 md:w-18 lg:w-fit">
-      <Button onClick={() => getScreenshot()} className="p-0">
+      <Button onClick={getScreenshot} className="p-0">
         <img src={screenshotIcon} className="w-fit" alt="screenshot" />
       </Button>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>

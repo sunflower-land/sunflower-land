@@ -86,7 +86,7 @@ export const EasterEggHunt: React.FC = () => {
       <img
         src={ITEM_DETAILS[egg].image}
         alt=""
-        onClick={() => mintEgg()}
+        onClick={mintEgg}
         className="hover:img-highlight cursor-pointer"
         style={{
           position: "absolute",

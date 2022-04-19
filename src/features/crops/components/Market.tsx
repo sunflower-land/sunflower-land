@@ -43,7 +43,7 @@ export const Market: React.FC = () => {
       <img
         src={market}
         alt="market"
-        onClick={isNotReadOnly ? () => handleMarketClick() : undefined}
+        onClick={isNotReadOnly ? handleMarketClick : undefined}
         className="w-full"
       />
       {isNotReadOnly && (
@@ -51,7 +51,7 @@ export const Market: React.FC = () => {
           className="absolute top-5 left-4"
           text="Shop"
           icon={plant}
-          onClick={() => handleMarketClick()}
+          onClick={handleMarketClick}
         />
       )}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
