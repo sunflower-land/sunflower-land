@@ -20,6 +20,6 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint"],
   rules: {
-    "no-console": "error",
+    "no-console": "warn",
   },
 };
