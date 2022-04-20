@@ -15,6 +15,8 @@ import { addNoise, RandomID } from "lib/images";
 import { LIFECYCLE } from "../lib/plant";
 import classnames from "classnames";
 
+import { readyAudio } from "lib/utils/sfx";
+
 interface Props {
   field?: FieldItem;
   className?: string;
@@ -73,6 +75,9 @@ export const Soil: React.FC<Props> = ({
   if (timeLeft > 0) {
     const percentage = 100 - (timeLeft / crop.harvestSeconds) * 100;
     const isAlmostReady = percentage >= 50;
+    if (timeLeft < 2) {
+      readyAudio.play();
+    }
 
     return (
       <div className="relative w-full h-full">
