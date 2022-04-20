@@ -19,7 +19,6 @@ import barnMp3 from "../../assets/sound-effects/barn.mp3";
 import battleMp3 from "../../assets/sound-effects/battle.mp3";
 import diaryMp3 from "../../assets/sound-effects/diary.mp3";
 
-
 export const harvestAudio = new Howl({
   src: [harvestMp3],
   volume: 0.2,
