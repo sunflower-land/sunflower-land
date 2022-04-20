@@ -21,7 +21,7 @@ export const Frog: React.FC = () => {
       <img
         src={frog}
         className="absolute hover:img-highlight cursor-pointer z-10"
-        onClick={() => open()}
+        onClick={open}
         style={{
           width: `${GRID_WIDTH_PX * 0.7}px`,
           right: `${GRID_WIDTH_PX * 5.1}px`,
