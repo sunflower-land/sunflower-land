@@ -13,7 +13,7 @@ export const RandomID = function () {
   return "_" + Math.random().toString(36).substr(2, 9);
 };
 
-export async function addNoise(id: string) {
+export async function addNoise(id: string, noise = 0.4) {
   // wait for it to render
   await new Promise((res) => setTimeout(res, 100));
   const canvas = document.createElement("canvas") as HTMLCanvasElement;
@@ -32,9 +32,9 @@ export async function addNoise(id: string) {
 
   for (let i = 0, n = imgData.data.length; i < n; i += 4) {
     // generating random color coefficients
-    const randColor1 = 0.9 + Math.random() * 0.4;
-    const randColor2 = 0.9 + Math.random() * 0.4;
-    const randColor3 = 0.9 + Math.random() * 0.4;
+    const randColor1 = 0.93 + Math.random() * noise;
+    const randColor2 = 0.93 + Math.random() * noise;
+    const randColor3 = 0.93 + Math.random() * noise;
 
     // assigning random colors to our data
     imgData.data[i] = imgData.data[i] * p2 * randColor1 + er; // green
