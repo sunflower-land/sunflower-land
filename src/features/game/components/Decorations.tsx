@@ -17,9 +17,9 @@ import scarecrow from "assets/nfts/scarecrow.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
 import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
-import beaver from "assets/nfts/beaver.png";
-import apprentice from "assets/nfts/apprentice_beaver.png";
-import foreman from "assets/nfts/construction_beaver.png";
+import beaver from "assets/nfts/beaver.gif";
+import apprentice from "assets/nfts/apprentice_beaver.gif";
+import foreman from "assets/nfts/construction_beaver.gif";
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
