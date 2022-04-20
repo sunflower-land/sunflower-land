@@ -23,7 +23,7 @@ export const Lore: React.FC = () => {
         style={{
           width: `${GRID_WIDTH_PX * 0.5}px`,
           right: `${GRID_WIDTH_PX * 4.25}px`,
-          top: `${GRID_WIDTH_PX * 27.2}px`,
+          top: `${GRID_WIDTH_PX * 27.1}px`,
         }}
       />
       {showGreenBook && (
