@@ -276,8 +276,7 @@ export const Decorations: React.FC = () => {
         />
       )}
 
-      {/* {state.inventory["Easter Bunny"] && ( */}
-      {true && (
+      {state.inventory["Easter Bunny"] && (
         <img
           style={{
             width: `${GRID_WIDTH_PX * 2.3}px`,
