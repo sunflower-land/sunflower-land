@@ -8,29 +8,47 @@ import { Panel } from "components/ui/Panel";
 import greenBook from "assets/decorations/green_book.png";
 import yellowBook from "assets/decorations/yellow_book.png";
 import tombstone from "assets/decorations/tombstone.png";
+import { battleAudio, diaryAudio } from "lib/utils/sfx";
 
 export const Lore: React.FC = () => {
   const [showGreenBook, setShowGreenBook] = useState(false);
   const [showYellowBook, setShowYellowBook] = useState(false);
   const [showTombstone, setShowTombstone] = useState(false);
 
+  const onOpenGreenBook = () => {
+      setShowGreenBook(true)
+      battleAudio.play()
+  }  
+  
+  const onOpenYellowBook = () => {
+      setShowYellowBook(true)
+      diaryAudio.play()
+  }
+
+  const onCloseBook = () => {
+    setShowYellowBook(false)
+    setShowGreenBook(false)
+    battleAudio.stop()
+    diaryAudio.stop()
+  }
+
   return (
     <>
       <img
         src={greenBook}
         className="absolute hover:img-highlight cursor-pointer z-10"
-        onClick={() => setShowGreenBook(true)}
+        onClick={() => onOpenGreenBook()}
         style={{
           width: `${GRID_WIDTH_PX * 0.5}px`,
           right: `${GRID_WIDTH_PX * 4.25}px`,
-          top: `${GRID_WIDTH_PX * 27.2}px`,
+          top: `${GRID_WIDTH_PX * 27.1}px`,
         }}
       />
       {showGreenBook && (
         <Modal
           centered
           show={showGreenBook}
-          onHide={() => setShowGreenBook(false)}
+          onHide={() => onCloseBook()}
         >
           <Panel>
             <div className="flex items-start">
@@ -53,7 +71,7 @@ export const Lore: React.FC = () => {
       <img
         src={yellowBook}
         className="absolute hover:img-highlight cursor-pointer z-10"
-        onClick={() => setShowYellowBook(true)}
+        onClick={() => onOpenYellowBook()}
         style={{
           width: `${GRID_WIDTH_PX * 0.3}px`,
           right: `${GRID_WIDTH_PX * 55.3}px`,
@@ -64,7 +82,7 @@ export const Lore: React.FC = () => {
         <Modal
           centered
           show={showYellowBook}
-          onHide={() => setShowYellowBook(false)}
+          onHide={() => onCloseBook()}
         >
           <Panel>
             <div className="flex items-start">

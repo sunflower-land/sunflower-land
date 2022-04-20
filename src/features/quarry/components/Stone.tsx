@@ -22,6 +22,7 @@ import { Label } from "components/ui/Label";
 import { canMine, STONE_RECOVERY_TIME } from "features/game/events/stoneMine";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
+import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -46,6 +47,8 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
+
+  const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
   const readonly = gameState.matches("readonly");
   const tool = "Pickaxe";
@@ -75,6 +78,16 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
 
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
     setShowPopover(false);
+  };
+
+  // Show/Hide Time left on hover
+
+  const handleMouseHoverRock = () => {
+    if (mined) setShowRockTimeLeft(true);
+  };
+
+  const handleMouseLeaveRock = () => {
+    setShowRockTimeLeft(false);
   };
 
   const shake = () => {
@@ -159,7 +172,11 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
   const percentage = 100 - (timeLeft / recoveryTime) * 100;
 
   return (
-    <div className="relative z-10">
+    <div
+      className="relative z-10"
+      onMouseEnter={handleMouseHoverRock}
+      onMouseLeave={handleMouseLeaveRock}
+    >
       {!mined && (
         <div
           onMouseEnter={handleHover}
@@ -254,6 +271,11 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
             }}
           >
             <ProgressBar percentage={percentage} seconds={timeLeft} />
+            <TimeLeftPanel
+              text="Recovers in:"
+              timeLeft={timeLeft}
+              showTimeLeft={showRockTimeLeft}
+            />
           </div>
         </>
       )}

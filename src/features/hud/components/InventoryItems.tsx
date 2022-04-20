@@ -78,8 +78,8 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
       "Orange Egg": ITEM_DETAILS["Orange Egg"],
       "Green Egg": ITEM_DETAILS["Green Egg"],
       "Yellow Egg": ITEM_DETAILS["Yellow Egg"],
-    }
-  }
+    },
+  },
 };
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
@@ -139,7 +139,7 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
         <img
           src={close}
           className="h-6 cursor-pointer mr-2 mb-1"
-          onClick={() => onClose()}
+          onClick={onClose}
         />
       </div>
 

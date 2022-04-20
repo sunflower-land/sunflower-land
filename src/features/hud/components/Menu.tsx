@@ -217,7 +217,7 @@ export const Menu = () => {
                 <li className="p-1">
                   <Button
                     className="flex justify-between"
-                    onClick={() => handleSettingsClick()}
+                    onClick={handleSettingsClick}
                   >
                     <span className="sm:text-sm flex-1">Settings</span>
                   </Button>
@@ -280,7 +280,7 @@ export const Menu = () => {
             {menuLevel === MENU_LEVELS.VIEW && (
               <>
                 <li className="p-1">
-                  <Button onClick={() => handleShareClick()}>
+                  <Button onClick={handleShareClick}>
                     <span className="sm:text-sm">Share</span>
                   </Button>
                 </li>

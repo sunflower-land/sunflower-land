@@ -1,5 +1,5 @@
 import { Panel } from "components/ui/Panel";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import { Reward } from "features/game/types/game";
@@ -10,6 +10,7 @@ import idle from "assets/npcs/idle.gif";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
+import { addNoise, RandomID } from "lib/images";
 
 interface Props {
   reward: Reward | null;
@@ -31,6 +32,13 @@ export const CropReward: React.FC<Props> = ({
   const [opened, setOpened] = useState(false);
 
   const offset = useRef(randomIntFromInterval(30, 100));
+  const id = useRef(RandomID());
+
+  useEffect(() => {
+    if (reward) {
+      addNoise(id.current);
+    }
+  }, [reward]);
 
   if (!reward) {
     return null;
@@ -82,6 +90,7 @@ export const CropReward: React.FC<Props> = ({
                 <img src={idle} className="w-16" />
                 <img
                   src={secure}
+                  id={id.current}
                   className="w-16 hover:img-highlight cursor-pointer"
                   onClick={open}
                 />

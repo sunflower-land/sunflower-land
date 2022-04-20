@@ -29,6 +29,7 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
+import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -52,6 +53,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const treeRef = useRef<HTMLDivElement>(null);
   const shakeGif = useRef<SpriteSheetInstance>();
   const choppedGif = useRef<SpriteSheetInstance>();
+
+  const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -77,6 +80,16 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
     setShowPopover(false);
+  };
+
+  // Show/Hide Time left on hover
+
+  const handleMouseHoverStump = () => {
+    setShowStumpTimeLeft(true);
+  };
+
+  const handleMouseLeaveStump = () => {
+    setShowStumpTimeLeft(false);
   };
 
   const axesNeeded = getRequiredAxeAmount(game.context.state.inventory);
@@ -246,10 +259,17 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               bottom: "9px",
               left: "5px",
             }}
+            onMouseEnter={handleMouseHoverStump}
+            onMouseLeave={handleMouseLeaveStump}
           />
           <div className="absolute -bottom-4 left-1.5">
             <ProgressBar percentage={percentage} seconds={timeLeft} />
           </div>
+          <TimeLeftPanel
+            text="Recovers in:"
+            timeLeft={timeLeft}
+            showTimeLeft={showStumpTimeLeft}
+          />
         </>
       )}
 

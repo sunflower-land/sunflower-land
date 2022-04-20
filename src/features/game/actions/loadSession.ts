@@ -3,6 +3,8 @@ import { removeSession } from "features/auth/actions/login";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { sanitizeHTTPResponse } from "lib/network";
+import { stringToHex } from "web3-utils";
 import { makeGame } from "../lib/transforms";
 import { GameState, InventoryItemName, Rock, Tree } from "../types/game";
 
@@ -12,14 +14,14 @@ type Request = {
   token: string;
 };
 
-export type MintedAt = Partial<Record<InventoryItemName, number>>
+export type MintedAt = Partial<Record<InventoryItemName, number>>;
 type Response = {
   game: GameState;
   offset: number;
   isBlacklisted?: boolean;
   whitelistedAt?: string;
-  itemsMintedAt?: MintedAt
-  blacklistStatus?: 'investigating' | 'permanent'
+  itemsMintedAt?: MintedAt;
+  blacklistStatus?: "investigating" | "permanent";
 };
 
 const API_URL = CONFIG.API_URL;
@@ -30,18 +32,22 @@ export async function loadSession(
   if (!API_URL) return;
 
   try {
-    const response = await window.fetch(`${API_URL}/session/${request.farmId}`, {
-      method: "POST",
-      //mode: "no-cors",
-      headers: {
-        "content-type": "application/json;charset=UTF-8",
-        Authorization: `Bearer ${request.token}`,
-        accept: "application/json",
-      },
-      body: JSON.stringify({
-        sessionId: request.sessionId,
-      }),
-    });
+    const response = await window.fetch(
+      `${API_URL}/session/${request.farmId}`,
+      {
+        method: "POST",
+        //mode: "no-cors",
+        headers: {
+          "content-type": "application/json;charset=UTF-8",
+          Authorization: `Bearer ${request.token}`,
+          accept: "application/json",
+        },
+        body: JSON.stringify({
+          sessionId: request.sessionId,
+          clientVersion: CONFIG.CLIENT_VERSION as string,
+        }),
+      }
+    );
 
     if (response.status === 429) {
       throw new Error(ERRORS.TOO_MANY_REQUESTS);
@@ -51,8 +57,21 @@ export async function loadSession(
       removeSession(metamask.myAccount as string);
     }
 
-    const { farm, startedAt, isBlacklisted, whitelistedAt, itemsMintedAt, blacklistStatus } =
-      await response.json();
+    const {
+      farm,
+      startedAt,
+      isBlacklisted,
+      whitelistedAt,
+      itemsMintedAt,
+      blacklistStatus,
+    } = await sanitizeHTTPResponse<{
+      farm: any;
+      startedAt: string;
+      isBlacklisted: boolean;
+      whitelistedAt: string;
+      itemsMintedAt: MintedAt;
+      blacklistStatus: Response["blacklistStatus"];
+    }>(response);
 
     const startedTime = new Date(startedAt);
 
