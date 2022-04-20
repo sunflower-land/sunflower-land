@@ -12,6 +12,7 @@ const PAIR_CONTRACT = import.meta.env.VITE_PAIR_CONTRACT;
 const SESSION_CONTRACT = import.meta.env.VITE_SESSION_CONTRACT;
 const TOKEN_CONTRACT = import.meta.env.VITE_TOKEN_CONTRACT;
 const DISCORD_REDIRECT = import.meta.env.VITE_DISCORD_REDIRECT;
+const CLIENT_VERSION = import.meta.env.VITE_CLIENT_VERSION as string;
 
 export const CONFIG = {
   NETWORK,
@@ -27,4 +28,5 @@ export const CONFIG = {
   PAIR_CONTRACT,
   SESSION_CONTRACT,
   TOKEN_CONTRACT,
+  CLIENT_VERSION,
 };

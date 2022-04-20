@@ -10,6 +10,10 @@ jobs:
     environment: production
     runs-on: ubuntu-latest
     steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M')"
+
       - name: Checkout
         uses: actions/checkout@v1
 
@@ -31,6 +35,7 @@ jobs:
           VITE_WISHING_WELL_CONTRACT: "0xBE403A6054af56629D7d591A8fBD8cce3dc66771"
           VITE_PAIR_CONTRACT: "0x6f9e92dd4734c168a734b873dc3db77e39552eb6"
           VITE_DISCORD_REDIRECT: "https://sunflower-land.com/play/"
+          VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
