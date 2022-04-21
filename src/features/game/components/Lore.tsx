@@ -16,21 +16,21 @@ export const Lore: React.FC = () => {
   const [showTombstone, setShowTombstone] = useState(false);
 
   const onOpenGreenBook = () => {
-      setShowGreenBook(true)
-      battleAudio.play()
-  }  
-  
+    setShowGreenBook(true);
+    battleAudio.play();
+  };
+
   const onOpenYellowBook = () => {
-      setShowYellowBook(true)
-      diaryAudio.play()
-  }
+    setShowYellowBook(true);
+    diaryAudio.play();
+  };
 
   const onCloseBook = () => {
-    setShowYellowBook(false)
-    setShowGreenBook(false)
-    battleAudio.stop()
-    diaryAudio.stop()
-  }
+    setShowYellowBook(false);
+    setShowGreenBook(false);
+    battleAudio.stop();
+    diaryAudio.stop();
+  };
 
   return (
     <>
@@ -45,11 +45,7 @@ export const Lore: React.FC = () => {
         }}
       />
       {showGreenBook && (
-        <Modal
-          centered
-          show={showGreenBook}
-          onHide={() => onCloseBook()}
-        >
+        <Modal centered show={showGreenBook} onHide={() => onCloseBook()}>
           <Panel>
             <div className="flex items-start">
               <img src={greenBook} className="w-12 img-highlight mr-2" />
@@ -79,11 +75,7 @@ export const Lore: React.FC = () => {
         }}
       />
       {showYellowBook && (
-        <Modal
-          centered
-          show={showYellowBook}
-          onHide={() => onCloseBook()}
-        >
+        <Modal centered show={showYellowBook} onHide={() => onCloseBook()}>
           <Panel>
             <div className="flex items-start">
               <img src={yellowBook} className="w-12 img-highlight mr-2" />
