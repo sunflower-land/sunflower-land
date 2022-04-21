@@ -31,8 +31,8 @@ import rod from "assets/tools/fishing_rod.png";
 // NFTs
 import chickenCoop from "assets/nfts/chicken_coop.png";
 import christmasTree from "assets/nfts/christmas_tree.png";
-import farmCat from "assets/nfts/farm_cat.png";
-import farmDog from "assets/nfts/farm_dog.png";
+import farmCat from "assets/nfts/farm_cat.gif";
+import farmDog from "assets/nfts/farm_dog.gif";
 import gnome from "assets/nfts/gnome.png";
 import goldEgg from "assets/nfts/gold_egg.png";
 import potatoStatue from "assets/nfts/potato_statue.png";
