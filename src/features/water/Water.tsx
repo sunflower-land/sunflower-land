@@ -53,9 +53,9 @@ export const Water: React.FC = () => {
           src={swimmer}
           className="absolute "
           style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
-            left: `${GRID_WIDTH_PX * 58.5}px`,
-            top: `${GRID_WIDTH_PX * 2}px`,
+            width: `${GRID_WIDTH_PX * 0.85}px`,
+            left: `${GRID_WIDTH_PX * 61}px`,
+            top: `${GRID_WIDTH_PX * 2.5}px`,
             transform: "scaleX(-1)",
           }}
         />

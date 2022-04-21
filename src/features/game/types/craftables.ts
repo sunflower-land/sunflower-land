@@ -49,9 +49,9 @@ export type BlacksmithItem =
   | "Apprentice Beaver"
   | "Foreman Beaver"
   | "Nyon Statue"
-  | "Gold Nyon Statue"
   | "Homeless Tent"
-  | "Egg Basket";
+  | "Egg Basket"
+  | "Farmer Bath";
 
 export type BarnItem =
   | "Farm Cat"
@@ -349,33 +349,37 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     price: new Decimal(50),
     ingredients: [
       {
-        amount: new Decimal(100),
+        amount: new Decimal(30),
         item: "Stone",
       },
       {
-        amount: new Decimal(50),
+        amount: new Decimal(20),
         item: "Iron",
+      },
+      {
+        amount: new Decimal(5),
+        item: "Gold",
       },
     ],
     limit: 1,
     supply: 1000,
   },
-  "Gold Nyon Statue": {
-    name: "Gold Nyon Statue",
-    description: "Nyon Statue exclusive gold version",
-    price: new Decimal(100),
+  "Farmer Bath": {
+    name: "Farmer Bath",
+    description: "A beetroot scented bath for the farmers",
+    price: new Decimal(25),
     ingredients: [
       {
-        amount: new Decimal(75),
-        item: "Gold",
+        amount: new Decimal(100),
+        item: "Beetroot",
       },
       {
-        amount: new Decimal(1),
-        item: "Nyon Statue",
+        amount: new Decimal(20),
+        item: "Wood",
       },
     ],
-    limit: 1,
-    supply: 300,
+    supply: 5000,
+    section: Section["Bath"],
   },
   "Woody the Beaver": {
     name: "Woody the Beaver",
