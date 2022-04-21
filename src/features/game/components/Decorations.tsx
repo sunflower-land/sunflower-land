@@ -82,7 +82,7 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
 };
 
 // Only show 1 Nyon statue at a time
-export const NyonStatue: React.FC = ({}) => {
+export const NyonStatue: React.FC = () => {
   const [showNyonLore, setShowNyonLore] = useState(false);
 
   return (
@@ -361,7 +361,7 @@ export const Decorations: React.FC = () => {
           alt="Homeless Tent"
         />
       )}
-      
+
       {state.inventory["Farmer Bath"] && (
         <div
           className="flex justify-center absolute"
