@@ -36,6 +36,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
 import { Inventory } from "../types/game";
 import { Panel } from "components/ui/Panel";
+import { fountainAudio } from "lib/utils/sfx";
 
 // Only show 1 scarecrow at a time
 export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
@@ -81,7 +82,7 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
 };
 
 // Only show 1 Nyon statue at a time
-export const NyonStatue: React.FC = ({}) => {
+export const NyonStatue: React.FC = () => {
   const [showNyonLore, setShowNyonLore] = useState(false);
 
   return (
@@ -279,12 +280,13 @@ export const Decorations: React.FC = () => {
       {state.inventory["Fountain"] && (
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 2}px`,
-            left: `${GRID_WIDTH_PX * 36}px`,
-            top: `${GRID_WIDTH_PX * 30}px`,
+            width: `${GRID_WIDTH_PX * 2.5}px`,
+            left: `${GRID_WIDTH_PX * 35}px`,
+            top: `${GRID_WIDTH_PX * 28}px`,
           }}
           id={Section.Fountain}
-          className="absolute"
+          onClick={() => fountainAudio.play()}
+          className="absolute hover:img-highlight cursor-pointer"
           src={fountain}
           alt="Fountain"
         />
@@ -359,6 +361,7 @@ export const Decorations: React.FC = () => {
           alt="Homeless Tent"
         />
       )}
+
       {state.inventory["Farmer Bath"] && (
         <div
           className="flex justify-center absolute"
