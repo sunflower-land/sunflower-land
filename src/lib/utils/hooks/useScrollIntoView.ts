@@ -23,6 +23,7 @@ export enum Section {
   Beaver = "beaver",
   "Nyon Statue" = "nyon-statue",
   Tent = "tent",
+  Bath = "bath",
   "Easter Bunny" = "easter-bunny",
 }
 
