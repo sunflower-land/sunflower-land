@@ -35,6 +35,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
 import { Inventory } from "../types/game";
 import { Panel } from "components/ui/Panel";
+import { fountainAudio } from "lib/utils/sfx";
 
 // Only show 1 scarecrow at a time
 export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
@@ -299,19 +300,20 @@ export const Decorations: React.FC = () => {
         <NyonStatues inventory={state.inventory} />
       </div>
 
-      {state.inventory["Fountain"] && (
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 2}px`,
-            left: `${GRID_WIDTH_PX * 36}px`,
-            top: `${GRID_WIDTH_PX * 30}px`,
-          }}
-          id={Section.Fountain}
-          className="absolute"
-          src={fountain}
-          alt="Fountain"
-        />
-      )}
+      {/* {state.inventory["Fountain"] && ( */}
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 2.5}px`,
+          left: `${GRID_WIDTH_PX * 35}px`,
+          top: `${GRID_WIDTH_PX * 28}px`,
+        }}
+        id={Section.Fountain}
+        onClick={() => fountainAudio.play()}
+        className="absolute hover:img-highlight cursor-pointer"
+        src={fountain}
+        alt="Fountain"
+      />
+      {/* )} */}
 
       {state.inventory["Goblin Crown"] && (
         <img
@@ -382,7 +384,7 @@ export const Decorations: React.FC = () => {
           alt="Homeless Tent"
         />
       )}
-      
+
       {state.inventory["Easter Bunny"] && (
         <img
           style={{
@@ -395,7 +397,7 @@ export const Decorations: React.FC = () => {
           src={easterBunny}
           alt="Easter Bunny"
         />
-      )} 
+      )}
     </>
   );
 };
