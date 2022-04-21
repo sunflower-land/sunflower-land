@@ -36,7 +36,7 @@ export const Lore: React.FC = () => {
     <>
       <img
         src={greenBook}
-        className="absolute hover:img-highlight cursor-pointer z-10"
+        className="absolute hover:img-highlight cursor-pointer"
         onClick={() => onOpenGreenBook()}
         style={{
           width: `${GRID_WIDTH_PX * 0.5}px`,
