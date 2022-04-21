@@ -176,7 +176,7 @@ export const Rare: React.FC<Props> = ({
         <Button
           disabled={lessFunds() || lessIngredients()}
           className="text-xs mt-1"
-          onClick={() => craft()}
+          onClick={craft}
         >
           Craft
         </Button>

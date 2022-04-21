@@ -270,7 +270,7 @@ export const authMachine = createMachine<
               CONNECT_TO_DISCORD: {
                 // Redirects to Discord OAuth so no need for a state change
                 target: "noFarmLoaded",
-                actions: () => redirectOAuth(),
+                actions: redirectOAuth,
               },
               EXPLORE: {
                 target: "#exploring",
@@ -453,7 +453,7 @@ export const authMachine = createMachine<
         token: () => undefined,
         rawToken: () => undefined,
       }),
-      deleteFarmIdUrl: () => deleteFarmUrl(),
+      deleteFarmIdUrl: deleteFarmUrl,
     },
     guards: {
       isFresh: (context: Context, event: any) => {

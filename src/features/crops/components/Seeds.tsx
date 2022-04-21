@@ -140,7 +140,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         <Button
           disabled={lessFunds() || stock?.lessThan(1)}
           className="text-xs mt-1"
-          onClick={() => handlBuyOne()}
+          onClick={handlBuyOne}
         >
           Buy 1
         </Button>

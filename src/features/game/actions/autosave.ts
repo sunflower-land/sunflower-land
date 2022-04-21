@@ -2,6 +2,7 @@ import { removeSession } from "features/auth/actions/login";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { sanitizeHTTPResponse } from "lib/network";
 import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
@@ -60,16 +61,21 @@ export async function autosave(request: Request) {
   // Serialize values before sending
   const actions = serialize(events, request.offset);
 
+  const ttl = (window as any)["x-amz-ttl"];
   const response = await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
     method: "POST",
     headers: {
-      "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${request.token}`,
-      "X-Fingerprint": request.fingerprint,
+      ...{
+        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${request.token}`,
+        "X-Fingerprint": request.fingerprint,
+      },
+      ...(ttl ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] } : {}),
     },
     body: JSON.stringify({
       sessionId: request.sessionId,
       actions,
+      clientVersion: CONFIG.CLIENT_VERSION as string,
     }),
   });
 
@@ -85,9 +91,11 @@ export async function autosave(request: Request) {
     throw new Error("Could not save game");
   }
 
-  const data = await response.json();
+  const { farm } = await sanitizeHTTPResponse<{
+    farm: any;
+  }>(response);
 
-  const farm = makeGame(data.farm);
+  const game = makeGame(farm);
 
-  return { verified: true, farm };
+  return { verified: true, farm: game };
 }

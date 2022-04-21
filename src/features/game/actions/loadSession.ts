@@ -3,6 +3,8 @@ import { removeSession } from "features/auth/actions/login";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { sanitizeHTTPResponse } from "lib/network";
+import { stringToHex } from "web3-utils";
 import { makeGame } from "../lib/transforms";
 import { GameState, InventoryItemName, Rock, Tree } from "../types/game";
 
@@ -42,6 +44,7 @@ export async function loadSession(
         },
         body: JSON.stringify({
           sessionId: request.sessionId,
+          clientVersion: CONFIG.CLIENT_VERSION as string,
         }),
       }
     );
@@ -61,7 +64,14 @@ export async function loadSession(
       whitelistedAt,
       itemsMintedAt,
       blacklistStatus,
-    } = await response.json();
+    } = await sanitizeHTTPResponse<{
+      farm: any;
+      startedAt: string;
+      isBlacklisted: boolean;
+      whitelistedAt: string;
+      itemsMintedAt: MintedAt;
+      blacklistStatus: Response["blacklistStatus"];
+    }>(response);
 
     const startedTime = new Date(startedAt);
 

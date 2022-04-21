@@ -212,7 +212,7 @@ export const House: React.FC = () => {
           top: `${GRID_WIDTH_PX * 28.8}px`,
         }}
         className="relative cursor-pointer hover:img-highlight"
-        onClick={() => open()}
+        onClick={open}
       >
         {isUpgradeAvailable && (
           <img
@@ -240,7 +240,7 @@ export const House: React.FC = () => {
           className="absolute bottom-10 left-5"
           text="Home"
           icon={player}
-          onClick={() => open()}
+          onClick={open}
         />
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>

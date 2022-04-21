@@ -18,12 +18,15 @@ import scarecrow from "assets/nfts/scarecrow.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
 import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
-import beaver from "assets/nfts/beaver.png";
-import apprentice from "assets/nfts/apprentice_beaver.png";
-import foreman from "assets/nfts/construction_beaver.png";
+
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import goldNyonStatue from "assets/nfts/gold_nyon_statue.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
+
+import beaver from "assets/nfts/beaver.gif";
+import apprentice from "assets/nfts/apprentice_beaver.gif";
+import foreman from "assets/nfts/construction_beaver.gif";
+
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
@@ -383,16 +386,16 @@ export const Decorations: React.FC = () => {
       {state.inventory["Easter Bunny"] && (
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 2.3}px`,
-            right: `${GRID_WIDTH_PX * 50}px`,
-            top: `${GRID_WIDTH_PX * 23}px`,
+            width: `${GRID_WIDTH_PX * 2.5}px`,
+            right: `${GRID_WIDTH_PX * 49}px`,
+            top: `${GRID_WIDTH_PX * 24}px`,
           }}
           id={Section["Easter Bunny"]}
           className="absolute"
           src={easterBunny}
           alt="Easter Bunny"
         />
-      )}
+      )} 
     </>
   );
 };

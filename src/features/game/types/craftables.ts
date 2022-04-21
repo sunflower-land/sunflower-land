@@ -460,6 +460,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
       },
     ],
     supply: 50000,
+    section: Section.Scarecrow,
   },
   Scarecrow: {
     name: "Scarecrow",
@@ -501,6 +502,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
     ],
     supply: 200,
     disabled: true,
+    section: Section.Scarecrow,
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
@@ -647,6 +649,7 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
     ],
     supply: 100000,
     disabled: false,
+    section: Section["Easter Bunny"],
   },
 };
 
