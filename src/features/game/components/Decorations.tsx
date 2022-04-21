@@ -279,16 +279,16 @@ export const Decorations: React.FC = () => {
       {state.inventory["Easter Bunny"] && (
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 2.3}px`,
-            right: `${GRID_WIDTH_PX * 50}px`,
-            top: `${GRID_WIDTH_PX * 23}px`,
+            width: `${GRID_WIDTH_PX * 2.5}px`,
+            right: `${GRID_WIDTH_PX * 49}px`,
+            top: `${GRID_WIDTH_PX * 24}px`,
           }}
           id={Section["Easter Bunny"]}
           className="absolute"
           src={easterBunny}
           alt="Easter Bunny"
         />
-      )}
+      )} 
     </>
   );
 };
