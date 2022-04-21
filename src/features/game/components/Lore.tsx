@@ -8,6 +8,7 @@ import { Panel } from "components/ui/Panel";
 import greenBook from "assets/decorations/green_book.png";
 import yellowBook from "assets/decorations/yellow_book.png";
 import tombstone from "assets/decorations/tombstone.png";
+import close from "assets/icons/close.png";
 import { battleAudio, diaryAudio } from "lib/utils/sfx";
 
 export const Lore: React.FC = () => {
@@ -47,6 +48,11 @@ export const Lore: React.FC = () => {
       {showGreenBook && (
         <Modal centered show={showGreenBook} onHide={() => onCloseBook()}>
           <Panel>
+            <img
+              src={close}
+              className="h-6 top-4 right-4 absolute cursor-pointer"
+              onClick={() => onCloseBook()}
+            />
             <div className="flex items-start">
               <img src={greenBook} className="w-12 img-highlight mr-2" />
               <div className="flex-1">
@@ -77,6 +83,11 @@ export const Lore: React.FC = () => {
       {showYellowBook && (
         <Modal centered show={showYellowBook} onHide={() => onCloseBook()}>
           <Panel>
+            <img
+              src={close}
+              className="h-6 top-4 right-4 absolute cursor-pointer"
+              onClick={() => onCloseBook()}
+            />
             <div className="flex items-start">
               <img src={yellowBook} className="w-12 img-highlight mr-2" />
               <div className="flex-1">
@@ -106,6 +117,11 @@ export const Lore: React.FC = () => {
           onHide={() => setShowTombstone(false)}
         >
           <Panel>
+           <img
+              src={close}
+              className="h-6 top-4 right-4 absolute cursor-pointer"
+              onClick={() => setShowTombstone(false)}
+            />
             <div className="flex items-start">
               <img src={tombstone} className="w-12 img-highlight mr-2" />
               <div className="flex-1">
