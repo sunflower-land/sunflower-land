@@ -10,8 +10,8 @@ import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
 import potatoStatue from "assets/nfts/potato_statue.png";
 import christmasTree from "assets/nfts/christmas_tree.png";
-import dog from "assets/nfts/farm_dog.png";
-import cat from "assets/nfts/farm_cat.png";
+import dog from "assets/nfts/farm_dog.gif";
+import cat from "assets/nfts/farm_cat.gif";
 import gnome from "assets/nfts/gnome.gif";
 import nancy from "assets/nfts/nancy.png";
 import scarecrow from "assets/nfts/scarecrow.png";
@@ -211,8 +211,8 @@ export const Decorations: React.FC = () => {
       {state.inventory["Farm Cat"] && (
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 1}px`,
-            right: `${GRID_WIDTH_PX * 39.78}px`,
+            width: `${GRID_WIDTH_PX * 1.5}px`,
+            right: `${GRID_WIDTH_PX * 39.55}px`,
             top: `${GRID_WIDTH_PX * 28.2}px`,
           }}
           id={Section["Farm Cat"]}
