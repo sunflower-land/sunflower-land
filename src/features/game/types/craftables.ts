@@ -401,6 +401,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
       },
     ],
     supply: 50000,
+    section: Section.Scarecrow,
   },
   Scarecrow: {
     name: "Scarecrow",
