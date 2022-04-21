@@ -300,20 +300,20 @@ export const Decorations: React.FC = () => {
         <NyonStatues inventory={state.inventory} />
       </div>
 
-      {/* {state.inventory["Fountain"] && ( */}
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 2.5}px`,
-          left: `${GRID_WIDTH_PX * 35}px`,
-          top: `${GRID_WIDTH_PX * 28}px`,
-        }}
-        id={Section.Fountain}
-        onClick={() => fountainAudio.play()}
-        className="absolute hover:img-highlight cursor-pointer"
-        src={fountain}
-        alt="Fountain"
-      />
-      {/* )} */}
+      {state.inventory["Fountain"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2.5}px`,
+            left: `${GRID_WIDTH_PX * 35}px`,
+            top: `${GRID_WIDTH_PX * 28}px`,
+          }}
+          id={Section.Fountain}
+          onClick={() => fountainAudio.play()}
+          className="absolute hover:img-highlight cursor-pointer"
+          src={fountain}
+          alt="Fountain"
+        />
+      )}
 
       {state.inventory["Goblin Crown"] && (
         <img
