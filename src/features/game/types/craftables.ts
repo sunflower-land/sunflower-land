@@ -48,6 +48,9 @@ export type BlacksmithItem =
   | "Woody the Beaver"
   | "Apprentice Beaver"
   | "Foreman Beaver"
+  | "Nyon Statue"
+  | "Gold Nyon Statue"
+  | "Homeless Tent"
   | "Egg Basket";
 
 export type BarnItem =
@@ -272,6 +275,28 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     supply: 0,
     section: Section.Gnome,
   },
+  "Homeless Tent": {
+    name: "Homeless Tent",
+    description: "A nice and cozy tent",
+    price: new Decimal(10),
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Wood",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Stone",
+        amount: new Decimal(5),
+      },
+    ],
+    limit: 1,
+    supply: 1000,
+    section: Section.Tent,
+  },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
     description: "In memory of Sunflower Farmers",
@@ -317,6 +342,40 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 10000,
     section: Section.Fountain,
+  },
+  "Nyon Statue": {
+    name: "Nyon Statue",
+    description: "In memory of Nyon Lann",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(100),
+        item: "Stone",
+      },
+      {
+        amount: new Decimal(50),
+        item: "Iron",
+      },
+    ],
+    limit: 1,
+    supply: 1000,
+  },
+  "Gold Nyon Statue": {
+    name: "Gold Nyon Statue",
+    description: "Nyon Statue exclusive gold version",
+    price: new Decimal(100),
+    ingredients: [
+      {
+        amount: new Decimal(75),
+        item: "Gold",
+      },
+      {
+        amount: new Decimal(1),
+        item: "Nyon Statue",
+      },
+    ],
+    limit: 1,
+    supply: 300,
   },
   "Woody the Beaver": {
     name: "Woody the Beaver",

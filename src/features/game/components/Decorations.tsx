@@ -1,8 +1,9 @@
 /**
  * Placeholder for future decorations that will fall on a different grid
  */
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
+import Modal from "react-bootstrap/Modal";
 
 import sunflowerRock from "assets/nfts/sunflower_rock.png";
 import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
@@ -17,9 +18,15 @@ import scarecrow from "assets/nfts/scarecrow.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
 import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
+
+import nyonStatue from "assets/nfts/nyon_statue.png";
+import goldNyonStatue from "assets/nfts/gold_nyon_statue.png";
+import homelessTent from "assets/nfts/homeless_tent.png";
+
 import beaver from "assets/nfts/beaver.gif";
 import apprentice from "assets/nfts/apprentice_beaver.gif";
 import foreman from "assets/nfts/construction_beaver.gif";
+
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
@@ -27,6 +34,7 @@ import { Context } from "../GameProvider";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
 import { Inventory } from "../types/game";
+import { Panel } from "components/ui/Panel";
 
 // Only show 1 scarecrow at a time
 export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
@@ -65,6 +73,78 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
         src={nancy}
         alt="Scarecrow"
       />
+    );
+  }
+
+  return null;
+};
+
+// Only show 1 Nyon statue at a time
+export const NyonStatues: React.FC<{ inventory: Inventory }> = ({
+  inventory,
+}) => {
+  const [showNyonLore, setShowNyonLore] = useState(false);
+
+  if (inventory["Nyon Statue"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.5}px`,
+        }}
+        src={nyonStatue}
+        alt="Nyon Statue"
+      />
+    );
+  }
+
+  if (inventory["Gold Nyon Statue"]) {
+    return (
+      <>
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.5}px`,
+          }}
+          className="hover:img-highlight cursor-pointer"
+          src={goldNyonStatue}
+          alt="Gold Nyon Statue"
+          onClick={() => setShowNyonLore(true)}
+        />
+        <Modal
+          centered
+          show={showNyonLore}
+          onHide={() => setShowNyonLore(false)}
+        >
+          <Panel>
+            <div className="flex flex-col items-cetner justify-content-between">
+              <div className="flex justify-content m-2">
+                <img
+                  style={{
+                    width: `${GRID_WIDTH_PX * 1.5}px`,
+                  }}
+                  className="img-highlight mr-2"
+                  src={goldNyonStatue}
+                  alt="Gold Nyon Statue"
+                />
+                <div className="ml-2 mt-3">
+                  <span className="text-shadow text-xs block">
+                    In memory of
+                  </span>
+                  <span className="text-shadow block">Nyon Lann</span>
+                </div>
+              </div>
+              <div className="flex-1 ml-2 mr-2">
+                <span className="text-shadow block mb-2 text-xs">
+                  The legendary knight responsible for bringing the Goblin
+                  Miner, the same goblin who made his armor and taught everyone
+                  about the art of mining. After his death from an injury
+                  acquired in the battle of the 3 trees, the people present this
+                  statue with his armor to commemorate his conquests.
+                </span>
+              </div>
+            </div>
+          </Panel>
+        </Modal>
+      </>
     );
   }
 
@@ -206,6 +286,19 @@ export const Decorations: React.FC = () => {
         <Scarecrows inventory={state.inventory} />
       </div>
 
+      {/* Nyon Statues */}
+      <div
+        className="flex justify-center absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 3}px`,
+          left: `${GRID_WIDTH_PX * 42.5}px`,
+          top: `${GRID_WIDTH_PX * 41}px`,
+        }}
+        id={Section["Nyon Statue"]}
+      >
+        <NyonStatues inventory={state.inventory} />
+      </div>
+
       {state.inventory["Fountain"] && (
         <img
           style={{
@@ -276,6 +369,20 @@ export const Decorations: React.FC = () => {
         />
       )}
 
+      {state.inventory["Homeless Tent"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2}px`,
+            right: `${GRID_WIDTH_PX * 34.5}px`,
+            top: `${GRID_WIDTH_PX * 31}px`,
+          }}
+          id={Section.Tent}
+          className="absolute"
+          src={homelessTent}
+          alt="Homeless Tent"
+        />
+      )}
+      
       {state.inventory["Easter Bunny"] && (
         <img
           style={{
