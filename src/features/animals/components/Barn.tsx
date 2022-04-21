@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 
 import { Context } from "features/game/GameProvider";
 
+import barn from "assets/buildings/barn.png";
 import chicken from "assets/resources/chicken.png";
 import { barnAudio } from "lib/utils/sfx";
 
@@ -28,9 +29,9 @@ export const Barn: React.FC = () => {
     <div
       className="absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 3}px`,
-        left: `${-GRID_WIDTH_PX * 1}px`,
-        top: `${-GRID_WIDTH_PX * 2}px`,
+        width: `${GRID_WIDTH_PX * 5.5}px`,
+        left: `${-GRID_WIDTH_PX * 2.25}px`,
+        top: `${-GRID_WIDTH_PX * 5}px`,
       }}
     >
       <div
@@ -39,9 +40,10 @@ export const Barn: React.FC = () => {
           "hover:img-highlight": isNotReadOnly,
         })}
       >
+        <img src={barn} alt="barn" onClick={openBarn} className="w-full" />
         {isNotReadOnly && (
           <Action
-            className="absolute top-5 left-4"
+            className="absolute bottom-12 left-16"
             text="Barn"
             icon={chicken}
             onClick={openBarn}
