@@ -590,6 +590,7 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
     ],
     supply: 100000,
     disabled: false,
+    section: Section["Easter Bunny"],
   },
 };
 
