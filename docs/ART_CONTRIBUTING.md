@@ -6,9 +6,17 @@ In this guide you will get an overview of the contribution workflow for getting 
 
 ### Disclaimer
 
-By contributing to this repository you provide Sunflower Land the rights to use your work in the game indefintely. While we often reward open source developers with NFTs, contributing does not guarantee any sort of rewards from the game.
+By contributing to this repository you provide Sunflower Land the ownership of any IP contributed to the project to use indefinitely. This includes code, discussions (ideas) and all types of artwork. While often designers and developers are rewarded with the NFTs and airdrops, there is no guarantee of reward. Being a decentralized game, players may list and trade NFTs that are based on your submissions. By submitting content, you agree to the terms of service of the game and these conditons.
 
 You confirm that the artwork is original and completely your design. Copying others artwork can land yourself and the project in trouble.
+
+### Base Asset Pack
+
+Sunflower Land is based on an easily accessible asset pack that has been extended by our community. All NFTs and collectible items are designed by the community.
+
+If you wish to use or build on top of the base asset pack, purchase & support the amazing designer Daniel Diggle.
+
+https://danieldiggle.itch.io/sunnyside
 
 ## How can I help?
 
@@ -48,14 +56,13 @@ In this example, 1 pixel is 1px wide 🏆
 
 <img width="419" alt="Screen Shot 2022-01-31 at 6 06 58 pm" src="https://user-images.githubusercontent.com/11745561/151874904-4e625b63-07fa-4c52-ba28-0fb29b3c0190.png">
 
-
 ## Style
 
 Artwork is always quite subjective. Once you are happy with your art, overlay it on the map using the preview URL below.
 
 https://sunflower-land.com/art-preview-only/
 
-Here is an example of the potato statue - Make sure you include other surrounding elements to ensure that it matches with them. 
+Here is an example of the potato statue - Make sure you include other surrounding elements to ensure that it matches with them.
 
 <img width="549" alt="Screen Shot 2022-01-31 at 6 17 50 pm" src="https://user-images.githubusercontent.com/11745561/151874609-182d4d11-64a1-4156-bbf4-755563215181.png">
 

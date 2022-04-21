@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { assign, createMachine } from "xstate";
-import { useMachine } from "@xstate/react";
+import { useActor, useMachine } from "@xstate/react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
@@ -17,6 +17,7 @@ import team from "assets/npcs/team.png";
 import humanDeath from "assets/npcs/human_death.gif";
 import { ERRORS } from "lib/errors";
 import { beggarAudio } from "lib/utils/sfx";
+import { Context } from "features/game/GameProvider";
 
 type DonateEvent = {
   type: "DONATE";
@@ -99,6 +100,8 @@ const teamDonationMachine = createMachine<Context, Event, State>({
 
 export const TeamDonation: React.FC = () => {
   const [state, send] = useMachine(teamDonationMachine);
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [donation, setDonation] = useState(1);
 
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,11 +127,19 @@ export const TeamDonation: React.FC = () => {
   return (
     <div
       className="z-5 absolute align-items-center w-[72px]"
-      style={{
-        left: `calc(50% - ${GRID_WIDTH_PX * -9.8}px)`,
-        // trial and error
-        top: `calc(50% - ${GRID_WIDTH_PX * 17.2}px)`,
-      }}
+      style={
+        gameState.context.state.inventory["Homeless Tent"]
+          ? {
+              left: `calc(50% - ${GRID_WIDTH_PX * -13.6}px)`,
+              // trial and error
+              top: `calc(50% - ${GRID_WIDTH_PX * 17.8}px)`,
+            }
+          : {
+              left: `calc(50% - ${GRID_WIDTH_PX * -9.8}px)`,
+              // trial and error
+              top: `calc(50% - ${GRID_WIDTH_PX * 17.2}px)`,
+            }
+      }
     >
       {!state.context.hasDonated ? (
         <img
