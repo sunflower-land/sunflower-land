@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import idle from "assets/npcs/idle.gif";
 import questionMark from "assets/icons/expression_confused.png";
 import axe from "assets/tools/axe.png";
+import close from "assets/icons/close.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
@@ -37,11 +38,17 @@ export const Lumberjack: React.FC = () => {
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={() => setShowModal(false)}
+          />
           <div className="flex items-start">
             <img src={axe} className="w-12 img-highlight mr-2" />
             <div className="flex-1">
-              <span className="text-shadow block">
-                Something looks different about these trees...
+              <span className="text-shadow mr-4 block">
+                Something looks
+                different about these trees...
               </span>
               <span className="text-shadow block mt-4">
                 I wonder if I can craft something to chop them down?
