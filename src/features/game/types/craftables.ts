@@ -443,6 +443,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
     ],
     supply: 200,
     disabled: true,
+    section: Section.Scarecrow,
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
