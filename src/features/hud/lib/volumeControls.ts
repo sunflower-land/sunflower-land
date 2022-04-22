@@ -5,7 +5,7 @@ import * as sfx from "lib/utils/sfx";
 import { getSettings } from "./settings";
 
 /**
- * Hook for volume controls.
+ * Hook for OP volume controls.
  * Note: Do update the return, to return functions which are going to be used.
  *       It's OP, use carefully.
  * TODO: refactor
@@ -13,6 +13,7 @@ import { getSettings } from "./settings";
 export const useVolumeControls = () => {
   const allAudioElements = document.getElementsByTagName("audio");
 
+  // {TODO: Update below obj's after adding new SFX's in lib/utils/sfx.tx}
   const sfxActions = [
     sfx.harvestAudio,
     sfx.plantAudio,
@@ -32,13 +33,16 @@ export const useVolumeControls = () => {
     sfx.marketAudio,
     sfx.tailorAudio,
     sfx.wishingWellAudio,
+    sfx.diaryAudio,
+    sfx.battleAudio,
+    sfx.fountainAudio,
   ];
 
   const MAX_AUDIO_VOLUME = 1.0;
   const MIN_AUDIO_VOLUME = 0.0;
   const VOLUME_STEP = 0.1;
-  const DEFAULT_BG_MUSIC_VOLUME = 0.6;
-  const DEFAULT_SFX_VOLUME = 0.6;
+  const DEFAULT_BG_MUSIC_VOLUME = 0.7;
+  const DEFAULT_SFX_VOLUME = 0.7;
 
   /**
    * State to control the master (audio) bg music volume
@@ -61,7 +65,6 @@ export const useVolumeControls = () => {
         ele.volume = masterAudioVolume.value;
       }
     }
-    console.log("Master Audio Volume:", masterAudioVolume);
   };
   const incMasterAudioVolume = (): void => {
     masterAudioVolume.value < MAX_AUDIO_VOLUME
@@ -102,8 +105,8 @@ export const useVolumeControls = () => {
   const masterSfxActVolume = useStepper({
     initial: sfxActions[0].volume() as number,
     step: 0.1,
-    //temp max is set to 0.7 to avoid extra loud SFX
-    max: 0.7,
+    //temp max is set to 0.8 to avoid extra loud SFX
+    max: 0.8,
     min: 0,
   });
 
@@ -138,8 +141,8 @@ export const useVolumeControls = () => {
   const masterSfxModalVolume = useStepper({
     initial: sfxModals[0].volume() as number,
     step: 0.1,
-    //temp max is set to 0.6 to avoid extra loud SFX, the housedoor (o_O)
-    max: 0.6,
+    //temp max is set to 0.7 to avoid extra loud SFX, the housedoor (o_O)
+    max: 0.7,
     min: 0,
   });
 
@@ -150,17 +153,18 @@ export const useVolumeControls = () => {
   } => masterSfxModalVolume;
 
   const toggleAllSFX = (_isMuted: boolean): void => {
-    console.log("--> in toggleAllSFX _isMuted:", _isMuted);
     if (!_isMuted) {
-      sfxActions.forEach((ele) => {
+      Howler.mute(false);
+      Howler.volume(DEFAULT_SFX_VOLUME);
+      /*sfxActions.forEach((ele) => {
         ele.volume(DEFAULT_SFX_VOLUME); // 0.6 is the default
       });
       sfxModals.forEach((ele) => {
         ele.volume(DEFAULT_SFX_VOLUME); // 0.6 is the default
-      });
+      });*/
       // should setMasterSfxModalVolume be called
     } else {
-      Howler.mute(_isMuted);
+      Howler.mute(true);
     }
   };
 
@@ -184,11 +188,11 @@ export const useVolumeControls = () => {
 
   /**
    * Init the master volume states from cached settings.
-   * TODO: refactor (o O)
+   * TODO: refactor if other OP vol controls are used (o O)
    */
   const initMasterVolume = (): void => {
     const cached = getSettings();
-    console.log("[INIT]: volume state");
+    console.log("[INIT] volume states");
     toggleAllBgMusic(cached.bgMusicMuted);
     toggleAllSFX(cached.sfxMuted);
   };
