@@ -81,6 +81,46 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
   return null;
 };
 
+export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
+  if (inventory["Foreman Beaver"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.2}px`,
+        }}
+        src={foreman}
+        alt="Foreman Beaver"
+      />
+    );
+  }
+
+  if (inventory["Apprentice Beaver"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.2}px`,
+        }}
+        src={apprentice}
+        alt="Apprentice Beaver"
+      />
+    );
+  }
+
+  if (inventory["Woody the Beaver"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.2}px`,
+        }}
+        src={beaver}
+        alt="Woddy the Beaver"
+      />
+    );
+  }
+
+  return null;
+};
+
 // Only show 1 Nyon statue at a time
 export const NyonStatue: React.FC = () => {
   const [showNyonLore, setShowNyonLore] = useState(false);
@@ -306,47 +346,18 @@ export const Decorations: React.FC = () => {
         />
       )}
 
-      {state.inventory["Woody the Beaver"] && (
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 1.2}px`,
-            right: `${GRID_WIDTH_PX * 24}px`,
-            top: `${GRID_WIDTH_PX * 49}px`,
-          }}
-          id={Section["Beaver"]}
-          className="absolute"
-          src={beaver}
-          alt="Beaver"
-        />
-      )}
-
-      {state.inventory["Apprentice Beaver"] && (
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 1.2}px`,
-            right: `${GRID_WIDTH_PX * 24}px`,
-            top: `${GRID_WIDTH_PX * 49}px`,
-          }}
-          id={Section["Beaver"]}
-          className="absolute"
-          src={apprentice}
-          alt="Beaver"
-        />
-      )}
-
-      {state.inventory["Foreman Beaver"] && (
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 0.8}px`,
-            right: `${GRID_WIDTH_PX * 24}px`,
-            top: `${GRID_WIDTH_PX * 49}px`,
-          }}
-          id={Section["Beaver"]}
-          className="absolute"
-          src={foreman}
-          alt="Beaver"
-        />
-      )}
+      {/* Beavers */}
+      <div
+        className="flex justify-center absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 2}px`,
+          right: `${GRID_WIDTH_PX * 24}px`,
+          top: `${GRID_WIDTH_PX * 49}px`,
+        }}
+        id={Section.Beaver}
+      >
+        <Beavers inventory={state.inventory} />
+      </div>
 
       {state.inventory["Homeless Tent"] && (
         <img
