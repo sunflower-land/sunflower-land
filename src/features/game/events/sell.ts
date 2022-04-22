@@ -38,7 +38,9 @@ export function sell({ state, action }: Options): GameState {
 
   return {
     ...state,
-    balance: state.balance.add(price.mul(action.amount)),
+    balance: state.balance
+      .add(price.mul(action.amount))
+      .toDecimalPlaces(18, Decimal.ROUND_DOWN),
     inventory: {
       ...state.inventory,
       [crop.name]: cropCount.sub(1 * action.amount),
