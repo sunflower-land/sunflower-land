@@ -7,6 +7,7 @@ type Request = {
   charity: string;
   donation: number;
   token: string;
+  captcha: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -21,8 +22,13 @@ export async function signTransaction(request: Request) {
     body: JSON.stringify({
       charity: request.charity,
       donation: request.donation,
+      captcha: request.captcha,
     }),
   });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
 
   if (response.status >= 400) {
     throw new Error(ERRORS.FAILED_REQUEST);
@@ -37,17 +43,20 @@ type CreateFarmOptions = {
   charity: CharityAddress;
   donation: number;
   token: string;
+  captcha: string;
 };
 
 export async function createFarm({
   donation,
   charity,
   token,
+  captcha,
 }: CreateFarmOptions) {
   const transaction = await signTransaction({
     donation,
     charity,
     token,
+    captcha,
   });
 
   await metamask.getBeta().createFarm(transaction);

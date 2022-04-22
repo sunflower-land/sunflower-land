@@ -54,6 +54,9 @@ export const NoFarm: React.FC = () => {
           <span className="text-sm text-shadow p-2 text-center mb-4">
             Beta is currently open for testers on Discord.
           </span>
+          <span className="text-sm text-shadow p-2 text-center mb-2">
+            Only 100,000 spots available!
+          </span>
           <Button onClick={connect} className="overflow-hidden mb-2">
             Connect to Discord
           </Button>

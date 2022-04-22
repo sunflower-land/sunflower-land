@@ -1,0 +1,9 @@
+{
+  "name": "Pink Easter Egg",
+  "description": "## Pink Easter Egg\n\nA limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.\n\n## Supply\n\n100000\n\n\n### Contributor\n\nSunflower Land is an open source game built by a community of hundreds of developers and artists across the globe.\n\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)\n\nDesigned by [@cambrios]\n",
+  "image": "https://sunflower-land.com/play/erc1155/905.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "5ec14c",
+  "attributes": [{ "trait_type": "Purpose", "value": "Resource" }]
+}

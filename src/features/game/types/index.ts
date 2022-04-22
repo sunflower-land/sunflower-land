@@ -47,10 +47,18 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Woody the Beaver": 415,
   "Apprentice Beaver": 416,
   "Foreman Beaver": 417,
+  "Mysterious Parsnip": 418,
+  "Carrot Sword": 419,
+  Nancy: 420,
+  Kuebiko: 421,
+  "Nyon Statue": 422,
+  "Farmer Bath": 423,
+  "Homeless Tent": 424,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
   Sauerkraut: 503,
+  "Radish Pie": 504,
 
   Wood: 601,
   Stone: 602,
@@ -113,6 +121,17 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Lithuanian Flag": 840,
   "Malaysian Flag": 841,
   "Colombian Flag": 842,
+
+  // Special events
+  "Egg Basket": 901,
+  "Red Egg": 902,
+  "Blue Egg": 903,
+  "Yellow Egg": 904,
+  "Pink Egg": 905,
+  "Purple Egg": 906,
+  "Orange Egg": 907,
+  "Green Egg": 908,
+  "Easter Bunny": 909,
 };
 
 // The reverse of above

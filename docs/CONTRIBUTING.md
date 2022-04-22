@@ -10,7 +10,9 @@ To get an overview of the project, read the [README](../README.md). Here are som
 
 ### Disclaimer
 
-By contributing to this repository you provide Sunflower Land the rights to use your work in the game indefintely. While we often reward open source developers with NFTs, contributing does not guarantee any sort of rewards from the game.
+By contributing to this repository you provide Sunflower Land the ownership of any IP contributed to the project to use indefinitely. This includes code, discussions (ideas) and all types of artwork. While often designers and developers are rewarded with the NFTs and airdrops, there is no guarantee of reward.
+
+You confirm you have the rights to the content you are contributing to the project.
 
 ## Getting started
 
@@ -52,16 +54,17 @@ Commit the changes once you are happy with them. We prefer atomic commits that a
 
 > **TIP:** If your changes include **only** documentation updates/additions/deletions,
 > make sure that you add below line to your commit message while commiting:
-> 
+>
 > **`[skip ci]`**
 >
 > This **_won't_** trigger the GitHub Actions CI Workflow in turn, it **_won't_** waste the resources. 🤗 🌏
+>
 > > E.g.
+> >
 > > ```
 > > [CHORE] Update README.md
 > > [skip ci]
 > > ```
-
 
 ### Preparing to submit
 

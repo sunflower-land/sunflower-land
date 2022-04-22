@@ -1,7 +1,8 @@
 import { removeSession } from "features/auth/actions/login";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
-import { CAPTCHA_ELEMENT } from "../components/Captcha";
+import { ERRORS } from "lib/errors";
+import { sanitizeHTTPResponse } from "lib/network";
 import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
@@ -13,7 +14,6 @@ type Request = {
   sessionId: string;
   token: string;
   offset: number;
-  captcha?: string;
   fingerprint: string;
 };
 
@@ -61,18 +61,21 @@ export async function autosave(request: Request) {
   // Serialize values before sending
   const actions = serialize(events, request.offset);
 
-  const response = await window.fetch(`${API_URL}/autosave`, {
+  const ttl = (window as any)["x-amz-ttl"];
+  const response = await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
     method: "POST",
     headers: {
-      "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${request.token}`,
-      "X-Fingerprint": request.fingerprint,
+      ...{
+        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${request.token}`,
+        "X-Fingerprint": request.fingerprint,
+      },
+      ...(ttl ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] } : {}),
     },
     body: JSON.stringify({
-      farmId: request.farmId,
       sessionId: request.sessionId,
       actions,
-      captcha: request.captcha,
+      clientVersion: CONFIG.CLIENT_VERSION as string,
     }),
   });
 
@@ -81,59 +84,18 @@ export async function autosave(request: Request) {
   }
 
   if (response.status === 429) {
-    return { verified: false };
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
   if (response.status !== 200 || !response.ok) {
     throw new Error("Could not save game");
   }
 
-  const data = await response.json();
+  const { farm } = await sanitizeHTTPResponse<{
+    farm: any;
+  }>(response);
 
-  const farm = makeGame(data.farm);
+  const game = makeGame(farm);
 
-  return { verified: true, farm };
-}
-
-declare const grecaptcha: any;
-
-let captchaId: number;
-let captchaToken = "";
-
-/**
- * Programatically renders a captcha to solve
- */
-export async function solveCaptcha() {
-  try {
-    // Captcha takes a little while to mount
-    await new Promise((res) => setTimeout(res, 50));
-    if (!captchaId) {
-      captchaId = grecaptcha.render(CAPTCHA_ELEMENT, {
-        sitekey: "6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s",
-        callback: (token: string) => {
-          captchaToken = token;
-        },
-      });
-    } else {
-      grecaptcha.reset(captchaId);
-    }
-
-    // Poll until the token changes
-    const previousToken = captchaToken;
-    const token: string = await new Promise((res) => {
-      const interval = setInterval(() => {
-        if (captchaToken !== previousToken) {
-          res(captchaToken);
-          clearInterval(interval);
-        }
-      });
-    });
-
-    await new Promise((res) => setTimeout(res, 1000));
-
-    return token;
-  } catch (e) {
-    console.log({ e });
-    throw e;
-  }
+  return { verified: true, farm: game };
 }

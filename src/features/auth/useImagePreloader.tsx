@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import goblinDonation from "assets/splash/goblin_donation.gif";
 import humanDeath from "assets/npcs/human_death.gif";
-import lightningDeath from "assets/npcs/lightning_death.gif";
+import lightningDeath from "assets/npcs/human_death.gif";
 import minting from "assets/npcs/minting.gif";
 import richBegger from "assets/npcs/rich_begger.gif";
 import syncing from "assets/npcs/syncing.gif";

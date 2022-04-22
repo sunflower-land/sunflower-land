@@ -31,8 +31,8 @@ import rod from "assets/tools/fishing_rod.png";
 // NFTs
 import chickenCoop from "assets/nfts/chicken_coop.png";
 import christmasTree from "assets/nfts/christmas_tree.png";
-import farmCat from "assets/nfts/farm_cat.png";
-import farmDog from "assets/nfts/farm_dog.png";
+import farmCat from "assets/nfts/farm_cat.gif";
+import farmDog from "assets/nfts/farm_dog.gif";
 import gnome from "assets/nfts/gnome.png";
 import goldEgg from "assets/nfts/gold_egg.png";
 import potatoStatue from "assets/nfts/potato_statue.png";
@@ -43,14 +43,22 @@ import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
 import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
 import crown from "assets/nfts/goblin_crown.png";
 import fountain from "assets/nfts/fountain.gif";
-import beaver from "assets/nfts/beaver.png";
-import apprenticeBeaver from "assets/nfts/apprentice_beaver.png";
-import constructionBeaver from "assets/nfts/construction_beaver.png";
+import beaver from "assets/nfts/beaver.gif";
+import apprenticeBeaver from "assets/nfts/apprentice_beaver.gif";
+import constructionBeaver from "assets/nfts/construction_beaver.gif";
+import mysteriousParsnip from "assets/nfts/mysterious_parsnip.png";
+import carrotSword from "assets/nfts/carrot_sword.png";
+import nancy from "assets/nfts/nancy.png";
+import kuebiko from "assets/nfts/kuebiko.gif";
+import nyonStatue from "assets/nfts/nyon_statue.png";
+import homelessTent from "assets/nfts/homeless_tent.png";
+import farmerBath from "assets/nfts/farmer_bath.png";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import cabbageSoup from "assets/nfts/saurrerkrat.png";
 import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
+import radishPie from "assets/nfts/radish_pie.png";
 
 // Flags
 import australiaFlag from "assets/nfts/flags/australia_flag.gif";
@@ -115,6 +123,17 @@ import seedSpecialist from "assets/skills/seed_specialist.png";
 import logger from "assets/skills/logger.png";
 import lumberjack from "assets/skills/lumberjack.png";
 
+// Egg
+import redEgg from "src/assets/nfts/easter/red_egg.png";
+import yellowEgg from "src/assets/nfts/easter/yellow_egg.png";
+import purpleEgg from "src/assets/nfts/easter/purple_egg.png";
+import blueEgg from "src/assets/nfts/easter/blue_egg.png";
+import greenEgg from "src/assets/nfts/easter/green_egg.png";
+import orangeEgg from "src/assets/nfts/easter/orange_egg.png";
+import pinkEgg from "src/assets/nfts/easter/pink_egg.png";
+import easterBasket from "src/assets/nfts/easter/basket.png";
+import easterBunny from "src/assets/nfts/easter/easter_bunny.gif";
+
 import { InventoryItemName } from "./game";
 import {
   FOODS,
@@ -123,6 +142,7 @@ import {
   BLACKSMITH_ITEMS,
   MARKET_ITEMS,
   BARN_ITEMS,
+  CRAFTABLES,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
@@ -309,9 +329,17 @@ export const ITEM_DETAILS: Items = {
     ...BLACKSMITH_ITEMS["Potato Statue"],
     image: potatoStatue,
   },
+  Nancy: {
+    ...MARKET_ITEMS["Nancy"],
+    image: nancy,
+  },
   Scarecrow: {
     ...MARKET_ITEMS["Scarecrow"],
     image: scarecrow,
+  },
+  Kuebiko: {
+    ...MARKET_ITEMS["Kuebiko"],
+    image: kuebiko,
   },
   "Christmas Tree": {
     ...BLACKSMITH_ITEMS["Christmas Tree"],
@@ -369,6 +397,26 @@ export const ITEM_DETAILS: Items = {
     ...BLACKSMITH_ITEMS["Foreman Beaver"],
     image: constructionBeaver,
   },
+  "Mysterious Parsnip": {
+    ...MARKET_ITEMS["Mysterious Parsnip"],
+    image: mysteriousParsnip,
+  },
+  "Carrot Sword": {
+    ...MARKET_ITEMS["Carrot Sword"],
+    image: carrotSword,
+  },
+  "Nyon Statue": {
+    ...BLACKSMITH_ITEMS["Nyon Statue"],
+    image: nyonStatue,
+  },
+  "Homeless Tent": {
+    ...BLACKSMITH_ITEMS["Homeless Tent"],
+    image: homelessTent,
+  },
+  "Farmer Bath": {
+    ...BLACKSMITH_ITEMS["Farmer Bath"],
+    image: farmerBath,
+  },
 
   // FOOD
   "Pumpkin Soup": {
@@ -383,6 +431,10 @@ export const ITEM_DETAILS: Items = {
   "Roasted Cauliflower": {
     ...FOODS()["Roasted Cauliflower"],
     image: roastedCaulfilower,
+  },
+  "Radish Pie": {
+    ...FOODS()["Radish Pie"],
+    image: radishPie,
   },
 
   /**
@@ -591,5 +643,42 @@ export const ITEM_DETAILS: Items = {
   "Colombian Flag": {
     ...FLAGS["Colombian Flag"],
     image: colombian_flag,
+  },
+
+  "Egg Basket": {
+    ...CRAFTABLES()["Egg Basket"],
+    image: easterBasket,
+  },
+  "Easter Bunny": {
+    ...CRAFTABLES()["Easter Bunny"],
+    image: easterBunny,
+  },
+  "Blue Egg": {
+    description: "A blue easter egg",
+    image: blueEgg,
+  },
+  "Orange Egg": {
+    description: "An orange easter egg",
+    image: orangeEgg,
+  },
+  "Green Egg": {
+    description: "A green easter egg",
+    image: greenEgg,
+  },
+  "Yellow Egg": {
+    description: "A yellow easter egg",
+    image: yellowEgg,
+  },
+  "Red Egg": {
+    description: "A red easter egg",
+    image: redEgg,
+  },
+  "Pink Egg": {
+    description: "A pink easter egg",
+    image: pinkEgg,
+  },
+  "Purple Egg": {
+    description: "A purple easter egg",
+    image: purpleEgg,
   },
 };

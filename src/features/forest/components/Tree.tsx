@@ -20,6 +20,7 @@ import {
   canChop,
   ChopAction,
   CHOP_ERRORS,
+  getRequiredAxeAmount,
   TREE_RECOVERY_SECONDS,
 } from "features/game/events/chop";
 
@@ -28,6 +29,7 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
+import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -51,6 +53,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const treeRef = useRef<HTMLDivElement>(null);
   const shakeGif = useRef<SpriteSheetInstance>();
   const choppedGif = useRef<SpriteSheetInstance>();
+
+  const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -78,18 +82,32 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setShowPopover(false);
   };
 
+  // Show/Hide Time left on hover
+
+  const handleMouseHoverStump = () => {
+    setShowStumpTimeLeft(true);
+  };
+
+  const handleMouseLeaveStump = () => {
+    setShowStumpTimeLeft(false);
+  };
+
+  const axesNeeded = getRequiredAxeAmount(game.context.state.inventory);
+  const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
+
+  // Has enough axes to chop the tree
+  const hasAxes =
+    (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
+
   const shake = async () => {
     if (game.matches("readonly")) {
       shakeGif.current?.goToAndPlay(0);
       return;
     }
 
-    if (selectedItem !== "Axe") {
+    if (!hasAxes) {
       return;
     }
-
-    const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
-    if (axeAmount.lessThanOrEqualTo(0)) return;
 
     const isPlaying = shakeGif.current?.getInfo("isPlaying");
 
@@ -148,21 +166,13 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   };
 
   const handleHover = () => {
-    if (
-      game.matches("readonly") ||
-      (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
-    )
-      return;
+    if (game.matches("readonly") || hasAxes) return;
     treeRef.current?.classList["add"]("cursor-not-allowed");
     setShowLabel(true);
   };
 
   const handleMouseLeave = () => {
-    if (
-      game.matches("readonly") ||
-      (selectedItem === "Axe" && game.context.state.inventory.Axe?.gte(1))
-    )
-      return;
+    if (game.matches("readonly") || hasAxes) return;
     treeRef.current?.classList["remove"]("cursor-not-allowed");
     setShowLabel(false);
   };
@@ -249,10 +259,17 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               bottom: "9px",
               left: "5px",
             }}
+            onMouseEnter={handleMouseHoverStump}
+            onMouseLeave={handleMouseLeaveStump}
           />
           <div className="absolute -bottom-4 left-1.5">
             <ProgressBar percentage={percentage} seconds={timeLeft} />
           </div>
+          <TimeLeftPanel
+            text="Recovers in:"
+            timeLeft={timeLeft}
+            showTimeLeft={showStumpTimeLeft}
+          />
         </>
       )}
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import play from "assets/ui/music_player/play.png";
 import pause from "assets/ui/music_player/pause.png";
 import skip_forward from "assets/ui/music_player/skip-forward.png";
@@ -132,10 +131,8 @@ export const AudioPlayer: React.FC = () => {
       </Panel>
       <div
         className={`position-absolute ${
-          visible
-            ? "-left-7 sm:-left-9"
-            : "-left-11 sm:-left-12 sm:-translate-x-1"
-        } bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex align-items-center overflow-hidden`}
+          visible ? "translate-x-1.5" : ""
+        } -left-20 sm:-left-24 bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex gap-2 align-items-center overflow-hidden`}
       >
         <Button onClick={() => setIsVisible(!visible)}>
           <img

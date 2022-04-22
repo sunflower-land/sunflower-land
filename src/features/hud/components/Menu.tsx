@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { Button } from "components/ui/Button";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -8,9 +9,10 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 
+import { Modal } from "react-bootstrap";
 import { Share } from "./Share";
 import { HowToPlay } from "./howToPlay/HowToPlay";
-import { Modal } from "react-bootstrap";
+import { Settings } from "./Settings";
 
 import mobileMenu from "assets/icons/hamburger_menu.png";
 import questionMark from "assets/icons/expression_confused.png";
@@ -20,10 +22,9 @@ import water from "assets/icons/expression_working.png";
 import timer from "assets/icons/timer.png";
 import wood from "assets/resources/wood.png";
 import leftArrow from "assets/icons/arrow_left.png";
-import rightArrow from "assets/icons/arrow_right.png";
+import close from "assets/icons/close.png";
 
 import { isNewFarm } from "../lib/onboarding";
-import { Settings } from "./Settings";
 
 /**
  * TODO:
@@ -49,7 +50,9 @@ export const Menu = () => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
+  const [showLogoutModal, setShowSettings] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
+  const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
@@ -87,13 +90,15 @@ export const Menu = () => {
   };
 
   const syncOnChain = async () => {
-    if (!authState.context.token?.userAccess.sync) {
-      setShowComingSoon(true);
-      return;
-    }
+    setShowCaptcha(true);
+  };
 
-    gameService.send("SYNC");
+  const onCaptchaSolved = async (captcha: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    gameService.send("SYNC", { captcha });
     setMenuOpen(false);
+    setShowCaptcha(false);
   };
 
   const autosave = async () => {
@@ -211,6 +216,14 @@ export const Menu = () => {
                     <span className="sm:text-sm flex-1">Community</span>
                   </Button>
                 </li>
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={handleSettingsClick}
+                  >
+                    <span className="sm:text-sm flex-1">Settings</span>
+                  </Button>
+                </li>
               </>
             )}
 
@@ -275,7 +288,7 @@ export const Menu = () => {
             {menuLevel === MENU_LEVELS.VIEW && (
               <>
                 <li className="p-1">
-                  <Button onClick={() => handleShareClick()}>
+                  <Button onClick={handleShareClick}>
                     <span className="sm:text-sm">Share</span>
                   </Button>
                 </li>
@@ -308,14 +321,29 @@ export const Menu = () => {
         onClose={() => setShowHowToPlay(false)}
       />
 
-      {/* TODO - To be deleted when withdraw and "Sync on chain" are implemented */}
-      <Modal
-        show={showComingSoon}
-        onHide={() => setShowComingSoon(false)}
-        centered
-      >
-        <Panel>Coming soon!</Panel>
-      </Modal>
+      <Settings
+        isOpen={showLogoutModal}
+        onClose={() => setShowSettings(false)}
+      />
+
+      {showCaptcha && (
+        <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>
+          <Panel>
+            <img
+              src={close}
+              className="h-6 top-3 right-4 absolute cursor-pointer"
+              alt="Close Logout Confirmation Modal"
+              onClick={() => setShowCaptcha(false)}
+            />
+            <ReCAPTCHA
+              sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+              onChange={onCaptchaSolved}
+              onExpired={() => setShowCaptcha(false)}
+              className="w-full m-4 flex items-center justify-center"
+            />
+          </Panel>
+        </Modal>
+      )}
     </div>
   );
 };

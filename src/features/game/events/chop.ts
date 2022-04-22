@@ -24,7 +24,10 @@ type GetChoppedAtAtgs = {
  * Set a chopped in the past to make it replenish faster
  */
 function getChoppedAt({ inventory, createdAt }: GetChoppedAtAtgs): number {
-  if (inventory["Apprentice Beaver"]?.gte(1)) {
+  if (
+    inventory["Apprentice Beaver"]?.gte(1) ||
+    inventory["Foreman Beaver"]?.gte(1)
+  ) {
     return createdAt - (TREE_RECOVERY_SECONDS / 2) * 1000;
   }
 
@@ -34,7 +37,7 @@ function getChoppedAt({ inventory, createdAt }: GetChoppedAtAtgs): number {
 /**
  * Returns the amount of axe required to chop down a tree
  */
-function getRequiredAxeAmount(inventory: Inventory) {
+export function getRequiredAxeAmount(inventory: Inventory) {
   if (inventory["Foreman Beaver"]) {
     return new Decimal(0);
   }
@@ -63,12 +66,12 @@ export function chop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  if (action.item !== "Axe") {
+  const requiredAxes = getRequiredAxeAmount(state.inventory);
+  if (action.item !== "Axe" && requiredAxes.gt(0)) {
     throw new Error(CHOP_ERRORS.MISSING_AXE);
   }
 
   const axeAmount = state.inventory.Axe || new Decimal(0);
-  const requiredAxes = getRequiredAxeAmount(state.inventory);
   if (axeAmount.lessThan(requiredAxes)) {
     throw new Error(CHOP_ERRORS.NO_AXES);
   }

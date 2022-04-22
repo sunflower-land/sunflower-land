@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import classNames from "classnames";
 import soil from "assets/land/soil2.png";
 
-import { getTimeLeft } from "lib/utils/time";
+import { getTimeLeft, secondsToMidString } from "lib/utils/time";
 
 import { ProgressBar } from "components/ui/ProgressBar";
 import { InnerPanel, Panel } from "components/ui/Panel";
 
 import { FieldItem } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
+import { addNoise, RandomID } from "lib/images";
+
 import { LIFECYCLE } from "../lib/plant";
 import classnames from "classnames";
 
@@ -18,6 +20,28 @@ interface Props {
   className?: string;
   showCropDetails?: boolean;
 }
+
+const Ready: React.FC<{ image: string; className: string }> = ({
+  image,
+  className,
+}) => {
+  const id = useRef(RandomID());
+
+  useEffect(() => {
+    // Randomly add some noise to the crops
+    if (Math.random() > 0.8) {
+      addNoise(id.current, 0.15);
+    }
+  }, []);
+
+  return (
+    <img
+      id={id.current}
+      src={image}
+      className={classnames("w-full", className)}
+    />
+  );
+};
 
 export const Soil: React.FC<Props> = ({
   field,
@@ -48,11 +72,12 @@ export const Soil: React.FC<Props> = ({
   // Seedling
   if (timeLeft > 0) {
     const percentage = 100 - (timeLeft / crop.harvestSeconds) * 100;
+    const isAlmostReady = percentage >= 50;
 
     return (
       <div className="relative w-full h-full">
         <img
-          src={lifecycle.seedling}
+          src={isAlmostReady ? lifecycle.almost : lifecycle.seedling}
           className={classnames("w-full", className)}
         />
         <div className="absolute w-full -bottom-4 z-10">
@@ -67,17 +92,17 @@ export const Soil: React.FC<Props> = ({
             }
           )}
         >
-          <div className="flex items-center justify-center text-xxs text-white text-shadow ml-2 mr-2">
-            <img src={lifecycle.ready} className="w-4 mr-1" />
-            <span className="flex-1">{field.name}</span>
+          <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
+            <div className="flex flex-1 items-center justify-center">
+              <img src={lifecycle.ready} className="w-4 mr-1" />
+              <span>{field.name}</span>
+            </div>
+            <span className="flex-1">{secondsToMidString(timeLeft)}</span>
           </div>
         </InnerPanel>
       </div>
     );
   }
 
-  // Ready to harvest
-  return (
-    <img src={lifecycle.ready} className={classnames("w-full", className)} />
-  );
+  return <Ready className={className as string} image={lifecycle.ready} />;
 };

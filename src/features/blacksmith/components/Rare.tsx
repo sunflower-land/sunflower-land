@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import token from "assets/icons/token.gif";
 
@@ -17,7 +18,8 @@ import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
-import { FLAGS } from "features/game/types/flags";
+import { mintCooldown } from "../lib/mintUtils";
+import { secondsToString } from "lib/utils/time";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -63,17 +65,24 @@ const Items: React.FC<{
     </div>
   );
 };
-export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = true }) => {
+export const Rare: React.FC<Props> = ({
+  onClose,
+  items,
+  hasAccess,
+  canCraft = true,
+}) => {
   const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
   const { gameService } = useContext(Context);
   const [
     {
-      context: { state },
+      context: { state, itemsMintedAt },
     },
   ] = useActor(gameService);
   const [isLoading, setIsLoading] = useState(true);
   const [supply, setSupply] = useState<ItemSupply>();
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
+  console.log({ itemsMintedAt });
   useEffect(() => {
     const load = async () => {
       const supply = await metamask.getInventory().totalSupply();
@@ -93,7 +102,13 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = tr
     state.balance.lessThan(selected.price.mul(amount));
 
   const craft = () => {
-    gameService.send("MINT", { item: selected.name });
+    setShowCaptcha(true);
+  };
+
+  const onCaptchaSolved = async (token: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    gameService.send("MINT", { item: selected.name, captcha: token });
     onClose();
   };
 
@@ -117,12 +132,27 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = tr
       return null;
     }
 
-    if (!hasAccess) {
-      return <span className="text-sm text-center">Locked</span>;
+    if (!hasAccess && selected.disabled) {
+      return <span className="text-xs text-center mt-1">Coming soon</span>;
     }
 
-    if (state.inventory[selected.name]) {
-      return <span className="text-xs mt-1 text-center">Already minted</span>;
+    const cooldown = mintCooldown({ item: selected.name, itemsMintedAt });
+    if (cooldown > 0) {
+      return (
+        <div className="text-center">
+          <a
+            href={`https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#crafting-limits`}
+            className="underline text-xs hover:text-blue-500 mt-1 block"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Already minted
+          </a>
+          <span className="text-xs text-center">
+            Available in {secondsToString(cooldown)}
+          </span>
+        </div>
+      );
     }
 
     if (selected.requires && !state.inventory[selected.requires]) {
@@ -146,13 +176,29 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = tr
         <Button
           disabled={lessFunds() || lessIngredients()}
           className="text-xs mt-1"
-          onClick={() => craft()}
+          onClick={craft}
         >
           Craft
         </Button>
       </>
     );
   };
+
+  if (showCaptcha) {
+    return (
+      <>
+        <ReCAPTCHA
+          sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+          onChange={onCaptchaSolved}
+          onExpired={() => setShowCaptcha(false)}
+          className="w-full m-4 flex items-center justify-center"
+        />
+        <p className="text-xxs p-1 m-1 text-center">
+          Crafting an item will sync your farm to the blockchain.
+        </p>
+      </>
+    );
+  }
 
   return (
     <div className="flex">
@@ -184,15 +230,13 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = tr
           <span className="text-shadow text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
-          {hasAccess ? (
+          {canCraft && (
             <div className="border-t border-white w-full mt-2 pt-1">
               {selected.ingredients.map((ingredient, index) => {
                 const item = ITEM_DETAILS[ingredient.item];
                 const lessIngredient = new Decimal(
                   inventory[ingredient.item] || 0
                 ).lessThan(ingredient.amount);
-
-                if (!canCraft) return;
 
                 return (
                   <div className="flex justify-center items-end" key={index}>
@@ -211,24 +255,20 @@ export const Rare: React.FC<Props> = ({ onClose, items, hasAccess, canCraft = tr
                 );
               })}
 
-              {canCraft && (
-                <div className="flex justify-center items-end">
-                  <img src={token} className="h-5 mr-1" />
-                  <span
-                    className={classNames(
-                      "text-xs text-shadow text-center mt-2 ",
-                      {
-                        "text-red-500": lessFunds(),
-                      }
-                    )}
-                  >
-                    {`${selected.price.toNumber()}`}
-                  </span>
-                </div>
-              )}
+              <div className="flex justify-center items-end">
+                <img src={token} className="h-5 mr-1" />
+                <span
+                  className={classNames(
+                    "text-xs text-shadow text-center mt-2 ",
+                    {
+                      "text-red-500": lessFunds(),
+                    }
+                  )}
+                >
+                  {`${selected.price.toNumber()}`}
+                </span>
+              </div>
             </div>
-          ) : (
-            <span>?</span>
           )}
 
           {Action()}

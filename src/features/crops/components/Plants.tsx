@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.gif";
+import lightning from "assets/icons/lightning.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -14,7 +15,7 @@ import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { getSellPrice } from "features/game/lib/pricing";
+import { getSellPrice, hasSellBoost } from "features/game/lib/boosts";
 
 export const Plants: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
@@ -26,6 +27,7 @@ export const Plants: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+  const [isPriceBoosted, setIsPriceBoosted] = useState(false);
 
   const inventory = state.inventory;
 
@@ -54,16 +56,20 @@ export const Plants: React.FC = () => {
 
   // ask confirmation if crop supply is greater than 1
   const openConfirmationModal = () => {
-    if (cropAmount.toNumber() > 1) {
-      showSellAllModal(true);
-    } else {
+    if (cropAmount.equals(1)) {
       handleSellOne();
+    } else {
+      showSellAllModal(true);
     }
   };
 
   const closeConfirmationModal = () => {
     showSellAllModal(false);
   };
+
+  useEffect(() => {
+    setIsPriceBoosted(hasSellBoost(inventory));
+  }, [state.inventory]);
 
   return (
     <div className="flex">
@@ -93,22 +99,23 @@ export const Plants: React.FC = () => {
           <div className="border-t border-white w-full mt-2 pt-1">
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
+              {isPriceBoosted && <img src={lightning} className="h-6 me-2" />}
               <span className="text-xs text-shadow text-center mt-2 ">
                 {`$${displaySellPrice(selected)}`}
               </span>
             </div>
           </div>
           <Button
-            disabled={noCrop}
+            disabled={cropAmount.lessThan(1)}
             className="text-xs mt-1"
-            onClick={() => handleSellOne()}
+            onClick={handleSellOne}
           >
             Sell 1
           </Button>
           <Button
             disabled={noCrop}
             className="text-xs mt-1 whitespace-nowrap"
-            onClick={() => openConfirmationModal()}
+            onClick={openConfirmationModal}
           >
             Sell All
           </Button>
@@ -129,7 +136,7 @@ export const Plants: React.FC = () => {
             <Button
               disabled={noCrop}
               className="text-xs"
-              onClick={() => handleSellAll()}
+              onClick={handleSellAll}
             >
               Yes
             </Button>

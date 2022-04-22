@@ -2,37 +2,7 @@ import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
-type Request = {
-  sessionId: string;
-  farmId: number;
-  sfl: number;
-  ids: number[];
-  amounts: string[];
-  token: string;
-};
-
 const API_URL = CONFIG.API_URL;
-
-async function signTransaction(request: Request) {
-  const response = await window.fetch(`${API_URL}/withdraw`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${request.token}`,
-    },
-    body: JSON.stringify({
-      sessionId: request.sessionId,
-      farmId: request.farmId,
-      sfl: request.sfl,
-      ids: request.ids,
-      amounts: request.amounts,
-    }),
-  });
-
-  const data = await response.json();
-
-  return data;
-}
 
 type Options = {
   farmId: number;
@@ -41,6 +11,7 @@ type Options = {
   ids: number[];
   amounts: string[];
   token: string;
+  captcha: string;
 };
 export async function withdraw({
   farmId,
@@ -49,19 +20,34 @@ export async function withdraw({
   ids,
   amounts,
   token,
+  captcha,
 }: Options) {
-  if (!API_URL) return;
-
-  const transaction = await signTransaction({
-    farmId,
-    sessionId,
-    sfl,
-    ids,
-    amounts,
-    token,
+  const response = await window.fetch(`${API_URL}/withdraw/${farmId}`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      sessionId: sessionId,
+      sfl: sfl,
+      ids: ids,
+      amounts: amounts,
+      captcha,
+    }),
   });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status >= 400) {
+    throw new Error(ERRORS.FAILED_REQUEST);
+  }
+
+  const transaction = await response.json();
 
   const newSessionId = await metamask.getSessionManager().withdraw(transaction);
 
-  return newSessionId;
+  return { sessionId: newSessionId, verified: true };
 }

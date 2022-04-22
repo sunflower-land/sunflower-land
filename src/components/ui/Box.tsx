@@ -1,20 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
-import lightBorder from "assets/ui/panel/light_border.png";
 import darkBorder from "assets/ui/panel/dark_border.png";
 import selectBox from "assets/ui/select/select_box.png";
+import cancel from "assets/icons/cancel.png";
 import { Label } from "./Label";
 
 export interface BoxProps {
-  image: any;
+  image?: any;
   secondaryImage?: any;
   isSelected?: boolean;
   count?: Decimal;
   onClick?: () => void;
   disabled?: boolean;
+  locked?: boolean;
 }
+
+/**
+ * Format like in shortAddress
+ * Rules/Limits:
+ * - rounded down explicitly
+ * - denominate by k, m for now
+ */
+const shortenCount = (count: Decimal | undefined): string => {
+  if (!count) return "";
+
+  if (count.lessThan(1))
+    return count.toDecimalPlaces(2, Decimal.ROUND_FLOOR).toString();
+
+  if (count.lessThan(1000))
+    return count.toDecimalPlaces(0, Decimal.ROUND_FLOOR).toString();
+
+  const isThousand = count.lessThan(1e6);
+
+  return `${count
+    .div(isThousand ? 1000 : 1e6)
+    .toDecimalPlaces(1, Decimal.ROUND_FLOOR)
+    .toString()}${isThousand ? "k" : "m"}`;
+};
 
 export const Box: React.FC<BoxProps> = ({
   image,
@@ -23,18 +47,32 @@ export const Box: React.FC<BoxProps> = ({
   count,
   onClick,
   disabled,
+  locked,
 }) => {
+  const [isHover, setIsHover] = useState(false);
+  const [shortCount, setShortCount] = useState("");
+
+  // re execute function on count change
+  useEffect(() => setShortCount(shortenCount(count)), [count]);
+
+  const canClick = !locked && !disabled;
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+    >
       <div
         className={classNames(
           "w-12 h-12 bg-brown-600  m-1.5 cursor-pointer flex items-center justify-center relative",
           {
             "bg-brown-600 cursor-not-allowed": disabled,
             "bg-brown-200": isSelected,
+            "opacity-75": locked,
+            "cursor-pointer": canClick,
           }
         )}
-        onClick={onClick}
+        onClick={canClick ? onClick : undefined}
         // Custom styles to get pixellated border effect
         style={{
           // border: "6px solid transparent",
@@ -58,20 +96,36 @@ export const Box: React.FC<BoxProps> = ({
             />
           </div>
         ) : (
+          image && (
+            <img
+              src={image}
+              className="h-full w-full object-contain"
+              alt="item"
+            />
+          )
+        )}
+
+        {locked && (
           <img
-            src={image}
-            className="h-full w-full object-contain"
-            alt="item"
+            src={cancel}
+            className="absolute w-6 -top-3 -right-3 px-0.5 z-20"
           />
         )}
 
-        {!!count && count.greaterThan(0) && (
-          <Label className="absolute -top-4 -right-3 px-0.5 text-xs z-10">
-            {count.toString()}
+        {!locked && !!count && count.greaterThan(0) && (
+          <Label
+            className={classNames(
+              "absolute -top-4 -right-3 px-0.5 text-xs z-10",
+              {
+                "z-20": isHover,
+              }
+            )}
+          >
+            {isHover ? count.toString() : shortCount}
           </Label>
         )}
       </div>
-      {isSelected && (
+      {(isSelected || isHover) && !locked && !disabled && (
         <img
           className="absolute w-14 h-14 top-0.5 left-0.5 pointer-events-none"
           src={selectBox}

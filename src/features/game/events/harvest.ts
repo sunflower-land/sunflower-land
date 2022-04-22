@@ -1,6 +1,7 @@
-import { GameState } from "../types/game";
+import { GameState, Inventory } from "../types/game";
 import { CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
+import { screenTracker } from "lib/utils/screen";
 
 export type HarvestAction = {
   type: "item.harvested";
@@ -63,18 +64,24 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Not ready");
   }
 
+  if (!screenTracker.calculate()) {
+    throw new Error("Invalid harvest");
+  }
+
   const newFields = fields;
   delete newFields[action.index];
 
   const cropCount = state.inventory[field.name] || new Decimal(0);
   const multiplier = field.multiplier || 1;
 
+  const inventory: Inventory = {
+    ...state.inventory,
+    [field.name]: cropCount.add(multiplier),
+  };
+
   return {
     ...state,
     fields: newFields,
-    inventory: {
-      ...state.inventory,
-      [field.name]: cropCount.add(multiplier),
-    },
+    inventory,
   } as GameState;
 }

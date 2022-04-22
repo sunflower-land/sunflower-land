@@ -34,9 +34,10 @@ export const CropZoneTwo: React.FC = () => {
     scrollIntoView(Section.Town);
   };
 
+  const isUnlocked = state.inventory["Pumpkin Soup"];
   return (
     <>
-      {!state.inventory["Pumpkin Soup"] ? (
+      {!isUnlocked ? (
         <>
           {" "}
           <img
@@ -85,7 +86,7 @@ export const CropZoneTwo: React.FC = () => {
             style={{
               width: `${GRID_WIDTH_PX * 0.75}px`,
               left: `${GRID_WIDTH_PX * 0.2}px`,
-              bottom: `${GRID_WIDTH_PX * 4.4}px`,
+              bottom: `${GRID_WIDTH_PX * 4.5}px`,
             }}
           />
         </>
@@ -94,6 +95,7 @@ export const CropZoneTwo: React.FC = () => {
       <div
         className="absolute flex justify-center flex-col"
         id="cropzone-two"
+        onClick={!isUnlocked ? () => setShowModal(true) : undefined}
         style={{
           width: `${GRID_WIDTH_PX * 3}px`,
           height: `${GRID_WIDTH_PX * 3}px`,

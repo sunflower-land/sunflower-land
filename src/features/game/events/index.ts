@@ -6,8 +6,10 @@ import { mineGold, GoldMineAction } from "./goldMine";
 import { mineStone, StoneMineAction } from "./stoneMine";
 import { mineIron, IronMineAction } from "./ironMine";
 import { chop, ChopAction } from "./chop";
+import { openReward, OpenRewardAction } from "./rewarded";
 
 import { GameState } from "../types/game";
+import { CollectEggAction, collectEgg } from "./collectEgg";
 
 export type GameEvent =
   | CraftAction
@@ -17,7 +19,9 @@ export type GameEvent =
   | StoneMineAction
   | IronMineAction
   | GoldMineAction
-  | ChopAction;
+  | ChopAction
+  | OpenRewardAction
+  | CollectEggAction;
 
 type EventName = Extract<GameEvent, { type: string }>["type"];
 
@@ -40,6 +44,7 @@ export const EVENTS: Handlers = {
   "stone.mined": mineStone,
   "iron.mined": mineIron,
   "gold.mined": mineGold,
-
   "tree.chopped": chop,
+  "reward.opened": openReward,
+  "easterEgg.collected": collectEgg,
 };

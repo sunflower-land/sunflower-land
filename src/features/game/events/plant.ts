@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { screenTracker } from "lib/utils/screen";
 import { CropName, CROPS, SeedName } from "../types/crops";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 
@@ -19,9 +20,10 @@ const VALID_SEEDS: InventoryItemName[] = [
   "Pumpkin Seed",
   "Parsnip Seed",
   "Radish Seed",
+  "Wheat Seed",
 ];
 
-function isSeed(crop: InventoryItemName): crop is SeedName {
+export function isSeed(crop: InventoryItemName): crop is SeedName {
   return VALID_SEEDS.includes(crop);
 }
 
@@ -38,6 +40,32 @@ type GetPlantedAtArgs = {
 };
 
 /**
+ * Based on boosts, how long a crop will take
+ */
+export const getCropTime = (crop: CropName, inventory: Inventory) => {
+  let seconds = CROPS()[crop].harvestSeconds;
+
+  if (inventory["Seed Specialist"]?.gte(1)) {
+    seconds = seconds * 0.9;
+  }
+
+  if (crop === "Parsnip" && inventory["Mysterious Parsnip"]?.gte(1)) {
+    seconds = seconds * 0.5;
+  }
+
+  // Scarecrow: 15% reduction
+  if (
+    inventory.Nancy?.greaterThanOrEqualTo(1) ||
+    inventory.Scarecrow?.greaterThanOrEqualTo(1) ||
+    inventory.Kuebiko?.greaterThanOrEqualTo(1)
+  ) {
+    seconds = seconds * 0.85;
+  }
+
+  return seconds;
+};
+
+/**
  * Set a plantedAt in the past to make a crop grow faster
  */
 function getPlantedAt({
@@ -45,12 +73,12 @@ function getPlantedAt({
   inventory,
   createdAt,
 }: GetPlantedAtArgs): number {
-  // 15% speed boost with scarecrow
-  if (inventory.Scarecrow?.gte(1)) {
-    return createdAt - CROPS()[crop].harvestSeconds * 1000 * 0.15;
-  }
+  const cropTime = CROPS()[crop].harvestSeconds;
+  const boostedTime = getCropTime(crop, inventory);
 
-  return createdAt;
+  const offset = cropTime - boostedTime;
+
+  return createdAt - offset * 1000;
 }
 
 type GetFieldArgs = {
@@ -67,7 +95,11 @@ function getMultiplier({ crop, inventory }: GetFieldArgs): number {
     multiplier *= 2;
   }
 
-  if (inventory.Scarecrow?.gte(1)) {
+  if (crop === "Carrot" && inventory["Easter Bunny"]?.gte(1)) {
+    multiplier *= 1.2;
+  }
+
+  if (inventory.Scarecrow?.gte(1) || inventory.Kuebiko?.gte(1)) {
     multiplier *= 1.2;
   }
 
@@ -129,6 +161,10 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
   const seedCount = state.inventory[action.item] || new Decimal(0);
   if (seedCount.lessThan(1)) {
     throw new Error("Not enough seeds");
+  }
+
+  if (!screenTracker.calculate()) {
+    throw new Error("Invalid plant");
   }
 
   const newFields = fields;

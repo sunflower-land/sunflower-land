@@ -2,6 +2,7 @@ import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, fromWei, toWei } from "web3-utils";
 import WishingWellJSON from "./abis/WishingWell.json";
+import { estimateGasPrice } from "./utils";
 
 const address = CONFIG.WISHING_WELL_CONTRACT;
 
@@ -23,12 +24,12 @@ export class WishingWell {
     );
   }
 
-  public async throwTokens(amount: string) {
-    console.log({ amount });
+  public async wish() {
+    const gasPrice = await estimateGasPrice(this.web3);
     return new Promise((resolve, reject) => {
       this.contract.methods
-        .throwTokens(amount)
-        .send({ from: this.account })
+        .wish()
+        .send({ from: this.account, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });
 
@@ -44,31 +45,21 @@ export class WishingWell {
     });
   }
 
-  public async takeOut(amount: string) {
+  public async collectFromWell({
+    signature,
+    tokens,
+    deadline,
+  }: {
+    signature: string;
+    tokens: string;
+    deadline: number;
+  }) {
+    const gasPrice = await estimateGasPrice(this.web3);
+
     return new Promise((resolve, reject) => {
       this.contract.methods
-        .takeOut(amount)
-        .send({ from: this.account })
-        .on("error", function (error: any) {
-          console.log({ error });
-
-          reject(error);
-        })
-        .on("transactionHash", function (transactionHash: any) {
-          console.log({ transactionHash });
-        })
-        .on("receipt", function (receipt: any) {
-          console.log({ receipt });
-          resolve(receipt);
-        });
-    });
-  }
-
-  public async collectFromWell() {
-    return new Promise((resolve, reject) => {
-      this.contract.methods
-        .collectFromWell()
-        .send({ from: this.account })
+        .collectFromWell(signature, tokens, deadline)
+        .send({ from: this.account, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });
 

@@ -93,9 +93,9 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     description: "Give it some time, it's worth the wait!",
   },
   Wheat: {
-    buyPrice: marketRate(0.1),
-    sellPrice: marketRate(0.14),
-    harvestSeconds: 72 * 60 * 60,
+    buyPrice: marketRate(5),
+    sellPrice: marketRate(7),
+    harvestSeconds: 24 * 60 * 60,
     name: "Wheat",
     description: "The most harvested crop in the world.",
   },
@@ -167,9 +167,8 @@ export const SEEDS: () => Record<SeedName, Craftable> = () => ({
   "Wheat Seed": {
     name: "Wheat Seed",
     description: "The most harvested crop in the world.",
-    price: marketRate(10),
+    price: marketRate(5),
     ingredients: [],
-    requires: "Pumpkin Soup",
-    disabled: true,
+    requires: "Radish Pie",
   },
 });

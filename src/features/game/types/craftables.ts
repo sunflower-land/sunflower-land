@@ -4,7 +4,6 @@ import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
-import { Bar } from "components/ui/ProgressBar";
 
 export { FLAGS };
 
@@ -48,11 +47,26 @@ export type BlacksmithItem =
   | "Fountain"
   | "Woody the Beaver"
   | "Apprentice Beaver"
-  | "Foreman Beaver";
+  | "Foreman Beaver"
+  | "Nyon Statue"
+  | "Homeless Tent"
+  | "Egg Basket"
+  | "Farmer Bath";
 
-export type BarnItem = "Farm Cat" | "Farm Dog" | "Chicken Coop" | "Gold Egg";
+export type BarnItem =
+  | "Farm Cat"
+  | "Farm Dog"
+  | "Chicken Coop"
+  | "Gold Egg"
+  | "Easter Bunny";
 
-export type MarketItem = "Scarecrow" | "Golden Cauliflower";
+export type MarketItem =
+  | "Nancy"
+  | "Scarecrow"
+  | "Kuebiko"
+  | "Golden Cauliflower"
+  | "Mysterious Parsnip"
+  | "Carrot Sword";
 
 export type LimitedItem = BlacksmithItem | BarnItem | MarketItem | Flag;
 
@@ -64,7 +78,11 @@ export type Tool =
   | "Hammer"
   | "Rod";
 
-export type Food = "Pumpkin Soup" | "Roasted Cauliflower" | "Sauerkraut";
+export type Food =
+  | "Pumpkin Soup"
+  | "Roasted Cauliflower"
+  | "Sauerkraut"
+  | "Radish Pie";
 
 export type Animal = "Chicken" | "Cow" | "Pig" | "Sheep";
 
@@ -101,6 +119,17 @@ export const FOODS: () => Record<Food, Craftable> = () => ({
       {
         item: "Cauliflower",
         amount: new Decimal(30),
+      },
+    ],
+  },
+  "Radish Pie": {
+    name: "Radish Pie",
+    description: "Despised by humans, loved by goblins",
+    price: marketRate(300),
+    ingredients: [
+      {
+        item: "Radish",
+        amount: new Decimal(60),
       },
     ],
   },
@@ -187,7 +216,7 @@ export const TOOLS: Record<Tool, Craftable> = {
 export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
-    description: "Earn beta access to new features",
+    description: "A symbol of the holy token",
     price: new Decimal(5),
     ingredients: [
       {
@@ -246,6 +275,28 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     supply: 0,
     section: Section.Gnome,
   },
+  "Homeless Tent": {
+    name: "Homeless Tent",
+    description: "A nice and cozy tent",
+    price: new Decimal(10),
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Wood",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Stone",
+        amount: new Decimal(5),
+      },
+    ],
+    limit: 1,
+    supply: 1000,
+    section: Section.Tent,
+  },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
     description: "In memory of Sunflower Farmers",
@@ -292,6 +343,44 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     supply: 10000,
     section: Section.Fountain,
   },
+  "Nyon Statue": {
+    name: "Nyon Statue",
+    description: "In memory of Nyon Lann",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(30),
+        item: "Stone",
+      },
+      {
+        amount: new Decimal(20),
+        item: "Iron",
+      },
+      {
+        amount: new Decimal(5),
+        item: "Gold",
+      },
+    ],
+    limit: 1,
+    supply: 1000,
+  },
+  "Farmer Bath": {
+    name: "Farmer Bath",
+    description: "A beetroot scented bath for the farmers",
+    price: new Decimal(25),
+    ingredients: [
+      {
+        amount: new Decimal(100),
+        item: "Beetroot",
+      },
+      {
+        amount: new Decimal(20),
+        item: "Wood",
+      },
+    ],
+    supply: 5000,
+    section: Section["Bath"],
+  },
   "Woody the Beaver": {
     name: "Woody the Beaver",
     description: "Increase wood drops by 20%",
@@ -302,7 +391,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
         item: "Wood",
       },
     ],
-    supply: 5000,
+    supply: 50000,
     section: Section.Beaver,
   },
   "Apprentice Beaver": {
@@ -321,6 +410,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 5000,
     section: Section.Beaver,
+    disabled: true,
   },
   "Foreman Beaver": {
     name: "Foreman Beaver",
@@ -338,14 +428,31 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 300,
     section: Section.Beaver,
+    disabled: true,
+  },
+  "Egg Basket": {
+    name: "Egg Basket",
+    description: "Gives access to the Easter Egg Hunt",
+    price: new Decimal(0),
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Carrot",
+        amount: new Decimal(5),
+      },
+    ],
+    supply: 100000,
   },
 };
 
 export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
-  Scarecrow: {
-    name: "Scarecrow",
-    description: "Grow crops 20% faster",
-    price: new Decimal(50),
+  Nancy: {
+    name: "Nancy",
+    description: "Keeps a few crows away. Crops grow 15% faster",
+    price: new Decimal(10),
     ingredients: [
       {
         item: "Wheat",
@@ -356,8 +463,48 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(50),
       },
     ],
-    limit: 1,
     supply: 50000,
+    section: Section.Scarecrow,
+  },
+  Scarecrow: {
+    name: "Scarecrow",
+    description: "A goblin scarecrow. Yield 20% more crops",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: new Decimal(400),
+      },
+      {
+        item: "Wood",
+        amount: new Decimal(50),
+      },
+      {
+        item: "Nancy",
+        amount: new Decimal(1),
+      },
+    ],
+    limit: 1,
+    supply: 5000,
+    disabled: true,
+    section: Section.Scarecrow,
+  },
+  Kuebiko: {
+    name: "Kuebiko",
+    description:
+      "Even the shopkeeper is scared of this scarecrow. Seeds are free",
+    price: new Decimal(300),
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: new Decimal(600),
+      },
+      {
+        item: "Scarecrow",
+        amount: new Decimal(1),
+      },
+    ],
+    supply: 200,
     disabled: true,
     section: Section.Scarecrow,
   },
@@ -376,6 +523,36 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
       },
     ],
     supply: 100,
+    disabled: true,
+  },
+  "Mysterious Parsnip": {
+    name: "Mysterious Parsnip",
+    description: "Parsnips grow 50% faster",
+    price: new Decimal(0),
+    ingredients: [
+      {
+        item: "Parsnip",
+        amount: new Decimal(500),
+      },
+      {
+        item: "Gold",
+        amount: new Decimal(50),
+      },
+    ],
+    supply: 500,
+    disabled: true,
+  },
+  "Carrot Sword": {
+    name: "Carrot Sword",
+    description: "Increase chance of a mutant crop appearing",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        item: "Carrot",
+        amount: new Decimal(2000),
+      },
+    ],
+    supply: 1000,
   },
 };
 
@@ -401,6 +578,7 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
     supply: 1000,
     limit: 1,
     section: Section["Chicken Coop"],
+    disabled: true,
   },
   "Farm Cat": {
     name: "Farm Cat",
@@ -433,6 +611,49 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
       },
     ],
     supply: 250,
+    disabled: true,
+  },
+  "Easter Bunny": {
+    name: "Easter Bunny",
+    description: "Earn 20% more Carrots",
+    price: new Decimal(0),
+    ingredients: [
+      {
+        item: "Egg Basket",
+        amount: new Decimal(1),
+      },
+      {
+        item: "Blue Egg",
+        amount: new Decimal(1),
+      },
+      {
+        item: "Yellow Egg",
+        amount: new Decimal(1),
+      },
+      {
+        item: "Green Egg",
+        amount: new Decimal(1),
+      },
+      {
+        item: "Purple Egg",
+        amount: new Decimal(1),
+      },
+      {
+        item: "Orange Egg",
+        amount: new Decimal(1),
+      },
+      {
+        item: "Pink Egg",
+        amount: new Decimal(1),
+      },
+      {
+        item: "Red Egg",
+        amount: new Decimal(1),
+      },
+    ],
+    supply: 100000,
+    disabled: false,
+    section: Section["Easter Bunny"],
   },
 };
 

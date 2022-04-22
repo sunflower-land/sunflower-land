@@ -9,7 +9,7 @@ export const Success: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <img src={secure} className="w-1/2" />
+      <img src={secure} className="w-16 my-4" />
       <span className="text-center mb-2">
         Woohoo! Your items are secured on the Blockchain!
       </span>

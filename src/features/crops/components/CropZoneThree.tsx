@@ -23,9 +23,11 @@ export const CropZoneThree: React.FC = () => {
     },
   ] = useActor(gameService);
 
+  const isUnlocked = state.inventory["Sauerkraut"];
+
   return (
     <>
-      {!state.inventory["Sauerkraut"] ? (
+      {!isUnlocked ? (
         <>
           <img
             src={goblinWatering}
@@ -64,6 +66,7 @@ export const CropZoneThree: React.FC = () => {
       <div
         className="absolute flex justify-between flex-col"
         id="cropzone-three"
+        onClick={!isUnlocked ? () => setShowModal(true) : undefined}
         style={{
           width: `${GRID_WIDTH_PX * 4}px`,
           height: `${GRID_WIDTH_PX * 2.3}px`,

@@ -98,47 +98,47 @@ export const SKILL_TREE: Record<
  */
 export function getLevel(experience: Decimal) {
   // Around 3 months farming
-  if (experience.gt(REQUIRED_XP.LEVEL_10)) {
+  if (experience.gte(REQUIRED_XP.LEVEL_10)) {
     return 10;
   }
 
   // Around 2 months farming
-  if (experience.gt(REQUIRED_XP.LEVEL_9)) {
+  if (experience.gte(REQUIRED_XP.LEVEL_9)) {
     return 9;
   }
 
   // Around 6 weeks farming
-  if (experience.gt(REQUIRED_XP.LEVEL_8)) {
+  if (experience.gte(REQUIRED_XP.LEVEL_8)) {
     return 8;
   }
 
   // Around 4 weeks farming
-  if (experience.gt(REQUIRED_XP.LEVEL_7)) {
+  if (experience.gte(REQUIRED_XP.LEVEL_7)) {
     return 7;
   }
 
   // Around 3 weeks farming
-  if (experience.gt(REQUIRED_XP.LEVEL_6)) {
+  if (experience.gte(REQUIRED_XP.LEVEL_6)) {
     return 6;
   }
 
   // Around 2 weeks farming
-  if (experience.gt(REQUIRED_XP.LEVEL_5)) {
+  if (experience.gte(REQUIRED_XP.LEVEL_5)) {
     return 5;
   }
 
   // Around 1 weeks farming
-  if (experience.gt(REQUIRED_XP.LEVEL_4)) {
+  if (experience.gte(REQUIRED_XP.LEVEL_4)) {
     return 4;
   }
 
   // Around three days farming
-  if (experience.gt(REQUIRED_XP.LEVEL_3)) {
+  if (experience.gte(REQUIRED_XP.LEVEL_3)) {
     return 3;
   }
 
   // Around one day farming
-  if (experience.gt(REQUIRED_XP.LEVEL_2)) {
+  if (experience.gte(REQUIRED_XP.LEVEL_2)) {
     return 2;
   }
 
@@ -191,6 +191,11 @@ export function getAvailableUpgrades(game: GameState): SkillName[] {
   }
 
   return [];
+}
+
+export function upgradeAvailable(state: GameState) {
+  const upgrades = getAvailableUpgrades(state);
+  return upgrades.length > 0;
 }
 
 type Level = 10 | 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1;

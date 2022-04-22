@@ -31,6 +31,7 @@ type Farm = {
   farmId: number;
   sessionId: string;
   address: string;
+  createdAt: number;
 };
 
 export interface Context {
@@ -41,6 +42,7 @@ export interface Context {
   address?: string;
   token?: Token;
   rawToken?: string;
+  captcha?: string;
 }
 
 type StartEvent = Farm & {
@@ -64,6 +66,7 @@ type CreateFarmEvent = {
   type: "CREATE_FARM";
   charityAddress: CharityAddress;
   donation: number;
+  captcha: string;
 };
 
 type LoadFarmEvent = {
@@ -91,14 +94,18 @@ export type BlockchainEvent =
 export type BlockchainState = {
   value:
     | "visiting"
+    | "minimised"
     | "connecting"
     | "connected"
     | "signing"
     | "oauthorising"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
+    | { connected: "checkingSupply" }
+    | { connected: "supplyReached" }
     | { connected: "noFarmLoaded" }
     | { connected: "creatingFarm" }
+    | { connected: "countdown" }
     | { connected: "readyToStart" }
     | { connected: "oauthorised" }
     | { connected: "authorised" }
@@ -132,6 +139,10 @@ export const authMachine = createMachine<
         invoke: {
           src: "initMetamask",
           onDone: [
+            // {
+            //   target: "minimised",
+            //   cond: () => !(window.screenTop === 0 && window.screenY === 0),
+            // },
             {
               target: "checkFarm",
               cond: "hasFarmIdUrl",
@@ -183,11 +194,38 @@ export const authMachine = createMachine<
               src: "loadFarm",
               onDone: [
                 {
+                  target: "countdown",
+                  cond: "isFresh",
+                },
+                {
                   target: "readyToStart",
                   actions: "assignFarm",
                   cond: "hasFarm",
                 },
-                { target: "noFarmLoaded" },
+                { target: "checkingSupply" },
+              ],
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
+            },
+          },
+          checkingSupply: {
+            id: "checkingSupply",
+            invoke: {
+              src: async () => {
+                const totalSupply = await metamask.getFarm()?.getTotalSupply();
+
+                return {
+                  totalSupply,
+                };
+              },
+              onDone: [
+                {
+                  target: "noFarmLoaded",
+                  cond: (_, event) => Number(event.data.totalSupply) < 100000,
+                },
+                { target: "supplyReached" },
               ],
               onError: {
                 target: "#unauthorised",
@@ -200,18 +238,27 @@ export const authMachine = createMachine<
               CREATE_FARM: {
                 target: "creatingFarm",
               },
+              REFRESH: {
+                target: "#connecting",
+              },
             },
           },
           creatingFarm: {
             invoke: {
               src: "createFarm",
               onDone: {
-                target: "authorised",
-                actions: "assignFarm",
+                target: "#connecting",
               },
               onError: {
                 target: "#unauthorised",
                 actions: "assignErrorMessage",
+              },
+            },
+          },
+          countdown: {
+            on: {
+              REFRESH: {
+                target: "#connecting",
               },
             },
           },
@@ -223,7 +270,7 @@ export const authMachine = createMachine<
               CONNECT_TO_DISCORD: {
                 // Redirects to Discord OAuth so no need for a state change
                 target: "noFarmLoaded",
-                actions: () => redirectOAuth(),
+                actions: redirectOAuth,
               },
               EXPLORE: {
                 target: "#exploring",
@@ -255,6 +302,7 @@ export const authMachine = createMachine<
               },
             },
           },
+          supplyReached: {},
         },
       },
       unauthorised: {
@@ -294,6 +342,7 @@ export const authMachine = createMachine<
           },
         },
       },
+      minimised: {},
     },
     on: {
       ACCOUNT_CHANGED: {
@@ -321,6 +370,10 @@ export const authMachine = createMachine<
           return;
         }
 
+        const createdAt = await metamask
+          .getBeta()
+          ?.getCreatedAt(metamask.myAccount as string);
+
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
         const farmAccount = farmAccounts[0];
 
@@ -332,17 +385,17 @@ export const authMachine = createMachine<
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           sessionId,
+          createdAt,
         };
       },
       createFarm: async (context: Context, event: any): Promise<Context> => {
-        const charityAddress = (event as CreateFarmEvent)
-          .charityAddress as CharityAddress;
-        const donation = (event as CreateFarmEvent).donation as number;
+        const { charityAddress, donation, captcha } = event as CreateFarmEvent;
 
         const newFarm = await createFarmAction({
           charity: charityAddress,
           donation,
           token: context.rawToken as string,
+          captcha: captcha,
         });
 
         return {
@@ -376,6 +429,7 @@ export const authMachine = createMachine<
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           sessionId: "",
+          createdAt: 0,
         };
       },
     },
@@ -396,10 +450,21 @@ export const authMachine = createMachine<
         farmId: () => undefined,
         address: () => undefined,
         sessionId: () => undefined,
+        token: () => undefined,
+        rawToken: () => undefined,
       }),
-      deleteFarmIdUrl: () => deleteFarmUrl(),
+      deleteFarmIdUrl: deleteFarmUrl,
     },
     guards: {
+      isFresh: (context: Context, event: any) => {
+        if (!event.data?.farmId) {
+          return false;
+        }
+
+        const secondsElapsed =
+          Date.now() / 1000 - (event.data as Farm).createdAt;
+        return secondsElapsed < 60;
+      },
       hasFarm: (context: Context, event: any) => {
         // If coming from the loadingFarm transition the farmId with show up on the event
         // else we check for it on the context

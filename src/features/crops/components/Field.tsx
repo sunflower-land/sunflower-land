@@ -3,15 +3,18 @@ import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
 import selectBox from "assets/ui/select/select_box.png";
+import cancel from "assets/icons/cancel.png";
 
 import { Context } from "features/game/GameProvider";
-import { InventoryItemName } from "features/game/types/game";
+import { InventoryItemName, Reward } from "features/game/types/game";
 
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Soil } from "./Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
+import { HealthBar } from "components/ui/HealthBar";
+import { CropReward } from "./CropReward";
 
 const POPOVER_TIME_MS = 1000;
 const HOVER_TIMEOUT = 1000;
@@ -23,14 +26,19 @@ interface Props {
   onboarding?: boolean;
 }
 
+const isCropReady = (now: number, plantedAt: number, harvestSeconds: number) =>
+  now - plantedAt > harvestSeconds * 1000;
+
 export const Field: React.FC<Props> = ({
   selectedItem,
   className,
   fieldIndex,
 }) => {
   const [showPopover, setShowPopover] = useState(true);
-  const [popover, setPopover] = useState<JSX.Element | null>(null);
-  const { gameService, shortcutItem } = useContext(Context);
+  const [popover, setPopover] = useState<JSX.Element | null>();
+  const { gameService } = useContext(Context);
+  const [touchCount, setTouchCount] = useState(0);
+  const [reward, setReward] = useState<Reward | null>(null);
   const [game] = useActor(gameService);
   const clickedAt = useRef<number>(0);
   const field = game.context.state.fields[fieldIndex];
@@ -44,18 +52,25 @@ export const Field: React.FC<Props> = ({
     setShowPopover(false);
   };
 
-  const timeoutId: null | ReturnType<typeof setTimeout> = null;
+  const onCollectReward = () => {
+    setReward(null);
+    setTouchCount(0);
+
+    gameService.send("item.harvested", {
+      index: fieldIndex,
+    });
+  };
 
   const handleMouseHover = () => {
     // check field if there is a crop
     if (field) {
       const crop = CROPS()[field.name];
       const now = Date.now();
-      const isCropReady = now - field.plantedAt > crop.harvestSeconds * 1000;
+      const isReady = isCropReady(now, field.plantedAt, crop.harvestSeconds);
       const isJustPlanted = now - field.plantedAt < 1000;
 
       // show details if field is NOT ready and NOT just planted
-      if (!isCropReady && !isJustPlanted) {
+      if (!isReady && !isJustPlanted) {
         setShowCropDetails(true);
       }
     }
@@ -75,6 +90,26 @@ export const Field: React.FC<Props> = ({
     }
 
     clickedAt.current = now;
+
+    // Already looking at a reward
+    if (reward) {
+      return;
+    }
+
+    if (
+      field?.reward &&
+      isCropReady(now, field.plantedAt, CROPS()[field.name].harvestSeconds)
+    ) {
+      if (touchCount < 1) {
+        setTouchCount((count) => count + 1);
+        return;
+      }
+
+      // They have touched enough!
+      setReward(field.reward);
+
+      return;
+    }
 
     // Plant
     if (!field) {
@@ -97,11 +132,7 @@ export const Field: React.FC<Props> = ({
         );
       } catch (e: any) {
         // TODO - catch more elaborate errors
-        displayPopover(
-          <span className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
-            {e.message}
-          </span>
-        );
+        displayPopover(<img className="w-5" src={cancel} />);
       }
 
       return;
@@ -122,10 +153,10 @@ export const Field: React.FC<Props> = ({
       );
     } catch (e: any) {
       // TODO - catch more elaborate errors
-      displayPopover(
-        <span className="text-xs text-white text-shadow">{e.message}</span>
-      );
+      displayPopover(<img className="w-5" src={cancel} />);
     }
+
+    setTouchCount(0);
   };
 
   const playing = game.matches("playing") || game.matches("autosaving");
@@ -148,7 +179,19 @@ export const Field: React.FC<Props> = ({
 
       <div
         className={classNames(
-          "transition-opacity absolute -bottom-2 w-40 -left-16 z-20 pointer-events-none",
+          "transition-opacity pointer-events-none absolute -bottom-2 left-1",
+          {
+            "opacity-100": touchCount > 0,
+            "opacity-0": touchCount === 0,
+          }
+        )}
+      >
+        <HealthBar percentage={100 - touchCount * 50} />
+      </div>
+
+      <div
+        className={classNames(
+          "transition-opacity absolute -bottom-2 w-full z-20 pointer-events-none flex justify-center",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
@@ -167,6 +210,11 @@ export const Field: React.FC<Props> = ({
           onClick={onClick}
         />
       )}
+      <CropReward
+        reward={reward}
+        onCollected={onCollectReward}
+        fieldIndex={fieldIndex}
+      />
     </div>
   );
 };

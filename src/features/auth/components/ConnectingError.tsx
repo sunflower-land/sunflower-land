@@ -1,5 +1,5 @@
 import React from "react";
-import lightningAnimation from "assets/npcs/lightning_death.gif";
+import lightningAnimation from "assets/npcs/human_death.gif";
 
 export const ConnectingError: React.FC = () => {
   return (

@@ -1,0 +1,9 @@
+{
+  "name": "Egg Basket",
+  "description": "## Egg Basket\n\nAn item that starts the Easter Egg Hunt.\n\nYou have 7 days to collect the 7 eggs. Every few hours an egg may appear on your farm to collect. Limited edition item!\n\n## Supply\n\n100000\n\n\n### Contributor\n\nSunflower Land is an open source game built by a community of hundreds of developers and artists across the globe.\n\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)\n\nDesigned by [@cambrios]\n\nSpecial Event Designed by [@danuribeiv]\n",
+  "image": "https://sunflower-land.com/play/erc1155/901.png",
+  "decimals": 0,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "5ec14c",
+  "attributes": [{ "trait_type": "Purpose", "value": "Resource" }]
+}

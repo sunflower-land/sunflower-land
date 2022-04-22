@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { CropName, CROPS } from "../types/crops";
 import { GameState, InventoryItemName } from "../types/game";
-import { getSellPrice } from "../lib/pricing";
+import { getSellPrice } from "../lib/boosts";
 
 export type SellAction = {
   type: "item.sell";
@@ -22,7 +22,7 @@ export function sell({ state, action }: Options): GameState {
     throw new Error("Not for sale");
   }
 
-  if (action.amount < 1) {
+  if (action.amount <= 0) {
     throw new Error("Invalid amount");
   }
 
@@ -38,7 +38,9 @@ export function sell({ state, action }: Options): GameState {
 
   return {
     ...state,
-    balance: state.balance.add(price.mul(action.amount)),
+    balance: state.balance
+      .add(price.mul(action.amount))
+      .toDecimalPlaces(18, Decimal.ROUND_DOWN),
     inventory: {
       ...state.inventory,
       [crop.name]: cropCount.sub(1 * action.amount),

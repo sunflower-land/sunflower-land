@@ -1,7 +1,15 @@
 import Decimal from "decimal.js-light";
-import { CraftableName, CRAFTABLES, FOODS, TOOLS } from "../types/craftables";
-import { SEEDS } from "../types/crops";
-import { GameState, InventoryItemName } from "../types/game";
+import { INITIAL_STOCK } from "../lib/constants";
+import {
+  Craftable,
+  CraftableName,
+  CRAFTABLES,
+  FOODS,
+  TOOLS,
+} from "../types/craftables";
+import { SeedName, SEEDS } from "../types/crops";
+import { GameState, Inventory, InventoryItemName } from "../types/game";
+import { isSeed } from "./plant";
 
 export type CraftAction = {
   type: "item.crafted";
@@ -24,6 +32,14 @@ function isCraftable(
   names: CraftableName[]
 ): item is CraftableName {
   return names.includes(item);
+}
+
+export function getBuyPrice(item: Craftable, inventory: Inventory) {
+  if (isSeed(item.name) && inventory.Kuebiko?.gte(1)) {
+    return new Decimal(0);
+  }
+
+  return item.price;
 }
 
 type Options = {
@@ -50,7 +66,8 @@ export function craft({ state, action, available }: Options) {
     throw new Error("Not enough stock");
   }
 
-  const totalExpenses = item.price.mul(action.amount);
+  const price = getBuyPrice(item, state.inventory);
+  const totalExpenses = price.mul(action.amount);
 
   const isLocked = item.requires && !state.inventory[item.requires];
   if (isLocked) {

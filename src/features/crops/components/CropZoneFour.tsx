@@ -23,9 +23,10 @@ export const CropZoneFour: React.FC = () => {
     },
   ] = useActor(gameService);
 
+  const isUnlocked = state.inventory["Roasted Cauliflower"];
   return (
     <>
-      {!state.inventory["Roasted Cauliflower"] ? (
+      {!isUnlocked ? (
         <>
           <img
             src={goblinDig}
@@ -64,6 +65,7 @@ export const CropZoneFour: React.FC = () => {
       <div
         className="absolute flex justify-between flex-col"
         id="cropzone-four"
+        onClick={!isUnlocked ? () => setShowModal(true) : undefined}
         style={{
           width: `${GRID_WIDTH_PX * 4}px`,
           height: `${GRID_WIDTH_PX * 2.3}px`,

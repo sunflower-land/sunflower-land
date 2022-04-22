@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 
 import humanDeath from "assets/npcs/human_death.gif";
 
+import * as AuthProvider from "features/auth/lib/Provider";
+import { removeSession } from "../actions/login";
+import { metamask } from "lib/blockchain/metamask";
+
 export const Blocked: React.FC = () => {
-  const readMore = () => {
-    window.open(
-      "https://docs.sunflower-land.com/fundamentals/roadmap",
-      "_blank"
-    );
+  const { authService } = useContext(AuthProvider.Context);
+
+  const tryAgain = () => {
+    removeSession(metamask.myAccount as string);
+
+    authService.send("REFRESH");
   };
 
   return (
@@ -18,11 +23,23 @@ export const Blocked: React.FC = () => {
       </div>
       <p className="text-center mb-3">Beta testers only!</p>
 
-      <p className="text-center mb-4 text-xs">
-        {`You don't have access to this feature yet. You can follow the Discord announcements for when this will become publicly available.`}
+      <p className="text-center mb-2 text-xs">
+        {`You don't have access to the game yet.`}
       </p>
-      <Button onClick={readMore} className="overflow-hidden mb-2">
-        <span>View roadmap</span>
+      <p className="text-center mb-4 text-xs">
+        Make sure you have joined the{" "}
+        <a
+          className="underline hover:text-white"
+          href="https://discord.gg/sunflowerland"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Sunflower Land Discord server,
+        </a>
+        {` go to the #verify channel and have the "farmer" role.`}
+      </p>
+      <Button onClick={tryAgain} className="overflow-hidden mb-2">
+        <span>Try again</span>
       </Button>
     </div>
   );

@@ -24,12 +24,13 @@ import { RESOURCES } from "features/game/types/resources";
 import seed from "assets/crops/beetroot/seed.png";
 import crop from "assets/crops/sunflower/crop.png";
 import tool from "assets/tools/hammer.png";
-import nft from "assets/nfts/gnome.png";
+import nft from "assets/nfts/gnome.gif";
 import food from "assets/crops/wheat/flour.png";
 import resource from "assets/resources/wood.png";
 
 import Decimal from "decimal.js-light";
 import { InventoryTabContent } from "./InventoryTabContent";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 type Tab = "basket" | "collectibles";
 
@@ -66,6 +67,18 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
   Foods: {
     img: food,
     items: FOODS(),
+  },
+  Eggs: {
+    img: food,
+    items: {
+      "Pink Egg": ITEM_DETAILS["Pink Egg"],
+      "Purple Egg": ITEM_DETAILS["Purple Egg"],
+      "Red Egg": ITEM_DETAILS["Red Egg"],
+      "Blue Egg": ITEM_DETAILS["Blue Egg"],
+      "Orange Egg": ITEM_DETAILS["Orange Egg"],
+      "Green Egg": ITEM_DETAILS["Green Egg"],
+      "Yellow Egg": ITEM_DETAILS["Yellow Egg"],
+    },
   },
 };
 
@@ -126,7 +139,7 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
         <img
           src={close}
           className="h-6 cursor-pointer mr-2 mb-1"
-          onClick={() => onClose()}
+          onClick={onClose}
         />
       </div>
 
