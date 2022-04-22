@@ -25,6 +25,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   });
 
   const [showCaptcha, setShowCaptcha] = useState(false);
+  const [showSyncCaptcha, setShowSyncCaptcha] = useState(false);
 
   const onWithdrawTokens = async (sfl: string) => {
     console.log({ sfl });
@@ -55,7 +56,17 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const isBlacklisted = !!game.context.whitelistedAt;
+  const onPreWithdrawCaptchaSolved = async (captcha: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+    gameService.send("SYNC", { captcha });
+    onClose();
+  };
+
+  const preWithdrawSync = () => {
+    setShowSyncCaptcha(true);
+  };
+
+  const isBlacklisted = !!game.context.whitelistedAt
   if (isBlacklisted) {
     return (
       <div className="p-2 text-sm text-center">
@@ -82,6 +93,22 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     );
   }
 
+  if (showSyncCaptcha) {
+    return (
+      <>
+      <ReCAPTCHA
+        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        onChange={onPreWithdrawCaptchaSolved}
+        onExpired={() => setShowSyncCaptcha(false)}
+        className="w-full m-4 flex items-center justify-center"
+      />
+      <p className="text-xxs p-1 m-1 text-center">
+        Any unsaved progress will be lost.
+      </p>
+      </>
+    );
+  }
+
   if (page === "tokens") {
     return <WithdrawTokens onWithdraw={onWithdrawTokens} />;
   }
@@ -96,18 +123,25 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         You can only withdraw items that you have synced to the blockchain.
       </span>
 
-      <div className="flex items-center border-2 rounded-md border-black p-2 bg-[#e43b44]">
+      <div className="flex items-center text-center border-2 rounded-md border-black p-2 bg-[#e43b44]">
         <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
         <span className="text-xs">
-          ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST.
+          ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST. IT IS HIGHLY RECCOMMENDED THAT YOU SYNC PRIOR TO WITHDRAW.
         </span>
+        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
       </div>
+
+      <Button className="mr-1" onClick={preWithdrawSync}>
+        SYNC
+      </Button>
 
       <div className="flex mt-4">
         <Button className="mr-1" onClick={() => setPage("tokens")}>
           SFL Tokens
         </Button>
-        <Button onClick={() => setPage("items")}>SFL Items</Button>
+        <Button className="mr-1" onClick={() => setPage("items")}>
+          SFL Items
+        </Button>
       </div>
     </div>
   );
