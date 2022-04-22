@@ -77,13 +77,13 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
           className="h-6 cursor-pointer top-3 right-4 absolute"
           onClick={() => onClose()}
         />
-        <div className="flex-col px-2">
+        <div className="flex-col px-2 mt-3 py-2">
           <div className="row mt-3 items-center">
             <div className="col-8">Background Music</div>
             <div className="col-4 flex justify-center items-center">
               <div className="form-check form-switch">
                 <input
-                  className="form-check-input form-check-input-md brown-400 bg-brown-200 cursor-pointer checked:bg-brown-400 checked:brown-200 checked:border-brown-400 focus:shadow-[0_0_0_0.25rem_rgb(231,168,115,0.5)] focus:border-brown-400 focus:brown-400 focus:bg-transparent"
+                  className="form-check-input form-check-input-md brown-400 bg-brown-200 cursor-pointer checked:bg-brown-400 checked:brown-200 checked:border-brown-400 focus:shadow-[0_0_0_0.25rem_rgb(231,168,115,0.5)] focus:border-brown-400 focus:brown-400 focus:!bg-[url('data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba%280, 0, 0, 0.25%29'/></svg>')]"
                   style={{ width: "3.5rem", height: "1.75rem" }}
                   type="checkbox"
                   role="switch"
@@ -95,12 +95,12 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
               </div>
             </div>
           </div>
-          <div className="row mt-3 items-center">
+          <div className="row mt-4 items-center">
             <div className="col-8">SFX</div>
             <div className="col-4 flex justify-center items-center">
               <div className="form-check form-switch">
                 <input
-                  className="form-check-input form-check-input-md brown-400 bg-brown-200 cursor-pointer checked:bg-brown-400 checked:brown-200 checked:border-brown-400 focus:shadow-[0_0_0_0.25rem_rgb(231,168,115,0.5)] focus:border-brown-400 focus:brown-400 focus:bg-transparent"
+                  className="form-check-input form-check-input-md brown-400 bg-brown-200 cursor-pointer checked:bg-brown-400 checked:brown-200 checked:border-brown-400 focus:shadow-[0_0_0_0.25rem_rgb(231,168,115,0.5)] focus:border-brown-400 focus:brown-400 focus:!bg-[url('data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba%280, 0, 0, 0.25%29'/></svg>')]"
                   style={{ width: "3.5rem", height: "1.75rem" }}
                   type="checkbox"
                   role="switch"
@@ -112,7 +112,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col mt-3">
             <Button className="col p-1" onClick={onLogout}>
               Logout
             </Button>
@@ -128,7 +128,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
     <>
       <Modal show={isOpen} onHide={() => onClose()} centered>
-        <Panel className="relative pt-0">{Content()}</Panel>
+        <Panel className="relative py-0">{Content()}</Panel>
       </Modal>
       <Modal
         centered
@@ -138,7 +138,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
         <Panel className="md:w-4/5 m-auto">
           <div className="m-auto flex flex-col">
             <span className="text-sm text-center text-shadow">
-              Are you sure you want to <br className="hidden md:block" />
+              Are you sure to <br className="hidden md:block" />
               &quot;Reset&quot; the current session?
             </span>
             <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
