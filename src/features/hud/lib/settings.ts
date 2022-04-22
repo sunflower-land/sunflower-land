@@ -11,8 +11,6 @@ const LOCAL_STORAGE_KEY = "settings.volumeControls";
  * TODO: Use more generic props to allow various of settings to be cached
  */
 export function cacheSettings(volumeControls: MasterVolumeControls) {
-  console.log("cacheSettings called\n", volumeControls);
-
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(volumeControls));
 
   return volumeControls;
@@ -28,7 +26,7 @@ export function getSettings(): MasterVolumeControls {
 
   if (!cached) {
     return {
-      bgMusicMuted: true,
+      bgMusicMuted: false,
       sfxMuted: true,
     };
   }
