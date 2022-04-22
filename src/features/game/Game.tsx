@@ -64,7 +64,6 @@ export const Game: React.FC = () => {
   // Init the master volume; loads from cached settings
   useEffect(() => {
     const initSettings = () => {
-      console.log("calling initMasterVolume");
       (initMasterVolume as () => void)();
     };
     initSettings();
