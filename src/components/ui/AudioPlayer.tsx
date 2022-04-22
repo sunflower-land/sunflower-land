@@ -12,14 +12,18 @@ import { Panel } from "components/ui/Panel";
 
 import { getSong, getSongCount } from "assets/songs/playlist";
 import { useStepper } from "lib/utils/hooks/useStepper";
+import { getSettings } from "features/hud/lib/settings";
+import { Label } from "./Label";
 
 export const AudioPlayer: React.FC = () => {
-  const volume = useStepper({ initial: 0.1, step: 0.1, max: 1, min: 0 });
+  const settings = getSettings();
+  const volume = useStepper({ initial: 0.6, step: 0.1, max: 1, min: 0 });
   const [visible, setIsVisible] = useState<boolean>(false);
   const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const musicPlayer = useRef<any>(null);
+  const [showLabel, setShowLabel] = useState(false);
 
   const handlePlayState = () => {
     if (musicPlayer.current.paused) {
@@ -40,6 +44,12 @@ export const AudioPlayer: React.FC = () => {
 
   const song = getSong(songIndex);
 
+  const handleMouseEnter = () => {
+    if (settings.bgMusicMuted) setShowLabel(true);
+  };
+
+  const handleMouseLeave = () => setShowLabel(false);
+
   useEffect(() => {
     // do refactor this if you use OP volumeControls to + or - vol
     musicPlayer.current.volume = volume.value;
@@ -48,7 +58,8 @@ export const AudioPlayer: React.FC = () => {
     if (document.getElementsByTagName("audio")[0]?.paused) {
       musicPlayer.current.pause();
     }
-  }, [volume.value]);
+    if (settings.bgMusicMuted) setIsVisible(false);
+  }, [volume.value, settings.bgMusicMuted]);
 
   useEffect(() => {
     // use the default volume which is set after initMasterVolume
@@ -68,7 +79,7 @@ export const AudioPlayer: React.FC = () => {
     <div
       className={`position-fixed ${
         visible ? "-right-6 sm:right-10" : "right-2"
-      } sm:right-2 bottom-4 z-50 md:w-56 w-48 h-fit  sm:-translate-x-50 transition-all duration-500 ease-in-out`}
+      } sm:right-2 bottom-4 z-50 md:w-56 w-48 h-fit sm:-translate-x-50 transition-all duration-500 ease-in-out`}
       style={{
         transform: `translateX(${visible ? 0 : "calc(100% + 8px)"})`,
       }}
@@ -130,13 +141,25 @@ export const AudioPlayer: React.FC = () => {
         </div>
       </Panel>
       <div
+        className={`position-fixed z-50 w-fit right-[12rem] md:right-[14rem] bottom-[3rem] ${
+          showLabel ? "opacity-100" : "opacity-0"
+        } transition duration-400 pointer-events-none text-[0.5rem] md:text-[0.75rem] p-1`}
+      >
+        <Label>Enable the Music from Settings Menu</Label>
+      </div>
+      <div
         className={`position-absolute ${
           visible
             ? "-left-7 sm:-left-9"
             : "-left-11 sm:-left-12 sm:-translate-x-1"
         } bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex align-items-center overflow-hidden`}
+        onMouseOver={handleMouseEnter}
+        onMouseOut={handleMouseLeave}
       >
-        <Button onClick={() => setIsVisible(!visible)}>
+        <Button
+          disabled={settings.bgMusicMuted}
+          onClick={() => setIsVisible(!visible)}
+        >
           <img
             src={visible ? chevron_right : music_note}
             alt="show/hide music player"
