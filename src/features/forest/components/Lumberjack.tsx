@@ -5,12 +5,21 @@ import idle from "assets/npcs/idle.gif";
 import questionMark from "assets/icons/expression_confused.png";
 import axe from "assets/tools/axe.png";
 
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { Panel } from "components/ui/Panel";
+import { Button } from "components/ui/Button";
 
 export const Lumberjack: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
+  const [scrollIntoView] = useScrollIntoView();
+
+  const goToBlacksmith = () => {
+    setShowModal(false);
+    scrollIntoView(Section.Town);
+  };
 
   return (
     <>
@@ -46,6 +55,9 @@ export const Lumberjack: React.FC = () => {
               <span className="text-shadow block mt-4">
                 I wonder if I can craft something to chop them down?
               </span>
+              <Button className="text-sm" onClick={goToBlacksmith}>
+                Go to the Blacksmith
+              </Button>
             </div>
           </div>
         </Panel>
