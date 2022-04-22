@@ -63,8 +63,7 @@ export const Airdrop: React.FC = () => {
       <>
         <span>Succesfully airdropped!</span>
         <span>
-          Refresh your page and sync your farm before trying to airdrop another
-          address
+          YOU MUST NOW SYNC YOUR FARM BEFORE MAY 5TH to apply the changes
         </span>
       </>
     );
