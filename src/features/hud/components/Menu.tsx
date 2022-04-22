@@ -49,8 +49,6 @@ export const Menu = () => {
 
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
-  const [showComingSoon, setShowComingSoon] = useState(false);
-  const [showLogoutModal, setShowSettings] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
@@ -278,12 +276,6 @@ export const Menu = () => {
               </>
             )}
 
-            <li className="p-1">
-              <Button onClick={() => handleSettingsClick()}>
-                <span className="sm:text-sm">Settings</span>
-              </Button>
-            </li>
-
             {/* View menu */}
             {menuLevel === MENU_LEVELS.VIEW && (
               <>
@@ -305,9 +297,9 @@ export const Menu = () => {
         </div>
       </OuterPanel>
 
-      <Settings
-        isOpen={showSettingsModal}
-        onClose={() => setShowSettingsModal(false)}
+      <HowToPlay
+        isOpen={showHowToPlay}
+        onClose={() => setShowHowToPlay(false)}
       />
 
       <Share
@@ -316,14 +308,9 @@ export const Menu = () => {
         farmURL={farmURL}
       />
 
-      <HowToPlay
-        isOpen={showHowToPlay}
-        onClose={() => setShowHowToPlay(false)}
-      />
-
       <Settings
-        isOpen={showLogoutModal}
-        onClose={() => setShowSettings(false)}
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
       />
 
       {showCaptcha && (

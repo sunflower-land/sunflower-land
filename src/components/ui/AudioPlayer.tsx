@@ -131,8 +131,10 @@ export const AudioPlayer: React.FC = () => {
       </Panel>
       <div
         className={`position-absolute ${
-          visible ? "translate-x-1.5" : ""
-        } -left-20 sm:-left-24 bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex gap-2 align-items-center overflow-hidden`}
+          visible
+            ? "-left-7 sm:-left-9"
+            : "-left-11 sm:-left-12 sm:-translate-x-1"
+        } bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex align-items-center overflow-hidden`}
       >
         <Button onClick={() => setIsVisible(!visible)}>
           <img
