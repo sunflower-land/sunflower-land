@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useStepper } from "lib/utils/hooks/useStepper";
-
+import { Howler } from "howler";
 import * as sfx from "lib/utils/sfx";
 import { getSettings } from "./settings";
 
@@ -160,17 +160,7 @@ export const useVolumeControls = () => {
       });
       // should setMasterSfxModalVolume be called
     } else {
-      sfxActions.forEach((ele) => {
-        ele.mute(); //not working oO
-        ele.volume(0);
-        // ele.pause();
-      });
-      sfxModals.forEach((ele) => {
-        ele.mute(); // not working oO
-        ele.volume(0);
-        // ele.pause();
-      });
-      // should setMasterSfxModalVolume be called
+      Howler.mute(_isMuted);
     }
   };
 
