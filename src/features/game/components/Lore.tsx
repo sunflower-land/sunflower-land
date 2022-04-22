@@ -38,7 +38,7 @@ export const Lore: React.FC = () => {
       <img
         src={greenBook}
         className="absolute hover:img-highlight cursor-pointer z-10"
-        onClick={() => onOpenGreenBook()}
+        onClick={onOpenGreenBook}
         style={{
           width: `${GRID_WIDTH_PX * 0.5}px`,
           right: `${GRID_WIDTH_PX * 4.25}px`,
@@ -46,12 +46,12 @@ export const Lore: React.FC = () => {
         }}
       />
       {showGreenBook && (
-        <Modal centered show={showGreenBook} onHide={() => onCloseBook()}>
+        <Modal centered show={showGreenBook} onHide={onCloseBook}>
           <Panel>
             <img
               src={close}
               className="h-6 top-4 right-4 absolute cursor-pointer"
-              onClick={() => onCloseBook()}
+              onClick={onCloseBook}
             />
             <div className="flex items-start">
               <img src={greenBook} className="w-12 img-highlight mr-2" />
@@ -73,7 +73,7 @@ export const Lore: React.FC = () => {
       <img
         src={yellowBook}
         className="absolute hover:img-highlight cursor-pointer z-10"
-        onClick={() => onOpenYellowBook()}
+        onClick={onOpenYellowBook}
         style={{
           width: `${GRID_WIDTH_PX * 0.3}px`,
           right: `${GRID_WIDTH_PX * 55.3}px`,
@@ -81,12 +81,12 @@ export const Lore: React.FC = () => {
         }}
       />
       {showYellowBook && (
-        <Modal centered show={showYellowBook} onHide={() => onCloseBook()}>
+        <Modal centered show={showYellowBook} onHide={onCloseBook}>
           <Panel>
             <img
               src={close}
               className="h-6 top-4 right-4 absolute cursor-pointer"
-              onClick={() => onCloseBook()}
+              onClick={onCloseBook}
             />
             <div className="flex items-start">
               <img src={yellowBook} className="w-12 img-highlight mr-2" />
