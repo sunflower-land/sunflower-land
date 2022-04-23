@@ -88,7 +88,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
                   role="switch"
                   id="bgMusicSwitch"
                   value={1}
-                  checked={settings.bgMusicMuted}
+                  checked={!settings.bgMusicMuted}
                   onChange={(_evt) => handleToggleBgMusic()}
                 />
               </div>
@@ -104,7 +104,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
                   type="checkbox"
                   role="switch"
                   id="sfxSwitch"
-                  checked={settings.sfxMuted}
+                  checked={!settings.sfxMuted}
                   value={1}
                   onChange={(_evt) => handleToggleSFX()}
                 />
