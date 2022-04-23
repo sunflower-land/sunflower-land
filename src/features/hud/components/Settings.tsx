@@ -24,7 +24,8 @@ interface Props {
 }
 
 export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
-  const [settings, setSettings] = useState<MasterVolumeControls>(getSettings());
+  // const [settings, setSettings] = useState<MasterVolumeControls>(getSettings());
+  const settings: MasterVolumeControls = getSettings();
   // {TODO: Add More Settings and refactor for Generic props}
 
   const { authService } = useContext(Auth.Context);
@@ -35,22 +36,20 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   const [resetSessionConfirmation, setResetSessionConfirmation] =
     useState(false);
 
-  const [toggleAllSFX, toggleAllBgMusic] = useVolumeControls();
+  const [toggleAllSFX, toggleAllBgMusic, initMasterVolume] =
+    useVolumeControls();
 
-  const saveSettings = () => {
-    cacheSettings(settings);
-  };
+  const saveSettings = () => cacheSettings(settings);
 
   const handleToggleBgMusic = () => {
     settings.bgMusicMuted = !settings.bgMusicMuted;
-    toggleAllBgMusic(settings.bgMusicMuted);
     saveSettings();
   };
 
   const handleToggleSFX = () => {
     settings.sfxMuted = !settings.sfxMuted;
-    toggleAllSFX(settings.sfxMuted);
     saveSettings();
+    toggleAllSFX(settings.sfxMuted);
   };
 
   const onLogout = () => {
