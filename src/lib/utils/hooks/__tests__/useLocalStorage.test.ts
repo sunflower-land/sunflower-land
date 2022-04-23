@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { act, renderHook } from "@testing-library/react-hooks";
 import { useLocalStorage } from "../useLocalStorage";
 
 describe("useLocalStorage hook", () => {
@@ -61,7 +61,10 @@ describe("useLocalStorage hook", () => {
     const { result } = renderHook(() => useLocalStorage(key, defaultValue));
     const [, setValue] = result.current;
 
-    setValue(updatedValue);
+    act(() => {
+      setValue(updatedValue);
+    });
+
     const [value] = result.current;
 
     expect(value).toBe(updatedValue);
@@ -73,7 +76,10 @@ describe("useLocalStorage hook", () => {
     const { result } = renderHook(() => useLocalStorage("key", defaultValue));
     const [, setValue] = result.current;
 
-    setValue(updatedValue);
+    act(() => {
+      setValue(updatedValue);
+    });
+
     const [value] = result.current;
 
     expect(value).toBe(updatedValue);
@@ -85,7 +91,10 @@ describe("useLocalStorage hook", () => {
     const { result } = renderHook(() => useLocalStorage("key", defaultValue));
     const [, setValue] = result.current;
 
-    setValue(updatedValue);
+    act(() => {
+      setValue(updatedValue);
+    });
+
     const [value] = result.current;
 
     expect(value).toBe(updatedValue);
@@ -100,8 +109,27 @@ describe("useLocalStorage hook", () => {
     const { result } = renderHook(() => useLocalStorage("key", defaultValue));
     const [, setValue] = result.current;
 
-    setValue(updatedValue);
+    act(() => {
+      setValue(updatedValue);
+    });
     const [value] = result.current;
+
+    expect(value).toStrictEqual(updatedValue);
+  });
+
+  it("starts with stored value", () => {
+    const defaultValue = "defaultValue";
+    const updatedValue = "updatedValue";
+
+    const hook1 = renderHook(() => useLocalStorage("key", defaultValue));
+    const [, setValue] = hook1.result.current;
+
+    act(() => {
+      setValue(updatedValue);
+    });
+
+    const hook2 = renderHook(() => useLocalStorage("key", defaultValue));
+    const [value] = hook2.result.current;
 
     expect(value).toStrictEqual(updatedValue);
   });
