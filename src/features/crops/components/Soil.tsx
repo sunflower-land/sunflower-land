@@ -6,7 +6,7 @@ import soil from "assets/land/soil2.png";
 import { getTimeLeft, secondsToMidString } from "lib/utils/time";
 
 import { ProgressBar } from "components/ui/ProgressBar";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 
 import { FieldItem } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";

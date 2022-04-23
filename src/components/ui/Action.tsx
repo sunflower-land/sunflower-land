@@ -1,7 +1,7 @@
 import React from "react";
 
 import disc from "assets/icons/disc.png";
-import { InnerPanel, Panel } from "./Panel";
+import { InnerPanel } from "./Panel";
 import classNames from "classnames";
 
 interface Props {

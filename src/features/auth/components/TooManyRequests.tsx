@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
-import { Button } from "components/ui/Button";
-
 import humanDeath from "assets/npcs/human_death.gif";
 import { Context } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";

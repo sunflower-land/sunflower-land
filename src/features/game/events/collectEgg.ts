@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { EasterEgg, GameState, InventoryItemName } from "../types/game";
+import { EasterEgg, GameState } from "../types/game";
 
 const eggs: Record<number, EasterEgg> = {
   0: "Blue Egg",

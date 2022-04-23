@@ -7,7 +7,6 @@ import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 
 import alert from "assets/icons/expression_alerted.png";
-import { reset } from "../actions/reset";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 

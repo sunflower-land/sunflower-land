@@ -15,8 +15,6 @@ import heart from "assets/icons/heart.png";
 
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
-import { Button } from "components/ui/Button";
-
 export const WheatGoblin: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);

@@ -11,7 +11,6 @@ import downArrow from "assets/icons/arrow_down.png";
 import question from "assets/icons/expression_confused.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
-import { Auth } from "../Auth";
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
 import { Blocked } from "./Blocked";
