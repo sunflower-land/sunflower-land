@@ -59,7 +59,7 @@ export const Soil: React.FC<Props> = ({
       const interval = window.setInterval(setHarvestTime, 1000);
       return () => window.clearInterval(interval);
     }
-  }, [field]);
+  }, [field, setHarvestTime]);
 
   if (!field) {
     return <img src={soil} className={classnames("w-full", className)} />;

@@ -59,10 +59,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     buy();
   };
 
-  const handleBuyTen = () => {
-    buy(10);
-  };
-
   const restock = () => {
     setShowCaptcha(true);
   };
@@ -91,7 +87,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           inventory,
         })
       ),
-    [state.inventory]
+    [inventory, selected.name, state.inventory]
   );
 
   if (showCaptcha) {

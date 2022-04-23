@@ -70,7 +70,7 @@ export const InventoryTabContent = ({
           inventory,
         })
       ),
-    [inventory]
+    [inventory, selectedItem]
   );
 
   const inventoryMapping = inventoryItems.reduce((acc, curr) => {

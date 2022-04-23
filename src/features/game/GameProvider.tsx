@@ -37,14 +37,17 @@ export const GameProvider: React.FC = ({ children }) => {
     getShortcuts()
   );
 
-  const shortcutItem = useCallback((item: InventoryItemName) => {
-    if (gameService.state.matches("readonly")) {
-      return;
-    }
+  const shortcutItem = useCallback(
+    (item: InventoryItemName) => {
+      if (gameService.state.matches("readonly")) {
+        return;
+      }
 
-    const items = cacheShortcuts(item);
-    setShortcuts(items);
-  }, []);
+      const items = cacheShortcuts(item);
+      setShortcuts(items);
+    },
+    [gameService.state]
+  );
 
   const selectedItem = shortcuts.length > 0 ? shortcuts[0] : undefined;
 
