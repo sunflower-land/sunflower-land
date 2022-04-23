@@ -11,13 +11,25 @@ import { Button } from "components/ui/Button";
 import { getSong, getSongCount } from "assets/songs/playlist";
 import { Panel } from "components/ui/Panel";
 import { useStepper } from "lib/utils/hooks/useStepper";
+import { useLocalStorage } from "lib/utils/hooks/useLocalStorage";
 
 export const AudioPlayer: React.FC = () => {
-  const volume = useStepper({ initial: 0.1, step: 0.1, max: 1, min: 0 });
   const [visible, setIsVisible] = useState<boolean>(false);
-  const [muted, setMuted] = useState<boolean>(false);
-  const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
+  const [muted, setMuted] = useLocalStorage<boolean>(
+    "audioplayer.muted",
+    false
+  );
+  const [isPlaying, setPlaying] = useLocalStorage<boolean>(
+    "audioplayer.playing",
+    true
+  );
+  const [lsVolume, setLsVolume] = useLocalStorage<number>(
+    "audioplayer.volume",
+    0.1
+  );
+  const volume = useStepper({ initial: lsVolume, step: 0.1, max: 1, min: 0 });
+
   const musicPlayer = useRef<any>(null);
 
   const handlePlayState = () => {
@@ -45,6 +57,7 @@ export const AudioPlayer: React.FC = () => {
 
   useEffect(() => {
     musicPlayer.current.volume = volume.value;
+    setLsVolume(volume.value);
   }, [volume.value]);
 
   useEffect(() => {
@@ -72,7 +85,7 @@ export const AudioPlayer: React.FC = () => {
           onPlay={() => setPlaying(!musicPlayer.current.paused)}
           src={song.path}
           className="d-none"
-          autoPlay
+          autoPlay={isPlaying}
           controls
         />
         <div className="p-1 sm:mr-2 relative">
