@@ -123,6 +123,7 @@ export const TeamDonation: React.FC = () => {
   };
 
   const beggarClick = () => {
+    setDonation(1);
     send("BEGGER_CLICK");
     beggarAudio.play();
   };
@@ -167,10 +168,7 @@ export const TeamDonation: React.FC = () => {
       <Modal
         centered
         show={!state.matches("idle")}
-        onHide={() => {
-          send("CLOSE");
-          setDonation(1);
-        }}
+        onHide={() => send("CLOSE")}
       >
         <Panel>
           {state.matches("begging") && (
@@ -224,13 +222,7 @@ export const TeamDonation: React.FC = () => {
                 Amount in MATIC
               </span>
               <div className="flex w-full">
-                <Button
-                  className="w-full mr-1"
-                  onClick={() => {
-                    send("CLOSE");
-                    setDonation(1);
-                  }}
-                >
+                <Button className="w-full mr-1" onClick={() => send("CLOSE")}>
                   <span className="text-xs whitespace-nowrap">Close</span>
                 </Button>
                 <Button
