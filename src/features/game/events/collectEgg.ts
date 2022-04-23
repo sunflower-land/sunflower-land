@@ -34,7 +34,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function collectEgg({ state, action, createdAt = Date.now() }: Options) {
+export function collectEgg({ state, createdAt = Date.now() }: Options) {
   const egg = availableEgg(createdAt);
 
   if (!state.inventory["Egg Basket"]?.gte(1)) {

@@ -17,7 +17,6 @@ import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "./CropReward";
 
 const POPOVER_TIME_MS = 1000;
-const HOVER_TIMEOUT = 1000;
 
 interface Props {
   selectedItem?: InventoryItemName;

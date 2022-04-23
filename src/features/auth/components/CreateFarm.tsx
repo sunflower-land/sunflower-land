@@ -110,7 +110,7 @@ export const CreateFarm: React.FC = () => {
   const [charity, setCharity] = useState<string>();
   const [activeIdx, setActiveIndex] = useState(0);
   const { authService } = useContext(Context);
-  const [authState, send] = useActor(authService);
+  const [authState] = useActor(authService);
   const [showCaptcha, setShowCaptcha] = useState(false);
 
   const onCaptchaSolved = async (token: string | null) => {

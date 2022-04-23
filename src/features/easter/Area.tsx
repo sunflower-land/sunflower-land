@@ -7,10 +7,6 @@ import { EasterEgg } from "features/game/types/game";
 import { availableEgg } from "features/game/events/collectEgg";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-type Props = {
-  positionIndex: number;
-};
-
 const positions = [
   { top: 6.5, left: 9 },
   { top: 16.5, left: 20 },

@@ -8,7 +8,6 @@ import { Panel } from "components/ui/Panel";
 
 import alert from "assets/icons/expression_alerted.png";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 
 interface Props {
   isOpen: boolean;
@@ -19,7 +18,6 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
 
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
   const [resetSessionConfirmation, setResetSessionConfirmation] =
     useState(false);

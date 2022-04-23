@@ -13,8 +13,6 @@ import radishPie from "assets/nfts/radish_pie.png";
 import questionMark from "assets/icons/expression_confused.png";
 import heart from "assets/icons/heart.png";
 
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-
 export const WheatGoblin: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
@@ -23,13 +21,6 @@ export const WheatGoblin: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
-
-  const [scrollIntoView] = useScrollIntoView();
-
-  const goToKitchen = () => {
-    setShowModal(false);
-    scrollIntoView(Section.Town);
-  };
 
   return (
     <>
