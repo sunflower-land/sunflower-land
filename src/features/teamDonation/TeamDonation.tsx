@@ -167,7 +167,10 @@ export const TeamDonation: React.FC = () => {
       <Modal
         centered
         show={!state.matches("idle")}
-        onHide={() => send("CLOSE")}
+        onHide={() => {
+          send("CLOSE");
+          setDonation(1);
+        }}
       >
         <Panel>
           {state.matches("begging") && (
@@ -221,7 +224,13 @@ export const TeamDonation: React.FC = () => {
                 Amount in MATIC
               </span>
               <div className="flex w-full">
-                <Button className="w-full mr-1" onClick={() => send("CLOSE")}>
+                <Button
+                  className="w-full mr-1"
+                  onClick={() => {
+                    send("CLOSE");
+                    setDonation(1);
+                  }}
+                >
                   <span className="text-xs whitespace-nowrap">Close</span>
                 </Button>
                 <Button
