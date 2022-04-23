@@ -117,6 +117,8 @@ export const TeamDonation: React.FC = () => {
   const decrementDonation = () => {
     if (donation === 0.2) {
       setDonation(0.2);
+    } else if (donation < 0.2) {
+      setDonation(0.1);
     } else setDonation((prevState) => roundToOneDecimal(prevState - 0.1));
   };
 
