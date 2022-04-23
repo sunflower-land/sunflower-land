@@ -89,13 +89,12 @@ export const useVolumeControls = () => {
       for (const ele of allAudioElements) {
         ele.volume = masterAudioVolume.value;
       }
-      // should postMasterAudioVolume be called => ig no
     } else {
+      masterAudioVolume.value = 0;
       for (const ele of allAudioElements) {
-        ele.muted = true;
         ele.pause();
+        ele.muted = true;
       }
-      // should postMasterAudioVolume be called => ig no
     }
   };
 
@@ -154,15 +153,7 @@ export const useVolumeControls = () => {
 
   const toggleAllSFX = (_isMuted: boolean): void => {
     if (!_isMuted) {
-      Howler.mute(false);
-      Howler.volume(DEFAULT_SFX_VOLUME);
-      /*sfxActions.forEach((ele) => {
-        ele.volume(DEFAULT_SFX_VOLUME); // 0.6 is the default
-      });
-      sfxModals.forEach((ele) => {
-        ele.volume(DEFAULT_SFX_VOLUME); // 0.6 is the default
-      });*/
-      // should setMasterSfxModalVolume be called
+      Howler.mute(_isMuted);
     } else {
       Howler.mute(true);
     }
