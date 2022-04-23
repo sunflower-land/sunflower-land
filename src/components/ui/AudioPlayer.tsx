@@ -51,14 +51,18 @@ export const AudioPlayer: React.FC = () => {
   const handleMouseLeave = () => setShowLabel(false);
 
   useEffect(() => {
-    // do refactor this if you use OP volumeControls to + or - vol
-    musicPlayer.current.volume = volume.value;
-
     // update pause state when user Toggles the master settings
     if (document.getElementsByTagName("audio")[0]?.paused) {
+      setPlaying(false);
+      musicPlayer.current.pause();
+    } else if (settings.bgMusicMuted) {
+      setIsVisible(false);
+      setPlaying(false);
       musicPlayer.current.pause();
     }
-    if (settings.bgMusicMuted) setIsVisible(false);
+
+    // do refactor this if you use OP volumeControls to + or - vol
+    musicPlayer.current.volume = volume.value;
   }, [volume.value, settings.bgMusicMuted]);
 
   useEffect(() => {
@@ -66,13 +70,18 @@ export const AudioPlayer: React.FC = () => {
     if (document.getElementsByTagName("audio")[0]) {
       volume.value = document.getElementsByTagName("audio")[0].volume;
     }
-    musicPlayer.current.volume = volume.value;
+    if (settings.bgMusicMuted) {
+      setIsVisible(false);
+      musicPlayer.current.pause();
+      setPlaying(false);
+    }
 
     if (navigator.userAgent.match(/chrome|chromium|crios/i)) {
       // by the default Chrome policy doesn't allow autoplay
       setPlaying(false);
       musicPlayer.current.pause();
     }
+    musicPlayer.current.volume = volume.value;
   }, []);
 
   return (
