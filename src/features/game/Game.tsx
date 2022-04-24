@@ -37,6 +37,10 @@ import { screenTracker } from "lib/utils/screen";
 import { Withdrawn } from "./components/Withdrawn";
 import { EasterEggHunt } from "features/easter/Area";
 import { Resetting } from "features/auth/components/Resetting";
+import Decimal from 'decimal.js-light';
+
+const DECIMAL_PRECISION = 78;
+Decimal.set({ precision: DECIMAL_PRECISION });
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
