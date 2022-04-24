@@ -16,7 +16,7 @@ jobs:
 
       - name: Get the current version ref
         id: get_version
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
       - name: Checkout
         uses: actions/checkout@v1

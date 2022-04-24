@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
-import { CONFIG } from "lib/config";
-
 import * as Auth from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
@@ -22,8 +20,6 @@ export const StartFarm: React.FC = () => {
     send("EXPLORE");
   };
 
-  const releaseVersion = CONFIG.RELEASE_VERSION as string;
-
   // We can only ever show this state if the address is not undefin
   const farmId = authState.context.farmId!;
 
@@ -38,18 +34,6 @@ export const StartFarm: React.FC = () => {
           <Button onClick={explore} className="overflow-hidden">
             {`Explore a friend's farm`}
           </Button>
-
-          <p className="text-center text-xs sm:text-sm text-shadow mt-3">
-            Release:
-            <a
-              className="underline"
-              href="https://github.com/sunflower-land/sunflower-land/releases"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {releaseVersion}
-            </a>
-          </p>
         </>
       ) : (
         <Loading />
