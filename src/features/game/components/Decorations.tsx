@@ -156,7 +156,7 @@ export const NyonStatue: React.FC = () => {
             <div className="flex-1 ml-2 mr-2">
               <span className="text-shadow block mb-2 text-xs">
                 The legendary knight responsible for clearing the goblins from
-                the mines. Shortly after his victory he died by posioning from a
+                the mines. Shortly after his victory he died by poisoning from a
                 Goblin conspirator. The Sunflower Citizens erected this statue
                 with his armor to commemorate his conquests.
               </span>
