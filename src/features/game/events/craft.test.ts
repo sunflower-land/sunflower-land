@@ -14,7 +14,7 @@ describe("craft", () => {
         action: {
           type: "item.crafted",
           item: "Sunflower Statue",
-          amount: 1,
+          amount: new Decimal(1),
         },
       })
     ).toThrow("This item is not craftable: Sunflower");
@@ -27,7 +27,7 @@ describe("craft", () => {
         action: {
           type: "item.crafted",
           item: "Rod",
-          amount: 1,
+          amount: new Decimal(1),
         },
       })
     ).toThrow("This item is disabled");
@@ -38,12 +38,12 @@ describe("craft", () => {
       craft({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(0.0000005),
+          balance: new Decimal('0.0000005'),
         },
         action: {
           type: "item.crafted",
           item: "Sunflower Seed",
-          amount: 1,
+          amount: new Decimal(1),
         },
       })
     ).toThrow("Insufficient tokens");
@@ -60,7 +60,7 @@ describe("craft", () => {
         action: {
           type: "item.crafted",
           item: "Pickaxe",
-          amount: 1,
+          amount: new Decimal(1),
         },
       })
     ).toThrow("Insufficient ingredient: Wood");
@@ -75,7 +75,7 @@ describe("craft", () => {
       action: {
         type: "item.crafted",
         item: "Sunflower Seed",
-        amount: 1,
+        amount: new Decimal(1),
       },
     });
 
@@ -95,7 +95,7 @@ describe("craft", () => {
         action: {
           type: "item.crafted",
           item: "Sunflower Seed",
-          amount: 0.2,
+          amount: new Decimal('0.2'),
         },
       })
     ).toThrow("Invalid amount");
@@ -111,7 +111,7 @@ describe("craft", () => {
       action: {
         type: "item.crafted",
         item: "Pickaxe",
-        amount: 1,
+        amount: new Decimal(1),
       },
     });
 
@@ -131,7 +131,7 @@ describe("craft", () => {
         action: {
           type: "item.crafted",
           item: "Carrot Seed",
-          amount: 1,
+          amount: new Decimal(1),
         },
       })
     ).toThrow("Missing Pumpkin Soup");
@@ -147,7 +147,7 @@ describe("craft", () => {
       action: {
         type: "item.crafted",
         item: "Carrot Seed",
-        amount: 1,
+        amount: new Decimal(1),
       },
     });
 
@@ -161,12 +161,12 @@ describe("craft", () => {
     const state = craft({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(0.1),
+        balance: new Decimal('0.1'),
       },
       action: {
         type: "item.crafted",
         item: "Sunflower Seed",
-        amount: 10,
+        amount: new Decimal(10),
       },
     });
 
@@ -186,7 +186,7 @@ describe("craft", () => {
       action: {
         type: "item.crafted",
         item: "Pickaxe",
-        amount: 10,
+        amount: new Decimal(10),
       },
     });
 
@@ -206,7 +206,7 @@ describe("craft", () => {
         action: {
           type: "item.crafted",
           item: "Pickaxe",
-          amount: 10,
+          amount: new Decimal(10),
         },
       })
     ).toThrow("Insufficient ingredient: Wood");
