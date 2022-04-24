@@ -445,6 +445,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
       },
     ],
     supply: 100000,
+    disabled: true,
   },
 };
 
