@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "generate": "graphql-codegen",
     "test": "jest",
-    "erc1155": "ts-node --project _scripts/node.tsconfig.json _scripts/erc1155Metadata.ts "
+    "erc1155": "ts-node --project _scripts/node.tsconfig.json _scripts/erc1155Metadata.ts ",
+    "prepare": "husky install"
   },
   "browserslist": [
     ">0.2%",
@@ -62,7 +63,9 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
+    "husky": ">=6",
     "jest": "^27.4.7",
+    "lint-staged": ">=10",
     "pixel-scale": "^1.0.0",
     "prettier": "^2.5.1",
     "react-google-recaptcha": "^2.1.0",
@@ -79,5 +82,9 @@
     "async": "^2.6.4",
     "minimist": "^1.2.6",
     "simple-get": "^2.8.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --fix",
+    "*": "prettier -u --write"
   }
 }
