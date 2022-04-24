@@ -56,8 +56,7 @@ export const Lumberjack: React.FC = () => {
             <img src={axe} className="w-12 img-highlight mr-2" />
             <div className="flex-1">
               <span className="text-shadow mr-4 block">
-                Something looks
-                different about these trees...
+                Something looks different about these trees...
               </span>
               <span className="text-shadow block mt-4">
                 I wonder if I can craft something to chop them down?
