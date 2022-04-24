@@ -1,1 +1,9 @@
-{"name":"Hammer","description":"## Hammer (Coming Soon)\n\nA tool used to upgrade buildings\n\nYou can craft an axe at the Blacksmith in the game.\n\n## Supply\n\nUnlimited\n\n### Crafting Costs\n\n---\n\n- 5 SFL\n- 5 Wood\n- 3 Iron\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/305.png","decimals":18,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"e5a672","attributes":[{"trait_type":"Purpose","value":"Tool"}]}
+{
+  "name": "Hammer",
+  "description": "## Hammer (Coming Soon)\n\nA tool used to upgrade buildings\n\nYou can craft an axe at the Blacksmith in the game.\n\n## Supply\n\nUnlimited\n\n### Crafting Costs\n\n---\n\n- 5 SFL\n- 5 Wood\n- 3 Iron\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n",
+  "image": "https://sunflower-land.com/play/erc1155/305.png",
+  "decimals": 18,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "e5a672",
+  "attributes": [{ "trait_type": "Purpose", "value": "Tool" }]
+}

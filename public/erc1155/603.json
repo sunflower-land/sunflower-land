@@ -1,1 +1,9 @@
-{"name":"Iron Ore","description":"## Iron Ore\n\nA resource collected by mining iron.\n\nIt is used in a range of different crafting recipes.\n\n## Supply\n\nUnlimited\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/603.png","decimals":18,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"5ec14c","attributes":[{"trait_type":"Purpose","value":"Resource"}]}
+{
+  "name": "Iron Ore",
+  "description": "## Iron Ore\n\nA resource collected by mining iron.\n\nIt is used in a range of different crafting recipes.\n\n## Supply\n\nUnlimited\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n",
+  "image": "https://sunflower-land.com/play/erc1155/603.png",
+  "decimals": 18,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "5ec14c",
+  "attributes": [{ "trait_type": "Purpose", "value": "Resource" }]
+}

@@ -1,1 +1,9 @@
-{"name":"Axe","description":"## Axe\n\nA tool used to chop wood. It is burnt after use.\n\nYou can craft an axe at the Blacksmith in the game.\n\n## Supply\n\nUnlimited\n\n### Crafting Costs\n\n---\n\n- 1 SFL\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/301.png","decimals":18,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"e5a672","attributes":[{"trait_type":"Purpose","value":"Tool"}]}
+{
+  "name": "Axe",
+  "description": "## Axe\n\nA tool used to chop wood. It is burnt after use.\n\nYou can craft an axe at the Blacksmith in the game.\n\n## Supply\n\nUnlimited\n\n### Crafting Costs\n\n---\n\n- 1 SFL\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n",
+  "image": "https://sunflower-land.com/play/erc1155/301.png",
+  "decimals": 18,
+  "external_url": "https://docs.sunflower-land.com/crafting-guide",
+  "background_color": "e5a672",
+  "attributes": [{ "trait_type": "Purpose", "value": "Tool" }]
+}
