@@ -223,7 +223,9 @@ export const authMachine = createMachine<
               onDone: [
                 {
                   target: "noFarmLoaded",
-                  cond: (_, event) => Number(event.data.totalSupply) < 100000,
+                  cond: (context, event) =>
+                    Number(event.data.totalSupply) < 100000 &&
+                    !context.token?.userAccess?.createFarm,
                 },
                 { target: "supplyReached" },
               ],
