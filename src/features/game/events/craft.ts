@@ -14,7 +14,7 @@ import { isSeed } from "./plant";
 export type CraftAction = {
   type: "item.crafted";
   item: CraftableName;
-  amount: number;
+  amount: Decimal;
 };
 
 /**

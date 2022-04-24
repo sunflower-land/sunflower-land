@@ -192,7 +192,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${price}`}
+                {`$${price.toString()}`}
               </span>
             </div>
           </div>

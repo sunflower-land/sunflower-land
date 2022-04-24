@@ -6,7 +6,7 @@ import { getSellPrice } from "../lib/boosts";
 export type SellAction = {
   type: "item.sell";
   item: InventoryItemName;
-  amount: number;
+  amount: Decimal;
 };
 
 function isCrop(crop: InventoryItemName): crop is CropName {
@@ -22,7 +22,7 @@ export function sell({ state, action }: Options): GameState {
     throw new Error("Not for sale");
   }
 
-  if (action.amount <= 0) {
+  if (action.amount <= new Decimal(0)) {
     throw new Error("Invalid amount");
   }
 
@@ -43,7 +43,7 @@ export function sell({ state, action }: Options): GameState {
       .toDecimalPlaces(18, Decimal.ROUND_DOWN),
     inventory: {
       ...state.inventory,
-      [crop.name]: cropCount.sub(1 * action.amount),
+      [crop.name]: cropCount.sub(action.amount),
     },
   };
 }

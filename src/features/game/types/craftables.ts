@@ -10,7 +10,7 @@ export { FLAGS };
 export type CraftAction = {
   type: "item.crafted";
   item: InventoryItemName;
-  amount: number;
+  amount: Decimal;
 };
 
 export type CraftableName =

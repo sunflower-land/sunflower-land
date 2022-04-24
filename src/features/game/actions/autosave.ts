@@ -35,7 +35,7 @@ function squashEvents(events: PastAction[]): PastAction[] {
           {
             ...event,
             amount:
-              (previous as SellAction | CraftAction).amount + event.amount,
+              (previous as SellAction | CraftAction).amount.add(event.amount),
           } as PastAction,
         ];
       }
