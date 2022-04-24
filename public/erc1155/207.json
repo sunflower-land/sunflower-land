@@ -1,9 +1,1 @@
-{
-  "name": "Cauliflower",
-  "description": "## Cauliflower\n\nA crop grown at Sunflower Land.\n\nNow in 4 different colours!\n\n## Supply\n\nUnlimited\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n",
-  "image": "https://sunflower-land.com/play/erc1155/207.png",
-  "decimals": 18,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "background_color": "5ec14c",
-  "attributes": [{ "trait_type": "Purpose", "value": "Resource" }]
-}
+{"name":"Cauliflower","description":"## Cauliflower\n\nA crop grown at Sunflower Land.\n\nNow in 4 different colours!\n\n## Supply\n\nUnlimited\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/207.png","decimals":18,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"5ec14c","attributes":[{"trait_type":"Purpose","value":"Resource"}]}

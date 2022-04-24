@@ -1,9 +1,1 @@
-{
-  "name": "Cauliflower Seed",
-  "description": "## Cauliflower Seed\n\nA seed used to grow cauliflower.\n\nYou can buy cauliflower seeds in game at the market.\n\n## Supply\n\nUnlimited\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n",
-  "image": "https://sunflower-land.com/play/erc1155/107.png",
-  "decimals": 18,
-  "external_url": "https://docs.sunflower-land.com/crafting-guide",
-  "background_color": "5ec14c",
-  "attributes": [{ "trait_type": "Purpose", "value": "Resource" }]
-}
+{"name":"Cauliflower Seed","description":"## Cauliflower Seed\n\nA seed used to grow cauliflower.\n\nYou can buy cauliflower seeds in game at the market.\n\n## Supply\n\nUnlimited\n\n[Link](https://docs.sunflower-land.com/crafting-guide)\n","image":"https://sunflower-land.com/play/erc1155/107.png","decimals":18,"external_url":"https://docs.sunflower-land.com/crafting-guide","background_color":"5ec14c","attributes":[{"trait_type":"Purpose","value":"Resource"}]}
