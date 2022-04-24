@@ -15,4 +15,4 @@ jobs:
       - name: Run tests
         run: yarn test
       - name: Run lint
-        run: yarn format
+        run: yarn lint
