@@ -40,6 +40,10 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
     gameService.send("RESET");
   };
 
+  const startAirdrop = () => {
+    authService.send("AIRDROP");
+  };
+
   const Content = () => {
     if (resetSessionConfirmation) {
       return (
@@ -72,6 +76,9 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
         </Button>
         <Button className="col  p-1 mt-2" onClick={onResetSession}>
           Reset Session
+        </Button>
+        <Button className="col  p-1 mt-2" onClick={startAirdrop}>
+          Airdrop V1 Farm
         </Button>
       </div>
     );

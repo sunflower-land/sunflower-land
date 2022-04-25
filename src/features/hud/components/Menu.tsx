@@ -111,10 +111,6 @@ export const Menu = () => {
     authService.send("EXPLORE");
   };
 
-  const startAirdrop = () => {
-    authService.send("AIRDROP");
-  };
-
   // Handles closing the menu if someone clicks outside
   useEffect(() => {
     document.addEventListener("mousedown", handleClick);
@@ -185,13 +181,6 @@ export const Menu = () => {
             {/* Root menu */}
             {menuLevel === MENU_LEVELS.ROOT && (
               <>
-                {!gameState.matches("readonly") && (
-                  <li className="p-1">
-                    <Button onClick={startAirdrop}>
-                      <span className="sm:text-sm">Aidrop</span>
-                    </Button>
-                  </li>
-                )}
                 {!gameState.matches("readonly") && (
                   <li className="p-1">
                     <Button onClick={syncOnChain}>

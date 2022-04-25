@@ -5,6 +5,7 @@ import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { ErrorMessage } from "../ErrorMessage";
 import { ErrorCode } from "lib/errors";
+import alert from "assets/icons/expression_alerted.png";
 
 export const Airdrop: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -14,15 +15,18 @@ export const Airdrop: React.FC = () => {
 
   if (authState.matches({ airdropping: "idle" })) {
     return (
-      <div>
+      <div className="p-2">
         <span>{`Airdrop to #${farmId}`}</span>
 
-        <span>
+        <p className="text-sm py-2">
           If you played Sunflower Farmers before January 9th, you may be elible
           to send resources from an account into your existing farm.
-        </span>
+        </p>
 
-        <span>Swap your wallet to the address</span>
+        <p className="underline">
+          To receive an airdrop, keep this screen open and swap to your Metamask
+          account that you wish to migrate.
+        </p>
       </div>
     );
   }
@@ -30,7 +34,7 @@ export const Airdrop: React.FC = () => {
   if (authState.matches({ airdropping: "confirmation" })) {
     return (
       <div>
-        <span>{`The airdrop will be sent to farm #${farmId}`}</span>
+        <span>{`Progress from this account will be airdropped to farm #${farmId}`}</span>
 
         <Button onClick={() => send("CONFIRM")}>Sign & Airdrop</Button>
       </div>
@@ -46,14 +50,19 @@ export const Airdrop: React.FC = () => {
   }
 
   if (authState.matches({ airdropping: "duplicate" })) {
-    return <span>Already migrated!</span>;
+    return (
+      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
+        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+        <span className="text-xs">ALREADY MIGRATED</span>
+      </div>
+    );
   }
 
   if (authState.matches({ airdropping: "noFarm" })) {
     return (
-      <div>
-        <span>No farm tokens or farm found from Sunflower Farmers</span>
-        <span>Did you own assets from V1?</span>
+      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
+        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+        <span className="text-xs">NO SFF TOKENS OR FARM FOUND ON ACCOUNT</span>
       </div>
     );
   }
@@ -62,9 +71,14 @@ export const Airdrop: React.FC = () => {
     return (
       <>
         <span>Succesfully airdropped!</span>
-        <span>
-          YOU MUST NOW SYNC YOUR FARM BEFORE MAY 5TH to apply the changes
-        </span>
+        <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
+          <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+          <span className="text-xs">
+            YOU MUST SYNC YOUR FARM TO THE BLOCKCHAIN BEFORE MAY 4TH TO APPLY
+            THE AIRDROP
+          </span>
+        </div>
+        );
       </>
     );
   }

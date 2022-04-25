@@ -13,7 +13,6 @@ type AirdropArgs = {
 export async function airdrop({ token, farmId, fromAddress }: AirdropArgs) {
   const timestamp = Math.floor(Date.now() / 8.64e7);
 
-  console.log("Try sign");
   const { signature } = await metamask.signTransaction(timestamp, fromAddress);
 
   const response = await window.fetch(`${API_URL}/airdrop/${farmId}`, {
