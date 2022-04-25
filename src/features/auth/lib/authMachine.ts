@@ -105,6 +105,7 @@ export type BlockchainState = {
     | "oauthorising"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
+    | { connected: "checkingAccess" }
     | { connected: "checkingSupply" }
     | { connected: "supplyReached" }
     | { connected: "noFarmLoaded" }
@@ -232,6 +233,36 @@ export const authMachine = createMachine<
                   target: "readyToStart",
                   actions: "assignFarm",
                   cond: "hasFarm",
+                },
+                { target: "checkingAccess" },
+              ],
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
+            },
+          },
+          checkingAccess: {
+            id: "checkingAccess",
+            invoke: {
+              src: async (context) => {
+                if (context.token?.userAccess.createFarm) {
+                  return { hasAccess: true };
+                }
+
+                // Only give access to V1 farmers
+                const hasAccess = await metamask
+                  .getSunflowerFarmers()
+                  ?.hasV1Data();
+
+                return {
+                  hasAccess,
+                };
+              },
+              onDone: [
+                {
+                  target: "noFarmLoaded",
+                  cond: (_, event) => event.data.hasAccess,
                 },
                 { target: "checkingSupply" },
               ],

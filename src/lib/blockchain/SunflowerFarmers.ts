@@ -72,7 +72,7 @@ export class SunflowerFarmers {
     }
   }
 
-  public async hasV1Data(address: string): Promise<boolean> {
+  public async hasV1Data(address = this.account): Promise<boolean> {
     const hasTokens = await this.hasTokens(address);
     const hasFarm = await this.hasFarm(address);
 
