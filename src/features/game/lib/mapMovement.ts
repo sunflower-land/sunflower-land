@@ -47,9 +47,10 @@ const keyDownListener = (event: KeyboardEvent) => {
   }
 };
 
+//no fix for keyup, as a movement began before the opening of the modal needs to be stopped when the key is released
 const keyUpListener = (event: KeyboardEvent) => {
   const key = event.key.toLowerCase();
-  if (container && event.target === document.body) {
+  if (container) {
     if (key === "w" || key === "arrowup") {
       if (movementIntervals.moveUp !== undefined) {
         clearInterval(movementIntervals.moveUp);
