@@ -505,7 +505,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(1),
       },
     ],
-    supply: 309,
+    supply: 209,
     disabled: true,
     section: Section.Scarecrow,
   },
