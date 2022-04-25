@@ -95,7 +95,6 @@ export const CropZoneTwo: React.FC = () => {
 
       <div
         className="absolute flex justify-center flex-col"
-        id="cropzone-two"
         onClick={!isUnlocked ? () => setShowModal(true) : undefined}
         style={{
           width: `${GRID_WIDTH_PX * 3}px`,
