@@ -412,7 +412,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 5000,
     section: Section.Beaver,
-    disabled: true,
+    disabled: false,
     upgrades: ["Foreman Beaver"],
   },
   "Foreman Beaver": {
@@ -492,7 +492,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
     ],
     limit: 1,
     supply: 5000,
-    disabled: true,
+    disabled: false,
     section: Section.Scarecrow,
     upgrades: ["Kuebiko"],
   },
