@@ -14,7 +14,7 @@ const initialCoordinates = [1024, 1214];
 
 const keyDownListener = (event: KeyboardEvent) => {
   const key = event.key.toLowerCase();
-  if (container) {
+  if (container && event.target === document.body) {
     if (key === "w" || key === "arrowup") {
       if (movementIntervals.moveUp === undefined) {
         movementIntervals.moveUp = setInterval(() => {
@@ -49,7 +49,7 @@ const keyDownListener = (event: KeyboardEvent) => {
 
 const keyUpListener = (event: KeyboardEvent) => {
   const key = event.key.toLowerCase();
-  if (container) {
+  if (container && event.target === document.body) {
     if (key === "w" || key === "arrowup") {
       if (movementIntervals.moveUp !== undefined) {
         clearInterval(movementIntervals.moveUp);
