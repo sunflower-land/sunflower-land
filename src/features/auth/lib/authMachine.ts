@@ -222,12 +222,12 @@ export const authMachine = createMachine<
               },
               onDone: [
                 {
-                  target: "noFarmLoaded",
+                  target: "supplyReached",
                   cond: (context, event) =>
-                    Number(event.data.totalSupply) < 100000 &&
+                    Number(event.data.totalSupply) >= 100000 &&
                     !context.token?.userAccess?.createFarm,
                 },
-                { target: "supplyReached" },
+                { target: "noFarmLoaded" },
               ],
               onError: {
                 target: "#unauthorised",
