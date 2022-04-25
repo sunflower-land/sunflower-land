@@ -34,6 +34,7 @@ export type Craftable = {
   disabled?: boolean;
   requires?: InventoryItemName;
   section?: Section;
+  upgrades?: CraftableName[]; // used for getting amount left
 };
 
 export type BlacksmithItem =
@@ -393,6 +394,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 50000,
     section: Section.Beaver,
+    upgrades: ["Apprentice Beaver", "Foreman Beaver"],
   },
   "Apprentice Beaver": {
     name: "Apprentice Beaver",
@@ -411,6 +413,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     supply: 5000,
     section: Section.Beaver,
     disabled: true,
+    upgrades: ["Foreman Beaver"],
   },
   "Foreman Beaver": {
     name: "Foreman Beaver",
@@ -446,6 +449,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 100000,
     disabled: true,
+    upgrades: ["Easter Bunny"],
   },
 };
 
@@ -466,6 +470,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
     ],
     supply: 50000,
     section: Section.Scarecrow,
+    upgrades: ["Scarecrow", "Kuebiko"],
   },
   Scarecrow: {
     name: "Scarecrow",
@@ -489,6 +494,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
     supply: 5000,
     disabled: true,
     section: Section.Scarecrow,
+    upgrades: ["Kuebiko"],
   },
   Kuebiko: {
     name: "Kuebiko",

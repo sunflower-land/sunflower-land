@@ -20,6 +20,7 @@ import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
 import { mintCooldown } from "../lib/mintUtils";
 import { secondsToString } from "lib/utils/time";
+import { getAmountLeft } from "features/game/lib/amountLeft";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -122,7 +123,7 @@ export const Rare: React.FC<Props> = ({
 
   let amountLeft = 0;
   if (supply && selected.supply) {
-    amountLeft = selected.supply - supply[selected.name]?.toNumber();
+    amountLeft = getAmountLeft(supply, selected);
   }
 
   const soldOut = amountLeft <= 0;
