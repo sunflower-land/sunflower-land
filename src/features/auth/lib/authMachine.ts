@@ -254,10 +254,6 @@ export const authMachine = createMachine<
                   return { hasAccess: false };
                 }
 
-                if (context.token?.userAccess.createFarm) {
-                  return { hasAccess: true };
-                }
-
                 // Only give access to V1 farmers
                 const hasAccess = await metamask
                   .getSunflowerFarmers()
