@@ -6,8 +6,8 @@ import SunflowerFarmersABI from "./abis/SunflowerFarmers.json";
 import TokenABI from "./abis/Token.json";
 import { parseMetamaskError } from "./utils";
 
-const farmContractAddress = "0xd7952E176fe0B77cAAb2465b04F1422518Fb9643"; //"0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0";
-const farmTokenAddress = "0x1D24F82b5d9d72450C2ed065F51827Eb280FFA38"; // "0xdf9B4b57865B403e08c85568442f95c26b7896b0";
+const farmContractAddress = "0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0"; //"0xd7952E176fe0B77cAAb2465b04F1422518Fb9643"; //;
+const farmTokenAddress = "0xdf9B4b57865B403e08c85568442f95c26b7896b0"; //"0x1D24F82b5d9d72450C2ed065F51827Eb280FFA38"; // ;
 
 /**
  * Farm NFT contract
