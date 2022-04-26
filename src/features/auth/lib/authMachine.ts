@@ -249,9 +249,10 @@ export const authMachine = createMachine<
             id: "checkingAccess",
             invoke: {
               src: async (context) => {
-                // TODO - remove once migration support is available
-                if (!context.token?.userAccess.airdrop) {
-                  return { hasAccess: false };
+                if (context.token?.userAccess.createFarm) {
+                  return {
+                    hasAccess: true,
+                  };
                 }
 
                 // Only give access to V1 farmers
@@ -445,7 +446,13 @@ export const authMachine = createMachine<
       airdropping: {
         initial: "idle",
         states: {
-          idle: {},
+          idle: {
+            on: {
+              ACCOUNT_CHANGED: {
+                target: "#checking",
+              },
+            },
+          },
           checking: {
             id: "checking",
             invoke: {
@@ -482,16 +489,29 @@ export const authMachine = createMachine<
                 actions: "assignErrorMessage",
               },
             },
+            on: {
+              ACCOUNT_CHANGED: {
+                target: "#checking",
+              },
+            },
           },
-          noFarm: {},
+          noFarm: {
+            on: {
+              ACCOUNT_CHANGED: {
+                target: "#checking",
+              },
+            },
+          },
           confirmation: {
             on: {
               CONFIRM: {
                 target: "signing",
               },
+              ACCOUNT_CHANGED: {
+                target: "#checking",
+              },
             },
           },
-
           signing: {
             id: "airdropSigning",
             invoke: {
@@ -518,14 +538,20 @@ export const authMachine = createMachine<
                 actions: "assignErrorMessage",
               },
             },
+            on: {
+              ACCOUNT_CHANGED: {
+                target: "#checking",
+              },
+            },
           },
           success: {},
           error: {},
-          duplicate: {},
-        },
-        on: {
-          ACCOUNT_CHANGED: {
-            target: "#checking",
+          duplicate: {
+            on: {
+              ACCOUNT_CHANGED: {
+                target: "#checking",
+              },
+            },
           },
         },
       },
