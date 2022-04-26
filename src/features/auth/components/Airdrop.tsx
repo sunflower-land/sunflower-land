@@ -19,8 +19,8 @@ export const Airdrop: React.FC = () => {
         <span>{`Airdrop to #${farmId}`}</span>
 
         <p className="text-sm py-2">
-          If you played Sunflower Farmers before January 9th, you may be elible
-          to send resources from an account into your existing farm.
+          If you played Sunflower Farmers before January 9th, you may be
+          eligible to send resources from an account into your existing farm.
         </p>
 
         <p className="underline">
