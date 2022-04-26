@@ -78,11 +78,9 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
         <Button className="col  p-1 mt-2" onClick={onResetSession}>
           Reset Session
         </Button>
-        {authState.context.token?.userAccess.airdrop && (
-          <Button className="col  p-1 mt-2" onClick={startAirdrop}>
-            Airdrop V1 Farm
-          </Button>
-        )}
+        <Button className="col  p-1 mt-2" onClick={startAirdrop}>
+          Airdrop V1 Farm
+        </Button>
       </div>
     );
   };
