@@ -2,7 +2,7 @@ import { Decimal } from "decimal.js-light";
 import { GameEvent } from "../events";
 
 import { CropName, SeedName } from "./crops";
-import { CraftableName } from "./craftables";
+import { CraftableName, BeeItem } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 
@@ -52,6 +52,12 @@ export const EASTER_EGGS: EasterEgg[] = [
   "Yellow Egg",
 ];
 
+export type Flower = {
+  honey: Decimal;
+  //Epoch time in milliseconds
+  pollinatedAt: number;
+};
+
 export type EasterBunny = "Easter Bunny";
 
 export type InventoryItemName =
@@ -61,7 +67,8 @@ export type InventoryItemName =
   | ResourceName
   | SkillName
   | EasterEgg
-  | EasterBunny;
+  | EasterBunny
+  | BeeItem;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -78,7 +85,7 @@ export type GameState = {
   stones: Record<number, Rock>;
   iron: Record<number, Rock>;
   gold: Record<number, Rock>;
-
+  flowers: Record<number, Flower>;
   inventory: Inventory;
   stock: Inventory;
 

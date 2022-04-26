@@ -20,6 +20,10 @@ import battleMp3 from "../../assets/sound-effects/battle.mp3";
 import diaryMp3 from "../../assets/sound-effects/diary.mp3";
 import fountainMp3 from "../../assets/sound-effects/fountain.mp3";
 
+import beesMp3 from "../../assets/sound-effects/bees.mp3";
+import pollinateMp3 from "../../assets/sound-effects/pollinating.mp3";
+import honeyHarvestMp3 from "../../assets/sound-effects/honeyHarvest.mp3";
+
 export const harvestAudio = new Howl({
   src: [harvestMp3],
   volume: 0.2,
@@ -113,4 +117,19 @@ export const battleAudio = new Howl({
 export const fountainAudio = new Howl({
   src: [fountainMp3],
   volume: 0.2,
+});
+
+export const beesAudio = new Howl({
+  src: [beesMp3],
+  volume: 0.2,
+});
+
+export const pollinateAudio = new Howl({
+  src: [pollinateMp3],
+  volume: 0.5,
+});
+
+export const honeyHarvestAudio = new Howl({
+  src: [honeyHarvestMp3],
+  volume: 0.5,
 });

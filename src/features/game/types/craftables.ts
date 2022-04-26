@@ -19,7 +19,8 @@ export type CraftableName =
   | SeedName
   | Food
   | Animal
-  | Flag;
+  | Flag
+  | Bee;
 
 export type Craftable = {
   name: CraftableName;
@@ -51,7 +52,9 @@ export type BlacksmithItem =
   | "Nyon Statue"
   | "Homeless Tent"
   | "Egg Basket"
-  | "Farmer Bath";
+  | "Farmer Bath"
+  | "Bee Hive"
+  | "Bee Box";
 
 export type BarnItem =
   | "Farm Cat"
@@ -68,7 +71,14 @@ export type MarketItem =
   | "Mysterious Parsnip"
   | "Carrot Sword";
 
-export type LimitedItem = BlacksmithItem | BarnItem | MarketItem | Flag;
+export type LimitedItem =
+  | BlacksmithItem
+  | BarnItem
+  | MarketItem
+  | Flag
+  | BeeItem;
+
+export type BeeItem = "Queen" | "Sunflower Cake";
 
 export type Tool =
   | "Axe"
@@ -78,6 +88,7 @@ export type Tool =
   | "Hammer"
   | "Rod";
 
+export type Bee = "Bee";
 export type Food =
   | "Pumpkin Soup"
   | "Roasted Cauliflower"
@@ -410,7 +421,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 5000,
     section: Section.Beaver,
-    disabled: false,
+    disabled: true,
   },
   "Foreman Beaver": {
     name: "Foreman Beaver",
@@ -426,7 +437,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
         item: "Apprentice Beaver",
       },
     ],
-    supply: 308,
+    supply: 300,
     section: Section.Beaver,
     disabled: true,
   },
@@ -445,7 +456,37 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
       },
     ],
     supply: 100000,
-    disabled: true,
+  },
+
+  "Bee Hive": {
+    name: "Bee Hive",
+    description: "Gather 20% more honey",
+    price: new Decimal(20),
+    ingredients: [
+      {
+        amount: new Decimal(50),
+        item: "Honey",
+      },
+    ],
+    supply: 300,
+    section: Section["Bee Hive"],
+  },
+  "Bee Box": {
+    name: "Bee Box",
+    description: "Bees multiply",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(300),
+        item: "Honey",
+      },
+      {
+        amount: new Decimal(1),
+        item: "Bee Hive",
+      },
+    ],
+    supply: 300,
+    section: Section["Bee Hive"],
   },
 };
 
@@ -487,7 +528,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
     ],
     limit: 1,
     supply: 5000,
-    disabled: false,
+    disabled: true,
     section: Section.Scarecrow,
   },
   Kuebiko: {
@@ -505,7 +546,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(1),
       },
     ],
-    supply: 209,
+    supply: 200,
     disabled: true,
     section: Section.Scarecrow,
   },
@@ -523,7 +564,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(100),
       },
     ],
-    supply: 113,
+    supply: 100,
     disabled: true,
   },
   "Mysterious Parsnip": {
@@ -540,7 +581,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(50),
       },
     ],
-    supply: 512,
+    supply: 500,
     disabled: true,
   },
   "Carrot Sword": {
@@ -689,6 +730,39 @@ export const ANIMALS: Record<Animal, Craftable> = {
   },
 };
 
+export const BEES: Record<Bee, Craftable> = {
+  Bee: {
+    name: "Bee",
+    description: "Produced delicious honey!",
+    price: new Decimal(1),
+    ingredients: [],
+    disabled: false,
+  },
+};
+
+export const BEE_ITEMS: Record<BeeItem, Craftable> = {
+  Queen: {
+    name: "Queen",
+    description: "Earn an extra 5 bees per week",
+    price: new Decimal(50),
+    ingredients: [{ item: "Honey", amount: new Decimal(100) }],
+    supply: 100,
+    section: Section["Bee Hive"],
+  },
+  "Sunflower Cake": {
+    name: "Sunflower Cake",
+    description: "Give an energy boost to your farm animals",
+    price: new Decimal(50),
+    ingredients: [
+      { item: "Honey", amount: new Decimal(10) },
+      { item: "Wheat", amount: new Decimal(100) },
+      { item: "Egg", amount: new Decimal(50) },
+    ],
+    supply: 100,
+    section: Section["Bee Hive"],
+  },
+};
+
 export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...TOOLS,
   ...BLACKSMITH_ITEMS,
@@ -698,4 +772,6 @@ export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...FOODS(),
   ...ANIMALS,
   ...FLAGS,
+  ...BEES,
+  ...BEE_ITEMS,
 });
