@@ -86,6 +86,7 @@ export const Rare: React.FC<Props> = ({
   useEffect(() => {
     const load = async () => {
       const supply = await metamask.getInventory().totalSupply();
+
       setSupply(supply);
       setIsLoading(false);
     };

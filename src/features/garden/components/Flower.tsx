@@ -6,9 +6,9 @@ import Spritesheet, {
 
 import Decimal from "decimal.js-light";
 
-import shakeSheet from "assets/resources/flower/flower_shake_centered.png";
-import choppedSheet from "assets/resources/tree/chopped_sheet.png";
-import stump from "assets/resources/tree/stump.png";
+import flowerSheet from "assets/resources/flower/Flower_harvest.png";
+import honeySheet from "assets/resources/flower/Honey_sheet_Updated.png";
+import flowerStump from "assets/resources/flower/flower_stump.png";
 import honey from "assets/resources/honey.png";
 import bee from "assets/animals/bee.png";
 
@@ -195,16 +195,13 @@ export const Flower: React.FC<Props> = ({ flowerIndex }) => {
             style={{
               width: `${GRID_WIDTH_PX * 4}px`,
               // Line it up with the click area
-              transform: `translateX(-${GRID_WIDTH_PX * 1.5}px) `,
+              transform: `translateX(-${GRID_WIDTH_PX * 2.5}px) `,
               imageRendering: "pixelated",
-              background:"red",
-
-             
             }}
             getInstance={(spritesheet) => {
               shakeGif.current = spritesheet;
             }}
-            image={shakeSheet}
+            image={flowerSheet}
             widthFrame={266}
             heightFrame={168}
             fps={24}
@@ -239,11 +236,11 @@ export const Flower: React.FC<Props> = ({ flowerIndex }) => {
         getInstance={(spritesheet) => {
           choppedGif.current = spritesheet;
         }}
-        image={choppedSheet}
+        image={honeySheet}
         widthFrame={266}
         heightFrame={168}
-        fps={20}
-        steps={11}
+        fps={24}
+        steps={8}
         direction={`forward`}
         autoplay={false}
         loop={true}
@@ -255,12 +252,13 @@ export const Flower: React.FC<Props> = ({ flowerIndex }) => {
       {harvested && (
         <>
           <img
-            src={stump}
+            src={flowerStump}
             className="absolute"
             style={{
               width: `${GRID_WIDTH_PX}px`,
               bottom: "9px",
               left: "5px",
+              transform: "scale(2)",
             }}
             onMouseEnter={handleMouseHoverStump}
             onMouseLeave={handleMouseLeaveStump}

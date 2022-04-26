@@ -34,7 +34,7 @@ export const Garden: React.FC = () => {
           style={{
             height: `${GRID_WIDTH_PX * 1.5}px`,
             width: `${GRID_WIDTH_PX * 1.5}px`,
-            left: `${GRID_WIDTH_PX * -4.85}px`,
+            left: `${GRID_WIDTH_PX * -6.85}px`,
             top: `${GRID_WIDTH_PX * -3.65}px`,
           }}
         >
@@ -45,7 +45,7 @@ export const Garden: React.FC = () => {
           style={{
             height: `${GRID_WIDTH_PX * 1.5}px`,
             width: `${GRID_WIDTH_PX * 1.5}px`,
-            left: `${GRID_WIDTH_PX * -0.75}px`,
+            left: `${GRID_WIDTH_PX * -1.75}px`,
             top: `${GRID_WIDTH_PX * -3.65}px`,
           }}
         >
@@ -57,7 +57,7 @@ export const Garden: React.FC = () => {
           style={{
             height: `${GRID_WIDTH_PX * 1.5}px`,
             width: `${GRID_WIDTH_PX * 1.5}px`,
-            left: `${GRID_WIDTH_PX * -0.75}px`,
+            left: `${GRID_WIDTH_PX * -1.75}px`,
             top: `${GRID_WIDTH_PX * 0.5}px`,
           }}
         >
@@ -69,7 +69,7 @@ export const Garden: React.FC = () => {
           style={{
             height: `${GRID_WIDTH_PX * 1.5}px`,
             width: `${GRID_WIDTH_PX * 1.5}px`,
-            left: `${GRID_WIDTH_PX * -4.85}px`,
+            left: `${GRID_WIDTH_PX * -6.85}px`,
             top: `${GRID_WIDTH_PX * 0.5}px`,
           }}
         >
