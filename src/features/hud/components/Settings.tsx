@@ -18,6 +18,7 @@ interface Props {
 
 export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -28,7 +29,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const onLogout = () => {
     onClose();
-    authService.send("ACCOUNT_CHANGED"); // hack used to avoid redundancy
+    authService.send("LOGOUT"); // hack used to avoid redundancy
   };
 
   const onResetSession = () => {
@@ -77,9 +78,11 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
         <Button className="col  p-1 mt-2" onClick={onResetSession}>
           Reset Session
         </Button>
-        <Button className="col  p-1 mt-2" onClick={startAirdrop}>
-          Airdrop V1 Farm
-        </Button>
+        {authState.context.token?.userAccess.airdrop && (
+          <Button className="col  p-1 mt-2" onClick={startAirdrop}>
+            Airdrop V1 Farm
+          </Button>
+        )}
       </div>
     );
   };

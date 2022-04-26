@@ -53,7 +53,7 @@ export const Airdrop: React.FC = () => {
     return (
       <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
         <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
-        <span className="text-xs">ALREADY MIGRATED</span>
+        <span className="text-xs">ALREADY AIRDROPPED</span>
       </div>
     );
   }
@@ -74,11 +74,10 @@ export const Airdrop: React.FC = () => {
         <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
           <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
           <span className="text-xs">
-            YOU MUST SYNC YOUR FARM TO THE BLOCKCHAIN BEFORE MAY 4TH TO APPLY
-            THE AIRDROP
+            YOU MUST SYNC YOUR FARM #{farmId} TO THE BLOCKCHAIN BEFORE MAY 4TH
+            TO APPLY THE AIRDROP
           </span>
         </div>
-        );
       </>
     );
   }

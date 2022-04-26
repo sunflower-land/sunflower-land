@@ -5,7 +5,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 import { metamask } from "../../../lib/blockchain/metamask";
 import { airdrop } from "../actions/airdrop";
 import { createFarm as createFarmAction } from "../actions/createFarm";
-import { login, Token, decodeToken } from "../actions/login";
+import { login, Token, decodeToken, removeSession } from "../actions/login";
 import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
 
@@ -89,6 +89,9 @@ export type BlockchainEvent =
     }
   | {
       type: "REFRESH";
+    }
+  | {
+      type: "LOGOUT";
     }
   | { type: "CONNECT_TO_DISCORD" }
   | { type: "AIRDROP" }
@@ -364,6 +367,10 @@ export const authMachine = createMachine<
               EXPLORE: {
                 target: "#exploring",
               },
+              LOGOUT: {
+                target: "#connecting",
+                actions: ["clearSession", "resetFarm"],
+              },
             },
           },
           supplyReached: {},
@@ -627,6 +634,7 @@ export const authMachine = createMachine<
         token: () => undefined,
         rawToken: () => undefined,
       }),
+      clearSession: (context) => removeSession(metamask.myAccount as string),
       deleteFarmIdUrl: deleteFarmUrl,
     },
     guards: {
