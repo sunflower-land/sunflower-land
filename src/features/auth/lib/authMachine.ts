@@ -249,6 +249,11 @@ export const authMachine = createMachine<
             id: "checkingAccess",
             invoke: {
               src: async (context) => {
+                // TODO - remove once migration support is available
+                if (!context.token?.userAccess.airdrop) {
+                  return { hasAccess: false };
+                }
+
                 if (context.token?.userAccess.createFarm) {
                   return { hasAccess: true };
                 }
