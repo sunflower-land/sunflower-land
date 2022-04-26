@@ -468,7 +468,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
         item: "Honey",
       },
     ],
-    supply: 1,
+    supply: 300,
     section: Section["Bee Hive"],
   },
   "Bee Box": {
