@@ -56,6 +56,7 @@ export const Plants: React.FC = () => {
   const handleSellAll = () => {
     sell(bulkSellAmount.toNumber());
     showSellAllModal(false);
+    setBulkSellAmount(cropAmount.minus(bulkSellAmount));
   };
 
   // ask confirmation if crop supply is greater than 1
