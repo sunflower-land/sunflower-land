@@ -22,6 +22,7 @@ import { ErrorCode } from "lib/errors";
 import { SupplyReached } from "./components/SupplyReached";
 import { Countdown } from "./components/Countdown";
 import { Minimized } from "./components/Minimized";
+import { Airdrop } from "./components/Airdrop";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -69,7 +70,8 @@ export const Auth: React.FC = () => {
         <Panel>
           {(authState.matches({ connected: "loadingFarm" }) ||
             authState.matches("checkFarm") ||
-            authState.matches({ connected: "checkingSupply" })) && <Loading />}
+            authState.matches({ connected: "checkingSupply" }) ||
+            authState.matches({ connected: "checkingAccess" })) && <Loading />}
           {authState.matches("connecting") && <Loading text="Connecting" />}
           {authState.matches("signing") && <Signing />}
           {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
@@ -77,6 +79,7 @@ export const Auth: React.FC = () => {
             <SupplyReached />
           )}
           {authState.matches("oauthorising") && <Loading />}
+          {authState.matches("airdropping") && <Airdrop />}
           {authState.matches({ connected: "oauthorised" }) && <CreateFarm />}
           {authState.matches({ connected: "countdown" }) && <Countdown />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}

@@ -3,8 +3,9 @@ import { ERRORS } from "lib/errors";
 import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
+import { airdrop } from "../actions/airdrop";
 import { createFarm as createFarmAction } from "../actions/createFarm";
-import { login, Token, decodeToken } from "../actions/login";
+import { login, Token, decodeToken, removeSession } from "../actions/login";
 import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
 
@@ -89,7 +90,13 @@ export type BlockchainEvent =
   | {
       type: "REFRESH";
     }
-  | { type: "CONNECT_TO_DISCORD" };
+  | {
+      type: "LOGOUT";
+    }
+  | { type: "CONNECT_TO_DISCORD" }
+  | { type: "AIRDROP" }
+  | { type: "CONFIRM" }
+  | { type: "CONTINUE" };
 
 export type BlockchainState = {
   value:
@@ -101,6 +108,7 @@ export type BlockchainState = {
     | "oauthorising"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
+    | { connected: "checkingAccess" }
     | { connected: "checkingSupply" }
     | { connected: "supplyReached" }
     | { connected: "noFarmLoaded" }
@@ -109,6 +117,15 @@ export type BlockchainState = {
     | { connected: "readyToStart" }
     | { connected: "oauthorised" }
     | { connected: "authorised" }
+    | "airdropping"
+    | { airdropping: "idle" }
+    | { airdropping: "checking" }
+    | { airdropping: "confirmation" }
+    | { airdropping: "signing" }
+    | { airdropping: "success" }
+    | { airdropping: "error" }
+    | { airdropping: "noFarm" }
+    | { airdropping: "duplicate" }
     | "exploring"
     | "checkFarm"
     | "unauthorised";
@@ -158,6 +175,12 @@ export const authMachine = createMachine<
             actions: "assignErrorMessage",
           },
         },
+        on: {
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+            actions: "resetFarm",
+          },
+        },
       },
       signing: {
         invoke: {
@@ -171,6 +194,12 @@ export const authMachine = createMachine<
             actions: "assignErrorMessage",
           },
         },
+        on: {
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+            actions: "resetFarm",
+          },
+        },
       },
       oauthorising: {
         invoke: {
@@ -182,6 +211,12 @@ export const authMachine = createMachine<
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
+          },
+        },
+        on: {
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+            actions: "resetFarm",
           },
         },
       },
@@ -201,6 +236,36 @@ export const authMachine = createMachine<
                   target: "readyToStart",
                   actions: "assignFarm",
                   cond: "hasFarm",
+                },
+                { target: "checkingAccess" },
+              ],
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
+            },
+          },
+          checkingAccess: {
+            id: "checkingAccess",
+            invoke: {
+              src: async (context) => {
+                if (context.token?.userAccess.createFarm) {
+                  return { hasAccess: true };
+                }
+
+                // Only give access to V1 farmers
+                const hasAccess = await metamask
+                  .getSunflowerFarmers()
+                  ?.hasV1Data();
+
+                return {
+                  hasAccess,
+                };
+              },
+              onDone: [
+                {
+                  target: "noFarmLoaded",
+                  cond: (_, event) => event.data.hasAccess,
                 },
                 { target: "checkingSupply" },
               ],
@@ -302,13 +367,30 @@ export const authMachine = createMachine<
               EXPLORE: {
                 target: "#exploring",
               },
+              LOGOUT: {
+                target: "#connecting",
+                actions: ["clearSession", "resetFarm"],
+              },
             },
           },
           supplyReached: {},
         },
+        on: {
+          AIRDROP: "airdropping",
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+            actions: "resetFarm",
+          },
+        },
       },
       unauthorised: {
         id: "unauthorised",
+        on: {
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+            actions: "resetFarm",
+          },
+        },
       },
       exploring: {
         id: "exploring",
@@ -318,6 +400,10 @@ export const authMachine = createMachine<
           },
           VISIT: {
             target: "checkFarm",
+          },
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+            actions: "resetFarm",
           },
         },
       },
@@ -335,6 +421,12 @@ export const authMachine = createMachine<
             actions: "assignErrorMessage",
           },
         },
+        on: {
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+            actions: "resetFarm",
+          },
+        },
       },
       visiting: {
         on: {
@@ -342,15 +434,102 @@ export const authMachine = createMachine<
             target: "connecting",
             actions: ["resetFarm", "deleteFarmIdUrl"],
           },
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+            actions: "resetFarm",
+          },
         },
       },
       minimised: {},
+      airdropping: {
+        initial: "idle",
+        states: {
+          idle: {},
+          checking: {
+            id: "checking",
+            invoke: {
+              src: async () => {
+                const account = await metamask.getAccount();
+
+                // On the same account they started with
+                if (account === metamask.myAccount) {
+                  return { isSameAccount: true };
+                }
+
+                // Check if they have a farm or tokens from V1
+                const hasV1Data = await metamask
+                  .getSunflowerFarmers()
+                  .hasV1Data(account);
+
+                return {
+                  hasV1Data,
+                };
+              },
+              onDone: [
+                {
+                  target: "idle",
+                  cond: (_, event) => event.data.isSameAccount,
+                },
+                {
+                  target: "confirmation",
+                  cond: (_, event) => event.data.hasV1Data,
+                },
+                { target: "noFarm" },
+              ],
+              onError: {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            },
+          },
+          noFarm: {},
+          confirmation: {
+            on: {
+              CONFIRM: {
+                target: "signing",
+              },
+            },
+          },
+
+          signing: {
+            id: "airdropSigning",
+            invoke: {
+              src: async (context) => {
+                const account = await metamask.getAccount();
+
+                const { status } = await airdrop({
+                  token: context.rawToken as string,
+                  farmId: context.farmId as number,
+                  fromAddress: account,
+                });
+
+                return { status };
+              },
+              onDone: [
+                {
+                  target: "duplicate",
+                  cond: (_, event) => event.data.status === "already_migrated",
+                },
+                { target: "success" },
+              ],
+              onError: {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            },
+          },
+          success: {},
+          error: {},
+          duplicate: {},
+        },
+        on: {
+          ACCOUNT_CHANGED: {
+            target: "#checking",
+          },
+        },
+      },
     },
     on: {
-      ACCOUNT_CHANGED: {
-        target: "connecting",
-        actions: "resetFarm",
-      },
       NETWORK_CHANGED: {
         target: "connecting",
         actions: "resetFarm",
@@ -455,6 +634,7 @@ export const authMachine = createMachine<
         token: () => undefined,
         rawToken: () => undefined,
       }),
+      clearSession: (context) => removeSession(metamask.myAccount as string),
       deleteFarmIdUrl: deleteFarmUrl,
     },
     guards: {
