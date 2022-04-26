@@ -17,7 +17,7 @@ export const Bee: React.FC = () => {
 
   return (
     <>
-      {state.inventory["Chicken Coop"] && (
+      {state.inventory["Bee Hive"] && (
         <img
           src={coop}
           style={{
