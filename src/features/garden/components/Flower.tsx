@@ -218,7 +218,7 @@ export const Flower: React.FC<Props> = ({ flowerIndex }) => {
               showLabel ? "opacity-100" : "opacity-0"
             }`}
           >
-            <Label>Equip an bee first</Label>
+            <Label>Equip a bee first</Label>
           </div>
         </div>
       )}

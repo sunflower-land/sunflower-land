@@ -28,7 +28,6 @@ export const INITIAL_STOCK: Inventory = {
 
   //test bee stock
   Bee: new Decimal(100),
- 
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
@@ -153,7 +152,6 @@ export const INITIAL_FARM: GameState = {
     Potato: new Decimal(12),
     Scarecrow: new Decimal(4),
     "Bee Hive": new Decimal(1),
-    Queen: new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
