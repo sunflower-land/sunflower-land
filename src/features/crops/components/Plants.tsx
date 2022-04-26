@@ -30,6 +30,14 @@ export const Plants: React.FC = () => {
   const [isPriceBoosted, setIsPriceBoosted] = useState(false);
 
   const inventory = state.inventory;
+  const cropAmount = new Decimal(inventory[selected.name] || 0);
+  const noCrop = cropAmount.equals(0);
+  const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
+  const [bulkSellAmount, setBulkSellAmount] = useState(cropAmount);
+
+  useEffect(() => {
+    setBulkSellAmount(cropAmount);
+  }, [selected.name]);
 
   const sell = (amount = 1) => {
     gameService.send("item.sell", {
@@ -41,16 +49,12 @@ export const Plants: React.FC = () => {
     });
   };
 
-  const cropAmount = new Decimal(inventory[selected.name] || 0);
-  const noCrop = cropAmount.equals(0);
-  const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
-
   const handleSellOne = () => {
     sell(1);
   };
 
   const handleSellAll = () => {
-    sell(cropAmount.toNumber());
+    sell(bulkSellAmount.toNumber());
     showSellAllModal(false);
   };
 
@@ -117,8 +121,31 @@ export const Plants: React.FC = () => {
             className="text-xs mt-1 whitespace-nowrap"
             onClick={openConfirmationModal}
           >
-            Sell All
+            Sell{" "}
+            {bulkSellAmount.equals(cropAmount)
+              ? "All"
+              : bulkSellAmount.toNumber()}
           </Button>
+          <div>
+            <input
+              className="
+                form-range
+                w-full
+                h-6
+                p-0
+                bg-transparent
+                focus:outline-none focus:ring-0 focus:shadow-none
+                slider-thumb
+              "
+              onChange={(e) => {
+                setBulkSellAmount(new Decimal(Number(e.target.value)));
+              }}
+              type="range"
+              min={1}
+              max={cropAmount.toNumber()}
+              value={bulkSellAmount.toNumber()}
+            />
+          </div>
         </div>
       </OuterPanel>
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
@@ -129,7 +156,7 @@ export const Plants: React.FC = () => {
               sell all your {selected.name}?
             </span>
             <span className="text-sm text-center text-shadow mt-1">
-              Total: {cropAmount.toNumber()}
+              Total: {bulkSellAmount.toNumber()}
             </span>
           </div>
           <div className="flex justify-content-around p-1">
