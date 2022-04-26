@@ -15,10 +15,10 @@ function getHalveningRate() {
 
   /**
    * Estimated Block number + timestamp
-   * (Sun May 22 2022 03:00:00 GMT+0000)
+   * 2022-04-27T06:00:00.000Z
    * Will be updated closer to halvening
    */
-  if (now < 1653188400000) {
+  if (now < 1651039200000) {
     return 0.1;
   }
 
