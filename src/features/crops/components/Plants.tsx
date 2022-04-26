@@ -39,6 +39,10 @@ export const Plants: React.FC = () => {
     setBulkSellAmount(cropAmount);
   }, [selected.name]);
 
+  useEffect(() => {
+    setBulkSellAmount(cropAmount);
+  }, [cropAmount.toNumber()]);
+
   const sell = (amount = 1) => {
     gameService.send("item.sell", {
       item: selected.name,
@@ -47,6 +51,8 @@ export const Plants: React.FC = () => {
     setToast({
       content: "SFL +$" + displaySellPrice(selected).mul(amount).toString(),
     });
+    // Immediately update bulkSell to prevent UI flashing between renders
+    setBulkSellAmount(cropAmount.minus(amount));
   };
 
   const handleSellOne = () => {
@@ -56,7 +62,6 @@ export const Plants: React.FC = () => {
   const handleSellAll = () => {
     sell(bulkSellAmount.toNumber());
     showSellAllModal(false);
-    setBulkSellAmount(cropAmount.minus(bulkSellAmount));
   };
 
   // ask confirmation if crop supply is greater than 1
@@ -127,8 +132,9 @@ export const Plants: React.FC = () => {
               ? "All"
               : bulkSellAmount.toNumber()}
           </Button>
-          <div>
+          {cropAmount.gte(5) && (
             <input
+              disabled={noCrop}
               className="
                 form-range
                 w-full
@@ -142,11 +148,11 @@ export const Plants: React.FC = () => {
                 setBulkSellAmount(new Decimal(Number(e.target.value)));
               }}
               type="range"
-              min={1}
+              min={2}
               max={cropAmount.toNumber()}
               value={bulkSellAmount.toNumber()}
             />
-          </div>
+          )}
         </div>
       </OuterPanel>
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
