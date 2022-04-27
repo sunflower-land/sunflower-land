@@ -132,7 +132,7 @@ export function startGame(authContext: Options) {
       loading: {
         invoke: {
           src: async (context) => {
-            // TODO
+            // TODO load the on chain data
           },
           onDone: {},
           onError: {},
