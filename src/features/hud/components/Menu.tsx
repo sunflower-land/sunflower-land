@@ -111,6 +111,11 @@ export const Menu = () => {
     authService.send("EXPLORE");
   };
 
+  // {Todo: Modify gameState and authMachine for Logout event}
+  const onLogout = () => {
+    authService.send("LOGOUT"); // hack used to avoid redundancy
+  };
+
   // Handles closing the menu if someone clicks outside
   useEffect(() => {
     document.addEventListener("mousedown", handleClick);
@@ -220,6 +225,14 @@ export const Menu = () => {
                     onClick={handleSettingsClick}
                   >
                     <span className="sm:text-sm flex-1">Settings</span>
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={onLogout}
+                  >
+                    <span className="sm:text-sm flex-1">Logout</span>
                   </Button>
                 </li>
               </>

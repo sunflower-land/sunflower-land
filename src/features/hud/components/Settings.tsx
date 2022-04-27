@@ -18,19 +18,11 @@ interface Props {
 
 export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
   const [resetSessionConfirmation, setResetSessionConfirmation] =
     useState(false);
-  // {Todo: Modify gameState and authMachine for Logout event}
-
-  const onLogout = () => {
-    onClose();
-    authService.send("LOGOUT"); // hack used to avoid redundancy
-  };
 
   const onResetSession = () => {
     setResetSessionConfirmation(true);
@@ -72,9 +64,6 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
     }
     return (
       <div className="flex flex-col">
-        <Button className="col p-1" onClick={onLogout}>
-          Logout
-        </Button>
         <Button className="col  p-1 mt-2" onClick={onResetSession}>
           Reset Session
         </Button>
