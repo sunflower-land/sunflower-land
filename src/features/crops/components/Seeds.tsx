@@ -24,6 +24,7 @@ import { hasBoost } from "features/game/lib/boosts";
 import { getBuyPrice } from "features/game/events/craft";
 import { getCropTime } from "features/game/events/plant";
 import { INITIAL_STOCK } from "features/game/lib/constants";
+import { makeBulkSeedBuyAmount } from "../lib/makeBulkSeedBuyAmount";
 
 interface Props {
   onClose: () => void;
@@ -55,9 +56,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     shortcutItem(selected.name);
   };
 
-  const handlBuyOne = () => {
-    buy();
-  };
 
   const restock = () => {
     setShowCaptcha(true);
@@ -78,6 +76,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const crop = CROPS()[cropName];
 
   const stock = state.stock[selected.name] || new Decimal(0);
+  const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
 
   useEffect(
     () =>
@@ -136,17 +135,19 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         <Button
           disabled={lessFunds() || stock?.lessThan(1)}
           className="text-xs mt-1"
-          onClick={handlBuyOne}
+          onClick={() => buy(1)}
         >
           Buy 1
         </Button>
-        <Button
-          disabled={lessFunds(10) || stock?.lessThan(10)}
-          className="text-xs mt-1"
-          onClick={() => buy(10)}
-        >
-          Buy 10
-        </Button>
+        {bulkSeedBuyAmount > 1 && (
+          <Button
+            disabled={lessFunds(bulkSeedBuyAmount)}
+            className="text-xs mt-1"
+            onClick={() => buy(bulkSeedBuyAmount)}
+          >
+            Buy {bulkSeedBuyAmount}
+          </Button>
+        )}
       </>
     );
   };

@@ -33,10 +33,6 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return false;
   }
 
-  if (EASTER_EGGS.includes(item as EasterEgg)) {
-    return false;
-  }
-
   // Coming soon
   if (item in SKILL_TREE) {
     return false;

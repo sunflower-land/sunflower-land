@@ -12,6 +12,7 @@ import goblinHead from "assets/npcs/goblin_head.png";
 import radishPie from "assets/nfts/radish_pie.png";
 import questionMark from "assets/icons/expression_confused.png";
 import heart from "assets/icons/heart.png";
+import close from "assets/icons/close.png";
 
 export const WheatGoblin: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -78,6 +79,11 @@ export const WheatGoblin: React.FC = () => {
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={() => setShowModal(false)}
+          />
           <div className="flex items-start">
             <img src={goblinHead} className="w-16 img-highlight mr-2" />
             <div className="flex-1">
