@@ -40,7 +40,7 @@ export const ExpansionInfo: React.FC = () => {
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
-         <img
+          <img
             src={close}
             className="h-6 top-4 right-4 absolute cursor-pointer"
             onClick={() => setShowModal(false)}

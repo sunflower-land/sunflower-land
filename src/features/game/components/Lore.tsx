@@ -117,7 +117,7 @@ export const Lore: React.FC = () => {
           onHide={() => setShowTombstone(false)}
         >
           <Panel>
-           <img
+            <img
               src={close}
               className="h-6 top-4 right-4 absolute cursor-pointer"
               onClick={() => setShowTombstone(false)}
