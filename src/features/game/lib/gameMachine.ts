@@ -110,12 +110,9 @@ export type BlockchainState = {
     | "playing"
     | "readonly"
     | "autosaving"
-    | "minting"
     | "syncing"
     | "synced"
     | "levelling"
-    | "withdrawing"
-    | "withdrawn"
     | "error"
     | "blacklisted"
     | "resetting";
@@ -348,48 +345,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        minting: {
-          invoke: {
-            src: async (context, event) => {
-              // Autosave just in case
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(authContext.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.rawToken as string,
-                  offset: context.offset,
-                  fingerprint: context.fingerprint as string,
-                });
-              }
-
-              const { item, captcha } = event as MintEvent;
-
-              const { sessionId } = await mint({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                token: authContext.rawToken as string,
-                item,
-                captcha,
-              });
-
-              return {
-                sessionId,
-              };
-            },
-            onDone: {
-              target: "synced",
-              actions: assign((_, event) => ({
-                sessionId: event.data.sessionId,
-                actions: [],
-              })),
-            },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
+        // minting
         syncing: {
           invoke: {
             src: async (context, event) => {
@@ -439,43 +395,7 @@ export function startGame(authContext: Options) {
             ],
           },
         },
-        withdrawing: {
-          invoke: {
-            src: async (context, event) => {
-              const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
-              const { sessionId } = await withdraw({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                token: authContext.rawToken as string,
-                amounts,
-                ids,
-                sfl,
-                captcha,
-              });
-
-              return {
-                sessionId,
-              };
-            },
-            onDone: {
-              target: "withdrawn",
-              actions: assign({
-                sessionId: (_, event) => event.data.sessionId,
-              }),
-            },
-            onError: [
-              {
-                target: "playing",
-                cond: (_, event: any) =>
-                  event.data.message === ERRORS.REJECTED_TRANSACTION,
-              },
-              {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            ],
-          },
-        },
+        //  withdrawing
         levelling: {
           invoke: {
             src: async (context, event) => {
@@ -563,13 +483,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        withdrawn: {
-          on: {
-            REFRESH: {
-              target: "loading",
-            },
-          },
-        },
+        //  withdrawn
       },
     },
     {

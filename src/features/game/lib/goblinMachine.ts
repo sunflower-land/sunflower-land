@@ -43,11 +43,6 @@ type MintEvent = {
   captcha: string;
 };
 
-type LevelUpEvent = {
-  type: "LEVEL_UP";
-  skill: SkillName;
-};
-
 type WithdrawEvent = {
   type: "WITHDRAW";
   sfl: number;
@@ -80,8 +75,7 @@ export type BlockchainEvent =
     }
   | WithdrawEvent
   | GameEvent
-  | MintEvent
-  | LevelUpEvent;
+  | MintEvent;
 
 // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
@@ -119,9 +113,7 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
-type Options = AuthContext & { isNoob: boolean };
-
-export function startGame(authContext: Options) {
+export function startGoblinVillage(authContext: AuthContext) {
   return createMachine<Context, BlockchainEvent, BlockchainState>({
     id: "goblinMachine",
     initial: "loading",
@@ -136,6 +128,97 @@ export function startGame(authContext: Options) {
           },
           onDone: {},
           onError: {},
+        },
+      },
+      minting: {
+        invoke: {
+          src: async (context, event) => {
+            // Autosave just in case
+            if (context.actions.length > 0) {
+              await autosave({
+                farmId: Number(authContext.farmId),
+                sessionId: context.sessionId as string,
+                actions: context.actions,
+                token: authContext.rawToken as string,
+                offset: context.offset,
+                fingerprint: context.fingerprint as string,
+              });
+            }
+
+            const { item, captcha } = event as MintEvent;
+
+            const { sessionId } = await mint({
+              farmId: Number(authContext.farmId),
+              sessionId: context.sessionId as string,
+              token: authContext.rawToken as string,
+              item,
+              captcha,
+            });
+
+            return {
+              sessionId,
+            };
+          },
+          onDone: {
+            target: "synced",
+            actions: assign((_, event) => ({
+              sessionId: event.data.sessionId,
+              actions: [],
+            })),
+          },
+          onError: {
+            target: "error",
+            actions: "assignErrorMessage",
+          },
+        },
+      },
+      withdrawing: {
+        invoke: {
+          src: async (context, event) => {
+            const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
+            const { sessionId } = await withdraw({
+              farmId: Number(authContext.farmId),
+              sessionId: context.sessionId as string,
+              token: authContext.rawToken as string,
+              amounts,
+              ids,
+              sfl,
+              captcha,
+            });
+
+            return {
+              sessionId,
+            };
+          },
+          onDone: {
+            target: "withdrawn",
+            actions: assign({
+              sessionId: (_, event) => event.data.sessionId,
+            }),
+          },
+          onError: [
+            {
+              target: "playing",
+              cond: (_, event: any) =>
+                event.data.message === ERRORS.REJECTED_TRANSACTION,
+            },
+            {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          ],
+        },
+      },
+      withdrawn: {
+        on: {
+          REFRESH: {
+            target: "loading",
+          },
+        },
+      },
+      blacklisted: {
+        on: {
+          CONTINUE: "playing",
         },
       },
     },

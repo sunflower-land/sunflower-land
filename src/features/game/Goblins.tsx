@@ -3,11 +3,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 
 import background from "assets/land/background.png";
 
-import { Game } from "./Game";
-import { GameProvider } from "./GameProvider";
-import { ToastProvider } from "./toast/ToastQueueProvider";
 import mapMovement from "./lib/mapMovement";
-import { ExpansionInfo } from "./expansion/ExpansionInfo";
 import { GoblinProvider } from "./GoblinProvider";
 
 export const Goblins: React.FC = () => {
