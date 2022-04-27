@@ -8,7 +8,7 @@ import React, { useContext } from "react";
 import * as Auth from "features/auth/lib/Provider";
 import { cacheShortcuts, getShortcuts } from "features/hud/lib/shortcuts";
 
-import { startGame, MachineInterpreter } from "./lib/goblinMachine";
+import { startGoblinVillage, MachineInterpreter } from "./lib/goblinMachine";
 import { InventoryItemName } from "./types/game";
 
 interface GameContext {
@@ -21,12 +21,9 @@ export const GoblinProvider: React.FC = ({ children }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const [gameMachine] = useState(
-    startGame({
+    startGoblinVillage({
       ...authState.context,
-      // If the last event was a create farm, walk them through the tutorial
-      // For now hide the tutorial until we can figure out an approach that is maintainable
-      isNoob: false, //authState.history?.event.type === "CREATE_FARM",
-    }) as any
+    })
   );
 
   // TODO - Typescript error
