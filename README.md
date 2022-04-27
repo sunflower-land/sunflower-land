@@ -13,7 +13,7 @@
 
 The goal of this project is to create a decentralized and community driven MetaVerse style game.
 
-This repo includes the front-end game which users can play and interact with the game on the Polygon Network and off chain data.
+This repo includes the front-end game in which users can play and interact with the game on the Polygon Network and off chain data.
 
 Looking to help out? Read our contributing Guidelines - https://github.com/sunflower-land/sunflower-land/blob/main/docs/CONTRIBUTING.md
 
@@ -39,7 +39,7 @@ Follow the official guide here: [How to Play?](https://docs.sunflower-land.com/g
 
 First Read the FAQ's here: [FAQ's](https://sunflowerland.freshdesk.com/support/solutions/101000195014)
 
-Still not satisfied? submit support ticket here: [Submit a ticket](https://sunflowerland.freshdesk.com/support/tickets/new)
+Still not satisfied? Submit a support ticket here: [Submit a ticket](https://sunflowerland.freshdesk.com/support/tickets/new)
 
 # 👶 Getting Started
 
@@ -67,7 +67,7 @@ The primary states include:
 - Ready (Waiting for user input - Start)
 - Signing (Sign a message to verify the account on the API)
 - Authorising (Checking if a user has an account/farm)
-- Unauthorised (when one of the above state transition fails)
+- Unauthorised (when one of the above state transitions fails)
 - Authorised (Play the game!)
 
 # ⚙️ Vite
