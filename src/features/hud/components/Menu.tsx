@@ -5,9 +5,11 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { Button } from "components/ui/Button";
 import { OuterPanel, Panel } from "components/ui/Panel";
 
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
+
+import { getLevel } from "features/game/types/skills";
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 import { Modal } from "react-bootstrap";
 import { Share } from "./Share";
@@ -43,6 +45,7 @@ export const Menu = () => {
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
   const [gameState] = useActor(gameService);
+  const { state } = gameState.context;
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollIntoView] = useScrollIntoView();
@@ -55,6 +58,14 @@ export const Menu = () => {
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
   const ref = useRef<HTMLDivElement>(null);
+
+  const { gathering, farming } = state.skills;
+
+  const farmingLevel = getLevel(farming);
+  const toolLevel = getLevel(gathering);
+  const totalLevel = toolLevel + farmingLevel;
+
+  const isNoobPlayer: boolean = totalLevel < 4 ? true : false;
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
@@ -188,16 +199,18 @@ export const Menu = () => {
                     </Button>
                   </li>
                 )}
-                <li className="p-1 flex">
-                  <Button onClick={handleHowToPlay}>
-                    <span className="sm:text-sm flex-1">How to play</span>
-                    <img
-                      src={questionMark}
-                      className="w-3 ml-2"
-                      alt="question-mark"
-                    />
-                  </Button>
-                </li>
+                {isNoobPlayer && (
+                  <li className="p-1 flex">
+                    <Button onClick={handleHowToPlay}>
+                      <span className="sm:text-sm flex-1">How to play</span>
+                      <img
+                        src={questionMark}
+                        className="w-3 ml-2"
+                        alt="question-mark"
+                      />
+                    </Button>
+                  </li>
+                )}
                 <li className="p-1">
                   <Button
                     className="flex justify-between"
