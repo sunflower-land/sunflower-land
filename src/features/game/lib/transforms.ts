@@ -5,6 +5,7 @@ import {
   InventoryItemName,
   Rock,
   Tree,
+  Flower,
 } from "../types/game";
 import { PastAction } from "./gameMachine";
 import { processEvent } from "./processEvent";
@@ -37,6 +38,16 @@ export function makeGame(farm: any): GameState {
         },
       }),
       {} as Record<number, Tree>
+    ),
+    flowers: Object.keys(farm.flowers).reduce(
+      (items, item) => ({
+        ...items,
+        [item]: {
+          ...farm.flowers[item],
+          honey: new Decimal(farm.flowers[item].honey),
+        },
+      }),
+      {} as Record<number, Flower>
     ),
     stones: Object.keys(farm.stones).reduce(
       (items, item) => ({
