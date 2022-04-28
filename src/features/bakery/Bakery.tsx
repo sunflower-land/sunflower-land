@@ -36,7 +36,7 @@ export const Bakery: React.FC = () => {
       // TODO some sort of coordinate system
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
-        right: `${GRID_WIDTH_PX * 7}px`,
+        right: `${GRID_WIDTH_PX * 16}px`,
         top: `${GRID_WIDTH_PX * 1}px`,
       }}
     >
