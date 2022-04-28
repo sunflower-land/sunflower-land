@@ -40,7 +40,7 @@ export const blacksmithAudio = new Howl({
   volume: 0.2,
 });
 
-export const marketAudio = new Howl({
+export const shopAudio = new Howl({
   src: [shopMp3],
   volume: 0.2,
 });

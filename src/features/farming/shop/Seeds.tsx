@@ -24,7 +24,7 @@ import { hasBoost } from "features/game/lib/boosts";
 import { getBuyPrice } from "features/game/events/craft";
 import { getCropTime } from "features/game/events/plant";
 import { INITIAL_STOCK } from "features/game/lib/constants";
-import { makeBulkSeedBuyAmount } from "../lib/makeBulkSeedBuyAmount";
+import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 
 interface Props {
   onClose: () => void;

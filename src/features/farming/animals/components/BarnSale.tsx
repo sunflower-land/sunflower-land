@@ -2,13 +2,11 @@ import React, { useContext, useState } from "react";
 
 import close from "assets/icons/close.png";
 import chicken from "assets/resources/chicken.png";
-import coop from "assets/nfts/chicken_coop.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { ANIMALS, BARN_ITEMS } from "features/game/types/craftables";
 import { CraftingItems } from "features/farming/blacksmith/components/CraftingItems";
-import { Rare } from "features/goblins/Rare";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 
@@ -17,7 +15,7 @@ interface Props {
 }
 
 export const BarnSale: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState<"animals" | "rare">("animals");
+  const [tab, setTab] = useState<"animals">("animals");
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
@@ -28,10 +26,6 @@ export const BarnSale: React.FC<Props> = ({ onClose }) => {
           <Tab isActive={tab === "animals"} onClick={() => setTab("animals")}>
             <img src={chicken} className="h-5 mr-2" />
             <span className="text-sm text-shadow">Animals</span>
-          </Tab>
-          <Tab isActive={tab === "rare"} onClick={() => setTab("rare")}>
-            <img src={coop} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Rare</span>
           </Tab>
         </div>
         <img
@@ -48,13 +42,6 @@ export const BarnSale: React.FC<Props> = ({ onClose }) => {
       >
         {tab === "animals" && (
           <CraftingItems items={ANIMALS} onClose={onClose} />
-        )}
-        {tab === "rare" && (
-          <Rare
-            items={BARN_ITEMS}
-            onClose={onClose}
-            hasAccess={!!authState.context.token?.userAccess.mintCollectible}
-          />
         )}
       </div>
     </Panel>

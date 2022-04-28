@@ -3,7 +3,7 @@ import React from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Bakery } from "features/farming/bakery/Bakery";
 import { Blacksmith } from "features/farming/blacksmith/Blacksmith";
-import { Market } from "features/farming/crops/components/Market";
+import { Shop } from "features/farming/shop/Shop";
 import { Mail } from "features/farming/mail/Mail";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
@@ -23,7 +23,7 @@ export const Town: React.FC = () => {
         top: `calc(50% - ${GRID_WIDTH_PX * 18}px)`,
       }}
     >
-      <Market />
+      <Shop />
       <Bakery />
       <Blacksmith />
       <Mail />

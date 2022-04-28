@@ -4,7 +4,7 @@ import { Modal } from "react-bootstrap";
 
 import { Context } from "features/game/GoblinProvider";
 
-import market from "assets/buildings/market_building.png";
+import market from "assets/buildings/shop_building.png";
 import plant from "assets/icons/plant.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
@@ -12,7 +12,7 @@ import { Action } from "components/ui/Action";
 
 import { MarketItems } from "./MarketItems";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { marketAudio } from "lib/utils/sfx";
+import { shopAudio } from "lib/utils/sfx";
 
 export const Market: React.FC = () => {
   const { goblinService } = useContext(Context);
@@ -21,7 +21,7 @@ export const Market: React.FC = () => {
 
   const handleMarketClick = () => {
     setIsOpen(true);
-    marketAudio.play();
+    shopAudio.play();
   };
 
   return (

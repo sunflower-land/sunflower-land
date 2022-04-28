@@ -5,26 +5,26 @@ import classNames from "classnames";
 
 import { Context } from "features/game/GameProvider";
 
-import market from "assets/buildings/market_building.png";
+import shop from "assets/buildings/shop_building.png";
 import plant from "assets/icons/plant.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 
-import { MarketItems } from "./MarketItems";
+import { ShopItems } from "./ShopItems";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { marketAudio } from "lib/utils/sfx";
+import { shopAudio } from "lib/utils/sfx";
 
-export const Market: React.FC = () => {
+export const Shop: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [isOpen, setIsOpen] = React.useState(false);
 
   const isNotReadOnly = !gameState.matches("readonly");
 
-  const handleMarketClick = () => {
+  const handleShopClick = () => {
     setIsOpen(true);
-    marketAudio.play();
+    shopAudio.play();
   };
 
   return (
@@ -41,9 +41,9 @@ export const Market: React.FC = () => {
       }}
     >
       <img
-        src={market}
-        alt="market"
-        onClick={isNotReadOnly ? handleMarketClick : undefined}
+        src={shop}
+        alt="shop"
+        onClick={isNotReadOnly ? handleShopClick : undefined}
         className="w-full"
       />
       {isNotReadOnly && (
@@ -51,11 +51,11 @@ export const Market: React.FC = () => {
           className="absolute top-5 left-4"
           text="Shop"
           icon={plant}
-          onClick={handleMarketClick}
+          onClick={handleShopClick}
         />
       )}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <MarketItems onClose={() => setIsOpen(false)} />
+        <ShopItems onClose={() => setIsOpen(false)} />
       </Modal>
     </div>
   );

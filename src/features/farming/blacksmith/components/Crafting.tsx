@@ -11,7 +11,6 @@ import { BLACKSMITH_ITEMS, TOOLS } from "features/game/types/craftables";
 import * as Auth from "features/auth/lib/Provider";
 
 import { CraftingItems } from "./CraftingItems";
-import { Rare } from "../../../goblins/Rare";
 import { useActor } from "@xstate/react";
 
 interface Props {
@@ -19,7 +18,7 @@ interface Props {
 }
 
 export const Crafting: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState<"craft" | "foods" | "nfts">("craft");
+  const [tab, setTab] = useState<"craft">("craft");
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
@@ -30,10 +29,6 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
           <Tab isActive={tab === "craft"} onClick={() => setTab("craft")}>
             <img src={hammer} className="h-5 mr-2" />
             <span className="text-sm text-shadow">Tools</span>
-          </Tab>
-          <Tab isActive={tab === "nfts"} onClick={() => setTab("nfts")}>
-            <img src={nft} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Rare</span>
           </Tab>
         </div>
         <img
@@ -50,13 +45,6 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
       >
         {tab === "craft" && (
           <CraftingItems items={TOOLS} isBulk onClose={onClose} />
-        )}
-        {tab === "nfts" && (
-          <Rare
-            items={BLACKSMITH_ITEMS}
-            onClose={onClose}
-            hasAccess={!!authState.context.token?.userAccess.mintCollectible}
-          />
         )}
       </div>
     </Panel>

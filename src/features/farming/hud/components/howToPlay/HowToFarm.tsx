@@ -8,7 +8,7 @@ import seed from "assets/crops/sunflower/seed.png";
 import cursor from "assets/ui/cursor.png";
 import token from "assets/icons/token.gif";
 
-import market from "assets/buildings/market_building.png";
+import shop from "assets/buildings/shop_building.png";
 import { HowToModalHeader } from "./HowToModalHeader";
 
 interface Props {
@@ -34,7 +34,7 @@ export const HowToFarm: React.FC<Props> = ({ onClose }) => {
             2.Visit the town & click on the shop
           </p>
           <div className="relative">
-            <img src={market} className="w-14" />
+            <img src={shop} className="w-14" />
             <img src={cursor} className="w-4 absolute right-0 -bottom-2" />
           </div>
         </div>
