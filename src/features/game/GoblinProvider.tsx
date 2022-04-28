@@ -1,18 +1,16 @@
 /**
  * A wrapper that provides game state and dispatches events
  */
-import { useState, useCallback, useEffect } from "react";
+import { useState } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
-import { cacheShortcuts, getShortcuts } from "features/hud/lib/shortcuts";
 
 import { startGoblinVillage, MachineInterpreter } from "./lib/goblinMachine";
-import { InventoryItemName } from "./types/game";
 
 interface GameContext {
-  gameService: MachineInterpreter;
+  goblinService: MachineInterpreter;
 }
 
 export const Context = React.createContext<GameContext>({} as GameContext);

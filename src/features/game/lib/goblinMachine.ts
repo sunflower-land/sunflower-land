@@ -1,40 +1,26 @@
-import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
-import { EVENTS, GameEvent } from "../events";
-import { processEvent } from "./processEvent";
+import { createMachine, Interpreter, assign } from "xstate";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
-import { metamask } from "../../../lib/blockchain/metamask";
 
-import { GameState } from "../types/game";
-import { loadSession, MintedAt } from "../actions/loadSession";
-import { INITIAL_FARM, EMPTY } from "./constants";
-import { autosave } from "../actions/autosave";
+import { Inventory } from "../types/game";
+import { EMPTY } from "./constants";
 import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
-import { sync } from "../actions/sync";
 import { withdraw } from "../actions/withdraw";
-import { getOnChainState } from "../actions/visit";
-import { ErrorCode, ERRORS } from "lib/errors";
-import { updateGame } from "./transforms";
-import { getFingerPrint } from "./botDetection";
-import { SkillName } from "../types/skills";
-import { levelUp } from "../actions/levelUp";
-import { reset } from "features/hud/actions/reset";
+import { ERRORS } from "lib/errors";
 
-export type PastAction = GameEvent & {
-  createdAt: Date;
+import Decimal from "decimal.js-light";
+import { getOnChainState } from "../actions/visit";
+
+type GoblinState = {
+  balance: Decimal;
+  inventory: Inventory;
 };
 
 export interface Context {
-  state: GameState;
-  actions: PastAction[];
-  offset: number;
+  state: GoblinState;
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
-  fingerprint?: string;
-  whitelistedAt?: Date;
-  itemsMintedAt?: MintedAt;
-  blacklistStatus?: "investigating" | "permanent";
 }
 
 type MintEvent = {
@@ -51,21 +37,9 @@ type WithdrawEvent = {
   captcha: string;
 };
 
-type SyncEvent = {
-  captcha: string;
-  type: "SYNC";
-};
-
 export type BlockchainEvent =
   | {
-      type: "SAVE";
-    }
-  | SyncEvent
-  | {
       type: "REFRESH";
-    }
-  | {
-      type: "EXPIRED";
     }
   | {
       type: "CONTINUE";
@@ -74,32 +48,10 @@ export type BlockchainEvent =
       type: "RESET";
     }
   | WithdrawEvent
-  | GameEvent
   | MintEvent;
 
-// For each game event, convert it to an XState event + handler
-const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
-  Object.keys(EVENTS).reduce(
-    (events, eventName) => ({
-      ...events,
-      [eventName]: {
-        actions: assign((context: Context, event: GameEvent) => ({
-          state: processEvent(context.state as GameState, event) as GameState,
-          actions: [
-            ...context.actions,
-            {
-              ...event,
-              createdAt: new Date(),
-            },
-          ],
-        })),
-      },
-    }),
-    {}
-  );
-
 export type BlockchainState = {
-  value: "loading";
+  value: "loading" | "minting" | "withdrawing" | "playing" | "error";
   context: Context;
 };
 
@@ -118,33 +70,37 @@ export function startGoblinVillage(authContext: AuthContext) {
     id: "goblinMachine",
     initial: "loading",
     context: {
-      state: EMPTY,
+      state: {
+        balance: new Decimal(0),
+        inventory: {},
+      },
     },
     states: {
       loading: {
         invoke: {
-          src: async (context) => {
-            // TODO load the on chain data
+          src: async () => {
+            const { game } = await getOnChainState({
+              farmAddress: authContext.address as string,
+              id: Number(authContext.farmId),
+            });
+
+            game.id = authContext.farmId as number;
+
+            return { state: game };
           },
-          onDone: {},
+          onDone: {
+            target: "playing",
+            actions: assign({
+              state: (_, event) => event.data.state,
+            }),
+          },
           onError: {},
         },
       },
+      playing: {},
       minting: {
         invoke: {
           src: async (context, event) => {
-            // Autosave just in case
-            if (context.actions.length > 0) {
-              await autosave({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                actions: context.actions,
-                token: authContext.rawToken as string,
-                offset: context.offset,
-                fingerprint: context.fingerprint as string,
-              });
-            }
-
             const { item, captcha } = event as MintEvent;
 
             const { sessionId } = await mint({
@@ -160,7 +116,8 @@ export function startGoblinVillage(authContext: AuthContext) {
             };
           },
           onDone: {
-            target: "synced",
+            // TODO add a minted
+            target: "withdrawn",
             actions: assign((_, event) => ({
               sessionId: event.data.sessionId,
               actions: [],
@@ -216,11 +173,7 @@ export function startGoblinVillage(authContext: AuthContext) {
           },
         },
       },
-      blacklisted: {
-        on: {
-          CONTINUE: "playing",
-        },
-      },
+      error: {},
     },
   });
 }
