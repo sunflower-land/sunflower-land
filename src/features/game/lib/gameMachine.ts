@@ -19,7 +19,7 @@ import { updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
-import { reset } from "features/hud/actions/reset";
+import { reset } from "features/farming/hud/actions/reset";
 
 export type PastAction = GameEvent & {
   createdAt: Date;

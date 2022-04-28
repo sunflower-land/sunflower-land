@@ -10,8 +10,13 @@ import { ErrorMessage } from "features/auth/ErrorMessage";
 import { Loading } from "features/auth/components";
 import { Minting } from "features/game/components/Minting";
 import { Withdrawing } from "features/game/components/Withdrawing";
+import { Tailor } from "features/goblins/tailor/Tailor";
+import { WishingWell } from "features/goblins/wishingWell/WishingWell";
+import { GoblinBlacksmith } from "features/goblins/goblin_blacksmith/GoblinBlacksmith";
+import { Bank } from "features/goblins/bank/Bank";
 
-const SHOW_MODAL: Record<StateValues, boolean> = {
+// const SHOW_MODAL: Record<StateValues, boolean> = {
+const SHOW_MODAL: any = {
   loading: true,
   minting: true,
   withdrawing: true,
@@ -37,6 +42,10 @@ export const GoblinVillage: React.FC = () => {
           {goblinState.matches("withdrawing") && <Withdrawing />}
         </Panel>
       </Modal>
+      <WishingWell />
+      <Tailor />
+      <GoblinBlacksmith />
+      <Bank />
     </div>
   );
 };
