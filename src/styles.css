@@ -203,18 +203,47 @@ img {
 }
 
 .running {
-  animation-duration: 3s;
+  animation-duration: 10s;
   animation-name: running;
   animation-iteration-count: infinite;
+  transition-timing-function: linear;
 }
 
 @keyframes running {
+  0% {
+    transform: translateX(0) scaleX(1);
+    animation-timing-function: linear;
+  }
+
+  49% {
+    transform: translateX(200px) scaleX(1);
+    animation-timing-function: linear;
+  }
+  50% {
+    transform: translateX(200px) scaleX(-1);
+    animation-timing-function: linear;
+  }
+
+  100% {
+    transform: translateX(0) scaleX(-1);
+    animation-timing-function: linear;
+  }
+}
+
+.pointing {
+  animation-duration: 3s;
+  animation-name: pointing;
+  animation-iteration-count: infinite;
+  transition-timing-function: ease;
+}
+
+@keyframes pointing {
   0% {
     transform: translateX(0);
   }
 
   50% {
-    transform: translateX(300px);
+    transform: translateX(10px);
   }
 
   100% {
