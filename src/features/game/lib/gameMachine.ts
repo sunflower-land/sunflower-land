@@ -268,14 +268,8 @@ export function startGame(authContext: Options) {
             SAVE: {
               target: "autosaving",
             },
-            MINT: {
-              target: "minting",
-            },
             SYNC: {
               target: "syncing",
-            },
-            WITHDRAW: {
-              target: "withdrawing",
             },
             LEVEL_UP: {
               target: "levelling",
