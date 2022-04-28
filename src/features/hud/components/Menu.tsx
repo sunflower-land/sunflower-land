@@ -12,7 +12,7 @@ import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { Share } from "./Share";
 import { HowToPlay } from "./howToPlay/HowToPlay";
-import { Logout } from "./Logout";
+import { Settings } from "./Settings";
 
 import mobileMenu from "assets/icons/hamburger_menu.png";
 import questionMark from "assets/icons/expression_confused.png";
@@ -48,7 +48,7 @@ export const Menu = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   const [showShareModal, setShowShareModal] = useState(false);
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showLogoutModal, setShowSettings] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(isNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
@@ -75,8 +75,8 @@ export const Menu = () => {
     setMenuOpen(false);
   };
 
-  const handleLogoutClick = () => {
-    setShowLogoutModal(true);
+  const handleSettingsClick = () => {
+    setShowSettings(true);
     setMenuOpen(false);
   };
 
@@ -217,9 +217,9 @@ export const Menu = () => {
                 <li className="p-1">
                   <Button
                     className="flex justify-between"
-                    onClick={() => handleLogoutClick()}
+                    onClick={handleSettingsClick}
                   >
-                    <span className="sm:text-sm flex-1">Logout</span>
+                    <span className="sm:text-sm flex-1">Settings</span>
                   </Button>
                 </li>
               </>
@@ -280,7 +280,7 @@ export const Menu = () => {
             {menuLevel === MENU_LEVELS.VIEW && (
               <>
                 <li className="p-1">
-                  <Button onClick={() => handleShareClick()}>
+                  <Button onClick={handleShareClick}>
                     <span className="sm:text-sm">Share</span>
                   </Button>
                 </li>
@@ -308,9 +308,9 @@ export const Menu = () => {
         onClose={() => setShowHowToPlay(false)}
       />
 
-      <Logout
+      <Settings
         isOpen={showLogoutModal}
-        onClose={() => setShowLogoutModal(false)}
+        onClose={() => setShowSettings(false)}
       />
 
       {showCaptcha && (

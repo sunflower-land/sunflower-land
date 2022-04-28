@@ -6,6 +6,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 
 import frog from "assets/animals/frog.png";
+import close from "assets/icons/close.png";
 import { frogAudio } from "lib/utils/sfx";
 
 export const Frog: React.FC = () => {
@@ -21,7 +22,7 @@ export const Frog: React.FC = () => {
       <img
         src={frog}
         className="absolute hover:img-highlight cursor-pointer z-10"
-        onClick={() => open()}
+        onClick={open}
         style={{
           width: `${GRID_WIDTH_PX * 0.7}px`,
           right: `${GRID_WIDTH_PX * 5.1}px`,
@@ -30,6 +31,11 @@ export const Frog: React.FC = () => {
       />
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={() => setShowModal(false)}
+          />
           <div className="flex items-start">
             <img src={frog} className="w-12 img-highlight mr-2" />
             <div className="flex-1">

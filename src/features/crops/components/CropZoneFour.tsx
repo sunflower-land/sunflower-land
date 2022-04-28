@@ -11,6 +11,7 @@ import goblin from "assets/npcs/goblin_jump.gif";
 import goblinDig from "assets/npcs/goblin_dig.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
 import cauliflowerRice from "assets/nfts/roasted_cauliflower.png";
+import close from "assets/icons/close.png";
 
 import { Field } from "./Field";
 
@@ -64,7 +65,6 @@ export const CropZoneFour: React.FC = () => {
 
       <div
         className="absolute flex justify-between flex-col"
-        id="cropzone-four"
         onClick={!isUnlocked ? () => setShowModal(true) : undefined}
         style={{
           width: `${GRID_WIDTH_PX * 4}px`,
@@ -87,6 +87,11 @@ export const CropZoneFour: React.FC = () => {
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={() => setShowModal(false)}
+          />
           <div className="flex items-start">
             <img src={goblinHead} className="w-16 img-highlight mr-2" />
             <div className="flex-1">

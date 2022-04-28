@@ -65,7 +65,6 @@ export const CropZoneThree: React.FC = () => {
 
       <div
         className="absolute flex justify-between flex-col"
-        id="cropzone-three"
         onClick={!isUnlocked ? () => setShowModal(true) : undefined}
         style={{
           width: `${GRID_WIDTH_PX * 4}px`,

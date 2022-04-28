@@ -88,7 +88,7 @@ export const InventoryTabContent = ({
   }, {} as Record<string, InventoryItemName[]>);
 
   const findIfItemsExistForCategory = (category: string) => {
-    console.log({ category, inventoryMapping})
+    console.log({ category, inventoryMapping });
     return Object.keys(inventoryMapping).includes(category);
   };
 
@@ -153,10 +153,10 @@ export const InventoryTabContent = ({
         })}
       >
         {categories.map((category) => (
-          <div className="flex flex-col" key={category}>
+          <div className="flex flex-col pl-2" key={category}>
             {<p className="mb-2 underline">{category}</p>}
             {findIfItemsExistForCategory(category) ? (
-              <div className="flex mb-2 flex-wrap">
+              <div className="flex mb-2 flex-wrap pl-1.5">
                 {inventoryMapping[category].map((item) => (
                   <Box
                     count={inventory[item]}
@@ -168,7 +168,7 @@ export const InventoryTabContent = ({
                 ))}
               </div>
             ) : (
-              <p className="text-white text-xs text-shadow mb-2">
+              <p className="text-white text-xs text-shadow mb-2 pl-2.5">
                 {`No ${category} in inventory`}
               </p>
             )}

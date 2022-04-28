@@ -48,7 +48,10 @@ export type BlacksmithItem =
   | "Woody the Beaver"
   | "Apprentice Beaver"
   | "Foreman Beaver"
-  | "Egg Basket";
+  | "Nyon Statue"
+  | "Homeless Tent"
+  | "Egg Basket"
+  | "Farmer Bath";
 
 export type BarnItem =
   | "Farm Cat"
@@ -272,6 +275,28 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     supply: 0,
     section: Section.Gnome,
   },
+  "Homeless Tent": {
+    name: "Homeless Tent",
+    description: "A nice and cozy tent",
+    price: new Decimal(10),
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Wood",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Stone",
+        amount: new Decimal(5),
+      },
+    ],
+    limit: 1,
+    supply: 1000,
+    section: Section.Tent,
+  },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
     description: "In memory of Sunflower Farmers",
@@ -318,6 +343,44 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     supply: 10000,
     section: Section.Fountain,
   },
+  "Nyon Statue": {
+    name: "Nyon Statue",
+    description: "In memory of Nyon Lann",
+    price: new Decimal(50),
+    ingredients: [
+      {
+        amount: new Decimal(30),
+        item: "Stone",
+      },
+      {
+        amount: new Decimal(20),
+        item: "Iron",
+      },
+      {
+        amount: new Decimal(5),
+        item: "Gold",
+      },
+    ],
+    limit: 1,
+    supply: 1000,
+  },
+  "Farmer Bath": {
+    name: "Farmer Bath",
+    description: "A beetroot scented bath for the farmers",
+    price: new Decimal(25),
+    ingredients: [
+      {
+        amount: new Decimal(100),
+        item: "Beetroot",
+      },
+      {
+        amount: new Decimal(20),
+        item: "Wood",
+      },
+    ],
+    supply: 5000,
+    section: Section["Bath"],
+  },
   "Woody the Beaver": {
     name: "Woody the Beaver",
     description: "Increase wood drops by 20%",
@@ -347,7 +410,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 5000,
     section: Section.Beaver,
-    disabled: true,
+    disabled: false,
   },
   "Foreman Beaver": {
     name: "Foreman Beaver",
@@ -363,7 +426,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
         item: "Apprentice Beaver",
       },
     ],
-    supply: 300,
+    supply: 308,
     section: Section.Beaver,
     disabled: true,
   },
@@ -382,6 +445,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
       },
     ],
     supply: 100000,
+    disabled: true,
   },
 };
 
@@ -401,6 +465,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
       },
     ],
     supply: 50000,
+    section: Section.Scarecrow,
   },
   Scarecrow: {
     name: "Scarecrow",
@@ -422,7 +487,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
     ],
     limit: 1,
     supply: 5000,
-    disabled: true,
+    disabled: false,
     section: Section.Scarecrow,
   },
   Kuebiko: {
@@ -440,8 +505,9 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(1),
       },
     ],
-    supply: 200,
+    supply: 209,
     disabled: true,
+    section: Section.Scarecrow,
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
@@ -457,7 +523,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(100),
       },
     ],
-    supply: 100,
+    supply: 113,
     disabled: true,
   },
   "Mysterious Parsnip": {
@@ -474,7 +540,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(50),
       },
     ],
-    supply: 500,
+    supply: 512,
     disabled: true,
   },
   "Carrot Sword": {
@@ -588,6 +654,7 @@ export const BARN_ITEMS: Record<BarnItem, Craftable> = {
     ],
     supply: 100000,
     disabled: false,
+    section: Section["Easter Bunny"],
   },
 };
 

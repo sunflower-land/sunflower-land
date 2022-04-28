@@ -9,6 +9,7 @@ import dragonfly from "assets/decorations/dragonfly.gif";
 import Shark from "./components/Shark";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
+import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
 import swimmer from "assets/npcs/swimmer.gif";
 import { Frog } from "./components/Frog";
 
@@ -50,12 +51,22 @@ export const Water: React.FC = () => {
         />
 
         <img
+          src={goblinSnorkling}
+          className="absolute "
+          style={{
+            width: `${GRID_WIDTH_PX * 3.5}px`,
+            left: `${GRID_WIDTH_PX * 3}px`,
+            top: `${GRID_WIDTH_PX * 12}px`,
+          }}
+        />
+
+        <img
           src={swimmer}
           className="absolute "
           style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
-            left: `${GRID_WIDTH_PX * 58.5}px`,
-            top: `${GRID_WIDTH_PX * 2}px`,
+            width: `${GRID_WIDTH_PX * 0.85}px`,
+            left: `${GRID_WIDTH_PX * 61}px`,
+            top: `${GRID_WIDTH_PX * 2.5}px`,
             transform: "scaleX(-1)",
           }}
         />

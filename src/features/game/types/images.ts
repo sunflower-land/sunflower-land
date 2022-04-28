@@ -31,8 +31,8 @@ import rod from "assets/tools/fishing_rod.png";
 // NFTs
 import chickenCoop from "assets/nfts/chicken_coop.png";
 import christmasTree from "assets/nfts/christmas_tree.png";
-import farmCat from "assets/nfts/farm_cat.png";
-import farmDog from "assets/nfts/farm_dog.png";
+import farmCat from "assets/nfts/farm_cat.gif";
+import farmDog from "assets/nfts/farm_dog.gif";
 import gnome from "assets/nfts/gnome.png";
 import goldEgg from "assets/nfts/gold_egg.png";
 import potatoStatue from "assets/nfts/potato_statue.png";
@@ -43,13 +43,16 @@ import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
 import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
 import crown from "assets/nfts/goblin_crown.png";
 import fountain from "assets/nfts/fountain.gif";
-import beaver from "assets/nfts/beaver.png";
-import apprenticeBeaver from "assets/nfts/apprentice_beaver.png";
-import constructionBeaver from "assets/nfts/construction_beaver.png";
+import beaver from "assets/nfts/beaver.gif";
+import apprenticeBeaver from "assets/nfts/apprentice_beaver.gif";
+import constructionBeaver from "assets/nfts/construction_beaver.gif";
 import mysteriousParsnip from "assets/nfts/mysterious_parsnip.png";
 import carrotSword from "assets/nfts/carrot_sword.png";
 import nancy from "assets/nfts/nancy.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
+import nyonStatue from "assets/nfts/nyon_statue.png";
+import homelessTent from "assets/nfts/homeless_tent.png";
+import farmerBath from "assets/nfts/farmer_bath.png";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
@@ -401,6 +404,18 @@ export const ITEM_DETAILS: Items = {
   "Carrot Sword": {
     ...MARKET_ITEMS["Carrot Sword"],
     image: carrotSword,
+  },
+  "Nyon Statue": {
+    ...BLACKSMITH_ITEMS["Nyon Statue"],
+    image: nyonStatue,
+  },
+  "Homeless Tent": {
+    ...BLACKSMITH_ITEMS["Homeless Tent"],
+    image: homelessTent,
+  },
+  "Farmer Bath": {
+    ...BLACKSMITH_ITEMS["Farmer Bath"],
+    image: farmerBath,
   },
 
   // FOOD

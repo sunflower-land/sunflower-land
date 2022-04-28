@@ -3,7 +3,6 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 import { Context } from "features/game/GameProvider";
 
-
 import { Button } from "components/ui/Button";
 import { WithdrawTokens } from "./WithdrawTokens";
 import { WithdrawItems } from "./WithdrawItems";
@@ -16,7 +15,7 @@ interface Props {
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const [game] = useActor(gameService)
+  const [game] = useActor(gameService);
   const [page, setPage] = useState<"warning" | "tokens" | "items">("warning");
 
   const withdrawAmount = useRef({
@@ -56,27 +55,29 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const isBlacklisted = !!game.context.whitelistedAt
+  const isBlacklisted = !!game.context.whitelistedAt;
   if (isBlacklisted) {
     return (
       <div className="p-2 text-sm text-center">
-        The anti-bot detection system is relatively new and has picked up some strange behaviour. Withdrawing is temporarily restricted while the team investigates this case. Thanks for your patience!
+        The anti-bot detection system is relatively new and has picked up some
+        strange behaviour. Withdrawing is temporarily restricted while the team
+        investigates this case. Thanks for your patience!
       </div>
-    )
+    );
   }
 
   if (showCaptcha) {
     return (
       <>
-      <ReCAPTCHA
-        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
-        onChange={onCaptchaSolved}
-        onExpired={() => setShowCaptcha(false)}
-        className="w-full m-4 flex items-center justify-center"
-      />
-      <p className="text-xxs p-1 m-1 text-center">
-        Any unsaved progress will be lost.
-      </p>
+        <ReCAPTCHA
+          sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+          onChange={onCaptchaSolved}
+          onExpired={() => setShowCaptcha(false)}
+          className="w-full m-4 flex items-center justify-center"
+        />
+        <p className="text-xxs p-1 m-1 text-center">
+          Any unsaved progress will be lost.
+        </p>
       </>
     );
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import classNames from "classnames";
 import soil from "assets/land/soil2.png";
@@ -10,6 +10,8 @@ import { InnerPanel, Panel } from "components/ui/Panel";
 
 import { FieldItem } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
+import { addNoise, RandomID } from "lib/images";
+
 import { LIFECYCLE } from "../lib/plant";
 import classnames from "classnames";
 
@@ -18,6 +20,28 @@ interface Props {
   className?: string;
   showCropDetails?: boolean;
 }
+
+const Ready: React.FC<{ image: string; className: string }> = ({
+  image,
+  className,
+}) => {
+  const id = useRef(RandomID());
+
+  useEffect(() => {
+    // Randomly add some noise to the crops
+    if (Math.random() > 0.8) {
+      addNoise(id.current, 0.15);
+    }
+  }, []);
+
+  return (
+    <img
+      id={id.current}
+      src={image}
+      className={classnames("w-full", className)}
+    />
+  );
+};
 
 export const Soil: React.FC<Props> = ({
   field,
@@ -80,8 +104,5 @@ export const Soil: React.FC<Props> = ({
     );
   }
 
-  // Ready to harvest
-  return (
-    <img src={lifecycle.ready} className={classnames("w-full", className)} />
-  );
+  return <Ready className={className as string} image={lifecycle.ready} />;
 };

@@ -12,6 +12,7 @@ import goblinHead from "assets/npcs/goblin_head.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import questionMark from "assets/icons/expression_confused.png";
 import heart from "assets/icons/heart.png";
+import close from "assets/icons/close.png";
 
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
@@ -94,7 +95,6 @@ export const CropZoneTwo: React.FC = () => {
 
       <div
         className="absolute flex justify-center flex-col"
-        id="cropzone-two"
         onClick={!isUnlocked ? () => setShowModal(true) : undefined}
         style={{
           width: `${GRID_WIDTH_PX * 3}px`,
@@ -121,6 +121,11 @@ export const CropZoneTwo: React.FC = () => {
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={() => setShowModal(false)}
+          />
           <div className="flex items-start">
             <img src={goblinHead} className="w-16 img-highlight mr-2" />
             <div className="flex-1">

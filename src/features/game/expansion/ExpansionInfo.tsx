@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 
 import cloudGazer from "assets/npcs/cloud-gazer.gif";
 import questionMark from "assets/icons/expression_confused.png";
+import close from "assets/icons/close.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
@@ -39,6 +40,11 @@ export const ExpansionInfo: React.FC = () => {
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={() => setShowModal(false)}
+          />
           <div className="flex items-start">
             <img src={questionMark} className="h-10 img-highlight mr-3" />
             <div className="flex-1">

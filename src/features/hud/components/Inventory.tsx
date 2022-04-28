@@ -30,7 +30,7 @@ export const Inventory: React.FC = () => {
     <div className="flex flex-col items-end mr-2 sm:block fixed top-16 right-0 z-50">
       <div
         className="w-16 h-16 sm:mx-8 mt-2 relative flex justify-center items-center shadow rounded-full cursor-pointer"
-        onClick={() => handleInventoryClick()}
+        onClick={handleInventoryClick}
       >
         <img
           src={button}
