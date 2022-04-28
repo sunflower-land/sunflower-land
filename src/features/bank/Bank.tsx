@@ -35,7 +35,7 @@ export const Bank: React.FC = () => {
       // TODO some sort of coordinate system
       style={{
         width: `${GRID_WIDTH_PX * 2.7}px`,
-        right: `${GRID_WIDTH_PX * 3.8}px`,
+        right: `${GRID_WIDTH_PX * 13}px`,
         top: `${GRID_WIDTH_PX * 4.65}px`,
       }}
     >

@@ -201,3 +201,23 @@ img {
   border: 2px solid black;
   background-color: #eea368;
 }
+
+.running {
+  animation-duration: 3s;
+  animation-name: running;
+  animation-iteration-count: infinite;
+}
+
+@keyframes running {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(300px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}

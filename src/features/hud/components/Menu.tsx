@@ -23,6 +23,7 @@ import timer from "assets/icons/timer.png";
 import wood from "assets/resources/wood.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import close from "assets/icons/close.png";
+import goblin from "assets/npcs/goblin_head.png";
 
 import { useIsNewFarm } from "../lib/onboarding";
 
@@ -237,6 +238,17 @@ export const Menu = () => {
             {/* Map menu */}
             {menuLevel === MENU_LEVELS.MAP && (
               <>
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={() => {
+                      window.location.href = "/#/goblins";
+                    }}
+                  >
+                    <span className="sm:text-sm flex-1">Goblin Town</span>
+                    <img src={goblin} className="w-6 ml-2" alt="town" />
+                  </Button>
+                </li>
                 <li className="p-1">
                   <Button
                     className="flex justify-between"

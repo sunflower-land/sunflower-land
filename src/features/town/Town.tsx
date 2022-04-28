@@ -9,6 +9,8 @@ import { WishingWell } from "features/wishingWell/WishingWell";
 import { Mail } from "features/mail/Mail";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
+import goblinCarry from "assets/npcs/goblin_carry.gif";
+
 export const Town: React.FC = () => {
   return (
     <div
@@ -16,9 +18,9 @@ export const Town: React.FC = () => {
       className="z-10 absolute"
       // TODO some sort of coordinate system
       style={{
-        width: `${GRID_WIDTH_PX * 25}px`,
+        width: `${GRID_WIDTH_PX * 34.3}px`,
         height: `${GRID_WIDTH_PX * 9}px`,
-        left: `calc(50% - ${GRID_WIDTH_PX * -15.8}px)`,
+        right: 0,
         top: `calc(50% - ${GRID_WIDTH_PX * 18}px)`,
       }}
     >
@@ -28,6 +30,17 @@ export const Town: React.FC = () => {
       <Blacksmith />
       <WishingWell />
       <Mail />
+
+      <img
+        src={goblinCarry}
+        className="running"
+        style={{
+          width: `${GRID_WIDTH_PX * 1}px`,
+          right: `${GRID_WIDTH_PX * 1}px`,
+          top: `${GRID_WIDTH_PX * 3}px`,
+          position: "absolute",
+        }}
+      />
     </div>
   );
 };
