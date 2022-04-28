@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import goblinCarry from "assets/npcs/goblin_carry.gif";
 import goblinSign from "assets/buildings/goblin_sign.png";
 import arrowRight from "assets/icons/arrow_right.png";
+import { GoblinTownModal } from "./GoblinTownModal";
+import { Modal } from "react-bootstrap";
 
 export const GoblinTownEntry: React.FC = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div
       className="absolute overflow-hidden"
@@ -42,6 +46,10 @@ export const GoblinTownEntry: React.FC = () => {
           top: `${GRID_WIDTH_PX * 1.8}px`,
         }}
       />
+
+      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+        <GoblinTownModal />
+      </Modal>
     </div>
   );
 };
