@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { Context } from "features/game/GoblinProvider";
 
 import { CopySvg } from "components/ui/CopyField";
 import { OuterPanel } from "components/ui/Panel";
@@ -130,8 +130,8 @@ enum Instructions {
 }
 
 export const Deposit: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { goblinService } = useContext(Context);
+  const [gameState] = useActor(goblinService);
   const [showFullAddress, setShowFullAddress] = useState(false);
   const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
   const [showLabel, setShowLabel] = useState(false);

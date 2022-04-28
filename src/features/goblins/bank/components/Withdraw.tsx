@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
-import { Context } from "features/game/GameProvider";
+import { Context } from "features/game/GoblinProvider";
 
 import { Button } from "components/ui/Button";
 import { WithdrawTokens } from "./WithdrawTokens";
@@ -14,8 +14,8 @@ interface Props {
   onClose: () => void;
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
-  const [game] = useActor(gameService);
+  const { goblinService } = useContext(Context);
+  const [goblinState] = useActor(goblinService);
   const [page, setPage] = useState<"warning" | "tokens" | "items">("warning");
 
   const withdrawAmount = useRef({
@@ -48,14 +48,14 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const onCaptchaSolved = async (token: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
 
-    gameService.send("WITHDRAW", {
+    goblinService.send("WITHDRAW", {
       ...withdrawAmount.current,
       captcha: token,
     });
     onClose();
   };
 
-  const isBlacklisted = !!game.context.whitelistedAt;
+  const isBlacklisted = !!goblinState.context.whitelistedAt;
   if (isBlacklisted) {
     return (
       <div className="p-2 text-sm text-center">

@@ -14,8 +14,6 @@ import { BankModal } from "./components/BankModal";
 import { bankAudio } from "lib/utils/sfx";
 
 export const Bank: React.FC = () => {
-  // const { goblinService } = useContext(Context);
-  // const [goblinState] = useActor(goblinService);
   const [isOpen, setIsOpen] = React.useState(false);
 
   const openBank = () => {
@@ -26,7 +24,6 @@ export const Bank: React.FC = () => {
   return (
     <div
       className="z-10 absolute"
-      // TODO some sort of coordinate system
       style={{
         width: `${GRID_WIDTH_PX * 2.7}px`,
         right: `${GRID_WIDTH_PX * 10}px`,
