@@ -32,9 +32,7 @@ export interface Context {
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
-  whitelistedAt?: Date;
   itemsMintedAt?: MintedAt;
-  blacklistStatus?: "investigating" | "permanent";
 }
 
 type MintEvent = {
@@ -114,7 +112,6 @@ export type BlockchainState = {
     | "synced"
     | "levelling"
     | "error"
-    | "blacklisted"
     | "resetting";
   context: Context;
 };
@@ -133,6 +130,7 @@ type Options = AuthContext & { isNoob: boolean };
 
 export function startGame(authContext: Options) {
   const handleInitialState = () => {
+    console.log({ authContext });
     if (authContext.sessionId || !authContext.address) {
       return "playing";
     }
@@ -167,14 +165,7 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const {
-                  game,
-                  offset,
-                  isBlacklisted,
-                  whitelistedAt,
-                  itemsMintedAt,
-                  blacklistStatus,
-                } = response;
+                const { game, offset, whitelistedAt, itemsMintedAt } = response;
 
                 // add farm address
                 game.farmAddress = authContext.address;
@@ -185,42 +176,26 @@ export function startGame(authContext: Options) {
                     id: Number(authContext.farmId),
                   },
                   offset,
-                  isBlacklisted,
                   whitelistedAt,
                   fingerprint,
                   itemsMintedAt,
-                  blacklistStatus,
                 };
               }
 
               // Visit farm
               if (authContext.address) {
-                const { game, isBlacklisted } = await getOnChainState({
+                const { game } = await getOnChainState({
                   farmAddress: authContext.address as string,
-                  id: Number(authContext.farmId),
                 });
 
                 game.id = authContext.farmId as number;
 
-                return { state: game, isBlacklisted };
+                return { state: game };
               }
 
               return { state: INITIAL_FARM };
             },
             onDone: [
-              {
-                target: "blacklisted",
-                cond: (_, event) => event.data.isBlacklisted,
-                actions: assign({
-                  whitelistedAt: (_, event) =>
-                    new Date(event.data.whitelistedAt),
-                  blacklistStatus: (_, event) => event.data.blacklistStatus,
-                  state: (_, event) => event.data.state,
-                  offset: (_, event) => event.data.offset,
-                  fingerprint: (_, event) => event.data.fingerprint,
-                  itemsMintedAt: (_, event) => event.data.itemsMintedAt,
-                }),
-              },
               {
                 target: handleInitialState(),
                 actions: assign({
@@ -463,11 +438,6 @@ export function startGame(authContext: Options) {
         error: {
           on: {
             CONTINUE: "playing",
-          },
-        },
-        blacklisted: {
-          on: {
-            CONTINUE: handleInitialState(),
           },
         },
         synced: {

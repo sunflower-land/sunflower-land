@@ -25,20 +25,23 @@ async function loadMetadata(id: number) {
   return data;
 }
 type GetStateArgs = {
-  id: number;
   farmAddress: string;
 };
+
+export async function isFarmBlacklisted(id: number) {
+  const metadata = await loadMetadata(id);
+  console.log({ metadata });
+  return metadata.image.includes("blacklisted");
+}
+
 export async function getOnChainState({
-  id,
   farmAddress,
-}: GetStateArgs): Promise<{ game: GameState; isBlacklisted: boolean }> {
+}: GetStateArgs): Promise<{ game: GameState }> {
   const balance = await metamask.getToken().balanceOf(farmAddress);
   const balances = await metamask.getInventory().getBalances(farmAddress);
   const inventory = balancesToInventory(balances);
   const fields = populateFields(inventory);
 
-  const metadata = await loadMetadata(id);
-  const isBlacklisted = metadata.image.includes("blacklisted");
   return {
     game: {
       ...EMPTY,
@@ -47,6 +50,5 @@ export async function getOnChainState({
       fields,
       inventory,
     },
-    isBlacklisted,
   };
 }

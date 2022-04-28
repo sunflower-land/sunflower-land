@@ -22,6 +22,7 @@ import { ErrorCode } from "lib/errors";
 import { SupplyReached } from "./components/SupplyReached";
 import { Countdown } from "./components/Countdown";
 import { Minimized } from "./components/Minimized";
+import { Blacklisted } from "features/game/components/Blacklisted";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -51,6 +52,7 @@ export const Auth: React.FC = () => {
   //   };
   // }, [authState]);
 
+  console.log("State", authState.value);
   return (
     <Modal
       centered
@@ -83,6 +85,8 @@ export const Auth: React.FC = () => {
           {authState.matches({ connected: "countdown" }) && <Countdown />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
+          {(authState.matches({ connected: "blacklisted" }) ||
+            authState.matches("blacklisted")) && <Blacklisted />}
           {authState.matches("exploring") && <VisitFarm />}
           {authState.matches("minimised") && <Minimized />}
           {authState.matches("unauthorised") && (

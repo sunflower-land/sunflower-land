@@ -1,3 +1,4 @@
+import { isFarmBlacklisted } from "features/game/actions/visit";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { createMachine, Interpreter, assign } from "xstate";
@@ -32,6 +33,7 @@ type Farm = {
   sessionId: string;
   address: string;
   createdAt: number;
+  isBlacklisted: boolean;
 };
 
 export interface Context {
@@ -43,6 +45,7 @@ export interface Context {
   token?: Token;
   rawToken?: string;
   captcha?: string;
+  isBlacklisted?: boolean;
 }
 
 type StartEvent = Farm & {
@@ -104,6 +107,7 @@ export type BlockchainState = {
     | "connected"
     | "signing"
     | "oauthorising"
+    | "blacklisted"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
     | { connected: "checkingAccess" }
@@ -115,6 +119,7 @@ export type BlockchainState = {
     | { connected: "readyToStart" }
     | { connected: "oauthorised" }
     | { connected: "authorised" }
+    | { connected: "blacklisted" }
     | "exploring"
     | "checkFarm"
     | "unauthorised";
@@ -331,12 +336,23 @@ export const authMachine = createMachine<
           },
           readyToStart: {
             on: {
-              START_GAME: {
-                target: "authorised",
-              },
+              START_GAME: [
+                {
+                  cond: (context) => !!context.isBlacklisted,
+                  target: "blacklisted",
+                },
+                {
+                  target: "authorised",
+                },
+              ],
               EXPLORE: {
                 target: "#exploring",
               },
+            },
+          },
+          blacklisted: {
+            on: {
+              CONTINUE: "authorised",
             },
           },
           authorised: {
@@ -390,11 +406,18 @@ export const authMachine = createMachine<
       checkFarm: {
         invoke: {
           src: "visitFarm",
-          onDone: {
-            target: "visiting",
-            actions: "assignFarm",
-            cond: "hasFarm",
-          },
+          onDone: [
+            {
+              target: "blacklisted",
+              cond: (context) => !!context.isBlacklisted,
+              actions: "assignFarm",
+            },
+            {
+              target: "visiting",
+              actions: "assignFarm",
+              cond: "hasFarm",
+            },
+          ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
@@ -405,6 +428,11 @@ export const authMachine = createMachine<
             target: "connecting",
             actions: "resetFarm",
           },
+        },
+      },
+      blacklisted: {
+        on: {
+          CONTINUE: "visiting",
         },
       },
       visiting: {
@@ -454,11 +482,14 @@ export const authMachine = createMachine<
           .getSessionManager()
           .getSessionId(farmAccount.tokenId);
 
+        const isBlacklisted = await isFarmBlacklisted(farmAccount.tokenId);
+
         return {
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           sessionId,
           createdAt,
+          isBlacklisted,
         };
       },
       createFarm: async (context: Context, event: any): Promise<Context> => {
@@ -498,11 +529,14 @@ export const authMachine = createMachine<
         const farmId = getFarmUrl() || (event as VisitEvent).farmId;
         const farmAccount = await metamask.getFarm()?.getFarm(farmId);
 
+        const isBlacklisted = await isFarmBlacklisted(farmId);
+
         return {
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           sessionId: "",
           createdAt: 0,
+          isBlacklisted,
         };
       },
     },
@@ -511,6 +545,7 @@ export const authMachine = createMachine<
         farmId: (_context, event) => event.data.farmId,
         address: (_context, event) => event.data.address,
         sessionId: (_context, event) => event.data.sessionId,
+        isBlacklisted: (_context, event) => event.data.isBlacklisted,
       }),
       assignToken: assign<Context, any>({
         token: (_context, event) => decodeToken(event.data.token),

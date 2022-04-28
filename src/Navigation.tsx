@@ -59,7 +59,11 @@ export const Navigation: React.FC = () => {
   return (
     <>
       <Auth />
-      {showGame ? <Session /> : <Splash />}
+      {showGame ? (
+        <Session isBlacklisted={authState.context.isBlacklisted} />
+      ) : (
+        <Splash />
+      )}
     </>
   );
 };

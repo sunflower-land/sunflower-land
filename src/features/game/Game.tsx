@@ -14,10 +14,8 @@ import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
 import { ToastManager } from "./toast/ToastManager";
 import { Decorations } from "./components/Decorations";
-import { Minting } from "./components/Minting";
 import { Success } from "./components/Success";
 import { Syncing } from "./components/Syncing";
-import { Blacklisted } from "./components/Blacklisted";
 
 import { Quarry } from "features/farming/quarry/Quarry";
 import { TeamDonation } from "features/farming/teamDonation/TeamDonation";
@@ -39,13 +37,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   playing: false,
   readonly: false,
   autosaving: false,
-  minting: true,
   syncing: true,
   synced: true,
-  withdrawing: true,
-  withdrawn: true,
   error: true,
-  blacklisted: true,
   levelling: false,
   resetting: true,
 };
@@ -101,7 +95,6 @@ export const Game: React.FC = () => {
               errorCode={gameState.context.errorCode as ErrorCode}
             />
           )}
-          {gameState.matches("blacklisted") && <Blacklisted />}
           {gameState.matches("synced") && <Success />}
           {gameState.matches("syncing") && <Syncing />}
         </Panel>
