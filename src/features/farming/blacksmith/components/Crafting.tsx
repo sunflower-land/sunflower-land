@@ -2,12 +2,11 @@ import React, { useContext, useState } from "react";
 
 import hammer from "assets/icons/hammer.png";
 import close from "assets/icons/close.png";
-import nft from "assets/nfts/goblin_crown.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
-import { BLACKSMITH_ITEMS, TOOLS } from "features/game/types/craftables";
+import { TOOLS } from "features/game/types/craftables";
 import * as Auth from "features/auth/lib/Provider";
 
 import { CraftingItems } from "./CraftingItems";

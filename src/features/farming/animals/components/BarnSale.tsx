@@ -5,7 +5,7 @@ import chicken from "assets/resources/chicken.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { ANIMALS, BARN_ITEMS } from "features/game/types/craftables";
+import { ANIMALS } from "features/game/types/craftables";
 import { CraftingItems } from "features/farming/blacksmith/components/CraftingItems";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";

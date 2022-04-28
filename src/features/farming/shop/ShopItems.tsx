@@ -18,8 +18,6 @@ interface Props {
 
 export const ShopItems: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState<"buy" | "sell">("buy");
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
 
   const handleTabClick = (tab: "buy" | "sell") => {
     setTab(tab);
