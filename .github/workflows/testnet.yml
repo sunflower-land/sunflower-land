@@ -14,6 +14,10 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M')"
 
+      - name: Get the current version ref
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
       - name: Checkout
         uses: actions/checkout@v1
 
@@ -36,6 +40,7 @@ jobs:
           VITE_PAIR_CONTRACT: "0xaE42EA9864C36820627068a11959915f817ce809"
           VITE_DISCORD_REDIRECT: "https://sunflower-land.com/testnet/"
           VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
+          VITE_RELEASE_VERSION: ${{ steps.get_version.outputs.VERSION }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
