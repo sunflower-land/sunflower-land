@@ -5,6 +5,8 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/Modal";
 
+import close from "assets/icons/close.png";
+
 import sunflowerRock from "assets/nfts/sunflower_rock.png";
 import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
@@ -138,6 +140,11 @@ export const NyonStatue: React.FC = () => {
       />
       <Modal centered show={showNyonLore} onHide={() => setShowNyonLore(false)}>
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={() => setShowNyonLore(false)}
+          />
           <div className="flex flex-col items-cetner justify-content-between">
             <div className="flex justify-content m-2">
               <img
