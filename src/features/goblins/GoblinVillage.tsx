@@ -15,6 +15,7 @@ import { WishingWell } from "features/goblins/wishingWell/WishingWell";
 import { GoblinBlacksmith } from "features/goblins/goblin_blacksmith/GoblinBlacksmith";
 import { Bank } from "features/goblins/bank/Bank";
 import { Market } from "./market/Market";
+import { Barn } from "./barn/Barn";
 
 // const SHOW_MODAL: Record<StateValues, boolean> = {
 const SHOW_MODAL: any = {
@@ -48,6 +49,7 @@ export const GoblinVillage: React.FC = () => {
       <GoblinBlacksmith />
       <Bank />
       <Market />
+      <Barn />
     </div>
   );
 };
