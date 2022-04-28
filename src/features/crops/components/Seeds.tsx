@@ -56,7 +56,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     shortcutItem(selected.name);
   };
 
-
   const restock = () => {
     setShowCaptcha(true);
   };
