@@ -93,7 +93,6 @@ export type Token = {
     createFarm: boolean;
     sync: boolean;
     mintCollectible: boolean;
-    airdrop: boolean;
   };
   discordId?: string;
 };
