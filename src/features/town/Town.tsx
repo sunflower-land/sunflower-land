@@ -10,6 +10,7 @@ import { Mail } from "features/mail/Mail";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import goblinCarry from "assets/npcs/goblin_carry.gif";
+import { GoblinTownEntry } from "./components/GoblinTownEntry";
 
 export const Town: React.FC = () => {
   return (
@@ -31,16 +32,7 @@ export const Town: React.FC = () => {
       <WishingWell />
       <Mail />
 
-      <img
-        src={goblinCarry}
-        className="running"
-        style={{
-          width: `${GRID_WIDTH_PX * 1}px`,
-          right: `${GRID_WIDTH_PX * 1}px`,
-          top: `${GRID_WIDTH_PX * 3}px`,
-          position: "absolute",
-        }}
-      />
+      <GoblinTownEntry />
     </div>
   );
 };
