@@ -51,7 +51,14 @@ export type BlockchainEvent =
   | MintEvent;
 
 export type BlockchainState = {
-  value: "loading" | "minting" | "withdrawing" | "playing" | "error";
+  value:
+    | "loading"
+    | "minting"
+    | "minted"
+    | "withdrawing"
+    | "withdrawin"
+    | "playing"
+    | "error";
   context: Context;
 };
 
@@ -74,6 +81,7 @@ export function startGoblinVillage(authContext: AuthContext) {
         balance: new Decimal(0),
         inventory: {},
       },
+      sessionId: authContext.sessionId,
     },
     states: {
       loading: {
@@ -116,8 +124,7 @@ export function startGoblinVillage(authContext: AuthContext) {
             };
           },
           onDone: {
-            // TODO add a minted
-            target: "withdrawn",
+            target: "minted",
             actions: assign((_, event) => ({
               sessionId: event.data.sessionId,
               actions: [],
@@ -127,6 +134,11 @@ export function startGoblinVillage(authContext: AuthContext) {
             target: "error",
             actions: "assignErrorMessage",
           },
+        },
+      },
+      minted: {
+        on: {
+          REFRESH: "loading",
         },
       },
       withdrawing: {
