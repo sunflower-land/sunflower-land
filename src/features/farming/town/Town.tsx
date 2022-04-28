@@ -8,7 +8,7 @@ import { Mail } from "features/farming/mail/Mail";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import goblinCarry from "assets/npcs/goblin_carry.gif";
-import { GoblinTownEntry } from "./components/GoblinTownEntry";
+import { GoblinVillageEntry } from "./components/GoblinVillageEntry";
 
 export const Town: React.FC = () => {
   return (
@@ -28,7 +28,7 @@ export const Town: React.FC = () => {
       <Blacksmith />
       <Mail />
 
-      <GoblinTownEntry />
+      <GoblinVillageEntry />
     </div>
   );
 };

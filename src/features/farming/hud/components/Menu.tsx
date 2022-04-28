@@ -26,6 +26,7 @@ import close from "assets/icons/close.png";
 import goblin from "assets/npcs/goblin_head.png";
 
 import { useIsNewFarm } from "../lib/onboarding";
+import { GoblinVillageModal } from "features/farming/town/components/GoblinVillageModal";
 
 /**
  * TODO:
@@ -50,6 +51,7 @@ export const Menu = () => {
 
   const [showShareModal, setShowShareModal] = useState(false);
   const [showLogoutModal, setShowSettings] = useState(false);
+  const [showGoblinModal, setShowGoblinModal] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
@@ -241,11 +243,9 @@ export const Menu = () => {
                 <li className="p-1">
                   <Button
                     className="flex justify-between"
-                    onClick={() => {
-                      window.location.href = "/#/goblins";
-                    }}
+                    onClick={() => setShowGoblinModal(true)}
                   >
-                    <span className="sm:text-sm flex-1">Goblin Town</span>
+                    <span className="sm:text-sm flex-1">Goblin Village</span>
                     <img src={goblin} className="w-6 ml-2" alt="town" />
                   </Button>
                 </li>
@@ -343,6 +343,14 @@ export const Menu = () => {
           </Panel>
         </Modal>
       )}
+
+      <Modal
+        centered
+        show={showGoblinModal}
+        onHide={() => setShowGoblinModal(false)}
+      >
+        <GoblinVillageModal />
+      </Modal>
     </div>
   );
 };
