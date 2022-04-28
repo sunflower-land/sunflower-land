@@ -5,7 +5,7 @@ import close from "assets/icons/close.png";
 
 import { Panel } from "components/ui/Panel";
 
-import { Rare } from "features/farming/blacksmith/components/Rare";
+import { Rare } from "features/goblins/Rare";
 import { MARKET_ITEMS } from "features/game/types/craftables";
 import * as Auth from "features/auth/lib/Provider";
 

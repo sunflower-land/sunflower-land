@@ -8,7 +8,7 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { ANIMALS, BARN_ITEMS } from "features/game/types/craftables";
 import { CraftingItems } from "features/farming/blacksmith/components/CraftingItems";
-import { Rare } from "features/farming/blacksmith/components/Rare";
+import { Rare } from "features/goblins/Rare";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 

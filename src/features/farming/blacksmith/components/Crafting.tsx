@@ -11,7 +11,7 @@ import { BLACKSMITH_ITEMS, TOOLS } from "features/game/types/craftables";
 import * as Auth from "features/auth/lib/Provider";
 
 import { CraftingItems } from "./CraftingItems";
-import { Rare } from "./Rare";
+import { Rare } from "../../../goblins/Rare";
 import { useActor } from "@xstate/react";
 
 interface Props {

@@ -18,7 +18,7 @@ import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
-import { mintCooldown } from "../lib/mintUtils";
+import { mintCooldown } from "../farming/blacksmith/lib/mintUtils";
 import { secondsToString } from "lib/utils/time";
 import { CONFIG } from "lib/config";
 

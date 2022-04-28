@@ -6,7 +6,7 @@ import flag from "assets/nfts/flags/sunflower_flag.gif";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { FLAGS } from "features/game/types/craftables";
-import { Rare } from "features/farming/blacksmith/components/Rare";
+import { Rare } from "features/goblins/Rare";
 import { Flag } from "features/game/types/flags";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
