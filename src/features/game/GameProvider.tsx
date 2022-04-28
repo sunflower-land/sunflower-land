@@ -6,7 +6,10 @@ import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
-import { cacheShortcuts, getShortcuts } from "features/hud/lib/shortcuts";
+import {
+  cacheShortcuts,
+  getShortcuts,
+} from "features/farming/hud/lib/shortcuts";
 
 import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";

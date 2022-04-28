@@ -9,7 +9,7 @@ import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
-import { Rare } from "features/blacksmith/components/Rare";
+import { Rare } from "features/farming/blacksmith/components/Rare";
 import { MARKET_ITEMS } from "features/game/types/craftables";
 import * as Auth from "features/auth/lib/Provider";
 import { Seeds } from "./Seeds";

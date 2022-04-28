@@ -5,7 +5,7 @@ import { toWei } from "web3-utils";
 
 import { Context } from "features/game/GameProvider";
 
-import { shortAddress } from "features/hud/components/Address";
+import { shortAddress } from "features/farming/hud/components/Address";
 
 import { Button } from "components/ui/Button";
 

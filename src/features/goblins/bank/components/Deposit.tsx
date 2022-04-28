@@ -4,7 +4,7 @@ import { Context } from "features/game/GameProvider";
 
 import { CopySvg } from "components/ui/CopyField";
 import { OuterPanel } from "components/ui/Panel";
-import { shortAddress } from "features/hud/components/Address";
+import { shortAddress } from "features/farming/hud/components/Address";
 
 import farm from "assets/brand/nft.png";
 import alert from "assets/icons/expression_alerted.png";

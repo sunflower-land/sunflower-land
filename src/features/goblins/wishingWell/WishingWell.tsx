@@ -14,50 +14,41 @@ import { Action } from "components/ui/Action";
 import { wishingWellAudio } from "lib/utils/sfx";
 
 export const WishingWell: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  // const { gameService } = useContext(Context);
+  // const [gameState] = useActor(gameService);
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const isNotReadOnly = !gameState.matches("readonly");
+  // const isNotReadOnly = !gameState.matches("readonly");
 
   const openWell = () => {
-    if (isNotReadOnly) {
-      wishingWellAudio.play();
-      setIsOpen(true);
-    } else {
-      return;
-    }
+    wishingWellAudio.play();
+    setIsOpen(true);
   };
   return (
     <div
-      className="z-10 absolute"
+      className="absolute"
       // TODO some sort of coordinate system
       style={{
-        width: `${GRID_WIDTH_PX * 1.6}px`,
-        left: `${GRID_WIDTH_PX * 10.4}px`,
-        top: `${GRID_WIDTH_PX * -3}px`,
+        width: `${GRID_WIDTH_PX * 2}px`,
+        right: `${GRID_WIDTH_PX * 15}px`,
+        top: `${GRID_WIDTH_PX * 36}px`,
       }}
     >
-      <div
-        className={classNames({
-          "cursor-pointer": isNotReadOnly,
-          "hover:img-highlight": isNotReadOnly,
-        })}
-      >
+      <div className="cursor-pointer hover:img-highlight">
         <img
           src={wishingWell}
           alt="market"
           onClick={openWell}
           className="w-full"
         />
-        {isNotReadOnly && (
+        {
           <Action
             className="absolute -bottom-6 -left-3"
             text="Wish"
             icon={icon}
             onClick={openWell}
           />
-        )}
+        }
       </div>
 
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>

@@ -3,7 +3,7 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 import timer from "assets/icons/timer.png";
-import { HowToModalHeader } from "features/hud/components/howToPlay/HowToModalHeader";
+import { HowToModalHeader } from "features/farming/hud/components/howToPlay/HowToModalHeader";
 
 interface Props {
   onClose: () => void;

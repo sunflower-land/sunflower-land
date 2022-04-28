@@ -1,12 +1,10 @@
 import React from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { Bank } from "features/bank/Bank";
-import { Bakery } from "features/bakery/Bakery";
-import { Blacksmith } from "features/blacksmith/Blacksmith";
-import { Market } from "features/crops/components/Market";
-import { WishingWell } from "features/wishingWell/WishingWell";
-import { Mail } from "features/mail/Mail";
+import { Bakery } from "features/farming/bakery/Bakery";
+import { Blacksmith } from "features/farming/blacksmith/Blacksmith";
+import { Market } from "features/farming/crops/components/Market";
+import { Mail } from "features/farming/mail/Mail";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import goblinCarry from "assets/npcs/goblin_carry.gif";
@@ -26,10 +24,8 @@ export const Town: React.FC = () => {
       }}
     >
       <Market />
-      <Bank />
       <Bakery />
       <Blacksmith />
-      <WishingWell />
       <Mail />
 
       <GoblinTownEntry />

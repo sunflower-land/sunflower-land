@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import secure from "assets/npcs/synced.gif";
 import { Context } from "../GameProvider";
 import { metamask } from "lib/blockchain/metamask";
-import { shortAddress } from "features/hud/components/Address";
+import { shortAddress } from "features/farming/hud/components/Address";
 
 export const Withdrawn: React.FC = () => {
   const { gameService } = useContext(Context);
