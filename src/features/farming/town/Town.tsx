@@ -9,6 +9,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import goblinCarry from "assets/npcs/goblin_carry.gif";
 import { GoblinVillageEntry } from "./components/GoblinVillageEntry";
+import { TownHall } from "../townHall/TownHall";
 
 export const Town: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ export const Town: React.FC = () => {
       <Bakery />
       <Blacksmith />
       <Mail />
+      <TownHall />
 
       <GoblinVillageEntry />
     </div>
