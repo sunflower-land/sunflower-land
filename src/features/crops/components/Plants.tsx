@@ -37,11 +37,19 @@ export const Plants: React.FC = () => {
 
   useEffect(() => {
     setBulkSellAmount(cropAmount);
-  }, [selected.name]);
+  }, [selected.name, isSellAllModalOpen]);
 
-  useEffect(() => {
-    setBulkSellAmount(cropAmount);
-  }, [cropAmount.toNumber()]);
+  const incrementBulkSellAmount = (amount: number) => {
+    const newAmount = bulkSellAmount.plus(amount);
+    setBulkSellAmount(
+      newAmount.greaterThan(cropAmount) ? cropAmount : newAmount
+    );
+  };
+
+  const decrementBulkSellAmount = (amount: number) => {
+    const newAmount = bulkSellAmount.minus(amount);
+    setBulkSellAmount(newAmount.lessThan(1) ? new Decimal(1) : newAmount);
+  };
 
   const sell = (amount = 1) => {
     gameService.send("item.sell", {
@@ -115,9 +123,10 @@ export const Plants: React.FC = () => {
               </span>
             </div>
           </div>
+
           <Button
             disabled={cropAmount.lessThan(1)}
-            className="text-xs mt-1"
+            className="flex-1 text-xs mt-1 w-70"
             onClick={handleSellOne}
           >
             Sell 1
@@ -127,32 +136,8 @@ export const Plants: React.FC = () => {
             className="text-xs mt-1 whitespace-nowrap"
             onClick={openConfirmationModal}
           >
-            Sell{" "}
-            {bulkSellAmount.equals(cropAmount)
-              ? "All"
-              : bulkSellAmount.toNumber()}
+            Sell All
           </Button>
-          {cropAmount.gte(5) && (
-            <input
-              disabled={noCrop}
-              className="
-                form-range
-                w-full
-                h-6
-                p-0
-                bg-transparent
-                focus:outline-none focus:ring-0 focus:shadow-none
-                slider-thumb
-              "
-              onChange={(e) => {
-                setBulkSellAmount(new Decimal(Number(e.target.value)));
-              }}
-              type="range"
-              min={2}
-              max={cropAmount.toNumber()}
-              value={bulkSellAmount.toNumber()}
-            />
-          )}
         </div>
       </OuterPanel>
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
@@ -160,11 +145,58 @@ export const Plants: React.FC = () => {
           <div className="m-auto flex flex-col">
             <span className="text-sm text-center text-shadow">
               Are you sure you want to <br className="hidden md:block" />
-              sell all your {selected.name}?
+              sell your {selected.name}?
             </span>
-            <span className="text-sm text-center text-shadow mt-1">
-              Total: {bulkSellAmount.toNumber()}
-            </span>
+            <div className="flex items-center justify-center ms-1 mt-1">
+              <div>
+                <Button
+                  disabled={bulkSellAmount.lessThanOrEqualTo(1)}
+                  className="flex-1 text-xs mt-1 w-70"
+                  onClick={() => decrementBulkSellAmount(1)}
+                >
+                  -1
+                </Button>
+                <Button
+                  disabled={bulkSellAmount.lessThanOrEqualTo(10)}
+                  className="flex-1 text-xs mt-1 w-70"
+                  onClick={() => decrementBulkSellAmount(10)}
+                >
+                  -10
+                </Button>
+              </div>
+              <div className="flex mx-2">
+                <span className="text-sm text-center text-shadow mr-1">
+                  {bulkSellAmount.toNumber()}
+                </span>
+                <img
+                  src={ITEM_DETAILS[selected.name].image}
+                  className="h-5 mr-1"
+                />
+              </div>
+              <div>
+                <Button
+                  disabled={cropAmount.minus(bulkSellAmount).lessThan(1)}
+                  className="flex-1 text-xs mt-1 w-70"
+                  onClick={() => incrementBulkSellAmount(1)}
+                >
+                  +1
+                </Button>
+                <Button
+                  disabled={cropAmount.minus(bulkSellAmount).lessThan(10)}
+                  className="flex-1 text-xs mt-1 w-70"
+                  onClick={() => incrementBulkSellAmount(10)}
+                >
+                  +10
+                </Button>
+              </div>
+            </div>
+            <div className="flex justify-center items-end my-1">
+              <span className="text-xs text-shadow text-center mt-2 ">+</span>
+              <img src={token} className="h-5 mx-1" />
+              <span className="text-xs text-shadow text-center mt-2 ">
+                {`$${displaySellPrice(selected).mul(bulkSellAmount)}`}
+              </span>
+            </div>
           </div>
           <div className="flex justify-content-around p-1">
             <Button
