@@ -71,6 +71,10 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return !cropIsPlanted({ item: "Parsnip", game });
   }
 
+  if (item === "Radish Statue") {
+    return !cropIsPlanted({ item: "Radish", game });
+  }
+
   // Tools, Crops, Resources
   return true;
 }

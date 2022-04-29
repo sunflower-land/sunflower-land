@@ -66,7 +66,8 @@ export type MarketItem =
   | "Kuebiko"
   | "Golden Cauliflower"
   | "Mysterious Parsnip"
-  | "Carrot Sword";
+  | "Carrot Sword"
+  | "Radish Statue";
 
 export type LimitedItem = BlacksmithItem | BarnItem | MarketItem | Flag;
 
@@ -554,6 +555,25 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
       },
     ],
     supply: 1000,
+  },
+  "Radish Statue": {
+    name: "Radish Statue",
+    description:
+      "This statue would give a 25% chance to the owner of having another radish when harvesting.",
+    price: new Decimal(80),
+    ingredients: [
+      {
+        item: "Radish",
+        amount: new Decimal(250),
+      },
+      {
+        item: "Iron",
+        amount: new Decimal(35),
+      },
+    ],
+    supply: 1000,
+    disabled: false,
+    section: Section["Radish Statue"],
   },
 };
 

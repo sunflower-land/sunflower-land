@@ -54,6 +54,8 @@ export const EASTER_EGGS: EasterEgg[] = [
 
 export type EasterBunny = "Easter Bunny";
 
+export type RadishStatue = "Radish Statue";
+
 export type InventoryItemName =
   | CropName
   | SeedName
@@ -61,7 +63,8 @@ export type InventoryItemName =
   | ResourceName
   | SkillName
   | EasterEgg
-  | EasterBunny;
+  | EasterBunny
+  | RadishStatue;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

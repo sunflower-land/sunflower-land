@@ -91,6 +91,16 @@ type GetFieldArgs = {
  */
 function getMultiplier({ crop, inventory }: GetFieldArgs): number {
   let multiplier = 1;
+
+  /**
+   * Add random that implement chance of drop (10/100) => 10% chance of dropping *2 radish if Radish Statue is crafted
+   */
+  if (crop === "Radish" && inventory["Radish Statue"]?.gte(1)) {
+    if (Math.floor(Math.random() * 100) <= 10) {
+      multiplier *= 2;
+    }
+  }
+
   if (crop === "Cauliflower" && inventory["Golden Cauliflower"]?.gte(1)) {
     multiplier *= 2;
   }

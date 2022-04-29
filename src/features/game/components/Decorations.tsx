@@ -20,6 +20,7 @@ import scarecrow from "assets/nfts/scarecrow.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
 import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
+import radishStatue from "assets/nfts/radish_statue.png";
 
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
@@ -440,6 +441,20 @@ export const Decorations: React.FC = () => {
           className="absolute"
           src={easterBunny}
           alt="Easter Bunny"
+        />
+      )}
+
+      {state.inventory["Radish Statue"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.6}px`,
+            left: `${GRID_WIDTH_PX * 68.7}px`,
+            top: `${GRID_WIDTH_PX * 31}px`,
+          }}
+          id={Section["Radish Statue"]}
+          className="absolute"
+          src={radishStatue}
+          alt="Radish Statue"
         />
       )}
     </>
