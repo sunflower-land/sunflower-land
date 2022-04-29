@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_STOCK } from "../lib/constants";
 import {
   Craftable,
   CraftableName,
@@ -7,8 +6,8 @@ import {
   FOODS,
   TOOLS,
 } from "../types/craftables";
-import { SeedName, SEEDS } from "../types/crops";
-import { GameState, Inventory, InventoryItemName } from "../types/game";
+import { SEEDS } from "../types/crops";
+import { GameState, Inventory } from "../types/game";
 import { isSeed } from "./plant";
 
 export type CraftAction = {

@@ -11,9 +11,8 @@ import timer from "assets/icons/timer.png";
 import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
 import * as Auth from "features/auth/lib/Provider";
-import { wishingWellMachine, MachineInterpreter } from "../wishingWellMachine";
+import { wishingWellMachine } from "../wishingWellMachine";
 import { fromWei } from "web3-utils";
-import { Context } from "features/game/GameProvider";
 
 export const shortAddress = (address: string): string => {
   // check if there is an address

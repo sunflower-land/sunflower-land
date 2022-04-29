@@ -2,16 +2,10 @@ import React, { useContext } from "react";
 
 import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 import { Context } from "../GameProvider";
-import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 
 export const Blacklisted: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { whitelistedAt },
-    },
-  ] = useActor(gameService);
 
   const continuePlaying = () => {
     gameService.send("CONTINUE");

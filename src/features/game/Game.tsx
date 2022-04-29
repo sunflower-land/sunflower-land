@@ -32,7 +32,6 @@ import { House } from "features/house/House";
 import { Tailor } from "features/tailor/Tailor";
 import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
-import { TooManyRequests } from "features/auth/components/TooManyRequests";
 import { screenTracker } from "lib/utils/screen";
 import { Withdrawn } from "./components/Withdrawn";
 import { Resetting } from "features/auth/components/Resetting";

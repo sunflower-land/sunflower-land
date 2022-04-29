@@ -169,7 +169,7 @@ export const NyonStatue: React.FC = () => {
 };
 
 export const Decorations: React.FC = () => {
-  const { gameService, selectedItem } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [
     {
       context: { state },

@@ -1,12 +1,10 @@
-import Decimal from "decimal.js-light";
 import { removeSession } from "features/auth/actions/login";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
-import { stringToHex } from "web3-utils";
 import { makeGame } from "../lib/transforms";
-import { GameState, InventoryItemName, Rock, Tree } from "../types/game";
+import { GameState, InventoryItemName } from "../types/game";
 
 type Request = {
   sessionId: string;

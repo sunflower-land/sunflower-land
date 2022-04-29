@@ -2,7 +2,7 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/auth/lib/Provider";
 import { useContext } from "react";
 
-export function isNewFarm() {
+export function useIsNewFarm() {
   const { authService } = useContext(Context);
   const [{ history }] = useActor(authService);
 

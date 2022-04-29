@@ -30,7 +30,7 @@ export const TimeLeftPanel: React.FC<Props> = ({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [showTimeLeft]);
+  }, [showTimeLeft, timeLeft]);
 
   return (
     <InnerPanel
