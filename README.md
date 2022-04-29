@@ -20,21 +20,26 @@ Looking to help out? Read our contributing Guidelines - https://github.com/sunfl
 # Website | Official Links
 
 ### 🌻 Main Website
+
 [https://sunflower-land.com/](https://sunflower-land.com/)
 
 ### 🧑‍🌾 Start Farming | Play
+
 [https://sunflower-land.com/play](https://sunflower-land.com/play)
 
-### 😕 Stuck somewhere ?
+### 😕 Stuck somwhere ?
+
 Read the official docs/ litepaper here: [docs.sunflower-land.com](https://docs.sunflower-land.com/)
 
 ### 👶 How to play ?
+
 Follow the official guide here: [How to Play?](https://docs.sunflower-land.com/getting-started/how-to-play)
 
 ### ❓ Need Help ?
+
 First Read the FAQ's here: [FAQ's](https://sunflowerland.freshdesk.com/support/solutions/101000195014)
 
-Still not satisfied? submit a support ticket here: [Submit a ticket](https://sunflowerland.freshdesk.com/support/tickets/new)
+Still not satisfied? Submit a support ticket here: [Submit a ticket](https://sunflowerland.freshdesk.com/support/tickets/new)
 
 # 👶 Getting Started
 
