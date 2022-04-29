@@ -559,7 +559,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
   "Radish Statue": {
     name: "Radish Statue",
     description:
-      "This statue would give a 25% chance to the owner of having another radish when harvesting.",
+      "This statue would give a 10% chance to the owner of having another radish when harvesting.",
     price: new Decimal(80),
     ingredients: [
       {
