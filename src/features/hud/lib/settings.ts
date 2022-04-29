@@ -26,7 +26,7 @@ export function getSettings(): MasterVolumeControls {
 
   if (!cached) {
     return {
-      bgMusicPaused: false,
+      bgMusicPaused: true,
       sfxMuted: false,
     };
   }
