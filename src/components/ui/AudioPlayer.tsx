@@ -12,8 +12,7 @@ import { Panel } from "components/ui/Panel";
 
 import { getSong, getSongCount } from "assets/songs/playlist";
 import { useStepper } from "lib/utils/hooks/useStepper";
-import { getSettings } from "features/hud/lib/settings";
-import { Label } from "./Label";
+import { cacheSettings, getSettings } from "features/hud/lib/settings";
 
 export const AudioPlayer: React.FC = () => {
   const settings = getSettings();
@@ -23,13 +22,20 @@ export const AudioPlayer: React.FC = () => {
   const [songIndex, setSongIndex] = useState<number>(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const musicPlayer = useRef<any>(null);
-  const [showLabel, setShowLabel] = useState(false);
+
+  const saveSettings = (_bgMusicPaused: boolean) =>
+    cacheSettings({
+      bgMusicPaused: _bgMusicPaused,
+      sfxMuted: settings.sfxMuted,
+    });
 
   const handlePlayState = () => {
     if (musicPlayer.current.paused) {
       musicPlayer.current.play();
+      saveSettings(false);
     } else {
       musicPlayer.current.pause();
+      saveSettings(true);
     }
     setPlaying(!isPlaying);
   };
@@ -44,34 +50,32 @@ export const AudioPlayer: React.FC = () => {
 
   const song = getSong(songIndex);
 
-  const handleMouseEnter = () => {
-    if (settings.bgMusicMuted) setShowLabel(true);
-  };
-
-  const handleMouseLeave = () => setShowLabel(false);
-
   useEffect(() => {
-    // update pause state when user Toggles the master settings
     if (document.getElementsByTagName("audio")[0]?.paused) {
       setPlaying(false);
       musicPlayer.current.pause();
-    } else if (settings.bgMusicMuted) {
-      setIsVisible(false);
-      setPlaying(false);
-      musicPlayer.current.pause();
     }
-
     // do refactor this if you use OP volumeControls to + or - vol
     musicPlayer.current.volume = volume.value;
-  }, [volume.value, settings.bgMusicMuted]);
+  }, [volume.value]);
+
+  useEffect(() => {
+    // update pause state when user Toggles the master settings
+    if (settings.bgMusicPaused) {
+      setPlaying(false);
+      musicPlayer.current.pause();
+    } else if (!settings.bgMusicPaused) {
+      setPlaying(true);
+      musicPlayer.current.play();
+    }
+  }, [settings.bgMusicPaused]);
 
   useEffect(() => {
     // use the default volume which is set after initMasterVolume
     if (document.getElementsByTagName("audio")[0]) {
       volume.value = document.getElementsByTagName("audio")[0].volume;
     }
-    if (settings.bgMusicMuted) {
-      setIsVisible(false);
+    if (settings.bgMusicPaused) {
       musicPlayer.current.pause();
       setPlaying(false);
     }
@@ -150,25 +154,13 @@ export const AudioPlayer: React.FC = () => {
         </div>
       </Panel>
       <div
-        className={`position-fixed z-50 w-fit right-[12rem] md:right-[14rem] bottom-[3rem] ${
-          showLabel ? "opacity-100" : "opacity-0"
-        } transition duration-400 pointer-events-none text-[0.5rem] md:text-[0.75rem] p-1`}
-      >
-        <Label>Enable the Music from Settings Menu</Label>
-      </div>
-      <div
         className={`position-absolute ${
           visible
             ? "-left-7 sm:-left-9"
             : "-left-11 sm:-left-12 sm:-translate-x-1"
         } bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex align-items-center overflow-hidden`}
-        onMouseOver={handleMouseEnter}
-        onMouseOut={handleMouseLeave}
       >
-        <Button
-          disabled={settings.bgMusicMuted}
-          onClick={() => setIsVisible(!visible)}
-        >
+        <Button onClick={() => setIsVisible(!visible)}>
           <img
             src={visible ? chevron_right : music_note}
             alt="show/hide music player"
