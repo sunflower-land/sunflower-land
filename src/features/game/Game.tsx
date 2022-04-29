@@ -12,6 +12,7 @@ import { useInterval } from "lib/utils/hooks/useInterval";
 
 import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
+import { AnnouncementManager } from "./announcements/AnnouncementManager";
 import { ToastManager } from "./toast/ToastManager";
 import { Decorations } from "./components/Decorations";
 import { Minting } from "./components/Minting";
@@ -92,11 +93,14 @@ export const Game: React.FC = () => {
     };
   }, []);
 
+  const showGamestateModal = SHOW_MODAL[gameState.value as StateValues];
+
   return (
     <>
+      <AnnouncementManager show={!showGamestateModal} />
       <ToastManager />
 
-      <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
+      <Modal show={showGamestateModal} centered>
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
           {gameState.matches("resetting") && <Resetting />}
