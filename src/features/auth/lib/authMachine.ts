@@ -1,6 +1,7 @@
 import { isFarmBlacklisted } from "features/game/actions/visit";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { matchPath } from "react-router-dom";
 import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
@@ -13,11 +14,10 @@ import { CharityAddress } from "../components/CreateFarm";
 const INITIAL_SESSION =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 
-const getFarmUrl = () => {
-  const farmId = new URLSearchParams(window.location.search).get("farmId");
-
-  console.log({ farmId });
-  return parseInt(farmId!);
+const getFarmIdFromUrl = () => {
+  const paths = window.location.href.split("/visit/");
+  const id = paths[paths.length - 1];
+  return parseInt(id);
 };
 
 const getDiscordCode = () => {
@@ -157,7 +157,7 @@ export const authMachine = createMachine<
             // },
             {
               target: "checkFarm",
-              cond: "hasFarmIdUrl",
+              cond: "isVisitingUrl",
             },
             {
               target: "oauthorising",
@@ -527,7 +527,7 @@ export const authMachine = createMachine<
         _context: Context,
         event: any
       ): Promise<Farm | undefined> => {
-        const farmId = getFarmUrl() || (event as VisitEvent).farmId;
+        const farmId = getFarmIdFromUrl() || (event as VisitEvent).farmId;
         const farmAccount = await metamask.getFarm()?.getFarm(farmId);
 
         const isBlacklisted = await isFarmBlacklisted(farmId);
@@ -586,7 +586,7 @@ export const authMachine = createMachine<
 
         return !!context.farmId;
       },
-      hasFarmIdUrl: () => !isNaN(getFarmUrl()),
+      isVisitingUrl: () => window.location.href.includes("visit"),
       hasDiscordCode: () => !!getDiscordCode(),
     },
   }

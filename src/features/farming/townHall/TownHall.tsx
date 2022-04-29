@@ -10,7 +10,7 @@ import { Panel } from "components/ui/Panel";
 import { Contributors } from "./components/Contributors";
 
 export const TownHall: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const open = () => {
     setIsOpen(true);
@@ -38,7 +38,7 @@ export const TownHall: React.FC = () => {
 
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel>
-          <Contributors />
+          <Contributors onClose={() => setIsOpen(false)} />
         </Panel>
       </Modal>
     </div>

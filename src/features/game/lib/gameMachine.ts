@@ -156,6 +156,7 @@ export function startGame(authContext: Options) {
         loading: {
           invoke: {
             src: async (context) => {
+              console.log("Load again!");
               const { game: onChain } = await getOnChainState({
                 farmAddress: authContext.address as string,
               });

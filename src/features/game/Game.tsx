@@ -82,6 +82,7 @@ export const Game: React.FC = () => {
     };
   }, []);
 
+  console.log({ gameState: gameState.value });
   return (
     <>
       <ToastManager />

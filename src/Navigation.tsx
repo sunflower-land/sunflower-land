@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
+import { Routes, Route, HashRouter, useParams } from "react-router-dom";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import { Session } from "features/game/Session";
 import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
+import { Humans } from "features/game/Humans";
+import { Goblins } from "features/game/Goblins";
 
 /**
  * Entry point for game which reflects the user session state
@@ -16,6 +18,8 @@ export const Navigation: React.FC = () => {
   const [authState, send] = useActor(authService);
   const [showGame, setShowGame] = useState(false);
 
+  const { id } = useParams();
+  console.log({ id });
   useEffect(() => {
     // Start with crops centered
     if (showGame) {
@@ -56,11 +60,21 @@ export const Navigation: React.FC = () => {
     setTimeout(() => setShowGame(_showGame), 20);
   }, [authState, authState.value]);
 
+  console.log("INIT!");
   return (
     <>
       <Auth />
       {showGame ? (
-        <Session isBlacklisted={authState.context.isBlacklisted} />
+        <HashRouter>
+          <Routes>
+            <Route path="/" element={<Humans />} />
+            <Route path="/goblins" element={<Goblins />} />
+            <Route path="/farm/:id" element={<Humans key="farm" />} />
+            <Route path="/visit/:id" element={<Humans key="visit" />} />
+            {/* Fallback */}
+            <Route element={<Humans />} />
+          </Routes>
+        </HashRouter>
       ) : (
         <Splash />
       )}

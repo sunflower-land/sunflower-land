@@ -8,10 +8,12 @@ import { GameProvider } from "./GameProvider";
 import { ToastProvider } from "./toast/ToastQueueProvider";
 import mapMovement from "./lib/mapMovement";
 import { ExpansionInfo } from "./expansion/ExpansionInfo";
+import { useParams } from "react-router-dom";
 
 export const Humans: React.FC = () => {
   // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
+  const { id } = useParams();
 
   useEffect(() => {
     mapMovement.addListeners(container.current);
@@ -22,7 +24,7 @@ export const Humans: React.FC = () => {
 
   // Load data
   return (
-    <GameProvider>
+    <GameProvider key={id}>
       <ToastProvider>
         <ScrollContainer
           className="bg-green-background overflow-scroll relative w-full h-full"

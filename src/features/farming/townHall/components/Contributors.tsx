@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import logo from "assets/brand/logo.png";
 import bumpkin from "assets/npcs/bumpkin.png";
@@ -10,7 +11,13 @@ const AVATARS: Record<Contributor["avatar"], string> = {
   goblin,
 };
 
-export const Contributors: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+
+export const Contributors: React.FC<Props> = ({ onClose }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col items-center w-full h-96 overflow-scroll">
       <img src={logo} className="w-1/2" />
@@ -22,7 +29,7 @@ export const Contributors: React.FC = () => {
         If you like their work, visit their farm and buy them a coffee!
       </p>
       {CONTRIBUTORS.map((contributor) => (
-        <div className="flex w-full mt-8">
+        <div className="flex w-full mt-8" id={contributor.name}>
           <img src={AVATARS[contributor.avatar]} className="h-8 mr-4" />
           <div>
             <p className="text-sm">
@@ -30,7 +37,8 @@ export const Contributors: React.FC = () => {
               <span
                 className="underline cursor-pointer"
                 onClick={() => {
-                  window.location.href = `/#/?farmId=${contributor.farmId}`;
+                  navigate(`/visit/${contributor.farmId}`);
+                  onClose();
                 }}
               >
                 #{contributor.farmId}
