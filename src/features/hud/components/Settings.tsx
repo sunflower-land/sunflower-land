@@ -16,7 +16,6 @@ interface Props {
 
 export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
 
