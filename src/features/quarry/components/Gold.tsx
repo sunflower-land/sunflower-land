@@ -207,7 +207,7 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
               showLabel ? "opacity-100" : "opacity-0"
             }`}
           >
-            <Label>Equip {tool.toLowerCase()}</Label>
+            <Label className="p-2">Equip {tool.toLowerCase()}</Label>
           </div>
         </div>
       )}

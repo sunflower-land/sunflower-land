@@ -9,7 +9,7 @@ export const Label: React.FC<Props> = ({ children, className }) => {
   return (
     <div
       className={classnames(
-        "bg-silver-300 ",
+        "bg-silver-300 text-white text-shadow text-xs object-contain justify-center items-center flex",
         className
       )}
       // Custom styles to get pixellated border effect
@@ -24,9 +24,7 @@ export const Label: React.FC<Props> = ({ children, className }) => {
         borderRadius: "15px",
       }}
     >
-      <div className="flex flex-col text-white text-shadow text-xs object-contain justify-center items-center text-center p-1">
-        {children}
-      </div>
+      {children}
     </div>
   );
 };
