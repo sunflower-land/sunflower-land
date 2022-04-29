@@ -21,7 +21,7 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 
 - [ ] Title of the PR is relevant and is prefixed with [FEAT], [CHORE] or [FIX]
 - [ ] Screenshot if it includes any UI changes
-- [ ] My code follows the style guidelines of this project
+- [ ] I have read the contributing guidelines and agree to the T&Cs
 - [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the documentation
