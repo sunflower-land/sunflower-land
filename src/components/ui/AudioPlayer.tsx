@@ -23,7 +23,7 @@ export const AudioPlayer: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const musicPlayer = useRef<any>(null);
 
-  const saveSettings = (_bgMusicPaused: boolean) =>
+  const savePausedState = (_bgMusicPaused: boolean) =>
     cacheSettings({
       bgMusicPaused: _bgMusicPaused,
       sfxMuted: settings.sfxMuted,
@@ -32,10 +32,10 @@ export const AudioPlayer: React.FC = () => {
   const handlePlayState = () => {
     if (musicPlayer.current.paused) {
       musicPlayer.current.play();
-      saveSettings(false);
+      savePausedState(false);
     } else {
       musicPlayer.current.pause();
-      saveSettings(true);
+      savePausedState(true);
     }
     setPlaying(!isPlaying);
   };
@@ -52,7 +52,7 @@ export const AudioPlayer: React.FC = () => {
 
   useEffect(() => {
     if (document.getElementsByTagName("audio")[0]?.paused) {
-      setPlaying(false);
+      // setPlaying(false);
       musicPlayer.current.pause();
     }
     // do refactor this if you use OP volumeControls to + or - vol
@@ -62,11 +62,12 @@ export const AudioPlayer: React.FC = () => {
   useEffect(() => {
     // update pause state when user Toggles the master settings
     if (settings.bgMusicPaused) {
-      setPlaying(false);
       musicPlayer.current.pause();
+      setPlaying(false);
+      setIsVisible(false);
     } else if (!settings.bgMusicPaused) {
-      setPlaying(true);
       musicPlayer.current.play();
+      setPlaying(true);
     }
   }, [settings.bgMusicPaused]);
 
@@ -78,6 +79,11 @@ export const AudioPlayer: React.FC = () => {
     if (settings.bgMusicPaused) {
       musicPlayer.current.pause();
       setPlaying(false);
+    } else if (!settings.bgMusicPaused) {
+      setTimeout(() => {
+        musicPlayer.current.play();
+        setPlaying(true);
+      }, 500);
     }
 
     if (navigator.userAgent.match(/chrome|chromium|crios/i)) {
@@ -86,6 +92,8 @@ export const AudioPlayer: React.FC = () => {
       musicPlayer.current.pause();
     }
     musicPlayer.current.volume = volume.value;
+    console.log("vol", volume.value);
+    console.log("player vol", musicPlayer.current.volume);
   }, []);
 
   return (
