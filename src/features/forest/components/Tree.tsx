@@ -18,7 +18,6 @@ import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import {
   canChop,
-  ChopAction,
   CHOP_ERRORS,
   getRequiredAxeAmount,
   TREE_RECOVERY_SECONDS,
@@ -33,6 +32,7 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
+const tool = "Axe";
 
 interface Props {
   treeIndex: number;
@@ -218,7 +218,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               showLabel ? "opacity-100" : "opacity-0"
             }`}
           >
-            <Label>Equip an axe first</Label>
+            <Label className="p-2">Equip {tool.toLowerCase()}</Label>
           </div>
         </div>
       )}

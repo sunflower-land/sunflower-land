@@ -6,8 +6,6 @@ import {
   Rock,
   Tree,
 } from "../types/game";
-import { PastAction } from "./gameMachine";
-import { processEvent } from "./processEvent";
 
 /**
  * Converts API response into a game state
