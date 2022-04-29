@@ -85,7 +85,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           inventory,
         })
       ),
-    [state.inventory]
+    [inventory, selected.name, state.inventory]
   );
 
   if (showCaptcha) {

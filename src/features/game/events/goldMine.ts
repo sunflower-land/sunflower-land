@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState, Rock, InventoryItemName } from "../types/game";
+import { GameState, Rock } from "../types/game";
 
 export type GoldMineAction = {
   type: "gold.mined";

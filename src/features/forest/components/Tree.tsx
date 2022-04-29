@@ -18,7 +18,6 @@ import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import {
   canChop,
-  ChopAction,
   CHOP_ERRORS,
   getRequiredAxeAmount,
   TREE_RECOVERY_SECONDS,
