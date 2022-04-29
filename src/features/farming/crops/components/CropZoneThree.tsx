@@ -46,9 +46,9 @@ export const CropZoneThree: React.FC = () => {
             src={goblin}
             className="absolute z-10"
             style={{
-              width: `${GRID_WIDTH_PX * 5}px`,
-              left: `${GRID_WIDTH_PX * 2}px`,
-              top: `${GRID_WIDTH_PX * -3.25}px`,
+              width: `${GRID_WIDTH_PX * 1}px`,
+              left: `${GRID_WIDTH_PX * 4}px`,
+              top: `${GRID_WIDTH_PX * -1.95}px`,
             }}
           />
           <img

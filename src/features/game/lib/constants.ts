@@ -129,6 +129,8 @@ export const INITIAL_FARM: GameState = {
     Sunflower: new Decimal(5),
     Potato: new Decimal(12),
     Scarecrow: new Decimal(4),
+    "Roasted Cauliflower": new Decimal(1),
+    Sauerkraut: new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,

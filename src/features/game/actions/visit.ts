@@ -37,6 +37,10 @@ export async function isFarmBlacklisted(id: number) {
 export async function getOnChainState({
   farmAddress,
 }: GetStateArgs): Promise<{ game: GameState }> {
+  if (!CONFIG.API_URL) {
+    return { game: EMPTY };
+  }
+
   const balance = await metamask.getToken().balanceOf(farmAddress);
   const balances = await metamask.getInventory().getBalances(farmAddress);
   const inventory = balancesToInventory(balances);

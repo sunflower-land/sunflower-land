@@ -16,6 +16,7 @@ const INITIAL_SESSION =
 const getFarmUrl = () => {
   const farmId = new URLSearchParams(window.location.search).get("farmId");
 
+  console.log({ farmId });
   return parseInt(farmId!);
 };
 

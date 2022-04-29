@@ -55,9 +55,9 @@ export const CropZoneTwo: React.FC = () => {
             className="absolute z-10 hover:img-highlight cursor-pointer"
             onClick={() => setShowModal(true)}
             style={{
-              width: `${GRID_WIDTH_PX * 5}px`,
-              left: `${GRID_WIDTH_PX * 1}px`,
-              bottom: `${GRID_WIDTH_PX * 0.25}px`,
+              width: `${GRID_WIDTH_PX * 1}px`,
+              left: `${GRID_WIDTH_PX * 3}px`,
+              bottom: `${GRID_WIDTH_PX * 1.55}px`,
             }}
           />
         </>

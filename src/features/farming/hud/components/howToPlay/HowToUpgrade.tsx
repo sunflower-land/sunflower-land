@@ -8,6 +8,7 @@ import kitchen from "assets/buildings/bakery_building.png";
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import carrot from "assets/crops/carrot/plant.png";
 import { HowToModalHeader } from "./HowToModalHeader";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 interface Props {
   onClose: () => void;
@@ -31,11 +32,10 @@ export const HowToUpgrade: React.FC<Props> = ({ onClose, onBack }) => {
             <img
               src={goblin}
               style={{
-                width: "180px",
-                maxWidth: "180px",
+                width: `${GRID_WIDTH_PX}px`,
                 position: "absolute",
-                top: "-35px",
-                right: "-69px",
+                top: "0",
+                right: "0",
               }}
             />
             <img src={cursor} className="w-4 absolute right-0 bottom-0" />

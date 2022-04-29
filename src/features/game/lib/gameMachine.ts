@@ -135,7 +135,6 @@ type Options = AuthContext & { isNoob: boolean };
 
 export function startGame(authContext: Options) {
   const handleInitialState = () => {
-    console.log({ authContext });
     if (authContext.sessionId || !authContext.address) {
       return "playing";
     }
