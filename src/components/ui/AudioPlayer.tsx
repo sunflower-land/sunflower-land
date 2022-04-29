@@ -30,6 +30,7 @@ export const AudioPlayer: React.FC = () => {
     });
 
   const handlePlayState = () => {
+    console.log("isPlaying", isPlaying);
     if (musicPlayer.current.paused) {
       musicPlayer.current.play();
       savePausedState(false);
@@ -38,6 +39,7 @@ export const AudioPlayer: React.FC = () => {
       savePausedState(true);
     }
     setPlaying(!isPlaying);
+    console.log("isPlaying", isPlaying);
   };
 
   const handleNextSong = () => {
@@ -61,15 +63,16 @@ export const AudioPlayer: React.FC = () => {
 
   useEffect(() => {
     // update pause state when user Toggles the master settings
+    setPlaying(isPlaying);
     if (settings.bgMusicPaused) {
-      musicPlayer.current.pause();
       setPlaying(false);
+      musicPlayer.current.pause();
       setIsVisible(false);
     } else if (!settings.bgMusicPaused) {
-      musicPlayer.current.play();
       setPlaying(true);
+      musicPlayer.current.play();
     }
-  }, [settings.bgMusicPaused]);
+  }, [settings.bgMusicPaused, isPlaying]);
 
   useEffect(() => {
     // use the default volume which is set after initMasterVolume
@@ -81,8 +84,8 @@ export const AudioPlayer: React.FC = () => {
       setPlaying(false);
     } else if (!settings.bgMusicPaused) {
       setTimeout(() => {
-        musicPlayer.current.play();
         setPlaying(true);
+        musicPlayer.current.play();
       }, 500);
     }
 

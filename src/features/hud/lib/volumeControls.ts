@@ -84,7 +84,7 @@ export const useVolumeControls = () => {
       : console.log("Warning: Volume Already Muted!");
     postMasterAudioVolume();
   };
-  const toggleAllBgMusic = (_isMuted: boolean): void => {
+  const toggleAllBgMusic = (_isMuted: boolean) => {
     if (!_isMuted) {
       for (const ele of allAudioElements) {
         ele.volume = masterAudioVolume.value;
@@ -102,7 +102,7 @@ export const useVolumeControls = () => {
    * State to control the master SFX volume for in-game Actions
    */
   const masterSfxActVolume = useStepper({
-    initial: sfxActions[0].volume() as number,
+    initial: getSettings().sfxMuted ? 0 : (sfxActions[0].volume() as number),
     step: 0.1,
     //temp max is set to 0.8 to avoid extra loud SFX
     max: 0.8,
@@ -138,7 +138,7 @@ export const useVolumeControls = () => {
    * like houseDoor
    */
   const masterSfxModalVolume = useStepper({
-    initial: sfxModals[0].volume() as number,
+    initial: getSettings().sfxMuted ? 0 : (sfxModals[0].volume() as number),
     step: 0.1,
     //temp max is set to 0.7 to avoid extra loud SFX, the housedoor (o_O)
     max: 0.7,
@@ -151,12 +151,9 @@ export const useVolumeControls = () => {
     value: number;
   } => masterSfxModalVolume;
 
-  const toggleAllSFX = (_isMuted: boolean): void => {
-    if (!_isMuted) {
-      Howler.mute(_isMuted);
-    } else {
-      Howler.mute(true);
-    }
+  const toggleAllSFX = (_isMuted: boolean) => {
+    Howler.mute(_isMuted);
+    console.log("Howler isMuted:", _isMuted);
   };
 
   const setMasterSfxModalVolume = (): void => {
@@ -189,5 +186,5 @@ export const useVolumeControls = () => {
   };
 
   // TODO: update the return if you use OP volumeControls to + or - the vol
-  return [initMasterVolume];
+  return [initMasterVolume, toggleAllSFX];
 };
