@@ -27,6 +27,7 @@ export type PastAction = GameEvent & {
 
 export interface Context {
   state: GameState;
+  onChain: GameState;
   actions: PastAction[];
   offset: number;
   sessionId?: string;
@@ -88,7 +89,11 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
       ...events,
       [eventName]: {
         actions: assign((context: Context, event: GameEvent) => ({
-          state: processEvent(context.state as GameState, event) as GameState,
+          state: processEvent({
+            state: context.state as GameState,
+            action: event,
+            onChain: context.onChain as GameState,
+          }) as GameState,
           actions: [
             ...context.actions,
             {
@@ -144,6 +149,7 @@ export function startGame(authContext: Options) {
       context: {
         actions: [],
         state: EMPTY,
+        onChain: EMPTY,
         sessionId: authContext.sessionId,
         offset: 0,
       },
@@ -151,6 +157,10 @@ export function startGame(authContext: Options) {
         loading: {
           invoke: {
             src: async (context) => {
+              const { game: onChain } = await getOnChainState({
+                farmAddress: authContext.address as string,
+              });
+
               // Load the farm session
               if (context.sessionId) {
                 const fingerprint = await getFingerPrint();
@@ -179,18 +189,15 @@ export function startGame(authContext: Options) {
                   whitelistedAt,
                   fingerprint,
                   itemsMintedAt,
+                  onChain,
                 };
               }
 
               // Visit farm
               if (authContext.address) {
-                const { game } = await getOnChainState({
-                  farmAddress: authContext.address as string,
-                });
+                onChain.id = authContext.farmId as number;
 
-                game.id = authContext.farmId as number;
-
-                return { state: game };
+                return { state: onChain, onChain };
               }
 
               return { state: INITIAL_FARM };
@@ -200,6 +207,7 @@ export function startGame(authContext: Options) {
                 target: handleInitialState(),
                 actions: assign({
                   state: (_, event) => event.data.state,
+                  onChain: (_, event) => event.data.onChain,
                   offset: (_, event) => event.data.offset,
                   fingerprint: (_, event) => event.data.fingerprint,
                   itemsMintedAt: (_, event) => event.data.itemsMintedAt,
