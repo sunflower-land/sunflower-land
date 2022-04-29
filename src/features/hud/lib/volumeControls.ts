@@ -153,7 +153,6 @@ export const useVolumeControls = () => {
 
   const toggleAllSFX = (_isMuted: boolean) => {
     Howler.mute(_isMuted);
-    console.log("Howler isMuted:", _isMuted);
   };
 
   const setMasterSfxModalVolume = (): void => {
@@ -180,7 +179,6 @@ export const useVolumeControls = () => {
    */
   const initMasterVolume = (): void => {
     const cached = getSettings();
-    console.log("[INIT] volume settings");
     toggleAllBgMusic(cached.bgMusicPaused);
     toggleAllSFX(cached.sfxMuted);
   };

@@ -42,7 +42,6 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
       bgMusicPaused: settings.bgMusicPaused,
       sfxMuted: !settings.sfxMuted,
     });
-    console.log("handleToggle sfx:", settings.sfxMuted);
   };
 
   const onLogout = () => {
@@ -59,7 +58,6 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const saveSettings = () => {
-      console.log("saveSettings sfx:", settings.sfxMuted);
       cacheSettings(settings);
     };
     saveSettings();

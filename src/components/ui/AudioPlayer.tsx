@@ -30,7 +30,6 @@ export const AudioPlayer: React.FC = () => {
     });
 
   const handlePlayState = () => {
-    console.log("isPlaying", isPlaying);
     if (musicPlayer.current.paused) {
       musicPlayer.current.play();
       savePausedState(false);
@@ -39,7 +38,6 @@ export const AudioPlayer: React.FC = () => {
       savePausedState(true);
     }
     setPlaying(!isPlaying);
-    console.log("isPlaying", isPlaying);
   };
 
   const handleNextSong = () => {
@@ -54,7 +52,6 @@ export const AudioPlayer: React.FC = () => {
 
   useEffect(() => {
     if (document.getElementsByTagName("audio")[0]?.paused) {
-      // setPlaying(false);
       musicPlayer.current.pause();
     }
     // do refactor this if you use OP volumeControls to + or - vol
@@ -95,8 +92,6 @@ export const AudioPlayer: React.FC = () => {
       musicPlayer.current.pause();
     }
     musicPlayer.current.volume = volume.value;
-    console.log("vol", volume.value);
-    console.log("player vol", musicPlayer.current.volume);
   }, []);
 
   return (
