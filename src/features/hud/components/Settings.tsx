@@ -36,20 +36,19 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   const [resetSessionConfirmation, setResetSessionConfirmation] =
     useState(false);
 
-  const [toggleAllSFX, toggleAllBgMusic, initMasterVolume] =
-    useVolumeControls();
+  const [toggleAllSFX] = useVolumeControls();
 
   const saveSettings = () => cacheSettings(settings);
 
-  const handleToggleBgMusic = () => {
-    settings.bgMusicMuted = !settings.bgMusicMuted;
+  const handleToggleBgMusic = async () => {
+    settings.bgMusicPaused = !settings.bgMusicPaused;
     saveSettings();
   };
 
-  const handleToggleSFX = () => {
+  const handleToggleSFX = async () => {
     settings.sfxMuted = !settings.sfxMuted;
     saveSettings();
-    toggleAllSFX(settings.sfxMuted);
+    // toggleAllSFX(settings.sfxMuted);
   };
 
   const onLogout = () => {
@@ -66,7 +65,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     saveSettings();
-  }, [settings.bgMusicMuted, settings.sfxMuted]);
+  }, [settings.bgMusicPaused, settings.sfxMuted]);
 
   const Content = () => {
     return (
@@ -88,7 +87,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
                   role="switch"
                   id="bgMusicSwitch"
                   value={1}
-                  checked={!settings.bgMusicMuted}
+                  checked={!settings.bgMusicPaused}
                   onChange={(_evt) => handleToggleBgMusic()}
                 />
               </div>

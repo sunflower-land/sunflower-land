@@ -48,7 +48,7 @@ export const useVolumeControls = () => {
    * State to control the master (audio) bg music volume
    */
   const masterAudioVolume = useStepper({
-    initial: getSettings().bgMusicMuted ? 0 : DEFAULT_BG_MUSIC_VOLUME,
+    initial: getSettings().bgMusicPaused ? 0 : DEFAULT_BG_MUSIC_VOLUME,
     step: 0.1,
     max: 1.0,
     min: 0,
@@ -183,11 +183,11 @@ export const useVolumeControls = () => {
    */
   const initMasterVolume = (): void => {
     const cached = getSettings();
-    console.log("[INIT] volume states");
-    toggleAllBgMusic(cached.bgMusicMuted);
+    console.log("[INIT] volume settings");
+    toggleAllBgMusic(cached.bgMusicPaused);
     toggleAllSFX(cached.sfxMuted);
   };
 
   // TODO: update the return if you use OP volumeControls to + or - the vol
-  return [initMasterVolume, toggleAllBgMusic, toggleAllSFX];
+  return [initMasterVolume];
 };

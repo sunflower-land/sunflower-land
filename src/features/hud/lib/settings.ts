@@ -18,16 +18,16 @@ export function cacheSettings(volumeControls: MasterVolumeControls) {
 
 /**
  * Used to get cached settings from browser's localStorage.
- * TODO: Modify to return more generic settings
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function getSettings(): MasterVolumeControls {
   const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
+  // [TODO]: Modify to return more generic settings
 
   if (!cached) {
     return {
-      bgMusicMuted: false,
-      sfxMuted: true,
+      bgMusicPaused: false,
+      sfxMuted: false,
     };
   }
 

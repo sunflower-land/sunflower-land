@@ -1,5 +1,5 @@
 // TODO: add more types for settings
 export type MasterVolumeControls = {
-  bgMusicMuted: boolean;
+  bgMusicPaused: boolean;
   sfxMuted: boolean;
 };
