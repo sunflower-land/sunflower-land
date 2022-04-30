@@ -54,7 +54,7 @@ export const Navigation: React.FC = () => {
     // This is to prevent a modal clash when the authmachine switches
     // to the game machine.
     setTimeout(() => setShowGame(_showGame), 20);
-  }, [authState.value]);
+  }, [authState, authState.value]);
 
   return (
     <>

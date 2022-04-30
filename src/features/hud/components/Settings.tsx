@@ -8,10 +8,8 @@ import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
-import { reset } from "../actions/reset";
 
-import { MasterVolumeControls, SfxMutedControl } from "../types/settings";
+import { SfxMutedControl } from "../types/settings";
 import { useVolumeControls } from "features/hud/lib/volumeControls";
 import { cacheSettings, getSettings } from "features/hud/lib/settings";
 
@@ -31,8 +29,6 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  // {Todo: Modify gameState and authMachine for Logout event}
 
   const [resetSessionConfirmation, setResetSessionConfirmation] =
     useState(false);
@@ -45,7 +41,8 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const onLogout = () => {
     onClose();
-    authService.send("ACCOUNT_CHANGED"); // hack used to avoid redundancy
+    authService.send("LOGOUT"); // hack used to avoid redundancy
+    // {Todo: Modify gameState and authMachine for Logout event}
   };
 
   const onResetSession = () => setResetSessionConfirmation(true);
@@ -55,12 +52,17 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
     gameService.send("RESET");
   };
 
+  const startAirdrop = () => {
+    authService.send("AIRDROP");
+  };
+
   useEffect(() => {
     const saveSettings = () => {
       cacheSettings(sfxMuted);
     };
     saveSettings();
     toggleAllSFX(sfxMuted.isSfxMuted);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sfxMuted.isSfxMuted]);
 
   useEffect(() => {
@@ -99,6 +101,9 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
             </Button>
             <Button className="col p-1 mt-2" onClick={onResetSession}>
               Reset Session
+            </Button>
+            <Button className="col p-1 mt-2" onClick={startAirdrop}>
+              Airdrop V1 Farm
             </Button>
           </div>
         </div>

@@ -82,7 +82,7 @@ export const SKILL_TREE: Record<
     requires: "Lumberjack",
     conflicts: "Gold Rush",
     profession: "gathering",
-    perks: ["Axes can be used on 2 trees"],
+    perks: ["Axes last 25% longer"],
   },
   "Gold Rush": {
     level: 10,

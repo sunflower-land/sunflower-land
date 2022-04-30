@@ -3,8 +3,6 @@ import { isSeed } from "features/game/events/plant";
 import { FOODS } from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/crops";
 import {
-  EasterEgg,
-  EASTER_EGGS,
   GameState,
   Inventory,
   InventoryItemName,
@@ -30,10 +28,6 @@ function hasSeeds(inventory: Inventory) {
 export function canWithdraw({ item, game }: CanWithdrawArgs) {
   // Coming soon
   if (isSeed(item)) {
-    return false;
-  }
-
-  if (EASTER_EGGS.includes(item as EasterEgg)) {
     return false;
   }
 

@@ -52,17 +52,11 @@ function serialize(events: PastAction[], offset: number) {
   }));
 }
 
-export async function autosave(request: Request) {
-  if (!API_URL) return { verified: true };
-
-  // Shorten the payload
-  const events = squashEvents(request.actions);
-
-  // Serialize values before sending
-  const actions = serialize(events, request.offset);
-
+export async function autosaveRequest(
+  request: Omit<Request, "actions" | "offset"> & { actions: any[] }
+) {
   const ttl = (window as any)["x-amz-ttl"];
-  const response = await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
+  return await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
     method: "POST",
     headers: {
       ...{
@@ -74,9 +68,24 @@ export async function autosave(request: Request) {
     },
     body: JSON.stringify({
       sessionId: request.sessionId,
-      actions,
+      actions: request.actions,
       clientVersion: CONFIG.CLIENT_VERSION as string,
     }),
+  });
+}
+
+export async function autosave(request: Request) {
+  if (!API_URL) return { verified: true };
+
+  // Shorten the payload
+  const events = squashEvents(request.actions);
+
+  // Serialize values before sending
+  const actions = serialize(events, request.offset);
+
+  const response = await autosaveRequest({
+    ...request,
+    actions,
   });
 
   if (response.status === 401) {

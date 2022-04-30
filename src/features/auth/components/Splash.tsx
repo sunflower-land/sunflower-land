@@ -5,6 +5,12 @@ import clouds from "assets/brand/clouds.png";
 import sunflowers from "assets/brand/sunflower_border.png";
 import pumpkin from "assets/crops/pumpkin/crop.png";
 
+import { InnerPanel } from "components/ui/Panel";
+
+import { CONFIG } from "lib/config";
+
+const releaseVersion = CONFIG.RELEASE_VERSION as string;
+
 export const Splash: React.FC = () => {
   return (
     <div className="bg-blue-600 w-full h-full flex relative items-center justify-center">
@@ -39,6 +45,25 @@ export const Splash: React.FC = () => {
         style={{ backgroundImage: `url(${clouds})` }}
       />
       <img src={sunflowers} className="absolute w-full bottom-0" />
+
+      {/* z-index must be 1056 or higher to break out of bootstrap modal */}
+      <div
+        className="absolute bottom-0 right-0 m-1 pointer-events-auto"
+        style={{ zIndex: 1100 }}
+      >
+        <InnerPanel>
+          <p className="text-xs sm:text-sm text-shadow text-white p-1">
+            <a
+              className="underline"
+              href="https://github.com/sunflower-land/sunflower-land/releases"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {releaseVersion?.split("-")[0]}
+            </a>
+          </p>
+        </InnerPanel>
+      </div>
     </div>
   );
 };

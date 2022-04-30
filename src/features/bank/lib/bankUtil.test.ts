@@ -44,6 +44,35 @@ describe("canWithdraw", () => {
     expect(enabled).toBeFalsy();
   });
 
+  it("enables a user to withdraw an easter bunny when not in use", () => {
+    const enabled = canWithdraw({
+      item: "Easter Bunny",
+      game: {
+        ...INITIAL_FARM,
+        fields: {},
+      },
+    });
+
+    expect(enabled).toBeTruthy();
+  });
+
+  it("prevents a user withdrawing an easter bunny when in use", () => {
+    const enabled = canWithdraw({
+      item: "Easter Bunny",
+      game: {
+        ...INITIAL_FARM,
+        fields: {
+          0: {
+            name: "Carrot",
+            plantedAt: Date.now(),
+          },
+        },
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
   it("enables a user to withdraw a golden cauliflower when not in use", () => {
     const enabled = canWithdraw({
       item: "Golden Cauliflower",
@@ -102,7 +131,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeFalsy();
   });
 
-  it("enables a user to withdraw a scarecrow when not in use", () => {
+  it("enables a user to withdraw a T1 scarecrow when not in use", () => {
     const enabled = canWithdraw({
       item: "Nancy",
       game: {
@@ -114,7 +143,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user to withdraw a scarecrow when in use", () => {
+  it("prevents a user to withdraw a T1 scarecrow while they have crops", () => {
     const enabled = canWithdraw({
       item: "Nancy",
       game: INITIAL_FARM,
@@ -123,7 +152,49 @@ describe("canWithdraw", () => {
     expect(enabled).toBeFalsy();
   });
 
-  it("enables a user to withdraw a beaver when not in use", () => {
+  it("enables a user to withdraw a T2 scarecrow when not in use", () => {
+    const enabled = canWithdraw({
+      item: "Scarecrow",
+      game: {
+        ...INITIAL_FARM,
+        fields: {},
+      },
+    });
+
+    expect(enabled).toBeTruthy();
+  });
+
+  it("prevents a user to withdraw a T2 scarecrow while they have crops", () => {
+    const enabled = canWithdraw({
+      item: "Scarecrow",
+      game: INITIAL_FARM,
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
+  it("enables a user to withdraw a T3 scarecrow when not in use", () => {
+    const enabled = canWithdraw({
+      item: "Kuebiko",
+      game: {
+        ...INITIAL_FARM,
+        fields: {},
+      },
+    });
+
+    expect(enabled).toBeTruthy();
+  });
+
+  it("prevents a user to withdraw a T3 scarecrow while they have crops", () => {
+    const enabled = canWithdraw({
+      item: "Kuebiko",
+      game: INITIAL_FARM,
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
+  it("enables a user to withdraw a T1 beaver when not in use", () => {
     const enabled = canWithdraw({
       item: "Woody the Beaver",
       game: {
@@ -141,9 +212,81 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevent a user to withdraw a beaver when in use", () => {
+  it("prevent a user to withdraw a T1 beaver while trees are replenishing", () => {
     const enabled = canWithdraw({
       item: "Woody the Beaver",
+      game: {
+        ...INITIAL_FARM,
+        trees: {
+          0: {
+            // Just been chopped
+            choppedAt: Date.now(),
+            wood: new Decimal(3),
+          },
+        },
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
+  it("enables a user to withdraw a T2 beaver when not in use", () => {
+    const enabled = canWithdraw({
+      item: "Apprentice Beaver",
+      game: {
+        ...INITIAL_FARM,
+        trees: {
+          0: {
+            // ready to be chopped
+            choppedAt: 0,
+            wood: new Decimal(3),
+          },
+        },
+      },
+    });
+
+    expect(enabled).toBeTruthy();
+  });
+
+  it("prevent a user to withdraw a T2 beaver while trees are replenishing", () => {
+    const enabled = canWithdraw({
+      item: "Apprentice Beaver",
+      game: {
+        ...INITIAL_FARM,
+        trees: {
+          0: {
+            // Just been chopped
+            choppedAt: Date.now(),
+            wood: new Decimal(3),
+          },
+        },
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
+  it("enables a user to withdraw a T3 beaver when not in use", () => {
+    const enabled = canWithdraw({
+      item: "Foreman Beaver",
+      game: {
+        ...INITIAL_FARM,
+        trees: {
+          0: {
+            // ready to be chopped
+            choppedAt: 0,
+            wood: new Decimal(3),
+          },
+        },
+      },
+    });
+
+    expect(enabled).toBeTruthy();
+  });
+
+  it("prevent a user to withdraw a T3 beaver while trees are replenishing", () => {
+    const enabled = canWithdraw({
+      item: "Foreman Beaver",
       game: {
         ...INITIAL_FARM,
         trees: {
@@ -174,7 +317,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeFalsy();
   });
 
-  it("enable a user to withdraw kuebiko while they dont have seeds", () => {
+  it("enable a user to withdraw kuebiko while they dont have seeds or crops", () => {
     const enabled = canWithdraw({
       item: "Kuebiko",
       game: {

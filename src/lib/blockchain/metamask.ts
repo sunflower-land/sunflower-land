@@ -11,6 +11,7 @@ import { Token } from "./Token";
 import { toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
+import { SunflowerFarmers } from "./SunflowerFarmers";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -19,6 +20,7 @@ export class Metamask {
   private web3: Web3 | null = null;
 
   private farm: Farm | null = null;
+  private sunflowerFarmers: SunflowerFarmers | null = null;
   private session: SessionManager | null = null;
   private beta: Beta | null = null;
   private inventory: Inventory | null = null;
@@ -36,6 +38,10 @@ export class Metamask {
       // );
 
       this.farm = new Farm(this.web3 as Web3, this.account as string);
+      this.sunflowerFarmers = new SunflowerFarmers(
+        this.web3 as Web3,
+        this.account as string
+      );
       this.session = new SessionManager(
         this.web3 as Web3,
         this.account as string
@@ -96,13 +102,17 @@ export class Metamask {
     return isHealthy;
   }
 
-  private async loadAccount() {
+  public async getAccount() {
     if (!this.web3) {
       throw new Error(ERRORS.NO_WEB3);
     }
 
     const maticAccounts = await this.web3.eth.getAccounts();
-    this.account = maticAccounts[0];
+    return maticAccounts[0];
+  }
+
+  private async loadAccount() {
+    this.account = await this.getAccount();
   }
 
   public async initialise(retryCount = 0): Promise<void> {
@@ -136,20 +146,20 @@ export class Metamask {
     }
   }
 
-  public async signTransaction(nonce: number) {
+  public async signTransaction(nonce: number, account = this.account) {
     if (!this.web3) {
       throw new Error(ERRORS.NO_WEB3);
     }
 
     const message = this.generateSignatureMessage({
-      address: this.account as string,
+      address: account as string,
       nonce,
     });
 
     try {
       const signature = await this.web3.eth.personal.sign(
         message,
-        this.account as string,
+        account as string,
         // Empty password, handled by Metamask
         ""
       );
@@ -265,6 +275,10 @@ export class Metamask {
 
   public getFarm() {
     return this.farm as Farm;
+  }
+
+  public getSunflowerFarmers() {
+    return this.sunflowerFarmers as SunflowerFarmers;
   }
 
   public getInventory() {

@@ -91,6 +91,7 @@ export const AudioPlayer: React.FC = () => {
     }
 
     musicPlayer.current.volume = volume.value;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

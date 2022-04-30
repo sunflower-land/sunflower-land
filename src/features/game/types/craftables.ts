@@ -410,7 +410,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
     ],
     supply: 5000,
     section: Section.Beaver,
-    disabled: true,
+    disabled: false,
   },
   "Foreman Beaver": {
     name: "Foreman Beaver",
@@ -426,7 +426,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
         item: "Apprentice Beaver",
       },
     ],
-    supply: 300,
+    supply: 308,
     section: Section.Beaver,
     disabled: true,
   },
@@ -445,6 +445,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
       },
     ],
     supply: 100000,
+    disabled: true,
   },
 };
 
@@ -486,7 +487,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
     ],
     limit: 1,
     supply: 5000,
-    disabled: true,
+    disabled: false,
     section: Section.Scarecrow,
   },
   Kuebiko: {
@@ -504,7 +505,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(1),
       },
     ],
-    supply: 200,
+    supply: 209,
     disabled: true,
     section: Section.Scarecrow,
   },
@@ -522,7 +523,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(100),
       },
     ],
-    supply: 100,
+    supply: 113,
     disabled: true,
   },
   "Mysterious Parsnip": {
@@ -539,7 +540,7 @@ export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
         amount: new Decimal(50),
       },
     ],
-    supply: 500,
+    supply: 512,
     disabled: true,
   },
   "Carrot Sword": {

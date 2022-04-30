@@ -29,7 +29,6 @@ export const Session: React.FC = () => {
           innerRef={container}
         >
           <div
-            id="gameboard"
             className="relative h-gameboard w-gameboard"
             // TODO dynamic game board size based on tile dimensions
           >

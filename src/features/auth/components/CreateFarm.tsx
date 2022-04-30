@@ -11,7 +11,6 @@ import downArrow from "assets/icons/arrow_down.png";
 import question from "assets/icons/expression_confused.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
-import { Auth } from "../Auth";
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
 import { Blocked } from "./Blocked";
@@ -111,7 +110,7 @@ export const CreateFarm: React.FC = () => {
   const [charity, setCharity] = useState<string>();
   const [activeIdx, setActiveIndex] = useState(0);
   const { authService } = useContext(Context);
-  const [authState, send] = useActor(authService);
+  const [authState] = useActor(authService);
   const [showCaptcha, setShowCaptcha] = useState(false);
 
   const onCaptchaSolved = async (token: string | null) => {

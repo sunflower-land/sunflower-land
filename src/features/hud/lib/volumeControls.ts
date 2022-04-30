@@ -8,7 +8,7 @@ import {
   MasterVolumeControls,
   SfxMutedControl,
 } from ".././types/settings";
-import { cacheSettings, getAllSettings, getSettings } from "./settings";
+import { getAllSettings, getSettings } from "./settings";
 
 /**
  * Hook for OP volume controls.
