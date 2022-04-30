@@ -51,6 +51,7 @@ function getNextHalvening(currentSupply: Decimal) {
  * - always change id to reflect unread
  * TODO:
  * - offchain SFL supply api
+ * - announcements api
  */
 export async function getInbox() {
   const sflBalance = await getSFLSupply();
@@ -70,6 +71,18 @@ export async function getInbox() {
         &nbsp;   
         **Note: this value is read from the Blockchain. Other farmers may not have synced yet.**
       `,
+    },
+    {
+      id: "2022-04-30",
+      title: "May 2022 Dates",
+      body: `Check out Discord for NFT release dates  
+        &nbsp;  
+        May 04 - End of V1 Migration  
+        May 09 - SFL Token Launch  
+        May 16 - 50,000 **new** farm spots🔴  
+        May 30 - Rarible🔴  
+        &nbsp;  
+        🔴 - tentative`,
     },
     {
       id: "2022-03-25",
