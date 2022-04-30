@@ -1,4 +1,4 @@
-import { Announcement, SetAnnouncements } from "../AnnouncementQueueProvider";
+import { Announcement } from "../AnnouncementQueueProvider";
 import { CONFIG } from "lib/config";
 
 const ANNOUNCEMENTS_KEY = "announcements.lastRead";
