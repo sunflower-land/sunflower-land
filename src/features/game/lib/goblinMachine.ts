@@ -3,7 +3,6 @@ import { createMachine, Interpreter, assign } from "xstate";
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 
 import { Inventory } from "../types/game";
-import { EMPTY } from "./constants";
 import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
 import { withdraw } from "../actions/withdraw";
@@ -21,6 +20,7 @@ export interface Context {
   state: GoblinState;
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
+  farmAddress?: string;
 }
 
 type MintEvent = {

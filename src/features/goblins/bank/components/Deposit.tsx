@@ -5,6 +5,7 @@ import { Context } from "features/game/GoblinProvider";
 import { CopySvg } from "components/ui/CopyField";
 import { OuterPanel } from "components/ui/Panel";
 import { shortAddress } from "features/farming/hud/components/Address";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import farm from "assets/brand/nft.png";
 import alert from "assets/icons/expression_alerted.png";
@@ -130,14 +131,15 @@ enum Instructions {
 }
 
 export const Deposit: React.FC = () => {
-  const { goblinService } = useContext(Context);
-  const [gameState] = useActor(goblinService);
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
+
   const [showFullAddress, setShowFullAddress] = useState(false);
   const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
   const [showLabel, setShowLabel] = useState(false);
   const [instructions, setInstructions] = useState<Instructions | null>(null);
 
-  const farmAddress = gameState.context.state?.farmAddress as string;
+  const farmAddress = authState.context.address as string;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(farmAddress);
