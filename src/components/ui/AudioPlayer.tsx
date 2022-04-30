@@ -13,21 +13,25 @@ import { Panel } from "components/ui/Panel";
 import { getSong, getSongCount } from "assets/songs/playlist";
 import { useStepper } from "lib/utils/hooks/useStepper";
 import { cacheSettings, getSettings } from "features/hud/lib/settings";
+import { BgMusicPausedControl } from "features/hud/types/settings";
 
 export const AudioPlayer: React.FC = () => {
-  const settings = getSettings();
+  const bgMusicPaused: BgMusicPausedControl = getSettings(
+    "BgMusicPausedControl"
+  ) as unknown as BgMusicPausedControl;
   const volume = useStepper({ initial: 0.6, step: 0.1, max: 1, min: 0 });
   const [visible, setIsVisible] = useState<boolean>(false);
-  const [isPlaying, setPlaying] = useState<boolean>(true);
+  const [isPlaying, setPlaying] = useState<boolean>(
+    bgMusicPaused.isBgMusicPaused
+  );
   const [songIndex, setSongIndex] = useState<number>(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const musicPlayer = useRef<any>(null);
 
   const savePausedState = (_bgMusicPaused: boolean) =>
     cacheSettings({
-      bgMusicPaused: _bgMusicPaused,
-      sfxMuted: settings.sfxMuted,
-    });
+      isBgMusicPaused: _bgMusicPaused,
+    } as BgMusicPausedControl);
 
   const handlePlayState = () => {
     if (musicPlayer.current.paused) {
@@ -37,7 +41,7 @@ export const AudioPlayer: React.FC = () => {
       musicPlayer.current.pause();
       savePausedState(true);
     }
-    setPlaying(!isPlaying);
+    setPlaying((prevState) => !prevState);
   };
 
   const handleNextSong = () => {
@@ -51,46 +55,41 @@ export const AudioPlayer: React.FC = () => {
   const song = getSong(songIndex);
 
   useEffect(() => {
-    if (document.getElementsByTagName("audio")[0]?.paused) {
-      musicPlayer.current.pause();
-    }
-    // do refactor this if you use OP volumeControls to + or - vol
+    // refactor this if you use OP volumeControls to + or - vol
     musicPlayer.current.volume = volume.value;
   }, [volume.value]);
 
   useEffect(() => {
-    // update pause state when user Toggles the master settings
-    setPlaying(isPlaying);
-    if (settings.bgMusicPaused) {
+    // update pause state when user Toggles the master bgMusicPaused
+    if (bgMusicPaused.isBgMusicPaused) {
       setPlaying(false);
       musicPlayer.current.pause();
       setIsVisible(false);
-    } else if (!settings.bgMusicPaused) {
+    } else if (!bgMusicPaused.isBgMusicPaused) {
       setPlaying(true);
       musicPlayer.current.play();
     }
-  }, [settings.bgMusicPaused, isPlaying]);
+  }, [bgMusicPaused.isBgMusicPaused]);
 
   useEffect(() => {
-    // use the default volume which is set after initMasterVolume
-    if (document.getElementsByTagName("audio")[0]) {
-      volume.value = document.getElementsByTagName("audio")[0].volume;
+    savePausedState(bgMusicPaused.isBgMusicPaused);
+    if (navigator.userAgent.match(/chrome|chromium|crios/i)) {
+      // by the default Chrome policy doesn't allow autoplay
+      setPlaying(false);
+      musicPlayer.current.pause();
     }
-    if (settings.bgMusicPaused) {
+
+    if (bgMusicPaused.isBgMusicPaused) {
       musicPlayer.current.pause();
       setPlaying(false);
-    } else if (!settings.bgMusicPaused) {
+    } else if (!bgMusicPaused.isBgMusicPaused) {
+      // as we've consent to autoplay start music as soon as user logs into the game
       setTimeout(() => {
         setPlaying(true);
         musicPlayer.current.play();
       }, 500);
     }
 
-    if (navigator.userAgent.match(/chrome|chromium|crios/i)) {
-      // by the default Chrome policy doesn't allow autoplay
-      setPlaying(false);
-      musicPlayer.current.pause();
-    }
     musicPlayer.current.volume = volume.value;
   }, []);
 

@@ -11,7 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { reset } from "../actions/reset";
 
-import { MasterVolumeControls } from "../types/settings";
+import { MasterVolumeControls, SfxMutedControl } from "../types/settings";
 import { useVolumeControls } from "features/hud/lib/volumeControls";
 import { cacheSettings, getSettings } from "features/hud/lib/settings";
 
@@ -24,7 +24,9 @@ interface Props {
 }
 
 export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
-  const [settings, setSettings] = useState<MasterVolumeControls>(getSettings());
+  const [sfxMuted, setSfxMuted] = useState<SfxMutedControl>(
+    getSettings("SfxMutedControl") as SfxMutedControl
+  );
   // {TODO: Add More Settings and refactor for Generic props}
 
   const { authService } = useContext(Auth.Context);
@@ -38,10 +40,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   const [toggleAllSFX] = useVolumeControls();
 
   const handleToggleSFX = () => {
-    setSettings({
-      bgMusicPaused: settings.bgMusicPaused,
-      sfxMuted: !settings.sfxMuted,
-    });
+    setSfxMuted((prevState) => ({ isSfxMuted: !prevState.isSfxMuted }));
   };
 
   const onLogout = () => {
@@ -58,11 +57,15 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const saveSettings = () => {
-      cacheSettings(settings);
+      cacheSettings(sfxMuted);
     };
     saveSettings();
-    toggleAllSFX(settings.sfxMuted);
-  }, [settings.bgMusicPaused, settings.sfxMuted]);
+    toggleAllSFX(sfxMuted.isSfxMuted);
+  }, [sfxMuted.isSfxMuted]);
+
+  useEffect(() => {
+    setSfxMuted(getSettings("SfxMutedControl") as SfxMutedControl);
+  }, []);
 
   const Content = () => {
     return (
@@ -83,7 +86,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
                   type="checkbox"
                   role="switch"
                   id="sfxSwitch"
-                  checked={!settings.sfxMuted}
+                  checked={!sfxMuted.isSfxMuted}
                   value={1}
                   onChange={(_evt) => handleToggleSFX()}
                 />

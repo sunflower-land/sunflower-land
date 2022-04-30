@@ -2,7 +2,13 @@
 import { useStepper } from "lib/utils/hooks/useStepper";
 import { Howler } from "howler";
 import * as sfx from "lib/utils/sfx";
-import { getSettings } from "./settings";
+
+import {
+  BgMusicPausedControl,
+  MasterVolumeControls,
+  SfxMutedControl,
+} from ".././types/settings";
+import { cacheSettings, getAllSettings, getSettings } from "./settings";
 
 /**
  * Hook for OP volume controls.
@@ -48,7 +54,11 @@ export const useVolumeControls = () => {
    * State to control the master (audio) bg music volume
    */
   const masterAudioVolume = useStepper({
-    initial: getSettings().bgMusicPaused ? 0 : DEFAULT_BG_MUSIC_VOLUME,
+    initial: (
+      getSettings("BgMusicPausedControl") as unknown as BgMusicPausedControl
+    ).isBgMusicPaused
+      ? 0
+      : DEFAULT_BG_MUSIC_VOLUME,
     step: 0.1,
     max: 1.0,
     min: 0,
@@ -102,7 +112,10 @@ export const useVolumeControls = () => {
    * State to control the master SFX volume for in-game Actions
    */
   const masterSfxActVolume = useStepper({
-    initial: getSettings().sfxMuted ? 0 : (sfxActions[0].volume() as number),
+    initial: (getSettings("SfxMutedControl") as unknown as SfxMutedControl)
+      .isSfxMuted
+      ? 0
+      : (sfxActions[0].volume() as number),
     step: 0.1,
     //temp max is set to 0.8 to avoid extra loud SFX
     max: 0.8,
@@ -138,7 +151,10 @@ export const useVolumeControls = () => {
    * like houseDoor
    */
   const masterSfxModalVolume = useStepper({
-    initial: getSettings().sfxMuted ? 0 : (sfxModals[0].volume() as number),
+    initial: (getSettings("SfxMutedControl") as unknown as SfxMutedControl)
+      .isSfxMuted
+      ? 0
+      : (sfxModals[0].volume() as number),
     step: 0.1,
     //temp max is set to 0.7 to avoid extra loud SFX, the housedoor (o_O)
     max: 0.7,
@@ -151,6 +167,10 @@ export const useVolumeControls = () => {
     value: number;
   } => masterSfxModalVolume;
 
+  /**
+   * Toggle All SFX, Uses Howler
+   * NOTE: localStorage is also UPDATED, no need to update it manually again
+   */
   const toggleAllSFX = (_isMuted: boolean) => {
     Howler.mute(_isMuted);
   };
@@ -175,12 +195,12 @@ export const useVolumeControls = () => {
 
   /**
    * Init the master volume states from cached settings.
-   * TODO: refactor if other OP vol controls are used (o O)
+   * TODO: refactor if other OP vol controls are used (o_O)
    */
   const initMasterVolume = (): void => {
-    const cached = getSettings();
-    toggleAllBgMusic(cached.bgMusicPaused);
-    toggleAllSFX(cached.sfxMuted);
+    const cached = getAllSettings() as unknown as MasterVolumeControls;
+    // toggleAllBgMusic(cached.isBgMusicPaused); // currently it's toggled directly from audioPlayer only
+    toggleAllSFX(cached.isSfxMuted);
   };
 
   // TODO: update the return if you use OP volumeControls to + or - the vol
