@@ -6,11 +6,13 @@ const song_list = [
     artist: "Romy & Rick",
     name: "Harvesting",
     path: harvesting,
+    type: "audio/mp3",
   },
   {
     artist: "Romy",
     name: "Willow Tree",
     path: willow_tree,
+    type: "audio/mp3",
   },
 ];
 
