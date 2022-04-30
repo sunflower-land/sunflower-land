@@ -59,7 +59,7 @@ export const Splash: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {releaseVersion.split("-")[0]}
+              {releaseVersion?.split("-")[0]}
             </a>
           </p>
         </InnerPanel>
