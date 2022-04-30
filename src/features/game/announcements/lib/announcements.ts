@@ -4,6 +4,7 @@ import { CONFIG } from "lib/config";
 const ANNOUNCEMENTS_KEY = "announcements.lastRead";
 const CURRENT_VERSION_KEY = "currentVersion";
 
+// TODO - this function will be used when announcement source is programmed-in (see below)
 function getReadAnnouncementsTime() {
   const item = localStorage.getItem(ANNOUNCEMENTS_KEY);
 
@@ -27,14 +28,12 @@ function setLastSeenVersion(version: string) {
   localStorage.setItem(CURRENT_VERSION_KEY, version);
 }
 
-export async function fetchAnnouncements(
-  setAnnouncements: SetAnnouncements,
-  explicitlyRequest = false
-) {
+export async function fetchAnnouncements(explicitlyRequest = false) {
   const announcementsToShow: Announcement[] = [];
   const lastVersionSeen = getLastVersionSeen();
 
-  // Only query github if the current loaded gameVersion doesn't match the version last seen
+  // Only query github if the current loaded gameVersion doesn't match the version last seen in localStorage
+  // Always query github when player explicitly requests it (i.e. "News" button)
   if (explicitlyRequest || CONFIG.RELEASE_VERSION !== lastVersionSeen) {
     // Pull latest release notes via github
     const res = await window.fetch(
@@ -53,14 +52,14 @@ export async function fetchAnnouncements(
     setLastSeenVersion(CONFIG.RELEASE_VERSION);
   }
 
-  // TODO - SFL team can uncomment this code and add additional logic here to pull announcements from their source
+  // TODO - SFL team should uncomment this code and add additional logic here to pull announcements from their source.
 
   /*
-  // 1. Query when the announcements were last read
+  // 1. Query when the announcements were last read from localStorage
   const lastReadDate = getReadAnnouncementsTime();
 
-  // 2. Fetch list of current announcements
-  const res = await window.fetch("https://URL-TO-ANNOUCENMENTS.com");
+  // 2. Fetch list of current announcements (Discord?) (Limit to last ~10 announcements?)
+  const res = await window.fetch("https://SOME-URL-TO-ANNOUCENMENTS.com");
   const jsonRes = await res.json();
   const announcements = jsonRes.announcements.sort((a, b) => {
     // Sort by announcement publish date here, descending
@@ -77,36 +76,11 @@ export async function fetchAnnouncements(
       new Date(latestAnnouncement.published_at).getTime() >
         lastReadDate.getTime()
     ) {
-      announcementsToShow.push(...announcements); // Map to "Announcement" obj with type of "general" if needed.
+      announcementsToShow.push(...announcements); // Map as "Announcement" with a 'type' prop of "general".
       setReadAnnouncementsTime();
     }
   }
   */
-
-  // TODO - Remove before push
-  announcementsToShow.push(
-    {
-      type: "general",
-      title: "TEST TITLE",
-      content: "fdsaf dasf adsf dsa ",
-      datetimePosted: new Date(),
-    },
-    {
-      type: "general",
-      title: "TEST TITLE",
-      content:
-        "## This is a good title\r\n\r\n* You should NEVER do anything bad\r\n* If you do something bad, it's on you",
-      datetimePosted: new Date(),
-    },
-    {
-      type: "whats-new",
-      title: "WHATS NEW TITLE",
-      content: "fdsaf dasf adsf dsa ",
-      datetimePosted: new Date(),
-    }
-  );
-
-  setAnnouncements(announcementsToShow);
 
   return announcementsToShow;
 }

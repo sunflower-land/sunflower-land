@@ -8,6 +8,7 @@ import { OuterPanel, Panel } from "components/ui/Panel";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
+import { AnnouncementContext } from "features/game/announcements/AnnouncementQueueProvider";
 
 import { Modal } from "react-bootstrap";
 import { Share } from "./Share";
@@ -41,6 +42,8 @@ enum MENU_LEVELS {
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
+  const { setShowAnnouncements } = useContext(AnnouncementContext);
+
   const [authState] = useActor(authService);
   const [gameState] = useActor(gameService);
 
@@ -62,6 +65,11 @@ export const Menu = () => {
 
   const handleNavigationClick = (section: Section) => {
     scrollIntoView(section);
+    setMenuOpen(false);
+  };
+
+  const handleNewsClick = () => {
+    setShowAnnouncements(true);
     setMenuOpen(false);
   };
 
@@ -188,6 +196,14 @@ export const Menu = () => {
                     </Button>
                   </li>
                 )}
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={handleNewsClick}
+                  >
+                    <span className="sm:text-sm flex-1">News</span>
+                  </Button>
+                </li>
                 <li className="p-1 flex">
                   <Button onClick={handleHowToPlay}>
                     <span className="sm:text-sm flex-1">How to play</span>
