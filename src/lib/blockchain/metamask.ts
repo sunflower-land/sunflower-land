@@ -256,13 +256,16 @@ export class Metamask {
     }
   }
 
-  public async donateToTheTeam(donation: number) {
+  public async donate(
+    donation: number,
+    to = CONFIG.DONATION_ADDRESS as string
+  ) {
     const gasPrice = await estimateGasPrice(this.web3 as Web3);
 
     try {
       await this.web3?.eth.sendTransaction({
         from: metamask.myAccount as string,
-        to: CONFIG.DONATION_ADDRESS as string,
+        to,
         value: toHex(toWei(donation.toString(), "ether")),
         gasPrice,
       });

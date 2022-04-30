@@ -19,7 +19,6 @@ export const Navigation: React.FC = () => {
   const [showGame, setShowGame] = useState(false);
 
   const { id } = useParams();
-  console.log({ id });
   useEffect(() => {
     // Start with crops centered
     if (showGame) {
@@ -60,7 +59,6 @@ export const Navigation: React.FC = () => {
     setTimeout(() => setShowGame(_showGame), 20);
   }, [authState, authState.value]);
 
-  console.log("INIT!");
   return (
     <>
       <Auth />

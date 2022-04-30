@@ -18,10 +18,12 @@ import humanDeath from "assets/npcs/human_death.gif";
 import { ERRORS } from "lib/errors";
 import { beggarAudio } from "lib/utils/sfx";
 import { Context } from "features/game/GameProvider";
+import { shortAddress } from "../hud/components/Address";
 
 type DonateEvent = {
   type: "DONATE";
   donation: number;
+  to?: string;
 };
 
 type Event = DonateEvent | { type: "BEGGER_CLICK" } | { type: "CLOSE" };
@@ -61,9 +63,9 @@ const teamDonationMachine = createMachine<Context, Event, State>({
     donating: {
       invoke: {
         src: async (_context: Context, event: any): Promise<void> => {
-          const { donation } = event as DonateEvent;
+          const { donation, to } = event as DonateEvent;
 
-          await metamask.donateToTheTeam(donation);
+          await metamask.donate(donation, to);
         },
         onDone: {
           target: "donated",
@@ -127,6 +129,15 @@ export const TeamDonation: React.FC = () => {
     send("BEGGER_CLICK");
     beggarAudio.play();
   };
+
+  const donate = () => {
+    if (gameState.matches("readonly")) {
+      send("DONATE", { donation, to: gameState.context.owner });
+    } else {
+      send("DONATE", { donation });
+    }
+  };
+
   return (
     <div
       className="z-5 absolute align-items-center w-[72px]"
@@ -175,12 +186,12 @@ export const TeamDonation: React.FC = () => {
             <div className="flex flex-col items-center mb-1">
               {gameState.matches("readonly") ? (
                 <div className="flex flex-col text-shadow items-center">
-                  <h2 className="text-sm sm:text-base mb-2 text-center pb-2">
+                  <h2 className="text-sm sm:text-base mb-1 text-center pb-1">
                     Buy farm #{gameState.context.state.id} owner a coffee!
                   </h2>
 
-                  <p className="sm:text-sm  mb-3 text-center">
-                    Every little bit counts!
+                  <p className="sm:text-sm mb-3 text-center">
+                    {shortAddress(gameState.context.owner as string)}
                   </p>
                 </div>
               ) : (
@@ -243,10 +254,7 @@ export const TeamDonation: React.FC = () => {
                 <Button className="w-full mr-1" onClick={() => send("CLOSE")}>
                   <span className="text-xs whitespace-nowrap">Close</span>
                 </Button>
-                <Button
-                  className="w-full ml-1"
-                  onClick={() => send("DONATE", { donation })}
-                >
+                <Button className="w-full ml-1" onClick={donate}>
                   <span className="text-xs whitespace-nowrap">Donate</span>
                 </Button>
               </div>

@@ -30,6 +30,7 @@ export interface Context {
   onChain: GameState;
   actions: PastAction[];
   offset: number;
+  owner?: string;
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
@@ -135,10 +136,10 @@ type Options = AuthContext & { isNoob: boolean };
 
 export function startGame(authContext: Options) {
   const handleInitialState = () => {
-    if (authContext.sessionId || !authContext.address) {
-      return "playing";
+    if (window.location.href.includes("visit")) {
+      return "readonly";
     }
-    return "readonly";
+    return "playing";
   };
 
   return createMachine<Context, BlockchainEvent, BlockchainState>(
@@ -156,9 +157,9 @@ export function startGame(authContext: Options) {
         loading: {
           invoke: {
             src: async (context) => {
-              console.log("Load again!");
-              const { game: onChain } = await getOnChainState({
+              const { game: onChain, owner } = await getOnChainState({
                 farmAddress: authContext.address as string,
+                id: authContext.farmId as number,
               });
 
               // Load the farm session
@@ -190,6 +191,7 @@ export function startGame(authContext: Options) {
                   fingerprint,
                   itemsMintedAt,
                   onChain,
+                  owner,
                 };
               }
 
@@ -197,7 +199,7 @@ export function startGame(authContext: Options) {
               if (authContext.address) {
                 onChain.id = authContext.farmId as number;
 
-                return { state: onChain, onChain };
+                return { state: onChain, onChain, owner };
               }
 
               return { state: INITIAL_FARM };
@@ -208,6 +210,7 @@ export function startGame(authContext: Options) {
                 actions: assign({
                   state: (_, event) => event.data.state,
                   onChain: (_, event) => event.data.onChain,
+                  owner: (_, event) => event.data.owner,
                   offset: (_, event) => event.data.offset,
                   fingerprint: (_, event) => event.data.fingerprint,
                   itemsMintedAt: (_, event) => event.data.itemsMintedAt,

@@ -357,6 +357,9 @@ export const authMachine = createMachine<
             },
           },
           authorised: {
+            entry: (context) => {
+              window.location.href = `/#/farm/${context.farmId}`;
+            },
             on: {
               REFRESH: {
                 target: "#connecting",
@@ -437,6 +440,9 @@ export const authMachine = createMachine<
         },
       },
       visiting: {
+        entry: (context) => {
+          window.location.href = `/#/visit/${context.farmId}`;
+        },
         on: {
           RETURN: {
             target: "connecting",
@@ -467,10 +473,12 @@ export const authMachine = createMachine<
         await metamask.initialise();
       },
       loadFarm: async (): Promise<Farm | undefined> => {
+        console.log("Load farms");
         const farmAccounts = await metamask.getFarm()?.getFarms();
         if (farmAccounts?.length === 0) {
           return;
         }
+        console.log("Loaded");
 
         const createdAt = await metamask
           .getBeta()
