@@ -127,7 +127,7 @@ export const Plants: React.FC = () => {
             Sell All
           </Button>
           <Button
-            disabled={noCrop}
+            disabled={cropAmount.lessThanOrEqualTo(1)}
             className="text-xs mt-1 whitespace-nowrap"
             onClick={() => setShowCustomModal(true)}
           >
