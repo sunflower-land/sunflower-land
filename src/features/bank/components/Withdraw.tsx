@@ -20,6 +20,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
   const [page, setPage] = useState<"warning" | "tokens" | "items">("warning");
+
   const [isLoading, setIsLoading] = useState(true);
   const [inventory, setInventory] = useState<Inventory>({});
   const [balance, setBalance] = useState<Decimal>(new Decimal(0));
@@ -40,10 +41,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
     load();
   }, []);
-
-  if (isLoading) {
-    return <span className="text-shadow loading">Loading</span>;
-  }
 
   const withdrawAmount = useRef({
     ids: [] as number[],
@@ -92,6 +89,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const preWithdrawSync = () => {
     setShowSyncCaptcha(true);
   };
+
+  if (isLoading) {
+    return <span className="text-shadow loading">Loading</span>;
+  }
 
   const isBlacklisted = !!game.context.whitelistedAt;
   if (isBlacklisted) {
@@ -144,17 +145,17 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     inventory,
     Object.keys(inventory).sort()
   );
-  var inventoriesMatch = false;
+  let inventoriesMatch = false;
 
   const localBalance = game.context.state.balance;
   const chainBalance = balance;
-  var balancesMatch = false;
+  let balancesMatch = false;
 
   if (localInventory == chainInventory) inventoriesMatch = true;
 
   if (localBalance.equals(chainBalance)) balancesMatch = true;
 
-  var farmSynced = inventoriesMatch && balancesMatch;
+  const farmSynced = inventoriesMatch && balancesMatch;
 
   if (page === "tokens") {
     return <WithdrawTokens onWithdraw={onWithdrawTokens} />;
