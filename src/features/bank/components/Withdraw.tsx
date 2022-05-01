@@ -24,6 +24,27 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const [inventory, setInventory] = useState<Inventory>({});
   const [balance, setBalance] = useState<Decimal>(new Decimal(0));
 
+  useEffect(() => {
+    setIsLoading(true);
+
+    const load = async () => {
+      const { game: state } = await getOnChainState({
+        id: game.context.state.id as number,
+        farmAddress: game.context.state.farmAddress as string,
+      });
+
+      setInventory(state.inventory);
+      setBalance(state.balance);
+      setIsLoading(false);
+    };
+
+    load();
+  }, []);
+
+  if (isLoading) {
+    return <span className="text-shadow loading">Loading</span>;
+  }
+
   const withdrawAmount = useRef({
     ids: [] as number[],
     amounts: [] as string[],
@@ -81,27 +102,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         investigates this case. Thanks for your patience!
       </div>
     );
-  }
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    const load = async () => {
-      const { game: state } = await getOnChainState({
-        id: game.context.state.id as number,
-        farmAddress: game.context.state.farmAddress as string,
-      });
-
-      setInventory(state.inventory);
-      setBalance(state.balance);
-      setIsLoading(false);
-    };
-
-    load();
-  }, []);
-
-  if (isLoading) {
-    return <span className="text-shadow loading">Loading</span>;
   }
 
   if (showCaptcha) {
