@@ -17,6 +17,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getSellPrice, hasSellBoost } from "features/game/lib/boosts";
 
+const BULK_INCREMENT_AMOUNTS = [1, 10, 50];
+
 export const Plants: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
   const { setToast } = useContext(ToastContext);
@@ -59,8 +61,6 @@ export const Plants: React.FC = () => {
     setToast({
       content: "SFL +$" + displaySellPrice(selected).mul(amount).toString(),
     });
-    // Immediately update bulkSell to prevent UI flashing between renders
-    setBulkSellAmount(cropAmount.minus(amount));
   };
 
   const handleSellOne = () => {
@@ -142,60 +142,64 @@ export const Plants: React.FC = () => {
       </OuterPanel>
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
         <Panel className="md:w-4/5 m-auto">
-          <div className="m-auto flex flex-col">
+          <div className="m-auto flex flex-col items-center">
             <span className="text-sm text-center text-shadow">
               Are you sure you want to <br className="hidden md:block" />
               sell your {selected.name}?
             </span>
-            <div className="flex items-center justify-center ms-1 mt-1">
-              <div>
-                <Button
-                  disabled={bulkSellAmount.lessThanOrEqualTo(1)}
-                  className="flex-1 text-xs mt-1 w-70"
-                  onClick={() => decrementBulkSellAmount(1)}
-                >
-                  -1
-                </Button>
-                <Button
-                  disabled={bulkSellAmount.lessThanOrEqualTo(10)}
-                  className="flex-1 text-xs mt-1 w-70"
-                  onClick={() => decrementBulkSellAmount(10)}
-                >
-                  -10
-                </Button>
-              </div>
-              <div className="flex mx-2">
-                <span className="text-sm text-center text-shadow mr-1">
-                  {bulkSellAmount.toNumber()}
-                </span>
-                <img
-                  src={ITEM_DETAILS[selected.name].image}
-                  className="h-5 mr-1"
-                />
-              </div>
-              <div>
-                <Button
-                  disabled={cropAmount.minus(bulkSellAmount).lessThan(1)}
-                  className="flex-1 text-xs mt-1 w-70"
-                  onClick={() => incrementBulkSellAmount(1)}
-                >
-                  +1
-                </Button>
-                <Button
-                  disabled={cropAmount.minus(bulkSellAmount).lessThan(10)}
-                  className="flex-1 text-xs mt-1 w-70"
-                  onClick={() => incrementBulkSellAmount(10)}
-                >
-                  +10
-                </Button>
-              </div>
+            <div className="flex justify-center mt-3 mb-2">
+              <span className="text-lg text-center text-shadow mr-1">
+                {bulkSellAmount.toNumber()}
+              </span>
+              <img src={ITEM_DETAILS[selected.name].image} className="h-6" />
             </div>
-            <div className="flex justify-center items-end my-1">
+            <div className="flex justify-center items-end mb-2">
               <span className="text-xs text-shadow text-center mt-2 ">+</span>
               <img src={token} className="h-5 mx-1" />
               <span className="text-xs text-shadow text-center mt-2 ">
                 {`$${displaySellPrice(selected).mul(bulkSellAmount)}`}
               </span>
+            </div>
+            <div className="flex items-center justify-center mt-1 mb-2 w-4/6">
+              {BULK_INCREMENT_AMOUNTS.map(
+                (amount) =>
+                  cropAmount.greaterThan(amount) && (
+                    <div key={amount} className="mr-1 flex-1">
+                      <Button
+                        disabled={cropAmount
+                          .minus(bulkSellAmount)
+                          .lessThan(amount)}
+                        className="flex-1 text-xs mb-1"
+                        onClick={() => incrementBulkSellAmount(amount)}
+                      >
+                        +{amount}
+                      </Button>
+                      <Button
+                        disabled={bulkSellAmount.lessThanOrEqualTo(amount)}
+                        className="flex-1 text-xs"
+                        onClick={() => decrementBulkSellAmount(amount)}
+                      >
+                        -{amount}
+                      </Button>
+                    </div>
+                  )
+              )}
+              <div className="flex-1 max-w-70">
+                <Button
+                  disabled={cropAmount.equals(bulkSellAmount)}
+                  className="flex-1 text-xs mb-1 bg-brown-600"
+                  onClick={() => setBulkSellAmount(cropAmount)}
+                >
+                  Max
+                </Button>
+                <Button
+                  disabled={bulkSellAmount.lessThanOrEqualTo(1)}
+                  className="flex-1 text-xs bg-brown-600"
+                  onClick={() => setBulkSellAmount(new Decimal(1))}
+                >
+                  Min
+                </Button>
+              </div>
             </div>
           </div>
           <div className="flex justify-content-around p-1">
