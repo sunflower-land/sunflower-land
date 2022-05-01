@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import {
-  Flower,
+  FlowerColor,
+  FlowerType,
   GameState,
   Inventory,
   InventoryItemName,
@@ -14,10 +15,10 @@ export enum POLLINATE_ERRORS {
   STILL_GROWING = "Flower is still growing",
 }
 
-// 24 hours cooldown 
+// 24 hours cooldown
 export const FLOWER_RECOVERY_SECONDS = 24 * 60 * 60;
 
-export function canPollinate(flower: Flower, now: number = Date.now()) {
+export function canPollinate(flower: FlowerType, now: number = Date.now()) {
   return now - flower.pollinatedAt > FLOWER_RECOVERY_SECONDS * 1000;
 }
 
@@ -40,7 +41,7 @@ function getPollinatedAt({
  * Returns the amount of bee required to pollinate a flower
  */
 export function getRequiredBeeAmount(inventory: Inventory) {
-  return new Decimal(1);
+  return new Decimal(3);
 }
 
 export type HoneyAction = {
@@ -54,6 +55,39 @@ type Options = {
   action: HoneyAction;
   pollinatedAt?: number;
 };
+
+const flowers: Record<number, FlowerColor> = {
+  0: "Blue Flower",
+  1: "White Flower",
+};
+
+const FLOWER_START_AT_MS = Date.UTC(2022, 3, 16, 12);
+
+
+
+
+export function availableFlower(now: number = Date.now()): FlowerColor {
+  // Get the current time
+  const difference = now - FLOWER_START_AT_MS;
+  // 24 hour periods to collect a certain egg
+  const periodsElapsed = Math.floor(difference / 1000 / 60 / 60 / 24);
+  // Figure out how many periods of twenty-four hours have passed.
+  const flowerIndex = 0
+
+  return flowers[flowerIndex];
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 export function Pollinate({
   state,

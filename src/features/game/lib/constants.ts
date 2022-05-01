@@ -15,7 +15,8 @@ export const INITIAL_STOCK: Inventory = {
   "Parsnip Seed": new Decimal(40),
   "Radish Seed": new Decimal(40),
   "Wheat Seed": new Decimal(40),
-
+  "White Flower Seed": new Decimal(5),
+  "Blue Flower Seed": new Decimal(5),
   Axe: new Decimal(50),
   Pickaxe: new Decimal(30),
   "Stone Pickaxe": new Decimal(10),
@@ -28,6 +29,16 @@ export const INITIAL_STOCK: Inventory = {
 
   //test bee stock
   Bee: new Decimal(100),
+};
+export const INITIAL_FLOWERS_FIELD: GameState["flowerFields"] = {
+  0: {
+    name: "White Flower",
+    plantedAt: 0,
+  },
+  1: {
+    name: "Blue Flower",
+    plantedAt: 0,
+  },
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
@@ -125,40 +136,32 @@ export const INITIAL_GOLD: GameState["gold"] = {
   },
 };
 
-export const INITIAL_FLOWERS: GameState["flowers"] = {
-  0: {
-    honey: new Decimal(1),
-    pollinatedAt: 0,
-  },
-  1: {
-    honey: new Decimal(1),
-    pollinatedAt: 0,
-  },
-  2: {
-    honey: new Decimal(1),
-    pollinatedAt: 0,
-  },
-  3: {
-    honey: new Decimal(1),
-    pollinatedAt: 0,
-  },
-};
+// export const INITIAL_FLOWERS: GameState["flowers"] = {
+//   0: {
+//     honey: new Decimal(1),
+//     pollinatedAt: 0,
+//   },
+
+// };
 
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(500),
   fields: INITIAL_FIELDS,
+  flowerFields: INITIAL_FLOWERS_FIELD,
   inventory: {
-    Sunflower: new Decimal(5),
-    Potato: new Decimal(12),
     Scarecrow: new Decimal(4),
     "Bee Hive": new Decimal(1),
+    "Pumpkin Soup": new Decimal(1),
+    Sauerkraut: new Decimal(1),
+    "Radish Pie": new Decimal(1),
+    "Roasted Cauliflower": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,
   iron: INITIAL_IRON,
   gold: INITIAL_GOLD,
-  flowers: INITIAL_FLOWERS,
+  // flowers: INITIAL_FLOWERS,
   skills: {
     farming: new Decimal(0),
     gathering: new Decimal(0),
@@ -168,13 +171,14 @@ export const INITIAL_FARM: GameState = {
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
   fields: {},
+  flowerFields: {},
   inventory: {},
   stock: {},
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,
   iron: INITIAL_IRON,
   gold: INITIAL_GOLD,
-  flowers: INITIAL_FLOWERS,
+  // flowers: INITIAL_FLOWERS,
   skills: {
     farming: new Decimal(0),
     gathering: new Decimal(0),

@@ -12,17 +12,13 @@ import { Action } from "components/ui/Action";
 import { BeeSale } from "./BeeSale";
 import classNames from "classnames";
 import { Inventory } from "features/game/types/game";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { FlowerSale } from "./FlowerSale";
 
 export const Beehive: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [isOpen, setIsOpen] = React.useState(false);
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const isNotReadOnly = !gameState.matches("readonly");
 
@@ -34,29 +30,32 @@ export const Beehive: React.FC = () => {
 
   return (
     <div
-      className="absolute"
+      id={Section["Bee Hive"]}
+      className={classNames("absolute", {
+        "cursor-pointer": isNotReadOnly,
+        "hover:img-highlight": isNotReadOnly,
+      })}
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
-        left: `${-GRID_WIDTH_PX * 1}px`,
-        top: `${-GRID_WIDTH_PX * 5.7}px`,
+        left: `${GRID_WIDTH_PX * 3}px`,
+        top: `${GRID_WIDTH_PX * 5}px`,
       }}
     >
-      <img src={beehive} className="w-full " />
-      <div
-        className={classNames({
-          "cursor-pointer": isNotReadOnly,
-          "hover:img-highlight": isNotReadOnly,
-        })}
-      >
-        {isNotReadOnly && state.inventory["Bee Hive"] && (
-          <Action
-            className="absolute left-4"
-            text="Hive"
-            icon={bee}
-            onClick={openHive}
-          />
-        )}
-      </div>
+      <img
+        src={beehive}
+        alt="beehive"
+        onClick={isNotReadOnly ? openHive : undefined}
+        className="w-full"
+        style={{ transform: "scale(0.7)" }}
+      />
+      {isNotReadOnly && (
+        <Action
+          className="absolute top-20 left-4"
+          text="Hive"
+          icon={bee}
+          onClick={openHive}
+        />
+      )}
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <BeeSale onClose={() => setIsOpen(false)} />
       </Modal>

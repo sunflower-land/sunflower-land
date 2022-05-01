@@ -11,13 +11,15 @@ import { CraftingItems } from "features/blacksmith/components/CraftingItems";
 import { Rare } from "features/blacksmith/components/Rare";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
+import { FLOWER_SEEDS } from "features/game/types/flowers";
+import { FlowerSale } from "./FlowerSale";
 
 interface Props {
   onClose: () => void;
 }
 
 export const BeeSale: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState<"bees" | "rare">("bees");
+  const [tab, setTab] = useState<"bees" | "buy" | "rare">("bees");
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
@@ -28,6 +30,10 @@ export const BeeSale: React.FC<Props> = ({ onClose }) => {
           <Tab isActive={tab === "bees"} onClick={() => setTab("bees")}>
             <img src={bee} className="h-5 mr-2" />
             <span className="text-sm text-shadow">Bees</span>
+          </Tab>
+          <Tab isActive={tab === "buy"} onClick={() => setTab("buy")}>
+            <img src={hive} className="h-5 mr-2" />
+            <span className="text-sm text-shadow">Seeds</span>
           </Tab>
           <Tab isActive={tab === "rare"} onClick={() => setTab("rare")}>
             <img src={hive} className="h-5 mr-2" />
@@ -46,7 +52,10 @@ export const BeeSale: React.FC<Props> = ({ onClose }) => {
           minHeight: "200px",
         }}
       >
-        {tab === "bees" && <CraftingItems items={BEES} onClose={onClose} />}
+        {tab === "bees" && <CraftingItems items={BEES} onClose={onClose} />}{" "}
+        {tab === "buy" && (
+          <CraftingItems items={FLOWER_SEEDS()} onClose={onClose} />
+        )}
         {tab === "rare" && (
           <Rare
             items={BEE_ITEMS}

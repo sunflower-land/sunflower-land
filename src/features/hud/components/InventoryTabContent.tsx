@@ -17,6 +17,8 @@ import { Inventory, TabItems } from "./InventoryItems";
 import { getShortcuts } from "../lib/shortcuts";
 import { hasBoost } from "features/game/lib/boosts";
 import { getCropTime } from "features/game/events/plant";
+import { getFlowerTime, isFlowerSeed } from "features/game/events/getFlower";
+import { FlowerName } from "features/game/types/flowers";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -97,7 +99,11 @@ export const InventoryTabContent = ({
 
     return secondsToMidString(getCropTime(crop, inventory));
   };
+  const getFlowerHarvestTime = (flowerSeedName = "") => {
+    const flower = flowerSeedName.split(" ")[0] as FlowerName;
 
+    return secondsToMidString(getFlowerTime(flower, inventory));
+  };
   const handleItemClick = (item: InventoryItemName) => {
     onClick(item);
 
@@ -137,6 +143,19 @@ export const InventoryTabContent = ({
                     )}
                     <span className="text-xs text-shadow text-center mt-2 ">
                       {getCropHarvestTime(selectedItem)}
+                    </span>
+                  </div>
+                </div>
+              )}
+               {isFlowerSeed(selectedItem) && (
+                <div className="w-full pt-1">
+                  <div className="flex justify-center items-end">
+                    <img src={timer} className="h-5 me-2" />
+                    {isTimeBoosted && (
+                      <img src={lightning} className="h-6 me-2" />
+                    )}
+                    <span className="text-xs text-shadow text-center mt-2 ">
+                      {getFlowerHarvestTime(selectedItem)}
                     </span>
                   </div>
                 </div>

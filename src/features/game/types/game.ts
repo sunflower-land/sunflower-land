@@ -5,8 +5,16 @@ import { CropName, SeedName } from "./crops";
 import { CraftableName, BeeItem } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
+import { FlowerName, FlowerSeedName } from "./flowers";
 
 export type Reward = {
+  items: {
+    name: InventoryItemName;
+    amount: number;
+  }[];
+};
+
+export type FlowerReward = {
   items: {
     name: InventoryItemName;
     amount: number;
@@ -18,7 +26,14 @@ export type FieldItem = {
   // Epoch time in milliseconds
   plantedAt: number;
   multiplier?: number;
-  reward?: Reward;
+  reward?: FlowerReward;
+};
+export type FlowerFieldItem = {
+  name: FlowerName;
+  // Epoch time in milliseconds
+  plantedAt: number;
+  multiplier?: number;
+  flowerReward?: FlowerReward;
 };
 
 export type Tree = {
@@ -31,6 +46,12 @@ export type Rock = {
   amount: Decimal;
   // Epoch time in milliseconds
   minedAt: number;
+};
+
+export type Flower = {
+  amount: Decimal;
+  // Epoch time in milliseconds
+  pollinatedAt: number;
 };
 
 export type EasterEgg =
@@ -52,11 +73,13 @@ export const EASTER_EGGS: EasterEgg[] = [
   "Yellow Egg",
 ];
 
-export type Flower = {
+export type FlowerType = {
   honey: Decimal;
   //Epoch time in milliseconds
   pollinatedAt: number;
 };
+
+export type FlowerColor = "Blue Flower" | "White Flower";
 
 export type EasterBunny = "Easter Bunny";
 
@@ -68,7 +91,9 @@ export type InventoryItemName =
   | SkillName
   | EasterEgg
   | EasterBunny
-  | BeeItem;
+  | BeeItem
+  | FlowerName
+  | FlowerSeedName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -80,12 +105,12 @@ export type GameState = {
   id?: number;
   balance: Decimal;
   fields: Record<number, FieldItem>;
-
+  flowerFields: Record<number, FlowerFieldItem>;
   trees: Record<number, Tree>;
   stones: Record<number, Rock>;
   iron: Record<number, Rock>;
   gold: Record<number, Rock>;
-  flowers: Record<number, Flower>;
+  // flowers: Record<number, FlowerType>;
   inventory: Inventory;
   stock: Inventory;
 

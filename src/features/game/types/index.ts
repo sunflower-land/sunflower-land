@@ -140,6 +140,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Orange Egg": 907,
   "Green Egg": 908,
   "Easter Bunny": 909,
+
+  "White Flower" : 911,
+  "Blue Flower" : 912,
+  "White Flower Seed" : 913,
+  "Blue Flower Seed": 914
 };
 
 // The reverse of above

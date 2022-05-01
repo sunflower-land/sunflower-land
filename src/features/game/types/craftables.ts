@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { SeedName, SEEDS } from "../types/crops";
+import { FlowerSeedName, FLOWER_SEEDS } from "../types/flowers";
 import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
@@ -20,7 +21,8 @@ export type CraftableName =
   | Food
   | Animal
   | Flag
-  | Bee;
+  | Bee
+  | FlowerSeedName;
 
 export type Craftable = {
   name: CraftableName;
@@ -774,4 +776,5 @@ export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...FLAGS,
   ...BEES,
   ...BEE_ITEMS,
+  ...FLOWER_SEEDS(),
 });

@@ -40,6 +40,7 @@ import { Resetting } from "features/auth/components/Resetting";
 
 import { Garden } from "features/garden/Garden";
 import { Bees } from "features/bees/Bees";
+import { Apicultor } from "features/garden/components/Apicultor";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -134,7 +135,7 @@ export const Game: React.FC = () => {
       <House />
       <Tailor />
       <Lore />
-
+      <Apicultor />
       <Bees />
       <Garden />
     </>

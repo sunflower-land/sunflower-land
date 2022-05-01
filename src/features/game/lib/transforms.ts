@@ -1,11 +1,13 @@
 import Decimal from "decimal.js-light";
 import {
+  FlowerFieldItem,
   FieldItem,
   GameState,
   InventoryItemName,
   Rock,
   Tree,
   Flower,
+  FlowerType,
 } from "../types/game";
 import { PastAction } from "./gameMachine";
 import { processEvent } from "./processEvent";
@@ -39,16 +41,16 @@ export function makeGame(farm: any): GameState {
       }),
       {} as Record<number, Tree>
     ),
-    flowers: Object.keys(farm.flowers).reduce(
-      (items, item) => ({
-        ...items,
-        [item]: {
-          ...farm.flowers[item],
-          honey: new Decimal(farm.flowers[item].honey),
-        },
-      }),
-      {} as Record<number, Flower>
-    ),
+    // flowers: Object.keys(farm.flowers).reduce(
+    //   (items, item) => ({
+    //     ...items,
+    //     [item]: {
+    //       ...farm.flowers[item],
+    //       honey: new Decimal(farm.flowers[item].honey),
+    //     },
+    //   }),
+    //   {} as Record<number, FlowerType>
+    // ),
     stones: Object.keys(farm.stones).reduce(
       (items, item) => ({
         ...items,
@@ -85,6 +87,7 @@ export function makeGame(farm: any): GameState {
     },
     balance: new Decimal(farm.balance),
     fields: farm.fields,
+    flowerFields: farm.flowerFields,
     id: farm.id,
   };
 }
@@ -135,6 +138,20 @@ export function updateGame(
           },
         };
       }, {} as Record<number, FieldItem>),
+      flowerFields: Object.keys(oldGameState.flowerFields).reduce(
+        (flowerFields, flowerFieldId) => {
+          const id = Number(flowerFieldId);
+          const flowerField = oldGameState.flowerFields[id];
+          return {
+            ...flowerFields,
+            [id]: {
+              ...flowerField,
+              flowerReward: newGameState.flowerFields[id].flowerReward,
+            },
+          };
+        },
+        {} as Record<number, FlowerFieldItem>
+      ),
       // Update tree with the random amount of wood from the server
       trees: Object.keys(oldGameState.trees).reduce((trees, treeId) => {
         const id = Number(treeId);

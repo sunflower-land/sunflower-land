@@ -11,6 +11,7 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
 import { SEEDS, CROPS } from "features/game/types/crops";
+import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import {
   FOODS,
   TOOLS,
@@ -56,6 +57,14 @@ const BASKET_CATEGORIES: TabItems = {
   Crops: {
     img: crop,
     items: CROPS(),
+  },
+  Flowers: {
+    img: crop,
+    items: FLOWERS(),
+  },
+  FSeeds: {
+    img: seed,
+    items: FLOWER_SEEDS(),
   },
 };
 

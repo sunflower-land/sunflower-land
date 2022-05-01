@@ -13,7 +13,15 @@ export const Apicultor: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <>
+    <div
+      style={{
+        background: "red",
+        width: "100px",
+        position:"absolute",
+        right: `${GRID_WIDTH_PX * 20}px`,
+        top: `${GRID_WIDTH_PX * 15}px`,
+      }}
+    >
       <img
         src={questionMark}
         className="absolute z-10 animate-float"
@@ -50,6 +58,6 @@ export const Apicultor: React.FC = () => {
           </div>
         </Panel>
       </Modal>
-    </>
+    </div>
   );
 };
