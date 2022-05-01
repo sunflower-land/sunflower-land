@@ -16,13 +16,13 @@ import { Modal } from "react-bootstrap";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getSellPrice, hasSellBoost } from "features/game/lib/boosts";
-
-const BULK_INCREMENT_AMOUNTS = [1, 10, 50];
+import { CustomSellModal } from "./CustomSellModal";
 
 export const Plants: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
   const { setToast } = useContext(ToastContext);
   const [isSellAllModalOpen, showSellAllModal] = React.useState(false);
+  const [showCustomSellModal, setShowCustomModal] = React.useState(false);
   const { gameService } = useContext(Context);
   const [
     {
@@ -34,24 +34,8 @@ export const Plants: React.FC = () => {
   const inventory = state.inventory;
   const cropAmount = new Decimal(inventory[selected.name] || 0);
   const noCrop = cropAmount.equals(0);
-  const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
-  const [bulkSellAmount, setBulkSellAmount] = useState(cropAmount);
-
-  useEffect(() => {
-    setBulkSellAmount(cropAmount);
-  }, [selected.name, isSellAllModalOpen]);
-
-  const incrementBulkSellAmount = (amount: number) => {
-    const newAmount = bulkSellAmount.plus(amount);
-    setBulkSellAmount(
-      newAmount.greaterThan(cropAmount) ? cropAmount : newAmount
-    );
-  };
-
-  const decrementBulkSellAmount = (amount: number) => {
-    const newAmount = bulkSellAmount.minus(amount);
-    setBulkSellAmount(newAmount.lessThan(1) ? new Decimal(1) : newAmount);
-  };
+  const selectedCropImage = ITEM_DETAILS[selected.name].image;
+  const selectedSellPrice = getSellPrice(selected, inventory);
 
   const sell = (amount = 1) => {
     gameService.send("item.sell", {
@@ -59,7 +43,7 @@ export const Plants: React.FC = () => {
       amount,
     });
     setToast({
-      content: "SFL +$" + displaySellPrice(selected).mul(amount).toString(),
+      content: "SFL +$" + selectedSellPrice.mul(amount).toString(),
     });
   };
 
@@ -68,8 +52,13 @@ export const Plants: React.FC = () => {
   };
 
   const handleSellAll = () => {
-    sell(bulkSellAmount.toNumber());
+    sell(cropAmount.toNumber());
     showSellAllModal(false);
+  };
+
+  const handleSellCustom = (amount: number) => {
+    sell(amount);
+    setShowCustomModal(false);
   };
 
   // ask confirmation if crop supply is greater than 1
@@ -119,14 +108,13 @@ export const Plants: React.FC = () => {
               <img src={token} className="h-5 mr-1" />
               {isPriceBoosted && <img src={lightning} className="h-6 me-2" />}
               <span className="text-xs text-shadow text-center mt-2 ">
-                {`$${displaySellPrice(selected)}`}
+                {`$${selectedSellPrice}`}
               </span>
             </div>
           </div>
-
           <Button
             disabled={cropAmount.lessThan(1)}
-            className="flex-1 text-xs mt-1 w-70"
+            className="text-xs mt-1"
             onClick={handleSellOne}
           >
             Sell 1
@@ -138,69 +126,25 @@ export const Plants: React.FC = () => {
           >
             Sell All
           </Button>
+          <Button
+            disabled={noCrop}
+            className="text-xs mt-1 whitespace-nowrap"
+            onClick={() => setShowCustomModal(true)}
+          >
+            Custom
+          </Button>
         </div>
       </OuterPanel>
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
         <Panel className="md:w-4/5 m-auto">
-          <div className="m-auto flex flex-col items-center">
+          <div className="m-auto flex flex-col">
             <span className="text-sm text-center text-shadow">
               Are you sure you want to <br className="hidden md:block" />
-              sell your {selected.name}?
+              sell all your {selected.name}?
             </span>
-            <div className="flex justify-center mt-3 mb-2">
-              <span className="text-lg text-center text-shadow mr-1">
-                {bulkSellAmount.toNumber()}
-              </span>
-              <img src={ITEM_DETAILS[selected.name].image} className="h-6" />
-            </div>
-            <div className="flex justify-center items-end mb-2">
-              <span className="text-xs text-shadow text-center mt-2 ">+</span>
-              <img src={token} className="h-5 mx-1" />
-              <span className="text-xs text-shadow text-center mt-2 ">
-                {`$${displaySellPrice(selected).mul(bulkSellAmount)}`}
-              </span>
-            </div>
-            <div className="flex items-center justify-center mt-1 mb-2 w-4/6">
-              {BULK_INCREMENT_AMOUNTS.map(
-                (amount) =>
-                  cropAmount.greaterThan(amount) && (
-                    <div key={amount} className="mr-1 flex-1">
-                      <Button
-                        disabled={cropAmount
-                          .minus(bulkSellAmount)
-                          .lessThan(amount)}
-                        className="flex-1 text-xs mb-1"
-                        onClick={() => incrementBulkSellAmount(amount)}
-                      >
-                        +{amount}
-                      </Button>
-                      <Button
-                        disabled={bulkSellAmount.lessThanOrEqualTo(amount)}
-                        className="flex-1 text-xs"
-                        onClick={() => decrementBulkSellAmount(amount)}
-                      >
-                        -{amount}
-                      </Button>
-                    </div>
-                  )
-              )}
-              <div className="flex-1 max-w-70">
-                <Button
-                  disabled={cropAmount.equals(bulkSellAmount)}
-                  className="flex-1 text-xs mb-1 bg-brown-600"
-                  onClick={() => setBulkSellAmount(cropAmount)}
-                >
-                  Max
-                </Button>
-                <Button
-                  disabled={bulkSellAmount.lessThanOrEqualTo(1)}
-                  className="flex-1 text-xs bg-brown-600"
-                  onClick={() => setBulkSellAmount(new Decimal(1))}
-                >
-                  Min
-                </Button>
-              </div>
-            </div>
+            <span className="text-sm text-center text-shadow mt-1">
+              Total: {cropAmount.toNumber()}
+            </span>
           </div>
           <div className="flex justify-content-around p-1">
             <Button
@@ -220,6 +164,15 @@ export const Plants: React.FC = () => {
           </div>
         </Panel>
       </Modal>
+      <CustomSellModal
+        open={showCustomSellModal}
+        onClose={() => setShowCustomModal(false)}
+        onSell={handleSellCustom}
+        cropName={selected.name}
+        cropAmount={cropAmount}
+        cropImage={selectedCropImage}
+        cropSellPrice={selectedSellPrice}
+      />
     </div>
   );
 };
