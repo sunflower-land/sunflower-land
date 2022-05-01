@@ -76,7 +76,7 @@ export const Plants: React.FC = () => {
 
   useEffect(() => {
     setIsPriceBoosted(hasSellBoost(inventory));
-  }, [inventory, state.inventory]);
+  }, [inventory]);
 
   return (
     <div className="flex">
