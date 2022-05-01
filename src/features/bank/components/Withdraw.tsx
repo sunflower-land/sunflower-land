@@ -1,7 +1,10 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import Decimal from "decimal.js-light";
 
 import { Context } from "features/game/GameProvider";
+import { getOnChainState } from "features/game/actions/visit";
+import { Inventory } from "features/game/types/game";
 
 import { Button } from "components/ui/Button";
 import { WithdrawTokens } from "./WithdrawTokens";
@@ -17,6 +20,9 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
   const [page, setPage] = useState<"warning" | "tokens" | "items">("warning");
+  const [isLoading, setIsLoading] = useState(true);
+  const [inventory, setInventory] = useState<Inventory>({});
+  const [balance, setBalance] = useState<Decimal>(new Decimal(0));
 
   const withdrawAmount = useRef({
     ids: [] as number[],
@@ -66,7 +72,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     setShowSyncCaptcha(true);
   };
 
-  const isBlacklisted = !!game.context.whitelistedAt
+  const isBlacklisted = !!game.context.whitelistedAt;
   if (isBlacklisted) {
     return (
       <div className="p-2 text-sm text-center">
@@ -75,6 +81,27 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         investigates this case. Thanks for your patience!
       </div>
     );
+  }
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    const load = async () => {
+      const { game: state } = await getOnChainState({
+        id: game.context.state.id as number,
+        farmAddress: game.context.state.farmAddress as string,
+      });
+
+      setInventory(state.inventory);
+      setBalance(state.balance);
+      setIsLoading(false);
+    };
+
+    load();
+  }, []);
+
+  if (isLoading) {
+    return <span className="text-shadow loading">Loading</span>;
   }
 
   if (showCaptcha) {
@@ -96,18 +123,38 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   if (showSyncCaptcha) {
     return (
       <>
-      <ReCAPTCHA
-        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
-        onChange={onPreWithdrawCaptchaSolved}
-        onExpired={() => setShowSyncCaptcha(false)}
-        className="w-full m-4 flex items-center justify-center"
-      />
-      <p className="text-xxs p-1 m-1 text-center">
-        Any unsaved progress will be lost.
-      </p>
+        <ReCAPTCHA
+          sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+          onChange={onPreWithdrawCaptchaSolved}
+          onExpired={() => setShowSyncCaptcha(false)}
+          className="w-full m-4 flex items-center justify-center"
+        />
+        <p className="text-xxs p-1 m-1 text-center">
+          Any unsaved progress will be lost.
+        </p>
       </>
     );
   }
+
+  const localInventory = JSON.stringify(
+    game.context.state.inventory,
+    Object.keys(game.context.state.inventory).sort()
+  );
+  const chainInventory = JSON.stringify(
+    inventory,
+    Object.keys(inventory).sort()
+  );
+  var inventoriesMatch = false;
+
+  const localBalance = game.context.state.balance;
+  const chainBalance = balance;
+  var balancesMatch = false;
+
+  if (localInventory == chainInventory) inventoriesMatch = true;
+
+  if (localBalance.equals(chainBalance)) balancesMatch = true;
+
+  var farmSynced = inventoriesMatch && balancesMatch;
 
   if (page === "tokens") {
     return <WithdrawTokens onWithdraw={onWithdrawTokens} />;
@@ -123,17 +170,20 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         You can only withdraw items that you have synced to the blockchain.
       </span>
 
-      <div className="flex items-center text-center border-2 rounded-md border-black p-2 bg-[#e43b44]">
+      <div
+        hidden={farmSynced}
+        className="flex items-center text-center border-2 rounded-md border-black p-2 bg-[#e43b44]"
+      >
         <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
         <span className="text-xs">
-          ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST. IT IS HIGHLY RECCOMMENDED THAT YOU SYNC PRIOR TO WITHDRAW.
+          ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST. IT IS
+          HIGHLY RECCOMMENDED THAT YOU SYNC PRIOR TO WITHDRAW.
         </span>
         <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+        <Button className="mr-1" onClick={preWithdrawSync}>
+          SYNC
+        </Button>
       </div>
-
-      <Button className="mr-1" onClick={preWithdrawSync}>
-        SYNC
-      </Button>
 
       <div className="flex mt-4">
         <Button className="mr-1" onClick={() => setPage("tokens")}>
