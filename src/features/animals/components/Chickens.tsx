@@ -8,7 +8,7 @@ import { Context } from "features/game/GameProvider";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 export const Chickens: React.FC = () => {
-  const { gameService, selectedItem } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [
     {
       context: { state },

@@ -1,8 +1,7 @@
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig } from "vite";
 import reactRefresh from "@vitejs/plugin-react-refresh";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { minifyHtml, injectHtml } from "vite-plugin-html";
-import inject from "@rollup/plugin-inject";
 
 // https://vitejs.dev/config/
 export default defineConfig({

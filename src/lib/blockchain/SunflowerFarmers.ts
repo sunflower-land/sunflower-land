@@ -1,5 +1,3 @@
-import { CONFIG } from "lib/config";
-import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import SunflowerFarmersABI from "./abis/SunflowerFarmers.json";

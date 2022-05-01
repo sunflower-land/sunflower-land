@@ -32,10 +32,8 @@ import { House } from "features/house/House";
 import { Tailor } from "features/tailor/Tailor";
 import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
-import { TooManyRequests } from "features/auth/components/TooManyRequests";
 import { screenTracker } from "lib/utils/screen";
 import { Withdrawn } from "./components/Withdrawn";
-import { EasterEggHunt } from "features/easter/Area";
 import { Resetting } from "features/auth/components/Resetting";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
@@ -116,8 +114,6 @@ export const Game: React.FC = () => {
       </Modal>
 
       <ClockIssue show={gameState.context.offset > 0} />
-      {/* TEMPORARY EASTER CAMPAIGN */}
-      <EasterEggHunt />
       {/*     */}
       <Hud />
       <TeamDonation />

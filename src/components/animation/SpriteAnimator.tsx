@@ -292,7 +292,7 @@ class Spritesheet extends React.Component<Props> {
     }px -${this.props.heightFrame * currentRow}px`;
 
     if (onEnterFrame) {
-      onEnterFrame.map((frameAction, i) => {
+      onEnterFrame.map((frameAction) => {
         if (frameAction.frame === this.frame && frameAction.callback) {
           frameAction.callback();
         }

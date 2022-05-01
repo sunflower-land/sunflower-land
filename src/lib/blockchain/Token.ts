@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
-import { AbiItem, fromWei } from "web3-utils";
+import { AbiItem } from "web3-utils";
 import TokenJSON from "./abis/Token.json";
 
 const address = CONFIG.TOKEN_CONTRACT;

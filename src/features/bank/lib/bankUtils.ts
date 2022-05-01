@@ -3,8 +3,6 @@ import { isSeed } from "features/game/events/plant";
 import { FOODS } from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/crops";
 import {
-  EasterEgg,
-  EASTER_EGGS,
   GameState,
   Inventory,
   InventoryItemName,

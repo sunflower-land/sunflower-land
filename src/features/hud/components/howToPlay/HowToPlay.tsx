@@ -7,7 +7,7 @@ import { HowToFarm } from "./HowToFarm";
 import { HowToUpgrade } from "./HowToUpgrade";
 import { HowToSync } from "./HowToSync";
 import { LetsGo } from "./LetsGo";
-import { isNewFarm } from "features/hud/lib/onboarding";
+import { useIsNewFarm } from "features/hud/lib/onboarding";
 
 enum Steps {
   HowToFarm = 1,
@@ -41,7 +41,7 @@ export const HowToPlay: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  const canClose = !isNewFarm();
+  const canClose = !useIsNewFarm();
 
   return (
     <Modal show={isOpen} onHide={canClose ? onClose : undefined} centered>
