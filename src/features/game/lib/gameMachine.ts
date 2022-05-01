@@ -553,7 +553,7 @@ export function startGame(authContext: Options) {
         },
         blacklisted: {
           on: {
-            CONTINUE: "playing",
+            CONTINUE: handleInitialState(),
           },
         },
         synced: {
