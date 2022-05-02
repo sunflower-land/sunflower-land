@@ -3,6 +3,7 @@ import { metamask } from "lib/blockchain/metamask";
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
 import { Message } from "../types/message";
+import { formatDateTime } from "lib/utils/time";
 
 const MESSAGES_KEY = "readMessages";
 
@@ -75,12 +76,19 @@ export async function getInbox() {
     {
       id: "2022-04-30",
       title: "May 2022 Dates",
-      body: `Check out Discord for NFT release dates  
+      body: `Check our social pages for NFT release dates  
         &nbsp;  
-        May 04 - End of V1 Migration  
-        May 09 - SFL Token Launch  
-        May 16 - 50,000 **new** farm spots🔴  
-        May 30 - Rarible🔴  
+        ${formatDateTime("2022-05-04T00:00:00Z")}  
+        - End of V1 Migration  
+        &nbsp;  
+        ${formatDateTime("2022-05-09T00:00:00Z")}  
+        - SFL Token Launch  
+        &nbsp;  
+        ${formatDateTime("2022-05-16T00:00:00Z")}🔴  
+        - 50,000 **new** farm spots  
+        &nbsp;  
+        ${formatDateTime("2022-05-30T00:00:00Z")}🔴  
+        - Rarible  
         &nbsp;  
         🔴 - tentative`,
     },
