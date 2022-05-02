@@ -5,8 +5,11 @@ import Decimal from "decimal.js-light";
 import { balancesToInventory, populateFields } from "lib/utils/visitUtils";
 
 import { GameState } from "../types/game";
+import { LimitedItem, RARE_ITEMS } from "../types/craftables";
 import { EMPTY } from "../lib/constants";
 import { CONFIG } from "lib/config";
+import { KNOWN_IDS } from "../types";
+import { Recipe } from "lib/blockchain/Sessions";
 
 const API_URL = CONFIG.API_URL;
 
@@ -35,17 +38,40 @@ export async function isFarmBlacklisted(id: number) {
   return metadata.image.includes("blacklisted");
 }
 
+const RECIPES_IDS = (Object.keys(RARE_ITEMS) as LimitedItem[]).map(
+  (name) => KNOWN_IDS[name]
+);
+
+export type RareItem = Recipe & {
+  mintedAt: number;
+};
+
 export async function getOnChainState({
   farmAddress,
   id,
-}: GetStateArgs): Promise<{ game: GameState; owner: string }> {
+}: GetStateArgs): Promise<{
+  game: GameState;
+  owner: string;
+  rareItems: RareItem[];
+}> {
   if (!CONFIG.API_URL) {
-    return { game: EMPTY, owner: "" };
+    return { game: EMPTY, owner: "", rareItems: [] };
   }
 
   const balance = await metamask.getToken().balanceOf(farmAddress);
   const balances = await metamask.getInventory().getBalances(farmAddress);
   const farm = await metamask.getFarm().getFarm(id);
+
+  // Short term workaround to get data from session contract
+  const recipes = await metamask.getSessionManager().getRecipes(RECIPES_IDS);
+  const mintedAts = await metamask
+    .getSessionManager()
+    .getMintedAtBatch(id, RECIPES_IDS);
+  const rareItems = recipes.map((recipe, index) => ({
+    ...recipe,
+    mintedAt: mintedAts[index],
+  }));
+  console.log({ recipes, mintedAts, rareItems });
   const inventory = balancesToInventory(balances);
   const fields = populateFields(inventory);
 
@@ -58,5 +84,6 @@ export async function getOnChainState({
       inventory,
     },
     owner: farm.owner,
+    rareItems,
   };
 }

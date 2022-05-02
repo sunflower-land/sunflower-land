@@ -1,4 +1,4 @@
-import { isFarmBlacklisted } from "features/game/actions/visit";
+import { isFarmBlacklisted } from "features/game/actions/onchain";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { matchPath } from "react-router-dom";

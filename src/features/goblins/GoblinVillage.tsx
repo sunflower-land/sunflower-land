@@ -29,6 +29,8 @@ export const GoblinVillage: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
+  console.log({ rareItems: goblinState.context.rareItems });
+
   return (
     <div>
       <span>{JSON.stringify(goblinState.context.state)}</span>;

@@ -76,9 +76,9 @@ export const CropZoneTwo: React.FC = () => {
             src={goblin}
             className="absolute z-10 pointer-events-none"
             style={{
-              width: `${GRID_WIDTH_PX * 5}px`,
-              left: `${GRID_WIDTH_PX * -3}px`,
-              bottom: `${GRID_WIDTH_PX * 3.25}px`,
+              width: `${GRID_WIDTH_PX * 1}px`,
+              left: `${GRID_WIDTH_PX * -1}px`,
+              bottom: `${GRID_WIDTH_PX * 4.5}px`,
             }}
           />
           <img

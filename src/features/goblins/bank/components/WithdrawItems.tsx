@@ -17,7 +17,7 @@ import player from "assets/icons/player.png";
 import { toWei } from "web3-utils";
 import { metamask } from "lib/blockchain/metamask";
 import { canWithdraw } from "../lib/bankUtils";
-import { getOnChainState } from "features/game/actions/visit";
+import { getOnChainState } from "features/game/actions/onchain";
 
 import alert from "assets/icons/expression_alerted.png";
 

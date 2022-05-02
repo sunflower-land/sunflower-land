@@ -6,6 +6,15 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 
 const address = CONFIG.SESSION_CONTRACT;
 
+export type Recipe = {
+  mintId: number;
+  tokenAmount: number;
+  ingredientAmounts: number[];
+  ingredientIds: number[];
+  cooldownSeconds: number;
+  maxSupply: number;
+};
+
 /**
  * Sessions contract
  */
@@ -60,6 +69,48 @@ export class SessionManager {
     }
 
     return sessionId;
+  }
+
+  public async getRecipes(ids: number[], attempts = 0): Promise<Recipe[]> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const recipes: Recipe[] = await this.contract.methods
+        .getRecipeBatch(ids)
+        .call({ from: this.account });
+
+      return recipes;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.getRecipes(ids, attempts + 1);
+      }
+
+      throw error;
+    }
+  }
+
+  public async getMintedAtBatch(
+    farmId: number,
+    ids: number[],
+    attempts = 0
+  ): Promise<number[]> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const mintedAts: number[] = await this.contract.methods
+        .getMintedAtBatch(farmId, ids)
+        .call({ from: this.account });
+
+      return mintedAts;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.getMintedAtBatch(ids, attempts + 1);
+      }
+
+      throw error;
+    }
   }
 
   public async sync({

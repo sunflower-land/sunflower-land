@@ -13,7 +13,7 @@ import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { withdraw } from "../actions/withdraw";
-import { getOnChainState } from "../actions/visit";
+import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";

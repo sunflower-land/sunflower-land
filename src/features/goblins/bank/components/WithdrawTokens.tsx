@@ -18,7 +18,7 @@ import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";
 
 import { getTax } from "lib/utils/tax";
-import { getOnChainState } from "features/game/actions/visit";
+import { getOnChainState } from "features/game/actions/onchain";
 
 import alert from "assets/icons/expression_alerted.png";
 

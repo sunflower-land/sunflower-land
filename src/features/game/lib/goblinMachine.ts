@@ -6,10 +6,10 @@ import { Inventory } from "../types/game";
 import { mint } from "../actions/mint";
 import { LimitedItem } from "../types/craftables";
 import { withdraw } from "../actions/withdraw";
+import { getOnChainState, RareItem } from "../actions/onchain";
 import { ERRORS } from "lib/errors";
 
 import Decimal from "decimal.js-light";
-import { getOnChainState } from "../actions/visit";
 
 type GoblinState = {
   balance: Decimal;
@@ -21,6 +21,7 @@ export interface Context {
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
   farmAddress?: string;
+  rareItems: RareItem[];
 }
 
 type MintEvent = {
@@ -82,24 +83,26 @@ export function startGoblinVillage(authContext: AuthContext) {
         inventory: {},
       },
       sessionId: authContext.sessionId,
+      rareItems: [],
     },
     states: {
       loading: {
         invoke: {
           src: async () => {
-            const { game } = await getOnChainState({
+            const { game, rareItems } = await getOnChainState({
               farmAddress: authContext.address as string,
               id: Number(authContext.farmId),
             });
 
             game.id = authContext.farmId as number;
 
-            return { state: game };
+            return { state: game, rareItems };
           },
           onDone: {
             target: "playing",
             actions: assign({
               state: (_, event) => event.data.state,
+              rareItems: (_, event) => event.data.rareItems,
             }),
           },
           onError: {},

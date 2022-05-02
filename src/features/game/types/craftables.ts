@@ -699,3 +699,10 @@ export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...ANIMALS,
   ...FLAGS,
 });
+
+export const RARE_ITEMS: Record<LimitedItem, Craftable> = {
+  ...BLACKSMITH_ITEMS,
+  ...BARN_ITEMS,
+  ...MARKET_ITEMS,
+  ...FLAGS,
+};
