@@ -18,7 +18,6 @@ import { CropReward } from "./CropReward";
 import { actions } from "xstate";
 
 const POPOVER_TIME_MS = 1000;
-const HOVER_TIMEOUT = 1000;
 
 interface Props {
   selectedItem?: InventoryItemName;

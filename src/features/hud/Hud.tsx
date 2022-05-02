@@ -1,5 +1,4 @@
 import React from "react";
-import { metamask } from "lib/blockchain/metamask";
 
 import { Balance } from "./components/Balance";
 import { Inventory } from "./components/Inventory";

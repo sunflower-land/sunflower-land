@@ -69,7 +69,6 @@ export type Flower = {
   // Epoch time in milliseconds
   pollinatedAt: number;
   //coordinate distance from the barn
-  distance:number
 };
 
 export type FlowerColor = "Blue Flower" | "White Flower";

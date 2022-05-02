@@ -69,7 +69,7 @@ export const Plants: React.FC = () => {
 
   useEffect(() => {
     setIsPriceBoosted(hasSellBoost(inventory));
-  }, [state.inventory]);
+  }, [inventory, state.inventory]);
 
 
   console.log(CROPS())

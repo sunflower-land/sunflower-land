@@ -1,7 +1,5 @@
 import React from "react";
 
-import humanDeath from "assets/npcs/human_death.gif";
-
 export const SupplyReached: React.FC = () => {
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">

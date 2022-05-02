@@ -70,12 +70,12 @@ export const Airdrop: React.FC = () => {
   if (authState.matches({ airdropping: "success" })) {
     return (
       <>
-        <span>Succesfully airdropped!</span>
+        <span>Successfully airdropped!</span>
         <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
           <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
           <span className="text-xs">
-            YOU MUST SYNC YOUR FARM #{farmId} TO THE BLOCKCHAIN BEFORE MAY 4TH
-            TO APPLY THE AIRDROP
+            REFRESH THE PAGE AND SYNC YOUR FARM #{farmId} TO THE BLOCKCHAIN
+            BEFORE MAY 4TH TO APPLY THE AIRDROP.
           </span>
         </div>
       </>

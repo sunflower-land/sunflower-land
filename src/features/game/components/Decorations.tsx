@@ -5,6 +5,8 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/Modal";
 
+import close from "assets/icons/close.png";
+
 import sunflowerRock from "assets/nfts/sunflower_rock.png";
 import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
@@ -22,6 +24,7 @@ import fountain from "assets/nfts/fountain.gif";
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
 import farmerBath from "assets/nfts/farmer_bath.png";
+import sign from "assets/decorations/wood_sign.png";
 import swimmer from "assets/npcs/swimmer.gif";
 
 import beaver from "assets/nfts/beaver.gif";
@@ -138,6 +141,11 @@ export const NyonStatue: React.FC = () => {
       />
       <Modal centered show={showNyonLore} onHide={() => setShowNyonLore(false)}>
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={() => setShowNyonLore(false)}
+          />
           <div className="flex flex-col items-cetner justify-content-between">
             <div className="flex justify-content m-2">
               <img
@@ -169,7 +177,7 @@ export const NyonStatue: React.FC = () => {
 };
 
 export const Decorations: React.FC = () => {
-  const { gameService, selectedItem } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [
     {
       context: { state },
@@ -373,6 +381,31 @@ export const Decorations: React.FC = () => {
         />
       )}
 
+      {/* FarmId sign */}
+      <div
+        className="flex justify-center absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 3.5}px`,
+          left: `${GRID_WIDTH_PX * 48.8}px`,
+          top: `${GRID_WIDTH_PX * 32.5}px`,
+        }}
+      >
+        <img src={sign} className="w-full" />
+        <div
+          className="flex flex-col absolute"
+          style={{
+            width: `130px`,
+            top: `${GRID_WIDTH_PX * 0.65}px`,
+            left: `${GRID_WIDTH_PX * 0.2}px`,
+            color: "#ead4aa",
+            textAlign: "center",
+            textShadow: "1px 1px #723e39",
+          }}
+        >
+          <p style={{ fontSize: "8px" }}>Farm</p>
+          {state.id}
+        </div>
+      </div>
       {state.inventory["Farmer Bath"] && (
         <div
           className="flex justify-center absolute"

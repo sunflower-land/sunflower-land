@@ -11,6 +11,7 @@ import Shark from "./components/Shark";
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
 import swimmer from "assets/npcs/swimmer.gif";
+import waterBoat from "assets/npcs/water_boat.png";
 import { Frog } from "./components/Frog";
 
 export const Water: React.FC = () => {
@@ -68,6 +69,16 @@ export const Water: React.FC = () => {
             left: `${GRID_WIDTH_PX * 61}px`,
             top: `${GRID_WIDTH_PX * 2.5}px`,
             transform: "scaleX(-1)",
+          }}
+        />
+
+        <img
+          src={waterBoat}
+          className="absolute"
+          style={{
+            width: `${GRID_WIDTH_PX * 4.3}px`,
+            right: `${GRID_WIDTH_PX * 6.4}px`,
+            top: `${GRID_WIDTH_PX * 4.3}px`,
           }}
         />
       </div>
