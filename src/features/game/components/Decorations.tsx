@@ -40,6 +40,7 @@ import { Flags } from "./Flags";
 import { Inventory } from "../types/game";
 import { Panel } from "components/ui/Panel";
 import { fountainAudio } from "lib/utils/sfx";
+import { Sign } from "./Sign";
 
 // Only show 1 scarecrow at a time
 export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
@@ -381,31 +382,8 @@ export const Decorations: React.FC = () => {
         />
       )}
 
-      {/* FarmId sign */}
-      <div
-        className="flex justify-center absolute"
-        style={{
-          width: `${GRID_WIDTH_PX * 3.5}px`,
-          left: `${GRID_WIDTH_PX * 48.8}px`,
-          top: `${GRID_WIDTH_PX * 32.5}px`,
-        }}
-      >
-        <img src={sign} className="w-full" />
-        <div
-          className="flex flex-col absolute"
-          style={{
-            width: `130px`,
-            top: `${GRID_WIDTH_PX * 0.65}px`,
-            left: `${GRID_WIDTH_PX * 0.2}px`,
-            color: "#ead4aa",
-            textAlign: "center",
-            textShadow: "1px 1px #723e39",
-          }}
-        >
-          <p style={{ fontSize: "8px" }}>Farm</p>
-          {state.id}
-        </div>
-      </div>
+      <Sign id={state.id} inventory={state.inventory} />
+
       {state.inventory["Farmer Bath"] && (
         <div
           className="flex justify-center absolute"
