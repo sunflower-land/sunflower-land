@@ -35,7 +35,7 @@ export const Navigation: React.FC = () => {
    */
   useEffect(() => {
     if (window.ethereum) {
-      window.ethereum.on("networkChanged", () => {
+      window.ethereum.on("chainChanged", () => {
         send("NETWORK_CHANGED");
       });
 
