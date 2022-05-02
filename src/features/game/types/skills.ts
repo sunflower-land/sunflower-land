@@ -9,9 +9,13 @@ export type SkillName =
   | "Lumberjack"
   | "Prospector"
   | "Logger"
-  | "Gold Rush";
+  | "Gold Rush"
+  | "Artist"
+  | "Coder"
+  | "Liquidity Provider"
+  | "Discord Mod";
 
-export type Profession = "farming" | "gathering";
+export type Profession = "farming" | "gathering" | "contributor";
 
 enum REQUIRED_XP {
   LEVEL_1 = 0,
@@ -31,7 +35,7 @@ export const SKILL_TREE: Record<
   {
     level: number;
     profession: Profession;
-    conflicts: SkillName;
+    conflicts?: SkillName;
     requires?: SkillName;
     perks: string[];
   }
@@ -90,6 +94,26 @@ export const SKILL_TREE: Record<
     conflicts: "Logger",
     profession: "gathering",
     perks: ["Increase gold drops by 50%"],
+  },
+  Artist: {
+    level: 1,
+    profession: "contributor",
+    perks: ["Reduce tool costs by 20%"],
+  },
+  Coder: {
+    level: 1,
+    profession: "contributor",
+    perks: ["Crops yield 25% more"],
+  },
+  "Discord Mod": {
+    level: 1,
+    profession: "contributor",
+    perks: ["Minerals yield 25% more"],
+  },
+  "Liquidity Provider": {
+    level: 1,
+    profession: "contributor",
+    perks: ["50% reduced SFL withdrawal fee"],
   },
 };
 

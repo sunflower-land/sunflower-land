@@ -46,6 +46,7 @@ export const SkillTree: React.FC<Props> = ({ back }) => {
                   {
                     "bg-green-600": skill.profession === "farming",
                     "bg-[#7C4700]": skill.profession === "gathering",
+                    "bg-blue-600": skill.profession === "contributor",
                   }
                 )}
               >
@@ -53,11 +54,18 @@ export const SkillTree: React.FC<Props> = ({ back }) => {
               </span>
               <div className="flex justify-between h-12 items-center border-b border-white mb-2">
                 <span className="text-sm">{skillName}</span>
-                <img
-                  src={skillAcquired ? ITEM_DETAILS[skillName].image : lock}
-                  alt="farming"
-                  className="w-6 mx-2"
-                />
+                <div className="flex">
+                  <div className="w-10 flex justify-center">
+                    <img
+                      src={ITEM_DETAILS[skillName].image}
+                      alt="farming"
+                      className={classNames("h-6 mx-2", {
+                        "opacity-50": !skillAcquired,
+                      })}
+                    />
+                  </div>
+                  <img src={lock} alt="farming" className="h-6 mx-2" />
+                </div>
               </div>
               <ul className="list-disc">
                 {skill.perks.map((perk) => (
