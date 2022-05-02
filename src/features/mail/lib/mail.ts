@@ -1,8 +1,9 @@
 import { metamask } from "lib/blockchain/metamask";
 
 import Decimal from "decimal.js-light";
-import { fromWei } from "web3-utils";
+import { fromWei, toBN } from "web3-utils";
 import { Message } from "../types/message";
+import { CONFIG } from "lib/config";
 
 const MESSAGES_KEY = "readMessages";
 
@@ -12,8 +13,10 @@ enum Halvening {
   MILESTONE_2 = "10e+6",
 }
 
+const API_URL = CONFIG.API_URL;
+
 async function getSFLSupply() {
-  const supply = await metamask.getToken().totalSupply();
+  const supply = API_URL ? await metamask.getToken().totalSupply() : toBN(0);
 
   return new Decimal(fromWei(supply));
 }
@@ -61,15 +64,17 @@ export async function getInbox() {
     {
       id: "sfl-supply",
       title: "SFL Supply",
-      body: `Total SFL: ${sflBalance
-        .toDecimalPlaces(3, Decimal.ROUND_DOWN)
-        .toNumber()
-        .toLocaleString()}  
+      body: API_URL
+        ? `Total SFL: ${sflBalance
+            .toDecimalPlaces(3, Decimal.ROUND_DOWN)
+            .toNumber()
+            .toLocaleString()}  
         &nbsp;  
         Next halvening is at ${nextHalvening.toNumber().toLocaleString()}  
         &nbsp;   
         **Note: this value is read from the Blockchain. Other farmers may not have synced yet.**
-      `,
+      `
+        : "You're running Sunflower Land locally!",
     },
     {
       id: "2022-03-25",
