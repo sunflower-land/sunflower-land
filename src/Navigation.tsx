@@ -30,13 +30,13 @@ export const Navigation: React.FC = () => {
   }, [showGame]);
 
   /**
-   * Listen to web3 account/network changes
+   * Listen to web3 account/chain changes
    * TODO: move into a hook
    */
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on("chainChanged", () => {
-        send("NETWORK_CHANGED");
+        send("CHAIN_CHANGED");
       });
 
       window.ethereum.on("accountsChanged", function () {

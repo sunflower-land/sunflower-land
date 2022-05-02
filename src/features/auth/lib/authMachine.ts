@@ -82,7 +82,7 @@ export type BlockchainEvent =
   | CreateFarmEvent
   | LoadFarmEvent
   | {
-      type: "NETWORK_CHANGED";
+      type: "CHAIN_CHANGED";
     }
   | {
       type: "ACCOUNT_CHANGED";
@@ -557,7 +557,7 @@ export const authMachine = createMachine<
       },
     },
     on: {
-      NETWORK_CHANGED: {
+      CHAIN_CHANGED: {
         target: "connecting",
         actions: "resetFarm",
       },
