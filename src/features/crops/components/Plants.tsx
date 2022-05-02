@@ -71,6 +71,8 @@ export const Plants: React.FC = () => {
     setIsPriceBoosted(hasSellBoost(inventory));
   }, [state.inventory]);
 
+
+  console.log(CROPS())
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">

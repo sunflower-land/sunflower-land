@@ -72,8 +72,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     state.balance.lessThan(price.mul(amount).toString());
 
   const cropName = selected.name.split(" ")[0] as CropName;
-  const crop = CROPS()[cropName];
 
+  const crop = CROPS()[cropName];
+  console.log(crop);
   const stock = state.stock[selected.name] || new Decimal(0);
   const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
 

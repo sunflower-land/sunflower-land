@@ -143,6 +143,9 @@ import bee from "assets/animals/bee.png";
 import honey from "assets/resources/honey.png";
 import queen from "assets/animals/queen.png";
 import flower from "assets/resources/flower/flower.png";
+import flower2 from "assets/resources/flower/flower.png";
+import flowerSeed from "assets/resources/flower/flower.png";
+import flowerSeed2 from "assets/resources/flower/flower.png";
 
 import { InventoryItemName } from "./game";
 import {
@@ -156,12 +159,10 @@ import {
   BEE_ITEMS,
   BEES,
 } from "./craftables";
-import { CROPS, SEEDS } from "./crops";
+import { CROPS, FLOWER_SEEDS, SEEDS, FLOWERS } from "./crops";
 import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
-import { Flower } from "features/garden/components/Flower";
-import { FLOWER_SEEDS, FLOWERS } from "./flowers";
 
 export type ItemDetails = {
   description: string;
@@ -174,8 +175,10 @@ type Items = Record<InventoryItemName, ItemDetails>;
 
 const crops = CROPS();
 const seeds = SEEDS();
+
 const flowers = FLOWERS();
 const flowerSeeds = FLOWER_SEEDS();
+
 export const ITEM_DETAILS: Items = {
   // Crops
   Sunflower: {
@@ -218,7 +221,10 @@ export const ITEM_DETAILS: Items = {
     ...crops.Wheat,
     image: wheatCrop,
   },
-
+  "White-Flower": {
+    ...crops["White-Flower"],
+    image: flower,
+  },
   // Seeds
   "Sunflower Seed": {
     ...seeds["Sunflower Seed"],
@@ -270,6 +276,31 @@ export const ITEM_DETAILS: Items = {
     image: wheatSeed,
     secondaryImage: wheatCrop,
   },
+  "White-Flower Seed": {
+    ...seeds["White-Flower Seed"],
+    image: flowerSeed,
+    secondaryImage: flower,
+  },
+
+  //flowers
+  "Blue-Flower": {
+    ...flowers["Blue-Flower"],
+    image: flower,
+  },
+  "Red-Flower": {
+    ...flowers["Red-Flower"],
+    image: flower,
+  },
+  "Blue-Flower Seed": {
+    ...flowerSeeds["Blue-Flower Seed"],
+    image: beetrootSeed,
+    secondaryImage: flower,
+  },
+  "Red-Flower Seed": {
+    ...flowerSeeds["Red-Flower Seed"],
+    image: pumpkinSeed,
+    secondaryImage: flower,
+  },
 
   // Resources
   Wood: {
@@ -314,6 +345,10 @@ export const ITEM_DETAILS: Items = {
   },
   Bee: {
     ...BEES["Bee"],
+    image: bee,
+  },
+  "Voyager Bee": {
+    ...BEES["Voyager Bee"],
     image: bee,
   },
   Queen: {
@@ -723,24 +758,5 @@ export const ITEM_DETAILS: Items = {
   "Bee Box": {
     description: "incarese honey production",
     image: beebox,
-  },
-
-  "White Flower": {
-    ...flowers["White Flower"],
-    image: wheatCrop,
-  },
-  "Blue Flower": {
-    ...flowers["Blue Flower"],
-    image: flower,
-  },
-  "White Flower Seed": {
-    ...flowerSeeds["White Flower Seed"],
-    image: parsnipSeed,
-    secondaryImage: flower,
-  },
-  "Blue Flower Seed": {
-    ...flowerSeeds["Blue Flower Seed"],
-    image: wheatSeed,
-    secondaryImage: flower,
   },
 };

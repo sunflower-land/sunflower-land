@@ -11,8 +11,7 @@ import { CraftingItems } from "features/blacksmith/components/CraftingItems";
 import { Rare } from "features/blacksmith/components/Rare";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
-import { FLOWER_SEEDS } from "features/game/types/flowers";
-import { FlowerSale } from "./FlowerSale";
+
 
 interface Props {
   onClose: () => void;
@@ -30,10 +29,6 @@ export const BeeSale: React.FC<Props> = ({ onClose }) => {
           <Tab isActive={tab === "bees"} onClick={() => setTab("bees")}>
             <img src={bee} className="h-5 mr-2" />
             <span className="text-sm text-shadow">Bees</span>
-          </Tab>
-          <Tab isActive={tab === "buy"} onClick={() => setTab("buy")}>
-            <img src={hive} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Seeds</span>
           </Tab>
           <Tab isActive={tab === "rare"} onClick={() => setTab("rare")}>
             <img src={hive} className="h-5 mr-2" />
@@ -53,9 +48,6 @@ export const BeeSale: React.FC<Props> = ({ onClose }) => {
         }}
       >
         {tab === "bees" && <CraftingItems items={BEES} onClose={onClose} />}{" "}
-        {tab === "buy" && (
-          <CraftingItems items={FLOWER_SEEDS()} onClose={onClose} />
-        )}
         {tab === "rare" && (
           <Rare
             items={BEE_ITEMS}

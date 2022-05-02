@@ -12,7 +12,18 @@ export type CropName =
   | "Cauliflower"
   | "Parsnip"
   | "Radish"
-  | "Wheat";
+  | "Wheat"
+  | "White-Flower";
+
+export type FlowerName = "Blue-Flower" | "Red-Flower";
+
+export type Flower = {
+  buyPrice: Decimal;
+  sellPrice: Decimal;
+  energyNeeded: number;
+  name: FlowerName;
+  description: string;
+};
 
 export type Crop = {
   buyPrice: Decimal;
@@ -26,6 +37,7 @@ export type Crop = {
  * Crops and their original prices
  * TODO - use crop name from GraphQL API
  */
+
 export const CROPS: () => Record<CropName, Crop> = () => ({
   Sunflower: {
     buyPrice: marketRate(0.01),
@@ -99,9 +111,50 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     name: "Wheat",
     description: "The most harvested crop in the world.",
   },
+  "White-Flower": {
+    buyPrice: marketRate(5),
+    sellPrice: marketRate(7),
+    harvestSeconds: 1,
+    name: "White-Flower",
+    description: "The most pollinated crop in the world.",
+  },
+});
+
+export const FLOWERS: () => Record<FlowerName, Flower> = () => ({
+  "Blue-Flower": {
+    buyPrice: marketRate(0.01),
+    sellPrice: marketRate(0.02),
+    energyNeeded: 5,
+    name: "Blue-Flower",
+    description: "A oceany flower",
+  },
+  "Red-Flower": {
+    buyPrice: marketRate(0.01),
+    sellPrice: marketRate(0.02),
+    energyNeeded: 10,
+    name: "Red-Flower",
+    description: "A oceany flower",
+  },
 });
 
 export type SeedName = `${CropName} Seed`;
+
+export type FlowerSeedName = `${FlowerName} Seed`;
+
+export const FLOWER_SEEDS: () => Record<FlowerSeedName, Craftable> = () => ({
+  "Blue-Flower Seed": {
+    name: "Blue-Flower Seed",
+    price: marketRate(0.01),
+    ingredients: [],
+    description: "A sunny flower",
+  },
+  "Red-Flower Seed": {
+    name: "Red-Flower Seed",
+    price: marketRate(0.01),
+    ingredients: [],
+    description: "A sunny flower",
+  },
+});
 
 export const SEEDS: () => Record<SeedName, Craftable> = () => ({
   "Sunflower Seed": {
@@ -170,5 +223,12 @@ export const SEEDS: () => Record<SeedName, Craftable> = () => ({
     price: marketRate(5),
     ingredients: [],
     requires: "Radish Pie",
+  },
+  "White-Flower Seed": {
+    name: "White-Flower Seed",
+    description: "The most harvested crop in the world.",
+    price: marketRate(5),
+    ingredients: [],
+    requires: "Bee Hive",
   },
 });

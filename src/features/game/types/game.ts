@@ -1,20 +1,13 @@
 import { Decimal } from "decimal.js-light";
 import { GameEvent } from "../events";
 
-import { CropName, SeedName } from "./crops";
+import { CropName, FlowerName, FlowerSeedName, SeedName } from "./crops";
 import { CraftableName, BeeItem } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
-import { FlowerName, FlowerSeedName } from "./flowers";
+import { BeeName } from "./bees";
 
 export type Reward = {
-  items: {
-    name: InventoryItemName;
-    amount: number;
-  }[];
-};
-
-export type FlowerReward = {
   items: {
     name: InventoryItemName;
     amount: number;
@@ -26,15 +19,15 @@ export type FieldItem = {
   // Epoch time in milliseconds
   plantedAt: number;
   multiplier?: number;
-  reward?: FlowerReward;
+  reward?: Reward;
 };
-export type FlowerFieldItem = {
-  name: FlowerName;
-  // Epoch time in milliseconds
-  plantedAt: number;
-  multiplier?: number;
-  flowerReward?: FlowerReward;
-};
+
+export type ExplorationFieldItem = {
+  name: BeeName,
+  cooldown: number,
+  energy:number,
+  reward?: Reward,
+}
 
 export type Tree = {
   wood: Decimal;
@@ -48,11 +41,7 @@ export type Rock = {
   minedAt: number;
 };
 
-export type Flower = {
-  amount: Decimal;
-  // Epoch time in milliseconds
-  pollinatedAt: number;
-};
+
 
 export type EasterEgg =
   | "Red Egg"
@@ -73,10 +62,14 @@ export const EASTER_EGGS: EasterEgg[] = [
   "Yellow Egg",
 ];
 
-export type FlowerType = {
+ 
+
+export type Flower = {
   honey: Decimal;
-  //Epoch time in milliseconds
+  // Epoch time in milliseconds
   pollinatedAt: number;
+  //coordinate distance from the barn
+  distance:number
 };
 
 export type FlowerColor = "Blue Flower" | "White Flower";
@@ -105,15 +98,13 @@ export type GameState = {
   id?: number;
   balance: Decimal;
   fields: Record<number, FieldItem>;
-  flowerFields: Record<number, FlowerFieldItem>;
   trees: Record<number, Tree>;
   stones: Record<number, Rock>;
   iron: Record<number, Rock>;
   gold: Record<number, Rock>;
-  // flowers: Record<number, FlowerType>;
   inventory: Inventory;
   stock: Inventory;
-
+  flowers: Record<number,Flower>
   farmAddress?: string;
 
   skills: {

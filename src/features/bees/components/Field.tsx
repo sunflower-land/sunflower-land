@@ -8,15 +8,16 @@ import cancel from "assets/icons/cancel.png";
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName, Reward } from "features/game/types/game";
 
-import { CropName, CROPS } from "features/game/types/crops";
+import { CropName, CROPS, FLOWERS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { Soil } from "./Soil";
+import { Soil } from "../../crops/components/Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
-import { CropReward } from "./CropReward";
+import { CropReward } from "../../crops/components/CropReward";
 import { actions } from "xstate";
-
+import { InventoryItems } from "features/hud/components/InventoryItems";
+ 
 const POPOVER_TIME_MS = 1000;
 const HOVER_TIMEOUT = 1000;
 
@@ -27,8 +28,8 @@ interface Props {
   onboarding?: boolean;
 }
 
-const isCropReady = (now: number, plantedAt: number, harvestSeconds: number) =>
-  now - plantedAt > harvestSeconds * 1000;
+const isCropReady = (sentBees: number, neededBees: number) =>
+  sentBees >= neededBees
 
 export const Field: React.FC<Props> = ({
   selectedItem,
@@ -57,17 +58,18 @@ export const Field: React.FC<Props> = ({
     setReward(null);
     setTouchCount(0);
 
-    gameService.send("item.harvested", {
+    gameService.send("flower.chopped", {
       index: fieldIndex,
+      item: selectedItem,
     });
   };
 
   const handleMouseHover = () => {
     // check field if there is a crop
     if (field) {
-      const crop = CROPS()[field.name];
+      const flower = FLOWERS()[field.name];
       const now = Date.now();
-      const isReady = isCropReady(now, field.plantedAt, crop.harvestSeconds);
+      const isReady = isCropReady(now, flower.neededBees);
       const isJustPlanted = now - field.plantedAt < 1000;
 
       // show details if field is NOT ready and NOT just planted
@@ -99,7 +101,7 @@ export const Field: React.FC<Props> = ({
 
     if (
       field?.reward &&
-      isCropReady(now, field.plantedAt, CROPS()[field.name].harvestSeconds)
+      isCropReady(now,  FLOWERS()[field.name].beesNeeded)
     ) {
       if (touchCount < 1) {
         setTouchCount((count) => count + 1);
@@ -140,10 +142,11 @@ export const Field: React.FC<Props> = ({
     }
 
     try {
-      gameService.send("item.harvested", {
+      gameService.send("flower.chopped", {
         index: fieldIndex,
         item: selectedItem,
       });
+
       harvestAudio.play();
 
       displayPopover(

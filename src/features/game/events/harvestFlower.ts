@@ -1,10 +1,11 @@
-import { GameState, Inventory } from "../types/game";
+import { GameState, Inventory, InventoryItemName } from "../types/game";
+import { CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
-import { FLOWERS } from "../types/flowers";
 
 export type HarvestFlowerAction = {
-  type: "flower.harvested";
+  item?: InventoryItemName;
+  type: "flower.chopped";
   index: number;
 };
 
@@ -14,56 +15,38 @@ type Options = {
   createdAt?: number;
 };
 
+const randomSeed = () => {
+  const rand = Math.floor(Math.random() * 10);
+  if (rand == 9) {
+    return 3;
+  } else {
+    return 0;
+  }
+};
+
 export function flowerHarvest({
   state,
   action,
   createdAt = Date.now(),
 }: Options) {
-  const flowerFields = { ...state.flowerFields };
-
-  if (action.index < 0) {
-    throw new Error("Field does not exist");
-  }
+  const fields = { ...state.fields };
 
   if (!Number.isInteger(action.index)) {
     throw new Error("Field does not exist");
   }
 
-  if (
-    action.index >= 5 &&
-    action.index <= 9 &&
-    !state.inventory["Pumpkin Soup"]
-  ) {
-    throw new Error("Goblin land!");
+  if (action.index > 24) {
+    throw new Error("Field does not exist");
   }
 
-  if (
-    action.index >= 10 &&
-    action.index <= 15 &&
-    !state.inventory["Sauerkraut"]
-  ) {
-    throw new Error("Goblin land!");
-  }
-
-  if (
-    action.index >= 16 &&
-    action.index <= 24 &&
-    !state.inventory["Roasted Cauliflower"]
-  ) {
-    throw new Error("Goblin land!");
-  }
- 
-
-  const flowerField = flowerFields[action.index];
-
-
-  if (!flowerField) {
+  const field = fields[action.index];
+  if (!field) {
     throw new Error("Nothing was planted");
   }
 
-  const flower = FLOWERS()[flowerField.name];
+  const crop = CROPS()[field.name];
 
-  if (createdAt - flowerField.plantedAt < flower.harvestSeconds * 1000) {
+  if (createdAt - field.plantedAt < crop.harvestSeconds * 1000) {
     throw new Error("Not ready");
   }
 
@@ -71,20 +54,22 @@ export function flowerHarvest({
     throw new Error("Invalid harvest");
   }
 
-  const newFlowerFields = flowerFields;
-  delete newFlowerFields[action.index];
+  const newFields = fields;
+  delete newFields[action.index];
 
-  const flowerCount = state.inventory[flowerField.name] || new Decimal(0);
-  const multiplier = flowerField.multiplier || 1;
+  const cropCount = state.inventory[field.name] || new Decimal(0);
+  const seedCount = state.inventory[`${field.name} Seed`] || new Decimal(0);
+  const redSedcount = state.inventory["Red-Flower Seed"] || new Decimal(0);
+  const multiplier = field.multiplier || 1;
 
   const inventory: Inventory = {
     ...state.inventory,
-    [flowerField.name]: flowerCount.add(multiplier),
+    [field.name]: cropCount.add(multiplier),
   };
 
   return {
     ...state,
-    flowerFields: newFlowerFields,
+    fields: newFields,
     inventory,
   } as GameState;
 }

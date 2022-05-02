@@ -1,9 +1,10 @@
-import { GameState, Inventory } from "../types/game";
+import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
 
 export type HarvestAction = {
+  item?: InventoryItemName;
   type: "item.harvested";
   index: number;
 };
@@ -49,7 +50,7 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Goblin land!");
   }
 
-  if (action.index > 21) {
+  if (action.index > 24) {
     throw new Error("Field does not exist");
   }
 
@@ -74,6 +75,7 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   const cropCount = state.inventory[field.name] || new Decimal(0);
   const multiplier = field.multiplier || 1;
 
+  const axeAmount = state.inventory.Axe || new Decimal(0);
   const inventory: Inventory = {
     ...state.inventory,
     [field.name]: cropCount.add(multiplier),

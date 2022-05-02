@@ -1,10 +1,17 @@
 import Decimal from "decimal.js-light";
-import { SeedName, SEEDS } from "../types/crops";
-import { FlowerSeedName, FLOWER_SEEDS } from "../types/flowers";
+import {
+  FLOWERS,
+  FlowerSeedName,
+  FLOWER_SEEDS,
+  SeedName,
+  SEEDS,
+} from "../types/crops";
+
 import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
+import { Bee, BeeName } from "./bees";
 
 export { FLAGS };
 
@@ -21,7 +28,7 @@ export type CraftableName =
   | Food
   | Animal
   | Flag
-  | Bee
+  | BeeName
   | FlowerSeedName;
 
 export type Craftable = {
@@ -90,7 +97,6 @@ export type Tool =
   | "Hammer"
   | "Rod";
 
-export type Bee = "Bee";
 export type Food =
   | "Pumpkin Soup"
   | "Roasted Cauliflower"
@@ -732,11 +738,18 @@ export const ANIMALS: Record<Animal, Craftable> = {
   },
 };
 
-export const BEES: Record<Bee, Craftable> = {
+export const BEES: Record<BeeName, Craftable> = {
   Bee: {
     name: "Bee",
-    description: "Produced delicious honey!",
-    price: new Decimal(1),
+    description: "Produce delicious honey!",
+    price: new Decimal(5),
+    ingredients: [],
+    disabled: false,
+  },
+  "Voyager Bee": {
+    name: "Voyager Bee",
+    description: "Gather all sort of nature items!",
+    price: new Decimal(15),
     ingredients: [],
     disabled: false,
   },

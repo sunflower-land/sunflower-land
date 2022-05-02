@@ -1,106 +1,106 @@
-import { Panel } from "components/ui/Panel";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Modal } from "react-bootstrap";
+// import { Panel } from "components/ui/Panel";
+// import React, { useContext, useEffect, useRef, useState } from "react";
+// import { Modal } from "react-bootstrap";
 
-import { FlowerReward } from "features/game/types/game";
+// import { FlowerReward } from "features/game/types/game";
 
-import secure from "assets/npcs/synced.gif";
-import idle from "assets/npcs/idle.gif";
+// import secure from "assets/npcs/synced.gif";
+// import idle from "assets/npcs/idle.gif";
 
-import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { Context } from "features/game/GameProvider";
-import { addNoise, RandomID } from "lib/images";
+// import { Button } from "components/ui/Button";
+// import { ITEM_DETAILS } from "features/game/types/images";
+// import { Context } from "features/game/GameProvider";
+// import { addNoise, RandomID } from "lib/images";
 
-interface Props {
-  flowerReward: FlowerReward | null;
-  flowerFieldIndex: number;
-  onCollected: () => void;
-}
+// interface Props {
+//   flowerReward: FlowerReward | null;
+//   flowerFieldIndex: number;
+//   onCollected: () => void;
+// }
 
-function randomIntFromInterval(min: number, max: number) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+// function randomIntFromInterval(min: number, max: number) {
+//   // min and max included
+//   return Math.floor(Math.random() * (max - min + 1) + min);
+// }
 
-export const FlowerRewards: React.FC<Props> = ({
-  flowerReward,
-  onCollected,
-  flowerFieldIndex,
-}) => {
-  const { gameService } = useContext(Context);
-  const [opened, setOpened] = useState(false);
+// export const FlowerRewards: React.FC<Props> = ({
+//   flowerReward,
+//   onCollected,
+//   flowerFieldIndex,
+// }) => {
+//   const { gameService } = useContext(Context);
+//   const [opened, setOpened] = useState(false);
 
-  const offset = useRef(randomIntFromInterval(30, 100));
-  const id = useRef(RandomID());
+//   const offset = useRef(randomIntFromInterval(30, 100));
+//   const id = useRef(RandomID());
 
-  useEffect(() => {
-    if (flowerReward) {
-      addNoise(id.current);
-    }
-  }, [flowerReward]);
+//   useEffect(() => {
+//     if (flowerReward) {
+//       addNoise(id.current);
+//     }
+//   }, [flowerReward]);
 
-  if (!flowerReward) {
-    return null;
-  }
+//   if (!flowerReward) {
+//     return null;
+//   }
 
-  const open = () => {
-    setOpened(true);
-    gameService.send("flower.reward", { flowerFieldIndex });
-  };
+//   const open = () => {
+//     setOpened(true);
+//     gameService.send("flower.reward", { flowerFieldIndex });
+//   };
 
-  const close = () => {
-    onCollected();
-    setOpened(false);
-  };
+//   const close = () => {
+//     onCollected();
+//     setOpened(false);
+//   };
 
-  return (
-    <Modal centered show={true}>
-      <Panel>
-        <div className="flex flex-col items-center justify-between h-52">
-          <span className="text-center mb-2">Woohoo! You found a reward</span>
+//   return (
+//     <Modal centered show={true}>
+//       <Panel>
+//         <div className="flex flex-col items-center justify-between h-52">
+//           <span className="text-center mb-2">Woohoo! You found a reward</span>
 
-          {opened ? (
-            <>
-              {flowerReward.items.map((item) => (
-                <div key={item.name} className="flex items-center">
-                  <img
-                    className="w-8 img-highlight mr-2"
-                    src={ITEM_DETAILS[item.name].image}
-                  />
-                  <span className="text-center mb-2">
-                    {`${item.amount} ${item.name}s`}
-                  </span>
-                </div>
-              ))}
-              <Button onClick={close} className="mt-4 w-28">
-                Close
-              </Button>
-            </>
-          ) : (
-            <>
-              <div
-                className="flex items-center justify-between"
-                style={{
-                  width: `${offset.current}%`,
-                  // Randomly flip the side it is on
-                  transform: `scaleX(${offset.current % 2 === 0 ? 1 : -1})`,
-                }}
-              >
-                <img src={idle} className="w-16" />
-                <img
-                  src={secure}
-                  id={id.current}
-                  className="w-16 hover:img-highlight cursor-pointer"
-                  onClick={open}
-                />
-              </div>
+//           {opened ? (
+//             <>
+//               {flowerReward.items.map((item) => (
+//                 <div key={item.name} className="flex items-center">
+//                   <img
+//                     className="w-8 img-highlight mr-2"
+//                     src={ITEM_DETAILS[item.name].image}
+//                   />
+//                   <span className="text-center mb-2">
+//                     {`${item.amount} ${item.name}s`}
+//                   </span>
+//                 </div>
+//               ))}
+//               <Button onClick={close} className="mt-4 w-28">
+//                 Close
+//               </Button>
+//             </>
+//           ) : (
+//             <>
+//               <div
+//                 className="flex items-center justify-between"
+//                 style={{
+//                   width: `${offset.current}%`,
+//                   // Randomly flip the side it is on
+//                   transform: `scaleX(${offset.current % 2 === 0 ? 1 : -1})`,
+//                 }}
+//               >
+//                 <img src={idle} className="w-16" />
+//                 <img
+//                   src={secure}
+//                   id={id.current}
+//                   className="w-16 hover:img-highlight cursor-pointer"
+//                   onClick={open}
+//                 />
+//               </div>
 
-              <span className="text-sm">Tap the chest to open it</span>
-            </>
-          )}
-        </div>
-      </Panel>
-    </Modal>
-  );
-};
+//               <span className="text-sm">Tap the chest to open it</span>
+//             </>
+//           )}
+//         </div>
+//       </Panel>
+//     </Modal>
+//   );
+// };

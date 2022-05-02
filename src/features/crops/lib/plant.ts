@@ -101,4 +101,9 @@ export const LIFECYCLE: Record<CropName, Lifecycle> = {
     almost: wheatAlmostDone,
     ready: wheatPlant,
   },
+  "White-Flower": {
+    seedling: wheatSeedling,
+    almost: wheatAlmostDone,
+    ready: wheatPlant,
+  }
 };
