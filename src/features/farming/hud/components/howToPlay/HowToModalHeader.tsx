@@ -2,7 +2,7 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 import arrowLeft from "assets/icons/arrow_left.png";
 import close from "assets/icons/close.png";
-import { isNewFarm } from "features/farming/hud/lib/onboarding";
+import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 
 interface Props {
   onClose: () => void;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const HowToModalHeader = ({ onClose, onBack, title }: Props) => {
-  const canClose = !isNewFarm();
+  const canClose = !useIsNewFarm();
 
   return (
     <Modal.Header className="justify-start">

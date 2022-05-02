@@ -7,11 +7,7 @@ import { HowToFarm } from "./HowToFarm";
 import { HowToUpgrade } from "./HowToUpgrade";
 import { HowToSync } from "./HowToSync";
 import { LetsGo } from "./LetsGo";
-<<<<<<< HEAD:src/features/hud/components/howToPlay/HowToPlay.tsx
-import { useIsNewFarm } from "features/hud/lib/onboarding";
-=======
-import { isNewFarm } from "features/farming/hud/lib/onboarding";
->>>>>>> d29df59 (add basic goblin town and refactor on folder structure):src/features/farming/hud/components/howToPlay/HowToPlay.tsx
+import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 
 enum Steps {
   HowToFarm = 1,
