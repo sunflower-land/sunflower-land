@@ -6,7 +6,6 @@ export type ResourceName =
   | "Egg"
   | "Chicken"
   | "Bee"
-  | "Voyager Bee"
   | "Queen"
   | "Honey";
 
@@ -34,9 +33,6 @@ export const RESOURCES: Record<ResourceName, Resource> = {
   },
   Bee: {
     description: "Used to make honey",
-  },
-  "Voyager Bee": {
-    description: "Used to gather flower seeds",
   },
   Queen: {
     description: "Used to make more honey",

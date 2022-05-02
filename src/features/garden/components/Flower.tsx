@@ -36,17 +36,9 @@ const HITS = 3;
 
 interface Props {
   flowerIndex: number;
-  flowerPosX: number;
-  flowerPosY: number;
-  flowerSrc: string;
 }
 
-export const Flower: React.FC<Props> = ({
-  flowerIndex,
-  flowerPosX,
-  flowerPosY,
-  flowerSrc,
-}) => {
+export const Flower: React.FC<Props> = ({ flowerIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -61,15 +53,10 @@ export const Flower: React.FC<Props> = ({
   const treeRef = useRef<HTMLDivElement>(null);
   const shakeGif = useRef<SpriteSheetInstance>();
   const choppedGif = useRef<SpriteSheetInstance>();
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
 
-  // Reset the pollinate count when clicking outside of the component
+  // Reset the shake count when clicking outside of the component
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (treeRef.current && !treeRef.current.contains(event.target)) {
@@ -84,7 +71,7 @@ export const Flower: React.FC<Props> = ({
 
   const flower = game.context.state.flowers[flowerIndex];
 
-  // Users will need to refresh to pollinate the flower again
+  // Users will need to refresh to chop the tree again
   const harvested = !canPollinate(flower);
 
   const displayPopover = async (element: JSX.Element) => {
@@ -194,82 +181,31 @@ export const Flower: React.FC<Props> = ({
   const percentage = 100 - (timeLeft / FLOWER_RECOVERY_SECONDS) * 100;
 
   return (
-    <>
-      {
+    <div className="relative" style={{ height: "106px" }}>
+      {!harvested && (
         <div
-          style={{
-            position: "absolute",
-            zIndex: 100,
-            background:"blue"
-          }}
+          onMouseEnter={handleHover}
+          onMouseLeave={handleMouseLeave}
+          ref={treeRef}
+          className="group cursor-pointer  w-full h-full"
+          onClick={shake}
         >
-          {!harvested && (
-            <div
-              onMouseEnter={handleHover}
-              onMouseLeave={handleMouseLeave}
-              ref={treeRef}
-              className="group cursor-pointer  w-full h-full"
-              onClick={shake}
-              style={{
-                position: "relative",
-                top: flowerPosY,
-                left: flowerPosX,
-                width: "100px",
-                height: "100px",
-                background: "red",
-              }}
-            >
-              <Spritesheet
-                className="group-hover:img-highlight pointer-events-none transform"
-                style={{
-                  width: `${GRID_WIDTH_PX * 4}px`,
-                  // Line it up with the click area
-                  transform: `translateX(-${GRID_WIDTH_PX * 2.5}px) `,
-                  imageRendering: "pixelated",
-                }}
-                getInstance={(spritesheet) => {
-                  shakeGif.current = spritesheet;
-                }}
-                image={flowerSrc}
-                widthFrame={266}
-                heightFrame={168}
-                fps={24}
-                steps={11}
-                direction={`forward`}
-                autoplay={false}
-                loop={true}
-                onLoopComplete={(spritesheet) => {
-                  spritesheet.pause();
-                }}
-              />
-              <div
-                className={`absolute bottom-8 -right-[1rem] transition pointer-events-none w-28 z-20 ${
-                  showLabel ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <Label>Equip a bee first</Label>
-              </div>
-            </div>
-          )}
-
           <Spritesheet
+            className="group-hover:img-highlight pointer-events-none transform"
             style={{
               width: `${GRID_WIDTH_PX * 4}px`,
               // Line it up with the click area
-              transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
-              opacity: collecting ? 1 : 0,
-              transition: "opacity 0.2s ease-in",
+              transform: `translateX(-${GRID_WIDTH_PX * 2.5}px) `,
               imageRendering: "pixelated",
             }}
-            className="absolute bottom-0 pointer-events-none"
             getInstance={(spritesheet) => {
-              choppedGif.current = spritesheet;
+              shakeGif.current = spritesheet;
             }}
-            image={honeySheet}
+            image={flowerSheet}
             widthFrame={266}
             heightFrame={168}
             fps={24}
-            steps={8}
+            steps={11}
             direction={`forward`}
             autoplay={false}
             loop={true}
@@ -277,81 +213,90 @@ export const Flower: React.FC<Props> = ({
               spritesheet.pause();
             }}
           />
-
-          {harvested && (
-            <>
-              {/* <img
-                src={flowerStump}
-                className="absolute"
-                style={{
-                  width: `${GRID_WIDTH_PX * 4}px`,
-                  transform: `translateX(-${GRID_WIDTH_PX * 2.5}px) `,
-                  background: "red",
-                }}
-                onMouseEnter={handleMouseHoverStump}
-                onMouseLeave={handleMouseLeaveStump}
-              /> */}
-              <Spritesheet
-                className="group-hover:img-highlight pointer-events-none transform"
-                style={{
-                  width: `${GRID_WIDTH_PX * 4}px`,
-                  // Line it up with the click area
-                  transform: `translateX(-${GRID_WIDTH_PX * 2.5}px) `,
-                  imageRendering: "pixelated",
-                }}
-                getInstance={(spritesheet) => {
-                  shakeGif.current = spritesheet;
-                }}
-                image={flowerSrc}
-                widthFrame={266}
-                heightFrame={168}
-                fps={24}
-                steps={11}
-                direction={`forward`}
-                autoplay={false}
-                loop={true}
-                onLoopComplete={(spritesheet) => {
-                  spritesheet.pause();
-                }}
-              />
-              <div className="absolute -bottom-4 left-1.5">
-                <ProgressBar percentage={percentage} seconds={timeLeft} />
-              </div>
-              <TimeLeftPanel
-                text="Recovers in:"
-                timeLeft={timeLeft}
-                showTimeLeft={showStumpTimeLeft}
-              />
-            </>
-          )}
-
           <div
-            className={classNames(
-              "transition-opacity pointer-events-none absolute top-4 left-2",
-              {
-                "opacity-100": touchCount > 0,
-                "opacity-0": touchCount === 0,
-              }
-            )}
+            className={`absolute bottom-8 -right-[1rem] transition pointer-events-none w-28 z-20 ${
+              showLabel ? "opacity-100" : "opacity-0"
+            }`}
           >
-            <HealthBar
-              percentage={collecting ? 0 : 100 - (touchCount / 3) * 100}
-            />
-          </div>
-
-          <div
-            className={classNames(
-              "transition-opacity absolute -bottom-5 w-40 -left-16 z-20 pointer-events-none",
-              {
-                "opacity-100": showPopover,
-                "opacity-0": !showPopover,
-              }
-            )}
-          >
-            {popover}
+            <Label>Equip a bee first</Label>
           </div>
         </div>
-      }
-    </>
+      )}
+
+      <Spritesheet
+        style={{
+          width: `${GRID_WIDTH_PX * 4}px`,
+          // Line it up with the click area
+          transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+          opacity: collecting ? 1 : 0,
+          transition: "opacity 0.2s ease-in",
+          imageRendering: "pixelated",
+        }}
+        className="absolute bottom-0 pointer-events-none"
+        getInstance={(spritesheet) => {
+          choppedGif.current = spritesheet;
+        }}
+        image={honeySheet}
+        widthFrame={266}
+        heightFrame={168}
+        fps={24}
+        steps={8}
+        direction={`forward`}
+        autoplay={false}
+        loop={true}
+        onLoopComplete={(spritesheet) => {
+          spritesheet.pause();
+        }}
+      />
+
+      {harvested && (
+        <>
+          <img
+            src={flowerStump}
+            className="absolute"
+            style={{
+              width: `${GRID_WIDTH_PX}px`,
+              bottom: "9px",
+              left: "5px",
+              transform: "scale(2)",
+            }}
+            onMouseEnter={handleMouseHoverStump}
+            onMouseLeave={handleMouseLeaveStump}
+          />
+          <div className="absolute -bottom-4 left-1.5">
+            <ProgressBar percentage={percentage} seconds={timeLeft} />
+          </div>
+          <TimeLeftPanel
+            text="Recovers in:"
+            timeLeft={timeLeft}
+            showTimeLeft={showStumpTimeLeft}
+          />
+        </>
+      )}
+
+      <div
+        className={classNames(
+          "transition-opacity pointer-events-none absolute top-4 left-2",
+          {
+            "opacity-100": touchCount > 0,
+            "opacity-0": touchCount === 0,
+          }
+        )}
+      >
+        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
+      </div>
+
+      <div
+        className={classNames(
+          "transition-opacity absolute -bottom-5 w-40 -left-16 z-20 pointer-events-none",
+          {
+            "opacity-100": showPopover,
+            "opacity-0": !showPopover,
+          }
+        )}
+      >
+        {popover}
+      </div>
+    </div>
   );
 };

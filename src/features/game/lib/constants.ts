@@ -15,7 +15,7 @@ export const INITIAL_STOCK: Inventory = {
   "Parsnip Seed": new Decimal(40),
   "Radish Seed": new Decimal(40),
   "Wheat Seed": new Decimal(40),
-  "White-Flower Seed": new Decimal(40),
+ 
 
   Axe: new Decimal(50),
   Pickaxe: new Decimal(30),
@@ -29,7 +29,7 @@ export const INITIAL_STOCK: Inventory = {
 
   //test bee stock
   Bee: new Decimal(100),
-  "Voyager Bee": new Decimal(100),
+
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
@@ -98,27 +98,22 @@ export const INITIAL_FLOWERS: GameState["flowers"] = {
   0: {
     honey: new Decimal(3),
     pollinatedAt: 0,
-    distance: 10,
   },
   1: {
     honey: new Decimal(3),
     pollinatedAt: 0,
-    distance: 10,
   },
   2: {
     honey: new Decimal(3),
     pollinatedAt: 0,
-    distance: 10,
   },
   3: {
     honey: new Decimal(3),
     pollinatedAt: 0,
-    distance: 10,
   },
   4: {
     honey: new Decimal(3),
     pollinatedAt: 0,
-    distance: 10,
   },
 };
 

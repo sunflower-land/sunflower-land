@@ -124,12 +124,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
 
   //Bees items
   Bee: 850,
-  "Voyager Bee": 851,
-  Queen: 852,
-  Honey: 853,
-  "Bee Hive": 854,
-  "Bee Box": 855,
-  "Sunflower Cake": 856,
+  Queen: 851,
+  Honey: 852,
+  "Bee Hive": 853,
+  "Bee Box": 854,
+  "Sunflower Cake": 855,
 
   // Special events
   "Egg Basket": 901,
@@ -141,13 +140,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Orange Egg": 907,
   "Green Egg": 908,
   "Easter Bunny": 909,
-
-  "White-Flower": 911,
-  "White-Flower Seed": 913,
-  "Blue-Flower": 914,
-  "Blue-Flower Seed": 915,
-  "Red-Flower": 916,
-  "Red-Flower Seed": 97,
 };
 
 // The reverse of above

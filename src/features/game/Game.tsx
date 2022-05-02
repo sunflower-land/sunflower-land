@@ -131,9 +131,9 @@ export const Game: React.FC = () => {
       <House />
       <Tailor />
       <Lore />
-      <Apicultor />
+
       <Bees />
-      {/* <Garden /> */}
+      <Garden />
     </>
   );
 };

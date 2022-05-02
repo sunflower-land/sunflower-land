@@ -47,7 +47,6 @@ type Options = {
   state: GameState;
   action: HoneyAction;
   pollinatedAt?: number;
-  distance:number;
 };
 
 export function Pollinate({
@@ -93,7 +92,6 @@ export function Pollinate({
         }),
         // Placeholder, random numbers generated on server side
         honey: new Decimal(3),
-        distance: new Decimal(10)
       },
     },
   };

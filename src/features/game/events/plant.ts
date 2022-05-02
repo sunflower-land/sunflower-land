@@ -21,10 +21,7 @@ const VALID_SEEDS: InventoryItemName[] = [
   "Parsnip Seed",
   "Radish Seed",
   "Wheat Seed",
-  "White-Flower Seed",
 ];
-
-
 
 export function isSeed(crop: InventoryItemName): crop is SeedName {
   return VALID_SEEDS.includes(crop);
@@ -89,7 +86,6 @@ type GetFieldArgs = {
   inventory: Inventory;
 };
 
-type flowerSeed = "White-Flower Seed" | "Blue-Flower Seed";
 /**
  * Based on items, the output will be different
  */
@@ -144,28 +140,9 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
   ) {
     throw new Error("Goblin land!");
   }
-  if (
-    action.index >= 22 &&
-    action.index <= 24 &&
-    !state.inventory["Bee Hive"]
-  ) {
-    throw new Error("Bee land!");
-  }
 
-  if (action.index > 24) {
+  if (action.index > 21) {
     throw new Error("Field does not exist");
-  }
-
-  if(action.index > 0 && action.index < 22 && action.item == "White-Flower Seed"){
-    throw new Error("Can't plant flower seeds here")
-  }
-
-  if (
-    action.index > 21 &&
-    action.index <= 24 &&
-    action.item != "White-Flower Seed"
-  ) {
-    throw new Error("Flower Land!");
   }
 
   const field = fields[action.index];
