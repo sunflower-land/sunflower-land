@@ -20,8 +20,11 @@ import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { KNOWN_IDS } from "features/game/types";
 import { mintCooldown } from "../lib/mintUtils";
 import { secondsToString } from "lib/utils/time";
+import { CONFIG } from "lib/config";
 
 const TAB_CONTENT_HEIGHT = 360;
+
+const API_URL = CONFIG.API_URL;
 
 interface Props {
   onClose: () => void;
@@ -85,7 +88,9 @@ export const Rare: React.FC<Props> = ({
   console.log({ itemsMintedAt });
   useEffect(() => {
     const load = async () => {
-      const supply = await metamask.getInventory().totalSupply();
+      const supply = API_URL
+        ? await metamask.getInventory().totalSupply()
+        : ({} as ItemSupply);
       setSupply(supply);
       setIsLoading(false);
     };
