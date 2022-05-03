@@ -38,7 +38,13 @@ export function getBuyPrice(item: Craftable, inventory: Inventory) {
     return new Decimal(0);
   }
 
-  return item.price;
+  let price = item.price;
+
+  if (inventory.Artist?.gte(1)) {
+    price = price.mul(0.9);
+  }
+
+  return price;
 }
 
 type Options = {

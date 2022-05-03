@@ -98,17 +98,17 @@ export const SKILL_TREE: Record<
   Artist: {
     level: 1,
     profession: "contributor",
-    perks: ["Reduce tool costs by 20%"],
+    perks: ["Save 10% on shop & blacksmith crafting"],
   },
   Coder: {
     level: 1,
     profession: "contributor",
-    perks: ["Crops yield 25% more"],
+    perks: ["Crops yield 20% more"],
   },
   "Discord Mod": {
     level: 1,
     profession: "contributor",
-    perks: ["Minerals yield 25% more"],
+    perks: ["Yield 45% more wood"],
   },
   "Liquidity Provider": {
     level: 1,
