@@ -1,7 +1,6 @@
 import React from "react";
 
-import sign from "assets/decorations/wood_sign.png";
-import disc from "assets/icons/disc.png";
+import sign from "assets/decorations/woodsign.png";
 
 import { Inventory, InventoryItemName } from "../types/game";
 import { GRID_WIDTH_PX } from "../lib/constants";
@@ -13,7 +12,7 @@ interface Props {
   id: number;
 }
 
-export const Sign: React.FC<Props> = ({ id, inventory }) => {
+export const Sign: React.FC<Props> = ({ inventory }) => {
   const badges = (Object.keys(SKILL_TREE) as InventoryItemName[]).filter(
     (name) => inventory[name]?.gte(1)
   );
@@ -24,8 +23,8 @@ export const Sign: React.FC<Props> = ({ id, inventory }) => {
       className="flex justify-center absolute"
       style={{
         width: `${GRID_WIDTH_PX * 3.5}px`,
-        left: `${GRID_WIDTH_PX * 48.8}px`,
-        top: `${GRID_WIDTH_PX * 32.5}px`,
+        left: `${GRID_WIDTH_PX * 48.9}px`,
+        top: `${GRID_WIDTH_PX * 32.8}px`,
       }}
     >
       {badgeImages.length >= 1 && (
@@ -79,7 +78,7 @@ export const Sign: React.FC<Props> = ({ id, inventory }) => {
         className="flex flex-col absolute"
         style={{
           width: `130px`,
-          top: `${GRID_WIDTH_PX * 0.65}px`,
+          top: `${GRID_WIDTH_PX * 0.27}px`,
           left: `${GRID_WIDTH_PX * 0.2}px`,
           color: "#ead4aa",
           textAlign: "center",
