@@ -19,6 +19,7 @@ export const Garden: React.FC = () => {
       }}
       className="absolute "
     >
+      <Apicultor />
       <div
         className="absolute"
         style={{

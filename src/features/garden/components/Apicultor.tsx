@@ -18,8 +18,8 @@ export const Apicultor: React.FC = () => {
         background: "red",
         width: "100px",
         position:"absolute",
-        right: `${GRID_WIDTH_PX * 20}px`,
-        top: `${GRID_WIDTH_PX * 15}px`,
+        right: `${GRID_WIDTH_PX * 0.50}px`,
+        top: `${GRID_WIDTH_PX * 1.05}px`,
       }}
     >
       <img
