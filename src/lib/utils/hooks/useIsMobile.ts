@@ -5,7 +5,7 @@ export function detectMobile() {
     return navigator.maxTouchPoints > 0;
   }
 
-  if (typeof matchMedia !== 'undefined') {
+  if (typeof matchMedia !== "undefined") {
     const mediaQuery = matchMedia("(pointer:coarse)");
     if (mediaQuery && mediaQuery.media === "(pointer:coarse)") {
       return !!mediaQuery.matches;
