@@ -1,7 +1,7 @@
-import { GoblinVillage } from "features/goblins/GoblinVillage";
+import { GoblinLand } from "features/goblins/GoblinLand";
 import React, { useRef, useEffect } from "react";
 
-import background from "assets/land/goblin_town.png";
+import goblinBackground from "assets/land/goblin_background.png";
 
 import { GoblinProvider } from "./GoblinProvider";
 import mapMovement from "./lib/mapMovement";
@@ -25,11 +25,14 @@ export const Goblins: React.FC = () => {
         innerRef={container}
       >
         <div
-          className="relative h-gameboard w-gameboard"
+          className="relative h-goblinGameboard w-goblinGameboard"
           // TODO dynamic game board size based on tile dimensions
         >
-          <img src={background} className="absolute inset-0 w-full h-full" />
-          <GoblinVillage />
+          <img
+            src={goblinBackground}
+            className="absolute inset-0 w-full h-full"
+          />
+          <GoblinLand />
         </div>
       </ScrollContainer>
     </GoblinProvider>

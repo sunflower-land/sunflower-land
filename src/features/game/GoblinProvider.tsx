@@ -18,14 +18,16 @@ export const Context = React.createContext<GameContext>({} as GameContext);
 export const GoblinProvider: React.FC = ({ children }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
-  const [gameMachine] = useState(
+  const [goblinMachine] = useState(
     startGoblinVillage({
       ...authState.context,
     })
   );
 
   // TODO - Typescript error
-  const goblinService = useInterpret(gameMachine) as MachineInterpreter;
+  const goblinService = useInterpret(goblinMachine, {
+    devTools: true,
+  }) as MachineInterpreter;
 
   return (
     <Context.Provider value={{ goblinService }}>{children}</Context.Provider>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 
@@ -16,6 +16,8 @@ import { GoblinBlacksmith } from "features/goblins/goblin_blacksmith/GoblinBlack
 import { Bank } from "features/goblins/bank/Bank";
 import { Market } from "./market/Market";
 import { Barn } from "./barn/Barn";
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { Village } from "./village/Village";
 
 // const SHOW_MODAL: Record<StateValues, boolean> = {
 const SHOW_MODAL: any = {
@@ -25,9 +27,14 @@ const SHOW_MODAL: any = {
   playing: false,
 };
 
-export const GoblinVillage: React.FC = () => {
+export const GoblinLand: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
+  const [scrollIntoView] = useScrollIntoView();
+
+  useEffect(() => {
+    scrollIntoView(Section.GoblinVillage, "auto");
+  }, []);
 
   console.log({ rareItems: goblinState.context.rareItems });
 
@@ -46,12 +53,13 @@ export const GoblinVillage: React.FC = () => {
           {goblinState.matches("withdrawing") && <Withdrawing />}
         </Panel>
       </Modal>
-      <WishingWell />
+      <Village />
+      {/* <WishingWell />
       <Tailor />
       <GoblinBlacksmith />
       <Bank />
       <Market />
-      <Barn />
+      <Barn /> */}
     </div>
   );
 };
