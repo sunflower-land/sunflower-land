@@ -14,6 +14,7 @@ import axe from "assets/tools/axe.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import {
@@ -55,6 +56,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const choppedGif = useRef<SpriteSheetInstance>();
 
   const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
+
+  const { setToast } = useContext(ToastContext);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -145,6 +148,10 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
           <span className="text-sm text-white text-shadow">{`+${tree.wood}`}</span>
         </div>
       );
+
+      setToast({
+        content: `+${tree.wood}`,
+      });
 
       await new Promise((res) => setTimeout(res, 2000));
       setCollecting(false);

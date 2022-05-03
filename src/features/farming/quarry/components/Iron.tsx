@@ -13,6 +13,7 @@ import ironOre from "assets/resources/iron_ore.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
@@ -55,6 +56,7 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
   const rock = game.context.state.iron[rockIndex];
   // Users will need to refresh to chop the tree again
   const mined = !canMine(rock);
+  const { setToast } = useContext(ToastContext);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -137,6 +139,10 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
           <span className="text-sm text-white text-shadow">{`+${rock.amount}`}</span>
         </div>
       );
+
+      setToast({
+        content: `+${rock.amount}`,
+      });
 
       await new Promise((res) => setTimeout(res, 2000));
       setCollecting(false);

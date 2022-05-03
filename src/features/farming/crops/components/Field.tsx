@@ -7,6 +7,7 @@ import cancel from "assets/icons/cancel.png";
 
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName, Reward } from "features/game/types/game";
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -42,6 +43,7 @@ export const Field: React.FC<Props> = ({
   const clickedAt = useRef<number>(0);
   const field = game.context.state.fields[fieldIndex];
   const [showCropDetails, setShowCropDetails] = useState(false);
+  const { setToast } = useContext(ToastContext);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -150,6 +152,9 @@ export const Field: React.FC<Props> = ({
           <span>{`+${field.multiplier || 1}`}</span>
         </div>
       );
+      setToast({
+        content: `+${field.multiplier || 1} ` + field.name,
+      });
     } catch (e: any) {
       // TODO - catch more elaborate errors
       displayPopover(<img className="w-5" src={cancel} />);
