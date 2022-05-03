@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 import { Context } from "features/game/GameProvider";
 
-import blacksmith from "assets/buildings/blacksmith_building.gif";
+import blacksmith from "assets/buildings/goblin_blacksmith.gif";
 import hammer from "assets/icons/hammer.png";
 
 import { Crafting } from "./components/Crafting";
@@ -29,8 +29,8 @@ export const GoblinBlacksmith: React.FC = () => {
       // TODO some sort of coordinate system
       style={{
         width: `${GRID_WIDTH_PX * 6}px`,
-        right: `${GRID_WIDTH_PX * 15}px`,
-        top: `${GRID_WIDTH_PX * 25}px`,
+        right: `${GRID_WIDTH_PX * 2}px`,
+        top: `${GRID_WIDTH_PX * 11}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">
@@ -41,7 +41,7 @@ export const GoblinBlacksmith: React.FC = () => {
           className="w-full"
         />
         <Action
-          className="absolute -bottom-8 left-1"
+          className="absolute bottom-0 left-20 scale-75"
           text="Craft"
           icon={hammer}
           onClick={openBlacksmith}

@@ -54,12 +54,6 @@ export const GoblinLand: React.FC = () => {
         </Panel>
       </Modal>
       <Village />
-      {/* <WishingWell />
-      <Tailor />
-      <GoblinBlacksmith />
-      <Bank />
-      <Market />
-      <Barn /> */}
     </div>
   );
 };
