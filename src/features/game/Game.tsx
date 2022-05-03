@@ -82,7 +82,6 @@ export const Game: React.FC = () => {
     };
   }, []);
 
-  console.log({ gameState: gameState.value });
   return (
     <>
       <ToastManager />
@@ -102,7 +101,6 @@ export const Game: React.FC = () => {
       </Modal>
 
       <ClockIssue show={gameState.context.offset > 0} />
-      {/*     */}
       <Hud />
       <TeamDonation />
       <Crops />
