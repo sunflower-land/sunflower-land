@@ -39,6 +39,8 @@ class ScreenTracker {
         return true;
       }
 
+      console.log("Assume valid");
+
       let isValid = true;
 
       const step = Math.floor(this.movements.length / 10) || 1;
@@ -46,6 +48,10 @@ class ScreenTracker {
       let points: Vector[] = [];
       for (let i = 0; i < this.movements.length; i += step) {
         points = [...points, this.movements[i]];
+      }
+
+      if (points.length === 0) {
+        return true;
       }
 
       const areCollinear = (vectors: Vector[]) => {
@@ -61,6 +67,7 @@ class ScreenTracker {
 
       const isCollinear = areCollinear(points);
 
+      console.log({ points });
       if (isCollinear) {
         this.tracks += 3;
       } else if (this.tracks > 0) {
