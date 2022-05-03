@@ -126,16 +126,14 @@ export const Plants: React.FC = () => {
           >
             Sell All
           </Button>
-          {
-            cropAmount.greaterThan(10) && (
-              <Button
-                className="text-xs mt-1 whitespace-nowrap"
-                onClick={() => setShowCustomModal(true)}
-              >
-                Custom
-              </Button>
-            )
-          }
+          {cropAmount.greaterThan(10) && (
+            <Button
+              className="text-xs mt-1 whitespace-nowrap"
+              onClick={() => setShowCustomModal(true)}
+            >
+              Custom
+            </Button>
+          )}
         </div>
       </OuterPanel>
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
