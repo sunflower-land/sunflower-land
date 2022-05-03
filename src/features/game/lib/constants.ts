@@ -15,7 +15,6 @@ export const INITIAL_STOCK: Inventory = {
   "Parsnip Seed": new Decimal(40),
   "Radish Seed": new Decimal(40),
   "Wheat Seed": new Decimal(40),
- 
 
   Axe: new Decimal(50),
   Pickaxe: new Decimal(30),
@@ -29,7 +28,6 @@ export const INITIAL_STOCK: Inventory = {
 
   //test bee stock
   Bee: new Decimal(100),
-
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
@@ -96,7 +94,7 @@ export const INITIAL_TREES: GameState["trees"] = {
 
 export const INITIAL_FLOWERS: GameState["flowers"] = {
   0: {
-    honey: new Decimal(3),
+    honey: new Decimal(1),
     pollinatedAt: 0,
   },
   1: {
@@ -104,15 +102,11 @@ export const INITIAL_FLOWERS: GameState["flowers"] = {
     pollinatedAt: 0,
   },
   2: {
-    honey: new Decimal(3),
+    honey: new Decimal(2),
     pollinatedAt: 0,
   },
   3: {
-    honey: new Decimal(3),
-    pollinatedAt: 0,
-  },
-  4: {
-    honey: new Decimal(3),
+    honey: new Decimal(2),
     pollinatedAt: 0,
   },
 };
@@ -150,14 +144,6 @@ export const INITIAL_GOLD: GameState["gold"] = {
   },
 };
 
-// export const INITIAL_FLOWERS: GameState["flowers"] = {
-//   0: {
-//     honey: new Decimal(1),
-//     pollinatedAt: 0,
-//   },
-
-// };
-
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(500),
   fields: INITIAL_FIELDS,
@@ -165,9 +151,6 @@ export const INITIAL_FARM: GameState = {
     Scarecrow: new Decimal(4),
     "Bee Hive": new Decimal(1),
     "Pumpkin Soup": new Decimal(1),
-    Sauerkraut: new Decimal(1),
-    "Radish Pie": new Decimal(1),
-    "Roasted Cauliflower": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
@@ -184,7 +167,6 @@ export const INITIAL_FARM: GameState = {
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
   fields: {},
-
   inventory: {},
   stock: {},
   trees: INITIAL_TREES,
