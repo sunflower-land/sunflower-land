@@ -3,6 +3,7 @@ import { metamask } from "lib/blockchain/metamask";
 import Decimal from "decimal.js-light";
 import { fromWei, toBN } from "web3-utils";
 import { Message } from "../types/message";
+import { formatDateTime } from "lib/utils/time";
 import { CONFIG } from "lib/config";
 
 const MESSAGES_KEY = "readMessages";
@@ -54,6 +55,7 @@ function getNextHalvening(currentSupply: Decimal) {
  * - always change id to reflect unread
  * TODO:
  * - offchain SFL supply api
+ * - announcements api
  */
 export async function getInbox() {
   const sflBalance = await getSFLSupply();
@@ -75,6 +77,25 @@ export async function getInbox() {
         **Note: this value is read from the Blockchain. Other farmers may not have synced yet.**
       `
         : "You're running Sunflower Land locally!",
+    },
+    {
+      id: "2022-04-30",
+      title: "May 2022 Dates",
+      body: `Check our social pages for NFT release dates  
+        &nbsp;  
+        ${formatDateTime("2022-05-04T00:00:00Z")}  
+        - End of V1 Migration  
+        &nbsp;  
+        ${formatDateTime("2022-05-09T00:00:00Z")}  
+        - SFL Token Launch  
+        &nbsp;  
+        ${formatDateTime("2022-05-16T00:00:00Z")}🔴  
+        - 50,000 **new** farm spots  
+        &nbsp;  
+        ${formatDateTime("2022-05-30T00:00:00Z")}🔴  
+        - Rarible  
+        &nbsp;  
+        🔴 - tentative`,
     },
     {
       id: "2022-03-25",
