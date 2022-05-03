@@ -64,15 +64,18 @@ export async function getOnChainState({
 
   // Short term workaround to get data from session contract
   const recipes = await metamask.getSessionManager().getRecipes(RECIPES_IDS);
+
   const mintedAts = await metamask
     .getSessionManager()
     .getMintedAtBatch(id, RECIPES_IDS);
+
   const rareItems = recipes.map((recipe, index) => ({
     ...recipe,
     mintedAt: mintedAts[index],
   }));
-  console.log({ recipes, mintedAts, rareItems });
+
   const inventory = balancesToInventory(balances);
+
   const fields = populateFields(inventory);
 
   return {

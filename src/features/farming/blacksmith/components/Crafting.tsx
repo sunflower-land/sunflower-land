@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import hammer from "assets/icons/hammer.png";
 import close from "assets/icons/close.png";
@@ -7,10 +7,8 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
 import { TOOLS } from "features/game/types/craftables";
-import * as Auth from "features/auth/lib/Provider";
 
 import { CraftingItems } from "./CraftingItems";
-import { useActor } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
@@ -18,8 +16,6 @@ interface Props {
 
 export const Crafting: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState<"craft">("craft");
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
 
   return (
     <Panel className="pt-5 relative">

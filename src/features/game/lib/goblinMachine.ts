@@ -4,7 +4,7 @@ import { Context as AuthContext } from "features/auth/lib/authMachine";
 
 import { Inventory } from "../types/game";
 import { mint } from "../actions/mint";
-import { LimitedItem } from "../types/craftables";
+import { ItemId, LimitedItem } from "../types/craftables";
 import { withdraw } from "../actions/withdraw";
 import { getOnChainState, RareItem } from "../actions/onchain";
 import { ERRORS } from "lib/errors";
@@ -16,12 +16,14 @@ type GoblinState = {
   inventory: Inventory;
 };
 
+export type OnChainRareItems = Record<ItemId, RareItem>;
+
 export interface Context {
   state: GoblinState;
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
   farmAddress?: string;
-  rareItems: RareItem[];
+  rareItems: OnChainRareItems;
 }
 
 type MintEvent = {
@@ -73,6 +75,17 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
+const makeRareItemsById = (items: RareItem[]) => {
+  return items.reduce((obj, item) => {
+    // Strange items showing up in rare items with 0 values and 0 id
+    if (item.mintId > 0) {
+      obj[item.mintId] = item;
+    }
+
+    return obj;
+  }, {} as Record<ItemId, RareItem>);
+};
+
 export function startGoblinVillage(authContext: AuthContext) {
   return createMachine<Context, BlockchainEvent, BlockchainState>({
     id: "goblinMachine",
@@ -102,7 +115,7 @@ export function startGoblinVillage(authContext: AuthContext) {
             target: "playing",
             actions: assign({
               state: (_, event) => event.data.state,
-              rareItems: (_, event) => event.data.rareItems,
+              rareItems: (_, event) => makeRareItemsById(event.data.rareItems),
             }),
           },
           onError: {},

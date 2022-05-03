@@ -4,6 +4,9 @@ import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
+import { KNOWN_IDS, KNOWN_ITEMS } from ".";
+import { OnChainRareItems } from "../lib/goblinMachine";
+import { RareItem } from "../actions/onchain";
 
 export { FLAGS };
 
@@ -21,14 +24,16 @@ export type CraftableName =
   | Animal
   | Flag;
 
+export type Ingredient = {
+  item: InventoryItemName;
+  amount: Decimal;
+};
+
 export type Craftable = {
   name: CraftableName;
   description: string;
   price: Decimal;
-  ingredients: {
-    item: InventoryItemName;
-    amount: Decimal;
-  }[];
+  ingredients: Ingredient[];
   limit?: number;
   supply?: number;
   disabled?: boolean;
@@ -689,7 +694,12 @@ export const ANIMALS: Record<Animal, Craftable> = {
   },
 };
 
-export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
+type Craftables = Record<CraftableName, Craftable>;
+type RareItems = Record<LimitedItem, Craftable>;
+type CrafteableItem<T extends LimitedItem> = Record<T, Craftable>;
+export type ItemId = number;
+
+export const CRAFTABLES: () => Craftables = () => ({
   ...TOOLS,
   ...BLACKSMITH_ITEMS,
   ...BARN_ITEMS,
@@ -700,9 +710,49 @@ export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...FLAGS,
 });
 
-export const RARE_ITEMS: Record<LimitedItem, Craftable> = {
+export const RARE_ITEMS: RareItems = {
   ...BLACKSMITH_ITEMS,
   ...BARN_ITEMS,
   ...MARKET_ITEMS,
   ...FLAGS,
+};
+
+const getKeys = Object.keys as <T extends object>(obj: T) => Array<keyof T>;
+
+export const makeRareItemsById = <T extends LimitedItem>(
+  items: CrafteableItem<T>,
+  onChainItems: OnChainRareItems
+) => {
+  return getKeys(items).reduce((obj, itemName) => {
+    const itemId: ItemId = KNOWN_IDS[itemName as LimitedItem];
+    const item = onChainItems[itemId];
+
+    if (item) {
+      const {
+        tokenAmount,
+        ingredientAmounts,
+        ingredientIds,
+        cooldownSeconds,
+        maxSupply,
+      } = item;
+
+      const ingredients = ingredientIds.map((id, index) => ({
+        item: KNOWN_ITEMS[id],
+        amount: new Decimal(ingredientAmounts[index]),
+      }));
+
+      obj[itemName as LimitedItem] = {
+        ...onChainItems[itemId],
+        name: itemName,
+        description: items[itemName].description,
+        price: new Decimal(tokenAmount),
+        maxSupply,
+        cooldownSeconds,
+        ingredients,
+      };
+    }
+
+    return obj;
+    // TODO: FIX TYPE
+  }, {} as Record<LimitedItem, RareItem & { name: LimitedItem; description: string; ingredients: Ingredient[]; price: Decimal }>);
 };
