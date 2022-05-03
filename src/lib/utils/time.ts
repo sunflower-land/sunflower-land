@@ -61,3 +61,18 @@ export function getTimeLeft(createdAt: number, totalTimeInSeconds: number) {
 
   return totalTimeInSeconds - millisecondsElapsed / 1000;
 }
+
+/**
+ * Returns localized `MM dd, hh:mm a` from ISO string
+ */
+export function formatDateTime(isoString: string) {
+  const localDateTime = new Date(isoString);
+
+  return localDateTime.toLocaleString("en-US", {
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
