@@ -1,25 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
-import Decimal from "decimal.js-light";
-import ReCAPTCHA from "react-google-recaptcha";
-
-import token from "assets/icons/token.gif";
 
 import { Box } from "components/ui/Box";
-import { OuterPanel } from "components/ui/Panel";
-import { Button } from "components/ui/Button";
-
-import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Craftable } from "features/game/types/craftables";
+import {
+  BLACKSMITH_ITEMS,
+  Craftable,
+  makeRareItemsById,
+} from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
-import { KNOWN_IDS } from "features/game/types";
-import { mintCooldown } from "../lib/mintUtils";
+import { Context } from "features/game/GoblinProvider";
+import { metamask } from "lib/blockchain/metamask";
 import { secondsToString } from "lib/utils/time";
+import { Button } from "components/ui/Button";
+import ReCAPTCHA from "react-google-recaptcha";
+import { OuterPanel } from "components/ui/Panel";
+import Decimal from "decimal.js-light";
+
+import token from "assets/icons/token.gif";
+import { KNOWN_IDS } from "features/game/types";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -40,6 +42,7 @@ const Items: React.FC<{
     useShowScrollbar(TAB_CONTENT_HEIGHT);
 
   const ordered = Object.values(items);
+
   return (
     <div
       ref={itemContainerRef}
@@ -71,18 +74,23 @@ export const Rare: React.FC<Props> = ({
   hasAccess,
   canCraft = true,
 }) => {
-  const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
-  const { gameService } = useContext(Context);
+  // const { gameService } = useContext(Context);
+  // const [
+  //   {
+  //     context: { state, itemsMintedAt },
+  //   },
+  // ] = useActor(gameService);
+  const { goblinService } = useContext(Context);
   const [
     {
-      context: { state, itemsMintedAt },
+      context: { state, rareItems },
     },
-  ] = useActor(gameService);
+  ] = useActor(goblinService);
   const [isLoading, setIsLoading] = useState(true);
   const [supply, setSupply] = useState<ItemSupply>();
   const [showCaptcha, setShowCaptcha] = useState(false);
 
-  console.log({ itemsMintedAt });
+  // console.log({ itemsMintedAt });
   useEffect(() => {
     const load = async () => {
       const supply = await metamask.getInventory().totalSupply();
@@ -92,23 +100,34 @@ export const Rare: React.FC<Props> = ({
 
     load();
   }, []);
+
   const inventory = state.inventory;
 
+  const blacksmithItemsById = makeRareItemsById(BLACKSMITH_ITEMS, rareItems);
+
+  const [selected, setSelected] = useState(
+    Object.values(blacksmithItemsById)[0]
+  );
+
+  console.log({ selected });
+
+  console.log({ blacksmithItemsById });
+
+  // Ingredient difference≥
   const lessIngredients = (amount = 1) =>
     selected.ingredients.some((ingredient) =>
       ingredient.amount.mul(amount).greaterThan(inventory[ingredient.item] || 0)
     );
+
   const lessFunds = (amount = 1) =>
     state.balance.lessThan(selected.price.mul(amount));
 
-  const craft = () => {
-    setShowCaptcha(true);
-  };
+  const craft = () => setShowCaptcha(true);
 
   const onCaptchaSolved = async (token: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
 
-    gameService.send("MINT", { item: selected.name, captcha: token });
+    goblinService.send("MINT", { item: selected.name, captcha: token });
     onClose();
   };
 
@@ -121,8 +140,9 @@ export const Rare: React.FC<Props> = ({
   }
 
   let amountLeft = 0;
-  if (supply && selected.supply) {
-    amountLeft = selected.supply - supply[selected.name]?.toNumber();
+
+  if (supply && selected.maxSupply) {
+    amountLeft = selected.maxSupply - supply[selected.name]?.toNumber();
   }
 
   const soldOut = amountLeft <= 0;
@@ -132,12 +152,13 @@ export const Rare: React.FC<Props> = ({
       return null;
     }
 
-    if (!hasAccess && selected.disabled) {
+    // TODO: WHAT ABOUT DISABLED? ON BETA??
+    // eslint-disable-next-line no-constant-condition
+    if (!hasAccess && false) {
       return <span className="text-xs text-center mt-1">Coming soon</span>;
     }
 
-    const cooldown = mintCooldown({ item: selected.name, itemsMintedAt });
-    if (cooldown > 0) {
+    if (selected.cooldownSeconds > 0) {
       return (
         <div className="text-center">
           <a
@@ -149,25 +170,26 @@ export const Rare: React.FC<Props> = ({
             Already minted
           </a>
           <span className="text-xs text-center">
-            Available in {secondsToString(cooldown)}
+            Available in {secondsToString(selected.cooldownSeconds)}
           </span>
         </div>
       );
     }
 
-    if (selected.requires && !state.inventory[selected.requires]) {
-      return (
-        <div className="flex items-center">
-          <img
-            src={ITEM_DETAILS[selected.requires].image}
-            className="w-6 h-6 mr-1"
-          />
-          <span className="text-xs text-shadow text-center mt-2">
-            {`${selected.requires}s only`}
-          </span>
-        </div>
-      );
-    }
+    // TODO: IS REQUIRED RELEVANT HERE
+    // if (selected.requires && !state.inventory[selected.requires]) {
+    //   return (
+    //     <div className="flex items-center">
+    //       <img
+    //         src={ITEM_DETAILS[selected.requires].image}
+    //         className="w-6 h-6 mr-1"
+    //       />
+    //       <span className="text-xs text-shadow text-center mt-2">
+    //         {`${selected.requires}s only`}
+    //       </span>
+    //     </div>
+    //   );
+    // }
 
     if (!canCraft) return;
 
@@ -215,7 +237,7 @@ export const Rare: React.FC<Props> = ({
               Sold out
             </span>
           )}
-          {!!selected.supply && amountLeft > 0 && (
+          {!!selected.maxSupply && amountLeft > 0 && (
             <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
               {`${amountLeft} left`}
             </span>
@@ -265,7 +287,7 @@ export const Rare: React.FC<Props> = ({
                     }
                   )}
                 >
-                  {`${selected.price.toNumber()}`}
+                  {`$${selected.price.toNumber()}`}
                 </span>
               </div>
             </div>

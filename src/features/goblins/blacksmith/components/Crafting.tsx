@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import close from "assets/icons/close.png";
 
 import { Panel } from "components/ui/Panel";
 
-import { BLACKSMITH_ITEMS, TOOLS } from "features/game/types/craftables";
+import { BLACKSMITH_ITEMS } from "features/game/types/craftables";
 import * as Auth from "features/auth/lib/Provider";
 
 import { Rare } from "./Rare";

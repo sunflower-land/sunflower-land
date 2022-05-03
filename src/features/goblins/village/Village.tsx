@@ -3,7 +3,8 @@ import React from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { GoblinBlacksmith } from "../goblin_blacksmith/GoblinBlacksmith";
+import { Blacksmith } from "../blacksmith/Blacksmith";
+import { Bank } from "../bank/Bank";
 
 export const Village: React.FC = () => {
   return (
@@ -21,7 +22,8 @@ export const Village: React.FC = () => {
         id={Section.GoblinVillage}
         className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
       />
-      <GoblinBlacksmith />
+      <Blacksmith />
+      <Bank />
     </div>
   );
 };

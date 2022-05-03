@@ -1,9 +1,5 @@
 import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
-import classNames from "classnames";
-
-import { Context } from "features/game/GameProvider";
 
 import blacksmith from "assets/buildings/goblin_blacksmith.gif";
 import hammer from "assets/icons/hammer.png";
@@ -12,10 +8,12 @@ import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { blacksmithAudio } from "lib/utils/sfx";
+import { Context } from "features/game/GoblinProvider";
+import { useActor } from "@xstate/react";
 
-export const GoblinBlacksmith: React.FC = () => {
-  // const { gameService } = useContext(Context);
-  // const [gameState] = useActor(gameService);
+export const Blacksmith: React.FC = () => {
+  const { goblinService } = useContext(Context);
+  const [goblinState] = useActor(goblinService);
   const [isOpen, setIsOpen] = React.useState(false);
 
   const openBlacksmith = () => {
@@ -23,14 +21,16 @@ export const GoblinBlacksmith: React.FC = () => {
     blacksmithAudio.play();
   };
 
+  console.log({ goblinState });
+
   return (
     <div
       className="z-10 absolute"
       // TODO some sort of coordinate system
       style={{
-        width: `${GRID_WIDTH_PX * 6}px`,
-        right: `${GRID_WIDTH_PX * 2}px`,
-        top: `${GRID_WIDTH_PX * 11}px`,
+        width: `${GRID_WIDTH_PX * 7.1}px`,
+        right: `${GRID_WIDTH_PX * 1.1}px`,
+        top: `${GRID_WIDTH_PX * 10.7}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">
@@ -41,7 +41,7 @@ export const GoblinBlacksmith: React.FC = () => {
           className="w-full"
         />
         <Action
-          className="absolute bottom-0 left-20 scale-75"
+          className="absolute bottom-0 left-24"
           text="Craft"
           icon={hammer}
           onClick={openBlacksmith}
