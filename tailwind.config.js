@@ -32,9 +32,11 @@ module.exports = {
       // background image. Only change here when larger size is added.
       height: {
         gameboard: "4200px",
+        goblinGameboard: "1600px",
       },
       width: {
         gameboard: "4200px",
+        goblinGameboard: "3200px",
       },
       animation: {
         float: "floating 3s ease-in-out infinite",

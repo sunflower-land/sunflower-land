@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
-import { Routes, Route, HashRouter, useParams } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -8,6 +8,7 @@ import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
 import { Humans } from "features/game/Humans";
 import { Goblins } from "features/game/Goblins";
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 /**
  * Entry point for game which reflects the user session state
@@ -17,18 +18,12 @@ export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
   const [showGame, setShowGame] = useState(false);
+  const [scrollIntoView] = useScrollIntoView();
 
-  const { id } = useParams();
   useEffect(() => {
     // Start with crops centered
     if (showGame) {
-      const el = document.getElementById("crops");
-
-      el?.scrollIntoView({
-        behavior: "auto",
-        block: "center",
-        inline: "center",
-      });
+      scrollIntoView(Section.Crops, "auto");
     }
   }, [showGame]);
 
