@@ -16,6 +16,7 @@ import player from "assets/icons/player.png";
 import questionMark from "assets/icons/expression_confused.png";
 import close from "assets/icons/close.png";
 import alert from "assets/icons/expression_alerted.png";
+import cart from "assets/decorations/cart.png";
 
 import plant from "assets/icons/plant.png";
 import pickaxe from "assets/tools/stone_pickaxe.png";
@@ -243,6 +244,17 @@ export const House: React.FC = () => {
           onClick={open}
         />
       </div>
+
+      <img
+        src={cart}
+        style={{
+          width: `${GRID_WIDTH_PX * 2.35}px`,
+          position: "absolute",
+          right: `${GRID_WIDTH_PX * 33}px`,
+          top: `${GRID_WIDTH_PX * 30.6}px`,
+        }}
+      />
+
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel className="relative">
           <img
