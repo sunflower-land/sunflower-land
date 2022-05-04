@@ -13,7 +13,6 @@ import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
-import { Blocked } from "./Blocked";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -157,9 +156,9 @@ export const CreateFarm: React.FC = () => {
     setActiveIndex(newIdx);
   };
 
-  if (!authState.context.token?.userAccess.createFarm) {
-    return <Blocked />;
-  }
+  // if (!authState.context.token?.userAccess.createFarm) {
+  //   return <Blocked />;
+  // }
 
   if (showCaptcha) {
     return (

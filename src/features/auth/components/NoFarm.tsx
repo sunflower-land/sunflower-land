@@ -1,10 +1,6 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
-import suspicious from "assets/npcs/suspicious_goblin.gif";
-import idle from "assets/npcs/idle.gif";
-import questionMark from "assets/icons/expression_confused.png";
-
 import * as Auth from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
@@ -27,12 +23,12 @@ export const NoFarm: React.FC = () => {
 
   return (
     <>
-      {!!authState.context.token?.userAccess.createFarm ||
-      !!authState.context.token?.discordId ? (
-        <Button onClick={create} className="overflow-hidden mb-2">
-          Create Farm
-        </Button>
-      ) : (
+      {/* {!!authState.context.token?.userAccess.createFarm ||
+      !!authState.context.token?.discordId ? ( */}
+      <Button onClick={create} className="overflow-hidden mb-2">
+        Create Farm
+      </Button>
+      {/* ) : (
         <div className="flex flex-col items-center">
           <div className="flex items-center mt-4 -mb-4 relative">
             <img src={suspicious} className="w-12" />
@@ -61,7 +57,7 @@ export const NoFarm: React.FC = () => {
             Connect to Discord
           </Button>
         </div>
-      )}
+      )} */}
 
       <Button onClick={explore} className="overflow-hidden">
         {`Explore a friend's farm`}

@@ -249,12 +249,11 @@ export const authMachine = createMachine<
             id: "checkingAccess",
             invoke: {
               src: async (context) => {
-                // temporary relief
-                // if (context.token?.userAccess.createFarm) {
-                //   return {
-                //     hasAccess: true,
-                //   };
-                // }
+                if (context.token?.userAccess.createFarm) {
+                  return {
+                    hasAccess: true,
+                  };
+                }
 
                 // Only give access to V1 farmers
                 const hasAccess = await metamask
