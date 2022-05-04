@@ -30,8 +30,6 @@ export const GoblinLand: React.FC = () => {
     scrollIntoView(Section.GoblinVillage, "auto");
   }, [scrollIntoView]);
 
-  console.log({ rareItems: goblinState.context.rareItems });
-
   return (
     <div>
       <Modal show={SHOW_MODAL[goblinState.value as StateValues]} centered>

@@ -105,6 +105,7 @@ export class SessionManager {
       return mintedAts;
     } catch (e) {
       const error = parseMetamaskError(e);
+
       if (attempts < 3) {
         return this.getMintedAtBatch(farmId, ids, attempts + 1);
       }

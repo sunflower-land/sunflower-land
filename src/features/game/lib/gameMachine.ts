@@ -9,10 +9,8 @@ import { GameState } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { INITIAL_FARM, EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
-import { mint } from "../actions/mint";
-import { LimitedItem } from "../types/craftables";
+import { LimitedItemName } from "../types/craftables";
 import { sync } from "../actions/sync";
-import { withdraw } from "../actions/withdraw";
 import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { updateGame } from "./transforms";
@@ -39,7 +37,7 @@ export interface Context {
 
 type MintEvent = {
   type: "MINT";
-  item: LimitedItem;
+  item: LimitedItemName;
   captcha: string;
 };
 

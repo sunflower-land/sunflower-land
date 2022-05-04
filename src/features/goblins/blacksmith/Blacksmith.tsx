@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Modal } from "react-bootstrap";
 
 import blacksmith from "assets/buildings/goblin_blacksmith.gif";
@@ -8,20 +8,14 @@ import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { blacksmithAudio } from "lib/utils/sfx";
-import { Context } from "features/game/GoblinProvider";
-import { useActor } from "@xstate/react";
 
 export const Blacksmith: React.FC = () => {
-  const { goblinService } = useContext(Context);
-  const [goblinState] = useActor(goblinService);
   const [isOpen, setIsOpen] = React.useState(false);
 
   const openBlacksmith = () => {
     setIsOpen(true);
     blacksmithAudio.play();
   };
-
-  console.log({ goblinState });
 
   return (
     <div

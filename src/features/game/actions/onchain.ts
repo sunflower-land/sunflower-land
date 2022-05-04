@@ -5,7 +5,7 @@ import Decimal from "decimal.js-light";
 import { balancesToInventory, populateFields } from "lib/utils/visitUtils";
 
 import { GameState } from "../types/game";
-import { LimitedItem, RARE_ITEMS } from "../types/craftables";
+import { LIMITED_ITEM_NAMES } from "../types/craftables";
 import { EMPTY } from "../lib/constants";
 import { CONFIG } from "lib/config";
 import { KNOWN_IDS } from "../types";
@@ -38,11 +38,9 @@ export async function isFarmBlacklisted(id: number) {
   return metadata.image.includes("blacklisted");
 }
 
-const RECIPES_IDS = (Object.keys(RARE_ITEMS) as LimitedItem[]).map(
-  (name) => KNOWN_IDS[name]
-);
+const RECIPES_IDS = LIMITED_ITEM_NAMES.map((name) => KNOWN_IDS[name]);
 
-export type RareItem = Recipe & {
+export type LimitedItemRecipeWithMintedAt = Recipe & {
   mintedAt: number;
 };
 
@@ -52,10 +50,10 @@ export async function getOnChainState({
 }: GetStateArgs): Promise<{
   game: GameState;
   owner: string;
-  rareItems: RareItem[];
+  limitedItems: LimitedItemRecipeWithMintedAt[];
 }> {
   if (!CONFIG.API_URL) {
-    return { game: EMPTY, owner: "", rareItems: [] };
+    return { game: EMPTY, owner: "", limitedItems: [] };
   }
 
   const balance = await metamask.getToken().balanceOf(farmAddress);
@@ -69,7 +67,7 @@ export async function getOnChainState({
     .getSessionManager()
     .getMintedAtBatch(id, RECIPES_IDS);
 
-  const rareItems = recipes.map((recipe, index) => ({
+  const limitedItems = recipes.map((recipe, index) => ({
     ...recipe,
     mintedAt: mintedAts[index],
   }));
@@ -87,6 +85,6 @@ export async function getOnChainState({
       inventory,
     },
     owner: farm.owner,
-    rareItems,
+    limitedItems,
   };
 }

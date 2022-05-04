@@ -1,12 +1,12 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { LimitedItem } from "../types/craftables";
+import { LimitedItemName } from "../types/craftables";
 
 type Request = {
   farmId: number;
   sessionId: string;
-  item: LimitedItem;
+  item: LimitedItemName;
   token: string;
   captcha: string;
 };

@@ -1,7 +1,6 @@
-import { ItemId } from "./craftables";
 import { InventoryItemName } from "./game";
 
-export const KNOWN_IDS: Record<InventoryItemName, ItemId | number> = {
+export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Seed": 101,
   "Potato Seed": 102,
   "Pumpkin Seed": 103,

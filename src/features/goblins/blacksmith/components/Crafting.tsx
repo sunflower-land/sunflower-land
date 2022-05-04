@@ -41,11 +41,7 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
           minHeight: "200px",
         }}
       >
-        <Rare
-          items={BLACKSMITH_ITEMS}
-          onClose={onClose}
-          hasAccess={!!authState.context.token?.userAccess.mintCollectible}
-        />
+        <Rare items={BLACKSMITH_ITEMS} onClose={onClose} />
       </div>
     </Panel>
   );

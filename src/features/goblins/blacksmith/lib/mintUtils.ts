@@ -1,28 +1,20 @@
-import { MintedAt } from "features/game/actions/loadSession";
-import { InventoryItemName } from "features/game/types/game";
+const SECONDS_DIVISOR = 1000;
 
-type CanMintArgs = {
-  itemsMintedAt?: MintedAt;
-  item: InventoryItemName;
+type MintCooldownArgs = {
+  cooldownSeconds: number | undefined;
+  mintedAt: number | undefined;
 };
 
 /**
  * How many seconds until a user can mint again
  */
-export function mintCooldown({ item, itemsMintedAt }: CanMintArgs) {
-  const mintedItems: MintedAt = itemsMintedAt || {};
-  const lastMintedAt = mintedItems[item];
-
-  if (!lastMintedAt) {
-    return 0;
-  }
+export function mintCooldown({ cooldownSeconds, mintedAt }: MintCooldownArgs) {
+  if (!mintedAt || !cooldownSeconds) return 0;
 
   // 7 day period between minting items enforced on backend
-  const diff = lastMintedAt + 7 * 24 * 60 * 60 * 1000 - Date.now();
+  const diff = cooldownSeconds - (Date.now() / SECONDS_DIVISOR - mintedAt);
 
-  if (diff < 0) {
-    return 0;
-  }
+  if (diff < 0) return 0;
 
-  return diff / 1000;
+  return diff;
 }

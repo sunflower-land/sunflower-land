@@ -4,9 +4,12 @@ import { Context as AuthContext } from "features/auth/lib/authMachine";
 
 import { Inventory } from "../types/game";
 import { mint } from "../actions/mint";
-import { ItemId, LimitedItem } from "../types/craftables";
+import { LimitedItemName } from "../types/craftables";
 import { withdraw } from "../actions/withdraw";
-import { getOnChainState, RareItem } from "../actions/onchain";
+import {
+  getOnChainState,
+  LimitedItemRecipeWithMintedAt,
+} from "../actions/onchain";
 import { ERRORS } from "lib/errors";
 
 import Decimal from "decimal.js-light";
@@ -16,19 +19,19 @@ type GoblinState = {
   inventory: Inventory;
 };
 
-export type OnChainRareItems = Record<ItemId, RareItem>;
+export type OnChainLimitedItems = Record<number, LimitedItemRecipeWithMintedAt>;
 
 export interface Context {
   state: GoblinState;
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
   farmAddress?: string;
-  rareItems: OnChainRareItems;
+  limitedItems: OnChainLimitedItems;
 }
 
 type MintEvent = {
   type: "MINT";
-  item: LimitedItem;
+  item: LimitedItemName;
   captcha: string;
 };
 
@@ -75,7 +78,7 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
-const makeRareItemsById = (items: RareItem[]) => {
+const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
   return items.reduce((obj, item) => {
     // Strange items showing up in rare items with 0 values and 0 id
     if (item.mintId > 0) {
@@ -83,7 +86,7 @@ const makeRareItemsById = (items: RareItem[]) => {
     }
 
     return obj;
-  }, {} as Record<ItemId, RareItem>);
+  }, {} as Record<number, LimitedItemRecipeWithMintedAt>);
 };
 
 export function startGoblinVillage(authContext: AuthContext) {
@@ -96,32 +99,39 @@ export function startGoblinVillage(authContext: AuthContext) {
         inventory: {},
       },
       sessionId: authContext.sessionId,
-      rareItems: [],
+      limitedItems: [],
     },
     states: {
       loading: {
         invoke: {
           src: async () => {
-            const { game, rareItems } = await getOnChainState({
+            const { game, limitedItems } = await getOnChainState({
               farmAddress: authContext.address as string,
               id: Number(authContext.farmId),
             });
 
             game.id = authContext.farmId as number;
 
-            return { state: game, rareItems };
+            return { state: game, limitedItems };
           },
           onDone: {
             target: "playing",
             actions: assign({
               state: (_, event) => event.data.state,
-              rareItems: (_, event) => makeRareItemsById(event.data.rareItems),
+              limitedItems: (_, event) =>
+                makeLimitedItemsById(event.data.limitedItems),
             }),
           },
           onError: {},
         },
       },
-      playing: {},
+      playing: {
+        on: {
+          MINT: {
+            target: "minting",
+          },
+        },
+      },
       minting: {
         invoke: {
           src: async (context, event) => {

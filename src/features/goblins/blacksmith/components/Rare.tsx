@@ -5,9 +5,10 @@ import classNames from "classnames";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
-  BLACKSMITH_ITEMS,
-  Craftable,
-  makeRareItemsById,
+  CraftableItem,
+  LimitedItem,
+  LimitedItemName,
+  makeLimitedItemsByName,
 } from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ItemSupply } from "lib/blockchain/Inventory";
@@ -22,13 +23,13 @@ import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.gif";
 import { KNOWN_IDS } from "features/game/types";
+import { mintCooldown } from "../lib/mintUtils";
 
 const TAB_CONTENT_HEIGHT = 360;
 
 interface Props {
   onClose: () => void;
-  items: Partial<Record<InventoryItemName, Craftable>>;
-  hasAccess: boolean;
+  items: Partial<Record<LimitedItemName, LimitedItem>>;
   canCraft?: boolean;
 }
 
@@ -36,7 +37,7 @@ const Items: React.FC<{
   items: Props["items"];
   selected: InventoryItemName;
   inventory: GameState["inventory"];
-  onClick: (item: Craftable) => void;
+  onClick: (item: CraftableItem | LimitedItem) => void;
 }> = ({ items, selected, inventory, onClick }) => {
   const { ref: itemContainerRef, showScrollbar } =
     useShowScrollbar(TAB_CONTENT_HEIGHT);
@@ -68,33 +69,23 @@ const Items: React.FC<{
     </div>
   );
 };
-export const Rare: React.FC<Props> = ({
-  onClose,
-  items,
-  hasAccess,
-  canCraft = true,
-}) => {
-  // const { gameService } = useContext(Context);
-  // const [
-  //   {
-  //     context: { state, itemsMintedAt },
-  //   },
-  // ] = useActor(gameService);
+export const Rare: React.FC<Props> = ({ onClose, items, canCraft = true }) => {
   const { goblinService } = useContext(Context);
   const [
     {
-      context: { state, rareItems },
+      context: { state, limitedItems },
     },
   ] = useActor(goblinService);
   const [isLoading, setIsLoading] = useState(true);
   const [supply, setSupply] = useState<ItemSupply>();
   const [showCaptcha, setShowCaptcha] = useState(false);
 
-  // console.log({ itemsMintedAt });
   useEffect(() => {
     const load = async () => {
       const supply = await metamask.getInventory().totalSupply();
+
       setSupply(supply);
+
       setIsLoading(false);
     };
 
@@ -103,24 +94,23 @@ export const Rare: React.FC<Props> = ({
 
   const inventory = state.inventory;
 
-  const blacksmithItemsById = makeRareItemsById(BLACKSMITH_ITEMS, rareItems);
+  const blacksmithItemsByName = makeLimitedItemsByName(items, limitedItems);
 
   const [selected, setSelected] = useState(
-    Object.values(blacksmithItemsById)[0]
+    Object.values(blacksmithItemsByName)[0]
   );
-
-  console.log({ selected });
-
-  console.log({ blacksmithItemsById });
 
   // Ingredient difference≥
   const lessIngredients = (amount = 1) =>
-    selected.ingredients.some((ingredient) =>
+    selected.ingredients?.some((ingredient) =>
       ingredient.amount.mul(amount).greaterThan(inventory[ingredient.item] || 0)
     );
 
-  const lessFunds = (amount = 1) =>
-    state.balance.lessThan(selected.price.mul(amount));
+  const lessFunds = (amount = 1) => {
+    if (!selected.tokenAmount) return;
+
+    return state.balance.lessThan(selected.tokenAmount.mul(amount));
+  };
 
   const craft = () => setShowCaptcha(true);
 
@@ -152,13 +142,14 @@ export const Rare: React.FC<Props> = ({
       return null;
     }
 
-    // TODO: WHAT ABOUT DISABLED? ON BETA??
-    // eslint-disable-next-line no-constant-condition
-    if (!hasAccess && false) {
-      return <span className="text-xs text-center mt-1">Coming soon</span>;
-    }
+    console.log({ selected });
 
-    if (selected.cooldownSeconds > 0) {
+    if (
+      mintCooldown({
+        cooldownSeconds: selected.cooldownSeconds,
+        mintedAt: selected.mintedAt,
+      }) > 0
+    ) {
       return (
         <div className="text-center">
           <a
@@ -170,26 +161,12 @@ export const Rare: React.FC<Props> = ({
             Already minted
           </a>
           <span className="text-xs text-center">
-            Available in {secondsToString(selected.cooldownSeconds)}
+            {/* TODO: FIX THIS */}
+            Available in {secondsToString(selected.cooldownSeconds || 0)}
           </span>
         </div>
       );
     }
-
-    // TODO: IS REQUIRED RELEVANT HERE
-    // if (selected.requires && !state.inventory[selected.requires]) {
-    //   return (
-    //     <div className="flex items-center">
-    //       <img
-    //         src={ITEM_DETAILS[selected.requires].image}
-    //         className="w-6 h-6 mr-1"
-    //       />
-    //       <span className="text-xs text-shadow text-center mt-2">
-    //         {`${selected.requires}s only`}
-    //       </span>
-    //     </div>
-    //   );
-    // }
 
     if (!canCraft) return;
 
@@ -225,7 +202,7 @@ export const Rare: React.FC<Props> = ({
   return (
     <div className="flex">
       <Items
-        items={items}
+        items={blacksmithItemsByName}
         selected={selected.name}
         inventory={inventory}
         onClick={setSelected}
@@ -254,7 +231,7 @@ export const Rare: React.FC<Props> = ({
           </span>
           {canCraft && (
             <div className="border-t border-white w-full mt-2 pt-1">
-              {selected.ingredients.map((ingredient, index) => {
+              {selected.ingredients?.map((ingredient, index) => {
                 const item = ITEM_DETAILS[ingredient.item];
                 const lessIngredient = new Decimal(
                   inventory[ingredient.item] || 0
@@ -287,7 +264,7 @@ export const Rare: React.FC<Props> = ({
                     }
                   )}
                 >
-                  {`$${selected.price.toNumber()}`}
+                  {`$${selected.tokenAmount?.toNumber()}`}
                 </span>
               </div>
             </div>

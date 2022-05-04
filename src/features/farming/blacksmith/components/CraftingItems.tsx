@@ -12,12 +12,12 @@ import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Craftable } from "features/game/types/craftables";
+import { CraftableItem } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { Stock } from "components/ui/Stock";
 
 interface Props {
-  items: Partial<Record<InventoryItemName, Craftable>>;
+  items: Partial<Record<InventoryItemName, CraftableItem>>;
   isBulk?: boolean;
   onClose: () => void;
 }
@@ -27,7 +27,9 @@ export const CraftingItems: React.FC<Props> = ({
   onClose,
   isBulk = false,
 }) => {
-  const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
+  const [selected, setSelected] = useState<CraftableItem>(
+    Object.values(items)[0]
+  );
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -40,19 +42,25 @@ export const CraftingItems: React.FC<Props> = ({
   const inventory = state.inventory;
 
   const lessIngredients = (amount = 1) =>
-    selected.ingredients.some((ingredient) =>
+    selected.ingredients?.some((ingredient) =>
       ingredient.amount.mul(amount).greaterThan(inventory[ingredient.item] || 0)
     );
-  const lessFunds = (amount = 1) =>
-    state.balance.lessThan(selected.price.mul(amount));
+
+  const lessFunds = (amount = 1) => {
+    if (!selected.tokenAmount) return;
+
+    return state.balance.lessThan(selected.tokenAmount.mul(amount));
+  };
 
   const craft = (amount = 1) => {
     gameService.send("item.crafted", {
       item: selected.name,
       amount,
     });
-    setToast({ content: "SFL -$" + selected.price.mul(amount) });
-    selected.ingredients.map((ingredient) => {
+
+    setToast({ content: "SFL -$" + selected.tokenAmount?.mul(amount) });
+
+    selected.ingredients?.map((ingredient) => {
       setToast({
         content: ingredient.item + " -" + ingredient.amount.mul(amount),
       });
@@ -84,13 +92,7 @@ export const CraftingItems: React.FC<Props> = ({
     );
   }
 
-  const soldOut = selected.supply === 0;
-
   const Action = () => {
-    if (soldOut) {
-      return null;
-    }
-
     if (selected.disabled) {
       return <span className="text-xs mt-1 text-shadow">Locked</span>;
     }
@@ -164,7 +166,7 @@ export const CraftingItems: React.FC<Props> = ({
           </span>
 
           <div className="border-t border-white w-full mt-2 pt-1">
-            {selected.ingredients.map((ingredient, index) => {
+            {selected.ingredients?.map((ingredient, index) => {
               const item = ITEM_DETAILS[ingredient.item];
               const lessIngredient = new Decimal(
                 inventory[ingredient.item] || 0
@@ -194,7 +196,7 @@ export const CraftingItems: React.FC<Props> = ({
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${selected.price.toNumber()}`}
+                {`$${selected.tokenAmount?.toNumber()}`}
               </span>
             </div>
           </div>
