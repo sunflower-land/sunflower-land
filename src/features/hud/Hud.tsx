@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Balance } from "./components/Balance";
+import { Balance } from "./components/wallet/Balance";
 import { Inventory } from "./components/Inventory";
 import { Menu } from "./components/Menu";
 import { AudioPlayer } from "components/ui/AudioPlayer";
