@@ -6,6 +6,7 @@ import { Context } from "features/game/GameProvider";
 
 import tailor from "assets/buildings/tailor.gif";
 import flag from "assets/nfts/flags/sunflower_flag.gif";
+import merch from "assets/npcs/merch_lady.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
@@ -26,40 +27,52 @@ export const Tailor: React.FC = () => {
   };
 
   return (
-    <div
-      className="absolute"
-      style={{
-        width: `${GRID_WIDTH_PX * 3.5}px`,
-        right: `${GRID_WIDTH_PX * 6}px`,
-        top: `${GRID_WIDTH_PX * 36}px`,
-      }}
-    >
+    <>
       <div
-        className={classNames({
-          "cursor-pointer": isNotReadOnly,
-          "hover:img-highlight": isNotReadOnly,
-        })}
+        className="absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 3.5}px`,
+          right: `${GRID_WIDTH_PX * 6}px`,
+          top: `${GRID_WIDTH_PX * 36}px`,
+        }}
       >
-        <img
-          src={tailor}
-          className="w-full"
-          onClick={isNotReadOnly ? openTailor : undefined}
-        />
-        {isNotReadOnly && (
-          <Action
-            className="absolute -bottom-7 -left-2"
-            text="Tailor"
-            icon={flag}
-            onClick={openTailor}
+        <div
+          className={classNames({
+            "cursor-pointer": isNotReadOnly,
+            "hover:img-highlight": isNotReadOnly,
+          })}
+        >
+          <img
+            src={tailor}
+            className="w-full"
+            onClick={isNotReadOnly ? openTailor : undefined}
           />
+          {isNotReadOnly && (
+            <Action
+              className="absolute -bottom-7 -left-2"
+              text="Tailor"
+              icon={flag}
+              onClick={openTailor}
+            />
+          )}
+        </div>
+
+        {isOpen && (
+          <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+            <TailorSale onClose={() => setIsOpen(false)} />
+          </Modal>
         )}
       </div>
 
-      {isOpen && (
-        <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-          <TailorSale onClose={() => setIsOpen(false)} />
-        </Modal>
-      )}
-    </div>
+      <img
+        src={merch}
+        className="absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 3.5}px`,
+          right: `${GRID_WIDTH_PX * 1.1}px`,
+          top: `${GRID_WIDTH_PX * 35.75}px`,
+        }}
+      />
+    </>
   );
 };
