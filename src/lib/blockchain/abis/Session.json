@@ -45,57 +45,11 @@
             "internalType": "uint256",
             "name": "tokenAmount",
             "type": "uint256"
-          }
-        ],
-        "internalType": "struct SunflowerLandSession.Recipe",
-        "name": "recipe",
-        "type": "tuple"
-      }
-    ],
-    "name": "addRecipe",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "mintId",
-            "type": "uint256"
           },
           {
-            "internalType": "uint256[]",
-            "name": "ingredientIds",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "ingredientAmounts",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256",
-            "name": "maxSupply",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "cooldownSeconds",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "tokenAmount",
-            "type": "uint256"
+            "internalType": "bool",
+            "name": "enabled",
+            "type": "bool"
           }
         ],
         "internalType": "struct SunflowerLandSession.Recipe[]",
@@ -170,38 +124,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_game",
-        "type": "address"
-      }
-    ],
-    "name": "removeGameRole",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
-    "name": "removeRecipe",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "contract SunflowerLandInventory",
         "name": "_inventory",
         "type": "address"
@@ -238,6 +160,19 @@
     ],
     "name": "OwnershipTransferred",
     "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_game",
+        "type": "address"
+      }
+    ],
+    "name": "removeGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [
@@ -307,6 +242,50 @@
     "inputs": [
       {
         "internalType": "uint256[]",
+        "name": "_ids",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_amounts",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "setMaxItemAmounts",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMaxSessionSFL",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMintAllowance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256[]",
         "name": "_farmIds",
         "type": "uint256[]"
       },
@@ -321,14 +300,27 @@
         "type": "uint256"
       }
     ],
-    "name": "setMintedAtBatch",
+    "name": "setMintedAtBulk",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "bool[]",
         "name": "",
-        "type": "bool"
+        "type": "bool[]"
       }
     ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_fee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMintFee",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -577,6 +569,25 @@
   {
     "inputs": [
       {
+        "internalType": "uint256[]",
+        "name": "_ids",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "getMaxItemAmounts",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "farmId",
         "type": "uint256"
@@ -639,6 +650,11 @@
             "internalType": "uint256",
             "name": "tokenAmount",
             "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "enabled",
+            "type": "bool"
           }
         ],
         "internalType": "struct SunflowerLandSession.Recipe",
@@ -690,6 +706,11 @@
             "internalType": "uint256",
             "name": "tokenAmount",
             "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "enabled",
+            "type": "bool"
           }
         ],
         "internalType": "struct SunflowerLandSession.Recipe[]",
