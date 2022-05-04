@@ -211,7 +211,7 @@ export const CreateFarm: React.FC = () => {
             onClick={decrementDonation}
           />
         </div>
-        <span className="text-[10px] text-shadow mt-2">Minumum of 1 MATIC</span>
+        <span className="text-[10px] text-shadow mt-2">Minimum of 1 MATIC</span>
       </div>
       <p className="text-center mb-3 mt-10">Select a charity</p>
       <Carousel
