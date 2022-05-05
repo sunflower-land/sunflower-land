@@ -250,7 +250,7 @@ export const House: React.FC = () => {
         style={{
           width: `${GRID_WIDTH_PX * 2.35}px`,
           position: "absolute",
-          right: `${GRID_WIDTH_PX * 33}px`,
+          right: `${GRID_WIDTH_PX * 32.25}px`,
           top: `${GRID_WIDTH_PX * 30.6}px`,
         }}
       />
