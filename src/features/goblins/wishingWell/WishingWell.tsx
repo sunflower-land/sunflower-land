@@ -42,7 +42,9 @@ export const WishingWell: React.FC = () => {
         }
       </div>
 
-      <WishingWellModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      {isOpen && (
+        <WishingWellModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      )}
     </div>
   );
 };
