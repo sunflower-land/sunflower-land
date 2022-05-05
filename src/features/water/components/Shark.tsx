@@ -45,9 +45,9 @@ const Shark = () => {
 
   return (
     <div
-      className="absolute top-1/2 -translate-y-40 w-full"
+      className="absolute top-1/2 -translate-y-20 w-full"
       style={{
-        height: "360px",
+        height: "280px",
         left: "-200px",
         width: "calc(100% + 180px)",
       }}
