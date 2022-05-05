@@ -9,6 +9,7 @@ import { Farm } from "../farm/Farm";
 import { Hud } from "../hud/Hud";
 import { Market } from "../market/Market";
 import { WishingWell } from "../wishingWell/WishingWell";
+import { Tailor } from "../tailor/Tailor";
 
 export const Village: React.FC = () => {
   return (
@@ -32,6 +33,7 @@ export const Village: React.FC = () => {
       <Farm />
       <Market />
       <WishingWell />
+      <Tailor />
     </div>
   );
 };

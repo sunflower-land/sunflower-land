@@ -35,7 +35,7 @@ export const Market: React.FC = () => {
         className="w-full"
       />
       <Action
-        className="absolute -top-11 -left-8"
+        className="absolute -bottom-10 -left-8"
         text="Shop"
         icon={plant}
         onClick={handleMarketClick}
