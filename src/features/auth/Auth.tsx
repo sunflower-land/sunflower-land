@@ -22,7 +22,6 @@ import { ErrorCode } from "lib/errors";
 import { SupplyReached } from "./components/SupplyReached";
 import { Countdown } from "./components/Countdown";
 import { Minimized } from "./components/Minimized";
-import { Airdrop } from "./components/Airdrop";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -80,7 +79,6 @@ export const Auth: React.FC = () => {
             <SupplyReached />
           )}
           {authState.matches("oauthorising") && <Loading />}
-          {authState.matches("airdropping") && <Airdrop />}
           {authState.matches({ connected: "oauthorised" }) && <CreateFarm />}
           {authState.matches({ connected: "countdown" }) && <Countdown />}
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}

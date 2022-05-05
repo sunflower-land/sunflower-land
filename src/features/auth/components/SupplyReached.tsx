@@ -6,7 +6,7 @@ export const SupplyReached: React.FC = () => {
       <p className="text-center mb-3">Supply reached!</p>
 
       <p className="text-center mb-4 text-xs">
-        {`100,000 farms have already been minted for open beta. Currently only people who owned V1 Sunflower Farmer assets are able to create a farm. More spots are opening soon!`}
+        {`100,000 farms have already been minted for open beta. More spots are opening soon!`}
       </p>
     </div>
   );

@@ -3,7 +3,6 @@ import { ERRORS } from "lib/errors";
 import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
-import { airdrop } from "../actions/airdrop";
 import { createFarm as createFarmAction } from "../actions/createFarm";
 import { login, Token, decodeToken, removeSession } from "../actions/login";
 import { oauthorise, redirectOAuth } from "../actions/oauth";
@@ -94,7 +93,6 @@ export type BlockchainEvent =
       type: "LOGOUT";
     }
   | { type: "CONNECT_TO_DISCORD" }
-  | { type: "AIRDROP" }
   | { type: "CONFIRM" }
   | { type: "CONTINUE" };
 
@@ -117,15 +115,6 @@ export type BlockchainState = {
     | { connected: "readyToStart" }
     | { connected: "oauthorised" }
     | { connected: "authorised" }
-    | "airdropping"
-    | { airdropping: "idle" }
-    | { airdropping: "checking" }
-    | { airdropping: "confirmation" }
-    | { airdropping: "signing" }
-    | { airdropping: "success" }
-    | { airdropping: "error" }
-    | { airdropping: "noFarm" }
-    | { airdropping: "duplicate" }
     | "exploring"
     | "checkFarm"
     | "unauthorised";
@@ -249,19 +238,8 @@ export const authMachine = createMachine<
             id: "checkingAccess",
             invoke: {
               src: async (context) => {
-                if (context.token?.userAccess.createFarm) {
-                  return {
-                    hasAccess: true,
-                  };
-                }
-
-                // Only give access to V1 farmers
-                const hasAccess = await metamask
-                  .getSunflowerFarmers()
-                  ?.hasV1Data();
-
                 return {
-                  hasAccess,
+                  hasAccess: context.token?.userAccess.createFarm,
                 };
               },
               onDone: [
@@ -378,7 +356,6 @@ export const authMachine = createMachine<
           supplyReached: {},
         },
         on: {
-          AIRDROP: "airdropping",
           ACCOUNT_CHANGED: {
             target: "connecting",
             actions: "resetFarm",
@@ -443,116 +420,6 @@ export const authMachine = createMachine<
         },
       },
       minimised: {},
-      airdropping: {
-        initial: "idle",
-        states: {
-          idle: {
-            on: {
-              ACCOUNT_CHANGED: {
-                target: "#checking",
-              },
-            },
-          },
-          checking: {
-            id: "checking",
-            invoke: {
-              src: async () => {
-                const account = await metamask.getAccount();
-
-                // On the same account they started with
-                if (account === metamask.myAccount) {
-                  return { isSameAccount: true };
-                }
-
-                // Short term workaround to allow everyone to migrate
-                const hasV1Data = true;
-
-                return {
-                  hasV1Data,
-                };
-              },
-              onDone: [
-                {
-                  target: "idle",
-                  cond: (_, event) => event.data.isSameAccount,
-                },
-                {
-                  target: "confirmation",
-                  cond: (_, event) => event.data.hasV1Data,
-                },
-                { target: "noFarm" },
-              ],
-              onError: {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            },
-            on: {
-              ACCOUNT_CHANGED: {
-                target: "#checking",
-              },
-            },
-          },
-          noFarm: {
-            on: {
-              ACCOUNT_CHANGED: {
-                target: "#checking",
-              },
-            },
-          },
-          confirmation: {
-            on: {
-              CONFIRM: {
-                target: "signing",
-              },
-              ACCOUNT_CHANGED: {
-                target: "#checking",
-              },
-            },
-          },
-          signing: {
-            id: "airdropSigning",
-            invoke: {
-              src: async (context) => {
-                const account = await metamask.getAccount();
-
-                const { status } = await airdrop({
-                  token: context.rawToken as string,
-                  farmId: context.farmId as number,
-                  fromAddress: account,
-                });
-
-                return { status };
-              },
-              onDone: [
-                {
-                  target: "duplicate",
-                  cond: (_, event) => event.data.status === "already_migrated",
-                },
-                { target: "success" },
-              ],
-              onError: {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            },
-            on: {
-              ACCOUNT_CHANGED: {
-                target: "#checking",
-              },
-            },
-          },
-          success: {},
-          error: {},
-          duplicate: {
-            on: {
-              ACCOUNT_CHANGED: {
-                target: "#checking",
-              },
-            },
-          },
-        },
-      },
     },
     on: {
       CHAIN_CHANGED: {
