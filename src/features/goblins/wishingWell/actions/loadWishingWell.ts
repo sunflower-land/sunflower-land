@@ -4,15 +4,13 @@ import { secondsToLongString } from "lib/utils/time";
 
 const wishingWellAddress = CONFIG.WISHING_WELL_CONTRACT;
 
-// 3 days
-export const LOCKED_SECONDS = 60; //3 * 24 * 60 * 60;
-
 export type WishingWellTokens = {
   myTokensInWell: string;
   totalTokensInWell: string;
   canCollect: boolean;
   lpTokens: string;
   lockedTime?: string;
+  lockedPeriod: number;
 };
 
 /**
@@ -22,6 +20,7 @@ export async function loadWishingWell(): Promise<WishingWellTokens> {
   const tokensInWellPromise = metamask.getWishingWell().getBalance();
   const canCollectPromise = metamask.getWishingWell().canCollect();
   const lastCollectedPromise = metamask.getWishingWell().lastCollected();
+  const lockedPeriodPromise = metamask.getWishingWell().getLockedPeriod();
   const lpTokensPromise = metamask.getPair().getBalance();
   const totalTokensInWellPromise = metamask
     .getToken()
@@ -33,19 +32,21 @@ export async function loadWishingWell(): Promise<WishingWellTokens> {
     lpTokens,
     lastCollected,
     totalTokensInWell,
+    lockedPeriod,
   ] = await Promise.all([
     tokensInWellPromise,
     canCollectPromise,
     lpTokensPromise,
     lastCollectedPromise,
     totalTokensInWellPromise,
+    lockedPeriodPromise,
   ]);
 
   let lockedTime;
   const secondsSinceLock = new Date().getTime() / 1000 - lastCollected;
 
-  if (secondsSinceLock <= LOCKED_SECONDS) {
-    const remaining = LOCKED_SECONDS - secondsSinceLock;
+  if (secondsSinceLock <= lockedPeriod) {
+    const remaining = lockedPeriod - secondsSinceLock;
     lockedTime = secondsToLongString(remaining);
   }
 
@@ -55,5 +56,6 @@ export async function loadWishingWell(): Promise<WishingWellTokens> {
     canCollect,
     lpTokens,
     lockedTime,
+    lockedPeriod,
   };
 }

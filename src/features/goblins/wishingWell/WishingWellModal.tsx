@@ -14,6 +14,8 @@ import { metamask } from "lib/blockchain/metamask";
 import * as Auth from "features/auth/lib/Provider";
 import { wishingWellMachine } from "./wishingWellMachine";
 import { fromWei } from "web3-utils";
+import { secondsToLongString } from "lib/utils/time";
+import { CONFIG } from "lib/config";
 
 export const shortAddress = (address: string): string => {
   // check if there is an address
@@ -34,6 +36,8 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [machine, send] = useMachine(wishingWellMachine(authState.context));
 
   const Content = () => {
+    const wishingWell = machine.context.state;
+
     if (machine.matches("error")) {
       return <span>Something went wrong!</span>;
     }
@@ -63,8 +67,9 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
     if (machine.matches("wished")) {
       return (
         <span className="text-sm mt-4 text-center">
-          Your wish has been made. Come back in 3 days to see how lucky you
-          were.
+          Thanks for supporting the project and making a wish. Come back in{" "}
+          {secondsToLongString(wishingWell?.lockedPeriod)}
+          days to see how lucky you were.
         </span>
       );
     }
@@ -72,19 +77,17 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
     if (machine.matches("searched")) {
       return (
         <span>
-          WooHoo! You found some tokens in the well. They have been sent to:{" "}
-          {shortAddress(metamask.myAccount as string)}
+          {`WooHoo! You found some tokens in the well. They have been sent to your
+          farm. Don't forget to sync on chain to see your updated balance!`}
         </span>
       );
     }
-
-    const wishingWell = machine.context.state;
 
     if (Number(wishingWell.lpTokens) <= 0) {
       return (
         <div className="py-2 mt-4 border-white flex flex-col items-center">
           <span className="text-sm text-center">
-            {`To make a wish you need the magic LP tokens in your wallet.`}
+            {`To make a wish you need the magic LP tokens in your personal wallet.`}
           </span>
           <a
             className="text-xxs underline cursor-pointer"
@@ -145,6 +148,16 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
               <span className="text-sm">The well is filled with SFL.</span>
             </div>
             {Content()}
+            {CONFIG.NETWORK === "mumbai" && (
+              <div>
+                <Button
+                  className="text-sm"
+                  onClick={() => metamask.getPair().mintTestnetTokens()}
+                >
+                  Mint testnet LP tokens
+                </Button>
+              </div>
+            )}
           </div>
           <div className="flex-1 p-2 flex flex-col items-center">
             {

@@ -6,9 +6,9 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Blacksmith } from "../blacksmith/Blacksmith";
 import { Bank } from "../bank/Bank";
 import { Farm } from "../farm/Farm";
-import { WishingWell } from "../wishingWell/WishingWell";
 import { Hud } from "../hud/Hud";
 import { Market } from "../market/Market";
+import { WishingWell } from "../wishingWell/WishingWell";
 
 export const Village: React.FC = () => {
   return (
@@ -30,8 +30,8 @@ export const Village: React.FC = () => {
       <Blacksmith />
       <Bank />
       <Farm />
-      <WishingWell />
       <Market />
+      <WishingWell />
     </div>
   );
 };

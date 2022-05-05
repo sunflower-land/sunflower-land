@@ -65,7 +65,6 @@ export const wishingWellMachine = (authContext: AuthContext) =>
         invoke: {
           src: async () => {
             const well = await loadWishingWell();
-
             return {
               state: well,
             };
