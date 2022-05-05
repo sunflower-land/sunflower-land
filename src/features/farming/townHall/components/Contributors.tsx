@@ -4,11 +4,27 @@ import { useNavigate } from "react-router-dom";
 import logo from "assets/brand/logo.png";
 import bumpkin from "assets/npcs/bumpkin.png";
 import goblin from "assets/npcs/goblin.gif";
-import { Contributor, CONTRIBUTORS } from "../constants/contributors";
+import man from "assets/npcs/idle.gif";
+
+import {
+  Contributor,
+  ContributorRole,
+  CONTRIBUTORS,
+} from "../constants/contributors";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const AVATARS: Record<Contributor["avatar"], string> = {
   bumpkin,
   goblin,
+  man,
+  // TODO!
+  woman: man,
+};
+
+const ROLE_BADGES: Record<ContributorRole, string> = {
+  artist: ITEM_DETAILS["Artist"].image,
+  coder: ITEM_DETAILS["Coder"].image,
+  moderator: ITEM_DETAILS["Discord Mod"].image,
 };
 
 interface Props {
@@ -29,10 +45,16 @@ export const Contributors: React.FC<Props> = ({ onClose }) => {
         If you like their work, visit their farm and buy them a coffee!
       </p>
       {CONTRIBUTORS.map((contributor) => (
-        <div className="flex w-full mt-8" id={contributor.name}>
-          <img src={AVATARS[contributor.avatar]} className="h-8 mr-4" />
+        <div
+          key={contributor.name}
+          className="flex w-full mt-8"
+          id={contributor.name}
+        >
+          <div className="w-10 mr-4 flex justify-center">
+            <img src={AVATARS[contributor.avatar]} className="h-8" />
+          </div>
           <div>
-            <p className="text-sm">
+            <p className="text-sm capitalize">
               {contributor.name}{" "}
               <span
                 className="underline cursor-pointer"
@@ -44,7 +66,14 @@ export const Contributors: React.FC<Props> = ({ onClose }) => {
                 #{contributor.farmId}
               </span>
             </p>
-            <p className="text-sm">{contributor.role}</p>
+            <p className="text-sm">
+              {contributor.role.map((role) => (
+                <span key={role} className="capitalize flex items-center py-1">
+                  {role}
+                  <img src={ROLE_BADGES[role]} className="h-5 ml-1" />
+                </span>
+              ))}
+            </p>
           </div>
         </div>
       ))}
