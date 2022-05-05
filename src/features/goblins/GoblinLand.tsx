@@ -5,21 +5,22 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/game/GoblinProvider";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Village } from "./village/Village";
-import { StateValues } from "features/game/lib/goblinMachine";
 import { Loading } from "features/auth/components";
 import { Panel } from "components/ui/Panel";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ErrorCode } from "lib/errors";
 import { Minting } from "features/game/components/Minting";
+import { Minted } from "features/game/components/Minted";
 import { Withdrawing } from "features/game/components/Withdrawing";
-import { Success } from "features/game/components/Success";
 import { Withdrawn } from "features/game/components/Withdrawn";
 
 // const SHOW_MODAL: Record<StateValues, boolean> = {
 const SHOW_MODAL: any = {
   loading: true,
   minting: true,
+  minted: true,
   withdrawing: true,
+  withdrawn: true,
   playing: false,
 };
 
@@ -43,7 +44,7 @@ export const GoblinLand: React.FC = () => {
             />
           )}
           {goblinState.matches("minting") && <Minting />}
-          {goblinState.matches("minted") && <Success />}
+          {goblinState.matches("minting") && <Minted />}
           {goblinState.matches("withdrawing") && <Withdrawing />}
           {goblinState.matches("withdrawn") && <Withdrawn />}
         </Panel>
