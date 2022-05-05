@@ -58,6 +58,7 @@ export const wishingWellMachine = (authContext: AuthContext) =>
         myTokensInWell: "0",
         totalTokensInWell: "0",
         lockedTime: "",
+        lockedPeriod: 0,
       },
     },
     states: {

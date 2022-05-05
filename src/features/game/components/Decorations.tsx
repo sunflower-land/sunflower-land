@@ -24,7 +24,6 @@ import fountain from "assets/nfts/fountain.gif";
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
 import farmerBath from "assets/nfts/farmer_bath.png";
-import sign from "assets/decorations/wood_sign.png";
 import swimmer from "assets/npcs/swimmer.gif";
 
 import beaver from "assets/nfts/beaver.gif";
@@ -382,7 +381,7 @@ export const Decorations: React.FC = () => {
         />
       )}
 
-      <Sign id={state.id} inventory={state.inventory} />
+      <Sign id={state.id as number} inventory={state.inventory} />
 
       {state.inventory["Farmer Bath"] && (
         <div
