@@ -1,3 +1,4 @@
+import { isFarmBlacklisted } from "features/game/actions/onchain";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { createMachine, Interpreter, assign } from "xstate";
@@ -12,10 +13,10 @@ import { CharityAddress } from "../components/CreateFarm";
 const INITIAL_SESSION =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 
-const getFarmUrl = () => {
-  const farmId = new URLSearchParams(window.location.search).get("farmId");
-
-  return parseInt(farmId!);
+const getFarmIdFromUrl = () => {
+  const paths = window.location.href.split("/visit/");
+  const id = paths[paths.length - 1];
+  return parseInt(id);
 };
 
 const getDiscordCode = () => {
@@ -32,6 +33,7 @@ type Farm = {
   sessionId: string;
   address: string;
   createdAt: number;
+  isBlacklisted: boolean;
 };
 
 export interface Context {
@@ -43,6 +45,7 @@ export interface Context {
   token?: Token;
   rawToken?: string;
   captcha?: string;
+  isBlacklisted?: boolean;
 }
 
 type StartEvent = Farm & {
@@ -104,6 +107,7 @@ export type BlockchainState = {
     | "connected"
     | "signing"
     | "oauthorising"
+    | "blacklisted"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
     | { connected: "checkingAccess" }
@@ -115,6 +119,7 @@ export type BlockchainState = {
     | { connected: "readyToStart" }
     | { connected: "oauthorised" }
     | { connected: "authorised" }
+    | { connected: "blacklisted" }
     | "exploring"
     | "checkFarm"
     | "unauthorised";
@@ -151,7 +156,7 @@ export const authMachine = createMachine<
             // },
             {
               target: "checkFarm",
-              cond: "hasFarmIdUrl",
+              cond: "isVisitingUrl",
             },
             {
               target: "oauthorising",
@@ -331,15 +336,29 @@ export const authMachine = createMachine<
           },
           readyToStart: {
             on: {
-              START_GAME: {
-                target: "authorised",
-              },
+              START_GAME: [
+                {
+                  cond: (context) => !!context.isBlacklisted,
+                  target: "blacklisted",
+                },
+                {
+                  target: "authorised",
+                },
+              ],
               EXPLORE: {
                 target: "#exploring",
               },
             },
           },
+          blacklisted: {
+            on: {
+              CONTINUE: "authorised",
+            },
+          },
           authorised: {
+            entry: (context) => {
+              window.location.href = `/#/farm/${context.farmId}`;
+            },
             on: {
               REFRESH: {
                 target: "#connecting",
@@ -390,11 +409,18 @@ export const authMachine = createMachine<
       checkFarm: {
         invoke: {
           src: "visitFarm",
-          onDone: {
-            target: "visiting",
-            actions: "assignFarm",
-            cond: "hasFarm",
-          },
+          onDone: [
+            {
+              target: "blacklisted",
+              cond: (context) => !!context.isBlacklisted,
+              actions: "assignFarm",
+            },
+            {
+              target: "visiting",
+              actions: "assignFarm",
+              cond: "hasFarm",
+            },
+          ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
@@ -407,7 +433,15 @@ export const authMachine = createMachine<
           },
         },
       },
+      blacklisted: {
+        on: {
+          CONTINUE: "visiting",
+        },
+      },
       visiting: {
+        entry: (context) => {
+          window.location.href = `/#/visit/${context.farmId}`;
+        },
         on: {
           RETURN: {
             target: "connecting",
@@ -438,10 +472,12 @@ export const authMachine = createMachine<
         await metamask.initialise();
       },
       loadFarm: async (): Promise<Farm | undefined> => {
+        console.log("Load farms");
         const farmAccounts = await metamask.getFarm()?.getFarms();
         if (farmAccounts?.length === 0) {
           return;
         }
+        console.log("Loaded");
 
         const createdAt = await metamask
           .getBeta()
@@ -454,11 +490,14 @@ export const authMachine = createMachine<
           .getSessionManager()
           .getSessionId(farmAccount.tokenId);
 
+        const isBlacklisted = await isFarmBlacklisted(farmAccount.tokenId);
+
         return {
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           sessionId,
           createdAt,
+          isBlacklisted,
         };
       },
       createFarm: async (context: Context, event: any): Promise<Context> => {
@@ -495,14 +534,17 @@ export const authMachine = createMachine<
         _context: Context,
         event: any
       ): Promise<Farm | undefined> => {
-        const farmId = getFarmUrl() || (event as VisitEvent).farmId;
+        const farmId = getFarmIdFromUrl() || (event as VisitEvent).farmId;
         const farmAccount = await metamask.getFarm()?.getFarm(farmId);
+
+        const isBlacklisted = await isFarmBlacklisted(farmId);
 
         return {
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           sessionId: "",
           createdAt: 0,
+          isBlacklisted,
         };
       },
     },
@@ -511,6 +553,7 @@ export const authMachine = createMachine<
         farmId: (_context, event) => event.data.farmId,
         address: (_context, event) => event.data.address,
         sessionId: (_context, event) => event.data.sessionId,
+        isBlacklisted: (_context, event) => event.data.isBlacklisted,
       }),
       assignToken: assign<Context, any>({
         token: (_context, event) => decodeToken(event.data.token),
@@ -550,7 +593,7 @@ export const authMachine = createMachine<
 
         return !!context.farmId;
       },
-      hasFarmIdUrl: () => !isNaN(getFarmUrl()),
+      isVisitingUrl: () => window.location.href.includes("visit"),
       hasDiscordCode: () => !!getDiscordCode(),
     },
   }

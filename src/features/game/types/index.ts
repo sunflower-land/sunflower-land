@@ -78,6 +78,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Prospector: 706,
   Logger: 707,
   "Gold Rush": 708,
+  Artist: 709,
+  Coder: 710,
+  "Liquidity Provider": 711,
+  "Discord Mod": 712,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

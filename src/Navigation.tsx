@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
+import { Routes, Route, HashRouter } from "react-router-dom";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import { Session } from "features/game/Session";
 import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
+import { Humans } from "features/game/Humans";
+import { Goblins } from "features/game/Goblins";
 
 /**
  * Entry point for game which reflects the user session state
@@ -15,19 +17,6 @@ export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
   const [showGame, setShowGame] = useState(false);
-
-  useEffect(() => {
-    // Start with crops centered
-    if (showGame) {
-      const el = document.getElementById("crops");
-
-      el?.scrollIntoView({
-        behavior: "auto",
-        block: "center",
-        inline: "center",
-      });
-    }
-  }, [showGame]);
 
   /**
    * Listen to web3 account/chain changes
@@ -59,7 +48,20 @@ export const Navigation: React.FC = () => {
   return (
     <>
       <Auth />
-      {showGame ? <Session /> : <Splash />}
+      {showGame ? (
+        <HashRouter>
+          <Routes>
+            <Route path="/" element={<Humans />} />
+            <Route path="/goblins" element={<Goblins />} />
+            <Route path="/farm/:id" element={<Humans key="farm" />} />
+            <Route path="/visit/:id" element={<Humans key="visit" />} />
+            {/* Fallback */}
+            <Route element={<Humans />} />
+          </Routes>
+        </HashRouter>
+      ) : (
+        <Splash />
+      )}
     </>
   );
 };

@@ -7,6 +7,8 @@ import minting from "assets/npcs/minting.gif";
 import richBegger from "assets/npcs/rich_begger.gif";
 import syncing from "assets/npcs/syncing.gif";
 import background from "assets/land/background.png";
+import goblinLandBackground from "assets/land/goblin_background.png";
+import farm from "assets/brand/nft.png";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -16,6 +18,8 @@ const IMAGE_LIST: string[] = [
   richBegger,
   syncing,
   background,
+  goblinLandBackground,
+  farm,
 ];
 
 function preloadImage(src: string) {

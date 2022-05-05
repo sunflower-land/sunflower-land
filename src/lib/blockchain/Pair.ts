@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
-import { AbiItem } from "web3-utils";
-import TokenJSON from "./abis/Token.json";
+import { AbiItem, toWei } from "web3-utils";
+import PairJSON from "./abis/Pair.json";
 
 const address = CONFIG.PAIR_CONTRACT;
 const wishingWellAddress = CONFIG.WISHING_WELL_CONTRACT;
@@ -19,7 +19,7 @@ export class Pair {
     this.web3 = web3;
     this.account = account;
     this.contract = new this.web3.eth.Contract(
-      TokenJSON as AbiItem[],
+      PairJSON as AbiItem[],
       address as string
     );
   }
@@ -32,10 +32,11 @@ export class Pair {
     return balance;
   }
 
-  public async approve(amount: string) {
+  public async mintTestnetTokens() {
+    const amount = toWei("100");
     return new Promise((resolve, reject) => {
       this.contract.methods
-        .approve(wishingWellAddress, amount)
+        .mint(this.account, amount)
         .send({ from: this.account })
         .on("error", function (error: any) {
           console.log({ error });

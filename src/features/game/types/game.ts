@@ -2,7 +2,7 @@ import { Decimal } from "decimal.js-light";
 import { GameEvent } from "../events";
 
 import { CropName, SeedName } from "./crops";
-import { CraftableName } from "./craftables";
+import { CraftableName, Food } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 
@@ -61,18 +61,21 @@ export type InventoryItemName =
   | ResourceName
   | SkillName
   | EasterEgg
-  | EasterBunny;
+  | EasterBunny
+  | Food;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
+
+export type Fields = Record<number, FieldItem>;
 
 type PastAction = GameEvent & {
   createdAt: Date;
 };
 
-export type GameState = {
+export interface GameState {
   id?: number;
   balance: Decimal;
-  fields: Record<number, FieldItem>;
+  fields: Fields;
 
   trees: Record<number, Tree>;
   stones: Record<number, Rock>;
@@ -88,7 +91,7 @@ export type GameState = {
     farming: Decimal;
     gathering: Decimal;
   };
-};
+}
 
 export interface Context {
   state?: GameState;
