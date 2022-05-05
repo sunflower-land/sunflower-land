@@ -2,12 +2,12 @@ import { Button } from "components/ui/Button";
 import React, { useContext } from "react";
 
 import secure from "assets/npcs/synced.gif";
-import { Context } from "../GameProvider";
+import { Context } from "../GoblinProvider";
 import { metamask } from "lib/blockchain/metamask";
 import { shortAddress } from "features/farming/hud/components/Address";
 
 export const Withdrawn: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { goblinService } = useContext(Context);
 
   return (
     <div className="flex flex-col items-center">
@@ -42,7 +42,7 @@ export const Withdrawn: React.FC = () => {
         </a>
       </span>
 
-      <Button onClick={() => gameService.send("REFRESH")}>Continue</Button>
+      <Button onClick={() => goblinService.send("REFRESH")}>Continue</Button>
     </div>
   );
 };
