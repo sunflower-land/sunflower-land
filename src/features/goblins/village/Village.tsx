@@ -5,10 +5,9 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Blacksmith } from "../blacksmith/Blacksmith";
 import { Bank } from "../bank/Bank";
-import { Farm } from "../farm/Farm";
-import { Hud } from "../hud/Hud";
-import { Market } from "../market/Market";
+import { Farmer } from "../farmer/Farmer";
 import { WishingWell } from "../wishingWell/WishingWell";
+import { Hud } from "../hud/Hud";
 import { Tailor } from "../tailor/Tailor";
 
 export const Village: React.FC = () => {
@@ -30,8 +29,7 @@ export const Village: React.FC = () => {
       <Hud />
       <Blacksmith />
       <Bank />
-      <Farm />
-      <Market />
+      <Farmer />
       <WishingWell />
       <Tailor />
     </div>

@@ -58,7 +58,7 @@ export type BlockchainState = {
     | "minting"
     | "minted"
     | "withdrawing"
-    | "withdrawin"
+    | "withdrawn"
     | "playing"
     | "error";
   context: Context;
@@ -131,7 +131,6 @@ export function startGoblinVillage(authContext: AuthContext) {
       minting: {
         invoke: {
           src: async (context, event) => {
-            console.log("withdrawing");
             const { item, captcha } = event as MintEvent;
 
             const { sessionId } = await mint({

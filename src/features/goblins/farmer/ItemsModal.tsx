@@ -1,14 +1,13 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
 import close from "assets/icons/close.png";
+import coop from "assets/nfts/chicken_coop.png";
 
 import { Panel } from "components/ui/Panel";
-
-import { Rare } from "features/goblins/Rare";
-import { MARKET_ITEMS } from "features/game/types/craftables";
 import { Tab } from "components/ui/Tab";
+import { BARN_ITEMS, MARKET_ITEMS } from "features/game/types/craftables";
+import { Rare } from "features/goblins/Rare";
 
 interface Props {
   isOpen: boolean;
@@ -22,7 +21,7 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
         <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
           <div className="flex">
             <Tab isActive>
-              <img src={goldenCauliflower} className="h-5 mr-2" />
+              <img src={coop} className="h-5 mr-2" />
               <span className="text-sm text-shadow">Rare</span>
             </Tab>
           </div>
@@ -33,7 +32,13 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
           />
         </div>
 
-        <Rare items={MARKET_ITEMS} onClose={onClose} />
+        <div
+          style={{
+            minHeight: "200px",
+          }}
+        >
+          <Rare items={{ ...MARKET_ITEMS, ...BARN_ITEMS }} onClose={onClose} />
+        </div>
       </Panel>
     </Modal>
   );

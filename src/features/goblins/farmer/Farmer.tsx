@@ -6,9 +6,9 @@ import { barnAudio } from "lib/utils/sfx";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
-import { ItemsModal } from "../farm/ItemsModal";
+import { ItemsModal } from "./ItemsModal";
 
-export const Farm: React.FC = () => {
+export const Farmer: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const openBarn = () => {
@@ -22,7 +22,7 @@ export const Farm: React.FC = () => {
       style={{
         width: `${GRID_WIDTH_PX * 0.9}px`,
         right: `${GRID_WIDTH_PX * 12.7}px`,
-        top: `${GRID_WIDTH_PX * 2.8}px`,
+        top: `${GRID_WIDTH_PX * 2.4}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">
@@ -33,8 +33,8 @@ export const Farm: React.FC = () => {
           className="w-full"
         />
         <Action
-          className="absolute -bottom-10 -left-8"
-          text="Farm"
+          className="absolute -bottom-10 -left-11"
+          text="Farmer"
           icon={cowbell}
           onClick={openBarn}
         />

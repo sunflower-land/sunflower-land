@@ -14,11 +14,11 @@ export const GoblinVillageModal: React.FC = () => {
         Do you want to visit Goblin Village?
       </h1>
 
-      <p className="text-sm text-center pt-4">
+      <p className="text-sm pt-4">
         Goblin Village offers rare items and{" "}
         <span className="underline">on-chain</span> gameplay.
       </p>
-      <p className="text-sm text-center pt-4">
+      <p className="text-sm pt-4 pb-2">
         Any transaction in Goblin land will reset your farming session to your
         previous checkpoint.
       </p>

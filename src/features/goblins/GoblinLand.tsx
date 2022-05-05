@@ -12,6 +12,8 @@ import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ErrorCode } from "lib/errors";
 import { Minting } from "features/game/components/Minting";
 import { Withdrawing } from "features/game/components/Withdrawing";
+import { Success } from "features/game/components/Success";
+import { Withdrawn } from "features/game/components/Withdrawn";
 
 // const SHOW_MODAL: Record<StateValues, boolean> = {
 const SHOW_MODAL: any = {
@@ -25,8 +27,6 @@ export const GoblinLand: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
-
-  console.log({ goblinState });
 
   useEffect(() => {
     scrollIntoView(Section.GoblinVillage, "auto");
@@ -43,7 +43,9 @@ export const GoblinLand: React.FC = () => {
             />
           )}
           {goblinState.matches("minting") && <Minting />}
+          {goblinState.matches("minted") && <Success />}
           {goblinState.matches("withdrawing") && <Withdrawing />}
+          {goblinState.matches("withdrawn") && <Withdrawn />}
         </Panel>
       </Modal>
       <Village />
