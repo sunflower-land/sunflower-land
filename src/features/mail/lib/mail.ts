@@ -79,9 +79,9 @@ export async function getInbox() {
         : "You're running Sunflower Land locally!",
     },
     {
-      id: "2022-04-30",
+      id: "2022-05-04",
       title: "May 2022 Dates",
-      body: `Check our social pages for NFT release dates  
+      body: `Dates shown are in your **local** timezone. Check our social pages for NFT release dates.  
         &nbsp;  
         ${formatDateTime("2022-05-04T00:00:00Z")}  
         - End of V1 Migration  
