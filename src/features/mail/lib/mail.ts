@@ -81,11 +81,8 @@ export async function getInbox() {
         ${formatDateTime("2022-05-04T00:00:00Z")}  
         - End of V1 Migration  
         &nbsp;  
-        ${formatDateTime("2022-05-09T00:00:00Z")}  
-        - SFL Token Launch  
-        &nbsp;  
-        ${formatDateTime("2022-05-16T00:00:00Z")}🔴  
-        - 50,000 **new** farm spots  
+        ${formatDateTime("2022-05-09T12:00:00Z")}  
+        - SFL Withdrawals
         &nbsp;  
         ${formatDateTime("2022-05-30T00:00:00Z")}🔴  
         - Rarible  
