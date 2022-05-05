@@ -14,7 +14,7 @@ import { Button } from "components/ui/Button";
 import { secondsToMidString } from "lib/utils/time";
 
 import { Context } from "features/game/GameProvider";
-import { Craftable } from "features/game/types/craftables";
+import { CraftableItem } from "features/game/types/craftables";
 import { CropName, CROPS, SEEDS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -31,7 +31,7 @@ interface Props {
 }
 
 export const Seeds: React.FC<Props> = ({ onClose }) => {
-  const [selected, setSelected] = useState<Craftable>(
+  const [selected, setSelected] = useState<CraftableItem>(
     SEEDS()["Sunflower Seed"]
   );
   const { setToast } = useContext(ToastContext);
@@ -47,12 +47,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const inventory = state.inventory;
 
   const price = getBuyPrice(selected, inventory);
+
   const buy = (amount = 1) => {
     gameService.send("item.crafted", {
       item: selected.name,
       amount,
     });
-    setToast({ content: "SFL -$" + price.mul(amount).toString() });
+    setToast({ content: "SFL -$" + price?.mul(amount).toString() });
     shortcutItem(selected.name);
   };
 
@@ -68,8 +69,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const lessFunds = (amount = 1) =>
-    state.balance.lessThan(price.mul(amount).toString());
+  const lessFunds = (amount = 1) => {
+    if (!price) return false;
+
+    return state.balance.lessThan(price.mul(amount).toString());
+  };
 
   const cropName = selected.name.split(" ")[0] as CropName;
   const crop = CROPS()[cropName];
@@ -99,8 +103,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     );
   }
   const Action = () => {
-    const isLocked = selected.requires && !inventory[selected.requires];
-    if (isLocked || selected.disabled) {
+    // const isLocked = selected.requires && !inventory[selected.requires];
+    // if (isLocked || selected.disabled) {
+    if (selected.disabled) {
       return <span className="text-xs mt-1 text-shadow">Locked</span>;
     }
 
@@ -154,7 +159,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(SEEDS()).map((item: Craftable) => (
+        {Object.values(SEEDS()).map((item: CraftableItem) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}

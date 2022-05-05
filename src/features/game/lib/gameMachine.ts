@@ -373,7 +373,6 @@ export function startGame(authContext: Options) {
             ],
           },
         },
-        //  withdrawing
         levelling: {
           invoke: {
             src: async (context, event) => {

@@ -50,6 +50,7 @@ export interface CraftableItem {
   tokenAmount?: Decimal;
   ingredients?: Ingredient[];
   disabled?: boolean;
+  requires?: InventoryItemName;
 }
 
 export interface LimitedItem extends CraftableItem {
@@ -370,32 +371,32 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   },
 };
 
-export const ANIMALS: Record<Animal, Craftable> = {
+export const ANIMALS: Record<Animal, CraftableItem> = {
   Chicken: {
     name: "Chicken",
     description: "Produces eggs. Requires wheat for feeding",
-    price: new Decimal(5),
+    tokenAmount: new Decimal(5),
     ingredients: [],
     disabled: true,
   },
   Cow: {
     name: "Cow",
     description: "Produces milk. Requires wheat for feeding",
-    price: new Decimal(50),
+    tokenAmount: new Decimal(50),
     ingredients: [],
     disabled: true,
   },
   Pig: {
     name: "Pig",
     description: "Produces manure. Requires wheat for feeding",
-    price: new Decimal(20),
+    tokenAmount: new Decimal(20),
     ingredients: [],
     disabled: true,
   },
   Sheep: {
     name: "Sheep",
     description: "Produces wool. Requires wheat for feeding",
-    price: new Decimal(20),
+    tokenAmount: new Decimal(20),
     ingredients: [],
     disabled: true,
   },
@@ -414,7 +415,12 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...FLAGS,
 });
 
-const getKeys = Object.keys as <T extends object>(obj: T) => Array<keyof T>;
+/**
+ * getKeys is a ref to Object.keys, but the return is typed literally.
+ */
+export const getKeys = Object.keys as <T extends object>(
+  obj: T
+) => Array<keyof T>;
 
 const LIMITED_ITEMS = {
   ...BLACKSMITH_ITEMS,

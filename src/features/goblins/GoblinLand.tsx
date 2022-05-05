@@ -26,6 +26,8 @@ export const GoblinLand: React.FC = () => {
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
 
+  console.log({ goblinState });
+
   useEffect(() => {
     scrollIntoView(Section.GoblinVillage, "auto");
   }, [scrollIntoView]);

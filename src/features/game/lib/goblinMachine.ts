@@ -2,7 +2,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 
-import { Inventory } from "../types/game";
+import { GameState } from "../types/game";
 import { mint } from "../actions/mint";
 import { LimitedItemName } from "../types/craftables";
 import { withdraw } from "../actions/withdraw";
@@ -11,13 +11,9 @@ import {
   LimitedItemRecipeWithMintedAt,
 } from "../actions/onchain";
 import { ERRORS } from "lib/errors";
+import { EMPTY } from "./constants";
 
-import Decimal from "decimal.js-light";
-
-type GoblinState = {
-  balance: Decimal;
-  inventory: Inventory;
-};
+export type GoblinState = Omit<GameState, "skills">;
 
 export type OnChainLimitedItems = Record<number, LimitedItemRecipeWithMintedAt>;
 
@@ -94,10 +90,7 @@ export function startGoblinVillage(authContext: AuthContext) {
     id: "goblinMachine",
     initial: "loading",
     context: {
-      state: {
-        balance: new Decimal(0),
-        inventory: {},
-      },
+      state: EMPTY,
       sessionId: authContext.sessionId,
       limitedItems: [],
     },
@@ -130,11 +123,15 @@ export function startGoblinVillage(authContext: AuthContext) {
           MINT: {
             target: "minting",
           },
+          WITHDRAW: {
+            target: "withdrawing",
+          },
         },
       },
       minting: {
         invoke: {
           src: async (context, event) => {
+            console.log("withdrawing");
             const { item, captcha } = event as MintEvent;
 
             const { sessionId } = await mint({

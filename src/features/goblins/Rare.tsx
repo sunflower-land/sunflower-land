@@ -1,26 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
-import Decimal from "decimal.js-light";
-import ReCAPTCHA from "react-google-recaptcha";
-
-import token from "assets/icons/token.gif";
 
 import { Box } from "components/ui/Box";
-import { OuterPanel } from "components/ui/Panel";
-import { Button } from "components/ui/Button";
-
-import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Craftable } from "features/game/types/craftables";
+import {
+  CraftableItem,
+  LimitedItem,
+  LimitedItemName,
+  makeLimitedItemsByName,
+} from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { metamask } from "lib/blockchain/metamask";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
-import { KNOWN_IDS } from "features/game/types";
-import { mintCooldown } from "../farming/blacksmith/lib/mintUtils";
+import { Context } from "features/game/GoblinProvider";
+import { metamask } from "lib/blockchain/metamask";
 import { secondsToString } from "lib/utils/time";
 import { CONFIG } from "lib/config";
+import { Button } from "components/ui/Button";
+import ReCAPTCHA from "react-google-recaptcha";
+import { OuterPanel } from "components/ui/Panel";
+import Decimal from "decimal.js-light";
+
+import token from "assets/icons/token.gif";
+import { KNOWN_IDS } from "features/game/types";
+import { mintCooldown } from "./blacksmith/lib/mintUtils";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -28,8 +32,7 @@ const API_URL = CONFIG.API_URL;
 
 interface Props {
   onClose: () => void;
-  items: Partial<Record<InventoryItemName, Craftable>>;
-  hasAccess: boolean;
+  items: Partial<Record<LimitedItemName, LimitedItem>>;
   canCraft?: boolean;
 }
 
@@ -37,12 +40,13 @@ const Items: React.FC<{
   items: Props["items"];
   selected: InventoryItemName;
   inventory: GameState["inventory"];
-  onClick: (item: Craftable) => void;
+  onClick: (item: CraftableItem | LimitedItem) => void;
 }> = ({ items, selected, inventory, onClick }) => {
   const { ref: itemContainerRef, showScrollbar } =
     useShowScrollbar(TAB_CONTENT_HEIGHT);
 
   const ordered = Object.values(items);
+
   return (
     <div
       ref={itemContainerRef}
@@ -68,66 +72,71 @@ const Items: React.FC<{
     </div>
   );
 };
-export const Rare: React.FC<Props> = ({
-  onClose,
-  items,
-  hasAccess,
-  canCraft = true,
-}) => {
-  const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
-  const { gameService } = useContext(Context);
+export const Rare: React.FC<Props> = ({ onClose, items, canCraft = true }) => {
+  const { goblinService } = useContext(Context);
   const [
     {
-      context: { state, itemsMintedAt },
+      context: { state, limitedItems },
     },
-  ] = useActor(gameService);
+  ] = useActor(goblinService);
   const [isLoading, setIsLoading] = useState(true);
   const [supply, setSupply] = useState<ItemSupply>();
   const [showCaptcha, setShowCaptcha] = useState(false);
 
-  console.log({ itemsMintedAt });
   useEffect(() => {
     const load = async () => {
       const supply = API_URL
         ? await metamask.getInventory().totalSupply()
         : ({} as ItemSupply);
       setSupply(supply);
+
       setIsLoading(false);
     };
 
     load();
   }, []);
+
   const inventory = state.inventory;
 
+  const blacksmithItemsByName = makeLimitedItemsByName(items, limitedItems);
+
+  const [selected, setSelected] = useState(
+    Object.values(blacksmithItemsByName)[0]
+  );
+
+  // Ingredient difference≥
   const lessIngredients = (amount = 1) =>
-    selected.ingredients.some((ingredient) =>
+    selected.ingredients?.some((ingredient) =>
       ingredient.amount.mul(amount).greaterThan(inventory[ingredient.item] || 0)
     );
-  const lessFunds = (amount = 1) =>
-    state.balance.lessThan(selected.price.mul(amount));
 
-  const craft = () => {
-    setShowCaptcha(true);
+  const lessFunds = (amount = 1) => {
+    if (!selected.tokenAmount) return;
+
+    return state.balance.lessThan(selected.tokenAmount.mul(amount));
   };
+
+  const craft = () => setShowCaptcha(true);
 
   const onCaptchaSolved = async (token: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
 
-    gameService.send("MINT", { item: selected.name, captcha: token });
+    goblinService.send("MINT", { item: selected.name, captcha: token });
     onClose();
   };
 
   if (isLoading) {
     return (
       <div className="h-60">
-        <span className="loading">Loading...</span>
+        <span className="loading">Loading</span>
       </div>
     );
   }
 
   let amountLeft = 0;
-  if (supply && selected.supply) {
-    amountLeft = selected.supply - supply[selected.name]?.toNumber();
+
+  if (supply && selected.maxSupply) {
+    amountLeft = selected.maxSupply - supply[selected.name]?.toNumber();
   }
 
   const soldOut = amountLeft <= 0;
@@ -137,12 +146,14 @@ export const Rare: React.FC<Props> = ({
       return null;
     }
 
-    if (!hasAccess && selected.disabled) {
-      return <span className="text-xs text-center mt-1">Coming soon</span>;
-    }
+    console.log({ selected });
 
-    const cooldown = mintCooldown({ item: selected.name, itemsMintedAt });
-    if (cooldown > 0) {
+    if (
+      mintCooldown({
+        cooldownSeconds: selected.cooldownSeconds,
+        mintedAt: selected.mintedAt,
+      }) > 0
+    ) {
       return (
         <div className="text-center">
           <a
@@ -154,21 +165,8 @@ export const Rare: React.FC<Props> = ({
             Already minted
           </a>
           <span className="text-xs text-center">
-            Available in {secondsToString(cooldown)}
-          </span>
-        </div>
-      );
-    }
-
-    if (selected.requires && !state.inventory[selected.requires]) {
-      return (
-        <div className="flex items-center">
-          <img
-            src={ITEM_DETAILS[selected.requires].image}
-            className="w-6 h-6 mr-1"
-          />
-          <span className="text-xs text-shadow text-center mt-2">
-            {`${selected.requires}s only`}
+            {/* TODO: FIX THIS */}
+            Available in {secondsToString(selected.cooldownSeconds || 0)}
           </span>
         </div>
       );
@@ -208,7 +206,7 @@ export const Rare: React.FC<Props> = ({
   return (
     <div className="flex">
       <Items
-        items={items}
+        items={blacksmithItemsByName}
         selected={selected.name}
         inventory={inventory}
         onClick={setSelected}
@@ -220,7 +218,7 @@ export const Rare: React.FC<Props> = ({
               Sold out
             </span>
           )}
-          {!!selected.supply && amountLeft > 0 && (
+          {!!selected.maxSupply && amountLeft > 0 && (
             <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
               {`${amountLeft} left`}
             </span>
@@ -237,7 +235,7 @@ export const Rare: React.FC<Props> = ({
           </span>
           {canCraft && (
             <div className="border-t border-white w-full mt-2 pt-1">
-              {selected.ingredients.map((ingredient, index) => {
+              {selected.ingredients?.map((ingredient, index) => {
                 const item = ITEM_DETAILS[ingredient.item];
                 const lessIngredient = new Decimal(
                   inventory[ingredient.item] || 0
@@ -270,7 +268,7 @@ export const Rare: React.FC<Props> = ({
                     }
                   )}
                 >
-                  {`${selected.price.toNumber()}`}
+                  {`$${selected.tokenAmount?.toNumber()}`}
                 </span>
               </div>
             </div>
