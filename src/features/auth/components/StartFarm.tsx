@@ -6,6 +6,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { Button } from "components/ui/Button";
 import { useImagePreloader } from "../useImagePreloader";
 import { Loading } from "./Loading";
+import { Tips } from "./Tips";
 
 export const StartFarm: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -38,6 +39,9 @@ export const StartFarm: React.FC = () => {
       ) : (
         <Loading />
       )}
+      <div className="absolute mt-7 ml-7 mr-3">
+        <Tips />
+      </div>
     </>
   );
 };
