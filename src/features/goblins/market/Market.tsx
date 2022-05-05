@@ -1,22 +1,16 @@
-import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import React from "react";
 
-import { Context } from "features/game/GoblinProvider";
-
-import market from "assets/buildings/shop_building.png";
+import goblin from "assets/npcs/goblin.gif";
 import plant from "assets/icons/plant.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 
-import { MarketItems } from "./MarketItems";
+import { ItemsModal } from "./ItemsModal";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { shopAudio } from "lib/utils/sfx";
 
 export const Market: React.FC = () => {
-  const { goblinService } = useContext(Context);
-  const [goblinState] = useActor(goblinService);
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleMarketClick = () => {
@@ -29,26 +23,24 @@ export const Market: React.FC = () => {
       id={Section.Shop}
       className="absolute cursor-pointer hover:img-highlight"
       style={{
-        width: `${GRID_WIDTH_PX * 3}px`,
-        right: `${GRID_WIDTH_PX * 30}px`,
-        top: `${GRID_WIDTH_PX * 25}px`,
+        width: `${GRID_WIDTH_PX * 0.9}px`,
+        right: `${GRID_WIDTH_PX * 18.4}px`,
+        top: `${GRID_WIDTH_PX * 13}px`,
       }}
     >
       <img
-        src={market}
+        src={goblin}
         alt="market"
         onClick={handleMarketClick}
         className="w-full"
       />
       <Action
-        className="absolute top-5 left-4"
+        className="absolute -top-11 -left-8"
         text="Shop"
         icon={plant}
         onClick={handleMarketClick}
       />
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <MarketItems onClose={() => setIsOpen(false)} />
-      </Modal>
+      <ItemsModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>
   );
 };
