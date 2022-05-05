@@ -9,11 +9,20 @@ import { ToastProvider } from "./toast/ToastQueueProvider";
 import mapMovement from "./lib/mapMovement";
 import { ExpansionInfo } from "./expansion/ExpansionInfo";
 import { useParams } from "react-router-dom";
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 export const Humans: React.FC = () => {
   // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
   const { id } = useParams();
+  const [scrollIntoView] = useScrollIntoView();
+
+  useEffect(() => {
+    // Start with crops centered
+    // if (showGame) {
+    scrollIntoView(Section.Crops, "auto");
+    // }
+  }, [scrollIntoView]);
 
   useEffect(() => {
     mapMovement.addListeners(container.current);

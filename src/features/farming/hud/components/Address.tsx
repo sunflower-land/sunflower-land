@@ -11,11 +11,9 @@ import arrowLeft from "assets/icons/arrow_left.png";
 import arrowRight from "assets/icons/arrow_right.png";
 
 export const shortAddress = (address: string): string => {
-  // check if there is an address
-  if (address) {
-    return `${address.slice(0, 5)}...${address.slice(-4)}`;
-  }
-  return ``;
+  if (!address) return "";
+
+  return `${address.slice(0, 5)}...${address.slice(-4)}`;
 };
 
 export const Address: React.FC = () => {
@@ -48,11 +46,6 @@ export const Address: React.FC = () => {
     setShowLabel(false);
   };
 
-  // // Readonly session
-  // if (!state.address) {
-  //   return null;
-  // }
-
   return (
     <div className="fixed bottom-2 right-2 z-50 shadow-lg">
       <Panel>
@@ -69,7 +62,7 @@ export const Address: React.FC = () => {
                 : "scale-x-0 opacity-0 max-w-[0px] -mr-1"
             }`}
           >
-            {shortAddress(state.farmAddress! || "XXXX")}
+            {shortAddress(state.farmAddress || "XXXX")}
           </span>
 
           <img

@@ -7,6 +7,7 @@ import { Blacksmith } from "../blacksmith/Blacksmith";
 import { Bank } from "../bank/Bank";
 import { Farm } from "../farm/Farm";
 import { WishingWell } from "../wishingWell/WishingWell";
+import { Hud } from "../hud/Hud";
 
 export const Village: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ export const Village: React.FC = () => {
         id={Section.GoblinVillage}
         className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
       />
+      <Hud />
       <Blacksmith />
       <Bank />
       <Farm />

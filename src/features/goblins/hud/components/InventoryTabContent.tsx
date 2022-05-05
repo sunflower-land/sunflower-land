@@ -14,9 +14,9 @@ import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
-import { getShortcuts } from "../lib/shortcuts";
 import { hasBoost } from "features/game/lib/boosts";
 import { getCropTime } from "features/game/events/plant";
+import { getKeys } from "features/game/types/craftables";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -53,9 +53,7 @@ export const InventoryTabContent = ({
     );
 
     const defaultSelectedItem =
-      getShortcuts()[0] ||
-      // Fallback for when a no active item selected
-      (firstCategoryWithItem && inventoryMapping[firstCategoryWithItem][0]);
+      firstCategoryWithItem && inventoryMapping[firstCategoryWithItem][0];
 
     if (defaultSelectedItem) {
       setDefaultSelectedItem(defaultSelectedItem);
@@ -88,8 +86,7 @@ export const InventoryTabContent = ({
   }, {} as Record<string, InventoryItemName[]>);
 
   const findIfItemsExistForCategory = (category: string) => {
-    console.log({ category, inventoryMapping });
-    return Object.keys(inventoryMapping).includes(category);
+    return getKeys(inventoryMapping).includes(category);
   };
 
   const getCropHarvestTime = (seedName = "") => {

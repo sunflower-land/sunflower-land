@@ -8,7 +8,6 @@ import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
 import { Humans } from "features/game/Humans";
 import { Goblins } from "features/game/Goblins";
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 /**
  * Entry point for game which reflects the user session state
@@ -18,14 +17,6 @@ export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
   const [showGame, setShowGame] = useState(false);
-  const [scrollIntoView] = useScrollIntoView();
-
-  useEffect(() => {
-    // Start with crops centered
-    if (showGame) {
-      scrollIntoView(Section.Crops, "auto");
-    }
-  }, [showGame]);
 
   /**
    * Listen to web3 account/chain changes
