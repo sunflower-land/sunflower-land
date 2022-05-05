@@ -32,7 +32,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const [showCaptcha, setShowCaptcha] = useState(false);
 
   const onWithdrawTokens = async (sfl: string) => {
-    console.log({ sfl });
     withdrawAmount.current = {
       ids: [],
       amounts: [],
@@ -61,6 +60,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   };
 
   const isBlacklisted = !!authState.context.isBlacklisted;
+
   if (isBlacklisted) {
     return (
       <div className="p-2 text-sm text-center">

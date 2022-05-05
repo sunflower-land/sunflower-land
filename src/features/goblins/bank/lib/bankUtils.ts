@@ -1,20 +1,19 @@
 import { canChop } from "features/game/events/chop";
 import { isSeed } from "features/game/events/plant";
-import { FOODS } from "features/game/types/craftables";
+import { GoblinState } from "features/game/lib/goblinMachine";
+import { FOODS, getKeys } from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/crops";
-import {
-  GameState,
-  Inventory,
-  InventoryItemName,
-} from "features/game/types/game";
+import { Inventory, InventoryItemName } from "features/game/types/game";
 import { SKILL_TREE } from "features/game/types/skills";
 
 type CanWithdrawArgs = {
   item: InventoryItemName;
-  game: GameState;
+  game: GoblinState;
 };
 
 function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
+  if (!game.fields) return false;
+
   const isPlanted = Object.values(game.fields).some(
     (field) => field.name === item
   );
@@ -22,7 +21,7 @@ function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
 }
 
 function hasSeeds(inventory: Inventory) {
-  return Object.keys(inventory).some((name) => name in SEEDS());
+  return getKeys(inventory).some((name) => name in SEEDS());
 }
 
 export function canWithdraw({ item, game }: CanWithdrawArgs) {
@@ -47,7 +46,7 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     item === "Apprentice Beaver" ||
     item === "Foreman Beaver"
   ) {
-    return Object.values(game.trees).every((tree) => canChop(tree));
+    return Object.values(game?.trees).every((tree) => canChop(tree));
   }
 
   if (item === "Kuebiko" && hasSeeds(game.inventory)) {

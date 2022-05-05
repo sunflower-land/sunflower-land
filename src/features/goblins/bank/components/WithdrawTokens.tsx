@@ -3,14 +3,15 @@ import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 import { toWei } from "web3-utils";
 
-import { Context } from "features/game/GameProvider";
+import * as AuthProvider from "features/auth/lib/Provider";
+
+import { Context } from "features/game/GoblinProvider";
 
 import { shortAddress } from "features/farming/hud/components/Address";
 
 import { Button } from "components/ui/Button";
 
 import { metamask } from "lib/blockchain/metamask";
-import * as Auth from "features/auth/lib/Provider";
 
 import token from "assets/icons/token.gif";
 import player from "assets/icons/player.png";
@@ -26,11 +27,11 @@ interface Props {
   onWithdraw: (sfl: string) => void;
 }
 export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState, send] = useActor(authService);
 
-  const { gameService } = useContext(Context);
-  const [game] = useActor(gameService);
+  const { goblinService } = useContext(Context);
+  const [goblinState] = useActor(goblinService);
 
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
 
@@ -42,8 +43,8 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
     const load = async () => {
       const { game: state } = await getOnChainState({
-        id: game.context.state.id as number,
-        farmAddress: game.context.state.farmAddress as string,
+        id: goblinState.context.state.id as number,
+        farmAddress: goblinState.context.state.farmAddress as string,
       });
 
       setBalance(state.balance);

@@ -2,7 +2,7 @@ import { useActor } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
-import { Context } from "features/game/GameProvider";
+import { Context } from "features/game/GoblinProvider";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { shortAddress } from "features/farming/hud/components/Address";
@@ -20,13 +20,14 @@ import { canWithdraw } from "../lib/bankUtils";
 import { getOnChainState } from "features/game/actions/onchain";
 
 import alert from "assets/icons/expression_alerted.png";
+import { getKeys } from "features/game/types/craftables";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
 }
 export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
-  const { gameService } = useContext(Context);
-  const [game] = useActor(gameService);
+  const { goblinService } = useContext(Context);
+  const [goblinState] = useActor(goblinService);
 
   const [isLoading, setIsLoading] = useState(true);
   const [inventory, setInventory] = useState<Inventory>({});
@@ -37,8 +38,8 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
 
     const load = async () => {
       const { game: state } = await getOnChainState({
-        id: game.context.state.id as number,
-        farmAddress: game.context.state.farmAddress as string,
+        id: goblinState.context.state.id as number,
+        farmAddress: goblinState.context.state.farmAddress as string,
       });
 
       setInventory(state.inventory);
@@ -50,10 +51,8 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
   }, []);
 
   const withdraw = () => {
-    const ids = (Object.keys(selected) as InventoryItemName[]).map(
-      (item) => KNOWN_IDS[item]
-    );
-    const amounts = (Object.keys(selected) as InventoryItemName[]).map((item) =>
+    const ids = getKeys(selected).map((item) => KNOWN_IDS[item]);
+    const amounts = getKeys(selected).map((item) =>
       toWei(selected[item]?.toString() as string, getItemUnit(item))
     );
 
@@ -88,11 +87,9 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
     return <span className="text-shadow loading">Loading</span>;
   }
 
-  const inventoryItems = (Object.keys(inventory) as InventoryItemName[]).filter(
-    (item) => inventory[item]?.gt(0)
+  const inventoryItems = getKeys(inventory).filter((item) =>
+    inventory[item]?.gt(0)
   );
-
-  console.log({ inventoryItems });
 
   const selectedItems = (Object.keys(selected) as InventoryItemName[]).filter(
     (item) => selected[item]?.gt(0)
@@ -110,7 +107,9 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
             key={itemName}
             onClick={() => onAdd(itemName)}
             image={ITEM_DETAILS[itemName].image}
-            locked={!canWithdraw({ item: itemName, game: game.context.state })}
+            locked={
+              !canWithdraw({ item: itemName, game: goblinState.context.state })
+            }
           />
         ))}
         {/* Pad with empty boxes */}

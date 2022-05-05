@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import { Context } from "features/game/GoblinProvider";
 
 import { CopySvg } from "components/ui/CopyField";
 import { OuterPanel } from "components/ui/Panel";
