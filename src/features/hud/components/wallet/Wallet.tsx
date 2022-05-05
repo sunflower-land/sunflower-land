@@ -46,7 +46,7 @@ export const Wallet: React.FC<Props> = ({ isOpen, onClose }) => {
             <Tab isActive={tab === "balance"} onClick={() => setTab("balance")}>
               <img src={token} className="h-5 mr-2" />
               <span className="text-xs sm:text-sm md:text-sm lg:text-sm text-shadow">
-                $
+                $SFL
               </span>
             </Tab>
             <Tab isActive={tab === "send"} onClick={() => setTab("send")}>
@@ -76,7 +76,7 @@ export const Wallet: React.FC<Props> = ({ isOpen, onClose }) => {
         </div>
 
         {tab === "balance" && (
-          <div>
+          <div className="p-2 mb-3">
             <div className="mt-2 mb-3 text-[1rem] text-center">
               <span>Your True SFL Token Balance</span>
             </div>
@@ -85,9 +85,7 @@ export const Wallet: React.FC<Props> = ({ isOpen, onClose }) => {
               {/* True Balance */}
               <span className="text-[14px] sm:text-xs md:text-sm text[1rem] mt-2 text-center justify-center">
                 <span>&nbsp;$SFL&nbsp;</span>
-                <span>
-                  {/*sflBalance.toString()*/ `17500.098765432123456789`}
-                </span>
+                <span>{sflBalance.toString()}</span>
               </span>
             </div>
             <div
@@ -108,9 +106,8 @@ export const Wallet: React.FC<Props> = ({ isOpen, onClose }) => {
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <img src={token} className="h-8" />
               <span className="text-[14px] sm:text-xs mt-2 break-all select-text">
-                Coming Soon... Q4&apos;22 ;)
+                Coming Soon... Q4&apos;22<sup>*</sup> ;) <br />* = Tentative
               </span>
             </div>
           </div>
@@ -122,9 +119,8 @@ export const Wallet: React.FC<Props> = ({ isOpen, onClose }) => {
               <span>Buy SFL Tokens</span>
             </div>
             <div className="flex justify-between items-center">
-              <img src={token} className="h-8" />
               <span className="text-[14px] sm:text-xs mt-2 break-all select-text">
-                Coming Soon... Q4&apos;22 :)
+                Coming Soon... Q4&apos;22<sup>*</sup> ;) <br />* = Tentative
               </span>
             </div>
           </div>
@@ -136,9 +132,8 @@ export const Wallet: React.FC<Props> = ({ isOpen, onClose }) => {
               <span>Swap SFL Tokens with other ERC20 Tokens</span>
             </div>
             <div className="flex justify-between items-center">
-              <img src={token} className="h-8" />
               <span className="text-[14px] sm:text-xs mt-2 break-all select-text">
-                Coming Soon... Q4&apos;22 :)
+                Coming Soon... Q4&apos;22<sup>*</sup> ;) <br />* = Tentative
               </span>
             </div>
           </div>
