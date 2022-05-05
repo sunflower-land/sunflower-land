@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useActor, useMachine } from "@xstate/react";
+import { Modal } from "react-bootstrap";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import { Panel } from "components/ui/Panel";
@@ -11,7 +12,7 @@ import timer from "assets/icons/timer.png";
 import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
 import * as Auth from "features/auth/lib/Provider";
-import { wishingWellMachine } from "../wishingWellMachine";
+import { wishingWellMachine } from "./wishingWellMachine";
 import { fromWei } from "web3-utils";
 
 export const shortAddress = (address: string): string => {
@@ -23,10 +24,11 @@ export const shortAddress = (address: string): string => {
 };
 
 interface Props {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-export const WishingWellModal: React.FC<Props> = () => {
+export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const [machine, send] = useMachine(wishingWellMachine(authState.context));
@@ -78,7 +80,6 @@ export const WishingWellModal: React.FC<Props> = () => {
 
     const wishingWell = machine.context.state;
 
-    console.log({ wishingWell });
     if (Number(wishingWell.lpTokens) <= 0) {
       return (
         <div className="py-2 mt-4 border-white flex flex-col items-center">
@@ -135,44 +136,46 @@ export const WishingWellModal: React.FC<Props> = () => {
   };
 
   return (
-    <Panel className="relative">
-      <div className="flex">
-        <div className="w-2/3 p-2">
-          <div className="flex items-start mb-2">
-            <img src={token} alt="hat" className="h-8 mr-2" />
-            <span className="text-sm">The well is filled with SFL.</span>
-          </div>
-          {Content()}
-        </div>
-        <div className="flex-1 p-2 flex flex-col items-center">
-          {
-            <span className="text-xxs">
-              {shortAddress(metamask.myAccount as string)}
-            </span>
-          }
-          <img src={wisingWell} alt="wishing well" className="w-full" />
-          {machine.context.state && (
-            <div className="flex items-center justify-center mt-2">
-              <img src={icon} className="w-4 img-highlight mr-2" />
-              <span className="text-xxs">
-                {Number(
-                  fromWei(machine.context.state.totalTokensInWell.toString())
-                ).toFixed(2)}{" "}
-                SFL
-              </span>
+    <Modal centered show={isOpen} onHide={onClose}>
+      <Panel className="relative">
+        <div className="flex">
+          <div className="w-2/3 p-2">
+            <div className="flex items-start mb-2">
+              <img src={token} alt="hat" className="h-8 mr-2" />
+              <span className="text-sm">The well is filled with SFL.</span>
             </div>
-          )}
+            {Content()}
+          </div>
+          <div className="flex-1 p-2 flex flex-col items-center">
+            {
+              <span className="text-xxs">
+                {shortAddress(metamask.myAccount as string)}
+              </span>
+            }
+            <img src={wisingWell} alt="wishing well" className="w-full" />
+            {machine.context.state && (
+              <div className="flex items-center justify-center mt-2">
+                <img src={icon} className="w-4 img-highlight mr-2" />
+                <span className="text-xxs">
+                  {Number(
+                    fromWei(machine.context.state.totalTokensInWell.toString())
+                  ).toFixed(2)}{" "}
+                  SFL
+                </span>
+              </div>
+            )}
 
-          <a
-            className="text-xs underline cursor-pointer text-center mt-1"
-            href="https://docs.sunflower-land.com/fundamentals/wishing-well-locked-liquidity"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Read more
-          </a>
+            <a
+              className="text-xs underline cursor-pointer text-center mt-1"
+              href="https://docs.sunflower-land.com/fundamentals/wishing-well-locked-liquidity"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Read more
+            </a>
+          </div>
         </div>
-      </div>
-    </Panel>
+      </Panel>
+    </Modal>
   );
 };
