@@ -60,8 +60,13 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   const withdraw = () => {
-    onWithdraw(toWei(amount.toString()));
+    if (amount > new Decimal(0)) {
+      onWithdraw(toWei(amount.toString()));
+    } else {
+      setAmount(new Decimal(0));
+    }
   };
+
   const onWithdrawChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") {
       setAmount(new Decimal(0));
@@ -71,7 +76,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   const setMax = () => {
-    setAmount(balance);
+    setAmount(balance.minus(new Decimal(0.01)));
   };
 
   const incrementWithdraw = () => {
@@ -97,6 +102,8 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   const tax = getTax(typeof amount !== "string" ? amount : new Decimal(0)) / 10;
 
   const enabled = authState.context.token?.userAccess.withdraw;
+  const disableWithdraw =
+    safeAmount(amount).gte(balance) || safeAmount(amount).lt(0);
 
   if (!enabled) {
     return <span>Available May 9th</span>;
@@ -188,7 +195,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         </span>
       </div>
 
-      <Button onClick={withdraw} disabled={safeAmount(amount).gte(balance)}>
+      <Button onClick={withdraw} disabled={disableWithdraw}>
         Withdraw
       </Button>
     </>

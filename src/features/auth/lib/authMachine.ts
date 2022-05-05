@@ -82,7 +82,7 @@ export type BlockchainEvent =
   | CreateFarmEvent
   | LoadFarmEvent
   | {
-      type: "NETWORK_CHANGED";
+      type: "CHAIN_CHANGED";
     }
   | {
       type: "ACCOUNT_CHANGED";
@@ -464,10 +464,8 @@ export const authMachine = createMachine<
                   return { isSameAccount: true };
                 }
 
-                // Check if they have a farm or tokens from V1
-                const hasV1Data = await metamask
-                  .getSunflowerFarmers()
-                  .hasV1Data(account);
+                // Short term workaround to allow everyone to migrate
+                const hasV1Data = true;
 
                 return {
                   hasV1Data,
@@ -557,7 +555,7 @@ export const authMachine = createMachine<
       },
     },
     on: {
-      NETWORK_CHANGED: {
+      CHAIN_CHANGED: {
         target: "connecting",
         actions: "resetFarm",
       },
