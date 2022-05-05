@@ -12,7 +12,7 @@ interface Props {
   id: number;
 }
 
-export const Sign: React.FC<Props> = ({ inventory }) => {
+export const Sign: React.FC<Props> = ({ inventory, id }) => {
   const badges = (Object.keys(SKILL_TREE) as InventoryItemName[]).filter(
     (name) => inventory[name]?.gte(1)
   );
@@ -32,7 +32,7 @@ export const Sign: React.FC<Props> = ({ inventory }) => {
           className="h-5 w-5 absolute mr-1 flex items-center justify-center"
           style={{
             right: "3px",
-            top: "39px",
+            top: "24px",
           }}
         >
           <img src={badgeImages[0].image} className="h-3 z-10" />
@@ -43,7 +43,7 @@ export const Sign: React.FC<Props> = ({ inventory }) => {
           className="h-5 w-5 absolute mr-1 flex items-center justify-center"
           style={{
             left: "7px",
-            top: "39px",
+            top: "24px",
           }}
         >
           <img src={badgeImages[1].image} className="h-3 z-10" />
@@ -55,7 +55,7 @@ export const Sign: React.FC<Props> = ({ inventory }) => {
           className="h-5 w-5 absolute mr-1 flex items-center justify-center"
           style={{
             left: "16px",
-            top: "23px",
+            top: "8px",
           }}
         >
           <img src={badgeImages[2].image} className="h-3 z-10" />
@@ -66,7 +66,7 @@ export const Sign: React.FC<Props> = ({ inventory }) => {
           className="h-5 w-5 absolute mr-1 flex items-center justify-center"
           style={{
             right: "14px",
-            top: "23px",
+            top: "8px",
           }}
         >
           <img src={badgeImages[3].image} className="h-3 z-10" />
@@ -86,8 +86,8 @@ export const Sign: React.FC<Props> = ({ inventory }) => {
           fontSize: "14px",
         }}
       >
-        <p style={{ fontSize: "8px" }}>Farm</p>
-        200101
+        <p style={{ fontSize: "8px" }}>Land</p>
+        {id}
       </div>
     </div>
   );
