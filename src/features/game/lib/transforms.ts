@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import {
   FieldItem,
   GameState,
-  Inventory,
   InventoryItemName,
   Rock,
   Tree,

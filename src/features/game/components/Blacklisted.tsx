@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useActor } from "@xstate/react";
+import React, { useContext } from "react";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 

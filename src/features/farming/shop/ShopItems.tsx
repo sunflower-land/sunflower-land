@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import React, { useState } from "react";
 
 import seeds from "assets/icons/seeds.png";
 import sunflowerPlant from "assets/crops/sunflower/crop.png";
@@ -8,7 +7,6 @@ import close from "assets/icons/close.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
-import * as Auth from "features/auth/lib/Provider";
 import { Seeds } from "./Seeds";
 import { Plants } from "./Plants";
 

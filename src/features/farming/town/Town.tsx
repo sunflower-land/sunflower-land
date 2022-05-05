@@ -7,7 +7,6 @@ import { Shop } from "features/farming/shop/Shop";
 import { Mail } from "features/farming/mail/Mail";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
-import goblinCarry from "assets/npcs/goblin_carry.gif";
 import { GoblinVillageEntry } from "./components/GoblinVillageEntry";
 import { TownHall } from "../townHall/TownHall";
 
