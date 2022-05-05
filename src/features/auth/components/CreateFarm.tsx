@@ -11,7 +11,6 @@ import downArrow from "assets/icons/arrow_down.png";
 import question from "assets/icons/expression_confused.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
-import { Auth } from "../Auth";
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
 import { Blocked } from "./Blocked";
@@ -111,7 +110,7 @@ export const CreateFarm: React.FC = () => {
   const [charity, setCharity] = useState<string>();
   const [activeIdx, setActiveIndex] = useState(0);
   const { authService } = useContext(Context);
-  const [authState, send] = useActor(authService);
+  const [authState] = useActor(authService);
   const [showCaptcha, setShowCaptcha] = useState(false);
 
   const onCaptchaSolved = async (token: string | null) => {
@@ -212,7 +211,7 @@ export const CreateFarm: React.FC = () => {
             onClick={decrementDonation}
           />
         </div>
-        <span className="text-[10px] text-shadow mt-2">Minumum of 1 MATIC</span>
+        <span className="text-[10px] text-shadow mt-2">Minimum of 1 MATIC</span>
       </div>
       <p className="text-center mb-3 mt-10">Select a charity</p>
       <Carousel

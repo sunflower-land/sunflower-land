@@ -3,7 +3,6 @@ import * as path from "path";
 
 import { InventoryItemName } from "../src/features/game/types/game";
 import { KNOWN_IDS } from "../src/features/game/types/index";
-import { ITEM_DETAILS } from "../src/features/game/types/images";
 
 /**
  * Stringifies the markdown files for the JSON metadata

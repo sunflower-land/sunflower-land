@@ -80,7 +80,7 @@ describe("craft", () => {
     });
 
     expect(state.balance).toEqual(
-      new Decimal(1).minus(SEEDS()["Sunflower Seed"].price)
+      new Decimal(1).minus(SEEDS()["Sunflower Seed"].tokenAmount as Decimal)
     );
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(1));
   });
@@ -120,23 +120,6 @@ describe("craft", () => {
     expect(state.inventory["Wood"]).toEqual(new Decimal(8));
   });
 
-  it("requires a certain item before crafting", () => {
-    expect(() =>
-      craft({
-        state: {
-          ...GAME_STATE,
-          balance: new Decimal(1),
-          inventory: { Wood: new Decimal(10) },
-        },
-        action: {
-          type: "item.crafted",
-          item: "Carrot Seed",
-          amount: 1,
-        },
-      })
-    ).toThrow("Missing Pumpkin Soup");
-  });
-
   it("crafts an item if they have sufficient materials", () => {
     const state = craft({
       state: {
@@ -152,7 +135,7 @@ describe("craft", () => {
     });
 
     expect(state.balance).toEqual(
-      new Decimal(1).sub(SEEDS()["Carrot Seed"].price)
+      new Decimal(1).sub(SEEDS()["Carrot Seed"].tokenAmount as Decimal)
     );
     expect(state.inventory["Carrot Seed"]).toEqual(new Decimal(1));
   });
@@ -171,7 +154,9 @@ describe("craft", () => {
     });
 
     expect(state.balance).toEqual(
-      new Decimal(0.1).sub(SEEDS()["Sunflower Seed"].price.mul(10))
+      new Decimal(0.1).sub(
+        SEEDS()["Sunflower Seed"].tokenAmount?.mul(10) as Decimal
+      )
     );
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(10));
   });

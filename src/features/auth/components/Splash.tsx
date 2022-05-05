@@ -53,14 +53,13 @@ export const Splash: React.FC = () => {
       >
         <InnerPanel>
           <p className="text-xs sm:text-sm text-shadow text-white p-1">
-            Version:
             <a
               className="underline"
               href="https://github.com/sunflower-land/sunflower-land/releases"
               target="_blank"
               rel="noopener noreferrer"
             >
-              {releaseVersion}
+              {releaseVersion?.split("-")[0]}
             </a>
           </p>
         </InnerPanel>

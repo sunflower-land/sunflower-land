@@ -103,6 +103,10 @@ function getMultiplier({ crop, inventory }: GetFieldArgs): number {
     multiplier *= 1.2;
   }
 
+  if (inventory.Coder?.gte(1)) {
+    multiplier *= 1.2;
+  }
+
   return multiplier;
 }
 

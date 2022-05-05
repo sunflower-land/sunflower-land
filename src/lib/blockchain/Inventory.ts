@@ -2,10 +2,8 @@ import Decimal from "decimal.js-light";
 import { KNOWN_IDS, IDS } from "features/game/types";
 import { InventoryItemName } from "features/game/types/game";
 import Web3 from "web3";
-import { AbiItem, fromWei } from "web3-utils";
+import { AbiItem } from "web3-utils";
 import InventoryJSON from "./abis/Inventory.json";
-import { TOOLS } from "features/game/types/craftables";
-import { RESOURCES } from "features/game/types/resources";
 import { CONFIG } from "lib/config";
 import { parseMetamaskError } from "./utils";
 
