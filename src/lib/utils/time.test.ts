@@ -17,13 +17,21 @@ describe("time", () => {
       expect(secondsToString(2 * ONE_SEC)).toBe("2secs");
       expect(secondsToString(59 * ONE_SEC)).toBe("59secs");
       expect(secondsToString(ONE_MIN)).toBe("1min");
-      expect(secondsToString(ONE_MIN + ONE_SEC)).toBe("2mins");
+      expect(secondsToString(ONE_MIN + ONE_SEC)).toBe("1.1mins");
+      expect(secondsToString(2 * ONE_MIN - 6 * ONE_SEC)).toBe("1.9mins");
+      expect(secondsToString(2 * ONE_MIN - ONE_SEC)).toBe("2mins");
+      expect(secondsToString(2 * ONE_MIN)).toBe("2mins");
       expect(secondsToString(59 * ONE_MIN)).toBe("59mins");
       expect(secondsToString(ONE_HR)).toBe("1hr");
-      expect(secondsToString(ONE_HR + ONE_SEC)).toBe("2hrs");
+      expect(secondsToString(ONE_HR + ONE_SEC)).toBe("1.1hrs");
+      expect(secondsToString(2 * ONE_HR - 6 * ONE_MIN)).toBe("1.9hrs");
+      expect(secondsToString(2 * ONE_HR - ONE_SEC)).toBe("2hrs");
+      expect(secondsToString(2 * ONE_HR)).toBe("2hrs");
       expect(secondsToString(23 * ONE_HR)).toBe("23hrs");
       expect(secondsToString(ONE_DAY)).toBe("1day");
-      expect(secondsToString(ONE_DAY + ONE_SEC)).toBe("2days");
+      expect(secondsToString(ONE_DAY + ONE_SEC)).toBe("1.1days");
+      expect(secondsToString(2 * ONE_DAY - 3 * ONE_HR)).toBe("1.9days");
+      expect(secondsToString(2 * ONE_DAY)).toBe("2days");
     });
   });
 

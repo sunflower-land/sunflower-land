@@ -31,16 +31,16 @@ export function secondsToString(seconds: number) {
   }
 
   if (seconds < ONE_HR) {
-    const minutesCeil = Math.ceil(seconds / ONE_MIN);
+    const minutesCeil = Math.ceil((seconds * 10) / ONE_MIN) / 10;
     return timeToStr(minutesCeil, "min");
   }
 
   if (seconds < ONE_DAY) {
-    const hoursCeil = Math.ceil(seconds / ONE_HR);
+    const hoursCeil = Math.ceil((seconds * 10) / ONE_HR) / 10;
     return timeToStr(hoursCeil, "hr");
   }
 
-  const daysCeil = Math.ceil(seconds / ONE_DAY);
+  const daysCeil = Math.ceil((seconds * 10) / ONE_DAY) / 10;
   return timeToStr(daysCeil, "day");
 }
 
