@@ -20,10 +20,6 @@ const MAX_FAQ_HEIGHT = 90;
 const FAQ_SLIDESHOW_INTERVAL = 5000; // 5 seconds
 
 export const Tips: React.FC = () => {
-  if (!tips || !tips.length) {
-    return null;
-  }
-
   const [currentTipIndex, setCurrentTipIndex] = useState<number>(0);
   const [doSlideshow, setDoSlideshow] = useState<boolean>(true);
 
@@ -55,6 +51,10 @@ export const Tips: React.FC = () => {
   }, [currentTipIndex, doSlideshow]);
 
   const { tip, link } = tips[currentTipIndex];
+
+  if (!tips || !tips.length) {
+    return null;
+  }
 
   return (
     <div className="relative">
