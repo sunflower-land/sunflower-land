@@ -120,23 +120,6 @@ describe("craft", () => {
     expect(state.inventory["Wood"]).toEqual(new Decimal(8));
   });
 
-  it("requires a certain item before crafting", () => {
-    expect(() =>
-      craft({
-        state: {
-          ...GAME_STATE,
-          balance: new Decimal(1),
-          inventory: { Wood: new Decimal(10) },
-        },
-        action: {
-          type: "item.crafted",
-          item: "Carrot Seed",
-          amount: 1,
-        },
-      })
-    ).toThrow("Missing Pumpkin Soup");
-  });
-
   it("crafts an item if they have sufficient materials", () => {
     const state = craft({
       state: {
