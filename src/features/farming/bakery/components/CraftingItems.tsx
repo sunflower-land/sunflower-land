@@ -11,15 +11,17 @@ import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Craftable } from "features/game/types/craftables";
+import { CraftableItem } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 
 interface Props {
-  items: Partial<Record<InventoryItemName, Craftable>>;
+  items: Partial<Record<InventoryItemName, CraftableItem>>;
 }
 
 export const CraftingItems: React.FC<Props> = ({ items }) => {
-  const [selected, setSelected] = useState<Craftable>(Object.values(items)[0]);
+  const [selected, setSelected] = useState<CraftableItem>(
+    Object.values(items)[0]
+  );
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
@@ -30,11 +32,11 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
   const inventory = state.inventory;
 
   const lessIngredients = (amount = 1) =>
-    selected.ingredients.some((ingredient) =>
+    selected.ingredients?.some((ingredient) =>
       ingredient.amount.mul(amount).greaterThan(inventory[ingredient.item] || 0)
     );
   const lessFunds = (amount = 1) =>
-    state.balance.lessThan(selected.price.mul(amount));
+    state.balance.lessThan(selected.tokenAmount?.mul(amount) || 0);
 
   const hasSelectedFood = Object.keys(inventory).includes(selected.name);
   const canCraft = !(lessFunds() || lessIngredients());
@@ -44,8 +46,8 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
       item: selected.name,
       amount,
     });
-    setToast({ content: "SFL -$" + selected.price.mul(amount) });
-    selected.ingredients.map((ingredient) => {
+    setToast({ content: "SFL -$" + selected.tokenAmount?.mul(amount) });
+    selected.ingredients?.map((ingredient) => {
       setToast({
         content: ingredient.item + " -" + ingredient.amount.mul(amount),
       });
@@ -81,7 +83,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
 
           {!hasSelectedFood && (
             <div className="border-t border-white w-full mt-2 pt-1">
-              {selected.ingredients.map((ingredient, index) => {
+              {selected.ingredients?.map((ingredient, index) => {
                 const item = ITEM_DETAILS[ingredient.item];
                 const lessIngredient = new Decimal(
                   inventory[ingredient.item] || 0
@@ -114,7 +116,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
                     }
                   )}
                 >
-                  {`$${selected.price.toNumber()}`}
+                  {`$${selected.tokenAmount?.toNumber()}`}
                 </span>
               </div>
             </div>

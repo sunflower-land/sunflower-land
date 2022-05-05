@@ -80,7 +80,7 @@ describe("craft", () => {
     });
 
     expect(state.balance).toEqual(
-      new Decimal(1).minus(SEEDS()["Sunflower Seed"].price)
+      new Decimal(1).minus(SEEDS()["Sunflower Seed"].tokenAmount as Decimal)
     );
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(1));
   });
@@ -152,7 +152,7 @@ describe("craft", () => {
     });
 
     expect(state.balance).toEqual(
-      new Decimal(1).sub(SEEDS()["Carrot Seed"].price)
+      new Decimal(1).sub(SEEDS()["Carrot Seed"].tokenAmount as Decimal)
     );
     expect(state.inventory["Carrot Seed"]).toEqual(new Decimal(1));
   });
@@ -171,7 +171,9 @@ describe("craft", () => {
     });
 
     expect(state.balance).toEqual(
-      new Decimal(0.1).sub(SEEDS()["Sunflower Seed"].price.mul(10))
+      new Decimal(0.1).sub(
+        SEEDS()["Sunflower Seed"].tokenAmount?.mul(10) as Decimal
+      )
     );
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(10));
   });

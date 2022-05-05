@@ -50,11 +50,10 @@ export function getBuyPrice(item: CraftableItem, inventory: Inventory) {
 type Options = {
   state: GameState;
   action: CraftAction;
-  available?: CraftableName[];
 };
 
-export function craft({ state, action, available }: Options) {
-  if (!isCraftable(action.item, available || VALID_ITEMS)) {
+export function craft({ state, action }: Options) {
+  if (!isCraftable(action.item, VALID_ITEMS)) {
     throw new Error(`This item is not craftable: ${action.item}`);
   }
 
@@ -100,14 +99,14 @@ export function craft({ state, action, available }: Options) {
 
   return {
     ...state,
-    balance: totalExpenses && state.balance.sub(totalExpenses),
+    balance: totalExpenses ? state.balance.sub(totalExpenses) : state.balance,
     inventory: {
       ...subtractedInventory,
-      [action.item]: oldAmount.add(action.amount),
+      [action.item]: oldAmount.add(action.amount) as Decimal,
     },
     stock: {
       ...state.stock,
-      [action.item]: state.stock[action.item]?.minus(action.amount),
+      [action.item]: state.stock[action.item]?.minus(action.amount) as Decimal,
     },
   };
 }

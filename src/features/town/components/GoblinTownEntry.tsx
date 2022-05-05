@@ -5,8 +5,8 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import goblinCarry from "assets/npcs/goblin_carry.gif";
 import goblinSign from "assets/buildings/goblin_sign.png";
 import arrowRight from "assets/icons/arrow_right.png";
-import { GoblinVillageModal } from "./GoblinVillageModal";
 import { Modal } from "react-bootstrap";
+import { GoblinVillageModal } from "features/farming/town/components/GoblinVillageModal";
 
 export const GoblinVillageEntry: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
