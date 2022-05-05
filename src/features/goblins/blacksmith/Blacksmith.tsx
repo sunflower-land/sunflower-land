@@ -1,13 +1,11 @@
 import React from "react";
-import { Modal } from "react-bootstrap";
-
 import blacksmith from "assets/buildings/goblin_blacksmith.gif";
 import hammer from "assets/icons/hammer.png";
 
-import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { blacksmithAudio } from "lib/utils/sfx";
+import { ItemsModal } from "./ItemsModal";
 
 export const Blacksmith: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -41,10 +39,7 @@ export const Blacksmith: React.FC = () => {
           onClick={openBlacksmith}
         />
       </div>
-
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Crafting onClose={() => setIsOpen(false)} />
-      </Modal>
+      <ItemsModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>
   );
 };

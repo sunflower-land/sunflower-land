@@ -5,6 +5,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Blacksmith } from "../blacksmith/Blacksmith";
 import { Bank } from "../bank/Bank";
+import { Farm } from "../farm/Farm";
 
 export const Village: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ export const Village: React.FC = () => {
       />
       <Blacksmith />
       <Bank />
+      <Farm />
     </div>
   );
 };
