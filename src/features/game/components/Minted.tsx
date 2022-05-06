@@ -10,8 +10,8 @@ export const Minted: React.FC = () => {
   return (
     <div className="flex flex-col">
       <div className="p-2 flex flex-col items-center">
-        <img src={bouncer} className="w-10 my-2" />
-        <h1 className="text-center mb-4 text-lg">Minted but...</h1>
+        <h1 className="text-center mb-3 text-lg">Minted but...</h1>
+        <img src={bouncer} className="w-12 mb-3" />
         <p className="mb-4 text-sm text-justify">
           The goblins are very serious about equity and fairness.
         </p>
