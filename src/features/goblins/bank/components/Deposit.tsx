@@ -83,7 +83,7 @@ const SFLTokenInstructions = () => (
 
 const SFLItemsInstructions = () => (
   <ol>
-    <div className="text-xs mb-3 text-center">
+    <div className="text-xs mb-3">
       <span>
         Only send items from the
         <a
@@ -216,7 +216,7 @@ export const Deposit: React.FC = () => {
         </div>
       </div>
       {/* Instructions */}
-      <span className="text-sm sm:text-lg text-shadow underline block text-center mb-4 mt-6">
+      <span className="text-base sm:text-lg block text-center mb-4 mt-6">
         How to deposit?
       </span>
 

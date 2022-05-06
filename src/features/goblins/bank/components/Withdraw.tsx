@@ -10,14 +10,17 @@ import { WithdrawItems } from "./WithdrawItems";
 
 import alert from "assets/icons/expression_alerted.png";
 
+import { Context } from "features/game/GoblinProvider";
+
 interface Props {
   onClose: () => void;
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
+  const { goblinService } = useContext(Context);
   const [authState] = useActor(authService);
 
-  const [page, setPage] = useState<"warning" | "tokens" | "items">("warning");
+  const [page, setPage] = useState<"tokens" | "items">();
 
   const withdrawAmount = useRef({
     ids: [] as number[],
@@ -59,7 +62,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   if (isBlacklisted) {
     return (
-      <div className="p-2 text-sm text-center">
+      <div className="p-2 text-sm">
         The anti-bot detection system is relatively new and has picked up some
         strange behaviour. Withdrawing is temporarily restricted while the team
         investigates this case. Thanks for your patience!
@@ -76,40 +79,36 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           onExpired={() => setShowCaptcha(false)}
           className="w-full m-4 flex items-center justify-center"
         />
-        <p className="text-xxs p-1 m-1 text-center">
+        <p className="text-xs p-1 m-1 text-center">
           Any unsaved progress will be lost.
         </p>
       </>
     );
   }
 
-  if (page === "tokens") {
-    return <WithdrawTokens onWithdraw={onWithdrawTokens} />;
-  }
-
-  if (page === "items") {
-    return <WithdrawItems onWithdraw={onWithdrawItems} />;
-  }
-
   return (
     <div className="p-2 flex flex-col justify-center">
-      <span className="text-shadow text-sm text-center pb-2">
+      <span className="text-shadow text-sm pb-2">
         You can only withdraw items that you have synced to the blockchain.
       </span>
 
-      <div className="flex items-center border-2 rounded-md border-black p-2 bg-error">
+      <div className="flex items-center border-2 rounded-md border-black p-2 bg-error mb-3">
         <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
         <span className="text-xs">
           ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST.
         </span>
       </div>
 
-      <div className="flex mt-4">
+      <div className="flex">
         <Button className="mr-1" onClick={() => setPage("tokens")}>
           SFL Tokens
         </Button>
-        <Button onClick={() => setPage("items")}>SFL Items</Button>
+        <Button className="ml-1" onClick={() => setPage("items")}>
+          SFL Items
+        </Button>
       </div>
+      {page === "tokens" && <WithdrawTokens onWithdraw={onWithdrawTokens} />}
+      {page === "items" && <WithdrawItems onWithdraw={onWithdrawItems} />}
     </div>
   );
 };

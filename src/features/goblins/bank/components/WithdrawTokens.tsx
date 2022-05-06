@@ -96,7 +96,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   if (isLoading) {
-    return <span className="text-shadow loading">Loading</span>;
+    return <span className="text-shadow loading mt-2">Loading</span>;
   }
 
   // Use base 1000
@@ -112,13 +112,11 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
   return (
     <>
-      <div className="flex flex-wrap">
-        <span className="text-shadow  underline">
-          Choose amount to withdraw
-        </span>
+      <div className="flex flex-wrap mt-3">
+        <span className="mb-3 text-base">Choose amount to withdraw</span>
       </div>
-      <span className="text-xs">
-        {balance.toFixed(2)} is available on-chain
+      <span className="text-sm">
+        {balance.toFixed(2)}SFL is available on-chain
       </span>
 
       <div className="h-16">
@@ -170,7 +168,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         )}
       </div>
 
-      <div className="flex items-center mt-4">
+      <div className="flex items-center mt-3">
         <span className="">
           {`You will receive: ${safeAmount(amount)
             .mul((100 - tax) / 100)
@@ -182,8 +180,8 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
       <div className="flex items-center mt-2 mb-2">
         <img src={player} className="h-8 mr-2" />
         <div>
-          <p className="text-shadow text-sm">Sent to your wallet</p>
-          <p className="text-shadow text-sm">
+          <p className="text-sm">Sent to your wallet</p>
+          <p className="text-sm">
             {shortAddress(metamask.myAccount || "XXXX")}
           </p>
         </div>

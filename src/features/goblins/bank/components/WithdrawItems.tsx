@@ -20,7 +20,12 @@ import { canWithdraw } from "../lib/bankUtils";
 import { getOnChainState } from "features/game/actions/onchain";
 
 import alert from "assets/icons/expression_alerted.png";
-import { getKeys } from "features/game/types/craftables";
+import {
+  getKeys,
+  isLimitedItem,
+  LimitedItemName,
+} from "features/game/types/craftables";
+import { mintCooldown } from "features/goblins/blacksmith/lib/mintUtils";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -83,8 +88,19 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
     }));
   };
 
+  const makeItemDetails = (itemName: InventoryItemName) => {
+    const details = ITEM_DETAILS[itemName];
+
+    return isLimitedItem(itemName)
+      ? {
+          ...goblinState.context.limitedItems[itemName as LimitedItemName],
+          image: details.image,
+        }
+      : details;
+  };
+
   if (isLoading) {
-    return <span className="text-shadow loading">Loading</span>;
+    return <span className="text-shadow loading mt-2">Loading</span>;
   }
 
   const inventoryItems = getKeys(inventory).filter((item) =>
@@ -97,63 +113,100 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
 
   return (
     <>
-      <span className="text-shadow text-base">Select items to withdraw</span>
+      <div className="mt-3">
+        <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
+          <span className="text-xs">
+            Items that are{" "}
+            <a
+              href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              in use
+            </a>{" "}
+            or{" "}
+            <a
+              href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              being held
+            </a>{" "}
+            by the goblins are not available to be withdrawn.
+          </span>
+        </div>
+        <h2 className="mb-3">Select items to withdraw</h2>
+        <div className="flex flex-wrap h-fit -ml-1.5">
+          {inventoryItems.map((itemName) => {
+            const details = makeItemDetails(itemName);
+            const withdrawable = canWithdraw({
+              item: itemName,
+              game: goblinState.context.state,
+            });
+            const cooldownInProgress =
+              mintCooldown({
+                cooldownSeconds: details?.cooldownSeconds,
+                mintedAt: details?.mintedAt,
+              }) > 0;
+            const locked = !withdrawable || cooldownInProgress;
 
-      <div className="flex flex-wrap h-fit">
-        {inventoryItems.map((itemName) => (
-          <Box
-            count={inventory[itemName]}
-            // isSelected={selected.includes(itemName)}
-            key={itemName}
-            onClick={() => onAdd(itemName)}
-            image={ITEM_DETAILS[itemName].image}
-            locked={
-              !canWithdraw({ item: itemName, game: goblinState.context.state })
-            }
-          />
-        ))}
-        {/* Pad with empty boxes */}
-        {inventoryItems.length < 4 &&
-          new Array(4 - inventoryItems.length)
-            .fill(null)
-            .map((_, index) => <Box disabled key={index} />)}
-      </div>
-
-      <div className="mt-2">
-        <span className="text-shadow text-base">Selected</span>
-
-        <div className="flex flex-wrap h-fit mt-2">
-          {selectedItems.map((itemName) => {
             return (
               <Box
-                count={selected[itemName]}
+                count={inventory[itemName]}
+                // isSelected={selected.includes(itemName)}
                 key={itemName}
-                onClick={() => onRemove(itemName)}
-                image={ITEM_DETAILS[itemName].image}
+                onClick={() => onAdd(itemName)}
+                image={details.image}
+                locked={locked}
+                cooldownInProgress={cooldownInProgress}
               />
             );
           })}
           {/* Pad with empty boxes */}
-          {selectedItems.length < 4 &&
-            new Array(4 - selectedItems.length)
+          {inventoryItems.length < 4 &&
+            new Array(4 - inventoryItems.length)
               .fill(null)
               .map((_, index) => <Box disabled key={index} />)}
         </div>
-      </div>
 
-      <div className="flex items-center mt-2 mb-2">
-        <img src={player} className="h-8 mr-2" />
-        <div>
-          <p className="text-shadow text-sm">Sent to your wallet</p>
-          <p className="text-shadow text-sm">
-            {shortAddress(metamask.myAccount || "XXXX")}
-          </p>
+        <div className="mt-2">
+          <h2 className="">Selected</h2>
+          <div className="flex flex-wrap h-fit mt-2 -ml-1.5">
+            {selectedItems.map((itemName) => {
+              return (
+                <Box
+                  count={selected[itemName]}
+                  key={itemName}
+                  onClick={() => onRemove(itemName)}
+                  image={ITEM_DETAILS[itemName].image}
+                />
+              );
+            })}
+            {/* Pad with empty boxes */}
+            {selectedItems.length < 4 &&
+              new Array(4 - selectedItems.length)
+                .fill(null)
+                .map((_, index) => <Box disabled key={index} />)}
+          </div>
         </div>
-      </div>
 
-      <span className="text-center text-xs mb-4">
-        Once withdrawn, you will be able to view your items on Open Sea.
-      </span>
+        <div className="border-white border-t-2 w-full my-3" />
+        <div className="flex items-center mt-2 mb-2  border-white">
+          <img src={player} className="h-8 mr-2" />
+          <div>
+            <p className="text-sm">Send to your wallet</p>
+            <p className="text-sm">
+              {shortAddress(metamask.myAccount || "XXXX")}
+            </p>
+          </div>
+        </div>
+
+        <span className="text-sm mb-4">
+          Once withdrawn, you will be able to view your items on Open Sea.
+        </span>
+      </div>
 
       <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-error">
         <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
@@ -166,7 +219,7 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
         Withdraw
       </Button>
 
-      <span className="text-xs underline">
+      <span className="text-xs underline mt-2">
         <a
           href="https://docs.sunflower-land.com/fundamentals/withdrawing"
           target="_blank"
