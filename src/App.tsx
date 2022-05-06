@@ -4,13 +4,13 @@ import { Navigation } from "./Navigation";
 
 import "./styles.css";
 
-import { inspect } from "@xstate/inspect";
+import Decimal from "decimal.js-light";
 
-inspect({
-  // options
-  // url: 'https://stately.ai/viz?inspect', // (default)
-  iframe: false, // open in new window
-});
+/**
+ * Decimal precision standard for repo follows ERC20 18 decimal standard
+ */
+Decimal.set({ toExpPos: 19 });
+Decimal.set({ toExpNeg: -19 });
 
 /**
  * Top level wrapper for providers
