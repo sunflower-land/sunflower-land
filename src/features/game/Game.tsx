@@ -51,6 +51,10 @@ export const Game: React.FC = () => {
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 
   useEffect(() => {
+    console.log("Is this working?");
+  }, [gameState.context.state.inventory]);
+
+  useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (gameState.context.actions.length === 0) return;
 

@@ -26,7 +26,9 @@ import close from "assets/icons/close.png";
 import goblin from "assets/npcs/goblin_head.png";
 
 import { useIsNewFarm } from "../lib/onboarding";
+
 import { GoblinVillageModal } from "features/farming/town/components/GoblinVillageModal";
+import { Achievements } from "features/hud/components/Achievements";
 
 /**
  * TODO:
@@ -56,6 +58,7 @@ export const Menu = () => {
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
+  const [showAchievements, setShowAchievements] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -80,6 +83,11 @@ export const Menu = () => {
 
   const handleSettingsClick = () => {
     setShowSettings(true);
+    setMenuOpen(false);
+  };
+
+  const handleAchievementsClick = () => {
+    setShowAchievements(true);
     setMenuOpen(false);
   };
 
@@ -225,6 +233,14 @@ export const Menu = () => {
                     <span className="sm:text-sm flex-1">Settings</span>
                   </Button>
                 </li>
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={handleAchievementsClick}
+                  >
+                    <span className="sm:text-sm flex-1">Achievements</span>
+                  </Button>
+                </li>
               </>
             )}
 
@@ -323,6 +339,11 @@ export const Menu = () => {
       <Settings
         isOpen={showLogoutModal}
         onClose={() => setShowSettings(false)}
+      />
+
+      <Achievements
+        isOpen={showAchievements}
+        onClose={() => setShowAchievements(false)}
       />
 
       {showCaptcha && (

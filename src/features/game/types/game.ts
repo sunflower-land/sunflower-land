@@ -5,6 +5,7 @@ import { CropName, SeedName } from "./crops";
 import { CraftableName, Food } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
+import { Achievement, AchievementName } from "features/game/types/achievements";
 
 export type Reward = {
   items: {
@@ -91,6 +92,7 @@ export interface GameState {
     farming: Decimal;
     gathering: Decimal;
   };
+  achievements: Record<AchievementName, Achievement>;
 }
 
 export interface Context {

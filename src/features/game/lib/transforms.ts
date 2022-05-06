@@ -73,6 +73,7 @@ export function makeGame(farm: any): GameState {
     balance: new Decimal(farm.balance),
     fields: farm.fields,
     id: farm.id,
+    achievements: farm.achievements,
   };
 }
 

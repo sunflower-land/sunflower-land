@@ -2,6 +2,7 @@ import { GameState, Inventory } from "../types/game";
 import { CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
+import { updateProgression } from "features/game/types/progress";
 
 export type HarvestAction = {
   type: "item.harvested";
@@ -78,6 +79,11 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
     ...state.inventory,
     [field.name]: cropCount.add(multiplier),
   };
+
+  /**
+   * Update progression for achievement
+   */
+  updateProgression(CROPS()[field.name].name, multiplier);
 
   return {
     ...state,

@@ -18,6 +18,12 @@ import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
+import {
+  PROGRESSION_INITIAL_STATE,
+  saveProgression,
+} from "features/game/types/progress";
+import { AchievementName } from "features/game/types/achievements";
+import { unlockAchievement } from "features/game/actions/unlockAchievement";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -44,6 +50,11 @@ type MintEvent = {
 type LevelUpEvent = {
   type: "LEVEL_UP";
   skill: SkillName;
+};
+
+type AchievementUnlockedEvent = {
+  type: "ACHIEVEMENT_UNLOCKED";
+  achievement: AchievementName;
 };
 
 type WithdrawEvent = {
@@ -75,6 +86,9 @@ export type BlockchainEvent =
     }
   | {
       type: "RESET";
+    }
+  | {
+      type: "ACHIEVEMENT_UNLOCKED";
     }
   | WithdrawEvent
   | GameEvent
@@ -202,6 +216,21 @@ export function startGame(authContext: Options) {
                 };
               }
 
+              // Visit farm
+              if (authContext.address) {
+                const { game, isBlacklisted } = await getOnChainState({
+                  farmAddress: authContext.address as string,
+                  id: Number(authContext.farmId),
+                });
+
+                game.id = authContext.farmId as number;
+
+                return { state: game, isBlacklisted };
+              }
+
+              // TODO - REPLACE
+              saveProgression(PROGRESSION_INITIAL_STATE);
+
               return { state: INITIAL_FARM };
             },
             onDone: [
@@ -268,6 +297,9 @@ export function startGame(authContext: Options) {
             },
             RESET: {
               target: "resetting",
+            },
+            ACHIEVEMENT_UNLOCKED: {
+              target: "achievementUnlocked",
             },
           },
         },
@@ -396,6 +428,50 @@ export function startGame(authContext: Options) {
                 token: authContext.rawToken as string,
                 fingerprint: context.fingerprint as string,
                 skill: (event as LevelUpEvent).skill,
+              });
+
+              return {
+                farm,
+              };
+            },
+            onDone: [
+              {
+                target: "playing",
+                actions: assign((_, event) => ({
+                  // Remove events
+                  actions: [],
+                  // Update immediately with state from server
+                  state: event.data.farm,
+                })),
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        achievementUnlocked: {
+          invoke: {
+            src: async (context, event) => {
+              // Autosave just in case
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(authContext.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.rawToken as string,
+                  offset: context.offset,
+                  fingerprint: context.fingerprint as string,
+                });
+              }
+
+              const { farm } = await unlockAchievement({
+                farmId: Number(authContext.farmId),
+                sessionId: context.sessionId as string,
+                token: authContext.rawToken as string,
+                fingerprint: context.fingerprint as string,
+                achievement: (event as AchievementUnlockedEvent).achievement,
               });
 
               return {

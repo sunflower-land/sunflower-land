@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState, Rock } from "../types/game";
+import { updateProgression } from "features/game/types/progress";
 
 export type GoldMineAction = {
   type: "gold.mined";
@@ -47,6 +48,11 @@ export function mineGold({
   }
 
   const amount = state.inventory.Gold || new Decimal(0);
+
+  /**
+   * Update Progression for the achievements
+   */
+  updateProgression("Gold", rock.amount.toNumber());
 
   return {
     ...state,
