@@ -59,7 +59,6 @@ export const Game: React.FC = () => {
       setToast,
       gameState.context.state.achievements
     );
-    console.log(gameState.context.state.achievements);
   }, [gameState.context.state.inventory]);
 
   useEffect(() => {

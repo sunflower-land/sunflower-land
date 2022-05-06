@@ -59,15 +59,6 @@ export function getAchievement(name: AchievementName): Achievement {
 }
 
 /**
- * Get Achievements unlocked by a player
- */
-export function getUnlockedAchievements() {
-  return Object.values(getAllAchievements()).filter(
-    (achievement) => achievement.unlocked
-  );
-}
-
-/**
  * Get Achievements locked
  */
 export function getLockedAchievements() {
@@ -88,6 +79,7 @@ export function getAchievementsByItemNeeded(
   const achievement = getLockedAchievements().filter(
     (achievement) => achievement.resource === item
   );
+  // throw an error if there is no achievement
   if (!achievement) {
     throw new Error(`Achievement with item ${item} not found`);
   }
@@ -120,9 +112,9 @@ export const updateAchievements = (
           achievement: achievement,
         });
 
+        // Send toast notification
         achievementUnlockedToast(achievement, setToast);
       }
     });
   });
-  // TODO - Update GameState
 };
