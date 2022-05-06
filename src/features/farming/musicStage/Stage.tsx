@@ -156,7 +156,7 @@ export const Stage: React.FC = () => {
           {isOpen && (
             <Npc
               img={female}
-              message={'"Nothing better than music and cauliflowers!"'}
+              message={'"Wooohh ohhh!!"'}
               X={0.75}
               Y={3.8}
               scale={"scale(0.58)"}
