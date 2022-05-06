@@ -7,10 +7,10 @@ import "./styles.css";
 import Decimal from "decimal.js-light";
 
 /**
- * Decimal precision standard for repo follows ERC20 18 decimal standard
+ * Decimal precision standard to handle ERC20 18 decimals + 12 decimal places reserved for in game actions
  */
-Decimal.set({ toExpPos: 19 });
-Decimal.set({ toExpNeg: -19 });
+Decimal.set({ toExpPos: 30 });
+Decimal.set({ toExpNeg: -30 });
 
 /**
  * Top level wrapper for providers
