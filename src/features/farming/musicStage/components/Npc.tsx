@@ -13,6 +13,9 @@ interface Props {
   scale?: string;
 }
 
+const fadeOut = "blur-sm opacity-0 duration-500 linear ";
+const fadeIn = "blur-sm opacity-100 blur-none duration-500 linear ";
+
 export const Npc: React.FC<Props> = ({ img, message, X, Y, scale }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -21,7 +24,7 @@ export const Npc: React.FC<Props> = ({ img, message, X, Y, scale }) => {
       <img
         src={img}
         onClick={() => setShowModal(true)}
-        className="absolute cursor-pointer hover:img-highlight z-10"
+        className={"absolute cursor-pointer hover:img-highlight z-10"}
         style={{
           width: `${GRID_WIDTH_PX * 2}px`,
           right: `${GRID_WIDTH_PX * -X}px`,

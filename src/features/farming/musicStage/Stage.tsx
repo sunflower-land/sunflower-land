@@ -18,6 +18,9 @@ import { Action } from "components/ui/Action";
 import disc from "assets/icons/disc.png";
 import cross from "assets/icons/cross.png";
 
+const fadeOut = "blur-sm opacity-0 duration-300 linear ";
+const fadeIn = "blur-sm opacity-100 blur-none duration-300 linear ";
+
 interface Props {
   text?: string;
   icon: any;
@@ -100,14 +103,30 @@ export const Stage: React.FC = () => {
 
           <div>
             <img
-              src={!isOpen ? stage : finalStage}
+              src={stage}
               alt="stage"
               style={{
                 transform: "scale(2.2)",
                 position: "relative",
                 zIndex: "-1",
+                width: "100%",
+                opacity: 100,
               }}
-              className="w-full"
+              className={isOpen ? fadeOut : fadeIn}
+            />
+
+            <img
+              src={finalStage}
+              alt="stage"
+              style={{
+                transform: "scale(2.2)",
+                position: "relative",
+                top: `${GRID_WIDTH_PX * -3.86}px`,
+                zIndex: "-1",
+                width: "100%",
+                opacity: 100,
+              }}
+              className={isOpen ? fadeIn : fadeOut}
             />
           </div>
 
@@ -115,7 +134,7 @@ export const Stage: React.FC = () => {
             <img
               src={fireworks}
               style={{
-                transform: "translate(-92px,-450px)",
+                transform: "translate(-92px,-580px)",
               }}
               alt="fireworks"
               className="fireworks1"
@@ -125,7 +144,7 @@ export const Stage: React.FC = () => {
             <img
               src={fireworks}
               style={{
-                transform: "translate(175px,-750px)",
+                transform: "translate(175px,-880px)",
               }}
               alt="fireworks"
               className="fireworks1"
@@ -137,12 +156,13 @@ export const Stage: React.FC = () => {
                 transform: "translate(80px,-160px)",
                 zIndex: "10",
               }}
+              className={isOpen ? fadeIn : fadeOut}
             >
               <Npc
                 img={Romy}
                 message={'"I have potato blood in my veins!" Romy'}
                 X={-3.75}
-                Y={-14}
+                Y={-18}
                 scale={"scale(0.8)"}
               />
             </div>
