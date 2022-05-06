@@ -24,6 +24,7 @@ import {
 } from "features/game/types/progress";
 import { AchievementName } from "features/game/types/achievements";
 import { unlockAchievement } from "features/game/actions/unlockAchievement";
+import { CONFIG } from "lib/config";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -466,13 +467,15 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const { farm } = await unlockAchievement({
+              let { farm } = await unlockAchievement({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
                 fingerprint: context.fingerprint as string,
                 achievement: (event as AchievementUnlockedEvent).achievement,
               });
+              // TODO - Change that thing to production
+              farm = !CONFIG.API_URL ? context.state : farm;
 
               return {
                 farm,

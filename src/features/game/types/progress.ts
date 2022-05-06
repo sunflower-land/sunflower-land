@@ -1,15 +1,8 @@
 /**
- * TODO - Change this (Waiting for the backend to be ready)
- * This is a temporary solution to get the achievement data
- * @temporary
- */
-
-/**
  * It's a counter of the number of items earned by the player. (harvest, buy, sell, crafted, mined, ...)
  */
 import { ResourceName } from "features/game/types/resources";
 import { CropName } from "features/game/types/crops";
-import { updateAchievements } from "features/game/types/achievements";
 
 export type ItemEarned = {
   name: ResourceName | CropName;
@@ -83,8 +76,16 @@ export const PROGRESSION_INITIAL_STATE: ItemEarned[] = [
   },
 ];
 
+/**
+ * @temporary
+ */
 export const PROGRESSION_STORAGE_KEY = "progression";
 
+/**
+ * Temporary solution to save the progression
+ * @temporary
+ * @param progression
+ */
 export function saveProgression(progression: ItemEarned[]): void {
   localStorage.setItem(PROGRESSION_STORAGE_KEY, JSON.stringify(progression));
 }
@@ -93,6 +94,7 @@ export function saveProgression(progression: ItemEarned[]): void {
  * Update the progression with the new item earned
  * @param name
  * @param amount
+ * @param gameStates
  */
 export function updateProgression(name: string, amount: number): void {
   const progression = getProgression();
@@ -104,9 +106,12 @@ export function updateProgression(name: string, amount: number): void {
   }
   // Save the progression - TODO - Change this (Waiting for the backend to be ready)
   saveProgression(progression);
-  updateAchievements(progression[index].name, progression[index].amount);
 }
 
+/**
+ * @temporary
+ *
+ */
 export function getProgression() {
   const progression = localStorage.getItem(PROGRESSION_STORAGE_KEY);
   if (progression) {

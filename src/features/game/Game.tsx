@@ -30,6 +30,8 @@ import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
 import { screenTracker } from "lib/utils/screen";
 import { Resetting } from "features/auth/components/Resetting";
+import { updateAchievements } from "features/game/types/achievements";
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -47,11 +49,17 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
+  const { setToast } = useContext(ToastContext);
 
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 
   useEffect(() => {
-    console.log("Is this working?");
+    updateAchievements(
+      gameService,
+      setToast,
+      gameState.context.state.achievements
+    );
+    console.log(gameState.context.state.achievements);
   }, [gameState.context.state.inventory]);
 
   useEffect(() => {

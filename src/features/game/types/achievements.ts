@@ -1,6 +1,10 @@
 import { ResourceName } from "./resources";
 import { CropName } from "./crops";
 import { INITIAL_FARM } from "features/game/lib/constants";
+import { getProgression } from "features/game/types/progress";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { SetToast } from "features/game/toast/ToastQueueProvider";
+import { achievementUnlockedToast } from "features/game/toast/lib/achievementUnlockedToast";
 
 export type AchievementName =
   | "Welcome To The Game"
@@ -75,6 +79,7 @@ export function getLockedAchievements() {
 /**
  * Get Achievements by items needed
  * @param item
+ * @param achievements
  */
 export function getAchievementsByItemNeeded(
   item: ResourceName | CropName
@@ -91,23 +96,33 @@ export function getAchievementsByItemNeeded(
 
 /**
  * Update achievements progression and unlock if needed
- * @param itemAdded
- * @param quantity
  */
 export const updateAchievements = (
-  itemAdded: ResourceName | CropName,
-  quantity: number
+  gameService: MachineInterpreter,
+  setToast: SetToast
 ) => {
-  const achievements = getAchievementsByItemNeeded(itemAdded);
-  achievements.forEach((achievement) => {
-    achievement.progress += quantity;
-    if (achievement.progress >= achievement.quantity) {
-      achievement.unlocked = true;
-      // send notification - TODO
-      console.log("[DEBUG] Achievement unlocked:", achievement.description);
-      console.log();
-      // Send EVENT to update game state
-    }
+  // Get progression
+  const progression = getProgression();
+  // for each item in progress, update events
+  progression.forEach((item: any) => {
+    // get achievements by item name
+    const achievements = getAchievementsByItemNeeded(item.name);
+    // add quantity to progress of each achievement
+    achievements.forEach((achievement) => {
+      achievement.progress += item.amount;
+      // if progress is greater than quantity, unlock achievement
+      if (achievement.progress >= achievement.quantity) {
+        achievement.unlocked = true;
+        // send notification - TODO
+        console.log("[DEBUG] Achievement unlocked:", achievement.description);
+        // Send EVENT to update game state
+        gameService.send("ACHIEVEMENT_UNLOCKED", {
+          achievement: achievement,
+        });
+
+        achievementUnlockedToast(achievement, setToast);
+      }
+    });
   });
   // TODO - Update GameState
 };
