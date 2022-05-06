@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { CONFIG } from "lib/config";
 
 import logo from "assets/brand/logo.png";
 import bumpkin from "assets/npcs/bumpkin.png";
@@ -56,15 +57,17 @@ export const Contributors: React.FC<Props> = ({ onClose }) => {
           <div>
             <p className="text-sm capitalize">
               {contributor.name}{" "}
-              <span
-                className="underline cursor-pointer"
-                onClick={() => {
-                  navigate(`/visit/${contributor.farmId}`);
-                  onClose();
-                }}
-              >
-                #{contributor.farmId}
-              </span>
+              {CONFIG.NETWORK === "mainnet" && (
+                <span
+                  className="underline cursor-pointer"
+                  onClick={() => {
+                    navigate(`/visit/${contributor.farmId}`);
+                    onClose();
+                  }}
+                >
+                  #{contributor.farmId}
+                </span>
+              )}
             </p>
             <p className="text-sm">
               {contributor.role.map((role) => (
