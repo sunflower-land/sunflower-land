@@ -1,4 +1,4 @@
-import { removeSession } from "features/auth/actions/login";
+import { getSessionId, removeSession } from "features/auth/actions/login";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -56,6 +56,10 @@ export async function autosaveRequest(
   request: Omit<Request, "actions" | "offset"> & { actions: any[] }
 ) {
   const ttl = (window as any)["x-amz-ttl"];
+
+  // Useful for using cached results
+  const cachedKey = getSessionId();
+
   return await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
     method: "POST",
     headers: {
@@ -70,6 +74,7 @@ export async function autosaveRequest(
       sessionId: request.sessionId,
       actions: request.actions,
       clientVersion: CONFIG.CLIENT_VERSION as string,
+      cachedKey,
     }),
   });
 }
