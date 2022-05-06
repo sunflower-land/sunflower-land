@@ -132,9 +132,11 @@ export type MachineInterpreter = Interpreter<
 
 type Options = AuthContext & { isNoob: boolean };
 
+const isVisiting = () => window.location.href.includes("visit");
+
 export function startGame(authContext: Options) {
   const handleInitialState = () => {
-    if (window.location.href.includes("visit")) {
+    if (isVisiting()) {
       return "readonly";
     }
     return "playing";
@@ -159,6 +161,13 @@ export function startGame(authContext: Options) {
                 farmAddress: authContext.address as string,
                 id: authContext.farmId as number,
               });
+
+              // Visit farm
+              if (isVisiting()) {
+                onChain.id = authContext.farmId as number;
+
+                return { state: onChain, onChain, owner };
+              }
 
               // Load the farm session
               if (context.sessionId) {
@@ -191,13 +200,6 @@ export function startGame(authContext: Options) {
                   onChain,
                   owner,
                 };
-              }
-
-              // Visit farm
-              if (authContext.address) {
-                onChain.id = authContext.farmId as number;
-
-                return { state: onChain, onChain, owner };
               }
 
               return { state: INITIAL_FARM };
