@@ -18,13 +18,14 @@ import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
+
+import { AchievementName } from "features/game/types/achievements";
+import { unlockAchievement } from "features/game/actions/unlockAchievement";
+import { CONFIG } from "lib/config";
 import {
   PROGRESSION_INITIAL_STATE,
   saveProgression,
 } from "features/game/types/progress";
-import { AchievementName } from "features/game/types/achievements";
-import { unlockAchievement } from "features/game/actions/unlockAchievement";
-import { CONFIG } from "lib/config";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -176,7 +177,7 @@ export function startGame(authContext: Options) {
                 farmAddress: authContext.address as string,
                 id: authContext.farmId as number,
               });
-
+              saveProgression(PROGRESSION_INITIAL_STATE);
               // Visit farm
               if (isVisiting()) {
                 onChain.id = authContext.farmId as number;
@@ -228,9 +229,6 @@ export function startGame(authContext: Options) {
 
                 return { state: game, isBlacklisted };
               }
-
-              // TODO - REPLACE
-              saveProgression(PROGRESSION_INITIAL_STATE);
 
               return { state: INITIAL_FARM };
             },
