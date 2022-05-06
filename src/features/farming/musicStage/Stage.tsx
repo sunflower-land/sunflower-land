@@ -8,6 +8,7 @@ import { Context } from "features/game/GameProvider";
 import { sfl2Audio, fitzeeGhostAudio } from "lib/utils/sfx";
 import stage from "assets/buildings/New_Stage_SFL.gif";
 import fireworks from "assets/decorations/firework.gif";
+import fireworks2 from "assets/decorations/firework2.gif";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import Fitzee from "assets/npcs/Fitzee.gif";
 import Romy from "assets/npcs/stage/Romy.gif";
@@ -17,6 +18,8 @@ import { Npc } from "./components/Npc";
 import { Action } from "components/ui/Action";
 import disc from "assets/icons/disc.png";
 import cross from "assets/icons/cross.png";
+import female from "assets/npcs/stage/Interactable_Female.gif";
+import male from "assets/npcs/stage/Interactable_Male.gif";
 
 const fadeOut = "blur-sm opacity-0 duration-300 linear ";
 const fadeIn = "blur-sm opacity-100 blur-none duration-300 linear ";
@@ -134,7 +137,7 @@ export const Stage: React.FC = () => {
             <img
               src={fireworks}
               style={{
-                transform: "translate(-92px,-580px)",
+                transform: "translate(-96px,-580px)",
               }}
               alt="fireworks"
               className="fireworks1"
@@ -142,12 +145,30 @@ export const Stage: React.FC = () => {
           )}
           {isOpen && (
             <img
-              src={fireworks}
+              src={fireworks2}
               style={{
-                transform: "translate(175px,-880px)",
+                transform: "translate(182px,-880px)",
               }}
               alt="fireworks"
-              className="fireworks1"
+              className="fireworks1 "
+            />
+          )}
+          {isOpen && (
+            <Npc
+              img={female}
+              message={'"Nothing better than music and cauliflowers!"'}
+              X={0.75}
+              Y={3.8}
+              scale={"scale(0.58)"}
+            />
+          )}
+          {isOpen && (
+            <Npc
+              img={male}
+              message={'"Thi song is lit!"'}
+              X={-3.75}
+              Y={3}
+              scale={"scale(0.65)"}
             />
           )}
           {isOpen && (
