@@ -357,7 +357,7 @@ export const authMachine = createMachine<
           },
           authorised: {
             entry: (context) => {
-              window.location.href = `/#/farm/${context.farmId}`;
+              window.location.href = `${window.location.pathname}#/farm/${context.farmId}`;
             },
             on: {
               REFRESH: {
@@ -440,7 +440,7 @@ export const authMachine = createMachine<
       },
       visiting: {
         entry: (context) => {
-          window.location.href = `/#/visit/${context.farmId}`;
+          window.location.href = `${window.location.pathname}#/visit/${context.farmId}`;
         },
         on: {
           RETURN: {

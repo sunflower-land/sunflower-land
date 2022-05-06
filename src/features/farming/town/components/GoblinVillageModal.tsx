@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 
 export const GoblinVillageModal: React.FC = () => {
   const goToGoblinTown = () => {
-    window.location.href = "/#/goblins";
+    window.location.href = `${window.location.pathname}#/goblins`;
   };
 
   return (
