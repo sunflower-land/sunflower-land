@@ -54,11 +54,7 @@ export const Game: React.FC = () => {
   useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
 
   useEffect(() => {
-    updateAchievements(
-      gameService,
-      setToast,
-      gameState.context.state.achievements
-    );
+    updateAchievements(gameService, setToast);
   }, [gameState.context.state.inventory]);
 
   useEffect(() => {
