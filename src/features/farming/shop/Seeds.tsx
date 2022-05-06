@@ -103,9 +103,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     );
   }
   const Action = () => {
-    // const isLocked = selected.requires && !inventory[selected.requires];
-    // if (isLocked || selected.disabled) {
-    if (selected.disabled) {
+    const isLocked = selected.requires && !inventory[selected.requires];
+    if (isLocked || selected.disabled) {
       return <span className="text-xs mt-1 text-shadow">Locked</span>;
     }
 

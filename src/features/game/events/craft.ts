@@ -74,6 +74,11 @@ export function craft({ state, action }: Options) {
   const price = getBuyPrice(item, state.inventory);
   const totalExpenses = price?.mul(action.amount);
 
+  const isLocked = item.requires && !state.inventory[item.requires];
+  if (isLocked) {
+    throw new Error(`Missing ${item.requires}`);
+  }
+
   if (totalExpenses && state.balance.lessThan(totalExpenses)) {
     throw new Error("Insufficient tokens");
   }
