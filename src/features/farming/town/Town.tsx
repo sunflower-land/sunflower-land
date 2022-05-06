@@ -9,6 +9,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import { GoblinVillageEntry } from "./components/GoblinVillageEntry";
 import { TownHall } from "../townHall/TownHall";
+import { TeamNPCS } from "./components/TeamNPCS";
 
 export const Town: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ export const Town: React.FC = () => {
       <Mail />
       <TownHall />
 
+      <TeamNPCS />
       <GoblinVillageEntry />
     </div>
   );

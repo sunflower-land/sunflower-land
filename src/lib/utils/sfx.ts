@@ -19,6 +19,18 @@ import barnMp3 from "../../assets/sound-effects/barn.mp3";
 import battleMp3 from "../../assets/sound-effects/battle.mp3";
 import diaryMp3 from "../../assets/sound-effects/diary.mp3";
 import fountainMp3 from "../../assets/sound-effects/fountain.mp3";
+import ghostyWav from "../../assets/sound-effects/Ghosty.wav";
+import sfl2 from "../../assets/songs/sfl2.mp3";
+
+export const fitzeeGhostAudio = new Howl({
+  src: [ghostyWav],
+  volume: 0.2,
+});
+
+export const sfl2Audio = new Howl({
+  src: [sfl2],
+  volume: 0.2,
+});
 
 export const harvestAudio = new Howl({
   src: [harvestMp3],

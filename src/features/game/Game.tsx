@@ -21,6 +21,7 @@ import { Quarry } from "features/farming/quarry/Quarry";
 import { TeamDonation } from "features/farming/teamDonation/TeamDonation";
 import { Forest } from "features/farming/forest/Forest";
 
+import { Stage } from "features/farming/musicStage/Stage";
 import { StateValues } from "./lib/gameMachine";
 import { Town } from "features/farming/town/Town";
 import { ErrorCode } from "lib/errors";
@@ -112,6 +113,7 @@ export const Game: React.FC = () => {
       <Town />
       <House />
       <Lore />
+      <Stage />
     </>
   );
 };

@@ -1,0 +1,6 @@
+#steve {
+  transform: scale(0.6);
+  position: relative;
+  z-index: 2;
+  top: -750px;
+}
