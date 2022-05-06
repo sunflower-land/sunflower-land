@@ -1,25 +1,29 @@
 import { Button } from "components/ui/Button";
 import React, { useContext } from "react";
 
-import goblinWorking from "assets/npcs/goblin_doing.gif";
+import bouncer from "assets/npcs/big_goblin.gif";
 import { Context } from "../GoblinProvider";
 
 export const Minted: React.FC = () => {
   const { goblinService } = useContext(Context);
 
   return (
-    <div className="flex flex-col items-center">
-      <img src={goblinWorking} className="w-16" />
-      <h1 className="text-center mb-4 text-lg">Preparing your item..</h1>
-      <p className="mb-4">The goblins are hard at work preparing your item.</p>
-      <p className="mb-4">This process will take 7 days.</p>
-      <p className="mb-4">
-        You can check the progress at any time from inside your inventory panel.
-      </p>
-      <p className="mb-4">
-        You will <span className="underline">not</span> be able to withdraw this
-        item until this progress is complete.
-      </p>
+    <div className="flex flex-col">
+      <div className="p-2 flex flex-col items-center">
+        <img src={bouncer} className="w-10 my-2" />
+        <h1 className="text-center mb-4 text-lg">Minted but...</h1>
+        <p className="mb-4 text-sm text-justify">
+          The goblins are very serious about equity and fairness.
+        </p>
+        <p className="mb-4 text-sm text-justify">
+          They believe that everyone should have an opportunity to mint one of
+          these rare items.
+        </p>
+        <p className="mb-4 text-sm text-justify">
+          To ensure that everyone has a chance the goblins will not allow you to
+          withdraw your item or mint another one for 7 days.
+        </p>
+      </div>
       <Button onClick={() => goblinService.send("REFRESH")}>Ok</Button>
     </div>
   );

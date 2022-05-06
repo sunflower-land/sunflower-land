@@ -1,5 +1,12 @@
 import { InventoryItemName } from "./game";
 
+export enum LimitedItemType {
+  BlacksmithItem = "BlacksmithItem",
+  MarketItem = "MarketItem",
+  BarnItem = "BarnItem",
+  Flag = "Flag",
+}
+
 export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Seed": 101,
   "Potato Seed": 102,
