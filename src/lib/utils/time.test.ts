@@ -40,10 +40,10 @@ describe("time", () => {
 
       expect(secondsToMidString(ONE_MIN + 30 * ONE_SEC)).toBe("1min 30secs");
       expect(secondsToMidString(2 * ONE_HR + 11 * ONE_MIN + 50 * ONE_SEC)).toBe(
-        "2hrs 11mins"
+        "2 hrs 11 mins"
       );
       expect(secondsToMidString(2 * ONE_DAY + ONE_HR + 20 * ONE_MIN)).toBe(
-        "2days 1hr"
+        "2 days 1 hr"
       );
     });
   });
@@ -51,13 +51,13 @@ describe("time", () => {
   describe("secondsToLongString", () => {
     it("should return correct string", () => {
       expect(secondsToLongString(2 * ONE_DAY + ONE_MIN + 30 * ONE_SEC)).toBe(
-        "2days 1min 30secs"
+        "2 days 1 min 30 secs"
       );
       expect(secondsToLongString(ONE_HR + 20 * ONE_MIN + 5 * ONE_SEC)).toBe(
-        "1hr 20mins 5secs"
+        "1 hr 20 mins 5 secs"
       );
       expect(secondsToLongString(2 * ONE_DAY + ONE_HR + 20 * ONE_MIN)).toBe(
-        "2days 1hr 20mins"
+        "2 days 1 hr 20 mins"
       );
     });
   });
