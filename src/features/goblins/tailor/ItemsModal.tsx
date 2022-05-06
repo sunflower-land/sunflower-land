@@ -8,9 +8,9 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { FLAGS } from "features/game/types/craftables";
 import { Rare } from "features/goblins/Rare";
-import { Flag } from "features/game/types/flags";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GoblinProvider";
+import { LimitedItemType } from "features/game/types";
 
 interface Props {
   isOpen: boolean;
@@ -25,14 +25,6 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
     },
   ] = useActor(goblinService);
   const [tab, setTab] = useState<"flags">("flags");
-
-  // Alphabetically sort the flags
-  const sortedFlags = (Object.keys(FLAGS) as Flag[])
-    .sort()
-    .reduce((obj, key) => {
-      obj[key] = FLAGS[key];
-      return obj;
-    }, {} as typeof FLAGS);
 
   const maxFlags =
     Object.values(FLAGS).filter((flag) => flag.name in state.inventory)
@@ -60,7 +52,11 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
             minHeight: "200px",
           }}
         >
-          <Rare items={sortedFlags} onClose={onClose} canCraft={!maxFlags} />
+          <Rare
+            type={LimitedItemType.Flag}
+            onClose={onClose}
+            canCraft={!maxFlags}
+          />
           <p className="text-xxs p-1 m-1 underline text-center">
             Max 3 flags per farm.
           </p>
