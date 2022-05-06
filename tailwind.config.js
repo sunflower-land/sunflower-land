@@ -12,6 +12,7 @@ module.exports = {
           background: "#63c74d",
         },
         blue: {
+          300: "#0099da",
           600: "#0d87ff",
         },
         brown: {
