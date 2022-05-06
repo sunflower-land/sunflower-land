@@ -2,7 +2,6 @@ import React, { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useActor } from "@xstate/react";
 
-import { Context } from "features/game/GoblinProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
@@ -15,9 +14,6 @@ interface Props {
   onClose: () => void;
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
-  const { goblinService } = useContext(Context);
-  const [goblinState] = useActor(goblinService);
-
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -101,7 +97,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         You can only withdraw items that you have synced to the blockchain.
       </span>
 
-      <div className="flex items-center border-2 rounded-md border-black p-2 bg-[#e43b44]">
+      <div className="flex items-center border-2 rounded-md border-black p-2 bg-error">
         <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
         <span className="text-xs">
           ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST.

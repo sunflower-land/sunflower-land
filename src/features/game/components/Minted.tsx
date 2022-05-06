@@ -1,7 +1,7 @@
 import { Button } from "components/ui/Button";
 import React, { useContext } from "react";
 
-import secure from "assets/npcs/synced.gif";
+import goblinWorking from "assets/npcs/goblin_doing.gif";
 import { Context } from "../GoblinProvider";
 
 export const Minted: React.FC = () => {
@@ -9,11 +9,18 @@ export const Minted: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <img src={secure} className="w-16 my-4" />
-      <span className="text-center mb-2">
-        Your item is under construction...
-      </span>
-      <Button onClick={() => goblinService.send("REFRESH")}>Continue</Button>
+      <img src={goblinWorking} className="w-16" />
+      <h1 className="text-center mb-4 text-lg">Preparing your item..</h1>
+      <p className="mb-4">The goblins are hard at work preparing your item.</p>
+      <p className="mb-4">This process will take 7 days.</p>
+      <p className="mb-4">
+        You can check the progress at any time from inside your inventory panel.
+      </p>
+      <p className="mb-4">
+        You will <span className="underline">not</span> be able to withdraw this
+        item until this progress is complete.
+      </p>
+      <Button onClick={() => goblinService.send("REFRESH")}>Ok</Button>
     </div>
   );
 };

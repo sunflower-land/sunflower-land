@@ -13,7 +13,6 @@ import { Minting } from "features/game/components/Minting";
 import { Minted } from "features/game/components/Minted";
 import { Withdrawing } from "features/game/components/Withdrawing";
 import { Withdrawn } from "features/game/components/Withdrawn";
-import { StateValues } from "features/game/lib/goblinMachine";
 
 // const SHOW_MODAL: Record<StateValues, boolean> = {
 const SHOW_MODAL: any = {

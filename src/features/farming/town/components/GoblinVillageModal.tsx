@@ -10,27 +10,31 @@ export const GoblinVillageModal: React.FC = () => {
 
   return (
     <Panel>
-      <h1 className="text-xl text-center">
+      <h1 className="text-lg mb-4 text-center">
         Do you want to visit Goblin Village?
       </h1>
 
-      <p className="text-sm pt-4">
+      <p className="mb-4 block">
         Goblin Village offers rare items and{" "}
         <span className="underline">on-chain</span> gameplay.
       </p>
-      <p className="text-sm pt-4 pb-2">
-        Any transaction in Goblin land will reset your farming session to your
-        previous checkpoint.
+      <p className="mb-4">
+        Any transaction in Goblin Village will reset your farming session to
+        your previous checkpoint.
+      </p>
+      <p className="mb-4">
+        If you have any un-synced items it is recommended you{" "}
+        <span className="underline">sync on chain</span> before entering.
       </p>
 
-      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
-        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
-        <span className="text-xs">
-          You may lose SFL & resources from your farm that have not been synced
-          to the Blockchain
+      <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-error">
+        <img src={alert} alt="alert" className="mr-2 w-10" />
+        <span className="text-xxs">
+          You may lose SFL or resources from your farm if they have not been
+          synced to the blockchain
         </span>
       </div>
-      <Button onClick={goToGoblinTown}>Continue</Button>
+      <Button onClick={goToGoblinTown}>{`Let's go`}</Button>
     </Panel>
   );
 };

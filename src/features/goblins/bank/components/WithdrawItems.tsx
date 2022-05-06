@@ -155,7 +155,7 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
         Once withdrawn, you will be able to view your items on Open Sea.
       </span>
 
-      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
+      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-error">
         <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
         <span className="text-xs">
           ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST.
