@@ -19,7 +19,6 @@ import { metamask } from "lib/blockchain/metamask";
 import { canWithdraw } from "../lib/bankUtils";
 import { getOnChainState } from "features/game/actions/onchain";
 
-import alert from "assets/icons/expression_alerted.png";
 import {
   getKeys,
   isLimitedItem,
@@ -132,7 +131,7 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
               rel="noreferrer"
               className="underline"
             >
-              being held
+              still being built
             </a>{" "}
             by the goblins are not available to be withdrawn.
           </span>
@@ -205,13 +204,6 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
 
         <span className="text-sm mb-4">
           Once withdrawn, you will be able to view your items on Open Sea.
-        </span>
-      </div>
-
-      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-error">
-        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
-        <span className="text-xs">
-          ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST.
         </span>
       </div>
 

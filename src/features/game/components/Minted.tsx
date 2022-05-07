@@ -13,15 +13,15 @@ export const Minted: React.FC = () => {
         <h1 className="text-center mb-3 text-lg">Minted but...</h1>
         <img src={bouncer} className="w-12 mb-3" />
         <p className="mb-4 text-sm text-justify">
-          The goblins are very serious about equity and fairness.
+          The goblins are renowned for their exceptional craftsmanship. They
+          build each of these rare items by hand.
         </p>
         <p className="mb-4 text-sm text-justify">
-          They believe that everyone should have an opportunity to mint one of
-          these rare items.
+          It will take them 7 days for this process to be completed.
         </p>
         <p className="mb-4 text-sm text-justify">
-          To ensure that everyone has a chance the goblins will not allow you to
-          withdraw your item or mint another one for 7 days.
+          {`You will not be able to withdraw your item or mint another one until
+          they're done.`}
         </p>
       </div>
       <Button onClick={() => goblinService.send("REFRESH")}>Ok</Button>

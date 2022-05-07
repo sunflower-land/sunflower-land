@@ -124,7 +124,7 @@ export const Box: React.FC<BoxProps> = ({
 
         {locked && (
           <img
-            src={cancel}
+            src={!cooldownInProgress ? cancel : timer}
             className="absolute w-6 -top-3 -right-3 px-0.5 z-20"
           />
         )}
