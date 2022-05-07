@@ -75,7 +75,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   const setMax = () => {
-    setAmount(balance.minus(new Decimal(0.01)));
+    if (balance.gte(0.01)) setAmount(balance.minus(new Decimal(0.01)));
   };
 
   const incrementWithdraw = () => {
