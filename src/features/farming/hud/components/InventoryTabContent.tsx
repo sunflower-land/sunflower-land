@@ -17,6 +17,7 @@ import { Inventory, TabItems } from "./InventoryItems";
 import { getShortcuts } from "../lib/shortcuts";
 import { hasBoost } from "features/game/lib/boosts";
 import { getCropTime } from "features/game/events/plant";
+import { getKeys } from "features/game/types/craftables";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -44,34 +45,8 @@ export const InventoryTabContent = ({
   const { ref: itemContainerRef, showScrollbar } =
     useShowScrollbar(TAB_CONTENT_HEIGHT);
   const [scrollIntoView] = useScrollIntoView();
-  const categories = Object.keys(tabItems) as InventoryItemName[];
+  const categories = getKeys(tabItems) as InventoryItemName[];
   const [isTimeBoosted, setIsTimeBoosted] = useState(false);
-
-  useEffect(() => {
-    const firstCategoryWithItem = categories.find(
-      (category) => !!inventoryMapping[category]?.length
-    );
-
-    const defaultSelectedItem =
-      getShortcuts()[0] ||
-      // Fallback for when a no active item selected
-      (firstCategoryWithItem && inventoryMapping[firstCategoryWithItem][0]);
-
-    if (defaultSelectedItem) {
-      setDefaultSelectedItem(defaultSelectedItem);
-    }
-  }, []);
-
-  useEffect(
-    () =>
-      setIsTimeBoosted(
-        hasBoost({
-          item: selectedItem as InventoryItemName,
-          inventory,
-        })
-      ),
-    [inventory, selectedItem]
-  );
 
   const inventoryMapping = inventoryItems.reduce((acc, curr) => {
     const category = categories.find(
@@ -87,9 +62,34 @@ export const InventoryTabContent = ({
     return acc;
   }, {} as Record<string, InventoryItemName[]>);
 
+  useEffect(() => {
+    const firstCategoryWithItem = categories.find(
+      (category) => !!inventoryMapping[category]?.length
+    );
+
+    const defaultSelectedItem =
+      getShortcuts()[0] ||
+      // Fallback for when a no active item selected
+      (firstCategoryWithItem && inventoryMapping[firstCategoryWithItem][0]);
+
+    if (defaultSelectedItem) {
+      setDefaultSelectedItem(defaultSelectedItem);
+    }
+  }, [categories, inventoryMapping, setDefaultSelectedItem]);
+
+  useEffect(
+    () =>
+      setIsTimeBoosted(
+        hasBoost({
+          item: selectedItem as InventoryItemName,
+          inventory,
+        })
+      ),
+    [inventory, selectedItem]
+  );
+
   const findIfItemsExistForCategory = (category: string) => {
-    console.log({ category, inventoryMapping });
-    return Object.keys(inventoryMapping).includes(category);
+    return getKeys(inventoryMapping).includes(category);
   };
 
   const getCropHarvestTime = (seedName = "") => {

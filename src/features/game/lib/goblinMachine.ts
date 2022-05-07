@@ -4,7 +4,12 @@ import { Context as AuthContext } from "features/auth/lib/authMachine";
 
 import { GameState } from "../types/game";
 import { mint } from "../actions/mint";
-import { LimitedItemName } from "../types/craftables";
+import {
+  LimitedItem,
+  LimitedItemName,
+  LIMITED_ITEMS,
+  makeLimitedItemsByName,
+} from "../types/craftables";
 import { withdraw } from "../actions/withdraw";
 import {
   getOnChainState,
@@ -22,7 +27,7 @@ export interface Context {
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
   farmAddress?: string;
-  limitedItems: OnChainLimitedItems;
+  limitedItems: Partial<Record<LimitedItemName, LimitedItem>>;
 }
 
 type MintEvent = {
@@ -92,7 +97,7 @@ export function startGoblinVillage(authContext: AuthContext) {
     context: {
       state: EMPTY,
       sessionId: authContext.sessionId,
-      limitedItems: [],
+      limitedItems: {},
     },
     states: {
       loading: {
@@ -105,14 +110,16 @@ export function startGoblinVillage(authContext: AuthContext) {
 
             game.id = authContext.farmId as number;
 
-            return { state: game, limitedItems };
+            const limitedItemsById = makeLimitedItemsById(limitedItems);
+
+            return { state: game, limitedItems: limitedItemsById };
           },
           onDone: {
             target: "playing",
             actions: assign({
               state: (_, event) => event.data.state,
               limitedItems: (_, event) =>
-                makeLimitedItemsById(event.data.limitedItems),
+                makeLimitedItemsByName(LIMITED_ITEMS, event.data.limitedItems),
             }),
           },
           onError: {},

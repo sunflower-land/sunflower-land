@@ -4,8 +4,9 @@ import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
-import { KNOWN_IDS, KNOWN_ITEMS } from ".";
+import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
 import { OnChainLimitedItems } from "../lib/goblinMachine";
+import { isArray } from "lodash";
 
 export { FLAGS };
 
@@ -58,6 +59,7 @@ export interface LimitedItem extends CraftableItem {
   section?: Section;
   cooldownSeconds?: number;
   mintedAt?: number;
+  type?: LimitedItemType;
 }
 
 export type BlacksmithItem =
@@ -241,75 +243,90 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
     name: "Sunflower Statue",
     description: "A symbol of the holy token",
     section: Section["Sunflower Statue"],
+    type: LimitedItemType.BlacksmithItem,
   },
   "Potato Statue": {
     name: "Potato Statue",
     description: "The OG potato hustler flex",
     section: Section["Potato Statue"],
+    type: LimitedItemType.BlacksmithItem,
   },
   "Christmas Tree": {
     name: "Christmas Tree",
     description: "Receive a Santa Airdrop on Christmas day",
     section: Section["Christmas Tree"],
+    type: LimitedItemType.BlacksmithItem,
   },
   Gnome: {
     name: "Gnome",
     description: "A lucky gnome",
     section: Section.Gnome,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Homeless Tent": {
     name: "Homeless Tent",
     description: "A nice and cozy tent",
     section: Section.Tent,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
     description: "In memory of Sunflower Farmers",
     section: Section["Sunflower Tombstone"],
+    type: LimitedItemType.BlacksmithItem,
   },
   "Sunflower Rock": {
     name: "Sunflower Rock",
     description: "The game that broke Polygon",
     section: Section["Sunflower Rock"],
+    type: LimitedItemType.BlacksmithItem,
   },
   "Goblin Crown": {
     name: "Goblin Crown",
     description: "Summon the leader of the Goblins",
     section: Section["Goblin Crown"],
+    type: LimitedItemType.BlacksmithItem,
   },
   Fountain: {
     name: "Fountain",
     description: "A relaxing fountain for your farm",
     section: Section.Fountain,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Nyon Statue": {
     name: "Nyon Statue",
     description: "In memory of Nyon Lann",
     // TODO: Add section
+    type: LimitedItemType.BlacksmithItem,
   },
   "Farmer Bath": {
     name: "Farmer Bath",
     description: "A beetroot scented bath for the farmers",
     section: Section["Bath"],
+    type: LimitedItemType.BlacksmithItem,
   },
   "Woody the Beaver": {
     name: "Woody the Beaver",
     description: "Increase wood drops by 20%",
     section: Section.Beaver,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Apprentice Beaver": {
     name: "Apprentice Beaver",
     description: "Trees recover 50% faster",
     section: Section.Beaver,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Foreman Beaver": {
     name: "Foreman Beaver",
     description: "Cut trees without axes",
     section: Section.Beaver,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Egg Basket": {
     name: "Egg Basket",
     description: "Gives access to the Easter Egg Hunt",
+    type: LimitedItemType.BlacksmithItem,
   },
 };
 
@@ -318,29 +335,35 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
     name: "Nancy",
     description: "Keeps a few crows away. Crops grow 15% faster",
     section: Section.Scarecrow,
+    type: LimitedItemType.MarketItem,
   },
   Scarecrow: {
     name: "Scarecrow",
     description: "A goblin scarecrow. Yield 20% more crops",
     section: Section.Scarecrow,
+    type: LimitedItemType.MarketItem,
   },
   Kuebiko: {
     name: "Kuebiko",
     description:
       "Even the shopkeeper is scared of this scarecrow. Seeds are free",
     section: Section.Scarecrow,
+    type: LimitedItemType.MarketItem,
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
     description: "Double the rewards from cauliflowers",
+    type: LimitedItemType.MarketItem,
   },
   "Mysterious Parsnip": {
     name: "Mysterious Parsnip",
     description: "Parsnips grow 50% faster",
+    type: LimitedItemType.MarketItem,
   },
   "Carrot Sword": {
     name: "Carrot Sword",
     description: "Increase chance of a mutant crop appearing",
+    type: LimitedItemType.MarketItem,
   },
 };
 
@@ -349,25 +372,30 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
     name: "Chicken Coop",
     description: "Collect 3x the amount of eggs",
     section: Section["Chicken Coop"],
+    type: LimitedItemType.BarnItem,
   },
   "Farm Cat": {
     name: "Farm Cat",
     description: "Keep the rats away",
     section: Section["Farm Cat"],
+    type: LimitedItemType.BarnItem,
   },
   "Farm Dog": {
     name: "Farm Dog",
     description: "Herd sheep 4x faster",
     section: Section["Farm Dog"],
+    type: LimitedItemType.BarnItem,
   },
   "Gold Egg": {
     name: "Gold Egg",
     description: "A rare egg, what lays inside?",
+    type: LimitedItemType.BarnItem,
   },
   "Easter Bunny": {
     name: "Easter Bunny",
     description: "Earn 20% more Carrots",
     section: Section["Easter Bunny"],
+    type: LimitedItemType.BarnItem,
   },
 };
 
@@ -422,7 +450,7 @@ export const getKeys = Object.keys as <T extends object>(
   obj: T
 ) => Array<keyof T>;
 
-const LIMITED_ITEMS = {
+export const LIMITED_ITEMS = {
   ...BLACKSMITH_ITEMS,
   ...BARN_ITEMS,
   ...MARKET_ITEMS,
@@ -432,7 +460,7 @@ const LIMITED_ITEMS = {
 export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);
 
 export const makeLimitedItemsByName = (
-  items: Partial<Record<LimitedItemName, LimitedItem>>,
+  items: Record<LimitedItemName, LimitedItem>,
   onChainItems: OnChainLimitedItems
 ) => {
   return getKeys(items).reduce((limitedItems, itemName) => {
@@ -462,16 +490,44 @@ export const makeLimitedItemsByName = (
       limitedItems[name] = {
         id: onChainItem.mintId,
         name,
-        description: items[name]?.description as string,
+        description: items[name].description,
         tokenAmount: new Decimal(tokenAmount),
         maxSupply,
         cooldownSeconds,
         ingredients,
         mintedAt,
+        type: items[name].type,
       };
     }
 
     return limitedItems;
     // TODO: FIX TYPE
   }, {} as Record<CraftableName, LimitedItem>);
+};
+
+export const filterLimitedItemsByType = (
+  type: LimitedItemType | LimitedItemType[],
+  limitedItems: Record<LimitedItemName, LimitedItem>
+) => {
+  // Convert `obj` to a key/value array
+  // `[['name', 'Luke Skywalker'], ['title', 'Jedi Knight'], ...]`
+  const asArray = Object.entries(limitedItems);
+
+  const filtered = asArray.filter(([_, value]) => {
+    if (value.type && isArray(type)) {
+      return type.includes(value.type);
+    }
+
+    return value.type === type;
+  });
+
+  // Convert the key/value array back to an object:
+  // `{ name: 'Luke Skywalker', title: 'Jedi Knight' }`
+  return Object.fromEntries(filtered);
+};
+
+export const isLimitedItem = (itemName: any) => {
+  return !!getKeys(LIMITED_ITEMS).find(
+    (limitedItemName) => limitedItemName === itemName
+  );
 };

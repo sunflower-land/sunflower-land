@@ -45,7 +45,7 @@ export const GoblinLand: React.FC = () => {
             />
           )}
           {goblinState.matches("minting") && <Minting />}
-          {goblinState.matches("minting") && <Minted />}
+          {goblinState.matches("minted") && <Minted />}
           {goblinState.matches("withdrawing") && <Withdrawing />}
           {goblinState.matches("withdrawn") && <Withdrawn />}
         </Panel>

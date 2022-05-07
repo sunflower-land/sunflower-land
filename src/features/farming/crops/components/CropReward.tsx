@@ -73,7 +73,7 @@ export const CropReward: React.FC<Props> = ({
                   </span>
                 </div>
               ))}
-              <Button onClick={close} className="mt-4 w-28">
+              <Button onClick={close} className="mt-4 w-full">
                 Close
               </Button>
             </>

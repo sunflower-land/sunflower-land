@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports = {
   purge: ["./src/**/*.tsx"],
   darkMode: false, // or 'media' or 'class'
@@ -11,6 +12,7 @@ module.exports = {
           background: "#63c74d",
         },
         blue: {
+          300: "#0099da",
           600: "#0d87ff",
         },
         brown: {
@@ -24,6 +26,7 @@ module.exports = {
         silver: {
           300: "#bfcbda",
         },
+        error: "#e43b44",
       },
       fontSize: {
         xxs: "0.6rem",
