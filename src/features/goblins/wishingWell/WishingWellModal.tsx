@@ -104,7 +104,7 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
     if (wishingWell.myTokensInWell === "0") {
       return (
         <div className="py-2 border-white flex flex-col items-center">
-          <span className="text-xs">
+          <span className="text-sm mb-4">
             Looks like you have those magic LP tokens in your wallet!
           </span>
           <Button className="text-sm mt-1" onClick={() => send("WISH")}>
