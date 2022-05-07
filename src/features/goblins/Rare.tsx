@@ -149,8 +149,6 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
 
   const soldOut = amountLeft <= 0;
 
-  console.log({ selected });
-
   const Action = () => {
     if (soldOut) {
       return null;
