@@ -22,7 +22,7 @@ import { OuterPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.gif";
-import bouncer from "assets/npcs/big_goblin.gif";
+import busyGoblin from "assets/npcs/goblin_doing.gif";
 import { KNOWN_IDS, LimitedItemType } from "features/game/types";
 import { mintCooldown } from "./blacksmith/lib/mintUtils";
 import { secondsToString } from "lib/utils/time";
@@ -165,14 +165,17 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
       return (
         <div className="mt-2 border-y border-white w-full">
           <div className="mt-3 flex items-center justify-center">
-            <img src={bouncer} alt="not available" className="w-8" />
+            <img src={busyGoblin} alt="not available" className="w-12" />
           </div>
-          <div className="my-2 text-center leading-none">
-            <span className="text-[10px]">
-              {`The goblins will release the hold on your item in ${secondsToString(
+          <div className="my-2 text-center">
+            <p className="text-[10px] mb-1">
+              The goblins are still putting the finishing touches on your item.
+            </p>
+            <p className="text-[10px]">
+              {`It will be finished in ${secondsToString(
                 selected.cooldownSeconds || 0
               )}.`}
-            </span>
+            </p>
           </div>
           <div className="my-3 text-center">
             <a

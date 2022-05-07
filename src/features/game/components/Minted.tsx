@@ -1,7 +1,7 @@
 import { Button } from "components/ui/Button";
 import React, { useContext } from "react";
 
-import bouncer from "assets/npcs/big_goblin.gif";
+import busyGoblin from "assets/npcs/goblin_doing.gif";
 import { Context } from "../GoblinProvider";
 
 export const Minted: React.FC = () => {
@@ -11,8 +11,8 @@ export const Minted: React.FC = () => {
     <div className="flex flex-col">
       <div className="p-2 flex flex-col items-center">
         <h1 className="text-center mb-3 text-lg">Minted but...</h1>
-        <img src={bouncer} className="w-12 mb-3" />
-        <p className="mb-4 text-sm text-justify">
+        <img src={busyGoblin} className="w-20 mb-3" />
+        <p className="mb-3 text-sm text-justify">
           The goblins are renowned for their exceptional craftsmanship. They
           build each of these rare items by hand.
         </p>
