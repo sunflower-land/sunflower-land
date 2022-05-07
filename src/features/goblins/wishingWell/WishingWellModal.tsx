@@ -68,8 +68,8 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
       return (
         <span className="text-sm mt-4 text-center">
           Thanks for supporting the project and making a wish. Come back in{" "}
-          {secondsToLongString(wishingWell?.lockedPeriod)}
-          days to see how lucky you were.
+          {secondsToLongString(wishingWell?.lockedPeriod)} to see how lucky you
+          were.
         </span>
       );
     }

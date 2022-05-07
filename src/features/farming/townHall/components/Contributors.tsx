@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { CONFIG } from "lib/config";
 
 import logo from "assets/brand/logo.png";
 import bumpkin from "assets/npcs/bumpkin.png";
@@ -12,6 +13,11 @@ import {
   CONTRIBUTORS,
 } from "../constants/contributors";
 import { ITEM_DETAILS } from "features/game/types/images";
+
+import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
+import classNames from "classnames";
+
+const TAB_CONTENT_HEIGHT = 340;
 
 const AVATARS: Record<Contributor["avatar"], string> = {
   bumpkin,
@@ -32,51 +38,73 @@ interface Props {
 }
 
 export const Contributors: React.FC<Props> = ({ onClose }) => {
+  const { ref: itemContainerRef, showScrollbar } =
+    useShowScrollbar(TAB_CONTENT_HEIGHT);
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center w-full h-96 overflow-scroll">
-      <img src={logo} className="w-1/2" />
-      <p className="text-sm text-center pt-4">
-        Sunflower Land is a community project and we are so grateful to the
-        contributors who have helped out get closer to our vision.
-      </p>
-      <p className="text-sm text-center pt-4">
-        If you like their work, visit their farm and buy them a coffee!
-      </p>
-      {CONTRIBUTORS.map((contributor) => (
-        <div
-          key={contributor.name}
-          className="flex w-full mt-8"
-          id={contributor.name}
-        >
-          <div className="w-10 mr-4 flex justify-center">
-            <img src={AVATARS[contributor.avatar]} className="h-8" />
-          </div>
-          <div>
-            <p className="text-sm capitalize">
-              {contributor.name}{" "}
-              <span
-                className="underline cursor-pointer"
-                onClick={() => {
-                  navigate(`/visit/${contributor.farmId}`);
-                  onClose();
-                }}
-              >
-                #{contributor.farmId}
-              </span>
-            </p>
-            <p className="text-sm">
-              {contributor.role.map((role) => (
-                <span key={role} className="capitalize flex items-center py-1">
-                  {role}
-                  <img src={ROLE_BADGES[role]} className="h-5 ml-1" />
-                </span>
-              ))}
-            </p>
-          </div>
+    <>
+      <div className="flex flex-wrap justify-center items-center">
+        <img src={logo} className="w-2/3" />
+        <p className="text-xs text-center pt-2">
+          Sunflower Land is a community project and we are so grateful to the
+          contributors who have helped out get closer to our vision.
+        </p>
+        <p className="text-xs text-center pt-3 mb-2">
+          If you like their work, visit their farm and buy them a coffee!
+        </p>
+      </div>
+      <div
+        ref={itemContainerRef}
+        style={{
+          maxHeight: TAB_CONTENT_HEIGHT,
+          minHeight: (TAB_CONTENT_HEIGHT * 2) / 3,
+        }}
+        className={classNames("overflow-y-auto pt-1 mr-2", {
+          scrollable: showScrollbar,
+        })}
+      >
+        <div className="flex flex-wrap items-center h-fit">
+          {CONTRIBUTORS.map((contributor) => (
+            <div
+              key={contributor.name}
+              className="flex w-full mb-6"
+              id={contributor.name}
+            >
+              <div className="w-10 mr-4 flex justify-center">
+                <img src={AVATARS[contributor.avatar]} className="h-8" />
+              </div>
+              <div>
+                <p className="text-sm capitalize">
+                  {contributor.name}{" "}
+                  {CONFIG.NETWORK === "mainnet" && (
+                    <span
+                      className="underline cursor-pointer"
+                      onClick={() => {
+                        navigate(`/visit/${contributor.farmId}`);
+                        onClose();
+                      }}
+                    >
+                      #{contributor.farmId}
+                    </span>
+                  )}
+                </p>
+                <p className="text-sm">
+                  {contributor.role.map((role) => (
+                    <span
+                      key={role}
+                      className="capitalize flex items-center py-1"
+                    >
+                      {role}
+                      <img src={ROLE_BADGES[role]} className="h-5 ml-1" />
+                    </span>
+                  ))}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
+    </>
   );
 };

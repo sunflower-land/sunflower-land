@@ -2,34 +2,44 @@ import React from "react";
 import alert from "assets/icons/expression_alerted.png";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
+import goblinFence from "assets/land/goblin_fence.png";
 
 export const GoblinVillageModal: React.FC = () => {
   const goToGoblinTown = () => {
-    window.location.href = "/#/goblins";
+    window.location.href = `${window.location.pathname}#/goblins`;
   };
 
   return (
     <Panel>
-      <h1 className="text-xl text-center">
-        Do you want to visit Goblin Village?
-      </h1>
+      <div className="p-2">
+        <div className="flex flex-col items-center mb-3">
+          <h1 className="text-lg mb-2 text-center">
+            Do you want to visit Goblin Village?
+          </h1>
+          <img src={goblinFence} alt="goblin fence" className="w-48" />
+        </div>
 
-      <p className="text-sm pt-4">
-        Goblin Village offers rare items and{" "}
-        <span className="underline">on-chain</span> gameplay.
-      </p>
-      <p className="text-sm pt-4 pb-2">
-        Any transaction in Goblin land will reset your farming session to your
-        previous checkpoint.
-      </p>
-
-      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
-        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+        <p className="mb-4 text-sm block">
+          Goblin Village offers rare items and{" "}
+          <span className="underline">on-chain</span> gameplay.
+        </p>
+        <p className="mb-4 text-sm">
+          Any transaction in Goblin Village will reset your farming session to
+          your previous checkpoint.
+        </p>
+        <p className="mb-2 text-sm">
+          If you have any un-synced items it is recommended you{" "}
+          <span className="underline">sync on chain</span> before entering.
+        </p>
+      </div>
+      <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-error">
+        <img src={alert} alt="alert" className="mr-2 w-6" />
         <span className="text-xs">
-          You may lose SFL & resources from your farm that have not been synced
-          to the Blockchain
+          You may lose SFL or resources from your farm if they have not been
+          synced to the blockchain
         </span>
       </div>
+
       <Button onClick={goToGoblinTown}>Continue</Button>
     </Panel>
   );

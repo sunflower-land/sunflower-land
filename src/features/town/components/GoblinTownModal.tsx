@@ -8,7 +8,7 @@ export const GoblinTownModal: React.FC = () => {
 
       <span>Goblin town offers rare NFTs and decentralized gameplay.</span>
       <span>All interactions happen directly with the Blockchain</span>
-      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
+      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-error">
         <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
         <span className="text-xs">NO SFF TOKENS OR FARM FOUND ON ACCOUNT</span>
       </div>

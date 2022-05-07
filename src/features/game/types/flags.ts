@@ -1,6 +1,6 @@
-import Decimal from "decimal.js-light";
+import { LimitedItem } from "./craftables";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { Craftable } from "./craftables";
+import { LimitedItemType } from ".";
 
 export type Flag =
   | "Australian Flag"
@@ -46,564 +46,264 @@ export type Flag =
   | "Malaysian Flag"
   | "Colombian Flag";
 
-export const FLAGS: Record<Flag, Craftable> = {
+export const flags: Record<Flag, LimitedItem> = {
   "Australian Flag": {
     name: "Australian Flag",
     description: "Australian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Belgian Flag": {
     name: "Belgian Flag",
     description: "Belgian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Brazilian Flag": {
     name: "Brazilian Flag",
     description: "Brazillian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 5000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Chinese Flag": {
     name: "Chinese Flag",
     description: "Chinese flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 5000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Finnish Flag": {
     name: "Finnish Flag",
     description: "Finnish flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "French Flag": {
     name: "French Flag",
     description: "French flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "German Flag": {
     name: "German Flag",
     description: "German flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Indian Flag": {
     name: "Indian Flag",
     description: "Indian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Indonesian Flag": {
     name: "Indonesian Flag",
     description: "Indonesian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 5000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Iranian Flag": {
     name: "Iranian Flag",
     description: "Iranian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Italian Flag": {
     name: "Italian Flag",
     description: "Italian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Japanese Flag": {
     name: "Japanese Flag",
     description: "Japanese flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Moroccan Flag": {
     name: "Moroccan Flag",
     description: "Moroccan flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Dutch Flag": {
     name: "Dutch Flag",
     description: "Dutch flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Philippine Flag": {
     name: "Philippine Flag",
     description: "Philippine flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 5000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Polish Flag": {
     name: "Polish Flag",
     description: "Polish flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Portuguese Flag": {
     name: "Portuguese Flag",
     description: "Portuguese flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Russian Flag": {
     name: "Russian Flag",
     description: "Russian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-      {
-        item: "Potato",
-        amount: new Decimal(100),
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Saudi Arabian Flag": {
     name: "Saudi Arabian Flag",
     description: "Saudi Arabian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "South Korean Flag": {
     name: "South Korean Flag",
     description: "South Korean flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Spanish Flag": {
     name: "Spanish Flag",
     description: "Spanish flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Sunflower Flag": {
     name: "Sunflower Flag",
     description: "Sunflower flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(1000),
-        item: "Sunflower",
-      },
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Thai Flag": {
     name: "Thai Flag",
     description: "Thai flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Turkish Flag": {
     name: "Turkish Flag",
     description: "Turkish flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Ukrainian Flag": {
     name: "Ukrainian Flag",
     description: "Ukrainian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        item: "Sunflower",
-        amount: new Decimal(100),
-      },
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 5000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "American Flag": {
     name: "American Flag",
     description: "American flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Vietnamese Flag": {
     name: "Vietnamese Flag",
     description: "Vietnamese flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
-
   "Canadian Flag": {
     name: "Canadian Flag",
     description: "Canadian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Singaporean Flag": {
     name: "Singaporean Flag",
     description: "Singaporean flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "British Flag": {
     name: "British Flag",
     description: "British flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Sierra Leone Flag": {
     name: "Sierra Leone Flag",
     description: "Sierra Leone flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Romanian Flag": {
     name: "Romanian Flag",
     description: "Romanian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Rainbow Flag": {
     name: "Rainbow Flag",
     description: "Rainbow flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Goblin Flag": {
     name: "Goblin Flag",
     description: "Goblin flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Pirate Flag": {
     name: "Pirate Flag",
     description: "Pirate flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Algerian Flag": {
     name: "Algerian Flag",
     description: "Algerian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Mexican Flag": {
     name: "Mexican Flag",
     description: "Mexican flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Dominican Republic Flag": {
     name: "Dominican Republic Flag",
     description: "Dominican Republic flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Argentinian Flag": {
     name: "Argentinian Flag",
     description: "Argentinian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Lithuanian Flag": {
     name: "Lithuanian Flag",
     description: "Lithuanian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Malaysian Flag": {
     name: "Malaysian Flag",
     description: "Malaysian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
   "Colombian Flag": {
     name: "Colombian Flag",
     description: "Colombian flag",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
-    supply: 1000,
     section: Section["Flags"],
+    type: LimitedItemType.Flag,
   },
 };
+
+export const FLAGS = (Object.keys(flags) as Flag[])
+  .sort()
+  .reduce((obj, key) => {
+    obj[key] = flags[key];
+    return obj;
+  }, {} as typeof flags);

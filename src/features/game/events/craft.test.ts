@@ -215,4 +215,21 @@ describe("craft", () => {
   //     })
   //   ).toThrow("Not enough stock");
   // });
+
+  it("requires a certain item before crafting", () => {
+    expect(() =>
+      craft({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(1),
+          inventory: { Wood: new Decimal(10) },
+        },
+        action: {
+          type: "item.crafted",
+          item: "Carrot Seed",
+          amount: 1,
+        },
+      })
+    ).toThrow("Missing Pumpkin Soup");
+  });
 });

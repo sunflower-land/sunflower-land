@@ -41,7 +41,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
     if (resetSessionConfirmation) {
       return (
         <div className="p-4 ">
-          <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
+          <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-error">
             <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
             <span className="text-xs">
               YOUR FARM WILL BE RESET TO THE LAST TIME YOU SYNCED ON CHAIN. YOU
