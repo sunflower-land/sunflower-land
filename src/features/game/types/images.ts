@@ -147,18 +147,19 @@ import {
   MARKET_ITEMS,
   BARN_ITEMS,
   CRAFTABLES,
+  LimitedItem,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 
-export type ItemDetails = {
+export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
   image: any;
   secondaryImage?: any;
   section?: Section;
-};
+}
 
 type Items = Record<InventoryItemName, ItemDetails>;
 

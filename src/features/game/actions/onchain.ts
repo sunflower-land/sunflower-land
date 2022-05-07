@@ -34,7 +34,7 @@ type GetStateArgs = {
 
 export async function isFarmBlacklisted(id: number) {
   const metadata = await loadMetadata(id);
-  console.log({ metadata });
+
   return metadata.image.includes("blacklisted");
 }
 
