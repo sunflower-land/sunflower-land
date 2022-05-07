@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useActor } from "@xstate/react";
+
+import { Context } from "features/game/GameProvider";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Bakery } from "features/farming/bakery/Bakery";
@@ -11,6 +14,9 @@ import { GoblinVillageEntry } from "./components/GoblinVillageEntry";
 import { TownHall } from "../townHall/TownHall";
 
 export const Town: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   return (
     <div
       id={Section.Town}
@@ -28,8 +34,7 @@ export const Town: React.FC = () => {
       <Blacksmith />
       <Mail />
       <TownHall />
-
-      <GoblinVillageEntry />
+      {!gameState.matches("readonly") && <GoblinVillageEntry />}
     </div>
   );
 };
