@@ -240,15 +240,17 @@ export const Menu = () => {
             {/* Map menu */}
             {menuLevel === MENU_LEVELS.MAP && (
               <>
-                <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => setShowGoblinModal(true)}
-                  >
-                    <span className="sm:text-sm flex-1">Goblin Village</span>
-                    <img src={goblin} className="w-6 ml-2" alt="town" />
-                  </Button>
-                </li>
+                {!gameState.matches("readonly") && (
+                  <li className="p-1">
+                    <Button
+                      className="flex justify-between"
+                      onClick={() => setShowGoblinModal(true)}
+                    >
+                      <span className="sm:text-sm flex-1">Goblin Village</span>
+                      <img src={goblin} className="w-6 ml-2" alt="town" />
+                    </Button>
+                  </li>
+                )}
                 <li className="p-1">
                   <Button
                     className="flex justify-between"
