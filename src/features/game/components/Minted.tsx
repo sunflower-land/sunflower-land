@@ -10,7 +10,9 @@ export const Minted: React.FC = () => {
   return (
     <div className="flex flex-col">
       <div className="p-2 flex flex-col items-center">
-        <h1 className="text-center mb-3 text-lg">Minted but...</h1>
+        <h1 className="text-center mb-3 text-lg">
+          The goblins are crafting your item!
+        </h1>
         <img src={busyGoblin} className="w-20 mb-3" />
         <p className="mb-3 text-sm text-justify">
           The goblins are renowned for their exceptional craftsmanship. They
