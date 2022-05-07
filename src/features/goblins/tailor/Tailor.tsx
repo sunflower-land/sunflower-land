@@ -1,6 +1,6 @@
 import React from "react";
 
-import goblin from "assets/npcs/goblin.gif";
+import goblinTailor from "assets/buildings/goblin_tailor.png";
 import flag from "assets/nfts/flags/sunflower_flag.gif";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
@@ -20,16 +20,16 @@ export const Tailor: React.FC = () => {
     <div
       className="absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 0.9}px`,
-        right: `${GRID_WIDTH_PX * 7.9}px`,
-        top: `${GRID_WIDTH_PX * 6.6}px`,
+        width: `${GRID_WIDTH_PX * 3.8}px`,
+        right: `${GRID_WIDTH_PX * 2.5}px`,
+        top: `${GRID_WIDTH_PX * 8.5}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">
-        <img src={goblin} className="w-full" onClick={openTailor} />
+        <img src={goblinTailor} className="w-full" onClick={openTailor} />
         {
           <Action
-            className="absolute -bottom-10 -left-8"
+            className="absolute -bottom-7 left-4"
             text="Tailor"
             icon={flag}
             onClick={openTailor}
