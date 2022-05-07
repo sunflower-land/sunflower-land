@@ -4,8 +4,9 @@ import Decimal from "decimal.js-light";
 
 import darkBorder from "assets/ui/panel/dark_border.png";
 import selectBox from "assets/ui/select/select_box.png";
-import cancel from "assets/icons/cancel.png";
 import { Label } from "./Label";
+import timer from "assets/icons/timer.png";
+import cancel from "assets/icons/cancel.png";
 
 export interface BoxProps {
   image?: any;
@@ -15,6 +16,11 @@ export interface BoxProps {
   onClick?: () => void;
   disabled?: boolean;
   locked?: boolean;
+  /**
+   * When an NFT is minted it enters into a cooldown period where is cannot be withdrawn from the farm. We communicate
+   * this as if the NFT is under construction.
+   */
+  cooldownInProgress?: boolean;
 }
 
 /**
@@ -48,6 +54,7 @@ export const Box: React.FC<BoxProps> = ({
   onClick,
   disabled,
   locked,
+  cooldownInProgress,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [shortCount, setShortCount] = useState("");
@@ -56,6 +63,7 @@ export const Box: React.FC<BoxProps> = ({
   useEffect(() => setShortCount(shortenCount(count)), [count]);
 
   const canClick = !locked && !disabled;
+
   return (
     <div
       className="relative"
@@ -105,9 +113,18 @@ export const Box: React.FC<BoxProps> = ({
           )
         )}
 
+        {!locked && cooldownInProgress && (
+          <>
+            <div className="absolute h-full w-full object-contain bg-white opacity-30" />
+            <div className="absolute flex items-center justify-center h-full w-full">
+              <img src={timer} alt="item in cooldown period" className="w-4" />
+            </div>
+          </>
+        )}
+
         {locked && (
           <img
-            src={cancel}
+            src={!cooldownInProgress ? cancel : timer}
             className="absolute w-6 -top-3 -right-3 px-0.5 z-20"
           />
         )}

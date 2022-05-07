@@ -18,6 +18,7 @@ import {
   BLACKSMITH_ITEMS,
   BARN_ITEMS,
   MARKET_ITEMS,
+  getKeys,
 } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 
@@ -85,7 +86,7 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
 const makeInventoryItems = (inventory: Inventory) => {
-  const items = Object.keys(inventory) as InventoryItemName[];
+  const items = getKeys(inventory) as InventoryItemName[];
   return items.filter(
     (itemName) => !!inventory[itemName] && !inventory[itemName]?.equals(0)
   );

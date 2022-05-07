@@ -71,6 +71,8 @@ export async function loadSession(
       blacklistStatus: Response["blacklistStatus"];
     }>(response);
 
+    saveSession(request.farmId);
+
     const startedTime = new Date(startedAt);
 
     let offset = 0;
@@ -92,4 +94,47 @@ export async function loadSession(
     console.error({ e });
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
+}
+
+const host = window.location.host.replace(/^www\./, "");
+const LOCAL_STORAGE_KEY = `sb_wiz.xtc.p.${host}-${window.location.pathname}`;
+
+// Farm ID -> ISO Date
+type FarmSessions = Record<number, { account: string }>;
+
+export function getSessionId(): string {
+  const item = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+  let id = "";
+  if (item) {
+    const sessions = JSON.parse(item) as FarmSessions;
+    id = Object.values(sessions).join(":");
+  }
+
+  return id;
+}
+
+export function saveSession(farmId: number) {
+  let sessions: FarmSessions = {};
+
+  const item = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+  if (item) {
+    sessions = JSON.parse(item) as FarmSessions;
+  }
+
+  const farmSession = {
+    farmId,
+    loggedInAt: Date.now(),
+    account: metamask.myAccount,
+  };
+
+  const cacheKey = Buffer.from(JSON.stringify(farmSession)).toString("base64");
+
+  const newSessions = {
+    ...sessions,
+    [farmId]: cacheKey,
+  };
+
+  return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
 }

@@ -21,14 +21,12 @@ import downArrow from "assets/icons/arrow_down.png";
 import { getTax } from "lib/utils/tax";
 import { getOnChainState } from "features/game/actions/onchain";
 
-import alert from "assets/icons/expression_alerted.png";
-
 interface Props {
   onWithdraw: (sfl: string) => void;
 }
 export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState, send] = useActor(authService);
+  const [authState] = useActor(authService);
 
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
@@ -96,7 +94,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   if (isLoading) {
-    return <span className="text-shadow loading">Loading</span>;
+    return <span className="text-shadow loading mt-2">Loading</span>;
   }
 
   // Use base 1000
@@ -112,13 +110,11 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
   return (
     <>
-      <div className="flex flex-wrap">
-        <span className="text-shadow  underline">
-          Choose amount to withdraw
-        </span>
+      <div className="flex flex-wrap mt-3">
+        <span className="mb-3 text-base">Choose amount to withdraw</span>
       </div>
-      <span className="text-xs">
-        {balance.toFixed(2)} is available on-chain
+      <span className="text-sm">
+        {balance.toFixed(2)}SFL is available on-chain
       </span>
 
       <div className="h-16">
@@ -170,7 +166,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         )}
       </div>
 
-      <div className="flex items-center mt-4">
+      <div className="flex items-center mt-3">
         <span className="">
           {`You will receive: ${safeAmount(amount)
             .mul((100 - tax) / 100)
@@ -182,20 +178,12 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
       <div className="flex items-center mt-2 mb-2">
         <img src={player} className="h-8 mr-2" />
         <div>
-          <p className="text-shadow text-sm">Sent to your wallet</p>
-          <p className="text-shadow text-sm">
+          <p className="text-sm">Sent to your wallet</p>
+          <p className="text-sm">
             {shortAddress(metamask.myAccount || "XXXX")}
           </p>
         </div>
       </div>
-
-      <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
-        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
-        <span className="text-xs">
-          ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST.
-        </span>
-      </div>
-
       <Button onClick={withdraw} disabled={disableWithdraw}>
         Withdraw
       </Button>

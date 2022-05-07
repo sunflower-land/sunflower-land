@@ -6,16 +6,15 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   CraftableItem,
+  filterLimitedItemsByType,
   LimitedItem,
   LimitedItemName,
-  makeLimitedItemsByName,
 } from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { Context } from "features/game/GoblinProvider";
 import { metamask } from "lib/blockchain/metamask";
-import { secondsToString } from "lib/utils/time";
 import { CONFIG } from "lib/config";
 import { Button } from "components/ui/Button";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -23,8 +22,10 @@ import { OuterPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.gif";
-import { KNOWN_IDS } from "features/game/types";
+import busyGoblin from "assets/npcs/goblin_doing.gif";
+import { KNOWN_IDS, LimitedItemType } from "features/game/types";
 import { mintCooldown } from "./blacksmith/lib/mintUtils";
+import { secondsToString } from "lib/utils/time";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -32,12 +33,12 @@ const API_URL = CONFIG.API_URL;
 
 interface Props {
   onClose: () => void;
-  items: Partial<Record<LimitedItemName, LimitedItem>>;
+  type: LimitedItemType | LimitedItemType[];
   canCraft?: boolean;
 }
 
 const Items: React.FC<{
-  items: Props["items"];
+  items: Partial<Record<LimitedItemName, LimitedItem>>;
   selected: InventoryItemName;
   inventory: GameState["inventory"];
   onClick: (item: CraftableItem | LimitedItem) => void;
@@ -66,13 +67,19 @@ const Items: React.FC<{
             onClick={() => onClick(item)}
             image={ITEM_DETAILS[item.name].image}
             count={inventory[item.name]}
+            cooldownInProgress={
+              mintCooldown({
+                cooldownSeconds: item.cooldownSeconds,
+                mintedAt: item.mintedAt,
+              }) > 0
+            }
           />
         ))}
       </div>
     </div>
   );
 };
-export const Rare: React.FC<Props> = ({ onClose, items, canCraft = true }) => {
+export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   const { goblinService } = useContext(Context);
   const [
     {
@@ -98,11 +105,12 @@ export const Rare: React.FC<Props> = ({ onClose, items, canCraft = true }) => {
 
   const inventory = state.inventory;
 
-  const blacksmithItemsByName = makeLimitedItemsByName(items, limitedItems);
-
-  const [selected, setSelected] = useState(
-    Object.values(blacksmithItemsByName)[0]
+  const items = filterLimitedItemsByType(
+    type,
+    limitedItems as Record<LimitedItemName, LimitedItem>
   );
+
+  const [selected, setSelected] = useState(Object.values(items)[0]);
 
   // Ingredient difference≥
   const lessIngredients = (amount = 1) =>
@@ -141,12 +149,12 @@ export const Rare: React.FC<Props> = ({ onClose, items, canCraft = true }) => {
 
   const soldOut = amountLeft <= 0;
 
+  console.log({ selected });
+
   const Action = () => {
     if (soldOut) {
       return null;
     }
-
-    console.log({ selected });
 
     if (
       mintCooldown({
@@ -155,19 +163,30 @@ export const Rare: React.FC<Props> = ({ onClose, items, canCraft = true }) => {
       }) > 0
     ) {
       return (
-        <div className="text-center">
-          <a
-            href={`https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#crafting-limits`}
-            className="underline text-xs hover:text-blue-500 mt-1 block"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Already minted
-          </a>
-          <span className="text-xs text-center">
-            {/* TODO: FIX THIS */}
-            Available in {secondsToString(selected.cooldownSeconds || 0)}
-          </span>
+        <div className="mt-2 border-y border-white w-full">
+          <div className="mt-3 flex items-center justify-center">
+            <img src={busyGoblin} alt="not available" className="w-12" />
+          </div>
+          <div className="my-2 text-center">
+            <p className="text-[10px] mb-1">
+              The goblins are still putting the finishing touches on your item.
+            </p>
+            <p className="text-[10px]">
+              {`It will be finished in ${secondsToString(
+                selected.cooldownSeconds || 0
+              )}.`}
+            </p>
+          </div>
+          <div className="my-3 text-center">
+            <a
+              href={`https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#crafting-limits`}
+              className="underline text-[10px] hover:text-blue-500 mt-1 block"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Read more
+            </a>
+          </div>
         </div>
       );
     }
@@ -206,7 +225,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, canCraft = true }) => {
   return (
     <div className="flex">
       <Items
-        items={blacksmithItemsByName}
+        items={items}
         selected={selected.name}
         inventory={inventory}
         onClick={setSelected}
@@ -233,6 +252,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, canCraft = true }) => {
           <span className="text-shadow text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
+
           {canCraft && (
             <div className="border-t border-white w-full mt-2 pt-1">
               {selected.ingredients?.map((ingredient, index) => {
@@ -280,7 +300,7 @@ export const Rare: React.FC<Props> = ({ onClose, items, canCraft = true }) => {
           href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${
             KNOWN_IDS[selected.name]
           }`}
-          className="underline text-xs hover:text-blue-500 mt-1"
+          className="underline text-xs hover:text-blue-500 my-1"
           target="_blank"
           rel="noopener noreferrer"
         >

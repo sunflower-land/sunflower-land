@@ -1,4 +1,4 @@
-import { getSessionId, removeSession } from "features/auth/actions/login";
+import { removeSession } from "features/auth/actions/login";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -7,6 +7,7 @@ import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
 import { CraftAction } from "../types/craftables";
+import { getSessionId } from "./loadSession";
 
 type Request = {
   actions: PastAction[];

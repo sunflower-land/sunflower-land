@@ -5,11 +5,10 @@ import close from "assets/icons/close.png";
 
 import { Panel } from "components/ui/Panel";
 
-import { BLACKSMITH_ITEMS } from "features/game/types/craftables";
-
 import { Rare } from "../Rare";
 import { Tab } from "components/ui/Tab";
 import crown from "assets/nfts/goblin_crown.png";
+import { LimitedItemType } from "features/game/types";
 
 interface Props {
   isOpen: boolean;
@@ -39,7 +38,7 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
             minHeight: "200px",
           }}
         >
-          <Rare items={BLACKSMITH_ITEMS} onClose={onClose} />
+          <Rare type={LimitedItemType.BlacksmithItem} onClose={onClose} />
         </div>
       </Panel>
     </Modal>

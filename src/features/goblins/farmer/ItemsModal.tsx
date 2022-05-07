@@ -6,8 +6,8 @@ import coop from "assets/nfts/chicken_coop.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { BARN_ITEMS, MARKET_ITEMS } from "features/game/types/craftables";
 import { Rare } from "features/goblins/Rare";
+import { LimitedItemType } from "features/game/types";
 
 interface Props {
   isOpen: boolean;
@@ -37,7 +37,10 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
             minHeight: "200px",
           }}
         >
-          <Rare items={{ ...MARKET_ITEMS, ...BARN_ITEMS }} onClose={onClose} />
+          <Rare
+            type={[LimitedItemType.MarketItem, LimitedItemType.BarnItem]}
+            onClose={onClose}
+          />
         </div>
       </Panel>
     </Modal>
