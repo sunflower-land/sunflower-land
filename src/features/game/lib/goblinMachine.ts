@@ -91,130 +91,145 @@ const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
 };
 
 export function startGoblinVillage(authContext: AuthContext) {
-  return createMachine<Context, BlockchainEvent, BlockchainState>({
-    id: "goblinMachine",
-    initial: "loading",
-    context: {
-      state: EMPTY,
-      sessionId: authContext.sessionId,
-      limitedItems: {},
-    },
-    states: {
-      loading: {
-        invoke: {
-          src: async () => {
-            const { game, limitedItems } = await getOnChainState({
-              farmAddress: authContext.address as string,
-              id: Number(authContext.farmId),
-            });
-
-            game.id = authContext.farmId as number;
-
-            const limitedItemsById = makeLimitedItemsById(limitedItems);
-
-            return { state: game, limitedItems: limitedItemsById };
-          },
-          onDone: {
-            target: "playing",
-            actions: assign({
-              state: (_, event) => event.data.state,
-              limitedItems: (_, event) =>
-                makeLimitedItemsByName(LIMITED_ITEMS, event.data.limitedItems),
-            }),
-          },
-          onError: {},
-        },
+  return createMachine<Context, BlockchainEvent, BlockchainState>(
+    {
+      id: "goblinMachine",
+      initial: "loading",
+      context: {
+        state: EMPTY,
+        sessionId: authContext.sessionId,
+        limitedItems: {},
       },
-      playing: {
-        on: {
-          MINT: {
-            target: "minting",
-          },
-          WITHDRAW: {
-            target: "withdrawing",
-          },
-        },
-      },
-      minting: {
-        invoke: {
-          src: async (context, event) => {
-            const { item, captcha } = event as MintEvent;
+      states: {
+        loading: {
+          invoke: {
+            src: async () => {
+              const { game, limitedItems } = await getOnChainState({
+                farmAddress: authContext.address as string,
+                id: Number(authContext.farmId),
+              });
 
-            const { sessionId } = await mint({
-              farmId: Number(authContext.farmId),
-              sessionId: context.sessionId as string,
-              token: authContext.rawToken as string,
-              item,
-              captcha,
-            });
+              game.id = authContext.farmId as number;
 
-            return {
-              sessionId,
-            };
-          },
-          onDone: {
-            target: "minted",
-            actions: assign((_, event) => ({
-              sessionId: event.data.sessionId,
-              actions: [],
-            })),
-          },
-          onError: {
-            target: "error",
-            actions: "assignErrorMessage",
-          },
-        },
-      },
-      minted: {
-        on: {
-          REFRESH: "loading",
-        },
-      },
-      withdrawing: {
-        invoke: {
-          src: async (context, event) => {
-            const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
-            const { sessionId } = await withdraw({
-              farmId: Number(authContext.farmId),
-              sessionId: context.sessionId as string,
-              token: authContext.rawToken as string,
-              amounts,
-              ids,
-              sfl,
-              captcha,
-            });
+              const limitedItemsById = makeLimitedItemsById(limitedItems);
 
-            return {
-              sessionId,
-            };
-          },
-          onDone: {
-            target: "withdrawn",
-            actions: assign({
-              sessionId: (_, event) => event.data.sessionId,
-            }),
-          },
-          onError: [
-            {
-              target: "playing",
-              cond: (_, event: any) =>
-                event.data.message === ERRORS.REJECTED_TRANSACTION,
+              return { state: game, limitedItems: limitedItemsById };
             },
-            {
+            onDone: {
+              target: "playing",
+              actions: assign({
+                state: (_, event) => event.data.state,
+                limitedItems: (_, event) =>
+                  makeLimitedItemsByName(
+                    LIMITED_ITEMS,
+                    event.data.limitedItems
+                  ),
+              }),
+            },
+            onError: {
               target: "error",
               actions: "assignErrorMessage",
             },
-          ],
-        },
-      },
-      withdrawn: {
-        on: {
-          REFRESH: {
-            target: "loading",
           },
         },
+        playing: {
+          on: {
+            MINT: {
+              target: "minting",
+            },
+            WITHDRAW: {
+              target: "withdrawing",
+            },
+          },
+        },
+        minting: {
+          invoke: {
+            src: async (context, event) => {
+              const { item, captcha } = event as MintEvent;
+
+              const { sessionId } = await mint({
+                farmId: Number(authContext.farmId),
+                sessionId: context.sessionId as string,
+                token: authContext.rawToken as string,
+                item,
+                captcha,
+              });
+
+              return {
+                sessionId,
+              };
+            },
+            onDone: {
+              target: "minted",
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        minted: {
+          on: {
+            REFRESH: "loading",
+          },
+        },
+        withdrawing: {
+          invoke: {
+            src: async (context, event) => {
+              const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
+              const { sessionId } = await withdraw({
+                farmId: Number(authContext.farmId),
+                sessionId: context.sessionId as string,
+                token: authContext.rawToken as string,
+                amounts,
+                ids,
+                sfl,
+                captcha,
+              });
+
+              return {
+                sessionId,
+              };
+            },
+            onDone: {
+              target: "withdrawn",
+              actions: assign({
+                sessionId: (_, event) => event.data.sessionId,
+              }),
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
+          },
+        },
+        withdrawn: {
+          on: {
+            REFRESH: {
+              target: "loading",
+            },
+          },
+        },
+        error: {},
       },
-      error: {},
     },
-  });
+    {
+      actions: {
+        assignErrorMessage: assign<Context, any>({
+          errorCode: (_context, event) => event.data.message,
+        }),
+      },
+    }
+  );
 }

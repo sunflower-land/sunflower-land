@@ -22,10 +22,12 @@ import { OuterPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.gif";
+import timer from "assets/icons/timer.png";
 import busyGoblin from "assets/npcs/goblin_doing.gif";
 import { KNOWN_IDS, LimitedItemType } from "features/game/types";
 import { mintCooldown } from "./blacksmith/lib/mintUtils";
 import { secondsToString } from "lib/utils/time";
+import { ProgressBar } from "components/ui/ProgressBar";
 
 const TAB_CONTENT_HEIGHT = 360;
 
@@ -156,25 +158,26 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
       return null;
     }
 
-    if (
-      mintCooldown({
-        cooldownSeconds: selected.cooldownSeconds,
-        mintedAt: selected.mintedAt,
-      }) > 0
-    ) {
+    const secondsLeft = mintCooldown({
+      cooldownSeconds: selected.cooldownSeconds,
+      mintedAt: selected.mintedAt,
+    });
+    if (secondsLeft > 0) {
       return (
         <div className="mt-2 border-y border-white w-full">
           <div className="mt-3 flex items-center justify-center">
             <img src={busyGoblin} alt="not available" className="w-12" />
           </div>
-          <div className="my-2 text-center">
-            <p className="text-[10px] mb-1">
-              The goblins are still putting the finishing touches on your item.
-            </p>
+          <div className="text-center">
+            <p className="text-[10px] -mb-2 loading">Crafting</p>
             <p className="text-[10px]">
-              {`It will be finished in ${secondsToString(
-                selected.cooldownSeconds || 0
-              )}.`}
+              <ProgressBar
+                seconds={secondsLeft}
+                percentage={
+                  100 -
+                  (secondsLeft / (selected.cooldownSeconds as number)) * 100
+                }
+              />
             </p>
           </div>
           <div className="my-3 text-center">
@@ -288,9 +291,22 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                     }
                   )}
                 >
-                  {`$${selected.tokenAmount?.toNumber()}`}
+                  {`${selected.tokenAmount?.toNumber()} SFL`}
                 </span>
               </div>
+
+              {selected.cooldownSeconds && (
+                <div className="flex justify-center items-end">
+                  <img src={timer} className="h-5 mr-1" />
+                  <span
+                    className={classNames(
+                      "text-xs text-shadow text-center mt-2 "
+                    )}
+                  >
+                    {secondsToString(selected.cooldownSeconds)}
+                  </span>
+                </div>
+              )}
             </div>
           )}
 
