@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/esm/Modal";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GoblinProvider";
+
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Village } from "./village/Village";
 import { Loading } from "features/auth/components";
@@ -14,8 +15,8 @@ import { Minted } from "features/game/components/Minted";
 import { Withdrawing } from "features/game/components/Withdrawing";
 import { Withdrawn } from "features/game/components/Withdrawn";
 import { StateValues } from "features/game/lib/goblinMachine";
+import { TownEntry } from "./components/TownEntry";
 
-// const SHOW_MODAL: Record<StateValues, boolean> = {
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   minting: true,
@@ -52,6 +53,7 @@ export const GoblinLand: React.FC = () => {
         </Panel>
       </Modal>
       <Village />
+      <TownEntry />
     </div>
   );
 };
