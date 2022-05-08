@@ -8,6 +8,7 @@ import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
 import { Humans } from "features/game/Humans";
 import { Goblins } from "features/game/Goblins";
+import { Forbidden } from "features/auth/components/Forbidden";
 
 /**
  * Entry point for game which reflects the user session state
@@ -52,7 +53,18 @@ export const Navigation: React.FC = () => {
         <HashRouter>
           <Routes>
             <Route path="/" element={<Humans />} />
-            <Route path="/goblins" element={<Goblins />} />
+            {!authState.matches("visiting") ? (
+              <Route path="/goblins" element={<Goblins />} />
+            ) : (
+              <Route
+                path="/goblins"
+                element={
+                  <Splash>
+                    <Forbidden />
+                  </Splash>
+                }
+              />
+            )}
             <Route path="/farm/:id" element={<Humans key="farm" />} />
             <Route path="/visit/:id" element={<Humans key="visit" />} />
             {/* Fallback */}
