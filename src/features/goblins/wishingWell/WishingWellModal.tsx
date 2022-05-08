@@ -36,7 +36,11 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [machine, send] = useMachine(wishingWellMachine(authState.context));
 
   const Content = () => {
-    const wishingWell = machine.context.state;
+    const { state: wishingWell, errorCode } = machine.context;
+
+    if (errorCode === "NO_TOKENS") {
+      return <span>No SFL tokens found.</span>;
+    }
 
     if (machine.matches("error")) {
       return <span>Something went wrong!</span>;
