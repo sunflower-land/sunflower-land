@@ -15,9 +15,6 @@ const releaseVersion = CONFIG.RELEASE_VERSION as string;
 export const Splash: React.FC = ({ children }) => {
   return (
     <div className="bg-blue-600 w-full h-full flex relative items-center justify-center">
-      <div className="absolute z-50 top-0 left-0 flex w-full align-items-center justify-center text-center bg-brown-300 p-6 text-xs sm:text-sm h-8 text-white">
-        SFL is not tradable until May 9th. Beware of scams
-      </div>
       <div className="relative mb-96 animate-float z-10">
         <img
           src={pumpkin}

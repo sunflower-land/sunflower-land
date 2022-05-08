@@ -94,6 +94,10 @@ export async function autosave(request: Request) {
     actions,
   });
 
+  if (response.status === 503) {
+    throw new Error(ERRORS.MAINTENANCE);
+  }
+
   if (response.status === 401) {
     removeSession(metamask.myAccount as string);
   }
