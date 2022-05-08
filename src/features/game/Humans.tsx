@@ -36,7 +36,7 @@ export const Humans: React.FC = () => {
     <GameProvider key={id}>
       <ToastProvider>
         <ScrollContainer
-          className="bg-green-background overflow-scroll relative w-full h-[calc(100%--6px)]"
+          className="bg-green-background overflow-scroll relative w-full h-[calc(100%--9px)]"
           innerRef={container}
         >
           <div
