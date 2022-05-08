@@ -109,6 +109,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 id: Number(authContext.farmId),
               });
 
+              // Load the Goblin Village
               game.id = authContext.farmId as number;
 
               const limitedItemsById = makeLimitedItemsById(limitedItems);
@@ -126,10 +127,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                   ),
               }),
             },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
+            onError: {},
           },
         },
         playing: {
