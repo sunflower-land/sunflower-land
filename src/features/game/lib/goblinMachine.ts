@@ -59,7 +59,6 @@ export type BlockchainEvent =
 
 export type BlockchainState = {
   value:
-    | "readonly"
     | "loading"
     | "minting"
     | "minted"
@@ -92,19 +91,6 @@ const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
 };
 
 export function startGoblinVillage(authContext: AuthContext) {
-  // Temp check for determining if in visiting i.e. readonly state
-  const isVisiting = () => {
-    return authContext.sessionId === undefined || authContext.sessionId === "";
-  };
-
-  // Temp Initial redirection to readonly state if in visiting mode, else loading
-  const handleInitialState = () => {
-    if (isVisiting()) {
-      return "readonly";
-    }
-    return "loading";
-  };
-
   return createMachine<Context, BlockchainEvent, BlockchainState>(
     {
       id: "goblinMachine",
@@ -123,21 +109,15 @@ export function startGoblinVillage(authContext: AuthContext) {
                 id: Number(authContext.farmId),
               });
 
+              // Load the Goblin Village
               game.id = authContext.farmId as number;
 
               const limitedItemsById = makeLimitedItemsById(limitedItems);
 
-              // Forbid entry to Goblin Village while in Visiting i.e. readonly state
-              // [TODO: check if we need to forbid from loading only, else rm this]
-              // if (isVisiting()) return {};
-
-              // Load the Goblin Village
               return { state: game, limitedItems: limitedItemsById };
             },
             onDone: {
-              /*[TODO: add proper transitions for readonly, below is temp logic]*/
-              target:
-                handleInitialState() === "loading" ? "playing" : "readonly",
+              target: "playing",
               actions: assign({
                 state: (_, event) => event.data.state,
                 limitedItems: (_, event) =>
@@ -158,12 +138,6 @@ export function startGoblinVillage(authContext: AuthContext) {
             WITHDRAW: {
               target: "withdrawing",
             },
-          },
-        },
-        readonly: {
-          on: {
-            /*[TODO: add proper transitions for goback, below is fallback]*/
-            REFRESH: "loading",
           },
         },
         minting: {
