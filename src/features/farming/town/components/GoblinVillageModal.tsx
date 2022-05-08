@@ -24,8 +24,8 @@ export const GoblinVillageModal: React.FC = () => {
           <span className="underline">on-chain</span> gameplay.
         </p>
         <p className="mb-4 text-sm">
-          Any transaction in Goblin Village will reset your farming session to
-          your previous checkpoint.
+          If you transact with a greedy goblin be careful. They will steal any
+          SFL, resources & crops that are not synced to the blockchain.
         </p>
         <p className="mb-2 text-sm">
           If you have any un-synced items it is recommended you{" "}
