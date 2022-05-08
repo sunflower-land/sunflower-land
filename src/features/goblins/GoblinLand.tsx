@@ -15,6 +15,7 @@ import { Minted } from "features/game/components/Minted";
 import { Withdrawing } from "features/game/components/Withdrawing";
 import { Withdrawn } from "features/game/components/Withdrawn";
 import { StateValues } from "features/game/lib/goblinMachine";
+import { TownEntry } from "./components/TownEntry";
 
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
@@ -52,6 +53,7 @@ export const GoblinLand: React.FC = () => {
         </Panel>
       </Modal>
       <Village />
+      <TownEntry />
     </div>
   );
 };
