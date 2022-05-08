@@ -17,8 +17,7 @@ import { Withdrawn } from "features/game/components/Withdrawn";
 import { StateValues } from "features/game/lib/goblinMachine";
 import { Forbidden } from "features/auth/components/Forbidden";
 
-// const SHOW_MODAL: Record<StateValues, boolean> = {
-const SHOW_MODAL: any = {
+const SHOW_MODAL: Record<StateValues, boolean> = {
   readonly: true,
   loading: true,
   minting: true,
@@ -26,6 +25,7 @@ const SHOW_MODAL: any = {
   withdrawing: true,
   withdrawn: true,
   playing: false,
+  error: true,
 };
 
 export const GoblinLand: React.FC = () => {
@@ -41,7 +41,7 @@ export const GoblinLand: React.FC = () => {
     <div>
       <Modal show={SHOW_MODAL[goblinState.value as StateValues]} centered>
         <Panel className="text-shadow">
-          {/* Show Forbidden when in readonly state
+          {/* Show Forbidden Screen when in readonly state
               TODO: refactor readonly state and respective transitions in goblinMachine
           */}
           {goblinState.matches("readonly") && <Forbidden />}
