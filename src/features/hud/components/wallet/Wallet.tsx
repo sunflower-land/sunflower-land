@@ -41,6 +41,11 @@ export const Wallet: React.FC<Props> = ({ isOpen, onClose }) => {
     }, 2000);
   };
 
+  const handleClose = () => {
+    onClose();
+    setTab("balance");
+  };
+
   const Content = () => {
     return (
       <Panel className="pt-5 relative">
@@ -74,7 +79,7 @@ export const Wallet: React.FC<Props> = ({ isOpen, onClose }) => {
           <img
             src={close}
             className="h-6 cursor-pointer mr-2 mb-1"
-            onClick={onClose}
+            onClick={handleClose}
           />
         </div>
 
@@ -109,7 +114,7 @@ export const Wallet: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal show={isOpen} onHide={handleClose} centered>
       {Content()}
     </Modal>
   );
