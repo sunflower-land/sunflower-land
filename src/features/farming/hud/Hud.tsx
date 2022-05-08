@@ -1,10 +1,10 @@
 import React from "react";
 
-import { Balance } from "src/features/hud/components/Balance";
 import { Inventory } from "./components/Inventory";
 import { Menu } from "./components/Menu";
 import { AudioPlayer } from "components/ui/AudioPlayer";
 import { VisitBanner } from "./components/VisitBanner";
+import { Balance } from "features/hud/components/Balance";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
