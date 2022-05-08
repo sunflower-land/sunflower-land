@@ -54,19 +54,6 @@ function getSession(address: string): Session | null {
   return sessions[address];
 }
 
-export function getSessionId(): string {
-  const item = localStorage.getItem(LOCAL_STORAGE_KEY);
-
-  let id = "";
-  if (item) {
-    const sessions = JSON.parse(item) as Sessions;
-    // Unique key to bust the cache
-    id = Buffer.from(Object.keys(sessions).join("-")).toString("base64");
-  }
-
-  return id;
-}
-
 export function saveSession(address: string, session: Session) {
   let sessions: Sessions = {};
 

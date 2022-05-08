@@ -36,7 +36,11 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [machine, send] = useMachine(wishingWellMachine(authState.context));
 
   const Content = () => {
-    const wishingWell = machine.context.state;
+    const { state: wishingWell, errorCode } = machine.context;
+
+    if (errorCode === "NO_TOKENS") {
+      return <span>No SFL tokens found.</span>;
+    }
 
     if (machine.matches("error")) {
       return <span>Something went wrong!</span>;
@@ -66,10 +70,10 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
     if (machine.matches("wished")) {
       return (
-        <span className="text-sm mt-4 text-center">
+        <span className="text-sm mt-4">
           Thanks for supporting the project and making a wish. Come back in{" "}
-          {secondsToLongString(wishingWell?.lockedPeriod)}
-          days to see how lucky you were.
+          {secondsToLongString(wishingWell?.lockedPeriod)} to see how lucky you
+          were.
         </span>
       );
     }
@@ -85,12 +89,12 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
     if (Number(wishingWell.lpTokens) <= 0) {
       return (
-        <div className="py-2 mt-4 border-white flex flex-col items-center">
-          <span className="text-sm text-center">
+        <div className="py-2 mb-2 border-white flex flex-col">
+          <span className="text-sm mb-4">
             {`To make a wish you need the magic LP tokens in your personal wallet.`}
           </span>
           <a
-            className="text-xxs underline cursor-pointer"
+            className="text-xs mb-2 underline cursor-pointer"
             href="https://docs.sunflower-land.com/fundamentals/wishing-well-locked-liquidity"
             target="_blank"
             rel="noreferrer"
@@ -104,7 +108,7 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
     if (wishingWell.myTokensInWell === "0") {
       return (
         <div className="py-2 border-white flex flex-col items-center">
-          <span className="text-xs">
+          <span className="text-sm mb-4">
             Looks like you have those magic LP tokens in your wallet!
           </span>
           <Button className="text-sm mt-1" onClick={() => send("WISH")}>
@@ -142,12 +146,12 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
     <Modal centered show={isOpen} onHide={onClose}>
       <Panel className="relative">
         <div className="flex">
-          <div className="w-2/3 p-2">
-            <div className="flex items-start mb-2">
+          <div className="flex flex-col w-2/3 p-2">
+            <div className="flex items-start mb-4">
               <img src={token} alt="hat" className="h-8 mr-2" />
               <span className="text-sm">The well is filled with SFL.</span>
             </div>
-            {Content()}
+            <div className="flex flex-1">{Content()}</div>
             {CONFIG.NETWORK === "mumbai" && (
               <div>
                 <Button
@@ -159,7 +163,7 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
               </div>
             )}
           </div>
-          <div className="flex-1 p-2 flex flex-col items-center">
+          <div className="flex-1 p-2 flex flex-col items-center justify-between">
             {
               <span className="text-xxs">
                 {shortAddress(metamask.myAccount as string)}
