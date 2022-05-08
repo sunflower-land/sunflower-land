@@ -167,7 +167,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
             <img src={busyGoblin} alt="not available" className="w-12" />
           </div>
           <div className="text-center">
-            <p className="text-[10px] -mb-2 loading">Crafting</p>
+            <p className="text-[10px] mb-[-2px]">Ready in</p>
             <p className="text-[10px]">
               <ProgressBar
                 seconds={secondsLeft}
