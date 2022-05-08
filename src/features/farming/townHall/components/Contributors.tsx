@@ -3,9 +3,34 @@ import { useNavigate } from "react-router-dom";
 import { CONFIG } from "lib/config";
 
 import logo from "assets/brand/logo.png";
-import bumpkin from "assets/npcs/bumpkin.png";
+
+// Common Avatars
 import goblin from "assets/npcs/goblin.gif";
 import man from "assets/npcs/idle.gif";
+import woman from "assets/npcs/woman.gif";
+
+// Custom Avatars
+import aestnelis from "assets/avatars/aestnelis.gif";
+import andejaus from "assets/avatars/andejausfrog.gif";
+import benahol from "assets/avatars/benahol.gif";
+import bumpkin from "assets/avatars/bumpkin.gif";
+import denlon from "assets/avatars/denlon.gif";
+import dee from "assets/avatars/donatofrog.gif";
+import finn from "assets/avatars/finn.gif";
+import kaiojans from "assets/avatars/kaiojans.gif";
+import tiff from "assets/avatars/tifffrog.gif";
+import vp from "assets/avatars/vadimofrog.gif";
+import manbino from "assets/avatars/manbino.gif";
+import gobleyh from "assets/avatars/gobleyh.gif";
+import baalex from "assets/avatars/baalex.gif";
+import minion from "assets/avatars/minion.gif";
+import chicken from "assets/avatars/chicken.gif";
+import inu from "assets/avatars/inu.gif";
+import telknub from "assets/avatars/telknub.gif";
+import littleeinst from "assets/avatars/littleeinst.gif";
+import ant from "assets/avatars/ant.gif";
+import complic from "assets/avatars/complic.gif";
+import shykun from "assets/avatars/shykun.gif";
 
 import {
   Contributor,
@@ -20,17 +45,39 @@ import classNames from "classnames";
 const TAB_CONTENT_HEIGHT = 340;
 
 const AVATARS: Record<Contributor["avatar"], string> = {
-  bumpkin,
+  // common
   goblin,
   man,
-  // TODO!
-  woman: man,
+  woman,
+  // custom
+  aestnelis,
+  andejaus,
+  benahol,
+  bumpkin,
+  denlon,
+  dee,
+  finn,
+  kaiojans,
+  tiff,
+  vp,
+  manbino,
+  gobleyh,
+  baalex,
+  minion,
+  chicken,
+  inu,
+  telknub,
+  littleeinst,
+  ant,
+  complic,
+  shykun,
 };
 
 const ROLE_BADGES: Record<ContributorRole, string> = {
   artist: ITEM_DETAILS["Artist"].image,
   coder: ITEM_DETAILS["Coder"].image,
   moderator: ITEM_DETAILS["Discord Mod"].image,
+  ambassador: ITEM_DETAILS["Discord Mod"].image,
 };
 
 interface Props {
@@ -41,6 +88,11 @@ export const Contributors: React.FC<Props> = ({ onClose }) => {
   const { ref: itemContainerRef, showScrollbar } =
     useShowScrollbar(TAB_CONTENT_HEIGHT);
   const navigate = useNavigate();
+
+  const handleAvatarClick = (contributorUrl: string) => {
+    if (contributorUrl) window.open(encodeURI(contributorUrl), "_blank");
+    return;
+  };
 
   return (
     <>
@@ -72,7 +124,11 @@ export const Contributors: React.FC<Props> = ({ onClose }) => {
               id={contributor.name}
             >
               <div className="w-10 mr-4 flex justify-center">
-                <img src={AVATARS[contributor.avatar]} className="h-8" />
+                <img
+                  src={AVATARS[contributor.avatar]}
+                  className="h-8"
+                  onClick={() => handleAvatarClick(contributor.url)}
+                />
               </div>
               <div>
                 <p className="text-sm capitalize">

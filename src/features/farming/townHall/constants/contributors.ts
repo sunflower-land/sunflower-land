@@ -1,10 +1,34 @@
-export type ContributorRole = "coder" | "artist" | "moderator";
+export type ContributorRole = "coder" | "artist" | "moderator" | "ambassador";
 export type Contributor = {
   name: string;
   url: string;
   farmId: number;
   role: ContributorRole[];
-  avatar: "bumpkin" | "man" | "woman" | "goblin";
+  avatar:
+    | "woman"
+    | "man"
+    | "goblin"
+    | "bumpkin"
+    | "finn"
+    | "andejaus"
+    | "dee"
+    | "tiff"
+    | "vp"
+    | "aestnelis"
+    | "kaiojans"
+    | "benahol"
+    | "denlon"
+    | "manbino"
+    | "gobleyh"
+    | "baalex"
+    | "minion"
+    | "chicken"
+    | "inu"
+    | "telknub"
+    | "littleeinst"
+    | "ant"
+    | "complic"
+    | "shykun";
 };
 
 function shuffledArrary(array: Contributor[]) {
@@ -23,7 +47,7 @@ export const CONTRIBUTORS = shuffledArrary([
     url: "https://twitter.com/bumpkinbuilder",
     farmId: 1,
     role: ["coder", "artist"],
-    avatar: "man",
+    avatar: "bumpkin",
   },
 
   {
@@ -34,18 +58,11 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "goblin",
   },
   {
-    name: "Kaio Jansen",
-    url: "https://twitter.com/KaioJansen2",
-    farmId: 82,
-    role: ["artist"],
-    avatar: "man",
-  },
-  {
     name: "InuBakaBo",
-    url: "InuBakaBo#9769",
+    url: "",
     farmId: 57,
-    role: ["coder"],
-    avatar: "goblin",
+    role: ["ambassador"],
+    avatar: "inu",
   },
   {
     name: "Beastrong23",
@@ -77,10 +94,10 @@ export const CONTRIBUTORS = shuffledArrary([
   },
   {
     name: "Telk",
-    url: "Telk#9470",
+    url: "",
     farmId: 86,
     role: ["artist"],
-    avatar: "man",
+    avatar: "telknub",
   },
   {
     name: "Zakaria TIBTIBA",
@@ -101,10 +118,10 @@ export const CONTRIBUTORS = shuffledArrary([
     url: "https://mobile.twitter.com/andrei_palura",
     role: ["artist"],
     farmId: 60,
-    avatar: "man",
+    avatar: "andejaus",
   },
   {
-    name: "Alvin Phoebe Artemis Valdez",
+    name: "Alvin Valdez",
     url: "https://github.com/alvinphoebeartemis",
     role: ["coder"],
     farmId: 2965,
@@ -120,41 +137,34 @@ export const CONTRIBUTORS = shuffledArrary([
   {
     name: "Denlon",
     url: "https://discordapp.com/users/373402771678035969",
-    role: ["coder"],
+    role: ["ambassador", "coder"],
     farmId: 1970,
-    avatar: "goblin",
+    avatar: "denlon",
   },
   {
     name: "Aestnelis",
     url: "https://twitter.com/containsapathy",
     role: ["artist"],
     farmId: 10,
-    avatar: "goblin",
+    avatar: "aestnelis",
   },
   {
     name: "Tiffanydys",
     url: "https://github.com/tiffanydys",
     role: ["coder"],
     farmId: 49,
-    avatar: "goblin",
-  },
-  {
-    name: "Benahol",
-    url: "https://twitter.com/BenaHold",
-    role: ["coder"],
-    farmId: 18,
-    avatar: "goblin",
+    avatar: "tiff",
   },
   {
     name: "Ancient Horse",
-    url: "#AncientHorse",
+    url: "",
     role: ["coder"],
     farmId: 28,
     avatar: "goblin",
   },
   {
     name: "IHanser",
-    url: "#ihsanser#1932",
+    url: "",
     role: ["coder"],
     farmId: 95,
     avatar: "man",
@@ -224,10 +234,10 @@ export const CONTRIBUTORS = shuffledArrary([
   },
   {
     name: "Gobleyh",
-    url: "",
+    url: "https://www.instagram.com/gobleyh/",
     role: ["moderator"],
     farmId: 44,
-    avatar: "man",
+    avatar: "gobleyh",
   },
   {
     name: "Reymar | READY",
@@ -244,7 +254,7 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "goblin",
   },
   {
-    name: "Jack_Fresko | Moderator",
+    name: "Jack_Fresko",
     url: "",
     role: ["moderator"],
     farmId: 52,
@@ -258,13 +268,6 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "goblin",
   },
   {
-    name: "Ant",
-    url: "",
-    role: ["moderator"],
-    farmId: 39,
-    avatar: "man",
-  },
-  {
     name: "K' 🍯",
     url: "",
     role: ["moderator"],
@@ -276,13 +279,6 @@ export const CONTRIBUTORS = shuffledArrary([
     url: "",
     role: ["moderator"],
     farmId: 26,
-    avatar: "man",
-  },
-  {
-    name: "Gobleyh",
-    url: "",
-    role: ["moderator"],
-    farmId: 44,
     avatar: "man",
   },
   {
@@ -318,20 +314,13 @@ export const CONTRIBUTORS = shuffledArrary([
     url: "",
     role: ["moderator"],
     farmId: 20,
-    avatar: "goblin",
+    avatar: "complic",
   },
   {
     name: "wendin",
     url: "",
     role: ["moderator"],
     farmId: 21,
-    avatar: "man",
-  },
-  {
-    name: "AKCH1N",
-    url: "",
-    role: ["moderator"],
-    farmId: 15,
     avatar: "man",
   },
   {
@@ -349,13 +338,6 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "goblin",
   },
   {
-    name: "AKCH1N",
-    url: "",
-    role: ["moderator"],
-    farmId: 15,
-    avatar: "man",
-  },
-  {
     name: "PecelTumpang",
     url: "",
     role: ["moderator"],
@@ -363,11 +345,11 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "man",
   },
   {
-    name: "manbino",
-    url: "",
+    name: "Manbino",
+    url: "https://twitter.com/onibnam",
     role: ["moderator"],
     farmId: 16,
-    avatar: "goblin",
+    avatar: "manbino",
   },
   {
     name: "Ant",
@@ -396,5 +378,82 @@ export const CONTRIBUTORS = shuffledArrary([
     role: ["moderator", "coder"],
     farmId: 9,
     avatar: "goblin",
+  },
+  {
+    name: "AetherZapdos",
+    url: "https://twitter.com/Netherzapdoss",
+    role: ["artist"],
+    farmId: 591,
+    avatar: "finn",
+  },
+  {
+    name: "vp",
+    url: "",
+    role: ["artist"],
+    farmId: 1815,
+    avatar: "vp",
+  },
+  {
+    name: "Dee",
+    url: "",
+    role: ["ambassador"],
+    farmId: 14,
+    avatar: "dee",
+  },
+  {
+    name: "Kaio Jansen",
+    url: "https://twitter.com/KaioJansen2",
+    role: ["ambassador", "artist"],
+    farmId: 82,
+    avatar: "kaiojans",
+  },
+  {
+    name: "Benahol",
+    url: "https://twitter.com/BenaHold",
+    role: ["artist"],
+    farmId: 18,
+    avatar: "benahol",
+  },
+  {
+    name: "baalex",
+    url: "",
+    role: ["artist"],
+    farmId: 58,
+    avatar: "baalex",
+  },
+  {
+    name: "ShiningMinions",
+    url: "",
+    role: ["coder"],
+    farmId: 31878,
+    avatar: "minion",
+  },
+  {
+    name: "ChickenCX",
+    url: "",
+    role: ["moderator", "coder"],
+    farmId: 45,
+    avatar: "chicken",
+  },
+  {
+    name: "LittleEinstein",
+    url: "",
+    role: ["artist"],
+    farmId: 73795,
+    avatar: "littleeinst",
+  },
+  {
+    name: "Shykun",
+    url: "",
+    role: ["artist"],
+    farmId: 27,
+    avatar: "shykun",
+  },
+  {
+    name: "Tourist",
+    url: "",
+    role: ["coder"],
+    farmId: 49035,
+    avatar: "man",
   },
 ]);
