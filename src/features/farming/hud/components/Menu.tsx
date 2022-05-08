@@ -119,24 +119,15 @@ export const Menu = () => {
     document.addEventListener("mousedown", handleClick);
     document.addEventListener("touchstart", handleClick);
 
+    const _farmURL = window.location.href.replace("/farm", "/visit");
+
+    setFarmURL(_farmURL);
+
     return () => {
       document.removeEventListener("mousedown", handleClick);
       document.removeEventListener("touchstart", handleClick);
     };
   }, []);
-
-  useEffect(() => {
-    const _farmURL = authState.context.farmId
-      ? `${
-          window.location.href.includes("?")
-            ? window.location.href.split("?")[0]
-            : window.location.href
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        }?farmId=${authState.context.farmId!.toString()}`
-      : "https://sunflower-land.com/play/";
-
-    setFarmURL(_farmURL);
-  }, [authState.context.farmId]);
 
   return (
     <div ref={ref} className="w-5/12 sm:w-60 fixed top-2 left-2 z-50 shadow-lg">
