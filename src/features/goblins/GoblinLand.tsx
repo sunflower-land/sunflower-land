@@ -16,13 +16,14 @@ import { Withdrawn } from "features/game/components/Withdrawn";
 import { StateValues } from "features/game/lib/goblinMachine";
 
 // const SHOW_MODAL: Record<StateValues, boolean> = {
-const SHOW_MODAL: any = {
+const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   minting: true,
   minted: true,
   withdrawing: true,
   withdrawn: true,
   playing: false,
+  error: true,
 };
 
 export const GoblinLand: React.FC = () => {

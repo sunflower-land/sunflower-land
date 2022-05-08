@@ -478,6 +478,7 @@ export const makeLimitedItemsByName = (
         cooldownSeconds,
         maxSupply,
         mintedAt,
+        enabled,
       } = onChainItem;
 
       // Build ingredients
@@ -497,6 +498,7 @@ export const makeLimitedItemsByName = (
         ingredients,
         mintedAt,
         type: items[name].type,
+        disabled: !enabled,
       };
     }
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import wheatGoblin from "assets/npcs/wheat_goblin.gif";
+import goblinFarmer from "assets/npcs/goblin_farmer.gif";
 import cowbell from "assets/skills/barn_manager.png";
 import { barnAudio } from "lib/utils/sfx";
 
@@ -20,20 +20,20 @@ export const Farmer: React.FC = () => {
     <div
       className="absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 0.9}px`,
-        right: `${GRID_WIDTH_PX * 12.7}px`,
-        top: `${GRID_WIDTH_PX * 2.4}px`,
+        width: `${GRID_WIDTH_PX * 1.5}px`,
+        right: `${GRID_WIDTH_PX * 13.14}px`,
+        top: `${GRID_WIDTH_PX * 1.9}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">
         <img
-          src={wheatGoblin}
-          alt="barn"
+          src={goblinFarmer}
+          alt="farmer"
           onClick={openBarn}
           className="w-full"
         />
         <Action
-          className="absolute -bottom-10 -left-11"
+          className="absolute -bottom-10 -left-1"
           text="Farmer"
           icon={cowbell}
           onClick={openBarn}

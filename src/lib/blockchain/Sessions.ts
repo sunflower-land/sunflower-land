@@ -13,6 +13,7 @@ export type Recipe = {
   ingredientIds: number[];
   cooldownSeconds: number;
   maxSupply: number;
+  enabled: boolean;
 };
 
 /**
