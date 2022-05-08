@@ -49,16 +49,18 @@ export class WishingWell {
     signature,
     tokens,
     deadline,
+    farmId,
   }: {
     signature: string;
     tokens: string;
     deadline: number;
+    farmId: number;
   }) {
     const gasPrice = await estimateGasPrice(this.web3);
 
     return new Promise((resolve, reject) => {
       this.contract.methods
-        .collectFromWell(signature, tokens, deadline)
+        .collectFromWell(signature, tokens, deadline, farmId)
         .send({ from: this.account, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });
@@ -98,5 +100,13 @@ export class WishingWell {
       .call({ from: this.account });
 
     return lastUpdatedAt;
+  }
+
+  public async getLockedPeriod(): Promise<number> {
+    const getLockedPeriod = await this.contract.methods
+      .getLockedPeriod()
+      .call({ from: this.account });
+
+    return getLockedPeriod;
   }
 }

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
-import { Craftable } from "./craftables";
+import { CraftableItem } from "./craftables";
 
 export type CropName =
   | "Sunflower"
@@ -103,71 +103,71 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
 
 export type SeedName = `${CropName} Seed`;
 
-export const SEEDS: () => Record<SeedName, Craftable> = () => ({
+export const SEEDS: () => Record<SeedName, CraftableItem> = () => ({
   "Sunflower Seed": {
     name: "Sunflower Seed",
-    price: marketRate(0.01),
+    tokenAmount: marketRate(0.01),
     ingredients: [],
     description: "A sunny flower",
   },
   "Potato Seed": {
     name: "Potato Seed",
-    price: marketRate(0.1),
+    tokenAmount: marketRate(0.1),
     ingredients: [],
     description: "Healthier than you might think.",
   },
   "Pumpkin Seed": {
     name: "Pumpkin Seed",
     description: "There's more to pumpkin than pie.",
-    price: marketRate(0.2),
+    tokenAmount: marketRate(0.2),
     ingredients: [],
   },
   "Carrot Seed": {
     name: "Carrot Seed",
     description: "They're good for your eyes!",
-    price: marketRate(0.5),
+    tokenAmount: marketRate(0.5),
     ingredients: [],
     requires: "Pumpkin Soup",
   },
   "Cabbage Seed": {
     name: "Cabbage Seed",
     description: "Once a luxury, now a food for many.",
-    price: marketRate(1),
+    tokenAmount: marketRate(1),
     ingredients: [],
     requires: "Pumpkin Soup",
   },
   "Beetroot Seed": {
     name: "Beetroot Seed",
     description: "Good for hangovers!",
-    price: marketRate(2),
+    tokenAmount: marketRate(2),
     ingredients: [],
     requires: "Sauerkraut",
   },
   "Cauliflower Seed": {
     name: "Cauliflower Seed",
     description: "Excellent rice substitute!",
-    price: marketRate(3),
+    tokenAmount: marketRate(3),
     ingredients: [],
     requires: "Sauerkraut",
   },
   "Parsnip Seed": {
     name: "Parsnip Seed",
     description: "Not to be mistaken for carrots.",
-    price: marketRate(5),
+    tokenAmount: marketRate(5),
     ingredients: [],
     requires: "Roasted Cauliflower",
   },
   "Radish Seed": {
     name: "Radish Seed",
     description: "Give it some time, it's worth the wait!",
-    price: marketRate(7),
+    tokenAmount: marketRate(7),
     ingredients: [],
     requires: "Roasted Cauliflower",
   },
   "Wheat Seed": {
     name: "Wheat Seed",
     description: "The most harvested crop in the world.",
-    price: marketRate(5),
+    tokenAmount: marketRate(5),
     ingredients: [],
     requires: "Radish Pie",
   },

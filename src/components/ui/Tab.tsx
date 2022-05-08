@@ -6,7 +6,7 @@ import classNames from "classnames";
 interface Props {
   isActive?: boolean;
   className?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 /**

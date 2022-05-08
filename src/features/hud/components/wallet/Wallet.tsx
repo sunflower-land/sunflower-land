@@ -8,6 +8,9 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { Label } from "components/ui/Label";
+import Send from "./components/Send";
+import Buy from "./components/Buy";
+import Swap from "./components/Swap";
 
 import token from "assets/icons/token.gif";
 import close from "assets/icons/close.png";
@@ -78,11 +81,11 @@ export const Wallet: React.FC<Props> = ({ isOpen, onClose }) => {
         {tab === "balance" && (
           <div className="p-2 mb-3">
             <div className="mt-2 mb-3 text-[1rem] text-center">
-              <span>Your True SFL Token Balance</span>
+              <span>Your Actual SFL Token Balance</span>
             </div>
             <div className="flex justify-center items-center break-all select-text text-center">
               <img src={token} className="h-6 md:h-5 lg:h-5" />
-              {/* True Balance */}
+              {/* Actual Balance */}
               <span className="text-[14px] sm:text-xs md:text-sm text[1rem] mt-2 text-center justify-center">
                 <span>&nbsp;$SFL&nbsp;</span>
                 <span>{sflBalance.toString()}</span>
@@ -98,46 +101,9 @@ export const Wallet: React.FC<Props> = ({ isOpen, onClose }) => {
           </div>
         )}
 
-        {tab === "send" && (
-          <div>
-            <div className="mt-2 mb-3 text-[1rem] text-center">
-              <span>
-                Transfer or Send SFL Tokens to your fellow farmer friends
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-[14px] sm:text-xs mt-2 break-all select-text">
-                Coming Soon... Q4&apos;22<sup>*</sup> ;) <br />* = Tentative
-              </span>
-            </div>
-          </div>
-        )}
-
-        {tab === "buy" && (
-          <div>
-            <div className="mt-2 mb-3 text-[1rem] text-center">
-              <span>Buy SFL Tokens</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-[14px] sm:text-xs mt-2 break-all select-text">
-                Coming Soon... Q4&apos;22<sup>*</sup> ;) <br />* = Tentative
-              </span>
-            </div>
-          </div>
-        )}
-
-        {tab === "swap" && (
-          <div>
-            <div className="mt-2 mb-3 text-[1rem] text-center">
-              <span>Swap SFL Tokens with other ERC20 Tokens</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-[14px] sm:text-xs mt-2 break-all select-text">
-                Coming Soon... Q4&apos;22<sup>*</sup> ;) <br />* = Tentative
-              </span>
-            </div>
-          </div>
-        )}
+        {tab === "send" && <Send />}
+        {tab === "buy" && <Buy />}
+        {tab === "swap" && <Swap />}
       </Panel>
     );
   };

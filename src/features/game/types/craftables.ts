@@ -4,6 +4,9 @@ import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
+import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
+import { OnChainLimitedItems } from "../lib/goblinMachine";
+import { isArray } from "lodash";
 
 export { FLAGS };
 
@@ -14,27 +17,50 @@ export type CraftAction = {
 };
 
 export type CraftableName =
-  | LimitedItem
+  | LimitedItemName
   | Tool
   | SeedName
   | Food
   | Animal
   | Flag;
 
-export type Craftable = {
+export interface Craftable {
   name: CraftableName;
   description: string;
-  price: Decimal;
-  ingredients: {
-    item: InventoryItemName;
-    amount: Decimal;
-  }[];
+  price?: Decimal;
+  ingredients: Ingredient[];
   limit?: number;
   supply?: number;
   disabled?: boolean;
   requires?: InventoryItemName;
   section?: Section;
+}
+
+// NEW ===========
+
+export type Ingredient = {
+  id?: number;
+  item: InventoryItemName;
+  amount: Decimal;
 };
+
+export interface CraftableItem {
+  id?: number;
+  name: CraftableName;
+  description: string;
+  tokenAmount?: Decimal;
+  ingredients?: Ingredient[];
+  disabled?: boolean;
+  requires?: InventoryItemName;
+}
+
+export interface LimitedItem extends CraftableItem {
+  maxSupply?: number;
+  section?: Section;
+  cooldownSeconds?: number;
+  mintedAt?: number;
+  type?: LimitedItemType;
+}
 
 export type BlacksmithItem =
   | "Sunflower Statue"
@@ -68,7 +94,7 @@ export type MarketItem =
   | "Mysterious Parsnip"
   | "Carrot Sword";
 
-export type LimitedItem = BlacksmithItem | BarnItem | MarketItem | Flag;
+export type LimitedItemName = BlacksmithItem | BarnItem | MarketItem | Flag;
 
 export type Tool =
   | "Axe"
@@ -86,11 +112,11 @@ export type Food =
 
 export type Animal = "Chicken" | "Cow" | "Pig" | "Sheep";
 
-export const FOODS: () => Record<Food, Craftable> = () => ({
+export const FOODS: () => Record<Food, CraftableItem> = () => ({
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
     description: "A creamy soup that goblins love",
-    price: marketRate(3),
+    tokenAmount: marketRate(3),
     ingredients: [
       {
         item: "Pumpkin",
@@ -102,8 +128,7 @@ export const FOODS: () => Record<Food, Craftable> = () => ({
   Sauerkraut: {
     name: "Sauerkraut",
     description: "Fermented cabbage",
-    price: marketRate(25),
-
+    tokenAmount: marketRate(25),
     ingredients: [
       {
         item: "Cabbage",
@@ -114,7 +139,7 @@ export const FOODS: () => Record<Food, Craftable> = () => ({
   "Roasted Cauliflower": {
     name: "Roasted Cauliflower",
     description: "A Goblin's favourite",
-    price: marketRate(150),
+    tokenAmount: marketRate(150),
     ingredients: [
       {
         item: "Cauliflower",
@@ -125,7 +150,7 @@ export const FOODS: () => Record<Food, Craftable> = () => ({
   "Radish Pie": {
     name: "Radish Pie",
     description: "Despised by humans, loved by goblins",
-    price: marketRate(300),
+    tokenAmount: marketRate(300),
     ingredients: [
       {
         item: "Radish",
@@ -135,17 +160,17 @@ export const FOODS: () => Record<Food, Craftable> = () => ({
   },
 });
 
-export const TOOLS: Record<Tool, Craftable> = {
+export const TOOLS: Record<Tool, CraftableItem> = {
   Axe: {
     name: "Axe",
     description: "Used to collect wood",
-    price: new Decimal(1),
+    tokenAmount: new Decimal(1),
     ingredients: [],
   },
   Pickaxe: {
     name: "Pickaxe",
     description: "Used to collect stone",
-    price: new Decimal(1),
+    tokenAmount: new Decimal(1),
     ingredients: [
       {
         item: "Wood",
@@ -156,7 +181,7 @@ export const TOOLS: Record<Tool, Craftable> = {
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
     description: "Used to collect iron",
-    price: new Decimal(2),
+    tokenAmount: new Decimal(2),
     ingredients: [
       {
         item: "Wood",
@@ -171,7 +196,7 @@ export const TOOLS: Record<Tool, Craftable> = {
   "Iron Pickaxe": {
     name: "Iron Pickaxe",
     description: "Used to collect gold",
-    price: new Decimal(5),
+    tokenAmount: new Decimal(5),
     ingredients: [
       {
         item: "Wood",
@@ -186,7 +211,7 @@ export const TOOLS: Record<Tool, Craftable> = {
   Hammer: {
     name: "Hammer",
     description: "Used to construct buildings",
-    price: new Decimal(5),
+    tokenAmount: new Decimal(5),
     ingredients: [
       {
         item: "Wood",
@@ -202,7 +227,7 @@ export const TOOLS: Record<Tool, Craftable> = {
   Rod: {
     name: "Rod",
     description: "Used to fish trout",
-    price: new Decimal(5),
+    tokenAmount: new Decimal(5),
     ingredients: [
       {
         item: "Wood",
@@ -213,483 +238,201 @@ export const TOOLS: Record<Tool, Craftable> = {
   },
 };
 
-export const BLACKSMITH_ITEMS: Record<BlacksmithItem, Craftable> = {
+export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
     description: "A symbol of the holy token",
-    price: new Decimal(5),
-    ingredients: [
-      {
-        item: "Sunflower",
-        amount: new Decimal(1000),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(50),
-      },
-    ],
-    limit: 1,
-    supply: 1000,
     section: Section["Sunflower Statue"],
+    type: LimitedItemType.BlacksmithItem,
   },
   "Potato Statue": {
     name: "Potato Statue",
     description: "The OG potato hustler flex",
-    price: new Decimal(0),
-    ingredients: [
-      {
-        item: "Potato",
-        amount: new Decimal(100),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(20),
-      },
-    ],
-    limit: 1,
-    supply: 5000,
     section: Section["Potato Statue"],
+    type: LimitedItemType.BlacksmithItem,
   },
   "Christmas Tree": {
     name: "Christmas Tree",
     description: "Receive a Santa Airdrop on Christmas day",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(100),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(50),
-      },
-    ],
-    supply: 0,
     section: Section["Christmas Tree"],
+    type: LimitedItemType.BlacksmithItem,
   },
   Gnome: {
     name: "Gnome",
     description: "A lucky gnome",
-    price: new Decimal(10),
-    ingredients: [],
-    supply: 0,
     section: Section.Gnome,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Homeless Tent": {
     name: "Homeless Tent",
     description: "A nice and cozy tent",
-    price: new Decimal(10),
-    ingredients: [
-      {
-        item: "Wheat",
-        amount: new Decimal(5),
-      },
-      {
-        item: "Wood",
-        amount: new Decimal(5),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(5),
-      },
-    ],
-    limit: 1,
-    supply: 1000,
     section: Section.Tent,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
     description: "In memory of Sunflower Farmers",
-    price: new Decimal(0),
-    ingredients: [],
-    supply: 0,
     section: Section["Sunflower Tombstone"],
+    type: LimitedItemType.BlacksmithItem,
   },
   "Sunflower Rock": {
     name: "Sunflower Rock",
     description: "The game that broke Polygon",
-    price: new Decimal(100),
-    ingredients: [
-      {
-        item: "Sunflower",
-        amount: new Decimal(10000),
-      },
-      {
-        item: "Iron",
-        amount: new Decimal(100),
-      },
-    ],
-    supply: 150,
     section: Section["Sunflower Rock"],
+    type: LimitedItemType.BlacksmithItem,
   },
   "Goblin Crown": {
     name: "Goblin Crown",
     description: "Summon the leader of the Goblins",
-    price: new Decimal(5),
-    ingredients: [],
-    supply: 5000,
     section: Section["Goblin Crown"],
+    type: LimitedItemType.BlacksmithItem,
   },
   Fountain: {
     name: "Fountain",
     description: "A relaxing fountain for your farm",
-    price: new Decimal(5),
-    ingredients: [
-      {
-        amount: new Decimal(1),
-        item: "Stone",
-      },
-    ],
-    supply: 10000,
     section: Section.Fountain,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Nyon Statue": {
     name: "Nyon Statue",
     description: "In memory of Nyon Lann",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(30),
-        item: "Stone",
-      },
-      {
-        amount: new Decimal(20),
-        item: "Iron",
-      },
-      {
-        amount: new Decimal(5),
-        item: "Gold",
-      },
-    ],
-    limit: 1,
-    supply: 1000,
+    // TODO: Add section
+    type: LimitedItemType.BlacksmithItem,
   },
   "Farmer Bath": {
     name: "Farmer Bath",
     description: "A beetroot scented bath for the farmers",
-    price: new Decimal(25),
-    ingredients: [
-      {
-        amount: new Decimal(100),
-        item: "Beetroot",
-      },
-      {
-        amount: new Decimal(20),
-        item: "Wood",
-      },
-    ],
-    supply: 5000,
     section: Section["Bath"],
+    type: LimitedItemType.BlacksmithItem,
   },
   "Woody the Beaver": {
     name: "Woody the Beaver",
     description: "Increase wood drops by 20%",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(200),
-        item: "Wood",
-      },
-    ],
-    supply: 50000,
     section: Section.Beaver,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Apprentice Beaver": {
     name: "Apprentice Beaver",
     description: "Trees recover 50% faster",
-    price: new Decimal(100),
-    ingredients: [
-      {
-        amount: new Decimal(500),
-        item: "Wood",
-      },
-      {
-        amount: new Decimal(1),
-        item: "Woody the Beaver",
-      },
-    ],
-    supply: 5000,
     section: Section.Beaver,
-    disabled: false,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Foreman Beaver": {
     name: "Foreman Beaver",
     description: "Cut trees without axes",
-    price: new Decimal(0),
-    ingredients: [
-      {
-        amount: new Decimal(5000),
-        item: "Wood",
-      },
-      {
-        amount: new Decimal(1),
-        item: "Apprentice Beaver",
-      },
-    ],
-    supply: 308,
     section: Section.Beaver,
-    disabled: true,
+    type: LimitedItemType.BlacksmithItem,
   },
   "Egg Basket": {
     name: "Egg Basket",
     description: "Gives access to the Easter Egg Hunt",
-    price: new Decimal(0),
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(5),
-      },
-      {
-        item: "Carrot",
-        amount: new Decimal(5),
-      },
-    ],
-    supply: 100000,
-    disabled: true,
+    type: LimitedItemType.BlacksmithItem,
   },
 };
 
-export const MARKET_ITEMS: Record<MarketItem, Craftable> = {
+export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
   Nancy: {
     name: "Nancy",
     description: "Keeps a few crows away. Crops grow 15% faster",
-    price: new Decimal(10),
-    ingredients: [
-      {
-        item: "Wheat",
-        amount: new Decimal(100),
-      },
-      {
-        item: "Wood",
-        amount: new Decimal(50),
-      },
-    ],
-    supply: 50000,
     section: Section.Scarecrow,
+    type: LimitedItemType.MarketItem,
   },
   Scarecrow: {
     name: "Scarecrow",
     description: "A goblin scarecrow. Yield 20% more crops",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        item: "Wheat",
-        amount: new Decimal(400),
-      },
-      {
-        item: "Wood",
-        amount: new Decimal(50),
-      },
-      {
-        item: "Nancy",
-        amount: new Decimal(1),
-      },
-    ],
-    limit: 1,
-    supply: 5000,
-    disabled: false,
     section: Section.Scarecrow,
+    type: LimitedItemType.MarketItem,
   },
   Kuebiko: {
     name: "Kuebiko",
     description:
       "Even the shopkeeper is scared of this scarecrow. Seeds are free",
-    price: new Decimal(300),
-    ingredients: [
-      {
-        item: "Wheat",
-        amount: new Decimal(600),
-      },
-      {
-        item: "Scarecrow",
-        amount: new Decimal(1),
-      },
-    ],
-    supply: 209,
-    disabled: true,
     section: Section.Scarecrow,
+    type: LimitedItemType.MarketItem,
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
     description: "Double the rewards from cauliflowers",
-    price: new Decimal(100),
-    ingredients: [
-      {
-        item: "Cauliflower",
-        amount: new Decimal(500),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(100),
-      },
-    ],
-    supply: 113,
-    disabled: true,
+    type: LimitedItemType.MarketItem,
   },
   "Mysterious Parsnip": {
     name: "Mysterious Parsnip",
     description: "Parsnips grow 50% faster",
-    price: new Decimal(0),
-    ingredients: [
-      {
-        item: "Parsnip",
-        amount: new Decimal(500),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(50),
-      },
-    ],
-    supply: 512,
-    disabled: true,
+    type: LimitedItemType.MarketItem,
   },
   "Carrot Sword": {
     name: "Carrot Sword",
     description: "Increase chance of a mutant crop appearing",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        item: "Carrot",
-        amount: new Decimal(2000),
-      },
-    ],
-    supply: 1000,
+    type: LimitedItemType.MarketItem,
   },
 };
 
-export const BARN_ITEMS: Record<BarnItem, Craftable> = {
+export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   "Chicken Coop": {
     name: "Chicken Coop",
     description: "Collect 3x the amount of eggs",
-    price: new Decimal(50),
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(100),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(50),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(2000),
-      },
-    ],
-    supply: 1000,
-    limit: 1,
     section: Section["Chicken Coop"],
-    disabled: true,
+    type: LimitedItemType.BarnItem,
   },
   "Farm Cat": {
     name: "Farm Cat",
     description: "Keep the rats away",
-    price: new Decimal(50),
-    ingredients: [],
-    supply: 0,
     section: Section["Farm Cat"],
+    type: LimitedItemType.BarnItem,
   },
   "Farm Dog": {
     name: "Farm Dog",
     description: "Herd sheep 4x faster",
-    price: new Decimal(75),
-    ingredients: [],
-    supply: 0,
     section: Section["Farm Dog"],
+    type: LimitedItemType.BarnItem,
   },
   "Gold Egg": {
     name: "Gold Egg",
     description: "A rare egg, what lays inside?",
-    price: new Decimal(0),
-    ingredients: [
-      {
-        item: "Egg",
-        amount: new Decimal(150),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(50),
-      },
-    ],
-    supply: 250,
-    disabled: true,
+    type: LimitedItemType.BarnItem,
   },
   "Easter Bunny": {
     name: "Easter Bunny",
     description: "Earn 20% more Carrots",
-    price: new Decimal(0),
-    ingredients: [
-      {
-        item: "Egg Basket",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Blue Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Yellow Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Green Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Purple Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Orange Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Pink Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Red Egg",
-        amount: new Decimal(1),
-      },
-    ],
-    supply: 100000,
-    disabled: false,
     section: Section["Easter Bunny"],
+    type: LimitedItemType.BarnItem,
   },
 };
 
-export const ANIMALS: Record<Animal, Craftable> = {
+export const ANIMALS: Record<Animal, CraftableItem> = {
   Chicken: {
     name: "Chicken",
     description: "Produces eggs. Requires wheat for feeding",
-    price: new Decimal(5),
+    tokenAmount: new Decimal(5),
     ingredients: [],
     disabled: true,
   },
   Cow: {
     name: "Cow",
     description: "Produces milk. Requires wheat for feeding",
-    price: new Decimal(50),
+    tokenAmount: new Decimal(50),
     ingredients: [],
     disabled: true,
   },
   Pig: {
     name: "Pig",
     description: "Produces manure. Requires wheat for feeding",
-    price: new Decimal(20),
+    tokenAmount: new Decimal(20),
     ingredients: [],
     disabled: true,
   },
   Sheep: {
     name: "Sheep",
     description: "Produces wool. Requires wheat for feeding",
-    price: new Decimal(20),
+    tokenAmount: new Decimal(20),
     ingredients: [],
     disabled: true,
   },
 };
 
-export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
+type Craftables = Record<CraftableName, CraftableItem>;
+
+export const CRAFTABLES: () => Craftables = () => ({
   ...TOOLS,
   ...BLACKSMITH_ITEMS,
   ...BARN_ITEMS,
@@ -699,3 +442,94 @@ export const CRAFTABLES: () => Record<CraftableName, Craftable> = () => ({
   ...ANIMALS,
   ...FLAGS,
 });
+
+/**
+ * getKeys is a ref to Object.keys, but the return is typed literally.
+ */
+export const getKeys = Object.keys as <T extends object>(
+  obj: T
+) => Array<keyof T>;
+
+export const LIMITED_ITEMS = {
+  ...BLACKSMITH_ITEMS,
+  ...BARN_ITEMS,
+  ...MARKET_ITEMS,
+  ...FLAGS,
+};
+
+export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);
+
+export const makeLimitedItemsByName = (
+  items: Record<LimitedItemName, LimitedItem>,
+  onChainItems: OnChainLimitedItems
+) => {
+  return getKeys(items).reduce((limitedItems, itemName) => {
+    const name = itemName as LimitedItemName;
+    // Get id form limited item name
+    const id = KNOWN_IDS[name];
+    // Get onchain item based on id
+    const onChainItem = onChainItems[id];
+
+    if (onChainItem) {
+      const {
+        tokenAmount,
+        ingredientAmounts,
+        ingredientIds,
+        cooldownSeconds,
+        maxSupply,
+        mintedAt,
+        enabled,
+      } = onChainItem;
+
+      // Build ingredients
+      const ingredients = ingredientIds.map((id, index) => ({
+        id,
+        item: KNOWN_ITEMS[id],
+        amount: new Decimal(ingredientAmounts[index]),
+      }));
+
+      limitedItems[name] = {
+        id: onChainItem.mintId,
+        name,
+        description: items[name].description,
+        tokenAmount: new Decimal(tokenAmount),
+        maxSupply,
+        cooldownSeconds,
+        ingredients,
+        mintedAt,
+        type: items[name].type,
+        disabled: !enabled,
+      };
+    }
+
+    return limitedItems;
+    // TODO: FIX TYPE
+  }, {} as Record<CraftableName, LimitedItem>);
+};
+
+export const filterLimitedItemsByType = (
+  type: LimitedItemType | LimitedItemType[],
+  limitedItems: Record<LimitedItemName, LimitedItem>
+) => {
+  // Convert `obj` to a key/value array
+  // `[['name', 'Luke Skywalker'], ['title', 'Jedi Knight'], ...]`
+  const asArray = Object.entries(limitedItems);
+
+  const filtered = asArray.filter(([_, value]) => {
+    if (value.type && isArray(type)) {
+      return type.includes(value.type);
+    }
+
+    return value.type === type;
+  });
+
+  // Convert the key/value array back to an object:
+  // `{ name: 'Luke Skywalker', title: 'Jedi Knight' }`
+  return Object.fromEntries(filtered);
+};
+
+export const isLimitedItem = (itemName: any) => {
+  return !!getKeys(LIMITED_ITEMS).find(
+    (limitedItemName) => limitedItemName === itemName
+  );
+};

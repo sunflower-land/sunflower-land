@@ -6,6 +6,16 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 
 const address = CONFIG.SESSION_CONTRACT;
 
+export type Recipe = {
+  mintId: number;
+  tokenAmount: number;
+  ingredientAmounts: number[];
+  ingredientIds: number[];
+  cooldownSeconds: number;
+  maxSupply: number;
+  enabled: boolean;
+};
+
 /**
  * Sessions contract
  */
@@ -62,6 +72,49 @@ export class SessionManager {
     return sessionId;
   }
 
+  public async getRecipes(ids: number[], attempts = 0): Promise<Recipe[]> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const recipes: Recipe[] = await this.contract.methods
+        .getRecipeBatch(ids)
+        .call({ from: this.account });
+
+      return recipes;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.getRecipes(ids, attempts + 1);
+      }
+
+      throw error;
+    }
+  }
+
+  public async getMintedAtBatch(
+    farmId: number,
+    ids: number[],
+    attempts = 0
+  ): Promise<number[]> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const mintedAts: number[] = await this.contract.methods
+        .getMintedAtBatch(farmId, ids)
+        .call({ from: this.account });
+
+      return mintedAts;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+
+      if (attempts < 3) {
+        return this.getMintedAtBatch(farmId, ids, attempts + 1);
+      }
+
+      throw error;
+    }
+  }
+
   public async sync({
     signature,
     sessionId,
@@ -102,6 +155,46 @@ export class SessionManager {
           burnAmounts,
           tokens
         )
+        .send({ from: this.account, value: fee, gasPrice })
+        .on("error", function (error: any) {
+          console.log({ error });
+          const parsed = parseMetamaskError(error);
+          reject(parsed);
+        })
+        .on("transactionHash", function (transactionHash: any) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt: any) {
+          resolve(receipt);
+        });
+    });
+
+    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
+    return newSessionId;
+  }
+
+  public async mint({
+    signature,
+    sessionId,
+    deadline,
+    farmId,
+    mintId,
+  }: {
+    signature: string;
+    sessionId: string;
+    deadline: number;
+    // Data
+    farmId: number;
+    mintId: number;
+  }): Promise<string> {
+    const fee = toWei("0.1");
+
+    const oldSessionId = await this.getSessionId(farmId);
+    const gasPrice = await estimateGasPrice(this.web3);
+
+    await new Promise((resolve, reject) => {
+      this.contract.methods
+        .mint(signature, sessionId, deadline, farmId, mintId)
         .send({ from: this.account, value: fee, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
-  Craftable,
+  CraftableItem,
   CraftableName,
   CRAFTABLES,
   FOODS,
@@ -33,26 +33,32 @@ function isCraftable(
   return names.includes(item);
 }
 
-export function getBuyPrice(item: Craftable, inventory: Inventory) {
+export function getBuyPrice(item: CraftableItem, inventory: Inventory) {
   if (isSeed(item.name) && inventory.Kuebiko?.gte(1)) {
     return new Decimal(0);
   }
 
-  return item.price;
+  let price = item.tokenAmount;
+
+  if (price && inventory.Artist?.gte(1)) {
+    price = price.mul(0.9);
+  }
+
+  return price;
 }
 
 type Options = {
   state: GameState;
   action: CraftAction;
-  available?: CraftableName[];
 };
 
-export function craft({ state, action, available }: Options) {
-  if (!isCraftable(action.item, available || VALID_ITEMS)) {
+export function craft({ state, action }: Options) {
+  if (!isCraftable(action.item, VALID_ITEMS)) {
     throw new Error(`This item is not craftable: ${action.item}`);
   }
 
   const item = CRAFTABLES()[action.item];
+
   if (item.disabled) {
     throw new Error("This item is disabled");
   }
@@ -66,18 +72,18 @@ export function craft({ state, action, available }: Options) {
   }
 
   const price = getBuyPrice(item, state.inventory);
-  const totalExpenses = price.mul(action.amount);
+  const totalExpenses = price?.mul(action.amount);
 
   const isLocked = item.requires && !state.inventory[item.requires];
   if (isLocked) {
     throw new Error(`Missing ${item.requires}`);
   }
 
-  if (state.balance.lessThan(totalExpenses)) {
+  if (totalExpenses && state.balance.lessThan(totalExpenses)) {
     throw new Error("Insufficient tokens");
   }
 
-  const subtractedInventory = item.ingredients.reduce(
+  const subtractedInventory = item.ingredients?.reduce(
     (inventory, ingredient) => {
       const count = inventory[ingredient.item] || new Decimal(0);
       const totalAmount = ingredient.amount.mul(action.amount);
@@ -98,14 +104,14 @@ export function craft({ state, action, available }: Options) {
 
   return {
     ...state,
-    balance: state.balance.sub(totalExpenses),
+    balance: totalExpenses ? state.balance.sub(totalExpenses) : state.balance,
     inventory: {
       ...subtractedInventory,
-      [action.item]: oldAmount.add(action.amount),
+      [action.item]: oldAmount.add(action.amount) as Decimal,
     },
     stock: {
       ...state.stock,
-      [action.item]: state.stock[action.item]?.minus(action.amount),
+      [action.item]: state.stock[action.item]?.minus(action.amount) as Decimal,
     },
   };
 }

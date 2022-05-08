@@ -13,6 +13,7 @@ import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
+import { Blocked } from "./Blocked";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -156,9 +157,9 @@ export const CreateFarm: React.FC = () => {
     setActiveIndex(newIdx);
   };
 
-  // if (!authState.context.token?.userAccess.createFarm) {
-  //   return <Blocked />;
-  // }
+  if (!authState.context.token?.userAccess.createFarm) {
+    return <Blocked />;
+  }
 
   if (showCaptcha) {
     return (
@@ -210,7 +211,7 @@ export const CreateFarm: React.FC = () => {
             onClick={decrementDonation}
           />
         </div>
-        <span className="text-[10px] text-shadow mt-2">Minumum of 1 MATIC</span>
+        <span className="text-[10px] text-shadow mt-2">Minimum of 1 MATIC</span>
       </div>
       <p className="text-center mb-3 mt-10">Select a charity</p>
       <Carousel
