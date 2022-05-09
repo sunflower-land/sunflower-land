@@ -136,6 +136,7 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
       );
 
       setToast({
+        icon: gold,
         content: `+${rock.amount}`,
       });
 

@@ -150,6 +150,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       );
 
       setToast({
+        icon: wood,
         content: `+${tree.wood}`,
       });
 

@@ -141,6 +141,7 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
       );
 
       setToast({
+        icon: ironOre,
         content: `+${rock.amount}`,
       });
 
