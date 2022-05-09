@@ -31,6 +31,7 @@ import littleeinst from "assets/avatars/littleeinst.gif";
 import ant from "assets/avatars/ant.gif";
 import complic from "assets/avatars/complic.gif";
 import shykun from "assets/avatars/shykun.gif";
+import tourist from "assets/avatars/tourist.gif";
 
 import {
   Contributor,
@@ -71,6 +72,7 @@ const AVATARS: Record<Contributor["avatar"], string> = {
   ant,
   complic,
   shykun,
+  tourist,
 };
 
 const ROLE_BADGES: Record<ContributorRole, string> = {

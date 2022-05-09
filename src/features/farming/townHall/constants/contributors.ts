@@ -28,7 +28,8 @@ export type Contributor = {
     | "littleeinst"
     | "ant"
     | "complic"
-    | "shykun";
+    | "shykun"
+    | "tourist";
 };
 
 function shuffledArrary(array: Contributor[]) {
@@ -454,6 +455,6 @@ export const CONTRIBUTORS = shuffledArrary([
     url: "",
     role: ["coder"],
     farmId: 49035,
-    avatar: "man",
+    avatar: "tourist",
   },
 ]);
