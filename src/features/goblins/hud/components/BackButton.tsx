@@ -19,7 +19,7 @@ export const BackButton = () => {
               onClick={() => setShowModal(true)}
             >
               <img className="w-6 md:mr-2" src={leftArrow} alt="back-arrow" />
-              <span className="hidden md:flex">Leave Goblin Village</span>
+              <span className="hidden md:flex">Back</span>
             </Button>
           </div>
         </OuterPanel>
