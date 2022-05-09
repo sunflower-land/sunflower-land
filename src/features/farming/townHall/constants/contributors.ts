@@ -356,7 +356,7 @@ export const CONTRIBUTORS = shuffledArrary([
     url: "",
     role: ["moderator"],
     farmId: 39,
-    avatar: "man",
+    avatar: "ant",
   },
   {
     name: "Rhaegal",
