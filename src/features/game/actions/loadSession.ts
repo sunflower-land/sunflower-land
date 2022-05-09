@@ -43,7 +43,6 @@ export async function loadSession(
     }),
   });
 
-  console.log({ response });
   if (response.status === 503) {
     throw new Error(ERRORS.MAINTENANCE);
   }
