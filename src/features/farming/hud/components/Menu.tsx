@@ -342,7 +342,7 @@ export const Menu = () => {
         show={showGoblinModal}
         onHide={() => setShowGoblinModal(false)}
       >
-        <GoblinVillageModal />
+        <GoblinVillageModal onClose={() => setShowGoblinModal(false)} />
       </Modal>
     </div>
   );
