@@ -79,6 +79,45 @@ describe("sell", () => {
     );
   });
 
+  it("sells custom amount of items", () => {
+    const state = sell({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Sunflower: new Decimal(5),
+          Carrot: new Decimal(5),
+        },
+      },
+      action: {
+        type: "item.sell",
+        item: "Sunflower",
+        amount: 2,
+      },
+    });
+    expect(state.inventory.Sunflower).toEqual(new Decimal(3));
+    expect(state.balance).toEqual(
+      GAME_STATE.balance.add(CROPS().Sunflower.sellPrice.times(2))
+    );
+  });
+
+  it("do not sell custom amount of items", () => {
+    expect(() =>
+      sell({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Sunflower: new Decimal(2),
+          },
+        },
+        action: {
+          type: "item.sell",
+          item: "Sunflower",
+          amount: 3,
+        },
+      })
+    ).toThrow("Insufficient crops to sell");
+  });
+
   it("sell an item in bulk given sufficient quantity", () => {
     const state = sell({
       state: {
