@@ -101,6 +101,22 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
           >
             How do I do get tokens?
           </a>
+          <Button>
+            <a
+              href="https://quickswap.exchange/#/swap?outputCurrency=0xd1f9c58e33933a993a3891f8acfe05a68e1afc05"
+              className="text-xs mb-2 underline cursor-pointer"
+            >
+              SFL TOKEN
+            </a>
+          </Button>
+          <Button>
+            <a
+              href="https://info.quickswap.exchange/#/pair/0x6f9e92dd4734c168a734b873dc3db77e39552eb6"
+              className="text-xs mb-2 underline cursor-pointer"
+            >
+              SFL-MATIC LP
+            </a>
+          </Button>
         </div>
       );
     }
