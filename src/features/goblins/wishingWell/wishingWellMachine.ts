@@ -3,14 +3,15 @@ import { createMachine, Interpreter, assign } from "xstate";
 import { metamask } from "lib/blockchain/metamask";
 import { ERRORS } from "lib/errors";
 
-import { Context as AuthContext } from "features/auth/lib/authMachine";
-
 import { WishingWellTokens, loadWishingWell } from "./actions/loadWishingWell";
 import { collectFromWell } from "./actions/collectFromWell";
 
 export interface Context {
   state: WishingWellTokens;
   errorCode?: keyof typeof ERRORS;
+  farmId?: number;
+  sessionId?: string;
+  token?: string;
 }
 
 type CaptchaEvent = {
@@ -26,6 +27,9 @@ export type BlockchainEvent =
     }
   | {
       type: "SEARCH";
+    }
+  | {
+      type: "CLOSING";
     }
   | CaptchaEvent;
 
@@ -49,110 +53,134 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
-export const wishingWellMachine = (
-  authContext: AuthContext,
-  sessionId: string
-) =>
-  createMachine<Context, BlockchainEvent, BlockchainState>(
-    {
-      id: "wishingWell",
-      initial: "loading",
-      context: {
-        state: {
-          canCollect: false,
-          lpTokens: "0",
-          myTokensInWell: "0",
-          totalTokensInWell: "0",
-          lockedTime: "",
-          lockedPeriod: 0,
-        },
-      },
-      states: {
-        loading: {
-          invoke: {
-            src: async () => {
-              const well = await loadWishingWell();
-              return {
-                state: well,
-              };
-            },
-            onDone: {
-              target: "ready",
-              actions: assign({
-                state: (context, event) => event.data.state,
-              }),
-            },
-            onError: {
-              target: "error",
-            },
-          },
-        },
-        ready: {
-          on: {
-            WISH: {
-              target: "wishing",
-            },
-            SEARCH: {
-              target: "captcha",
-            },
-          },
-        },
-        captcha: {
-          on: {
-            VERIFIED: {
-              target: "searching",
-            },
-          },
-        },
-        wishing: {
-          invoke: {
-            src: async () => {
-              await metamask.getWishingWell().wish();
-            },
-            onDone: {
-              target: "wished",
-            },
-            onError: {
-              target: "error",
-            },
-          },
-        },
-        searching: {
-          invoke: {
-            src: async (context, event) => {
-              await collectFromWell({
-                farmId: authContext.farmId as number,
-                sessionId,
-                amount: context.state.myTokensInWell.toString(),
-                token: authContext.rawToken as string,
-                captcha: (event as CaptchaEvent).captcha,
-              });
-            },
-            onDone: {
-              target: "searched",
-            },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
-        wished: {
-          type: "final",
-        },
-        searched: {
-          type: "final",
-        },
-        error: {
-          type: "final",
-        },
+export const wishingWellMachine = createMachine<
+  Context,
+  BlockchainEvent,
+  BlockchainState
+>(
+  {
+    id: "wishingWell",
+    initial: "loading",
+    context: {
+      state: {
+        canCollect: false,
+        lpTokens: "0",
+        myTokensInWell: "0",
+        totalTokensInWell: "0",
+        lockedTime: "",
+        lockedPeriod: 0,
       },
     },
-    {
-      actions: {
-        assignErrorMessage: assign<Context, any>({
-          errorCode: (_context, event) => event.data.message,
-        }),
+    states: {
+      loading: {
+        invoke: {
+          src: async () => {
+            const well = await loadWishingWell();
+
+            return {
+              state: well,
+            };
+          },
+          onDone: {
+            target: "ready",
+            actions: assign({
+              state: (_, event) => event.data.state,
+            }),
+          },
+          onError: {
+            target: "error",
+          },
+        },
       },
-    }
-  );
+      ready: {
+        on: {
+          WISH: {
+            target: "wishing",
+          },
+          SEARCH: {
+            target: "captcha",
+          },
+        },
+      },
+      captcha: {
+        on: {
+          VERIFIED: {
+            target: "searching",
+          },
+        },
+      },
+      wishing: {
+        invoke: {
+          src: async () => {
+            await metamask.getWishingWell().wish();
+          },
+          onDone: {
+            target: "wished",
+          },
+          onError: {
+            target: "error",
+          },
+        },
+      },
+      searching: {
+        invoke: {
+          src: async (context, event) => {
+            console.log({ contextIs: context.state });
+            const tokensToPull = Math.min(
+              Number(context.state.lpTokens),
+              Number(context.state.totalTokensInWell)
+            );
+            console.log({ tokensToPull });
+            console.log({ event });
+            if (tokensToPull === 0) {
+              throw new Error(ERRORS.NO_TOKENS);
+            }
+
+            await collectFromWell({
+              farmId: context.farmId as number,
+              sessionId: context.sessionId as string,
+              amount: tokensToPull.toString(),
+              token: context.token as string,
+              captcha: (event as CaptchaEvent).captcha,
+            });
+          },
+          onDone: {
+            target: "searched",
+          },
+          onError: {
+            target: "error",
+            actions: "assignErrorMessage",
+          },
+        },
+      },
+      wished: {
+        on: {
+          CLOSING: {
+            target: "closed",
+          },
+        },
+      },
+      searched: {
+        type: "final",
+      },
+      error: {
+        type: "final",
+      },
+      closed: {
+        type: "final",
+      },
+    },
+    on: {
+      CLOSING: {
+        target: "closed",
+      },
+    },
+  },
+  {
+    actions: {
+      assignErrorMessage: assign<Context, any>({
+        errorCode: (_context, event) => event.data.message,
+      }),
+    },
+  }
+);

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useActor, useMachine } from "@xstate/react";
+import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -11,20 +11,20 @@ import timer from "assets/icons/timer.png";
 
 import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
-import * as Auth from "features/auth/lib/Provider";
-import { wishingWellMachine } from "./wishingWellMachine";
 import { fromWei } from "web3-utils";
 import { secondsToLongString } from "lib/utils/time";
 import { CONFIG } from "lib/config";
 import { Context } from "features/game/GoblinProvider";
+import { shortAddress } from "features/farming/hud/components/Address";
 
-export const shortAddress = (address: string): string => {
-  // check if there is an address
-  if (address) {
-    return `${address.slice(0, 5)}...${address.slice(-4)}`;
-  }
-  return ``;
-};
+// export const shortAddress = (address: string): string => {
+
+//   // check if there is an address
+//   if (address) {
+//     return `${address.slice(0, 5)}...${address.slice(-4)}`;
+//   }
+//   return ``;
+// };
 
 interface Props {
   isOpen: boolean;
@@ -32,16 +32,19 @@ interface Props {
 }
 
 export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { authService } = useContext(Auth.Context);
   const { goblinService } = useContext(Context);
-  const [authState] = useActor(authService);
   const [goblinState] = useActor(goblinService);
-  const [machine, send] = useMachine(
-    wishingWellMachine(
-      authState.context,
-      goblinState.context.sessionId as string
-    )
-  );
+  console.log("children", goblinState.children);
+
+  const child = goblinState.children.wishingWell;
+
+  console.log({ child });
+  const [machine, send] = useActor(child);
+
+  const handleClose = () => {
+    send("CLOSING");
+    onClose();
+  };
 
   const Content = () => {
     const { state: wishingWell, errorCode } = machine.context;
@@ -54,7 +57,7 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
       return <span>Something went wrong!</span>;
     }
 
-    if (machine.matches("captcha")) {
+    if (machine.matches({ wishing: "captcha" })) {
       return (
         <ReCAPTCHA
           sitekey={CONFIG.RECAPTCHA_SITEKEY}
@@ -151,7 +154,7 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal centered show={isOpen} onHide={onClose}>
+    <Modal centered show={isOpen} onHide={handleClose}>
       <Panel className="relative">
         <div className="flex">
           <div className="flex flex-col w-2/3 p-2">

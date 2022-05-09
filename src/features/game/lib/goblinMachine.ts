@@ -20,6 +20,7 @@ import { EMPTY } from "./constants";
 import { loadSession } from "../actions/loadSession";
 import { metamask } from "lib/blockchain/metamask";
 import { INITIAL_SESSION } from "./gameMachine";
+import { wishingWellMachine } from "features/goblins/wishingWell/wishingWellMachine";
 
 export type GoblinState = Omit<GameState, "skills">;
 
@@ -47,6 +48,11 @@ type WithdrawEvent = {
   captcha: string;
 };
 
+type OpeningWishingWellEvent = {
+  type: "OPENING_WISHING_WELL";
+  authState: AuthContext;
+};
+
 export type BlockchainEvent =
   | {
       type: "REFRESH";
@@ -55,14 +61,19 @@ export type BlockchainEvent =
       type: "CONTINUE";
     }
   | {
+      type: "OPENING_WISHING_WELL";
+    }
+  | {
       type: "RESET";
     }
   | WithdrawEvent
-  | MintEvent;
+  | MintEvent
+  | OpeningWishingWellEvent;
 
 export type BlockchainState = {
   value:
     | "loading"
+    | "wishingWell"
     | "minting"
     | "minted"
     | "withdrawing"
@@ -156,6 +167,23 @@ export function startGoblinVillage(authContext: AuthContext) {
             },
             WITHDRAW: {
               target: "withdrawing",
+            },
+            OPENING_WISHING_WELL: {
+              target: "wishingWell",
+            },
+          },
+        },
+        wishingWell: {
+          invoke: {
+            id: "wishingWell",
+            src: wishingWellMachine,
+            data: {
+              farmId: () => authContext.farmId,
+              sessionId: () => authContext.sessionId,
+              token: () => authContext.token,
+            },
+            onDone: {
+              target: "playing",
             },
           },
         },
