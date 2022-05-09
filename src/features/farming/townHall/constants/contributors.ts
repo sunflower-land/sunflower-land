@@ -29,7 +29,10 @@ export type Contributor = {
     | "ant"
     | "complic"
     | "shykun"
-    | "tourist";
+    | "tourist"
+    | "sfwhat"
+    | "reymar"
+    | "na66ime";
 };
 
 function shuffledArrary(array: Contributor[]) {
@@ -189,7 +192,7 @@ export const CONTRIBUTORS = shuffledArrary([
     url: "",
     role: ["moderator"],
     farmId: 100,
-    avatar: "goblin",
+    avatar: "na66ime",
   },
   {
     name: "Bubbagump",
@@ -241,11 +244,11 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "gobleyh",
   },
   {
-    name: "Reymar | READY",
+    name: "Reymar (🌻,🌻)",
     url: "",
     role: ["moderator"],
     farmId: 168,
-    avatar: "goblin",
+    avatar: "reymar",
   },
   {
     name: "Aeon",
@@ -396,7 +399,7 @@ export const CONTRIBUTORS = shuffledArrary([
   },
   {
     name: "Dee",
-    url: "",
+    url: "https://twitter.com/DonatasDee",
     role: ["ambassador"],
     farmId: 14,
     avatar: "dee",
@@ -456,5 +459,12 @@ export const CONTRIBUTORS = shuffledArrary([
     role: ["coder"],
     farmId: 49035,
     avatar: "tourist",
+  },
+  {
+    name: "SfWhat",
+    url: "",
+    role: ["artist"],
+    farmId: 6127,
+    avatar: "sfwhat",
   },
 ]);

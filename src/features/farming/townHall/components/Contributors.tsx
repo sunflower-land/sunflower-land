@@ -32,6 +32,9 @@ import ant from "assets/avatars/ant.gif";
 import complic from "assets/avatars/complic.gif";
 import shykun from "assets/avatars/shykun.gif";
 import tourist from "assets/avatars/tourist.gif";
+import sfwhat from "assets/avatars/sfwhat.gif";
+import reymar from "assets/avatars/reymar.gif";
+import na66ime from "assets/avatars/na66ime.gif";
 
 import {
   Contributor,
@@ -73,6 +76,9 @@ const AVATARS: Record<Contributor["avatar"], string> = {
   complic,
   shykun,
   tourist,
+  sfwhat,
+  reymar,
+  na66ime,
 };
 
 const ROLE_BADGES: Record<ContributorRole, string> = {
