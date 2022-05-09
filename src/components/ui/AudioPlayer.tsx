@@ -8,11 +8,20 @@ import chevron_right from "assets/ui/music_player/chevron-right.png";
 import volume_down from "assets/ui/music_player/volume-down.png";
 import volume_up from "assets/ui/music_player/volume-up.png";
 import { Button } from "components/ui/Button";
-import { getSong, getSongCount } from "assets/songs/playlist";
+import {
+  getFarmingSong,
+  getFarmingSongCount,
+  getGoblinSong,
+  getGoblinSongCount,
+} from "assets/songs/playlist";
 import { Panel } from "components/ui/Panel";
 import { useStepper } from "lib/utils/hooks/useStepper";
 
-export const AudioPlayer: React.FC = () => {
+interface Props {
+  isFarming?: boolean;
+}
+
+export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
   const volume = useStepper({ initial: 0.1, step: 0.1, max: 1, min: 0 });
   const [visible, setIsVisible] = useState<boolean>(false);
   const [muted, setMuted] = useState<boolean>(false);
@@ -30,14 +39,15 @@ export const AudioPlayer: React.FC = () => {
   };
 
   const handleNextSong = () => {
-    if (getSongCount() === songIndex + 1) {
+    const songCount = isFarming ? getFarmingSongCount() : getGoblinSongCount();
+    if (songCount === songIndex + 1) {
       setSongIndex(0);
     } else {
       setSongIndex(songIndex + 1);
     }
   };
 
-  const song = getSong(songIndex);
+  const song = isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
 
   useEffect(() => {
     Howler.mute(muted);
