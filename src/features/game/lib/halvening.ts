@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 function getHalveningRate() {
   const now = new Date().getTime();
 
-  console.log({ now });
+  // console.log({ now });
   /**
    * Estimated Block number + timestamp
    * 2022-04-27T06:00:00.000Z
