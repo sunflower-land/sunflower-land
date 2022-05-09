@@ -193,7 +193,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
     }
 
     if (selected.disabled) {
-      return <span className="text-xs mt-1">Coming soon</span>;
+      return <span className="text-xs mt-2">Coming soon</span>;
     }
 
     if (!canCraft) return;

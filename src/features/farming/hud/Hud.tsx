@@ -16,7 +16,7 @@ export const Hud: React.FC = () => {
       <Menu />
       <Balance />
       <Inventory />
-      <AudioPlayer />
+      <AudioPlayer isFarming />
       <VisitBanner />
     </div>
   );

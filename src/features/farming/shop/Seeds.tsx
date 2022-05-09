@@ -125,6 +125,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     }
 
     const max = INITIAL_STOCK[selected.name];
+
     if (max && inventory[selected.name]?.gt(max)) {
       return (
         <span className="text-xs mt-1 text-shadow text-center">
@@ -178,7 +179,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             alt={selected.name}
           />
           <div className="border-t border-white w-full mt-2 pt-1">
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center scale-75 sm:scale-100">
               <img src={timer} className="h-5 me-2" />
               {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
               <span className="text-xs text-shadow text-center mt-2">

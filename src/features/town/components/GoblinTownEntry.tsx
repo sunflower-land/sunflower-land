@@ -50,7 +50,7 @@ export const GoblinVillageEntry: React.FC = () => {
       />
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <GoblinVillageModal />
+        <GoblinVillageModal onClose={() => setShowModal(false)} />
       </Modal>
     </div>
   );
