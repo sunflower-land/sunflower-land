@@ -32,8 +32,8 @@ export const Withdrawn: React.FC = () => {
   return (
     <div className="flex flex-col items-center">
       <div className="p-2 flex flex-col items-center">
-        <img src={secure} className="w-12 my-2" />
         <h1 className="text-center mb-4 mt-1 text-lg">Success!</h1>
+        <img src={secure} className="w-14 mb-4" />
         <p className="mb-4">
           Your items/tokens have been sent to:
           <span className="text-center mb-2 ml-2 text-sm">

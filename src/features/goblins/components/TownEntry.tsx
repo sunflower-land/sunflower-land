@@ -52,7 +52,7 @@ export const TownEntry: React.FC = () => {
       />
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <TownEntryModal />
+        <TownEntryModal onClose={() => setShowModal(false)} />
       </Modal>
     </div>
   );
