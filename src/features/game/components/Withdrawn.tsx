@@ -9,6 +9,26 @@ import { shortAddress } from "features/farming/hud/components/Address";
 export const Withdrawn: React.FC = () => {
   const { goblinService } = useContext(Context);
 
+  const addTokenToMetamask = async () => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20",
+          options: {
+            address: "0xD1f9c58e33933a993A3891F8acFe05a68E1afC05",
+            symbol: "SFL",
+            decimals: 18,
+            image:
+              "https://github.com/sunflower-land/sunflower-land/blob/main/src/assets/brand/icon.png?raw=true",
+          },
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center">
       <img src={secure} className="w-12 my-2" />
@@ -44,7 +64,7 @@ export const Withdrawn: React.FC = () => {
           PolygonScan
         </a>
       </span>
-
+      <Button onClick={addTokenToMetamask}>Add SFL to MetaMask</Button>
       <Button onClick={() => goblinService.send("REFRESH")}>Ok</Button>
     </div>
   );
