@@ -29,12 +29,11 @@ export const Plants: React.FC = () => {
     },
   ] = useActor(gameService);
   const [isPriceBoosted, setIsPriceBoosted] = useState(false);
-  const [amountToSell, setAmountToSell] = useState(0);
+  const [amountToSell, setAmountToSell] = useState(new Decimal(5));
 
   const inventory = state.inventory;
 
   const sell = (amount = 1) => {
-    console.log(amount);
     gameService.send("item.sell", {
       item: selected.name,
       amount,
@@ -49,12 +48,17 @@ export const Plants: React.FC = () => {
   const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
 
   const handleSellOne = () => {
-    sell(1);
+    sell();
   };
 
   const handleCustomSell = () => {
-    sell(amountToSell);
-    showCustomSellModal(false);
+    if (cropAmount.equals(1)) {
+      handleSellOne();
+    } else if (cropAmount.equals(cropAmount)) {
+      showCustomSellModal(false);
+    } else {
+      showCustomSellModal(true);
+    }
   };
 
   const handleSellAll = () => {
@@ -71,7 +75,10 @@ export const Plants: React.FC = () => {
     }
   };
   const openCustomConfirmationModal = () => {
-    if (amountToSell !== 0 && amountToSell <= cropAmount.toNumber()) {
+    if (
+      amountToSell.greaterThan(0) &&
+      amountToSell.lessThanOrEqualTo(cropAmount.toNumber())
+    ) {
       showCustomSellModal(true);
     }
   };
@@ -136,22 +143,24 @@ export const Plants: React.FC = () => {
           >
             Sell All
           </Button>
-          <div className="flex flex-col justify-center">
-            <Button
-              disabled={noCrop || cropAmount.lessThan(amountToSell || 1)}
-              className="text-xs mt-1 whitespace-nowrap"
-              onClick={openCustomConfirmationModal}
-            >
-              Custom Sell
-            </Button>
-            <input
-              type="text"
-              name="amountToSell"
-              className="bg-brown-200 w-full p-1 shadow-sm text-white text-shadow object-contain justify-center items-center hover:bg-brown-300 cursor-pointer flex disabled:opacity-50  text-xs mt-1"
-              value={amountToSell || "0"}
-              onChange={(e) => setAmountToSell(parseInt(e.target.value))}
-            />
-          </div>
+          {cropAmount.greaterThan(5) && (
+            <div className="flex flex-col justify-center">
+              <Button
+                disabled={noCrop || cropAmount.lessThan(amountToSell || 1)}
+                className="text-xs mt-1 whitespace-nowrap"
+                onClick={openCustomConfirmationModal}
+              >
+                Custom Sell
+              </Button>
+              <input
+                type="text"
+                name="amountToSell"
+                className="bg-brown-200 w-full p-1 shadow-sm text-white text-shadow object-contain justify-center items-center hover:bg-brown-300 cursor-pointer flex disabled:opacity-50  text-xs mt-1"
+                value={amountToSell.toString() || "5"}
+                onChange={(e) => setAmountToSell(new Decimal(e.target.value))}
+              />
+            </div>
+          )}
         </div>
       </OuterPanel>
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
@@ -192,10 +201,10 @@ export const Plants: React.FC = () => {
           <div className="m-auto flex flex-col">
             <span className="text-sm text-center text-shadow">
               Are you sure you want to <br className="hidden md:block" />
-              sell all your {selected.name}?
+              sell your {selected.name}?
             </span>
             <span className="text-sm text-center text-shadow mt-1">
-              Total: {amountToSell}
+              Total: {amountToSell.toString()}
             </span>
           </div>
           <div className="flex justify-content-around p-1">
