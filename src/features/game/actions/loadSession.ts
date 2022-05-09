@@ -56,6 +56,10 @@ export async function loadSession(
     removeSession(metamask.myAccount as string);
   }
 
+  if (response.status >= 400) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
   const {
     farm,
     startedAt,
@@ -94,7 +98,7 @@ export async function loadSession(
 }
 
 const host = window.location.host.replace(/^www\./, "");
-const LOCAL_STORAGE_KEY = `sb_wiz.xtc.p.${host}-${window.location.pathname}`;
+const LOCAL_STORAGE_KEY = `sb_wiz.xtc.t.${host}-${window.location.pathname}`;
 
 // Farm ID -> ISO Date
 type FarmSessions = Record<number, { account: string }>;
