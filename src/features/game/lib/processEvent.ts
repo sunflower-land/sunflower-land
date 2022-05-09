@@ -121,7 +121,9 @@ export function processEvent({
    * Just in case a player gets in a corrupt state and manages to earn extra SFL
    */
   if (!isValidProgress({ state: newState, onChain, action })) {
-    alert("Please sync to the blockchain.");
+    alert(
+      "You can only earn 100 SFL in a single session for security reasons. Please sync to the blockchain."
+    );
     throw new Error("Please sync to the blockchain");
   }
 
