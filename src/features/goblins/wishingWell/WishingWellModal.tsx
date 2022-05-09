@@ -43,7 +43,26 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
     }
 
     if (machine.matches("error")) {
-      return <span>Something went wrong!</span>;
+      return (
+        <div className="flex flex-col">
+          <Panel className="w-48 h-34">
+            <a
+              href="https://quickswap.exchange/#/swap?outputCurrency=0xd1f9c58e33933a993a3891f8acfe05a68e1afc05"
+              className="text-xs mb-2 underline cursor-pointer"
+            >
+              SFL TOKEN
+            </a>
+          </Panel>
+          <Panel className="w-44 h-34">
+            <a
+              href="https://info.quickswap.exchange/#/pair/0x6f9e92dd4734c168a734b873dc3db77e39552eb6"
+              className="text-xs mb-2 underline cursor-pointer"
+            >
+              SFL-MATIC LP
+            </a>
+          </Panel>
+        </div>
+      );
     }
 
     if (machine.matches("captcha")) {
@@ -101,22 +120,24 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
           >
             How do I do get tokens?
           </a>
-          <Button>
-            <a
-              href="https://quickswap.exchange/#/swap?outputCurrency=0xd1f9c58e33933a993a3891f8acfe05a68e1afc05"
-              className="text-xs mb-2 underline cursor-pointer"
-            >
-              SFL TOKEN
-            </a>
-          </Button>
-          <Button>
-            <a
-              href="https://info.quickswap.exchange/#/pair/0x6f9e92dd4734c168a734b873dc3db77e39552eb6"
-              className="text-xs mb-2 underline cursor-pointer"
-            >
-              SFL-MATIC LP
-            </a>
-          </Button>
+          <div className="flex flex-col">
+            <div className="w-44 h-34">
+              <a
+                href="https://quickswap.exchange/#/swap?outputCurrency=0xd1f9c58e33933a993a3891f8acfe05a68e1afc05"
+                className="text-xs mb-2 underline cursor-pointer"
+              >
+                SFL TOKEN
+              </a>
+            </div>
+            <div className="w-44 h-34">
+              <a
+                href="https://info.quickswap.exchange/#/pair/0x6f9e92dd4734c168a734b873dc3db77e39552eb6"
+                className="text-xs mb-2 underline cursor-pointer"
+              >
+                SFL-MATIC LP
+              </a>
+            </div>
+          </div>
         </div>
       );
     }
