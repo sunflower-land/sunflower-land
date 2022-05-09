@@ -59,6 +59,11 @@ const maxItems: Inventory = {
   ),
 };
 
+/**
+ * Humanly possible SFL in a single session
+ */
+const MAX_SESSION_SFL = 175;
+
 function isValidProgress({ state, onChain }: ProcessEventArgs) {
   const progress = state.balance.sub(onChain.balance);
 
@@ -66,7 +71,7 @@ function isValidProgress({ state, onChain }: ProcessEventArgs) {
    * Contract enforced SFL caps
    * Just in case a player gets in a corrupt state and manages to earn extra SFL
    */
-  if (progress.gt(100)) {
+  if (progress.gt(MAX_SESSION_SFL)) {
     return false;
   }
 
