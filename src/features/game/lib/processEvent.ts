@@ -6,39 +6,39 @@ import { SKILL_TREE } from "../types/skills";
 
 const maxItems: Inventory = {
   // Stock limits
-  "Sunflower Seed": new Decimal("400"),
-  "Potato Seed": new Decimal("200"),
-  "Pumpkin Seed": new Decimal("100"),
-  "Carrot Seed": new Decimal("100"),
-  "Cabbage Seed": new Decimal("90"),
-  "Beetroot Seed": new Decimal("80"),
-  "Cauliflower Seed": new Decimal("70"),
-  "Parsnip Seed": new Decimal("40"),
-  "Radish Seed": new Decimal("40"),
-  "Wheat Seed": new Decimal("40"),
+  "Sunflower Seed": new Decimal("500"),
+  "Potato Seed": new Decimal("300"),
+  "Pumpkin Seed": new Decimal("200"),
+  "Carrot Seed": new Decimal("200"),
+  "Cabbage Seed": new Decimal("200"),
+  "Beetroot Seed": new Decimal("200"),
+  "Cauliflower Seed": new Decimal("200"),
+  "Parsnip Seed": new Decimal("100"),
+  "Radish Seed": new Decimal("100"),
+  "Wheat Seed": new Decimal("100"),
 
   // Seed limits + buffer of 10
-  Sunflower: new Decimal("410"),
-  Potato: new Decimal("210"),
-  Pumpkin: new Decimal("110"),
-  Carrot: new Decimal("110"),
-  Cabbage: new Decimal("100"),
-  Beetroot: new Decimal("90"),
-  Cauliflower: new Decimal("90"),
-  Parsnip: new Decimal("50"),
-  Radish: new Decimal("50"),
-  Wheat: new Decimal("50"),
+  Sunflower: new Decimal("3000"),
+  Potato: new Decimal("2000"),
+  Pumpkin: new Decimal("1000"),
+  Carrot: new Decimal("1000"),
+  Cabbage: new Decimal("1000"),
+  Beetroot: new Decimal("1000"),
+  Cauliflower: new Decimal("1000"),
+  Parsnip: new Decimal("500"),
+  Radish: new Decimal("500"),
+  Wheat: new Decimal("500"),
 
   // Stock limits
-  Axe: new Decimal("50"),
-  Pickaxe: new Decimal("30"),
-  "Stone Pickaxe": new Decimal("10"),
-  "Iron Pickaxe": new Decimal("5"),
+  Axe: new Decimal("100"),
+  Pickaxe: new Decimal("50"),
+  "Stone Pickaxe": new Decimal("30"),
+  "Iron Pickaxe": new Decimal("20"),
 
-  Gold: new Decimal("20"),
-  Iron: new Decimal("50"),
-  Stone: new Decimal("100"),
-  Wood: new Decimal("200"),
+  Gold: new Decimal("100"),
+  Iron: new Decimal("500"),
+  Stone: new Decimal("600"),
+  Wood: new Decimal("1000"),
 
   // Max of 1 food item
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(
@@ -59,6 +59,11 @@ const maxItems: Inventory = {
   ),
 };
 
+/**
+ * Humanly possible SFL in a single session
+ */
+const MAX_SESSION_SFL = 175;
+
 function isValidProgress({ state, onChain }: ProcessEventArgs) {
   const progress = state.balance.sub(onChain.balance);
 
@@ -66,7 +71,7 @@ function isValidProgress({ state, onChain }: ProcessEventArgs) {
    * Contract enforced SFL caps
    * Just in case a player gets in a corrupt state and manages to earn extra SFL
    */
-  if (progress.gt(100)) {
+  if (progress.gt(MAX_SESSION_SFL)) {
     return false;
   }
 
@@ -116,7 +121,9 @@ export function processEvent({
    * Just in case a player gets in a corrupt state and manages to earn extra SFL
    */
   if (!isValidProgress({ state: newState, onChain, action })) {
-    alert("Please sync to the blockchain.");
+    alert(
+      "You can only earn 100 SFL in a single session for security reasons. Please sync to the blockchain."
+    );
     throw new Error("Please sync to the blockchain");
   }
 

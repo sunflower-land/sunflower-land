@@ -3,7 +3,6 @@ import { metamask } from "lib/blockchain/metamask";
 import Decimal from "decimal.js-light";
 import { fromWei, toBN } from "web3-utils";
 import { Message } from "../types/message";
-import { formatDateTime } from "lib/utils/time";
 import { CONFIG } from "lib/config";
 
 const MESSAGES_KEY = "readMessages";
@@ -83,13 +82,13 @@ export async function getInbox() {
       title: "May 2022 Dates",
       body: `Dates shown are in your **local** timezone. Check our social pages for NFT release dates.  
         &nbsp;  
-        ${formatDateTime("2022-05-04T00:00:00Z")}  
+        4th May 2022  
         - End of V1 Migration  
         &nbsp;  
-        ${formatDateTime("2022-05-09T12:00:00Z")}  
+        9th May 2022  
         - SFL Withdrawals
         &nbsp;  
-        ${formatDateTime("2022-05-30T00:00:00Z")}🔴  
+        30th May 2022🔴  
         - Rarible  
         &nbsp;  
         🔴 - tentative`,
