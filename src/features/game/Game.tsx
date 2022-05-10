@@ -9,7 +9,7 @@ import { Loading } from "features/auth/components";
 import { Animals } from "features/farming/animals/Animals";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
-import { useVolumeControls } from "features/hud/lib/volumeControls";
+import { useVolumeControls } from "src/lib/utils/hooks/useVolumeControls";
 
 import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
