@@ -9,13 +9,25 @@ import volume_up from "assets/ui/music_player/volume-up.png";
 
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
+import {
+  getFarmingSong,
+  getFarmingSongCount,
+  getGoblinSong,
+  getGoblinSongCount,
+} from "assets/songs/playlist";
 
-import { getSong, getSongCount } from "assets/songs/playlist";
+import { BgMusicPausedControl } from "features/farming/hud/types/settings";
 import { useStepper } from "lib/utils/hooks/useStepper";
-import { cacheSettings, getSettings } from "features/hud/lib/settings";
-import { BgMusicPausedControl } from "features/hud/types/settings";
+import {
+  cacheSettings,
+  getSettings,
+} from "src/features/farming/hud/lib/settings";
 
-export const AudioPlayer: React.FC = () => {
+interface Props {
+  isFarming?: boolean;
+}
+
+export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
   const bgMusicPaused: BgMusicPausedControl = getSettings(
     "BgMusicPausedControl"
   ) as unknown as BgMusicPausedControl;
@@ -45,14 +57,15 @@ export const AudioPlayer: React.FC = () => {
   };
 
   const handleNextSong = () => {
-    if (getSongCount() === songIndex + 1) {
+    const songCount = isFarming ? getFarmingSongCount() : getGoblinSongCount();
+    if (songCount === songIndex + 1) {
       setSongIndex(0);
     } else {
       setSongIndex(songIndex + 1);
     }
   };
 
-  const song = getSong(songIndex);
+  const song = isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
 
   useEffect(() => {
     // refactor this if you use OP volumeControls to + or - vol

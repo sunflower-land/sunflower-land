@@ -5,6 +5,7 @@ export enum Section {
   Shop = "shop",
   Town = "town",
   Forest = "forest",
+  GoblinVillage = "goblin-village",
 
   // NFT IDs
   "Sunflower Statue" = "sunflower-statue",
@@ -28,13 +29,16 @@ export enum Section {
 }
 
 export const useScrollIntoView = () => {
-  const scrollIntoView = (id: Section | undefined) => {
+  const scrollIntoView = (
+    id: Section | undefined,
+    behavior?: ScrollBehavior
+  ) => {
     if (!id) return;
 
     const el = document.getElementById(id);
 
     el?.scrollIntoView({
-      behavior: "smooth",
+      behavior: behavior || "smooth",
       block: "center",
       inline: "center",
     });

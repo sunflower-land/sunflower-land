@@ -122,6 +122,10 @@ import barnManager from "assets/skills/barn_manager.png";
 import seedSpecialist from "assets/skills/seed_specialist.png";
 import logger from "assets/skills/logger.png";
 import lumberjack from "assets/skills/lumberjack.png";
+import artist from "assets/skills/artist.gif";
+import coder from "assets/skills/coder.png";
+import discord from "assets/skills/discord.png";
+import liquidityProvider from "assets/skills/liquidity_provider.png";
 
 // Egg
 import redEgg from "src/assets/nfts/easter/red_egg.png";
@@ -143,18 +147,19 @@ import {
   MARKET_ITEMS,
   BARN_ITEMS,
   CRAFTABLES,
+  LimitedItem,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 
-export type ItemDetails = {
+export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
   image: any;
   secondaryImage?: any;
   section?: Section;
-};
+}
 
 type Items = Record<InventoryItemName, ItemDetails>;
 
@@ -471,6 +476,22 @@ export const ITEM_DETAILS: Items = {
   "Gold Rush": {
     description: SKILL_TREE["Gold Rush"].perks[0],
     image: goldRush,
+  },
+  Artist: {
+    description: SKILL_TREE["Artist"].perks[0],
+    image: artist,
+  },
+  Coder: {
+    description: SKILL_TREE["Coder"].perks[0],
+    image: coder,
+  },
+  "Liquidity Provider": {
+    description: SKILL_TREE["Liquidity Provider"].perks[0],
+    image: liquidityProvider,
+  },
+  "Discord Mod": {
+    description: SKILL_TREE["Discord Mod"].perks[0],
+    image: discord,
   },
 
   /**

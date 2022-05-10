@@ -13,6 +13,10 @@ export const ERRORS = {
   // Server errors
   DISCORD_USER_EXISTS: "DISCORD_USER_EXISTS",
   TOO_MANY_REQUESTS: "TOO_MANY_REQUESTS",
+  MAINTENANCE: "MAINTENANCE",
+
+  // Wishing well errors
+  NO_TOKENS: "NO_TOKENS",
 };
 
 export type ErrorCode = keyof typeof ERRORS;

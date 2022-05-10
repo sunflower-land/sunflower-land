@@ -7,6 +7,7 @@ import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
 import { CraftAction } from "../types/craftables";
+import { getSessionId } from "./loadSession";
 
 type Request = {
   actions: PastAction[];
@@ -56,6 +57,10 @@ export async function autosaveRequest(
   request: Omit<Request, "actions" | "offset"> & { actions: any[] }
 ) {
   const ttl = (window as any)["x-amz-ttl"];
+
+  // Useful for using cached results
+  const cachedKey = getSessionId();
+
   return await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
     method: "POST",
     headers: {
@@ -70,6 +75,7 @@ export async function autosaveRequest(
       sessionId: request.sessionId,
       actions: request.actions,
       clientVersion: CONFIG.CLIENT_VERSION as string,
+      cachedKey,
     }),
   });
 }
@@ -87,6 +93,10 @@ export async function autosave(request: Request) {
     ...request,
     actions,
   });
+
+  if (response.status === 503) {
+    throw new Error(ERRORS.MAINTENANCE);
+  }
 
   if (response.status === 401) {
     removeSession(metamask.myAccount as string);

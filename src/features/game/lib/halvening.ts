@@ -5,16 +5,6 @@ function getHalveningRate() {
 
   /**
    * Estimated Block number + timestamp
-   * March 22nd 12am
-   * Will be updated closer to halvening
-   */
-  // if (now < 1647907200000) {
-  //   console.log("Previous");
-  //   return 0.2;
-  // }
-
-  /**
-   * Estimated Block number + timestamp
    * 2022-04-27T06:00:00.000Z
    * Will be updated closer to halvening
    */
@@ -24,10 +14,9 @@ function getHalveningRate() {
 
   /**
    * Estimated Block number + timestamp
-   * (Friday, 17 June 2022)
-   * Will be updated closer to halvening
+   * (Tuesday, 10 May 2022)
    */
-  if (now < 1655475136000) {
+  if (now < 1652140800000) {
     return 0.05;
   }
 

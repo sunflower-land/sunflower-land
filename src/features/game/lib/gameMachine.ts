@@ -9,17 +9,15 @@ import { GameState } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { INITIAL_FARM, EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
-import { mint } from "../actions/mint";
-import { LimitedItem } from "../types/craftables";
+import { LimitedItemName } from "../types/craftables";
 import { sync } from "../actions/sync";
-import { withdraw } from "../actions/withdraw";
-import { getOnChainState } from "../actions/visit";
+import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
-import { reset } from "features/hud/actions/reset";
+import { reset } from "features/farming/hud/actions/reset";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -27,19 +25,19 @@ export type PastAction = GameEvent & {
 
 export interface Context {
   state: GameState;
+  onChain: GameState;
   actions: PastAction[];
   offset: number;
+  owner?: string;
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
-  whitelistedAt?: Date;
   itemsMintedAt?: MintedAt;
-  blacklistStatus?: "investigating" | "permanent";
 }
 
 type MintEvent = {
   type: "MINT";
-  item: LimitedItem;
+  item: LimitedItemName;
   captcha: string;
 };
 
@@ -90,7 +88,11 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
       ...events,
       [eventName]: {
         actions: assign((context: Context, event: GameEvent) => ({
-          state: processEvent(context.state as GameState, event) as GameState,
+          state: processEvent({
+            state: context.state as GameState,
+            action: event,
+            onChain: context.onChain as GameState,
+          }) as GameState,
           actions: [
             ...context.actions,
             {
@@ -110,14 +112,10 @@ export type BlockchainState = {
     | "playing"
     | "readonly"
     | "autosaving"
-    | "minting"
     | "syncing"
     | "synced"
     | "levelling"
-    | "withdrawing"
-    | "withdrawn"
     | "error"
-    | "blacklisted"
     | "resetting";
   context: Context;
 };
@@ -134,12 +132,14 @@ export type MachineInterpreter = Interpreter<
 
 type Options = AuthContext & { isNoob: boolean };
 
+const isVisiting = () => window.location.href.includes("visit");
+
 export function startGame(authContext: Options) {
   const handleInitialState = () => {
-    if (authContext.sessionId || !authContext.address) {
-      return "playing";
+    if (isVisiting()) {
+      return "readonly";
     }
-    return "readonly";
+    return "playing";
   };
 
   return createMachine<Context, BlockchainEvent, BlockchainState>(
@@ -149,6 +149,7 @@ export function startGame(authContext: Options) {
       context: {
         actions: [],
         state: EMPTY,
+        onChain: EMPTY,
         sessionId: authContext.sessionId,
         offset: 0,
       },
@@ -156,6 +157,18 @@ export function startGame(authContext: Options) {
         loading: {
           invoke: {
             src: async (context) => {
+              const { game: onChain, owner } = await getOnChainState({
+                farmAddress: authContext.address as string,
+                id: authContext.farmId as number,
+              });
+
+              // Visit farm
+              if (isVisiting()) {
+                onChain.id = authContext.farmId as number;
+
+                return { state: onChain, onChain, owner };
+              }
+
               // Load the farm session
               if (context.sessionId) {
                 const fingerprint = await getFingerPrint();
@@ -170,14 +183,7 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const {
-                  game,
-                  offset,
-                  isBlacklisted,
-                  whitelistedAt,
-                  itemsMintedAt,
-                  blacklistStatus,
-                } = response;
+                const { game, offset, whitelistedAt, itemsMintedAt } = response;
 
                 // add farm address
                 game.farmAddress = authContext.address;
@@ -188,46 +194,23 @@ export function startGame(authContext: Options) {
                     id: Number(authContext.farmId),
                   },
                   offset,
-                  isBlacklisted,
                   whitelistedAt,
                   fingerprint,
                   itemsMintedAt,
-                  blacklistStatus,
+                  onChain,
+                  owner,
                 };
-              }
-
-              // Visit farm
-              if (authContext.address) {
-                const { game, isBlacklisted } = await getOnChainState({
-                  farmAddress: authContext.address as string,
-                  id: Number(authContext.farmId),
-                });
-
-                game.id = authContext.farmId as number;
-
-                return { state: game, isBlacklisted };
               }
 
               return { state: INITIAL_FARM };
             },
             onDone: [
               {
-                target: "blacklisted",
-                cond: (_, event) => event.data.isBlacklisted,
-                actions: assign({
-                  whitelistedAt: (_, event) =>
-                    new Date(event.data.whitelistedAt),
-                  blacklistStatus: (_, event) => event.data.blacklistStatus,
-                  state: (_, event) => event.data.state,
-                  offset: (_, event) => event.data.offset,
-                  fingerprint: (_, event) => event.data.fingerprint,
-                  itemsMintedAt: (_, event) => event.data.itemsMintedAt,
-                }),
-              },
-              {
                 target: handleInitialState(),
                 actions: assign({
                   state: (_, event) => event.data.state,
+                  onChain: (_, event) => event.data.onChain,
+                  owner: (_, event) => event.data.owner,
                   offset: (_, event) => event.data.offset,
                   fingerprint: (_, event) => event.data.fingerprint,
                   itemsMintedAt: (_, event) => event.data.itemsMintedAt,
@@ -271,14 +254,8 @@ export function startGame(authContext: Options) {
             SAVE: {
               target: "autosaving",
             },
-            MINT: {
-              target: "minting",
-            },
             SYNC: {
               target: "syncing",
-            },
-            WITHDRAW: {
-              target: "withdrawing",
             },
             LEVEL_UP: {
               target: "levelling",
@@ -348,48 +325,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        minting: {
-          invoke: {
-            src: async (context, event) => {
-              // Autosave just in case
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(authContext.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.rawToken as string,
-                  offset: context.offset,
-                  fingerprint: context.fingerprint as string,
-                });
-              }
-
-              const { item, captcha } = event as MintEvent;
-
-              const { sessionId } = await mint({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                token: authContext.rawToken as string,
-                item,
-                captcha,
-              });
-
-              return {
-                sessionId,
-              };
-            },
-            onDone: {
-              target: "synced",
-              actions: assign((_, event) => ({
-                sessionId: event.data.sessionId,
-                actions: [],
-              })),
-            },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
+        // minting
         syncing: {
           invoke: {
             src: async (context, event) => {
@@ -431,43 +367,6 @@ export function startGame(authContext: Options) {
                 actions: assign((_) => ({
                   actions: [],
                 })),
-              },
-              {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            ],
-          },
-        },
-        withdrawing: {
-          invoke: {
-            src: async (context, event) => {
-              const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
-              const { sessionId } = await withdraw({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                token: authContext.rawToken as string,
-                amounts,
-                ids,
-                sfl,
-                captcha,
-              });
-
-              return {
-                sessionId,
-              };
-            },
-            onDone: {
-              target: "withdrawn",
-              actions: assign({
-                sessionId: (_, event) => event.data.sessionId,
-              }),
-            },
-            onError: [
-              {
-                target: "playing",
-                cond: (_, event: any) =>
-                  event.data.message === ERRORS.REJECTED_TRANSACTION,
               },
               {
                 target: "error",
@@ -551,11 +450,6 @@ export function startGame(authContext: Options) {
             CONTINUE: "playing",
           },
         },
-        blacklisted: {
-          on: {
-            CONTINUE: "playing",
-          },
-        },
         synced: {
           on: {
             REFRESH: {
@@ -563,13 +457,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        withdrawn: {
-          on: {
-            REFRESH: {
-              target: "loading",
-            },
-          },
-        },
+        //  withdrawn
       },
     },
     {

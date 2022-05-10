@@ -13,7 +13,7 @@ export function skillUpgradeToast(state: GameState, setToast: SetToast) {
   const upgrades = getAvailableUpgrades(state);
 
   const skill = upgrades[0];
-  const profession = SKILL_TREE[skill].profession;
+  const profession = SKILL_TREE[skill].profession as "farming" | "gathering";
   const lvl = getLevel(state.skills[profession]);
 
   const UPGRADE_TOAST_KEY = `${state.farmAddress}.${profession}.level-${lvl}`;
