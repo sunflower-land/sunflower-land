@@ -14,6 +14,7 @@ import rightArrow from "assets/icons/arrow_right.png";
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
 import { Blocked } from "./Blocked";
+import { CONFIG } from "lib/config";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -164,7 +165,7 @@ export const CreateFarm: React.FC = () => {
   if (showCaptcha) {
     return (
       <ReCAPTCHA
-        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        sitekey={CONFIG.SITEKEY}
         onChange={onCaptchaSolved}
         onExpired={() => setShowCaptcha(false)}
         className="w-full m-4 flex items-center justify-center"

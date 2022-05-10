@@ -3,6 +3,7 @@ import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import ReCAPTCHA from "react-google-recaptcha";
+import { CONFIG } from "lib/config";
 
 import token from "assets/icons/token.gif";
 
@@ -84,7 +85,7 @@ export const CraftingItems: React.FC<Props> = ({
   if (showCaptcha) {
     return (
       <ReCAPTCHA
-        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        sitekey={CONFIG.SITEKEY}
         onChange={onCaptchaSolved}
         onExpired={() => setShowCaptcha(false)}
         className="w-full m-4 flex items-center justify-center"
