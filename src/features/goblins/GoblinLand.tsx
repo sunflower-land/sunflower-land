@@ -14,6 +14,8 @@ import { Minted } from "features/game/components/Minted";
 import { Withdrawing } from "features/game/components/Withdrawing";
 import { Withdrawn } from "features/game/components/Withdrawn";
 import { StateValues } from "features/game/lib/goblinMachine";
+import { screenTracker } from "lib/utils/screen";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 // const SHOW_MODAL: Record<StateValues, boolean> = {
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -27,6 +29,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 };
 
 export const GoblinLand: React.FC = () => {
+  const { authService } = useContext(AuthProvider.Context);
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
@@ -34,6 +37,15 @@ export const GoblinLand: React.FC = () => {
   useEffect(() => {
     scrollIntoView(Section.GoblinVillage, "auto");
   }, [scrollIntoView]);
+
+  useEffect(() => {
+    screenTracker.start(authService);
+
+    // cleanup on every gameState update
+    return () => {
+      screenTracker.pause();
+    };
+  }, []);
 
   return (
     <div>

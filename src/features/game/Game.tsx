@@ -9,6 +9,7 @@ import { Loading } from "features/auth/components";
 import { Animals } from "features/farming/animals/Animals";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
@@ -45,6 +46,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 };
 
 export const Game: React.FC = () => {
+  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
 
@@ -73,7 +75,7 @@ export const Game: React.FC = () => {
 
     window.addEventListener("blur", save);
 
-    screenTracker.start();
+    screenTracker.start(authService);
 
     // cleanup on every gameState update
     return () => {

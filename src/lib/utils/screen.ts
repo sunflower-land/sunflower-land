@@ -1,3 +1,4 @@
+import { MachineInterpreter } from "features/auth/lib/authMachine";
 import { detectMobile } from "./hooks/useIsMobile";
 
 type Vector = {
@@ -19,6 +20,7 @@ function calcDistancePointToLine(line1: Vector, line2: Vector, pnt: Vector) {
 }
 
 class ScreenTracker {
+  private service?: MachineInterpreter;
   private movements: Vector[] = [];
   private tracks = 0;
 
@@ -31,6 +33,19 @@ class ScreenTracker {
       x: event.clientX,
       y: event.clientY,
     });
+  }
+
+  private clicks: number[] = [];
+  private clicked(event: MouseEvent) {
+    this.clicks.push(Date.now());
+
+    // Only store clicks in the last second
+    this.clicks = this.clicks.filter((time) => time > Date.now() - 1000);
+
+    // World Record is 16 clicks per second
+    if (this.clicks.length > 10) {
+      this.service?.send("REFRESH");
+    }
   }
 
   public calculate(): boolean {
@@ -80,13 +95,16 @@ class ScreenTracker {
     }
   }
 
-  public start() {
+  public start(service: MachineInterpreter) {
+    this.service = service;
     this.movements = [];
     document.addEventListener("mousemove", this.track.bind(this));
+    document.addEventListener("click", this.clicked.bind(this));
   }
 
   public pause() {
     document.removeEventListener("mousemove", this.track);
+    document.removeEventListener("click", this.clicked);
   }
 }
 
