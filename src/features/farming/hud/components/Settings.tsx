@@ -69,13 +69,13 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   }, []);
 
   const ResetModalContent = () => (
-    <Panel className="md:w-4/5 m-auto">
-      <div className="m-auto flex flex-col">
+    <Panel className="m-auto">
+      <div className="m-auto flex flex-col p-3">
         <span className="text-sm text-center text-shadow">
           Are you sure to <br className="hidden md:block" />
           &quot;Reset&quot; the current session?
         </span>
-        <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-[#e43b44]">
+        <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-error">
           <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
           <span className="text-xs">
             YOUR FARM WILL BE RESET TO THE LAST TIME YOU SYNCED ON CHAIN. YOU
