@@ -22,6 +22,7 @@ const goblin_songs = [
     artist: "Romy & Rick",
     name: "Mountain Escape",
     path: mountain_escape,
+    type: "audio/mp3",
   },
 ];
 
