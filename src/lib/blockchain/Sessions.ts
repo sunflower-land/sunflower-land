@@ -83,6 +83,9 @@ export class SessionManager {
       // For UI purposes, do not show the wei values
       const ethBasedRecipes = recipes.map((recipe) => ({
         ...recipe,
+        tokenAmount: recipe.tokenAmount
+          ? Number(fromWei(recipe.tokenAmount.toString()))
+          : 0,
         ingredientAmounts: recipe.ingredientAmounts.map((amount) =>
           Number(fromWei(amount.toString()))
         ),
