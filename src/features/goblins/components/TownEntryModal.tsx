@@ -21,7 +21,7 @@ export const TownEntryModal: React.FC<{ onClose: () => void }> = ({
         </div>
         <p className="text-sm mb-4">
           {
-            "Tired of giving these greedy goblins get all your hard earned resources?"
+            "Tired of giving these greedy goblins all your hard earned resources?"
           }
         </p>
         <p className="text-sm mb-3">
