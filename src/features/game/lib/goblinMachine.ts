@@ -115,7 +115,6 @@ export function startGoblinVillage(authContext: AuthContext) {
               });
 
               // Load the Goblin Village
-              game.id = authContext.farmId as number;
               game.id = farmId;
 
               // Get session id
