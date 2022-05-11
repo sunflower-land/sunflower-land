@@ -36,6 +36,7 @@ class ScreenTracker {
   }
 
   private clicks: number[] = [];
+
   private clicked(event: MouseEvent) {
     this.clicks.push(Date.now());
 
@@ -44,7 +45,7 @@ class ScreenTracker {
 
     // World Record is 16 clicks per second
     if (this.clicks.length > 10) {
-      this.service?.send("REFRESH");
+      // this.service?.send("REFRESH");
     }
   }
 
