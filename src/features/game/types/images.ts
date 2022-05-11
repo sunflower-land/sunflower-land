@@ -53,6 +53,9 @@ import kuebiko from "assets/nfts/kuebiko.gif";
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
 import farmerBath from "assets/nfts/farmer_bath.png";
+import moleT1 from "assets/nfts/mole_t1.gif";
+import moleT2 from "assets/nfts/mole_t2.gif";
+import moleT3 from "assets/nfts/mole_t3.gif";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
@@ -421,6 +424,18 @@ export const ITEM_DETAILS: Items = {
   "Farmer Bath": {
     ...BLACKSMITH_ITEMS["Farmer Bath"],
     image: farmerBath,
+  },
+  "Mole T1": {
+    ...BLACKSMITH_ITEMS["Mole T1"],
+    image: moleT1,
+  },
+  "Mole T2": {
+    ...BLACKSMITH_ITEMS["Mole T2"],
+    image: moleT2,
+  },
+  "Mole T3": {
+    ...BLACKSMITH_ITEMS["Mole T3"],
+    image: moleT3,
   },
 
   // FOOD

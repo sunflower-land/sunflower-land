@@ -77,7 +77,10 @@ export type BlacksmithItem =
   | "Nyon Statue"
   | "Homeless Tent"
   | "Egg Basket"
-  | "Farmer Bath";
+  | "Farmer Bath"
+  | "Mole T1"
+  | "Mole T2"
+  | "Mole T3";
 
 export type BarnItem =
   | "Farm Cat"
@@ -326,6 +329,24 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Egg Basket": {
     name: "Egg Basket",
     description: "Gives access to the Easter Egg Hunt",
+    type: LimitedItemType.BlacksmithItem,
+  },
+  "Mole T1": {
+    name: "Mole T1",
+    description: "Increase stone drops by 20%",
+    section: Section.Mole,
+    type: LimitedItemType.BlacksmithItem,
+  },
+  "Mole T2": {
+    name: "Mole T2",
+    description: "stone recover 50% faster",
+    section: Section.Mole,
+    type: LimitedItemType.BlacksmithItem,
+  },
+  "Mole T3": {
+    name: "Mole T3",
+    description: "mine stones without pickaxes",
+    section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
   },
 };
