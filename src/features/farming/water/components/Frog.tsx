@@ -14,7 +14,10 @@ export const Frog: React.FC = () => {
 
   const open = () => {
     setShowModal(true);
-    !frogAudio.playing() ? frogAudio.play() : undefined;
+    //Checks if frogAudio is playing, if false, plays the sound
+    if (!frogAudio.playing()) {
+      frogAudio.play();
+    }
   };
 
   return (

@@ -14,7 +14,10 @@ export const Bank: React.FC = () => {
 
   const openBank = () => {
     setIsOpen(true);
-    !bankAudio.playing() ? bankAudio.play() : undefined;
+    //Checks if bankAudio is playing, if false, plays the sound
+    if (!bankAudio.playing()) {
+      bankAudio.play();
+    }
   };
 
   return (

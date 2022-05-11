@@ -56,7 +56,10 @@ export const House: React.FC = () => {
   const open = () => {
     setIsSkillTreeOpen(false);
     setIsOpen(true);
-    !homeDoorAudio.playing() ? homeDoorAudio.play() : undefined;
+    //Checks if homeDoorAudio is playing, if false, plays the sound
+    if (!homeDoorAudio.playing()) {
+      homeDoorAudio.play();
+    }
   };
 
   const { gathering, farming } = state.skills;
