@@ -16,6 +16,7 @@ import { wishingWellMachine } from "./wishingWellMachine";
 import { fromWei } from "web3-utils";
 import { secondsToLongString } from "lib/utils/time";
 import { CONFIG } from "lib/config";
+import { Context } from "features/game/GoblinProvider";
 
 export const shortAddress = (address: string): string => {
   // check if there is an address
@@ -32,8 +33,15 @@ interface Props {
 
 export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
+  const { goblinService } = useContext(Context);
   const [authState] = useActor(authService);
-  const [machine, send] = useMachine(wishingWellMachine(authState.context));
+  const [goblinState] = useActor(goblinService);
+  const [machine, send] = useMachine(
+    wishingWellMachine(
+      authState.context,
+      goblinState.context.sessionId as string
+    )
+  );
 
   const Content = () => {
     const { state: wishingWell, errorCode } = machine.context;
