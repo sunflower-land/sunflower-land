@@ -160,8 +160,8 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
     if (hasItemOnFarm)
       return (
         <div className="flex flex-col text-center mt-2 border-y border-white w-full">
-          <p className="text-sm my-2">Already minted!</p>
-          <p className="text-[10px] mb-2">
+          <p className="text-[10px] sm:text-sm my-2">Already minted!</p>
+          <p className="text-[8px] sm:text-[10px] mb-2">
             You can only have one of each rare item on your farm at a time.
           </p>
         </div>
