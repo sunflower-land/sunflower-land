@@ -44,8 +44,8 @@ class ScreenTracker {
     this.clicks = this.clicks.filter((time) => time > Date.now() - 1000);
 
     // World Record is 16 clicks per second
-    if (this.clicks.length > 10) {
-      // this.service?.send("REFRESH");
+    if (this.clicks.length > 15) {
+      this.service?.send("REFRESH");
     }
   }
 
@@ -96,16 +96,24 @@ class ScreenTracker {
     }
   }
 
+  // Workaround for storing function reference for event listeners
+  private clicker: any;
+  private tracker: any;
+
   public start(service: MachineInterpreter) {
     this.service = service;
     this.movements = [];
-    document.addEventListener("mousemove", this.track.bind(this));
-    document.addEventListener("click", this.clicked.bind(this));
+
+    this.tracker = this.track.bind(this);
+    this.clicker = this.clicked.bind(this);
+
+    document.addEventListener("mousemove", this.tracker, false);
+    document.addEventListener("click", this.clicker, false);
   }
 
   public pause() {
-    document.removeEventListener("mousemove", this.track);
-    document.removeEventListener("click", this.clicked);
+    document.removeEventListener("mousemove", this.tracker, false);
+    document.removeEventListener("click", this.clicker, false);
   }
 }
 
