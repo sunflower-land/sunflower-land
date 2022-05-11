@@ -29,7 +29,7 @@ export const Bank: React.FC = () => {
       <div className="cursor-pointer hover:img-highlight">
         <img src={bank} alt="bank" onClick={openBank} className="w-full" />
         <Action
-          className="absolute -bottom-6 left-3"
+          className="absolute -bottom-6 left-5"
           text="Bank"
           icon={token}
           onClick={openBank}

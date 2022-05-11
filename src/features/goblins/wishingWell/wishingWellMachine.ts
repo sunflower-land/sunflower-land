@@ -49,7 +49,10 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
-export const wishingWellMachine = (authContext: AuthContext) =>
+export const wishingWellMachine = (
+  authContext: AuthContext,
+  sessionId: string
+) =>
   createMachine<Context, BlockchainEvent, BlockchainState>(
     {
       id: "wishingWell",
@@ -130,7 +133,7 @@ export const wishingWellMachine = (authContext: AuthContext) =>
 
               await collectFromWell({
                 farmId: authContext.farmId as number,
-                sessionId: authContext.sessionId as string,
+                sessionId,
                 amount: tokensToPull.toString(),
                 token: authContext.rawToken as string,
                 captcha: (event as CaptchaEvent).captcha,

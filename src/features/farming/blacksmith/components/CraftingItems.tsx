@@ -117,7 +117,7 @@ export const CraftingItems: React.FC<Props> = ({
       <>
         <Button
           disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
-          className="text-xs mt-1"
+          className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
           onClick={() => craft()}
         >
           Craft {isBulk && "1"}
@@ -127,7 +127,7 @@ export const CraftingItems: React.FC<Props> = ({
             disabled={
               lessFunds(10) || lessIngredients(10) || stock?.lessThan(10)
             }
-            className="text-xs mt-1 whitespace-nowrap"
+            className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
             onClick={() => craft(10)}
           >
             Craft 10

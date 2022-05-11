@@ -1,3 +1,5 @@
+import { getItemUnit } from "features/game/lib/conversion";
+import { KNOWN_ITEMS } from "features/game/types";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, fromWei, toWei } from "web3-utils";
@@ -83,8 +85,16 @@ export class SessionManager {
       // For UI purposes, do not show the wei values
       const ethBasedRecipes = recipes.map((recipe) => ({
         ...recipe,
-        ingredientAmounts: recipe.ingredientAmounts.map((amount) =>
-          Number(fromWei(amount.toString()))
+        tokenAmount: recipe.tokenAmount
+          ? Number(fromWei(recipe.tokenAmount.toString()))
+          : 0,
+        ingredientAmounts: recipe.ingredientAmounts.map((amount, index) =>
+          Number(
+            fromWei(
+              amount.toString(),
+              getItemUnit(KNOWN_ITEMS[recipe.ingredientIds[index]])
+            )
+          )
         ),
       }));
 
