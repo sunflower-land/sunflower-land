@@ -157,20 +157,11 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   const Action = () => {
     if (soldOut) return null;
 
-    if (hasItemOnFarm)
-      return (
-        <div className="flex flex-col text-center mt-2 border-y border-white w-full">
-          <p className="text-[10px] sm:text-sm my-2">Already minted!</p>
-          <p className="text-[8px] sm:text-[10px] mb-2">
-            You can only have one of each rare item on your farm at a time.
-          </p>
-        </div>
-      );
-
     const secondsLeft = mintCooldown({
       cooldownSeconds: selected.cooldownSeconds,
       mintedAt: selected.mintedAt,
     });
+
     if (secondsLeft > 0) {
       return (
         <div className="mt-2 border-y border-white w-full">
@@ -202,6 +193,16 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
         </div>
       );
     }
+
+    if (hasItemOnFarm)
+      return (
+        <div className="flex flex-col text-center mt-2 border-y border-white w-full">
+          <p className="text-[10px] sm:text-sm my-2">Already minted!</p>
+          <p className="text-[8px] sm:text-[10px] mb-2">
+            You can only have one of each rare item on your farm at a time.
+          </p>
+        </div>
+      );
 
     if (selected.disabled) {
       return <span className="text-xs mt-2">Coming soon</span>;
