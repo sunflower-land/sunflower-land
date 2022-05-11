@@ -64,7 +64,9 @@ export const SkillTree: React.FC<Props> = ({ back }) => {
                       })}
                     />
                   </div>
-                  <img src={lock} alt="farming" className="h-6 mx-2" />
+                  {!skillAcquired && (
+                    <img src={lock} alt="farming" className="h-6 mx-2" />
+                  )}
                 </div>
               </div>
               <ul className="list-disc">
