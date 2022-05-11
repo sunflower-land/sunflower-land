@@ -17,6 +17,7 @@ import {
 } from "../actions/onchain";
 import { ERRORS } from "lib/errors";
 import { EMPTY } from "./constants";
+import { loadSession } from "../actions/loadSession";
 
 export type GoblinState = Omit<GameState, "skills">;
 
@@ -109,8 +110,15 @@ export function startGoblinVillage(authContext: AuthContext) {
                 id: Number(authContext.farmId),
               });
 
+              const response = await loadSession({
+                farmId: Number(authContext.farmId),
+                sessionId: authContext.sessionId as string,
+                token: authContext.rawToken as string,
+              });
+
               // Load the Goblin Village
               game.id = authContext.farmId as number;
+              game.fields = response?.game.fields || {};
 
               const limitedItemsById = makeLimitedItemsById(limitedItems);
 
