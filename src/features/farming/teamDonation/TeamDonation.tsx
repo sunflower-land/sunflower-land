@@ -127,7 +127,7 @@ export const TeamDonation: React.FC = () => {
   const beggarClick = () => {
     setDonation(1);
     send("BEGGER_CLICK");
-    beggarAudio.play();
+    !beggarAudio.playing() ? beggarAudio.play() : undefined;
   };
 
   const donate = () => {

@@ -23,7 +23,7 @@ export const Blacksmith: React.FC = () => {
   const openBlacksmith = () => {
     if (isNotReadOnly) {
       setIsOpen(true);
-      blacksmithAudio.play();
+      !blacksmithAudio.playing() ? blacksmithAudio.play() : undefined;
     } else {
       return;
     }

@@ -24,7 +24,7 @@ export const Shop: React.FC = () => {
 
   const handleShopClick = () => {
     setIsOpen(true);
-    shopAudio.play();
+    !shopAudio.playing() ? shopAudio.play() : undefined;
   };
 
   return (

@@ -23,7 +23,7 @@ export const Bakery: React.FC = () => {
 
   const openBakeryModal = () => {
     showBakeryModal(true);
-    bakeryAudio.play();
+    !bakeryAudio.playing() ? bakeryAudio.play() : undefined;
   };
 
   const closeBakeryModal = () => {

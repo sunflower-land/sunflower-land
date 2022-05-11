@@ -12,7 +12,7 @@ export const Blacksmith: React.FC = () => {
 
   const openBlacksmith = () => {
     setIsOpen(true);
-    blacksmithAudio.play();
+    !blacksmithAudio.playing() ? blacksmithAudio.play() : undefined;
   };
 
   return (

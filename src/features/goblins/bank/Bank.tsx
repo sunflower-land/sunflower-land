@@ -14,7 +14,7 @@ export const Bank: React.FC = () => {
 
   const openBank = () => {
     setIsOpen(true);
-    bankAudio.play();
+    !bankAudio.playing() ? bankAudio.play() : undefined;
   };
 
   return (

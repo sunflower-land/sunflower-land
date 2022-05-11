@@ -22,7 +22,7 @@ export const Barn: React.FC = () => {
 
   const openBarn = () => {
     setIsOpen(true);
-    barnAudio.play();
+    !barnAudio.playing() ? barnAudio.play() : undefined;
   };
 
   return (

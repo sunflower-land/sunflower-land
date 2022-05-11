@@ -12,8 +12,8 @@ export const WishingWell: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const openWell = () => {
-    wishingWellAudio.play();
     setIsOpen(true);
+    !wishingWellAudio.playing() ? wishingWellAudio.play() : undefined;
   };
   return (
     <div
