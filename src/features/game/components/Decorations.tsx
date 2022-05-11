@@ -129,14 +129,14 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
 };
 
 export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
-  if (inventory["Mole T1"]) {
+  if (inventory["Mole T3"]) {
     return (
       <img
         style={{
           width: `${GRID_WIDTH_PX * 1.2}px`,
         }}
-        src={moleT1}
-        alt="Mole T1"
+        src={moleT3}
+        alt="Mole T3"
       />
     );
   }
@@ -153,14 +153,14 @@ export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
     );
   }
 
-  if (inventory["Mole T3"]) {
+  if (inventory["Mole T1"]) {
     return (
       <img
         style={{
           width: `${GRID_WIDTH_PX * 1.2}px`,
         }}
-        src={moleT3}
-        alt="Mole T3"
+        src={moleT1}
+        alt="Mole T1"
       />
     );
   }
@@ -469,8 +469,8 @@ export const Decorations: React.FC = () => {
         className="flex justify-center absolute"
         style={{
           width: `${GRID_WIDTH_PX * 2}px`,
-          right: `${GRID_WIDTH_PX * 25}px`,
-          top: `${GRID_WIDTH_PX * 49}px`,
+          right: `${GRID_WIDTH_PX * 21.75}px`,
+          top: `${GRID_WIDTH_PX * 50.5}px`,
         }}
         id={Section.Mole}
       >
