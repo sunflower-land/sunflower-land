@@ -87,7 +87,7 @@ export function startGame({ farmId }: { farmId: number }) {
               farmId: farmAccount.tokenId,
               address: farmAccount.account,
               isBlacklisted,
-              state: { ...onChain },
+              state: { id: farmId, ...onChain },
             };
 
             console.log({ test });
