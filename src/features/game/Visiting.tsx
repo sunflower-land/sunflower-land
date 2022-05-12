@@ -1,14 +1,15 @@
 import React, { useRef, useEffect, useContext } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
+import { useParams } from "react-router-dom";
 
 import background from "assets/land/background.png";
 
 import * as Auth from "features/auth/lib/Provider";
 import { VisitingProvider } from "./VisitingProvider";
 import mapMovement from "./lib/mapMovement";
-import { ExpansionInfo } from "./expansion/ExpansionInfo";
-import { useParams } from "react-router-dom";
+
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { ExpansionInfo } from "./expansion/ExpansionInfo";
 import { ReadOnlyGame } from "features/visiting/ReadOnlyGame";
 
 export const Visiting: React.FC = () => {
@@ -19,10 +20,7 @@ export const Visiting: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   useEffect(() => {
-    // Start with crops centered
-    // if (showGame) {
     scrollIntoView(Section.Crops, "auto");
-    // }
   }, [scrollIntoView]);
 
   useEffect(() => {
@@ -44,10 +42,7 @@ export const Visiting: React.FC = () => {
         className="bg-green-background overflow-scroll relative w-full h-full"
         innerRef={container}
       >
-        <div
-          className="relative h-gameboard w-gameboard"
-          // TODO dynamic game board size based on tile dimensions
-        >
+        <div className="relative h-gameboard w-gameboard">
           <img src={background} className="absolute inset-0 w-full h-full" />
           <ExpansionInfo />
           <ReadOnlyGame />

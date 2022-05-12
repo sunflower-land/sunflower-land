@@ -114,7 +114,7 @@ export type BlockchainState = {
     | { connected: "oauthorised" }
     | { connected: "authorised" }
     | { connected: "blacklisted" }
-    | { connected: "visiting" }
+    | { connected: "visitingContributor" }
     | "exploring"
     | "checkFarm"
     | "unauthorised";
@@ -230,8 +230,7 @@ export const authMachine = createMachine<
               },
             },
           },
-          // Visiting from the within an authorised state ie. Town Hall
-          visiting: {
+          visitingContributor: {
             on: {
               RETURN: [
                 // When returning to this state the original authorised player's data exists in the authMachine context
@@ -374,7 +373,7 @@ export const authMachine = createMachine<
                 target: "#exploring",
               },
               VISIT: {
-                target: "visiting",
+                target: "visitingContributor",
               },
               LOGOUT: {
                 target: "#connecting",

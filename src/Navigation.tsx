@@ -39,7 +39,7 @@ export const Navigation: React.FC = () => {
   useEffect(() => {
     const _showGame =
       authState.matches({ connected: "authorised" }) ||
-      authState.matches({ connected: "visiting" }) ||
+      authState.matches({ connected: "visitingContributor" }) ||
       authState.matches("visiting");
 
     // TODO: look into this further
