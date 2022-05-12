@@ -166,7 +166,7 @@ describe("harvest", () => {
   });
 
   it("does not harvest after 50 harvestCount", () => {
-    jest.spyOn(harvestCount, "getHarvestCount").mockReturnValue("50");
+    jest.spyOn(harvestCount, "getHarvestCount").mockReturnValue("57");
 
     expect(() =>
       harvest({

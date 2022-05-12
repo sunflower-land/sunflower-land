@@ -94,5 +94,5 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
 }
 
 export const isShovelStolen = () => {
-  return new Decimal(getHarvestCount()).greaterThanOrEqualTo(50);
+  return new Decimal(getHarvestCount()).greaterThanOrEqualTo(57);
 };

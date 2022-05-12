@@ -41,6 +41,8 @@ const positions: Position[] = [
 
 export const GoblinShovel: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showRecoveredShovelModal, setShowRecoveredShovelModal] =
+    useState(false);
   const [showGoblin, setShowGoblin] = useState(false);
   const [goblinPosition, setGoblinPosition] = useState<Position>();
   const { gameService } = useContext(Context);
@@ -65,6 +67,7 @@ export const GoblinShovel: React.FC = () => {
   }, [showGoblin]);
 
   const onClickGoblin = () => {
+    setShowRecoveredShovelModal(true);
     recoverShovel();
     setShowGoblin(false);
   };
@@ -107,6 +110,33 @@ export const GoblinShovel: React.FC = () => {
           }}
         />
       )}
+
+      <Modal
+        centered
+        show={showRecoveredShovelModal}
+        onHide={() => setShowRecoveredShovelModal(false)}
+      >
+        <Panel>
+          <div className="p-2">
+            <h1 className="text-xl text-center">Well done!</h1>
+            <div className="flex my-4 justify-center">
+              <img src={shovel} style={{ width: "50px" }} />
+            </div>
+            <p className="text-sm mb-4">
+              You recovered your shovel, now you can get back to harvesting!
+            </p>
+          </div>
+
+          <div className="flex">
+            <Button
+              className="text-sm"
+              onClick={() => setShowRecoveredShovelModal(false)}
+            >
+              Continue Harvesting
+            </Button>
+          </div>
+        </Panel>
+      </Modal>
     </>
   );
 };
