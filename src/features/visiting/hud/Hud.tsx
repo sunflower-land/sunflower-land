@@ -1,23 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { Balance } from "./components/Balance";
 import { Inventory } from "./components/Inventory";
-import { VisitBanner } from "./components/VisitBanner";
 import { AudioPlayer } from "components/ui/AudioPlayer";
 import { Menu } from "./components/Menu";
+import { Context } from "features/game/VisitingProvider";
+import { useActor } from "@xstate/react";
+import { VisitBanner } from "components/ui/VisitBanner";
+import { Balance } from "./components/Balance";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
  * Balances, Inventory, actions etc.
  */
 export const Hud: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const visitingLandId = gameState.context.farmId;
+
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
       <Menu />
       <Balance />
       <Inventory />
       <AudioPlayer isFarming />
-      <VisitBanner />
+      <VisitBanner id={visitingLandId} />
     </div>
   );
 };
