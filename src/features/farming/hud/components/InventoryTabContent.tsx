@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
 
 import { SEEDS, CropName } from "features/game/types/crops";
+
+import { useActor } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
@@ -47,6 +50,9 @@ export const InventoryTabContent = ({
   const [scrollIntoView] = useScrollIntoView();
   const categories = getKeys(tabItems) as InventoryItemName[];
   const [isTimeBoosted, setIsTimeBoosted] = useState(false);
+  
+  const { gameService } = useContext(Context);
+  const [game] = useActor(gameService);
 
   const inventoryMapping = inventoryItems.reduce((acc, curr) => {
     const category = categories.find(
@@ -67,15 +73,15 @@ export const InventoryTabContent = ({
       (category) => !!inventoryMapping[category]?.length
     );
 
-    const defaultSelectedItem =
-      getShortcuts()[0] ||
-      // Fallback for when a no active item selected
-      (firstCategoryWithItem && inventoryMapping[firstCategoryWithItem][0]);
+    const firstItemInventory = firstCategoryWithItem && inventoryMapping[firstCategoryWithItem][0];
 
-    if (defaultSelectedItem) {
-      setDefaultSelectedItem(defaultSelectedItem);
-    }
-  }, [categories, inventoryMapping, setDefaultSelectedItem]);
+    if (game.matches('readonly')){
+      setDefaultSelectedItem(firstItemInventory);
+    } else { 
+      const cachedSelectedItem = getShortcuts()[0] || firstItemInventory;
+      setDefaultSelectedItem(cachedSelectedItem);
+    }	
+  }, []);
 
   useEffect(
     () =>
