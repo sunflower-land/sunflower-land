@@ -2,6 +2,7 @@ import { GameState, Inventory } from "../types/game";
 import { CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
+import { addToHarvestCount, getHarvestCount } from "./harvestCountStorage";
 
 export type HarvestAction = {
   type: "item.harvested";
@@ -16,6 +17,10 @@ type Options = {
 
 export function harvest({ state, action, createdAt = Date.now() }: Options) {
   const fields = { ...state.fields };
+
+  if (isShovelStolen()) {
+    throw new Error("Missing shovel!");
+  }
 
   if (action.index < 0) {
     throw new Error("Field does not exist");
@@ -79,9 +84,15 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
     [field.name]: cropCount.add(multiplier),
   };
 
+  addToHarvestCount(1);
+
   return {
     ...state,
     fields: newFields,
     inventory,
   } as GameState;
 }
+
+export const isShovelStolen = () => {
+  return new Decimal(getHarvestCount()).greaterThanOrEqualTo(50);
+};
