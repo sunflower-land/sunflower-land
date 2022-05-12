@@ -82,7 +82,8 @@ export const GoblinShovel: React.FC = () => {
               <img src={shovel} style={{ width: "50px" }} />
             </div>
             <p className="text-sm mb-4">
-              A cheeky goblin might have stolen your shovel.
+              A cheeky goblin has stolen your shovel that you need to harvest
+              crops.
             </p>
             <p className="text-sm mb-3">
               Find the goblin and get your shovel back.
@@ -132,7 +133,7 @@ export const GoblinShovel: React.FC = () => {
               className="text-sm"
               onClick={() => setShowRecoveredShovelModal(false)}
             >
-              Continue Harvesting
+              Continue
             </Button>
           </div>
         </Panel>
