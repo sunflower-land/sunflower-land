@@ -108,7 +108,7 @@ export const Game: React.FC = () => {
       <Crops />
       <Water />
       <Animals />
-      <Decorations />
+      <Decorations state={gameState.context.state} />
       <Forest />
       <Quarry />
       <Town />
