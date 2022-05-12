@@ -1,8 +1,9 @@
 import Decimal from "decimal.js-light";
+import { getHarvestCountMock } from "../lib/__mocks__/harvestCountStorageMock";
+
 import { INITIAL_FARM } from "../lib/constants";
 import { GameState } from "../types/game";
 import { harvest } from "./harvest";
-import * as harvestCount from "./harvestCountStorage";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -165,8 +166,8 @@ describe("harvest", () => {
     expect(state.inventory.Parsnip).toEqual(new Decimal(1));
   });
 
-  it("does not harvest after 50 harvestCount", () => {
-    jest.spyOn(harvestCount, "getHarvestCount").mockReturnValue("57");
+  it("does not harvest after 57 harvests", () => {
+    getHarvestCountMock.mockReturnValue("57");
 
     expect(() =>
       harvest({
@@ -179,8 +180,9 @@ describe("harvest", () => {
     ).toThrow("Missing shovel!");
   });
 
-  it("harvests before 50 harvestCount", () => {
-    jest.spyOn(harvestCount, "getHarvestCount").mockReturnValue("4");
+  it("harvests before 57 harvests", () => {
+    getHarvestCountMock.mockReturnValue("4");
+
     const state = harvest({
       state: {
         ...GAME_STATE,

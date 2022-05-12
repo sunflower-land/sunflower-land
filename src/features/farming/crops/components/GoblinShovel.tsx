@@ -9,7 +9,7 @@ import { isShovelStolen } from "features/game/events/harvest";
 
 import { Button } from "components/ui/Button";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { recoverShovel } from "features/game/events/harvestCountStorage";
+import { recoverShovel } from "features/game/lib/harvestCountStorage";
 
 type Position = {
   top: number;

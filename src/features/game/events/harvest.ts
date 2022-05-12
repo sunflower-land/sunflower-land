@@ -2,7 +2,7 @@ import { GameState, Inventory } from "../types/game";
 import { CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
-import { addToHarvestCount, getHarvestCount } from "./harvestCountStorage";
+import { addToHarvestCount, getHarvestCount } from "../lib/harvestCountStorage";
 
 export type HarvestAction = {
   type: "item.harvested";
