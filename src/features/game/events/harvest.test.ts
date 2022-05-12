@@ -1,4 +1,6 @@
 import Decimal from "decimal.js-light";
+import { getHarvestCountMock } from "../lib/__mocks__/harvestCountStorageMock";
+
 import { INITIAL_FARM } from "../lib/constants";
 import { GameState } from "../types/game";
 import { harvest } from "./harvest";
@@ -162,5 +164,42 @@ describe("harvest", () => {
     });
 
     expect(state.inventory.Parsnip).toEqual(new Decimal(1));
+  });
+
+  it("does not harvest after 57 harvests", () => {
+    getHarvestCountMock.mockReturnValue("57");
+
+    expect(() =>
+      harvest({
+        state: { ...INITIAL_FARM, inventory: {} },
+        action: {
+          type: "item.harvested",
+          index: 1,
+        },
+      })
+    ).toThrow("Missing shovel!");
+  });
+
+  it("harvests before 57 harvests", () => {
+    getHarvestCountMock.mockReturnValue("4");
+
+    const state = harvest({
+      state: {
+        ...GAME_STATE,
+        fields: {
+          0: {
+            name: "Sunflower",
+            plantedAt: Date.now() - 2 * 60 * 1000,
+          },
+        },
+      },
+      action: {
+        type: "item.harvested",
+        index: 0,
+      },
+    });
+
+    expect(state.inventory.Sunflower).toEqual(new Decimal(1));
+    expect(state.fields).toEqual({});
   });
 });
