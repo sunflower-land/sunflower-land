@@ -57,6 +57,7 @@ export const Auth: React.FC = () => {
       centered
       show={
         !authState.matches({ connected: "authorised" }) &&
+        !authState.matches({ connected: "visiting" }) &&
         !authState.matches("visiting")
       }
       backdrop={false}

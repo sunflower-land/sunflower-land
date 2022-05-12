@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import background from "assets/land/background.png";
 
+import * as Auth from "features/auth/lib/Provider";
 import { VisitingProvider } from "./VisitingProvider";
 import mapMovement from "./lib/mapMovement";
 import { ExpansionInfo } from "./expansion/ExpansionInfo";
@@ -11,6 +12,7 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { ReadOnlyGame } from "features/visiting/ReadOnlyGame";
 
 export const Visiting: React.FC = () => {
+  const { authService } = useContext(Auth.Context);
   // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
   const { id } = useParams();
@@ -30,6 +32,10 @@ export const Visiting: React.FC = () => {
       mapMovement.removeListeners();
     };
   }, [container]);
+
+  useEffect(() => {
+    authService.send("VISIT");
+  }, [authService]);
 
   // Load data
   return (

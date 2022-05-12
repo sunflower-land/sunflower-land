@@ -21,9 +21,7 @@ export const VisitingProvider: React.FC = ({ children }) => {
 
   const [visitingMachine] = useState(
     startGame({
-      farmId: Number(id),
-      // If the last event was a create farm, walk them through the tutorial
-      // For now hide the tutorial until we can figure out an approach that is maintainable
+      farmToVisitID: Number(id),
     })
   );
 
