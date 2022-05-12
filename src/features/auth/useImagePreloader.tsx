@@ -9,6 +9,8 @@ import syncing from "assets/npcs/syncing.gif";
 import background from "assets/land/background.png";
 import goblinLandBackground from "assets/land/goblin_background.png";
 import farm from "assets/brand/nft.png";
+import goblinBlacksmith from "assets/buildings/goblin_blacksmith.gif";
+import goblinBank from "assets/buildings/goblin_bank.gif";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -20,6 +22,8 @@ const IMAGE_LIST: string[] = [
   background,
   goblinLandBackground,
   farm,
+  goblinBlacksmith,
+  goblinBank,
 ];
 
 function preloadImage(src: string) {
