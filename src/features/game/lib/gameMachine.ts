@@ -168,6 +168,8 @@ export function startGame(authContext: Options) {
                 id: farmId,
               });
 
+              console.log("game", { onChain });
+
               // Visit farm
               if (isVisiting()) {
                 onChain.id = farmId;
