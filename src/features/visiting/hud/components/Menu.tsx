@@ -1,13 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useActor } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import * as Auth from "features/auth/lib/Provider";
-import { Context } from "features/game/VisitingProvider";
 
 import { Share } from "./Share";
 
@@ -32,8 +29,6 @@ enum MENU_LEVELS {
 
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollIntoView] = useScrollIntoView();
@@ -43,7 +38,6 @@ export const Menu = () => {
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
   const ref = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
@@ -67,13 +61,7 @@ export const Menu = () => {
   };
 
   const goBack = () => {
-    const res = authService.send("RETURN");
-
-    // fallback incase state doesn't change
-    // [TODO]: add proper transitions in both machines
-    if (!res.changed) {
-      navigate("/");
-    }
+    authService.send("RETURN");
   };
 
   // Handles closing the menu if someone clicks outside

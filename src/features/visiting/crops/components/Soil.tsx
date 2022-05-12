@@ -5,8 +5,8 @@ import soil from "assets/land/soil2.png";
 import { FieldItem } from "features/game/types/game";
 import { RandomID } from "lib/images";
 
-import { LIFECYCLE } from "../lib/plant";
 import classnames from "classnames";
+import { LIFECYCLE } from "features/farming/crops/lib/plant";
 
 interface Props {
   field?: FieldItem;
