@@ -19,7 +19,11 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
-import { canMine, STONE_RECOVERY_TIME } from "features/game/events/stoneMine";
+import {
+  canMine,
+  getRequiredPickAxesAmount,
+  STONE_RECOVERY_TIME,
+} from "features/game/events/stoneMine";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
@@ -90,6 +94,16 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
     setShowRockTimeLeft(false);
   };
 
+  const pickAxesNeeded = getRequiredPickAxesAmount(
+    game.context.state.inventory
+  );
+  const pickaxeAmount = game.context.state.inventory.Pickaxe || new Decimal(0);
+
+  // Has enough pick axes to mine a stone
+  const hasPickAxes =
+    (selectedItem === tool || pickAxesNeeded.eq(0)) &&
+    pickaxeAmount.gte(pickAxesNeeded);
+
   const shake = () => {
     const isPlaying = sparkGif.current?.getInfo("isPlaying");
 
@@ -99,24 +113,25 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
       return;
     }
 
-    const pickaxeAmount =
-      game.context.state.inventory.Pickaxe || new Decimal(0);
-    if (pickaxeAmount.lessThanOrEqualTo(0)) return;
+    if (!hasPickAxes) {
+      return;
+    }
 
-    if (selectedItem == tool && !isPlaying) {
-      miningAudio.play();
+    if (isPlaying) {
+      return;
+    }
 
-      sparkGif.current?.goToAndPlay(0);
+    miningAudio.play();
+    sparkGif.current?.goToAndPlay(0);
 
-      setTouchCount((count) => count + 1);
+    setTouchCount((count) => count + 1);
 
-      // On third shake, chop
-      if (touchCount > 0 && touchCount === HITS - 1) {
-        mine();
-        miningFallAudio.play();
-        setTouchCount(0);
-      }
-    } else return;
+    // On third shake, mine
+    if (touchCount > 0 && touchCount === HITS - 1) {
+      mine();
+      miningFallAudio.play();
+      setTouchCount(0);
+    }
   };
 
   const mine = async () => {
@@ -146,22 +161,13 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
   };
 
   const handleHover = () => {
-    if (
-      readonly ||
-      (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
-    )
-      return;
-
+    if (readonly || hasPickAxes) return;
     containerRef.current?.classList["add"]("cursor-not-allowed");
     setShowLabel(true);
   };
 
   const handleMouseLeave = () => {
-    if (
-      readonly ||
-      (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
-    )
-      return;
+    if (readonly || hasPickAxes) return;
     containerRef.current?.classList["remove"]("cursor-not-allowed");
     setShowLabel(false);
   };

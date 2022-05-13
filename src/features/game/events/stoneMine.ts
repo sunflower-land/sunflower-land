@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState, Rock } from "../types/game";
+import { GameState, Rock, Inventory } from "../types/game";
 
 export type StoneMineAction = {
   type: "stone.mined";
@@ -26,11 +26,39 @@ export function canMine(rock: Rock, now: number = Date.now()) {
   return now - rock.minedAt > recoveryTime * 1000;
 }
 
+type GetMinedAtAtgs = {
+  inventory: Inventory;
+  createdAt: number;
+};
+
+/**
+ * Set a mined in the past to make it replenish faster
+ */
+function getMinedAt({ inventory, createdAt }: GetMinedAtAtgs): number {
+  if (inventory["Amateur Mole"]?.gte(1) || inventory["Master Mole"]?.gte(1)) {
+    return createdAt - (STONE_RECOVERY_TIME / 2) * 1000;
+  }
+
+  return createdAt;
+}
+
+/**
+ * Returns the amount of pickaxes required to mine down a stone
+ */
+export function getRequiredPickAxesAmount(inventory: Inventory) {
+  if (inventory["Master Mole"]) {
+    return new Decimal(0);
+  }
+
+  return new Decimal(1);
+}
+
 export function mineStone({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
+  const requiredPickAxes = getRequiredPickAxesAmount(state.inventory);
   const rock = state.stones[action.index];
 
   if (!rock) {
@@ -42,7 +70,7 @@ export function mineStone({
   }
 
   const toolAmount = state.inventory["Pickaxe"] || new Decimal(0);
-  if (toolAmount.lessThan(1)) {
+  if (toolAmount.lessThan(requiredPickAxes)) {
     throw new Error(MINE_ERRORS.NO_PICKAXES);
   }
 
@@ -52,13 +80,13 @@ export function mineStone({
     ...state,
     inventory: {
       ...state.inventory,
-      Pickaxe: toolAmount.sub(1),
+      Pickaxe: toolAmount.sub(requiredPickAxes),
       Stone: amount.add(rock.amount),
     },
     stones: {
       ...state.stones,
       [action.index]: {
-        minedAt: Date.now(),
+        minedAt: getMinedAt({ createdAt, inventory: state.inventory }),
         // Placeholder, RNG happens off chain
         amount: new Decimal(2),
       },
