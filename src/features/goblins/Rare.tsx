@@ -160,6 +160,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
       mintedAt: selected.mintedAt,
     });
 
+    // Rare item is still in the cooldown period
     if (secondsLeft > 0) {
       return (
         <div className="mt-2 border-y border-white w-full">
