@@ -75,6 +75,18 @@ export const Menu = () => {
     setMenuOpen(false);
   };
 
+  const handleWhitepaperClick = () => {
+    const newWindow = window.open(
+      "https://docs.sunflower-land.com/",
+      "_blank",
+      "noopener,noreferrer"
+    );
+    if (newWindow) {
+      newWindow.opener = null;
+    }
+    setMenuOpen(false);
+  };
+
   const handleShareClick = () => {
     setShowShareModal(true);
     setMenuOpen(false);
@@ -198,6 +210,11 @@ export const Menu = () => {
                       className="w-3 ml-2"
                       alt="question-mark"
                     />
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button onClick={handleWhitepaperClick}>
+                    <span className="sm:text-sm flex-1">Whitepaper</span>
                   </Button>
                 </li>
                 <li className="p-1">
