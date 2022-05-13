@@ -61,9 +61,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Nyon Statue": 422,
   "Farmer Bath": 423,
   "Homeless Tent": 424,
-  "Mole T1": 425,
-  "Mole T2": 426,
-  "Mole T3": 427,
+  "Stoney the Mole": 425,
+  "Amateur Mole": 426,
+  "Master Mole": 427,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,

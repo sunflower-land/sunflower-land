@@ -129,38 +129,38 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
 };
 
 export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
-  if (inventory["Mole T3"]) {
+  if (inventory["Master Mole"]) {
     return (
       <img
         style={{
           width: `${GRID_WIDTH_PX * 1.2}px`,
         }}
         src={moleT3}
-        alt="Mole T3"
+        alt="Master Mole"
       />
     );
   }
 
-  if (inventory["Mole T2"]) {
+  if (inventory["Amateur Mole"]) {
     return (
       <img
         style={{
           width: `${GRID_WIDTH_PX * 1.2}px`,
         }}
         src={moleT2}
-        alt="Mole T2"
+        alt="Amateur Mole"
       />
     );
   }
 
-  if (inventory["Mole T1"]) {
+  if (inventory["Stoney the Mole"]) {
     return (
       <img
         style={{
           width: `${GRID_WIDTH_PX * 1.2}px`,
         }}
         src={moleT1}
-        alt="Mole T1"
+        alt="Stoney the Mole"
       />
     );
   }

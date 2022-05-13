@@ -425,16 +425,16 @@ export const ITEM_DETAILS: Items = {
     ...BLACKSMITH_ITEMS["Farmer Bath"],
     image: farmerBath,
   },
-  "Mole T1": {
-    ...BLACKSMITH_ITEMS["Mole T1"],
+  "Stoney the Mole": {
+    ...BLACKSMITH_ITEMS["Stoney the Mole"],
     image: moleT1,
   },
-  "Mole T2": {
-    ...BLACKSMITH_ITEMS["Mole T2"],
+  "Amateur Mole": {
+    ...BLACKSMITH_ITEMS["Amateur Mole"],
     image: moleT2,
   },
-  "Mole T3": {
-    ...BLACKSMITH_ITEMS["Mole T3"],
+  "Master Mole": {
+    ...BLACKSMITH_ITEMS["Master Mole"],
     image: moleT3,
   },
 
