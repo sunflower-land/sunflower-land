@@ -48,6 +48,13 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "goblin",
   },
   {
+    name: "RickyFurt",
+    url: "https://github.com/rickfurt",
+    farmId: 78,
+    role: ["coder", "artist"],
+    avatar: "goblin",
+  },
+  {
     name: "Beastrong23",
     url: "https://github.com/j923sneaks",
     farmId: 33,
@@ -258,31 +265,10 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "goblin",
   },
   {
-    name: "Ant",
-    url: "",
-    role: ["moderator"],
-    farmId: 39,
-    avatar: "man",
-  },
-  {
     name: "K' 🍯",
     url: "",
     role: ["moderator"],
     farmId: 70,
-    avatar: "man",
-  },
-  {
-    name: "Labochi",
-    url: "",
-    role: ["moderator"],
-    farmId: 26,
-    avatar: "man",
-  },
-  {
-    name: "Gobleyh",
-    url: "",
-    role: ["moderator"],
-    farmId: 44,
     avatar: "man",
   },
   {
@@ -307,13 +293,6 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "goblin",
   },
   {
-    name: "AKCH1N",
-    url: "",
-    role: ["moderator"],
-    farmId: 15,
-    avatar: "goblin",
-  },
-  {
     name: "Complic",
     url: "",
     role: ["moderator"],
@@ -325,13 +304,6 @@ export const CONTRIBUTORS = shuffledArrary([
     url: "",
     role: ["moderator"],
     farmId: 21,
-    avatar: "man",
-  },
-  {
-    name: "AKCH1N",
-    url: "",
-    role: ["moderator"],
-    farmId: 15,
     avatar: "man",
   },
   {
