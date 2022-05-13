@@ -13,11 +13,11 @@ import begger from "assets/npcs/begger.gif";
 import richBegger from "assets/npcs/rich_begger.gif";
 import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";
-import team from "assets/npcs/team.png";
 import humanDeath from "assets/npcs/human_death.gif";
 import { ERRORS } from "lib/errors";
 import { beggarAudio } from "lib/utils/sfx";
-import { Context } from "features/game/GameProvider";
+import { Context } from "features/game/VisitingProvider";
+import { shortAddress } from "features/farming/hud/components/Address";
 
 type DonateEvent = {
   type: "DONATE";
@@ -130,7 +130,7 @@ export const TeamDonation: React.FC = () => {
   };
 
   const donate = () => {
-    send("DONATE", { donation });
+    send("DONATE", { donation, to: gameState.context.owner });
   };
 
   return (
@@ -179,25 +179,16 @@ export const TeamDonation: React.FC = () => {
         <Panel>
           {state.matches("begging") && (
             <div className="flex flex-col items-center mb-1">
-              <img src={team} alt="sunflower token" className="w-full mb-3" />
               <div className="flex flex-col text-shadow items-center">
-                <h2 className="text-sm sm:text-base mb-2 text-center pb-2">
-                  Buy the team a coffee!
+                <h2 className="text-sm sm:text-base mb-1 text-center pb-1">
+                  Buy farm #{gameState.context.state.id} owner a coffee!
                 </h2>
-                <p className="sm:text-sm mb-3 text-center">
-                  Sunflower Land is run by a small group of passionate
-                  developers who are 100% sleep deprived.
-                </p>
-                <p className="sm:text-sm mb-3 text-center">
-                  {`You can send us a donation of Matic with which we can drink
-                more coffee and stay awake longer pumping out awesome new
-                features`}
-                </p>
 
-                <p className="sm:text-sm  mb-3 text-center">
-                  Every little bit counts!
+                <p className="sm:text-sm mb-3 text-center">
+                  {shortAddress(gameState.context.owner as string)}
                 </p>
               </div>
+
               <div className="relative">
                 <input
                   type="number"

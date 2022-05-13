@@ -152,23 +152,17 @@ export const Menu = () => {
             />
             <span className="hidden md:flex">Menu</span>
           </Button>
-          {!gameState.matches("readonly") && (
-            <Button
-              onClick={autosave}
-              disabled={gameState.matches("autosaving") ? true : false}
-            >
-              {gameState.matches("autosaving") ? (
-                <img src={timer} className="animate-pulsate" alt="saving" />
-              ) : (
-                <span>Save</span>
-              )}
-            </Button>
-          )}
-          {gameState.matches("readonly") && (
-            <Button onClick={goBack}>
-              <span>Back</span>
-            </Button>
-          )}
+
+          <Button
+            onClick={autosave}
+            disabled={gameState.matches("autosaving") ? true : false}
+          >
+            {gameState.matches("autosaving") ? (
+              <img src={timer} className="animate-pulsate" alt="saving" />
+            ) : (
+              <span>Save</span>
+            )}
+          </Button>
         </div>
         <div
           className={`transition-all ease duration-200 ${
@@ -183,13 +177,11 @@ export const Menu = () => {
             {/* Root menu */}
             {menuLevel === MENU_LEVELS.ROOT && (
               <>
-                {!gameState.matches("readonly") && (
-                  <li className="p-1">
-                    <Button onClick={syncOnChain}>
-                      <span className="sm:text-sm">Sync on chain</span>
-                    </Button>
-                  </li>
-                )}
+                <li className="p-1">
+                  <Button onClick={syncOnChain}>
+                    <span className="sm:text-sm">Sync on chain</span>
+                  </Button>
+                </li>
                 <li className="p-1 flex">
                   <Button onClick={handleHowToPlay}>
                     <span className="sm:text-sm flex-1">How to play</span>
@@ -239,17 +231,16 @@ export const Menu = () => {
             {/* Map menu */}
             {menuLevel === MENU_LEVELS.MAP && (
               <>
-                {!gameState.matches("readonly") && (
-                  <li className="p-1">
-                    <Button
-                      className="flex justify-between"
-                      onClick={() => setShowGoblinModal(true)}
-                    >
-                      <span className="sm:text-sm flex-1">Goblin Village</span>
-                      <img src={goblin} className="w-6 ml-2" alt="town" />
-                    </Button>
-                  </li>
-                )}
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={() => setShowGoblinModal(true)}
+                  >
+                    <span className="sm:text-sm flex-1">Goblin Village</span>
+                    <img src={goblin} className="w-6 ml-2" alt="town" />
+                  </Button>
+                </li>
+
                 <li className="p-1">
                   <Button
                     className="flex justify-between"
@@ -297,13 +288,12 @@ export const Menu = () => {
                     <span className="sm:text-sm">Share</span>
                   </Button>
                 </li>
-                {!gameState.matches("readonly") && (
-                  <li className="p-1">
-                    <Button onClick={visitFarm}>
-                      <span className="sm:text-sm">Visit Farm</span>
-                    </Button>
-                  </li>
-                )}
+
+                <li className="p-1">
+                  <Button onClick={visitFarm}>
+                    <span className="sm:text-sm">Visit Farm</span>
+                  </Button>
+                </li>
               </>
             )}
           </ul>

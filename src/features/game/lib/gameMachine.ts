@@ -110,7 +110,6 @@ export type BlockchainState = {
   value:
     | "loading"
     | "playing"
-    | "readonly"
     | "autosaving"
     | "syncing"
     | "synced"
@@ -136,16 +135,7 @@ type Options = AuthContext & { isNoob: boolean };
 export const INITIAL_SESSION =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 
-const isVisiting = () => window.location.href.includes("visit");
-
 export function startGame(authContext: Options) {
-  const handleInitialState = () => {
-    if (isVisiting()) {
-      return "readonly";
-    }
-    return "playing";
-  };
-
   return createMachine<Context, BlockchainEvent, BlockchainState>(
     {
       id: "gameMachine",
@@ -167,15 +157,6 @@ export function startGame(authContext: Options) {
                 farmAddress: authContext.address as string,
                 id: farmId,
               });
-
-              console.log("game", { onChain });
-
-              // Visit farm
-              if (isVisiting()) {
-                onChain.id = farmId;
-
-                return { state: onChain, onChain, owner };
-              }
 
               // Get sessionId
               const sessionId =
@@ -220,7 +201,7 @@ export function startGame(authContext: Options) {
             },
             onDone: [
               {
-                target: handleInitialState(),
+                target: "playing",
                 actions: assign({
                   state: (_, event) => event.data.state,
                   onChain: (_, event) => event.data.onChain,
@@ -459,7 +440,6 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        readonly: {},
         error: {
           on: {
             CONTINUE: "playing",

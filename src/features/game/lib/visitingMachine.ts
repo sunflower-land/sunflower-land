@@ -8,18 +8,13 @@ export interface Context {
   state: GameState;
   farmId?: number;
   address?: string;
+  owner?: string;
   isBlacklisted?: boolean;
   errorCode?: keyof typeof ERRORS;
 }
 
 type State = {
-  value:
-    | "loading"
-    | "checkFarm"
-    | "blacklisted"
-    | "visiting"
-    | "leaving"
-    | "error";
+  value: "loading" | "blacklisted" | "visiting" | "error";
   context: Context;
 };
 
@@ -48,6 +43,7 @@ const setFarmDetails = assign<Context, any>({
   farmId: (_context, event) => event.data.farmId,
   address: (_context, event) => event.data.address,
   isBlacklisted: (_context, event) => event.data.isBlacklisted,
+  owner: (_context, event) => event.data.owner,
   state: (_, event) => event.data.state,
 });
 
@@ -77,26 +73,6 @@ export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
             },
           },
         },
-        checkFarm: {
-          invoke: {
-            src: "visitFarm",
-            onDone: [
-              {
-                target: "blacklisted",
-                cond: (context: Context) => !!context.isBlacklisted,
-                actions: "assignIsBlacklisted",
-              },
-              {
-                target: "visiting",
-                actions: "assignFarm",
-              },
-            ],
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
         blacklisted: {},
         visiting: {},
         error: {},
@@ -104,10 +80,10 @@ export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
     },
     {
       services: {
-        loadFarmToVisit: async (): Promise<any | undefined> => {
+        loadFarmToVisit: async (): Promise<Context | undefined> => {
           const farmAccount = await metamask.getFarm()?.getFarm(farmToVisitID);
 
-          const { game: onChain } = await getOnChainState({
+          const { game: onChain, owner } = await getOnChainState({
             farmAddress: farmAccount.account,
             id: farmToVisitID,
           });
@@ -117,6 +93,7 @@ export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
           return {
             farmId: farmAccount.tokenId,
             address: farmAccount.account,
+            owner,
             isBlacklisted,
             state: { id: farmToVisitID, ...onChain },
           };

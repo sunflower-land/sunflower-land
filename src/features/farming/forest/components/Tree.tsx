@@ -100,10 +100,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
 
   const shake = async () => {
-    if (game.matches("readonly")) {
-      shakeGif.current?.goToAndPlay(0);
-      return;
-    }
+    shakeGif.current?.goToAndPlay(0);
 
     if (!hasAxes) {
       return;
@@ -166,13 +163,15 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   };
 
   const handleHover = () => {
-    if (game.matches("readonly") || hasAxes) return;
+    if (hasAxes) return;
+
     treeRef.current?.classList["add"]("cursor-not-allowed");
     setShowLabel(true);
   };
 
   const handleMouseLeave = () => {
-    if (game.matches("readonly") || hasAxes) return;
+    if (hasAxes) return;
+
     treeRef.current?.classList["remove"]("cursor-not-allowed");
     setShowLabel(false);
   };

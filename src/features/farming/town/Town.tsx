@@ -34,7 +34,7 @@ export const Town: React.FC = () => {
       <Blacksmith />
       <Mail />
       <TownHall />
-      {!gameState.matches("readonly") && <GoblinVillageEntry />}
+      <GoblinVillageEntry />
     </div>
   );
 };

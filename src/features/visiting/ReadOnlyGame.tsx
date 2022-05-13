@@ -19,14 +19,14 @@ import { Town } from "./town/Town";
 import { House } from "./house/House";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ErrorCode } from "lib/errors";
+import { Blacklisted } from "./Blacklisted";
+import { TeamDonation } from "./teamDonation/TeamDonation";
 
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   error: true,
   blacklisted: true,
-  checkFarm: false,
   visiting: false,
-  leaving: false,
 };
 
 export const ReadOnlyGame: React.FC = () => {
@@ -38,19 +38,18 @@ export const ReadOnlyGame: React.FC = () => {
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
+          {gameState.matches("blacklisted") && <Blacklisted />}
           {gameState.matches("error") && (
             <ErrorMessage
               errorCode={gameState.context.errorCode as ErrorCode}
             />
-          )}
-          {gameState.matches("blacklisted") && (
-            <div>This farm has been blacklisted</div>
           )}
         </Panel>
       </Modal>
 
       <Hud />
       <Crops />
+      <TeamDonation />
       <Water />
       <Animals />
       <Decorations state={gameState.context.state} />

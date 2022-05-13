@@ -36,7 +36,6 @@ const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   playing: false,
-  readonly: false,
   autosaving: false,
   syncing: true,
   synced: true,
