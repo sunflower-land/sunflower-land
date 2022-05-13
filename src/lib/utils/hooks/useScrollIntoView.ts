@@ -37,6 +37,8 @@ export const useScrollIntoView = () => {
 
     const el = document.getElementById(id);
 
+    console.log({ el });
+
     el?.scrollIntoView({
       behavior: behavior || "smooth",
       block: "center",
