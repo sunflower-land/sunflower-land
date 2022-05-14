@@ -32,7 +32,8 @@ export type Contributor = {
     | "sfwhat"
     | "reymar"
     | "na66ime"
-    | "marceline";
+    | "marceline"
+    | "pranav";
 };
 
 function shuffledArrary(array: Contributor[]) {
@@ -136,7 +137,7 @@ export const CONTRIBUTORS = shuffledArrary([
     url: "https://github.com/pranav-yadav",
     role: ["coder"],
     farmId: 43,
-    avatar: "man",
+    avatar: "pranav",
   },
   {
     name: "Denlon",

@@ -35,6 +35,7 @@ import sfwhat from "assets/avatars/sfwhat.gif";
 import reymar from "assets/avatars/reymar.gif";
 import na66ime from "assets/avatars/na66ime.gif";
 import marceline from "assets/avatars/marceline.gif";
+import pranav from "assets/avatars/pranav.png";
 
 import {
   Contributor,
@@ -79,6 +80,7 @@ const AVATARS: Record<Contributor["avatar"], string> = {
   reymar,
   na66ime,
   marceline,
+  pranav,
 };
 
 const ROLE_BADGES: Record<ContributorRole, string> = {
