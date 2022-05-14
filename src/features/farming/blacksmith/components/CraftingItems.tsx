@@ -15,6 +15,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { CraftableItem } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { Stock } from "components/ui/Stock";
+import { getBuyPrice } from "features/game/events/craft";
 
 interface Props {
   items: Partial<Record<InventoryItemName, CraftableItem>>;
@@ -41,15 +42,17 @@ export const CraftingItems: React.FC<Props> = ({
   ] = useActor(gameService);
   const inventory = state.inventory;
 
+  const price = getBuyPrice(selected, inventory);
+
   const lessIngredients = (amount = 1) =>
     selected.ingredients?.some((ingredient) =>
       ingredient.amount.mul(amount).greaterThan(inventory[ingredient.item] || 0)
     );
 
   const lessFunds = (amount = 1) => {
-    if (!selected.tokenAmount) return;
+    if (!price) return;
 
-    return state.balance.lessThan(selected.tokenAmount.mul(amount));
+    return state.balance.lessThan(price.mul(amount));
   };
 
   const craft = (amount = 1) => {
@@ -58,7 +61,7 @@ export const CraftingItems: React.FC<Props> = ({
       amount,
     });
 
-    setToast({ content: "SFL -$" + selected.tokenAmount?.mul(amount) });
+    setToast({ content: "SFL -$" + price?.mul(amount) });
 
     selected.ingredients?.map((ingredient) => {
       setToast({
@@ -196,7 +199,7 @@ export const CraftingItems: React.FC<Props> = ({
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${selected.tokenAmount?.toNumber()}`}
+                {`$${price?.toNumber()}`}
               </span>
             </div>
           </div>
