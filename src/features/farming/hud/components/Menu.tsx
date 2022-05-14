@@ -108,16 +108,6 @@ export const Menu = () => {
     gameService.send("SAVE");
   };
 
-  const goBack = () => {
-    const res = authService.send("RETURN");
-
-    // fallback incase state doesn't change
-    // [TODO]: add proper transitions in both machines
-    if (!res.changed) {
-      navigate("/");
-    }
-  };
-
   const visitFarm = () => {
     authService.send("EXPLORE");
   };
@@ -153,10 +143,7 @@ export const Menu = () => {
             <span className="hidden md:flex">Menu</span>
           </Button>
 
-          <Button
-            onClick={autosave}
-            disabled={gameState.matches("autosaving") ? true : false}
-          >
+          <Button onClick={autosave} disabled={gameState.matches("autosaving")}>
             {gameState.matches("autosaving") ? (
               <img src={timer} className="animate-pulsate" alt="saving" />
             ) : (
