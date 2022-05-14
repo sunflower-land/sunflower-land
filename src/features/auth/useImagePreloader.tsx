@@ -6,11 +6,12 @@ import lightningDeath from "assets/npcs/human_death.gif";
 import minting from "assets/npcs/minting.gif";
 import richBegger from "assets/npcs/rich_begger.gif";
 import syncing from "assets/npcs/syncing.gif";
+import goblinBlacksmith from "assets/buildings/goblin_blacksmith.gif";
+import goblinTailor from "assets/buildings/goblin_tailor.png";
+import goblinBank from "assets/buildings/goblin_bank.gif";
 import background from "assets/land/background.png";
 import goblinLandBackground from "assets/land/goblin_background.png";
 import farm from "assets/brand/nft.png";
-import goblinBlacksmith from "assets/buildings/goblin_blacksmith.gif";
-import goblinBank from "assets/buildings/goblin_bank.gif";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -23,6 +24,7 @@ const IMAGE_LIST: string[] = [
   goblinLandBackground,
   farm,
   goblinBlacksmith,
+  goblinTailor,
   goblinBank,
 ];
 

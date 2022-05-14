@@ -155,13 +155,12 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   const hasItemOnFarm = amountOfSelectedItemInInventory > 0;
 
   const Action = () => {
-    if (soldOut) return null;
-
     const secondsLeft = mintCooldown({
       cooldownSeconds: selected.cooldownSeconds,
       mintedAt: selected.mintedAt,
     });
 
+    // Rare item is still in the cooldown period
     if (secondsLeft > 0) {
       return (
         <div className="mt-2 border-y border-white w-full">
@@ -193,6 +192,8 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
         </div>
       );
     }
+
+    if (soldOut) return null;
 
     if (hasItemOnFarm)
       return (
