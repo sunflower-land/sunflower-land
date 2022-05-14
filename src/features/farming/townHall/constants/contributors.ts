@@ -128,7 +128,7 @@ export const CONTRIBUTORS = shuffledArrary([
     name: "Alvin Valdez",
     url: "https://github.com/alvinphoebeartemis",
     role: ["coder"],
-    farmId: 2965,
+    farmId: 2956,
     avatar: "man",
   },
   {
