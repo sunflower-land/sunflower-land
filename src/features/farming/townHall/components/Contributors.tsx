@@ -16,7 +16,6 @@ import benahol from "assets/avatars/benahol.gif";
 import bumpkin from "assets/avatars/bumpkin.gif";
 import denlon from "assets/avatars/denlon.gif";
 import dee from "assets/avatars/donatofrog.gif";
-import finn from "assets/avatars/finn.gif";
 import kaiojans from "assets/avatars/kaiojans.gif";
 import tiff from "assets/avatars/tifffrog.gif";
 import vp from "assets/avatars/vadimofrog.gif";
@@ -35,6 +34,7 @@ import tourist from "assets/avatars/tourist.gif";
 import sfwhat from "assets/avatars/sfwhat.gif";
 import reymar from "assets/avatars/reymar.gif";
 import na66ime from "assets/avatars/na66ime.gif";
+import marceline from "assets/avatars/marceline.gif";
 
 import {
   Contributor,
@@ -60,7 +60,6 @@ const AVATARS: Record<Contributor["avatar"], string> = {
   bumpkin,
   denlon,
   dee,
-  finn,
   kaiojans,
   tiff,
   vp,
@@ -79,6 +78,7 @@ const AVATARS: Record<Contributor["avatar"], string> = {
   sfwhat,
   reymar,
   na66ime,
+  marceline,
 };
 
 const ROLE_BADGES: Record<ContributorRole, string> = {

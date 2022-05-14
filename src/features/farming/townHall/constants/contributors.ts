@@ -9,7 +9,6 @@ export type Contributor = {
     | "man"
     | "goblin"
     | "bumpkin"
-    | "finn"
     | "andejaus"
     | "dee"
     | "tiff"
@@ -32,7 +31,8 @@ export type Contributor = {
     | "tourist"
     | "sfwhat"
     | "reymar"
-    | "na66ime";
+    | "na66ime"
+    | "marceline";
 };
 
 function shuffledArrary(array: Contributor[]) {
@@ -388,7 +388,7 @@ export const CONTRIBUTORS = shuffledArrary([
     url: "https://twitter.com/Netherzapdoss",
     role: ["artist"],
     farmId: 591,
-    avatar: "finn",
+    avatar: "marceline",
   },
   {
     name: "vp",
