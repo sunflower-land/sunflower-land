@@ -251,7 +251,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
       <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {soldOut && (
-            <span className="bg-blue-600 border text-xxs absolute left-0 -top-4 p-1 rounded-md">
+            <span className="bg-error border text-xxs absolute left-0 -top-4 p-1 rounded-md">
               Sold out
             </span>
           )}
