@@ -38,16 +38,16 @@ export const NoFarm: React.FC = () => {
             <img src={suspicious} className="w-12" />
             <img
               src={idle}
-              className="w-12 relative bottom-1"
+              className="w-8 relative bottom-[6px]"
               style={{ transform: "scaleX(-1)" }}
             />
             <img
               src={questionMark}
               className="absolute z-10 animate-float"
               style={{
-                right: "18px",
+                right: "10px",
                 width: "13px",
-                top: "-27px",
+                top: "-30px",
               }}
             />
           </div>
