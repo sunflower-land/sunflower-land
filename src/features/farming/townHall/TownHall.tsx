@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 
 import townHall from "assets/buildings/townhall.png";
 import heart from "assets/icons/heart.png";
+import close from "assets/icons/close.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
@@ -38,6 +39,11 @@ export const TownHall: React.FC = () => {
 
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={() => setIsOpen(false)}
+          />
           <Contributors onClose={() => setIsOpen(false)} />
         </Panel>
       </Modal>

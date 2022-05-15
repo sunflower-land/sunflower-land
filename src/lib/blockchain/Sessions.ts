@@ -1,6 +1,8 @@
+import { getItemUnit } from "features/game/lib/conversion";
+import { KNOWN_ITEMS } from "features/game/types";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
-import { AbiItem, toWei } from "web3-utils";
+import { AbiItem, fromWei, toWei } from "web3-utils";
 import SessionABI from "./abis/Session.json";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
@@ -80,7 +82,23 @@ export class SessionManager {
         .getRecipeBatch(ids)
         .call({ from: this.account });
 
-      return recipes;
+      // For UI purposes, do not show the wei values
+      const ethBasedRecipes = recipes.map((recipe) => ({
+        ...recipe,
+        tokenAmount: recipe.tokenAmount
+          ? Number(fromWei(recipe.tokenAmount.toString()))
+          : 0,
+        ingredientAmounts: recipe.ingredientAmounts.map((amount, index) =>
+          Number(
+            fromWei(
+              amount.toString(),
+              getItemUnit(KNOWN_ITEMS[recipe.ingredientIds[index]])
+            )
+          )
+        ),
+      }));
+
+      return ethBasedRecipes;
     } catch (e) {
       const error = parseMetamaskError(e);
       if (attempts < 3) {

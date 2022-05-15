@@ -3,7 +3,6 @@ import Modal from "react-bootstrap/esm/Modal";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GoblinProvider";
-
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Village } from "./village/Village";
 import { Loading } from "features/auth/components";
@@ -15,8 +14,10 @@ import { Minted } from "features/game/components/Minted";
 import { Withdrawing } from "features/game/components/Withdrawing";
 import { Withdrawn } from "features/game/components/Withdrawn";
 import { StateValues } from "features/game/lib/goblinMachine";
-import { TownEntry } from "./components/TownEntry";
+import { screenTracker } from "lib/utils/screen";
+import * as AuthProvider from "features/auth/lib/Provider";
 
+// const SHOW_MODAL: Record<StateValues, boolean> = {
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   minting: true,
@@ -28,6 +29,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 };
 
 export const GoblinLand: React.FC = () => {
+  const { authService } = useContext(AuthProvider.Context);
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
@@ -35,6 +37,15 @@ export const GoblinLand: React.FC = () => {
   useEffect(() => {
     scrollIntoView(Section.GoblinVillage, "auto");
   }, [scrollIntoView]);
+
+  useEffect(() => {
+    screenTracker.start(authService);
+
+    // cleanup on every gameState update
+    return () => {
+      screenTracker.pause();
+    };
+  }, []);
 
   return (
     <div>
@@ -53,7 +64,6 @@ export const GoblinLand: React.FC = () => {
         </Panel>
       </Modal>
       <Village />
-      <TownEntry />
     </div>
   );
 };

@@ -71,6 +71,13 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "inu",
   },
   {
+    name: "RickyFurt",
+    url: "https://github.com/rickfurt",
+    farmId: 78,
+    role: ["coder", "artist"],
+    avatar: "goblin",
+  },
+  {
     name: "Beastrong23",
     url: "https://github.com/j923sneaks",
     farmId: 33,
@@ -278,13 +285,6 @@ export const CONTRIBUTORS = shuffledArrary([
     url: "",
     role: ["moderator"],
     farmId: 70,
-    avatar: "man",
-  },
-  {
-    name: "Labochi",
-    url: "",
-    role: ["moderator"],
-    farmId: 26,
     avatar: "man",
   },
   {

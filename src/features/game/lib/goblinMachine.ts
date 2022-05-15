@@ -17,6 +17,9 @@ import {
 } from "../actions/onchain";
 import { ERRORS } from "lib/errors";
 import { EMPTY } from "./constants";
+import { loadSession } from "../actions/loadSession";
+import { metamask } from "lib/blockchain/metamask";
+import { INITIAL_SESSION } from "./gameMachine";
 
 export type GoblinState = Omit<GameState, "skills">;
 
@@ -97,24 +100,39 @@ export function startGoblinVillage(authContext: AuthContext) {
       initial: "loading",
       context: {
         state: EMPTY,
-        sessionId: authContext.sessionId,
+        sessionId: INITIAL_SESSION,
         limitedItems: {},
       },
       states: {
         loading: {
           invoke: {
             src: async () => {
+              const farmId = authContext.farmId as number;
+
               const { game, limitedItems } = await getOnChainState({
                 farmAddress: authContext.address as string,
                 id: Number(authContext.farmId),
               });
 
               // Load the Goblin Village
-              game.id = authContext.farmId as number;
+              game.id = farmId;
+
+              // Get session id
+              const sessionId = await metamask
+                .getSessionManager()
+                .getSessionId(farmId);
+
+              const response = await loadSession({
+                farmId,
+                sessionId,
+                token: authContext.rawToken as string,
+              });
+
+              game.fields = response?.game.fields || {};
 
               const limitedItemsById = makeLimitedItemsById(limitedItems);
 
-              return { state: game, limitedItems: limitedItemsById };
+              return { state: game, limitedItems: limitedItemsById, sessionId };
             },
             onDone: {
               target: "playing",
@@ -125,6 +143,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                     LIMITED_ITEMS,
                     event.data.limitedItems
                   ),
+                sessionId: (_, event) => event.data.sessionId,
               }),
             },
             onError: {},

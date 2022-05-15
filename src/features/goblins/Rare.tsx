@@ -150,24 +150,25 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   }
 
   const soldOut = amountLeft <= 0;
+  const amountOfSelectedItemInInventory =
+    inventory[selected.name]?.toNumber() || 0;
+  const hasItemOnFarm = amountOfSelectedItemInInventory > 0;
 
   const Action = () => {
-    if (soldOut) {
-      return null;
-    }
-
     const secondsLeft = mintCooldown({
       cooldownSeconds: selected.cooldownSeconds,
       mintedAt: selected.mintedAt,
     });
+
+    // Rare item is still in the cooldown period
     if (secondsLeft > 0) {
       return (
         <div className="mt-2 border-y border-white w-full">
-          <div className="mt-3 flex items-center justify-center">
+          <div className="mt-2 flex items-center justify-center">
             <img src={busyGoblin} alt="not available" className="w-12" />
           </div>
           <div className="text-center">
-            <p className="text-[10px] mb-[-2px]">Ready in</p>
+            <p className="text-[10px] mb-2">Ready in</p>
             <p className="text-[10px]">
               <ProgressBar
                 seconds={secondsLeft}
@@ -192,8 +193,20 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
       );
     }
 
+    if (soldOut) return null;
+
+    if (hasItemOnFarm)
+      return (
+        <div className="flex flex-col text-center mt-2 border-y border-white w-full">
+          <p className="text-[10px] sm:text-sm my-2">Already minted!</p>
+          <p className="text-[8px] sm:text-[10px] mb-2">
+            You can only have one of each rare item on your farm at a time.
+          </p>
+        </div>
+      );
+
     if (selected.disabled) {
-      return <span className="text-xs mt-1">Coming soon</span>;
+      return <span className="text-xs mt-2">Coming soon</span>;
     }
 
     if (!canCraft) return;
@@ -238,12 +251,12 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
       <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {soldOut && (
-            <span className="bg-blue-600 text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md">
+            <span className="bg-blue-600 border text-xxs absolute left-0 -top-4 p-1 rounded-md">
               Sold out
             </span>
           )}
           {!!selected.maxSupply && amountLeft > 0 && (
-            <span className="bg-blue-600 text-shadow border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
+            <span className="bg-blue-600 border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
               {`${amountLeft} left`}
             </span>
           )}
@@ -259,7 +272,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
           </span>
 
           {canCraft && (
-            <div className="border-t border-white w-full mt-2 pt-1">
+            <div className="border-t border-white w-full mt-2 pt-1 mb-2">
               {selected.ingredients?.map((ingredient, index) => {
                 const item = ITEM_DETAILS[ingredient.item];
                 const lessIngredient = new Decimal(

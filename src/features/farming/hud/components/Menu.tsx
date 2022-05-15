@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useActor } from "@xstate/react";
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -58,6 +59,7 @@ export const Menu = () => {
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
   const ref = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
@@ -107,7 +109,13 @@ export const Menu = () => {
   };
 
   const goBack = () => {
-    authService.send("RETURN");
+    const res = authService.send("RETURN");
+
+    // fallback incase state doesn't change
+    // [TODO]: add proper transitions in both machines
+    if (!res.changed) {
+      navigate("/");
+    }
   };
 
   const visitFarm = () => {
@@ -342,7 +350,7 @@ export const Menu = () => {
         show={showGoblinModal}
         onHide={() => setShowGoblinModal(false)}
       >
-        <GoblinVillageModal />
+        <GoblinVillageModal onClose={() => setShowGoblinModal(false)} />
       </Modal>
     </div>
   );

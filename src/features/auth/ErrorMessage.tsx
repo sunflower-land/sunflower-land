@@ -14,6 +14,7 @@ import { Congestion } from "./components/Congestion";
 import { SessionExpired } from "./components/SessionExpired";
 import { ErrorCode } from "lib/errors";
 import { TooManyRequests } from "./components/TooManyRequests";
+import { Maintenance } from "./components/Maintenance";
 
 interface Props {
   errorCode: ErrorCode;
@@ -71,6 +72,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === "TOO_MANY_REQUESTS") {
     return <TooManyRequests />;
+  }
+
+  if (errorCode === "MAINTENANCE") {
+    return <Maintenance />;
   }
 
   return <ConnectingError />;
