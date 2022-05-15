@@ -18,16 +18,16 @@ export const ToastManager = () => {
     <div>
       {listed && (
         <div className="text-shadow p-0.5 text-white shadow-lg flex flex-col items-end mr-2 sm:block fixed top-20 left-2 z-[99999]">
-          <Panel>
-            {toastList.map(({ content, id, icon }) => (
-              <div className="flex items-center relative" key={id}>
+          {toastList.map(({ content, id, icon }) => (
+            <Panel className="mb-1" key={id}>
+              <div className="flex items-center relative">
                 {icon && (
                   <img className="h-6 mr-4" src={icon} alt="toast-icon" />
                 )}
                 <span>{content}</span>
               </div>
-            ))}
-          </Panel>
+            </Panel>
+          ))}
         </div>
       )}
     </div>
