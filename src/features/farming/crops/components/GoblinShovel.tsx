@@ -10,6 +10,7 @@ import { isShovelStolen } from "features/game/events/harvest";
 import { Button } from "components/ui/Button";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { recoverShovel } from "features/game/lib/harvestCountStorage";
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 type Position = {
   top: number;
@@ -46,6 +47,7 @@ export const GoblinShovel: React.FC = () => {
   const [showGoblin, setShowGoblin] = useState(false);
   const [goblinPosition, setGoblinPosition] = useState<Position>();
   const { gameService } = useContext(Context);
+  const [scrollIntoView] = useScrollIntoView();
 
   useEffect(() => {
     const detectGoblins = () => {
@@ -64,12 +66,17 @@ export const GoblinShovel: React.FC = () => {
     });
 
     detectGoblins();
-  }, [showGoblin]);
+  }, [gameService]);
 
   const onClickGoblin = () => {
     setShowRecoveredShovelModal(true);
     recoverShovel();
     setShowGoblin(false);
+  };
+
+  const onContinue = () => {
+    scrollIntoView(Section.Crops);
+    setShowRecoveredShovelModal(false);
   };
 
   return (
@@ -129,10 +136,7 @@ export const GoblinShovel: React.FC = () => {
           </div>
 
           <div className="flex">
-            <Button
-              className="text-sm"
-              onClick={() => setShowRecoveredShovelModal(false)}
-            >
+            <Button className="text-sm" onClick={onContinue}>
               Continue
             </Button>
           </div>
