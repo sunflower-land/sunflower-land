@@ -130,10 +130,13 @@ export const GoblinVillageModal: React.FC<{ onClose: () => void }> = ({
           You may lose SFL or resources from your farm if they have not been
           synced to the blockchain
         </span>
-        <Button className="mr-1" onClick={preGoblinTownSync}>
+      </div>
+      <div hidden={farmSynced}>
+        <Button className="my-2" onClick={preGoblinTownSync}>
           SYNC
         </Button>
       </div>
+
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
           Close
