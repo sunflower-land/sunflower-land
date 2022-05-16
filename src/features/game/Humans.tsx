@@ -1,5 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
+import * as Auth from "features/auth/lib/Provider";
 
 import background from "assets/land/background.png";
 
@@ -10,18 +11,29 @@ import mapMovement from "./lib/mapMovement";
 import { ExpansionInfo } from "./expansion/ExpansionInfo";
 import { useParams } from "react-router-dom";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { useActor } from "@xstate/react";
 
 export const Humans: React.FC = () => {
+  const { authService } = useContext(Auth.Context);
+  const [authState, send] = useActor(authService);
   // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
   const { id } = useParams();
   const [scrollIntoView] = useScrollIntoView();
 
   useEffect(() => {
+    // Move auth machine out of visiting state if route changed via browser back button
+    if (
+      authState.matches({ connected: "visitingContributor" }) ||
+      authState.matches("visiting")
+    ) {
+      send("RETURN");
+    }
+  }, []);
+
+  useEffect(() => {
     // Start with crops centered
-    // if (showGame) {
     scrollIntoView(Section.Crops, "auto");
-    // }
   }, [scrollIntoView]);
 
   useEffect(() => {
