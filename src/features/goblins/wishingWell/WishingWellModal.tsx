@@ -107,7 +107,7 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
             target="_blank"
             rel="noreferrer"
           >
-            How do I do get tokens?
+            How do I get tokens?
           </a>
         </div>
       );
