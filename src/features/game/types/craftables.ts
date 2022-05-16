@@ -327,6 +327,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
     name: "Egg Basket",
     description: "Gives access to the Easter Egg Hunt",
     type: LimitedItemType.BlacksmithItem,
+    disabled: true,
   },
 };
 
