@@ -280,8 +280,7 @@ export const authMachine = createMachine<
                 {
                   target: "supplyReached",
                   cond: (context, event) =>
-                    Number(event.data.totalSupply) >= 100000 &&
-                    !context.token?.userAccess?.createFarm,
+                    Number(event.data.totalSupply) >= 150000,
                 },
                 { target: "noFarmLoaded" },
               ],
@@ -514,7 +513,6 @@ export const authMachine = createMachine<
 
         const newFarm = await createFarmAction({
           charity: charityAddress,
-          donation,
           token: context.rawToken as string,
           captcha: captcha,
         });

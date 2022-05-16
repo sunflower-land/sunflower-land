@@ -38,16 +38,16 @@ export const NoFarm: React.FC = () => {
             <img src={suspicious} className="w-12" />
             <img
               src={idle}
-              className="w-12 relative bottom-1"
+              className="w-8 relative bottom-[6px]"
               style={{ transform: "scaleX(-1)" }}
             />
             <img
               src={questionMark}
               className="absolute z-10 animate-float"
               style={{
-                right: "18px",
+                right: "10px",
                 width: "13px",
-                top: "-27px",
+                top: "-30px",
               }}
             />
           </div>
@@ -55,7 +55,7 @@ export const NoFarm: React.FC = () => {
             Beta is currently open for testers on Discord.
           </span>
           <span className="text-sm text-shadow p-2 text-center mb-2">
-            Only 100,000 spots available!
+            Only 150,000 spots available!
           </span>
           <Button onClick={connect} className="overflow-hidden mb-2">
             Connect to Discord
