@@ -237,7 +237,7 @@ export const authMachine = createMachine<
                 {
                   target: "authorised",
                   actions: (context) => {
-                    window.location.href = `${window.location.pathname}#/play/${context.farmId}`;
+                    window.location.href = `${window.location.pathname}#/farm/${context.farmId}`;
                   },
                   cond: "hasFarm",
                 },
