@@ -22,7 +22,7 @@ export const Shop: React.FC = () => {
   return (
     <div
       id={Section.Shop}
-      className="cursor-pointer hover:img-highlight"
+      className="absolute cursor-pointer hover:img-highlight"
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
         left: `${GRID_WIDTH_PX * 3}px`,
