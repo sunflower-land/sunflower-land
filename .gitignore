@@ -34,3 +34,6 @@ cache
 #ide Settings
 /.idea
 /.vscode
+
+# storybook
+/storybook-static
