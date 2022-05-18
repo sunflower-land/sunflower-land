@@ -2,7 +2,11 @@ import { GameState, Inventory } from "../types/game";
 import { CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
-import { addToHarvestCount, getHarvestCount } from "../lib/harvestCountStorage";
+import {
+  addToHarvestCount,
+  getGoblinCount,
+  getHarvestCount,
+} from "../lib/goblinShovelStorage";
 
 export type HarvestAction = {
   type: "item.harvested";
@@ -94,5 +98,6 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
 }
 
 export const isShovelStolen = () => {
-  return new Decimal(getHarvestCount()).greaterThanOrEqualTo(57);
+  const goblinThreshold = getGoblinCount().add(1).pow(3).mul(57);
+  return getHarvestCount().greaterThanOrEqualTo(goblinThreshold);
 };
