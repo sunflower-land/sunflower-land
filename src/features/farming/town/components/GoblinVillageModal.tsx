@@ -133,7 +133,7 @@ export const GoblinVillageModal: React.FC<{ onClose: () => void }> = ({
       </div>
       <div hidden={farmSynced}>
         <Button className="my-2" onClick={preGoblinTownSync}>
-          SYNC
+          Sync
         </Button>
       </div>
 
