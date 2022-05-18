@@ -85,7 +85,7 @@ export const CraftingItems: React.FC<Props> = ({
   if (showCaptcha) {
     return (
       <ReCAPTCHA
-        sitekey={CONFIG.SITEKEY}
+        sitekey={CONFIG.RECAPTCHA_SITEKEY}
         onChange={onCaptchaSolved}
         onExpired={() => setShowCaptcha(false)}
         className="w-full m-4 flex items-center justify-center"

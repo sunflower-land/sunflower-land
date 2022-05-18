@@ -49,7 +49,7 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
     if (machine.matches("captcha")) {
       return (
         <ReCAPTCHA
-          sitekey={CONFIG.SITEKEY}
+          sitekey={CONFIG.RECAPTCHA_SITEKEY}
           onChange={(captcha: string | null) => send("VERIFIED", { captcha })}
           className="w-full m-0 flex items-center justify-center"
         />
