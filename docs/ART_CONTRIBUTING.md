@@ -6,7 +6,7 @@ In this guide you will get an overview of the contribution workflow for getting 
 
 ### Disclaimer
 
-By contributing to this repository you provide Sunflower Land the ownership of any IP contributed to the project to use indefinitely. This includes code, discussions (ideas) and all types of artwork. While often designers and developers are rewarded with the NFTs and airdrops, there is no guarantee of reward. Being a decentralized game, players may list and trade NFTs that are based on your submissions. By submitting content, you agree to the terms of service of the game and these conditons.
+By contributing to this repository you provide Sunflower Land the ownership of any IP contributed to the project to use indefinitely. This includes code, discussions (ideas) and all types of artwork. While often designers and developers are rewarded with the NFTs and airdrops, there is no guarantee of reward. Being a decentralized game, players may list and trade NFTs that are based on your submissions. By submitting content, you agree to the terms of service of the game and these conditions.
 
 You confirm that the artwork is original and completely your design. Copying others artwork can land yourself and the project in trouble.
 
@@ -34,11 +34,11 @@ Something doesn't look quite right? Design a better version, submit it and help 
 
 Sunflower Land is based on an asset pack - https://danieldiggle.itch.io/sunnyside
 
-To submit art, you will want to use the same color palette, proportions and pixellated effect of the current artwork.
+To submit art, you will want to use the same color palette, proportions and pixelated effect of the current artwork.
 
 **Dimensions**
 
-The artwork is heavily pixellated which gives it a light and friendly appearance.
+The artwork is heavily pixelated which gives it a light and friendly appearance.
 
 We recommend that most artwork falls within the 20x30 pixels. If you are designing a smaller item (like an icon, meal or pot plant), aim for 10x10.
 
