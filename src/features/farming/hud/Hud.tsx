@@ -5,6 +5,7 @@ import { Inventory } from "./components/Inventory";
 import { Menu } from "./components/Menu";
 import { AudioPlayer } from "components/ui/AudioPlayer";
 import { VisitBanner } from "./components/VisitBanner";
+import { Zoom } from "components/ui/Zoom";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -17,6 +18,7 @@ export const Hud: React.FC = () => {
       <Balance />
       <Inventory />
       <AudioPlayer isFarming />
+      <Zoom />
       <VisitBanner />
     </div>
   );
