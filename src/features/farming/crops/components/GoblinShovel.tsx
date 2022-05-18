@@ -109,7 +109,6 @@ export const GoblinShovel: React.FC = () => {
         <img
           src={goblin}
           onClick={onClickGoblin}
-          id="shovel"
           className="absolute z-10 hover:img-highlight cursor-pointer"
           style={{
             width: `${GRID_WIDTH_PX * 1.38}px`,
