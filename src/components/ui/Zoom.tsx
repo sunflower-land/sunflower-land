@@ -28,10 +28,10 @@ export const Zoom: React.FC<Props> = () => {
     <>
       {isMobile && (
         <div
-          className={`position-fixed right-2 sm:right-2 bottom-4 z-50 md:w-56 w-48 h-fit  sm:-translate-x-50 transition-all duration-500 ease-in-out`}
+          className={`position-fixed left-2 sm:left-2 bottom-4 z-50 md:w-56 w-48 h-fit`}
         >
           <div
-            className={`position-absolute left-20 sm:-left-24 bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex gap-2 align-items-center overflow-hidden`}
+            className={`position-absolute left-0 sm:-left-0 bottom-0 duration-500 w-fit z-50`}
           >
             <Button onClick={() => setZoomedOut(!zoomedOut)}>
               <img

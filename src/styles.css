@@ -75,6 +75,12 @@ input[type="number"] {
   border: none;
 }
 
+/* Make backdrop cover screen after resizing */
+.modal-backdrop {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* If modal content overflows the screen height then allow the window to scroll */
 .modal-dialog-scrollable .modal-content {
   overflow: initial;
