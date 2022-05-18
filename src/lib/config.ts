@@ -14,7 +14,7 @@ const TOKEN_CONTRACT = import.meta.env.VITE_TOKEN_CONTRACT;
 const DISCORD_REDIRECT = import.meta.env.VITE_DISCORD_REDIRECT;
 const CLIENT_VERSION = import.meta.env.VITE_CLIENT_VERSION as string;
 const RELEASE_VERSION = import.meta.env.VITE_RELEASE_VERSION as string;
-const SITEKEY = "6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s";
+const SITEKEY = import.meta.env.VITE_RECAPTCHA_SITEKEY as string;
 
 export const CONFIG = {
   NETWORK,
