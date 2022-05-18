@@ -93,6 +93,11 @@ export const Auth: React.FC = () => {
               errorCode={authState.context.errorCode as ErrorCode}
             />
           )}
+
+          <p className="text-center mt-3">URL Verification</p>
+          <p className="text-center mb-4 text-xxs bg-error border rounded-md">
+            https://www.sunflower-land.com/play
+          </p>
         </Panel>
       </div>
     </Modal>
