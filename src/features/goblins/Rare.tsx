@@ -211,6 +211,10 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
 
     if (!canCraft) return;
 
+    if ([421, 410, 417].includes(selected.id as number)) {
+      return null;
+    }
+
     return (
       <>
         <Button
