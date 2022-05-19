@@ -702,4 +702,9 @@ export const ITEM_DETAILS: Items = {
     description: "A purple easter egg",
     image: purpleEgg,
   },
+
+  "Rocket Repair": {
+    description: "Equipment used to repair a rocket",
+    image: questionMark,
+  },
 };
