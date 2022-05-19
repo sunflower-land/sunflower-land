@@ -2,8 +2,10 @@ import React from "react";
 
 import brokenRocket from "assets/buildings/mom_broken_rocket.gif";
 import momNpc from "assets/npcs/mom_npc.gif";
+import icon from "assets/brand/icon.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { Action } from "components/ui/Action";
 
 export const Rocket: React.FC = () => {
   return (
@@ -26,6 +28,13 @@ export const Rocket: React.FC = () => {
             right: `${GRID_WIDTH_PX * 3.75}px`,
           }}
         />
+        {
+          <Action
+            className="absolute -bottom-1 left-8"
+            text="M.O.M"
+            icon={icon}
+          />
+        }
       </div>
     </div>
   );
