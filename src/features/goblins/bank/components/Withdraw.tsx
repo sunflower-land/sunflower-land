@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useActor } from "@xstate/react";
+import { CONFIG } from "lib/config";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -74,7 +75,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     return (
       <>
         <ReCAPTCHA
-          sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+          sitekey={CONFIG.RECAPTCHA_SITEKEY}
           onChange={onCaptchaSolved}
           onExpired={() => setShowCaptcha(false)}
           className="w-full m-4 flex items-center justify-center"
