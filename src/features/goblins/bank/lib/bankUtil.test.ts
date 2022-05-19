@@ -329,4 +329,112 @@ describe("canWithdraw", () => {
 
     expect(enabled).toBeTruthy();
   });
+
+  it("enables a user to withdraw a T1 mole when not in use", () => {
+    const enabled = canWithdraw({
+      item: "Stoney the Mole",
+      game: {
+        ...INITIAL_FARM,
+        stones: {
+          0: {
+            // ready to be mined
+            minedAt: 0,
+            amount: new Decimal(3),
+          },
+        },
+      },
+    });
+
+    expect(enabled).toBeTruthy();
+  });
+
+  it("prevent a user to withdraw a T1 mole while stones are replenishing", () => {
+    const enabled = canWithdraw({
+      item: "Stoney the Mole",
+      game: {
+        ...INITIAL_FARM,
+        stones: {
+          0: {
+            // Just been mined
+            minedAt: Date.now(),
+            amount: new Decimal(3),
+          },
+        },
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
+  it("enables a user to withdraw a T2 mole when not in use", () => {
+    const enabled = canWithdraw({
+      item: "Amateur Mole",
+      game: {
+        ...INITIAL_FARM,
+        stones: {
+          0: {
+            // ready to be mined
+            minedAt: 0,
+            amount: new Decimal(3),
+          },
+        },
+      },
+    });
+
+    expect(enabled).toBeTruthy();
+  });
+
+  it("prevent a user to withdraw a T2 mole while stones are replenishing", () => {
+    const enabled = canWithdraw({
+      item: "Amateur Mole",
+      game: {
+        ...INITIAL_FARM,
+        stones: {
+          0: {
+            // Just been mined
+            minedAt: Date.now(),
+            amount: new Decimal(3),
+          },
+        },
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
+  it("enables a user to withdraw a T3 mole when not in use", () => {
+    const enabled = canWithdraw({
+      item: "Master Mole",
+      game: {
+        ...INITIAL_FARM,
+        stones: {
+          0: {
+            // ready to be mined
+            minedAt: 0,
+            amount: new Decimal(3),
+          },
+        },
+      },
+    });
+
+    expect(enabled).toBeTruthy();
+  });
+
+  it("prevent a user to withdraw a T3 mole while stones are replenishing", () => {
+    const enabled = canWithdraw({
+      item: "Master Mole",
+      game: {
+        ...INITIAL_FARM,
+        stones: {
+          0: {
+            // Just been mined
+            minedAt: Date.now(),
+            amount: new Decimal(3),
+          },
+        },
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
 });
