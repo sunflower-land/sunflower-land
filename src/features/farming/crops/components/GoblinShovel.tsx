@@ -9,7 +9,8 @@ import { isShovelStolen } from "features/game/events/harvest";
 
 import { Button } from "components/ui/Button";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { recoverShovel } from "features/game/lib/harvestCountStorage";
+import { recoverShovel } from "features/game/lib/goblinShovelStorage";
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 type Position = {
   top: number;
@@ -46,6 +47,7 @@ export const GoblinShovel: React.FC = () => {
   const [showGoblin, setShowGoblin] = useState(false);
   const [goblinPosition, setGoblinPosition] = useState<Position>();
   const { gameService } = useContext(Context);
+  const [scrollIntoView] = useScrollIntoView();
 
   useEffect(() => {
     const detectGoblins = () => {
@@ -54,22 +56,26 @@ export const GoblinShovel: React.FC = () => {
       setShowGoblin(isStolen);
     };
 
-    const randomPosition = Math.floor(Math.random() * 19);
-    setGoblinPosition(positions[randomPosition]);
-
     gameService.onEvent((event) => {
       if (event.type == "item.harvested") {
+        const randomPosition = Math.floor(Math.random() * 19);
+        setGoblinPosition(positions[randomPosition]);
         detectGoblins();
       }
     });
 
     detectGoblins();
-  }, [showGoblin]);
+  }, [gameService]);
 
   const onClickGoblin = () => {
     setShowRecoveredShovelModal(true);
     recoverShovel();
     setShowGoblin(false);
+  };
+
+  const onContinue = () => {
+    scrollIntoView(Section.Crops);
+    setShowRecoveredShovelModal(false);
   };
 
   return (
@@ -102,7 +108,6 @@ export const GoblinShovel: React.FC = () => {
         <img
           src={goblin}
           onClick={onClickGoblin}
-          id="shovel"
           className="absolute z-10 hover:img-highlight cursor-pointer"
           style={{
             width: `${GRID_WIDTH_PX * 1.38}px`,
@@ -129,10 +134,7 @@ export const GoblinShovel: React.FC = () => {
           </div>
 
           <div className="flex">
-            <Button
-              className="text-sm"
-              onClick={() => setShowRecoveredShovelModal(false)}
-            >
+            <Button className="text-sm" onClick={onContinue}>
               Continue
             </Button>
           </div>

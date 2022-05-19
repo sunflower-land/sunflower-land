@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useActor } from "@xstate/react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -336,7 +337,7 @@ export const Menu = () => {
               onClick={() => setShowCaptcha(false)}
             />
             <ReCAPTCHA
-              sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+              sitekey={CONFIG.RECAPTCHA_SITEKEY}
               onChange={onCaptchaSolved}
               onExpired={() => setShowCaptcha(false)}
               className="w-full m-4 flex items-center justify-center"

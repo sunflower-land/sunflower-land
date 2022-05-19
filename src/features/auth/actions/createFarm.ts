@@ -5,7 +5,6 @@ import { CharityAddress } from "../components/CreateFarm";
 
 type Request = {
   charity: string;
-  donation: number;
   token: string;
   captcha: string;
 };
@@ -21,7 +20,6 @@ export async function signTransaction(request: Request) {
     },
     body: JSON.stringify({
       charity: request.charity,
-      donation: request.donation,
       captcha: request.captcha,
     }),
   });
@@ -34,26 +32,23 @@ export async function signTransaction(request: Request) {
     throw new Error(ERRORS.FAILED_REQUEST);
   }
 
-  const { signature, charity, donation } = await response.json();
+  const { signature, charity, deadline } = await response.json();
 
-  return { signature, charity, donation };
+  return { signature, charity, deadline };
 }
 
 type CreateFarmOptions = {
   charity: CharityAddress;
-  donation: number;
   token: string;
   captcha: string;
 };
 
 export async function createFarm({
-  donation,
   charity,
   token,
   captcha,
 }: CreateFarmOptions) {
   const transaction = await signTransaction({
-    donation,
     charity,
     token,
     captcha,

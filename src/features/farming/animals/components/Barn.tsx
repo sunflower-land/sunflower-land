@@ -22,7 +22,10 @@ export const Barn: React.FC = () => {
 
   const openBarn = () => {
     setIsOpen(true);
-    barnAudio.play();
+    //Checks if barnAudio is playing, if false, plays the sound
+    if (!barnAudio.playing()) {
+      barnAudio.play();
+    }
   };
 
   return (

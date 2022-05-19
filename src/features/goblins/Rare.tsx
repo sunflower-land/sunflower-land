@@ -155,13 +155,12 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   const hasItemOnFarm = amountOfSelectedItemInInventory > 0;
 
   const Action = () => {
-    if (soldOut) return null;
-
     const secondsLeft = mintCooldown({
       cooldownSeconds: selected.cooldownSeconds,
       mintedAt: selected.mintedAt,
     });
 
+    // Rare item is still in the cooldown period
     if (secondsLeft > 0) {
       return (
         <div className="mt-2 border-y border-white w-full">
@@ -194,6 +193,8 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
       );
     }
 
+    if (soldOut) return null;
+
     if (hasItemOnFarm)
       return (
         <div className="flex flex-col text-center mt-2 border-y border-white w-full">
@@ -209,6 +210,10 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
     }
 
     if (!canCraft) return;
+
+    if ([421, 410, 417].includes(selected.id as number)) {
+      return null;
+    }
 
     return (
       <>
@@ -227,7 +232,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
     return (
       <>
         <ReCAPTCHA
-          sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+          sitekey={CONFIG.RECAPTCHA_SITEKEY}
           onChange={onCaptchaSolved}
           onExpired={() => setShowCaptcha(false)}
           className="w-full m-4 flex items-center justify-center"

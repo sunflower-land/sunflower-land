@@ -12,7 +12,10 @@ export const Blacksmith: React.FC = () => {
 
   const openBlacksmith = () => {
     setIsOpen(true);
-    blacksmithAudio.play();
+    //Checks if blacksmithAudio is playing, if false, plays the sound
+    if (!blacksmithAudio.playing()) {
+      blacksmithAudio.play();
+    }
   };
 
   return (

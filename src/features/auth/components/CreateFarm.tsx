@@ -6,14 +6,13 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 
-import upArrow from "assets/icons/arrow_up.png";
-import downArrow from "assets/icons/arrow_down.png";
 import question from "assets/icons/expression_confused.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
 import { Blocked } from "./Blocked";
+import { CONFIG } from "lib/config";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -106,7 +105,6 @@ const CharityDetail = ({
 };
 
 export const CreateFarm: React.FC = () => {
-  const [donation, setDonation] = useState(1.0);
   const [charity, setCharity] = useState<string>();
   const [activeIdx, setActiveIndex] = useState(0);
   const { authService } = useContext(Context);
@@ -118,25 +116,9 @@ export const CreateFarm: React.FC = () => {
 
     authService.send("CREATE_FARM", {
       charityAddress: charity,
-      donation,
+      donation: 10,
       captcha: token,
     });
-  };
-
-  const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // If keyboard input "" convert to 0
-    // Typed input validation will happen in onBlur
-    setDonation(roundToOneDecimal(Number(e.target.value)));
-  };
-
-  const incrementDonation = () => {
-    setDonation((prevState) => roundToOneDecimal(prevState + 0.1));
-  };
-
-  const decrementDonation = () => {
-    if (donation === 1.0) {
-      setDonation(1.0);
-    } else setDonation((prevState) => roundToOneDecimal(prevState - 0.1));
   };
 
   const onDonateAndPlayClick = (charityAddress: CharityAddress) => {
@@ -164,7 +146,7 @@ export const CreateFarm: React.FC = () => {
   if (showCaptcha) {
     return (
       <ReCAPTCHA
-        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        sitekey={CONFIG.RECAPTCHA_SITEKEY}
         onChange={onCaptchaSolved}
         onExpired={() => setShowCaptcha(false)}
         className="w-full m-4 flex items-center justify-center"
@@ -175,43 +157,14 @@ export const CreateFarm: React.FC = () => {
   return (
     <form className="mb-4 relative">
       <div className="flex flex-col text-shadow items-center">
-        <h2 className="text-base mb-2">Donate to play.</h2>
+        <h2 className="text-base mb-2">10 MATIC to play.</h2>
         <p className="text-xs mb-3 text-center">
-          To start a farm, we require a minimum donation of 1 Matic to support
-          the operating costs of Sunflower Land.
+          To start a farm, we require a fee of 10 MATIC which goes towards the
+          growth of the game.
         </p>
         <p className="text-xs mb-3 text-center">
           10% of this donation will go to a charity of your choice.
         </p>
-      </div>
-      <div className="flex flex-col items-center mb-3">
-        <div className="relative">
-          <input
-            type="number"
-            className="text-shadow shadow-inner shadow-black bg-brown-200 w-24 p-1 text-center"
-            step="0.1"
-            min={1.0}
-            value={donation}
-            required
-            onChange={onDonationChange}
-            onBlur={() => {
-              if (donation < 1) setDonation(1.0);
-            }}
-          />
-          <img
-            src={upArrow}
-            alt="increment donation value"
-            className="cursor-pointer absolute -right-4 top-0"
-            onClick={incrementDonation}
-          />
-          <img
-            src={downArrow}
-            alt="decrement donation value"
-            className="cursor-pointer absolute -right-4 bottom-0"
-            onClick={decrementDonation}
-          />
-        </div>
-        <span className="text-[10px] text-shadow mt-2">Minimum of 1 MATIC</span>
       </div>
       <p className="text-center mb-3 mt-10">Select a charity</p>
       <Carousel
