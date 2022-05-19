@@ -51,6 +51,9 @@ export const GoblinShovel: React.FC = () => {
 
   useEffect(() => {
     const detectGoblins = () => {
+      const randomPosition = Math.floor(Math.random() * 19);
+      setGoblinPosition(positions[randomPosition]);
+
       const isStolen = isShovelStolen();
       setShowModal(isStolen);
       setShowGoblin(isStolen);
@@ -58,8 +61,6 @@ export const GoblinShovel: React.FC = () => {
 
     gameService.onEvent((event) => {
       if (event.type == "item.harvested") {
-        const randomPosition = Math.floor(Math.random() * 19);
-        setGoblinPosition(positions[randomPosition]);
         detectGoblins();
       }
     });
