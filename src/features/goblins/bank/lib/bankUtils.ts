@@ -1,5 +1,6 @@
 import { canChop } from "features/game/events/chop";
 import { isSeed } from "features/game/events/plant";
+import { canMine } from "features/game/events/stoneMine";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { FOODS, getKeys } from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/crops";
@@ -68,6 +69,15 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
 
   if (item === "Mysterious Parsnip") {
     return !cropIsPlanted({ item: "Parsnip", game });
+  }
+
+  // Make sure no trees are replenishing
+  if (
+    item === "Stoney the Mole" ||
+    item === "Amateur Mole" ||
+    item === "Master Mole"
+  ) {
+    return Object.values(game?.stones).every((stone) => canMine(stone));
   }
 
   // Tools, Crops, Resources
