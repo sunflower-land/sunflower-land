@@ -8,7 +8,6 @@ import {
   getLevel,
   getRequiredXpToLevelUp,
   upgradeAvailable,
-  SKILL_TREE,
 } from "features/game/types/skills";
 
 import house from "assets/buildings/house.png";
@@ -33,6 +32,8 @@ import { SkillUpgrade } from "./components/SkillUpgrade";
 import { SkillTree } from "./components/SkillTree";
 import { homeDoorAudio } from "lib/utils/sfx";
 import { Button } from "components/ui/Button";
+import { BuffListFarming } from "./components/Buff List/BuffListFarming";
+import { BuffListGathering } from "./components/Buff List/BuffListGathering";
 
 export const House: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -42,6 +43,8 @@ export const House: React.FC = () => {
 
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSkillTreeOpen, setIsSkillTreeOpen] = React.useState(false);
+  const [isBuffListFarmingOpen, setIsBuffListFarmingOpen] = React.useState(false);
+  const [isBuffListGatheringOpen, setIsBuffListGatheringOpen] = React.useState(false);
   const [isUpgradeAvailable, setIsUpgradeAvailable] = React.useState(false);
 
   React.useEffect(() => {
@@ -54,13 +57,20 @@ export const House: React.FC = () => {
     setIsSkillTreeOpen(true);
   };
 
+  const openBuffListFarming = () => {
+    setIsBuffListFarmingOpen(true);
+  };
+
+  const openBuffListGathering = () => {
+    setIsBuffListGatheringOpen(true);
+  };
+
   const open = () => {
     setIsSkillTreeOpen(false);
+    setIsBuffListFarmingOpen(false);
+    setIsBuffListGatheringOpen(false);
     setIsOpen(true);
-    //Checks if homeDoorAudio is playing, if false, plays the sound
-    if (!homeDoorAudio.playing()) {
-      homeDoorAudio.play();
-    }
+    homeDoorAudio.play();
   };
 
   const { gathering, farming } = state.skills;
@@ -73,9 +83,16 @@ export const House: React.FC = () => {
   const farmingRequiredXp = getRequiredXpToLevelUp(farmingLevel);
 
   const Badges = () => {
-    const BADGES: InventoryItemName[] = Object.keys(SKILL_TREE).map(
-      (badge) => badge as InventoryItemName
-    );
+    const BADGES: InventoryItemName[] = [
+      "Green Thumb",
+      "Barn Manager",
+      "Seed Specialist",
+      "Wrangler",
+      "Lumberjack",
+      "Prospector",
+      "Logger",
+      "Gold Rush",
+    ];
 
     const badges = BADGES.map((badge) => {
       if (gameState.context.state.inventory[badge]) {
@@ -110,6 +127,14 @@ export const House: React.FC = () => {
 
     if (isSkillTreeOpen) {
       return <SkillTree back={open} />;
+    }
+
+    if (isBuffListFarmingOpen) {
+      return <BuffListFarming back={open}/>;
+    }
+
+    if (isBuffListGatheringOpen) {
+      return <BuffListGathering back={open}/>;
     }
 
     if (isUpgradeAvailable) {
@@ -159,11 +184,11 @@ export const House: React.FC = () => {
               <span className="text-sm">Tools</span>
               <img src={pickaxe} className="w-4 h-4 ml-2" />
             </div>
-            <span className="text-xxs">
-              {gatheringRequiredXp
-                ? `${gathering.toNumber()} XP/${gatheringRequiredXp} XP`
-                : `${gathering.toNumber()} XP`}
-            </span>
+              <span className="text-xxs">
+                {gatheringRequiredXp
+                  ? `${gathering.toNumber()} XP/${gatheringRequiredXp} XP`
+                  : `${gathering.toNumber()} XP`}
+              </span>
             <div className="flex items-center mt-1 flex-wrap mb-1 md:mb-0">
               {new Array(10).fill(null).map((_, index) => {
                 if (index < toolLevel) {
@@ -184,8 +209,14 @@ export const House: React.FC = () => {
               })}
               <span>{toolLevel}</span>
             </div>
-            <Button className="text-xs mt-3" onClick={openSkillTree}>
+            <Button className="text-xs mt-2" onClick={openSkillTree}>
               View all skills
+            </Button>
+            <Button className="text-xs mt-3 " onClick={openBuffListFarming}>
+              Farming buffs
+            </Button>
+            <Button className="text-xs mt-1" onClick={openBuffListGathering}>
+              Gathering buffs
             </Button>
           </div>
         </div>
