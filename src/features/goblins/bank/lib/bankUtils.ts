@@ -71,7 +71,7 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return !cropIsPlanted({ item: "Parsnip", game });
   }
 
-  // Make sure no trees are replenishing
+  // Make sure no stones are replenishing
   if (
     item === "Stoney the Mole" ||
     item === "Amateur Mole" ||
