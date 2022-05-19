@@ -30,7 +30,7 @@ export const Rocket: React.FC = () => {
         />
         {
           <Action
-            className="absolute -bottom-1 left-8"
+            className="absolute -bottom-7 left-8"
             text="M.O.M"
             icon={icon}
           />
