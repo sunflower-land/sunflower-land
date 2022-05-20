@@ -61,8 +61,6 @@ export class Metamask {
         this.account as string
       );
 
-      const completed = await this.millionOnMars.hasCompletedMission();
-
       const isHealthy = await this.healthCheck();
 
       // Maintainers of package typed incorrectly
