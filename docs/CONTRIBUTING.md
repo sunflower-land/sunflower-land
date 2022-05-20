@@ -53,7 +53,7 @@ You can search by labels as well to see which items are more urgent than others.
 Commit the changes once you are happy with them. We prefer atomic commits that are easily revertable.
 
 > **TIP:** If your changes include **only** documentation updates/additions/deletions,
-> make sure that you add below line to your commit message while commiting:
+> make sure that you add below line to your commit message while committing:
 >
 > **`[skip ci]`**
 >
@@ -80,7 +80,7 @@ When you're finished with the changes, create a pull request, also known as a PR
 
 You will want to prefix the name of your PR with the category it falls under:
 
-- [FEAT] Feature or enhancment
+- [FEAT] Feature or enhancement
 - [CHORE] Admin type work (scripts, documentation etc)
 - [FIX] A bug fix
 

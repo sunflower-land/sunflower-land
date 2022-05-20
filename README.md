@@ -27,7 +27,7 @@ Looking to help out? Read our contributing Guidelines - https://github.com/sunfl
 
 [https://sunflower-land.com/play](https://sunflower-land.com/play)
 
-### 😕 Stuck somwhere ?
+### 😕 Stuck somewhere ?
 
 Read the official docs/ litepaper here: [docs.sunflower-land.com](https://docs.sunflower-land.com/)
 
