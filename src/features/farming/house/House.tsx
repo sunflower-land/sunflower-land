@@ -8,6 +8,7 @@ import {
   getLevel,
   getRequiredXpToLevelUp,
   upgradeAvailable,
+  SKILL_TREE
 } from "features/game/types/skills";
 
 import house from "assets/buildings/house.png";
@@ -70,7 +71,10 @@ export const House: React.FC = () => {
     setIsBuffListFarmingOpen(false);
     setIsBuffListGatheringOpen(false);
     setIsOpen(true);
-    homeDoorAudio.play();
+    //Checks if homeDoorAudio is playing, if false, plays the sound
+    if (!homeDoorAudio.playing()) {
+      homeDoorAudio.play();
+    }
   };
 
   const { gathering, farming } = state.skills;
@@ -83,16 +87,9 @@ export const House: React.FC = () => {
   const farmingRequiredXp = getRequiredXpToLevelUp(farmingLevel);
 
   const Badges = () => {
-    const BADGES: InventoryItemName[] = [
-      "Green Thumb",
-      "Barn Manager",
-      "Seed Specialist",
-      "Wrangler",
-      "Lumberjack",
-      "Prospector",
-      "Logger",
-      "Gold Rush",
-    ];
+    const BADGES: InventoryItemName[] = Object.keys(SKILL_TREE).map(
+      (badge) => badge as InventoryItemName
+    );
 
     const badges = BADGES.map((badge) => {
       if (gameState.context.state.inventory[badge]) {

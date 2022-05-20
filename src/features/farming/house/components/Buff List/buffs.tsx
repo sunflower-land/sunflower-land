@@ -1,9 +1,20 @@
-import Decimal from "decimal.js-light";
-import { useActor } from "@xstate/react";
-import React, { useContext, useState,useEffect } from "react";
-import { GameState, Inventory, InventoryItemName } from "../../../../game/types/game";
-import { Context } from "features/game/GameProvider";
-import { Crop } from "features/game/types/crops";
+import { Inventory } from "../../../../game/types/game";
+
+import Sunflower from "assets/crops/sunflower/crop.png";
+import Potato from "assets/crops/potato/crop.png";
+import Pumpkin from "assets/crops/Pumpkin/crop.png";
+import Carrot from "assets/crops/Carrot/crop.png";
+import Cabbage from "assets/crops/Cabbage/crop.png";
+import Beetroot from "assets/crops/Beetroot/crop.png";
+import Cauliflower from "assets/crops/Cauliflower/crop.png";
+import Parsnip from "assets/crops/Parsnip/crop.png";
+import Radish from "assets/crops/Radish/crop.png";
+import Wheat from "assets/crops/Wheat/crop.png";
+
+import Wood from "assets/resources/wood.png";
+import Stone from "assets/resources/stone.png";
+import Iron from "assets/resources/iron_ore.png";
+import Gold from "assets/resources/gold_ore.png";
 
 //All farming buffs
 
@@ -27,6 +38,7 @@ export var Crops: Record<
     growthTime: number;
     harvestMult: number;
     key: string[];
+    icon: any
   }
 > = {
   "Sunflower": {
@@ -34,70 +46,80 @@ export var Crops: Record<
     sellPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["1"]
+    key: ["1"],
+    icon: Sunflower
   },
   "Potato": {
     seedPrice: 1,
     sellPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["2"]
+    key: ["2"],
+    icon: Potato
   },
   "Pumpkin": {
     seedPrice: 1,
     sellPrice: 1,
     growthTime: 1,
-    harvestMult: 1,
-    key: ["3"]
+    harvestMult: 1,   
+    key: ["3"],
+    icon: Pumpkin
   },
   "Carrot": {
     seedPrice: 1,
     sellPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["4"]
+    key: ["4"],
+    icon: Carrot
   },
   "Cabbage": {
     seedPrice: 1,
     sellPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["5"]
+    key: ["5"],
+    icon: Cabbage
   },
   "Beetroot": {
     seedPrice: 1,
     sellPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["6"]
+    key: ["6"],
+    icon: Beetroot
   },
   "Cauliflower": {
     seedPrice: 1,
     sellPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["7"]
+    key: ["7"],
+    icon: Cauliflower
   },
   "Parsnip": {
     seedPrice: 1,
     sellPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["8"]
+    key: ["8"],
+    icon: Parsnip
   },
   "Radish": {
     seedPrice: 1,
     sellPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["9"]
+    key: ["9"],
+    icon: Radish
   },
   "Wheat": {
     seedPrice: 1,
     sellPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["10"]
+    key: ["10"],
+    icon: Wheat
   }
 };
 
@@ -265,6 +287,7 @@ export var Gathering: Record<
     growthTime: number;
     harvestMult: number;
     key: string[];
+    icon: any
   }
 > = {
   "Wood": {
@@ -272,28 +295,33 @@ export var Gathering: Record<
     harvestingPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["1"]
+    key: ["1"],
+    icon: Wood
+
   },
   "Stone": {
     toolPrice: 1,
     harvestingPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["2"]
+    key: ["2"],
+    icon: Stone
   },
   "Iron": {
     toolPrice: 1,
     harvestingPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["3"]
+    key: ["3"],
+    icon: Iron
   },
   "Gold": {
     toolPrice: 1,
     harvestingPrice: 1,
     growthTime: 1,
     harvestMult: 1,
-    key: ["4"]
+    key: ["4"],
+    icon: Gold
   },
 };
 

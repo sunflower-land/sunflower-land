@@ -1,14 +1,10 @@
 import React, { useContext } from "react";
-import classNames from "classnames";
 import { artistBuff, coderBuff, CropName, Crops, easterBunnyBuff, goldenCauliflowerBuff, greenThumbBuff, kuebikoBuff, mysteriousParsnipBuff, nancyBuff, scarecrowBuff, seedSpecialistBuff } from "features/farming/house/components/Buff List/buffs";
 
 import { OuterPanel } from "components/ui/Panel";
-import { ITEM_DETAILS } from "features/game/types/images";
 import arrowLeft from "assets/icons/arrow_left.png";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-
-import lock from "assets/skills/lock.png";
 
 interface Props {
   back: () => void;
@@ -52,6 +48,7 @@ export const BuffListFarming: React.FC<Props> = ({ back }) => {
             <OuterPanel className="w-full my-2 p-1 relative" key={CropName}>
               <div className="flex justify-between h-12 items-center border-b border-white mb-2">
                 <span className="text-sm">{CropName}</span>
+                <img src={crop.icon} className="w-8" />
               </div>
               <ul className="list-disc">
                 {crop.key.map((key) => (
