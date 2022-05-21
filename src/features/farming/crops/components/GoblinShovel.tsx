@@ -9,7 +9,7 @@ import { isShovelStolen } from "features/game/events/harvest";
 
 import { Button } from "components/ui/Button";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { recoverShovel } from "features/game/lib/harvestCountStorage";
+import { recoverShovel } from "features/game/lib/goblinShovelStorage";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 type Position = {
@@ -51,13 +51,13 @@ export const GoblinShovel: React.FC = () => {
 
   useEffect(() => {
     const detectGoblins = () => {
+      const randomPosition = Math.floor(Math.random() * 19);
+      setGoblinPosition(positions[randomPosition]);
+
       const isStolen = isShovelStolen();
       setShowModal(isStolen);
       setShowGoblin(isStolen);
     };
-
-    const randomPosition = Math.floor(Math.random() * 19);
-    setGoblinPosition(positions[randomPosition]);
 
     gameService.onEvent((event) => {
       if (event.type == "item.harvested") {
@@ -109,7 +109,6 @@ export const GoblinShovel: React.FC = () => {
         <img
           src={goblin}
           onClick={onClickGoblin}
-          id="shovel"
           className="absolute z-10 hover:img-highlight cursor-pointer"
           style={{
             width: `${GRID_WIDTH_PX * 1.38}px`,

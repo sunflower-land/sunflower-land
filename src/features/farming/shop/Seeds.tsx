@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { CONFIG } from "lib/config";
 
 import token from "assets/icons/token.gif";
 import timer from "assets/icons/timer.png";
@@ -95,7 +96,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   if (showCaptcha) {
     return (
       <ReCAPTCHA
-        sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+        sitekey={CONFIG.RECAPTCHA_SITEKEY}
         onChange={onCaptchaSolved}
         onExpired={() => setShowCaptcha(false)}
         className="w-full m-4 flex items-center justify-center"

@@ -14,7 +14,9 @@ export const Blacksmith: React.FC = () => {
 
   const openBlacksmith = () => {
     setIsOpen(true);
-    blacksmithAudio.play();
+    if (!blacksmithAudio.playing()) {
+      blacksmithAudio.play();
+    }
   };
 
   return (

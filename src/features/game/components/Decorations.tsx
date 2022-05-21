@@ -327,7 +327,12 @@ export const Decorations: React.FC<Props> = ({ state }) => (
           top: `${GRID_WIDTH_PX * 28}px`,
         }}
         id={Section.Fountain}
-        onClick={() => fountainAudio.play()}
+        onClick={() => {
+          //Checks if fountainAudio is playing, if false, plays the sound
+          if (!fountainAudio.playing()) {
+            fountainAudio.play();
+          }
+        }}
         className="absolute hover:img-highlight cursor-pointer"
         src={fountain}
         alt="Fountain"
