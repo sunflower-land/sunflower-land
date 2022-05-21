@@ -10,12 +10,12 @@ import launchingRocket from "assets/buildings/mom_launching_rocket.gif";
 import burnMark from "assets/buildings/mom_burnt_ground.png";
 import momNpc from "assets/npcs/mom_npc.gif";
 import close from "assets/icons/close.png";
-import questionMark from "assets/icons/expression_confused.png";
 import { melonDuskAudio } from "lib/utils/sfx";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
+const MELON_DUSK_SEEN = "isMelonDuskSeen";
 
 export const Rocket: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -49,6 +49,7 @@ export const Rocket: React.FC = () => {
     if (!melonDuskAudio.playing()) {
       melonDuskAudio.play();
     }
+    localStorage.setItem(MELON_DUSK_SEEN, JSON.stringify(new Date()));
   };
 
   const handleCloseDialog = () => {
@@ -58,32 +59,20 @@ export const Rocket: React.FC = () => {
   };
 
   const handleOpenItemsDialog = () => {
-    handleOpenDialog();
     setIsItemsOpen(true);
   };
 
-  const currentRocketImage =
+  const rocketImage =
     isRocketLaunching || isRocketLaunchComplete
       ? burnMark
       : isRocketFixed
       ? fixedRocket
       : brokenRocket;
 
-  const shouldShowLaunchDialog = isRocketFixed && !isRocketLaunchComplete;
-  const shouldShowContinueMissionDialog =
-    isRocketFixed && isRocketLaunchComplete;
-
-  const openRocket = () => {
-    setIsDialogOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsDialogOpen(false);
-    setIsItemsOpen(false);
-  };
+  const isMelonDuskSeen = localStorage.getItem(MELON_DUSK_SEEN);
 
   const content = () => {
-    if (shouldShowLaunchDialog) {
+    if (isRocketFixed && !isRocketLaunchComplete) {
       return (
         <>
           <span className="text-shadow block my-4">
@@ -96,7 +85,7 @@ export const Rocket: React.FC = () => {
       );
     }
 
-    if (shouldShowContinueMissionDialog) {
+    if (isRocketFixed && isRocketLaunchComplete) {
       return (
         <>
           <span className="text-shadow block my-4">
@@ -118,20 +107,15 @@ export const Rocket: React.FC = () => {
     }
 
     return (
-      <Panel>
-        <div className="flex items-start">
-          <img src={questionMark} className="w-12 img-highlight mr-2" />
-          <div className="flex-1">
-            <span className="text-shadow mr-4 block">
-              Help! My rocket has crash landed and needs repairs. Can you help
-              me fix it?
-            </span>
-            <Button className="text-sm" onClick={() => setIsItemsOpen(true)}>
-              Fix rocket
-            </Button>
-          </div>
-        </div>
-      </Panel>
+      <>
+        <span className="text-shadow mr-4 block">
+          Help! My rocket has crash landed and needs repairs. Can you help me
+          fix it?
+        </span>
+        <Button className="text-sm" onClick={handleOpenItemsDialog}>
+          Fix rocket
+        </Button>
+      </>
     );
   };
 
@@ -154,9 +138,9 @@ export const Rocket: React.FC = () => {
               top: `${GRID_WIDTH_PX * 2.5}px`,
               right: `${GRID_WIDTH_PX * 3.75}px`,
             }}
-            onClick={openRocket}
+            onClick={handleOpenDialog}
           />
-          <img src={currentRocketImage} className="w-56" onClick={openRocket} />
+          <img src={rocketImage} className="w-56" onClick={handleOpenDialog} />
         </div>
       </div>
       {isRocketLaunching && (
@@ -170,18 +154,15 @@ export const Rocket: React.FC = () => {
           }}
         />
       )}
-      <Modal centered show={isDialogOpen} onHide={() => setIsDialogOpen(false)}>
+      <Modal centered show={isDialogOpen} onHide={handleCloseDialog}>
         {isItemsOpen ? (
-          <ItemsModal
-            isOpen={isDialogOpen}
-            onClose={() => setIsDialogOpen(false)}
-          />
+          <ItemsModal isOpen={isDialogOpen} onClose={handleCloseDialog} />
         ) : (
           <Panel>
             <img
               src={close}
               className="h-6 top-4 right-4 absolute cursor-pointer"
-              onClick={() => setIsDialogOpen(false)}
+              onClick={handleCloseDialog}
             />
             <div className="flex items-start pr-6">
               <img src={momNpc} className="w-16 img-highlight mr-2" />
