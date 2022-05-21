@@ -250,3 +250,19 @@ img {
     transform: translateX(0);
   }
 }
+
+.launching {
+  animation-duration: 8s;
+  animation-name: launching;
+  transition-timing-function: ease-out;
+}
+
+@keyframes launching {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-1700px);
+  }
+}
