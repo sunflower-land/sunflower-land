@@ -11,6 +11,7 @@ import burnMark from "assets/buildings/mom_burnt_ground.png";
 import momNpc from "assets/npcs/mom_npc.gif";
 import close from "assets/icons/close.png";
 import questionMark from "assets/icons/expression_confused.png";
+import { melonDuskAudio } from "lib/utils/sfx";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
@@ -27,8 +28,6 @@ export const Rocket: React.FC = () => {
     if (!isRocketLaunching) {
       return;
     }
-    // Otherwise, the rocket is launching
-    // TODO - play rocket launching sound
     setTimeout(() => {
       setIsRocketLaunching(false);
       setIsRocketLaunchComplete(true);
@@ -45,7 +44,25 @@ export const Rocket: React.FC = () => {
     setIsRocketLaunching(true);
   };
 
-  const getRocketImage = () =>
+  const handleOpenDialog = () => {
+    setIsDialogOpen(true);
+    if (!melonDuskAudio.playing()) {
+      melonDuskAudio.play();
+    }
+  };
+
+  const handleCloseDialog = () => {
+    setIsItemsOpen(false);
+    melonDuskAudio.stop();
+    setIsDialogOpen(false);
+  };
+
+  const handleOpenItemsDialog = () => {
+    handleOpenDialog();
+    setIsItemsOpen(true);
+  };
+
+  const currentRocketImage =
     isRocketLaunching || isRocketLaunchComplete
       ? burnMark
       : isRocketFixed
@@ -139,7 +156,7 @@ export const Rocket: React.FC = () => {
             }}
             onClick={openRocket}
           />
-          <img src={getRocketImage()} className="w-56" onClick={openRocket} />
+          <img src={currentRocketImage} className="w-56" onClick={openRocket} />
         </div>
       </div>
       {isRocketLaunching && (
