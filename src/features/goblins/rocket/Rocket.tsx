@@ -8,10 +8,7 @@ import brokenRocket from "assets/mom/mom_broken_rocket.gif";
 import fixedRocket from "assets/mom/mom_fixed_rocket.png";
 import launchingRocket from "assets/mom/mom_launching_rocket.gif";
 import burnMark from "assets/mom/mom_burnt_ground.png";
-
 import close from "assets/icons/close.png";
-import { melonDuskAudio } from "lib/utils/sfx";
-
 import momNpc from "assets/mom/mom_npc.gif";
 import scaffoldingLeft from "assets/mom/scaffolding_left.png";
 import scaffoldingRight from "assets/mom/scaffolding_right.png";
@@ -23,6 +20,7 @@ import goblinWelding from "assets/mom/goblin_mechanic_2.gif";
 import goblinForeman from "assets/mom/goblin_mechanic_3.gif";
 import metalSheetsPileFew from "assets/mom/metal-sheets-pile-few.png";
 import metalSheetsPileMany from "assets/mom/metal-sheets-pile-many.png";
+import { melonDuskAudio } from "lib/utils/sfx";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
@@ -74,6 +72,11 @@ export const Rocket: React.FC = () => {
     setIsItemsOpen(true);
   };
 
+  const handleMintObservatory = () => {
+    // TODO
+    return;
+  };
+
   const rocketImage =
     isRocketLaunching || isRocketLaunchComplete
       ? burnMark
@@ -117,6 +120,8 @@ export const Rocket: React.FC = () => {
         </>
       );
     }
+
+    // TODO - add mint observatory dialog
 
     return (
       <>
