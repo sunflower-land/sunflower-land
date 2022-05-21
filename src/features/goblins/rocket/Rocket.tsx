@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { metamask } from "lib/blockchain/metamask";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
@@ -10,6 +11,7 @@ import launchingRocket from "assets/buildings/mom_launching_rocket.gif";
 import burnMark from "assets/buildings/mom_burnt_ground.png";
 import momNpc from "assets/npcs/mom_npc.gif";
 import close from "assets/icons/close.png";
+import observatory from "assets/nfts/mom/observatory.gif";
 import { melonDuskAudio } from "lib/utils/sfx";
 
 import scaffoldingLeft from "assets/mom/scaffolding_left.png";
@@ -27,11 +29,29 @@ const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
 const MELON_DUSK_SEEN = "isMelonDuskSeen";
 
 export const Rocket: React.FC = () => {
+  const [hasCompletedMission, setHasCompletedMission] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isRocketFixed, setIsRocketFixed] = useState(false);
   const [isRocketLaunching, setIsRocketLaunching] = useState(false);
   const [isRocketLaunchComplete, setIsRocketLaunchComplete] = useState(false);
   const [isItemsOpen, setIsItemsOpen] = useState(false);
+
+  // Check if player has already completed mission
+  useEffect(() => {
+    (async () => {
+      const isComplete = await metamask
+        .getMillionOnMars()
+        .hasCompletedMission();
+
+      setHasCompletedMission(isComplete);
+
+      if (isComplete) {
+        // If player has already completed mission, then everything else is also complete
+        setIsRocketFixed(true);
+        setIsRocketLaunchComplete(true);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     if (!isRocketLaunching) {
@@ -71,9 +91,13 @@ export const Rocket: React.FC = () => {
     setIsItemsOpen(true);
   };
 
-  const handleMintObservatory = () => {
-    // TODO
-    return;
+  const handleMintObservatory = async () => {
+    // TODO - complete this logic
+    try {
+      await metamask.getMillionOnMars().trade();
+    } finally {
+      // TODO
+    }
   };
 
   const rocketImage =
@@ -86,6 +110,23 @@ export const Rocket: React.FC = () => {
   const isMelonDuskSeen = localStorage.getItem(MELON_DUSK_SEEN);
 
   const content = () => {
+    // TODO - Also check condition if player already minted observatory. Should happen before this.
+    if (hasCompletedMission) {
+      return (
+        <>
+          <span className="text-shadow block my-2 text-xs sm:text-sm">
+            Great job on Mars captain! In exchange for your Mars token, I will
+            give you something to remember me by. After this trade, go back to
+            your farm and sync on chain to see it.
+          </span>
+          <img className="mx-auto mb-2" src={observatory} alt="Observatory" />
+          <Button className="text-sm" onClick={handleMintObservatory}>
+            Mint Now
+          </Button>
+        </>
+      );
+    }
+
     if (isRocketFixed && isRocketLaunchComplete) {
       return (
         <>
@@ -119,23 +160,6 @@ export const Rocket: React.FC = () => {
         </>
       );
     }
-
-    // TODO - Detect when MoM mission is complete
-    // if (false) {
-    //   return (
-    //     <>
-    //       <span className="text-shadow block my-2 text-xs sm:text-sm">
-    //         Great job on Mars captain! In exchange for your Mars token, I will
-    //         give you something to remember me by. After this trade, go back to
-    //         your farm and sync on chain to see it.
-    //       </span>
-    //       <img className="mx-auto mb-2" src={observatory} alt="Observatory" />
-    //       <Button className="text-sm" onClick={handleMintObservatory}>
-    //         Mint Now
-    //       </Button>
-    //     </>
-    //   );
-    // }
 
     return (
       <>
