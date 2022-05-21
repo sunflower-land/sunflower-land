@@ -180,8 +180,10 @@ export function startGoblinVillage(authContext: AuthContext) {
             src: wishingWellMachine,
             data: {
               farmId: () => authContext.farmId,
+              farmAddress: () => authContext.address,
               sessionId: (context: Context) => context.sessionId,
               token: () => authContext.rawToken,
+              balance: (context: Context) => context.state.balance,
             },
             onDone: {
               target: "playing",

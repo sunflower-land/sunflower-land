@@ -5,13 +5,18 @@ import { ERRORS } from "lib/errors";
 
 import { WishingWellTokens, loadWishingWell } from "./actions/loadWishingWell";
 import { collectFromWell } from "./actions/collectFromWell";
+import { getOnChainState } from "features/game/actions/onchain";
+import Decimal from "decimal.js-light";
 
 export interface Context {
   state: WishingWellTokens;
   errorCode?: keyof typeof ERRORS;
   farmId?: number;
   sessionId?: string;
+  farmAddress?: string;
   token?: string;
+  balance?: Decimal;
+  totalRewards?: Decimal;
 }
 
 type CaptchaEvent = {
@@ -66,6 +71,10 @@ const assignWishingWellState = assign<Context, any>({
   state: (_, event) => event.data.state,
 });
 
+const assignTotalRewards = assign<Context, any>({
+  totalRewards: (_, event) => event.data.totalRewards,
+});
+
 export const wishingWellMachine = createMachine<
   Context,
   BlockchainEvent,
@@ -96,20 +105,20 @@ export const wishingWellMachine = createMachine<
             {
               target: "noLiquidity",
               actions: assignWishingWellState,
-              cond: (_, event: DoneInvokeEvent<WishingWellTokens>) =>
-                Number(event.data.lpTokens) <= 0,
+              cond: (_, event: DoneInvokeEvent<Context>) =>
+                Number(event.data.state.lpTokens) <= 0,
             },
             {
               target: "canWish",
               actions: assignWishingWellState,
-              cond: (_, event: DoneInvokeEvent<WishingWellTokens>) =>
-                event.data.myTokensInWell === "0",
+              cond: (_, event: DoneInvokeEvent<Context>) =>
+                event.data.state.myTokensInWell === "0",
             },
             {
               target: "waiting",
               actions: assignWishingWellState,
-              cond: (_, event: DoneInvokeEvent<WishingWellTokens>) =>
-                !!event.data.lockedTime,
+              cond: (_, event: DoneInvokeEvent<Context>) =>
+                !!event.data.state.lockedTime,
             },
             {
               target: "readyToGrant",
@@ -129,6 +138,19 @@ export const wishingWellMachine = createMachine<
           },
         },
       },
+      wishing: {
+        invoke: {
+          src: async () => {
+            await metamask.getWishingWell().wish();
+          },
+          onDone: {
+            target: "wished",
+          },
+          onError: {
+            target: "error",
+          },
+        },
+      },
       waiting: {},
       readyToGrant: {
         on: {
@@ -144,19 +166,6 @@ export const wishingWellMachine = createMachine<
           },
         },
       },
-      wishing: {
-        invoke: {
-          src: async () => {
-            await metamask.getWishingWell().wish();
-          },
-          onDone: {
-            target: "wished",
-          },
-          onError: {
-            target: "error",
-          },
-        },
-      },
       granting: {
         invoke: {
           src: async (context, event) => {
@@ -164,8 +173,6 @@ export const wishingWellMachine = createMachine<
               Number(context.state.lpTokens),
               Number(context.state.totalTokensInWell)
             );
-
-            console.log({ event });
 
             if (tokensToPull === 0) {
               throw new Error(ERRORS.NO_TOKENS);
@@ -178,9 +185,25 @@ export const wishingWellMachine = createMachine<
               token: context.token as string,
               captcha: (event as CaptchaEvent).captcha,
             });
+
+            const {
+              game: { balance: newBalance },
+            } = await getOnChainState({
+              farmAddress: context.farmAddress as string,
+              id: Number(context.farmId),
+            });
+
+            const totalRewards = newBalance.sub(
+              context?.balance || new Decimal(0)
+            );
+
+            const well = await loadWishingWell();
+
+            return { state: well, totalRewards };
           },
           onDone: {
             target: "granted",
+            actions: [assignWishingWellState, assignTotalRewards],
           },
           onError: {
             target: "error",
@@ -188,26 +211,9 @@ export const wishingWellMachine = createMachine<
           },
         },
       },
-      wished: {
-        on: {
-          CLOSING: {
-            target: "closed",
-          },
-        },
-      },
-      granted: {
-        on: {
-          CLOSING: {
-            target: "closed",
-          },
-        },
-      },
-      searched: {
-        // type: "final",
-      },
-      error: {
-        // type: "final",
-      },
+      wished: {},
+      granted: {},
+      error: {},
       closed: {
         type: "final",
       },
