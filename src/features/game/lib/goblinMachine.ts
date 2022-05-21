@@ -73,7 +73,7 @@ export type BlockchainEvent =
 export type BlockchainState = {
   value:
     | "loading"
-    | "wishingWell"
+    | "wishing"
     | "minting"
     | "minted"
     | "withdrawing"
@@ -169,18 +169,19 @@ export function startGoblinVillage(authContext: AuthContext) {
               target: "withdrawing",
             },
             OPENING_WISHING_WELL: {
-              target: "wishingWell",
+              target: "wishing",
             },
           },
         },
-        wishingWell: {
+        wishing: {
           invoke: {
             id: "wishingWell",
+            autoForward: true,
             src: wishingWellMachine,
             data: {
               farmId: () => authContext.farmId,
-              sessionId: () => authContext.sessionId,
-              token: () => authContext.token,
+              sessionId: (context: Context) => context.sessionId,
+              token: () => authContext.rawToken,
             },
             onDone: {
               target: "playing",
@@ -226,6 +227,7 @@ export function startGoblinVillage(authContext: AuthContext) {
           invoke: {
             src: async (context, event) => {
               const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
+
               const { sessionId } = await withdraw({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
