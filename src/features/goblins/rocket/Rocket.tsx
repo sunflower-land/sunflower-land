@@ -1,4 +1,5 @@
 import React from "react";
+import { Modal } from "react-bootstrap";
 
 import brokenRocket from "assets/buildings/mom_broken_rocket.gif";
 import momNpc from "assets/npcs/mom_npc.gif";
@@ -6,10 +7,9 @@ import close from "assets/icons/close.png";
 import questionMark from "assets/icons/expression_confused.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { Modal } from "react-bootstrap";
+import { ItemsModal } from "./ItemsModal";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { ItemsModal } from "./ItemsModal";
 
 export const Rocket: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -35,8 +35,8 @@ export const Rocket: React.FC = () => {
           <img src={questionMark} className="w-12 img-highlight mr-2" />
           <div className="flex-1">
             <span className="text-shadow mr-4 block">
-              A rocket has crash landed in Sunflower Land and Melon Dusk needs
-              help to go back to Mars.
+              Help! My rocket has crash landed and needs repairs. Can you help
+              me fix it?
             </span>
             <Button className="text-sm" onClick={() => setIsItemsOpen(true)}>
               Fix rocket
@@ -65,7 +65,6 @@ export const Rocket: React.FC = () => {
             top: `${GRID_WIDTH_PX * 2.5}px`,
             right: `${GRID_WIDTH_PX * 3.75}px`,
           }}
-          // className="absolute cursor-pointer hover:img-highlight"
           onClick={openRocket}
         />
         <img src={brokenRocket} className="w-56" onClick={openRocket} />
