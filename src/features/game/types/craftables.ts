@@ -62,7 +62,7 @@ export interface LimitedItem extends CraftableItem {
   type?: LimitedItemType;
 }
 
-export type MOMEventItem = "Rocket Repair";
+export type MOMEventItem = "Engine Core";
 
 export type BlacksmithItem =
   | "Sunflower Statue"
@@ -246,9 +246,9 @@ export const TOOLS: Record<Tool, CraftableItem> = {
 };
 
 export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
-  "Rocket Repair": {
-    name: "Rocket Repair",
-    description: "Equipment used to repair a rocket",
+  "Engine Core": {
+    name: "Engine Core",
+    description: "The power of the sunflower",
     type: LimitedItemType.MOMEventItem,
   },
 };
