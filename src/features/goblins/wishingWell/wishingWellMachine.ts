@@ -1,4 +1,4 @@
-import { createMachine, Interpreter, assign } from "xstate";
+import { createMachine, Interpreter, assign, DoneInvokeEvent } from "xstate";
 
 import { metamask } from "lib/blockchain/metamask";
 import { ERRORS } from "lib/errors";
@@ -18,6 +18,7 @@ type CaptchaEvent = {
   type: "VERIFIED";
   captcha: string;
 };
+
 export type BlockchainEvent =
   | {
       type: "WISH";
@@ -26,7 +27,7 @@ export type BlockchainEvent =
       type: "SEND";
     }
   | {
-      type: "SEARCH";
+      type: "GRANT_WISH";
     }
   | {
       type: "CLOSING";
@@ -36,12 +37,16 @@ export type BlockchainEvent =
 export type BlockchainState = {
   value:
     | "loading"
-    | "ready"
+    | "noLiquidity"
+    | "canWish"
+    | "waiting"
+    | "readyToGrant"
     | "wishing"
     | "wished"
     | "captcha"
-    | "searching"
+    | "granting"
     | "searched"
+    | "granted"
     | "error";
   context: Context;
 };
@@ -52,6 +57,14 @@ export type MachineInterpreter = Interpreter<
   BlockchainEvent,
   BlockchainState
 >;
+
+const assignErrorMessage = assign<Context, any>({
+  errorCode: (_context, event) => event.data.message,
+});
+
+const assignWishingWellState = assign<Context, any>({
+  state: (_, event) => event.data.state,
+});
 
 export const wishingWellMachine = createMachine<
   Context,
@@ -77,27 +90,49 @@ export const wishingWellMachine = createMachine<
           src: async () => {
             const well = await loadWishingWell();
 
-            return {
-              state: well,
-            };
+            return { state: well };
           },
-          onDone: {
-            target: "ready",
-            actions: assign({
-              state: (_, event) => event.data.state,
-            }),
-          },
+          onDone: [
+            {
+              target: "noLiquidity",
+              actions: assignWishingWellState,
+              cond: (_, event: DoneInvokeEvent<WishingWellTokens>) =>
+                Number(event.data.lpTokens) <= 0,
+            },
+            {
+              target: "canWish",
+              actions: assignWishingWellState,
+              cond: (_, event: DoneInvokeEvent<WishingWellTokens>) =>
+                event.data.myTokensInWell === "0",
+            },
+            {
+              target: "waiting",
+              actions: assignWishingWellState,
+              cond: (_, event: DoneInvokeEvent<WishingWellTokens>) =>
+                !!event.data.lockedTime,
+            },
+            {
+              target: "readyToGrant",
+              actions: assignWishingWellState,
+            },
+          ],
           onError: {
             target: "error",
           },
         },
       },
-      ready: {
+      noLiquidity: {},
+      canWish: {
         on: {
           WISH: {
             target: "wishing",
           },
-          SEARCH: {
+        },
+      },
+      waiting: {},
+      readyToGrant: {
+        on: {
+          GRANT_WISH: {
             target: "captcha",
           },
         },
@@ -105,7 +140,7 @@ export const wishingWellMachine = createMachine<
       captcha: {
         on: {
           VERIFIED: {
-            target: "searching",
+            target: "granting",
           },
         },
       },
@@ -122,16 +157,16 @@ export const wishingWellMachine = createMachine<
           },
         },
       },
-      searching: {
+      granting: {
         invoke: {
           src: async (context, event) => {
-            console.log({ contextIs: context.state });
             const tokensToPull = Math.min(
               Number(context.state.lpTokens),
               Number(context.state.totalTokensInWell)
             );
-            console.log({ tokensToPull });
+
             console.log({ event });
+
             if (tokensToPull === 0) {
               throw new Error(ERRORS.NO_TOKENS);
             }
@@ -145,11 +180,11 @@ export const wishingWellMachine = createMachine<
             });
           },
           onDone: {
-            target: "searched",
+            target: "granted",
           },
           onError: {
             target: "error",
-            actions: "assignErrorMessage",
+            actions: assignErrorMessage,
           },
         },
       },
@@ -160,11 +195,18 @@ export const wishingWellMachine = createMachine<
           },
         },
       },
+      granted: {
+        on: {
+          CLOSING: {
+            target: "closed",
+          },
+        },
+      },
       searched: {
-        type: "final",
+        // type: "final",
       },
       error: {
-        type: "final",
+        // type: "final",
       },
       closed: {
         type: "final",
@@ -176,11 +218,5 @@ export const wishingWellMachine = createMachine<
       },
     },
   },
-  {
-    actions: {
-      assignErrorMessage: assign<Context, any>({
-        errorCode: (_context, event) => event.data.message,
-      }),
-    },
-  }
+  {}
 );

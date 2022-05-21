@@ -16,7 +16,7 @@ export const TownEntryModal: React.FC<{ onClose: () => void }> = ({
     <Panel>
       <div className="p-2">
         <h1 className="text-xl text-center">Time to get back to your farm?</h1>
-        <div className="flex my-4 justify-center">
+        <div className="flex my-3 justify-center">
           <img src={bumpkin} alt="bumpkin avatar" />
         </div>
         <p className="text-sm mb-4">
