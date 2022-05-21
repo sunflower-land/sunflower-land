@@ -471,6 +471,7 @@ export const LIMITED_ITEMS = {
   ...BARN_ITEMS,
   ...MARKET_ITEMS,
   ...FLAGS,
+  ...ROCKET_ITEMS,
 };
 
 export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);
