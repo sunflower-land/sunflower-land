@@ -12,6 +12,15 @@ import momNpc from "assets/npcs/mom_npc.gif";
 import close from "assets/icons/close.png";
 import { melonDuskAudio } from "lib/utils/sfx";
 
+import scaffoldingLeft from "assets/mom/scaffolding_left.png";
+import scaffoldingRight from "assets/mom/scaffolding_right.png";
+import support from "assets/mom/launch-pad-material-2.png";
+import platform from "assets/mom/launch-pad-material-3.png";
+import woodPile from "assets/mom/launch-pad-material-4.png";
+import goblinHammering from "assets/npcs/goblin_mechanic_1.gif";
+import goblinWelding from "assets/npcs/goblin_mechanic_2.gif";
+import goblinForeman from "assets/npcs/goblin_mechanic_3.gif";
+
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
@@ -134,13 +143,84 @@ export const Rocket: React.FC = () => {
             src={momNpc}
             style={{
               position: "absolute",
-              width: `${GRID_WIDTH_PX * 1.3}px`,
-              top: `${GRID_WIDTH_PX * 2.5}px`,
-              right: `${GRID_WIDTH_PX * 3.75}px`,
+              width: `${GRID_WIDTH_PX * 1.205}px`,
+              top: `${GRID_WIDTH_PX * 3.33}px`,
+              right: `${GRID_WIDTH_PX * 3.916}px`,
+              zIndex: 2,
             }}
             onClick={handleOpenDialog}
           />
-          <img src={rocketImage} className="w-56" onClick={handleOpenDialog} />
+          <img
+            src={rocketImage}
+            className="w-56 relative z-10"
+            onClick={handleOpenDialog}
+          />
+          <img
+            src={scaffoldingLeft}
+            style={{
+              position: "absolute",
+              width: `${GRID_WIDTH_PX * 2.619}px`,
+              top: `${GRID_WIDTH_PX * 0.833}px`,
+              left: `${GRID_WIDTH_PX * -0.476}px`,
+              zIndex: 1,
+            }}
+          />
+          <img
+            src={scaffoldingRight}
+            style={{
+              position: "absolute",
+              width: `${GRID_WIDTH_PX * 2.5}px`,
+              top: `${GRID_WIDTH_PX * 0.7857}px`,
+              right: `${GRID_WIDTH_PX * -1.2619}px`,
+              zIndex: 1,
+            }}
+          />
+          <img
+            src={support}
+            style={{
+              position: "absolute",
+              width: `${GRID_WIDTH_PX * 5}px`,
+              top: `${GRID_WIDTH_PX * 1.381}px`,
+              left: `${GRID_WIDTH_PX * 0.3095}px`,
+            }}
+          />
+          <img
+            src={platform}
+            style={{
+              position: "absolute",
+              width: `${GRID_WIDTH_PX * 2.143}px`,
+              top: `${GRID_WIDTH_PX * 1.69}px`,
+              right: `${GRID_WIDTH_PX * -4.095}px`,
+            }}
+          />
+          <img
+            src={woodPile}
+            style={{
+              position: "absolute",
+              width: `${GRID_WIDTH_PX * 1.095}px`,
+              top: `${GRID_WIDTH_PX * 4.02}px`,
+              right: `${GRID_WIDTH_PX * -2.095}px`,
+            }}
+          />
+          <img src={goblinForeman} />
+          <img
+            src={goblinHammering}
+            style={{
+              position: "absolute",
+              width: `${GRID_WIDTH_PX * 1.371}px`,
+              left: `${GRID_WIDTH_PX * 3.55}px`,
+              bottom: `${GRID_WIDTH_PX * -2.25}px`,
+            }}
+          />
+          <img
+            src={goblinWelding}
+            style={{
+              position: "absolute",
+              width: `${GRID_WIDTH_PX * 1.371}px`,
+              left: `${GRID_WIDTH_PX * 2.306}px`,
+              bottom: `${GRID_WIDTH_PX * -1.031}px`,
+            }}
+          />
         </div>
       </div>
       {isRocketLaunching && (
