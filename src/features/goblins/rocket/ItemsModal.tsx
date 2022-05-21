@@ -1,6 +1,12 @@
+import React from "react";
+
+import { LimitedItemType } from "features/game/types";
+import { Rare } from "../Rare";
+
+import close from "assets/icons/close.png";
+
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import React from "react";
 
 interface Props {
   isOpen: boolean;
@@ -19,27 +25,24 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <span className="text-sm text-shadow">Items</span>
           </Tab>
         </div>
-        {/* <img
-            src={close}
-            className="h-6 cursor-pointer mr-2 mb-1"
-            onClick={onClose}
-          /> */}
+        <img
+          src={close}
+          className="h-6 cursor-pointer mr-2 mb-1"
+          onClick={onClose}
+        />
       </div>
 
-      {/* <div
-          style={{
-            minHeight: "200px",
-          }}
-        >
-          <Rare
-            type={LimitedItemType.Flag}
-            onClose={onClose}
-            canCraft={!maxFlags}
-          />
-          <p className="text-xxs p-1 m-1 underline text-center">
-            Max 3 flags per farm.
-          </p>
-        </div> */}
+      <div
+        style={{
+          minHeight: "200px",
+        }}
+      >
+        <Rare
+          type={LimitedItemType.MOMEventItem}
+          onClose={onClose}
+          // canCraft={true}
+        />
+      </div>
     </Panel>
   );
 };

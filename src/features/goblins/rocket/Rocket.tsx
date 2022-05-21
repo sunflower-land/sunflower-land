@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { Panel } from "components/ui/Panel";
+import { Modal } from "react-bootstrap";
+import { Button } from "components/ui/Button";
+import { ItemsModal } from "./ItemsModal";
 
 import brokenRocket from "assets/buildings/mom_broken_rocket.gif";
 import fixedRocket from "assets/buildings/mom_fixed_rocket.png";
@@ -8,10 +12,6 @@ import momNpc from "assets/npcs/mom_npc.gif";
 import close from "assets/icons/close.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
-import { ItemsModal } from "./ItemsModal";
-import { Button } from "components/ui/Button";
 
 const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
 
@@ -86,7 +86,6 @@ export const Rocket: React.FC = () => {
               top: `${GRID_WIDTH_PX * 2.5}px`,
               right: `${GRID_WIDTH_PX * 3.75}px`,
             }}
-            // className="absolute cursor-pointer hover:img-highlight"
             onClick={handleOpenDialog}
           />
           <img
@@ -121,8 +120,8 @@ export const Rocket: React.FC = () => {
               {shouldShowFixDialog && (
                 <>
                   <span className="text-shadow mr-4 block">
-                    A rocket has crash landed in Sunflower Land and Melon Dusk
-                    needs help to go back to Mars.
+                    Help! My rocket has crash landed and needs repairs. Can you
+                    help me fix it?
                   </span>
                   <Button className="text-sm" onClick={handleOpenItemsDialog}>
                     Fix rocket
