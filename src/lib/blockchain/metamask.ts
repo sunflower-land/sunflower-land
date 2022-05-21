@@ -314,6 +314,10 @@ export class Metamask {
     return this.token as Token;
   }
 
+  public getMillionOnMars() {
+    return this.millionOnMars as MillionOnMars;
+  }
+
   public get myAccount() {
     return this.account;
   }
