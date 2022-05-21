@@ -79,7 +79,9 @@ export type BlacksmithItem =
   | "Nyon Statue"
   | "Homeless Tent"
   | "Egg Basket"
-  | "Farmer Bath";
+  | "Farmer Bath"
+  | "Rocket Repair"
+  | "Observatory";
 
 export type BarnItem =
   | "Farm Cat"
@@ -341,6 +343,16 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Egg Basket": {
     name: "Egg Basket",
     description: "Gives access to the Easter Egg Hunt",
+    type: LimitedItemType.BlacksmithItem,
+  },
+  "Rocket Repair": {
+    name: "Rocket Repair",
+    description: "Equipment used to repair a rocket",
+    type: LimitedItemType.BlacksmithItem,
+  },
+  Observatory: {
+    name: "Observatory",
+    description: "Explore the stars and improve scientific development",
     type: LimitedItemType.BlacksmithItem,
   },
 };
