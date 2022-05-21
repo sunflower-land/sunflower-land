@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { metamask } from "lib/blockchain/metamask";
+import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { ItemsModal } from "./ItemsModal";
-import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
 import brokenRocket from "assets/mom/mom_broken_rocket.gif";
@@ -10,6 +11,8 @@ import launchingRocket from "assets/mom/mom_launching_rocket.gif";
 import burnMark from "assets/mom/mom_burnt_ground.png";
 import close from "assets/icons/close.png";
 import momNpc from "assets/mom/mom_npc.gif";
+import observatory from "assets/nfts/mom/observatory.gif";
+import { melonDuskAudio } from "lib/utils/sfx";
 import scaffoldingLeft from "assets/mom/scaffolding_left.png";
 import scaffoldingRight from "assets/mom/scaffolding_right.png";
 import support from "assets/mom/launch-pad-material-2.png";
@@ -20,7 +23,6 @@ import goblinWelding from "assets/mom/goblin_mechanic_2.gif";
 import goblinForeman from "assets/mom/goblin_mechanic_3.gif";
 import metalSheetsPileFew from "assets/mom/metal-sheets-pile-few.png";
 import metalSheetsPileMany from "assets/mom/metal-sheets-pile-many.png";
-import { melonDuskAudio } from "lib/utils/sfx";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
@@ -28,11 +30,29 @@ const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
 const MELON_DUSK_SEEN = "isMelonDuskSeen";
 
 export const Rocket: React.FC = () => {
+  const [hasCompletedMission, setHasCompletedMission] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isItemsOpen, setIsItemsOpen] = React.useState(false);
   const [isRocketFixed, setIsRocketFixed] = useState(false);
   const [isRocketLaunching, setIsRocketLaunching] = useState(false);
   const [isRocketLaunchComplete, setIsRocketLaunchComplete] = useState(false);
+
+  // Check if player has already completed mission
+  useEffect(() => {
+    (async () => {
+      const isComplete = await metamask
+        .getMillionOnMars()
+        .hasCompletedMission();
+
+      setHasCompletedMission(isComplete);
+
+      if (isComplete) {
+        // If player has already completed mission, then everything else is also complete
+        setIsRocketFixed(true);
+        setIsRocketLaunchComplete(true);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     if (!isRocketLaunching) {
@@ -71,9 +91,13 @@ export const Rocket: React.FC = () => {
     setIsItemsOpen(true);
   };
 
-  const handleMintObservatory = () => {
-    // TODO
-    return;
+  const handleMintObservatory = async () => {
+    // TODO - complete this logic
+    try {
+      await metamask.getMillionOnMars().trade();
+    } finally {
+      // TODO
+    }
   };
 
   const rocketImage =
@@ -87,6 +111,23 @@ export const Rocket: React.FC = () => {
   // const isMelonDuskSeen = false;
 
   const content = () => {
+    // TODO - Also check condition if player already minted observatory. Should happen before this.
+    if (hasCompletedMission) {
+      return (
+        <>
+          <span className="text-shadow block my-2 text-xs sm:text-sm">
+            Great job on Mars captain! In exchange for your Mars token, I will
+            give you something to remember me by. After this trade, go back to
+            your farm and sync on chain to see it.
+          </span>
+          <img className="mx-auto mb-2" src={observatory} alt="Observatory" />
+          <Button className="text-sm" onClick={handleMintObservatory}>
+            Mint Now
+          </Button>
+        </>
+      );
+    }
+
     if (isRocketFixed && !isRocketLaunchComplete) {
       return (
         <>
@@ -121,21 +162,17 @@ export const Rocket: React.FC = () => {
       );
     }
 
-    // TODO - add mint observatory dialog
-
-    if (!isMelonDuskSeen) {
-      return (
-        <>
-          <span className="text-shadow mr-4 block">
-            Help! My rocket has crash landed and needs repairs. Can you help me
-            fix it?
-          </span>
-          <Button className="text-sm" onClick={handleOpenItemsDialog}>
-            Fix rocket
-          </Button>
-        </>
-      );
-    }
+    return (
+      <>
+        <span className="text-shadow mr-4 block">
+          Help! My rocket has crash landed and needs repairs. Can you help me
+          fix it?
+        </span>
+        <Button className="text-sm" onClick={handleOpenItemsDialog}>
+          Fix rocket
+        </Button>
+      </>
+    );
   };
 
   return (
