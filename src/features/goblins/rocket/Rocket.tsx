@@ -74,6 +74,11 @@ export const Rocket: React.FC = () => {
     setIsItemsOpen(true);
   };
 
+  const handleMintObservatory = () => {
+    // TODO
+    return;
+  };
+
   const rocketImage =
     isRocketLaunching || isRocketLaunchComplete
       ? burnMark
@@ -117,6 +122,23 @@ export const Rocket: React.FC = () => {
         </>
       );
     }
+
+    // TODO - Detect when MoM mission is complete
+    // if (false) {
+    //   return (
+    //     <>
+    //       <span className="text-shadow block my-2 text-xs sm:text-sm">
+    //         Great job on Mars captain! In exchange for your Mars token, I will
+    //         give you something to remember me by. After this trade, go back to
+    //         your farm and sync on chain to see it.
+    //       </span>
+    //       <img className="mx-auto mb-2" src={observatory} alt="Observatory" />
+    //       <Button className="text-sm" onClick={handleMintObservatory}>
+    //         Mint Now
+    //       </Button>
+    //     </>
+    //   );
+    // }
 
     return (
       <>

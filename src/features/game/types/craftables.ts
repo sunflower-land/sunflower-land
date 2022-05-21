@@ -62,7 +62,7 @@ export interface LimitedItem extends CraftableItem {
   type?: LimitedItemType;
 }
 
-export type MOMEventItem = "Engine Core";
+export type MOMEventItem = "Engine Core" | "Observatory";
 
 export type BlacksmithItem =
   | "Sunflower Statue"
@@ -79,8 +79,7 @@ export type BlacksmithItem =
   | "Nyon Statue"
   | "Homeless Tent"
   | "Egg Basket"
-  | "Farmer Bath"
-  | "Observatory";
+  | "Farmer Bath";
 
 export type BarnItem =
   | "Farm Cat"
@@ -252,6 +251,12 @@ export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
     description: "The power of the sunflower",
     type: LimitedItemType.MOMEventItem,
   },
+  Observatory: {
+    name: "Observatory",
+    description: "Explore the stars and improve scientific development",
+    section: Section.Observatory,
+    type: LimitedItemType.MOMEventItem,
+  },
 };
 
 export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
@@ -342,11 +347,6 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Egg Basket": {
     name: "Egg Basket",
     description: "Gives access to the Easter Egg Hunt",
-    type: LimitedItemType.BlacksmithItem,
-  },
-  Observatory: {
-    name: "Observatory",
-    description: "Explore the stars and improve scientific development",
     type: LimitedItemType.BlacksmithItem,
   },
 };
