@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
+import { ItemsModal } from "./ItemsModal";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { ItemsModal } from "./ItemsModal";
 
 import brokenRocket from "assets/buildings/mom_broken_rocket.gif";
 import fixedRocket from "assets/buildings/mom_fixed_rocket.png";
@@ -106,8 +106,8 @@ export const Rocket: React.FC = () => {
           <img src={questionMark} className="w-12 img-highlight mr-2" />
           <div className="flex-1">
             <span className="text-shadow mr-4 block">
-              A rocket has crash landed in Sunflower Land and Melon Dusk needs
-              help to go back to Mars.
+              Help! My rocket has crash landed and needs repairs. Can you help
+              me fix it?
             </span>
             <Button className="text-sm" onClick={() => setIsItemsOpen(true)}>
               Fix rocket
@@ -153,14 +153,6 @@ export const Rocket: React.FC = () => {
           }}
         />
       )}
-      <Modal centered show={isDialogOpen} onHide={closeModal}>
-        <img
-          src={close}
-          className="h-6 top-4 right-4 absolute cursor-pointer"
-          onClick={() => setIsDialogOpen(false)}
-        />
-        {content()}
-      </Modal>
       <Modal centered show={isDialogOpen} onHide={() => setIsDialogOpen(false)}>
         {isItemsOpen ? (
           <ItemsModal

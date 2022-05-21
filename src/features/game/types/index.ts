@@ -5,6 +5,7 @@ export enum LimitedItemType {
   MarketItem = "MarketItem",
   BarnItem = "BarnItem",
   Flag = "Flag",
+  MOMEventItem = "MOMEventItem",
 }
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {

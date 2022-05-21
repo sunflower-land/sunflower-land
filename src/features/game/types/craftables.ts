@@ -62,6 +62,8 @@ export interface LimitedItem extends CraftableItem {
   type?: LimitedItemType;
 }
 
+export type MOMEventItem = "Rocket Repair";
+
 export type BlacksmithItem =
   | "Sunflower Statue"
   | "Potato Statue"
@@ -77,9 +79,7 @@ export type BlacksmithItem =
   | "Nyon Statue"
   | "Homeless Tent"
   | "Egg Basket"
-  | "Farmer Bath"
-  | "Rocket Repair"
-  | "Observatory";
+  | "Farmer Bath";
 
 export type BarnItem =
   | "Farm Cat"
@@ -96,7 +96,12 @@ export type MarketItem =
   | "Mysterious Parsnip"
   | "Carrot Sword";
 
-export type LimitedItemName = BlacksmithItem | BarnItem | MarketItem | Flag;
+export type LimitedItemName =
+  | BlacksmithItem
+  | BarnItem
+  | MarketItem
+  | Flag
+  | MOMEventItem;
 
 export type Tool =
   | "Axe"
@@ -240,6 +245,14 @@ export const TOOLS: Record<Tool, CraftableItem> = {
   },
 };
 
+export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
+  "Rocket Repair": {
+    name: "Rocket Repair",
+    description: "Equipment used to repair a rocket",
+    type: LimitedItemType.MOMEventItem,
+  },
+};
+
 export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
@@ -328,16 +341,6 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Egg Basket": {
     name: "Egg Basket",
     description: "Gives access to the Easter Egg Hunt",
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Rocket Repair": {
-    name: "Rocket Repair",
-    description: "Equipment used to repair a rocket",
-    type: LimitedItemType.BlacksmithItem,
-  },
-  Observatory: {
-    name: "Observatory",
-    description: "Explore the stars and improve scientific development",
     type: LimitedItemType.BlacksmithItem,
   },
 };
@@ -453,6 +456,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...FOODS(),
   ...ANIMALS,
   ...FLAGS,
+  ...ROCKET_ITEMS,
 });
 
 /**
