@@ -62,7 +62,7 @@ export interface LimitedItem extends CraftableItem {
   type?: LimitedItemType;
 }
 
-export type MOMEventItem = "Rocket Repair";
+export type MOMEventItem = "Engine Core";
 
 export type BlacksmithItem =
   | "Sunflower Statue"
@@ -80,7 +80,6 @@ export type BlacksmithItem =
   | "Homeless Tent"
   | "Egg Basket"
   | "Farmer Bath"
-  | "Rocket Repair"
   | "Observatory";
 
 export type BarnItem =
@@ -248,9 +247,9 @@ export const TOOLS: Record<Tool, CraftableItem> = {
 };
 
 export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
-  "Rocket Repair": {
-    name: "Rocket Repair",
-    description: "Equipment used to repair a rocket",
+  "Engine Core": {
+    name: "Engine Core",
+    description: "The power of the sunflower",
     type: LimitedItemType.MOMEventItem,
   },
 };
@@ -343,11 +342,6 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Egg Basket": {
     name: "Egg Basket",
     description: "Gives access to the Easter Egg Hunt",
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Rocket Repair": {
-    name: "Rocket Repair",
-    description: "Equipment used to repair a rocket",
     type: LimitedItemType.BlacksmithItem,
   },
   Observatory: {

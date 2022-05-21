@@ -138,6 +138,9 @@ import pinkEgg from "src/assets/nfts/easter/pink_egg.png";
 import easterBasket from "src/assets/nfts/easter/basket.png";
 import easterBunny from "src/assets/nfts/easter/easter_bunny.gif";
 
+//MOM Event
+import momCoreEngine from "src/assets/nfts/mom/engine_core.png";
+
 import { InventoryItemName } from "./game";
 import {
   FOODS,
@@ -703,8 +706,8 @@ export const ITEM_DETAILS: Items = {
     image: purpleEgg,
   },
 
-  "Rocket Repair": {
-    description: "Equipment used to repair a rocket",
-    image: questionMark,
+  "Engine Core": {
+    description: "The power of the sunflower",
+    image: momCoreEngine,
   },
 };
