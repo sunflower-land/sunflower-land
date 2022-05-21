@@ -15,13 +15,14 @@ import { melonDuskAudio } from "lib/utils/sfx";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
+const MELON_DUSK_SEEN = "isMelonDuskSeen";
 
 export const Rocket: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isRocketFixed, setIsRocketFixed] = useState(false);
   const [isRocketLaunching, setIsRocketLaunching] = useState(false);
   const [isRocketLaunchComplete, setIsRocketLaunchComplete] = useState(false);
-  const [isItemsOpen, setIsItemsOpen] = React.useState(false);
+  const [isItemsOpen, setIsItemsOpen] = useState(false);
 
   useEffect(() => {
     if (!isRocketLaunching) {
@@ -48,6 +49,7 @@ export const Rocket: React.FC = () => {
     if (!melonDuskAudio.playing()) {
       melonDuskAudio.play();
     }
+    localStorage.setItem(MELON_DUSK_SEEN, JSON.stringify(new Date()));
   };
 
   const handleCloseDialog = () => {
@@ -57,23 +59,65 @@ export const Rocket: React.FC = () => {
   };
 
   const handleOpenItemsDialog = () => {
-    handleOpenDialog();
     setIsItemsOpen(true);
   };
 
-  const currentRocketImage =
+  const rocketImage =
     isRocketLaunching || isRocketLaunchComplete
       ? burnMark
       : isRocketFixed
       ? fixedRocket
       : brokenRocket;
 
-  // These represent different states of the quest, and dialogs which should show and when.
-  const shouldShowFixDialog = !isRocketFixed && !isItemsOpen;
-  const shouldShowItemsDialog = shouldShowFixDialog && isItemsOpen;
-  const shouldShowLaunchDialog = isRocketFixed && !isRocketLaunchComplete;
-  const shouldShowContinueMissionDialog =
-    isRocketFixed && isRocketLaunchComplete;
+  const isMelonDuskSeen = localStorage.getItem(MELON_DUSK_SEEN);
+
+  const content = () => {
+    if (isRocketFixed && isRocketLaunchComplete) {
+      return (
+        <>
+          <span className="text-shadow block my-4">
+            Rocket is ready to launch, whenever you&apos;re ready captain!
+          </span>
+          <Button className="text-sm" onClick={handleLaunchRocket}>
+            Launch Rocket
+          </Button>
+        </>
+      );
+    }
+
+    if (isRocketFixed && isRocketLaunchComplete) {
+      return (
+        <>
+          <span className="text-shadow block my-4">
+            When you complete your mission on Mars, come back and talk with me.
+          </span>
+          <p className="text-xs sm:text-sm text-shadow text-white p-1 mb-2">
+            {/* TODO - Add MoM href link */}
+            <a
+              className="underline"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Click here to continue your mission
+            </a>
+          </p>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <span className="text-shadow mr-4 block">
+          Help! My rocket has crash landed and needs repairs. Can you help me
+          fix it?
+        </span>
+        <Button className="text-sm" onClick={handleOpenItemsDialog}>
+          Fix rocket
+        </Button>
+      </>
+    );
+  };
 
   return (
     <>
@@ -96,11 +140,7 @@ export const Rocket: React.FC = () => {
             }}
             onClick={handleOpenDialog}
           />
-          <img
-            src={currentRocketImage}
-            className="w-56"
-            onClick={handleOpenDialog}
-          />
+          <img src={rocketImage} className="w-56" onClick={handleOpenDialog} />
         </div>
       </div>
       {isRocketLaunching && (
@@ -115,63 +155,24 @@ export const Rocket: React.FC = () => {
         />
       )}
       <Modal centered show={isDialogOpen} onHide={handleCloseDialog}>
-        <Panel>
-          <img
-            src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
-            onClick={handleCloseDialog}
-          />
-          <div className="flex items-start pr-6">
-            <img src={momNpc} className="w-16 img-highlight mr-2" />
-            <div className="flex-1">
-              <span className="text-shadow block">Melon Dusk</span>
-              {shouldShowFixDialog && (
-                <>
-                  <span className="text-shadow mr-4 block">
-                    Help! My rocket has crash landed and needs repairs. Can you
-                    help me fix it?
-                  </span>
-                  <Button className="text-sm" onClick={handleOpenItemsDialog}>
-                    Fix rocket
-                  </Button>
-                </>
-              )}
-              {shouldShowItemsDialog && (
-                <ItemsModal isOpen={isDialogOpen} onClose={handleCloseDialog} />
-              )}
-              {shouldShowLaunchDialog && (
-                <>
-                  <span className="text-shadow block my-4">
-                    Rocket is ready to launch, whenever you&apos;re ready
-                    captain!
-                  </span>
-                  <Button className="text-sm" onClick={handleLaunchRocket}>
-                    Launch Rocket
-                  </Button>
-                </>
-              )}
-              {shouldShowContinueMissionDialog && (
-                <>
-                  <span className="text-shadow block my-4">
-                    When you complete your mission on Mars, come back and talk
-                    with me.
-                  </span>
-                  <p className="text-xs sm:text-sm text-shadow text-white p-1 mb-2">
-                    {/* TODO - Add MoM href link */}
-                    <a
-                      className="underline"
-                      href="#"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Click here to continue your mission
-                    </a>
-                  </p>
-                </>
-              )}
+        {isItemsOpen ? (
+          <ItemsModal isOpen={isDialogOpen} onClose={handleCloseDialog} />
+        ) : (
+          <Panel>
+            <img
+              src={close}
+              className="h-6 top-4 right-4 absolute cursor-pointer"
+              onClick={handleCloseDialog}
+            />
+            <div className="flex items-start pr-6">
+              <img src={momNpc} className="w-16 img-highlight mr-2" />
+              <div className="flex-1">
+                <span className="text-shadow block">Melon Dusk</span>
+                {content()}
+              </div>
             </div>
-          </div>
-        </Panel>
+          </Panel>
+        )}
       </Modal>
     </>
   );
