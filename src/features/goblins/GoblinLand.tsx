@@ -18,7 +18,7 @@ import { screenTracker } from "lib/utils/screen";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 // const SHOW_MODAL: Record<StateValues, boolean> = {
-const SHOW_MODAL: Record<StateValues, boolean> = {
+const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
   loading: true,
   minting: true,
   minted: true,
