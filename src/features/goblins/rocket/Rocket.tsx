@@ -9,6 +9,7 @@ import fixedRocket from "assets/buildings/mom_fixed_rocket.png";
 import launchingRocket from "assets/buildings/mom_launching_rocket.gif";
 import burnMark from "assets/buildings/mom_burnt_ground.png";
 import momNpc from "assets/npcs/mom_npc.gif";
+import observatory from "assets/nfts/mom/observatory.gif";
 import close from "assets/icons/close.png";
 import { melonDuskAudio } from "lib/utils/sfx";
 
@@ -61,6 +62,11 @@ export const Rocket: React.FC = () => {
     setIsItemsOpen(true);
   };
 
+  const handleMintObservatory = () => {
+    // TODO
+    return;
+  };
+
   const currentRocketImage =
     isRocketLaunching || isRocketLaunchComplete
       ? burnMark
@@ -74,6 +80,7 @@ export const Rocket: React.FC = () => {
   const shouldShowLaunchDialog = isRocketFixed && !isRocketLaunchComplete;
   const shouldShowContinueMissionDialog =
     isRocketFixed && isRocketLaunchComplete;
+  const shouldShowCraftObservatoryDialog = false; // TODO
 
   return (
     <>
@@ -167,6 +174,23 @@ export const Rocket: React.FC = () => {
                       Click here to continue your mission
                     </a>
                   </p>
+                </>
+              )}
+              {shouldShowCraftObservatoryDialog && (
+                <>
+                  <span className="text-shadow block my-2 text-xs sm:text-sm">
+                    Great job on Mars captain! In exchange for your Mars token,
+                    I will give you something to remember me by. After this
+                    trade, go back to your farm and sync on chain to see it.
+                  </span>
+                  <img
+                    className="mx-auto mb-2"
+                    src={observatory}
+                    alt="Observatory"
+                  />
+                  <Button className="text-sm" onClick={handleMintObservatory}>
+                    Mint Now
+                  </Button>
                 </>
               )}
             </div>
