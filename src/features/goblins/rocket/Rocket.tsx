@@ -59,16 +59,15 @@ export const Rocket: React.FC = () => {
     if (!melonDuskAudio.playing()) {
       melonDuskAudio.play();
     }
-    localStorage.setItem(MELON_DUSK_SEEN, JSON.stringify(new Date()));
   };
 
   const handleCloseDialog = () => {
-    setIsItemsOpen(false);
     melonDuskAudio.stop();
     setIsDialogOpen(false);
   };
 
   const handleOpenItemsDialog = () => {
+    localStorage.setItem(MELON_DUSK_SEEN, JSON.stringify(true));
     setIsItemsOpen(true);
   };
 
@@ -85,6 +84,7 @@ export const Rocket: React.FC = () => {
       : brokenRocket;
 
   const isMelonDuskSeen = localStorage.getItem(MELON_DUSK_SEEN);
+  // const isMelonDuskSeen = false;
 
   const content = () => {
     if (isRocketFixed && !isRocketLaunchComplete) {
@@ -123,17 +123,19 @@ export const Rocket: React.FC = () => {
 
     // TODO - add mint observatory dialog
 
-    return (
-      <>
-        <span className="text-shadow mr-4 block">
-          Help! My rocket has crash landed and needs repairs. Can you help me
-          fix it?
-        </span>
-        <Button className="text-sm" onClick={handleOpenItemsDialog}>
-          Fix rocket
-        </Button>
-      </>
-    );
+    if (!isMelonDuskSeen) {
+      return (
+        <>
+          <span className="text-shadow mr-4 block">
+            Help! My rocket has crash landed and needs repairs. Can you help me
+            fix it?
+          </span>
+          <Button className="text-sm" onClick={handleOpenItemsDialog}>
+            Fix rocket
+          </Button>
+        </>
+      );
+    }
   };
 
   return (
@@ -159,6 +161,7 @@ export const Rocket: React.FC = () => {
             }}
           />
           <img src={rocketImage} className="w-56 relative z-10" />
+
           <img
             src={scaffoldingLeft}
             style={{
@@ -167,6 +170,7 @@ export const Rocket: React.FC = () => {
               top: `${GRID_WIDTH_PX * 0.83}px`,
               left: `${GRID_WIDTH_PX * -0.48}px`,
               zIndex: 1,
+              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
             }}
           />
           <img
@@ -177,6 +181,7 @@ export const Rocket: React.FC = () => {
               top: `${GRID_WIDTH_PX * 0.78}px`,
               right: `${GRID_WIDTH_PX * -1.26}px`,
               zIndex: 1,
+              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
             }}
           />
           <img
@@ -186,6 +191,7 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 5}px`,
               top: `${GRID_WIDTH_PX * 1.38}px`,
               left: `${GRID_WIDTH_PX * 0.31}px`,
+              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
             }}
           />
           <img
@@ -195,6 +201,7 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 2.14}px`,
               top: `${GRID_WIDTH_PX * 1.69}px`,
               right: `${GRID_WIDTH_PX * -4.5}px`,
+              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
             }}
           />
           <img
@@ -204,6 +211,7 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 1.1}px`,
               top: `${GRID_WIDTH_PX * 4.25}px`,
               right: `${GRID_WIDTH_PX * -3}px`,
+              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
             }}
           />
           <img
@@ -213,6 +221,7 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 0.95}px`,
               left: `${GRID_WIDTH_PX * 5}px`,
               bottom: `${GRID_WIDTH_PX * -0.01}px`,
+              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
             }}
           />
           <img
@@ -222,6 +231,7 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 1.55}px`,
               right: `${GRID_WIDTH_PX * 3.6}px`,
               bottom: `${GRID_WIDTH_PX * -1}px`,
+              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
             }}
           />
           <img
@@ -231,6 +241,7 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 1.55}px`,
               left: `${GRID_WIDTH_PX * 3.7}px`,
               bottom: `${GRID_WIDTH_PX * -2.25}px`,
+              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
             }}
           />
           <img
@@ -240,6 +251,7 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 1}px`,
               right: `${GRID_WIDTH_PX * 2.7}px`,
               bottom: `${GRID_WIDTH_PX * -3}px`,
+              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
             }}
           />
           <img
@@ -249,6 +261,7 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 1}px`,
               right: `${GRID_WIDTH_PX * 2.1}px`,
               bottom: `${GRID_WIDTH_PX * -3.5}px`,
+              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
             }}
           />
         </div>
