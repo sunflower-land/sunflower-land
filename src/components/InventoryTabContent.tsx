@@ -16,7 +16,7 @@ import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
 import { getCropTime } from "features/game/events/plant";
 import { getKeys } from "features/game/types/craftables";
-import { useMakeDefaultInventoryItem } from "components/ui/hooks/useGetDefaultInventoryItem";
+import { useMakeDefaultInventoryItem } from "components/hooks/useGetDefaultInventoryItem";
 import { useHasBoostForItem } from "./hooks/useHasBoostForItem";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";

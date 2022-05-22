@@ -9,7 +9,7 @@ import { Box } from "components/ui/Box";
 
 import { InventoryItems } from "./InventoryItems";
 
-import { getShortcuts } from "../../features/farming/hud/lib/shortcuts";
+import { getShortcuts } from "../features/farming/hud/lib/shortcuts";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   Inventory as InventoryType,
