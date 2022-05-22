@@ -22,7 +22,9 @@ export const Humans: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   useEffect(() => {
-    // Move auth machine out of visiting state if route changed via browser back button
+    // Our authMachine currently sits outside of our navigation. So if a the machine was in a visiting
+    // state and the player loaded this route which can happen using the browser back button then fire
+    // the RETURN event to move the authMachine out of the invalid state.
     if (
       authState.matches({ connected: "visitingContributor" }) ||
       authState.matches("visiting")
