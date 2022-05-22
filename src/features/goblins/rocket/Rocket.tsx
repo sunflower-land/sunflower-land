@@ -4,6 +4,8 @@ import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { ItemsModal } from "./ItemsModal";
 import { Button } from "components/ui/Button";
+import { Minting } from "features/game/components/Minting";
+import { ErrorMessage } from "features/auth/ErrorMessage";
 
 import brokenRocket from "assets/mom/mom_broken_rocket.gif";
 import fixedRocket from "assets/mom/mom_fixed_rocket.png";
@@ -30,27 +32,29 @@ const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
 const MELON_DUSK_SEEN = "isMelonDuskSeen";
 
 export const Rocket: React.FC = () => {
-  const [hasCompletedMission, setHasCompletedMission] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isItemsOpen, setIsItemsOpen] = React.useState(false);
+  const [isItemsOpen, setIsItemsOpen] = useState(false);
   const [isRocketFixed, setIsRocketFixed] = useState(false);
   const [isRocketLaunching, setIsRocketLaunching] = useState(false);
   const [isRocketLaunchComplete, setIsRocketLaunchComplete] = useState(false);
+  const [hasCompletedMission, setHasCompletedMission] = useState(false);
+  const [isMintingObservatory, setIsMintingObservatory] = useState(false);
+  const [observatoryMintError, setObservatoryMintError] =
+    useState<Error | null>(null);
 
   // Check if player has already completed mission
   useEffect(() => {
     (async () => {
+      // TODO - check this MoM function call - will the MoM token be burned once observatory is minted?
+      // If so, then we need to check if player already has inventory so they can't do quest again.
       const isComplete = await metamask
         .getMillionOnMars()
         .hasCompletedMission();
 
       setHasCompletedMission(isComplete);
-
-      if (isComplete) {
-        // If player has already completed mission, then everything else is also complete
-        setIsRocketFixed(true);
-        setIsRocketLaunchComplete(true);
-      }
+      // If player has already completed mission, then everything else is also complete
+      setIsRocketFixed(isComplete);
+      setIsRocketLaunchComplete(isComplete);
     })();
   }, []);
 
@@ -76,6 +80,9 @@ export const Rocket: React.FC = () => {
 
   const handleOpenDialog = () => {
     setIsDialogOpen(true);
+    if (isMelonDuskSeen && !isRocketFixed && !hasCompletedMission) {
+      handleOpenItemsDialog();
+    }
     if (!melonDuskAudio.playing()) {
       melonDuskAudio.play();
     }
@@ -84,6 +91,7 @@ export const Rocket: React.FC = () => {
   const handleCloseDialog = () => {
     melonDuskAudio.stop();
     setIsDialogOpen(false);
+    setObservatoryMintError(null);
   };
 
   const handleOpenItemsDialog = () => {
@@ -92,11 +100,12 @@ export const Rocket: React.FC = () => {
   };
 
   const handleMintObservatory = async () => {
-    // TODO - complete this logic
+    setIsMintingObservatory(true);
     try {
       await metamask.getMillionOnMars().trade();
-    } finally {
-      // TODO
+      setIsMintingObservatory(false);
+    } catch (err) {
+      setObservatoryMintError(err as Error);
     }
   };
 
@@ -108,7 +117,6 @@ export const Rocket: React.FC = () => {
       : brokenRocket;
 
   const isMelonDuskSeen = localStorage.getItem(MELON_DUSK_SEEN);
-  // const isMelonDuskSeen = false;
 
   const content = () => {
     // TODO - Also check condition if player already minted observatory. Should happen before this.
@@ -123,19 +131,6 @@ export const Rocket: React.FC = () => {
           <img className="mx-auto mb-2" src={observatory} alt="Observatory" />
           <Button className="text-sm" onClick={handleMintObservatory}>
             Mint Now
-          </Button>
-        </>
-      );
-    }
-
-    if (isRocketFixed && !isRocketLaunchComplete) {
-      return (
-        <>
-          <span className="text-shadow block my-4">
-            Rocket is ready to launch, whenever you&apos;re ready captain!
-          </span>
-          <Button className="text-sm" onClick={handleLaunchRocket}>
-            Launch Rocket
           </Button>
         </>
       );
@@ -158,6 +153,19 @@ export const Rocket: React.FC = () => {
               Click here to continue your mission
             </a>
           </p>
+        </>
+      );
+    }
+
+    if (isRocketFixed && !isRocketLaunchComplete) {
+      return (
+        <>
+          <span className="text-shadow block my-4">
+            Rocket is ready to launch, whenever you&apos;re ready captain!
+          </span>
+          <Button className="text-sm" onClick={handleLaunchRocket}>
+            Launch Rocket
+          </Button>
         </>
       );
     }
@@ -303,21 +311,35 @@ export const Rocket: React.FC = () => {
           />
         </div>
       </div>
+
       {isRocketLaunching && (
         <img
           src={launchingRocket}
           className="absolute launching"
           style={{
             width: `${GRID_WIDTH_PX * 5}px`,
-            right: `${GRID_WIDTH_PX * 9.75}px`,
-            top: `${GRID_WIDTH_PX * 20}px`,
+            top: `${GRID_WIDTH_PX * 14}px`,
+            left: `${GRID_WIDTH_PX * 2}px`,
+            zIndex: 100,
           }}
         />
       )}
+
       <Modal centered show={isDialogOpen} onHide={handleCloseDialog}>
-        {isItemsOpen ? (
+        {isMintingObservatory && (
+          <Panel className="text-shadow">
+            {/* TODO - use a better errorCode strategy */}
+            {observatoryMintError === null ? (
+              <Minting />
+            ) : (
+              <ErrorMessage errorCode="FAILED_REQUEST" />
+            )}
+          </Panel>
+        )}
+        {!isMintingObservatory && isItemsOpen && (
           <ItemsModal isOpen={isDialogOpen} onClose={handleCloseDialog} />
-        ) : (
+        )}
+        {!isMintingObservatory && !isItemsOpen && (
           <Panel>
             <img
               src={close}
