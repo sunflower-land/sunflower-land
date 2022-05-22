@@ -11,7 +11,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 
 import { Modal } from "react-bootstrap";
-import { Share } from "../../../../components/ui/Share";
+import { Share } from "src/components/ui/Share";
 import { HowToPlay } from "./howToPlay/HowToPlay";
 import { Settings } from "./Settings";
 
