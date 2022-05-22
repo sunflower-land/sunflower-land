@@ -24,7 +24,7 @@ export const Zoom: React.FC = () => {
 
   useEffect(() => {
     const changeZoom = async () => {
-      document.body.style.transform = zoomLevel;
+      document.body.style.zoom = zoomLevel;
     };
     changeZoom(), [zoomLevel];
   });
@@ -33,14 +33,14 @@ export const Zoom: React.FC = () => {
     <>
       {isMobile && (
         <>
-          <Button onClick={zoomIn} disabled={zoomLevel >= 1.0}>
+          <Button onClick={() => zoomIn()} disabled={zoomLevel >= 1.0}>
             <img
               src={zoom_in}
               alt="zoom in on the map"
               className="w-4 h-4 sm:w-6 sm:h-5"
             />
           </Button>
-          <Button onClick={zoomOut} disabled={zoomLevel <= 0.8}>
+          <Button onClick={() => zoomOut()} disabled={zoomLevel <= 0.8}>
             <img
               src={zoom_out}
               alt="zoom out of the map"
