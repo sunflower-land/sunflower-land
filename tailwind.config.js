@@ -30,6 +30,7 @@ module.exports = {
       },
       fontSize: {
         xxs: "0.6rem",
+        xxxs: "0.5rem",
       },
       // This is the height and width of the gameboard
       // background image. Only change here when larger size is added.
