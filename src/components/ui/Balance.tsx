@@ -1,16 +1,15 @@
-import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import React, { useState } from "react";
+import Decimal from "decimal.js-light";
 
 import { InnerPanel } from "components/ui/Panel";
 
 import token from "assets/icons/token.gif";
 
-import { Context } from "features/game/GoblinProvider";
-import Decimal from "decimal.js-light";
+interface Props {
+  balance: Decimal;
+}
 
-export const Balance: React.FC = () => {
-  const { goblinService } = useContext(Context);
-  const [goblinState] = useActor(goblinService);
+export const Balance: React.FC<Props> = ({ balance }) => {
   const [isShown, setIsShown] = useState(false);
 
   return (
@@ -22,11 +21,9 @@ export const Balance: React.FC = () => {
         onMouseLeave={() => setIsShown(false)}
       >
         {isShown === false ? (
-          goblinState.context.state.balance
-            .toDecimalPlaces(3, Decimal.ROUND_DOWN)
-            .toString()
+          balance.toDecimalPlaces(4, Decimal.ROUND_DOWN).toString()
         ) : (
-          <small>{goblinState.context.state.balance.toString()}</small>
+          <small>{balance.toString()}</small>
         )}
       </span>
     </InnerPanel>

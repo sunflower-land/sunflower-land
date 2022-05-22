@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 
-import { Balance } from "./components/Balance";
 import { AudioPlayer } from "components/ui/AudioPlayer";
 import { BackButton } from "./components/BackButton";
 import { Inventory } from "components/ui/Inventory";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
+import { Balance } from "components/ui/Balance";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -18,7 +18,7 @@ export const Hud: React.FC = () => {
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
       <BackButton />
-      <Balance />
+      <Balance balance={goblinState.context.state.balance} />
       <Inventory inventory={goblinState.context.state.inventory} />
       <AudioPlayer />
     </div>

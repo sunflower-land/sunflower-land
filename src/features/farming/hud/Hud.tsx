@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { Balance } from "./components/Balance";
+import { Balance } from "../../../components/ui/Balance";
 import { Inventory } from "../../../components/ui/Inventory";
 import { Menu } from "./components/Menu";
 import { AudioPlayer } from "components/ui/AudioPlayer";
@@ -21,7 +21,7 @@ export const Hud: React.FC = () => {
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
       <Menu />
-      <Balance />
+      <Balance balance={gameState.context.state.balance} />
       <Inventory
         inventory={gameState.context.state.inventory}
         shortcutItem={shortcutItem}
