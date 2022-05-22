@@ -21,6 +21,7 @@ import { loadSession } from "../actions/loadSession";
 import { metamask } from "lib/blockchain/metamask";
 import { INITIAL_SESSION } from "./gameMachine";
 import { wishingWellMachine } from "features/goblins/wishingWell/wishingWellMachine";
+import Decimal from "decimal.js-light";
 
 export type GoblinState = Omit<GameState, "skills">;
 
@@ -53,6 +54,11 @@ type OpeningWishingWellEvent = {
   authState: AuthContext;
 };
 
+type UpdateBalance = {
+  type: "UPDATE_BALANCE";
+  newBalance: Decimal;
+};
+
 export type BlockchainEvent =
   | {
       type: "REFRESH";
@@ -68,7 +74,8 @@ export type BlockchainEvent =
     }
   | WithdrawEvent
   | MintEvent
-  | OpeningWishingWellEvent;
+  | OpeningWishingWellEvent
+  | UpdateBalance;
 
 export type BlockchainState = {
   value:
@@ -187,6 +194,16 @@ export function startGoblinVillage(authContext: AuthContext) {
             },
             onDone: {
               target: "playing",
+            },
+          },
+          on: {
+            UPDATE_BALANCE: {
+              actions: assign({
+                state: (context, event) => ({
+                  ...context.state,
+                  balance: (event as UpdateBalance).newBalance,
+                }),
+              }),
             },
           },
         },
