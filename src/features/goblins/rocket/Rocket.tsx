@@ -121,6 +121,9 @@ export const Rocket: React.FC = () => {
     try {
       await metamask.getMillionOnMars().trade();
       setIsMintingObservatory(false);
+      goblinService.send("REFRESH");
+      // TODO - show loading text until blockchain state is refreshed - don't show dialog immediately.
+      handleOpenDialog();
     } catch (err) {
       setObservatoryMintError(err as Error);
     }
