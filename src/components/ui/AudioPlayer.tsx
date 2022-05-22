@@ -16,6 +16,8 @@ import {
 } from "assets/songs/playlist";
 import { Panel } from "components/ui/Panel";
 import { useStepper } from "lib/utils/hooks/useStepper";
+import { Zoom } from "./Zoom";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 interface Props {
   isFarming?: boolean;
@@ -28,6 +30,7 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
   const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
   const musicPlayer = useRef<any>(null);
+  const [isMobile] = useIsMobile();
 
   const handlePlayState = () => {
     if (musicPlayer.current.paused) {
@@ -131,10 +134,11 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
         </div>
       </Panel>
       <div
-        className={`position-absolute ${
-          visible ? "translate-x-1.5" : ""
-        } -left-20 sm:-left-24 bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex gap-2 align-items-center overflow-hidden`}
+        className={`position-absolute ${visible ? "translate-x-1.5" : ""}  ${
+          isMobile ? "-left-[168px] " : "-left-20 sm:-left-24"
+        } bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex gap-2 align-items-center overflow-hidden`}
       >
+        <Zoom />
         <Button onClick={() => setMuted(!muted)}>
           <img
             src={muted ? volume_down : volume_up}
