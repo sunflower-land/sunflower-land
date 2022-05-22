@@ -5,7 +5,7 @@ import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import MillionOnMarsABI from "./abis/MillionOnMars.json";
-import { estimateGasPrice } from "./utils";
+import { estimateGasPrice, parseMetamaskError } from "./utils";
 
 const address = CONFIG.MOM_CONTRACT;
 
@@ -53,7 +53,7 @@ export class MillionOnMars {
         .on("error", function (error: any) {
           console.log({ error });
 
-          reject(error);
+          reject(parseMetamaskError(error));
         })
         .on("transactionHash", function (transactionHash: any) {
           console.log({ transactionHash });
