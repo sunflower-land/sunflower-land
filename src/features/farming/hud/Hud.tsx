@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { Balance } from "./components/Balance";
-import { Inventory } from "./components/Inventory";
+import { Inventory } from "../../../components/ui/Inventory";
 import { Menu } from "./components/Menu";
 import { AudioPlayer } from "components/ui/AudioPlayer";
 import { VisitBanner } from "../../../components/ui/VisitBanner";
@@ -13,7 +13,7 @@ import { Context } from "features/game/GameProvider";
  * Balances, Inventory, actions etc.
  */
 export const Hud: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const landId = gameState.context.state.id;
@@ -22,7 +22,11 @@ export const Hud: React.FC = () => {
     <div data-html2canvas-ignore="true" aria-label="Hud">
       <Menu />
       <Balance />
-      <Inventory />
+      <Inventory
+        inventory={gameState.context.state.inventory}
+        shortcutItem={shortcutItem}
+        isFarming
+      />
       <AudioPlayer isFarming />
       <VisitBanner id={landId} />
     </div>
