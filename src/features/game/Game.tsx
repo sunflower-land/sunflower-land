@@ -112,7 +112,11 @@ export const Game: React.FC = () => {
       <Forest />
       <Quarry />
       <Town />
-      <House />
+      <House
+        state={gameState.context.state}
+        playerCanLevelUp={gameState.matches("levelling")}
+        isFarming
+      />
       <Lore />
       <GoblinShovel />
     </>

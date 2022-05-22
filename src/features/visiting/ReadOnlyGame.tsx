@@ -16,11 +16,11 @@ import { Forest } from "./forest/Forest";
 import { Quarry } from "./quarry/Quarry";
 import { Lore } from "features/game/components/Lore";
 import { Town } from "./town/Town";
-import { House } from "./house/House";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ErrorCode } from "lib/errors";
 import { Blacklisted } from "./Blacklisted";
 import { TeamDonation } from "./teamDonation/TeamDonation";
+import { House } from "features/farming/house/House";
 
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
@@ -57,7 +57,7 @@ export const ReadOnlyGame: React.FC = () => {
       <Quarry />
       <Lore />
       <Town />
-      <House />
+      <House state={gameState.context.state} />
     </>
   );
 };
