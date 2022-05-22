@@ -12,9 +12,9 @@ import fixedRocket from "assets/mom/mom_fixed_rocket.png";
 import launchingRocket from "assets/mom/mom_launching_rocket.gif";
 import burnMark from "assets/mom/mom_burnt_ground.png";
 import close from "assets/icons/close.png";
-import momNpc from "assets/mom/mom_npc.gif";
 import observatory from "assets/nfts/mom/observatory.gif";
-import { melonDuskAudio } from "lib/utils/sfx";
+import { melonDuskAudio, rocketLaunchAudio } from "lib/utils/sfx";
+import momNpc from "assets/mom/mom_npc.gif";
 import scaffoldingLeft from "assets/mom/scaffolding_left.png";
 import scaffoldingRight from "assets/mom/scaffolding_right.png";
 import support from "assets/mom/launch-pad-material-2.png";
@@ -62,10 +62,13 @@ export const Rocket: React.FC = () => {
     if (!isRocketLaunching) {
       return;
     }
+    melonDuskAudio.stop();
+    rocketLaunchAudio.play();
     setTimeout(() => {
       setIsRocketLaunching(false);
       setIsRocketLaunchComplete(true);
       setIsDialogOpen(true);
+      melonDuskAudio.play();
     }, ROCKET_LAUNCH_TO_DIALOG_TIMEOUT);
   }, [isRocketLaunching]);
 
