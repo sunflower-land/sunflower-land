@@ -12,7 +12,7 @@ import town from "assets/icons/town.png";
 import water from "assets/icons/expression_working.png";
 import wood from "assets/resources/wood.png";
 import leftArrow from "assets/icons/arrow_left.png";
-import { Share } from "components/ui/Share";
+import { Share } from "components/Share";
 
 /**
  * TODO:

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
-import { Balance } from "../../../components/ui/Balance";
-import { Inventory } from "../../../components/ui/Inventory";
+import { Balance } from "components/Balance";
+import { Inventory } from "components/Inventory";
 import { Menu } from "./components/Menu";
 import { AudioPlayer } from "components/ui/AudioPlayer";
 import { VisitBanner } from "../../../components/ui/VisitBanner";

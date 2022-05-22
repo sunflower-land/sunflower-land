@@ -11,7 +11,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 
 import { Modal } from "react-bootstrap";
-import { Share } from "src/components/ui/Share";
+import { Share } from "components/Share";
 import { HowToPlay } from "./howToPlay/HowToPlay";
 import { Settings } from "./Settings";
 
@@ -44,7 +44,6 @@ enum MENU_LEVELS {
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
-  const [authState] = useActor(authService);
   const [gameState] = useActor(gameService);
 
   const [menuOpen, setMenuOpen] = useState(false);

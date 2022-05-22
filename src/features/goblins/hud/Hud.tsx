@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 
 import { AudioPlayer } from "components/ui/AudioPlayer";
 import { BackButton } from "./components/BackButton";
-import { Inventory } from "components/ui/Inventory";
+
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
-import { Balance } from "components/ui/Balance";
+import { Balance } from "components/Balance";
+import { Inventory } from "components/Inventory";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
