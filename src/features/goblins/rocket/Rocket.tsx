@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useActor } from "@xstate/react";
 import { metamask } from "lib/blockchain/metamask";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
@@ -27,14 +28,20 @@ import metalSheetsPileFew from "assets/mom/metal-sheets-pile-few.png";
 import metalSheetsPileMany from "assets/mom/metal-sheets-pile-many.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { Context } from "features/game/GoblinProvider";
 
 const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
 const MELON_DUSK_SEEN = "isMelonDuskSeen";
 
 export const Rocket: React.FC = () => {
+  const { goblinService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(goblinService);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isItemsOpen, setIsItemsOpen] = useState(false);
-  const [isRocketFixed, setIsRocketFixed] = useState(false);
   const [isRocketLaunching, setIsRocketLaunching] = useState(false);
   const [isRocketLaunchComplete, setIsRocketLaunchComplete] = useState(false);
   const [hasCompletedMission, setHasCompletedMission] = useState(false);
@@ -42,18 +49,18 @@ export const Rocket: React.FC = () => {
   const [observatoryMintError, setObservatoryMintError] =
     useState<Error | null>(null);
 
+  const isRocketFixed = (state.inventory["Engine Core"]?.toNumber() || 0) > 0;
+  const hasCompletedQuest = (state.inventory.Observatory?.toNumber() || 0) > 0;
+
   // Check if player has already completed mission
   useEffect(() => {
     (async () => {
-      // TODO - check this MoM function call - will the MoM token be burned once observatory is minted?
-      // If so, then we need to check if player already has inventory so they can't do quest again.
       const isComplete = await metamask
         .getMillionOnMars()
         .hasCompletedMission();
 
       setHasCompletedMission(isComplete);
-      // If player has already completed mission, then everything else is also complete
-      setIsRocketFixed(isComplete);
+      // If player has already completed mission, then the launch is also complete
       setIsRocketLaunchComplete(isComplete);
     })();
   }, []);
@@ -83,7 +90,12 @@ export const Rocket: React.FC = () => {
 
   const handleOpenDialog = () => {
     setIsDialogOpen(true);
-    if (isMelonDuskSeen && !isRocketFixed && !hasCompletedMission) {
+    if (
+      isMelonDuskSeen &&
+      !isRocketFixed &&
+      !hasCompletedMission &&
+      !hasCompletedQuest
+    ) {
       handleOpenItemsDialog();
     }
     if (!melonDuskAudio.playing()) {
@@ -122,7 +134,15 @@ export const Rocket: React.FC = () => {
   const isMelonDuskSeen = localStorage.getItem(MELON_DUSK_SEEN);
 
   const content = () => {
-    // TODO - Also check condition if player already minted observatory. Should happen before this.
+    if (hasCompletedQuest) {
+      return (
+        <span className="text-shadow block my-2 text-xs sm:text-sm">
+          Enjoy your new observatory captain! Go back to your farm and sync on
+          chain to start using it.
+        </span>
+      );
+    }
+
     if (hasCompletedMission) {
       return (
         <>
