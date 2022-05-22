@@ -6,14 +6,13 @@ import { OuterPanel } from "components/ui/Panel";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import * as Auth from "features/auth/lib/Provider";
 
-import { Share } from "./Share";
-
 import mobileMenu from "assets/icons/hamburger_menu.png";
 import radish from "assets/icons/radish.png";
 import town from "assets/icons/town.png";
 import water from "assets/icons/expression_working.png";
 import wood from "assets/resources/wood.png";
 import leftArrow from "assets/icons/arrow_left.png";
+import { Share } from "components/ui/Share";
 
 /**
  * TODO:

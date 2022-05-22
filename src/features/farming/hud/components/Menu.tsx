@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useActor } from "@xstate/react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { CONFIG } from "lib/config";
@@ -12,7 +11,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 
 import { Modal } from "react-bootstrap";
-import { Share } from "./Share";
+import { Share } from "../../../../components/ui/Share";
 import { HowToPlay } from "./howToPlay/HowToPlay";
 import { Settings } from "./Settings";
 
@@ -60,7 +59,6 @@ export const Menu = () => {
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
   const ref = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
