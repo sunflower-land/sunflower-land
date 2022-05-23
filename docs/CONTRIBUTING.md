@@ -38,7 +38,6 @@ Don't have any ideas? We would suggest scanning the open issues and seeing if th
 
 You can search by labels as well to see which items are more urgent than others.
 
-
 ## What should I work on?
 
 Maintaining a project with over 50 open source developers brings a range of challenges:
