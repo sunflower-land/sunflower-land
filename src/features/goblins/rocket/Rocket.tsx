@@ -10,13 +10,12 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GoblinProvider";
 
-import brokenRocket from "assets/mom/mom_broken_rocket.gif";
 import fixedRocket from "assets/mom/mom_fixed_rocket.png";
 import launchingRocket from "assets/mom/mom_launching_rocket.gif";
 import burnMark from "assets/mom/mom_burnt_ground.png";
 import close from "assets/icons/close.png";
 import observatory from "assets/nfts/mom/observatory.gif";
-import { melonDuskAudio, rocketLaunchAudio } from "lib/utils/sfx";
+import { melonDuskAudio } from "lib/utils/sfx";
 import momNpc from "assets/mom/mom_npc.gif";
 import scaffoldingLeft from "assets/mom/scaffolding_left.png";
 import scaffoldingRight from "assets/mom/scaffolding_right.png";
@@ -61,7 +60,6 @@ export const Rocket: React.FC = () => {
   useEffect(() => {
     if (rocketState.matches("launching")) {
       melonDuskAudio.stop();
-      rocketLaunchAudio.play();
 
       setTimeout(() => {
         setIsDialogOpen(true);
@@ -100,9 +98,14 @@ export const Rocket: React.FC = () => {
     send("REWARD");
   };
 
-  let rocketImage = brokenRocket;
+  const handleCraftEngineCore = () => {
+    send("REPAIR");
+    handleCloseDialog();
+  };
 
-  if (rocketState.matches("launching") || rocketState.matches("launched")) {
+  let rocketImage = burnMark;
+
+  if (rocketState.matches("crashed")) {
     rocketImage = burnMark;
   }
 
@@ -110,6 +113,7 @@ export const Rocket: React.FC = () => {
     rocketImage = fixedRocket;
   }
 
+  console.log({ rocketState });
   const content = () => {
     if (rocketState.matches("rewarded")) {
       return (
@@ -388,7 +392,7 @@ export const Rocket: React.FC = () => {
 
       <Modal centered show={isEngineCoreModalOpen} onHide={handleCloseDialog}>
         <EngineCore
-          onCraft={() => send("REPAIR")}
+          onCraft={handleCraftEngineCore}
           inventory={state.inventory}
         />
       </Modal>

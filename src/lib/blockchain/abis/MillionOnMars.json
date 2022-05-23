@@ -18,6 +18,11 @@
         "internalType": "contract SunflowerLandInventory",
         "name": "_inventory",
         "type": "address"
+      },
+      {
+        "internalType": "contract SunflowerLand",
+        "name": "_farm",
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -224,6 +229,11 @@
       {
         "internalType": "uint256",
         "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "farmId",
         "type": "uint256"
       }
     ],

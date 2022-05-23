@@ -75,7 +75,7 @@ export const createRocketMachine = ({
               const isComplete = await metamask
                 .getMillionOnMars()
                 .hasCompletedMission();
-
+              console.log({ isComplete, inventory: JSON.stringify(inventory) });
               return { isComplete };
             },
             onDone: [
@@ -85,7 +85,7 @@ export const createRocketMachine = ({
               },
               {
                 target: "launched",
-                cond: () => inventory["Engine Core"],
+                cond: () => inventory["Engine Core"]?.gt(0),
               },
               {
                 target: "crashed",
@@ -112,7 +112,7 @@ export const createRocketMachine = ({
                 sessionId: sessionId as string,
                 token: token as string,
                 item: "Engine Core",
-                captcha: "",
+                captcha: "0x",
               });
             },
             onDone: {
@@ -148,7 +148,7 @@ export const createRocketMachine = ({
         rewarding: {
           invoke: {
             src: async () => {
-              await metamask.getMillionOnMars().trade();
+              await metamask.getMillionOnMars().trade(id);
             },
             onDone: {
               target: "rewarded",
