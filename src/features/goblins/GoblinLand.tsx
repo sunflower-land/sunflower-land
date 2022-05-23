@@ -13,7 +13,10 @@ import { Minting } from "features/game/components/Minting";
 import { Minted } from "features/game/components/Minted";
 import { Withdrawing } from "features/game/components/Withdrawing";
 import { Withdrawn } from "features/game/components/Withdrawn";
-import { StateValues } from "features/game/lib/goblinMachine";
+import {
+  GoblinMachineState,
+  StateValues,
+} from "features/game/lib/goblinMachine";
 import { screenTracker } from "lib/utils/screen";
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -63,7 +66,7 @@ export const GoblinLand: React.FC = () => {
           {goblinState.matches("withdrawn") && <Withdrawn />}
         </Panel>
       </Modal>
-      <Village />
+      <Village state={goblinState.value as GoblinMachineState["value"]} />
     </div>
   );
 };
