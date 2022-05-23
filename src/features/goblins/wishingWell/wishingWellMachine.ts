@@ -1,4 +1,10 @@
-import { createMachine, Interpreter, assign, DoneInvokeEvent } from "xstate";
+import {
+  createMachine,
+  Interpreter,
+  assign,
+  DoneInvokeEvent,
+  sendParent,
+} from "xstate";
 
 import { metamask } from "lib/blockchain/metamask";
 import { ERRORS } from "lib/errors";
@@ -199,11 +205,18 @@ export const wishingWellMachine = createMachine<
 
             const well = await loadWishingWell();
 
-            return { state: well, totalRewards };
+            return { state: well, totalRewards, newBalance };
           },
           onDone: {
             target: "granted",
-            actions: [assignWishingWellState, assignTotalRewards],
+            actions: [
+              assignWishingWellState,
+              assignTotalRewards,
+              sendParent((_, event) => ({
+                type: "UPDATE_BALANCE",
+                newBalance: event.data.newBalance,
+              })),
+            ],
           },
           onError: {
             target: "error",
