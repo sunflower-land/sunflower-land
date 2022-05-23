@@ -62,6 +62,8 @@ export interface LimitedItem extends CraftableItem {
   type?: LimitedItemType;
 }
 
+export type MOMEventItem = "Engine Core" | "Observatory";
+
 export type BlacksmithItem =
   | "Sunflower Statue"
   | "Potato Statue"
@@ -94,7 +96,12 @@ export type MarketItem =
   | "Mysterious Parsnip"
   | "Carrot Sword";
 
-export type LimitedItemName = BlacksmithItem | BarnItem | MarketItem | Flag;
+export type LimitedItemName =
+  | BlacksmithItem
+  | BarnItem
+  | MarketItem
+  | Flag
+  | MOMEventItem;
 
 export type Tool =
   | "Axe"
@@ -235,6 +242,20 @@ export const TOOLS: Record<Tool, CraftableItem> = {
       },
     ],
     disabled: true,
+  },
+};
+
+export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
+  "Engine Core": {
+    name: "Engine Core",
+    description: "The power of the sunflower",
+    type: LimitedItemType.MOMEventItem,
+  },
+  Observatory: {
+    name: "Observatory",
+    description: "Explore the stars and improve scientific development",
+    section: Section.Observatory,
+    type: LimitedItemType.MOMEventItem,
   },
 };
 
@@ -441,6 +462,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...FOODS(),
   ...ANIMALS,
   ...FLAGS,
+  ...ROCKET_ITEMS,
 });
 
 /**
@@ -455,6 +477,7 @@ export const LIMITED_ITEMS = {
   ...BARN_ITEMS,
   ...MARKET_ITEMS,
   ...FLAGS,
+  ...ROCKET_ITEMS,
 };
 
 export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);
