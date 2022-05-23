@@ -21,6 +21,7 @@ import { loadSession } from "../actions/loadSession";
 import { metamask } from "lib/blockchain/metamask";
 import { INITIAL_SESSION } from "./gameMachine";
 import { wishingWellMachine } from "features/goblins/wishingWell/wishingWellMachine";
+import Decimal from "decimal.js-light";
 
 export type GoblinState = Omit<GameState, "skills">;
 
@@ -53,6 +54,11 @@ type OpeningWishingWellEvent = {
   authState: AuthContext;
 };
 
+type UpdateBalance = {
+  type: "UPDATE_BALANCE";
+  newBalance: Decimal;
+};
+
 export type BlockchainEvent =
   | {
       type: "REFRESH";
@@ -68,9 +74,10 @@ export type BlockchainEvent =
     }
   | WithdrawEvent
   | MintEvent
-  | OpeningWishingWellEvent;
+  | OpeningWishingWellEvent
+  | UpdateBalance;
 
-export type BlockchainState = {
+export type GoblinMachineState = {
   value:
     | "loading"
     | "wishing"
@@ -83,14 +90,14 @@ export type BlockchainState = {
   context: Context;
 };
 
-export type StateKeys = keyof Omit<BlockchainState, "context">;
-export type StateValues = BlockchainState[StateKeys];
+export type StateKeys = keyof Omit<GoblinMachineState, "context">;
+export type StateValues = GoblinMachineState[StateKeys];
 
 export type MachineInterpreter = Interpreter<
   Context,
   any,
   BlockchainEvent,
-  BlockchainState
+  GoblinMachineState
 >;
 
 const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
@@ -105,7 +112,7 @@ const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
 };
 
 export function startGoblinVillage(authContext: AuthContext) {
-  return createMachine<Context, BlockchainEvent, BlockchainState>(
+  return createMachine<Context, BlockchainEvent, GoblinMachineState>(
     {
       id: "goblinMachine",
       initial: "loading",
@@ -187,6 +194,16 @@ export function startGoblinVillage(authContext: AuthContext) {
             },
             onDone: {
               target: "playing",
+            },
+          },
+          on: {
+            UPDATE_BALANCE: {
+              actions: assign({
+                state: (context, event) => ({
+                  ...context.state,
+                  balance: (event as UpdateBalance).newBalance,
+                }),
+              }),
             },
           },
         },

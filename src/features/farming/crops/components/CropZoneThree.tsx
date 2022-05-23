@@ -11,8 +11,12 @@ import goblin from "assets/npcs/goblin.gif";
 import goblinWatering from "assets/npcs/goblin_watering.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
 import cabbageSoup from "assets/nfts/saurekrat_small.png";
+import close from "assets/icons/close.png";
+
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 import { Field } from "./Field";
+import { Button } from "components/ui/Button";
 
 export const CropZoneThree: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -22,6 +26,13 @@ export const CropZoneThree: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+
+  const [scrollIntoView] = useScrollIntoView();
+
+  const goToKitchen = () => {
+    setShowModal(false);
+    scrollIntoView(Section.Town);
+  };
 
   const isUnlocked = state.inventory["Sauerkraut"];
 
@@ -89,6 +100,11 @@ export const CropZoneThree: React.FC = () => {
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={() => setShowModal(false)}
+          />
           <div className="flex items-start">
             <img src={goblinHead} className="w-16 img-highlight mr-2" />
             <div className="flex-1">
@@ -97,8 +113,11 @@ export const CropZoneThree: React.FC = () => {
               </span>
               <img
                 src={cabbageSoup}
-                className="w-8 img-highlight float-right mr-1"
+                className="w-4 img-highlight float-right mr-1 mb-2"
               />
+              <Button className="text-sm" onClick={goToKitchen}>
+                Go to the kitchen
+              </Button>
             </div>
           </div>
         </Panel>
