@@ -14,6 +14,9 @@ import questionMark from "assets/icons/expression_confused.png";
 import heart from "assets/icons/heart.png";
 import close from "assets/icons/close.png";
 
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { Button } from "components/ui/Button";
+
 export const WheatGoblin: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
@@ -22,6 +25,13 @@ export const WheatGoblin: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+
+  const [scrollIntoView] = useScrollIntoView();
+
+  const goToKitchen = () => {
+    setShowModal(false);
+    scrollIntoView(Section.Town);
+  };
 
   return (
     <>
@@ -96,6 +106,9 @@ export const WheatGoblin: React.FC = () => {
                 src={radishPie}
                 className="w-8 img-highlight float-right mr-1 mb-1"
               />
+              <Button className="text-sm" onClick={goToKitchen}>
+                Go to the kitchen
+              </Button>
             </div>
           </div>
         </Panel>
