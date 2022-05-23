@@ -39,7 +39,7 @@ export class MillionOnMars {
    * Trade the MoM NFT for a Sunflower Land Observatory
    * Players must sync after trading for the observatory to show
    */
-  public async trade() {
+  public async trade(farmId: number) {
     const tokenId = await this.contract.methods
       .tokenOfOwnerByIndex(this.account, 0)
       .call();
@@ -48,7 +48,7 @@ export class MillionOnMars {
 
     return new Promise((resolve, reject) => {
       this.contract.methods
-        .trade(tokenId)
+        .trade(tokenId, farmId)
         .send({ from: this.account, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });

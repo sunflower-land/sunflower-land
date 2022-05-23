@@ -1,20 +1,21 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useActor } from "@xstate/react";
-import { metamask } from "lib/blockchain/metamask";
+import { useActor, useMachine } from "@xstate/react";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
-import { ItemsModal } from "./ItemsModal";
 import { Button } from "components/ui/Button";
+
 import { Minting } from "features/game/components/Minting";
 import { ErrorMessage } from "features/auth/ErrorMessage";
+import * as AuthProvider from "features/auth/lib/Provider";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { Context } from "features/game/GoblinProvider";
 
-import brokenRocket from "assets/mom/mom_broken_rocket.gif";
 import fixedRocket from "assets/mom/mom_fixed_rocket.png";
 import launchingRocket from "assets/mom/mom_launching_rocket.gif";
 import burnMark from "assets/mom/mom_burnt_ground.png";
 import close from "assets/icons/close.png";
 import observatory from "assets/nfts/mom/observatory.gif";
-import { melonDuskAudio, rocketLaunchAudio } from "lib/utils/sfx";
+import { melonDuskAudio } from "lib/utils/sfx";
 import momNpc from "assets/mom/mom_npc.gif";
 import scaffoldingLeft from "assets/mom/scaffolding_left.png";
 import scaffoldingRight from "assets/mom/scaffolding_right.png";
@@ -27,117 +28,94 @@ import goblinForeman from "assets/mom/goblin_mechanic_3.gif";
 import metalSheetsPileFew from "assets/mom/metal-sheets-pile-few.png";
 import metalSheetsPileMany from "assets/mom/metal-sheets-pile-many.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { Context } from "features/game/GoblinProvider";
+import { ErrorCode } from "lib/errors";
+
+import { createRocketMachine } from "./lib/rocketMachine";
+import { EngineCore } from "./components/EngineCore";
 
 const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
-const MELON_DUSK_SEEN = "isMelonDuskSeen";
 
 export const Rocket: React.FC = () => {
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
   const { goblinService } = useContext(Context);
   const [
     {
-      context: { state },
+      context: { state, sessionId },
     },
   ] = useActor(goblinService);
+
+  const [rocketState, send] = useMachine(
+    createRocketMachine({
+      inventory: state.inventory,
+      id: authState.context.farmId as number,
+      sessionId: sessionId as string,
+      token: authState.context.rawToken as string,
+    })
+  );
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isItemsOpen, setIsItemsOpen] = useState(false);
-  const [isRocketLaunching, setIsRocketLaunching] = useState(false);
-  const [isRocketLaunchComplete, setIsRocketLaunchComplete] = useState(false);
-  const [hasCompletedMission, setHasCompletedMission] = useState(false);
-  const [isMintingObservatory, setIsMintingObservatory] = useState(false);
-  const [observatoryMintError, setObservatoryMintError] =
-    useState<Error | null>(null);
-
-  const isRocketFixed = (state.inventory["Engine Core"]?.toNumber() || 0) > 0;
-  const hasCompletedQuest = (state.inventory.Observatory?.toNumber() || 0) > 0;
-
-  // Check if player has already completed mission
-  useEffect(() => {
-    (async () => {
-      const isComplete = await metamask
-        .getMillionOnMars()
-        .hasCompletedMission();
-
-      setHasCompletedMission(isComplete);
-      // If player has already completed mission, then the launch is also complete
-      setIsRocketLaunchComplete(isComplete);
-    })();
-  }, []);
+  const [isEngineCoreModalOpen, setIsEngineCoreModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!isRocketLaunching) {
-      return;
+    if (rocketState.matches("launching")) {
+      melonDuskAudio.stop();
+
+      setTimeout(() => {
+        setIsDialogOpen(true);
+        send("START_MISSION");
+
+        melonDuskAudio.play();
+      }, ROCKET_LAUNCH_TO_DIALOG_TIMEOUT);
     }
-    melonDuskAudio.stop();
-    rocketLaunchAudio.play();
-    setTimeout(() => {
-      setIsRocketLaunching(false);
-      setIsRocketLaunchComplete(true);
-      setIsDialogOpen(true);
-      melonDuskAudio.play();
-    }, ROCKET_LAUNCH_TO_DIALOG_TIMEOUT);
-  }, [isRocketLaunching]);
+  }, [rocketState]);
 
   const handleLaunchRocket = () => {
     setIsDialogOpen(false);
-    if (isRocketLaunching) {
-      // Don't launch again if it's already launching
-      return;
-    }
-    setIsRocketLaunching(true);
+    send("LAUNCH");
   };
 
   const handleOpenDialog = () => {
     setIsDialogOpen(true);
-    if (
-      isMelonDuskSeen &&
-      !isRocketFixed &&
-      !hasCompletedMission &&
-      !hasCompletedQuest
-    ) {
-      handleOpenItemsDialog();
-    }
+
     if (!melonDuskAudio.playing()) {
       melonDuskAudio.play();
     }
   };
 
+  const handleFixRocket = () => {
+    setIsDialogOpen(false);
+    setIsEngineCoreModalOpen(true);
+  };
+
   const handleCloseDialog = () => {
     melonDuskAudio.stop();
     setIsDialogOpen(false);
-    setObservatoryMintError(null);
-  };
-
-  const handleOpenItemsDialog = () => {
-    localStorage.setItem(MELON_DUSK_SEEN, JSON.stringify(true));
-    setIsItemsOpen(true);
+    setIsEngineCoreModalOpen(false);
   };
 
   const handleMintObservatory = async () => {
-    setIsMintingObservatory(true);
-    try {
-      await metamask.getMillionOnMars().trade();
-      setIsMintingObservatory(false);
-      goblinService.send("REFRESH");
-      // TODO - show loading text until blockchain state is refreshed - don't show dialog immediately.
-      handleOpenDialog();
-    } catch (err) {
-      setObservatoryMintError(err as Error);
-    }
+    send("REWARD");
   };
 
-  const rocketImage =
-    isRocketLaunching || isRocketLaunchComplete
-      ? burnMark
-      : isRocketFixed
-      ? fixedRocket
-      : brokenRocket;
+  const handleCraftEngineCore = () => {
+    send("REPAIR");
+    handleCloseDialog();
+  };
 
-  const isMelonDuskSeen = localStorage.getItem(MELON_DUSK_SEEN);
+  let rocketImage = burnMark;
 
+  if (rocketState.matches("crashed")) {
+    rocketImage = burnMark;
+  }
+
+  if (rocketState.matches("repaired")) {
+    rocketImage = fixedRocket;
+  }
+
+  console.log({ rocketState });
   const content = () => {
-    if (hasCompletedQuest) {
+    if (rocketState.matches("rewarded")) {
       return (
         <span className="text-shadow block my-2 text-xs sm:text-sm">
           Enjoy your new observatory captain! Go back to your farm and sync on
@@ -146,7 +124,7 @@ export const Rocket: React.FC = () => {
       );
     }
 
-    if (hasCompletedMission) {
+    if (rocketState.matches("completed")) {
       return (
         <>
           <span className="text-shadow block my-2 text-xs sm:text-sm">
@@ -162,7 +140,7 @@ export const Rocket: React.FC = () => {
       );
     }
 
-    if (isRocketFixed && isRocketLaunchComplete) {
+    if (rocketState.matches("launched")) {
       return (
         <>
           <span className="text-shadow block my-4">
@@ -183,7 +161,7 @@ export const Rocket: React.FC = () => {
       );
     }
 
-    if (isRocketFixed && !isRocketLaunchComplete) {
+    if (rocketState.matches("repaired")) {
       return (
         <>
           <span className="text-shadow block my-4">
@@ -202,7 +180,7 @@ export const Rocket: React.FC = () => {
           Help! My rocket has crash landed and needs repairs. Can you help me
           fix it?
         </span>
-        <Button className="text-sm" onClick={handleOpenItemsDialog}>
+        <Button className="text-sm" onClick={handleFixRocket}>
           Fix rocket
         </Button>
       </>
@@ -241,7 +219,9 @@ export const Rocket: React.FC = () => {
               top: `${GRID_WIDTH_PX * 0.83}px`,
               left: `${GRID_WIDTH_PX * -0.48}px`,
               zIndex: 1,
-              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
+              visibility: `${
+                rocketState.matches("repaired") ? `visible` : `hidden`
+              }`,
             }}
           />
           <img
@@ -252,7 +232,9 @@ export const Rocket: React.FC = () => {
               top: `${GRID_WIDTH_PX * 0.78}px`,
               right: `${GRID_WIDTH_PX * -1.26}px`,
               zIndex: 1,
-              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
+              visibility: `${
+                rocketState.matches("repaired") ? `visible` : `hidden`
+              }`,
             }}
           />
           <img
@@ -262,7 +244,9 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 5}px`,
               top: `${GRID_WIDTH_PX * 1.38}px`,
               left: `${GRID_WIDTH_PX * 0.31}px`,
-              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
+              visibility: `${
+                rocketState.matches("repaired") ? `visible` : `hidden`
+              }`,
             }}
           />
           <img
@@ -272,7 +256,9 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 2.14}px`,
               top: `${GRID_WIDTH_PX * 1.69}px`,
               right: `${GRID_WIDTH_PX * -4.5}px`,
-              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
+              visibility: `${
+                rocketState.matches("repaired") ? `visible` : `hidden`
+              }`,
             }}
           />
           <img
@@ -282,7 +268,9 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 1.1}px`,
               top: `${GRID_WIDTH_PX * 4.25}px`,
               right: `${GRID_WIDTH_PX * -3}px`,
-              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
+              visibility: `${
+                rocketState.matches("repaired") ? `visible` : `hidden`
+              }`,
             }}
           />
           <img
@@ -292,7 +280,9 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 0.95}px`,
               left: `${GRID_WIDTH_PX * 5}px`,
               bottom: `${GRID_WIDTH_PX * -0.01}px`,
-              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
+              visibility: `${
+                rocketState.matches("repaired") ? `visible` : `hidden`
+              }`,
             }}
           />
           <img
@@ -302,7 +292,9 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 1.55}px`,
               right: `${GRID_WIDTH_PX * 3.6}px`,
               bottom: `${GRID_WIDTH_PX * -1}px`,
-              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
+              visibility: `${
+                rocketState.matches("repaired") ? `visible` : `hidden`
+              }`,
             }}
           />
           <img
@@ -312,7 +304,9 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 1.55}px`,
               left: `${GRID_WIDTH_PX * 3.7}px`,
               bottom: `${GRID_WIDTH_PX * -2.25}px`,
-              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
+              visibility: `${
+                rocketState.matches("repaired") ? `visible` : `hidden`
+              }`,
             }}
           />
           <img
@@ -322,7 +316,9 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 1}px`,
               right: `${GRID_WIDTH_PX * 2.7}px`,
               bottom: `${GRID_WIDTH_PX * -3}px`,
-              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
+              visibility: `${
+                rocketState.matches("repaired") ? `visible` : `hidden`
+              }`,
             }}
           />
           <img
@@ -332,13 +328,15 @@ export const Rocket: React.FC = () => {
               width: `${GRID_WIDTH_PX * 1}px`,
               right: `${GRID_WIDTH_PX * 2.1}px`,
               bottom: `${GRID_WIDTH_PX * -3.5}px`,
-              visibility: `${isMelonDuskSeen ? `visible` : `hidden`}`,
+              visibility: `${
+                rocketState.matches("repaired") ? `visible` : `hidden`
+              }`,
             }}
           />
         </div>
       </div>
 
-      {isRocketLaunching && (
+      {rocketState.matches("launching") && (
         <img
           src={launchingRocket}
           className="absolute launching"
@@ -351,36 +349,52 @@ export const Rocket: React.FC = () => {
         />
       )}
 
+      <Modal
+        centered
+        show={
+          rocketState.matches("rewarding") || rocketState.matches("repairing")
+        }
+        onHide={handleCloseDialog}
+      >
+        <Panel className="text-shadow">
+          <Minting />
+        </Panel>
+      </Modal>
+
+      <Modal
+        centered
+        show={rocketState.matches("error")}
+        onHide={handleCloseDialog}
+      >
+        <Panel className="text-shadow">
+          <ErrorMessage
+            errorCode={rocketState.context.errorCode as ErrorCode}
+          />
+        </Panel>
+      </Modal>
+
       <Modal centered show={isDialogOpen} onHide={handleCloseDialog}>
-        {isMintingObservatory && (
-          <Panel className="text-shadow">
-            {/* TODO - use a better errorCode strategy */}
-            {observatoryMintError === null ? (
-              <Minting />
-            ) : (
-              <ErrorMessage errorCode="FAILED_REQUEST" />
-            )}
-          </Panel>
-        )}
-        {!isMintingObservatory && isItemsOpen && (
-          <ItemsModal isOpen={isDialogOpen} onClose={handleCloseDialog} />
-        )}
-        {!isMintingObservatory && !isItemsOpen && (
-          <Panel>
-            <img
-              src={close}
-              className="h-6 top-4 right-4 absolute cursor-pointer"
-              onClick={handleCloseDialog}
-            />
-            <div className="flex items-start pr-6">
-              <img src={momNpc} className="w-16 img-highlight mr-2" />
-              <div className="flex-1">
-                <span className="text-shadow block">Melon Dusk</span>
-                {content()}
-              </div>
+        <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={handleCloseDialog}
+          />
+          <div className="flex items-start pr-6">
+            <img src={momNpc} className="w-16 img-highlight mr-2" />
+            <div className="flex-1">
+              <span className="text-shadow block">Melon Dusk</span>
+              {content()}
             </div>
-          </Panel>
-        )}
+          </div>
+        </Panel>
+      </Modal>
+
+      <Modal centered show={isEngineCoreModalOpen} onHide={handleCloseDialog}>
+        <EngineCore
+          onCraft={handleCraftEngineCore}
+          inventory={state.inventory}
+        />
       </Modal>
     </>
   );
