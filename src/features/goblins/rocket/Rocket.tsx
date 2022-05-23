@@ -168,7 +168,7 @@ export const Rocket: React.FC = () => {
 
     return (
       <>
-        <span className="text-shadow mr-4 block">
+        <span className="text-shadow mr-4 my-3 block">
           Help! My rocket has crash landed and needs repairs. Can you help me
           fix it?
         </span>
@@ -250,7 +250,7 @@ export const Rocket: React.FC = () => {
             className="h-6 top-4 right-4 absolute cursor-pointer"
             onClick={handleCloseDialog}
           />
-          <div className="flex items-start pr-6">
+          <div className="flex items-start">
             <img src={momNpc} className="w-16 img-highlight mr-2" />
             <div className="flex-1">
               <span className="text-shadow block">Melon Dusk</span>
