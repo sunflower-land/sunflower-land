@@ -31,6 +31,7 @@ import apprentice from "assets/nfts/apprentice_beaver.gif";
 import foreman from "assets/nfts/construction_beaver.gif";
 
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
+import observatory from "assets/nfts/mom/observatory.gif";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Context } from "../GameProvider";
@@ -333,7 +334,12 @@ export const Decorations: React.FC = () => {
             top: `${GRID_WIDTH_PX * 28}px`,
           }}
           id={Section.Fountain}
-          onClick={() => fountainAudio.play()}
+          onClick={() => {
+            //Checks if fountainAudio is playing, if false, plays the sound
+            if (!fountainAudio.playing()) {
+              fountainAudio.play();
+            }
+          }}
           className="absolute hover:img-highlight cursor-pointer"
           src={fountain}
           alt="Fountain"
@@ -417,6 +423,20 @@ export const Decorations: React.FC = () => {
           className="absolute"
           src={easterBunny}
           alt="Easter Bunny"
+        />
+      )}
+
+      {state.inventory["Observatory"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2.5}px`,
+            left: `${GRID_WIDTH_PX * 20}px`,
+            top: `${GRID_WIDTH_PX * 5}px`,
+          }}
+          id={Section.Observatory}
+          className="absolute"
+          src={observatory}
+          alt="Observatory"
         />
       )}
     </>

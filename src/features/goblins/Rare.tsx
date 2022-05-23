@@ -211,6 +211,10 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
 
     if (!canCraft) return;
 
+    if ([421, 410, 417].includes(selected.id as number)) {
+      return null;
+    }
+
     return (
       <>
         <Button
@@ -228,7 +232,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
     return (
       <>
         <ReCAPTCHA
-          sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+          sitekey={CONFIG.RECAPTCHA_SITEKEY}
           onChange={onCaptchaSolved}
           onExpired={() => setShowCaptcha(false)}
           className="w-full m-4 flex items-center justify-center"

@@ -131,6 +131,7 @@ export const INITIAL_FARM: GameState = {
     Scarecrow: new Decimal(4),
     "Roasted Cauliflower": new Decimal(1),
     Sauerkraut: new Decimal(1),
+    "Chicken Coop": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
@@ -146,7 +147,9 @@ export const INITIAL_FARM: GameState = {
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
   fields: {},
-  inventory: {},
+  inventory: {
+    "Chicken Coop": new Decimal(1),
+  },
   stock: {},
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,

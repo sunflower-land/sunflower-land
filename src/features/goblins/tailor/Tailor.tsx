@@ -13,7 +13,10 @@ export const Tailor: React.FC = () => {
 
   const openTailor = () => {
     setIsOpen(true);
-    tailorAudio.play();
+    //Checks if tailorAudio is playing, if false, plays the sound
+    if (!tailorAudio.playing()) {
+      tailorAudio.play();
+    }
   };
 
   return (

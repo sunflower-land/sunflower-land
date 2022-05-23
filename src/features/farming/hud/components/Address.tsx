@@ -30,8 +30,8 @@ export const Address: React.FC = () => {
   const [showAddress, setShowAddress] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
 
-  const copyToClipboard = (): void => {
-    navigator.clipboard.writeText(state.farmAddress as string);
+  const copyToClipboard = async (): Promise<void> => {
+    await navigator.clipboard.writeText(state.farmAddress as string);
     setTooltipMessage("Copied!");
     setTimeout(() => {
       setTooltipMessage("Click to copy farm address");

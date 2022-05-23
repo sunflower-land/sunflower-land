@@ -10,7 +10,7 @@ Bugs in third-party dependencies e.g., React, Typescript, XState etc. are not in
 
 Only bugs that have a demonstrable security impact on the smart contracts, tokens or inventory items that can be affected are in scope.
 
-For example, a vulernability in the game that lets you bypass the game's server verification and mint free tokens or items is a vulenrability.
+For example, a vulnerability in the game that lets you bypass the game's server verification and mint free tokens or items is a vulnerability.
 
 ## Supported Versions
 
