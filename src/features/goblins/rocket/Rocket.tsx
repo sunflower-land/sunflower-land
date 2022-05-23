@@ -12,6 +12,7 @@ import { Context } from "features/game/GoblinProvider";
 
 import fixedRocket from "assets/mom/mom_fixed_rocket.png";
 import launchingRocket from "assets/mom/mom_launching_rocket.gif";
+import brokenRocket from "assets/mom/mom_broken_rocket.gif";
 import burnMark from "assets/mom/mom_burnt_ground.png";
 import close from "assets/icons/close.png";
 import observatory from "assets/nfts/mom/observatory.gif";
@@ -106,7 +107,7 @@ export const Rocket: React.FC = () => {
   let rocketImage = burnMark;
 
   if (rocketState.matches("crashed")) {
-    rocketImage = burnMark;
+    rocketImage = brokenRocket;
   }
 
   if (rocketState.matches("repaired")) {
