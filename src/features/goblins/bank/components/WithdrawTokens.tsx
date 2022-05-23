@@ -60,13 +60,11 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
   useEffect(() => {
     // Use base 1000
-    let _tax =
-      getTax(typeof amount !== "string" ? amount : new Decimal(0)) / 10;
-
-    // 50% reduced fee
-    if (state.inventory["Liquidity Provider"]?.gte(1)) {
-      _tax = _tax / 2;
-    }
+    const _tax =
+      getTax(
+        typeof amount !== "string" ? amount : new Decimal(0),
+        state.inventory
+      ) / 10;
 
     setTax(_tax);
   }, [amount, state.inventory]);
