@@ -369,13 +369,13 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   },
   "Rocky the Mole": {
     name: "Rocky the Mole",
-    description: "Trees recover 50% faster",
+    description: "Gives a 25% increase to iron mines",
     section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
   },
   Nugget: {
     name: "Nugget",
-    description: "Trees recover 50% faster",
+    description: "Gives a 25% increase to gold mines",
     section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
   },
