@@ -13,6 +13,7 @@ import background from "assets/land/background.png";
 import goblinLandBackground from "assets/land/goblin_background.png";
 import farm from "assets/brand/nft.png";
 import secure from "assets/npcs/synced.gif";
+import brokenRocket from "assets/mom/mom_broken_rocket.gif";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -28,6 +29,7 @@ const IMAGE_LIST: string[] = [
   goblinTailor,
   goblinBank,
   secure,
+  brokenRocket,
 ];
 
 function preloadImage(src: string) {
