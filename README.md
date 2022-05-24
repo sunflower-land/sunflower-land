@@ -43,7 +43,7 @@ Still not satisfied? Submit a support ticket here: [Submit a ticket](https://sun
 
 ### ‼️ Have a suggestion/proposal/cool idea ?
 
-Please add a new idea for the community to vote on, here! [SFL Idea Portal](https://sunflower-land.ideas.aha.io/)
+Please add a new idea for the community to vote on, here: [SFL Idea Portal](https://sunflower-land.ideas.aha.io/)
 
 # 👶 Getting Started
 
