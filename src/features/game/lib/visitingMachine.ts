@@ -55,6 +55,7 @@ export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
     {
       id: "visitingMachine",
       context: { state: EMPTY, isBlacklisted: undefined },
+      // Allow a development playground if there is now API_URL env variable
       initial: API_URL ? "loading" : "visiting",
       states: {
         loading: {
