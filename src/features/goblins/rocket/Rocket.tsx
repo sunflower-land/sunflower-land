@@ -86,7 +86,7 @@ export const Rocket: React.FC = () => {
     setIsEngineCoreModalOpen(false);
   };
 
-  const handleMintObservatory = async () => {
+  const handleMintObservatory = () => {
     send("REWARD");
   };
 
