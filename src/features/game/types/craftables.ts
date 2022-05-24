@@ -398,6 +398,7 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
   "Golden Bonsai": {
     name: "Golden Bonsai",
     description: "Goblins love bonsai too",
+    section: Section["Golden Bonsai"],
     type: LimitedItemType.MarketItem,
   },
 };
