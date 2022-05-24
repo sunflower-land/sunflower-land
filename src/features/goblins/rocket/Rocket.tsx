@@ -126,7 +126,7 @@ export const Rocket: React.FC = () => {
     if (rocketState.matches("completed")) {
       return (
         <>
-          <div className="px-2 mb-2">
+          <div className="px-2 my-2">
             <p className="mb-4">Great job on Mars Interplanetary Farmer!</p>
             <p className="mb-4">
               In exchange for your token received on Mars, I will give you
@@ -169,10 +169,12 @@ export const Rocket: React.FC = () => {
 
     return (
       <>
-        <span className="px-2 mb-2">
-          Help! My rocket has crash landed and needs repairs. Can you help me
-          fix it?
-        </span>
+        <div className="px-2 mb-2">
+          <p className="mb-4">
+            Help! My rocket has crash landed and needs repairs.
+          </p>
+          <p>Can you help me fix it?</p>
+        </div>
         <Button onClick={handleFixRocket}>Fix rocket</Button>
       </>
     );
