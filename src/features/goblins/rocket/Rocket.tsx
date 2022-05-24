@@ -86,7 +86,7 @@ export const Rocket: React.FC = () => {
     setIsEngineCoreModalOpen(false);
   };
 
-  const handleMintObservatory = async () => {
+  const handleMintObservatory = () => {
     send("REWARD");
   };
 
@@ -121,7 +121,7 @@ export const Rocket: React.FC = () => {
           <span className="text-shadow block my-2 text-xs sm:text-sm">
             Great job on Mars Interplanetary Farmer! In exchange for your token
             received on Mars, I will give you something to remember me by. After
-            this trade, go back to your farm and sync on chain to see it.t.
+            this trade, go back to your farm and sync on chain to see it.
           </span>
           <img className="mx-auto mb-2" src={observatory} alt="Observatory" />
           <Button className="text-sm" onClick={handleMintObservatory}>
@@ -138,7 +138,6 @@ export const Rocket: React.FC = () => {
             When you complete your mission on Mars, come back and talk with me.
           </span>
           <p className="text-xs sm:text-sm text-shadow text-white p-1 mb-2">
-            {/* TODO - Add MoM href link */}
             <a
               className="underline"
               href="https://milliononmars.io/sunflower"
