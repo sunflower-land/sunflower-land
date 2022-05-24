@@ -17,6 +17,7 @@ import token from "assets/icons/token.gif";
 import player from "assets/icons/player.png";
 import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";
+import lightning from "assets/icons/lightning.png";
 
 import { getTax } from "lib/utils/tax";
 import { getOnChainState } from "features/game/actions/onchain";
@@ -29,9 +30,14 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   const [authState] = useActor(authService);
 
   const { goblinService } = useContext(Context);
-  const [goblinState] = useActor(goblinService);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(goblinService);
 
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
+  const [tax, setTax] = useState(0);
 
   const [balance, setBalance] = useState<Decimal>(new Decimal(0));
   const [isLoading, setIsLoading] = useState(true);
@@ -40,17 +46,28 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
     setIsLoading(true);
 
     const load = async () => {
-      const { game: state } = await getOnChainState({
-        id: goblinState.context.state.id as number,
-        farmAddress: goblinState.context.state.farmAddress as string,
+      const { game: onChainState } = await getOnChainState({
+        id: state.id as number,
+        farmAddress: state.farmAddress as string,
       });
 
-      setBalance(state.balance);
+      setBalance(onChainState.balance);
       setIsLoading(false);
     };
 
     load();
   }, []);
+
+  useEffect(() => {
+    // Use base 1000
+    const _tax =
+      getTax(
+        typeof amount !== "string" ? amount : new Decimal(0),
+        state.inventory
+      ) / 10;
+
+    setTax(_tax);
+  }, [amount, state.inventory]);
 
   // In order to be able to type into the input box amount needs to be able to be a string
   // for when the user deletes the 0. safeAmount is a getter that will return amount as a Decimal
@@ -96,9 +113,6 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   if (isLoading) {
     return <span className="text-shadow loading mt-2">Loading</span>;
   }
-
-  // Use base 1000
-  const tax = getTax(typeof amount !== "string" ? amount : new Decimal(0)) / 10;
 
   const enabled = authState.context.token?.userAccess.withdraw;
   const disableWithdraw =
@@ -151,7 +165,10 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         </div>
         {amount.gt(0) && (
           <>
-            <span className="text-xs">
+            <span className="text-xs inline-flex align-items-center">
+              {state.inventory["Liquidity Provider"] && (
+                <img src={lightning} className="h-6" />
+              )}
               <span className="text-xs">{tax}% fee</span>
               <a
                 className="underline ml-2"
@@ -170,7 +187,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         <span className="">
           {`You will receive: ${safeAmount(amount)
             .mul((100 - tax) / 100)
-            .toFixed(1)}`}
+            .toFixed(3)}`}
         </span>
         <img src={token} className="w-4 ml-2 img-highlight" />
       </div>
