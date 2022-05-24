@@ -20,6 +20,8 @@ import { EMPTY } from "./constants";
 import { loadSession } from "../actions/loadSession";
 import { metamask } from "lib/blockchain/metamask";
 import { INITIAL_SESSION } from "./gameMachine";
+import { wishingWellMachine } from "features/goblins/wishingWell/wishingWellMachine";
+import Decimal from "decimal.js-light";
 
 export type GoblinState = Omit<GameState, "skills">;
 
@@ -47,6 +49,16 @@ type WithdrawEvent = {
   captcha: string;
 };
 
+type OpeningWishingWellEvent = {
+  type: "OPENING_WISHING_WELL";
+  authState: AuthContext;
+};
+
+type UpdateBalance = {
+  type: "UPDATE_BALANCE";
+  newBalance: Decimal;
+};
+
 export type BlockchainEvent =
   | {
       type: "REFRESH";
@@ -55,14 +67,20 @@ export type BlockchainEvent =
       type: "CONTINUE";
     }
   | {
+      type: "OPENING_WISHING_WELL";
+    }
+  | {
       type: "RESET";
     }
   | WithdrawEvent
-  | MintEvent;
+  | MintEvent
+  | OpeningWishingWellEvent
+  | UpdateBalance;
 
-export type BlockchainState = {
+export type GoblinMachineState = {
   value:
     | "loading"
+    | "wishing"
     | "minting"
     | "minted"
     | "withdrawing"
@@ -72,14 +90,14 @@ export type BlockchainState = {
   context: Context;
 };
 
-export type StateKeys = keyof Omit<BlockchainState, "context">;
-export type StateValues = BlockchainState[StateKeys];
+export type StateKeys = keyof Omit<GoblinMachineState, "context">;
+export type StateValues = GoblinMachineState[StateKeys];
 
 export type MachineInterpreter = Interpreter<
   Context,
   any,
   BlockchainEvent,
-  BlockchainState
+  GoblinMachineState
 >;
 
 const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
@@ -94,7 +112,7 @@ const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
 };
 
 export function startGoblinVillage(authContext: AuthContext) {
-  return createMachine<Context, BlockchainEvent, BlockchainState>(
+  return createMachine<Context, BlockchainEvent, GoblinMachineState>(
     {
       id: "goblinMachine",
       initial: "loading",
@@ -157,6 +175,36 @@ export function startGoblinVillage(authContext: AuthContext) {
             WITHDRAW: {
               target: "withdrawing",
             },
+            OPENING_WISHING_WELL: {
+              target: "wishing",
+            },
+          },
+        },
+        wishing: {
+          invoke: {
+            id: "wishingWell",
+            autoForward: true,
+            src: wishingWellMachine,
+            data: {
+              farmId: () => authContext.farmId,
+              farmAddress: () => authContext.address,
+              sessionId: (context: Context) => context.sessionId,
+              token: () => authContext.rawToken,
+              balance: (context: Context) => context.state.balance,
+            },
+            onDone: {
+              target: "playing",
+            },
+          },
+          on: {
+            UPDATE_BALANCE: {
+              actions: assign({
+                state: (context, event) => ({
+                  ...context.state,
+                  balance: (event as UpdateBalance).newBalance,
+                }),
+              }),
+            },
           },
         },
         minting: {
@@ -198,6 +246,7 @@ export function startGoblinVillage(authContext: AuthContext) {
           invoke: {
             src: async (context, event) => {
               const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
+
               const { sessionId } = await withdraw({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,

@@ -17,6 +17,22 @@ import {
 import { Panel } from "components/ui/Panel";
 import { useStepper } from "lib/utils/hooks/useStepper";
 
+const LOCAL_STORAGE_KEY = "settings.audioMuted";
+
+function cacheAudioMuted(muted: boolean) {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(muted));
+}
+
+function getCachedAudioMuted(): boolean {
+  const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+  if (!cached) {
+    return false;
+  }
+
+  return JSON.parse(cached);
+}
+
 interface Props {
   isFarming?: boolean;
 }
@@ -24,7 +40,7 @@ interface Props {
 export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
   const volume = useStepper({ initial: 0.1, step: 0.1, max: 1, min: 0 });
   const [visible, setIsVisible] = useState<boolean>(false);
-  const [muted, setMuted] = useState<boolean>(false);
+  const [muted, setMuted] = useState<boolean>(getCachedAudioMuted());
   const [isPlaying, setPlaying] = useState<boolean>(true);
   const [songIndex, setSongIndex] = useState<number>(0);
   const musicPlayer = useRef<any>(null);
@@ -50,6 +66,7 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
   const song = isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
 
   useEffect(() => {
+    cacheAudioMuted(muted);
     Howler.mute(muted);
   }, [muted]);
 
@@ -133,7 +150,7 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
       <div
         className={`position-absolute ${
           visible ? "translate-x-1.5" : ""
-        } -left-20 sm:-left-24 bottom-0 transition-all -z-10 duration-500 ease-in-out w-fit z-50 flex gap-2 align-items-center overflow-hidden`}
+        } -left-20 sm:-left-24 bottom-0 transition-all duration-500 ease-in-out w-fit z-50 flex gap-2 align-items-center overflow-hidden`}
       >
         <Button onClick={() => setMuted(!muted)}>
           <img

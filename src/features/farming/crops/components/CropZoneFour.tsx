@@ -13,7 +13,10 @@ import goblinHead from "assets/npcs/goblin_head.png";
 import cauliflowerRice from "assets/nfts/roasted_cauliflower.png";
 import close from "assets/icons/close.png";
 
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+
 import { Field } from "./Field";
+import { Button } from "components/ui/Button";
 
 export const CropZoneFour: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -24,7 +27,15 @@ export const CropZoneFour: React.FC = () => {
     },
   ] = useActor(gameService);
 
+  const [scrollIntoView] = useScrollIntoView();
+
+  const goToKitchen = () => {
+    setShowModal(false);
+    scrollIntoView(Section.Town);
+  };
+
   const isUnlocked = state.inventory["Roasted Cauliflower"];
+
   return (
     <>
       {!isUnlocked ? (
@@ -100,8 +111,11 @@ export const CropZoneFour: React.FC = () => {
               </span>
               <img
                 src={cauliflowerRice}
-                className="w-8 img-highlight float-right mr-1"
+                className="w-8 img-highlight float-right mr-1 mb-2"
               />
+              <Button className="text-sm" onClick={goToKitchen}>
+                Go to the kitchen
+              </Button>
             </div>
           </div>
         </Panel>

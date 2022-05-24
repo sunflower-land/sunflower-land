@@ -30,6 +30,7 @@ import apprentice from "assets/nfts/apprentice_beaver.gif";
 import foreman from "assets/nfts/construction_beaver.gif";
 
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
+import observatory from "assets/nfts/mom/observatory.gif";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
@@ -404,7 +405,6 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         />
       </div>
     )}
-
     {state.inventory["Easter Bunny"] && (
       <img
         style={{
@@ -416,6 +416,20 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         className="absolute"
         src={easterBunny}
         alt="Easter Bunny"
+      />
+    )}
+
+    {state.inventory["Observatory"] && (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 2.5}px`,
+          left: `${GRID_WIDTH_PX * 20}px`,
+          top: `${GRID_WIDTH_PX * 5}px`,
+        }}
+        id={Section.Observatory}
+        className="absolute"
+        src={observatory}
+        alt="Observatory"
       />
     )}
   </>
