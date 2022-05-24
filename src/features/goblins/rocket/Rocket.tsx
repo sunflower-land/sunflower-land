@@ -142,7 +142,7 @@ export const Rocket: React.FC = () => {
             {/* TODO - Add MoM href link */}
             <a
               className="underline"
-              href="#"
+              href="https://milliononmars.io/sunflower"
               target="_blank"
               rel="noopener noreferrer"
             >
