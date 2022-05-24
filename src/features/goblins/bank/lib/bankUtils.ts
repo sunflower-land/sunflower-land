@@ -84,6 +84,7 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
   if (item === "Rocky the Mole") {
     const iron = Object.values(game?.iron).every((iron) => canMine(iron));
     const stone = Object.values(game?.stones).every((stone) => canMine(stone));
+
     return iron && stone;
   }
 
