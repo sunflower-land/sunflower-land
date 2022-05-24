@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
@@ -19,6 +19,22 @@ interface Props {
 }
 
 export const Village: React.FC<Props> = ({ state }) => {
+  const [showRocket, setShowRocket] = useState(CONFIG.NETWORK !== "mainnet");
+
+  // TEMP
+  useEffect(() => {
+    const listener = (e: any) => {
+      if (e.ctrlKey && String.fromCharCode(e.keyCode).toLowerCase() === "s") {
+        e.preventDefault();
+        e.stopPropagation();
+        setShowRocket(true);
+      }
+    };
+    document.addEventListener("keydown", listener, false);
+
+    () => document.removeEventListener("keydown", listener);
+  }, []);
+
   return (
     <div
       style={{
@@ -41,7 +57,7 @@ export const Village: React.FC<Props> = ({ state }) => {
       <WishingWell />
       <Tailor />
       <Decorations />
-      {CONFIG.NETWORK !== "mainnet" && state !== "loading" && <Rocket />}
+      {showRocket && state !== "loading" && <Rocket />}
     </div>
   );
 };
