@@ -41,6 +41,10 @@ First Read the FAQ's here: [FAQ's](https://sunflowerland.freshdesk.com/support/s
 
 Still not satisfied? Submit a support ticket here: [Submit a ticket](https://sunflowerland.freshdesk.com/support/tickets/new)
 
+### ‼️ Have a suggestion/proposal/cool idea ?
+
+Please add a new idea for the community to vote on, here! [SFL Idea Portal](https://sunflower-land.ideas.aha.io/)
+
 # 👶 Getting Started
 
 Firstly, you will need to clone the repo locally. Once you have it ready navigate into the directory and run the following commands:
