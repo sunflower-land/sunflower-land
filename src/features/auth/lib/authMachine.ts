@@ -458,20 +458,14 @@ export const authMachine = createMachine<
   {
     services: {
       initMetamask: async (context, event): Promise<void> => {
-        console.log("INIT METAMASK FIRED");
-        console.log({ context });
-        console.log({ event });
         await metamask.initialise();
       },
       loadFarm: async (): Promise<Farm | undefined> => {
-        console.log("Load farms");
-
         const farmAccounts = await metamask.getFarm()?.getFarms();
 
         if (farmAccounts?.length === 0) {
           return;
         }
-        console.log("Loaded");
 
         const createdAt = await metamask
           .getBeta()

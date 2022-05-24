@@ -75,7 +75,6 @@ export const createRocketMachine = ({
               const isComplete = await metamask
                 .getMillionOnMars()
                 .hasCompletedMission();
-              console.log({ isComplete, inventory: JSON.stringify(inventory) });
               return { isComplete };
             },
             onDone: [

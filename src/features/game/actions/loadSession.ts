@@ -82,7 +82,6 @@ export async function loadSession(
   let offset = 0;
   // Clock is not in sync with actual UTC time
   if (Math.abs(startedTime.getTime() - Date.now()) > 1000 * 30) {
-    console.log("Not in sync!", startedTime.getTime() - Date.now());
     offset = startedTime.getTime() - Date.now();
   }
 

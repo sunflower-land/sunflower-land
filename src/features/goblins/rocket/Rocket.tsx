@@ -105,7 +105,6 @@ export const Rocket: React.FC = () => {
     rocketImage = fixedRocket;
   }
 
-  console.log({ rocketState });
   const content = () => {
     if (rocketState.matches("rewarded")) {
       return (
