@@ -1,4 +1,5 @@
 import { metamask } from "lib/blockchain/metamask";
+import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { createMachine, assign, Interpreter } from "xstate";
 import { getOnChainState, isFarmBlacklisted } from "../actions/onchain";
@@ -47,12 +48,14 @@ const setFarmDetails = assign<Context, any>({
   state: (_, event) => event.data.state,
 });
 
+const API_URL = CONFIG.API_URL;
+
 export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
   return createMachine<Context, Event, State>(
     {
       id: "visitingMachine",
       context: { state: EMPTY, isBlacklisted: undefined },
-      initial: "loading",
+      initial: API_URL ? "loading" : "visiting",
       states: {
         loading: {
           invoke: {
