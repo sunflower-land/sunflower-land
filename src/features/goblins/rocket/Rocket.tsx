@@ -95,6 +95,14 @@ export const Rocket: React.FC = () => {
     handleCloseDialog();
   };
 
+  const handleContinueMission = () => {
+    window.open(
+      "https://milliononmars.io/sunflower",
+      "_blank, noreferrer, noopener"
+    );
+    handleCloseDialog();
+  };
+
   let rocketImage = burnMark;
 
   if (rocketState.matches("crashed")) {
@@ -108,7 +116,7 @@ export const Rocket: React.FC = () => {
   const content = () => {
     if (rocketState.matches("rewarded")) {
       return (
-        <span className="text-shadow block my-2 text-xs sm:text-sm">
+        <span className="px-2 mb-2">
           Enjoy your new observatory captain! Go back to your farm and sync on
           chain to start using it.
         </span>
@@ -118,15 +126,18 @@ export const Rocket: React.FC = () => {
     if (rocketState.matches("completed")) {
       return (
         <>
-          <span className="text-shadow block my-2 text-xs sm:text-sm">
-            Great job on Mars Interplanetary Farmer! In exchange for your token
-            received on Mars, I will give you something to remember me by. After
-            this trade, go back to your farm and sync on chain to see it.t.
-          </span>
-          <img className="mx-auto mb-2" src={observatory} alt="Observatory" />
-          <Button className="text-sm" onClick={handleMintObservatory}>
-            Mint Now
-          </Button>
+          <div className="px-2 mb-2">
+            <p className="mb-4">Great job on Mars Interplanetary Farmer!</p>
+            <p className="mb-4">
+              In exchange for your token received on Mars, I will give you
+              something to remember me by.
+            </p>
+            <p>
+              After this trade, go back to your farm and sync on chain to see
+              it.
+            </p>
+          </div>
+          <Button onClick={handleMintObservatory}>Mint Now</Button>
         </>
       );
     }
@@ -134,20 +145,13 @@ export const Rocket: React.FC = () => {
     if (rocketState.matches("launched")) {
       return (
         <>
-          <span className="text-shadow block my-4">
-            When you complete your mission on Mars, come back and talk with me.
-          </span>
-          <p className="text-xs sm:text-sm text-shadow text-white p-1 mb-2">
-            {/* TODO - Add MoM href link */}
-            <a
-              className="underline"
-              href="https://milliononmars.io/sunflower"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Click here to continue your mission
-            </a>
-          </p>
+          <div className="px-2 mb-2">
+            <p className="mb-2">
+              When you complete your mission on Mars, come back and talk with
+              me.
+            </p>
+          </div>
+          <Button onClick={handleContinueMission}>Continue your mission</Button>
         </>
       );
     }
@@ -155,25 +159,21 @@ export const Rocket: React.FC = () => {
     if (rocketState.matches("repaired")) {
       return (
         <>
-          <span className="text-shadow block my-4">
-            Rocket is ready to launch, whenever you&apos;re ready captain!
+          <span className="px-2 mb-2">
+            {`Rocket is ready to launch, whenever you're ready captain!`}
           </span>
-          <Button className="text-sm" onClick={handleLaunchRocket}>
-            Launch Rocket
-          </Button>
+          <Button onClick={handleLaunchRocket}>Launch Rocket</Button>
         </>
       );
     }
 
     return (
       <>
-        <span className="text-shadow mr-4 my-3 block">
+        <span className="px-2 mb-2">
           Help! My rocket has crash landed and needs repairs. Can you help me
           fix it?
         </span>
-        <Button className="text-sm" onClick={handleFixRocket}>
-          Fix rocket
-        </Button>
+        <Button onClick={handleFixRocket}>Fix rocket</Button>
       </>
     );
   };
@@ -249,12 +249,13 @@ export const Rocket: React.FC = () => {
             className="h-6 top-4 right-4 absolute cursor-pointer"
             onClick={handleCloseDialog}
           />
-          <div className="flex items-start">
-            <img src={momNpc} className="w-16 img-highlight mr-2" />
-            <div className="flex-1">
-              <span className="text-shadow block">Melon Dusk</span>
-              {content()}
-            </div>
+          <div className="flex flex-col mt-2 items-center">
+            <h1 className="text-lg mb-2">Melon Dusk</h1>
+            <img
+              src={rocketState.matches("completed") ? observatory : momNpc}
+              className="w-16 mb-2"
+            />
+            {content()}
           </div>
         </Panel>
       </Modal>
