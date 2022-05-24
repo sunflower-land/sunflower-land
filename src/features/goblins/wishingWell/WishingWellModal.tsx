@@ -57,7 +57,7 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
         You will need to sync on chain to see your updated balance!
       </p>
       <p className="mb-4 text-sm">
-        A new wish has been made for you based on you current balance of LP
+        A new wish has been made for you based on your current balance of LP
         tokens!
       </p>
       <p className="mb-2 text-sm">
