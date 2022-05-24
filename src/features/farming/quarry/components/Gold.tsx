@@ -51,7 +51,6 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
 
   const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
-  const readonly = gameState.matches("readonly");
   const tool = "Iron Pickaxe";
   const rock = game.context.state.gold[rockIndex];
   // Users will need to refresh to chop the tree again
@@ -91,12 +90,6 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
 
   const shake = () => {
     const isPlaying = sparkGif.current?.getInfo("isPlaying");
-
-    if (readonly) {
-      miningAudio.play();
-      sparkGif.current?.goToAndPlay(0);
-      return;
-    }
 
     const ironpickaxeAmount =
       game.context.state.inventory["Iron Pickaxe"] || new Decimal(0);
@@ -150,21 +143,17 @@ export const Gold: React.FC<Props> = ({ rockIndex }) => {
   };
 
   const handleHover = () => {
-    if (
-      readonly ||
-      (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
-    )
+    if (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
       return;
+
     goldRef.current?.classList["add"]("cursor-not-allowed");
     setShowLabel(true);
   };
 
   const handleMouseLeave = () => {
-    if (
-      readonly ||
-      (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
-    )
+    if (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
       return;
+
     goldRef.current?.classList["remove"]("cursor-not-allowed");
     setShowLabel(false);
   };

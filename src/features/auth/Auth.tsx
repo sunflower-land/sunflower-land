@@ -26,7 +26,7 @@ import { Blacklisted } from "features/game/components/Blacklisted";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState, send] = useActor(authService);
+  const [authState] = useActor(authService);
 
   // TODO - refine full screens system
   // useEffect(() => {
@@ -57,6 +57,7 @@ export const Auth: React.FC = () => {
       centered
       show={
         !authState.matches({ connected: "authorised" }) &&
+        !authState.matches({ connected: "visitingContributor" }) &&
         !authState.matches("visiting")
       }
       backdrop={false}

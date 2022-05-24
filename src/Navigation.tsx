@@ -9,6 +9,7 @@ import { Auth } from "features/auth/Auth";
 import { Humans } from "features/game/Humans";
 import { Goblins } from "features/game/Goblins";
 import { Forbidden } from "features/auth/components/Forbidden";
+import { Visiting } from "features/game/Visiting";
 
 /**
  * Entry point for game which reflects the user session state
@@ -38,6 +39,7 @@ export const Navigation: React.FC = () => {
   useEffect(() => {
     const _showGame =
       authState.matches({ connected: "authorised" }) ||
+      authState.matches({ connected: "visitingContributor" }) ||
       authState.matches("visiting");
 
     // TODO: look into this further
@@ -67,7 +69,7 @@ export const Navigation: React.FC = () => {
               />
             )}
             <Route path="/farm/:id" element={<Humans key="farm" />} />
-            <Route path="/visit/:id" element={<Humans key="visit" />} />
+            <Route path="/visit/:id" element={<Visiting key="visit" />} />
             {/* Fallback */}
             <Route element={<Humans />} />
           </Routes>

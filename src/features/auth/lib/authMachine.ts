@@ -114,6 +114,7 @@ export type BlockchainState = {
     | { connected: "oauthorised" }
     | { connected: "authorised" }
     | { connected: "blacklisted" }
+    | { connected: "visitingContributor" }
     | "exploring"
     | "checkFarm"
     | "unauthorised";
@@ -227,6 +228,21 @@ export const authMachine = createMachine<
                 target: "#unauthorised",
                 actions: "assignErrorMessage",
               },
+            },
+          },
+          visitingContributor: {
+            on: {
+              RETURN: [
+                // When returning to this state the original authorised player's data exists in the authMachine context
+                {
+                  target: "authorised",
+                  actions: (context) => {
+                    window.location.href = `${window.location.pathname}#/farm/${context.farmId}`;
+                  },
+                  cond: "hasFarm",
+                },
+                { target: "readyToStart" },
+              ],
             },
           },
           checkingAccess: {
@@ -354,6 +370,9 @@ export const authMachine = createMachine<
               },
               EXPLORE: {
                 target: "#exploring",
+              },
+              VISIT: {
+                target: "visitingContributor",
               },
               LOGOUT: {
                 target: "#connecting",

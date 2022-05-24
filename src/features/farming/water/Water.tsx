@@ -6,13 +6,13 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import chick from "assets/animals/chick.gif";
 import dragonfly from "assets/decorations/dragonfly.gif";
-import Shark from "./components/Shark";
+import Shark from "../../../components/ui/Shark";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
 import swimmer from "assets/npcs/swimmer.gif";
 import waterBoat from "assets/npcs/water_boat.png";
-import { Frog } from "./components/Frog";
+import { Frog } from "../../../components/ui/Frog";
 
 export const Water: React.FC = () => {
   return (

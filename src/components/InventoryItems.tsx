@@ -1,6 +1,4 @@
-import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import React, { useState } from "react";
 import { InventoryItemName } from "features/game/types/game";
 
 import seeds from "assets/icons/seeds.png";
@@ -36,7 +34,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 type Tab = "basket" | "collectibles";
 
 interface Props {
+  inventory: Inventory;
+  shortcutItem?: (item: InventoryItemName) => void;
   onClose: () => void;
+  isFarming?: boolean;
 }
 
 export type TabItems = Record<string, { img: string; items: object }>;
@@ -92,11 +93,12 @@ const makeInventoryItems = (inventory: Inventory) => {
   );
 };
 
-export const InventoryItems: React.FC<Props> = ({ onClose }) => {
-  const { gameService, shortcutItem } = useContext(Context);
-  const [game] = useActor(gameService);
-  const inventory = game.context.state.inventory;
-
+export const InventoryItems: React.FC<Props> = ({
+  inventory,
+  onClose,
+  shortcutItem,
+  isFarming,
+}) => {
   const [currentTab, setCurrentTab] = useState<Tab>("basket");
   const [inventoryItems] = useState<InventoryItemName[]>(
     makeInventoryItems(inventory)
@@ -108,7 +110,10 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
   };
 
   const handleItemSelected = (item: InventoryItemName) => {
-    shortcutItem(item);
+    if (shortcutItem) {
+      shortcutItem(item);
+    }
+
     setSelectedItem(item);
   };
 
@@ -152,6 +157,7 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
           inventory={inventory}
           inventoryItems={inventoryItems}
           onClick={handleItemSelected}
+          isFarming={isFarming}
         />
       )}
       {currentTab === "collectibles" && (
@@ -162,6 +168,7 @@ export const InventoryItems: React.FC<Props> = ({ onClose }) => {
           inventory={inventory}
           inventoryItems={inventoryItems}
           onClick={handleItemSelected}
+          isFarming={isFarming}
         />
       )}
     </Panel>

@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { useActor } from "@xstate/react";
 
 import basket from "assets/icons/basket.png";
 import button from "assets/ui/button/round_button.png";
@@ -9,21 +8,37 @@ import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 
 import { InventoryItems } from "./InventoryItems";
-import { Context } from "features/game/GameProvider";
 
-import { getShortcuts } from "../lib/shortcuts";
+import { getShortcuts } from "../features/farming/hud/lib/shortcuts";
 import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  Inventory as InventoryType,
+  InventoryItemName,
+} from "features/game/types/game";
 
-export const Inventory: React.FC = () => {
+interface Props {
+  inventory: InventoryType;
+  shortcutItem?: (item: InventoryItemName) => void;
+  isFarming?: boolean;
+}
+
+export const Inventory: React.FC<Props> = ({
+  inventory,
+  shortcutItem,
+  isFarming,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { shortcutItem, gameService } = useContext(Context);
-  const [game] = useActor(gameService);
-  const inventory = game.context.state.inventory;
 
   const shortcuts = getShortcuts();
 
   const handleInventoryClick = () => {
     setIsOpen(true);
+  };
+
+  const handleItemClick = (item: InventoryItemName) => {
+    if (!shortcutItem) return;
+
+    shortcutItem(item);
   };
 
   return (
@@ -42,10 +57,15 @@ export const Inventory: React.FC = () => {
       </div>
 
       <Modal centered scrollable show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems onClose={() => setIsOpen(false)} />
+        <InventoryItems
+          inventory={inventory}
+          onClose={() => setIsOpen(false)}
+          shortcutItem={shortcutItem}
+          isFarming={isFarming}
+        />
       </Modal>
 
-      {!game.matches("readonly") && (
+      {isFarming && (
         <div className="flex flex-col items-center sm:mt-8">
           {shortcuts.map((item, index) => (
             <Box
@@ -54,7 +74,7 @@ export const Inventory: React.FC = () => {
               image={ITEM_DETAILS[item]?.image}
               secondaryImage={ITEM_DETAILS[item]?.secondaryImage}
               count={inventory[item]}
-              onClick={() => shortcutItem(item)}
+              onClick={() => handleItemClick(item)}
             />
           ))}
         </div>
