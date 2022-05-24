@@ -97,7 +97,7 @@ export const Rocket: React.FC = () => {
 
   let rocketImage = burnMark;
 
-  if (rocketState.matches("crashed")) {
+  if (rocketState.matches("crashed") || rocketState.matches("repairing")) {
     rocketImage = brokenRocket;
   }
 
