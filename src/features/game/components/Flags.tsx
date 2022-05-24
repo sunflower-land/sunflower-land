@@ -1,23 +1,19 @@
 /**
  * Placeholder for future decorations that will fall on a different grid
  */
-import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
+import React from "react";
 
 import { GRID_WIDTH_PX } from "../lib/constants";
-import { Context } from "../GameProvider";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { FLAGS } from "../types/flags";
 import { ITEM_DETAILS } from "../types/images";
+import { GameState } from "../types/game";
 
-export const Flags: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+interface Props {
+  state: GameState;
+}
 
+export const Flags: React.FC<Props> = ({ state }) => {
   const flags = Object.values(FLAGS).filter(
     (flag) => flag.name in state.inventory
   );

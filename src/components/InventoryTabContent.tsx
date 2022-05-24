@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -14,9 +14,10 @@ import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
-import { hasBoost } from "features/game/lib/boosts";
 import { getCropTime } from "features/game/events/plant";
 import { getKeys } from "features/game/types/craftables";
+import { useMakeDefaultInventoryItem } from "components/hooks/useGetDefaultInventoryItem";
+import { useHasBoostForItem } from "./hooks/useHasBoostForItem";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -27,6 +28,7 @@ interface Props {
   inventory: Inventory;
   inventoryItems: InventoryItemName[];
   onClick: (item: InventoryItemName) => void;
+  isFarming?: boolean;
 }
 
 const TAB_CONTENT_HEIGHT = 384;
@@ -40,39 +42,15 @@ export const InventoryTabContent = ({
   inventory,
   inventoryItems,
   onClick,
+  isFarming,
 }: Props) => {
   const { ref: itemContainerRef, showScrollbar } =
     useShowScrollbar(TAB_CONTENT_HEIGHT);
   const [scrollIntoView] = useScrollIntoView();
-  const categories = Object.keys(tabItems) as InventoryItemName[];
-  const [isTimeBoosted, setIsTimeBoosted] = useState(false);
+  const inventoryCategories = getKeys(tabItems) as InventoryItemName[];
 
-  useEffect(() => {
-    const firstCategoryWithItem = categories.find(
-      (category) => !!inventoryMapping[category]?.length
-    );
-
-    const defaultSelectedItem =
-      firstCategoryWithItem && inventoryMapping[firstCategoryWithItem][0];
-
-    if (defaultSelectedItem) {
-      setDefaultSelectedItem(defaultSelectedItem);
-    }
-  }, []);
-
-  useEffect(
-    () =>
-      setIsTimeBoosted(
-        hasBoost({
-          item: selectedItem as InventoryItemName,
-          inventory,
-        })
-      ),
-    [inventory, selectedItem]
-  );
-
-  const inventoryMapping = inventoryItems.reduce((acc, curr) => {
-    const category = categories.find(
+  const inventoryMap = inventoryItems.reduce((acc, curr) => {
+    const category = inventoryCategories.find(
       (category) => curr in tabItems[category].items
     );
 
@@ -85,8 +63,17 @@ export const InventoryTabContent = ({
     return acc;
   }, {} as Record<string, InventoryItemName[]>);
 
+  useMakeDefaultInventoryItem({
+    setDefaultSelectedItem,
+    inventoryMap,
+    inventoryCategories,
+    isFarming,
+  });
+
+  const isTimeBoosted = useHasBoostForItem({ selectedItem, inventory });
+
   const findIfItemsExistForCategory = (category: string) => {
-    return getKeys(inventoryMapping).includes(category);
+    return getKeys(inventoryMap).includes(category);
   };
 
   const getCropHarvestTime = (seedName = "") => {
@@ -103,7 +90,7 @@ export const InventoryTabContent = ({
     }
   };
 
-  const inventoryIsEmpty = Object.values(inventoryMapping).every(
+  const inventoryIsEmpty = Object.values(inventoryMap).every(
     (value) => value.length === 0
   );
 
@@ -149,12 +136,12 @@ export const InventoryTabContent = ({
           scrollable: showScrollbar,
         })}
       >
-        {categories.map((category) => (
+        {inventoryCategories.map((category) => (
           <div className="flex flex-col pl-2" key={category}>
             {<p className="mb-2 underline">{category}</p>}
             {findIfItemsExistForCategory(category) ? (
               <div className="flex mb-2 flex-wrap -ml-1.5">
-                {inventoryMapping[category].map((item) => (
+                {inventoryMap[category].map((item) => (
                   <Box
                     count={inventory[item]}
                     isSelected={selectedItem === item}

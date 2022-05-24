@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { CONFIG } from "lib/config";
 
 import logo from "assets/brand/logo.png";
 import bumpkin from "assets/npcs/bumpkin.png";
@@ -16,6 +15,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import classNames from "classnames";
+import { CONFIG } from "lib/config";
 
 const TAB_CONTENT_HEIGHT = 340;
 
@@ -65,12 +65,8 @@ export const Contributors: React.FC<Props> = ({ onClose }) => {
         })}
       >
         <div className="flex flex-wrap items-center h-fit">
-          {CONTRIBUTORS.map((contributor) => (
-            <div
-              key={contributor.name}
-              className="flex w-full mb-6"
-              id={contributor.name}
-            >
+          {CONTRIBUTORS.map((contributor, index) => (
+            <div key={index} className="flex w-full mb-6" id={contributor.name}>
               <div className="w-10 mr-4 flex justify-center">
                 <img src={AVATARS[contributor.avatar]} className="h-8" />
               </div>
@@ -90,9 +86,9 @@ export const Contributors: React.FC<Props> = ({ onClose }) => {
                   )}
                 </p>
                 <p className="text-sm">
-                  {contributor.role.map((role) => (
+                  {contributor.role.map((role, index) => (
                     <span
-                      key={role}
+                      key={index}
                       className="capitalize flex items-center py-1"
                     >
                       {role}

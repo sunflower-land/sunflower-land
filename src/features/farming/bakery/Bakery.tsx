@@ -1,9 +1,5 @@
-import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
+import React from "react";
 import { Modal } from "react-bootstrap";
-import classNames from "classnames";
-
-import { Context } from "features/game/GameProvider";
 
 import bakery from "assets/buildings/bakery_building.png";
 import smoke from "assets/buildings/bakery_smoke.gif";
@@ -15,11 +11,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { bakeryAudio } from "lib/utils/sfx";
 
 export const Bakery: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const [isBakeryModalOpen, showBakeryModal] = React.useState(false);
-
-  const isNotReadOnly = !gameState.matches("readonly");
 
   const openBakeryModal = () => {
     showBakeryModal(true);
@@ -45,7 +37,7 @@ export const Bakery: React.FC = () => {
     >
       <img
         src={smoke}
-        onClick={isNotReadOnly ? openBakeryModal : undefined}
+        onClick={openBakeryModal}
         className="z-10"
         style={{
           position: "absolute",
@@ -54,26 +46,19 @@ export const Bakery: React.FC = () => {
           width: `${GRID_WIDTH_PX * 1}px`,
         }}
       />
-      <div
-        className={classNames({
-          "cursor-pointer": isNotReadOnly,
-          "hover:img-highlight": isNotReadOnly,
-        })}
-      >
+      <div className="cursor-pointer hover:img-highlight">
         <img
           src={bakery}
           alt="bakery"
-          onClick={isNotReadOnly ? openBakeryModal : undefined}
+          onClick={openBakeryModal}
           className="w-full"
         />
-        {isNotReadOnly && (
-          <Action
-            className="absolute bottom-14 left-0"
-            text="Kitchen"
-            icon={soup}
-            onClick={openBakeryModal}
-          />
-        )}
+        <Action
+          className="absolute bottom-14 left-0"
+          text="Kitchen"
+          icon={soup}
+          onClick={openBakeryModal}
+        />
       </div>
       <Modal centered show={isBakeryModalOpen} onHide={closeBakeryModal}>
         <Crafting onClose={closeBakeryModal} />

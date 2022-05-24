@@ -48,7 +48,7 @@ export const GoblinLand: React.FC = () => {
     return () => {
       screenTracker.pause();
     };
-  }, []);
+  }, [authService]);
 
   return (
     <div>

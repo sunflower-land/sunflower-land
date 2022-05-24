@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 
-import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import {
   getLevel,
@@ -25,7 +23,7 @@ import { Action } from "components/ui/Action";
 import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { skillUpgradeToast } from "features/game/toast/lib/skillUpgradeToast";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
@@ -34,11 +32,18 @@ import { SkillTree } from "./components/SkillTree";
 import { homeDoorAudio } from "lib/utils/sfx";
 import { Button } from "components/ui/Button";
 
-export const House: React.FC = () => {
-  const { gameService } = useContext(Context);
+interface Props {
+  state: GameState;
+  playerCanLevelUp?: boolean;
+  isFarming?: boolean;
+}
+
+export const House: React.FC<Props> = ({
+  state,
+  isFarming,
+  playerCanLevelUp,
+}) => {
   const { setToast } = useContext(ToastContext);
-  const [gameState] = useActor(gameService);
-  const { state } = gameState.context;
 
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSkillTreeOpen, setIsSkillTreeOpen] = React.useState(false);
@@ -46,9 +51,12 @@ export const House: React.FC = () => {
 
   React.useEffect(() => {
     const upgrades = upgradeAvailable(state);
+
     setIsUpgradeAvailable(upgrades);
-    if (upgrades && state.farmAddress) skillUpgradeToast(state, setToast);
-  }, [setToast, state]);
+
+    if (isFarming && upgrades && state.farmAddress)
+      skillUpgradeToast(state, setToast);
+  }, [setToast, state, isFarming]);
 
   const openSkillTree = () => {
     setIsSkillTreeOpen(true);
@@ -78,7 +86,7 @@ export const House: React.FC = () => {
     );
 
     const badges = BADGES.map((badge) => {
-      if (gameState.context.state.inventory[badge]) {
+      if (state.inventory[badge]) {
         return (
           <img
             key={badge}
@@ -104,15 +112,15 @@ export const House: React.FC = () => {
   };
 
   const Content = () => {
-    if (gameState.matches("levelling")) {
+    if (isFarming && playerCanLevelUp) {
       return <span className="loading">Levelling up</span>;
     }
 
     if (isSkillTreeOpen) {
-      return <SkillTree back={open} />;
+      return <SkillTree inventory={state.inventory} back={open} />;
     }
 
-    if (isUpgradeAvailable) {
+    if (isFarming && isUpgradeAvailable) {
       return <SkillUpgrade />;
     }
 

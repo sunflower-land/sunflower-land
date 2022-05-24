@@ -1,5 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
+import * as Auth from "features/auth/lib/Provider";
 
 import background from "assets/land/background.png";
 
@@ -10,18 +11,31 @@ import mapMovement from "./lib/mapMovement";
 import { ExpansionInfo } from "./expansion/ExpansionInfo";
 import { useParams } from "react-router-dom";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { useActor } from "@xstate/react";
 
 export const Humans: React.FC = () => {
+  const { authService } = useContext(Auth.Context);
+  const [authState, send] = useActor(authService);
   // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
   const { id } = useParams();
   const [scrollIntoView] = useScrollIntoView();
 
   useEffect(() => {
+    // Our authMachine currently sits outside of our navigation. So if a the machine was in a visiting
+    // state and the player loaded this route which can happen using the browser back button then fire
+    // the RETURN event to move the authMachine out of the invalid state.
+    if (
+      authState.matches({ connected: "visitingContributor" }) ||
+      authState.matches("visiting")
+    ) {
+      send("RETURN");
+    }
+  }, []);
+
+  useEffect(() => {
     // Start with crops centered
-    // if (showGame) {
     scrollIntoView(Section.Crops, "auto");
-    // }
   }, [scrollIntoView]);
 
   useEffect(() => {

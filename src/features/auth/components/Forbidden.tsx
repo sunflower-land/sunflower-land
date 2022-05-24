@@ -8,12 +8,7 @@ import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 export const Forbidden: React.FC = () => {
   const { authService } = useContext(Auth.Context);
 
-  /*   const goBack = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    authService.send("LOAD_FARM");
-  }; */
   const goBack = () => {
-    // event.preventDefault();
     authService.send("RETURN");
   };
 
