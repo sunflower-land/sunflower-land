@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
@@ -12,29 +12,12 @@ import { Tailor } from "../tailor/Tailor";
 import { Decorations } from "../Decorations";
 import { Rocket } from "../rocket/Rocket";
 import { GoblinMachineState } from "features/game/lib/goblinMachine";
-import { CONFIG } from "lib/config";
 
 interface Props {
   state: GoblinMachineState["value"];
 }
 
 export const Village: React.FC<Props> = ({ state }) => {
-  const [showRocket, setShowRocket] = useState(CONFIG.NETWORK !== "mainnet");
-
-  // TEMP
-  useEffect(() => {
-    const listener = (e: any) => {
-      if (e.ctrlKey && String.fromCharCode(e.keyCode).toLowerCase() === "s") {
-        e.preventDefault();
-        e.stopPropagation();
-        setShowRocket(true);
-      }
-    };
-    document.addEventListener("keydown", listener, false);
-
-    () => document.removeEventListener("keydown", listener);
-  }, []);
-
   return (
     <div
       style={{
@@ -57,7 +40,7 @@ export const Village: React.FC<Props> = ({ state }) => {
       <WishingWell />
       <Tailor />
       <Decorations />
-      {showRocket && state !== "loading" && <Rocket />}
+      {state !== "loading" && <Rocket />}
     </div>
   );
 };
