@@ -48,6 +48,7 @@ import apprenticeBeaver from "assets/nfts/apprentice_beaver.gif";
 import constructionBeaver from "assets/nfts/construction_beaver.gif";
 import mysteriousParsnip from "assets/nfts/mysterious_parsnip.png";
 import carrotSword from "assets/nfts/carrot_sword.png";
+import goldenBonsai from "assets/nfts/golden_bonsai.png";
 import nancy from "assets/nfts/nancy.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
 import nyonStatue from "assets/nfts/nyon_statue.png";
@@ -414,6 +415,10 @@ export const ITEM_DETAILS: Items = {
   "Carrot Sword": {
     ...MARKET_ITEMS["Carrot Sword"],
     image: carrotSword,
+  },
+  "Golden Bonsai": {
+    ...MARKET_ITEMS["Golden Bonsai"],
+    image: goldenBonsai,
   },
   "Nyon Statue": {
     ...BLACKSMITH_ITEMS["Nyon Statue"],

@@ -96,7 +96,8 @@ export type MarketItem =
   | "Kuebiko"
   | "Golden Cauliflower"
   | "Mysterious Parsnip"
-  | "Carrot Sword";
+  | "Carrot Sword"
+  | "Golden Bonsai";
 
 export type LimitedItemName =
   | BlacksmithItem
@@ -392,6 +393,11 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
   "Carrot Sword": {
     name: "Carrot Sword",
     description: "Increase chance of a mutant crop appearing",
+    type: LimitedItemType.MarketItem,
+  },
+  "Golden Bonsai": {
+    name: "Golden Bonsai",
+    description: "Goblins love bonsai too",
     type: LimitedItemType.MarketItem,
   },
 };
