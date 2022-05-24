@@ -129,15 +129,19 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   return null;
 };
 
+const tunnel = true;
+const rocky = true;
+const nugget1 = false;
+
 export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
-  if (inventory["Tunnel Mole"]) {
+  if (inventory["Nugget"]) {
     return (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.2}px`,
+          width: `${GRID_WIDTH_PX * 1.52}px`,
         }}
-        src={tunnelMole}
-        alt="Tunnel Mole"
+        src={nugget}
+        alt="Nugget"
       />
     );
   }
@@ -146,7 +150,7 @@ export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
     return (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.2}px`,
+          width: `${GRID_WIDTH_PX * 1.52}px`,
         }}
         src={rockyMole}
         alt="Rocky the Mole"
@@ -154,14 +158,14 @@ export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
     );
   }
 
-  if (inventory["Nugget"]) {
+  if (inventory["Tunnel Mole"]) {
     return (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.2}px`,
+          width: `${GRID_WIDTH_PX * 1.52}px`,
         }}
-        src={nugget}
-        alt="Nugget"
+        src={tunnelMole}
+        alt="Tunnel Mole"
       />
     );
   }
@@ -506,5 +510,18 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         alt="Golen Bonsai"
       />
     )}
+
+    {/* Moles */}
+    <div
+      className="flex justify-center absolute"
+      style={{
+        width: `${GRID_WIDTH_PX * 2}px`,
+        right: `${GRID_WIDTH_PX * 21.5}px`,
+        top: `${GRID_WIDTH_PX * 50.4}px`,
+      }}
+      id={Section.Mole}
+    >
+      <Moles inventory={state.inventory} />
+    </div>
   </>
 );

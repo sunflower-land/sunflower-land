@@ -364,19 +364,19 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Tunnel Mole": {
     name: "Tunnel Mole",
     description: "Gives a 25% increase to stone mines.",
-    section: Section["Tunnel Mole"],
+    section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
   },
   "Rocky the Mole": {
     name: "Rocky the Mole",
     description: "Trees recover 50% faster",
-    section: Section["Rocky the Mole"],
+    section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
   },
   Nugget: {
     name: "Nugget",
     description: "Trees recover 50% faster",
-    section: Section.Nugget,
+    section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
   },
 };
