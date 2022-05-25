@@ -18,9 +18,9 @@ import { Lore } from "features/game/components/Lore";
 import { Town } from "./town/Town";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ErrorCode } from "lib/errors";
-import { Blacklisted } from "./Blacklisted";
 import { TeamDonation } from "./teamDonation/TeamDonation";
 import { House } from "features/farming/house/House";
+import { Blacklisted } from "./Blacklisted";
 
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,

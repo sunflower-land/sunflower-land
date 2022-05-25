@@ -60,7 +60,7 @@ export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
             onDone: [
               {
                 target: "blacklisted",
-                cond: (context) => !!context.isBlacklisted,
+                cond: (_, event) => !!event.data.isBlacklisted,
                 actions: setFarmDetails,
               },
               {
@@ -73,7 +73,13 @@ export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
             },
           },
         },
-        blacklisted: {},
+        blacklisted: {
+          on: {
+            CONTINUE: {
+              target: "visiting",
+            },
+          },
+        },
         visiting: {},
         error: {},
       },
