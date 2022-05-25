@@ -4,7 +4,6 @@ import { Chicken, GameState } from "../types/game";
 export type CollectAction = {
   type: "chicken.collectEgg";
   index: number;
-  createdAt?: number;
 };
 
 type Options = {

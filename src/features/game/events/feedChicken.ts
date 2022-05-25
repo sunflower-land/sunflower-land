@@ -4,7 +4,6 @@ import { GameState } from "../types/game";
 export type FeedAction = {
   type: "chicken.feed";
   index: number;
-  createdAt?: number;
 };
 
 type Options = {
