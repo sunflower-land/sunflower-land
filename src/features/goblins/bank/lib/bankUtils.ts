@@ -75,26 +75,25 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return !cropIsPlanted({ item: "Parsnip", game });
   }
 
+  const stoneReady = Object.values(game?.stones).every((stone) =>
+    canMine(stone)
+  );
+  const ironReady = Object.values(game?.iron).every((iron) => canMine(iron));
+  const goldReady = Object.values(game?.gold).every((gold) => canMine(gold));
+
   // Make sure no stones are replenishing
   if (item === "Tunnel Mole") {
-    return Object.values(game?.stones).every((stone) => canMine(stone));
+    return stoneReady;
   }
 
   // Make sure no stones or iron are replenishing
   if (item === "Rocky the Mole") {
-    const iron = Object.values(game?.iron).every((iron) => canMine(iron));
-    const stone = Object.values(game?.stones).every((stone) => canMine(stone));
-
-    return iron && stone;
+    return ironReady && stoneReady;
   }
 
   // Make sure no stones, iron or gold are replenishing
   if (item === "Nugget") {
-    const iron = Object.values(game?.iron).every((iron) => canMine(iron));
-    const stone = Object.values(game?.stones).every((stone) => canMine(stone));
-    const gold = Object.values(game?.gold).every((gold) => canMine(gold));
-
-    return iron && stone && gold;
+    return ironReady && stoneReady && goldReady;
   }
 
   // Tools, Crops, Resources
