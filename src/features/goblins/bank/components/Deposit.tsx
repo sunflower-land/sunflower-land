@@ -7,7 +7,7 @@ import { shortAddress } from "features/farming/hud/components/Address";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import farm from "assets/brand/nft.png";
-import alert from "assets/icons/expression_alerted.png";
+import alert_ from "assets/icons/expression_alerted.png";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
@@ -141,11 +141,15 @@ export const Deposit: React.FC = () => {
   const farmAddress = authState.context.address as string;
 
   const copyToClipboard = async (): Promise<void> => {
-    await navigator.clipboard.writeText(farmAddress);
-    setTooltipMessage("Copied!");
-    setTimeout(() => {
-      setTooltipMessage(TOOL_TIP_MESSAGE);
-    }, 2000);
+    try {
+      await navigator.clipboard.writeText(farmAddress);
+      setTooltipMessage("Copied!");
+      setTimeout(() => {
+        setTooltipMessage(TOOL_TIP_MESSAGE);
+      }, 2000);
+    } catch (e) {
+      alert(e);
+    }
   };
 
   const showTokenInstructions = instructions === Instructions.token;
@@ -243,7 +247,7 @@ export const Deposit: React.FC = () => {
       {showItemInstructions && <SFLItemsInstructions />}
 
       <div className="flex items-center border-2 rounded-md border-black p-2 bg-error">
-        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+        <img src={alert_} alt="alert" className="mr-2 w-5 h-5/6" />
         <span className="text-xs">
           DO NOT SEND MATIC OR ANY OTHER NON SFL TOKENS TO YOUR FARM ADDRESS
         </span>
