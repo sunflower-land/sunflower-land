@@ -57,7 +57,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user withdrawing an easter bunny when in use", () => {
+  it("prevents a user from withdrawing an easter bunny when in use", () => {
     const enabled = canWithdraw({
       item: "Easter Bunny",
       game: {
@@ -86,7 +86,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user withdrawing a golden cauliflower when in use", () => {
+  it("prevents a user from withdrawing a golden cauliflower when in use", () => {
     const enabled = canWithdraw({
       item: "Golden Cauliflower",
       game: {
@@ -115,7 +115,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents user from withdrawing a parsnip in use", () => {
+  it("prevents a user from withdrawing a parsnip in use", () => {
     const enabled = canWithdraw({
       item: "Mysterious Parsnip",
       game: {
@@ -144,7 +144,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user to withdraw a T1 scarecrow while they have crops", () => {
+  it("prevents a user from withdrawing a T1 scarecrow while they have crops", () => {
     const enabled = canWithdraw({
       item: "Nancy",
       game: INITIAL_FARM,
@@ -165,7 +165,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user to withdraw a T2 scarecrow while they have crops", () => {
+  it("prevents a user from withdrawing a T2 scarecrow while they have crops", () => {
     const enabled = canWithdraw({
       item: "Scarecrow",
       game: INITIAL_FARM,
@@ -186,7 +186,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user to withdraw a T3 scarecrow while they have crops", () => {
+  it("prevents a user from withdrawing a T3 scarecrow while they have crops", () => {
     const enabled = canWithdraw({
       item: "Kuebiko",
       game: INITIAL_FARM,
@@ -213,7 +213,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user to withdraw a T1 beaver while trees are replenishing", () => {
+  it("prevents a user from withdrawing a T1 beaver while trees are replenishing", () => {
     const enabled = canWithdraw({
       item: "Woody the Beaver",
       game: {
@@ -249,7 +249,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user to withdraw a T2 beaver while trees are replenishing", () => {
+  it("prevents a user from withdrawing a T2 beaver while trees are replenishing", () => {
     const enabled = canWithdraw({
       item: "Apprentice Beaver",
       game: {
@@ -285,7 +285,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user to withdraw a T3 beaver while trees are replenishing", () => {
+  it("prevents a user from withdrawing a T3 beaver while trees are replenishing", () => {
     const enabled = canWithdraw({
       item: "Foreman Beaver",
       game: {
@@ -303,7 +303,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeFalsy();
   });
 
-  it("prevents a user to withdraw kuebiko while they have seeds", () => {
+  it("prevents a user from withdrawing kuebiko while they have seeds", () => {
     const enabled = canWithdraw({
       item: "Kuebiko",
       game: {
@@ -331,7 +331,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user to withdraw Tunnel Mole while they have replenishing stones", () => {
+  it("prevents a user from withdrawing Tunnel Mole while they have replenishing stones", () => {
     const enabled = canWithdraw({
       item: "Tunnel Mole",
       game: {
@@ -367,7 +367,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user to withdraw Rocky the Mole while they have replenishing stones or iron", () => {
+  it("prevents a user from withdrawing Rocky the Mole while they have replenishing stones or iron", () => {
     const stone = canWithdraw({
       item: "Rocky the Mole",
       game: {
@@ -432,7 +432,7 @@ describe("canWithdraw", () => {
     expect(iron).toBeTruthy();
   });
 
-  it("prevents a user to withdraw Nugget while they have replenishing stones, iron or gold", () => {
+  it("prevents a user from withdrawing Nugget while they have replenishing stones, iron or gold", () => {
     const stone = canWithdraw({
       item: "Nugget",
       game: {
