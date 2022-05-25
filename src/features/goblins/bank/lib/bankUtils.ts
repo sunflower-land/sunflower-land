@@ -78,18 +78,20 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
   const stoneReady = Object.values(game?.stones).every((stone) =>
     canMine(stone)
   );
-  const ironReady = Object.values(game?.iron).every((iron) => canMine(iron));
-  const goldReady = Object.values(game?.gold).every((gold) => canMine(gold));
 
   // Make sure no stones are replenishing
   if (item === "Tunnel Mole") {
     return stoneReady;
   }
 
+  const ironReady = Object.values(game?.iron).every((iron) => canMine(iron));
+
   // Make sure no stones or iron are replenishing
   if (item === "Rocky the Mole") {
     return ironReady && stoneReady;
   }
+
+  const goldReady = Object.values(game?.gold).every((gold) => canMine(gold));
 
   // Make sure no stones, iron or gold are replenishing
   if (item === "Nugget") {
