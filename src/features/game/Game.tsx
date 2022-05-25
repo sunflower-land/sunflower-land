@@ -34,6 +34,7 @@ import { Refreshing } from "features/auth/components/Refreshing";
 import { GoblinShovel } from "features/farming/crops/components/GoblinShovel";
 import { Announcements } from "features/announcements/Announcement";
 import { Notifications } from "./components/Notifications";
+import { MutantReward } from "features/farming/crops/components/MutantReward";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -110,6 +111,12 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
       {/* check local storage and show modal if not read */}
+
+      <Modal show>
+        <Panel>
+          <MutantReward crop="Beetroot" fieldIndex={1} onCollected={() => {}} />
+        </Panel>
+      </Modal>
 
       <ClockIssue show={gameState.context.offset > 0} />
       <Hud />

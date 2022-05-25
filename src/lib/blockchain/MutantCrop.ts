@@ -10,20 +10,6 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 
 const address = CONFIG.MOM_CONTRACT;
 
-// Smart contract crop IDs
-const CROP_IDS: Record<CropName, number> = {
-  Sunflower: 0,
-  Potato: 1,
-  Pumpkin: 2,
-  Carrot: 3,
-  Cabbage: 4,
-  Beetroot: 5,
-  Cauliflower: 6,
-  Parsnip: 7,
-  Radish: 8,
-  Wheat: 9,
-};
-
 /**
  * Million on Mars NFT contract
  */
@@ -50,11 +36,10 @@ export class MutantCrops {
   /**
    * Crops are minted sequentially, make sure the mutant will match what is on chain
    */
-  public async isNextAvailableCrop(crop: CropName): Promise<boolean> {
+  public async totalSupply(): Promise<number> {
     const amount = await this.mutantCrops.methods.totalSupply().call();
 
-    const cropId = CROP_IDS[crop];
-    return Number(amount) % 10 === cropId;
+    return amount;
   }
 
   /**

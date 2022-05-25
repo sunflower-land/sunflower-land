@@ -11,6 +11,8 @@ import { harvestMutantCrop } from "features/game/actions/harvestMutantCrop";
 import { CropName } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
 
+import mutantImg from "./mutant_example.png";
+
 interface Props {
   crop: CropName;
   fieldIndex: number;
@@ -26,21 +28,27 @@ export const MutantReward: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
+  const [mutantCrop, setMutantCrop] = useState<{ id: number; image: string }>({
+    id: 2,
+    image: mutantImg,
+  });
+
   const [state, setState] = useState<
     "idle" | "searching" | "rewarded" | "empty"
-  >("idle");
+  >("rewarded");
 
   const search = async () => {
     setState("searching");
 
-    const rewarded = await harvestMutantCrop({
+    const mutantCrop = await harvestMutantCrop({
       crop,
       farmId: authState.context.farmId as number,
       token: authState.context.rawToken as string,
       fieldIndex,
     });
 
-    setState(rewarded ? "rewarded" : "empty");
+    setState(!!mutantCrop ? "rewarded" : "empty");
+    setMutantCrop(mutantCrop);
   };
 
   // Harvest the crop and close
@@ -70,6 +78,8 @@ export const MutantReward: React.FC<Props> = ({
           <span className="text-center mb-2">
             Woohoo! You found a mutant crop!
           </span>
+          <span className="text-center mb-2">#1</span>
+          <img src={mutantCrop?.image} />
           <span>
             This has been sent to your farm's address. Sync on chain for it to
             appear in your inventory.
