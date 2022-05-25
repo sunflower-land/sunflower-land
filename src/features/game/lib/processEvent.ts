@@ -30,6 +30,7 @@ const maxItems: Inventory = {
   Wheat: new Decimal("500"),
 
   Chicken: new Decimal("20"),
+  Egg: new Decimal("60"),
 
   // Stock limits
   Axe: new Decimal("100"),
@@ -87,6 +88,9 @@ function isValidProgress({ state, onChain }: ProcessEventArgs) {
     const max = maxItems[name] || new Decimal(0);
 
     if (diff.gt(max)) {
+      console.log({
+        name,
+      });
       return false;
     }
 
@@ -108,6 +112,7 @@ export function processEvent({
 }: ProcessEventArgs): GameState {
   const handler = EVENTS[action.type];
 
+  console.log({ onChain });
   if (!handler) {
     throw new Error(`Unknown event type: ${action}`);
   }
