@@ -112,11 +112,7 @@ export const Game: React.FC = () => {
       </Modal>
       {/* check local storage and show modal if not read */}
 
-      <Modal show>
-        <Panel>
-          <MutantReward crop="Beetroot" fieldIndex={1} onCollected={() => {}} />
-        </Panel>
-      </Modal>
+      <MutantReward crop="Beetroot" fieldIndex={1} onCollected={() => {}} />
 
       <ClockIssue show={gameState.context.offset > 0} />
       <Hud />

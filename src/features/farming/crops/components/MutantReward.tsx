@@ -48,7 +48,10 @@ export const MutantReward: React.FC<Props> = ({
     });
 
     setState(!!mutantCrop ? "rewarded" : "empty");
-    setMutantCrop(mutantCrop);
+
+    if (mutantCrop) {
+      setMutantCrop(mutantCrop);
+    }
   };
 
   // Harvest the crop and close
@@ -74,13 +77,14 @@ export const MutantReward: React.FC<Props> = ({
 
     if (state === "rewarded") {
       return (
-        <div>
-          <span className="text-center mb-2">
-            Woohoo! You found a mutant crop!
-          </span>
-          <span className="text-center mb-2">#1</span>
-          <img src={mutantCrop?.image} />
-          <span>
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-lg text-center mb-2">You found a mutant crop!</p>
+          <img src={mutantCrop?.image} className="w-1/3" />
+          <span className="text-lg text-center mb-2">#1</span>
+          <a className="text-xs underline text-center mb-2 cursor-pointer">
+            View on Open Sea
+          </a>
+          <span className="text-xs text-center mb-2">
             This has been sent to your farm's address. Sync on chain for it to
             appear in your inventory.
           </span>
@@ -101,7 +105,7 @@ export const MutantReward: React.FC<Props> = ({
   return (
     <Modal centered show={true}>
       <Panel>
-        <div className="flex flex-col items-center justify-between h-52">
+        <div className="flex flex-col items-center justify-between">
           {Content()}
         </div>
       </Panel>
