@@ -448,7 +448,7 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         alt="Mysterious Head"
       />
     )}
-    
+
     {state.inventory["Golden Bonsai"] && (
       <img
         style={{
