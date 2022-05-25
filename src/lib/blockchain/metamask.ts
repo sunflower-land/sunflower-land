@@ -14,6 +14,7 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { SunflowerFarmers } from "./SunflowerFarmers";
 import { MillionOnMars } from "./MillionOnMars";
 import { Trader } from "./Trader";
+import { MutantCrops } from "./MutantCrop";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -31,6 +32,7 @@ export class Metamask {
   private token: Token | null = null;
   private millionOnMars: MillionOnMars | null = null;
   private trader: Trader | null = null;
+  private mutantCrops: MutantCrops | null = null;
 
   private account: string | null = null;
 
@@ -66,6 +68,10 @@ export class Metamask {
         this.account as string
       );
       this.trader = new Trader(this.web3 as Web3, this.account as string);
+      this.mutantCrops = new MutantCrops(
+        this.web3 as Web3,
+        this.account as string
+      );
 
       const isHealthy = await this.healthCheck();
 
@@ -326,6 +332,10 @@ export class Metamask {
 
   public getTrader() {
     return this.trader as Trader;
+  }
+
+  public getMutantCrops() {
+    return this.mutantCrops as MutantCrops;
   }
 
   public get myAccount() {

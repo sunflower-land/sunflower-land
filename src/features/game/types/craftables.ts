@@ -75,7 +75,7 @@ export interface LimitedItem extends CraftableItem {
   type?: LimitedItemType;
 }
 
-export type MOMEventItem = "Engine Core" | "Observatory";
+export type SpecialEvent = "Engine Core" | "Observatory" | "Mutant Crop";
 
 export type QuestItem =
   | "Goblin Key"
@@ -127,9 +127,9 @@ export type LimitedItemName =
   | BarnItem
   | MarketItem
   | Flag
-  | MOMEventItem
   | QuestItem
-  | MutantChicken;
+  | MutantChicken
+  | SpecialEvent;
 
 export type Tool =
   | "Axe"
@@ -546,7 +546,7 @@ export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
   },
 };
 
-export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
+export const ROCKET_ITEMS: Record<SpecialEvent, LimitedItem> = {
   "Engine Core": {
     name: "Engine Core",
     description: "The power of the sunflower",
@@ -557,6 +557,10 @@ export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
     description: "Explore the stars and improve scientific development",
     section: Section.Observatory,
     type: LimitedItemType.MOMEventItem,
+  },
+  "Mutant Crop": {
+    name: "Mutant Crop",
+    description: "A mutant breed of a crop. Extremely rare",
   },
 };
 
