@@ -15,6 +15,8 @@ export const Chickens: React.FC = () => {
     },
   ] = useActor(gameService);
 
+  const chickens = new Array(10).fill(null);
+
   return (
     <>
       {state.inventory["Chicken Coop"] && (
@@ -29,6 +31,13 @@ export const Chickens: React.FC = () => {
           className="absolute"
         />
       )}
+      <div
+        className="flex flex-wrap"
+        style={{
+          width: `${GRID_WIDTH_PX * 5}px`,
+          right: `${GRID_WIDTH_PX * 5}px`,
+        }}
+      ></div>
     </>
   );
 };
