@@ -6,6 +6,9 @@ import coop from "assets/nfts/chicken_coop.png";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { CONFIG } from "lib/config";
+
+import { Chicken } from "./Chicken";
 
 export const Chickens: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -15,7 +18,13 @@ export const Chickens: React.FC = () => {
     },
   ] = useActor(gameService);
 
-  const chickens = new Array(10).fill(null);
+  let chickenCount = state.inventory.Chicken?.toNumber() || 0;
+  // Only available on testnet
+  if (CONFIG.NETWORK === "mainnet") {
+    chickenCount = 0;
+  }
+
+  const chickens = new Array(chickenCount).fill(null);
 
   return (
     <>
@@ -31,13 +40,20 @@ export const Chickens: React.FC = () => {
           className="absolute"
         />
       )}
+
       <div
-        className="flex flex-wrap"
+        className="flex flex-wrap absolute"
         style={{
-          width: `${GRID_WIDTH_PX * 5}px`,
-          right: `${GRID_WIDTH_PX * 5}px`,
+          width: `${GRID_WIDTH_PX * 8}px`,
+          height: `${GRID_WIDTH_PX * 2}px`,
+          right: `${GRID_WIDTH_PX * 4}px`,
+          top: `${GRID_WIDTH_PX * 1}px`,
         }}
-      ></div>
+      >
+        {chickens.map((_, index) => (
+          <Chicken index={index} key={index} />
+        ))}
+      </div>
     </>
   );
 };

@@ -137,7 +137,7 @@ export const authMachine = createMachine<
 >(
   {
     id: "authMachine",
-    initial: API_URL ? "connecting" : "visiting",
+    initial: API_URL ? "connecting" : "connected",
     context: {},
     states: {
       connecting: {
@@ -206,7 +206,7 @@ export const authMachine = createMachine<
         },
       },
       connected: {
-        initial: "loadingFarm",
+        initial: API_URL ? "loadingFarm" : "authorised",
         states: {
           loadingFarm: {
             id: "loadingFarm",
@@ -361,6 +361,7 @@ export const authMachine = createMachine<
             },
           },
           authorised: {
+            id: "authorised",
             entry: (context) => {
               window.location.href = `${window.location.pathname}#/farm/${context.farmId}`;
             },

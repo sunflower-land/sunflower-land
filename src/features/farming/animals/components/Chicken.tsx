@@ -1,14 +1,15 @@
 import { useActor } from "@xstate/react";
-import { useContext } from "react";
+import React, { useContext } from "react";
 
-import chicken from "assets/resources/chicken.png";
+import chickenImg from "assets/resources/chicken.png";
 import { Context } from "features/game/GameProvider";
+import { eggIsReady } from "features/game/events/collectEgg";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 interface Props {
-  chicken: IChicken;
   index: number;
 }
-export const Chicken: React.FC<Props> = ({ chicken, index }) => {
+export const Chicken: React.FC<Props> = ({ index }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -28,9 +29,29 @@ export const Chicken: React.FC<Props> = ({ chicken, index }) => {
     });
   };
 
+  const chicken = state.chickens[index];
+  const isReadyToCollect = chicken && eggIsReady(chicken);
+
   return (
-    <div>
-      <img src={chicken} />
+    <div
+      style={{
+        width: `${GRID_WIDTH_PX * 1}px`,
+      }}
+    >
+      {isReadyToCollect && (
+        <img
+          src={chickenImg}
+          className="w-full cursor-pointer  hover:img-highlight opacity-50"
+          onClick={collectEgg}
+        />
+      )}
+      {!chicken && (
+        <img
+          src={chickenImg}
+          className="w-full cursor-pointer hover:img-highlight"
+          onClick={feed}
+        />
+      )}
     </div>
   );
 };

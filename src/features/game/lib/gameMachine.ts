@@ -197,7 +197,7 @@ export function startGame(authContext: Options) {
                 };
               }
 
-              return { state: INITIAL_FARM };
+              return { state: INITIAL_FARM, onChain };
             },
             onDone: [
               {
