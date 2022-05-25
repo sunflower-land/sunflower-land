@@ -24,6 +24,7 @@ export async function levelUp(request: Request) {
       {
         type: "skill.learned",
         skill: request.skill,
+        createdAt: new Date().toISOString(),
       },
     ],
   });
