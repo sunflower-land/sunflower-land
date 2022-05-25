@@ -89,9 +89,9 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "man",
   },
   {
-    name: "Zakaria TIBTIBA",
+    name: "Zikou",
     url: "https://mobile.twitter.com/ZikouTib",
-    role: ["artist", "coder"],
+    role: ["moderator", "coder"],
     farmId: 87,
     avatar: "goblin",
   },
@@ -255,13 +255,6 @@ export const CONTRIBUTORS = shuffledArrary([
     role: ["moderator"],
     farmId: 52,
     avatar: "man",
-  },
-  {
-    name: "Zikou",
-    url: "",
-    role: ["moderator"],
-    farmId: 87,
-    avatar: "goblin",
   },
   {
     name: "K' 🍯",
