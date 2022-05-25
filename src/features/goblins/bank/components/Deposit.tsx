@@ -140,8 +140,8 @@ export const Deposit: React.FC = () => {
 
   const farmAddress = authState.context.address as string;
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(farmAddress);
+  const copyToClipboard = async (): Promise<void> => {
+    await navigator.clipboard.writeText(farmAddress);
     setTooltipMessage("Copied!");
     setTimeout(() => {
       setTooltipMessage(TOOL_TIP_MESSAGE);
