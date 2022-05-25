@@ -130,7 +130,6 @@ export const INITIAL_FARM: GameState = {
     Potato: new Decimal(12),
     "Roasted Cauliflower": new Decimal(1),
     Sauerkraut: new Decimal(1),
-    Chicken: new Decimal(5),
     Wheat: new Decimal(3),
   },
   stock: INITIAL_STOCK,
