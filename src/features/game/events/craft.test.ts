@@ -1,3 +1,4 @@
+import "lib/__mocks__/configMock.ts";
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "../lib/constants";
 import { SEEDS } from "../types/crops";
