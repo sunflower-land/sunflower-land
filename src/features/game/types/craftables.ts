@@ -80,7 +80,8 @@ export type BlacksmithItem =
   | "Nyon Statue"
   | "Homeless Tent"
   | "Egg Basket"
-  | "Farmer Bath";
+  | "Farmer Bath"
+  | "Mysterious Head";
 
 export type BarnItem =
   | "Farm Cat"
@@ -348,6 +349,12 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Egg Basket": {
     name: "Egg Basket",
     description: "Gives access to the Easter Egg Hunt",
+    type: LimitedItemType.BlacksmithItem,
+  },
+  "Mysterious Head": {
+    name: "Mysterious Head",
+    description: "A statue thought to protect farmers",
+    section: Section["Mysterious Head"],
     type: LimitedItemType.BlacksmithItem,
   },
 };

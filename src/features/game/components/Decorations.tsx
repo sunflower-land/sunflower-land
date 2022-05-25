@@ -21,6 +21,7 @@ import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
 
 import nyonStatue from "assets/nfts/nyon_statue.png";
+import mysteriousHead from "assets/nfts/mysterious_head.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
 import farmerBath from "assets/nfts/farmer_bath.png";
 import swimmer from "assets/npcs/swimmer.gif";
@@ -430,6 +431,20 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         className="absolute"
         src={observatory}
         alt="Observatory"
+      />
+    )}
+
+    {state.inventory["Mysterious Head"] && (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.85}px`,
+          left: `${GRID_WIDTH_PX * 34.7}px`,
+          top: `${GRID_WIDTH_PX * 40.2}px`,
+        }}
+        id={Section["Mysterious Head"]}
+        className="absolute"
+        src={mysteriousHead}
+        alt="Mysterious Head"
       />
     )}
   </>
