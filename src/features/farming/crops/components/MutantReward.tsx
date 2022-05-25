@@ -2,9 +2,6 @@ import { Panel } from "components/ui/Panel";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import secure from "assets/npcs/synced.gif";
-import idle from "assets/npcs/idle.gif";
-
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
