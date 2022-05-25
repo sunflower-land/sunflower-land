@@ -6,8 +6,7 @@ import { shortAddress } from "features/farming/hud/components/Address";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import farm from "assets/brand/nft.png";
-import alert_ from "assets/icons/expression_alerted.png";
-import { Label } from "components/ui/Label";
+import alert from "assets/icons/expression_alerted.png";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
 
@@ -121,8 +120,6 @@ const SFLItemsInstructions = () => (
   </ol>
 );
 
-const TOOL_TIP_MESSAGE = "Copy Farm Address";
-
 enum Instructions {
   "token",
   "item",
@@ -133,23 +130,9 @@ export const Deposit: React.FC = () => {
   const [authState] = useActor(authService);
 
   const [showFullAddress, setShowFullAddress] = useState(false);
-  const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
-  const [showLabel, setShowLabel] = useState(false);
   const [instructions, setInstructions] = useState<Instructions | null>(null);
 
   const farmAddress = authState.context.address as string;
-
-  const copyToClipboard = async (): Promise<void> => {
-    try {
-      await navigator.clipboard.writeText(farmAddress);
-      setTooltipMessage("Copied!");
-      setTimeout(() => {
-        setTooltipMessage(TOOL_TIP_MESSAGE);
-      }, 2000);
-    } catch (e) {
-      alert(e);
-    }
-  };
 
   const showTokenInstructions = instructions === Instructions.token;
   const showItemInstructions = instructions === Instructions.item;
@@ -201,13 +184,6 @@ export const Deposit: React.FC = () => {
               </span>
             </div>
           </OuterPanel>
-          <div
-            className={`absolute top-12 right-16 mr-5 transition duration-400 pointer-events-none ${
-              showLabel ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Label>{tooltipMessage}</Label>
-          </div>
         </div>
       </div>
       {/* Instructions */}
@@ -238,7 +214,7 @@ export const Deposit: React.FC = () => {
       {showItemInstructions && <SFLItemsInstructions />}
 
       <div className="flex items-center border-2 rounded-md border-black p-2 bg-error">
-        <img src={alert_} alt="alert" className="mr-2 w-5 h-5/6" />
+        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
         <span className="text-xs">
           DO NOT SEND MATIC OR ANY OTHER NON SFL TOKENS TO YOUR FARM ADDRESS
         </span>
