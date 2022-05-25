@@ -53,6 +53,7 @@ import kuebiko from "assets/nfts/kuebiko.gif";
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
 import farmerBath from "assets/nfts/farmer_bath.png";
+import mysteriousHead from "assets/nfts/mysterious_head.png";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
@@ -425,6 +426,10 @@ export const ITEM_DETAILS: Items = {
   "Farmer Bath": {
     ...BLACKSMITH_ITEMS["Farmer Bath"],
     image: farmerBath,
+  },
+  "Mysterious Head": {
+    ...BLACKSMITH_ITEMS["Mysterious Head"],
+    image: mysteriousHead,
   },
 
   // FOOD
