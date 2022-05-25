@@ -29,6 +29,8 @@ const maxItems: Inventory = {
   Radish: new Decimal("500"),
   Wheat: new Decimal("500"),
 
+  Chicken: new Decimal("20"),
+
   // Stock limits
   Axe: new Decimal("100"),
   Pickaxe: new Decimal("50"),

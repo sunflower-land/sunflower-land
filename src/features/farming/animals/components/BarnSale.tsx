@@ -41,7 +41,7 @@ export const BarnSale: React.FC<Props> = ({ onClose }) => {
         }}
       >
         {tab === "animals" && (
-          <CraftingItems items={ANIMALS} onClose={onClose} />
+          <CraftingItems items={ANIMALS()} onClose={onClose} />
         )}
       </div>
     </Panel>
