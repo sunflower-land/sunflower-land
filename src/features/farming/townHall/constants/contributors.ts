@@ -25,7 +25,6 @@ export const CONTRIBUTORS = shuffledArrary([
     role: ["coder", "artist"],
     avatar: "man",
   },
-
   {
     name: "Romy",
     url: "https://twitter.com/rofrtd",
@@ -111,10 +110,10 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "man",
   },
   {
-    name: "Alvin Phoebe Artemis Valdez",
+    name: "Alvin Valdez",
     url: "https://github.com/alvinphoebeartemis",
     role: ["coder"],
-    farmId: 2965,
+    farmId: 2956,
     avatar: "man",
   },
   {
