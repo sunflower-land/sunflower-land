@@ -55,6 +55,7 @@ type RocketMachineArgs = {
   id: number;
   sessionId: string;
   token: string;
+  farmAddress: string;
 };
 
 export const createRocketMachine = ({
@@ -62,6 +63,7 @@ export const createRocketMachine = ({
   id,
   sessionId,
   token,
+  farmAddress,
 }: RocketMachineArgs) =>
   createMachine<Context, RocketEvent, RocketState>(
     {
@@ -74,7 +76,7 @@ export const createRocketMachine = ({
             src: async () => {
               const isComplete = await metamask
                 .getMillionOnMars()
-                .hasCompletedMission();
+                .hasCompletedMission(farmAddress);
               return { isComplete };
             },
             onDone: [

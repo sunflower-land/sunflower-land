@@ -30,8 +30,8 @@ export class MillionOnMars {
   /**
    * Once a user has completed the mission on Million on Mars, they will have an NFT
    */
-  public async hasCompletedMission(): Promise<boolean> {
-    const amount = await this.contract.methods.balanceOf(this.account).call();
+  public async hasCompletedMission(farmAddress: string): Promise<boolean> {
+    const amount = await this.contract.methods.balanceOf(farmAddress).call();
     return Number(amount) > 0;
   }
 

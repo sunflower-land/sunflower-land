@@ -33,7 +33,7 @@ export const Rocket: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [
     {
-      context: { state, sessionId },
+      context: { state, sessionId, farmAddress },
     },
   ] = useActor(goblinService);
 
@@ -43,6 +43,7 @@ export const Rocket: React.FC = () => {
       id: authState.context.farmId as number,
       sessionId: sessionId as string,
       token: authState.context.rawToken as string,
+      farmAddress,
     })
   );
 
