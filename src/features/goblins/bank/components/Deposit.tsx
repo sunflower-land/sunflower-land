@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
-import { CopySvg } from "components/ui/CopyField";
 import { OuterPanel } from "components/ui/Panel";
 import { shortAddress } from "features/farming/hud/components/Address";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -176,14 +175,6 @@ export const Deposit: React.FC = () => {
               <img src={farm} className="h-8 mr-2 z-50" />
               <div className="flex flex-1 justify-center items-center">
                 <span>{shortAddress(farmAddress)}</span>
-                <span
-                  className="cursor-pointer ml-3"
-                  onMouseEnter={() => setShowLabel(true)}
-                  onMouseLeave={() => setShowLabel(false)}
-                  onClick={copyToClipboard}
-                >
-                  <CopySvg />
-                </span>
               </div>
               <span
                 className="cursor-pointer"
