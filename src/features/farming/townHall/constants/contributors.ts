@@ -166,7 +166,7 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "man",
   },
   {
-    name: "Kyle M.",
+    name: "Omninewb (Kyle M.)",
     url: "https://github.com/newb23",
     role: ["coder"],
     farmId: 68453,
