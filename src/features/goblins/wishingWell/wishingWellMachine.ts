@@ -175,19 +175,10 @@ export const wishingWellMachine = createMachine<
       granting: {
         invoke: {
           src: async (context, event) => {
-            const tokensToPull = Math.min(
-              Number(context.state.lpTokens),
-              Number(context.state.totalTokensInWell)
-            );
-
-            if (tokensToPull === 0) {
-              throw new Error(ERRORS.NO_TOKENS);
-            }
-
             await collectFromWell({
               farmId: context.farmId as number,
               sessionId: context.sessionId as string,
-              amount: tokensToPull.toString(),
+              amount: context.state.myTokensInWell.toString(),
               token: context.token as string,
               captcha: (event as CaptchaEvent).captcha,
             });
