@@ -1,7 +1,7 @@
 /**
  * Placeholder for future decorations that will fall on a different grid
  */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Spritesheet, {
   SpriteSheetInstance,
@@ -231,29 +231,19 @@ interface RockGolemProps {
   state: GameState;
 }
 
-type Animation = "open" | "closing";
-
 export const RockGolem: React.FC<RockGolemProps> = ({ state }) => {
   const stone = state.stones[2];
 
-  const [animation, setAnimation] = useState<Animation>(
-    canMine(stone) ? "open" : "closing"
-  );
-
-  useEffect(() => {
-    if (!canMine(stone)) {
-      setAnimation("closing");
-    } else {
-      setAnimation("open");
-    }
-  }, [stone.minedAt]);
-
   const golemGif = useRef<SpriteSheetInstance>();
+  const golemClosingGif = useRef<SpriteSheetInstance>();
+
+  const canMineRock = canMine(stone);
 
   return (
     <>
-      {animation == "open" && (
+      {canMineRock ? (
         <Spritesheet
+          key="standing"
           className="group-hover:img-highlight pointer-events-none transform z-10"
           style={{
             width: `${GRID_WIDTH_PX * 5}px`,
@@ -272,17 +262,16 @@ export const RockGolem: React.FC<RockGolemProps> = ({ state }) => {
           autoplay={true}
           loop={true}
         />
-      )}
-
-      {animation == "closing" && (
+      ) : (
         <Spritesheet
+          key="closing"
           className="group-hover:img-highlight pointer-events-none transform z-10"
           style={{
             width: `${GRID_WIDTH_PX * 5}px`,
             imageRendering: "pixelated",
           }}
           getInstance={(spritesheet) => {
-            golemGif.current = spritesheet;
+            golemClosingGif.current = spritesheet;
           }}
           image={golemSheet}
           widthFrame={34}
@@ -587,6 +576,7 @@ export const Decorations: React.FC<Props> = ({ state }) => (
     )}
 
     {/* Moles */}
+
     <div
       className="flex justify-center absolute"
       style={{
