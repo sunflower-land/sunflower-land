@@ -4,7 +4,7 @@ const DONATION_ADDRESS = import.meta.env.VITE_DONATION_ADDRESS;
 const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
 const SFL_ADDRESS =
   NETWORK === "mainnet"
-    ? "0xd1f9c58e33933a993a3891f8acfe05a68e1afc05"
+    ? "0xD1f9c58e33933a993A3891F8acFe05a68E1afC05"
     : "0x1d24f82b5d9d72450c2ed065f51827eb280ffa38";
 
 const API_URL = import.meta.env.VITE_API_URL;
