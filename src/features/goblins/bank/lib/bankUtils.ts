@@ -1,5 +1,6 @@
 import { canChop } from "features/game/events/chop";
 import { isSeed } from "features/game/events/plant";
+import { canMine } from "features/game/events/stoneMine";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { FOODS, getKeys } from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/crops";
@@ -72,6 +73,29 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
 
   if (item === "Mysterious Parsnip") {
     return !cropIsPlanted({ item: "Parsnip", game });
+  }
+
+  const stoneReady = Object.values(game?.stones).every((stone) =>
+    canMine(stone)
+  );
+
+  // Make sure no stones are replenishing
+  if (item === "Tunnel Mole") {
+    return stoneReady;
+  }
+
+  const ironReady = Object.values(game?.iron).every((iron) => canMine(iron));
+
+  // Make sure no stones or iron are replenishing
+  if (item === "Rocky the Mole") {
+    return ironReady && stoneReady;
+  }
+
+  const goldReady = Object.values(game?.gold).every((gold) => canMine(gold));
+
+  // Make sure no stones, iron or gold are replenishing
+  if (item === "Nugget") {
+    return ironReady && stoneReady && goldReady;
   }
 
   // Tools, Crops, Resources

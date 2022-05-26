@@ -31,6 +31,10 @@ import beaver from "assets/nfts/beaver.gif";
 import apprentice from "assets/nfts/apprentice_beaver.gif";
 import foreman from "assets/nfts/construction_beaver.gif";
 
+import tunnelMole from "assets/nfts/tunnel_mole.gif";
+import rockyMole from "assets/nfts/rocky_mole.gif";
+import nugget from "assets/nfts/nugget.gif";
+
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 import observatory from "assets/nfts/mom/observatory.gif";
 
@@ -118,6 +122,46 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
         }}
         src={beaver}
         alt="Woddy the Beaver"
+      />
+    );
+  }
+
+  return null;
+};
+
+export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
+  if (inventory["Nugget"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.52}px`,
+        }}
+        src={nugget}
+        alt="Nugget"
+      />
+    );
+  }
+
+  if (inventory["Rocky the Mole"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.52}px`,
+        }}
+        src={rockyMole}
+        alt="Rocky the Mole"
+      />
+    );
+  }
+
+  if (inventory["Tunnel Mole"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.52}px`,
+        }}
+        src={tunnelMole}
+        alt="Tunnel Mole"
       />
     );
   }
@@ -462,5 +506,18 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         alt="Golen Bonsai"
       />
     )}
+
+    {/* Moles */}
+    <div
+      className="flex justify-center absolute"
+      style={{
+        width: `${GRID_WIDTH_PX * 2}px`,
+        right: `${GRID_WIDTH_PX * 21.5}px`,
+        top: `${GRID_WIDTH_PX * 50.4}px`,
+      }}
+      id={Section.Mole}
+    >
+      <Moles inventory={state.inventory} />
+    </div>
   </>
 );

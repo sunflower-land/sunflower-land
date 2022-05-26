@@ -55,6 +55,9 @@ import nyonStatue from "assets/nfts/nyon_statue.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
 import farmerBath from "assets/nfts/farmer_bath.png";
 import mysteriousHead from "assets/nfts/mysterious_head.png";
+import tunnelMole from "assets/nfts/tunnel_mole.gif";
+import rockyMole from "assets/nfts/rocky_mole.gif";
+import nugget from "assets/nfts/nugget.gif";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
@@ -435,6 +438,18 @@ export const ITEM_DETAILS: Items = {
   "Mysterious Head": {
     ...BLACKSMITH_ITEMS["Mysterious Head"],
     image: mysteriousHead,
+  },
+  "Tunnel Mole": {
+    ...BLACKSMITH_ITEMS["Tunnel Mole"],
+    image: tunnelMole,
+  },
+  "Rocky the Mole": {
+    ...BLACKSMITH_ITEMS["Rocky the Mole"],
+    image: rockyMole,
+  },
+  Nugget: {
+    ...BLACKSMITH_ITEMS["Nugget"],
+    image: nugget,
   },
 
   // FOOD

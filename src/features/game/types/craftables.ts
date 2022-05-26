@@ -81,7 +81,10 @@ export type BlacksmithItem =
   | "Homeless Tent"
   | "Egg Basket"
   | "Farmer Bath"
-  | "Mysterious Head";
+  | "Mysterious Head"
+  | "Tunnel Mole"
+  | "Rocky the Mole"
+  | "Nugget";
 
 export type BarnItem =
   | "Farm Cat"
@@ -356,6 +359,24 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
     name: "Mysterious Head",
     description: "A statue thought to protect farmers",
     section: Section["Mysterious Head"],
+    type: LimitedItemType.BlacksmithItem,
+  },
+  "Tunnel Mole": {
+    name: "Tunnel Mole",
+    description: "Gives a 25% increase to stone mines",
+    section: Section.Mole,
+    type: LimitedItemType.BlacksmithItem,
+  },
+  "Rocky the Mole": {
+    name: "Rocky the Mole",
+    description: "Gives a 25% increase to iron mines",
+    section: Section.Mole,
+    type: LimitedItemType.BlacksmithItem,
+  },
+  Nugget: {
+    name: "Nugget",
+    description: "Gives a 25% increase to gold mines",
+    section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
   },
 };
