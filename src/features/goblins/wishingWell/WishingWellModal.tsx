@@ -49,9 +49,9 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
         <h1 className="text-xl mb-4 text-center">Congratulations!</h1>
         <img src={token} alt="sunflower token" className="w-16 mb-2" />
       </div>
-      <p className="mb-4 text-sm">{`You have been granted ${reward.toString()} SFL.`}</p>
+      <p className="mb-4 text-sm">Your wish has been granted.</p>
       <p className="mb-4 text-sm">
-        This amount has been transferred to your farm.
+        The amount has been transferred to your farm.
       </p>
       <p className="mb-4 text-sm">
         You will need to sync on chain to see your updated balance!
