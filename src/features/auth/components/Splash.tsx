@@ -23,8 +23,19 @@ export const Splash: React.FC = ({ children }) => {
         <img src={logo} />
       </div>
       <div
-        className="bg-repeat w-full h-full absolute inset-0"
-        style={{ backgroundImage: `url(${clouds})` }}
+        className="bg-repeat w-full h-full absolute inset-0 duration-1000 opacity-0 transition-opacity"
+        id="clouds"
+        style={{
+          backgroundImage: `url(${clouds})`,
+        }}
+      />
+      <img
+        className="opacity-0 absolute hidden"
+        src={clouds}
+        onLoad={(e) => {
+          document.getElementById("clouds")?.classList.add("opacity-100");
+          console.log("Loaded");
+        }}
       />
       {children && (
         <Modal show={!!children} centered>
