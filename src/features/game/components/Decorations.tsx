@@ -1,8 +1,11 @@
 /**
  * Placeholder for future decorations that will fall on a different grid
  */
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import Spritesheet, {
+  SpriteSheetInstance,
+} from "components/animation/SpriteAnimator";
 
 import close from "assets/icons/close.png";
 
@@ -38,6 +41,8 @@ import nugget from "assets/nfts/nugget.gif";
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 import observatory from "assets/nfts/mom/observatory.gif";
 
+import golemSheet from "assets/nfts/rock_golem.png";
+
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
@@ -45,6 +50,7 @@ import { GameState, Inventory } from "../types/game";
 import { Panel } from "components/ui/Panel";
 import { fountainAudio } from "lib/utils/sfx";
 import { Sign } from "./Sign";
+import { canMine } from "../events/stoneMine";
 
 // Only show 1 scarecrow at a time
 export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
@@ -217,6 +223,79 @@ export const NyonStatue: React.FC = () => {
           </div>
         </Panel>
       </Modal>
+    </>
+  );
+};
+
+interface RockGolemProps {
+  state: GameState;
+}
+
+type Animation = "open" | "closing";
+
+export const RockGolem: React.FC<RockGolemProps> = ({ state }) => {
+  const stone = state.stones[2];
+
+  const [animation, setAnimation] = useState<Animation>(
+    canMine(stone) ? "open" : "closing"
+  );
+
+  useEffect(() => {
+    if (!canMine(stone)) {
+      setAnimation("closing");
+    } else {
+      setAnimation("open");
+    }
+  }, [stone.minedAt]);
+
+  const golemGif = useRef<SpriteSheetInstance>();
+
+  return (
+    <>
+      {animation == "open" && (
+        <Spritesheet
+          className="group-hover:img-highlight pointer-events-none transform z-10"
+          style={{
+            width: `${GRID_WIDTH_PX * 5}px`,
+            imageRendering: "pixelated",
+          }}
+          getInstance={(spritesheet) => {
+            golemGif.current = spritesheet;
+          }}
+          image={golemSheet}
+          widthFrame={34}
+          heightFrame={42}
+          fps={6}
+          steps={42}
+          endAt={12}
+          direction={`forward`}
+          autoplay={true}
+          loop={true}
+        />
+      )}
+
+      {animation == "closing" && (
+        <Spritesheet
+          className="group-hover:img-highlight pointer-events-none transform z-10"
+          style={{
+            width: `${GRID_WIDTH_PX * 5}px`,
+            imageRendering: "pixelated",
+          }}
+          getInstance={(spritesheet) => {
+            golemGif.current = spritesheet;
+          }}
+          image={golemSheet}
+          widthFrame={34}
+          heightFrame={42}
+          fps={10}
+          startAt={13}
+          endAt={27}
+          steps={42}
+          direction={`forward`}
+          autoplay={true}
+          loop={false}
+        />
+      )}
     </>
   );
 };
@@ -519,5 +598,19 @@ export const Decorations: React.FC<Props> = ({ state }) => (
     >
       <Moles inventory={state.inventory} />
     </div>
+
+    {state.inventory["Rock Golem"] && (
+      <div
+        className="flex justify-center absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 2.2}px`,
+          left: `${GRID_WIDTH_PX * 87.2}px`,
+          top: `${GRID_WIDTH_PX * 55.3}px`,
+        }}
+        id={Section["Rock Golem"]}
+      >
+        <RockGolem state={state} />
+      </div>
+    )}
   </>
 );

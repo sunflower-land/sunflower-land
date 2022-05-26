@@ -84,7 +84,8 @@ export type BlacksmithItem =
   | "Mysterious Head"
   | "Tunnel Mole"
   | "Rocky the Mole"
-  | "Nugget";
+  | "Nugget"
+  | "Rock Golem";
 
 export type BarnItem =
   | "Farm Cat"

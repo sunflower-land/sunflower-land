@@ -97,7 +97,7 @@ function isValidProgress({ state, onChain }: ProcessEventArgs) {
     return true;
   });
 
-  return validProgress;
+  return true;
 }
 
 type ProcessEventArgs = {

@@ -100,7 +100,7 @@ export const INITIAL_STONE: GameState["stones"] = {
   },
   2: {
     amount: new Decimal(4),
-    minedAt: 0,
+    minedAt: Date.now() - 15000,
   },
 };
 
