@@ -58,6 +58,7 @@ import mysteriousHead from "assets/nfts/mysterious_head.png";
 import tunnelMole from "assets/nfts/tunnel_mole.gif";
 import rockyMole from "assets/nfts/rocky_mole.gif";
 import nugget from "assets/nfts/nugget.gif";
+import rockGolem from "assets/nfts/rock_golem.gif";
 
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
@@ -450,6 +451,10 @@ export const ITEM_DETAILS: Items = {
   Nugget: {
     ...BLACKSMITH_ITEMS["Nugget"],
     image: nugget,
+  },
+  "Rock Golem": {
+    ...BLACKSMITH_ITEMS["Rock Golem"],
+    image: rockGolem,
   },
 
   // FOOD

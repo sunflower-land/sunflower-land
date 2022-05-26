@@ -380,6 +380,12 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
     section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
   },
+  "Rock Golem": {
+    name: "Rock Golem",
+    description: "Gives a 10% chance to get 5x stone",
+    section: Section["Rock Golem"],
+    type: LimitedItemType.BlacksmithItem,
+  },
 };
 
 export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
