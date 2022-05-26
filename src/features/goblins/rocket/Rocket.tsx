@@ -43,7 +43,6 @@ export const Rocket: React.FC = () => {
       id: authState.context.farmId as number,
       sessionId: sessionId as string,
       token: authState.context.rawToken as string,
-      farmAddress: authState.context.address as string,
     })
   );
 
