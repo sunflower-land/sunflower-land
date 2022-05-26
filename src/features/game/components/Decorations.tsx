@@ -19,6 +19,7 @@ import scarecrow from "assets/nfts/scarecrow.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
 import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
+import goldenBonsai from "assets/nfts/golden_bonsai.png";
 
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import mysteriousHead from "assets/nfts/mysterious_head.png";
@@ -445,6 +446,20 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         className="absolute"
         src={mysteriousHead}
         alt="Mysterious Head"
+      />
+    )}
+
+    {state.inventory["Golden Bonsai"] && (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.1}px`,
+          left: `${GRID_WIDTH_PX * 61.2}px`,
+          top: `${GRID_WIDTH_PX * 36.7}px`,
+        }}
+        id={Section["Golden Bonsai"]}
+        className="absolute"
+        src={goldenBonsai}
+        alt="Golen Bonsai"
       />
     )}
   </>
