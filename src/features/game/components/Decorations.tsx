@@ -594,8 +594,8 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         className="flex justify-center absolute"
         style={{
           width: `${GRID_WIDTH_PX * 2.2}px`,
-          left: `${GRID_WIDTH_PX * 87.2}px`,
-          top: `${GRID_WIDTH_PX * 55.3}px`,
+          left: `${GRID_WIDTH_PX * 87.6}px`,
+          top: `${GRID_WIDTH_PX * 52.7}px`,
         }}
         id={Section["Rock Golem"]}
       >
