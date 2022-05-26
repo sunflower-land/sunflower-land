@@ -363,7 +363,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   },
   "Tunnel Mole": {
     name: "Tunnel Mole",
-    description: "Gives a 25% increase to stone mines.",
+    description: "Gives a 25% increase to stone mines",
     section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
   },
