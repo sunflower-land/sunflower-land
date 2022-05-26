@@ -337,6 +337,31 @@ export class Metamask {
       throw parsed;
     }
   }
+
+  public async addTokenToMetamask() {
+    try {
+      const tokenSymbol = "SFL";
+      const tokenDecimals = 18;
+
+      await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20",
+          options: {
+            address: CONFIG.SFL_ADDRESS,
+            symbol: tokenSymbol,
+            decimals: tokenDecimals,
+            image:
+              "https://github.com/sunflower-land/sunflower-land/blob/main/src/assets/brand/icon.png?raw=true",
+          },
+        },
+      });
+    } catch (error: any) {
+      const parsed = parseMetamaskError(error);
+
+      throw parsed;
+    }
+  }
 }
 
 export const metamask = new Metamask();

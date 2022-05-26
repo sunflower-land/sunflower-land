@@ -9,24 +9,8 @@ import { shortAddress } from "features/farming/hud/components/Address";
 export const Withdrawn: React.FC = () => {
   const { goblinService } = useContext(Context);
 
-  const addTokenToMetamask = async () => {
-    try {
-      await window.ethereum.request({
-        method: "wallet_watchAsset",
-        params: {
-          type: "ERC20",
-          options: {
-            address: "0xD1f9c58e33933a993A3891F8acFe05a68E1afC05",
-            symbol: "SFL",
-            decimals: 18,
-            image:
-              "https://github.com/sunflower-land/sunflower-land/blob/main/src/assets/brand/icon.png?raw=true",
-          },
-        },
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  const handleAddToken = async () => {
+    await metamask.addTokenToMetamask();
   };
 
   return (
@@ -56,7 +40,7 @@ export const Withdrawn: React.FC = () => {
         <span className="mb-7">
           You can view your tokens by importing the SFL Token to your wallet.
         </span>
-        <Button className="mb-7 sm:w-3/4" onClick={addTokenToMetamask}>
+        <Button className="mb-7 sm:w-3/4" onClick={handleAddToken}>
           Import SFL Token to MetaMask
         </Button>
         <span className="mb-4">
