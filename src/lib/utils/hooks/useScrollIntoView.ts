@@ -28,6 +28,8 @@ export enum Section {
   "Easter Bunny" = "easter-bunny",
   Observatory = "observatory",
   "Mysterious Head" = "mysterious-head",
+  "Golden Bonsai" = "golden-bonsai",
+  Mole = "mole",
 }
 
 export const useScrollIntoView = () => {

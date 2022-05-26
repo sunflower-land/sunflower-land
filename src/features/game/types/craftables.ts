@@ -81,7 +81,10 @@ export type BlacksmithItem =
   | "Homeless Tent"
   | "Egg Basket"
   | "Farmer Bath"
-  | "Mysterious Head";
+  | "Mysterious Head"
+  | "Tunnel Mole"
+  | "Rocky the Mole"
+  | "Nugget";
 
 export type BarnItem =
   | "Farm Cat"
@@ -96,7 +99,8 @@ export type MarketItem =
   | "Kuebiko"
   | "Golden Cauliflower"
   | "Mysterious Parsnip"
-  | "Carrot Sword";
+  | "Carrot Sword"
+  | "Golden Bonsai";
 
 export type LimitedItemName =
   | BlacksmithItem
@@ -357,6 +361,24 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
     section: Section["Mysterious Head"],
     type: LimitedItemType.BlacksmithItem,
   },
+  "Tunnel Mole": {
+    name: "Tunnel Mole",
+    description: "Gives a 25% increase to stone mines",
+    section: Section.Mole,
+    type: LimitedItemType.BlacksmithItem,
+  },
+  "Rocky the Mole": {
+    name: "Rocky the Mole",
+    description: "Gives a 25% increase to iron mines",
+    section: Section.Mole,
+    type: LimitedItemType.BlacksmithItem,
+  },
+  Nugget: {
+    name: "Nugget",
+    description: "Gives a 25% increase to gold mines",
+    section: Section.Mole,
+    type: LimitedItemType.BlacksmithItem,
+  },
 };
 
 export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
@@ -392,6 +414,12 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
   "Carrot Sword": {
     name: "Carrot Sword",
     description: "Increase chance of a mutant crop appearing",
+    type: LimitedItemType.MarketItem,
+  },
+  "Golden Bonsai": {
+    name: "Golden Bonsai",
+    description: "Goblins love bonsai too",
+    section: Section["Golden Bonsai"],
     type: LimitedItemType.MarketItem,
   },
 };

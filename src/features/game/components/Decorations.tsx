@@ -19,6 +19,7 @@ import scarecrow from "assets/nfts/scarecrow.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
 import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
+import goldenBonsai from "assets/nfts/golden_bonsai.png";
 
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import mysteriousHead from "assets/nfts/mysterious_head.png";
@@ -29,6 +30,10 @@ import swimmer from "assets/npcs/swimmer.gif";
 import beaver from "assets/nfts/beaver.gif";
 import apprentice from "assets/nfts/apprentice_beaver.gif";
 import foreman from "assets/nfts/construction_beaver.gif";
+
+import tunnelMole from "assets/nfts/tunnel_mole.gif";
+import rockyMole from "assets/nfts/rocky_mole.gif";
+import nugget from "assets/nfts/nugget.gif";
 
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 import observatory from "assets/nfts/mom/observatory.gif";
@@ -117,6 +122,46 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
         }}
         src={beaver}
         alt="Woddy the Beaver"
+      />
+    );
+  }
+
+  return null;
+};
+
+export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
+  if (inventory["Nugget"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.52}px`,
+        }}
+        src={nugget}
+        alt="Nugget"
+      />
+    );
+  }
+
+  if (inventory["Rocky the Mole"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.52}px`,
+        }}
+        src={rockyMole}
+        alt="Rocky the Mole"
+      />
+    );
+  }
+
+  if (inventory["Tunnel Mole"]) {
+    return (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.52}px`,
+        }}
+        src={tunnelMole}
+        alt="Tunnel Mole"
       />
     );
   }
@@ -447,5 +492,32 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         alt="Mysterious Head"
       />
     )}
+
+    {state.inventory["Golden Bonsai"] && (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.1}px`,
+          left: `${GRID_WIDTH_PX * 61.2}px`,
+          top: `${GRID_WIDTH_PX * 36.7}px`,
+        }}
+        id={Section["Golden Bonsai"]}
+        className="absolute"
+        src={goldenBonsai}
+        alt="Golen Bonsai"
+      />
+    )}
+
+    {/* Moles */}
+    <div
+      className="flex justify-center absolute"
+      style={{
+        width: `${GRID_WIDTH_PX * 2}px`,
+        right: `${GRID_WIDTH_PX * 21.5}px`,
+        top: `${GRID_WIDTH_PX * 50.4}px`,
+      }}
+      id={Section.Mole}
+    >
+      <Moles inventory={state.inventory} />
+    </div>
   </>
 );
