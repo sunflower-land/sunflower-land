@@ -129,10 +129,6 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   return null;
 };
 
-const tunnel = true;
-const rocky = true;
-const nugget1 = false;
-
 export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   if (inventory["Nugget"]) {
     return (
