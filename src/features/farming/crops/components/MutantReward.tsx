@@ -1,27 +1,30 @@
-import { Panel } from "components/ui/Panel";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
+import { useActor } from "@xstate/react";
 
-import * as AuthProvider from "features/auth/lib/Provider";
+import close from "assets/icons/close.png";
 
 import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { Panel } from "components/ui/Panel";
+
+import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { harvestMutantCrop } from "features/game/actions/harvestMutantCrop";
 import { CropName } from "features/game/types/crops";
-import { useActor } from "@xstate/react";
+
+import questionMark from "assets/icons/expression_confused.png";
 
 import mutantImg from "./mutant_example.png";
 
 interface Props {
   crop: CropName;
   fieldIndex: number;
-  onCollected: () => void;
+  onClose: () => void;
 }
 
 export const MutantReward: React.FC<Props> = ({
   crop,
-  onCollected,
+  onClose,
   fieldIndex,
 }) => {
   const { gameService } = useContext(Context);
@@ -34,11 +37,11 @@ export const MutantReward: React.FC<Props> = ({
   });
 
   const [state, setState] = useState<
-    "idle" | "searching" | "rewarded" | "empty"
-  >("rewarded");
+    "idle" | "catching" | "rewarded" | "empty"
+  >("idle");
 
-  const search = async () => {
-    setState("searching");
+  const catchIt = async () => {
+    setState("catching");
 
     const mutantCrop = await harvestMutantCrop({
       crop,
@@ -54,31 +57,32 @@ export const MutantReward: React.FC<Props> = ({
     }
   };
 
-  // Harvest the crop and close
-  const close = () => {
-    gameService.send("item.harvested", { fieldIndex });
-    onCollected();
-  };
-
   const Content = () => {
     if (state === "idle") {
       return (
-        <>
-          <span className="text-center mb-2">
-            It looks like something strange is there!
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-lg text-center mb-2">
+            You encountered a mutant crop!
+          </p>
+          <div className="relative w-1/3">
+            <img src={mutantCrop?.image} className="w-full opacity-20" />
+            <img src={questionMark} className="absolute w-10 top-10 left-14" />
+          </div>
+          <span className="text-xs text-center mb-2">
+            You must be quick, try your luck and see if you can catch it
           </span>
-          <Button>Search</Button>
-        </>
+          <Button onClick={catchIt}>Catch</Button>
+        </div>
       );
     }
-    if (state === "searching") {
-      return <span className="loading">Searching</span>;
+    if (state === "catching") {
+      return <span className="loading">Trying to catch</span>;
     }
 
     if (state === "rewarded") {
       return (
         <div className="flex flex-col items-center justify-center">
-          <p className="text-lg text-center mb-2">You found a mutant crop!</p>
+          <p className="text-lg text-center mb-2">You caught a mutant crop!</p>
           <img src={mutantCrop?.image} className="w-1/3" />
           <span className="text-lg text-center mb-2">#1</span>
           <a className="text-xs underline text-center mb-2 cursor-pointer">
@@ -88,16 +92,23 @@ export const MutantReward: React.FC<Props> = ({
             This has been sent to your farm's address. Sync on chain for it to
             appear in your inventory.
           </span>
-          <Button>Continue</Button>
+          <Button onClick={onClose}>Continue</Button>
         </div>
       );
     }
 
     if (state === "empty") {
       return (
-        <div>
-          <span>Whatever strange item was there has disappeared</span>
-          <span>I wonder what it was?</span>
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-lg text-center mb-2">It got away!</p>
+          <div className="relative w-1/3">
+            <img src={mutantCrop?.image} className="w-full opacity-20" />
+            <img src={questionMark} className="absolute w-10 top-10 left-14" />
+          </div>
+          <a className="text-sm text-center mb-2 ">
+            The mutant crop ran away. Better luck next time!
+          </a>
+          <Button onClick={onClose}>Continue</Button>
         </div>
       );
     }
@@ -105,7 +116,12 @@ export const MutantReward: React.FC<Props> = ({
   return (
     <Modal centered show={true}>
       <Panel>
-        <div className="flex flex-col items-center justify-between">
+        <img
+          src={close}
+          className="h-6 cursor-pointer mr-2 mb-1 absolute right-2"
+          onClick={onClose}
+        />
+        <div className="flex flex-col items-center justify-between px-4">
           {Content()}
         </div>
       </Panel>

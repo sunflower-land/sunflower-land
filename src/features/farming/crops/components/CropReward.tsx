@@ -3,17 +3,21 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import { Reward } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Context } from "features/game/GameProvider";
+import { CropName } from "features/game/types/crops";
 
 import secure from "assets/npcs/synced.gif";
 import idle from "assets/npcs/idle.gif";
 
 import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { Context } from "features/game/GameProvider";
+
 import { addNoise, RandomID } from "lib/images";
+import { MutantReward } from "./MutantReward";
 
 interface Props {
   reward: Reward | null;
+  crop: CropName;
   fieldIndex: number;
   onCollected: () => void;
 }
@@ -27,6 +31,7 @@ export const CropReward: React.FC<Props> = ({
   reward,
   onCollected,
   fieldIndex,
+  crop,
 }) => {
   const { gameService } = useContext(Context);
   const [opened, setOpened] = useState(false);
@@ -53,6 +58,12 @@ export const CropReward: React.FC<Props> = ({
     onCollected();
     setOpened(false);
   };
+
+  if (reward.items[0].name === "Mutant Crop") {
+    return (
+      <MutantReward fieldIndex={fieldIndex} onClose={onCollected} crop={crop} />
+    );
+  }
 
   return (
     <Modal centered show={true}>
