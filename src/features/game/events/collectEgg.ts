@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CHICKEN_FEEDING_TIME } from "../lib/constants";
 import { Chicken, GameState } from "../types/game";
 
 export type CollectAction = {
@@ -13,10 +14,11 @@ type Options = {
 };
 
 export function eggIsReady(chicken: Chicken) {
-  return Date.now() - chicken.fedAt > FEEDING_TIME;
+  return Date.now() - chicken.fedAt > CHICKEN_FEEDING_TIME;
 }
 
-export const FEEDING_TIME = 1000 * 60 * 60 * 24 * 2; // 48 hours
+// export const FEEDING_TIME = 1000 * 60 * 60 * 24 * 2; // 48 hours
+// 48 hours
 
 export function collectEggs({
   state,

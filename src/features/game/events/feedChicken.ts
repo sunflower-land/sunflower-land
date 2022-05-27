@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CHICKEN_FEEDING_TIME } from "../lib/constants";
 import { GameState } from "../types/game";
 
 export type FeedAction = {
@@ -11,8 +12,6 @@ type Options = {
   action: FeedAction;
   createdAt?: number;
 };
-
-export const FEEDING_TIME = 1000 * 60 * 60 * 24 * 2; // 48 hours
 
 export function feedChicken({
   state,
@@ -34,7 +33,7 @@ export function feedChicken({
   }
   if (
     chickens[action.index] &&
-    createdAt - chickens[action.index].fedAt < FEEDING_TIME
+    createdAt - chickens[action.index].fedAt < CHICKEN_FEEDING_TIME
   ) {
     throw new Error("This chicken is not hungry");
   }

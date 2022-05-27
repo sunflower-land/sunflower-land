@@ -3,6 +3,8 @@ import { fromWei } from "web3-utils";
 import { GameState, Inventory } from "../types/game";
 
 export const GRID_WIDTH_PX = 42;
+// export const CHICKEN_FEEDING_TIME = 1000 * 60 * 60 * 24 * 2; // 48 hours
+export const CHICKEN_FEEDING_TIME = 60; // 48 hours
 
 export const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),
@@ -131,6 +133,7 @@ export const INITIAL_FARM: GameState = {
     "Roasted Cauliflower": new Decimal(1),
     Sauerkraut: new Decimal(1),
     Wheat: new Decimal(3),
+    Chicken: new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
