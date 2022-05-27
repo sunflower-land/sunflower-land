@@ -10,9 +10,11 @@ import wheat from "assets/animals/chickens/wheat.png";
 import eggReadyChicken from "assets/animals/chickens/egg-ready.png";
 import { Context } from "features/game/GameProvider";
 import { chickenMachine, MachineState } from "../chickenMachine";
+import { Position } from "./Chickens";
 
 interface Props {
   index: number;
+  position: Position;
 }
 
 const isHungry = (state: MachineState) => state.matches("hungry");
@@ -23,7 +25,7 @@ const isWalking = (state: MachineState) => state.matches({ fed: "walking" });
 const isLayingEgg = (state: MachineState) => state.matches("layingEgg");
 const isEggReady = (state: MachineState) => state.matches("eggReady");
 
-export const Chicken: React.FC<Props> = ({ index }) => {
+export const Chicken: React.FC<Props> = ({ index, position }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -58,7 +60,14 @@ export const Chicken: React.FC<Props> = ({ index }) => {
   };
 
   return (
-    <div style={{}}>
+    <div
+      className="absolute"
+      style={{
+        right: position.right,
+        top: position.top,
+        zIndex: index,
+      }}
+    >
       <div className="relative w-16 h-16">
         {hungry && (
           <img
@@ -79,6 +88,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
               src={walkingChicken}
               alt="eating-chicken"
               className="absolute w-16 h-16"
+              style={{ zIndex: 10 * index }}
             />
           </div>
         )}
