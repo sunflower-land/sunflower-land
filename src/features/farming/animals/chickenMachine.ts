@@ -84,15 +84,6 @@ export const chickenMachine = createMachine<
         },
         happy: {
           always: {
-            target: "walking",
-            cond: (context) => {
-              return context.timeElapsed > context.timeInCurrentState;
-            },
-            actions: assignTimeInState,
-          },
-        },
-        walking: {
-          always: {
             target: "sleeping",
             cond: (context) => {
               return context.timeElapsed > context.timeInCurrentState;
@@ -102,7 +93,7 @@ export const chickenMachine = createMachine<
         },
         sleeping: {
           always: {
-            target: "walking",
+            target: "happy",
             cond: (context) => {
               return context.timeElapsed > context.timeInCurrentState;
             },
