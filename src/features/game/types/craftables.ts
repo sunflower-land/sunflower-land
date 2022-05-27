@@ -84,7 +84,8 @@ export type BlacksmithItem =
   | "Mysterious Head"
   | "Tunnel Mole"
   | "Rocky the Mole"
-  | "Nugget";
+  | "Nugget"
+  | "Rock Golem";
 
 export type BarnItem =
   | "Farm Cat"
@@ -377,6 +378,12 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
     name: "Nugget",
     description: "Gives a 25% increase to gold mines",
     section: Section.Mole,
+    type: LimitedItemType.BlacksmithItem,
+  },
+  "Rock Golem": {
+    name: "Rock Golem",
+    description: "Gives a 10% chance to get 5x stone",
+    section: Section["Rock Golem"],
     type: LimitedItemType.BlacksmithItem,
   },
 };
