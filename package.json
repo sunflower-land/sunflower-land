@@ -2,6 +2,8 @@
   "name": "sunflower-land",
   "version": "0.0.0",
   "author": "developer@sunflower-land.com",
+  "license": "UNLICENSED",
+  "private": true,
   "scripts": {
     "dev": "set NODE_ENV=development && vite --port 3000 --host",
     "build": "tsc && vite build",
@@ -10,7 +12,7 @@
     "preview": "vite preview",
     "generate": "graphql-codegen",
     "test": "jest",
-    "erc1155": "ts-node --project _scripts/node.tsconfig.json _scripts/erc1155Metadata.ts ",
+    "erc1155": "ts-node --project _scripts/node.tsconfig.json _scripts/erc1155Metadata.ts",
     "prepare": "husky install"
   },
   "browserslist": [
