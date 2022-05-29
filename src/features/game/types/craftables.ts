@@ -53,6 +53,7 @@ export interface CraftableItem {
   ingredients?: Ingredient[];
   disabled?: boolean;
   requires?: InventoryItemName;
+  isPlaceholder?: boolean;
 }
 
 export interface LimitedItem extends CraftableItem {
@@ -370,21 +371,24 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   },
   "Rocky the Mole": {
     name: "Rocky the Mole",
-    description: "Gives a 25% increase to iron mines",
+    description: "Gives a 999% increase to iron mines",
     section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
+    isPlaceholder: true,
   },
   Nugget: {
     name: "Nugget",
-    description: "Gives a 25% increase to gold mines",
+    description: "Gives a 999% increase to gold mines",
     section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
+    isPlaceholder: true,
   },
   "Rock Golem": {
     name: "Rock Golem",
     description: "Gives a 10% chance to get 5x stone",
     section: Section["Rock Golem"],
     type: LimitedItemType.BlacksmithItem,
+    isPlaceholder: true,
   },
 };
 
@@ -428,6 +432,7 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
     description: "Goblins love bonsai too",
     section: Section["Golden Bonsai"],
     type: LimitedItemType.MarketItem,
+    isPlaceholder: true,
   },
 };
 
@@ -565,6 +570,7 @@ export const makeLimitedItemsByName = (
         mintedAt,
         type: items[name].type,
         disabled: !enabled,
+        isPlaceholder: items[name].isPlaceholder,
       };
     }
 

@@ -113,6 +113,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   );
 
   const [selected, setSelected] = useState(Object.values(items)[0]);
+  console.log("Rare!", selected);
 
   // Ingredient difference≥
   const lessIngredients = (amount = 1) =>
@@ -272,12 +273,16 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
             alt={selected.name}
           />
           <span className="text-shadow text-center mt-2 sm:text-sm">
-            {selected.description}
+            {selected.isPlaceholder ? "?" : selected.description}
           </span>
 
           {canCraft && (
-            <div className="border-t border-white w-full mt-2 pt-1 mb-2">
+            <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
               {selected.ingredients?.map((ingredient, index) => {
+                if (selected.isPlaceholder) {
+                  return <span className="text-xs">?</span>;
+                }
+
                 const item = ITEM_DETAILS[ingredient.item];
                 const lessIngredient = new Decimal(
                   inventory[ingredient.item] || 0
@@ -299,20 +304,23 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                   </div>
                 );
               })}
-
-              <div className="flex justify-center items-end">
-                <img src={token} className="h-5 mr-1" />
-                <span
-                  className={classNames(
-                    "text-xs text-shadow text-center mt-2 ",
-                    {
-                      "text-red-500": lessFunds(),
-                    }
-                  )}
-                >
-                  {`${selected.tokenAmount?.toNumber()} SFL`}
-                </span>
-              </div>
+              {selected.isPlaceholder ? (
+                <span className="text-xs">?</span>
+              ) : (
+                <div className="flex justify-center items-end">
+                  <img src={token} className="h-5 mr-1" />
+                  <span
+                    className={classNames(
+                      "text-xs text-shadow text-center mt-2 ",
+                      {
+                        "text-red-500": lessFunds(),
+                      }
+                    )}
+                  >
+                    {`${selected.tokenAmount?.toNumber()} SFL`}
+                  </span>
+                </div>
+              )}
 
               {selected.cooldownSeconds && (
                 <div className="flex justify-center items-end">
