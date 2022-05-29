@@ -53,6 +53,10 @@ export interface CraftableItem {
   ingredients?: Ingredient[];
   disabled?: boolean;
   requires?: InventoryItemName;
+  /**
+   * When enabled, description and price will display as "?"
+   * This is to reduce people viewing placeholder development code and assuming that is the price/buff
+   */
   isPlaceholder?: boolean;
 }
 
