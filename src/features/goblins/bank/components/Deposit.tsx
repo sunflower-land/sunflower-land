@@ -228,8 +228,8 @@ export const Deposit: React.FC = () => {
         </div>
       </div>
 
-      <div className="text-xs mt-1">
-        Always double check the address before and after copying and pasting
+      <div className="text-xs m-1">
+        Always double check the address before and after copying and pasting.
       </div>
 
       {/* Instructions */}
