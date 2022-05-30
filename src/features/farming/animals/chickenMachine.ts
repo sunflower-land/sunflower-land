@@ -7,6 +7,7 @@ interface ChickenContext {
   timeElapsed: number;
   timeToEgg: number;
   timeInCurrentState: number;
+  isFed: boolean;
 }
 
 export type ChickenState = {
@@ -17,12 +18,23 @@ export type ChickenState = {
     | { fed: "sleeping" }
     | { fed: "walking" }
     | { fed: "happy" }
+    | { fed: "happyStatic" }
+    | { fed: "happyActive" }
     | "layingEgg"
     | "eggReady";
   context: ChickenContext;
 };
 
-type ChickenEvent = { type: "FEED" } | { type: "COLLECT" } | { type: "TICK" };
+type ChickenFeedEvent = {
+  type: "FEED";
+  timeToEgg: number;
+};
+
+type ChickenEvent =
+  | ChickenFeedEvent
+  | { type: "COLLECT" }
+  | { type: "TICK" }
+  | { type: "LAID" };
 
 export type MachineState = State<ChickenContext, ChickenEvent, ChickenState>;
 
@@ -31,103 +43,211 @@ function getRndInteger(min: number, max: number) {
 }
 
 const assignTimeInState = assign<ChickenContext, any>({
-  timeInCurrentState: (context) => context.timeElapsed + getRndInteger(10, 15),
+  timeInCurrentState: (context) => {
+    let timeInState = context.timeElapsed + getRndInteger(10, 15);
+
+    if (timeInState > context.timeToEgg) {
+      timeInState = context.timeToEgg;
+    }
+
+    return timeInState;
+  },
 });
 
-const reset = assign<ChickenContext, ChickenEvent>({
+const reset = assign<ChickenContext, any>({
   timeElapsed: 0,
   timeInCurrentState: 0,
+  isFed: false,
+  timeToEgg: Math.ceil(CHICKEN_FEEDING_TIME / 1000),
+});
+
+const assignFeedDetails = assign<ChickenContext, ChickenFeedEvent>({
+  timeToEgg: (_, event) => event.timeToEgg,
+  isFed: true,
+});
+
+const assignTimeElapsed = assign<ChickenContext, any>({
+  timeElapsed: (context) => context.timeElapsed + INTERVAL,
 });
 
 export const chickenMachine = createMachine<
   ChickenContext,
   ChickenEvent,
   ChickenState
->({
-  initial: "hungry",
-  context: {
-    timeElapsed: 0,
-    timeInCurrentState: 0,
-    timeToEgg: CHICKEN_FEEDING_TIME,
-  },
-  states: {
-    hungry: {
-      on: {
-        FEED: {
-          target: "fed",
-          actions: assignTimeInState,
+>(
+  {
+    initial: "loading",
+    context: {
+      timeElapsed: 0,
+      timeInCurrentState: 0,
+      timeToEgg: Math.ceil(CHICKEN_FEEDING_TIME / 1000), // seconds
+      isFed: false,
+    },
+    states: {
+      loading: {
+        always: [
+          {
+            target: "hungry",
+            cond: (context) => !context.isFed,
+          },
+          {
+            target: "eggReady",
+            cond: (context) => context.timeToEgg === 0,
+          },
+          { target: "fed" },
+        ],
+      },
+      hungry: {
+        always: [
+          {
+            target: "hungryActive",
+            cond: "randomNumberIsEven",
+          },
+          {
+            target: "hungryStatic",
+          },
+        ],
+      },
+      hungryActive: {
+        on: {
+          FEED: {
+            target: "fed",
+            actions: [assignFeedDetails, assignTimeInState],
+          },
         },
       },
-    },
-    fed: {
-      initial: "eating",
-      invoke: {
-        src: () => (cb) => {
-          const interval = setInterval(() => {
-            cb("TICK");
-          }, 1000 * INTERVAL);
+      hungryStatic: {
+        on: {
+          FEED: {
+            target: "fed",
+            actions: [assignFeedDetails, assignTimeInState],
+          },
+        },
+      },
+      fed: {
+        initial: "loading",
+        invoke: {
+          src: () => (cb) => {
+            const interval = setInterval(() => {
+              cb("TICK");
+            }, 1000 * INTERVAL);
 
-          return () => {
-            clearInterval(interval);
-          };
-        },
-      },
-      states: {
-        eating: {
-          always: {
-            target: "happy",
-            cond: (context) => {
-              return context.timeElapsed > context.timeInCurrentState;
-            },
-            actions: assignTimeInState,
+            return () => {
+              clearInterval(interval);
+            };
           },
         },
-        happy: {
-          always: {
-            target: "sleeping",
-            cond: (context) => {
-              return context.timeElapsed > context.timeInCurrentState;
+        states: {
+          loading: {
+            always: [
+              {
+                target: "eating",
+                cond: (context) => context.timeElapsed === 0,
+              },
+              {
+                target: "happy",
+              },
+            ],
+          },
+          eating: {
+            always: {
+              target: "happy",
+              cond: "timeToTransition",
+              actions: assignTimeInState,
             },
-            actions: assignTimeInState,
+          },
+          happy: {
+            id: "happy",
+            always: [
+              {
+                target: "#layingEgg",
+                cond: "timeToTransition",
+              },
+              {
+                target: "happyActive",
+                cond: "randomNumberIsEven",
+              },
+              {
+                target: "happyStatic",
+              },
+            ],
+          },
+          happyActive: {
+            always: [
+              {
+                target: "#layingEgg",
+                cond: "readyToLay",
+              },
+              {
+                target: "sleeping",
+                cond: "timeToTransition",
+                actions: assignTimeInState,
+              },
+            ],
+          },
+          happyStatic: {
+            always: [
+              {
+                target: "#layingEgg",
+                cond: "readyToLay",
+              },
+              {
+                target: "sleeping",
+                cond: "timeToTransition",
+                actions: assignTimeInState,
+              },
+            ],
+          },
+          sleeping: {
+            always: [
+              {
+                target: "#layingEgg",
+                cond: "readyToLay",
+              },
+              {
+                target: "happy",
+                cond: "timeToTransition",
+                actions: assignTimeInState,
+              },
+            ],
           },
         },
-        sleeping: {
-          always: {
-            target: "happy",
-            cond: (context) => {
-              return context.timeElapsed > context.timeInCurrentState;
-            },
-            actions: assignTimeInState,
+        on: {
+          TICK: {
+            actions: assignTimeElapsed,
           },
         },
       },
-      always: {
-        target: "layingEgg",
-        cond: (context) => {
-          return context.timeElapsed > context.timeToEgg;
-        },
-        actions: reset,
-      },
-      on: {
-        TICK: {
-          actions: assign({
-            timeElapsed: (context) => +context.timeElapsed + INTERVAL,
-          }),
+      layingEgg: {
+        id: "layingEgg",
+        on: {
+          LAID: {
+            target: "eggReady",
+          },
+          COLLECT: {
+            target: "hungry",
+            actions: reset,
+          },
         },
       },
-    },
-    layingEgg: {
-      after: {
-        // after laying gif is finished
-        5000: { target: "eggReady" },
-      },
-    },
-    eggReady: {
-      on: {
-        COLLECT: {
-          target: "hungry",
+      eggReady: {
+        on: {
+          COLLECT: {
+            target: "hungry",
+            actions: reset,
+          },
         },
       },
     },
   },
-});
+  {
+    guards: {
+      readyToLay: (context) => context.timeElapsed >= context.timeToEgg,
+      eggIsReady: (context) => context.timeElapsed === 0,
+      timeToTransition: (context) =>
+        context.timeElapsed > context.timeInCurrentState,
+      // Used to randommise the transitions
+      randomNumberIsEven: () => getRndInteger(1, 5) % 2 === 0,
+    },
+  }
+);

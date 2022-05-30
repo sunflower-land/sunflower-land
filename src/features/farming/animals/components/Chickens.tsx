@@ -19,12 +19,12 @@ const positions: Position[] = [
   { top: GRID_WIDTH_PX * 0.3, right: GRID_WIDTH_PX * 2.6 },
   { top: GRID_WIDTH_PX * 0.7, right: GRID_WIDTH_PX * 1.45 },
   { top: GRID_WIDTH_PX * 1.7, right: GRID_WIDTH_PX },
-  { top: GRID_WIDTH_PX * 2.7, right: GRID_WIDTH_PX * 3 },
+  { top: GRID_WIDTH_PX * 2.47, right: GRID_WIDTH_PX * 3 },
   { top: GRID_WIDTH_PX * 2.66, right: GRID_WIDTH_PX * 1.7 },
   { top: GRID_WIDTH_PX * 1.33, right: GRID_WIDTH_PX * 3.15 },
   { top: GRID_WIDTH_PX * 1.6, right: GRID_WIDTH_PX * 4.6 },
   { top: GRID_WIDTH_PX * 1.72, right: GRID_WIDTH_PX * 5.7 },
-  { top: GRID_WIDTH_PX * 1.28, right: GRID_WIDTH_PX * 6.9 },
+  { top: GRID_WIDTH_PX * 1.28, right: GRID_WIDTH_PX * 6.7 },
   { top: GRID_WIDTH_PX * 1.8, right: GRID_WIDTH_PX * 7.7 },
 ];
 
