@@ -150,7 +150,7 @@ import observatory from "src/assets/nfts/mom/observatory.gif";
 
 // Cakes
 import beetrootCake from "src/assets/nfts/cakes/beetroot_cake.png";
-import cabbageCake from "src/assets/nfts/cakes/_cake.png";
+import cabbageCake from "src/assets/nfts/cakes/cabbage_cake.png";
 import carrotCake from "src/assets/nfts/cakes/carrot_cake.png";
 import cauliflowerCake from "src/assets/nfts/cakes/cauliflower_cake.png";
 import parsnipCake from "src/assets/nfts/cakes/parsnip_cake.png";

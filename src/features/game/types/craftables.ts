@@ -29,6 +29,7 @@ export interface Craftable {
   name: CraftableName;
   description: string;
   price?: Decimal;
+  sellPrice?: Decimal;
   ingredients: Ingredient[];
   limit?: number;
   supply?: number;
@@ -36,8 +37,6 @@ export interface Craftable {
   requires?: InventoryItemName;
   section?: Section;
 }
-
-// NEW ===========
 
 export type Ingredient = {
   id?: number;
@@ -197,7 +196,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Sunflower Cake": {
     name: "Sunflower Cake",
     description: "Sunflower Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(240),
     ingredients: [
       {
@@ -217,7 +216,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Potato Cake": {
     name: "Potato Cake",
     description: "Potato Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(240),
     ingredients: [
       {
@@ -237,7 +236,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Pumpkin Cake": {
     name: "Pumpkin Cake",
     description: "Pumpkin Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(240),
     ingredients: [
       {
@@ -257,7 +256,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Carrot Cake": {
     name: "Carrot Cake",
     description: "Carrot Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(240),
     ingredients: [
       {
@@ -277,7 +276,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Cabbage Cake": {
     name: "Cabbage Cake",
     description: "Cabbage Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(240),
     ingredients: [
       {
@@ -297,7 +296,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Beetroot Cake": {
     name: "Beetroot Cake",
     description: "Beetroot Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(300),
     ingredients: [
       {
@@ -317,7 +316,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Cauliflower Cake": {
     name: "Cauliflower Cake",
     description: "Cauliflower Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(300),
     ingredients: [
       {
@@ -337,7 +336,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Parsnip Cake": {
     name: "Parsnip Cake",
     description: "Parsnip Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(300),
     ingredients: [
       {
@@ -357,7 +356,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Radish Cake": {
     name: "Radish Cake",
     description: "Radish Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(300),
     ingredients: [
       {
@@ -377,7 +376,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Wheat Cake": {
     name: "Wheat Cake",
     description: "Wheat Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(300),
     ingredients: [
       {

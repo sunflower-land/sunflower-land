@@ -12,8 +12,9 @@ import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CraftableItem } from "features/game/types/craftables";
+import { CAKES, CraftableItem } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
+import { CONFIG } from "lib/config";
 
 interface Props {
   items: Partial<Record<InventoryItemName, CraftableItem>>;
@@ -64,10 +65,15 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
     shortcutItem(selected.name);
   };
 
+  // Do not show cakes on mainnet
+  const validItems = Object.values(items).filter(
+    (item) => CONFIG.NETWORK === "mumbai" || !(item.name in CAKES())
+  );
+
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(items).map((item) => (
+        {validItems.map((item) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}
