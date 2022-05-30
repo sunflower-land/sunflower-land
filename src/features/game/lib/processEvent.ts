@@ -112,7 +112,6 @@ export function processEvent({
 }: ProcessEventArgs): GameState {
   const handler = EVENTS[action.type];
 
-  console.log({ onChain });
   if (!handler) {
     throw new Error(`Unknown event type: ${action}`);
   }
