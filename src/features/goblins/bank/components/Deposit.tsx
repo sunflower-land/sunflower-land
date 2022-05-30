@@ -147,17 +147,16 @@ export const Deposit: React.FC = () => {
 
       setShowLabel(true);
       setTooltipMessage("Copied!");
-
-      setTimeout(() => {
-        setShowLabel(false);
-        setTooltipMessage(TOOL_TIP_MESSAGE);
-      }, 2000);
     } catch (e: unknown) {
-      setTimeout(() => {
-        setShowLabel(false);
-        setTooltipMessage(typeof e === "string" ? e : "Copy Failed!");
-      }, 2000);
+      setShowLabel(true);
+      setTooltipMessage(typeof e === "string" ? e : "Copy Failed!");
     }
+
+    // Close tooltip after two seconds
+    setTimeout(() => {
+      setShowLabel(false);
+      setTooltipMessage(TOOL_TIP_MESSAGE);
+    }, 2000);
   };
 
   const showTokenInstructions = instructions === Instructions.token;
