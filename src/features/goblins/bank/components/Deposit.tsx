@@ -11,6 +11,7 @@ import alert from "assets/icons/expression_alerted.png";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
+import clipboard from "clipboard";
 
 const EyeSvg = () => (
   <svg
@@ -140,10 +141,20 @@ export const Deposit: React.FC = () => {
 
   const farmAddress = authState.context.address as string;
 
-  const copyToClipboard = async (): Promise<void> => {
-    await navigator.clipboard.writeText(farmAddress);
-    setTooltipMessage("Copied!");
+  const copyToClipboard = () => {
+    try {
+      clipboard.copy(farmAddress);
+
+      setShowLabel(true);
+      setTooltipMessage("Copied!");
+    } catch (e: unknown) {
+      setShowLabel(true);
+      setTooltipMessage(typeof e === "string" ? e : "Copy Failed!");
+    }
+
+    // Close tooltip after two seconds
     setTimeout(() => {
+      setShowLabel(false);
       setTooltipMessage(TOOL_TIP_MESSAGE);
     }, 2000);
   };
@@ -215,8 +226,13 @@ export const Deposit: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <div className="text-xs m-1">
+        Always double check the address before and after copying and pasting.
+      </div>
+
       {/* Instructions */}
-      <span className="text-base sm:text-lg block text-center mb-4 mt-6">
+      <span className="text-base sm:text-lg block text-center mb-4 mt-4">
         How to deposit?
       </span>
 
