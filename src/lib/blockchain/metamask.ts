@@ -348,7 +348,7 @@ export class Metamask {
         params: {
           type: "ERC20",
           options: {
-            address: CONFIG.SFL_ADDRESS,
+            address: CONFIG.TOKEN_CONTRACT,
             symbol: tokenSymbol,
             decimals: tokenDecimals,
             image:
