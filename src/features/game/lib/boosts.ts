@@ -1,11 +1,11 @@
 import { Inventory, InventoryItemName } from "../types/game";
-import { Crop } from "../types/crops";
 import { isSeed } from "../events/plant";
+import { SellableItem } from "../events/sell";
 
 /**
- * How much SFL a crop is worth
+ * How much SFL an item is worth
  */
-export const getSellPrice = (crop: Crop, inventory: Inventory) => {
+export const getSellPrice = (crop: SellableItem, inventory: Inventory) => {
   let price = crop.sellPrice;
 
   if (inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {

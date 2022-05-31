@@ -1,24 +1,29 @@
 import Decimal from "decimal.js-light";
 import { CropName, CROPS } from "../types/crops";
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState } from "../types/game";
 import { getSellPrice } from "../lib/boosts";
+import { Cake, CAKES } from "../types/craftables";
 
 export type SellAction = {
   type: "item.sell";
-  item: InventoryItemName;
+  item: SellableName;
   amount: number;
 };
 
-function isCrop(crop: InventoryItemName): crop is CropName {
-  return crop in CROPS();
-}
+export type SellableName = CropName | Cake;
+
+export type SellableItem = {
+  sellPrice: Decimal;
+};
+
+const SELLABLE = { ...CROPS(), ...CAKES() };
 
 type Options = {
   state: GameState;
   action: SellAction;
 };
 export function sell({ state, action }: Options): GameState {
-  if (!isCrop(action.item)) {
+  if (!(action.item in SELLABLE)) {
     throw new Error("Not for sale");
   }
 
@@ -26,7 +31,7 @@ export function sell({ state, action }: Options): GameState {
     throw new Error("Invalid amount");
   }
 
-  const crop = CROPS()[action.item];
+  const sellable = SELLABLE[action.item];
 
   const cropCount = state.inventory[action.item] || new Decimal(0);
 
@@ -34,7 +39,7 @@ export function sell({ state, action }: Options): GameState {
     throw new Error("Insufficient crops to sell");
   }
 
-  const price = getSellPrice(crop, state.inventory);
+  const price = getSellPrice(sellable as SellableItem, state.inventory);
 
   return {
     ...state,
@@ -43,7 +48,7 @@ export function sell({ state, action }: Options): GameState {
       .toDecimalPlaces(18, Decimal.ROUND_DOWN),
     inventory: {
       ...state.inventory,
-      [crop.name]: cropCount.sub(1 * action.amount),
+      [sellable.name]: cropCount.sub(1 * action.amount),
     },
   };
 }

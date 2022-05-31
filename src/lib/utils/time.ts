@@ -36,7 +36,7 @@ function getTimeUnits(seconds: number) {
 
 export function secondsToString(
   seconds: number,
-  options: TimeStringOptions = {}
+  options: TimeStringOptions = { seperator: "" }
 ) {
   const secondsCeil = Math.ceil(seconds);
   if (secondsCeil < ONE_MIN) {

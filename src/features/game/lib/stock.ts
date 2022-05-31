@@ -11,10 +11,5 @@ export function isExpired({ name, stockExpiry }: IsExpiredArgs) {
     return false;
   }
 
-  console.log({
-    name,
-    now: Date.now(),
-    time: new Date(stockExpiry[name] as string).getTime(),
-  });
   return Date.now() > new Date(stockExpiry[name] as string).getTime();
 }
