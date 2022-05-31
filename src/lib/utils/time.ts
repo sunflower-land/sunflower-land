@@ -5,9 +5,19 @@ const ONE_DAY = ONE_HR * 24;
 
 type TimeUnit = "sec" | "min" | "hr" | "day";
 
-function timeToStr(amount: number, unit: TimeUnit) {
+type TimeStringOptions = {
+  seperator?: string;
+};
+
+function timeToStr(
+  amount: number,
+  unit: TimeUnit,
+  options: TimeStringOptions = {
+    seperator: "",
+  }
+) {
   const pluralizedUnit = amount === 1 ? unit : `${unit}s`;
-  return `${amount}${pluralizedUnit}`;
+  return `${amount}${options.seperator}${pluralizedUnit}`;
 }
 
 function getTimeUnits(seconds: number) {
@@ -24,24 +34,27 @@ function getTimeUnits(seconds: number) {
   ].filter(Boolean);
 }
 
-export function secondsToString(seconds: number) {
+export function secondsToString(
+  seconds: number,
+  options: TimeStringOptions = {}
+) {
   const secondsCeil = Math.ceil(seconds);
   if (secondsCeil < ONE_MIN) {
-    return timeToStr(secondsCeil, "sec");
+    return timeToStr(secondsCeil, "sec", options);
   }
 
   if (seconds < ONE_HR) {
     const minutesCeil = Math.ceil(seconds / ONE_MIN);
-    return timeToStr(minutesCeil, "min");
+    return timeToStr(minutesCeil, "min", options);
   }
 
   if (seconds < ONE_DAY) {
     const hoursCeil = Math.ceil(seconds / ONE_HR);
-    return timeToStr(hoursCeil, "hr");
+    return timeToStr(hoursCeil, "hr", options);
   }
 
   const daysCeil = Math.ceil(seconds / ONE_DAY);
-  return timeToStr(daysCeil, "day");
+  return timeToStr(daysCeil, "day", options);
 }
 
 // first 2 units

@@ -147,6 +147,18 @@ export const INITIAL_FARM: GameState = {
     farming: new Decimal(0),
     gathering: new Decimal(0),
   },
+  stockExpiry: {
+    "Sunflower Cake": "2022-06-06",
+    "Potato Cake": "1970-01-01T00:00:00.000Z",
+    "Pumpkin Cake": "1970-01-01T00:00:00.000Z",
+    "Carrot Cake": "1970-01-01T00:00:00.000Z",
+    "Cabbage Cake": "1970-01-01T00:00:00.000Z",
+    "Beetroot Cake": "1970-01-01T00:00:00.000Z",
+    "Cauliflower Cake": "1970-01-01T00:00:00.000Z",
+    "Parsnip Cake": "1970-01-01T00:00:00.000Z",
+    "Radish Cake": "1970-01-01T00:00:00.000Z",
+    "Wheat Cake": "1970-01-01T00:00:00.000Z",
+  },
 };
 
 export const EMPTY: GameState = {
@@ -165,4 +177,5 @@ export const EMPTY: GameState = {
     farming: new Decimal(0),
     gathering: new Decimal(0),
   },
+  stockExpiry: {},
 };
