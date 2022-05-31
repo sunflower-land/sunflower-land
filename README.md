@@ -15,7 +15,11 @@ The goal of this project is to create a decentralized and community driven MetaV
 
 This repo includes the front-end game in which users can play and interact with the game on the Polygon Network and off chain data.
 
-Looking to help out? Read our contributing Guidelines - https://github.com/sunflower-land/sunflower-land/blob/main/docs/CONTRIBUTING.md
+Looking to help out? Read our contributing docs - https://github.com/sunflower-land/sunflower-land/blob/main/docs/CONTRIBUTING.md
+
+By contributing you agree to our terms and services - https://docs.sunflower-land.com/support/terms-of-service
+
+
 
 # Website | Official Links
 
@@ -105,3 +109,5 @@ Tailwind is our CSS tool of choice. It enables us to:
 The previous version was used in unethically on other Blockchains. The team is working on deciding the licence that will best suit our community. Until then, the code falls under No Licence and cannot be reused.
 
 All media assets (images and music) are not available for use in commercial or private projects.
+
+If you plan on using the repo's assets you must seek permission from the Intellectual property or licence holder. For artists wishing to extend the base asset pack, you must download the SunnySide asset pack listed in the Art contributing docs.
