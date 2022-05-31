@@ -16,6 +16,7 @@ import {
   BLACKSMITH_ITEMS,
   BARN_ITEMS,
   MARKET_ITEMS,
+  ROCKET_ITEMS,
   getKeys,
 } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
@@ -64,7 +65,13 @@ const BASKET_CATEGORIES: TabItems = {
 const COLLECTIBLE_CATEGORIES: TabItems = {
   NFTs: {
     img: nft,
-    items: { ...BLACKSMITH_ITEMS, ...BARN_ITEMS, ...MARKET_ITEMS, ...FLAGS },
+    items: {
+      ...BLACKSMITH_ITEMS,
+      ...BARN_ITEMS,
+      ...MARKET_ITEMS,
+      ...FLAGS,
+      ...ROCKET_ITEMS,
+    },
   },
   Foods: {
     img: food,
