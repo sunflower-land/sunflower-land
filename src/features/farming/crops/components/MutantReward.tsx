@@ -105,9 +105,9 @@ export const MutantReward: React.FC<Props> = ({
             <img src={mutantCrop?.image} className="w-full opacity-20" />
             <img src={questionMark} className="absolute w-10 top-10 left-14" />
           </div>
-          <a className="text-sm text-center mb-2 ">
+          <span className="text-sm text-center mb-2 ">
             The mutant crop ran away. Better luck next time!
-          </a>
+          </span>
           <Button onClick={onClose}>Continue</Button>
         </div>
       );

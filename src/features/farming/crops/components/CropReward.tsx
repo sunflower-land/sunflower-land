@@ -39,8 +39,9 @@ export const CropReward: React.FC<Props> = ({
   const offset = useRef(randomIntFromInterval(30, 100));
   const id = useRef(RandomID());
 
+  const isMutant = reward?.items[0].name === "Mutant Crop";
   useEffect(() => {
-    if (reward) {
+    if (reward && !isMutant) {
       addNoise(id.current);
     }
   }, [reward]);
@@ -59,7 +60,7 @@ export const CropReward: React.FC<Props> = ({
     setOpened(false);
   };
 
-  if (reward.items[0].name === "Mutant Crop") {
+  if (isMutant) {
     return (
       <MutantReward fieldIndex={fieldIndex} onClose={onCollected} crop={crop} />
     );

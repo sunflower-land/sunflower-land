@@ -29,6 +29,7 @@ type Request = {
 const API_URL = CONFIG.API_URL;
 
 async function harvestMutantCropRequest(request: Request) {
+  console.log({ request });
   const response = await window.fetch(
     `${API_URL}/mutant-crop/${request.farmId}`,
     {
@@ -43,10 +44,12 @@ async function harvestMutantCropRequest(request: Request) {
     }
   );
 
+  console.log({ response });
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
+  // Rotten crop or unlucky
   if (response.status !== 200 || !response.ok) {
     return null;
   }
@@ -76,24 +79,29 @@ const CROP_IDS: Record<CropName, number> = {
  * Not everyone getting this far will be succesful
  */
 export async function harvestMutantCrop(request: Request) {
-  const totalSupply = await metamask.getMutantCrops().totalSupply();
+  try {
+    const totalSupply = await metamask.getMutantCrops().totalSupply();
+    console.log({ totalSupply });
+    const cropId = CROP_IDS[request.crop];
+    const canCraft = Number(totalSupply) % 10 === cropId;
+    console.log({ canCraft });
 
-  const cropId = CROP_IDS[request.crop];
-  const canCraft = Number(totalSupply) % 10 === cropId;
+    if (!canCraft) {
+      return null;
+    }
 
-  if (!canCraft) {
+    const transaction = await harvestMutantCropRequest(request);
+    console.log({ transaction });
+    if (!transaction) {
+      return null;
+    }
+
+    await metamask.getMutantCrops().mint(transaction);
+
+    const id = totalSupply + 1;
+    const metadata = await loadMutantCropMetadata(id);
+    return { id, image: metadata.image };
+  } catch {
     return null;
   }
-
-  const transaction = await harvestMutantCropRequest(request);
-
-  if (!transaction) {
-    return null;
-  }
-
-  await metamask.getMutantCrops().mint(transaction);
-
-  const id = totalSupply + 1;
-  const metadata = await loadMutantCropMetadata(id);
-  return { id, image: metadata.image };
 }
