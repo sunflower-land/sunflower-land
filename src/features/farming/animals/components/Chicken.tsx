@@ -49,7 +49,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
 
   const chicken = state.chickens[index];
 
-  const chickenContext: Partial<ChickenContext> = {
+  const chickenContext: Partial<ChickenContext> | undefined = chicken && {
     timeToEgg: chicken && getSecondsToEgg(chicken.fedAt),
     isFed: true,
   };
@@ -57,9 +57,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   // useInterpret returns a static reference (to just the interpreted machine) which will not rerender when its state changes
   const service = useInterpret(chickenMachine, {
     // If chicken is already brewing an egg then add that to the chicken machine context
-    ...(chicken && {
-      context: chickenContext,
-    }),
+    context: chickenContext,
   });
 
   // As per xstate docs:
@@ -71,6 +69,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const eggReady = useSelector(service, isEggReady);
   const eggLaid = useSelector(service, isEggLaid);
 
+  // Popover is to indicate when player has no wheat or when wheat is not selected.
   const [showPopover, setShowPopover] = useState(false);
 
   const feed = async () => {
@@ -193,14 +192,6 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             className="absolute w-16 h-16 top-[2px]"
           />
         )}
-        {/* {layingEgg && (
-          <img
-            src={layingEggChicken}
-            alt="laying-egg"
-            className="absolute w-16 cursor-pointer hover:img-highlight h-auto -top-7"
-            onClick={collectEgg}
-          />
-        )} */}
         {eggReady && (
           <Spritesheet
             className="absolute cursor-pointer hover:img-highlight"
@@ -208,7 +199,6 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
               top: "-14px",
               left: "16px",
               imageRendering: "pixelated",
-              // width: `${GRID_WIDTH_PX * 0.9}px`,
             }}
             image={layingEggSheet}
             widthFrame={34}
@@ -242,8 +232,6 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             onClick={collectEgg}
           />
         )}
-
-        {/* <p style={{ fontSize: 10 }}>{index}</p> */}
       </div>
     </div>
   );
