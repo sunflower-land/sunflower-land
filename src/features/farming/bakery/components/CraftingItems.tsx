@@ -4,6 +4,7 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.gif";
+import tokenStatic from "assets/icons/token.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -46,12 +47,17 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
       item: selected.name,
       amount,
     });
-    setToast({ content: "SFL -$" + selected.tokenAmount?.mul(amount) });
+
+    setToast({
+      icon: tokenStatic,
+      content: `-${selected.tokenAmount?.mul(amount)}`,
+    });
+
     selected.ingredients?.map((ingredient) => {
       const item = ITEM_DETAILS[ingredient.item];
       setToast({
         icon: item.image,
-        content: " -" + ingredient.amount.mul(amount),
+        content: `-${ingredient.amount.mul(amount)}`,
       });
     });
 

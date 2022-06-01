@@ -10,6 +10,7 @@ import layingEggSheet from "assets/animals/chickens/laying-egg-sheet.png";
 import wheatOnGround from "assets/animals/chickens/wheat.png";
 import cancel from "assets/icons/cancel.png";
 import wheat from "assets/crops/wheat/crop.png";
+import egg from "assets/resources/egg.png";
 
 import { Context } from "features/game/GameProvider";
 import {
@@ -21,6 +22,7 @@ import { Position } from "./Chickens";
 import { getSecondsToEgg } from "features/game/events/collectEgg";
 import Spritesheet from "components/animation/SpriteAnimator";
 import { POPOVER_TIME_MS } from "features/game/lib/constants";
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 interface Props {
   index: number;
@@ -41,6 +43,8 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
       context: { state },
     },
   ] = useActor(gameService);
+
+  const { setToast } = useContext(ToastContext);
 
   const chicken = state.chickens[index];
 
@@ -97,6 +101,11 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
     });
 
     service.send("COLLECT");
+
+    setToast({
+      icon: egg,
+      content: `+${chicken.multiplier}`,
+    });
   };
 
   return (

@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.gif";
 import lightning from "assets/icons/lightning.png";
+import tokenStatic from "assets/icons/token.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -37,7 +38,8 @@ export const Plants: React.FC = () => {
       amount,
     });
     setToast({
-      content: "SFL +$" + displaySellPrice(selected).mul(amount).toString(),
+      icon: tokenStatic,
+      content: `+${displaySellPrice(selected).mul(amount).toString()}`,
     });
   };
 

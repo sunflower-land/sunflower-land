@@ -5,6 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { CONFIG } from "lib/config";
 
 import token from "assets/icons/token.gif";
+import tokenStatic from "assets/icons/token.png";
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
 
@@ -54,7 +55,12 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       item: selected.name,
       amount,
     });
-    setToast({ content: "SFL -$" + price?.mul(amount).toString() });
+
+    setToast({
+      icon: tokenStatic,
+      content: `-${price?.mul(amount).toString()}`,
+    });
+
     shortcutItem(selected.name);
   };
 

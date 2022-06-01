@@ -19,7 +19,7 @@ import happyChicken from "assets/animals/chickens/happy.gif";
 import walkingChicken from "assets/animals/chickens/walking.gif";
 import sleepingChicken from "assets/animals/chickens/sleeping.gif";
 import layingEggSheet from "assets/animals/chickens/laying-egg-sheet.png";
-import wheat from "assets/animals/chickens/wheat.png";
+import egg from "assets/resources/egg.png";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -41,7 +41,7 @@ const IMAGE_LIST: string[] = [
   walkingChicken,
   sleepingChicken,
   layingEggSheet,
-  wheat,
+  egg,
 ];
 
 function preloadImage(src: string) {

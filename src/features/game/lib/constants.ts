@@ -149,7 +149,7 @@ export const INITIAL_FARM: GameState = {
     },
     1: {
       fedAt: Date.now() - (CHICKEN_FEEDING_TIME + 5000),
-      multiplier: 1,
+      multiplier: 1.25,
     },
   },
   skills: {
