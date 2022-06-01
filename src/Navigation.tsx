@@ -10,6 +10,7 @@ import { Humans } from "features/game/Humans";
 import { Goblins } from "features/game/Goblins";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { Visiting } from "features/game/Visiting";
+import { useImagePreloader } from "features/auth/useImagePreloader";
 
 /**
  * Entry point for game which reflects the user session state
@@ -19,6 +20,7 @@ export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
   const [showGame, setShowGame] = useState(false);
+  useImagePreloader();
 
   /**
    * Listen to web3 account/chain changes

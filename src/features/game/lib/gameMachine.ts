@@ -321,7 +321,6 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        // minting
         syncing: {
           invoke: {
             src: async (context, event) => {
