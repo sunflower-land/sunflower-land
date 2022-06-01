@@ -23,6 +23,7 @@ import { getSecondsToEgg } from "features/game/events/collectEgg";
 import Spritesheet from "components/animation/SpriteAnimator";
 import { POPOVER_TIME_MS } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
+import Decimal from "decimal.js-light";
 
 interface Props {
   index: number;
@@ -73,7 +74,9 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const [showPopover, setShowPopover] = useState(false);
 
   const feed = async () => {
-    if (selectedItem !== "Wheat") {
+    const wheatAmount = state.inventory.Wheat ?? new Decimal(0);
+
+    if (selectedItem !== "Wheat" || wheatAmount.lt(1)) {
       setShowPopover(true);
       await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
       setShowPopover(false);
@@ -81,12 +84,14 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
     }
 
     const {
-      context: { state },
+      context: {
+        state: { chickens },
+      },
     } = gameService.send("chicken.feed", {
       index,
     });
 
-    const chicken = state.chickens[index];
+    const chicken = chickens[index];
 
     service.send("FEED", {
       timeToEgg: getSecondsToEgg(chicken.fedAt),
