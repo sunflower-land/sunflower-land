@@ -72,10 +72,15 @@ export const createRocketMachine = ({
         loading: {
           invoke: {
             src: async () => {
-              const isComplete = await metamask
+              const moMMissionComplete = await metamask
                 .getMillionOnMars()
                 .hasCompletedMission();
-              return { isComplete };
+
+              const sunflowerMissionComplete = !!inventory["Engine Core"];
+
+              return {
+                isComplete: moMMissionComplete && sunflowerMissionComplete,
+              };
             },
             onDone: [
               {
