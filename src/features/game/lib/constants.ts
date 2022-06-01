@@ -134,23 +134,14 @@ export const INITIAL_FARM: GameState = {
     "Roasted Cauliflower": new Decimal(1),
     Sauerkraut: new Decimal(1),
     Wheat: new Decimal(20),
-    Chicken: new Decimal(10),
+    Chicken: new Decimal(3),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,
   iron: INITIAL_IRON,
   gold: INITIAL_GOLD,
-  chickens: {
-    0: {
-      fedAt: Date.now() - 30 * 1000,
-      multiplier: 1,
-    },
-    1: {
-      fedAt: Date.now() - (CHICKEN_FEEDING_TIME + 5000),
-      multiplier: 1.25,
-    },
-  },
+  chickens: {},
   skills: {
     farming: new Decimal(0),
     gathering: new Decimal(0),

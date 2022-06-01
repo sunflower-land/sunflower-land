@@ -31,7 +31,7 @@ interface Props {
 }
 
 const isHungry = (state: MachineState) => state.matches("hungry");
-const isEating = (state: MachineState) => state.matches({ fed: "eating" });
+const isEating = (state: MachineState) => state.matches("eating");
 const isSleeping = (state: MachineState) => state.matches({ fed: "sleeping" });
 const isHappy = (state: MachineState) => state.matches({ fed: "happy" });
 const isEggReady = (state: MachineState) => state.matches("eggReady");

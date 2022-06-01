@@ -13,8 +13,8 @@ export interface ChickenContext {
 export type ChickenState = {
   value:
     | "hungry"
+    | "eating"
     | "fed"
-    | { fed: "eating" }
     | { fed: "sleeping" }
     | { fed: "happy" }
     | "eggReady"
@@ -38,11 +38,6 @@ export type MachineState = State<ChickenContext, ChickenEvent, ChickenState>;
 function getRndInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-const assignTimeInState = (seconds: number) =>
-  assign<ChickenContext, any>({
-    timeInCurrentState: (context) => context.timeElapsed + seconds,
-  });
 
 const assignRandomTimeInState = assign<ChickenContext, any>({
   timeInCurrentState: (context) => context.timeElapsed + getRndInteger(7, 21),
@@ -88,19 +83,27 @@ export const chickenMachine = createMachine<
             target: "eggReady",
             cond: (context) => context.timeToEgg === 0,
           },
-          { target: "fed" },
+          { target: "fed", actions: assignRandomTimeInState },
         ],
       },
       hungry: {
         on: {
           FEED: {
+            target: "eating",
+            actions: assignFeedDetails,
+          },
+        },
+      },
+      eating: {
+        after: {
+          7000: {
             target: "fed",
-            actions: [assignFeedDetails, assignTimeInState(7)],
+            actions: assignRandomTimeInState,
           },
         },
       },
       fed: {
-        initial: "loading",
+        initial: "happy",
         invoke: {
           src: () => (cb) => {
             const interval = setInterval(() => {
@@ -113,24 +116,6 @@ export const chickenMachine = createMachine<
           },
         },
         states: {
-          loading: {
-            always: [
-              {
-                target: "eating",
-                cond: (context) => context.timeElapsed === 0,
-              },
-              {
-                target: "happy",
-              },
-            ],
-          },
-          eating: {
-            always: {
-              target: "happy",
-              cond: "timeToTransition",
-              actions: assignRandomTimeInState,
-            },
-          },
           happy: {
             id: "happy",
             always: [
@@ -154,7 +139,7 @@ export const chickenMachine = createMachine<
               {
                 target: "happy",
                 cond: "timeToTransition",
-                actions: assignTimeInState,
+                actions: assignRandomTimeInState,
               },
             ],
           },
