@@ -1,7 +1,7 @@
 import { CHICKEN_FEEDING_TIME } from "features/game/lib/constants";
 import { assign, createMachine, State } from "xstate";
 
-const INTERVAL = 1; // 1 second
+const TICK_INTERVAL = 1; // 1 second
 
 export interface ChickenContext {
   timeElapsed: number;
@@ -39,8 +39,13 @@ function getRndInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const assignTimeInState = assign<ChickenContext, any>({
-  timeInCurrentState: (context) => context.timeElapsed + getRndInteger(10, 15),
+const assignTimeInState = (seconds: number) =>
+  assign<ChickenContext, any>({
+    timeInCurrentState: (context) => context.timeElapsed + seconds,
+  });
+
+const assignRandomTimeInState = assign<ChickenContext, any>({
+  timeInCurrentState: (context) => context.timeElapsed + getRndInteger(7, 21),
 });
 
 const reset = assign<ChickenContext, any>({
@@ -56,7 +61,7 @@ const assignFeedDetails = assign<ChickenContext, ChickenFeedEvent>({
 });
 
 const assignTimeElapsed = assign<ChickenContext, any>({
-  timeElapsed: (context) => context.timeElapsed + INTERVAL,
+  timeElapsed: (context) => context.timeElapsed + TICK_INTERVAL,
 });
 
 export const chickenMachine = createMachine<
@@ -90,7 +95,7 @@ export const chickenMachine = createMachine<
         on: {
           FEED: {
             target: "fed",
-            actions: [assignFeedDetails, assignTimeInState],
+            actions: [assignFeedDetails, assignTimeInState(7)],
           },
         },
       },
@@ -100,7 +105,7 @@ export const chickenMachine = createMachine<
           src: () => (cb) => {
             const interval = setInterval(() => {
               cb("TICK");
-            }, 1000 * INTERVAL);
+            }, TICK_INTERVAL * 1000);
 
             return () => {
               clearInterval(interval);
@@ -123,7 +128,7 @@ export const chickenMachine = createMachine<
             always: {
               target: "happy",
               cond: "timeToTransition",
-              actions: assignTimeInState,
+              actions: assignRandomTimeInState,
             },
           },
           happy: {
@@ -136,7 +141,7 @@ export const chickenMachine = createMachine<
               {
                 target: "sleeping",
                 cond: "timeToTransition",
-                actions: assignTimeInState,
+                actions: assignRandomTimeInState,
               },
             ],
           },

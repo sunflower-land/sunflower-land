@@ -55,7 +55,6 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
 
   // useInterpret returns a static reference (to just the interpreted machine) which will not rerender when its state changes
   const service = useInterpret(chickenMachine, {
-    devTools: true,
     // If chicken is already brewing an egg then add that to the chicken machine context
     ...(chicken && {
       context: chickenContext,
