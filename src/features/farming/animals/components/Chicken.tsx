@@ -1,40 +1,40 @@
 import { useActor, useInterpret, useSelector } from "@xstate/react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import classNames from "classnames";
 
-import hungryActiveChicken from "assets/animals/chickens/hungry.gif";
-import hungryStaticChicken from "assets/animals/chickens/hungry-static.png";
-import happyActiveChicken from "assets/animals/chickens/happy.gif";
-import happyStaticChicken from "assets/animals/chickens/happy-static.png";
+import hungryChicken from "assets/animals/chickens/hungry.gif";
+import happyChicken from "assets/animals/chickens/happy.gif";
 import walkingChicken from "assets/animals/chickens/walking.gif";
-import eggReadyChicken from "assets/animals/chickens/egg-ready.png";
 import sleepingChicken from "assets/animals/chickens/sleeping.gif";
 import layingEggSheet from "assets/animals/chickens/laying-egg-sheet.png";
 import wheat from "assets/animals/chickens/wheat.png";
+import cancel from "assets/icons/cancel.png";
+
 import { Context } from "features/game/GameProvider";
-import { chickenMachine, MachineState } from "../chickenMachine";
+import {
+  ChickenContext,
+  chickenMachine,
+  MachineState,
+} from "../chickenMachine";
 import { Position } from "./Chickens";
 import { getSecondsToEgg } from "features/game/events/collectEgg";
 import Spritesheet from "components/animation/SpriteAnimator";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { POPOVER_TIME_MS } from "features/game/lib/constants";
 
 interface Props {
   index: number;
   position: Position;
 }
 
-const isHungryActive = (state: MachineState) => state.matches("hungryActive");
-const isHungryStatic = (state: MachineState) => state.matches("hungryStatic");
+const isHungry = (state: MachineState) => state.matches("hungry");
 const isEating = (state: MachineState) => state.matches({ fed: "eating" });
-const isHappyActive = (state: MachineState) =>
-  state.matches({ fed: "happyActive" });
-const isHappyStatic = (state: MachineState) =>
-  state.matches({ fed: "happyStatic" });
 const isSleeping = (state: MachineState) => state.matches({ fed: "sleeping" });
-const isLayingEgg = (state: MachineState) => state.matches("layingEgg");
+const isHappy = (state: MachineState) => state.matches({ fed: "happy" });
 const isEggReady = (state: MachineState) => state.matches("eggReady");
+const isEggLaid = (state: MachineState) => state.matches("eggLaid");
 
 export const Chicken: React.FC<Props> = ({ index, position }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, selectedItem } = useContext(Context);
   const [
     {
       context: { state },
@@ -43,27 +43,39 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
 
   const chicken = state.chickens[index];
 
+  const chickenContext: Partial<ChickenContext> = {
+    timeToEgg: chicken && getSecondsToEgg(chicken.fedAt),
+    isFed: true,
+  };
+
   // useInterpret returns a static reference (to just the interpreted machine) which will not rerender when its state changes
   const service = useInterpret(chickenMachine, {
     devTools: true,
     // If chicken is already brewing an egg then add that to the chicken machine context
     ...(chicken && {
-      context: { timeToEgg: getSecondsToEgg(chicken.fedAt), isFed: true },
+      context: chickenContext,
     }),
   });
 
   // As per xstate docs:
   // To use a piece of state from the service inside a render, use the useSelector(...) hook to subscribe to it
-  const hungryActive = useSelector(service, isHungryActive);
-  const hungryStatic = useSelector(service, isHungryStatic);
+  const hungry = useSelector(service, isHungry);
   const eating = useSelector(service, isEating);
-  const happyActive = useSelector(service, isHappyActive);
-  const happyStatic = useSelector(service, isHappyStatic);
   const sleeping = useSelector(service, isSleeping);
-  const layingEgg = useSelector(service, isLayingEgg);
+  const happy = useSelector(service, isHappy);
   const eggReady = useSelector(service, isEggReady);
+  const eggLaid = useSelector(service, isEggLaid);
 
-  const feed = () => {
+  const [showPopover, setShowPopover] = useState(false);
+
+  const feed = async () => {
+    if (selectedItem !== "Wheat") {
+      setShowPopover(true);
+      await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
+      setShowPopover(false);
+      return;
+    }
+
     const {
       context: { state },
     } = gameService.send("chicken.feed", {
@@ -96,21 +108,31 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
       }}
     >
       <div className="relative w-16 h-16">
-        {hungryActive && (
-          <img
-            src={hungryActiveChicken}
-            alt="hungry-chicken"
-            onClick={feed}
-            className="w-16 h-16 cursor-pointer hover:img-highlight"
-          />
-        )}
-        {hungryStatic && (
-          <img
-            src={hungryStaticChicken}
-            alt="hungry-chicken"
-            onClick={feed}
-            className="w-16 h-16 cursor-pointer hover:img-highlight"
-          />
+        {hungry && (
+          <>
+            <img
+              src={hungryChicken}
+              alt="hungry-chicken"
+              onClick={feed}
+              className="absolute w-16 h-16 cursor-pointer hover:img-highlight"
+            />
+            <div
+              className={classNames(
+                "transition-opacity absolute z-20 pointer-events-none ",
+                {
+                  "opacity-100": showPopover,
+                  "opacity-0": !showPopover,
+                }
+              )}
+              style={{
+                bottom: "9px",
+                left: "45.5%",
+                transform: "translateX(-50%)",
+              }}
+            >
+              <img className="w-3" src={cancel} />
+            </div>
+          </>
         )}
         {eating && (
           <div className="relative w-16 h-16" id="test">
@@ -127,16 +149,9 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             />
           </div>
         )}
-        {happyActive && (
+        {happy && (
           <img
-            src={happyActiveChicken}
-            alt="happy-chicken"
-            className="absolute w-16 h-16"
-          />
-        )}
-        {happyStatic && (
-          <img
-            src={happyStaticChicken}
+            src={happyChicken}
             alt="happy-chicken"
             className="absolute w-16 h-16"
           />
@@ -156,34 +171,48 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             onClick={collectEgg}
           />
         )} */}
-        {layingEgg && (
+        {eggReady && (
           <Spritesheet
-            className="absolute -top-7 cursor-pointer hover:img-highlight"
+            className="absolute cursor-pointer hover:img-highlight"
             style={{
-              width: `${GRID_WIDTH_PX}px`,
-              top: "-15px",
-              left: "11px",
+              top: "-14px",
+              left: "16px",
               imageRendering: "pixelated",
-              transform: "scale(.9)",
+              // width: `${GRID_WIDTH_PX * 0.9}px`,
             }}
             image={layingEggSheet}
-            widthFrame={19}
-            heightFrame={34}
-            fps={10}
-            steps={25}
+            widthFrame={34}
+            heightFrame={62}
+            fps={3}
+            steps={21}
+            endAt={7}
             direction={`forward`}
             autoplay={true}
-            onPause={() => service.send("LAID")}
+            loop={true}
+            onClick={() => service.send("LAY")}
           />
         )}
-        {eggReady && (
-          <img
-            src={eggReadyChicken}
-            alt="egg-ready"
-            className="absolute w-16 h-auto cursor-pointer hover:img-highlight -top"
+
+        {eggLaid && (
+          <Spritesheet
+            image={layingEggSheet}
+            className="absolute cursor-pointer hover:img-highlight"
+            style={{
+              top: "-14px",
+              left: "16px",
+              imageRendering: "pixelated",
+            }}
+            widthFrame={34}
+            heightFrame={62}
+            fps={20}
+            steps={21}
+            direction={`forward`}
+            autoplay={true}
+            loop={false}
             onClick={collectEgg}
           />
         )}
+
         {/* <p style={{ fontSize: 10 }}>{index}</p> */}
       </div>
     </div>

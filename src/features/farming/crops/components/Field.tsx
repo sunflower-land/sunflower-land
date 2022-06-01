@@ -10,13 +10,11 @@ import { InventoryItemName, Reward } from "features/game/types/game";
 
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { Soil } from "./Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "./CropReward";
-
-const POPOVER_TIME_MS = 1000;
 
 interface Props {
   selectedItem?: InventoryItemName;

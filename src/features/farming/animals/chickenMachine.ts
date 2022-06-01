@@ -3,7 +3,7 @@ import { assign, createMachine, State } from "xstate";
 
 const INTERVAL = 1; // 1 second
 
-interface ChickenContext {
+export interface ChickenContext {
   timeElapsed: number;
   timeToEgg: number;
   timeInCurrentState: number;
@@ -16,12 +16,9 @@ export type ChickenState = {
     | "fed"
     | { fed: "eating" }
     | { fed: "sleeping" }
-    | { fed: "walking" }
     | { fed: "happy" }
-    | { fed: "happyStatic" }
-    | { fed: "happyActive" }
-    | "layingEgg"
-    | "eggReady";
+    | "eggReady"
+    | "eggLaid";
   context: ChickenContext;
 };
 
@@ -34,7 +31,7 @@ type ChickenEvent =
   | ChickenFeedEvent
   | { type: "COLLECT" }
   | { type: "TICK" }
-  | { type: "LAID" };
+  | { type: "LAY" };
 
 export type MachineState = State<ChickenContext, ChickenEvent, ChickenState>;
 
@@ -43,15 +40,7 @@ function getRndInteger(min: number, max: number) {
 }
 
 const assignTimeInState = assign<ChickenContext, any>({
-  timeInCurrentState: (context) => {
-    let timeInState = context.timeElapsed + getRndInteger(10, 15);
-
-    if (timeInState > context.timeToEgg) {
-      timeInState = context.timeToEgg;
-    }
-
-    return timeInState;
-  },
+  timeInCurrentState: (context) => context.timeElapsed + getRndInteger(10, 15),
 });
 
 const reset = assign<ChickenContext, any>({
@@ -98,25 +87,6 @@ export const chickenMachine = createMachine<
         ],
       },
       hungry: {
-        always: [
-          {
-            target: "hungryActive",
-            cond: "randomNumberIsEven",
-          },
-          {
-            target: "hungryStatic",
-          },
-        ],
-      },
-      hungryActive: {
-        on: {
-          FEED: {
-            target: "fed",
-            actions: [assignFeedDetails, assignTimeInState],
-          },
-        },
-      },
-      hungryStatic: {
         on: {
           FEED: {
             target: "fed",
@@ -160,36 +130,8 @@ export const chickenMachine = createMachine<
             id: "happy",
             always: [
               {
-                target: "#layingEgg",
-                cond: "timeToTransition",
-              },
-              {
-                target: "happyActive",
-                cond: "randomNumberIsEven",
-              },
-              {
-                target: "happyStatic",
-              },
-            ],
-          },
-          happyActive: {
-            always: [
-              {
-                target: "#layingEgg",
-                cond: "readyToLay",
-              },
-              {
-                target: "sleeping",
-                cond: "timeToTransition",
-                actions: assignTimeInState,
-              },
-            ],
-          },
-          happyStatic: {
-            always: [
-              {
-                target: "#layingEgg",
-                cond: "readyToLay",
+                target: "#eggReady",
+                cond: "isEggReady",
               },
               {
                 target: "sleeping",
@@ -201,8 +143,8 @@ export const chickenMachine = createMachine<
           sleeping: {
             always: [
               {
-                target: "#layingEgg",
-                cond: "readyToLay",
+                target: "#eggReady",
+                cond: "isEggReady",
               },
               {
                 target: "happy",
@@ -218,19 +160,15 @@ export const chickenMachine = createMachine<
           },
         },
       },
-      layingEgg: {
-        id: "layingEgg",
+      eggReady: {
+        id: "eggReady",
         on: {
-          LAID: {
-            target: "eggReady",
-          },
-          COLLECT: {
-            target: "hungry",
-            actions: reset,
+          LAY: {
+            target: "eggLaid",
           },
         },
       },
-      eggReady: {
+      eggLaid: {
         on: {
           COLLECT: {
             target: "hungry",
@@ -242,12 +180,9 @@ export const chickenMachine = createMachine<
   },
   {
     guards: {
-      readyToLay: (context) => context.timeElapsed >= context.timeToEgg,
-      eggIsReady: (context) => context.timeElapsed === 0,
+      isEggReady: (context) => context.timeElapsed >= context.timeToEgg,
       timeToTransition: (context) =>
         context.timeElapsed > context.timeInCurrentState,
-      // Used to randommise the transitions
-      randomNumberIsEven: () => getRndInteger(1, 5) % 2 === 0,
     },
   }
 );
