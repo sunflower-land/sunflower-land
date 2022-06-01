@@ -536,9 +536,9 @@ export const Decorations: React.FC<Props> = ({ state }) => (
     {state.inventory["Observatory"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2.5}px`,
-          left: `${GRID_WIDTH_PX * 20}px`,
-          top: `${GRID_WIDTH_PX * 5}px`,
+          width: `${GRID_WIDTH_PX * 2.75}px`,
+          left: `${GRID_WIDTH_PX * 47.5}px`,
+          top: `${GRID_WIDTH_PX * 1.2}px`,
         }}
         id={Section.Observatory}
         className="absolute"
