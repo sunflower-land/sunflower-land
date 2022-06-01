@@ -7,8 +7,9 @@ import happyChicken from "assets/animals/chickens/happy.gif";
 import walkingChicken from "assets/animals/chickens/walking.gif";
 import sleepingChicken from "assets/animals/chickens/sleeping.gif";
 import layingEggSheet from "assets/animals/chickens/laying-egg-sheet.png";
-import wheat from "assets/animals/chickens/wheat.png";
+import wheatOnGround from "assets/animals/chickens/wheat.png";
 import cancel from "assets/icons/cancel.png";
+import wheat from "assets/crops/wheat/crop.png";
 
 import { Context } from "features/game/GameProvider";
 import {
@@ -125,19 +126,35 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
                 }
               )}
               style={{
-                bottom: "9px",
-                left: "45.5%",
+                top: "18px",
+                left: "29px",
                 transform: "translateX(-50%)",
               }}
             >
               <img className="w-3" src={cancel} />
+            </div>
+            <div
+              className={classNames(
+                "transition-opacity absolute z-10 pointer-events-none ",
+                {
+                  "opacity-100": showPopover,
+                  "opacity-0": !showPopover,
+                }
+              )}
+              style={{
+                top: "8px",
+                left: "35px",
+                transform: "translateX(-50%)",
+              }}
+            >
+              <img className="w-5" src={wheat} />
             </div>
           </>
         )}
         {eating && (
           <div className="relative w-16 h-16" id="test">
             <img
-              src={wheat}
+              src={wheatOnGround}
               alt="wheat-on-ground"
               className="absolute w-16 top-8 -left-[6px]"
             />
