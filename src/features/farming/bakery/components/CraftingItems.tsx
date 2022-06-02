@@ -153,7 +153,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
               <img src={stopwatch} className="w-4  absolute left-0 -top-4" />
               <span className="bg-blue-600 border  text-xxs absolute left-5 -top-4 p-1 rounded-md">
                 {`${secondsToString(secondsLeft as number, {
-                  seperator: " ",
+                  separator: " ",
                 })} left`}
               </span>
             </>

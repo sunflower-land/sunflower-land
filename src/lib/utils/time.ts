@@ -6,18 +6,18 @@ const ONE_DAY = ONE_HR * 24;
 type TimeUnit = "sec" | "min" | "hr" | "day";
 
 type TimeStringOptions = {
-  seperator?: string;
+  separator?: string;
 };
 
 function timeToStr(
   amount: number,
   unit: TimeUnit,
   options: TimeStringOptions = {
-    seperator: "",
+    separator: "",
   }
 ) {
   const pluralizedUnit = amount === 1 ? unit : `${unit}s`;
-  return `${amount}${options.seperator}${pluralizedUnit}`;
+  return `${amount}${options.separator}${pluralizedUnit}`;
 }
 
 function getTimeUnits(seconds: number) {
@@ -36,7 +36,7 @@ function getTimeUnits(seconds: number) {
 
 export function secondsToString(
   seconds: number,
-  options: TimeStringOptions = { seperator: "" }
+  options: TimeStringOptions = { separator: "" }
 ) {
   const secondsCeil = Math.ceil(seconds);
   if (secondsCeil < ONE_MIN) {
