@@ -55,7 +55,7 @@ interface TimeToEggProps {
 
 const TimeToEgg = ({ timeToEgg, showTimeToEgg }: TimeToEggProps) => {
   const [timeLeft, setTimeLeft] = useState(timeToEgg);
-
+  // Only use interval counter for the ui if the popover is showing
   useInterval(() => setTimeLeft((time) => time - 1), 1000);
 
   return (
@@ -117,7 +117,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const eggLaid = useSelector(service, isEggLaid);
 
   const eggIsBrewing = happy || sleeping;
-  const showProgress = chicken && !eating && !eggLaid;
+  const showEggProgress = chicken && !eating && !eggLaid;
 
   // Popover is to indicate when player has no wheat or when wheat is not selected.
   const [showPopover, setShowPopover] = useState(false);
@@ -299,7 +299,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
           timeToEgg={getSecondsToEgg(chicken.fedAt)}
         />
       )}
-      {showProgress && (
+      {showEggProgress && (
         <div
           className="absolute w-2/5 bottom-1 left-4"
           style={{ zIndex: index + 1 }}
