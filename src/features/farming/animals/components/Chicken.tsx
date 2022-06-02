@@ -1,6 +1,7 @@
 import { useActor, useInterpret, useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
+import debounce from "lodash.debounce";
 
 import hungryChicken from "assets/animals/chickens/hungry.gif";
 import happyChicken from "assets/animals/chickens/happy.gif";
@@ -55,7 +56,7 @@ interface TimeToEggProps {
 
 const TimeToEgg = ({ timeToEgg, showTimeToEgg }: TimeToEggProps) => {
   const [timeLeft, setTimeLeft] = useState(timeToEgg);
-  // Only use interval counter for the ui if the popover is showing
+  // This interval will only run when this is showing in the ui
   useInterval(() => setTimeLeft((time) => time - 1), 1000);
 
   return (
@@ -123,12 +124,15 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const [showPopover, setShowPopover] = useState(false);
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
 
-  const handleMouseEnter = () => {
-    if (eggIsBrewing) setShowTimeToEgg(true);
-  };
+  const debouncedHandleMouseEnter = debounce(
+    () => eggIsBrewing && setShowTimeToEgg(true),
+    300
+  );
 
   const handleMouseLeave = () => {
     setShowTimeToEgg(false);
+
+    debouncedHandleMouseEnter.cancel();
   };
 
   const feed = async () => {
@@ -172,8 +176,6 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
 
   return (
     <div
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       className="absolute"
       style={{
         right: position.right,
@@ -240,6 +242,8 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
         )}
         {happy && (
           <img
+            onMouseEnter={debouncedHandleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             src={happyChicken}
             alt="happy-chicken"
             className="absolute w-16 h-16"
@@ -247,6 +251,8 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
         )}
         {sleeping && (
           <img
+            onMouseEnter={debouncedHandleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             src={sleepingChicken}
             alt="sleeping-chicken"
             className="absolute w-16 h-16 top-[2px]"
