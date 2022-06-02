@@ -26,6 +26,11 @@ const positions: Position[] = [
   { top: GRID_WIDTH_PX * 1.28, right: GRID_WIDTH_PX * 6.7 },
   { top: GRID_WIDTH_PX * 1.8, right: GRID_WIDTH_PX * 7.7 },
   { top: GRID_WIDTH_PX * 1.44, right: GRID_WIDTH_PX * 8.7 },
+  { top: GRID_WIDTH_PX * 1.95, right: GRID_WIDTH_PX * 9.8 },
+  { top: GRID_WIDTH_PX * 1.44, right: GRID_WIDTH_PX * 11 },
+  { top: GRID_WIDTH_PX * 1.95, right: GRID_WIDTH_PX * 12 },
+  { top: GRID_WIDTH_PX * 1.44, right: GRID_WIDTH_PX * 13 },
+  { top: GRID_WIDTH_PX * 1.95, right: GRID_WIDTH_PX * 14 },
 ];
 
 export const Chickens: React.FC = () => {
