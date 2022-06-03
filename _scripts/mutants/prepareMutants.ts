@@ -83,7 +83,7 @@ function writeData(fileName: string, id: number) {
     attributes: [{ trait_type: "Crop", value: cropName }],
   };
 
-  const jsonFileName = `${id}.json`;
+  const jsonFileName = `${id}`;
   console.log({ jsonFileName });
   const jsonPath = path.join(__dirname, "./metadata/", jsonFileName);
   fs.writeFile(jsonPath, JSON.stringify(newJson), () =>
