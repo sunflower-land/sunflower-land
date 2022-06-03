@@ -14,6 +14,7 @@ import { battleAudio, diaryAudio } from "lib/utils/sfx";
 export const Lore: React.FC = () => {
   const [showGreenBook, setShowGreenBook] = useState(false);
   const [showYellowBook, setShowYellowBook] = useState(false);
+  const [showChildrensBook, setShowChildrensBook] = useState(false);
   const [showTombstone, setShowTombstone] = useState(false);
 
   const onOpenGreenBook = () => {
@@ -26,9 +27,15 @@ export const Lore: React.FC = () => {
     diaryAudio.play();
   };
 
+  const onOpenChildrensBook = () => {
+    setShowChildrensBook(true);
+    diaryAudio.play();
+  };
+
   const onCloseBook = () => {
     setShowYellowBook(false);
     setShowGreenBook(false);
+    setShowChildrensBook(false);
     battleAudio.stop();
     diaryAudio.stop();
   };
@@ -94,6 +101,35 @@ export const Lore: React.FC = () => {
                 <span className="text-shadow  block">{`A young girl's diary`}</span>
                 <span className="text-shadow text-xs block">26th March</span>
                 <span className="text-shadow block mt-4">{`My home, my dolls, my friends. They're all gone.....`}</span>
+              </div>
+            </div>
+          </Panel>
+        </Modal>
+      )}
+
+      <img
+        src={yellowBook}
+        className="absolute hover:img-highlight cursor-pointer z-10"
+        onClick={onOpenChildrensBook}
+        style={{
+          width: `${GRID_WIDTH_PX * 0.3}px`,
+          left: `${GRID_WIDTH_PX * 10.3}px`,
+          top: `${GRID_WIDTH_PX * 12}px`,
+        }}
+      />
+      {showChildrensBook && (
+        <Modal centered show={showChildrensBook} onHide={onCloseBook}>
+          <Panel>
+            <img
+              src={close}
+              className="h-6 top-4 right-4 absolute cursor-pointer"
+              onClick={onCloseBook}
+            />
+            <div className="flex items-start">
+              <img src={yellowBook} className="w-12 img-highlight mr-2" />
+              <div className="flex-1">
+                <span className="text-shadow  block">{`An ancient nursery rhyme`}</span>
+                <span className="text-shadow block mt-4">{`100 red treats makes the worker's belly round, 20 swings and the tree falls down.`}</span>
               </div>
             </div>
           </Panel>

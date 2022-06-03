@@ -134,6 +134,8 @@ export const INITIAL_FARM: GameState = {
     "Roasted Cauliflower": new Decimal(1),
     Sauerkraut: new Decimal(1),
     Wheat: new Decimal(20),
+    "Rocky the Mole": new Decimal(1),
+    "Apprentice Beaver": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
