@@ -40,26 +40,26 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   const Content = () => {
     if (resetSessionConfirmation) {
       return (
-        <div className="p-4 ">
-          <div className="flex items-center border-2 rounded-md border-black p-2 mt-2 mb-2 bg-error">
+        <>
+          <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-error">
             <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
             <span className="text-xs">
               YOUR FARM WILL BE RESET TO THE LAST TIME YOU SYNCED ON CHAIN. YOU
               WILL LOSE ANY NON SYNCED PROGRESS.
             </span>
           </div>
-          <div className="row justify-between ">
+          <div className="flex justify-between">
             <Button
-              className="col m-1"
+              className="mr-1"
               onClick={() => setResetSessionConfirmation(false)}
             >
               No
             </Button>
-            <Button className="col m-1" onClick={onConfirmResetSession}>
+            <Button className="ml-1" onClick={onConfirmResetSession}>
               Yes
             </Button>
           </div>
-        </div>
+        </>
       );
     }
     return (
@@ -67,7 +67,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
         <Button className="col p-1" onClick={onLogout}>
           Logout
         </Button>
-        <Button className="col  p-1 mt-2" onClick={onResetSession}>
+        <Button className="col p-1 mt-2" onClick={onResetSession}>
           Reset Session
         </Button>
       </div>
