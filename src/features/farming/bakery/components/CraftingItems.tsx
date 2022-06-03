@@ -149,14 +149,12 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
           {expiryTime && (
-            <>
-              <span className="bg-blue-600 border flex text-xxs items-center absolute left-5 -top-4 p-1 rounded-md">
-                <img src={stopwatch} className="w-4 left-0 -top-4 mr-1" />
-                {`${secondsToString(secondsLeft as number, {
-                  separator: " ",
-                })} left`}
-              </span>
-            </>
+            <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center absolute -top-4 p-1 rounded-md whitespace-nowrap">
+              <img src={stopwatch} className="w-3 sm:w-4 left-0 -top-4 mr-1" />
+              {`${secondsToString(secondsLeft as number, {
+                separator: " ",
+              })} left`}
+            </span>
           )}
 
           <span className="text-shadow text-center">{selected.name}</span>
