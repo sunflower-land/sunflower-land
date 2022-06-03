@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token.gif";
+import tokenStatic from "assets/icons/token.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -28,18 +29,15 @@ export const Cakes: React.FC = () => {
 
   const inventory = state.inventory;
 
-  const sell = (amount = 1) => {
+  const sell = () => {
     gameService.send("item.sell", {
       item: selected.name,
-      amount,
+      amount: 1,
     });
     setToast({
-      content: "SFL +$" + selected.sellPrice?.mul(amount).toString(),
+      icon: tokenStatic,
+      content: `+$${selected.sellPrice?.toString()}`,
     });
-  };
-
-  const handleSellOne = () => {
-    sell(1);
   };
 
   const amount = new Decimal(inventory[selected.name] || 0);
@@ -80,7 +78,7 @@ export const Cakes: React.FC = () => {
           <Button
             disabled={amount.lessThan(1)}
             className="text-xs mt-1"
-            onClick={handleSellOne}
+            onClick={sell}
           >
             Sell
           </Button>

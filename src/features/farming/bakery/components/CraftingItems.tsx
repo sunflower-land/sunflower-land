@@ -46,22 +46,18 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
   const hasSelectedFood = Object.keys(inventory).includes(selected.name);
   const canCraft = !(lessFunds() || lessIngredients());
 
-  const craft = (amount = 1) => {
+  const craft = () => {
     gameService.send("item.crafted", {
       item: selected.name,
-      amount,
+      amount: 1,
     });
 
-    setToast({
-      icon: tokenStatic,
-      content: `-${selected.tokenAmount?.mul(amount)}`,
-    });
-
+    setToast({ icon: tokenStatic, content: `-$${selected.tokenAmount}` });
     selected.ingredients?.map((ingredient) => {
       const item = ITEM_DETAILS[ingredient.item];
       setToast({
         icon: item.image,
-        content: `-${ingredient.amount.mul(amount)}`,
+        content: `-${ingredient.amount}`,
       });
     });
 
@@ -122,7 +118,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
         <Button
           disabled={hasSelectedFood || !canCraft}
           className={`${hasSelectedFood ? "pe-none" : ""} text-xs mt-1`}
-          onClick={() => craft()}
+          onClick={craft}
         >
           {hasSelectedFood ? "Already crafted" : "Craft"}
         </Button>
