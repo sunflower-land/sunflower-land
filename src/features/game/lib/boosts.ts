@@ -5,8 +5,8 @@ import { SellableItem } from "../events/sell";
 /**
  * How much SFL an item is worth
  */
-export const getSellPrice = (crop: SellableItem, inventory: Inventory) => {
-  let price = crop.sellPrice;
+export const getSellPrice = (item: SellableItem, inventory: Inventory) => {
+  let price = item.sellPrice;
 
   if (inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
     price = price.mul(1.05);

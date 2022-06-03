@@ -33,9 +33,9 @@ export function sell({ state, action }: Options): GameState {
 
   const sellable = SELLABLE[action.item];
 
-  const cropCount = state.inventory[action.item] || new Decimal(0);
+  const itemCount = state.inventory[action.item] || new Decimal(0);
 
-  if (cropCount.lessThan(action.amount)) {
+  if (itemCount.lessThan(action.amount)) {
     throw new Error("Insufficient crops to sell");
   }
 
@@ -48,7 +48,7 @@ export function sell({ state, action }: Options): GameState {
       .toDecimalPlaces(18, Decimal.ROUND_DOWN),
     inventory: {
       ...state.inventory,
-      [sellable.name]: cropCount.sub(1 * action.amount),
+      [sellable.name]: itemCount.sub(1 * action.amount),
     },
   };
 }
