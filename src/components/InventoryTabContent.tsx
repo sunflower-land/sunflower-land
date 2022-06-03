@@ -31,7 +31,7 @@ interface Props {
   isFarming?: boolean;
 }
 
-const TAB_CONTENT_HEIGHT = 384;
+const TAB_CONTENT_HEIGHT = 400;
 
 const isSeed = (selectedItem: InventoryItemName) => selectedItem in SEEDS();
 
