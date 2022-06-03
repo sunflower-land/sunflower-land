@@ -43,7 +43,10 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
   const lessFunds = (amount = 1) =>
     state.balance.lessThan(selected.tokenAmount?.mul(amount) || 0);
 
-  const hasSelectedFood = Object.keys(inventory).includes(selected.name);
+  const hasSelectedFood =
+    Object.keys(inventory).includes(selected.name) &&
+    inventory[selected.name]?.gt(0);
+
   const canCraft = !(lessFunds() || lessIngredients());
 
   const craft = () => {
