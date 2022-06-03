@@ -3,7 +3,6 @@ import { InventoryItemName, StockExpiry } from "../types/game";
 type IsExpiredArgs = {
   name: InventoryItemName;
   stockExpiry: StockExpiry;
-  now?: Date;
 };
 
 export function isExpired({ name, stockExpiry }: IsExpiredArgs) {
