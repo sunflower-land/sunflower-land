@@ -18,7 +18,7 @@ export const NoFarm: React.FC = () => {
   };
 
   const create = () => {
-    authService.send("CREATE_FARM");
+    authService.send("CHOOSE_CHARITY");
   };
 
   const connect = () => {

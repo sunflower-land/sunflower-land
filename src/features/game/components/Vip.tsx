@@ -26,10 +26,8 @@ export const VipArea: React.FC<Props> = ({ inventory }) => {
   const [state, setState] = useState<
     "idle" | "noAccess" | "noDiscord" | "welcome" | "joining" | "joined"
   >("idle");
-  const [isLoading, setIsLoading] = useState(false);
 
   const oauth = () => {
-    // If no discord ID
     redirectOAuth();
   };
 
@@ -54,7 +52,6 @@ export const VipArea: React.FC<Props> = ({ inventory }) => {
   };
 
   const joinVIP = async () => {
-    console.log("Joining");
     setState("joining");
 
     await addVipRole({
@@ -62,7 +59,6 @@ export const VipArea: React.FC<Props> = ({ inventory }) => {
       token: authState.context.rawToken as string,
     });
 
-    console.log("Joining done");
     setState("joined");
   };
 

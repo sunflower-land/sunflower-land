@@ -89,6 +89,9 @@ export type BlockchainEvent =
   | {
       type: "LOGOUT";
     }
+  | {
+      type: "CHOOSE_CHARITY";
+    }
   | { type: "CONNECT_TO_DISCORD" }
   | { type: "CONFIRM" }
   | { type: "CONTINUE" };
@@ -111,7 +114,7 @@ export type BlockchainState = {
     | { connected: "creatingFarm" }
     | { connected: "countdown" }
     | { connected: "readyToStart" }
-    | { connected: "oauthorised" }
+    | { connected: "donating" }
     | { connected: "authorised" }
     | { connected: "blacklisted" }
     | { connected: "visitingContributor" }
@@ -294,7 +297,7 @@ export const authMachine = createMachine<
               },
             },
           },
-          oauthorised: {
+          donating: {
             on: {
               CREATE_FARM: {
                 target: "creatingFarm",
@@ -325,9 +328,8 @@ export const authMachine = createMachine<
           },
           noFarmLoaded: {
             on: {
-              CREATE_FARM: {
-                // TODO?
-                target: "creatingFarm",
+              CHOOSE_CHARITY: {
+                target: "donating",
               },
               CONNECT_TO_DISCORD: {
                 // Redirects to Discord OAuth so no need for a state change
