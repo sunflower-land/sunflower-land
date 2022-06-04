@@ -149,10 +149,7 @@ export const authMachine = createMachine<
               target: "checkFarm",
               cond: "isVisitingUrl",
             },
-            {
-              target: "oauthorising",
-              cond: "hasDiscordCode",
-            },
+
             { target: "signing" },
           ],
           onError: {
@@ -170,10 +167,16 @@ export const authMachine = createMachine<
       signing: {
         invoke: {
           src: "login",
-          onDone: {
-            target: "connected",
-            actions: "assignToken",
-          },
+          onDone: [
+            {
+              target: "oauthorising",
+              cond: "hasDiscordCode",
+            },
+            {
+              target: "connected",
+              actions: "assignToken",
+            },
+          ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
@@ -190,7 +193,7 @@ export const authMachine = createMachine<
         invoke: {
           src: "oauthorise",
           onDone: {
-            target: "connected.oauthorised",
+            target: "connected.loadingFarm",
             actions: "assignToken",
           },
           onError: {
@@ -222,6 +225,7 @@ export const authMachine = createMachine<
                   actions: "assignFarm",
                   cond: "hasFarm",
                 },
+
                 { target: "checkingAccess" },
               ],
               onError: {
@@ -322,7 +326,8 @@ export const authMachine = createMachine<
           noFarmLoaded: {
             on: {
               CREATE_FARM: {
-                target: "oauthorised",
+                // TODO?
+                target: "creatingFarm",
               },
               CONNECT_TO_DISCORD: {
                 // Redirects to Discord OAuth so no need for a state change
