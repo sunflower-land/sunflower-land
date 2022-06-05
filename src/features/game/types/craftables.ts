@@ -392,7 +392,6 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
     description: "Gives a 10% chance to get 5x stone",
     section: Section["Rock Golem"],
     type: LimitedItemType.BlacksmithItem,
-    isPlaceholder: true,
   },
 };
 
