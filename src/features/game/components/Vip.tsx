@@ -38,10 +38,12 @@ export const VipArea: React.FC<Props> = ({ inventory }) => {
 
     if (!hasAccess) {
       setState("noAccess");
+      return;
     }
 
     if (!authState.context.token?.discordId) {
       setState("noDiscord");
+      return;
     }
 
     setState("welcome");
@@ -96,15 +98,19 @@ export const VipArea: React.FC<Props> = ({ inventory }) => {
       );
     }
 
-    return (
-      <>
-        <span className="text-shadow mt-2 block text-center">
-          It looks like you are a special player. Come join our VIP chat on
-          Discord
-        </span>
-        <Button onClick={joinVIP}>Add VIP role</Button>
-      </>
-    );
+    if (state === "welcome") {
+      return (
+        <>
+          <span className="text-shadow mt-2 block text-center">
+            It looks like you are a special player. Come join our VIP chat on
+            Discord
+          </span>
+          <Button onClick={joinVIP}>Add VIP role</Button>
+        </>
+      );
+    }
+
+    return null;
   };
 
   const showModal = state !== "idle";
