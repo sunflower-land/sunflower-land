@@ -89,6 +89,9 @@ export type BlockchainEvent =
   | {
       type: "LOGOUT";
     }
+  | {
+      type: "CHOOSE_CHARITY";
+    }
   | { type: "CONNECT_TO_DISCORD" }
   | { type: "CONFIRM" }
   | { type: "CONTINUE" };
@@ -111,7 +114,7 @@ export type BlockchainState = {
     | { connected: "creatingFarm" }
     | { connected: "countdown" }
     | { connected: "readyToStart" }
-    | { connected: "oauthorised" }
+    | { connected: "donating" }
     | { connected: "authorised" }
     | { connected: "blacklisted" }
     | { connected: "visitingContributor" }
@@ -149,10 +152,7 @@ export const authMachine = createMachine<
               target: "checkFarm",
               cond: "isVisitingUrl",
             },
-            {
-              target: "oauthorising",
-              cond: "hasDiscordCode",
-            },
+
             { target: "signing" },
           ],
           onError: {
@@ -170,10 +170,16 @@ export const authMachine = createMachine<
       signing: {
         invoke: {
           src: "login",
-          onDone: {
-            target: "connected",
-            actions: "assignToken",
-          },
+          onDone: [
+            {
+              target: "oauthorising",
+              cond: "hasDiscordCode",
+            },
+            {
+              target: "connected",
+              actions: "assignToken",
+            },
+          ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
@@ -190,7 +196,7 @@ export const authMachine = createMachine<
         invoke: {
           src: "oauthorise",
           onDone: {
-            target: "connected.oauthorised",
+            target: "connected.loadingFarm",
             actions: "assignToken",
           },
           onError: {
@@ -222,6 +228,7 @@ export const authMachine = createMachine<
                   actions: "assignFarm",
                   cond: "hasFarm",
                 },
+
                 { target: "checkingAccess" },
               ],
               onError: {
@@ -290,7 +297,7 @@ export const authMachine = createMachine<
               },
             },
           },
-          oauthorised: {
+          donating: {
             on: {
               CREATE_FARM: {
                 target: "creatingFarm",
@@ -321,8 +328,8 @@ export const authMachine = createMachine<
           },
           noFarmLoaded: {
             on: {
-              CREATE_FARM: {
-                target: "oauthorised",
+              CHOOSE_CHARITY: {
+                target: "donating",
               },
               CONNECT_TO_DISCORD: {
                 // Redirects to Discord OAuth so no need for a state change

@@ -51,6 +51,7 @@ import { Panel } from "components/ui/Panel";
 import { fountainAudio } from "lib/utils/sfx";
 import { Sign } from "./Sign";
 import { canMine } from "../events/stoneMine";
+import { VipArea } from "./Vip";
 
 // Only show 1 scarecrow at a time
 export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
@@ -337,6 +338,7 @@ interface Props {
 
 export const Decorations: React.FC<Props> = ({ state }) => (
   <div className="z-10 absolute left-0 right-0">
+    <VipArea inventory={state.inventory} />
     <Flags state={state} />
     {state.inventory["Sunflower Rock"] && (
       <img
