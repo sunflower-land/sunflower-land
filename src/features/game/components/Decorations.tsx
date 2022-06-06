@@ -100,13 +100,32 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   const [showModal, setShowModal] = useState(false);
   if (inventory["Foreman Beaver"]) {
     return (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.2}px`,
-        }}
-        src={foreman}
-        alt="Foreman Beaver"
-      />
+      <>
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.2}px`,
+          }}
+          className="hover:img-highlight cursor-pointer"
+          src={foreman}
+          alt="Foreman Beaver"
+          onClick={() => setShowModal(true)}
+        />
+        <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+          <Panel>
+            <img
+              src={close}
+              className="h-6 top-4 right-4 absolute cursor-pointer"
+              onClick={() => setShowModal(false)}
+            />
+            <div className="flex flex-col items-center justify-center m-2">
+              <img src={foreman} alt="Foreman Beaver" className="w-1/3" />
+              <span className="text-shadow mt-2 block text-center">
+                Have you got any radishes?
+              </span>
+            </div>
+          </Panel>
+        </Modal>
+      </>
     );
   }
 
@@ -161,13 +180,33 @@ export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
 
   if (inventory["Nugget"]) {
     return (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.52}px`,
-        }}
-        src={nugget}
-        alt="Nugget"
-      />
+      <>
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.52}px`,
+          }}
+          src={nugget}
+          alt="Nugget"
+          className="hover:img-highlight cursor-pointer"
+          onClick={() => setShowModal(true)}
+        />
+        <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+          <Panel>
+            <img
+              src={close}
+              className="h-6 top-4 right-4 absolute cursor-pointer"
+              onClick={() => setShowModal(false)}
+            />
+            <div className="flex flex-col items-center justify-center m-2">
+              <img src={nugget} alt="Nugget" className="w-1/3" />
+              <span className="text-shadow text-sm mt-2 block text-center">
+                One day my father ate 300 Pumpkins. Afterwards, he had so much
+                energy that he dug an entire valley!
+              </span>
+            </div>
+          </Panel>
+        </Modal>
+      </>
     );
   }
 
