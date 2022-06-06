@@ -19,6 +19,7 @@ import {
   ROCKET_ITEMS,
   getKeys,
   QUEST_ITEMS,
+  MUTANT_CHICKENS,
 } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 
@@ -60,6 +61,7 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
       ...MARKET_ITEMS,
       ...FLAGS,
       ...ROCKET_ITEMS,
+      ...MUTANT_CHICKENS,
     },
   },
   "Quest Items": {

@@ -7,6 +7,7 @@ export enum LimitedItemType {
   Flag = "Flag",
   MOMEventItem = "MOMEventItem",
   QuestItem = "QuestItem",
+  MutantChicken = "MutantChicken",
 }
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {
@@ -84,6 +85,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Cow: 607,
   Pig: 608,
   Sheep: 609,
+  "Speed Chicken": 610,
+  "Fat Chicken": 611,
+  "Rich Chicken": 612,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

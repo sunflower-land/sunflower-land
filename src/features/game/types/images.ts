@@ -60,6 +60,11 @@ import rockyMole from "assets/nfts/rocky_mole.gif";
 import nugget from "assets/nfts/nugget.gif";
 import rockGolem from "assets/nfts/rock_golem.gif";
 
+// Mutant Chickens
+import speedChicken from "assets/animals/chickens/speed_chicken.gif";
+import fatChicken from "assets/animals/chickens/fat_chicken.gif";
+import richChicken from "assets/animals/chickens/rich_chicken.gif";
+
 // Foods
 import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import cabbageSoup from "assets/nfts/saurrerkrat.png";
@@ -163,6 +168,7 @@ import {
   BARN_ITEMS,
   CRAFTABLES,
   LimitedItem,
+  MUTANT_CHICKENS,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
@@ -750,7 +756,6 @@ export const ITEM_DETAILS: Items = {
     description: "Reach the stars and increase XP",
     image: observatory,
   },
-
   "Goblin Key": {
     description: "The Goblin Key",
     image: goblinKey,
@@ -767,4 +772,13 @@ export const ITEM_DETAILS: Items = {
     description: "An Ancient Human Warhammer",
     image: ancientHumanWarhammer,
   },
+  "Speed Chicken": {
+    ...MUTANT_CHICKENS["Speed Chicken"],
+    image: speedChicken,
+  },
+  "Fat Chicken": {
+    ...MUTANT_CHICKENS["Fat Chicken"],
+    image: fatChicken,
+  },
+  "Rich Chicken": { ...MUTANT_CHICKENS["Rich Chicken"], image: richChicken },
 };

@@ -2,6 +2,9 @@ import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
 import coop from "assets/nfts/chicken_coop.png";
+import speedChicken from "assets/animals/chickens/speed_chicken.gif";
+import richChicken from "assets/animals/chickens/rich_chicken.gif";
+import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -48,6 +51,7 @@ export const Chickens: React.FC = () => {
   }
 
   const chickens = new Array(chickenCount).fill(null);
+  const maxChickens = state.inventory["Chicken Coop"] ? 15 : 10;
 
   return (
     <>
@@ -63,6 +67,42 @@ export const Chickens: React.FC = () => {
           className="absolute"
         />
       )}
+      {state.inventory["Speed Chicken"] && (
+        <img
+          src={speedChicken}
+          style={{
+            width: `${GRID_WIDTH_PX * 1.65}px`,
+            right: `${GRID_WIDTH_PX * -0.8}px`,
+            top: `${GRID_WIDTH_PX * -0.57}px`,
+          }}
+          id={Section["Speed Chicken"]}
+          className="absolute"
+        />
+      )}
+      {state.inventory["Rich Chicken"] && (
+        <img
+          src={richChicken}
+          style={{
+            width: `${GRID_WIDTH_PX * 1.65}px`,
+            right: `${GRID_WIDTH_PX * 3.11}px`,
+            top: `${GRID_WIDTH_PX * -0.3}px`,
+          }}
+          id={Section["Rich Chicken"]}
+          className="absolute"
+        />
+      )}
+      {state.inventory["Fat Chicken"] && (
+        <img
+          src={fatChicken}
+          style={{
+            width: `${GRID_WIDTH_PX * 1.65}px`,
+            right: `${GRID_WIDTH_PX * 2.38}px`,
+            top: `${GRID_WIDTH_PX * -2.7}px`,
+          }}
+          id={Section["Fat Chicken"]}
+          className="absolute"
+        />
+      )}
 
       <div
         className="flex flex-wrap absolute"
@@ -73,7 +113,8 @@ export const Chickens: React.FC = () => {
           bottom: `${GRID_WIDTH_PX * 2.1}px`,
         }}
       >
-        {chickens.map((_, index) => (
+        {/* Limit to max number of chickens */}
+        {chickens.slice(0, maxChickens - 1).map((_, index) => (
           <Chicken index={index} key={index} position={positions[index]} />
         ))}
       </div>
