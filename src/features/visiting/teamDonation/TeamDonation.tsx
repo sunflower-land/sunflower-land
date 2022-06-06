@@ -154,7 +154,7 @@ export const TeamDonation: React.FC = () => {
         <img
           id="begger"
           src={begger}
-          className="absolute hover:cursor-pointer hover:img-highlight z-10"
+          className="absolute hover:cursor-pointer hover:img-highlight z-20"
           style={{
             width: `${GRID_WIDTH_PX * 1.8}px`,
           }}
@@ -164,7 +164,7 @@ export const TeamDonation: React.FC = () => {
         <img
           id="rich_begger"
           src={richBegger}
-          className="absolute hover:cursor-pointer hover:img-highlight z-10"
+          className="absolute hover:cursor-pointer hover:img-highlight z-20"
           style={{
             width: `${GRID_WIDTH_PX * 1.8}px`,
           }}
