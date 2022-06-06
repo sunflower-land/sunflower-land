@@ -22,7 +22,7 @@ export const ToastManager = () => {
             {toastList.map(({ content, id, icon }) => (
               <div className="flex items-center relative" key={id}>
                 {icon && (
-                  <img className="h-6 mr-4" src={icon} alt="toast-icon" />
+                  <img className="h-6 mr-3" src={icon} alt="toast-icon" />
                 )}
                 <span>{content}</span>
               </div>

@@ -16,11 +16,11 @@ export type Position = {
 };
 
 const positions: Position[] = [
-  { top: GRID_WIDTH_PX * 1.1, right: GRID_WIDTH_PX * 1.7 },
-  { top: GRID_WIDTH_PX * 1.33, right: GRID_WIDTH_PX * 3.15 },
-  { top: GRID_WIDTH_PX * 1.7, right: GRID_WIDTH_PX },
+  { top: GRID_WIDTH_PX * 1.2, right: GRID_WIDTH_PX * 1.9 },
+  { top: GRID_WIDTH_PX * 1.4, right: GRID_WIDTH_PX * 3.3 },
+  { top: GRID_WIDTH_PX * 1.7, right: GRID_WIDTH_PX * 0.88 },
   { top: GRID_WIDTH_PX * 2.47, right: GRID_WIDTH_PX * 3 },
-  { top: GRID_WIDTH_PX * 2.66, right: GRID_WIDTH_PX * 1.7 },
+  { top: GRID_WIDTH_PX * 2.66, right: GRID_WIDTH_PX * 1.9 },
   { top: GRID_WIDTH_PX * 1.6, right: GRID_WIDTH_PX * 4.6 },
   { top: GRID_WIDTH_PX * 1.72, right: GRID_WIDTH_PX * 5.7 },
   { top: GRID_WIDTH_PX * 1.28, right: GRID_WIDTH_PX * 6.7 },

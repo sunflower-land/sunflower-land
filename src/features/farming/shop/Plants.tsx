@@ -39,7 +39,7 @@ export const Plants: React.FC = () => {
     });
     setToast({
       icon: tokenStatic,
-      content: `+${displaySellPrice(selected).mul(amount).toString()}`,
+      content: `+$${displaySellPrice(selected).mul(amount).toString()}`,
     });
   };
 
