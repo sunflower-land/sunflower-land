@@ -70,6 +70,12 @@ export interface LimitedItem extends CraftableItem {
 
 export type MOMEventItem = "Engine Core" | "Observatory";
 
+export type QuestItem =
+  | "Goblin Key"
+  | "Sunflower Key"
+  | "Ancient Goblin Sword"
+  | "Ancient Human Warhammer";
+
 export type BlacksmithItem =
   | "Sunflower Statue"
   | "Potato Statue"
@@ -113,7 +119,8 @@ export type LimitedItemName =
   | BarnItem
   | MarketItem
   | Flag
-  | MOMEventItem;
+  | MOMEventItem
+  | QuestItem;
 
 export type Tool =
   | "Axe"
@@ -254,6 +261,29 @@ export const TOOLS: Record<Tool, CraftableItem> = {
       },
     ],
     disabled: true,
+  },
+};
+
+export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
+  "Goblin Key": {
+    name: "Goblin Key",
+    description: "The Goblin Key",
+    type: LimitedItemType.QuestItem,
+  },
+  "Sunflower Key": {
+    name: "Sunflower Key",
+    description: "The Sunflower Key",
+    type: LimitedItemType.QuestItem,
+  },
+  "Ancient Goblin Sword": {
+    name: "Ancient Goblin Sword",
+    description: "An Ancient Goblin Sword",
+    type: LimitedItemType.QuestItem,
+  },
+  "Ancient Human Warhammer": {
+    name: "Ancient Human Warhammer",
+    description: "An Ancient Human Warhammer",
+    type: LimitedItemType.QuestItem,
   },
 };
 
@@ -514,6 +544,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...ANIMALS(),
   ...FLAGS,
   ...ROCKET_ITEMS,
+  ...QUEST_ITEMS,
 });
 
 /**
@@ -529,6 +560,7 @@ export const LIMITED_ITEMS = {
   ...MARKET_ITEMS,
   ...FLAGS,
   ...ROCKET_ITEMS,
+  ...QUEST_ITEMS,
 };
 
 export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);

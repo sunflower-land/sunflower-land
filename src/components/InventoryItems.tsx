@@ -18,15 +18,9 @@ import {
   MARKET_ITEMS,
   ROCKET_ITEMS,
   getKeys,
+  QUEST_ITEMS,
 } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
-
-import seed from "assets/crops/beetroot/seed.png";
-import crop from "assets/crops/sunflower/crop.png";
-import tool from "assets/tools/hammer.png";
-import nft from "assets/nfts/gnome.gif";
-import food from "assets/crops/wheat/flour.png";
-import resource from "assets/resources/wood.png";
 
 import Decimal from "decimal.js-light";
 import { InventoryTabContent } from "./InventoryTabContent";
@@ -41,30 +35,25 @@ interface Props {
   isFarming?: boolean;
 }
 
-export type TabItems = Record<string, { img: string; items: object }>;
+export type TabItems = Record<string, { items: object }>;
 
 const BASKET_CATEGORIES: TabItems = {
   Seeds: {
-    img: seed,
     items: SEEDS(),
   },
   Tools: {
-    img: tool,
     items: TOOLS,
   },
   Resources: {
-    img: resource,
     items: RESOURCES,
   },
   Crops: {
-    img: crop,
     items: CROPS(),
   },
 };
 
 const COLLECTIBLE_CATEGORIES: TabItems = {
   NFTs: {
-    img: nft,
     items: {
       ...BLACKSMITH_ITEMS,
       ...BARN_ITEMS,
@@ -73,12 +62,13 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
       ...ROCKET_ITEMS,
     },
   },
+  "Quest Items": {
+    items: QUEST_ITEMS,
+  },
   Foods: {
-    img: food,
     items: FOODS(),
   },
   Eggs: {
-    img: food,
     items: {
       "Pink Egg": ITEM_DETAILS["Pink Egg"],
       "Purple Egg": ITEM_DETAILS["Purple Egg"],

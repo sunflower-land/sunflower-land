@@ -19,6 +19,7 @@ import {
 } from "features/game/lib/goblinMachine";
 import { screenTracker } from "lib/utils/screen";
 import * as AuthProvider from "features/auth/lib/Provider";
+import { TownEntry } from "./components/TownEntry";
 
 // const SHOW_MODAL: Record<StateValues, boolean> = {
 const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
@@ -66,6 +67,7 @@ export const GoblinLand: React.FC = () => {
           {goblinState.matches("withdrawn") && <Withdrawn />}
         </Panel>
       </Modal>
+      <TownEntry />
       <Village state={goblinState.value as GoblinMachineState["value"]} />
     </div>
   );

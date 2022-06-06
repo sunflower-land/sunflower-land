@@ -5,6 +5,9 @@ import { metamask } from "lib/blockchain/metamask";
 import { Inventory } from "features/game/types/game";
 import { mint } from "features/game/actions/mint";
 import { ErrorCode } from "lib/errors";
+import { CONFIG } from "lib/config";
+
+const API_URL = CONFIG.API_URL;
 
 export interface Context {
   errorCode?: ErrorCode;
@@ -66,7 +69,7 @@ export const createRocketMachine = ({
   createMachine<Context, RocketEvent, RocketState>(
     {
       id: "rocket",
-      initial: inventory.Observatory ? "rewarded" : "loading",
+      initial: inventory.Observatory || !API_URL ? "rewarded" : "loading",
       context: {},
       states: {
         loading: {

@@ -1,16 +1,13 @@
 import React from "react";
+
 import * as Auth from "features/auth/lib/Provider";
+import { initialise } from "lib/utils/init";
 import { Navigation } from "./Navigation";
 
 import "./styles.css";
 
-import Decimal from "decimal.js-light";
-
-/**
- * Decimal precision standard to handle ERC20 18 decimals + 12 decimal places reserved for in game actions
- */
-Decimal.set({ toExpPos: 30 });
-Decimal.set({ toExpNeg: -30 });
+// Initialise Global Settings
+initialise();
 
 /**
  * Top level wrapper for providers
