@@ -71,8 +71,8 @@ export const Chickens: React.FC = () => {
         <img
           src={speedChicken}
           style={{
-            width: `${GRID_WIDTH_PX * 1.65}px`,
-            right: `${GRID_WIDTH_PX * -0.8}px`,
+            width: `${GRID_WIDTH_PX * 0.8}px`,
+            right: `${GRID_WIDTH_PX * -0.15}px`,
             top: `${GRID_WIDTH_PX * -0.57}px`,
           }}
           id={Section["Speed Chicken"]}
@@ -83,8 +83,8 @@ export const Chickens: React.FC = () => {
         <img
           src={richChicken}
           style={{
-            width: `${GRID_WIDTH_PX * 1.65}px`,
-            right: `${GRID_WIDTH_PX * 3.11}px`,
+            width: `${GRID_WIDTH_PX * 1.07}px`,
+            right: `${GRID_WIDTH_PX * 3.4}px`,
             top: `${GRID_WIDTH_PX * -0.3}px`,
           }}
           id={Section["Rich Chicken"]}
@@ -95,9 +95,9 @@ export const Chickens: React.FC = () => {
         <img
           src={fatChicken}
           style={{
-            width: `${GRID_WIDTH_PX * 1.65}px`,
-            right: `${GRID_WIDTH_PX * 2.38}px`,
-            top: `${GRID_WIDTH_PX * -2.7}px`,
+            width: `${GRID_WIDTH_PX * 0.8}px`,
+            right: `${GRID_WIDTH_PX * 2.9}px`,
+            top: `${GRID_WIDTH_PX * -2.3}px`,
           }}
           id={Section["Fat Chicken"]}
           className="absolute"
