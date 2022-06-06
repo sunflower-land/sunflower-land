@@ -472,7 +472,7 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
 export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   "Chicken Coop": {
     name: "Chicken Coop",
-    description: "Collect 3x the amount of eggs",
+    description: "Collect 2x the amount of eggs",
     section: Section["Chicken Coop"],
     type: LimitedItemType.BarnItem,
   },

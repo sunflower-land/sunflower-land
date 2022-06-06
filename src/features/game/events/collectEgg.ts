@@ -47,7 +47,7 @@ export function collectEggs({
     ...state,
     inventory: {
       ...state.inventory,
-      Egg: (state.inventory.Egg || new Decimal(0))?.add(1),
+      Egg: (state.inventory.Egg || new Decimal(0))?.add(1 * chicken.multiplier),
     },
     chickens,
   };

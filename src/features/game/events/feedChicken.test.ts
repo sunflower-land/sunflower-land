@@ -57,17 +57,17 @@ describe("feed chickens", () => {
     ).toThrow("No wheat to feed chickens");
   });
 
-  it("throws and error if the user has more than 10 chickens", () => {
+  it("throws and error if the user has more than 15 chickens", () => {
     expect(() =>
       feedChicken({
         state: {
           ...GAME_STATE,
-          inventory: { Chicken: new Decimal(11), Wheat: new Decimal(1) },
+          inventory: { Chicken: new Decimal(16), Wheat: new Decimal(1) },
         },
 
-        action: { type: "chicken.feed", index: 10 },
+        action: { type: "chicken.feed", index: 15 },
       })
-    ).toThrow("Cannot have more than 10 chickens");
+    ).toThrow("Cannot have more than 15 chickens");
   });
 
   it("feeds a chicken", () => {
