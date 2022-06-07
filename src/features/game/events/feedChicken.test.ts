@@ -122,4 +122,118 @@ describe("feed chickens", () => {
     expect(newChickens[0].fedAt).toBeGreaterThan(0);
     expect(secondFeed.inventory.Wheat).toStrictEqual(new Decimal(0));
   });
+
+  it("takes 10% less wheat to feed a chicken if a user has a single Fat Chicken", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        ["Fat Chicken"]: new Decimal(1),
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+    });
+
+    expect(newState.inventory.Wheat).toEqual(new Decimal(0.1));
+  });
+
+  it("does not stack Fat Chicken boost when a user has more than one", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        ["Fat Chicken"]: new Decimal(5),
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+    });
+
+    expect(newState.inventory.Wheat).toEqual(new Decimal(0.1));
+  });
+
+  it("adds a time boost of 10% if a Speed Chicken is present", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        ["Speed Chicken"]: new Decimal(1),
+      },
+    };
+
+    const createdAt = 1000;
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+      createdAt,
+    });
+
+    expect(newState.chickens[0].fedAt).toEqual(900);
+  });
+
+  it("doesn't stack the time boost of 10% if multiple Speed Chickens are present", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        ["Speed Chicken"]: new Decimal(5),
+      },
+    };
+
+    const createdAt = 1000;
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+      createdAt,
+    });
+
+    expect(newState.chickens[0].fedAt).toEqual(900);
+  });
+
+  it("adds a yield boost of 10% if a Rich Chicken is present", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        ["Rich Chicken"]: new Decimal(1),
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+    });
+
+    expect(newState.chickens[0].multiplier).toEqual(1.1);
+  });
+
+  it("doesn't stack the yield boost of 10% if multiple Rich Chickens are present", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        ["Rich Chicken"]: new Decimal(5),
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+    });
+
+    expect(newState.chickens[0].multiplier).toEqual(1.1);
+  });
 });
