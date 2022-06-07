@@ -25,7 +25,7 @@ import { Position } from "./Chickens";
 import { getSecondsToEgg } from "features/game/events/collectEgg";
 import Spritesheet from "components/animation/SpriteAnimator";
 import {
-  CHICKEN_FEEDING_TIME,
+  CHICKEN_TIME_TO_EGG,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -44,9 +44,9 @@ const getPercentageComplete = (fedAt?: number) => {
 
   const timePassedSinceFed = Date.now() - fedAt;
 
-  if (timePassedSinceFed >= CHICKEN_FEEDING_TIME) return 100;
+  if (timePassedSinceFed >= CHICKEN_TIME_TO_EGG) return 100;
 
-  return Math.ceil((timePassedSinceFed / CHICKEN_FEEDING_TIME) * 100);
+  return Math.ceil((timePassedSinceFed / CHICKEN_TIME_TO_EGG) * 100);
 };
 
 interface TimeToEggProps {
@@ -312,7 +312,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
         >
           <Bar
             percentage={percentageComplete}
-            seconds={CHICKEN_FEEDING_TIME / 1000}
+            seconds={CHICKEN_TIME_TO_EGG / 1000}
           />
         </div>
       )}

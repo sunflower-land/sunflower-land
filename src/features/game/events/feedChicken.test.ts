@@ -3,7 +3,7 @@ import { INITIAL_FARM } from "../lib/constants";
 
 import { GameState } from "../types/game";
 import { feedChicken } from "./feedChicken";
-import { CHICKEN_FEEDING_TIME } from "../lib/constants";
+import { CHICKEN_TIME_TO_EGG } from "../lib/constants";
 
 const GAME_STATE: GameState = INITIAL_FARM;
 
@@ -110,7 +110,7 @@ describe("feed chickens", () => {
       action: { type: "chicken.feed", index: 0 },
     });
 
-    jest.advanceTimersByTime(CHICKEN_FEEDING_TIME);
+    jest.advanceTimersByTime(CHICKEN_TIME_TO_EGG);
 
     const secondFeed = feedChicken({
       state: firstFeed,

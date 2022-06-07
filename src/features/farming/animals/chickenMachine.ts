@@ -1,4 +1,4 @@
-import { CHICKEN_FEEDING_TIME } from "features/game/lib/constants";
+import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { assign, createMachine, State } from "xstate";
 
 const TICK_INTERVAL = 1; // 1 second
@@ -47,7 +47,7 @@ const reset = assign<ChickenContext, any>({
   timeElapsed: 0,
   timeInCurrentState: 0,
   isFed: false,
-  timeToEgg: Math.ceil(CHICKEN_FEEDING_TIME / 1000),
+  timeToEgg: Math.ceil(CHICKEN_TIME_TO_EGG / 1000),
 });
 
 const assignFeedDetails = assign<ChickenContext, ChickenFeedEvent>({
@@ -69,7 +69,7 @@ export const chickenMachine = createMachine<
     context: {
       timeElapsed: 0,
       timeInCurrentState: 0,
-      timeToEgg: Math.ceil(CHICKEN_FEEDING_TIME / 1000), // seconds
+      timeToEgg: Math.ceil(CHICKEN_TIME_TO_EGG / 1000), // seconds
       isFed: false,
     },
     states: {

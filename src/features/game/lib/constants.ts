@@ -3,7 +3,8 @@ import { fromWei } from "web3-utils";
 import { GameState, Inventory } from "../types/game";
 
 export const GRID_WIDTH_PX = 42;
-export const CHICKEN_FEEDING_TIME = 1000 * 60 * 60 * 24 * 2; // 48 hours
+export const CHICKEN_TIME_TO_EGG = 1000 * 60 * 60 * 24 * 2; // 48 hours
+export const MUTANT_CHICKEN_BOOST_AMOUNT = 0.1;
 
 export const POPOVER_TIME_MS = 1000;
 

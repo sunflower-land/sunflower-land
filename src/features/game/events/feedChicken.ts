@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
-  CHICKEN_FEEDING_TIME,
+  CHICKEN_TIME_TO_EGG,
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "../lib/constants";
 import { GameState, Inventory } from "../types/game";
@@ -77,7 +77,7 @@ export function feedChicken({
 
   if (
     chickens[action.index] &&
-    createdAt - chickens[action.index].fedAt < CHICKEN_FEEDING_TIME
+    createdAt - chickens[action.index].fedAt < CHICKEN_TIME_TO_EGG
   ) {
     throw new Error("This chicken is not hungry");
   }
