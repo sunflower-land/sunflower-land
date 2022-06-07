@@ -503,17 +503,7 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   Rooster: {
     name: "Rooster",
     description: "Doubles the chance of dropping a mutant chicken",
-    ingredients: [
-      {
-        item: "Gold",
-        amount: new Decimal(5),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(100),
-      },
-    ],
-    disabled: false,
+    section: Section["Rooster"],
     type: LimitedItemType.BarnItem,
   },
 };
