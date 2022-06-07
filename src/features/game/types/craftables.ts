@@ -103,7 +103,8 @@ export type BarnItem =
   | "Farm Dog"
   | "Chicken Coop"
   | "Gold Egg"
-  | "Easter Bunny";
+  | "Easter Bunny"
+  | "Rooster";
 
 export type MarketItem =
   | "Nancy"
@@ -497,6 +498,22 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
     name: "Easter Bunny",
     description: "Earn 20% more Carrots",
     section: Section["Easter Bunny"],
+    type: LimitedItemType.BarnItem,
+  },
+  Rooster: {
+    name: "Rooster",
+    description: "Doubles the chance of dropping a mutant chicken",
+    ingredients: [
+      {
+        item: "Gold",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(100),
+      },
+    ],
+    disabled: false,
     type: LimitedItemType.BarnItem,
   },
 };

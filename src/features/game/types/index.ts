@@ -84,6 +84,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Cow: 607,
   Pig: 608,
   Sheep: 609,
+  Rooster: 613,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
