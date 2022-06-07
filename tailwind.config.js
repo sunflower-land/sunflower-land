@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-undef
 module.exports = {
-  purge: ["./src/**/*.tsx"],
-  darkMode: false, // or 'media' or 'class'
+  content: ["./src/**/*.tsx"],
   theme: {
     fontFamily: {
       body: ['"Press Start 2p"'],
@@ -44,11 +43,6 @@ module.exports = {
       animation: {
         float: "floating 3s ease-in-out infinite",
         pulsate: "pulsate 1s ease-in-out infinite",
-      },
-    },
-    variants: {
-      extend: {
-        opacity: ["disabled"],
       },
     },
   },

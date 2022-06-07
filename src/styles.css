@@ -3,23 +3,21 @@
 @import "tailwindcss/utilities";
 
 @layer utilities {
-  @variants responsive {
-    .text-shadow {
-      text-shadow: 1px 1px black;
-    }
+  .text-shadow {
+    text-shadow: 1px 1px black;
+  }
 
-    .text-shadow-md {
-      text-shadow: 2px 2px black;
-    }
+  .text-shadow-md {
+    text-shadow: 2px 2px black;
+  }
 
-    .text-shadow-none {
-      text-shadow: none;
-    }
+  .text-shadow-none {
+    text-shadow: none;
+  }
 
-    .img-highlight {
-      filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
-        drop-shadow(0px -1px 0px white);
-    }
+  .img-highlight {
+    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white)
+      drop-shadow(0px -1px 0px white);
   }
 }
 
