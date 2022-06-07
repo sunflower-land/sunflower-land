@@ -96,6 +96,7 @@ export class SessionManager {
             )
           )
         ),
+        cooldownSeconds: Number(recipe.cooldownSeconds),
       }));
 
       return ethBasedRecipes;
