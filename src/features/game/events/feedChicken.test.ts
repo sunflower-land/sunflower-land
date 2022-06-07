@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { INITIAL_FARM, MUTANT_CHICKEN_BOOST_AMOUNT } from "../lib/constants";
 
 import { GameState } from "../types/game";
 import { feedChicken } from "./feedChicken";
@@ -169,15 +169,17 @@ describe("feed chickens", () => {
       },
     };
 
-    const createdAt = 1000;
+    const now = Date.now();
+    // 10% speed increase
+    const boost = CHICKEN_TIME_TO_EGG * MUTANT_CHICKEN_BOOST_AMOUNT;
 
     const newState = feedChicken({
       state,
       action: { type: "chicken.feed", index: 0 },
-      createdAt,
+      createdAt: now,
     });
 
-    expect(newState.chickens[0].fedAt).toEqual(900);
+    expect(newState.chickens[0].fedAt).toEqual(now + boost);
   });
 
   it("doesn't stack the time boost of 10% if multiple Speed Chickens are present", () => {
@@ -190,15 +192,17 @@ describe("feed chickens", () => {
       },
     };
 
-    const createdAt = 1000;
+    const now = Date.now();
+    // 10% speed increase
+    const boost = CHICKEN_TIME_TO_EGG * MUTANT_CHICKEN_BOOST_AMOUNT;
 
     const newState = feedChicken({
       state,
       action: { type: "chicken.feed", index: 0 },
-      createdAt,
+      createdAt: now,
     });
 
-    expect(newState.chickens[0].fedAt).toEqual(900);
+    expect(newState.chickens[0].fedAt).toEqual(now + boost);
   });
 
   it("adds a yield boost of 10% if a Rich Chicken is present", () => {

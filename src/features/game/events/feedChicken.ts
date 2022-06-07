@@ -25,13 +25,13 @@ const makeFedAt = (inventory: Inventory, createdAt: number) => {
   const hasSpeedChicken = inventory["Speed Chicken"]?.gt(0);
 
   if (hasSpeedChicken) {
-    return createdAt - createdAt * MUTANT_CHICKEN_BOOST_AMOUNT;
+    return createdAt + CHICKEN_TIME_TO_EGG * MUTANT_CHICKEN_BOOST_AMOUNT;
   }
 
   return createdAt;
 };
 
-const getWheatRequiredToFeed = (inventory: Inventory) => {
+export const getWheatRequiredToFeed = (inventory: Inventory) => {
   const hasFatChicken = inventory["Fat Chicken"]?.gt(0);
   const defaultAmount = new Decimal(1);
 
