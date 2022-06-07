@@ -18,6 +18,7 @@ import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
+import { announcements } from "features/announcements";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -68,6 +69,9 @@ export type BlockchainEvent =
       type: "REFRESH";
     }
   | {
+      type: "ACKNOWLEDGE";
+    }
+  | {
       type: "EXPIRED";
     }
   | {
@@ -109,6 +113,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 export type BlockchainState = {
   value:
     | "loading"
+    | "announcing"
     | "playing"
     | "autosaving"
     | "syncing"
@@ -201,7 +206,7 @@ export function startGame(authContext: Options) {
             },
             onDone: [
               {
-                target: "playing",
+                target: "loaded",
                 actions: assign({
                   state: (_, event) => event.data.state,
                   onChain: (_, event) => event.data.onChain,
@@ -216,6 +221,41 @@ export function startGame(authContext: Options) {
             onError: {
               target: "error",
               actions: "assignErrorMessage",
+            },
+          },
+        },
+        loaded: {
+          always: [
+            {
+              target: "announcing",
+              cond: () => {
+                const lastRead = localStorage.getItem("announcementLastRead");
+
+                if (lastRead) {
+                  return (
+                    new Date(lastRead) <
+                    announcements[announcements.length - 1].date
+                  );
+                }
+                return true;
+              },
+            },
+            {
+              target: "playing",
+            },
+          ],
+        },
+        announcing: {
+          on: {
+            ACKNOWLEDGE: {
+              actions: [
+                () =>
+                  localStorage.setItem(
+                    "announcementLastRead",
+                    announcements[announcements.length - 1].date.toISOString()
+                  ),
+              ],
+              target: "playing",
             },
           },
         },
