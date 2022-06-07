@@ -33,6 +33,8 @@ import Decimal from "decimal.js-light";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { secondsToMidString } from "lib/utils/time";
+import { MutantChickenModal } from "./MutantChickenModal";
+import { MutantChicken } from "features/game/types/craftables";
 
 interface Props {
   index: number;
@@ -123,6 +125,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   // Popover is to indicate when player has no wheat or when wheat is not selected.
   const [showPopover, setShowPopover] = useState(false);
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
+  const [showMutantModal, setShowMutantModal] = useState(false);
 
   const debouncedHandleMouseEnter = debounce(
     () => eggIsBrewing && setShowTimeToEgg(true),
@@ -159,6 +162,20 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
       timeToEgg: getSecondsToEgg(chicken.fedAt),
       isFed: true,
     });
+  };
+
+  const handleCollect = () => {
+    if (chicken.reward) {
+      setShowMutantModal(true);
+      return;
+    }
+
+    collectEgg();
+  };
+
+  const handleContinue = () => {
+    setShowMutantModal(false);
+    collectEgg();
   };
 
   const collectEgg = () => {
@@ -295,7 +312,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             direction={`forward`}
             autoplay={true}
             loop={false}
-            onClick={collectEgg}
+            onClick={handleCollect}
           />
         )}
       </div>
@@ -315,6 +332,14 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             seconds={CHICKEN_TIME_TO_EGG / 1000}
           />
         </div>
+      )}
+      {showMutantModal && (
+        <MutantChickenModal
+          show={showMutantModal}
+          type={chicken.reward?.items[0].name as MutantChicken}
+          onContinue={handleContinue}
+          inventory={state.inventory}
+        />
       )}
     </div>
   );
