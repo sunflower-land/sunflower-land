@@ -648,8 +648,7 @@ export const Decorations: React.FC<Props> = ({ state }) => (
       </div>
     )}
 
-    {/* {state.inventory["Rooster"] && ( */}
-    {true && (
+    {state.inventory["Rooster"] && (
       <img
         style={{
           width: `${GRID_WIDTH_PX * 1.47}px`,
