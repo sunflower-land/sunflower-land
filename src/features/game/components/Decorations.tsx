@@ -690,7 +690,7 @@ export const Decorations: React.FC<Props> = ({ state }) => (
     {state.inventory["Rooster"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.47}px`,
+          width: `${GRID_WIDTH_PX * 0.71}px`,
           left: `${GRID_WIDTH_PX * 54.6}px`,
           top: `${GRID_WIDTH_PX * 15.7}px`,
         }}
