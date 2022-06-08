@@ -148,7 +148,6 @@ import easterBunny from "src/assets/nfts/easter/easter_bunny.gif";
 import momCoreEngine from "src/assets/nfts/mom/engine_core.png";
 import observatory from "src/assets/nfts/mom/observatory.gif";
 
-
 // Cakes
 import beetrootCake from "src/assets/nfts/cakes/beetroot_cake.png";
 import cabbageCake from "src/assets/nfts/cakes/cabbage_cake.png";
@@ -165,7 +164,6 @@ import goblinKey from "src/assets/nfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
 import ancientGoblinSword from "src/assets/nfts/quest/ancient_goblin_sword.png";
 import ancientHumanWarhammer from "src/assets/nfts/quest/ancient_human_warhammer.png";
-
 
 import { InventoryItemName } from "./game";
 import {
