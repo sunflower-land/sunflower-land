@@ -78,6 +78,9 @@ export const VipArea: React.FC<Props> = ({ inventory }) => {
       return (
         <>
           <span className="text-shadow mt-2 block text-center">
+            Congratulations!
+          </span>
+          <span className="text-shadow my-2 block text-center">
             You now have VIP access. Go check out the VIP room in Discord
           </span>
         </>
@@ -86,7 +89,7 @@ export const VipArea: React.FC<Props> = ({ inventory }) => {
 
     if (state === "noAccess") {
       return (
-        <span className="text-shadow mt-2 block text-center">
+        <span className="text-shadow my-2 block text-center">
           VIP members only!
         </span>
       );
@@ -95,7 +98,7 @@ export const VipArea: React.FC<Props> = ({ inventory }) => {
     if (state === "noDiscord") {
       return (
         <>
-          <span className="text-shadow mt-2 block text-center">
+          <span className="text-shadow my-2 block text-center">
             You must be connected to Discord to access the VIP area.
           </span>
           <Button onClick={oauth}>Connect</Button>
@@ -106,7 +109,7 @@ export const VipArea: React.FC<Props> = ({ inventory }) => {
     if (state === "welcome") {
       return (
         <>
-          <span className="text-shadow mt-2 block text-center">
+          <span className="text-shadow my-2 block text-center">
             It looks like you are a special player. Come join our VIP chat on
             Discord
           </span>
@@ -139,7 +142,7 @@ export const VipArea: React.FC<Props> = ({ inventory }) => {
             className="h-6 top-4 right-4 absolute cursor-pointer"
             onClick={close}
           />
-          <div className="flex flex-col items-center justify-center m-2">
+          <div className="flex flex-col items-center justify-center">
             {Content()}
           </div>
         </Panel>
