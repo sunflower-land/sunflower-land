@@ -1,5 +1,5 @@
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
-import { assign, createMachine, State } from "xstate";
+import { assign, createMachine, Interpreter, State } from "xstate";
 
 const TICK_INTERVAL = 1; // 1 second
 
@@ -34,6 +34,13 @@ type ChickenEvent =
   | { type: "LAY" };
 
 export type MachineState = State<ChickenContext, ChickenEvent, ChickenState>;
+
+export type MachineInterpreter = Interpreter<
+  ChickenContext,
+  any,
+  ChickenEvent,
+  ChickenState
+>;
 
 function getRndInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;

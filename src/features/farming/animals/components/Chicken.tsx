@@ -13,12 +13,11 @@ import cancel from "assets/icons/cancel.png";
 import wheat from "assets/crops/wheat/crop.png";
 import egg from "assets/resources/egg.png";
 
-import { useInterval } from "lib/utils/hooks/useInterval";
-
 import { Context } from "features/game/GameProvider";
 import {
   ChickenContext,
   chickenMachine,
+  MachineInterpreter,
   MachineState,
 } from "../chickenMachine";
 import { Position } from "./Chickens";
@@ -35,6 +34,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { secondsToMidString } from "lib/utils/time";
 import { MutantChickenModal } from "./MutantChickenModal";
 import { MutantChicken } from "features/game/types/craftables";
+import { getWheatRequiredToFeed } from "features/game/events/feedChicken";
 
 interface Props {
   index: number;
@@ -52,14 +52,12 @@ const getPercentageComplete = (fedAt?: number) => {
 };
 
 interface TimeToEggProps {
-  timeToEgg: number;
+  service: MachineInterpreter;
   showTimeToEgg: boolean;
 }
 
-const TimeToEgg = ({ timeToEgg, showTimeToEgg }: TimeToEggProps) => {
-  const [timeLeft, setTimeLeft] = useState(timeToEgg);
-  // This interval will only run when this is showing in the ui
-  useInterval(() => setTimeLeft((time) => time - 1), 1000);
+const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
+  const [{ context }] = useActor(service);
 
   return (
     <InnerPanel
@@ -72,7 +70,9 @@ const TimeToEgg = ({ timeToEgg, showTimeToEgg }: TimeToEggProps) => {
       )}
     >
       <div className="text-[8px] text-white mx-1">
-        <span>{secondsToMidString(timeLeft)}</span>
+        <span>
+          {secondsToMidString(context.timeToEgg - context.timeElapsed)}
+        </span>
       </div>
     </InnerPanel>
   );
@@ -108,7 +108,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const service = useInterpret(chickenMachine, {
     // If chicken is already brewing an egg then add that to the chicken machine context
     context: chickenContext,
-  });
+  }) as MachineInterpreter;
 
   // As per xstate docs:
   // To use a piece of state from the service inside a render, use the useSelector(...) hook to subscribe to it
@@ -139,9 +139,10 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   };
 
   const feed = async () => {
-    const wheatAmount = state.inventory.Wheat ?? new Decimal(0);
+    const currentWheatAmount = state.inventory.Wheat ?? new Decimal(0);
+    const wheatRequired = getWheatRequiredToFeed(state.inventory);
 
-    if (selectedItem !== "Wheat" || wheatAmount.lt(1)) {
+    if (selectedItem !== "Wheat" || currentWheatAmount.lt(wheatRequired)) {
       setShowPopover(true);
       await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
       setShowPopover(false);
@@ -295,7 +296,6 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             onClick={() => service.send("LAY")}
           />
         )}
-
         {eggLaid && (
           <Spritesheet
             image={layingEggSheet}
@@ -317,10 +317,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
         )}
       </div>
       {eggIsBrewing && showTimeToEgg && (
-        <TimeToEgg
-          showTimeToEgg={showTimeToEgg}
-          timeToEgg={getSecondsToEgg(chicken.fedAt)}
-        />
+        <TimeToEgg showTimeToEgg={showTimeToEgg} service={service} />
       )}
       {showEggProgress && (
         <div
