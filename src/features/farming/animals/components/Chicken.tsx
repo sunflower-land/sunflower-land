@@ -163,6 +163,11 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
       timeToEgg: getSecondsToEgg(chicken.fedAt),
       isFed: true,
     });
+
+    setToast({
+      icon: wheat,
+      content: `-${wheatRequired}`,
+    });
   };
 
   const handleCollect = () => {
