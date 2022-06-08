@@ -88,6 +88,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Speed Chicken": 610,
   "Fat Chicken": 611,
   "Rich Chicken": 612,
+  Rooster: 613,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

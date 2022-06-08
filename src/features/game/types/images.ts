@@ -59,6 +59,7 @@ import tunnelMole from "assets/nfts/tunnel_mole.gif";
 import rockyMole from "assets/nfts/rocky_mole.gif";
 import nugget from "assets/nfts/nugget.gif";
 import rockGolem from "assets/nfts/rock_golem.gif";
+import rooster from "assets/nfts/rooster.gif";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -466,6 +467,10 @@ export const ITEM_DETAILS: Items = {
   "Rock Golem": {
     ...BLACKSMITH_ITEMS["Rock Golem"],
     image: rockGolem,
+  },
+  Rooster: {
+    ...BARN_ITEMS["Rooster"],
+    image: rooster,
   },
 
   // FOOD

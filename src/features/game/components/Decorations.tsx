@@ -23,6 +23,7 @@ import kuebiko from "assets/nfts/kuebiko.gif";
 import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
 import goldenBonsai from "assets/nfts/golden_bonsai.png";
+import rooster from "assets/nfts/rooster.gif";
 
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import mysteriousHead from "assets/nfts/mysterious_head.png";
@@ -654,7 +655,7 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         id={Section["Golden Bonsai"]}
         className="absolute"
         src={goldenBonsai}
-        alt="Golen Bonsai"
+        alt="Golden Bonsai"
       />
     )}
 
@@ -684,6 +685,20 @@ export const Decorations: React.FC<Props> = ({ state }) => (
       >
         <RockGolem state={state} />
       </div>
+    )}
+
+    {state.inventory["Rooster"] && (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.47}px`,
+          left: `${GRID_WIDTH_PX * 54.6}px`,
+          top: `${GRID_WIDTH_PX * 15.7}px`,
+        }}
+        id={Section["Rooster"]}
+        className="absolute"
+        src={rooster}
+        alt="Rooster"
+      />
     )}
   </div>
 );

@@ -18,7 +18,12 @@ interface Props {
   inventory: Inventory;
 }
 
-const VIP_ITEMS: InventoryItemName[] = ["Foreman Beaver", "Kuebiko", "Nugget"];
+const VIP_ITEMS: InventoryItemName[] = [
+  "Foreman Beaver",
+  "Kuebiko",
+  "Nugget",
+  "Golden Cauliflower",
+];
 export const VipArea: React.FC<Props> = ({ inventory }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);

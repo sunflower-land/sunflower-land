@@ -44,6 +44,11 @@ type MintEvent = {
   captcha: string;
 };
 
+export type MintedEvent = {
+  item: LimitedItemName;
+  sessionId: string;
+};
+
 type WithdrawEvent = {
   type: "WITHDRAW";
   sfl: number;
@@ -228,7 +233,8 @@ export function startGoblinVillage(authContext: AuthContext) {
 
               return {
                 sessionId,
-              };
+                item,
+              } as MintedEvent;
             },
             onDone: {
               target: "minted",
