@@ -73,6 +73,10 @@ function isValidProgress({ state, onChain }: ProcessEventArgs) {
     const diff = state.inventory[name]?.minus(onChainAmount) || new Decimal(0);
     const max = maxItems[name] || new Decimal(0);
 
+    if (max.eq(0)) {
+      return true;
+    }
+
     if (diff.gt(max)) {
       console.log({
         name,
