@@ -155,16 +155,16 @@ import momCoreEngine from "src/assets/nfts/mom/engine_core.png";
 import observatory from "src/assets/nfts/mom/observatory.gif";
 
 // Cakes
-import beetrootCake from "src/assets/nfts/cakes/beetroot_cake.png";
-import cabbageCake from "src/assets/nfts/cakes/cabbage_cake.png";
 import carrotCake from "src/assets/nfts/cakes/carrot_cake.png";
-import cauliflowerCake from "src/assets/nfts/cakes/cauliflower_cake.png";
-import parsnipCake from "src/assets/nfts/cakes/parsnip_cake.png";
-import potatoCake from "src/assets/nfts/cakes/potato_cake.png";
-import pumpkinCake from "src/assets/nfts/cakes/pumpkin_cake.png";
 import radishCake from "src/assets/nfts/cakes/radish_cake.png";
-import sunflowerCake from "src/assets/nfts/cakes/sunflower_cake.png";
-import wheatCake from "src/assets/nfts/cakes/wheat_cake.png";
+// import beetrootCake from "src/assets/nfts/cakes/beetroot_cake.png";
+// import cabbageCake from "src/assets/nfts/cakes/cabbage_cake.png";
+// import cauliflowerCake from "src/assets/nfts/cakes/cauliflower_cake.png";
+// import parsnipCake from "src/assets/nfts/cakes/parsnip_cake.png";
+// import potatoCake from "src/assets/nfts/cakes/potato_cake.png";
+// import pumpkinCake from "src/assets/nfts/cakes/pumpkin_cake.png";
+// import sunflowerCake from "src/assets/nfts/cakes/sunflower_cake.png";
+// import wheatCake from "src/assets/nfts/cakes/wheat_cake.png";
 
 import goblinKey from "src/assets/nfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
@@ -509,11 +509,11 @@ export const ITEM_DETAILS: Items = {
   // Cakes
   "Beetroot Cake": {
     ...CAKES()["Beetroot Cake"],
-    image: beetrootCake,
+    image: questionMark,
   },
   "Cabbage Cake": {
     ...CAKES()["Cabbage Cake"],
-    image: cabbageCake,
+    image: questionMark,
   },
   "Carrot Cake": {
     ...CAKES()["Carrot Cake"],
@@ -521,19 +521,19 @@ export const ITEM_DETAILS: Items = {
   },
   "Cauliflower Cake": {
     ...CAKES()["Cauliflower Cake"],
-    image: cauliflowerCake,
+    image: questionMark,
   },
   "Parsnip Cake": {
     ...CAKES()["Parsnip Cake"],
-    image: parsnipCake,
+    image: questionMark,
   },
   "Potato Cake": {
     ...CAKES()["Potato Cake"],
-    image: potatoCake,
+    image: questionMark,
   },
   "Pumpkin Cake": {
     ...CAKES()["Pumpkin Cake"],
-    image: pumpkinCake,
+    image: questionMark,
   },
   "Radish Cake": {
     ...CAKES()["Radish Cake"],
@@ -541,11 +541,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Sunflower Cake": {
     ...CAKES()["Sunflower Cake"],
-    image: sunflowerCake,
+    image: questionMark,
   },
   "Wheat Cake": {
     ...CAKES()["Wheat Cake"],
-    image: wheatCake,
+    image: questionMark,
   },
 
   /**
