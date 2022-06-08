@@ -572,7 +572,7 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Nyon Statue": {
     name: "Nyon Statue",
     description: "In memory of Nyon Lann",
-    // TODO: Add section
+    section: Section["Nyon Statue"],
     type: LimitedItemType.BlacksmithItem,
   },
   "Farmer Bath": {

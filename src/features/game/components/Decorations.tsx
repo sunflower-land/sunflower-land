@@ -543,7 +543,7 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         style={{
           width: `${GRID_WIDTH_PX * 3}px`,
           right: `${GRID_WIDTH_PX * 27.5}px`,
-          bottom: `${GRID_WIDTH_PX * 5.5}px`,
+          top: `${GRID_WIDTH_PX * 92.5}px`,
         }}
         id={Section["Goblin Crown"]}
         className="absolute"

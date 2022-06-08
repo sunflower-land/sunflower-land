@@ -175,6 +175,7 @@ import {
   BLACKSMITH_ITEMS,
   MARKET_ITEMS,
   BARN_ITEMS,
+  ROCKET_ITEMS,
   CRAFTABLES,
   LimitedItem,
 } from "./craftables";
@@ -807,6 +808,7 @@ export const ITEM_DETAILS: Items = {
     image: momCoreEngine,
   },
   Observatory: {
+    ...ROCKET_ITEMS["Observatory"],
     description: "Reach the stars and increase XP",
     image: observatory,
   },
