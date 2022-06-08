@@ -81,6 +81,19 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
   const expiryTime = state.stockExpiry[selected.name];
 
   const ItemContent = () => {
+    if (!state.stock[selected.name] || state.stock[selected.name]?.eq(0)) {
+      return (
+        <div>
+          <p className="text-xxs no-wrap text-center my-1 underline">
+            Sold out
+          </p>
+          <p className="text-xxs text-center">
+            Sync your farm to the Blockchain to restock
+          </p>
+        </div>
+      );
+    }
+
     if (hasSelectedFood) {
       return <span className="text-xs text-center mt-4">Already crafted</span>;
     }
