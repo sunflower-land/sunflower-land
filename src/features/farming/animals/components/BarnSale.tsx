@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import close from "assets/icons/close.png";
 import chicken from "assets/resources/chicken.png";
@@ -7,8 +7,6 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { ANIMALS } from "features/game/types/craftables";
 import { CraftingItems } from "features/farming/blacksmith/components/CraftingItems";
-import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
@@ -16,8 +14,6 @@ interface Props {
 
 export const BarnSale: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState<"animals">("animals");
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
 
   return (
     <Panel className="pt-5 relative">

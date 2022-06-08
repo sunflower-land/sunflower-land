@@ -20,6 +20,9 @@ const maxItems: Inventory = {
 
   Chicken: new Decimal("20"),
   Egg: new Decimal("60"),
+  "Speed Chicken": new Decimal("5"),
+  "Rich Chicken": new Decimal("5"),
+  "Fat Chicken": new Decimal("5"),
 
   // Stock limits
   ...INITIAL_STOCK,

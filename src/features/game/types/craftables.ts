@@ -59,6 +59,8 @@ export interface CraftableItem {
   isPlaceholder?: boolean;
 }
 
+export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
+
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
   section?: Section;
@@ -120,7 +122,8 @@ export type LimitedItemName =
   | MarketItem
   | Flag
   | MOMEventItem
-  | QuestItem;
+  | QuestItem
+  | MutantChicken;
 
 export type Tool =
   | "Axe"
@@ -514,6 +517,27 @@ export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
   },
 };
 
+export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
+  "Speed Chicken": {
+    name: "Speed Chicken",
+    description: "Produces eggs 10% faster",
+    section: Section["Speed Chicken"],
+    type: LimitedItemType.MutantChicken,
+  },
+  "Fat Chicken": {
+    name: "Fat Chicken",
+    description: "10% less wheat needed to feed a chicken",
+    section: Section["Fat Chicken"],
+    type: LimitedItemType.MutantChicken,
+  },
+  "Rich Chicken": {
+    name: "Rich Chicken",
+    description: "Yields 10% more eggs",
+    section: Section["Rich Chicken"],
+    type: LimitedItemType.MutantChicken,
+  },
+};
+
 export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
@@ -764,6 +788,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...FLAGS,
   ...ROCKET_ITEMS,
   ...QUEST_ITEMS,
+  ...MUTANT_CHICKENS,
 });
 
 /**
@@ -780,6 +805,7 @@ export const LIMITED_ITEMS = {
   ...FLAGS,
   ...ROCKET_ITEMS,
   ...QUEST_ITEMS,
+  ...MUTANT_CHICKENS,
 };
 
 export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);

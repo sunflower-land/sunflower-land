@@ -13,19 +13,18 @@ import cancel from "assets/icons/cancel.png";
 import wheat from "assets/crops/wheat/crop.png";
 import egg from "assets/resources/egg.png";
 
-import { useInterval } from "lib/utils/hooks/useInterval";
-
 import { Context } from "features/game/GameProvider";
 import {
   ChickenContext,
   chickenMachine,
+  MachineInterpreter,
   MachineState,
 } from "../chickenMachine";
 import { Position } from "./Chickens";
 import { getSecondsToEgg } from "features/game/events/collectEgg";
 import Spritesheet from "components/animation/SpriteAnimator";
 import {
-  CHICKEN_FEEDING_TIME,
+  CHICKEN_TIME_TO_EGG,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -33,6 +32,9 @@ import Decimal from "decimal.js-light";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { secondsToMidString } from "lib/utils/time";
+import { MutantChickenModal } from "./MutantChickenModal";
+import { MutantChicken } from "features/game/types/craftables";
+import { getWheatRequiredToFeed } from "features/game/events/feedChicken";
 
 interface Props {
   index: number;
@@ -44,20 +46,18 @@ const getPercentageComplete = (fedAt?: number) => {
 
   const timePassedSinceFed = Date.now() - fedAt;
 
-  if (timePassedSinceFed >= CHICKEN_FEEDING_TIME) return 100;
+  if (timePassedSinceFed >= CHICKEN_TIME_TO_EGG) return 100;
 
-  return Math.ceil((timePassedSinceFed / CHICKEN_FEEDING_TIME) * 100);
+  return Math.ceil((timePassedSinceFed / CHICKEN_TIME_TO_EGG) * 100);
 };
 
 interface TimeToEggProps {
-  timeToEgg: number;
+  service: MachineInterpreter;
   showTimeToEgg: boolean;
 }
 
-const TimeToEgg = ({ timeToEgg, showTimeToEgg }: TimeToEggProps) => {
-  const [timeLeft, setTimeLeft] = useState(timeToEgg);
-  // This interval will only run when this is showing in the ui
-  useInterval(() => setTimeLeft((time) => time - 1), 1000);
+const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
+  const [{ context }] = useActor(service);
 
   return (
     <InnerPanel
@@ -70,7 +70,9 @@ const TimeToEgg = ({ timeToEgg, showTimeToEgg }: TimeToEggProps) => {
       )}
     >
       <div className="text-[8px] text-white mx-1">
-        <span>{secondsToMidString(timeLeft)}</span>
+        <span>
+          {secondsToMidString(context.timeToEgg - context.timeElapsed)}
+        </span>
       </div>
     </InnerPanel>
   );
@@ -106,7 +108,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const service = useInterpret(chickenMachine, {
     // If chicken is already brewing an egg then add that to the chicken machine context
     context: chickenContext,
-  });
+  }) as MachineInterpreter;
 
   // As per xstate docs:
   // To use a piece of state from the service inside a render, use the useSelector(...) hook to subscribe to it
@@ -123,6 +125,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   // Popover is to indicate when player has no wheat or when wheat is not selected.
   const [showPopover, setShowPopover] = useState(false);
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
+  const [showMutantModal, setShowMutantModal] = useState(false);
 
   const debouncedHandleMouseEnter = debounce(
     () => eggIsBrewing && setShowTimeToEgg(true),
@@ -136,9 +139,10 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   };
 
   const feed = async () => {
-    const wheatAmount = state.inventory.Wheat ?? new Decimal(0);
+    const currentWheatAmount = state.inventory.Wheat ?? new Decimal(0);
+    const wheatRequired = getWheatRequiredToFeed(state.inventory);
 
-    if (selectedItem !== "Wheat" || wheatAmount.lt(1)) {
+    if (selectedItem !== "Wheat" || currentWheatAmount.lt(wheatRequired)) {
       setShowPopover(true);
       await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
       setShowPopover(false);
@@ -159,6 +163,20 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
       timeToEgg: getSecondsToEgg(chicken.fedAt),
       isFed: true,
     });
+  };
+
+  const handleCollect = () => {
+    if (chicken.reward) {
+      setShowMutantModal(true);
+      return;
+    }
+
+    collectEgg();
+  };
+
+  const handleContinue = () => {
+    setShowMutantModal(false);
+    collectEgg();
   };
 
   const collectEgg = () => {
@@ -278,7 +296,6 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             onClick={() => service.send("LAY")}
           />
         )}
-
         {eggLaid && (
           <Spritesheet
             image={layingEggSheet}
@@ -295,15 +312,12 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             direction={`forward`}
             autoplay={true}
             loop={false}
-            onClick={collectEgg}
+            onClick={handleCollect}
           />
         )}
       </div>
       {eggIsBrewing && showTimeToEgg && (
-        <TimeToEgg
-          showTimeToEgg={showTimeToEgg}
-          timeToEgg={getSecondsToEgg(chicken.fedAt)}
-        />
+        <TimeToEgg showTimeToEgg={showTimeToEgg} service={service} />
       )}
       {showEggProgress && (
         <div
@@ -312,9 +326,17 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
         >
           <Bar
             percentage={percentageComplete}
-            seconds={CHICKEN_FEEDING_TIME / 1000}
+            seconds={CHICKEN_TIME_TO_EGG / 1000}
           />
         </div>
+      )}
+      {showMutantModal && (
+        <MutantChickenModal
+          show={showMutantModal}
+          type={chicken.reward?.items[0].name as MutantChicken}
+          onContinue={handleContinue}
+          inventory={state.inventory}
+        />
       )}
     </div>
   );

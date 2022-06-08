@@ -31,6 +31,9 @@ export enum Section {
   "Golden Bonsai" = "golden-bonsai",
   Mole = "mole",
   "Rock Golem" = "rock-golem",
+  "Speed Chicken" = "speed-chicken",
+  "Rich Chicken" = "rich-chicken",
+  "Fat Chicken" = "fat-chicken",
   "Rooster" = "rooster",
 }
 

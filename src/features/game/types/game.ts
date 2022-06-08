@@ -56,6 +56,8 @@ export type EasterBunny = "Easter Bunny";
 
 export type MOMEventItem = "Engine Core";
 
+export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
+
 export type InventoryItemName =
   | CropName
   | SeedName
@@ -65,7 +67,8 @@ export type InventoryItemName =
   | EasterEgg
   | EasterBunny
   | Food
-  | MOMEventItem;
+  | MOMEventItem
+  | MutantChicken;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

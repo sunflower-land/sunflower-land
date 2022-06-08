@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { CHICKEN_FEEDING_TIME } from "../lib/constants";
+import { CHICKEN_TIME_TO_EGG } from "../lib/constants";
 import { Chicken, GameState } from "../types/game";
 
 export type CollectAction = {
@@ -10,9 +10,9 @@ export type CollectAction = {
 export const getSecondsToEgg = (fedAt: number) => {
   const timePassedSinceFed = Date.now() - fedAt;
 
-  if (timePassedSinceFed >= CHICKEN_FEEDING_TIME) return 0;
+  if (timePassedSinceFed >= CHICKEN_TIME_TO_EGG) return 0;
 
-  return Math.ceil((CHICKEN_FEEDING_TIME - timePassedSinceFed) / 1000);
+  return Math.ceil((CHICKEN_TIME_TO_EGG - timePassedSinceFed) / 1000);
 };
 
 type Options = {
@@ -21,8 +21,8 @@ type Options = {
   createdAt?: number;
 };
 
-export function eggIsReady(chicken: Chicken) {
-  return Date.now() - chicken.fedAt > CHICKEN_FEEDING_TIME;
+export function eggIsReady(chicken: Chicken, createdAt: number) {
+  return createdAt - chicken.fedAt >= CHICKEN_TIME_TO_EGG;
 }
 
 export function collectEggs({
@@ -37,9 +37,11 @@ export function collectEggs({
     throw new Error("This chicken does not exist");
   }
 
-  if (!eggIsReady(chicken)) {
+  if (!eggIsReady(chicken, createdAt)) {
     throw new Error("This chicken hasn't layed an egg");
   }
+
+  const mutantChicken = chicken.reward?.items[0];
 
   delete chickens[action.index];
 
@@ -48,6 +50,11 @@ export function collectEggs({
     inventory: {
       ...state.inventory,
       Egg: (state.inventory.Egg || new Decimal(0))?.add(1 * chicken.multiplier),
+      ...(mutantChicken && {
+        [mutantChicken.name]: (
+          state.inventory[mutantChicken.name] || new Decimal(0)
+        )?.add(mutantChicken.amount),
+      }),
     },
     chickens,
   };

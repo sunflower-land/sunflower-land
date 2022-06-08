@@ -9,6 +9,7 @@ export type ResourceName =
 export type Resource = {
   description: string;
 };
+
 export const RESOURCES: Record<ResourceName, Resource> = {
   Wood: {
     description: "Used to craft items",
