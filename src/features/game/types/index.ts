@@ -6,6 +6,7 @@ export enum LimitedItemType {
   BarnItem = "BarnItem",
   Flag = "Flag",
   MOMEventItem = "MOMEventItem",
+  QuestItem = "QuestItem",
 }
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {
@@ -162,6 +163,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Easter Bunny": 909,
   "Engine Core": 910,
   Observatory: 911,
+  "Goblin Key": 912,
+  "Sunflower Key": 913,
+  "Ancient Goblin Sword": 914,
+  "Ancient Human Warhammer": 915,
 };
 
 // The reverse of above

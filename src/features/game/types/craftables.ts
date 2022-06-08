@@ -69,6 +69,12 @@ export interface LimitedItem extends CraftableItem {
 
 export type MOMEventItem = "Engine Core" | "Observatory";
 
+export type QuestItem =
+  | "Goblin Key"
+  | "Sunflower Key"
+  | "Ancient Goblin Sword"
+  | "Ancient Human Warhammer";
+
 export type BlacksmithItem =
   | "Sunflower Statue"
   | "Potato Statue"
@@ -112,7 +118,8 @@ export type LimitedItemName =
   | BarnItem
   | MarketItem
   | Flag
-  | MOMEventItem;
+  | MOMEventItem
+  | QuestItem;
 
 export type Tool =
   | "Axe"
@@ -469,6 +476,29 @@ export const TOOLS: Record<Tool, CraftableItem> = {
   },
 };
 
+export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
+  "Goblin Key": {
+    name: "Goblin Key",
+    description: "The Goblin Key",
+    type: LimitedItemType.QuestItem,
+  },
+  "Sunflower Key": {
+    name: "Sunflower Key",
+    description: "The Sunflower Key",
+    type: LimitedItemType.QuestItem,
+  },
+  "Ancient Goblin Sword": {
+    name: "Ancient Goblin Sword",
+    description: "An Ancient Goblin Sword",
+    type: LimitedItemType.QuestItem,
+  },
+  "Ancient Human Warhammer": {
+    name: "Ancient Human Warhammer",
+    description: "An Ancient Human Warhammer",
+    type: LimitedItemType.QuestItem,
+  },
+};
+
 export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
   "Engine Core": {
     name: "Engine Core",
@@ -601,10 +631,9 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   },
   "Rock Golem": {
     name: "Rock Golem",
-    description: "Gives a 10% chance to get 5x stone",
+    description: "Gives a 10% chance to get 3x stone",
     section: Section["Rock Golem"],
     type: LimitedItemType.BlacksmithItem,
-    isPlaceholder: true,
   },
 };
 
@@ -655,7 +684,7 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
 export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   "Chicken Coop": {
     name: "Chicken Coop",
-    description: "Collect 3x the amount of eggs",
+    description: "Collect 2x the amount of eggs",
     section: Section["Chicken Coop"],
     type: LimitedItemType.BarnItem,
   },
@@ -727,6 +756,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...ANIMALS(),
   ...FLAGS,
   ...ROCKET_ITEMS,
+  ...QUEST_ITEMS,
 });
 
 /**
@@ -742,6 +772,7 @@ export const LIMITED_ITEMS = {
   ...MARKET_ITEMS,
   ...FLAGS,
   ...ROCKET_ITEMS,
+  ...QUEST_ITEMS,
 };
 
 export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);

@@ -79,7 +79,7 @@ export const Field: React.FC<Props> = ({
     setShowCropDetails(false);
   };
 
-  const onClick = () => {
+  const onClick = (analytics: boolean | undefined = undefined) => {
     // Small buffer to prevent accidental double clicks
     const now = Date.now();
     if (now - clickedAt.current < 100) {
@@ -114,6 +114,7 @@ export const Field: React.FC<Props> = ({
         gameService.send("item.planted", {
           index: fieldIndex,
           item: selectedItem,
+          analytics,
         });
 
         plantAudio.play();
@@ -197,14 +198,23 @@ export const Field: React.FC<Props> = ({
       >
         {popover}
       </div>
+      <img
+        src={selectBox}
+        style={{
+          opacity: 0.1,
+          visibility: "hidden",
+        }}
+        className="absolute inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-20 cursor-pointer"
+        onClick={() => onClick(true)}
+      />
       {playing && (
         <img
           src={selectBox}
           style={{
             opacity: 0.1,
           }}
-          className="absolute inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-20 cursor-pointer"
-          onClick={onClick}
+          className="absolute block inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-30 cursor-pointer"
+          onClick={() => onClick()}
         />
       )}
       <CropReward

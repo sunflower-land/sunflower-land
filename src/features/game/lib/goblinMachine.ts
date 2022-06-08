@@ -22,6 +22,9 @@ import { metamask } from "lib/blockchain/metamask";
 import { INITIAL_SESSION } from "./gameMachine";
 import { wishingWellMachine } from "features/goblins/wishingWell/wishingWellMachine";
 import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
+
+const API_URL = CONFIG.API_URL;
 
 export type GoblinState = Omit<GameState, "skills">;
 
@@ -39,6 +42,11 @@ type MintEvent = {
   type: "MINT";
   item: LimitedItemName;
   captcha: string;
+};
+
+export type MintedEvent = {
+  item: LimitedItemName;
+  sessionId: string;
 };
 
 type WithdrawEvent = {
@@ -115,7 +123,7 @@ export function startGoblinVillage(authContext: AuthContext) {
   return createMachine<Context, BlockchainEvent, GoblinMachineState>(
     {
       id: "goblinMachine",
-      initial: "loading",
+      initial: API_URL ? "loading" : "playing",
       context: {
         state: EMPTY,
         sessionId: INITIAL_SESSION,
@@ -127,13 +135,10 @@ export function startGoblinVillage(authContext: AuthContext) {
             src: async () => {
               const farmId = authContext.farmId as number;
 
-              const { game, limitedItems } = await getOnChainState({
+              const onChainState = await getOnChainState({
                 farmAddress: authContext.address as string,
                 id: Number(authContext.farmId),
               });
-
-              // Load the Goblin Village
-              game.id = farmId;
 
               // Get session id
               const sessionId = await metamask
@@ -146,9 +151,15 @@ export function startGoblinVillage(authContext: AuthContext) {
                 token: authContext.rawToken as string,
               });
 
-              game.fields = response?.game.fields || {};
+              const game = response?.game as GameState;
+              game.id = farmId;
+              game.balance = onChainState.game.balance;
+              game.inventory = onChainState.game.inventory;
+              game.farmAddress = onChainState.game.farmAddress;
 
-              const limitedItemsById = makeLimitedItemsById(limitedItems);
+              const limitedItemsById = makeLimitedItemsById(
+                onChainState.limitedItems
+              );
 
               return { state: game, limitedItems: limitedItemsById, sessionId };
             },
@@ -222,7 +233,8 @@ export function startGoblinVillage(authContext: AuthContext) {
 
               return {
                 sessionId,
-              };
+                item,
+              } as MintedEvent;
             },
             onDone: {
               target: "minted",

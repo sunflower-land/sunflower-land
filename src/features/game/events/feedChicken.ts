@@ -22,8 +22,8 @@ export function feedChicken({
     throw new Error("This chicken does not exist");
   }
 
-  if (action.index > 9) {
-    throw new Error("Cannot have more than 10 chickens");
+  if (action.index > 14) {
+    throw new Error("Cannot have more than 15 chickens");
   }
 
   const chickens = state.chickens || {};

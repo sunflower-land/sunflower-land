@@ -527,4 +527,15 @@ describe("canWithdraw", () => {
     expect(iron).toBeTruthy();
     expect(gold).toBeTruthy();
   });
+
+  it("prevents a quest item being withdrawn", () => {
+    const enabled = canWithdraw({
+      item: "Ancient Goblin Sword",
+      game: {
+        ...INITIAL_FARM,
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
 });

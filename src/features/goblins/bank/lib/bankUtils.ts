@@ -2,7 +2,7 @@ import { canChop } from "features/game/events/chop";
 import { isSeed } from "features/game/events/plant";
 import { canMine } from "features/game/events/stoneMine";
 import { GoblinState } from "features/game/lib/goblinMachine";
-import { FOODS, getKeys } from "features/game/types/craftables";
+import { FOODS, getKeys, QUEST_ITEMS } from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/crops";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { SKILL_TREE } from "features/game/types/skills";
@@ -38,6 +38,11 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
 
   // Coming soon
   if (item in FOODS()) {
+    return false;
+  }
+
+  // Quest item
+  if (item in QUEST_ITEMS) {
     return false;
   }
 

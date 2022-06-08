@@ -52,10 +52,14 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
   const craft = () => {
     gameService.send("item.crafted", {
       item: selected.name,
-      amount: 1,
+      amount,
     });
 
-    setToast({ icon: tokenStatic, content: `-$${selected.tokenAmount}` });
+    setToast({
+      icon: tokenStatic,
+      content: `-$${selected.tokenAmount?.mul(amount)}`,
+    });
+
     selected.ingredients?.map((ingredient) => {
       const item = ITEM_DETAILS[ingredient.item];
       setToast({

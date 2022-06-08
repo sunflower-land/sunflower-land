@@ -147,6 +147,7 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
             });
 
             const cooldownInProgress =
+              withdrawable &&
               mintCooldown({
                 cooldownSeconds: details?.cooldownSeconds,
                 mintedAt: details?.mintedAt,

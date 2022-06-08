@@ -13,7 +13,14 @@ type Request = {
 
 const API_URL = CONFIG.API_URL;
 
-export async function mint(request: Request) {
+async function mintRequest(request: Request): Promise<{
+  signature: string;
+  sessionId: string;
+  deadline: number;
+  // Data
+  farmId: number;
+  mintId: number;
+}> {
   const response = await window.fetch(`${API_URL}/mint/${request.farmId}`, {
     method: "POST",
     headers: {
@@ -35,7 +42,11 @@ export async function mint(request: Request) {
     throw new Error("Could not mint your object");
   }
 
-  const transaction = await response.json();
+  return await response.json();
+}
+
+export async function mint(request: Request) {
+  const transaction = await mintRequest(request);
 
   const sessionId = await metamask.getSessionManager().mint(transaction);
 

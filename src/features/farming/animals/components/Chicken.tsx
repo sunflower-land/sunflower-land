@@ -1,6 +1,7 @@
 import { useActor, useInterpret, useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
+import debounce from "lodash.debounce";
 
 import hungryChicken from "assets/animals/chickens/hungry.gif";
 import happyChicken from "assets/animals/chickens/happy.gif";
@@ -12,6 +13,8 @@ import cancel from "assets/icons/cancel.png";
 import wheat from "assets/crops/wheat/crop.png";
 import egg from "assets/resources/egg.png";
 
+import { useInterval } from "lib/utils/hooks/useInterval";
+
 import { Context } from "features/game/GameProvider";
 import {
   ChickenContext,
@@ -21,14 +24,57 @@ import {
 import { Position } from "./Chickens";
 import { getSecondsToEgg } from "features/game/events/collectEgg";
 import Spritesheet from "components/animation/SpriteAnimator";
-import { POPOVER_TIME_MS } from "features/game/lib/constants";
+import {
+  CHICKEN_FEEDING_TIME,
+  POPOVER_TIME_MS,
+} from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import Decimal from "decimal.js-light";
+import { Bar } from "components/ui/ProgressBar";
+import { InnerPanel } from "components/ui/Panel";
+import { secondsToMidString } from "lib/utils/time";
 
 interface Props {
   index: number;
   position: Position;
 }
+
+const getPercentageComplete = (fedAt?: number) => {
+  if (!fedAt) return 0;
+
+  const timePassedSinceFed = Date.now() - fedAt;
+
+  if (timePassedSinceFed >= CHICKEN_FEEDING_TIME) return 100;
+
+  return Math.ceil((timePassedSinceFed / CHICKEN_FEEDING_TIME) * 100);
+};
+
+interface TimeToEggProps {
+  timeToEgg: number;
+  showTimeToEgg: boolean;
+}
+
+const TimeToEgg = ({ timeToEgg, showTimeToEgg }: TimeToEggProps) => {
+  const [timeLeft, setTimeLeft] = useState(timeToEgg);
+  // This interval will only run when this is showing in the ui
+  useInterval(() => setTimeLeft((time) => time - 1), 1000);
+
+  return (
+    <InnerPanel
+      className={classNames(
+        "transition-opacity scale-90 absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-10 z-20 pointer-events-none",
+        {
+          "opacity-100": showTimeToEgg,
+          "opacity-0": !showTimeToEgg,
+        }
+      )}
+    >
+      <div className="text-[8px] text-white mx-1">
+        <span>{secondsToMidString(timeLeft)}</span>
+      </div>
+    </InnerPanel>
+  );
+};
 
 const isHungry = (state: MachineState) => state.matches("hungry");
 const isEating = (state: MachineState) => state.matches("eating");
@@ -48,6 +94,8 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const { setToast } = useContext(ToastContext);
 
   const chicken = state.chickens[index];
+
+  const percentageComplete = getPercentageComplete(chicken?.fedAt);
 
   const chickenContext: Partial<ChickenContext> | undefined = chicken && {
     timeToEgg: chicken && getSecondsToEgg(chicken.fedAt),
@@ -69,8 +117,23 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const eggReady = useSelector(service, isEggReady);
   const eggLaid = useSelector(service, isEggLaid);
 
+  const eggIsBrewing = happy || sleeping;
+  const showEggProgress = chicken && !eating && !eggLaid;
+
   // Popover is to indicate when player has no wheat or when wheat is not selected.
   const [showPopover, setShowPopover] = useState(false);
+  const [showTimeToEgg, setShowTimeToEgg] = useState(false);
+
+  const debouncedHandleMouseEnter = debounce(
+    () => eggIsBrewing && setShowTimeToEgg(true),
+    300
+  );
+
+  const handleMouseLeave = () => {
+    setShowTimeToEgg(false);
+
+    debouncedHandleMouseEnter.cancel();
+  };
 
   const feed = async () => {
     const wheatAmount = state.inventory.Wheat ?? new Decimal(0);
@@ -117,10 +180,9 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
       style={{
         right: position.right,
         top: position.top,
-        zIndex: index,
       }}
     >
-      <div className="relative w-16 h-16">
+      <div className="relative w-16 h-16" style={{ zIndex: index }}>
         {hungry && (
           <>
             <img
@@ -180,6 +242,8 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
         )}
         {happy && (
           <img
+            onMouseEnter={debouncedHandleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             src={happyChicken}
             alt="happy-chicken"
             className="absolute w-16 h-16"
@@ -187,6 +251,8 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
         )}
         {sleeping && (
           <img
+            onMouseEnter={debouncedHandleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             src={sleepingChicken}
             alt="sleeping-chicken"
             className="absolute w-16 h-16 top-[2px]"
@@ -233,6 +299,23 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
           />
         )}
       </div>
+      {eggIsBrewing && showTimeToEgg && (
+        <TimeToEgg
+          showTimeToEgg={showTimeToEgg}
+          timeToEgg={getSecondsToEgg(chicken.fedAt)}
+        />
+      )}
+      {showEggProgress && (
+        <div
+          className="absolute w-2/5 bottom-1 left-4"
+          style={{ zIndex: index + 1 }}
+        >
+          <Bar
+            percentage={percentageComplete}
+            seconds={CHICKEN_FEEDING_TIME / 1000}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -12,6 +12,9 @@ import { Tailor } from "../tailor/Tailor";
 import { Decorations } from "../Decorations";
 import { Rocket } from "../rocket/Rocket";
 import { GoblinMachineState } from "features/game/lib/goblinMachine";
+import { AncientTree } from "../quest/AncientTree";
+import { AncientRock } from "../quest/AncientRock";
+import { AncientDoor } from "../quest/AncientDoor";
 
 interface Props {
   state: GoblinMachineState["value"];
@@ -40,6 +43,9 @@ export const Village: React.FC<Props> = ({ state }) => {
       <WishingWell />
       <Tailor />
       <Decorations />
+      <AncientTree />
+      <AncientRock />
+      <AncientDoor />
       {state !== "loading" && <Rocket />}
     </div>
   );
