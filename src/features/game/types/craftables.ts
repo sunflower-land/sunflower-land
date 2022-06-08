@@ -593,6 +593,7 @@ export const LIMITED_ITEMS = {
   ...FLAGS,
   ...ROCKET_ITEMS,
   ...QUEST_ITEMS,
+  ...MUTANT_CHICKENS,
 };
 
 export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);
