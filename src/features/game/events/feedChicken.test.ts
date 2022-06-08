@@ -179,7 +179,7 @@ describe("feed chickens", () => {
       createdAt: now,
     });
 
-    expect(newState.chickens[0].fedAt).toEqual(now + boost);
+    expect(newState.chickens[0].fedAt).toEqual(now - boost);
   });
 
   it("doesn't stack the time boost of 10% if multiple Speed Chickens are present", () => {
@@ -193,7 +193,9 @@ describe("feed chickens", () => {
     };
 
     const now = Date.now();
-    // 10% speed increase
+    // We calculate time to egg but calculating the difference between fedAt and now.
+    // This represents how much time has passed since the chicken was fed.
+    // The 10% is applied by setting fedAt to 10% earlier so time passed is greater.
     const boost = CHICKEN_TIME_TO_EGG * MUTANT_CHICKEN_BOOST_AMOUNT;
 
     const newState = feedChicken({
@@ -202,7 +204,7 @@ describe("feed chickens", () => {
       createdAt: now,
     });
 
-    expect(newState.chickens[0].fedAt).toEqual(now + boost);
+    expect(newState.chickens[0].fedAt).toEqual(now - boost);
   });
 
   it("adds a yield boost of 10% if a Rich Chicken is present", () => {

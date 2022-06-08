@@ -25,7 +25,7 @@ const makeFedAt = (inventory: Inventory, createdAt: number) => {
   const hasSpeedChicken = inventory["Speed Chicken"]?.gt(0);
 
   if (hasSpeedChicken) {
-    return createdAt + CHICKEN_TIME_TO_EGG * MUTANT_CHICKEN_BOOST_AMOUNT;
+    return createdAt - CHICKEN_TIME_TO_EGG * MUTANT_CHICKEN_BOOST_AMOUNT;
   }
 
   return createdAt;
@@ -43,6 +43,10 @@ export const getWheatRequiredToFeed = (inventory: Inventory) => {
 };
 
 function getMultiplier(inventory: Inventory): ChickenInfo {
+  if (inventory["Chicken Coop"] && inventory["Rich Chicken"]) {
+    return { multiplier: 2 + MUTANT_CHICKEN_BOOST_AMOUNT, maxChickens: 15 };
+  }
+
   if (inventory["Chicken Coop"]) {
     return { multiplier: 2, maxChickens: 15 };
   }
