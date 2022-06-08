@@ -29,6 +29,7 @@ export interface Craftable {
   name: CraftableName;
   description: string;
   price?: Decimal;
+  sellPrice?: Decimal;
   ingredients: Ingredient[];
   limit?: number;
   supply?: number;
@@ -36,8 +37,6 @@ export interface Craftable {
   requires?: InventoryItemName;
   section?: Section;
 }
-
-// NEW ===========
 
 export type Ingredient = {
   id?: number;
@@ -135,7 +134,20 @@ export type Food =
   | "Pumpkin Soup"
   | "Roasted Cauliflower"
   | "Sauerkraut"
-  | "Radish Pie";
+  | "Radish Pie"
+  | Cake;
+
+export type Cake =
+  | "Sunflower Cake"
+  | "Potato Cake"
+  | "Pumpkin Cake"
+  | "Carrot Cake"
+  | "Cabbage Cake"
+  | "Beetroot Cake"
+  | "Cauliflower Cake"
+  | "Parsnip Cake"
+  | "Radish Cake"
+  | "Wheat Cake";
 
 export type Animal = "Chicken" | "Cow" | "Pig" | "Sheep";
 
@@ -182,6 +194,206 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
       {
         item: "Radish",
         amount: new Decimal(60),
+      },
+    ],
+  },
+  ...CAKES(),
+});
+
+export const CAKES: () => Record<Cake, Craftable> = () => ({
+  "Sunflower Cake": {
+    name: "Sunflower Cake",
+    description: "A ray of sunshine on your tastebuds",
+    tokenAmount: new Decimal(0),
+    sellPrice: marketRate(240),
+    ingredients: [
+      {
+        item: "Sunflower",
+        amount: new Decimal(200),
+      },
+      {
+        item: "Wheat",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(15),
+      },
+    ],
+  },
+  "Potato Cake": {
+    name: "Potato Cake",
+    description: "Soothe your body with this delicious treat",
+    tokenAmount: new Decimal(0),
+    sellPrice: marketRate(240),
+    ingredients: [
+      {
+        item: "Potato",
+        amount: new Decimal(500),
+      },
+      {
+        item: "Wheat",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(15),
+      },
+    ],
+  },
+  "Pumpkin Cake": {
+    name: "Pumpkin Cake",
+    description: "A treat for Goblins",
+    tokenAmount: new Decimal(0),
+    sellPrice: marketRate(240),
+    ingredients: [
+      {
+        item: "Pumpkin",
+        amount: new Decimal(130),
+      },
+      {
+        item: "Wheat",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(15),
+      },
+    ],
+  },
+  "Carrot Cake": {
+    name: "Carrot Cake",
+    description: "A rabbit's favourite",
+    tokenAmount: new Decimal(0),
+    sellPrice: marketRate(240),
+    ingredients: [
+      {
+        item: "Carrot",
+        amount: new Decimal(120),
+      },
+      {
+        item: "Wheat",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(15),
+      },
+    ],
+  },
+  "Cabbage Cake": {
+    name: "Cabbage Cake",
+    description: "An ancient human recipe",
+    tokenAmount: new Decimal(0),
+    sellPrice: marketRate(240),
+    ingredients: [
+      {
+        item: "Cabbage",
+        amount: new Decimal(90),
+      },
+      {
+        item: "Wheat",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(15),
+      },
+    ],
+  },
+  "Beetroot Cake": {
+    name: "Beetroot Cake",
+    description: "A romantic treat",
+    tokenAmount: new Decimal(0),
+    sellPrice: marketRate(300),
+    ingredients: [
+      {
+        item: "Beetroot",
+        amount: new Decimal(100),
+      },
+      {
+        item: "Wheat",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(15),
+      },
+    ],
+  },
+  "Cauliflower Cake": {
+    name: "Cauliflower Cake",
+    description: "Poisonous if baked for too long",
+    tokenAmount: new Decimal(0),
+    sellPrice: marketRate(300),
+    ingredients: [
+      {
+        item: "Cauliflower",
+        amount: new Decimal(60),
+      },
+      {
+        item: "Wheat",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(15),
+      },
+    ],
+  },
+  "Parsnip Cake": {
+    name: "Parsnip Cake",
+    description: "An ancient goblin recipe",
+    tokenAmount: new Decimal(0),
+    sellPrice: marketRate(300),
+    ingredients: [
+      {
+        item: "Parsnip",
+        amount: new Decimal(45),
+      },
+      {
+        item: "Wheat",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(15),
+      },
+    ],
+  },
+  "Radish Cake": {
+    name: "Radish Cake",
+    description: "A bitter cake loved by animals",
+    tokenAmount: new Decimal(0),
+    sellPrice: marketRate(300),
+    ingredients: [
+      {
+        item: "Radish",
+        amount: new Decimal(25),
+      },
+      {
+        item: "Wheat",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(15),
+      },
+    ],
+  },
+  "Wheat Cake": {
+    name: "Wheat Cake",
+    description: "The ultimate farmer treat",
+    tokenAmount: new Decimal(0),
+    sellPrice: marketRate(300),
+    ingredients: [
+      {
+        item: "Wheat",
+        amount: new Decimal(35),
+      },
+      {
+        item: "Egg",
+        amount: new Decimal(15),
       },
     ],
   },

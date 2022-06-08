@@ -77,6 +77,8 @@ export type Chicken = {
   reward?: Reward;
 };
 
+export type StockExpiry = Partial<Record<InventoryItemName, string>>;
+
 type PastAction = GameEvent & {
   createdAt: Date;
 };
@@ -94,6 +96,7 @@ export interface GameState {
 
   inventory: Inventory;
   stock: Inventory;
+  stockExpiry: StockExpiry;
 
   farmAddress?: string;
 

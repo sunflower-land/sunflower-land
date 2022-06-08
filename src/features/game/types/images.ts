@@ -149,6 +149,18 @@ import easterBunny from "src/assets/nfts/easter/easter_bunny.gif";
 import momCoreEngine from "src/assets/nfts/mom/engine_core.png";
 import observatory from "src/assets/nfts/mom/observatory.gif";
 
+// Cakes
+import beetrootCake from "src/assets/nfts/cakes/beetroot_cake.png";
+import cabbageCake from "src/assets/nfts/cakes/cabbage_cake.png";
+import carrotCake from "src/assets/nfts/cakes/carrot_cake.png";
+import cauliflowerCake from "src/assets/nfts/cakes/cauliflower_cake.png";
+import parsnipCake from "src/assets/nfts/cakes/parsnip_cake.png";
+import potatoCake from "src/assets/nfts/cakes/potato_cake.png";
+import pumpkinCake from "src/assets/nfts/cakes/pumpkin_cake.png";
+import radishCake from "src/assets/nfts/cakes/radish_cake.png";
+import sunflowerCake from "src/assets/nfts/cakes/sunflower_cake.png";
+import wheatCake from "src/assets/nfts/cakes/wheat_cake.png";
+
 import goblinKey from "src/assets/nfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
 import ancientGoblinSword from "src/assets/nfts/quest/ancient_goblin_sword.png";
@@ -157,6 +169,7 @@ import ancientHumanWarhammer from "src/assets/nfts/quest/ancient_human_warhammer
 import { InventoryItemName } from "./game";
 import {
   FOODS,
+  CAKES,
   TOOLS,
   FLAGS,
   BLACKSMITH_ITEMS,
@@ -484,6 +497,48 @@ export const ITEM_DETAILS: Items = {
   "Radish Pie": {
     ...FOODS()["Radish Pie"],
     image: radishPie,
+  },
+
+  // Cakes
+  "Beetroot Cake": {
+    ...CAKES()["Beetroot Cake"],
+    image: beetrootCake,
+  },
+  "Cabbage Cake": {
+    ...CAKES()["Cabbage Cake"],
+    image: cabbageCake,
+  },
+  "Carrot Cake": {
+    ...CAKES()["Carrot Cake"],
+    image: carrotCake,
+  },
+  "Cauliflower Cake": {
+    ...CAKES()["Cauliflower Cake"],
+    image: cauliflowerCake,
+  },
+  "Parsnip Cake": {
+    ...CAKES()["Parsnip Cake"],
+    image: parsnipCake,
+  },
+  "Potato Cake": {
+    ...CAKES()["Potato Cake"],
+    image: potatoCake,
+  },
+  "Pumpkin Cake": {
+    ...CAKES()["Pumpkin Cake"],
+    image: pumpkinCake,
+  },
+  "Radish Cake": {
+    ...CAKES()["Radish Cake"],
+    image: radishCake,
+  },
+  "Sunflower Cake": {
+    ...CAKES()["Sunflower Cake"],
+    image: sunflowerCake,
+  },
+  "Wheat Cake": {
+    ...CAKES()["Wheat Cake"],
+    image: wheatCake,
   },
 
   /**

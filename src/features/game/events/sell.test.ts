@@ -1,7 +1,8 @@
 import Decimal from "decimal.js-light";
+import "lib/__mocks__/configMock";
 import { GameState } from "../types/game";
 import { CROPS } from "../types/crops";
-import { sell } from "./sell";
+import { sell, SellableName } from "./sell";
 import { INITIAL_FARM } from "../lib/constants";
 
 const GAME_STATE: GameState = {
@@ -20,7 +21,7 @@ describe("sell", () => {
         state: GAME_STATE,
         action: {
           type: "item.sell",
-          item: "Axe",
+          item: "Axe" as SellableName,
           amount: 1,
         },
       })

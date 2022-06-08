@@ -67,6 +67,7 @@ export function makeGame(farm: any): GameState {
       {} as Record<number, Rock>
     ),
     chickens: farm.chickens || {},
+    stockExpiry: farm.stockExpiry || {},
     skills: {
       farming: new Decimal(farm.skills.farming),
       gathering: new Decimal(farm.skills.gathering),
