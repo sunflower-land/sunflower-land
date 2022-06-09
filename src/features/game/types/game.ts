@@ -91,6 +91,16 @@ type PastAction = GameEvent & {
   createdAt: Date;
 };
 
+export type TradeOffer = {
+  name: InventoryItemName;
+  startAt: string;
+  endAt: string;
+  ingredients: {
+    name: InventoryItemName;
+    amount: Decimal;
+  }[];
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -101,6 +111,9 @@ export interface GameState {
   iron: Record<number, Rock>;
   gold: Record<number, Rock>;
   chickens: Record<number, Chicken>;
+
+  tradedAt?: string;
+  tradeOffer?: TradeOffer;
 
   inventory: Inventory;
   stock: Inventory;

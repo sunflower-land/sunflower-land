@@ -76,6 +76,8 @@ export function makeGame(farm: any): GameState {
     balance: new Decimal(farm.balance),
     fields: farm.fields,
     id: farm.id,
+    tradeOffer: farm.tradeOffer,
+    tradedAt: farm.tradedAt,
   };
 }
 
