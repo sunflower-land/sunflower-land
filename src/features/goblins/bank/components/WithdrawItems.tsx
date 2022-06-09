@@ -1,6 +1,7 @@
 import { useActor } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Decimal from "decimal.js-light";
+import { useLongPress } from "use-long-press";
 
 import { Context } from "features/game/GoblinProvider";
 import { Inventory, InventoryItemName } from "features/game/types/game";
@@ -17,7 +18,6 @@ import player from "assets/icons/player.png";
 import { toWei } from "web3-utils";
 import { metamask } from "lib/blockchain/metamask";
 import { canWithdraw } from "../lib/bankUtils";
-import { getOnChainState } from "features/game/actions/onchain";
 
 import {
   getKeys,
@@ -25,6 +25,28 @@ import {
   LimitedItemName,
 } from "features/game/types/craftables";
 import { mintCooldown } from "features/goblins/blacksmith/lib/mintUtils";
+import { INITIAL_FARM } from "features/game/lib/constants";
+
+// TODO: move to types and constants files
+type WithdrawItemAction = {
+  direction: "add" | "remove";
+  itemName?: InventoryItemName;
+  amount?: number;
+};
+
+const MULTIPLE_DEFAULT: WithdrawItemAction = {
+  direction: "add",
+};
+
+const MULTIPLE_ADD: WithdrawItemAction = {
+  direction: "add",
+  amount: 50,
+};
+
+const MULTIPLE_REMOVE: WithdrawItemAction = {
+  direction: "remove",
+  amount: 50,
+};
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -36,17 +58,24 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [inventory, setInventory] = useState<Inventory>({});
   const [selected, setSelected] = useState<Inventory>({});
+  const [isLongPress, setIsLongPress] = useState(false);
+  const WithdrawItemAction = useRef<WithdrawItemAction>(MULTIPLE_DEFAULT);
+  const interval = useRef<any>();
+
+  /**
+   * TODO: check why sometimes isLongPress not toggling on onMouseDown!
+   */
 
   useEffect(() => {
     setIsLoading(true);
 
     const load = async () => {
-      const { game: state } = await getOnChainState({
-        id: goblinState.context.state.id as number,
-        farmAddress: goblinState.context.state.farmAddress as string,
-      });
+      // const { game: state } = await getOnChainState({
+      //   id: goblinState.context.state.id as number,
+      //   farmAddress: goblinState.context.state.farmAddress as string,
+      // });
 
-      setInventory(state.inventory);
+      setInventory(INITIAL_FARM.inventory);
       setIsLoading(false);
     };
 
@@ -63,29 +92,80 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
     onWithdraw(ids, amounts);
   };
 
-  const onAdd = (itemName: InventoryItemName) => {
-    setSelected((prev) => ({
-      ...prev,
-      [itemName]: (prev[itemName] || new Decimal(0)).add(1),
-    }));
+  const onAdd = (itemName: InventoryItemName, amount = 1) => {
+    // select the lower value between balance and amount of PREVIOUS inventory
+    let _amount = 0;
 
-    setInventory((prev) => ({
-      ...prev,
-      [itemName]: prev[itemName]?.minus(1),
-    }));
-  };
+    setInventory((prev) => {
+      _amount = Math.min(prev[itemName]?.toNumber() || amount, amount);
 
-  const onRemove = (itemName: InventoryItemName) => {
-    setInventory((prev) => ({
-      ...prev,
-      [itemName]: (prev[itemName] || new Decimal(0)).add(1),
-    }));
+      return {
+        ...prev,
+        [itemName]: prev[itemName]?.minus(_amount),
+      };
+    });
 
     setSelected((prev) => ({
       ...prev,
-      [itemName]: prev[itemName]?.minus(1),
+      [itemName]: (prev[itemName] || new Decimal(0)).add(_amount),
     }));
   };
+
+  const onRemove = (itemName: InventoryItemName, amount = 1) => {
+    // select the lower value between balance and amount of PREVIOUS selected
+    let _amount = 0;
+
+    setSelected((prev) => {
+      _amount = Math.min(prev[itemName]?.toNumber() || amount, amount);
+
+      return {
+        ...prev,
+        [itemName]: prev[itemName]?.minus(_amount),
+      };
+    });
+
+    setInventory((prev) => ({
+      ...prev,
+      [itemName]: (prev[itemName] || new Decimal(0)).add(_amount),
+    }));
+  };
+
+  const { onMouseDown, onMouseUp } = useLongPress(
+    () => {
+      console.log("firing long press callback");
+      setIsLongPress(true);
+    },
+    {
+      onStart: () => console.log("start detection..."),
+      onFinish: () => {
+        setIsLongPress(false);
+      },
+    }
+  )();
+
+  useEffect(() => {
+    if (isLongPress) {
+      console.log("start long press");
+      const { direction, itemName, amount } = WithdrawItemAction.current;
+
+      if (!itemName) return;
+
+      interval.current = setInterval(() => {
+        if (direction === "add") {
+          onAdd(itemName, amount);
+        } else {
+          onRemove(itemName, amount);
+        }
+      }, 500);
+    } else {
+      if (interval.current) {
+        console.log("done long press");
+        clearInterval(interval.current);
+        interval.current = null;
+        WithdrawItemAction.current = MULTIPLE_DEFAULT;
+      }
+    }
+  }, [isLongPress]);
 
   const makeItemDetails = (itemName: InventoryItemName) => {
     const details = ITEM_DETAILS[itemName];
@@ -161,6 +241,17 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
                 // isSelected={selected.includes(itemName)}
                 key={itemName}
                 onClick={() => onAdd(itemName)}
+                onMouseDown={(event) => {
+                  console.log("onMouseDown");
+                  WithdrawItemAction.current = { ...MULTIPLE_ADD, itemName };
+                  onMouseDown(event);
+                }}
+                onMouseUp={onMouseUp}
+                dismountCallback={() => {
+                  setIsLongPress(false);
+
+                  console.log("dismounted!");
+                }}
                 image={details.image}
                 locked={locked}
                 cooldownInProgress={cooldownInProgress}
@@ -183,6 +274,20 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
                   count={selected[itemName]}
                   key={itemName}
                   onClick={() => onRemove(itemName)}
+                  onMouseDown={(event) => {
+                    console.log("onMouseDown");
+                    WithdrawItemAction.current = {
+                      ...MULTIPLE_REMOVE,
+                      itemName,
+                    };
+                    onMouseDown(event);
+                  }}
+                  onMouseUp={onMouseUp}
+                  dismountCallback={() => {
+                    setIsLongPress(false);
+
+                    console.log("dismounted!");
+                  }}
                   image={ITEM_DETAILS[itemName].image}
                 />
               );

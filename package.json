@@ -46,6 +46,7 @@
     "react-router-dom": "^6.3.0",
     "remark-gfm": "^3.0.1",
     "stream-browserify": "^3.0.0",
+    "use-long-press": "^2.0.2",
     "util": "^0.12.4",
     "web3": "^1.6.1",
     "web3-health-check": "1.0.16",

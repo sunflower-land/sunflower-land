@@ -13,7 +13,10 @@ export interface BoxProps {
   secondaryImage?: any;
   isSelected?: boolean;
   count?: Decimal;
-  onClick?: () => void;
+  onClick?: (event: React.SyntheticEvent) => void;
+  onMouseDown?: (event: React.MouseEvent) => void;
+  onMouseUp?: (event: React.MouseEvent) => void;
+  dismountCallback?: () => void;
   disabled?: boolean;
   locked?: boolean;
   /**
@@ -52,12 +55,19 @@ export const Box: React.FC<BoxProps> = ({
   isSelected,
   count,
   onClick,
+  onMouseDown,
+  onMouseUp,
+  dismountCallback = () => undefined,
   disabled,
   locked,
   cooldownInProgress,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [shortCount, setShortCount] = useState("");
+
+  useEffect(() => {
+    return () => dismountCallback();
+  }, []);
 
   // re execute function on count change
   useEffect(() => setShortCount(shortenCount(count)), [count]);
@@ -81,6 +91,8 @@ export const Box: React.FC<BoxProps> = ({
           }
         )}
         onClick={canClick ? onClick : undefined}
+        onMouseDown={canClick ? onMouseDown : undefined}
+        onMouseUp={canClick ? onMouseUp : undefined}
         // Custom styles to get pixellated border effect
         style={{
           // border: "6px solid transparent",
