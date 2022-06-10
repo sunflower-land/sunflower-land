@@ -118,23 +118,16 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   const { onMouseDown: longPressOnMouseDown, onMouseUp: longPressOnMouseUp } =
-    useLongPress(
-      () => {
-        console.log("firing long press callback");
-        setIsLongPress(true);
-      },
-      {
-        isPreventDefault: true,
-        delay: 400,
-      }
-    );
+    useLongPress(() => setIsLongPress(true), {
+      isPreventDefault: true,
+      delay: 400,
+    });
 
   const handleBoxMouseDown = (
     event: React.MouseEvent,
     itemName: InventoryItemName,
     direction: Direction
   ) => {
-    console.log("onMouseDown");
     withdrawItemAction.current = { direction, itemName, amount: 50 };
     longPressOnMouseDown(event);
   };
@@ -147,7 +140,6 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
 
   useInterval(
     () => {
-      console.log("start long press");
       const { direction, itemName, amount } = withdrawItemAction.current;
 
       if (!itemName) return;
@@ -239,11 +231,7 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
                   handleBoxMouseDown(event, itemName, "add")
                 }
                 onMouseUp={handleBoxMouseUp}
-                dismountCallback={() => {
-                  setIsLongPress(false);
-
-                  console.log("dismounted!");
-                }}
+                dismountCallback={() => setIsLongPress(false)}
                 image={details.image}
                 locked={locked}
                 cooldownInProgress={cooldownInProgress}
@@ -270,11 +258,7 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
                     handleBoxMouseDown(event, itemName, "remove")
                   }
                   onMouseUp={handleBoxMouseUp}
-                  dismountCallback={() => {
-                    setIsLongPress(false);
-
-                    console.log("dismounted!");
-                  }}
+                  dismountCallback={() => setIsLongPress(false)}
                   image={ITEM_DETAILS[itemName].image}
                 />
               );
