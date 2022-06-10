@@ -1,7 +1,7 @@
 import { useActor } from "@xstate/react";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Decimal from "decimal.js-light";
-import { useLongPress } from "use-long-press";
+import { useLongPress } from "react-use";
 
 import { Context } from "features/game/GoblinProvider";
 import { Inventory, InventoryItemName } from "features/game/types/game";
@@ -17,6 +17,7 @@ import player from "assets/icons/player.png";
 
 import { toWei } from "web3-utils";
 import { metamask } from "lib/blockchain/metamask";
+import { useInterval } from "lib/utils/hooks/useInterval";
 import { canWithdraw } from "../lib/bankUtils";
 
 import {
@@ -27,25 +28,16 @@ import {
 import { mintCooldown } from "features/goblins/blacksmith/lib/mintUtils";
 import { INITIAL_FARM } from "features/game/lib/constants";
 
-// TODO: move to types and constants files
+type Direction = "add" | "remove";
+
 type WithdrawItemAction = {
-  direction: "add" | "remove";
+  direction: Direction;
   itemName?: InventoryItemName;
   amount?: number;
 };
 
-const MULTIPLE_DEFAULT: WithdrawItemAction = {
+const WITHDRAW_DEFAULT: WithdrawItemAction = {
   direction: "add",
-};
-
-const MULTIPLE_ADD: WithdrawItemAction = {
-  direction: "add",
-  amount: 50,
-};
-
-const MULTIPLE_REMOVE: WithdrawItemAction = {
-  direction: "remove",
-  amount: 50,
 };
 
 interface Props {
@@ -59,17 +51,13 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
   const [inventory, setInventory] = useState<Inventory>({});
   const [selected, setSelected] = useState<Inventory>({});
   const [isLongPress, setIsLongPress] = useState(false);
-  const WithdrawItemAction = useRef<WithdrawItemAction>(MULTIPLE_DEFAULT);
-  const interval = useRef<any>();
-
-  /**
-   * TODO: check why sometimes isLongPress not toggling on onMouseDown!
-   */
+  const withdrawItemAction = useRef<WithdrawItemAction>(WITHDRAW_DEFAULT);
 
   useEffect(() => {
     setIsLoading(true);
 
     const load = async () => {
+      // TODO: uncomment and replace INITIAL_FARM.inventory
       // const { game: state } = await getOnChainState({
       //   id: goblinState.context.state.id as number,
       //   farmAddress: goblinState.context.state.farmAddress as string,
@@ -130,42 +118,49 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
     }));
   };
 
-  const { onMouseDown, onMouseUp } = useLongPress(
-    () => {
-      console.log("firing long press callback");
-      setIsLongPress(true);
-    },
-    {
-      onStart: () => console.log("start detection..."),
-      onFinish: () => {
-        setIsLongPress(false);
+  const { onMouseDown: longPressOnMouseDown, onMouseUp: longPressOnMouseUp } =
+    useLongPress(
+      () => {
+        console.log("firing long press callback");
+        setIsLongPress(true);
       },
-    }
-  )();
+      {
+        isPreventDefault: true,
+        delay: 400,
+      }
+    );
 
-  useEffect(() => {
-    if (isLongPress) {
+  const handleBoxMouseDown = (
+    event: React.MouseEvent,
+    itemName: InventoryItemName,
+    direction: Direction
+  ) => {
+    console.log("onMouseDown");
+    withdrawItemAction.current = { direction, itemName, amount: 50 };
+    longPressOnMouseDown(event);
+  };
+
+  // Manually set isLongPress to false
+  const handleBoxMouseUp = () => {
+    setIsLongPress(false);
+    longPressOnMouseUp();
+  };
+
+  useInterval(
+    () => {
       console.log("start long press");
-      const { direction, itemName, amount } = WithdrawItemAction.current;
+      const { direction, itemName, amount } = withdrawItemAction.current;
 
       if (!itemName) return;
 
-      interval.current = setInterval(() => {
-        if (direction === "add") {
-          onAdd(itemName, amount);
-        } else {
-          onRemove(itemName, amount);
-        }
-      }, 500);
-    } else {
-      if (interval.current) {
-        console.log("done long press");
-        clearInterval(interval.current);
-        interval.current = null;
-        WithdrawItemAction.current = MULTIPLE_DEFAULT;
+      if (direction === "add") {
+        onAdd(itemName, amount);
+      } else {
+        onRemove(itemName, amount);
       }
-    }
-  }, [isLongPress]);
+    },
+    isLongPress ? 500 : null
+  );
 
   const makeItemDetails = (itemName: InventoryItemName) => {
     const details = ITEM_DETAILS[itemName];
@@ -241,12 +236,10 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
                 // isSelected={selected.includes(itemName)}
                 key={itemName}
                 onClick={() => onAdd(itemName)}
-                onMouseDown={(event) => {
-                  console.log("onMouseDown");
-                  WithdrawItemAction.current = { ...MULTIPLE_ADD, itemName };
-                  onMouseDown(event);
-                }}
-                onMouseUp={onMouseUp}
+                onMouseDown={(event) =>
+                  handleBoxMouseDown(event, itemName, "add")
+                }
+                onMouseUp={handleBoxMouseUp}
                 dismountCallback={() => {
                   setIsLongPress(false);
 
@@ -274,15 +267,10 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
                   count={selected[itemName]}
                   key={itemName}
                   onClick={() => onRemove(itemName)}
-                  onMouseDown={(event) => {
-                    console.log("onMouseDown");
-                    WithdrawItemAction.current = {
-                      ...MULTIPLE_REMOVE,
-                      itemName,
-                    };
-                    onMouseDown(event);
-                  }}
-                  onMouseUp={onMouseUp}
+                  onMouseDown={(event) =>
+                    handleBoxMouseDown(event, itemName, "remove")
+                  }
+                  onMouseUp={handleBoxMouseUp}
                   dismountCallback={() => {
                     setIsLongPress(false);
 
