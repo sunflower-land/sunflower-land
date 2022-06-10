@@ -19,6 +19,7 @@ import { toWei } from "web3-utils";
 import { metamask } from "lib/blockchain/metamask";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import { canWithdraw } from "../lib/bankUtils";
+import { getOnChainState } from "features/game/actions/onchain";
 
 import {
   getKeys,
@@ -26,7 +27,6 @@ import {
   LimitedItemName,
 } from "features/game/types/craftables";
 import { mintCooldown } from "features/goblins/blacksmith/lib/mintUtils";
-import { INITIAL_FARM } from "features/game/lib/constants";
 
 type Direction = "add" | "remove";
 
@@ -57,13 +57,12 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
     setIsLoading(true);
 
     const load = async () => {
-      // TODO: uncomment and replace INITIAL_FARM.inventory
-      // const { game: state } = await getOnChainState({
-      //   id: goblinState.context.state.id as number,
-      //   farmAddress: goblinState.context.state.farmAddress as string,
-      // });
+      const { game: state } = await getOnChainState({
+        id: goblinState.context.state.id as number,
+        farmAddress: goblinState.context.state.farmAddress as string,
+      });
 
-      setInventory(INITIAL_FARM.inventory);
+      setInventory(state.inventory);
       setIsLoading(false);
     };
 
