@@ -11,6 +11,7 @@ import goblinTailor from "assets/buildings/goblin_tailor.png";
 import goblinBank from "assets/buildings/goblin_bank.gif";
 import background from "assets/land/background.png";
 import goblinLandBackground from "assets/land/goblin_background.png";
+import waterBackground from "assets/land/water-background.png";
 import farm from "assets/brand/nft.png";
 import secure from "assets/npcs/synced.gif";
 import brokenRocket from "assets/mom/mom_broken_rocket.gif";
@@ -48,6 +49,7 @@ const IMAGE_LIST: string[] = [
   richChicken,
   fatChicken,
   speedChicken,
+  waterBackground,
 ];
 
 function preloadImage(src: string) {

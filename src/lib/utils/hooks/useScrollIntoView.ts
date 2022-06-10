@@ -35,6 +35,9 @@ export enum Section {
   "Rich Chicken" = "rich-chicken",
   "Fat Chicken" = "fat-chicken",
   "Rooster" = "rooster",
+
+  // Land
+  Base = "base",
 }
 
 export const useScrollIntoView = () => {

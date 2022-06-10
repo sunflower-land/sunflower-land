@@ -46,6 +46,10 @@ type StartEvent = Farm & {
   type: "START_GAME";
 };
 
+type StartLandEvent = Farm & {
+  type: "START_LAND";
+};
+
 type ExploreEvent = {
   type: "EXPLORE";
 };
@@ -72,6 +76,7 @@ type LoadFarmEvent = {
 
 export type BlockchainEvent =
   | StartEvent
+  | StartLandEvent
   | ExploreEvent
   | VisitEvent
   | ReturnEvent
@@ -116,6 +121,7 @@ export type BlockchainState = {
     | { connected: "readyToStart" }
     | { connected: "donating" }
     | { connected: "authorised" }
+    | { connected: "landExpansion" }
     | { connected: "blacklisted" }
     | { connected: "visitingContributor" }
     | "exploring"
@@ -357,6 +363,9 @@ export const authMachine = createMachine<
                   target: "authorised",
                 },
               ],
+              START_LAND: {
+                target: "landExpansion",
+              },
               EXPLORE: {
                 target: "#exploring",
               },
@@ -387,6 +396,13 @@ export const authMachine = createMachine<
                 actions: ["clearSession", "resetFarm"],
               },
             },
+          },
+          landExpansion: {
+            id: "landExpansion",
+            entry: (context) => {
+              window.location.href = `${window.location.pathname}#/land/${context.farmId}`;
+            },
+            on: {},
           },
           supplyReached: {},
         },
