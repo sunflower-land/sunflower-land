@@ -212,7 +212,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
             widthFrame={266}
             heightFrame={168}
             fps={24}
-            steps={11}
+            steps={8}
             direction={`forward`}
             autoplay={false}
             loop={true}
