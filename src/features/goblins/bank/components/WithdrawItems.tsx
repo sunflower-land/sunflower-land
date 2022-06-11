@@ -163,6 +163,7 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
                 onClick={() => onAdd(itemName)}
                 image={details.image}
                 locked={locked}
+                canBeLongPressed={true}
                 cooldownInProgress={cooldownInProgress}
               />
             );
@@ -183,6 +184,7 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
                   count={selected[itemName]}
                   key={itemName}
                   onClick={() => onRemove(itemName)}
+                  canBeLongPressed={true}
                   image={ITEM_DETAILS[itemName].image}
                 />
               );

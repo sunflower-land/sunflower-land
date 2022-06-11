@@ -1,0 +1,70 @@
+import { useCallback, useRef, useState } from "react";
+import Decimal from "decimal.js-light";
+
+function preventDefault(e: Event) {
+  if (!isTouchEvent(e)) return;
+
+  if (e.touches.length < 2 && e.preventDefault) {
+    e.preventDefault();
+  }
+}
+
+function isTouchEvent(e: Event): e is TouchEvent {
+  return e && "touches" in e;
+}
+
+export const useLongPress = (
+  onClick: (e: React.MouseEvent | React.TouchEvent) => void,
+  count = new Decimal(0),
+  { shouldPreventDefault = true, delay = 300, interval = 200 } = {}
+) => {
+  const [longPressTriggered, setLongPressTriggered] = useState(false);
+  const timeout = useRef<NodeJS.Timeout>();
+  const timer = useRef<NodeJS.Timer>();
+  const target = useRef<EventTarget>();
+
+  const clear = useCallback(
+    (e: React.MouseEvent | React.TouchEvent, shouldTriggerClick = true) => {
+      timeout.current && clearTimeout(timeout.current);
+      timer.current && clearInterval(timer.current);
+      shouldTriggerClick && !longPressTriggered && onClick(e);
+      setLongPressTriggered(false);
+      if (shouldPreventDefault && target.current) {
+        target.current.removeEventListener("touchend", preventDefault);
+      }
+    },
+    [shouldPreventDefault, onClick, longPressTriggered]
+  );
+
+  const start = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      if (shouldPreventDefault && e.target) {
+        e.target.addEventListener("touchend", preventDefault, {
+          passive: false,
+        });
+        target.current = e.target;
+      }
+      timeout.current = setTimeout(() => {
+        let remaining = count.toNumber();
+        timer.current = setInterval(() => {
+          if (remaining <= 1) {
+            clear(e, false);
+          } else {
+            onClick(e);
+            remaining -= 1;
+          }
+        }, interval);
+        setLongPressTriggered(true);
+      }, delay);
+    },
+    [onClick, delay, interval, count, clear, shouldPreventDefault]
+  );
+
+  return {
+    onMouseDown: (e: React.MouseEvent) => start(e),
+    onTouchStart: (e: React.TouchEvent) => start(e),
+    onMouseUp: (e: React.MouseEvent) => clear(e),
+    onMouseLeave: (e: React.MouseEvent) => clear(e, false),
+    onTouchEnd: (e: React.TouchEvent) => clear(e),
+  };
+};
