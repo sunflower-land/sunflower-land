@@ -13,7 +13,8 @@ export const announcements: Announcement[] = [
       "Tue Jun 01 2022 10:06:50 GMT-0300 (Brasilia Standard Time)"
     ),
     title: "Chickens",
-    description: "Chickens will be launched.... yada yada",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     link: "https://docs.sunflower-land.com/",
     image: chicken,
   },
@@ -22,22 +23,7 @@ export const announcements: Announcement[] = [
       "Tue Jun 02 2022 10:06:50 GMT-0300 (Brasilia Standard Time)"
     ),
     title: "Land Expansion",
-    description: "Land Expansion will be launched.... yada yada",
-  },
-  {
-    date: new Date(
-      "Tue Jun 03 2022 10:06:50 GMT-0300 (Brasilia Standard Time)"
-    ),
-    title: "Bla bla",
-    description: "YEAD",
-    image: chicken,
-  },
-  {
-    date: new Date(
-      "Tue Jun 04 2022 10:06:50 GMT-0300 (Brasilia Standard Time)"
-    ),
-    title: "Bla bla",
-    description: "YEAD",
-    image: chicken,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
 ];

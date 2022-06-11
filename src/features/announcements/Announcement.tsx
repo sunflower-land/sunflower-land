@@ -51,7 +51,9 @@ export const Announcement: React.FC = () => {
             </p>
 
             {/* Description */}
-            <span className="text-center mb-2">{announcement.description}</span>
+            <span className="text-center mb-2 text-sm">
+              {announcement.description}
+            </span>
 
             {/* Links */}
             {announcement.link && (

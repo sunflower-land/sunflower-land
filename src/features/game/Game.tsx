@@ -32,7 +32,7 @@ import { ClockIssue } from "./components/ClockIssue";
 import { screenTracker } from "lib/utils/screen";
 import { Resetting } from "features/auth/components/Resetting";
 import { GoblinShovel } from "features/farming/crops/components/GoblinShovel";
-import { Announcement } from "features/auth/components/Announcement";
+import { Announcement } from "features/announcements/Announcement";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
