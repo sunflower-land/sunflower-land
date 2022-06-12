@@ -339,8 +339,8 @@ export const RockGolem: React.FC<RockGolemProps> = ({ state }) => {
           widthFrame={34}
           heightFrame={42}
           fps={6}
-          steps={42}
-          endAt={12}
+          steps={38}
+          endAt={8}
           direction={`forward`}
           autoplay={true}
           loop={true}
@@ -360,9 +360,9 @@ export const RockGolem: React.FC<RockGolemProps> = ({ state }) => {
           widthFrame={34}
           heightFrame={42}
           fps={10}
-          startAt={13}
-          endAt={27}
-          steps={42}
+          startAt={8}
+          endAt={23}
+          steps={38}
           direction={`forward`}
           autoplay={true}
           loop={false}
