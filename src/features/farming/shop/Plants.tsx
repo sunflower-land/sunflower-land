@@ -21,7 +21,7 @@ import { getSellPrice, hasSellBoost } from "features/game/lib/boosts";
 export const Plants: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
   const { setToast } = useContext(ToastContext);
-  const [isSellAllModalOpen, showSellAllModal] = React.useState(false);
+  const [isSellBulkModalOpen, showSellBulkModal] = React.useState(false);
   const { gameService } = useContext(Context);
   const [
     {
@@ -37,6 +37,7 @@ export const Plants: React.FC = () => {
       item: selected.name,
       amount,
     });
+
     setToast({
       icon: tokenStatic,
       content: `+$${displaySellPrice(selected).mul(amount).toString()}`,
@@ -46,27 +47,47 @@ export const Plants: React.FC = () => {
   const cropAmount = new Decimal(inventory[selected.name] || 0);
   const noCrop = cropAmount.equals(0);
   const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
+  const [quantity, setQty] = useState(1);
 
-  const handleSellOne = () => {
-    sell(1);
+  const onQtyValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // If keyboard input "" convert to 0
+    // Typed input validation will happen in onBlur
+    setQty(Number(e.target.value));
   };
 
-  const handleSellAll = () => {
-    sell(cropAmount.toNumber());
-    showSellAllModal(false);
+  // increase current quantity value
+  const incrementQty = () => {
+    setQty((prevState) => prevState + 1);
+  };
+
+  // decrease current quantity value
+  const decrementQty = () => {
+    setQty((prevState) => prevState - 1);
+  };
+
+  const handleSell = (amount = 1) => {
+    sell(amount);
+    if (isSellBulkModalOpen) {
+      showSellBulkModal(false);
+    }
+  };
+
+  const setMaxQty = () => {
+    setQty(cropAmount.toNumber());
+    showSellBulkModal(false);
   };
 
   // ask confirmation if crop supply is greater than 1
   const openConfirmationModal = () => {
     if (cropAmount.equals(1)) {
-      handleSellOne();
+      handleSell(quantity);
     } else {
-      showSellAllModal(true);
+      showSellBulkModal(true);
     }
   };
 
   const closeConfirmationModal = () => {
-    showSellAllModal(false);
+    showSellBulkModal(false);
   };
 
   useEffect(() => {
@@ -107,23 +128,60 @@ export const Plants: React.FC = () => {
               </span>
             </div>
           </div>
-          <Button
-            disabled={cropAmount.lessThan(1)}
-            className="text-xs mt-1"
-            onClick={handleSellOne}
-          >
-            Sell 1
-          </Button>
+
+          <div className="flex justify-center">
+            <Button
+              disabled={quantity <= 1}
+              className="flex-auto text-xs mt-1"
+              onClick={decrementQty}
+            >
+              -
+            </Button>
+            <input
+              type="number"
+              className="flex-auto text-shadow shadow-inner shadow-black bg-brown-200 w-16 p-2 m-2 text-center"
+              step="1"
+              min={0}
+              value={quantity}
+              required
+              onChange={onQtyValueChange}
+              // handle negatives number
+              onBlur={() => {
+                if (quantity < 0) setQty(0);
+              }}
+            />
+            <Button
+              disabled={cropAmount <= quantity}
+              className="flex-auto text-xs mt-1"
+              onClick={incrementQty}
+            >
+              +
+            </Button>
+          </div>
           <Button
             disabled={noCrop}
             className="text-xs mt-1 whitespace-nowrap"
-            onClick={openConfirmationModal}
+            onClick={setMaxQty}
           >
-            Sell All
+            MAX QTY
+          </Button>
+
+          <Button
+            disabled={cropAmount.lessThan(1) || cropAmount < quantity}
+            className="text-xs mt-1"
+            onClick={
+              quantity == 1 ? () => handleSell(quantity) : openConfirmationModal
+            }
+          >
+            Sell
           </Button>
         </div>
       </OuterPanel>
-      <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
+      <Modal
+        centered
+        show={isSellBulkModalOpen}
+        onHide={closeConfirmationModal}
+      >
         <Panel className="md:w-4/5 m-auto">
           <div className="m-auto flex flex-col">
             <span className="text-sm text-center text-shadow">
@@ -131,14 +189,14 @@ export const Plants: React.FC = () => {
               sell all your {selected.name}?
             </span>
             <span className="text-sm text-center text-shadow mt-1">
-              Total: {cropAmount.toNumber()}
+              Total: {quantity}
             </span>
           </div>
           <div className="flex justify-content-around p-1">
             <Button
               disabled={noCrop}
               className="text-xs"
-              onClick={handleSellAll}
+              onClick={() => handleSell(quantity)}
             >
               Yes
             </Button>

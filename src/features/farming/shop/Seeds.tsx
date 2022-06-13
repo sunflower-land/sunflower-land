@@ -27,7 +27,6 @@ import { getBuyPrice } from "features/game/events/craft";
 import { getCropTime } from "features/game/events/plant";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
-
 interface Props {
   onClose: () => void;
 }
@@ -45,6 +44,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   ] = useActor(gameService);
   const [isTimeBoosted, setIsTimeBoosted] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
+  const [quantity, setQty] = useState(1);
 
   const inventory = state.inventory;
 
@@ -141,24 +141,77 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       );
     }
 
+    const onQtyValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      // If keyboard input "" convert to 0
+      // Typed input validation will happen in onBlur
+      setQty(Number(e.target.value));
+    };
+
+    const setMaxQty = () => {
+      setQty(parseInt(state.balance / price));
+    };
+
+    // increase current quantity value
+    const incrementQty = () => {
+      setQty((prevState) => prevState + 1);
+    };
+
+    // decrease current quantity value
+    const decrementQty = () => {
+      setQty((prevState) => prevState - 1);
+    };
+
     return (
       <>
-        <Button
-          disabled={lessFunds() || stock?.lessThan(1)}
-          className="text-xs mt-1"
-          onClick={() => buy(1)}
-        >
-          Buy 1
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            disabled={quantity <= 1}
+            className="flex-auto text-xs mt-1"
+            onClick={decrementQty}
+          >
+            -
+          </Button>
+
+          <input
+            type="number"
+            className="flex-auto text-shadow shadow-inner shadow-black bg-brown-200 w-16 p-2 m-2 text-center"
+            step="1"
+            min={0}
+            value={quantity}
+            required
+            onChange={onQtyValueChange}
+            // handle negatives number
+            onBlur={() => {
+              if (quantity < 0) setQty(0);
+            }}
+          />
+
+          <Button
+            disabled={lessFunds(quantity + 1) || stock?.lessThan(quantity)}
+            className="flex-auto text-xs mt-1"
+            onClick={incrementQty}
+          >
+            +
+          </Button>
+        </div>
+
         {bulkSeedBuyAmount > 1 && (
           <Button
-            disabled={lessFunds(bulkSeedBuyAmount)}
+            disabled={lessFunds()}
             className="text-xs mt-1"
-            onClick={() => buy(bulkSeedBuyAmount)}
+            onClick={setMaxQty}
           >
-            Buy {bulkSeedBuyAmount}
+            MAX QTY
           </Button>
         )}
+
+        <Button
+          disabled={lessFunds(quantity) || stock?.lessThan(1) || quantity <= 0}
+          className="text-xs mt-1"
+          onClick={() => buy(quantity)}
+        >
+          Buy
+        </Button>
       </>
     );
   };
