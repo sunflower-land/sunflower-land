@@ -1,16 +1,24 @@
-import { ANNOUNCEMENTS } from "features/announcements";
+import { ANNOUNCEMENTS as ANN } from "features/announcements";
+
+// Sort announcements latest first
+const ANNOUNCEMENTS = ANN.sort((a, b) => b.date.getTime() - a.date.getTime());
+
+export function hasAnnouncements() {
+  const lastRead = getAnnouncementLastRead();
+
+  if (lastRead) {
+    return new Date(lastRead) < ANNOUNCEMENTS[0].date;
+  } else return true;
+}
 
 export function getAnnouncements() {
   const storedDate = getAnnouncementLastRead();
-  const filtered = storedDate
+
+  return storedDate
     ? ANNOUNCEMENTS.filter(
         (announcement) => announcement.date > new Date(storedDate)
       )
     : ANNOUNCEMENTS;
-
-  // Sort latest first
-  filtered.sort((a, b) => b.date.getTime() - a.date.getTime());
-  return filtered;
 }
 
 export function getAnnouncementLastRead() {
@@ -20,6 +28,6 @@ export function getAnnouncementLastRead() {
 export function acknowledgeRead() {
   return localStorage.setItem(
     "announcementLastRead",
-    ANNOUNCEMENTS[ANNOUNCEMENTS.length - 1].date.toISOString()
+    ANNOUNCEMENTS[0].date.toISOString()
   );
 }
