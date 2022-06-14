@@ -30,13 +30,13 @@ export const Announcement: React.FC = () => {
         <div
           ref={itemContainerRef}
           style={{ maxHeight: CONTENT_HEIGHT }}
-          className={classNames("overflow-y-auto clear-left ml-5 mt-6", {
+          className={classNames("overflow-y-auto clear-left m-3", {
             scrollable: showScrollbar,
           })}
         >
           <p className="flex flex-col items-center text-lg">{`What's new!`}</p>
           {announcements.map((announcement, index) => (
-            <>
+            <div key={index}>
               {/* Image */}
               {announcement.image && (
                 <img
@@ -48,18 +48,13 @@ export const Announcement: React.FC = () => {
 
               <div className="flex flex-row">
                 <h1 className="self-center">* </h1>
+
                 {/* Title */}
-                <span>{announcement.title} </span>
-                {/* Date */}
-                <p className="text-xxs self-center">
-                  {"("}
-                  {announcement.date.toLocaleDateString()}
-                  {")"}
-                </p>
+                <span>{announcement.title}:</span>
               </div>
 
               {/* Description */}
-              <span className="text-center mb-2 text-xs">
+              <span className="text-center text-xs">
                 {announcement.description}
               </span>
 
@@ -69,12 +64,12 @@ export const Announcement: React.FC = () => {
                   href={announcement.link}
                   target="_blank"
                   rel="noreferrer"
-                  className="mb-6 text-xxs"
+                  className="text-xxs"
                 >
                   Read more
                 </a>
               )}
-            </>
+            </div>
           ))}
           <Button onClick={() => onAcknowledge()}>Continue farming</Button>
         </div>
