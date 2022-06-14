@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { announcements } from "features/announcements";
+import { ANNOUNCEMENTS } from "features/announcements";
 import fence from "assets/land/goblin_fence.png";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import classNames from "classnames";
@@ -19,10 +19,10 @@ export const Announcement: React.FC = () => {
   }
 
   const filtered = storedDate
-    ? announcements.filter(
+    ? ANNOUNCEMENTS.filter(
         (announcement) => announcement.date > new Date(storedDate)
       )
-    : announcements;
+    : ANNOUNCEMENTS;
 
   // Sort latest first
   filtered.sort((a, b) => b.date.getTime() - a.date.getTime());

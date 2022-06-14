@@ -18,7 +18,7 @@ import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
-import { announcements } from "features/announcements";
+import { ANNOUNCEMENTS } from "features/announcements";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -234,7 +234,7 @@ export function startGame(authContext: Options) {
                 if (lastRead) {
                   return (
                     new Date(lastRead) <
-                    announcements[announcements.length - 1].date
+                    ANNOUNCEMENTS[ANNOUNCEMENTS.length - 1].date
                   );
                 }
                 return true;
@@ -252,7 +252,7 @@ export function startGame(authContext: Options) {
                 () =>
                   localStorage.setItem(
                     "announcementLastRead",
-                    announcements[announcements.length - 1].date.toISOString()
+                    ANNOUNCEMENTS[ANNOUNCEMENTS.length - 1].date.toISOString()
                   ),
               ],
               target: "playing",

@@ -4,7 +4,7 @@ import Decimal from "decimal.js-light";
 import { fromWei, toBN } from "web3-utils";
 import { Message } from "../types/message";
 import { CONFIG } from "lib/config";
-import { announcements } from "features/announcements";
+import { ANNOUNCEMENTS } from "features/announcements";
 
 const MESSAGES_KEY = "readMessages";
 
@@ -53,7 +53,7 @@ function getNextHalvening(currentSupply: Decimal) {
 function getAnnouncements() {
   let body = "";
 
-  announcements.forEach((item) => {
+  ANNOUNCEMENTS.forEach((item) => {
     body += `${item.date.toLocaleDateString()}  
   - ${item.title}   
   &nbsp;   

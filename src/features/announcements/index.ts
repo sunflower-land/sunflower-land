@@ -7,7 +7,7 @@ interface Announcement {
   link?: string;
 }
 
-export const announcements: Announcement[] = [
+export const ANNOUNCEMENTS: Announcement[] = [
   {
     date: new Date(
       "Tue Jun 01 2022 10:06:50 GMT-0300 (Brasilia Standard Time)"
