@@ -1,5 +1,5 @@
 import chicken from "assets/animals/chickens/walking.gif";
-interface Announcement {
+export interface Announcement {
   date: Date;
   image?: string;
   title: string;
@@ -14,7 +14,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
     ),
     title: "Chickens",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
     link: "https://docs.sunflower-land.com/",
     image: chicken,
   },
@@ -24,6 +24,6 @@ export const ANNOUNCEMENTS: Announcement[] = [
     ),
     title: "Land Expansion",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
   },
 ];

@@ -19,6 +19,10 @@ import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
 import { ANNOUNCEMENTS } from "features/announcements";
+import {
+  acknowledgeRead,
+  getAnnouncementLastRead,
+} from "features/announcements/announcementsStorage";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -229,7 +233,7 @@ export function startGame(authContext: Options) {
             {
               target: "announcing",
               cond: () => {
-                const lastRead = localStorage.getItem("announcementLastRead");
+                const lastRead = getAnnouncementLastRead();
 
                 if (lastRead) {
                   return (
@@ -248,13 +252,7 @@ export function startGame(authContext: Options) {
         announcing: {
           on: {
             ACKNOWLEDGE: {
-              actions: [
-                () =>
-                  localStorage.setItem(
-                    "announcementLastRead",
-                    ANNOUNCEMENTS[ANNOUNCEMENTS.length - 1].date.toISOString()
-                  ),
-              ],
+              actions: [() => acknowledgeRead()],
               target: "playing",
             },
           },
