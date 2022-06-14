@@ -34,7 +34,7 @@ export const Announcement: React.FC = () => {
             scrollable: showScrollbar,
           })}
         >
-          <p className="flex flex-col items-center text-lg">{`What's new!`}</p>
+          <p className="flex flex-col items-center text-lg mb-3">{`What's new!`}</p>
           {announcements.map((announcement, index) => (
             <div key={index}>
               {/* Image */}
@@ -50,7 +50,7 @@ export const Announcement: React.FC = () => {
                 <h1 className="self-center">* </h1>
 
                 {/* Title */}
-                <span>{announcement.title}:</span>
+                <span className="text-sm">{announcement.title}:</span>
               </div>
 
               {/* Description */}
