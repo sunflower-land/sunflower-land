@@ -18,10 +18,9 @@ import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
-import { ANNOUNCEMENTS } from "features/announcements";
 import {
   acknowledgeRead,
-  getAnnouncementLastRead,
+  hasAnnouncements,
 } from "features/announcements/announcementsStorage";
 
 export type PastAction = GameEvent & {
@@ -210,16 +209,13 @@ export function startGame(authContext: Options) {
             },
             onDone: [
               {
-                target: "loaded",
-                actions: assign({
-                  state: (_, event) => event.data.state,
-                  onChain: (_, event) => event.data.onChain,
-                  owner: (_, event) => event.data.owner,
-                  offset: (_, event) => event.data.offset,
-                  sessionId: (_, event) => event.data.sessionId,
-                  fingerprint: (_, event) => event.data.fingerprint,
-                  itemsMintedAt: (_, event) => event.data.itemsMintedAt,
-                }),
+                target: "announcing",
+                cond: () => hasAnnouncements(),
+                actions: "assignGame",
+              },
+              {
+                target: "playing",
+                actions: "assignGame",
               },
             ],
             onError: {
@@ -227,27 +223,6 @@ export function startGame(authContext: Options) {
               actions: "assignErrorMessage",
             },
           },
-        },
-        loaded: {
-          always: [
-            {
-              target: "announcing",
-              cond: () => {
-                const lastRead = getAnnouncementLastRead();
-
-                if (lastRead) {
-                  return (
-                    new Date(lastRead) <
-                    ANNOUNCEMENTS[ANNOUNCEMENTS.length - 1].date
-                  );
-                }
-                return true;
-              },
-            },
-            {
-              target: "playing",
-            },
-          ],
         },
         announcing: {
           on: {
@@ -497,6 +472,15 @@ export function startGame(authContext: Options) {
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,
           actions: [],
+        }),
+        assignGame: assign<Context, any>({
+          state: (_, event) => event.data.state,
+          onChain: (_, event) => event.data.onChain,
+          owner: (_, event) => event.data.owner,
+          offset: (_, event) => event.data.offset,
+          sessionId: (_, event) => event.data.sessionId,
+          fingerprint: (_, event) => event.data.fingerprint,
+          itemsMintedAt: (_, event) => event.data.itemsMintedAt,
         }),
       },
     }
