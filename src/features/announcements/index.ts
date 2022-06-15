@@ -1,9 +1,10 @@
-import chicken from "assets/animals/chickens/walking.gif";
+import chicken from "assets/announcements/chickens.gif";
+
 export interface Announcement {
   date: Date;
   image?: string;
   title: string;
-  description: string;
+  notes: string[];
   link?: string;
 }
 
@@ -13,17 +14,13 @@ export const ANNOUNCEMENTS: Announcement[] = [
       "Tue Jun 01 2022 10:06:50 GMT-0300 (Brasilia Standard Time)"
     ),
     title: "Chickens",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-    link: "https://docs.sunflower-land.com/",
+    notes: [
+      "Craft chickens at the Barn",
+      "Feed chickens wheat and collect eggs",
+      "Craft a rare Chicken Coop to grow your egg empire",
+      "Will you be lucky enough to find a mutant chicken in an egg?",
+    ],
+    link: "https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#animals",
     image: chicken,
-  },
-  {
-    date: new Date(
-      "Tue Jun 02 2022 10:06:50 GMT-0300 (Brasilia Standard Time)"
-    ),
-    title: "Land Expansion",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
   },
 ];

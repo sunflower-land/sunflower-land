@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import classNames from "classnames";
@@ -21,42 +20,46 @@ export const Announcement: React.FC = () => {
   return (
     announcements && (
       <>
-        <img
-          src={close}
-          className="h-6 top-4 right-4 absolute cursor-pointer"
-          onClick={onAcknowledge}
-        />
+        <div className="flex justify-between items-center mb-2 px-2">
+          <p className="text-sm">{`What's new!`}</p>
+          <img
+            src={close}
+            className="h-6 cursor-pointer"
+            onClick={onAcknowledge}
+          />
+        </div>
 
         <div
           ref={itemContainerRef}
           style={{ maxHeight: CONTENT_HEIGHT }}
-          className={classNames("overflow-y-auto clear-left m-3", {
+          className={classNames("overflow-y-auto p-2", {
             scrollable: showScrollbar,
           })}
         >
-          <p className="flex flex-col items-center text-lg mb-3">{`What's new!`}</p>
           {announcements.map((announcement, index) => (
             <div key={index}>
               {/* Image */}
               {announcement.image && (
                 <img
                   src={announcement.image}
-                  className="w-28"
+                  className="w-full rounded-sm mb-1"
                   alt={announcement.title}
                 />
               )}
 
-              <div className="flex flex-row">
-                <h1 className="self-center">* </h1>
-
-                {/* Title */}
-                <span className="text-sm">{announcement.title}:</span>
-              </div>
-
-              {/* Description */}
-              <span className="text-center text-xs">
-                {announcement.description}
+              {/* Title */}
+              <span className="underline mb-1 text-sm">
+                {announcement.title}
               </span>
+
+              {/* Notes */}
+              <ul className="list-disc ml-2 mt-1">
+                {announcement.notes.map((note, index) => (
+                  <li key={index} className="text-xs mb-1">
+                    {note}
+                  </li>
+                ))}
+              </ul>
 
               {/* Links */}
               {announcement.link && (
@@ -71,7 +74,6 @@ export const Announcement: React.FC = () => {
               )}
             </div>
           ))}
-          <Button onClick={() => onAcknowledge()}>Continue farming</Button>
         </div>
       </>
     )
