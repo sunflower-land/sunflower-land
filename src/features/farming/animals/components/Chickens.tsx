@@ -9,9 +9,9 @@ import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { CONFIG } from "lib/config";
 
 import { Chicken } from "./Chicken";
+import { getMaxChickens } from "features/game/events/feedChicken";
 
 export type Position = {
   top: number;
@@ -44,15 +44,10 @@ export const Chickens: React.FC = () => {
     },
   ] = useActor(gameService);
 
-  let chickenCount = state.inventory.Chicken?.toNumber() || 0;
-
-  // Only available on testnet
-  if (CONFIG.NETWORK === "mainnet" && (state?.id || 9999) > 10) {
-    chickenCount = 0;
-  }
+  const chickenCount = state.inventory.Chicken?.toNumber() || 0;
 
   const chickens = new Array(chickenCount).fill(null);
-  const maxChickens = state.inventory["Chicken Coop"] ? 15 : 10;
+  const maxChickens = getMaxChickens(state.inventory);
 
   return (
     <>
@@ -115,7 +110,7 @@ export const Chickens: React.FC = () => {
         }}
       >
         {/* Limit to max number of chickens */}
-        {chickens.slice(0, maxChickens - 1).map((_, index) => (
+        {chickens.slice(0, maxChickens).map((_, index) => (
           <Chicken index={index} key={index} position={positions[index]} />
         ))}
       </div>

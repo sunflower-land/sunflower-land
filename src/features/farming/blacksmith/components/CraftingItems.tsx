@@ -18,6 +18,7 @@ import { CraftableItem } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { Stock } from "components/ui/Stock";
 import { getBuyPrice } from "features/game/events/craft";
+import { getMaxChickens } from "features/game/events/feedChicken";
 
 interface Props {
   items: Partial<Record<InventoryItemName, CraftableItem>>;
@@ -105,6 +106,17 @@ export const CraftingItems: React.FC<Props> = ({
   const Action = () => {
     if (selected.disabled) {
       return <span className="text-xs mt-1 text-shadow">Locked</span>;
+    }
+
+    if (
+      selected.name === "Chicken" &&
+      inventory[selected.name]?.gte(getMaxChickens(inventory))
+    ) {
+      return (
+        <span className="text-xs mt-1 text-shadow text-center">
+          No more space for chickens
+        </span>
+      );
     }
 
     if (stock?.equals(0)) {
