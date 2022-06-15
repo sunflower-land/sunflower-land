@@ -7,7 +7,6 @@ import { marketRate } from "../lib/halvening";
 import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
 import { OnChainLimitedItems } from "../lib/goblinMachine";
 import { isArray } from "lodash";
-import { CONFIG } from "lib/config";
 
 export { FLAGS };
 
@@ -749,7 +748,6 @@ export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
     description: "Produces eggs. Requires wheat for feeding",
     tokenAmount: marketRate(200),
     ingredients: [],
-    disabled: CONFIG.NETWORK === "mainnet",
   },
   Cow: {
     name: "Cow",
