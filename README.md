@@ -55,7 +55,8 @@ Firstly, you will need to clone the repo locally. Once you have it ready navigat
 
 1. `npm install --global yarn` (if you don't have yarn installed)
 2. `yarn install`
-3. `yarn dev`
+3. `cp .env.sample .env`
+4. `yarn dev`
 
 # 🧪 Testing
 

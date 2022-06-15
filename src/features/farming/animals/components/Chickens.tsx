@@ -45,8 +45,9 @@ export const Chickens: React.FC = () => {
   ] = useActor(gameService);
 
   let chickenCount = state.inventory.Chicken?.toNumber() || 0;
+
   // Only available on testnet
-  if (CONFIG.NETWORK === "mainnet") {
+  if (CONFIG.NETWORK === "mainnet" && (state?.id || 9999) > 10) {
     chickenCount = 0;
   }
 
