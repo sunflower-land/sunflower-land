@@ -4,7 +4,6 @@ import Decimal from "decimal.js-light";
 import { fromWei, toBN } from "web3-utils";
 import { Message } from "../types/message";
 import { CONFIG } from "lib/config";
-import { ANNOUNCEMENTS } from "features/announcements";
 
 const MESSAGES_KEY = "readMessages";
 
@@ -50,17 +49,6 @@ function getNextHalvening(currentSupply: Decimal) {
   return new Decimal(`${integerVal}e+6`);
 }
 
-function getAnnouncements() {
-  let body = "";
-
-  ANNOUNCEMENTS.forEach((item) => {
-    body += `${item.date.toLocaleDateString()}  
-  - ${item.title}   
-  &nbsp;   
-  `;
-  });
-  return body;
-}
 export async function getInbox() {
   const sflBalance = await getSFLSupply();
   const nextHalvening = getNextHalvening(sflBalance);
@@ -81,11 +69,6 @@ export async function getInbox() {
         **Note: this value is read from the Blockchain. Other farmers may not have synced yet.**
       `
         : "You're running Sunflower Land locally!",
-    },
-    {
-      id: "2022-05-04",
-      title: "Announcements",
-      body: getAnnouncements(),
     },
   ];
 }
