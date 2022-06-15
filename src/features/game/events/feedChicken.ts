@@ -42,20 +42,28 @@ export const getWheatRequiredToFeed = (inventory: Inventory) => {
   return defaultAmount;
 };
 
-function getMultiplier(inventory: Inventory): ChickenInfo {
+function getMultiplier(inventory: Inventory) {
   if (inventory["Chicken Coop"] && inventory["Rich Chicken"]) {
-    return { multiplier: 2 + MUTANT_CHICKEN_BOOST_AMOUNT, maxChickens: 15 };
+    return 2 + MUTANT_CHICKEN_BOOST_AMOUNT;
   }
 
   if (inventory["Chicken Coop"]) {
-    return { multiplier: 2, maxChickens: 15 };
+    return 2;
   }
 
   if (inventory["Rich Chicken"]) {
-    return { multiplier: 1 + MUTANT_CHICKEN_BOOST_AMOUNT, maxChickens: 10 };
+    return 1 + MUTANT_CHICKEN_BOOST_AMOUNT;
   }
 
-  return { multiplier: 1, maxChickens: 10 };
+  return 1;
+}
+
+export function getMaxChickens(inventory: Inventory) {
+  if (inventory["Chicken Coop"]) {
+    return 15;
+  }
+
+  return 10;
 }
 
 export function feedChicken({
@@ -63,7 +71,8 @@ export function feedChicken({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const { maxChickens, multiplier } = getMultiplier(state.inventory);
+  const multiplier = getMultiplier(state.inventory);
+  const maxChickens = getMaxChickens(state.inventory);
 
   if (!state.inventory?.Chicken || state.inventory.Chicken?.lt(action.index)) {
     throw new Error("This chicken does not exist");

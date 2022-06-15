@@ -11,6 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import { Chicken } from "./Chicken";
+import { getMaxChickens } from "features/game/events/feedChicken";
 
 export type Position = {
   top: number;
@@ -46,7 +47,7 @@ export const Chickens: React.FC = () => {
   const chickenCount = state.inventory.Chicken?.toNumber() || 0;
 
   const chickens = new Array(chickenCount).fill(null);
-  const maxChickens = state.inventory["Chicken Coop"] ? 15 : 10;
+  const maxChickens = getMaxChickens(state.inventory);
 
   return (
     <>
@@ -109,7 +110,7 @@ export const Chickens: React.FC = () => {
         }}
       >
         {/* Limit to max number of chickens */}
-        {chickens.slice(0, maxChickens - 1).map((_, index) => (
+        {chickens.slice(0, maxChickens).map((_, index) => (
           <Chicken index={index} key={index} position={positions[index]} />
         ))}
       </div>
