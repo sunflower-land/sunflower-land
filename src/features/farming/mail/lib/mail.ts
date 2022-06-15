@@ -49,13 +49,6 @@ function getNextHalvening(currentSupply: Decimal) {
   return new Decimal(`${integerVal}e+6`);
 }
 
-/**
- * MVP1:
- * - always change id to reflect unread
- * TODO:
- * - offchain SFL supply api
- * - announcements api
- */
 export async function getInbox() {
   const sflBalance = await getSFLSupply();
   const nextHalvening = getNextHalvening(sflBalance);
@@ -76,27 +69,6 @@ export async function getInbox() {
         **Note: this value is read from the Blockchain. Other farmers may not have synced yet.**
       `
         : "You're running Sunflower Land locally!",
-    },
-    {
-      id: "2022-05-04",
-      title: "May 2022 Dates",
-      body: `Dates shown are in your **local** timezone. Check our social pages for NFT release dates.  
-        &nbsp;  
-        4th May 2022  
-        - End of V1 Migration  
-        &nbsp;  
-        9th May 2022  
-        - SFL Withdrawals
-        &nbsp;  
-        30th May 2022🔴  
-        - Rarible  
-        &nbsp;  
-        🔴 - tentative`,
-    },
-    {
-      id: "2022-03-25",
-      title: "Welcome to Beta!",
-      body: `Welcome to open beta! The game is still in its early stages and we are so grateful that you are here.`,
     },
   ];
 }

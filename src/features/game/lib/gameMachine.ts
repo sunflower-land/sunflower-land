@@ -18,6 +18,10 @@ import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
+import {
+  acknowledgeRead,
+  hasAnnouncements,
+} from "features/announcements/announcementsStorage";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -68,6 +72,9 @@ export type BlockchainEvent =
       type: "REFRESH";
     }
   | {
+      type: "ACKNOWLEDGE";
+    }
+  | {
       type: "EXPIRED";
     }
   | {
@@ -109,6 +116,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 export type BlockchainState = {
   value:
     | "loading"
+    | "announcing"
     | "playing"
     | "autosaving"
     | "syncing"
@@ -201,21 +209,26 @@ export function startGame(authContext: Options) {
             },
             onDone: [
               {
+                target: "announcing",
+                cond: () => hasAnnouncements(),
+                actions: "assignGame",
+              },
+              {
                 target: "playing",
-                actions: assign({
-                  state: (_, event) => event.data.state,
-                  onChain: (_, event) => event.data.onChain,
-                  owner: (_, event) => event.data.owner,
-                  offset: (_, event) => event.data.offset,
-                  sessionId: (_, event) => event.data.sessionId,
-                  fingerprint: (_, event) => event.data.fingerprint,
-                  itemsMintedAt: (_, event) => event.data.itemsMintedAt,
-                }),
+                actions: "assignGame",
               },
             ],
             onError: {
               target: "error",
               actions: "assignErrorMessage",
+            },
+          },
+        },
+        announcing: {
+          on: {
+            ACKNOWLEDGE: {
+              actions: [() => acknowledgeRead()],
+              target: "playing",
             },
           },
         },
@@ -459,6 +472,15 @@ export function startGame(authContext: Options) {
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,
           actions: [],
+        }),
+        assignGame: assign<Context, any>({
+          state: (_, event) => event.data.state,
+          onChain: (_, event) => event.data.onChain,
+          owner: (_, event) => event.data.owner,
+          offset: (_, event) => event.data.offset,
+          sessionId: (_, event) => event.data.sessionId,
+          fingerprint: (_, event) => event.data.fingerprint,
+          itemsMintedAt: (_, event) => event.data.itemsMintedAt,
         }),
       },
     }
