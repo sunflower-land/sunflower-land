@@ -151,7 +151,7 @@ export const Plants: React.FC = () => {
               }}
             />
             <Button
-              disabled={cropAmount <= quantity}
+              disabled={cropAmount.lessThanOrEqualTo(quantity)}
               className="flex-auto text-xs mt-1"
               onClick={incrementQty}
             >
@@ -167,7 +167,7 @@ export const Plants: React.FC = () => {
           </Button>
 
           <Button
-            disabled={cropAmount.lessThan(1) || cropAmount < quantity}
+            disabled={cropAmount.lessThan(1) || cropAmount.lessThan(quantity)}
             className="text-xs mt-1"
             onClick={
               quantity == 1 ? () => handleSell(quantity) : openConfirmationModal

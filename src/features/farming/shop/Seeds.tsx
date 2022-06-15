@@ -148,7 +148,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     };
 
     const setMaxQty = () => {
-      setQty(parseInt(state.balance / price));
+      setQty(
+        (state.balance as unknown as number) / (price as unknown as number)
+      );
     };
 
     // increase current quantity value
