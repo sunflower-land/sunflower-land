@@ -7,7 +7,6 @@ import { marketRate } from "../lib/halvening";
 import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
 import { OnChainLimitedItems } from "../lib/goblinMachine";
 import { isArray } from "lodash";
-import { CONFIG } from "lib/config";
 
 export { FLAGS };
 
@@ -642,10 +641,9 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   },
   "Rocky the Mole": {
     name: "Rocky the Mole",
-    description: "Gives a 999% increase to iron mines",
+    description: "Gives a 25% increase to iron mines",
     section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
-    isPlaceholder: true,
   },
   Nugget: {
     name: "Nugget",
@@ -750,7 +748,6 @@ export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
     description: "Produces eggs. Requires wheat for feeding",
     tokenAmount: marketRate(200),
     ingredients: [],
-    disabled: CONFIG.NETWORK === "mainnet",
   },
   Cow: {
     name: "Cow",

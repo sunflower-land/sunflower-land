@@ -32,10 +32,12 @@ import { ClockIssue } from "./components/ClockIssue";
 import { screenTracker } from "lib/utils/screen";
 import { Resetting } from "features/auth/components/Resetting";
 import { GoblinShovel } from "features/farming/crops/components/GoblinShovel";
+import { Announcements } from "features/announcements/Announcement";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
+  announcing: true,
   playing: false,
   autosaving: false,
   syncing: true,
@@ -91,6 +93,9 @@ export const Game: React.FC = () => {
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
+
+          {gameState.matches("announcing") && <Announcements />}
+
           {gameState.matches("resetting") && <Resetting />}
           {gameState.matches("error") && (
             <ErrorMessage
@@ -101,6 +106,7 @@ export const Game: React.FC = () => {
           {gameState.matches("syncing") && <Syncing />}
         </Panel>
       </Modal>
+      {/* check local storage and show modal if not read */}
 
       <ClockIssue show={gameState.context.offset > 0} />
       <Hud />
