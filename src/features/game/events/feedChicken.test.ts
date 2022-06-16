@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM, MUTANT_CHICKEN_BOOST_AMOUNT } from "../lib/constants";
+import { INITIAL_FARM } from "../lib/constants";
 
 import { GameState } from "../types/game";
 import { feedChicken } from "./feedChicken";
@@ -157,89 +157,5 @@ describe("feed chickens", () => {
     });
 
     expect(newState.inventory.Wheat).toEqual(new Decimal(0.1));
-  });
-
-  it("adds a time boost of 10% if a Speed Chicken is present", () => {
-    const state = {
-      ...GAME_STATE,
-      inventory: {
-        Chicken: new Decimal(1),
-        Wheat: new Decimal(1),
-        ["Speed Chicken"]: new Decimal(1),
-      },
-    };
-
-    const now = Date.now();
-    // 10% speed increase
-    const boost = CHICKEN_TIME_TO_EGG * MUTANT_CHICKEN_BOOST_AMOUNT;
-
-    const newState = feedChicken({
-      state,
-      action: { type: "chicken.feed", index: 0 },
-      createdAt: now,
-    });
-
-    expect(newState.chickens[0].fedAt).toEqual(now - boost);
-  });
-
-  it("doesn't stack the time boost of 10% if multiple Speed Chickens are present", () => {
-    const state = {
-      ...GAME_STATE,
-      inventory: {
-        Chicken: new Decimal(1),
-        Wheat: new Decimal(1),
-        ["Speed Chicken"]: new Decimal(5),
-      },
-    };
-
-    const now = Date.now();
-    // We calculate time to egg but calculating the difference between fedAt and now.
-    // This represents how much time has passed since the chicken was fed.
-    // The 10% is applied by setting fedAt to 10% earlier so time passed is greater.
-    const boost = CHICKEN_TIME_TO_EGG * MUTANT_CHICKEN_BOOST_AMOUNT;
-
-    const newState = feedChicken({
-      state,
-      action: { type: "chicken.feed", index: 0 },
-      createdAt: now,
-    });
-
-    expect(newState.chickens[0].fedAt).toEqual(now - boost);
-  });
-
-  it("adds a yield boost of 10% if a Rich Chicken is present", () => {
-    const state = {
-      ...GAME_STATE,
-      inventory: {
-        Chicken: new Decimal(1),
-        Wheat: new Decimal(1),
-        ["Rich Chicken"]: new Decimal(1),
-      },
-    };
-
-    const newState = feedChicken({
-      state,
-      action: { type: "chicken.feed", index: 0 },
-    });
-
-    expect(newState.chickens[0].multiplier).toEqual(1.1);
-  });
-
-  it("doesn't stack the yield boost of 10% if multiple Rich Chickens are present", () => {
-    const state = {
-      ...GAME_STATE,
-      inventory: {
-        Chicken: new Decimal(1),
-        Wheat: new Decimal(1),
-        ["Rich Chicken"]: new Decimal(5),
-      },
-    };
-
-    const newState = feedChicken({
-      state,
-      action: { type: "chicken.feed", index: 0 },
-    });
-
-    expect(newState.chickens[0].multiplier).toEqual(1.1);
   });
 });
