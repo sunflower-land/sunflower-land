@@ -30,6 +30,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   error: true,
   levelling: false,
   resetting: true,
+  announcing: true,
 };
 
 // FOR TESTING
