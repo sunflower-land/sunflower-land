@@ -6,9 +6,6 @@ export const GRID_WIDTH_PX = 42;
 export const CHICKEN_TIME_TO_EGG = 1000 * 20; // 48 hours
 export const MUTANT_CHICKEN_BOOST_AMOUNT = 0.1;
 
-export const BARN_MANAGER_BOOST_AMOUNT = 0.1;
-export const WRANGLER_BOOST_AMOUNT = 0.1;
-
 export const POPOVER_TIME_MS = 1000;
 
 export const INITIAL_STOCK: Inventory = {
