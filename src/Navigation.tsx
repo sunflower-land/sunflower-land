@@ -11,7 +11,7 @@ import { Goblins } from "features/game/Goblins";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { Visiting } from "features/game/Visiting";
 import { useImagePreloader } from "features/auth/useImagePreloader";
-import { LandExpansion } from "features/game/LandExpansion";
+import { LandExpansion } from "features/game/expansion/LandExpansion";
 
 /**
  * Entry point for game which reflects the user session state
