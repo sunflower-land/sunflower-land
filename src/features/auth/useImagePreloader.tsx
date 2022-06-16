@@ -24,6 +24,7 @@ import egg from "assets/resources/egg.png";
 import richChicken from "assets/animals/chickens/rich_chicken.png";
 import fatChicken from "assets/animals/chickens/fat_chicken.png";
 import speedChicken from "assets/animals/chickens/speed_chicken.png";
+import levelOne from "assets/land/levels/1.png";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -50,6 +51,7 @@ const IMAGE_LIST: string[] = [
   fatChicken,
   speedChicken,
   waterBackground,
+  levelOne,
 ];
 
 function preloadImage(src: string) {
