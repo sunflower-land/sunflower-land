@@ -70,7 +70,7 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
   Foods: {
     items: FOODS(),
   },
-  Eggs: {
+  "Easter Eggs": {
     items: {
       "Pink Egg": ITEM_DETAILS["Pink Egg"],
       "Purple Egg": ITEM_DETAILS["Purple Egg"],
