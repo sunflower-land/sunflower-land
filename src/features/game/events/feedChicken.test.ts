@@ -1,5 +1,9 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM, MUTANT_CHICKEN_BOOST_AMOUNT } from "../lib/constants";
+import {
+  INITIAL_FARM,
+  MUTANT_CHICKEN_BOOST_AMOUNT,
+  WRANGLER_BOOST_AMOUNT,
+} from "../lib/constants";
 
 import { GameState } from "../types/game";
 import { feedChicken } from "./feedChicken";
@@ -241,5 +245,169 @@ describe("feed chickens", () => {
     });
 
     expect(newState.chickens[0].multiplier).toEqual(1.1);
+  });
+
+  it("gives 2x eggs when Chicken Coop is in inventory", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        "Chicken Coop": new Decimal(1),
+        Wheat: new Decimal(1),
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+    });
+
+    expect(newState.chickens[0].multiplier).toEqual(2);
+  });
+
+  it("increases max chickens to 15 when Chicken Coop is in inventory", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(15),
+        "Chicken Coop": new Decimal(1),
+        Wheat: new Decimal(1),
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 14 },
+    });
+
+    expect(newState.chickens[14]).toBeTruthy();
+  });
+
+  it("gives combined boosts when Chicken Coop and Rich Chicken are in inventory", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        "Chicken Coop": new Decimal(1),
+        Wheat: new Decimal(1),
+        "Rich Chicken": new Decimal(1),
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+    });
+
+    expect(newState.chickens[0].multiplier).toEqual(2.1);
+  });
+
+  it("adds a yield boost of 10% if a Barn Manager is present", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        ["Barn Manager"]: new Decimal(1),
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+    });
+
+    expect(newState.chickens[0].multiplier).toEqual(1.1);
+  });
+
+  it("stacks the Barn Manager and Rich Chicken yield boosts", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        "Barn Manager": new Decimal(1),
+        Wheat: new Decimal(1),
+        "Rich Chicken": new Decimal(1),
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+    });
+
+    expect(newState.chickens[0].multiplier).toEqual(1.2);
+  });
+
+  it("stacks the Barn Manager, Chicken Coop and Rich Chicken yield boosts", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        "Barn Manager": new Decimal(1),
+        Wheat: new Decimal(1),
+        "Rich Chicken": new Decimal(1),
+        "Chicken Coop": new Decimal(1),
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+    });
+
+    expect(newState.chickens[0].multiplier).toEqual(2.2);
+  });
+
+  it("produces eggs 10% faster is Wrangler skill is present", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        Wrangler: new Decimal(1),
+      },
+    };
+
+    // We calculate time to egg but calculating the difference between fedAt and now.
+    // This represents how much time has passed since the chicken was fed.
+    // The 10% is applied by setting fedAt to 10% earlier so time passed is greater.
+    const now = Date.now();
+
+    const boost = CHICKEN_TIME_TO_EGG * WRANGLER_BOOST_AMOUNT;
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+      createdAt: now,
+    });
+
+    expect(newState.chickens[0].fedAt).toEqual(now - boost);
+  });
+
+  it("stacks the Wrangler and Speed Chicken speed boosts", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        Wrangler: new Decimal(1),
+        "Speed Chicken": new Decimal(1),
+      },
+    };
+
+    const now = Date.now();
+
+    const boost =
+      CHICKEN_TIME_TO_EGG *
+      (MUTANT_CHICKEN_BOOST_AMOUNT + WRANGLER_BOOST_AMOUNT);
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.feed", index: 0 },
+      createdAt: now,
+    });
+
+    expect(newState.chickens[0].fedAt).toEqual(now - boost);
   });
 });

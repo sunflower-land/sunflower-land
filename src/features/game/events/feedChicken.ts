@@ -1,7 +1,9 @@
 import Decimal from "decimal.js-light";
 import {
+  BARN_MANAGER_BOOST_AMOUNT,
   CHICKEN_TIME_TO_EGG,
   MUTANT_CHICKEN_BOOST_AMOUNT,
+  WRANGLER_BOOST_AMOUNT,
 } from "../lib/constants";
 import { GameState, Inventory } from "../types/game";
 
@@ -16,15 +18,20 @@ type Options = {
   createdAt?: number;
 };
 
-interface ChickenInfo {
-  multiplier: number;
-  maxChickens: number;
-}
-
 const makeFedAt = (inventory: Inventory, createdAt: number) => {
-  const hasSpeedChicken = inventory["Speed Chicken"]?.gt(0);
+  if (inventory["Wrangler"]?.gt(0) && inventory["Speed Chicken"]?.gt(0)) {
+    return (
+      createdAt -
+      CHICKEN_TIME_TO_EGG *
+        (WRANGLER_BOOST_AMOUNT + MUTANT_CHICKEN_BOOST_AMOUNT)
+    );
+  }
 
-  if (hasSpeedChicken) {
+  if (inventory["Wrangler"]?.gt(0)) {
+    return createdAt - CHICKEN_TIME_TO_EGG * WRANGLER_BOOST_AMOUNT;
+  }
+
+  if (inventory["Speed Chicken"]?.gt(0)) {
     return createdAt - CHICKEN_TIME_TO_EGG * MUTANT_CHICKEN_BOOST_AMOUNT;
   }
 
@@ -43,19 +50,21 @@ export const getWheatRequiredToFeed = (inventory: Inventory) => {
 };
 
 function getMultiplier(inventory: Inventory) {
-  if (inventory["Chicken Coop"] && inventory["Rich Chicken"]) {
-    return 2 + MUTANT_CHICKEN_BOOST_AMOUNT;
+  let multiplier = 1;
+
+  if (inventory["Chicken Coop"]?.gt(0)) {
+    multiplier += 1;
   }
 
-  if (inventory["Chicken Coop"]) {
-    return 2;
+  if (inventory["Barn Manager"]?.gt(0)) {
+    multiplier += BARN_MANAGER_BOOST_AMOUNT;
   }
 
-  if (inventory["Rich Chicken"]) {
-    return 1 + MUTANT_CHICKEN_BOOST_AMOUNT;
+  if (inventory["Rich Chicken"]?.gt(0)) {
+    multiplier += MUTANT_CHICKEN_BOOST_AMOUNT;
   }
 
-  return 1;
+  return Number(multiplier.toFixed(1));
 }
 
 export function getMaxChickens(inventory: Inventory) {

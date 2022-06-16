@@ -3,8 +3,11 @@ import { fromWei } from "web3-utils";
 import { GameState, Inventory } from "../types/game";
 
 export const GRID_WIDTH_PX = 42;
-export const CHICKEN_TIME_TO_EGG = 1000 * 60 * 60 * 24 * 2; // 48 hours
+export const CHICKEN_TIME_TO_EGG = 1000 * 20; // 48 hours
 export const MUTANT_CHICKEN_BOOST_AMOUNT = 0.1;
+
+export const BARN_MANAGER_BOOST_AMOUNT = 0.1;
+export const WRANGLER_BOOST_AMOUNT = 0.1;
 
 export const POPOVER_TIME_MS = 1000;
 
@@ -144,6 +147,10 @@ export const INITIAL_FARM: GameState = {
     Sunflower: new Decimal(5),
     Potato: new Decimal(12),
     "Roasted Cauliflower": new Decimal(1),
+    "Barn Manager": new Decimal(1),
+    Wrangler: new Decimal(1),
+    Chicken: new Decimal(1),
+    Wheat: new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
