@@ -4,7 +4,7 @@ import { GRID_WIDTH_PX } from "../lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import smallStone from "assets/resources/small_stone.png";
 import smallBush from "assets/resources/green_bush.png";
-import { Tree } from "features/farming/forest/components/Tree";
+import tree from "assets/resources/tree.png";
 import { MapPlacement, Position } from "./components/MapPlacement";
 
 type MapItemName = "Bush" | "Tree" | "Stone";
@@ -39,7 +39,7 @@ export const Land: React.FC<Land> = ({ resources }) => {
         {/* Example placement of trees */}
         {Object.values(resources.Tree).map(({ x, y, width, height }, index) => (
           <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-            <Tree treeIndex={index} />
+            <img src={tree} className="h-full w-full" />
           </MapPlacement>
         ))}
         {/* Example placement of bush */}
