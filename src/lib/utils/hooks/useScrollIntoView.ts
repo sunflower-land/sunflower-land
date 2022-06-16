@@ -37,7 +37,7 @@ export enum Section {
   "Rooster" = "rooster",
 
   // Land
-  Base = "base",
+  GenesisBlock = "genesisBlock",
 }
 
 export const useScrollIntoView = () => {
