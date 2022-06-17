@@ -11,6 +11,7 @@ import goblinTailor from "assets/buildings/goblin_tailor.png";
 import goblinBank from "assets/buildings/goblin_bank.gif";
 import background from "assets/land/background.png";
 import goblinLandBackground from "assets/land/goblin_background.png";
+import waterBackground from "assets/land/water-background.png";
 import farm from "assets/brand/nft.png";
 import secure from "assets/npcs/synced.gif";
 import brokenRocket from "assets/mom/mom_broken_rocket.gif";
@@ -23,6 +24,7 @@ import egg from "assets/resources/egg.png";
 import richChicken from "assets/animals/chickens/rich_chicken.png";
 import fatChicken from "assets/animals/chickens/fat_chicken.png";
 import speedChicken from "assets/animals/chickens/speed_chicken.png";
+import levelOne from "assets/land/levels/1.png";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -48,6 +50,8 @@ const IMAGE_LIST: string[] = [
   richChicken,
   fatChicken,
   speedChicken,
+  waterBackground,
+  levelOne,
 ];
 
 function preloadImage(src: string) {

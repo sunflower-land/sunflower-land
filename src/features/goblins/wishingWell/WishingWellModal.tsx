@@ -51,7 +51,9 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
       </div>
       <p className="mb-4 text-sm">Your wish has been granted.</p>
       <p className="mb-4 text-sm">
-        The amount has been transferred to your farm.
+        {reward
+          ? `${reward} SFL has been transferred to your farm.`
+          : `Your reward has been transferred to your farm.`}
       </p>
       <p className="mb-4 text-sm">
         You will need to sync on chain to see your updated balance!
@@ -60,9 +62,11 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
         A new wish has been made for you based on your current balance of LP
         tokens!
       </p>
-      <p className="mb-2 text-sm">
-        {`Your new wish will be ready in ${lockedTime}.`}
-      </p>
+      {lockedTime && (
+        <p className="mb-2 text-sm">
+          {`Your new wish will be ready in ${lockedTime}.`}
+        </p>
+      )}
     </div>
     <Button className="mr-1" onClick={onClose}>
       Close

@@ -42,8 +42,11 @@ export interface Context {
   isBlacklisted?: boolean;
 }
 
+export type Screen = "land" | "farm";
+
 type StartEvent = Farm & {
   type: "START_GAME";
+  screen: Screen;
 };
 
 type ExploreEvent = {
@@ -116,6 +119,7 @@ export type BlockchainState = {
     | { connected: "readyToStart" }
     | { connected: "donating" }
     | { connected: "authorised" }
+    | { connected: "landExpansion" }
     | { connected: "blacklisted" }
     | { connected: "visitingContributor" }
     | "exploring"
@@ -369,8 +373,10 @@ export const authMachine = createMachine<
           },
           authorised: {
             id: "authorised",
-            entry: (context) => {
-              window.location.href = `${window.location.pathname}#/farm/${context.farmId}`;
+            entry: (context, event) => {
+              const { screen } = event as StartEvent;
+
+              window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
             },
             on: {
               REFRESH: {
