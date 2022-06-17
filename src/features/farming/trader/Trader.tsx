@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import close from "assets/icons/close.png";
 
 import traderImage from "assets/npcs/trader.gif";
 import beetroot from "assets/crops/beetroot/crop.png";
@@ -47,6 +49,12 @@ export const Trader: React.FC = () => {
     setIsAlreadyTradedOpen(true);
   };
 
+  const handleCloseModal = () => {
+    setIsAlreadyTradedOpen(false);
+    setIsDialogOpen(false);
+    setIsOfferOpen(false);
+  };
+
   // const find = state.tradeOffer?.ingredients.forEach((item) => {
   //   item.amount < state.inventory[item.name];
   // });
@@ -75,28 +83,35 @@ export const Trader: React.FC = () => {
       {/* Intro Modal */}
       <Modal centered show={isDialogOpen} onHide={() => setIsDialogOpen(false)}>
         <Panel>
-          <div className="px-2 mb-2">
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={handleCloseModal}
+          />
+          <div className="flex flex-col mt-2 items-center">
             {/* Show nomad image */}
             <img src={traderImage}></img>
             {/* this are limited offers... This offer ends on "date".*/}
             <p className="mb-4">
-              {`I'm a nomad, and will bring you offer every week`}
+              {`I'm a nomad, I'm here and there. 
+              I bring items from my travellings to trade with farmers.`}
             </p>
-            <p>Have a look at my offers for this week </p>
+            <p>Have a look at my current offers.</p>
+            <Button onClick={handleOpenOffer} className="flex flex-row  mx-2">
+              Check Offer
+            </Button>
           </div>
-
-          <Button
-            onClick={handleOpenOffer}
-            className="flex flex-row items-center mx-2"
-          >
-            Check Offer
-          </Button>
         </Panel>
       </Modal>
 
       {/* Trade Modal */}
       <Modal centered show={isOfferOpen} onHide={() => setIsOfferOpen(false)}>
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={handleCloseModal}
+          />
           {/* show resources need as it was done for thr rocket */}
 
           {/* ADD ANNOUNCEMENT FOR TRADER */}
@@ -145,6 +160,11 @@ export const Trader: React.FC = () => {
         onHide={() => setIsAlreadyTradedOpen(false)}
       >
         <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={handleCloseModal}
+          />
           <div className="px-2 mb-2">
             <p className="mb-4">
               You have already traded with me for this period, check again soon
