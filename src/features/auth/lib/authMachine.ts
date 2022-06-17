@@ -42,12 +42,11 @@ export interface Context {
   isBlacklisted?: boolean;
 }
 
+export type Screen = "land" | "farm";
+
 type StartEvent = Farm & {
   type: "START_GAME";
-};
-
-type StartLandEvent = Farm & {
-  type: "START_LAND";
+  screen: Screen;
 };
 
 type ExploreEvent = {
@@ -76,7 +75,6 @@ type LoadFarmEvent = {
 
 export type BlockchainEvent =
   | StartEvent
-  | StartLandEvent
   | ExploreEvent
   | VisitEvent
   | ReturnEvent
@@ -363,9 +361,6 @@ export const authMachine = createMachine<
                   target: "authorised",
                 },
               ],
-              START_LAND: {
-                target: "landExpansion",
-              },
               EXPLORE: {
                 target: "#exploring",
               },
@@ -378,8 +373,10 @@ export const authMachine = createMachine<
           },
           authorised: {
             id: "authorised",
-            entry: (context) => {
-              window.location.href = `${window.location.pathname}#/farm/${context.farmId}`;
+            entry: (context, event) => {
+              const { screen } = event as StartEvent;
+
+              window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
             },
             on: {
               REFRESH: {
@@ -396,13 +393,6 @@ export const authMachine = createMachine<
                 actions: ["clearSession", "resetFarm"],
               },
             },
-          },
-          landExpansion: {
-            id: "landExpansion",
-            entry: (context) => {
-              window.location.href = `${window.location.pathname}#/land/${context.farmId}`;
-            },
-            on: {},
           },
           supplyReached: {},
         },
