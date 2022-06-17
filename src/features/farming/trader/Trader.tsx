@@ -59,8 +59,8 @@ export const Trader: React.FC = () => {
       id="trader"
       style={{
         width: `${GRID_WIDTH_PX * 1}px`,
-        left: `${GRID_WIDTH_PX * 11}px`,
-        top: `${GRID_WIDTH_PX * 1}px`,
+        left: `${GRID_WIDTH_PX * 12.95}px`,
+        top: `${GRID_WIDTH_PX * 2.8}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">
@@ -72,8 +72,7 @@ export const Trader: React.FC = () => {
         />
       </div>
 
-      {/* show a different modal once the trade is done */}
-
+      {/* Intro Modal */}
       <Modal centered show={isDialogOpen} onHide={() => setIsDialogOpen(false)}>
         <Panel>
           <div className="px-2 mb-2">
@@ -95,6 +94,7 @@ export const Trader: React.FC = () => {
         </Panel>
       </Modal>
 
+      {/* Trade Modal */}
       <Modal centered show={isOfferOpen} onHide={() => setIsOfferOpen(false)}>
         <Panel>
           {/* show resources need as it was done for thr rocket */}
@@ -137,6 +137,8 @@ export const Trader: React.FC = () => {
         </Panel>
       </Modal>
 
+      {/* show a different modal once the trade is done */}
+      {/* Already Traded Modal */}
       <Modal
         centered
         show={isAlreadyTradedOpen}
@@ -146,7 +148,7 @@ export const Trader: React.FC = () => {
           <div className="px-2 mb-2">
             <p className="mb-4">
               You have already traded with me for this period, check again soon
-              to see if I have something else for you
+              to see if I have something else for you.
             </p>
           </div>
         </Panel>
