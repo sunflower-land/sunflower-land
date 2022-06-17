@@ -28,8 +28,12 @@ import { mintCooldown } from "features/goblins/blacksmith/lib/mintUtils";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
+  allowLongpressWithdrawal?: boolean;
 }
-export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
+export const WithdrawItems: React.FC<Props> = ({
+  onWithdraw,
+  allowLongpressWithdrawal = true,
+}) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
@@ -163,7 +167,7 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
                 onClick={() => onAdd(itemName)}
                 image={details.image}
                 locked={locked}
-                canBeLongPressed={true}
+                canBeLongPressed={allowLongpressWithdrawal}
                 cooldownInProgress={cooldownInProgress}
               />
             );
@@ -184,7 +188,7 @@ export const WithdrawItems: React.FC<Props> = ({ onWithdraw }) => {
                   count={selected[itemName]}
                   key={itemName}
                   onClick={() => onRemove(itemName)}
-                  canBeLongPressed={true}
+                  canBeLongPressed={allowLongpressWithdrawal}
                   image={ITEM_DETAILS[itemName].image}
                 />
               );

@@ -25,8 +25,10 @@ export const useLongPress = (
 
   const clear = useCallback(
     (e: React.MouseEvent | React.TouchEvent, shouldTriggerClick = true) => {
+      // Clear timeout and timer
       timeout.current && clearTimeout(timeout.current);
       timer.current && clearInterval(timer.current);
+      // Perform normal click if longpress didnt happen or after we hit the limit
       shouldTriggerClick && !longPressTriggered && onClick(e);
       setLongPressTriggered(false);
       if (shouldPreventDefault && target.current) {
@@ -45,7 +47,9 @@ export const useLongPress = (
         target.current = e.target;
       }
       timeout.current = setTimeout(() => {
+        // Remember remaining items count on longpress start
         let remaining = count.toNumber();
+        // Call onClick in a loop until we run out of items or longpress is canceled
         timer.current = setInterval(() => {
           if (remaining <= 1) {
             clear(e, false);
@@ -60,6 +64,7 @@ export const useLongPress = (
     [onClick, delay, interval, count, clear, shouldPreventDefault]
   );
 
+  // Return event handlers
   return {
     onMouseDown: (e: React.MouseEvent) => start(e),
     onTouchStart: (e: React.TouchEvent) => start(e),
