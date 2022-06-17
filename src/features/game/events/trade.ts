@@ -11,11 +11,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function trade({
-  state,
-}: //   action,
-//   createdAt = Date.now(),
-Options): GameState {
+export function trade({ state }: Options): GameState {
   const tradeOffer = state.tradeOffer;
   if (!tradeOffer) {
     throw new Error("Nothing to trade");
