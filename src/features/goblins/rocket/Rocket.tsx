@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import classNames from "classnames";
 import { useActor, useMachine } from "@xstate/react";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
@@ -99,19 +100,25 @@ export const Rocket: React.FC = () => {
           right: `${GRID_WIDTH_PX * 18}px`,
           top: `${GRID_WIDTH_PX * 15}px`,
         }}
-        onClick={handleOpenDialog}
+        onClick={() => canEndMomEvent(context) && handleOpenDialog()}
       >
-        <div className="absolute cursor-pointer hover:img-highlight w-full">
-          <img
-            src={momNpc}
-            style={{
-              position: "absolute",
-              width: `${GRID_WIDTH_PX * 1.2}px`,
-              top: `${GRID_WIDTH_PX * 3.3}px`,
-              right: `${GRID_WIDTH_PX * 3.92}px`,
-              zIndex: 2,
-            }}
-          />
+        <div
+          className={classNames("absolute  w-full", {
+            "cursor-pointer hover:img-highlight": canEndMomEvent(context),
+          })}
+        >
+          {canEndMomEvent(context) && (
+            <img
+              src={momNpc}
+              style={{
+                position: "absolute",
+                width: `${GRID_WIDTH_PX * 1.2}px`,
+                top: `${GRID_WIDTH_PX * 3.3}px`,
+                right: `${GRID_WIDTH_PX * 3.92}px`,
+                zIndex: 2,
+              }}
+            />
+          )}
           <img src={rocketImage} className="w-56 relative z-10" />
         </div>
       </div>
