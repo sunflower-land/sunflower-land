@@ -38,11 +38,10 @@ export const Trader: React.FC = () => {
   };
 
   const handleCloseModal = () => {
-    // TODO - Show toasts
     setState("closed");
   };
 
-  // Improve these UI dialogs - wording, styles + image
+  // TODO - Improve these UI dialogs - wording, styles + image
   const ModalContent = () => {
     if (state === "noOffer") {
       return (
