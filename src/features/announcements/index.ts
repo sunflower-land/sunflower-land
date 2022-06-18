@@ -1,6 +1,6 @@
 import chicken from "assets/announcements/chickens.gif";
 import nugget from "assets/announcements/nugget.gif";
-import nomad from "assets/announcements/nomad.png";
+import nomad from "assets/announcements/nomad.gif";
 
 export interface Announcement {
   date: Date;
