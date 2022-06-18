@@ -15,7 +15,7 @@ import fixedRocket from "assets/mom/mom_fixed_rocket.png";
 import launchingRocket from "assets/mom/mom_launching_rocket.gif";
 import burnMark from "assets/mom/mom_burnt_ground.png";
 import close from "assets/icons/close.png";
-import { melonDuskAudio } from "lib/utils/sfx";
+import { melonDuskAudio, rocketLaunchAudio } from "lib/utils/sfx";
 import momNpc from "assets/mom/mom_npc.gif";
 import telescope from "assets/nfts/mom/telescope.gif";
 
@@ -25,7 +25,7 @@ import { createRocketMachine } from "./lib/rocketMachine";
 import { Telescope } from "./components/Telescope";
 import { canEndMomEvent } from "./actions/canEndMomEvent";
 
-const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
+const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 6000; // 6 seconds
 
 export const Rocket: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -49,12 +49,13 @@ export const Rocket: React.FC = () => {
   useEffect(() => {
     if (rocketState.matches("launching")) {
       melonDuskAudio.stop();
+      rocketLaunchAudio.play();
       // TODO - Add rocket launch sound
 
       setTimeout(() => {
-        setIsDialogOpen(true);
         // TODO - Replace this with "END_EVENT".
         // send("START_MISSION");
+        rocketLaunchAudio.stop();
       }, ROCKET_LAUNCH_TO_DIALOG_TIMEOUT);
     }
   }, [rocketState]);
