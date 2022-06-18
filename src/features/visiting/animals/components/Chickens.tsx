@@ -6,9 +6,12 @@ import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, CHICKEN_POSITIONS } from "features/game/lib/constants";
 import { Context } from "features/game/VisitingProvider";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
+
+import { getMaxChickens } from "features/game/events/feedChicken";
+import { Chicken } from "./Chicken";
 
 export const Chickens: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -17,6 +20,11 @@ export const Chickens: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+
+  const chickenCount = state.inventory.Chicken?.toNumber() || 0;
+
+  const chickens = new Array(chickenCount).fill(null);
+  const maxChickens = getMaxChickens(state.inventory);
 
   return (
     <>
@@ -68,6 +76,25 @@ export const Chickens: React.FC = () => {
           className="absolute"
         />
       )}
+
+      <div
+        className="flex flex-wrap absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 12.8}px`,
+          height: `${GRID_WIDTH_PX * 4.2}px`,
+          left: `${GRID_WIDTH_PX * 8.3}px`,
+          bottom: `${GRID_WIDTH_PX * 2.1}px`,
+        }}
+      >
+        {/* Limit to max number of chickens */}
+        {chickens.slice(0, maxChickens).map((_, index) => (
+          <Chicken
+            index={index}
+            key={index}
+            position={CHICKEN_POSITIONS[index]}
+          />
+        ))}
+      </div>
     </>
   );
 };

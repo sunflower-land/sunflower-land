@@ -6,35 +6,12 @@ import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, CHICKEN_POSITIONS } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import { Chicken } from "./Chicken";
 import { getMaxChickens } from "features/game/events/feedChicken";
-
-export type Position = {
-  top: number;
-  right: number;
-};
-
-const positions: Position[] = [
-  { top: GRID_WIDTH_PX * 1.2, right: GRID_WIDTH_PX * 1.9 },
-  { top: GRID_WIDTH_PX * 1.4, right: GRID_WIDTH_PX * 3.3 },
-  { top: GRID_WIDTH_PX * 1.7, right: GRID_WIDTH_PX * 0.88 },
-  { top: GRID_WIDTH_PX * 2.47, right: GRID_WIDTH_PX * 3 },
-  { top: GRID_WIDTH_PX * 2.66, right: GRID_WIDTH_PX * 1.9 },
-  { top: GRID_WIDTH_PX * 1.6, right: GRID_WIDTH_PX * 4.6 },
-  { top: GRID_WIDTH_PX * 1.72, right: GRID_WIDTH_PX * 5.7 },
-  { top: GRID_WIDTH_PX * 1.28, right: GRID_WIDTH_PX * 6.7 },
-  { top: GRID_WIDTH_PX * 1.8, right: GRID_WIDTH_PX * 7.7 },
-  { top: GRID_WIDTH_PX * 1.44, right: GRID_WIDTH_PX * 8.7 },
-  { top: GRID_WIDTH_PX * 1.95, right: GRID_WIDTH_PX * 9.8 },
-  { top: GRID_WIDTH_PX * 1.17, right: GRID_WIDTH_PX * 10.6 },
-  { top: GRID_WIDTH_PX * 1.78, right: GRID_WIDTH_PX * 11.5 },
-  { top: GRID_WIDTH_PX * 1.85, right: GRID_WIDTH_PX * 12.8 },
-  { top: GRID_WIDTH_PX * 1.59, right: GRID_WIDTH_PX * 14.12 },
-];
 
 export const Chickens: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -115,7 +92,11 @@ export const Chickens: React.FC = () => {
       >
         {/* Limit to max number of chickens */}
         {chickens.slice(0, maxChickens).map((_, index) => (
-          <Chicken index={index} key={index} position={positions[index]} />
+          <Chicken
+            index={index}
+            key={index}
+            position={CHICKEN_POSITIONS[index]}
+          />
         ))}
       </div>
     </>
