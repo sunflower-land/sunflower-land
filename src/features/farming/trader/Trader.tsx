@@ -32,14 +32,17 @@ export const Trader: React.FC = () => {
   };
 
   const handleTrade = () => {
+    // TODO - show toasts
     gameService.send("item.traded");
     setState("traded");
   };
 
   const handleCloseModal = () => {
+    // TODO - Show toasts
     setState("closed");
   };
 
+  // Improve these UI dialogs - wording, styles + image
   const ModalContent = () => {
     if (state === "noOffer") {
       return (
