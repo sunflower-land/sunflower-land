@@ -54,7 +54,7 @@ export class Beta {
   }): Promise<string> {
     const gasPrice = await estimateGasPrice(this.web3);
 
-    const donation = toWei("10");
+    const donation = toWei("12.5");
     return new Promise((resolve, reject) => {
       this.contract.methods
         .createFarm(signature, charity, deadline)

@@ -156,7 +156,7 @@ export class SessionManager {
     burnAmounts: number[];
     tokens: number;
   }): Promise<string> {
-    const fee = toWei("0.1");
+    const fee = toWei("0.25");
 
     const oldSessionId = await this.getSessionId(farmId);
     const gasPrice = await estimateGasPrice(this.web3);
@@ -206,7 +206,7 @@ export class SessionManager {
     farmId: number;
     mintId: number;
   }): Promise<string> {
-    const fee = toWei("0.1");
+    const fee = toWei("0.25");
 
     const oldSessionId = await this.getSessionId(farmId);
     const gasPrice = await estimateGasPrice(this.web3);
