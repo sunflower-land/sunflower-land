@@ -153,6 +153,7 @@ import easterBunny from "src/assets/nfts/easter/easter_bunny.gif";
 //MOM Event
 import momCoreEngine from "src/assets/nfts/mom/engine_core.png";
 import observatory from "src/assets/nfts/mom/observatory.gif";
+import telescope from "src/assets/nfts/mom/telescope.gif";
 
 // Cakes
 import carrotCake from "src/assets/nfts/cakes/carrot_cake.png";
@@ -817,6 +818,11 @@ export const ITEM_DETAILS: Items = {
     ...ROCKET_ITEMS["Observatory"],
     description: "Reach the stars and increase XP",
     image: observatory,
+  },
+  Telescope: {
+    ...ROCKET_ITEMS["Telescope"],
+    description: "Use this to see Melon Dusk again",
+    image: telescope,
   },
   "Goblin Key": {
     description: "The Goblin Key",

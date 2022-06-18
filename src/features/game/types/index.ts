@@ -172,6 +172,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Key": 913,
   "Ancient Goblin Sword": 914,
   "Ancient Human Warhammer": 915,
+  Telescope: 916, // TODO - Ensure this is the correct ID.
 };
 
 // The reverse of above

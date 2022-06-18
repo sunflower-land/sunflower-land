@@ -27,6 +27,7 @@ export enum Section {
   Bath = "bath",
   "Easter Bunny" = "easter-bunny",
   Observatory = "observatory",
+  Telescope = "telescope",
   "Mysterious Head" = "mysterious-head",
   "Golden Bonsai" = "golden-bonsai",
   Mole = "mole",

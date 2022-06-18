@@ -41,6 +41,7 @@ import nugget from "assets/nfts/nugget.gif";
 
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 import observatory from "assets/nfts/mom/observatory.gif";
+import telescope from "assets/nfts/mom/telescope.gif";
 
 import golemSheet from "assets/nfts/rock_golem.png";
 
@@ -628,6 +629,21 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         className="absolute"
         src={observatory}
         alt="Observatory"
+      />
+    )}
+
+    {/* TODO - Fix position */}
+    {state.inventory["Telescope"] && (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 2.75}px`,
+          left: `${GRID_WIDTH_PX * 47.5}px`,
+          top: `${GRID_WIDTH_PX * 1.2}px`,
+        }}
+        id={Section.Telescope}
+        className="absolute"
+        src={telescope}
+        alt="Telescope"
       />
     )}
 

@@ -16,12 +16,13 @@ import burnMark from "assets/mom/mom_burnt_ground.png";
 import close from "assets/icons/close.png";
 import { melonDuskAudio } from "lib/utils/sfx";
 import momNpc from "assets/mom/mom_npc.gif";
-import telescope from "assets/mom/telescope.gif";
+import telescope from "assets/nfts/mom/telescope.gif";
 
 import { ErrorCode } from "lib/errors";
 
 import { createRocketMachine } from "./lib/rocketMachine";
 import { Telescope } from "./components/Telescope";
+import { canEndMomEvent } from "./actions/canEndMomEvent";
 
 const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
 
@@ -29,11 +30,8 @@ export const Rocket: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
   const { goblinService } = useContext(Context);
-  const [
-    {
-      context: { state, sessionId },
-    },
-  ] = useActor(goblinService);
+  const [{ context }] = useActor(goblinService);
+  const { state, sessionId } = context;
 
   const [rocketState, send] = useMachine(
     createRocketMachine({
@@ -90,7 +88,7 @@ export const Rocket: React.FC = () => {
     send("REWARD");
   };
 
-  const rocketImage = rocketState.matches("completed") ? burnMark : fixedRocket;
+  const rocketImage = canEndMomEvent(context) ? fixedRocket : burnMark;
 
   return (
     <>
@@ -131,55 +129,66 @@ export const Rocket: React.FC = () => {
         />
       )}
 
-      <Modal
-        centered
-        show={rocketState.matches("rewarding")}
-        onHide={handleCloseDialog}
-      >
-        <Panel className="text-shadow">
-          <Minting />
-        </Panel>
-      </Modal>
+      {canEndMomEvent(context) && (
+        <>
+          <Modal
+            centered
+            show={rocketState.matches("rewarding")}
+            onHide={handleCloseDialog}
+          >
+            <Panel className="text-shadow">
+              <Minting />
+            </Panel>
+          </Modal>
 
-      <Modal
-        centered
-        show={rocketState.matches("error")}
-        onHide={handleCloseDialog}
-      >
-        <Panel className="text-shadow">
-          <ErrorMessage
-            errorCode={rocketState.context.errorCode as ErrorCode}
-          />
-        </Panel>
-      </Modal>
+          <Modal
+            centered
+            show={rocketState.matches("error")}
+            onHide={handleCloseDialog}
+          >
+            <Panel className="text-shadow">
+              <ErrorMessage
+                errorCode={rocketState.context.errorCode as ErrorCode}
+              />
+            </Panel>
+          </Modal>
 
-      <Modal centered show={isDialogOpen} onHide={handleCloseDialog}>
-        <Panel>
-          <img
-            src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
-            onClick={handleCloseDialog}
-          />
-          <div className="flex flex-col mt-2 items-center">
-            <h1 className="text-lg mb-2">Melon Dusk</h1>
-            <img src={momNpc} className="w-16 mb-2" />
-            <div className="px-2 my-2">
-              <p className="mb-4">Thanks again for repairing my rocket!</p>
-              <p className="mb-4">
-                Unfortunately, it&apos;s time for me to go. Here&apos;s a gift
-                to remember me.
-              </p>
-              <p>Use this if you wish to see me again!</p>
-            </div>
-            <img src={telescope} className="w-32 mb-2" />
-            <Button onClick={handleCraftTelescope}>Mint Now</Button>
-          </div>
-        </Panel>
-      </Modal>
+          <Modal centered show={isDialogOpen} onHide={handleCloseDialog}>
+            <Panel>
+              <img
+                src={close}
+                className="h-6 top-4 right-4 absolute cursor-pointer"
+                onClick={handleCloseDialog}
+              />
+              <div className="flex flex-col mt-2 items-center">
+                <h1 className="text-lg mb-2">Melon Dusk</h1>
+                <img src={momNpc} className="w-16 mb-2" />
+                <div className="px-2 my-2">
+                  <p className="mb-4">Thanks again for repairing my rocket!</p>
+                  <p className="mb-4">
+                    Unfortunately, it&apos;s time for me to go. Here&apos;s a
+                    gift to remember me.
+                  </p>
+                  <p>Use this if you wish to see me again!</p>
+                </div>
+                <img src={telescope} className="w-32 mb-2" />
+                <Button onClick={handleCraftTelescope}>Mint Now</Button>
+              </div>
+            </Panel>
+          </Modal>
 
-      <Modal centered show={isTelescopeModalOpen} onHide={handleCloseDialog}>
-        <Telescope onCraft={handleMintTelescope} inventory={state.inventory} />
-      </Modal>
+          <Modal
+            centered
+            show={isTelescopeModalOpen}
+            onHide={handleCloseDialog}
+          >
+            <Telescope
+              onCraft={handleMintTelescope}
+              inventory={state.inventory}
+            />
+          </Modal>
+        </>
+      )}
     </>
   );
 };

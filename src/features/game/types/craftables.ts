@@ -68,7 +68,7 @@ export interface LimitedItem extends CraftableItem {
   type?: LimitedItemType;
 }
 
-export type MOMEventItem = "Engine Core" | "Observatory";
+export type MOMEventItem = "Engine Core" | "Observatory" | "Telescope";
 
 export type QuestItem =
   | "Goblin Key"
@@ -512,6 +512,12 @@ export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
     name: "Observatory",
     description: "Explore the stars and improve scientific development",
     section: Section.Observatory,
+    type: LimitedItemType.MOMEventItem,
+  },
+  Telescope: {
+    name: "Telescope",
+    description: "Use this to see Melon Dusk again",
+    section: Section.Telescope,
     type: LimitedItemType.MOMEventItem,
   },
 };
