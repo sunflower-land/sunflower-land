@@ -5,12 +5,14 @@ import { Panel } from "components/ui/Panel";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import close from "assets/icons/close.png";
 
 import traderImage from "assets/npcs/trader.gif";
 import { canTrade } from "features/game/events/trade";
 import { Offer } from "./component/Offer";
 import { TradeOffer } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const Trader: React.FC = () => {
   const [state, setState] = useState<
@@ -18,6 +20,7 @@ export const Trader: React.FC = () => {
   >("closed");
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { setToast } = useContext(ToastContext);
 
   const open = () => {
     // Decide what content to show?
@@ -33,6 +36,23 @@ export const Trader: React.FC = () => {
 
   const handleTrade = () => {
     // TODO - show toasts
+    const offer = gameState.context.state.tradeOffer;
+
+    if (offer) {
+      offer.ingredients?.map((ingredient) => {
+        const item = ITEM_DETAILS[ingredient.name];
+        setToast({
+          icon: item.image,
+          content: `-${ingredient.amount}`,
+        });
+      });
+
+      setToast({
+        icon: ITEM_DETAILS[offer.name].image,
+        content: `+1`,
+      });
+    }
+
     gameService.send("item.traded");
     setState("traded");
   };
@@ -86,12 +106,10 @@ export const Trader: React.FC = () => {
     // state === 'trade'
     return (
       <div className="flex flex-col mt-2 items-center">
-        {/* Show nomad image */}
         <img src={traderImage}></img>
         {/* this are limited offers... This offer ends on "date".*/}
         <p className="mb-4">
-          {`I'm a nomad, I'm here and there. 
-              I bring items from my travellings to trade with farmers.`}
+          {`I'm a nomad trader, I bring items from my travellings to trade with farmers.`}
         </p>
         <p>Have a look at my current offers.</p>
         <Button
