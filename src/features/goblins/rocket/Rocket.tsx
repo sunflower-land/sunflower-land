@@ -12,18 +12,16 @@ import { Context } from "features/game/GoblinProvider";
 
 import fixedRocket from "assets/mom/mom_fixed_rocket.png";
 import launchingRocket from "assets/mom/mom_launching_rocket.gif";
-import brokenRocket from "assets/mom/mom_broken_rocket.gif";
 import burnMark from "assets/mom/mom_burnt_ground.png";
 import close from "assets/icons/close.png";
-import observatory from "assets/nfts/mom/observatory.gif";
 import { melonDuskAudio } from "lib/utils/sfx";
 import momNpc from "assets/mom/mom_npc.gif";
+import telescope from "assets/mom/telescope.gif";
 
 import { ErrorCode } from "lib/errors";
 
 import { createRocketMachine } from "./lib/rocketMachine";
-import { EngineCore } from "./components/EngineCore";
-import { Launchpad } from "./components/Launchpad";
+import { Telescope } from "./components/Telescope";
 
 const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 4000;
 
@@ -33,7 +31,7 @@ export const Rocket: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [
     {
-      context: { state, sessionId, farmAddress },
+      context: { state, sessionId },
     },
   ] = useActor(goblinService);
 
@@ -47,22 +45,23 @@ export const Rocket: React.FC = () => {
   );
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isEngineCoreModalOpen, setIsEngineCoreModalOpen] = useState(false);
+  const [isTelescopeModalOpen, setIsTelescopeModalOpen] = useState(false);
 
   useEffect(() => {
     if (rocketState.matches("launching")) {
       melonDuskAudio.stop();
+      // TODO - Add rocket launch sound
 
       setTimeout(() => {
         setIsDialogOpen(true);
-        send("START_MISSION");
-
-        melonDuskAudio.play();
+        // TODO - Replace this with "END_EVENT".
+        // send("START_MISSION");
       }, ROCKET_LAUNCH_TO_DIALOG_TIMEOUT);
     }
   }, [rocketState]);
 
   const handleLaunchRocket = () => {
+    // TODO - Launch the rocket. Event should end after this.
     setIsDialogOpen(false);
     send("LAUNCH");
   };
@@ -75,110 +74,23 @@ export const Rocket: React.FC = () => {
     }
   };
 
-  const handleFixRocket = () => {
-    setIsDialogOpen(false);
-    setIsEngineCoreModalOpen(true);
-  };
-
   const handleCloseDialog = () => {
     melonDuskAudio.stop();
     setIsDialogOpen(false);
-    setIsEngineCoreModalOpen(false);
+    setIsTelescopeModalOpen(false);
   };
 
-  const handleMintObservatory = () => {
+  const handleCraftTelescope = () => {
+    setIsDialogOpen(false);
+    setIsTelescopeModalOpen(true);
+  };
+
+  const handleMintTelescope = () => {
+    // TODO
     send("REWARD");
   };
 
-  const handleCraftEngineCore = () => {
-    send("REPAIR");
-    handleCloseDialog();
-  };
-
-  const handleContinueMission = () => {
-    window.open(
-      "https://milliononmars.io/sunflower",
-      "_blank, noreferrer, noopener"
-    );
-    handleCloseDialog();
-  };
-
-  let rocketImage = burnMark;
-
-  if (rocketState.matches("crashed") || rocketState.matches("repairing")) {
-    rocketImage = brokenRocket;
-  }
-
-  if (rocketState.matches("repaired")) {
-    rocketImage = fixedRocket;
-  }
-
-  const content = () => {
-    if (rocketState.matches("rewarded")) {
-      return (
-        <span className="px-2 mb-2">
-          Enjoy your new observatory captain! Go back to your farm and sync on
-          chain to start using it.
-        </span>
-      );
-    }
-
-    if (rocketState.matches("completed")) {
-      return (
-        <>
-          <div className="px-2 my-2">
-            <p className="mb-4">Great job on Mars Interplanetary Farmer!</p>
-            <p className="mb-4">
-              In exchange for your token received on Mars, I will give you
-              something to remember me by.
-            </p>
-            <p>
-              After this trade, go back to your farm and sync on chain to see
-              it.
-            </p>
-          </div>
-          <Button onClick={handleMintObservatory}>Mint Now</Button>
-        </>
-      );
-    }
-
-    if (rocketState.matches("launched")) {
-      return (
-        <>
-          <div className="px-2 mb-2">
-            <p className="mb-2">
-              When you complete your mission on Mars, come back and talk with
-              me.
-            </p>
-          </div>
-          <Button onClick={handleContinueMission}>Continue your mission</Button>
-        </>
-      );
-    }
-
-    if (rocketState.matches("repaired")) {
-      return (
-        <>
-          <span className="px-2 mb-2">
-            {`Rocket is ready to launch, whenever you're ready captain!`}
-          </span>
-          <Button onClick={handleLaunchRocket}>Launch Rocket</Button>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <div className="px-2 mb-2">
-          <p className="mb-4">
-            Help! My rocket has crash landed and needs repairs.
-          </p>
-          <p>Can you help me fix it?</p>
-        </div>
-        <Button onClick={handleFixRocket}>Fix rocket</Button>
-      </>
-    );
-  };
+  const rocketImage = rocketState.matches("completed") ? burnMark : fixedRocket;
 
   return (
     <>
@@ -203,7 +115,6 @@ export const Rocket: React.FC = () => {
             }}
           />
           <img src={rocketImage} className="w-56 relative z-10" />
-          {rocketState.matches("repaired") && <Launchpad />}
         </div>
       </div>
 
@@ -222,9 +133,7 @@ export const Rocket: React.FC = () => {
 
       <Modal
         centered
-        show={
-          rocketState.matches("rewarding") || rocketState.matches("repairing")
-        }
+        show={rocketState.matches("rewarding")}
         onHide={handleCloseDialog}
       >
         <Panel className="text-shadow">
@@ -253,20 +162,23 @@ export const Rocket: React.FC = () => {
           />
           <div className="flex flex-col mt-2 items-center">
             <h1 className="text-lg mb-2">Melon Dusk</h1>
-            <img
-              src={rocketState.matches("completed") ? observatory : momNpc}
-              className="w-16 mb-2"
-            />
-            {content()}
+            <img src={momNpc} className="w-16 mb-2" />
+            <div className="px-2 my-2">
+              <p className="mb-4">Thanks again for repairing my rocket!</p>
+              <p className="mb-4">
+                Unfortunately, it&apos;s time for me to go. Here&apos;s a gift
+                to remember me.
+              </p>
+              <p>Use this if you wish to see me again!</p>
+            </div>
+            <img src={telescope} className="w-32 mb-2" />
+            <Button onClick={handleCraftTelescope}>Mint Now</Button>
           </div>
         </Panel>
       </Modal>
 
-      <Modal centered show={isEngineCoreModalOpen} onHide={handleCloseDialog}>
-        <EngineCore
-          onCraft={handleCraftEngineCore}
-          inventory={state.inventory}
-        />
+      <Modal centered show={isTelescopeModalOpen} onHide={handleCloseDialog}>
+        <Telescope onCraft={handleMintTelescope} inventory={state.inventory} />
       </Modal>
     </>
   );
