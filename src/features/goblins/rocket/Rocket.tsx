@@ -103,6 +103,11 @@ export const Rocket: React.FC = () => {
     handleCloseDialog();
   };
 
+  // Can no longer repair after 17th June
+  if (rocketState.matches("crashed")) {
+    return null;
+  }
+
   let rocketImage = burnMark;
 
   if (rocketState.matches("crashed") || rocketState.matches("repairing")) {
