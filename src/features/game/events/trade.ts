@@ -11,6 +11,25 @@ type Options = {
   createdAt?: number;
 };
 
+export function canTrade(state: GameState) {
+  if (!state.tradeOffer) {
+    return false;
+  }
+
+  // Never traded before, let them trade
+  if (!state.tradedAt) {
+    return true;
+  }
+
+  // They have not traded during the current trade offer period
+  return !(
+    new Date(state.tradedAt).getTime() >
+      new Date(state.tradeOffer.startAt).getTime() &&
+    new Date(state.tradedAt).getTime() <
+      new Date(state.tradeOffer.endAt).getTime()
+  );
+}
+
 export function trade({ state }: Options): GameState {
   const tradeOffer = state.tradeOffer;
   if (!tradeOffer) {
@@ -18,16 +37,8 @@ export function trade({ state }: Options): GameState {
   }
 
   // Check if they have traded the current offer
-  if (state.tradedAt) {
-    // Check if the last time they traded, was for the current offer
-    const hasTradedCurrentOffer =
-      new Date(state.tradedAt).getTime() >
-        new Date(tradeOffer.startAt).getTime() &&
-      new Date(state.tradedAt).getTime() < new Date(tradeOffer.endAt).getTime();
-
-    if (hasTradedCurrentOffer) {
-      throw new Error("Already traded");
-    }
+  if (!canTrade(state)) {
+    throw new Error("Already traded");
   }
 
   const subtractedInventory = tradeOffer.ingredients.reduce(

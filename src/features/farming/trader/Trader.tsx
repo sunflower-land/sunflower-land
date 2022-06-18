@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
@@ -8,58 +8,99 @@ import { useActor } from "@xstate/react";
 import close from "assets/icons/close.png";
 
 import traderImage from "assets/npcs/trader.gif";
-import beetroot from "assets/crops/beetroot/crop.png";
-import carrot from "assets/crops/carrot/crop.png";
-import Decimal from "decimal.js-light";
+import { canTrade } from "features/game/events/trade";
+import { Offer } from "./component/Offer";
+import { TradeOffer } from "features/game/types/game";
 
 export const Trader: React.FC = () => {
-  const [isOfferOpen, setIsOfferOpen] = React.useState(false);
-  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
-  const [isAlreadyTradedOpen, setIsAlreadyTradedOpen] = React.useState(false);
+  const [state, setState] = useState<
+    "closed" | "alreadyTraded" | "noOffer" | "offer" | "trade" | "traded"
+  >("closed");
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const state = gameState.context.state;
-  let hasAvailableOffer = false;
+  const open = () => {
+    // Decide what content to show?
 
-  if (state.tradedAt) {
-    // Check if the last time they traded, was for the current offer
-    if (state.tradeOffer) {
-      hasAvailableOffer =
-        new Date(state.tradedAt).getTime() >
-          new Date(state.tradeOffer.startAt).getTime() &&
-        new Date(state.tradedAt).getTime() <
-          new Date(state.tradeOffer.endAt).getTime();
-    }
-  } else {
-    hasAvailableOffer = true;
-  }
-
-  const handleOpenOffer = () => {
-    setIsDialogOpen(false);
-    if (hasAvailableOffer) {
-      setIsOfferOpen(true);
+    if (!gameState.context.state.tradeOffer) {
+      setState("noOffer");
+    } else if (!canTrade(gameState.context.state)) {
+      setState("alreadyTraded");
     } else {
-      setIsAlreadyTradedOpen(true);
+      setState("trade");
     }
   };
 
   const handleTrade = () => {
     gameService.send("item.traded");
-    setIsAlreadyTradedOpen(true);
+    setState("traded");
   };
 
   const handleCloseModal = () => {
-    setIsAlreadyTradedOpen(false);
-    setIsDialogOpen(false);
-    setIsOfferOpen(false);
+    setState("closed");
   };
 
-  // const find = state.tradeOffer?.ingredients.forEach((item) => {
-  //   item.amount < state.inventory[item.name];
-  // });
-  // const isMissingIngredients = count.lessThan();
-  const isMissingIngredients = true;
+  const ModalContent = () => {
+    if (state === "noOffer") {
+      return (
+        <div className="px-2 mb-2">
+          <p className="mb-4">
+            Nothing is on offer at the moment, check again soon to see if I have
+            something else for you.
+          </p>
+        </div>
+      );
+    }
+
+    if (state === "traded") {
+      return (
+        <div className="px-2 mb-2">
+          <p className="mb-4">Thanks for doing business</p>
+        </div>
+      );
+    }
+
+    if (state === "alreadyTraded") {
+      return (
+        <div className="px-2 mb-2">
+          <p className="mb-4">
+            You have already traded with me for this period, check again soon to
+            see if I have something else for you.
+          </p>
+        </div>
+      );
+    }
+
+    if (state === "offer") {
+      return (
+        <Offer
+          inventory={gameState.context.state.inventory}
+          offer={gameState.context.state.tradeOffer as TradeOffer}
+          onCraft={handleTrade}
+        />
+      );
+    }
+
+    // state === 'trade'
+    return (
+      <div className="flex flex-col mt-2 items-center">
+        {/* Show nomad image */}
+        <img src={traderImage}></img>
+        {/* this are limited offers... This offer ends on "date".*/}
+        <p className="mb-4">
+          {`I'm a nomad, I'm here and there. 
+              I bring items from my travellings to trade with farmers.`}
+        </p>
+        <p>Have a look at my current offers.</p>
+        <Button
+          onClick={() => setState("offer")}
+          className="flex flex-row  mx-2"
+        >
+          Check Offer
+        </Button>
+      </div>
+    );
+  };
 
   return (
     <div
@@ -71,106 +112,19 @@ export const Trader: React.FC = () => {
         top: `${GRID_WIDTH_PX * 2.8}px`,
       }}
     >
-      <div className="cursor-pointer hover:img-highlight">
-        <img
-          src={traderImage}
-          alt="trader"
-          onClick={() => setIsDialogOpen(true)}
-          className="w-full"
-        />
+      <div className="cursor-pointer hover:img-highlight z-10">
+        <img src={traderImage} alt="trader" onClick={open} className="w-full" />
       </div>
 
       {/* Intro Modal */}
-      <Modal centered show={isDialogOpen} onHide={() => setIsDialogOpen(false)}>
+      <Modal centered show={state !== "closed"} onHide={handleCloseModal}>
         <Panel>
           <img
             src={close}
             className="h-6 top-4 right-4 absolute cursor-pointer"
             onClick={handleCloseModal}
           />
-          <div className="flex flex-col mt-2 items-center">
-            {/* Show nomad image */}
-            <img src={traderImage}></img>
-            {/* this are limited offers... This offer ends on "date".*/}
-            <p className="mb-4">
-              {`I'm a nomad, I'm here and there. 
-              I bring items from my travellings to trade with farmers.`}
-            </p>
-            <p>Have a look at my current offers.</p>
-            <Button onClick={handleOpenOffer} className="flex flex-row  mx-2">
-              Check Offer
-            </Button>
-          </div>
-        </Panel>
-      </Modal>
-
-      {/* Trade Modal */}
-      <Modal centered show={isOfferOpen} onHide={() => setIsOfferOpen(false)}>
-        <Panel>
-          <img
-            src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
-            onClick={handleCloseModal}
-          />
-          {/* show resources need as it was done for thr rocket */}
-
-          {/* ADD ANNOUNCEMENT FOR TRADER */}
-          <div className="px-2 mb-2">
-            <span className="text-lg items-center justify-center">
-              {state.tradeOffer?.name}
-            </span>
-            {state.tradeOffer?.ingredients.map((item, index) => {
-              const count = state.inventory[item.name] || new Decimal(0);
-
-              return (
-                <div key={index}>
-                  <div className="flex flex-row my-3 justify-center">
-                    {item.name === "Beetroot" && (
-                      <>
-                        <img className="w-6" src={beetroot} alt={item.name} />{" "}
-                        <span> {item.amount}</span>
-                      </>
-                    )}
-                    {item.name === "Carrot" && (
-                      <>
-                        <img className="w-6" src={carrot} alt={item.name} />{" "}
-                        <span> {item.amount}</span>
-                      </>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <Button
-            disabled={isMissingIngredients}
-            onClick={() => handleTrade()}
-            className="flex flex-row items-center mx-2"
-          >
-            Trade
-          </Button>
-        </Panel>
-      </Modal>
-
-      {/* show a different modal once the trade is done */}
-      {/* Already Traded Modal */}
-      <Modal
-        centered
-        show={isAlreadyTradedOpen}
-        onHide={() => setIsAlreadyTradedOpen(false)}
-      >
-        <Panel>
-          <img
-            src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
-            onClick={handleCloseModal}
-          />
-          <div className="px-2 mb-2">
-            <p className="mb-4">
-              You have already traded with me for this period, check again soon
-              to see if I have something else for you.
-            </p>
-          </div>
+          {ModalContent()}
         </Panel>
       </Modal>
     </div>
