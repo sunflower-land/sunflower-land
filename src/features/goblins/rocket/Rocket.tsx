@@ -59,12 +59,6 @@ export const Rocket: React.FC = () => {
     }
   }, [rocketState]);
 
-  const handleLaunchRocket = () => {
-    // TODO - Launch the rocket. Event should end after this.
-    setIsDialogOpen(false);
-    send("LAUNCH");
-  };
-
   const handleOpenDialog = () => {
     setIsDialogOpen(true);
 
@@ -85,7 +79,8 @@ export const Rocket: React.FC = () => {
   };
 
   const handleMintTelescope = () => {
-    // TODO
+    setIsDialogOpen(false);
+    setIsTelescopeModalOpen(false);
     send("REWARD");
   };
 
@@ -191,7 +186,7 @@ export const Rocket: React.FC = () => {
           >
             <Telescope
               onCraft={handleMintTelescope}
-              inventory={state.inventory}
+              onClose={handleCloseDialog}
             />
           </Modal>
         </>
