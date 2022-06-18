@@ -128,8 +128,8 @@ export const Trader: React.FC = () => {
       id="trader"
       style={{
         width: `${GRID_WIDTH_PX * 1}px`,
-        left: `${GRID_WIDTH_PX * 12.95}px`,
-        top: `${GRID_WIDTH_PX * 2.8}px`,
+        left: `${GRID_WIDTH_PX * 1}px`,
+        top: `${GRID_WIDTH_PX * 4.5}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight z-10">
