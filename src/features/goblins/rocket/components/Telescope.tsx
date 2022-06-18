@@ -51,7 +51,7 @@ export const Telescope: React.FC<Props> = ({ onCraft, onClose }) => {
         onClick={onClose}
       />
       <div className="flex items-start">
-        <img src={telescope} className="w-12 img-highlight mr-2" />
+        <img src={telescope} className="w-18 img-highlight mr-1" />
         <div className="flex-1">
           <span className="text-shadow block">Telescope</span>
           {/* <span className="text-shadow block mt-4">
