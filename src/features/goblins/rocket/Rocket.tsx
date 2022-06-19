@@ -23,7 +23,6 @@ import { ErrorCode } from "lib/errors";
 
 import { createRocketMachine } from "./lib/rocketMachine";
 import { Telescope } from "./components/Telescope";
-import { canEndMomEvent } from "./actions/canEndMomEvent";
 
 const ROCKET_LAUNCH_TO_DIALOG_TIMEOUT = 6000; // 6 seconds
 
@@ -47,17 +46,17 @@ export const Rocket: React.FC = () => {
   const [isTelescopeModalOpen, setIsTelescopeModalOpen] = useState(false);
 
   useEffect(() => {
-    if (rocketState.matches("launching")) {
-      melonDuskAudio.stop();
-      rocketLaunchAudio.play();
-      // TODO - Add rocket launch sound
-
-      setTimeout(() => {
-        // TODO - Replace this with "END_EVENT".
-        // send("START_MISSION");
-        rocketLaunchAudio.stop();
-      }, ROCKET_LAUNCH_TO_DIALOG_TIMEOUT);
+    if (!rocketState.matches("launching")) {
+      return;
     }
+
+    melonDuskAudio.stop();
+    rocketLaunchAudio.play();
+
+    setTimeout(() => {
+      send("END_EVENT");
+      rocketLaunchAudio.stop();
+    }, ROCKET_LAUNCH_TO_DIALOG_TIMEOUT);
   }, [rocketState]);
 
   const handleOpenDialog = () => {
@@ -82,10 +81,11 @@ export const Rocket: React.FC = () => {
   const handleMintTelescope = () => {
     setIsDialogOpen(false);
     setIsTelescopeModalOpen(false);
-    send("REWARD");
+    send("GIFT_TELESCOPE");
   };
 
-  const rocketImage = canEndMomEvent(context) ? fixedRocket : burnMark;
+  const isEndingMomEvent = !rocketState.matches("ended");
+  const rocketImage = isEndingMomEvent ? fixedRocket : burnMark;
 
   return (
     <>
@@ -96,14 +96,14 @@ export const Rocket: React.FC = () => {
           right: `${GRID_WIDTH_PX * 18}px`,
           top: `${GRID_WIDTH_PX * 15}px`,
         }}
-        onClick={() => canEndMomEvent(context) && handleOpenDialog()}
+        onClick={() => isEndingMomEvent && handleOpenDialog()}
       >
         <div
           className={classNames("absolute  w-full", {
-            "cursor-pointer hover:img-highlight": canEndMomEvent(context),
+            "cursor-pointer hover:img-highlight": isEndingMomEvent,
           })}
         >
-          {canEndMomEvent(context) && (
+          {isEndingMomEvent && (
             <img
               src={momNpc}
               style={{
@@ -132,11 +132,11 @@ export const Rocket: React.FC = () => {
         />
       )}
 
-      {canEndMomEvent(context) && (
+      {isEndingMomEvent && (
         <>
           <Modal
             centered
-            show={rocketState.matches("rewarding")}
+            show={rocketState.matches("gifting")}
             onHide={handleCloseDialog}
           >
             <Panel className="text-shadow">

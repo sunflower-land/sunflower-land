@@ -1,13 +1,8 @@
 import { createMachine, Interpreter, assign } from "xstate";
 
-import { metamask } from "lib/blockchain/metamask";
-
 import { Inventory } from "features/game/types/game";
 import { mint } from "features/game/actions/mint";
 import { ErrorCode } from "lib/errors";
-import { CONFIG } from "lib/config";
-
-const API_URL = CONFIG.API_URL;
 
 export interface Context {
   errorCode?: ErrorCode;
@@ -15,30 +10,12 @@ export interface Context {
 
 export type RocketEvent =
   | {
-      type: "LAUNCH";
+      type: "GIFT_TELESCOPE";
     }
-  | {
-      type: "REPAIR";
-    }
-  | {
-      type: "START_MISSION";
-    }
-  | {
-      type: "REWARD";
-    };
+  | { type: "END_EVENT" };
 
 export type RocketState = {
-  value:
-    | "loading"
-    | "crashed"
-    | "repairing"
-    | "repaired"
-    | "launching"
-    | "launched"
-    | "completed"
-    | "rewarding"
-    | "rewarded"
-    | "error";
+  value: "loading" | "available" | "launching" | "gifting" | "ended" | "error";
   context: Context;
 };
 
@@ -60,6 +37,10 @@ type RocketMachineArgs = {
   token: string;
 };
 
+const canEndEvent = (inventory: Inventory) =>
+  (!!inventory["Engine Core"] || !!inventory["Observatory"]) &&
+  !inventory["Telescope"];
+
 export const createRocketMachine = ({
   inventory,
   id,
@@ -69,105 +50,56 @@ export const createRocketMachine = ({
   createMachine<Context, RocketEvent, RocketState>(
     {
       id: "rocket",
-      initial: inventory.Observatory || !API_URL ? "rewarded" : "loading",
+      initial: "loading",
       context: {},
       states: {
         loading: {
-          invoke: {
-            src: async () => {
-              const moMMissionComplete = await metamask
-                .getMillionOnMars()
-                .hasCompletedMission();
-
-              const sunflowerMissionComplete = !!inventory["Engine Core"];
-
-              return {
-                isComplete: moMMissionComplete && sunflowerMissionComplete,
-              };
+          always: [
+            {
+              target: "available",
+              cond: () => canEndEvent(inventory),
             },
-            onDone: [
-              {
-                target: "completed",
-                cond: (_, event) => event.data.isComplete,
-              },
-              {
-                target: "launched",
-                cond: () => inventory["Engine Core"]?.gt(0),
-              },
-              {
-                target: "crashed",
-              },
-            ],
-            onError: {
-              target: "error",
-              actions: assignErrorMessage,
+            {
+              target: "ended",
+              cond: () => !canEndEvent(inventory),
             },
-          },
+          ],
         },
-        crashed: {
+        available: {
           on: {
-            REPAIR: {
-              target: "repairing",
+            GIFT_TELESCOPE: {
+              target: "gifting",
             },
           },
         },
-        repairing: {
+        gifting: {
           invoke: {
             src: async () => {
               await mint({
                 farmId: Number(id),
                 sessionId: sessionId as string,
                 token: token as string,
-                item: "Engine Core",
+                item: "Telescope",
                 captcha: "0x",
               });
             },
             onDone: {
-              target: "repaired",
+              target: "launching",
             },
             onError: {
               target: "error",
               actions: assignErrorMessage,
-            },
-          },
-        },
-        repaired: {
-          on: {
-            LAUNCH: {
-              target: "launching",
             },
           },
         },
         launching: {
           on: {
-            START_MISSION: {
-              target: "launched",
+            END_EVENT: {
+              target: "ended",
             },
           },
         },
-        completed: {
-          on: {
-            REWARD: {
-              target: "rewarding",
-            },
-          },
-        },
-        rewarding: {
-          invoke: {
-            src: async () => {
-              await metamask.getMillionOnMars().trade(id);
-            },
-            onDone: {
-              target: "rewarded",
-            },
-            onError: {
-              target: "error",
-              actions: assignErrorMessage,
-            },
-          },
-        },
-        rewarded: {},
-        launched: {},
+        ended: {},
         error: {},
       },
     },

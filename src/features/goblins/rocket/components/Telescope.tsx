@@ -15,21 +15,19 @@ interface Props {
   onClose: () => void;
 }
 
-// TODO - Use this component for minting the telescope. See old "EngineCore.tsx" and 'AncientTreeModal' for inspiration.
 export const Telescope: React.FC<Props> = ({ onCraft, onClose }) => {
   const { goblinService } = useContext(Context);
   const [{ context }] = useActor(goblinService);
 
-  // TODO
   const craft = () => {
     onCraft();
     goblinService.send("MINT", { item: "Telescope", captcha: "0x" });
   };
 
   // TODO - Use this to pull ingredients of telescope dynamically once recipe is on testnet.
-  //const telescopeIngredients = getTelescopeIngredients(context);
+  // const telescopeIngredients = context.limitedItems["Telescope"]?.ingredients;
 
-  // TODO - Placeholder recipe. Remove this once recipe becomes live on testnet.
+  // TODO - This is a placeholder recipe. Remove this once recipe becomes live on testnet.
   const telescopeIngredients: Ingredient[] = [
     {
       id: 601,
@@ -54,9 +52,6 @@ export const Telescope: React.FC<Props> = ({ onCraft, onClose }) => {
         <img src={telescope} className="w-18 img-highlight mr-1" />
         <div className="flex-1">
           <span className="text-shadow block">Telescope</span>
-          {/* <span className="text-shadow block mt-4">
-            There is something in the tree!
-          </span> */}
           <span className="text-shadow block mt-4">Required Resources</span>
           {telescopeIngredients?.map((ingredient) => {
             return (
