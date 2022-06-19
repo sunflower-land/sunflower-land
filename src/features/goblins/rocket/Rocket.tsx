@@ -84,7 +84,8 @@ export const Rocket: React.FC = () => {
     send("GIFT_TELESCOPE");
   };
 
-  const isEndingMomEvent = !rocketState.matches("ended");
+  const isEndingMomEvent =
+    !rocketState.matches("ended") && !rocketState.matches("launching");
   const rocketImage = isEndingMomEvent ? fixedRocket : burnMark;
 
   return (

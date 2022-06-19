@@ -19,11 +19,6 @@ export const Telescope: React.FC<Props> = ({ onCraft, onClose }) => {
   const { goblinService } = useContext(Context);
   const [{ context }] = useActor(goblinService);
 
-  const craft = () => {
-    onCraft();
-    goblinService.send("MINT", { item: "Telescope", captcha: "0x" });
-  };
-
   // TODO - Use this to pull ingredients of telescope dynamically once recipe is on testnet.
   // const telescopeIngredients = context.limitedItems["Telescope"]?.ingredients;
 
@@ -67,7 +62,7 @@ export const Telescope: React.FC<Props> = ({ onCraft, onClose }) => {
             );
           })}
 
-          <Button className="text-sm mt-4" onClick={craft}>
+          <Button className="text-sm mt-4" onClick={onCraft}>
             Mint
           </Button>
         </div>
