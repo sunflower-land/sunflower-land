@@ -12,7 +12,6 @@ import { toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { SunflowerFarmers } from "./SunflowerFarmers";
-import { MillionOnMars } from "./MillionOnMars";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -28,7 +27,6 @@ export class Metamask {
   private pair: Pair | null = null;
   private wishingWell: WishingWell | null = null;
   private token: Token | null = null;
-  private millionOnMars: MillionOnMars | null = null;
 
   private account: string | null = null;
 
@@ -53,10 +51,6 @@ export class Metamask {
       this.pair = new Pair(this.web3 as Web3, this.account as string);
       this.token = new Token(this.web3 as Web3, this.account as string);
       this.wishingWell = new WishingWell(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.millionOnMars = new MillionOnMars(
         this.web3 as Web3,
         this.account as string
       );
@@ -312,10 +306,6 @@ export class Metamask {
 
   public getToken() {
     return this.token as Token;
-  }
-
-  public getMillionOnMars() {
-    return this.millionOnMars as MillionOnMars;
   }
 
   public get myAccount() {
