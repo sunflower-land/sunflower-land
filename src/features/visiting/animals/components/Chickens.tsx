@@ -21,7 +21,11 @@ export const Chickens: React.FC = () => {
     },
   ] = useActor(gameService);
 
-  const chickenCount = state.inventory.Chicken?.toNumber() || 0;
+  /**
+   * Round down if the player has fractional amount of chickens
+   * 3.000000000000000001 chickens should show 3 chickens.
+   */
+  const chickenCount = Math.floor(state.inventory.Chicken?.toNumber() ?? 0);
 
   const chickens = new Array(chickenCount).fill(null);
   const maxChickens = getMaxChickens(state.inventory);
