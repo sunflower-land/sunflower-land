@@ -632,13 +632,12 @@ export const Decorations: React.FC<Props> = ({ state }) => (
       />
     )}
 
-    {/* TODO - Fix position */}
     {state.inventory["Telescope"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2.75}px`,
-          left: `${GRID_WIDTH_PX * 47.5}px`,
-          top: `${GRID_WIDTH_PX * 1.2}px`,
+          width: `${GRID_WIDTH_PX * 3.5}px`,
+          left: `${GRID_WIDTH_PX * 50.7}px`,
+          top: `${GRID_WIDTH_PX * 2.3}px`,
         }}
         id={Section.Telescope}
         className="absolute"
