@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import {
   FieldItem,
   GameState,
+  Inventory,
   InventoryItemName,
   Rock,
   Tree,
@@ -145,4 +146,47 @@ export function updateGame(
     console.log({ e });
     return oldGameState;
   }
+}
+
+/**
+ * Returns the lowest values out of 2 game states
+ */
+export function getLowestGameState({
+  first,
+  second,
+}: {
+  first: GameState;
+  second: GameState;
+}) {
+  const balance = first.balance.lt(second.balance)
+    ? first.balance
+    : second.balance;
+
+  const items = [
+    ...new Set([
+      ...(Object.keys(first.inventory) as InventoryItemName[]),
+      ...(Object.keys(second.inventory) as InventoryItemName[]),
+    ]),
+  ];
+
+  const inventory: Inventory = items.reduce((inv, name) => {
+    const firstAmount = first.inventory[name] || new Decimal(0);
+    const secondAmount = second.inventory[name] || new Decimal(0);
+
+    const amount = firstAmount.lt(secondAmount) ? firstAmount : secondAmount;
+
+    if (amount.eq(0)) {
+      return inv;
+    }
+
+    return {
+      ...inv,
+      [name]: amount,
+    };
+  }, {});
+
+  return {
+    balance,
+    inventory,
+  };
 }

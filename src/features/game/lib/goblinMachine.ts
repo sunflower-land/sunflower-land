@@ -23,6 +23,7 @@ import { INITIAL_SESSION } from "./gameMachine";
 import { wishingWellMachine } from "features/goblins/wishingWell/wishingWellMachine";
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
+import { getLowestGameState } from "./transforms";
 
 const API_URL = CONFIG.API_URL;
 
@@ -135,6 +136,8 @@ export function startGoblinVillage(authContext: AuthContext) {
             src: async () => {
               const farmId = authContext.farmId as number;
 
+              // TODO - show the lesser of the two!
+
               const onChainState = await getOnChainState({
                 farmAddress: authContext.address as string,
                 id: Number(authContext.farmId),
@@ -152,9 +155,16 @@ export function startGoblinVillage(authContext: AuthContext) {
               });
 
               const game = response?.game as GameState;
+
+              // Show whatever is lower, on chain or offchain
+              const availableState = getLowestGameState({
+                first: onChainState.game,
+                second: game,
+              });
+
               game.id = farmId;
-              game.balance = onChainState.game.balance;
-              game.inventory = onChainState.game.inventory;
+              game.balance = availableState.balance;
+              game.inventory = availableState.inventory;
               game.farmAddress = onChainState.game.farmAddress;
 
               const limitedItemsById = makeLimitedItemsById(
