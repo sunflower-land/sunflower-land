@@ -1,12 +1,30 @@
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
-import { GameState, Inventory } from "../types/game";
+import { ChickenPosition, GameState, Inventory } from "../types/game";
 
 export const GRID_WIDTH_PX = 42;
 export const CHICKEN_TIME_TO_EGG = 1000 * 60 * 60 * 24 * 2; // 48 hours
 export const MUTANT_CHICKEN_BOOST_AMOUNT = 0.1;
 
 export const POPOVER_TIME_MS = 1000;
+
+export const CHICKEN_POSITIONS: ChickenPosition[] = [
+  { top: GRID_WIDTH_PX * 1.2, right: GRID_WIDTH_PX * 1.9 },
+  { top: GRID_WIDTH_PX * 1.4, right: GRID_WIDTH_PX * 3.3 },
+  { top: GRID_WIDTH_PX * 1.7, right: GRID_WIDTH_PX * 0.88 },
+  { top: GRID_WIDTH_PX * 2.47, right: GRID_WIDTH_PX * 3 },
+  { top: GRID_WIDTH_PX * 2.66, right: GRID_WIDTH_PX * 1.9 },
+  { top: GRID_WIDTH_PX * 1.6, right: GRID_WIDTH_PX * 4.6 },
+  { top: GRID_WIDTH_PX * 1.72, right: GRID_WIDTH_PX * 5.7 },
+  { top: GRID_WIDTH_PX * 1.28, right: GRID_WIDTH_PX * 6.7 },
+  { top: GRID_WIDTH_PX * 1.8, right: GRID_WIDTH_PX * 7.7 },
+  { top: GRID_WIDTH_PX * 1.44, right: GRID_WIDTH_PX * 8.7 },
+  { top: GRID_WIDTH_PX * 1.95, right: GRID_WIDTH_PX * 9.8 },
+  { top: GRID_WIDTH_PX * 1.17, right: GRID_WIDTH_PX * 10.6 },
+  { top: GRID_WIDTH_PX * 1.78, right: GRID_WIDTH_PX * 11.5 },
+  { top: GRID_WIDTH_PX * 1.85, right: GRID_WIDTH_PX * 12.8 },
+  { top: GRID_WIDTH_PX * 1.59, right: GRID_WIDTH_PX * 14.12 },
+];
 
 export const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),

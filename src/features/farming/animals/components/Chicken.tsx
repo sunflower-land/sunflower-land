@@ -20,7 +20,6 @@ import {
   MachineInterpreter,
   MachineState,
 } from "../chickenMachine";
-import { Position } from "./Chickens";
 import { getSecondsToEgg } from "features/game/events/collectEgg";
 import Spritesheet from "components/animation/SpriteAnimator";
 import {
@@ -34,11 +33,12 @@ import { InnerPanel } from "components/ui/Panel";
 import { secondsToMidString } from "lib/utils/time";
 import { MutantChickenModal } from "./MutantChickenModal";
 import { MutantChicken } from "features/game/types/craftables";
+import { ChickenPosition } from "features/game/types/game";
 import { getWheatRequiredToFeed } from "features/game/events/feedChicken";
 
 interface Props {
   index: number;
-  position: Position;
+  position: ChickenPosition;
 }
 
 const getPercentageComplete = (fedAt?: number) => {
