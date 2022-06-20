@@ -21,6 +21,7 @@ import diaryMp3 from "../../assets/sound-effects/diary.mp3";
 import fountainMp3 from "../../assets/sound-effects/fountain.mp3";
 import melonDuskMp3 from "../../assets/sound-effects/SFL_in_Space.mp3";
 import rocketLaunchMp3 from "../../assets/sound-effects/rocket_launch.mp3";
+import telescopeAnimationMp3 from "../../assets/sound-effects/mom_telescope_animation_sounds.mp3";
 export const harvestAudio = new Howl({
   src: [harvestMp3],
   volume: 0.2,
@@ -123,5 +124,10 @@ export const melonDuskAudio = new Howl({
 
 export const rocketLaunchAudio = new Howl({
   src: [rocketLaunchMp3],
+  volume: 0.5,
+});
+
+export const telescopeAnimationAudio = new Howl({
+  src: [telescopeAnimationMp3],
   volume: 0.5,
 });

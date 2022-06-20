@@ -1,7 +1,7 @@
 /**
  * Placeholder for future decorations that will fall on a different grid
  */
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Spritesheet, {
   SpriteSheetInstance,
@@ -42,6 +42,8 @@ import nugget from "assets/nfts/nugget.gif";
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 import observatory from "assets/nfts/mom/observatory.gif";
 import telescope from "assets/nfts/mom/telescope.gif";
+import telescopeAnimation from "assets/mom/mom_telescope_animation.gif";
+import { telescopeAnimationAudio } from "lib/utils/sfx";
 
 import golemSheet from "assets/nfts/rock_golem.png";
 
@@ -373,6 +375,53 @@ export const RockGolem: React.FC<RockGolemProps> = ({ state }) => {
   );
 };
 
+const Telescope: React.FC = () => {
+  const [doPlayAnimation, setDoPlayAnimation] = useState(false);
+
+  useEffect(() => {
+    if (doPlayAnimation) {
+      // TODO - loop this
+      telescopeAnimationAudio.play();
+    } else {
+      telescopeAnimationAudio.stop();
+    }
+  }, [doPlayAnimation]);
+
+  return (
+    <>
+      {doPlayAnimation && (
+        <div
+          className="fixed top-0 left-0 right-0 h-full bg-black overflow-hidden"
+          style={{ zIndex: 10000 }}
+        >
+          <img
+            src={close}
+            className="h-6 top-4 right-4 fixed cursor-pointer"
+            onClick={() => setDoPlayAnimation(false)}
+          />
+          <img
+            src={telescopeAnimation}
+            alt="Telescope Animation"
+            className="relative w-full h-full object-cover"
+          />
+        </div>
+      )}
+      <img
+        src={telescope}
+        alt="Telescope"
+        className="absolute hover:img-highlight cursor-pointer"
+        style={{
+          width: `${GRID_WIDTH_PX * 3.5}px`,
+          left: `${GRID_WIDTH_PX * 50.7}px`,
+          top: `${GRID_WIDTH_PX * 2.3}px`,
+        }}
+        id={Section.Telescope}
+        onClick={() => setDoPlayAnimation(true)}
+      />
+    </>
+  );
+};
+
 interface Props {
   state: GameState;
 }
@@ -632,19 +681,7 @@ export const Decorations: React.FC<Props> = ({ state }) => (
       />
     )}
 
-    {state.inventory["Telescope"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 3.5}px`,
-          left: `${GRID_WIDTH_PX * 50.7}px`,
-          top: `${GRID_WIDTH_PX * 2.3}px`,
-        }}
-        id={Section.Telescope}
-        className="absolute hover:img-highlight cursor-pointer"
-        src={telescope}
-        alt="Telescope"
-      />
-    )}
+    {state.inventory["Telescope"] && <Telescope />}
 
     {state.inventory["Mysterious Head"] && (
       <img
