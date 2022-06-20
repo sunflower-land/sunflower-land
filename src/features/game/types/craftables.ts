@@ -647,10 +647,9 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   },
   Nugget: {
     name: "Nugget",
-    description: "Gives a 999% increase to gold mines",
+    description: "Gives a 25% increase to gold mines",
     section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
-    isPlaceholder: true,
   },
   "Rock Golem": {
     name: "Rock Golem",
