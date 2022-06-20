@@ -388,7 +388,7 @@ const Telescope: React.FC = () => {
     <>
       {doPlayAnimation && (
         <div
-          className="z-50 fixed top-0 left-0 w-full h-full overflow-hidden flex items-center"
+          className="z-50 fixed top-0 left-0 w-full h-full flex items-center justify-center"
           style={{ backgroundColor: "#1b1c1b" }}
         >
           <img
@@ -397,9 +397,9 @@ const Telescope: React.FC = () => {
             onClick={() => setDoPlayAnimation(false)}
           />
           <img
-            src={telescopeAnimation}
+            src={`${telescopeAnimation}?a=${Math.random()}`} // Breaks cache and force replays the gif animation.
             alt="Telescope Animation"
-            className="relative w-full h-auto object-cover"
+            className="m-width-full h-auto object-cover"
           />
         </div>
       )}
