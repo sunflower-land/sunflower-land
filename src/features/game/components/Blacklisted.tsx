@@ -4,7 +4,7 @@ import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 
 export const Blacklisted: React.FC = () => (
   <div className="flex flex-col items-center p-2">
-    <span className="text-center">Something strange!</span>
+    <span className="text-center">Banned Farm!</span>
     <img src={suspiciousGoblin} className="w-16 mt-2" />
     <span className="text-sm mt-2 mb-2">
       The anti-bot and multi-account detection system has picked up strange
