@@ -130,4 +130,5 @@ export const rocketLaunchAudio = new Howl({
 export const telescopeAnimationAudio = new Howl({
   src: [telescopeAnimationMp3],
   volume: 0.5,
+  loop: true,
 });

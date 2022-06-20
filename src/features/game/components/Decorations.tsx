@@ -379,20 +379,17 @@ const Telescope: React.FC = () => {
   const [doPlayAnimation, setDoPlayAnimation] = useState(false);
 
   useEffect(() => {
-    if (doPlayAnimation) {
-      // TODO - loop this
-      telescopeAnimationAudio.play();
-    } else {
-      telescopeAnimationAudio.stop();
-    }
+    doPlayAnimation
+      ? telescopeAnimationAudio.play()
+      : telescopeAnimationAudio.stop();
   }, [doPlayAnimation]);
 
   return (
     <>
       {doPlayAnimation && (
         <div
-          className="fixed top-0 left-0 right-0 h-full bg-black overflow-hidden"
-          style={{ zIndex: 10000 }}
+          className="z-50 fixed top-0 left-0 w-full h-full overflow-hidden flex items-center"
+          style={{ backgroundColor: "#1b1c1b" }}
         >
           <img
             src={close}
@@ -402,7 +399,7 @@ const Telescope: React.FC = () => {
           <img
             src={telescopeAnimation}
             alt="Telescope Animation"
-            className="relative w-full h-full object-cover"
+            className="relative w-full h-auto object-cover"
           />
         </div>
       )}
@@ -427,330 +424,333 @@ interface Props {
 }
 
 export const Decorations: React.FC<Props> = ({ state }) => (
-  <div className="z-10 absolute left-0 right-0">
-    <VipArea inventory={state.inventory} />
-    <Flags state={state} />
-    {state.inventory["Sunflower Rock"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 4}px`,
-          right: `${GRID_WIDTH_PX * 11.5}px`,
-          top: `${GRID_WIDTH_PX * 22}px`,
-        }}
-        id={Section["Sunflower Rock"]}
-        className="absolute"
-        src={sunflowerRock}
-        alt="Sunflower rock"
-      />
-    )}
-
-    {state.inventory["Christmas Tree"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
-          right: `${GRID_WIDTH_PX * 16}px`,
-          top: `${GRID_WIDTH_PX * 1}px`,
-        }}
-        id={Section["Christmas Tree"]}
-        className="absolute"
-        src={christmasTree}
-        alt="Christmas Tree"
-      />
-    )}
-
-    {state.inventory["Sunflower Statue"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
-          left: `${GRID_WIDTH_PX * 45.5}px`,
-          top: `${GRID_WIDTH_PX * 32}px`,
-        }}
-        id={Section["Sunflower Statue"]}
-        className="absolute"
-        src={sunflowerStatue}
-        alt="Sunflower Statue"
-      />
-    )}
-
-    {state.inventory["Potato Statue"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.5}px`,
-          left: `${GRID_WIDTH_PX * 52}px`,
-          top: `${GRID_WIDTH_PX * 39}px`,
-        }}
-        id={Section["Potato Statue"]}
-        className="absolute"
-        src={potatoStatue}
-        alt="Potato Statue"
-      />
-    )}
-
-    {state.inventory["Sunflower Tombstone"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1}px`,
-          left: `${GRID_WIDTH_PX * 30}px`,
-          top: `${GRID_WIDTH_PX * 36.8}px`,
-        }}
-        id={Section["Sunflower Tombstone"]}
-        className="absolute"
-        src={sunflowerTombstone}
-        alt="Sunflower tombstone"
-      />
-    )}
-
-    {state.inventory["Farm Cat"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.5}px`,
-          right: `${GRID_WIDTH_PX * 39.55}px`,
-          top: `${GRID_WIDTH_PX * 28.2}px`,
-        }}
-        id={Section["Farm Cat"]}
-        className="absolute z-10"
-        src={cat}
-        alt="Farm cat"
-      />
-    )}
-
-    {state.inventory["Farm Dog"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1}px`,
-          right: `${GRID_WIDTH_PX * 37.8}px`,
-          top: `${GRID_WIDTH_PX * 32}px`,
-        }}
-        id={Section["Farm Dog"]}
-        className="absolute"
-        src={dog}
-        alt="Farm dog"
-      />
-    )}
-
-    {state.inventory["Gnome"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1}px`,
-          right: "481px",
-          top: "441px",
-        }}
-        id={Section.Gnome}
-        className="absolute"
-        src={gnome}
-        alt="Gnome"
-      />
-    )}
-    {/* Scarecrows */}
-    <div
-      className="flex justify-center absolute"
-      style={{
-        width: `${GRID_WIDTH_PX * 3}px`,
-        left: `${GRID_WIDTH_PX * 38}px`,
-        top: `${GRID_WIDTH_PX * 34}px`,
-      }}
-      id={Section.Scarecrow}
-    >
-      <Scarecrows inventory={state.inventory} />
-    </div>
-
-    {state.inventory["Nyon Statue"] && (
-      <div
-        className="flex justify-center absolute"
-        style={{
-          width: `${GRID_WIDTH_PX * 3}px`,
-          left: `${GRID_WIDTH_PX * 42.5}px`,
-          top: `${GRID_WIDTH_PX * 41}px`,
-        }}
-        id={Section["Nyon Statue"]}
-      >
-        <NyonStatue />
-      </div>
-    )}
-
-    {state.inventory["Fountain"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 2.5}px`,
-          left: `${GRID_WIDTH_PX * 35}px`,
-          top: `${GRID_WIDTH_PX * 28}px`,
-        }}
-        id={Section.Fountain}
-        onClick={() => {
-          //Checks if fountainAudio is playing, if false, plays the sound
-          if (!fountainAudio.playing()) {
-            fountainAudio.play();
-          }
-        }}
-        className="absolute hover:img-highlight cursor-pointer"
-        src={fountain}
-        alt="Fountain"
-      />
-    )}
-
-    {state.inventory["Goblin Crown"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 3}px`,
-          right: `${GRID_WIDTH_PX * 27.5}px`,
-          top: `${GRID_WIDTH_PX * 92.5}px`,
-        }}
-        id={Section["Goblin Crown"]}
-        className="absolute"
-        src={goblinKing}
-        alt="GoblinKing"
-      />
-    )}
-
-    {/* Beavers */}
-    <div
-      className="flex justify-center absolute"
-      style={{
-        width: `${GRID_WIDTH_PX * 2}px`,
-        right: `${GRID_WIDTH_PX * 24}px`,
-        top: `${GRID_WIDTH_PX * 49}px`,
-      }}
-      id={Section.Beaver}
-    >
-      <Beavers inventory={state.inventory} />
-    </div>
-
-    {state.inventory["Homeless Tent"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
-          right: `${GRID_WIDTH_PX * 34.5}px`,
-          top: `${GRID_WIDTH_PX * 31}px`,
-        }}
-        id={Section.Tent}
-        className="absolute"
-        src={homelessTent}
-        alt="Homeless Tent"
-      />
-    )}
-
-    <Sign id={state.id as number} inventory={state.inventory} />
-
-    {state.inventory["Farmer Bath"] && (
-      <div
-        className="flex justify-center absolute"
-        style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
-          left: `${GRID_WIDTH_PX * 48.8}px`,
-          top: `${GRID_WIDTH_PX * 39}px`,
-        }}
-        id={Section.Bath}
-      >
-        <img src={farmerBath} className="w-full" />
-        <img
-          src={swimmer}
-          style={{
-            position: "absolute",
-            width: `${GRID_WIDTH_PX * 0.85}px`,
-            top: `${GRID_WIDTH_PX * 0.5}px`,
-            left: `${GRID_WIDTH_PX * 0.5}px`,
-          }}
-        />
-      </div>
-    )}
-    {state.inventory["Easter Bunny"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 2.5}px`,
-          right: `${GRID_WIDTH_PX * 49}px`,
-          top: `${GRID_WIDTH_PX * 24}px`,
-        }}
-        id={Section["Easter Bunny"]}
-        className="absolute"
-        src={easterBunny}
-        alt="Easter Bunny"
-      />
-    )}
-
-    {state.inventory["Observatory"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 2.75}px`,
-          left: `${GRID_WIDTH_PX * 47.5}px`,
-          top: `${GRID_WIDTH_PX * 1.2}px`,
-        }}
-        id={Section.Observatory}
-        className="absolute"
-        src={observatory}
-        alt="Observatory"
-      />
-    )}
-
+  <>
+    {/* Move this item outside of absolute to play video overlay over HUD. */}
     {state.inventory["Telescope"] && <Telescope />}
 
-    {state.inventory["Mysterious Head"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.85}px`,
-          left: `${GRID_WIDTH_PX * 34.7}px`,
-          top: `${GRID_WIDTH_PX * 40.2}px`,
-        }}
-        id={Section["Mysterious Head"]}
-        className="absolute"
-        src={mysteriousHead}
-        alt="Mysterious Head"
-      />
-    )}
+    <div className="z-10 absolute left-0 right-0">
+      <VipArea inventory={state.inventory} />
+      <Flags state={state} />
+      {state.inventory["Sunflower Rock"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 4}px`,
+            right: `${GRID_WIDTH_PX * 11.5}px`,
+            top: `${GRID_WIDTH_PX * 22}px`,
+          }}
+          id={Section["Sunflower Rock"]}
+          className="absolute"
+          src={sunflowerRock}
+          alt="Sunflower rock"
+        />
+      )}
 
-    {state.inventory["Golden Bonsai"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.1}px`,
-          left: `${GRID_WIDTH_PX * 61.2}px`,
-          top: `${GRID_WIDTH_PX * 36.7}px`,
-        }}
-        id={Section["Golden Bonsai"]}
-        className="absolute"
-        src={goldenBonsai}
-        alt="Golden Bonsai"
-      />
-    )}
+      {state.inventory["Christmas Tree"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2}px`,
+            right: `${GRID_WIDTH_PX * 16}px`,
+            top: `${GRID_WIDTH_PX * 1}px`,
+          }}
+          id={Section["Christmas Tree"]}
+          className="absolute"
+          src={christmasTree}
+          alt="Christmas Tree"
+        />
+      )}
 
-    {/* Moles */}
+      {state.inventory["Sunflower Statue"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2}px`,
+            left: `${GRID_WIDTH_PX * 45.5}px`,
+            top: `${GRID_WIDTH_PX * 32}px`,
+          }}
+          id={Section["Sunflower Statue"]}
+          className="absolute"
+          src={sunflowerStatue}
+          alt="Sunflower Statue"
+        />
+      )}
 
-    <div
-      className="flex justify-center absolute"
-      style={{
-        width: `${GRID_WIDTH_PX * 2}px`,
-        right: `${GRID_WIDTH_PX * 21.5}px`,
-        top: `${GRID_WIDTH_PX * 50.4}px`,
-      }}
-      id={Section.Mole}
-    >
-      <Moles inventory={state.inventory} />
-    </div>
+      {state.inventory["Potato Statue"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.5}px`,
+            left: `${GRID_WIDTH_PX * 52}px`,
+            top: `${GRID_WIDTH_PX * 39}px`,
+          }}
+          id={Section["Potato Statue"]}
+          className="absolute"
+          src={potatoStatue}
+          alt="Potato Statue"
+        />
+      )}
 
-    {state.inventory["Rock Golem"] && (
+      {state.inventory["Sunflower Tombstone"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1}px`,
+            left: `${GRID_WIDTH_PX * 30}px`,
+            top: `${GRID_WIDTH_PX * 36.8}px`,
+          }}
+          id={Section["Sunflower Tombstone"]}
+          className="absolute"
+          src={sunflowerTombstone}
+          alt="Sunflower tombstone"
+        />
+      )}
+
+      {state.inventory["Farm Cat"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.5}px`,
+            right: `${GRID_WIDTH_PX * 39.55}px`,
+            top: `${GRID_WIDTH_PX * 28.2}px`,
+          }}
+          id={Section["Farm Cat"]}
+          className="absolute z-10"
+          src={cat}
+          alt="Farm cat"
+        />
+      )}
+
+      {state.inventory["Farm Dog"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1}px`,
+            right: `${GRID_WIDTH_PX * 37.8}px`,
+            top: `${GRID_WIDTH_PX * 32}px`,
+          }}
+          id={Section["Farm Dog"]}
+          className="absolute"
+          src={dog}
+          alt="Farm dog"
+        />
+      )}
+
+      {state.inventory["Gnome"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1}px`,
+            right: "481px",
+            top: "441px",
+          }}
+          id={Section.Gnome}
+          className="absolute"
+          src={gnome}
+          alt="Gnome"
+        />
+      )}
+      {/* Scarecrows */}
       <div
         className="flex justify-center absolute"
         style={{
-          width: `${GRID_WIDTH_PX * 2.2}px`,
-          left: `${GRID_WIDTH_PX * 87.6}px`,
-          top: `${GRID_WIDTH_PX * 52.7}px`,
+          width: `${GRID_WIDTH_PX * 3}px`,
+          left: `${GRID_WIDTH_PX * 38}px`,
+          top: `${GRID_WIDTH_PX * 34}px`,
         }}
-        id={Section["Rock Golem"]}
+        id={Section.Scarecrow}
       >
-        <RockGolem state={state} />
+        <Scarecrows inventory={state.inventory} />
       </div>
-    )}
 
-    {state.inventory["Rooster"] && (
-      <img
+      {state.inventory["Nyon Statue"] && (
+        <div
+          className="flex justify-center absolute"
+          style={{
+            width: `${GRID_WIDTH_PX * 3}px`,
+            left: `${GRID_WIDTH_PX * 42.5}px`,
+            top: `${GRID_WIDTH_PX * 41}px`,
+          }}
+          id={Section["Nyon Statue"]}
+        >
+          <NyonStatue />
+        </div>
+      )}
+
+      {state.inventory["Fountain"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2.5}px`,
+            left: `${GRID_WIDTH_PX * 35}px`,
+            top: `${GRID_WIDTH_PX * 28}px`,
+          }}
+          id={Section.Fountain}
+          onClick={() => {
+            //Checks if fountainAudio is playing, if false, plays the sound
+            if (!fountainAudio.playing()) {
+              fountainAudio.play();
+            }
+          }}
+          className="absolute hover:img-highlight cursor-pointer"
+          src={fountain}
+          alt="Fountain"
+        />
+      )}
+
+      {state.inventory["Goblin Crown"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 3}px`,
+            right: `${GRID_WIDTH_PX * 27.5}px`,
+            top: `${GRID_WIDTH_PX * 92.5}px`,
+          }}
+          id={Section["Goblin Crown"]}
+          className="absolute"
+          src={goblinKing}
+          alt="GoblinKing"
+        />
+      )}
+
+      {/* Beavers */}
+      <div
+        className="flex justify-center absolute"
         style={{
-          width: `${GRID_WIDTH_PX * 0.71}px`,
-          left: `${GRID_WIDTH_PX * 54.6}px`,
-          top: `${GRID_WIDTH_PX * 15.7}px`,
+          width: `${GRID_WIDTH_PX * 2}px`,
+          right: `${GRID_WIDTH_PX * 24}px`,
+          top: `${GRID_WIDTH_PX * 49}px`,
         }}
-        id={Section["Rooster"]}
-        className="absolute"
-        src={rooster}
-        alt="Rooster"
-      />
-    )}
-  </div>
+        id={Section.Beaver}
+      >
+        <Beavers inventory={state.inventory} />
+      </div>
+
+      {state.inventory["Homeless Tent"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2}px`,
+            right: `${GRID_WIDTH_PX * 34.5}px`,
+            top: `${GRID_WIDTH_PX * 31}px`,
+          }}
+          id={Section.Tent}
+          className="absolute"
+          src={homelessTent}
+          alt="Homeless Tent"
+        />
+      )}
+
+      <Sign id={state.id as number} inventory={state.inventory} />
+
+      {state.inventory["Farmer Bath"] && (
+        <div
+          className="flex justify-center absolute"
+          style={{
+            width: `${GRID_WIDTH_PX * 2}px`,
+            left: `${GRID_WIDTH_PX * 48.8}px`,
+            top: `${GRID_WIDTH_PX * 39}px`,
+          }}
+          id={Section.Bath}
+        >
+          <img src={farmerBath} className="w-full" />
+          <img
+            src={swimmer}
+            style={{
+              position: "absolute",
+              width: `${GRID_WIDTH_PX * 0.85}px`,
+              top: `${GRID_WIDTH_PX * 0.5}px`,
+              left: `${GRID_WIDTH_PX * 0.5}px`,
+            }}
+          />
+        </div>
+      )}
+      {state.inventory["Easter Bunny"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2.5}px`,
+            right: `${GRID_WIDTH_PX * 49}px`,
+            top: `${GRID_WIDTH_PX * 24}px`,
+          }}
+          id={Section["Easter Bunny"]}
+          className="absolute"
+          src={easterBunny}
+          alt="Easter Bunny"
+        />
+      )}
+
+      {state.inventory["Observatory"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 2.75}px`,
+            left: `${GRID_WIDTH_PX * 47.5}px`,
+            top: `${GRID_WIDTH_PX * 1.2}px`,
+          }}
+          id={Section.Observatory}
+          className="absolute"
+          src={observatory}
+          alt="Observatory"
+        />
+      )}
+
+      {state.inventory["Mysterious Head"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.85}px`,
+            left: `${GRID_WIDTH_PX * 34.7}px`,
+            top: `${GRID_WIDTH_PX * 40.2}px`,
+          }}
+          id={Section["Mysterious Head"]}
+          className="absolute"
+          src={mysteriousHead}
+          alt="Mysterious Head"
+        />
+      )}
+
+      {state.inventory["Golden Bonsai"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.1}px`,
+            left: `${GRID_WIDTH_PX * 61.2}px`,
+            top: `${GRID_WIDTH_PX * 36.7}px`,
+          }}
+          id={Section["Golden Bonsai"]}
+          className="absolute"
+          src={goldenBonsai}
+          alt="Golden Bonsai"
+        />
+      )}
+
+      {/* Moles */}
+
+      <div
+        className="flex justify-center absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 2}px`,
+          right: `${GRID_WIDTH_PX * 21.5}px`,
+          top: `${GRID_WIDTH_PX * 50.4}px`,
+        }}
+        id={Section.Mole}
+      >
+        <Moles inventory={state.inventory} />
+      </div>
+
+      {state.inventory["Rock Golem"] && (
+        <div
+          className="flex justify-center absolute"
+          style={{
+            width: `${GRID_WIDTH_PX * 2.2}px`,
+            left: `${GRID_WIDTH_PX * 87.6}px`,
+            top: `${GRID_WIDTH_PX * 52.7}px`,
+          }}
+          id={Section["Rock Golem"]}
+        >
+          <RockGolem state={state} />
+        </div>
+      )}
+
+      {state.inventory["Rooster"] && (
+        <img
+          style={{
+            width: `${GRID_WIDTH_PX * 0.71}px`,
+            left: `${GRID_WIDTH_PX * 54.6}px`,
+            top: `${GRID_WIDTH_PX * 15.7}px`,
+          }}
+          id={Section["Rooster"]}
+          className="absolute"
+          src={rooster}
+          alt="Rooster"
+        />
+      )}
+    </div>
+  </>
 );
