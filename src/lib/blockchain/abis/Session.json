@@ -95,6 +95,11 @@
         "type": "bytes32"
       },
       {
+        "internalType": "bytes32",
+        "name": "nextSessionId",
+        "type": "bytes32"
+      },
+      {
         "internalType": "uint256",
         "name": "deadline",
         "type": "uint256"
@@ -107,6 +112,11 @@
       {
         "internalType": "uint256",
         "name": "mintId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "mintFee",
         "type": "uint256"
       }
     ],
@@ -314,32 +324,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_fee",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMintFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_fee",
-        "type": "uint256"
-      }
-    ],
-    "name": "setSyncFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "_wishingWell",
         "type": "address"
@@ -376,6 +360,11 @@
         "type": "bytes32"
       },
       {
+        "internalType": "bytes32",
+        "name": "nextSessionId",
+        "type": "bytes32"
+      },
+      {
         "internalType": "uint256",
         "name": "deadline",
         "type": "uint256"
@@ -409,6 +398,11 @@
         "internalType": "int256",
         "name": "tokens",
         "type": "int256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "syncFee",
+        "type": "uint256"
       }
     ],
     "name": "sync",
@@ -477,25 +471,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "updateSession",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "bytes",
         "name": "signature",
         "type": "bytes"
@@ -503,6 +478,11 @@
       {
         "internalType": "bytes32",
         "name": "sessionId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "nextSessionId",
         "type": "bytes32"
       },
       {
