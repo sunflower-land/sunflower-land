@@ -63,8 +63,13 @@ export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
       />
     )}
 
+    {/* Date */}
+    <span className="block mb-1 text-xs">
+      {announcement.date.toDateString()}
+    </span>
+
     {/* Title */}
-    <span className="underline mb-1 text-sm">{announcement.title}</span>
+    <span className="block underline mb-1 text-sm">{announcement.title}</span>
 
     {/* Notes */}
     <ul className="list-disc ml-2 mt-1">
