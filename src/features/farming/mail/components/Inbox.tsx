@@ -6,7 +6,7 @@ import { Markdown } from "components/ui/Markdown";
 import { Message } from "../types/message";
 
 import alerted from "assets/icons/expression_alerted.png";
-import { SORTED_ANNOUNCEMENTS } from "features/announcements/announcementsStorage";
+import { PAST_ANNOUNCEMENTS } from "features/announcements/announcementsStorage";
 import { Announcement } from "features/announcements/Announcement";
 
 interface Props {
@@ -55,10 +55,10 @@ export const Inbox: React.FC<Props> = ({ inbox, isLoading, onRead }) => {
               <Markdown>Announcements</Markdown>
             </Accordion.Button>
             <Accordion.Body
-              className="text-sm mt-2 text-shadow text-break"
+              className="text-sm mt-2 text-shadow text-break divide-y-2 divide-dashed divide-brown-600"
               as={InnerPanel}
             >
-              {SORTED_ANNOUNCEMENTS.map((announcement, index) => (
+              {PAST_ANNOUNCEMENTS.map((announcement, index) => (
                 <Announcement key={index} announcement={announcement} />
               ))}
             </Accordion.Body>
