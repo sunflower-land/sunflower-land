@@ -94,7 +94,7 @@ export const Telescope: React.FC<Props> = ({ onCraft, onClose }) => {
           </div>
 
           <Button
-            className="text-xs mt-1"
+            className="text-sm mt-1"
             onClick={onCraft}
             disabled={lessIngredients()}
           >
