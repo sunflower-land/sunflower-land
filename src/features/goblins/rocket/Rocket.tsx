@@ -17,7 +17,6 @@ import burnMark from "assets/mom/mom_burnt_ground.png";
 import close from "assets/icons/close.png";
 import { melonDuskAudio, rocketLaunchAudio } from "lib/utils/sfx";
 import momNpc from "assets/mom/mom_npc.gif";
-import telescope from "assets/nfts/mom/telescope.gif";
 
 import { ErrorCode } from "lib/errors";
 
@@ -175,7 +174,6 @@ export const Rocket: React.FC = () => {
                   </p>
                   <p>Use this if you wish to see me again!</p>
                 </div>
-                <img src={telescope} className="w-32 mb-2" />
                 <Button onClick={handleCraftTelescope}>Mint Now</Button>
               </div>
             </Panel>
