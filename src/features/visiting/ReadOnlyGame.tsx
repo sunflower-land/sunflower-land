@@ -20,7 +20,7 @@ import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ErrorCode } from "lib/errors";
 import { TeamDonation } from "./teamDonation/TeamDonation";
 import { House } from "features/farming/house/House";
-import { Blacklisted } from "./Blacklisted";
+import { Blacklisted } from "features/game/components/Blacklisted";
 
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,

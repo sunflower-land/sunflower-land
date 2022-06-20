@@ -96,8 +96,7 @@ export type BlockchainEvent =
       type: "CHOOSE_CHARITY";
     }
   | { type: "CONNECT_TO_DISCORD" }
-  | { type: "CONFIRM" }
-  | { type: "CONTINUE" };
+  | { type: "CONFIRM" };
 
 export type BlockchainState = {
   value:
@@ -366,11 +365,7 @@ export const authMachine = createMachine<
               },
             },
           },
-          blacklisted: {
-            on: {
-              CONTINUE: "authorised",
-            },
-          },
+          blacklisted: {},
           authorised: {
             id: "authorised",
             entry: (context, event) => {
@@ -455,11 +450,7 @@ export const authMachine = createMachine<
           },
         },
       },
-      blacklisted: {
-        on: {
-          CONTINUE: "visiting",
-        },
-      },
+      blacklisted: {},
       visiting: {
         entry: (context) => {
           window.location.href = `${window.location.pathname}#/visit/${context.farmId}`;
