@@ -640,7 +640,7 @@ export const Decorations: React.FC<Props> = ({ state }) => (
           top: `${GRID_WIDTH_PX * 2.3}px`,
         }}
         id={Section.Telescope}
-        className="absolute"
+        className="absolute hover:img-highlight cursor-pointer"
         src={telescope}
         alt="Telescope"
       />
