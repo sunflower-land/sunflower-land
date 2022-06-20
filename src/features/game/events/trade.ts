@@ -11,18 +11,18 @@ type Options = {
   createdAt?: number;
 };
 
-export function canTrade(state: GameState) {
+export function hasAlreadyTraded(state: GameState) {
+  // No offer available
   if (!state.tradeOffer) {
     return false;
   }
-
-  // Never traded before, let them trade
+  // Never traded before
   if (!state.tradedAt) {
-    return true;
+    return false;
   }
 
-  // They have not traded during the current trade offer period
-  return !(
+  // They have already traded during the current trade offer period
+  return (
     new Date(state.tradedAt).getTime() >
       new Date(state.tradeOffer.startAt).getTime() &&
     new Date(state.tradedAt).getTime() <
@@ -37,7 +37,7 @@ export function trade({ state }: Options): GameState {
   }
 
   // Check if they have traded the current offer
-  if (!canTrade(state)) {
+  if (hasAlreadyTraded(state)) {
     throw new Error("Already traded");
   }
 

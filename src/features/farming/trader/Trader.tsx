@@ -9,34 +9,45 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import close from "assets/icons/close.png";
 
 import traderImage from "assets/npcs/trader.gif";
-import { canTrade } from "features/game/events/trade";
+import { hasAlreadyTraded } from "features/game/events/trade";
 import { Offer } from "./component/Offer";
 import { TradeOffer } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 
+const Content: React.FC<{ title: string }> = ({ title, children }) => {
+  return (
+    <div className="flex flex-col mt-2 items-center">
+      <h1 className="mb-3 text-center sm:text-lg">{title}</h1>
+      <img className="w-11 mb-2" src={traderImage} />
+      {children}
+    </div>
+  );
+};
+
 export const Trader: React.FC = () => {
-  const [state, setState] = useState<
-    "closed" | "alreadyTraded" | "noOffer" | "offer" | "trade" | "traded"
+  const [modalState, setModalState] = useState<
+    "closed" | "intro" | "showOffer" | "tradeCompleted" | "alreadyTraded"
   >("closed");
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
 
-  const open = () => {
-    // Decide what content to show?
+  const { state } = gameState.context;
 
-    if (!gameState.context.state.tradeOffer) {
-      setState("noOffer");
-    } else if (!canTrade(gameState.context.state)) {
-      setState("alreadyTraded");
-    } else {
-      setState("trade");
+  // Don't show the trader because there is no trade available
+  if (!state.tradeOffer) return null;
+
+  const handleOpenModal = () => {
+    if (hasAlreadyTraded(state)) {
+      setModalState("alreadyTraded");
+      return;
     }
+
+    setModalState("intro");
   };
 
   const handleTrade = () => {
-    // TODO - show toasts
-    const offer = gameState.context.state.tradeOffer;
+    const offer = state.tradeOffer;
 
     if (offer) {
       offer.ingredients?.map((ingredient) => {
@@ -54,72 +65,67 @@ export const Trader: React.FC = () => {
     }
 
     gameService.send("item.traded");
-    setState("traded");
+    setModalState("tradeCompleted");
   };
 
   const handleCloseModal = () => {
-    setState("closed");
+    setModalState("closed");
   };
 
-  // TODO - Improve these UI dialogs - wording, styles + image
   const ModalContent = () => {
-    if (state === "noOffer") {
+    if (modalState === "tradeCompleted") {
       return (
-        <div className="px-2 mb-2">
-          <p className="mb-4">
-            Nothing is on offer at the moment, check again soon to see if I have
-            something else for you.
+        <Content title="Thanks!">
+          <p className="sm:text-sm p-2">
+            It was a pleasure doing business with you. I will see you again
+            soon!
           </p>
-        </div>
+        </Content>
       );
     }
 
-    if (state === "traded") {
+    if (modalState === "alreadyTraded") {
       return (
-        <div className="px-2 mb-2">
-          <p className="mb-4">Thanks for doing business</p>
-        </div>
-      );
-    }
-
-    if (state === "alreadyTraded") {
-      return (
-        <div className="px-2 mb-2">
-          <p className="mb-4">
-            You have already traded with me for this period, check again soon to
-            see if I have something else for you.
+        <Content title="We've already traded!">
+          <p className="sm:text-sm p-2">
+            {`I have nothing left to trade. I'm just here catching up with old
+            friends!`}
           </p>
-        </div>
+        </Content>
       );
     }
 
-    if (state === "offer") {
+    if (modalState === "showOffer") {
       return (
         <Offer
-          inventory={gameState.context.state.inventory}
-          offer={gameState.context.state.tradeOffer as TradeOffer}
+          inventory={state.inventory}
+          offer={state.tradeOffer as TradeOffer}
           onCraft={handleTrade}
         />
       );
     }
 
-    // state === 'trade'
-    return (
-      <div className="flex flex-col mt-2 items-center">
-        <img src={traderImage}></img>
-        {/* this are limited offers... This offer ends on "date".*/}
-        <p className="mb-4">
-          {`I'm a nomad trader, I bring items from my travellings to trade with farmers.`}
-        </p>
-        <p>Have a look at my current offers.</p>
-        <Button
-          onClick={() => setState("offer")}
-          className="flex flex-row  mx-2"
-        >
-          Check Offer
-        </Button>
-      </div>
-    );
+    if (modalState === "intro") {
+      const endDateLocale = new Date(
+        state.tradeOffer?.endAt as string
+      ).toLocaleDateString();
+
+      return (
+        <Content title="Greetings friend!">
+          <p className="sm:text-sm p-2">
+            I am a nomad trader. I travel all over these lands collecting items
+            to trade.
+          </p>
+          <p className="sm:text-sm p-2">
+            What I have to offer you today will only be available until{" "}
+            {endDateLocale}.
+          </p>
+          <Button onClick={() => setModalState("showOffer")}>
+            {`Let's trade!`}
+          </Button>
+        </Content>
+      );
+    }
   };
 
   return (
@@ -133,11 +139,16 @@ export const Trader: React.FC = () => {
       }}
     >
       <div className="cursor-pointer hover:img-highlight z-10">
-        <img src={traderImage} alt="trader" onClick={open} className="w-full" />
+        <img
+          src={traderImage}
+          alt="trader"
+          onClick={handleOpenModal}
+          className="w-full"
+        />
       </div>
 
       {/* Intro Modal */}
-      <Modal centered show={state !== "closed"} onHide={handleCloseModal}>
+      <Modal centered show={modalState !== "closed"} onHide={handleCloseModal}>
         <Panel>
           <img
             src={close}
