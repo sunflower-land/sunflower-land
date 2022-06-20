@@ -34,9 +34,12 @@ export const Announcements: React.FC = () => {
         <div
           ref={itemContainerRef}
           style={{ maxHeight: CONTENT_HEIGHT }}
-          className={classNames("overflow-y-auto p-2", {
-            scrollable: showScrollbar,
-          })}
+          className={classNames(
+            "overflow-y-auto p-2 divide-y-2 divide-dashed divide-brown-600",
+            {
+              scrollable: showScrollbar,
+            }
+          )}
         >
           {announcements.map((announcement, index) => (
             <Announcement key={index} announcement={announcement} />
@@ -50,7 +53,7 @@ export const Announcements: React.FC = () => {
 export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
   announcement,
 }) => (
-  <div>
+  <div className="py-4 first:!pt-0 last:!pb-0">
     {/* Image */}
     {announcement.image && (
       <img

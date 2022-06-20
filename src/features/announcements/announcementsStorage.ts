@@ -16,11 +16,17 @@ export function hasAnnouncements() {
 export function getAnnouncements() {
   const storedDate = getAnnouncementLastRead();
 
+  // Filter out future announcements
+  const announcements = SORTED_ANNOUNCEMENTS.filter(
+    (announcement) => announcement.date < new Date()
+  );
+
+  // Filter out announcements already read
   return storedDate
-    ? SORTED_ANNOUNCEMENTS.filter(
+    ? announcements.filter(
         (announcement) => announcement.date > new Date(storedDate)
       )
-    : SORTED_ANNOUNCEMENTS;
+    : announcements;
 }
 
 export function getAnnouncementLastRead() {

@@ -1,4 +1,5 @@
 import chicken from "assets/announcements/chickens.gif";
+import nugget from "assets/announcements/nugget.gif";
 
 export interface Announcement {
   date: Date;
@@ -8,7 +9,20 @@ export interface Announcement {
   link?: string;
 }
 
+/**
+ * Announcements are shown in game after the `date`.
+ */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("Mon, 20 Jun 2022 09:00:00 GMT"),
+    title: "Nugget is open for crafting!",
+    notes: [
+      "Gives a 25% increase to Gold Mines",
+      "Price: 50 Gold, 300 SFL",
+      "Supply: 1000",
+    ],
+    image: nugget,
+  },
   {
     date: new Date(
       "Tue Jun 01 2022 10:06:50 GMT-0300 (Brasilia Standard Time)"
