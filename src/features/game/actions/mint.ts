@@ -16,10 +16,12 @@ const API_URL = CONFIG.API_URL;
 async function mintRequest(request: Request): Promise<{
   signature: string;
   sessionId: string;
+  nextSessionId: string;
   deadline: number;
   // Data
   farmId: number;
   mintId: number;
+  fee: string;
 }> {
   const response = await window.fetch(`${API_URL}/mint/${request.farmId}`, {
     method: "POST",
