@@ -147,7 +147,6 @@ export const Trader: React.FC = () => {
         />
       </div>
 
-      {/* Intro Modal */}
       <Modal centered show={modalState !== "closed"} onHide={handleCloseModal}>
         <Panel>
           <img
