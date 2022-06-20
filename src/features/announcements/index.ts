@@ -14,7 +14,7 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
-    date: new Date("Mon, 20 Jun 2022 09:00:00 GMT"),
+    date: new Date("Mon, 21 Jun 2022 08:30:00 GMT"),
     title: "Nugget is open for crafting!",
     notes: [
       "Gives a 25% increase to Gold Mines",
