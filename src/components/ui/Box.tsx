@@ -7,6 +7,7 @@ import selectBox from "assets/ui/select/select_box.png";
 import { Label } from "./Label";
 import timer from "assets/icons/timer.png";
 import cancel from "assets/icons/cancel.png";
+import { useLongPress } from "lib/utils/hooks/useLongPress";
 
 export interface BoxProps {
   image?: any;
@@ -16,6 +17,7 @@ export interface BoxProps {
   onClick?: () => void;
   disabled?: boolean;
   locked?: boolean;
+  canBeLongPressed?: boolean;
   /**
    * When an NFT is minted it enters into a cooldown period where is cannot be withdrawn from the farm. We communicate
    * this as if the NFT is under construction.
@@ -54,6 +56,7 @@ export const Box: React.FC<BoxProps> = ({
   onClick,
   disabled,
   locked,
+  canBeLongPressed,
   cooldownInProgress,
 }) => {
   const [isHover, setIsHover] = useState(false);
@@ -63,6 +66,19 @@ export const Box: React.FC<BoxProps> = ({
   useEffect(() => setShortCount(shortenCount(count)), [count]);
 
   const canClick = !locked && !disabled;
+
+  const longPressEvents = useLongPress(
+    (e) => (canClick ? onClick?.() : undefined),
+    count,
+    {
+      delay: 500,
+      interval: 20,
+    }
+  );
+
+  const clickEvents = canBeLongPressed
+    ? longPressEvents
+    : { onClick: canClick ? onClick : undefined };
 
   return (
     <div
@@ -80,10 +96,9 @@ export const Box: React.FC<BoxProps> = ({
             "cursor-pointer": canClick,
           }
         )}
-        onClick={canClick ? onClick : undefined}
+        {...clickEvents}
         // Custom styles to get pixellated border effect
         style={{
-          // border: "6px solid transparent",
           borderStyle: "solid",
           borderWidth: "6px",
           borderImage: `url(${darkBorder}) 30 stretch`,
