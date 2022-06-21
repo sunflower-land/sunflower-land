@@ -136,8 +136,6 @@ export function startGoblinVillage(authContext: AuthContext) {
             src: async () => {
               const farmId = authContext.farmId as number;
 
-              // TODO - show the lesser of the two!
-
               const onChainState = await getOnChainState({
                 farmAddress: authContext.address as string,
                 id: Number(authContext.farmId),
