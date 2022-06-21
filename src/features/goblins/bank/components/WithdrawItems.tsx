@@ -17,7 +17,6 @@ import player from "assets/icons/player.png";
 import { toWei } from "web3-utils";
 import { metamask } from "lib/blockchain/metamask";
 import { canWithdraw } from "../lib/bankUtils";
-import { getOnChainState } from "features/game/actions/onchain";
 
 import {
   getKeys,
@@ -37,25 +36,12 @@ export const WithdrawItems: React.FC<Props> = ({
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
-  const [isLoading, setIsLoading] = useState(true);
   const [inventory, setInventory] = useState<Inventory>({});
   const [selected, setSelected] = useState<Inventory>({});
 
   useEffect(() => {
-    setIsLoading(true);
-
-    const load = async () => {
-      const { game: state } = await getOnChainState({
-        id: goblinState.context.state.id as number,
-        farmAddress: goblinState.context.state.farmAddress as string,
-      });
-
-      setInventory(state.inventory);
-      setIsLoading(false);
-    };
-
+    setInventory(goblinState.context.state.inventory);
     setSelected({});
-    load();
   }, []);
 
   const withdraw = () => {
@@ -101,10 +87,6 @@ export const WithdrawItems: React.FC<Props> = ({
         }
       : details;
   };
-
-  if (isLoading) {
-    return <span className="text-shadow loading mt-2">Loading</span>;
-  }
 
   const inventoryItems = getKeys(inventory).filter((item) =>
     inventory[item]?.gt(0)
