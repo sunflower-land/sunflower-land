@@ -33,6 +33,11 @@ export type Rock = {
   minedAt: number;
 };
 
+export type ChickenPosition = {
+  top: number;
+  right: number;
+};
+
 export type EasterEgg =
   | "Red Egg"
   | "Orange Egg"

@@ -24,9 +24,11 @@ const VIP_ITEMS: InventoryItemName[] = [
   "Nugget",
   "Golden Cauliflower",
 ];
+
 export const VipArea: React.FC<Props> = ({ inventory }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
+  const visiting = authState.matches("visiting");
 
   const [state, setState] = useState<
     "idle" | "noAccess" | "noDiscord" | "welcome" | "joining" | "joined"
@@ -123,7 +125,17 @@ export const VipArea: React.FC<Props> = ({ inventory }) => {
 
   const showModal = state !== "idle";
 
-  return (
+  return visiting ? (
+    <img
+      src={doorway}
+      className="absolute"
+      style={{
+        top: `${GRID_WIDTH_PX * 2.1}px`,
+        left: `${GRID_WIDTH_PX * 20}px`,
+        width: `${GRID_WIDTH_PX * 2}px`,
+      }}
+    />
+  ) : (
     <>
       <img
         src={doorway}
