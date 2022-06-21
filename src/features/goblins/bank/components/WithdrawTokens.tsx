@@ -20,7 +20,6 @@ import downArrow from "assets/icons/arrow_down.png";
 import lightning from "assets/icons/lightning.png";
 
 import { getTax } from "lib/utils/tax";
-import { getOnChainState } from "features/game/actions/onchain";
 
 interface Props {
   onWithdraw: (sfl: string) => void;
@@ -39,24 +38,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
   const [tax, setTax] = useState(0);
 
-  const [balance, setBalance] = useState<Decimal>(new Decimal(0));
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    const load = async () => {
-      const { game: onChainState } = await getOnChainState({
-        id: state.id as number,
-        farmAddress: state.farmAddress as string,
-      });
-
-      setBalance(onChainState.balance);
-      setIsLoading(false);
-    };
-
-    load();
-  }, []);
+  const balance = state.balance;
 
   useEffect(() => {
     // Use base 1000
@@ -109,10 +91,6 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         setAmount((prevState) => safeAmount(prevState).minus(0.1));
     }
   };
-
-  if (isLoading) {
-    return <span className="text-shadow loading mt-2">Loading</span>;
-  }
 
   const enabled = authState.context.token?.userAccess.withdraw;
   const disableWithdraw =
