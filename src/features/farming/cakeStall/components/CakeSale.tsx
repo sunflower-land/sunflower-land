@@ -4,7 +4,7 @@ import close from "assets/icons/close.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { Cakes } from "features/farming/bakery/components/Cakes";
+import { Cakes } from "features/farming/cakeStall/components/Cakes";
 
 interface Props {
   onClose: () => void;
