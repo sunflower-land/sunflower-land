@@ -151,7 +151,7 @@ export const Trader: React.FC = () => {
         <Panel>
           <img
             src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
+            className="h-6 top-4 right-4 absolute cursor-pointer z-10"
             onClick={handleCloseModal}
           />
           {ModalContent()}
