@@ -2,7 +2,7 @@ import { getItemUnit } from "features/game/lib/conversion";
 import { KNOWN_ITEMS } from "features/game/types";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
-import { AbiItem, fromWei, toWei } from "web3-utils";
+import { AbiItem, fromWei } from "web3-utils";
 import SessionABI from "./abis/Session.json";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
@@ -137,6 +137,7 @@ export class SessionManager {
   public async sync({
     signature,
     sessionId,
+    nextSessionId,
     deadline,
     farmId,
     mintIds,
@@ -144,9 +145,11 @@ export class SessionManager {
     burnIds,
     burnAmounts,
     tokens,
+    fee,
   }: {
     signature: string;
     sessionId: string;
+    nextSessionId: string;
     deadline: number;
     // Data
     farmId: number;
@@ -155,9 +158,8 @@ export class SessionManager {
     burnIds: number[];
     burnAmounts: number[];
     tokens: number;
+    fee: string;
   }): Promise<string> {
-    const fee = toWei("0.25");
-
     const oldSessionId = await this.getSessionId(farmId);
     const gasPrice = await estimateGasPrice(this.web3);
 
@@ -166,13 +168,15 @@ export class SessionManager {
         .sync(
           signature,
           sessionId,
+          nextSessionId,
           deadline,
           farmId,
           mintIds,
           mintAmounts,
           burnIds,
           burnAmounts,
-          tokens
+          tokens,
+          fee
         )
         .send({ from: this.account, value: fee, gasPrice })
         .on("error", function (error: any) {
@@ -195,25 +199,35 @@ export class SessionManager {
   public async mint({
     signature,
     sessionId,
+    nextSessionId,
     deadline,
     farmId,
     mintId,
+    fee,
   }: {
     signature: string;
     sessionId: string;
+    nextSessionId: string;
     deadline: number;
     // Data
     farmId: number;
     mintId: number;
+    fee: string;
   }): Promise<string> {
-    const fee = toWei("0.25");
-
     const oldSessionId = await this.getSessionId(farmId);
     const gasPrice = await estimateGasPrice(this.web3);
 
     await new Promise((resolve, reject) => {
       this.contract.methods
-        .mint(signature, sessionId, deadline, farmId, mintId)
+        .mint(
+          signature,
+          sessionId,
+          nextSessionId,
+          deadline,
+          farmId,
+          mintId,
+          fee
+        )
         .send({ from: this.account, value: fee, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });
@@ -235,6 +249,7 @@ export class SessionManager {
   public async withdraw({
     signature,
     sessionId,
+    nextSessionId,
     deadline,
     farmId,
     ids,
@@ -244,6 +259,7 @@ export class SessionManager {
   }: {
     signature: string;
     sessionId: string;
+    nextSessionId: string;
     deadline: number;
     // Data
     farmId: number;
@@ -260,6 +276,7 @@ export class SessionManager {
         .withdraw(
           signature,
           sessionId,
+          nextSessionId,
           deadline,
           farmId,
           ids,
