@@ -369,7 +369,7 @@ export const authMachine = createMachine<
           authorised: {
             id: "authorised",
             entry: (context, event) => {
-              const { screen } = event as StartEvent;
+              const { screen = "farm" } = event as StartEvent;
 
               window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
             },

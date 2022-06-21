@@ -1,28 +1,24 @@
 import React, { useState } from "react";
 
 import close from "assets/icons/close.png";
-import radishPie from "assets/nfts/radish_pie.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { FOODS } from "features/game/types/craftables";
-
-import { CraftingItems } from "./CraftingItems";
+import { Cakes } from "features/farming/bakery/components/Cakes";
 
 interface Props {
   onClose: () => void;
 }
 
-export const Crafting: React.FC<Props> = ({ onClose }) => {
+export const CakeSale: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState<"cook" | "sell">("cook");
 
   return (
     <Panel className="pt-5 relative">
       <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
         <div className="flex">
-          <Tab isActive={tab === "cook"} onClick={() => setTab("cook")}>
-            <img src={radishPie} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Cook</span>
+          <Tab isActive={tab === "cook"}>
+            <span className="text-sm text-shadow">Cake Collection</span>
           </Tab>
         </div>
         <img
@@ -37,7 +33,7 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
           minHeight: "200px",
         }}
       >
-        {tab === "cook" && <CraftingItems items={FOODS()} />}
+        <Cakes />
       </div>
     </Panel>
   );
