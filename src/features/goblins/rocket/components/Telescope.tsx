@@ -22,26 +22,7 @@ export const Telescope: React.FC<Props> = ({ onCraft, onClose }) => {
     },
   ] = useActor(goblinService);
 
-  // TODO - Enable this once recipe goes live on blockchain.
-  // const telescopeInfo = limitedItems["Telescope"] as LimitedItem;
-
-  // TODO - This is a placeholder recipe. Remove this once recipe becomes live on testnet.
-  const telescopeInfo = {
-    name: "Telescope",
-    description: "Use this to see Melon Dusk again!",
-    ingredients: [
-      {
-        id: 601,
-        item: "Wood",
-        amount: new Decimal(1),
-      },
-      {
-        id: 201,
-        item: "Sunflower",
-        amount: new Decimal(1),
-      },
-    ],
-  } as LimitedItem;
+  const telescopeInfo = limitedItems["Telescope"] as LimitedItem;
 
   // Ingredient difference
   const lessIngredients = (amount = 1) =>
