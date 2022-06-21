@@ -55,21 +55,11 @@ export const Inbox: React.FC<Props> = ({ inbox, isLoading, onRead }) => {
               <Markdown>Announcements</Markdown>
             </Accordion.Button>
             <Accordion.Body
-<<<<<<< HEAD
               className="text-sm mt-2 text-shadow text-break divide-y-2 divide-dashed divide-brown-600"
               as={InnerPanel}
             >
               {PAST_ANNOUNCEMENTS.map((announcement, index) => (
                 <Announcement key={index} announcement={announcement} />
-=======
-              className="text-sm mt-2 text-shadow text-break p-2"
-              as={InnerPanel}
-            >
-              {SORTED_ANNOUNCEMENTS.map((announcement, index) => (
-                <div className="mb-4" key={index}>
-                  <Announcement announcement={announcement} />
-                </div>
->>>>>>> e8c58a7f (Fix keys)
               ))}
             </Accordion.Body>
           </Accordion.Item>
