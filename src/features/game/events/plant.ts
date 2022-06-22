@@ -92,19 +92,19 @@ type GetFieldArgs = {
 function getMultiplier({ crop, inventory }: GetFieldArgs): number {
   let multiplier = 1;
   if (crop === "Cauliflower" && inventory["Golden Cauliflower"]?.gte(1)) {
-    multiplier *= 2;
+    multiplier += 1; // 100%
   }
 
   if (crop === "Carrot" && inventory["Easter Bunny"]?.gte(1)) {
-    multiplier *= 1.2;
+    multiplier += 0.2; // 20%
   }
 
   if (inventory.Scarecrow?.gte(1) || inventory.Kuebiko?.gte(1)) {
-    multiplier *= 1.2;
+    multiplier += 0.2; // 20%
   }
 
   if (inventory.Coder?.gte(1)) {
-    multiplier *= 1.2;
+    multiplier += 0.2; // 20%
   }
 
   return multiplier;
