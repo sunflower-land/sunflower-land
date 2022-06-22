@@ -113,8 +113,7 @@ export const Trader: React.FC = () => {
       return (
         <Content title="Greetings friend!">
           <p className="sm:text-sm p-2">
-            I am a nomad trader. I travel all over these lands collecting items
-            to trade.
+            I travel all over these lands collecting items to trade.
           </p>
           <p className="sm:text-sm p-2">
             What I have to offer you today will only be available until{" "}

@@ -15,8 +15,8 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
-    date: new Date("Mon, 22 Jun 2022 12:30:00 GMT"),
-    title: "Nomad Trader",
+    date: new Date("2022-06-22T06:27:20.861Z"),
+    title: "Travelling Salesman",
     notes: [
       "Find weekly offers",
       "Trade resources for items",
