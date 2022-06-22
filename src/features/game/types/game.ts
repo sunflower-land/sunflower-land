@@ -143,6 +143,7 @@ export interface GameState {
 
   trees: Record<number, Tree>;
   stones: Record<number, Rock>;
+  pebble: Record<number, Rock>;
   iron: Record<number, Rock>;
   gold: Record<number, Rock>;
   chickens: Record<number, Chicken>;
