@@ -5,6 +5,7 @@ import { Context } from "features/game/GameProvider";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Bakery } from "features/farming/bakery/Bakery";
+import { CakeStall } from "features/farming/cakeStall/CakeStall";
 import { Blacksmith } from "features/farming/blacksmith/Blacksmith";
 import { Shop } from "features/farming/shop/Shop";
 import { Mail } from "features/farming/mail/Mail";
@@ -31,6 +32,7 @@ export const Town: React.FC = () => {
     >
       <Shop />
       <Bakery />
+      <CakeStall />
       <Blacksmith />
       <Mail />
       <TownHall />

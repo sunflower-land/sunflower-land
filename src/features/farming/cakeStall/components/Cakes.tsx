@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
+import { useActor } from "@xstate/react";
 
 import token from "assets/icons/token.gif";
 import tokenStatic from "assets/icons/token.png";
+import questionMark from "assets/icons/expression_confused.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -10,7 +12,6 @@ import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
 
-import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CAKES, Craftable } from "features/game/types/craftables";
@@ -50,7 +51,11 @@ export const Cakes: React.FC = () => {
             isSelected={selected.name === item.name}
             key={item.name}
             onClick={() => setSelected(item)}
-            image={ITEM_DETAILS[item.name].image}
+            image={
+              inventory[item.name]?.gte(1)
+                ? ITEM_DETAILS[item.name].image
+                : questionMark
+            }
             count={inventory[item.name]}
           />
         ))}
@@ -59,7 +64,9 @@ export const Cakes: React.FC = () => {
         <div className="flex flex-col justify-center items-center p-2 ">
           <span className="text-shadow text-center">{selected.name}</span>
           <img
-            src={ITEM_DETAILS[selected.name].image}
+            src={
+              amount.gte(1) ? ITEM_DETAILS[selected.name].image : questionMark
+            }
             className="h-16 img-highlight mt-1"
             alt={selected.name}
           />
@@ -75,13 +82,15 @@ export const Cakes: React.FC = () => {
               </span>
             </div>
           </div>
-          <Button
-            disabled={amount.lessThan(1)}
-            className="text-xs mt-1"
-            onClick={sell}
-          >
-            Sell
-          </Button>
+          {amount.gte(1) && (
+            <Button
+              disabled={amount.lessThan(1)}
+              className="text-xs mt-1"
+              onClick={sell}
+            >
+              Sell
+            </Button>
+          )}
         </div>
       </OuterPanel>
     </div>
