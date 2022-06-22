@@ -1,6 +1,7 @@
 import { canChop } from "features/game/events/chop";
 import { isSeed } from "features/game/events/plant";
 import { canMine } from "features/game/events/stoneMine";
+import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { FOODS, getKeys, QUEST_ITEMS } from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/crops";
@@ -23,6 +24,15 @@ function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
 
 function hasSeeds(inventory: Inventory) {
   return getKeys(inventory).some((name) => name in SEEDS());
+}
+
+function hasFedChickens(game: GoblinState): boolean {
+  if (!game.chickens) return false;
+
+  const hasFedChickens = Object.values(game.chickens).some(
+    (chicken) => Date.now() - chicken.fedAt < CHICKEN_TIME_TO_EGG
+  );
+  return hasFedChickens;
 }
 
 export function canWithdraw({ item, game }: CanWithdrawArgs) {
@@ -78,6 +88,10 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
 
   if (item === "Mysterious Parsnip") {
     return !cropIsPlanted({ item: "Parsnip", game });
+  }
+
+  if (item === "Chicken Coop") {
+    return !hasFedChickens(game);
   }
 
   const stoneReady = Object.values(game?.stones).every((stone) =>

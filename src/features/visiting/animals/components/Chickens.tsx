@@ -38,7 +38,7 @@ export const Chickens: React.FC = () => {
           style={{
             width: `${GRID_WIDTH_PX * 2}px`,
             right: `${GRID_WIDTH_PX * 1.1}px`,
-            top: `${GRID_WIDTH_PX * 0}px`,
+            top: `${GRID_WIDTH_PX * -1}px`,
           }}
           id={Section["Chicken Coop"]}
           className="absolute"
