@@ -1,5 +1,6 @@
 import chicken from "assets/announcements/chickens.gif";
 import nugget from "assets/announcements/nugget.gif";
+import nomad from "assets/announcements/nomad.gif";
 
 export interface Announcement {
   date: Date;
@@ -13,6 +14,16 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("Mon, 22 Jun 2022 12:30:00 GMT"),
+    title: "Nomad Trader",
+    notes: [
+      "Find weekly offers",
+      "Trade resources for items",
+      "What would be the next offer?",
+    ],
+    image: nomad,
+  },
   {
     date: new Date("Mon, 20 Jun 2022 22:30:00 GMT"),
     title: "Nugget is open for crafting!",

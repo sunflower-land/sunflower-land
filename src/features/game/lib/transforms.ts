@@ -76,6 +76,16 @@ export function makeGame(farm: any): GameState {
     balance: new Decimal(farm.balance),
     fields: farm.fields,
     id: farm.id,
+    tradeOffer: farm.tradeOffer
+      ? {
+          ...farm.tradeOffer,
+          ingredients: farm.tradeOffer.ingredients.map((ingredient: any) => ({
+            ...ingredient,
+            amount: new Decimal(ingredient.amount),
+          })),
+        }
+      : undefined,
+    tradedAt: farm.tradedAt,
   };
 }
 

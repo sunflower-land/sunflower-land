@@ -11,6 +11,7 @@ import { collectEggs, CollectAction } from "./collectEgg";
 import { feedChicken, FeedAction } from "./feedChicken";
 
 import { GameState } from "../types/game";
+import { trade, TradeAction } from "./trade";
 
 export type GameEvent =
   | CraftAction
@@ -23,7 +24,8 @@ export type GameEvent =
   | ChopAction
   | OpenRewardAction
   | CollectAction
-  | FeedAction;
+  | FeedAction
+  | TradeAction;
 
 type EventName = Extract<GameEvent, { type: string }>["type"];
 
@@ -50,4 +52,5 @@ export const EVENTS: Handlers = {
   "reward.opened": openReward,
   "chicken.collectEgg": collectEggs,
   "chicken.feed": feedChicken,
+  "item.traded": trade,
 };
