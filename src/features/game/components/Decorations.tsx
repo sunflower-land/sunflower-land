@@ -384,6 +384,8 @@ const Telescope: React.FC = () => {
       : telescopeAnimationAudio.stop();
   }, [doPlayAnimation]);
 
+  const replayRand = Math.random();
+
   return (
     <>
       {doPlayAnimation && (
@@ -397,7 +399,7 @@ const Telescope: React.FC = () => {
             onClick={() => setDoPlayAnimation(false)}
           />
           <img
-            src={`${telescopeAnimation}?a=${Math.random()}`} // Breaks cache and force replays the gif animation.
+            src={`${telescopeAnimation}?rand=${replayRand}`} // Breaks cache and force replays the gif animation.
             alt="Telescope Animation"
             className="m-width-full h-auto object-cover"
           />
