@@ -46,7 +46,7 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return false;
   }
 
-  if (item === "Engine Core") {
+  if (item === "Engine Core" || item == "Observatory") {
     return false;
   }
 
