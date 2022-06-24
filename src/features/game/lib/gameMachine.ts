@@ -123,7 +123,7 @@ export type BlockchainState = {
     | "synced"
     | "levelling"
     | "error"
-    | "resetting";
+    | "refreshing";
   context: Context;
 };
 
@@ -276,7 +276,7 @@ export function startGame(authContext: Options) {
               })),
             },
             RESET: {
-              target: "resetting",
+              target: "refreshing",
             },
           },
         },
@@ -427,7 +427,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        resetting: {
+        refreshing: {
           invoke: {
             src: async (context, event) => {
               // Autosave just in case

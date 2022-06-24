@@ -30,7 +30,7 @@ import { House } from "features/farming/house/House";
 import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
 import { screenTracker } from "lib/utils/screen";
-import { Resetting } from "features/auth/components/Resetting";
+import { Refreshing } from "features/auth/components/Refreshing";
 import { GoblinShovel } from "features/farming/crops/components/GoblinShovel";
 import { Announcements } from "features/announcements/Announcement";
 
@@ -44,7 +44,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   synced: true,
   error: true,
   levelling: false,
-  resetting: true,
+  refreshing: true,
 };
 
 export const Game: React.FC = () => {
@@ -96,7 +96,7 @@ export const Game: React.FC = () => {
 
           {gameState.matches("announcing") && <Announcements />}
 
-          {gameState.matches("resetting") && <Resetting />}
+          {gameState.matches("refreshing") && <Refreshing />}
           {gameState.matches("error") && (
             <ErrorMessage
               errorCode={gameState.context.errorCode as ErrorCode}

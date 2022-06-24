@@ -166,7 +166,7 @@ export const authMachine = createMachine<
         on: {
           ACCOUNT_CHANGED: {
             target: "connecting",
-            actions: "resetFarm",
+            actions: "refreshFarm",
           },
         },
       },
@@ -191,7 +191,7 @@ export const authMachine = createMachine<
         on: {
           ACCOUNT_CHANGED: {
             target: "connecting",
-            actions: "resetFarm",
+            actions: "refreshFarm",
           },
         },
       },
@@ -210,7 +210,7 @@ export const authMachine = createMachine<
         on: {
           ACCOUNT_CHANGED: {
             target: "connecting",
-            actions: "resetFarm",
+            actions: "refreshFarm",
           },
         },
       },
@@ -385,7 +385,7 @@ export const authMachine = createMachine<
               },
               LOGOUT: {
                 target: "#connecting",
-                actions: ["clearSession", "resetFarm"],
+                actions: ["clearSession", "refreshFarm"],
               },
             },
           },
@@ -394,7 +394,7 @@ export const authMachine = createMachine<
         on: {
           ACCOUNT_CHANGED: {
             target: "connecting",
-            actions: "resetFarm",
+            actions: "refreshFarm",
           },
         },
       },
@@ -403,7 +403,7 @@ export const authMachine = createMachine<
         on: {
           ACCOUNT_CHANGED: {
             target: "connecting",
-            actions: "resetFarm",
+            actions: "refreshFarm",
           },
         },
       },
@@ -418,7 +418,7 @@ export const authMachine = createMachine<
           },
           ACCOUNT_CHANGED: {
             target: "connecting",
-            actions: "resetFarm",
+            actions: "refreshFarm",
           },
         },
       },
@@ -446,7 +446,7 @@ export const authMachine = createMachine<
         on: {
           ACCOUNT_CHANGED: {
             target: "connecting",
-            actions: "resetFarm",
+            actions: "refreshFarm",
           },
         },
       },
@@ -458,11 +458,11 @@ export const authMachine = createMachine<
         on: {
           RETURN: {
             target: "connecting",
-            actions: ["resetFarm", "deleteFarmIdUrl"],
+            actions: ["refreshFarm", "deleteFarmIdUrl"],
           },
           ACCOUNT_CHANGED: {
             target: "connecting",
-            actions: "resetFarm",
+            actions: "refreshFarm",
           },
         },
       },
@@ -471,11 +471,11 @@ export const authMachine = createMachine<
     on: {
       CHAIN_CHANGED: {
         target: "connecting",
-        actions: "resetFarm",
+        actions: "refreshFarm",
       },
       REFRESH: {
         target: "connecting",
-        actions: "resetFarm",
+        actions: "refreshFarm",
       },
     },
   },
@@ -565,7 +565,7 @@ export const authMachine = createMachine<
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
       }),
-      resetFarm: assign<Context, any>({
+      refreshFarm: assign<Context, any>({
         farmId: () => undefined,
         address: () => undefined,
         token: () => undefined,

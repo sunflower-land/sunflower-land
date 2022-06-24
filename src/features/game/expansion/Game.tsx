@@ -10,7 +10,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { screenTracker } from "lib/utils/screen";
-import { Resetting } from "features/auth/components/Resetting";
+import { Refreshing } from "features/auth/components/Refreshing";
 import { Context } from "../GameProvider";
 import { StateValues } from "../lib/gameMachine";
 import { ToastManager } from "../toast/ToastManager";
@@ -29,7 +29,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   synced: true,
   error: true,
   levelling: false,
-  resetting: true,
+  refreshing: true,
   announcing: true,
 };
 
@@ -116,7 +116,7 @@ export const Game: React.FC = () => {
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
-          {gameState.matches("resetting") && <Resetting />}
+          {gameState.matches("refreshing") && <Refreshing />}
           {gameState.matches("error") && (
             <ErrorMessage
               errorCode={gameState.context.errorCode as ErrorCode}
