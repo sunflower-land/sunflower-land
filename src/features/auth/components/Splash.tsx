@@ -15,12 +15,12 @@ const releaseVersion = CONFIG.RELEASE_VERSION as string;
 export const Splash: React.FC = ({ children }) => {
   return (
     <div className="bg-blue-600 w-full h-full flex relative items-center justify-center">
-      <div className="relative mb-96 animate-float z-10">
+      <div className="relative w-full max-w-xl mb-96 animate-float z-10">
         <img
           src={pumpkin}
           className="absolute w-8 -rotate-[20deg] z-10 -top-5 sm:-left-3 sm:-rotate-[30deg] sm:w-12 sm:-top-7"
         />
-        <img src={logo} />
+        <img src={logo} className="w-full" />
       </div>
       <div
         className="bg-repeat w-full h-full absolute inset-0 duration-1000 opacity-0 transition-opacity"
