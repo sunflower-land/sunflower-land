@@ -124,16 +124,18 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
             );
           })}
 
-          <div className="flex justify-center items-end">
-            <img src={token} className="h-5 mr-1" />
-            <span
-              className={classNames("text-xs text-shadow text-center mt-2 ", {
-                "text-red-500": lessFunds(),
-              })}
-            >
-              {`$${selected.tokenAmount?.toNumber()}`}
-            </span>
-          </div>
+          {selected.tokenAmount && (
+            <div className="flex justify-center items-end">
+              <img src={token} className="h-5 mr-1" />
+              <span
+                className={classNames("text-xs text-shadow text-center mt-2 ", {
+                  "text-red-500": lessFunds(),
+                })}
+              >
+                {`$${selected.tokenAmount?.toNumber()}`}
+              </span>
+            </div>
+          )}
         </div>
         <Button
           disabled={hasSelectedFood || !canCraft}
