@@ -9,8 +9,6 @@ import { Button } from "components/ui/Button";
 import { WithdrawTokens } from "./WithdrawTokens";
 import { WithdrawItems } from "./WithdrawItems";
 
-import alert from "assets/icons/expression_alerted.png";
-
 import { Context } from "features/game/GoblinProvider";
 
 interface Props {
@@ -92,13 +90,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       <span className="text-shadow text-sm pb-2">
         You can only withdraw items that you have synced to the blockchain.
       </span>
-
-      <div className="flex items-center border-2 rounded-md border-black p-2 bg-error mb-3">
-        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
-        <span className="text-xs">
-          ANY PROGRESS THAT HAS NOT BEEN SYNCED ON CHAIN WILL BE LOST.
-        </span>
-      </div>
 
       <div className="flex">
         <Button className="mr-1" onClick={() => setPage("tokens")}>

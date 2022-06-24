@@ -238,9 +238,6 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
           onExpired={() => setShowCaptcha(false)}
           className="w-full m-4 flex items-center justify-center"
         />
-        <p className="text-xxs p-1 m-1 text-center">
-          Crafting an item will sync your farm to the blockchain.
-        </p>
       </>
     );
   }

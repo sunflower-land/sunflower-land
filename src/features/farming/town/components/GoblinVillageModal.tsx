@@ -1,5 +1,4 @@
 import React from "react";
-import alert from "assets/icons/expression_alerted.png";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import goblinFence from "assets/land/goblin_fence.png";
@@ -28,21 +27,11 @@ export const GoblinVillageModal: React.FC<{ onClose: () => void }> = ({
           <span className="underline">on-chain</span> gameplay.
         </p>
         <p className="mb-4 text-sm">
-          If you transact with a greedy goblin be careful. They will steal any
-          SFL, resources & crops that are not synced to the blockchain.
-        </p>
-        <p className="mb-2 text-sm">
-          If you have any un-synced items it is recommended you{" "}
-          <span className="underline">sync on chain</span> before entering.
+          Goblins will only accept items that are on the Blockchain. Items that
+          are not synced will be hidden.
         </p>
       </div>
-      <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-error">
-        <img src={alert} alt="alert" className="mr-2 w-6" />
-        <span className="text-xs">
-          You may lose SFL or resources from your farm if they have not been
-          synced to the blockchain
-        </span>
-      </div>
+
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
           Close
