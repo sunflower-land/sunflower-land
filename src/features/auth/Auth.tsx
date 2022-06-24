@@ -57,7 +57,6 @@ export const Auth: React.FC = () => {
       centered
       show={
         !authState.matches({ connected: "authorised" }) &&
-        !authState.matches({ connected: "landExpansion" }) &&
         !authState.matches({ connected: "visitingContributor" }) &&
         !authState.matches("visiting")
       }

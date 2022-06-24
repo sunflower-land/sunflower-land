@@ -34,41 +34,41 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 };
 
 // FOR TESTING
-const land: Land = {
-  level: 1,
-  resources: {
-    Tree: {
-      0: {
-        x: 1,
-        y: 4,
-        height: 3,
-        width: 2,
-      },
-    },
-    Bush: {
-      0: {
-        x: -3,
-        y: 3,
-        height: 2,
-        width: 2,
-      },
-    },
-    Stone: {
-      0: {
-        x: 1,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      1: {
-        x: -2,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-    },
-  },
-};
+// const land: Land = {
+//   level: 1,
+//   resources: {
+//     Tree: {
+//       0: {
+//         x: 1,
+//         y: 4,
+//         height: 3,
+//         width: 2,
+//       },
+//     },
+//     Bush: {
+//       0: {
+//         x: -3,
+//         y: 3,
+//         height: 2,
+//         width: 2,
+//       },
+//     },
+//     Stone: {
+//       0: {
+//         x: 1,
+//         y: -1,
+//         height: 1,
+//         width: 1,
+//       },
+//       1: {
+//         x: -2,
+//         y: 0,
+//         height: 1,
+//         width: 1,
+//       },
+//     },
+//   },
+// };
 
 export const Game: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -127,7 +127,7 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
 
-      <Land resources={land.resources} level={land.level} />
+      <Land />
       <Hud />
     </>
   );
