@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
 import { ChickenPosition, GameState, Inventory } from "../types/game";
+import { SoilTypeEnum } from "./getSoilImageByKey";
 
 export const GRID_WIDTH_PX = 42;
 export const CHICKEN_TIME_TO_EGG = 1000 * 60 * 60 * 24 * 2; // 48 hours
@@ -122,6 +123,28 @@ export const INITIAL_TREES: GameState["trees"] = {
   },
 };
 
+export const INITIAL_SHRUBS: GameState["shrubs"] = {
+  0: {
+    wood: "0.1",
+    choppedAt: 0,
+    x: -3,
+    y: 3,
+    height: 2,
+    width: 2,
+  },
+};
+
+export const INITIAL_PEBBLES: GameState["pebbles"] = {
+  0: {
+    amount: "0.1",
+    minedAt: 0,
+    x: 1,
+    y: -1,
+    height: 1,
+    width: 1,
+  },
+};
+
 export const INITIAL_STONE: GameState["stones"] = {
   0: {
     amount: new Decimal(2),
@@ -152,6 +175,55 @@ export const INITIAL_GOLD: GameState["gold"] = {
   0: {
     amount: new Decimal(2),
     minedAt: 0,
+  },
+};
+
+export const INITIAL_SOIL: GameState["soil"] = {
+  0: {
+    name: SoilTypeEnum.soil1,
+    height: 3,
+    width: 3,
+    x: -2,
+    y: 1,
+  },
+};
+
+export const INITIAL_FIELDS_TWO: GameState["fieldsTwo"] = {
+  0: {
+    name: "Sunflower",
+    plantedAt: 0,
+    x: -1,
+    y: 1,
+    height: 1,
+    width: 1,
+  },
+  1: {
+    name: "Sunflower",
+    plantedAt: 0,
+    x: 0,
+    y: 0,
+    height: 1,
+    width: 1,
+  },
+  2: {
+    name: "Sunflower",
+    plantedAt: 0,
+    x: -1,
+    y: 0,
+    height: 1,
+    width: 1,
+  },
+  3: {
+    x: -1,
+    y: -1,
+    height: 1,
+    width: 1,
+  },
+  4: {
+    x: -2,
+    y: 0,
+    height: 1,
+    width: 1,
   },
 };
 
@@ -186,6 +258,10 @@ export const INITIAL_FARM: GameState = {
     "Radish Cake": "1970-01-01T00:00:00.000Z",
     "Wheat Cake": "1970-01-01T00:00:00.000Z",
   },
+  shrubs: INITIAL_SHRUBS,
+  pebbles: INITIAL_PEBBLES,
+  soil: INITIAL_SOIL,
+  fieldsTwo: INITIAL_FIELDS_TWO,
 };
 
 export const EMPTY: GameState = {
@@ -205,4 +281,8 @@ export const EMPTY: GameState = {
     gathering: new Decimal(0),
   },
   stockExpiry: {},
+  shrubs: INITIAL_SHRUBS,
+  pebbles: INITIAL_PEBBLES,
+  soil: INITIAL_SOIL,
+  fieldsTwo: INITIAL_FIELDS_TWO,
 };

@@ -5,6 +5,7 @@ import { CropName, SeedName } from "./crops";
 import { CraftableName, Food } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
+import { SoilTypeEnum } from "../lib/getSoilImageByKey";
 
 export type Reward = {
   items: {
@@ -101,6 +102,34 @@ export type TradeOffer = {
   }[];
 };
 
+export type Position = {
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type LandExpansionTree = {
+  wood: string;
+  // Epoch time in milliseconds
+  choppedAt?: number;
+} & Position;
+
+export type LandExpansionRock = {
+  amount: string;
+  // Epoch time in milliseconds
+  minedAt?: number;
+} & Position;
+
+export type LandExpansionSoil = {
+  name: SoilTypeEnum;
+} & Position;
+
+export type LandExpansionField = {
+  name?: CropName;
+  plantedAt?: number;
+} & Position;
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -111,6 +140,11 @@ export interface GameState {
   iron: Record<number, Rock>;
   gold: Record<number, Rock>;
   chickens: Record<number, Chicken>;
+
+  shrubs: Record<number, LandExpansionTree>;
+  pebbles: Record<number, LandExpansionRock>;
+  soil: Record<number, LandExpansionSoil>;
+  fieldsTwo: Record<number, LandExpansionField>;
 
   tradedAt?: string;
   tradeOffer?: TradeOffer;
