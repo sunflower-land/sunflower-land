@@ -118,7 +118,6 @@ export type BlockchainState = {
     | { connected: "readyToStart" }
     | { connected: "donating" }
     | { connected: "authorised" }
-    | { connected: "landExpansion" }
     | { connected: "blacklisted" }
     | { connected: "visitingContributor" }
     | "exploring"

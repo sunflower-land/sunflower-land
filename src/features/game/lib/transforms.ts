@@ -86,6 +86,10 @@ export function makeGame(farm: any): GameState {
         }
       : undefined,
     tradedAt: farm.tradedAt,
+    shrubs: farm.shrubs,
+    pebbles: farm.pebbles,
+    soil: farm.soil,
+    fieldsTwo: farm.fieldsTwo,
   };
 }
 
