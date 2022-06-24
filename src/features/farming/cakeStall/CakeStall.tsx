@@ -59,9 +59,9 @@ export const CakeStall: React.FC = () => {
               src={ITEM_DETAILS[specialCake.name].image}
               className="absolute"
               style={{
-                width: `${GRID_WIDTH_PX * 1.19}px`,
-                right: `${GRID_WIDTH_PX * 2.86}px`,
-                top: `${GRID_WIDTH_PX * 2.5}px`,
+                width: `${GRID_WIDTH_PX * 0.71}px`,
+                right: `${GRID_WIDTH_PX * 3.07}px`,
+                top: `${GRID_WIDTH_PX * 2.59}px`,
               }}
               onClick={openCakeModal}
             />
