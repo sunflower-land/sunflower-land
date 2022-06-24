@@ -13,11 +13,10 @@ import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CAKES, CraftableItem } from "features/game/types/craftables";
+import { CraftableItem } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { isExpired } from "features/game/lib/stock";
-import { CONFIG } from "lib/config";
 
 interface Props {
   items: Partial<Record<InventoryItemName, CraftableItem>>;
@@ -72,10 +71,7 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
   };
 
   const validItems = Object.values(items).filter(
-    (item) =>
-      !isExpired({ name: item.name, stockExpiry: state.stockExpiry }) &&
-      // Only show cakes on testnet
-      (CONFIG.NETWORK === "mumbai" || !(item.name in CAKES()))
+    (item) => !isExpired({ name: item.name, stockExpiry: state.stockExpiry })
   );
 
   const expiryTime = state.stockExpiry[selected.name];
