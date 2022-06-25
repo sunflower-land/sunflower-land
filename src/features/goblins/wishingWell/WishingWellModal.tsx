@@ -42,7 +42,7 @@ type NoWishArgs = Pick<WishingWellTokens, "totalTokensInWell"> & {
   hasLPTokens: boolean;
 };
 
-const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
+const Granted = ({ lockedTime, onClose }: GrantedArgs) => (
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
@@ -51,12 +51,7 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
       </div>
       <p className="mb-4 text-sm">Your wish has been granted.</p>
       <p className="mb-4 text-sm">
-        {reward
-          ? `${reward} SFL has been transferred to your farm.`
-          : `Your reward has been transferred to your farm.`}
-      </p>
-      <p className="mb-4 text-sm">
-        You will need to sync on chain to see your updated balance!
+        Your reward has been transferred to your farm.
       </p>
       <p className="mb-4 text-sm">
         A new wish has been made for you based on your current balance of LP

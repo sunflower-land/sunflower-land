@@ -8,7 +8,7 @@ import plantableSoil from "assets/land/soil2.png";
 import { MapPlacement } from "./components/MapPlacement";
 import { useActor } from "@xstate/react";
 import { Context } from "../GameProvider";
-import { getSoilImageByKey } from "../lib/getSoilImageByKey";
+import { getTerrainImageByKey } from "../lib/getTerrainImageByKey";
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -18,7 +18,7 @@ export const Land: React.FC = () => {
     },
   ] = useActor(gameService);
 
-  const { pebbles, shrubs, soil, fieldsTwo } = state;
+  const { pebbles, shrubs, terrains, plots } = state;
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -50,14 +50,14 @@ export const Land: React.FC = () => {
             <img src={pebble} className="h-full w-full" />
           </MapPlacement>
         ))}
-        {/* Example placement of soil */}
-        {Object.values(soil).map(({ name, x, y, width, height }, index) => (
+        {/* Example placement of terrains */}
+        {Object.values(terrains).map(({ name, x, y, width, height }, index) => (
           <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-            <img src={getSoilImageByKey(name)} className="h-full w-full" />
+            <img src={getTerrainImageByKey(name)} className="h-full w-full" />
           </MapPlacement>
         ))}
         {/* Example placement of fields */}
-        {Object.values(fieldsTwo).map(({ x, y, width, height }, index) => (
+        {Object.values(plots).map(({ x, y, width, height }, index) => (
           <MapPlacement key={index} x={x} y={y} height={height} width={width}>
             <img src={plantableSoil} className="h-full w-full" />
           </MapPlacement>

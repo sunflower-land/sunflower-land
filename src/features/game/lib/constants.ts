@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
 import { ChickenPosition, GameState, Inventory } from "../types/game";
-import { SoilTypeEnum } from "./getSoilImageByKey";
+import { TerrainTypeEnum } from "./getTerrainImageByKey";
 
 export const GRID_WIDTH_PX = 42;
 export const CHICKEN_TIME_TO_EGG = 1000 * 60 * 60 * 24 * 2; // 48 hours
@@ -178,9 +178,9 @@ export const INITIAL_GOLD: GameState["gold"] = {
   },
 };
 
-export const INITIAL_SOIL: GameState["soil"] = {
+export const INITIAL_TERRAIN: GameState["terrains"] = {
   0: {
-    name: SoilTypeEnum.soil1,
+    name: TerrainTypeEnum.terrain1,
     height: 3,
     width: 3,
     x: -2,
@@ -188,7 +188,7 @@ export const INITIAL_SOIL: GameState["soil"] = {
   },
 };
 
-export const INITIAL_FIELDS_TWO: GameState["fieldsTwo"] = {
+export const INITIAL_PLOTS: GameState["plots"] = {
   0: {
     name: "Sunflower",
     plantedAt: 0,
@@ -263,8 +263,8 @@ export const INITIAL_FARM: GameState = {
   },
   shrubs: INITIAL_SHRUBS,
   pebbles: INITIAL_PEBBLES,
-  soil: INITIAL_SOIL,
-  fieldsTwo: INITIAL_FIELDS_TWO,
+  terrains: INITIAL_TERRAIN,
+  plots: INITIAL_PLOTS,
 };
 
 export const EMPTY: GameState = {
@@ -286,6 +286,6 @@ export const EMPTY: GameState = {
   stockExpiry: {},
   shrubs: INITIAL_SHRUBS,
   pebbles: INITIAL_PEBBLES,
-  soil: INITIAL_SOIL,
-  fieldsTwo: INITIAL_FIELDS_TWO,
+  terrains: INITIAL_TERRAIN,
+  plots: INITIAL_PLOTS,
 };
