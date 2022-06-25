@@ -5,7 +5,7 @@ import { CropName, SeedName } from "./crops";
 import { CraftableName, Food } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
-import { SoilTypeEnum } from "../lib/getSoilImageByKey";
+import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
 
 export type Reward = {
   items: {
@@ -121,11 +121,11 @@ export type LandExpansionRock = {
   minedAt?: number;
 } & Position;
 
-export type LandExpansionSoil = {
-  name: SoilTypeEnum;
+export type LandExpansionTerrain = {
+  name: TerrainTypeEnum;
 } & Position;
 
-export type LandExpansionField = {
+export type LandExpansionPlot = {
   name?: CropName;
   plantedAt?: number;
 } & Position;
@@ -143,8 +143,8 @@ export interface GameState {
 
   shrubs: Record<number, LandExpansionTree>;
   pebbles: Record<number, LandExpansionRock>;
-  soil: Record<number, LandExpansionSoil>;
-  fieldsTwo: Record<number, LandExpansionField>;
+  terrains: Record<number, LandExpansionTerrain>;
+  plots: Record<number, LandExpansionPlot>;
 
   tradedAt?: string;
   tradeOffer?: TradeOffer;
