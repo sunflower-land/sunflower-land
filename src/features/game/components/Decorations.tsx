@@ -1,7 +1,7 @@
 /**
  * Placeholder for future decorations that will fall on a different grid
  */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Spritesheet, {
   SpriteSheetInstance,
@@ -376,15 +376,23 @@ export const RockGolem: React.FC<RockGolemProps> = ({ state }) => {
 };
 
 const Telescope: React.FC = () => {
-  const [doPlayAnimation, setDoPlayAnimation] = useState(false);
+  // Using rand value helps force-replay gifs.
+  // Also, putting this in state ensures the gif doesn't replay during random compontent rerenders.
+  const [playRand, setPlayRand] = useState<number | null>(null);
 
-  useEffect(() => {
-    doPlayAnimation
-      ? telescopeAnimationAudio.play()
-      : telescopeAnimationAudio.stop();
-  }, [doPlayAnimation]);
+  const handleOpenTelescope = () => {
+    setPlayRand(Math.random());
+    if (!telescopeAnimationAudio.playing()) {
+      telescopeAnimationAudio.play();
+    }
+  };
 
-  const replayRand = Math.random();
+  const handleCloseTelescope = () => {
+    telescopeAnimationAudio.stop();
+    setPlayRand(null);
+  };
+
+  const doPlayAnimation = playRand !== null;
 
   return (
     <>
@@ -396,10 +404,10 @@ const Telescope: React.FC = () => {
           <img
             src={close}
             className="h-6 top-4 right-4 fixed cursor-pointer"
-            onClick={() => setDoPlayAnimation(false)}
+            onClick={handleCloseTelescope}
           />
           <img
-            src={`${telescopeAnimation}?rand=${replayRand}`} // Breaks cache and force replays the gif animation.
+            src={`${telescopeAnimation}?rand=${playRand}`} // Breaks cache and force replays the gif animation.
             alt="Telescope Animation"
             className="m-width-full h-auto object-cover"
           />
@@ -415,7 +423,7 @@ const Telescope: React.FC = () => {
           top: `${GRID_WIDTH_PX * 2.3}px`,
         }}
         id={Section.Telescope}
-        onClick={() => setDoPlayAnimation(true)}
+        onClick={handleOpenTelescope}
       />
     </>
   );
