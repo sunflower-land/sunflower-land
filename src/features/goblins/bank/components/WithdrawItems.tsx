@@ -29,6 +29,37 @@ interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
   allowLongpressWithdrawal?: boolean;
 }
+
+function transferItem(
+  itemName: InventoryItemName,
+  setFrom: React.Dispatch<
+    React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
+  >,
+  setTo: React.Dispatch<
+    React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
+  >
+) {
+  let amount = 1;
+
+  // Subtract 1 or remaining
+  setFrom((prev) => {
+    const remaining = prev[itemName]!.toNumber();
+    if (remaining < 1) {
+      amount = remaining;
+    }
+    return {
+      ...prev,
+      [itemName]: prev[itemName]?.minus(amount),
+    };
+  });
+
+  // Add 1 or remaining
+  setTo((prev) => ({
+    ...prev,
+    [itemName]: (prev[itemName] || new Decimal(0)).add(amount),
+  }));
+}
+
 export const WithdrawItems: React.FC<Props> = ({
   onWithdraw,
   allowLongpressWithdrawal = true,
@@ -54,27 +85,13 @@ export const WithdrawItems: React.FC<Props> = ({
   };
 
   const onAdd = (itemName: InventoryItemName) => {
-    setSelected((prev) => ({
-      ...prev,
-      [itemName]: (prev[itemName] || new Decimal(0)).add(1),
-    }));
-
-    setInventory((prev) => ({
-      ...prev,
-      [itemName]: prev[itemName]?.minus(1),
-    }));
+    // Transfer from inventory to selected
+    transferItem(itemName, setInventory, setSelected);
   };
 
   const onRemove = (itemName: InventoryItemName) => {
-    setInventory((prev) => ({
-      ...prev,
-      [itemName]: (prev[itemName] || new Decimal(0)).add(1),
-    }));
-
-    setSelected((prev) => ({
-      ...prev,
-      [itemName]: prev[itemName]?.minus(1),
-    }));
+    // Transfer from selected to inventory
+    transferItem(itemName, setSelected, setInventory);
   };
 
   const makeItemDetails = (itemName: InventoryItemName) => {
