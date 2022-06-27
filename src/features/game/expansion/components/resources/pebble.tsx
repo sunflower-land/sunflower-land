@@ -4,10 +4,10 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import sparkSheet from "assets/resources/stone/stone_spark.png";
+import sparkSheet from "assets/resources/pebble/pebble_sheet.png";
 import dropSheet from "assets/resources/stone/stone_drop.png";
 import empty from "assets/resources/stone/stone_empty.png";
-import stone from "assets/resources/stone.png";
+import stone from "assets/resources/small_stone.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -18,13 +18,16 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 
-import { canMine, STONE_RECOVERY_TIME } from "features/game/events/stoneMine";
+import { canMine } from "features/game/events/pebbleStrike";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 2;
+
+// 30 minutes
+const PEBBLE_RECOVERY_TIME = 30 * 60;
 
 interface Props {
   pebbleIndex: number;
@@ -39,7 +42,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
   const [popover, setPopover] = useState<JSX.Element | null>();
 
   const [touchCount, setTouchCount] = useState(0);
-  // When to hide the stone that pops out
+  // When to hide the pebble that pops out
   const [collecting, setCollecting] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -48,7 +51,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
   const [showPebbleTimeLeft, setShowPebbleTimeLeft] = useState(false);
 
-  const pebble = game.context.state.stones[pebbleIndex];
+  const pebble = game.context.state.pebble[pebbleIndex];
   // Users will need to refresh to chop the tree again
   const mined = !canMine(pebble);
   const { setToast } = useContext(ToastContext);
@@ -147,7 +150,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
     setShowLabel(false);
   };
 
-  const recoveryTime = STONE_RECOVERY_TIME;
+  const recoveryTime = PEBBLE_RECOVERY_TIME;
 
   const timeLeft = getTimeLeft(pebble.minedAt, recoveryTime);
   const percentage = 100 - (timeLeft / recoveryTime) * 100;
@@ -179,7 +182,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
             widthFrame={91}
             heightFrame={66}
             fps={24}
-            steps={5}
+            steps={4}
             direction={`forward`}
             autoplay={false}
             loop={true}
@@ -202,10 +205,10 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
           minedGif.current = spritesheet;
         }}
         image={dropSheet}
-        widthFrame={91}
-        heightFrame={66}
+        widthFrame={288}
+        heightFrame={32}
         fps={18}
-        steps={7}
+        steps={4}
         direction={`forward`}
         autoplay={false}
         loop={true}
@@ -232,7 +235,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
           }
         )}
       >
-        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
+        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 2) * 100} />
       </div>
 
       {mined && (

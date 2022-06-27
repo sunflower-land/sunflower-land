@@ -47,6 +47,16 @@ export function makeGame(farm: any): GameState {
       }),
       {} as Record<number, Rock>
     ),
+    pebble: Object.keys(farm.pebble).reduce(
+      (items, item) => ({
+        ...items,
+        [item]: {
+          ...farm.pebble[item],
+          amount: new Decimal(farm.pebble[item].amount),
+        },
+      }),
+      {} as Record<number, Rock>
+    ),
     iron: Object.keys(farm.iron).reduce(
       (items, item) => ({
         ...items,
@@ -152,6 +162,7 @@ export function updateGame(
         };
       }, {} as Record<number, Tree>),
       stones: updateRocks(oldGameState.stones, newGameState.stones),
+      pebble: updateRocks(oldGameState.stones, newGameState.stones),
       iron: updateRocks(oldGameState.iron, newGameState.iron),
       gold: updateRocks(oldGameState.gold, newGameState.gold),
       skills: newGameState.skills,
