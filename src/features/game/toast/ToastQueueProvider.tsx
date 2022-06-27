@@ -17,22 +17,28 @@ export const ToastContext = createContext<{
   toastList: Toast[];
 }>({ removeToast: console.log, setToast: console.log, toastList: [] });
 
-const MAX_TOAST = 5;
+const MAX_TOAST = 6;
 
 export const ToastProvider: FC = ({ children }) => {
   const [toastList, setToastList] = useState<Toast[]>([]);
 
   const setToast: SetToast = (toast) => {
-    if (toastList.length > 4) {
-      setToastList(toastList.slice(0, MAX_TOAST));
-    }
     const id = `${Date.now()}-${toast.icon}`;
+    const newToast = { id: id, ...toast };
+
+    setToastList((toastList) => {
+      let toasts = [newToast, ...toastList];
+
+      if (toasts.length > MAX_TOAST) {
+        toasts = toasts.slice(0, MAX_TOAST);
+      }
+
+      return toasts;
+    });
 
     window.setTimeout(() => {
       removeToast(id);
     }, toast.timeout || 2000);
-    const newToast = { id: id, ...toast };
-    setToastList((toastList) => [newToast, ...toastList]);
   };
 
   const removeToast = (toastId: string) => {
