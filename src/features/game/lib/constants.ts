@@ -190,24 +190,21 @@ export const INITIAL_TERRAIN: GameState["terrains"] = {
 
 export const INITIAL_PLOTS: GameState["plots"] = {
   0: {
-    name: "Sunflower",
-    plantedAt: 0,
+    crop: { name: "Sunflower", plantedAt: 0 },
     x: -1,
     y: 1,
     height: 1,
     width: 1,
   },
   1: {
-    name: "Sunflower",
-    plantedAt: 0,
+    crop: { name: "Sunflower", plantedAt: 0 },
     x: 0,
     y: 0,
     height: 1,
     width: 1,
   },
   2: {
-    name: "Sunflower",
-    plantedAt: 0,
+    crop: { name: "Sunflower", plantedAt: 0 },
     x: -1,
     y: 0,
     height: 1,
