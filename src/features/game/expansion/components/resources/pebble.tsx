@@ -7,7 +7,7 @@ import Spritesheet, {
 import sparkSheet from "assets/resources/pebble/pebble_sheet.png";
 import dropSheet from "assets/resources/stone/stone_drop.png";
 import empty from "assets/resources/stone/stone_empty.png";
-import stone from "assets/resources/small_stone.png";
+import smallStone from "assets/resources/small_stone.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -90,7 +90,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
     setShowPebbleTimeLeft(false);
   };
 
-  const shake = () => {
+  const strike = () => {
     const isPlaying = sparkGif.current?.getInfo("isPlaying");
 
     if (!isPlaying) {
@@ -100,7 +100,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
       setTouchCount((count) => count + 1);
 
-      // On second shake, chop
+      // On second strike, mine
       if (touchCount > 0 && touchCount === HITS - 1) {
         mine();
         miningFallAudio.play();
@@ -121,13 +121,13 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
       displayPopover(
         <div className="flex">
-          <img src={stone} className="w-5 h-5 mr-2" />
+          <img src={smallStone} className="w-5 h-5 mr-2" />
           <span className="text-sm text-white text-shadow">{`+${pebble.stone.amount}`}</span>
         </div>
       );
 
       setToast({
-        icon: stone,
+        icon: smallStone,
         content: `+${pebble.stone.amount}`,
       });
 
@@ -150,10 +150,8 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
     setShowLabel(false);
   };
 
-  const recoveryTime = PEBBLE_RECOVERY_TIME;
-
-  const timeLeft = getTimeLeft(pebble.stone.minedAt, recoveryTime);
-  const percentage = 100 - (timeLeft / recoveryTime) * 100;
+  const timeLeft = getTimeLeft(pebble.stone.minedAt, PEBBLE_RECOVERY_TIME);
+  const percentage = 100 - (timeLeft / PEBBLE_RECOVERY_TIME) * 100;
 
   return (
     <div
@@ -167,7 +165,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
           onMouseLeave={handleMouseLeave}
           ref={containerRef}
           className="group cursor-pointer  w-full h-full"
-          onClick={shake}
+          onClick={strike}
         >
           <Spritesheet
             className="group-hover:img-highlight pointer-events-none transform z-10"
@@ -179,10 +177,10 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
               sparkGif.current = spritesheet;
             }}
             image={sparkSheet}
-            widthFrame={91}
-            heightFrame={66}
+            widthFrame={48}
+            heightFrame={32}
             fps={24}
-            steps={4}
+            steps={6}
             direction={`forward`}
             autoplay={false}
             loop={true}
@@ -205,10 +203,10 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
           minedGif.current = spritesheet;
         }}
         image={dropSheet}
-        widthFrame={288}
-        heightFrame={32}
+        widthFrame={91}
+        heightFrame={66}
         fps={18}
-        steps={4}
+        steps={7}
         direction={`forward`}
         autoplay={false}
         loop={true}
@@ -228,7 +226,8 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute top-12 left-8",
+          // "transition-opacity pointer-events-none absolute top-12 left-8",
+          "transition-opacity pointer-events-none absolute top-1 left-1",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
@@ -239,22 +238,20 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
       </div>
 
       {mined && (
-        <>
-          <div
-            className="absolute"
-            style={{
-              top: "106px",
-              left: "29px",
-            }}
-          >
-            <ProgressBar percentage={percentage} seconds={timeLeft} />
-            <TimeLeftPanel
-              text="Recovers in:"
-              timeLeft={timeLeft}
-              showTimeLeft={showPebbleTimeLeft}
-            />
-          </div>
-        </>
+        <div
+          className="absolute"
+          style={{
+            top: "106px",
+            left: "29px",
+          }}
+        >
+          <ProgressBar percentage={percentage} seconds={timeLeft} />
+          <TimeLeftPanel
+            text="Recovers in:"
+            timeLeft={timeLeft}
+            showTimeLeft={showPebbleTimeLeft}
+          />
+        </div>
       )}
 
       <div

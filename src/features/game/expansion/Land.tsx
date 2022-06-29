@@ -59,6 +59,7 @@ export const Land: React.FC = () => {
             </MapPlacement>
           );
         })}
+
         {/* Example placement of terrains */}
         {getKeys(terrains).map((index) => {
           const { x, y, width, height, name } = terrains[index];
