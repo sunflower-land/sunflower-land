@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState, Rock } from "../types/game";
+import { GameState, LandExpansionRock } from "../types/game";
 
 export type PebbleStrikeAction = {
   type: "pebble.struck";
@@ -15,14 +15,15 @@ type Options = {
 // 30 minutes
 export const PEBBLE_RECOVERY_TIME = 30 * 60;
 
-export enum MINE_ERRORS {
-  NO_PEBBLE = "No pebble",
-  STILL_GROWING = "Pebble is still recovering",
-}
+const STONE_AMOUNT = 0.1;
 
-export function canMine(pebble: Rock, now: number = Date.now()) {
+export function canMine(pebble: LandExpansionRock, now: number = Date.now()) {
   const recoveryTime = PEBBLE_RECOVERY_TIME;
-  return now - pebble.minedAt > recoveryTime * 1000;
+  if (pebble.stone) {
+    return now - pebble.stone.minedAt > recoveryTime * 1000;
+  }
+
+  return true;
 }
 
 export function strikePebble({
@@ -30,29 +31,32 @@ export function strikePebble({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const pebble = state.pebble[action.index];
+  const pebble = state.pebbles[action.index];
 
   if (!pebble) {
-    throw new Error(MINE_ERRORS.NO_PEBBLE);
+    throw new Error("No pebble");
   }
 
   if (!canMine(pebble, createdAt)) {
-    throw new Error(MINE_ERRORS.STILL_GROWING);
+    throw new Error("Pebble is still recovering");
   }
 
-  const amount = state.inventory.Stone || new Decimal(0);
-  const experience = state.skills?.gathering || new Decimal(0);
+  const stoneInInventory = state.inventory.Stone || new Decimal(0);
+  const { x, y, height, width } = pebble;
 
   return {
     ...state,
     inventory: {
       ...state.inventory,
-      Stone: amount.add(pebble.amount),
+      Stone: stoneInInventory.add(STONE_AMOUNT),
     },
-    pebble: {
+    pebbles: {
       [action.index]: {
-        minedAt: Date.now(),
-        amount: new Decimal(0.1),
+        stone: { minedAt: Date.now(), amount: STONE_AMOUNT },
+        height,
+        width,
+        x,
+        y,
       },
     },
   };

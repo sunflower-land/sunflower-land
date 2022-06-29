@@ -136,8 +136,10 @@ export const INITIAL_SHRUBS: GameState["shrubs"] = {
 
 export const INITIAL_PEBBLES: GameState["pebbles"] = {
   0: {
-    amount: "0.1",
-    minedAt: 0,
+    stone: {
+      amount: 0.1,
+      minedAt: 0,
+    },
     x: 1,
     y: -1,
     height: 1,

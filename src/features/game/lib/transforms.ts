@@ -4,6 +4,7 @@ import {
   GameState,
   Inventory,
   InventoryItemName,
+  LandExpansionRock,
   Rock,
   Tree,
 } from "../types/game";
@@ -43,16 +44,6 @@ export function makeGame(farm: any): GameState {
         [item]: {
           ...farm.stones[item],
           amount: new Decimal(farm.stones[item].amount),
-        },
-      }),
-      {} as Record<number, Rock>
-    ),
-    pebble: Object.keys(farm.pebble).reduce(
-      (items, item) => ({
-        ...items,
-        [item]: {
-          ...farm.pebble[item],
-          amount: new Decimal(farm.pebble[item].amount),
         },
       }),
       {} as Record<number, Rock>
@@ -104,6 +95,7 @@ export function makeGame(farm: any): GameState {
 }
 
 type Rocks = Record<number, Rock>;
+type Pebbles = Record<number, LandExpansionRock>;
 
 /**
  * Updates a rock with the new amount of mineral inside of it
@@ -120,6 +112,23 @@ function updateRocks(oldRocks: Rocks, newRocks: Rocks): Rocks {
       } as Rock,
     };
   }, {} as Record<number, Rock>);
+}
+
+/**
+ * Updates a rock with the new amount of mineral inside of it
+ */
+function updatePebbles(oldPebbles: Pebbles, newPebbles: Pebbles): Pebbles {
+  return Object.keys(oldPebbles).reduce((pebbles, pebbleId) => {
+    const id = Number(pebbleId);
+    const rock = oldPebbles[id];
+    return {
+      ...pebbles,
+      [id]: {
+        ...rock,
+        amount: newPebbles[id].stone.amount,
+      } as LandExpansionRock,
+    };
+  }, {} as Pebbles);
 }
 
 /**
@@ -162,7 +171,7 @@ export function updateGame(
         };
       }, {} as Record<number, Tree>),
       stones: updateRocks(oldGameState.stones, newGameState.stones),
-      pebble: updateRocks(oldGameState.stones, newGameState.stones),
+      pebbles: updatePebbles(oldGameState.pebbles, newGameState.pebbles),
       iron: updateRocks(oldGameState.iron, newGameState.iron),
       gold: updateRocks(oldGameState.gold, newGameState.gold),
       skills: newGameState.skills,

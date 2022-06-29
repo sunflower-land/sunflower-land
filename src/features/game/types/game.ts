@@ -122,10 +122,14 @@ export type LandExpansionTree = {
   choppedAt?: number;
 } & Position;
 
-export type LandExpansionRock = {
-  amount: string;
+export type Stone = {
+  amount: number;
   // Epoch time in milliseconds
-  minedAt?: number;
+  minedAt: number;
+};
+
+export type LandExpansionRock = {
+  stone: Stone;
 } & Position;
 
 export type LandExpansionTerrain = {
@@ -143,7 +147,6 @@ export interface GameState {
 
   trees: Record<number, Tree>;
   stones: Record<number, Rock>;
-  pebble: Record<number, Rock>;
   iron: Record<number, Rock>;
   gold: Record<number, Rock>;
   chickens: Record<number, Chicken>;

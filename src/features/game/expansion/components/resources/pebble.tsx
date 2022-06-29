@@ -51,7 +51,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
   const [showPebbleTimeLeft, setShowPebbleTimeLeft] = useState(false);
 
-  const pebble = game.context.state.pebble[pebbleIndex];
+  const pebble = game.context.state.pebbles[pebbleIndex];
   // Users will need to refresh to chop the tree again
   const mined = !canMine(pebble);
   const { setToast } = useContext(ToastContext);
@@ -122,13 +122,13 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
       displayPopover(
         <div className="flex">
           <img src={stone} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${pebble.amount}`}</span>
+          <span className="text-sm text-white text-shadow">{`+${pebble.stone.amount}`}</span>
         </div>
       );
 
       setToast({
         icon: stone,
-        content: `+${pebble.amount}`,
+        content: `+${pebble.stone.amount}`,
       });
 
       await new Promise((res) => setTimeout(res, 2000));
@@ -152,7 +152,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
   const recoveryTime = PEBBLE_RECOVERY_TIME;
 
-  const timeLeft = getTimeLeft(pebble.minedAt, recoveryTime);
+  const timeLeft = getTimeLeft(pebble.stone.minedAt, recoveryTime);
   const percentage = 100 - (timeLeft / recoveryTime) * 100;
 
   return (
