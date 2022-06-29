@@ -4,11 +4,12 @@ import { GRID_WIDTH_PX } from "../lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import pebble from "assets/resources/small_stone.png";
 import shrub from "assets/resources/green_bush.png";
-import plantableSoil from "assets/land/soil2.png";
 import { MapPlacement } from "./components/MapPlacement";
 import { useActor } from "@xstate/react";
 import { Context } from "../GameProvider";
 import { getTerrainImageByKey } from "../lib/getTerrainImageByKey";
+import { getKeys } from "../types/craftables";
+import { Plot } from "features/farming/crops/components/landExpansion/Plot";
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -39,29 +40,45 @@ export const Land: React.FC = () => {
           className="w-full"
         />
         {/* Example placement of shrub */}
-        {Object.values(shrubs).map(({ x, y, width, height }, index) => (
-          <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-            <img src={shrub} className="h-full w-full" />
-          </MapPlacement>
-        ))}
+        {getKeys(shrubs).map((index) => {
+          const { x, y, width, height } = shrubs[index];
+
+          return (
+            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
+              <img src={shrub} className="h-full w-full" />
+            </MapPlacement>
+          );
+        })}
         {/* Example placement of pebbles */}
-        {Object.values(pebbles).map(({ x, y, width, height }, index) => (
-          <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-            <img src={pebble} className="h-full w-full" />
-          </MapPlacement>
-        ))}
+        {getKeys(pebbles).map((index) => {
+          const { x, y, width, height } = pebbles[index];
+
+          return (
+            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
+              <img src={pebble} className="h-full w-full" />
+            </MapPlacement>
+          );
+        })}
         {/* Example placement of terrains */}
-        {Object.values(terrains).map(({ name, x, y, width, height }, index) => (
-          <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-            <img src={getTerrainImageByKey(name)} className="h-full w-full" />
-          </MapPlacement>
-        ))}
-        {/* Example placement of fields */}
-        {Object.values(plots).map(({ x, y, width, height }, index) => (
-          <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-            <img src={plantableSoil} className="h-full w-full" />
-          </MapPlacement>
-        ))}
+        {getKeys(terrains).map((index) => {
+          const { x, y, width, height, name } = terrains[index];
+
+          return (
+            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
+              <img src={getTerrainImageByKey(name)} className="h-full w-full" />
+            </MapPlacement>
+          );
+        })}
+        {/* Example placement of plots */}
+        {getKeys(plots).map((index) => {
+          const { x, y, width, height } = plots[index];
+
+          return (
+            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
+              <Plot index={Number(index)} />
+            </MapPlacement>
+          );
+        })}
       </div>
     </div>
   );

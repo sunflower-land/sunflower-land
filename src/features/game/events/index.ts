@@ -9,6 +9,14 @@ import { chop, ChopAction } from "./chop";
 import { openReward, OpenRewardAction } from "./rewarded";
 import { collectEggs, CollectAction } from "./collectEgg";
 import { feedChicken, FeedAction } from "./feedChicken";
+import {
+  LandExpansionPlantAction,
+  plant as landExpansionPlant,
+} from "./landExpansion/plant";
+import {
+  harvest as landExpansionHarvest,
+  LandExpansionHarvestAction,
+} from "./landExpansion/harvest";
 
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
@@ -23,9 +31,11 @@ export type GameEvent =
   | GoldMineAction
   | ChopAction
   | OpenRewardAction
-  | CollectAction
   | FeedAction
-  | TradeAction;
+  | CollectAction
+  | TradeAction
+  | LandExpansionPlantAction
+  | LandExpansionHarvestAction;
 
 type EventName = Extract<GameEvent, { type: string }>["type"];
 
@@ -53,4 +63,7 @@ export const EVENTS: Handlers = {
   "chicken.collectEgg": collectEggs,
   "chicken.feed": feedChicken,
   "item.traded": trade,
+  // Land Expansion Handlers
+  "landExpansion.item.planted": landExpansionPlant,
+  "landExpansion.item.harvested": landExpansionHarvest,
 };

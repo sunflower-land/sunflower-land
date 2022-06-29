@@ -109,7 +109,7 @@ export type Position = {
   width: number;
 };
 
-type Crop = {
+export type PlantedCrop = {
   name: CropName;
   plantedAt: number;
   amount?: number;
@@ -133,7 +133,7 @@ export type LandExpansionTerrain = {
 } & Position;
 
 export type LandExpansionPlot = {
-  crop?: Crop;
+  crop?: PlantedCrop;
 } & Position;
 
 export interface GameState {
