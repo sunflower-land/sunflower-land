@@ -404,6 +404,7 @@ export function startGame(authContext: Options) {
                 token: authContext.rawToken as string,
                 fingerprint: context.fingerprint as string,
                 skill: (event as LevelUpEvent).skill,
+                offset: context.offset,
               });
 
               return {
