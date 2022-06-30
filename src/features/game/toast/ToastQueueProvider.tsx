@@ -17,14 +17,14 @@ export const ToastContext = createContext<{
   toastList: Toast[];
 }>({ removeToast: console.log, setToast: console.log, toastList: [] });
 
-const MAX_TOAST = 6;
+const MAX_TOAST = 5;
 
 export const ToastProvider: FC = ({ children }) => {
   const [toastList, setToastList] = useState<Toast[]>([]);
 
   const setToast: SetToast = (toast) => {
     const id = `${Date.now()}-${toast.icon}`;
-    const newToast = { id: id, ...toast };
+    const newToast = { id, ...toast };
 
     setToastList((toastList) => {
       let toasts = [newToast, ...toastList];
