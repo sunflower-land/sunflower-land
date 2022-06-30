@@ -115,7 +115,7 @@ function updateRocks(oldRocks: Rocks, newRocks: Rocks): Rocks {
 }
 
 /**
- * Updates a rock with the new amount of mineral inside of it
+ * Updates a pebble
  */
 function updatePebbles(oldPebbles: Pebbles, newPebbles: Pebbles): Pebbles {
   return Object.keys(oldPebbles).reduce((pebbles, pebbleId) => {
