@@ -32,6 +32,7 @@ function hasFedChickens(game: GoblinState): boolean {
   const hasFedChickens = Object.values(game.chickens).some(
     (chicken) => Date.now() - chicken.fedAt < CHICKEN_TIME_TO_EGG
   );
+
   return hasFedChickens;
 }
 
@@ -90,7 +91,12 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return !cropIsPlanted({ item: "Parsnip", game });
   }
 
-  if (item === "Chicken Coop") {
+  if (
+    item === "Chicken Coop" ||
+    item === "Fat Chicken" ||
+    item === "Speed Chicken" ||
+    item === "Rich Chicken"
+  ) {
     return !hasFedChickens(game);
   }
 
