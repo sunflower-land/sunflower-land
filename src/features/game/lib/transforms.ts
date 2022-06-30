@@ -115,23 +115,6 @@ function updateRocks(oldRocks: Rocks, newRocks: Rocks): Rocks {
 }
 
 /**
- * Updates a pebble
- */
-function updatePebbles(oldPebbles: Pebbles, newPebbles: Pebbles): Pebbles {
-  return Object.keys(oldPebbles).reduce((pebbles, pebbleId) => {
-    const id = Number(pebbleId);
-    const rock = oldPebbles[id];
-    return {
-      ...pebbles,
-      [id]: {
-        ...rock,
-        amount: newPebbles[id].stone.amount,
-      } as LandExpansionRock,
-    };
-  }, {} as Pebbles);
-}
-
-/**
  * Merge RNG from server
  */
 export function updateGame(
@@ -171,7 +154,7 @@ export function updateGame(
         };
       }, {} as Record<number, Tree>),
       stones: updateRocks(oldGameState.stones, newGameState.stones),
-      pebbles: updatePebbles(oldGameState.pebbles, newGameState.pebbles),
+      pebbles: newGameState.pebbles,
       iron: updateRocks(oldGameState.iron, newGameState.iron),
       gold: updateRocks(oldGameState.gold, newGameState.gold),
       skills: newGameState.skills,
