@@ -140,7 +140,7 @@ export const INITIAL_PEBBLES: GameState["pebbles"] = {
       amount: 0.1,
       minedAt: 0,
     },
-    x: 1,
+    x: 2,
     y: -1,
     height: 1,
     width: 1,

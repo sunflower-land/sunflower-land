@@ -6,7 +6,6 @@ import Spritesheet, {
 
 import sparkSheet from "assets/resources/pebble/pebble_sheet.png";
 import dropSheet from "assets/resources/stone/stone_drop.png";
-import empty from "assets/resources/stone/stone_empty.png";
 import smallStone from "assets/resources/small_stone.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
@@ -16,7 +15,6 @@ import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
-import { ProgressBar } from "components/ui/ProgressBar";
 
 import { canMine } from "features/game/events/pebbleStrike";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
@@ -38,7 +36,6 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
   const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(true);
-  const [showLabel, setShowLabel] = useState(false);
   const [popover, setPopover] = useState<JSX.Element | null>();
 
   const [touchCount, setTouchCount] = useState(0);
@@ -140,18 +137,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
     }
   };
 
-  const handleHover = () => {
-    containerRef.current?.classList["add"]("cursor-not-allowed");
-    setShowLabel(true);
-  };
-
-  const handleMouseLeave = () => {
-    containerRef.current?.classList["remove"]("cursor-not-allowed");
-    setShowLabel(false);
-  };
-
   const timeLeft = getTimeLeft(pebble.stone.minedAt, PEBBLE_RECOVERY_TIME);
-  const percentage = 100 - (timeLeft / PEBBLE_RECOVERY_TIME) * 100;
 
   return (
     <div
@@ -161,16 +147,14 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
     >
       {!mined && (
         <div
-          onMouseEnter={handleHover}
-          onMouseLeave={handleMouseLeave}
           ref={containerRef}
-          className="group cursor-pointer  w-full h-full"
+          className="group cursor-pointer w-full h-full"
           onClick={strike}
         >
           <Spritesheet
             className="group-hover:img-highlight pointer-events-none transform z-10"
             style={{
-              width: `${GRID_WIDTH_PX * 5}px`,
+              width: `${GRID_WIDTH_PX * 4}px`,
               imageRendering: "pixelated",
             }}
             getInstance={(spritesheet) => {
@@ -193,7 +177,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
       <Spritesheet
         style={{
-          width: `${GRID_WIDTH_PX * 5}px`,
+          width: `${GRID_WIDTH_PX * 4}px`,
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
           imageRendering: "pixelated",
@@ -217,17 +201,16 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
       {/* Hide the empty Pebble behind  */}
       <img
-        src={empty}
-        className="absolute top-0 pointer-events-none -z-10"
+        src={smallStone}
+        className="absolute top-0 pointer-events-none -z-10 opacity-50"
         style={{
-          width: `${GRID_WIDTH_PX * 5}px`,
+          width: `${GRID_WIDTH_PX}px`,
         }}
       />
 
       <div
         className={classNames(
-          // "transition-opacity pointer-events-none absolute top-12 left-8",
-          "transition-opacity pointer-events-none absolute top-1 left-1",
+          "transition-opacity pointer-events-none absolute top-12 left-8",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
@@ -240,12 +223,12 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
       {mined && (
         <div
           className="absolute"
+          id="mined-stone"
           style={{
-            top: "106px",
-            left: "29px",
+            bottom: "90px",
+            left: "-25px",
           }}
         >
-          <ProgressBar percentage={percentage} seconds={timeLeft} />
           <TimeLeftPanel
             text="Recovers in:"
             timeLeft={timeLeft}
