@@ -4,8 +4,8 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import sparkSheet from "assets/resources/pebble/pebble_sheet.png";
-import dropSheet from "assets/resources/stone/stone_drop.png";
+import sparkSheet from "assets/resources/shrub/shrub-sheet.png";
+import dropSheet from "assets/resources/tree/chopped_sheet.png";
 import smallShrub from "assets/resources/green_bush.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
@@ -44,7 +44,7 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkGif = useRef<SpriteSheetInstance>();
-  const minedGif = useRef<SpriteSheetInstance>();
+  const choppedGif = useRef<SpriteSheetInstance>();
 
   const [showShrubTimeLeft, setShowShrubTimeLeft] = useState(false);
 
@@ -114,7 +114,7 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
         index: shrubIndex,
       });
       setCollecting(true);
-      minedGif.current?.goToAndPlay(0);
+      choppedGif.current?.goToAndPlay(0);
 
       displayPopover(
         <div className="flex">
@@ -177,20 +177,22 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
 
       <Spritesheet
         style={{
-          width: `${GRID_WIDTH_PX * 4}px`,
+          width: `${GRID_WIDTH_PX}px`,
+          // Line it up with the click area
+          // transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
           imageRendering: "pixelated",
         }}
-        className="pointer-events-none z-20"
+        className="absolute bottom-0 pointer-events-none top-0  -z-10"
         getInstance={(spritesheet) => {
-          minedGif.current = spritesheet;
+          choppedGif.current = spritesheet;
         }}
         image={dropSheet}
-        widthFrame={91}
-        heightFrame={66}
-        fps={18}
-        steps={7}
+        widthFrame={266}
+        heightFrame={168}
+        fps={20}
+        steps={11}
         direction={`forward`}
         autoplay={false}
         loop={true}
