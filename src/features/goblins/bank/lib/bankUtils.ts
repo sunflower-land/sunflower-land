@@ -112,7 +112,7 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
 
   const goldReady = Object.values(game?.gold).every((gold) => canMine(gold));
 
-  // Make sure golds are not replenishing
+  // Make sure gold is not replenishing
   if (item === "Nugget") {
     return goldReady;
   }
