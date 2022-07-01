@@ -108,6 +108,17 @@ export const Field: React.FC<Props> = ({
       return;
     }
 
+    if (
+      selectedItem === "Rusty Shovel" &&
+      !isCropReady(now, field.plantedAt, CROPS()[field.name].harvestSeconds)
+    ) {
+      // TODO - show confirmation modal
+      gameService.send("item.removed", {
+        index: fieldIndex,
+      });
+      return;
+    }
+
     // Plant
     if (!field) {
       try {

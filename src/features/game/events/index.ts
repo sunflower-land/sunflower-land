@@ -2,6 +2,7 @@ import { craft, CraftAction } from "./craft";
 import { sell, SellAction } from "./sell";
 import { plant, PlantAction } from "./plant";
 import { harvest, HarvestAction } from "./harvest";
+import { removeCrop, RemoveCropAction } from "./removeCrop";
 import { mineGold, GoldMineAction } from "./goldMine";
 import { mineStone, StoneMineAction } from "./stoneMine";
 import { mineIron, IronMineAction } from "./ironMine";
@@ -25,7 +26,8 @@ export type GameEvent =
   | OpenRewardAction
   | CollectAction
   | FeedAction
-  | TradeAction;
+  | TradeAction
+  | RemoveCropAction;
 
 type EventName = Extract<GameEvent, { type: string }>["type"];
 
@@ -53,4 +55,5 @@ export const EVENTS: Handlers = {
   "chicken.collectEgg": collectEggs,
   "chicken.feed": feedChicken,
   "item.traded": trade,
+  "item.removed": removeCrop,
 };

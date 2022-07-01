@@ -130,7 +130,8 @@ export type Tool =
   | "Stone Pickaxe"
   | "Iron Pickaxe"
   | "Hammer"
-  | "Rod";
+  | "Rod"
+  | "Rusty Shovel";
 
 export type Food =
   | "Pumpkin Soup"
@@ -480,6 +481,13 @@ export const TOOLS: Record<Tool, CraftableItem> = {
       },
     ],
     disabled: true,
+  },
+  // TODO - technically a rusty shovel is not "craftable", and shouldn't show-up in tools shop. Think about this.
+  "Rusty Shovel": {
+    name: "Rusty Shovel",
+    description: "An old rusty shovel. Equip to remove unwanted crops.",
+    tokenAmount: new Decimal(0),
+    ingredients: [],
   },
 };
 
