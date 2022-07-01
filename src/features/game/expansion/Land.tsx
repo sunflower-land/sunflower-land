@@ -2,7 +2,6 @@ import React, { useContext, useLayoutEffect } from "react";
 import genesisBlock from "assets/land/levels/1.png";
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import shrub from "assets/resources/green_bush.png";
 import { MapPlacement } from "./components/MapPlacement";
 import { useActor } from "@xstate/react";
 import { Context } from "../GameProvider";
@@ -10,6 +9,7 @@ import { getTerrainImageByKey } from "../lib/getTerrainImageByKey";
 import { getKeys } from "../types/craftables";
 import { Plot } from "features/farming/crops/components/landExpansion/Plot";
 import { Pebble } from "./components/resources/Pebble";
+import { Shrub } from "./components/resources/Shrub";
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -44,10 +44,11 @@ export const Land: React.FC = () => {
 
           return (
             <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-              <img src={shrub} className="h-full w-full" />
+              <Shrub shrubIndex={0} />
             </MapPlacement>
           );
         })}
+
         {/* Example placement of pebbles */}
         {getKeys(pebbles).map((index) => {
           const { x, y, width, height } = pebbles[index];
