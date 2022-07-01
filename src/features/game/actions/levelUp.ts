@@ -10,6 +10,7 @@ type Request = {
   token: string;
   fingerprint: string;
   skill: SkillName;
+  offset: number;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -24,7 +25,7 @@ export async function levelUp(request: Request) {
       {
         type: "skill.learned",
         skill: request.skill,
-        createdAt: new Date().toISOString(),
+        createdAt: new Date(Date.now() + request.offset).toISOString(),
       },
     ],
   });
