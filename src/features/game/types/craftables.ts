@@ -22,7 +22,8 @@ export type CraftableName =
   | SeedName
   | Food
   | Animal
-  | Flag;
+  | Flag
+  | Shovel;
 
 export interface Craftable {
   name: CraftableName;
@@ -59,6 +60,8 @@ export interface CraftableItem {
 }
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
+
+export type Shovel = "Rusty Shovel";
 
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
@@ -130,8 +133,7 @@ export type Tool =
   | "Stone Pickaxe"
   | "Iron Pickaxe"
   | "Hammer"
-  | "Rod"
-  | "Rusty Shovel";
+  | "Rod";
 
 export type Food =
   | "Pumpkin Soup"
@@ -482,11 +484,12 @@ export const TOOLS: Record<Tool, CraftableItem> = {
     ],
     disabled: true,
   },
-  // TODO - technically a rusty shovel is not "craftable", and shouldn't show-up in tools shop. Think about this.
+};
+
+export const SHOVELS: Record<Shovel, CraftableItem> = {
   "Rusty Shovel": {
     name: "Rusty Shovel",
-    description: "An old rusty shovel. Equip to remove unwanted crops.",
-    tokenAmount: new Decimal(0),
+    description: "An old rusty shovel. Equip to start removing unwanted crops.",
     ingredients: [],
   },
 };
@@ -797,6 +800,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...ROCKET_ITEMS,
   ...QUEST_ITEMS,
   ...MUTANT_CHICKENS,
+  ...SHOVELS,
 });
 
 /**
