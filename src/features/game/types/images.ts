@@ -185,6 +185,7 @@ import {
   CRAFTABLES,
   LimitedItem,
   MUTANT_CHICKENS,
+  SHOVELS,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
@@ -361,7 +362,7 @@ export const ITEM_DETAILS: Items = {
     image: rod,
   },
   "Rusty Shovel": {
-    ...TOOLS["Rusty Shovel"],
+    ...SHOVELS["Rusty Shovel"],
     image: rustyShovel,
   },
 

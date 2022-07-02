@@ -489,7 +489,7 @@ export const TOOLS: Record<Tool, CraftableItem> = {
 export const SHOVELS: Record<Shovel, CraftableItem> = {
   "Rusty Shovel": {
     name: "Rusty Shovel",
-    description: "An old rusty shovel. Equip to start removing unwanted crops.",
+    description: "It's old and rusty. Equip to start removing unwanted crops.",
     ingredients: [],
   },
 };
