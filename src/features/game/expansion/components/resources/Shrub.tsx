@@ -50,7 +50,7 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
 
   const shrub = game.context.state.shrubs[shrubIndex];
   // Users will need to refresh to chop the tree again
-  const mined = !canChop(shrub);
+  const chopped = !canChop(shrub);
   const { setToast } = useContext(ToastContext);
 
   // Reset the shake count when clicking outside of the component
@@ -80,7 +80,7 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
   // Show/Hide Time left on hover
 
   const handleMouseHoverShrub = () => {
-    if (mined) setShowShrubTimeLeft(true);
+    if (chopped) setShowShrubTimeLeft(true);
   };
 
   const handleMouseLeaveShrub = () => {
@@ -97,16 +97,16 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
 
       setTouchCount((count) => count + 1);
 
-      // On second strike, mine
+      // On second strike, chop
       if (touchCount > 0 && touchCount === HITS - 1) {
-        mine();
+        chop();
         miningFallAudio.play();
         setTouchCount(0);
       }
     } else return;
   };
 
-  const mine = async () => {
+  const chop = async () => {
     setTouchCount(0);
 
     try {
@@ -141,20 +141,21 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
 
   return (
     <div
-      className="relative z-10"
+      className="h-full w-full z-10"
+      style={{ border: "2px solid red" }}
       onMouseEnter={handleMouseHoverShrub}
       onMouseLeave={handleMouseLeaveShrub}
     >
-      {!mined && (
+      {!chopped && (
         <div
           ref={containerRef}
           className="group cursor-pointer w-full h-full"
           onClick={strike}
         >
           <Spritesheet
-            className="group-hover:img-highlight pointer-events-none transform z-10"
+            className="group-hover:img-highlight pointer-events-none z-10"
             style={{
-              width: `${GRID_WIDTH_PX * 4}px`,
+              width: `${GRID_WIDTH_PX * 1.5}px`,
               imageRendering: "pixelated",
             }}
             getInstance={(spritesheet) => {
@@ -179,12 +180,12 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
         style={{
           width: `${GRID_WIDTH_PX}px`,
           // Line it up with the click area
-          // transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+          transform: `translateX(-${GRID_WIDTH_PX * 15}px)`,
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
           imageRendering: "pixelated",
         }}
-        className="absolute bottom-0 pointer-events-none top-0  -z-10"
+        className="pointer-events-none -z-10"
         getInstance={(spritesheet) => {
           choppedGif.current = spritesheet;
         }}
@@ -204,9 +205,9 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
       {/* Hide the empty Shrub behind  */}
       <img
         src={smallShrub}
-        className="absolute top-0 pointer-events-none -z-10 opacity-50"
+        className="absolute top-0 pointer-events-none opacity-50"
         style={{
-          width: `${GRID_WIDTH_PX}px`,
+          width: `${GRID_WIDTH_PX * 2}px`,
         }}
       />
 
@@ -222,13 +223,13 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
         <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 2) * 100} />
       </div>
 
-      {mined && (
+      {chopped && (
         <div
           className="absolute"
-          id="mined-stone"
+          id="chopped-shrub"
           style={{
             bottom: "90px",
-            left: "-25px",
+            left: "-30px",
           }}
         >
           <TimeLeftPanel
