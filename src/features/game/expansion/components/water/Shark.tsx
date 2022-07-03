@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import sharkRight from "assets/animals/shark-right.gif";
 import sharkLeft from "assets/animals/shark-left.gif";
+import { randomBetweenMaxInclusive } from "../../lib/randomBetweenMaxInclusive";
 
-const randomBetweenMaxInclusive = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
 const blankPng =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
 const imageSources = [sharkLeft, blankPng, sharkRight, blankPng];
@@ -15,7 +13,11 @@ const getSharkPosition = () => {
   return { top: randomTop, left: randomLeft };
 };
 
-const Shark: React.FC = () => {
+interface Props {
+  side?: string;
+}
+
+const Shark: React.FC<Props> = ({ side }) => {
   const timer = useRef<any>(null);
   const [position, setPosition] = useState(getSharkPosition());
   const [imageSourceIndex, setImageSourceIndex] = useState<number>(1);
@@ -44,14 +46,7 @@ const Shark: React.FC = () => {
   }, []);
 
   return (
-    <div
-      className="absolute top-1/2 -translate-y-20 w-full"
-      style={{
-        height: "280px",
-        left: "-200px",
-        width: "calc(100% + 180px)",
-      }}
-    >
+    <div className={`absolute ${side}-0 h-2/5 w-full`}>
       <img
         className="absolute"
         src={imageSources[imageSourceIndex]}
