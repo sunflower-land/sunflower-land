@@ -2,6 +2,7 @@ import chicken from "assets/announcements/chickens.gif";
 import nugget from "assets/announcements/nugget.gif";
 import nomad from "assets/announcements/nomad.gif";
 import cakes from "assets/announcements/cakes.png";
+import rooster from "assets/announcements/rooster.png";
 
 export interface Announcement {
   date: Date;
@@ -15,6 +16,16 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2022-07-04T00:00:00"),
+    title: "Rooster",
+    notes: [
+      "The rooster is now available!",
+      "Increase mutant chicken chance",
+      "Craft at Goblin Village",
+    ],
+    image: rooster,
+  },
   {
     date: new Date("2022-06-26T23:57:05.618Z"),
     title: "Cakes",
