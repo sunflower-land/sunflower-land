@@ -20,7 +20,6 @@ import {
   MachineInterpreter,
   MachineState,
 } from "../chickenMachine";
-import { getSecondsToEgg } from "features/game/events/collectEgg";
 import Spritesheet from "components/animation/SpriteAnimator";
 import {
   CHICKEN_TIME_TO_EGG,
@@ -100,8 +99,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const percentageComplete = getPercentageComplete(chicken?.fedAt);
 
   const chickenContext: Partial<ChickenContext> | undefined = chicken && {
-    timeToEgg: chicken && getSecondsToEgg(chicken.fedAt),
-    isFed: true,
+    fedAt: chicken.fedAt,
   };
 
   // useInterpret returns a static reference (to just the interpreted machine) which will not rerender when its state changes
@@ -160,8 +158,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
     const chicken = chickens[index];
 
     service.send("FEED", {
-      timeToEgg: getSecondsToEgg(chicken.fedAt),
-      isFed: true,
+      fedAt: chicken.fedAt,
     });
 
     setToast({
