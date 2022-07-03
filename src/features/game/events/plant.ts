@@ -68,7 +68,7 @@ export const getCropTime = (crop: CropName, inventory: Inventory) => {
 /**
  * Set a plantedAt in the past to make a crop grow faster
  */
-function getPlantedAt({
+export function getPlantedAt({
   crop,
   inventory,
   createdAt,

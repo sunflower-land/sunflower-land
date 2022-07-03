@@ -171,7 +171,7 @@ export const Field: React.FC<Props> = ({
     >
       <Soil
         className="absolute bottom-0"
-        field={field}
+        plantedCrop={field}
         showCropDetails={showCropDetails}
       />
 

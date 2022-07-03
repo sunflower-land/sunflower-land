@@ -5,13 +5,12 @@ import soil from "assets/land/soil2.png";
 
 import { getTimeLeft, secondsToMidString } from "lib/utils/time";
 
-import { ProgressBar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 
 import { CROPS } from "features/game/types/crops";
 import { addNoise, RandomID } from "lib/images";
 
-import { LIFECYCLE } from "../lib/plant";
+import { LIFECYCLE } from "../../lib/plant";
 import classnames from "classnames";
 import { PlantedCrop } from "features/game/types/game";
 
@@ -53,7 +52,7 @@ export const Soil: React.FC<Props> = ({
     setTimer((count) => count + 1);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (plantedCrop) {
       setHarvestTime();
       const interval = window.setInterval(setHarvestTime, 1000);
@@ -75,14 +74,11 @@ export const Soil: React.FC<Props> = ({
     const isAlmostReady = percentage >= 50;
 
     return (
-      <div className="relative w-full h-full">
+      <div id="soil" className="relative w-full h-full">
         <img
           src={isAlmostReady ? lifecycle.almost : lifecycle.seedling}
           className={classnames("w-full", className)}
         />
-        <div className="absolute w-full -bottom-4 z-10">
-          <ProgressBar percentage={percentage} seconds={timeLeft} />
-        </div>
         <InnerPanel
           className={classNames(
             "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-1 z-20 pointer-events-none",
