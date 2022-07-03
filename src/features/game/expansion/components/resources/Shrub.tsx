@@ -142,7 +142,6 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
   return (
     <div
       className="h-full w-full z-10"
-      style={{ border: "2px solid red" }}
       onMouseEnter={handleMouseHoverShrub}
       onMouseLeave={handleMouseLeaveShrub}
     >
