@@ -109,9 +109,23 @@ export const WithdrawItems: React.FC<Props> = ({
     inventory[item]?.gt(0)
   );
 
-  const selectedItems = (Object.keys(selected) as InventoryItemName[]).filter(
-    (item) => selected[item]?.gt(0)
+  const selectedItems = getKeys(selected).filter((item) =>
+    selected[item]?.gt(0)
   );
+
+  const getTotalNumberOfItemType = (itemName: InventoryItemName) => {
+    const state = goblinState.context.state;
+    // Return the number of chickens minus the ones that are currently laying eggs
+    if (itemName === "Chicken" && inventory["Chicken"]) {
+      const totalChicksLayingEggs = Object.keys(state.chickens).length;
+      // Only hungry (unfed) chickens can be withdrawn
+      const totalHungryChicks = inventory["Chicken"].sub(totalChicksLayingEggs);
+
+      return new Decimal(totalHungryChicks);
+    }
+
+    return inventory[itemName] || new Decimal(0);
+  };
 
   return (
     <>
@@ -143,10 +157,11 @@ export const WithdrawItems: React.FC<Props> = ({
         <div className="flex flex-wrap h-fit -ml-1.5">
           {inventoryItems.map((itemName) => {
             const details = makeItemDetails(itemName);
+            const gameState = goblinState.context.state;
 
             const withdrawable = canWithdraw({
               item: itemName,
-              game: goblinState.context.state,
+              game: gameState,
             });
 
             const cooldownInProgress =
@@ -156,12 +171,15 @@ export const WithdrawItems: React.FC<Props> = ({
                 mintedAt: details?.mintedAt,
               }) > 0;
 
-            const locked = !withdrawable || cooldownInProgress;
+            // This amount is used to block withdrawal of chickens who are in the process of laying eggs.
+            const totalCountOfItemType = getTotalNumberOfItemType(itemName);
+            // Once all the chickens that are available have been added the rest will be locked
+            const locked =
+              !withdrawable || cooldownInProgress || totalCountOfItemType.eq(0);
 
             return (
               <Box
-                count={inventory[itemName]}
-                // isSelected={selected.includes(itemName)}
+                count={totalCountOfItemType}
                 key={itemName}
                 onClick={() => onAdd(itemName)}
                 image={details.image}

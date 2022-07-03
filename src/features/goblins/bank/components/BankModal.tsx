@@ -35,15 +35,8 @@ export const BankModal: React.FC<Props> = ({ onClose }) => {
           onClick={onClose}
         />
       </div>
-
-      <div
-        style={{
-          minHeight: "200px",
-        }}
-      >
-        {tab === "deposit" && <Deposit />}
-        {tab === "withdraw" && <Withdraw onClose={onClose} />}
-      </div>
+      {tab === "deposit" && <Deposit />}
+      {tab === "withdraw" && <Withdraw onClose={onClose} />}
     </Panel>
   );
 };
