@@ -16,13 +16,17 @@ export const Water: React.FC = () => {
     // Container
     <div
       style={{
-        height: "650px",
-        width: "1650px",
-        left: "calc(50% - 1100px)",
-        top: "calc(50% - 320px)",
+        height: "inherit",
+        width: "calc(100%)",
+        left: "0",
+        top: "0",
       }}
       className="absolute"
     >
+      {/* Above Land */}
+      <Shark side="top" />
+      {/* Below Land */}
+      <Shark side="bottom" />
       <div className="h-full w-full relative">
         {/* Navigation Center Point */}
         <span
@@ -34,16 +38,16 @@ export const Water: React.FC = () => {
           src={dragonfly}
           className="absolute right-16 w-10 bottom-36 animate-float"
         />
-
         {/* <Frog /> */}
-        <Shark />
+
         <img
           src={goblinSwimming}
           className="absolute "
           style={{
             width: `${GRID_WIDTH_PX * 5}px`,
-            left: `${GRID_WIDTH_PX * 28}px`,
-            top: `${GRID_WIDTH_PX * 2}px`,
+            left: `${GRID_WIDTH_PX * 36}px`,
+            top: `${GRID_WIDTH_PX * 22}px`,
+            zIndex: "2",
           }}
         />
 
@@ -62,9 +66,10 @@ export const Water: React.FC = () => {
           className="absolute "
           style={{
             width: `${GRID_WIDTH_PX * 0.85}px`,
-            left: `${GRID_WIDTH_PX * 30}px`,
-            top: `${GRID_WIDTH_PX * 3}px`,
+            left: `${GRID_WIDTH_PX * 42}px`,
+            top: `${GRID_WIDTH_PX * 16}px`,
             transform: "scaleX(-1)",
+            zIndex: "2",
           }}
         />
       </div>
