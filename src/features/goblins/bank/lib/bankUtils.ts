@@ -96,7 +96,9 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
 
   // Make sure stones are not replenishing
   if (item === "Tunnel Mole") {
-    const stoneReady = Object.values(game?.stones).every((stone) => canMine(stone));
+    const stoneReady = Object.values(game?.stones).every((stone) =>
+      canMine(stone)
+    );
     return stoneReady;
   }
 
