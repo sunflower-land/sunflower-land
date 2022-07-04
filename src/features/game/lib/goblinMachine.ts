@@ -78,9 +78,6 @@ export type BlockchainEvent =
   | {
       type: "OPENING_WISHING_WELL";
     }
-  | {
-      type: "RESET";
-    }
   | WithdrawEvent
   | MintEvent
   | OpeningWishingWellEvent
