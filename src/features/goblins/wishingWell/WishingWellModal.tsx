@@ -111,7 +111,7 @@ const WaitingForWish = ({ lockedTime, onClose }: WaitingForWishArgs) => (
         Be aware that only the LP tokens you held at the time the wish was made
         will be considered when the wish is granted.
       </p>
-      <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#]">
+      <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">
         <img src={alert} alt="alert" className="mr-2 w-6" />
         <span className="text-xs">
           {`If you remove your liquidity during this time you won't receive any

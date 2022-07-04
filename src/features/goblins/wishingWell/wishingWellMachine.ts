@@ -26,7 +26,7 @@ export interface Context {
   farmAddress?: string;
   token?: string;
   balance?: Decimal;
-  totalRewards?: string;
+  totalRewards?: Decimal;
 }
 
 type CaptchaEvent = {
