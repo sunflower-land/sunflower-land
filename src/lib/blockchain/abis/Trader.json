@@ -1,0 +1,526 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract SunflowerLandInventory",
+        "name": "_inventory",
+        "type": "address"
+      },
+      {
+        "internalType": "contract SunflowerLandToken",
+        "name": "_token",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_communityTaxAddress",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "_maxSlots", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_maxDailyListings",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "sellerFarmId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "resourceId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resourceAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "sfl",
+        "type": "uint256"
+      }
+    ],
+    "name": "Cancelled",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "sellerFarmId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "resourceId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resourceAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "sfl",
+        "type": "uint256"
+      }
+    ],
+    "name": "Listed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "Paused",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "sellerFarmId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "buyerFarmId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "resourceId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resourceAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "sfl",
+        "type": "uint256"
+      }
+    ],
+    "name": "Purchased",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "Unpaused",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_game", "type": "address" }
+    ],
+    "name": "addGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "_resourceIds",
+        "type": "uint256[]"
+      },
+      { "internalType": "uint256[]", "name": "_limits", "type": "uint256[]" }
+    ],
+    "name": "addLimitBatch",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_listingId", "type": "uint256" },
+      { "internalType": "uint256", "name": "_farmId", "type": "uint256" }
+    ],
+    "name": "cancel",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "name": "dailyListingCount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "name": "farmSlots",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_farmId", "type": "uint256" },
+      { "internalType": "uint256", "name": "_slots", "type": "uint256" }
+    ],
+    "name": "getFarmSlots",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "enum SunflowerLandTrader.Status",
+            "name": "status",
+            "type": "uint8"
+          },
+          { "internalType": "uint256", "name": "listingId", "type": "uint256" },
+          { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+          {
+            "internalType": "address",
+            "name": "farmAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "resourceId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "resourceAmount",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "sfl", "type": "uint256" },
+          { "internalType": "uint256", "name": "tax", "type": "uint256" },
+          { "internalType": "uint256", "name": "listedAt", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "cancelledAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "purchasedAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "purchasedById",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct SunflowerLandTrader.Listing[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "_resourceIds",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "getLimitBatch",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_farmId", "type": "uint256" }
+    ],
+    "name": "getRemainingListings",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_slotId", "type": "uint256" },
+      { "internalType": "uint256", "name": "_farmId", "type": "uint256" },
+      { "internalType": "address", "name": "_farmAddress", "type": "address" },
+      { "internalType": "uint256", "name": "_resourceId", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_resourceAmount",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "_sfl", "type": "uint256" },
+      { "internalType": "uint256", "name": "_tax", "type": "uint256" }
+    ],
+    "name": "list",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "listings",
+    "outputs": [
+      {
+        "internalType": "enum SunflowerLandTrader.Status",
+        "name": "status",
+        "type": "uint8"
+      },
+      { "internalType": "uint256", "name": "listingId", "type": "uint256" },
+      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+      { "internalType": "address", "name": "farmAddress", "type": "address" },
+      { "internalType": "uint256", "name": "resourceId", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "resourceAmount",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "sfl", "type": "uint256" },
+      { "internalType": "uint256", "name": "tax", "type": "uint256" },
+      { "internalType": "uint256", "name": "listedAt", "type": "uint256" },
+      { "internalType": "uint256", "name": "cancelledAt", "type": "uint256" },
+      { "internalType": "uint256", "name": "purchasedAt", "type": "uint256" },
+      { "internalType": "uint256", "name": "purchasedById", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "listingsCount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" },
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" },
+      { "internalType": "bytes", "name": "", "type": "bytes" }
+    ],
+    "name": "onERC1155BatchReceived",
+    "outputs": [{ "internalType": "bytes4", "name": "", "type": "bytes4" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "bytes", "name": "", "type": "bytes" }
+    ],
+    "name": "onERC1155Received",
+    "outputs": [{ "internalType": "bytes4", "name": "", "type": "bytes4" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "paused",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_listingId", "type": "uint256" },
+      { "internalType": "uint256", "name": "_buyerFarmId", "type": "uint256" },
+      {
+        "internalType": "address",
+        "name": "_buyerFarmAddress",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "_sfl", "type": "uint256" }
+    ],
+    "name": "purchase",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_game", "type": "address" }
+    ],
+    "name": "removeGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "resourceLimits",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_communityTaxAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setCommunityTaxAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_maxDailyListings",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMaxDailyListings",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_maxSlots", "type": "uint256" }
+    ],
+    "name": "setMaxSlots",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }
+    ],
+    "name": "supportsInterface",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "unpause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
