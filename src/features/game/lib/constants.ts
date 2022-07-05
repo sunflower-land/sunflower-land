@@ -271,6 +271,8 @@ export const EMPTY: GameState = {
   fields: {},
   inventory: {
     "Chicken Coop": new Decimal(1),
+    Wood: new Decimal(50),
+    Gold: new Decimal(10),
   },
   chickens: {},
   stock: {},
