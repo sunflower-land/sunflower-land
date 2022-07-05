@@ -12,6 +12,7 @@ import { Forbidden } from "features/auth/components/Forbidden";
 import { Visiting } from "features/game/Visiting";
 import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
+import { CONFIG } from "lib/config";
 
 /**
  * Entry point for game which reflects the user session state
@@ -73,7 +74,9 @@ export const Navigation: React.FC = () => {
             )}
             <Route path="/farm/:id" element={<Humans key="farm" />} />
             <Route path="/visit/:id" element={<Visiting key="visit" />} />
-            <Route path="/land/:id" element={<LandExpansion key="land" />} />
+            {CONFIG.NETWORK !== "mainnet" && (
+              <Route path="/land/:id" element={<LandExpansion key="land" />} />
+            )}
             {/* Fallback */}
             <Route element={<Humans />} />
           </Routes>
