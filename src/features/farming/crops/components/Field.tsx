@@ -198,24 +198,27 @@ export const Field: React.FC<Props> = ({
       >
         {popover}
       </div>
-      <img
-        src={selectBox}
-        style={{
-          opacity: 0.1,
-          visibility: "hidden",
-        }}
-        className="absolute inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-20 cursor-pointer"
-        onClick={() => onClick(true)}
-      />
+
       {playing && (
-        <img
-          src={selectBox}
-          style={{
-            opacity: 0.1,
-          }}
-          className="absolute block inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-30 cursor-pointer"
-          onClick={() => onClick()}
-        />
+        <>
+          <img
+            src={selectBox}
+            style={{
+              opacity: 0.1,
+            }}
+            className="absolute block inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-30 cursor-pointer"
+            onClick={() => onClick()}
+          />
+          <img
+            src={selectBox}
+            style={{
+              opacity: 0.1,
+              visibility: "hidden",
+            }}
+            className="absolute block inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-20 cursor-pointer"
+            onClick={() => onClick(true)}
+          />
+        </>
       )}
       <CropReward
         reward={reward}
