@@ -4,11 +4,10 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import sparkSheet from "assets/resources/pebble/pebble_sheet.png";
-import dropSheet from "assets/resources/stone/stone_drop.png";
+import sparkSheet from "assets/resources/pebble/pebble_sheet2.png";
 import smallStone from "assets/resources/small_stone.png";
+import smallStone2 from "assets/resources/resized-pebble.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -152,10 +151,9 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
           onClick={strike}
         >
           <Spritesheet
-            className="group-hover:img-highlight pointer-events-none transform z-10"
+            className="group-hover:img-highlight pointer-events-none z-10"
             style={{
-              width: `${GRID_WIDTH_PX * 4}px`,
-              imageRendering: "pixelated",
+              transform: "scale(2)",
             }}
             getInstance={(spritesheet) => {
               sparkGif.current = spritesheet;
@@ -175,7 +173,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
         </div>
       )}
 
-      <Spritesheet
+      {/* <Spritesheet
         style={{
           width: `${GRID_WIDTH_PX * 4}px`,
           opacity: collecting ? 1 : 0,
@@ -197,25 +195,22 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
         onLoopComplete={(spritesheet) => {
           spritesheet.pause();
         }}
-      />
+      /> */}
 
       {/* Hide the empty Pebble behind  */}
       <img
-        src={smallStone}
-        className="absolute top-0 pointer-events-none -z-10 opacity-50"
+        src={smallStone2}
+        className="absolute pointer-events-none -z-10 opacity-50"
         style={{
-          width: `${GRID_WIDTH_PX}px`,
+          transform: "scale(2)",
         }}
       />
 
       <div
-        className={classNames(
-          "transition-opacity pointer-events-none absolute top-12 left-8",
-          {
-            "opacity-100": touchCount > 0,
-            "opacity-0": touchCount === 0,
-          }
-        )}
+        className={classNames("transition-opacity pointer-events-none", {
+          "opacity-100": touchCount > 0,
+          "opacity-0": touchCount === 0,
+        })}
       >
         <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 2) * 100} />
       </div>
