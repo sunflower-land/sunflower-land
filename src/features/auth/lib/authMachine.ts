@@ -370,7 +370,7 @@ export const authMachine = createMachine<
             entry: (context, event) => {
               const { screen = "farm" } = event as StartEvent;
 
-              window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
+              // window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
             },
             on: {
               REFRESH: {
