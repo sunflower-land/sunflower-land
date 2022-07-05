@@ -5,6 +5,14 @@ import TraderJSON from "./abis/Trader.json";
 
 const address = CONFIG.TRADER_CONTRACT;
 
+export type Listing = {
+  id: number;
+};
+
+export type FarmSlot = {
+  slotId: number;
+  listing?: Listing;
+};
 /**
  * Trader contract
  */
@@ -23,11 +31,17 @@ export class Trader {
     );
   }
 
-  public async getListing(id: number) {
-    const testListing = await this.contract.methods
-      .listings(id)
-      .call({ from: this.account });
+  public async getFarmSlots(farmId: number): Promise<FarmSlot[]> {
+    const farmSlots: { status: string; listingId: string }[] =
+      await this.contract.methods.getFarmSlots(farmId, 3).call();
 
-    console.log({ testListing });
+    console.log(farmSlots);
+
+    return farmSlots.map((slot, index) => {
+      if (slot.status == "0") {
+        return { slotId: index };
+      }
+      return { slotId: index, listing: { id: Number(slot.listingId) } };
+    });
   }
 }

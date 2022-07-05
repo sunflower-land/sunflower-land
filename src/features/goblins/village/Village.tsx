@@ -15,6 +15,7 @@ import { GoblinMachineState } from "features/game/lib/goblinMachine";
 import { AncientTree } from "../quest/AncientTree";
 import { AncientRock } from "../quest/AncientRock";
 import { AncientDoor } from "../quest/AncientDoor";
+import { Trader } from "../trader/Trader";
 
 interface Props {
   state: GoblinMachineState["value"];
@@ -46,6 +47,7 @@ export const Village: React.FC<Props> = ({ state }) => {
       <AncientTree />
       <AncientRock />
       <AncientDoor />
+      <Trader />
       {state !== "loading" && <Rocket />}
     </div>
   );
