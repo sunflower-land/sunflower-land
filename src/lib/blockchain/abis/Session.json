@@ -2,138 +2,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_game",
-        "type": "address"
-      }
-    ],
-    "name": "addGameRole",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "mintId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "ingredientIds",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "ingredientAmounts",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256",
-            "name": "maxSupply",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "cooldownSeconds",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "tokenAmount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bool",
-            "name": "enabled",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct SunflowerLandSession.Recipe[]",
-        "name": "_recipes",
-        "type": "tuple[]"
-      }
-    ],
-    "name": "addRecipeBatch",
-    "outputs": [
-      {
-        "internalType": "bool[]",
-        "name": "",
-        "type": "bool[]"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "deposit",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "destroy",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes",
-        "name": "signature",
-        "type": "bytes"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "sessionId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "nextSessionId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "farmId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "mintId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "mintFee",
-        "type": "uint256"
-      }
-    ],
-    "name": "mint",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "success",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "contract SunflowerLandInventory",
         "name": "_inventory",
         "type": "address"
@@ -146,6 +14,32 @@
       {
         "internalType": "contract SunflowerLand",
         "name": "_farm",
+        "type": "address"
+      },
+      {
+        "internalType": "contract SunflowerLandTrader",
+        "name": "_trader",
+        "type": "address"
+      },
+      { "internalType": "address", "name": "_wishingWell", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "_withdrawFeeWallet",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_syncFeeWallet",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_communityTreasury",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_tradeFeeWallet",
         "type": "address"
       }
     ],
@@ -170,45 +64,6 @@
     ],
     "name": "OwnershipTransferred",
     "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_game",
-        "type": "address"
-      }
-    ],
-    "name": "removeGameRole",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "removeRecipeBatch",
-    "outputs": [
-      {
-        "internalType": "bool[]",
-        "name": "",
-        "type": "bool[]"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
   },
   {
     "anonymous": false,
@@ -237,375 +92,18 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "bool",
-        "name": "_liquify",
-        "type": "bool"
-      }
+      { "internalType": "address", "name": "_game", "type": "address" }
     ],
-    "name": "setLiquify",
+    "name": "addGameRole",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "_ids",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "_amounts",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "setMaxItemAmounts",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMaxSessionSFL",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMintAllowance",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "_farmIds",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_mintId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_mintedAt",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMintedAtBulk",
-    "outputs": [
-      {
-        "internalType": "bool[]",
-        "name": "",
-        "type": "bool[]"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_wishingWell",
-        "type": "address"
-      }
-    ],
-    "name": "setWishingWell",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_tax",
-        "type": "uint256"
-      }
-    ],
-    "name": "setWishingWellTax",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes",
-        "name": "signature",
-        "type": "bytes"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "sessionId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "nextSessionId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "farmId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "mintIds",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "mintAmounts",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "burnIds",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "burnAmounts",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "int256",
-        "name": "tokens",
-        "type": "int256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "syncFee",
-        "type": "uint256"
-      }
-    ],
-    "name": "sync",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "success",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_signer",
-        "type": "address"
-      }
-    ],
-    "name": "transferSigner",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_team",
-        "type": "address"
-      }
-    ],
-    "name": "transferSyncFeeWallet",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_team",
-        "type": "address"
-      }
-    ],
-    "name": "transferWithdrawFeeWallet",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes",
-        "name": "signature",
-        "type": "bytes"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "sessionId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "nextSessionId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "farmId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "amounts",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256",
-        "name": "sfl",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "tax",
-        "type": "uint256"
-      }
-    ],
-    "name": "withdraw",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "executed",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "_ids",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "getMaxItemAmounts",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "farmId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "mintIds",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "getMintedAtBatch",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
-    "name": "getRecipe",
-    "outputs": [
       {
         "components": [
-          {
-            "internalType": "uint256",
-            "name": "mintId",
-            "type": "uint256"
-          },
+          { "internalType": "uint256", "name": "mintId", "type": "uint256" },
           {
             "internalType": "uint256[]",
             "name": "ingredientIds",
@@ -616,11 +114,7 @@
             "name": "ingredientAmounts",
             "type": "uint256[]"
           },
-          {
-            "internalType": "uint256",
-            "name": "maxSupply",
-            "type": "uint256"
-          },
+          { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
           {
             "internalType": "uint256",
             "name": "cooldownSeconds",
@@ -631,11 +125,112 @@
             "name": "tokenAmount",
             "type": "uint256"
           },
+          { "internalType": "bool", "name": "enabled", "type": "bool" }
+        ],
+        "internalType": "struct SunflowerLandSession.Recipe[]",
+        "name": "_recipes",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "addRecipeBatch",
+    "outputs": [{ "internalType": "bool[]", "name": "", "type": "bool[]" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "signature", "type": "bytes" },
+      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+      { "internalType": "uint256", "name": "listingId", "type": "uint256" }
+    ],
+    "name": "cancelTrade",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "communityTax",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "deposit",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "destroy",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "name": "executed",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256[]", "name": "_ids", "type": "uint256[]" }
+    ],
+    "name": "getMaxItemAmounts",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+      { "internalType": "uint256[]", "name": "mintIds", "type": "uint256[]" }
+    ],
+    "name": "getMintedAtBatch",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }],
+    "name": "getRecipe",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "mintId", "type": "uint256" },
           {
-            "internalType": "bool",
-            "name": "enabled",
-            "type": "bool"
-          }
+            "internalType": "uint256[]",
+            "name": "ingredientIds",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "ingredientAmounts",
+            "type": "uint256[]"
+          },
+          { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "cooldownSeconds",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenAmount",
+            "type": "uint256"
+          },
+          { "internalType": "bool", "name": "enabled", "type": "bool" }
         ],
         "internalType": "struct SunflowerLandSession.Recipe",
         "name": "",
@@ -647,21 +242,13 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      }
+      { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }
     ],
     "name": "getRecipeBatch",
     "outputs": [
       {
         "components": [
-          {
-            "internalType": "uint256",
-            "name": "mintId",
-            "type": "uint256"
-          },
+          { "internalType": "uint256", "name": "mintId", "type": "uint256" },
           {
             "internalType": "uint256[]",
             "name": "ingredientIds",
@@ -672,11 +259,7 @@
             "name": "ingredientAmounts",
             "type": "uint256[]"
           },
-          {
-            "internalType": "uint256",
-            "name": "maxSupply",
-            "type": "uint256"
-          },
+          { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
           {
             "internalType": "uint256",
             "name": "cooldownSeconds",
@@ -687,11 +270,7 @@
             "name": "tokenAmount",
             "type": "uint256"
           },
-          {
-            "internalType": "bool",
-            "name": "enabled",
-            "type": "bool"
-          }
+          { "internalType": "bool", "name": "enabled", "type": "bool" }
         ],
         "internalType": "struct SunflowerLandSession.Recipe[]",
         "name": "",
@@ -703,31 +282,26 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      }
+      { "internalType": "uint256[]", "name": "_ids", "type": "uint256[]" }
+    ],
+    "name": "getResourceTaxes",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+      { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }
     ],
     "name": "getSession",
     "outputs": [
       {
         "components": [
-          {
-            "internalType": "bytes32",
-            "name": "id",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "uint256",
-            "name": "syncedAt",
-            "type": "uint256"
-          },
+          { "internalType": "bytes32", "name": "id", "type": "bytes32" },
+          { "internalType": "uint256", "name": "syncedAt", "type": "uint256" },
           {
             "internalType": "uint256[]",
             "name": "mintedAts",
@@ -744,91 +318,332 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
     ],
     "name": "getSessionId",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
     ],
     "name": "getSyncedAt",
-    "outputs": [
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "signature", "type": "bytes" },
+      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "uint256", "name": "slotId", "type": "uint256" },
+      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+      { "internalType": "uint256", "name": "resourceId", "type": "uint256" },
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "resourceAmount",
         "type": "uint256"
-      }
+      },
+      { "internalType": "uint256", "name": "sfl", "type": "uint256" },
+      { "internalType": "uint256", "name": "tax", "type": "uint256" },
+      { "internalType": "uint256", "name": "listFee", "type": "uint256" }
     ],
+    "name": "listTrade",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "signature", "type": "bytes" },
+      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+      { "internalType": "uint256", "name": "mintId", "type": "uint256" },
+      { "internalType": "uint256", "name": "mintFee", "type": "uint256" }
+    ],
+    "name": "mint",
+    "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "mintAllowance",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "mintedAmount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "owner",
-    "outputs": [
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "signature", "type": "bytes" },
+      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+      { "internalType": "uint256", "name": "listingId", "type": "uint256" },
+      { "internalType": "uint256", "name": "sfl", "type": "uint256" }
+    ],
+    "name": "purchaseTrade",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_game", "type": "address" }
+    ],
+    "name": "removeGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }
+    ],
+    "name": "removeRecipeBatch",
+    "outputs": [{ "internalType": "bool[]", "name": "", "type": "bool[]" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "resourceTax",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "sessions",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_tax", "type": "uint256" }
+    ],
+    "name": "setCommunityTax",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "_communityTreasury",
         "type": "address"
       }
     ],
-    "stateMutability": "view",
+    "name": "setCommunityTreasuy",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bool", "name": "_liquify", "type": "bool" }],
+    "name": "setLiquify",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+      { "internalType": "uint256[]", "name": "_ids", "type": "uint256[]" },
+      { "internalType": "uint256[]", "name": "_amounts", "type": "uint256[]" }
     ],
-    "name": "sessions",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
+    "name": "setMaxItemAmounts",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
     ],
+    "name": "setMaxSessionSFL",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+    ],
+    "name": "setMintAllowance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256[]", "name": "_farmIds", "type": "uint256[]" },
+      { "internalType": "uint256", "name": "_mintId", "type": "uint256" },
+      { "internalType": "uint256", "name": "_mintedAt", "type": "uint256" }
+    ],
+    "name": "setMintedAtBulk",
+    "outputs": [{ "internalType": "bool[]", "name": "", "type": "bool[]" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256[]", "name": "_ids", "type": "uint256[]" },
+      { "internalType": "uint256[]", "name": "_amounts", "type": "uint256[]" }
+    ],
+    "name": "setResourceTaxes",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_minimum", "type": "uint256" }
+    ],
+    "name": "setTeamWithrawalMinimum",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_wishingWell", "type": "address" }
+    ],
+    "name": "setWishingWell",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_tax", "type": "uint256" }
+    ],
+    "name": "setWishingWellTax",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "signature", "type": "bytes" },
+      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+      { "internalType": "uint256[]", "name": "mintIds", "type": "uint256[]" },
+      {
+        "internalType": "uint256[]",
+        "name": "mintAmounts",
+        "type": "uint256[]"
+      },
+      { "internalType": "uint256[]", "name": "burnIds", "type": "uint256[]" },
+      {
+        "internalType": "uint256[]",
+        "name": "burnAmounts",
+        "type": "uint256[]"
+      },
+      { "internalType": "int256", "name": "tokens", "type": "int256" },
+      { "internalType": "uint256", "name": "syncFee", "type": "uint256" }
+    ],
+    "name": "sync",
+    "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "syncedAt",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_signer", "type": "address" }
+    ],
+    "name": "transferSigner",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_team", "type": "address" }
+    ],
+    "name": "transferSyncFeeWallet",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_team", "type": "address" }
+    ],
+    "name": "transferWithdrawFeeWallet",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "wishingWellTax",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "signature", "type": "bytes" },
+      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+      { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" },
+      { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" },
+      { "internalType": "uint256", "name": "sfl", "type": "uint256" },
+      { "internalType": "uint256", "name": "tax", "type": "uint256" }
+    ],
+    "name": "withdraw",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]
