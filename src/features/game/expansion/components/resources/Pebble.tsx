@@ -4,27 +4,26 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import sparkSheet from "assets/resources/pebble/pebble_sheet2.png";
+import sparkSheet from "assets/resources/pebble/pebble_sheet.png";
 import smallStone from "assets/resources/small_stone.png";
-import smallStone2 from "assets/resources/resized-pebble.png";
 
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
 
-import { canMine } from "features/game/events/pebbleStrike";
+import {
+  canMine,
+  PEBBLE_RECOVERY_TIME,
+} from "features/game/events/pebbleStrike";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
+import classNames from "classnames";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 2;
-
-// 30 minutes
-const PEBBLE_RECOVERY_TIME = 30 * 60;
 
 interface Props {
   pebbleIndex: number;
@@ -140,10 +139,11 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
   return (
     <div
-      className="relative z-10"
+      className="relative z-10 w-full h-full"
       onMouseEnter={handleMouseHoverPebble}
       onMouseLeave={handleMouseLeavePebble}
     >
+      {/* Unmined pebble which is strikeable */}
       {!mined && (
         <div
           ref={containerRef}
@@ -153,14 +153,16 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
           <Spritesheet
             className="group-hover:img-highlight pointer-events-none z-10"
             style={{
-              transform: "scale(2)",
+              position: "absolute",
+              left: "-28px",
+              top: "-22px",
             }}
             getInstance={(spritesheet) => {
               sparkGif.current = spritesheet;
             }}
             image={sparkSheet}
-            widthFrame={48}
-            heightFrame={32}
+            widthFrame={96}
+            heightFrame={64}
             fps={24}
             steps={6}
             direction={`forward`}
@@ -172,56 +174,34 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
           />
         </div>
       )}
-
-      {/* <Spritesheet
-        style={{
-          width: `${GRID_WIDTH_PX * 4}px`,
-          opacity: collecting ? 1 : 0,
-          transition: "opacity 0.2s ease-in",
-          imageRendering: "pixelated",
-        }}
-        className="pointer-events-none z-20"
-        getInstance={(spritesheet) => {
-          minedGif.current = spritesheet;
-        }}
-        image={dropSheet}
-        widthFrame={91}
-        heightFrame={66}
-        fps={18}
-        steps={7}
-        direction={`forward`}
-        autoplay={false}
-        loop={true}
-        onLoopComplete={(spritesheet) => {
-          spritesheet.pause();
-        }}
-      /> */}
-
-      {/* Hide the empty Pebble behind  */}
-      <img
-        src={smallStone2}
-        className="absolute pointer-events-none -z-10 opacity-50"
-        style={{
-          transform: "scale(2)",
-        }}
-      />
-
+      {/* Mined Pebble  */}
+      {mined && (
+        <div className="absolute" style={{ top: "12px", left: "8px" }}>
+          <img
+            src={smallStone}
+            className="pointer-events-none -z-10 opacity-50"
+          />
+        </div>
+      )}
+      {/* Health bar shown when striking */}
       <div
-        className={classNames("transition-opacity pointer-events-none", {
-          "opacity-100": touchCount > 0,
-          "opacity-0": touchCount === 0,
-        })}
+        className={classNames(
+          "absolute top-10 left-1 transition-opacity pointer-events-none",
+          {
+            "opacity-100": touchCount > 0,
+            "opacity-0": touchCount === 0,
+          }
+        )}
       >
         <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 2) * 100} />
       </div>
-
+      {/* Recovery time panel */}
       {mined && (
         <div
           className="absolute"
-          id="mined-stone"
           style={{
-            bottom: "90px",
-            left: "-25px",
+            top: "41px",
+            left: "-26px",
           }}
         >
           <TimeLeftPanel
@@ -231,10 +211,10 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
           />
         </div>
       )}
-
+      {/* Popover showing amount of stone collected */}
       <div
         className={classNames(
-          "transition-opacity absolute top-24 w-40 left-20 z-20 pointer-events-none",
+          "transition-opacity absolute top-8 w-40 left-12 z-20 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
