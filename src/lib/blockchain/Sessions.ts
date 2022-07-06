@@ -302,4 +302,67 @@ export class SessionManager {
     const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
     return newSessionId;
   }
+
+  public async listTrade({
+    signature,
+    farmId,
+    fee,
+    resourceAmount,
+    resourceId,
+    sessionId,
+    sfl,
+    slotId,
+    tax,
+    deadline,
+    nextSessionId,
+  }: {
+    signature: string;
+    farmId: number;
+    fee: string;
+    resourceAmount: string;
+    resourceId: number;
+    sender: string;
+    sessionId: string;
+    sfl: string;
+    slotId: number;
+    tax: number;
+    deadline: number;
+    nextSessionId: string;
+  }) {
+    const oldSessionId = await this.getSessionId(farmId);
+    const gasPrice = await estimateGasPrice(this.web3);
+
+    await new Promise((resolve, reject) => {
+      this.contract.methods
+        .listTrade(
+          signature,
+          sessionId,
+          nextSessionId,
+          deadline,
+          slotId,
+          farmId,
+          resourceId,
+          resourceAmount,
+          sfl,
+          tax,
+          fee
+        )
+        .send({ from: this.account, value: fee, gasPrice })
+        .on("error", function (error: any) {
+          const parsed = parseMetamaskError(error);
+          console.log({ parsedIt: parsed });
+          reject(parsed);
+        })
+        .on("transactionHash", function (transactionHash: any) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt: any) {
+          console.log({ receipt });
+          resolve(receipt);
+        });
+    });
+
+    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
+    return newSessionId;
+  }
 }

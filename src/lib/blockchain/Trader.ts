@@ -1,6 +1,8 @@
-import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
+
+import { CONFIG } from "lib/config";
+
 import TraderJSON from "./abis/Trader.json";
 
 const address = CONFIG.TRADER_CONTRACT;
