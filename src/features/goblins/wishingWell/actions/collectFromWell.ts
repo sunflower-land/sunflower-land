@@ -41,5 +41,7 @@ export async function collectFromWell({
 
   const transaction = await response.json();
 
-  await metamask.getWishingWell().collectFromWell(transaction);
+  const receipt = await metamask.getWishingWell().collectFromWell(transaction);
+
+  return receipt;
 }
