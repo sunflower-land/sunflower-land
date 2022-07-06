@@ -15,7 +15,6 @@ import Decimal from "decimal.js-light";
 import { reset } from "features/farming/hud/actions/reset";
 import { fromWei } from "web3-utils";
 import { loadSession } from "features/game/actions/loadSession";
-import { GameState } from "features/game/types/game";
 
 export interface Context {
   state: WishingWellTokens;
@@ -64,29 +63,6 @@ export type BlockchainState = {
     | "error";
   context: Context;
 };
-
-async function getUpdatedBalance(
-  farmId: number,
-  sessionId: string,
-  token: string,
-  currentBalance: Decimal
-): Promise<Decimal> {
-  await new Promise((res) => setTimeout(res, 3000));
-
-  const response = await loadSession({
-    farmId,
-    sessionId,
-    token,
-  });
-
-  const { balance } = response?.game as GameState;
-
-  if (balance.lte(currentBalance)) {
-    return getUpdatedBalance(farmId, sessionId, token, currentBalance);
-  }
-
-  return balance;
-}
 
 export type MachineInterpreter = Interpreter<
   Context,
