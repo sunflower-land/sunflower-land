@@ -100,27 +100,24 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return !hasFedChickens(game);
   }
 
-  const stoneReady = Object.values(game?.stones).every((stone) =>
-    canMine(stone)
-  );
-
-  // Make sure no stones are replenishing
+  // Make sure stones are not replenishing
   if (item === "Tunnel Mole") {
+    const stoneReady = Object.values(game?.stones).every((stone) =>
+      canMine(stone)
+    );
     return stoneReady;
   }
 
-  const ironReady = Object.values(game?.iron).every((iron) => canMine(iron));
-
-  // Make sure no stones or iron are replenishing
+  // Make sure irons are not replenishing
   if (item === "Rocky the Mole") {
-    return ironReady && stoneReady;
+    const ironReady = Object.values(game?.iron).every((iron) => canMine(iron));
+    return ironReady;
   }
 
-  const goldReady = Object.values(game?.gold).every((gold) => canMine(gold));
-
-  // Make sure no stones, iron or gold are replenishing
+  // Make sure gold is not replenishing
   if (item === "Nugget") {
-    return ironReady && stoneReady && goldReady;
+    const goldReady = Object.values(game?.gold).every((gold) => canMine(gold));
+    return goldReady;
   }
 
   // Tools, Crops, Resources

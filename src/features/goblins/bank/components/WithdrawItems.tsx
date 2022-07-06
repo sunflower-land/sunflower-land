@@ -5,7 +5,7 @@ import Decimal from "decimal.js-light";
 import { Context } from "features/game/GoblinProvider";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { shortAddress } from "features/farming/hud/components/Address";
+import { shortAddress } from "lib/utils/shortAddress";
 import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
 

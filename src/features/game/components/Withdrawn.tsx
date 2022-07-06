@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import secure from "assets/npcs/synced.gif";
 import { Context } from "../GoblinProvider";
 import { metamask } from "lib/blockchain/metamask";
-import { shortAddress } from "features/farming/hud/components/Address";
+import { shortAddress } from "lib/utils/shortAddress";
 
 export const Withdrawn: React.FC = () => {
   const { goblinService } = useContext(Context);

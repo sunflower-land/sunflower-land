@@ -367,21 +367,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents a user from withdrawing Rocky the Mole while they have replenishing stones or iron", () => {
-    const stone = canWithdraw({
-      item: "Rocky the Mole",
-      game: {
-        ...INITIAL_FARM,
-        stones: {
-          0: {
-            // Just been mined
-            minedAt: Date.now(),
-            amount: new Decimal(3),
-          },
-        },
-      },
-    });
-
+  it("prevents a user from withdrawing Rocky the Mole while they have replenishing iron", () => {
     const iron = canWithdraw({
       item: "Rocky the Mole",
       game: {
@@ -396,24 +382,10 @@ describe("canWithdraw", () => {
       },
     });
 
-    expect(stone).toBeFalsy();
     expect(iron).toBeFalsy();
   });
 
-  it("enable a user to withdraw Rocky the Mole while they dont have stones replenishing", () => {
-    const stone = canWithdraw({
-      item: "Rocky the Mole",
-      game: {
-        ...INITIAL_FARM,
-        stones: {
-          0: {
-            // Available to mine
-            minedAt: 0,
-            amount: new Decimal(3),
-          },
-        },
-      },
-    });
+  it("enable a user to withdraw Rocky the Mole while they dont have irons replenishing", () => {
     const iron = canWithdraw({
       item: "Rocky the Mole",
       game: {
@@ -428,39 +400,10 @@ describe("canWithdraw", () => {
       },
     });
 
-    expect(stone).toBeTruthy();
     expect(iron).toBeTruthy();
   });
 
-  it("prevents a user from withdrawing Nugget while they have replenishing stones, iron or gold", () => {
-    const stone = canWithdraw({
-      item: "Nugget",
-      game: {
-        ...INITIAL_FARM,
-        stones: {
-          0: {
-            // Just been mined
-            minedAt: Date.now(),
-            amount: new Decimal(3),
-          },
-        },
-      },
-    });
-
-    const iron = canWithdraw({
-      item: "Nugget",
-      game: {
-        ...INITIAL_FARM,
-        iron: {
-          0: {
-            // Just been mined
-            minedAt: Date.now(),
-            amount: new Decimal(2),
-          },
-        },
-      },
-    });
-
+  it("prevents a user from withdrawing Nugget while they have replenishing gold", () => {
     const gold = canWithdraw({
       item: "Nugget",
       game: {
@@ -475,40 +418,10 @@ describe("canWithdraw", () => {
       },
     });
 
-    expect(stone).toBeFalsy();
-    expect(iron).toBeFalsy();
     expect(gold).toBeFalsy();
   });
 
   it("enable a user to withdraw Nugget while they dont have stones replenishing", () => {
-    const stone = canWithdraw({
-      item: "Nugget",
-      game: {
-        ...INITIAL_FARM,
-        stones: {
-          0: {
-            // Available to mine
-            minedAt: 0,
-            amount: new Decimal(3),
-          },
-        },
-      },
-    });
-
-    const iron = canWithdraw({
-      item: "Nugget",
-      game: {
-        ...INITIAL_FARM,
-        iron: {
-          0: {
-            // Available to mine
-            minedAt: 0,
-            amount: new Decimal(2),
-          },
-        },
-      },
-    });
-
     const gold = canWithdraw({
       item: "Nugget",
       game: {
@@ -523,8 +436,6 @@ describe("canWithdraw", () => {
       },
     });
 
-    expect(stone).toBeTruthy();
-    expect(iron).toBeTruthy();
     expect(gold).toBeTruthy();
   });
 

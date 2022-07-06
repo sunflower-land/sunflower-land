@@ -17,7 +17,7 @@ import humanDeath from "assets/npcs/human_death.gif";
 import { ERRORS } from "lib/errors";
 import { beggarAudio } from "lib/utils/sfx";
 import { Context } from "features/game/VisitingProvider";
-import { shortAddress } from "features/farming/hud/components/Address";
+import { shortAddress } from "lib/utils/shortAddress";
 
 type DonateEvent = {
   type: "DONATE";

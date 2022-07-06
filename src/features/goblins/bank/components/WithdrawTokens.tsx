@@ -7,7 +7,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Context } from "features/game/GoblinProvider";
 
-import { shortAddress } from "features/farming/hud/components/Address";
+import { shortAddress } from "lib/utils/shortAddress";
 
 import { Button } from "components/ui/Button";
 
