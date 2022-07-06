@@ -13,6 +13,7 @@ import { hasAlreadyTraded } from "features/game/events/trade";
 import { Offer } from "./component/Offer";
 import { TradeOffer } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { secondsToString } from "lib/utils/time";
 
 const Content: React.FC<{ title: string }> = ({ title, children }) => {
   return (
@@ -110,6 +111,10 @@ export const Trader: React.FC = () => {
         state.tradeOffer?.endAt as string
       ).toLocaleDateString();
 
+      const secondsLeft =
+        (new Date(state.tradeOffer?.endAt as string).getTime() - Date.now()) /
+        1000;
+
       return (
         <Content title="Greetings friend!">
           <p className="sm:text-sm p-2">
@@ -117,7 +122,11 @@ export const Trader: React.FC = () => {
           </p>
           <p className="sm:text-sm p-2">
             What I have to offer you today will only be available until{" "}
-            {endDateLocale}.
+            {endDateLocale} (
+            {secondsToString(secondsLeft as number, {
+              separator: " ",
+            })}{" "}
+            left).
           </p>
           <Button onClick={() => setModalState("showOffer")}>
             {`Let's trade!`}
