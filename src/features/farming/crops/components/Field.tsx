@@ -108,17 +108,6 @@ export const Field: React.FC<Props> = ({
       return;
     }
 
-    if (
-      selectedItem === "Rusty Shovel" &&
-      !isCropReady(now, field.plantedAt, CROPS()[field.name].harvestSeconds)
-    ) {
-      // TODO - show confirmation modal
-      gameService.send("item.removed", {
-        index: fieldIndex,
-      });
-      return;
-    }
-
     // Plant
     if (!field) {
       try {
@@ -144,6 +133,17 @@ export const Field: React.FC<Props> = ({
         displayPopover(<img className="w-5" src={cancel} />);
       }
 
+      return;
+    }
+
+    if (
+      selectedItem === "Rusty Shovel" &&
+      !isCropReady(now, field.plantedAt, CROPS()[field.name].harvestSeconds)
+    ) {
+      // TODO - show confirmation modal
+      gameService.send("item.removed", {
+        index: fieldIndex,
+      });
       return;
     }
 
