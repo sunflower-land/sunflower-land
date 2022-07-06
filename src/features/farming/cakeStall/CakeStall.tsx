@@ -43,7 +43,7 @@ export const Cakes: React.FC = () => {
     });
   };
 
-  const amount = new Decimal(inventory[selected.name] || 0); 
+  const amount = new Decimal(inventory[selected.name] || 0);
   const noCake = amount.equals(0);
 
   const handleSell = () => {
@@ -53,7 +53,7 @@ export const Cakes: React.FC = () => {
 
   // ask confirmation for  selling
   const openConfirmationModal = () => {
-      showSellModal(true);
+    showSellModal(true);
   };
 
   const closeConfirmationModal = () => {
@@ -119,11 +119,7 @@ export const Cakes: React.FC = () => {
             </span>
           </div>
           <div className="flex justify-content-around p-1">
-            <Button
-              disabled={noCake}
-              className="text-xs"
-              onClick={handleSell}
-            >
+            <Button disabled={noCake} className="text-xs" onClick={handleSell}>
               Yes
             </Button>
             <Button
