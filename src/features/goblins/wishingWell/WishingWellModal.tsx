@@ -14,7 +14,7 @@ import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
 import { fromWei } from "web3-utils";
 import { Context } from "features/game/GoblinProvider";
-import { shortAddress } from "features/farming/hud/components/Address";
+import { shortAddress } from "lib/utils/shortAddress";
 import { CONFIG } from "lib/config";
 import { ConnectingError } from "features/auth/components/ConnectingError";
 import classNames from "classnames";
