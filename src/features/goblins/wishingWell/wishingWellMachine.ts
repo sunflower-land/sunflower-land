@@ -12,7 +12,6 @@ import { ERRORS } from "lib/errors";
 import { WishingWellTokens, loadWishingWell } from "./actions/loadWishingWell";
 import { collectFromWell } from "./actions/collectFromWell";
 import Decimal from "decimal.js-light";
-import { getFingerPrint } from "features/game/lib/botDetection";
 import { reset } from "features/farming/hud/actions/reset";
 import { fromWei } from "web3-utils";
 import { loadSession } from "features/game/actions/loadSession";
@@ -202,6 +201,7 @@ export const wishingWellMachine = createMachine<
       granting: {
         invoke: {
           src: async (context, event) => {
+            // Collect from well and await receipt
             const receipt: any = await collectFromWell({
               farmId: context.farmId as number,
               sessionId: context.sessionId as string,
@@ -209,34 +209,31 @@ export const wishingWellMachine = createMachine<
               token: context.token as string,
               captcha: (event as CaptchaEvent).captcha,
             });
-
+            // Get reward amount from Rewarded event
             const reward = new Decimal(
               fromWei(receipt.events.Rewarded.returnValues[1])
             );
 
-            const fingerprint = await getFingerPrint();
-
-            // Rebase gamestate for player
+            // Rebase gamestate for player so the reward is added to the players balance off chain
             await reset({
               farmId: Number(context.farmId),
               token: context.token as string,
-              fingerprint: fingerprint,
+              fingerprint: "fingerprint",
             });
 
-            // Poll for updated balance
-            const updatedBalance = await getUpdatedBalance(
-              context.farmId as number,
-              context.sessionId as string,
-              context.token as string,
-              context.balance as Decimal
-            );
+            // Reload the session to get the new refreshed balance
+            const response = await loadSession({
+              farmId: context.farmId as number,
+              sessionId: context.sessionId as string,
+              token: context.token as string,
+            });
 
             const well = await loadWishingWell();
 
             return {
               state: well,
-              totalRewards: reward,
-              newBalance: updatedBalance,
+              totalRewards: reward || new Decimal(0),
+              newBalance: response?.game.balance,
             };
           },
           onDone: {
