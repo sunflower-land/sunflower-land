@@ -3,7 +3,7 @@ import { useActor } from "@xstate/react";
 
 import { CopySvg } from "components/ui/CopyField";
 import { OuterPanel } from "components/ui/Panel";
-import { shortAddress } from "features/farming/hud/components/Address";
+import { shortAddress } from "lib/utils/shortAddress";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import farm from "assets/brand/nft.png";

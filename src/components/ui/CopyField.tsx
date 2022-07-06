@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Label } from "./Label";
+import clipboard from "clipboard";
 
 export const CopySvg = () => (
   <svg
@@ -32,8 +33,13 @@ export const CopyField: React.FC<Props> = ({ text = "", copyFieldMessage }) => {
   const [showLabel, setShowLabel] = useState(false);
 
   const copyToClipboard = (): void => {
-    navigator.clipboard.writeText(text);
-    setTooltipMessage("Copied!");
+    try {
+      clipboard.copy(text);
+      setTooltipMessage("Copied!");
+    } catch (e: unknown) {
+      setTooltipMessage(typeof e === "string" ? e : "Copy Failed!");
+    }
+
     setTimeout(() => {
       setTooltipMessage(copyFieldMessage);
     }, 2000);
