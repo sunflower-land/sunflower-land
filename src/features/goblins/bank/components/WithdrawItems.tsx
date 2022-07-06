@@ -24,6 +24,7 @@ import {
   LimitedItemName,
 } from "features/game/types/craftables";
 import { mintCooldown } from "features/goblins/blacksmith/lib/mintUtils";
+import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -71,7 +72,8 @@ export const WithdrawItems: React.FC<Props> = ({
   const [selected, setSelected] = useState<Inventory>({});
 
   useEffect(() => {
-    setInventory(goblinState.context.state.inventory);
+    const bankItems = getBankItems(goblinState.context.state.inventory);
+    setInventory(bankItems);
     setSelected({});
   }, []);
 

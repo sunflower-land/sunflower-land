@@ -23,7 +23,7 @@ import { getKeys } from "features/game/types/craftables";
 import { getDeliverableItems } from "../lib/storageItems";
 
 interface Props {
-  onWithdraw: (ids: number[], amounts: string[]) => void;
+  onWithdraw: () => void;
   allowLongpressWithdrawal?: boolean;
 }
 
@@ -57,10 +57,7 @@ function transferItem(
   }));
 }
 
-export const DeliverItems: React.FC<Props> = ({
-  onWithdraw,
-  allowLongpressWithdrawal = true,
-}) => {
+export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
@@ -82,7 +79,14 @@ export const DeliverItems: React.FC<Props> = ({
       toWei(selected[item]?.toString() as string, getItemUnit(item))
     );
 
-    onWithdraw(ids, amounts);
+    goblinService.send("WITHDRAW", {
+      ids,
+      amounts,
+      sfl: "0",
+      captcha: goblinState.context.sessionId,
+    });
+
+    onWithdraw();
   };
 
   const onAdd = (itemName: InventoryItemName) => {

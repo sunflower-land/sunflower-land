@@ -7,7 +7,12 @@ import goblinCarry from "assets/npcs/goblin_carry.gif";
 
 import { getKeys } from "features/game/types/craftables";
 import { DeliverItems } from "./DeliverItems";
-export const Delivery: React.FC = () => {
+
+interface Props {
+  onWithdraw: () => void;
+}
+
+export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
   const [isTalking, setIsTalking] = useState(true);
 
   if (isTalking) {
@@ -41,5 +46,5 @@ export const Delivery: React.FC = () => {
       </div>
     );
   }
-  return <DeliverItems onWithdraw={() => {}} />;
+  return <DeliverItems onWithdraw={onWithdraw} />;
 };

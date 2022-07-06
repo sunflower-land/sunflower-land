@@ -6,7 +6,6 @@ import close from "assets/icons/close.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { DeliverItems } from "./DeliverItems";
 import { Delivery } from "./Delivery";
 import { StorageItems } from "./StorageItems";
 
@@ -37,7 +36,7 @@ export const StorageModal: React.FC<Props> = ({ onClose }) => {
       </div>
       <div>
         {tab === "storage" && <StorageItems />}
-        {tab === "delivery" && <Delivery />}
+        {tab === "delivery" && <Delivery onWithdraw={onClose} />}
       </div>
     </Panel>
   );
