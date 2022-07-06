@@ -214,15 +214,15 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
-  const child = goblinState.children.wishingWell as MachineInterpreter;
+  const child = (goblinState.children.wishingWell || {}) as MachineInterpreter;
 
   const [machine, send] = useActor(child);
 
   const { state: wishingWell, errorCode } = machine.context;
 
   const handleClose = () => {
-    send("CLOSING");
     onClose();
+    send("CLOSING");
   };
 
   const goToQuickSwap = () => {
