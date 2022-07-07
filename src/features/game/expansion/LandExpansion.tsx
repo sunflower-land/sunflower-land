@@ -3,6 +3,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import * as Auth from "features/auth/lib/Provider";
 
 import background from "assets/land/water-background.png";
+import waterMovement from "assets/decorations/water_background.png";
 
 import { ToastProvider } from "../toast/ToastQueueProvider";
 import mapMovement from "../lib/mapMovement";
@@ -50,6 +51,10 @@ export const LandExpansion: React.FC = () => {
             // TODO dynamic game board size based on tile dimensions
           >
             <img src={background} className="absolute inset-0 w-full h-full" />
+            <div
+              className="absolute inset-0 bg-repeat w-full h-full"
+              style={{ backgroundImage: `url(${waterMovement})` }}
+            ></div>
             <Game />
           </div>
         </ScrollContainer>

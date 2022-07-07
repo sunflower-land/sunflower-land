@@ -44,12 +44,6 @@ export const Land: React.FC = () => {
           alt="land"
           className="w-full"
         />
-        {/*
-        The show prop receives an array of positions to show,
-        Example: there are blocks of terrain on top and bottom hence those positions should be hidden
-        just pass ["left", "right"] to show only sides.
-        */}
-        <WaterDecoration show={["all"]} />
         {/* Example placement of shrub */}
         {getKeys(shrubs).map((index) => {
           const { x, y, width, height } = shrubs[index];
