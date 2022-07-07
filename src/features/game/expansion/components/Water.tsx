@@ -36,7 +36,7 @@ export const Water: React.FC = () => {
 
         <img
           src={dragonfly}
-          className="absolute right-16 w-10 bottom-36 animate-float"
+          className="absolute left-2/3 top-1/2 animate-float"
         />
         {/* <Frog /> */}
 
