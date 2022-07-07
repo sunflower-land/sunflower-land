@@ -131,8 +131,8 @@ export const INITIAL_SHRUBS: GameState["shrubs"] = {
     },
     x: -3,
     y: 3,
-    height: 1,
-    width: 1,
+    height: 2,
+    width: 2,
   },
 };
 
