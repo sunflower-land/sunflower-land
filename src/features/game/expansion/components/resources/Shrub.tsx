@@ -5,10 +5,9 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 
 import sparkSheet from "assets/resources/shrub/shrub-sheet.png";
-import dropSheet from "assets/resources/tree/chopped_sheet.png";
-import smallShrub from "assets/resources/green_bush.png";
+import dropSheet from "assets/resources/shrub/shrub_chopped.png";
+import smallShrub from "assets/resources/green_bush2.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -141,7 +140,7 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
 
   return (
     <div
-      className="h-full w-full z-10"
+      className="relative z-10 w-full h-full"
       onMouseEnter={handleMouseHoverShrub}
       onMouseLeave={handleMouseLeaveShrub}
     >
@@ -154,20 +153,21 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
           <Spritesheet
             className="group-hover:img-highlight pointer-events-none z-10"
             style={{
-              width: `${GRID_WIDTH_PX * 1.5}px`,
-              imageRendering: "pixelated",
+              position: "absolute",
+              left: "-24px",
+              top: "-2px",
             }}
             getInstance={(spritesheet) => {
               sparkGif.current = spritesheet;
             }}
             image={sparkSheet}
-            widthFrame={48}
-            heightFrame={32}
+            widthFrame={96}
+            heightFrame={64}
             fps={24}
-            steps={6}
+            steps={7}
             direction={`forward`}
             autoplay={false}
-            loop={true}
+            loop={false}
             onLoopComplete={(spritesheet) => {
               spritesheet.pause();
             }}
@@ -177,42 +177,42 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
 
       <Spritesheet
         style={{
-          width: `${GRID_WIDTH_PX}px`,
-          // Line it up with the click area
-          transform: `translateX(-${GRID_WIDTH_PX * 15}px)`,
+          position: "absolute",
+          left: "-74px",
+          top: "-14px",
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
           imageRendering: "pixelated",
         }}
-        className="pointer-events-none -z-10"
+        className="pointer-events-none z-20"
         getInstance={(spritesheet) => {
           choppedGif.current = spritesheet;
         }}
         image={dropSheet}
-        widthFrame={266}
-        heightFrame={168}
+        widthFrame={133}
+        heightFrame={84}
         fps={20}
         steps={11}
         direction={`forward`}
         autoplay={false}
-        loop={true}
+        loop={false}
         onLoopComplete={(spritesheet) => {
           spritesheet.pause();
         }}
       />
 
-      {/* Hide the empty Shrub behind  */}
-      <img
-        src={smallShrub}
-        className="absolute top-0 pointer-events-none opacity-50"
-        style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
-        }}
-      />
+      {chopped && (
+        <div className="absolute" style={{ top: "12px", left: "8px" }}>
+          <img
+            src={smallShrub}
+            className="pointer-events-none -z-10 opacity-50"
+          />
+        </div>
+      )}
 
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute top-12 left-8",
+          "absolute top-16 left-5 transition-opacity pointer-events-none content-center",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
@@ -222,13 +222,13 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
         <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 2) * 100} />
       </div>
 
-      {chopped && (
+      {true && (
         <div
           className="absolute"
           id="chopped-shrub"
           style={{
-            bottom: "90px",
-            left: "-30px",
+            bottom: "60px",
+            left: "-25px",
           }}
         >
           <TimeLeftPanel
