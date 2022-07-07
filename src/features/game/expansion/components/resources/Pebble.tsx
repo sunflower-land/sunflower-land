@@ -6,6 +6,8 @@ import Spritesheet, {
 
 import sparkSheet from "assets/resources/pebble/pebble_sheet.png";
 import smallStone from "assets/resources/small_stone.png";
+import minedPebble from "assets/resources/pebble/mined_pebble.png";
+import dropSheet from "assets/resources/pebble/pebble_drop2.png";
 
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -174,13 +176,37 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
           />
         </div>
       )}
+
+      <Spritesheet
+        style={{
+          position: "absolute",
+          left: "2px",
+          top: "-28px",
+          opacity: collecting ? 1 : 0,
+          transition: "opacity 0.2s ease-in",
+          imageRendering: "pixelated",
+        }}
+        className="pointer-events-none z-20"
+        getInstance={(spritesheet) => {
+          minedGif.current = spritesheet;
+        }}
+        image={dropSheet}
+        widthFrame={160}
+        heightFrame={64}
+        fps={18}
+        steps={10}
+        direction={`forward`}
+        autoplay={false}
+        loop={false}
+        onLoopComplete={(spritesheet) => {
+          spritesheet.pause();
+        }}
+      />
+
       {/* Mined Pebble  */}
       {mined && (
-        <div className="absolute" style={{ top: "12px", left: "8px" }}>
-          <img
-            src={smallStone}
-            className="pointer-events-none -z-10 opacity-50"
-          />
+        <div className="absolute" style={{ top: "14px", left: "9px" }}>
+          <img src={minedPebble} className="pointer-events-none -z-10 " />
         </div>
       )}
       {/* Health bar shown when striking */}
