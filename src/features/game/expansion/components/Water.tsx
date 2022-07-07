@@ -25,10 +25,12 @@ export const Water: React.FC = () => {
     >
       {/* Above Land */}
       <Shark side="top" />
+
       {/* Below Land */}
       <Shark side="bottom" />
+
+      {/* Navigation Center Point */}
       <div className="h-full w-full relative">
-        {/* Navigation Center Point */}
         <span
           id={Section.Water}
           className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -38,7 +40,6 @@ export const Water: React.FC = () => {
           src={dragonfly}
           className="absolute left-2/3 top-1/2 animate-float"
         />
-        {/* <Frog /> */}
 
         <img
           src={goblinSwimming}

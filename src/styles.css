@@ -114,12 +114,6 @@ img {
   }
 }
 
-@keyframes waterMovement {
-  to {
-    transform: translateX(20%);
-  }
-}
-
 @keyframes marquee-like-effect {
   from {
     transform: translateX(100%);
