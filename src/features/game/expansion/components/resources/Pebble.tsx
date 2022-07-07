@@ -7,7 +7,7 @@ import Spritesheet, {
 import sparkSheet from "assets/resources/pebble/pebble_sheet.png";
 import smallStone from "assets/resources/small_stone.png";
 import minedPebble from "assets/resources/pebble/mined_pebble.png";
-import dropSheet from "assets/resources/pebble/pebble_drop2.png";
+import dropSheet from "assets/resources/pebble/pebble_drop.png";
 
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
