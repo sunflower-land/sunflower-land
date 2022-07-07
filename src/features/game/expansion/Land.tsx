@@ -32,12 +32,7 @@ export const Land: React.FC = () => {
       style={{ width: `${GRID_WIDTH_PX * 8}px` }}
       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
     >
-      <div
-        className="relative w-full h-full"
-        style={{
-          height: "370px",
-        }}
-      >
+      <div className="relative w-full h-full">
         <img
           id="genesisBlock"
           src={genesisBlock}
