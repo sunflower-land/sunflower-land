@@ -9,7 +9,6 @@ import { Context } from "../GameProvider";
 import { getTerrainImageByKey } from "../lib/getTerrainImageByKey";
 import { getKeys } from "../types/craftables";
 import { Plot } from "features/farming/crops/components/landExpansion/Plot";
-import plantableSoil from "assets/land/soil2.png";
 import { Pebble } from "./components/resources/Pebble";
 
 export const Land: React.FC = () => {
