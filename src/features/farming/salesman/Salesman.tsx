@@ -8,7 +8,7 @@ import { useActor } from "@xstate/react";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import close from "assets/icons/close.png";
 
-import traderImage from "assets/npcs/trader.gif";
+import salesmanImage from "assets/npcs/salesman.gif";
 import { hasAlreadyTraded } from "features/game/events/trade";
 import { Offer } from "./component/Offer";
 import { TradeOffer } from "features/game/types/game";
@@ -19,13 +19,13 @@ const Content: React.FC<{ title: string }> = ({ title, children }) => {
   return (
     <div className="flex flex-col mt-2 items-center">
       <h1 className="mb-3 text-center sm:text-lg">{title}</h1>
-      <img className="w-11 mb-2" src={traderImage} />
+      <img className="w-11 mb-2" src={salesmanImage} />
       {children}
     </div>
   );
 };
 
-export const Trader: React.FC = () => {
+export const Salesman: React.FC = () => {
   const [modalState, setModalState] = useState<
     "closed" | "intro" | "showOffer" | "tradeCompleted" | "alreadyTraded"
   >("closed");
@@ -139,7 +139,7 @@ export const Trader: React.FC = () => {
   return (
     <div
       className="z-100 absolute"
-      id="trader"
+      id="salesman"
       style={{
         width: `${GRID_WIDTH_PX * 1}px`,
         left: `${GRID_WIDTH_PX * 1}px`,
@@ -148,8 +148,8 @@ export const Trader: React.FC = () => {
     >
       <div className="cursor-pointer hover:img-highlight z-10">
         <img
-          src={traderImage}
-          alt="trader"
+          src={salesmanImage}
+          alt="salesman"
           onClick={handleOpenModal}
           className="w-full"
         />

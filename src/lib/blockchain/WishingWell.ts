@@ -70,9 +70,13 @@ export class WishingWell {
         .on("transactionHash", function (transactionHash: any) {
           console.log({ transactionHash });
         })
-        .on("receipt", function (receipt: any) {
-          console.log({ receipt });
-          resolve(receipt);
+        // This event is fired once the tx has been mined and not reverted. The first time when confNumber == 0 is the actual block in which it was mined.
+        // This event will fire 24 times in total with a new confirmation number each time.
+        // The higher the confirmation number the more confident you can be that the chain will not be undone.
+        .on("confirmation", function (confNumber: number, receipt: any) {
+          if (confNumber === 3) {
+            resolve(receipt);
+          }
         });
     });
   }
@@ -82,7 +86,6 @@ export class WishingWell {
       .balanceOf(this.account)
       .call({ from: this.account });
 
-    console.log({ balance });
     return balance;
   }
 

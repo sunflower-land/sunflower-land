@@ -78,9 +78,6 @@ export type BlockchainEvent =
   | {
       type: "OPENING_WISHING_WELL";
     }
-  | {
-      type: "RESET";
-    }
   | WithdrawEvent
   | MintEvent
   | OpeningWishingWellEvent
@@ -218,10 +215,16 @@ export function startGoblinVillage(authContext: AuthContext) {
           on: {
             UPDATE_BALANCE: {
               actions: assign({
-                state: (context, event) => ({
-                  ...context.state,
-                  balance: (event as UpdateBalance).newBalance,
-                }),
+                state: (context, event) => {
+                  if (event.newBalance) {
+                    return {
+                      ...context.state,
+                      balance: (event as UpdateBalance).newBalance,
+                    };
+                  }
+
+                  return context.state;
+                },
               }),
             },
           },
