@@ -10,7 +10,6 @@ import { Button } from "components/ui/Button";
 
 import token from "assets/icons/token.gif";
 import { Draft } from "../lib/tradingPostMachine";
-import { KNOWN_IDS } from "features/game/types";
 
 const TRADEABLE_AMOUNTS: Inventory = {
   Wood: new Decimal(200),
@@ -31,12 +30,14 @@ const TRADEABLE_AMOUNTS: Inventory = {
 const MAX_SFL = new Decimal(10000);
 
 interface DraftingProps {
+  slotId: number;
   inventory: Inventory;
   onCancel: () => void;
   onList: (draft: Draft) => void;
 }
 
 export const Drafting: React.FC<DraftingProps> = ({
+  slotId,
   inventory,
   onCancel,
   onList,
@@ -52,6 +53,7 @@ export const Drafting: React.FC<DraftingProps> = ({
   );
 
   const draft: Draft = {
+    slotId: slotId,
     resourceName: selected,
     resourceAmount: resourceAmount,
     sfl: sflAmount,

@@ -5,11 +5,19 @@ import { InventoryItemName } from "features/game/types/game";
 
 import { loadTradingPost } from "./actions/loadTradingPost";
 import { list } from "./actions/list";
+import { cancel } from "./actions/cancel";
 
 export interface Draft {
+  slotId: number;
   resourceName: InventoryItemName;
   resourceAmount: number;
   sfl: number;
+}
+
+export interface Cancel {
+  listingId: number;
+  resourceName: InventoryItemName;
+  resourceAmount: number;
 }
 
 export interface Context {
@@ -17,7 +25,9 @@ export interface Context {
   token: string;
   tax: string;
   farmSlots?: FarmSlot[];
+  slotId: number;
   draft: Draft;
+  cancel: Cancel;
 }
 
 export type BlockchainEvent =
@@ -25,12 +35,25 @@ export type BlockchainEvent =
       type: "LIST";
       draft: Draft;
     }
-  | { type: "DRAFT" }
+  | { type: "DRAFT"; slotId: number }
   | { type: "CANCEL" }
+  | { type: "CANCEL_LISTING"; cancel: Cancel }
+  | { type: "BACK" }
+  | {
+      type: "CONFIRM";
+    }
   | { type: "POST" };
 
 export type BlockchainState = {
-  value: "loading" | "idle" | "drafting" | "confirming" | "posting" | "error";
+  value:
+    | "loading"
+    | "idle"
+    | "drafting"
+    | "confirming"
+    | "posting"
+    | "confirmingCancel"
+    | "cancelling"
+    | "error";
   context: Context;
 };
 
@@ -69,6 +92,15 @@ export const tradingPostMachine = createMachine<
       on: {
         DRAFT: {
           target: "drafting",
+          actions: assign((_, event) => ({
+            slotId: event.slotId,
+          })),
+        },
+        CANCEL_LISTING: {
+          target: "confirmingCancel",
+          actions: assign((_, event) => ({
+            cancel: event.cancel,
+          })),
         },
       },
     },
@@ -99,7 +131,35 @@ export const tradingPostMachine = createMachine<
       invoke: {
         src: async (context) => {
           await list({
+            slotId: context.slotId,
             draft: context.draft,
+            farmId: context.farmId,
+            token: context.token,
+          });
+        },
+        onError: {
+          target: "error",
+        },
+        onDone: {
+          target: "loading",
+        },
+      },
+    },
+    confirmingCancel: {
+      on: {
+        BACK: {
+          target: "idle",
+        },
+        CONFIRM: {
+          target: "cancelling",
+        },
+      },
+    },
+    cancelling: {
+      invoke: {
+        src: async (context) => {
+          await cancel({
+            listingId: context.cancel.listingId,
             farmId: context.farmId,
             token: context.token,
           });

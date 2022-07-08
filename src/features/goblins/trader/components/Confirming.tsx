@@ -5,7 +5,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import token from "assets/icons/token.gif";
 import goblin from "assets/npcs/goblin_head.png";
 import { Draft } from "../lib/tradingPostMachine";
-import { KNOWN_ITEMS } from "features/game/types";
 
 interface ConfirmProps {
   draft: Draft;
@@ -46,11 +45,11 @@ export const Confirming: React.FC<ConfirmProps> = ({
           <span className="text-base py-2 pl-2">{`${goblinFee} SFL`}</span>
         </div>
       </div>
-      <Button className="mt-1" onClick={onCancel}>
-        Cancel
-      </Button>
       <Button className="mt-1" onClick={onConfirm}>
         Confirm Listing
+      </Button>
+      <Button className="mt-1" onClick={onCancel}>
+        Cancel
       </Button>
     </div>
   );

@@ -365,4 +365,51 @@ export class SessionManager {
     const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
     return newSessionId;
   }
+
+  public async cancelTrade({
+    signature,
+    sessionId,
+    nextSessionId,
+    deadline,
+    farmId,
+    listingId,
+  }: {
+    signature: string;
+    sessionId: string;
+    nextSessionId: string;
+    deadline: number;
+    farmId: number;
+    listingId: number;
+  }) {
+    const oldSessionId = await this.getSessionId(farmId);
+    const gasPrice = await estimateGasPrice(this.web3);
+
+    await new Promise((resolve, reject) => {
+      this.contract.methods
+        .cancelTrade(
+          signature,
+          sessionId,
+          nextSessionId,
+          deadline,
+          farmId,
+          listingId
+        )
+        .send({ from: this.account, gasPrice })
+        .on("error", function (error: any) {
+          const parsed = parseMetamaskError(error);
+          console.log({ parsedIt: parsed });
+          reject(parsed);
+        })
+        .on("transactionHash", function (transactionHash: any) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt: any) {
+          console.log({ receipt });
+          resolve(receipt);
+        });
+    });
+
+    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
+    return newSessionId;
+  }
 }

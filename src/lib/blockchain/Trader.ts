@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import { AbiItem } from "web3-utils";
+import { AbiItem, fromWei } from "web3-utils";
 
 import { CONFIG } from "lib/config";
 
@@ -7,8 +7,18 @@ import TraderJSON from "./abis/Trader.json";
 
 const address = CONFIG.TRADER_CONTRACT;
 
+export enum ListingStatus {
+  EMPTY,
+  LISTED,
+  CANCELLED,
+}
+
 export type Listing = {
   id: number;
+  status: ListingStatus;
+  resourceId: number;
+  resourceAmount: number;
+  sfl: number;
 };
 
 export type FarmSlot = {
@@ -34,8 +44,13 @@ export class Trader {
   }
 
   public async getFarmSlots(farmId: number): Promise<FarmSlot[]> {
-    const farmSlots: { status: string; listingId: string }[] =
-      await this.contract.methods.getFarmSlots(farmId, 3).call();
+    const farmSlots: {
+      status: string;
+      listingId: string;
+      resourceId: string;
+      resourceAmount: string;
+      sfl: string;
+    }[] = await this.contract.methods.getFarmSlots(farmId, 3).call();
 
     console.log(farmSlots);
 
@@ -43,7 +58,16 @@ export class Trader {
       if (slot.status == "0") {
         return { slotId: index };
       }
-      return { slotId: index, listing: { id: Number(slot.listingId) } };
+      return {
+        slotId: index,
+        listing: {
+          id: Number(slot.listingId),
+          status: Number(slot.status),
+          resourceId: Number(slot.resourceId),
+          resourceAmount: Number(fromWei(slot.resourceAmount)),
+          sfl: Number(fromWei(slot.sfl)),
+        },
+      };
     });
   }
 }

@@ -1,30 +1,21 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { toWei } from "web3-utils";
-
-import { Draft } from "../tradingPostMachine";
 
 const API_URL = CONFIG.API_URL;
 
 type Request = {
-  slotId: number;
+  listingId: number;
   farmId: number;
   token: string;
-  draft: Draft;
 };
 
 type Payload = {
+  deadline: number;
   farmId: number;
-  fee: string;
-  resourceAmount: string;
-  resourceId: number;
+  listingId: number;
   sender: string;
   sessionId: string;
-  sfl: string;
-  slotId: number;
-  tax: number;
-  deadline: number;
   nextSessionId: string;
 };
 
@@ -33,10 +24,10 @@ type Response = {
   payload: Payload;
 };
 
-export async function listRequest(request: Request): Promise<Response> {
+export async function cancelRequest(request: Request): Promise<Response> {
   // Call backend list-trade
   const response = await window.fetch(
-    `${API_URL}/list-trade/${request.farmId}`,
+    `${API_URL}/cancel-trade/${request.farmId}`,
     {
       method: "POST",
       //mode: "no-cors",
@@ -46,10 +37,7 @@ export async function listRequest(request: Request): Promise<Response> {
         accept: "application/json",
       },
       body: JSON.stringify({
-        slotId: request.slotId,
-        item: request.draft.resourceName,
-        sfl: toWei(String(request.draft.sfl)),
-        amount: toWei(String(request.draft.resourceAmount)),
+        listingId: request.listingId,
       }),
     }
   );
@@ -64,13 +52,14 @@ export async function listRequest(request: Request): Promise<Response> {
 
   const data = await response.json();
 
+  console.log(data);
   return data;
 }
 
-export async function list(request: Request) {
-  const response = await listRequest(request);
+export async function cancel(request: Request) {
+  const response = await cancelRequest(request);
 
   await metamask
     .getSessionManager()
-    .listTrade({ ...response.payload, signature: response.signature });
+    .cancelTrade({ ...response.payload, signature: response.signature });
 }
