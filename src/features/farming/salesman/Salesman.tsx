@@ -35,7 +35,7 @@ export const Salesman: React.FC = () => {
 
   const { state } = gameState.context;
 
-  // Don't show the trader because there is no trade available
+  // Don't show the salesman because there is no trade available
   if (!state.tradeOffer) return null;
 
   const handleOpenModal = () => {
