@@ -25,6 +25,7 @@ import { tradingPostMachine } from "features/goblins/trader/lib/tradingPostMachi
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
+import { Inventory } from "components/InventoryItems";
 
 const API_URL = CONFIG.API_URL;
 
@@ -74,6 +75,12 @@ type UpdateBalance = {
   newBalance: Decimal;
 };
 
+type UpdateSession = {
+  type: "UPDATE_SESSION";
+  inventory: Inventory;
+  sessionId: string;
+};
+
 export type BlockchainEvent =
   | {
       type: "REFRESH";
@@ -94,7 +101,8 @@ export type BlockchainEvent =
   | MintEvent
   | OpeningWishingWellEvent
   | OpenTradingPostEvent
-  | UpdateBalance;
+  | UpdateBalance
+  | UpdateSession;
 
 export type GoblinMachineState = {
   value:
@@ -233,7 +241,7 @@ export function startGoblinVillage(authContext: AuthContext) {
               actions: assign({
                 state: (context, event) => ({
                   ...context.state,
-                  balance: (event as UpdateBalance).newBalance,
+                  balance: event.newBalance,
                 }),
               }),
             },
@@ -246,10 +254,22 @@ export function startGoblinVillage(authContext: AuthContext) {
             src: tradingPostMachine,
             data: {
               farmId: () => authContext.farmId,
+              farmAddress: () => authContext.address,
               token: () => authContext.rawToken,
             },
             onDone: {
               target: "playing",
+            },
+          },
+          on: {
+            UPDATE_SESSION: {
+              actions: assign({
+                state: (context, event) => ({
+                  ...context.state,
+                  inventory: event.inventory,
+                  sessionId: event.sessionId,
+                }),
+              }),
             },
           },
         },

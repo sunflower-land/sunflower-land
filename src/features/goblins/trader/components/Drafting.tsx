@@ -10,6 +10,7 @@ import { Button } from "components/ui/Button";
 
 import token from "assets/icons/token.gif";
 import { Draft } from "../lib/tradingPostMachine";
+import { ItemLimits } from "lib/blockchain/Trader";
 
 const TRADEABLE_AMOUNTS: Inventory = {
   Wood: new Decimal(200),
@@ -31,6 +32,7 @@ const MAX_SFL = new Decimal(10000);
 
 interface DraftingProps {
   slotId: number;
+  itemLimits: ItemLimits;
   inventory: Inventory;
   onCancel: () => void;
   onList: (draft: Draft) => void;
@@ -38,11 +40,14 @@ interface DraftingProps {
 
 export const Drafting: React.FC<DraftingProps> = ({
   slotId,
+  itemLimits,
   inventory,
   onCancel,
   onList,
 }) => {
-  const inventoryItems = Object.keys(inventory) as InventoryItemName[];
+  const inventoryItems = (Object.keys(inventory) as InventoryItemName[]).filter(
+    (itemName) => itemLimits[itemName].gt(0)
+  );
 
   const [resourceAmount, setResourceAmount] = useState(
     Math.min(inventory[inventoryItems[0]]?.toNumber() as number, 1)
@@ -80,6 +85,7 @@ export const Drafting: React.FC<DraftingProps> = ({
           />
         ))}
       </div>
+      <span className="text-xs">{`Max: ${itemLimits[selected]}`}</span>
       <div className="flex">
         <OuterPanel className="w-1/2 flex flex-col items-center">
           <span className="text-xs">{selected}</span>
@@ -162,7 +168,11 @@ export const Drafting: React.FC<DraftingProps> = ({
         <Button className="mt-1" onClick={onCancel}>
           Cancel
         </Button>
-        <Button className="mt-1" onClick={() => onList(draft)}>
+        <Button
+          className="mt-1"
+          onClick={() => onList(draft)}
+          disabled={sflAmount === 0 || resourceAmount === 0}
+        >
           List trade
         </Button>
       </div>

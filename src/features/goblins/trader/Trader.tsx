@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
-import { Modal } from "react-bootstrap";
 
 import { Context } from "features/game/GoblinProvider";
-import { Panel } from "components/ui/Panel";
 
 import { TraderModal } from "./TraderModal";
 
@@ -18,12 +16,9 @@ export const Trader: React.FC = () => {
   return (
     <>
       <div onClick={() => openTrader()}>Goblin Trader</div>
-
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <Panel>
-          <TraderModal onClose={() => setShowModal(false)} />
-        </Panel>
-      </Modal>
+      {showModal && (
+        <TraderModal isOpen={showModal} onClose={() => setShowModal(false)} />
+      )}
     </>
   );
 };
