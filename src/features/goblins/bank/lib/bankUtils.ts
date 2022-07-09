@@ -60,6 +60,10 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return false;
   }
 
+  if (item === "Rusty Shovel") {
+    return false;
+  }
+
   // Make sure no trees are replenishing
   if (
     item === "Woody the Beaver" ||
