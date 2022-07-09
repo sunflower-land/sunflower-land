@@ -34,8 +34,12 @@ export const Water: React.FC = () => {
         />
 
         <img
+          style={{
+            width: `${GRID_WIDTH_PX * 1.185}px`,
+            left: `${GRID_WIDTH_PX * 42.8}px`,
+          }}
           src={dragonfly}
-          className="absolute left-2/3 top-1/2 animate-float"
+          className="absolute top-1/2 animate-float"
         />
 
         <img
