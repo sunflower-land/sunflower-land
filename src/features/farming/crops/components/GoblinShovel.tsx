@@ -3,7 +3,7 @@ import { Context } from "features/game/GameProvider";
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import goblin from "assets/npcs/goblin_jump_shovel.gif";
-import shovel from "assets/tools/shovel.png";
+import shovel from "assets/tools/rusty_shovel.png";
 
 import { isShovelStolen } from "features/game/events/harvest";
 
