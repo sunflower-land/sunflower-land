@@ -1,6 +1,6 @@
 ---
 name: Art Request
-about: A request for in game art
+about: A request for in-game art
 title: "[ART] Title goes here"
 labels: 🖼️ art request
 assignees: ""
