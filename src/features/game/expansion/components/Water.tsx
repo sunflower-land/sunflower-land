@@ -17,11 +17,8 @@ export const Water: React.FC = () => {
     <div
       style={{
         height: "inherit",
-        width: "calc(100%)",
-        left: "0",
-        top: "0",
       }}
-      className="absolute"
+      className="absolute inset-0"
     >
       {/* Above Land */}
       <Shark side="top" />
