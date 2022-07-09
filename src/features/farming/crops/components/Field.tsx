@@ -93,6 +93,7 @@ export const Field: React.FC<Props> = ({
 
   const removeCrop = () => {
     gameService.send("item.removed", {
+      item: selectedItem,
       index: fieldIndex,
     });
   };

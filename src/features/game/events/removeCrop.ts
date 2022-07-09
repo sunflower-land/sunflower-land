@@ -1,7 +1,19 @@
+import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
 import { CROPS } from "../types/crops";
 import { GameState, InventoryItemName } from "../types/game";
 import { isReadyToHarvest, isShovelStolen } from "./harvest";
+
+export enum REMOVE_CROP_ERRORS {
+  SHOVEL_STOLEN = "Shovel stolen!",
+  NO_SHOVEL_SELECTED = "No shovel selected!",
+  NO_SHOVEL_AVAILABLE = "No shovel available!",
+  FIELD_DOESNT_EXIST = "Field doesn't exist!",
+  LOCKED_LAND = "Goblin land!",
+  NO_CROP_PLANTED = "There is no crop planted!",
+  READY_TO_HARVEST = "Plant is ready to harvest!",
+  INVALID_PLANT = "Invalid Plant!",
+}
 
 export type RemoveCropAction = {
   type: "item.removed";
@@ -19,15 +31,24 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
   const fields = { ...state.fields };
 
   if (isShovelStolen()) {
-    throw new Error("Missing shovel!");
+    throw new Error(REMOVE_CROP_ERRORS.SHOVEL_STOLEN);
+  }
+
+  if (action.item !== "Rusty Shovel") {
+    throw new Error(REMOVE_CROP_ERRORS.NO_SHOVEL_SELECTED);
+  }
+
+  const shovelAmount = state.inventory["Rusty Shovel"] || new Decimal(0);
+  if (shovelAmount.lessThan(1)) {
+    throw new Error(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
   }
 
   if (action.index < 0) {
-    throw new Error("Field does not exist");
+    throw new Error(REMOVE_CROP_ERRORS.FIELD_DOESNT_EXIST);
   }
 
   if (!Number.isInteger(action.index)) {
-    throw new Error("Field does not exist");
+    throw new Error(REMOVE_CROP_ERRORS.FIELD_DOESNT_EXIST);
   }
 
   if (
@@ -35,7 +56,7 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
     action.index <= 9 &&
     !state.inventory["Pumpkin Soup"]
   ) {
-    throw new Error("Goblin land!");
+    throw new Error(REMOVE_CROP_ERRORS.LOCKED_LAND);
   }
 
   if (
@@ -43,7 +64,7 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
     action.index <= 15 &&
     !state.inventory["Sauerkraut"]
   ) {
-    throw new Error("Goblin land!");
+    throw new Error(REMOVE_CROP_ERRORS.LOCKED_LAND);
   }
 
   if (
@@ -51,27 +72,26 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
     action.index <= 21 &&
     !state.inventory["Roasted Cauliflower"]
   ) {
-    throw new Error("Goblin land!");
+    throw new Error(REMOVE_CROP_ERRORS.LOCKED_LAND);
   }
 
   if (action.index > 21) {
-    throw new Error("Field does not exist");
+    throw new Error(REMOVE_CROP_ERRORS.FIELD_DOESNT_EXIST);
   }
 
   const field = fields[action.index];
   if (!field) {
-    throw new Error("There is no crop planted");
+    throw new Error(REMOVE_CROP_ERRORS.NO_CROP_PLANTED);
   }
 
   const crop = CROPS()[field.name];
 
   if (isReadyToHarvest(createdAt, field, crop)) {
-    throw new Error("Plant is ready to harvest");
+    throw new Error(REMOVE_CROP_ERRORS.READY_TO_HARVEST);
   }
 
-  // TODO - Check this if it makes sense for removing crops
   if (!screenTracker.calculate()) {
-    throw new Error("Invalid plant");
+    throw new Error(REMOVE_CROP_ERRORS.INVALID_PLANT);
   }
 
   const newFields = fields;
