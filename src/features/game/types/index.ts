@@ -11,7 +11,7 @@ export enum LimitedItemType {
 }
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {
-  "Rusty Shovel": 100, // TODO - fix this
+  "Rusty Shovel": 100, // TODO - get correct ID from coreDevs
   "Sunflower Seed": 101,
   "Potato Seed": 102,
   "Pumpkin Seed": 103,

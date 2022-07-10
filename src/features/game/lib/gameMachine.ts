@@ -22,7 +22,6 @@ import {
   acknowledgeRead,
   hasAnnouncements,
 } from "features/announcements/announcementsStorage";
-import Decimal from "decimal.js-light";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -190,9 +189,6 @@ export function startGame(authContext: Options) {
 
                 // add farm address
                 game.farmAddress = authContext.address;
-
-                // TODO - check this; Everyone should have a "rusty shovel", but maybe don't apply that here.
-                game.inventory["Rusty Shovel"] = new Decimal(1);
 
                 return {
                   state: {
