@@ -7,7 +7,7 @@ import tokenStatic from "assets/icons/token.png";
 import questionMark from "assets/icons/expression_confused.png";
 
 import { Box } from "components/ui/Box";
-import { OuterPanel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
@@ -15,11 +15,13 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CAKES, Craftable } from "features/game/types/craftables";
+import { Modal } from "react-bootstrap";
 
 export const Cakes: React.FC = () => {
   const [selected, setSelected] = useState<Craftable>(
     CAKES()["Sunflower Cake"]
   );
+  const [isSellModalOpen, showSellModal] = React.useState(false);
   const { setToast } = useContext(ToastContext);
   const { gameService } = useContext(Context);
   const [
@@ -42,6 +44,21 @@ export const Cakes: React.FC = () => {
   };
 
   const amount = new Decimal(inventory[selected.name] || 0);
+  const noCake = amount.equals(0);
+
+  const handleSell = () => {
+    sell();
+    showSellModal(false);
+  };
+
+  // ask confirmation for  selling
+  const openConfirmationModal = () => {
+    showSellModal(true);
+  };
+
+  const closeConfirmationModal = () => {
+    showSellModal(false);
+  };
 
   return (
     <div className="flex">
@@ -86,13 +103,35 @@ export const Cakes: React.FC = () => {
             <Button
               disabled={amount.lessThan(1)}
               className="text-xs mt-1"
-              onClick={sell}
+              onClick={openConfirmationModal}
             >
               Sell
             </Button>
           )}
         </div>
       </OuterPanel>
+      <Modal centered show={isSellModalOpen} onHide={closeConfirmationModal}>
+        <Panel className="md:w-4/5 m-auto">
+          <div className="m-auto flex flex-col">
+            <span className="text-sm text-center text-shadow">
+              Are you sure you want to <br className="hidden md:block" />
+              sell your {selected.name}?
+            </span>
+          </div>
+          <div className="flex justify-content-around p-1">
+            <Button disabled={noCake} className="text-xs" onClick={handleSell}>
+              Yes
+            </Button>
+            <Button
+              disabled={noCake}
+              className="text-xs ml-2"
+              onClick={closeConfirmationModal}
+            >
+              No
+            </Button>
+          </div>
+        </Panel>
+      </Modal>
     </div>
   );
 };
