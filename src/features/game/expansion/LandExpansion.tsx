@@ -52,8 +52,11 @@ export const LandExpansion: React.FC = () => {
           >
             <img src={background} className="absolute inset-0 w-full h-full" />
             <div
-              className="absolute inset-0 bg-repeat w-full h-full"
-              style={{ backgroundImage: `url(${waterMovement})` }}
+              className="absolute inset-0 bg-repeat w-full h-full "
+              style={{
+                backgroundImage: `url(${waterMovement})`,
+                imageRendering: "pixelated",
+              }}
             ></div>
             <Game />
           </div>
