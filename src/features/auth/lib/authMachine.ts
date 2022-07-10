@@ -374,7 +374,7 @@ export const authMachine = createMachine<
                 : "farm";
               const { screen = defaultScreen } = event as StartEvent;
 
-              window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
+              // window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
             },
             on: {
               REFRESH: {
