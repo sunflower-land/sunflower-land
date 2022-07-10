@@ -75,7 +75,7 @@ const SFLTokenInstructions = () => (
       <span className="mr-1">6.</span>
       <span>
         {
-          'Once the transaction has completed successfully, open the menu inside Sunflower Land and select "Refresh" under "Settings'
+          'Once the transaction has completed successfully, open the menu inside Sunflower Land and select "Refresh" under "Settings"'
         }
       </span>
     </li>
