@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 
 import { Button } from "components/ui/Button";
-import { Box } from "components/ui/Box";
 
 import goblinCarry from "assets/npcs/goblin_carry.gif";
 
-import { getKeys } from "features/game/types/craftables";
 import { DeliverItems } from "./DeliverItems";
 
 interface Props {
@@ -26,13 +24,13 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
         <div>
           <span className="text-sm">Want me to deliver resources?</span>
           <span className="text-sm block mt-2 mb-2">
-            It aint free, I've got a tribe to feed!
+            {"It aint free, I've got a tribe to feed!"}
           </span>
           <span className="text-sm my-4">
-            30% of the resources I'll take for the{" "}
+            {"30% of the resources I'll take for the "}
             <a
               className="underline ml-2"
-              href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+              href="https://docs.sunflower-land.com/economy/goblin-community-treasury"
               target="_blank"
               rel="noreferrer"
             >

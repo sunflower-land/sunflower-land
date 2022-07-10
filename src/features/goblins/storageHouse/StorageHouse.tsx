@@ -10,7 +10,7 @@ import { Modal } from "react-bootstrap";
 import { StorageModal } from "./components/StorageModal";
 
 export const StorageHouse: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const openBank = () => {
     setIsOpen(true);

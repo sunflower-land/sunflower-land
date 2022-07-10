@@ -161,10 +161,8 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
           <h2 className="text-sm">You will receive:</h2>
           <div className="mt-2 -ml-1.5">
             {selectedItems.map((itemName) => {
-              console.log({ itemName, selected });
-
               return (
-                <div className="flex items-center pl-1 mb-2">
+                <div className="flex items-center pl-1 mb-2" key={itemName}>
                   <div className="w-80 flex items-center">
                     <img
                       src={ITEM_DETAILS[itemName].image}
@@ -174,7 +172,12 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
                       <span className="text-sm">{`${selected[itemName]
                         ?.mul(1 - deliveryFee / 100)
                         .toString()} ${itemName}`}</span>
-                      <span className="text-xs">30% delivery fee</span>
+                      <div className="flex">
+                        <span className="text-xxs">{`${selected[itemName]
+                          ?.mul(deliveryFee / 100)
+                          .toString()} Goblin fee`}</span>
+                        <img src={goblinHead} className="w-6 ml-2" />
+                      </div>
                     </div>
                   </div>
 
@@ -211,7 +214,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
 
       <span className="text-xs underline mt-2">
         <a
-          href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+          href="https://docs.sunflower-land.com/economy/goblin-community-treasury"
           target="_blank"
           rel="noreferrer"
         >
