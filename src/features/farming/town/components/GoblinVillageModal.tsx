@@ -26,7 +26,7 @@ export const GoblinVillageModal: React.FC<{ onClose: () => void }> = ({
           Goblin Village offers rare items and{" "}
           <span className="underline">on-chain</span> gameplay.
         </p>
-        <p className="mb-4 text-sm">
+        <p className="mb-2 text-sm">
           Goblins will only accept items that are on the Blockchain. Items that
           are not synced will be hidden.
         </p>

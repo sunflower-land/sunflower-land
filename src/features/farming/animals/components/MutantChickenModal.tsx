@@ -46,9 +46,9 @@ export const MutantChickenModal = ({
           <div className="flex my-4 justify-center">
             <img src={mutants[type].image} style={{ width: "50px" }} />
           </div>
-          <p className="text-sm mb-4">{`Congratulations, your chicken has laid a very rare mutant chicken!`}</p>
+          <p className="text-sm mb-2">{`Congratulations, your chicken has laid a very rare mutant chicken!`}</p>
           {showDescrition && (
-            <p className="text-sm mb-3">{mutants[type].description}</p>
+            <p className="text-sm mb-2">{mutants[type].description}</p>
           )}
         </div>
 

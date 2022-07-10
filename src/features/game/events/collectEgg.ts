@@ -7,14 +7,6 @@ export type CollectAction = {
   index: number;
 };
 
-export const getSecondsToEgg = (fedAt: number) => {
-  const timePassedSinceFed = Date.now() - fedAt;
-
-  if (timePassedSinceFed >= CHICKEN_TIME_TO_EGG) return 0;
-
-  return Math.ceil((CHICKEN_TIME_TO_EGG - timePassedSinceFed) / 1000);
-};
-
 type Options = {
   state: GameState;
   action: CollectAction;

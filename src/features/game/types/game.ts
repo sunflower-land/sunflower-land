@@ -111,6 +111,13 @@ export type Position = {
   width: number;
 };
 
+export type PlantedCrop = {
+  name: CropName;
+  plantedAt: number;
+  amount?: number;
+  reward?: Reward;
+};
+
 export type LandExpansionTree = {
   wood: string;
   // Epoch time in milliseconds
@@ -128,8 +135,7 @@ export type LandExpansionTerrain = {
 } & Position;
 
 export type LandExpansionPlot = {
-  name?: CropName;
-  plantedAt?: number;
+  crop?: PlantedCrop;
 } & Position;
 
 export interface GameState {

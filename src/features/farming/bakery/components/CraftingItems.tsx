@@ -54,10 +54,12 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
       amount: 1,
     });
 
-    setToast({
-      icon: tokenStatic,
-      content: `-$${selected.tokenAmount?.mul(1)}`,
-    });
+    if (selected.tokenAmount) {
+      setToast({
+        icon: tokenStatic,
+        content: `-$${selected.tokenAmount?.mul(1)}`,
+      });
+    }
 
     selected.ingredients?.map((ingredient) => {
       const item = ITEM_DETAILS[ingredient.item];

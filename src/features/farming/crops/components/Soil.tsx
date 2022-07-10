@@ -8,15 +8,15 @@ import { getTimeLeft, secondsToMidString } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 
-import { FieldItem } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
 import { addNoise, RandomID } from "lib/images";
 
 import { LIFECYCLE } from "../lib/plant";
 import classnames from "classnames";
+import { PlantedCrop } from "features/game/types/game";
 
 interface Props {
-  field?: FieldItem;
+  plantedCrop?: PlantedCrop;
   className?: string;
   showCropDetails?: boolean;
 }
@@ -44,7 +44,7 @@ const Ready: React.FC<{ image: string; className: string }> = ({
 };
 
 export const Soil: React.FC<Props> = ({
-  field,
+  plantedCrop,
   className,
   showCropDetails,
 }) => {
@@ -54,24 +54,24 @@ export const Soil: React.FC<Props> = ({
   }, []);
 
   React.useEffect(() => {
-    if (field) {
+    if (plantedCrop) {
       setHarvestTime();
       const interval = window.setInterval(setHarvestTime, 1000);
       return () => window.clearInterval(interval);
     }
-  }, [field, setHarvestTime]);
+  }, [plantedCrop, setHarvestTime]);
 
-  if (!field) {
+  if (!plantedCrop) {
     return <img src={soil} className={classnames("w-full", className)} />;
   }
 
-  const crop = CROPS()[field.name];
-  const lifecycle = LIFECYCLE[field.name];
-  const timeLeft = getTimeLeft(field.plantedAt, crop.harvestSeconds);
+  const { harvestSeconds } = CROPS()[plantedCrop.name];
+  const lifecycle = LIFECYCLE[plantedCrop.name];
+  const timeLeft = getTimeLeft(plantedCrop.plantedAt, harvestSeconds);
 
   // Seedling
   if (timeLeft > 0) {
-    const percentage = 100 - (timeLeft / crop.harvestSeconds) * 100;
+    const percentage = 100 - (timeLeft / harvestSeconds) * 100;
     const isAlmostReady = percentage >= 50;
 
     return (
@@ -95,7 +95,7 @@ export const Soil: React.FC<Props> = ({
           <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
             <div className="flex flex-1 items-center justify-center">
               <img src={lifecycle.ready} className="w-4 mr-1" />
-              <span>{field.name}</span>
+              <span>{plantedCrop.name}</span>
             </div>
             <span className="flex-1">{secondsToMidString(timeLeft)}</span>
           </div>

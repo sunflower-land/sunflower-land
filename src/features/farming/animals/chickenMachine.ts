@@ -1,13 +1,11 @@
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { assign, createMachine, Interpreter, State } from "xstate";
 
-const TICK_INTERVAL = 1; // 1 second
-
 export interface ChickenContext {
   timeElapsed: number;
   timeToEgg: number;
   timeInCurrentState: number;
-  isFed: boolean;
+  fedAt: number;
 }
 
 export type ChickenState = {
@@ -24,7 +22,7 @@ export type ChickenState = {
 
 type ChickenFeedEvent = {
   type: "FEED";
-  timeToEgg: number;
+  fedAt: number;
 };
 
 type ChickenEvent =
@@ -53,17 +51,19 @@ const assignRandomTimeInState = assign<ChickenContext, any>({
 const reset = assign<ChickenContext, any>({
   timeElapsed: 0,
   timeInCurrentState: 0,
-  isFed: false,
-  timeToEgg: Math.ceil(CHICKEN_TIME_TO_EGG / 1000),
+  fedAt: 0,
 });
 
 const assignFeedDetails = assign<ChickenContext, ChickenFeedEvent>({
-  timeToEgg: (_, event) => event.timeToEgg,
-  isFed: true,
+  fedAt: (_, event) => event.fedAt,
 });
 
 const assignTimeElapsed = assign<ChickenContext, any>({
-  timeElapsed: (context) => context.timeElapsed + TICK_INTERVAL,
+  timeElapsed: (context) => {
+    const now = Date.now();
+
+    return Math.floor((+now - context.fedAt) / 1000);
+  },
 });
 
 export const chickenMachine = createMachine<
@@ -76,15 +76,15 @@ export const chickenMachine = createMachine<
     context: {
       timeElapsed: 0,
       timeInCurrentState: 0,
-      timeToEgg: Math.ceil(CHICKEN_TIME_TO_EGG / 1000), // seconds
-      isFed: false,
+      timeToEgg: CHICKEN_TIME_TO_EGG / 1000, // seconds
+      fedAt: 0,
     },
     states: {
       loading: {
         always: [
           {
             target: "hungry",
-            cond: (context) => !context.isFed,
+            cond: (context) => !context.fedAt,
           },
           {
             target: "eggReady",
@@ -115,7 +115,7 @@ export const chickenMachine = createMachine<
           src: () => (cb) => {
             const interval = setInterval(() => {
               cb("TICK");
-            }, TICK_INTERVAL * 1000);
+            }, 1000);
 
             return () => {
               clearInterval(interval);

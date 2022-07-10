@@ -14,7 +14,7 @@ import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
 import { fromWei } from "web3-utils";
 import { Context } from "features/game/GoblinProvider";
-import { shortAddress } from "features/farming/hud/components/Address";
+import { shortAddress } from "lib/utils/shortAddress";
 import { CONFIG } from "lib/config";
 import { ConnectingError } from "features/auth/components/ConnectingError";
 import classNames from "classnames";
@@ -42,7 +42,7 @@ type NoWishArgs = Pick<WishingWellTokens, "totalTokensInWell"> & {
   hasLPTokens: boolean;
 };
 
-const Granted = ({ lockedTime, onClose }: GrantedArgs) => (
+const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
@@ -50,9 +50,7 @@ const Granted = ({ lockedTime, onClose }: GrantedArgs) => (
         <img src={token} alt="sunflower token" className="w-16 mb-2" />
       </div>
       <p className="mb-4 text-sm">Your wish has been granted.</p>
-      <p className="mb-4 text-sm">
-        Your reward has been transferred to your farm.
-      </p>
+      <p className="mb-4 text-sm">{`You have received ${reward} SFL!`}</p>
       <p className="mb-4 text-sm">
         A new wish has been made for you based on your current balance of LP
         tokens!
@@ -113,7 +111,7 @@ const WaitingForWish = ({ lockedTime, onClose }: WaitingForWishArgs) => (
         Be aware that only the LP tokens you held at the time the wish was made
         will be considered when the wish is granted.
       </p>
-      <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-error">
+      <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">
         <img src={alert} alt="alert" className="mr-2 w-6" />
         <span className="text-xs">
           {`If you remove your liquidity during this time you won't receive any
@@ -216,15 +214,15 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
-  const child = goblinState.children.wishingWell as MachineInterpreter;
+  const child = (goblinState.children.wishingWell || {}) as MachineInterpreter;
 
   const [machine, send] = useActor(child);
 
   const { state: wishingWell, errorCode } = machine.context;
 
   const handleClose = () => {
-    send("CLOSING");
     onClose();
+    send("CLOSING");
   };
 
   const goToQuickSwap = () => {

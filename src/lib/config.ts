@@ -16,6 +16,7 @@ const DISCORD_REDIRECT = import.meta.env.VITE_DISCORD_REDIRECT;
 const CLIENT_VERSION = import.meta.env.VITE_CLIENT_VERSION as string;
 const RELEASE_VERSION = import.meta.env.VITE_RELEASE_VERSION as string;
 const RECAPTCHA_SITEKEY = import.meta.env.VITE_RECAPTCHA_SITEKEY as string;
+const TRADER_CONTRACT = import.meta.env.VITE_TRADER_CONTRACT as string;
 
 export const CONFIG = {
   NETWORK,
@@ -35,4 +36,5 @@ export const CONFIG = {
   RELEASE_VERSION,
   RECAPTCHA_SITEKEY,
   MOM_CONTRACT,
+  TRADER_CONTRACT,
 };
