@@ -10,6 +10,7 @@ import { Pebble } from "./components/resources/Pebble";
 import { Shrub } from "./components/resources/Shrub";
 import { Tree } from "features/farming/crops/components/landExpansion/Tree";
 import { LandBase } from "./components/LandBase";
+import { Bumpkin } from "features/island/bumpkin/Bumpkin";
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -83,6 +84,9 @@ export const Land: React.FC = () => {
             </MapPlacement>
           );
         })}
+        <MapPlacement key="bumpkin" x={2} y={2} height={1} width={1}>
+          <Bumpkin />
+        </MapPlacement>
       </div>
     </div>
   );
