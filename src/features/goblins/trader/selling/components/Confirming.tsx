@@ -1,22 +1,24 @@
 import React from "react";
 
-import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
 import token from "assets/icons/token.gif";
 import goblin from "assets/npcs/goblin_head.png";
-import { Draft } from "../lib/tradingPostMachine";
+
+import { Button } from "components/ui/Button";
+import { ITEM_DETAILS } from "features/game/types/images";
+
+import { Draft } from "../lib/sellingMachine";
 
 interface ConfirmProps {
   tax: number;
   draft: Draft;
-  onCancel: () => void;
+  onBack: () => void;
   onConfirm: () => void;
 }
 
 export const Confirming: React.FC<ConfirmProps> = ({
   tax,
   draft,
-  onCancel,
+  onBack,
   onConfirm,
 }) => {
   const resource = ITEM_DETAILS[draft.resourceName];
@@ -57,8 +59,8 @@ export const Confirming: React.FC<ConfirmProps> = ({
       <Button className="mt-1" onClick={onConfirm}>
         Confirm Listing
       </Button>
-      <Button className="mt-1" onClick={onCancel}>
-        Cancel
+      <Button className="mt-1" onClick={onBack}>
+        Back
       </Button>
     </div>
   );

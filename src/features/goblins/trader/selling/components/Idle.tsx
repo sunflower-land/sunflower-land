@@ -1,28 +1,30 @@
 import React from "react";
 
-import { Button } from "components/ui/Button";
-import { KNOWN_ITEMS } from "features/game/types";
-import { FarmSlot, ListingStatus } from "lib/blockchain/Trader";
 import ticket from "assets/icons/ticket.png";
-import { Cancel } from "../lib/tradingPostMachine";
+
+import { KNOWN_ITEMS } from "features/game/types";
+import {
+  FarmSlot,
+  Listing as ListingType,
+  ListingStatus,
+} from "lib/blockchain/Trader";
+
 import { Listing } from "./Listing";
 
-interface SellingProps {
+interface IdleProps {
   freeListings: number;
   remainingListings: number;
   farmSlots: FarmSlot[];
-  onList: (slotId: number) => void;
-  onCancel: (cancel: Cancel) => void;
-  onClose: () => void;
+  onDraft: (slotId: number) => void;
+  onCancel: (listing: ListingType) => void;
 }
 
-export const Selling: React.FC<SellingProps> = ({
+export const Idle: React.FC<IdleProps> = ({
   freeListings,
   remainingListings,
   farmSlots,
-  onList,
+  onDraft,
   onCancel,
-  onClose,
 }) => (
   <div className="p-2">
     <div className="flex justify-between mb-4 items-center">
@@ -34,7 +36,7 @@ export const Selling: React.FC<SellingProps> = ({
       </div>
 
       <p className="text-xxs sm:text-xs whitespace-nowrap">
-        Remaining Trades:{remainingListings}
+        {`Remaining Trades: ${remainingListings}`}
       </p>
     </div>
 
@@ -49,38 +51,30 @@ export const Selling: React.FC<SellingProps> = ({
             key={farmSlot.slotId}
             className="border-4 border-dashed border-brown-600 mb-3 p-3 flex items-center justify-center"
           >
-            <span className="text-sm" onClick={() => onList(farmSlot.slotId)}>
+            <span className="text-sm" onClick={() => onDraft(farmSlot.slotId)}>
               + List Trade
             </span>
           </div>
         );
       }
 
-      const listingId = farmSlot.listing.id;
-      const resourceName = KNOWN_ITEMS[farmSlot.listing.resourceId];
-      const resourceAmount = farmSlot.listing.resourceAmount;
       // if listed, return a listing UI
+      const listing = farmSlot.listing;
+      const listingId = listing.id;
+      const resourceName = KNOWN_ITEMS[listing.resourceId];
+      const resourceAmount = listing.resourceAmount;
+
       return (
         <Listing
-          onCancel={() =>
-            onCancel({
-              listingId: listingId,
-              resourceName: resourceName,
-              resourceAmount: resourceAmount,
-            })
-          }
+          onCancel={() => onCancel(listing)}
           key={farmSlot.slotId}
           listingId={listingId}
           resourceName={resourceName}
           resourceAmount={resourceAmount}
-          sfl={farmSlot.listing.sfl}
-          tax={farmSlot.listing.tax}
+          sfl={listing.sfl}
+          tax={listing.tax}
         />
       );
     })}
-
-    <Button className="mr-1" onClick={onClose}>
-      Close
-    </Button>
   </div>
 );

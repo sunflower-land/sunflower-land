@@ -12,7 +12,7 @@ interface ConfirmingCancelProps {
   resourceAmount: number;
 }
 
-export const ConfirmingCancel: React.FC<ConfirmingCancelProps> = ({
+export const Cancelling: React.FC<ConfirmingCancelProps> = ({
   onConfirm,
   onBack,
   listingId,

@@ -6,7 +6,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import token from "assets/icons/token.gif";
 import goblin from "assets/npcs/goblin_head.png";
 import { Button } from "components/ui/Button";
-import { Cancel } from "../lib/tradingPostMachine";
+import { Cancel } from "../../tradingPost/lib/tradingPostMachine";
 
 interface ListingProps {
   listingId: number;
