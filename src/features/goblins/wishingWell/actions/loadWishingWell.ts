@@ -17,7 +17,6 @@ export type WishingWellTokens = {
  * Load Blockchain data for the wishing well
  */
 export async function loadWishingWell(): Promise<WishingWellTokens> {
-  console.log("Loading wishing well");
   const tokensInWellPromise = metamask.getWishingWell().getBalance();
   const canCollectPromise = metamask.getWishingWell().canCollect();
   const lastCollectedPromise = metamask.getWishingWell().lastCollected();

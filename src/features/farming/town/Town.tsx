@@ -10,7 +10,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import { GoblinVillageEntry } from "./components/GoblinVillageEntry";
 import { TownHall } from "../townHall/TownHall";
-import { Trader } from "../trader/Trader";
+import { Salesman } from "../salesman/Salesman";
 
 export const Town: React.FC = () => {
   return (
@@ -31,7 +31,7 @@ export const Town: React.FC = () => {
       <Blacksmith />
       <Mail />
       <TownHall />
-      <Trader />
+      <Salesman />
       <GoblinVillageEntry />
     </div>
   );

@@ -10,7 +10,6 @@ import { WishingWell } from "../wishingWell/WishingWell";
 import { Hud } from "../hud/Hud";
 import { Tailor } from "../tailor/Tailor";
 import { Decorations } from "../Decorations";
-import { Rocket } from "../rocket/Rocket";
 import { GoblinMachineState } from "features/game/lib/goblinMachine";
 import { AncientTree } from "../quest/AncientTree";
 import { AncientRock } from "../quest/AncientRock";
@@ -49,7 +48,6 @@ export const Village: React.FC<Props> = ({ state }) => {
       <AncientRock />
       <AncientDoor />
       {CONFIG.NETWORK === "mumbai" && <Trader />}
-      {state !== "loading" && <Rocket />}
     </div>
   );
 };

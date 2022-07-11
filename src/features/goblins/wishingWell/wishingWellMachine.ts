@@ -11,8 +11,10 @@ import { ERRORS } from "lib/errors";
 
 import { WishingWellTokens, loadWishingWell } from "./actions/loadWishingWell";
 import { collectFromWell } from "./actions/collectFromWell";
-import { getOnChainState } from "features/game/actions/onchain";
 import Decimal from "decimal.js-light";
+import { reset } from "features/farming/hud/actions/reset";
+import { fromWei } from "web3-utils";
+import { loadSession } from "features/game/actions/loadSession";
 
 export interface Context {
   state: WishingWellTokens;
@@ -175,34 +177,47 @@ export const wishingWellMachine = createMachine<
       granting: {
         invoke: {
           src: async (context, event) => {
-            await collectFromWell({
+            // Collect from well and await receipt
+            const receipt: any = await collectFromWell({
               farmId: context.farmId as number,
               sessionId: context.sessionId as string,
               amount: context.state.myTokensInWell.toString(),
               token: context.token as string,
               captcha: (event as CaptchaEvent).captcha,
             });
+            // Get reward amount from Rewarded event
+            const reward = new Decimal(
+              fromWei(receipt.events.Rewarded.returnValues[1])
+            );
 
-            const {
-              game: { balance: newBalance },
-            } = await getOnChainState({
-              farmAddress: context.farmAddress as string,
-              id: Number(context.farmId),
+            // Rebase gamestate for player so the reward is added to the players balance off chain
+            await reset({
+              farmId: Number(context.farmId),
+              token: context.token as string,
+              fingerprint: "fingerprint",
             });
 
-            const totalRewards = newBalance.sub(
-              context?.balance || new Decimal(0)
-            );
+            // Reload the session to get the new refreshed balance
+            const response = await loadSession({
+              farmId: context.farmId as number,
+              sessionId: context.sessionId as string,
+              token: context.token as string,
+            });
 
             const well = await loadWishingWell();
 
-            return { state: well, totalRewards, newBalance };
+            return {
+              state: well,
+              totalRewards: reward || new Decimal(0),
+              newBalance: response?.game.balance,
+            };
           },
           onDone: {
             target: "granted",
             actions: [
               assignWishingWellState,
               assignTotalRewards,
+              // Update goblin machine balance
               sendParent((_, event) => ({
                 type: "UPDATE_BALANCE",
                 newBalance: event.data.newBalance,
