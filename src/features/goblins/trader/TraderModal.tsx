@@ -61,17 +61,6 @@ export const TraderModal: React.FC<TraderModalProps> = ({
     onClose();
   };
 
-  // const buyingStates: BlockchainState["value"][] = ["buying"];
-  // const sellingStates: BlockchainState["value"][] = [
-  //   "selling",
-  //   "drafting",
-  //   "confirming",
-  //   "posting",
-  //   "confirmingCancel",
-  //   "cancelling",
-  // ];
-  // const isBuying = buyingStates.some(machine.matches);
-  // const isSelling = sellingStates.some(machine.matches);
   const sellingStates: BlockchainState["value"][] = [
     { selling: "cancelling" },
     { selling: "confirming" },

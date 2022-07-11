@@ -12,22 +12,6 @@ import token from "assets/icons/token.gif";
 import { Draft } from "../lib/tradingPostMachine";
 import { ItemLimits } from "lib/blockchain/Trader";
 
-const TRADEABLE_AMOUNTS: Inventory = {
-  Wood: new Decimal(200),
-  Stone: new Decimal(200),
-  Iron: new Decimal(200),
-  Gold: new Decimal(100),
-};
-
-// const PLAYER_INVENTORY: Inventory = {
-//   Wood: new Decimal(300),
-//   "Chicken Coop": new Decimal(1),
-//   Stone: new Decimal(50),
-//   Iron: new Decimal(250),
-//   Gold: new Decimal(0.2),
-//   "Ancient Goblin Sword": new Decimal(1),
-// };
-
 const MAX_SFL = new Decimal(10000);
 
 interface DraftingProps {
