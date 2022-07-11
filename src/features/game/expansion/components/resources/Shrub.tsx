@@ -4,8 +4,9 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import sparkSheet from "assets/resources/shrub/shrub-sheet.png";
-import dropSheet from "assets/resources/shrub/shrub_chopped.png";
+import sparkSheet from "assets/resources/shrub/shrub_sheet.png";
+import dropSheet from "assets/resources/shrub/shrub_chopped_sheet.png";
+import choppedShrub from "assets/resources/shrub/chopped_shrub.png";
 import smallShrub from "assets/resources/green_bush2.png";
 
 import { Context } from "features/game/GameProvider";
@@ -19,6 +20,7 @@ import { canChop } from "features/game/events/chopShrub";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 2;
@@ -140,7 +142,8 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
 
   return (
     <div
-      className="relative z-10 w-full h-full"
+      className="relative z-10"
+      style={{ height: "100px" }}
       onMouseEnter={handleMouseHoverShrub}
       onMouseLeave={handleMouseLeaveShrub}
     >
@@ -154,15 +157,17 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
             className="group-hover:img-highlight pointer-events-none z-10"
             style={{
               position: "absolute",
-              left: "-24px",
-              top: "-2px",
+              left: "-41px",
+              top: "-25px",
+              imageRendering: "pixelated",
+              width: `${GRID_WIDTH_PX * 3}px`,
             }}
             getInstance={(spritesheet) => {
               sparkGif.current = spritesheet;
             }}
             image={sparkSheet}
-            widthFrame={96}
-            heightFrame={64}
+            widthFrame={48}
+            heightFrame={48}
             fps={24}
             steps={7}
             direction={`forward`}
@@ -178,10 +183,11 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
       <Spritesheet
         style={{
           position: "absolute",
-          left: "-74px",
+          left: "-90px",
           top: "-14px",
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
+          width: `${GRID_WIDTH_PX * 4}px`,
           imageRendering: "pixelated",
         }}
         className="pointer-events-none z-20"
@@ -189,10 +195,10 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
           choppedGif.current = spritesheet;
         }}
         image={dropSheet}
-        widthFrame={133}
-        heightFrame={84}
+        widthFrame={266}
+        heightFrame={168}
         fps={20}
-        steps={11}
+        steps={15}
         direction={`forward`}
         autoplay={false}
         loop={false}
@@ -202,40 +208,28 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
       />
 
       {chopped && (
-        <div className="absolute" style={{ top: "12px", left: "8px" }}>
+        <>
           <img
-            src={smallShrub}
-            className="pointer-events-none -z-10 opacity-50"
+            src={choppedShrub}
+            className="pointer-events-none -z-10 opacity-50 absolute"
+            style={{ top: "12px", left: "22px", width: `${GRID_WIDTH_PX}px` }}
           />
-        </div>
+        </>
       )}
 
       <div
-        className={classNames(
-          "absolute top-16 left-5 transition-opacity pointer-events-none content-center",
-          {
-            "opacity-100": touchCount > 0,
-            "opacity-0": touchCount === 0,
-          }
-        )}
+        className={classNames("absolute transition-opacity content-center", {
+          "opacity-100": touchCount > 0,
+          "opacity-0": touchCount === 0,
+        })}
+        style={{ left: "24px", top: "64px" }}
       >
         <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 2) * 100} />
       </div>
 
-      {true && (
-        <div
-          className="absolute"
-          id="chopped-shrub"
-          style={{
-            bottom: "60px",
-            left: "-25px",
-          }}
-        >
-          <TimeLeftPanel
-            text="Recovers in:"
-            timeLeft={timeLeft}
-            showTimeLeft={showShrubTimeLeft}
-          />
+      {chopped && (
+        <div className="absolute top-9">
+          <TimeLeftPanel timeLeft={timeLeft} showTimeLeft={showShrubTimeLeft} />
         </div>
       )}
 
