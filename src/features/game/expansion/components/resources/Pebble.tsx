@@ -237,12 +237,11 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
         <div
           className="absolute"
           style={{
-            top: "41px",
+            top: "30px",
             left: "-26px",
           }}
         >
           <TimeLeftPanel
-            text="Recovers in:"
             timeLeft={timeLeft}
             showTimeLeft={showPebbleTimeLeft}
           />
