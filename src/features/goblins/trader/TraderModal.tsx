@@ -57,8 +57,8 @@ export const TraderModal: React.FC<TraderModalProps> = ({
   };
 
   const handleClose = () => {
-    child.send("CLOSING");
     onClose();
+    child.send("CLOSING");
   };
 
   const sellingStates: BlockchainState["value"][] = [
@@ -77,22 +77,20 @@ export const TraderModal: React.FC<TraderModalProps> = ({
         <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
           <div className="flex">
             <Tab
-              className="flex items-center"
+              className="flex items-center border-b-2 border-brown-300"
               isActive={!isSelling}
               onClick={() => send("BUY")}
             >
               <img src={token} className="h-4 sm:h-5 mr-2" />
-              <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
-                Buy
-              </span>
+              <span className="text-sm overflow-hidden text-ellipsis">Buy</span>
             </Tab>
             <Tab
-              className="flex items-center"
+              className="flex items-center border-b-2 border-brown-300"
               isActive={isSelling}
               onClick={() => send("SELL")}
             >
               <img src={token} className="h-4 sm:h-5 mr-2" />
-              <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
+              <span className="text-sm overflow-hidden text-ellipsis">
                 Sell
               </span>
             </Tab>
