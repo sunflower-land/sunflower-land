@@ -6,7 +6,6 @@ import Spritesheet, {
 
 import sparkSheet from "assets/resources/pebble/pebble_sheet.png";
 import smallStone from "assets/resources/small_stone.png";
-import minedPebble from "assets/resources/pebble/mined_pebble.png";
 import dropSheet from "assets/resources/pebble/pebble_drop.png";
 
 import { Context } from "features/game/GameProvider";
@@ -23,6 +22,7 @@ import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import classNames from "classnames";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 2;
@@ -141,7 +141,8 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
   return (
     <div
-      className="relative z-10 w-full h-full"
+      className="relative z-10"
+      style={{ height: "40px" }}
       onMouseEnter={handleMouseHoverPebble}
       onMouseLeave={handleMouseLeavePebble}
     >
@@ -156,20 +157,22 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
             className="group-hover:img-highlight pointer-events-none z-10"
             style={{
               position: "absolute",
-              left: "-28px",
-              top: "-22px",
+              left: "-44.7px",
+              top: "-37px",
+              imageRendering: "pixelated",
+              width: `${GRID_WIDTH_PX * 3}px`,
             }}
             getInstance={(spritesheet) => {
               sparkGif.current = spritesheet;
             }}
             image={sparkSheet}
-            widthFrame={96}
-            heightFrame={64}
+            widthFrame={48}
+            heightFrame={32}
             fps={24}
             steps={6}
             direction={`forward`}
             autoplay={false}
-            loop={true}
+            loop={false}
             onLoopComplete={(spritesheet) => {
               spritesheet.pause();
             }}
@@ -180,10 +183,12 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
       <Spritesheet
         style={{
           position: "absolute",
-          left: "2px",
-          top: "-28px",
+          left: "-10.1px",
+          top: "-47.2px",
           opacity: collecting ? 1 : 0,
+          // opacity: 1,
           transition: "opacity 0.2s ease-in",
+          width: `${GRID_WIDTH_PX * 5}px`,
           imageRendering: "pixelated",
         }}
         className="pointer-events-none z-20"
@@ -191,8 +196,8 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
           minedGif.current = spritesheet;
         }}
         image={dropSheet}
-        widthFrame={160}
-        heightFrame={64}
+        widthFrame={80}
+        heightFrame={32}
         fps={18}
         steps={10}
         direction={`forward`}
@@ -205,9 +210,15 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
       {/* Mined Pebble  */}
       {mined && (
-        <div className="absolute" style={{ top: "14px", left: "9px" }}>
-          <img src={minedPebble} className="pointer-events-none -z-10 " />
-        </div>
+        <>
+          <img
+            src={smallStone}
+            className="pointer-events-none -z-10 absolute opacity-50"
+            style={{
+              width: `${GRID_WIDTH_PX * 1.1}px`,
+            }}
+          />
+        </>
       )}
       {/* Health bar shown when striking */}
       <div
