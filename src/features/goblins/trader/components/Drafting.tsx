@@ -147,7 +147,7 @@ export const Drafting: React.FC<DraftingProps> = ({
         <Button onClick={() => onList(draft)} disabled={disableListTradeButton}>
           List trade
         </Button>
-        <Button className="mt-2" onClick={onCancel}>
+        <Button className="mt-1" onClick={onCancel}>
           Cancel
         </Button>
       </div>

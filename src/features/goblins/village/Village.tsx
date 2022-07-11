@@ -21,7 +21,7 @@ interface Props {
   state: GoblinMachineState["value"];
 }
 
-export const Village: React.FC<Props> = ({ state }) => {
+export const Village: React.FC<Props> = () => {
   return (
     <div
       style={{

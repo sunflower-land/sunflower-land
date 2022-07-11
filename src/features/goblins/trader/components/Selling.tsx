@@ -41,7 +41,7 @@ export const Selling: React.FC<SellingProps> = ({
         return (
           <div
             key={farmSlot.slotId}
-            className="border-4 border-dashed border-brown-600 mb-2 h-12 flex items-center justify-center"
+            className="border-4 border-dashed border-brown-600 mb-3 p-3 flex items-center justify-center"
           >
             <span className="text-sm" onClick={() => onList(farmSlot.slotId)}>
               + List Trade

@@ -102,72 +102,76 @@ export const TraderModal: React.FC<TraderModalProps> = ({
           />
         </div>
 
-        {machine.matches("loading") && <span className="loading">Loading</span>}
+        <div className="min-h-[150px]">
+          {machine.matches("loading") && (
+            <span className="loading">Loading</span>
+          )}
 
-        {machine.matches({ selling: "drafting" }) && (
-          <Drafting
-            slotId={slotId}
-            itemLimits={itemLimits}
-            inventory={goblinState.context.state.inventory}
-            onCancel={() => send("BACK")}
-            onList={list}
-          />
-        )}
+          {machine.matches({ selling: "drafting" }) && (
+            <Drafting
+              slotId={slotId}
+              itemLimits={itemLimits}
+              inventory={goblinState.context.state.inventory}
+              onCancel={() => send("BACK")}
+              onList={list}
+            />
+          )}
 
-        {machine.matches({ selling: "confirming" }) && (
-          <Confirming
-            tax={TAX}
-            draft={draft}
-            onCancel={() => send("BACK")}
-            onConfirm={post}
-          />
-        )}
+          {machine.matches({ selling: "confirming" }) && (
+            <Confirming
+              tax={TAX}
+              draft={draft}
+              onCancel={() => send("BACK")}
+              onConfirm={post}
+            />
+          )}
 
-        {machine.matches({ selling: "posting" }) && (
-          <span className="loading">Posting</span>
-        )}
+          {machine.matches({ selling: "posting" }) && (
+            <span className="loading">Posting</span>
+          )}
 
-        {machine.matches("error") && <div>Error</div>}
+          {machine.matches("error") && <div>Error</div>}
 
-        {machine.matches({ selling: "confirmingCancel" }) && (
-          <ConfirmingCancel
-            onBack={() => send("BACK")}
-            onConfirm={() => send("CONFIRM")}
-            listingId={cancelledListing.listingId}
-            resourceName={cancelledListing.resourceName}
-            resourceAmount={cancelledListing.resourceAmount}
-          />
-        )}
+          {machine.matches({ selling: "confirmingCancel" }) && (
+            <ConfirmingCancel
+              onBack={() => send("BACK")}
+              onConfirm={() => send("CONFIRM")}
+              listingId={cancelledListing.listingId}
+              resourceName={cancelledListing.resourceName}
+              resourceAmount={cancelledListing.resourceAmount}
+            />
+          )}
 
-        {machine.matches({ selling: "cancelling" }) && (
-          <span className="loading">Cancelling</span>
-        )}
+          {machine.matches({ selling: "cancelling" }) && (
+            <span className="loading">Cancelling</span>
+          )}
 
-        {machine.matches("updateSession") && (
-          <span className="loading">Processing</span>
-        )}
+          {machine.matches("updateSession") && (
+            <span className="loading">Processing</span>
+          )}
 
-        {machine.matches("buying") && (
-          <Buying
-            farmId={1}
-            onVisit={(farmId) => {
-              console.log(farmId);
-            }}
-          />
-        )}
+          {machine.matches("buying") && (
+            <Buying
+              farmId={1}
+              onVisit={(farmId) => {
+                console.log(farmId);
+              }}
+            />
+          )}
 
-        {machine.matches({ selling: "idle" }) && (
-          <Selling
-            freeListings={freeListings}
-            remainingListings={remainingListings}
-            farmSlots={farmSlots ?? []}
-            onList={(slotId: number) => child.send("DRAFT", { slotId })}
-            onCancel={(cancel: Cancel) =>
-              child.send("CANCEL_LISTING", { cancel })
-            }
-            onClose={handleClose}
-          />
-        )}
+          {machine.matches({ selling: "idle" }) && (
+            <Selling
+              freeListings={freeListings}
+              remainingListings={remainingListings}
+              farmSlots={farmSlots ?? []}
+              onList={(slotId: number) => child.send("DRAFT", { slotId })}
+              onCancel={(cancel: Cancel) =>
+                child.send("CANCEL_LISTING", { cancel })
+              }
+              onClose={handleClose}
+            />
+          )}
+        </div>
       </Panel>
     </Modal>
   );
