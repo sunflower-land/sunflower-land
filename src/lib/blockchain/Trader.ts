@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import { AbiItem, fromWei, toWei } from "web3-utils";
+import { AbiItem, fromWei } from "web3-utils";
 
 import { CONFIG } from "lib/config";
 
@@ -124,20 +124,6 @@ export class Trader {
       );
     });
 
-    const FAKE_EVENTS: Purchased[] = [
-      {
-        blockHash: 10000,
-        returnValues: {
-          buyerFarmId: 154,
-          resourceAmount: toWei("20"),
-          resourceId: 601,
-          sfl: 100,
-        },
-      } as any as Purchased,
-    ];
-    return FAKE_EVENTS;
-
-    // TODO
     return events;
   }
 }

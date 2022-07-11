@@ -3,10 +3,11 @@ import { fromWei } from "web3-utils";
 import { metamask } from "lib/blockchain/metamask";
 import { shortAddress } from "lib/utils/shortAddress";
 
-import heart from "assets/icons/heart.png";
+import token from "assets/icons/token.gif";
 
 import { ITEM_DETAILS } from "../types/images";
 import { KNOWN_ITEMS } from "../types";
+import { getItemUnit } from "../lib/conversion";
 
 export type OnChainEvent = {
   icon: string;
@@ -20,8 +21,24 @@ type LoadPastEventArgs = {
   farmAddress: string;
 };
 
+/**
+ * Load On Chain events and transform them into OnChainEvent[]
+ */
 async function loadPastEvents({ farmId, farmAddress }: LoadPastEventArgs) {
-  const pastTradeEvents = await metamask.getTrader().getPastTrades(farmId);
+  console.log({ farmAddress });
+  const [
+    pastTradeEvents,
+    pastInventoryDeposits,
+    pastInventoryBatchDeposits,
+    pastSFLDeposits,
+  ] = await Promise.all([
+    // TODO hardcoded farm ID #44
+    metamask.getTrader().getPastTrades(44),
+    metamask.getInventory().getTransfers(farmAddress),
+    metamask.getInventory().getBatchTransfers(farmAddress),
+    metamask.getToken().getPastDeposits(farmAddress),
+  ]);
+
   const tradeEvents: OnChainEvent[] = pastTradeEvents.map((event) => {
     const item = KNOWN_ITEMS[Number(event.returnValues.resourceId)];
 
@@ -29,25 +46,71 @@ async function loadPastEvents({ farmId, farmAddress }: LoadPastEventArgs) {
       icon: ITEM_DETAILS[item].image,
       blockNumber: 100000,
       message: `Farm #${event.returnValues.buyerFarmId} purchased ${Number(
-        fromWei(event.returnValues.resourceAmount)
+        fromWei(event.returnValues.resourceAmount, getItemUnit(item))
       )} ${item}`,
-      transactionHash: "0x1239120321",
+      transactionHash: event.transactionHash,
     };
   });
 
-  const pastDeposits = await metamask.getToken().getPastDeposits(farmAddress);
-  const depositEvents: OnChainEvent[] = pastDeposits.map((event) => ({
-    icon: heart,
-    message: `${shortAddress(event.returnValues.from)} deposited ${Number(
-      fromWei(event.returnValues.value)
-    ).toFixed(2)} SFL`,
+  const inventoryDepositEvents: OnChainEvent[] = pastInventoryDeposits.map(
+    (event) => {
+      const item = KNOWN_ITEMS[Number(event.returnValues.id)];
+
+      return {
+        icon: ITEM_DETAILS[item].image,
+        message: `${shortAddress(
+          event.returnValues.from
+        )} deposited ${parseFloat(
+          Number(fromWei(event.returnValues.value, getItemUnit(item))).toFixed(
+            2
+          )
+        )} ${item}`,
+        blockNumber: event.blockNumber,
+        transactionHash: event.transactionHash,
+      };
+    }
+  );
+
+  // For each item transferred in the batch, create a separate notification
+  const batchEvents: OnChainEvent[] = pastInventoryBatchDeposits.reduce(
+    (events, event) => {
+      return [
+        ...events,
+        ...event.returnValues.ids.map((id, index) => {
+          const item = KNOWN_ITEMS[Number(id)];
+          return {
+            icon: ITEM_DETAILS[item].image,
+            message: `${shortAddress(
+              event.returnValues.from
+            )} deposited ${parseFloat(
+              Number(
+                fromWei(event.returnValues.values[index], getItemUnit(item))
+              ).toFixed(2)
+            )} ${item}`,
+            blockNumber: event.blockNumber,
+            transactionHash: event.transactionHash,
+          };
+        }),
+      ];
+    },
+    [] as OnChainEvent[]
+  );
+
+  const sflDepositEvents: OnChainEvent[] = pastSFLDeposits.map((event) => ({
+    icon: token,
+    message: `${shortAddress(event.returnValues.from)} deposited ${parseFloat(
+      Number(fromWei(event.returnValues.value)).toFixed(2)
+    )} SFL`,
     blockNumber: event.blockNumber,
     transactionHash: event.transactionHash,
   }));
 
-  const sorted = [...tradeEvents, ...depositEvents].sort((a, b) =>
-    a.blockNumber - b.blockNumber > 0 ? 1 : -1
-  );
+  const sorted = [
+    ...tradeEvents,
+    ...sflDepositEvents,
+    ...inventoryDepositEvents,
+    ...batchEvents,
+  ].sort((a, b) => (a.blockNumber - b.blockNumber > 0 ? -1 : 1));
 
   return sorted;
 }
@@ -55,7 +118,13 @@ async function loadPastEvents({ farmId, farmAddress }: LoadPastEventArgs) {
 /**
  * Load new events
  */
-export async function unseenEvents({ farmAddress, farmId }: LoadPastEventArgs) {
+export async function unseenEvents({
+  farmAddress,
+  farmId,
+}: {
+  farmAddress: string;
+  farmId: number;
+}) {
   const [block, pastEvents] = await Promise.all([
     getCurrentBlock(),
     loadPastEvents({ farmAddress, farmId }),
@@ -69,7 +138,7 @@ export async function unseenEvents({ farmAddress, farmId }: LoadPastEventArgs) {
     (event) => event.blockNumber > lastBlockNumber
   );
 
-  //   storeLastBlock(block);
+  storeLastBlock(block);
 
   return unseen;
 }
