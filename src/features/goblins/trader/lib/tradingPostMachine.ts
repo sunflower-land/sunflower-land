@@ -42,11 +42,14 @@ export interface Context {
 
 export type BlockchainEvent =
   | {
+      type: "BUY";
+    }
+  | { type: "SELL" }
+  | { type: "DRAFT"; slotId: number }
+  | {
       type: "LIST";
       draft: Draft;
     }
-  | { type: "DRAFT"; slotId: number }
-  | { type: "CANCEL" }
   | { type: "CANCEL_LISTING"; cancel: Cancel }
   | { type: "BACK" }
   | {
@@ -58,12 +61,13 @@ export type BlockchainEvent =
 export type BlockchainState = {
   value:
     | "loading"
-    | "idle"
-    | "drafting"
-    | "confirming"
-    | "posting"
-    | "confirmingCancel"
-    | "cancelling"
+    | "buying"
+    | { selling: "idle" }
+    | { selling: "drafting" }
+    | { selling: "confirming" }
+    | { selling: "posting" }
+    | { selling: "cancelling" }
+    | { selling: "confirmingCancel" }
     | "updateSession"
     | "error";
   context: Context;
@@ -89,7 +93,7 @@ export const tradingPostMachine = createMachine<
           return await loadTradingPost(context.farmId, context.farmAddress);
         },
         onDone: {
-          target: "idle",
+          target: "selling",
           actions: assign((_, event) => ({
             farmSlots: event.data.farmSlots,
             remainingListings: event.data.remainingListings,
@@ -102,91 +106,98 @@ export const tradingPostMachine = createMachine<
         },
       },
     },
-    idle: {
-      on: {
-        DRAFT: {
-          target: "drafting",
-          actions: assign((_, event) => ({
-            slotId: event.slotId,
-          })),
+    buying: {},
+    selling: {
+      initial: "idle",
+      states: {
+        idle: {
+          on: {
+            DRAFT: {
+              target: "drafting",
+              actions: assign((_, event) => ({
+                slotId: event.slotId,
+              })),
+            },
+            CANCEL_LISTING: {
+              target: "confirmingCancel",
+              actions: assign((_, event) => ({
+                cancel: event.cancel,
+              })),
+            },
+          },
         },
-        CANCEL_LISTING: {
-          target: "confirmingCancel",
-          actions: assign((_, event) => ({
-            cancel: event.cancel,
-          })),
+        drafting: {
+          on: {
+            BACK: {
+              target: "idle",
+            },
+            LIST: {
+              target: "confirming",
+              actions: assign((_, event) => ({
+                draft: event.draft,
+              })),
+            },
+          },
         },
-      },
-    },
-    drafting: {
-      on: {
-        LIST: {
-          target: "confirming",
-          actions: assign((_, event) => ({
-            draft: event.draft,
-          })),
+        confirmingCancel: {
+          on: {
+            BACK: {
+              target: "idle",
+            },
+            CONFIRM: {
+              target: "cancelling",
+            },
+          },
         },
-        CANCEL: {
-          target: "idle",
+        cancelling: {
+          invoke: {
+            src: async (context) => {
+              await cancel({
+                listingId: context.cancel.listingId,
+                farmId: context.farmId,
+                token: context.token,
+              });
+            },
+            onError: {
+              target: "#error",
+            },
+            onDone: {
+              target: "#updateSession",
+            },
+          },
         },
-      },
-    },
-    confirming: {
-      on: {
-        POST: {
-          target: "posting",
+        confirming: {
+          on: {
+            POST: {
+              target: "posting",
+            },
+            BACK: {
+              target: "drafting",
+            },
+          },
         },
-        CANCEL: {
-          target: "drafting",
-        },
-      },
-    },
-    posting: {
-      invoke: {
-        src: async (context) => {
-          await list({
-            slotId: context.slotId,
-            draft: context.draft,
-            farmId: context.farmId,
-            token: context.token,
-          });
-        },
-        onError: {
-          target: "error",
-        },
-        onDone: {
-          target: "updateSession",
-        },
-      },
-    },
-    confirmingCancel: {
-      on: {
-        BACK: {
-          target: "idle",
-        },
-        CONFIRM: {
-          target: "cancelling",
-        },
-      },
-    },
-    cancelling: {
-      invoke: {
-        src: async (context) => {
-          await cancel({
-            listingId: context.cancel.listingId,
-            farmId: context.farmId,
-            token: context.token,
-          });
-        },
-        onError: {
-          target: "error",
-        },
-        onDone: {
-          target: "updateSession",
+        posting: {
+          invoke: {
+            src: async (context) => {
+              await list({
+                slotId: context.slotId,
+                draft: context.draft,
+                farmId: context.farmId,
+                token: context.token,
+              });
+            },
+            onError: {
+              target: "#error",
+            },
+            onDone: {
+              target: "#updateSession",
+            },
+          },
         },
       },
     },
     updateSession: {
+      id: "updateSession",
       invoke: {
         src: async (context) => {
           const onChainState = await getOnChainState({
@@ -229,7 +240,9 @@ export const tradingPostMachine = createMachine<
         },
       },
     },
-    error: {},
+    error: {
+      id: "error",
+    },
     closed: {
       type: "final",
     },
@@ -237,6 +250,12 @@ export const tradingPostMachine = createMachine<
   on: {
     CLOSING: {
       target: "closed",
+    },
+    BUY: {
+      target: "buying",
+    },
+    SELL: {
+      target: "selling",
     },
   },
 });

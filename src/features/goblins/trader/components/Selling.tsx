@@ -5,7 +5,7 @@ import React from "react";
 import { Cancel } from "../lib/tradingPostMachine";
 import { Listing } from "./Listing";
 
-interface IdleProps {
+interface SellingProps {
   freeListings: number;
   remainingListings: number;
   farmSlots: FarmSlot[];
@@ -14,7 +14,7 @@ interface IdleProps {
   onClose: () => void;
 }
 
-export const Idle: React.FC<IdleProps> = ({
+export const Selling: React.FC<SellingProps> = ({
   freeListings,
   remainingListings,
   farmSlots,
