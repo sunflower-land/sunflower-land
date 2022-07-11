@@ -74,4 +74,8 @@ export class Inventory {
 
     return balances;
   }
+
+  public async getBalance(farmAddress: string, id: number): Promise<number> {
+    return await this.contract.methods.balanceOf(farmAddress, id).call();
+  }
 }

@@ -21,9 +21,11 @@ import { loadSession } from "../actions/loadSession";
 import { metamask } from "lib/blockchain/metamask";
 import { INITIAL_SESSION } from "./gameMachine";
 import { wishingWellMachine } from "features/goblins/wishingWell/wishingWellMachine";
+import { tradingPostMachine } from "features/goblins/trader/lib/tradingPostMachine";
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
+import { Inventory } from "components/InventoryItems";
 
 const API_URL = CONFIG.API_URL;
 
@@ -63,9 +65,20 @@ type OpeningWishingWellEvent = {
   authState: AuthContext;
 };
 
+type OpenTradingPostEvent = {
+  type: "OPEN_TRADING_POST";
+  authState: AuthContext;
+};
+
 type UpdateBalance = {
   type: "UPDATE_BALANCE";
   newBalance: Decimal;
+};
+
+type UpdateSession = {
+  type: "UPDATE_SESSION";
+  inventory: Inventory;
+  sessionId: string;
 };
 
 export type BlockchainEvent =
@@ -78,10 +91,18 @@ export type BlockchainEvent =
   | {
       type: "OPENING_WISHING_WELL";
     }
+  | {
+      type: "OPEN_TRADING_POST";
+    }
+  | {
+      type: "RESET";
+    }
   | WithdrawEvent
   | MintEvent
   | OpeningWishingWellEvent
-  | UpdateBalance;
+  | OpenTradingPostEvent
+  | UpdateBalance
+  | UpdateSession;
 
 export type GoblinMachineState = {
   value:
@@ -194,6 +215,9 @@ export function startGoblinVillage(authContext: AuthContext) {
             OPENING_WISHING_WELL: {
               target: "wishing",
             },
+            OPEN_TRADING_POST: {
+              target: "trading",
+            },
           },
         },
         wishing: {
@@ -225,6 +249,32 @@ export function startGoblinVillage(authContext: AuthContext) {
 
                   return context.state;
                 },
+              }),
+            },
+          },
+        },
+        trading: {
+          invoke: {
+            id: "tradingPost",
+            autoForward: true,
+            src: tradingPostMachine,
+            data: {
+              farmId: () => authContext.farmId,
+              farmAddress: () => authContext.address,
+              token: () => authContext.rawToken,
+            },
+            onDone: {
+              target: "playing",
+            },
+          },
+          on: {
+            UPDATE_SESSION: {
+              actions: assign({
+                state: (context, event) => ({
+                  ...context.state,
+                  inventory: event.inventory,
+                  sessionId: event.sessionId,
+                }),
               }),
             },
           },

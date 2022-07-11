@@ -599,6 +599,10 @@ export const ITEM_DETAILS: Items = {
     description: SKILL_TREE["Discord Mod"].perks[0],
     image: discord,
   },
+  "Trading Ticket": {
+    description: "Free trades! Woohoo!",
+    image: discord,
+  },
 
   /**
    * Flags
