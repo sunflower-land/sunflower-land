@@ -35,6 +35,4 @@ export type { SunflowerLandInventory } from "./SunflowerLandInventory";
 export type { SunflowerLandSession } from "./SunflowerLandSession";
 export type { SunflowerLandToken } from "./SunflowerLandToken";
 export type { SunflowerLandTrader } from "./SunflowerLandTrader";
-export type { SunflowerRewards } from "./SunflowerRewards";
-export type { TestToken } from "./TestToken";
 export type { WishingWell } from "./WishingWell";

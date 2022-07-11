@@ -25,15 +25,13 @@ type LoadPastEventArgs = {
  * Load On Chain events and transform them into OnChainEvent[]
  */
 async function loadPastEvents({ farmId, farmAddress }: LoadPastEventArgs) {
-  console.log({ farmAddress });
   const [
     pastTradeEvents,
     pastInventoryDeposits,
     pastInventoryBatchDeposits,
     pastSFLDeposits,
   ] = await Promise.all([
-    // TODO hardcoded farm ID #44
-    metamask.getTrader().getPastTrades(44),
+    metamask.getTrader().getPastTrades(farmId),
     metamask.getInventory().getTransfers(farmAddress),
     metamask.getInventory().getBatchTransfers(farmAddress),
     metamask.getToken().getPastDeposits(farmAddress),
@@ -131,8 +129,7 @@ export async function unseenEvents({
   ]);
 
   const lastBlock = getLastBlock();
-  //   const lastBlockNumber = lastBlock?.blockNumber || block.blockNumber;
-  const lastBlockNumber = lastBlock?.blockNumber || 0;
+  const lastBlockNumber = lastBlock?.blockNumber || block.blockNumber;
 
   const unseen = pastEvents.filter(
     (event) => event.blockNumber > lastBlockNumber
