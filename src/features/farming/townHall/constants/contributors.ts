@@ -453,7 +453,7 @@ export const CONTRIBUTORS = shuffledArrary([
     avatar: "man",
   },
   {
-    name: "LilEistein",
+    name: "LittleEinstein",
     url: "",
     role: ["artist"],
     farmId: 73795,
