@@ -31,6 +31,7 @@ export const Selling: React.FC = () => {
   if (machine.matches("idle")) {
     return (
       <Idle
+        farmId={tradingPostState.context.farmId}
         freeListings={tradingPostState.context.freeListings}
         remainingListings={tradingPostState.context.remainingListings}
         farmSlots={tradingPostState.context.farmSlots}
@@ -78,14 +79,6 @@ export const Selling: React.FC = () => {
         onConfirm={() => send("CONFIRM")}
       />
     );
-  }
-
-  if (machine.matches("postingCancellation")) {
-    return <span className="loading">Cancelling</span>;
-  }
-
-  if (machine.matches("postingListing")) {
-    return <span className="loading">Listing</span>;
   }
 
   // This should never show, call the parent machine to exit.

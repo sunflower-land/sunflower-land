@@ -53,9 +53,9 @@ export const Idle: React.FC<IdleProps> = ({
             return (
               <div
                 key={farmSlot.slotId}
-                className="border-4 border-dashed border-brown-600 mb-2 h-12 flex items-center justify-center"
+                className="border-4 border-dashed border-brown-600 p-3 mb-3 h-12 flex items-center justify-center"
               >
-                <span className="text-xs">Empty</span>
+                <span className="text-sm">Empty</span>
               </div>
             );
           }

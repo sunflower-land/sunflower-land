@@ -1,9 +1,7 @@
-import { createMachine, Interpreter, assign } from "xstate";
+import { createMachine, Interpreter, assign, sendParent } from "xstate";
 
 import { InventoryItemName } from "features/game/types/game";
 
-import { cancel } from "./actions/cancel";
-import { list } from "./actions/list";
 import { Listing } from "lib/blockchain/Trader";
 
 export interface Draft {
@@ -30,13 +28,7 @@ type BlockchainEvent =
   | { type: "BACK" };
 
 type BlockchainState = {
-  value:
-    | "idle"
-    | "drafting"
-    | "confirming"
-    | "cancelling"
-    | "postingListing"
-    | "postingCancellation";
+  value: "idle" | "drafting" | "confirming" | "cancelling";
   context: Context;
 };
 
@@ -86,41 +78,23 @@ export const sellingMachine = createMachine<
       confirming: {
         on: {
           BACK: { target: "drafting" },
-          CONFIRM: { target: "postingListing" },
+          CONFIRM: {
+            actions: sendParent((context) => ({
+              type: "LIST",
+              slotId: context.draftingSlotId,
+              draft: context.draft,
+            })),
+          },
         },
       },
       cancelling: {
         on: {
           BACK: { target: "idle" },
-          CONFIRM: { target: "postingCancellation" },
-        },
-      },
-      postingListing: {
-        invoke: {
-          src: async (context) => {
-            await list({
-              slotId: context.draftingSlotId,
-              draft: context.draft,
-              farmId: context.farmId,
-              token: context.token,
-            });
-          },
-          onDone: {
-            target: "exit",
-          },
-        },
-      },
-      postingCancellation: {
-        invoke: {
-          src: async (context) => {
-            await cancel({
+          CONFIRM: {
+            actions: sendParent((context) => ({
+              type: "CANCEL",
               listingId: context.cancellingListing.id,
-              farmId: context.farmId,
-              token: context.token,
-            });
-          },
-          onDone: {
-            target: "exit",
+            })),
           },
         },
       },

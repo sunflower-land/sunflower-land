@@ -4,7 +4,7 @@ import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
-import { Draft } from "../sellingMachine";
+import { Draft } from "../../../selling/lib/sellingMachine";
 
 const API_URL = CONFIG.API_URL;
 

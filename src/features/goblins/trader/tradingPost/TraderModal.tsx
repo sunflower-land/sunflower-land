@@ -34,17 +34,27 @@ export const TraderModal: React.FC<TraderModalProps> = ({
   };
 
   const isTrading = machine.matches("trading");
+  const isDisabled =
+    machine.matches("loading") ||
+    machine.matches("updatingSession") ||
+    machine.matches("listing") ||
+    machine.matches("cancelling") ||
+    machine.matches("purchasing");
 
   return (
-    <Modal centered show={isOpen} onHide={handleClose}>
-      <Panel className={isTrading ? "pt-5 relative" : ""}>
-        {isTrading && (
-          <Tabs
-            isSelling={isSelling}
-            setIsSelling={setIsSelling}
-            onClose={handleClose}
-          />
-        )}
+    <Modal
+      centered
+      show={isOpen}
+      // Prevent modal from closing during asynchronous state (listing, purchasing, cancelling, etc)
+      onHide={!isDisabled ? handleClose : undefined}
+    >
+      <Panel className="pt-5 relative">
+        <Tabs
+          disabled={isDisabled}
+          isSelling={isSelling}
+          setIsSelling={setIsSelling}
+          onClose={handleClose}
+        />
 
         <div className="min-h-[150px]">
           {isTrading && isSelling && <Selling />}
@@ -54,8 +64,19 @@ export const TraderModal: React.FC<TraderModalProps> = ({
             <span className="loading">Loading</span>
           )}
           {machine.matches("updatingSession") && (
-            <span className="loading">Loading</span>
+            <span className="loading">Refreshing</span>
           )}
+
+          {machine.matches("listing") && (
+            <span className="loading">Listing</span>
+          )}
+          {machine.matches("cancelling") && (
+            <span className="loading">Cancelling</span>
+          )}
+          {machine.matches("purchasing") && (
+            <span className="loading">Purchasing</span>
+          )}
+
           {machine.matches("error") && <div>Error</div>}
         </div>
       </Panel>

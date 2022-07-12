@@ -34,7 +34,7 @@ export const Buying: React.FC = () => {
     );
   }
 
-  if (machine.matches("purchasing")) {
+  if (machine.matches("confirming")) {
     return (
       <Confirming
         listing={machine.context.purchasingListing}
@@ -46,10 +46,6 @@ export const Buying: React.FC = () => {
 
   if (machine.matches("loadingFarm")) {
     return <span className="loading">Loading</span>;
-  }
-
-  if (machine.matches("postingPurchase")) {
-    return <span className="loading">Purchasing</span>;
   }
 
   // This should never show, call the parent machine to exit.

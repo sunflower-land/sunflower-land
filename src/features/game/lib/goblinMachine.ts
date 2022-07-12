@@ -113,6 +113,7 @@ export type GoblinMachineState = {
     | "withdrawing"
     | "withdrawn"
     | "playing"
+    | "trading"
     | "error";
   context: Context;
 };

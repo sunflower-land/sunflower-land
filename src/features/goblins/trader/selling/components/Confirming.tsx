@@ -30,7 +30,7 @@ export const Confirming: React.FC<ConfirmProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <img src={resource.image} className="w-16" />
+      <img src={resource.image} className="w-12" />
       <span className="text-lg py-2">{`${draft.resourceAmount} ${draft.resourceName}`}</span>
 
       <div className="w-2/3">

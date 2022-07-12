@@ -1,8 +1,7 @@
-import { assign, createMachine, Interpreter } from "xstate";
+import { assign, createMachine, Interpreter, sendParent } from "xstate";
 
 import { FarmSlot, Listing } from "lib/blockchain/Trader";
 import { loadFarmSlots } from "./actions/loadFarm";
-import { purchase } from "./actions/purchase";
 
 interface Context {
   farmId: number;
@@ -20,7 +19,7 @@ type BlockchainEvent =
   | { type: "CONFIRM" };
 
 type BlockchainState = {
-  value: "idle" | "loadingFarm" | "purchasing" | "postingPurchase";
+  value: "idle" | "loadingFarm" | "confirming";
   context: Context;
 };
 
@@ -48,7 +47,7 @@ export const buyingMachine = createMachine<
             })),
           },
           PURCHASE: {
-            target: "purchasing",
+            target: "confirming",
             actions: assign((_, event) => ({
               purchasingListing: event.listing,
             })),
@@ -70,29 +69,17 @@ export const buyingMachine = createMachine<
           },
         },
       },
-      purchasing: {
+      confirming: {
         on: {
           BACK: { target: "idle" },
-          CONFIRM: { target: "postingPurchase" },
-        },
-      },
-      postingPurchase: {
-        invoke: {
-          src: async (context) => {
-            await purchase({
+          CONFIRM: {
+            actions: sendParent((context) => ({
+              type: "PURCHASE",
               listingId: context.purchasingListing.id,
               sfl: context.purchasingListing.sfl,
-              farmId: context.farmId,
-              token: context.token,
-            });
-          },
-          onDone: {
-            target: "exit",
+            })),
           },
         },
-      },
-      exit: {
-        type: "final",
       },
     },
   },

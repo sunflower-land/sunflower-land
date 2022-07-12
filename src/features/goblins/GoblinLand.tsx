@@ -40,7 +40,7 @@ export const GoblinLand: React.FC = () => {
 
   useEffect(() => {
     scrollIntoView(Section.GoblinVillage, "auto");
-  }, [scrollIntoView]);
+  }, []);
 
   useEffect(() => {
     screenTracker.start(authService);

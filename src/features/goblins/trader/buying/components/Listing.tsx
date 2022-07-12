@@ -30,7 +30,7 @@ export const Listing: React.FC<ListingProps> = ({
   const sellerRecieves = Math.round(sfl * 100) / 100;
 
   return (
-    <OuterPanel className="mb-2 p-2">
+    <OuterPanel className="mb-3 p-2">
       <div className="flex">
         {/* Item Image */}
         <div className="flex flex-col items-center w-1/3 mr-3">

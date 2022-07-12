@@ -12,6 +12,7 @@ import {
 import { Listing } from "./Listing";
 
 interface IdleProps {
+  farmId: number;
   freeListings: number;
   remainingListings: number;
   farmSlots: FarmSlot[];
@@ -20,6 +21,7 @@ interface IdleProps {
 }
 
 export const Idle: React.FC<IdleProps> = ({
+  farmId,
   freeListings,
   remainingListings,
   farmSlots,
@@ -27,14 +29,13 @@ export const Idle: React.FC<IdleProps> = ({
   onCancel,
 }) => (
   <div className="p-2">
-    <div className="flex justify-between mb-4 items-center">
-      <div className="flex items-center">
-        <img src={ticket} className="w-6 mr-2" />
-        <p className="text-xxs sm:text-xs whitespace-nowrap">
-          {`Free Trades:${freeListings}`}
-        </p>
-      </div>
+    <h2 className="text-sm mb-2">{`#${farmId} Listings`}</h2>
 
+    <div className="flex justify-between mb-4">
+      <img src={ticket} className="w-6 mr-2" />
+      <p className="text-xxs sm:text-xs whitespace-nowrap">
+        {`Free Trades: ${freeListings}`}
+      </p>
       <p className="text-xxs sm:text-xs whitespace-nowrap">
         {`Remaining Trades: ${remainingListings}`}
       </p>
@@ -51,7 +52,10 @@ export const Idle: React.FC<IdleProps> = ({
             key={farmSlot.slotId}
             className="border-4 border-dashed border-brown-600 mb-3 p-3 flex items-center justify-center"
           >
-            <span className="text-sm" onClick={() => onDraft(farmSlot.slotId)}>
+            <span
+              className="text-sm cursor-pointer"
+              onClick={() => onDraft(farmSlot.slotId)}
+            >
               + List Trade
             </span>
           </div>

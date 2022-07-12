@@ -4,9 +4,12 @@ import { FarmSlot, ItemLimits } from "lib/blockchain/Trader";
 import { InventoryItemName } from "features/game/types/game";
 
 import { loadTradingPost } from "./actions/loadTradingPost";
-import { sellingMachine } from "../../selling/lib/sellingMachine";
+import { Draft, sellingMachine } from "../../selling/lib/sellingMachine";
 import { buyingMachine } from "../../buying/lib/buyingMachine";
 import { loadUpdatedSession } from "./actions/loadUpdatedSession";
+import { purchase } from "./actions/purchase";
+import { list } from "./actions/list";
+import { cancel } from "./actions/cancel";
 
 export interface Cancel {
   listingId: number;
@@ -24,13 +27,35 @@ export interface Context {
   itemLimits: ItemLimits;
 }
 
+type ListEvent = {
+  type: "LIST";
+  slotId: number;
+  draft: Draft;
+};
+type CancelEvent = {
+  type: "CANCEL";
+  listingId: number;
+};
+type PurchaseEvent = {
+  type: "PURCHASE";
+  sfl: number;
+  listingId: number;
+};
 export type BlockchainEvent =
   | { type: "CLOSE" }
-  | { type: "BUY" }
-  | { type: "SELL" };
+  | ListEvent
+  | CancelEvent
+  | PurchaseEvent;
 
 export type BlockchainState = {
-  value: "loading" | "trading" | "updatingSession" | "error";
+  value:
+    | "loading"
+    | "trading"
+    | "listing"
+    | "cancelling"
+    | "purchasing"
+    | "updatingSession"
+    | "error";
   context: Context;
 };
 
@@ -82,6 +107,14 @@ export const tradingPostMachine = createMachine<
               token: (context: Context) => context.token,
             },
           },
+          on: {
+            LIST: {
+              target: "#listing",
+            },
+            CANCEL: {
+              target: "#cancelling",
+            },
+          },
         },
         buying: {
           invoke: {
@@ -93,13 +126,65 @@ export const tradingPostMachine = createMachine<
               token: (context: Context) => context.token,
             },
           },
+          on: {
+            PURCHASE: {
+              target: "#purchasing",
+            },
+          },
         },
       },
+
       onDone: {
         target: "#updatingSession",
       },
     },
-
+    listing: {
+      id: "listing",
+      invoke: {
+        src: async (context, event) => {
+          await list({
+            slotId: (event as ListEvent).slotId,
+            draft: (event as ListEvent).draft,
+            farmId: context.farmId,
+            token: context.token,
+          });
+        },
+        onDone: {
+          target: "updatingSession",
+        },
+      },
+    },
+    cancelling: {
+      id: "cancelling",
+      invoke: {
+        src: async (context, event) => {
+          await cancel({
+            listingId: (event as CancelEvent).listingId,
+            farmId: context.farmId,
+            token: context.token,
+          });
+        },
+        onDone: {
+          target: "updatingSession",
+        },
+      },
+    },
+    purchasing: {
+      id: "purchasing",
+      invoke: {
+        src: async (context, event) => {
+          await purchase({
+            listingId: (event as PurchaseEvent).listingId,
+            sfl: (event as PurchaseEvent).sfl,
+            farmId: context.farmId,
+            token: context.token,
+          });
+        },
+        onDone: {
+          target: "updatingSession",
+        },
+      },
+    },
     updatingSession: {
       id: "updatingSession",
       invoke: {
@@ -136,11 +221,5 @@ export const tradingPostMachine = createMachine<
     CLOSE: {
       target: "closed",
     },
-    // BUY: {
-    //   target: "trading.buying",
-    // },
-    // SELL: {
-    //   target: "trading.selling",
-    // },
   },
 });
