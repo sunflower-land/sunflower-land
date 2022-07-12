@@ -49,7 +49,6 @@ export class Trader {
       TraderJSON as AbiItem[],
       address as string
     ) as unknown as SunflowerLandTrader;
-    this.getPastTrades(1);
   }
 
   public async getFarmSlots(farmId: number): Promise<FarmSlot[]> {

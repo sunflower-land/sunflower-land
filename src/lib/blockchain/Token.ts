@@ -22,7 +22,6 @@ export class Token {
       TokenJSON as AbiItem[],
       address as string
     ) as unknown as SunflowerLandToken;
-    this.getPastDeposits("0xa154939a51fdba09894459eC4177E01d8E177d4E");
   }
 
   /**
