@@ -31,6 +31,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   levelling: false,
   refreshing: true,
   announcing: true,
+  notifying: true,
 };
 
 export const Game: React.FC = () => {

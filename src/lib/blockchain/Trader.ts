@@ -7,6 +7,8 @@ import TraderJSON from "./abis/Trader.json";
 import { InventoryItemName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
+import { SunflowerLandTrader } from "./types";
+import { Purchased } from "./types/SunflowerLandTrader";
 
 const address = CONFIG.TRADER_CONTRACT;
 
@@ -38,7 +40,7 @@ export class Trader {
   private web3: Web3;
   private account: string;
 
-  private contract: any;
+  private contract: SunflowerLandTrader;
 
   constructor(web3: Web3, account: string) {
     this.web3 = web3;
@@ -46,7 +48,7 @@ export class Trader {
     this.contract = new this.web3.eth.Contract(
       TraderJSON as AbiItem[],
       address as string
-    );
+    ) as unknown as SunflowerLandTrader;
   }
 
   public async getFarmSlots(farmId: number): Promise<FarmSlot[]> {
@@ -79,7 +81,7 @@ export class Trader {
     });
   }
 
-  public async getRemainingListings(farmId: number): Promise<number> {
+  public async getRemainingListings(farmId: number): Promise<string> {
     return await this.contract.methods.getRemainingListings(farmId).call();
   }
 
@@ -87,7 +89,7 @@ export class Trader {
     const ids = Object.values(KNOWN_IDS);
     const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
 
-    const limits: number[] = await this.contract.methods
+    const limits: string[] = await this.contract.methods
       .getLimitBatch(ids)
       .call();
 
@@ -98,5 +100,29 @@ export class Trader {
       }),
       {} as ItemLimits
     );
+  }
+
+  public async getPastTrades(farmId: number, fromBlock: number) {
+    const events: Purchased[] = await new Promise((res, rej) => {
+      this.contract.getPastEvents(
+        "Purchased",
+        {
+          filter: {
+            sellerFarmId: farmId,
+          },
+          fromBlock,
+          toBlock: "latest",
+        },
+        function (error, events) {
+          if (error) {
+            rej(error);
+          }
+
+          res(events as unknown as Purchased[]);
+        }
+      );
+    });
+
+    return events;
   }
 }
