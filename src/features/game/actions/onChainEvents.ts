@@ -19,22 +19,27 @@ export type OnChainEvent = {
 type LoadPastEventArgs = {
   farmId: number;
   farmAddress: string;
+  blockNumber: number;
 };
 
 /**
  * Load On Chain events and transform them into OnChainEvent[]
  */
-async function loadPastEvents({ farmId, farmAddress }: LoadPastEventArgs) {
+async function loadPastEvents({
+  farmId,
+  farmAddress,
+  blockNumber,
+}: LoadPastEventArgs) {
   const [
     pastTradeEvents,
     pastInventoryDeposits,
     pastInventoryBatchDeposits,
     pastSFLDeposits,
   ] = await Promise.all([
-    metamask.getTrader().getPastTrades(farmId),
-    metamask.getInventory().getTransfers(farmAddress),
-    metamask.getInventory().getBatchTransfers(farmAddress),
-    metamask.getToken().getPastDeposits(farmAddress),
+    metamask.getTrader().getPastTrades(farmId, blockNumber),
+    metamask.getInventory().getTransfers(farmAddress, blockNumber),
+    metamask.getInventory().getBatchTransfers(farmAddress, blockNumber),
+    metamask.getToken().getPastDeposits(farmAddress, blockNumber),
   ]);
 
   const tradeEvents: OnChainEvent[] = pastTradeEvents.map((event) => {
@@ -42,7 +47,7 @@ async function loadPastEvents({ farmId, farmAddress }: LoadPastEventArgs) {
 
     return {
       icon: ITEM_DETAILS[item].image,
-      blockNumber: 100000,
+      blockNumber: event.blockNumber,
       message: `Farm #${event.returnValues.buyerFarmId} purchased ${Number(
         fromWei(event.returnValues.resourceAmount, getItemUnit(item))
       )} ${item}`,
@@ -123,12 +128,24 @@ export async function unseenEvents({
   farmAddress: string;
   farmId: number;
 }) {
+  const lastBlock = getLastBlock();
+
+  // First time playing the game, so no new events!
+  if (!lastBlock) {
+    const block = await getCurrentBlock();
+    storeLastBlock(block);
+    return [];
+  }
+
   const [block, pastEvents] = await Promise.all([
     getCurrentBlock(),
-    loadPastEvents({ farmAddress, farmId }),
+    loadPastEvents({
+      farmAddress,
+      farmId,
+      blockNumber: lastBlock.blockNumber,
+    }),
   ]);
 
-  const lastBlock = getLastBlock();
   const lastBlockNumber = lastBlock?.blockNumber || block.blockNumber;
 
   const unseen = pastEvents.filter(

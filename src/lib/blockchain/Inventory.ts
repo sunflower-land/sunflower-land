@@ -81,7 +81,7 @@ export class Inventory {
     return await this.contract.methods.balanceOf(farmAddress, id).call();
   }
 
-  public async getTransfers(farmAddress: string) {
+  public async getTransfers(farmAddress: string, fromBlock: number) {
     const events: TransferSingle[] = await new Promise((res, rej) => {
       this.contract.getPastEvents(
         "TransferSingle",
@@ -89,7 +89,7 @@ export class Inventory {
           filter: {
             to: farmAddress,
           },
-          fromBlock: 0,
+          fromBlock,
           toBlock: "latest",
         },
         function (error, events) {
@@ -110,7 +110,7 @@ export class Inventory {
     return externalEvents;
   }
 
-  public async getBatchTransfers(farmAddress: string) {
+  public async getBatchTransfers(farmAddress: string, fromBlock: number) {
     const events: TransferBatch[] = await new Promise((res, rej) => {
       this.contract.getPastEvents(
         "TransferBatch",
@@ -118,7 +118,7 @@ export class Inventory {
           filter: {
             to: farmAddress,
           },
-          fromBlock: 0,
+          fromBlock,
           toBlock: "latest",
         },
         function (error, events) {

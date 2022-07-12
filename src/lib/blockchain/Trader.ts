@@ -103,7 +103,7 @@ export class Trader {
     );
   }
 
-  public async getPastTrades(farmId: number) {
+  public async getPastTrades(farmId: number, fromBlock: number) {
     const events: Purchased[] = await new Promise((res, rej) => {
       this.contract.getPastEvents(
         "Purchased",
@@ -111,7 +111,7 @@ export class Trader {
           filter: {
             sellerFarmId: farmId,
           },
-          fromBlock: 0,
+          fromBlock,
           toBlock: "latest",
         },
         function (error, events) {

@@ -47,7 +47,7 @@ export class Token {
     return supply;
   }
 
-  public async getPastDeposits(farmAddress: string) {
+  public async getPastDeposits(farmAddress: string, fromBlock: number) {
     const events: Transfer[] = await new Promise((res, rej) => {
       this.contract.getPastEvents(
         "Transfer",
@@ -55,7 +55,7 @@ export class Token {
           filter: {
             to: farmAddress,
           },
-          fromBlock: 0,
+          fromBlock,
           toBlock: "latest",
         },
         function (error, events) {
