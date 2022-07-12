@@ -107,7 +107,7 @@ export const Idle: React.FC<IdleProps> = ({
           />
         </div>
         <Button className="w-full overflow-hidden text-sm" type="submit">
-          Visit Land
+          Visit land
         </Button>
       </form>
     </div>
