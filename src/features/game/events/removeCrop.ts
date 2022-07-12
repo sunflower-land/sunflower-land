@@ -9,7 +9,6 @@ export enum REMOVE_CROP_ERRORS {
   NO_SHOVEL_SELECTED = "No shovel selected!",
   NO_SHOVEL_AVAILABLE = "No shovel available!",
   FIELD_DOESNT_EXIST = "Field doesn't exist!",
-  LOCKED_LAND = "Goblin land!",
   NO_CROP_PLANTED = "There is no crop planted!",
   READY_TO_HARVEST = "Plant is ready to harvest!",
   INVALID_PLANT = "Invalid Plant!",
@@ -18,7 +17,7 @@ export enum REMOVE_CROP_ERRORS {
 export type RemoveCropAction = {
   type: "item.removed";
   item?: InventoryItemName;
-  index: number;
+  fieldIndex: number;
 };
 
 type Options = {
@@ -43,43 +42,19 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
     throw new Error(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
   }
 
-  if (action.index < 0) {
+  if (action.fieldIndex < 0) {
     throw new Error(REMOVE_CROP_ERRORS.FIELD_DOESNT_EXIST);
   }
 
-  if (!Number.isInteger(action.index)) {
+  if (!Number.isInteger(action.fieldIndex)) {
     throw new Error(REMOVE_CROP_ERRORS.FIELD_DOESNT_EXIST);
   }
 
-  if (
-    action.index >= 5 &&
-    action.index <= 9 &&
-    !state.inventory["Pumpkin Soup"]
-  ) {
-    throw new Error(REMOVE_CROP_ERRORS.LOCKED_LAND);
-  }
-
-  if (
-    action.index >= 10 &&
-    action.index <= 15 &&
-    !state.inventory["Sauerkraut"]
-  ) {
-    throw new Error(REMOVE_CROP_ERRORS.LOCKED_LAND);
-  }
-
-  if (
-    action.index >= 16 &&
-    action.index <= 21 &&
-    !state.inventory["Roasted Cauliflower"]
-  ) {
-    throw new Error(REMOVE_CROP_ERRORS.LOCKED_LAND);
-  }
-
-  if (action.index > 21) {
+  if (action.fieldIndex > 21) {
     throw new Error(REMOVE_CROP_ERRORS.FIELD_DOESNT_EXIST);
   }
 
-  const field = fields[action.index];
+  const field = fields[action.fieldIndex];
   if (!field) {
     throw new Error(REMOVE_CROP_ERRORS.NO_CROP_PLANTED);
   }
@@ -96,7 +71,7 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
 
   const newFields = fields;
 
-  delete newFields[action.index];
+  delete newFields[action.fieldIndex];
 
   return {
     ...state,

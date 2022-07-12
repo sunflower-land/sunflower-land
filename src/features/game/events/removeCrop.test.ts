@@ -25,7 +25,7 @@ describe("removeCrop", () => {
         action: {
           type: "item.removed",
           item: "Rusty Shovel",
-          index: -1,
+          fieldIndex: -1,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.FIELD_DOESNT_EXIST);
@@ -38,7 +38,7 @@ describe("removeCrop", () => {
         action: {
           type: "item.removed",
           item: "Rusty Shovel",
-          index: 1.2,
+          fieldIndex: 1.2,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.FIELD_DOESNT_EXIST);
@@ -58,7 +58,7 @@ describe("removeCrop", () => {
         },
         action: {
           type: "item.removed",
-          index: 1,
+          fieldIndex: 1,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.NO_SHOVEL_SELECTED);
@@ -80,130 +80,10 @@ describe("removeCrop", () => {
         action: {
           type: "item.removed",
           item: "Rusty Shovel",
-          index: 1,
+          fieldIndex: 1,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
-  });
-
-  it("does not remove if first goblin is around", () => {
-    expect(() =>
-      removeCrop({
-        state: GAME_STATE,
-        action: {
-          type: "item.removed",
-          item: "Rusty Shovel",
-          index: 6,
-        },
-      })
-    ).toThrow(REMOVE_CROP_ERRORS.LOCKED_LAND);
-  });
-
-  it("removes if they have pumpkin soup", () => {
-    const state = removeCrop({
-      state: {
-        ...GAME_STATE,
-        fields: {
-          6: {
-            name: "Potato",
-            plantedAt: Date.now(),
-          },
-        },
-        inventory: {
-          ...GAME_STATE.inventory,
-          "Pumpkin Soup": new Decimal(1),
-          "Potato Seed": new Decimal(1),
-        },
-      },
-      action: {
-        type: "item.removed",
-        item: "Rusty Shovel",
-        index: 6,
-      },
-    });
-
-    expect(state.inventory["Potato Seed"]).toEqual(new Decimal(1));
-    expect(state.fields[6]).toBeFalsy();
-  });
-
-  it("does not remove if second goblin is around", () => {
-    expect(() =>
-      removeCrop({
-        state: GAME_STATE,
-        action: {
-          type: "item.removed",
-          item: "Rusty Shovel",
-          index: 11,
-        },
-      })
-    ).toThrow(REMOVE_CROP_ERRORS.LOCKED_LAND);
-  });
-
-  it("removes if they have Sauerkraut", () => {
-    const state = removeCrop({
-      state: {
-        ...GAME_STATE,
-        fields: {
-          12: {
-            name: "Pumpkin",
-            plantedAt: Date.now(),
-          },
-        },
-        inventory: {
-          ...GAME_STATE.inventory,
-          Sauerkraut: new Decimal(1),
-          "Pumpkin Seed": new Decimal(1),
-        },
-      },
-      action: {
-        type: "item.removed",
-        item: "Rusty Shovel",
-        index: 12,
-      },
-    });
-
-    expect(state.inventory["Pumpkin Seed"]).toEqual(new Decimal(1));
-    expect(state.fields[12]).toBeFalsy();
-  });
-
-  it("does not remove if third goblin is around", () => {
-    expect(() =>
-      removeCrop({
-        state: GAME_STATE,
-        action: {
-          type: "item.removed",
-          item: "Rusty Shovel",
-          index: 20,
-        },
-      })
-    ).toThrow(REMOVE_CROP_ERRORS.LOCKED_LAND);
-  });
-
-  it("removes if they have cauliflower rice", () => {
-    const state = removeCrop({
-      state: {
-        ...GAME_STATE,
-        fields: {
-          20: {
-            name: "Pumpkin",
-            plantedAt: Date.now(),
-          },
-        },
-        inventory: {
-          ...GAME_STATE.inventory,
-          "Roasted Cauliflower": new Decimal(1),
-          "Pumpkin Seed": new Decimal(1),
-        },
-      },
-      action: {
-        type: "item.removed",
-        item: "Rusty Shovel",
-        index: 20,
-      },
-    });
-
-    expect(state.inventory["Pumpkin Seed"]).toEqual(new Decimal(1));
-    expect(state.fields[20]).toBeFalsy();
   });
 
   it("doesn't remove if the crop is ready to harvest", () => {
@@ -221,7 +101,7 @@ describe("removeCrop", () => {
         action: {
           type: "item.removed",
           item: "Rusty Shovel",
-          index: 1,
+          fieldIndex: 1,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.READY_TO_HARVEST);
@@ -236,7 +116,7 @@ describe("removeCrop", () => {
         action: {
           type: "item.removed",
           item: "Rusty Shovel",
-          index: 1,
+          fieldIndex: 1,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.SHOVEL_STOLEN);
@@ -258,7 +138,7 @@ describe("removeCrop", () => {
       action: {
         type: "item.removed",
         item: "Rusty Shovel",
-        index: 0,
+        fieldIndex: 0,
       },
     });
 
@@ -275,7 +155,7 @@ describe("removeCrop", () => {
         action: {
           type: "item.removed",
           item: "Rusty Shovel",
-          index: 1,
+          fieldIndex: 1,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.SHOVEL_STOLEN);
@@ -298,7 +178,7 @@ describe("removeCrop", () => {
       action: {
         type: "item.removed",
         item: "Rusty Shovel",
-        index: 0,
+        fieldIndex: 0,
       },
     });
 
@@ -312,7 +192,7 @@ describe("removeCrop", () => {
         action: {
           type: "item.removed",
           item: "Rusty Shovel",
-          index: 1,
+          fieldIndex: 1,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.NO_CROP_PLANTED);
@@ -332,7 +212,7 @@ describe("removeCrop", () => {
       action: {
         type: "item.removed",
         item: "Rusty Shovel",
-        index: 1,
+        fieldIndex: 1,
       },
     });
 
