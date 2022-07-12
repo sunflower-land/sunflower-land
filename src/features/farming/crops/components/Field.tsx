@@ -293,7 +293,7 @@ export const Field: React.FC<Props> = ({
       />
 
       <RemoveCrop
-        doShow={showRemoveWarning}
+        showWarning={showRemoveWarning}
         onConfirm={onConfirmRemove}
         onClose={() => setShowRemoveWarning(false)}
       />
