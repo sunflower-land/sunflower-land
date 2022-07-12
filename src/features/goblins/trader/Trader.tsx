@@ -6,7 +6,7 @@ import { TraderModal } from "./TraderModal";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 
-import goblinBalloon from "assets/npcs/goblin_balloon.gif";
+import goblinBalloon from "assets/npcs/goblin_balloon.png";
 import icon from "assets/brand/icon.png";
 
 export const Trader: React.FC = () => {
@@ -21,7 +21,7 @@ export const Trader: React.FC = () => {
   return (
     <>
       <div
-        className="absolute  cursor-pointer hover:img-highlight"
+        className="absolute animate-float cursor-pointer hover:img-highlight"
         style={{
           width: `${GRID_WIDTH_PX * 2.9}px`,
           left: `${GRID_WIDTH_PX * 29.4}px`,
