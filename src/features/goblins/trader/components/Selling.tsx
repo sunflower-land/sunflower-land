@@ -35,15 +35,15 @@ export const Selling: React.FC<SellingProps> = ({
     {farmSlots?.map((farmSlot) => {
       // if empty return dashed
       if (
-        farmSlot.listing === undefined ||
-        farmSlot.listing?.status != ListingStatus.LISTED
+        !farmSlot.listing ||
+        farmSlot.listing?.status !== ListingStatus.LISTED
       ) {
         return (
           <div
             key={farmSlot.slotId}
-            className="border-4 border-dashed border-brown-600 mb-2 h-12 flex items-center justify-center"
+            className="border-4 border-dashed border-brown-600 mb-3 p-3 flex items-center justify-center"
           >
-            <span className="text-xs" onClick={() => onList(farmSlot.slotId)}>
+            <span className="text-sm" onClick={() => onList(farmSlot.slotId)}>
               + List Trade
             </span>
           </div>
