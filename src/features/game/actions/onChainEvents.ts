@@ -1,25 +1,22 @@
 import { fromWei } from "web3-utils";
 
 import { metamask } from "lib/blockchain/metamask";
-import { shortAddress } from "lib/utils/shortAddress";
-
-import token from "assets/icons/token.gif";
 
 import { ITEM_DETAILS } from "../types/images";
 import { KNOWN_ITEMS } from "../types";
 import { getItemUnit } from "../lib/conversion";
+import { ListingStatus } from "lib/blockchain/Trader";
 
 export type OnChainEvent = {
   icon: string;
   message: string;
-  blockNumber: number;
-  transactionHash: string;
+  timestamp: number;
 };
 
 type LoadPastEventArgs = {
   farmId: number;
   farmAddress: string;
-  blockNumber: number;
+  block: BlockInfo;
 };
 
 /**
@@ -28,92 +25,110 @@ type LoadPastEventArgs = {
 async function loadPastEvents({
   farmId,
   farmAddress,
-  blockNumber,
+  block,
 }: LoadPastEventArgs) {
   const [
-    pastTradeEvents,
-    pastInventoryDeposits,
-    pastInventoryBatchDeposits,
-    pastSFLDeposits,
+    // pastTradeEvents,
+    // pastInventoryDeposits,
+    // pastInventoryBatchDeposits,
+    // pastSFLDeposits,
+    farmTrades,
   ] = await Promise.all([
-    metamask.getTrader().getPastTrades(farmId, blockNumber),
-    metamask.getInventory().getTransfers(farmAddress, blockNumber),
-    metamask.getInventory().getBatchTransfers(farmAddress, blockNumber),
-    metamask.getToken().getPastDeposits(farmAddress, blockNumber),
+    // metamask.getTrader().getPastTrades(farmId, block.blockNumber),
+    // metamask.getInventory().getTransfers(farmAddress, block.blockNumber),
+    // metamask.getInventory().getBatchTransfers(farmAddress, block.blockNumber),
+    // metamask.getToken().getPastDeposits(farmAddress, block.blockNumber),
+    metamask.getTrader().getFarmSlots(farmId),
   ]);
 
-  const tradeEvents: OnChainEvent[] = pastTradeEvents.map((event) => {
-    const item = KNOWN_ITEMS[Number(event.returnValues.resourceId)];
+  const recentPurchases = farmTrades.filter(
+    (farmTrade) => farmTrade.listing?.status === ListingStatus.PURCHASED
+  );
+
+  const tradeEvents: OnChainEvent[] = recentPurchases.map(({ listing }) => {
+    const item = KNOWN_ITEMS[Number(listing?.resourceId)];
 
     return {
       icon: ITEM_DETAILS[item].image,
-      blockNumber: event.blockNumber,
-      message: `Farm #${event.returnValues.buyerFarmId} purchased ${Number(
-        fromWei(event.returnValues.resourceAmount, getItemUnit(item))
+      timestamp: listing?.purchasedAt || 0,
+      message: `Farm #${listing?.purchasedById} purchased ${Number(
+        fromWei(listing?.resourceAmount.toString() as string, getItemUnit(item))
       )} ${item}`,
-      transactionHash: event.transactionHash,
     };
   });
 
-  const inventoryDepositEvents: OnChainEvent[] = pastInventoryDeposits.map(
-    (event) => {
-      const item = KNOWN_ITEMS[Number(event.returnValues.id)];
+  // const tradeEvents: OnChainEvent[] = pastTradeEvents.map((event) => {
+  //   const item = KNOWN_ITEMS[Number(event.returnValues.resourceId)];
 
-      return {
-        icon: ITEM_DETAILS[item].image,
-        message: `${shortAddress(
-          event.returnValues.from
-        )} deposited ${parseFloat(
-          Number(fromWei(event.returnValues.value, getItemUnit(item))).toFixed(
-            2
-          )
-        )} ${item}`,
-        blockNumber: event.blockNumber,
-        transactionHash: event.transactionHash,
-      };
-    }
-  );
+  //   return {
+  //     icon: ITEM_DETAILS[item].image,
+  //     blockNumber: event.blockNumber,
+  //     message: `Farm #${event.returnValues.buyerFarmId} purchased ${Number(
+  //       fromWei(event.returnValues.resourceAmount, getItemUnit(item))
+  //     )} ${item}`,
+  //     transactionHash: event.transactionHash,
+  //   };
+  // });
 
-  // For each item transferred in the batch, create a separate notification
-  const batchEvents: OnChainEvent[] = pastInventoryBatchDeposits.reduce(
-    (events, event) => {
-      return [
-        ...events,
-        ...event.returnValues.ids.map((id, index) => {
-          const item = KNOWN_ITEMS[Number(id)];
-          return {
-            icon: ITEM_DETAILS[item].image,
-            message: `${shortAddress(
-              event.returnValues.from
-            )} deposited ${parseFloat(
-              Number(
-                fromWei(event.returnValues.values[index], getItemUnit(item))
-              ).toFixed(2)
-            )} ${item}`,
-            blockNumber: event.blockNumber,
-            transactionHash: event.transactionHash,
-          };
-        }),
-      ];
-    },
-    [] as OnChainEvent[]
-  );
+  // const inventoryDepositEvents: OnChainEvent[] = pastInventoryDeposits.map(
+  //   (event) => {
+  //     const item = KNOWN_ITEMS[Number(event.returnValues.id)];
 
-  const sflDepositEvents: OnChainEvent[] = pastSFLDeposits.map((event) => ({
-    icon: token,
-    message: `${shortAddress(event.returnValues.from)} deposited ${parseFloat(
-      Number(fromWei(event.returnValues.value)).toFixed(2)
-    )} SFL`,
-    blockNumber: event.blockNumber,
-    transactionHash: event.transactionHash,
-  }));
+  //     return {
+  //       icon: ITEM_DETAILS[item].image,
+  //       message: `${shortAddress(
+  //         event.returnValues.from
+  //       )} deposited ${parseFloat(
+  //         Number(fromWei(event.returnValues.value, getItemUnit(item))).toFixed(
+  //           2
+  //         )
+  //       )} ${item}`,
+  //       blockNumber: event.blockNumber,
+  //       transactionHash: event.transactionHash,
+  //     };
+  //   }
+  // );
+
+  // // For each item transferred in the batch, create a separate notification
+  // const batchEvents: OnChainEvent[] = pastInventoryBatchDeposits.reduce(
+  //   (events, event) => {
+  //     return [
+  //       ...events,
+  //       ...event.returnValues.ids.map((id, index) => {
+  //         const item = KNOWN_ITEMS[Number(id)];
+  //         return {
+  //           icon: ITEM_DETAILS[item].image,
+  //           message: `${shortAddress(
+  //             event.returnValues.from
+  //           )} deposited ${parseFloat(
+  //             Number(
+  //               fromWei(event.returnValues.values[index], getItemUnit(item))
+  //             ).toFixed(2)
+  //           )} ${item}`,
+  //           blockNumber: event.blockNumber,
+  //           transactionHash: event.transactionHash,
+  //         };
+  //       }),
+  //     ];
+  //   },
+  //   [] as OnChainEvent[]
+  // );
+
+  // const sflDepositEvents: OnChainEvent[] = pastSFLDeposits.map((event) => ({
+  //   icon: token,
+  //   message: `${shortAddress(event.returnValues.from)} deposited ${parseFloat(
+  //     Number(fromWei(event.returnValues.value)).toFixed(2)
+  //   )} SFL`,
+  //   blockNumber: event.blockNumber,
+  //   transactionHash: event.transactionHash,
+  // }));
 
   const sorted = [
     ...tradeEvents,
-    ...sflDepositEvents,
-    ...inventoryDepositEvents,
-    ...batchEvents,
-  ].sort((a, b) => (a.blockNumber - b.blockNumber > 0 ? -1 : 1));
+    // ...sflDepositEvents,
+    // ...inventoryDepositEvents,
+    // ...batchEvents,
+  ].sort((a, b) => (a.timestamp - b.timestamp > 0 ? -1 : 1));
 
   return sorted;
 }
@@ -142,16 +157,13 @@ export async function unseenEvents({
     loadPastEvents({
       farmAddress,
       farmId,
-      blockNumber: lastBlock.blockNumber,
+      block: lastBlock,
     }),
   ]);
 
-  const lastBlockNumber = lastBlock?.blockNumber || block.blockNumber;
-
   const unseen = pastEvents.filter(
-    (event) => event.blockNumber > lastBlockNumber
+    (event) => event.timestamp > lastBlock.timestamp / 1000
   );
-
   storeLastBlock(block);
 
   return unseen;

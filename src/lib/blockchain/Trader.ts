@@ -18,6 +18,7 @@ export enum ListingStatus {
   EMPTY,
   LISTED,
   CANCELLED,
+  PURCHASED,
 }
 
 export type Listing = {
@@ -27,6 +28,8 @@ export type Listing = {
   resourceAmount: number;
   sfl: number;
   tax: number;
+  purchasedAt: number;
+  purchasedById: number;
 };
 
 export type FarmSlot = {
@@ -52,14 +55,9 @@ export class Trader {
   }
 
   public async getFarmSlots(farmId: number): Promise<FarmSlot[]> {
-    const farmSlots: {
-      status: string;
-      listingId: string;
-      resourceId: string;
-      resourceAmount: string;
-      sfl: string;
-      tax: string;
-    }[] = await this.contract.methods.getFarmSlots(farmId, 3).call();
+    const farmSlots = await this.contract.methods
+      .getFarmSlots(farmId, 3)
+      .call();
 
     console.log(farmSlots);
 
@@ -76,6 +74,8 @@ export class Trader {
           resourceAmount: Number(fromWei(slot.resourceAmount)),
           sfl: Number(fromWei(slot.sfl)),
           tax: Number(slot.tax) / 1000,
+          purchasedAt: Number(slot.purchasedAt),
+          purchasedById: Number(slot.purchasedById),
         },
       };
     });
