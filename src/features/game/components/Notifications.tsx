@@ -43,17 +43,14 @@ export const Notifications: React.FC = () => {
           scrollable: showScrollbar,
         })}
       >
-        {notifications.map((notification) => (
-          <div
-            className="mb-4 flex items-center"
-            key={notification.blockNumber}
-          >
+        {notifications.map((notification, index) => (
+          <div className="mb-4 flex items-center" key={index}>
             <img src={notification.icon} className="w-6 mr-2" />
             <span className="text-xs">{notification.message}</span>
           </div>
         ))}
-        <Button onClick={onAcknowledge}>Continue</Button>
       </div>
+      <Button onClick={onAcknowledge}>Continue</Button>
     </>
   );
 };
