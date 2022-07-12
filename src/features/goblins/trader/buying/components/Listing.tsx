@@ -13,11 +13,11 @@ interface ListingProps {
   resourceAmount: number;
   sfl: number;
   tax: number;
-  onCancel: () => void;
+  onPurchase: () => void;
 }
 
 export const Listing: React.FC<ListingProps> = ({
-  onCancel,
+  onPurchase,
   listingId,
   resourceName,
   resourceAmount,
@@ -43,8 +43,8 @@ export const Listing: React.FC<ListingProps> = ({
         <div className="w-full">
           <div className="flex justify-between items-center mb-2">
             <span className="text-s">{`ID #${listingId}`}</span>
-            <Button className="text-xxs w-24" onClick={onCancel}>
-              Cancel
+            <Button className="text-xxs w-24" onClick={onPurchase}>
+              Purchase
             </Button>
           </div>
 

@@ -39,7 +39,11 @@ export const TraderModal: React.FC<TraderModalProps> = ({
     <Modal centered show={isOpen} onHide={handleClose}>
       <Panel className={isTrading ? "pt-5 relative" : ""}>
         {isTrading && (
-          <Tabs isSelling setIsSelling={setIsSelling} onClose={handleClose} />
+          <Tabs
+            isSelling={isSelling}
+            setIsSelling={setIsSelling}
+            onClose={handleClose}
+          />
         )}
 
         <div className="min-h-[150px]">

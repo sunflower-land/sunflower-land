@@ -9,6 +9,7 @@ import { Context } from "features/game/GoblinProvider";
 import { MachineInterpreter as TradingPostMachineInterpreter } from "../tradingPost/lib/tradingPostMachine";
 import { MachineInterpreter as BuyingMachineInterpreter } from "./lib/buyingMachine";
 import { Idle } from "./components/Idle";
+import { Confirming } from "./components/Confirming";
 
 export const Buying: React.FC = () => {
   const { goblinService } = useContext(Context);
@@ -23,7 +24,32 @@ export const Buying: React.FC = () => {
   const [machine, send] = useActor(buyingService);
 
   if (machine.matches("idle")) {
-    return <Idle visitingFarmId={machine.context.visitingFarmId} />;
+    return (
+      <Idle
+        visitingFarmId={machine.context.visitingFarmId}
+        vistingFarmSlots={machine.context.vistingFarmSlots}
+        onVisit={(farmId) => buyingService.send("LOAD_FARM", { farmId })}
+        onPurchase={(listing) => buyingService.send("PURCHASE", { listing })}
+      />
+    );
+  }
+
+  if (machine.matches("purchasing")) {
+    return (
+      <Confirming
+        listing={machine.context.purchasingListing}
+        onBack={() => send("BACK")}
+        onConfirm={() => send("CONFIRM")}
+      />
+    );
+  }
+
+  if (machine.matches("loadingFarm")) {
+    return <span className="loading">Loading</span>;
+  }
+
+  if (machine.matches("postingPurchase")) {
+    return <span className="loading">Purchasing</span>;
   }
 
   // This should never show, call the parent machine to exit.
