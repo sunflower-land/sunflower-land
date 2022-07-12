@@ -56,29 +56,25 @@ export const TraderModal: React.FC<TraderModalProps> = ({
           onClose={handleClose}
         />
 
-        <div className="min-h-[150px]">
-          {isTrading && isSelling && <Selling />}
-          {isTrading && !isSelling && <Buying />}
+        {isTrading && isSelling && <Selling />}
+        {isTrading && !isSelling && <Buying />}
 
-          {machine.matches("loading") && (
-            <span className="loading">Loading</span>
-          )}
-          {machine.matches("updatingSession") && (
-            <span className="loading">Refreshing</span>
-          )}
+        {machine.matches("loading") && (
+          <span className="loading m-2">Loading</span>
+        )}
+        {machine.matches("updatingSession") && (
+          <span className="loading m-2">Refreshing</span>
+        )}
 
-          {machine.matches("listing") && (
-            <span className="loading">Listing</span>
-          )}
-          {machine.matches("cancelling") && (
-            <span className="loading">Cancelling</span>
-          )}
-          {machine.matches("purchasing") && (
-            <span className="loading">Purchasing</span>
-          )}
-
-          {machine.matches("error") && <div>Error</div>}
-        </div>
+        {machine.matches("listing") && (
+          <span className="loading m-2">Listing</span>
+        )}
+        {machine.matches("cancelling") && (
+          <span className="loading m-2">Cancelling</span>
+        )}
+        {machine.matches("purchasing") && (
+          <span className="loading m-2">Purchasing</span>
+        )}
       </Panel>
     </Modal>
   );

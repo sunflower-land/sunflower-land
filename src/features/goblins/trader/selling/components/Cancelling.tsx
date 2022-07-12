@@ -20,14 +20,16 @@ export const Cancelling: React.FC<ConfirmingCancelProps> = ({
   resourceAmount,
 }) => (
   <div className="flex flex-col items-center">
-    <div className="flex flex-col items-center p2">
-      <span className="mb-2">{`Cancel Listing ID #${listingId}`}</span>
+    <div className="flex flex-col items-center p-2">
+      <span className="mb-4">{`Cancel Listing ID #${listingId}`}</span>
       <img src={ITEM_DETAILS[resourceName].image} className="w-12" />
-      <span className="text-lg py-2">{`${resourceAmount} ${resourceName}`}</span>
+      <span className="py-2">{`${resourceAmount} ${resourceName}`}</span>
     </div>
-    <Button onClick={onConfirm} className="mb-1">
-      Cancel Trade
-    </Button>
-    <Button onClick={onBack}>Back</Button>
+    <div className="flex space-x-2 w-full">
+      <Button onClick={onBack}>Back</Button>
+      <Button onClick={onConfirm} className="whitespace-nowrap">
+        Cancel trade
+      </Button>
+    </div>
   </div>
 );

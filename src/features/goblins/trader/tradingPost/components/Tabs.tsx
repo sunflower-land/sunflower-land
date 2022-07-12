@@ -22,7 +22,7 @@ export const Tabs: React.FC<TabsProps> = ({
   <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
     <div className="flex">
       <Tab
-        className={classNames("flex items-center border-b-2 border-brown-300", {
+        className={classNames("flex items-center", {
           "cursor-pointer": !disabled,
           "cursor-not-allowed": disabled,
         })}
@@ -33,7 +33,7 @@ export const Tabs: React.FC<TabsProps> = ({
         <span className="text-sm overflow-hidden text-ellipsis">Sell</span>
       </Tab>
       <Tab
-        className={classNames("flex items-center border-b-2 border-brown-300", {
+        className={classNames("flex items-center", {
           "cursor-pointer": !disabled,
           "cursor-not-allowed": disabled,
         })}

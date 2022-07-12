@@ -28,6 +28,7 @@ export const Buying: React.FC = () => {
       <Idle
         visitingFarmId={machine.context.visitingFarmId}
         vistingFarmSlots={machine.context.vistingFarmSlots}
+        balance={goblinState.context.state.balance}
         onVisit={(farmId) => buyingService.send("LOAD_FARM", { farmId })}
         onPurchase={(listing) => buyingService.send("PURCHASE", { listing })}
       />
@@ -37,6 +38,7 @@ export const Buying: React.FC = () => {
   if (machine.matches("confirming")) {
     return (
       <Confirming
+        balance={goblinState.context.state.balance}
         listing={machine.context.purchasingListing}
         onBack={() => send("BACK")}
         onConfirm={() => send("CONFIRM")}
@@ -45,7 +47,7 @@ export const Buying: React.FC = () => {
   }
 
   if (machine.matches("loadingFarm")) {
-    return <span className="loading">Loading</span>;
+    return <span className="loading m-2">Loading</span>;
   }
 
   // This should never show, call the parent machine to exit.

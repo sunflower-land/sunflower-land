@@ -146,12 +146,14 @@ export const Drafting: React.FC<DraftingProps> = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-col">
-        <Button onClick={onConfirm} disabled={disableListTradeButton}>
+      <div className="flex space-x-2 w-full">
+        <Button onClick={onBack}>Back</Button>
+        <Button
+          onClick={onConfirm}
+          disabled={disableListTradeButton}
+          className="whitespace-nowrap"
+        >
           List trade
-        </Button>
-        <Button className="mt-1" onClick={onBack}>
-          Back
         </Button>
       </div>
     </>

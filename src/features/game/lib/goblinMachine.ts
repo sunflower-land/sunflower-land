@@ -267,6 +267,17 @@ export function startGoblinVillage(authContext: AuthContext) {
             onDone: {
               target: "playing",
             },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
           on: {
             UPDATE_SESSION: {

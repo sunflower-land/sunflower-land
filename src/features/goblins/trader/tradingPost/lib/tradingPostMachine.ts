@@ -10,6 +10,7 @@ import { loadUpdatedSession } from "./actions/loadUpdatedSession";
 import { purchase } from "./actions/purchase";
 import { list } from "./actions/list";
 import { cancel } from "./actions/cancel";
+import { escalate } from "xstate/lib/actions";
 
 export interface Cancel {
   listingId: number;
@@ -54,8 +55,7 @@ export type BlockchainState = {
     | "listing"
     | "cancelling"
     | "purchasing"
-    | "updatingSession"
-    | "error";
+    | "updatingSession";
   context: Context;
 };
 
@@ -90,7 +90,9 @@ export const tradingPostMachine = createMachine<
           ],
         },
         onError: {
-          target: "error",
+          actions: escalate((_, event) => ({
+            message: event.data.message,
+          })),
         },
       },
     },
@@ -133,7 +135,6 @@ export const tradingPostMachine = createMachine<
           },
         },
       },
-
       onDone: {
         target: "#updatingSession",
       },
@@ -152,6 +153,11 @@ export const tradingPostMachine = createMachine<
         onDone: {
           target: "updatingSession",
         },
+        onError: {
+          actions: escalate((_, event) => ({
+            message: event.data.message,
+          })),
+        },
       },
     },
     cancelling: {
@@ -166,6 +172,11 @@ export const tradingPostMachine = createMachine<
         },
         onDone: {
           target: "updatingSession",
+        },
+        onError: {
+          actions: escalate((_, event) => ({
+            message: event.data.message,
+          })),
         },
       },
     },
@@ -183,6 +194,11 @@ export const tradingPostMachine = createMachine<
         onDone: {
           target: "updatingSession",
         },
+        onError: {
+          actions: escalate((_, event) => ({
+            message: event.data.message,
+          })),
+        },
       },
     },
     updatingSession: {
@@ -195,9 +211,6 @@ export const tradingPostMachine = createMachine<
             context.token
           );
         },
-        onError: {
-          target: "error",
-        },
         onDone: {
           target: "loading",
           actions: [
@@ -208,10 +221,12 @@ export const tradingPostMachine = createMachine<
             })),
           ],
         },
+        onError: {
+          actions: escalate((_, event) => ({
+            message: event.data.message,
+          })),
+        },
       },
-    },
-    error: {
-      id: "error",
     },
     closed: {
       type: "final",
