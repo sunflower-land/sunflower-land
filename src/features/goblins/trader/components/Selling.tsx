@@ -1,7 +1,9 @@
+import React from "react";
+
 import { Button } from "components/ui/Button";
 import { KNOWN_ITEMS } from "features/game/types";
 import { FarmSlot, ListingStatus } from "lib/blockchain/Trader";
-import React from "react";
+import ticket from "assets/icons/ticket.png";
 import { Cancel } from "../lib/tradingPostMachine";
 import { Listing } from "./Listing";
 
@@ -23,12 +25,16 @@ export const Selling: React.FC<SellingProps> = ({
   onClose,
 }) => (
   <div className="p-2">
-    <div className="flex justify-between mb-4">
+    <div className="flex justify-between mb-4 items-center">
+      <div className="flex items-center">
+        <img src={ticket} className="w-6 mr-2" />
+        <p className="text-xxs sm:text-xs whitespace-nowrap">
+          {`Free Trades:${freeListings}`}
+        </p>
+      </div>
+
       <p className="text-xxs sm:text-xs whitespace-nowrap">
-        {`Free Trades: ${freeListings}`}
-      </p>
-      <p className="text-xxs sm:text-xs whitespace-nowrap">
-        Remaining Trades: {remainingListings}
+        Remaining Trades:{remainingListings}
       </p>
     </div>
 
