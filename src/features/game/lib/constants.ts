@@ -125,8 +125,10 @@ export const INITIAL_TREES: GameState["trees"] = {
 
 export const INITIAL_SHRUBS: GameState["shrubs"] = {
   0: {
-    wood: "0.1",
-    choppedAt: 0,
+    wood: {
+      amount: 0.1,
+      choppedAt: 0,
+    },
     x: -3,
     y: 3,
     height: 2,

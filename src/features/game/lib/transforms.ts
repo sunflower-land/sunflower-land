@@ -159,6 +159,7 @@ export function updateGame(
       gold: updateRocks(oldGameState.gold, newGameState.gold),
       skills: newGameState.skills,
       chickens: newGameState.chickens,
+      shrubs: newGameState.shrubs,
     };
   } catch (e) {
     console.log({ e });

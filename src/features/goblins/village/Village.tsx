@@ -15,7 +15,6 @@ import { AncientTree } from "../quest/AncientTree";
 import { AncientRock } from "../quest/AncientRock";
 import { AncientDoor } from "../quest/AncientDoor";
 import { Trader } from "../trader/tradingPost/Trader";
-import { CONFIG } from "lib/config";
 import { StorageHouse } from "../storageHouse/StorageHouse";
 
 interface Props {
@@ -49,7 +48,7 @@ export const Village: React.FC<Props> = () => {
       <AncientTree />
       <AncientRock />
       <AncientDoor />
-      {CONFIG.NETWORK === "mumbai" && <Trader />}
+      <Trader />
     </div>
   );
 };

@@ -38,7 +38,7 @@ export const Offer: React.FC<Props> = ({ onCraft, inventory, offer }) => {
   return (
     <div className="flex">
       <div className="flex flex-col justify-center items-center p-2 relative w-full">
-        <span className="text-shadow text-center">{offer.name}</span>
+        <span className="text-shadow text-center">{`${offer.amount} x ${offer.name}`}</span>
         <img
           src={details.image}
           className="h-16 img-highlight mt-1"
