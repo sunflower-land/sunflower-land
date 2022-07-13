@@ -46,7 +46,7 @@ export const Water: React.FC = () => {
           src={goblinSwimming}
           className="absolute "
           style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
+            width: `${GRID_WIDTH_PX * 6.1}px`,
             left: `${GRID_WIDTH_PX * 36}px`,
             top: `${GRID_WIDTH_PX * 22}px`,
             zIndex: "2",
@@ -57,7 +57,7 @@ export const Water: React.FC = () => {
           src={goblinSnorkling}
           className="absolute "
           style={{
-            width: `${GRID_WIDTH_PX * 3.5}px`,
+            width: `${GRID_WIDTH_PX * 3.81}px`,
             left: `${GRID_WIDTH_PX * 30}px`,
             top: `${GRID_WIDTH_PX * 12}px`,
           }}
@@ -67,7 +67,7 @@ export const Water: React.FC = () => {
           src={swimmer}
           className="absolute "
           style={{
-            width: `${GRID_WIDTH_PX * 0.85}px`,
+            width: `${GRID_WIDTH_PX * 1}px`,
             left: `${GRID_WIDTH_PX * 42}px`,
             top: `${GRID_WIDTH_PX * 16}px`,
             transform: "scaleX(-1)",

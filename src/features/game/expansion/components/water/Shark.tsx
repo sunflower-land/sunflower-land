@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import sharkRight from "assets/animals/shark-right.gif";
 import sharkLeft from "assets/animals/shark-left.gif";
 import { randomBetweenMaxInclusive } from "../../lib/randomBetweenMaxInclusive";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 const blankPng =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
@@ -52,6 +53,7 @@ const Shark: React.FC<Props> = ({ side }) => {
         src={imageSources[imageSourceIndex]}
         alt="shark"
         style={{
+          width: `${GRID_WIDTH_PX * 7.5}px`,
           top: `${position.top}%`,
           left: `${position.left}%`,
         }}
