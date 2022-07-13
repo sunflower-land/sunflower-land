@@ -603,7 +603,8 @@ export const ITEM_DETAILS: Items = {
     image: discord,
   },
   "Trading Ticket": {
-    description: "Free trades! Woohoo!",
+    description:
+      "Free trades! Woohoo! If you accept this offer, don't forget to sync after to make them available in Goblin Village",
     image: ticket,
   },
 
