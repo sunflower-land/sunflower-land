@@ -1,10 +1,7 @@
-import { fromWei } from "web3-utils";
-
 import { metamask } from "lib/blockchain/metamask";
 
 import { ITEM_DETAILS } from "../types/images";
 import { KNOWN_ITEMS } from "../types";
-import { getItemUnit } from "../lib/conversion";
 import { ListingStatus } from "lib/blockchain/Trader";
 
 export type OnChainEvent = {
@@ -51,8 +48,8 @@ async function loadPastEvents({
     return {
       icon: ITEM_DETAILS[item].image,
       timestamp: listing?.purchasedAt || 0,
-      message: `Farm #${listing?.purchasedById} purchased ${Number(
-        fromWei(listing?.resourceAmount.toString() as string, getItemUnit(item))
+      message: `Land #${listing?.purchasedById} purchased ${Number(
+        listing?.resourceAmount.toString()
       )} ${item}`,
     };
   });

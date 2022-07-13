@@ -18,10 +18,10 @@ export const loadUpdatedSession = async (
   const game = response?.game as GameState;
 
   // Whatever is lower, on chain or offchain
-  const availableState = getLowestGameState({
+  const { inventory, balance } = getLowestGameState({
     first: onChainState.game,
     second: game,
   });
 
-  return { inventory: availableState.inventory, sessionId };
+  return { inventory, balance, sessionId };
 };

@@ -78,6 +78,7 @@ type UpdateBalance = {
 type UpdateSession = {
   type: "UPDATE_SESSION";
   inventory: Inventory;
+  balance: Decimal;
   sessionId: string;
 };
 
@@ -285,6 +286,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 state: (context, event) => ({
                   ...context.state,
                   inventory: event.inventory,
+                  balance: event.balance,
                   sessionId: event.sessionId,
                 }),
               }),

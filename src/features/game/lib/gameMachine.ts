@@ -174,7 +174,6 @@ export function startGame(authContext: Options) {
                 farmId: authContext.farmId as number,
               });
 
-              console.log({ onChainEvents });
               // Get sessionId
               const sessionId =
                 farmId &&

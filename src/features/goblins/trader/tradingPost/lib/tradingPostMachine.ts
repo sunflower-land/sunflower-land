@@ -217,6 +217,7 @@ export const tradingPostMachine = createMachine<
             sendParent((_, event) => ({
               type: "UPDATE_SESSION",
               inventory: event.data.inventory,
+              balance: event.data.balance,
               sessionId: event.data.sessionId,
             })),
           ],
