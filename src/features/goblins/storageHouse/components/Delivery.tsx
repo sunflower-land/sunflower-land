@@ -27,7 +27,7 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
             {"It ain't free, I've got a tribe to feed!"}
           </span>
           <span className="text-sm my-4">
-            {"30% of the resources I'll take for the "}
+            {"I'll take 30% of the resources for the "}
             <a
               className="underline ml-2"
               href="https://docs.sunflower-land.com/economy/goblin-community-treasury"
