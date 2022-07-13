@@ -97,6 +97,7 @@ type PastAction = GameEvent & {
 
 export type TradeOffer = {
   name: InventoryItemName;
+  amount: number;
   startAt: string;
   endAt: string;
   ingredients: {
