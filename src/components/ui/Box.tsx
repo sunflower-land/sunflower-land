@@ -10,6 +10,7 @@ import cancel from "assets/icons/cancel.png";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 
 export interface BoxProps {
+  hideCount?: boolean;
   image?: any;
   secondaryImage?: any;
   isSelected?: boolean;
@@ -49,6 +50,7 @@ const shortenCount = (count: Decimal | undefined): string => {
 };
 
 export const Box: React.FC<BoxProps> = ({
+  hideCount = false,
   image,
   secondaryImage,
   isSelected,
@@ -144,7 +146,7 @@ export const Box: React.FC<BoxProps> = ({
           />
         )}
 
-        {!locked && !!count && count.greaterThan(0) && (
+        {!locked && !hideCount && !!count && count.greaterThan(0) && (
           <Label
             className={classNames(
               "absolute -top-4 -right-3 px-0.5 text-xs z-10",

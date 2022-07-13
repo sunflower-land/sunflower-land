@@ -21,7 +21,7 @@ import { loadSession } from "../actions/loadSession";
 import { metamask } from "lib/blockchain/metamask";
 import { INITIAL_SESSION } from "./gameMachine";
 import { wishingWellMachine } from "features/goblins/wishingWell/wishingWellMachine";
-import { tradingPostMachine } from "features/goblins/trader/lib/tradingPostMachine";
+import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/tradingPostMachine";
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
@@ -113,6 +113,7 @@ export type GoblinMachineState = {
     | "withdrawing"
     | "withdrawn"
     | "playing"
+    | "trading"
     | "error";
   context: Context;
 };
@@ -266,6 +267,17 @@ export function startGoblinVillage(authContext: AuthContext) {
             onDone: {
               target: "playing",
             },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
           on: {
             UPDATE_SESSION: {

@@ -7,6 +7,8 @@ import TraderJSON from "./abis/Trader.json";
 import { InventoryItemName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
+import { SunflowerLandTrader } from "./types";
+import { Purchased } from "./types/SunflowerLandTrader";
 
 const address = CONFIG.TRADER_CONTRACT;
 
@@ -16,6 +18,7 @@ export enum ListingStatus {
   EMPTY,
   LISTED,
   CANCELLED,
+  PURCHASED,
 }
 
 export type Listing = {
@@ -25,6 +28,8 @@ export type Listing = {
   resourceAmount: number;
   sfl: number;
   tax: number;
+  purchasedAt: number;
+  purchasedById: number;
 };
 
 export type FarmSlot = {
@@ -38,7 +43,7 @@ export class Trader {
   private web3: Web3;
   private account: string;
 
-  private contract: any;
+  private contract: SunflowerLandTrader;
 
   constructor(web3: Web3, account: string) {
     this.web3 = web3;
@@ -46,18 +51,13 @@ export class Trader {
     this.contract = new this.web3.eth.Contract(
       TraderJSON as AbiItem[],
       address as string
-    );
+    ) as unknown as SunflowerLandTrader;
   }
 
   public async getFarmSlots(farmId: number): Promise<FarmSlot[]> {
-    const farmSlots: {
-      status: string;
-      listingId: string;
-      resourceId: string;
-      resourceAmount: string;
-      sfl: string;
-      tax: string;
-    }[] = await this.contract.methods.getFarmSlots(farmId, 3).call();
+    const farmSlots = await this.contract.methods
+      .getFarmSlots(farmId, 3)
+      .call();
 
     console.log(farmSlots);
 
@@ -74,20 +74,24 @@ export class Trader {
           resourceAmount: Number(fromWei(slot.resourceAmount)),
           sfl: Number(fromWei(slot.sfl)),
           tax: Number(slot.tax) / 1000,
+          purchasedAt: Number(slot.purchasedAt),
+          purchasedById: Number(slot.purchasedById),
         },
       };
     });
   }
 
   public async getRemainingListings(farmId: number): Promise<number> {
-    return await this.contract.methods.getRemainingListings(farmId).call();
+    return Number(
+      await this.contract.methods.getRemainingListings(farmId).call()
+    );
   }
 
   public async getLimits(): Promise<ItemLimits> {
     const ids = Object.values(KNOWN_IDS);
     const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
 
-    const limits: number[] = await this.contract.methods
+    const limits: string[] = await this.contract.methods
       .getLimitBatch(ids)
       .call();
 
@@ -98,5 +102,29 @@ export class Trader {
       }),
       {} as ItemLimits
     );
+  }
+
+  public async getPastTrades(farmId: number, fromBlock: number) {
+    const events: Purchased[] = await new Promise((res, rej) => {
+      this.contract.getPastEvents(
+        "Purchased",
+        {
+          filter: {
+            sellerFarmId: farmId,
+          },
+          fromBlock,
+          toBlock: "latest",
+        },
+        function (error, events) {
+          if (error) {
+            rej(error);
+          }
+
+          res(events as unknown as Purchased[]);
+        }
+      );
+    });
+
+    return events;
   }
 }
