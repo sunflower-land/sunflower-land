@@ -24,7 +24,7 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
         <div>
           <span className="text-sm">Want me to deliver resources?</span>
           <span className="text-sm block mt-2 mb-2">
-            {"It aint free, I've got a tribe to feed!"}
+            {"It ain't free, I've got a tribe to feed!"}
           </span>
           <span className="text-sm my-4">
             {"30% of the resources I'll take for the "}
