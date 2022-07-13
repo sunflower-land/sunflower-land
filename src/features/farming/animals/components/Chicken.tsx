@@ -5,7 +5,7 @@ import debounce from "lodash.debounce";
 
 import hungryChicken from "assets/animals/chickens/hungry.gif";
 import happyChicken from "assets/animals/chickens/happy.gif";
-import walkingChicken from "assets/animals/chickens/walking.gif";
+import walkingChickenSheet from "assets/animals/chickens/walking_sheet.png";
 import sleepingChicken from "assets/animals/chickens/sleeping.gif";
 import layingEggSheet from "assets/animals/chickens/laying-egg-sheet.png";
 import wheatOnGround from "assets/animals/chickens/wheat.png";
@@ -252,11 +252,20 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
               alt="wheat-on-ground"
               className="absolute w-16 top-8 -left-[6px]"
             />
-            <img
-              src={walkingChicken}
-              alt="eating-chicken"
+            <Spritesheet
               className="absolute w-16 h-16"
-              style={{ zIndex: 10 * index }}
+              style={{
+                imageRendering: "pixelated",
+                zIndex: 10 * index,
+              }}
+              image={walkingChickenSheet}
+              widthFrame={32}
+              heightFrame={32}
+              fps={10}
+              steps={50}
+              direction={`forward`}
+              autoplay={true}
+              loop={true}
             />
           </div>
         )}
