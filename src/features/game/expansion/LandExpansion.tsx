@@ -3,7 +3,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import * as Auth from "features/auth/lib/Provider";
 
 import background from "assets/land/water-background.png";
-import waterMovement from "assets/decorations/water340.png";
+import waterMovement from "assets/decorations/water_movement.png";
 
 import { ToastProvider } from "../toast/ToastQueueProvider";
 import mapMovement from "../lib/mapMovement";
