@@ -236,7 +236,11 @@ export const WithdrawItems: React.FC<Props> = ({
         </span>
       </div>
 
-      <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
+      <Button
+        className="my-3"
+        onClick={withdraw}
+        disabled={selectedItems.length <= 0}
+      >
         Withdraw
       </Button>
 

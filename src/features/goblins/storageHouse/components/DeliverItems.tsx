@@ -112,6 +112,29 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
     }));
   };
 
+  const onSubtract = (itemName: InventoryItemName) => {
+    // Transfer from inventory to selected
+    let amount = 1;
+
+    // Add 1 or remaining
+    setInventory((prev) => ({
+      ...prev,
+      [itemName]: (prev[itemName] || new Decimal(0)).add(amount),
+    }));
+
+    // Subtract 1 or remaining
+    setSelected((prev) => {
+      const remaining = prev[itemName]!.toNumber();
+      if (remaining < 1) {
+        amount = remaining;
+      }
+      return {
+        ...prev,
+        [itemName]: prev[itemName]?.minus(amount),
+      };
+    });
+  };
+
   const onRemove = (itemName: InventoryItemName) => {
     setInventory((prev) => ({
       ...prev,
@@ -136,7 +159,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
 
   return (
     <>
-      <div className="mt-3 lf">
+      <div className="mt-3">
         <h2 className="mb-1 text-sm">Select items to deliver:</h2>
         <div className="flex flex-wrap h-fit -ml-1.5 mb-2">
           {inventoryItems.map((itemName) => {
@@ -156,16 +179,20 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
           })}
         </div>
 
-        <div className="mt-2" style={{ minHeight: "110px" }}>
+        <div className="mt-2 min-h-[64px]">
           <h2 className="text-sm">You will receive:</h2>
           <div className="mt-2 -ml-1.5">
             {selectedItems.map((itemName) => {
               return (
-                <div className="flex items-center pl-1 mb-2" key={itemName}>
+                <div className="flex items-center pl-1" key={itemName}>
                   <div className="w-80 flex items-center">
-                    <img
-                      src={ITEM_DETAILS[itemName].image}
-                      className="h-6 pr-2"
+                    <Box
+                      hideCount
+                      count={selected[itemName]}
+                      key={itemName}
+                      onClick={() => onSubtract(itemName)}
+                      image={ITEM_DETAILS[itemName].image}
+                      canBeLongPressed
                     />
                     <div className="flex flex-col">
                       <span className="text-sm">{`${selected[itemName]
@@ -207,7 +234,11 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
         </span>
       </div>
 
-      <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
+      <Button
+        className="my-3"
+        onClick={withdraw}
+        disabled={selectedItems.length <= 0}
+      >
         Deliver
       </Button>
 

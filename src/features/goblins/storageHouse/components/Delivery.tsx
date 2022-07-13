@@ -21,15 +21,15 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
           className="h-16 my-2 running relative left-1/4"
         />
 
-        <div>
+        <div className="flex flex-col space-y-3">
           <span className="text-sm">Want me to deliver resources?</span>
-          <span className="text-sm block mt-2 mb-2">
+          <span className="text-sm">
             {"It ain't free, I've got a tribe to feed!"}
           </span>
-          <span className="text-sm my-4">
+          <span className="text-sm">
             {"I'll take 30% of the resources for the "}
             <a
-              className="underline ml-2"
+              className="underline"
               href="https://docs.sunflower-land.com/economy/goblin-community-treasury"
               target="_blank"
               rel="noreferrer"
@@ -37,9 +37,7 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
               Goblin community treasury.
             </a>
           </span>
-          <Button className="mt-2" onClick={() => setIsTalking(false)}>
-            Continue
-          </Button>
+          <Button onClick={() => setIsTalking(false)}>Continue</Button>
         </div>
       </div>
     );
