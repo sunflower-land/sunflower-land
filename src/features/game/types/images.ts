@@ -140,7 +140,7 @@ import discord from "assets/skills/discord.png";
 import liquidityProvider from "assets/skills/liquidity_provider.png";
 
 // Coupons
-import tradingTicket from "assets/icons/tradingTicket.png";
+import ticket from "assets/icons/ticket.png";
 
 // Egg
 import redEgg from "src/assets/nfts/easter/red_egg.png";
@@ -604,7 +604,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Trading Ticket": {
     description: "Free trades! Woohoo!",
-    image: tradingTicket,
+    image: ticket,
   },
 
   /**
