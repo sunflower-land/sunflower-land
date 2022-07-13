@@ -112,6 +112,10 @@ export type Position = {
   height: number;
   width: number;
 };
+export type Wood = {
+  amount: number;
+  choppedAt: number;
+};
 
 export type PlantedCrop = {
   name: CropName;
@@ -121,9 +125,7 @@ export type PlantedCrop = {
 };
 
 export type LandExpansionTree = {
-  wood: string;
-  // Epoch time in milliseconds
-  choppedAt?: number;
+  wood: Wood;
 } & Position;
 
 export type Stone = {
