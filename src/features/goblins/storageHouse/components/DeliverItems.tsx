@@ -5,7 +5,6 @@ import Decimal from "decimal.js-light";
 import { Context } from "features/game/GoblinProvider";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { shortAddress } from "features/farming/hud/components/Address";
 import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
 
@@ -21,6 +20,7 @@ import { metamask } from "lib/blockchain/metamask";
 
 import { getKeys } from "features/game/types/craftables";
 import { getDeliverableItems } from "../lib/storageItems";
+import { shortAddress } from "lib/utils/shortAddress";
 
 interface Props {
   onWithdraw: () => void;
