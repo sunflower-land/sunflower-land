@@ -30,14 +30,16 @@ export const Idle: React.FC<IdleProps> = ({
   onCancel,
 }) => (
   <div className="p-2">
-    <div className="flex flex-col sm:flex-row justify-between mb-4">
+    <div className="flex items-center mb-4">
       <img src={ticket} className="w-6 mr-2" />
-      <p className="text-xxs sm:text-xs whitespace-nowrap">
-        {`Free trades: ${freeListings}`}
-      </p>
-      <p className="text-xxs sm:text-xs whitespace-nowrap">
-        {`Remaining trades: ${remainingListings}`}
-      </p>
+      <div className="flex flex-col sm:flex-row justify-between w-full">
+        <p className="text-xxs sm:text-xs whitespace-nowrap">
+          {`Free trades:${freeListings}`}
+        </p>
+        <p className="text-xxs sm:text-xs whitespace-nowrap">
+          {`Remaining trades:${remainingListings}`}
+        </p>
+      </div>
     </div>
     <h2 className="text-sm mb-2">{`Land #${farmId} Listings`}</h2>
 
