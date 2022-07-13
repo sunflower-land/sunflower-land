@@ -61,7 +61,7 @@ export const Salesman: React.FC = () => {
 
       setToast({
         icon: ITEM_DETAILS[offer.name].image,
-        content: `+1`,
+        content: `+${offer.amount}`,
       });
     }
 

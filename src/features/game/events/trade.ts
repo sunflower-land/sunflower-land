@@ -63,7 +63,7 @@ export function trade({ state }: Options): GameState {
     ...state,
     inventory: {
       ...subtractedInventory,
-      [tradeOffer.name]: oldAmount.add(1),
+      [tradeOffer.name]: oldAmount.add(tradeOffer.amount),
     },
     tradedAt: new Date().toISOString(),
   };
