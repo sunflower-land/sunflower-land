@@ -139,6 +139,9 @@ import coder from "assets/skills/coder.png";
 import discord from "assets/skills/discord.png";
 import liquidityProvider from "assets/skills/liquidity_provider.png";
 
+// Coupons
+import tradingTicket from "assets/icons/tradingTicket.png";
+
 // Egg
 import redEgg from "src/assets/nfts/easter/red_egg.png";
 import yellowEgg from "src/assets/nfts/easter/yellow_egg.png";
@@ -601,7 +604,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Trading Ticket": {
     description: "Free trades! Woohoo!",
-    image: discord,
+    image: tradingTicket,
   },
 
   /**
