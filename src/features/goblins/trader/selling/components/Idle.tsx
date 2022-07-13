@@ -10,6 +10,7 @@ import {
 } from "lib/blockchain/Trader";
 
 import { Listing } from "./Listing";
+import classNames from "classnames";
 
 interface IdleProps {
   farmId: number;
@@ -53,8 +54,14 @@ export const Idle: React.FC<IdleProps> = ({
               className="border-4 border-dashed border-brown-600 p-3 flex items-center justify-center"
             >
               <span
-                className="text-sm cursor-pointer"
-                onClick={() => onDraft(farmSlot.slotId)}
+                className={classNames("text-sm cursor-pointer", {
+                  "cursor-not-allowed opacity-50": remainingListings === 0,
+                })}
+                onClick={
+                  remainingListings !== 0
+                    ? () => onDraft(farmSlot.slotId)
+                    : undefined
+                }
               >
                 + List trade
               </span>

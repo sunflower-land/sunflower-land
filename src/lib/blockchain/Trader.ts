@@ -81,8 +81,10 @@ export class Trader {
     });
   }
 
-  public async getRemainingListings(farmId: number): Promise<string> {
-    return await this.contract.methods.getRemainingListings(farmId).call();
+  public async getRemainingListings(farmId: number): Promise<number> {
+    return Number(
+      await this.contract.methods.getRemainingListings(farmId).call()
+    );
   }
 
   public async getLimits(): Promise<ItemLimits> {
