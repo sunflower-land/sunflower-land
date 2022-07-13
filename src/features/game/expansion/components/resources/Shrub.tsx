@@ -7,7 +7,7 @@ import Spritesheet, {
 import sparkSheet from "assets/resources/shrub/shrub_sheet.png";
 import dropSheet from "assets/resources/shrub/shrub_chopped_sheet.png";
 import choppedShrub from "assets/resources/shrub/chopped_shrub.png";
-import smallShrub from "assets/resources/green_bush2.png";
+import wood from "assets/resources/wood.png";
 
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -17,7 +17,7 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 
 import { canChop } from "features/game/events/chopShrub";
-import { miningAudio, miningFallAudio } from "lib/utils/sfx";
+import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
@@ -92,7 +92,7 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
     const isPlaying = sparkGif.current?.getInfo("isPlaying");
 
     if (!isPlaying) {
-      miningAudio.play();
+      chopAudio.play();
 
       sparkGif.current?.goToAndPlay(0);
 
@@ -101,7 +101,7 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
       // On second strike, chop
       if (touchCount > 0 && touchCount === HITS - 1) {
         chop();
-        miningFallAudio.play();
+        treeFallAudio.play();
         setTouchCount(0);
       }
     } else return;
@@ -119,13 +119,13 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
 
       displayPopover(
         <div className="flex">
-          <img src={smallShrub} className="w-5 h-5 mr-2" />
+          <img src={wood} className="w-5 h-5 mr-2" />
           <span className="text-sm text-white text-shadow">{`+${shrub.wood.amount}`}</span>
         </div>
       );
 
       setToast({
-        icon: smallShrub,
+        icon: wood,
         content: `+${shrub.wood.amount}`,
       });
 
@@ -184,10 +184,10 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
         style={{
           position: "absolute",
           left: "-90px",
-          top: "-14px",
+          top: "-30px",
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
-          width: `${GRID_WIDTH_PX * 4}px`,
+          width: `${GRID_WIDTH_PX * 4.17}px`,
           imageRendering: "pixelated",
         }}
         className="pointer-events-none z-20"
@@ -195,8 +195,8 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
           choppedGif.current = spritesheet;
         }}
         image={dropSheet}
-        widthFrame={266}
-        heightFrame={168}
+        widthFrame={67}
+        heightFrame={42}
         fps={20}
         steps={15}
         direction={`forward`}
