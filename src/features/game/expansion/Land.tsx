@@ -10,7 +10,6 @@ import { getKeys } from "../types/craftables";
 import { Plot } from "features/farming/crops/components/landExpansion/Plot";
 import { Pebble } from "./components/resources/Pebble";
 import { Shrub } from "./components/resources/Shrub";
-import { WaterDecoration } from "./components/water/WaterDecoration";
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -39,6 +38,7 @@ export const Land: React.FC = () => {
           alt="land"
           className="w-full"
         />
+
         {/* Example placement of shrub */}
         {getKeys(shrubs).map((index) => {
           const { x, y, width, height } = shrubs[index];
