@@ -14,7 +14,7 @@ import { GoblinMachineState } from "features/game/lib/goblinMachine";
 import { AncientTree } from "../quest/AncientTree";
 import { AncientRock } from "../quest/AncientRock";
 import { AncientDoor } from "../quest/AncientDoor";
-import { Trader } from "../trader/Trader";
+import { Trader } from "../trader/tradingPost/Trader";
 import { CONFIG } from "lib/config";
 import { StorageHouse } from "../storageHouse/StorageHouse";
 

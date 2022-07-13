@@ -8,9 +8,12 @@ import { Action } from "components/ui/Action";
 
 import goblinBalloon from "assets/npcs/goblin_balloon.png";
 import icon from "assets/brand/icon.png";
+import { useActor } from "@xstate/react";
 
 export const Trader: React.FC = () => {
   const { goblinService } = useContext(Context);
+  const [goblinState] = useActor(goblinService);
+
   const [showModal, setShowModal] = useState(false);
 
   const openTrader = () => {
@@ -21,7 +24,7 @@ export const Trader: React.FC = () => {
   return (
     <>
       <div
-        className="absolute animate-float cursor-pointer hover:img-highlight"
+        className="absolute cursor-pointer hover:img-highlight"
         style={{
           width: `${GRID_WIDTH_PX * 2.9}px`,
           left: `${GRID_WIDTH_PX * 29.4}px`,
@@ -31,7 +34,7 @@ export const Trader: React.FC = () => {
         <img
           src={goblinBalloon}
           alt="goblin trader"
-          className="w-full"
+          className="w-full animate-float"
           onClick={openTrader}
         />
         {
@@ -44,7 +47,7 @@ export const Trader: React.FC = () => {
         }
       </div>
 
-      {showModal && (
+      {goblinState.matches("trading") && (
         <TraderModal isOpen={showModal} onClose={() => setShowModal(false)} />
       )}
     </>

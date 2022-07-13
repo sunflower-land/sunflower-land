@@ -1,17 +1,17 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { Draft } from "../lib/tradingPostMachine";
 
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ItemLimits } from "lib/blockchain/Trader";
 import { getKeys } from "features/game/types/craftables";
 
 import token from "assets/icons/token.gif";
+import { ItemLimits } from "lib/blockchain/Trader";
+import { Draft } from "../lib/sellingMachine";
 
 const MAX_SFL = new Decimal(10000);
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
@@ -20,16 +20,18 @@ interface DraftingProps {
   slotId: number;
   itemLimits: ItemLimits;
   inventory: Inventory;
-  onCancel: () => void;
-  onList: (draft: Draft) => void;
+  onBack: () => void;
+  onUpdate: (slotId: number, draft: Draft) => void;
+  onConfirm: () => void;
 }
 
 export const Drafting: React.FC<DraftingProps> = ({
   slotId,
   itemLimits,
   inventory,
-  onCancel,
-  onList,
+  onBack,
+  onUpdate,
+  onConfirm,
 }) => {
   const inventoryItems = getKeys(inventory).filter((itemName) =>
     itemLimits[itemName].gt(0)
@@ -43,12 +45,13 @@ export const Drafting: React.FC<DraftingProps> = ({
     inventoryItems[0]
   );
 
-  const draft: Draft = {
-    slotId: slotId,
-    resourceName: selected,
-    resourceAmount: resourceAmount,
-    sfl: sflAmount,
-  };
+  useEffect(() => {
+    onUpdate(slotId, {
+      resourceName: selected,
+      resourceAmount: resourceAmount,
+      sfl: sflAmount,
+    });
+  }, [slotId, selected, resourceAmount, sflAmount]);
 
   const select = (itemName: InventoryItemName) => {
     setSelected(itemName);
@@ -143,12 +146,14 @@ export const Drafting: React.FC<DraftingProps> = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-col">
-        <Button onClick={() => onList(draft)} disabled={disableListTradeButton}>
+      <div className="flex space-x-2 w-full">
+        <Button onClick={onBack}>Back</Button>
+        <Button
+          onClick={onConfirm}
+          disabled={disableListTradeButton}
+          className="whitespace-nowrap"
+        >
           List trade
-        </Button>
-        <Button className="mt-1" onClick={onCancel}>
-          Cancel
         </Button>
       </div>
     </>
