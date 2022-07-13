@@ -118,7 +118,6 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
       [itemName]: goblinState.context.state.inventory[itemName],
     }));
 
-    console.log({ itemName });
     setSelected((prev) => ({
       ...prev,
       [itemName]: new Decimal(0),
