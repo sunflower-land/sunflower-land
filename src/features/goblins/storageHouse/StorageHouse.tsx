@@ -12,7 +12,7 @@ import { StorageModal } from "./components/StorageModal";
 export const StorageHouse: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const openBank = () => {
+  const openStorageHouse = () => {
     setIsOpen(true);
   };
 
@@ -39,15 +39,15 @@ export const StorageHouse: React.FC = () => {
 
           <img
             src={resources}
-            alt="bank"
-            onClick={openBank}
+            alt="storage-house"
+            onClick={openStorageHouse}
             className="w-full"
           />
           <Action
             className="absolute -bottom-2 left-10"
             text="Storage"
             icon={token}
-            onClick={openBank}
+            onClick={openStorageHouse}
           />
         </div>
       </div>
