@@ -20,6 +20,7 @@ interface DraftingProps {
   slotId: number;
   itemLimits: ItemLimits;
   inventory: Inventory;
+  draft?: Draft;
   onBack: () => void;
   onUpdate: (slotId: number, draft: Draft) => void;
   onConfirm: () => void;
@@ -29,6 +30,7 @@ export const Drafting: React.FC<DraftingProps> = ({
   slotId,
   itemLimits,
   inventory,
+  draft,
   onBack,
   onUpdate,
   onConfirm,
@@ -44,6 +46,15 @@ export const Drafting: React.FC<DraftingProps> = ({
   const [selected, setSelected] = useState<InventoryItemName>(
     inventoryItems[0]
   );
+
+  // Execute on first load. draft will have value if backing from Confirming component
+  useEffect(() => {
+    if (draft) {
+      setSelected(draft.resourceName);
+      setResourceAmount(draft.resourceAmount);
+      setSflAmount(draft.sfl);
+    }
+  }, []);
 
   useEffect(() => {
     onUpdate(slotId, {

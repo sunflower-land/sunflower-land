@@ -49,6 +49,7 @@ export const Selling: React.FC = () => {
         slotId={machine.context.draftingSlotId}
         itemLimits={tradingPostState.context.itemLimits}
         inventory={goblinState.context.state.inventory}
+        draft={machine.context.draft}
         onBack={() => send("BACK")}
         onUpdate={(slotId, draft) =>
           sellingService.send("UPDATE_DRAFT", { slotId, draft })
