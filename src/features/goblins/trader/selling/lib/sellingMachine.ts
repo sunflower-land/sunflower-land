@@ -65,7 +65,13 @@ export const sellingMachine = createMachine<
       },
       drafting: {
         on: {
-          BACK: { target: "idle" },
+          BACK: {
+            target: "idle",
+            // delete current draft
+            actions: assign<Context, any>(() => ({
+              draft: undefined,
+            })),
+          },
           CONFIRM: { target: "confirming" },
           UPDATE_DRAFT: {
             actions: assign((_, event) => ({
@@ -77,7 +83,14 @@ export const sellingMachine = createMachine<
       },
       confirming: {
         on: {
-          BACK: { target: "drafting" },
+          BACK: {
+            target: "drafting",
+            // store current draft
+            actions: assign<Context, any>((context) => ({
+              draftingSlotId: context.draftingSlotId,
+              draft: context.draft,
+            })),
+          },
           CONFIRM: {
             actions: sendParent((context) => ({
               type: "LIST",
