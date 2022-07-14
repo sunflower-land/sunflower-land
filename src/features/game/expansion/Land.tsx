@@ -38,6 +38,7 @@ export const Land: React.FC = () => {
           alt="land"
           className="w-full"
         />
+
         {/* Example placement of shrub */}
         {getKeys(shrubs).map((index) => {
           const { x, y, width, height } = shrubs[index];

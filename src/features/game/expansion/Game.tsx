@@ -19,6 +19,7 @@ import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 import { Land } from "./Land";
 import { Hud } from "features/farming/hud/Hud";
+import { Water } from "./components/Water";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -91,6 +92,7 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
 
+      <Water />
       <Land />
       <Hud />
     </>
