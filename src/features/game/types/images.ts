@@ -62,6 +62,7 @@ import rockyMole from "assets/nfts/rocky_mole.gif";
 import nugget from "assets/nfts/nugget.gif";
 import rockGolem from "assets/nfts/rock_golem.gif";
 import rooster from "assets/nfts/rooster.gif";
+import wickerMan from "assets/nfts/wicker_man.png";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -190,6 +191,7 @@ import {
   LimitedItem,
   MUTANT_CHICKENS,
   SHOVELS,
+  SALESMAN_ITEMS,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
@@ -499,6 +501,10 @@ export const ITEM_DETAILS: Items = {
   Rooster: {
     ...BARN_ITEMS["Rooster"],
     image: rooster,
+  },
+  "Wicker Man": {
+    ...SALESMAN_ITEMS["Wicker Man"],
+    image: wickerMan,
   },
 
   // FOOD

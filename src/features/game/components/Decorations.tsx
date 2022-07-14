@@ -25,6 +25,7 @@ import fountain from "assets/nfts/fountain.gif";
 import goldenBonsai from "assets/nfts/golden_bonsai.png";
 import rooster from "assets/nfts/rooster.gif";
 import pottedSunflower from "assets/decorations/potted_sunflower.png";
+import wickerMan from "assets/nfts/wicker_man.png";
 
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import mysteriousHead from "assets/nfts/mysterious_head.png";
@@ -50,7 +51,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
 import { GameState, Inventory } from "../types/game";
 import { Panel } from "components/ui/Panel";
-import { fountainAudio } from "lib/utils/sfx";
+import { fountainAudio, burningSound } from "lib/utils/sfx";
 import { Sign } from "./Sign";
 import { canMine } from "../events/stoneMine";
 import { VipArea } from "./Vip";
@@ -670,6 +671,26 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         className="absolute"
         src={pottedSunflower}
         alt="Potted Sunflower"
+      />
+    )}
+
+    {state.inventory["Wicker Man"] && (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.69}px`,
+          left: `${GRID_WIDTH_PX * 81}px`,
+          top: `${GRID_WIDTH_PX * 21}px`,
+        }}
+        id={Section["Wicker Man"]}
+        className="absolute hover:img-highlight cursor-pointer"
+        src={wickerMan}
+        alt="Wicker Man"
+        onClick={() => {
+          //Checks if burningSound is playing, if false, plays the sound
+          if (!burningSound.playing()) {
+            burningSound.play();
+          }
+        }}
       />
     )}
 

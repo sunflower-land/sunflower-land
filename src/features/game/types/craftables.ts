@@ -23,7 +23,8 @@ export type CraftableName =
   | Food
   | Animal
   | Flag
-  | Shovel;
+  | Shovel
+  | TravellingSalesmanItem;
 
 export interface Craftable {
   name: CraftableName;
@@ -76,6 +77,8 @@ export interface LimitedItem extends CraftableItem {
 }
 
 export type MOMEventItem = "Engine Core" | "Observatory";
+
+export type TravellingSalesmanItem = "Wicker Man";
 
 export type QuestItem =
   | "Goblin Key"
@@ -546,6 +549,16 @@ export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
   },
 };
 
+export const SALESMAN_ITEMS: Record<TravellingSalesmanItem, LimitedItem> = {
+  "Wicker Man": {
+    name: "Wicker Man",
+    description:
+      "Join hands and make a chain, the shadow of the Wicker man will rise up again",
+    disabled: false,
+    section: Section["Wicker Man"],
+  },
+};
+
 export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
   "Engine Core": {
     name: "Engine Core",
@@ -830,6 +843,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...QUEST_ITEMS,
   ...MUTANT_CHICKENS,
   ...SHOVELS,
+  ...SALESMAN_ITEMS,
 });
 
 /**
@@ -847,6 +861,7 @@ export const LIMITED_ITEMS = {
   ...ROCKET_ITEMS,
   ...QUEST_ITEMS,
   ...MUTANT_CHICKENS,
+  ...SALESMAN_ITEMS,
 };
 
 export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);
