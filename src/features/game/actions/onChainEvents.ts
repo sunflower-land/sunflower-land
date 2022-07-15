@@ -3,6 +3,7 @@ import { metamask } from "lib/blockchain/metamask";
 import { ITEM_DETAILS } from "../types/images";
 import { KNOWN_ITEMS } from "../types";
 import { ListingStatus } from "lib/blockchain/Trader";
+import { CONFIG } from "lib/config";
 
 export type OnChainEvent = {
   icon: string;
@@ -140,6 +141,10 @@ export async function unseenEvents({
   farmAddress: string;
   farmId: number;
 }) {
+  if (!CONFIG.API_URL) {
+    return [];
+  }
+
   const lastBlock = getLastBlock();
 
   // First time playing the game, so no new events!
