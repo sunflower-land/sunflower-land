@@ -35,7 +35,7 @@ export const CraftingItems: React.FC<Props> = ({
   const [selected, setSelected] = useState<CraftableItem>(
     Object.values(items)[0]
   );
-  const [isBuyTenModalOpen, showBuyTenModal] = React.useState(false);
+  const [isCraftTenModalOpen, showCraftTenModal] = React.useState(false);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -93,13 +93,13 @@ export const CraftingItems: React.FC<Props> = ({
   const restock = () => {
     setShowCaptcha(true);
   };
-  // ask confirmation if buying more than 10
+  // ask confirmation if crafting more than 10
   const openConfirmationModal = () => {
-    showBuyTenModal(true);
+    showCraftTenModal(true);
   };
 
   const closeConfirmationModal = () => {
-    showBuyTenModal(false);
+    showCraftTenModal(false);
   };
   const handleBuyTen = () => {
     craft(10);
@@ -169,14 +169,14 @@ export const CraftingItems: React.FC<Props> = ({
         )}
         <Modal
           centered
-          show={isBuyTenModalOpen}
+          show={isCraftTenModalOpen}
           onHide={closeConfirmationModal}
         >
           <Panel className="md:w-4/5 m-auto">
             <div className="m-auto flex flex-col">
               <span className="text-sm text-center text-shadow">
                 Are you sure you want to <br className="hidden md:block" />
-                buy 10 {selected.name}?
+                craft 10 {selected.name}?
               </span>
             </div>
             <div className="flex justify-content-around p-1">
