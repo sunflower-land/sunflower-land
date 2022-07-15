@@ -208,8 +208,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               shakeGif.current = spritesheet;
             }}
             image={shakeSheet}
-            widthFrame={266}
-            heightFrame={168}
+            widthFrame={266 / 4}
+            heightFrame={168 / 4}
             fps={24}
             steps={7}
             direction={`forward`}
@@ -243,8 +243,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
           choppedGif.current = spritesheet;
         }}
         image={choppedSheet}
-        widthFrame={266}
-        heightFrame={168}
+        widthFrame={266 / 4}
+        heightFrame={168 / 4}
         fps={20}
         steps={11}
         direction={`forward`}
