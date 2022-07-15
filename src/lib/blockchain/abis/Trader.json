@@ -316,6 +316,67 @@
   },
   {
     "inputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "_listingIds",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "getListingsBatch",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "enum SunflowerLandTrader.Status",
+            "name": "status",
+            "type": "uint8"
+          },
+          { "internalType": "uint256", "name": "listingId", "type": "uint256" },
+          { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+          {
+            "internalType": "address",
+            "name": "farmAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "resourceId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "resourceAmount",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "sfl", "type": "uint256" },
+          { "internalType": "uint256", "name": "tax", "type": "uint256" },
+          { "internalType": "uint256", "name": "listedAt", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "cancelledAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "purchasedAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "purchasedById",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct SunflowerLandTrader.Listing[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "uint256", "name": "_farmId", "type": "uint256" }
     ],
     "name": "getRemainingListings",
