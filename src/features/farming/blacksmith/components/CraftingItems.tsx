@@ -101,7 +101,7 @@ export const CraftingItems: React.FC<Props> = ({
   const closeConfirmationModal = () => {
     showCraftTenModal(false);
   };
-  const handleBuyTen = () => {
+  const handleCraftTen = () => {
     craft(10);
   };
   if (showCaptcha) {
@@ -180,7 +180,7 @@ export const CraftingItems: React.FC<Props> = ({
               </span>
             </div>
             <div className="flex justify-content-around p-1">
-              <Button className="text-xs" onClick={handleBuyTen}>
+              <Button className="text-xs" onClick={handleCraftTen}>
                 Yes
               </Button>
               <Button className="text-xs ml-2" onClick={closeConfirmationModal}>
