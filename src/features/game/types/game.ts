@@ -26,7 +26,7 @@ export type Tree = {
   wood: Decimal;
   // Epoch time in milliseconds
   choppedAt: number;
-};
+} & Position;
 
 export type Rock = {
   amount: Decimal;
