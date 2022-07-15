@@ -157,13 +157,13 @@ export const CreateFarm: React.FC = () => {
   return (
     <form className="mb-4 relative">
       <div className="flex flex-col text-shadow items-center">
-        <h2 className="text-base mb-2">$5 USD* to play.</h2>
+        <h2 className="text-base mb-2">$5 USD to play</h2>
         <p className="text-xs mb-3 text-center">
-          To start a farm, we require a fee of $5 USD* (12.5 MATIC) which goes
-          towards the growth of the game.
+          To play Sunflower Land, you first need to mint an Account NFT for $5
+          USD (paid in MATIC)
         </p>
         <p className="text-xs mb-3 text-center">
-          10% of this donation will go to a charity of your choice.
+          10% of this fee will be donated to a charity of your choice.
         </p>
       </div>
       <p className="text-center mb-3 mt-10">Select a charity</p>
