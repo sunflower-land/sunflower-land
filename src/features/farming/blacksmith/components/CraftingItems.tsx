@@ -190,9 +190,14 @@ export const CraftingItems: React.FC<Props> = ({
           <div className="border-t border-white w-full mt-2 pt-1">
             {selected.ingredients?.map((ingredient, index) => {
               const item = ITEM_DETAILS[ingredient.item];
-              const lessIngredient = new Decimal(
-                inventory[ingredient.item] || 0
-              ).lessThan(ingredient.amount);
+              const inventoryAmount =
+                inventory[ingredient.item]?.toDecimalPlaces() || 0;
+              const requiredAmount = ingredient.amount.toDecimalPlaces();
+
+              // Ingredient difference
+              const lessIngredient = new Decimal(inventoryAmount).lessThan(
+                requiredAmount
+              );
 
               return (
                 <div className="flex justify-center items-end" key={index}>
@@ -205,7 +210,9 @@ export const CraftingItems: React.FC<Props> = ({
                       }
                     )}
                   >
-                    {ingredient.amount.toNumber()}
+                    {lessIngredient
+                      ? `${inventoryAmount}/${requiredAmount}`
+                      : `${requiredAmount}`}
                   </span>
                 </div>
               );
