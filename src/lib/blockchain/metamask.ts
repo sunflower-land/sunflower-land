@@ -3,7 +3,7 @@ import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { SessionManager } from "./Sessions";
 import { Farm } from "./Farm";
-import { Beta } from "./Beta";
+import { FarmMinter } from "./FarmMinter";
 import { Inventory } from "./Inventory";
 import { Pair } from "./Pair";
 import { WishingWell } from "./WishingWell";
@@ -24,7 +24,7 @@ export class Metamask {
   private farm: Farm | null = null;
   private sunflowerFarmers: SunflowerFarmers | null = null;
   private session: SessionManager | null = null;
-  private beta: Beta | null = null;
+  private farmMinter: FarmMinter | null = null;
   private inventory: Inventory | null = null;
   private pair: Pair | null = null;
   private wishingWell: WishingWell | null = null;
@@ -50,7 +50,10 @@ export class Metamask {
         this.web3 as Web3,
         this.account as string
       );
-      this.beta = new Beta(this.web3 as Web3, this.account as string);
+      this.farmMinter = new FarmMinter(
+        this.web3 as Web3,
+        this.account as string
+      );
       this.inventory = new Inventory(this.web3 as Web3, this.account as string);
       this.pair = new Pair(this.web3 as Web3, this.account as string);
       this.token = new Token(this.web3 as Web3, this.account as string);
@@ -297,8 +300,8 @@ export class Metamask {
     return this.inventory as Inventory;
   }
 
-  public getBeta() {
-    return this.beta as Beta;
+  public getFarmMinter() {
+    return this.farmMinter as FarmMinter;
   }
 
   public getSessionManager() {

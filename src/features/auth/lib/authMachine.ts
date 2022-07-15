@@ -491,7 +491,7 @@ export const authMachine = createMachine<
         }
 
         const createdAt = await metamask
-          .getBeta()
+          .getFarmMinter()
           ?.getCreatedAt(metamask.myAccount as string);
 
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold

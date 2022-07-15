@@ -1,15 +1,15 @@
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
-import { AbiItem, toWei } from "web3-utils";
-import BetaJSON from "./abis/Beta.json";
+import { AbiItem } from "web3-utils";
+import FarmMinterABI from "./abis/FarmMinter.json";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
-const address = CONFIG.BETA_CONTRACT;
+const address = CONFIG.FARM_MINTER_CONTRACT;
 
 /**
- * Beta contract
+ * Farm minter contract
  */
-export class Beta {
+export class FarmMinter {
   private web3: Web3;
   private account: string;
 
@@ -19,7 +19,7 @@ export class Beta {
     this.web3 = web3;
     this.account = account;
     this.contract = new this.web3.eth.Contract(
-      BetaJSON as AbiItem[],
+      FarmMinterABI as AbiItem[],
       address as string
     );
   }
@@ -47,18 +47,19 @@ export class Beta {
     signature,
     charity,
     deadline,
+    fee,
   }: {
     signature: string;
     charity: string;
     deadline: number;
+    fee: string;
   }): Promise<string> {
     const gasPrice = await estimateGasPrice(this.web3);
 
-    const donation = toWei("12.5");
     return new Promise((resolve, reject) => {
       this.contract.methods
-        .createFarm(signature, charity, deadline)
-        .send({ from: this.account, value: donation, gasPrice })
+        .createFarm(signature, charity, deadline, fee)
+        .send({ from: this.account, value: fee, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });
           const parsed = parseMetamaskError(error);

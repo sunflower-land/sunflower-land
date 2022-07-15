@@ -2,43 +2,6 @@
   {
     "inputs": [
       {
-        "internalType": "bytes",
-        "name": "signature",
-        "type": "bytes"
-      },
-      {
-        "internalType": "address",
-        "name": "charity",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      }
-    ],
-    "name": "createFarm",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "deposit",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "destroy",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "contract SunflowerLand",
         "name": "_farm",
         "type": "address"
@@ -67,75 +30,31 @@
     "type": "event"
   },
   {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
+        "internalType": "bytes",
+        "name": "signature",
+        "type": "bytes"
+      },
+      {
+        "internalType": "address",
+        "name": "charity",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
-        "name": "_supply",
+        "name": "deadline",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "mintFee",
         "type": "uint256"
       }
     ],
-    "name": "setMaxSupply",
+    "name": "createFarm",
     "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_fee",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMintFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_signer",
-        "type": "address"
-      }
-    ],
-    "name": "transferSigner",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_team",
-        "type": "address"
-      }
-    ],
-    "name": "transferTeam",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -155,6 +74,20 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "deposit",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "destroy",
+    "outputs": [],
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -187,6 +120,65 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_supply",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMaxSupply",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_wallet",
+        "type": "address"
+      }
+    ],
+    "name": "transferFeeWallet",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_signer",
+        "type": "address"
+      }
+    ],
+    "name": "transferSigner",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
