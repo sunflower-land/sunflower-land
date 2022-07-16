@@ -33,7 +33,6 @@ export type GameEvent =
   | ChopAction
   | OpenRewardAction
   | FeedAction
-  | TradeAction
   | RemoveCropAction
   | CollectAction
   | TradeAction
