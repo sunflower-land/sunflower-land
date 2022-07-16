@@ -64,8 +64,6 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
-export type Shovel = "Rusty Shovel";
-
 export type InventoryItemName =
   | CropName
   | SeedName

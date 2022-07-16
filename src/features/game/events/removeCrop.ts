@@ -6,7 +6,7 @@ import { isReadyToHarvest, isShovelStolen } from "./harvest";
 
 export enum REMOVE_CROP_ERRORS {
   SHOVEL_STOLEN = "Shovel stolen!",
-  NO_SHOVEL_SELECTED = "No shovel selected!",
+  NO_VALID_SHOVEL_SELECTED = "No valid shovel selected!",
   NO_SHOVEL_AVAILABLE = "No shovel available!",
   FIELD_DOESNT_EXIST = "Field doesn't exist!",
   NO_CROP_PLANTED = "There is no crop planted!",
@@ -33,11 +33,11 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
     throw new Error(REMOVE_CROP_ERRORS.SHOVEL_STOLEN);
   }
 
-  if (action.item !== "Rusty Shovel") {
-    throw new Error(REMOVE_CROP_ERRORS.NO_SHOVEL_SELECTED);
+  if (action.item !== "Shovel") {
+    throw new Error(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
   }
 
-  const shovelAmount = state.inventory["Rusty Shovel"] || new Decimal(0);
+  const shovelAmount = state.inventory.Shovel || new Decimal(0);
   if (shovelAmount.lessThan(1)) {
     throw new Error(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
   }
@@ -69,12 +69,10 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
     throw new Error(REMOVE_CROP_ERRORS.INVALID_PLANT);
   }
 
-  const newFields = fields;
-
-  delete newFields[action.fieldIndex];
+  delete fields[action.fieldIndex];
 
   return {
     ...state,
-    fields: newFields,
+    fields,
   } as GameState;
 }

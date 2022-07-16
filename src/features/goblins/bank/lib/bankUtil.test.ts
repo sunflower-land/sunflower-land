@@ -450,7 +450,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeFalsy();
   });
 
-  it("prevents rusty shovel from being withdrawn", () => {
+  it("prevents shovels from being withdrawn", () => {
     const enabled = canWithdraw({
       item: "Rusty Shovel",
       game: {

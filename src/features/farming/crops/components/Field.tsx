@@ -182,7 +182,7 @@ export const Field: React.FC<Props> = ({
     }
 
     // Remove crop
-    if (selectedItem === "Rusty Shovel") {
+    if (selectedItem === "Shovel") {
       const isRemovable = !isCropReady(
         now,
         field.plantedAt,

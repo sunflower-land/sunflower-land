@@ -12,7 +12,7 @@ const GAME_STATE: GameState = {
   fields: {},
   balance: new Decimal(0),
   inventory: {
-    "Rusty Shovel": new Decimal(1),
+    Shovel: new Decimal(1),
   },
   trees: {},
 };
@@ -24,7 +24,7 @@ describe("removeCrop", () => {
         state: GAME_STATE,
         action: {
           type: "item.removed",
-          item: "Rusty Shovel",
+          item: "Shovel",
           fieldIndex: -1,
         },
       })
@@ -37,14 +37,38 @@ describe("removeCrop", () => {
         state: GAME_STATE,
         action: {
           type: "item.removed",
-          item: "Rusty Shovel",
+          item: "Shovel",
           fieldIndex: 1.2,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.FIELD_DOESNT_EXIST);
   });
 
-  it("throws an error if rusty shovel is not selected", () => {
+  it("will not remove if the shovel is rusty", () => {
+    expect(() =>
+      removeCrop({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Rusty Shovel": new Decimal(1),
+          },
+          fields: {
+            1: {
+              name: "Sunflower",
+              plantedAt: Date.now(),
+            },
+          },
+        },
+        action: {
+          type: "item.removed",
+          item: "Rusty Shovel",
+          fieldIndex: 1,
+        },
+      })
+    ).toThrow(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
+  });
+
+  it("throws an error if shovel is not selected", () => {
     expect(() =>
       removeCrop({
         state: {
@@ -61,10 +85,10 @@ describe("removeCrop", () => {
           fieldIndex: 1,
         },
       })
-    ).toThrow(REMOVE_CROP_ERRORS.NO_SHOVEL_SELECTED);
+    ).toThrow(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
   });
 
-  it("throws an error if no rusty shovel exists in inventory", () => {
+  it("throws an error if no shovel exists in inventory", () => {
     expect(() =>
       removeCrop({
         state: {
@@ -79,7 +103,7 @@ describe("removeCrop", () => {
         },
         action: {
           type: "item.removed",
-          item: "Rusty Shovel",
+          item: "Shovel",
           fieldIndex: 1,
         },
       })
@@ -100,7 +124,7 @@ describe("removeCrop", () => {
         },
         action: {
           type: "item.removed",
-          item: "Rusty Shovel",
+          item: "Shovel",
           fieldIndex: 1,
         },
       })
@@ -115,7 +139,7 @@ describe("removeCrop", () => {
         state: { ...INITIAL_FARM, inventory: {} },
         action: {
           type: "item.removed",
-          item: "Rusty Shovel",
+          item: "Shovel",
           fieldIndex: 1,
         },
       })
@@ -137,7 +161,7 @@ describe("removeCrop", () => {
       },
       action: {
         type: "item.removed",
-        item: "Rusty Shovel",
+        item: "Shovel",
         fieldIndex: 0,
       },
     });
@@ -154,7 +178,7 @@ describe("removeCrop", () => {
         state: { ...INITIAL_FARM, inventory: {} },
         action: {
           type: "item.removed",
-          item: "Rusty Shovel",
+          item: "Shovel",
           fieldIndex: 1,
         },
       })
@@ -177,7 +201,7 @@ describe("removeCrop", () => {
       },
       action: {
         type: "item.removed",
-        item: "Rusty Shovel",
+        item: "Shovel",
         fieldIndex: 0,
       },
     });
@@ -191,7 +215,7 @@ describe("removeCrop", () => {
         state: GAME_STATE,
         action: {
           type: "item.removed",
-          item: "Rusty Shovel",
+          item: "Shovel",
           fieldIndex: 1,
         },
       })
@@ -211,7 +235,7 @@ describe("removeCrop", () => {
       },
       action: {
         type: "item.removed",
-        item: "Rusty Shovel",
+        item: "Shovel",
         fieldIndex: 1,
       },
     });

@@ -3,7 +3,12 @@ import { isSeed } from "features/game/events/plant";
 import { canMine } from "features/game/events/stoneMine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { GoblinState } from "features/game/lib/goblinMachine";
-import { FOODS, getKeys, QUEST_ITEMS } from "features/game/types/craftables";
+import {
+  FOODS,
+  getKeys,
+  QUEST_ITEMS,
+  SHOVELS,
+} from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/crops";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { SKILL_TREE } from "features/game/types/skills";
@@ -61,7 +66,7 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return false;
   }
 
-  if (item === "Rusty Shovel") {
+  if (item in SHOVELS) {
     return false;
   }
 
