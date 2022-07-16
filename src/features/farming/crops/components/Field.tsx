@@ -15,7 +15,6 @@ import { Soil } from "./Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "./CropReward";
-import { RemoveCrop } from "./RemoveCrop";
 
 interface Props {
   selectedItem?: InventoryItemName;
@@ -27,7 +26,7 @@ interface Props {
 const isCropReady = (now: number, plantedAt: number, harvestSeconds: number) =>
   now - plantedAt > harvestSeconds * 1000;
 
-const REMOVE_CROP_WARNING_TIMEOUT = 5000; // 5 seconds
+const REMOVE_CROP_TIMEOUT = 5000; // 5 seconds
 
 export const Field: React.FC<Props> = ({
   selectedItem,
@@ -43,36 +42,17 @@ export const Field: React.FC<Props> = ({
   const clickedAt = useRef<number>(0);
   const field = game.context.state.fields[fieldIndex];
   const [showCropDetails, setShowCropDetails] = useState(false);
-  const [showRemoveWarning, setShowRemoveWarning] = useState(false);
-  const [lastCropRemovedTime, setLastCropRemovedTime] = useState<number | null>(
-    null
-  );
-
-  // Record when some crop was last removed
-  useEffect(() => {
-    gameService.onEvent((event) => {
-      if (event.type === "item.removed") {
-        setLastCropRemovedTime(Date.now());
-      } else if (event.type === "item.harvested") {
-        setLastCropRemovedTime(null);
-      }
-    });
-  }, [gameService]);
+  const [isRemoving, setIsRemoving] = useState(false);
 
   // If selected item changes, then stop removing crops
-  useEffect(() => setLastCropRemovedTime(null), [selectedItem]);
+  useEffect(() => setIsRemoving(false), [selectedItem]);
 
   // If enough time has passed, then stop removing crops
   useEffect(() => {
-    if (lastCropRemovedTime === null) {
-      return;
-    }
-    const timer = setTimeout(
-      () => setLastCropRemovedTime(null),
-      REMOVE_CROP_WARNING_TIMEOUT
-    );
+    if (!isRemoving) return;
+    const timer = setTimeout(() => setIsRemoving(false), REMOVE_CROP_TIMEOUT);
     return () => clearTimeout(timer);
-  }, [lastCropRemovedTime]);
+  }, [isRemoving]);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -92,15 +72,15 @@ export const Field: React.FC<Props> = ({
   };
 
   const removeCrop = () => {
+    if (!isRemoving) {
+      setIsRemoving(true);
+      return;
+    }
     gameService.send("item.removed", {
       item: selectedItem,
       fieldIndex,
     });
-  };
-
-  const onConfirmRemove = () => {
-    setShowRemoveWarning(false);
-    removeCrop();
+    setIsRemoving(false);
   };
 
   const handleMouseHover = () => {
@@ -182,24 +162,12 @@ export const Field: React.FC<Props> = ({
     }
 
     // Remove crop
-    if (selectedItem === "Shovel") {
-      const isRemovable = !isCropReady(
-        now,
-        field.plantedAt,
-        CROPS()[field.name].harvestSeconds
-      );
-
-      if (isRemovable) {
-        const canRemoveNow = lastCropRemovedTime !== null;
-
-        if (canRemoveNow) {
-          removeCrop();
-        } else {
-          setShowRemoveWarning(true);
-        }
-
-        return;
-      }
+    if (
+      selectedItem === "Shovel" &&
+      !isCropReady(now, field.plantedAt, CROPS()[field.name].harvestSeconds)
+    ) {
+      removeCrop();
+      return;
     }
 
     try {
@@ -239,6 +207,7 @@ export const Field: React.FC<Props> = ({
         className="absolute bottom-0"
         plantedCrop={field}
         showCropDetails={showCropDetails}
+        isRemoving={isRemoving}
       />
 
       <div
@@ -290,12 +259,6 @@ export const Field: React.FC<Props> = ({
         reward={reward}
         onCollected={onCollectReward}
         fieldIndex={fieldIndex}
-      />
-
-      <RemoveCrop
-        showWarning={showRemoveWarning}
-        onConfirm={onConfirmRemove}
-        onClose={() => setShowRemoveWarning(false)}
       />
     </div>
   );

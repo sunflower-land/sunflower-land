@@ -5,6 +5,7 @@ import progressQuarter from "assets/ui/progress/quarter.png";
 import progressHalf from "assets/ui/progress/half.png";
 import progressAlmost from "assets/ui/progress/almost.png";
 import progressFull from "assets/ui/progress/full.png";
+import progressNegative from "assets/ui/progress/negative.png";
 
 import { secondsToString } from "lib/utils/time";
 
@@ -27,6 +28,10 @@ export const Bar: React.FC<Props> = ({ percentage }) => {
 
   if (percentage >= 25) {
     return <img src={progressQuarter} className="w-10" />;
+  }
+
+  if (percentage < 0) {
+    return <img src={progressNegative} className="w-10" />;
   }
 
   return <img src={progressStart} className="w-10" />;
