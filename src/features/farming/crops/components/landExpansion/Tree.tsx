@@ -25,7 +25,6 @@ import {
 } from "features/game/events/chop";
 
 import { getTimeLeft } from "lib/utils/time";
-import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
@@ -188,7 +187,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const percentage = 100 - (timeLeft / TREE_RECOVERY_SECONDS) * 100;
 
   return (
-    <div className="relative" style={{ height: "106px" }}>
+    <div className="relative z-10" style={{ height: "106px" }}>
       {!chopped && (
         <div
           onMouseEnter={handleHover}
@@ -260,7 +259,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
         <>
           <img
             src={stump}
-            className="absolute"
+            className="absolute opacity-50"
             style={{
               width: `${GRID_WIDTH_PX}px`,
               bottom: "9px",
@@ -269,9 +268,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
             onMouseEnter={handleMouseHoverStump}
             onMouseLeave={handleMouseLeaveStump}
           />
-          <div className="absolute -bottom-4 left-1.5">
-            <ProgressBar percentage={percentage} seconds={timeLeft} />
-          </div>
           <TimeLeftPanel
             text="Recovers in:"
             timeLeft={timeLeft}

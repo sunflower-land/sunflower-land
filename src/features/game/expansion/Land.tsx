@@ -10,6 +10,7 @@ import { getKeys } from "../types/craftables";
 import { Plot } from "features/farming/crops/components/landExpansion/Plot";
 import { Pebble } from "./components/resources/Pebble";
 import { Shrub } from "./components/resources/Shrub";
+import { Tree } from "features/farming/crops/components/landExpansion/Tree";
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -18,7 +19,7 @@ export const Land: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
-  const { pebbles, shrubs, terrains, plots } = state;
+  const { pebbles, shrubs, terrains, plots, trees } = state;
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -78,6 +79,16 @@ export const Land: React.FC = () => {
           return (
             <MapPlacement key={index} x={x} y={y} height={height} width={width}>
               <Plot index={Number(index)} />
+            </MapPlacement>
+          );
+        })}
+
+        {getKeys(trees).map((index) => {
+          const { x, y, width, height } = trees[index];
+
+          return (
+            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
+              <Tree treeIndex={index} />
             </MapPlacement>
           );
         })}

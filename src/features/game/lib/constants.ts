@@ -104,22 +104,46 @@ export const INITIAL_TREES: GameState["trees"] = {
   0: {
     wood: new Decimal(3),
     choppedAt: 0,
+    x: 1,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   1: {
     wood: new Decimal(4),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   2: {
     wood: new Decimal(5),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   3: {
     wood: new Decimal(5),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   4: {
     wood: new Decimal(3),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
 };
 
@@ -239,6 +263,7 @@ export const INITIAL_FARM: GameState = {
     Radish: new Decimal(100),
     Wheat: new Decimal(100),
     Egg: new Decimal(15),
+    Axe: new Decimal(3),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
