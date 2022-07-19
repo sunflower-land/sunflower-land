@@ -148,6 +148,7 @@ export type LandExpansionPlot = {
 
 export interface GameState {
   id?: number;
+  level: number;
   balance: Decimal;
   fields: Fields;
 
