@@ -4,8 +4,8 @@ import { GRID_WIDTH_PX } from "../../lib/constants";
 export interface Position {
   x: number;
   y: number;
-  height: number;
-  width: number;
+  height?: number;
+  width?: number;
 }
 
 /**

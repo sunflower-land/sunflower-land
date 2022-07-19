@@ -302,6 +302,7 @@ export const INITIAL_FARM: GameState = {
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
+  level: 1,
   fields: {},
   inventory: {
     "Chicken Coop": new Decimal(1),

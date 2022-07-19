@@ -10,8 +10,18 @@ import Shark from "./water/Shark";
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
 import swimmer from "assets/npcs/swimmer.gif";
+import { MapPlacement } from "./MapPlacement";
 
-export const Water: React.FC = () => {
+const LAND_WIDTH = 6;
+
+interface Props {
+  level: number;
+}
+
+export const Water: React.FC<Props> = ({ level }) => {
+  // As the land gets bigger, push the water decorations out
+  const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
+
   return (
     // Container
     <div
@@ -33,47 +43,44 @@ export const Water: React.FC = () => {
           className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
         />
 
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 1.185}px`,
-            left: `${GRID_WIDTH_PX * 42.8}px`,
-          }}
-          src={dragonfly}
-          className="absolute top-1/2 animate-float"
-        />
+        <MapPlacement x={-offset} y={1}>
+          <img
+            style={{
+              width: `${GRID_WIDTH_PX * 1.185}px`,
+            }}
+            src={dragonfly}
+            className="animate-float"
+          />
+        </MapPlacement>
 
-        <img
-          src={goblinSwimming}
-          className="absolute "
-          style={{
-            width: `${GRID_WIDTH_PX * 6.1}px`,
-            left: `${GRID_WIDTH_PX * 36}px`,
-            top: `${GRID_WIDTH_PX * 22}px`,
-            zIndex: "2",
-          }}
-        />
+        <MapPlacement x={-3 - offset} y={-1}>
+          <img
+            src={goblinSwimming}
+            style={{
+              width: `${GRID_WIDTH_PX * 6.1}px`,
+            }}
+          />
+        </MapPlacement>
 
-        <img
-          src={goblinSnorkling}
-          className="absolute "
-          style={{
-            width: `${GRID_WIDTH_PX * 3.81}px`,
-            left: `${GRID_WIDTH_PX * 30}px`,
-            top: `${GRID_WIDTH_PX * 12}px`,
-          }}
-        />
+        <MapPlacement x={-2} y={offset + 2}>
+          <img
+            src={goblinSnorkling}
+            style={{
+              width: `${GRID_WIDTH_PX * 3.81}px`,
+            }}
+          />
+        </MapPlacement>
 
-        <img
-          src={swimmer}
-          className="absolute "
-          style={{
-            width: `${GRID_WIDTH_PX * 1}px`,
-            left: `${GRID_WIDTH_PX * 42}px`,
-            top: `${GRID_WIDTH_PX * 16}px`,
-            transform: "scaleX(-1)",
-            zIndex: "2",
-          }}
-        />
+        <MapPlacement x={offset + 3} y={6}>
+          <img
+            src={swimmer}
+            style={{
+              width: `${GRID_WIDTH_PX * 1}px`,
+              transform: "scaleX(-1)",
+              zIndex: "2",
+            }}
+          />
+        </MapPlacement>
       </div>
     </div>
   );
