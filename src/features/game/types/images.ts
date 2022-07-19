@@ -141,6 +141,9 @@ import coder from "assets/skills/coder.png";
 import discord from "assets/skills/discord.png";
 import liquidityProvider from "assets/skills/liquidity_provider.png";
 
+// Coupons
+import ticket from "assets/icons/ticket.png";
+
 // Egg
 import redEgg from "src/assets/nfts/easter/red_egg.png";
 import yellowEgg from "src/assets/nfts/easter/yellow_egg.png";
@@ -609,6 +612,11 @@ export const ITEM_DETAILS: Items = {
   "Discord Mod": {
     description: SKILL_TREE["Discord Mod"].perks[0],
     image: discord,
+  },
+  "Trading Ticket": {
+    description:
+      "Free trades! Woohoo! If you accept this offer, don't forget to sync after to make them available in Goblin Village",
+    image: ticket,
   },
 
   /**

@@ -12,6 +12,7 @@ const GAME_STATE: GameState = {
 
 const CHICKEN_OFFER: TradeOffer = {
   name: "Chicken",
+  amount: 1,
   startAt: "2022-06-08T00:00:00.000Z",
   endAt: "2022-06-20T00:00:00.000Z",
   ingredients: [
@@ -106,6 +107,7 @@ describe("trade", () => {
         tradedAt: new Date(Date.now() - 100000).toISOString(),
         tradeOffer: {
           name: "Chicken",
+          amount: 1,
           ingredients: [
             {
               name: "Beetroot",
@@ -160,6 +162,7 @@ describe("trade", () => {
         },
         tradeOffer: {
           name: "Chicken",
+          amount: 1,
           ingredients: [
             {
               name: "Beetroot",
@@ -185,5 +188,35 @@ describe("trade", () => {
         state,
       })
     ).toThrow("Already traded");
+  });
+
+  it("trades for mulitple items", () => {
+    const state = trade({
+      action: {
+        type: "item.traded",
+      },
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Sunflower: new Decimal(50),
+        },
+        tradeOffer: {
+          name: "Potato",
+          amount: 5,
+          startAt: "2022-06-08T00:00:00.000Z",
+          endAt: "2022-06-20T00:00:00.000Z",
+          ingredients: [
+            {
+              name: "Sunflower",
+              amount: new Decimal(5),
+            },
+          ],
+        },
+      },
+    });
+
+    expect(state.inventory.Potato).toEqual(new Decimal(5));
+    expect(state.inventory.Sunflower).toEqual(new Decimal(45));
+    expect(state.tradedAt).toEqual(expect.any(String));
   });
 });

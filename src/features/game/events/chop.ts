@@ -98,6 +98,7 @@ export function chop({
     trees: {
       ...state.trees,
       [action.index]: {
+        ...state.trees[action.index],
         choppedAt: getChoppedAt({ createdAt, inventory: state.inventory }),
         // Placeholder, random numbers generated on server side
         wood: new Decimal(3),

@@ -6,6 +6,8 @@ import { AbiItem } from "web3-utils";
 import InventoryJSON from "./abis/Inventory.json";
 import { CONFIG } from "lib/config";
 import { parseMetamaskError } from "./utils";
+import { SunflowerLandInventory } from "./types";
+import { TransferBatch, TransferSingle } from "./types/SunflowerLandInventory";
 
 const address = CONFIG.INVENTORY_CONTRACT;
 
@@ -18,7 +20,7 @@ export class Inventory {
   private web3: Web3;
   private account: string;
 
-  private contract: any;
+  private contract: SunflowerLandInventory;
 
   constructor(web3: Web3, account: string) {
     this.web3 = web3;
@@ -26,17 +28,17 @@ export class Inventory {
     this.contract = new this.web3.eth.Contract(
       InventoryJSON as AbiItem[],
       address as string
-    );
+    ) as unknown as SunflowerLandInventory;
   }
 
   private async loadSupplyBatch(
     ids: number[],
     attempts = 0
-  ): Promise<number[]> {
+  ): Promise<string[]> {
     await new Promise((res) => setTimeout(res, 3000 * attempts));
 
     try {
-      const supplies: number[] = await this.contract.methods
+      const supplies: string[] = await this.contract.methods
         .totalSupplyBatch(ids)
         .call({ from: this.account });
 
@@ -55,7 +57,7 @@ export class Inventory {
     const ids = Object.values(KNOWN_IDS);
     const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
 
-    const supplies: number[] = await this.loadSupplyBatch(ids);
+    const supplies: string[] = await this.loadSupplyBatch(ids);
 
     return supplies.reduce(
       (items, supply, index) => ({
@@ -73,5 +75,67 @@ export class Inventory {
       .call();
 
     return balances;
+  }
+
+  public async getBalance(farmAddress: string, id: number): Promise<string> {
+    return await this.contract.methods.balanceOf(farmAddress, id).call();
+  }
+
+  public async getTransfers(farmAddress: string, fromBlock: number) {
+    const events: TransferSingle[] = await new Promise((res, rej) => {
+      this.contract.getPastEvents(
+        "TransferSingle",
+        {
+          filter: {
+            to: farmAddress,
+          },
+          fromBlock,
+          toBlock: "latest",
+        },
+        function (error, events) {
+          if (error) {
+            rej(error);
+          }
+
+          res(events as unknown as TransferSingle[]);
+        }
+      );
+    });
+
+    const externalEvents = events.filter(
+      (event) =>
+        event.returnValues.from !== "0x0000000000000000000000000000000000000000"
+    );
+
+    return externalEvents;
+  }
+
+  public async getBatchTransfers(farmAddress: string, fromBlock: number) {
+    const events: TransferBatch[] = await new Promise((res, rej) => {
+      this.contract.getPastEvents(
+        "TransferBatch",
+        {
+          filter: {
+            to: farmAddress,
+          },
+          fromBlock,
+          toBlock: "latest",
+        },
+        function (error, events) {
+          if (error) {
+            rej(error);
+          }
+
+          res(events as unknown as TransferBatch[]);
+        }
+      );
+    });
+
+    const externalEvents = events.filter(
+      (event) =>
+        event.returnValues.from !== "0x0000000000000000000000000000000000000000"
+    );
+
+    return externalEvents;
   }
 }

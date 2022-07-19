@@ -32,9 +32,9 @@ export async function signTransaction(request: Request) {
     throw new Error(ERRORS.FAILED_REQUEST);
   }
 
-  const { signature, charity, deadline } = await response.json();
+  const { signature, charity, deadline, fee } = await response.json();
 
-  return { signature, charity, deadline };
+  return { signature, charity, deadline, fee };
 }
 
 type CreateFarmOptions = {
@@ -54,7 +54,7 @@ export async function createFarm({
     captcha,
   });
 
-  await metamask.getBeta().createFarm(transaction);
+  await metamask.getFarmMinter().createFarm(transaction);
 
   const farm = await metamask.getFarm().getNewFarm();
 

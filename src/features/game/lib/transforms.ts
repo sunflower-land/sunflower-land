@@ -4,6 +4,7 @@ import {
   GameState,
   Inventory,
   InventoryItemName,
+  LandExpansionRock,
   Rock,
   Tree,
 } from "../types/game";
@@ -94,6 +95,7 @@ export function makeGame(farm: any): GameState {
 }
 
 type Rocks = Record<number, Rock>;
+type Pebbles = Record<number, LandExpansionRock>;
 
 /**
  * Updates a rock with the new amount of mineral inside of it
@@ -152,10 +154,12 @@ export function updateGame(
         };
       }, {} as Record<number, Tree>),
       stones: updateRocks(oldGameState.stones, newGameState.stones),
+      pebbles: newGameState.pebbles,
       iron: updateRocks(oldGameState.iron, newGameState.iron),
       gold: updateRocks(oldGameState.gold, newGameState.gold),
       skills: newGameState.skills,
       chickens: newGameState.chickens,
+      shrubs: newGameState.shrubs,
     };
   } catch (e) {
     console.log({ e });

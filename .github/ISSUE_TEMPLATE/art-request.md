@@ -1,6 +1,6 @@
 ---
 name: Art Request
-about: A request for in game art
+about: A request for in-game art
 title: "[ART] Title goes here"
 labels: 🖼️ art request
 assignees: ""
@@ -10,7 +10,7 @@ assignees: ""
 
 Please provide a brief summary of what art needs doing.
 
-This is a request for mineral based NFT items to craft at the Blacksmith! 🚀
+This is a request for mineral-based NFT items to craft at the Blacksmith! 🚀
 
 ## Requirements
 
@@ -29,7 +29,7 @@ Note: Your art & mechanic may be modified/altered by the community if needed.
 
 ## Rewards
 
-There is no guarantee of rewards by contributing to the project. Based on past history however, artists are airdropped their designs or surpirsed with in game rewards.
+There is no guarantee of rewards by contributing to the project. Based on past history however, artists are airdropped their designs or surprised with in-game rewards.
 
 ## Deadline
 

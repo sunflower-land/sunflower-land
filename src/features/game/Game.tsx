@@ -33,10 +33,12 @@ import { screenTracker } from "lib/utils/screen";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { GoblinShovel } from "features/farming/crops/components/GoblinShovel";
 import { Announcements } from "features/announcements/Announcement";
+import { Notifications } from "./components/Notifications";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
+  notifying: true,
   announcing: true,
   playing: false,
   autosaving: false,
@@ -95,6 +97,7 @@ export const Game: React.FC = () => {
           {gameState.matches("loading") && <Loading />}
 
           {gameState.matches("announcing") && <Announcements />}
+          {gameState.matches("notifying") && <Notifications />}
 
           {gameState.matches("refreshing") && <Refreshing />}
           {gameState.matches("error") && (

@@ -26,7 +26,7 @@ export type Tree = {
   wood: Decimal;
   // Epoch time in milliseconds
   choppedAt: number;
-};
+} & Position;
 
 export type Rock = {
   amount: Decimal;
@@ -64,6 +64,8 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
+export type TradingTicket = "Trading Ticket";
+
 export type InventoryItemName =
   | CropName
   | SeedName
@@ -74,7 +76,8 @@ export type InventoryItemName =
   | EasterBunny
   | Food
   | MOMEventItem
-  | MutantChicken;
+  | MutantChicken
+  | TradingTicket;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -94,6 +97,7 @@ type PastAction = GameEvent & {
 
 export type TradeOffer = {
   name: InventoryItemName;
+  amount: number;
   startAt: string;
   endAt: string;
   ingredients: {
@@ -108,6 +112,10 @@ export type Position = {
   height: number;
   width: number;
 };
+export type Wood = {
+  amount: number;
+  choppedAt: number;
+};
 
 export type PlantedCrop = {
   name: CropName;
@@ -117,15 +125,17 @@ export type PlantedCrop = {
 };
 
 export type LandExpansionTree = {
-  wood: string;
-  // Epoch time in milliseconds
-  choppedAt?: number;
+  wood: Wood;
 } & Position;
 
-export type LandExpansionRock = {
-  amount: string;
+export type Stone = {
+  amount: number;
   // Epoch time in milliseconds
-  minedAt?: number;
+  minedAt: number;
+};
+
+export type LandExpansionRock = {
+  stone: Stone;
 } & Position;
 
 export type LandExpansionTerrain = {

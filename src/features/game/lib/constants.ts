@@ -104,29 +104,55 @@ export const INITIAL_TREES: GameState["trees"] = {
   0: {
     wood: new Decimal(3),
     choppedAt: 0,
+    x: 1,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   1: {
     wood: new Decimal(4),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   2: {
     wood: new Decimal(5),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   3: {
     wood: new Decimal(5),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   4: {
     wood: new Decimal(3),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
 };
 
 export const INITIAL_SHRUBS: GameState["shrubs"] = {
   0: {
-    wood: "0.1",
-    choppedAt: 0,
+    wood: {
+      amount: 0.1,
+      choppedAt: 0,
+    },
     x: -3,
     y: 3,
     height: 2,
@@ -136,9 +162,11 @@ export const INITIAL_SHRUBS: GameState["shrubs"] = {
 
 export const INITIAL_PEBBLES: GameState["pebbles"] = {
   0: {
-    amount: "0.1",
-    minedAt: 0,
-    x: 1,
+    stone: {
+      amount: 0.1,
+      minedAt: 0,
+    },
+    x: 2,
     y: -1,
     height: 1,
     width: 1,
@@ -236,6 +264,7 @@ export const INITIAL_FARM: GameState = {
     Wheat: new Decimal(100),
     Egg: new Decimal(15),
     "Rusty Shovel": new Decimal(1),
+    Axe: new Decimal(3),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
@@ -270,6 +299,9 @@ export const EMPTY: GameState = {
   fields: {},
   inventory: {
     "Chicken Coop": new Decimal(1),
+    Wood: new Decimal(50),
+    Gold: new Decimal(10),
+    Stone: new Decimal(10),
   },
   chickens: {},
   stock: {},

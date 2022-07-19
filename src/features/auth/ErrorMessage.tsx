@@ -12,7 +12,7 @@ import { Blocked } from "./components/Blocked";
 import { DuplicateUser } from "./components/DuplicateUser";
 import { Congestion } from "./components/Congestion";
 import { SessionExpired } from "./components/SessionExpired";
-import { ErrorCode } from "lib/errors";
+import { ErrorCode, ERRORS } from "lib/errors";
 import { TooManyRequests } from "./components/TooManyRequests";
 import { Maintenance } from "./components/Maintenance";
 
@@ -38,43 +38,43 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
   }, []);
 
   console.log({ errorCode });
-  if (errorCode === "NO_WEB3") {
+  if (errorCode === ERRORS.NO_WEB3) {
     return <Web3Missing />;
   }
 
-  if (errorCode === "WRONG_CHAIN") {
+  if (errorCode === ERRORS.WRONG_CHAIN) {
     return <WrongChain />;
   }
 
-  if (errorCode === "REJECTED_TRANSACTION") {
+  if (errorCode === ERRORS.REJECTED_TRANSACTION) {
     return <RejectedSignTransaction onTryAgain={() => send("REFRESH")} />;
   }
 
-  if (errorCode === "NO_FARM") {
+  if (errorCode === ERRORS.NO_FARM) {
     return <Beta />;
   }
 
-  if (errorCode === "BLOCKED") {
+  if (errorCode === ERRORS.BLOCKED) {
     return <Blocked />;
   }
 
-  if (errorCode === "DISCORD_USER_EXISTS") {
+  if (errorCode === ERRORS.DISCORD_USER_EXISTS) {
     return <DuplicateUser />;
   }
 
-  if (errorCode === "NETWORK_CONGESTED") {
+  if (errorCode === ERRORS.NETWORK_CONGESTED) {
     return <Congestion />;
   }
 
-  if (errorCode === "SESSION_EXPIRED") {
+  if (errorCode === ERRORS.SESSION_EXPIRED) {
     return <SessionExpired />;
   }
 
-  if (errorCode === "TOO_MANY_REQUESTS") {
+  if (errorCode === ERRORS.TOO_MANY_REQUESTS) {
     return <TooManyRequests />;
   }
 
-  if (errorCode === "MAINTENANCE") {
+  if (errorCode === ERRORS.MAINTENANCE) {
     return <Maintenance />;
   }
 
