@@ -473,4 +473,15 @@ describe("canWithdraw", () => {
 
     expect(enabled).toBeFalsy();
   });
+
+  it("prevents shovels from being withdrawn", () => {
+    const enabled = canWithdraw({
+      item: "Rusty Shovel",
+      game: {
+        ...INITIAL_FARM,
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
 });

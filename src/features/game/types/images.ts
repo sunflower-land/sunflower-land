@@ -27,6 +27,8 @@ import stonePickaxe from "assets/tools/stone_pickaxe.png";
 import ironPickaxe from "assets/tools/iron_pickaxe.png";
 import hammer from "assets/tools/hammer.png";
 import rod from "assets/tools/fishing_rod.png";
+import rustyShovel from "assets/tools/rusty_shovel.png";
+import shovel from "assets/tools/shovel.png";
 
 // NFTs
 import chickenCoop from "assets/nfts/chicken_coop.png";
@@ -187,6 +189,7 @@ import {
   CRAFTABLES,
   LimitedItem,
   MUTANT_CHICKENS,
+  SHOVELS,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
@@ -361,6 +364,14 @@ export const ITEM_DETAILS: Items = {
   Rod: {
     ...TOOLS["Rod"],
     image: rod,
+  },
+  "Rusty Shovel": {
+    ...SHOVELS["Rusty Shovel"],
+    image: rustyShovel,
+  },
+  Shovel: {
+    ...SHOVELS["Shovel"],
+    image: shovel,
   },
 
   // NFTs

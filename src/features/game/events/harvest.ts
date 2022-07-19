@@ -1,5 +1,5 @@
-import { GameState, Inventory } from "../types/game";
-import { CROPS } from "../types/crops";
+import { FieldItem, GameState, Inventory } from "../types/game";
+import { Crop, CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
 import {
@@ -18,6 +18,14 @@ type Options = {
   action: HarvestAction;
   createdAt?: number;
 };
+
+export function isReadyToHarvest(
+  createdAt: number,
+  field: FieldItem,
+  crop: Crop
+) {
+  return createdAt - field.plantedAt >= crop.harvestSeconds * 1000;
+}
 
 export function harvest({ state, action, createdAt = Date.now() }: Options) {
   const fields = { ...state.fields };
@@ -69,7 +77,7 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
 
   const crop = CROPS()[field.name];
 
-  if (createdAt - field.plantedAt < crop.harvestSeconds * 1000) {
+  if (!isReadyToHarvest(createdAt, field, crop)) {
     throw new Error("Not ready");
   }
 

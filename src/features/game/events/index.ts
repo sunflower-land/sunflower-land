@@ -2,6 +2,7 @@ import { craft, CraftAction } from "./craft";
 import { sell, SellAction } from "./sell";
 import { plant, PlantAction } from "./plant";
 import { harvest, HarvestAction } from "./harvest";
+import { removeCrop, RemoveCropAction } from "./removeCrop";
 import { mineGold, GoldMineAction } from "./goldMine";
 import { mineStone, StoneMineAction } from "./stoneMine";
 import { mineIron, IronMineAction } from "./ironMine";
@@ -34,6 +35,7 @@ export type GameEvent =
   | ChopAction
   | OpenRewardAction
   | FeedAction
+  | RemoveCropAction
   | CollectAction
   | TradeAction
   | LandExpansionPlantAction
@@ -68,6 +70,7 @@ export const EVENTS: Handlers = {
   "chicken.collectEgg": collectEggs,
   "chicken.feed": feedChicken,
   "item.traded": trade,
+  "item.removed": removeCrop,
   // Land Expansion Handlers
   "landExpansion.item.planted": landExpansionPlant,
   "landExpansion.item.harvested": landExpansionHarvest,

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
@@ -26,6 +26,8 @@ interface Props {
 const isCropReady = (now: number, plantedAt: number, harvestSeconds: number) =>
   now - plantedAt > harvestSeconds * 1000;
 
+const REMOVE_CROP_TIMEOUT = 5000; // 5 seconds
+
 export const Field: React.FC<Props> = ({
   selectedItem,
   className,
@@ -40,6 +42,17 @@ export const Field: React.FC<Props> = ({
   const clickedAt = useRef<number>(0);
   const field = game.context.state.fields[fieldIndex];
   const [showCropDetails, setShowCropDetails] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
+
+  // If selected item changes, then stop removing crops
+  useEffect(() => setIsRemoving(false), [selectedItem]);
+
+  // If enough time has passed, then stop removing crops
+  useEffect(() => {
+    if (!isRemoving) return;
+    const timer = setTimeout(() => setIsRemoving(false), REMOVE_CROP_TIMEOUT);
+    return () => clearTimeout(timer);
+  }, [isRemoving]);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -56,6 +69,18 @@ export const Field: React.FC<Props> = ({
     gameService.send("item.harvested", {
       index: fieldIndex,
     });
+  };
+
+  const removeCrop = () => {
+    if (!isRemoving) {
+      setIsRemoving(true);
+      return;
+    }
+    gameService.send("item.removed", {
+      item: selectedItem,
+      fieldIndex,
+    });
+    setIsRemoving(false);
   };
 
   const handleMouseHover = () => {
@@ -136,6 +161,15 @@ export const Field: React.FC<Props> = ({
       return;
     }
 
+    // Remove crop
+    if (
+      selectedItem === "Shovel" &&
+      !isCropReady(now, field.plantedAt, CROPS()[field.name].harvestSeconds)
+    ) {
+      removeCrop();
+      return;
+    }
+
     try {
       gameService.send("item.harvested", {
         index: fieldIndex,
@@ -173,6 +207,7 @@ export const Field: React.FC<Props> = ({
         className="absolute bottom-0"
         plantedCrop={field}
         showCropDetails={showCropDetails}
+        isRemoving={isRemoving}
       />
 
       <div
