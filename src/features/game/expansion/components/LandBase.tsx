@@ -11,14 +11,13 @@ import level8 from "assets/land/levels/level_8.png";
 import level9 from "assets/land/levels/level_9.png";
 import level10 from "assets/land/levels/level_10.png";
 
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 interface Props {
   level: number;
 }
 
-// Actual pixel width dimensions
-const IMAGE_WIDTH = 512;
+const IMAGE_GRID_WIDTH = 36;
 
 const LEVEL_IMAGES: Record<number, string> = {
   1: level1,
@@ -34,7 +33,6 @@ const LEVEL_IMAGES: Record<number, string> = {
 };
 
 export const LandBase: React.FC<Props> = ({ level }) => {
-  console.log({ level });
   return (
     <img
       id="genesisBlock"
@@ -42,7 +40,7 @@ export const LandBase: React.FC<Props> = ({ level }) => {
       alt="land"
       className="h-auto"
       style={{
-        width: `${IMAGE_WIDTH * PIXEL_SCALE}px`,
+        width: `${IMAGE_GRID_WIDTH * GRID_WIDTH_PX}px`,
       }}
     />
   );

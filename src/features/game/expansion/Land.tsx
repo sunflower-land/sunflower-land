@@ -78,7 +78,7 @@ export const Land: React.FC = () => {
           const { x, y, width, height } = trees[index];
 
           return (
-            <MapPlacement key={index} x={0} y={0} height={height} width={width}>
+            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
               <Tree treeIndex={index} />
             </MapPlacement>
           );

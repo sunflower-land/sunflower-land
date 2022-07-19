@@ -120,7 +120,7 @@ export const INITIAL_TREES: GameState["trees"] = {
     wood: new Decimal(4),
     choppedAt: 0,
     x: 5,
-    y: 5,
+    y: 0,
     height: 2,
     width: 2,
   },

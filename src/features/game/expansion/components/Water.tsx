@@ -71,7 +71,7 @@ export const Water: React.FC<Props> = ({ level }) => {
           />
         </MapPlacement>
 
-        <MapPlacement x={offset + 3} y={6}>
+        <MapPlacement x={offset + 4} y={6}>
           <img
             src={swimmer}
             style={{
