@@ -3,17 +3,21 @@ import React, { useState } from "react";
 import wood from "assets/resources/wood.png";
 import player from "assets/npcs/goblin_head.png";
 import close from "assets/icons/close.png";
+import basket from "assets/icons/basket.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { Delivery } from "./Delivery";
 import { StorageItems } from "./StorageItems";
+import { TreasuryItems } from "./TreasuryItems";
 
 interface Props {
   onClose: () => void;
 }
 export const StorageModal: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState<"storage" | "delivery">("storage");
+  const [tab, setTab] = useState<"storage" | "delivery" | "treasury">(
+    "storage"
+  );
 
   return (
     <Panel className="pt-5 relative max-w-5xl">
@@ -27,6 +31,10 @@ export const StorageModal: React.FC<Props> = ({ onClose }) => {
             <img src={player} className="h-5 mr-2" />
             <span className="text-sm text-shadow">Delivery</span>
           </Tab>
+          <Tab isActive={tab === "treasury"} onClick={() => setTab("treasury")}>
+            <img src={basket} className="h-5 mr-2" />
+            <span className="text-sm text-shadow">Treasury</span>
+          </Tab>
         </div>
         <img
           src={close}
@@ -37,6 +45,7 @@ export const StorageModal: React.FC<Props> = ({ onClose }) => {
       <div>
         {tab === "storage" && <StorageItems />}
         {tab === "delivery" && <Delivery onWithdraw={onClose} />}
+        {tab === "treasury" && <TreasuryItems />}
       </div>
     </Panel>
   );

@@ -2,7 +2,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 
-import { GameState } from "../types/game";
+import { GameState, Inventory } from "../types/game";
 import { mint } from "../actions/mint";
 import {
   LimitedItem,
@@ -13,6 +13,7 @@ import {
 import { withdraw } from "../actions/withdraw";
 import {
   getOnChainState,
+  getTreasuryItems,
   LimitedItemRecipeWithMintedAt,
 } from "../actions/onchain";
 import { ERRORS } from "lib/errors";
@@ -25,7 +26,6 @@ import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/trad
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
-import { Inventory } from "components/InventoryItems";
 
 const API_URL = CONFIG.API_URL;
 
@@ -39,6 +39,7 @@ export interface Context {
   errorCode?: keyof typeof ERRORS;
   farmAddress?: string;
   limitedItems: Partial<Record<LimitedItemName, LimitedItem>>;
+  treasury: Inventory;
 }
 
 type MintEvent = {
@@ -149,6 +150,7 @@ export function startGoblinVillage(authContext: AuthContext) {
         state: EMPTY,
         sessionId: INITIAL_SESSION,
         limitedItems: {},
+        treasury: {},
       },
       states: {
         loading: {
@@ -189,7 +191,15 @@ export function startGoblinVillage(authContext: AuthContext) {
                 onChainState.limitedItems
               );
 
-              return { state: game, limitedItems: limitedItemsById, sessionId };
+              // get Treasury items
+              const treasury = await getTreasuryItems();
+
+              return {
+                state: game,
+                limitedItems: limitedItemsById,
+                sessionId,
+                treasury,
+              };
             },
             onDone: {
               target: "playing",
@@ -201,6 +211,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                     event.data.limitedItems
                   ),
                 sessionId: (_, event) => event.data.sessionId,
+                treasury: (_, event) => event.data.treasury,
               }),
             },
             onError: {},

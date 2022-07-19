@@ -4,7 +4,7 @@ import Decimal from "decimal.js-light";
 
 import { balancesToInventory, populateFields } from "lib/utils/visitUtils";
 
-import { GameState } from "../types/game";
+import { GameState, Inventory } from "../types/game";
 import { LIMITED_ITEM_NAMES } from "../types/craftables";
 import { EMPTY } from "../lib/constants";
 import { CONFIG } from "lib/config";
@@ -56,16 +56,25 @@ export async function getOnChainState({
     return { game: EMPTY, owner: "", limitedItems: [] };
   }
 
-  const balance = await metamask.getToken().balanceOf(farmAddress);
-  const balances = await metamask.getInventory().getBalances(farmAddress);
-  const farm = await metamask.getFarm().getFarm(id);
+  const balanceFn = metamask.getToken().balanceOf(farmAddress);
+  const balancesFn = metamask.getInventory().getBalances(farmAddress);
+  const farmFn = metamask.getFarm().getFarm(id);
 
   // Short term workaround to get data from session contract
-  const recipes = await metamask.getSessionManager().getRecipes(RECIPES_IDS);
+  const recipesFn = metamask.getSessionManager().getRecipes(RECIPES_IDS);
 
-  const mintedAts = await metamask
+  const mintedAtsFn = metamask
     .getSessionManager()
     .getMintedAtBatch(id, RECIPES_IDS);
+
+  // Promise all
+  const [balance, balances, farm, recipes, mintedAts] = await Promise.all([
+    balanceFn,
+    balancesFn,
+    farmFn,
+    recipesFn,
+    mintedAtsFn,
+  ]);
 
   const limitedItems = recipes.map((recipe, index) => ({
     ...recipe,
@@ -73,7 +82,6 @@ export async function getOnChainState({
   }));
 
   const inventory = balancesToInventory(balances);
-
   const fields = populateFields(inventory);
 
   return {
@@ -87,4 +95,14 @@ export async function getOnChainState({
     owner: farm.owner,
     limitedItems,
   };
+}
+
+export async function getTreasuryItems() {
+  if (!API_URL) return {} as Inventory;
+
+  const treasuryItems = await metamask
+    .getInventory()
+    .getBalances(CONFIG.TREASURY_ADDRESS);
+
+  return balancesToInventory(treasuryItems);
 }
