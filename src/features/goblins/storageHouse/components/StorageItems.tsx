@@ -17,20 +17,56 @@ export const StorageItems: React.FC = () => {
     goblinState.context.state.inventory
   );
 
-  const items = Object.keys(resourceInventory) as InventoryItemName[];
+  const treasuryInventory = getDeliverableItems(goblinState.context.treasury);
+
+  const resourceItems = Object.keys(resourceInventory) as InventoryItemName[];
+  const treasuryItems = Object.keys(treasuryInventory) as InventoryItemName[];
 
   return (
     <>
       <div className="mt-3 lf">
+        <p className="mb-2 underline">Storage</p>
         <div
           className="flex flex-wrap h-fit -ml-1.5 mb-2"
           style={{ minHeight: "150px" }}
         >
-          {items.map((itemName) => {
+          {resourceItems.map((itemName) => {
             const details = ITEM_DETAILS[itemName];
 
             const totalCountOfItemType =
               resourceInventory[itemName] || new Decimal(0);
+
+            return (
+              <Box
+                count={totalCountOfItemType}
+                key={itemName}
+                image={details.image}
+              />
+            );
+          })}
+        </div>
+
+        <p className="mb-2 underline">Goblin Treasury</p>
+        <div className="text-xs my-2">
+          <span>Goblins keep their delivery cut here. View them also on </span>
+          <a
+            href="https://opensea.io/Goblin_Treasury"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            Opensea
+          </a>
+        </div>
+        <div
+          className="flex flex-wrap h-fit -ml-1.5 mb-2"
+          style={{ minHeight: "150px" }}
+        >
+          {treasuryItems.map((itemName) => {
+            const details = ITEM_DETAILS[itemName];
+
+            const totalCountOfItemType =
+              treasuryInventory[itemName] || new Decimal(0);
 
             return (
               <Box
