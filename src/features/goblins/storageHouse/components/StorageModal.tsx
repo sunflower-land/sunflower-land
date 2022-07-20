@@ -8,12 +8,13 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { Delivery } from "./Delivery";
 import { StorageItems } from "./StorageItems";
-
 interface Props {
   onClose: () => void;
 }
 export const StorageModal: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState<"storage" | "delivery">("storage");
+  const [tab, setTab] = useState<"storage" | "delivery" | "treasury">(
+    "storage"
+  );
 
   return (
     <Panel className="pt-5 relative max-w-5xl">

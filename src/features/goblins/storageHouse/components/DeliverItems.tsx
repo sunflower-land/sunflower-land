@@ -57,6 +57,8 @@ function transferItem(
   }));
 }
 
+const DELIVERY_FEE = 30;
+
 export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
@@ -155,8 +157,6 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
     selected[item]?.gt(0)
   );
 
-  const deliveryFee = 30;
-
   return (
     <>
       <div className="mt-3">
@@ -196,11 +196,11 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
                     />
                     <div className="flex flex-col">
                       <span className="text-sm">{`${selected[itemName]
-                        ?.mul(1 - deliveryFee / 100)
+                        ?.mul(1 - DELIVERY_FEE / 100)
                         .toString()} ${itemName}`}</span>
                       <div className="flex">
                         <span className="text-xxs">{`${selected[itemName]
-                          ?.mul(deliveryFee / 100)
+                          ?.mul(DELIVERY_FEE / 100)
                           .toString()} Goblin fee`}</span>
                         <img src={goblinHead} className="w-6 ml-2" />
                       </div>

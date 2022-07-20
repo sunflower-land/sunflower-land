@@ -2,7 +2,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 
-import { GameState } from "../types/game";
+import { GameState, Inventory } from "../types/game";
 import { mint } from "../actions/mint";
 import {
   LimitedItem,
@@ -25,7 +25,6 @@ import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/trad
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
-import { Inventory } from "components/InventoryItems";
 
 const API_URL = CONFIG.API_URL;
 
@@ -189,7 +188,11 @@ export function startGoblinVillage(authContext: AuthContext) {
                 onChainState.limitedItems
               );
 
-              return { state: game, limitedItems: limitedItemsById, sessionId };
+              return {
+                state: game,
+                limitedItems: limitedItemsById,
+                sessionId,
+              };
             },
             onDone: {
               target: "playing",
