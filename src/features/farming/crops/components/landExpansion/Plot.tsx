@@ -76,7 +76,6 @@ export const Plot: React.FC<Props> = ({ className, index }) => {
     // set state to hide details
     setShowCropDetails(false);
   };
-  console.log({ crop });
 
   const onClick = (analytics: boolean | undefined = undefined) => {
     // Small buffer to prevent accidental double clicks

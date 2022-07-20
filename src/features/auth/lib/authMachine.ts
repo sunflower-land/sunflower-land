@@ -368,7 +368,11 @@ export const authMachine = createMachine<
           authorised: {
             id: "authorised",
             entry: (context, event) => {
-              const { screen = "farm" } = event as StartEvent;
+              // When no 'screen' parameter is given to the event
+              const defaultScreen = window.location.hash.includes("land")
+                ? "land"
+                : "farm";
+              const { screen = defaultScreen } = event as StartEvent;
 
               window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
             },
