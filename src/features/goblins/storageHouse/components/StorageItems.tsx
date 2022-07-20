@@ -25,7 +25,7 @@ export const StorageItems: React.FC = () => {
   return (
     <>
       <div className="mt-3 lf">
-        <p className="mb-2 underline">Storage</p>
+        <p className="mb-2 underline">Farm Storage</p>
         <div
           className="flex flex-wrap h-fit -ml-1.5 mb-2"
           style={{ minHeight: "150px" }}
@@ -46,18 +46,7 @@ export const StorageItems: React.FC = () => {
           })}
         </div>
 
-        <p className="mb-2 underline">Goblin Treasury</p>
-        <div className="text-xs my-2">
-          <span>Goblins keep their delivery cut here. View them also on </span>
-          <a
-            href="https://opensea.io/Goblin_Treasury"
-            target="_blank"
-            rel="noreferrer"
-            className="underline"
-          >
-            Opensea
-          </a>
-        </div>
+        <p className="mb-2 underline">Goblin Community Treasury</p>
         <div
           className="flex flex-wrap h-fit -ml-1.5 mb-2"
           style={{ minHeight: "150px" }}
@@ -76,6 +65,19 @@ export const StorageItems: React.FC = () => {
               />
             );
           })}
+        </div>
+        <div className="text-xs mb-2">
+          <span>
+            Goblins keep their delivery cut in the treasury. View them also on{" "}
+          </span>
+          <a
+            href="https://opensea.io/Goblin_Treasury"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            Opensea.
+          </a>
         </div>
       </div>
     </>
