@@ -119,8 +119,9 @@ export const INITIAL_TREES: GameState["trees"] = {
   1: {
     wood: new Decimal(4),
     choppedAt: 0,
-    x: 5,
-    y: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
     height: 2,
     width: 2,
   },
