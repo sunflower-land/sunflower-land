@@ -24,6 +24,7 @@ import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
 import goldenBonsai from "assets/nfts/golden_bonsai.png";
 import rooster from "assets/nfts/rooster.gif";
+import pottedSunflower from "assets/decorations/potted_sunflower.png";
 
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import mysteriousHead from "assets/nfts/mysterious_head.png";
@@ -648,14 +649,27 @@ export const Decorations: React.FC<Props> = ({ state }) => (
     {state.inventory["Golden Bonsai"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.1}px`,
-          left: `${GRID_WIDTH_PX * 61.2}px`,
-          top: `${GRID_WIDTH_PX * 36.7}px`,
+          width: `${GRID_WIDTH_PX * 1.0952}px`,
+          left: `${GRID_WIDTH_PX * 71.786}px`,
+          top: `${GRID_WIDTH_PX * 37.95}px`,
         }}
         id={Section["Golden Bonsai"]}
         className="absolute"
         src={goldenBonsai}
         alt="Golden Bonsai"
+      />
+    )}
+
+    {!state.inventory["Golden Bonsai"] && (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 0.75}px`,
+          left: `${GRID_WIDTH_PX * 72.12}px`,
+          top: `${GRID_WIDTH_PX * 37.81}px`,
+        }}
+        className="absolute"
+        src={pottedSunflower}
+        alt="Potted Sunflower"
       />
     )}
 
