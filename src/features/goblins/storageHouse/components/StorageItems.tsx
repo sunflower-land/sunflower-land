@@ -62,12 +62,9 @@ export const StorageItems: React.FC = () => {
 
         <p className="mb-2 underline">Goblin Community Treasury</p>
         {loading ? (
-          <div className="my-2">Loading...</div>
+          <div className="my-2 loading">Loading</div>
         ) : (
-          <div
-            className="flex flex-wrap h-fit -ml-1.5 mb-2"
-            style={{ minHeight: "150px" }}
-          >
+          <div className="flex flex-wrap h-fit -ml-1.5 mb-2">
             {treasuryItems.map((itemName) => {
               const details = ITEM_DETAILS[itemName];
 
