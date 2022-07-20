@@ -17,20 +17,26 @@ import {
 import { Panel } from "components/ui/Panel";
 import { useStepper } from "lib/utils/hooks/useStepper";
 
-const LOCAL_STORAGE_KEY = "settings.audioMuted";
-
-function cacheAudioMuted(muted: boolean) {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(muted));
+enum AudioLocalStorageKeys {
+  audioMuted = "settings.audioMuted",
+  musicPaused = "settings.musicPaused",
+  musicVolume = "settings.musicVolume",
 }
 
-function getCachedAudioMuted(): boolean {
-  const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
+function cacheAudioSetting(
+  key: AudioLocalStorageKeys,
+  value: boolean | number
+) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
 
-  if (!cached) {
-    return false;
-  }
+function getCachedAudioSetting<T>(
+  key: AudioLocalStorageKeys,
+  defaultValue: T
+): T {
+  const cached = localStorage.getItem(key);
 
-  return JSON.parse(cached);
+  return cached ? JSON.parse(cached) : defaultValue;
 }
 
 interface Props {
@@ -38,21 +44,24 @@ interface Props {
 }
 
 export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
-  const volume = useStepper({ initial: 0.1, step: 0.1, max: 1, min: 0 });
+  const volume = useStepper({
+    initial: getCachedAudioSetting<number>(
+      AudioLocalStorageKeys.musicVolume,
+      0.1
+    ),
+    step: 0.1,
+    max: 1,
+    min: 0,
+  });
   const [visible, setIsVisible] = useState<boolean>(false);
-  const [muted, setMuted] = useState<boolean>(getCachedAudioMuted());
-  const [isPlaying, setPlaying] = useState<boolean>(true);
+  const [audioMmuted, setAudioMuted] = useState<boolean>(
+    getCachedAudioSetting<boolean>(AudioLocalStorageKeys.audioMuted, false)
+  );
+  const [musicPaused, setMusicPaused] = useState<boolean>(
+    getCachedAudioSetting<boolean>(AudioLocalStorageKeys.musicPaused, true)
+  );
   const [songIndex, setSongIndex] = useState<number>(0);
   const musicPlayer = useRef<any>(null);
-
-  const handlePlayState = () => {
-    if (musicPlayer.current.paused) {
-      musicPlayer.current.play();
-    } else {
-      musicPlayer.current.pause();
-    }
-    setPlaying(!isPlaying);
-  };
 
   const handleNextSong = () => {
     const songCount = isFarming ? getFarmingSongCount() : getGoblinSongCount();
@@ -66,19 +75,28 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
   const song = isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
 
   useEffect(() => {
-    cacheAudioMuted(muted);
-    Howler.mute(muted);
-  }, [muted]);
+    Howler.mute(audioMmuted);
+    cacheAudioSetting(AudioLocalStorageKeys.audioMuted, audioMmuted);
+  }, [audioMmuted]);
+
+  useEffect(() => {
+    if (musicPaused) {
+      musicPlayer.current.pause();
+    } else {
+      musicPlayer.current.play();
+    }
+    cacheAudioSetting(AudioLocalStorageKeys.musicPaused, musicPaused);
+  }, [musicPaused]);
 
   useEffect(() => {
     musicPlayer.current.volume = volume.value;
+    cacheAudioSetting(AudioLocalStorageKeys.musicVolume, volume.value);
   }, [volume.value]);
 
   useEffect(() => {
     if (navigator.userAgent.match(/chrome|chromium|crios/i)) {
       // by the default Chrome policy doesn't allow autoplay
-      setPlaying(false);
-      musicPlayer.current.pause();
+      setMusicPaused(true);
     }
   }, []);
 
@@ -95,8 +113,6 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
         <audio
           ref={musicPlayer}
           onEnded={handleNextSong}
-          onPause={() => setPlaying(!musicPlayer.current.paused)}
-          onPlay={() => setPlaying(!musicPlayer.current.paused)}
           src={song.path}
           className="d-none"
           autoPlay
@@ -109,7 +125,7 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
               style={{
                 animation: "marquee-like-effect 10s infinite linear",
                 whiteSpace: "nowrap",
-                animationPlayState: isPlaying ? "running" : "paused",
+                animationPlayState: musicPaused ? "paused" : "running",
               }}
             >
               {song.name} - {song.artist}
@@ -117,8 +133,14 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
           </div>
           {/* Controls */}
           <div className="flex space-x-2 justify-content-between ">
-            <Button onClick={handlePlayState} className="w-10 h-8">
-              <img src={isPlaying ? pause : play} alt="play / pause button " />
+            <Button
+              onClick={() => setMusicPaused(!musicPaused)}
+              className="w-10 h-8"
+            >
+              <img
+                src={musicPaused ? play : pause}
+                alt="play / pause button "
+              />
             </Button>
             <Button onClick={handleNextSong} className="w-10 h-8">
               <img src={skip_forward} alt="next song button" />
@@ -152,9 +174,9 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
           visible ? "translate-x-1.5" : ""
         } -left-20 sm:-left-24 bottom-0 transition-all duration-500 ease-in-out w-fit z-50 flex gap-2 align-items-center overflow-hidden`}
       >
-        <Button onClick={() => setMuted(!muted)}>
+        <Button onClick={() => setAudioMuted(!audioMmuted)}>
           <img
-            src={muted ? volume_down : volume_up}
+            src={audioMmuted ? volume_down : volume_up}
             alt="mute/unmute ingame audio"
             className="w-4 h-4 sm:w-6 sm:h-5"
           />
