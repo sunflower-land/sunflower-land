@@ -84,7 +84,7 @@ export const Land: React.FC = () => {
             </MapPlacement>
           );
         })}
-        <MapPlacement key="bumpkin" x={2} y={2} height={1} width={1}>
+        <MapPlacement x={2} y={1}>
           <Bumpkin />
         </MapPlacement>
       </div>

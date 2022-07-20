@@ -1,14 +1,14 @@
 import React from "react";
-import { BumpkinNPC } from "./components/BumpkinNPC";
+import { Character } from "./components/Character";
 
 export const Bumpkin: React.FC = () => {
   return (
-    <div className="w-full">
-      <BumpkinNPC
+    <div>
+      <Character
         body="Farmer Potion"
-        wig="Explorer Wig"
+        wig="Basic Wig"
         pants="Lumberjack Overalls"
-        onClick={() => {}}
+        onClick={console.log}
       />
     </div>
   );

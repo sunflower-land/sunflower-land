@@ -23,6 +23,7 @@ import farmerShirt from "assets/bumpkins/shirts/farmer_shirt.gif";
 // Pants
 import farmerOveralls from "assets/bumpkins/pants/farmer_overalls.gif";
 import lumberjackOveralls from "assets/bumpkins/pants/lumberjack_overalls.gif";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const PARTS: Record<BumpkinItems, string> = {
   // Bodies
@@ -54,7 +55,7 @@ interface Props {
   onClick: () => void;
 }
 
-export const BumpkinNPC: React.FC<Props> = ({
+export const Character: React.FC<Props> = ({
   body,
   wig,
   shirt,
@@ -66,7 +67,11 @@ export const BumpkinNPC: React.FC<Props> = ({
       className="w-full cursor-pointer hover:img-highlight"
       onClick={onClick}
     >
-      <img src={PARTS[body]} className="z-0 w-full" />
+      <img
+        src={PARTS[body]}
+        className="z-0"
+        style={{ width: `${20 * PIXEL_SCALE}px` }}
+      />
       {wig && <img src={PARTS[wig]} className="absolute w-full inset-0 z-10" />}
       {shirt && (
         <img src={PARTS[shirt]} className="absolute w-full inset-0 z-20" />

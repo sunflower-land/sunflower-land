@@ -1,6 +1,6 @@
 import React from "react";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
@@ -66,7 +66,7 @@ export const Water: React.FC<Props> = ({ level }) => {
           <img
             src={goblinSnorkling}
             style={{
-              width: `${GRID_WIDTH_PX * 3.81}px`,
+              width: `${64 * PIXEL_SCALE}px`,
             }}
           />
         </MapPlacement>
@@ -75,7 +75,7 @@ export const Water: React.FC<Props> = ({ level }) => {
           <img
             src={swimmer}
             style={{
-              width: `${GRID_WIDTH_PX * 1}px`,
+              width: `${16 * PIXEL_SCALE}px`,
               transform: "scaleX(-1)",
               zIndex: "2",
             }}
