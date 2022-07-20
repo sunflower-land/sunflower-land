@@ -862,4 +862,52 @@ export const ITEM_DETAILS: Items = {
     image: fatChicken,
   },
   "Rich Chicken": { ...MUTANT_CHICKENS["Rich Chicken"], image: richChicken },
+
+  /**
+   * Bumpkins
+   */
+  "Farmer Potion": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Farmer Potion 2": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Goblin Potion": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Basic Wig": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Explorer Wig": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Rancher Wig": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Farmer Shirt": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Lumberjack Shirt": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Farmer Overalls": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Lumberjack Overalls": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Farmer Pants": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
 };
