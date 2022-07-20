@@ -38,6 +38,9 @@ export const Salesman: React.FC = () => {
 
   // Don't show the salesman because there is no trade available
   if (!state.tradeOffer) return null;
+  // Don't show the salesman because the trade offer has expired
+  if (Date.now() > new Date(state.tradeOffer.endAt as string).getTime())
+    return null;
 
   const handleOpenModal = () => {
     if (hasAlreadyTraded(state)) {
