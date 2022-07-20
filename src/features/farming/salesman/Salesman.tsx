@@ -8,23 +8,25 @@ import { useActor } from "@xstate/react";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import close from "assets/icons/close.png";
 
-import traderImage from "assets/npcs/trader.gif";
+import salesmanImage from "assets/npcs/salesman.gif";
 import { hasAlreadyTraded } from "features/game/events/trade";
 import { Offer } from "./component/Offer";
 import { TradeOffer } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { secondsToString } from "lib/utils/time";
+import stopwatch from "assets/icons/stopwatch.png";
 
 const Content: React.FC<{ title: string }> = ({ title, children }) => {
   return (
     <div className="flex flex-col mt-2 items-center">
       <h1 className="mb-3 text-center sm:text-lg">{title}</h1>
-      <img className="w-11 mb-2" src={traderImage} />
+      <img className="w-11 mb-2" src={salesmanImage} />
       {children}
     </div>
   );
 };
 
-export const Trader: React.FC = () => {
+export const Salesman: React.FC = () => {
   const [modalState, setModalState] = useState<
     "closed" | "intro" | "showOffer" | "tradeCompleted" | "alreadyTraded"
   >("closed");
@@ -34,7 +36,7 @@ export const Trader: React.FC = () => {
 
   const { state } = gameState.context;
 
-  // Don't show the trader because there is no trade available
+  // Don't show the salesman because there is no trade available
   if (!state.tradeOffer) return null;
 
   const handleOpenModal = () => {
@@ -60,7 +62,7 @@ export const Trader: React.FC = () => {
 
       setToast({
         icon: ITEM_DETAILS[offer.name].image,
-        content: `+1`,
+        content: `+${offer.amount}`,
       });
     }
 
@@ -110,15 +112,27 @@ export const Trader: React.FC = () => {
         state.tradeOffer?.endAt as string
       ).toLocaleDateString();
 
+      const secondsLeft =
+        (new Date(state.tradeOffer?.endAt as string).getTime() - Date.now()) /
+        1000;
+
       return (
         <Content title="Greetings friend!">
           <p className="sm:text-sm p-2">
             I travel all over these lands collecting items to trade.
           </p>
           <p className="sm:text-sm p-2">
-            What I have to offer you today will only be available until{" "}
-            {endDateLocale}.
+            What I have to offer you today is available for a limited time.
           </p>
+          <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center p-[3px] rounded-md whitespace-nowrap  mb-2">
+            <img src={stopwatch} className="w-3 left-0 -top-4 mr-1" />
+            <span className="mt-[2px]">{`${secondsToString(
+              secondsLeft as number,
+              {
+                separator: " ",
+              }
+            )} left`}</span>
+          </span>
           <Button onClick={() => setModalState("showOffer")}>
             {`Let's trade!`}
           </Button>
@@ -130,7 +144,7 @@ export const Trader: React.FC = () => {
   return (
     <div
       className="z-100 absolute"
-      id="trader"
+      id="salesman"
       style={{
         width: `${GRID_WIDTH_PX * 1}px`,
         left: `${GRID_WIDTH_PX * 1}px`,
@@ -139,8 +153,8 @@ export const Trader: React.FC = () => {
     >
       <div className="cursor-pointer hover:img-highlight z-10">
         <img
-          src={traderImage}
-          alt="trader"
+          src={salesmanImage}
+          alt="salesman"
           onClick={handleOpenModal}
           className="w-full"
         />

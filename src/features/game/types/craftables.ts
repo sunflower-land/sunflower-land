@@ -22,7 +22,8 @@ export type CraftableName =
   | SeedName
   | Food
   | Animal
-  | Flag;
+  | Flag
+  | Shovel;
 
 export interface Craftable {
   name: CraftableName;
@@ -59,6 +60,12 @@ export interface CraftableItem {
 }
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
+
+export type RustyShovel = "Rusty Shovel";
+
+export type ShovelTool = "Shovel";
+
+export type Shovel = RustyShovel | ShovelTool;
 
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
@@ -130,7 +137,8 @@ export type Tool =
   | "Stone Pickaxe"
   | "Iron Pickaxe"
   | "Hammer"
-  | "Rod";
+  | "Rod"
+  | ShovelTool;
 
 export type Food =
   | "Pumpkin Soup"
@@ -405,6 +413,28 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
 });
 
+export const SHOVEL_TOOLS: () => Record<ShovelTool, CraftableItem> = () => ({
+  Shovel: {
+    name: "Shovel",
+    description: "Used to remove unwanted crops",
+    tokenAmount: new Decimal(0),
+    ingredients: [
+      {
+        item: "Rusty Shovel",
+        amount: new Decimal(1),
+      },
+      {
+        item: "Iron",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Wood",
+        amount: new Decimal(20),
+      },
+    ],
+  },
+});
+
 export const TOOLS: Record<Tool, CraftableItem> = {
   Axe: {
     name: "Axe",
@@ -481,6 +511,16 @@ export const TOOLS: Record<Tool, CraftableItem> = {
     ],
     disabled: true,
   },
+  ...SHOVEL_TOOLS(),
+};
+
+export const SHOVELS: Record<Shovel, CraftableItem> = {
+  "Rusty Shovel": {
+    name: "Rusty Shovel",
+    description: "It's old and rusty, but still harvests crops",
+    ingredients: [],
+  },
+  ...SHOVEL_TOOLS(),
 };
 
 export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
@@ -789,6 +829,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...ROCKET_ITEMS,
   ...QUEST_ITEMS,
   ...MUTANT_CHICKENS,
+  ...SHOVELS,
 });
 
 /**

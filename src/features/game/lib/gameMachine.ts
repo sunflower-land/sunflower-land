@@ -22,6 +22,7 @@ import {
   acknowledgeRead,
   hasAnnouncements,
 } from "features/announcements/announcementsStorage";
+import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -37,6 +38,7 @@ export interface Context {
   errorCode?: keyof typeof ERRORS;
   fingerprint?: string;
   itemsMintedAt?: MintedAt;
+  notifications?: OnChainEvent[];
 }
 
 type MintEvent = {
@@ -117,6 +119,7 @@ export type BlockchainState = {
   value:
     | "loading"
     | "announcing"
+    | "notifying"
     | "playing"
     | "autosaving"
     | "syncing"
@@ -166,6 +169,11 @@ export function startGame(authContext: Options) {
                 id: farmId,
               });
 
+              const onChainEvents = await unseenEvents({
+                farmAddress: authContext.address as string,
+                farmId: authContext.farmId as number,
+              });
+
               // Get sessionId
               const sessionId =
                 farmId &&
@@ -202,12 +210,18 @@ export function startGame(authContext: Options) {
                   itemsMintedAt,
                   onChain,
                   owner,
+                  notifications: onChainEvents,
                 };
               }
 
               return { state: INITIAL_FARM, onChain };
             },
             onDone: [
+              {
+                target: "notifying",
+                cond: (_, event) => event.data?.notifications?.length > 0,
+                actions: "assignGame",
+              },
               {
                 target: "announcing",
                 cond: () => hasAnnouncements(),
@@ -221,6 +235,13 @@ export function startGame(authContext: Options) {
             onError: {
               target: "error",
               actions: "assignErrorMessage",
+            },
+          },
+        },
+        notifying: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "refreshing",
             },
           },
         },
@@ -482,6 +503,7 @@ export function startGame(authContext: Options) {
           sessionId: (_, event) => event.data.sessionId,
           fingerprint: (_, event) => event.data.fingerprint,
           itemsMintedAt: (_, event) => event.data.itemsMintedAt,
+          notifications: (_, event) => event.data.notifications,
         }),
       },
     }

@@ -27,6 +27,8 @@ import stonePickaxe from "assets/tools/stone_pickaxe.png";
 import ironPickaxe from "assets/tools/iron_pickaxe.png";
 import hammer from "assets/tools/hammer.png";
 import rod from "assets/tools/fishing_rod.png";
+import rustyShovel from "assets/tools/rusty_shovel.png";
+import shovel from "assets/tools/shovel.png";
 
 // NFTs
 import chickenCoop from "assets/nfts/chicken_coop.png";
@@ -139,6 +141,9 @@ import coder from "assets/skills/coder.png";
 import discord from "assets/skills/discord.png";
 import liquidityProvider from "assets/skills/liquidity_provider.png";
 
+// Coupons
+import ticket from "assets/icons/ticket.png";
+
 // Egg
 import redEgg from "src/assets/nfts/easter/red_egg.png";
 import yellowEgg from "src/assets/nfts/easter/yellow_egg.png";
@@ -184,6 +189,7 @@ import {
   CRAFTABLES,
   LimitedItem,
   MUTANT_CHICKENS,
+  SHOVELS,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
@@ -358,6 +364,14 @@ export const ITEM_DETAILS: Items = {
   Rod: {
     ...TOOLS["Rod"],
     image: rod,
+  },
+  "Rusty Shovel": {
+    ...SHOVELS["Rusty Shovel"],
+    image: rustyShovel,
+  },
+  Shovel: {
+    ...SHOVELS["Shovel"],
+    image: shovel,
   },
 
   // NFTs
@@ -598,6 +612,11 @@ export const ITEM_DETAILS: Items = {
   "Discord Mod": {
     description: SKILL_TREE["Discord Mod"].perks[0],
     image: discord,
+  },
+  "Trading Ticket": {
+    description:
+      "Free trades! Woohoo! If you accept this offer, don't forget to sync after to make them available in Goblin Village",
+    image: ticket,
   },
 
   /**

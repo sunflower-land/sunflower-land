@@ -20,6 +20,7 @@ import {
   getKeys,
   QUEST_ITEMS,
   MUTANT_CHICKENS,
+  SHOVELS,
 } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 
@@ -43,7 +44,10 @@ const BASKET_CATEGORIES: TabItems = {
     items: SEEDS(),
   },
   Tools: {
-    items: TOOLS,
+    items: {
+      ...TOOLS,
+      ...SHOVELS,
+    },
   },
   Resources: {
     items: RESOURCES,

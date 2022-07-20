@@ -3,7 +3,14 @@ import { fromWei } from "web3-utils";
 import { ChickenPosition, GameState, Inventory } from "../types/game";
 import { TerrainTypeEnum } from "./getTerrainImageByKey";
 
-export const GRID_WIDTH_PX = 42;
+// Our "zoom" factor
+export const PIXEL_SCALE = 2.625;
+
+// How many pixels a raw green square is
+export const SQUARE_WIDTH = 16;
+
+export const GRID_WIDTH_PX = PIXEL_SCALE * SQUARE_WIDTH;
+
 export const CHICKEN_TIME_TO_EGG = 1000 * 60 * 60 * 24 * 2; // 48 hours
 export const MUTANT_CHICKEN_BOOST_AMOUNT = 0.1;
 
@@ -104,29 +111,55 @@ export const INITIAL_TREES: GameState["trees"] = {
   0: {
     wood: new Decimal(3),
     choppedAt: 0,
+    x: 1,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   1: {
     wood: new Decimal(4),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   2: {
     wood: new Decimal(5),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   3: {
     wood: new Decimal(5),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
   4: {
     wood: new Decimal(3),
     choppedAt: 0,
+    // Not used in land expansion testing...yet
+    x: 100,
+    y: 3,
+    height: 2,
+    width: 2,
   },
 };
 
 export const INITIAL_SHRUBS: GameState["shrubs"] = {
   0: {
-    wood: "0.1",
-    choppedAt: 0,
+    wood: {
+      amount: 0.1,
+      choppedAt: 0,
+    },
     x: -3,
     y: 3,
     height: 2,
@@ -136,9 +169,11 @@ export const INITIAL_SHRUBS: GameState["shrubs"] = {
 
 export const INITIAL_PEBBLES: GameState["pebbles"] = {
   0: {
-    amount: "0.1",
-    minedAt: 0,
-    x: 1,
+    stone: {
+      amount: 0.1,
+      minedAt: 0,
+    },
+    x: 2,
     y: -1,
     height: 1,
     width: 1,
@@ -226,6 +261,7 @@ export const INITIAL_PLOTS: GameState["plots"] = {
 
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
+  level: 3,
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
@@ -235,6 +271,8 @@ export const INITIAL_FARM: GameState = {
     Radish: new Decimal(100),
     Wheat: new Decimal(100),
     Egg: new Decimal(15),
+    "Rusty Shovel": new Decimal(1),
+    Axe: new Decimal(3),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
@@ -266,9 +304,13 @@ export const INITIAL_FARM: GameState = {
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
+  level: 1,
   fields: {},
   inventory: {
     "Chicken Coop": new Decimal(1),
+    Wood: new Decimal(50),
+    Gold: new Decimal(10),
+    Stone: new Decimal(10),
   },
   chickens: {},
   stock: {},

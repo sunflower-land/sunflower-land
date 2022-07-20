@@ -205,6 +205,10 @@ describe("canWithdraw", () => {
             // ready to be chopped
             choppedAt: 0,
             wood: new Decimal(3),
+            x: 0,
+            y: 0,
+            width: 2,
+            height: 2,
           },
         },
       },
@@ -223,6 +227,10 @@ describe("canWithdraw", () => {
             // Just been chopped
             choppedAt: Date.now(),
             wood: new Decimal(3),
+            x: 0,
+            y: 0,
+            width: 2,
+            height: 2,
           },
         },
       },
@@ -241,6 +249,10 @@ describe("canWithdraw", () => {
             // ready to be chopped
             choppedAt: 0,
             wood: new Decimal(3),
+            x: 0,
+            y: 0,
+            width: 2,
+            height: 2,
           },
         },
       },
@@ -259,6 +271,10 @@ describe("canWithdraw", () => {
             // Just been chopped
             choppedAt: Date.now(),
             wood: new Decimal(3),
+            x: 0,
+            y: 0,
+            width: 2,
+            height: 2,
           },
         },
       },
@@ -277,6 +293,10 @@ describe("canWithdraw", () => {
             // ready to be chopped
             choppedAt: 0,
             wood: new Decimal(3),
+            x: 0,
+            y: 0,
+            width: 2,
+            height: 2,
           },
         },
       },
@@ -295,6 +315,10 @@ describe("canWithdraw", () => {
             // Just been chopped
             choppedAt: Date.now(),
             wood: new Decimal(3),
+            x: 0,
+            y: 0,
+            width: 2,
+            height: 2,
           },
         },
       },
@@ -442,6 +466,17 @@ describe("canWithdraw", () => {
   it("prevents a quest item being withdrawn", () => {
     const enabled = canWithdraw({
       item: "Ancient Goblin Sword",
+      game: {
+        ...INITIAL_FARM,
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
+  it("prevents shovels from being withdrawn", () => {
+    const enabled = canWithdraw({
+      item: "Rusty Shovel",
       game: {
         ...INITIAL_FARM,
       },

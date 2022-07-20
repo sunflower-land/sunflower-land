@@ -19,6 +19,7 @@ interface Props {
   plantedCrop?: PlantedCrop;
   className?: string;
   showCropDetails?: boolean;
+  isRemoving?: boolean;
 }
 
 const Ready: React.FC<{ image: string; className: string }> = ({
@@ -47,6 +48,7 @@ export const Soil: React.FC<Props> = ({
   plantedCrop,
   className,
   showCropDetails,
+  isRemoving,
 }) => {
   const [_, setTimer] = React.useState<number>(0);
   const setHarvestTime = React.useCallback(() => {
@@ -71,7 +73,9 @@ export const Soil: React.FC<Props> = ({
 
   // Seedling
   if (timeLeft > 0) {
-    const percentage = 100 - (timeLeft / harvestSeconds) * 100;
+    const percentage = !isRemoving
+      ? 100 - (timeLeft / harvestSeconds) * 100
+      : -50;
     const isAlmostReady = percentage >= 50;
 
     return (

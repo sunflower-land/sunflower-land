@@ -1,8 +1,10 @@
 import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import React, { useContext, useEffect, useState } from "react";
+import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/Modal";
 import goblin from "assets/npcs/goblin_jump_shovel.gif";
+import rustyShovel from "assets/tools/rusty_shovel.png";
 import shovel from "assets/tools/shovel.png";
 
 import { isShovelStolen } from "features/game/events/harvest";
@@ -47,6 +49,11 @@ export const GoblinShovel: React.FC = () => {
   const [showGoblin, setShowGoblin] = useState(false);
   const [goblinPosition, setGoblinPosition] = useState<Position>();
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const [scrollIntoView] = useScrollIntoView();
 
   useEffect(() => {
@@ -79,6 +86,8 @@ export const GoblinShovel: React.FC = () => {
     setShowRecoveredShovelModal(false);
   };
 
+  const shovelImage = state.inventory.Shovel?.gte(1) ? shovel : rustyShovel;
+
   return (
     <>
       <Modal centered show={showModal}>
@@ -86,7 +95,7 @@ export const GoblinShovel: React.FC = () => {
           <div className="p-2">
             <h1 className="text-xl text-center">Unable to harvest? </h1>
             <div className="flex my-4 justify-center">
-              <img src={shovel} style={{ width: "50px" }} />
+              <img src={shovelImage} style={{ width: "50px" }} />
             </div>
             <p className="text-sm mb-4">
               A cheeky goblin has stolen your shovel that you need to harvest
@@ -127,7 +136,7 @@ export const GoblinShovel: React.FC = () => {
           <div className="p-2">
             <h1 className="text-xl text-center">Well done!</h1>
             <div className="flex my-4 justify-center">
-              <img src={shovel} style={{ width: "50px" }} />
+              <img src={shovelImage} style={{ width: "50px" }} />
             </div>
             <p className="text-sm mb-4">
               You recovered your shovel, now you can get back to harvesting!

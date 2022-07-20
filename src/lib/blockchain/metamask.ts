@@ -3,7 +3,7 @@ import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { SessionManager } from "./Sessions";
 import { Farm } from "./Farm";
-import { Beta } from "./Beta";
+import { FarmMinter } from "./FarmMinter";
 import { Inventory } from "./Inventory";
 import { Pair } from "./Pair";
 import { WishingWell } from "./WishingWell";
@@ -13,6 +13,7 @@ import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { SunflowerFarmers } from "./SunflowerFarmers";
 import { MillionOnMars } from "./MillionOnMars";
+import { Trader } from "./Trader";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -23,12 +24,13 @@ export class Metamask {
   private farm: Farm | null = null;
   private sunflowerFarmers: SunflowerFarmers | null = null;
   private session: SessionManager | null = null;
-  private beta: Beta | null = null;
+  private farmMinter: FarmMinter | null = null;
   private inventory: Inventory | null = null;
   private pair: Pair | null = null;
   private wishingWell: WishingWell | null = null;
   private token: Token | null = null;
   private millionOnMars: MillionOnMars | null = null;
+  private trader: Trader | null = null;
 
   private account: string | null = null;
 
@@ -48,7 +50,10 @@ export class Metamask {
         this.web3 as Web3,
         this.account as string
       );
-      this.beta = new Beta(this.web3 as Web3, this.account as string);
+      this.farmMinter = new FarmMinter(
+        this.web3 as Web3,
+        this.account as string
+      );
       this.inventory = new Inventory(this.web3 as Web3, this.account as string);
       this.pair = new Pair(this.web3 as Web3, this.account as string);
       this.token = new Token(this.web3 as Web3, this.account as string);
@@ -60,6 +65,7 @@ export class Metamask {
         this.web3 as Web3,
         this.account as string
       );
+      this.trader = new Trader(this.web3 as Web3, this.account as string);
 
       const isHealthy = await this.healthCheck();
 
@@ -294,8 +300,8 @@ export class Metamask {
     return this.inventory as Inventory;
   }
 
-  public getBeta() {
-    return this.beta as Beta;
+  public getFarmMinter() {
+    return this.farmMinter as FarmMinter;
   }
 
   public getSessionManager() {
@@ -316,6 +322,10 @@ export class Metamask {
 
   public getMillionOnMars() {
     return this.millionOnMars as MillionOnMars;
+  }
+
+  public getTrader() {
+    return this.trader as Trader;
   }
 
   public get myAccount() {

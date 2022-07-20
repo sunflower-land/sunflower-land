@@ -2,6 +2,7 @@ import { craft, CraftAction } from "./craft";
 import { sell, SellAction } from "./sell";
 import { plant, PlantAction } from "./plant";
 import { harvest, HarvestAction } from "./harvest";
+import { removeCrop, RemoveCropAction } from "./removeCrop";
 import { mineGold, GoldMineAction } from "./goldMine";
 import { mineStone, StoneMineAction } from "./stoneMine";
 import { mineIron, IronMineAction } from "./ironMine";
@@ -20,6 +21,8 @@ import {
 
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
+import { PebbleStrikeAction, strikePebble } from "./pebbleStrike";
+import { chopShrub, ChopShrubAction } from "./chopShrub";
 
 export type GameEvent =
   | CraftAction
@@ -32,10 +35,14 @@ export type GameEvent =
   | ChopAction
   | OpenRewardAction
   | FeedAction
+  | RemoveCropAction
   | CollectAction
   | TradeAction
   | LandExpansionPlantAction
-  | LandExpansionHarvestAction;
+  | LandExpansionHarvestAction
+  | PebbleStrikeAction
+  | TradeAction
+  | ChopShrubAction;
 
 type EventName = Extract<GameEvent, { type: string }>["type"];
 
@@ -63,7 +70,10 @@ export const EVENTS: Handlers = {
   "chicken.collectEgg": collectEggs,
   "chicken.feed": feedChicken,
   "item.traded": trade,
+  "item.removed": removeCrop,
   // Land Expansion Handlers
   "landExpansion.item.planted": landExpansionPlant,
   "landExpansion.item.harvested": landExpansionHarvest,
+  "pebble.struck": strikePebble,
+  "shrub.chopped": chopShrub,
 };

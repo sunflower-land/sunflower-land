@@ -76,6 +76,11 @@ describe("chop", () => {
     expect(game.inventory.Axe).toEqual(new Decimal(0));
     expect(game.inventory.Wood).toEqual(new Decimal(3));
     expect(game.trees["0"].wood.toNumber()).toBeGreaterThan(2);
+    // Ensure positioning remains
+    expect(game.trees[0].x).toEqual(GAME_STATE.trees[0].x);
+    expect(game.trees[0].y).toEqual(GAME_STATE.trees[0].y);
+    expect(game.trees[0].width).toEqual(GAME_STATE.trees[0].width);
+    expect(game.trees[0].height).toEqual(GAME_STATE.trees[0].height);
   });
 
   it("chops multiple tree", () => {

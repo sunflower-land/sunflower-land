@@ -45,7 +45,7 @@ const SFLTokenInstructions = () => (
   <ol>
     <li className="flex text-xs mb-3">
       <span className="mr-1">1.</span>
-      <span>{'Go to MetaMask and under "Assets" tab click SFL token'}</span>
+      <span>{'Go to MetaMask and under the "Assets" tab click SFL token'}</span>
     </li>
     <li className="flex text-xs mb-3">
       <span className="mr-1">2.</span>
@@ -75,7 +75,7 @@ const SFLTokenInstructions = () => (
       <span className="mr-1">6.</span>
       <span>
         {
-          'Once the transaction has completed successfully, open the menu inside Sunflower Land and click "Sync on Chain"'
+          'Once the transaction has completed successfully, open the menu inside Sunflower Land and select "Refresh" under "Settings"'
         }
       </span>
     </li>
@@ -116,7 +116,7 @@ const SFLItemsInstructions = () => (
       <span className="mr-1">4.</span>
       <span>
         {
-          'Once the transaction has completed successfully, open the menu inside Sunflower Land and click "Sync on Chain"'
+          'Once the transaction has completed successfully, open the menu inside Sunflower Land and select "Refresh" under "Settings"'
         }
       </span>
     </li>

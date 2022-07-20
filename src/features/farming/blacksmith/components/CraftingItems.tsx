@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
+import { Modal } from "react-bootstrap";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -9,7 +10,7 @@ import token from "assets/icons/token.gif";
 import tokenStatic from "assets/icons/token.png";
 
 import { Box } from "components/ui/Box";
-import { OuterPanel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
@@ -34,6 +35,7 @@ export const CraftingItems: React.FC<Props> = ({
   const [selected, setSelected] = useState<CraftableItem>(
     Object.values(items)[0]
   );
+  const [isCraftTenModalOpen, showCraftTenModal] = React.useState(false);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -91,7 +93,17 @@ export const CraftingItems: React.FC<Props> = ({
   const restock = () => {
     setShowCaptcha(true);
   };
+  // ask confirmation if crafting more than 10
+  const openConfirmationModal = () => {
+    showCraftTenModal(true);
+  };
 
+  const closeConfirmationModal = () => {
+    showCraftTenModal(false);
+  };
+  const handleCraftTen = () => {
+    craft(10);
+  };
   if (showCaptcha) {
     return (
       <ReCAPTCHA
@@ -150,11 +162,33 @@ export const CraftingItems: React.FC<Props> = ({
               lessFunds(10) || lessIngredients(10) || stock?.lessThan(10)
             }
             className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
-            onClick={() => craft(10)}
+            onClick={openConfirmationModal}
           >
             Craft 10
           </Button>
         )}
+        <Modal
+          centered
+          show={isCraftTenModalOpen}
+          onHide={closeConfirmationModal}
+        >
+          <Panel className="md:w-4/5 m-auto">
+            <div className="m-auto flex flex-col">
+              <span className="text-sm text-center text-shadow">
+                Are you sure you want to <br className="hidden md:block" />
+                craft 10 {selected.name}?
+              </span>
+            </div>
+            <div className="flex justify-content-around p-1">
+              <Button className="text-xs" onClick={handleCraftTen}>
+                Yes
+              </Button>
+              <Button className="text-xs ml-2" onClick={closeConfirmationModal}>
+                No
+              </Button>
+            </div>
+          </Panel>
+        </Modal>
       </>
     );
   };

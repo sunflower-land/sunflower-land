@@ -168,7 +168,7 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
           width: `${GRID_WIDTH_PX * 1.2}px`,
         }}
         src={beaver}
-        alt="Woddy the Beaver"
+        alt="Woody the Beaver"
       />
     );
   }
