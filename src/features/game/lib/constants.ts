@@ -3,7 +3,14 @@ import { fromWei } from "web3-utils";
 import { ChickenPosition, GameState, Inventory } from "../types/game";
 import { TerrainTypeEnum } from "./getTerrainImageByKey";
 
-export const GRID_WIDTH_PX = 42;
+// Our "zoom" factor
+export const PIXEL_SCALE = 2.625;
+
+// How many pixels a raw green square is
+export const SQUARE_WIDTH = 16;
+
+export const GRID_WIDTH_PX = PIXEL_SCALE * SQUARE_WIDTH;
+
 export const CHICKEN_TIME_TO_EGG = 1000 * 60 * 60 * 24 * 2; // 48 hours
 export const MUTANT_CHICKEN_BOOST_AMOUNT = 0.1;
 
@@ -254,6 +261,7 @@ export const INITIAL_PLOTS: GameState["plots"] = {
 
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
+  level: 3,
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
@@ -296,6 +304,7 @@ export const INITIAL_FARM: GameState = {
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
+  level: 1,
   fields: {},
   inventory: {
     "Chicken Coop": new Decimal(1),

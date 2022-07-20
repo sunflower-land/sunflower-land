@@ -1,6 +1,4 @@
 import React, { useContext, useLayoutEffect } from "react";
-import genesisBlock from "assets/land/levels/1.png";
-import { GRID_WIDTH_PX } from "../lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { MapPlacement } from "./components/MapPlacement";
 import { useActor } from "@xstate/react";
@@ -11,6 +9,7 @@ import { Plot } from "features/farming/crops/components/landExpansion/Plot";
 import { Pebble } from "./components/resources/Pebble";
 import { Shrub } from "./components/resources/Shrub";
 import { Tree } from "features/farming/crops/components/landExpansion/Tree";
+import { LandBase } from "./components/LandBase";
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -19,7 +18,7 @@ export const Land: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
-  const { pebbles, shrubs, terrains, plots, trees } = state;
+  const { pebbles, shrubs, terrains, plots, trees, level } = state;
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -28,17 +27,9 @@ export const Land: React.FC = () => {
   }, []);
 
   return (
-    <div
-      style={{ width: `${GRID_WIDTH_PX * 8}px` }}
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-    >
+    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="relative w-full h-full">
-        <img
-          id="genesisBlock"
-          src={genesisBlock}
-          alt="land"
-          className="w-full"
-        />
+        <LandBase level={level} />
 
         {/* Example placement of shrub */}
         {getKeys(shrubs).map((index) => {
