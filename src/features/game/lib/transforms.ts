@@ -14,6 +14,7 @@ import {
  */
 export function makeGame(farm: any): GameState {
   return {
+    level: farm.level || 1,
     inventory: Object.keys(farm.inventory).reduce(
       (items, item) => ({
         ...items,

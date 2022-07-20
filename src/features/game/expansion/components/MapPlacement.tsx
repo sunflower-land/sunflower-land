@@ -26,8 +26,8 @@ export const MapPlacement: React.FC<Position> = ({
       style={{
         top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
         left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,
-        height: `${GRID_WIDTH_PX * height}px`,
-        width: `${GRID_WIDTH_PX * width}px`,
+        height: height ? `${GRID_WIDTH_PX * height}px` : "auto",
+        width: width ? `${GRID_WIDTH_PX * width}px` : "auto",
       }}
     >
       {children}
