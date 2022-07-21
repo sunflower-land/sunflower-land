@@ -65,6 +65,25 @@ export type MOMEventItem = "Engine Core";
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
 export type TradingTicket = "Trading Ticket";
+export type BumpkinBodies =
+  | "Farmer Potion"
+  | "Farmer Potion 2"
+  | "Goblin Potion";
+
+export type BumpkinWigs = "Basic Wig" | "Rancher Wig" | "Explorer Wig";
+
+export type BumpkinShirts = "Farmer Shirt" | "Lumberjack Shirt";
+
+export type BumpkinPants =
+  | "Farmer Overalls"
+  | "Lumberjack Overalls"
+  | "Farmer Pants";
+
+export type BumpkinItems =
+  | BumpkinBodies
+  | BumpkinWigs
+  | BumpkinShirts
+  | BumpkinPants;
 
 export type InventoryItemName =
   | CropName
@@ -77,7 +96,8 @@ export type InventoryItemName =
   | Food
   | MOMEventItem
   | MutantChicken
-  | TradingTicket;
+  | TradingTicket
+  | BumpkinItems;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

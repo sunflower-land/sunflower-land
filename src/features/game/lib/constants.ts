@@ -261,7 +261,7 @@ export const INITIAL_PLOTS: GameState["plots"] = {
 
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
-  level: 3,
+  level: 1,
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),

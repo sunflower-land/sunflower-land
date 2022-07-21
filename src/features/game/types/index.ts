@@ -175,6 +175,22 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Key": 913,
   "Ancient Goblin Sword": 914,
   "Ancient Human Warhammer": 915,
+
+  // Bumpkins
+  "Farmer Potion": 1101,
+  "Farmer Potion 2": 1102,
+  "Goblin Potion": 1103,
+
+  "Basic Wig": 1201,
+  "Rancher Wig": 1202,
+  "Explorer Wig": 1203,
+
+  "Farmer Shirt": 1501,
+  "Lumberjack Shirt": 1502,
+
+  "Farmer Overalls": 1601,
+  "Lumberjack Overalls": 1602,
+  "Farmer Pants": 1603,
 };
 
 // The reverse of above
