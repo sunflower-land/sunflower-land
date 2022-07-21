@@ -6,7 +6,7 @@ export const Bumpkin: React.FC = () => {
     <div>
       <Character
         body="Farmer Potion"
-        wig="Basic Wig"
+        wig="Rancher Wig"
         pants="Lumberjack Overalls"
         onClick={console.log}
       />
