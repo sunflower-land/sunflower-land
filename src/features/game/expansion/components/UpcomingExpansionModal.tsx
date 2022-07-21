@@ -35,7 +35,11 @@ interface Props {
   gameState: GameState;
   onClose: () => void;
 }
-export const LandExtensionModal: React.FC<Props> = ({ gameState, onClose }) => {
+
+export const UpcomingExpansionModal: React.FC<Props> = ({
+  gameState,
+  onClose,
+}) => {
   return (
     <div>
       <img src={nft} className="absolute w-1/3 left-2 -top-28 -z-10" />

@@ -2,8 +2,8 @@ import { Panel } from "components/ui/Panel";
 import { GameState } from "features/game/types/game";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { LAND_ORIGINS } from "../lib/constants";
-import { LandExtensionModal } from "./LandExtensionModal";
+import { EXPANSION_ORIGINS } from "../lib/constants";
+import { UpcomingExpansionModal } from "./UpcomingExpansionModal";
 import { MapPlacement } from "./MapPlacement";
 
 interface Props {
@@ -13,11 +13,11 @@ interface Props {
 /**
  * The next piece of land to expand into
  */
-export const LandExtension: React.FC<Props> = ({ gameState }) => {
-  const [showModal, setShowModal] = useState(true);
+export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
+  const [showModal, setShowModal] = useState(false);
   const nextLevel = gameState.level + 1;
 
-  const origin = LAND_ORIGINS[nextLevel];
+  const origin = EXPANSION_ORIGINS[nextLevel];
 
   return (
     <>
@@ -31,7 +31,7 @@ export const LandExtension: React.FC<Props> = ({ gameState }) => {
       </MapPlacement>
       <Modal show={showModal} centered>
         <Panel>
-          <LandExtensionModal
+          <UpcomingExpansionModal
             gameState={gameState}
             onClose={() => setShowModal(false)}
           />

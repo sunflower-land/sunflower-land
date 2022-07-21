@@ -5,7 +5,7 @@ import { Coordinates } from "../components/MapPlacement";
 /**
  * Bottom left hand corner of the land
  */
-export const LAND_ORIGINS: Record<number, Coordinates> = {
+export const EXPANSION_ORIGINS: Record<number, Coordinates> = {
   1: {
     x: -3,
     y: 3,

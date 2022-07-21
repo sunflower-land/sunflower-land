@@ -11,7 +11,7 @@ import { Shrub } from "./components/resources/Shrub";
 import { Tree } from "features/farming/crops/components/landExpansion/Tree";
 import { LandBase } from "./components/LandBase";
 import { Bumpkin } from "features/island/bumpkin/Bumpkin";
-import { LandExtension } from "./components/LandExtension";
+import { UpcomingExpansion } from "./components/UpcomingExpansion";
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -32,7 +32,7 @@ export const Land: React.FC = () => {
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="relative w-full h-full">
         <LandBase level={level} />
-        <LandExtension gameState={state} />
+        <UpcomingExpansion gameState={state} />
 
         {/* Example placement of shrub */}
         {getKeys(shrubs).map((index) => {
