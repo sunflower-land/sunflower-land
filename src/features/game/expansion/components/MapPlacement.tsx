@@ -1,12 +1,15 @@
 import React from "react";
 import { GRID_WIDTH_PX } from "../../lib/constants";
 
-export interface Position {
+export type Coordinates = {
   x: number;
   y: number;
+};
+
+export type Position = {
   height?: number;
   width?: number;
-}
+} & Coordinates;
 
 // We want each y position to have a positive z index
 const BASE_Z_INDEX = 100;
