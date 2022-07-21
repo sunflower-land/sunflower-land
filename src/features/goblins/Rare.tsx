@@ -306,9 +306,11 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                     );
                   } else {
                     // if inventory items is equal to required items
-                    <span className="text-xs text-shadow text-center mt-2">
-                      {`${requiredAmount}`}
-                    </span>;
+                    return (
+                      <span className="text-xs text-shadow text-center mt-2">
+                        {`${requiredAmount}`}
+                      </span>
+                    );
                   }
                 };
 
