@@ -166,6 +166,17 @@ export type LandExpansionPlot = {
   crop?: PlantedCrop;
 } & Position;
 
+export type LandExpansion = {
+  createdAt: number;
+
+  shrubs?: Record<number, LandExpansionTree>;
+  pebbles?: Record<number, LandExpansionRock>;
+  terrains?: Record<number, LandExpansionTerrain>;
+  plots?: Record<number, LandExpansionPlot>;
+  trees?: Record<number, LandExpansionTree>;
+  stones?: Record<number, LandExpansionRock>;
+};
+
 export interface GameState {
   id?: number;
   level: number;
@@ -196,6 +207,8 @@ export interface GameState {
     farming: Decimal;
     gathering: Decimal;
   };
+
+  expansions: LandExpansion[];
 }
 
 export interface Context {
