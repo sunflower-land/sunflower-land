@@ -12,9 +12,10 @@ import level9 from "assets/land/levels/level_9.png";
 import level10 from "assets/land/levels/level_10.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { LandExpansion } from "features/game/types/game";
 
 interface Props {
-  level: number;
+  expansions: LandExpansion[];
 }
 
 const IMAGE_GRID_WIDTH = 36;
@@ -32,11 +33,20 @@ const LEVEL_IMAGES: Record<number, string> = {
   10: level10,
 };
 
-export const LandBase: React.FC<Props> = ({ level }) => {
+export const LandBase: React.FC<Props> = ({ expansions }) => {
+  let expandedCount = expansions.length;
+
+  const latestLand = expansions[expansions.length - 1];
+
+  // Land is still being built show previous layout
+  if (latestLand.readyAt > Date.now()) {
+    expandedCount -= 1;
+  }
+
   return (
     <img
       id="genesisBlock"
-      src={LEVEL_IMAGES[level]}
+      src={LEVEL_IMAGES[expandedCount]}
       alt="land"
       className="h-auto"
       style={{
