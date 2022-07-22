@@ -34,11 +34,13 @@ const LAND_REQUIREMENTS: LandRequirements = {
 interface Props {
   gameState: GameState;
   onClose: () => void;
+  onExpand: () => void;
 }
 
 export const UpcomingExpansionModal: React.FC<Props> = ({
   gameState,
   onClose,
+  onExpand,
 }) => {
   return (
     <div>
@@ -65,7 +67,9 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
               {secondsToLongString(LAND_REQUIREMENTS.seconds)}
             </span>
           </div>
-          <Button className="w-40">Expand</Button>
+          <Button className="w-40" onClick={onExpand}>
+            Expand
+          </Button>
         </div>
       </div>
     </div>
