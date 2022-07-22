@@ -12,6 +12,105 @@ import { Tree } from "features/farming/crops/components/landExpansion/Tree";
 import { LandBase } from "./components/LandBase";
 import { Bumpkin } from "features/island/bumpkin/Bumpkin";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
+import { LandExpansion } from "../types/game";
+
+const Expansion: React.FC<LandExpansion> = ({
+  shrubs,
+  plots,
+  trees,
+  terrains,
+  pebbles,
+  createdAt,
+}) => {
+  return (
+    <>
+      {shrubs &&
+        getKeys(shrubs).map((index) => {
+          const { x, y, width, height } = shrubs[index];
+
+          return (
+            <MapPlacement
+              key={`${createdAt}-shrub-${index}`}
+              x={x}
+              y={y}
+              height={height}
+              width={width}
+            >
+              <Shrub shrubIndex={index} />
+            </MapPlacement>
+          );
+        })}
+
+      {pebbles &&
+        getKeys(pebbles).map((index) => {
+          const { x, y, width, height } = pebbles[index];
+
+          return (
+            <MapPlacement
+              key={`${createdAt}-pebble-${index}`}
+              x={x}
+              y={y}
+              height={height}
+              width={width}
+            >
+              <Pebble pebbleIndex={0} />
+            </MapPlacement>
+          );
+        })}
+
+      {terrains &&
+        getKeys(terrains).map((index) => {
+          const { x, y, width, height, name } = terrains[index];
+
+          return (
+            <MapPlacement
+              key={`${createdAt}-terrain-${index}`}
+              x={x}
+              y={y}
+              height={height}
+              width={width}
+            >
+              <img src={getTerrainImageByKey(name)} className="h-full w-full" />
+            </MapPlacement>
+          );
+        })}
+
+      {plots &&
+        getKeys(plots).map((index) => {
+          const { x, y, width, height } = plots[index];
+
+          return (
+            <MapPlacement
+              key={`${createdAt}-plot-${index}`}
+              x={x}
+              y={y}
+              height={height}
+              width={width}
+            >
+              <Plot index={Number(index)} />
+            </MapPlacement>
+          );
+        })}
+
+      {trees &&
+        getKeys(trees).map((index) => {
+          const { x, y, width, height } = trees[index];
+
+          return (
+            <MapPlacement
+              key={`${createdAt}-tree-${index}`}
+              x={x}
+              y={y}
+              height={height}
+              width={width}
+            >
+              <Tree treeIndex={index} />
+            </MapPlacement>
+          );
+        })}
+    </>
+  );
+};
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -20,7 +119,7 @@ export const Land: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
-  const { pebbles, shrubs, terrains, plots, trees, level } = state;
+  const { expansions, level } = state;
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -34,58 +133,20 @@ export const Land: React.FC = () => {
         <LandBase level={level} />
         <UpcomingExpansion gameState={state} />
 
-        {/* Example placement of shrub */}
-        {getKeys(shrubs).map((index) => {
-          const { x, y, width, height } = shrubs[index];
+        {expansions.map(
+          ({ shrubs, pebbles, terrains, trees, plots, createdAt }, index) => (
+            <Expansion
+              createdAt={createdAt}
+              key={index}
+              shrubs={shrubs}
+              pebbles={pebbles}
+              terrains={terrains}
+              trees={trees}
+              plots={plots}
+            />
+          )
+        )}
 
-          return (
-            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-              <Shrub shrubIndex={0} />
-            </MapPlacement>
-          );
-        })}
-
-        {/* Example placement of pebbles */}
-        {getKeys(pebbles).map((index) => {
-          const { x, y, width, height } = pebbles[index];
-
-          return (
-            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-              <Pebble pebbleIndex={0} />
-            </MapPlacement>
-          );
-        })}
-
-        {/* Example placement of terrains */}
-        {getKeys(terrains).map((index) => {
-          const { x, y, width, height, name } = terrains[index];
-
-          return (
-            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-              <img src={getTerrainImageByKey(name)} className="h-full w-full" />
-            </MapPlacement>
-          );
-        })}
-        {/* Example placement of plots */}
-        {getKeys(plots).map((index) => {
-          const { x, y, width, height } = plots[index];
-
-          return (
-            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-              <Plot index={Number(index)} />
-            </MapPlacement>
-          );
-        })}
-
-        {getKeys(trees).map((index) => {
-          const { x, y, width, height } = trees[index];
-
-          return (
-            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-              <Tree treeIndex={index} />
-            </MapPlacement>
-          );
-        })}
         <MapPlacement x={2} y={1}>
           <Bumpkin />
         </MapPlacement>
