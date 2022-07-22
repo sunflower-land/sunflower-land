@@ -4,7 +4,6 @@ import {
   GameState,
   Inventory,
   InventoryItemName,
-  LandExpansionRock,
   Rock,
   Tree,
 } from "../types/game";
@@ -92,11 +91,11 @@ export function makeGame(farm: any): GameState {
     pebbles: farm.pebbles,
     terrains: farm.terrains,
     plots: farm.plots,
+    expansions: farm.expansions,
   };
 }
 
 type Rocks = Record<number, Rock>;
-type Pebbles = Record<number, LandExpansionRock>;
 
 /**
  * Updates a rock with the new amount of mineral inside of it
@@ -125,6 +124,8 @@ export function updateGame(
   if (!newGameState) {
     return oldGameState;
   }
+
+  // TODO: How to handle expansions????
 
   // Only update random number values generated from the server
   try {

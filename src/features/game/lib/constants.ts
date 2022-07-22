@@ -1,6 +1,11 @@
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
-import { ChickenPosition, GameState, Inventory } from "../types/game";
+import {
+  ChickenPosition,
+  GameState,
+  Inventory,
+  LandExpansion,
+} from "../types/game";
 import { TerrainTypeEnum } from "./getTerrainImageByKey";
 
 // Our "zoom" factor
@@ -259,6 +264,16 @@ export const INITIAL_PLOTS: GameState["plots"] = {
   },
 };
 
+export const GENESIS_LAND_EXPANSION: LandExpansion = {
+  createdAt: 0,
+
+  shrubs: INITIAL_SHRUBS,
+  pebbles: INITIAL_PEBBLES,
+  terrains: INITIAL_TERRAIN,
+
+  plots: INITIAL_PLOTS,
+};
+
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
   level: 1,
@@ -300,6 +315,8 @@ export const INITIAL_FARM: GameState = {
   pebbles: INITIAL_PEBBLES,
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
+
+  expansions: [GENESIS_LAND_EXPANSION],
 };
 
 export const EMPTY: GameState = {
@@ -327,4 +344,5 @@ export const EMPTY: GameState = {
   pebbles: INITIAL_PEBBLES,
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
+  expansions: [GENESIS_LAND_EXPANSION],
 };
