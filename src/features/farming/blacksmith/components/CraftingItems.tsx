@@ -103,6 +103,7 @@ export const CraftingItems: React.FC<Props> = ({
   };
   const handleCraftTen = () => {
     craft(10);
+    closeConfirmationModal();
   };
   if (showCaptcha) {
     return (
