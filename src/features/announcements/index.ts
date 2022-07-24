@@ -3,6 +3,7 @@ import nugget from "assets/announcements/nugget.gif";
 import nomad from "assets/announcements/nomad.gif";
 import cakes from "assets/announcements/cakes.png";
 import rooster from "assets/announcements/rooster.png";
+import shovel from "assets/announcements/shovel.png";
 
 export interface Announcement {
   date: Date;
@@ -16,6 +17,16 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2022-07-21T00:00:00"),
+    title: "Shovel",
+    notes: [
+      "The shovel is now available!",
+      "Used to remove unwanted crops",
+      "Craft at the Blacksmith",
+    ],
+    image: shovel,
+  },
   {
     date: new Date("2022-07-04T00:00:00"),
     title: "Rooster",
