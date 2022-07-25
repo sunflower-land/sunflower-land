@@ -30,11 +30,11 @@ const HITS = 2;
 const SHRUB_RECOVERY_TIME = 10 * 60;
 
 interface Props {
-  index: number;
+  shrubIndex: number;
   expansionIndex: number;
 }
 
-export const Shrub: React.FC<Props> = ({ index, expansionIndex }) => {
+export const Shrub: React.FC<Props> = ({ shrubIndex, expansionIndex }) => {
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -51,7 +51,7 @@ export const Shrub: React.FC<Props> = ({ index, expansionIndex }) => {
 
   const [showShrubTimeLeft, setShowShrubTimeLeft] = useState(false);
   const expansion = game.context.state.expansions[expansionIndex];
-  const shrub = expansion.shrubs?.[index] as LandExpansionTree;
+  const shrub = expansion.shrubs?.[shrubIndex] as LandExpansionTree;
 
   // Users will need to refresh to chop the tree again
   const chopped = !canChop(shrub);
@@ -115,7 +115,7 @@ export const Shrub: React.FC<Props> = ({ index, expansionIndex }) => {
 
     try {
       gameService.send("shrub.chopped", {
-        index,
+        index: shrubIndex,
         expansionIndex,
       });
       setCollecting(true);

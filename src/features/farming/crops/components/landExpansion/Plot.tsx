@@ -18,7 +18,7 @@ import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "../CropReward";
 
 interface Props {
-  index: number;
+  plotIndex: number;
   expansionIndex: number;
   className?: string;
   onboarding?: boolean;
@@ -27,7 +27,11 @@ interface Props {
 const isCropReady = (now: number, plantedAt: number, harvestSeconds: number) =>
   now - plantedAt > harvestSeconds * 1000;
 
-export const Plot: React.FC<Props> = ({ className, index, expansionIndex }) => {
+export const Plot: React.FC<Props> = ({
+  className,
+  plotIndex,
+  expansionIndex,
+}) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
   const [showPopover, setShowPopover] = useState(false);
@@ -39,7 +43,7 @@ export const Plot: React.FC<Props> = ({ className, index, expansionIndex }) => {
   const clickedAt = useRef<number>(0);
 
   const expansion = game.context.state.expansions[expansionIndex];
-  const plot = expansion.plots?.[index];
+  const plot = expansion.plots?.[plotIndex];
 
   const crop = plot && plot.crop;
 
@@ -54,7 +58,7 @@ export const Plot: React.FC<Props> = ({ className, index, expansionIndex }) => {
     setTouchCount(0);
 
     gameService.send("crop.harvested", {
-      index,
+      index: plotIndex,
       expansionIndex,
     });
   };
@@ -118,7 +122,7 @@ export const Plot: React.FC<Props> = ({ className, index, expansionIndex }) => {
     if (!crop) {
       try {
         gameService.send("seed.planted", {
-          index,
+          index: plotIndex,
           expansionIndex,
           item: selectedItem,
           analytics,
@@ -140,7 +144,7 @@ export const Plot: React.FC<Props> = ({ className, index, expansionIndex }) => {
 
     try {
       gameService.send("crop.harvested", {
-        index,
+        index: plotIndex,
         expansionIndex,
       });
 
@@ -221,7 +225,7 @@ export const Plot: React.FC<Props> = ({ className, index, expansionIndex }) => {
         <CropReward
           reward={reward}
           onCollected={onCollectReward}
-          fieldIndex={index}
+          fieldIndex={plotIndex}
         />
       </div>
     </div>

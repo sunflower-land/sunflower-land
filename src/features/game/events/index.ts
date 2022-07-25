@@ -21,7 +21,7 @@ import {
 
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
-import { PebbleStrikeAction, strikePebble } from "./pebbleStrike";
+import { PebbleStrikeAction, strikePebble } from "./landExpansion/pebbleStrike";
 import { chopShrub, ChopShrubAction } from "./chopShrub";
 import { reveal, RevealAction } from "./revealExpansion";
 
