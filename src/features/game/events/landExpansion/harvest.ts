@@ -3,7 +3,8 @@ import { CROPS } from "../../types/crops";
 import Decimal from "decimal.js-light";
 
 export type LandExpansionHarvestAction = {
-  type: "landExpansion.item.harvested";
+  type: "crop.harvested";
+  expansionIndex: number;
   index: number;
 };
 
@@ -14,7 +15,18 @@ type Options = {
 };
 
 export function harvest({ state, action, createdAt = Date.now() }: Options) {
-  const plots = { ...state.plots };
+  const expansions = [...state.expansions];
+  const expansion = expansions[action.expansionIndex];
+
+  if (!expansion) {
+    throw new Error("Expansion does not exist");
+  }
+
+  if (!expansion.plots) {
+    throw new Error("Expansion does not have any plots");
+  }
+
+  const { plots } = expansion;
 
   if (action.index < 0) {
     throw new Error("Plot does not exist");
@@ -43,13 +55,13 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   }
 
   // Remove crop data for plot
-  delete plots[action.index].crop;
+  delete plot.crop;
 
   const cropCount = state.inventory[name] || new Decimal(0);
 
   return {
     ...state,
-    plots,
+    expansions,
     inventory: {
       ...state.inventory,
       [name]: cropCount.add(amount),

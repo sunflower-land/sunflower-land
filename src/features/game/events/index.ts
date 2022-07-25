@@ -75,7 +75,7 @@ export const EVENTS: Handlers = {
   "item.removed": removeCrop,
   // Land Expansion Handlers
   "seed.planted": landExpansionPlant,
-  "landExpansion.item.harvested": landExpansionHarvest,
+  "crop.harvested": landExpansionHarvest,
   "pebble.struck": strikePebble,
   "shrub.chopped": chopShrub,
   "expansion.revealed": reveal,

@@ -53,8 +53,9 @@ export const Plot: React.FC<Props> = ({ className, index, expansionIndex }) => {
     setReward(null);
     setTouchCount(0);
 
-    gameService.send("landExpansion.item.harvested", {
+    gameService.send("crop.harvested", {
       index,
+      expansionIndex,
     });
   };
 
@@ -138,8 +139,9 @@ export const Plot: React.FC<Props> = ({ className, index, expansionIndex }) => {
     }
 
     try {
-      gameService.send("landExpansion.item.harvested", {
+      gameService.send("crop.harvested", {
         index,
+        expansionIndex,
       });
 
       harvestAudio.play();
