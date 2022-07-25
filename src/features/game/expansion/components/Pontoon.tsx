@@ -13,7 +13,7 @@ interface Props {
 }
 
 /**
- * The next piece of land to expand into
+ * Goblins working hard constructing a piece of land
  */
 export const Pontoon: React.FC<Props> = ({ expansion }) => {
   const { gameService } = useContext(Context);
@@ -41,7 +41,6 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
     (expansion.readyAt - expansion.createdAt) / 1000
   );
 
-  console.log({ constructionTime, secondsLeft });
   return (
     <div className="w-max h-full flex items-center justify-center max-w-none">
       <img
