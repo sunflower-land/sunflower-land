@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const cloneDeep = require("lodash.clonedeep");
+import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "../../lib/constants";
 import { GameState, LandExpansionPlot } from "../../types/game";
