@@ -19,13 +19,14 @@ type ExpansionProps = Pick<
   "shrubs" | "plots" | "trees" | "terrains" | "pebbles" | "createdAt"
 >;
 
-const Expansion: React.FC<ExpansionProps> = ({
+const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
   shrubs,
   plots,
   trees,
   terrains,
   pebbles,
   createdAt,
+  expansionIndex,
 }) => {
   return (
     <>
@@ -92,7 +93,7 @@ const Expansion: React.FC<ExpansionProps> = ({
               height={height}
               width={width}
             >
-              <Plot index={Number(index)} />
+              <Plot index={Number(index)} expansionIndex={expansionIndex} />
             </MapPlacement>
           );
         })}
@@ -124,6 +125,7 @@ export const Land: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+
   const { expansions } = state;
 
   const [scrollIntoView] = useScrollIntoView();
@@ -142,6 +144,7 @@ export const Land: React.FC = () => {
           ({ shrubs, pebbles, terrains, trees, plots, createdAt }, index) => (
             <Expansion
               createdAt={createdAt}
+              expansionIndex={index}
               key={index}
               shrubs={shrubs}
               pebbles={pebbles}

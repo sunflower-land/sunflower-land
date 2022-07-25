@@ -4,8 +4,9 @@ import { GameState, Inventory, InventoryItemName } from "../../types/game";
 import { getPlantedAt, isSeed } from "../plant";
 
 export type LandExpansionPlantAction = {
-  type: "landExpansion.item.planted";
+  type: "seed.planted";
   item: InventoryItemName;
+  expansionIndex: number;
   index: number;
 };
 
@@ -47,7 +48,14 @@ export function getCropYieldAmount({
 }
 
 export function plant({ state, action, createdAt = Date.now() }: Options) {
-  const plots = { ...state.plots };
+  const expansions = [...state.expansions];
+  const expansion = expansions[action.expansionIndex];
+
+  if (!expansion) {
+    throw new Error("Expansion does not exist");
+  }
+
+  const plots = { ...expansion.plots };
 
   if (action.index < 0) {
     throw new Error("Plot does not exist");
@@ -99,9 +107,11 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
     },
   };
 
+  expansion.plots = plots;
+
   return {
     ...state,
-    plots,
+    expansions,
     inventory: {
       ...state.inventory,
       [action.item]: seedCount?.sub(1),

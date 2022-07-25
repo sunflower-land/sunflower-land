@@ -74,7 +74,7 @@ export const EVENTS: Handlers = {
   "item.traded": trade,
   "item.removed": removeCrop,
   // Land Expansion Handlers
-  "landExpansion.item.planted": landExpansionPlant,
+  "seed.planted": landExpansionPlant,
   "landExpansion.item.harvested": landExpansionHarvest,
   "pebble.struck": strikePebble,
   "shrub.chopped": chopShrub,

@@ -1,7 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const cloneDeep = require("lodash/cloneDeep");
 import Decimal from "decimal.js-light";
+import { CROPS } from "features/game/types/crops";
 import { INITIAL_FARM } from "../../lib/constants";
-import { CROPS } from "../../types/crops";
-import { GameState } from "../../types/game";
+import { GameState, LandExpansionPlot } from "../../types/game";
 import { plant } from "./plant";
 
 const GAME_STATE: GameState = {
@@ -12,13 +14,51 @@ const GAME_STATE: GameState = {
 };
 
 describe("plant", () => {
+  let gameState: GameState;
+
+  beforeEach(() => {
+    gameState = cloneDeep(GAME_STATE);
+  });
+
+  it("does not plant on a non existent expansion", () => {
+    expect(() =>
+      plant({
+        state: gameState,
+        action: {
+          type: "seed.planted",
+          index: 0,
+          expansionIndex: -1,
+          item: "Sunflower Seed",
+        },
+      })
+    ).toThrow("Expansion does not exist");
+  });
+
+  it("does not plant on a an expansion with no plots", () => {
+    expect(() =>
+      plant({
+        state: {
+          ...gameState,
+          expansions: [{ createdAt: 0 }],
+        },
+        action: {
+          type: "seed.planted",
+          index: 0,
+          expansionIndex: -1,
+          item: "Sunflower Seed",
+        },
+      })
+    ).toThrow("Expansion does not exist");
+  });
+
   it("does not plant on non-existent plot", () => {
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: gameState,
         action: {
-          type: "landExpansion.item.planted",
+          type: "seed.planted",
           index: -1,
+          expansionIndex: 0,
           item: "Sunflower Seed",
         },
       })
@@ -28,10 +68,11 @@ describe("plant", () => {
   it("does not plant on non-integer plot", () => {
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: gameState,
         action: {
-          type: "landExpansion.item.planted",
+          type: "seed.planted",
           index: 1.2,
+          expansionIndex: 0,
           item: "Sunflower Seed",
         },
       })
@@ -41,10 +82,11 @@ describe("plant", () => {
   it("does not plant on non-existent plot", () => {
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: gameState,
         action: {
-          type: "landExpansion.item.planted",
+          type: "seed.planted",
           index: 200000,
+          expansionIndex: 0,
           item: "Sunflower Seed",
         },
       })
@@ -52,23 +94,32 @@ describe("plant", () => {
   });
 
   it("does not plant if crop already exists", () => {
+    const expansions = [...GAME_STATE.expansions];
+    const genesisExpansion = expansions[0];
+
     expect(() =>
       plant({
         state: {
-          ...GAME_STATE,
-          plots: {
-            0: {
-              ...GAME_STATE.plots[0],
-              crop: {
-                name: "Sunflower",
-                plantedAt: Date.now(),
+          ...gameState,
+          expansions: [
+            {
+              ...genesisExpansion,
+              plots: {
+                0: {
+                  ...genesisExpansion.plots![0],
+                  crop: {
+                    name: "Sunflower",
+                    plantedAt: Date.now(),
+                  },
+                },
               },
             },
-          },
+          ],
         },
         action: {
-          type: "landExpansion.item.planted",
+          type: "seed.planted",
           index: 0,
+          expansionIndex: 0,
           item: "Sunflower Seed",
         },
       })
@@ -78,10 +129,11 @@ describe("plant", () => {
   it("does not plant an invalid item", () => {
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: gameState,
         action: {
-          type: "landExpansion.item.planted",
+          type: "seed.planted",
           index: 0,
+          expansionIndex: 0,
           item: "Pickaxe",
         },
       })
@@ -91,10 +143,11 @@ describe("plant", () => {
   it("does not plant if user does not have seeds", () => {
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: gameState,
         action: {
-          type: "landExpansion.item.planted",
+          type: "seed.planted",
           index: 0,
+          expansionIndex: 0,
           item: "Sunflower Seed",
         },
       })
@@ -102,54 +155,58 @@ describe("plant", () => {
   });
 
   it("plants a seed", () => {
+    const seedsAmount = new Decimal(5);
+
     const state = plant({
       state: {
-        ...GAME_STATE,
+        ...gameState,
         inventory: {
-          "Sunflower Seed": new Decimal(5),
+          "Sunflower Seed": seedsAmount,
         },
       },
       action: {
-        type: "landExpansion.item.planted",
+        type: "seed.planted",
         index: 0,
+        expansionIndex: 0,
         item: "Sunflower Seed",
       },
     });
 
-    expect(state).toEqual({
-      ...GAME_STATE,
-      inventory: {
-        "Sunflower Seed": new Decimal(4),
-      },
-      plots: {
-        ...GAME_STATE.plots,
-        0: expect.objectContaining({
-          crop: expect.objectContaining({
-            name: "Sunflower",
-            plantedAt: expect.any(Number),
-            amount: 1,
-          }),
+    const plots = state.expansions[0].plots;
+
+    expect(state.inventory["Sunflower Seed"]).toEqual(seedsAmount.minus(1));
+    expect(plots).toBeDefined();
+    expect((plots as LandExpansionPlot[])[0]).toEqual(
+      expect.objectContaining({
+        crop: expect.objectContaining({
+          name: "Sunflower",
+          plantedAt: expect.any(Number),
+          amount: 1,
         }),
-      },
-    });
+      })
+    );
   });
 
   it("plants a normal cauliflower", () => {
     const state = plant({
       state: {
-        ...GAME_STATE,
+        ...gameState,
         inventory: {
           "Cauliflower Seed": new Decimal(1),
         },
       },
       action: {
-        type: "landExpansion.item.planted",
+        type: "seed.planted",
         index: 0,
+        expansionIndex: 0,
         item: "Cauliflower Seed",
       },
     });
 
-    expect(state.plots[0].crop).toEqual(
+    const plots = state.expansions[0].plots;
+
+    expect(plots).toBeDefined();
+    expect((plots as LandExpansionPlot[])[0].crop).toEqual(
       expect.objectContaining({
         name: "Cauliflower",
         plantedAt: expect.any(Number),
@@ -161,20 +218,24 @@ describe("plant", () => {
   it("plants a special cauliflower", () => {
     const state = plant({
       state: {
-        ...GAME_STATE,
+        ...gameState,
         inventory: {
           "Cauliflower Seed": new Decimal(1),
           "Golden Cauliflower": new Decimal(1),
         },
       },
       action: {
-        type: "landExpansion.item.planted",
+        type: "seed.planted",
         index: 0,
+        expansionIndex: 0,
         item: "Cauliflower Seed",
       },
     });
 
-    expect(state.plots[0].crop).toEqual(
+    const plots = state.expansions[0].plots;
+
+    expect(plots).toBeDefined();
+    expect((plots as LandExpansionPlot[])[0].crop).toEqual(
       expect.objectContaining({
         name: "Cauliflower",
         plantedAt: expect.any(Number),
@@ -186,19 +247,24 @@ describe("plant", () => {
   it("plants a normal parsnip", () => {
     const state = plant({
       state: {
-        ...GAME_STATE,
+        ...gameState,
         inventory: {
           "Parsnip Seed": new Decimal(1),
         },
       },
       action: {
-        type: "landExpansion.item.planted",
+        type: "seed.planted",
         index: 0,
+        expansionIndex: 0,
         item: "Parsnip Seed",
       },
     });
 
-    const plantedAt = state.plots[0].crop?.plantedAt || 0;
+    const plots = state.expansions[0].plots;
+
+    expect(plots).toBeDefined();
+
+    const plantedAt = (plots as LandExpansionPlot[])[0].crop?.plantedAt || 0;
 
     // Time should be now (+ a couple ms)
     expect(plantedAt + 10).toBeGreaterThan(Date.now());
@@ -207,22 +273,27 @@ describe("plant", () => {
   it("plants a special parsnip", () => {
     const state = plant({
       state: {
-        ...GAME_STATE,
+        ...gameState,
         inventory: {
           "Parsnip Seed": new Decimal(1),
           "Mysterious Parsnip": new Decimal(1),
         },
       },
       action: {
-        type: "landExpansion.item.planted",
+        type: "seed.planted",
         index: 0,
+        expansionIndex: 0,
         item: "Parsnip Seed",
       },
     });
 
     // Should be twice as fast! (Planted in the past)
     const parnsipTime = CROPS().Parsnip.harvestSeconds * 1000;
-    const plantedAt = state.plots[0].crop?.plantedAt || 0;
+
+    const plots = state.expansions[0].plots;
+
+    expect(plots).toBeDefined();
+    const plantedAt = (plots as LandExpansionPlot[])[0].crop?.plantedAt || 0;
 
     // Offset 5 ms for CPU time
     expect(plantedAt - 5).toBeLessThan(Date.now() - parnsipTime * 0.5);
@@ -231,22 +302,27 @@ describe("plant", () => {
   it("grows faster with a Nancy", () => {
     const state = plant({
       state: {
-        ...GAME_STATE,
+        ...gameState,
         inventory: {
           "Carrot Seed": new Decimal(1),
           Nancy: new Decimal(1),
         },
       },
       action: {
-        type: "landExpansion.item.planted",
+        type: "seed.planted",
         index: 0,
+        expansionIndex: 0,
         item: "Carrot Seed",
       },
     });
 
     // Should be twice as fast! (Planted in the psat)
     const carrotTime = CROPS().Carrot.harvestSeconds * 1000;
-    const plantedAt = state.plots[0].crop?.plantedAt || 0;
+
+    const plots = state.expansions[0].plots;
+
+    expect(plots).toBeDefined();
+    const plantedAt = (plots as LandExpansionPlot[])[0].crop?.plantedAt || 0;
 
     // Offset 5 ms for CPU time
     expect(plantedAt - 5).toBeLessThan(Date.now() - carrotTime * 0.15);
@@ -255,20 +331,25 @@ describe("plant", () => {
   it("yields more crop with a scarecrow", () => {
     const state = plant({
       state: {
-        ...GAME_STATE,
+        ...gameState,
         inventory: {
           "Carrot Seed": new Decimal(1),
           Scarecrow: new Decimal(1),
         },
       },
       action: {
-        type: "landExpansion.item.planted",
+        type: "seed.planted",
         index: 0,
+        expansionIndex: 0,
         item: "Carrot Seed",
       },
     });
 
+    const plots = state.expansions[0].plots;
+
+    expect(plots).toBeDefined();
+
     // Offset 5 ms for CPU time
-    expect(state.plots[0].crop?.amount).toEqual(1.2);
+    expect((plots as LandExpansionPlot[])[0].crop?.amount).toEqual(1.2);
   });
 });

@@ -19,6 +19,7 @@ import { CropReward } from "../CropReward";
 
 interface Props {
   index: number;
+  expansionIndex: number;
   className?: string;
   onboarding?: boolean;
 }
@@ -26,7 +27,7 @@ interface Props {
 const isCropReady = (now: number, plantedAt: number, harvestSeconds: number) =>
   now - plantedAt > harvestSeconds * 1000;
 
-export const Plot: React.FC<Props> = ({ className, index }) => {
+export const Plot: React.FC<Props> = ({ className, index, expansionIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
   const [showPopover, setShowPopover] = useState(false);
@@ -37,8 +38,10 @@ export const Plot: React.FC<Props> = ({ className, index }) => {
   const [reward, setReward] = useState<Reward | null>(null);
   const clickedAt = useRef<number>(0);
 
-  const plot = game.context.state.plots[index];
-  const crop = plot.crop;
+  const expansion = game.context.state.expansions[expansionIndex];
+  const plot = expansion.plots?.[index];
+
+  const crop = plot && plot.crop;
 
   const displayPopover = async () => {
     setShowPopover(true);
@@ -113,8 +116,9 @@ export const Plot: React.FC<Props> = ({ className, index }) => {
     // Plant
     if (!crop) {
       try {
-        gameService.send("landExpansion.item.planted", {
+        gameService.send("seed.planted", {
           index,
+          expansionIndex,
           item: selectedItem,
           analytics,
         });
