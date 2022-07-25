@@ -399,11 +399,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
     ingredients: [
       {
         item: "Wheat",
-        amount: new Decimal(25),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(10),
+        amount: new Decimal(35),
       },
       {
         item: "Egg",
