@@ -20,11 +20,10 @@ interface Props {
  * The next piece of land to expand into
  */
 export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
   const latestLand = gameState.expansions[gameState.expansions.length - 1];
 
-  console.log({ latestLand });
   // Land is still being built
   if (latestLand.readyAt > Date.now()) {
     const origin = EXPANSION_ORIGINS[gameState.expansions.length];
@@ -37,7 +36,7 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
 
   const expand = () => {
     // TODO - actual expand workflow
-    setShowModal(false);
+    setShowBumpkinModal(false);
   };
 
   const nextPosition = EXPANSION_ORIGINS[gameState.expansions.length + 1];
@@ -47,7 +46,7 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
       <MapPlacement x={nextPosition.x} y={nextPosition.y} height={6} width={6}>
         <div
           className="w-full h-full flex items-center justify-center cursor-pointer opacity-60 hover:opacity-100"
-          onClick={() => setShowModal(true)}
+          onClick={() => setShowBumpkinModal(true)}
         >
           <img
             src={expandIcon}
@@ -56,11 +55,11 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
           />
         </div>
       </MapPlacement>
-      <Modal show={showModal} centered>
+      <Modal show={showBumpkinModal} centered>
         <Panel>
           <UpcomingExpansionModal
             gameState={gameState}
-            onClose={() => setShowModal(false)}
+            onClose={() => setShowBumpkinModal(false)}
             onExpand={expand}
           />
         </Panel>
