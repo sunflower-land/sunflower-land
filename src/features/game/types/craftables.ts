@@ -553,7 +553,7 @@ export const SALESMAN_ITEMS: Record<TravellingSalesmanItem, LimitedItem> = {
   "Wicker Man": {
     name: "Wicker Man",
     description:
-      "Join hands and make a chain, the shadow of the Wicker man will rise up again",
+      "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
     disabled: false,
     section: Section["Wicker Man"],
   },
