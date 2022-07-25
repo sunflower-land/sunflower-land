@@ -87,6 +87,7 @@ export const GoblinShovel: React.FC = () => {
     setShowRecoveredShovelModal(false);
   };
 
+  //if the normal shovel hasn't been crafted show rusty instead of normal shovel
   const shovelImage = state.inventory.Shovel?.gte(1) ? shovel : rustyShovel;
   const goblin = state.inventory.Shovel?.gte(1)
     ? shovelGoblin
