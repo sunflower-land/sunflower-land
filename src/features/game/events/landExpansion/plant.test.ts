@@ -31,7 +31,7 @@ describe("plant", () => {
       plant({
         state: {
           ...GAME_STATE,
-          expansions: [{ createdAt: 0 }],
+          expansions: [{ createdAt: 0, readyAt: 0 }],
         },
         action: {
           type: "seed.planted",
