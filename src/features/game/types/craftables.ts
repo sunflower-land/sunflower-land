@@ -78,7 +78,7 @@ export interface LimitedItem extends CraftableItem {
 
 export type MOMEventItem = "Engine Core" | "Observatory";
 
-export type TravellingSalesmanItem = "Wicker Man";
+export type TravellingSalesmanItem = "Wicker Man" | "Golden Bonsai";
 
 export type QuestItem =
   | "Goblin Key"
@@ -122,8 +122,7 @@ export type MarketItem =
   | "Kuebiko"
   | "Golden Cauliflower"
   | "Mysterious Parsnip"
-  | "Carrot Sword"
-  | "Golden Bonsai";
+  | "Carrot Sword";
 
 export type LimitedItemName =
   | BlacksmithItem
@@ -557,6 +556,13 @@ export const SALESMAN_ITEMS: Record<TravellingSalesmanItem, LimitedItem> = {
     disabled: false,
     section: Section["Wicker Man"],
   },
+  "Golden Bonsai": {
+    name: "Golden Bonsai",
+    description: "Goblins love bonsai too",
+    section: Section["Golden Bonsai"],
+    type: LimitedItemType.MarketItem,
+    isPlaceholder: true,
+  },
 };
 
 export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
@@ -750,13 +756,6 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
     name: "Carrot Sword",
     description: "Increase chance of a mutant crop appearing",
     type: LimitedItemType.MarketItem,
-  },
-  "Golden Bonsai": {
-    name: "Golden Bonsai",
-    description: "Goblins love bonsai too",
-    section: Section["Golden Bonsai"],
-    type: LimitedItemType.MarketItem,
-    isPlaceholder: true,
   },
 };
 
