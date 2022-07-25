@@ -327,7 +327,13 @@ export const INITIAL_FARM: GameState = {
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
 
-  expansions: [GENESIS_LAND_EXPANSION, IN_PROGRESS_EXPANSION],
+  expansions: [
+    GENESIS_LAND_EXPANSION,
+    GENESIS_LAND_EXPANSION,
+    GENESIS_LAND_EXPANSION,
+    GENESIS_LAND_EXPANSION,
+    IN_PROGRESS_EXPANSION,
+  ],
 };
 
 export const EMPTY: GameState = {
