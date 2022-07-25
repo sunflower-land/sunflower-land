@@ -266,6 +266,18 @@ export const INITIAL_PLOTS: GameState["plots"] = {
 
 export const GENESIS_LAND_EXPANSION: LandExpansion = {
   createdAt: 0,
+  readyAt: 0,
+
+  shrubs: INITIAL_SHRUBS,
+  pebbles: INITIAL_PEBBLES,
+  terrains: INITIAL_TERRAIN,
+
+  plots: INITIAL_PLOTS,
+};
+
+const IN_PROGRESS_EXPANSION: LandExpansion = {
+  createdAt: Date.now(),
+  readyAt: Date.now() + 6 * 1000,
 
   shrubs: INITIAL_SHRUBS,
   pebbles: INITIAL_PEBBLES,
@@ -276,7 +288,6 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
 
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
-  level: 1,
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
@@ -316,12 +327,11 @@ export const INITIAL_FARM: GameState = {
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
 
-  expansions: [GENESIS_LAND_EXPANSION],
+  expansions: [GENESIS_LAND_EXPANSION, IN_PROGRESS_EXPANSION],
 };
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
-  level: 1,
   fields: {},
   inventory: {
     "Chicken Coop": new Decimal(1),

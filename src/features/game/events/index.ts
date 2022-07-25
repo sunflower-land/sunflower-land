@@ -23,6 +23,7 @@ import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
 import { PebbleStrikeAction, strikePebble } from "./pebbleStrike";
 import { chopShrub, ChopShrubAction } from "./chopShrub";
+import { reveal, RevealAction } from "./revealExpansion";
 
 export type GameEvent =
   | CraftAction
@@ -42,7 +43,8 @@ export type GameEvent =
   | LandExpansionHarvestAction
   | PebbleStrikeAction
   | TradeAction
-  | ChopShrubAction;
+  | ChopShrubAction
+  | RevealAction;
 
 type EventName = Extract<GameEvent, { type: string }>["type"];
 
@@ -76,4 +78,5 @@ export const EVENTS: Handlers = {
   "landExpansion.item.harvested": landExpansionHarvest,
   "pebble.struck": strikePebble,
   "shrub.chopped": chopShrub,
+  "expansion.revealed": reveal,
 };

@@ -14,7 +14,12 @@ import { Bumpkin } from "features/island/bumpkin/Bumpkin";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { LandExpansion } from "../types/game";
 
-const Expansion: React.FC<LandExpansion> = ({
+type ExpansionProps = Pick<
+  LandExpansion,
+  "shrubs" | "plots" | "trees" | "terrains" | "pebbles" | "createdAt"
+>;
+
+const Expansion: React.FC<ExpansionProps> = ({
   shrubs,
   plots,
   trees,
@@ -119,7 +124,7 @@ export const Land: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
-  const { expansions, level } = state;
+  const { expansions } = state;
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -130,7 +135,7 @@ export const Land: React.FC = () => {
   return (
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="relative w-full h-full">
-        <LandBase level={level} />
+        <LandBase expansions={expansions} />
         <UpcomingExpansion gameState={state} />
 
         {expansions.map(

@@ -168,6 +168,7 @@ export type LandExpansionPlot = {
 
 export type LandExpansion = {
   createdAt: number;
+  readyAt: number;
 
   shrubs?: Record<number, LandExpansionTree>;
   pebbles?: Record<number, LandExpansionRock>;
@@ -179,7 +180,6 @@ export type LandExpansion = {
 
 export interface GameState {
   id?: number;
-  level: number;
   balance: Decimal;
   fields: Fields;
 

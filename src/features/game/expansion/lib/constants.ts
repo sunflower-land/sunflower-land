@@ -39,12 +39,16 @@ export const EXPANSION_ORIGINS: Record<number, Coordinates> = {
     y: -3,
   },
   9: {
-    x: 9,
+    x: 3,
     y: -3,
   },
   10: {
-    x: 15,
+    x: 9,
     y: -3,
+  },
+  11: {
+    x: 9,
+    y: 3,
   },
 };
 

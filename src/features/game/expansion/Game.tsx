@@ -92,7 +92,7 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
 
-      <Water level={gameState.context.state.level} />
+      <Water level={gameState.context.state.expansions.length + 1} />
       <Land />
       <Hud />
     </>
