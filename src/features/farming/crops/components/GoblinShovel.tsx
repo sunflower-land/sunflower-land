@@ -3,8 +3,8 @@ import { Context } from "features/game/GameProvider";
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/Modal";
-import goblin from "assets/npcs/goblin_jump_shovel.gif";
-import rustyGoblin from "assets/npcs/goblin_jump_rusty_shovel.gif";
+import shovelGoblin from "assets/npcs/goblin_jump_shovel.gif";
+import rustyShovelGoblin from "assets/npcs/goblin_jump_rusty_shovel.gif";
 import rustyShovel from "assets/tools/rusty_shovel.png";
 import shovel from "assets/tools/shovel.png";
 
@@ -88,9 +88,9 @@ export const GoblinShovel: React.FC = () => {
   };
 
   const shovelImage = state.inventory.Shovel?.gte(1) ? shovel : rustyShovel;
-  const goblinstealerState = state.inventory.Shovel?.gte(1)
-    ? goblin
-    : rustyGoblin;
+  const goblin = state.inventory.Shovel?.gte(1)
+    ? shovelGoblin
+    : rustyShovelGoblin;
 
   return (
     <>
@@ -120,7 +120,7 @@ export const GoblinShovel: React.FC = () => {
 
       {showGoblin && (
         <img
-          src={goblinstealerState}
+          src={goblin}
           onClick={onClickGoblin}
           className="absolute z-10 hover:img-highlight cursor-pointer"
           style={{
