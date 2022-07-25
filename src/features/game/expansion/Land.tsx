@@ -42,7 +42,7 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
               height={height}
               width={width}
             >
-              <Shrub shrubIndex={index} />
+              <Shrub index={index} expansionIndex={expansionIndex} />
             </MapPlacement>
           );
         })}
