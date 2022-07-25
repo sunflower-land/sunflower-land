@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "../../lib/constants";
 import { GameState, LandExpansionPlot } from "../../types/game";
@@ -12,16 +11,10 @@ const GAME_STATE: GameState = {
 };
 
 describe("harvest", () => {
-  let gameState: GameState;
-
-  beforeEach(() => {
-    gameState = cloneDeep(GAME_STATE);
-  });
-
   it("does not harvest on a non-existent expansion", () => {
     expect(() =>
       harvest({
-        state: gameState,
+        state: GAME_STATE,
         action: {
           type: "crop.harvested",
           expansionIndex: -1,
@@ -35,7 +28,7 @@ describe("harvest", () => {
     expect(() =>
       harvest({
         state: {
-          ...gameState,
+          ...GAME_STATE,
           expansions: [{ createdAt: 0 }],
         },
         action: {
@@ -50,7 +43,7 @@ describe("harvest", () => {
   it("does not harvest on non-existent plot", () => {
     expect(() =>
       harvest({
-        state: gameState,
+        state: GAME_STATE,
         action: {
           type: "crop.harvested",
           expansionIndex: 0,
@@ -63,7 +56,7 @@ describe("harvest", () => {
   it("does not harvest on non-integer plot", () => {
     expect(() =>
       harvest({
-        state: gameState,
+        state: GAME_STATE,
         action: {
           type: "crop.harvested",
           expansionIndex: 0,
@@ -76,7 +69,7 @@ describe("harvest", () => {
   it("does not harvest empty air", () => {
     expect(() =>
       harvest({
-        state: gameState,
+        state: GAME_STATE,
         action: {
           type: "crop.harvested",
           expansionIndex: 0,
@@ -87,14 +80,14 @@ describe("harvest", () => {
   });
 
   it("does not harvest if the crop is not ripe", () => {
-    const expansion = gameState.expansions[0];
+    const expansion = GAME_STATE.expansions[0];
     const { plots } = expansion;
     const plot = (plots as Record<number, LandExpansionPlot>)[0];
 
     expect(() =>
       harvest({
         state: {
-          ...gameState,
+          ...GAME_STATE,
           expansions: [
             {
               ...expansion,
@@ -120,13 +113,13 @@ describe("harvest", () => {
   });
 
   it("harvests a crop", () => {
-    const expansion = gameState.expansions[0];
+    const expansion = GAME_STATE.expansions[0];
     const { plots } = expansion;
     const plot = (plots as Record<number, LandExpansionPlot>)[0];
 
     const state = harvest({
       state: {
-        ...gameState,
+        ...GAME_STATE,
         inventory: {
           Radish: new Decimal(42),
           Sunflower: new Decimal(2),
@@ -164,13 +157,13 @@ describe("harvest", () => {
   });
 
   it("harvests a buffed crop amount", () => {
-    const expansion = gameState.expansions[0];
+    const expansion = GAME_STATE.expansions[0];
     const { plots } = expansion;
     const plot = (plots as Record<number, LandExpansionPlot>)[0];
 
     const state = harvest({
       state: {
-        ...gameState,
+        ...GAME_STATE,
         expansions: [
           {
             ...expansion,

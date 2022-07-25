@@ -1,3 +1,4 @@
+import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { CropName } from "../../types/crops";
 import { GameState, Inventory, InventoryItemName } from "../../types/game";
@@ -48,14 +49,19 @@ export function getCropYieldAmount({
 }
 
 export function plant({ state, action, createdAt = Date.now() }: Options) {
-  const expansions = [...state.expansions];
+  const stateCopy = cloneDeep(state);
+  const { expansions } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!expansion) {
     throw new Error("Expansion does not exist");
   }
 
-  const plots = { ...expansion.plots };
+  if (!expansion.plots) {
+    throw new Error("Expansion does not have any plots");
+  }
+
+  const { plots } = expansion;
 
   if (action.index < 0) {
     throw new Error("Plot does not exist");
@@ -83,7 +89,7 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Not a seed");
   }
 
-  const seedCount = state.inventory[action.item] || new Decimal(0);
+  const seedCount = stateCopy.inventory[action.item] || new Decimal(0);
 
   if (seedCount.lessThan(1)) {
     throw new Error("Not enough seeds");
@@ -110,10 +116,10 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
   expansion.plots = plots;
 
   return {
-    ...state,
+    ...stateCopy,
     expansions,
     inventory: {
-      ...state.inventory,
+      ...stateCopy.inventory,
       [action.item]: seedCount?.sub(1),
     },
   } as GameState;

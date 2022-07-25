@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { CROPS } from "../../types/crops";
 import Decimal from "decimal.js-light";
@@ -15,7 +17,8 @@ type Options = {
 };
 
 export function harvest({ state, action, createdAt = Date.now() }: Options) {
-  const expansions = [...state.expansions];
+  const stateCopy = cloneDeep(state);
+  const { expansions } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!expansion) {
@@ -57,13 +60,13 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   // Remove crop data for plot
   delete plot.crop;
 
-  const cropCount = state.inventory[name] || new Decimal(0);
+  const cropCount = stateCopy.inventory[name] || new Decimal(0);
 
   return {
-    ...state,
+    ...stateCopy,
     expansions,
     inventory: {
-      ...state.inventory,
+      ...stateCopy.inventory,
       [name]: cropCount.add(amount),
     },
   } as GameState;

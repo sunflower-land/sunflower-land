@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_FARM } from "../../lib/constants";
@@ -13,16 +12,10 @@ const GAME_STATE: GameState = {
 };
 
 describe("plant", () => {
-  let gameState: GameState;
-
-  beforeEach(() => {
-    gameState = cloneDeep(GAME_STATE);
-  });
-
   it("does not plant on a non existent expansion", () => {
     expect(() =>
       plant({
-        state: gameState,
+        state: GAME_STATE,
         action: {
           type: "seed.planted",
           index: 0,
@@ -37,23 +30,23 @@ describe("plant", () => {
     expect(() =>
       plant({
         state: {
-          ...gameState,
+          ...GAME_STATE,
           expansions: [{ createdAt: 0 }],
         },
         action: {
           type: "seed.planted",
           index: 0,
-          expansionIndex: -1,
+          expansionIndex: 0,
           item: "Sunflower Seed",
         },
       })
-    ).toThrow("Expansion does not exist");
+    ).toThrow("Expansion does not have any plots");
   });
 
   it("does not plant on non-existent plot", () => {
     expect(() =>
       plant({
-        state: gameState,
+        state: GAME_STATE,
         action: {
           type: "seed.planted",
           index: -1,
@@ -67,7 +60,7 @@ describe("plant", () => {
   it("does not plant on non-integer plot", () => {
     expect(() =>
       plant({
-        state: gameState,
+        state: GAME_STATE,
         action: {
           type: "seed.planted",
           index: 1.2,
@@ -81,7 +74,7 @@ describe("plant", () => {
   it("does not plant on non-existent plot", () => {
     expect(() =>
       plant({
-        state: gameState,
+        state: GAME_STATE,
         action: {
           type: "seed.planted",
           index: 200000,
@@ -94,18 +87,20 @@ describe("plant", () => {
 
   it("does not plant if crop already exists", () => {
     const expansions = [...GAME_STATE.expansions];
-    const genesisExpansion = expansions[0];
+    const expansion = expansions[0];
+    const { plots } = expansion;
+    const plot = (plots as Record<number, LandExpansionPlot>)[0];
 
     expect(() =>
       plant({
         state: {
-          ...gameState,
+          ...GAME_STATE,
           expansions: [
             {
-              ...genesisExpansion,
+              ...expansion,
               plots: {
                 0: {
-                  ...genesisExpansion.plots![0],
+                  ...plot,
                   crop: {
                     name: "Sunflower",
                     plantedAt: Date.now(),
@@ -128,7 +123,7 @@ describe("plant", () => {
   it("does not plant an invalid item", () => {
     expect(() =>
       plant({
-        state: gameState,
+        state: GAME_STATE,
         action: {
           type: "seed.planted",
           index: 0,
@@ -142,7 +137,7 @@ describe("plant", () => {
   it("does not plant if user does not have seeds", () => {
     expect(() =>
       plant({
-        state: gameState,
+        state: GAME_STATE,
         action: {
           type: "seed.planted",
           index: 0,
@@ -158,7 +153,7 @@ describe("plant", () => {
 
     const state = plant({
       state: {
-        ...gameState,
+        ...GAME_STATE,
         inventory: {
           "Sunflower Seed": seedsAmount,
         },
@@ -175,7 +170,7 @@ describe("plant", () => {
 
     expect(state.inventory["Sunflower Seed"]).toEqual(seedsAmount.minus(1));
     expect(plots).toBeDefined();
-    expect((plots as LandExpansionPlot[])[0]).toEqual(
+    expect((plots as Record<number, LandExpansionPlot>)[0]).toEqual(
       expect.objectContaining({
         crop: expect.objectContaining({
           name: "Sunflower",
@@ -189,7 +184,7 @@ describe("plant", () => {
   it("plants a normal cauliflower", () => {
     const state = plant({
       state: {
-        ...gameState,
+        ...GAME_STATE,
         inventory: {
           "Cauliflower Seed": new Decimal(1),
         },
@@ -205,7 +200,7 @@ describe("plant", () => {
     const plots = state.expansions[0].plots;
 
     expect(plots).toBeDefined();
-    expect((plots as LandExpansionPlot[])[0].crop).toEqual(
+    expect((plots as Record<number, LandExpansionPlot>)[0].crop).toEqual(
       expect.objectContaining({
         name: "Cauliflower",
         plantedAt: expect.any(Number),
@@ -217,7 +212,7 @@ describe("plant", () => {
   it("plants a special cauliflower", () => {
     const state = plant({
       state: {
-        ...gameState,
+        ...GAME_STATE,
         inventory: {
           "Cauliflower Seed": new Decimal(1),
           "Golden Cauliflower": new Decimal(1),
@@ -234,7 +229,7 @@ describe("plant", () => {
     const plots = state.expansions[0].plots;
 
     expect(plots).toBeDefined();
-    expect((plots as LandExpansionPlot[])[0].crop).toEqual(
+    expect((plots as Record<number, LandExpansionPlot>)[0].crop).toEqual(
       expect.objectContaining({
         name: "Cauliflower",
         plantedAt: expect.any(Number),
@@ -246,7 +241,7 @@ describe("plant", () => {
   it("plants a normal parsnip", () => {
     const state = plant({
       state: {
-        ...gameState,
+        ...GAME_STATE,
         inventory: {
           "Parsnip Seed": new Decimal(1),
         },
@@ -263,7 +258,8 @@ describe("plant", () => {
 
     expect(plots).toBeDefined();
 
-    const plantedAt = (plots as LandExpansionPlot[])[0].crop?.plantedAt || 0;
+    const plantedAt =
+      (plots as Record<number, LandExpansionPlot>)[0].crop?.plantedAt || 0;
 
     // Time should be now (+ a couple ms)
     expect(plantedAt + 10).toBeGreaterThan(Date.now());
@@ -272,7 +268,7 @@ describe("plant", () => {
   it("plants a special parsnip", () => {
     const state = plant({
       state: {
-        ...gameState,
+        ...GAME_STATE,
         inventory: {
           "Parsnip Seed": new Decimal(1),
           "Mysterious Parsnip": new Decimal(1),
@@ -292,7 +288,8 @@ describe("plant", () => {
     const plots = state.expansions[0].plots;
 
     expect(plots).toBeDefined();
-    const plantedAt = (plots as LandExpansionPlot[])[0].crop?.plantedAt || 0;
+    const plantedAt =
+      (plots as Record<number, LandExpansionPlot>)[0].crop?.plantedAt || 0;
 
     // Offset 5 ms for CPU time
     expect(plantedAt - 5).toBeLessThan(Date.now() - parnsipTime * 0.5);
@@ -301,7 +298,7 @@ describe("plant", () => {
   it("grows faster with a Nancy", () => {
     const state = plant({
       state: {
-        ...gameState,
+        ...GAME_STATE,
         inventory: {
           "Carrot Seed": new Decimal(1),
           Nancy: new Decimal(1),
@@ -330,7 +327,7 @@ describe("plant", () => {
   it("yields more crop with a scarecrow", () => {
     const state = plant({
       state: {
-        ...gameState,
+        ...GAME_STATE,
         inventory: {
           "Carrot Seed": new Decimal(1),
           Scarecrow: new Decimal(1),
@@ -349,6 +346,8 @@ describe("plant", () => {
     expect(plots).toBeDefined();
 
     // Offset 5 ms for CPU time
-    expect((plots as LandExpansionPlot[])[0].crop?.amount).toEqual(1.2);
+    expect(
+      (plots as Record<number, LandExpansionPlot>)[0].crop?.amount
+    ).toEqual(1.2);
   });
 });
