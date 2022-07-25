@@ -463,7 +463,7 @@ export const ITEM_DETAILS: Items = {
     image: carrotSword,
   },
   "Golden Bonsai": {
-    ...MARKET_ITEMS["Golden Bonsai"],
+    ...SALESMAN_ITEMS["Golden Bonsai"],
     image: goldenBonsai,
   },
   "Nyon Statue": {
