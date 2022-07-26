@@ -170,7 +170,7 @@ describe("mineStone", () => {
     expect(game.inventory.Stone).toEqual(new Decimal(5));
   });
 
-  it.only("mines stone after waiting", () => {
+  it("mines stone after waiting", () => {
     const payload = {
       state: {
         ...GAME_STATE,
