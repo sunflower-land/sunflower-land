@@ -27,8 +27,8 @@ type Response = {
   payload: Payload;
 };
 
-export async function listRequest(request: Request): Promise<Response> {
-  // Call backend list-trade
+export async function expandRequest(request: Request): Promise<Response> {
+  // Call backend expand-land
   const response = await window.fetch(
     `${API_URL}/expand-land/${request.farmId}`,
     {
@@ -57,7 +57,7 @@ export async function listRequest(request: Request): Promise<Response> {
 }
 
 export async function expand(request: Request) {
-  const response = await listRequest(request);
+  const response = await expandRequest(request);
 
   return await metamask
     .getSessionManager()
