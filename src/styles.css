@@ -308,3 +308,19 @@ img {
     transform: translate(1px, -2px) rotate(-1deg);
   }
 }
+
+.flip {
+  animation: flipping 2s linear infinite;
+}
+
+@keyframes flipping {
+  0% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}

@@ -2,7 +2,7 @@ import { Decimal } from "decimal.js-light";
 import { GameEvent } from "../events";
 
 import { CropName, SeedName } from "./crops";
-import { CraftableName, Food } from "./craftables";
+import { CraftableName, Food, Ingredient } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
@@ -178,6 +178,11 @@ export type LandExpansion = {
   stones?: Record<number, LandExpansionRock>;
 };
 
+interface ExpansionRequirements {
+  sfl: Decimal;
+  resources: Ingredient[];
+  seconds: Decimal;
+}
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -209,6 +214,7 @@ export interface GameState {
   };
 
   expansions: LandExpansion[];
+  expansionRequirements?: ExpansionRequirements;
 }
 
 export interface Context {

@@ -23,6 +23,7 @@ import {
   hasAnnouncements,
 } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
+import { expand } from "../expansion/actions/expand";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -88,7 +89,8 @@ export type BlockchainEvent =
   | WithdrawEvent
   | GameEvent
   | MintEvent
-  | LevelUpEvent;
+  | LevelUpEvent
+  | { type: "EXPAND" };
 
 // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
@@ -124,6 +126,8 @@ export type BlockchainState = {
     | "autosaving"
     | "syncing"
     | "synced"
+    | "expanding"
+    | "expanded"
     | "levelling"
     | "error"
     | "refreshing";
@@ -298,6 +302,9 @@ export function startGame(authContext: Options) {
             },
             RESET: {
               target: "refreshing",
+            },
+            EXPAND: {
+              target: "expanding",
             },
           },
         },
@@ -487,6 +494,60 @@ export function startGame(authContext: Options) {
           },
         },
         //  withdrawn
+        expanding: {
+          invoke: {
+            src: async (context, event) => {
+              // Autosave just in case
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(authContext.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.rawToken as string,
+                  offset: context.offset,
+                  fingerprint: context.fingerprint as string,
+                });
+              }
+
+              const sessionId = await expand({
+                farmId: Number(authContext.farmId),
+                token: authContext.rawToken as string,
+              });
+
+              return {
+                sessionId: sessionId,
+              };
+            },
+            onDone: {
+              target: "expanded",
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+                actions: assign((_) => ({
+                  actions: [],
+                })),
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
+          },
+        },
+        expanded: {
+          on: {
+            REFRESH: {
+              target: "loading",
+            },
+          },
+        },
       },
     },
     {

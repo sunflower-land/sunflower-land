@@ -75,6 +75,19 @@ export interface SunflowerLandSession extends BaseContract {
 
     executed(arg0: string | number[]): NonPayableTransactionObject<boolean>;
 
+    expandLand(
+      signature: string | number[],
+      sessionId: string | number[],
+      nextSessionId: string | number[],
+      deadline: number | string | BN,
+      farmId: number | string | BN,
+      nonce: string,
+      metadata: string,
+      sfl: number | string | BN,
+      resourceIds: (number | string | BN)[],
+      resourceAmounts: (number | string | BN)[]
+    ): NonPayableTransactionObject<void>;
+
     getMaxItemAmounts(
       _ids: (number | string | BN)[]
     ): NonPayableTransactionObject<string[]>;
@@ -187,6 +200,10 @@ export interface SunflowerLandSession extends BaseContract {
 
     setCommunityTreasuy(
       _communityTreasury: string
+    ): NonPayableTransactionObject<void>;
+
+    setLandExpansionMinter(
+      _landExpansionMinter: string
     ): NonPayableTransactionObject<void>;
 
     setLiquify(_liquify: boolean): NonPayableTransactionObject<void>;

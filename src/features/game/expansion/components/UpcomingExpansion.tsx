@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import { Panel } from "components/ui/Panel";
@@ -12,6 +12,8 @@ import { MapPlacement } from "./MapPlacement";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Pontoon } from "./Pontoon";
 
+import { Context } from "features/game/GameProvider";
+
 interface Props {
   gameState: GameState;
 }
@@ -20,7 +22,15 @@ interface Props {
  * The next piece of land to expand into
  */
 export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
+  const { gameService } = useContext(Context);
+
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
+
+  const noExpansionAvailable = gameState.expansionRequirements === undefined;
+
+  if (noExpansionAvailable) {
+    return <></>;
+  }
 
   const latestLand = gameState.expansions[gameState.expansions.length - 1];
 
@@ -34,8 +44,8 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
     );
   }
 
-  const expand = () => {
-    // TODO - actual expand workflow
+  const onExpand = async () => {
+    gameService.send("EXPAND");
     setShowBumpkinModal(false);
   };
 
@@ -60,7 +70,7 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
           <UpcomingExpansionModal
             gameState={gameState}
             onClose={() => setShowBumpkinModal(false)}
-            onExpand={expand}
+            onExpand={onExpand}
           />
         </Panel>
       </Modal>

@@ -91,6 +91,18 @@ export function makeGame(farm: any): GameState {
     terrains: farm.terrains,
     plots: farm.plots,
     expansions: farm.expansions,
+    expansionRequirements: farm.expansionRequirements
+      ? {
+          resources: farm.expansionRequirements.resources.map(
+            (resource: any) => ({
+              item: resource.item,
+              amount: new Decimal(resource.amount),
+            })
+          ),
+          sfl: new Decimal(farm.expansionRequirements.sfl),
+          seconds: new Decimal(farm.expansionRequirements.seconds),
+        }
+      : undefined,
   };
 }
 

@@ -47,6 +47,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   error: true,
   levelling: false,
   refreshing: true,
+  expanded: false,
+  expanding: false,
 };
 
 export const Game: React.FC = () => {
