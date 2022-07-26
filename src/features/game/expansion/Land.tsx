@@ -42,7 +42,7 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
               height={height}
               width={width}
             >
-              <Shrub shrubIndex={index} />
+              <Shrub shrubIndex={index} expansionIndex={expansionIndex} />
             </MapPlacement>
           );
         })}
@@ -59,7 +59,7 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
               height={height}
               width={width}
             >
-              <Pebble pebbleIndex={0} />
+              <Pebble pebbleIndex={index} expansionIndex={expansionIndex} />
             </MapPlacement>
           );
         })}
@@ -93,7 +93,7 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
               height={height}
               width={width}
             >
-              <Plot index={Number(index)} expansionIndex={expansionIndex} />
+              <Plot plotIndex={Number(index)} expansionIndex={expansionIndex} />
             </MapPlacement>
           );
         })}
@@ -110,7 +110,7 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
               height={height}
               width={width}
             >
-              <Tree treeIndex={index} />
+              <Tree treeIndex={Number(index)} expansionIndex={expansionIndex} />
             </MapPlacement>
           );
         })}

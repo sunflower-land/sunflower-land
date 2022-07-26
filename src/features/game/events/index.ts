@@ -18,10 +18,18 @@ import {
   harvest as landExpansionHarvest,
   LandExpansionHarvestAction,
 } from "./landExpansion/harvest";
+import {
+  chop as landExpansionChop,
+  LandExpansionChopAction,
+} from "./landExpansion/chop";
+import {
+  mineStone as landExpansionMineStone,
+  LandExpansionStoneMineAction,
+} from "./landExpansion/stoneMine";
 
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
-import { PebbleStrikeAction, strikePebble } from "./pebbleStrike";
+import { PebbleStrikeAction, strikePebble } from "./landExpansion/pebbleStrike";
 import { chopShrub, ChopShrubAction } from "./chopShrub";
 import { reveal, RevealAction } from "./revealExpansion";
 
@@ -41,6 +49,8 @@ export type GameEvent =
   | TradeAction
   | LandExpansionPlantAction
   | LandExpansionHarvestAction
+  | LandExpansionChopAction
+  | LandExpansionStoneMineAction
   | PebbleStrikeAction
   | TradeAction
   | ChopShrubAction
@@ -79,4 +89,6 @@ export const EVENTS: Handlers = {
   "pebble.struck": strikePebble,
   "shrub.chopped": chopShrub,
   "expansion.revealed": reveal,
+  "timber.chopped": landExpansionChop,
+  "rock.mined": landExpansionMineStone,
 };

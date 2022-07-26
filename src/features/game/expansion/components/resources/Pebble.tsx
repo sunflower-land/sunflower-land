@@ -17,21 +17,23 @@ import { getTimeLeft } from "lib/utils/time";
 import {
   canMine,
   PEBBLE_RECOVERY_TIME,
-} from "features/game/events/pebbleStrike";
+} from "features/game/events/landExpansion/pebbleStrike";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import classNames from "classnames";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { LandExpansionRock } from "features/game/types/game";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 2;
 
 interface Props {
   pebbleIndex: number;
+  expansionIndex: number;
 }
 
-export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
+export const Pebble: React.FC<Props> = ({ pebbleIndex, expansionIndex }) => {
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -47,8 +49,9 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
   const minedGif = useRef<SpriteSheetInstance>();
 
   const [showPebbleTimeLeft, setShowPebbleTimeLeft] = useState(false);
+  const expansion = game.context.state.expansions[expansionIndex];
+  const pebble = expansion.pebbles?.[pebbleIndex] as LandExpansionRock;
 
-  const pebble = game.context.state.pebbles[pebbleIndex];
   // Users will need to refresh to chop the tree again
   const mined = !canMine(pebble);
   const { setToast } = useContext(ToastContext);
@@ -92,9 +95,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
     if (!isPlaying) {
       miningAudio.play();
-
       sparkGif.current?.goToAndPlay(0);
-
       setTouchCount((count) => count + 1);
 
       // On second strike, mine
@@ -103,7 +104,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
         miningFallAudio.play();
         setTouchCount(0);
       }
-    } else return;
+    }
   };
 
   const mine = async () => {
@@ -112,6 +113,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
     try {
       gameService.send("pebble.struck", {
         index: pebbleIndex,
+        expansionIndex,
       });
       setCollecting(true);
       minedGif.current?.goToAndPlay(0);
