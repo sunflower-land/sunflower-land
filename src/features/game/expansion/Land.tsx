@@ -110,7 +110,7 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
               height={height}
               width={width}
             >
-              <Tree treeIndex={index} expansionIndex={expansionIndex} />
+              <Tree treeIndex={Number(index)} expansionIndex={expansionIndex} />
             </MapPlacement>
           );
         })}
