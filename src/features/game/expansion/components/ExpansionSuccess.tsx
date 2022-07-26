@@ -10,8 +10,10 @@ export const ExpansionSuccess: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <img src={goblinJump} className="w-1/2 my-4" />
-      <span className="text-center mb-2">Woohoo! Your land is Ready!</span>
+      <img src={goblinJump} className="w-1/2" />
+      <span className="text-center mb-2">
+        Woohoo! Your expansion is being built!
+      </span>
       <Button onClick={() => gameService.send("REFRESH")}>Continue</Button>
     </div>
   );
