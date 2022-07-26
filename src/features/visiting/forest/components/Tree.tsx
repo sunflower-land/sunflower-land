@@ -19,8 +19,8 @@ export const Tree: React.FC = () => {
             imageRendering: "pixelated",
           }}
           image={shakeSheet}
-          widthFrame={266}
-          heightFrame={168}
+          widthFrame={266 / 4}
+          heightFrame={168 / 4}
           fps={24}
           steps={11}
           direction={`forward`}
