@@ -174,7 +174,7 @@ describe("chop", () => {
     const { expansions } = game;
     const trees = expansions[0].trees;
     const tree1 = (trees as Record<number, LandExpansionTree>)[0];
-    const tree2 = (trees as Record<number, LandExpansionTree>)[0];
+    const tree2 = (trees as Record<number, LandExpansionTree>)[1];
 
     expect(game.inventory.Axe).toEqual(new Decimal(1));
     expect(game.inventory.Wood).toEqual(new Decimal(7));
