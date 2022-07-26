@@ -18,7 +18,6 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import {
-  canChop,
   CHOP_ERRORS,
   getRequiredAxeAmount,
   TREE_RECOVERY_SECONDS,
@@ -29,6 +28,8 @@ import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import { LandExpansionTree } from "features/game/types/game";
+import { canChop } from "features/game/events/landExpansion/chop";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -36,9 +37,10 @@ const tool = "Axe";
 
 interface Props {
   treeIndex: number;
+  expansionIndex: number;
 }
 
-export const Tree: React.FC<Props> = ({ treeIndex }) => {
+export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -57,6 +59,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
 
   const { setToast } = useContext(ToastContext);
+  const expansion = game.context.state.expansions[expansionIndex];
+  const tree = expansion.trees?.[treeIndex] as LandExpansionTree;
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -70,8 +74,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, []);
-
-  const tree = game.context.state.trees[treeIndex];
 
   // Users will need to refresh to chop the tree again
   const chopped = !canChop(tree);
@@ -110,9 +112,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
     const isPlaying = shakeGif.current?.getInfo("isPlaying");
 
-    if (isPlaying) {
-      return;
-    }
+    if (isPlaying) return;
 
     chopAudio.play();
     shakeGif.current?.goToAndPlay(0);
@@ -131,8 +131,9 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setTouchCount(0);
 
     try {
-      gameService.send("tree.chopped", {
+      gameService.send("timber.chopped", {
         index: treeIndex,
+        expansionIndex,
         item: selectedItem,
       });
       setCollecting(true);
@@ -141,13 +142,13 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       displayPopover(
         <div className="flex">
           <img src={wood} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${tree.wood}`}</span>
+          <span className="text-sm text-white text-shadow">{`+${tree.wood.amount}`}</span>
         </div>
       );
 
       setToast({
         icon: wood,
-        content: `+${tree.wood}`,
+        content: `+${tree.wood.amount}`,
       });
 
       await new Promise((res) => setTimeout(res, 2000));
@@ -183,8 +184,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setShowLabel(false);
   };
 
-  const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
-  const percentage = 100 - (timeLeft / TREE_RECOVERY_SECONDS) * 100;
+  const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_SECONDS);
 
   return (
     <div className="relative z-10" style={{ height: "106px" }}>
