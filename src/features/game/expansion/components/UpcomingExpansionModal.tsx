@@ -42,6 +42,23 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   onClose,
   onExpand,
 }) => {
+  //We cannot expand if there is no next expansion
+  if (gameState.expansionRequirements === undefined) {
+    return (
+      <div className="flex flex-col items-center">
+        <span className="mb-2">No expansion available</span>
+        <Button onClick={onClose}>Back</Button>
+      </div>
+    );
+  }
+
+  const hasResources = gameState.expansionRequirements.resources.every(
+    ({ item, amount }) => gameState.inventory[item]?.gte(amount)
+  );
+  const hasBalance = gameState.balance.gte(gameState.expansionRequirements.sfl);
+
+  const canExpand = hasResources && hasBalance;
+
   return (
     <div>
       <img src={nft} className="absolute w-1/3 left-2 -top-28 -z-10" />
@@ -55,8 +72,8 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
       </div>
       <div className="my-2 flex justify-between items-end">
         <Ingredients
-          resources={LAND_REQUIREMENTS.resources}
-          sfl={LAND_REQUIREMENTS.sfl}
+          resources={gameState.expansionRequirements.resources}
+          sfl={gameState.expansionRequirements.sfl}
           gameState={gameState}
         />
         <div className="flex flex-col items-end">
@@ -64,10 +81,12 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
             <img src={hammer} className="w-4 mr-2" />
             <img src={stopwatch} className="w-4 mr-2" />
             <span className="text-sm">
-              {secondsToLongString(LAND_REQUIREMENTS.seconds)}
+              {secondsToLongString(
+                gameState.expansionRequirements.seconds.toNumber()
+              )}
             </span>
           </div>
-          <Button className="w-40" onClick={onExpand}>
+          <Button className="w-40" onClick={onExpand} disabled={!canExpand}>
             Expand
           </Button>
         </div>

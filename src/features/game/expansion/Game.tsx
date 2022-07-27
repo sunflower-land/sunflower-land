@@ -20,6 +20,8 @@ import { Syncing } from "../components/Syncing";
 import { Land } from "./Land";
 import { Hud } from "features/farming/hud/Hud";
 import { Water } from "./components/Water";
+import { Expanding } from "./components/Expanding";
+import { ExpansionSuccess } from "./components/ExpansionSuccess";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -33,6 +35,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   refreshing: true,
   announcing: true,
   notifying: true,
+  expanding: true,
+  expanded: true,
 };
 
 export const Game: React.FC = () => {
@@ -89,6 +93,8 @@ export const Game: React.FC = () => {
           )}
           {gameState.matches("synced") && <Success />}
           {gameState.matches("syncing") && <Syncing />}
+          {gameState.matches("expanded") && <ExpansionSuccess />}
+          {gameState.matches("expanding") && <Expanding />}
         </Panel>
       </Modal>
 
