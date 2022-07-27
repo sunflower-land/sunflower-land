@@ -54,11 +54,11 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
     min: 0,
   });
   const [visible, setIsVisible] = useState<boolean>(false);
-  const [audioMmuted, setAudioMuted] = useState<boolean>(
+  const [audioMuted, setAudioMuted] = useState<boolean>(
     getCachedAudioSetting<boolean>(AudioLocalStorageKeys.audioMuted, false)
   );
   const [musicPaused, setMusicPaused] = useState<boolean>(
-    getCachedAudioSetting<boolean>(AudioLocalStorageKeys.musicPaused, true)
+    getCachedAudioSetting<boolean>(AudioLocalStorageKeys.musicPaused, false)
   );
   const [songIndex, setSongIndex] = useState<number>(0);
   const musicPlayer = useRef<any>(null);
@@ -75,9 +75,9 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
   const song = isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
 
   useEffect(() => {
-    Howler.mute(audioMmuted);
-    cacheAudioSetting(AudioLocalStorageKeys.audioMuted, audioMmuted);
-  }, [audioMmuted]);
+    Howler.mute(audioMuted);
+    cacheAudioSetting(AudioLocalStorageKeys.audioMuted, audioMuted);
+  }, [audioMuted]);
 
   useEffect(() => {
     if (musicPaused) {
@@ -174,9 +174,9 @@ export const AudioPlayer: React.FC<Props> = ({ isFarming }) => {
           visible ? "translate-x-1.5" : ""
         } -left-20 sm:-left-24 bottom-0 transition-all duration-500 ease-in-out w-fit z-50 flex gap-2 align-items-center overflow-hidden`}
       >
-        <Button onClick={() => setAudioMuted(!audioMmuted)}>
+        <Button onClick={() => setAudioMuted(!audioMuted)}>
           <img
-            src={audioMmuted ? volume_down : volume_up}
+            src={audioMuted ? volume_down : volume_up}
             alt="mute/unmute ingame audio"
             className="w-4 h-4 sm:w-6 sm:h-5"
           />
