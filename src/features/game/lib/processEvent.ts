@@ -56,7 +56,10 @@ const maxItems: Inventory = {
  */
 const MAX_SESSION_SFL = 175;
 
-function isValidProgress({ state, onChain }: ProcessEventArgs) {
+function isValidProgress({ state, onChain }: ProcessEventArgs): {
+  valid: boolean;
+  maxedItem?: InventoryItemName | "SFL";
+} {
   const progress = state.balance.sub(onChain.balance);
 
   /**
@@ -64,8 +67,10 @@ function isValidProgress({ state, onChain }: ProcessEventArgs) {
    * Just in case a player gets in a corrupt state and manages to earn extra SFL
    */
   if (progress.gt(MAX_SESSION_SFL)) {
-    return false;
+    return { valid: false, maxedItem: "SFL" };
   }
+
+  let maxedItem: InventoryItemName | undefined = undefined;
 
   // Check inventory amounts
   const validProgress = (
@@ -81,16 +86,17 @@ function isValidProgress({ state, onChain }: ProcessEventArgs) {
     }
 
     if (diff.gt(max)) {
-      console.log({
-        name,
-      });
+      console.log({ name });
+
+      maxedItem = name;
+
       return false;
     }
 
     return true;
   });
 
-  return validProgress;
+  return { valid: validProgress, maxedItem };
 }
 
 type ProcessEventArgs = {
@@ -119,10 +125,20 @@ export function processEvent({
    * Contract enforced SFL caps
    * Just in case a player gets in a corrupt state and manages to earn extra SFL
    */
-  if (!isValidProgress({ state: newState, onChain, action })) {
+  const { valid, maxedItem } = isValidProgress({
+    state: newState,
+    onChain,
+    action,
+  });
+
+  if (!valid && maxedItem) {
+    const maxAmount =
+      maxedItem === "SFL" ? MAX_SESSION_SFL : maxItems[maxedItem]?.toNumber();
+
     alert(
-      "You can only earn 100 SFL in a single session for security reasons. Please sync to the blockchain."
+      `You can only earn ${maxAmount} ${maxedItem} in a single session for security reasons. Please sync to the blockchain.`
     );
+
     throw new Error("Please sync to the blockchain");
   }
 
