@@ -19,6 +19,16 @@ type ExpansionProps = Pick<
   "shrubs" | "plots" | "trees" | "terrains" | "pebbles" | "createdAt"
 >;
 
+const LAND_SIZE = 6;
+
+const EXPANSION_PLACEMENT: Record<number, Record<"x" | "y", number>> = {
+  0: { x: 0 * LAND_SIZE, y: 0 * LAND_SIZE },
+  1: { x: 1 * LAND_SIZE, y: 0 * LAND_SIZE },
+  2: { x: 1 * LAND_SIZE, y: 1 * LAND_SIZE },
+  3: { x: 0 * LAND_SIZE, y: 1 * LAND_SIZE },
+  4: { x: -1 * LAND_SIZE, y: 1 * LAND_SIZE },
+};
+
 const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
   shrubs,
   plots,
@@ -28,6 +38,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
   createdAt,
   expansionIndex,
 }) => {
+  const { x: xOffset, y: yOffset } = EXPANSION_PLACEMENT[expansionIndex];
+
   return (
     <>
       {shrubs &&
@@ -37,8 +49,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
           return (
             <MapPlacement
               key={`${createdAt}-shrub-${index}`}
-              x={x}
-              y={y}
+              x={x + xOffset}
+              y={y + yOffset}
               height={height}
               width={width}
             >
@@ -54,8 +66,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
           return (
             <MapPlacement
               key={`${createdAt}-pebble-${index}`}
-              x={x}
-              y={y}
+              x={x + xOffset}
+              y={y + yOffset}
               height={height}
               width={width}
             >
@@ -71,8 +83,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
           return (
             <MapPlacement
               key={`${createdAt}-terrain-${index}`}
-              x={x}
-              y={y}
+              x={x + xOffset}
+              y={y + yOffset}
               height={height}
               width={width}
             >
@@ -88,8 +100,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
           return (
             <MapPlacement
               key={`${createdAt}-plot-${index}`}
-              x={x}
-              y={y}
+              x={x + xOffset}
+              y={y + yOffset}
               height={height}
               width={width}
             >
@@ -105,8 +117,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
           return (
             <MapPlacement
               key={`${createdAt}-tree-${index}`}
-              x={x}
-              y={y}
+              x={x + xOffset}
+              y={y + yOffset}
               height={height}
               width={width}
             >
