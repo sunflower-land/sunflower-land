@@ -27,10 +27,10 @@ const maxItems: Inventory = {
   // Stock limits
   ...INITIAL_STOCK,
 
-  Gold: new Decimal("100"),
-  Iron: new Decimal("500"),
-  Stone: new Decimal("600"),
-  Wood: new Decimal("1000"),
+  Gold: new Decimal("90"),
+  Iron: new Decimal("400"),
+  Stone: new Decimal("500"),
+  Wood: new Decimal("500"),
 
   // Max of 1 food item
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(
