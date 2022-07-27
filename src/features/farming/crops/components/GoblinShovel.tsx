@@ -3,7 +3,8 @@ import { Context } from "features/game/GameProvider";
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/Modal";
-import goblin from "assets/npcs/goblin_jump_shovel.gif";
+import rustyGoblin from "assets/npcs/goblin_jump_rusty_shovel.gif";
+import shovelGoblin from "assets/npcs/goblin_jump_shovel.gif";
 import rustyShovel from "assets/tools/rusty_shovel.png";
 import shovel from "assets/tools/shovel.png";
 
@@ -86,6 +87,8 @@ export const GoblinShovel: React.FC = () => {
     setShowRecoveredShovelModal(false);
   };
 
+  //if the normal shovel hasn't been crafted show rusty shovel instead of normal shovel
+  const goblin = state.inventory.Shovel?.gte(1) ? shovelGoblin : rustyGoblin;
   const shovelImage = state.inventory.Shovel?.gte(1) ? shovel : rustyShovel;
 
   return (
