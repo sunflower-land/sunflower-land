@@ -111,7 +111,6 @@ export const Game: React.FC = () => {
           )}
           {gameState.matches("synced") && <Success />}
           {gameState.matches("syncing") && <Syncing />}
-          {/* Read */}
           {gameState.matches("needSync") && <MaxItems />}
         </Panel>
       </Modal>
