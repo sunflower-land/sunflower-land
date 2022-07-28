@@ -677,8 +677,8 @@ export const Decorations: React.FC<Props> = ({ state }) => (
     {state.inventory["Wicker Man"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.69}px`,
-          left: `${GRID_WIDTH_PX * 81}px`,
+          width: `${GRID_WIDTH_PX * 1.2}px`,
+          left: `${GRID_WIDTH_PX * 82}px`,
           top: `${GRID_WIDTH_PX * 21}px`,
         }}
         id={Section["Wicker Man"]}
