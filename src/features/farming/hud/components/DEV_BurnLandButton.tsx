@@ -45,7 +45,7 @@ const GAME_BURN_ABI: AbiItem = {
   ],
 };
 
-const loadExpansions = async (web3: Web3, address: string) => {
+const loadBalance = async (web3: Web3, address: string) => {
   const balanceOf = web3.eth.abi.encodeFunctionCall(BALACE_OF_ABI, [address]);
 
   const balance = await web3.eth.call({
@@ -53,6 +53,10 @@ const loadExpansions = async (web3: Web3, address: string) => {
     data: balanceOf,
   });
 
+  return parseInt(balance);
+};
+
+const loadTokenIds = async (web3: Web3, address: string, balance: number) => {
   const tokenOfOwnerByIndex = (index: number) =>
     web3.eth.abi.encodeFunctionCall(TOKEN_OF_OWNER_BY_INDEX_ABI, [
       address,
@@ -60,7 +64,7 @@ const loadExpansions = async (web3: Web3, address: string) => {
     ]);
 
   const tokenIds = await Promise.all(
-    Array.from({ length: Number(balance) }, (_, i) =>
+    Array.from({ length: balance }, (_, i) =>
       web3.eth.call({
         to: LAND_EXPANSION_ADDRESS,
         data: tokenOfOwnerByIndex(i),
@@ -69,6 +73,42 @@ const loadExpansions = async (web3: Web3, address: string) => {
   );
 
   return tokenIds.map(Number);
+};
+
+const loadExpansions = async (web3: Web3, address: string) => {
+  const balance = await loadBalance(web3, address);
+  const tokenIds = await loadTokenIds(web3, address, balance);
+
+  return tokenIds;
+};
+
+const burnTokens = async (web3: Web3, tokens: Record<number, boolean>) => {
+  const account = (await web3.eth.getAccounts())[0];
+
+  const batch = new web3.BatchRequest();
+
+  const checkedTokens = Object.entries(tokens).filter(
+    ([id, checked]) => checked
+  );
+
+  let resolved = 0;
+
+  await new Promise((reject, resolve) => {
+    checkedTokens.forEach(([id]) =>
+      batch.add(
+        (web3.eth.sendTransaction as any).request(
+          {
+            from: account,
+            to: LAND_EXPANSION_ADDRESS,
+            data: web3.eth.abi.encodeFunctionCall(GAME_BURN_ABI, [id]),
+          },
+          () => ++resolved === checkedTokens.length && resolve()
+        )
+      )
+    );
+
+    batch.execute();
+  });
 };
 
 export const DEV_BurnLandButton: React.FC = () => {
@@ -87,13 +127,18 @@ export const DEV_BurnLandButton: React.FC = () => {
   useEffect(() => {
     const web3 = new Web3((window as any).ethereum);
 
-    if (showBurnForm) {
-      (async () => {
+    if (showBurnForm === true) {
+      const fetchTokenIds = async () => {
         const tokenIds = await loadExpansions(web3, String(address));
-        setTokens(
-          tokenIds.reduce((tokens, id) => ({ ...tokens, [id]: false }), {})
+        const tokens = tokenIds.reduce(
+          (tokens, id) => ({ ...tokens, [id]: false }),
+          {}
         );
-      })();
+
+        setTokens(tokens);
+      };
+
+      fetchTokenIds();
     } else {
       setTokens(undefined);
     }
@@ -101,32 +146,8 @@ export const DEV_BurnLandButton: React.FC = () => {
 
   const burn = async (tokens: Record<number, boolean>) => {
     const web3 = new Web3((window as any).ethereum);
-    const account = (await web3.eth.getAccounts())[0];
 
-    const batch = new web3.BatchRequest();
-
-    const checkedTokens = Object.entries(tokens).filter(
-      ([id, checked]) => checked
-    );
-
-    let resolved = 0;
-
-    await new Promise((reject, resolve) => {
-      checkedTokens.forEach(([id]) =>
-        batch.add(
-          (web3.eth.sendTransaction as any).request(
-            {
-              from: account,
-              to: LAND_EXPANSION_ADDRESS,
-              data: web3.eth.abi.encodeFunctionCall(GAME_BURN_ABI, [id]),
-            },
-            () => ++resolved === checkedTokens.length && resolve()
-          )
-        )
-      );
-
-      batch.execute();
-    });
+    await burnTokens(web3, tokens);
 
     setShowBurnForm(false);
 
