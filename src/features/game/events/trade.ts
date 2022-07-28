@@ -7,7 +7,7 @@ export type TradeAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: TradeAction;
   createdAt?: number;
 };

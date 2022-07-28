@@ -18,7 +18,7 @@ export type ChopShrubAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: ChopShrubAction;
   createdAt?: number;
 };

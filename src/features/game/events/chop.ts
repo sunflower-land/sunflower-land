@@ -57,7 +57,7 @@ export type ChopAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: ChopAction;
   createdAt?: number;
 };

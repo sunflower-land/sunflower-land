@@ -100,7 +100,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
       ...events,
       [eventName]: [
         {
-          target: "needSync",
+          target: "hoarding",
           cond: (context: Context, event: GameEvent) => {
             const { valid } = checkProgress({
               state: context.state as GameState,
@@ -154,7 +154,7 @@ export type BlockchainState = {
     | "levelling"
     | "error"
     | "refreshing"
-    | "needSync";
+    | "hoarding";
   context: Context;
 };
 
@@ -572,7 +572,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        needSync: {
+        hoarding: {
           on: {
             SYNC: {
               target: "syncing",

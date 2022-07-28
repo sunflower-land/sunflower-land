@@ -29,7 +29,7 @@ export function isSeed(crop: InventoryItemName): crop is SeedName {
 }
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: PlantAction;
   createdAt?: number;
 };

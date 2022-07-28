@@ -11,7 +11,7 @@ import { CONFIG } from "lib/config";
 import { ITEM_DETAILS } from "../types/images";
 import { InventoryItemName } from "../types/game";
 
-export const MaxItems: React.FC = () => {
+export const Hoarding: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -29,7 +29,7 @@ export const MaxItems: React.FC = () => {
     const indefiniteArticle = startsWithVowel ? "an" : "a";
     const item = maxedItem === "SFL" ? maxedItem : maxedItem.toLowerCase();
 
-    return `Have you become ${indefiniteArticle} ${item} horder?!`;
+    return `Are you ${indefiniteArticle} ${item} horder?!`;
   };
 
   const maxedItemImage =

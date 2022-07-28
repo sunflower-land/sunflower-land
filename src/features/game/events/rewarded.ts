@@ -9,7 +9,7 @@ export type OpenRewardAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: OpenRewardAction;
   createdAt?: number;
 };

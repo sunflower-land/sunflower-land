@@ -8,7 +8,7 @@ export type StoneMineAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: StoneMineAction;
   createdAt?: number;
 };

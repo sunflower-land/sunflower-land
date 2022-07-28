@@ -51,7 +51,7 @@ export function getBuyPrice(item: CraftableItem, inventory: Inventory) {
 }
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: CraftAction;
 };
 

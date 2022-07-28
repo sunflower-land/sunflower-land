@@ -9,7 +9,7 @@ export type LandExpansionStoneMineAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: LandExpansionStoneMineAction;
   createdAt?: number;
 };

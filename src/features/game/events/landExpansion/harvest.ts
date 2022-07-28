@@ -11,7 +11,7 @@ export type LandExpansionHarvestAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: LandExpansionHarvestAction;
   createdAt?: number;
 };

@@ -22,7 +22,7 @@ export type RemoveCropAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: RemoveCropAction;
   createdAt?: number;
 };

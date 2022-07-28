@@ -12,7 +12,7 @@ export type LandExpansionPlantAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: LandExpansionPlantAction;
   createdAt?: number;
 };

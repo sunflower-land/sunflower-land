@@ -9,7 +9,7 @@ export type CollectAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: CollectAction;
   createdAt?: number;
 };

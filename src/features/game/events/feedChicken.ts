@@ -12,7 +12,7 @@ export type FeedAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: FeedAction;
   createdAt?: number;
 };

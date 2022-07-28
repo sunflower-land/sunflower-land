@@ -20,7 +20,7 @@ export type SellableItem = {
 const SELLABLE = { ...CROPS(), ...CAKES() };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: SellAction;
 };
 export function sell({ state, action }: Options): GameState {

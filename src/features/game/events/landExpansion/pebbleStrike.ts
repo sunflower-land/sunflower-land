@@ -9,7 +9,7 @@ export type PebbleStrikeAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: PebbleStrikeAction;
   createdAt?: number;
 };

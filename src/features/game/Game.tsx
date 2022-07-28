@@ -34,7 +34,7 @@ import { Refreshing } from "features/auth/components/Refreshing";
 import { GoblinShovel } from "features/farming/crops/components/GoblinShovel";
 import { Announcements } from "features/announcements/Announcement";
 import { Notifications } from "./components/Notifications";
-import { MaxItems } from "./components/MaxItems";
+import { Hoarding } from "./components/Hoarding";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -50,7 +50,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   refreshing: true,
   expanded: false,
   expanding: false,
-  needSync: true,
+  hoarding: true,
 };
 
 export const Game: React.FC = () => {
@@ -111,7 +111,7 @@ export const Game: React.FC = () => {
           )}
           {gameState.matches("synced") && <Success />}
           {gameState.matches("syncing") && <Syncing />}
-          {gameState.matches("needSync") && <MaxItems />}
+          {gameState.matches("hoarding") && <Hoarding />}
         </Panel>
       </Modal>
       {/* check local storage and show modal if not read */}

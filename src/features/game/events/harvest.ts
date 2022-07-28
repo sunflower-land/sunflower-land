@@ -15,7 +15,7 @@ export type HarvestAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: HarvestAction;
   createdAt?: number;
 };

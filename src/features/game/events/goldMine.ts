@@ -8,7 +8,7 @@ export type GoldMineAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: GoldMineAction;
   createdAt?: number;
 };
