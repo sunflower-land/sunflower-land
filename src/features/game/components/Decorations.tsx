@@ -46,7 +46,7 @@ import observatory from "assets/nfts/mom/observatory.gif";
 
 import golemSheet from "assets/nfts/rock_golem.png";
 
-import { GRID_WIDTH_PX } from "../lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
 import { GameState, Inventory } from "../types/game";
@@ -677,7 +677,7 @@ export const Decorations: React.FC<Props> = ({ state }) => (
     {state.inventory["Wicker Man"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.2}px`,
+          width: `${PIXEL_SCALE * 19}px`,
           left: `${GRID_WIDTH_PX * 82}px`,
           top: `${GRID_WIDTH_PX * 21}px`,
         }}
