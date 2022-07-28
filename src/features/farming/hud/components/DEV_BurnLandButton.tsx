@@ -186,7 +186,7 @@ export const DEV_BurnLandButton: React.FC = () => {
               <hr />
               <hr />
               {Object.entries(tokens)
-                .sort(([id1], [id2]) => parseInt(id1) - parseInt(id2))
+                .sort(([id1], [id2]) => parseInt(id2) - parseInt(id1))
                 .map(([id, checked], i) => (
                   <div key={`checkbox-${String(i)}`} className="flex">
                     <input
