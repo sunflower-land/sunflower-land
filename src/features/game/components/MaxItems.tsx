@@ -13,14 +13,14 @@ import { InventoryItemName } from "../types/game";
 
 export const MaxItems: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [gameState, send] = useActor(gameService);
+  const [gameState] = useActor(gameService);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const maxedItem = gameState.context.maxedItem as InventoryItemName | "SFL";
 
   const onCaptchaSolved = async (captcha: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
 
-    send("SYNC", { captcha });
+    gameService.send("SYNC", { captcha });
   };
 
   const makeTitle = () => {
@@ -43,7 +43,7 @@ export const MaxItems: React.FC = () => {
             <span className="text-center text-sm sm:text-base">
               {makeTitle()}
             </span>
-            <img src={maxedItemImage} className="h-10 mt-2 mb-3" />
+            <img src={maxedItemImage} className="h-12 mt-2 mb-3" />
             <p className="text-xs sm:text-sm mb-3">
               {`I don't want to alarm you but we just heard that the Goblins have
               noticed that you are hording a lot of this resource off chain.`}
@@ -52,6 +52,15 @@ export const MaxItems: React.FC = () => {
               {`Word is that they're planning a raid as we speak so we recommend
               you secure your progress on chain before continuing.`}
             </p>
+            <div className="text-xs underline my-2 w-full">
+              <a
+                href="https://docs.sunflower-land.com/fundamentals/syncing-on-chain"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Read more
+              </a>
+            </div>
           </div>
           <Button onClick={() => setShowCaptcha(true)}>Sync</Button>
         </div>
