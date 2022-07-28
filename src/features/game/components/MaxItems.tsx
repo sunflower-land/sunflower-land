@@ -69,7 +69,7 @@ export const MaxItems: React.FC = () => {
           <img
             src={close}
             className="h-6 top-3 right-4 absolute cursor-pointer"
-            alt="Close Logout Confirmation Modal"
+            alt="Close Captcha Modal"
             onClick={() => setShowCaptcha(false)}
           />
           <ReCAPTCHA

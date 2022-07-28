@@ -110,7 +110,6 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 
             return !valid;
           },
-          // If progress is invalid then assign the max item to context
           actions: assign((context: Context, event: GameEvent) => {
             const { maxedItem } = checkProgress({
               state: context.state as GameState,
