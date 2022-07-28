@@ -14,6 +14,7 @@ export type SellAction = {
 export type SellableName = CropName | Cake;
 
 export type SellableItem = {
+  name: SellableName;
   sellPrice: Decimal;
 };
 
