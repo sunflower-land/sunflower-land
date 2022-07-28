@@ -21,6 +21,7 @@ import {
   QUEST_ITEMS,
   MUTANT_CHICKENS,
   SHOVELS,
+  SALESMAN_ITEMS,
 } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 
@@ -66,6 +67,7 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
       ...FLAGS,
       ...ROCKET_ITEMS,
       ...MUTANT_CHICKENS,
+      ...SALESMAN_ITEMS,
     },
   },
   "Quest Items": {

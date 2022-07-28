@@ -23,7 +23,8 @@ export type CraftableName =
   | Food
   | Animal
   | Flag
-  | Shovel;
+  | Shovel
+  | TravellingSalesmanItem;
 
 export interface Craftable {
   name: CraftableName;
@@ -77,6 +78,8 @@ export interface LimitedItem extends CraftableItem {
 
 export type MOMEventItem = "Engine Core" | "Observatory";
 
+export type TravellingSalesmanItem = "Wicker Man" | "Golden Bonsai";
+
 export type QuestItem =
   | "Goblin Key"
   | "Sunflower Key"
@@ -119,8 +122,7 @@ export type MarketItem =
   | "Kuebiko"
   | "Golden Cauliflower"
   | "Mysterious Parsnip"
-  | "Carrot Sword"
-  | "Golden Bonsai";
+  | "Carrot Sword";
 
 export type LimitedItemName =
   | BlacksmithItem
@@ -542,6 +544,23 @@ export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
   },
 };
 
+export const SALESMAN_ITEMS: Record<TravellingSalesmanItem, LimitedItem> = {
+  "Wicker Man": {
+    name: "Wicker Man",
+    description:
+      "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
+    disabled: false,
+    section: Section["Wicker Man"],
+  },
+  "Golden Bonsai": {
+    name: "Golden Bonsai",
+    description: "Goblins love bonsai too",
+    section: Section["Golden Bonsai"],
+    type: LimitedItemType.MarketItem,
+    isPlaceholder: true,
+  },
+};
+
 export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
   "Engine Core": {
     name: "Engine Core",
@@ -734,13 +753,6 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
     description: "Increase chance of a mutant crop appearing",
     type: LimitedItemType.MarketItem,
   },
-  "Golden Bonsai": {
-    name: "Golden Bonsai",
-    description: "Goblins love bonsai too",
-    section: Section["Golden Bonsai"],
-    type: LimitedItemType.MarketItem,
-    isPlaceholder: true,
-  },
 };
 
 export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
@@ -826,6 +838,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...QUEST_ITEMS,
   ...MUTANT_CHICKENS,
   ...SHOVELS,
+  ...SALESMAN_ITEMS,
 });
 
 /**
@@ -843,6 +856,7 @@ export const LIMITED_ITEMS = {
   ...ROCKET_ITEMS,
   ...QUEST_ITEMS,
   ...MUTANT_CHICKENS,
+  ...SALESMAN_ITEMS,
 };
 
 export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);
