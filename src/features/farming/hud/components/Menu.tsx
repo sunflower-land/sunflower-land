@@ -28,6 +28,7 @@ import goblin from "assets/npcs/goblin_head.png";
 
 import { useIsNewFarm } from "../lib/onboarding";
 import { GoblinVillageModal } from "features/farming/town/components/GoblinVillageModal";
+import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
 
 /**
  * TODO:
@@ -149,6 +150,7 @@ export const Menu = () => {
             )}
           </Button>
         </div>
+        {CONFIG.NETWORK === "mumbai" && <DEV_BurnLandButton />}
         <div
           className={`transition-all ease duration-200 ${
             menuOpen ? "max-h-100" : "max-h-0"
