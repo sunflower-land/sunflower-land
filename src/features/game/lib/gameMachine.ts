@@ -1,11 +1,10 @@
 import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
 import { EVENTS, GameEvent } from "../events";
-import { processEvent } from "./processEvent";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
 
-import { GameState } from "../types/game";
+import { GameState, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { INITIAL_FARM, EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -24,6 +23,7 @@ import {
 } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { expand } from "../expansion/actions/expand";
+import { checkProgress, processEvent } from "./processEvent";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -40,6 +40,7 @@ export interface Context {
   fingerprint?: string;
   itemsMintedAt?: MintedAt;
   notifications?: OnChainEvent[];
+  maxedItem?: InventoryItemName | "SFL";
 }
 
 type MintEvent = {
@@ -92,27 +93,50 @@ export type BlockchainEvent =
   | LevelUpEvent
   | { type: "EXPAND" };
 
-// For each game event, convert it to an XState event + handler
+// // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   Object.keys(EVENTS).reduce(
     (events, eventName) => ({
       ...events,
-      [eventName]: {
-        actions: assign((context: Context, event: GameEvent) => ({
-          state: processEvent({
-            state: context.state as GameState,
-            action: event,
-            onChain: context.onChain as GameState,
-          }) as GameState,
-          actions: [
-            ...context.actions,
-            {
-              ...event,
-              createdAt: new Date(),
-            },
-          ],
-        })),
-      },
+      [eventName]: [
+        {
+          target: "needSync",
+          cond: (context: Context, event: GameEvent) => {
+            const { valid } = checkProgress({
+              state: context.state as GameState,
+              action: event,
+              onChain: context.onChain as GameState,
+            });
+
+            return !valid;
+          },
+          // If progress is invalid then assign the max item to context
+          actions: assign((context: Context, event: GameEvent) => {
+            const { maxedItem } = checkProgress({
+              state: context.state as GameState,
+              action: event,
+              onChain: context.onChain as GameState,
+            });
+
+            return { maxedItem };
+          }),
+        },
+        {
+          actions: assign((context: Context, event: GameEvent) => ({
+            state: processEvent({
+              state: context.state as GameState,
+              action: event,
+            }) as GameState,
+            actions: [
+              ...context.actions,
+              {
+                ...event,
+                createdAt: new Date(),
+              },
+            ],
+          })),
+        },
+      ],
     }),
     {}
   );
@@ -130,7 +154,8 @@ export type BlockchainState = {
     | "expanded"
     | "levelling"
     | "error"
-    | "refreshing";
+    | "refreshing"
+    | "needSync";
   context: Context;
 };
 
@@ -545,6 +570,13 @@ export function startGame(authContext: Options) {
           on: {
             REFRESH: {
               target: "loading",
+            },
+          },
+        },
+        needSync: {
+          on: {
+            SYNC: {
+              target: "syncing",
             },
           },
         },
