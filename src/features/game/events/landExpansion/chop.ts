@@ -20,7 +20,7 @@ export type LandExpansionChopAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: LandExpansionChopAction;
   createdAt?: number;
 };

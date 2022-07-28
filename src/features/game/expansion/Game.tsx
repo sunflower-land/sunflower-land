@@ -37,6 +37,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   notifying: true,
   expanding: true,
   expanded: true,
+  hoarding: true,
 };
 
 export const Game: React.FC = () => {

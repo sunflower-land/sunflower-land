@@ -5,7 +5,7 @@ export type RevealAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: RevealAction;
   createdAt?: number;
 };
