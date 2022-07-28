@@ -185,26 +185,28 @@ export const DEV_BurnLandButton: React.FC = () => {
               </div>
               <hr />
               <hr />
-              {Object.entries(tokens).map(([id, checked], i) => (
-                <div key={`checkbox-${String(i)}`} className="flex">
-                  <input
-                    type="checkbox"
-                    id={String(id)}
-                    name="token"
-                    value={id}
-                    checked={checked}
-                    onChange={() =>
-                      setTokens({
-                        ...tokens,
-                        [Number(id)]: !tokens[Number(id)],
-                      })
-                    }
-                  />
-                  <label htmlFor={String(id)} className="text-xss">
-                    Level {i + 2}
-                  </label>
-                </div>
-              ))}
+              {Object.entries(tokens)
+                .sort(([id1], [id2]) => parseInt(id1) - parseInt(id2))
+                .map(([id, checked], i) => (
+                  <div key={`checkbox-${String(i)}`} className="flex">
+                    <input
+                      type="checkbox"
+                      id={String(id)}
+                      name="token"
+                      value={id}
+                      checked={checked}
+                      onChange={() =>
+                        setTokens({
+                          ...tokens,
+                          [Number(id)]: !tokens[Number(id)],
+                        })
+                      }
+                    />
+                    <label htmlFor={String(id)} className="text-xss">
+                      Level {i + 2}
+                    </label>
+                  </div>
+                ))}
               <hr />
               <Button onClick={() => burn(tokens)}>Burn!</Button>
             </>
