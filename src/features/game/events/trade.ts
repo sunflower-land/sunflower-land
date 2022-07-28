@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../types/game";
 
 export type TradeAction = {
@@ -31,19 +32,21 @@ export function hasAlreadyTraded(state: GameState) {
 }
 
 export function trade({ state }: Options): GameState {
-  const tradeOffer = state.tradeOffer;
+  const stateCopy = cloneDeep(state);
+  const tradeOffer = stateCopy.tradeOffer;
+
   if (!tradeOffer) {
     throw new Error("Nothing to trade");
   }
 
   // Check if they have traded the current offer
-  if (hasAlreadyTraded(state)) {
+  if (hasAlreadyTraded(stateCopy)) {
     throw new Error("Already traded");
   }
 
   const subtractedInventory = tradeOffer.ingredients.reduce(
     (inventory, ingredient) => {
-      const count = state.inventory[ingredient.name] || new Decimal(0);
+      const count = stateCopy.inventory[ingredient.name] || new Decimal(0);
 
       if (count.lessThan(ingredient.amount)) {
         throw new Error(`Insufficient ingredient: ${ingredient.name}`);
@@ -54,13 +57,13 @@ export function trade({ state }: Options): GameState {
         [ingredient.name]: count.sub(ingredient.amount),
       };
     },
-    state.inventory
+    stateCopy.inventory
   );
 
-  const oldAmount = state.inventory[tradeOffer.name] || new Decimal(0);
+  const oldAmount = stateCopy.inventory[tradeOffer.name] || new Decimal(0);
 
   return {
-    ...state,
+    ...stateCopy,
     inventory: {
       ...subtractedInventory,
       [tradeOffer.name]: oldAmount.add(tradeOffer.amount),

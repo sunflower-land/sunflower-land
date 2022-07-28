@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import cloneDeep from "lodash.clonedeep";
 import {
   CHICKEN_TIME_TO_EGG,
   MUTANT_CHICKEN_BOOST_AMOUNT,
@@ -58,9 +59,13 @@ export function feedChicken({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const maxChickens = getMaxChickens(state.inventory);
+  const stateCopy = cloneDeep(state);
+  const maxChickens = getMaxChickens(stateCopy.inventory);
 
-  if (!state.inventory?.Chicken || state.inventory.Chicken?.lt(action.index)) {
+  if (
+    !stateCopy.inventory?.Chicken ||
+    stateCopy.inventory.Chicken?.lt(action.index)
+  ) {
     throw new Error("This chicken does not exist");
   }
 
@@ -68,7 +73,7 @@ export function feedChicken({
     throw new Error("Cannot have more than 15 chickens");
   }
 
-  const chickens = state.chickens || {};
+  const chickens = stateCopy.chickens || {};
 
   if (chickens[action.index]) {
     console.log({ fedAt: chickens[action.index].fedAt, createdAt });
@@ -81,22 +86,25 @@ export function feedChicken({
     throw new Error("This chicken is not hungry");
   }
 
-  const wheatRequired = getWheatRequiredToFeed(state.inventory);
+  const wheatRequired = getWheatRequiredToFeed(stateCopy.inventory);
 
-  if (!state.inventory.Wheat || state.inventory.Wheat.lt(wheatRequired)) {
+  if (
+    !stateCopy.inventory.Wheat ||
+    stateCopy.inventory.Wheat.lt(wheatRequired)
+  ) {
     throw new Error("No wheat to feed chickens");
   }
 
   return {
-    ...state,
+    ...stateCopy,
     inventory: {
-      ...state.inventory,
-      Wheat: state.inventory.Wheat.minus(wheatRequired),
+      ...stateCopy.inventory,
+      Wheat: stateCopy.inventory.Wheat.minus(wheatRequired),
     },
     chickens: {
       ...chickens,
       [action.index]: {
-        fedAt: makeFedAt(state.inventory, createdAt),
+        fedAt: makeFedAt(stateCopy.inventory, createdAt),
         multiplier: 1,
       },
     },

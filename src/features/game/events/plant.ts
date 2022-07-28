@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
+import cloneDeep from "lodash.clonedeep";
 import { CropName, CROPS, SeedName } from "../types/crops";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 
@@ -111,7 +112,8 @@ function getMultiplier({ crop, inventory }: GetFieldArgs): number {
 }
 
 export function plant({ state, action, createdAt = Date.now() }: Options) {
-  const fields = { ...state.fields };
+  const stateCopy = cloneDeep(state);
+  const { fields } = stateCopy;
 
   if (action.index < 0) {
     throw new Error("Field does not exist");
@@ -124,7 +126,7 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
   if (
     action.index >= 5 &&
     action.index <= 9 &&
-    !state.inventory["Pumpkin Soup"]
+    !stateCopy.inventory["Pumpkin Soup"]
   ) {
     throw new Error("Goblin land!");
   }
@@ -132,7 +134,7 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
   if (
     action.index >= 10 &&
     action.index <= 15 &&
-    !state.inventory["Sauerkraut"]
+    !stateCopy.inventory["Sauerkraut"]
   ) {
     throw new Error("Goblin land!");
   }
@@ -140,7 +142,7 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
   if (
     action.index >= 16 &&
     action.index <= 21 &&
-    !state.inventory["Roasted Cauliflower"]
+    !stateCopy.inventory["Roasted Cauliflower"]
   ) {
     throw new Error("Goblin land!");
   }
@@ -162,7 +164,7 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Not a seed");
   }
 
-  const seedCount = state.inventory[action.item] || new Decimal(0);
+  const seedCount = stateCopy.inventory[action.item] || new Decimal(0);
   if (seedCount.lessThan(1)) {
     throw new Error("Not enough seeds");
   }
@@ -176,15 +178,19 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
   const crop = action.item.split(" ")[0] as CropName;
 
   newFields[action.index] = {
-    plantedAt: getPlantedAt({ crop, inventory: state.inventory, createdAt }),
+    plantedAt: getPlantedAt({
+      crop,
+      inventory: stateCopy.inventory,
+      createdAt,
+    }),
     name: crop,
-    multiplier: getMultiplier({ crop, inventory: state.inventory }),
+    multiplier: getMultiplier({ crop, inventory: stateCopy.inventory }),
   };
 
   return {
-    ...state,
+    ...stateCopy,
     inventory: {
-      ...state.inventory,
+      ...stateCopy.inventory,
       [action.item]: seedCount.sub(1),
     },
     fields: newFields,

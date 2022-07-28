@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import cloneDeep from "lodash.clonedeep";
 import { GameState, Rock } from "../types/game";
 
 export type IronMineAction = {
@@ -31,7 +32,8 @@ export function mineIron({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const rock = state.iron[action.index];
+  const stateCopy = cloneDeep(state);
+  const rock = stateCopy.iron[action.index];
 
   if (!rock) {
     throw new Error(MINE_ERRORS.NO_ROCK);
@@ -41,22 +43,22 @@ export function mineIron({
     throw new Error(MINE_ERRORS.STILL_GROWING);
   }
 
-  const toolAmount = state.inventory["Stone Pickaxe"] || new Decimal(0);
+  const toolAmount = stateCopy.inventory["Stone Pickaxe"] || new Decimal(0);
   if (toolAmount.lessThan(1)) {
     throw new Error(MINE_ERRORS.NO_PICKAXES);
   }
 
-  const amount = state.inventory.Iron || new Decimal(0);
+  const amount = stateCopy.inventory.Iron || new Decimal(0);
 
   return {
-    ...state,
+    ...stateCopy,
     inventory: {
-      ...state.inventory,
+      ...stateCopy.inventory,
       "Stone Pickaxe": toolAmount.sub(1),
       Iron: amount.add(rock.amount),
     },
     iron: {
-      ...state.iron,
+      ...stateCopy.iron,
       [action.index]: {
         minedAt: Date.now(),
         // Placeholder, server does randomization

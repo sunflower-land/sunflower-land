@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
+import cloneDeep from "lodash.clonedeep";
 import { CROPS } from "../types/crops";
 import { GameState, InventoryItemName } from "../types/game";
 import { isReadyToHarvest, isShovelStolen } from "./harvest";
@@ -27,7 +28,8 @@ type Options = {
 };
 
 export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
-  const fields = { ...state.fields };
+  const stateCopy = cloneDeep(state);
+  const { fields } = stateCopy;
 
   if (isShovelStolen()) {
     throw new Error(REMOVE_CROP_ERRORS.SHOVEL_STOLEN);
@@ -37,7 +39,7 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
     throw new Error(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
   }
 
-  const shovelAmount = state.inventory.Shovel || new Decimal(0);
+  const shovelAmount = stateCopy.inventory.Shovel || new Decimal(0);
   if (shovelAmount.lessThan(1)) {
     throw new Error(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
   }
@@ -72,7 +74,7 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
   delete fields[action.fieldIndex];
 
   return {
-    ...state,
+    ...stateCopy,
     fields,
   } as GameState;
 }

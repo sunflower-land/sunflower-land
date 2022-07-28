@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import cloneDeep from "lodash.clonedeep";
 import { GameState, Inventory, InventoryItemName, Tree } from "../types/game";
 
 export enum CHOP_ERRORS {
@@ -66,17 +67,18 @@ export function chop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const requiredAxes = getRequiredAxeAmount(state.inventory);
+  const stateCopy = cloneDeep(state);
+  const requiredAxes = getRequiredAxeAmount(stateCopy.inventory);
   if (action.item !== "Axe" && requiredAxes.gt(0)) {
     throw new Error(CHOP_ERRORS.MISSING_AXE);
   }
 
-  const axeAmount = state.inventory.Axe || new Decimal(0);
+  const axeAmount = stateCopy.inventory.Axe || new Decimal(0);
   if (axeAmount.lessThan(requiredAxes)) {
     throw new Error(CHOP_ERRORS.NO_AXES);
   }
 
-  const tree = state.trees[action.index];
+  const tree = stateCopy.trees[action.index];
 
   if (!tree) {
     throw new Error(CHOP_ERRORS.NO_TREE);
@@ -86,20 +88,20 @@ export function chop({
     throw new Error(CHOP_ERRORS.STILL_GROWING);
   }
 
-  const woodAmount = state.inventory.Wood || new Decimal(0);
+  const woodAmount = stateCopy.inventory.Wood || new Decimal(0);
 
   return {
-    ...state,
+    ...stateCopy,
     inventory: {
-      ...state.inventory,
+      ...stateCopy.inventory,
       Axe: axeAmount.sub(requiredAxes),
       Wood: woodAmount.add(tree.wood),
     },
     trees: {
-      ...state.trees,
+      ...stateCopy.trees,
       [action.index]: {
-        ...state.trees[action.index],
-        choppedAt: getChoppedAt({ createdAt, inventory: state.inventory }),
+        ...stateCopy.trees[action.index],
+        choppedAt: getChoppedAt({ createdAt, inventory: stateCopy.inventory }),
         // Placeholder, random numbers generated on server side
         wood: new Decimal(3),
       },

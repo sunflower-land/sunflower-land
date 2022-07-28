@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import cloneDeep from "lodash.clonedeep";
 import {
   ANIMALS,
   CraftableItem,
@@ -55,6 +56,8 @@ type Options = {
 };
 
 export function craft({ state, action }: Options) {
+  const stateCopy = cloneDeep(state);
+
   if (!isCraftable(action.item, VALID_ITEMS)) {
     throw new Error(`This item is not craftable: ${action.item}`);
   }
@@ -69,19 +72,19 @@ export function craft({ state, action }: Options) {
     throw new Error("Invalid amount");
   }
 
-  if (state.stock[action.item]?.lt(action.amount)) {
+  if (stateCopy.stock[action.item]?.lt(action.amount)) {
     throw new Error("Not enough stock");
   }
 
-  const price = getBuyPrice(item, state.inventory);
+  const price = getBuyPrice(item, stateCopy.inventory);
   const totalExpenses = price?.mul(action.amount);
 
-  const isLocked = item.requires && !state.inventory[item.requires];
+  const isLocked = item.requires && !stateCopy.inventory[item.requires];
   if (isLocked) {
     throw new Error(`Missing ${item.requires}`);
   }
 
-  if (totalExpenses && state.balance.lessThan(totalExpenses)) {
+  if (totalExpenses && stateCopy.balance.lessThan(totalExpenses)) {
     throw new Error("Insufficient tokens");
   }
 
@@ -99,21 +102,25 @@ export function craft({ state, action }: Options) {
         [ingredient.item]: count.sub(totalAmount),
       };
     },
-    state.inventory
+    stateCopy.inventory
   );
 
-  const oldAmount = state.inventory[action.item] || new Decimal(0);
+  const oldAmount = stateCopy.inventory[action.item] || new Decimal(0);
 
   return {
-    ...state,
-    balance: totalExpenses ? state.balance.sub(totalExpenses) : state.balance,
+    ...stateCopy,
+    balance: totalExpenses
+      ? stateCopy.balance.sub(totalExpenses)
+      : stateCopy.balance,
     inventory: {
       ...subtractedInventory,
       [action.item]: oldAmount.add(action.amount) as Decimal,
     },
     stock: {
-      ...state.stock,
-      [action.item]: state.stock[action.item]?.minus(action.amount) as Decimal,
+      ...stateCopy.stock,
+      [action.item]: stateCopy.stock[action.item]?.minus(
+        action.amount
+      ) as Decimal,
     },
   };
 }

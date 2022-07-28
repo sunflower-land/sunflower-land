@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import cloneDeep from "lodash.clonedeep";
 import { CHICKEN_TIME_TO_EGG } from "../lib/constants";
 import { Chicken, GameState } from "../types/game";
 
@@ -22,7 +23,8 @@ export function collectEggs({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const chickens = state.chickens || {};
+  const stateCopy = cloneDeep(state);
+  const chickens = stateCopy.chickens || {};
   const chicken = chickens[action.index];
 
   if (!chicken) {
@@ -38,13 +40,15 @@ export function collectEggs({
   delete chickens[action.index];
 
   return {
-    ...state,
+    ...stateCopy,
     inventory: {
-      ...state.inventory,
-      Egg: (state.inventory.Egg || new Decimal(0))?.add(1 * chicken.multiplier),
+      ...stateCopy.inventory,
+      Egg: (stateCopy.inventory.Egg || new Decimal(0))?.add(
+        1 * chicken.multiplier
+      ),
       ...(mutantChicken && {
         [mutantChicken.name]: (
-          state.inventory[mutantChicken.name] || new Decimal(0)
+          stateCopy.inventory[mutantChicken.name] || new Decimal(0)
         )?.add(mutantChicken.amount),
       }),
     },
