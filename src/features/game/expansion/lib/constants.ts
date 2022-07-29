@@ -4,9 +4,6 @@ import { Coordinates } from "../components/MapPlacement";
 
 export const LAND_SIZE = 6;
 
-/**
- * Top left hand corner of the land
- */
 export const EXPANSION_ORIGINS: Record<number, Coordinates> = {
   0: { x: 0 * LAND_SIZE, y: 0 * LAND_SIZE },
   1: { x: 1 * LAND_SIZE, y: 0 * LAND_SIZE },
