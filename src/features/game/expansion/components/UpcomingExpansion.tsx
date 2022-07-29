@@ -6,7 +6,7 @@ import { Panel } from "components/ui/Panel";
 import { GameState } from "features/game/types/game";
 import expandIcon from "assets/icons/expand.png";
 
-import { EXPANSION_ORIGINS } from "../lib/constants";
+import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
 import { UpcomingExpansionModal } from "./UpcomingExpansionModal";
 import { MapPlacement } from "./MapPlacement";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -36,9 +36,15 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
 
   // Land is still being built
   if (latestLand.readyAt > Date.now()) {
-    const origin = EXPANSION_ORIGINS[gameState.expansions.length];
+    const origin = EXPANSION_ORIGINS[gameState.expansions.length - 1];
+
     return (
-      <MapPlacement x={origin.x} y={origin.y} height={6} width={6}>
+      <MapPlacement
+        x={origin.x - LAND_SIZE / 2}
+        y={origin.y + LAND_SIZE / 2}
+        height={LAND_SIZE}
+        width={LAND_SIZE}
+      >
         <Pontoon expansion={latestLand} />
       </MapPlacement>
     );
@@ -49,11 +55,16 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
     setShowBumpkinModal(false);
   };
 
-  const nextPosition = EXPANSION_ORIGINS[gameState.expansions.length + 1];
+  const nextPosition = EXPANSION_ORIGINS[gameState.expansions.length];
 
   return (
     <>
-      <MapPlacement x={nextPosition.x} y={nextPosition.y} height={6} width={6}>
+      <MapPlacement
+        x={nextPosition.x - LAND_SIZE / 2}
+        y={nextPosition.y + LAND_SIZE / 2}
+        height={LAND_SIZE}
+        width={LAND_SIZE}
+      >
         <div
           className="w-full h-full flex items-center justify-center cursor-pointer opacity-60 hover:opacity-100"
           onClick={() => setShowBumpkinModal(true)}

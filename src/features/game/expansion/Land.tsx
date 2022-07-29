@@ -13,21 +13,12 @@ import { LandBase } from "./components/LandBase";
 import { Bumpkin } from "features/island/bumpkin/Bumpkin";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { LandExpansion } from "../types/game";
+import { EXPANSION_ORIGINS } from "./lib/constants";
 
 type ExpansionProps = Pick<
   LandExpansion,
   "shrubs" | "plots" | "trees" | "terrains" | "pebbles" | "createdAt"
 >;
-
-const LAND_SIZE = 6;
-
-const EXPANSION_PLACEMENT: Record<number, Record<"x" | "y", number>> = {
-  0: { x: 0 * LAND_SIZE, y: 0 * LAND_SIZE },
-  1: { x: 1 * LAND_SIZE, y: 0 * LAND_SIZE },
-  2: { x: 1 * LAND_SIZE, y: 1 * LAND_SIZE },
-  3: { x: 0 * LAND_SIZE, y: 1 * LAND_SIZE },
-  4: { x: -1 * LAND_SIZE, y: 1 * LAND_SIZE },
-};
 
 const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
   shrubs,
@@ -38,7 +29,7 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
   createdAt,
   expansionIndex,
 }) => {
-  const { x: xOffset, y: yOffset } = EXPANSION_PLACEMENT[expansionIndex];
+  const { x: xOffset, y: yOffset } = EXPANSION_ORIGINS[expansionIndex];
 
   return (
     <>
@@ -152,20 +143,22 @@ export const Land: React.FC = () => {
         <LandBase expansions={expansions} />
         <UpcomingExpansion gameState={state} />
 
-        {expansions.map(
-          ({ shrubs, pebbles, terrains, trees, plots, createdAt }, index) => (
-            <Expansion
-              createdAt={createdAt}
-              expansionIndex={index}
-              key={index}
-              shrubs={shrubs}
-              pebbles={pebbles}
-              terrains={terrains}
-              trees={trees}
-              plots={plots}
-            />
-          )
-        )}
+        {expansions
+          .filter((expansion) => expansion.readyAt < Date.now())
+          .map(
+            ({ shrubs, pebbles, terrains, trees, plots, createdAt }, index) => (
+              <Expansion
+                createdAt={createdAt}
+                expansionIndex={index}
+                key={index}
+                shrubs={shrubs}
+                pebbles={pebbles}
+                terrains={terrains}
+                trees={trees}
+                plots={plots}
+              />
+            )
+          )}
 
         <MapPlacement x={2} y={1}>
           <Bumpkin />
