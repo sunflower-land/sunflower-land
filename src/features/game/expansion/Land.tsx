@@ -13,6 +13,7 @@ import { LandBase } from "./components/LandBase";
 import { Bumpkin } from "features/island/bumpkin/Bumpkin";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { LandExpansion } from "../types/game";
+import { EXPANSION_ORIGINS } from "./lib/constants";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -28,6 +29,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
   createdAt,
   expansionIndex,
 }) => {
+  const { x: xOffset, y: yOffset } = EXPANSION_ORIGINS[expansionIndex];
+
   return (
     <>
       {shrubs &&
@@ -37,8 +40,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
           return (
             <MapPlacement
               key={`${createdAt}-shrub-${index}`}
-              x={x}
-              y={y}
+              x={x + xOffset}
+              y={y + yOffset}
               height={height}
               width={width}
             >
@@ -54,8 +57,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
           return (
             <MapPlacement
               key={`${createdAt}-pebble-${index}`}
-              x={x}
-              y={y}
+              x={x + xOffset}
+              y={y + yOffset}
               height={height}
               width={width}
             >
@@ -71,8 +74,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
           return (
             <MapPlacement
               key={`${createdAt}-terrain-${index}`}
-              x={x}
-              y={y}
+              x={x + xOffset}
+              y={y + yOffset}
               height={height}
               width={width}
             >
@@ -88,8 +91,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
           return (
             <MapPlacement
               key={`${createdAt}-plot-${index}`}
-              x={x}
-              y={y}
+              x={x + xOffset}
+              y={y + yOffset}
               height={height}
               width={width}
             >
@@ -105,8 +108,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
           return (
             <MapPlacement
               key={`${createdAt}-tree-${index}`}
-              x={x}
-              y={y}
+              x={x + xOffset}
+              y={y + yOffset}
               height={height}
               width={width}
             >
@@ -140,20 +143,22 @@ export const Land: React.FC = () => {
         <LandBase expansions={expansions} />
         <UpcomingExpansion gameState={state} />
 
-        {expansions.map(
-          ({ shrubs, pebbles, terrains, trees, plots, createdAt }, index) => (
-            <Expansion
-              createdAt={createdAt}
-              expansionIndex={index}
-              key={index}
-              shrubs={shrubs}
-              pebbles={pebbles}
-              terrains={terrains}
-              trees={trees}
-              plots={plots}
-            />
-          )
-        )}
+        {expansions
+          .filter((expansion) => expansion.readyAt < Date.now())
+          .map(
+            ({ shrubs, pebbles, terrains, trees, plots, createdAt }, index) => (
+              <Expansion
+                createdAt={createdAt}
+                expansionIndex={index}
+                key={index}
+                shrubs={shrubs}
+                pebbles={pebbles}
+                terrains={terrains}
+                trees={trees}
+                plots={plots}
+              />
+            )
+          )}
 
         <MapPlacement x={2} y={1}>
           <Bumpkin />
