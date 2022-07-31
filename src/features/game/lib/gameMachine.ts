@@ -41,6 +41,7 @@ export interface Context {
   itemsMintedAt?: MintedAt;
   notifications?: OnChainEvent[];
   maxedItem?: InventoryItemName | "SFL";
+  captcha?: string;
 }
 
 type MintEvent = {
@@ -239,6 +240,7 @@ export function startGame(authContext: Options) {
                   onChain,
                   owner,
                   notifications: onChainEvents,
+                  captcha: response.captcha,
                 };
               }
 
@@ -596,6 +598,7 @@ export function startGame(authContext: Options) {
           fingerprint: (_, event) => event.data.fingerprint,
           itemsMintedAt: (_, event) => event.data.itemsMintedAt,
           notifications: (_, event) => event.data.notifications,
+          captcha: (_, event) => event.data.captcha,
         }),
       },
     }

@@ -29,6 +29,7 @@ import goblin from "assets/npcs/goblin_head.png";
 import { useIsNewFarm } from "../lib/onboarding";
 import { GoblinVillageModal } from "features/farming/town/components/GoblinVillageModal";
 import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
+import { Captcha } from "components/ui/Captcha";
 
 /**
  * TODO:
@@ -312,11 +313,9 @@ export const Menu = () => {
               alt="Close Logout Confirmation Modal"
               onClick={() => setShowCaptcha(false)}
             />
-            <ReCAPTCHA
-              sitekey={CONFIG.RECAPTCHA_SITEKEY}
-              onChange={onCaptchaSolved}
-              onExpired={() => setShowCaptcha(false)}
-              className="w-full m-4 flex items-center justify-center"
+            <Captcha
+              image={gameState.context.captcha as string}
+              onAnswer={onCaptchaSolved}
             />
           </Panel>
         </Modal>

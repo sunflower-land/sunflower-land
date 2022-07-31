@@ -20,6 +20,7 @@ type Response = {
   whitelistedAt?: string;
   itemsMintedAt?: MintedAt;
   blacklistStatus?: "investigating" | "permanent";
+  captcha: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -66,6 +67,7 @@ export async function loadSession(
     whitelistedAt,
     itemsMintedAt,
     blacklistStatus,
+    captcha,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -73,6 +75,7 @@ export async function loadSession(
     whitelistedAt: string;
     itemsMintedAt: MintedAt;
     blacklistStatus: Response["blacklistStatus"];
+    captcha: string;
   }>(response);
 
   saveSession(request.farmId);
@@ -92,6 +95,7 @@ export async function loadSession(
     whitelistedAt,
     itemsMintedAt,
     blacklistStatus,
+    captcha,
   };
 }
 
