@@ -220,9 +220,9 @@ export const INITIAL_GOLD: GameState["gold"] = {
 
 export const INITIAL_TERRAIN: GameState["terrains"] = {
   0: {
-    name: TerrainTypeEnum.terrain1,
-    height: 3,
-    width: 3,
+    name: TerrainTypeEnum.terrain11,
+    height: 54,
+    width: 52,
     x: -2,
     y: 1,
   },

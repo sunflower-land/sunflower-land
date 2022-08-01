@@ -13,6 +13,7 @@ import { LandBase } from "./components/LandBase";
 import { Bumpkin } from "features/island/bumpkin/Bumpkin";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { LandExpansion } from "../types/game";
+import { TerrainPlacement } from "./components/TerrainPlacement";
 import { EXPANSION_ORIGINS } from "./lib/constants";
 
 type ExpansionProps = Pick<
@@ -72,7 +73,7 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
           const { x, y, width, height, name } = terrains[index];
 
           return (
-            <MapPlacement
+            <TerrainPlacement
               key={`${createdAt}-terrain-${index}`}
               x={x + xOffset}
               y={y + yOffset}
@@ -80,7 +81,7 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
               width={width}
             >
               <img src={getTerrainImageByKey(name)} className="h-full w-full" />
-            </MapPlacement>
+            </TerrainPlacement>
           );
         })}
 
