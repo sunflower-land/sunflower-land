@@ -1,6 +1,9 @@
 import { Inventory, InventoryItemName } from "../types/game";
 import { isSeed } from "../events/plant";
 import { SellableItem } from "../events/sell";
+import { CROPS } from "../types/crops";
+
+const crops = CROPS();
 
 /**
  * How much SFL an item is worth
@@ -8,7 +11,8 @@ import { SellableItem } from "../events/sell";
 export const getSellPrice = (item: SellableItem, inventory: Inventory) => {
   let price = item.sellPrice;
 
-  if (inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
+  // apply Green Thumb boost to crops
+  if (item.name in crops && inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
     price = price.mul(1.05);
   }
 
