@@ -2,54 +2,20 @@ import Decimal from "decimal.js-light";
 import { Ingredient } from "features/game/types/craftables";
 import { Coordinates } from "../components/MapPlacement";
 
-/**
- * Bottom left hand corner of the land
- */
+export const LAND_SIZE = 6;
+
 export const EXPANSION_ORIGINS: Record<number, Coordinates> = {
-  1: {
-    x: -3,
-    y: 3,
-  },
-  2: {
-    x: 3,
-    y: 3,
-  },
-  3: {
-    x: 3,
-    y: 9,
-  },
-  4: {
-    x: -3,
-    y: 9,
-  },
-  5: {
-    x: -9,
-    y: 9,
-  },
-  6: {
-    x: -9,
-    y: 3,
-  },
-  7: {
-    x: -9,
-    y: -3,
-  },
-  8: {
-    x: -3,
-    y: -3,
-  },
-  9: {
-    x: 3,
-    y: -3,
-  },
-  10: {
-    x: 9,
-    y: -3,
-  },
-  11: {
-    x: 9,
-    y: 3,
-  },
+  0: { x: 0 * LAND_SIZE, y: 0 * LAND_SIZE },
+  1: { x: 1 * LAND_SIZE, y: 0 * LAND_SIZE },
+  2: { x: 1 * LAND_SIZE, y: 1 * LAND_SIZE },
+  3: { x: 0 * LAND_SIZE, y: 1 * LAND_SIZE },
+  4: { x: -1 * LAND_SIZE, y: 1 * LAND_SIZE },
+  5: { x: -1 * LAND_SIZE, y: 0 * LAND_SIZE },
+  6: { x: -1 * LAND_SIZE, y: -1 * LAND_SIZE },
+  7: { x: 0 * LAND_SIZE, y: -1 * LAND_SIZE },
+  8: { x: 1 * LAND_SIZE, y: -1 * LAND_SIZE },
+  9: { x: 2 * LAND_SIZE, y: -1 * LAND_SIZE },
+  10: { x: 2 * LAND_SIZE, y: 0 * LAND_SIZE },
 };
 
 export type LandRequirements = {
