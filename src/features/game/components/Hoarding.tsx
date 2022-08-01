@@ -29,7 +29,7 @@ export const Hoarding: React.FC = () => {
     const indefiniteArticle = startsWithVowel ? "an" : "a";
     const item = maxedItem === "SFL" ? maxedItem : maxedItem.toLowerCase();
 
-    return `Are you ${indefiniteArticle} ${item} horder?!`;
+    return `Are you ${indefiniteArticle} ${item} hoarder?!`;
   };
 
   const maxedItemImage =
@@ -46,7 +46,7 @@ export const Hoarding: React.FC = () => {
             <img src={maxedItemImage} className="h-12 mt-2 mb-3" />
             <p className="text-xs sm:text-sm mb-3">
               {`I don't want to alarm you but we just heard that the Goblins have
-              noticed that you are hording a lot of this resource off chain.`}
+              noticed that you are hoarding a lot of this resource off chain.`}
             </p>
             <p className="text-xs sm:text-sm mb-1">
               {`Word is that they're planning a raid as we speak so we recommend
