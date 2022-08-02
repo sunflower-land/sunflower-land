@@ -84,7 +84,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
       "Craft a rare Chicken Coop to grow your egg empire.",
       "Will you be lucky enough to find a mutant chicken in an egg?",
     ],
-    link: "https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#animals",
+    link: "https://docs.sunflower-land.com/player-guides/raising-animals/chickens",
     image: chicken,
   },
 ];
