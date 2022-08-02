@@ -17,12 +17,15 @@ async function convertMarkdown() {
       fs.readFile(oldImagePath, "utf8", (err, data) => {
         console.log({ err, data });
         console.log(typeof data);
+        console.log({ fileName });
 
         const jsonPath = path.join(__dirname, `../public/erc1155/${id}.json`);
         fs.readFile(jsonPath, "utf8", (err, jsonData) => {
           const newJson = {
             ...JSON.parse(jsonData),
             description: data,
+            external_url:
+              "https://docs.sunflower-land.com/getting-started/about",
           };
 
           fs.writeFile(jsonPath, JSON.stringify(newJson), () => {
