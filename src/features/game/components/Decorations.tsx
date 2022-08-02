@@ -402,6 +402,7 @@ const WickerManAnimation: React.FC = () => {
         left: `${GRID_WIDTH_PX * 82}px`,
         top: `${GRID_WIDTH_PX * 21}px`,
       }}
+      id={Section["Wicker Man"]}
     >
       <Spritesheet
         className="absolute group-hover:img-highlight pointer-events-none z-10"
