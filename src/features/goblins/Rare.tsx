@@ -182,7 +182,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
           </div>
           <div className="my-3 text-center">
             <a
-              href={`https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#crafting-limits`}
+              href={`https://docs.sunflower-land.com/player-guides/rare-and-limited-items#crafting-limits`}
               className="underline text-[10px] hover:text-blue-500 mt-1 block"
               target="_blank"
               rel="noopener noreferrer"

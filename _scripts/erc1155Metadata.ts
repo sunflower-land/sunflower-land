@@ -142,7 +142,8 @@ async function jsonFiles() {
           "A beautiful flag crafted at Sunflower Land using wood and SFL",
         image: `https://sunflower-land.com/play/erc1155/${id}.gif`,
         decimals: 0,
-        external_url: "https://docs.sunflower-land.com/crafting-guide",
+        external_url:
+          "https://docs.sunflower-land.com/player-guides/rare-and-limited-items#flags",
         attributes: [],
       };
 
