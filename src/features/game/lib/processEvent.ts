@@ -62,7 +62,15 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
   valid: boolean;
   maxedItem?: InventoryItemName | "SFL";
 } {
-  const newState = processEvent({ state, action });
+  let newState: GameState;
+
+  try {
+    newState = processEvent({ state, action });
+  } catch {
+    // Not our responsibility to catch events, pass on to the next handler
+    return { valid: true };
+  }
+
   const progress = newState.balance.sub(onChain.balance);
 
   /**
