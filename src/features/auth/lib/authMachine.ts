@@ -231,7 +231,7 @@ export const authMachine = createMachine<
                   cond: "hasFarm",
                 },
 
-                { target: "checkingAccess" },
+                { target: "checkingSupply" },
               ],
               onError: {
                 target: "#unauthorised",
@@ -254,27 +254,6 @@ export const authMachine = createMachine<
               ],
             },
           },
-          checkingAccess: {
-            id: "checkingAccess",
-            invoke: {
-              src: async (context) => {
-                return {
-                  hasAccess: context.token?.userAccess.createFarm,
-                };
-              },
-              onDone: [
-                {
-                  target: "noFarmLoaded",
-                  cond: (_, event) => event.data.hasAccess,
-                },
-                { target: "checkingSupply" },
-              ],
-              onError: {
-                target: "#unauthorised",
-                actions: "assignErrorMessage",
-              },
-            },
-          },
           checkingSupply: {
             id: "checkingSupply",
             invoke: {
@@ -291,7 +270,7 @@ export const authMachine = createMachine<
                   cond: (context, event) =>
                     Number(event.data.totalSupply) >= 150000,
                 },
-                { target: "noFarmLoaded" },
+                { target: "checkingAccess" },
               ],
               onError: {
                 target: "#unauthorised",
@@ -299,6 +278,25 @@ export const authMachine = createMachine<
               },
             },
           },
+          checkingAccess: {
+            id: "checkingAccess",
+            invoke: {
+              src: async (context) => {
+                return {
+                  hasAccess: context.token?.userAccess.createFarm,
+                };
+              },
+              onDone: {
+                target: "noFarmLoaded",
+              },
+
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
+            },
+          },
+
           donating: {
             on: {
               CREATE_FARM: {
