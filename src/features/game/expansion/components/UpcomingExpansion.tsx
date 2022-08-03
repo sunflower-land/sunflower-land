@@ -26,12 +26,6 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
 
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
-  const noExpansionAvailable = gameState.expansionRequirements === undefined;
-
-  if (noExpansionAvailable) {
-    return <></>;
-  }
-
   const latestLand = gameState.expansions[gameState.expansions.length - 1];
 
   // Land is still being built
@@ -50,7 +44,7 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
     );
   }
 
-  const onExpand = async () => {
+  const onExpand = () => {
     gameService.send("EXPAND");
     setShowBumpkinModal(false);
   };
