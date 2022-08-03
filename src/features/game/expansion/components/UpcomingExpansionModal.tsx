@@ -1,6 +1,8 @@
 import React from "react";
 import Decimal from "decimal.js-light";
 
+import skeleton from "assets/npcs/skeleton_walk.gif";
+
 // TODO - dynamically load in their bumpkin
 import nft from "assets/bumpkins/example.png";
 
@@ -13,6 +15,7 @@ import { Button } from "components/ui/Button";
 import { Ingredients } from "./Ingredients";
 import { LandRequirements } from "../lib/constants";
 import { secondsToLongString } from "lib/utils/time";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 // TODO - load from API
 const LAND_REQUIREMENTS: LandRequirements = {
@@ -45,8 +48,25 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   //We cannot expand if there is no next expansion
   if (gameState.expansionRequirements === undefined) {
     return (
-      <div className="flex flex-col items-center">
-        <span className="mb-2">No expansion available</span>
+      <div>
+        <img src={nft} className="absolute w-1/3 left-2 -top-28 -z-10" />
+        <div className="flex items-start">
+          <span>More expansions will be available soon...</span>
+          <img
+            src={close}
+            className="h-6 ml-2 cursor-pointer"
+            onClick={onClose}
+          />
+        </div>
+        <div className="flex justify-center w-1/2 my-3">
+          <img
+            src={skeleton}
+            className="running"
+            style={{
+              height: `${PIXEL_SCALE * 17}px`,
+            }}
+          />
+        </div>
         <Button onClick={onClose}>Back</Button>
       </div>
     );
