@@ -2,11 +2,7 @@ import { FieldItem, GameState, Inventory } from "../types/game";
 import { Crop, CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
-import {
-  addToHarvestCount,
-  getGoblinCount,
-  getHarvestCount,
-} from "../lib/goblinShovelStorage";
+import { getGoblinCount, getHarvestCount } from "../lib/goblinShovelStorage";
 import cloneDeep from "lodash.clonedeep";
 
 export type HarvestAction = {
@@ -18,6 +14,12 @@ type Options = {
   state: Readonly<GameState>;
   action: HarvestAction;
   createdAt?: number;
+};
+
+export const isShovelStolen = () => {
+  const goblinThreshold = getGoblinCount().add(1).pow(3).mul(57);
+
+  return getHarvestCount().greaterThanOrEqualTo(goblinThreshold);
 };
 
 export function isReadyToHarvest(
@@ -73,6 +75,7 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   }
 
   const field = fields[action.index];
+
   if (!field) {
     throw new Error("Nothing was planted");
   }
@@ -98,16 +101,9 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
     [field.name]: cropCount.add(multiplier),
   };
 
-  addToHarvestCount(1);
-
   return {
     ...stateCopy,
     fields: newFields,
     inventory,
   } as GameState;
 }
-
-export const isShovelStolen = () => {
-  const goblinThreshold = getGoblinCount().add(1).pow(3).mul(57);
-  return getHarvestCount().greaterThanOrEqualTo(goblinThreshold);
-};

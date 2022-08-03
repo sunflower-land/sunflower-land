@@ -12,7 +12,10 @@ import { isShovelStolen } from "features/game/events/harvest";
 
 import { Button } from "components/ui/Button";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { recoverShovel } from "features/game/lib/goblinShovelStorage";
+import {
+  addToHarvestCount,
+  recoverShovel,
+} from "features/game/lib/goblinShovelStorage";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 type Position = {
@@ -69,6 +72,7 @@ export const GoblinShovel: React.FC = () => {
 
     gameService.onEvent((event) => {
       if (event.type == "item.harvested") {
+        addToHarvestCount(1);
         detectGoblins();
       }
     });
