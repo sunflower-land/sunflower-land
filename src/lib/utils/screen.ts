@@ -77,7 +77,6 @@ class ScreenTracker {
 
       const isCollinear = areCollinear(points);
 
-      console.log({ points });
       if (isCollinear) {
         this.tracks += 3;
       } else if (this.tracks > 0) {
