@@ -53,14 +53,13 @@ export const ANNOUNCEMENTS: Announcement[] = [
   },
   {
     date: new Date("2022-06-22T06:27:20.861Z"),
-    title: "Travelling Salesman",
+    title: "Traveling Salesman",
     notes: [
       "Find weekly offers.",
       "Trade resources for items.",
       "What will be the next offer?",
     ],
-    // link:
-    // Need documentation
+    link: "https://docs.sunflower-land.com/fundamentals/special-events/traveling-salesman",
     image: nomad,
   },
   {
@@ -85,7 +84,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
       "Craft a rare Chicken Coop to grow your egg empire.",
       "Will you be lucky enough to find a mutant chicken in an egg?",
     ],
-    link: "https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#animals",
+    link: "https://docs.sunflower-land.com/player-guides/raising-animals/chickens",
     image: chicken,
   },
 ];

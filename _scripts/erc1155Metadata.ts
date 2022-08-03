@@ -17,12 +17,15 @@ async function convertMarkdown() {
       fs.readFile(oldImagePath, "utf8", (err, data) => {
         console.log({ err, data });
         console.log(typeof data);
+        console.log({ fileName });
 
         const jsonPath = path.join(__dirname, `../public/erc1155/${id}.json`);
         fs.readFile(jsonPath, "utf8", (err, jsonData) => {
           const newJson = {
             ...JSON.parse(jsonData),
             description: data,
+            external_url:
+              "https://docs.sunflower-land.com/getting-started/about",
           };
 
           fs.writeFile(jsonPath, JSON.stringify(newJson), () => {
@@ -142,7 +145,8 @@ async function jsonFiles() {
           "A beautiful flag crafted at Sunflower Land using wood and SFL",
         image: `https://sunflower-land.com/play/erc1155/${id}.gif`,
         decimals: 0,
-        external_url: "https://docs.sunflower-land.com/crafting-guide",
+        external_url:
+          "https://docs.sunflower-land.com/player-guides/rare-and-limited-items#flags",
         attributes: [],
       };
 
