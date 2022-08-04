@@ -24,6 +24,7 @@ import {
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { expand } from "../expansion/actions/expand";
 import { checkProgress, processEvent } from "./processEvent";
+import { editingMachine } from "../expansion/placeable/editingMachine";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -67,6 +68,11 @@ type SyncEvent = {
   type: "SYNC";
 };
 
+type EditEvent = {
+  placeable: string;
+  type: "EDIT";
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -91,6 +97,7 @@ export type BlockchainEvent =
   | GameEvent
   | MintEvent
   | LevelUpEvent
+  | EditEvent
   | { type: "EXPAND" };
 
 // // For each game event, convert it to an XState event + handler
@@ -154,7 +161,8 @@ export type BlockchainState = {
     | "levelling"
     | "error"
     | "refreshing"
-    | "hoarding";
+    | "hoarding"
+    | "editing";
   context: Context;
 };
 
@@ -329,6 +337,9 @@ export function startGame(authContext: Options) {
             },
             EXPAND: {
               target: "expanding",
+            },
+            EDIT: {
+              target: "editing",
             },
           },
         },
@@ -577,6 +588,30 @@ export function startGame(authContext: Options) {
             SYNC: {
               target: "syncing",
             },
+          },
+        },
+        editing: {
+          invoke: {
+            id: "editing",
+            autoForward: true,
+            src: editingMachine,
+            data: {
+              placeable: (_: Context, event: EditEvent) => event.placeable,
+            },
+            onDone: {
+              target: "playing",
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
         },
       },
