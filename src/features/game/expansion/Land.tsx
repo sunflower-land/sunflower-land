@@ -15,6 +15,7 @@ import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { LandExpansion } from "../types/game";
 import { TerrainPlacement } from "./components/TerrainPlacement";
 import { EXPANSION_ORIGINS } from "./lib/constants";
+import { Placeable } from "./placeable/Placeable";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -124,11 +125,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [gameState] = useActor(gameService);
+  const { state } = gameState.context;
 
   const { expansions } = state;
 
@@ -160,6 +158,19 @@ export const Land: React.FC = () => {
               />
             )
           )}
+
+        {gameState.matches("editing") && (
+          <div
+            className="absolute"
+            style={{
+              top: "50%",
+              left: "50%",
+              zIndex: 100,
+            }}
+          >
+            <Placeable />
+          </div>
+        )}
 
         <MapPlacement x={2} y={1}>
           <Bumpkin />
