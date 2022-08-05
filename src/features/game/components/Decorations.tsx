@@ -394,7 +394,7 @@ const WickerManAnimation: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="absolute cursor-pointer"
+      className="absolute cursor-pointer hover:img-highlight z-10"
       onClick={burn}
       style={{
         width: `${PIXEL_SCALE * 19}px`,
