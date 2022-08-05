@@ -19,7 +19,7 @@ import { Placeable } from "./placeable/Placeable";
 
 type ExpansionProps = Pick<
   LandExpansion,
-  "shrubs" | "plots" | "trees" | "terrains" | "pebbles" | "createdAt"
+  "shrubs" | "plots" | "trees" | "terrains" | "pebbles" | "stones" | "createdAt"
 >;
 
 const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
@@ -28,6 +28,7 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
   trees,
   terrains,
   pebbles,
+  stones,
   createdAt,
   expansionIndex,
 }) => {
@@ -119,6 +120,23 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
             </MapPlacement>
           );
         })}
+
+      {stones &&
+        getKeys(stones).map((index) => {
+          const { x, y, width, height } = stones[index];
+
+          return (
+            <MapPlacement
+              key={`${createdAt}-stone-${index}`}
+              x={x + xOffset}
+              y={y + yOffset}
+              height={height}
+              width={width}
+            >
+              <div style={{ background: "black" }} className="w-full h-full" />
+            </MapPlacement>
+          );
+        })}
     </>
   );
 };
@@ -145,13 +163,17 @@ export const Land: React.FC = () => {
         {expansions
           .filter((expansion) => expansion.readyAt < Date.now())
           .map(
-            ({ shrubs, pebbles, terrains, trees, plots, createdAt }, index) => (
+            (
+              { shrubs, pebbles, stones, terrains, trees, plots, createdAt },
+              index
+            ) => (
               <Expansion
                 createdAt={createdAt}
                 expansionIndex={index}
                 key={index}
                 shrubs={shrubs}
                 pebbles={pebbles}
+                stones={stones}
                 terrains={terrains}
                 trees={trees}
                 plots={plots}
