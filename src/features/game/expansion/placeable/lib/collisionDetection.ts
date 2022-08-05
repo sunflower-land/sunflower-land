@@ -1,3 +1,4 @@
+import omit from "lodash.omit";
 import { GameState, LandExpansion, Position } from "features/game/types/game";
 
 /**
@@ -27,7 +28,22 @@ export function extractResourcePositions(
   >[]
 ) {
   return expansions.flatMap((expansion) =>
-    Object.values(expansion).flatMap(extract)
+    Object.values(omit(expansion, "terrains", "createdAt", "readyAt")).flatMap(
+      extract
+    )
+  );
+}
+
+/**
+ * Axis aligned bounding box collision detection
+ * https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+ */
+export function isOverlapping(position1: Position, position2: Position) {
+  return (
+    position1.x < position2.x + position2.width &&
+    position1.x + position1.width > position2.x &&
+    position1.y < position2.y + position2.height &&
+    position1.height + position1.y > position2.y
   );
 }
 
@@ -40,10 +56,11 @@ export function detectCollision(state: GameState, position: Position) {
     trees: expansion.trees ?? {},
     stones: expansion.stones ?? {},
     plots: expansion.plots ?? {},
-    createdAt: 0,
   }));
 
-  const positions = extractResourcePositions(resourcesFromExpansions);
+  const resourcePositions = extractResourcePositions(resourcesFromExpansions);
 
-  return { hasCollision: false };
+  return resourcePositions.some((resourcePosition) =>
+    isOverlapping(position, resourcePosition)
+  );
 }
