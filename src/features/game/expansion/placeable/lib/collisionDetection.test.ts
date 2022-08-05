@@ -4,6 +4,7 @@ import cloneDeep from "lodash.clonedeep";
 import {
   detectCollision,
   extractResourcePositions,
+  isOverlapping,
 } from "./collisionDetection";
 
 describe("extractResourcePositions", () => {
@@ -54,20 +55,40 @@ describe("extractResourcePositions", () => {
   });
 });
 
+describe("isOverlapping", () => {
+  it("returns false if there is no overlap between two positions", () => {
+    const position1: Position = { x: 1, y: 1, height: 1, width: 1 };
+    const position2: Position = { x: 2, y: 1, height: 1, width: 1 };
+
+    const overlappingPosition = isOverlapping(position1, position2);
+
+    expect(overlappingPosition).toBe(false);
+  });
+
+  it("returns true if there is an overlap between two positions", () => {
+    const position1: Position = { x: 1, y: 1, height: 1, width: 2 };
+    const position2: Position = { x: 2, y: 1, height: 1, width: 2 };
+
+    const overlappingPosition = isOverlapping(position1, position2);
+
+    expect(overlappingPosition).toBe(true);
+  });
+});
+
 describe("detectCollisions", () => {
-  it("returns a false hasCollision if a collision is not detected", () => {
+  it("returns false if a collision is not detected", () => {
     const state: GameState = cloneDeep(INITIAL_FARM);
 
     const position: Position = { x: 0, y: 0, height: 1, width: 1 };
 
     state.expansions = [];
 
-    const { hasCollision } = detectCollision(state, position);
+    const hasCollision = detectCollision(state, position);
 
-    expect(hasCollision).toBeFalsy();
+    expect(hasCollision).toBe(false);
   });
 
-  it("returns a true hasCollision if a collision is detected with an expansion resource", () => {
+  it("returns true if a collision is detected with an expansion resource", () => {
     const state: GameState = cloneDeep(INITIAL_FARM);
 
     const position: Position = { x: 0, y: 0, height: 1, width: 1 };
@@ -80,8 +101,8 @@ describe("detectCollisions", () => {
       },
     ];
 
-    const { hasCollision } = detectCollision(state, position);
+    const hasCollision = detectCollision(state, position);
 
-    expect(hasCollision).toBeTruthy();
+    expect(hasCollision).toBe(true);
   });
 });
