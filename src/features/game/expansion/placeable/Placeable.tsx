@@ -60,6 +60,8 @@ export const Placeable: React.FC = () => {
     send("CANCEL");
   };
 
+  const [collisionDetected, setCollisionDetected] = useState(true);
+
   return (
     <Draggable
       nodeRef={nodeRef}
