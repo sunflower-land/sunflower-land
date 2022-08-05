@@ -7,7 +7,7 @@ import { Coordinates } from "../../components/MapPlacement";
  * Extracts positional data for all instances of a single resource
  * @param resource
  * @param expansionIndex
- * @returns Array containaing all positionial data for one resource type eg Shrub
+ * @returns Array containaing all positional data for one resource type e.g. Shrub
  */
 const extract = <T extends Record<number, Position>>(
   resource: T,
@@ -90,7 +90,8 @@ function detectWaterCollision(state: GameState, position: Position) {
     })
   );
 
-  const positions: Position[] = Array.from({
+  // Split a MxN position into 1x1 chunks
+  const chunks: Position[] = Array.from({
     length: position.width * position.height,
   }).map((_, i) => ({
     x: position.x + (i % position.width),
@@ -100,57 +101,55 @@ function detectWaterCollision(state: GameState, position: Position) {
   }));
 
   // Every 1x1 chunk needs to overlap an expansion
-  return !positions.every((position) =>
+  return !chunks.every((chunk) =>
     expansionPositions.some((expansionPosition) =>
-      isOverlapping(position, expansionPosition)
+      isOverlapping(chunk, expansionPosition)
     )
   );
+}
+
+enum Direction {
+  Left,
+  Right,
+  Top,
+  Bottom,
 }
 
 function detectLandCornerCollision(state: GameState, position: Position) {
   const { expansions } = state;
 
-  const origins = expansions.map((_, i) => EXPANSION_ORIGINS[i]);
+  const origins: Coordinates[] = expansions.map((_, i) => EXPANSION_ORIGINS[i]);
 
-  const hasNeighbouringOrigin = (
+  const originExistsAtOffset = (
     origin: Coordinates,
-    direction: "left" | "right" | "top" | "bottom"
-  ) => {
-    if (direction === "left") {
-      return origins.find(
-        (neighbour) =>
-          neighbour.x === origin.x - LAND_SIZE && neighbour.y === origin.y
-      );
+    offset: {
+      x: -1 | 0 | 1;
+      y: -1 | 0 | 1;
     }
+  ) =>
+    origins.some(
+      (neighbour) =>
+        neighbour.x === origin.x - LAND_SIZE * offset.x &&
+        neighbour.y === origin.y + LAND_SIZE * offset.y
+    );
 
-    if (direction === "right") {
-      return origins.find(
-        (neighbour) =>
-          neighbour.x === origin.x + LAND_SIZE && neighbour.y === origin.y
-      );
+  const hasNeighbouringOrigin = (origin: Coordinates, direction: Direction) => {
+    switch (direction) {
+      case Direction.Left:
+        return originExistsAtOffset(origin, { x: -1, y: 0 });
+      case Direction.Right:
+        return originExistsAtOffset(origin, { x: 1, y: 0 });
+      case Direction.Top:
+        return originExistsAtOffset(origin, { x: 0, y: 1 });
+      case Direction.Bottom:
+        return originExistsAtOffset(origin, { x: 0, y: -1 });
     }
-
-    if (direction === "top") {
-      return origins.find(
-        (neighbour) =>
-          neighbour.x === origin.x && neighbour.y === origin.y + LAND_SIZE
-      );
-    }
-
-    if (direction === "bottom") {
-      return origins.find(
-        (neighbour) =>
-          neighbour.x === origin.x && neighbour.y === origin.y - LAND_SIZE
-      );
-    }
-
-    throw new Error("Could not determine which direction to check neighbour");
   };
 
-  const cornerCollisions: boolean[] = origins.map((origin) => {
-    const overlapsTopLeft =
-      !hasNeighbouringOrigin(origin, "left") &&
-      !hasNeighbouringOrigin(origin, "top") &&
+  return origins.some((origin) => {
+    const overlapsTopLeft = () =>
+      !hasNeighbouringOrigin(origin, Direction.Left) &&
+      !hasNeighbouringOrigin(origin, Direction.Top) &&
       isOverlapping(position, {
         x: origin.x - LAND_SIZE / 2,
         y: origin.y + LAND_SIZE / 2,
@@ -158,9 +157,9 @@ function detectLandCornerCollision(state: GameState, position: Position) {
         height: 1,
       });
 
-    const overlapsTopRight =
-      !hasNeighbouringOrigin(origin, "right") &&
-      !hasNeighbouringOrigin(origin, "top") &&
+    const overlapsTopRight = () =>
+      !hasNeighbouringOrigin(origin, Direction.Right) &&
+      !hasNeighbouringOrigin(origin, Direction.Top) &&
       isOverlapping(position, {
         x: origin.x + LAND_SIZE / 2 - 1,
         y: origin.y + LAND_SIZE / 2,
@@ -168,9 +167,9 @@ function detectLandCornerCollision(state: GameState, position: Position) {
         height: 1,
       });
 
-    const overlapsBottomLeft =
-      !hasNeighbouringOrigin(origin, "left") &&
-      !hasNeighbouringOrigin(origin, "bottom") &&
+    const overlapsBottomLeft = () =>
+      !hasNeighbouringOrigin(origin, Direction.Left) &&
+      !hasNeighbouringOrigin(origin, Direction.Bottom) &&
       isOverlapping(position, {
         x: origin.x - LAND_SIZE / 2,
         y: origin.y - LAND_SIZE / 2 + 1,
@@ -178,9 +177,9 @@ function detectLandCornerCollision(state: GameState, position: Position) {
         height: 1,
       });
 
-    const overlapsBottomRight =
-      !hasNeighbouringOrigin(origin, "right") &&
-      !hasNeighbouringOrigin(origin, "bottom") &&
+    const overlapsBottomRight = () =>
+      !hasNeighbouringOrigin(origin, Direction.Right) &&
+      !hasNeighbouringOrigin(origin, Direction.Bottom) &&
       isOverlapping(position, {
         x: origin.x + LAND_SIZE / 2 - 1,
         y: origin.y - LAND_SIZE / 2 + 1,
@@ -189,20 +188,18 @@ function detectLandCornerCollision(state: GameState, position: Position) {
       });
 
     return (
-      overlapsTopLeft ||
-      overlapsTopRight ||
-      overlapsBottomLeft ||
-      overlapsBottomRight
+      overlapsTopLeft() ||
+      overlapsTopRight() ||
+      overlapsBottomLeft() ||
+      overlapsBottomRight()
     );
   });
-
-  return cornerCollisions.some(Boolean);
 }
 
 export function detectCollision(state: GameState, position: Position) {
   return (
-    detectResourceCollision(state, position) ||
     detectWaterCollision(state, position) ||
+    detectResourceCollision(state, position) ||
     detectLandCornerCollision(state, position)
   );
 }
