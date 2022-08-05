@@ -20,7 +20,7 @@ import { Placeable } from "./placeable/Placeable";
 
 type ExpansionProps = Pick<
   LandExpansion,
-  "shrubs" | "plots" | "trees" | "stones" | "terrains" | "pebbles" | "createdAt"
+  "shrubs" | "plots" | "trees" | "terrains" | "pebbles" | "stones" | "createdAt"
 >;
 
 const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
@@ -168,7 +168,7 @@ export const Land: React.FC = () => {
           .filter((expansion) => expansion.readyAt < Date.now())
           .map(
             (
-              { shrubs, pebbles, terrains, trees, stones, plots, createdAt },
+              { shrubs, pebbles, stones, terrains, trees, plots, createdAt },
               index
             ) => (
               <Expansion
@@ -177,10 +177,10 @@ export const Land: React.FC = () => {
                 key={index}
                 shrubs={shrubs}
                 pebbles={pebbles}
+                stones={stones}
                 terrains={terrains}
                 trees={trees}
                 plots={plots}
-                stones={stones}
               />
             )
           )}

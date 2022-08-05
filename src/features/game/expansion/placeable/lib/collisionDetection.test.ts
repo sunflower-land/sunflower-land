@@ -78,10 +78,9 @@ describe("isOverlapping", () => {
 describe("detectCollisions", () => {
   it("returns false if a collision is not detected", () => {
     const state: GameState = cloneDeep(INITIAL_FARM);
+    state.expansions = [{ createdAt: 0, readyAt: 0 }];
 
     const position: Position = { x: 0, y: 0, height: 1, width: 1 };
-
-    state.expansions = [];
 
     const hasCollision = detectCollision(state, position);
 
@@ -102,6 +101,34 @@ describe("detectCollisions", () => {
     ];
 
     const hasCollision = detectCollision(state, position);
+
+    expect(hasCollision).toBe(true);
+  });
+
+  it("returns true if a collision is detected with water", () => {
+    const state: GameState = cloneDeep(INITIAL_FARM);
+    state.expansions = [{ createdAt: 0, readyAt: 0 }];
+
+    const hasCollision = detectCollision(state, {
+      x: -4,
+      y: 0,
+      width: 2,
+      height: 1,
+    });
+
+    expect(hasCollision).toBe(true);
+  });
+
+  it("returns true if a collision is detected with a corner", () => {
+    const state: GameState = cloneDeep(INITIAL_FARM);
+    state.expansions = [{ createdAt: 0, readyAt: 0 }];
+
+    const hasCollision = detectCollision(state, {
+      x: -3,
+      y: 3,
+      width: 1,
+      height: 1,
+    });
 
     expect(hasCollision).toBe(true);
   });

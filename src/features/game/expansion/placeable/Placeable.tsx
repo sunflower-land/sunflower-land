@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineInterpreter } from "./editingMachine";
@@ -10,6 +10,8 @@ import cancel from "assets/icons/cancel.png";
 import Draggable from "react-draggable";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
+import { detectCollision } from "./lib/collisionDetection";
+import classNames from "classnames";
 
 const PLACEABLES: Record<string, Record<string, string>> = {
   bakery: { image: bakery },
@@ -25,31 +27,50 @@ export const Placeable: React.FC = () => {
 
   const { placeable } = machine.context;
 
+  const [collisionDetected, setCollisionDetected] = useState(true);
+
   return (
     <Draggable
       nodeRef={nodeRef}
       grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
-      onDrag={(e, data) => {
-        console.log("draggin");
-        console.log({ e });
-        console.log({ data });
+      onStart={() => {
+        send("DRAG");
       }}
-      onStop={(e, data) => {
-        console.log("stopped");
-        console.log({ e });
+      onDrag={(_, data) => {
         const x = Math.round(data.x / GRID_WIDTH_PX);
         const y = Math.round((data.y / GRID_WIDTH_PX) * -1);
 
-        console.log({ x, y });
+        const hasCollision = detectCollision(gameService.state.context.state, {
+          x,
+          y,
+          width: 3,
+          height: 3,
+        });
+
+        if (collisionDetected !== hasCollision) {
+          setCollisionDetected(hasCollision);
+        }
+      }}
+      onStop={(e, data) => {
+        // console.log("stopped");
+        // console.log({ e });
+        const x = Math.round(data.x / GRID_WIDTH_PX);
+        const y = Math.round((data.y / GRID_WIDTH_PX) * -1);
+
+        // console.log({ x, y });
+        send("DROP");
       }}
     >
       <div
         ref={nodeRef}
         data-prevent-drag-scroll
-        className="flex flex-col items-center"
+        className={classNames("flex flex-col items-center", {
+          "cursor-grab": !machine.matches("dragging"),
+          "cursor-grabbing": machine.matches("dragging"),
+        })}
       >
         <img
-          draggable={false}
+          draggable="false"
           className="img-highlight"
           style={{ height: 48 * PIXEL_SCALE, width: 48 * PIXEL_SCALE }}
           src={PLACEABLES[placeable].image}
@@ -57,7 +78,7 @@ export const Placeable: React.FC = () => {
         />
         <OuterPanel>
           <div className="flex items-stretch">
-            <Button>
+            <Button disabled={collisionDetected}>
               <img src={confirm} alt="confirm" />
             </Button>
             <Button>
