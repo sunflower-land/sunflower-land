@@ -6,7 +6,7 @@ import { Context } from "../GameProvider";
 import { getTerrainImageByKey } from "../lib/getTerrainImageByKey";
 import { getKeys } from "../types/craftables";
 import { Plot } from "features/farming/crops/components/landExpansion/Plot";
-import { Tree } from "features/farming/crops/components/landExpansion/Tree";
+import { Tree } from "./components/resources/Tree";
 import { Pebble } from "./components/resources/Pebble";
 import { Shrub } from "./components/resources/Shrub";
 import { LandBase } from "./components/LandBase";
