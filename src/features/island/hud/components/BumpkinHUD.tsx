@@ -1,6 +1,6 @@
 import React from "react";
 
-import brownDisc from "assets/icons/brownDisc.png";
+import brownDisc from "assets/icons/empty_disc.png";
 import stamina from "assets/icons/stamina.png";
 import head from "assets/bumpkins/example.png";
 import { Bar } from "components/ui/ProgressBar";
@@ -14,7 +14,7 @@ export const BumpkinHUD: React.FC = () => {
         <div
           className="relative overflow-hidden"
           style={{
-            backgroundColor: "rgb(194 134 105)",
+            backgroundColor: "#bfcbda",
             width: "90%",
             height: "90%",
             position: "relative",
@@ -23,7 +23,15 @@ export const BumpkinHUD: React.FC = () => {
             borderRadius: "40%",
           }}
         >
-          <img src={head} style={{ width: "200%" }} />
+          <img
+            src={head}
+            style={{
+              width: "200%",
+              left: "13%",
+              position: "relative",
+              top: "10%",
+            }}
+          />
         </div>
       </div>
       <div>
