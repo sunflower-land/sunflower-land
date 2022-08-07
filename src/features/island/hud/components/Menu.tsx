@@ -97,7 +97,7 @@ export const Menu = () => {
         <Label className="mt-1">Settings</Label>
       </div>
 
-      <Modal show={menuOpen} centered>
+      <Modal show={menuOpen} centered onHide={() => setMenuOpen(false)}>
         <Panel>
           <ul
             className={`list-none pt-1 transition-all ease duration-200 origin-top ${
