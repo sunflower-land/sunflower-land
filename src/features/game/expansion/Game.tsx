@@ -18,7 +18,7 @@ import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 import { Land } from "./Land";
-import { Hud } from "features/farming/hud/Hud";
+import { Hud } from "features/island/hud/Hud";
 import { Water } from "./components/Water";
 import { Expanding } from "./components/Expanding";
 import { ExpansionSuccess } from "./components/ExpansionSuccess";
