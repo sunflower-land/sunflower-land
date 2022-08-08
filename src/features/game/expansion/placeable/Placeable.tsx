@@ -12,9 +12,15 @@ import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { detectCollision } from "./lib/collisionDetection";
 import classNames from "classnames";
+import { Coordinates } from "../components/MapPlacement";
 
-const PLACEABLES: Record<string, Record<string, string>> = {
-  bakery: { image: bakery },
+interface Placeable {
+  image: string;
+  height: number;
+  width: number;
+}
+const PLACEABLES: Record<string, Placeable> = {
+  bakery: { image: bakery, height: 3, width: 3 },
 };
 
 export const Placeable: React.FC = () => {
@@ -26,8 +32,33 @@ export const Placeable: React.FC = () => {
   const [machine, send] = useActor(child);
 
   const { placeable } = machine.context;
+  const { image, width, height } = PLACEABLES[placeable];
 
   const [collisionDetected, setCollisionDetected] = useState(true);
+  const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
+
+  const handleDrag = ({ x, y }: Coordinates) => {
+    setCoordinates({ x, y });
+
+    const hasCollision = detectCollision(gameService.state.context.state, {
+      x,
+      y,
+      width,
+      height,
+    });
+
+    if (collisionDetected !== hasCollision) {
+      setCollisionDetected(hasCollision);
+    }
+  };
+
+  const handleConfirmPlacement = () => {
+    send({ type: "PLACE", coordinates });
+  };
+
+  const handleCancelPlacement = () => {
+    send("CANCEL");
+  };
 
   return (
     <Draggable
@@ -40,24 +71,14 @@ export const Placeable: React.FC = () => {
         const x = Math.round(data.x / GRID_WIDTH_PX);
         const y = Math.round((data.y / GRID_WIDTH_PX) * -1);
 
-        const hasCollision = detectCollision(gameService.state.context.state, {
-          x,
-          y,
-          width: 3,
-          height: 3,
-        });
-
-        if (collisionDetected !== hasCollision) {
-          setCollisionDetected(hasCollision);
-        }
+        handleDrag({ x, y });
       }}
-      onStop={(e, data) => {
-        // console.log("stopped");
-        // console.log({ e });
+      onStop={(_, data) => {
         const x = Math.round(data.x / GRID_WIDTH_PX);
         const y = Math.round((data.y / GRID_WIDTH_PX) * -1);
 
-        // console.log({ x, y });
+        handleDrag({ x, y });
+
         send("DROP");
       }}
     >
@@ -73,15 +94,18 @@ export const Placeable: React.FC = () => {
           draggable="false"
           className="img-highlight"
           style={{ height: 48 * PIXEL_SCALE, width: 48 * PIXEL_SCALE }}
-          src={PLACEABLES[placeable].image}
+          src={image}
           alt=""
         />
         <OuterPanel>
           <div className="flex items-stretch">
-            <Button disabled={collisionDetected}>
+            <Button
+              disabled={collisionDetected}
+              onClick={handleConfirmPlacement}
+            >
               <img src={confirm} alt="confirm" />
             </Button>
-            <Button>
+            <Button onClick={handleCancelPlacement}>
               <img src={cancel} alt="cancel" />
             </Button>
           </div>
