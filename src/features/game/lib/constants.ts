@@ -311,7 +311,6 @@ export const INITIAL_FARM: GameState = {
     Egg: new Decimal(15),
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
-    Pickaxe: new Decimal(5),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
