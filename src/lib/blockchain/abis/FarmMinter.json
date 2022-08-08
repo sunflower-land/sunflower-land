@@ -2,36 +2,6 @@
   {
     "inputs": [
       {
-        "internalType": "contract SunflowerLand",
-        "name": "_farm",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnershipTransferred",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "bytes",
         "name": "signature",
         "type": "bytes"
@@ -58,25 +28,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "createdAt",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "deposit",
     "outputs": [],
@@ -93,34 +44,32 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "account",
+        "internalType": "contract SunflowerLand",
+        "name": "_farm",
         "type": "address"
       }
     ],
-    "name": "farmCreatedAt",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    "stateMutability": "payable",
+    "type": "constructor"
   },
   {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
+    "anonymous": false,
+    "inputs": [
       {
+        "indexed": true,
         "internalType": "address",
-        "name": "",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
         "type": "address"
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
+    "name": "OwnershipTransferred",
+    "type": "event"
   },
   {
     "inputs": [],
@@ -179,6 +128,70 @@
     "name": "transferSigner",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "createdAt",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "farmCreatedAt",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxSupply",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
