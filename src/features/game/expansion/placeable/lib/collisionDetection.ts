@@ -1,18 +1,19 @@
-import omit from "lodash.omit";
 import { GameState, LandExpansion, Position } from "features/game/types/game";
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../../lib/constants";
 import { Coordinates } from "../../components/MapPlacement";
 
+type BoundingBox = Position;
+
 /**
- * Extracts positional data for all instances of a single resource
+ * Extracts the bounding box for a collection of resources e.g. Shrubs.
  * @param resource
  * @param expansionIndex
- * @returns Array containaing all positional data for one resource type e.g. Shrub
+ * @returns Array of bounding boxes
  */
-const extract = <T extends Record<number, Position>>(
+const extractBoundingBox = <T extends Record<number, BoundingBox>>(
   resource: T,
   expansionIndex: number
-): Position[] => {
+): BoundingBox[] => {
   const { x: xOffset, y: yOffset } = EXPANSION_ORIGINS[expansionIndex];
 
   return Object.values(resource).map(({ x, y, height, width }) => ({
@@ -23,65 +24,93 @@ const extract = <T extends Record<number, Position>>(
   }));
 };
 
-/**
- * Extracts the positional data from all the resources on all land expansions.
- * @param expansions
- * @returns Array of all resource positions
- */
-export function extractResourcePositions(
-  expansions: Required<
-    Omit<LandExpansion, "terrains" | "createdAt" | "readyAt">
-  >[]
-) {
-  return expansions.flatMap((expansion, expansionIndex) =>
-    Object.values(omit(expansion, "terrains", "createdAt", "readyAt")).flatMap(
-      (resource) => extract(resource, expansionIndex)
-    )
-  );
-}
+type Resources = Required<
+  Omit<LandExpansion, "terrains" | "createdAt" | "readyAt">
+>;
 
-/**
- * Axis aligned bounding box collision detection
- * https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
- */
-export function isOverlapping(position1: Position, position2: Position) {
-  const xmin1 = position1.x;
-  const xmin2 = position2.x;
-
-  const xmax1 = position1.x + position1.width;
-  const xmax2 = position2.x + position2.width;
-
-  const ymin1 = position1.y - position1.height;
-  const ymin2 = position2.y - position2.height;
-
-  const ymax1 = position1.y;
-  const ymax2 = position2.y;
-
-  return xmin1 < xmax2 && xmax1 > xmin2 && ymin1 < ymax2 && ymax1 > ymin2;
-}
-
-function detectResourceCollision(state: GameState, position: Position) {
-  const { expansions } = state;
-
-  const resourcesFromExpansions = expansions.map((expansion) => ({
+const getAllResources = (expansions: LandExpansion[]): Resources[] => {
+  return expansions.map((expansion) => ({
     shrubs: expansion.shrubs ?? {},
     pebbles: expansion.pebbles ?? {},
     trees: expansion.trees ?? {},
     stones: expansion.stones ?? {},
     plots: expansion.plots ?? {},
   }));
+};
 
-  const resourcePositions = extractResourcePositions(resourcesFromExpansions);
+export const getBoundingBoxes = (
+  expansionResources: Resources,
+  expansionIndex: number
+) => {
+  const resources = Object.values(expansionResources);
 
-  return resourcePositions.some((resourcePosition) =>
-    isOverlapping(position, resourcePosition)
+  const boundingBoxes = resources.flatMap((resource) => {
+    return extractBoundingBox(resource, expansionIndex);
+  });
+
+  return boundingBoxes;
+};
+/**
+ * Extracts the bounding boxes for all resources on all land expansions.
+ * @param expansions
+ * @returns Array of all bounding boxes
+ */
+export function extractResourceBoundingBoxes(
+  expansions: LandExpansion[]
+): BoundingBox[] {
+  const allResources = getAllResources(expansions);
+
+  return allResources.flatMap(getBoundingBoxes);
+}
+
+/**
+ * Axis aligned bounding box collision detection
+ * https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+ */
+export function isOverlapping(
+  boundingBox1: BoundingBox,
+  boundingBox2: BoundingBox
+) {
+  const xmin1 = boundingBox1.x;
+  const xmin2 = boundingBox2.x;
+
+  const xmax1 = boundingBox1.x + boundingBox1.width;
+  const xmax2 = boundingBox2.x + boundingBox2.width;
+
+  const ymin1 = boundingBox1.y - boundingBox1.height;
+  const ymin2 = boundingBox2.y - boundingBox2.height;
+
+  const ymax1 = boundingBox1.y;
+  const ymax2 = boundingBox2.y;
+
+  return xmin1 < xmax2 && xmax1 > xmin2 && ymin1 < ymax2 && ymax1 > ymin2;
+}
+
+const splitBoundingBox = (boundingBox: BoundingBox) => {
+  const boxCount = boundingBox.width * boundingBox.height;
+
+  return Array.from({ length: boxCount }).map((_, i) => ({
+    x: boundingBox.x + (i % boundingBox.width),
+    y: boundingBox.y - Math.floor(i / boundingBox.width),
+    width: 1,
+    height: 1,
+  }));
+};
+
+function detectResourceCollision(state: GameState, boundingBox: BoundingBox) {
+  const { expansions } = state;
+
+  const resourceBoundingBoxes = extractResourceBoundingBoxes(expansions);
+
+  return resourceBoundingBoxes.some((resourceBoundingBox) =>
+    isOverlapping(boundingBox, resourceBoundingBox)
   );
 }
 
-function detectWaterCollision(state: GameState, position: Position) {
+function detectWaterCollision(state: GameState, boundingBox: BoundingBox) {
   const { expansions } = state;
 
-  const expansionPositions: Position[] = expansions.map(
+  const expansionBoundingBoxes: BoundingBox[] = expansions.map(
     (_, expansionIndex) => ({
       x: EXPANSION_ORIGINS[expansionIndex].x - LAND_SIZE / 2,
       y: EXPANSION_ORIGINS[expansionIndex].y + LAND_SIZE / 2,
@@ -90,22 +119,22 @@ function detectWaterCollision(state: GameState, position: Position) {
     })
   );
 
-  // Split a MxN position into 1x1 chunks
-  const chunks: Position[] = Array.from({
-    length: position.width * position.height,
-  }).map((_, i) => ({
-    x: position.x + (i % position.width),
-    y: position.y - Math.floor(i / position.width),
-    width: 1,
-    height: 1,
-  }));
+  /**
+   * A bounding box may overlap multiple land expansions.
+   *
+   * To check if a bounding box completely overlaps land, the
+   * bounding box is split into smaller, 1 by 1 bounding boxes,
+   * and each box is checked independently.
+   */
+  const isOverlappingExpansion = (boundingBox: BoundingBox) => {
+    return expansionBoundingBoxes.some((expansionBoundingBox) =>
+      isOverlapping(boundingBox, expansionBoundingBox)
+    );
+  };
+  const smallerBoxes = splitBoundingBox(boundingBox);
+  const isOverLand = smallerBoxes.every(isOverlappingExpansion);
 
-  // Every 1x1 chunk needs to overlap an expansion
-  return !chunks.every((chunk) =>
-    expansionPositions.some((expansionPosition) =>
-      isOverlapping(chunk, expansionPosition)
-    )
-  );
+  return !isOverLand;
 }
 
 enum Direction {
@@ -115,7 +144,7 @@ enum Direction {
   Bottom,
 }
 
-function detectLandCornerCollision(state: GameState, position: Position) {
+function detectLandCornerCollision(state: GameState, boundingBox: BoundingBox) {
   const { expansions } = state;
 
   const origins: Coordinates[] = expansions.map((_, i) => EXPANSION_ORIGINS[i]);
