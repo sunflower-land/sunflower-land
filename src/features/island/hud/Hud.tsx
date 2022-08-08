@@ -7,10 +7,8 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { BumpkinHUD } from "./components/BumpkinHUD";
 
-import disc from "assets/icons/disc.png";
-import hammer from "assets/icons/hammer.png";
-import { Label } from "components/ui/Label";
 import { Menu } from "./components/Menu";
+import { Buildings } from "../buildings/Buildings";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -26,13 +24,7 @@ export const Hud: React.FC = () => {
     <div data-html2canvas-ignore="true" aria-label="Hud">
       <Menu />
 
-      <div className="fixed bottom-2 right-2 z-50 flex flex-col items-end ">
-        <div className="relative w-14 h-14 flex items-center justify-center">
-          <img src={disc} className="w-full absolute inset-0" />
-          <img src={hammer} className="w-10 mb-1 z-10" />
-        </div>
-        <Label className="mt-1">Build</Label>
-      </div>
+      <Buildings />
 
       <BumpkinHUD />
       <Balance balance={gameState.context.state.balance} />
