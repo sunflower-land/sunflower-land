@@ -104,8 +104,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
 
   const shake = async () => {
-    shakeGif.current?.goToAndPlay(0);
-
     if (!hasAxes) {
       return;
     }
@@ -185,19 +183,24 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   };
 
   const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_SECONDS);
+  const playing = game.matches("playing") || game.matches("autosaving");
 
   return (
     <div className="relative z-10" style={{ height: "106px" }}>
       {!chopped && (
         <div
-          onMouseEnter={handleHover}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={playing ? handleHover : undefined}
+          onMouseLeave={playing ? handleMouseLeave : undefined}
           ref={treeRef}
-          className="group cursor-pointer  w-full h-full"
-          onClick={shake}
+          className={classNames("group w-full h-full", {
+            "cursor-pointer": playing,
+          })}
+          onClick={playing ? shake : undefined}
         >
           <Spritesheet
-            className="group-hover:img-highlight pointer-events-none transform"
+            className={classNames("pointer-events-none transform", {
+              "group-hover:img-highlight": playing,
+            })}
             style={{
               width: `${GRID_WIDTH_PX * 4}px`,
               // Line it up with the click area

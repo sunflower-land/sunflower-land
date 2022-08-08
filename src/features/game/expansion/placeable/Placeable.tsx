@@ -60,6 +60,27 @@ export const Placeable: React.FC = () => {
     send("CANCEL");
   };
 
+  if (machine.matches("placed")) {
+    return (
+      <div
+        className="absolute"
+        style={{
+          left: coordinates.x * GRID_WIDTH_PX,
+          top: -coordinates.y * GRID_WIDTH_PX,
+          height: 48 * PIXEL_SCALE,
+          width: 48 * PIXEL_SCALE,
+        }}
+      >
+        <img
+          draggable="false"
+          className="bulge h-full w-full"
+          src={image}
+          alt=""
+        />
+      </div>
+    );
+  }
+
   return (
     <Draggable
       nodeRef={nodeRef}

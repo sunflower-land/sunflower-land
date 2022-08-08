@@ -14,7 +14,7 @@ export type BlockchainEvent =
   | { type: "CANCEL" };
 
 export type BlockchainState = {
-  value: "idle" | "dragging" | "placing" | "close";
+  value: "idle" | "dragging" | "placing" | "placed" | "close";
   context: Context;
 };
 
@@ -58,18 +58,20 @@ export const editingMachine = createMachine<
     placing: {
       invoke: {
         src: async (context, event) => {
-          alert(
-            JSON.stringify(
-              {
-                item: context.placeable,
-                coordinates: (event as DropEvent).coordinates,
-              },
-              null,
-              2
-            )
-          );
+          console.info({
+            item: context.placeable,
+            coordinates: (event as DropEvent).coordinates,
+          });
         },
         onDone: {
+          target: "placed",
+        },
+      },
+    },
+    placed: {
+      after: {
+        // 300ms allows time for the .bulge animation
+        300: {
           target: "close",
         },
       },
