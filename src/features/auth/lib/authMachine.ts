@@ -263,8 +263,6 @@ export const authMachine = createMachine<
                   metamask.getFarmMinter().getMaxSupply(),
                 ]);
 
-                console.log({ totalSupply, maxSupply });
-
                 return {
                   totalSupply,
                   maxSupply,
