@@ -129,7 +129,7 @@ function detectLandCornerCollision(state: GameState, position: Position) {
   ) =>
     origins.some(
       (neighbour) =>
-        neighbour.x === origin.x - LAND_SIZE * offset.x &&
+        neighbour.x === origin.x + LAND_SIZE * offset.x &&
         neighbour.y === origin.y + LAND_SIZE * offset.y
     );
 
