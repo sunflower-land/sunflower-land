@@ -328,6 +328,7 @@ export const INITIAL_FARM: GameState = {
   plots: INITIAL_PLOTS,
 
   expansions: [GENESIS_LAND_EXPANSION, IN_PROGRESS_EXPANSION],
+  bumpkin: { level: 1 },
 };
 
 export const EMPTY: GameState = {
@@ -355,4 +356,5 @@ export const EMPTY: GameState = {
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
   expansions: [GENESIS_LAND_EXPANSION],
+  bumpkin: { level: 1 },
 };

@@ -103,6 +103,7 @@ export function makeGame(farm: any): GameState {
           seconds: new Decimal(farm.expansionRequirements.seconds),
         }
       : undefined,
+    bumpkin: farm.bumpkin || { level: 1 },
   };
 }
 
