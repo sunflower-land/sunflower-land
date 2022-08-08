@@ -177,6 +177,9 @@ import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
 import ancientGoblinSword from "src/assets/nfts/quest/ancient_goblin_sword.png";
 import ancientHumanWarhammer from "src/assets/nfts/quest/ancient_human_warhammer.png";
 
+// Buildings
+import firePit from "src/assets/buildings/fire_pit.png";
+
 import { InventoryItemName } from "./game";
 import {
   FOODS,
@@ -915,5 +918,25 @@ export const ITEM_DETAILS: Items = {
   "Farmer Pants": {
     image: questionMark,
     description: "An item for your bumpkin",
+  },
+  "Fire Pit": {
+    image: firePit,
+    description: "Roast your Sunflowers, feed and level up your Bumpkin",
+  },
+  Oven: {
+    image: questionMark,
+    description: "TEST",
+  },
+  Bakery: {
+    image: questionMark,
+    description: "Bake your favourite cakes",
+  },
+  Anvil: {
+    image: questionMark,
+    description: "TEST",
+  },
+  Workbench: {
+    image: questionMark,
+    description: "TEST",
   },
 };

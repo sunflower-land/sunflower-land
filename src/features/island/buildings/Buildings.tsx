@@ -12,10 +12,9 @@ import { Tab } from "components/ui/Tab";
 import crown from "assets/nfts/goblin_crown.png";
 import { BuildingDetails } from "./components/BuildingDetails";
 
-interface Props {}
-
-export const Buildings: React.FC<Props> = () => {
+export const Buildings: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
+
   return (
     <>
       <div
