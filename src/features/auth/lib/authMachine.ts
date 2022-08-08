@@ -258,17 +258,23 @@ export const authMachine = createMachine<
             id: "checkingSupply",
             invoke: {
               src: async () => {
-                const totalSupply = await metamask.getFarm()?.getTotalSupply();
+                const [totalSupply, maxSupply] = await Promise.all([
+                  metamask.getFarm()?.getTotalSupply(),
+                  metamask.getFarmMinter().getMaxSupply(),
+                ]);
+
+                console.log({ totalSupply, maxSupply });
 
                 return {
                   totalSupply,
+                  maxSupply,
                 };
               },
               onDone: [
                 {
                   target: "supplyReached",
                   cond: (context, event) =>
-                    Number(event.data.totalSupply) >= 150000,
+                    Number(event.data.totalSupply) >= event.data.maxSupply,
                 },
                 { target: "checkingAccess" },
               ],
