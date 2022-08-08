@@ -182,7 +182,17 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const timeLeft = getTimeLeft(rock.stone.minedAt, STONE_RECOVERY_TIME);
 
   return (
-    <div className="relative z-10" style={{ height: "106px", width: "106px" }}>
+    <div
+      className="relative z-10"
+      style={{
+        height: "106px",
+        width: "106px",
+        // The GIFs are larger than the rock due to the animations, so place correctly
+        transform: `translateY(${-GRID_WIDTH_PX * 1.72}px) translateX(${
+          -GRID_WIDTH_PX * 0.22
+        }px)`,
+      }}
+    >
       {!mined && (
         <div
           onMouseEnter={handleHover}
@@ -249,16 +259,18 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       />
 
       {mined && (
-        <>
+        <div
+          className="absolute opacity-50 bottom-0"
+          style={{
+            width: `${GRID_WIDTH_PX * 5}px`,
+            // Line it up with the click area
+            transform: `translateY(${GRID_WIDTH_PX * 1.12}px)`,
+          }}
+        >
           <img
             id="aqui"
             src={empty}
-            className="absolute opacity-50"
-            style={{
-              width: `${GRID_WIDTH_PX * 5}px`,
-              bottom: "9px",
-              left: "5px",
-            }}
+            className="w-full"
             onMouseEnter={handleMouseHoverRock}
             onMouseLeave={handleMouseLeaveRock}
           />
@@ -267,7 +279,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
             timeLeft={timeLeft}
             showTimeLeft={showRockTimeLeft}
           />
-        </>
+        </div>
       )}
 
       <div

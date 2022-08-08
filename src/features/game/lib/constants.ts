@@ -271,6 +271,18 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
   shrubs: INITIAL_SHRUBS,
   pebbles: INITIAL_PEBBLES,
   terrains: INITIAL_TERRAIN,
+  stones: {
+    0: {
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 0,
+      y: -2,
+      height: 1,
+      width: 2,
+    },
+  },
 
   plots: INITIAL_PLOTS,
 };
@@ -299,6 +311,7 @@ export const INITIAL_FARM: GameState = {
     Egg: new Decimal(15),
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
+    Pickaxe: new Decimal(5),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
