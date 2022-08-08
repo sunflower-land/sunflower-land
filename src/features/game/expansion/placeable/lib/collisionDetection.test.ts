@@ -3,7 +3,7 @@ import { GameState, LandExpansion, Position } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import {
   detectCollision,
-  extractResourcePositions,
+  extractResourceBoundingBoxes,
   isOverlapping,
 } from "./collisionDetection";
 
@@ -15,9 +15,7 @@ describe("extractResourcePositions", () => {
     const position4: Position = { x: -3, y: 2, height: 1, width: 2 };
     const position5: Position = { x: 0, y: -4, height: 1, width: 1 };
 
-    const expansions: Required<
-      Omit<LandExpansion, "terrains" | "createdAt" | "readyAt">
-    >[] = [
+    const expansions: LandExpansion[] = [
       {
         shrubs: {
           0: {
@@ -44,10 +42,12 @@ describe("extractResourcePositions", () => {
           },
         },
         plots: { 0: { ...position5 } },
+        createdAt: 0,
+        readyAt: 0,
       },
     ];
 
-    const positions = extractResourcePositions(expansions);
+    const positions = extractResourceBoundingBoxes(expansions);
 
     expect(positions.sort()).toEqual(
       [position1, position2, position3, position4, position5].sort()

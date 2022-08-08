@@ -144,74 +144,98 @@ enum Direction {
   Bottom,
 }
 
+/**
+ * Detects whether a bounding box collides with a land corner.
+ *
+ * As corners of a land change depending on how many expansions you have, this function looks for
+ * neighbouring expansions in all directions to determine where the corners are and whether the bounding box
+ * overlaps with any of them.
+ * @param state
+ * @param boundingBox
+ * @returns boolean
+ */
 function detectLandCornerCollision(state: GameState, boundingBox: BoundingBox) {
   const { expansions } = state;
 
-  const origins: Coordinates[] = expansions.map((_, i) => EXPANSION_ORIGINS[i]);
+  // Mid point coordinates for all land expansions
+  const originCoordiatesForExpansions: Coordinates[] = expansions.map(
+    (_, i) => EXPANSION_ORIGINS[i]
+  );
 
-  const originExistsAtOffset = (
-    origin: Coordinates,
+  /**
+   *
+   * @param expansionOrigin Center coordinates for a land expansion
+   * @param offset coordinate multiplier to determine direction to check eg bottomLeft = { x: -1, y: -1 }
+   * @returns Boolean
+   */
+  const expansionExistsAtOffset = (
+    expansionOrigin: Coordinates,
     offset: {
       x: -1 | 0 | 1;
       y: -1 | 0 | 1;
     }
-  ) =>
-    origins.some(
-      (neighbour) =>
-        neighbour.x === origin.x + LAND_SIZE * offset.x &&
-        neighbour.y === origin.y + LAND_SIZE * offset.y
-    );
+  ) => {
+    return originCoordiatesForExpansions.some((neighbour) => {
+      return (
+        neighbour.x === expansionOrigin.x + LAND_SIZE * offset.x &&
+        neighbour.y === expansionOrigin.y + LAND_SIZE * offset.y
+      );
+    });
+  };
 
-  const hasNeighbouringOrigin = (origin: Coordinates, direction: Direction) => {
+  const hasNeighbouringExpansion = (
+    origin: Coordinates,
+    direction: Direction
+  ) => {
     switch (direction) {
       case Direction.Left:
-        return originExistsAtOffset(origin, { x: -1, y: 0 });
+        return expansionExistsAtOffset(origin, { x: -1, y: 0 });
       case Direction.Right:
-        return originExistsAtOffset(origin, { x: 1, y: 0 });
+        return expansionExistsAtOffset(origin, { x: 1, y: 0 });
       case Direction.Top:
-        return originExistsAtOffset(origin, { x: 0, y: 1 });
+        return expansionExistsAtOffset(origin, { x: 0, y: 1 });
       case Direction.Bottom:
-        return originExistsAtOffset(origin, { x: 0, y: -1 });
+        return expansionExistsAtOffset(origin, { x: 0, y: -1 });
     }
   };
 
-  return origins.some((origin) => {
+  return originCoordiatesForExpansions.some((originCoordinate) => {
     const overlapsTopLeft = () =>
-      !hasNeighbouringOrigin(origin, Direction.Left) &&
-      !hasNeighbouringOrigin(origin, Direction.Top) &&
-      isOverlapping(position, {
-        x: origin.x - LAND_SIZE / 2,
-        y: origin.y + LAND_SIZE / 2,
+      !hasNeighbouringExpansion(originCoordinate, Direction.Left) &&
+      !hasNeighbouringExpansion(originCoordinate, Direction.Top) &&
+      isOverlapping(boundingBox, {
+        x: originCoordinate.x - LAND_SIZE / 2,
+        y: originCoordinate.y + LAND_SIZE / 2,
         width: 1,
         height: 1,
       });
 
     const overlapsTopRight = () =>
-      !hasNeighbouringOrigin(origin, Direction.Right) &&
-      !hasNeighbouringOrigin(origin, Direction.Top) &&
-      isOverlapping(position, {
-        x: origin.x + LAND_SIZE / 2 - 1,
-        y: origin.y + LAND_SIZE / 2,
+      !hasNeighbouringExpansion(originCoordinate, Direction.Right) &&
+      !hasNeighbouringExpansion(originCoordinate, Direction.Top) &&
+      isOverlapping(boundingBox, {
+        x: originCoordinate.x + LAND_SIZE / 2 - 1,
+        y: originCoordinate.y + LAND_SIZE / 2,
         width: 1,
         height: 1,
       });
 
     const overlapsBottomLeft = () =>
-      !hasNeighbouringOrigin(origin, Direction.Left) &&
-      !hasNeighbouringOrigin(origin, Direction.Bottom) &&
-      isOverlapping(position, {
-        x: origin.x - LAND_SIZE / 2,
-        y: origin.y - LAND_SIZE / 2 + 1,
+      !hasNeighbouringExpansion(originCoordinate, Direction.Left) &&
+      !hasNeighbouringExpansion(originCoordinate, Direction.Bottom) &&
+      isOverlapping(boundingBox, {
+        x: originCoordinate.x - LAND_SIZE / 2,
+        y: originCoordinate.y - LAND_SIZE / 2 + 1,
         width: 1,
         height: 1,
       });
 
     const overlapsBottomRight = () =>
-      !hasNeighbouringOrigin(origin, Direction.Right) &&
-      !hasNeighbouringOrigin(origin, Direction.Bottom) &&
-      isOverlapping(position, {
-        x: origin.x + LAND_SIZE / 2 - 1,
-        y: origin.y - LAND_SIZE / 2 + 1,
+      !hasNeighbouringExpansion(originCoordinate, Direction.Right) &&
+      !hasNeighbouringExpansion(originCoordinate, Direction.Bottom) &&
+      isOverlapping(boundingBox, {
+        x: originCoordinate.x + LAND_SIZE / 2 - 1,
+        y: originCoordinate.y - LAND_SIZE / 2 + 1,
         width: 1,
         height: 1,
       });
