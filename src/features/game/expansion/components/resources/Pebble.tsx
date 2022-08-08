@@ -140,23 +140,28 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex, expansionIndex }) => {
   };
 
   const timeLeft = getTimeLeft(pebble.stone.minedAt, PEBBLE_RECOVERY_TIME);
+  const playing = game.matches("playing") || game.matches("autosaving");
 
   return (
     <div
       className="relative z-10"
       style={{ height: "40px" }}
-      onMouseEnter={handleMouseHoverPebble}
-      onMouseLeave={handleMouseLeavePebble}
+      onMouseEnter={playing ? handleMouseHoverPebble : undefined}
+      onMouseLeave={playing ? handleMouseLeavePebble : undefined}
     >
       {/* Unmined pebble which is strikeable */}
       {!mined && (
         <div
           ref={containerRef}
-          className="group cursor-pointer w-full h-full"
-          onClick={strike}
+          className={classNames("group w-full h-full", {
+            "cursor-pointer": playing,
+          })}
+          onClick={playing ? strike : undefined}
         >
           <Spritesheet
-            className="group-hover:img-highlight pointer-events-none z-10"
+            className={classNames("pointer-events-none z-10", {
+              "group-hover:img-highlight": playing,
+            })}
             style={{
               position: "absolute",
               left: "-44.7px",

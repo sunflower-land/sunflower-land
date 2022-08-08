@@ -143,22 +143,27 @@ export const Shrub: React.FC<Props> = ({ shrubIndex, expansionIndex }) => {
   };
 
   const timeLeft = getTimeLeft(shrub.wood.choppedAt, SHRUB_RECOVERY_TIME);
+  const playing = game.matches("playing") || game.matches("autosaving");
 
   return (
     <div
       className="relative z-10"
       style={{ height: "100px" }}
-      onMouseEnter={handleMouseHoverShrub}
-      onMouseLeave={handleMouseLeaveShrub}
+      onMouseEnter={playing ? handleMouseHoverShrub : undefined}
+      onMouseLeave={playing ? handleMouseLeaveShrub : undefined}
     >
       {!chopped && (
         <div
           ref={containerRef}
-          className="group cursor-pointer w-full h-full"
-          onClick={strike}
+          className={classNames("group w-full h-full", {
+            "cursor-pointer": playing,
+          })}
+          onClick={playing ? strike : undefined}
         >
           <Spritesheet
-            className="group-hover:img-highlight pointer-events-none z-10"
+            className={classNames("pointer-events-none z-10", {
+              "group-hover:img-highlight": playing,
+            })}
             style={{
               position: "absolute",
               left: "-41px",
