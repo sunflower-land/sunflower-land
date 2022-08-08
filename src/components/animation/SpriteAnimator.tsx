@@ -339,13 +339,13 @@ class Spritesheet extends React.Component<Props> {
   };
 
   goToAndPlay = (frame) => {
-    this.frame = frame ? frame : this.frame;
+    this.frame = frame ?? this.frame;
     this.play();
   };
 
   goToAndPause = (frame) => {
     this.pause();
-    this.frame = frame ? frame : this.frame;
+    this.frame = frame ?? this.frame;
     this.moveImage();
   };
 
