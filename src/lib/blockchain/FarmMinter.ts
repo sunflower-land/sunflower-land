@@ -25,7 +25,7 @@ export class FarmMinter {
     ) as unknown as SunflowerLandFarmMinter;
   }
 
-  public async getCreatedAt(address: string, attempts = 1): Promise<string> {
+  public async getCreatedAt(address: string, attempts = 1): Promise<number> {
     await new Promise((res) => setTimeout(res, 3000 * attempts));
 
     try {
@@ -33,7 +33,7 @@ export class FarmMinter {
         .farmCreatedAt(address)
         .call({ from: this.account });
 
-      return createdAt;
+      return Number(createdAt);
     } catch (e) {
       const error = parseMetamaskError(e);
       if (attempts < 3) {
