@@ -16,11 +16,18 @@ import { Label } from "components/ui/Label";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
+import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
+
+const CONTENT_HEIGHT = 380;
 
 export const BuildingDetails: React.FC = () => {
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
+
   const [selected, setSelected] = useState<BuildingName | null>(null);
+
+  const { ref: itemContainerRef, showScrollbar } =
+    useShowScrollbar(CONTENT_HEIGHT);
 
   const state = game.context.state;
   const bumpkinLevel = state.bumpkin.level;
@@ -52,7 +59,13 @@ export const BuildingDetails: React.FC = () => {
 
   if (!selected) {
     return (
-      <div className="w-full pr-2 pt-2.5">
+      <div
+        ref={itemContainerRef}
+        style={{ maxHeight: CONTENT_HEIGHT }}
+        className={classNames("w-full pr-1 pt-2.5 overflow-y-auto", {
+          scrollable: showScrollbar,
+        })}
+      >
         {buildings.map((buildingName, index) => (
           <div key={index} onClick={() => handleClick(buildingName)}>
             <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">

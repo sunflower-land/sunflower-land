@@ -9,7 +9,7 @@ import close from "assets/icons/close.png";
 import { Panel } from "components/ui/Panel";
 
 import { Tab } from "components/ui/Tab";
-import crown from "assets/nfts/goblin_crown.png";
+import crown from "assets/tools/hammer.png";
 import { BuildingDetails } from "./components/BuildingDetails";
 
 export const Buildings: React.FC = () => {
