@@ -10,7 +10,6 @@ import { InnerPanel, Panel } from "components/ui/Panel";
 import { CONFIG } from "lib/config";
 import { Modal } from "react-bootstrap";
 import classNames from "classnames";
-import { Z_INDEXES } from "lib/utils/zIndex";
 
 const releaseVersion = CONFIG.RELEASE_VERSION as string;
 
@@ -54,9 +53,10 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
       )}
       <img src={sunflowers} className="absolute w-full bottom-0" />
 
+      {/* z-index must be 1056 or higher to break out of bootstrap modal */}
       <div
         className="absolute bottom-0 right-0 m-1 pointer-events-auto"
-        style={{ zIndex: Z_INDEXES.ABOVE_MODAL }}
+        style={{ zIndex: 1100 }}
       >
         <InnerPanel>
           <p className="text-xs sm:text-sm text-shadow text-white p-1">
