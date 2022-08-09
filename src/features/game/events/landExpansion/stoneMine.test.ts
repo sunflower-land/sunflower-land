@@ -68,7 +68,12 @@ describe("mineStone", () => {
   it("throws an error if no axes are left", () => {
     expect(() =>
       mineStone({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Pickaxe: new Decimal(0),
+          },
+        },
         action: {
           type: "rock.mined",
           expansionIndex: 0,
