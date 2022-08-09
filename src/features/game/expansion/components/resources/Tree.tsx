@@ -222,7 +222,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
               }}
             />
           </div>
-          <Overlay target={treeRef.current} show={showLabel} placement="right">
+          <Overlay target={treeRef.current} show={showLabel}>
             {(props) => (
               <div {...props} className="z-10 w-28">
                 <Label className="p-2">Equip {tool.toLowerCase()}</Label>
