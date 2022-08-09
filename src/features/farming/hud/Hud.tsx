@@ -7,6 +7,7 @@ import { AudioPlayer } from "components/ui/AudioPlayer";
 import { VisitBanner } from "../../../components/ui/VisitBanner";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { Buildings } from "./components/Buildings";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -29,6 +30,7 @@ export const Hud: React.FC = () => {
       />
       <AudioPlayer isFarming />
       <VisitBanner id={landId} />
+      <Buildings />
     </div>
   );
 };

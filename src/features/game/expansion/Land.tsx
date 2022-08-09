@@ -16,10 +16,11 @@ import { LandExpansion } from "../types/game";
 import { TerrainPlacement } from "./components/TerrainPlacement";
 import { EXPANSION_ORIGINS } from "./lib/constants";
 import { Stone } from "./components/resources/Stone";
+import { Placeable } from "./placeable/Placeable";
 
 type ExpansionProps = Pick<
   LandExpansion,
-  "shrubs" | "plots" | "trees" | "stones" | "terrains" | "pebbles" | "createdAt"
+  "shrubs" | "plots" | "trees" | "terrains" | "pebbles" | "stones" | "createdAt"
 >;
 
 const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
@@ -146,11 +147,8 @@ const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [gameState] = useActor(gameService);
+  const { state } = gameState.context;
 
   const { expansions } = state;
 
@@ -170,7 +168,7 @@ export const Land: React.FC = () => {
           .filter((expansion) => expansion.readyAt < Date.now())
           .map(
             (
-              { shrubs, pebbles, terrains, trees, stones, plots, createdAt },
+              { shrubs, pebbles, stones, terrains, trees, plots, createdAt },
               index
             ) => (
               <Expansion
@@ -179,13 +177,26 @@ export const Land: React.FC = () => {
                 key={index}
                 shrubs={shrubs}
                 pebbles={pebbles}
+                stones={stones}
                 terrains={terrains}
                 trees={trees}
                 plots={plots}
-                stones={stones}
               />
             )
           )}
+
+        {gameState.matches("editing") && (
+          <div
+            className="absolute"
+            style={{
+              top: "50%",
+              left: "50%",
+              zIndex: 100,
+            }}
+          >
+            <Placeable />
+          </div>
+        )}
 
         <MapPlacement x={2} y={1}>
           <Bumpkin />

@@ -298,6 +298,8 @@ const IN_PROGRESS_EXPANSION: LandExpansion = {
   plots: INITIAL_PLOTS,
 };
 
+export const INITIAL_EXPANSIONS = [GENESIS_LAND_EXPANSION];
+
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
@@ -340,7 +342,7 @@ export const INITIAL_FARM: GameState = {
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
 
-  expansions: [GENESIS_LAND_EXPANSION, IN_PROGRESS_EXPANSION],
+  expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
 };
 
@@ -368,6 +370,6 @@ export const EMPTY: GameState = {
   pebbles: INITIAL_PEBBLES,
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
-  expansions: [GENESIS_LAND_EXPANSION],
+  expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
 };

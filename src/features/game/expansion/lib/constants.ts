@@ -4,6 +4,9 @@ import { Coordinates } from "../components/MapPlacement";
 
 export const LAND_SIZE = 6;
 
+/**
+ * The expansion origin is the center point of a land expansion.
+ */
 export const EXPANSION_ORIGINS: Record<number, Coordinates> = {
   0: { x: 0 * LAND_SIZE, y: 0 * LAND_SIZE },
   1: { x: 1 * LAND_SIZE, y: 0 * LAND_SIZE },
