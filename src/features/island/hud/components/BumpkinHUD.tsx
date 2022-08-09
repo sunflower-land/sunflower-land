@@ -9,7 +9,7 @@ import { Label } from "components/ui/Label";
 export const BumpkinHUD: React.FC = () => {
   return (
     <div className="fixed top-2 left-2 z-50 flex">
-      <div className="w-14 h-14 relative cursor-pointer hover:img-highlight">
+      <div className="w-16 h-16 relative cursor-pointer hover:img-highlight">
         <img src={brownDisc} className="absolute inset-0 w-full h-full z-10" />
         <div
           className="relative overflow-hidden"

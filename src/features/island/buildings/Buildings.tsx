@@ -13,7 +13,7 @@ import crown from "assets/tools/hammer.png";
 import { BuildingDetails } from "./components/BuildingDetails";
 
 export const Buildings: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
@@ -21,11 +21,11 @@ export const Buildings: React.FC = () => {
         onClick={() => setIsOpen(true)}
         className="fixed bottom-2 right-2 z-50 flex flex-col items-end cursor-pointer hover:img-highlight"
       >
-        <div className="relative w-14 h-14 flex items-center justify-center">
+        <div className="relative w-16 h-16 flex items-center justify-center">
           <img src={disc} className="w-full absolute inset-0" />
           <img src={hammer} className="w-10 mb-1 z-10" />
         </div>
-        <Label className="mt-1">Build</Label>
+        <Label className="mt-1 hidden sm:block">Build</Label>
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel className="pt-5 relative">
