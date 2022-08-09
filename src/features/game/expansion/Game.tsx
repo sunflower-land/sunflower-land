@@ -22,6 +22,7 @@ import { Hud } from "features/island/hud/Hud";
 import { Water } from "./components/Water";
 import { Expanding } from "./components/Expanding";
 import { ExpansionSuccess } from "./components/ExpansionSuccess";
+import { PlaceableOverlay } from "./components/PlaceableOverlay";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -101,7 +102,9 @@ export const Game: React.FC = () => {
       </Modal>
 
       <Water level={gameState.context.state.expansions.length + 1} />
-      <Land />
+      <PlaceableOverlay>
+        <Land />
+      </PlaceableOverlay>
       <Hud />
     </>
   );

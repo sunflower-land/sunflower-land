@@ -597,6 +597,8 @@ export function startGame(authContext: Options) {
             src: editingMachine,
             data: {
               placeable: (_: Context, event: EditEvent) => event.placeable,
+              coordinates: { x: 0, y: 0 },
+              collisionDetected: true,
             },
             onDone: {
               target: "playing",
