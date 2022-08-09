@@ -6,11 +6,11 @@ import Spritesheet, {
 
 import sparkSheet from "assets/resources/stone/stone_spark.png";
 import dropSheet from "assets/resources/stone/stone_drop.png";
-import empty from "assets/resources/stone/stone_empty.png";
+import hitbox from "assets/resources/stone/stone_hitbox.png";
 import stone from "assets/resources/stone.png";
 import pickaxe from "assets/tools/wood_pickaxe.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -86,20 +86,14 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
     setShowPopover(false);
   };
 
-  // Show/Hide Time left on hover
-
-  const handleMouseHoverRock = () => {
-    if (mined) setShowRockTimeLeft(true);
-  };
-
-  const handleMouseLeaveRock = () => {
-    setShowRockTimeLeft(false);
-  };
-
   const hasPickaxes =
     selectedItem === tool && game.context.state.inventory[tool]?.gte(1);
 
-  const shake = () => {
+  const strike = () => {
+    if (mined) {
+      return;
+    }
+
     sparkGif.current?.goToAndPlay(0);
 
     if (!hasPickaxes) return;
@@ -166,6 +160,8 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   };
 
   const handleHover = () => {
+    if (mined) setShowRockTimeLeft(true);
+
     if (hasPickaxes) return;
 
     containerRef.current?.classList["add"]("cursor-not-allowed");
@@ -173,6 +169,8 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   };
 
   const handleMouseLeave = () => {
+    setShowRockTimeLeft(false);
+
     if (hasPickaxes) return;
 
     containerRef.current?.classList["remove"]("cursor-not-allowed");
@@ -182,128 +180,117 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const timeLeft = getTimeLeft(rock.stone.minedAt, STONE_RECOVERY_TIME);
 
   return (
-    <div
-      className="relative z-10"
-      style={{
-        height: "106px",
-        width: "106px",
-        // The GIFs are larger than the rock due to the animations, so place correctly
-        transform: `translateY(${-GRID_WIDTH_PX * 1.72}px) translateX(${
-          -GRID_WIDTH_PX * 0.22
-        }px)`,
-      }}
-    >
-      {!mined && (
-        <div
-          onMouseEnter={handleHover}
-          onMouseLeave={handleMouseLeave}
-          ref={containerRef}
-          className="group cursor-pointer w-full h-full"
-          onClick={shake}
-        >
-          <Spritesheet
-            className="group-hover:img-highlight pointer-events-none transform"
-            style={{
-              width: `${GRID_WIDTH_PX * 5}px`,
-              imageRendering: "pixelated",
-            }}
-            getInstance={(spritesheet) => {
-              sparkGif.current = spritesheet;
-            }}
-            image={sparkSheet}
-            widthFrame={91}
-            heightFrame={66}
-            fps={24}
-            steps={5}
-            direction={`forward`}
-            autoplay={false}
-            loop={true}
-            onLoopComplete={(spritesheet) => {
-              spritesheet.pause();
-            }}
-          />
-          <div
-            className={`absolute top-10 transition pointer-events-none w-28 z-20 ${
-              showLabel ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Label className="p-2">Equip {tool.toLowerCase()}</Label>
-          </div>
-        </div>
-      )}
-
-      <Spritesheet
+    <div className="relative z-10 group" ref={containerRef}>
+      <img
+        src={hitbox}
         style={{
-          width: `${GRID_WIDTH_PX * 5}px`,
-          // Line it up with the click area
-          transform: `translateY(${GRID_WIDTH_PX * 1.12}px)`,
-          opacity: collecting ? 1 : 0,
-          transition: "opacity 0.2s ease-in",
-          imageRendering: "pixelated",
+          width: `${22 * PIXEL_SCALE}px`,
+          opacity: 0.3,
         }}
-        className="absolute bottom-0 pointer-events-none"
-        getInstance={(spritesheet) => {
-          minedGif.current = spritesheet;
-        }}
-        image={dropSheet}
-        widthFrame={91}
-        heightFrame={66}
-        fps={18}
-        steps={7}
-        direction={`forward`}
-        autoplay={false}
-        loop={true}
-        onLoopComplete={(spritesheet) => {
-          spritesheet.pause();
-        }}
+        className="z-10  cursor-pointer"
+        onMouseEnter={handleHover}
+        onMouseLeave={handleMouseLeave}
+        onClick={strike}
       />
 
-      {mined && (
-        <div
-          className="absolute opacity-50 bottom-0"
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          // The GIFs are larger than the rock due to the animations, so place correctly
+          transform: `translateY(${-GRID_WIDTH_PX * 2.947}px) translateX(${
+            -GRID_WIDTH_PX * 0.6888
+          }px)`,
+        }}
+      >
+        {!mined && (
+          <>
+            <Spritesheet
+              className="group-hover:img-highlight pointer-events-none "
+              style={{
+                width: `${PIXEL_SCALE * 91}px`,
+                imageRendering: "pixelated",
+              }}
+              getInstance={(spritesheet) => {
+                sparkGif.current = spritesheet;
+              }}
+              image={sparkSheet}
+              widthFrame={91}
+              heightFrame={66}
+              fps={24}
+              steps={5}
+              direction={`forward`}
+              autoplay={false}
+              loop={true}
+              onLoopComplete={(spritesheet) => {
+                spritesheet.pause();
+              }}
+            />
+            <div
+              className={`absolute top-10 transition pointer-events-none w-28 z-20 ${
+                showLabel ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <Label className="p-2">Equip {tool.toLowerCase()}</Label>
+            </div>
+          </>
+        )}
+
+        <Spritesheet
           style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
+            width: `${PIXEL_SCALE * 91}px`,
+
             // Line it up with the click area
-            transform: `translateY(${GRID_WIDTH_PX * 1.12}px)`,
+            opacity: collecting ? 1 : 0,
+            transition: "opacity 0.2s ease-in",
+            imageRendering: "pixelated",
           }}
+          getInstance={(spritesheet) => {
+            minedGif.current = spritesheet;
+          }}
+          image={dropSheet}
+          widthFrame={91}
+          heightFrame={66}
+          fps={18}
+          steps={7}
+          direction={`forward`}
+          autoplay={false}
+          loop={true}
+          onLoopComplete={(spritesheet) => {
+            spritesheet.pause();
+          }}
+        />
+
+        <TimeLeftPanel
+          text="Recovers in:"
+          timeLeft={timeLeft}
+          showTimeLeft={showRockTimeLeft}
+        />
+
+        <div
+          className={classNames(
+            "transition-opacity pointer-events-none absolute top-32 left-9",
+            {
+              "opacity-100": touchCount > 0,
+              "opacity-0": touchCount === 0,
+            }
+          )}
         >
-          <img
-            id="aqui"
-            src={empty}
-            className="w-full"
-            onMouseEnter={handleMouseHoverRock}
-            onMouseLeave={handleMouseLeaveRock}
-          />
-          <TimeLeftPanel
-            text="Recovers in:"
-            timeLeft={timeLeft}
-            showTimeLeft={showRockTimeLeft}
+          <HealthBar
+            percentage={collecting ? 0 : 100 - (touchCount / 3) * 100}
           />
         </div>
-      )}
 
-      <div
-        className={classNames(
-          "transition-opacity pointer-events-none absolute top-12 left-8",
-          {
-            "opacity-100": touchCount > 0,
-            "opacity-0": touchCount === 0,
-          }
-        )}
-      >
-        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
-      </div>
-
-      <div
-        className={classNames(
-          "transition-opacity absolute top-24 w-40 left-20 z-20 pointer-events-none",
-          {
-            "opacity-100": showPopover,
-            "opacity-0": !showPopover,
-          }
-        )}
-      >
-        {popover}
+        <div
+          className={classNames(
+            "transition-opacity absolute top-24 w-40 left-20 z-20 pointer-events-none",
+            {
+              "opacity-100": showPopover,
+              "opacity-0": !showPopover,
+            }
+          )}
+        >
+          {popover}
+        </div>
       </div>
     </div>
   );
