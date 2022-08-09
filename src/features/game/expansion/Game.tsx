@@ -139,7 +139,7 @@ export const Game: React.FC = () => {
           <Land />
         </PlaceableOverlay>
       </div>
-      <div className="absolute z-20 w-full h-full">
+      <div className="absolute z-20">
         <Hud />
       </div>
     </>

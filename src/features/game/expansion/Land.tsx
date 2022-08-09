@@ -191,7 +191,7 @@ export const Land: React.FC = () => {
             style={{
               top: "50%",
               left: "50%",
-              zIndex: 100,
+              zIndex: 200,
             }}
           >
             <Placeable />

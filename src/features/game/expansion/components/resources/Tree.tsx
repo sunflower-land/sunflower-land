@@ -30,6 +30,7 @@ import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { LandExpansionTree } from "features/game/types/game";
 import { canChop } from "features/game/events/landExpansion/chop";
+import { Overlay } from "react-bootstrap";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -189,44 +190,46 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   return (
     <div className="relative z-10" style={{ height: "106px" }}>
       {!chopped && (
-        <div
-          onMouseEnter={handleHover}
-          onMouseLeave={handleMouseLeave}
-          ref={treeRef}
-          className="group cursor-pointer  w-full h-full"
-          onClick={shake}
-        >
-          <Spritesheet
-            className="group-hover:img-highlight pointer-events-none transform"
-            style={{
-              width: `${GRID_WIDTH_PX * 4}px`,
-              // Line it up with the click area
-              transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
-              imageRendering: "pixelated",
-            }}
-            getInstance={(spritesheet) => {
-              shakeGif.current = spritesheet;
-            }}
-            image={shakeSheet}
-            widthFrame={266 / 4}
-            heightFrame={168 / 4}
-            fps={24}
-            steps={7}
-            direction={`forward`}
-            autoplay={false}
-            loop={true}
-            onLoopComplete={(spritesheet) => {
-              spritesheet.pause();
-            }}
-          />
+        <>
           <div
-            className={`absolute bottom-8 -right-[1rem] transition pointer-events-none w-28 z-20 ${
-              showLabel ? "opacity-100" : "opacity-0"
-            }`}
+            onMouseEnter={handleHover}
+            onMouseLeave={handleMouseLeave}
+            ref={treeRef}
+            className="group cursor-pointer  w-full h-full"
+            onClick={shake}
           >
-            <Label className="p-2">Equip {tool.toLowerCase()}</Label>
+            <Spritesheet
+              className="group-hover:img-highlight pointer-events-none transform"
+              style={{
+                width: `${GRID_WIDTH_PX * 4}px`,
+                // Line it up with the click area
+                transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+                imageRendering: "pixelated",
+              }}
+              getInstance={(spritesheet) => {
+                shakeGif.current = spritesheet;
+              }}
+              image={shakeSheet}
+              widthFrame={266 / 4}
+              heightFrame={168 / 4}
+              fps={24}
+              steps={7}
+              direction={`forward`}
+              autoplay={false}
+              loop={true}
+              onLoopComplete={(spritesheet) => {
+                spritesheet.pause();
+              }}
+            />
           </div>
-        </div>
+          <Overlay target={treeRef.current} show={showLabel} placement="right">
+            {(props) => (
+              <div {...props} className="z-10 w-28">
+                <Label className="p-2">Equip {tool.toLowerCase()}</Label>
+              </div>
+            )}
+          </Overlay>
+        </>
       )}
 
       <Spritesheet
