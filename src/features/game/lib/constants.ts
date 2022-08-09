@@ -271,18 +271,6 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
   shrubs: INITIAL_SHRUBS,
   pebbles: INITIAL_PEBBLES,
   terrains: INITIAL_TERRAIN,
-  stones: {
-    0: {
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      x: 0,
-      y: -2,
-      height: 1,
-      width: 2,
-    },
-  },
 
   plots: INITIAL_PLOTS,
 };
