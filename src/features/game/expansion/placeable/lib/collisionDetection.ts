@@ -158,7 +158,7 @@ function detectLandCornerCollision(state: GameState, boundingBox: BoundingBox) {
   const { expansions } = state;
 
   // Mid point coordinates for all land expansions
-  const originCoordiatesForExpansions: Coordinates[] = expansions.map(
+  const originCoordinatesForExpansions: Coordinates[] = expansions.map(
     (_, i) => EXPANSION_ORIGINS[i]
   );
 
@@ -175,7 +175,7 @@ function detectLandCornerCollision(state: GameState, boundingBox: BoundingBox) {
       y: -1 | 0 | 1;
     }
   ) => {
-    return originCoordiatesForExpansions.some((neighbour) => {
+    return originCoordinatesForExpansions.some((neighbour) => {
       return (
         neighbour.x === expansionOrigin.x + LAND_SIZE * offset.x &&
         neighbour.y === expansionOrigin.y + LAND_SIZE * offset.y
@@ -199,7 +199,7 @@ function detectLandCornerCollision(state: GameState, boundingBox: BoundingBox) {
     }
   };
 
-  return originCoordiatesForExpansions.some((originCoordinate) => {
+  return originCoordinatesForExpansions.some((originCoordinate) => {
     const overlapsTopLeft = () =>
       !hasNeighbouringExpansion(originCoordinate, Direction.Left) &&
       !hasNeighbouringExpansion(originCoordinate, Direction.Top) &&
