@@ -45,6 +45,7 @@ export const LandExpansion: React.FC = () => {
         <ScrollContainer
           className="bg-blue-300 overflow-scroll relative w-full h-full"
           innerRef={container}
+          ignoreElements={"*[data-prevent-drag-scroll]"}
         >
           <div
             className="relative h-goblinGameboard w-goblinGameboard"

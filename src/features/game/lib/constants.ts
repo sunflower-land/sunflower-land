@@ -271,6 +271,18 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
   shrubs: INITIAL_SHRUBS,
   pebbles: INITIAL_PEBBLES,
   terrains: INITIAL_TERRAIN,
+  stones: {
+    0: {
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 0,
+      y: -2,
+      height: 1,
+      width: 2,
+    },
+  },
 
   plots: INITIAL_PLOTS,
 };
@@ -286,6 +298,8 @@ const IN_PROGRESS_EXPANSION: LandExpansion = {
   plots: INITIAL_PLOTS,
 };
 
+export const INITIAL_EXPANSIONS = [GENESIS_LAND_EXPANSION];
+
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
@@ -299,6 +313,7 @@ export const INITIAL_FARM: GameState = {
     Egg: new Decimal(15),
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
+    Pickaxe: new Decimal(3),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
@@ -327,7 +342,7 @@ export const INITIAL_FARM: GameState = {
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
 
-  expansions: [GENESIS_LAND_EXPANSION, IN_PROGRESS_EXPANSION],
+  expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
 };
 
@@ -355,6 +370,6 @@ export const EMPTY: GameState = {
   pebbles: INITIAL_PEBBLES,
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
-  expansions: [GENESIS_LAND_EXPANSION],
+  expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
 };

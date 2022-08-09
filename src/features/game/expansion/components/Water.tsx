@@ -5,7 +5,6 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import dragonfly from "assets/decorations/dragonfly.gif";
-import Shark from "./water/Shark";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
@@ -31,10 +30,10 @@ export const Water: React.FC<Props> = ({ level }) => {
       className="absolute inset-0"
     >
       {/* Above Land */}
-      <Shark side="top" />
+      {/* <Shark side="top" /> */}
 
       {/* Below Land */}
-      <Shark side="bottom" />
+      {/* <Shark side="bottom" /> */}
 
       {/* Navigation Center Point */}
       <div className="h-full w-full relative">
@@ -77,7 +76,7 @@ export const Water: React.FC<Props> = ({ level }) => {
             style={{
               width: `${16 * PIXEL_SCALE}px`,
               transform: "scaleX(-1)",
-              zIndex: "2",
+              zIndex: 2,
             }}
           />
         </MapPlacement>

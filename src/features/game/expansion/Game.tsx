@@ -38,6 +38,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   expanding: true,
   expanded: true,
   hoarding: true,
+  editing: false,
 };
 
 export const Game: React.FC = () => {
