@@ -164,7 +164,9 @@ export const BuildingDetails: React.FC = () => {
                   className={classNames(
                     "text-xs text-shadow text-center mt-2 ",
                     {
-                      "text-red-500": BUILDINGS[selected].sfl > state.balance,
+                      "text-red-500": state.balance.lessThan(
+                        BUILDINGS[selected].sfl
+                      ),
                     }
                   )}
                 >
