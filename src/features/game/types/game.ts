@@ -6,6 +6,7 @@ import { CraftableName, Food, Ingredient } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
+import { BuildingName } from "./buildings";
 
 export type Reward = {
   items: {
@@ -65,6 +66,11 @@ export type MOMEventItem = "Engine Core";
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
 export type TradingTicket = "Trading Ticket";
+
+export type Bumpkin = {
+  level: number;
+};
+
 export type BumpkinBodies =
   | "Farmer Potion"
   | "Farmer Potion 2"
@@ -97,7 +103,8 @@ export type InventoryItemName =
   | MOMEventItem
   | MutantChicken
   | TradingTicket
-  | BumpkinItems;
+  | BumpkinItems
+  | BuildingName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -215,6 +222,7 @@ export interface GameState {
 
   expansions: LandExpansion[];
   expansionRequirements?: ExpansionRequirements;
+  bumpkin: Bumpkin;
 }
 
 export interface Context {
