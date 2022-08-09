@@ -4,22 +4,19 @@ import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
 
-import { SEEDS, CropName, SeedName } from "features/game/types/crops";
-
-import timer from "assets/icons/timer.png";
-import lightning from "assets/icons/lightning.png";
-
-import { secondsToMidString } from "lib/utils/time";
 import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
-import { getCropTime } from "features/game/events/plant";
-import { getKeys } from "features/game/types/craftables";
+import {
+  getKeys,
+  LimitedItemName,
+  LIMITED_ITEMS,
+} from "features/game/types/craftables";
 import { useMakeDefaultInventoryItem } from "components/hooks/useGetDefaultInventoryItem";
-import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
-import { getBasketItems } from "./utils/basket";
+import { getChestItems } from "./utils/basket";
 import Decimal from "decimal.js-light";
+import { Button } from "components/ui/Button";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -33,9 +30,10 @@ interface Props {
 
 const TAB_CONTENT_HEIGHT = 400;
 
-const isSeed = (selectedItem: InventoryItemName) => selectedItem in SEEDS();
+const isCollectible = (selectedItem: InventoryItemName) =>
+  selectedItem in LIMITED_ITEMS;
 
-export const Basket = ({
+export const Chest = ({
   selectedItem,
   setDefaultSelectedItem,
   inventory,
@@ -46,7 +44,7 @@ export const Basket = ({
     useShowScrollbar(TAB_CONTENT_HEIGHT);
   const [scrollIntoView] = useScrollIntoView();
 
-  const basketMap = getBasketItems(inventory);
+  const chestMap = getChestItems(inventory);
 
   // useMakeDefaultInventoryItem({
   //   setDefaultSelectedItem,
@@ -54,14 +52,6 @@ export const Basket = ({
   //   inventoryCategories,
   //   isFarming,
   // });
-
-  const isTimeBoosted = useHasBoostForItem({ selectedItem, inventory });
-
-  const getCropHarvestTime = (seedName = "") => {
-    const crop = seedName.split(" ")[0] as CropName;
-
-    return secondsToMidString(getCropTime(crop, inventory));
-  };
 
   const handleItemClick = (item: InventoryItemName) => {
     onClick(item);
@@ -71,13 +61,13 @@ export const Basket = ({
     }
   };
 
-  const basketIsEmpty = Object.values(basketMap).length === 0;
-  const seeds = getKeys(basketMap).reduce((acc, item) => {
-    if (item in SEEDS()) {
-      return { ...acc, [item]: basketMap[item] };
+  const basketIsEmpty = Object.values(chestMap).length === 0;
+  const collectibles = getKeys(chestMap).reduce((acc, item) => {
+    if (item in LIMITED_ITEMS) {
+      return { ...acc, [item]: chestMap[item] };
     }
     return acc;
-  }, {} as Record<SeedName, Decimal>);
+  }, {} as Record<LimitedItemName, Decimal>);
 
   return (
     <div className="flex flex-col">
@@ -97,19 +87,9 @@ export const Basket = ({
               <span className="text-xs text-shadow text-center mt-2 w-80">
                 {ITEM_DETAILS[selectedItem].description}
               </span>
-              {isSeed(selectedItem) && (
-                <div className="w-full pt-1">
-                  <div className="flex justify-center items-end">
-                    <img src={timer} className="h-5 me-2" />
-                    {isTimeBoosted && (
-                      <img src={lightning} className="h-6 me-2" />
-                    )}
-                    <span className="text-xs text-shadow text-center mt-2 ">
-                      {getCropHarvestTime(selectedItem)}
-                    </span>
-                  </div>
-                </div>
-              )}
+              <Button className="text-xs w-2/4 mt-2" onClick={() => {}}>
+                Place on Map
+              </Button>
             </div>
           )}
         </OuterPanel>
@@ -121,11 +101,11 @@ export const Basket = ({
           scrollable: showScrollbar,
         })}
       >
-        {Object.values(seeds) && (
-          <div className="flex flex-col pl-2" key={"Seeds"}>
+        {Object.values(collectibles) && (
+          <div className="flex flex-col pl-2" key={"Collectibles"}>
             {<p className="mb-2 underline">Seeds</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
-              {getKeys(seeds).map((item) => (
+              {getKeys(collectibles).map((item) => (
                 <Box
                   count={inventory[item]}
                   isSelected={selectedItem === item}

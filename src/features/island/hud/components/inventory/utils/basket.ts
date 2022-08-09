@@ -19,3 +19,16 @@ export const getBasketItems = (inventory: Inventory) => {
     };
   }, {} as Inventory);
 };
+
+export const getChestItems = (inventory: Inventory) => {
+  return getKeys(inventory).reduce((acc, itemName) => {
+    if (itemName in PLACEABLES_DIMENSIONS) {
+      return {
+        ...acc,
+        [itemName]: inventory[itemName],
+      };
+    }
+
+    return acc;
+  }, {} as Inventory);
+};

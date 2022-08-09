@@ -28,9 +28,9 @@ import { RESOURCES } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { Basket } from "./Basket";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Collectibles } from "./Collectibles";
+import { Chest } from "./Chest";
 
-type Tab = "basket" | "collectibles";
+type Tab = "basket" | "chest";
 
 interface Props {
   inventory: Inventory;
@@ -139,12 +139,12 @@ export const InventoryItems: React.FC<Props> = ({
           </Tab>
           <Tab
             className="flex items-center"
-            isActive={currentTab === "collectibles"}
-            onClick={() => handleTabClick("collectibles")}
+            isActive={currentTab === "chest"}
+            onClick={() => handleTabClick("chest")}
           >
             <img src={sunflowerPlant} className="h-4 sm:h-5 mr-2" />
             <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
-              Collectibles
+              Chest
             </span>
           </Tab>
         </div>
@@ -156,21 +156,19 @@ export const InventoryItems: React.FC<Props> = ({
       </div>
 
       {currentTab === "basket" && (
-        // <Basket
-        //   selectedItem={selectedItem}
-        //   setDefaultSelectedItem={setSelectedItem}
-        //   inventory={inventory}
-        //   onClick={handleItemSelected}
-        //   isFarming={isFarming}
-        // />
-      )}
-      {currentTab === "collectibles" && (
-        <Collectibles
-          tabItems={COLLECTIBLE_CATEGORIES}
+        <Basket
           selectedItem={selectedItem}
           setDefaultSelectedItem={setSelectedItem}
           inventory={inventory}
-          inventoryItems={inventoryItems}
+          onClick={handleItemSelected}
+          isFarming={isFarming}
+        />
+      )}
+      {currentTab === "chest" && (
+        <Chest
+          selectedItem={selectedItem}
+          setDefaultSelectedItem={setSelectedItem}
+          inventory={inventory}
           onClick={handleItemSelected}
           isFarming={isFarming}
         />
