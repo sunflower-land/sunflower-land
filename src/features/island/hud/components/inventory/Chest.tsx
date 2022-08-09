@@ -33,7 +33,7 @@ const TAB_CONTENT_HEIGHT = 400;
 const isCollectible = (selectedItem: InventoryItemName) =>
   selectedItem in LIMITED_ITEMS;
 
-export const Chest = ({
+export const Chest: React.FC<Props> = ({
   selectedItem,
   setDefaultSelectedItem,
   inventory,
@@ -87,9 +87,7 @@ export const Chest = ({
               <span className="text-xs text-shadow text-center mt-2 w-80">
                 {ITEM_DETAILS[selectedItem].description}
               </span>
-              <Button className="text-xs w-2/4 mt-2" onClick={() => {}}>
-                Place on Map
-              </Button>
+              <Button className="text-xs w-2/4 mt-2">Place on Map</Button>
             </div>
           )}
         </OuterPanel>

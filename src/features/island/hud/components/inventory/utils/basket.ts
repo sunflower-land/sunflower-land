@@ -1,8 +1,5 @@
 import { Inventory } from "components/InventoryItems";
-import {
-  PlaceableName,
-  PLACEABLES_DIMENSIONS,
-} from "features/game/types/buildings";
+import { PLACEABLES_DIMENSIONS } from "features/game/types/buildings";
 import { getKeys } from "features/game/types/craftables";
 
 export type Basket = {};
