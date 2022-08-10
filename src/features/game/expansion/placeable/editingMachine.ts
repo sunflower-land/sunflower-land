@@ -1,8 +1,9 @@
+import { BuildingName } from "features/game/types/buildings";
 import { assign, createMachine, Interpreter } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 
 export interface Context {
-  placeable: string;
+  placeable: BuildingName;
   coordinates: Coordinates;
   collisionDetected: boolean;
 }

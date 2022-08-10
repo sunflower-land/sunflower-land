@@ -1,34 +1,47 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineInterpreter } from "./editingMachine";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
-import bakery from "assets/buildings/bakery_TEST2.gif";
 import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
 import classNames from "classnames";
 import { Coordinates } from "../components/MapPlacement";
+import { PLACEABLES_DIMENSIONS } from "features/game/types/buildings";
+import { ITEM_DETAILS } from "features/game/types/images";
 
-interface Placeable {
-  image: string;
+type Dimensions = {
   height: number;
   width: number;
-}
-const PLACEABLES: Record<string, Placeable> = {
-  bakery: { image: bakery, height: 3, width: 3 },
 };
 
 export const Placeable: React.FC = () => {
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
+  const [imageDimensions, setImageDimensions] = useState<Dimensions>({
+    height: 0,
+    width: 0,
+  });
 
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [machine, send] = useActor(child);
 
   const { placeable, coordinates } = machine.context;
-  const { image, width, height } = PLACEABLES[placeable];
+  const { width, height } = PLACEABLES_DIMENSIONS[placeable];
+  const { image } = ITEM_DETAILS[placeable];
+
+  const handleImageLoad = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    const { naturalHeight, naturalWidth } = e.currentTarget;
+
+    setImageDimensions({
+      width: naturalWidth,
+      height: naturalHeight,
+    });
+  };
 
   const detect = ({ x, y }: Coordinates) => {
     const collisionDetected = detectCollision(gameService.state.context.state, {
@@ -48,8 +61,8 @@ export const Placeable: React.FC = () => {
         style={{
           left: coordinates.x * GRID_WIDTH_PX,
           top: -coordinates.y * GRID_WIDTH_PX,
-          height: 48 * PIXEL_SCALE,
-          width: 48 * PIXEL_SCALE,
+          height: imageDimensions.height * PIXEL_SCALE,
+          width: imageDimensions.width * PIXEL_SCALE,
         }}
       >
         <img
@@ -96,9 +109,13 @@ export const Placeable: React.FC = () => {
         <img
           draggable="false"
           className="img-highlight"
-          style={{ height: 48 * PIXEL_SCALE, width: 48 * PIXEL_SCALE }}
+          style={{
+            height: imageDimensions.height * PIXEL_SCALE,
+            width: imageDimensions.width * PIXEL_SCALE,
+          }}
           src={image}
-          alt=""
+          alt={placeable}
+          onLoad={handleImageLoad}
         />
       </div>
     </Draggable>
