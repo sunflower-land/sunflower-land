@@ -12,7 +12,7 @@ import stump from "assets/resources/tree/stump.png";
 import wood from "assets/resources/wood.png";
 import axe from "assets/tools/axe.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -35,6 +35,9 @@ import { Overlay } from "react-bootstrap";
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 const tool = "Axe";
+
+const SHAKE_SHEET_FRAME_WIDTH = 332 / 5;
+const SHAKE_SHEET_FRAME_HEIGHT = 126 / 3;
 
 interface Props {
   treeIndex: number;
@@ -188,7 +191,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_SECONDS);
 
   return (
-    <div className="relative z-10">
+    <div className="relative z-10 w-full h-full">
       {!chopped && (
         <>
           <div
@@ -197,22 +200,27 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
             ref={treeRef}
             className="group cursor-pointer w-full h-full"
             onClick={shake}
+            id="tree-debug"
           >
             <Spritesheet
-              className="group-hover:img-highlight pointer-events-none transform"
+              className="relative group-hover:img-highlight pointer-events-none transform w-full h-full"
               style={{
-                // width: `${GRID_WIDTH_PX * 2}px`,
-                // Line it up with the click area
-                // transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+                width: `${SHAKE_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
+                height: `${SHAKE_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
                 imageRendering: "pixelated",
+                position: "absolute",
+                // The sprite sheet positions the tree at the bottom right
+                // of the bounding box.
+                bottom: `${8 * PIXEL_SCALE}px`,
+                right: `${2 * PIXEL_SCALE}px`,
               }}
               getInstance={(spritesheet) => {
                 shakeGif.current = spritesheet;
               }}
               image={shakeSheet}
-              widthFrame={332 / 5}
-              heightFrame={126 / 3}
-              fps={1}
+              widthFrame={SHAKE_SHEET_FRAME_WIDTH}
+              heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
+              fps={24}
               steps={7}
               direction={`forward`}
               autoplay={false}

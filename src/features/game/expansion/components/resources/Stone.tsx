@@ -214,7 +214,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
                 sparkGif.current = spritesheet;
               }}
               image={sparkSheet}
-              widthFrame={91}
+              widthFrame={455 / 5}
               heightFrame={66}
               fps={24}
               steps={5}
