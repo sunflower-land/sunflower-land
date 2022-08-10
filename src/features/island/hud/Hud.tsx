@@ -29,7 +29,7 @@ export const Hud: React.FC = () => {
       <BumpkinHUD />
       <Balance balance={gameState.context.state.balance} />
       <Inventory
-        inventory={gameState.context.state.inventory}
+        state={gameState.context.state}
         shortcutItem={shortcutItem}
         isFarming
       />

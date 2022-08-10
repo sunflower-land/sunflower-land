@@ -13,12 +13,11 @@ import { secondsToMidString } from "lib/utils/time";
 import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { Inventory, TabItems } from "./InventoryItems";
+import { Inventory } from "./InventoryItems";
 import { getCropTime } from "features/game/events/plant";
 import { getKeys } from "features/game/types/craftables";
-import { useMakeDefaultInventoryItem } from "components/hooks/useGetDefaultInventoryItem";
 import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
-import { getBasketItems } from "./utils/basket";
+import { getBasketItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";

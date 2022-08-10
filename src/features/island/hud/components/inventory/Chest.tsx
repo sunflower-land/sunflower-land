@@ -2,19 +2,17 @@ import React from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 
 import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { Inventory, TabItems } from "./InventoryItems";
 import {
   getKeys,
   LimitedItemName,
   LIMITED_ITEMS,
 } from "features/game/types/craftables";
-import { useMakeDefaultInventoryItem } from "components/hooks/useGetDefaultInventoryItem";
-import { getChestItems } from "./utils/basket";
+import { getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 
@@ -23,7 +21,7 @@ const ITEM_CARD_MIN_HEIGHT = "148px";
 interface Props {
   selectedItem?: InventoryItemName;
   setDefaultSelectedItem: (item: InventoryItemName) => void;
-  inventory: Inventory;
+  state: GameState;
   onClick: (item: InventoryItemName) => void;
   isFarming?: boolean;
 }
@@ -36,7 +34,7 @@ const isCollectible = (selectedItem: InventoryItemName) =>
 export const Chest: React.FC<Props> = ({
   selectedItem,
   setDefaultSelectedItem,
-  inventory,
+  state,
   onClick,
   isFarming,
 }: Props) => {
@@ -44,7 +42,7 @@ export const Chest: React.FC<Props> = ({
     useShowScrollbar(TAB_CONTENT_HEIGHT);
   const [scrollIntoView] = useScrollIntoView();
 
-  const chestMap = getChestItems(inventory);
+  const chestMap = getChestItems(state);
 
   // useMakeDefaultInventoryItem({
   //   setDefaultSelectedItem,
@@ -101,11 +99,11 @@ export const Chest: React.FC<Props> = ({
       >
         {Object.values(collectibles) && (
           <div className="flex flex-col pl-2" key={"Collectibles"}>
-            {<p className="mb-2 underline">Seeds</p>}
+            {/* {<p className="mb-2 underline">Seeds</p>} */}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {getKeys(collectibles).map((item) => (
                 <Box
-                  count={inventory[item]}
+                  count={state.inventory[item]}
                   isSelected={selectedItem === item}
                   key={item}
                   onClick={() => handleItemClick(item)}

@@ -104,6 +104,7 @@ export function makeGame(farm: any): GameState {
         }
       : undefined,
     bumpkin: farm.bumpkin || { level: 1 },
+    buildings: farm.buildings,
   };
 }
 

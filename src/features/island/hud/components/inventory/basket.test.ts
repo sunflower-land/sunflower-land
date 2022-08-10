@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { getBasketItems } from "./utils/basket";
+import { getBasketItems } from "./utils/inventory";
 
 describe("basket", () => {
   it("creates an empty basket", () => {

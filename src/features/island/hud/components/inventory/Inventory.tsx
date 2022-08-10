@@ -10,20 +10,17 @@ import { Box } from "components/ui/Box";
 import { InventoryItems } from "./InventoryItems";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
-  Inventory as InventoryType,
-  InventoryItemName,
-} from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 
 interface Props {
-  inventory: InventoryType;
+  state: GameState;
   shortcutItem?: (item: InventoryItemName) => void;
   isFarming?: boolean;
 }
 
 export const Inventory: React.FC<Props> = ({
-  inventory,
+  state,
   shortcutItem,
   isFarming,
 }) => {
@@ -58,7 +55,7 @@ export const Inventory: React.FC<Props> = ({
 
       <Modal centered scrollable show={isOpen} onHide={() => setIsOpen(false)}>
         <InventoryItems
-          inventory={inventory}
+          state={state}
           onClose={() => setIsOpen(false)}
           shortcutItem={shortcutItem}
           isFarming={isFarming}
@@ -73,7 +70,7 @@ export const Inventory: React.FC<Props> = ({
               isSelected={index === 0}
               image={ITEM_DETAILS[item]?.image}
               secondaryImage={ITEM_DETAILS[item]?.secondaryImage}
-              count={inventory[item]}
+              count={state.inventory[item]}
               onClick={() => handleItemClick(item)}
             />
           ))}

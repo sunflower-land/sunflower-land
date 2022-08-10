@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 
 import seeds from "assets/icons/seeds.png";
 import sunflowerPlant from "assets/crops/sunflower/crop.png";
@@ -33,7 +33,7 @@ import { Chest } from "./Chest";
 type Tab = "basket" | "chest";
 
 interface Props {
-  inventory: Inventory;
+  state: GameState;
   shortcutItem?: (item: InventoryItemName) => void;
   onClose: () => void;
   isFarming?: boolean;
@@ -100,14 +100,14 @@ const makeInventoryItems = (inventory: Inventory) => {
 };
 
 export const InventoryItems: React.FC<Props> = ({
-  inventory,
+  state,
   onClose,
   shortcutItem,
   isFarming,
 }) => {
   const [currentTab, setCurrentTab] = useState<Tab>("basket");
   const [inventoryItems] = useState<InventoryItemName[]>(
-    makeInventoryItems(inventory)
+    makeInventoryItems(state.inventory)
   );
   const [selectedItem, setSelectedItem] = useState<InventoryItemName>();
 
@@ -159,7 +159,7 @@ export const InventoryItems: React.FC<Props> = ({
         <Basket
           selectedItem={selectedItem}
           setDefaultSelectedItem={setSelectedItem}
-          inventory={inventory}
+          inventory={state.inventory}
           onClick={handleItemSelected}
           isFarming={isFarming}
         />
@@ -168,7 +168,7 @@ export const InventoryItems: React.FC<Props> = ({
         <Chest
           selectedItem={selectedItem}
           setDefaultSelectedItem={setSelectedItem}
-          inventory={inventory}
+          state={state}
           onClick={handleItemSelected}
           isFarming={isFarming}
         />

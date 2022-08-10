@@ -1,8 +1,7 @@
 import { Inventory } from "components/InventoryItems";
 import { PLACEABLES_DIMENSIONS } from "features/game/types/buildings";
 import { getKeys } from "features/game/types/craftables";
-
-export type Basket = {};
+import { GameState } from "features/game/types/game";
 
 export const getBasketItems = (inventory: Inventory) => {
   return getKeys(inventory).reduce((acc, itemName) => {
@@ -17,12 +16,12 @@ export const getBasketItems = (inventory: Inventory) => {
   }, {} as Inventory);
 };
 
-export const getChestItems = (inventory: Inventory) => {
-  return getKeys(inventory).reduce((acc, itemName) => {
-    if (itemName in PLACEABLES_DIMENSIONS) {
+export const getChestItems = (state: GameState) => {
+  return getKeys(state.inventory).reduce((acc, itemName) => {
+    if (itemName in PLACEABLES_DIMENSIONS && !(itemName in state.buildings)) {
       return {
         ...acc,
-        [itemName]: inventory[itemName],
+        [itemName]: state.inventory[itemName],
       };
     }
 
