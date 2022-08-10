@@ -188,31 +188,31 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_SECONDS);
 
   return (
-    <div className="relative z-10" style={{ height: "106px" }}>
+    <div className="relative z-10">
       {!chopped && (
         <>
           <div
             onMouseEnter={handleHover}
             onMouseLeave={handleMouseLeave}
             ref={treeRef}
-            className="group cursor-pointer  w-full h-full"
+            className="group cursor-pointer w-full h-full"
             onClick={shake}
           >
             <Spritesheet
               className="group-hover:img-highlight pointer-events-none transform"
               style={{
-                width: `${GRID_WIDTH_PX * 4}px`,
+                // width: `${GRID_WIDTH_PX * 2}px`,
                 // Line it up with the click area
-                transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+                // transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
                 imageRendering: "pixelated",
               }}
               getInstance={(spritesheet) => {
                 shakeGif.current = spritesheet;
               }}
               image={shakeSheet}
-              widthFrame={266 / 4}
-              heightFrame={168 / 4}
-              fps={24}
+              widthFrame={332 / 5}
+              heightFrame={126 / 3}
+              fps={1}
               steps={7}
               direction={`forward`}
               autoplay={false}
@@ -222,9 +222,9 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
               }}
             />
           </div>
-          <Overlay target={treeRef.current} show={showLabel}>
+          <Overlay target={treeRef.current} show={showLabel} placement="right">
             {(props) => (
-              <div {...props} className="z-10 w-28">
+              <div {...props} className="absolute -left-1/2 z-10 w-28">
                 <Label className="p-2">Equip {tool.toLowerCase()}</Label>
               </div>
             )}
@@ -234,9 +234,9 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
       <Spritesheet
         style={{
-          width: `${GRID_WIDTH_PX * 4}px`,
+          // width: `${GRID_WIDTH_PX * 4}px`,
           // Line it up with the click area
-          transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+          // transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
           imageRendering: "pixelated",
