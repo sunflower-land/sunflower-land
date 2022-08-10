@@ -177,6 +177,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Key": 913,
   "Ancient Goblin Sword": 914,
   "Ancient Human Warhammer": 915,
+  "Rapid Growth": 916,
 
   // Buildings
   "Fire Pit": 1001,
