@@ -9,6 +9,9 @@ import { KNOWN_IDS } from "../src/features/game/types/index";
  */
 async function convertMarkdown() {
   Object.values(KNOWN_IDS).forEach((id) => {
+    if (id >= 1000) {
+      return;
+    }
     try {
       // All flags use the same markdown
       const fileName = id.toString().startsWith("8") ? "801" : id;
