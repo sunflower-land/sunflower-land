@@ -3,14 +3,13 @@ import { Modal } from "react-bootstrap";
 
 import disc from "assets/icons/disc.png";
 import hammer from "assets/icons/hammer.png";
-import { Label } from "components/ui/Label";
 import close from "assets/icons/close.png";
-
-import { Panel } from "components/ui/Panel";
-
-import { Tab } from "components/ui/Tab";
 import crown from "assets/tools/hammer.png";
-import { BuildingDetails } from "./components/BuildingDetails";
+
+import { Label } from "components/ui/Label";
+import { Panel } from "components/ui/Panel";
+import { Tab } from "components/ui/Tab";
+import { BuildingsModalContent } from "./components/BuildingsModalContent";
 
 export const Buildings: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +47,7 @@ export const Buildings: React.FC = () => {
               minHeight: "200px",
             }}
           >
-            <BuildingDetails />
+            <BuildingsModalContent closeModal={() => setIsOpen(false)} />
           </div>
         </Panel>
       </Modal>
