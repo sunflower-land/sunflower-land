@@ -4,7 +4,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
 
-import { SEEDS, CropName, SeedName } from "features/game/types/crops";
+import { SEEDS, CropName, SeedName, CROPS } from "features/game/types/crops";
 
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
@@ -13,14 +13,33 @@ import { secondsToMidString } from "lib/utils/time";
 import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { Inventory } from "./InventoryItems";
+import { Inventory, TabItems } from "./InventoryItems";
 import { getCropTime } from "features/game/events/plant";
-import { getKeys } from "features/game/types/craftables";
+import { FOODS, getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
 import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
 import { getBasketItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
+import { RESOURCES } from "features/game/types/resources";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
+
+const BASKET_CATEGORIES: TabItems = {
+  Seeds: {
+    items: SEEDS(),
+  },
+  Tools: {
+    items: {
+      ...TOOLS,
+      ...SHOVELS,
+    },
+  },
+  Resources: {
+    items: RESOURCES,
+  },
+  Crops: {
+    items: CROPS(),
+  },
+};
 
 interface Props {
   selectedItem?: InventoryItemName;
@@ -46,14 +65,7 @@ export const Basket = ({
   const [scrollIntoView] = useScrollIntoView();
 
   const basketMap = getBasketItems(inventory);
-
-  // useMakeDefaultInventoryItem({
-  //   setDefaultSelectedItem,
-  //   basketItems,
-  //   inventoryCategories,
-  //   isFarming,
-  // });
-
+  const inventoryCategories = getKeys(BASKET_CATEGORIES) as InventoryItemName[];
   const isTimeBoosted = useHasBoostForItem({ selectedItem, inventory });
 
   const getCropHarvestTime = (seedName = "") => {
@@ -71,6 +83,18 @@ export const Basket = ({
   };
 
   const basketIsEmpty = Object.values(basketMap).length === 0;
+
+  const getItems = <T extends string | number | symbol, K>(
+    items: Record<T, K>
+  ) => {
+    return getKeys(basketMap).reduce((acc, item) => {
+      if (item in items) {
+        return { ...acc, [item]: basketMap[item] };
+      }
+      return acc;
+    }, {} as Record<T, Decimal>);
+  };
+
   const seeds = getKeys(basketMap).reduce((acc, item) => {
     if (item in SEEDS()) {
       return { ...acc, [item]: basketMap[item] };
@@ -78,6 +102,29 @@ export const Basket = ({
     return acc;
   }, {} as Record<SeedName, Decimal>);
 
+  const crops = getItems(CROPS());
+  const tools = getItems(TOOLS);
+  const shovels = getItems(SHOVELS);
+  const resources = getItems(RESOURCES);
+  const foods = getItems(FOODS());
+
+  const test = [
+    ...getKeys(seeds),
+    ...getKeys(tools),
+    ...getKeys(foods),
+    ...getKeys(crops),
+  ];
+
+  // useMakeDefaultInventoryItem({
+  //   setDefaultSelectedItem,
+  //   basketMap,
+  //   test,
+  //   isFarming,
+  // });
+
+  const hastools =
+    !!Object.values(tools).length || !!Object.values(shovels).length;
+  const allTools = { ...tools, ...shovels };
   return (
     <div className="flex flex-col">
       {!basketIsEmpty && (
@@ -120,11 +167,76 @@ export const Basket = ({
           scrollable: showScrollbar,
         })}
       >
-        {Object.values(seeds) && (
+        {!!Object.values(resources).length && (
+          <div className="flex flex-col pl-2" key={"Resources"}>
+            {<p className="mb-2 underline">Resources</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {getKeys(resources).map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {!!Object.values(seeds).length && (
           <div className="flex flex-col pl-2" key={"Seeds"}>
             {<p className="mb-2 underline">Seeds</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {getKeys(seeds).map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!Object.values(crops).length && (
+          <div className="flex flex-col pl-2" key={"Crops"}>
+            {<p className="mb-2 underline">Crops</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {getKeys(crops).map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {hastools && (
+          <div className="flex flex-col pl-2" key={"Tools"}>
+            {<p className="mb-2 underline">Tools</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {getKeys(allTools).map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!Object.values(foods).length && (
+          <div className="flex flex-col pl-2" key={"foods"}>
+            {<p className="mb-2 underline">Foods</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {getKeys(foods).map((item) => (
                 <Box
                   count={inventory[item]}
                   isSelected={selectedItem === item}
