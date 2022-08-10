@@ -14,6 +14,7 @@ import { addNoise, RandomID } from "lib/images";
 import { LIFECYCLE } from "../lib/plant";
 import classnames from "classnames";
 import { PlantedCrop } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   plantedCrop?: PlantedCrop;
@@ -80,6 +81,13 @@ export const Soil: React.FC<Props> = ({
 
     return (
       <div className="relative w-full h-full">
+        {plantedCrop?.fertilisers && (
+          <div className="flex absolute z-10 right-1 -top-2">
+            {plantedCrop.fertilisers.map(({ name }) => (
+              <img key={name} src={ITEM_DETAILS[name].image} className="w-4" />
+            ))}
+          </div>
+        )}
         <img
           src={isAlmostReady ? lifecycle.almost : lifecycle.seedling}
           className={classnames("w-full", className)}

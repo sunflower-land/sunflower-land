@@ -15,12 +15,26 @@ export type Reward = {
   }[];
 };
 
+export type Fertiliser = "Rapid Growth";
+
+export const FERTILISERS: Record<Fertiliser, { description: string }> = {
+  "Rapid Growth": {
+    description: "Apply to a crop to grow twice as fast",
+  },
+};
+
+export type Fertilisers = {
+  name: Fertiliser;
+  fertilisedAt: number;
+}[];
+
 export type FieldItem = {
   name: CropName;
   // Epoch time in milliseconds
   plantedAt: number;
   multiplier?: number;
   reward?: Reward;
+  fertilisers?: Fertilisers;
 };
 
 export type Tree = {
@@ -104,7 +118,8 @@ export type InventoryItemName =
   | MutantChicken
   | TradingTicket
   | BumpkinItems
-  | BuildingName;
+  | BuildingName
+  | Fertiliser;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -149,6 +164,7 @@ export type PlantedCrop = {
   plantedAt: number;
   amount?: number;
   reward?: Reward;
+  fertilisers?: Fertilisers;
 };
 
 export type LandExpansionTree = {
