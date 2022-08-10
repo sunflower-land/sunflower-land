@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { GameState, InventoryItemName } from "features/game/types/game";
 
-import seeds from "assets/icons/seeds.png";
-import sunflowerPlant from "assets/crops/sunflower/crop.png";
+import basket from "assets/icons/basket.png";
+import chest from "assets/icons/chest.png";
 import close from "assets/icons/close.png";
 
 import { Panel } from "components/ui/Panel";
@@ -132,7 +132,7 @@ export const InventoryItems: React.FC<Props> = ({
             isActive={currentTab === "basket"}
             onClick={() => handleTabClick("basket")}
           >
-            <img src={seeds} className="h-4 sm:h-5 mr-2" />
+            <img src={basket} className="h-4 sm:h-5 mr-2" />
             <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
               Basket
             </span>
@@ -142,7 +142,7 @@ export const InventoryItems: React.FC<Props> = ({
             isActive={currentTab === "chest"}
             onClick={() => handleTabClick("chest")}
           >
-            <img src={sunflowerPlant} className="h-4 sm:h-5 mr-2" />
+            <img src={chest} className="h-4 sm:h-5 mr-2" />
             <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
               Chest
             </span>
