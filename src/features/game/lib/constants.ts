@@ -275,17 +275,6 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
   plots: INITIAL_PLOTS,
 };
 
-const IN_PROGRESS_EXPANSION: LandExpansion = {
-  createdAt: Date.now(),
-  readyAt: Date.now() + 6 * 1000,
-
-  shrubs: INITIAL_SHRUBS,
-  pebbles: INITIAL_PEBBLES,
-  terrains: INITIAL_TERRAIN,
-
-  plots: INITIAL_PLOTS,
-};
-
 export const INITIAL_EXPANSIONS = [GENESIS_LAND_EXPANSION];
 
 export const INITIAL_FARM: GameState = {

@@ -59,7 +59,7 @@ export const LandExpansion: React.FC = () => {
                 backgroundSize: "400px",
                 imageRendering: "pixelated",
               }}
-            ></div>
+            />
             <Game />
           </div>
         </ScrollContainer>
