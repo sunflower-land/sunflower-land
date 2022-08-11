@@ -177,10 +177,13 @@ import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
 import ancientGoblinSword from "src/assets/nfts/quest/ancient_goblin_sword.png";
 import ancientHumanWarhammer from "src/assets/nfts/quest/ancient_human_warhammer.png";
 
+// Fertiliser
+import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
+
 // Buildings
 import firePit from "src/assets/buildings/fire_pit.png";
 
-import { InventoryItemName } from "./game";
+import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
   CAKES,
@@ -919,6 +922,12 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
+
+  "Rapid Growth": {
+    image: rapidGrowth,
+    description: FERTILISERS["Rapid Growth"].description,
+  },
+
   "Fire Pit": {
     image: firePit,
     description: "Roast your Sunflowers, feed and level up your Bumpkin",

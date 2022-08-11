@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { InventoryItemName } from "features/game/types/game";
+import { FERTILISERS, InventoryItemName } from "features/game/types/game";
 
 import seeds from "assets/icons/seeds.png";
 import sunflowerPlant from "assets/crops/sunflower/crop.png";
@@ -55,6 +55,9 @@ const BASKET_CATEGORIES: TabItems = {
   },
   Crops: {
     items: CROPS(),
+  },
+  Fertilisers: {
+    items: FERTILISERS,
   },
 };
 
