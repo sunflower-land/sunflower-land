@@ -15,7 +15,9 @@ export const Tree: React.FC = () => {
           style={{
             width: `${GRID_WIDTH_PX * 4}px`,
             // Line it up with the click area
-            transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+            transform: `translate(-${GRID_WIDTH_PX * 2}px,-${
+              GRID_WIDTH_PX * 0.5
+            }px)`,
             imageRendering: "pixelated",
           }}
           image={shakeSheet}

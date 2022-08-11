@@ -185,18 +185,7 @@ export const Land: React.FC = () => {
             )
           )}
 
-        {gameState.matches("editing") && (
-          <div
-            className="absolute"
-            style={{
-              top: "50%",
-              left: "50%",
-              zIndex: 200,
-            }}
-          >
-            <Placeable />
-          </div>
-        )}
+        {gameState.matches("editing") && <Placeable />}
 
         <MapPlacement x={2} y={1}>
           <Bumpkin />
