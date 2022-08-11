@@ -13,7 +13,7 @@ import { GameState } from "features/game/types/game";
 
 const CONTENT_HEIGHT = 380;
 
-export const BuildingsListView: React.FC<{
+export const ListView: React.FC<{
   state: GameState;
   onClick: (name: BuildingName) => void;
 }> = ({ state, onClick }) => {

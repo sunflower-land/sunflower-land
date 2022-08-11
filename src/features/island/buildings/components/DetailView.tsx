@@ -21,7 +21,7 @@ interface Props {
   onBuild: (buildingName: BuildingName) => void;
 }
 
-export const BuildingDetailView: React.FC<Props> = ({
+export const DetailView: React.FC<Props> = ({
   state,
   building,
   onBack,

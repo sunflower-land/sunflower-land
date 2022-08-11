@@ -9,7 +9,7 @@ import crown from "assets/tools/hammer.png";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { BuildingsModalContent } from "./components/BuildingsModalContent";
+import { ModalContent } from "./components/ModalContent";
 
 export const Buildings: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +47,7 @@ export const Buildings: React.FC = () => {
               minHeight: "200px",
             }}
           >
-            <BuildingsModalContent closeModal={() => setIsOpen(false)} />
+            <ModalContent closeModal={() => setIsOpen(false)} />
           </div>
         </Panel>
       </Modal>
