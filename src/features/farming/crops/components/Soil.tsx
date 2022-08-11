@@ -83,7 +83,7 @@ export const Soil: React.FC<Props> = ({
     return (
       <div className="relative w-full h-full">
         {plantedCrop?.fertilisers && (
-          <div className="flex-col absolute z-10 -right-1 -top-2">
+          <div className="flex-col absolute z-10 -right-1 -top-3">
             {plantedCrop.fertilisers.map(({ name }) => (
               <img
                 key={name}
