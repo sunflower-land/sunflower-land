@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import { Balance } from "components/Balance";
-import { VisitBanner } from "../../../components/ui/VisitBanner";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { BumpkinHUD } from "./components/BumpkinHUD";
@@ -35,7 +34,7 @@ export const Hud: React.FC = () => {
             shortcutItem={shortcutItem}
             isFarming
           />
-          <VisitBanner id={landId} />
+          {/* <VisitBanner id={landId} /> */}
 
           <Buildings />
           <BumpkinHUD />
