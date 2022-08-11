@@ -23,6 +23,7 @@ const VIP_ITEMS: InventoryItemName[] = [
   "Kuebiko",
   "Nugget",
   "Golden Cauliflower",
+  "Gold Egg",
 ];
 
 export const VipArea: React.FC<Props> = ({ inventory }) => {
