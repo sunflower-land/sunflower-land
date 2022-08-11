@@ -47,7 +47,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
         amount: new Decimal(3),
       },
     ],
-    sfl: new Decimal(2),
+    sfl: new Decimal(0),
     constructionSeconds: 30,
   },
   Oven: {
