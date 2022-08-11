@@ -123,7 +123,6 @@ describe("Place building", () => {
       createdAt: date,
     });
     expect(state.buildings["Anvil"]?.[1]).toEqual({
-      id: expect.any(String),
       coordinates: { x: 0, y: 0 },
       readyAt: date + 5 * 60 * 1000,
       createdAt: date,
