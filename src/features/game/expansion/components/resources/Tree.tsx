@@ -36,8 +36,11 @@ const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 const tool = "Axe";
 
-const SHAKE_SHEET_FRAME_WIDTH = 332 / 5;
-const SHAKE_SHEET_FRAME_HEIGHT = 126 / 3;
+const SHAKE_SHEET_FRAME_WIDTH = 448 / 7;
+const SHAKE_SHEET_FRAME_HEIGHT = 48;
+
+const CHOPPED_SHEET_FRAME_WIDTH = 1040 / 13;
+const CHOPPED_SHEET_FRAME_HEIGHT = 48;
 
 interface Props {
   treeIndex: number;
@@ -200,7 +203,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
             ref={treeRef}
             className="group cursor-pointer w-full h-full"
             onClick={shake}
-            id="tree-debug"
           >
             <Spritesheet
               className="relative group-hover:img-highlight pointer-events-none transform w-full h-full"
@@ -209,10 +211,11 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
                 height: `${SHAKE_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
                 imageRendering: "pixelated",
                 position: "absolute",
-                // The sprite sheet positions the tree at the bottom right
-                // of the bounding box.
+
+                // Adjust the base of tree to be perfectly aligned to
+                // on a grid point.
                 bottom: `${8 * PIXEL_SCALE}px`,
-                right: `${2 * PIXEL_SCALE}px`,
+                right: `-${4 * PIXEL_SCALE}px`,
               }}
               getInstance={(spritesheet) => {
                 shakeGif.current = spritesheet;
@@ -242,20 +245,26 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
       <Spritesheet
         style={{
-          // width: `${GRID_WIDTH_PX * 4}px`,
-          // Line it up with the click area
-          // transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
+
+          width: `${CHOPPED_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
+          height: `${CHOPPED_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
           imageRendering: "pixelated",
+          position: "absolute",
+
+          // Adjust the base of tree to be perfectly aligned to
+          // on a grid point.
+          bottom: `${8 * PIXEL_SCALE}px`,
+          right: `-${4 * PIXEL_SCALE}px`,
         }}
         className="absolute bottom-0 pointer-events-none"
         getInstance={(spritesheet) => {
           choppedGif.current = spritesheet;
         }}
         image={choppedSheet}
-        widthFrame={266 / 4}
-        heightFrame={168 / 4}
+        widthFrame={CHOPPED_SHEET_FRAME_WIDTH}
+        heightFrame={CHOPPED_SHEET_FRAME_HEIGHT}
         fps={20}
         steps={11}
         direction={`forward`}
@@ -267,14 +276,22 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
       />
 
       {chopped && (
-        <>
+        <div
+          style={{
+            position: "absolute",
+            width: `${GRID_WIDTH_PX * 2}px`,
+            height: `${GRID_WIDTH_PX * 2}px`,
+            bottom: 0,
+          }}
+        >
           <img
             src={stump}
-            className="absolute opacity-50"
+            className="relative opacity-50"
             style={{
               width: `${GRID_WIDTH_PX}px`,
-              bottom: "9px",
-              left: "5px",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
             }}
             onMouseEnter={handleMouseHoverStump}
             onMouseLeave={handleMouseLeaveStump}
@@ -284,7 +301,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
             timeLeft={timeLeft}
             showTimeLeft={showStumpTimeLeft}
           />
-        </>
+        </div>
       )}
 
       <div
