@@ -15,6 +15,7 @@ import { LIFECYCLE } from "../lib/plant";
 import classnames from "classnames";
 import { PlantedCrop } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   plantedCrop?: PlantedCrop;
@@ -84,7 +85,13 @@ export const Soil: React.FC<Props> = ({
         {plantedCrop?.fertilisers && (
           <div className="flex-col absolute z-10 -right-1 -top-2">
             {plantedCrop.fertilisers.map(({ name }) => (
-              <img key={name} src={ITEM_DETAILS[name].image} className="w-4" />
+              <img
+                key={name}
+                src={ITEM_DETAILS[name].image}
+                style={{
+                  width: `${PIXEL_SCALE * 10}px`,
+                }}
+              />
             ))}
           </div>
         )}
