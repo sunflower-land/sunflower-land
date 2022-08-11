@@ -10,7 +10,7 @@ import { Menu } from "./components/Menu";
 import { Buildings } from "../buildings/Buildings";
 import { Inventory } from "./components/inventory/Inventory";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
-import { Buildings as FarmingBuildings } from "../../farming/hud/components/Buildings";
+import { CONFIG } from "lib/config";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -44,7 +44,6 @@ export const Hud: React.FC = () => {
       )}
       {/* <AudioPlayer isFarming /> */}
       <VisitBanner id={landId} />
-      <FarmingBuildings />
     </div>
   );
 };
