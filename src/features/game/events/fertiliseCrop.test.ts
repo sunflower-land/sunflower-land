@@ -12,7 +12,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           fieldIndex: 3,
-          type: "crop.fertilised",
+          type: "item.fertilised",
           fertiliser: "Rapid Growth",
         },
       })
@@ -33,7 +33,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           fieldIndex: 3,
-          type: "crop.fertilised",
+          type: "item.fertilised",
           fertiliser: "Rapid Growth",
         },
       })
@@ -60,7 +60,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           fieldIndex: 3,
-          type: "crop.fertilised",
+          type: "item.fertilised",
           fertiliser: "Rapid Growth",
         },
       })
@@ -84,7 +84,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           fieldIndex: 3,
-          type: "crop.fertilised",
+          type: "item.fertilised",
           fertiliser: "Rapid Growth",
         },
       })
@@ -110,7 +110,7 @@ describe("fertiliseCrop", () => {
       },
       action: {
         fieldIndex: 3,
-        type: "crop.fertilised",
+        type: "item.fertilised",
         fertiliser: "Rapid Growth",
       },
       createdAt: fertilisedAt,
@@ -144,7 +144,7 @@ describe("fertiliseCrop", () => {
       },
       action: {
         fieldIndex: 3,
-        type: "crop.fertilised",
+        type: "item.fertilised",
         fertiliser: "Rapid Growth",
       },
     });

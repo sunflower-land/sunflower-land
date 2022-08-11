@@ -176,7 +176,7 @@ export const Field: React.FC<Props> = ({
 
     if (selectedItem && selectedItem in FERTILISERS) {
       try {
-        gameService.send("crop.fertilised", {
+        gameService.send("item.fertilised", {
           fieldIndex,
           fertiliser: selectedItem,
         });

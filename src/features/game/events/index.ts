@@ -93,5 +93,5 @@ export const EVENTS: Handlers = {
   "expansion.revealed": reveal,
   "timber.chopped": landExpansionChop,
   "rock.mined": landExpansionMineStone,
-  "crop.fertilised": fertiliseCrop,
+  "item.fertilised": fertiliseCrop,
 };

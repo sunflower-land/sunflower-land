@@ -3,7 +3,7 @@ import { CROPS } from "../types/crops";
 import { Fertiliser, GameState } from "../types/game";
 
 export type FertiliseCropAction = {
-  type: "crop.fertilised";
+  type: "item.fertilised";
   fieldIndex: number;
   fertiliser: Fertiliser;
 };
