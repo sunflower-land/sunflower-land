@@ -110,14 +110,8 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
 
-      <Water level={gameState.context.state.expansions.length + 1} />
-      <PlaceableOverlay>
-        <Land />
-      </PlaceableOverlay>
-      <Hud />
-
-      {/* Show splash background while session is loading */}
-      {loadingSession && (
+      {/* Show splash screen while session is loading  */}
+      {loadingSession ? (
         <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
           <Splash fadeIn={false} />
           <Modal show centered backdrop={false}>
@@ -137,6 +131,14 @@ export const Game: React.FC = () => {
             </div>
           </Modal>
         </div>
+      ) : (
+        <>
+          <Water level={gameState.context.state.expansions.length + 1} />
+          <PlaceableOverlay>
+            <Land />
+          </PlaceableOverlay>
+          <Hud />
+        </>
       )}
     </>
   );
