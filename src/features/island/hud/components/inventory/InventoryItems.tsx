@@ -103,7 +103,6 @@ export const InventoryItems: React.FC<Props> = ({
   state,
   onClose,
   shortcutItem,
-  isFarming,
 }) => {
   const [currentTab, setCurrentTab] = useState<Tab>("basket");
   const [inventoryItems] = useState<InventoryItemName[]>(
@@ -155,24 +154,8 @@ export const InventoryItems: React.FC<Props> = ({
         />
       </div>
 
-      {currentTab === "basket" && (
-        <Basket
-          selectedItem={selectedItem}
-          setDefaultSelectedItem={setSelectedItem}
-          inventory={state.inventory}
-          onClick={handleItemSelected}
-          isFarming={isFarming}
-        />
-      )}
-      {currentTab === "chest" && (
-        <Chest
-          selectedItem={selectedItem}
-          setDefaultSelectedItem={setSelectedItem}
-          state={state}
-          onClick={handleItemSelected}
-          isFarming={isFarming}
-        />
-      )}
+      {currentTab === "basket" && <Basket />}
+      {currentTab === "chest" && <Chest state={state} />}
     </Panel>
   );
 };

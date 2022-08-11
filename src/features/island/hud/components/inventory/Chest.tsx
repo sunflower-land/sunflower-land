@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -15,51 +15,23 @@ import {
 import { getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
+import chest from "assets/npcs/synced.gif";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
 interface Props {
-  selectedItem?: InventoryItemName;
-  setDefaultSelectedItem: (item: InventoryItemName) => void;
   state: GameState;
-  onClick: (item: InventoryItemName) => void;
-  isFarming?: boolean;
 }
 
 const TAB_CONTENT_HEIGHT = 400;
 
-const isCollectible = (selectedItem: InventoryItemName) =>
-  selectedItem in LIMITED_ITEMS;
-
-export const Chest: React.FC<Props> = ({
-  selectedItem,
-  setDefaultSelectedItem,
-  state,
-  onClick,
-  isFarming,
-}: Props) => {
+export const Chest: React.FC<Props> = ({ state }: Props) => {
   const { ref: itemContainerRef, showScrollbar } =
     useShowScrollbar(TAB_CONTENT_HEIGHT);
   const [scrollIntoView] = useScrollIntoView();
 
   const chestMap = getChestItems(state);
 
-  // useMakeDefaultInventoryItem({
-  //   setDefaultSelectedItem,
-  //   basketItems,
-  //   inventoryCategories,
-  //   isFarming,
-  // });
-
-  const handleItemClick = (item: InventoryItemName) => {
-    onClick(item);
-
-    if (item && ITEM_DETAILS[item].section) {
-      scrollIntoView(ITEM_DETAILS[item].section);
-    }
-  };
-
-  const basketIsEmpty = Object.values(chestMap).length === 0;
   const collectibles = getKeys(chestMap).reduce((acc, item) => {
     if (item in LIMITED_ITEMS) {
       return { ...acc, [item]: chestMap[item] };
@@ -67,29 +39,57 @@ export const Chest: React.FC<Props> = ({
     return acc;
   }, {} as Record<LimitedItemName, Decimal>);
 
+  const [selected, setSelected] = useState<InventoryItemName>(
+    getKeys(collectibles)[0]
+  );
+
+  const handleItemClick = (item: InventoryItemName) => {
+    setSelected(item);
+
+    if (item && ITEM_DETAILS[item].section) {
+      scrollIntoView(ITEM_DETAILS[item].section);
+    }
+  };
+
+  const basketIsEmpty = Object.values(chestMap).length === 0;
+
+  if (basketIsEmpty) {
+    return (
+      <div
+        style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
+        className="flex flex-col justify-evenly items-center p-2"
+      >
+        <img src={chest} className="h-12" alt="Empty Chest" />
+        <span className="text-xs text-shadow text-center mt-2 w-80">
+          Your chest is empty, discover rare items today!
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col">
-      {!basketIsEmpty && (
+      {
         <OuterPanel className="flex-1 mb-3">
-          {selectedItem && (
+          {selected && (
             <div
               style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
               className="flex flex-col justify-evenly items-center p-2"
             >
-              <span className="text-center text-shadow">{selectedItem}</span>
+              <span className="text-center text-shadow">{selected}</span>
               <img
-                src={ITEM_DETAILS[selectedItem].image}
+                src={ITEM_DETAILS[selected].image}
                 className="h-12"
-                alt={selectedItem}
+                alt={selected}
               />
               <span className="text-xs text-shadow text-center mt-2 w-80">
-                {ITEM_DETAILS[selectedItem].description}
+                {ITEM_DETAILS[selected].description}
               </span>
               <Button className="text-xs w-2/4 mt-2">Place on Map</Button>
             </div>
           )}
         </OuterPanel>
-      )}
+      }
       <div
         ref={itemContainerRef}
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
@@ -99,12 +99,11 @@ export const Chest: React.FC<Props> = ({
       >
         {Object.values(collectibles) && (
           <div className="flex flex-col pl-2" key={"Collectibles"}>
-            {/* {<p className="mb-2 underline">Seeds</p>} */}
-            <div className="flex mb-2 flex-wrap -ml-1.5">
+            <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
               {getKeys(collectibles).map((item) => (
                 <Box
                   count={state.inventory[item]}
-                  isSelected={selectedItem === item}
+                  isSelected={selected === item}
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
