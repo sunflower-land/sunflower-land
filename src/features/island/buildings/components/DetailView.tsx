@@ -29,7 +29,7 @@ export const DetailView: React.FC<Props> = ({
 }) => {
   const { bumpkin, inventory } = state;
 
-  const canBuild = (building: BuildingName) => {
+  const cantBuild = (building: BuildingName) => {
     const missingIngredients = BUILDINGS[building].ingredients.some(
       (ingredient) => {
         const inventoryAmount =
@@ -44,6 +44,7 @@ export const DetailView: React.FC<Props> = ({
 
     return missingIngredients && missingBalance;
   };
+
   return (
     <div className="flex">
       <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
@@ -140,7 +141,7 @@ export const DetailView: React.FC<Props> = ({
           ) : (
             <Button
               onClick={() => onBuild(building)}
-              disabled={canBuild(building)}
+              disabled={cantBuild(building)}
             >
               Build
             </Button>

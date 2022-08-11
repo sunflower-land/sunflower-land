@@ -87,14 +87,35 @@ export const Game: React.FC = () => {
     gameState.matches("loading") &&
     gameState.context.sessionId === INITIAL_SESSION;
 
+  if (loadingSession) {
+    return (
+      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
+        <Splash fadeIn={false} />
+        <Modal show centered backdrop={false}>
+          <div className="relative">
+            <img
+              id="curly"
+              src={curly}
+              className="absolute w-54 -top-11 right-20 -z-10 scale-[4]"
+            />
+            <img
+              src={jumpingGoblin}
+              className="absolute w-52 -top-[83px] -z-10"
+            />
+            <Panel>
+              <Loading />
+            </Panel>
+          </div>
+        </Modal>
+      </div>
+    );
+  }
+
   return (
     <>
       <ToastManager />
 
-      <Modal
-        show={SHOW_MODAL[gameState.value as StateValues] && !loadingSession}
-        centered
-      >
+      <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel>
           {gameState.matches("loading") && <Loading />}
           {gameState.matches("refreshing") && <Refreshing />}
@@ -110,36 +131,11 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
 
-      {/* Show splash screen while session is loading  */}
-      {loadingSession ? (
-        <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
-          <Splash fadeIn={false} />
-          <Modal show centered backdrop={false}>
-            <div className="relative">
-              <img
-                id="curly"
-                src={curly}
-                className="absolute w-54 -top-11 right-20 -z-10 scale-[4]"
-              />
-              <img
-                src={jumpingGoblin}
-                className="absolute w-52 -top-[83px] -z-10"
-              />
-              <Panel>
-                <Loading />
-              </Panel>
-            </div>
-          </Modal>
-        </div>
-      ) : (
-        <>
-          <Water level={gameState.context.state.expansions.length + 1} />
-          <PlaceableOverlay>
-            <Land />
-          </PlaceableOverlay>
-          <Hud />
-        </>
-      )}
+      <Water level={gameState.context.state.expansions.length + 1} />
+      <PlaceableOverlay>
+        <Land />
+      </PlaceableOverlay>
+      <Hud />
     </>
   );
 };

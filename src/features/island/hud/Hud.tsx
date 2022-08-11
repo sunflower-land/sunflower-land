@@ -25,7 +25,9 @@ export const Hud: React.FC = () => {
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
       <Menu />
-      {!isEditing && (
+      {isEditing ? (
+        <PlaceableController />
+      ) : (
         <>
           <Balance balance={gameState.context.state.balance} />
           <Inventory
@@ -34,12 +36,11 @@ export const Hud: React.FC = () => {
             isFarming
           />
           <VisitBanner id={landId} />
+
+          <Buildings />
+          <BumpkinHUD />
         </>
       )}
-
-      <Buildings />
-      <BumpkinHUD />
-      {isEditing && <PlaceableController />}
       {/* <AudioPlayer isFarming /> */}
     </div>
   );
