@@ -33,6 +33,14 @@ import { PebbleStrikeAction, strikePebble } from "./landExpansion/pebbleStrike";
 import { chopShrub, ChopShrubAction } from "./chopShrub";
 import { reveal, RevealAction } from "./revealExpansion";
 import { fertiliseCrop, FertiliseCropAction } from "./fertiliseCrop";
+import {
+  placeBuilding,
+  PlaceBuildingAction,
+} from "./landExpansion/placeBuilding";
+import {
+  constructBuilding,
+  ConstructBuildingAction,
+} from "./landExpansion/constructBuilding";
 
 export type GameEvent =
   | CraftAction
@@ -56,7 +64,9 @@ export type GameEvent =
   | TradeAction
   | ChopShrubAction
   | RevealAction
-  | FertiliseCropAction;
+  | FertiliseCropAction
+  | ConstructBuildingAction
+  | PlaceBuildingAction;
 
 export type EventName = Extract<GameEvent, { type: string }>["type"];
 
@@ -94,4 +104,6 @@ export const EVENTS: Handlers = {
   "timber.chopped": landExpansionChop,
   "rock.mined": landExpansionMineStone,
   "item.fertilised": fertiliseCrop,
+  "building.constructed": constructBuilding,
+  "building.placed": placeBuilding,
 };
