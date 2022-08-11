@@ -58,7 +58,7 @@ export type GameEvent =
   | RevealAction
   | FertiliseCropAction;
 
-type EventName = Extract<GameEvent, { type: string }>["type"];
+export type EventName = Extract<GameEvent, { type: string }>["type"];
 
 /**
  * Type which enables us to map the event name to the payload containing that event name
