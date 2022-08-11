@@ -9,10 +9,14 @@ import { InnerPanel, Panel } from "components/ui/Panel";
 
 import { CONFIG } from "lib/config";
 import { Modal } from "react-bootstrap";
+import classNames from "classnames";
 
 const releaseVersion = CONFIG.RELEASE_VERSION as string;
 
-export const Splash: React.FC = ({ children }) => {
+export const Splash: React.FC<{ fadeIn?: boolean }> = ({
+  children,
+  fadeIn = true,
+}) => {
   return (
     <div className="bg-blue-600 w-full h-full flex relative items-center justify-center">
       <div className="relative w-full max-w-xl mb-96 animate-float z-10">
@@ -23,20 +27,25 @@ export const Splash: React.FC = ({ children }) => {
         <img src={logo} className="w-full" />
       </div>
       <div
-        className="bg-repeat w-full h-full absolute inset-0 duration-1000 opacity-0 transition-opacity"
+        className={classNames(
+          "bg-repeat w-full h-full absolute inset-0 duration-1000",
+          { "opacity-0": fadeIn, "transition-opacity": fadeIn }
+        )}
         id="clouds"
         style={{
           backgroundImage: `url(${clouds})`,
         }}
       />
-      <img
-        className="opacity-0 absolute hidden"
-        src={clouds}
-        onLoad={(e) => {
-          document.getElementById("clouds")?.classList.add("opacity-100");
-          console.log("Loaded");
-        }}
-      />
+      {fadeIn && (
+        <img
+          className="opacity-0 absolute hidden"
+          src={clouds}
+          onLoad={(e) => {
+            document.getElementById("clouds")?.classList.add("opacity-100");
+            console.log("Loaded");
+          }}
+        />
+      )}
       {children && (
         <Modal show={!!children} centered>
           <Panel className="text-shadow">{children}</Panel>

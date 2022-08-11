@@ -1,20 +1,28 @@
-import { createMachine, Interpreter } from "xstate";
+import { BuildingName } from "features/game/types/buildings";
+import { assign, createMachine, Interpreter } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 
 export interface Context {
-  placeable: string;
+  placeable: BuildingName;
+  coordinates: Coordinates;
+  collisionDetected: boolean;
 }
 
-type DropEvent = { type: "PLACE"; coordinates: Coordinates };
+type UpdateEvent = {
+  type: "UPDATE";
+  coordinates: Coordinates;
+  collisionDetected: boolean;
+};
 
 export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
-  | DropEvent
+  | { type: "PLACE" }
+  | UpdateEvent
   | { type: "CANCEL" };
 
 export type BlockchainState = {
-  value: "idle" | "dragging" | "placing" | "close";
+  value: "idle" | "dragging" | "placing" | "placed" | "close";
   context: Context;
 };
 
@@ -50,6 +58,12 @@ export const editingMachine = createMachine<
     },
     dragging: {
       on: {
+        UPDATE: {
+          actions: assign({
+            coordinates: (_, event) => event.coordinates,
+            collisionDetected: (_, event) => event.collisionDetected,
+          }),
+        },
         DROP: {
           target: "idle",
         },
@@ -57,19 +71,21 @@ export const editingMachine = createMachine<
     },
     placing: {
       invoke: {
-        src: async (context, event) => {
-          alert(
-            JSON.stringify(
-              {
-                item: context.placeable,
-                coordinates: (event as DropEvent).coordinates,
-              },
-              null,
-              2
-            )
-          );
+        src: async (context) => {
+          console.info({
+            item: context.placeable,
+            coordinates: context.coordinates,
+          });
         },
         onDone: {
+          target: "placed",
+        },
+      },
+    },
+    placed: {
+      after: {
+        // 300ms allows time for the .bulge animation
+        300: {
           target: "close",
         },
       },

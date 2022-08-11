@@ -1,5 +1,4 @@
 import React from "react";
-
 import { OuterPanel } from "components/ui/Panel";
 
 export const VisitBanner = ({ id }: { id?: number }) => {
