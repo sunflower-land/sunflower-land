@@ -303,6 +303,7 @@ export const INITIAL_FARM: GameState = {
     Axe: new Decimal(3),
     Pickaxe: new Decimal(3),
   },
+
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,
@@ -332,6 +333,7 @@ export const INITIAL_FARM: GameState = {
 
   expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
+  buildings: {},
 };
 
 export const EMPTY: GameState = {
@@ -360,4 +362,5 @@ export const EMPTY: GameState = {
   plots: INITIAL_PLOTS,
   expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
+  buildings: {},
 };

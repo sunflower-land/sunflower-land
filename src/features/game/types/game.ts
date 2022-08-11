@@ -6,7 +6,7 @@ import { CraftableName, Food, Ingredient } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
-import { BuildingName } from "./buildings";
+import { BuildingName, PlaceableName } from "./buildings";
 
 export type Reward = {
   items: {
@@ -189,6 +189,17 @@ export type LandExpansionPlot = {
   crop?: PlantedCrop;
 } & Position;
 
+export type Building = {
+  id: string;
+  coordinates: { x: number; y: number };
+  readyAt: number;
+  createdAt: number;
+};
+
+export type Buildings = Partial<
+  Record<PlaceableName | BuildingName, Building[]>
+>;
+
 export type LandExpansion = {
   createdAt: number;
   readyAt: number;
@@ -239,6 +250,7 @@ export interface GameState {
   expansions: LandExpansion[];
   expansionRequirements?: ExpansionRequirements;
   bumpkin: Bumpkin;
+  buildings: Buildings;
 }
 
 export interface Context {
