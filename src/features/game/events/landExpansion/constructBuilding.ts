@@ -1,13 +1,7 @@
-import { randomUUID } from "crypto";
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { Building, GameState } from "../../types/game";
-
-// Generate a Unique ID for a building
-function generateBuildingId() {
-  return randomUUID();
-}
 
 export type ConstructBuildingAction = {
   type: "building.constructed";
@@ -60,8 +54,7 @@ export function constructBuilding({
     stateCopy.inventory[action.building] || new Decimal(0);
   const placed = stateCopy.buildings[action.building] || [];
 
-  const newBuilding: Building = {
-    id: generateBuildingId(),
+  const newBuilding: Omit<Building, "id"> = {
     createdAt: createdAt,
     coordinates: action.coordinates,
     readyAt: createdAt + building.constructionSeconds * 1000,

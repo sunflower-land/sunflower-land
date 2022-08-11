@@ -196,7 +196,6 @@ describe("Construct building", () => {
 
     expect(state.buildings["Fire Pit"]).toHaveLength(1);
     expect(state.buildings["Fire Pit"]?.[0]).toEqual({
-      id: expect.any(String),
       coordinates: { x: 1, y: 2 },
       readyAt: date + 30 * 1000,
       createdAt: date,
@@ -243,7 +242,6 @@ describe("Construct building", () => {
         },
       },
     });
-    // previousInventory.Wood.sub(BUILDINGS.Workbench.ingredients)
     expect(state.inventory["Wood"]).toEqual(new Decimal(15));
     expect(state.inventory["Stone"]).toEqual(new Decimal(10));
   });
@@ -340,7 +338,6 @@ describe("Construct building", () => {
           },
           createdAt: date,
           readyAt: date + 30 * 1000,
-          id: expect.any(String),
         },
       ],
       Workbench: [
