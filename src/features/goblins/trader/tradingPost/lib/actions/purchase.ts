@@ -38,6 +38,9 @@ export async function purchaseRequest(request: Request): Promise<Response> {
         "content-type": "application/json;charset=UTF-8",
         Authorization: `Bearer ${request.token}`,
         accept: "application/json",
+        ...((window as any)["x-amz-ttl"]
+          ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] }
+          : {}),
       },
       body: JSON.stringify({
         listingId: request.listingId,
