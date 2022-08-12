@@ -332,7 +332,6 @@ export class Metamask {
   }
 
   public getFrog() {
-    console.log("frog");
     return this.frog as Frog;
   }
 

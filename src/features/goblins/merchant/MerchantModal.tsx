@@ -18,6 +18,8 @@ import box from "../../../assets/nfts/frogs/box.gif";
 import big_goblin_axe from "../../../assets/npcs/big_goblin_axe.gif";
 import sfl_token from "../../../assets/icons/token.gif";
 
+import { CONFIG } from "lib/config";
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -28,16 +30,17 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [authState] = useActor(authService);
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
-
-  // const child = (goblinState.children.frog || {}) as MachineInterpreter;
-
   const [machine, send] = useMachine(frogMachine);
-
   const { state, errorCode } = machine.context;
 
-  const handleClose = () => {
-    onClose();
-  };
+  // links
+  const openseaLink =
+    CONFIG.NETWORK == "mainnet"
+      ? "https://opensea.io/collection/sunflower-land-frogs-collection"
+      : "https://testnets.opensea.io/collection/sunflower-land-frogs-collection-testnet";
+  const projectDignity = "https://www.project-dignity.tk";
+
+  const handleClose = () => onClose();
 
   return (
     <Modal centered show={isOpen} onHide={handleClose}>
@@ -108,7 +111,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               </p>
               <p className="text-xxs mb-4\2 mt-2 text-center">
                 initiated by{" "}
-                <a href="https://www.project-dignity.tk/project-dignity/members">
+                <a href={`${projectDignity}/project-dignity/members`}>
                   Project Dignity
                 </a>
               </p>
@@ -145,22 +148,22 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 What to do next? Wait for frog reveal!
               </p>
               <p className="text-xxs text-center">
-                Note: When 500 frogs have been minted out, you get to see what
-                kind of frog you got!
+                {`Note: When all frogs are minted, you'll see what kind of frog you got!`}
               </p>
               <Button
                 className="text-xs mt-2"
-                onClick={() => {
-                  send("MINT");
-                }}
+                onClick={() => window.open(openseaLink, "_blank")}
               >
                 Check Frog Collection
               </Button>
               <Button
                 className="text-xs mt-2"
-                onClick={() => {
-                  send("MINT");
-                }}
+                onClick={() =>
+                  window.open(
+                    `${projectDignity}/community-projects/frogs`,
+                    "_blank"
+                  )
+                }
               >
                 Go to Frog GitBooks
               </Button>

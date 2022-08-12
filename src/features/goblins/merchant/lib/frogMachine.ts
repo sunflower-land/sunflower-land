@@ -178,11 +178,9 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
 
             return { _approve };
           },
-          onDone: [
-            {
-              target: "check_token",
-            },
-          ],
+          onDone: {
+            target: "check_token",
+          },
           onError: {
             target: "error",
             actions: assignErrorMessage,
@@ -205,12 +203,9 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
 
             return { mint };
           },
-          onDone: [
-            {
-              target: "minted",
-              cond: (_, event) => event.data.mint.verified,
-            },
-          ],
+          onDone: {
+            target: "minted",
+          },
           onError: {
             target: "error",
             actions: assignErrorMessage,
