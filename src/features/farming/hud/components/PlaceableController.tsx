@@ -10,17 +10,22 @@ import cancel from "assets/icons/cancel.png";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { inventory } = gameService.state.context.state;
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [
     {
-      context: { collisionDetected },
+      context: { collisionDetected, placeable },
     },
     send,
   ] = useActor(child);
 
   const handleConfirmPlacement = () => {
-    send("PLACE");
+    if (inventory[placeable]) {
+      send("PLACE");
+    } else {
+      send({ type: "PLACE", isConstruction: true });
+    }
   };
 
   const handleCancelPlacement = () => {

@@ -42,7 +42,7 @@ import {
   ConstructBuildingAction,
 } from "./landExpansion/constructBuilding";
 
-export type GameEvent =
+export type PlayingEvent =
   | CraftAction
   | SellAction
   | PlantAction
@@ -64,24 +64,25 @@ export type GameEvent =
   | TradeAction
   | ChopShrubAction
   | RevealAction
-  | FertiliseCropAction
-  | ConstructBuildingAction
-  | PlaceBuildingAction;
+  | FertiliseCropAction;
 
-export type EventName = Extract<GameEvent, { type: string }>["type"];
+export type PlacementEvent = ConstructBuildingAction | PlaceBuildingAction;
+
+export type GameEvent = PlayingEvent | PlacementEvent;
+type GameEventName<T> = Extract<T, { type: string }>["type"];
 
 /**
  * Type which enables us to map the event name to the payload containing that event name
  */
-type Handlers = {
-  [Name in EventName]: (options: {
+type Handlers<T> = {
+  [Name in GameEventName<T>]: (options: {
     state: GameState;
     // Extract the correct event payload from the list of events
-    action: Extract<GameEvent, { type: Name }>;
+    action: Extract<GameEventName<T>, { type: Name }>;
   }) => GameState;
 };
 
-export const EVENTS: Handlers = {
+export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "item.planted": plant,
   "item.harvested": harvest,
   "item.crafted": craft,
@@ -104,6 +105,11 @@ export const EVENTS: Handlers = {
   "timber.chopped": landExpansionChop,
   "rock.mined": landExpansionMineStone,
   "item.fertilised": fertiliseCrop,
+};
+
+export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "building.constructed": constructBuilding,
   "building.placed": placeBuilding,
 };
+
+export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

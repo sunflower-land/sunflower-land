@@ -19,7 +19,10 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
   const state = game.context.state;
 
   const handleBuild = () => {
-    gameService.send("EDIT", { placeable: selected });
+    gameService.send("EDIT", {
+      placeable: selected,
+      placeableType: "building",
+    });
     closeModal();
     scrollIntoView(Section.GenesisBlock);
   };
