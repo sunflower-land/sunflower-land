@@ -8,7 +8,7 @@ interface Context {
   token: string;
 
   visitingFarmId: number;
-  vistingFarmSlots: FarmSlot[];
+  visitingFarmSlots: FarmSlot[];
   purchasingListing: Listing;
 }
 
@@ -64,7 +64,7 @@ export const buyingMachine = createMachine<
           onDone: {
             target: "idle",
             actions: assign((_, event) => ({
-              vistingFarmSlots: event.data.farmSlots,
+              visitingFarmSlots: event.data.farmSlots,
             })),
           },
         },
