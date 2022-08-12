@@ -72,12 +72,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               <h2 className="text-m m-2 text-center">
                 {`Before minting, you will need to approve 100 SFL Spending from your wallet.`}
               </h2>
-              <Button
-                className="text-xs mt-2"
-                onClick={() => {
-                  send("APPROVE");
-                }}
-              >
+              <Button className="text-xs mt-2" onClick={() => send("APPROVE")}>
                 Approve SFL Spending
               </Button>
             </div>
@@ -100,9 +95,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               />
               <Button
                 className="text-xs mt-2 w-1/2"
-                onClick={() => {
-                  send("MINT");
-                }}
+                onClick={() => send("MINT")}
               >
                 Mint a frog
               </Button>
