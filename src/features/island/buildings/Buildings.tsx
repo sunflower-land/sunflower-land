@@ -6,7 +6,6 @@ import hammer from "assets/icons/hammer.png";
 import close from "assets/icons/close.png";
 import crown from "assets/tools/hammer.png";
 
-import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { ModalContent } from "./components/ui/ModalContent";
@@ -24,7 +23,6 @@ export const Buildings: React.FC = () => {
           <img src={disc} className="w-full absolute inset-0" />
           <img src={hammer} className="w-10 mb-1 z-10" />
         </div>
-        <Label className="mt-1 hidden sm:block">Build</Label>
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel className="pt-5 relative">

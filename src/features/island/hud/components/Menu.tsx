@@ -13,6 +13,7 @@ import { Share } from "components/Share";
 
 import disc from "assets/icons/disc.png";
 import questionMark from "assets/icons/expression_confused.png";
+import settings from "assets/icons/settings.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import close from "assets/icons/close.png";
 
@@ -21,7 +22,6 @@ import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
 import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 import { HowToPlay } from "features/farming/hud/components/howToPlay/HowToPlay";
 import { Settings } from "features/farming/hud/components/Settings";
-import { Label } from "components/ui/Label";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -93,9 +93,8 @@ export const Menu = () => {
         >
           <div className="relative w-16 h-16 flex items-center justify-center">
             <img src={disc} className="w-full absolute inset-0" />
-            <img src={questionMark} className="w-6 mb-1 z-10" />
+            <img src={settings} className="w-10 mb-1 z-10" />
           </div>
-          <Label className="mt-1 hidden sm:block">Settings</Label>
         </div>
       )}
 
