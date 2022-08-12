@@ -69,7 +69,7 @@ export type PlayingEvent =
 export type PlacementEvent = ConstructBuildingAction | PlaceBuildingAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
-type GameEventName<T> = Extract<T, { type: string }>["type"];
+export type GameEventName<T> = Extract<T, { type: string }>["type"];
 
 /**
  * Type which enables us to map the event name to the payload containing that event name

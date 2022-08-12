@@ -1,5 +1,11 @@
 import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
-import { EVENTS, GameEvent } from "../events";
+import {
+  PLAYING_EVENTS,
+  PlacementEvent,
+  PLACEMENT_EVENTS,
+  GameEvent,
+  PlayingEvent,
+} from "../events";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
@@ -24,7 +30,10 @@ import {
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { expand } from "../expansion/actions/expand";
 import { checkProgress, processEvent } from "./processEvent";
-import { editingMachine } from "../expansion/placeable/editingMachine";
+import {
+  editingMachine,
+  PlaceableType,
+} from "../expansion/placeable/editingMachine";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -70,6 +79,7 @@ type SyncEvent = {
 
 type EditEvent = {
   placeable: string;
+  placeableType: PlaceableType;
   type: "EDIT";
 };
 
@@ -102,13 +112,13 @@ export type BlockchainEvent =
 
 // // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
-  Object.keys(EVENTS).reduce(
+  Object.keys(PLAYING_EVENTS).reduce(
     (events, eventName) => ({
       ...events,
       [eventName]: [
         {
           target: "hoarding",
-          cond: (context: Context, event: GameEvent) => {
+          cond: (context: Context, event: PlayingEvent) => {
             const { valid } = checkProgress({
               state: context.state as GameState,
               action: event,
@@ -117,7 +127,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 
             return !valid;
           },
-          actions: assign((context: Context, event: GameEvent) => {
+          actions: assign((context: Context, event: PlayingEvent) => {
             const { maxedItem } = checkProgress({
               state: context.state as GameState,
               action: event,
@@ -128,7 +138,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
           }),
         },
         {
-          actions: assign((context: Context, event: GameEvent) => ({
+          actions: assign((context: Context, event: PlayingEvent) => ({
             state: processEvent({
               state: context.state as GameState,
               action: event,
@@ -143,6 +153,29 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
           })),
         },
       ],
+    }),
+    {}
+  );
+
+const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
+  Object.keys(PLACEMENT_EVENTS).reduce(
+    (events, eventName) => ({
+      ...events,
+      [eventName]: {
+        actions: assign((context: Context, event: PlacementEvent) => ({
+          state: processEvent({
+            state: context.state as GameState,
+            action: event,
+          }) as GameState,
+          actions: [
+            ...context.actions,
+            {
+              ...event,
+              createdAt: new Date(),
+            },
+          ],
+        })),
+      },
     }),
     {}
   );
@@ -597,6 +630,8 @@ export function startGame(authContext: Options) {
             src: editingMachine,
             data: {
               placeable: (_: Context, event: EditEvent) => event.placeable,
+              placeableType: (_: Context, event: EditEvent) =>
+                event.placeableType,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
             },
@@ -614,6 +649,9 @@ export function startGame(authContext: Options) {
                 actions: "assignErrorMessage",
               },
             ],
+          },
+          on: {
+            ...PLACEMENT_EVENT_HANDLERS,
           },
         },
       },
