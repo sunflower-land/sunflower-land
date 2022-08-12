@@ -1,5 +1,4 @@
 import { Decimal } from "decimal.js-light";
-import { GameEvent } from "../events";
 
 import { CropName, SeedName } from "./crops";
 import { CraftableName, Food, Ingredient } from "./craftables";
@@ -7,6 +6,7 @@ import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
 import { BuildingName, PlaceableName } from "./buildings";
+import { GameEvent } from "../events";
 
 export type CropReward = {
   items: {
