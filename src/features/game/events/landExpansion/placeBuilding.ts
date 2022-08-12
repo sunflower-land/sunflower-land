@@ -4,7 +4,7 @@ import { GameState, Building } from "../../types/game";
 
 export type PlaceBuildingAction = {
   type: "building.placed";
-  building: BuildingName;
+  name: BuildingName;
   coordinates: {
     x: number;
     y: number;
@@ -24,7 +24,7 @@ export function placeBuilding({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
 
-  const building = action.building;
+  const building = action.name;
   const buildingsItem = state.buildings[building];
   const inventoryItem = state.inventory[building];
 
@@ -40,7 +40,7 @@ export function placeBuilding({
     throw new Error("You cannot place this item");
   }
 
-  const placed = stateCopy.buildings[action.building] || [];
+  const placed = stateCopy.buildings[action.name] || [];
 
   const newBuilding: Omit<Building, "id"> = {
     createdAt: createdAt,

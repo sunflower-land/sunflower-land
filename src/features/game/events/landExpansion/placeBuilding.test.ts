@@ -32,7 +32,7 @@ describe("Place building", () => {
 
         action: {
           type: "building.placed",
-          building: "Fire Pit",
+          name: "Fire Pit",
           coordinates: {
             x: 0,
             y: 0,
@@ -53,7 +53,7 @@ describe("Place building", () => {
 
         action: {
           type: "building.placed",
-          building: "Fire Pit",
+          name: "Fire Pit",
           coordinates: {
             x: 0,
             y: 0,
@@ -75,7 +75,7 @@ describe("Place building", () => {
 
       action: {
         type: "building.placed",
-        building: "Oven",
+        name: "Oven",
         coordinates: {
           x: 0,
           y: 0,
@@ -107,7 +107,7 @@ describe("Place building", () => {
       createdAt: date,
       action: {
         type: "building.placed",
-        building: "Anvil",
+        name: "Anvil",
         coordinates: {
           x: 0,
           y: 0,
@@ -143,7 +143,7 @@ describe("Place building", () => {
 
         action: {
           type: "building.placed",
-          building: "Carrot" as BuildingName,
+          name: "Carrot" as BuildingName,
           coordinates: {
             x: 0,
             y: 0,

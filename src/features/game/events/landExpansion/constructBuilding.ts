@@ -5,7 +5,7 @@ import { Building, GameState } from "../../types/game";
 
 export type ConstructBuildingAction = {
   type: "building.constructed";
-  building: BuildingName;
+  name: BuildingName;
   coordinates: {
     x: number;
     y: number;
@@ -24,7 +24,7 @@ export function constructBuilding({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const building = BUILDINGS[action.building];
+  const building = BUILDINGS[action.name];
 
   if (stateCopy.bumpkin.level < building.levelRequired) {
     throw new Error("Your Bumpkin does not meet the level requirements");
@@ -50,9 +50,8 @@ export function constructBuilding({
     stateCopy.inventory
   );
 
-  const buildingInventory =
-    stateCopy.inventory[action.building] || new Decimal(0);
-  const placed = stateCopy.buildings[action.building] || [];
+  const buildingInventory = stateCopy.inventory[action.name] || new Decimal(0);
+  const placed = stateCopy.buildings[action.name] || [];
 
   const newBuilding: Omit<Building, "id"> = {
     createdAt: createdAt,
@@ -65,11 +64,11 @@ export function constructBuilding({
     balance: stateCopy.balance.sub(building.sfl),
     inventory: {
       ...inventoryMinusIngredients,
-      [action.building]: buildingInventory.add(1),
+      [action.name]: buildingInventory.add(1),
     },
     buildings: {
       ...stateCopy.buildings,
-      [action.building]: [...placed, newBuilding],
+      [action.name]: [...placed, newBuilding],
     },
   };
 }
