@@ -42,7 +42,6 @@ export const Hud: React.FC = () => {
         </>
       )}
       {/* <AudioPlayer isFarming /> */}
-      <VisitBanner id={landId} />
     </div>
   );
 };
