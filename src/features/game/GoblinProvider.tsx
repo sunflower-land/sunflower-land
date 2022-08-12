@@ -25,7 +25,9 @@ export const GoblinProvider: React.FC = ({ children }) => {
   );
 
   // TODO - Typescript error
-  const goblinService = useInterpret(goblinMachine) as MachineInterpreter;
+  const goblinService = useInterpret(
+    goblinMachine
+  ) as unknown as MachineInterpreter;
 
   return (
     <Context.Provider value={{ goblinService }}>{children}</Context.Provider>
