@@ -1,9 +1,13 @@
+import { GameEventName, PlacementEvent } from "features/game/events";
 import { BuildingName } from "features/game/types/buildings";
-import { assign, createMachine, Interpreter } from "xstate";
+import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
+
+export type PlaceableType = "building" | "collectable";
 
 export interface Context {
   placeable: BuildingName;
+  placeableType: PlaceableType;
   coordinates: Coordinates;
   collisionDetected: boolean;
 }
@@ -14,15 +18,24 @@ type UpdateEvent = {
   collisionDetected: boolean;
 };
 
+type PlaceEvent = {
+  type: "PLACE";
+};
+
+type ConstructEvent = {
+  type: "CONSTRUCT";
+};
+
 export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
-  | { type: "PLACE" }
+  | ConstructEvent
+  | PlaceEvent
   | UpdateEvent
   | { type: "CANCEL" };
 
 export type BlockchainState = {
-  value: "idle" | "dragging" | "placing" | "placed" | "close";
+  value: "idle" | "dragging" | "placed" | "close";
   context: Context;
 };
 
@@ -51,8 +64,25 @@ export const editingMachine = createMachine<
         DRAG: {
           target: "dragging",
         },
+        CONSTRUCT: {
+          target: "placed",
+          actions: sendParent<Context, ConstructEvent, PlacementEvent>(
+            ({ placeable, placeableType, coordinates: { x, y } }) => ({
+              type: `${placeableType}.constructed` as GameEventName<PlacementEvent>,
+              name: placeable,
+              coordinates: { x, y },
+            })
+          ),
+        },
         PLACE: {
-          target: "placing",
+          target: "placed",
+          actions: sendParent<Context, PlaceEvent, PlacementEvent>(
+            ({ placeable, placeableType, coordinates: { x, y } }) => ({
+              type: `${placeableType}.placed` as GameEventName<PlacementEvent>,
+              name: placeable,
+              coordinates: { x, y },
+            })
+          ),
         },
       },
     },
@@ -66,19 +96,6 @@ export const editingMachine = createMachine<
         },
         DROP: {
           target: "idle",
-        },
-      },
-    },
-    placing: {
-      invoke: {
-        src: async (context) => {
-          console.info({
-            item: context.placeable,
-            coordinates: context.coordinates,
-          });
-        },
-        onDone: {
-          target: "placed",
         },
       },
     },
