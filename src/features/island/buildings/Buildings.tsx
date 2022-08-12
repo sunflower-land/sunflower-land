@@ -9,7 +9,7 @@ import crown from "assets/tools/hammer.png";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { ModalContent } from "./components/ModalContent";
+import { ModalContent } from "./components/ui/ModalContent";
 
 export const Buildings: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
