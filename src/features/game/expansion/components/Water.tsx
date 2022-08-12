@@ -9,6 +9,9 @@ import dragonfly from "assets/decorations/dragonfly.gif";
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
 import swimmer from "assets/npcs/swimmer.gif";
+import island from "assets/land/islands/island.png";
+import chest from "assets/icons/chest.png";
+
 import { MapPlacement } from "./MapPlacement";
 
 const LAND_WIDTH = 6;
@@ -80,6 +83,24 @@ export const Water: React.FC<Props> = ({ level }) => {
             }}
           />
         </MapPlacement>
+
+        {level < 7 && (
+          <MapPlacement x={-8} y={-5}>
+            <img
+              src={island}
+              style={{
+                width: `${PIXEL_SCALE * 48}px`,
+              }}
+            />
+            <img
+              src={chest}
+              className="absolute bottom-16 left-1/2 -translate-x-1/2"
+              style={{
+                width: `${16 * PIXEL_SCALE}px`,
+              }}
+            />
+          </MapPlacement>
+        )}
       </div>
     </div>
   );
