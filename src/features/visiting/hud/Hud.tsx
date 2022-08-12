@@ -4,9 +4,9 @@ import { AudioPlayer } from "components/ui/AudioPlayer";
 import { Menu } from "./components/Menu";
 import { Context } from "features/game/VisitingProvider";
 import { useActor } from "@xstate/react";
-import { VisitBanner } from "components/ui/VisitBanner";
 import { Inventory } from "components/Inventory";
 import { Balance } from "components/Balance";
+import { VisitBanner } from "components/ui/VisitBanner";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
