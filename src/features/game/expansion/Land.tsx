@@ -25,7 +25,9 @@ type ExpansionProps = Pick<
   "shrubs" | "plots" | "trees" | "terrains" | "pebbles" | "stones" | "createdAt"
 >;
 
-const Expansion: React.FC<ExpansionProps & { expansionIndex: number }> = ({
+export const Expansion: React.FC<
+  ExpansionProps & { expansionIndex: number }
+> = ({
   shrubs,
   plots,
   trees,

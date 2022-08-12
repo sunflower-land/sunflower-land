@@ -13,6 +13,7 @@ import { Visiting } from "features/game/Visiting";
 import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
+import { DEV_Viewer } from "features/viewer/DEV_Viewer";
 
 /**
  * Entry point for game which reflects the user session state
@@ -76,6 +77,9 @@ export const Navigation: React.FC = () => {
             <Route path="/visit/:id" element={<Visiting key="visit" />} />
             {CONFIG.NETWORK !== "mainnet" && (
               <Route path="/land/:id" element={<LandExpansion key="land" />} />
+            )}
+            {CONFIG.NETWORK !== "mainnet" && (
+              <Route path="/viewer/:id" element={<DEV_Viewer key="viewer" />} />
             )}
             {/* Fallback */}
             <Route element={<Humans />} />
