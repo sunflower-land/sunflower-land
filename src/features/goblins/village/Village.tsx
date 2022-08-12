@@ -16,6 +16,7 @@ import { AncientRock } from "../quest/AncientRock";
 import { AncientDoor } from "../quest/AncientDoor";
 import { Trader } from "../trader/tradingPost/Trader";
 import { StorageHouse } from "../storageHouse/StorageHouse";
+import { Merchant } from "../merchant/Merchant";
 
 interface Props {
   state: GoblinMachineState["value"];
@@ -49,6 +50,7 @@ export const Village: React.FC<Props> = () => {
       <AncientRock />
       <AncientDoor />
       <Trader />
+      <Merchant />
     </div>
   );
 };

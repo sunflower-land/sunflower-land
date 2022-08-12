@@ -40,6 +40,7 @@ jobs:
           VITE_PAIR_CONTRACT: "0xaE42EA9864C36820627068a11959915f817ce809"
           VITE_MOM_CONTRACT: "0x2cFdb89954991b69D6D4B2ec8b70f3b995F4E8Ec"
           VITE_TRADER_CONTRACT: "0xbE005Fd6328960413f2627Ebb489B09507B2AEdF"
+          VITE_FROG_CONTRACT: "0x9aA76dCD7d386FE9Ab7A40468B948aa49eB615c6"
           VITE_DISCORD_REDIRECT: "https://sunflower-land.com/testnet/"
           VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
           VITE_RELEASE_VERSION: ${{ steps.get_version.outputs.VERSION }}

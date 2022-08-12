@@ -1,10 +1,13 @@
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
-import { AbiItem } from "web3-utils";
+import { AbiItem, toWei, fromWei } from "web3-utils";
 import TokenJSON from "./abis/Token.json";
 import { SunflowerLandToken, Transfer } from "./types/SunflowerLandToken";
+import { estimateGasPrice, parseMetamaskError } from "./utils";
+import Decimal from "decimal.js-light";
 
 const address = CONFIG.TOKEN_CONTRACT;
+const frogAddress = CONFIG.FROG_CONTRACT;
 
 /**
  * Token contract
@@ -76,5 +79,35 @@ export class Token {
     );
 
     return externalEvents;
+  }
+
+  public async approve(address: string, value: number) {
+    const gasPrice = await estimateGasPrice(this.web3);
+    const getWei = toWei(value.toString());
+    const approve = await this.contract.methods
+      .approve(address, getWei)
+      .send({ from: this.account, gasPrice });
+
+    return approve;
+  }
+
+  public async isTokenApprovedForFrogMint(attempts = 0): Promise<boolean> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+    try {
+      const allowance = await this.contract.methods
+        .allowance(this.account, frogAddress)
+        .call({ from: this.account });
+      const allowanceNumber = new Decimal(fromWei(allowance));
+      const isApproved = allowanceNumber.gte(100);
+
+      return isApproved;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.isTokenApprovedForFrogMint(attempts + 1);
+      }
+
+      throw error;
+    }
   }
 }

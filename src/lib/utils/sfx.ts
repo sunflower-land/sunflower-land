@@ -20,6 +20,8 @@ import battleMp3 from "../../assets/sound-effects/battle.mp3";
 import diaryMp3 from "../../assets/sound-effects/diary.mp3";
 import fountainMp3 from "../../assets/sound-effects/fountain.mp3";
 import melonDuskMp3 from "../../assets/sound-effects/SFL_in_Space.mp3";
+import merchantMp3 from "../../assets/sound-effects/merchant.mp3";
+
 export const harvestAudio = new Howl({
   src: [harvestMp3],
   volume: 0.2,
@@ -118,4 +120,9 @@ export const fountainAudio = new Howl({
 export const melonDuskAudio = new Howl({
   src: [melonDuskMp3],
   volume: 0.5,
+});
+
+export const merchantAudio = new Howl({
+  src: [merchantMp3],
+  volume: 0.2,
 });
