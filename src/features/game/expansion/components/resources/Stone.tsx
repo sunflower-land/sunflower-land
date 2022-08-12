@@ -10,7 +10,7 @@ import hitbox from "assets/resources/stone/stone_hitbox.png";
 import stone from "assets/resources/stone.png";
 import pickaxe from "assets/tools/wood_pickaxe.png";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -27,6 +27,12 @@ import {
   STONE_RECOVERY_TIME,
 } from "features/game/events/landExpansion/stoneMine";
 import { MINE_ERRORS } from "features/game/events/stoneMine";
+
+const SPARK_SHEET_FRAME_WIDTH = 455 / 5;
+const SPARK_SHEET_FRAME_HEIGHT = 66;
+
+const DROP_SHEET_FRAME_WIDTH = 637 / 7;
+const DROP_SHEET_FRAME_HEIGHT = 66;
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -180,42 +186,44 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const timeLeft = getTimeLeft(rock.stone.minedAt, STONE_RECOVERY_TIME);
 
   return (
-    <div className="relative z-10 group" ref={containerRef}>
+    <div className="relative z-10 group w-full h-full" ref={containerRef}>
       <img
         src={hitbox}
         style={{
           width: `${22 * PIXEL_SCALE}px`,
           opacity: 0.3,
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
         }}
-        className="z-10  cursor-pointer"
+        className="absolute z-10 cursor-pointer"
         onMouseEnter={handleHover}
         onMouseLeave={handleMouseLeave}
         onClick={strike}
       />
 
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          // The GIFs are larger than the rock due to the animations, so place correctly
-          transform: `translateY(${-GRID_WIDTH_PX * 2.947}px) translateX(${
-            -GRID_WIDTH_PX * 0.6888
-          }px)`,
-        }}
-      >
+      <div className="absolute z-20 pointer-events-none w-full h-full">
         {!mined && (
           <>
             <Spritesheet
-              className="group-hover:img-highlight pointer-events-none "
+              className="relative group-hover:img-highlight pointer-events-none w-full h-full"
               style={{
-                width: `${PIXEL_SCALE * 91}px`,
+                width: `${SPARK_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
+                height: `${SPARK_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
                 imageRendering: "pixelated",
+                position: "absolute",
+
+                // Adjust the base of stone to be perfectly aligned
+                // between two grid boxes
+                bottom: `-${18 * PIXEL_SCALE}px`,
+                left: `-${6 * PIXEL_SCALE}px`,
               }}
               getInstance={(spritesheet) => {
                 sparkGif.current = spritesheet;
               }}
               image={sparkSheet}
-              widthFrame={91}
-              heightFrame={66}
+              widthFrame={SPARK_SHEET_FRAME_WIDTH}
+              heightFrame={SPARK_SHEET_FRAME_HEIGHT}
               fps={24}
               steps={5}
               direction={`forward`}
@@ -237,19 +245,25 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
         <Spritesheet
           style={{
-            width: `${PIXEL_SCALE * 91}px`,
-
-            // Line it up with the click area
             opacity: collecting ? 1 : 0,
             transition: "opacity 0.2s ease-in",
+
+            width: `${SPARK_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
+            height: `${SPARK_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
             imageRendering: "pixelated",
+            position: "absolute",
+
+            // Adjust the base of stone to be perfectly aligned
+            // between two grid boxes
+            bottom: `-${18 * PIXEL_SCALE}px`,
+            left: `-${6 * PIXEL_SCALE}px`,
           }}
           getInstance={(spritesheet) => {
             minedGif.current = spritesheet;
           }}
           image={dropSheet}
-          widthFrame={91}
-          heightFrame={66}
+          widthFrame={DROP_SHEET_FRAME_WIDTH}
+          heightFrame={DROP_SHEET_FRAME_HEIGHT}
           fps={18}
           steps={7}
           direction={`forward`}
@@ -268,7 +282,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
         <div
           className={classNames(
-            "transition-opacity pointer-events-none absolute top-32 left-9",
+            "transition-opacity pointer-events-none absolute -bottom-5 left-1/2 -translate-x-1/2",
             {
               "opacity-100": touchCount > 0,
               "opacity-0": touchCount === 0,

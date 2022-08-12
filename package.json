@@ -23,7 +23,7 @@
   ],
   "dependencies": {
     "@xstate/inspect": "^0.6.2",
-    "@xstate/react": "^1.6.3",
+    "@xstate/react": "^3.0.1",
     "browserify-zlib": "^0.2.0",
     "classnames": "^2.3.1",
     "clipboard": "^2.0.11",
@@ -51,7 +51,7 @@
     "web3": "^1.6.1",
     "web3-health-check": "1.0.16",
     "web3-utils": "^1.6.1",
-    "xstate": "^4.27.0"
+    "xstate": "^4.33.1"
   },
   "devDependencies": {
     "@rollup/plugin-inject": "^4.0.4",

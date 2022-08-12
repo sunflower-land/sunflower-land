@@ -106,7 +106,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const service = useInterpret(chickenMachine, {
     // If chicken is already brewing an egg then add that to the chicken machine context
     context: chickenContext,
-  }) as MachineInterpreter;
+  }) as unknown as MachineInterpreter;
 
   // As per xstate docs:
   // To use a piece of state from the service inside a render, use the useSelector(...) hook to subscribe to it

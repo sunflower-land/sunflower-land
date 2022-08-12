@@ -21,9 +21,9 @@ import {
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import classNames from "classnames";
 import { HealthBar } from "components/ui/HealthBar";
-import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { LandExpansionRock } from "features/game/types/game";
+import { TimeLeftOverlay } from "components/ui/TimeLeftOverlay";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 2;
@@ -44,6 +44,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex, expansionIndex }) => {
   // When to hide the pebble that pops out
   const [collecting, setCollecting] = useState(false);
 
+  const overlayRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
@@ -143,6 +144,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex, expansionIndex }) => {
 
   return (
     <div
+      ref={overlayRef}
       className="relative z-10"
       style={{ height: "40px" }}
       onMouseEnter={handleMouseHoverPebble}
@@ -243,10 +245,13 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex, expansionIndex }) => {
             left: "-26px",
           }}
         >
-          <TimeLeftPanel
-            timeLeft={timeLeft}
-            showTimeLeft={showPebbleTimeLeft}
-          />
+          {overlayRef.current && (
+            <TimeLeftOverlay
+              target={overlayRef.current}
+              timeLeft={timeLeft}
+              showTimeLeft={showPebbleTimeLeft}
+            />
+          )}
         </div>
       )}
       {/* Popover showing amount of stone collected */}

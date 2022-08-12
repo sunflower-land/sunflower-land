@@ -131,11 +131,17 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
 
-      <Water level={gameState.context.state.expansions.length + 1} />
-      <PlaceableOverlay>
-        <Land />
-      </PlaceableOverlay>
-      <Hud />
+      <div className="absolute z-0 w-full h-full">
+        <Water level={gameState.context.state.expansions.length + 1} />
+      </div>
+      <div className="absolute z-10 w-full h-full">
+        <PlaceableOverlay>
+          <Land />
+        </PlaceableOverlay>
+      </div>
+      <div className="absolute z-20">
+        <Hud />
+      </div>
     </>
   );
 };

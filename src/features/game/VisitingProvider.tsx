@@ -26,7 +26,9 @@ export const VisitingProvider: React.FC = ({ children }) => {
   );
 
   // TODO - Typescript error
-  const gameService = useInterpret(visitingMachine) as MachineInterpreter;
+  const gameService = useInterpret(
+    visitingMachine
+  ) as unknown as MachineInterpreter;
 
   return (
     <Context.Provider value={{ gameService }}>{children}</Context.Provider>

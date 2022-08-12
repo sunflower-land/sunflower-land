@@ -176,7 +176,7 @@ export const Plot: React.FC<Props> = ({
     >
       <div className="absolute bottom-1 w-full h-full">
         <Soil
-          className="absolute bottom-0"
+          className="absolute bottom-0 pointer-events-none"
           plantedCrop={crop}
           showCropDetails={showCropDetails}
         />

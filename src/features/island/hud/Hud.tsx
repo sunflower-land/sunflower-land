@@ -34,7 +34,6 @@ export const Hud: React.FC = () => {
             shortcutItem={shortcutItem}
             isFarming
           />
-          {/* <VisitBanner id={landId} /> */}
 
           <Buildings />
           <BumpkinHUD />
