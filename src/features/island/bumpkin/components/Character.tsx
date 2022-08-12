@@ -20,6 +20,9 @@ import explorer from "assets/bumpkins/hair/explorer.gif";
 // Shirts
 import farmerShirt from "assets/bumpkins/shirts/farmer_shirt.gif";
 
+// Miscellaneous
+import shadow from "assets/npcs/shadow.png";
+
 // Pants
 import farmerOveralls from "assets/bumpkins/pants/farmer_overalls.gif";
 import lumberjackOveralls from "assets/bumpkins/pants/lumberjack_overalls.gif";
@@ -79,6 +82,13 @@ export const Character: React.FC<Props> = ({
       {pants && (
         <img src={PARTS[pants]} className="absolute w-full inset-0 z-30" />
       )}
+      <img
+        src={shadow}
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+        }}
+        className="absolute w-full -bottom-1.5 -z-10 left-1.5"
+      />
     </div>
   );
 };
