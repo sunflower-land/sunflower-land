@@ -14,7 +14,7 @@ describe("Construct building", () => {
         state: GAME_STATE,
         action: {
           type: "building.constructed",
-          building: "Workbench",
+          name: "Workbench",
           coordinates: {
             x: 0,
             y: 0,
@@ -30,7 +30,7 @@ describe("Construct building", () => {
         state: GAME_STATE,
         action: {
           type: "building.constructed",
-          building: "Fire Pit",
+          name: "Fire Pit",
           coordinates: {
             x: 0,
             y: 0,
@@ -48,7 +48,7 @@ describe("Construct building", () => {
         },
         action: {
           type: "building.constructed",
-          building: "Fire Pit",
+          name: "Fire Pit",
           coordinates: {
             x: 0,
             y: 0,
@@ -70,7 +70,7 @@ describe("Construct building", () => {
         },
         action: {
           type: "building.constructed",
-          building: "Fire Pit",
+          name: "Fire Pit",
           coordinates: {
             x: 0,
             y: 0,
@@ -96,7 +96,7 @@ describe("Construct building", () => {
         },
         action: {
           type: "building.constructed",
-          building: "Workbench",
+          name: "Workbench",
           coordinates: {
             x: 0,
             y: 0,
@@ -122,7 +122,7 @@ describe("Construct building", () => {
         },
         action: {
           type: "building.constructed",
-          building: "Workbench",
+          name: "Workbench",
           coordinates: {
             x: 0,
             y: 0,
@@ -141,7 +141,7 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        building: "Fire Pit",
+        name: "Fire Pit",
         coordinates: {
           x: 0,
           y: 0,
@@ -164,7 +164,7 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        building: "Fire Pit",
+        name: "Fire Pit",
         coordinates: {
           x: 0,
           y: 0,
@@ -185,7 +185,7 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        building: "Fire Pit",
+        name: "Fire Pit",
         coordinates: {
           x: 1,
           y: 2,
@@ -212,7 +212,7 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        building: "Workbench",
+        name: "Workbench",
         coordinates: {
           x: 1,
           y: 2,
@@ -235,7 +235,7 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        building: "Workbench",
+        name: "Workbench",
         coordinates: {
           x: 1,
           y: 2,
@@ -269,7 +269,7 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        building: "Fire Pit",
+        name: "Fire Pit",
         coordinates: {
           x: 1,
           y: 2,
@@ -315,7 +315,7 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        building: "Fire Pit",
+        name: "Fire Pit",
         coordinates: {
           x: 1,
           y: 2,
