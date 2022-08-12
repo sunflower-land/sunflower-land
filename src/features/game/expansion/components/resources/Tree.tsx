@@ -67,6 +67,8 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
   const { setToast } = useContext(ToastContext);
   const expansion = game.context.state.expansions[expansionIndex];
+  console.log(expansion);
+  console.log(treeIndex);
   const tree = expansion.trees?.[treeIndex] as LandExpansionTree;
 
   // Reset the shake count when clicking outside of the component
