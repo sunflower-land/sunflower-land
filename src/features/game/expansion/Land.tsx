@@ -17,6 +17,8 @@ import { TerrainPlacement } from "./components/TerrainPlacement";
 import { EXPANSION_ORIGINS } from "./lib/constants";
 import { Stone } from "./components/resources/Stone";
 import { Placeable } from "./placeable/Placeable";
+import { BuildingName, PLACEABLES_DIMENSIONS } from "../types/buildings";
+import { Building } from "features/island/buildings/components/building/Building";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -152,6 +154,8 @@ export const Land: React.FC = () => {
 
   const { expansions } = state;
 
+  const buildings = gameState.context.state.buildings;
+
   const [scrollIntoView] = useScrollIntoView();
 
   useLayoutEffect(() => {
@@ -190,6 +194,26 @@ export const Land: React.FC = () => {
         <MapPlacement x={2} y={1}>
           <Bumpkin />
         </MapPlacement>
+
+        {getKeys(buildings).flatMap((name) => {
+          const items = buildings[name];
+          return items?.map((building) => {
+            const { x, y } = building.coordinates;
+            const { width, height } = PLACEABLES_DIMENSIONS[name];
+
+            return (
+              <MapPlacement
+                key={building.id}
+                x={x}
+                y={y}
+                height={height}
+                width={width}
+              >
+                <Building id={building.id} building={name as BuildingName} />
+              </MapPlacement>
+            );
+          });
+        })}
       </div>
     </div>
   );

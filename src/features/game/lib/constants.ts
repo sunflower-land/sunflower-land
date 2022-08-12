@@ -322,7 +322,19 @@ export const INITIAL_FARM: GameState = {
 
   expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
-  buildings: {},
+  buildings: {
+    "Fire Pit": [
+      {
+        id: "123",
+        coordinates: {
+          x: 1,
+          y: 1,
+        },
+        createdAt: 0,
+        readyAt: 0,
+      },
+    ],
+  },
 };
 
 export const EMPTY: GameState = {
