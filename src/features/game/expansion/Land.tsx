@@ -209,7 +209,11 @@ export const Land: React.FC = () => {
                 height={height}
                 width={width}
               >
-                <Building id={building.id} building={name as BuildingName} />
+                <Building
+                  id={building.id}
+                  building={building}
+                  name={name as BuildingName}
+                />
               </MapPlacement>
             );
           });

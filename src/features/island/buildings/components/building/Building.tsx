@@ -1,9 +1,11 @@
 import { BuildingName } from "features/game/types/buildings";
+import { Building as IBuilding } from "features/game/types/game";
 import React from "react";
 import { FirePit } from "./FirePit";
 
 interface Prop {
-  building: BuildingName;
+  name: BuildingName;
+  building: IBuilding;
   id: string;
 }
 
@@ -19,8 +21,8 @@ const BUIDLING_COMPONENTS: Record<BuildingName, React.FC<BuildingProp>> = {
   Workbench: () => null,
 };
 
-export const Building: React.FC<Prop> = ({ building, id }) => {
-  const BuildingPlaced = BUIDLING_COMPONENTS[building];
+export const Building: React.FC<Prop> = ({ name, building, id }) => {
+  const BuildingPlaced = BUIDLING_COMPONENTS[name];
 
   // TODO in progress
   return (
