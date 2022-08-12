@@ -2,24 +2,29 @@ import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
 
-import { Loading } from "features/auth/components";
-
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
 
+import { Loading, Splash } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { screenTracker } from "lib/utils/screen";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { Context } from "../GameProvider";
-import { StateValues } from "../lib/gameMachine";
+import { INITIAL_SESSION, StateValues } from "../lib/gameMachine";
 import { ToastManager } from "../toast/ToastManager";
 import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 import { Land } from "./Land";
-import { Hud } from "features/farming/hud/Hud";
+import { Hud } from "features/island/hud/Hud";
 import { Water } from "./components/Water";
+import { Expanding } from "./components/Expanding";
+import { ExpansionSuccess } from "./components/ExpansionSuccess";
+import { PlaceableOverlay } from "./components/PlaceableOverlay";
+
+import jumpingGoblin from "assets/npcs/goblin_jump.gif";
+import curly from "assets/npcs/curly_hair.png";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -33,6 +38,10 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   refreshing: true,
   announcing: true,
   notifying: true,
+  expanding: true,
+  expanded: true,
+  hoarding: true,
+  editing: false,
 };
 
 export const Game: React.FC = () => {
@@ -74,12 +83,40 @@ export const Game: React.FC = () => {
     };
   }, []);
 
+  const loadingSession =
+    gameState.matches("loading") &&
+    gameState.context.sessionId === INITIAL_SESSION;
+
+  if (loadingSession) {
+    return (
+      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
+        <Splash fadeIn={false} />
+        <Modal show centered backdrop={false}>
+          <div className="relative">
+            <img
+              id="curly"
+              src={curly}
+              className="absolute w-54 -top-11 right-20 -z-10 scale-[4]"
+            />
+            <img
+              src={jumpingGoblin}
+              className="absolute w-52 -top-[83px] -z-10"
+            />
+            <Panel>
+              <Loading />
+            </Panel>
+          </div>
+        </Modal>
+      </div>
+    );
+  }
+
   return (
     <>
       <ToastManager />
 
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
-        <Panel className="text-shadow">
+        <Panel>
           {gameState.matches("loading") && <Loading />}
           {gameState.matches("refreshing") && <Refreshing />}
           {gameState.matches("error") && (
@@ -89,12 +126,22 @@ export const Game: React.FC = () => {
           )}
           {gameState.matches("synced") && <Success />}
           {gameState.matches("syncing") && <Syncing />}
+          {gameState.matches("expanded") && <ExpansionSuccess />}
+          {gameState.matches("expanding") && <Expanding />}
         </Panel>
       </Modal>
 
-      <Water level={gameState.context.state.level} />
-      <Land />
-      <Hud />
+      <div className="absolute z-0 w-full h-full">
+        <Water level={gameState.context.state.expansions.length + 1} />
+      </div>
+      <div className="absolute z-10 w-full h-full">
+        <PlaceableOverlay>
+          <Land />
+        </PlaceableOverlay>
+      </div>
+      <div className="absolute z-20">
+        <Hud />
+      </div>
     </>
   );
 };

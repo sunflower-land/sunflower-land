@@ -8,6 +8,7 @@ export enum LimitedItemType {
   MOMEventItem = "MOMEventItem",
   QuestItem = "QuestItem",
   MutantChicken = "MutantChicken",
+  SalesmanItem = "SalesmanItem",
 }
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {
@@ -72,6 +73,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Tunnel Mole": 428,
   "Rocky the Mole": 429,
   Nugget: 430,
+  "Wicker Man": 431,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -175,6 +177,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Key": 913,
   "Ancient Goblin Sword": 914,
   "Ancient Human Warhammer": 915,
+  "Rapid Growth": 916,
+
+  // Buildings
+  "Fire Pit": 1001,
+  Oven: 1002,
+  Anvil: 1003,
+  Workbench: 1004,
+  Bakery: 1005,
 
   // Bumpkins
   "Farmer Potion": 1101,

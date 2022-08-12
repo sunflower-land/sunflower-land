@@ -25,6 +25,7 @@ import fountain from "assets/nfts/fountain.gif";
 import goldenBonsai from "assets/nfts/golden_bonsai.png";
 import rooster from "assets/nfts/rooster.gif";
 import pottedSunflower from "assets/decorations/potted_sunflower.png";
+import wickerManFire from "assets/nfts/wicker_man_fire.png";
 
 import nyonStatue from "assets/nfts/nyon_statue.png";
 import mysteriousHead from "assets/nfts/mysterious_head.png";
@@ -45,12 +46,12 @@ import observatory from "assets/nfts/mom/observatory.gif";
 
 import golemSheet from "assets/nfts/rock_golem.png";
 
-import { GRID_WIDTH_PX } from "../lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
 import { GameState, Inventory } from "../types/game";
 import { Panel } from "components/ui/Panel";
-import { fountainAudio } from "lib/utils/sfx";
+import { fountainAudio, burningSound } from "lib/utils/sfx";
 import { Sign } from "./Sign";
 import { canMine } from "../events/stoneMine";
 import { VipArea } from "./Vip";
@@ -377,6 +378,60 @@ interface Props {
   state: GameState;
 }
 
+const WickerManAnimation: React.FC = () => {
+  const wickerManGif = useRef<SpriteSheetInstance>();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const burn = () => {
+    const isPlaying = wickerManGif.current?.getInfo("isPlaying");
+
+    if (!isPlaying) {
+      burningSound.play();
+      wickerManGif.current?.goToAndPlay(0);
+    }
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className="absolute cursor-pointer hover:img-highlight z-10"
+      onClick={burn}
+      style={{
+        width: `${PIXEL_SCALE * 19}px`,
+        height: `${PIXEL_SCALE * 25}px`,
+        left: `${GRID_WIDTH_PX * 82}px`,
+        top: `${GRID_WIDTH_PX * 21}px`,
+      }}
+      id={Section["Wicker Man"]}
+    >
+      <Spritesheet
+        className="absolute group-hover:img-highlight pointer-events-none z-10"
+        style={{
+          imageRendering: "pixelated",
+          left: `-73%`,
+          bottom: `1px`,
+          width: `${PIXEL_SCALE * 44}px`,
+        }}
+        getInstance={(spritesheet) => {
+          wickerManGif.current = spritesheet;
+        }}
+        image={wickerManFire}
+        widthFrame={48}
+        heightFrame={58}
+        fps={12}
+        endAt={32}
+        steps={32}
+        direction={`forward`}
+        autoplay={false}
+        loop={true}
+        onLoopComplete={(spritesheet) => {
+          spritesheet.pause();
+        }}
+      />
+    </div>
+  );
+};
+
 export const Decorations: React.FC<Props> = ({ state }) => (
   <div className="z-10 absolute left-0 right-0">
     <VipArea inventory={state.inventory} />
@@ -672,6 +727,8 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         alt="Potted Sunflower"
       />
     )}
+
+    {state.inventory["Wicker Man"] && <WickerManAnimation />}
 
     {/* Moles */}
 

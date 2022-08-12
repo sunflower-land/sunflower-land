@@ -12,13 +12,12 @@ import stump from "assets/resources/tree/stump.png";
 import wood from "assets/resources/wood.png";
 import axe from "assets/tools/axe.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import {
-  canChop,
   CHOP_ERRORS,
   getRequiredAxeAmount,
   TREE_RECOVERY_SECONDS,
@@ -29,16 +28,26 @@ import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import { LandExpansionTree } from "features/game/types/game";
+import { canChop } from "features/game/events/landExpansion/chop";
+import { Overlay } from "react-bootstrap";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 const tool = "Axe";
 
+const SHAKE_SHEET_FRAME_WIDTH = 448 / 7;
+const SHAKE_SHEET_FRAME_HEIGHT = 48;
+
+const CHOPPED_SHEET_FRAME_WIDTH = 1040 / 13;
+const CHOPPED_SHEET_FRAME_HEIGHT = 48;
+
 interface Props {
   treeIndex: number;
+  expansionIndex: number;
 }
 
-export const Tree: React.FC<Props> = ({ treeIndex }) => {
+export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -57,6 +66,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
   const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
 
   const { setToast } = useContext(ToastContext);
+  const expansion = game.context.state.expansions[expansionIndex];
+  const tree = expansion.trees?.[treeIndex] as LandExpansionTree;
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -70,8 +81,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, []);
-
-  const tree = game.context.state.trees[treeIndex];
 
   // Users will need to refresh to chop the tree again
   const chopped = !canChop(tree);
@@ -110,9 +119,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
     const isPlaying = shakeGif.current?.getInfo("isPlaying");
 
-    if (isPlaying) {
-      return;
-    }
+    if (isPlaying) return;
 
     chopAudio.play();
     shakeGif.current?.goToAndPlay(0);
@@ -131,8 +138,9 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setTouchCount(0);
 
     try {
-      gameService.send("tree.chopped", {
+      gameService.send("timber.chopped", {
         index: treeIndex,
+        expansionIndex,
         item: selectedItem,
       });
       setCollecting(true);
@@ -141,13 +149,13 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       displayPopover(
         <div className="flex">
           <img src={wood} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${tree.wood}`}</span>
+          <span className="text-sm text-white text-shadow">{`+${tree.wood.amount}`}</span>
         </div>
       );
 
       setToast({
         icon: wood,
-        content: `+${tree.wood}`,
+        content: `+${tree.wood.amount}`,
       });
 
       await new Promise((res) => setTimeout(res, 2000));
@@ -183,68 +191,80 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setShowLabel(false);
   };
 
-  const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
-  const percentage = 100 - (timeLeft / TREE_RECOVERY_SECONDS) * 100;
+  const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_SECONDS);
 
   return (
-    <div className="relative z-10" style={{ height: "106px" }}>
+    <div className="relative z-10 w-full h-full">
       {!chopped && (
-        <div
-          onMouseEnter={handleHover}
-          onMouseLeave={handleMouseLeave}
-          ref={treeRef}
-          className="group cursor-pointer  w-full h-full"
-          onClick={shake}
-        >
-          <Spritesheet
-            className="group-hover:img-highlight pointer-events-none transform"
-            style={{
-              width: `${GRID_WIDTH_PX * 4}px`,
-              // Line it up with the click area
-              transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
-              imageRendering: "pixelated",
-            }}
-            getInstance={(spritesheet) => {
-              shakeGif.current = spritesheet;
-            }}
-            image={shakeSheet}
-            widthFrame={266 / 4}
-            heightFrame={168 / 4}
-            fps={24}
-            steps={7}
-            direction={`forward`}
-            autoplay={false}
-            loop={true}
-            onLoopComplete={(spritesheet) => {
-              spritesheet.pause();
-            }}
-          />
+        <>
           <div
-            className={`absolute bottom-8 -right-[1rem] transition pointer-events-none w-28 z-20 ${
-              showLabel ? "opacity-100" : "opacity-0"
-            }`}
+            onMouseEnter={handleHover}
+            onMouseLeave={handleMouseLeave}
+            ref={treeRef}
+            className="group cursor-pointer w-full h-full"
+            onClick={shake}
           >
-            <Label className="p-2">Equip {tool.toLowerCase()}</Label>
+            <Spritesheet
+              className="relative group-hover:img-highlight pointer-events-none transform w-full h-full"
+              style={{
+                width: `${SHAKE_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
+                height: `${SHAKE_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
+                imageRendering: "pixelated",
+                position: "absolute",
+
+                // Adjust the base of tree to be perfectly aligned to
+                // on a grid point.
+                bottom: `${8 * PIXEL_SCALE}px`,
+                right: `-${4 * PIXEL_SCALE}px`,
+              }}
+              getInstance={(spritesheet) => {
+                shakeGif.current = spritesheet;
+              }}
+              image={shakeSheet}
+              widthFrame={SHAKE_SHEET_FRAME_WIDTH}
+              heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
+              fps={24}
+              steps={7}
+              direction={`forward`}
+              autoplay={false}
+              loop={true}
+              onLoopComplete={(spritesheet) => {
+                spritesheet.pause();
+              }}
+            />
           </div>
-        </div>
+          <Overlay target={treeRef.current} show={showLabel} placement="right">
+            {(props) => (
+              <div {...props} className="absolute -left-1/2 z-10 w-28">
+                <Label className="p-2">Equip {tool.toLowerCase()}</Label>
+              </div>
+            )}
+          </Overlay>
+        </>
       )}
 
       <Spritesheet
         style={{
-          width: `${GRID_WIDTH_PX * 4}px`,
-          // Line it up with the click area
-          transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
+
+          width: `${CHOPPED_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
+          height: `${CHOPPED_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
           imageRendering: "pixelated",
+          position: "absolute",
+
+          // Adjust the base of tree to be perfectly aligned to
+          // on a grid point.
+          bottom: `${8 * PIXEL_SCALE}px`,
+          right: `-${4 * PIXEL_SCALE}px`,
         }}
         className="absolute bottom-0 pointer-events-none"
         getInstance={(spritesheet) => {
           choppedGif.current = spritesheet;
         }}
         image={choppedSheet}
-        widthFrame={266 / 4}
-        heightFrame={168 / 4}
+        widthFrame={CHOPPED_SHEET_FRAME_WIDTH}
+        heightFrame={CHOPPED_SHEET_FRAME_HEIGHT}
         fps={20}
         steps={11}
         direction={`forward`}
@@ -256,14 +276,22 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
       />
 
       {chopped && (
-        <>
+        <div
+          style={{
+            position: "absolute",
+            width: `${GRID_WIDTH_PX * 2}px`,
+            height: `${GRID_WIDTH_PX * 2}px`,
+            bottom: 0,
+          }}
+        >
           <img
             src={stump}
-            className="absolute opacity-50"
+            className="relative opacity-50"
             style={{
               width: `${GRID_WIDTH_PX}px`,
-              bottom: "9px",
-              left: "5px",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
             }}
             onMouseEnter={handleMouseHoverStump}
             onMouseLeave={handleMouseLeaveStump}
@@ -273,7 +301,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
             timeLeft={timeLeft}
             showTimeLeft={showStumpTimeLeft}
           />
-        </>
+        </div>
       )}
 
       <div

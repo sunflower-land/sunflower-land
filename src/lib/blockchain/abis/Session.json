@@ -21,6 +21,11 @@
         "name": "_trader",
         "type": "address"
       },
+      {
+        "internalType": "contract SunflowerLandExpansionMinter",
+        "name": "_landExpansionMinter",
+        "type": "address"
+      },
       { "internalType": "address", "name": "_wishingWell", "type": "address" },
       {
         "internalType": "address",
@@ -177,6 +182,32 @@
     "name": "executed",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "signature", "type": "bytes" },
+      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+      { "internalType": "string", "name": "nonce", "type": "string" },
+      { "internalType": "string", "name": "metadata", "type": "string" },
+      { "internalType": "uint256", "name": "sfl", "type": "uint256" },
+      {
+        "internalType": "uint256[]",
+        "name": "resourceIds",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "resourceAmounts",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "expandLand",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -470,6 +501,19 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "contract SunflowerLandExpansionMinter",
+        "name": "_landExpansionMinter",
+        "type": "address"
+      }
+    ],
+    "name": "setLandExpansionMinter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [{ "internalType": "bool", "name": "_liquify", "type": "bool" }],
     "name": "setLiquify",
     "outputs": [],
@@ -530,6 +574,19 @@
       { "internalType": "uint256", "name": "_minimum", "type": "uint256" }
     ],
     "name": "setTeamWithrawalMinimum",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract SunflowerLandTrader",
+        "name": "_trader",
+        "type": "address"
+      }
+    ],
+    "name": "setTrader",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -609,6 +666,15 @@
       { "internalType": "address", "name": "_team", "type": "address" }
     ],
     "name": "transferSyncFeeWallet",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_wallet", "type": "address" }
+    ],
+    "name": "transferTradeFeeWallet",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

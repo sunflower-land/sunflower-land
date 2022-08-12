@@ -2,11 +2,8 @@ import { FieldItem, GameState, Inventory } from "../types/game";
 import { Crop, CROPS } from "../types/crops";
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
-import {
-  addToHarvestCount,
-  getGoblinCount,
-  getHarvestCount,
-} from "../lib/goblinShovelStorage";
+import { getGoblinCount, getHarvestCount } from "../lib/goblinShovelStorage";
+import cloneDeep from "lodash.clonedeep";
 
 export type HarvestAction = {
   type: "item.harvested";
@@ -14,9 +11,15 @@ export type HarvestAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: HarvestAction;
   createdAt?: number;
+};
+
+export const isShovelStolen = () => {
+  const goblinThreshold = getGoblinCount().add(1).pow(3).mul(57);
+
+  return getHarvestCount().greaterThanOrEqualTo(goblinThreshold);
 };
 
 export function isReadyToHarvest(
@@ -28,7 +31,8 @@ export function isReadyToHarvest(
 }
 
 export function harvest({ state, action, createdAt = Date.now() }: Options) {
-  const fields = { ...state.fields };
+  const stateCopy = cloneDeep(state);
+  const fields = { ...stateCopy.fields };
 
   if (isShovelStolen()) {
     throw new Error("Missing shovel!");
@@ -45,7 +49,7 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   if (
     action.index >= 5 &&
     action.index <= 9 &&
-    !state.inventory["Pumpkin Soup"]
+    !stateCopy.inventory["Pumpkin Soup"]
   ) {
     throw new Error("Goblin land!");
   }
@@ -53,7 +57,7 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   if (
     action.index >= 10 &&
     action.index <= 15 &&
-    !state.inventory["Sauerkraut"]
+    !stateCopy.inventory["Sauerkraut"]
   ) {
     throw new Error("Goblin land!");
   }
@@ -61,7 +65,7 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   if (
     action.index >= 16 &&
     action.index <= 21 &&
-    !state.inventory["Roasted Cauliflower"]
+    !stateCopy.inventory["Roasted Cauliflower"]
   ) {
     throw new Error("Goblin land!");
   }
@@ -71,6 +75,7 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   }
 
   const field = fields[action.index];
+
   if (!field) {
     throw new Error("Nothing was planted");
   }
@@ -88,24 +93,17 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   const newFields = fields;
   delete newFields[action.index];
 
-  const cropCount = state.inventory[field.name] || new Decimal(0);
+  const cropCount = stateCopy.inventory[field.name] || new Decimal(0);
   const multiplier = field.multiplier || 1;
 
   const inventory: Inventory = {
-    ...state.inventory,
+    ...stateCopy.inventory,
     [field.name]: cropCount.add(multiplier),
   };
 
-  addToHarvestCount(1);
-
   return {
-    ...state,
+    ...stateCopy,
     fields: newFields,
     inventory,
   } as GameState;
 }
-
-export const isShovelStolen = () => {
-  const goblinThreshold = getGoblinCount().add(1).pow(3).mul(57);
-  return getHarvestCount().greaterThanOrEqualTo(goblinThreshold);
-};

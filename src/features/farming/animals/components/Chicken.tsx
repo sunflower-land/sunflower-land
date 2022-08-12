@@ -106,7 +106,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const service = useInterpret(chickenMachine, {
     // If chicken is already brewing an egg then add that to the chicken machine context
     context: chickenContext,
-  }) as MachineInterpreter;
+  }) as unknown as MachineInterpreter;
 
   // As per xstate docs:
   // To use a piece of state from the service inside a render, use the useSelector(...) hook to subscribe to it
@@ -335,10 +335,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
           className="absolute w-2/5 bottom-1 left-4"
           style={{ zIndex: index + 1 }}
         >
-          <Bar
-            percentage={percentageComplete}
-            seconds={CHICKEN_TIME_TO_EGG / 1000}
-          />
+          <Bar percentage={percentageComplete} />
         </div>
       )}
       {showMutantModal && (

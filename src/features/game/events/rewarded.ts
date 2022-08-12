@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import cloneDeep from "lodash.clonedeep";
 import { CROPS } from "../types/crops";
 import { GameState } from "../types/game";
 
@@ -8,13 +9,14 @@ export type OpenRewardAction = {
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: OpenRewardAction;
   createdAt?: number;
 };
 
 export function openReward({ state, action, createdAt = Date.now() }: Options) {
-  const field = state.fields[action.fieldIndex];
+  const stateCopy = cloneDeep(state);
+  const field = stateCopy.fields[action.fieldIndex];
 
   if (!field) {
     throw new Error("Field does not exist");
@@ -33,16 +35,16 @@ export function openReward({ state, action, createdAt = Date.now() }: Options) {
   // Only a single seed reward supported at the moment
   const seed = field.reward.items[0];
 
-  const inventory = { ...state.inventory };
+  const { inventory } = stateCopy;
 
   const seedBalance = inventory[seed.name] || new Decimal(0);
   inventory[seed.name] = seedBalance.add(seed.amount);
 
   // Remove the reward
-  delete state.fields[action.fieldIndex].reward;
+  delete stateCopy.fields[action.fieldIndex].reward;
 
   return {
-    ...state,
+    ...stateCopy,
     inventory,
   };
 }

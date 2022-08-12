@@ -15,14 +15,16 @@ export const Tree: React.FC = () => {
           style={{
             width: `${GRID_WIDTH_PX * 4}px`,
             // Line it up with the click area
-            transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+            transform: `translate(-${GRID_WIDTH_PX * 2}px,-${
+              GRID_WIDTH_PX * 0.5
+            }px)`,
             imageRendering: "pixelated",
           }}
           image={shakeSheet}
-          widthFrame={266}
-          heightFrame={168}
+          widthFrame={448 / 7}
+          heightFrame={48}
           fps={24}
-          steps={11}
+          steps={7}
           direction={`forward`}
           autoplay={false}
           loop={true}

@@ -1,11 +1,10 @@
 import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
 import { EVENTS, GameEvent } from "../events";
-import { processEvent } from "./processEvent";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
 
-import { GameState } from "../types/game";
+import { GameState, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { INITIAL_FARM, EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -23,6 +22,9 @@ import {
   hasAnnouncements,
 } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
+import { expand } from "../expansion/actions/expand";
+import { checkProgress, processEvent } from "./processEvent";
+import { editingMachine } from "../expansion/placeable/editingMachine";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -39,6 +41,7 @@ export interface Context {
   fingerprint?: string;
   itemsMintedAt?: MintedAt;
   notifications?: OnChainEvent[];
+  maxedItem?: InventoryItemName | "SFL";
 }
 
 type MintEvent = {
@@ -65,6 +68,11 @@ type SyncEvent = {
   type: "SYNC";
 };
 
+type EditEvent = {
+  placeable: string;
+  type: "EDIT";
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -88,29 +96,53 @@ export type BlockchainEvent =
   | WithdrawEvent
   | GameEvent
   | MintEvent
-  | LevelUpEvent;
+  | LevelUpEvent
+  | EditEvent
+  | { type: "EXPAND" };
 
-// For each game event, convert it to an XState event + handler
+// // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   Object.keys(EVENTS).reduce(
     (events, eventName) => ({
       ...events,
-      [eventName]: {
-        actions: assign((context: Context, event: GameEvent) => ({
-          state: processEvent({
-            state: context.state as GameState,
-            action: event,
-            onChain: context.onChain as GameState,
-          }) as GameState,
-          actions: [
-            ...context.actions,
-            {
-              ...event,
-              createdAt: new Date(),
-            },
-          ],
-        })),
-      },
+      [eventName]: [
+        {
+          target: "hoarding",
+          cond: (context: Context, event: GameEvent) => {
+            const { valid } = checkProgress({
+              state: context.state as GameState,
+              action: event,
+              onChain: context.onChain as GameState,
+            });
+
+            return !valid;
+          },
+          actions: assign((context: Context, event: GameEvent) => {
+            const { maxedItem } = checkProgress({
+              state: context.state as GameState,
+              action: event,
+              onChain: context.onChain as GameState,
+            });
+
+            return { maxedItem };
+          }),
+        },
+        {
+          actions: assign((context: Context, event: GameEvent) => ({
+            state: processEvent({
+              state: context.state as GameState,
+              action: event,
+            }) as GameState,
+            actions: [
+              ...context.actions,
+              {
+                ...event,
+                createdAt: new Date(),
+              },
+            ],
+          })),
+        },
+      ],
     }),
     {}
   );
@@ -124,9 +156,13 @@ export type BlockchainState = {
     | "autosaving"
     | "syncing"
     | "synced"
+    | "expanding"
+    | "expanded"
     | "levelling"
     | "error"
-    | "refreshing";
+    | "refreshing"
+    | "hoarding"
+    | "editing";
   context: Context;
 };
 
@@ -298,6 +334,12 @@ export function startGame(authContext: Options) {
             },
             RESET: {
               target: "refreshing",
+            },
+            EXPAND: {
+              target: "expanding",
+            },
+            EDIT: {
+              target: "editing",
             },
           },
         },
@@ -487,6 +529,93 @@ export function startGame(authContext: Options) {
           },
         },
         //  withdrawn
+        expanding: {
+          invoke: {
+            src: async (context, event) => {
+              // Autosave just in case
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(authContext.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.rawToken as string,
+                  offset: context.offset,
+                  fingerprint: context.fingerprint as string,
+                });
+              }
+
+              const sessionId = await expand({
+                farmId: Number(authContext.farmId),
+                token: authContext.rawToken as string,
+              });
+
+              return {
+                sessionId: sessionId,
+              };
+            },
+            onDone: {
+              target: "expanded",
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+                actions: assign((_) => ({
+                  actions: [],
+                })),
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
+          },
+        },
+        expanded: {
+          on: {
+            REFRESH: {
+              target: "loading",
+            },
+          },
+        },
+        hoarding: {
+          on: {
+            SYNC: {
+              target: "syncing",
+            },
+          },
+        },
+        editing: {
+          invoke: {
+            id: "editing",
+            autoForward: true,
+            src: editingMachine,
+            data: {
+              placeable: (_: Context, event: EditEvent) => event.placeable,
+              coordinates: { x: 0, y: 0 },
+              collisionDetected: true,
+            },
+            onDone: {
+              target: "playing",
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
+          },
+        },
       },
     },
     {

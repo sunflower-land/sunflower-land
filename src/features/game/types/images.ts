@@ -62,6 +62,7 @@ import rockyMole from "assets/nfts/rocky_mole.gif";
 import nugget from "assets/nfts/nugget.gif";
 import rockGolem from "assets/nfts/rock_golem.gif";
 import rooster from "assets/nfts/rooster.gif";
+import wickerMan from "assets/nfts/wicker_man.png";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -176,7 +177,13 @@ import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
 import ancientGoblinSword from "src/assets/nfts/quest/ancient_goblin_sword.png";
 import ancientHumanWarhammer from "src/assets/nfts/quest/ancient_human_warhammer.png";
 
-import { InventoryItemName } from "./game";
+// Fertiliser
+import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
+
+// Buildings
+import firePit from "src/assets/buildings/fire_pit.png";
+
+import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
   CAKES,
@@ -190,6 +197,7 @@ import {
   LimitedItem,
   MUTANT_CHICKENS,
   SHOVELS,
+  SALESMAN_ITEMS,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
@@ -461,7 +469,7 @@ export const ITEM_DETAILS: Items = {
     image: carrotSword,
   },
   "Golden Bonsai": {
-    ...MARKET_ITEMS["Golden Bonsai"],
+    ...SALESMAN_ITEMS["Golden Bonsai"],
     image: goldenBonsai,
   },
   "Nyon Statue": {
@@ -499,6 +507,10 @@ export const ITEM_DETAILS: Items = {
   Rooster: {
     ...BARN_ITEMS["Rooster"],
     image: rooster,
+  },
+  "Wicker Man": {
+    ...SALESMAN_ITEMS["Wicker Man"],
+    image: wickerMan,
   },
 
   // FOOD
@@ -909,5 +921,31 @@ export const ITEM_DETAILS: Items = {
   "Farmer Pants": {
     image: questionMark,
     description: "An item for your bumpkin",
+  },
+
+  "Rapid Growth": {
+    image: rapidGrowth,
+    description: FERTILISERS["Rapid Growth"].description,
+  },
+
+  "Fire Pit": {
+    image: firePit,
+    description: "Roast your Sunflowers, feed and level up your Bumpkin",
+  },
+  Oven: {
+    image: questionMark,
+    description: "TEST",
+  },
+  Bakery: {
+    image: questionMark,
+    description: "Bake your favourite cakes",
+  },
+  Anvil: {
+    image: questionMark,
+    description: "TEST",
+  },
+  Workbench: {
+    image: questionMark,
+    description: "TEST",
   },
 };

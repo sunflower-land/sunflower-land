@@ -182,7 +182,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
           </div>
           <div className="my-3 text-center">
             <a
-              href={`https://docs.sunflower-land.com/crafting-guide/farming-and-gathering#crafting-limits`}
+              href={`https://docs.sunflower-land.com/player-guides/rare-and-limited-items#crafting-limits`}
               className="underline text-[10px] hover:text-blue-500 mt-1 block"
               target="_blank"
               rel="noopener noreferrer"
@@ -281,23 +281,46 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                 }
 
                 const item = ITEM_DETAILS[ingredient.item];
-                const lessIngredient = new Decimal(
-                  inventory[ingredient.item] || 0
-                ).lessThan(ingredient.amount);
+                const inventoryAmount =
+                  inventory[ingredient.item]?.toDecimalPlaces(1) || 0;
+                const requiredAmount = ingredient.amount?.toDecimalPlaces(1);
+
+                // Ingredient difference
+                const lessIngredient = new Decimal(inventoryAmount).lessThan(
+                  requiredAmount
+                );
+
+                // rendering item remenants
+                const renderRemenants = () => {
+                  if (lessIngredient) {
+                    // if inventory items is less than required items
+                    return (
+                      <>
+                        <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                          {`${inventoryAmount}`}
+                        </span>
+                        <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                          {`/${requiredAmount}`}
+                        </span>
+                      </>
+                    );
+                  } else {
+                    // if inventory items is equal to required items
+                    return (
+                      <span className="text-xs text-shadow text-center mt-2">
+                        {`${requiredAmount}`}
+                      </span>
+                    );
+                  }
+                };
 
                 return (
-                  <div className="flex justify-center items-end" key={index}>
+                  <div
+                    className="flex justify-center flex-wrap items-end"
+                    key={index}
+                  >
                     <img src={item.image} className="h-5 me-2" />
-                    <span
-                      className={classNames(
-                        "text-xs text-shadow text-center mt-2 ",
-                        {
-                          "text-red-500": lessIngredient,
-                        }
-                      )}
-                    >
-                      {ingredient.amount.toNumber()}
-                    </span>
+                    {renderRemenants()}
                   </div>
                 );
               })}

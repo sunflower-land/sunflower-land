@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { InventoryItemName } from "features/game/types/game";
+import { FERTILISERS, InventoryItemName } from "features/game/types/game";
 
 import seeds from "assets/icons/seeds.png";
 import sunflowerPlant from "assets/crops/sunflower/crop.png";
@@ -21,6 +21,7 @@ import {
   QUEST_ITEMS,
   MUTANT_CHICKENS,
   SHOVELS,
+  SALESMAN_ITEMS,
 } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 
@@ -55,6 +56,9 @@ const BASKET_CATEGORIES: TabItems = {
   Crops: {
     items: CROPS(),
   },
+  Fertilisers: {
+    items: FERTILISERS,
+  },
 };
 
 const COLLECTIBLE_CATEGORIES: TabItems = {
@@ -66,6 +70,7 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
       ...FLAGS,
       ...ROCKET_ITEMS,
       ...MUTANT_CHICKENS,
+      ...SALESMAN_ITEMS,
     },
   },
   "Quest Items": {

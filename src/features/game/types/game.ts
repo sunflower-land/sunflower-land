@@ -2,10 +2,11 @@ import { Decimal } from "decimal.js-light";
 import { GameEvent } from "../events";
 
 import { CropName, SeedName } from "./crops";
-import { CraftableName, Food } from "./craftables";
+import { CraftableName, Food, Ingredient } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
+import { BuildingName, PlaceableName } from "./buildings";
 
 export type Reward = {
   items: {
@@ -14,12 +15,26 @@ export type Reward = {
   }[];
 };
 
+export type Fertiliser = "Rapid Growth";
+
+export const FERTILISERS: Record<Fertiliser, { description: string }> = {
+  "Rapid Growth": {
+    description: "Apply to a crop to grow twice as fast",
+  },
+};
+
+export type Fertilisers = {
+  name: Fertiliser;
+  fertilisedAt: number;
+}[];
+
 export type FieldItem = {
   name: CropName;
   // Epoch time in milliseconds
   plantedAt: number;
   multiplier?: number;
   reward?: Reward;
+  fertilisers?: Fertilisers;
 };
 
 export type Tree = {
@@ -65,6 +80,11 @@ export type MOMEventItem = "Engine Core";
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
 export type TradingTicket = "Trading Ticket";
+
+export type Bumpkin = {
+  level: number;
+};
+
 export type BumpkinBodies =
   | "Farmer Potion"
   | "Farmer Potion 2"
@@ -97,7 +117,9 @@ export type InventoryItemName =
   | MOMEventItem
   | MutantChicken
   | TradingTicket
-  | BumpkinItems;
+  | BumpkinItems
+  | BuildingName
+  | Fertiliser;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -142,6 +164,7 @@ export type PlantedCrop = {
   plantedAt: number;
   amount?: number;
   reward?: Reward;
+  fertilisers?: Fertilisers;
 };
 
 export type LandExpansionTree = {
@@ -166,8 +189,20 @@ export type LandExpansionPlot = {
   crop?: PlantedCrop;
 } & Position;
 
+export type Building = {
+  id: string;
+  coordinates: { x: number; y: number };
+  readyAt: number;
+  createdAt: number;
+};
+
+export type Buildings = Partial<
+  Record<PlaceableName | BuildingName, Building[]>
+>;
+
 export type LandExpansion = {
   createdAt: number;
+  readyAt: number;
 
   shrubs?: Record<number, LandExpansionTree>;
   pebbles?: Record<number, LandExpansionRock>;
@@ -177,9 +212,13 @@ export type LandExpansion = {
   stones?: Record<number, LandExpansionRock>;
 };
 
+interface ExpansionRequirements {
+  sfl: Decimal;
+  resources: Ingredient[];
+  seconds: Decimal;
+}
 export interface GameState {
   id?: number;
-  level: number;
   balance: Decimal;
   fields: Fields;
 
@@ -209,6 +248,9 @@ export interface GameState {
   };
 
   expansions: LandExpansion[];
+  expansionRequirements?: ExpansionRequirements;
+  bumpkin: Bumpkin;
+  buildings: Buildings;
 }
 
 export interface Context {

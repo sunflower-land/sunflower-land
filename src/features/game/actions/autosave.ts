@@ -3,6 +3,7 @@ import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
+import { EventName } from "../events";
 import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
@@ -20,8 +21,18 @@ type Request = {
 
 const API_URL = CONFIG.API_URL;
 
+const EXCLUDED_EVENTS: EventName[] = ["expansion.revealed"];
+
+/**
+ * Squashes similar events into a single event
+ * Filters out UI only events
+ */
 function squashEvents(events: PastAction[]): PastAction[] {
   return events.reduce((items, event, index) => {
+    if (EXCLUDED_EVENTS.includes(event.type)) {
+      return items;
+    }
+
     if (index > 0) {
       const previous = items[items.length - 1];
 
@@ -88,6 +99,10 @@ export async function autosave(request: Request) {
 
   // Serialize values before sending
   const actions = serialize(events, request.offset);
+
+  if (actions.length === 0) {
+    return { verified: true };
+  }
 
   const response = await autosaveRequest({
     ...request,

@@ -202,15 +202,17 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
             style={{
               width: `${GRID_WIDTH_PX * 4}px`,
               // Line it up with the click area
-              transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+              transform: `translate(-${GRID_WIDTH_PX * 2}px,-${
+                GRID_WIDTH_PX * 0.5
+              }px)`,
               imageRendering: "pixelated",
             }}
             getInstance={(spritesheet) => {
               shakeGif.current = spritesheet;
             }}
             image={shakeSheet}
-            widthFrame={266 / 4}
-            heightFrame={168 / 4}
+            widthFrame={448 / 7}
+            heightFrame={48}
             fps={24}
             steps={7}
             direction={`forward`}
@@ -234,7 +236,9 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
         style={{
           width: `${GRID_WIDTH_PX * 4}px`,
           // Line it up with the click area
-          transform: `translateX(-${GRID_WIDTH_PX * 2.5}px)`,
+          transform: `translate(-${GRID_WIDTH_PX * 2}px,-${
+            GRID_WIDTH_PX * 0.5
+          }px)`,
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
           imageRendering: "pixelated",
@@ -244,8 +248,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
           choppedGif.current = spritesheet;
         }}
         image={choppedSheet}
-        widthFrame={266 / 4}
-        heightFrame={168 / 4}
+        widthFrame={1040 / 13}
+        heightFrame={48}
         fps={20}
         steps={11}
         direction={`forward`}
@@ -264,7 +268,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
             style={{
               width: `${GRID_WIDTH_PX}px`,
               bottom: "9px",
-              left: "5px",
+              left: "10px",
             }}
             onMouseEnter={handleMouseHoverStump}
             onMouseLeave={handleMouseLeaveStump}

@@ -18,11 +18,21 @@ import {
   harvest as landExpansionHarvest,
   LandExpansionHarvestAction,
 } from "./landExpansion/harvest";
+import {
+  chop as landExpansionChop,
+  LandExpansionChopAction,
+} from "./landExpansion/chop";
+import {
+  mineStone as landExpansionMineStone,
+  LandExpansionStoneMineAction,
+} from "./landExpansion/stoneMine";
 
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
-import { PebbleStrikeAction, strikePebble } from "./pebbleStrike";
+import { PebbleStrikeAction, strikePebble } from "./landExpansion/pebbleStrike";
 import { chopShrub, ChopShrubAction } from "./chopShrub";
+import { reveal, RevealAction } from "./revealExpansion";
+import { fertiliseCrop, FertiliseCropAction } from "./fertiliseCrop";
 
 export type GameEvent =
   | CraftAction
@@ -40,11 +50,15 @@ export type GameEvent =
   | TradeAction
   | LandExpansionPlantAction
   | LandExpansionHarvestAction
+  | LandExpansionChopAction
+  | LandExpansionStoneMineAction
   | PebbleStrikeAction
   | TradeAction
-  | ChopShrubAction;
+  | ChopShrubAction
+  | RevealAction
+  | FertiliseCropAction;
 
-type EventName = Extract<GameEvent, { type: string }>["type"];
+export type EventName = Extract<GameEvent, { type: string }>["type"];
 
 /**
  * Type which enables us to map the event name to the payload containing that event name
@@ -72,8 +86,12 @@ export const EVENTS: Handlers = {
   "item.traded": trade,
   "item.removed": removeCrop,
   // Land Expansion Handlers
-  "landExpansion.item.planted": landExpansionPlant,
-  "landExpansion.item.harvested": landExpansionHarvest,
+  "seed.planted": landExpansionPlant,
+  "crop.harvested": landExpansionHarvest,
   "pebble.struck": strikePebble,
   "shrub.chopped": chopShrub,
+  "expansion.revealed": reveal,
+  "timber.chopped": landExpansionChop,
+  "rock.mined": landExpansionMineStone,
+  "item.fertilised": fertiliseCrop,
 };

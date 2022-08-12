@@ -17,21 +17,23 @@ import { getTimeLeft } from "lib/utils/time";
 import {
   canMine,
   PEBBLE_RECOVERY_TIME,
-} from "features/game/events/pebbleStrike";
+} from "features/game/events/landExpansion/pebbleStrike";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import classNames from "classnames";
 import { HealthBar } from "components/ui/HealthBar";
-import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { LandExpansionRock } from "features/game/types/game";
+import { TimeLeftOverlay } from "components/ui/TimeLeftOverlay";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 2;
 
 interface Props {
   pebbleIndex: number;
+  expansionIndex: number;
 }
 
-export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
+export const Pebble: React.FC<Props> = ({ pebbleIndex, expansionIndex }) => {
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -42,13 +44,15 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
   // When to hide the pebble that pops out
   const [collecting, setCollecting] = useState(false);
 
+  const overlayRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
 
   const [showPebbleTimeLeft, setShowPebbleTimeLeft] = useState(false);
+  const expansion = game.context.state.expansions[expansionIndex];
+  const pebble = expansion.pebbles?.[pebbleIndex] as LandExpansionRock;
 
-  const pebble = game.context.state.pebbles[pebbleIndex];
   // Users will need to refresh to chop the tree again
   const mined = !canMine(pebble);
   const { setToast } = useContext(ToastContext);
@@ -92,9 +96,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
     if (!isPlaying) {
       miningAudio.play();
-
       sparkGif.current?.goToAndPlay(0);
-
       setTouchCount((count) => count + 1);
 
       // On second strike, mine
@@ -103,7 +105,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
         miningFallAudio.play();
         setTouchCount(0);
       }
-    } else return;
+    }
   };
 
   const mine = async () => {
@@ -112,6 +114,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
     try {
       gameService.send("pebble.struck", {
         index: pebbleIndex,
+        expansionIndex,
       });
       setCollecting(true);
       minedGif.current?.goToAndPlay(0);
@@ -141,6 +144,7 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
 
   return (
     <div
+      ref={overlayRef}
       className="relative z-10"
       style={{ height: "40px" }}
       onMouseEnter={handleMouseHoverPebble}
@@ -241,10 +245,13 @@ export const Pebble: React.FC<Props> = ({ pebbleIndex }) => {
             left: "-26px",
           }}
         >
-          <TimeLeftPanel
-            timeLeft={timeLeft}
-            showTimeLeft={showPebbleTimeLeft}
-          />
+          {overlayRef.current && (
+            <TimeLeftOverlay
+              target={overlayRef.current}
+              timeLeft={timeLeft}
+              showTimeLeft={showPebbleTimeLeft}
+            />
+          )}
         </div>
       )}
       {/* Popover showing amount of stone collected */}

@@ -21,6 +21,7 @@ import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { LandExpansionTree } from "features/game/types/game";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 2;
@@ -30,9 +31,10 @@ const SHRUB_RECOVERY_TIME = 10 * 60;
 
 interface Props {
   shrubIndex: number;
+  expansionIndex: number;
 }
 
-export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
+export const Shrub: React.FC<Props> = ({ shrubIndex, expansionIndex }) => {
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -48,8 +50,9 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
   const choppedGif = useRef<SpriteSheetInstance>();
 
   const [showShrubTimeLeft, setShowShrubTimeLeft] = useState(false);
+  const expansion = game.context.state.expansions[expansionIndex];
+  const shrub = expansion.shrubs?.[shrubIndex] as LandExpansionTree;
 
-  const shrub = game.context.state.shrubs[shrubIndex];
   // Users will need to refresh to chop the tree again
   const chopped = !canChop(shrub);
   const { setToast } = useContext(ToastContext);
@@ -113,6 +116,7 @@ export const Shrub: React.FC<Props> = ({ shrubIndex }) => {
     try {
       gameService.send("shrub.chopped", {
         index: shrubIndex,
+        expansionIndex,
       });
       setCollecting(true);
       choppedGif.current?.goToAndPlay(0);

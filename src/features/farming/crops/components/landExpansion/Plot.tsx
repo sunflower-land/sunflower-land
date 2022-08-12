@@ -18,7 +18,8 @@ import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "../CropReward";
 
 interface Props {
-  index: number;
+  plotIndex: number;
+  expansionIndex: number;
   className?: string;
   onboarding?: boolean;
 }
@@ -26,7 +27,11 @@ interface Props {
 const isCropReady = (now: number, plantedAt: number, harvestSeconds: number) =>
   now - plantedAt > harvestSeconds * 1000;
 
-export const Plot: React.FC<Props> = ({ className, index }) => {
+export const Plot: React.FC<Props> = ({
+  className,
+  plotIndex,
+  expansionIndex,
+}) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
   const [showPopover, setShowPopover] = useState(false);
@@ -37,8 +42,10 @@ export const Plot: React.FC<Props> = ({ className, index }) => {
   const [reward, setReward] = useState<Reward | null>(null);
   const clickedAt = useRef<number>(0);
 
-  const plot = game.context.state.plots[index];
-  const crop = plot.crop;
+  const expansion = game.context.state.expansions[expansionIndex];
+  const plot = expansion.plots?.[plotIndex];
+
+  const crop = plot && plot.crop;
 
   const displayPopover = async () => {
     setShowPopover(true);
@@ -50,8 +57,9 @@ export const Plot: React.FC<Props> = ({ className, index }) => {
     setReward(null);
     setTouchCount(0);
 
-    gameService.send("landExpansion.item.harvested", {
-      index,
+    gameService.send("crop.harvested", {
+      index: plotIndex,
+      expansionIndex,
     });
   };
 
@@ -113,8 +121,9 @@ export const Plot: React.FC<Props> = ({ className, index }) => {
     // Plant
     if (!crop) {
       try {
-        gameService.send("landExpansion.item.planted", {
-          index,
+        gameService.send("seed.planted", {
+          index: plotIndex,
+          expansionIndex,
           item: selectedItem,
           analytics,
         });
@@ -134,8 +143,9 @@ export const Plot: React.FC<Props> = ({ className, index }) => {
     }
 
     try {
-      gameService.send("landExpansion.item.harvested", {
-        index,
+      gameService.send("crop.harvested", {
+        index: plotIndex,
+        expansionIndex,
       });
 
       harvestAudio.play();
@@ -166,7 +176,7 @@ export const Plot: React.FC<Props> = ({ className, index }) => {
     >
       <div className="absolute bottom-1 w-full h-full">
         <Soil
-          className="absolute bottom-0"
+          className="absolute bottom-0 pointer-events-none"
           plantedCrop={crop}
           showCropDetails={showCropDetails}
         />
@@ -215,7 +225,7 @@ export const Plot: React.FC<Props> = ({ className, index }) => {
         <CropReward
           reward={reward}
           onCollected={onCollectReward}
-          fieldIndex={index}
+          fieldIndex={plotIndex}
         />
       </div>
     </div>

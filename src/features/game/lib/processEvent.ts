@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { EVENTS, GameEvent } from "../events";
-import { FOODS } from "../types/craftables";
+import { FOODS, getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
 import { INITIAL_STOCK } from "./constants";
@@ -27,10 +27,10 @@ const maxItems: Inventory = {
   // Stock limits
   ...INITIAL_STOCK,
 
-  Gold: new Decimal("100"),
-  Iron: new Decimal("500"),
-  Stone: new Decimal("600"),
-  Wood: new Decimal("1000"),
+  Gold: new Decimal("90"),
+  Iron: new Decimal("400"),
+  Stone: new Decimal("500"),
+  Wood: new Decimal("500"),
 
   // Max of 1 food item
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(
@@ -56,53 +56,62 @@ const maxItems: Inventory = {
  */
 const MAX_SESSION_SFL = 175;
 
-function isValidProgress({ state, onChain }: ProcessEventArgs) {
-  const progress = state.balance.sub(onChain.balance);
+type checkProgressArgs = ProcessEventArgs & { onChain: GameState };
+
+export function checkProgress({ state, action, onChain }: checkProgressArgs): {
+  valid: boolean;
+  maxedItem?: InventoryItemName | "SFL";
+} {
+  let newState: GameState;
+
+  try {
+    newState = processEvent({ state, action });
+  } catch {
+    // Not our responsibility to catch events, pass on to the next handler
+    return { valid: true };
+  }
+
+  const progress = newState.balance.sub(onChain.balance);
 
   /**
    * Contract enforced SFL caps
    * Just in case a player gets in a corrupt state and manages to earn extra SFL
    */
   if (progress.gt(MAX_SESSION_SFL)) {
-    return false;
+    return { valid: false, maxedItem: "SFL" };
   }
 
+  let maxedItem: InventoryItemName | undefined = undefined;
+
   // Check inventory amounts
-  const validProgress = (
-    Object.keys(state.inventory) as InventoryItemName[]
-  ).every((name) => {
+  const validProgress = getKeys(newState.inventory).every((name) => {
     const onChainAmount = onChain.inventory[name] || new Decimal(0);
 
-    const diff = state.inventory[name]?.minus(onChainAmount) || new Decimal(0);
+    const diff =
+      newState.inventory[name]?.minus(onChainAmount) || new Decimal(0);
+
     const max = maxItems[name] || new Decimal(0);
 
-    if (max.eq(0)) {
-      return true;
-    }
+    if (max.eq(0)) return true;
 
     if (diff.gt(max)) {
-      console.log({
-        name,
-      });
+      maxedItem = name;
+
       return false;
     }
 
     return true;
   });
 
-  return validProgress;
+  return { valid: validProgress, maxedItem };
 }
 
 type ProcessEventArgs = {
   state: GameState;
   action: GameEvent;
-  onChain: GameState;
 };
-export function processEvent({
-  state,
-  action,
-  onChain,
-}: ProcessEventArgs): GameState {
+
+export function processEvent({ state, action }: ProcessEventArgs): GameState {
   const handler = EVENTS[action.type];
 
   if (!handler) {
@@ -114,17 +123,6 @@ export function processEvent({
     // TODO - fix type error
     action: action as never,
   });
-
-  /**
-   * Contract enforced SFL caps
-   * Just in case a player gets in a corrupt state and manages to earn extra SFL
-   */
-  if (!isValidProgress({ state: newState, onChain, action })) {
-    alert(
-      "You can only earn 100 SFL in a single session for security reasons. Please sync to the blockchain."
-    );
-    throw new Error("Please sync to the blockchain");
-  }
 
   return newState;
 }

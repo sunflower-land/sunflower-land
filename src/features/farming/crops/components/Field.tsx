@@ -6,7 +6,11 @@ import selectBox from "assets/ui/select/select_box.png";
 import cancel from "assets/icons/cancel.png";
 
 import { Context } from "features/game/GameProvider";
-import { InventoryItemName, Reward } from "features/game/types/game";
+import {
+  FERTILISERS,
+  InventoryItemName,
+  Reward,
+} from "features/game/types/game";
 
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -170,6 +174,20 @@ export const Field: React.FC<Props> = ({
       return;
     }
 
+    if (selectedItem && selectedItem in FERTILISERS) {
+      try {
+        gameService.send("item.fertilised", {
+          fieldIndex,
+          fertiliser: selectedItem,
+        });
+
+        return;
+        // TODO - sound effects
+      } catch {
+        displayPopover(<img className="w-5" src={cancel} />);
+      }
+    }
+
     try {
       gameService.send("item.harvested", {
         index: fieldIndex,
@@ -212,7 +230,7 @@ export const Field: React.FC<Props> = ({
 
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute -bottom-2 left-1",
+          "transition-opacity pointer-events-none absolute -bottom-2 left-1 flex",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,

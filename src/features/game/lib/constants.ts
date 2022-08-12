@@ -220,9 +220,9 @@ export const INITIAL_GOLD: GameState["gold"] = {
 
 export const INITIAL_TERRAIN: GameState["terrains"] = {
   0: {
-    name: TerrainTypeEnum.terrain1,
-    height: 3,
-    width: 3,
+    name: TerrainTypeEnum.terrain11,
+    height: 54,
+    width: 52,
     x: -2,
     y: 1,
   },
@@ -266,6 +266,7 @@ export const INITIAL_PLOTS: GameState["plots"] = {
 
 export const GENESIS_LAND_EXPANSION: LandExpansion = {
   createdAt: 0,
+  readyAt: 0,
 
   shrubs: INITIAL_SHRUBS,
   pebbles: INITIAL_PEBBLES,
@@ -274,9 +275,10 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
   plots: INITIAL_PLOTS,
 };
 
+export const INITIAL_EXPANSIONS = [GENESIS_LAND_EXPANSION];
+
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
-  level: 1,
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
@@ -288,7 +290,9 @@ export const INITIAL_FARM: GameState = {
     Egg: new Decimal(15),
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
+    Pickaxe: new Decimal(3),
   },
+
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,
@@ -316,12 +320,13 @@ export const INITIAL_FARM: GameState = {
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
 
-  expansions: [GENESIS_LAND_EXPANSION],
+  expansions: INITIAL_EXPANSIONS,
+  bumpkin: { level: 1 },
+  buildings: {},
 };
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
-  level: 1,
   fields: {},
   inventory: {
     "Chicken Coop": new Decimal(1),
@@ -344,5 +349,7 @@ export const EMPTY: GameState = {
   pebbles: INITIAL_PEBBLES,
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
-  expansions: [GENESIS_LAND_EXPANSION],
+  expansions: INITIAL_EXPANSIONS,
+  bumpkin: { level: 1 },
+  buildings: {},
 };

@@ -14,6 +14,8 @@ export type Position = {
 // We want each y position to have a positive z index
 const BASE_Z_INDEX = 100;
 
+export const calculateZIndex = (y: number) => BASE_Z_INDEX - y;
+
 /**
  * This component is used to place items on the map. It uses the cartesian place coordinates
  * as the basis for its positioning. If the coordinates are 1,1 then the item will be placed one
@@ -35,7 +37,7 @@ export const MapPlacement: React.FC<Position> = ({
         height: height ? `${GRID_WIDTH_PX * height}px` : "auto",
         width: width ? `${GRID_WIDTH_PX * width}px` : "auto",
         // This helps place objects in front of each other
-        zIndex: BASE_Z_INDEX - y,
+        zIndex: calculateZIndex(y),
       }}
     >
       {children}

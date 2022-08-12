@@ -42,7 +42,7 @@ export interface Context {
   isBlacklisted?: boolean;
 }
 
-export type Screen = "land" | "farm";
+export type Screen = "land" | "farm" | "viewer";
 
 type StartEvent = Farm & {
   type: "START_GAME";
@@ -231,7 +231,7 @@ export const authMachine = createMachine<
                   cond: "hasFarm",
                 },
 
-                { target: "checkingAccess" },
+                { target: "checkingSupply" },
               ],
               onError: {
                 target: "#unauthorised",
@@ -254,6 +254,34 @@ export const authMachine = createMachine<
               ],
             },
           },
+          checkingSupply: {
+            id: "checkingSupply",
+            invoke: {
+              src: async () => {
+                const [totalSupply, maxSupply] = await Promise.all([
+                  metamask.getFarm()?.getTotalSupply(),
+                  metamask.getFarmMinter().getMaxSupply(),
+                ]);
+
+                return {
+                  totalSupply,
+                  maxSupply,
+                };
+              },
+              onDone: [
+                {
+                  target: "supplyReached",
+                  cond: (context, event) =>
+                    Number(event.data.totalSupply) >= event.data.maxSupply,
+                },
+                { target: "checkingAccess" },
+              ],
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
+            },
+          },
           checkingAccess: {
             id: "checkingAccess",
             invoke: {
@@ -262,43 +290,17 @@ export const authMachine = createMachine<
                   hasAccess: context.token?.userAccess.createFarm,
                 };
               },
-              onDone: [
-                {
-                  target: "noFarmLoaded",
-                  cond: (_, event) => event.data.hasAccess,
-                },
-                { target: "checkingSupply" },
-              ],
-              onError: {
-                target: "#unauthorised",
-                actions: "assignErrorMessage",
+              onDone: {
+                target: "noFarmLoaded",
               },
-            },
-          },
-          checkingSupply: {
-            id: "checkingSupply",
-            invoke: {
-              src: async () => {
-                const totalSupply = await metamask.getFarm()?.getTotalSupply();
 
-                return {
-                  totalSupply,
-                };
-              },
-              onDone: [
-                {
-                  target: "supplyReached",
-                  cond: (context, event) =>
-                    Number(event.data.totalSupply) >= 150000,
-                },
-                { target: "noFarmLoaded" },
-              ],
               onError: {
                 target: "#unauthorised",
                 actions: "assignErrorMessage",
               },
             },
           },
+
           donating: {
             on: {
               CREATE_FARM: {
@@ -372,7 +374,12 @@ export const authMachine = createMachine<
               const defaultScreen = window.location.hash.includes("land")
                 ? "land"
                 : "farm";
-              const { screen = defaultScreen } = event as StartEvent;
+
+              const viewer = window.location.hash.includes("viewer")
+                ? "viewer"
+                : undefined;
+
+              const { screen = viewer ?? defaultScreen } = event as StartEvent;
 
               window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
             },
