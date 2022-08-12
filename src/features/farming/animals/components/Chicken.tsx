@@ -335,10 +335,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
           className="absolute w-2/5 bottom-1 left-4"
           style={{ zIndex: index + 1 }}
         >
-          <Bar
-            percentage={percentageComplete}
-            seconds={CHICKEN_TIME_TO_EGG / 1000}
-          />
+          <Bar percentage={percentageComplete} />
         </div>
       )}
       {showMutantModal && (

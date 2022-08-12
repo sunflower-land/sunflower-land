@@ -45,7 +45,7 @@ export const ProgressBar: React.FC<Props> = ({ percentage, seconds }) => {
           {secondsToString(seconds)}
         </span>
       )}
-      <Bar percentage={percentage} seconds={seconds} />
+      <Bar percentage={percentage} />
     </div>
   );
 };
