@@ -14,7 +14,7 @@ interface Props {
   seconds: number;
 }
 
-export const Bar: React.FC<Props> = ({ percentage }) => {
+export const Bar: React.FC<{ percentage: number }> = ({ percentage }) => {
   if (percentage >= 100) {
     return <img src={progressFull} className="w-10" />;
   }
@@ -45,7 +45,7 @@ export const ProgressBar: React.FC<Props> = ({ percentage, seconds }) => {
           {secondsToString(seconds)}
         </span>
       )}
-      <Bar percentage={percentage} seconds={seconds} />
+      <Bar percentage={percentage} />
     </div>
   );
 };

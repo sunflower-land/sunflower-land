@@ -42,7 +42,7 @@ export const BumpkinHUD: React.FC = () => {
         </div>
         <div className="flex  ml-1 items-center">
           <img src={stamina} className="w-4 mr-1" />
-          <Bar percentage={60} seconds={20} />
+          <Bar percentage={60} />
         </div>
       </div>
     </div>
