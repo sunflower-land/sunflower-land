@@ -10,7 +10,6 @@
     "lint": "eslint --ext .tsx,.ts .",
     "format": "yarn lint --fix",
     "preview": "vite preview",
-    "generate": "graphql-codegen",
     "test": "jest",
     "erc1155": "ts-node --project _scripts/node.tsconfig.json _scripts/erc1155Metadata.ts",
     "prepare": "husky install"
@@ -29,7 +28,6 @@
     "clipboard": "^2.0.11",
     "decimal.js-light": "^2.5.1",
     "events": "^3.3.0",
-    "graphql": "^16.2.0",
     "howler": "^2.2.3",
     "html2canvas": "^1.4.1",
     "jwt-decode": "^3.1.2",

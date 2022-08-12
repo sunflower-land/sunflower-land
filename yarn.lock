@@ -8374,10 +8374,17 @@ xmlchars@^2.2.0:
   resolved "https://registry.npmjs.org/xmlchars/-/xmlchars-2.2.0.tgz"
   integrity sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
 
+<<<<<<< HEAD
 xstate@^4.33.1:
   version "4.33.1"
   resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.33.1.tgz#07293258c78aa1cfaf798ca541e2ed7d71b6bb5b"
   integrity sha512-C9A3esyOuw/xRpwQUkG2e1Gjd8sZYh42t66COq8DaJgaaLOqmE8zWRH1ouL9mHtQ3WV//uT5Ki3ijHGSUdLiww==
+=======
+xstate@^4.33.0:
+  version "4.33.0"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.33.0.tgz#4377a11e92267ad01ea498c4fc69887f0eddf1c8"
+  integrity sha512-+oari/Nt2cBq79mklnGA9Tsb6kv7ln+cIMfrH6n642XpTEG6sMRHg4GkooAbGbcslG3Ff9uH2jmGRP+1uoZ/Xw==
+>>>>>>> b0100d8c (Update react package)
 
 xtend@^4.0.0, xtend@^4.0.2:
   version "4.0.2"
