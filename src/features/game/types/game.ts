@@ -1,11 +1,11 @@
 import { Decimal } from "decimal.js-light";
 
 import { CropName, SeedName } from "./crops";
-import { CraftableName, Food, Ingredient } from "./craftables";
+import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
-import { BuildingName, PlaceableName } from "./buildings";
+import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 
 export type CropReward = {
@@ -196,9 +196,16 @@ export type Building = {
   createdAt: number;
 };
 
-export type Buildings = Partial<
-  Record<PlaceableName | BuildingName, Building[]>
->;
+export type Collectible = {
+  id: string;
+  coordinates: { x: number; y: number };
+  readyAt: number;
+  createdAt: number;
+};
+
+export type Buildings = Partial<Record<BuildingName, Building[]>>;
+
+export type Collectibles = Partial<Record<CollectibleName, Collectible[]>>;
 
 export type LandExpansion = {
   createdAt: number;
@@ -260,6 +267,7 @@ export interface GameState {
   expansionRequirements?: ExpansionRequirements;
   bumpkin: Bumpkin;
   buildings: Buildings;
+  collectibles: Collectibles;
 }
 
 export interface Context {

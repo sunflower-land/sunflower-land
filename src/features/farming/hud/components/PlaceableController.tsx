@@ -22,9 +22,9 @@ export const PlaceableController: React.FC = () => {
   ] = useActor(child);
 
   const handleConfirmPlacement = () => {
-    const itemInInventory = inventory[placeable] || new Decimal(0);
+    const inventoryCount = inventory[placeable] || new Decimal(0);
 
-    if (itemInInventory.eq(0)) {
+    if (inventoryCount.eq(0)) {
       send("CONSTRUCT");
     } else {
       send("PLACE");

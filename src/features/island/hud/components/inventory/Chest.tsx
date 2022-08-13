@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -6,7 +6,7 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 
 import classNames from "classnames";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
-import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import {
   getKeys,
   LimitedItemName,
@@ -16,16 +16,19 @@ import { getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
+import { Context } from "features/game/GameProvider";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
 interface Props {
   state: GameState;
+  closeModal: () => void;
 }
 
 const TAB_CONTENT_HEIGHT = 400;
 
-export const Chest: React.FC<Props> = ({ state }: Props) => {
+export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
+  const { gameService } = useContext(Context);
   const { ref: itemContainerRef, showScrollbar } =
     useShowScrollbar(TAB_CONTENT_HEIGHT);
   const [scrollIntoView] = useScrollIntoView();
@@ -42,6 +45,15 @@ export const Chest: React.FC<Props> = ({ state }: Props) => {
   const [selected, setSelected] = useState<InventoryItemName>(
     getKeys(collectibles)[0]
   );
+
+  const handlePlace = () => {
+    gameService.send("EDIT", {
+      placeable: selected,
+      placeableType: "collectible",
+    });
+    closeModal();
+    scrollIntoView(Section.GenesisBlock);
+  };
 
   const handleItemClick = (item: InventoryItemName) => {
     setSelected(item);
@@ -85,7 +97,9 @@ export const Chest: React.FC<Props> = ({ state }: Props) => {
               <span className="text-xs text-shadow text-center mt-2 w-80">
                 {ITEM_DETAILS[selected].description}
               </span>
-              <Button className="text-xs w-2/4 mt-2">Place on Map</Button>
+              <Button className="text-xs w-full mt-2" onClick={handlePlace}>
+                Place on Map
+              </Button>
             </div>
           )}
         </OuterPanel>

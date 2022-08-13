@@ -42,6 +42,10 @@ import {
   constructBuilding,
   ConstructBuildingAction,
 } from "./landExpansion/constructBuilding";
+import {
+  placeCollectible,
+  PlaceCollectibleAction,
+} from "./landExpansion/placeCollectible";
 
 export type PlayingEvent =
   | CraftAction
@@ -70,7 +74,10 @@ export type PlayingEvent =
   | ConstructBuildingAction
   | PlaceBuildingAction;
 
-export type PlacementEvent = ConstructBuildingAction | PlaceBuildingAction;
+export type PlacementEvent =
+  | ConstructBuildingAction
+  | PlaceBuildingAction
+  | PlaceCollectibleAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -115,6 +122,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "building.constructed": constructBuilding,
   "building.placed": placeBuilding,
+  "collectible.placed": placeCollectible,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
