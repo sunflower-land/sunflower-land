@@ -17,7 +17,7 @@ import { TerrainPlacement } from "./components/TerrainPlacement";
 import { EXPANSION_ORIGINS } from "./lib/constants";
 import { Stone } from "./components/resources/Stone";
 import { Placeable } from "./placeable/Placeable";
-import { BuildingName, PLACEABLES_DIMENSIONS } from "../types/buildings";
+import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 
 type ExpansionProps = Pick<
@@ -199,7 +199,7 @@ export const Land: React.FC = () => {
           const items = buildings[name];
           return items?.map((building) => {
             const { x, y } = building.coordinates;
-            const { width, height } = PLACEABLES_DIMENSIONS[name];
+            const { width, height } = BUILDINGS_DIMENSIONS[name];
 
             return (
               <MapPlacement

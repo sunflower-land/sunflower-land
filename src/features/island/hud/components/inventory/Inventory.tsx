@@ -57,7 +57,6 @@ export const Inventory: React.FC<Props> = ({
         <InventoryItems
           state={state}
           onClose={() => setIsOpen(false)}
-          shortcutItem={shortcutItem}
           isFarming={isFarming}
         />
       </Modal>

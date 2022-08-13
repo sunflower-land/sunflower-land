@@ -323,6 +323,7 @@ export const INITIAL_FARM: GameState = {
   expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
   buildings: {},
+  collectibles: {},
 };
 
 export const EMPTY: GameState = {
@@ -352,4 +353,5 @@ export const EMPTY: GameState = {
   expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
   buildings: {},
+  collectibles: {},
 };
