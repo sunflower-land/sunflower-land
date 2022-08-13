@@ -25,9 +25,7 @@ export function placeCollectible({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  console.log({ state });
   const stateCopy = cloneDeep(state);
-  console.log({ collectible: action.name });
   const collectible = action.name;
   const collectibleItems = stateCopy.collectibles[collectible];
   const inventoryItemBalance = stateCopy.inventory[collectible];
