@@ -1,12 +1,13 @@
 import { GameEventName, PlacementEvent } from "features/game/events";
-import { BuildingName } from "features/game/types/buildings";
+import { BuildingName, BUILDINGS } from "features/game/types/buildings";
+import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 
-export type PlaceableType = "building" | "collectable";
+export type PlaceableType = "building" | "collectible";
 
 export interface Context {
-  placeable: BuildingName;
+  placeable: BuildingName | CollectibleName;
   placeableType: PlaceableType;
   coordinates: Coordinates;
   collisionDetected: boolean;
@@ -39,6 +40,12 @@ export type BlockchainState = {
   context: Context;
 };
 
+function getTypedPlaceable(placeable: BuildingName | CollectibleName) {
+  if (placeable in BUILDINGS) return placeable as BuildingName;
+
+  return placeable as CollectibleName;
+}
+
 export type MachineInterpreter = Interpreter<
   Context,
   any,
@@ -68,8 +75,8 @@ export const editingMachine = createMachine<
           target: "placed",
           actions: sendParent<Context, ConstructEvent, PlacementEvent>(
             ({ placeable, placeableType, coordinates: { x, y } }) => ({
-              type: `${placeableType}.constructed` as GameEventName<PlacementEvent>,
-              name: placeable,
+              type: `${placeableType}.placed` as GameEventName<PlacementEvent>,
+              name: placeable as BuildingName,
               coordinates: { x, y },
             })
           ),
