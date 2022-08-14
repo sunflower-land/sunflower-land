@@ -37,14 +37,14 @@ export const Airdrop: React.FC = () => {
     itemNames.forEach((name) => {
       setToast({
         icon: ITEM_DETAILS[name].image,
-        content: airdrop.items[name]?.toString() || "",
+        content: `+${airdrop.items[name]?.toString()}`,
       });
     });
 
     if (airdrop.sfl) {
       setToast({
         icon: token,
-        content: airdrop.sfl.toString(),
+        content: `+${airdrop.sfl.toString()}`,
       });
     }
 
