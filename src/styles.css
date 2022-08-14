@@ -309,6 +309,38 @@ img {
   }
 }
 
+.wobble {
+  /* Start the shake animation and make the animation last for 0.5 seconds */
+  animation: wobble 1s;
+
+  /* When the animation is finished, start again */
+  animation-iteration-count: infinite;
+}
+
+@keyframes wobble {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  10% {
+    transform: translate(-3px, 0px);
+  }
+  20% {
+    transform: translate(3px, 0px);
+  }
+  30% {
+    transform: translate(-3px, 0px);
+  }
+  40% {
+    transform: translate(3px, 0px);
+  }
+  50% {
+    transform: translate(0px, 0px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
 .flip {
   animation: flipping 2s linear infinite;
 }

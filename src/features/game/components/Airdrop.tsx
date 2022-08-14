@@ -80,7 +80,7 @@ export const Airdrop: React.FC = () => {
 
       <img
         src={chest}
-        className="absolute cursor-pointer hover:img-highlight"
+        className="absolute cursor-pointer hover:img-highlight wobble"
         onClick={() => setShowModal(true)}
         style={{
           width: `${PIXEL_SCALE * 15}px`,
