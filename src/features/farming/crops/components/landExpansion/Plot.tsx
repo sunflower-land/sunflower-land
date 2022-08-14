@@ -6,7 +6,7 @@ import selectBox from "assets/ui/select/select_box.png";
 import cancel from "assets/icons/cancel.png";
 
 import { Context } from "features/game/GameProvider";
-import { Reward } from "features/game/types/game";
+import { CropReward } from "features/game/types/game";
 
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -39,7 +39,7 @@ export const Plot: React.FC<Props> = ({
   const { setToast } = useContext(ToastContext);
   // Rewards
   const [touchCount, setTouchCount] = useState(0);
-  const [reward, setReward] = useState<Reward | null>(null);
+  const [reward, setReward] = useState<CropReward | null>(null);
   const clickedAt = useRef<number>(0);
 
   const expansion = game.context.state.expansions[expansionIndex];
