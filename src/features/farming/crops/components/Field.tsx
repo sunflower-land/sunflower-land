@@ -9,7 +9,7 @@ import { Context } from "features/game/GameProvider";
 import {
   FERTILISERS,
   InventoryItemName,
-  CropReward,
+  CropReward as Reward,
 } from "features/game/types/game";
 
 import { CropName, CROPS } from "features/game/types/crops";
@@ -41,7 +41,7 @@ export const Field: React.FC<Props> = ({
   const [popover, setPopover] = useState<JSX.Element | null>();
   const { gameService } = useContext(Context);
   const [touchCount, setTouchCount] = useState(0);
-  const [reward, setReward] = useState<CropReward | null>(null);
+  const [reward, setReward] = useState<Reward | null>(null);
   const [game] = useActor(gameService);
   const clickedAt = useRef<number>(0);
   const field = game.context.state.fields[fieldIndex];
