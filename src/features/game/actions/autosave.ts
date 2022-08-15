@@ -3,7 +3,7 @@ import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
-import { EventName } from "../events";
+import { GameEventName, PlacementEvent, PlayingEvent } from "../events";
 import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
@@ -21,7 +21,9 @@ type Request = {
 
 const API_URL = CONFIG.API_URL;
 
-const EXCLUDED_EVENTS: EventName[] = ["expansion.revealed"];
+const EXCLUDED_EVENTS: GameEventName<PlayingEvent | PlacementEvent>[] = [
+  "expansion.revealed",
+];
 
 /**
  * Squashes similar events into a single event
