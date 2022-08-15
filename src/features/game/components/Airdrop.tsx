@@ -86,16 +86,23 @@ export const Airdrop: React.FC = () => {
         </Panel>
       </Modal>
 
-      <img
-        src={chest}
-        className="absolute cursor-pointer hover:img-highlight wobble"
-        onClick={() => setShowModal(true)}
+      <div
+        className="absolute"
         style={{
-          width: `${PIXEL_SCALE * 15}px`,
           left: `${GRID_WIDTH_PX * 59}px`,
-          top: `${GRID_WIDTH_PX * 36}px`,
+          top: `${GRID_WIDTH_PX * 35}px`,
         }}
-      />
+      >
+        <img src={alerted} className="w-2 mx-3 pb-[12px] animate-float" />
+        <img
+          src={chest}
+          className="absolute cursor-pointer hover:img-highlight bulge-repeat"
+          onClick={() => setShowModal(true)}
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+          }}
+        />
+      </div>
     </>
   );
 };
