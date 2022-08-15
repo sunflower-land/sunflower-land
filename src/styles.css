@@ -310,7 +310,7 @@ img {
 }
 
 .bulge-repeat {
-  animation: bulgeRepeat 1200ms steps(4, jump-none) infinite;
+  animation: bulgeRepeat 1200ms steps(16, jump-none) infinite;
 }
 
 @keyframes bulgeRepeat {
