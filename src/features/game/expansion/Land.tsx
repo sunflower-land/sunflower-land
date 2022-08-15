@@ -198,13 +198,13 @@ export const Land: React.FC = () => {
 
         {getKeys(buildings).flatMap((name) => {
           const items = buildings[name];
-          return items?.map((building) => {
+          return items?.map((building, index) => {
             const { x, y } = building.coordinates;
             const { width, height } = BUILDINGS_DIMENSIONS[name];
 
             return (
               <MapPlacement
-                key={building.id}
+                key={index}
                 x={x}
                 y={y}
                 height={height}
@@ -222,13 +222,13 @@ export const Land: React.FC = () => {
 
         {getKeys(collectibles).flatMap((name) => {
           const items = collectibles[name];
-          return items?.map((collectible) => {
+          return items?.map((collectible, index) => {
             const { x, y } = collectible.coordinates;
             const { width, height } = COLLECTIBLES_DIMENSIONS[name];
 
             return (
               <MapPlacement
-                key={collectible.id}
+                key={index}
                 x={x}
                 y={y}
                 height={height}
