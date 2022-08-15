@@ -17,6 +17,7 @@ import { AncientDoor } from "../quest/AncientDoor";
 import { Trader } from "../trader/tradingPost/Trader";
 import { StorageHouse } from "../storageHouse/StorageHouse";
 import { WarTent } from "../warTent/WarTent";
+import { CONFIG } from "lib/config";
 
 interface Props {
   state: GoblinMachineState["value"];
@@ -50,7 +51,7 @@ export const Village: React.FC<Props> = () => {
       <AncientRock />
       <AncientDoor />
       <Trader />
-      <WarTent />
+      {CONFIG.NETWORK === "mumbai" && <WarTent />}
     </div>
   );
 };

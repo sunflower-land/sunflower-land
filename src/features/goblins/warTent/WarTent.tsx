@@ -8,7 +8,6 @@ import sword from "src/assets/icons/sword.png";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
-import { tailorAudio } from "lib/utils/sfx";
 import { ItemsModal } from "./ItemsModal";
 
 export const WarTent: React.FC = () => {
@@ -18,10 +17,6 @@ export const WarTent: React.FC = () => {
 
   const openWarTent = () => {
     setIsOpen(true);
-    //Checks if tailorAudio is playing, if false, plays the sound
-    if (!tailorAudio.playing()) {
-      tailorAudio.play();
-    }
   };
 
   return (
