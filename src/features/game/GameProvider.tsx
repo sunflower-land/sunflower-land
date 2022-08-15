@@ -11,7 +11,12 @@ import {
   getShortcuts,
 } from "features/farming/hud/lib/shortcuts";
 
-import { startGame, MachineInterpreter, MachineState } from "./lib/gameMachine";
+import {
+  startGame,
+  MachineInterpreter,
+  MachineState,
+  INITIAL_SESSION,
+} from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 import { useParams } from "react-router-dom";
 
@@ -56,7 +61,7 @@ export const GameProvider: React.FC = ({ children }) => {
   useLayoutEffect(() => {
     const savedShortcuts = getShortcuts();
 
-    if (savedShortcuts.length === 0) {
+    if (sessionId !== INITIAL_SESSION && savedShortcuts.length === 0) {
       const defaultItem: InventoryItemName = inventory["Shovel"]
         ? "Shovel"
         : "Rusty Shovel";
