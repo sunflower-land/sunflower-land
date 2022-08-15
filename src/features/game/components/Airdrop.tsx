@@ -6,6 +6,7 @@ import { Modal } from "react-bootstrap";
 
 import chest from "src/assets/icons/chest.png";
 import token from "src/assets/icons/token.png";
+import alerted from "assets/icons/expression_alerted.png";
 
 import { Context } from "../GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
