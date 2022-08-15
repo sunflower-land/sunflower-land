@@ -7,7 +7,7 @@ import {
   isOverlapping,
 } from "./collisionDetection";
 
-describe("extractResourcePositions", () => {
+describe("extractResourceBoundingBoxes", () => {
   it("returns a list of all resource positions", () => {
     const position1: Position = { x: 1, y: 1, height: 1, width: 1 };
     const position2: Position = { x: 3, y: 1, height: 1, width: 1 };
@@ -128,6 +128,58 @@ describe("detectCollisions", () => {
       y: 3,
       width: 1,
       height: 1,
+    });
+
+    expect(hasCollision).toBe(true);
+  });
+
+  it("returns true if a collision is detected with a building", () => {
+    const state: GameState = cloneDeep(INITIAL_FARM);
+    state.buildings = {
+      "Fire Pit": [
+        {
+          id: "123",
+          coordinates: {
+            x: 3,
+            y: 3,
+          },
+          readyAt: 0,
+          createdAt: 0,
+        },
+      ],
+    };
+
+    const hasCollision = detectCollision(state, {
+      x: 3,
+      y: 3,
+      height: 1,
+      width: 1,
+    });
+
+    expect(hasCollision).toBe(true);
+  });
+
+  it("returns true if a collision is detected with a collectible", () => {
+    const state: GameState = cloneDeep(INITIAL_FARM);
+    state.collectibles = {
+      "Farm Cat": [
+        {
+          id: "123",
+          coordinates: {
+            x: 1,
+            y: 1,
+          },
+          readyAt: 0,
+          createdAt: 0,
+        },
+      ],
+    };
+
+    const hasCollision = detectCollision(state, {
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
     });
 
     expect(hasCollision).toBe(true);

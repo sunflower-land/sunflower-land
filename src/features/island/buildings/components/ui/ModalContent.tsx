@@ -16,10 +16,15 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
 
   const [selected, setSelected] = useState<BuildingName | null>(null);
 
-  const state = game.context.state;
+  const { state } = game.context;
 
   const handleBuild = () => {
-    gameService.send("EDIT", { placeable: selected });
+    if (!selected) return;
+
+    gameService.send("EDIT", {
+      placeable: selected,
+      action: "building.constructed",
+    });
     closeModal();
     scrollIntoView(Section.GenesisBlock);
   };

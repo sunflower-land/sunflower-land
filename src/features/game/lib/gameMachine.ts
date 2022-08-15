@@ -1,5 +1,18 @@
-import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
-import { EVENTS, GameEvent } from "../events";
+import {
+  createMachine,
+  Interpreter,
+  assign,
+  TransitionsConfig,
+  State,
+} from "xstate";
+import {
+  PLAYING_EVENTS,
+  PlacementEvent,
+  PLACEMENT_EVENTS,
+  GameEvent,
+  PlayingEvent,
+  GameEventName,
+} from "../events";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { metamask } from "../../../lib/blockchain/metamask";
@@ -8,7 +21,7 @@ import { GameState, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { INITIAL_FARM, EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
-import { LimitedItemName } from "../types/craftables";
+import { CollectibleName, LimitedItemName } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
@@ -25,6 +38,8 @@ import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { expand } from "../expansion/actions/expand";
 import { checkProgress, processEvent } from "./processEvent";
 import { editingMachine } from "../expansion/placeable/editingMachine";
+import { BuildingName } from "../types/buildings";
+import { Context } from "../GameProvider";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -69,7 +84,8 @@ type SyncEvent = {
 };
 
 type EditEvent = {
-  placeable: string;
+  placeable: BuildingName | CollectibleName;
+  action: GameEventName<PlacementEvent>;
   type: "EDIT";
 };
 
@@ -102,13 +118,13 @@ export type BlockchainEvent =
 
 // // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
-  Object.keys(EVENTS).reduce(
+  Object.keys(PLAYING_EVENTS).reduce(
     (events, eventName) => ({
       ...events,
       [eventName]: [
         {
           target: "hoarding",
-          cond: (context: Context, event: GameEvent) => {
+          cond: (context: Context, event: PlayingEvent) => {
             const { valid } = checkProgress({
               state: context.state as GameState,
               action: event,
@@ -117,7 +133,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 
             return !valid;
           },
-          actions: assign((context: Context, event: GameEvent) => {
+          actions: assign((context: Context, event: PlayingEvent) => {
             const { maxedItem } = checkProgress({
               state: context.state as GameState,
               action: event,
@@ -128,7 +144,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
           }),
         },
         {
-          actions: assign((context: Context, event: GameEvent) => ({
+          actions: assign((context: Context, event: PlayingEvent) => ({
             state: processEvent({
               state: context.state as GameState,
               action: event,
@@ -143,6 +159,29 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
           })),
         },
       ],
+    }),
+    {}
+  );
+
+const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
+  Object.keys(PLACEMENT_EVENTS).reduce(
+    (events, eventName) => ({
+      ...events,
+      [eventName]: {
+        actions: assign((context: Context, event: PlacementEvent) => ({
+          state: processEvent({
+            state: context.state as GameState,
+            action: event,
+          }) as GameState,
+          actions: [
+            ...context.actions,
+            {
+              ...event,
+              createdAt: new Date(),
+            },
+          ],
+        })),
+      },
     }),
     {}
   );
@@ -168,6 +207,8 @@ export type BlockchainState = {
 
 export type StateKeys = keyof Omit<BlockchainState, "context">;
 export type StateValues = BlockchainState[StateKeys];
+
+export type MachineState = State<Context, BlockchainEvent, BlockchainState>;
 
 export type MachineInterpreter = Interpreter<
   Context,
@@ -597,6 +638,7 @@ export function startGame(authContext: Options) {
             src: editingMachine,
             data: {
               placeable: (_: Context, event: EditEvent) => event.placeable,
+              action: (_: Context, event: EditEvent) => event.action,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
             },
@@ -614,6 +656,9 @@ export function startGame(authContext: Options) {
                 actions: "assignErrorMessage",
               },
             ],
+          },
+          on: {
+            ...PLACEMENT_EVENT_HANDLERS,
           },
         },
       },

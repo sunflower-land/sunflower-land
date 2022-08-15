@@ -9,7 +9,7 @@ describe("chest", () => {
   it("creates an empty chest", () => {
     const chest = getChestItems({
       ...GAME_STATE,
-      buildings: {},
+      collectibles: {},
     });
 
     expect(chest).toEqual({});
@@ -22,7 +22,7 @@ describe("chest", () => {
         "Farm Cat": new Decimal(2),
         "Woody the Beaver": new Decimal(1),
       },
-      buildings: {},
+      collectibles: {},
     });
 
     expect(chest).toEqual({
@@ -44,7 +44,7 @@ describe("chest", () => {
         "Fire Pit": new Decimal(1),
         "Foreman Beaver": new Decimal(1),
       },
-      buildings: {
+      collectibles: {
         Scarecrow: [
           {
             coordinates: { x: 1, y: 1 },
@@ -57,7 +57,6 @@ describe("chest", () => {
     });
 
     expect(chest).toEqual({
-      "Fire Pit": new Decimal(1),
       "Foreman Beaver": new Decimal(1),
     });
   });
@@ -70,7 +69,7 @@ describe("chest", () => {
         "Foreman Beaver": new Decimal(1),
         Scarecrow: new Decimal(1),
       },
-      buildings: {
+      collectibles: {
         Scarecrow: [
           {
             coordinates: { x: 1, y: 1 },
@@ -82,7 +81,6 @@ describe("chest", () => {
       },
     });
     expect(chest).toEqual({
-      "Fire Pit": new Decimal(1),
       "Foreman Beaver": new Decimal(1),
     });
   });

@@ -24,7 +24,7 @@ export type CraftableName =
   | Animal
   | Flag
   | Shovel
-  | TravellingSalesmanItem;
+  | TravelingSalesmanItem;
 
 export interface Craftable {
   name: CraftableName;
@@ -78,7 +78,7 @@ export interface LimitedItem extends CraftableItem {
 
 export type MOMEventItem = "Engine Core" | "Observatory";
 
-export type TravellingSalesmanItem = "Wicker Man" | "Golden Bonsai";
+export type TravelingSalesmanItem = "Wicker Man" | "Golden Bonsai";
 
 export type QuestItem =
   | "Goblin Key"
@@ -132,6 +132,13 @@ export type LimitedItemName =
   | MOMEventItem
   | QuestItem
   | MutantChicken;
+
+export type CollectibleName =
+  | BlacksmithItem
+  | BarnItem
+  | MarketItem
+  | Flag
+  | TravelingSalesmanItem;
 
 export type Tool =
   | "Axe"
@@ -544,7 +551,7 @@ export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
   },
 };
 
-export const SALESMAN_ITEMS: Record<TravellingSalesmanItem, LimitedItem> = {
+export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
   "Wicker Man": {
     name: "Wicker Man",
     description:
@@ -935,4 +942,64 @@ export const isLimitedItem = (itemName: any) => {
   return !!getKeys(LIMITED_ITEMS).find(
     (limitedItemName) => limitedItemName === itemName
   );
+};
+
+export type Dimensions = { width: number; height: number };
+
+const flagsDimension = getKeys(FLAGS).reduce(
+  (previous, flagName) => ({
+    ...previous,
+    [flagName]: {
+      height: 0,
+      width: 0,
+    },
+  }),
+  {} as Record<Flag, Dimensions>
+);
+
+export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
+  // Salesman Items
+  "Wicker Man": { height: 1, width: 1 },
+  "Golden Bonsai": { height: 1, width: 1 },
+
+  // Flags
+  ...flagsDimension,
+
+  // Blacksmith Items
+  "Sunflower Statue": { width: 2, height: 2 },
+  "Potato Statue": { width: 1, height: 1 },
+  "Christmas Tree": { width: 2, height: 2 },
+  Gnome: { width: 1, height: 1 },
+  "Sunflower Tombstone": { width: 1, height: 1 },
+  "Sunflower Rock": { width: 4, height: 3 },
+  "Goblin Crown": { width: 1, height: 1 },
+  Fountain: { width: 2, height: 2 },
+  "Woody the Beaver": { width: 1, height: 1 },
+  "Apprentice Beaver": { width: 1, height: 1 },
+  "Foreman Beaver": { width: 1, height: 1 },
+  "Nyon Statue": { width: 2, height: 1 },
+  "Homeless Tent": { width: 2, height: 2 },
+  "Farmer Bath": { width: 2, height: 3 },
+  "Mysterious Head": { width: 2, height: 2 },
+  "Rock Golem": { width: 2, height: 3 },
+  "Tunnel Mole": { width: 1, height: 1 },
+  "Rocky the Mole": { width: 1, height: 1 },
+  Nugget: { width: 1, height: 1 },
+
+  // Market Items
+  Scarecrow: { height: 2, width: 2 },
+  Nancy: { width: 2, height: 2 },
+  Kuebiko: { width: 2, height: 2 },
+  "Golden Cauliflower": { width: 1, height: 1 },
+  "Mysterious Parsnip": { width: 1, height: 1 },
+  "Carrot Sword": { width: 1, height: 1 },
+
+  // Barn Items
+  "Farm Cat": { width: 1, height: 1 },
+  "Farm Dog": { width: 1, height: 1 },
+  "Chicken Coop": { width: 2, height: 2 },
+  "Gold Egg": { width: 1, height: 1 },
+  "Easter Bunny": { width: 2, height: 1 },
+  Rooster: { height: 1, width: 1 },
+  "Egg Basket": { height: 1, width: 1 },
 };
