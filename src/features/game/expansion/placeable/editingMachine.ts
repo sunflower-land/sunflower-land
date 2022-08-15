@@ -66,7 +66,7 @@ export const editingMachine = createMachine<
         },
         PLACE: {
           target: "placed",
-          actions: sendParent<Context, PlaceEvent, PlacementEvent>(
+          actions: sendParent(
             ({ placeable, action, coordinates: { x, y } }) =>
               ({
                 type: action,

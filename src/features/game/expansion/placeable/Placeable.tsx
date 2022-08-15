@@ -60,21 +60,24 @@ export const Placeable: React.FC = () => {
 
   if (machine.matches("placed")) {
     return (
-      <div
-        className="absolute"
-        style={{
-          left: coordinates.x * GRID_WIDTH_PX,
-          top: -coordinates.y * GRID_WIDTH_PX,
-          height: imageDimensions.height * PIXEL_SCALE,
-          width: imageDimensions.width * PIXEL_SCALE,
-        }}
-      >
-        <img
-          draggable="false"
-          className="bulge h-full w-full"
-          src={image}
-          alt=""
-        />
+      <div className="absolute left-1/2 top-1/2">
+        <div
+          className="absolute"
+          style={{
+            left: coordinates.x * GRID_WIDTH_PX,
+            top: -coordinates.y * GRID_WIDTH_PX,
+            height: imageDimensions.height * PIXEL_SCALE,
+            width: imageDimensions.width * PIXEL_SCALE,
+          }}
+        >
+          <img
+            draggable="false"
+            className="bulge h-full w-full"
+            src={image}
+            alt=""
+            onLoad={handleImageLoad}
+          />
+        </div>
       </div>
     );
   }
