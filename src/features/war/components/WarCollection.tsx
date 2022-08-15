@@ -8,10 +8,10 @@ import maleGoblin from "assets/npcs/goblin.gif";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
-import { WarCollectionOffer } from "./WarCollectionOffer";
+import { WarCollectors } from "./WarCollectors";
 
 export const WarCollection: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
 
   const side: "goblin" | "human" = "human";
 
@@ -19,7 +19,7 @@ export const WarCollection: React.FC = () => {
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Panel>
-          <WarCollectionOffer />
+          <WarCollectors onClose={() => setShowModal(false)} />
         </Panel>
       </Modal>
       <div
@@ -43,6 +43,7 @@ export const WarCollection: React.FC = () => {
               style={{
                 width: `${PIXEL_SCALE * 16}px`,
               }}
+              onClick={() => setShowModal(true)}
             />
             <img
               src={maleGoblin}
@@ -51,6 +52,7 @@ export const WarCollection: React.FC = () => {
                 width: `${PIXEL_SCALE * 16}px`,
                 transform: "scaleX(-1)",
               }}
+              onClick={() => setShowModal(true)}
             />
           </>
         )}
@@ -62,6 +64,7 @@ export const WarCollection: React.FC = () => {
               style={{
                 width: `${PIXEL_SCALE * 13}px`,
               }}
+              onClick={() => setShowModal(true)}
             />
             <img
               src={maleHuman}
@@ -70,6 +73,7 @@ export const WarCollection: React.FC = () => {
                 width: `${PIXEL_SCALE * 13}px`,
                 transform: "scaleX(-1)",
               }}
+              onClick={() => setShowModal(true)}
             />
           </>
         )}

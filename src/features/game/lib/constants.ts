@@ -323,7 +323,6 @@ export const INITIAL_FARM: GameState = {
   expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
   buildings: {},
-
   airdrops: [
     {
       createdAt: Date.now(),
@@ -343,6 +342,17 @@ export const INITIAL_FARM: GameState = {
     },
   ],
   collectibles: {},
+  warCollectionOffer: {
+    warBonds: 10,
+    startAt: new Date().toISOString(),
+    endAt: new Date(Date.now() + 10000).toISOString(),
+    ingredients: [
+      {
+        amount: 50,
+        name: "Wood",
+      },
+    ],
+  },
 };
 
 export const EMPTY: GameState = {

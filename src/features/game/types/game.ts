@@ -148,6 +148,16 @@ export type TradeOffer = {
   }[];
 };
 
+export type WarCollectionOffer = {
+  warBonds: number;
+  startAt: string;
+  endAt: string;
+  ingredients: {
+    name: InventoryItemName;
+    amount: number;
+  }[];
+};
+
 export type Position = {
   x: number;
   y: number;
@@ -243,6 +253,8 @@ export interface GameState {
   tradedAt?: string;
   tradeOffer?: TradeOffer;
   airdrops?: Airdrop[];
+
+  warCollectionOffer?: WarCollectionOffer;
 
   inventory: Inventory;
   stock: Inventory;
