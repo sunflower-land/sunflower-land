@@ -122,7 +122,6 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
       </div>
     );
   }
-  console.log("Rare!", selected);
 
   // Ingredient difference≥
   const lessIngredients = (amount = 1) =>
