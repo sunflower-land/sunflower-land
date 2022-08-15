@@ -115,7 +115,12 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   const [selected, setSelected] = useState(Object.values(items)[0]);
 
   if (selected === undefined) {
-    return "Shops Closed";
+    return (
+      <div className="flex flex-col">
+        <span>Shop Closed.</span>
+        <span>Please try again later.</span>
+      </div>
+    );
   }
   console.log("Rare!", selected);
 
