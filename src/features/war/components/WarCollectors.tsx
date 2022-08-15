@@ -19,8 +19,9 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 interface Props {
   onClose: () => void;
+  side: "human" | "goblin";
 }
-export const WarCollectors: React.FC<Props> = ({ onClose }) => {
+export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -35,8 +36,6 @@ export const WarCollectors: React.FC<Props> = ({ onClose }) => {
     "noOffer" | "intro" | "showOffer" | "exchanged"
   >(warCollectionOffer ? "intro" : "noOffer");
   const { setToast } = useContext(ToastContext);
-
-  const side: "goblin" | "human" = "human";
 
   const secondsLeft = 100;
 

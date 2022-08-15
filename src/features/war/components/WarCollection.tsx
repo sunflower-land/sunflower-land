@@ -13,13 +13,13 @@ import { WarCollectors } from "./WarCollectors";
 export const WarCollection: React.FC = () => {
   const [showModal, setShowModal] = useState(true);
 
-  const side: "goblin" | "human" = "human";
+  const side: "goblin" | "human" = Math.random() > 0.5 ? "goblin" : "human";
 
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Panel>
-          <WarCollectors onClose={() => setShowModal(false)} />
+          <WarCollectors side={side} onClose={() => setShowModal(false)} />
         </Panel>
       </Modal>
       <div
