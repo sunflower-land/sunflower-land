@@ -18,7 +18,10 @@ export const getBasketItems = (inventory: Inventory) => {
 
 export const getChestItems = (state: GameState) => {
   return getKeys(state.inventory).reduce((acc, itemName) => {
-    if (itemName in COLLECTIBLES_DIMENSIONS && !(itemName in state.buildings)) {
+    if (
+      itemName in COLLECTIBLES_DIMENSIONS &&
+      !(itemName in state.collectibles)
+    ) {
       return {
         ...acc,
         [itemName]: state.inventory[itemName],

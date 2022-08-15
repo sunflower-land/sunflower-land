@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
-import { Building, GameState } from "../../types/game";
+import { GameState, PlacedItem } from "../../types/game";
 
 export type ConstructBuildingAction = {
   type: "building.constructed";
@@ -53,7 +53,7 @@ export function constructBuilding({
   const buildingInventory = stateCopy.inventory[action.name] || new Decimal(0);
   const placed = stateCopy.buildings[action.name] || [];
 
-  const newBuilding: Omit<Building, "id"> = {
+  const newBuilding: Omit<PlacedItem, "id"> = {
     createdAt: createdAt,
     coordinates: action.coordinates,
     readyAt: createdAt + building.constructionSeconds * 1000,

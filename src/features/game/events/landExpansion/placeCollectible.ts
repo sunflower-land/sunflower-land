@@ -3,7 +3,7 @@ import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "../../types/craftables";
-import { GameState, Collectible } from "../../types/game";
+import { GameState, PlacedItem } from "features/game/types/game";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -46,7 +46,7 @@ export function placeCollectible({
   }
 
   const placed = stateCopy.collectibles[action.name] || [];
-  const newCollectiblePlacement: Omit<Collectible, "id"> = {
+  const newCollectiblePlacement: Omit<PlacedItem, "id"> = {
     createdAt: createdAt,
     coordinates: action.coordinates,
     readyAt: createdAt + 5 * 60 * 1000,

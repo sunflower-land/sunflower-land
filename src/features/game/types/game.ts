@@ -189,23 +189,15 @@ export type LandExpansionPlot = {
   crop?: PlantedCrop;
 } & Position;
 
-export type Building = {
+export type PlacedItem = {
   id: string;
   coordinates: { x: number; y: number };
   readyAt: number;
   createdAt: number;
 };
 
-export type Collectible = {
-  id: string;
-  coordinates: { x: number; y: number };
-  readyAt: number;
-  createdAt: number;
-};
-
-export type Buildings = Partial<Record<BuildingName, Building[]>>;
-
-export type Collectibles = Partial<Record<CollectibleName, Collectible[]>>;
+export type Buildings = Partial<Record<BuildingName, PlacedItem[]>>;
+export type Collectibles = Partial<Record<CollectibleName, PlacedItem[]>>;
 
 export type LandExpansion = {
   createdAt: number;

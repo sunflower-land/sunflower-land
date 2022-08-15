@@ -2,8 +2,7 @@ import React, { useRef, useState } from "react";
 import classNames from "classnames";
 
 import { BuildingName } from "features/game/types/buildings";
-import { Building as IBuilding } from "features/game/types/game";
-
+import { PlacedItem as IBuilding } from "features/game/types/game";
 import { FirePit } from "./FirePit";
 import { TimeLeftOverlay } from "components/ui/TimeLeftOverlay";
 import { Bar } from "components/ui/ProgressBar";

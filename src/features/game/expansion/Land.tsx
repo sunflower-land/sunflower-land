@@ -234,7 +234,7 @@ export const Land: React.FC = () => {
                 height={height}
                 width={width}
               >
-                <div className="flex w-full h-full">
+                <div className="flex justify-center w-full h-full">
                   <img src={ITEM_DETAILS[name].image} alt={name} />
                 </div>
               </MapPlacement>

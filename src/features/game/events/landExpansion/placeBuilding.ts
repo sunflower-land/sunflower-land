@@ -1,6 +1,6 @@
 import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
-import { GameState, Building } from "../../types/game";
+import { GameState, PlacedItem } from "../../types/game";
 
 export type PlaceBuildingAction = {
   type: "building.placed";
@@ -42,7 +42,7 @@ export function placeBuilding({
 
   const placed = stateCopy.buildings[action.name] || [];
 
-  const newBuilding: Omit<Building, "id"> = {
+  const newBuilding: Omit<PlacedItem, "id"> = {
     createdAt: createdAt,
     coordinates: action.coordinates,
     readyAt: createdAt + 5 * 60 * 1000,
