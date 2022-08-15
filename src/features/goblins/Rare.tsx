@@ -117,7 +117,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   if (selected === undefined) {
     return (
       <div className="flex flex-col">
-        <span>Shop Closed.</span>
+        <span>Currently Unavailable!</span>
         <span>Please try again later.</span>
       </div>
     );
@@ -271,7 +271,6 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
               {`${amountLeft} left`}
             </span>
           )}
-
           <span className="text-shadow text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
@@ -281,7 +280,6 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
           <span className="text-shadow text-center mt-2 sm:text-sm">
             {selected.isPlaceholder ? "?" : selected.description}
           </span>
-
           {canCraft && (
             <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
               {selected.ingredients?.map((ingredient, index) => {
@@ -351,21 +349,21 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                 </div>
               )}
 
-              {selected.cooldownSeconds && (
-                <div className="flex justify-center items-end">
-                  <img src={timer} className="h-5 mr-1" />
-                  <span
-                    className={classNames(
-                      "text-xs text-shadow text-center mt-2 "
-                    )}
-                  >
-                    {secondsToString(selected.cooldownSeconds)}
-                  </span>
-                </div>
-              )}
+              {selected.cooldownSeconds !== undefined &&
+                selected.cooldownSeconds > 0 && (
+                  <div className="flex justify-center items-end">
+                    <img src={timer} className="h-5 mr-1" />
+                    <span
+                      className={classNames(
+                        "text-xs text-shadow text-center mt-2 "
+                      )}
+                    >
+                      {secondsToString(selected.cooldownSeconds)}
+                    </span>
+                  </div>
+                )}
             </div>
           )}
-
           {Action()}
         </div>
         <a

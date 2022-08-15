@@ -577,12 +577,14 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
     description: "Placeholder 1",
     type: LimitedItemType.WarTentItem,
     isPlaceholder: true,
+    disabled: true,
   },
   "Placeholder 2": {
     name: "Placeholder 2",
     description: "Placeholder 2",
     type: LimitedItemType.WarTentItem,
     isPlaceholder: true,
+    disabled: true,
   },
 };
 
