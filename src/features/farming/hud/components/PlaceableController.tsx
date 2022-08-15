@@ -7,28 +7,20 @@ import { Context } from "features/game/GameProvider";
 
 import confirm from "assets/icons/confirm.png";
 import cancel from "assets/icons/cancel.png";
-import Decimal from "decimal.js-light";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
-  const { inventory } = gameService.state.context.state;
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [
     {
-      context: { collisionDetected, placeable },
+      context: { collisionDetected },
     },
     send,
   ] = useActor(child);
 
   const handleConfirmPlacement = () => {
-    const inventoryCount = inventory[placeable] || new Decimal(0);
-
-    if (inventoryCount.eq(0)) {
-      send("CONSTRUCT");
-    } else {
-      send("PLACE");
-    }
+    send("PLACE");
   };
 
   const handleCancelPlacement = () => {
