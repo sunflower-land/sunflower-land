@@ -9,6 +9,7 @@ export enum LimitedItemType {
   QuestItem = "QuestItem",
   MutantChicken = "MutantChicken",
   SalesmanItem = "SalesmanItem",
+  WarTentItem = "WarTentItem",
 }
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {

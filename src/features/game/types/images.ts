@@ -973,4 +973,13 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "TEST",
   },
+
+  "Placeholder 1": {
+    image: questionMark,
+    description: "Placeholder",
+  },
+  "Placeholder 2": {
+    image: questionMark,
+    description: "Placeholder",
+  },
 };

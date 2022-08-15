@@ -124,6 +124,8 @@ export type MarketItem =
   | "Mysterious Parsnip"
   | "Carrot Sword";
 
+export type WarTentItem = "Placeholder 1" | "Placeholder 2";
+
 export type LimitedItemName =
   | BlacksmithItem
   | BarnItem
@@ -131,7 +133,8 @@ export type LimitedItemName =
   | Flag
   | MOMEventItem
   | QuestItem
-  | MutantChicken;
+  | MutantChicken
+  | WarTentItem;
 
 export type CollectibleName =
   | BlacksmithItem
@@ -568,6 +571,21 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
   },
 };
 
+export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
+  "Placeholder 1": {
+    name: "Placeholder 1",
+    description: "Placeholder 1",
+    type: LimitedItemType.WarTentItem,
+    isPlaceholder: true,
+  },
+  "Placeholder 2": {
+    name: "Placeholder 2",
+    description: "Placeholder 2",
+    type: LimitedItemType.WarTentItem,
+    isPlaceholder: true,
+  },
+};
+
 export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
   "Engine Core": {
     name: "Engine Core",
@@ -846,6 +864,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...MUTANT_CHICKENS,
   ...SHOVELS,
   ...SALESMAN_ITEMS,
+  ...WAR_TENT_ITEMS,
 });
 
 /**
@@ -864,6 +883,7 @@ export const LIMITED_ITEMS = {
   ...QUEST_ITEMS,
   ...MUTANT_CHICKENS,
   ...SALESMAN_ITEMS,
+  ...WAR_TENT_ITEMS,
 };
 
 export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);

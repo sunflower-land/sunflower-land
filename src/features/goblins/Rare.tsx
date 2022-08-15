@@ -113,6 +113,10 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   );
 
   const [selected, setSelected] = useState(Object.values(items)[0]);
+
+  if (selected === undefined) {
+    return "Shops Closed";
+  }
   console.log("Rare!", selected);
 
   // Ingredient difference≥
