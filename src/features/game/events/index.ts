@@ -46,6 +46,7 @@ import {
   placeCollectible,
   PlaceCollectibleAction,
 } from "./landExpansion/placeCollectible";
+import { buyWarBonds, CollectWarBonds as BuyWarBonds } from "./buyWarBonds";
 
 export type PlayingEvent =
   | CraftAction
@@ -70,7 +71,8 @@ export type PlayingEvent =
   | ChopShrubAction
   | RevealAction
   | FertiliseCropAction
-  | ClaimAirdropAction;
+  | ClaimAirdropAction
+  | BuyWarBonds;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -106,6 +108,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "item.traded": trade,
   "item.removed": removeCrop,
   "airdrop.claimed": claimAirdrop,
+  "warBonds.bought": buyWarBonds,
   // Land Expansion Handlers
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,

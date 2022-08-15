@@ -144,6 +144,7 @@ import liquidityProvider from "assets/skills/liquidity_provider.png";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
+import warBond from "assets/icons/warBond.png";
 
 // Egg
 import redEgg from "src/assets/nfts/easter/red_egg.png";
@@ -629,6 +630,19 @@ export const ITEM_DETAILS: Items = {
     description:
       "Free trades! Woohoo! If you accept this offer, don't forget to sync after to make them available in Goblin Village",
     image: ticket,
+  },
+  "War Bond": {
+    description:
+      "A mark of a true warrior. Exchange at Goblin village for rare items.",
+    image: warBond,
+  },
+  "Goblin War Point": {
+    description: "A display of allegiance",
+    image: questionMark,
+  },
+  "Human War Point": {
+    description: "A display of allegiance",
+    image: questionMark,
   },
 
   /**

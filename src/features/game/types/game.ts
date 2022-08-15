@@ -79,7 +79,11 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
-export type TradingTicket = "Trading Ticket";
+export type Ticket =
+  | "Trading Ticket"
+  | "War Bond"
+  | "Goblin War Point"
+  | "Human War Point";
 
 export type Bumpkin = {
   level: number;
@@ -116,7 +120,7 @@ export type InventoryItemName =
   | Food
   | MOMEventItem
   | MutantChicken
-  | TradingTicket
+  | Ticket
   | BumpkinItems
   | BuildingName
   | Fertiliser;
@@ -145,6 +149,16 @@ export type TradeOffer = {
   ingredients: {
     name: InventoryItemName;
     amount: Decimal;
+  }[];
+};
+
+export type WarCollectionOffer = {
+  warBonds: number;
+  startAt: string;
+  endAt: string;
+  ingredients: {
+    name: InventoryItemName;
+    amount: number;
   }[];
 };
 
@@ -243,6 +257,8 @@ export interface GameState {
   tradedAt?: string;
   tradeOffer?: TradeOffer;
   airdrops?: Airdrop[];
+
+  warCollectionOffer?: WarCollectionOffer;
 
   inventory: Inventory;
   stock: Inventory;

@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 import React from "react";
 
-import { Recruiter } from "./components/Recruiter";
+import { WarCollection } from "./components/WarCollection";
 
 export const GoblinWar: React.FC = () => {
   if (CONFIG.NETWORK !== "mumbai") {
@@ -10,7 +10,7 @@ export const GoblinWar: React.FC = () => {
 
   return (
     <>
-      <Recruiter />
+      <WarCollection />
     </>
   );
 };

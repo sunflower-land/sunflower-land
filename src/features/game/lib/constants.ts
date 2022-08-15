@@ -291,6 +291,7 @@ export const INITIAL_FARM: GameState = {
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
     Pickaxe: new Decimal(3),
+    "Trading Ticket": new Decimal(50),
   },
 
   stock: INITIAL_STOCK,
@@ -323,7 +324,6 @@ export const INITIAL_FARM: GameState = {
   expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
   buildings: {},
-
   airdrops: [
     {
       createdAt: Date.now(),
@@ -343,6 +343,17 @@ export const INITIAL_FARM: GameState = {
     },
   ],
   collectibles: {},
+  warCollectionOffer: {
+    warBonds: 10,
+    startAt: new Date().toISOString(),
+    endAt: new Date(Date.now() + 10000).toISOString(),
+    ingredients: [
+      {
+        amount: 50,
+        name: "Wood",
+      },
+    ],
+  },
 };
 
 export const EMPTY: GameState = {
