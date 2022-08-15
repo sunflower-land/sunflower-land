@@ -56,7 +56,7 @@ export const Airdrop: React.FC = () => {
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
-<span>Congratulations, you found a reward!</span>
+          <span>Congratulations, you found a reward!</span>
 
           <div className="flex flex-col pt-4">
             {airdrop.sfl && (
