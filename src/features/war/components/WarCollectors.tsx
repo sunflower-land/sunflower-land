@@ -37,7 +37,9 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
   >(warCollectionOffer ? "intro" : "noOffer");
   const { setToast } = useContext(ToastContext);
 
-  const secondsLeft = 100;
+  const secondsLeft =
+    (new Date(warCollectionOffer?.endAt as string).getTime() - Date.now()) /
+    1000;
 
   const exchange = () => {
     gameService.send("warBonds.bought");

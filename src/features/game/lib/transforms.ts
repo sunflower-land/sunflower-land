@@ -107,6 +107,7 @@ export function makeGame(farm: any): GameState {
     buildings: farm.buildings,
     airdrops: farm.airdrops,
     collectibles: farm.collectibles,
+    warCollectionOffer: farm.warCollectionOffer,
   };
 }
 

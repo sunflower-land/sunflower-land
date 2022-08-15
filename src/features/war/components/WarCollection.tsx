@@ -10,10 +10,10 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { WarCollectors } from "./WarCollectors";
 
-export const WarCollection: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+const side: "goblin" | "human" = Math.random() > 0.5 ? "goblin" : "human";
 
-  const side: "goblin" | "human" = Math.random() > 0.5 ? "goblin" : "human";
+export const WarCollection: React.FC = () => {
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
