@@ -8,7 +8,7 @@ import { SkillName } from "./skills";
 import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
 import { BuildingName, PlaceableName } from "./buildings";
 
-export type Reward = {
+export type CropReward = {
   items: {
     name: InventoryItemName;
     amount: number;
@@ -33,7 +33,7 @@ export type FieldItem = {
   // Epoch time in milliseconds
   plantedAt: number;
   multiplier?: number;
-  reward?: Reward;
+  reward?: CropReward;
   fertilisers?: Fertilisers;
 };
 
@@ -128,7 +128,7 @@ export type Fields = Record<number, FieldItem>;
 export type Chicken = {
   fedAt: number;
   multiplier: number;
-  reward?: Reward;
+  reward?: CropReward;
 };
 
 export type StockExpiry = Partial<Record<InventoryItemName, string>>;
@@ -163,7 +163,7 @@ export type PlantedCrop = {
   name: CropName;
   plantedAt: number;
   amount?: number;
-  reward?: Reward;
+  reward?: CropReward;
   fertilisers?: Fertilisers;
 };
 
@@ -217,6 +217,14 @@ interface ExpansionRequirements {
   resources: Ingredient[];
   seconds: Decimal;
 }
+
+export type Airdrop = {
+  id: string;
+  createdAt: number;
+  items: Partial<Record<InventoryItemName, number>>;
+  sfl: number;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -235,6 +243,7 @@ export interface GameState {
 
   tradedAt?: string;
   tradeOffer?: TradeOffer;
+  airdrops?: Airdrop[];
 
   inventory: Inventory;
   stock: Inventory;

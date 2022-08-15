@@ -33,6 +33,7 @@ import { PebbleStrikeAction, strikePebble } from "./landExpansion/pebbleStrike";
 import { chopShrub, ChopShrubAction } from "./chopShrub";
 import { reveal, RevealAction } from "./revealExpansion";
 import { fertiliseCrop, FertiliseCropAction } from "./fertiliseCrop";
+import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
 
 export type GameEvent =
   | CraftAction
@@ -56,7 +57,8 @@ export type GameEvent =
   | TradeAction
   | ChopShrubAction
   | RevealAction
-  | FertiliseCropAction;
+  | FertiliseCropAction
+  | ClaimAirdropAction;
 
 export type EventName = Extract<GameEvent, { type: string }>["type"];
 
@@ -85,6 +87,7 @@ export const EVENTS: Handlers = {
   "chicken.feed": feedChicken,
   "item.traded": trade,
   "item.removed": removeCrop,
+  "airdrop.claimed": claimAirdrop,
   // Land Expansion Handlers
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,

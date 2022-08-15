@@ -323,6 +323,25 @@ export const INITIAL_FARM: GameState = {
   expansions: INITIAL_EXPANSIONS,
   bumpkin: { level: 1 },
   buildings: {},
+
+  airdrops: [
+    {
+      createdAt: Date.now(),
+      id: "123",
+      items: {
+        "Rapid Growth": 5,
+      },
+      sfl: 3,
+    },
+    {
+      createdAt: Date.now(),
+      id: "1234",
+      items: {
+        "Rapid Growth": 5,
+      },
+      sfl: 3,
+    },
+  ],
 };
 
 export const EMPTY: GameState = {
