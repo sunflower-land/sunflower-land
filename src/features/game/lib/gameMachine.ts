@@ -1,4 +1,10 @@
-import { createMachine, Interpreter, assign, TransitionsConfig } from "xstate";
+import {
+  createMachine,
+  Interpreter,
+  assign,
+  TransitionsConfig,
+  State,
+} from "xstate";
 import {
   PLAYING_EVENTS,
   PlacementEvent,
@@ -33,6 +39,7 @@ import { expand } from "../expansion/actions/expand";
 import { checkProgress, processEvent } from "./processEvent";
 import { editingMachine } from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
+import { Context } from "../GameProvider";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -200,6 +207,8 @@ export type BlockchainState = {
 
 export type StateKeys = keyof Omit<BlockchainState, "context">;
 export type StateValues = BlockchainState[StateKeys];
+
+export type MachineState = State<Context, BlockchainEvent, BlockchainState>;
 
 export type MachineInterpreter = Interpreter<
   Context,
