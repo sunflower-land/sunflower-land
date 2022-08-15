@@ -26,29 +26,6 @@ export const WarCollectionOffer: React.FC<Props> = ({
       (ingredient) => ingredient.amount > (inventory[ingredient.name] || 0)
     );
 
-  const renderRemenants = () => {
-    if (lessIngredients()) {
-      // if inventory items is less than required items
-      return (
-        <>
-          <span className="text-xs text-shadow text-center mt-2 text-red-500">
-            {`${inventoryAmount}`}
-          </span>
-          <span className="text-xs text-shadow text-center mt-2 text-red-500">
-            {`/${requiredAmount}`}
-          </span>
-        </>
-      );
-    } else {
-      // if inventory items is equal to required items
-      return (
-        <span className="text-xs text-shadow text-center mt-2">
-          {`${requiredAmount}`}
-        </span>
-      );
-    }
-  };
-
   const Action = () => {
     return (
       <>

@@ -59,6 +59,12 @@ const BASKET_CATEGORIES: TabItems = {
   Fertilisers: {
     items: FERTILISERS,
   },
+  Coupons: {
+    items: {
+      "Trading Ticket": {},
+      "War Bond": {},
+    },
+  },
 };
 
 const COLLECTIBLE_CATEGORIES: TabItems = {

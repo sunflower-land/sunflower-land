@@ -41,6 +41,8 @@ export const WarCollectors: React.FC<Props> = ({ onClose }) => {
   const secondsLeft = 100;
 
   const exchange = () => {
+    gameService.send("warBonds.bought");
+
     warCollectionOffer?.ingredients?.map((ingredient) => {
       const item = ITEM_DETAILS[ingredient.name];
       setToast({

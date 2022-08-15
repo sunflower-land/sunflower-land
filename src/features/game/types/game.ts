@@ -79,7 +79,11 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
-export type TradingTicket = "Trading Ticket";
+export type Ticket =
+  | "Trading Ticket"
+  | "War Bond"
+  | "Goblin War Point"
+  | "Human War Point";
 
 export type Bumpkin = {
   level: number;
@@ -116,7 +120,7 @@ export type InventoryItemName =
   | Food
   | MOMEventItem
   | MutantChicken
-  | TradingTicket
+  | Ticket
   | BumpkinItems
   | BuildingName
   | Fertiliser;

@@ -292,6 +292,7 @@ export const INITIAL_FARM: GameState = {
     Axe: new Decimal(3),
     Pickaxe: new Decimal(3),
     Wood: new Decimal(59),
+    "Trading Ticket": new Decimal(50),
   },
 
   stock: INITIAL_STOCK,
