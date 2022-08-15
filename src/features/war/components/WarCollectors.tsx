@@ -5,6 +5,7 @@ import femaleGoblin from "assets/npcs/goblin_female.gif";
 import femaleHuman from "assets/npcs/human_female.gif";
 import close from "assets/icons/close.png";
 import stopwatch from "assets/icons/stopwatch.png";
+import warBond from "assets/icons/warBond.png";
 
 import { secondsToString } from "lib/utils/time";
 import { Button } from "components/ui/Button";
@@ -13,6 +14,8 @@ import { Context } from "features/game/GameProvider";
 import { WarCollectionOffer as Offer } from "features/game/types/game";
 
 import { WarCollectionOffer } from "./WarCollectionOffer";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 interface Props {
   onClose: () => void;
@@ -31,12 +34,26 @@ export const WarCollectors: React.FC<Props> = ({ onClose }) => {
   const [state, setState] = useState<
     "noOffer" | "intro" | "showOffer" | "exchanged"
   >(warCollectionOffer ? "intro" : "noOffer");
+  const { setToast } = useContext(ToastContext);
 
   const side: "goblin" | "human" = "human";
 
   const secondsLeft = 100;
 
   const exchange = () => {
+    warCollectionOffer?.ingredients?.map((ingredient) => {
+      const item = ITEM_DETAILS[ingredient.name];
+      setToast({
+        icon: item.image,
+        content: `-${ingredient.amount}`,
+      });
+    });
+
+    setToast({
+      icon: warBond,
+      content: `+${warCollectionOffer?.warBonds}`,
+    });
+
     setState("exchanged");
   };
 
@@ -48,11 +65,12 @@ export const WarCollectors: React.FC<Props> = ({ onClose }) => {
           className="h-6 top-4 right-4 absolute cursor-pointer z-10"
           onClick={onClose}
         />
-        <span>Thankyou for supporting the war effort.</span>
+        <span>Thanks!</span>
         <img
           src={side === "human" ? femaleHuman : femaleGoblin}
           className="w-8"
         />
+        <p className="sm:text-sm p-2">Together we will win the war.</p>
       </div>
     );
   }

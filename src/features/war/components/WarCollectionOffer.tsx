@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -27,6 +26,29 @@ export const WarCollectionOffer: React.FC<Props> = ({
       (ingredient) => ingredient.amount > (inventory[ingredient.name] || 0)
     );
 
+  const renderRemenants = () => {
+    if (lessIngredients()) {
+      // if inventory items is less than required items
+      return (
+        <>
+          <span className="text-xs text-shadow text-center mt-2 text-red-500">
+            {`${inventoryAmount}`}
+          </span>
+          <span className="text-xs text-shadow text-center mt-2 text-red-500">
+            {`/${requiredAmount}`}
+          </span>
+        </>
+      );
+    } else {
+      // if inventory items is equal to required items
+      return (
+        <span className="text-xs text-shadow text-center mt-2">
+          {`${requiredAmount}`}
+        </span>
+      );
+    }
+  };
+
   const Action = () => {
     return (
       <>
@@ -53,23 +75,30 @@ export const WarCollectionOffer: React.FC<Props> = ({
         <div className="border-t border-white w-full mt-2 pt-1 mb-2">
           {offer.ingredients?.map((ingredient, index) => {
             const item = ITEM_DETAILS[ingredient.name];
-            const lessIngredient = new Decimal(
-              inventory[ingredient.name] || 0
-            ).lessThan(ingredient.amount);
+            const inventoryAmount = inventory[ingredient.name] || 0;
+            const lessIngredient = new Decimal(inventoryAmount).lessThan(
+              ingredient.amount
+            );
 
             return (
               <div className="flex justify-center items-end" key={index}>
                 <img src={item.image} className="h-5 me-2" />
-                <span
-                  className={classNames(
-                    "text-xs text-shadow text-center mt-2 ",
-                    {
-                      "text-red-500": lessIngredient,
-                    }
-                  )}
-                >
-                  {ingredient.amount}
-                </span>
+                {lessIngredient && (
+                  <>
+                    <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                      {`${inventoryAmount}`}
+                    </span>
+                    <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                      {`/${ingredient.amount}`}
+                    </span>
+                  </>
+                )}
+
+                {!lessIngredient && (
+                  <span className={"text-xs text-shadow text-center mt-2 "}>
+                    {ingredient.amount}
+                  </span>
+                )}
               </div>
             );
           })}
