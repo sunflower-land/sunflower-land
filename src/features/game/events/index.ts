@@ -70,9 +70,7 @@ export type PlayingEvent =
   | ChopShrubAction
   | RevealAction
   | FertiliseCropAction
-  | ClaimAirdropAction
-  | ConstructBuildingAction
-  | PlaceBuildingAction;
+  | ClaimAirdropAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
