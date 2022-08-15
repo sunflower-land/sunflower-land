@@ -56,22 +56,29 @@ export const Airdrop: React.FC = () => {
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
-          <span className="mb-2">Congratulations, you found a reward!</span>
+<span>Congratulations, you found a reward!</span>
 
-          {airdrop.sfl && (
-            <div className="flex justify-end items-center mb-1">
-              <img src={token} className="w-6 mr-2" />
-              <span>{airdrop.sfl}</span>
-            </div>
-          )}
-
-          {itemNames.length > 0 &&
-            itemNames.map((name) => (
-              <div className="flex justify-end items-center mb-1" key={name}>
-                <img src={ITEM_DETAILS[name].image} className="w-6 mr-2" />
-                <span>{airdrop.items[name]}</span>
+          <div className="flex flex-col pt-4">
+            {airdrop.sfl && (
+              <div className="flex items-center justify-center mb-2">
+                <img src={token} className="w-6 mr-2" />
+                <span>{airdrop.sfl} SFL</span>
               </div>
-            ))}
+            )}
+
+            {itemNames.length > 0 &&
+              itemNames.map((name) => (
+                <div
+                  className="flex items-center justify-center mb-2"
+                  key={name}
+                >
+                  <img src={ITEM_DETAILS[name].image} className="w-6 mr-2" />
+                  <span>
+                    {airdrop.items[name]} {name}
+                  </span>
+                </div>
+              ))}
+          </div>
 
           <Button onClick={claim} className="mt-2">
             Claim
