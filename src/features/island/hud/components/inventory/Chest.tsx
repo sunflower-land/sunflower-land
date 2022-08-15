@@ -49,7 +49,7 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
   const handlePlace = () => {
     gameService.send("EDIT", {
       placeable: selected,
-      placeableType: "collectible",
+      action: "collectible.placed",
     });
     closeModal();
     scrollIntoView(Section.GenesisBlock);

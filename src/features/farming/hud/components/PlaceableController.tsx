@@ -8,8 +8,6 @@ import { Context } from "features/game/GameProvider";
 import confirm from "assets/icons/confirm.png";
 import cancel from "assets/icons/cancel.png";
 import Decimal from "decimal.js-light";
-import { BuildingName, BUILDINGS } from "features/game/types/buildings";
-import { CollectibleName } from "features/game/types/craftables";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -18,7 +16,7 @@ export const PlaceableController: React.FC = () => {
 
   const [
     {
-      context: { collisionDetected, placeable, coordinates },
+      context: { collisionDetected, placeable },
     },
     send,
   ] = useActor(child);
@@ -27,34 +25,9 @@ export const PlaceableController: React.FC = () => {
     const inventoryCount = inventory[placeable] || new Decimal(0);
 
     if (inventoryCount.eq(0)) {
-      send({
-        type: "CONSTRUCT",
-        action: {
-          type: "building.constructed",
-          name: placeable as BuildingName,
-          coordinates,
-        },
-      });
+      send("CONSTRUCT");
     } else {
-      if (placeable in BUILDINGS) {
-        send({
-          type: "PLACE",
-          action: {
-            type: "building.placed",
-            name: placeable as BuildingName,
-            coordinates,
-          },
-        });
-      } else {
-        send({
-          type: "PLACE",
-          action: {
-            type: "collectible.placed",
-            name: placeable as CollectibleName,
-            coordinates,
-          },
-        });
-      }
+      send("PLACE");
     }
   };
 

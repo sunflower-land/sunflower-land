@@ -6,6 +6,7 @@ import { BuildingName } from "features/game/types/buildings";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { ListView } from "./ListView";
 import { DetailView } from "./DetailView";
+import Decimal from "decimal.js-light";
 
 export const ModalContent: React.FC<{ closeModal: () => void }> = ({
   closeModal,
@@ -16,12 +17,18 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
 
   const [selected, setSelected] = useState<BuildingName | null>(null);
 
-  const state = game.context.state;
+  const { state } = game.context;
+  const { inventory } = state;
 
   const handleBuild = () => {
+    if (!selected) return;
+
+    const inventoryCount = inventory[selected] || new Decimal(0);
+    const hasBuilding = inventoryCount.gt(0);
+
     gameService.send("EDIT", {
       placeable: selected,
-      placeableType: "building",
+      action: hasBuilding ? "building.placed" : "building.constructed",
     });
     closeModal();
     scrollIntoView(Section.GenesisBlock);

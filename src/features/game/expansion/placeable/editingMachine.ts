@@ -1,14 +1,12 @@
-import { PlacementEvent } from "features/game/events";
+import { GameEventName, PlacementEvent } from "features/game/events";
 import { BuildingName } from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 
-export type PlaceableType = "building" | "collectible";
-
 export interface Context {
   placeable: BuildingName | CollectibleName;
-  placeableType: PlaceableType;
+  action: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
 }
@@ -21,12 +19,11 @@ type UpdateEvent = {
 
 type PlaceEvent = {
   type: "PLACE";
-  action: PlacementEvent;
 };
 
 type ConstructEvent = {
   type: "CONSTRUCT";
-  action: PlacementEvent;
+  actionName: PlacementEvent;
 };
 
 export type BlockchainEvent =
@@ -67,16 +64,15 @@ export const editingMachine = createMachine<
         DRAG: {
           target: "dragging",
         },
-        CONSTRUCT: {
-          target: "placed",
-          actions: sendParent<Context, ConstructEvent, PlacementEvent>(
-            (_, event) => event.action
-          ),
-        },
         PLACE: {
           target: "placed",
-          actions: sendParent<Context, ConstructEvent, PlacementEvent>(
-            (_, event) => event.action
+          actions: sendParent<Context, PlaceEvent, PlacementEvent>(
+            ({ placeable, action, coordinates: { x, y } }) =>
+              ({
+                type: action,
+                name: placeable,
+                coordinates: { x, y },
+              } as PlacementEvent)
           ),
         },
       },

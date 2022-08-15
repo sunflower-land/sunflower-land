@@ -5,6 +5,7 @@ import {
   PLACEMENT_EVENTS,
   GameEvent,
   PlayingEvent,
+  GameEventName,
 } from "../events";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
@@ -14,7 +15,7 @@ import { GameState, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { INITIAL_FARM, EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
-import { LimitedItemName } from "../types/craftables";
+import { CollectibleName, LimitedItemName } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
@@ -30,10 +31,8 @@ import {
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { expand } from "../expansion/actions/expand";
 import { checkProgress, processEvent } from "./processEvent";
-import {
-  editingMachine,
-  PlaceableType,
-} from "../expansion/placeable/editingMachine";
+import { editingMachine } from "../expansion/placeable/editingMachine";
+import { BuildingName } from "../types/buildings";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -78,8 +77,8 @@ type SyncEvent = {
 };
 
 type EditEvent = {
-  placeable: string;
-  placeableType: PlaceableType;
+  placeable: BuildingName | CollectibleName;
+  action: GameEventName<PlacementEvent>;
   type: "EDIT";
 };
 
@@ -630,8 +629,7 @@ export function startGame(authContext: Options) {
             src: editingMachine,
             data: {
               placeable: (_: Context, event: EditEvent) => event.placeable,
-              placeableType: (_: Context, event: EditEvent) =>
-                event.placeableType,
+              action: (_: Context, event: EditEvent) => event.action,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
             },
