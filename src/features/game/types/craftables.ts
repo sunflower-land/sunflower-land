@@ -124,7 +124,15 @@ export type MarketItem =
   | "Mysterious Parsnip"
   | "Carrot Sword";
 
-export type WarTentItem = "Placeholder 1" | "Placeholder 2";
+export type WarTentItem =
+  | "Reward 1"
+  | "Reward 2"
+  | "Reward 3"
+  | "Reward 4"
+  | "Reward 5"
+  | "Reward 6"
+  | "Reward 7"
+  | "Reward 8";
 
 export type LimitedItemName =
   | BlacksmithItem
@@ -572,18 +580,52 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
 };
 
 export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
-  "Placeholder 1": {
-    name: "Placeholder 1",
-    description: "Placeholder 1",
+  "Reward 1": {
+    name: "Reward 1",
+    description: "A reward for your war efforts.",
     type: LimitedItemType.WarTentItem,
-    isPlaceholder: true,
     disabled: true,
   },
-  "Placeholder 2": {
-    name: "Placeholder 2",
-    description: "Placeholder 2",
+  "Reward 2": {
+    name: "Reward 2",
+    description: "A reward for your war efforts.",
     type: LimitedItemType.WarTentItem,
-    isPlaceholder: true,
+    disabled: true,
+  },
+  "Reward 3": {
+    name: "Reward 3",
+    description: "A reward for your war efforts.",
+    type: LimitedItemType.WarTentItem,
+    disabled: true,
+  },
+  "Reward 4": {
+    name: "Reward 4",
+    description: "A reward for your war efforts.",
+    type: LimitedItemType.WarTentItem,
+    disabled: true,
+  },
+  "Reward 5": {
+    name: "Reward 5",
+    description: "A reward for your war efforts.",
+    type: LimitedItemType.WarTentItem,
+    disabled: true,
+  },
+  "Reward 6": {
+    name: "Reward 6",
+    description: "A reward for your war efforts.",
+    type: LimitedItemType.WarTentItem,
+    disabled: true,
+  },
+  "Reward 7": {
+    name: "Reward 7",
+    description: "A reward for your war efforts.",
+    type: LimitedItemType.WarTentItem,
+    disabled: true,
+  },
+  "Reward 8": {
+    name: "Reward 8",
+    description: "A reward for your war efforts.",
+    type: LimitedItemType.WarTentItem,
     disabled: true,
   },
 };

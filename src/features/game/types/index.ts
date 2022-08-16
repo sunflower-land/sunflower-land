@@ -184,6 +184,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Goblin War Point": 919,
   "Human War Banner": 920,
   "Goblin War Banner": 921,
+  "Reward 1": 922,
+  "Reward 2": 923,
+  "Reward 3": 924,
+  "Reward 4": 925,
+  "Reward 5": 926,
+  "Reward 6": 927,
+  "Reward 7": 928,
+  "Reward 8": 929,
 
   // Buildings
   "Fire Pit": 1001,

@@ -22,7 +22,7 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
           <div className="flex">
             <Tab isActive={true}>
               <img src={sword} className="h-5 mr-2" />
-              <span className="text-sm text-shadow">Rare</span>
+              <span className="text-sm text-shadow">Rewards</span>
             </Tab>
           </div>
           <img
