@@ -26,10 +26,10 @@ export const WarIntro: React.FC = () => {
   const Content = () => {
     if (state === "intro") {
       return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center px-1">
           <span>A war is brewing</span>
           <div className="flex items-end">
-            <img src={femaleGoblin} className="w-12" />
+            <img src={femaleGoblin} className="w-12 mr-1" />
             <img
               src={femaleHuman}
               className="w-11"
@@ -39,8 +39,11 @@ export const WarIntro: React.FC = () => {
             />
           </div>
           <span className="text-sm mt-2">
-            Tensions are rising in Sunflower Land. The goblins and humans are
-            recruiting players to help the war effort.
+            Tensions are rising in Sunflower Land.
+          </span>
+          <span className="text-sm mt-2 mb-2">
+            The goblins and humans are recruiting players to help the war
+            effort.
           </span>
           <Button onClick={() => setState("collectResources")}>Continue</Button>
         </div>
@@ -49,7 +52,7 @@ export const WarIntro: React.FC = () => {
 
     if (state === "collectResources") {
       return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center px-1">
           <span>Collect resources</span>
           <img src={warCollection} className="w-36 mt-2" />
           <span className="text-sm mt-2">
@@ -66,7 +69,7 @@ export const WarIntro: React.FC = () => {
 
     if (state === "warBonds") {
       return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center px-1">
           <span>War Bonds</span>
           <img src={warBond} className="w-36 mt-2" />
           <span className="text-sm mt-2">
@@ -83,7 +86,7 @@ export const WarIntro: React.FC = () => {
 
     if (state === "rewards") {
       return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center px-1">
           <span>Rewards</span>
           <img src={chest} className="w-16 mt-2" />
           <span className="text-sm mt-2">
@@ -101,10 +104,10 @@ export const WarIntro: React.FC = () => {
 
     if (state === "getReady") {
       return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center px-1">
           <span>Pick a side</span>
           <div className="flex items-end">
-            <img src={femaleGoblin} className="w-12" />
+            <img src={femaleGoblin} className="w-12 mr-1" />
             <img
               src={femaleHuman}
               className="w-11"
@@ -117,8 +120,7 @@ export const WarIntro: React.FC = () => {
             Get ready, the war begins on the 5th of September.
           </span>
           <span className="text-sm mt-3 mb-2">
-            It is time to choose a side. Once you choose a side this cannot be
-            undone.
+            It is time to choose a side. You cannot change sides.
           </span>
           <Button onClick={() => setState("chooseSide")}>Continue</Button>
         </div>
