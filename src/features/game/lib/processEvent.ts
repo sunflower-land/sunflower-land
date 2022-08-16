@@ -33,6 +33,8 @@ const maxItems: Inventory = {
   Wood: new Decimal("500"),
 
   "War Bond": new Decimal(100),
+  "Human War Banner": new Decimal(1),
+  "Goblin War Banner": new Decimal(1),
 
   // Max of 1 food item
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(
