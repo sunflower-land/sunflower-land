@@ -1,7 +1,7 @@
 import React from "react";
 
-import femaleGoblin from "assets/npcs/goblin_female.gif";
-import femaleHuman from "assets/npcs/human_female.gif";
+import humanBanner from "assets/nfts/human_banner.png";
+import goblinBanner from "assets/nfts/goblin_banner.png";
 import firelighter from "assets/quest/firelighter.gif";
 
 import classNames from "classnames";
@@ -24,7 +24,7 @@ export const PickSide: React.FC<Props> = ({ isOpen }) => {
           <div className="flex flex-col max-w-3xl">
             <div className="flex justify-evenly">
               <img
-                src={femaleHuman}
+                src={humanBanner}
                 className="animate-float cursor-pointer"
                 style={{
                   width: `${14 * PIXEL_SCALE}px`,
@@ -32,7 +32,7 @@ export const PickSide: React.FC<Props> = ({ isOpen }) => {
                 }}
               />
               <img
-                src={femaleGoblin}
+                src={goblinBanner}
                 className="animate-float cursor-pointer"
                 style={{
                   width: `${14 * PIXEL_SCALE * 2}px`,
