@@ -3,7 +3,6 @@ import { EVENTS, GameEvent } from "../events";
 import { FOODS, getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
-import { INITIAL_STOCK } from "./constants";
 
 const maxItems: Inventory = {
   // Seed limits + buffer of 10
@@ -24,8 +23,16 @@ const maxItems: Inventory = {
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
 
-  // Stock limits
-  ...INITIAL_STOCK,
+  "Sunflower Seed": new Decimal(410),
+  "Potato Seed": new Decimal(210),
+  "Pumpkin Seed": new Decimal(110),
+  "Carrot Seed": new Decimal(110),
+  "Cabbage Seed": new Decimal(100),
+  "Beetroot Seed": new Decimal(90),
+  "Cauliflower Seed": new Decimal(90),
+  "Parsnip Seed": new Decimal(50),
+  "Radish Seed": new Decimal(50),
+  "Wheat Seed": new Decimal(50),
 
   Gold: new Decimal("90"),
   Iron: new Decimal("400"),
