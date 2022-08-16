@@ -10,7 +10,7 @@ export const GoblinWar: React.FC = () => {
   }
 
   // TODO
-  const hasPickedSide = false;
+  const hasPickedSide = true;
 
   if (!hasPickedSide) {
     return <WarIntro />;
