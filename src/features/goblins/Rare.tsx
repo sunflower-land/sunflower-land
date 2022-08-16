@@ -37,26 +37,24 @@ const API_URL = CONFIG.API_URL;
 
 const getWarBondDetails = (
   name: InventoryItemName
-): { bondAmount: number; supply: number } => {
+): { bondAmount: string; supply: number } => {
   switch (name) {
     case "Reward 1":
-      return { bondAmount: 10, supply: 10000 };
+      return { bondAmount: "250", supply: 20000 };
     case "Reward 2":
-      return { bondAmount: 25, supply: 10000 };
+      return { bondAmount: "700", supply: 20000 };
     case "Reward 3":
-      return { bondAmount: 50, supply: 10000 };
+      return { bondAmount: "2000", supply: 20000 };
     case "Reward 4":
-      return { bondAmount: 100, supply: 10000 };
+      return { bondAmount: "2000", supply: 1000 }; // 20
     case "Reward 5":
-      return { bondAmount: 250, supply: 500 };
+      return { bondAmount: "2000", supply: 1000 }; // 20
     case "Reward 6":
-      return { bondAmount: 500, supply: 500 };
+      return { bondAmount: "2000", supply: 1000 }; // 20
     case "Reward 7":
-      return { bondAmount: 1000, supply: 200 };
     case "Reward 8":
-      return { bondAmount: 10000, supply: 100 };
     default:
-      return { bondAmount: 0, supply: 0 };
+      return { bondAmount: "?", supply: 100 };
   }
 };
 
