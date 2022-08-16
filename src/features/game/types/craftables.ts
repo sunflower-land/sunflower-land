@@ -24,7 +24,8 @@ export type CraftableName =
   | Animal
   | Flag
   | Shovel
-  | TravelingSalesmanItem;
+  | TravelingSalesmanItem
+  | WarBanner;
 
 export interface Craftable {
   name: CraftableName;
@@ -123,6 +124,8 @@ export type MarketItem =
   | "Golden Cauliflower"
   | "Mysterious Parsnip"
   | "Carrot Sword";
+
+export type WarBanner = "Human War Banner" | "Goblin War Banner";
 
 export type LimitedItemName =
   | BlacksmithItem
@@ -603,6 +606,17 @@ export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
   },
 };
 
+export const WAR_BANNERS: Record<WarBanner, CraftableItem> = {
+  "Goblin War Banner": {
+    name: "Goblin War Banner",
+    description: "A display of allegiance to the Goblin cause",
+  },
+  "Human War Banner": {
+    name: "Human War Banner",
+    description: "A display of allegiance to the Human cause",
+  },
+};
+
 export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
@@ -846,6 +860,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...MUTANT_CHICKENS,
   ...SHOVELS,
   ...SALESMAN_ITEMS,
+  ...WAR_BANNERS,
 });
 
 /**

@@ -22,6 +22,7 @@ import {
   MUTANT_CHICKENS,
   SHOVELS,
   SALESMAN_ITEMS,
+  WAR_BANNERS,
 } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 
@@ -77,8 +78,7 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
       ...ROCKET_ITEMS,
       ...MUTANT_CHICKENS,
       ...SALESMAN_ITEMS,
-      "Human War Banner": {},
-      "Goblin War Banner": {},
+      ...WAR_BANNERS,
     },
   },
   "Quest Items": {
