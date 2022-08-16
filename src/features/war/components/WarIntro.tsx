@@ -41,7 +41,7 @@ export const WarIntro: React.FC<Props> = ({ onPickSide }) => {
   }, []);
 
   const pickSide = (side: WarSide) => {
-    warChant.pause();
+    warChant.fade(0.2, 0, 2000);
     onPickSide(side);
   };
   const Content = () => {

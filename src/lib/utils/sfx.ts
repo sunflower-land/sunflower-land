@@ -130,5 +130,5 @@ export const burningSound = new Howl({
 
 export const warChant = new Howl({
   src: [warChantMp3],
-  volume: 0.5,
+  volume: 0.2,
 });
