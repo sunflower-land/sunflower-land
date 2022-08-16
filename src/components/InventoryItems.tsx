@@ -77,6 +77,8 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
       ...ROCKET_ITEMS,
       ...MUTANT_CHICKENS,
       ...SALESMAN_ITEMS,
+      "Human War Banner": {},
+      "Goblin War Banner": {},
     },
   },
   "Quest Items": {

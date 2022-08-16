@@ -148,6 +148,7 @@ import warBond from "assets/icons/warBond.png";
 
 // Banners
 import goblinBanner from "assets/nfts/goblin_banner.png";
+import humanBanner from "assets/nfts/human_banner.png";
 
 // Egg
 import redEgg from "src/assets/nfts/easter/red_egg.png";
@@ -648,11 +649,11 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
   },
   "Human War Banner": {
-    description: "A display of allegiance",
-    image: questionMark,
+    description: "A display of allegiance to the Human cause",
+    image: humanBanner,
   },
   "Goblin War Banner": {
-    description: "A display of allegiance",
+    description: "A display of allegiance to the Goblin cause",
     image: goblinBanner,
   },
 

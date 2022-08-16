@@ -117,7 +117,7 @@ export const WarCollection: React.FC<{ side: WarSide }> = ({ side }) => {
                 src={maleHuman}
                 className="absolute right-12 -bottom-2 cursor-pointer hover:img-highlight"
                 style={{
-                  width: `${PIXEL_SCALE * 16}px`,
+                  width: `${PIXEL_SCALE * 14.5}px`,
                   transform: "scaleX(-1)",
                 }}
                 onClick={() => setShowModal(true)}
