@@ -6,6 +6,8 @@ import warCollection from "assets/announcements/warCollection.png";
 import warBond from "assets/icons/warBond.png";
 import chest from "assets/npcs/synced.gif";
 import firelighter from "assets/quest/firelighter.gif";
+import humanBanner from "assets/nfts/human_banner.png";
+import goblinBanner from "assets/nfts/goblin_banner.png";
 
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -170,7 +172,7 @@ export const WarIntro: React.FC<Props> = ({ onPickSide }) => {
             </span>
             <div className="flex justify-evenly">
               <img
-                src={femaleHuman}
+                src={humanBanner}
                 className="animate-float cursor-pointer"
                 style={{
                   width: `${14 * PIXEL_SCALE * 2}px`,
@@ -179,7 +181,7 @@ export const WarIntro: React.FC<Props> = ({ onPickSide }) => {
                 onClick={() => pickSide(WarSide.Human)}
               />
               <img
-                src={femaleGoblin}
+                src={goblinBanner}
                 className="animate-float cursor-pointer"
                 style={{
                   width: `${14 * PIXEL_SCALE * 2}px`,
