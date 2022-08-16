@@ -137,7 +137,7 @@ export const Game: React.FC = () => {
       <Lore />
       <GoblinShovel />
       <Airdrop />
-      <GoblinWar />
+      {!gameState.matches("loading") && <GoblinWar />}
     </>
   );
 };

@@ -36,6 +36,7 @@ export enum Section {
   "Fat Chicken" = "fat-chicken",
   "Rooster" = "rooster",
   "Wicker Man" = "wicker-man",
+  "War Recruiter" = "war-recruiter",
 
   // Land
   GenesisBlock = "genesisBlock",
