@@ -14,6 +14,7 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { warChant } from "lib/utils/sfx";
 
 interface Props {
   onPickSide: (side: WarSide) => void;
@@ -31,11 +32,18 @@ export const WarIntro: React.FC<Props> = ({ onPickSide }) => {
   >("intro");
 
   useEffect(() => {
+    if (!warChant.playing()) {
+      warChant.play();
+    }
     return () => {
       scrollIntoView(Section["War Recruiter"]);
     };
   }, []);
 
+  const pickSide = (side: WarSide) => {
+    warChant.fade(0.2, 0, 2000);
+    onPickSide(side);
+  };
   const Content = () => {
     if (state === "intro") {
       return (
@@ -168,7 +176,7 @@ export const WarIntro: React.FC<Props> = ({ onPickSide }) => {
                   width: `${14 * PIXEL_SCALE * 2}px`,
                   filter: "drop-shadow(0px 0px 8px rgba(255,249,78,0.69))",
                 }}
-                onClick={() => onPickSide(WarSide.Human)}
+                onClick={() => pickSide(WarSide.Human)}
               />
               <img
                 src={femaleGoblin}
@@ -177,7 +185,7 @@ export const WarIntro: React.FC<Props> = ({ onPickSide }) => {
                   width: `${14 * PIXEL_SCALE * 2}px`,
                   filter: "drop-shadow(0px 0px 8px rgba(255 ,79,79,0.69))",
                 }}
-                onClick={() => onPickSide(WarSide.Goblin)}
+                onClick={() => pickSide(WarSide.Goblin)}
               />
             </div>
             <div className="flex justify-between">
