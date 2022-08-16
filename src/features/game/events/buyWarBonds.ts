@@ -42,10 +42,7 @@ export function buyWarBonds({ state }: Options): GameState {
     "War Bond": warBonds.add(offer.warBonds),
   };
 
-  // TODO - base on their allegiance
-  const side: "goblin" | "human" = "goblin";
-
-  if (side === "goblin") {
+  if (inventory["Goblin War Banner"]) {
     inventory["Goblin War Point"] = (
       inventory["Goblin War Point"] || new Decimal(0)
     ).add(offer.warBonds);

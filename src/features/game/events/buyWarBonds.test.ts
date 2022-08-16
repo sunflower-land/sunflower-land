@@ -22,6 +22,7 @@ describe("buyWarBonds", () => {
           ...INITIAL_FARM,
           inventory: {
             Wood: new Decimal(15),
+            "Goblin War Banner": new Decimal(1),
           },
           warCollectionOffer: {
             endAt: new Date(Date.now() + 1000).toISOString(),
@@ -47,6 +48,7 @@ describe("buyWarBonds", () => {
         inventory: {
           Wood: new Decimal(25),
           Sunflower: new Decimal(5),
+          "Goblin War Banner": new Decimal(1),
           "War Bond": new Decimal(2),
         },
         warCollectionOffer: {
@@ -69,6 +71,7 @@ describe("buyWarBonds", () => {
       Sunflower: new Decimal(5),
       "War Bond": new Decimal(14),
       "Goblin War Point": new Decimal(12),
+      "Goblin War Banner": new Decimal(1),
     });
   });
 
@@ -79,6 +82,7 @@ describe("buyWarBonds", () => {
         inventory: {
           Wood: new Decimal(100),
           Sunflower: new Decimal(5),
+          "Goblin War Banner": new Decimal(1),
           "War Bond": new Decimal(2),
         },
         warCollectionOffer: {
@@ -106,6 +110,7 @@ describe("buyWarBonds", () => {
       Sunflower: new Decimal(5),
       "War Bond": new Decimal(26),
       "Goblin War Point": new Decimal(24),
+      "Goblin War Banner": new Decimal(1),
     });
   });
 
@@ -115,6 +120,7 @@ describe("buyWarBonds", () => {
         ...INITIAL_FARM,
         inventory: {
           Wood: new Decimal(100),
+          "Goblin War Banner": new Decimal(1),
           "Goblin War Point": new Decimal(5),
         },
         warCollectionOffer: {
@@ -135,5 +141,30 @@ describe("buyWarBonds", () => {
     expect(state.inventory["Goblin War Point"]).toEqual(new Decimal(17));
   });
 
-  it.todo("mints human war points");
+  it("mints human war points", () => {
+    const state = buyWarBonds({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Wood: new Decimal(100),
+          "Goblin War Point": new Decimal(5),
+          "Human War Banner": new Decimal(1),
+        },
+        warCollectionOffer: {
+          endAt: new Date(Date.now() + 1000).toISOString(),
+          startAt: new Date().toISOString(),
+          ingredients: [
+            {
+              amount: 20,
+              name: "Wood",
+            },
+          ],
+          warBonds: 12,
+        },
+      },
+      action: { type: "warBonds.bought" },
+    });
+
+    expect(state.inventory["Human War Point"]).toEqual(new Decimal(12));
+  });
 });
