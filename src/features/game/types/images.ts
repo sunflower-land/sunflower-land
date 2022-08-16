@@ -974,4 +974,37 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "TEST",
   },
+
+  "Reward 1": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 2": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 3": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 4": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 5": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 6": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 7": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 8": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
 };

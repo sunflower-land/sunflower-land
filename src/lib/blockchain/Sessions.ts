@@ -82,9 +82,16 @@ export class SessionManager {
         .getRecipeBatch(ids)
         .call({ from: this.account });
 
-      // For UI purposes, do not show the wei values
-      const ethBasedRecipes = recipes.map((recipe) => ({
+      // Undefined recipes come back with ID 0. Map the provided ID into the recipe.
+      const recipesWithIds = recipes.map((recipe, i) => ({
         ...recipe,
+        mintId: ids[i],
+      }));
+
+      // For UI purposes, do not show the wei values
+      const ethBasedRecipes = recipesWithIds.map((recipe, i) => ({
+        ...recipe,
+
         tokenAmount: recipe.tokenAmount
           ? Number(fromWei(recipe.tokenAmount.toString()))
           : 0,
