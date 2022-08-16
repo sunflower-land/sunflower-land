@@ -9,6 +9,7 @@ import {
 import warBond from "src/assets/icons/warBond.png";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
+import { getWarBonds } from "features/game/events/buyWarBonds";
 
 interface Props {
   onCraft: () => void;
@@ -40,10 +41,12 @@ export const WarCollectionOffer: React.FC<Props> = ({
     );
   };
 
+  const warBonds = getWarBonds(inventory, offer.warBonds);
+
   return (
     <div className="flex">
       <div className="flex flex-col justify-center items-center p-2 relative w-full">
-        <span className="text-shadow text-center">{`${offer.warBonds} x war bonds`}</span>
+        <span className="text-shadow text-center">{`${warBonds} x war bonds`}</span>
         <img src={warBond} className="h-16 img-highlight mt-1" alt="War bond" />
         <span className="text-shadow text-center mt-2 text-xs">
           Exchange for rare items

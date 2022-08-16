@@ -3,6 +3,9 @@ import { useActor } from "@xstate/react";
 
 import femaleGoblin from "assets/npcs/goblin_female.gif";
 import femaleHuman from "assets/npcs/human_female.gif";
+import sword from "assets/nfts/quest/ancient_goblin_sword.png";
+import warhammer from "assets/nfts/quest/ancient_human_warhammer.png";
+
 import close from "assets/icons/close.png";
 import stopwatch from "assets/icons/stopwatch.png";
 import warBond from "assets/icons/warBond.png";
@@ -16,6 +19,7 @@ import { WarCollectionOffer as Offer } from "features/game/types/game";
 import { WarCollectionOffer } from "./WarCollectionOffer";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
+import { getWarBonds } from "features/game/events/buyWarBonds";
 
 interface Props {
   onClose: () => void;
@@ -33,13 +37,24 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
   console.log({ warCollectionOffer });
 
   const [state, setState] = useState<
-    "noOffer" | "intro" | "showOffer" | "exchanged"
+    "noOffer" | "intro" | "ancientWeapon" | "showOffer" | "exchanged"
   >(warCollectionOffer ? "intro" : "noOffer");
   const { setToast } = useContext(ToastContext);
 
   const secondsLeft =
     (new Date(warCollectionOffer?.endAt as string).getTime() - Date.now()) /
     1000;
+
+  const showOffer = () => {
+    if (
+      inventory["Ancient Goblin Sword"] ||
+      inventory["Ancient Human Warhammer"]
+    ) {
+      setState("ancientWeapon");
+    } else {
+      setState("showOffer");
+    }
+  };
 
   const exchange = () => {
     gameService.send("warBonds.bought");
@@ -52,9 +67,11 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
       });
     });
 
+    const warBonds = getWarBonds(inventory, warCollectionOffer?.warBonds || 0);
+
     setToast({
       icon: warBond,
-      content: `+${warCollectionOffer?.warBonds}`,
+      content: `+${warBonds}`,
     });
 
     setState("exchanged");
@@ -95,6 +112,27 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
     );
   }
 
+  if (state === "ancientWeapon") {
+    return (
+      <div className="flex flex-col items-center">
+        <img
+          src={close}
+          className="h-6 top-4 right-4 absolute cursor-pointer z-10"
+          onClick={onClose}
+        />
+        <span>You are a warrior!</span>
+        <img
+          src={inventory["Ancient Goblin Sword"] ? sword : warhammer}
+          className="w-16 my-1"
+        />
+        <p className="sm:text-sm p-2">
+          I will give you bonus war tokens in exchange for resources
+        </p>
+        <Button onClick={() => setState("showOffer")}>{`Continue`}</Button>
+      </div>
+    );
+  }
+
   if (state === "showOffer") {
     return (
       <WarCollectionOffer
@@ -130,7 +168,7 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
           separator: " ",
         })} left`}</span>
       </span>
-      <Button onClick={() => setState("showOffer")}>{`Continue`}</Button>
+      <Button onClick={showOffer}>{`Continue`}</Button>
     </div>
   );
 };

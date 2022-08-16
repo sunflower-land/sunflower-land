@@ -164,7 +164,34 @@ describe("buyWarBonds", () => {
       },
       action: { type: "warBonds.bought" },
     });
-
     expect(state.inventory["Human War Point"]).toEqual(new Decimal(12));
+  });
+
+  it("mints extra items if they have an ancient warhammer", () => {
+    const state = buyWarBonds({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Wood: new Decimal(100),
+          "Ancient Human Warhammer": new Decimal(1),
+          "Human War Banner": new Decimal(1),
+        },
+        warCollectionOffer: {
+          endAt: new Date(Date.now() + 1000).toISOString(),
+          startAt: new Date().toISOString(),
+          ingredients: [
+            {
+              amount: 20,
+              name: "Wood",
+            },
+          ],
+          warBonds: 10,
+        },
+      },
+      action: { type: "warBonds.bought" },
+    });
+
+    expect(state.inventory["Human War Point"]).toEqual(new Decimal(11));
+    expect(state.inventory["War Bond"]).toEqual(new Decimal(11));
   });
 });

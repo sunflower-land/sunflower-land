@@ -1,3 +1,4 @@
+import { Inventory } from "components/InventoryItems";
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../types/game";
@@ -11,6 +12,18 @@ type Options = {
   action: CollectWarBonds;
   createdAt?: number;
 };
+
+export function getWarBonds(inventory: Inventory, amount: number) {
+  // No boost
+  if (
+    !inventory["Ancient Goblin Sword"] &&
+    !inventory["Ancient Human Warhammer"]
+  ) {
+    return amount;
+  }
+
+  return Math.floor(amount * 1.1);
+}
 
 export function buyWarBonds({ state }: Options): GameState {
   const game = cloneDeep(state);
@@ -37,19 +50,20 @@ export function buyWarBonds({ state }: Options): GameState {
 
   const warBonds = game.inventory["War Bond"] || new Decimal(0);
 
+  const offeredAmount = getWarBonds(game.inventory, offer.warBonds);
   const inventory = {
     ...subtractedInventory,
-    "War Bond": warBonds.add(offer.warBonds),
+    "War Bond": warBonds.add(offeredAmount),
   };
 
   if (inventory["Goblin War Banner"]) {
     inventory["Goblin War Point"] = (
       inventory["Goblin War Point"] || new Decimal(0)
-    ).add(offer.warBonds);
+    ).add(offeredAmount);
   } else {
     inventory["Human War Point"] = (
       inventory["Human War Point"] || new Decimal(0)
-    ).add(offer.warBonds);
+    ).add(offeredAmount);
   }
 
   return {
