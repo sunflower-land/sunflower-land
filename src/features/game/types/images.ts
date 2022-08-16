@@ -146,6 +146,9 @@ import liquidityProvider from "assets/skills/liquidity_provider.png";
 import ticket from "assets/icons/ticket.png";
 import warBond from "assets/icons/warBond.png";
 
+// Banners
+import goblinBanner from "assets/nfts/goblin_banner.png";
+
 // Egg
 import redEgg from "src/assets/nfts/easter/red_egg.png";
 import yellowEgg from "src/assets/nfts/easter/yellow_egg.png";
@@ -643,6 +646,14 @@ export const ITEM_DETAILS: Items = {
   "Human War Point": {
     description: "A display of allegiance",
     image: questionMark,
+  },
+  "Human War Banner": {
+    description: "A display of allegiance",
+    image: questionMark,
+  },
+  "Goblin War Banner": {
+    description: "A display of allegiance",
+    image: goblinBanner,
   },
 
   /**

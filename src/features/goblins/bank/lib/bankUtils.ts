@@ -129,6 +129,8 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return goldReady;
   }
 
+  if (item === "Human War Banner" || item === "Goblin War Banner") return false;
+
   // Tools, Crops, Resources
   return true;
 }

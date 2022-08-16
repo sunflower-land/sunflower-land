@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { Panel } from "components/ui/Panel";
-import { Modal } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 
 import femaleGoblin from "assets/npcs/goblin_female.gif";
 import femaleHuman from "assets/npcs/human_female.gif";
@@ -9,11 +7,20 @@ import warBond from "assets/icons/warBond.png";
 import chest from "assets/npcs/synced.gif";
 import firelighter from "assets/quest/firelighter.gif";
 
-import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { WarSide } from "features/game/events/pickSide";
+import { Modal } from "react-bootstrap";
+import { Panel } from "components/ui/Panel";
+import { Button } from "components/ui/Button";
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
-export const WarIntro: React.FC = () => {
+interface Props {
+  onPickSide: (side: WarSide) => void;
+}
+
+export const WarIntro: React.FC<Props> = ({ onPickSide }) => {
+  const [scrollIntoView] = useScrollIntoView();
   const [state, setState] = useState<
     | "intro"
     | "collectResources"
@@ -22,6 +29,12 @@ export const WarIntro: React.FC = () => {
     | "getReady"
     | "chooseSide"
   >("intro");
+
+  useEffect(() => {
+    return () => {
+      scrollIntoView(Section["War Recruiter"]);
+    };
+  }, []);
 
   const Content = () => {
     if (state === "intro") {
@@ -129,6 +142,7 @@ export const WarIntro: React.FC = () => {
 
     return null;
   };
+
   return (
     <>
       <Modal show={state !== "chooseSide"} centered>
@@ -143,14 +157,18 @@ export const WarIntro: React.FC = () => {
         <div className="absolute inset-0 bg-black opacity-90" />
         <div className="absolute inset-0 flex justify-center items-center">
           <div className="flex flex-col max-w-3xl">
+            <span className="cave text-xl sm:text-[30px] text-white text-center mb-10">
+              GET READY FOR WAR
+            </span>
             <div className="flex justify-evenly">
               <img
                 src={femaleHuman}
                 className="animate-float cursor-pointer"
                 style={{
-                  width: `${14 * PIXEL_SCALE}px`,
+                  width: `${14 * PIXEL_SCALE * 2}px`,
                   filter: "drop-shadow(0px 0px 8px rgba(255,249,78,0.69))",
                 }}
+                onClick={() => onPickSide(WarSide.Human)}
               />
               <img
                 src={femaleGoblin}
@@ -159,6 +177,7 @@ export const WarIntro: React.FC = () => {
                   width: `${14 * PIXEL_SCALE * 2}px`,
                   filter: "drop-shadow(0px 0px 8px rgba(255 ,79,79,0.69))",
                 }}
+                onClick={() => onPickSide(WarSide.Goblin)}
               />
             </div>
             <div className="flex justify-between">
@@ -183,12 +202,12 @@ export const WarIntro: React.FC = () => {
             <span className="text-xl text-shadow text-white text-center">
               Team Sunflower or Team Goblin?
             </span>
-            <span className="cave text-xl text-shadow text-white text-center">
-              GET READY FOR WAR
-            </span>
           </div>
         </div>
       </div>
     </>
   );
 };
+function scrollIntoView(arg0: any) {
+  throw new Error("Function not implemented.");
+}

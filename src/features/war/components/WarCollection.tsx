@@ -9,10 +9,9 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { WarCollectors } from "./WarCollectors";
+import { WarSide } from "features/game/events/pickSide";
 
-const side: "goblin" | "human" = Math.random() > 0.5 ? "goblin" : "human";
-
-export const WarCollection: React.FC = () => {
+export const WarCollection: React.FC<{ side: WarSide }> = ({ side }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -30,12 +29,13 @@ export const WarCollection: React.FC = () => {
         }}
       >
         <img
+          id="war-recruiter"
           src={homeBase}
           style={{
             width: `${PIXEL_SCALE * 86}px`,
           }}
         />
-        {side === "goblin" && (
+        {side === WarSide.Goblin && (
           <>
             <img
               src={femaleGoblin}
@@ -56,7 +56,7 @@ export const WarCollection: React.FC = () => {
             />
           </>
         )}
-        {side === "human" && (
+        {side === WarSide.Human && (
           <>
             <img
               src={femaleHuman}
