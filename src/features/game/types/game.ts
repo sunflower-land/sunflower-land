@@ -85,6 +85,8 @@ export type Ticket =
   | "Goblin War Point"
   | "Human War Point";
 
+type WarBanner = "Human War Banner" | "Goblin War Banner";
+
 export type Bumpkin = {
   level: number;
 };
@@ -123,7 +125,8 @@ export type InventoryItemName =
   | Ticket
   | BumpkinItems
   | BuildingName
-  | Fertiliser;
+  | Fertiliser
+  | WarBanner;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
