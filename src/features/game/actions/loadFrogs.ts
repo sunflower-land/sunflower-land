@@ -8,6 +8,12 @@ type Request = {
   frogId: number[];
 };
 
+export type Frog = {
+  pixel_image: string;
+  attributes?: any;
+  [key: string]: any;
+};
+
 export async function loadFrogs() {
   let frogIds = await metamask.getFrog().getFrogIds();
 
@@ -28,7 +34,7 @@ export async function loadFrogs() {
     const result = frogIds.map(
       async (id) => await getFrogMetadata({ frogId: id })
     );
-    const res = await Promise.all(result);
+    const res: Frog[] = await Promise.all(result);
 
     let filteredFrogs = res;
 
@@ -66,7 +72,7 @@ export async function isFrogPreview() {
   return frogBaseUri.includes("preview");
 }
 
-function filterFrogs(frogs = [{}]) {
+function filterFrogs(frogs: Frog[]) {
   console.log("being filtered", frogs);
 
   frogs.sort(compare);
@@ -106,7 +112,7 @@ function filterFrogs(frogs = [{}]) {
   return frogs;
 }
 
-function compare(a = {}, b = {}) {
+function compare(a: Frog, b: Frog) {
   const rarityLadder = ["Common", "Uncommon", "Rare", "Epic", "Legendary"];
   let comparison = 0;
   const a_position = rarityLadder.indexOf(a.attributes[5].value);
