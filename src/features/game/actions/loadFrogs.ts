@@ -19,7 +19,7 @@ export async function loadFrogs() {
 
   // for testing
   // if (false) {
-  if (isFrogPreview()) {
+  if (await isFrogPreview()) {
     if (frogIds.length > 6) {
       frogIds = frogIds.slice(0, 6);
     }
