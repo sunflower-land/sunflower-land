@@ -22,6 +22,8 @@ import {
   MUTANT_CHICKENS,
   SHOVELS,
   SALESMAN_ITEMS,
+  WAR_BANNERS,
+  WAR_TENT_ITEMS,
 } from "features/game/types/craftables";
 import { RESOURCES } from "features/game/types/resources";
 
@@ -59,6 +61,12 @@ const BASKET_CATEGORIES: TabItems = {
   Fertilisers: {
     items: FERTILISERS,
   },
+  Coupons: {
+    items: {
+      "Trading Ticket": {},
+      "War Bond": {},
+    },
+  },
 };
 
 const COLLECTIBLE_CATEGORIES: TabItems = {
@@ -71,6 +79,8 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
       ...ROCKET_ITEMS,
       ...MUTANT_CHICKENS,
       ...SALESMAN_ITEMS,
+      ...WAR_BANNERS,
+      ...WAR_TENT_ITEMS,
     },
   },
   "Quest Items": {

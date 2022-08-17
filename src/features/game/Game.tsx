@@ -35,6 +35,9 @@ import { GoblinShovel } from "features/farming/crops/components/GoblinShovel";
 import { Announcements } from "features/announcements/Announcement";
 import { Notifications } from "./components/Notifications";
 import { Hoarding } from "./components/Hoarding";
+import { Airdrop } from "./components/Airdrop";
+import { GoblinWar } from "features/war/GoblinWar";
+import { CONFIG } from "lib/config";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -134,6 +137,10 @@ export const Game: React.FC = () => {
       />
       <Lore />
       <GoblinShovel />
+      <Airdrop />
+      {CONFIG.NETWORK !== "mainnet" && !gameState.matches("loading") && (
+        <GoblinWar />
+      )}
     </>
   );
 };

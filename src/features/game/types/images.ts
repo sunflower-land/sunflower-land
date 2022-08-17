@@ -144,6 +144,11 @@ import liquidityProvider from "assets/skills/liquidity_provider.png";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
+import warBond from "assets/icons/warBond.png";
+
+// Banners
+import goblinBanner from "assets/nfts/goblin_banner.png";
+import humanBanner from "assets/nfts/human_banner.png";
 
 // Egg
 import redEgg from "src/assets/nfts/easter/red_egg.png";
@@ -630,6 +635,27 @@ export const ITEM_DETAILS: Items = {
       "Free trades! Woohoo! If you accept this offer, don't forget to sync after to make them available in Goblin Village",
     image: ticket,
   },
+  "War Bond": {
+    description:
+      "A mark of a true warrior. Exchange at Goblin village for rare items.",
+    image: warBond,
+  },
+  "Goblin War Point": {
+    description: "A display of allegiance",
+    image: questionMark,
+  },
+  "Human War Point": {
+    description: "A display of allegiance",
+    image: questionMark,
+  },
+  "Human War Banner": {
+    description: "A display of allegiance to the Human cause",
+    image: humanBanner,
+  },
+  "Goblin War Banner": {
+    description: "A display of allegiance to the Goblin cause",
+    image: goblinBanner,
+  },
 
   /**
    * Flags
@@ -947,5 +973,38 @@ export const ITEM_DETAILS: Items = {
   Workbench: {
     image: questionMark,
     description: "TEST",
+  },
+
+  "Reward 1": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 2": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 3": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 4": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 5": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 6": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 7": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 8": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
   },
 };

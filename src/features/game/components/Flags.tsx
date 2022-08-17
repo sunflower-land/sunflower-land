@@ -24,7 +24,7 @@ export const Flags: React.FC<Props> = ({ state }) => {
         style={{
           width: `${GRID_WIDTH_PX * 3}px`,
           right: `${GRID_WIDTH_PX * 43.8}px`,
-          top: `${GRID_WIDTH_PX * 35.5}px`,
+          top: `${GRID_WIDTH_PX * 38.5}px`,
         }}
         className="flex absolute justify-center"
       >

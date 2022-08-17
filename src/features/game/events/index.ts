@@ -33,8 +33,23 @@ import { PebbleStrikeAction, strikePebble } from "./landExpansion/pebbleStrike";
 import { chopShrub, ChopShrubAction } from "./chopShrub";
 import { reveal, RevealAction } from "./revealExpansion";
 import { fertiliseCrop, FertiliseCropAction } from "./fertiliseCrop";
+import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
+import {
+  placeBuilding,
+  PlaceBuildingAction,
+} from "./landExpansion/placeBuilding";
+import {
+  constructBuilding,
+  ConstructBuildingAction,
+} from "./landExpansion/constructBuilding";
+import {
+  placeCollectible,
+  PlaceCollectibleAction,
+} from "./landExpansion/placeCollectible";
+import { buyWarBonds, CollectWarBonds as BuyWarBonds } from "./buyWarBonds";
+import { pickSide, PickSide } from "./pickSide";
 
-export type GameEvent =
+export type PlayingEvent =
   | CraftAction
   | SellAction
   | PlantAction
@@ -56,22 +71,31 @@ export type GameEvent =
   | TradeAction
   | ChopShrubAction
   | RevealAction
-  | FertiliseCropAction;
+  | FertiliseCropAction
+  | ClaimAirdropAction
+  | BuyWarBonds
+  | PickSide;
 
-export type EventName = Extract<GameEvent, { type: string }>["type"];
+export type PlacementEvent =
+  | ConstructBuildingAction
+  | PlaceBuildingAction
+  | PlaceCollectibleAction;
+
+export type GameEvent = PlayingEvent | PlacementEvent;
+export type GameEventName<T> = Extract<T, { type: string }>["type"];
 
 /**
  * Type which enables us to map the event name to the payload containing that event name
  */
-type Handlers = {
-  [Name in EventName]: (options: {
+type Handlers<T> = {
+  [Name in GameEventName<T>]: (options: {
     state: GameState;
     // Extract the correct event payload from the list of events
-    action: Extract<GameEvent, { type: Name }>;
+    action: Extract<GameEventName<T>, { type: Name }>;
   }) => GameState;
 };
 
-export const EVENTS: Handlers = {
+export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "item.planted": plant,
   "item.harvested": harvest,
   "item.crafted": craft,
@@ -85,6 +109,9 @@ export const EVENTS: Handlers = {
   "chicken.feed": feedChicken,
   "item.traded": trade,
   "item.removed": removeCrop,
+  "airdrop.claimed": claimAirdrop,
+  "warBonds.bought": buyWarBonds,
+  "side.picked": pickSide,
   // Land Expansion Handlers
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,
@@ -95,3 +122,11 @@ export const EVENTS: Handlers = {
   "rock.mined": landExpansionMineStone,
   "item.fertilised": fertiliseCrop,
 };
+
+export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
+  "building.constructed": constructBuilding,
+  "building.placed": placeBuilding,
+  "collectible.placed": placeCollectible,
+};
+
+export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

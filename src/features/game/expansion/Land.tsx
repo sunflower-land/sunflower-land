@@ -4,7 +4,7 @@ import { MapPlacement } from "./components/MapPlacement";
 import { useActor } from "@xstate/react";
 import { Context } from "../GameProvider";
 import { getTerrainImageByKey } from "../lib/getTerrainImageByKey";
-import { getKeys } from "../types/craftables";
+import { COLLECTIBLES_DIMENSIONS, getKeys } from "../types/craftables";
 import { Plot } from "features/farming/crops/components/landExpansion/Plot";
 import { Tree } from "./components/resources/Tree";
 import { Pebble } from "./components/resources/Pebble";
@@ -17,8 +17,9 @@ import { TerrainPlacement } from "./components/TerrainPlacement";
 import { EXPANSION_ORIGINS } from "./lib/constants";
 import { Stone } from "./components/resources/Stone";
 import { Placeable } from "./placeable/Placeable";
-import { BuildingName, PLACEABLES_DIMENSIONS } from "../types/buildings";
+import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
+import { ITEM_DETAILS } from "../types/images";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -154,9 +155,7 @@ export const Land: React.FC = () => {
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
 
-  const { expansions } = state;
-
-  const buildings = gameState.context.state.buildings;
+  const { expansions, buildings, collectibles } = state;
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -199,13 +198,13 @@ export const Land: React.FC = () => {
 
         {getKeys(buildings).flatMap((name) => {
           const items = buildings[name];
-          return items?.map((building) => {
+          return items?.map((building, index) => {
             const { x, y } = building.coordinates;
-            const { width, height } = PLACEABLES_DIMENSIONS[name];
+            const { width, height } = BUILDINGS_DIMENSIONS[name];
 
             return (
               <MapPlacement
-                key={building.id}
+                key={index}
                 x={x}
                 y={y}
                 height={height}
@@ -216,6 +215,28 @@ export const Land: React.FC = () => {
                   building={building}
                   name={name as BuildingName}
                 />
+              </MapPlacement>
+            );
+          });
+        })}
+
+        {getKeys(collectibles).flatMap((name) => {
+          const items = collectibles[name];
+          return items?.map((collectible, index) => {
+            const { x, y } = collectible.coordinates;
+            const { width, height } = COLLECTIBLES_DIMENSIONS[name];
+
+            return (
+              <MapPlacement
+                key={index}
+                x={x}
+                y={y}
+                height={height}
+                width={width}
+              >
+                <div className="flex justify-center w-full h-full">
+                  <img src={ITEM_DETAILS[name].image} alt={name} />
+                </div>
               </MapPlacement>
             );
           });

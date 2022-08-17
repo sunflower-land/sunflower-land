@@ -24,6 +24,8 @@ import Decimal from "decimal.js-light";
 import token from "assets/icons/token.gif";
 import timer from "assets/icons/timer.png";
 import busyGoblin from "assets/npcs/goblin_doing.gif";
+import warBond from "src/assets/icons/warBond.png";
+
 import { KNOWN_IDS, LimitedItemType } from "features/game/types";
 import { mintCooldown } from "./blacksmith/lib/mintUtils";
 import { secondsToString } from "lib/utils/time";
@@ -32,6 +34,29 @@ import { ProgressBar } from "components/ui/ProgressBar";
 const TAB_CONTENT_HEIGHT = 360;
 
 const API_URL = CONFIG.API_URL;
+
+const getWarBondDetails = (
+  name: InventoryItemName
+): { bondAmount: string; supply: number } => {
+  switch (name) {
+    case "Reward 1":
+      return { bondAmount: "250", supply: 20000 };
+    case "Reward 2":
+      return { bondAmount: "700", supply: 20000 };
+    case "Reward 3":
+      return { bondAmount: "2000", supply: 20000 };
+    case "Reward 4":
+      return { bondAmount: "2000", supply: 1000 }; // 20
+    case "Reward 5":
+      return { bondAmount: "2000", supply: 1000 }; // 20
+    case "Reward 6":
+      return { bondAmount: "2000", supply: 1000 }; // 20
+    case "Reward 7":
+    case "Reward 8":
+    default:
+      return { bondAmount: "?", supply: 100 };
+  }
+};
 
 interface Props {
   onClose: () => void;
@@ -113,7 +138,15 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   );
 
   const [selected, setSelected] = useState(Object.values(items)[0]);
-  console.log("Rare!", selected);
+
+  if (selected === undefined) {
+    return (
+      <div className="flex flex-col">
+        <span>Currently Unavailable!</span>
+        <span>Please try again later.</span>
+      </div>
+    );
+  }
 
   // Ingredient difference≥
   const lessIngredients = (amount = 1) =>
@@ -148,6 +181,10 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
 
   if (supply && selected.maxSupply) {
     amountLeft = selected.maxSupply - supply[selected.name]?.toNumber();
+  }
+
+  if (selected.type === LimitedItemType.WarTentItem) {
+    amountLeft = getWarBondDetails(selected.name).supply;
   }
 
   const soldOut = amountLeft <= 0;
@@ -262,7 +299,6 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
               {`${amountLeft} left`}
             </span>
           )}
-
           <span className="text-shadow text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
@@ -272,7 +308,6 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
           <span className="text-shadow text-center mt-2 sm:text-sm">
             {selected.isPlaceholder ? "?" : selected.description}
           </span>
-
           {canCraft && (
             <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
               {selected.ingredients?.map((ingredient, index) => {
@@ -324,39 +359,52 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                   </div>
                 );
               })}
-              {selected.isPlaceholder ? (
-                <span className="text-xs">?</span>
-              ) : (
-                <div className="flex justify-center items-end">
-                  <img src={token} className="h-5 mr-1" />
-                  <span
-                    className={classNames(
-                      "text-xs text-shadow text-center mt-2 ",
-                      {
-                        "text-red-500": lessFunds(),
-                      }
-                    )}
-                  >
-                    {`${selected.tokenAmount?.toNumber()} SFL`}
+
+              {/* Temporary hard coded war bonds to render */}
+              {selected.type === LimitedItemType.WarTentItem && (
+                <div className="flex justify-center flex-wrap items-end">
+                  <img src={warBond} className="h-5 me-2" />
+                  <span className="text-xs text-shadow text-center mt-2">
+                    {getWarBondDetails(selected.name).bondAmount}
                   </span>
                 </div>
               )}
 
-              {selected.cooldownSeconds && (
-                <div className="flex justify-center items-end">
-                  <img src={timer} className="h-5 mr-1" />
-                  <span
-                    className={classNames(
-                      "text-xs text-shadow text-center mt-2 "
-                    )}
-                  >
-                    {secondsToString(selected.cooldownSeconds)}
-                  </span>
-                </div>
-              )}
+              {/* Don't render SFL for war rewards */}
+              {selected.type !== LimitedItemType.WarTentItem &&
+                (selected.isPlaceholder ? (
+                  <span className="text-xs">?</span>
+                ) : (
+                  <div className="flex justify-center items-end">
+                    <img src={token} className="h-5 mr-1" />
+                    <span
+                      className={classNames(
+                        "text-xs text-shadow text-center mt-2 ",
+                        {
+                          "text-red-500": lessFunds(),
+                        }
+                      )}
+                    >
+                      {`${selected.tokenAmount?.toNumber()} SFL`}
+                    </span>
+                  </div>
+                ))}
+
+              {selected.cooldownSeconds !== undefined &&
+                selected.cooldownSeconds > 0 && (
+                  <div className="flex justify-center items-end">
+                    <img src={timer} className="h-5 mr-1" />
+                    <span
+                      className={classNames(
+                        "text-xs text-shadow text-center mt-2 "
+                      )}
+                    >
+                      {secondsToString(selected.cooldownSeconds)}
+                    </span>
+                  </div>
+                )}
             </div>
           )}
-
           {Action()}
         </div>
         <a

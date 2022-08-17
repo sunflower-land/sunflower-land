@@ -484,4 +484,26 @@ describe("canWithdraw", () => {
 
     expect(enabled).toBeFalsy();
   });
+
+  it("prevent a user to withdraw a human war banner", () => {
+    const enabled = canWithdraw({
+      item: "Human War Banner",
+      game: {
+        ...INITIAL_FARM,
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
+  it("prevent a user to withdraw a goblin war banner", () => {
+    const enabled = canWithdraw({
+      item: "Goblin War Banner",
+      game: {
+        ...INITIAL_FARM,
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
 });

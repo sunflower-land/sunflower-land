@@ -1,14 +1,14 @@
 import { Decimal } from "decimal.js-light";
-import { GameEvent } from "../events";
 
 import { CropName, SeedName } from "./crops";
-import { CraftableName, Food, Ingredient } from "./craftables";
+import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
-import { BuildingName, PlaceableName } from "./buildings";
+import { BuildingName } from "./buildings";
+import { GameEvent } from "../events";
 
-export type Reward = {
+export type CropReward = {
   items: {
     name: InventoryItemName;
     amount: number;
@@ -33,7 +33,7 @@ export type FieldItem = {
   // Epoch time in milliseconds
   plantedAt: number;
   multiplier?: number;
-  reward?: Reward;
+  reward?: CropReward;
   fertilisers?: Fertilisers;
 };
 
@@ -79,7 +79,13 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
-export type TradingTicket = "Trading Ticket";
+export type Ticket =
+  | "Trading Ticket"
+  | "War Bond"
+  | "Goblin War Point"
+  | "Human War Point";
+
+type WarBanner = "Human War Banner" | "Goblin War Banner";
 
 export type Bumpkin = {
   level: number;
@@ -116,10 +122,11 @@ export type InventoryItemName =
   | Food
   | MOMEventItem
   | MutantChicken
-  | TradingTicket
+  | Ticket
   | BumpkinItems
   | BuildingName
-  | Fertiliser;
+  | Fertiliser
+  | WarBanner;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -128,7 +135,7 @@ export type Fields = Record<number, FieldItem>;
 export type Chicken = {
   fedAt: number;
   multiplier: number;
-  reward?: Reward;
+  reward?: CropReward;
 };
 
 export type StockExpiry = Partial<Record<InventoryItemName, string>>;
@@ -148,6 +155,16 @@ export type TradeOffer = {
   }[];
 };
 
+export type WarCollectionOffer = {
+  warBonds: number;
+  startAt: string;
+  endAt: string;
+  ingredients: {
+    name: InventoryItemName;
+    amount: number;
+  }[];
+};
+
 export type Position = {
   x: number;
   y: number;
@@ -163,7 +180,7 @@ export type PlantedCrop = {
   name: CropName;
   plantedAt: number;
   amount?: number;
-  reward?: Reward;
+  reward?: CropReward;
   fertilisers?: Fertilisers;
 };
 
@@ -189,16 +206,15 @@ export type LandExpansionPlot = {
   crop?: PlantedCrop;
 } & Position;
 
-export type Building = {
+export type PlacedItem = {
   id: string;
   coordinates: { x: number; y: number };
   readyAt: number;
   createdAt: number;
 };
 
-export type Buildings = Partial<
-  Record<PlaceableName | BuildingName, Building[]>
->;
+export type Buildings = Partial<Record<BuildingName, PlacedItem[]>>;
+export type Collectibles = Partial<Record<CollectibleName, PlacedItem[]>>;
 
 export type LandExpansion = {
   createdAt: number;
@@ -217,6 +233,14 @@ interface ExpansionRequirements {
   resources: Ingredient[];
   seconds: Decimal;
 }
+
+export type Airdrop = {
+  id: string;
+  createdAt: number;
+  items: Partial<Record<InventoryItemName, number>>;
+  sfl: number;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -235,6 +259,9 @@ export interface GameState {
 
   tradedAt?: string;
   tradeOffer?: TradeOffer;
+  airdrops?: Airdrop[];
+
+  warCollectionOffer?: WarCollectionOffer;
 
   inventory: Inventory;
   stock: Inventory;
@@ -251,6 +278,7 @@ export interface GameState {
   expansionRequirements?: ExpansionRequirements;
   bumpkin: Bumpkin;
   buildings: Buildings;
+  collectibles: Collectibles;
 }
 
 export interface Context {

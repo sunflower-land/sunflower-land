@@ -2,8 +2,7 @@ import React, { useRef, useState } from "react";
 import classNames from "classnames";
 
 import { BuildingName } from "features/game/types/buildings";
-import { Building as IBuilding } from "features/game/types/game";
-
+import { PlacedItem as IBuilding } from "features/game/types/game";
 import { FirePit } from "./FirePit";
 import { TimeLeftOverlay } from "components/ui/TimeLeftOverlay";
 import { Bar } from "components/ui/ProgressBar";
@@ -18,7 +17,7 @@ type BuildingProp = {
   id: string;
 };
 
-const BUIDLING_COMPONENTS: Record<BuildingName, React.FC<BuildingProp>> = {
+const BUILDING_COMPONENTS: Record<BuildingName, React.FC<BuildingProp>> = {
   "Fire Pit": FirePit,
   Anvil: () => null,
   Bakery: () => null,
@@ -30,7 +29,7 @@ export const Building: React.FC<Prop> = ({ name, building, id }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const BuildingPlaced = BUIDLING_COMPONENTS[name];
+  const BuildingPlaced = BUILDING_COMPONENTS[name];
 
   const inProgress = building.readyAt > Date.now();
 

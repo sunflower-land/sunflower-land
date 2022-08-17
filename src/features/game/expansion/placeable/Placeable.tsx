@@ -8,8 +8,9 @@ import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
 import classNames from "classnames";
 import { calculateZIndex, Coordinates } from "../components/MapPlacement";
-import { PLACEABLES_DIMENSIONS } from "features/game/types/buildings";
+import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 
 type Dimensions = {
   height: number;
@@ -29,7 +30,10 @@ export const Placeable: React.FC = () => {
   const [machine, send] = useActor(child);
 
   const { placeable, coordinates } = machine.context;
-  const { width, height } = PLACEABLES_DIMENSIONS[placeable];
+  const { width, height } = {
+    ...BUILDINGS_DIMENSIONS,
+    ...COLLECTIBLES_DIMENSIONS,
+  }[placeable];
   const { image } = ITEM_DETAILS[placeable];
 
   const handleImageLoad = (
@@ -56,21 +60,24 @@ export const Placeable: React.FC = () => {
 
   if (machine.matches("placed")) {
     return (
-      <div
-        className="absolute"
-        style={{
-          left: coordinates.x * GRID_WIDTH_PX,
-          top: -coordinates.y * GRID_WIDTH_PX,
-          height: imageDimensions.height * PIXEL_SCALE,
-          width: imageDimensions.width * PIXEL_SCALE,
-        }}
-      >
-        <img
-          draggable="false"
-          className="bulge h-full w-full"
-          src={image}
-          alt=""
-        />
+      <div className="absolute left-1/2 top-1/2">
+        <div
+          className="absolute"
+          style={{
+            left: coordinates.x * GRID_WIDTH_PX,
+            top: -coordinates.y * GRID_WIDTH_PX,
+            height: imageDimensions.height * PIXEL_SCALE,
+            width: imageDimensions.width * PIXEL_SCALE,
+          }}
+        >
+          <img
+            draggable="false"
+            className="bulge h-full w-full"
+            src={image}
+            alt=""
+            onLoad={handleImageLoad}
+          />
+        </div>
       </div>
     );
   }

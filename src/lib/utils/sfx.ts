@@ -22,6 +22,7 @@ import fountainMp3 from "../../assets/sound-effects/fountain.mp3";
 import melonDuskMp3 from "../../assets/sound-effects/SFL_in_Space.mp3";
 import merchantMp3 from "../../assets/sound-effects/merchant.mp3";
 import fireCracklingMp3 from "../../assets/sound-effects/fire-crackling.mp3";
+import warChantMp3 from "../../assets/sound-effects/war_chant.mp3";
 
 export const harvestAudio = new Howl({
   src: [harvestMp3],
@@ -131,4 +132,9 @@ export const merchantAudio = new Howl({
 export const burningSound = new Howl({
   src: [fireCracklingMp3],
   volume: 0.5,
+});
+
+export const warChant = new Howl({
+  src: [warChantMp3],
+  volume: 0.2,
 });

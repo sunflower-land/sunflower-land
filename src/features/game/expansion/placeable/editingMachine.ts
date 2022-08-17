@@ -1,9 +1,12 @@
+import { GameEventName, PlacementEvent } from "features/game/events";
 import { BuildingName } from "features/game/types/buildings";
-import { assign, createMachine, Interpreter } from "xstate";
+import { CollectibleName } from "features/game/types/craftables";
+import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 
 export interface Context {
-  placeable: BuildingName;
+  placeable: BuildingName | CollectibleName;
+  action: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
 }
@@ -14,15 +17,25 @@ type UpdateEvent = {
   collisionDetected: boolean;
 };
 
+type PlaceEvent = {
+  type: "PLACE";
+};
+
+type ConstructEvent = {
+  type: "CONSTRUCT";
+  actionName: PlacementEvent;
+};
+
 export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
-  | { type: "PLACE" }
+  | ConstructEvent
+  | PlaceEvent
   | UpdateEvent
   | { type: "CANCEL" };
 
 export type BlockchainState = {
-  value: "idle" | "dragging" | "placing" | "placed" | "close";
+  value: "idle" | "dragging" | "placed" | "close";
   context: Context;
 };
 
@@ -52,7 +65,15 @@ export const editingMachine = createMachine<
           target: "dragging",
         },
         PLACE: {
-          target: "placing",
+          target: "placed",
+          actions: sendParent(
+            ({ placeable, action, coordinates: { x, y } }) =>
+              ({
+                type: action,
+                name: placeable,
+                coordinates: { x, y },
+              } as PlacementEvent)
+          ),
         },
       },
     },
@@ -66,19 +87,6 @@ export const editingMachine = createMachine<
         },
         DROP: {
           target: "idle",
-        },
-      },
-    },
-    placing: {
-      invoke: {
-        src: async (context) => {
-          console.info({
-            item: context.placeable,
-            coordinates: context.coordinates,
-          });
-        },
-        onDone: {
-          target: "placed",
         },
       },
     },

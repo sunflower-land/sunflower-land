@@ -1,6 +1,16 @@
-import { GameState, LandExpansion, Position } from "features/game/types/game";
+import {
+  GameState,
+  LandExpansion,
+  PlacedItem,
+  Position,
+} from "features/game/types/game";
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../../lib/constants";
 import { Coordinates } from "../../components/MapPlacement";
+import {
+  COLLECTIBLES_DIMENSIONS,
+  getKeys,
+} from "features/game/types/craftables";
+import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 
 type BoundingBox = Position;
 
@@ -50,6 +60,7 @@ export const getBoundingBoxes = (
 
   return boundingBoxes;
 };
+
 /**
  * Extracts the bounding boxes for all resources on all land expansions.
  * @param expansions
@@ -135,6 +146,36 @@ function detectWaterCollision(state: GameState, boundingBox: BoundingBox) {
   const isOverLand = smallerBoxes.every(isOverlappingExpansion);
 
   return !isOverLand;
+}
+
+const PLACEABLE_DIMENSIONS = {
+  ...BUILDINGS_DIMENSIONS,
+  ...COLLECTIBLES_DIMENSIONS,
+};
+
+function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
+  const { collectibles, buildings } = state;
+
+  const placed = {
+    ...collectibles,
+    ...buildings,
+  };
+
+  const boundingBoxes = getKeys(placed).flatMap((name) => {
+    const items = placed[name] as PlacedItem[];
+    const dimensions = PLACEABLE_DIMENSIONS[name];
+
+    return items.map((item) => ({
+      x: item.coordinates.x,
+      y: item.coordinates.y,
+      height: dimensions.height,
+      width: dimensions.width,
+    }));
+  });
+
+  return boundingBoxes.some((resourceBoundingBox) =>
+    isOverlapping(boundingBox, resourceBoundingBox)
+  );
 }
 
 enum Direction {
@@ -253,6 +294,7 @@ export function detectCollision(state: GameState, position: Position) {
   return (
     detectWaterCollision(state, position) ||
     detectResourceCollision(state, position) ||
+    detectPlaceableCollision(state, position) ||
     detectLandCornerCollision(state, position)
   );
 }

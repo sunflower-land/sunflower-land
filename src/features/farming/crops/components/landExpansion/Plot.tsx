@@ -6,7 +6,7 @@ import selectBox from "assets/ui/select/select_box.png";
 import cancel from "assets/icons/cancel.png";
 
 import { Context } from "features/game/GameProvider";
-import { Reward } from "features/game/types/game";
+import { CropReward as Reward } from "features/game/types/game";
 
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
