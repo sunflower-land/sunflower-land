@@ -133,4 +133,44 @@ export class Frog {
       throw error;
     }
   }
+
+  public async getFrogIds(attempts = 0): Promise<Array<[]>> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const frogIds = await this.contract.methods
+        .walletOfOwner(this.account)
+        .call({ from: this.account });
+      console.log("frog IDs:", frogIds);
+
+      return frogIds;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.getFrogIds(attempts + 1);
+      }
+
+      throw error;
+    }
+  }
+
+  public async getBaseUri(attempts = 0): Promise<string> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const baseUri = await this.contract.methods
+        .baseURI()
+        .call({ from: this.account });
+      console.log("frog baseURI:", baseUri);
+
+      return baseUri;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.getBaseUri(attempts + 1);
+      }
+
+      throw error;
+    }
+  }
 }

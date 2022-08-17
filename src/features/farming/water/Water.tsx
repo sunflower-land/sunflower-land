@@ -13,6 +13,7 @@ import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
 import swimmer from "assets/npcs/swimmer.gif";
 import waterBoat from "assets/npcs/water_boat.png";
 import { Frog } from "../../../components/ui/Frog";
+import { FrogNft } from "../../../components/ui/FrogNft";
 
 export const Water: React.FC = () => {
   return (
@@ -40,6 +41,7 @@ export const Water: React.FC = () => {
         />
 
         <Frog />
+        <FrogNft />
         <Shark />
         <img
           src={goblinSwimming}
