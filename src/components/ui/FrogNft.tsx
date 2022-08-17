@@ -7,7 +7,7 @@ import { loadFrogs } from "features/game/actions/loadFrogs";
 
 export const FrogNft: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const [frogData, setFrogData] = useState([{}]);
+  const [frogData, setFrogData] = useState([{ pixel_image: "" }]);
 
   const open = () => {
     setShowModal(true);
