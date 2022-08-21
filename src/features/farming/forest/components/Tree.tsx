@@ -103,8 +103,6 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
 
   const shake = async () => {
-    shakeGif.current?.goToAndPlay(0);
-
     if (!hasAxes) {
       return;
     }
