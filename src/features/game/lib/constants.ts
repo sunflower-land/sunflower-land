@@ -110,6 +110,10 @@ export const INITIAL_FIELDS: GameState["fields"] = {
     name: "Radish",
     plantedAt: 0,
   },
+  18: {
+    name: "Magic Seed",
+    plantedAt: 0,
+  },
 };
 
 export const INITIAL_TREES: GameState["trees"] = {
@@ -293,6 +297,7 @@ export const INITIAL_FARM: GameState = {
     Pickaxe: new Decimal(3),
     "Trading Ticket": new Decimal(50),
     "Human War Banner": new Decimal(1),
+    "Magic Seed": new Decimal(5),
   },
 
   stock: INITIAL_STOCK,

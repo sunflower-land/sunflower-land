@@ -4,7 +4,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
 
-import { SEEDS, CropName } from "features/game/types/crops";
+import { SEEDS, CropName, CROPS } from "features/game/types/crops";
 
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
@@ -79,6 +79,10 @@ export const InventoryTabContent = ({
   const getCropHarvestTime = (seedName = "") => {
     const crop = seedName.split(" ")[0] as CropName;
 
+    if (!CROPS()[crop]) {
+      return 0;
+    }
+
     return secondsToMidString(getCropTime(crop, inventory));
   };
 
@@ -94,6 +98,7 @@ export const InventoryTabContent = ({
     (value) => value.length === 0
   );
 
+  console.log({ selectedItem });
   return (
     <div className="flex flex-col">
       {!inventoryIsEmpty && (

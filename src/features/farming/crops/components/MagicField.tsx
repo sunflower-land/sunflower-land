@@ -30,11 +30,13 @@ export const MagicField: React.FC<Props> = ({ className, fieldIndex }) => {
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
 
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const field = game.context.state.fields[fieldIndex];
 
-  const onClick = () => {};
+  const onClick = () => {
+    setShowModal(true);
+  };
 
   const remove = () => {};
 

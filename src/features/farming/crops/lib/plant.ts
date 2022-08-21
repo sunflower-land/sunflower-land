@@ -50,7 +50,7 @@ export type Lifecycle = {
  * Crops and their original prices
  * TODO - use crop name from GraphQL API
  */
-export const LIFECYCLE: Record<CropName, Lifecycle> = {
+export const LIFECYCLE: Record<CropName | "Magic Seed", Lifecycle> = {
   Sunflower: {
     seedling: sunflowerSeedling,
     almost: sunflowerAlmostDone,
@@ -100,5 +100,10 @@ export const LIFECYCLE: Record<CropName, Lifecycle> = {
     seedling: wheatSeedling,
     almost: wheatAlmostDone,
     ready: wheatPlant,
+  },
+  "Magic Seed": {
+    seedling: sunflowerSeedling,
+    almost: sunflowerAlmostDone,
+    ready: sunflowerPlant,
   },
 };

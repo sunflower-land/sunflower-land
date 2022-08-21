@@ -318,7 +318,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Magic Seed": {
     ...seeds["Magic Seed"],
-    image: seeds,
+    image: magicSeed,
     secondaryImage: questionMark,
   },
 

@@ -21,6 +21,8 @@ import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "./CropReward";
 import { MagicSeed } from "./MagicSeed";
 import { MagicField } from "./MagicField";
+import { Modal } from "react-bootstrap";
+import { Panel } from "components/ui/Panel";
 
 interface Props {
   selectedItem?: InventoryItemName;
@@ -40,7 +42,7 @@ export const Field: React.FC<Props> = ({
   fieldIndex,
 }) => {
   const [showPopover, setShowPopover] = useState(true);
-  const [showMagicSeedPopup, setShowMagicSeedPopup] = useState(true);
+  const [showMagicSeedPopup, setShowMagicSeedPopup] = useState(false);
   const [popover, setPopover] = useState<JSX.Element | null>();
   const { gameService } = useContext(Context);
   const [touchCount, setTouchCount] = useState(0);
@@ -51,8 +53,6 @@ export const Field: React.FC<Props> = ({
   const [showCropDetails, setShowCropDetails] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
 
-  return <MagicField fieldIndex={fieldIndex} />;
-
   // If selected item changes, then stop removing crops
   useEffect(() => setIsRemoving(false), [selectedItem]);
 
@@ -62,6 +62,10 @@ export const Field: React.FC<Props> = ({
     const timer = setTimeout(() => setIsRemoving(false), REMOVE_CROP_TIMEOUT);
     return () => clearTimeout(timer);
   }, [isRemoving]);
+
+  if (field?.name === "Magic Seed") {
+    return <MagicField fieldIndex={fieldIndex} />;
+  }
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -283,7 +287,11 @@ export const Field: React.FC<Props> = ({
         onCollected={onCollectReward}
         fieldIndex={fieldIndex}
       />
-      <MagicSeed onClose={() => {}} />
+      <Modal centered show={showMagicSeedPopup}>
+        <Panel>
+          <MagicSeed onClose={() => setShowMagicSeedPopup(false)} />
+        </Panel>
+      </Modal>
     </div>
   );
 };

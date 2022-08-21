@@ -22,6 +22,7 @@ const VALID_SEEDS: InventoryItemName[] = [
   "Parsnip Seed",
   "Radish Seed",
   "Wheat Seed",
+  "Magic Seed",
 ];
 
 export function isSeed(crop: InventoryItemName): crop is SeedName {
@@ -112,6 +113,7 @@ function getMultiplier({ crop, inventory }: GetFieldArgs): number {
 }
 
 export function plant({ state, action, createdAt = Date.now() }: Options) {
+  console.log("planted");
   const stateCopy = cloneDeep(state);
   const { fields } = stateCopy;
 
@@ -176,16 +178,24 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
   const newFields = fields;
 
   const crop = action.item.split(" ")[0] as CropName;
+  console.log("Go it2!", crop);
 
-  newFields[action.index] = {
-    plantedAt: getPlantedAt({
-      crop,
-      inventory: stateCopy.inventory,
-      createdAt,
-    }),
-    name: crop,
-    multiplier: getMultiplier({ crop, inventory: stateCopy.inventory }),
-  };
+  if (action.item === "Magic Seed") {
+    newFields[action.index] = {
+      plantedAt: 0,
+      name: "Magic Seed",
+    };
+  } else {
+    newFields[action.index] = {
+      plantedAt: getPlantedAt({
+        crop,
+        inventory: stateCopy.inventory,
+        createdAt,
+      }),
+      name: crop,
+      multiplier: getMultiplier({ crop, inventory: stateCopy.inventory }),
+    };
+  }
 
   return {
     ...stateCopy,
