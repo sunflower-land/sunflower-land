@@ -101,7 +101,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
   },
 });
 
-export type SeedName = `${CropName} Seed`;
+export type SeedName = `${CropName} Seed` | "Magic Seed";
 
 export const SEEDS: () => Record<SeedName, CraftableItem> = () => ({
   "Sunflower Seed": {
@@ -170,5 +170,20 @@ export const SEEDS: () => Record<SeedName, CraftableItem> = () => ({
     tokenAmount: marketRate(5),
     ingredients: [],
     requires: "Radish Pie",
+  },
+  "Magic Seed": {
+    name: "Magic Seed",
+    description: "Water continously for magical rewards.",
+    tokenAmount: marketRate(0),
+    ingredients: [
+      {
+        amount: new Decimal(50),
+        item: "Wood",
+      },
+      {
+        amount: new Decimal(20),
+        item: "Pumpkin",
+      },
+    ],
   },
 });

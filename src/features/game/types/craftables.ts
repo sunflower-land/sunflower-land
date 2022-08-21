@@ -7,6 +7,7 @@ import { marketRate } from "../lib/halvening";
 import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
 import { OnChainLimitedItems } from "../lib/goblinMachine";
 import { isArray } from "lodash";
+import { Iron } from "features/farming/quarry/components/Iron";
 
 export { FLAGS };
 
@@ -161,6 +162,7 @@ export type Tool =
   | "Iron Pickaxe"
   | "Hammer"
   | "Rod"
+  | "Watering Can"
   | ShovelTool;
 
 export type Food =
@@ -499,6 +501,17 @@ export const TOOLS: Record<Tool, CraftableItem> = {
       {
         item: "Iron",
         amount: new Decimal(3),
+      },
+    ],
+  },
+  "Watering Can": {
+    name: "Watering Can",
+    description: "Used to water magic seeds",
+    tokenAmount: new Decimal(0),
+    ingredients: [
+      {
+        amount: new Decimal(5),
+        item: "Iron",
       },
     ],
   },

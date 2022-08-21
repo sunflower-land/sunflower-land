@@ -13,6 +13,7 @@ export type CropReward = {
     name: InventoryItemName;
     amount: number;
   }[];
+  sfl?: number;
 };
 
 export type Fertiliser = "Rapid Growth";
@@ -29,12 +30,13 @@ export type Fertilisers = {
 }[];
 
 export type FieldItem = {
-  name: CropName;
+  name: CropName | "Magic Seed";
   // Epoch time in milliseconds
   plantedAt: number;
   multiplier?: number;
   reward?: CropReward;
   fertilisers?: Fertilisers;
+  prunedAt?: number[];
 };
 
 export type Tree = {

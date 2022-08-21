@@ -19,6 +19,7 @@ import radishSeed from "assets/crops/radish/seed.png";
 import radishCrop from "assets/crops/radish/crop.png";
 import wheatSeed from "assets/crops/wheat/seed.png";
 import wheatCrop from "assets/crops/wheat/crop.png";
+import magicSeed from "assets/icons/seeds.png";
 
 // Tools
 import axe from "assets/tools/axe.png";
@@ -29,6 +30,7 @@ import hammer from "assets/tools/hammer.png";
 import rod from "assets/tools/fishing_rod.png";
 import rustyShovel from "assets/tools/rusty_shovel.png";
 import shovel from "assets/tools/shovel.png";
+import wateringCan from "assets/tools/water_can.png";
 
 // NFTs
 import chickenCoop from "assets/nfts/chicken_coop.png";
@@ -314,6 +316,11 @@ export const ITEM_DETAILS: Items = {
     image: wheatSeed,
     secondaryImage: wheatCrop,
   },
+  "Magic Seed": {
+    ...seeds["Magic Seed"],
+    image: seeds,
+    secondaryImage: questionMark,
+  },
 
   // Resources
   Wood: {
@@ -385,6 +392,10 @@ export const ITEM_DETAILS: Items = {
   Shovel: {
     ...SHOVELS["Shovel"],
     image: shovel,
+  },
+  "Watering Can": {
+    ...TOOLS["Watering Can"],
+    image: wateringCan,
   },
 
   // NFTs

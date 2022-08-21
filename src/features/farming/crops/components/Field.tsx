@@ -19,6 +19,8 @@ import { Soil } from "./Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "./CropReward";
+import { MagicSeed } from "./MagicSeed";
+import { MagicField } from "./MagicField";
 
 interface Props {
   selectedItem?: InventoryItemName;
@@ -38,6 +40,7 @@ export const Field: React.FC<Props> = ({
   fieldIndex,
 }) => {
   const [showPopover, setShowPopover] = useState(true);
+  const [showMagicSeedPopup, setShowMagicSeedPopup] = useState(true);
   const [popover, setPopover] = useState<JSX.Element | null>();
   const { gameService } = useContext(Context);
   const [touchCount, setTouchCount] = useState(0);
@@ -47,6 +50,8 @@ export const Field: React.FC<Props> = ({
   const field = game.context.state.fields[fieldIndex];
   const [showCropDetails, setShowCropDetails] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
+
+  return <MagicField fieldIndex={fieldIndex} />;
 
   // If selected item changes, then stop removing crops
   useEffect(() => setIsRemoving(false), [selectedItem]);
@@ -278,6 +283,7 @@ export const Field: React.FC<Props> = ({
         onCollected={onCollectReward}
         fieldIndex={fieldIndex}
       />
+      <MagicSeed onClose={() => {}} />
     </div>
   );
 };
