@@ -6,7 +6,7 @@ import close from "assets/icons/close.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
-import { TOOLS } from "features/game/types/craftables";
+import { SHOVELS, TOOLS } from "features/game/types/craftables";
 
 import { CraftingItems } from "./CraftingItems";
 
@@ -39,7 +39,11 @@ export const Crafting: React.FC<Props> = ({ onClose }) => {
         }}
       >
         {tab === "craft" && (
-          <CraftingItems items={TOOLS} isBulk onClose={onClose} />
+          <CraftingItems
+            items={{ ...TOOLS, ...SHOVELS }}
+            isBulk
+            onClose={onClose}
+          />
         )}
       </div>
     </Panel>

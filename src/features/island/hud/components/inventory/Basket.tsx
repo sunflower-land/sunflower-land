@@ -69,8 +69,6 @@ export const Basket: React.FC = () => {
 
   const allTools = [...tools, ...shovels];
 
-  const hastools = tools.length !== 0 || shovels.length !== 0;
-
   return (
     <div className="flex flex-col">
       {!basketIsEmpty && (
@@ -162,7 +160,7 @@ export const Basket: React.FC = () => {
             </div>
           </div>
         )}
-        {hastools && (
+        {!!allTools.length && (
           <div className="flex flex-col pl-2" key={"Tools"}>
             {<p className="mb-2 underline">Tools</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
