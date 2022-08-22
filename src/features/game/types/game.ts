@@ -87,8 +87,19 @@ export type Ticket =
 
 type WarBanner = "Human War Banner" | "Goblin War Banner";
 
+export interface BumpkinParts {
+  body: BumpkinBody;
+  hair: BumpkinHair;
+  eyes: BumpkinEyes;
+  mouth: BumpkinMouth;
+  shirt: BumpkinShirt;
+  pants: BumpkinPants;
+  shoes: BumpkinShoes;
+}
+
 export type Bumpkin = {
   level: number;
+  parts: BumpkinParts;
 };
 
 export type BumpkinBody =

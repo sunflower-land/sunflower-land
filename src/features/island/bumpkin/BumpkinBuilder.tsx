@@ -4,6 +4,7 @@ import { getKeys } from "features/game/types/craftables";
 import { randomBetweenMaxExclusive as randomInt } from "features/game/expansion/lib/randomBetweenMaxExlusive";
 import { Button } from "components/ui/Button";
 import { DynamicNPC } from "./components/DynamicNPC";
+import { DynamicNFT } from "./components/DynamicNFT";
 
 import rosyWide from "assets/bumpkins/large/eyes/rosy_wide.png";
 import rosySquint from "assets/bumpkins/large/eyes/rosy_squint.png";
@@ -17,7 +18,6 @@ import rancherHair from "assets/bumpkins/large/hair/rancher.png";
 import farmerPants from "assets/bumpkins/large/pants/farmer_pants.png";
 import blackShoes from "assets/bumpkins/large/shoes/black_shoes.png";
 import smile from "assets/bumpkins/large/mouths/smile.png";
-import dropShadow from "assets/bumpkins/large/body_dropshadow.png";
 
 import hairIcon from "assets/bumpkins/icons/hair_icon.png";
 import eyesIcon from "assets/bumpkins/icons/eyes_icon.png";
@@ -25,7 +25,6 @@ import bodyIcon from "assets/bumpkins/icons/body_icon.png";
 import shirtIcon from "assets/bumpkins/icons/shirt_icon.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
-import classNames from "classnames";
 
 export type LimitedBody = "Light Farmer Potion" | "Dark Farmer Potion";
 export type LimitedHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
@@ -147,17 +146,6 @@ export const BumpkinBuilder: React.FC<Props> = ({ onMint }) => {
     );
   }, []);
 
-  const handleSelect = (category: Category) => {
-    setActiveCategory(BUMPKIN_PARTS[category]);
-
-    setSelectedOptionIndex(
-      findSelectedOptionIndex(
-        bumpkinParts[BUMPKIN_PARTS[category].name],
-        BUMPKIN_PARTS[category].name
-      )
-    );
-  };
-
   const handleArrowClick = (direction: "left" | "right") => {
     const { options } = activeCategory;
     let index = selectedOptionIndex;
@@ -184,16 +172,6 @@ export const BumpkinBuilder: React.FC<Props> = ({ onMint }) => {
     });
   };
 
-  const getImageToShow = (part: keyof Bumpkin) => {
-    // If rotating through a categories items then get the image from that
-    // categories options array
-    if (activeCategory.name === part) {
-      return ITEM_IMAGES[activeCategory.options[selectedOptionIndex]];
-    }
-    // else get the image from the selected bumpkin items
-    return ITEM_IMAGES[bumpkinParts[part]];
-  };
-
   const handleMint = () => {
     console.log(bumpkinParts);
     onMint();
@@ -209,27 +187,11 @@ export const BumpkinBuilder: React.FC<Props> = ({ onMint }) => {
               key={category}
               image={BUMPKIN_PARTS[category].icon}
               isSelected={activeCategory.name === category}
-              onClick={() => handleSelect(category)}
+              onClick={() => setActiveCategory(BUMPKIN_PARTS[category])}
             />
           ))}
         </div>
-        <div className="relative w-full">
-          <img
-            src={dropShadow}
-            alt="drop-shadow"
-            className="absolute bottom-0 z-0 opacity-30"
-          />
-          {getKeys(bumpkinParts).map((part, index) => (
-            <img
-              key={part}
-              src={getImageToShow(part)}
-              className={classNames(`inset-0 z-${index * 10} w-full`, {
-                absolute: part !== "body",
-              })}
-            />
-          ))}
-        </div>
-
+        <DynamicNFT bumpkinParts={bumpkinParts} />
         <div className="absolute bottom-[9.5%] right-[22%]">
           <DynamicNPC
             body={bumpkinParts.body}
@@ -238,7 +200,6 @@ export const BumpkinBuilder: React.FC<Props> = ({ onMint }) => {
             shirt={bumpkinParts.shirt}
           />
         </div>
-
         <div
           className="flex items-center justify-center absolute top-1/2 left-2 w-10 h-10 z-[100] cursor-pointer"
           onClick={() => handleArrowClick("left")}
