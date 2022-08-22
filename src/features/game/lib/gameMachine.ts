@@ -40,6 +40,7 @@ import { checkProgress, processEvent } from "./processEvent";
 import { editingMachine } from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
+import isEmpty from "lodash.isempty";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -312,7 +313,7 @@ export function startGame(authContext: Options) {
               },
               {
                 target: "noBumpkinFound",
-                cond: (_, event) => !!event.data?.state.bumpkin,
+                cond: (_, event) => isEmpty(event.data?.state.bumpkin),
                 actions: "assignGame",
               },
               {
@@ -342,10 +343,17 @@ export function startGame(authContext: Options) {
         },
         announcing: {
           on: {
-            ACKNOWLEDGE: {
-              actions: [() => acknowledgeRead()],
-              target: "playing",
-            },
+            ACKNOWLEDGE: [
+              {
+                target: "noBumpkinFound",
+                cond: (context) => isEmpty(context.state.bumpkin),
+                actions: [() => acknowledgeRead()],
+              },
+              {
+                target: "playing",
+                actions: [() => acknowledgeRead()],
+              },
+            ],
           },
         },
         playing: {
