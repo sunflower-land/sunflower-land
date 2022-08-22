@@ -53,6 +53,8 @@ export interface CraftableItem {
   tokenAmount?: Decimal;
   ingredients?: Ingredient[];
   disabled?: boolean;
+  // Hidden for crafting
+  hidden?: boolean;
   requires?: InventoryItemName;
   /**
    * When enabled, description and price will display as "?"
@@ -62,12 +64,6 @@ export interface CraftableItem {
 }
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
-
-export type RustyShovel = "Rusty Shovel";
-
-export type ShovelTool = "Shovel";
-
-export type Shovel = RustyShovel | ShovelTool;
 
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
@@ -160,8 +156,9 @@ export type Tool =
   | "Stone Pickaxe"
   | "Iron Pickaxe"
   | "Hammer"
-  | "Rod"
-  | ShovelTool;
+  | "Rod";
+
+export type Shovel = "Rusty Shovel" | "Shovel";
 
 export type Food =
   | "Pumpkin Soup"
@@ -432,28 +429,6 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
 });
 
-export const SHOVEL_TOOLS: () => Record<ShovelTool, CraftableItem> = () => ({
-  Shovel: {
-    name: "Shovel",
-    description: "Used to remove unwanted crops",
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Rusty Shovel",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Iron",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Wood",
-        amount: new Decimal(20),
-      },
-    ],
-  },
-});
-
 export const TOOLS: Record<Tool, CraftableItem> = {
   Axe: {
     name: "Axe",
@@ -530,7 +505,6 @@ export const TOOLS: Record<Tool, CraftableItem> = {
     ],
     disabled: true,
   },
-  ...SHOVEL_TOOLS(),
 };
 
 export const SHOVELS: Record<Shovel, CraftableItem> = {
@@ -538,8 +512,27 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
     name: "Rusty Shovel",
     description: "It's old and rusty, but still harvests crops",
     ingredients: [],
+    hidden: true,
   },
-  ...SHOVEL_TOOLS(),
+  Shovel: {
+    name: "Shovel",
+    description: "Used to remove unwanted crops",
+    tokenAmount: new Decimal(0),
+    ingredients: [
+      {
+        item: "Rusty Shovel",
+        amount: new Decimal(1),
+      },
+      {
+        item: "Iron",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Wood",
+        amount: new Decimal(20),
+      },
+    ],
+  },
 };
 
 export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
@@ -910,6 +903,7 @@ type Craftables = Record<CraftableName, CraftableItem>;
 
 export const CRAFTABLES: () => Craftables = () => ({
   ...TOOLS,
+  ...SHOVELS,
   ...BLACKSMITH_ITEMS,
   ...BARN_ITEMS,
   ...MARKET_ITEMS,
@@ -920,7 +914,6 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...ROCKET_ITEMS,
   ...QUEST_ITEMS,
   ...MUTANT_CHICKENS,
-  ...SHOVELS,
   ...SALESMAN_ITEMS,
   ...WAR_BANNERS,
   ...WAR_TENT_ITEMS,

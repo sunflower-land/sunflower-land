@@ -6,6 +6,7 @@ import {
   CraftableName,
   CRAFTABLES,
   FOODS,
+  SHOVELS,
   TOOLS,
 } from "../types/craftables";
 import { SEEDS } from "../types/crops";
@@ -24,6 +25,7 @@ export type CraftAction = {
  */
 const VALID_ITEMS = Object.keys({
   ...TOOLS,
+  ...SHOVELS,
   ...SEEDS(),
   ...FOODS(),
   ...ANIMALS(),
@@ -66,6 +68,10 @@ export function craft({ state, action }: Options) {
 
   if (item.disabled) {
     throw new Error("This item is disabled");
+  }
+
+  if (item.hidden) {
+    throw new Error("This item is hidden from crafting");
   }
 
   if (action.amount < 1) {
