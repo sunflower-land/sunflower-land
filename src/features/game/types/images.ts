@@ -904,11 +904,11 @@ export const ITEM_DETAILS: Items = {
   /**
    * Bumpkins
    */
-  "Farmer Potion": {
+  "Light Farmer Potion": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Farmer Potion 2": {
+  "Dark Farmer Potion": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
@@ -916,15 +916,15 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Basic Wig": {
+  "Basic Hair": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Explorer Wig": {
+  "Explorer Hair": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Rancher Wig": {
+  "Rancher Hair": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
@@ -945,6 +945,26 @@ export const ITEM_DETAILS: Items = {
     description: "An item for your bumpkin",
   },
   "Farmer Pants": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  Smile: {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Smile With Teeth": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Rosy Wide Eyes": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Rosy Squinted Eyes": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Black Shoes": {
     image: questionMark,
     description: "An item for your bumpkin",
   },

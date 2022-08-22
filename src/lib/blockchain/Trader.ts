@@ -59,8 +59,6 @@ export class Trader {
       .getFarmSlots(farmId, 3)
       .call();
 
-    console.log(farmSlots);
-
     return farmSlots.map((slot, index) => {
       if (slot.status == "0") {
         return { slotId: index };

@@ -18,7 +18,6 @@ export const Hud: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const landId = gameState.context.state.id;
   const isEditing = gameState.matches("editing");
 
   return (
