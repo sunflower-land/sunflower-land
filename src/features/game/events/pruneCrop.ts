@@ -1,7 +1,7 @@
 import { Inventory } from "components/InventoryItems";
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
-import { GameState } from "../types/game";
+import { FieldItem, GameState } from "../types/game";
 
 export type PruneCropAction = {
   type: "item.pruned";
@@ -14,9 +14,43 @@ type Options = {
   createdAt?: number;
 };
 
-const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+export const TIME_TO_PRUNE_MS = 24 * 60 * 60 * 1000;
 
-const PRUNES_TO_REWARD = 3;
+export const PRUNES_TO_REWARD = 3;
+
+export function getPruneAt(field: FieldItem) {
+  let tendedAt = field.plantedAt;
+
+  if (field.prunedAt) {
+    tendedAt = field.prunedAt[field.prunedAt.length - 1];
+  }
+
+  return tendedAt + TIME_TO_PRUNE_MS;
+}
+
+export function isDead({
+  field,
+  createdAt,
+}: {
+  field: FieldItem;
+  createdAt: number;
+}) {
+  const pruneAt = getPruneAt(field);
+
+  return createdAt - pruneAt > TIME_TO_PRUNE_MS;
+}
+
+export function readyToPrune({
+  field,
+  createdAt,
+}: {
+  field: FieldItem;
+  createdAt: number;
+}) {
+  const pruneAt = getPruneAt(field);
+
+  return createdAt > pruneAt;
+}
 
 export function pruneCrop({
   state,
@@ -34,24 +68,11 @@ export function pruneCrop({
     throw new Error("Cannot prune a normal crop");
   }
 
-  let tendedAt = field.plantedAt;
-
-  if (field.prunedAt) {
-    tendedAt = field.prunedAt[field.prunedAt.length - 1];
-  }
-
-  const pruneAt = tendedAt + ONE_DAY_MS;
-
-  if (createdAt < pruneAt) {
+  if (!readyToPrune({ field, createdAt })) {
     throw new Error("Crop is not ready to prune");
   }
 
-  console.log({ createdAt, pruneAt });
-  console.log({
-    amount: (createdAt - pruneAt) / ONE_DAY_MS,
-    oneDay: ONE_DAY_MS,
-  });
-  if (createdAt - pruneAt > ONE_DAY_MS) {
+  if (isDead({ field, createdAt })) {
     throw new Error("Crop is dead");
   }
 

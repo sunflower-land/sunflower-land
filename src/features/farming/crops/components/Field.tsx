@@ -148,6 +148,11 @@ export const Field: React.FC<Props> = ({
 
     // Plant
     if (!field) {
+      if (selectedItem === "Magic Seed") {
+        setShowMagicSeedPopup(true);
+        return;
+      }
+
       try {
         gameService.send("item.planted", {
           index: fieldIndex,
@@ -289,7 +294,10 @@ export const Field: React.FC<Props> = ({
       />
       <Modal centered show={showMagicSeedPopup}>
         <Panel>
-          <MagicSeed onClose={() => setShowMagicSeedPopup(false)} />
+          <MagicSeed
+            fieldIndex={fieldIndex}
+            onClose={() => setShowMagicSeedPopup(false)}
+          />
         </Panel>
       </Modal>
     </div>

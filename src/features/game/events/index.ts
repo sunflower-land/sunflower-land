@@ -48,6 +48,7 @@ import {
 } from "./landExpansion/placeCollectible";
 import { buyWarBonds, CollectWarBonds as BuyWarBonds } from "./buyWarBonds";
 import { pickSide, PickSide } from "./pickSide";
+import { pruneCrop, PruneCropAction } from "./pruneCrop";
 
 export type PlayingEvent =
   | CraftAction
@@ -74,7 +75,8 @@ export type PlayingEvent =
   | FertiliseCropAction
   | ClaimAirdropAction
   | BuyWarBonds
-  | PickSide;
+  | PickSide
+  | PruneCropAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -112,6 +114,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "airdrop.claimed": claimAirdrop,
   "warBonds.bought": buyWarBonds,
   "side.picked": pickSide,
+  "item.pruned": pruneCrop,
   // Land Expansion Handlers
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,

@@ -182,7 +182,7 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
 
   if (action.item === "Magic Seed") {
     newFields[action.index] = {
-      plantedAt: 0,
+      plantedAt: createdAt,
       name: "Magic Seed",
     };
   } else {

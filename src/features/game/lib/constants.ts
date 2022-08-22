@@ -113,6 +113,19 @@ export const INITIAL_FIELDS: GameState["fields"] = {
   18: {
     name: "Magic Seed",
     plantedAt: 0,
+    prunedAt: [
+      Date.now() - 72 * 60 * 60 * 1000,
+      Date.now() - 36 * 60 * 60 * 1000,
+    ],
+    reward: {
+      sfl: 10,
+      items: [
+        {
+          amount: 5,
+          name: "Rapid Growth",
+        },
+      ],
+    },
   },
 };
 
