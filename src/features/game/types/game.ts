@@ -99,7 +99,7 @@ export interface BumpkinParts {
 
 export type Bumpkin = {
   level: number;
-  parts: BumpkinParts;
+  parts?: BumpkinParts;
 };
 
 export type BumpkinBody =
