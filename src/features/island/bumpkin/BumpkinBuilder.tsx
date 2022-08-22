@@ -31,7 +31,7 @@ export type LimitedHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
 export type LimitedShirt = "Farmer Shirt" | "Lumberjack Shirt";
 export type LimitedPants = "Farmer Pants";
 export type LimitedEyes = "Rosy Wide Eyes" | "Rosy Squinted Eyes";
-export type LimitedMouth = "Smile Mouth";
+export type LimitedMouth = "Smile";
 export type LimitedShoes = "Black Shoes";
 
 type LimitedBumpkinItem =
@@ -72,7 +72,7 @@ const ITEM_IMAGES: Record<LimitedBumpkinItem, string> = {
   "Rosy Wide Eyes": rosyWide,
   "Rosy Squinted Eyes": rosySquint,
   "Black Shoes": blackShoes,
-  "Smile Mouth": smile,
+  Smile: smile,
 };
 
 const BUMPKIN_PARTS: Record<Category, CategoryDetails> = {
@@ -102,7 +102,7 @@ const getRandomPart = <T,>(category: Category) => {
   const { options } = BUMPKIN_PARTS[category];
   const randomIndex = randomInt(0, options.length);
 
-  return options[randomIndex] as T;
+  return options[randomIndex] as unknown as T;
 };
 
 const makeInitialBumpkin = (): Bumpkin => ({
@@ -110,7 +110,7 @@ const makeInitialBumpkin = (): Bumpkin => ({
   hair: getRandomPart<LimitedHair>("hair"),
   eyes: getRandomPart<LimitedEyes>("eyes"),
   shirt: getRandomPart<LimitedShirt>("shirt"),
-  mouth: "Smile Mouth",
+  mouth: "Smile",
   pants: "Farmer Pants",
   shoes: "Black Shoes",
 });

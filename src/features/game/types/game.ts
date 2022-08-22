@@ -96,10 +96,10 @@ export type BumpkinBody =
   | "Dark Farmer Potion"
   | "Goblin Potion";
 
-export type BumpkinHair = "Basic Hair" | "Explorer Hair";
+export type BumpkinHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
 
 export type BumpkinShirt = "Farmer Shirt" | "Lumberjack Shirt";
-export type BumpkinMouth = "Smile Mouth" | "Smile Teeth Mouth";
+export type BumpkinMouth = "Smile" | "Smile With Teeth";
 
 export type BumpkinPants =
   | "Farmer Overalls"
