@@ -7,37 +7,43 @@ import lightSheet from "assets/bumpkins/small/body/light_farmer_sheet.png";
 import darkSheet from "assets/bumpkins/small/body/dark_farmer_sheet.png";
 import basicSheet from "assets/bumpkins/small/hair/basic_sheet.png";
 import explorerSheet from "assets/bumpkins/small/hair/explorer_sheet.png";
+import rancherSheet from "assets/bumpkins/small/hair/rancher_sheet.png";
 import farmerShirtSheet from "assets/bumpkins/small/shirts/farmer_shirt_sheet.png";
 import lumberjackShirtSheet from "assets/bumpkins/small/shirts/lumberjack_shirt_sheet.png";
 import farmerPantsSheet from "assets/bumpkins/small/pants/farmer_pants_sheet.png";
+import {
+  LimitedBody,
+  LimitedHair,
+  LimitedShirt,
+  LimitedPants,
+} from "../BumpkinBuilder";
 
 type LimitedBumpkinItem =
-  | "Light Farmer Potion"
-  | "Dark Farmer Potion"
-  | "Basic Hair"
-  | "Explorer Hair"
-  | "Farmer Shirt"
-  | "Lumberjack Shirt"
-  | "Farmer Pants";
+  | LimitedBody
+  | LimitedHair
+  | LimitedShirt
+  | LimitedPants;
 
 const PARTS: Record<LimitedBumpkinItem, string> = {
   "Light Farmer Potion": lightSheet,
   "Dark Farmer Potion": darkSheet,
   "Basic Hair": basicSheet,
   "Explorer Hair": explorerSheet,
+  "Rancher Hair": rancherSheet,
   "Farmer Shirt": farmerShirtSheet,
   "Lumberjack Shirt": lumberjackShirtSheet,
   "Farmer Pants": farmerPantsSheet,
 };
 
 interface Props {
-  body: LimitedBumpkinItem;
-  hair: LimitedBumpkinItem;
-  shirt: LimitedBumpkinItem;
-  pants: LimitedBumpkinItem;
+  body: LimitedBody;
+  hair: LimitedHair;
+  shirt: LimitedShirt;
+  pants: LimitedPants;
 }
 
 const FRAME_WIDTH = 180 / 9;
+const FRAME_HEIGHT = 19;
 
 export const DynamicNPC: React.FC<Props> = ({ body, hair, shirt, pants }) => (
   <div className="relative">
@@ -48,7 +54,7 @@ export const DynamicNPC: React.FC<Props> = ({ body, hair, shirt, pants }) => (
       }}
       image={PARTS[body]}
       widthFrame={FRAME_WIDTH}
-      heightFrame={19}
+      heightFrame={FRAME_HEIGHT}
       steps={9}
       fps={14}
       autoplay={true}
@@ -59,7 +65,7 @@ export const DynamicNPC: React.FC<Props> = ({ body, hair, shirt, pants }) => (
       className="absolute w-full inset-0 z-10"
       image={PARTS[hair]}
       widthFrame={FRAME_WIDTH}
-      heightFrame={19}
+      heightFrame={FRAME_HEIGHT}
       steps={9}
       fps={14}
       autoplay={true}
@@ -70,7 +76,7 @@ export const DynamicNPC: React.FC<Props> = ({ body, hair, shirt, pants }) => (
       className="absolute w-full inset-0 z-20"
       image={PARTS[shirt]}
       widthFrame={FRAME_WIDTH}
-      heightFrame={19}
+      heightFrame={FRAME_HEIGHT}
       steps={9}
       fps={14}
       autoplay={true}
@@ -81,7 +87,7 @@ export const DynamicNPC: React.FC<Props> = ({ body, hair, shirt, pants }) => (
       className="absolute w-full inset-0 z-30"
       image={PARTS[pants]}
       widthFrame={FRAME_WIDTH}
-      heightFrame={19}
+      heightFrame={FRAME_HEIGHT}
       steps={9}
       fps={14}
       autoplay={true}

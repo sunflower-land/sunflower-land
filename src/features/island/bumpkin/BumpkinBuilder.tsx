@@ -7,15 +7,16 @@ import { DynamicNPC } from "./components/DynamicNPC";
 
 import rosyWide from "assets/bumpkins/large/eyes/rosy_wide.png";
 import rosySquint from "assets/bumpkins/large/eyes/rosy_squint.png";
-import lightFarmerPotionLg from "assets/bumpkins/large/body/light_farmer.png";
-import darkFarmerPotionLg from "assets/bumpkins/large/body/dark_farmer.png";
+import lightFarmerPotion from "assets/bumpkins/large/body/light_farmer.png";
+import darkFarmerPotion from "assets/bumpkins/large/body/dark_farmer.png";
 import farmerShirt from "assets/bumpkins/large/shirts/farmer_shirt.png";
 import lumberjackShirt from "assets/bumpkins/large/shirts/lumberjack_shirt.png";
-import basicHairLg from "assets/bumpkins/large/hair/basic.png";
-import explorerHairLg from "assets/bumpkins/large/hair/explorer.png";
-import farmerPantsLg from "assets/bumpkins/large/pants/farmer_pants.png";
-import blackShoesLg from "assets/bumpkins/large/shoes/black_shoes.png";
-import smileLg from "assets/bumpkins/large/mouths/smile.png";
+import basicHair from "assets/bumpkins/large/hair/basic.png";
+import explorerHair from "assets/bumpkins/large/hair/explorer.png";
+import rancherHair from "assets/bumpkins/large/hair/rancher.png";
+import farmerPants from "assets/bumpkins/large/pants/farmer_pants.png";
+import blackShoes from "assets/bumpkins/large/shoes/black_shoes.png";
+import smile from "assets/bumpkins/large/mouths/smile.png";
 import dropShadow from "assets/bumpkins/large/body_dropshadow.png";
 
 import hairIcon from "assets/bumpkins/icons/hair_icon.png";
@@ -25,13 +26,13 @@ import shirtIcon from "assets/bumpkins/icons/shirt_icon.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 
-type LimitedBody = "Light Farmer Potion" | "Dark Farmer Potion";
-type LimitedHair = "Basic Hair" | "Explorer Hair";
-type LimitedShirt = "Farmer Shirt" | "Lumberjack Shirt";
-type LimitedPants = "Farmer Pants";
-type LimitedEyes = "Rosy Wide Eyes" | "Rosy Squinted Eyes";
-type LimitedMouth = "Smile Mouth";
-type LimitedShoes = "Black Shoes";
+export type LimitedBody = "Light Farmer Potion" | "Dark Farmer Potion";
+export type LimitedHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
+export type LimitedShirt = "Farmer Shirt" | "Lumberjack Shirt";
+export type LimitedPants = "Farmer Pants";
+export type LimitedEyes = "Rosy Wide Eyes" | "Rosy Squinted Eyes";
+export type LimitedMouth = "Smile Mouth";
+export type LimitedShoes = "Black Shoes";
 
 type LimitedBumpkinItem =
   | LimitedBody
@@ -60,24 +61,25 @@ type CategoryDetails = {
 };
 
 const ITEM_IMAGES: Record<LimitedBumpkinItem, string> = {
-  "Light Farmer Potion": lightFarmerPotionLg,
-  "Dark Farmer Potion": darkFarmerPotionLg,
-  "Basic Hair": basicHairLg,
-  "Explorer Hair": explorerHairLg,
+  "Light Farmer Potion": lightFarmerPotion,
+  "Dark Farmer Potion": darkFarmerPotion,
+  "Basic Hair": basicHair,
+  "Explorer Hair": explorerHair,
+  "Rancher Hair": rancherHair,
   "Farmer Shirt": farmerShirt,
   "Lumberjack Shirt": lumberjackShirt,
-  "Farmer Pants": farmerPantsLg,
+  "Farmer Pants": farmerPants,
   "Rosy Wide Eyes": rosyWide,
   "Rosy Squinted Eyes": rosySquint,
-  "Black Shoes": blackShoesLg,
-  "Smile Mouth": smileLg,
+  "Black Shoes": blackShoes,
+  "Smile Mouth": smile,
 };
 
 const BUMPKIN_PARTS: Record<Category, CategoryDetails> = {
   hair: {
     name: "hair",
     icon: hairIcon,
-    options: ["Basic Hair", "Explorer Hair"],
+    options: ["Basic Hair", "Explorer Hair", "Rancher Hair"],
   },
   eyes: {
     name: "eyes",
@@ -199,7 +201,7 @@ export const BumpkinBuilder: React.FC<Props> = ({ onMint }) => {
   return (
     <>
       <div className="relative flex flex-col items-center p-2">
-        <h1 className="mb-2 text-lg">Bumpkin Builder</h1>
+        <h1 className="mb-2 text-">Bumpkin Builder</h1>
         <div className="flex mb-2">
           {getKeys(BUMPKIN_PARTS).map((category) => (
             <Box
