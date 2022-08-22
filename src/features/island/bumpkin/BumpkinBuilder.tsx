@@ -25,6 +25,7 @@ import bodyIcon from "assets/bumpkins/icons/body_icon.png";
 import shirtIcon from "assets/bumpkins/icons/shirt_icon.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
+import classNames from "classnames";
 
 export type LimitedBody = "Light Farmer Potion" | "Dark Farmer Potion";
 export type LimitedHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
@@ -183,14 +184,14 @@ export const BumpkinBuilder: React.FC<Props> = ({ onMint }) => {
     });
   };
 
-  const findImageToShow = (category: Category) => {
-    // If rotating through a categories items then find the image from that
+  const getImageToShow = (part: keyof Bumpkin) => {
+    // If rotating through a categories items then get the image from that
     // categories options array
-    if (activeCategory.name === category) {
+    if (activeCategory.name === part) {
       return ITEM_IMAGES[activeCategory.options[selectedOptionIndex]];
     }
-    // else find the image using the selected bumpkin items
-    return ITEM_IMAGES[bumpkinParts[category]];
+    // else get the image from the selected bumpkin items
+    return ITEM_IMAGES[bumpkinParts[part]];
   };
 
   const handleMint = () => {
@@ -218,20 +219,15 @@ export const BumpkinBuilder: React.FC<Props> = ({ onMint }) => {
             alt="drop-shadow"
             className="absolute bottom-0 z-0 opacity-30"
           />
-          <img src={ITEM_IMAGES[bumpkinParts.body]} className="z-0 w-full" />
-          {getKeys(bumpkinParts).map((part, index) => {
-            const zIndex = index * 10;
-
-            if (part === "body") return;
-
-            return (
-              <img
-                key={part}
-                src={findImageToShow(part as Category)}
-                className={`absolute inset-0 z-${zIndex} w-full`}
-              />
-            );
-          })}
+          {getKeys(bumpkinParts).map((part, index) => (
+            <img
+              key={part}
+              src={getImageToShow(part)}
+              className={classNames(`inset-0 z-${index * 10} w-full`, {
+                absolute: part !== "body",
+              })}
+            />
+          ))}
         </div>
 
         <div className="absolute bottom-[9.5%] right-[22%]">
