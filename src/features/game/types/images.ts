@@ -188,6 +188,12 @@ import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 // Buildings
 import firePit from "src/assets/buildings/fire_pit.png";
 
+// Bumpkins - placeholders
+import hairTest from "assets/ui/equipment/hair_test.png";
+import shirtTest from "assets/ui/equipment/shirt_test.png";
+import pantsTest from "assets/ui/equipment/pants_test.png";
+import shoesTest from "assets/ui/equipment/shoes_test.png";
+
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -917,7 +923,7 @@ export const ITEM_DETAILS: Items = {
     description: "An item for your bumpkin",
   },
   "Basic Wig": {
-    image: questionMark,
+    image: hairTest,
     description: "An item for your bumpkin",
   },
   "Explorer Wig": {
@@ -929,7 +935,7 @@ export const ITEM_DETAILS: Items = {
     description: "An item for your bumpkin",
   },
   "Farmer Shirt": {
-    image: questionMark,
+    image: shirtTest,
     description: "An item for your bumpkin",
   },
   "Lumberjack Shirt": {
@@ -945,7 +951,7 @@ export const ITEM_DETAILS: Items = {
     description: "An item for your bumpkin",
   },
   "Farmer Pants": {
-    image: questionMark,
+    image: pantsTest,
     description: "An item for your bumpkin",
   },
 

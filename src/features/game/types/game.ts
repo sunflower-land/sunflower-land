@@ -99,6 +99,7 @@ export type BumpkinBodies =
 export type BumpkinWigs = "Basic Wig" | "Rancher Wig" | "Explorer Wig";
 
 export type BumpkinShirts = "Farmer Shirt" | "Lumberjack Shirt";
+export type BumpkinShoes = "Farmer Shoes";
 
 export type BumpkinPants =
   | "Farmer Overalls"
@@ -109,7 +110,8 @@ export type BumpkinItems =
   | BumpkinBodies
   | BumpkinWigs
   | BumpkinShirts
-  | BumpkinPants;
+  | BumpkinPants
+  | BumpkinShoes;
 
 export type InventoryItemName =
   | CropName
