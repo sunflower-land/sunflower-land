@@ -89,6 +89,10 @@ type EditEvent = {
   type: "EDIT";
 };
 
+type MintBumpkinEvent = {
+  type: "MINT_BUMPKIN";
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -114,6 +118,7 @@ export type BlockchainEvent =
   | MintEvent
   | LevelUpEvent
   | EditEvent
+  | MintBumpkinEvent
   | { type: "EXPAND" };
 
 // // For each game event, convert it to an XState event + handler
@@ -201,7 +206,8 @@ export type BlockchainState = {
     | "error"
     | "refreshing"
     | "hoarding"
-    | "editing";
+    | "editing"
+    | "noBumpkinFound";
   context: Context;
 };
 
@@ -305,6 +311,11 @@ export function startGame(authContext: Options) {
                 actions: "assignGame",
               },
               {
+                target: "noBumpkinFound",
+                cond: (_, event) => !!event.data?.state.bumpkin,
+                actions: "assignGame",
+              },
+              {
                 target: "playing",
                 actions: "assignGame",
               },
@@ -312,6 +323,13 @@ export function startGame(authContext: Options) {
             onError: {
               target: "error",
               actions: "assignErrorMessage",
+            },
+          },
+        },
+        noBumpkinFound: {
+          on: {
+            MINT_BUMPKIN: {
+              target: "playing",
             },
           },
         },

@@ -25,6 +25,7 @@ import { PlaceableOverlay } from "./components/PlaceableOverlay";
 
 import jumpingGoblin from "assets/npcs/goblin_jump.gif";
 import curly from "assets/npcs/curly_hair.png";
+import { BumpkinBuilder } from "features/island/bumpkin/BumpkinBuilder";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -42,6 +43,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   expanded: true,
   hoarding: true,
   editing: false,
+  noBumpkinFound: true,
 };
 
 export const Game: React.FC = () => {
@@ -128,6 +130,9 @@ export const Game: React.FC = () => {
           {gameState.matches("syncing") && <Syncing />}
           {gameState.matches("expanded") && <ExpansionSuccess />}
           {gameState.matches("expanding") && <Expanding />}
+          {gameState.matches("noBumpkinFound") && (
+            <BumpkinBuilder onMint={() => send("MINT_BUMPKIN")} />
+          )}
         </Panel>
       </Modal>
 

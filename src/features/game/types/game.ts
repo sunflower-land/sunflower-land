@@ -91,25 +91,33 @@ export type Bumpkin = {
   level: number;
 };
 
-export type BumpkinBodies =
-  | "Farmer Potion"
-  | "Farmer Potion 2"
+export type BumpkinBody =
+  | "Light Farmer Potion"
+  | "Dark Farmer Potion"
   | "Goblin Potion";
 
-export type BumpkinWigs = "Basic Wig" | "Rancher Wig" | "Explorer Wig";
+export type BumpkinHair = "Basic Hair" | "Explorer Hair";
 
-export type BumpkinShirts = "Farmer Shirt" | "Lumberjack Shirt";
+export type BumpkinShirt = "Farmer Shirt" | "Lumberjack Shirt";
+export type BumpkinMouth = "Smile Mouth" | "Smile Teeth Mouth";
 
 export type BumpkinPants =
   | "Farmer Overalls"
   | "Lumberjack Overalls"
   | "Farmer Pants";
 
+export type BumpkinEyes = "Rosy Wide Eyes" | "Rosy Squinted Eyes";
+
+export type BumpkinShoes = "Black Shoes";
+
 export type BumpkinItems =
-  | BumpkinBodies
-  | BumpkinWigs
-  | BumpkinShirts
-  | BumpkinPants;
+  | BumpkinBody
+  | BumpkinHair
+  | BumpkinShirt
+  | BumpkinPants
+  | BumpkinEyes
+  | BumpkinShoes
+  | BumpkinMouth;
 
 export type InventoryItemName =
   | CropName
