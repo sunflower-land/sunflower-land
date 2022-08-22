@@ -93,7 +93,7 @@ export const Airdrop: React.FC = () => {
           top: `${GRID_WIDTH_PX * 35}px`,
         }}
       >
-        <img src={alerted} className="w-2 mx-3 pb-[12px] animate-float" />
+        <img src={alerted} className="w-3 mx-[12px] pb-[12px] animate-float" />
         <img
           src={chest}
           className="absolute cursor-pointer hover:img-highlight bulge-repeat"
