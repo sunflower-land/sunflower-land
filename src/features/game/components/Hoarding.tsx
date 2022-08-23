@@ -15,7 +15,11 @@ export const Hoarding: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showCaptcha, setShowCaptcha] = useState(false);
+
   const maxedItem = gameState.context.maxedItem as InventoryItemName | "SFL";
+  const maxedItemImage =
+    maxedItem === "SFL" ? token : ITEM_DETAILS[maxedItem].image;
+  const itemName = maxedItem === "SFL" ? maxedItem : maxedItem.toLowerCase();
 
   const onCaptchaSolved = async (captcha: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
@@ -23,22 +27,28 @@ export const Hoarding: React.FC = () => {
     gameService.send("SYNC", { captcha });
   };
 
+  const onAcknowledge = () => {
+    gameService.send("ACKNOWLEDGE");
+  };
+
   const makeTitle = () => {
     const regex = new RegExp(/^[aeiou]/gi);
     const startsWithVowel = regex.test(maxedItem);
     const indefiniteArticle = startsWithVowel ? "an" : "a";
-    const item = maxedItem === "SFL" ? maxedItem : maxedItem.toLowerCase();
 
-    return `Are you ${indefiniteArticle} ${item} hoarder?!`;
+    return `Are you ${indefiniteArticle} ${itemName} hoarder?!`;
   };
-
-  const maxedItemImage =
-    maxedItem === "SFL" ? token : ITEM_DETAILS[maxedItem].image;
 
   return (
     <>
       {!showCaptcha ? (
-        <div>
+        <>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            alt="Close Hoarding Modal"
+            onClick={onAcknowledge}
+          />
           <div className="flex flex-col items-center p-1">
             <span className="text-center text-sm sm:text-base">
               {makeTitle()}
@@ -48,7 +58,7 @@ export const Hoarding: React.FC = () => {
               {`Word is that Goblins are known to raid farms that have an abundance of resources.`}
             </p>
             <p className="text-xs sm:text-sm mb-1">
-              {`To protect yourself and keep those precious resources safe, please sync them on chain before continuing.`}
+              {`To protect yourself and keep those precious resources safe, please sync them on chain before gathering any more ${itemName}.`}
             </p>
             <div className="text-xs underline my-2 w-full">
               <a
@@ -61,7 +71,7 @@ export const Hoarding: React.FC = () => {
             </div>
           </div>
           <Button onClick={() => setShowCaptcha(true)}>Sync</Button>
-        </div>
+        </>
       ) : (
         <div>
           <img
