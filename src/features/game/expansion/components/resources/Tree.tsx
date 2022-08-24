@@ -111,15 +111,15 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
 
   const shake = async () => {
-    shakeGif.current?.goToAndPlay(0);
-
     if (!hasAxes) {
       return;
     }
 
     const isPlaying = shakeGif.current?.getInfo("isPlaying");
 
-    if (isPlaying) return;
+    if (isPlaying) {
+      return;
+    }
 
     chopAudio.play();
     shakeGif.current?.goToAndPlay(0);

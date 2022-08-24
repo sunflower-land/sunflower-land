@@ -87,29 +87,48 @@ export type Ticket =
 
 type WarBanner = "Human War Banner" | "Goblin War Banner";
 
+export interface BumpkinParts {
+  body: BumpkinBody;
+  hair: BumpkinHair;
+  eyes: BumpkinEyes;
+  mouth: BumpkinMouth;
+  shirt: BumpkinShirt;
+  pants: BumpkinPants;
+  shoes: BumpkinShoes;
+}
+
 export type Bumpkin = {
   level: number;
+  parts?: BumpkinParts;
 };
 
-export type BumpkinBodies =
-  | "Farmer Potion"
-  | "Farmer Potion 2"
+export type BumpkinBody =
+  | "Light Farmer Potion"
+  | "Dark Farmer Potion"
   | "Goblin Potion";
 
-export type BumpkinWigs = "Basic Wig" | "Rancher Wig" | "Explorer Wig";
+export type BumpkinHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
 
-export type BumpkinShirts = "Farmer Shirt" | "Lumberjack Shirt";
+export type BumpkinShirt = "Farmer Shirt" | "Lumberjack Shirt";
+export type BumpkinMouth = "Smile" | "Smile With Teeth";
 
 export type BumpkinPants =
   | "Farmer Overalls"
   | "Lumberjack Overalls"
   | "Farmer Pants";
 
+export type BumpkinEyes = "Rosy Wide Eyes" | "Rosy Squinted Eyes";
+
+export type BumpkinShoes = "Black Shoes";
+
 export type BumpkinItems =
-  | BumpkinBodies
-  | BumpkinWigs
-  | BumpkinShirts
-  | BumpkinPants;
+  | BumpkinBody
+  | BumpkinHair
+  | BumpkinShirt
+  | BumpkinPants
+  | BumpkinEyes
+  | BumpkinShoes
+  | BumpkinMouth;
 
 export type InventoryItemName =
   | CropName

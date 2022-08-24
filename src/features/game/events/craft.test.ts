@@ -198,24 +198,39 @@ describe("craft", () => {
     ).toThrow("Insufficient ingredient: Wood");
   });
 
-  // it("does not craft an item that is not in stock", () => {
-  //   expect(() =>
-  //     craft({
-  //       state: {
-  //         ...GAME_STATE,
-  //         stock: {
-  //           "Sunflower Seed": new Decimal(0),
-  //         },
-  //         balance: new Decimal(10),
-  //       },
-  //       action: {
-  //         type: "item.crafted",
-  //         item: "Sunflower Seed",
-  //         amount: 1,
-  //       },
-  //     })
-  //   ).toThrow("Not enough stock");
-  // });
+  it("does not craft an item that is hidden", () => {
+    expect(() =>
+      craft({
+        state: {
+          ...GAME_STATE,
+        },
+        action: {
+          type: "item.crafted",
+          item: "Rusty Shovel",
+          amount: 1,
+        },
+      })
+    ).toThrow("This item is hidden from crafting");
+  });
+
+  it("does not craft an item that is not in stock", () => {
+    expect(() =>
+      craft({
+        state: {
+          ...GAME_STATE,
+          stock: {
+            "Sunflower Seed": new Decimal(0),
+          },
+          balance: new Decimal(10),
+        },
+        action: {
+          type: "item.crafted",
+          item: "Sunflower Seed",
+          amount: 1,
+        },
+      })
+    ).toThrow("Not enough stock");
+  });
 
   it("requires a certain item before crafting", () => {
     expect(() =>

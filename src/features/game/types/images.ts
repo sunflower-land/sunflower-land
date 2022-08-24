@@ -193,6 +193,7 @@ import {
   FOODS,
   CAKES,
   TOOLS,
+  SHOVELS,
   FLAGS,
   BLACKSMITH_ITEMS,
   MARKET_ITEMS,
@@ -201,7 +202,6 @@ import {
   CRAFTABLES,
   LimitedItem,
   MUTANT_CHICKENS,
-  SHOVELS,
   SALESMAN_ITEMS,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
@@ -353,7 +353,7 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
   },
 
-  // TOOLS
+  // Tools
   Axe: {
     ...TOOLS["Axe"],
     image: axe,
@@ -378,6 +378,8 @@ export const ITEM_DETAILS: Items = {
     ...TOOLS["Rod"],
     image: rod,
   },
+
+  // Shovels
   "Rusty Shovel": {
     ...SHOVELS["Rusty Shovel"],
     image: rustyShovel,
@@ -388,7 +390,6 @@ export const ITEM_DETAILS: Items = {
   },
 
   // NFTs
-
   "Sunflower Statue": {
     ...BLACKSMITH_ITEMS["Sunflower Statue"],
     image: sunflowerStatue,
@@ -904,11 +905,11 @@ export const ITEM_DETAILS: Items = {
   /**
    * Bumpkins
    */
-  "Farmer Potion": {
+  "Light Farmer Potion": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Farmer Potion 2": {
+  "Dark Farmer Potion": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
@@ -916,15 +917,15 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Basic Wig": {
+  "Basic Hair": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Explorer Wig": {
+  "Explorer Hair": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Rancher Wig": {
+  "Rancher Hair": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
@@ -945,6 +946,26 @@ export const ITEM_DETAILS: Items = {
     description: "An item for your bumpkin",
   },
   "Farmer Pants": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  Smile: {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Smile With Teeth": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Rosy Wide Eyes": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Rosy Squinted Eyes": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Black Shoes": {
     image: questionMark,
     description: "An item for your bumpkin",
   },

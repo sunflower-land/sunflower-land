@@ -40,6 +40,7 @@ import { checkProgress, processEvent } from "./processEvent";
 import { editingMachine } from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
+import isEmpty from "lodash.isempty";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -89,6 +90,10 @@ type EditEvent = {
   type: "EDIT";
 };
 
+type MintBumpkinEvent = {
+  type: "MINT_BUMPKIN";
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -114,6 +119,7 @@ export type BlockchainEvent =
   | MintEvent
   | LevelUpEvent
   | EditEvent
+  | MintBumpkinEvent
   | { type: "EXPAND" };
 
 // // For each game event, convert it to an XState event + handler
@@ -201,7 +207,8 @@ export type BlockchainState = {
     | "error"
     | "refreshing"
     | "hoarding"
-    | "editing";
+    | "editing"
+    | "noBumpkinFound";
   context: Context;
 };
 
@@ -305,6 +312,11 @@ export function startGame(authContext: Options) {
                 actions: "assignGame",
               },
               {
+                target: "noBumpkinFound",
+                cond: (_, event) => isEmpty(event.data?.state.bumpkin),
+                actions: "assignGame",
+              },
+              {
                 target: "playing",
                 actions: "assignGame",
               },
@@ -312,6 +324,13 @@ export function startGame(authContext: Options) {
             onError: {
               target: "error",
               actions: "assignErrorMessage",
+            },
+          },
+        },
+        noBumpkinFound: {
+          on: {
+            MINT_BUMPKIN: {
+              target: "playing",
             },
           },
         },
@@ -324,10 +343,17 @@ export function startGame(authContext: Options) {
         },
         announcing: {
           on: {
-            ACKNOWLEDGE: {
-              actions: [() => acknowledgeRead()],
-              target: "playing",
-            },
+            ACKNOWLEDGE: [
+              {
+                target: "noBumpkinFound",
+                cond: (context) => isEmpty(context.state.bumpkin),
+                actions: [() => acknowledgeRead()],
+              },
+              {
+                target: "playing",
+                actions: [() => acknowledgeRead()],
+              },
+            ],
           },
         },
         playing: {
@@ -628,6 +654,9 @@ export function startGame(authContext: Options) {
           on: {
             SYNC: {
               target: "syncing",
+            },
+            ACKNOWLEDGE: {
+              target: "playing",
             },
           },
         },

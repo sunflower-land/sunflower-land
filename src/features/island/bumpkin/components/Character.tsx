@@ -1,66 +1,66 @@
 import {
-  BumpkinBodies,
+  BumpkinBody,
   BumpkinItems,
   BumpkinPants,
-  BumpkinShirts,
-  BumpkinWigs,
+  BumpkinShirt,
+  BumpkinHair,
 } from "features/game/types/game";
 import React from "react";
 
 // Bodies
-import farmer from "assets/bumpkins/bodies/farmer_1.gif";
-import farmerTwo from "assets/bumpkins/bodies/farmer_2.gif";
-import goblin from "assets/bumpkins/bodies/goblin.gif";
+import lightFarmer from "assets/bumpkins/small/body/light_farmer.gif";
+import darkFarmer from "assets/bumpkins/small/body/dark_farmer.gif";
+import goblin from "assets/bumpkins/small/body/goblin.gif";
 
 // Wig
-import basic from "assets/bumpkins/hair/basic.gif";
-import rancher from "assets/bumpkins/hair/rancher.gif";
-import explorer from "assets/bumpkins/hair/explorer.gif";
+import basic from "assets/bumpkins/small/hair/basic.gif";
+import explorer from "assets/bumpkins/small/hair/explorer.gif";
 
 // Shirts
-import farmerShirt from "assets/bumpkins/shirts/farmer_shirt.gif";
+import farmerShirt from "assets/bumpkins/small/shirts/farmer_shirt.gif";
+import lumberjackShirt from "assets/bumpkins/small/shirts/lumberjack_shirt.gif";
 
 // Miscellaneous
 import shadow from "assets/npcs/shadow.png";
 
 // Pants
-import farmerOveralls from "assets/bumpkins/pants/farmer_overalls.gif";
-import lumberjackOveralls from "assets/bumpkins/pants/lumberjack_overalls.gif";
+import farmerOveralls from "assets/bumpkins/small/pants/farmer_overalls.gif";
+import lumberjackOveralls from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
+import farmerPants from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-const PARTS: Record<BumpkinItems, string> = {
+const PARTS: Partial<Record<BumpkinItems, string>> = {
   // Bodies
-  "Farmer Potion": farmer,
-  "Farmer Potion 2": farmerTwo,
+  "Light Farmer Potion": lightFarmer,
+  "Dark Farmer Potion": darkFarmer,
   "Goblin Potion": goblin,
 
-  // Wigs
-  "Basic Wig": basic,
-  "Explorer Wig": explorer,
-  "Rancher Wig": rancher,
+  // Hair
+  "Basic Hair": basic,
+  "Explorer Hair": explorer,
 
   // Shirts
   "Farmer Shirt": farmerShirt,
-  "Lumberjack Shirt": farmerShirt, //TODO
+  "Lumberjack Shirt": lumberjackShirt,
 
   // Pants
   "Farmer Overalls": farmerOveralls,
   "Lumberjack Overalls": lumberjackOveralls,
-  "Farmer Pants": farmerOveralls, // TODO
+  "Farmer Pants": farmerPants,
 };
 
 interface Props {
-  body: BumpkinBodies;
-  wig?: BumpkinWigs;
-  shirt?: BumpkinShirts;
+  body: BumpkinBody;
+  hair?: BumpkinHair;
+  shirt?: BumpkinShirt;
   pants?: BumpkinPants;
 
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const Character: React.FC<Props> = ({
   body,
-  wig,
+  hair,
   shirt,
   pants,
   onClick,
@@ -75,7 +75,9 @@ export const Character: React.FC<Props> = ({
         className="z-0"
         style={{ width: `${20 * PIXEL_SCALE}px` }}
       />
-      {wig && <img src={PARTS[wig]} className="absolute w-full inset-0 z-10" />}
+      {hair && (
+        <img src={PARTS[hair]} className="absolute w-full inset-0 z-10" />
+      )}
       {shirt && (
         <img src={PARTS[shirt]} className="absolute w-full inset-0 z-20" />
       )}

@@ -11,7 +11,7 @@ export const Blacklisted: React.FC = () => (
       behaviour. Actions have been restricted.
     </span>
     <a
-      href={`https://sunflowerland.freshdesk.com/support/home`}
+      href={`https://sunflowerland.freshdesk.com/support/tickets/new`}
       className="underline text-center text-sm hover:text-blue-500 mt-1 mb-2 block"
       target="_blank"
       rel="noopener noreferrer"

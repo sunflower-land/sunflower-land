@@ -56,6 +56,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   expanding: false,
   hoarding: true,
   editing: false,
+  noBumpkinFound: false,
 };
 
 export const Game: React.FC = () => {

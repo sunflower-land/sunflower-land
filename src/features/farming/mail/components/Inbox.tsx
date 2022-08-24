@@ -19,7 +19,9 @@ export const Inbox: React.FC<Props> = ({ inbox, isLoading, onRead }) => {
   return (
     <OuterPanel className="relative">
       {isLoading ? (
-        <InnerPanel>Loading...</InnerPanel>
+        <InnerPanel>
+          <span className="loading">Loading</span>
+        </InnerPanel>
       ) : inbox.length ? (
         <Accordion>
           {inbox.map(({ title, body, unread }, index) => (

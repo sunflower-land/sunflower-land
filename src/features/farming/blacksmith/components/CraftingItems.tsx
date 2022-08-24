@@ -32,10 +32,11 @@ export const CraftingItems: React.FC<Props> = ({
   onClose,
   isBulk = false,
 }) => {
-  const [selected, setSelected] = useState<CraftableItem>(
-    Object.values(items)[0]
-  );
-  const [isCraftTenModalOpen, showCraftTenModal] = React.useState(false);
+  // Convert to array and filter out hidden from crafting items
+  const craftableItems = Object.values(items).filter((item) => !item.hidden);
+
+  const [selected, setSelected] = useState<CraftableItem>(craftableItems[0]);
+  const [isCraftTenModalOpen, showCraftTenModal] = useState(false);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -199,7 +200,7 @@ export const CraftingItems: React.FC<Props> = ({
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(items).map((item) => (
+        {craftableItems.map((item) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}
