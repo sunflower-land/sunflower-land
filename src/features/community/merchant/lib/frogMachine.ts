@@ -146,7 +146,7 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
           src: async () => {
             const isTokenApproved = await metamask
               .getToken()
-              .isTokenApprovedForFrogMint();
+              .isTokenApprovedForContract(frogAddress);
             console.log("is token approved?", isTokenApproved);
 
             return { isTokenApproved };

@@ -7,7 +7,6 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 import Decimal from "decimal.js-light";
 
 const address = CONFIG.TOKEN_CONTRACT;
-const frogAddress = CONFIG.FROG_CONTRACT;
 
 /**
  * Token contract
@@ -91,11 +90,14 @@ export class Token {
     return approve;
   }
 
-  public async isTokenApprovedForFrogMint(attempts = 0): Promise<boolean> {
+  public async isTokenApprovedForContract(
+    address: string,
+    attempts = 0
+  ): Promise<boolean> {
     await new Promise((res) => setTimeout(res, 3000 * attempts));
     try {
       const allowance = await this.contract.methods
-        .allowance(this.account, frogAddress)
+        .allowance(this.account, address)
         .call({ from: this.account });
       const allowanceNumber = new Decimal(fromWei(allowance));
       const isApproved = allowanceNumber.gte(100);
@@ -104,7 +106,7 @@ export class Token {
     } catch (e) {
       const error = parseMetamaskError(e);
       if (attempts < 3) {
-        return this.isTokenApprovedForFrogMint(attempts + 1);
+        return this.isTokenApprovedForContract(address, attempts + 1);
       }
 
       throw error;
