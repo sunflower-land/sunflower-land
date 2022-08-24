@@ -13,7 +13,6 @@ import { ErrorCode } from "lib/errors";
 
 // images
 import frog_unrevealed from "assets/nfts/frogs/frog_unrevealed.gif";
-import frog_revealed from "assets/nfts/frogs/frog_revealed.gif";
 import box from "assets/nfts/frogs/box.gif";
 import big_goblin_axe from "assets/npcs/big_goblin_axe.gif";
 import sfl_token from "assets/icons/token.gif";
@@ -54,12 +53,18 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
         )}
         {machine.matches("approve") && (
           <>
-            <div className="flex flex-col items-center mt-4 mb-2">
+            <div className="flex flex-col items-center mt-1 mb-1">
               <h1 className="text-xl mb-2 text-center">
                 {`This season's event: Frogs!`}
               </h1>
               <p className="text-xs mb-4\2 mt-2 text-center">
                 {`Note: This is a Community Feature`}
+              </p>
+              <p className="text-xxs mb-4\2 mt-2 text-center">
+                initiated by{" "}
+                <a href={`${projectDignity}/project-dignity/members`}>
+                  Project Dignity
+                </a>
               </p>
               <img
                 src={frog_unrevealed}
@@ -73,7 +78,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
                   {100} SFL
                 </span>
               </div>
-              <div className="flex items-center border-2 m-2 rounded-md border-black p-2 bg-error">
+              <div className="flex items-center border-2 m-2 rounded-md border-black p-2 bg-[#ffa214]">
                 <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
                 <span className="text-xs">
                   Before minting, you will need to Approve 100 SFL Spending from
@@ -94,32 +99,13 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
         {machine.matches("approving") && (
           <span className="loading mt-1">Approving</span>
         )}
-        {machine.matches("mint") && (
+        {/* {machine.matches("mint") && (
           <>
-            <div className="flex flex-col items-center mt-4">
+            <div className="flex flex-col items-center mt-1 mb-1">
               <h1 className="text-xl mb-2 text-center">
                 {`This season's event: Frogs!`}
               </h1>
-              <img
-                src={frog_revealed}
-                alt="Random frog revealed"
-                className="m-2"
-                width="200px"
-              />
-              <Button
-                className="text-xs mt-2 w-1/2"
-                onClick={() => send("MINT")}
-              >
-                Mint a frog
-              </Button>
-              <div className="flex items-center border-2 m-2 rounded-md border-black p-2 bg-error">
-                <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
-                <span className="text-xs">
-                  THIS WILL DEDUCT 100 SFL TOKENS FROM YOUR{" "}
-                  <u>METAMASK WALLET</u>.
-                </span>
-              </div>
-              <p className="text-xxs mb-4\2 mt-2 text-center">
+              <p className="text-xs mb-4\2 mt-2 text-center">
                 {`Note: This is a Community Feature`}
               </p>
               <p className="text-xxs mb-4\2 mt-2 text-center">
@@ -129,13 +115,32 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 </a>
               </p>
               <img
+                src={frog_revealed}
+                alt="Random frog revealed"
+                className="m-2"
+                width="200px"
+              />
+              <div className="flex items-center border-2 m-2 rounded-md border-black p-2 bg-[#ffa214]">
+                <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+                <span className="text-xs">
+                  THIS WILL DEDUCT 100 SFL TOKENS FROM YOUR{" "}
+                  <u>METAMASK WALLET</u>.
+                </span>
+              </div>
+              <img
                 src={close}
                 className="h-6 cursor-pointer mr-2 mb-1 top-3 right-2 absolute"
                 onClick={onClose}
               />
+              <Button
+                className="text-xs mt-2"
+                onClick={() => send("MINT")}
+              >
+                Mint a frog
+              </Button>
             </div>
           </>
-        )}
+        )} */}
         {machine.matches("check_whitelist") && (
           <span className="loading mt-1">Checking whitelist</span>
         )}
@@ -154,19 +159,19 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
         )}
         {machine.matches("minted") && (
           <>
-            <div className="flex flex-col items-center mt-4">
+            <div className="flex flex-col items-center mt-1 mb-1">
               <span className="mt-1">Your frog has been minted!</span>
               <img
                 src={frog_unrevealed}
                 alt="Goblin with Axe"
-                className="m-2"
+                className="m-2 pt-4 pb-4"
                 width="200px"
               />
               <p className="text-xs text-center mb-2">
                 What to do next? Wait for frog reveal!
               </p>
               <p className="text-xxs text-center">
-                {`Note: When all frogs are minted, you'll see what kind of frog you got!`}
+                {`When all frogs are minted, you'll see what kind of frog you got!`}
               </p>
               <Button
                 className="text-xs mt-2"
@@ -193,34 +198,46 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
             </div>
           </>
         )}
-        {machine.matches("finished") && (
+        {true && (
+          // {machine.matches("finished") && (
           <>
-            <div className="flex flex-col items-center mt-4 mb-2">
-              <span className="mt-1">All Frogs found their home.</span>
+            <div className="flex flex-col items-center mt-1 mb-2">
               <img src={heart} width="50px" />
               <img
                 src={close}
                 className="h-6 cursor-pointer mr-2 mb-1 top-3 right-2 absolute"
                 onClick={onClose}
               />
+              <span className="mt-2 text-center">
+                All Frogs found their home.
+              </span>
             </div>
           </>
         )}
         {machine.matches("blacklisted") && (
           <>
-            <div className="flex flex-col items-center mt-4">
-              <span className="mt-1">You already minted your frog!</span>
+            <div className="flex flex-col items-center mt-1 mb-1">
+              <span className="mt-1">You already minted a frog!</span>
+              <p className="text-xs mb-4\2 mt-2 text-center">
+                {`Note: This is a Community Feature`}
+              </p>
+              <p className="text-xxs mb-4\2 mt-2 text-center">
+                initiated by{" "}
+                <a href={`${projectDignity}/project-dignity/members`}>
+                  Project Dignity
+                </a>
+              </p>
               <img
                 src={big_goblin_axe}
                 alt="Goblin with Axe"
-                className="m-2"
+                className="m-2 pt-4 pb-4"
                 width="75px"
               />
               <p className="text-xs text-center">
                 We allow only 1 Frog Mint per farm.
               </p>
               <p className="text-xxs text-center">
-                {`Note: When all frogs are minted, you'll see what kind of frog you got!`}
+                {`When all frogs are minted, you'll see what kind of frog you got!`}
               </p>
               <Button
                 className="text-xs mt-2"
@@ -249,14 +266,16 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
         )}
         {machine.matches("not_whitelisted") && (
           <>
-            <div className="flex flex-col items-center mt-4 mb-2">
-              <span>Sorry, you are not whitelisted for this event.</span>
+            <div className="flex flex-col items-center mt-1 mb-2">
               <img src={cancel} width="50px" className="mt-1" />
               <img
                 src={close}
                 className="h-6 cursor-pointer mr-2 mb-1 top-3 right-2 absolute"
                 onClick={onClose}
               />
+              <span className="mt-2 text-center">
+                Sorry, you are not whitelisted for this event.
+              </span>
             </div>
           </>
         )}
