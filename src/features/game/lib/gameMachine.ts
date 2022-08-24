@@ -655,6 +655,9 @@ export function startGame(authContext: Options) {
             SYNC: {
               target: "syncing",
             },
+            ACKNOWLEDGE: {
+              target: "playing",
+            },
           },
         },
         editing: {
