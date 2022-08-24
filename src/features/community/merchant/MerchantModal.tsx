@@ -13,6 +13,7 @@ import { ErrorCode } from "lib/errors";
 
 // images
 import frog_unrevealed from "assets/nfts/frogs/frog_unrevealed.gif";
+import frog_revealed from "assets/nfts/frogs/frog_revealed.gif";
 import box from "assets/nfts/frogs/box.gif";
 import big_goblin_axe from "assets/npcs/big_goblin_axe.gif";
 import sfl_token from "assets/icons/token.gif";
@@ -99,7 +100,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
         {machine.matches("approving") && (
           <span className="loading mt-1">Approving</span>
         )}
-        {/* {machine.matches("mint") && (
+        {machine.matches("mint") && (
           <>
             <div className="flex flex-col items-center mt-1 mb-1">
               <h1 className="text-xl mb-2 text-center">
@@ -132,15 +133,12 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 className="h-6 cursor-pointer mr-2 mb-1 top-3 right-2 absolute"
                 onClick={onClose}
               />
-              <Button
-                className="text-xs mt-2"
-                onClick={() => send("MINT")}
-              >
+              <Button className="text-xs mt-2" onClick={() => send("MINT")}>
                 Mint a frog
               </Button>
             </div>
           </>
-        )} */}
+        )}
         {machine.matches("check_whitelist") && (
           <span className="loading mt-1">Checking whitelist</span>
         )}
@@ -198,8 +196,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
             </div>
           </>
         )}
-        {true && (
-          // {machine.matches("finished") && (
+        {machine.matches("finished") && (
           <>
             <div className="flex flex-col items-center mt-1 mb-2">
               <img src={heart} width="50px" />
