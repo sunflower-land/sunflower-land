@@ -2,7 +2,6 @@ import { pingHealthCheck } from "web3-health-check";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { CONFIG } from "lib/config";
-import { estimateGasPrice, parseMetamaskError } from "lib/blockchain/utils";
 import { Frog } from "./Frog";
 
 /**
@@ -16,11 +15,6 @@ export class CommunityContracts {
 
   private async initialiseContracts() {
     try {
-      // this.legacyFarm = new LegacyFarm(
-      //   this.web3 as Web3,
-      //   this.account as string
-      // );
-
       try {
         this.frog = new Frog(this.web3 as Web3, this.account as string);
       } catch (e) {
@@ -118,170 +112,12 @@ export class CommunityContracts {
     }
   }
 
-  public async signTransaction(nonce: number, account = this.account) {
-    if (!this.web3) {
-      throw new Error(ERRORS.NO_WEB3);
-    }
-
-    const message = this.generateSignatureMessage({
-      address: account as string,
-      nonce,
-    });
-
-    try {
-      const signature = await this.web3.eth.personal.sign(
-        message,
-        account as string,
-        // Empty password, handled by Metamask
-        ""
-      );
-
-      return {
-        signature,
-      };
-    } catch (error: any) {
-      const parsed = parseMetamaskError(error);
-      throw parsed;
-    }
-  }
-
-  private generateSignatureMessage({
-    address,
-    nonce,
-  }: {
-    address: string;
-    nonce: number;
-  }) {
-    const MESSAGE = `🌻 Welcome to Sunflower Land! 🌻\n\nClick to sign in and accept the Sunflower Land\n📜 Terms of Service:\nhttps://docs.sunflower-land.com/support/terms-of-service\n\nThis request will not trigger a blockchain\ntransaction or cost any gas fees.\n\nYour authentication status will reset after\neach session.\n\n👛 Wallet address:\n${address.substring(
-      0,
-      19
-    )}...${address.substring(24)}\n\n🔑 Nonce: ${nonce}`;
-    return MESSAGE;
-  }
-
-  private getDefaultChainParam() {
-    if (CONFIG.POLYGON_CHAIN_ID === 137) {
-      return {
-        chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
-        chainName: "Polygon Mainnet",
-        nativeCurrency: {
-          name: "MATIC",
-          symbol: "MATIC",
-          decimals: 18,
-        },
-        rpcUrls: ["https://polygon-rpc.com/"],
-        blockExplorerUrls: ["https://polygonscan.com/"],
-      };
-    } else {
-      return {
-        chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
-        chainName: "Polygon Testnet Mumbai",
-        nativeCurrency: {
-          name: "MATIC",
-          symbol: "MATIC",
-          decimals: 18,
-        },
-        rpcUrls: ["https://matic-mumbai.chainstacklabs.com"],
-        blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
-      };
-    }
-  }
-
-  public async checkDefaultNetwork() {
-    const chainId = await this.web3?.eth.getChainId();
-    return chainId === CONFIG.POLYGON_CHAIN_ID;
-  }
-
-  public async switchNetwork() {
-    await window.ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [
-        { chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}` },
-      ],
-    });
-  }
-
-  public async addNetwork() {
-    try {
-      const defaultChainParam = this.getDefaultChainParam();
-      await window.ethereum.request({
-        method: "wallet_addEthereumChain",
-        params: [
-          {
-            ...defaultChainParam,
-          },
-        ],
-      });
-    } catch (addError) {
-      throw new Error(ERRORS.WRONG_CHAIN);
-    }
-  }
-
-  public async initialiseNetwork() {
-    try {
-      await this.switchNetwork();
-    } catch (e: any) {
-      if (e.code === 4902) {
-        await this.addNetwork();
-      }
-      throw e;
-    }
-  }
-
-  public async donate(
-    donation: number,
-    to = CONFIG.DONATION_ADDRESS as string
-  ) {
-    const gasPrice = await estimateGasPrice(this.web3 as Web3);
-  }
-
   public getFrog() {
     return this.frog as Frog;
   }
 
   public get myAccount() {
     return this.account;
-  }
-
-  public async getBlockNumber() {
-    try {
-      const number = await this.web3?.eth.getBlockNumber();
-
-      if (!number) {
-        throw new Error(ERRORS.NETWORK_CONGESTED);
-      }
-
-      return number;
-    } catch (error: any) {
-      const parsed = parseMetamaskError(error);
-
-      throw parsed;
-    }
-  }
-
-  public async addTokenToMetamask() {
-    try {
-      const tokenSymbol = "SFL";
-      const tokenDecimals = 18;
-
-      await window.ethereum.request({
-        method: "wallet_watchAsset",
-        params: {
-          type: "ERC20",
-          options: {
-            address: CONFIG.TOKEN_CONTRACT,
-            symbol: tokenSymbol,
-            decimals: tokenDecimals,
-            image:
-              "https://github.com/sunflower-land/sunflower-land/blob/main/src/assets/brand/icon.png?raw=true",
-          },
-        },
-      });
-    } catch (error: any) {
-      const parsed = parseMetamaskError(error);
-
-      throw parsed;
-    }
   }
 }
 
