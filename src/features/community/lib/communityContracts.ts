@@ -1,36 +1,16 @@
 import { pingHealthCheck } from "web3-health-check";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
-import { SessionManager } from "./Sessions";
-import { Farm } from "./Farm";
-import { FarmMinter } from "./FarmMinter";
-import { Inventory } from "./Inventory";
-import { Pair } from "./Pair";
-import { WishingWell } from "./WishingWell";
-import { Token } from "./Token";
-import { toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
-import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { SunflowerFarmers } from "./SunflowerFarmers";
-import { MillionOnMars } from "./MillionOnMars";
-import { Trader } from "./Trader";
+import { estimateGasPrice, parseMetamaskError } from "lib/blockchain/utils";
+import { Frog } from "./Frog";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
-export class Metamask {
+export class CommunityContracts {
   private web3: Web3 | null = null;
-
-  private farm: Farm | null = null;
-  private sunflowerFarmers: SunflowerFarmers | null = null;
-  private session: SessionManager | null = null;
-  private farmMinter: FarmMinter | null = null;
-  private inventory: Inventory | null = null;
-  private pair: Pair | null = null;
-  private wishingWell: WishingWell | null = null;
-  private token: Token | null = null;
-  private millionOnMars: MillionOnMars | null = null;
-  private trader: Trader | null = null;
+  private frog: Frog | null = null;
 
   private account: string | null = null;
 
@@ -41,31 +21,11 @@ export class Metamask {
       //   this.account as string
       // );
 
-      this.farm = new Farm(this.web3 as Web3, this.account as string);
-      this.sunflowerFarmers = new SunflowerFarmers(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.session = new SessionManager(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.farmMinter = new FarmMinter(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.inventory = new Inventory(this.web3 as Web3, this.account as string);
-      this.pair = new Pair(this.web3 as Web3, this.account as string);
-      this.token = new Token(this.web3 as Web3, this.account as string);
-      this.wishingWell = new WishingWell(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.millionOnMars = new MillionOnMars(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.trader = new Trader(this.web3 as Web3, this.account as string);
+      try {
+        this.frog = new Frog(this.web3 as Web3, this.account as string);
+      } catch (e) {
+        console.error("Unable to initialise frog contract", e);
+      }
 
       const isHealthy = await this.healthCheck();
 
@@ -273,59 +233,10 @@ export class Metamask {
     to = CONFIG.DONATION_ADDRESS as string
   ) {
     const gasPrice = await estimateGasPrice(this.web3 as Web3);
-
-    try {
-      await this.web3?.eth.sendTransaction({
-        from: metamask.myAccount as string,
-        to,
-        value: toHex(toWei(donation.toString(), "ether")),
-        gasPrice,
-      });
-    } catch (error: any) {
-      const parsed = parseMetamaskError(error);
-
-      throw parsed;
-    }
   }
 
-  public getFarm() {
-    return this.farm as Farm;
-  }
-
-  public getSunflowerFarmers() {
-    return this.sunflowerFarmers as SunflowerFarmers;
-  }
-
-  public getInventory() {
-    return this.inventory as Inventory;
-  }
-
-  public getFarmMinter() {
-    return this.farmMinter as FarmMinter;
-  }
-
-  public getSessionManager() {
-    return this.session as SessionManager;
-  }
-
-  public getPair() {
-    return this.pair as Pair;
-  }
-
-  public getWishingWell() {
-    return this.wishingWell as WishingWell;
-  }
-
-  public getToken() {
-    return this.token as Token;
-  }
-
-  public getMillionOnMars() {
-    return this.millionOnMars as MillionOnMars;
-  }
-
-  public getTrader() {
-    return this.trader as Trader;
+  public getFrog() {
+    return this.frog as Frog;
   }
 
   public get myAccount() {
@@ -374,4 +285,4 @@ export class Metamask {
   }
 }
 
-export const metamask = new Metamask();
+export const communityContracts = new CommunityContracts();

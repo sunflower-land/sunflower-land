@@ -4,6 +4,7 @@ import { ERRORS } from "lib/errors";
 import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
+import { communityContracts } from "features/community/lib/communityContracts";
 import { createFarm as createFarmAction } from "../actions/createFarm";
 import { login, Token, decodeToken, removeSession } from "../actions/login";
 import { oauthorise, redirectOAuth } from "../actions/oauth";
@@ -493,6 +494,7 @@ export const authMachine = createMachine<
     services: {
       initMetamask: async (context, event): Promise<void> => {
         await metamask.initialise();
+        await communityContracts.initialise();
       },
       loadFarm: async (): Promise<Farm | undefined> => {
         const farmAccounts = await metamask.getFarm()?.getFarms();

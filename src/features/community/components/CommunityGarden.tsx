@@ -4,6 +4,7 @@ import { useActor } from "@xstate/react";
 
 import { Context } from "../lib/CommunityProvider";
 import { Panel } from "components/ui/Panel";
+import { Merchant } from "../merchant/Merchant";
 
 export const CommunityGarden: React.FC = () => {
   const { communityService } = useContext(Context);
@@ -21,6 +22,7 @@ export const CommunityGarden: React.FC = () => {
         </Panel>
       </Modal>
 
+      <Merchant />
       {
         // Place community features here
       }

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { frogAudio } from "lib/utils/sfx";
-import { loadFrogs } from "features/game/actions/loadFrogs";
+import { loadFrogs } from "features/community/merchant/actions/loadFrogs";
 
 export const FrogNft: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
