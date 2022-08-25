@@ -1,11 +1,11 @@
-import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
-import FarmMinterABI from "./abis/FarmMinter.json";
-import { SunflowerLandFarmMinter } from "./types/SunflowerLandFarmMinter";
+import BumpkinMinterABI from "./abis/BumpkinMinter.json";
+import { BumpkinMinter as IBumpkinMinter } from "./types/BumpkinMinter";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
-const address = CONFIG.FARM_MINTER_CONTRACT;
+// TODO - currently bumpkin address
+const address = "0x74648cbC60333fc46F35E820A8Bd1732394fc8a5";
 
 /**
  * Bumpkin minter contract
@@ -14,8 +14,7 @@ export class BumpkinMinter {
   private web3: Web3;
   private account: string;
 
-  // TODO
-  private contract: SunflowerLandFarmMinter;
+  private contract: IBumpkinMinter;
 
   constructor(web3: Web3, account: string) {
     this.web3 = web3;
@@ -23,14 +22,18 @@ export class BumpkinMinter {
 
     // TODO
     this.contract = new this.web3.eth.Contract(
-      FarmMinterABI as AbiItem[],
+      BumpkinMinterABI as AbiItem[],
       address as string
-    ) as unknown as SunflowerLandFarmMinter;
+    ) as unknown as IBumpkinMinter;
   }
 
   public async createBumpkin({
     signature,
     deadline,
+    fee,
+    partIds,
+    farmId,
+    tokenUri,
   }: {
     signature: string;
     deadline: number;
@@ -41,9 +44,13 @@ export class BumpkinMinter {
   }): Promise<string> {
     const gasPrice = await estimateGasPrice(this.web3);
 
+    // Not currently working so using Bumpkin directly
+
+    // TODO add tokenURI
+    const quanities = partIds.map((_) => 1);
     return new Promise((resolve, reject) => {
       this.contract.methods
-        .createBumpkin(signature, deadline, fee, farmId, partIds, tokenUri)
+        .mintBumpkin(signature, deadline, fee, farmId, partIds, quanities)
         .send({ from: this.account, value: fee, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });

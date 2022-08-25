@@ -1,17 +1,17 @@
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
-import FarmMinterABI from "./abis/FarmMinter.json";
+import BumpkinDetailsABI from "./abis/BumpkinDetails.json";
 import { metamask } from "./metamask";
-import { SunflowerLandFarmMinter } from "./types/SunflowerLandFarmMinter";
+import { BumpkinDetails as IBumpkinDetails } from "./types/BumpkinDetails";
 
 const address = CONFIG.FARM_MINTER_CONTRACT;
 
 export type OnChainBumpkin = {
-  tokenId: number;
+  tokenId: string;
   tokenURI: string;
   owner: string;
-  createdAt: number;
+  createdAt: string;
   createdBy: string;
   nonce: string;
   metadata: string;
@@ -26,7 +26,7 @@ export class BumpkinDetails {
   private account: string;
 
   // TODO
-  private contract: SunflowerLandFarmMinter;
+  private contract: IBumpkinDetails;
 
   constructor(web3: Web3, account: string) {
     this.web3 = web3;
@@ -34,17 +34,14 @@ export class BumpkinDetails {
 
     // TODO
     this.contract = new this.web3.eth.Contract(
-      FarmMinterABI as AbiItem[],
+      BumpkinDetailsABI as AbiItem[],
       address as string
-    ) as unknown as SunflowerLandFarmMinter;
+    ) as unknown as IBumpkinDetails;
   }
 
   public async loadBumpkins(): Promise<OnChainBumpkin[]> {
-    return [];
-
-    // TODO
     return this.contract.methods
-      .loadBumpkins(metamask.myAccount)
+      .loadBumpkins(metamask.myAccount as string)
       .call({ from: this.account });
   }
 }
