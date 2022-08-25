@@ -40,7 +40,6 @@ import { checkProgress, processEvent } from "./processEvent";
 import { editingMachine } from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
-import isEmpty from "lodash.isempty";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -269,6 +268,7 @@ export function startGame(authContext: Options) {
 
                 const response = await loadSession({
                   farmId,
+                  bumpkinId: 5,
                   sessionId,
                   token: authContext.rawToken as string,
                 });
@@ -278,6 +278,8 @@ export function startGame(authContext: Options) {
                 }
 
                 const { game, offset, whitelistedAt, itemsMintedAt } = response;
+
+                console.log({ response });
 
                 // add farm address
                 game.farmAddress = authContext.address;
@@ -313,7 +315,7 @@ export function startGame(authContext: Options) {
               },
               {
                 target: "noBumpkinFound",
-                cond: (_, event) => isEmpty(event.data?.state.bumpkin),
+                cond: (_, event) => !event.data?.state.bumpkin,
                 actions: "assignGame",
               },
               {
@@ -346,7 +348,7 @@ export function startGame(authContext: Options) {
             ACKNOWLEDGE: [
               {
                 target: "noBumpkinFound",
-                cond: (context) => isEmpty(context.state.bumpkin),
+                cond: (context) => !context.state.bumpkin,
                 actions: [() => acknowledgeRead()],
               },
               {
