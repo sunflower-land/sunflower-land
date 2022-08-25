@@ -149,7 +149,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 src={box}
                 alt="Sunflower Box"
                 className="m-2"
-                width="200px"
+                width="100px"
               />
               <span className="loading mt-1">Minting frog</span>
             </div>

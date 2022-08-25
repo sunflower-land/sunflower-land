@@ -1,8 +1,5 @@
 import { communityContracts } from "features/community/lib/communityContracts";
-import { CONFIG } from "lib/config";
 import frog_unrevealed from "assets/nfts/frogs/frog_unrevealed.gif";
-
-const FROG_URL = CONFIG.FROG_URL;
 
 type Request = {
   frogId: number[];
@@ -54,7 +51,9 @@ export async function getFrogMetadata(request: Request) {
   headers.append("Content-Type", "application/json");
   headers.append("Accept", "application/json");
 
-  const url = `${FROG_URL}/frogs/${request.frogId}`;
+  const frogBaseUri = await communityContracts.getFrog().getBaseUri();
+
+  const url = `${frogBaseUri}/${request.frogId}.json`;
   const response = await window.fetch(url, {
     mode: "cors",
     method: "GET",
@@ -63,7 +62,7 @@ export async function getFrogMetadata(request: Request) {
 
   const data = await response.json();
 
-  return data[0];
+  return data;
 }
 
 export async function isFrogPreview() {
