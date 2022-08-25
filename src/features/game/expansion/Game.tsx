@@ -25,10 +25,12 @@ import { PlaceableOverlay } from "./components/PlaceableOverlay";
 
 import jumpingGoblin from "assets/npcs/goblin_jump.gif";
 import curly from "assets/npcs/curly_hair.png";
-import { BumpkinBuilder } from "features/island/bumpkin/BumpkinBuilder";
 import { Notifications } from "../components/Notifications";
 import { Announcements } from "features/announcements/Announcement";
 import { Hoarding } from "../components/Hoarding";
+import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
+import { MintingBumpkin } from "features/island/bumpkin/components/MintingBumpkin";
+import { BumpkinMinted } from "features/island/bumpkin/components/BumpkinMinted";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -47,6 +49,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   hoarding: true,
   editing: false,
   noBumpkinFound: true,
+  mintingBumpkin: true,
+  bumpkinMinted: true,
 };
 
 export const Game: React.FC = () => {
@@ -136,9 +140,9 @@ export const Game: React.FC = () => {
           {gameState.matches("expanded") && <ExpansionSuccess />}
           {gameState.matches("expanding") && <Expanding />}
           {gameState.matches("hoarding") && <Hoarding />}
-          {gameState.matches("noBumpkinFound") && (
-            <BumpkinBuilder onMint={() => send("MINT_BUMPKIN")} />
-          )}
+          {gameState.matches("noBumpkinFound") && <NoBumpkin />}
+          {gameState.matches("mintingBumpkin") && <MintingBumpkin />}
+          {gameState.matches("bumpkinMinted") && <BumpkinMinted />}
         </Panel>
       </Modal>
 

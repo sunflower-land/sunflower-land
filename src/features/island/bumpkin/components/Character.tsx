@@ -31,8 +31,9 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const PARTS: Partial<Record<BumpkinItems, string>> = {
   // Bodies
-  "Light Farmer Potion": lightFarmer,
+  "Beige Farmer Potion": lightFarmer,
   "Dark Farmer Potion": darkFarmer,
+  "Brown Farmer Potion": darkFarmer, // TODO
   "Goblin Potion": goblin,
 
   // Hair

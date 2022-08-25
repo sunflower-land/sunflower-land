@@ -201,9 +201,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Bakery: 1005,
 
   // Bumpkins
-  "Light Farmer Potion": 1101,
-  "Dark Farmer Potion": 1102,
-  "Goblin Potion": 1103,
+  "Beige Farmer Potion": 1101,
+  "Brown Farmer Potion": 1102,
+  "Dark Farmer Potion": 1103,
+  "Goblin Potion": 1104,
 
   "Basic Hair": 1201,
   "Rancher Hair": 1202,

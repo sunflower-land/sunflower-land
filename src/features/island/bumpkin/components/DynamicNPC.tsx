@@ -25,7 +25,8 @@ type LimitedBumpkinItem =
   | LimitedPants;
 
 const PARTS: Record<LimitedBumpkinItem, string> = {
-  "Light Farmer Potion": lightSheet,
+  "Beige Farmer Potion": lightSheet,
+  "Brown Farmer Potion": darkSheet, // TODO
   "Dark Farmer Potion": darkSheet,
   "Basic Hair": basicSheet,
   "Explorer Hair": explorerSheet,

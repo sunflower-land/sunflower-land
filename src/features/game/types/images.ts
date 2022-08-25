@@ -905,7 +905,11 @@ export const ITEM_DETAILS: Items = {
   /**
    * Bumpkins
    */
-  "Light Farmer Potion": {
+  "Beige Farmer Potion": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Brown Farmer Potion": {
     image: questionMark,
     description: "An item for your bumpkin",
   },

@@ -10,6 +10,7 @@ import { EMPTY } from "../lib/constants";
 import { CONFIG } from "lib/config";
 import { KNOWN_IDS } from "../types";
 import { Recipe } from "lib/blockchain/Sessions";
+import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 
 const API_URL = CONFIG.API_URL;
 
@@ -51,6 +52,7 @@ export async function getOnChainState({
   game: GameState;
   owner: string;
   limitedItems: LimitedItemRecipeWithMintedAt[];
+  bumpkin?: OnChainBumpkin;
 }> {
   if (!CONFIG.API_URL) {
     return { game: EMPTY, owner: "", limitedItems: [] };
@@ -59,6 +61,7 @@ export async function getOnChainState({
   const balanceFn = metamask.getToken().balanceOf(farmAddress);
   const balancesFn = metamask.getInventory().getBalances(farmAddress);
   const farmFn = metamask.getFarm().getFarm(id);
+  const bumpkinFn = metamask.getBumpkinDetails().loadBumpkins();
 
   // Short term workaround to get data from session contract
   const recipesFn = metamask.getSessionManager().getRecipes(RECIPES_IDS);
@@ -68,13 +71,15 @@ export async function getOnChainState({
     .getMintedAtBatch(id, RECIPES_IDS);
 
   // Promise all
-  const [balance, balances, farm, recipes, mintedAts] = await Promise.all([
-    balanceFn,
-    balancesFn,
-    farmFn,
-    recipesFn,
-    mintedAtsFn,
-  ]);
+  const [balance, balances, farm, recipes, mintedAts, bumpkins] =
+    await Promise.all([
+      balanceFn,
+      balancesFn,
+      farmFn,
+      recipesFn,
+      mintedAtsFn,
+      bumpkinFn,
+    ]);
 
   const limitedItems = recipes.map((recipe, index) => ({
     ...recipe,
@@ -94,6 +99,7 @@ export async function getOnChainState({
     },
     owner: farm.owner,
     limitedItems,
+    bumpkin: bumpkins[0],
   };
 }
 

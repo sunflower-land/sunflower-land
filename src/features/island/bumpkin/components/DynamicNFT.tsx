@@ -22,7 +22,8 @@ interface Props {
 }
 
 const ITEM_IMAGES: Record<BumpkinItems, string> = {
-  "Light Farmer Potion": lightFarmerPotion,
+  "Beige Farmer Potion": lightFarmerPotion,
+  "Brown Farmer Potion": darkFarmerPotion, // TODO
   "Dark Farmer Potion": darkFarmerPotion,
   "Goblin Potion": darkFarmerPotion, // TODO: add item
   "Basic Hair": basicHair,

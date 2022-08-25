@@ -98,12 +98,14 @@ export interface BumpkinParts {
 }
 
 export type Bumpkin = {
+  id: number;
   level: number;
   parts?: BumpkinParts;
 };
 
 export type BumpkinBody =
-  | "Light Farmer Potion"
+  | "Beige Farmer Potion"
+  | "Brown Farmer Potion"
   | "Dark Farmer Potion"
   | "Goblin Potion";
 

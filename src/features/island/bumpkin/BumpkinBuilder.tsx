@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box } from "components/ui/Box";
 import { getKeys } from "features/game/types/craftables";
 import { randomBetweenMaxExclusive as randomInt } from "features/game/expansion/lib/randomBetweenMaxExlusive";
@@ -6,27 +6,19 @@ import { Button } from "components/ui/Button";
 import { DynamicNPC } from "./components/DynamicNPC";
 import { DynamicNFT } from "./components/DynamicNFT";
 
-import rosyWide from "assets/bumpkins/large/eyes/rosy_wide.png";
-import rosySquint from "assets/bumpkins/large/eyes/rosy_squint.png";
-import lightFarmerPotion from "assets/bumpkins/large/body/light_farmer.png";
-import darkFarmerPotion from "assets/bumpkins/large/body/dark_farmer.png";
-import farmerShirt from "assets/bumpkins/large/shirts/farmer_shirt.png";
-import lumberjackShirt from "assets/bumpkins/large/shirts/lumberjack_shirt.png";
-import basicHair from "assets/bumpkins/large/hair/basic.png";
-import explorerHair from "assets/bumpkins/large/hair/explorer.png";
-import rancherHair from "assets/bumpkins/large/hair/rancher.png";
-import farmerPants from "assets/bumpkins/large/pants/farmer_pants.png";
-import blackShoes from "assets/bumpkins/large/shoes/black_shoes.png";
-import smile from "assets/bumpkins/large/mouths/smile.png";
-
 import hairIcon from "assets/bumpkins/icons/hair_icon.png";
 import eyesIcon from "assets/bumpkins/icons/eyes_icon.png";
 import bodyIcon from "assets/bumpkins/icons/body_icon.png";
 import shirtIcon from "assets/bumpkins/icons/shirt_icon.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
+import { Context } from "features/game/GameProvider";
+import { InitialBumpkinParts } from "features/game/actions/mintBumpkin";
 
-export type LimitedBody = "Light Farmer Potion" | "Dark Farmer Potion";
+export type LimitedBody =
+  | "Beige Farmer Potion"
+  | "Brown Farmer Potion"
+  | "Dark Farmer Potion";
 export type LimitedHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
 export type LimitedShirt = "Farmer Shirt" | "Lumberjack Shirt";
 export type LimitedPants = "Farmer Pants";
@@ -60,21 +52,6 @@ type CategoryDetails = {
   options: LimitedBumpkinItem[];
 };
 
-const ITEM_IMAGES: Record<LimitedBumpkinItem, string> = {
-  "Light Farmer Potion": lightFarmerPotion,
-  "Dark Farmer Potion": darkFarmerPotion,
-  "Basic Hair": basicHair,
-  "Explorer Hair": explorerHair,
-  "Rancher Hair": rancherHair,
-  "Farmer Shirt": farmerShirt,
-  "Lumberjack Shirt": lumberjackShirt,
-  "Farmer Pants": farmerPants,
-  "Rosy Wide Eyes": rosyWide,
-  "Rosy Squinted Eyes": rosySquint,
-  "Black Shoes": blackShoes,
-  Smile: smile,
-};
-
 const BUMPKIN_PARTS: Record<Category, CategoryDetails> = {
   hair: {
     name: "hair",
@@ -89,7 +66,11 @@ const BUMPKIN_PARTS: Record<Category, CategoryDetails> = {
   body: {
     name: "body",
     icon: bodyIcon,
-    options: ["Light Farmer Potion", "Dark Farmer Potion"],
+    options: [
+      "Beige Farmer Potion",
+      "Brown Farmer Potion",
+      "Dark Farmer Potion",
+    ],
   },
   shirt: {
     name: "shirt",
@@ -124,11 +105,7 @@ const findSelectedOptionIndex = (
   return options.findIndex((option) => option === selectedOption);
 };
 
-interface Props {
-  onMint: () => void;
-}
-
-export const BumpkinBuilder: React.FC<Props> = ({ onMint }) => {
+export const BumpkinBuilder: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryDetails>(
     BUMPKIN_PARTS.hair
   );
@@ -136,6 +113,8 @@ export const BumpkinBuilder: React.FC<Props> = ({ onMint }) => {
   const [bumpkinParts, setBumpkinParts] = useState<Bumpkin>(
     makeInitialBumpkin()
   );
+
+  const { gameService } = useContext(Context);
 
   useEffect(() => {
     setSelectedOptionIndex(
@@ -174,7 +153,13 @@ export const BumpkinBuilder: React.FC<Props> = ({ onMint }) => {
 
   const handleMint = () => {
     console.log(bumpkinParts);
-    onMint();
+    const parts: InitialBumpkinParts = {
+      body: bumpkinParts.body,
+      hair: bumpkinParts.hair,
+      shirt: bumpkinParts.shirt,
+      eyes: bumpkinParts.eyes,
+    };
+    gameService.send("MINT_BUMPKIN", { parts });
   };
 
   return (
