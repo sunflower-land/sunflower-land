@@ -89,6 +89,7 @@ export async function getOnChainState({
   const inventory = balancesToInventory(balances);
   const fields = populateFields(inventory);
 
+  console.log({ bumpkins });
   return {
     game: {
       ...EMPTY,

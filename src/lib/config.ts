@@ -18,6 +18,10 @@ const CLIENT_VERSION = import.meta.env.VITE_CLIENT_VERSION as string;
 const RELEASE_VERSION = import.meta.env.VITE_RELEASE_VERSION as string;
 const RECAPTCHA_SITEKEY = import.meta.env.VITE_RECAPTCHA_SITEKEY as string;
 const TRADER_CONTRACT = import.meta.env.VITE_TRADER_CONTRACT as string;
+const BUMPKIN_DETAILS_CONTRACT = import.meta.env
+  .VITE_BUMPKIN_DETAILS_CONTRACT as string;
+const BUMPKIN_MINTER_CONTRACT = import.meta.env
+  .VITE_BUMPKIN_MINTER_CONTRACT as string;
 
 export const CONFIG = {
   NETWORK,
@@ -39,4 +43,6 @@ export const CONFIG = {
   RECAPTCHA_SITEKEY,
   MOM_CONTRACT,
   TRADER_CONTRACT,
+  BUMPKIN_DETAILS_CONTRACT,
+  BUMPKIN_MINTER_CONTRACT,
 };

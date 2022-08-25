@@ -322,7 +322,19 @@ export const INITIAL_FARM: GameState = {
   plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
-  bumpkin: { level: 1 },
+  bumpkin: {
+    level: 1,
+    equipped: {
+      body: "Brown Farmer Potion",
+      hair: "Basic Hair",
+      eyes: "Rosy Wide Eyes",
+      mouth: "Wide Mouth",
+      shirt: "Farmer Shirt",
+      pants: "Farmer Pants",
+      shoes: "Farmer Boots",
+      tool: "Farmer Pitchfork",
+    },
+  },
   buildings: {},
   airdrops: [
     {

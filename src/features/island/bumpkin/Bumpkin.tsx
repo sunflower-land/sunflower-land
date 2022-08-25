@@ -6,7 +6,7 @@ export const Bumpkin: React.FC = () => {
     <div>
       {/* TODO: Read from bumpkin */}
       <Character
-        body="Beige Farmer Potion"
+        body="Light Farmer Potion"
         hair="Basic Hair"
         pants="Farmer Overalls"
         onClick={console.log}

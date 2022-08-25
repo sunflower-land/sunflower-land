@@ -49,22 +49,22 @@ export async function mintBumpkin({ bumpkinParts, token, farmId }: Options) {
 
   const transaction: Response = await response.json();
 
-  // TODO
-  // await metamask.getBumpkinMinter().createBumpkin({
-  //   signature: transaction.signature,
-  //   deadline: transaction.payload.deadline,
-  //   farmId: transaction.payload.farmId,
-  //   fee: transaction.payload.fee,
-  //   partIds: transaction.payload.itemIds,
-  //   tokenUri: transaction.payload.tokenUri,
-  // });
+  await metamask.getBumpkinMinter().createBumpkin({
+    signature: transaction.signature,
+    deadline: transaction.payload.deadline,
+    farmId: transaction.payload.farmId,
+    fee: transaction.payload.fee,
+    partIds: transaction.payload.itemIds,
+    tokenUri: transaction.payload.tokenUri,
+  });
 
-  // await waitForBumpkin();
+  await waitForBumpkin();
 }
 
 async function waitForBumpkin() {
   const bumpkins = await metamask.getBumpkinDetails().loadBumpkins();
 
+  console.log({ waiting: bumpkins });
   if (bumpkins.length === 0) {
     await waitForBumpkin();
   }

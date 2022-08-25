@@ -276,7 +276,9 @@ export function startGame(authContext: Options) {
 
                 const response = await loadSession({
                   farmId,
-                  bumpkinId: bumpkin?.tokenId,
+                  bumpkinId: bumpkin?.tokenId
+                    ? Number(bumpkin.tokenId)
+                    : undefined,
                   sessionId,
                   token: authContext.rawToken as string,
                 });
