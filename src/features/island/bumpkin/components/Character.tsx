@@ -26,7 +26,7 @@ import shadow from "assets/npcs/shadow.png";
 // Pants
 import farmerOveralls from "assets/bumpkins/small/pants/farmer_overalls.gif";
 import lumberjackOveralls from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
-import farmerPants from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
+import farmerPants from "assets/bumpkins/small/pants/lumberjack_overalls.gif"; // TODO
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const PARTS: Partial<Record<BumpkinItems, string>> = {
