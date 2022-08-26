@@ -1,5 +1,4 @@
 import React from "react";
-import Decimal from "decimal.js-light";
 
 import skeleton from "assets/npcs/skeleton_walk.gif";
 
@@ -10,27 +9,9 @@ import close from "assets/icons/close.png";
 import { GameState } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import { Ingredients } from "./Ingredients";
-import { LandRequirements } from "../lib/constants";
 import { secondsToLongString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DynamicNFT } from "features/island/bumpkin/components/DynamicNFT";
-
-// TODO - load from API
-const LAND_REQUIREMENTS: LandRequirements = {
-  resources: [
-    {
-      item: "Wood",
-      amount: new Decimal(50),
-    },
-    {
-      item: "Stone",
-      amount: new Decimal(10),
-    },
-  ],
-  sfl: new Decimal(5),
-  seconds: 60,
-  bumpkinLevel: 2,
-};
 
 interface Props {
   gameState: GameState;
@@ -48,7 +29,9 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
     return (
       <div>
         <div className="absolute w-1/3 left-2 -top-28 -z-10">
-          <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
+          {gameState.bumpkin && (
+            <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
+          )}
         </div>
         <div className="flex items-start">
           <span>More expansions will be available soon...</span>
@@ -82,7 +65,9 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   return (
     <div>
       <div className="absolute w-1/3 left-2 -top-28 -z-10">
-        <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
+        {gameState.bumpkin && (
+          <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
+        )}
       </div>
       <div className="flex items-start">
         <span>Want to expand your land and discover new resources?</span>

@@ -13,7 +13,7 @@ import basicHair from "assets/bumpkins/large/hair/basic.png";
 import explorerHair from "assets/bumpkins/large/hair/explorer.png";
 import rancherHair from "assets/bumpkins/large/hair/rancher.png";
 import farmerPants from "assets/bumpkins/large/pants/farmer_pants.png";
-import blackShoes from "assets/bumpkins/large/shoes/black_shoes.png";
+import blackFarmerBoots from "assets/bumpkins/large/shoes/black_shoes.png";
 import smile from "assets/bumpkins/large/mouths/smile.png";
 import dropShadow from "assets/bumpkins/large/body_dropshadow.png";
 
@@ -36,9 +36,14 @@ const ITEM_IMAGES: Record<BumpkinItems, string> = {
   "Farmer Pants": farmerPants,
   "Rosy Wide Eyes": rosyWide,
   "Rosy Squinted Eyes": rosySquint,
-  "Black Shoes": blackShoes,
-  Smile: smile,
-  "Smile With Teeth": smile, // TODO: add item
+  "Rosy Butterfly Eyes": rosySquint,
+  "Black Farmer Boots": blackFarmerBoots,
+  "Wide Smile": smile,
+  "Wide Smile With Teeth": smile, // TODO: add item
+  "Sunflower Amulet": smile, // TODO: add item
+  "Warrior Shield": smile, // TODO: add item
+  "Farmer Pitchfork": smile, // TODO: add item
+  "Farmer Hat": smile, // TODO: add item
 };
 
 export const DynamicNFT: React.FC<Props> = ({ bumpkinParts }) => {

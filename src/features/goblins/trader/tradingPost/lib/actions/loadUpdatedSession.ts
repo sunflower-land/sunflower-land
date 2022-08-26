@@ -17,7 +17,7 @@ export const loadUpdatedSession = async (
     farmId,
     sessionId,
     token,
-    bumpkinId: onChainState.bumpkin?.tokenId,
+    bumpkinId: Number(onChainState.bumpkin?.tokenId),
   });
 
   const game = response?.game as GameState;

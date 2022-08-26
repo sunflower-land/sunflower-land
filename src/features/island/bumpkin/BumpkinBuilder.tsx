@@ -23,8 +23,8 @@ export type LimitedHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
 export type LimitedShirt = "Farmer Shirt" | "Lumberjack Shirt";
 export type LimitedPants = "Farmer Pants";
 export type LimitedEyes = "Rosy Wide Eyes" | "Rosy Squinted Eyes";
-export type LimitedMouth = "Smile";
-export type LimitedShoes = "Black Shoes";
+export type LimitedMouth = "Wide Smile";
+export type LimitedShoes = "Black Farmer Boots";
 
 type LimitedBumpkinItem =
   | LimitedBody
@@ -91,9 +91,9 @@ const makeInitialBumpkin = (): Bumpkin => ({
   hair: getRandomPart<LimitedHair>("hair"),
   eyes: getRandomPart<LimitedEyes>("eyes"),
   shirt: getRandomPart<LimitedShirt>("shirt"),
-  mouth: "Smile",
+  mouth: "Wide Smile",
   pants: "Farmer Pants",
-  shoes: "Black Shoes",
+  shoes: "Black Farmer Boots",
 });
 
 const findSelectedOptionIndex = (

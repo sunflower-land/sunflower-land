@@ -169,7 +169,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 farmId,
                 sessionId,
                 token: authContext.rawToken as string,
-                bumpkinId: onChainState.bumpkin?.tokenId,
+                bumpkinId: Number(onChainState.bumpkin?.tokenId),
               });
 
               const game = response?.game as GameState;
