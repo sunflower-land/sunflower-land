@@ -20,7 +20,7 @@ export type LimitedBody =
   | "Brown Farmer Potion"
   | "Dark Farmer Potion";
 export type LimitedHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
-export type LimitedShirt = "Farmer Shirt" | "Lumberjack Shirt";
+export type LimitedShirt = "Red Farmer Shirt" | "Yellow Farmer Shirt";
 export type LimitedPants = "Farmer Pants";
 export type LimitedEyes = "Rosy Wide Eyes" | "Rosy Squinted Eyes";
 export type LimitedMouth = "Wide Smile";
@@ -75,7 +75,7 @@ const BUMPKIN_PARTS: Record<Category, CategoryDetails> = {
   shirt: {
     name: "shirt",
     icon: shirtIcon,
-    options: ["Farmer Shirt", "Lumberjack Shirt"],
+    options: ["Red Farmer Shirt", "Yellow Farmer Shirt"],
   },
 };
 

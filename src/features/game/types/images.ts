@@ -933,11 +933,11 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Farmer Shirt": {
+  "Red Farmer Shirt": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Lumberjack Shirt": {
+  "Yellow Farmer Shirt": {
     image: questionMark,
     description: "An item for your bumpkin",
   },

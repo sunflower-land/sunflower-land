@@ -111,7 +111,7 @@ export type BumpkinBody =
 
 export type BumpkinHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
 
-export type BumpkinShirt = "Farmer Shirt" | "Lumberjack Shirt";
+export type BumpkinShirt = "Red Farmer Shirt" | "Yellow Farmer Shirt";
 export type BumpkinMouth = "Wide Smile" | "Wide Smile With Teeth";
 
 export type BumpkinPants =

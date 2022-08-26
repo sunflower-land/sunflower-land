@@ -12,13 +12,13 @@ import lightFarmer from "assets/bumpkins/small/body/light_farmer.gif";
 import darkFarmer from "assets/bumpkins/small/body/dark_farmer.gif";
 import goblin from "assets/bumpkins/small/body/goblin.gif";
 
-// Wig
+// Hair
 import basic from "assets/bumpkins/small/hair/basic.gif";
 import explorer from "assets/bumpkins/small/hair/explorer.gif";
 
 // Shirts
-import farmerShirt from "assets/bumpkins/small/shirts/farmer_shirt.gif";
-import lumberjackShirt from "assets/bumpkins/small/shirts/lumberjack_shirt.gif";
+import redFarmerShirt from "assets/bumpkins/small/shirts/red_farmer_shirt.gif";
+import yellowFarmerShirt from "assets/bumpkins/small/shirts/yellow_farmer_shirt.gif";
 
 // Miscellaneous
 import shadow from "assets/npcs/shadow.png";
@@ -41,8 +41,8 @@ const PARTS: Partial<Record<BumpkinItems, string>> = {
   "Explorer Hair": explorer,
 
   // Shirts
-  "Farmer Shirt": farmerShirt,
-  "Lumberjack Shirt": lumberjackShirt,
+  "Red Farmer Shirt": redFarmerShirt,
+  "Yellow Farmer Shirt": yellowFarmerShirt,
 
   // Pants
   "Farmer Overalls": farmerOveralls,

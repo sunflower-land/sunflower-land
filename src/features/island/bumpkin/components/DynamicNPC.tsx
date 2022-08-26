@@ -8,8 +8,8 @@ import darkSheet from "assets/bumpkins/small/body/dark_farmer_sheet.png";
 import basicSheet from "assets/bumpkins/small/hair/basic_sheet.png";
 import explorerSheet from "assets/bumpkins/small/hair/explorer_sheet.png";
 import rancherSheet from "assets/bumpkins/small/hair/rancher_sheet.png";
-import farmerShirtSheet from "assets/bumpkins/small/shirts/farmer_shirt_sheet.png";
-import lumberjackShirtSheet from "assets/bumpkins/small/shirts/lumberjack_shirt_sheet.png";
+import redShirtSheet from "assets/bumpkins/small/shirts/red_farmer_shirt_sheet.png";
+import yellowShirtSheet from "assets/bumpkins/small/shirts/yellow_farmer_shirt_sheet.png";
 import farmerPantsSheet from "assets/bumpkins/small/pants/farmer_pants_sheet.png";
 import {
   LimitedBody,
@@ -31,8 +31,8 @@ const PARTS: Record<LimitedBumpkinItem, string> = {
   "Basic Hair": basicSheet,
   "Explorer Hair": explorerSheet,
   "Rancher Hair": rancherSheet,
-  "Farmer Shirt": farmerShirtSheet,
-  "Lumberjack Shirt": lumberjackShirtSheet,
+  "Red Farmer Shirt": redShirtSheet,
+  "Yellow Farmer Shirt": yellowShirtSheet,
   "Farmer Pants": farmerPantsSheet,
 };
 

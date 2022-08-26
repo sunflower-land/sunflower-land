@@ -7,8 +7,8 @@ import rosyWide from "assets/bumpkins/large/eyes/rosy_wide.png";
 import rosySquint from "assets/bumpkins/large/eyes/rosy_squint.png";
 import lightFarmerPotion from "assets/bumpkins/large/body/light_farmer.png";
 import darkFarmerPotion from "assets/bumpkins/large/body/dark_farmer.png";
-import farmerShirt from "assets/bumpkins/large/shirts/farmer_shirt.png";
-import lumberjackShirt from "assets/bumpkins/large/shirts/lumberjack_shirt.png";
+import redFarmerShirt from "assets/bumpkins/large/shirts/red_farmer_shirt.png";
+import yellowFarmerShirt from "assets/bumpkins/large/shirts/yellow_farmer_shirt.png";
 import basicHair from "assets/bumpkins/large/hair/basic.png";
 import explorerHair from "assets/bumpkins/large/hair/explorer.png";
 import rancherHair from "assets/bumpkins/large/hair/rancher.png";
@@ -29,8 +29,8 @@ const ITEM_IMAGES: Record<BumpkinItems, string> = {
   "Basic Hair": basicHair,
   "Explorer Hair": explorerHair,
   "Rancher Hair": rancherHair,
-  "Farmer Shirt": farmerShirt,
-  "Lumberjack Shirt": lumberjackShirt,
+  "Red Farmer Shirt": redFarmerShirt,
+  "Yellow Farmer Shirt": yellowFarmerShirt,
   "Farmer Overalls": farmerPants, // TODO: add item
   "Lumberjack Overalls": farmerPants, // TODO: add item
   "Farmer Pants": farmerPants,

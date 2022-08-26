@@ -217,8 +217,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Wide Smile": 1401,
   "Wide Smile With Teeth": 1402,
 
-  "Farmer Shirt": 1501,
-  "Lumberjack Shirt": 1502,
+  "Red Farmer Shirt": 1501,
+  "Yellow Farmer Shirt": 1502,
 
   "Farmer Overalls": 1601,
   "Lumberjack Overalls": 1602,
