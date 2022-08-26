@@ -38,6 +38,7 @@ export class BumpkinDetails {
   }
 
   public async loadBumpkins(): Promise<OnChainBumpkin[]> {
+    console.log("load");
     return this.contract.methods
       .loadBumpkins(metamask.myAccount as string)
       .call({ from: this.account });

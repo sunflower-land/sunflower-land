@@ -46,20 +46,41 @@ export interface BumpkinMinter extends BaseContract {
       arg0: number | string | BN
     ): NonPayableTransactionObject<string>;
 
+    gameAddGameRole(_game: string): NonPayableTransactionObject<void>;
+
+    gameRemoveGameRole(_game: string): NonPayableTransactionObject<void>;
+
+    gameRoles(arg0: string): NonPayableTransactionObject<boolean>;
+
+    getItemAllowList(
+      itemIds: (number | string | BN)[]
+    ): NonPayableTransactionObject<boolean[]>;
+
+    itemAllowList(
+      arg0: number | string | BN
+    ): NonPayableTransactionObject<boolean>;
+
     mintBumpkin(
       signature: string | number[],
       deadline: number | string | BN,
       mintFee: number | string | BN,
       farmId: number | string | BN,
       itemIds: (number | string | BN)[],
-      itemQuantities: (number | string | BN)[]
+      tokenURI: string
     ): PayableTransactionObject<void>;
+
+    mintedAt(arg0: string): NonPayableTransactionObject<string>;
 
     owner(): NonPayableTransactionObject<string>;
 
     removeGameRole(_game: string): NonPayableTransactionObject<void>;
 
     renounceOwnership(): NonPayableTransactionObject<void>;
+
+    setItemAllowList(
+      itemIds: (number | string | BN)[],
+      allowed: boolean[]
+    ): NonPayableTransactionObject<void>;
 
     signer(): NonPayableTransactionObject<string>;
 

@@ -72,20 +72,64 @@
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "_game", "type": "address" }
+    ],
+    "name": "gameAddGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_game", "type": "address" }
+    ],
+    "name": "gameRemoveGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "gameRoles",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" }
+    ],
+    "name": "getItemAllowList",
+    "outputs": [{ "internalType": "bool[]", "name": "", "type": "bool[]" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "itemAllowList",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "bytes", "name": "signature", "type": "bytes" },
       { "internalType": "uint256", "name": "deadline", "type": "uint256" },
       { "internalType": "uint256", "name": "mintFee", "type": "uint256" },
       { "internalType": "uint256", "name": "farmId", "type": "uint256" },
       { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
-      {
-        "internalType": "uint256[]",
-        "name": "itemQuantities",
-        "type": "uint256[]"
-      }
+      { "internalType": "string", "name": "tokenURI", "type": "string" }
     ],
     "name": "mintBumpkin",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "mintedAt",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -107,6 +151,16 @@
   {
     "inputs": [],
     "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256[]", "name": "itemIds", "type": "uint256[]" },
+      { "internalType": "bool[]", "name": "allowed", "type": "bool[]" }
+    ],
+    "name": "setItemAllowList",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
