@@ -25,7 +25,10 @@ export type LimitedShirt =
   | "Yellow Farmer Shirt"
   | "Blue Farmer Shirt";
 export type LimitedPants = "Farmer Pants";
-export type LimitedEyes = "Rosy Wide Eyes" | "Rosy Squinted Eyes";
+export type LimitedEyes =
+  | "Rosy Wide Eyes"
+  | "Rosy Squinted Eyes"
+  | "Rosy Butterfly Eyes";
 export type LimitedMouth = "Wide Smile";
 export type LimitedShoes = "Black Farmer Boots";
 
@@ -64,7 +67,7 @@ const BUMPKIN_PARTS: Record<Category, CategoryDetails> = {
   eyes: {
     name: "eyes",
     icon: eyesIcon,
-    options: ["Rosy Wide Eyes", "Rosy Squinted Eyes"],
+    options: ["Rosy Wide Eyes", "Rosy Squinted Eyes", "Rosy Butterfly Eyes"],
   },
   body: {
     name: "body",
