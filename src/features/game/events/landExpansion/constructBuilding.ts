@@ -25,8 +25,14 @@ export function constructBuilding({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const building = BUILDINGS[action.name];
+  if (!stateCopy.bumpkin) {
+    throw new Error("You do not have a Bumpkin");
+  }
 
-  if (stateCopy.bumpkin.level < building.levelRequired) {
+  if (
+    !stateCopy.bumpkin.level ||
+    stateCopy.bumpkin.level < building.levelRequired
+  ) {
     throw new Error("Your Bumpkin does not meet the level requirements");
   }
 
