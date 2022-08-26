@@ -32,7 +32,7 @@ describe("Construct building", () => {
             id: 1,
             level: 1,
             equipped: {
-              body: "Brown Farmer Potion",
+              body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
               eyes: "Rosy Wide Eyes",
               mouth: "Wide Smile",
@@ -79,7 +79,7 @@ describe("Construct building", () => {
             id: 1,
             level: 2,
             equipped: {
-              body: "Brown Farmer Potion",
+              body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
               eyes: "Rosy Wide Eyes",
               mouth: "Wide Smile",
@@ -136,7 +136,7 @@ describe("Construct building", () => {
             id: 1,
             level: 2,
             equipped: {
-              body: "Brown Farmer Potion",
+              body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
               eyes: "Rosy Wide Eyes",
               mouth: "Wide Smile",
@@ -172,7 +172,7 @@ describe("Construct building", () => {
             id: 1,
             level: 2,
             equipped: {
-              body: "Brown Farmer Potion",
+              body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
               eyes: "Rosy Wide Eyes",
               mouth: "Wide Smile",
@@ -205,7 +205,7 @@ describe("Construct building", () => {
           id: 1,
           level: 2,
           equipped: {
-            body: "Brown Farmer Potion",
+            body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
             eyes: "Rosy Wide Eyes",
             mouth: "Wide Smile",
@@ -241,7 +241,7 @@ describe("Construct building", () => {
           id: 1,
           level: 2,
           equipped: {
-            body: "Brown Farmer Potion",
+            body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
             eyes: "Rosy Wide Eyes",
             mouth: "Wide Smile",
@@ -275,7 +275,7 @@ describe("Construct building", () => {
           id: 1,
           level: 2,
           equipped: {
-            body: "Brown Farmer Potion",
+            body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
             eyes: "Rosy Wide Eyes",
             mouth: "Wide Smile",
@@ -314,7 +314,7 @@ describe("Construct building", () => {
           id: 1,
           level: 2,
           equipped: {
-            body: "Brown Farmer Potion",
+            body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
             eyes: "Rosy Wide Eyes",
             mouth: "Wide Smile",
@@ -349,7 +349,7 @@ describe("Construct building", () => {
           id: 1,
           level: 2,
           equipped: {
-            body: "Brown Farmer Potion",
+            body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
             eyes: "Rosy Wide Eyes",
             mouth: "Wide Smile",
@@ -385,7 +385,7 @@ describe("Construct building", () => {
           id: 1,
           level: 2,
           equipped: {
-            body: "Brown Farmer Potion",
+            body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
             eyes: "Rosy Wide Eyes",
             mouth: "Wide Smile",
@@ -450,7 +450,7 @@ describe("Construct building", () => {
           id: 1,
           level: 2,
           equipped: {
-            body: "Brown Farmer Potion",
+            body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
             eyes: "Rosy Wide Eyes",
             mouth: "Wide Smile",

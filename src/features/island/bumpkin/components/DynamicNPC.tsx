@@ -3,13 +3,15 @@ import Spritesheet from "components/animation/SpriteAnimator";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import lightSheet from "assets/bumpkins/small/body/light_farmer_sheet.png";
-import darkSheet from "assets/bumpkins/small/body/dark_farmer_sheet.png";
+import beigeBodySheet from "assets/bumpkins/small/body/beige_farmer_sheet.png";
+import lightBrownBodySheet from "assets/bumpkins/small/body/light_brown_farmer_sheet.png";
+import darkBrownBodySheet from "assets/bumpkins/small/body/dark_brown_farmer_sheet.png";
 import basicSheet from "assets/bumpkins/small/hair/basic_sheet.png";
 import explorerSheet from "assets/bumpkins/small/hair/explorer_sheet.png";
 import rancherSheet from "assets/bumpkins/small/hair/rancher_sheet.png";
 import redShirtSheet from "assets/bumpkins/small/shirts/red_farmer_shirt_sheet.png";
 import yellowShirtSheet from "assets/bumpkins/small/shirts/yellow_farmer_shirt_sheet.png";
+import blueShirtSheet from "assets/bumpkins/small/shirts/blue_farmer_shirt_sheet.png";
 import farmerPantsSheet from "assets/bumpkins/small/pants/farmer_pants_sheet.png";
 import {
   LimitedBody,
@@ -25,14 +27,15 @@ type LimitedBumpkinItem =
   | LimitedPants;
 
 const PARTS: Record<LimitedBumpkinItem, string> = {
-  "Beige Farmer Potion": lightSheet,
-  "Brown Farmer Potion": darkSheet, // TODO
-  "Dark Farmer Potion": darkSheet,
+  "Beige Farmer Potion": beigeBodySheet,
+  "Light Brown Farmer Potion": lightBrownBodySheet,
+  "Dark Brown Farmer Potion": darkBrownBodySheet,
   "Basic Hair": basicSheet,
   "Explorer Hair": explorerSheet,
   "Rancher Hair": rancherSheet,
   "Red Farmer Shirt": redShirtSheet,
   "Yellow Farmer Shirt": yellowShirtSheet,
+  "Blue Farmer Shirt": blueShirtSheet,
   "Farmer Pants": farmerPantsSheet,
 };
 

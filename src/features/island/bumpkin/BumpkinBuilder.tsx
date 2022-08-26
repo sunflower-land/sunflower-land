@@ -17,10 +17,13 @@ import { InitialBumpkinParts } from "features/game/actions/mintBumpkin";
 
 export type LimitedBody =
   | "Beige Farmer Potion"
-  | "Brown Farmer Potion"
-  | "Dark Farmer Potion";
+  | "Light Brown Farmer Potion"
+  | "Dark Brown Farmer Potion";
 export type LimitedHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
-export type LimitedShirt = "Red Farmer Shirt" | "Yellow Farmer Shirt";
+export type LimitedShirt =
+  | "Red Farmer Shirt"
+  | "Yellow Farmer Shirt"
+  | "Blue Farmer Shirt";
 export type LimitedPants = "Farmer Pants";
 export type LimitedEyes = "Rosy Wide Eyes" | "Rosy Squinted Eyes";
 export type LimitedMouth = "Wide Smile";
@@ -68,14 +71,14 @@ const BUMPKIN_PARTS: Record<Category, CategoryDetails> = {
     icon: bodyIcon,
     options: [
       "Beige Farmer Potion",
-      "Brown Farmer Potion",
-      "Dark Farmer Potion",
+      "Light Brown Farmer Potion",
+      "Dark Brown Farmer Potion",
     ],
   },
   shirt: {
     name: "shirt",
     icon: shirtIcon,
-    options: ["Red Farmer Shirt", "Yellow Farmer Shirt"],
+    options: ["Red Farmer Shirt", "Yellow Farmer Shirt", "Blue Farmer Shirt"],
   },
 };
 

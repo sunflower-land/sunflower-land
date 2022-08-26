@@ -941,6 +941,10 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
+  "Blue Farmer Shirt": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
   "Farmer Overalls": {
     image: questionMark,
     description: "An item for your bumpkin",
