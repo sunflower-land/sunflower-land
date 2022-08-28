@@ -110,20 +110,22 @@ export type BumpkinBody =
   | "Goblin Potion";
 
 export type BumpkinHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
-export type BumpkinHat = "Farmer Hat" | "Chef Hat";
+export type BumpkinHat = "Farmer Hat" | "Chef Hat" | "Warrior Helmet";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
   | "Yellow Farmer Shirt"
   | "Blue Farmer Shirt"
-  | "Chef Apron";
+  | "Chef Apron"
+  | "Warrior Shirt";
 
 export type BumpkinMouth = "Wide Smile" | "Wide Smile With Teeth";
 
 export type BumpkinPants =
   | "Farmer Overalls"
   | "Lumberjack Overalls"
-  | "Farmer Pants";
+  | "Farmer Pants"
+  | "Warrior Pants";
 
 export type BumpkinEyes =
   | "Rosy Wide Eyes"
@@ -134,9 +136,13 @@ export type BumpkinShoes = "Black Farmer Boots";
 
 export type BumpkinTools = "Farmer Pitchfork";
 
-export type BumpkinNecklace = "Sunflower Amulet";
-
 export type BumpkinSecondaryTool = "Warrior Shield";
+
+export type BumpkinNecklace =
+  | "Sunflower Amulet"
+  | "Carrot Amulet"
+  | "Beetroot Amulet"
+  | "Green Amulet";
 
 export type BumpkinItems =
   | BumpkinBody

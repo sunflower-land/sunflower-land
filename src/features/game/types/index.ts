@@ -184,14 +184,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Goblin War Point": 919,
   "Human War Banner": 920,
   "Goblin War Banner": 921,
-  "Reward 1": 922,
-  "Reward 2": 923,
-  "Reward 3": 924,
-  "Reward 4": 925,
-  "Reward 5": 926,
-  "Reward 6": 927,
-  "Reward 7": 928,
-  "Reward 8": 929,
 
   // Buildings
   "Fire Pit": 1001,
@@ -217,15 +209,23 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Wide Smile": 1401,
   "Wide Smile With Teeth": 1402,
 
+<<<<<<< HEAD
   "Red Farmer Shirt": 1501,
   "Yellow Farmer Shirt": 1502,
   "Blue Farmer Shirt": 1503,
   "Chef Apron": 1504,
+=======
+  "Farmer Shirt": 1501,
+  "Lumberjack Shirt": 1502,
+  "Warrior Shirt": 1503,
+>>>>>>> 3060debd (Add images and placeholder descriptions)
 
   "Farmer Overalls": 1601,
   "Lumberjack Overalls": 1602,
   "Farmer Pants": 1603,
+  "Warrior Pants": 1604,
 
+<<<<<<< HEAD
   "Black Farmer Boots": 1701,
 
   "Farmer Pitchfork": 1802,
@@ -236,6 +236,19 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Amulet": 2001,
 
   "Warrior Shield": 2101,
+=======
+  "Black Shoes": 1701,
+
+  "Warrior Helmet": 1903,
+
+  "Sunflower Amulet": 2101,
+  "Carrot Amulet": 2102,
+  "Beetroot Amulet": 2103,
+  "Green Amulet": 2104,
+
+  "Reward 8": 2201,
+  "Reward 9": 2202,
+>>>>>>> 3060debd (Add images and placeholder descriptions)
 };
 
 // The reverse of above
