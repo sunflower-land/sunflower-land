@@ -18,6 +18,7 @@ import rancherHair from "assets/bumpkins/large/hair/rancher.png";
 import farmerPants from "assets/bumpkins/large/pants/farmer_pants.png";
 import blackFarmerBoots from "assets/bumpkins/large/shoes/black_farmer_boots.png";
 import smile from "assets/bumpkins/large/mouths/smile.png";
+import farmerPitchfork from "assets/bumpkins/large/tools/farmer_pitchfork.png";
 import dropShadow from "assets/bumpkins/large/body_dropshadow.png";
 
 interface Props {
@@ -46,7 +47,7 @@ const ITEM_IMAGES: Record<BumpkinItems, string> = {
   "Wide Smile With Teeth": smile, // TODO: add item
   "Sunflower Amulet": smile, // TODO: add item
   "Warrior Shield": smile, // TODO: add item
-  "Farmer Pitchfork": smile, // TODO: add item
+  "Farmer Pitchfork": farmerPitchfork,
   "Farmer Hat": smile, // TODO: add item
 };
 

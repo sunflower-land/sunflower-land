@@ -31,6 +31,7 @@ export type LimitedEyes =
   | "Rosy Butterfly Eyes";
 export type LimitedMouth = "Wide Smile";
 export type LimitedShoes = "Black Farmer Boots";
+export type LimitedTools = "Farmer Pitchfork";
 
 type LimitedBumpkinItem =
   | LimitedBody
@@ -39,7 +40,8 @@ type LimitedBumpkinItem =
   | LimitedPants
   | LimitedEyes
   | LimitedMouth
-  | LimitedShoes;
+  | LimitedShoes
+  | LimitedTools;
 
 interface Bumpkin {
   body: LimitedBody;
@@ -49,6 +51,7 @@ interface Bumpkin {
   shirt: LimitedShirt;
   pants: LimitedPants;
   shoes: LimitedShoes;
+  tool: LimitedTools;
 }
 
 type Category = "hair" | "eyes" | "body" | "shirt";
@@ -100,6 +103,7 @@ const makeInitialBumpkin = (): Bumpkin => ({
   mouth: "Wide Smile",
   pants: "Farmer Pants",
   shoes: "Black Farmer Boots",
+  tool: "Farmer Pitchfork",
 });
 
 const findSelectedOptionIndex = (
@@ -158,7 +162,6 @@ export const BumpkinBuilder: React.FC = () => {
   };
 
   const handleMint = () => {
-    console.log(bumpkinParts);
     const parts: InitialBumpkinParts = {
       body: bumpkinParts.body,
       hair: bumpkinParts.hair,
@@ -183,7 +186,7 @@ export const BumpkinBuilder: React.FC = () => {
           ))}
         </div>
         <DynamicNFT bumpkinParts={bumpkinParts} />
-        <div className="absolute bottom-[9.5%] right-[22%]">
+        <div className="absolute bottom-[9%] right-[10%]">
           <DynamicNPC
             body={bumpkinParts.body}
             hair={bumpkinParts.hair}
