@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "../lib/constants";
 import { GameState } from "../types/game";
-import { plant } from "./plant";
+import { getCropTime, getMultiplier, plant } from "./plant";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -242,6 +242,61 @@ describe("plant", () => {
           multiplier: 1,
         },
       },
+    });
+  });
+
+  describe("getCropTime", () => {
+    it("plants a normal carrot", () => {
+      const time = getCropTime("Carrot", {});
+
+      expect(time).toEqual(60 * 60);
+    });
+
+    it("plants a normal carrot with the carrot amulet boost", () => {
+      const time = getCropTime("Carrot", {
+        "Carrot Amulet": new Decimal(1),
+      });
+
+      expect(time).toEqual(48 * 60);
+    });
+  });
+
+  describe("getMultiplier", () => {
+    it("plants a normal sunflower", () => {
+      const amount = getMultiplier({
+        crop: "Sunflower",
+        inventory: {},
+      });
+
+      expect(amount).toEqual(1);
+    });
+    it("plants a sunflower with the sunflower amulet boost", () => {
+      const amount = getMultiplier({
+        crop: "Sunflower",
+        inventory: {
+          "Sunflower Amulet": new Decimal(1),
+        },
+      });
+
+      expect(amount).toEqual(1.1);
+    });
+    it("plants a normal beetroot", () => {
+      const amount = getMultiplier({
+        crop: "Beetroot",
+        inventory: {},
+      });
+
+      expect(amount).toEqual(1);
+    });
+    it("plants a beetroot with the beetroot amulet boost", () => {
+      const amount = getMultiplier({
+        crop: "Beetroot",
+        inventory: {
+          "Beetroot Amulet": new Decimal(1),
+        },
+      });
+
+      expect(amount).toEqual(1);
     });
   });
 });
