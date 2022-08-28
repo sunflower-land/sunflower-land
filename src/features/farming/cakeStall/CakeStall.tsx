@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 
 import stall from "assets/buildings/cake_stall.png";
 import goblin from "assets/npcs/goblin.gif";
+import chefHat from "assets/bumpkins/small/hats/chef_hat.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -76,6 +77,19 @@ export const CakeStall: React.FC = () => {
               }}
               onClick={openCakeModal}
             />
+            {state.inventory["Chef Hat"] && (
+              <img
+                src={chefHat}
+                className="absolute pointer-events-none"
+                style={{
+                  // TODO - just a placeholder
+                  width: "31.5px",
+                  right: "87.9px",
+                  top: "99px",
+                  transform: "scaleX(-1)",
+                }}
+              />
+            )}
           </>
         )}
       </div>

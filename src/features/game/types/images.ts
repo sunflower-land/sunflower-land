@@ -1008,7 +1008,7 @@ export const ITEM_DETAILS: Items = {
 
   "Chef Hat": {
     image: chefHat,
-    description: "A participant in the great bake off",
+    description: "The crown of a legendary baker!",
   },
 
   "Rapid Growth": {

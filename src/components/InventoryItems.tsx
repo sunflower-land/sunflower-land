@@ -81,6 +81,8 @@ const COLLECTIBLE_CATEGORIES: TabItems = {
       ...SALESMAN_ITEMS,
       ...WAR_BANNERS,
       ...WAR_TENT_ITEMS,
+      // TEMP
+      "Chef Hat": ITEM_DETAILS["Chef Hat"],
     },
   },
   "Quest Items": {
