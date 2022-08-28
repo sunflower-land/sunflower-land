@@ -279,6 +279,7 @@ export type Airdrop = {
   createdAt: number;
   items: Partial<Record<InventoryItemName, number>>;
   sfl: number;
+  message?: string;
 };
 
 export interface GameState {

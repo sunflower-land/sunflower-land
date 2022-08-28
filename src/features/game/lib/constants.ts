@@ -333,14 +333,7 @@ export const INITIAL_FARM: GameState = {
         "Rapid Growth": 5,
       },
       sfl: 3,
-    },
-    {
-      createdAt: Date.now(),
-      id: "1234",
-      items: {
-        "Rapid Growth": 5,
-      },
-      sfl: 3,
+      message: "You are a legend!",
     },
   ],
   collectibles: {},
