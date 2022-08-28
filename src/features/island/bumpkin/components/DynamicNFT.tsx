@@ -3,6 +3,8 @@ import classNames from "classnames";
 import { getKeys } from "features/game/types/craftables";
 import { BumpkinItems, BumpkinParts } from "features/game/types/game";
 
+import questionMark from "assets/icons/expression_confused.png";
+
 import rosyWide from "assets/bumpkins/large/eyes/rosy_wide.png";
 import rosySquint from "assets/bumpkins/large/eyes/rosy_squint.png";
 import rosyButterfly from "assets/bumpkins/large/eyes/rosy_butterfly.png";
@@ -36,6 +38,7 @@ const ITEM_IMAGES: Record<BumpkinItems, string> = {
   "Red Farmer Shirt": redFarmerShirt,
   "Yellow Farmer Shirt": yellowFarmerShirt,
   "Blue Farmer Shirt": blueFarmerShirt,
+  "Chef Apron": questionMark,
   "Farmer Overalls": farmerPants, // TODO: add item
   "Lumberjack Overalls": farmerPants, // TODO: add item
   "Farmer Pants": farmerPants,
@@ -49,6 +52,7 @@ const ITEM_IMAGES: Record<BumpkinItems, string> = {
   "Warrior Shield": smile, // TODO: add item
   "Farmer Pitchfork": farmerPitchfork,
   "Farmer Hat": smile, // TODO: add item
+  "Chef Hat": questionMark,
 };
 
 export const DynamicNFT: React.FC<Props> = ({ bumpkinParts }) => {

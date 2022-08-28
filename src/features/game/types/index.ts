@@ -220,6 +220,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Red Farmer Shirt": 1501,
   "Yellow Farmer Shirt": 1502,
   "Blue Farmer Shirt": 1503,
+  "Chef Apron": 1504,
 
   "Farmer Overalls": 1601,
   "Lumberjack Overalls": 1602,
@@ -230,6 +231,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Farmer Pitchfork": 1802,
 
   "Farmer Hat": 1901,
+  "Chef Hat": 1902,
 
   "Sunflower Amulet": 2001,
 

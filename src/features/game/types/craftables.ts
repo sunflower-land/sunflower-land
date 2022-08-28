@@ -25,7 +25,9 @@ export type CraftableName =
   | Flag
   | Shovel
   | TravelingSalesmanItem
-  | WarBanner;
+  | WarBanner
+  // TEMP
+  | "Chef Apron";
 
 export interface Craftable {
   name: CraftableName;
@@ -672,7 +674,10 @@ export const WAR_BANNERS: Record<WarBanner, CraftableItem> = {
   },
 };
 
-export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
+export const BLACKSMITH_ITEMS: Record<
+  BlacksmithItem | "Chef Apron",
+  LimitedItem
+> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
     description: "A symbol of the holy token",
@@ -790,6 +795,11 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
     name: "Rock Golem",
     description: "Gives a 10% chance to get 3x stone",
     section: Section["Rock Golem"],
+    type: LimitedItemType.BlacksmithItem,
+  },
+  "Chef Apron": {
+    name: "Chef Apron",
+    description: "Gives 20% extra SFL selling cakes",
     type: LimitedItemType.BlacksmithItem,
   },
 };
