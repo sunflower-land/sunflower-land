@@ -13,6 +13,7 @@ import redShirtSheet from "assets/bumpkins/small/shirts/red_farmer_shirt_sheet.p
 import yellowShirtSheet from "assets/bumpkins/small/shirts/yellow_farmer_shirt_sheet.png";
 import blueShirtSheet from "assets/bumpkins/small/shirts/blue_farmer_shirt_sheet.png";
 import farmerPantsSheet from "assets/bumpkins/small/pants/farmer_pants_sheet.png";
+import shadow from "assets/npcs/shadow.png";
 import {
   LimitedBody,
   LimitedHair,
@@ -97,6 +98,13 @@ export const DynamicNPC: React.FC<Props> = ({ body, hair, shirt, pants }) => (
       autoplay={true}
       loop={true}
       direction="forward"
+    />
+    <img
+      src={shadow}
+      style={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      className="absolute w-full -bottom-1.5 left-1.5 z-29"
     />
   </div>
 );

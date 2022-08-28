@@ -88,12 +88,12 @@ export const Menu = () => {
       {!gameService.state.matches("editing") && (
         <div
           ref={ref}
-          className="fixed bottom-2 left-2 z-50 cursor-pointer hover:img-highlight"
+          className="fixed bottom-[160px] right-2 z-50 cursor-pointer hover:img-highlight"
           onClick={() => setMenuOpen(true)}
         >
           <div className="relative w-16 h-16 flex items-center justify-center">
             <img src={disc} className="w-full absolute inset-0" />
-            <img src={settings} className="w-10 mb-1 z-10" />
+            <img src={settings} className="w-9 mb-1 z-10" />
           </div>
         </div>
       )}
