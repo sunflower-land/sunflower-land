@@ -296,7 +296,7 @@ describe("plant", () => {
         },
       });
 
-      expect(amount).toEqual(1);
+      expect(amount).toEqual(1.1);
     });
   });
 });
