@@ -909,11 +909,11 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Brown Farmer Potion": {
+  "Dark Brown Farmer Potion": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Dark Farmer Potion": {
+  "Light Brown Farmer Potion": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
