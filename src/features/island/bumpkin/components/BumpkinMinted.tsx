@@ -11,7 +11,7 @@ export const BumpkinMinted: React.FC = () => {
     <>
       <div className="flex flex-col items-center p-2">
         <span className="text-shadow text-center">Woohoo!</span>
-        <img src={synced} className="w-1/4 my-2 mb-3" />
+        <img src={synced} className="w-16 my-2" />
         <p className="text-sm my-2">
           Your Bumpkin is secured on the Blockchain.
         </p>
