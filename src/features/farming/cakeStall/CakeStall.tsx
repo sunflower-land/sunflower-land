@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 
 import stall from "assets/buildings/cake_stall.png";
 import goblin from "assets/npcs/goblin.gif";
-import chefHat from "assets/bumpkins/small/hats/chef_hat.png";
+import chef from "assets/npcs/goblin_chef.gif";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -66,28 +66,30 @@ export const CakeStall: React.FC = () => {
               }}
               onClick={openCakeModal}
             />
-            <img
-              src={goblin}
-              className="absolute"
-              style={{
-                width: `${GRID_WIDTH_PX}px`,
-                right: `${GRID_WIDTH_PX * 1.95}px`,
-                top: `${GRID_WIDTH_PX * 2.5}px`,
-                transform: "scaleX(-1)",
-              }}
-              onClick={openCakeModal}
-            />
-            {state.inventory["Chef Hat"] && (
+
+            {state.inventory["Chef Hat"] ? (
               <img
-                src={chefHat}
-                className="absolute pointer-events-none"
+                src={chef}
+                className="absolute"
                 style={{
-                  // TODO - just a placeholder
-                  width: "31.5px",
-                  right: "87.9px",
-                  top: "99px",
+                  width: `${GRID_WIDTH_PX * 1.2}px`,
+                  right: `${GRID_WIDTH_PX * 1.78}px`,
+                  top: `${GRID_WIDTH_PX * 1.8}px`,
                   transform: "scaleX(-1)",
                 }}
+                onClick={openCakeModal}
+              />
+            ) : (
+              <img
+                src={goblin}
+                className="absolute"
+                style={{
+                  width: `${GRID_WIDTH_PX}px`,
+                  right: `${GRID_WIDTH_PX * 1.95}px`,
+                  top: `${GRID_WIDTH_PX * 2.5}px`,
+                  transform: "scaleX(-1)",
+                }}
+                onClick={openCakeModal}
               />
             )}
           </>
