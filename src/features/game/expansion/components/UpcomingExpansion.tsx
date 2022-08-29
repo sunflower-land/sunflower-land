@@ -60,7 +60,7 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
         width={LAND_SIZE}
       >
         <div
-          className="w-full h-full flex items-center justify-center cursor-pointer opacity-60 hover:opacity-100"
+          className="w-full h-full flex items-center justify-center cursor-pointer opacity-90 hover:opacity-100"
           onClick={() => setShowBumpkinModal(true)}
         >
           <img

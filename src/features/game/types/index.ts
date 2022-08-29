@@ -201,9 +201,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Bakery: 1005,
 
   // Bumpkins
-  "Light Farmer Potion": 1101,
-  "Dark Farmer Potion": 1102,
-  "Goblin Potion": 1103,
+  "Beige Farmer Potion": 1101,
+  "Light Brown Farmer Potion": 1102,
+  "Dark Brown Farmer Potion": 1103,
+  "Goblin Potion": 1104,
 
   "Basic Hair": 1201,
   "Rancher Hair": 1202,
@@ -211,18 +212,28 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
 
   "Rosy Wide Eyes": 1301,
   "Rosy Squinted Eyes": 1302,
+  "Rosy Butterfly Eyes": 1303,
 
-  Smile: 1401,
-  "Smile With Teeth": 1402,
+  "Wide Smile": 1401,
+  "Wide Smile With Teeth": 1402,
 
-  "Farmer Shirt": 1501,
-  "Lumberjack Shirt": 1502,
+  "Red Farmer Shirt": 1501,
+  "Yellow Farmer Shirt": 1502,
+  "Blue Farmer Shirt": 1503,
 
   "Farmer Overalls": 1601,
   "Lumberjack Overalls": 1602,
   "Farmer Pants": 1603,
 
-  "Black Shoes": 1701,
+  "Black Farmer Boots": 1701,
+
+  "Farmer Pitchfork": 1802,
+
+  "Farmer Hat": 1901,
+
+  "Sunflower Amulet": 2001,
+
+  "Warrior Shield": 2101,
 };
 
 // The reverse of above

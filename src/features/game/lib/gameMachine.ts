@@ -40,7 +40,7 @@ import { checkProgress, processEvent } from "./processEvent";
 import { editingMachine } from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
-import isEmpty from "lodash.isempty";
+import { InitialBumpkinParts, mintBumpkin } from "../actions/mintBumpkin";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -92,6 +92,7 @@ type EditEvent = {
 
 type MintBumpkinEvent = {
   type: "MINT_BUMPKIN";
+  parts: InitialBumpkinParts;
 };
 
 export type BlockchainEvent =
@@ -208,7 +209,9 @@ export type BlockchainState = {
     | "refreshing"
     | "hoarding"
     | "editing"
-    | "noBumpkinFound";
+    | "noBumpkinFound"
+    | "mintingBumpkin"
+    | "bumpkinMinted";
   context: Context;
 };
 
@@ -248,7 +251,11 @@ export function startGame(authContext: Options) {
             src: async () => {
               const farmId = authContext.farmId as number;
 
-              const { game: onChain, owner } = await getOnChainState({
+              const {
+                game: onChain,
+                owner,
+                bumpkin,
+              } = await getOnChainState({
                 farmAddress: authContext.address as string,
                 id: farmId,
               });
@@ -269,6 +276,9 @@ export function startGame(authContext: Options) {
 
                 const response = await loadSession({
                   farmId,
+                  bumpkinId: bumpkin?.tokenId
+                    ? Number(bumpkin.tokenId)
+                    : undefined,
                   sessionId,
                   token: authContext.rawToken as string,
                 });
@@ -278,6 +288,8 @@ export function startGame(authContext: Options) {
                 }
 
                 const { game, offset, whitelistedAt, itemsMintedAt } = response;
+
+                console.log({ response: game.bumpkin });
 
                 // add farm address
                 game.farmAddress = authContext.address;
@@ -313,7 +325,7 @@ export function startGame(authContext: Options) {
               },
               {
                 target: "noBumpkinFound",
-                cond: (_, event) => isEmpty(event.data?.state.bumpkin),
+                cond: (_, event) => !event.data?.state.bumpkin,
                 actions: "assignGame",
               },
               {
@@ -330,7 +342,14 @@ export function startGame(authContext: Options) {
         noBumpkinFound: {
           on: {
             MINT_BUMPKIN: {
-              target: "playing",
+              target: "mintingBumpkin",
+            },
+          },
+        },
+        bumpkinMinted: {
+          on: {
+            CONTINUE: {
+              target: "loading",
             },
           },
         },
@@ -346,7 +365,7 @@ export function startGame(authContext: Options) {
             ACKNOWLEDGE: [
               {
                 target: "noBumpkinFound",
-                cond: (context) => isEmpty(context.state.bumpkin),
+                cond: (context) => !context.state.bumpkin,
                 actions: [() => acknowledgeRead()],
               },
               {
@@ -556,6 +575,26 @@ export function startGame(authContext: Options) {
               target: "error",
               actions: "assignErrorMessage",
             },
+          },
+        },
+        mintingBumpkin: {
+          invoke: {
+            src: async (_, event) => {
+              await mintBumpkin({
+                farmId: Number(authContext.farmId),
+                token: authContext.rawToken as string,
+                bumpkinParts: (event as MintBumpkinEvent).parts,
+              });
+            },
+            onDone: {
+              target: "bumpkinMinted",
+            },
+            onError: [
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
         },
         refreshing: {

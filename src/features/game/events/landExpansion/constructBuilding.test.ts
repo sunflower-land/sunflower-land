@@ -8,10 +8,40 @@ const GAME_STATE: GameState = INITIAL_FARM;
 const date = Date.now();
 
 describe("Construct building", () => {
+  it("ensures a player has a Bumpkin", () => {
+    expect(() =>
+      constructBuilding({
+        state: { ...GAME_STATE },
+        action: {
+          type: "building.constructed",
+          name: "Workbench",
+          coordinates: {
+            x: 2,
+            y: 2,
+          },
+        },
+      })
+    ).toThrow("You do not have a Bumpkin");
+  });
   it("ensures Bumpkin level requirements for Workbench are met", () => {
     expect(() =>
       constructBuilding({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            id: 1,
+            level: 1,
+            equipped: {
+              body: "Light Brown Farmer Potion",
+              hair: "Basic Hair",
+              eyes: "Rosy Wide Eyes",
+              mouth: "Wide Smile",
+              shirt: "Red Farmer Shirt",
+              pants: "Farmer Pants",
+              shoes: "Black Farmer Boots",
+            },
+          },
+        },
         action: {
           type: "building.constructed",
           name: "Workbench",
@@ -45,6 +75,19 @@ describe("Construct building", () => {
       constructBuilding({
         state: {
           ...GAME_STATE,
+          bumpkin: {
+            id: 1,
+            level: 2,
+            equipped: {
+              body: "Light Brown Farmer Potion",
+              hair: "Basic Hair",
+              eyes: "Rosy Wide Eyes",
+              mouth: "Wide Smile",
+              shirt: "Red Farmer Shirt",
+              pants: "Farmer Pants",
+              shoes: "Black Farmer Boots",
+            },
+          },
         },
         action: {
           type: "building.constructed",
@@ -90,7 +133,17 @@ describe("Construct building", () => {
             Stone: new Decimal(100),
           },
           bumpkin: {
+            id: 1,
             level: 2,
+            equipped: {
+              body: "Light Brown Farmer Potion",
+              hair: "Basic Hair",
+              eyes: "Rosy Wide Eyes",
+              mouth: "Wide Smile",
+              shirt: "Red Farmer Shirt",
+              pants: "Farmer Pants",
+              shoes: "Black Farmer Boots",
+            },
           },
           balance: new Decimal(0),
         },
@@ -116,7 +169,17 @@ describe("Construct building", () => {
             Stone: new Decimal(100),
           },
           bumpkin: {
+            id: 1,
             level: 2,
+            equipped: {
+              body: "Light Brown Farmer Potion",
+              hair: "Basic Hair",
+              eyes: "Rosy Wide Eyes",
+              mouth: "Wide Smile",
+              shirt: "Red Farmer Shirt",
+              pants: "Farmer Pants",
+              shoes: "Black Farmer Boots",
+            },
           },
           balance: new Decimal(100),
         },
@@ -138,6 +201,19 @@ describe("Construct building", () => {
         ...GAME_STATE,
         balance: new Decimal(100),
         inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
+        bumpkin: {
+          id: 1,
+          level: 2,
+          equipped: {
+            body: "Light Brown Farmer Potion",
+            hair: "Basic Hair",
+            eyes: "Rosy Wide Eyes",
+            mouth: "Wide Smile",
+            shirt: "Red Farmer Shirt",
+            pants: "Farmer Pants",
+            shoes: "Black Farmer Boots",
+          },
+        },
       },
       action: {
         type: "building.constructed",
@@ -161,6 +237,19 @@ describe("Construct building", () => {
           Stone: new Decimal(100),
           Radish: new Decimal(50),
         },
+        bumpkin: {
+          id: 1,
+          level: 2,
+          equipped: {
+            body: "Light Brown Farmer Potion",
+            hair: "Basic Hair",
+            eyes: "Rosy Wide Eyes",
+            mouth: "Wide Smile",
+            shirt: "Red Farmer Shirt",
+            pants: "Farmer Pants",
+            shoes: "Black Farmer Boots",
+          },
+        },
       },
       action: {
         type: "building.constructed",
@@ -182,6 +271,19 @@ describe("Construct building", () => {
         ...GAME_STATE,
         balance: new Decimal(100),
         inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
+        bumpkin: {
+          id: 1,
+          level: 2,
+          equipped: {
+            body: "Light Brown Farmer Potion",
+            hair: "Basic Hair",
+            eyes: "Rosy Wide Eyes",
+            mouth: "Wide Smile",
+            shirt: "Red Farmer Shirt",
+            pants: "Farmer Pants",
+            shoes: "Black Farmer Boots",
+          },
+        },
       },
       action: {
         type: "building.constructed",
@@ -208,7 +310,19 @@ describe("Construct building", () => {
         ...GAME_STATE,
         balance: new Decimal(100),
         inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
-        bumpkin: { level: 2 },
+        bumpkin: {
+          id: 1,
+          level: 2,
+          equipped: {
+            body: "Light Brown Farmer Potion",
+            hair: "Basic Hair",
+            eyes: "Rosy Wide Eyes",
+            mouth: "Wide Smile",
+            shirt: "Red Farmer Shirt",
+            pants: "Farmer Pants",
+            shoes: "Black Farmer Boots",
+          },
+        },
       },
       action: {
         type: "building.constructed",
@@ -231,7 +345,19 @@ describe("Construct building", () => {
           Wood: new Decimal(20),
           Stone: new Decimal(15),
         },
-        bumpkin: { level: 2 },
+        bumpkin: {
+          id: 1,
+          level: 2,
+          equipped: {
+            body: "Light Brown Farmer Potion",
+            hair: "Basic Hair",
+            eyes: "Rosy Wide Eyes",
+            mouth: "Wide Smile",
+            shirt: "Red Farmer Shirt",
+            pants: "Farmer Pants",
+            shoes: "Black Farmer Boots",
+          },
+        },
       },
       action: {
         type: "building.constructed",
@@ -255,7 +381,19 @@ describe("Construct building", () => {
           Wood: new Decimal(20),
           Stone: new Decimal(15),
         },
-        bumpkin: { level: 2 },
+        bumpkin: {
+          id: 1,
+          level: 2,
+          equipped: {
+            body: "Light Brown Farmer Potion",
+            hair: "Basic Hair",
+            eyes: "Rosy Wide Eyes",
+            mouth: "Wide Smile",
+            shirt: "Red Farmer Shirt",
+            pants: "Farmer Pants",
+            shoes: "Black Farmer Boots",
+          },
+        },
         buildings: {
           "Fire Pit": [
             {
@@ -308,7 +446,19 @@ describe("Construct building", () => {
           Wood: new Decimal(20),
           Stone: new Decimal(15),
         },
-        bumpkin: { level: 2 },
+        bumpkin: {
+          id: 1,
+          level: 2,
+          equipped: {
+            body: "Light Brown Farmer Potion",
+            hair: "Basic Hair",
+            eyes: "Rosy Wide Eyes",
+            mouth: "Wide Smile",
+            shirt: "Red Farmer Shirt",
+            pants: "Farmer Pants",
+            shoes: "Black Farmer Boots",
+          },
+        },
         buildings: {
           ...buildings,
         },

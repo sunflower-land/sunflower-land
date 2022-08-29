@@ -322,7 +322,6 @@ export const INITIAL_FARM: GameState = {
   plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
-  bumpkin: { level: 1 },
   buildings: {},
   airdrops: [
     {
@@ -381,7 +380,6 @@ export const EMPTY: GameState = {
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
   expansions: INITIAL_EXPANSIONS,
-  bumpkin: { level: 1 },
   buildings: {},
   collectibles: {},
 };

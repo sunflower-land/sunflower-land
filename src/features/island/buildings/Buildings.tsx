@@ -17,11 +17,11 @@ export const Buildings: React.FC = () => {
     <>
       <div
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-2 right-2 z-50 flex flex-col items-end cursor-pointer hover:img-highlight"
+        className="fixed bottom-[84px] right-2 z-50 flex flex-col items-end cursor-pointer hover:img-highlight"
       >
         <div className="relative w-16 h-16 flex items-center justify-center">
           <img src={disc} className="w-full absolute inset-0" />
-          <img src={hammer} className="w-10 mb-1 z-10" />
+          <img src={hammer} className="w-9 mb-1 z-10" />
         </div>
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>

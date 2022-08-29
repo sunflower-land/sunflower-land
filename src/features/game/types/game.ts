@@ -98,28 +98,44 @@ export interface BumpkinParts {
 }
 
 export type Bumpkin = {
+  id: number;
   level: number;
-  parts?: BumpkinParts;
+  equipped: BumpkinParts;
 };
 
 export type BumpkinBody =
-  | "Light Farmer Potion"
-  | "Dark Farmer Potion"
+  | "Beige Farmer Potion"
+  | "Light Brown Farmer Potion"
+  | "Dark Brown Farmer Potion"
   | "Goblin Potion";
 
 export type BumpkinHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
 
-export type BumpkinShirt = "Farmer Shirt" | "Lumberjack Shirt";
-export type BumpkinMouth = "Smile" | "Smile With Teeth";
+export type BumpkinShirt =
+  | "Red Farmer Shirt"
+  | "Yellow Farmer Shirt"
+  | "Blue Farmer Shirt";
+export type BumpkinMouth = "Wide Smile" | "Wide Smile With Teeth";
 
 export type BumpkinPants =
   | "Farmer Overalls"
   | "Lumberjack Overalls"
   | "Farmer Pants";
 
-export type BumpkinEyes = "Rosy Wide Eyes" | "Rosy Squinted Eyes";
+export type BumpkinEyes =
+  | "Rosy Wide Eyes"
+  | "Rosy Squinted Eyes"
+  | "Rosy Butterfly Eyes";
 
-export type BumpkinShoes = "Black Shoes";
+export type BumpkinShoes = "Black Farmer Boots";
+
+export type BumpkinTools = "Farmer Pitchfork";
+
+export type BumpkinNecklace = "Sunflower Amulet";
+
+export type BumpkinHat = "Farmer Hat";
+
+export type BumpkinSecondaryTool = "Warrior Shield";
 
 export type BumpkinItems =
   | BumpkinBody
@@ -128,7 +144,11 @@ export type BumpkinItems =
   | BumpkinPants
   | BumpkinEyes
   | BumpkinShoes
-  | BumpkinMouth;
+  | BumpkinMouth
+  | BumpkinHat
+  | BumpkinNecklace
+  | BumpkinTools
+  | BumpkinSecondaryTool;
 
 export type InventoryItemName =
   | CropName
@@ -295,7 +315,7 @@ export interface GameState {
 
   expansions: LandExpansion[];
   expansionRequirements?: ExpansionRequirements;
-  bumpkin: Bumpkin;
+  bumpkin?: Bumpkin;
   buildings: Buildings;
   collectibles: Collectibles;
 }

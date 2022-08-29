@@ -905,11 +905,15 @@ export const ITEM_DETAILS: Items = {
   /**
    * Bumpkins
    */
-  "Light Farmer Potion": {
+  "Beige Farmer Potion": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Dark Farmer Potion": {
+  "Dark Brown Farmer Potion": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Light Brown Farmer Potion": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
@@ -929,11 +933,15 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Farmer Shirt": {
+  "Red Farmer Shirt": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Lumberjack Shirt": {
+  "Yellow Farmer Shirt": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Blue Farmer Shirt": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
@@ -949,11 +957,11 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  Smile: {
+  "Wide Smile": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Smile With Teeth": {
+  "Wide Smile With Teeth": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
@@ -965,7 +973,27 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Black Shoes": {
+  "Rosy Butterfly Eyes": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Black Farmer Boots": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Farmer Hat": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Farmer Pitchfork": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Sunflower Amulet": {
+    image: questionMark,
+    description: "An item for your bumpkin",
+  },
+  "Warrior Shield": {
     image: questionMark,
     description: "An item for your bumpkin",
   },
