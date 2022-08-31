@@ -25,11 +25,16 @@ export class BumpkinDetails {
   private web3: Web3;
   private account: string;
 
-  private contract: IBumpkinDetails;
+  private contract: IBumpkinDetails | null;
 
   constructor(web3: Web3, account: string) {
     this.web3 = web3;
     this.account = account;
+
+    if (CONFIG.NETWORK === "mainnet") {
+      this.contract = null;
+      return;
+    }
 
     this.contract = new this.web3.eth.Contract(
       BumpkinDetailsABI as AbiItem[],
@@ -39,7 +44,7 @@ export class BumpkinDetails {
 
   public async loadBumpkins(): Promise<OnChainBumpkin[]> {
     console.log("load");
-    if (CONFIG.NETWORK === "mainnet") {
+    if (!this.contract) {
       return [];
     }
 
