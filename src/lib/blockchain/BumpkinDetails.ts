@@ -39,6 +39,10 @@ export class BumpkinDetails {
 
   public async loadBumpkins(): Promise<OnChainBumpkin[]> {
     console.log("load");
+    if (CONFIG.NETWORK !== "mainnet") {
+      return [];
+    }
+
     return this.contract.methods
       .loadBumpkins(metamask.myAccount as string)
       .call({ from: this.account });
