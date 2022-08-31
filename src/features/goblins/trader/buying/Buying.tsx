@@ -32,7 +32,7 @@ export const Buying: React.FC = () => {
     const isValidFarmId = /^\d+$/.test(farmId); // Ensure it's a valid farm ID before proceeding.
     if (!isValidFarmId) return;
     buyingService.send("LOAD_FARM", { farmId });
-  }, []);
+  }, [searchParams]);
 
   if (machine.matches("idle")) {
     return (

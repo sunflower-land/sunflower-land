@@ -24,7 +24,7 @@ export const Trader: React.FC = () => {
     if (!searchParams.has("viewListingsForLand")) return;
     if (!goblinState.matches("playing")) return;
     openTrader();
-  }, [goblinState]);
+  }, [goblinState, searchParams]);
 
   const openTrader = () => {
     goblinService.send("OPEN_TRADING_POST");
