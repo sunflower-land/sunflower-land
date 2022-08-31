@@ -32,7 +32,7 @@ export const Trader: React.FC = () => {
   };
 
   const handleModalClose = () => {
-    const modifiedParams = Object.assign(searchParams, {});
+    const modifiedParams = Object.assign({}, searchParams);
     modifiedParams.delete("viewListingsForLand");
     setSearchParams(modifiedParams, { replace: true });
     setShowModal(false);
