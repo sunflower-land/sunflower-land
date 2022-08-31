@@ -287,10 +287,7 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                console.log({ bumpkin });
                 const { game, offset, whitelistedAt, itemsMintedAt } = response;
-
-                console.log({ response: game.bumpkin });
 
                 // add farm address
                 game.farmAddress = authContext.address;
