@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import { Context } from "features/game/GoblinProvider";
 
@@ -16,9 +17,25 @@ export const Trader: React.FC = () => {
 
   const [showModal, setShowModal] = useState(false);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Support deep-link to auto-open the trader
+  useEffect(() => {
+    if (!searchParams.has("viewListingsForLand")) return;
+    if (!goblinState.matches("playing")) return;
+    openTrader();
+  }, [goblinState]);
+
   const openTrader = () => {
     goblinService.send("OPEN_TRADING_POST");
     setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    const modifiedParams = Object.assign(searchParams, {});
+    modifiedParams.delete("viewListingsForLand");
+    setSearchParams(modifiedParams, { replace: true });
+    setShowModal(false);
   };
 
   return (
@@ -48,7 +65,13 @@ export const Trader: React.FC = () => {
       </div>
 
       {goblinState.matches("trading") && (
-        <TraderModal isOpen={showModal} onClose={() => setShowModal(false)} />
+        <TraderModal
+          isOpen={showModal}
+          initialTab={
+            searchParams.has("viewListingsForLand") ? "buying" : "selling"
+          }
+          onClose={handleModalClose}
+        />
       )}
     </>
   );

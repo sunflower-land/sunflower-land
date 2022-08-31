@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useActor } from "@xstate/react";
+import { useSearchParams } from "react-router-dom";
 
 import alert from "assets/icons/expression_alerted.png";
 
@@ -22,6 +23,16 @@ export const Buying: React.FC = () => {
   const buyingService = tradingPostState.children
     .buying as BuyingMachineInterpreter;
   const [machine, send] = useActor(buyingService);
+
+  const [searchParams] = useSearchParams();
+
+  // Support deep-link to auto-visit a farm's listings
+  useEffect(() => {
+    const farmId = searchParams.get("viewListingsForLand") ?? "";
+    const isValidFarmId = /^\d+$/.test(farmId); // Ensure it's a valid farm ID before proceeding.
+    if (!isValidFarmId) return;
+    buyingService.send("LOAD_FARM", { farmId });
+  }, []);
 
   if (machine.matches("idle")) {
     return (
