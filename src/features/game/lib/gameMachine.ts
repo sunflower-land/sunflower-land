@@ -287,6 +287,7 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
+                console.log({ bumpkin });
                 const { game, offset, whitelistedAt, itemsMintedAt } = response;
 
                 console.log({ response: game.bumpkin });
@@ -325,7 +326,9 @@ export function startGame(authContext: Options) {
               },
               {
                 target: "noBumpkinFound",
-                cond: (_, event) => !event.data?.state.bumpkin,
+                cond: (_, event) =>
+                  !event.data?.state.bumpkin &&
+                  window.location.hash.includes("/land"),
                 actions: "assignGame",
               },
               {
@@ -365,7 +368,9 @@ export function startGame(authContext: Options) {
             ACKNOWLEDGE: [
               {
                 target: "noBumpkinFound",
-                cond: (context) => !context.state.bumpkin,
+                cond: (context) =>
+                  !context.state.bumpkin &&
+                  window.location.hash.includes("/land"),
                 actions: [() => acknowledgeRead()],
               },
               {
