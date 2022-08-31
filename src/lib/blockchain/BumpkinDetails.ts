@@ -39,7 +39,7 @@ export class BumpkinDetails {
 
   public async loadBumpkins(): Promise<OnChainBumpkin[]> {
     console.log("load");
-    if (CONFIG.NETWORK !== "mainnet") {
+    if (CONFIG.NETWORK === "mainnet") {
       return [];
     }
 
