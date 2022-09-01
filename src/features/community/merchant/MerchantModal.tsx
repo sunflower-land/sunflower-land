@@ -63,7 +63,11 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               </p>
               <p className="text-xxs mb-4\2 mt-2 text-center">
                 initiated by{" "}
-                <a href={`${projectDignity}/project-dignity/members`}>
+                <a
+                  href={`${projectDignity}/project-dignity/members`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Project Dignity
                 </a>
               </p>
@@ -111,7 +115,11 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               </p>
               <p className="text-xxs mb-4\2 mt-2 text-center">
                 initiated by{" "}
-                <a href={`${projectDignity}/project-dignity/members`}>
+                <a
+                  href={`${projectDignity}/project-dignity/members`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Project Dignity
                 </a>
               </p>
@@ -220,7 +228,11 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               </p>
               <p className="text-xxs mb-4\2 mt-2 text-center">
                 initiated by{" "}
-                <a href={`${projectDignity}/project-dignity/members`}>
+                <a
+                  href={`${projectDignity}/project-dignity/members`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Project Dignity
                 </a>
               </p>
