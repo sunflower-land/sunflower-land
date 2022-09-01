@@ -12,7 +12,7 @@ export const CommunityHud: React.FC = () => {
   return (
     <div aria-label="Hud">
       <Balance balance={state.context.balance} />
-      <BackButton farmId={state.context.farmId} />
+      <BackButton />
     </div>
   );
 };
