@@ -72,9 +72,9 @@ export const CakeStall: React.FC = () => {
                 src={chef}
                 className="absolute"
                 style={{
-                  width: `${GRID_WIDTH_PX * 1.2}px`,
-                  right: `${GRID_WIDTH_PX * 1.78}px`,
-                  top: `${GRID_WIDTH_PX * 1.8}px`,
+                  width: `${GRID_WIDTH_PX * 1.22222222222}px`,
+                  right: `${GRID_WIDTH_PX * 1.71}px`,
+                  top: `${GRID_WIDTH_PX * 2}px`,
                   transform: "scaleX(-1)",
                 }}
                 onClick={openCakeModal}
