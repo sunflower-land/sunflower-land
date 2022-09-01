@@ -12,11 +12,13 @@ import { Tabs } from "./components/Tabs";
 
 interface TraderModalProps {
   isOpen: boolean;
+  initialTab?: "buying" | "selling";
   onClose: () => void;
 }
 
 export const TraderModal: React.FC<TraderModalProps> = ({
   isOpen,
+  initialTab = "selling",
   onClose,
 }) => {
   const { goblinService } = useContext(Context);
@@ -26,7 +28,7 @@ export const TraderModal: React.FC<TraderModalProps> = ({
 
   const [machine, send] = useActor(child);
 
-  const [isSelling, setIsSelling] = useState(true);
+  const [isSelling, setIsSelling] = useState(initialTab === "selling");
 
   const handleClose = () => {
     onClose();

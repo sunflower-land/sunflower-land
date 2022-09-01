@@ -354,6 +354,15 @@ export const authMachine = createMachine<
             },
           },
           readyToStart: {
+            invoke: {
+              src: async () => ({
+                skipSplash: window.location.hash.includes("goblins"),
+              }),
+              onDone: {
+                cond: (_, event) => event.data.skipSplash,
+                target: "authorised",
+              },
+            },
             on: {
               START_GAME: [
                 {
@@ -373,6 +382,8 @@ export const authMachine = createMachine<
           authorised: {
             id: "authorised",
             entry: (context, event) => {
+              if (window.location.hash.includes("goblins")) return;
+
               // When no 'screen' parameter is given to the event
               const defaultScreen = window.location.hash.includes("land")
                 ? "land"
