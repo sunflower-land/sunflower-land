@@ -136,8 +136,6 @@ export type BumpkinShoes = "Black Farmer Boots";
 
 export type BumpkinTools = "Farmer Pitchfork";
 
-export type BumpkinSecondaryTool = "Warrior Shield";
-
 export type BumpkinNecklace =
   | "Sunflower Amulet"
   | "Carrot Amulet"

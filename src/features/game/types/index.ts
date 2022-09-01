@@ -209,36 +209,23 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Wide Smile": 1401,
   "Wide Smile With Teeth": 1402,
 
-<<<<<<< HEAD
   "Red Farmer Shirt": 1501,
   "Yellow Farmer Shirt": 1502,
   "Blue Farmer Shirt": 1503,
   "Chef Apron": 1504,
-=======
-  "Farmer Shirt": 1501,
-  "Lumberjack Shirt": 1502,
-  "Warrior Shirt": 1503,
->>>>>>> 3060debd (Add images and placeholder descriptions)
+  "Warrior Shirt": 1505,
 
   "Farmer Overalls": 1601,
   "Lumberjack Overalls": 1602,
   "Farmer Pants": 1603,
   "Warrior Pants": 1604,
 
-<<<<<<< HEAD
   "Black Farmer Boots": 1701,
 
   "Farmer Pitchfork": 1802,
 
   "Farmer Hat": 1901,
   "Chef Hat": 1902,
-
-  "Sunflower Amulet": 2001,
-
-  "Warrior Shield": 2101,
-=======
-  "Black Shoes": 1701,
-
   "Warrior Helmet": 1903,
 
   "Sunflower Amulet": 2101,
@@ -248,7 +235,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
 
   "Reward 8": 2201,
   "Reward 9": 2202,
->>>>>>> 3060debd (Add images and placeholder descriptions)
 };
 
 // The reverse of above

@@ -1008,10 +1008,6 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Warrior Shield": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
 
   "Chef Hat": {
     image: chefHat,
