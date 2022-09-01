@@ -12,7 +12,6 @@ export const CommunityGardenEntry: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const openMerchant = () => {
-    merchantAudio.play();
     setShowModal(true);
     //Checks if merchantAudio is playing, if false, plays the sound
     if (!merchantAudio.playing()) {

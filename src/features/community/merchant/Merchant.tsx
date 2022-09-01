@@ -12,7 +12,6 @@ export const Merchant: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const openMerchant = () => {
-    merchantAudio.play();
     setIsOpen(true);
     //Checks if merchantAudio is playing, if false, plays the sound
     if (!merchantAudio.playing()) {
