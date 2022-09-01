@@ -292,6 +292,8 @@ export const INITIAL_FARM: GameState = {
     Axe: new Decimal(3),
     Pickaxe: new Decimal(3),
     "Trading Ticket": new Decimal(50),
+    "Chef Hat": new Decimal(1),
+    "Human War Banner": new Decimal(1),
   },
 
   stock: INITIAL_STOCK,
@@ -308,7 +310,7 @@ export const INITIAL_FARM: GameState = {
     "Sunflower Cake": "1970-06-06",
     "Potato Cake": "1970-01-01T00:00:00.000Z",
     "Pumpkin Cake": "1970-01-01T00:00:00.000Z",
-    "Carrot Cake": "1970-01-01T00:00:00.000Z",
+    "Carrot Cake": "2022-08-30T00:00:00.000Z",
     "Cabbage Cake": "1970-01-01T00:00:00.000Z",
     "Beetroot Cake": "1970-01-01T00:00:00.000Z",
     "Cauliflower Cake": "1970-01-01T00:00:00.000Z",
@@ -331,14 +333,7 @@ export const INITIAL_FARM: GameState = {
         "Rapid Growth": 5,
       },
       sfl: 3,
-    },
-    {
-      createdAt: Date.now(),
-      id: "1234",
-      items: {
-        "Rapid Growth": 5,
-      },
-      sfl: 3,
+      message: "You are a legend!",
     },
   ],
   collectibles: {},

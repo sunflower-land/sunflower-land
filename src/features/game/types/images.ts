@@ -188,6 +188,10 @@ import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 // Buildings
 import firePit from "src/assets/buildings/fire_pit.png";
 
+// Clothing
+import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
+import chefApron from "src/assets/bumpkins/large/shirts/chef_apron.png";
+
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -945,6 +949,10 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
+  "Chef Apron": {
+    image: chefApron,
+    description: "Cakes yield an additional 20% SFL",
+  },
   "Farmer Overalls": {
     image: questionMark,
     description: "An item for your bumpkin",
@@ -996,6 +1004,11 @@ export const ITEM_DETAILS: Items = {
   "Warrior Shield": {
     image: questionMark,
     description: "An item for your bumpkin",
+  },
+
+  "Chef Hat": {
+    image: chefHat,
+    description: "The crown of a legendary baker!",
   },
 
   "Rapid Growth": {

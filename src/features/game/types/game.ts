@@ -110,11 +110,14 @@ export type BumpkinBody =
   | "Goblin Potion";
 
 export type BumpkinHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
+export type BumpkinHat = "Farmer Hat" | "Chef Hat";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
   | "Yellow Farmer Shirt"
-  | "Blue Farmer Shirt";
+  | "Blue Farmer Shirt"
+  | "Chef Apron";
+
 export type BumpkinMouth = "Wide Smile" | "Wide Smile With Teeth";
 
 export type BumpkinPants =
@@ -132,8 +135,6 @@ export type BumpkinShoes = "Black Farmer Boots";
 export type BumpkinTools = "Farmer Pitchfork";
 
 export type BumpkinNecklace = "Sunflower Amulet";
-
-export type BumpkinHat = "Farmer Hat";
 
 export type BumpkinSecondaryTool = "Warrior Shield";
 
@@ -278,6 +279,7 @@ export type Airdrop = {
   createdAt: number;
   items: Partial<Record<InventoryItemName, number>>;
   sfl: number;
+  message?: string;
 };
 
 export interface GameState {
