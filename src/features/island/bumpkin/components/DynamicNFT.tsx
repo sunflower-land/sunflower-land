@@ -60,8 +60,6 @@ const ITEM_IMAGES: Record<BumpkinItems, string> = {
   "Farmer Pitchfork": farmerPitchfork,
   "Farmer Hat": smile, // TODO: add item
   "Chef Hat": questionMark,
-  Smile: smile,
-  "Smile With Teeth": smile, // TODO: add item
   "Warrior Helmet": warriorHelmet,
   "Warrior Pants": warriorPants,
   "Warrior Shirt": warriorShirt,

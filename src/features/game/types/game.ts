@@ -152,8 +152,7 @@ export type BumpkinItems =
   | BumpkinMouth
   | BumpkinHat
   | BumpkinNecklace
-  | BumpkinTools
-  | BumpkinSecondaryTool;
+  | BumpkinTools;
 
 export type InventoryItemName =
   | CropName
