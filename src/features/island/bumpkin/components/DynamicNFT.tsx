@@ -21,6 +21,15 @@ import farmerPants from "assets/bumpkins/large/pants/farmer_pants.png";
 import blackFarmerBoots from "assets/bumpkins/large/shoes/black_farmer_boots.png";
 import smile from "assets/bumpkins/large/mouths/smile.png";
 import farmerPitchfork from "assets/bumpkins/large/tools/farmer_pitchfork.png";
+import sunflowerAmulet from "src/assets/bumpkins/large/necklaces/sunflower_amulet.png";
+import carrotAmulet from "src/assets/bumpkins/large/necklaces/carrot_amulet.png";
+import beetrootAmulet from "src/assets/bumpkins/large/necklaces/beetroot_amulet.png";
+import greenAmulet from "src/assets/bumpkins/large/necklaces/green_amulet.png";
+
+import warriorShirt from "src/assets/bumpkins/large/shirts/warrior_top.png";
+import warriorPants from "src/assets/bumpkins/large/pants/warrior_pants.png";
+import warriorHelmet from "src/assets/bumpkins/large/hats/warrior_helmet.png";
+
 import dropShadow from "assets/bumpkins/large/body_dropshadow.png";
 
 interface Props {
@@ -48,11 +57,16 @@ const ITEM_IMAGES: Record<BumpkinItems, string> = {
   "Black Farmer Boots": blackFarmerBoots,
   "Wide Smile": smile,
   "Wide Smile With Teeth": smile, // TODO: add item
-  "Sunflower Amulet": smile, // TODO: add item
-  "Warrior Shield": smile, // TODO: add item
   "Farmer Pitchfork": farmerPitchfork,
   "Farmer Hat": smile, // TODO: add item
   "Chef Hat": questionMark,
+  "Warrior Helmet": warriorHelmet,
+  "Warrior Pants": warriorPants,
+  "Warrior Shirt": warriorShirt,
+  "Sunflower Amulet": sunflowerAmulet,
+  "Carrot Amulet": carrotAmulet,
+  "Beetroot Amulet": beetrootAmulet,
+  "Green Amulet": greenAmulet,
 };
 
 export const DynamicNFT: React.FC<Props> = ({ bumpkinParts }) => {

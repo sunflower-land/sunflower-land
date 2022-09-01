@@ -39,20 +39,20 @@ const getWarBondDetails = (
   name: InventoryItemName
 ): { bondAmount: string; supply: number } => {
   switch (name) {
-    case "Reward 1":
+    case "Sunflower Amulet":
       return { bondAmount: "250", supply: 20000 };
-    case "Reward 2":
+    case "Carrot Amulet":
       return { bondAmount: "700", supply: 20000 };
-    case "Reward 3":
+    case "Beetroot Amulet":
       return { bondAmount: "2000", supply: 20000 };
-    case "Reward 4":
+    case "Warrior Shirt":
       return { bondAmount: "2000", supply: 1000 }; // 20
-    case "Reward 5":
+    case "Warrior Pants":
       return { bondAmount: "2000", supply: 1000 }; // 20
-    case "Reward 6":
+    case "Warrior Helmet":
       return { bondAmount: "2000", supply: 1000 }; // 20
-    case "Reward 7":
     case "Reward 8":
+    case "Reward 9":
     default:
       return { bondAmount: "?", supply: 100 };
   }

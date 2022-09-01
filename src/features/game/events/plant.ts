@@ -54,6 +54,10 @@ export const getCropTime = (crop: CropName, inventory: Inventory) => {
     seconds = seconds * 0.5;
   }
 
+  if (crop === "Carrot" && inventory["Carrot Amulet"]?.gte(1)) {
+    seconds = seconds * 0.8;
+  }
+
   // Scarecrow: 15% reduction
   if (
     inventory.Nancy?.greaterThanOrEqualTo(1) ||
@@ -90,7 +94,7 @@ type GetFieldArgs = {
 /**
  * Based on items, the output will be different
  */
-function getMultiplier({ crop, inventory }: GetFieldArgs): number {
+export function getMultiplier({ crop, inventory }: GetFieldArgs): number {
   let multiplier = 1;
   if (crop === "Cauliflower" && inventory["Golden Cauliflower"]?.gte(1)) {
     multiplier *= 2;
@@ -98,6 +102,14 @@ function getMultiplier({ crop, inventory }: GetFieldArgs): number {
 
   if (crop === "Carrot" && inventory["Easter Bunny"]?.gte(1)) {
     multiplier *= 1.2;
+  }
+
+  if (crop === "Sunflower" && inventory["Sunflower Amulet"]?.gte(1)) {
+    multiplier *= 1.1;
+  }
+
+  if (crop === "Beetroot" && inventory["Beetroot Amulet"]?.gte(1)) {
+    multiplier *= 1.1;
   }
 
   if (inventory.Scarecrow?.gte(1) || inventory.Kuebiko?.gte(1)) {

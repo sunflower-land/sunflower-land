@@ -184,14 +184,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Goblin War Point": 919,
   "Human War Banner": 920,
   "Goblin War Banner": 921,
-  "Reward 1": 922,
-  "Reward 2": 923,
-  "Reward 3": 924,
-  "Reward 4": 925,
-  "Reward 5": 926,
-  "Reward 6": 927,
-  "Reward 7": 928,
-  "Reward 8": 929,
 
   // Buildings
   "Fire Pit": 1001,
@@ -221,10 +213,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Yellow Farmer Shirt": 1502,
   "Blue Farmer Shirt": 1503,
   "Chef Apron": 1504,
+  "Warrior Shirt": 1505,
 
   "Farmer Overalls": 1601,
   "Lumberjack Overalls": 1602,
   "Farmer Pants": 1603,
+  "Warrior Pants": 1604,
 
   "Black Farmer Boots": 1701,
 
@@ -232,10 +226,15 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
 
   "Farmer Hat": 1901,
   "Chef Hat": 1902,
+  "Warrior Helmet": 1903,
 
   "Sunflower Amulet": 2001,
+  "Carrot Amulet": 2002,
+  "Beetroot Amulet": 2003,
+  "Green Amulet": 2004,
 
-  "Warrior Shield": 2101,
+  "Reward 8": 2101,
+  "Reward 9": 2101,
 };
 
 // The reverse of above

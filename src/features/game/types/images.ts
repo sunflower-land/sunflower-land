@@ -191,6 +191,13 @@ import firePit from "src/assets/buildings/fire_pit.png";
 // Clothing
 import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
 import chefApron from "src/assets/bumpkins/large/shirts/chef_apron.png";
+import sunflowerAmulet from "src/assets/bumpkins/large/necklaces/sunflower_amulet.png";
+import carrotAmulet from "src/assets/bumpkins/large/necklaces/carrot_amulet.png";
+import beetrootAmulet from "src/assets/bumpkins/large/necklaces/beetroot_amulet.png";
+import greenAmulet from "src/assets/bumpkins/large/necklaces/green_amulet.png";
+import warriorShirt from "src/assets/bumpkins/large/shirts/warrior_top.png";
+import warriorPants from "src/assets/bumpkins/large/pants/warrior_pants.png";
+import warriorHelmet from "src/assets/bumpkins/large/hats/warrior_helmet.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -997,14 +1004,6 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "An item for your bumpkin",
   },
-  "Sunflower Amulet": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Warrior Shield": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
 
   "Chef Hat": {
     image: chefHat,
@@ -1037,35 +1036,39 @@ export const ITEM_DETAILS: Items = {
     description: "TEST",
   },
 
-  "Reward 1": {
-    image: questionMark,
+  "Sunflower Amulet": {
+    image: sunflowerAmulet,
     description: "A reward for your war efforts.",
   },
-  "Reward 2": {
-    image: questionMark,
+  "Carrot Amulet": {
+    image: carrotAmulet,
     description: "A reward for your war efforts.",
   },
-  "Reward 3": {
-    image: questionMark,
+  "Beetroot Amulet": {
+    image: beetrootAmulet,
     description: "A reward for your war efforts.",
   },
-  "Reward 4": {
-    image: questionMark,
+  "Green Amulet": {
+    image: greenAmulet,
     description: "A reward for your war efforts.",
   },
-  "Reward 5": {
-    image: questionMark,
+  "Warrior Shirt": {
+    image: warriorShirt,
     description: "A reward for your war efforts.",
   },
-  "Reward 6": {
-    image: questionMark,
+  "Warrior Pants": {
+    image: warriorPants,
     description: "A reward for your war efforts.",
   },
-  "Reward 7": {
-    image: questionMark,
+  "Warrior Helmet": {
+    image: warriorHelmet,
     description: "A reward for your war efforts.",
   },
   "Reward 8": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 9": {
     image: questionMark,
     description: "A reward for your war efforts.",
   },
