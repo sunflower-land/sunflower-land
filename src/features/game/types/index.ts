@@ -228,13 +228,13 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Chef Hat": 1902,
   "Warrior Helmet": 1903,
 
-  "Sunflower Amulet": 2101,
-  "Carrot Amulet": 2102,
-  "Beetroot Amulet": 2103,
-  "Green Amulet": 2104,
+  "Sunflower Amulet": 2001,
+  "Carrot Amulet": 2002,
+  "Beetroot Amulet": 2003,
+  "Green Amulet": 2004,
 
-  "Reward 8": 2201,
-  "Reward 9": 2202,
+  "Reward 8": 2101,
+  "Reward 9": 2101,
 };
 
 // The reverse of above
