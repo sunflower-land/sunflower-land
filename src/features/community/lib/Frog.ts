@@ -182,9 +182,9 @@ export class Frog {
 
     try {
       const tokenUri = await this.contract.methods
-        .tokenURI()
-        .send({ tokenId, from: this.account });
-      console.log("frog baseURI:", tokenUri);
+        .tokenURI(tokenId)
+        .call({ from: this.account });
+      console.log("frog tokenURI:", tokenUri);
 
       return tokenUri;
     } catch (e) {
