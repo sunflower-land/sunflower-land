@@ -457,6 +457,7 @@ describe("Construct building", () => {
             shirt: "Red Farmer Shirt",
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
+            tool: "Farmer Pitchfork",
           },
         },
         buildings: {

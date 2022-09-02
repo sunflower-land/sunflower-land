@@ -192,49 +192,18 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Workbench: 1004,
   Bakery: 1005,
 
-  // Bumpkins
-  "Beige Farmer Potion": 1101,
-  "Light Brown Farmer Potion": 1102,
-  "Dark Brown Farmer Potion": 1103,
-  "Goblin Potion": 1104,
-
-  "Basic Hair": 1201,
-  "Rancher Hair": 1202,
-  "Explorer Hair": 1203,
-
-  "Rosy Wide Eyes": 1301,
-  "Rosy Squinted Eyes": 1302,
-  "Rosy Butterfly Eyes": 1303,
-
-  "Wide Smile": 1401,
-  "Wide Smile With Teeth": 1402,
-
-  "Red Farmer Shirt": 1501,
-  "Yellow Farmer Shirt": 1502,
-  "Blue Farmer Shirt": 1503,
-  "Chef Apron": 1504,
-  "Warrior Shirt": 1505,
-
-  "Farmer Overalls": 1601,
-  "Lumberjack Overalls": 1602,
-  "Farmer Pants": 1603,
-  "Warrior Pants": 1604,
-
-  "Black Farmer Boots": 1701,
-
-  "Farmer Pitchfork": 1802,
-
-  "Farmer Hat": 1901,
-  "Chef Hat": 1902,
-  "Warrior Helmet": 1903,
-
-  "Sunflower Amulet": 2001,
-  "Carrot Amulet": 2002,
-  "Beetroot Amulet": 2003,
-  "Green Amulet": 2004,
-
-  "Reward 8": 2101,
-  "Reward 9": 2101,
+  // Temporary Bumpkin items
+  "Chef Apron": 1101,
+  "Chef Hat": 1102,
+  "Sunflower Amulet": 1103,
+  "Carrot Amulet": 1104,
+  "Beetroot Amulet": 1105,
+  "Green Amulet": 1106,
+  "Warrior Shirt": 1107,
+  "Warrior Helmet": 1108,
+  "Warrior Pants": 1109,
+  "Reward 8": 1110,
+  "Reward 9": 1111,
 };
 
 // The reverse of above

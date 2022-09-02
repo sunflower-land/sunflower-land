@@ -7,6 +7,7 @@ import { SkillName } from "./skills";
 import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
+import { BumpkinParts } from "./bumpkin";
 
 export type CropReward = {
   items: {
@@ -87,72 +88,20 @@ export type Ticket =
 
 type WarBanner = "Human War Banner" | "Goblin War Banner";
 
-export interface BumpkinParts {
-  body: BumpkinBody;
-  hair: BumpkinHair;
-  eyes: BumpkinEyes;
-  mouth: BumpkinMouth;
-  shirt: BumpkinShirt;
-  pants: BumpkinPants;
-  shoes: BumpkinShoes;
-}
-
 export type Bumpkin = {
   id: number;
   level: number;
   equipped: BumpkinParts;
 };
 
-export type BumpkinBody =
-  | "Beige Farmer Potion"
-  | "Light Brown Farmer Potion"
-  | "Dark Brown Farmer Potion"
-  | "Goblin Potion";
-
-export type BumpkinHair = "Basic Hair" | "Explorer Hair" | "Rancher Hair";
-export type BumpkinHat = "Farmer Hat" | "Chef Hat" | "Warrior Helmet";
-
-export type BumpkinShirt =
-  | "Red Farmer Shirt"
-  | "Yellow Farmer Shirt"
-  | "Blue Farmer Shirt"
-  | "Chef Apron"
-  | "Warrior Shirt";
-
-export type BumpkinMouth = "Wide Smile" | "Wide Smile With Teeth";
-
-export type BumpkinPants =
-  | "Farmer Overalls"
-  | "Lumberjack Overalls"
-  | "Farmer Pants"
-  | "Warrior Pants";
-
-export type BumpkinEyes =
-  | "Rosy Wide Eyes"
-  | "Rosy Squinted Eyes"
-  | "Rosy Butterfly Eyes";
-
-export type BumpkinShoes = "Black Farmer Boots";
-
-export type BumpkinTools = "Farmer Pitchfork";
-
-export type BumpkinNecklace =
+export type SpecialEvent = "Chef Apron" | "Chef Hat";
+export type WarItems =
   | "Sunflower Amulet"
   | "Carrot Amulet"
   | "Beetroot Amulet"
-  | "Green Amulet";
-
-export type BumpkinItems =
-  | BumpkinBody
-  | BumpkinHair
-  | BumpkinShirt
-  | BumpkinPants
-  | BumpkinEyes
-  | BumpkinShoes
-  | BumpkinMouth
-  | BumpkinHat
-  | BumpkinNecklace
-  | BumpkinTools;
+  | "Green Amulet"
+  | "Warrior Helmet"
+  | "Warrior Pants";
 
 export type InventoryItemName =
   | CropName
@@ -166,7 +115,8 @@ export type InventoryItemName =
   | MOMEventItem
   | MutantChicken
   | Ticket
-  | BumpkinItems
+  | WarItems
+  | SpecialEvent
   | BuildingName
   | Fertiliser
   | WarBanner;
