@@ -176,4 +176,24 @@ export class Frog {
       throw error;
     }
   }
+
+  public async getTokenUri(tokenId: number[], attempts = 0): Promise<string> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const tokenUri = await this.contract.methods
+        .tokenURI()
+        .send({ tokenId, from: this.account });
+      console.log("frog baseURI:", tokenUri);
+
+      return tokenUri;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.getTokenUri(tokenId, attempts + 1);
+      }
+
+      throw error;
+    }
+  }
 }

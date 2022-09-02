@@ -12,36 +12,38 @@ export type Frog = {
 };
 
 export async function loadFrogs() {
-  let frogIds = await communityContracts.getFrog().getFrogIds();
+  try {
+    let frogIds = await communityContracts.getFrog().getFrogIds();
 
-  // for testing
-  // if (false) {
-  if (await isFrogPreview()) {
-    if (frogIds.length > 6) {
-      frogIds = frogIds.slice(0, 6);
+    if (await isFrogPreview()) {
+      if (frogIds.length > 6) {
+        frogIds = frogIds.slice(0, 6);
+      }
+
+      const result = frogIds.map(() => ({
+        pixel_image: frog_unrevealed,
+        name: "Unrevealed",
+      }));
+
+      return result;
+    } else {
+      const result = frogIds.map(
+        async (id) => await getFrogMetadata({ frogId: id })
+      );
+      const res: Frog[] = await Promise.all(result);
+
+      let filteredFrogs = res;
+
+      // only run filter if there is more than 1 frog in wallet
+      if (frogIds.length > 1) {
+        filteredFrogs = filterFrogs(res);
+      }
+
+      console.log("filtered frogs:", filteredFrogs);
+      return filteredFrogs;
     }
-
-    const result = frogIds.map(() => ({
-      pixel_image: frog_unrevealed,
-      name: "Unrevealed",
-    }));
-
-    return result;
-  } else {
-    const result = frogIds.map(
-      async (id) => await getFrogMetadata({ frogId: id })
-    );
-    const res: Frog[] = await Promise.all(result);
-
-    let filteredFrogs = res;
-
-    // only run filter if there is more than 1 frog in wallet
-    if (frogIds.length > 1) {
-      filteredFrogs = filterFrogs(res);
-    }
-
-    console.log("filtered frogs:", filteredFrogs);
-    return filteredFrogs;
+  } catch {
+    return null;
   }
 }
 
@@ -51,10 +53,11 @@ export async function getFrogMetadata(request: Request) {
   headers.append("Content-Type", "application/json");
   headers.append("Accept", "application/json");
 
-  const frogBaseUri = await communityContracts.getFrog().getBaseUri();
+  const frogBaseUri = await communityContracts
+    .getFrog()
+    .getTokenUri(request.frogId);
 
-  const url = `${frogBaseUri}/${request.frogId}.json`;
-  const response = await window.fetch(url, {
+  const response = await window.fetch(frogBaseUri, {
     mode: "cors",
     method: "GET",
     headers: headers,
