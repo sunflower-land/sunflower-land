@@ -913,98 +913,10 @@ export const ITEM_DETAILS: Items = {
   },
   "Rich Chicken": { ...MUTANT_CHICKENS["Rich Chicken"], image: richChicken },
 
-  /**
-   * Bumpkins
-   */
-  "Beige Farmer Potion": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Dark Brown Farmer Potion": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Light Brown Farmer Potion": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Goblin Potion": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Basic Hair": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Explorer Hair": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Rancher Hair": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Red Farmer Shirt": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Yellow Farmer Shirt": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Blue Farmer Shirt": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
   "Chef Apron": {
     image: chefApron,
     description: "Cakes yield an additional 20% SFL",
   },
-  "Farmer Overalls": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Lumberjack Overalls": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Farmer Pants": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Wide Smile": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Wide Smile With Teeth": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Rosy Wide Eyes": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Rosy Squinted Eyes": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Rosy Butterfly Eyes": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Black Farmer Boots": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Farmer Hat": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Farmer Pitchfork": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-
   "Chef Hat": {
     image: chefHat,
     description: "The crown of a legendary baker!",

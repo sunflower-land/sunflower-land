@@ -4,7 +4,7 @@ import {
   BumpkinPants,
   BumpkinShirt,
   BumpkinHair,
-} from "features/game/types/game";
+} from "features/game/types/bumpkin";
 import React from "react";
 
 // Bodies

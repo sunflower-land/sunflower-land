@@ -1,7 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 import { getKeys } from "features/game/types/craftables";
-import { BumpkinItems, BumpkinParts } from "features/game/types/game";
 
 import questionMark from "assets/icons/expression_confused.png";
 
@@ -31,6 +30,11 @@ import warriorPants from "src/assets/bumpkins/large/pants/warrior_pants.png";
 import warriorHelmet from "src/assets/bumpkins/large/hats/warrior_helmet.png";
 
 import dropShadow from "assets/bumpkins/large/body_dropshadow.png";
+import {
+  BumpkinItems,
+  BumpkinPart,
+  BumpkinParts,
+} from "features/game/types/bumpkin";
 
 interface Props {
   bumpkinParts: BumpkinParts;
@@ -77,10 +81,10 @@ export const DynamicNFT: React.FC<Props> = ({ bumpkinParts }) => {
         alt="drop-shadow"
         className="absolute bottom-0 z-0 opacity-30"
       />
-      {getKeys(bumpkinParts).map((part, index) => (
+      {getKeys(bumpkinParts).map((part: BumpkinPart, index) => (
         <img
           key={part}
-          src={ITEM_IMAGES[bumpkinParts[part]]}
+          src={ITEM_IMAGES[bumpkinParts[part] as BumpkinItems]}
           className={classNames(`inset-0 z-${index * 10} w-full`, {
             absolute: part !== "body",
           })}
