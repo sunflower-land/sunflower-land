@@ -1,6 +1,8 @@
 import { canChop } from "features/game/events/chop";
 import { isSeed } from "features/game/events/plant";
-import { canMine } from "features/game/events/stoneMine";
+import { canMine as canMineStone } from "features/game/events/stoneMine";
+import { canMine as canMineIron } from "features/game/events/ironMine";
+import { canMine as canMineGold } from "features/game/events/goldMine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import {
@@ -112,20 +114,24 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
   // Make sure stones are not replenishing
   if (item === "Tunnel Mole") {
     const stoneReady = Object.values(game?.stones).every((stone) =>
-      canMine(stone)
+      canMineStone(stone)
     );
     return stoneReady;
   }
 
   // Make sure irons are not replenishing
   if (item === "Rocky the Mole") {
-    const ironReady = Object.values(game?.iron).every((iron) => canMine(iron));
+    const ironReady = Object.values(game?.iron).every((iron) =>
+      canMineIron(iron)
+    );
     return ironReady;
   }
 
   // Make sure gold is not replenishing
   if (item === "Nugget") {
-    const goldReady = Object.values(game?.gold).every((gold) => canMine(gold));
+    const goldReady = Object.values(game?.gold).every((gold) =>
+      canMineGold(gold)
+    );
     return goldReady;
   }
 
