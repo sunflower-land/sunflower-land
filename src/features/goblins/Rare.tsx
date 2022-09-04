@@ -44,13 +44,15 @@ const getWarBondDetails = (
     case "Carrot Amulet":
       return { bondAmount: "700", supply: 20000 };
     case "Beetroot Amulet":
-      return { bondAmount: "2000", supply: 20000 };
+      return { bondAmount: "?", supply: 20000 };
+    case "Green Amulet":
+      return { bondAmount: "?", supply: 20000 };
     case "Warrior Shirt":
-      return { bondAmount: "2000", supply: 1000 }; // 20
+      return { bondAmount: "1000", supply: 1000 }; // 20
     case "Warrior Pants":
-      return { bondAmount: "2000", supply: 1000 }; // 20
+      return { bondAmount: "1000", supply: 1000 }; // 20
     case "Warrior Helmet":
-      return { bondAmount: "2000", supply: 1000 }; // 20
+      return { bondAmount: "?", supply: 1000 }; // 20
     case "Reward 8":
     case "Reward 9":
     default:
