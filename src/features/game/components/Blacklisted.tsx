@@ -23,21 +23,13 @@ export const Blacklisted: React.FC<Props> = ({ verificationUrl }) => {
           Never share any personal information or crypto data.
         </span>
 
-        <span className="text-sm mt-2 mb-2">
-          While your humanity is being verified, some actions will be
-          restricted.
-        </span>
-
         <div className="flex w-full">
-          <Button className="mr-2" onClick={() => authService.send("SKIP")}>
-            Skip
-          </Button>
           <Button
             onClick={() => {
               window.location.href = verificationUrl as string;
             }}
           >
-            Verify
+            Continue
           </Button>
         </div>
       </div>
@@ -50,10 +42,18 @@ export const Blacklisted: React.FC<Props> = ({ verificationUrl }) => {
         <span className="text-center">Uh oh!</span>
         <img src={suspiciousGoblin} className="w-16 mt-2" />
         <span className="text-sm mt-2 mb-2">
-          The anti-bot and multi-account detection system has picked up strange
-          behaviour.
+          The multi-account detection system has picked up strange behaviour.
         </span>
-        <Button onClick={() => setShowWarning(true)}>Continue</Button>
+        <span className="text-sm mt-2 mb-2">
+          You can continue playing, but some actions will be restricted while
+          you are being verified.
+        </span>
+        <div className="flex w-full">
+          <Button className="mr-2" onClick={() => authService.send("SKIP")}>
+            Skip
+          </Button>
+          <Button onClick={() => setShowWarning(true)}>Verify</Button>
+        </div>
       </div>
     );
   }
