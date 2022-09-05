@@ -99,7 +99,8 @@ export type BlockchainEvent =
       type: "CHOOSE_CHARITY";
     }
   | { type: "CONNECT_TO_DISCORD" }
-  | { type: "CONFIRM" };
+  | { type: "CONFIRM" }
+  | { type: "SKIP" };
 
 export type BlockchainState = {
   value:
@@ -378,7 +379,13 @@ export const authMachine = createMachine<
               },
             },
           },
-          blacklisted: {},
+          blacklisted: {
+            on: {
+              SKIP: {
+                target: "authorised",
+              },
+            },
+          },
           authorised: {
             id: "authorised",
             entry: (context, event) => {

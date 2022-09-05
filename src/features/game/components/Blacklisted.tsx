@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import alert from "assets/icons/expression_alerted.png";
 import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 import { Button } from "components/ui/Button";
 
+import * as AuthProvider from "features/auth/lib/Provider";
+
 interface Props {
   verificationUrl?: string;
 }
 export const Blacklisted: React.FC<Props> = ({ verificationUrl }) => {
+  const { authService } = useContext(AuthProvider.Context);
   const [showWarning, setShowWarning] = useState(false);
 
   if (showWarning) {
@@ -20,13 +23,23 @@ export const Blacklisted: React.FC<Props> = ({ verificationUrl }) => {
           Never share any personal information or crypto data.
         </span>
 
-        <Button
-          onClick={() => {
-            window.location.href = verificationUrl as string;
-          }}
-        >
-          Verify
-        </Button>
+        <span className="text-sm mt-2 mb-2">
+          While your humanity is being verified, some actions will be
+          restricted.
+        </span>
+
+        <div className="flex w-full">
+          <Button className="mr-2" onClick={() => authService.send("SKIP")}>
+            Skip
+          </Button>
+          <Button
+            onClick={() => {
+              window.location.href = verificationUrl as string;
+            }}
+          >
+            Verify
+          </Button>
+        </div>
       </div>
     );
   }
