@@ -276,9 +276,7 @@ export function startGame(authContext: Options) {
 
                 const response = await loadSession({
                   farmId,
-                  bumpkinId: bumpkin?.tokenId
-                    ? Number(bumpkin.tokenId)
-                    : undefined,
+                  bumpkinTokenUri: bumpkin?.tokenURI,
                   sessionId,
                   token: authContext.rawToken as string,
                 });
@@ -392,7 +390,16 @@ export function startGame(authContext: Options) {
                 if (sessionID !== context.sessionId) {
                   cb("EXPIRED");
                 }
-              }, 1000 * 20);
+
+                const bumpkins = await metamask
+                  .getBumpkinDetails()
+                  .loadBumpkins();
+                const tokenURI = bumpkins[0]?.tokenURI;
+
+                if (tokenURI !== context.state.bumpkin?.tokenUri) {
+                  cb("EXPIRED");
+                }
+              }, 1000 * 30);
 
               return () => {
                 clearInterval(interval);

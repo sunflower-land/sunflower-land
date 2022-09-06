@@ -92,6 +92,7 @@ export type Bumpkin = {
   id: number;
   level: number;
   equipped: BumpkinParts;
+  tokenUri: string;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";

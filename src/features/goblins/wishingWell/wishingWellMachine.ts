@@ -20,7 +20,7 @@ export interface Context {
   state: WishingWellTokens;
   errorCode?: keyof typeof ERRORS;
   farmId?: number;
-  bumpkinId?: number;
+  bumpkinTokenUri?: string;
   sessionId?: string;
   farmAddress?: string;
   token?: string;
@@ -203,7 +203,7 @@ export const wishingWellMachine = createMachine<
               farmId: context.farmId as number,
               sessionId: context.sessionId as string,
               token: context.token as string,
-              bumpkinId: context.bumpkinId,
+              bumpkinTokenUri: context.bumpkinTokenUri as string,
             });
 
             const well = await loadWishingWell();

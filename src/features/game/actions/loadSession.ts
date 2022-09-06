@@ -8,7 +8,7 @@ import { GameState, InventoryItemName } from "../types/game";
 
 type Request = {
   sessionId: string;
-  bumpkinId?: number;
+  bumpkinTokenUri?: string;
   farmId: number;
   token: string;
 };
@@ -40,7 +40,7 @@ export async function loadSession(
     },
     body: JSON.stringify({
       sessionId: request.sessionId,
-      bumpkinId: request.bumpkinId,
+      bumpkinTokenUri: request.bumpkinTokenUri,
       clientVersion: CONFIG.CLIENT_VERSION as string,
     }),
   });
