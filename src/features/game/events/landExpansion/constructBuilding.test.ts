@@ -40,6 +40,7 @@ describe("Construct building", () => {
               pants: "Farmer Pants",
               shoes: "Black Farmer Boots",
             },
+            tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           },
         },
         action: {
@@ -87,6 +88,7 @@ describe("Construct building", () => {
               pants: "Farmer Pants",
               shoes: "Black Farmer Boots",
             },
+            tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           },
         },
         action: {
@@ -144,6 +146,7 @@ describe("Construct building", () => {
               pants: "Farmer Pants",
               shoes: "Black Farmer Boots",
             },
+            tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           },
           balance: new Decimal(0),
         },
@@ -180,6 +183,7 @@ describe("Construct building", () => {
               pants: "Farmer Pants",
               shoes: "Black Farmer Boots",
             },
+            tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           },
           balance: new Decimal(100),
         },
@@ -213,6 +217,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
           },
+          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
         },
       },
       action: {
@@ -249,6 +254,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
           },
+          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
         },
       },
       action: {
@@ -283,6 +289,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
           },
+          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
         },
       },
       action: {
@@ -322,6 +329,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
           },
+          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
         },
       },
       action: {
@@ -357,6 +365,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
           },
+          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
         },
       },
       action: {
@@ -393,6 +402,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
           },
+          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
         },
         buildings: {
           "Fire Pit": [
@@ -459,6 +469,7 @@ describe("Construct building", () => {
             shoes: "Black Farmer Boots",
             tool: "Farmer Pitchfork",
           },
+          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
         },
         buildings: {
           ...buildings,
