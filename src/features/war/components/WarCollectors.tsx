@@ -20,6 +20,7 @@ import { WarCollectionOffer } from "./WarCollectionOffer";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getWarBonds } from "features/game/events/buyWarBonds";
+import { Leaderboard } from "features/war/components/Leaderboard";
 
 interface Props {
   onClose: () => void;
@@ -37,7 +38,12 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
   console.log({ warCollectionOffer });
 
   const [state, setState] = useState<
-    "noOffer" | "intro" | "ancientWeapon" | "showOffer" | "exchanged"
+    | "noOffer"
+    | "intro"
+    | "ancientWeapon"
+    | "showOffer"
+    | "leaderboard"
+    | "exchanged"
   >(warCollectionOffer ? "intro" : "noOffer");
   const { setToast } = useContext(ToastContext);
 
@@ -147,6 +153,10 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
     );
   }
 
+  if (state === "leaderboard") {
+    return <Leaderboard />;
+  }
+
   return (
     <div className="flex flex-col items-center">
       <img
@@ -172,7 +182,10 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
           separator: " ",
         })} left`}</span>
       </span>
-      <Button onClick={showOffer}>{`Continue`}</Button>
+      <div className="flex justify-evenly w-full">
+        <Button onClick={() => setState("leaderboard")}>{`Leaderboard`}</Button>
+        <Button onClick={showOffer}>{`Continue`}</Button>
+      </div>
     </div>
   );
 };
