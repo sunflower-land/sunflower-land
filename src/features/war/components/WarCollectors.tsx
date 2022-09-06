@@ -7,6 +7,7 @@ import sword from "assets/nfts/quest/ancient_goblin_sword.png";
 import warhammer from "assets/nfts/quest/ancient_human_warhammer.png";
 
 import close from "assets/icons/close.png";
+import arrowLeft from "assets/icons/arrow_left.png";
 import stopwatch from "assets/icons/stopwatch.png";
 import warBond from "assets/icons/warBond.png";
 
@@ -154,7 +155,22 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
   }
 
   if (state === "leaderboard") {
-    return <Leaderboard />;
+    return (
+      <>
+        <img
+          src={arrowLeft}
+          className="h-6 top-4 left-4 absolute cursor-pointer z-10"
+          onClick={() => setState("intro")}
+        />
+        <img
+          src={close}
+          className="h-6 top-4 right-4 absolute cursor-pointer z-10"
+          onClick={onClose}
+        />
+        {/*<Button onClick={() => setState("showOffer")}>{`Continue`}</Button>*/}
+        <Leaderboard />
+      </>
+    );
   }
 
   return (
