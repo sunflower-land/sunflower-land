@@ -28,6 +28,11 @@ type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   reward: string;
 };
 
+type GrantWishArgs = Pick<WishingWellTokens, "totalTokensInWell"> & {
+  onClose: () => void;
+  onClick?: () => void;
+};
+
 type ZeroTokensArgs = {
   onClose: () => void;
   onClick?: () => void;
