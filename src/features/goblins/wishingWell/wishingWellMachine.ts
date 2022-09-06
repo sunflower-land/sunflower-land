@@ -10,7 +10,11 @@ import { metamask } from "lib/blockchain/metamask";
 import { ERRORS } from "lib/errors";
 
 import { WishingWellTokens, loadWishingWell } from "./actions/loadWishingWell";
-import { collectFromWell } from "./actions/collectFromWell";
+import {
+  collectFromWell,
+  signCollectFromWell,
+  SignedTransaction,
+} from "./actions/collectFromWell";
 import Decimal from "decimal.js-light";
 import { reset } from "features/farming/hud/actions/reset";
 import { fromWei } from "web3-utils";
@@ -26,6 +30,7 @@ export interface Context {
   token?: string;
   balance?: Decimal;
   totalRewards?: Decimal;
+  transaction?: SignedTransaction;
 }
 
 type CaptchaEvent = {
@@ -58,6 +63,8 @@ export type BlockchainState = {
     | "wishing"
     | "wished"
     | "captcha"
+    | "signing"
+    | "zeroTokens"
     | "granting"
     | "searched"
     | "granted"
@@ -171,7 +178,43 @@ export const wishingWellMachine = createMachine<
       captcha: {
         on: {
           VERIFIED: {
-            target: "granting",
+            target: "signing",
+          },
+        },
+      },
+      signing: {
+        invoke: {
+          src: async (context, event) => {
+            const transaction = await signCollectFromWell({
+              farmId: context.farmId as number,
+              sessionId: context.sessionId as string,
+              amount: context.state.myTokensInWell.toString(),
+              token: context.token as string,
+              captcha: (event as CaptchaEvent).captcha,
+            });
+            return { transaction };
+          },
+          onDone: [
+            {
+              target: "zeroTokens",
+              cond: (_, event) => Number(event.data.transaction.tokens) === 0,
+              actions: assign({
+                transaction: (_, event) => event.data.transaction,
+              }),
+            },
+            {
+              target: "granting",
+              actions: assign({
+                transaction: (_, event) => event.data.transaction,
+              }),
+            },
+          ],
+        },
+      },
+      zeroTokens: {
+        on: {
+          WISH: {
+            target: "wishing",
           },
         },
       },
@@ -179,13 +222,10 @@ export const wishingWellMachine = createMachine<
         invoke: {
           src: async (context, event) => {
             // Collect from well and await receipt
-            const receipt: any = await collectFromWell({
-              farmId: context.farmId as number,
-              sessionId: context.sessionId as string,
-              amount: context.state.myTokensInWell.toString(),
-              token: context.token as string,
-              captcha: (event as CaptchaEvent).captcha,
-            });
+            const receipt: any = await collectFromWell(
+              context.transaction as SignedTransaction
+            );
+
             // Get reward amount from Rewarded event
             const reward = new Decimal(
               fromWei(receipt.events.Rewarded.returnValues[1])
