@@ -4,7 +4,6 @@ import { useActor } from "@xstate/react";
 
 import token from "assets/icons/token.gif";
 import tokenStatic from "assets/icons/token.png";
-import questionMark from "assets/icons/expression_confused.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -72,11 +71,7 @@ export const Cakes: React.FC = () => {
             isSelected={selected === item.name}
             key={item.name}
             onClick={() => setSelected(item.name as Cake)}
-            image={
-              inventory[item.name]?.gte(1)
-                ? ITEM_DETAILS[item.name].image
-                : questionMark
-            }
+            image={ITEM_DETAILS[item.name].image}
             count={inventory[item.name]}
           />
         ))}
@@ -85,7 +80,7 @@ export const Cakes: React.FC = () => {
         <div className="flex flex-col justify-center items-center p-2 ">
           <span className="text-shadow text-center">{selected}</span>
           <img
-            src={amount.gte(1) ? ITEM_DETAILS[selected].image : questionMark}
+            src={ITEM_DETAILS[selected].image}
             className="h-16 img-highlight mt-1"
             alt={selected}
           />
