@@ -7,7 +7,6 @@ import sword from "assets/nfts/quest/ancient_goblin_sword.png";
 import warhammer from "assets/nfts/quest/ancient_human_warhammer.png";
 
 import close from "assets/icons/close.png";
-import arrowLeft from "assets/icons/arrow_left.png";
 import stopwatch from "assets/icons/stopwatch.png";
 import warBond from "assets/icons/warBond.png";
 
@@ -21,7 +20,6 @@ import { WarCollectionOffer } from "./WarCollectionOffer";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getWarBonds } from "features/game/events/buyWarBonds";
-import { Leaderboard } from "features/war/components/Leaderboard";
 
 interface Props {
   onClose: () => void;
@@ -39,12 +37,7 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
   console.log({ warCollectionOffer });
 
   const [state, setState] = useState<
-    | "noOffer"
-    | "intro"
-    | "ancientWeapon"
-    | "showOffer"
-    | "leaderboard"
-    | "exchanged"
+    "noOffer" | "intro" | "ancientWeapon" | "showOffer" | "exchanged"
   >(warCollectionOffer ? "intro" : "noOffer");
   const { setToast } = useContext(ToastContext);
 
@@ -154,25 +147,6 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
     );
   }
 
-  if (state === "leaderboard") {
-    return (
-      <>
-        <img
-          src={arrowLeft}
-          className="h-6 top-4 left-4 absolute cursor-pointer z-10"
-          onClick={() => setState("intro")}
-        />
-        <img
-          src={close}
-          className="h-6 top-4 right-4 absolute cursor-pointer z-10"
-          onClick={onClose}
-        />
-        {/*<Button onClick={() => setState("showOffer")}>{`Continue`}</Button>*/}
-        <Leaderboard />
-      </>
-    );
-  }
-
   return (
     <div className="flex flex-col items-center">
       <img
@@ -199,7 +173,6 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
         })} left`}</span>
       </span>
       <div className="flex justify-evenly w-full">
-        <Button onClick={() => setState("leaderboard")}>{`Leaderboard`}</Button>
         <Button onClick={showOffer}>{`Continue`}</Button>
       </div>
     </div>
