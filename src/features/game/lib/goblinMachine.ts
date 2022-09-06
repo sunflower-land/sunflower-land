@@ -169,7 +169,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 farmId,
                 sessionId,
                 token: authContext.rawToken as string,
-                bumpkinId: Number(onChainState.bumpkin?.tokenId),
+                bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
               });
 
               const game = response?.game as GameState;
@@ -233,7 +233,8 @@ export function startGoblinVillage(authContext: AuthContext) {
             src: wishingWellMachine,
             data: {
               farmId: () => authContext.farmId,
-              bumpkinId: (context: Context) => context.state.bumpkin?.id,
+              bumpkinTokenUri: (context: Context) =>
+                context.state.bumpkin?.tokenUri,
               farmAddress: () => authContext.address,
               sessionId: (context: Context) => context.sessionId,
               token: () => authContext.rawToken,
