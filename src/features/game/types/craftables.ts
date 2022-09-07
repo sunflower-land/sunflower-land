@@ -997,7 +997,7 @@ export const makeLimitedItemsByName = (
         mintedAt,
         type: items[name].type,
         disabled: !enabled,
-        isPlaceholder: items[name].isPlaceholder,
+        isPlaceholder: items[name].isPlaceholder || !enabled,
       };
     }
 
