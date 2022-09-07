@@ -7,6 +7,7 @@ import { AudioPlayer } from "components/ui/AudioPlayer";
 import { VisitBanner } from "../../../components/ui/VisitBanner";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { Leaderboard } from "features/war/components/Leaderboard";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -22,6 +23,7 @@ export const Hud: React.FC = () => {
     <div data-html2canvas-ignore="true" aria-label="Hud">
       <Menu />
       <Balance balance={gameState.context.state.balance} />
+      <Leaderboard />
       <Inventory
         inventory={gameState.context.state.inventory}
         shortcutItem={shortcutItem}
