@@ -96,7 +96,6 @@ export const Leaderboard: React.FC = () => {
             <img
               src={femaleHuman}
               style={{
-                width: `${PIXEL_SCALE * 13}px`,
                 height: `${PIXEL_SCALE * 20}px`,
               }}
               alt=""
@@ -105,7 +104,6 @@ export const Leaderboard: React.FC = () => {
               src={maleHuman}
               alt=""
               style={{
-                width: `${PIXEL_SCALE * 13}px`,
                 height: `${PIXEL_SCALE * 20}px`,
               }}
             />
@@ -144,7 +142,6 @@ export const Leaderboard: React.FC = () => {
               src={femaleGoblin}
               alt=""
               style={{
-                width: `${PIXEL_SCALE * 16}px`,
                 height: `${PIXEL_SCALE * 18}px`,
               }}
             />
@@ -152,7 +149,6 @@ export const Leaderboard: React.FC = () => {
               src={maleGoblin}
               alt=""
               style={{
-                width: `${PIXEL_SCALE * 16}px`,
                 height: `${PIXEL_SCALE * 18}px`,
               }}
             />
