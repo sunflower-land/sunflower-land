@@ -659,6 +659,18 @@ export const Decorations: React.FC<Props> = ({ state }) => (
         />
       </div>
     )}
+    {!state.inventory["Farmer Bath"] && (
+      <img
+        src={swimmer}
+        className="absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 0.85}px`,
+          left: `${GRID_WIDTH_PX * 84.798}px`,
+          top: `${GRID_WIDTH_PX * 44.859}px`,
+          transform: "scaleX(-1)",
+        }}
+      />
+    )}
     {state.inventory["Easter Bunny"] && (
       <img
         style={{
