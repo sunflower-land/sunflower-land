@@ -131,6 +131,21 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
 
   if (item === "Human War Banner" || item === "Goblin War Banner") return false;
 
+  // War items
+  if (
+    item === "Human War Point" ||
+    item === "Goblin War Point" ||
+    item === "Sunflower Amulet" ||
+    item === "Carrot Amulet" ||
+    item === "Beetroot Amulet" ||
+    item === "Green Amulet" ||
+    item === "Warrior Shirt" ||
+    item === "Warrior Pants" ||
+    item === "Warrior Helmet"
+  ) {
+    return false;
+  }
+
   // Tools, Crops, Resources
   return true;
 }
