@@ -32,9 +32,7 @@ export const CakeStall: React.FC = () => {
   };
 
   const specialCake = Object.values(CAKES()).find(
-    (item) =>
-      !isExpired({ name: item.name, stockExpiry: state.stockExpiry }) &&
-      state.inventory[item.name]
+    (item) => !isExpired({ name: item.name, stockExpiry: state.stockExpiry })
   );
 
   return (
