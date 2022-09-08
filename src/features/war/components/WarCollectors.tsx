@@ -172,7 +172,9 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
           separator: " ",
         })} left`}</span>
       </span>
-      <Button onClick={showOffer}>{`Continue`}</Button>
+      <div className="flex justify-evenly w-full">
+        <Button onClick={showOffer}>{`Continue`}</Button>
+      </div>
     </div>
   );
 };

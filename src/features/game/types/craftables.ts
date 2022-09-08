@@ -573,7 +573,6 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
     name: "Golden Bonsai",
     description: "Goblins love bonsai too",
     section: Section["Golden Bonsai"],
-    type: LimitedItemType.MarketItem,
     isPlaceholder: true,
   },
 };
@@ -986,6 +985,8 @@ export const makeLimitedItemsByName = (
         amount: new Decimal(ingredientAmounts[index]),
       }));
 
+      const isNewItem = !enabled && Number(maxSupply) === 0;
+
       limitedItems[name] = {
         id: onChainItem.mintId,
         name,
@@ -997,7 +998,7 @@ export const makeLimitedItemsByName = (
         mintedAt,
         type: items[name].type,
         disabled: !enabled,
-        isPlaceholder: items[name].isPlaceholder,
+        isPlaceholder: items[name].isPlaceholder || isNewItem,
       };
     }
 
