@@ -3,17 +3,24 @@ import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
 
+export type DiscordRole = "team sunflower" | "team goblin" | "vip-farmers";
+
 type Options = {
   farmId: number;
   token: string;
+  role: DiscordRole;
 };
-export async function addVipRole({ farmId, token }: Options) {
-  const response = await window.fetch(`${API_URL}/vip/${farmId}`, {
+
+export async function addVipRole({ farmId, token, role }: Options) {
+  const response = await window.fetch(`${API_URL}/discordRole/${farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${token}`,
     },
+    body: JSON.stringify({
+      role,
+    }),
   });
 
   if (response.status === 429) {
