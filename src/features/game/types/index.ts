@@ -180,18 +180,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Ancient Human Warhammer": 915,
   "Rapid Growth": 916,
   "War Bond": 917,
-  "Human War Point": 918,
-  "Goblin War Point": 919,
+  "Goblin War Point": 918,
+  "Human War Point": 919,
   "Human War Banner": 920,
   "Goblin War Banner": 921,
-  "Reward 1": 922,
-  "Reward 2": 923,
-  "Reward 3": 924,
-  "Reward 4": 925,
-  "Reward 5": 926,
-  "Reward 6": 927,
-  "Reward 7": 928,
-  "Reward 8": 929,
 
   // Buildings
   "Fire Pit": 1001,
@@ -200,29 +192,18 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Workbench: 1004,
   Bakery: 1005,
 
-  // Bumpkins
-  "Light Farmer Potion": 1101,
-  "Dark Farmer Potion": 1102,
-  "Goblin Potion": 1103,
-
-  "Basic Hair": 1201,
-  "Rancher Hair": 1202,
-  "Explorer Hair": 1203,
-
-  "Rosy Wide Eyes": 1301,
-  "Rosy Squinted Eyes": 1302,
-
-  Smile: 1401,
-  "Smile With Teeth": 1402,
-
-  "Farmer Shirt": 1501,
-  "Lumberjack Shirt": 1502,
-
-  "Farmer Overalls": 1601,
-  "Lumberjack Overalls": 1602,
-  "Farmer Pants": 1603,
-
-  "Black Shoes": 1701,
+  // Temporary Bumpkin items
+  "Chef Apron": 1101,
+  "Chef Hat": 1102,
+  "Sunflower Amulet": 1103,
+  "Carrot Amulet": 1104,
+  "Beetroot Amulet": 1105,
+  "Green Amulet": 1106,
+  "Warrior Shirt": 1107,
+  "Warrior Helmet": 1108,
+  "Warrior Pants": 1109,
+  "Reward 8": 1110,
+  "Reward 9": 1111,
 };
 
 // The reverse of above

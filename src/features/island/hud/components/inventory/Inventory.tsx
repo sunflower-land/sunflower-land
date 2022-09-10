@@ -38,9 +38,9 @@ export const Inventory: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-col items-end mr-2 sm:block fixed top-16 right-0 z-50">
+    <div className="flex flex-row-reverse items-center fixed bottom-2 right-2 z-50">
       <div
-        className="w-16 h-16 mt-2 relative flex justify-center items-center shadow rounded-full cursor-pointer"
+        className="w-16 h-16 relative flex justify-center items-center shadow rounded-full cursor-pointer"
         onClick={handleInventoryClick}
       >
         <img
@@ -60,7 +60,7 @@ export const Inventory: React.FC<Props> = ({
       </Modal>
 
       {isFarming && (
-        <div className="flex flex-col items-center">
+        <div className="flex items-center">
           {shortcuts.map((item, index) => (
             <Box
               key={index}

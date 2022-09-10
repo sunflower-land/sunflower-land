@@ -25,7 +25,9 @@ export type CraftableName =
   | Flag
   | Shovel
   | TravelingSalesmanItem
-  | WarBanner;
+  | WarBanner
+  // TEMP
+  | "Chef Apron";
 
 export interface Craftable {
   name: CraftableName;
@@ -124,14 +126,15 @@ export type MarketItem =
 export type WarBanner = "Human War Banner" | "Goblin War Banner";
 
 export type WarTentItem =
-  | "Reward 1"
-  | "Reward 2"
-  | "Reward 3"
-  | "Reward 4"
-  | "Reward 5"
-  | "Reward 6"
-  | "Reward 7"
-  | "Reward 8";
+  | "Sunflower Amulet"
+  | "Carrot Amulet"
+  | "Beetroot Amulet"
+  | "Green Amulet"
+  | "Warrior Shirt"
+  | "Warrior Pants"
+  | "Warrior Helmet"
+  | "Reward 8"
+  | "Reward 9";
 
 export type LimitedItemName =
   | BlacksmithItem
@@ -570,57 +573,62 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
     name: "Golden Bonsai",
     description: "Goblins love bonsai too",
     section: Section["Golden Bonsai"],
-    type: LimitedItemType.MarketItem,
     isPlaceholder: true,
   },
 };
 
 export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
-  "Reward 1": {
-    name: "Reward 1",
-    description: "A reward for your war efforts.",
+  "Sunflower Amulet": {
+    name: "Sunflower Amulet",
+    description: "10% increased Sunflower yield.",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
-  "Reward 2": {
-    name: "Reward 2",
-    description: "A reward for your war efforts.",
+  "Carrot Amulet": {
+    name: "Carrot Amulet",
+    description: "Carrots grow 20% faster.",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
-  "Reward 3": {
-    name: "Reward 3",
-    description: "A reward for your war efforts.",
+  "Beetroot Amulet": {
+    name: "Beetroot Amulet",
+    description: "20% increased Beetroot yield.",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
-  "Reward 4": {
-    name: "Reward 4",
-    description: "A reward for your war efforts.",
+  "Green Amulet": {
+    name: "Green Amulet",
+    description: "Chance for 10x crop yield.",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
-  "Reward 5": {
-    name: "Reward 5",
-    description: "A reward for your war efforts.",
+  "Warrior Shirt": {
+    name: "Warrior Shirt",
+    description: "A mark of a true warrior.",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
-  "Reward 6": {
-    name: "Reward 6",
-    description: "A reward for your war efforts.",
+  "Warrior Pants": {
+    name: "Warrior Pants",
+    description: "Protect your thighs!",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
-  "Reward 7": {
-    name: "Reward 7",
-    description: "A reward for your war efforts.",
+  "Warrior Helmet": {
+    name: "Warrior Helmet",
+    description: "Immune to arrows",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
   "Reward 8": {
     name: "Reward 8",
-    description: "A reward for your war efforts.",
+    description: "A rare item.",
+    type: LimitedItemType.WarTentItem,
+    disabled: true,
+  },
+  "Reward 9": {
+    name: "Reward 9",
+    description: "A rare item.",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
@@ -672,7 +680,10 @@ export const WAR_BANNERS: Record<WarBanner, CraftableItem> = {
   },
 };
 
-export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
+export const BLACKSMITH_ITEMS: Record<
+  BlacksmithItem | "Chef Apron",
+  LimitedItem
+> = {
   "Sunflower Statue": {
     name: "Sunflower Statue",
     description: "A symbol of the holy token",
@@ -790,6 +801,11 @@ export const BLACKSMITH_ITEMS: Record<BlacksmithItem, LimitedItem> = {
     name: "Rock Golem",
     description: "Gives a 10% chance to get 3x stone",
     section: Section["Rock Golem"],
+    type: LimitedItemType.BlacksmithItem,
+  },
+  "Chef Apron": {
+    name: "Chef Apron",
+    description: "Gives 20% extra SFL selling cakes",
     type: LimitedItemType.BlacksmithItem,
   },
 };
@@ -969,6 +985,8 @@ export const makeLimitedItemsByName = (
         amount: new Decimal(ingredientAmounts[index]),
       }));
 
+      const isNewItem = !enabled && Number(maxSupply) === 0;
+
       limitedItems[name] = {
         id: onChainItem.mintId,
         name,
@@ -980,7 +998,7 @@ export const makeLimitedItemsByName = (
         mintedAt,
         type: items[name].type,
         disabled: !enabled,
-        isPlaceholder: items[name].isPlaceholder,
+        isPlaceholder: items[name].isPlaceholder || isNewItem,
       };
     }
 

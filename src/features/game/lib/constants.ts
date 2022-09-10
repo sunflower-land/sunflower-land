@@ -47,7 +47,7 @@ export const INITIAL_STOCK: Inventory = {
   "Cabbage Seed": new Decimal(90),
   "Beetroot Seed": new Decimal(80),
   "Cauliflower Seed": new Decimal(80),
-  "Parsnip Seed": new Decimal(40),
+  "Parsnip Seed": new Decimal(60),
   "Radish Seed": new Decimal(40),
   "Wheat Seed": new Decimal(40),
 
@@ -292,6 +292,8 @@ export const INITIAL_FARM: GameState = {
     Axe: new Decimal(3),
     Pickaxe: new Decimal(3),
     "Trading Ticket": new Decimal(50),
+    "Chef Hat": new Decimal(1),
+    "Human War Banner": new Decimal(1),
   },
 
   stock: INITIAL_STOCK,
@@ -308,7 +310,7 @@ export const INITIAL_FARM: GameState = {
     "Sunflower Cake": "1970-06-06",
     "Potato Cake": "1970-01-01T00:00:00.000Z",
     "Pumpkin Cake": "1970-01-01T00:00:00.000Z",
-    "Carrot Cake": "1970-01-01T00:00:00.000Z",
+    "Carrot Cake": "2022-08-30T00:00:00.000Z",
     "Cabbage Cake": "1970-01-01T00:00:00.000Z",
     "Beetroot Cake": "1970-01-01T00:00:00.000Z",
     "Cauliflower Cake": "1970-01-01T00:00:00.000Z",
@@ -322,7 +324,6 @@ export const INITIAL_FARM: GameState = {
   plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
-  bumpkin: { level: 1 },
   buildings: {},
   airdrops: [
     {
@@ -332,14 +333,7 @@ export const INITIAL_FARM: GameState = {
         "Rapid Growth": 5,
       },
       sfl: 3,
-    },
-    {
-      createdAt: Date.now(),
-      id: "1234",
-      items: {
-        "Rapid Growth": 5,
-      },
-      sfl: 3,
+      message: "You are a legend!",
     },
   ],
   collectibles: {},
@@ -381,7 +375,6 @@ export const EMPTY: GameState = {
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
   expansions: INITIAL_EXPANSIONS,
-  bumpkin: { level: 1 },
   buildings: {},
   collectibles: {},
 };

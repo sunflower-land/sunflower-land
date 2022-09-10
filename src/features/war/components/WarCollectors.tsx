@@ -91,6 +91,10 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
           className="w-8"
         />
         <p className="sm:text-sm p-2">Together we will win the war.</p>
+        <p className="sm:text-sm p-2 text-center">
+          Visit the War Tent in Goblin Village to exchange your War Bonds for
+          rare items!
+        </p>
       </div>
     );
   }
@@ -168,7 +172,9 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
           separator: " ",
         })} left`}</span>
       </span>
-      <Button onClick={showOffer}>{`Continue`}</Button>
+      <div className="flex justify-evenly w-full">
+        <Button onClick={showOffer}>{`Continue`}</Button>
+      </div>
     </div>
   );
 };

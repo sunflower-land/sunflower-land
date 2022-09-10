@@ -30,7 +30,7 @@ const maxItems: Inventory = {
   "Cabbage Seed": new Decimal(100),
   "Beetroot Seed": new Decimal(90),
   "Cauliflower Seed": new Decimal(90),
-  "Parsnip Seed": new Decimal(50),
+  "Parsnip Seed": new Decimal(70),
   "Radish Seed": new Decimal(50),
   "Wheat Seed": new Decimal(50),
 
@@ -39,9 +39,11 @@ const maxItems: Inventory = {
   Stone: new Decimal("500"),
   Wood: new Decimal("500"),
 
-  "War Bond": new Decimal(100),
+  "War Bond": new Decimal(500),
   "Human War Banner": new Decimal(1),
   "Goblin War Banner": new Decimal(1),
+  "Chef Hat": new Decimal(1),
+  "Rapid Growth": new Decimal(100),
 
   // Max of 1 food item
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(

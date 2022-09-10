@@ -4,6 +4,8 @@ import nomad from "assets/announcements/nomad.gif";
 import cakes from "assets/announcements/cakes.png";
 import rooster from "assets/announcements/rooster.png";
 import shovel from "assets/announcements/shovel.png";
+import warWeekOne from "assets/announcements/war_week_1.png";
+import warTent from "assets/announcements/war_tent.png";
 
 export interface Announcement {
   date: Date;
@@ -17,6 +19,29 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2022-09-08T00:00:00"),
+    title: "The war tent opens!",
+    notes: [
+      "The war tent is now open",
+      "Visit Goblin Village to view the available rare items.",
+      "Each week new limited edition items will become available.",
+    ],
+    link: "https://docs.sunflower-land.com/fundamentals/special-events/goblin-war",
+    image: warTent,
+  },
+  {
+    date: new Date("2022-09-05T00:00:00"),
+    title: "The war begins",
+    notes: [
+      "All this talk of war makes me hungry.",
+      "If we are going to survive the next few weeks we better prepare some food for ourselves and the troops.",
+      "These rations will need to last us for at least 10 weeks",
+      "Visit the war collectors and see what food is needed",
+    ],
+    link: "https://docs.sunflower-land.com/fundamentals/special-events/goblin-war",
+    image: warWeekOne,
+  },
   {
     date: new Date("2022-07-21T00:00:00"),
     title: "Shovel",

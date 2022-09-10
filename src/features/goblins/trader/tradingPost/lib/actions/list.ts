@@ -5,6 +5,7 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
 import { Draft } from "../../../selling/lib/sellingMachine";
+import { getItemUnit } from "features/game/lib/conversion";
 
 const API_URL = CONFIG.API_URL;
 
@@ -50,7 +51,10 @@ export async function listRequest(request: Request): Promise<Response> {
         slotId: request.slotId,
         item: request.draft.resourceName,
         sfl: toWei(String(request.draft.sfl)),
-        amount: toWei(String(request.draft.resourceAmount)),
+        amount: toWei(
+          String(request.draft.resourceAmount),
+          getItemUnit(request.draft.resourceName)
+        ),
       }),
     }
   );

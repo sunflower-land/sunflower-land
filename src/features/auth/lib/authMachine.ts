@@ -1,3 +1,4 @@
+import { loadBanDetails } from "features/game/actions/bans";
 import { isFarmBlacklisted } from "features/game/actions/onchain";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -30,6 +31,7 @@ type Farm = {
   address: string;
   createdAt: number;
   isBlacklisted: boolean;
+  verificationUrl?: string;
 };
 
 export interface Context {
@@ -41,6 +43,7 @@ export interface Context {
   rawToken?: string;
   captcha?: string;
   isBlacklisted?: boolean;
+  verificationUrl?: string;
 }
 
 export type Screen = "land" | "farm" | "viewer";
@@ -97,7 +100,8 @@ export type BlockchainEvent =
       type: "CHOOSE_CHARITY";
     }
   | { type: "CONNECT_TO_DISCORD" }
-  | { type: "CONFIRM" };
+  | { type: "CONFIRM" }
+  | { type: "SKIP" };
 
 export type BlockchainState = {
   value:
@@ -352,6 +356,15 @@ export const authMachine = createMachine<
             },
           },
           readyToStart: {
+            invoke: {
+              src: async () => ({
+                skipSplash: window.location.hash.includes("goblins"),
+              }),
+              onDone: {
+                cond: (_, event) => event.data.skipSplash,
+                target: "authorised",
+              },
+            },
             on: {
               START_GAME: [
                 {
@@ -367,10 +380,18 @@ export const authMachine = createMachine<
               },
             },
           },
-          blacklisted: {},
+          blacklisted: {
+            on: {
+              SKIP: {
+                target: "authorised",
+              },
+            },
+          },
           authorised: {
             id: "authorised",
             entry: (context, event) => {
+              if (window.location.hash.includes("goblins")) return;
+
               // When no 'screen' parameter is given to the event
               const defaultScreen = window.location.hash.includes("land")
                 ? "land"
@@ -496,7 +517,7 @@ export const authMachine = createMachine<
         await metamask.initialise();
         await communityContracts.initialise();
       },
-      loadFarm: async (): Promise<Farm | undefined> => {
+      loadFarm: async (context): Promise<Farm | undefined> => {
         const farmAccounts = await metamask.getFarm()?.getFarms();
 
         if (farmAccounts?.length === 0) {
@@ -510,13 +531,18 @@ export const authMachine = createMachine<
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
         const farmAccount = farmAccounts[0];
 
-        const isBlacklisted = await isFarmBlacklisted(farmAccount.tokenId);
+        const { isBanned, verificationUrl } = await loadBanDetails(
+          farmAccount.tokenId,
+          context.rawToken as string
+        );
+        console.log({ isBanned });
 
         return {
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           createdAt,
-          isBlacklisted,
+          isBlacklisted: isBanned,
+          verificationUrl,
         };
       },
       createFarm: async (context: Context, event: any): Promise<Context> => {
@@ -569,6 +595,7 @@ export const authMachine = createMachine<
         farmId: (_context, event) => event.data.farmId,
         address: (_context, event) => event.data.address,
         isBlacklisted: (_context, event) => event.data.isBlacklisted,
+        verificationUrl: (_context, event) => event.data.verificationUrl,
       }),
       assignToken: assign<Context, any>({
         token: (_context, event) => decodeToken(event.data.token),
