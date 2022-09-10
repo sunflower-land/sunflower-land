@@ -37,7 +37,6 @@ import { Notifications } from "./components/Notifications";
 import { Hoarding } from "./components/Hoarding";
 import { Airdrop } from "./components/Airdrop";
 import { GoblinWar } from "features/war/GoblinWar";
-import { CONFIG } from "lib/config";
 import { CommunityGardenEntry } from "features/farming/town/components/CommunityGardenEntry";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
