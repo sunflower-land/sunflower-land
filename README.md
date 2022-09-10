@@ -19,8 +19,6 @@ Looking to help out? Read our contributing docs - https://github.com/sunflower-l
 
 By contributing you agree to our terms and services - https://docs.sunflower-land.com/support/terms-of-service
 
-
-
 # Website | Official Links
 
 ### 🌻 Main Website
@@ -90,6 +88,16 @@ Tailwind is our CSS tool of choice. It enables us to:
 - Use utility based classes
 - Consistent theming (view `tailwind.config.js`)
 - Perform CSS processing to minimize build sizes
+
+# 🏷️ ERC1155 Metadata
+
+Metadata is generated from markdown files.
+
+To add new item:
+
+1. Create `{SFT id}.md` file in `metadata\markdown` folder
+2. Add `{SFT id}.png` file to `public\erc1155` folder
+3. Run `yarn metadata`
 
 # 🗃️ Directory Organization
 
