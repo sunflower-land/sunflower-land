@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-import merchant from "assets/npcs/merchant.png";
+import merchant from "assets/npcs/merchant.gif";
 import humanSign from "assets/buildings/human_sign.png";
 import arrowUp from "assets/icons/arrow_up.png";
 import { CommunityGardenModal } from "./CommunityGardenModal";

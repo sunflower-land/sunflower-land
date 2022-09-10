@@ -1,4 +1,6 @@
 import { pingHealthCheck } from "web3-health-check";
+import { estimateGasPrice, parseMetamaskError } from "./utils";
+import { toHex, toWei } from "web3-utils";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { CONFIG } from "lib/config";
@@ -118,6 +120,25 @@ export class CommunityContracts {
 
   public get myAccount() {
     return this.account;
+  }
+
+  public async donate(donation: number, to = CONFIG.FROG_DONATION as string) {
+    const gasPrice = await estimateGasPrice(this.web3 as Web3);
+
+    try {
+      console.log("send amount:", donation);
+      console.log("send matic to:", to);
+      await this.web3?.eth.sendTransaction({
+        from: communityContracts.myAccount as string,
+        to,
+        value: toHex(toWei(donation.toString(), "ether")),
+        gasPrice,
+      });
+    } catch (error: any) {
+      const parsed = parseMetamaskError(error);
+
+      throw parsed;
+    }
   }
 }
 

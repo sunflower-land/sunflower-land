@@ -46,6 +46,7 @@ jobs:
           VITE_RELEASE_VERSION: ${{ steps.get_version.outputs.VERSION }}
           VITE_RECAPTCHA_SITEKEY: "6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
           VITE_TREASURY_ADDRESS: "0x1DB57407EE80709D4d862fe81399FBB35B8B9586"
+          VITE_FROG_DONATION: "0x1AFad0B5A0D532c9123A5f2F879A421413B5b6f7"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9

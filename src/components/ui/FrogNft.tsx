@@ -6,11 +6,9 @@ import { frogAudio } from "lib/utils/sfx";
 import { loadFrogs } from "features/community/merchant/actions/loadFrogs";
 
 export const FrogNft: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
   const [frogData, setFrogData] = useState([{ pixel_image: "" }]);
 
   const open = () => {
-    setShowModal(true);
     //Checks if frogAudio is playing, if false, plays the sound
     if (!frogAudio.playing()) {
       frogAudio.play();

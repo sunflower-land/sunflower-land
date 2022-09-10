@@ -1,6 +1,6 @@
 import React from "react";
 
-import merchant from "assets/npcs/merchant.png";
+import merchant from "assets/npcs/merchant.gif";
 import icon from "assets/brand/icon.png";
 
 import { MerchantModal } from "./MerchantModal";
@@ -22,11 +22,10 @@ export const Merchant: React.FC = () => {
   return (
     <div
       className="relative"
-      // TODO some sort of coordinate system
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
-        right: `${GRID_WIDTH_PX * 2}px`,
-        top: `${GRID_WIDTH_PX * -2}px`,
+        right: `${GRID_WIDTH_PX * 0}px`,
+        top: `${GRID_WIDTH_PX * -1.5}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">

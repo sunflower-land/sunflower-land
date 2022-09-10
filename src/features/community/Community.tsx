@@ -20,7 +20,7 @@ export const Community: React.FC = () => {
           src={background}
           className="absolute"
           style={{
-            minWidth: `${30 * GRID_WIDTH_PX}px`,
+            minWidth: `${60 * GRID_WIDTH_PX}px`,
           }}
         />
         <CommunityHud />

@@ -19,6 +19,7 @@ const RELEASE_VERSION = import.meta.env.VITE_RELEASE_VERSION as string;
 const RECAPTCHA_SITEKEY = import.meta.env.VITE_RECAPTCHA_SITEKEY as string;
 const TRADER_CONTRACT = import.meta.env.VITE_TRADER_CONTRACT as string;
 const FROG_CONTRACT = import.meta.env.VITE_FROG_CONTRACT as string;
+const FROG_DONATION = import.meta.env.VITE_FROG_DONATION as string;
 
 export const CONFIG = {
   NETWORK,
@@ -41,4 +42,5 @@ export const CONFIG = {
   MOM_CONTRACT,
   TRADER_CONTRACT,
   FROG_CONTRACT,
+  FROG_DONATION,
 };

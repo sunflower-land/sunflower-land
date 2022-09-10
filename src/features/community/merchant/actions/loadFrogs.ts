@@ -20,7 +20,7 @@ export async function loadFrogs() {
         frogIds = frogIds.slice(0, 6);
       }
 
-      const result = frogIds.map(() => ({
+      const result: Frog[] = frogIds.map(() => ({
         pixel_image: frog_unrevealed,
         name: "Unrevealed",
       }));

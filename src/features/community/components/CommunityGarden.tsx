@@ -5,6 +5,8 @@ import { useActor } from "@xstate/react";
 import { Context } from "../lib/CommunityProvider";
 import { Panel } from "components/ui/Panel";
 import { Merchant } from "../merchant/Merchant";
+import { Seal } from "../aquatics/Seal";
+import { BottleDonation } from "../donation/BottleDonation";
 
 export const CommunityGarden: React.FC = () => {
   const { communityService } = useContext(Context);
@@ -23,9 +25,8 @@ export const CommunityGarden: React.FC = () => {
       </Modal>
 
       <Merchant />
-      {
-        // Place community features here
-      }
+      <Seal />
+      <BottleDonation />
     </>
   );
 };
