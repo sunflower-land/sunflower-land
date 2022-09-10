@@ -47,7 +47,8 @@ export const ListView: React.FC<{
             <div className="flex-1 flex flex-col justify-center">
               <span className="text-sm">{buildingName}</span>
 
-              {bumpkin.level < BUILDINGS[buildingName].levelRequired ? (
+              {!bumpkin ||
+              bumpkin.level < BUILDINGS[buildingName].levelRequired ? (
                 <div className="flex items-center">
                   <span
                     className="bg-error border text-xxs p-1 rounded-md"

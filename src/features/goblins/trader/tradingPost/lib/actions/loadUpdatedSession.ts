@@ -13,7 +13,12 @@ export const loadUpdatedSession = async (
 
   const sessionId = await metamask.getSessionManager().getSessionId(farmId);
 
-  const response = await loadSession({ farmId, sessionId, token });
+  const response = await loadSession({
+    farmId,
+    sessionId,
+    token,
+    bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
+  });
 
   const game = response?.game as GameState;
 

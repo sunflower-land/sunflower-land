@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { CONFIG } from "lib/config";
 import { WarIntro } from "./components/WarIntro";
 
 import { WarCollection } from "./components/WarCollection";
@@ -24,10 +23,6 @@ export const GoblinWar: React.FC = () => {
       },
     },
   ] = useActor(gameService);
-
-  if (CONFIG.NETWORK !== "mumbai") {
-    return null;
-  }
 
   const handlePickSide = (side: WarSide) => {
     gameService.send({ type: "side.picked", side });

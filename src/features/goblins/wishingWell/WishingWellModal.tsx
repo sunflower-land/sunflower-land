@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import wisingWell from "assets/buildings/wishing_well.png";
+import goblinHead from "assets/icons/goblin_head.png";
 import player from "assets/icons/player.png";
 import timer from "assets/icons/timer.png";
 import alert from "assets/icons/expression_alerted.png";
@@ -28,6 +29,11 @@ type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
 };
 
 type GrantWishArgs = Pick<WishingWellTokens, "totalTokensInWell"> & {
+  onClose: () => void;
+  onClick?: () => void;
+};
+
+type ZeroTokensArgs = {
   onClose: () => void;
   onClick?: () => void;
 };
@@ -89,6 +95,30 @@ const GrantWish = ({ totalTokensInWell, onClick, onClose }: GrantWishArgs) => (
       </Button>
       <Button className="ml-1" onClick={onClick}>
         Grant Wish
+      </Button>
+    </div>
+  </>
+);
+
+const ZeroTokens = ({ onClick, onClose }: ZeroTokensArgs) => (
+  <>
+    <div className="p-2">
+      <div className="flex flex-col items-center mb-3">
+        <h1 className="text-xl mb-4 text-center">{`Uh oh!`}</h1>
+        <img src={goblinHead} alt="skeleton death" className="w-16 mb-2" />
+      </div>
+      <p className="mb-4 text-sm">
+        You have no reward available! Liquidity needs to be held for 3 days to
+        get a reward!
+      </p>
+      <p className="mb-2 text-sm">{`Grant a new wish and see how lucky you are!`}</p>
+    </div>
+    <div className="flex">
+      <Button className="mr-1 whitespace-nowrap" onClick={onClose}>
+        Close
+      </Button>
+      <Button className="ml-1 whitespace-nowrap" onClick={onClick}>
+        Grant New Wish
       </Button>
     </div>
   </>
@@ -238,7 +268,7 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
         {machine.matches("loading") && (
           <span className="loading mt-1">Loading</span>
         )}
-        {machine.matches("granting") && (
+        {(machine.matches("granting") || machine.matches("signing")) && (
           <span className="loading mt-1">Granting your wish</span>
         )}
         {machine.matches("wishing") && (
@@ -260,6 +290,9 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
             onClick={goToQuickSwap}
             onClose={handleClose}
           />
+        )}
+        {machine.matches("zeroTokens") && (
+          <ZeroTokens onClick={() => send("WISH")} onClose={handleClose} />
         )}
         {machine.matches("canWish") && (
           <NoWish

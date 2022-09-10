@@ -54,7 +54,6 @@ import { Panel } from "components/ui/Panel";
 import { fountainAudio, burningSound } from "lib/utils/sfx";
 import { Sign } from "./Sign";
 import { canMine } from "../events/stoneMine";
-import { VipArea } from "./Vip";
 
 // Only show 1 scarecrow at a time
 export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
@@ -434,7 +433,6 @@ const WickerManAnimation: React.FC = () => {
 
 export const Decorations: React.FC<Props> = ({ state }) => (
   <div className="z-10 absolute left-0 right-0">
-    <VipArea inventory={state.inventory} />
     <Flags state={state} />
     {state.inventory["Sunflower Rock"] && (
       <img
@@ -658,6 +656,18 @@ export const Decorations: React.FC<Props> = ({ state }) => (
           }}
         />
       </div>
+    )}
+    {!state.inventory["Farmer Bath"] && (
+      <img
+        src={swimmer}
+        className="absolute"
+        style={{
+          width: `${GRID_WIDTH_PX * 0.85}px`,
+          left: `${GRID_WIDTH_PX * 84.798}px`,
+          top: `${GRID_WIDTH_PX * 44.859}px`,
+          transform: "scaleX(-1)",
+        }}
+      />
     )}
     {state.inventory["Easter Bunny"] && (
       <img

@@ -127,7 +127,7 @@ export const DetailView: React.FC<Props> = ({
             </div>
           </div>
 
-          {bumpkin.level < BUILDINGS[building].levelRequired ? (
+          {!bumpkin || bumpkin.level < BUILDINGS[building].levelRequired ? (
             <div className="flex items-center">
               <span
                 className="bg-error border text-xxs p-1 rounded-md"

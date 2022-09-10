@@ -9,11 +9,13 @@ import goblinBase from "assets/buildings/goblin_recruiter_base.png";
 import goblinFlags from "assets/decorations/goblin_flags.png";
 import humanFlags from "assets/decorations/human_flags.png";
 import weapons from "assets/decorations/weapons.png";
+import sword from "assets/icons/sword.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { WarCollectors } from "./WarCollectors";
 import { WarSide } from "features/game/events/pickSide";
+import { Action } from "components/ui/Action";
 
 export const WarCollection: React.FC<{ side: WarSide }> = ({ side }) => {
   const [showModal, setShowModal] = useState(false);
@@ -154,6 +156,20 @@ export const WarCollection: React.FC<{ side: WarSide }> = ({ side }) => {
             </div>
           </>
         )}
+        <div
+          className="absolute cursor-pointer hover:img-highlight"
+          style={{
+            left: `${GRID_WIDTH_PX * 53.57}px`,
+            top: `${GRID_WIDTH_PX * 36.8}px`,
+          }}
+        >
+          <Action
+            className=""
+            text="War"
+            icon={sword}
+            onClick={() => setShowModal(true)}
+          />
+        </div>
       </div>
     </>
   );

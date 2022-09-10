@@ -57,6 +57,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   hoarding: true,
   editing: false,
   noBumpkinFound: false,
+  mintingBumpkin: false,
+  bumpkinMinted: false,
 };
 
 export const Game: React.FC = () => {
@@ -141,9 +143,7 @@ export const Game: React.FC = () => {
       <GoblinShovel />
       <Airdrop />
       <CommunityGardenEntry />
-      {CONFIG.NETWORK !== "mainnet" && !gameState.matches("loading") && (
-        <GoblinWar />
-      )}
+      {!gameState.matches("loading") && <GoblinWar />}
     </>
   );
 };

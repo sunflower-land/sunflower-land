@@ -10,7 +10,6 @@ import { Tree } from "./components/resources/Tree";
 import { Pebble } from "./components/resources/Pebble";
 import { Shrub } from "./components/resources/Shrub";
 import { LandBase } from "./components/LandBase";
-import { Bumpkin } from "features/island/bumpkin/Bumpkin";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { LandExpansion } from "../types/game";
 import { TerrainPlacement } from "./components/TerrainPlacement";
@@ -20,6 +19,7 @@ import { Placeable } from "./placeable/Placeable";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { ITEM_DETAILS } from "../types/images";
+import { Character } from "features/island/bumpkin/components/Character";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -192,9 +192,16 @@ export const Land: React.FC = () => {
 
         {gameState.matches("editing") && <Placeable />}
 
-        <MapPlacement x={2} y={1}>
-          <Bumpkin />
-        </MapPlacement>
+        {gameState.context.state.bumpkin?.equipped && (
+          <MapPlacement x={2} y={1}>
+            <Character
+              body={gameState.context.state.bumpkin.equipped.body}
+              hair={gameState.context.state.bumpkin.equipped.hair}
+              pants={gameState.context.state.bumpkin.equipped.pants}
+              onClick={console.log}
+            />
+          </MapPlacement>
+        )}
 
         {getKeys(buildings).flatMap((name) => {
           const items = buildings[name];

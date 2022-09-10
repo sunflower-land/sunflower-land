@@ -84,23 +84,25 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
       {
         <OuterPanel className="flex-1 mb-3">
           {selected && (
-            <div
-              style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
-              className="flex flex-col justify-evenly items-center p-2"
-            >
-              <span className="text-center text-shadow">{selected}</span>
-              <img
-                src={ITEM_DETAILS[selected].image}
-                className="h-12"
-                alt={selected}
-              />
-              <span className="text-xs text-shadow text-center mt-2 w-80">
-                {ITEM_DETAILS[selected].description}
-              </span>
-              <Button className="text-xs w-full mt-2" onClick={handlePlace}>
-                Place on Map
+            <>
+              <div
+                style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
+                className="flex flex-col justify-evenly items-center p-2"
+              >
+                <span className="text-center text-shadow">{selected}</span>
+                <img
+                  src={ITEM_DETAILS[selected].image}
+                  className="h-12"
+                  alt={selected}
+                />
+                <span className="text-xs text-shadow text-center mt-2 w-80">
+                  {ITEM_DETAILS[selected].description}
+                </span>
+              </div>
+              <Button className="text-xs w-full mb-1" onClick={handlePlace}>
+                Place on map
               </Button>
-            </div>
+            </>
           )}
         </OuterPanel>
       }

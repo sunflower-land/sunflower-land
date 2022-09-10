@@ -188,6 +188,17 @@ import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 // Buildings
 import firePit from "src/assets/buildings/fire_pit.png";
 
+// Clothing
+import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
+import chefApron from "src/assets/bumpkins/large/shirts/chef_apron.png";
+import sunflowerAmulet from "src/assets/bumpkins/large/necklaces/sunflower_amulet.png";
+import carrotAmulet from "src/assets/bumpkins/large/necklaces/carrot_amulet.png";
+import beetrootAmulet from "src/assets/bumpkins/large/necklaces/beetroot_amulet.png";
+import greenAmulet from "src/assets/bumpkins/large/necklaces/green_amulet.png";
+import warriorShirt from "src/assets/bumpkins/large/shirts/warrior_top.png";
+import warriorPants from "src/assets/bumpkins/large/pants/warrior_pants.png";
+import warriorHelmet from "src/assets/bumpkins/large/hats/warrior_helmet.png";
+
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -902,72 +913,13 @@ export const ITEM_DETAILS: Items = {
   },
   "Rich Chicken": { ...MUTANT_CHICKENS["Rich Chicken"], image: richChicken },
 
-  /**
-   * Bumpkins
-   */
-  "Light Farmer Potion": {
-    image: questionMark,
-    description: "An item for your bumpkin",
+  "Chef Apron": {
+    image: chefApron,
+    description: "Cakes yield an additional 20% SFL",
   },
-  "Dark Farmer Potion": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Goblin Potion": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Basic Hair": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Explorer Hair": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Rancher Hair": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Farmer Shirt": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Lumberjack Shirt": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Farmer Overalls": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Lumberjack Overalls": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Farmer Pants": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  Smile: {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Smile With Teeth": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Rosy Wide Eyes": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Rosy Squinted Eyes": {
-    image: questionMark,
-    description: "An item for your bumpkin",
-  },
-  "Black Shoes": {
-    image: questionMark,
-    description: "An item for your bumpkin",
+  "Chef Hat": {
+    image: chefHat,
+    description: "The crown of a legendary baker!",
   },
 
   "Rapid Growth": {
@@ -996,35 +948,39 @@ export const ITEM_DETAILS: Items = {
     description: "TEST",
   },
 
-  "Reward 1": {
-    image: questionMark,
+  "Sunflower Amulet": {
+    image: sunflowerAmulet,
     description: "A reward for your war efforts.",
   },
-  "Reward 2": {
-    image: questionMark,
+  "Carrot Amulet": {
+    image: carrotAmulet,
     description: "A reward for your war efforts.",
   },
-  "Reward 3": {
-    image: questionMark,
+  "Beetroot Amulet": {
+    image: beetrootAmulet,
     description: "A reward for your war efforts.",
   },
-  "Reward 4": {
-    image: questionMark,
+  "Green Amulet": {
+    image: greenAmulet,
     description: "A reward for your war efforts.",
   },
-  "Reward 5": {
-    image: questionMark,
+  "Warrior Shirt": {
+    image: warriorShirt,
     description: "A reward for your war efforts.",
   },
-  "Reward 6": {
-    image: questionMark,
+  "Warrior Pants": {
+    image: warriorPants,
     description: "A reward for your war efforts.",
   },
-  "Reward 7": {
-    image: questionMark,
+  "Warrior Helmet": {
+    image: warriorHelmet,
     description: "A reward for your war efforts.",
   },
   "Reward 8": {
+    image: questionMark,
+    description: "A reward for your war efforts.",
+  },
+  "Reward 9": {
     image: questionMark,
     description: "A reward for your war efforts.",
   },

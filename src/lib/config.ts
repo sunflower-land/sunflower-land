@@ -20,6 +20,10 @@ const RECAPTCHA_SITEKEY = import.meta.env.VITE_RECAPTCHA_SITEKEY as string;
 const TRADER_CONTRACT = import.meta.env.VITE_TRADER_CONTRACT as string;
 const FROG_CONTRACT = import.meta.env.VITE_FROG_CONTRACT as string;
 const FROG_DONATION = import.meta.env.VITE_FROG_DONATION as string;
+const BUMPKIN_DETAILS_CONTRACT = import.meta.env
+  .VITE_BUMPKIN_DETAILS_CONTRACT as string;
+const BUMPKIN_MINTER_CONTRACT = import.meta.env
+  .VITE_BUMPKIN_MINTER_CONTRACT as string;
 
 export const CONFIG = {
   NETWORK,
@@ -43,4 +47,6 @@ export const CONFIG = {
   TRADER_CONTRACT,
   FROG_CONTRACT,
   FROG_DONATION,
+  BUMPKIN_DETAILS_CONTRACT,
+  BUMPKIN_MINTER_CONTRACT,
 };

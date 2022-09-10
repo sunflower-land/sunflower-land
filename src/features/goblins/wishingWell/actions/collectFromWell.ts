@@ -12,13 +12,20 @@ type Request = {
 
 const API_URL = CONFIG.API_URL;
 
-export async function collectFromWell({
+export interface SignedTransaction {
+  signature: string;
+  tokens: string;
+  deadline: number;
+  farmId: number;
+}
+
+export async function signCollectFromWell({
   farmId,
   sessionId,
   token,
   amount,
   captcha,
-}: Request) {
+}: Request): Promise<SignedTransaction | void> {
   if (!API_URL) return;
 
   const response = await window.fetch(`${API_URL}/wishing-well`, {
@@ -41,6 +48,10 @@ export async function collectFromWell({
 
   const transaction = await response.json();
 
+  return transaction as SignedTransaction;
+}
+
+export async function collectFromWell(transaction: SignedTransaction) {
   const receipt = await metamask.getWishingWell().collectFromWell(transaction);
 
   return receipt;

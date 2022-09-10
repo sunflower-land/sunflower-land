@@ -4,21 +4,23 @@ import {
   BumpkinPants,
   BumpkinShirt,
   BumpkinHair,
-} from "features/game/types/game";
+} from "features/game/types/bumpkin";
 import React from "react";
 
 // Bodies
-import lightFarmer from "assets/bumpkins/small/body/light_farmer.gif";
-import darkFarmer from "assets/bumpkins/small/body/dark_farmer.gif";
+import lightFarmer from "assets/bumpkins/small/body/beige_farmer.gif";
+import lightBrownFarmer from "assets/bumpkins/small/body/light_brown_farmer.gif";
+import darkBrownFarmer from "assets/bumpkins/small/body/dark_brown_farmer.gif";
 import goblin from "assets/bumpkins/small/body/goblin.gif";
 
-// Wig
+// Hair
 import basic from "assets/bumpkins/small/hair/basic.gif";
 import explorer from "assets/bumpkins/small/hair/explorer.gif";
 
 // Shirts
-import farmerShirt from "assets/bumpkins/small/shirts/farmer_shirt.gif";
-import lumberjackShirt from "assets/bumpkins/small/shirts/lumberjack_shirt.gif";
+import redFarmerShirt from "assets/bumpkins/small/shirts/red_farmer_shirt.gif";
+import yellowFarmerShirt from "assets/bumpkins/small/shirts/yellow_farmer_shirt.gif";
+import blueFarmerShirt from "assets/bumpkins/small/shirts/blue_farmer_shirt.gif";
 
 // Miscellaneous
 import shadow from "assets/npcs/shadow.png";
@@ -26,13 +28,14 @@ import shadow from "assets/npcs/shadow.png";
 // Pants
 import farmerOveralls from "assets/bumpkins/small/pants/farmer_overalls.gif";
 import lumberjackOveralls from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
-import farmerPants from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
+import farmerPants from "assets/bumpkins/small/pants/lumberjack_overalls.gif"; // TODO
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const PARTS: Partial<Record<BumpkinItems, string>> = {
   // Bodies
-  "Light Farmer Potion": lightFarmer,
-  "Dark Farmer Potion": darkFarmer,
+  "Beige Farmer Potion": lightFarmer,
+  "Dark Brown Farmer Potion": darkBrownFarmer,
+  "Light Brown Farmer Potion": lightBrownFarmer,
   "Goblin Potion": goblin,
 
   // Hair
@@ -40,8 +43,9 @@ const PARTS: Partial<Record<BumpkinItems, string>> = {
   "Explorer Hair": explorer,
 
   // Shirts
-  "Farmer Shirt": farmerShirt,
-  "Lumberjack Shirt": lumberjackShirt,
+  "Red Farmer Shirt": redFarmerShirt,
+  "Yellow Farmer Shirt": yellowFarmerShirt,
+  "Blue Farmer Shirt": blueFarmerShirt,
 
   // Pants
   "Farmer Overalls": farmerOveralls,

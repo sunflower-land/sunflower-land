@@ -86,7 +86,9 @@ export const Auth: React.FC = () => {
           {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
           {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
           {(authState.matches({ connected: "blacklisted" }) ||
-            authState.matches("blacklisted")) && <Blacklisted />}
+            authState.matches("blacklisted")) && (
+            <Blacklisted verificationUrl={authState.context.verificationUrl} />
+          )}
           {authState.matches("exploring") && <VisitFarm />}
           {authState.matches("minimised") && <Minimized />}
           {authState.matches("unauthorised") && (

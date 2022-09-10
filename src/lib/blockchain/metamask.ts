@@ -14,6 +14,8 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { SunflowerFarmers } from "./SunflowerFarmers";
 import { MillionOnMars } from "./MillionOnMars";
 import { Trader } from "./Trader";
+import { BumpkinMinter } from "./BumpkinMinter";
+import { BumpkinDetails } from "./BumpkinDetails";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -25,6 +27,8 @@ export class Metamask {
   private sunflowerFarmers: SunflowerFarmers | null = null;
   private session: SessionManager | null = null;
   private farmMinter: FarmMinter | null = null;
+  private bumpkinMinter: BumpkinMinter | null = null;
+  private bumpkinDetails: BumpkinDetails | null = null;
   private inventory: Inventory | null = null;
   private pair: Pair | null = null;
   private wishingWell: WishingWell | null = null;
@@ -51,6 +55,14 @@ export class Metamask {
         this.account as string
       );
       this.farmMinter = new FarmMinter(
+        this.web3 as Web3,
+        this.account as string
+      );
+      this.bumpkinMinter = new BumpkinMinter(
+        this.web3 as Web3,
+        this.account as string
+      );
+      this.bumpkinDetails = new BumpkinDetails(
         this.web3 as Web3,
         this.account as string
       );
@@ -302,6 +314,14 @@ export class Metamask {
 
   public getFarmMinter() {
     return this.farmMinter as FarmMinter;
+  }
+
+  public getBumpkinMinter() {
+    return this.bumpkinMinter as BumpkinMinter;
+  }
+
+  public getBumpkinDetails() {
+    return this.bumpkinDetails as BumpkinDetails;
   }
 
   public getSessionManager() {

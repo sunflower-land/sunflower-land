@@ -62,9 +62,8 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   if (isBlacklisted) {
     return (
       <div className="p-2 text-sm">
-        The anti-bot detection system is relatively new and has picked up some
-        strange behaviour. Withdrawing is temporarily restricted while the team
-        investigates this case. Thanks for your patience!
+        Withdrawing is temporarily restricted while your humanity is being
+        verified. Thanks for your patience!
       </div>
     );
   }

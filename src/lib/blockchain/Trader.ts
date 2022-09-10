@@ -6,9 +6,10 @@ import { CONFIG } from "lib/config";
 import TraderJSON from "./abis/Trader.json";
 import { InventoryItemName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
-import { KNOWN_IDS } from "features/game/types";
+import { KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
 import { SunflowerLandTrader } from "./types";
 import { Purchased } from "./types/SunflowerLandTrader";
+import { getItemUnit } from "features/game/lib/conversion";
 
 const address = CONFIG.TRADER_CONTRACT;
 
@@ -69,7 +70,12 @@ export class Trader {
           id: Number(slot.listingId),
           status: Number(slot.status),
           resourceId: Number(slot.resourceId),
-          resourceAmount: Number(fromWei(slot.resourceAmount)),
+          resourceAmount: Number(
+            fromWei(
+              slot.resourceAmount,
+              getItemUnit(KNOWN_ITEMS[slot.resourceId])
+            )
+          ),
           sfl: Number(fromWei(slot.sfl)),
           tax: Number(slot.tax) / 1000,
           purchasedAt: Number(slot.purchasedAt),
@@ -96,7 +102,9 @@ export class Trader {
     return limits.reduce(
       (items, limit, index) => ({
         ...items,
-        [names[index]]: new Decimal(fromWei(String(limit))),
+        [names[index]]: new Decimal(
+          fromWei(String(limit), getItemUnit(names[index]))
+        ),
       }),
       {} as ItemLimits
     );
