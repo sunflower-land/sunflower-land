@@ -20,7 +20,7 @@ export async function loadFrogs() {
         frogIds = frogIds.slice(0, 6);
       }
 
-      const result = frogIds.map(() => ({
+      const result: Frog[] = frogIds.map(() => ({
         pixel_image: frog_unrevealed,
         name: "Unrevealed",
       }));
@@ -30,7 +30,7 @@ export async function loadFrogs() {
       const result = frogIds.map(
         async (id) => await getFrogMetadata({ frogId: id })
       );
-      const res = await Promise.all(result);
+      const res: Frog[] = await Promise.all(result);
 
       let filteredFrogs = res;
 
@@ -43,7 +43,7 @@ export async function loadFrogs() {
       return filteredFrogs;
     }
   } catch {
-    return null;
+    return <Frog[]>[];
   }
 }
 

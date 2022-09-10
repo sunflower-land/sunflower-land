@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { frogAudio } from "lib/utils/sfx";
-import { loadFrogs } from "features/community/merchant/actions/loadFrogs";
+import { Frog, loadFrogs } from "features/community/merchant/actions/loadFrogs";
 
 export const FrogNft: React.FC = () => {
-  const [frogData, setFrogData] = useState([{ pixel_image: "" }]);
+  const [frogData, setFrogData] = useState<Frog[]>([]);
 
   const open = () => {
     //Checks if frogAudio is playing, if false, plays the sound
