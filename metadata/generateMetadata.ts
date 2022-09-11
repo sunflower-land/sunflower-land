@@ -1,31 +1,48 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { KNOWN_IDS } from "../src/features/game/types/index";
+import { KNOWN_IDS } from "../src/features/game/types";
+import {
+  Attribute,
+  Images,
+  MarkdownSections,
+  MetadataObject,
+  ResultKeys,
+} from "./models";
 
-async function generateMarkdown() {
-  await Promise.allSettled(
-    Object.entries(KNOWN_IDS).map(parseMarkdownFile)
-  ).then((results) => {
-    results.forEach((result) => {
-      if (result.status === "rejected") {
-        console.log(result.reason);
-        return;
-      }
+const IMAGE_PATH = "https://sunflower-land.com/play/erc1155/images/";
+let images: Images = {};
 
-      const metadata = result.value;
-      const jsonPath = path.join(
-        __dirname,
-        `../public/erc1155/${metadata.id}.json`
-      );
-      const id = metadata.id;
-      delete metadata.id;
+function generateMarkdown() {
+  const imagesPath = path.join(__dirname, `../public/erc1155/images/`);
+  images = fs.readdirSync(imagesPath).reduce((images, fileName) => {
+    const id = +fileName.match(/[ \w-]+?(?=\.)/)![0];
+    images[id] = IMAGE_PATH + fileName;
+    return images;
+  }, images);
 
-      fs.writeFile(jsonPath, JSON.stringify(metadata), () =>
-        console.log(`Metadata file for ${metadata.name}(${id}) updated!`)
-      );
-    });
-  });
+  Promise.allSettled(Object.entries(KNOWN_IDS).map(parseMarkdownFile)).then(
+    (results) => {
+      results.forEach((result) => {
+        if (result.status === "rejected") {
+          console.log(result.reason);
+          return;
+        }
+
+        const metadata = result.value;
+        const jsonPath = path.join(
+          __dirname,
+          `../public/erc1155/${metadata.id}.json`
+        );
+        const id = metadata.id;
+        delete metadata.id;
+
+        fs.writeFile(jsonPath, JSON.stringify(metadata), () =>
+          console.log(`Metadata file for ${metadata.name}(${id}) updated!`)
+        );
+      });
+    }
+  );
 }
 
 function parseMarkdownFile(entry: [string, number]): Promise<MetadataObject> {
@@ -45,10 +62,13 @@ function parseMarkdownFile(entry: [string, number]): Promise<MetadataObject> {
         id,
         name,
         description: getFullDescription(name, sections.description),
-        image: `https://sunflower-land.com/play/erc1155/${id}.png`,
         decimals: getDecimals(sections.decimals),
         external_url: "https://docs.sunflower-land.com/getting-started/about",
       };
+
+      if (images[id]) {
+        result.image = images[id];
+      }
 
       const bgColor = sections.background_color.trim();
       if (bgColor) {
@@ -66,7 +86,7 @@ function parseMarkdownFile(entry: [string, number]): Promise<MetadataObject> {
 }
 
 function getFullDescription(name: string, description: string): string {
-  const nameHeader = `## ${name}\r\n\r\n`;
+  const nameHeader = `\r\n## ${name}\r\n\r\n`;
 
   return nameHeader + description.trim();
 }
@@ -98,7 +118,7 @@ function generateSections(fileData: string): MarkdownSections {
     attributes: "",
   };
 
-  for (const line of fileData.split("\r\n")) {
+  for (const line of fileData.split("\n")) {
     if (line.startsWith("# ")) {
       currentField = line
         .replace("# ", "")
@@ -114,31 +134,3 @@ function generateSections(fileData: string): MarkdownSections {
 }
 
 generateMarkdown();
-
-type MetadataObject = {
-  name: string;
-  [ResultKeys.Description]: string;
-  image: string;
-  [ResultKeys.Decimals]: number;
-  external_url: string;
-  id?: number;
-  [ResultKeys.BackgroundColor]?: string;
-  [ResultKeys.Attributes]?: Attribute[];
-};
-
-type MarkdownSections = {
-  [key in ResultKeys]: string;
-};
-
-interface Attribute {
-  trait_type: string;
-  value: string;
-  display_type?: string;
-}
-
-enum ResultKeys {
-  Description = "description",
-  Decimals = "decimals",
-  BackgroundColor = "background_color",
-  Attributes = "attributes",
-}
