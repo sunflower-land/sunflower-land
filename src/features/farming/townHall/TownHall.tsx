@@ -14,7 +14,7 @@ import { Tab } from "components/ui/Tab";
 import { Discord } from "./components/Discord";
 
 export const TownHall: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
   const [tab, setTab] = useState<"contributors" | "discord">("discord");
 
   const open = () => {
