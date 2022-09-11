@@ -5,6 +5,7 @@ import cakes from "assets/announcements/cakes.png";
 import rooster from "assets/announcements/rooster.png";
 import shovel from "assets/announcements/shovel.png";
 import warWeekOne from "assets/announcements/war_week_1.png";
+import warWeekTwo from "assets/announcements/war_week_two.png";
 import warTent from "assets/announcements/war_tent.png";
 
 export interface Announcement {
@@ -19,6 +20,17 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2022-09-12T00:00:00"),
+    title: "The woods for the trees",
+    notes: [
+      "War is big business and requires a lot of land.",
+      "We need to cut down the Forrest to the south, this will provide ample room for our soldiers to train and prepare.",
+      "We have negotiated a deal with the local blacksmith who can help you with a much better rate on the items you need.",
+    ],
+    link: "https://docs.sunflower-land.com/fundamentals/special-events/goblin-war",
+    image: warWeekTwo,
+  },
   {
     date: new Date("2022-09-08T00:00:00"),
     title: "The war tent opens!",

@@ -436,7 +436,8 @@ export const TOOLS: Record<Tool, CraftableItem> = {
   Axe: {
     name: "Axe",
     description: "Used to collect wood",
-    tokenAmount: new Decimal(1),
+    // Temporary price for weekly war challenge
+    tokenAmount: new Decimal(0.5),
     ingredients: [],
   },
   Pickaxe: {
