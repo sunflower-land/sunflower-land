@@ -8,6 +8,7 @@ import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinParts } from "./bumpkin";
+import { ConsumableName } from "../events/landExpansion/cook";
 
 export type CropReward = {
   items: {
@@ -120,7 +121,8 @@ export type InventoryItemName =
   | SpecialEvent
   | BuildingName
   | Fertiliser
-  | WarBanner;
+  | WarBanner
+  | ConsumableName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

@@ -48,6 +48,7 @@ import {
 } from "./landExpansion/placeCollectible";
 import { buyWarBonds, CollectWarBonds as BuyWarBonds } from "./buyWarBonds";
 import { pickSide, PickSide } from "./pickSide";
+import { cook, CookAction } from "./landExpansion/cook";
 
 export type PlayingEvent =
   | CraftAction
@@ -74,7 +75,8 @@ export type PlayingEvent =
   | FertiliseCropAction
   | ClaimAirdropAction
   | BuyWarBonds
-  | PickSide;
+  | PickSide
+  | CookAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -121,6 +123,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "timber.chopped": landExpansionChop,
   "rock.mined": landExpansionMineStone,
   "item.fertilised": fertiliseCrop,
+  "recipe.cooked": cook,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
