@@ -8,6 +8,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
+import { CONFIG } from "lib/config";
 
 interface Points {
   goblinTeam: { total: number; percentage: number };
@@ -23,14 +24,23 @@ export const Leaderboard: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
   const getValues = async () => {
+    // End of Week 1 points
+    const startOfWeekPoints =
+      CONFIG.NETWORK === "mainnet"
+        ? {
+            humans: 344445,
+            goblins: 354890,
+          }
+        : { humans: 20, goblins: 40 };
+
     setLoading(true);
     const totalSupply = await metamask.getInventory().totalSupply();
     const humanWarPoints = totalSupply["Human War Point"];
     const goblinWarPoints = totalSupply["Goblin War Point"];
 
     if (goblinWarPoints && humanWarPoints) {
-      const goblinPoints = Number(goblinWarPoints);
-      const humanPoints = Number(humanWarPoints);
+      const goblinPoints = Number(goblinWarPoints) - startOfWeekPoints.goblins;
+      const humanPoints = Number(humanWarPoints) - startOfWeekPoints.humans;
       const total = humanPoints + goblinPoints;
       setWarPoints({
         humanTeam: {
