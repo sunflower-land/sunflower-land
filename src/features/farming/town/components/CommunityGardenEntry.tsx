@@ -20,51 +20,52 @@ export const CommunityGardenEntry: React.FC = () => {
   };
 
   return (
-    <div
-      className="absolute hover:img-highlight cursor-pointer"
-      style={{
-        right: `${GRID_WIDTH_PX * 53}px`,
-        width: `${GRID_WIDTH_PX * 5}px`,
-        height: `${GRID_WIDTH_PX * 4}px`,
-        top: `${GRID_WIDTH_PX * 1}px`,
-      }}
-      onClick={openMerchant}
-    >
-      <img
-        src={humanSign}
-        className="absolute"
+    <>
+      <div
+        className="absolute hover:img-highlight cursor-pointer"
         style={{
-          width: `${GRID_WIDTH_PX * 1.5}px`,
-          right: `${GRID_WIDTH_PX * 3}px`,
-          top: `${GRID_WIDTH_PX * 0.8}px`,
+          right: `${GRID_WIDTH_PX * 53}px`,
+          width: `${GRID_WIDTH_PX * 5}px`,
+          height: `${GRID_WIDTH_PX * 4}px`,
+          top: `${GRID_WIDTH_PX * 1}px`,
         }}
-      />
-      <img
-        src={merchant}
-        alt="merchant"
-        className="absolute"
-        style={{
-          width: `${GRID_WIDTH_PX * 3}px`,
-          right: `${GRID_WIDTH_PX * 0.5}px`,
-          top: `${GRID_WIDTH_PX * 1.5}px`,
-        }}
-      />
-      <img
-        src={arrowUp}
-        className="absolute animate-float"
-        style={{
-          width: `${GRID_WIDTH_PX * 0.7}px`,
-          right: `${GRID_WIDTH_PX * 2}px`,
-          top: `${GRID_WIDTH_PX * 0}px`,
-        }}
-      />
-
+        onClick={openMerchant}
+      >
+        <img
+          src={humanSign}
+          className="absolute"
+          style={{
+            width: `${GRID_WIDTH_PX * 1.5}px`,
+            right: `${GRID_WIDTH_PX * 3}px`,
+            top: `${GRID_WIDTH_PX * 0.8}px`,
+          }}
+        />
+        <img
+          src={merchant}
+          alt="merchant"
+          className="absolute"
+          style={{
+            width: `${GRID_WIDTH_PX * 3}px`,
+            right: `${GRID_WIDTH_PX * 0.5}px`,
+            top: `${GRID_WIDTH_PX * 1.5}px`,
+          }}
+        />
+        <img
+          src={arrowUp}
+          className="absolute animate-float"
+          style={{
+            width: `${GRID_WIDTH_PX * 0.7}px`,
+            right: `${GRID_WIDTH_PX * 2}px`,
+            top: `${GRID_WIDTH_PX * 0}px`,
+          }}
+        />
+      </div>
       {showModal && (
         <CommunityGardenModal
           isOpen={showModal}
           onClose={() => setShowModal(false)}
         />
       )}
-    </div>
+    </>
   );
 };
