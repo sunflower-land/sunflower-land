@@ -3,11 +3,11 @@ import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
-import { CraftableItem } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
+import { InventoryItemName } from "features/game/types/game";
 
 interface Props {
-  item: CraftableItem;
+  item: { name: InventoryItemName };
 }
 
 export const Stock: React.FC<Props> = ({ item }) => {
