@@ -14,6 +14,7 @@ export interface Announcement {
   title: string;
   notes: string[];
   link?: string;
+  type?: "war";
 }
 
 /**
@@ -30,6 +31,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
     ],
     link: "https://docs.sunflower-land.com/fundamentals/special-events/goblin-war",
     image: warWeekTwo,
+    type: "war",
   },
   {
     date: new Date("2022-09-08T00:00:00"),
@@ -41,6 +43,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
     ],
     link: "https://docs.sunflower-land.com/fundamentals/special-events/goblin-war",
     image: warTent,
+    type: "war",
   },
   {
     date: new Date("2022-09-05T00:00:00"),
@@ -53,6 +56,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
     ],
     link: "https://docs.sunflower-land.com/fundamentals/special-events/goblin-war",
     image: warWeekOne,
+    type: "war",
   },
   {
     date: new Date("2022-07-21T00:00:00"),

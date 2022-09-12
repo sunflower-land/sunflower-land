@@ -6,6 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Inventory } from "features/game/types/game";
 import { WarSide } from "features/game/events/pickSide";
+import { WarMessenger } from "./components/WarMessenger";
 
 const hasPickedSide = (inventory: Inventory) => {
   return (
@@ -39,6 +40,7 @@ export const GoblinWar: React.FC = () => {
   return (
     <>
       <WarCollection side={side} />
+      <WarMessenger side={side} />
     </>
   );
 };
