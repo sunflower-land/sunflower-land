@@ -11,16 +11,19 @@ import {
 } from "./models";
 
 const IMAGE_PATH = "https://sunflower-land.com/play/erc1155/images/";
-let images: Images = {};
+const images = getImages();
+generateMarkdown();
 
-function generateMarkdown() {
+function getImages(): Images {
   const imagesPath = path.join(__dirname, `../public/erc1155/images/`);
-  images = fs.readdirSync(imagesPath).reduce((images, fileName) => {
+  return fs.readdirSync(imagesPath).reduce((images, fileName) => {
     const id = +fileName.match(/[ \w-]+?(?=\.)/)![0];
     images[id] = IMAGE_PATH + fileName;
     return images;
-  }, images);
+  }, {} as Images);
+}
 
+function generateMarkdown() {
   Promise.allSettled(Object.entries(KNOWN_IDS).map(parseMarkdownFile)).then(
     (results) => {
       results.forEach((result) => {
@@ -132,5 +135,3 @@ function generateSections(fileData: string): MarkdownSections {
 
   return sections;
 }
-
-generateMarkdown();
