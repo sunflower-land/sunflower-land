@@ -61,7 +61,7 @@ export const Airdrop: React.FC = () => {
           </p>
 
           <div className="flex flex-col pt-4">
-            {airdrop.sfl && (
+            {!!airdrop.sfl && (
               <div className="flex items-center justify-center mb-2">
                 <img src={token} className="w-6 mr-2" />
                 <span>{airdrop.sfl} SFL</span>
