@@ -137,6 +137,7 @@ import barnManager from "assets/skills/barn_manager.png";
 import seedSpecialist from "assets/skills/seed_specialist.png";
 import logger from "assets/skills/logger.png";
 import lumberjack from "assets/skills/lumberjack.png";
+import warrior from "assets/skills/warrior.png";
 import artist from "assets/skills/artist.gif";
 import coder from "assets/skills/coder.png";
 import discord from "assets/skills/discord.png";
@@ -641,6 +642,10 @@ export const ITEM_DETAILS: Items = {
   "Discord Mod": {
     description: SKILL_TREE["Discord Mod"].perks[0],
     image: discord,
+  },
+  Warrior: {
+    description: SKILL_TREE["Warrior"].perks[0],
+    image: warrior,
   },
   "Trading Ticket": {
     description:

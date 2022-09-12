@@ -13,9 +13,10 @@ export type SkillName =
   | "Artist"
   | "Coder"
   | "Liquidity Provider"
-  | "Discord Mod";
+  | "Discord Mod"
+  | "Warrior";
 
-export type Profession = "farming" | "gathering" | "contributor";
+export type Profession = "farming" | "gathering" | "contributor" | "combat";
 
 enum REQUIRED_XP {
   LEVEL_1 = 0,
@@ -114,6 +115,11 @@ export const SKILL_TREE: Record<
     level: 1,
     profession: "contributor",
     perks: ["50% reduced SFL withdrawal fee"],
+  },
+  Warrior: {
+    level: 1,
+    profession: "combat",
+    perks: ["Early access to land expansion"],
   },
 };
 
