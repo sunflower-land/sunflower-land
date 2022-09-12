@@ -34,11 +34,12 @@ export const SkillTree: React.FC<Props> = ({ inventory, back }) => (
           <OuterPanel className="w-full my-2 p-1 relative" key={skillName}>
             <span
               className={classNames(
-                "text-shadow border text-xxs absolute left-0 -top-4 p-1 rounded-md capitalize",
+                "text-shadow border text-xxs absolute  left-0 -top-4 p-1 rounded-md capitalize",
                 {
                   "bg-green-600": skill.profession === "farming",
                   "bg-[#7C4700]": skill.profession === "gathering",
                   "bg-blue-600": skill.profession === "contributor",
+                  "bg-yellow-600": skill.profession === "combat",
                 }
               )}
             >
