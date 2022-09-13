@@ -10,6 +10,7 @@ import {
   ResultKeys,
 } from "./models";
 
+const FILENAME_REGEXP = /[ \w-]+?(?=\.)/;
 const IMAGE_PATH = "https://sunflower-land.com/play/erc1155/images/";
 const images = getImages();
 generateMarkdown();
@@ -17,8 +18,11 @@ generateMarkdown();
 function getImages(): Images {
   const imagesPath = path.join(__dirname, `../public/erc1155/images/`);
   return fs.readdirSync(imagesPath).reduce((images, fileName) => {
-    const id = +fileName.match(/[ \w-]+?(?=\.)/)![0];
-    images[id] = IMAGE_PATH + fileName;
+    const matchResults = fileName.match(FILENAME_REGEXP);
+    const id = matchResults?.length ? +matchResults[0] : undefined;
+    if (id) {
+      images[id] = IMAGE_PATH + fileName;
+    }
     return images;
   }, {} as Images);
 }
@@ -26,8 +30,19 @@ function getImages(): Images {
 function generateMarkdown() {
   Promise.allSettled(Object.entries(KNOWN_IDS).map(parseMarkdownFile)).then(
     (results) => {
+      const noMetadataFiles: string[] = [];
       results.forEach((result) => {
         if (result.status === "rejected") {
+          if (result.reason.code === "ENOENT") {
+            const matchResults = (result.reason.path as string).match(
+              FILENAME_REGEXP
+            );
+            if (matchResults?.length) {
+              noMetadataFiles.push(matchResults[0]);
+              return;
+            }
+          }
+
           console.log(result.reason);
           return;
         }
@@ -37,13 +52,11 @@ function generateMarkdown() {
           __dirname,
           `../public/erc1155/${metadata.id}.json`
         );
-        const id = metadata.id;
         delete metadata.id;
 
-        fs.writeFile(jsonPath, JSON.stringify(metadata), () =>
-          console.log(`Metadata file for ${metadata.name}(${id}) updated!`)
-        );
+        fs.writeFile(jsonPath, JSON.stringify(metadata), () => undefined);
       });
+      console.log("Metadata file not found for: ", noMetadataFiles);
     }
   );
 }
@@ -80,7 +93,7 @@ function parseMarkdownFile(entry: [string, number]): Promise<MetadataObject> {
 
       const attributes = sections.attributes.trim();
       if (attributes) {
-        result.attributes = getAttributes(attributes);
+        result.attributes = getAttributes(attributes, id);
       }
 
       resolve(result);
@@ -94,12 +107,18 @@ function getFullDescription(name: string, description: string): string {
   return nameHeader + description.trim();
 }
 
-function getAttributes(attrString: string): Attribute[] {
+function getAttributes(attrString: string, id: number): Attribute[] {
   const attributes: Attribute[] = [];
   for (let attr of attrString.split("\r\n")) {
     attr = attr.trim();
     if (attr) {
-      attributes.push(JSON.parse(attr));
+      try {
+        attributes.push(JSON.parse(attr));
+      } catch (e) {
+        console.log("Error in line - ", attr);
+        console.log(`File - ${id}.md`);
+        throw e;
+      }
     }
   }
 
