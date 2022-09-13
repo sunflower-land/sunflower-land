@@ -28,8 +28,8 @@ export const Seal: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 32}px`,
         height: `${PIXEL_SCALE * 32}px`,
-        right: `${GRID_WIDTH_PX * 3}px`,
-        top: `${GRID_WIDTH_PX * 7}px`,
+        left: `${GRID_WIDTH_PX * 29}px`,
+        top: `${GRID_WIDTH_PX * 35}px`,
       }}
     >
       <Spritesheet
