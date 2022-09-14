@@ -10,14 +10,15 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { Stock } from "components/ui/Stock";
-import { Consumable } from "features/game/events/landExpansion/cook";
+import { Consumable, ConsumableName } from "features/game/types/consumables";
 
 interface Props {
   recipes: Consumable[];
   onClose: () => void;
+  onCook: (name: ConsumableName) => void;
 }
 
-export const Recipes: React.FC<Props> = ({ recipes, onClose }) => {
+export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
   const [selected, setSelected] = useState<Consumable>(recipes[0]);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
@@ -29,16 +30,13 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose }) => {
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const lessIngredients = (amount = 1) =>
+  const lessIngredients = () =>
     getKeys(selected.ingredients).some((name) =>
-      selected?.ingredients[name]?.mul(amount).greaterThan(inventory[name] || 0)
+      selected?.ingredients[name]?.greaterThan(inventory[name] || 0)
     );
 
-  const cook = (amount = 1) => {
-    gameService.send("recipe.cooked", {
-      item: selected.name,
-      amount,
-    });
+  const cook = () => {
+    onCook(selected.name);
 
     getKeys(selected.ingredients).map((name) => {
       const item = ITEM_DETAILS[name];
