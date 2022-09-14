@@ -1,36 +1,18 @@
-import Decimal from "decimal.js-light";
-import { BuildingName } from "features/game/types/buildings";
-import { GameState, Inventory } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import Decimal from "decimal.js-light";
+import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { GameState } from "features/game/types/game";
+import { getKeys } from "features/game/types/craftables";
 
-// TODO move into new directory Romy and Craig are working on
-export type ConsumableName = "Boiled Egg";
-export type Consumable = {
-  name: ConsumableName;
-  ingredients: Inventory;
-  cookingSeconds: number;
-  building: BuildingName;
-};
-
-export const CONSUMABLES: Record<ConsumableName, Consumable> = {
-  "Boiled Egg": {
-    name: "Boiled Egg",
-    building: "Fire Pit",
-    cookingSeconds: 60,
-    ingredients: {
-      Egg: new Decimal(1),
-    },
-  },
-};
-
-export type CookAction = {
+export type RecipeCookedAction = {
   type: "recipe.cooked";
-  name: ConsumableName;
+  item: ConsumableName;
+  buildingId: string;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: CookAction;
+  action: RecipeCookedAction;
   createdAt?: number;
 };
 
@@ -39,9 +21,53 @@ export function cook({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
+  const stateCopy = cloneDeep(state);
+
+  const { building: requiredBuilding, ingredients } = CONSUMABLES[action.item];
+  const { buildings } = stateCopy;
+  const buildingsOfRequiredType = buildings[requiredBuilding];
+
+  if (!Object.keys(buildings).length || !buildingsOfRequiredType) {
+    throw new Error(`Required building does not exist`);
+  }
+
+  const building = buildingsOfRequiredType.find(
+    (building) => building.id === action.buildingId
+  );
+
+  if (!building) {
+    throw new Error(`Required building does not exist`);
+  }
+
+  if (building.crafting !== undefined) {
+    throw new Error("Cooking already in progress");
+  }
+
+  const subtractedInventory = getKeys(ingredients).reduce(
+    (inventory, ingredient) => {
+      const count = inventory[ingredient] || new Decimal(0);
+      const amount = ingredients[ingredient] || new Decimal(0);
+
+      if (count.lessThan(amount)) {
+        throw new Error(`Insufficient ingredient: ${ingredient}`);
+      }
+
+      return {
+        ...inventory,
+        [ingredient]: count.sub(amount),
+      };
+    },
+    stateCopy.inventory
+  );
+
+  building.crafting = {
+    name: action.item,
+    readyAt: createdAt + CONSUMABLES[action.item].cookingSeconds * 1000,
+  };
 
   return {
-    ...game,
+    ...stateCopy,
+    inventory: subtractedInventory,
+    buildings,
   };
 }
