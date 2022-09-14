@@ -1,25 +1,15 @@
 import React, { useContext, useState } from "react";
 
 import firePit from "assets/buildings/fire_pit.png";
-import { MachineInterpreter } from "../../lib/craftingMachine";
 import classNames from "classnames";
 import { FirePitModal } from "./firePit/FirePitModal";
 import { ConsumableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
+import { CraftingMachineChildProps } from "./WithCraftingMachine";
 
-export interface FirePitProps {
-  id: string;
-  crafting: boolean;
-  ready: boolean;
-  idle: boolean;
-  name?: ConsumableName;
-  craftingService: MachineInterpreter;
-  handleShowCraftingTimer: () => void;
-}
-
-export const FirePit: React.FC<FirePitProps> = ({
-  id: buildingId,
+export const FirePit: React.FC<CraftingMachineChildProps> = ({
+  buildingId,
   crafting,
   idle,
   ready,
@@ -29,6 +19,8 @@ export const FirePit: React.FC<FirePitProps> = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
+
+  if (!craftingService || !handleShowCraftingTimer) return <></>;
 
   const handleCook = (item: ConsumableName) => {
     craftingService.send({
