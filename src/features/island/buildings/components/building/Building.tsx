@@ -2,10 +2,14 @@ import React, { useRef, useState } from "react";
 import classNames from "classnames";
 
 import { BuildingName } from "features/game/types/buildings";
-import { PlacedItem as IBuilding } from "features/game/types/game";
+import {
+  BuildingProduct,
+  PlacedItem as IBuilding,
+} from "features/game/types/game";
 import { FirePit } from "./FirePit";
 import { TimeLeftOverlay } from "components/ui/TimeLeftOverlay";
 import { Bar } from "components/ui/ProgressBar";
+import { WithCraftingMachine } from "./WithCraftingMachine";
 
 interface Prop {
   name: BuildingName;
@@ -13,8 +17,9 @@ interface Prop {
   id: string;
 }
 
-type BuildingProp = {
+export type BuildingProp = {
   id: string;
+  crafting?: BuildingProduct;
 };
 
 const BUILDING_COMPONENTS: Record<BuildingName, React.FC<BuildingProp>> = {
@@ -67,5 +72,9 @@ export const Building: React.FC<Prop> = ({ name, building, id }) => {
     );
   }
 
-  return <BuildingPlaced id={id} />;
+  return (
+    <WithCraftingMachine id={id} crafting={building.crafting}>
+      <BuildingPlaced />
+    </WithCraftingMachine>
+  );
 };
