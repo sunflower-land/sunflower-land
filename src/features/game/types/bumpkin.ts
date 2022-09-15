@@ -22,7 +22,7 @@ export type BumpkinMouths = "Wide Smile" | "Wide Smile With Teeth";
 
 export type BumpkinTools = "Farmer Pitchfork";
 
-export type BumpkinShoes = "Black Farmer Boots" | "Frog Boots";
+export type BumpkinShoes = "Black Farmer Boots";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -85,7 +85,6 @@ export const ITEM_IDS: Record<BumpkinItems, number> = {
   "Beetroot Amulet": 29,
   "Green Amulet": 30,
   "Farm Background": 33, // TODO -just testing
-  "Frog Boots": 34, // TODO -just testing
 };
 
 // The reverse of above
