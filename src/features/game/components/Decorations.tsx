@@ -313,7 +313,7 @@ export const NyonStatue: React.FC = () => {
 };
 
 export const Trivia: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
