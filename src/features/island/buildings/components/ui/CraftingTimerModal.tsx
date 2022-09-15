@@ -3,12 +3,12 @@ import { useActor } from "@xstate/react";
 import { MachineInterpreter } from "../../lib/craftingMachine";
 import Modal from "react-bootstrap/esm/Modal";
 import { Panel } from "components/ui/Panel";
-import { DynamicNFT } from "features/island/bumpkin/components/DynamicNFT";
 
 import close from "assets/icons/close.png";
 import stopwatch from "assets/icons/stopwatch.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToMidString } from "lib/utils/time";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 interface Props {
   service: MachineInterpreter;
