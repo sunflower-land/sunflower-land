@@ -35,6 +35,7 @@ export const CraftingTimerModal: React.FC<Props> = ({
 
   if (!secondsTillReady || !name) {
     onClose();
+    return null;
   }
 
   return (
