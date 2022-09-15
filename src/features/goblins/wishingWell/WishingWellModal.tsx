@@ -257,7 +257,7 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const goToQuickSwap = () => {
     window.open(
-      "https://quickswap.exchange/#/add/ETH/0xD1f9c58e33933a993A3891F8acFe05a68E1afC05",
+      "https://quickswap.exchange/#/analytics/pair/0x6f9e92dd4734c168a734b873dc3db77e39552eb6",
       "_blank"
     );
   };
