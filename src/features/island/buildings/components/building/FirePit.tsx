@@ -51,15 +51,18 @@ export const FirePit: React.FC<CraftingMachineChildProps> = ({
 
   const handleClick = () => {
     if (idle) {
-      return setShowModal(true);
+      setShowModal(true);
+      return;
     }
 
     if (crafting) {
       handleShowCraftingTimer();
+      return;
     }
 
     if (ready) {
       handleCollect();
+      return;
     }
   };
 
