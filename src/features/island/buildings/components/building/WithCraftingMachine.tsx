@@ -55,7 +55,6 @@ export const WithCraftingMachine = ({
 
   const craftingService = useInterpret(craftingMachine, {
     context: craftingMachineContext,
-    devTools: true,
   }) as unknown as MachineInterpreter;
 
   const idle = useSelector(craftingService, isIdle);
