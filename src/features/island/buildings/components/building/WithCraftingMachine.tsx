@@ -40,17 +40,13 @@ export const WithCraftingMachine = ({
   const [showTimer, setShowTimer] = useState(false);
   const { gameService } = useContext(Context);
   const craftingInProgress = craftingState && !isEmpty(craftingState);
-  const craftingMachineContext: Partial<CraftingContext> | undefined = {
+  const craftingMachineContext: CraftingContext = {
     gameService,
     buildingId,
     ...(craftingInProgress && {
       name: craftingState.name,
       readyAt: craftingState.readyAt,
     }),
-  };
-
-  const handleShowCraftingTimer = () => {
-    setShowTimer(true);
   };
 
   const craftingService = useInterpret(craftingMachine, {
@@ -61,6 +57,10 @@ export const WithCraftingMachine = ({
   const crafting = useSelector(craftingService, isCrafting);
   const ready = useSelector(craftingService, isReady);
   const name = useSelector(craftingService, itemName);
+
+  const handleShowCraftingTimer = () => {
+    setShowTimer(true);
+  };
 
   // The building component is cloned and crafting state machine props are injected into it
   const clonedChildren = React.cloneElement(children, {
