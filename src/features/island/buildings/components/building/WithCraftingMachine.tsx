@@ -27,7 +27,7 @@ export interface CraftingMachineChildProps extends BuildingProps {
 }
 
 /**
- * Wrapper component for buildings that have the ability to crafting items. This wrapper will
+ * Wrapper component for buildings that have the ability to craft items. This wrapper will
  * inject the craftingMachine into the building which will handle the crafting process for that building.
  */
 export const WithCraftingMachine = ({
