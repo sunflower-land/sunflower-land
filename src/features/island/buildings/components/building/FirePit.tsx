@@ -71,16 +71,9 @@ export const FirePit: React.FC<CraftingMachineChildProps> = ({
         onClick={handleClick}
       >
         {ready && name && (
-          <img
-            src={ITEM_DETAILS[name].image}
-            className={classNames(
-              "w-5 absolute -top-7 left-1/2 -translate-x-1/2",
-              {
-                "opacity-100": !crafting,
-                "opacity-80": crafting,
-              }
-            )}
-          />
+          <div className="flex justify-center absolute -top-7 w-full">
+            <img src={ITEM_DETAILS[name].image} className="w-5 ready" />
+          </div>
         )}
         <img
           src={firePit}
