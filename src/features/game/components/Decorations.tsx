@@ -32,6 +32,7 @@ import mysteriousHead from "assets/nfts/mysterious_head.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
 import farmerBath from "assets/nfts/farmer_bath.png";
 import swimmer from "assets/npcs/swimmer.gif";
+import trivia from "assets/npcs/trivia.gif";
 
 import beaver from "assets/nfts/beaver.gif";
 import apprentice from "assets/nfts/apprentice_beaver.gif";
@@ -311,6 +312,51 @@ export const NyonStatue: React.FC = () => {
   );
 };
 
+export const Trivia: React.FC = () => {
+  const [showModal, setShowModal] = useState(true);
+
+  return (
+    <>
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 1.8}px`,
+          top: `${GRID_WIDTH_PX * 20}px`,
+          right: `${GRID_WIDTH_PX * 30}px`,
+        }}
+        className="hover:img-highlight cursor-pointer absolute"
+        src={trivia}
+        alt="Goblin Trivia"
+        onClick={() => setShowModal(true)}
+      />
+      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+        <Panel>
+          <img
+            src={close}
+            className="h-6 top-4 right-4 absolute cursor-pointer"
+            onClick={() => setShowModal(false)}
+          />
+          <div className="flex flex-col justify-content-between">
+            <img
+              style={{
+                width: `${GRID_WIDTH_PX * 3}px`,
+              }}
+              className="hover:img-highlight cursor-pointer mb-2 m-auto"
+              src={trivia}
+              alt="Goblin Trivia"
+              onClick={() => setShowModal(true)}
+            />
+            <p className="text-left mb-2">Congratulations Team Goblin.</p>
+            <p className="text-left mb-2">
+              The reigning champions of Sunflower Trivia
+            </p>
+            <span className="text-xxs text-left">Artwork - Netherzapdos</span>
+          </div>
+        </Panel>
+      </Modal>
+    </>
+  );
+};
+
 interface RockGolemProps {
   state: GameState;
 }
@@ -557,6 +603,8 @@ export const Decorations: React.FC<Props> = ({ state }) => (
     >
       <Scarecrows inventory={state.inventory} />
     </div>
+
+    <Trivia />
 
     {state.inventory["Nyon Statue"] && (
       <div
