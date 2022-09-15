@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useInterpret, useSelector } from "@xstate/react";
 import isEmpty from "lodash.isempty";
 import { Context } from "features/game/GameProvider";
@@ -61,6 +61,12 @@ export const WithCraftingMachine = ({
   const handleShowCraftingTimer = () => {
     setShowTimer(true);
   };
+
+  useEffect(() => {
+    if (crafting && craftingService.state.event.type === "CRAFT") {
+      handleShowCraftingTimer();
+    }
+  }, [crafting, craftingService]);
 
   // The building component is cloned and crafting state machine props are injected into it
   const clonedChildren = React.cloneElement(children, {
