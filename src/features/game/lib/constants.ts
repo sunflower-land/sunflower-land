@@ -350,22 +350,6 @@ export const INITIAL_FARM: GameState = {
       },
     ],
   },
-
-  bumpkin: {
-    level: 2,
-    equipped: {
-      body: "Beige Farmer Potion",
-      eyes: "Rosy Butterfly Eyes",
-      hair: "Basic Hair",
-      mouth: "Wide Smile",
-      pants: "Farmer Overalls",
-      shirt: "Blue Farmer Shirt",
-      shoes: "Black Farmer Boots",
-      tool: "Farmer Pitchfork",
-    },
-    id: 2,
-    tokenUri: "",
-  },
 };
 
 export const EMPTY: GameState = {
