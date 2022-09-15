@@ -2,8 +2,8 @@ import React from "react";
 import classNames from "classnames";
 import { getKeys } from "features/game/types/craftables";
 
-import farmBackground from "src/assets/bumpkins/large/background/farm_background.png";
-import dropShadow from "assets/bumpkins/large/body_dropshadow.png";
+import farmBackground from "src/assets/bumpkins/shop/background/farm_background.png";
+import dropShadow from "assets/bumpkins/shop/body_dropshadow.png";
 
 import {
   BumpkinItems,
