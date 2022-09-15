@@ -20,7 +20,8 @@ export const FirePit: React.FC<CraftingMachineChildProps> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  if (!craftingService || !handleShowCraftingTimer) return <></>;
+  if (!craftingService || !handleShowCraftingTimer)
+    return <img src={firePit} className="w-full" />;
 
   const handleCook = (item: ConsumableName) => {
     craftingService.send({
