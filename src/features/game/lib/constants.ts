@@ -71,6 +71,8 @@ export const INITIAL_STOCK: Inventory = {
   "Parsnip Cake": new Decimal(1),
   "Radish Cake": new Decimal(1),
   "Wheat Cake": new Decimal(1),
+
+  "Boiled Egg": new Decimal(1),
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
@@ -296,7 +298,6 @@ export const INITIAL_FARM: GameState = {
     "Human War Banner": new Decimal(1),
     Warrior: new Decimal(1),
   },
-
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,

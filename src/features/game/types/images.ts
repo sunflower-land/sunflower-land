@@ -989,4 +989,9 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "A reward for your war efforts.",
   },
+
+  "Boiled Egg": {
+    image: egg,
+    description: "A boiled egg",
+  },
 };
