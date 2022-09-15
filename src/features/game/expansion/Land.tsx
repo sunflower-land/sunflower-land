@@ -197,8 +197,8 @@ export const Land: React.FC = () => {
             <Character
               body={gameState.context.state.bumpkin.equipped.body}
               hair={gameState.context.state.bumpkin.equipped.hair}
+              shirt={gameState.context.state.bumpkin.equipped.shirt}
               pants={gameState.context.state.bumpkin.equipped.pants}
-              onClick={console.log}
             />
           </MapPlacement>
         )}
