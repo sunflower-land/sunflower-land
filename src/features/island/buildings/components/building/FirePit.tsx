@@ -55,8 +55,6 @@ export const FirePit: React.FC<CraftingMachineChildProps> = ({
     }
 
     if (crafting) {
-      console.log("isCrafting");
-      console.log(handleShowCraftingTimer);
       handleShowCraftingTimer();
     }
 
