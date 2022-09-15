@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import brownDisc from "assets/icons/empty_disc.png";
 import staminaIcon from "assets/icons/lightning.png";
 import heart from "assets/icons/heart.png";
-import head from "assets/bumpkins/example.png";
 import progressBar from "assets/ui/progress/transparent_bar.png";
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 import { Modal } from "react-bootstrap";
@@ -53,7 +52,7 @@ export const BumpkinHUD: React.FC = () => {
               borderRadius: "40%",
             }}
           >
-            <img
+            {/* <img
               src={head}
               style={{
                 width: "200%",
@@ -61,7 +60,7 @@ export const BumpkinHUD: React.FC = () => {
                 position: "relative",
                 top: "10%",
               }}
-            />
+            /> */}
           </div>
         </div>
         <div>
