@@ -7,6 +7,7 @@ import shovel from "assets/announcements/shovel.png";
 import warWeekOne from "assets/announcements/war_week_1.png";
 import warWeekTwo from "assets/announcements/war_week_two.png";
 import warTent from "assets/announcements/war_tent.png";
+import roadmap from "assets/announcements/roadmap.png";
 
 export interface Announcement {
   date: Date;
@@ -21,6 +22,18 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2022-09-15T22:00:00"),
+    title: "Roadmap Updates",
+    notes: [
+      "The team is getting closer to launch!",
+      "Land Expansion, more crops, more buildings & more resources.",
+      "Have a sneak peak of what is coming",
+    ],
+    link: "https://docs.sunflower-land.com/fundamentals/roadmap/launch",
+    image: roadmap,
+    type: "war",
+  },
   {
     date: new Date("2022-09-12T00:00:00"),
     title: "The woods for the trees",
