@@ -7,8 +7,11 @@ import { ConsumableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "./WithCraftingMachine";
+import { BuildingProps } from "./Building";
 
-export const FirePit: React.FC<CraftingMachineChildProps> = ({
+type Props = BuildingProps & Partial<CraftingMachineChildProps>;
+
+export const FirePit: React.FC<Props> = ({
   buildingId,
   crafting,
   idle,

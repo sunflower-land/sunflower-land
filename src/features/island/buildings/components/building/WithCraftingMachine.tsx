@@ -18,12 +18,12 @@ const isReady = (state: MachineState) => state.matches("ready");
 const itemName = (state: MachineState) => state.context.name;
 
 export interface CraftingMachineChildProps extends BuildingProps {
-  idle?: boolean;
-  crafting?: boolean;
-  ready?: boolean;
+  idle: boolean;
+  crafting: boolean;
+  ready: boolean;
   name?: ConsumableName;
-  craftingService?: MachineInterpreter;
-  handleShowCraftingTimer?: () => void;
+  craftingService: MachineInterpreter;
+  handleShowCraftingTimer: () => void;
 }
 
 /**
