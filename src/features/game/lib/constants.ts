@@ -298,11 +298,6 @@ export const INITIAL_FARM: GameState = {
     "Human War Banner": new Decimal(1),
     Warrior: new Decimal(1),
   },
-
-  bumpkin: {
-    id: 1,
-  },
-
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,
@@ -331,19 +326,7 @@ export const INITIAL_FARM: GameState = {
   plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
-  buildings: {
-    "Fire Pit": [
-      {
-        coordinates: {
-          x: 2,
-          y: 2,
-        },
-        createdAt: 0,
-        id: "123",
-        readyAt: 0,
-      },
-    ],
-  },
+  buildings: {},
   airdrops: [
     {
       createdAt: Date.now(),

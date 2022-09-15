@@ -7,7 +7,6 @@ const GAME_STATE: GameState = {
   ...INITIAL_FARM,
   balance: new Decimal(0),
   inventory: {},
-  trees: {},
 };
 
 describe("cook", () => {
@@ -146,6 +145,72 @@ describe("cook", () => {
 
     expect(state.inventory["Radish"]).toEqual(new Decimal(2));
     expect(state.inventory["Gold"]).toEqual(new Decimal(4));
+  });
+
+  it("does not cook an item that is not in stock", () => {
+    expect(() =>
+      cook({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Egg: new Decimal(2),
+          },
+          stock: {},
+          buildings: {
+            "Fire Pit": [
+              {
+                coordinates: {
+                  x: 2,
+                  y: 3,
+                },
+                readyAt: 1660563190206,
+                createdAt: 1660563160206,
+                id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipe.cooked",
+          item: "Boiled Egg",
+          buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+        },
+      })
+    ).toThrow("Not enough stock");
+  });
+
+  it("removes the item from the stock amount", () => {
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Egg: new Decimal(2),
+        },
+        stock: {
+          "Boiled Egg": new Decimal(2),
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: {
+                x: 2,
+                y: 3,
+              },
+              readyAt: 1660563190206,
+              createdAt: 1660563160206,
+              id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Boiled Egg",
+        buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+      },
+    });
+
+    expect(state.stock["Boiled Egg"]).toEqual(new Decimal(1));
   });
 
   it("adds the crafting state to the building data structure", () => {

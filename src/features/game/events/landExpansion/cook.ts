@@ -43,6 +43,12 @@ export function cook({
     throw new Error("Cooking already in progress");
   }
 
+  const stockAmount = stateCopy.stock[action.item] || new Decimal(0);
+
+  if (stockAmount.lessThan(1)) {
+    throw new Error("Not enough stock");
+  }
+
   const subtractedInventory = getKeys(ingredients).reduce(
     (inventory, ingredient) => {
       const count = inventory[ingredient] || new Decimal(0);
@@ -64,6 +70,8 @@ export function cook({
     name: action.item,
     readyAt: createdAt + CONSUMABLES[action.item].cookingSeconds * 1000,
   };
+
+  stateCopy.stock[action.item] = stockAmount.minus(new Decimal(1));
 
   return {
     ...stateCopy,
