@@ -9,7 +9,6 @@ export const Bumpkin: React.FC = () => {
         body="Beige Farmer Potion"
         hair="Basic Hair"
         pants="Farmer Overalls"
-        onClick={() => console.log("TEST")}
       />
     </div>
   );

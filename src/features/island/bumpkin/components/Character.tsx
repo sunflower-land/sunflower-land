@@ -5,7 +5,7 @@ import {
   BumpkinShirt,
   BumpkinHair,
 } from "features/game/types/bumpkin";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 // Bodies
 import lightFarmer from "assets/bumpkins/small/body/beige_farmer.gif";
@@ -33,6 +33,9 @@ import farmerPants from "assets/bumpkins/small/pants/lumberjack_overalls.gif"; /
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import classNames from "classnames";
 import { HealthBar } from "components/ui/HealthBar";
+import { Context } from "features/game/GameProvider";
+import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { InventoryItemName } from "features/game/types/game";
 
 const HITS = 2;
 
@@ -58,6 +61,9 @@ const PARTS: Partial<Record<BumpkinItems, string>> = {
   "Farmer Pants": farmerPants,
 };
 
+const isConsumeable = (item: InventoryItemName): item is ConsumableName =>
+  item in CONSUMABLES;
+
 interface Props {
   body: BumpkinBody;
   hair?: BumpkinHair;
@@ -66,6 +72,8 @@ interface Props {
 }
 
 export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
+  const { gameService, selectedItem } = useContext(Context);
+
   const [showPopover, setShowPopover] = useState(false);
   const [touchCount, setTouchCount] = useState(0);
 
@@ -92,12 +100,19 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
     setShowPopover(false);
   };
 
-  const eat = () => console.log("Yummy");
+  const eat = (item: ConsumableName) => {
+    gameService.send("bumpkin.feed", {
+      item,
+    });
+  };
 
-  const shake = () => {
-    const foodSelected = true;
+  const feed = () => {
+    if (!selectedItem) {
+      displayPopover();
+      return;
+    }
 
-    if (!foodSelected) {
+    if (!isConsumeable(selectedItem)) {
       displayPopover();
       return;
     }
@@ -108,7 +123,7 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
     setTouchCount((count) => count + 1);
 
     if (touchCount > 0 && touchCount === HITS - 1) {
-      eat();
+      eat(selectedItem);
       setTouchCount(0);
     }
   };
@@ -116,7 +131,7 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
   return (
     <div
       className="w-full cursor-pointer hover:img-highlight"
-      onClick={() => shake()}
+      onClick={() => feed()}
       ref={characterRef}
     >
       <img
