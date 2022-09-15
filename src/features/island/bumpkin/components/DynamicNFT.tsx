@@ -18,12 +18,14 @@ import explorerHair from "assets/bumpkins/large/hair/explorer.png";
 import rancherHair from "assets/bumpkins/large/hair/rancher.png";
 import farmerPants from "assets/bumpkins/large/pants/farmer_pants.png";
 import blackFarmerBoots from "assets/bumpkins/large/shoes/black_farmer_boots.png";
+import frogBoots from "assets/bumpkins/large/shoes/frog_boots.png";
 import smile from "assets/bumpkins/large/mouths/smile.png";
 import farmerPitchfork from "assets/bumpkins/large/tools/farmer_pitchfork.png";
 import sunflowerAmulet from "src/assets/bumpkins/large/necklaces/sunflower_amulet.png";
 import carrotAmulet from "src/assets/bumpkins/large/necklaces/carrot_amulet.png";
 import beetrootAmulet from "src/assets/bumpkins/large/necklaces/beetroot_amulet.png";
 import greenAmulet from "src/assets/bumpkins/large/necklaces/green_amulet.png";
+import farmBackground from "src/assets/bumpkins/large/background/farm_background.png";
 
 import warriorShirt from "src/assets/bumpkins/large/shirts/warrior_top.png";
 import warriorPants from "src/assets/bumpkins/large/pants/warrior_pants.png";
@@ -40,7 +42,7 @@ interface Props {
   bumpkinParts: BumpkinParts;
 }
 
-const ITEM_IMAGES: Record<BumpkinItems, string> = {
+export const ITEM_IMAGES: Record<BumpkinItems, string> = {
   "Beige Farmer Potion": beigeFarmerPotion,
   "Light Brown Farmer Potion": lightBrownFarmerPotion, // TODO
   "Dark Brown Farmer Potion": darkBrownFarmerPotion,
@@ -71,9 +73,12 @@ const ITEM_IMAGES: Record<BumpkinItems, string> = {
   "Carrot Amulet": carrotAmulet,
   "Beetroot Amulet": beetrootAmulet,
   "Green Amulet": greenAmulet,
+  "Farm Background": farmBackground,
+  "Frog Boots": frogBoots,
 };
 
 export const DynamicNFT: React.FC<Props> = ({ bumpkinParts }) => {
+  console.log({ bumpkinParts });
   return (
     <div className="relative w-full">
       <img
@@ -81,13 +86,12 @@ export const DynamicNFT: React.FC<Props> = ({ bumpkinParts }) => {
         alt="drop-shadow"
         className="absolute bottom-0 z-0 opacity-30"
       />
+      <img src={farmBackground} alt="background" className="z-0 w-full" />
       {getKeys(bumpkinParts).map((part: BumpkinPart, index) => (
         <img
           key={part}
           src={ITEM_IMAGES[bumpkinParts[part] as BumpkinItems]}
-          className={classNames(`inset-0 z-${index * 10} w-full`, {
-            absolute: part !== "body",
-          })}
+          className={classNames(`inset-0 z-${index * 10} w-full absolute`, {})}
         />
       ))}
     </div>

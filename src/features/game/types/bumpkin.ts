@@ -22,7 +22,7 @@ export type BumpkinMouths = "Wide Smile" | "Wide Smile With Teeth";
 
 export type BumpkinTools = "Farmer Pitchfork";
 
-export type BumpkinShoes = "Black Farmer Boots";
+export type BumpkinShoes = "Black Farmer Boots" | "Frog Boots";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -31,6 +31,8 @@ export type BumpkinNecklace =
   | "Green Amulet";
 
 export type BumpkinHat = "Farmer Hat" | "Chef Hat" | "Warrior Helmet";
+
+export type BumpkinWallpaper = "Farm Background";
 
 export type BumpkinPants =
   | "Farmer Overalls"
@@ -48,7 +50,8 @@ export type BumpkinItems =
   | BumpkinTools
   | BumpkinShoes
   | BumpkinHat
-  | BumpkinNecklace;
+  | BumpkinNecklace
+  | BumpkinWallpaper;
 
 export const ITEM_IDS: Record<BumpkinItems, number> = {
   "Beige Farmer Potion": 1,
@@ -81,6 +84,8 @@ export const ITEM_IDS: Record<BumpkinItems, number> = {
   "Carrot Amulet": 28,
   "Beetroot Amulet": 29,
   "Green Amulet": 30,
+  "Farm Background": 33, // TODO -just testing
+  "Frog Boots": 34, // TODO -just testing
 };
 
 // The reverse of above
@@ -103,6 +108,7 @@ export type BumpkinParts = {
   tool?: BumpkinTools;
   necklace?: BumpkinNecklace;
   hat?: BumpkinHat;
+  background?: BumpkinWallpaper;
 };
 
 export type BumpkinPart = keyof BumpkinParts;
