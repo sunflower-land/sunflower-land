@@ -11,7 +11,7 @@
     "format": "yarn lint --fix",
     "preview": "vite preview",
     "test": "jest",
-    "erc1155": "ts-node --project _scripts/node.tsconfig.json _scripts/erc1155Metadata.ts",
+    "metadata": "ts-node --project metadata/node.tsconfig.json metadata/generateMetadata.ts",
     "prepare": "husky install"
   },
   "browserslist": [
