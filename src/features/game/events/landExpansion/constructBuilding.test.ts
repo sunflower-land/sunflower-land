@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { LEVEL_BRACKETS } from "features/game/lib/level";
 import { INITIAL_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { constructBuilding } from "./constructBuilding";
@@ -11,7 +12,7 @@ describe("Construct building", () => {
   it("ensures a player has a Bumpkin", () => {
     expect(() =>
       constructBuilding({
-        state: { ...GAME_STATE },
+        state: { ...GAME_STATE, bumpkin: undefined },
         action: {
           type: "building.constructed",
           name: "Workbench",
@@ -30,7 +31,6 @@ describe("Construct building", () => {
           ...GAME_STATE,
           bumpkin: {
             id: 1,
-            level: 1,
             equipped: {
               body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
@@ -41,6 +41,11 @@ describe("Construct building", () => {
               shoes: "Black Farmer Boots",
             },
             tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+            experience: 0,
+            stamina: {
+              value: 0,
+              replenishedAt: 0,
+            },
           },
         },
         action: {
@@ -78,7 +83,11 @@ describe("Construct building", () => {
           ...GAME_STATE,
           bumpkin: {
             id: 1,
-            level: 2,
+            experience: 0,
+            stamina: {
+              value: 0,
+              replenishedAt: 0,
+            },
             equipped: {
               body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
@@ -136,7 +145,11 @@ describe("Construct building", () => {
           },
           bumpkin: {
             id: 1,
-            level: 2,
+            experience: LEVEL_BRACKETS[2],
+            stamina: {
+              value: 0,
+              replenishedAt: 0,
+            },
             equipped: {
               body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
@@ -173,7 +186,11 @@ describe("Construct building", () => {
           },
           bumpkin: {
             id: 1,
-            level: 2,
+            experience: 0,
+            stamina: {
+              value: 0,
+              replenishedAt: 0,
+            },
             equipped: {
               body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
@@ -207,7 +224,11 @@ describe("Construct building", () => {
         inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
         bumpkin: {
           id: 1,
-          level: 2,
+          experience: 0,
+          stamina: {
+            value: 0,
+            replenishedAt: 0,
+          },
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -244,7 +265,11 @@ describe("Construct building", () => {
         },
         bumpkin: {
           id: 1,
-          level: 2,
+          experience: 0,
+          stamina: {
+            value: 0,
+            replenishedAt: 0,
+          },
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -279,7 +304,11 @@ describe("Construct building", () => {
         inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
         bumpkin: {
           id: 1,
-          level: 2,
+          experience: 0,
+          stamina: {
+            value: 0,
+            replenishedAt: 0,
+          },
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -319,7 +348,11 @@ describe("Construct building", () => {
         inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
         bumpkin: {
           id: 1,
-          level: 2,
+          experience: LEVEL_BRACKETS[2],
+          stamina: {
+            value: 0,
+            replenishedAt: 0,
+          },
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -355,7 +388,11 @@ describe("Construct building", () => {
         },
         bumpkin: {
           id: 1,
-          level: 2,
+          experience: LEVEL_BRACKETS[2],
+          stamina: {
+            value: 0,
+            replenishedAt: 0,
+          },
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -392,7 +429,6 @@ describe("Construct building", () => {
         },
         bumpkin: {
           id: 1,
-          level: 2,
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -403,6 +439,11 @@ describe("Construct building", () => {
             shoes: "Black Farmer Boots",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+          experience: 0,
+          stamina: {
+            value: 0,
+            replenishedAt: 0,
+          },
         },
         buildings: {
           "Fire Pit": [
@@ -458,7 +499,6 @@ describe("Construct building", () => {
         },
         bumpkin: {
           id: 1,
-          level: 2,
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -470,6 +510,11 @@ describe("Construct building", () => {
             tool: "Farmer Pitchfork",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+          experience: 0,
+          stamina: {
+            value: 0,
+            replenishedAt: 0,
+          },
         },
         buildings: {
           ...buildings,

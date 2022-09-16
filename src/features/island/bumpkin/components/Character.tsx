@@ -100,9 +100,9 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
     setShowPopover(false);
   };
 
-  const eat = (item: ConsumableName) => {
+  const eat = (food: ConsumableName) => {
     gameService.send("bumpkin.feed", {
-      item,
+      food,
     });
   };
 

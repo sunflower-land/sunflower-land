@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
 import {
+  Bumpkin,
   ChickenPosition,
   GameState,
   Inventory,
@@ -279,6 +280,26 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
 
 export const INITIAL_EXPANSIONS = [GENESIS_LAND_EXPANSION];
 
+export const INITIAL_BUMPKIN: Bumpkin = {
+  id: 1,
+  experience: 0,
+  equipped: {
+    body: "Light Brown Farmer Potion",
+    hair: "Basic Hair",
+    eyes: "Rosy Wide Eyes",
+    mouth: "Wide Smile",
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+  },
+  tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+  stamina: {
+    value: 0,
+    replenishedAt: 0,
+  },
+};
+
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
@@ -350,6 +371,7 @@ export const INITIAL_FARM: GameState = {
       },
     ],
   },
+  bumpkin: INITIAL_BUMPKIN,
 };
 
 export const EMPTY: GameState = {
