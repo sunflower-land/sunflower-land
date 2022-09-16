@@ -178,7 +178,7 @@ export const Basket: React.FC = () => {
             </div>
           </div>
         )}
-        {(foods.length || consumables.length) && (
+        {!!(foods.length || consumables.length) && (
           <div className="flex flex-col pl-2" key={"foods"}>
             {<p className="mb-2 underline">Foods</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
