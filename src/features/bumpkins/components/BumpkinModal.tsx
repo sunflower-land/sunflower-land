@@ -79,7 +79,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
             className="underline text-xxs"
             rel="noreferrer"
           >
-            Bumpkin Shop
+            Visit Bumpkin
           </a>
         </div>
       </div>

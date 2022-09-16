@@ -21,6 +21,9 @@ export const DynamicNFT: React.FC<Props> = ({
   bumpkinParts,
   showBackground,
 }) => {
+  if (!bumpkinParts) {
+    return null;
+  }
   const {
     background,
     body,
@@ -61,7 +64,7 @@ export const DynamicNFT: React.FC<Props> = ({
         <img
           src={BUMPKIN_ITEMS[background as BumpkinWallpaper].layerImage}
           alt="background"
-          className="z-0 w-full"
+          className="z-0 w-full absolute"
         />
       )}
       {getKeys(orderedParts)
@@ -70,10 +73,10 @@ export const DynamicNFT: React.FC<Props> = ({
           <img
             key={part}
             src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItems].layerImage}
-            className={classNames(
-              `inset-0 z-${index * 10} w-full absolute`,
-              {}
-            )}
+            className={classNames(`inset-0 z-${index * 10} w-full absolute`, {
+              // The body sets the dimensions
+              relative: part === "body",
+            })}
           />
         ))}
     </div>

@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 
-import brownDisc from "assets/icons/empty_disc.png";
+import discTop from "assets/icons/empty_disc_top.png";
+import discBottom from "assets/icons/empty_disc_bottom.png";
+import discBackground from "assets/icons/empty_disc_background.png";
 import staminaIcon from "assets/icons/lightning.png";
 import heart from "assets/icons/heart.png";
 import progressBar from "assets/ui/progress/transparent_bar.png";
@@ -47,38 +49,29 @@ export const BumpkinHUD: React.FC = () => {
           className="w-16 h-16 relative cursor-pointer hover:img-highlight"
           onClick={() => setShowBumpkinModal(true)}
         >
+          <img src={discTop} className="absolute inset-0 w-full h-full z-10" />
           <img
-            src={brownDisc}
-            className="absolute inset-0 w-full h-full z-10 z-20"
+            src={discBottom}
+            className="absolute inset-0 w-full h-full z-30"
+          />
+          <img
+            src={discBackground}
+            className="absolute inset-0 w-full h-full z-0"
           />
           <div
-            className="relative overflow-hidden"
+            className="absolute inset-0  z-20 overflow-hidden"
             style={{
-              backgroundColor: "#bfcbda",
-              width: "90%",
-              height: "90%",
-              position: "relative",
-              top: "5%",
-              left: "5%",
-              borderRadius: "40%",
+              height: "85%",
+              width: "88%",
             }}
           >
-            {/* <img
-              src={head}
-              style={{
-                width: "200%",
-                left: "13%",
-                position: "relative",
-                top: "10%",
-              }}
-            /> */}
             <div
-              className="z-10"
+              className="z-20"
               style={{
                 width: "200%",
-                left: "-41%",
                 position: "relative",
-                top: "-8%",
+                left: "-35%",
+                top: "-4%",
               }}
             >
               <DynamicNFT
