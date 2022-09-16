@@ -1,4 +1,6 @@
 import Decimal from "decimal.js-light";
+import { MAX_STAMINA } from "features/game/lib/constants";
+import { getBumpkinLevel } from "features/game/lib/level";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
@@ -29,13 +31,18 @@ export function feedBumpkin({
     throw new Error("You do not have a Bumpkin");
   }
 
+  const maxStamina = MAX_STAMINA[getBumpkinLevel(bumpkin.experience)];
+
   if (quantity.lte(0)) {
     throw new Error("You have none of this food type");
   }
 
   inventory[action.food] = quantity.sub(1);
   bumpkin.experience += CONSUMABLES[action.food].experience;
-  bumpkin.stamina.value += CONSUMABLES[action.food].stamina;
+  bumpkin.stamina.value = Math.min(
+    bumpkin.stamina.value + CONSUMABLES[action.food].stamina,
+    maxStamina
+  );
 
   return stateCopy;
 }

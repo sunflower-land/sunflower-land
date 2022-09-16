@@ -1,6 +1,6 @@
 import { getKeys } from "../types/craftables";
 
-type BumpkinLevel = 1 | 2 | 3;
+export type BumpkinLevel = 1 | 2 | 3;
 
 export const LEVEL_BRACKETS: Record<BumpkinLevel, number> = {
   1: 100,

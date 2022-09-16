@@ -8,6 +8,7 @@ import {
   LandExpansion,
 } from "../types/game";
 import { TerrainTypeEnum } from "./getTerrainImageByKey";
+import { BumpkinLevel } from "./level";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -401,4 +402,10 @@ export const EMPTY: GameState = {
   expansions: INITIAL_EXPANSIONS,
   buildings: {},
   collectibles: {},
+};
+
+export const MAX_STAMINA: Record<BumpkinLevel, number> = {
+  1: 10,
+  2: 50,
+  3: 100,
 };

@@ -1,8 +1,13 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_BUMPKIN, INITIAL_FARM } from "features/game/lib/constants";
+import {
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+  MAX_STAMINA,
+} from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { feedBumpkin } from "./feedBumpkin";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 describe("feedBumpkin", () => {
   it("requires a bumpkin", () => {
@@ -81,5 +86,30 @@ describe("feedBumpkin", () => {
       (state.bumpkin?.stamina.value as number) +
         CONSUMABLES["Boiled Egg"].stamina
     );
+  });
+
+  it("prevents stamina from going over max", () => {
+    const now = Date.now();
+    const maxStamina = MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)];
+
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: { "Boiled Egg": new Decimal(2) },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        stamina: {
+          value: maxStamina,
+          replenishedAt: 0,
+        },
+      },
+    };
+
+    const stateCopy = feedBumpkin({
+      state,
+      action: { type: "bumpkin.feed", food: "Boiled Egg" },
+      createdAt: now,
+    });
+
+    expect(stateCopy.bumpkin?.stamina.value).toBe(maxStamina);
   });
 });
