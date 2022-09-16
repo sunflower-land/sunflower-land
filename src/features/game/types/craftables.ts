@@ -943,6 +943,14 @@ export const getKeys = Object.keys as <T extends object>(
   obj: T
 ) => Array<keyof T>;
 
+/**
+ * getEntries is a ref to Object.entries, but the return is typed literally.
+ */
+type Entries<T> = { [K in keyof T]: [K, T[K]] }[keyof T];
+export const getEntries = Object.entries as <T extends object>(
+  obj: T
+) => Entries<T>[];
+
 export const LIMITED_ITEMS = {
   ...BLACKSMITH_ITEMS,
   ...BARN_ITEMS,

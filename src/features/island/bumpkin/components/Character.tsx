@@ -5,7 +5,7 @@ import {
   BumpkinShirt,
   BumpkinHair,
 } from "features/game/types/bumpkin";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 
 // Bodies
 import lightFarmer from "assets/bumpkins/small/body/beige_farmer.gif";
@@ -24,18 +24,16 @@ import blueFarmerShirt from "assets/bumpkins/small/shirts/blue_farmer_shirt.gif"
 
 // Miscellaneous
 import shadow from "assets/npcs/shadow.png";
-import cancel from "assets/icons/cancel.png";
 
 // Pants
 import farmerOveralls from "assets/bumpkins/small/pants/farmer_overalls.gif";
 import lumberjackOveralls from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
 import farmerPants from "assets/bumpkins/small/pants/lumberjack_overalls.gif"; // TODO
-import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
-import classNames from "classnames";
-import { HealthBar } from "components/ui/HealthBar";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { InventoryItemName } from "features/game/types/game";
+import { FeedModal } from "./FeedModal";
 
 const HITS = 2;
 
@@ -72,111 +70,47 @@ interface Props {
 }
 
 export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
-  const { gameService, selectedItem } = useContext(Context);
+  const { gameService } = useContext(Context);
 
-  const [showPopover, setShowPopover] = useState(false);
-  const [touchCount, setTouchCount] = useState(0);
-
-  const characterRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (
-        characterRef.current &&
-        !characterRef.current.contains(event.target)
-      ) {
-        setTouchCount(0);
-      }
-    };
-    document.addEventListener("click", handleClickOutside, true);
-    return () => {
-      document.removeEventListener("click", handleClickOutside, true);
-    };
-  }, []);
-
-  const displayPopover = async () => {
-    setShowPopover(true);
-    await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
-    setShowPopover(false);
-  };
+  const [open, setOpen] = useState(false);
 
   const eat = (food: ConsumableName) => {
-    gameService.send("bumpkin.feed", {
-      food,
-    });
-  };
-
-  const feed = () => {
-    if (!selectedItem) {
-      displayPopover();
-      return;
-    }
-
-    if (!isConsumeable(selectedItem)) {
-      displayPopover();
-      return;
-    }
-
-    // Play audio
-
-    // Shake bumpkin
-    setTouchCount((count) => count + 1);
-
-    if (touchCount > 0 && touchCount === HITS - 1) {
-      eat(selectedItem);
-      setTouchCount(0);
-    }
+    gameService.send("bumpkin.feed", { food });
   };
 
   return (
-    <div
-      className="w-full cursor-pointer hover:img-highlight"
-      onClick={() => feed()}
-      ref={characterRef}
-    >
-      <img
-        src={PARTS[body]}
-        className="z-0"
-        style={{ width: `${20 * PIXEL_SCALE}px` }}
-      />
-      {hair && (
-        <img src={PARTS[hair]} className="absolute w-full inset-0 z-10" />
-      )}
-      {shirt && (
-        <img src={PARTS[shirt]} className="absolute w-full inset-0 z-20" />
-      )}
-      {pants && (
-        <img src={PARTS[pants]} className="absolute w-full inset-0 z-30" />
-      )}
-      <img
-        src={shadow}
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-        }}
-        className="absolute w-full -bottom-1.5 -z-10 left-1.5"
-      />
+    <>
       <div
-        className={classNames(
-          "transition-opacity absolute -bottom-4 w-full z-40 pointer-events-none flex justify-center",
-          {
-            "opacity-100": showPopover,
-            "opacity-0": !showPopover,
-          }
-        )}
+        className="w-full cursor-pointer hover:img-highlight"
+        onClick={() => setOpen(true)}
       >
-        <img className="w-5" src={cancel} />
-      </div>
-      <div
-        className={classNames(
-          "transition-opacity pointer-events-none absolute -bottom-5 left-2",
-          {
-            "opacity-100": touchCount > 0,
-            "opacity-0": touchCount === 0,
-          }
+        <img
+          src={PARTS[body]}
+          className="z-0"
+          style={{ width: `${20 * PIXEL_SCALE}px` }}
+        />
+        {hair && (
+          <img src={PARTS[hair]} className="absolute w-full inset-0 z-10" />
         )}
-      >
-        <HealthBar percentage={(touchCount / 2) * 100} />
+        {shirt && (
+          <img src={PARTS[shirt]} className="absolute w-full inset-0 z-20" />
+        )}
+        {pants && (
+          <img src={PARTS[pants]} className="absolute w-full inset-0 z-30" />
+        )}
+        <img
+          src={shadow}
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+          }}
+          className="absolute w-full -bottom-1.5 -z-10 left-1.5"
+        />
       </div>
-    </div>
+      <FeedModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onFeed={(food) => eat(food)}
+      />
+    </>
   );
 };
