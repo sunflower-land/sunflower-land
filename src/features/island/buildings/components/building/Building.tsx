@@ -2,10 +2,14 @@ import React, { useRef, useState } from "react";
 import classNames from "classnames";
 
 import { BuildingName } from "features/game/types/buildings";
-import { PlacedItem as IBuilding } from "features/game/types/game";
+import {
+  BuildingProduct,
+  PlacedItem as IBuilding,
+} from "features/game/types/game";
 import { FirePit } from "./FirePit";
 import { TimeLeftOverlay } from "components/ui/TimeLeftOverlay";
 import { Bar } from "components/ui/ProgressBar";
+import { WithCraftingMachine } from "./WithCraftingMachine";
 
 interface Prop {
   name: BuildingName;
@@ -13,19 +17,28 @@ interface Prop {
   id: string;
 }
 
-type BuildingProp = {
-  id: string;
-};
+export interface BuildingProps {
+  buildingId: string;
+  craftingState?: BuildingProduct;
+}
 
-const BUILDING_COMPONENTS: Record<BuildingName, React.FC<BuildingProp>> = {
-  "Fire Pit": FirePit,
+const BUILDING_COMPONENTS: Record<BuildingName, React.FC<BuildingProps>> = {
+  "Fire Pit": ({ buildingId, craftingState }: BuildingProps) => (
+    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+      <FirePit buildingId={buildingId} />
+    </WithCraftingMachine>
+  ),
   Anvil: () => null,
   Bakery: () => null,
   Oven: () => null,
   Workbench: () => null,
 };
 
-export const Building: React.FC<Prop> = ({ name, building, id }) => {
+export const Building: React.FC<Prop> = ({
+  name,
+  building,
+  id: buildingId,
+}) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -50,7 +63,7 @@ export const Building: React.FC<Prop> = ({ name, building, id }) => {
               "opacity-50": inProgress,
             })}
           >
-            <BuildingPlaced id={id} />
+            <BuildingPlaced buildingId={buildingId} />
           </div>
           <div className="absolute bottom-0 w-8 left-1/2 -translate-x-1/2">
             <Bar percentage={(1 - secondsLeft / totalSeconds) * 100} />
@@ -67,5 +80,7 @@ export const Building: React.FC<Prop> = ({ name, building, id }) => {
     );
   }
 
-  return <BuildingPlaced id={id} />;
+  return (
+    <BuildingPlaced buildingId={buildingId} craftingState={building.crafting} />
+  );
 };

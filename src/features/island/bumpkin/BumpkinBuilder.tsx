@@ -4,7 +4,7 @@ import { getKeys } from "features/game/types/craftables";
 import { randomBetweenMaxExclusive as randomInt } from "features/game/expansion/lib/randomBetweenMaxExlusive";
 import { Button } from "components/ui/Button";
 import { DynamicNPC } from "./components/DynamicNPC";
-import { DynamicNFT } from "./components/DynamicNFT";
+import { DynamicNFT } from "../../bumpkins/components/DynamicNFT";
 
 import hairIcon from "assets/bumpkins/icons/hair_icon.png";
 import eyesIcon from "assets/bumpkins/icons/eyes_icon.png";

@@ -191,14 +191,14 @@ import firePit from "src/assets/buildings/fire_pit.png";
 
 // Clothing
 import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
-import chefApron from "src/assets/bumpkins/large/shirts/chef_apron.png";
-import sunflowerAmulet from "src/assets/bumpkins/large/necklaces/sunflower_amulet.png";
-import carrotAmulet from "src/assets/bumpkins/large/necklaces/carrot_amulet.png";
-import beetrootAmulet from "src/assets/bumpkins/large/necklaces/beetroot_amulet.png";
-import greenAmulet from "src/assets/bumpkins/large/necklaces/green_amulet.png";
-import warriorShirt from "src/assets/bumpkins/large/shirts/warrior_top.png";
-import warriorPants from "src/assets/bumpkins/large/pants/warrior_pants.png";
-import warriorHelmet from "src/assets/bumpkins/large/hats/warrior_helmet.png";
+import chefApron from "src/assets/bumpkins/shop/shirts/chef_apron.png";
+import sunflowerAmulet from "src/assets/bumpkins/shop/necklaces/sunflower_amulet.png";
+import carrotAmulet from "src/assets/bumpkins/shop/necklaces/carrot_amulet.png";
+import beetrootAmulet from "src/assets/bumpkins/shop/necklaces/beetroot_amulet.png";
+import greenAmulet from "src/assets/bumpkins/shop/necklaces/green_amulet.png";
+import warriorShirt from "src/assets/bumpkins/shop/shirts/warrior_top.png";
+import warriorPants from "src/assets/bumpkins/shop/pants/warrior_pants.png";
+import warriorHelmet from "src/assets/bumpkins/shop/hats/warrior_helmet.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -988,5 +988,10 @@ export const ITEM_DETAILS: Items = {
   "Reward 9": {
     image: questionMark,
     description: "A reward for your war efforts.",
+  },
+
+  "Boiled Egg": {
+    image: egg,
+    description: "A boiled egg",
   },
 };
