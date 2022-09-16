@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { ConsumableName } from "features/game/types/consumables";
+import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -22,7 +22,8 @@ export function feedBumpkin({
   const stateCopy = cloneDeep(state);
 
   const bumpkin = stateCopy.bumpkin;
-  const quantity = stateCopy.inventory[action.food] ?? new Decimal(0);
+  const inventory = stateCopy.inventory;
+  const quantity = inventory[action.food] ?? new Decimal(0);
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
@@ -32,7 +33,8 @@ export function feedBumpkin({
     throw new Error("You have none of this food type");
   }
 
-  stateCopy.inventory[action.food] = quantity.sub(1);
+  inventory[action.food] = quantity.sub(1);
+  bumpkin.experience += CONSUMABLES[action.food].experience;
 
   return stateCopy;
 }

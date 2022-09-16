@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
+import { CONSUMABLES } from "features/game/types/consumables";
 import { feedBumpkin } from "./feedBumpkin";
 
 describe("feedBumpkin", () => {
@@ -36,5 +37,22 @@ describe("feedBumpkin", () => {
     });
 
     expect(stateCopy.inventory["Boiled Egg"]).toEqual(new Decimal(1));
+  });
+
+  it("adds experience", () => {
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: { "Boiled Egg": new Decimal(2) },
+    };
+
+    const stateCopy = feedBumpkin({
+      state,
+      action: { type: "bumpkin.feed", food: "Boiled Egg" },
+    });
+
+    expect(stateCopy.bumpkin?.experience).toBe(
+      (state.bumpkin?.experience as number) +
+        CONSUMABLES["Boiled Egg"].experience
+    );
   });
 });
