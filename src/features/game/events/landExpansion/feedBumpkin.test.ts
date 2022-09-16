@@ -112,4 +112,31 @@ describe("feedBumpkin", () => {
 
     expect(stateCopy.bumpkin?.stamina.value).toBe(maxStamina);
   });
+
+  it("replenishes stamina before before eating", () => {
+    const now = Date.now();
+
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: { "Boiled Egg": new Decimal(2) },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        stamina: {
+          value: 0,
+          replenishedAt: 0,
+        },
+      },
+    };
+
+    const stateCopy = feedBumpkin({
+      state,
+      action: { type: "bumpkin.feed", food: "Boiled Egg" },
+      createdAt: now,
+    });
+
+    expect(stateCopy.bumpkin?.stamina.replenishedAt).toBe(now);
+    expect(stateCopy.bumpkin?.stamina.value).toBe(
+      MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)]
+    );
+  });
 });

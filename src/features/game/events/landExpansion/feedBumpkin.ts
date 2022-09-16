@@ -4,6 +4,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { replenishStamina } from "./replenishStamina";
 
 export type FeedBumpkinAction = {
   type: "bumpkin.feed";
@@ -21,7 +22,12 @@ export function feedBumpkin({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const replenishedState = replenishStamina({
+    state,
+    action: { type: "bumpkin.replenishStamina" },
+    createdAt,
+  });
+  const stateCopy = cloneDeep(replenishedState);
 
   const bumpkin = stateCopy.bumpkin;
   const inventory = stateCopy.inventory;
