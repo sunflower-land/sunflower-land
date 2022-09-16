@@ -31,7 +31,38 @@ import { SkillUpgrade } from "./components/SkillUpgrade";
 import { SkillTree } from "./components/SkillTree";
 import { homeDoorAudio } from "lib/utils/sfx";
 import { Button } from "components/ui/Button";
+import { Inventory } from "components/InventoryItems";
 
+export const Badges: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
+  const BADGES: InventoryItemName[] = Object.keys(SKILL_TREE).map(
+    (badge) => badge as InventoryItemName
+  );
+
+  const badges = BADGES.map((badge) => {
+    if (inventory[badge]) {
+      return (
+        <img
+          key={badge}
+          src={ITEM_DETAILS[badge].image}
+          alt={badge}
+          className="h-6 mr-2 mb-2 md:mb-0"
+        />
+      );
+    }
+
+    return null;
+  }).filter(Boolean);
+
+  if (badges.length === 0) {
+    return (
+      <span className="text-xs text-shadow">
+        Reach level 5 in a profession to unlock a skill
+      </span>
+    );
+  }
+
+  return <div className="flex flex-wrap">{badges}</div>;
+};
 interface Props {
   state: GameState;
   playerCanLevelUp?: boolean;
@@ -79,37 +110,6 @@ export const House: React.FC<Props> = ({
 
   const gatheringRequiredXp = getRequiredXpToLevelUp(toolLevel);
   const farmingRequiredXp = getRequiredXpToLevelUp(farmingLevel);
-
-  const Badges = () => {
-    const BADGES: InventoryItemName[] = Object.keys(SKILL_TREE).map(
-      (badge) => badge as InventoryItemName
-    );
-
-    const badges = BADGES.map((badge) => {
-      if (state.inventory[badge]) {
-        return (
-          <img
-            key={badge}
-            src={ITEM_DETAILS[badge].image}
-            alt={badge}
-            className="h-6 mr-2 mb-2 md:mb-0"
-          />
-        );
-      }
-
-      return null;
-    }).filter(Boolean);
-
-    if (badges.length === 0) {
-      return (
-        <span className="text-xs text-shadow">
-          Reach level 5 in a profession to unlock a skill
-        </span>
-      );
-    }
-
-    return <div className="flex flex-wrap">{badges}</div>;
-  };
 
   const Content = () => {
     if (isFarming && playerCanLevelUp) {
@@ -202,7 +202,9 @@ export const House: React.FC<Props> = ({
           <img src={player} className="h-5 mr-2" />
           <span className="text-sm text-shadow">Skills</span>
         </InnerPanel>
-        <InnerPanel className="relative p-2 mt-1">{Badges()}</InnerPanel>
+        <InnerPanel className="relative p-2 mt-1">
+          <Badges inventory={state.inventory} />
+        </InnerPanel>
       </>
     );
   };

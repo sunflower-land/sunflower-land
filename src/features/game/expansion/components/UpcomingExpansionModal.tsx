@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import { Ingredients } from "./Ingredients";
 import { secondsToLongString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { DynamicNFT } from "features/island/bumpkin/components/DynamicNFT";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 interface Props {
   gameState: GameState;
