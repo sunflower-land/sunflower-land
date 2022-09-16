@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { feedBumpkin } from "./feedBumpkin";
@@ -21,5 +22,19 @@ describe("feedBumpkin", () => {
         action: { type: "bumpkin.feed", food: "Boiled Egg" },
       })
     ).toThrow("You have none of this food type");
+  });
+
+  it("deducts one food from inventory", () => {
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: { "Boiled Egg": new Decimal(2) },
+    };
+
+    const stateCopy = feedBumpkin({
+      state,
+      action: { type: "bumpkin.feed", food: "Boiled Egg" },
+    });
+
+    expect(stateCopy.inventory["Boiled Egg"]).toEqual(new Decimal(1));
   });
 });

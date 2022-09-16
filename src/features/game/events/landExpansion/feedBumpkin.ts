@@ -32,5 +32,7 @@ export function feedBumpkin({
     throw new Error("You have none of this food type");
   }
 
-  return state;
+  stateCopy.inventory[action.food] = quantity.sub(1);
+
+  return stateCopy;
 }
