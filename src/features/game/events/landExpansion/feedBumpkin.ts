@@ -35,6 +35,7 @@ export function feedBumpkin({
 
   inventory[action.food] = quantity.sub(1);
   bumpkin.experience += CONSUMABLES[action.food].experience;
+  bumpkin.stamina.value += CONSUMABLES[action.food].stamina;
 
   return stateCopy;
 }
