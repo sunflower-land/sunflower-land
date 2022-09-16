@@ -3,6 +3,7 @@ import { replenishStamina } from "./replenishStamina";
 
 describe("replenishStamina", () => {
   const dateNow = Date.now();
+
   it("updates the replenished timestamp to the current time", () => {
     const initialState = { ...INITIAL_FARM, bumpkin: INITIAL_BUMPKIN };
 
@@ -14,5 +15,17 @@ describe("replenishStamina", () => {
 
     expect(initialState.bumpkin.stamina.replenishedAt).toBe(0);
     expect(state.bumpkin?.stamina.replenishedAt).toBe(dateNow);
+  });
+
+  it("throws an error if the bumpkin doesn't exist", () => {
+    const initialState = { ...INITIAL_FARM, bumpkin: undefined };
+
+    expect(() =>
+      replenishStamina({
+        state: initialState,
+        action: { type: "bumpkin.replenishStamina" },
+        createdAt: dateNow,
+      })
+    ).toThrow("You do not have a Bumpkin");
   });
 });
