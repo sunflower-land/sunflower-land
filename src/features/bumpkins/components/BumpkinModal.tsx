@@ -46,10 +46,10 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
     <div className="flex flex-wrap ">
       <img
         src={close}
-        className="absolute w-6 top-4 right-4 cursor-pointer"
+        className="absolute w-6 top-4 right-4 cursor-pointer z-20"
         onClick={onClose}
       />
-      <div className="w-full sm:w-1/3 z-10 mr-4">
+      <div className="w-full sm:w-1/3 z-10 md:mr-4">
         <div className="w-full rounded-md overflow-hidden mb-1">
           <DynamicNFT
             showBackground
@@ -57,7 +57,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
           />
         </div>
         <div>
-          <div className="">
+          <div className="mb-1 md:mb-0">
             <OuterPanel className="relative mt-1 ">
               <div className="flex items-center  mb-1">
                 <span className="text-xs text-shadow">Equipped</span>
@@ -86,7 +86,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
 
       <div className="flex-1">
         <div className="mb-2">
-          <div className="flex items-center">
+          <div className="flex items-center mt-2 md:mt-0">
             <p className="text-sm">Level 3</p>
             <img src={heart} className="w-4 ml-1" />
           </div>
