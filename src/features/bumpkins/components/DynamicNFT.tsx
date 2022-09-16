@@ -24,6 +24,7 @@ export const DynamicNFT: React.FC<Props> = ({
   if (!bumpkinParts) {
     return null;
   }
+
   const {
     background,
     body,
@@ -52,7 +53,6 @@ export const DynamicNFT: React.FC<Props> = ({
     tool,
   };
 
-  console.log({ orderedParts });
   return (
     <div className="relative w-full">
       <img
