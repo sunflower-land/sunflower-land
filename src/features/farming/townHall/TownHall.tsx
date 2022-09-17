@@ -13,9 +13,13 @@ import { Contributors } from "./components/Contributors";
 import { Tab } from "components/ui/Tab";
 import { Discord } from "./components/Discord";
 
-export const TownHall: React.FC = () => {
+interface Args {
+  hasDiscord?: boolean;
+}
+
+export const TownHall: React.FC<Args> = ({ hasDiscord }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [tab, setTab] = useState<"contributors" | "discord">("discord");
+  const [tab, setTab] = useState<"contributors" | "discord">("contributors");
 
   const open = () => {
     setIsOpen(true);
@@ -52,13 +56,15 @@ export const TownHall: React.FC = () => {
                 <img src={heart} className="h-5 mr-2" />
                 <span className="text-sm text-shadow">Contributors</span>
               </Tab>
-              <Tab
-                isActive={tab === "discord"}
-                onClick={() => setTab("discord")}
-              >
-                <img src={discord} className="h-5 mr-2" />
-                <span className="text-sm text-shadow">Discord</span>
-              </Tab>
+              {hasDiscord && (
+                <Tab
+                  isActive={tab === "discord"}
+                  onClick={() => setTab("discord")}
+                >
+                  <img src={discord} className="h-5 mr-2" />
+                  <span className="text-sm text-shadow">Discord</span>
+                </Tab>
+              )}
             </div>
             <img
               src={close}
@@ -70,7 +76,7 @@ export const TownHall: React.FC = () => {
           {tab === "contributors" && (
             <Contributors onClose={() => setIsOpen(false)} />
           )}
-          {tab === "discord" && (
+          {tab === "discord" && hasDiscord && (
             <div className="p-2">
               <Discord />
             </div>
