@@ -3,7 +3,7 @@ import React from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { TownHall } from "features/farming/townHall/TownHall";
+import { TownHall } from "features/visiting/townHall/TownHall";
 import { Shop } from "../shop/Shop";
 import { Bakery } from "../bakery/Bakery";
 import { Blacksmith } from "../blacksmith/Blacksmith";
