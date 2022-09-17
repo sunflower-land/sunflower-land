@@ -30,7 +30,7 @@ export const Town: React.FC = () => {
       <CakeStall />
       <Blacksmith />
       <Mail />
-      <TownHall hasDiscord />
+      <TownHall />
       <Salesman />
       <GoblinVillageEntry />
     </div>
