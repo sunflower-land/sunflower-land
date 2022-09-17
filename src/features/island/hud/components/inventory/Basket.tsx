@@ -10,8 +10,6 @@ import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
 
 import { secondsToMidString } from "lib/utils/time";
-import classNames from "classnames";
-import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { getCropTime } from "features/game/events/plant";
 import { FOODS, getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
@@ -27,8 +25,6 @@ const TAB_CONTENT_HEIGHT = 400;
 const isSeed = (selectedItem: InventoryItemName) => selectedItem in SEEDS();
 
 export const Basket: React.FC = () => {
-  const { ref: itemContainerRef, showScrollbar } =
-    useShowScrollbar(TAB_CONTENT_HEIGHT);
   const [scrollIntoView] = useScrollIntoView();
 
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
@@ -105,11 +101,8 @@ export const Basket: React.FC = () => {
         </OuterPanel>
       )}
       <div
-        ref={itemContainerRef}
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-        className={classNames("overflow-y-auto", {
-          scrollable: showScrollbar,
-        })}
+        className="overflow-y-auto scrollable"
       >
         {!!resources.length && (
           <div className="flex flex-col pl-2" key={"Resources"}>

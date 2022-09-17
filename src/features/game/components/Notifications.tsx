@@ -1,21 +1,15 @@
 import React, { useContext } from "react";
-import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
 import close from "assets/icons/close.png";
 
 import { Context } from "features/game/GameProvider";
-
-import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
-
 import { OnChainEvent } from "../actions/onChainEvents";
 import { Button } from "components/ui/Button";
 
 const CONTENT_HEIGHT = 400;
 
 export const Notifications: React.FC = () => {
-  const { ref: itemContainerRef, showScrollbar } =
-    useShowScrollbar(CONTENT_HEIGHT);
   const { gameService } = useContext(Context);
   const [state] = useActor(gameService);
 
@@ -37,11 +31,8 @@ export const Notifications: React.FC = () => {
       </div>
 
       <div
-        ref={itemContainerRef}
         style={{ maxHeight: CONTENT_HEIGHT }}
-        className={classNames("overflow-y-auto p-2 divide-brown-600", {
-          scrollable: showScrollbar,
-        })}
+        className="overflow-y-auto p-2 divide-brown-600 scrollable"
       >
         {notifications.map((notification, index) => (
           <div className="mb-4 flex items-center" key={index}>

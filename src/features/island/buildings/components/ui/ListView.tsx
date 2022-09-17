@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 
 import lock from "assets/skills/lock.png";
 
@@ -8,7 +7,6 @@ import { getKeys } from "features/game/types/craftables";
 import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
-import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { GameState } from "features/game/types/game";
 
 const CONTENT_HEIGHT = 380;
@@ -17,9 +15,6 @@ export const ListView: React.FC<{
   state: GameState;
   onClick: (name: BuildingName) => void;
 }> = ({ state, onClick }) => {
-  const { ref: itemContainerRef, showScrollbar } =
-    useShowScrollbar(CONTENT_HEIGHT);
-
   const { bumpkin, inventory } = state;
 
   const buildings = getKeys(BUILDINGS).sort((a, b) =>
@@ -28,11 +23,8 @@ export const ListView: React.FC<{
 
   return (
     <div
-      ref={itemContainerRef}
       style={{ maxHeight: CONTENT_HEIGHT }}
-      className={classNames("w-full pr-1 pt-2.5 overflow-y-auto", {
-        scrollable: showScrollbar,
-      })}
+      className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
     >
       {buildings.map((buildingName, index) => (
         <div key={index} onClick={() => onClick(buildingName)}>
