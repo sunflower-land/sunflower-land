@@ -9,6 +9,7 @@ import warWeekTwo from "assets/announcements/war_week_two.png";
 import warWeekThree from "assets/announcements/war_week_three.png";
 import warTent from "assets/announcements/war_tent.png";
 import roadmap from "assets/announcements/roadmap.png";
+import merchant from "assets/announcements/merchant.png";
 
 export interface Announcement {
   date: Date;
@@ -34,6 +35,16 @@ export const ANNOUNCEMENTS: Announcement[] = [
     link: "https://docs.sunflower-land.com/fundamentals/special-events/goblin-war",
     image: warWeekThree,
     type: "war",
+  },
+  {
+    date: new Date("2022-09-18T23:00:00"),
+    title: "Community Garden",
+    notes: [
+      "The Community Garden offers NFTs built entirely by the community.",
+      "You can access the garden by visiting the merchant west of the town.",
+    ],
+    link: "https://docs.sunflower-land.com/player-guides/islands/community-garden",
+    image: merchant,
   },
   {
     date: new Date("2022-09-15T22:00:00"),

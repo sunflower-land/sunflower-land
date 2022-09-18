@@ -87,7 +87,8 @@ export const BottleDonation: React.FC = () => {
                   Want more Aquatics?
                 </h2>
                 <p className="sm:text-sm mb-3 text-center">
-                  Help us build new unique aquatic creatures for your farm.
+                  Help Project Dignity team build new unique aquatic creatures
+                  for your farm.
                 </p>
                 <p className="sm:text-sm mb-3 text-center">
                   {`Seals, otters, dolphins, you name it, we'll make it! 

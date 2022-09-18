@@ -4,7 +4,6 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import merchant from "assets/npcs/merchant.gif";
 import humanSign from "assets/buildings/human_sign.png";
-import arrowUp from "assets/icons/arrow_up.png";
 import { CommunityGardenModal } from "./CommunityGardenModal";
 import { merchantAudio } from "lib/utils/sfx";
 
@@ -24,10 +23,10 @@ export const CommunityGardenEntry: React.FC = () => {
       <div
         className="absolute hover:img-highlight cursor-pointer"
         style={{
-          right: `${GRID_WIDTH_PX * 53}px`,
+          left: `${GRID_WIDTH_PX * 23}px`,
           width: `${GRID_WIDTH_PX * 5}px`,
           height: `${GRID_WIDTH_PX * 4}px`,
-          top: `${GRID_WIDTH_PX * 1}px`,
+          top: `${GRID_WIDTH_PX * 35}px`,
         }}
         onClick={openMerchant}
       >
@@ -48,15 +47,6 @@ export const CommunityGardenEntry: React.FC = () => {
             width: `${GRID_WIDTH_PX * 3}px`,
             right: `${GRID_WIDTH_PX * 0.5}px`,
             top: `${GRID_WIDTH_PX * 1.5}px`,
-          }}
-        />
-        <img
-          src={arrowUp}
-          className="absolute animate-float"
-          style={{
-            width: `${GRID_WIDTH_PX * 0.7}px`,
-            right: `${GRID_WIDTH_PX * 2}px`,
-            top: `${GRID_WIDTH_PX * 0}px`,
           }}
         />
       </div>
