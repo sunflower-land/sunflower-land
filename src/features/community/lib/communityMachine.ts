@@ -7,6 +7,7 @@ import { fromWei } from "web3-utils";
 
 export interface Context {
   balance: Decimal;
+  farmId: number;
 }
 
 export type CommmunityMachineState = {
@@ -30,6 +31,7 @@ export function startCommunityMachine(authContext: AuthContext) {
     initial: "loading",
     context: {
       balance: new Decimal(0),
+      farmId: 0,
     },
     states: {
       loading: {
@@ -40,14 +42,20 @@ export function startCommunityMachine(authContext: AuthContext) {
             const balance = await metamask
               .getToken()
               .balanceOf(metamask.myAccount as string);
+
+            const farm = await metamask.getFarm()?.getFarms();
+            console.log("machine", farm[0].tokenId);
+
             return {
               balance: new Decimal(fromWei(balance)),
+              farmId: Number(farm[0].tokenId),
             };
           },
           onDone: {
             target: "idle",
             actions: assign({
               balance: (_, event) => event.data.balance,
+              farmId: (_, event) => event.data.farmId,
             }),
           },
           onError: {

@@ -84,7 +84,7 @@ export const Lore: React.FC = () => {
         style={{
           width: `${GRID_WIDTH_PX * 0.3}px`,
           right: `${GRID_WIDTH_PX * 55.3}px`,
-          top: `${GRID_WIDTH_PX * 2}px`,
+          top: `${GRID_WIDTH_PX * 8}px`,
         }}
       />
       {showYellowBook && (
