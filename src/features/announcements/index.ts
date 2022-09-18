@@ -6,6 +6,7 @@ import rooster from "assets/announcements/rooster.png";
 import shovel from "assets/announcements/shovel.png";
 import warWeekOne from "assets/announcements/war_week_1.png";
 import warWeekTwo from "assets/announcements/war_week_two.png";
+import warWeekThree from "assets/announcements/war_week_three.png";
 import warTent from "assets/announcements/war_tent.png";
 import roadmap from "assets/announcements/roadmap.png";
 
@@ -22,6 +23,18 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2022-09-19T00:00:00"),
+    title: "Setting the stage",
+    notes: [
+      "Great work clearing the land, now we can start to build.",
+      "We will need to create some shelter and a training ground in order for the soldiers to prepare for the big siege.",
+      "I’ve made a list of things that we will need to get started.",
+    ],
+    link: "https://docs.sunflower-land.com/fundamentals/special-events/goblin-war",
+    image: warWeekThree,
+    type: "war",
+  },
   {
     date: new Date("2022-09-15T22:00:00"),
     title: "Roadmap Updates",
