@@ -16,9 +16,16 @@ enum Halvening {
 const API_URL = CONFIG.API_URL;
 
 async function getSFLSupply() {
-  const supply = API_URL ? await metamask.getToken().totalSupply() : toBN(0);
+  const [total, burned] = API_URL
+    ? await Promise.all([
+        metamask.getToken().totalSupply(),
+        metamask
+          .getToken()
+          .balanceOf("0x000000000000000000000000000000000000dead"),
+      ])
+    : [toBN(0), toBN(0)];
 
-  return new Decimal(fromWei(supply));
+  return new Decimal(fromWei(total)).minus(new Decimal(fromWei(burned)));
 }
 
 /**
@@ -59,14 +66,16 @@ export async function getInbox() {
       id: "sfl-supply",
       title: "SFL Supply",
       body: API_URL
-        ? `Total SFL: ${sflBalance
+        ? `Circulating SFL: ${sflBalance
             .toDecimalPlaces(3, Decimal.ROUND_DOWN)
             .toNumber()
             .toLocaleString()}  
         &nbsp;  
         Next halvening is at ${nextHalvening.toNumber().toLocaleString()}  
         &nbsp;   
-        **Note: this value is read from the Blockchain. Other farmers may not have synced yet.**
+        Notes:  
+        * This value is read from the Blockchain. Other farmers may not have synced yet.  
+        * Excludes burned SFL
       `
         : "You're running Sunflower Land locally!",
     },
