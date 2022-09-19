@@ -1,6 +1,6 @@
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { BumpkinLevel, getBumpkinLevel } from "features/game/lib/level";
-import { GameState } from "features/game/types/game";
+import { Bumpkin, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 // 1 = 100% regeneration over 1 hour
@@ -18,6 +18,33 @@ function getRegenerationRate(level: BumpkinLevel) {
   return offsetRegenerationRate / 60 / 60;
 }
 
+export function calculateBumpkinStamina({
+  nextReplenishedAt,
+  bumpkin,
+}: {
+  nextReplenishedAt: number;
+  bumpkin: Bumpkin;
+}) {
+  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+  const replenishedAt = bumpkin.stamina.replenishedAt;
+  const value = bumpkin.stamina.value;
+
+  const replenishedAtSeconds = Math.floor(replenishedAt / 1000);
+  const currentTimeSeconds = Math.floor(nextReplenishedAt / 1000);
+  const elapsedSeconds = currentTimeSeconds - replenishedAtSeconds;
+
+  if (elapsedSeconds < 0) {
+    throw new Error("Actions cannot go back in time");
+  }
+
+  const regenerationRate = getRegenerationRate(bumpkinLevel);
+
+  const bonusStamina =
+    MAX_STAMINA[bumpkinLevel] * regenerationRate * elapsedSeconds;
+
+  return Math.min(value + bonusStamina, MAX_STAMINA[bumpkinLevel]);
+}
+
 type ReplenishStaminaAction = {
   type: "bumpkin.replenishStamina";
 };
@@ -30,33 +57,19 @@ type Options = {
 
 export function replenishStamina({ state, createdAt }: Options): GameState {
   const stateCopy = cloneDeep(state);
+  const bumpkin = stateCopy.bumpkin;
 
-  if (stateCopy.bumpkin === undefined) {
+  if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  const bumpkinLevel = getBumpkinLevel(stateCopy.bumpkin.experience);
-  const replenishedAt = stateCopy.bumpkin.stamina.replenishedAt;
-  const value = stateCopy.bumpkin.stamina.value;
+  const stamina = calculateBumpkinStamina({
+    nextReplenishedAt: createdAt,
+    bumpkin,
+  });
 
-  const replenishedAtSeconds = Math.floor(replenishedAt / 1000);
-  const currentTimeSeconds = Math.floor(createdAt / 1000);
-  const elapsedSeconds = currentTimeSeconds - replenishedAtSeconds;
-
-  if (elapsedSeconds < 0) {
-    throw new Error("Actions cannot go back in time");
-  }
-
-  const regenerationRate = getRegenerationRate(bumpkinLevel);
-
-  const bonusStamina =
-    MAX_STAMINA[bumpkinLevel] * regenerationRate * elapsedSeconds;
-
-  stateCopy.bumpkin.stamina.replenishedAt = createdAt;
-  stateCopy.bumpkin.stamina.value = Math.min(
-    value + bonusStamina,
-    MAX_STAMINA[bumpkinLevel]
-  );
+  bumpkin.stamina.replenishedAt = createdAt;
+  bumpkin.stamina.value = stamina;
 
   return stateCopy;
 }

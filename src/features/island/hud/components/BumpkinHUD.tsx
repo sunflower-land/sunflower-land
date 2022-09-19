@@ -17,6 +17,7 @@ import { BumpkinParts } from "features/game/types/bumpkin";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
+import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
 
 export const BumpkinHUD: React.FC = () => {
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
@@ -32,7 +33,12 @@ export const BumpkinHUD: React.FC = () => {
   const level = getBumpkinLevel(experience);
   const nextLevelExperience = LEVEL_BRACKETS[level];
 
-  const stamina = state.bumpkin?.stamina.value ?? 0;
+  const stamina = state.bumpkin
+    ? calculateBumpkinStamina({
+        nextReplenishedAt: Date.now(),
+        bumpkin: state.bumpkin,
+      })
+    : 0;
   const staminaCapacity = MAX_STAMINA[level];
 
   return (
