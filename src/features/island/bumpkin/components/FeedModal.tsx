@@ -8,7 +8,7 @@ import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Feed } from "./Feed";
-import { DynamicNFT } from "./DynamicNFT";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 interface Props {
   isOpen: boolean;
