@@ -28,8 +28,8 @@ export const Leaderboard: React.FC = () => {
     const startOfWeekPoints =
       CONFIG.NETWORK === "mainnet"
         ? {
-            humans: 344445,
-            goblins: 354890,
+            humans: 317926,
+            goblins: 278205,
           }
         : { humans: 20, goblins: 40 };
 
