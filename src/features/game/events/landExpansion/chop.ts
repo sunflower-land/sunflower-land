@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { CHOP_STAMINA_AMOUNT } from "features/game/lib/constants";
+import { CHOP_STAMINA_COST } from "features/game/lib/constants";
 import {
   GameState,
   Inventory,
@@ -87,7 +87,7 @@ export function chop({
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (bumpkin.stamina.value < CHOP_STAMINA_AMOUNT) {
+  if (bumpkin.stamina.value < CHOP_STAMINA_COST) {
     throw new Error("You do not have enough stamina");
   }
 
@@ -123,7 +123,7 @@ export function chop({
   stateCopy.inventory.Axe = axeAmount.sub(requiredAxes);
   stateCopy.inventory.Wood = woodAmount.add(woodHarvested);
 
-  bumpkin.stamina.value -= CHOP_STAMINA_AMOUNT;
+  bumpkin.stamina.value -= CHOP_STAMINA_COST;
 
   return stateCopy;
 }

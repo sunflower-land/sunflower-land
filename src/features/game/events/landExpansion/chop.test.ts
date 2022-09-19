@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
-  CHOP_STAMINA_AMOUNT,
+  CHOP_STAMINA_COST,
   INITIAL_BUMPKIN,
   INITIAL_FARM,
   MAX_STAMINA,
@@ -282,7 +282,7 @@ describe("chop", () => {
 
     expect(state.bumpkin?.stamina.value).toBe(
       MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)] -
-        CHOP_STAMINA_AMOUNT
+        CHOP_STAMINA_COST
     );
   });
 });
