@@ -409,3 +409,5 @@ export const MAX_STAMINA: Record<BumpkinLevel, number> = {
   2: 50,
   3: 100,
 };
+
+export const CHOP_STAMINA_AMOUNT = 2;
