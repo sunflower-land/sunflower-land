@@ -20,7 +20,11 @@ function getHalveningRate() {
     return 0.05;
   }
 
-  return 0.025;
+  if (now < 1663718400000) {
+    return 0.025;
+  }
+
+  return 0.0125;
 }
 
 /**
