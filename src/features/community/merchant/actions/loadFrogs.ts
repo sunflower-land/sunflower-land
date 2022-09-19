@@ -11,9 +11,9 @@ export type Frog = {
   [key: string]: any;
 };
 
-export async function loadFrogs() {
+export async function loadFrogs(owner: string | undefined = undefined) {
   try {
-    let frogIds = await communityContracts.getFrog().getFrogIds();
+    let frogIds = await communityContracts.getFrog().getFrogIds(0, owner);
 
     if (await isFrogPreview()) {
       if (frogIds.length > 6) {
