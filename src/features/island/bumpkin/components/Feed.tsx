@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -8,8 +7,10 @@ import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getKeys } from "features/game/types/craftables";
 import { Consumable, ConsumableName } from "features/game/types/consumables";
+
+import staminaIcon from "assets/icons/lightning.png";
+import heart from "assets/icons/heart.png";
 
 interface Props {
   food: Consumable[];
@@ -76,59 +77,25 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
           </span>
 
           <div className="border-t border-white w-full mt-2 pt-1">
-            {getKeys(selected.ingredients).map((name, index) => {
-              const item = ITEM_DETAILS[name];
-              const inventoryAmount = inventory[name]?.toDecimalPlaces(1) || 0;
-              const requiredAmount =
-                selected.ingredients[name]?.toDecimalPlaces(1) ||
-                new Decimal(0);
-
-              // Ingredient difference
-              const lessIngredient = new Decimal(inventoryAmount).lessThan(
-                requiredAmount
-              );
-
-              // rendering item remenants
-              const renderRemenants = () => {
-                if (lessIngredient) {
-                  // if inventory items is less than required items
-                  return (
-                    <>
-                      <span className="text-xs text-shadow text-center mt-2 text-red-500">
-                        {`${inventoryAmount}`}
-                      </span>
-                      <span className="text-xs text-shadow text-center mt-2 text-red-500">
-                        {`/${requiredAmount}`}
-                      </span>
-                    </>
-                  );
-                } else {
-                  // if inventory items is equal to required items
-                  return (
-                    <span className="text-xs text-shadow text-center mt-2">
-                      {`${requiredAmount}`}
-                    </span>
-                  );
-                }
-              };
-
-              return (
-                <div
-                  className="flex justify-center flex-wrap items-end"
-                  key={index}
-                >
-                  <img src={item.image} className="h-5 me-2" />
-                  {renderRemenants()}
-                </div>
-              );
-            })}
+            <div className="flex justify-center flex-wrap items-center">
+              <img src={heart} className="me-2 w-6" />
+              <span className="text-xs text-shadow text-center">
+                {`${selected.experience}`}
+              </span>
+            </div>
+            <div className="flex justify-center flex-wrap items-center">
+              <img src={staminaIcon} className="me-2 w-6" />
+              <span className="text-xs text-shadow text-center">
+                {`${selected.stamina}`}
+              </span>
+            </div>
           </div>
           <Button
             disabled={!inventory[selected.name]?.gt(0)}
             className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
             onClick={() => feed()}
           >
-            Eat
+            Eat 1
           </Button>
         </div>
       </OuterPanel>

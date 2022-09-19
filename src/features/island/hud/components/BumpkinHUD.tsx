@@ -16,6 +16,7 @@ import { useActor } from "@xstate/react";
 import { BumpkinParts } from "features/game/types/bumpkin";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
+import { formatNumber } from "lib/utils/formatNumber";
 
 export const BumpkinHUD: React.FC = () => {
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
@@ -133,9 +134,7 @@ export const BumpkinHUD: React.FC = () => {
               }}
             />
             <span className="text-xxs text-white">
-              {`${new Intl.NumberFormat("en-GB", {
-                notation: "compact",
-              }).format(stamina)}/${staminaCapacity}`}
+              {`${formatNumber(stamina)}/${formatNumber(staminaCapacity)}`}
             </span>
           </div>
         </div>

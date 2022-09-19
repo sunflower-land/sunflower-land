@@ -16,6 +16,7 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Badges } from "features/farming/house/House";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {
   onClose: () => void;
@@ -89,7 +90,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
       <div className="flex-1">
         <div className="mb-2">
           <div className="flex items-center mt-2 md:mt-0">
-            <p className="text-sm">Level 3</p>
+            <p className="text-sm">Level {level}</p>
             <img src={heart} className="w-4 ml-1" />
           </div>
           <div className="flex items-center">
@@ -109,7 +110,9 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 }}
               />
             </div>
-            <p className="text-xxs">{`${experience}/${nextLevelExperience} XP`}</p>
+            <p className="text-xxs">{`${formatNumber(
+              experience
+            )}/${formatNumber(nextLevelExperience)} XP`}</p>
           </div>
         </div>
 
@@ -135,7 +138,9 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 }}
               />
             </div>
-            <p className="text-xxs">{`${stamina}/${staminaCapacity}`}</p>
+            <p className="text-xxs">{`${formatNumber(stamina)}/${formatNumber(
+              staminaCapacity
+            )}`}</p>
           </div>
         </div>
 
