@@ -61,8 +61,14 @@ export function chop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
+  // const replenishCopy = replenishStamina({
+  //   state,
+  //   action: { type: "bumpkin.replenishStamina" },
+  //   createdAt,
+  // });
+
   const stateCopy = cloneDeep(state);
-  const { expansions } = stateCopy;
+  const { expansions, bumpkin } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!expansion) {
@@ -73,6 +79,10 @@ export function chop({
 
   if (!trees) {
     throw new Error("Expansion has no trees");
+  }
+
+  if (bumpkin === undefined) {
+    throw new Error("You do not have a Bumpkin");
   }
 
   const requiredAxes = getRequiredAxeAmount(stateCopy.inventory);

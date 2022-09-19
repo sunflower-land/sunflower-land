@@ -14,6 +14,8 @@ import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { BumpkinParts } from "features/game/types/bumpkin";
+import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
+import { MAX_STAMINA } from "features/game/lib/constants";
 
 export const BumpkinHUD: React.FC = () => {
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
@@ -25,13 +27,12 @@ export const BumpkinHUD: React.FC = () => {
     },
   ] = useActor(gameService);
 
-  // TODO
-  const level = 2;
-  const experience = 30;
-  const level2Experience = 50;
+  const experience = state.bumpkin?.experience ?? 0;
+  const level = getBumpkinLevel(experience);
+  const nextLevelExperience = LEVEL_BRACKETS[level];
 
-  const stamina = 3;
-  const staminaCapacity = 12;
+  const stamina = state.bumpkin?.stamina.value ?? 0;
+  const staminaCapacity = MAX_STAMINA[level];
 
   return (
     <>
@@ -101,7 +102,7 @@ export const BumpkinHUD: React.FC = () => {
               className="h-full bg-[#63c74d] absolute -z-10 "
               style={{
                 borderRadius: "10px 0 0 10px",
-                width: `${(experience / level2Experience) * 100}%`,
+                width: `${(experience / nextLevelExperience) * 100}%`,
               }}
             />
             <span className="text-xs absolute left-0 text-white">{level}</span>
