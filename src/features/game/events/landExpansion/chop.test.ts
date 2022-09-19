@@ -1,5 +1,11 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_BUMPKIN, INITIAL_FARM } from "features/game/lib/constants";
+import {
+  CHOP_STAMINA_AMOUNT,
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+  MAX_STAMINA,
+} from "features/game/lib/constants";
+import { getBumpkinLevel } from "features/game/lib/level";
 import { GameState, LandExpansionTree } from "features/game/types/game";
 import { chop, LandExpansionChopAction } from "./chop";
 
@@ -249,5 +255,34 @@ describe("chop", () => {
     });
 
     expect(state.bumpkin?.stamina.replenishedAt).toBe(createdAt);
+  });
+
+  it("deducts stamina from bumpkin", () => {
+    const createdAt = Date.now();
+
+    const state = chop({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          stamina: { value: 0, replenishedAt: 0 },
+        },
+        inventory: {
+          Axe: new Decimal(1),
+        },
+      },
+      action: {
+        type: "timber.chopped",
+        item: "Axe",
+        expansionIndex: 0,
+        index: 0,
+      } as LandExpansionChopAction,
+      createdAt,
+    });
+
+    expect(state.bumpkin?.stamina.value).toBe(
+      MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)] -
+        CHOP_STAMINA_AMOUNT
+    );
   });
 });

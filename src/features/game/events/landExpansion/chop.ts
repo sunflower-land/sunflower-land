@@ -120,14 +120,10 @@ export function chop({
     // Amount for next drop
     amount: 3,
   };
+  stateCopy.inventory.Axe = axeAmount.sub(requiredAxes);
+  stateCopy.inventory.Wood = woodAmount.add(woodHarvested);
 
-  return {
-    ...stateCopy,
-    expansions,
-    inventory: {
-      ...stateCopy.inventory,
-      Axe: axeAmount.sub(requiredAxes),
-      Wood: woodAmount.add(woodHarvested),
-    },
-  };
+  bumpkin.stamina.value -= CHOP_STAMINA_AMOUNT;
+
+  return stateCopy;
 }

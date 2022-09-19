@@ -133,7 +133,9 @@ export const BumpkinHUD: React.FC = () => {
               }}
             />
             <span className="text-xxs text-white">
-              {`${stamina}/${staminaCapacity}`}
+              {`${new Intl.NumberFormat("en-GB", {
+                notation: "compact",
+              }).format(stamina)}/${staminaCapacity}`}
             </span>
           </div>
         </div>
