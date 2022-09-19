@@ -290,8 +290,8 @@ describe("mineStone", () => {
         bumpkin: {
           ...INITIAL_BUMPKIN,
           stamina: {
-            value: 0,
-            replenishedAt: 0,
+            value: MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)],
+            replenishedAt: createdAt,
           },
         },
         inventory: {

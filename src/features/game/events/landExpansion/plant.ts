@@ -3,6 +3,8 @@ import Decimal from "decimal.js-light";
 import { CropName } from "../../types/crops";
 import { GameState, Inventory, InventoryItemName } from "../../types/game";
 import { getPlantedAt, isSeed } from "../plant";
+import { PLANT_STAMINA_COST } from "features/game/lib/constants";
+import { replenishStamina } from "./replenishStamina";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -48,9 +50,19 @@ export function getCropYieldAmount({
   return amount;
 }
 
-export function plant({ state, action, createdAt = Date.now() }: Options) {
-  const stateCopy = cloneDeep(state);
-  const { expansions } = stateCopy;
+export function plant({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
+  const replenishedState = replenishStamina({
+    state,
+    action: { type: "bumpkin.replenishStamina" },
+    createdAt,
+  });
+
+  const stateCopy = cloneDeep(replenishedState);
+  const { expansions, bumpkin } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!expansion) {
@@ -59,6 +71,14 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
 
   if (!expansion.plots) {
     throw new Error("Expansion does not have any plots");
+  }
+
+  if (bumpkin === undefined) {
+    throw new Error("You do not have a Bumpkin");
+  }
+
+  if (bumpkin.stamina.value < PLANT_STAMINA_COST) {
+    throw new Error("You do not have enough stamina");
   }
 
   const { plots } = expansion;
@@ -115,12 +135,9 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
 
   expansion.plots = plots;
 
-  return {
-    ...stateCopy,
-    expansions,
-    inventory: {
-      ...stateCopy.inventory,
-      [action.item]: seedCount?.sub(1),
-    },
-  } as GameState;
+  bumpkin.stamina.value -= PLANT_STAMINA_COST;
+
+  stateCopy.inventory[action.item] = seedCount.sub(1);
+
+  return stateCopy;
 }

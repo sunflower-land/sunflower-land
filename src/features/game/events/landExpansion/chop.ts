@@ -63,13 +63,13 @@ export function chop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const replenishCopy = replenishStamina({
+  const replenishedState = replenishStamina({
     state,
     action: { type: "bumpkin.replenishStamina" },
     createdAt,
   });
 
-  const stateCopy = cloneDeep(replenishCopy);
+  const stateCopy = cloneDeep(replenishedState);
   const { expansions, bumpkin } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
