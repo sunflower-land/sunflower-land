@@ -25,12 +25,12 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
-    date: new Date("2022-09-19T02:00:00"),
+    date: new Date("2022-09-19T04:00:00"),
     title: "The Halvening is coming!",
     notes: [
       "In-game buy and sale prices are about to half!",
-      "At 2022-09-20 12:00am all in-game prices will automatically change.",
-      "Make sure you are prepared!.",
+      "At 2022-09-21 12:00am UTC all in-game prices will automatically change.",
+      "Make sure you are prepared!",
     ],
     link: "https://docs.sunflower-land.com/economy/tokenomics/the-halvening",
   },
