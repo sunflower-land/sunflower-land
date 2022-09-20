@@ -955,39 +955,39 @@ export const ITEM_DETAILS: Items = {
 
   "Sunflower Amulet": {
     image: sunflowerAmulet,
-    description: "A reward for your war efforts.",
+    description: "10% increased Sunflower yield",
   },
   "Carrot Amulet": {
     image: carrotAmulet,
-    description: "A reward for your war efforts.",
+    description: "Carrots grow 20% faster",
   },
   "Beetroot Amulet": {
     image: beetrootAmulet,
-    description: "A reward for your war efforts.",
+    description: "20% increased Beetroot yield",
   },
   "Green Amulet": {
     image: greenAmulet,
-    description: "A reward for your war efforts.",
+    description: "Chance for 10x crop yield",
   },
   "Warrior Shirt": {
     image: warriorShirt,
-    description: "A reward for your war efforts.",
+    description: "A mark of a true warrior",
   },
   "Warrior Pants": {
     image: warriorPants,
-    description: "A reward for your war efforts.",
+    description: "Protect your thighs!",
   },
   "Warrior Helmet": {
     image: warriorHelmet,
-    description: "A reward for your war efforts.",
+    description: "Immune to arrows",
   },
   "Reward 8": {
     image: questionMark,
-    description: "A reward for your war efforts.",
+    description: "A reward for your war efforts",
   },
   "Reward 9": {
     image: questionMark,
-    description: "A reward for your war efforts.",
+    description: "A reward for your war efforts",
   },
 
   "Boiled Egg": {

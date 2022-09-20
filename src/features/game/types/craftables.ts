@@ -581,31 +581,31 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
 export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
   "Sunflower Amulet": {
     name: "Sunflower Amulet",
-    description: "10% increased Sunflower yield.",
+    description: "10% increased Sunflower yield",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
   "Carrot Amulet": {
     name: "Carrot Amulet",
-    description: "Carrots grow 20% faster.",
+    description: "Carrots grow 20% faster",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
   "Beetroot Amulet": {
     name: "Beetroot Amulet",
-    description: "20% increased Beetroot yield.",
+    description: "20% increased Beetroot yield",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
   "Green Amulet": {
     name: "Green Amulet",
-    description: "Chance for 10x crop yield.",
+    description: "Chance for 10x crop yield",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
   "Warrior Shirt": {
     name: "Warrior Shirt",
-    description: "A mark of a true warrior.",
+    description: "A mark of a true warrior",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
@@ -623,13 +623,13 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
   },
   "Reward 8": {
     name: "Reward 8",
-    description: "A rare item.",
+    description: "A rare item",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
   "Reward 9": {
     name: "Reward 9",
-    description: "A rare item.",
+    description: "A rare item",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
