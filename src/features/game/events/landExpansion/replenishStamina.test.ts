@@ -98,7 +98,7 @@ describe("replenishStamina", () => {
         ...INITIAL_BUMPKIN,
         stamina: {
           value: 0,
-          replenishedAt: Date.now(),
+          replenishedAt: dateNow,
         },
       },
     };
@@ -123,7 +123,7 @@ describe("replenishStamina", () => {
         ...INITIAL_BUMPKIN,
         stamina: {
           value: 0,
-          replenishedAt: Date.now() - thirtyMinutes,
+          replenishedAt: dateNow - thirtyMinutes,
         },
       },
     };
@@ -148,7 +148,7 @@ describe("replenishStamina", () => {
         ...INITIAL_BUMPKIN,
         stamina: {
           value: 0,
-          replenishedAt: Date.now() - oneHour,
+          replenishedAt: dateNow - oneHour,
         },
       },
     };
@@ -176,7 +176,7 @@ describe("replenishStamina", () => {
         experience: LEVEL_BRACKETS[bumpkin1Level],
         stamina: {
           value: 0,
-          replenishedAt: Date.now() - thirtyMinutes,
+          replenishedAt: dateNow - thirtyMinutes,
         },
       },
     };
@@ -188,7 +188,7 @@ describe("replenishStamina", () => {
         experience: LEVEL_BRACKETS[bumpkin2Level],
         stamina: {
           value: 0,
-          replenishedAt: Date.now() - thirtyMinutes,
+          replenishedAt: dateNow - thirtyMinutes,
         },
       },
     };
@@ -225,7 +225,7 @@ describe("replenishStamina", () => {
         experience: LEVEL_BRACKETS[bumpkin1Level],
         stamina: {
           value: 0,
-          replenishedAt: Date.now() - thirtyMinutes,
+          replenishedAt: dateNow - thirtyMinutes,
         },
       },
     };
@@ -237,7 +237,7 @@ describe("replenishStamina", () => {
         experience: LEVEL_BRACKETS[bumpkin2Level],
         stamina: {
           value: 0,
-          replenishedAt: Date.now() - thirtyMinutes,
+          replenishedAt: dateNow - thirtyMinutes,
         },
       },
     };
