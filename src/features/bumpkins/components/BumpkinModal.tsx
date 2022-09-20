@@ -14,6 +14,9 @@ import { DynamicNFT } from "./DynamicNFT";
 import { BUMPKIN_ITEMS } from "../types/BumpkinDetails";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Badges } from "features/farming/house/House";
+import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
+import { MAX_STAMINA } from "features/game/lib/constants";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {
   onClose: () => void;
@@ -33,13 +36,13 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
 
   const equippedItems = Object.values(wearables) as BumpkinItems[];
 
-  // TODO
-  const level = 2;
-  const experience = 30;
-  const level2Experience = 50;
+  const experience = state.bumpkin?.experience ?? 0;
+  const level = getBumpkinLevel(experience);
+  const nextLevelExperience = LEVEL_BRACKETS[level];
 
-  const stamina = 3;
-  const staminaCapacity = 12;
+  const stamina = state.bumpkin?.stamina.value ?? 0;
+  const staminaCapacity = MAX_STAMINA[level];
+
   const hasSkillPoint = true;
 
   return (
@@ -87,7 +90,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
       <div className="flex-1">
         <div className="mb-2">
           <div className="flex items-center mt-2 md:mt-0">
-            <p className="text-sm">Level 3</p>
+            <p className="text-sm">Level {level}</p>
             <img src={heart} className="w-4 ml-1" />
           </div>
           <div className="flex items-center">
@@ -103,11 +106,13 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 className="h-full bg-[#63c74d] absolute -z-10 "
                 style={{
                   borderRadius: "10px 0 0 10px",
-                  width: `${(experience / level2Experience) * 100}%`,
+                  width: `${(experience / nextLevelExperience) * 100}%`,
                 }}
               />
             </div>
-            <p className="text-xxs">{`${experience}/${level2Experience} XP`}</p>
+            <p className="text-xxs">{`${formatNumber(
+              experience
+            )}/${formatNumber(nextLevelExperience)} XP`}</p>
           </div>
         </div>
 
@@ -133,7 +138,9 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 }}
               />
             </div>
-            <p className="text-xxs">{`${stamina}/${staminaCapacity}`}</p>
+            <p className="text-xxs">{`${formatNumber(stamina)}/${formatNumber(
+              staminaCapacity
+            )}`}</p>
           </div>
         </div>
 

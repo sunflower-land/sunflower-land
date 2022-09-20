@@ -1,12 +1,14 @@
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
 import {
+  Bumpkin,
   ChickenPosition,
   GameState,
   Inventory,
   LandExpansion,
 } from "../types/game";
 import { TerrainTypeEnum } from "./getTerrainImageByKey";
+import { BumpkinLevel } from "./level";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -279,6 +281,26 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
 
 export const INITIAL_EXPANSIONS = [GENESIS_LAND_EXPANSION];
 
+export const INITIAL_BUMPKIN: Bumpkin = {
+  id: 1,
+  experience: 0,
+  equipped: {
+    body: "Light Brown Farmer Potion",
+    hair: "Basic Hair",
+    eyes: "Rosy Wide Eyes",
+    mouth: "Wide Smile",
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+  },
+  tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+  stamina: {
+    value: 0,
+    replenishedAt: 0,
+  },
+};
+
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(fromWei("0")),
   fields: INITIAL_FIELDS,
@@ -350,6 +372,7 @@ export const INITIAL_FARM: GameState = {
       },
     ],
   },
+  bumpkin: INITIAL_BUMPKIN,
 };
 
 export const EMPTY: GameState = {
@@ -380,3 +403,13 @@ export const EMPTY: GameState = {
   buildings: {},
   collectibles: {},
 };
+
+export const MAX_STAMINA: Record<BumpkinLevel, number> = {
+  1: 10,
+  2: 50,
+  3: 100,
+};
+
+export const CHOP_STAMINA_COST = 2;
+export const STONE_MINE_STAMINA_COST = 2;
+export const PLANT_STAMINA_COST = 1;

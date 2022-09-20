@@ -91,9 +91,13 @@ type WarBanner = "Human War Banner" | "Goblin War Banner";
 
 export type Bumpkin = {
   id: number;
-  level: number;
   equipped: BumpkinParts;
   tokenUri: string;
+  stamina: {
+    value: number;
+    replenishedAt: number;
+  };
+  experience: number;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";

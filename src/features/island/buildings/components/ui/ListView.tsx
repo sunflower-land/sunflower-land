@@ -10,6 +10,7 @@ import { Label } from "components/ui/Label";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
 import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { GameState } from "features/game/types/game";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const CONTENT_HEIGHT = 380;
 
@@ -48,7 +49,8 @@ export const ListView: React.FC<{
               <span className="text-sm">{buildingName}</span>
 
               {!bumpkin ||
-              bumpkin.level < BUILDINGS[buildingName].levelRequired ? (
+              getBumpkinLevel(bumpkin.experience) <
+                BUILDINGS[buildingName].levelRequired ? (
                 <div className="flex items-center">
                   <span
                     className="bg-error border text-xxs p-1 rounded-md"

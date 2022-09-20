@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { getBumpkinLevel } from "features/game/lib/level";
 import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
@@ -25,14 +26,15 @@ export function constructBuilding({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const building = BUILDINGS[action.name];
-  if (!stateCopy.bumpkin) {
+  const bumpkin = stateCopy.bumpkin;
+
+  if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (
-    !stateCopy.bumpkin.level ||
-    stateCopy.bumpkin.level < building.levelRequired
-  ) {
+  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+
+  if (bumpkinLevel < building.levelRequired) {
     throw new Error("Your Bumpkin does not meet the level requirements");
   }
 

@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CHOP_STAMINA_COST } from "features/game/lib/constants";
 import {
   GameState,
   Inventory,
@@ -6,6 +7,7 @@ import {
   LandExpansionTree,
 } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { replenishStamina } from "./replenishStamina";
 
 type GetChoppedAtAtgs = {
   inventory: Inventory;
@@ -61,8 +63,14 @@ export function chop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { expansions } = stateCopy;
+  const replenishedState = replenishStamina({
+    state,
+    action: { type: "bumpkin.replenishStamina" },
+    createdAt,
+  });
+
+  const stateCopy = cloneDeep(replenishedState);
+  const { expansions, bumpkin } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!expansion) {
@@ -73,6 +81,14 @@ export function chop({
 
   if (!trees) {
     throw new Error("Expansion has no trees");
+  }
+
+  if (bumpkin === undefined) {
+    throw new Error("You do not have a Bumpkin");
+  }
+
+  if (bumpkin.stamina.value < CHOP_STAMINA_COST) {
+    throw new Error("You do not have enough stamina");
   }
 
   const requiredAxes = getRequiredAxeAmount(stateCopy.inventory);
@@ -104,14 +120,10 @@ export function chop({
     // Amount for next drop
     amount: 3,
   };
+  stateCopy.inventory.Axe = axeAmount.sub(requiredAxes);
+  stateCopy.inventory.Wood = woodAmount.add(woodHarvested);
 
-  return {
-    ...state,
-    expansions,
-    inventory: {
-      ...state.inventory,
-      Axe: axeAmount.sub(requiredAxes),
-      Wood: woodAmount.add(woodHarvested),
-    },
-  };
+  bumpkin.stamina.value -= CHOP_STAMINA_COST;
+
+  return stateCopy;
 }

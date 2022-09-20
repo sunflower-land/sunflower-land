@@ -13,6 +13,7 @@ import lock from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
 import { GameState } from "features/game/types/game";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 interface Props {
   state: GameState;
@@ -127,7 +128,9 @@ export const DetailView: React.FC<Props> = ({
             </div>
           </div>
 
-          {!bumpkin || bumpkin.level < BUILDINGS[building].levelRequired ? (
+          {!bumpkin ||
+          getBumpkinLevel(bumpkin.experience) <
+            BUILDINGS[building].levelRequired ? (
             <div className="flex items-center">
               <span
                 className="bg-error border text-xxs p-1 rounded-md"

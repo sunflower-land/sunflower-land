@@ -1,5 +1,11 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "features/game/lib/constants";
+import {
+  CHOP_STAMINA_COST,
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+  MAX_STAMINA,
+} from "features/game/lib/constants";
+import { getBumpkinLevel } from "features/game/lib/level";
 import { GameState, LandExpansionTree } from "features/game/types/game";
 import { chop, LandExpansionChopAction } from "./chop";
 
@@ -180,5 +186,103 @@ describe("chop", () => {
     expect(game.inventory.Wood).toEqual(new Decimal(7));
     expect(tree1.wood.amount).toBeGreaterThan(2);
     expect(tree2.wood.amount).toBeGreaterThan(2);
+  });
+
+  it("throws an error if the player doesnt have a bumpkin", async () => {
+    expect(() =>
+      chop({
+        state: {
+          ...GAME_STATE,
+          bumpkin: undefined,
+          inventory: {
+            Axe: new Decimal(1),
+          },
+        },
+        action: {
+          type: "timber.chopped",
+          item: "Axe",
+          expansionIndex: 0,
+          index: 0,
+        } as LandExpansionChopAction,
+      })
+    ).toThrow("You do not have a Bumpkin");
+  });
+
+  it("requires player has enough stamina", () => {
+    expect(() =>
+      chop({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            stamina: { value: 0, replenishedAt: Date.now() },
+          },
+          inventory: {
+            Axe: new Decimal(1),
+          },
+        },
+        action: {
+          type: "timber.chopped",
+          item: "Axe",
+          expansionIndex: 0,
+          index: 0,
+        } as LandExpansionChopAction,
+      })
+    ).toThrow("You do not have enough stamina");
+  });
+
+  it("replenishes stamina before chopping", () => {
+    const createdAt = Date.now();
+
+    const state = chop({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          stamina: { value: 0, replenishedAt: 0 },
+        },
+        inventory: {
+          Axe: new Decimal(1),
+        },
+      },
+      action: {
+        type: "timber.chopped",
+        item: "Axe",
+        expansionIndex: 0,
+        index: 0,
+      } as LandExpansionChopAction,
+      createdAt,
+    });
+
+    expect(state.bumpkin?.stamina.replenishedAt).toBe(createdAt);
+  });
+
+  it("deducts stamina from bumpkin", () => {
+    const createdAt = Date.now();
+
+    const state = chop({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          stamina: { value: 0, replenishedAt: 0 },
+        },
+        inventory: {
+          Axe: new Decimal(1),
+        },
+      },
+      action: {
+        type: "timber.chopped",
+        item: "Axe",
+        expansionIndex: 0,
+        index: 0,
+      } as LandExpansionChopAction,
+      createdAt,
+    });
+
+    expect(state.bumpkin?.stamina.value).toBe(
+      MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)] -
+        CHOP_STAMINA_COST
+    );
   });
 });

@@ -5,7 +5,7 @@ import {
   BumpkinShirt,
   BumpkinHair,
 } from "features/game/types/bumpkin";
-import React from "react";
+import React, { useContext, useState } from "react";
 
 // Bodies
 import lightFarmer from "assets/bumpkins/small/body/beige_farmer.gif";
@@ -30,6 +30,12 @@ import farmerOveralls from "assets/bumpkins/small/pants/farmer_overalls.gif";
 import lumberjackOveralls from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
 import farmerPants from "assets/bumpkins/small/pants/lumberjack_overalls.gif"; // TODO
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Context } from "features/game/GameProvider";
+import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { InventoryItemName } from "features/game/types/game";
+import { FeedModal } from "./FeedModal";
+
+const HITS = 2;
 
 const PARTS: Partial<Record<BumpkinItems, string>> = {
   // Bodies
@@ -53,48 +59,58 @@ const PARTS: Partial<Record<BumpkinItems, string>> = {
   "Farmer Pants": farmerPants,
 };
 
+const isConsumeable = (item: InventoryItemName): item is ConsumableName =>
+  item in CONSUMABLES;
+
 interface Props {
   body: BumpkinBody;
   hair?: BumpkinHair;
   shirt?: BumpkinShirt;
   pants?: BumpkinPants;
-
-  onClick?: () => void;
 }
 
-export const Character: React.FC<Props> = ({
-  body,
-  hair,
-  shirt,
-  pants,
-  onClick,
-}) => {
+export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
+  const { gameService } = useContext(Context);
+
+  const [open, setOpen] = useState(false);
+
+  const eat = (food: ConsumableName) => {
+    gameService.send("bumpkin.feed", { food });
+  };
+
   return (
-    <div
-      className="w-full cursor-pointer hover:img-highlight"
-      onClick={onClick}
-    >
-      <img
-        src={PARTS[body]}
-        className="z-0"
-        style={{ width: `${20 * PIXEL_SCALE}px` }}
+    <>
+      <div
+        className="w-full cursor-pointer hover:img-highlight"
+        onClick={() => setOpen(true)}
+      >
+        <img
+          src={PARTS[body]}
+          className="z-0"
+          style={{ width: `${20 * PIXEL_SCALE}px` }}
+        />
+        {hair && (
+          <img src={PARTS[hair]} className="absolute w-full inset-0 z-10" />
+        )}
+        {shirt && (
+          <img src={PARTS[shirt]} className="absolute w-full inset-0 z-20" />
+        )}
+        {pants && (
+          <img src={PARTS[pants]} className="absolute w-full inset-0 z-30" />
+        )}
+        <img
+          src={shadow}
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+          }}
+          className="absolute w-full -bottom-1.5 -z-10 left-1.5"
+        />
+      </div>
+      <FeedModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onFeed={(food) => eat(food)}
       />
-      {hair && (
-        <img src={PARTS[hair]} className="absolute w-full inset-0 z-10" />
-      )}
-      {shirt && (
-        <img src={PARTS[shirt]} className="absolute w-full inset-0 z-20" />
-      )}
-      {pants && (
-        <img src={PARTS[pants]} className="absolute w-full inset-0 z-30" />
-      )}
-      <img
-        src={shadow}
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-        }}
-        className="absolute w-full -bottom-1.5 -z-10 left-1.5"
-      />
-    </div>
+    </>
   );
 };

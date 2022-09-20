@@ -53,6 +53,7 @@ import {
   collectRecipe,
   CollectRecipeAction,
 } from "./landExpansion/collectRecipe";
+import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 
 export type PlayingEvent =
   | CraftAction
@@ -81,7 +82,8 @@ export type PlayingEvent =
   | BuyWarBonds
   | PickSide
   | RecipeCookedAction
-  | CollectRecipeAction;
+  | CollectRecipeAction
+  | FeedBumpkinAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -130,6 +132,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "item.fertilised": fertiliseCrop,
   "recipe.cooked": cook,
   "recipe.collected": collectRecipe,
+  "bumpkin.feed": feedBumpkin,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

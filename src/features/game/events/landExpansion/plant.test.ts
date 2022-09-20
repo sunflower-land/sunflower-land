@@ -1,6 +1,12 @@
 import Decimal from "decimal.js-light";
+import { getBumpkinLevel } from "features/game/lib/level";
 import { CROPS } from "features/game/types/crops";
-import { INITIAL_FARM } from "../../lib/constants";
+import {
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+  MAX_STAMINA,
+  PLANT_STAMINA_COST,
+} from "../../lib/constants";
 import { GameState, LandExpansionPlot } from "../../types/game";
 import { plant } from "./plant";
 
@@ -349,5 +355,112 @@ describe("plant", () => {
     expect(
       (plots as Record<number, LandExpansionPlot>)[0].crop?.amount
     ).toEqual(1.2);
+  });
+
+  it("throws an error if the player doesnt have a bumpkin", async () => {
+    expect(() =>
+      plant({
+        state: {
+          ...GAME_STATE,
+          bumpkin: undefined,
+          inventory: {
+            "Carrot Seed": new Decimal(1),
+          },
+        },
+        action: {
+          type: "seed.planted",
+          index: 0,
+          expansionIndex: 0,
+          item: "Carrot Seed",
+        },
+      })
+    ).toThrow("You do not have a Bumpkin");
+  });
+
+  it("requires player has enough stamina", () => {
+    expect(() =>
+      plant({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            stamina: {
+              value: 0,
+              replenishedAt: Date.now(),
+            },
+          },
+          inventory: {
+            "Carrot Seed": new Decimal(1),
+          },
+        },
+        action: {
+          type: "seed.planted",
+          index: 0,
+          expansionIndex: 0,
+          item: "Carrot Seed",
+        },
+      })
+    ).toThrow("You do not have enough stamina");
+  });
+
+  it("replenishes stamina before planting", () => {
+    const createdAt = Date.now();
+
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          stamina: {
+            value: 0,
+            replenishedAt: 0,
+          },
+        },
+        inventory: {
+          "Carrot Seed": new Decimal(1),
+        },
+      },
+      action: {
+        type: "seed.planted",
+        index: 0,
+        expansionIndex: 0,
+        item: "Carrot Seed",
+      },
+      createdAt,
+    });
+
+    expect(state.bumpkin?.stamina.replenishedAt).toBe(createdAt);
+  });
+
+  it("deducts stamina from bumpkin", () => {
+    const createdAt = Date.now();
+
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          stamina: {
+            value: MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)],
+            replenishedAt: createdAt,
+          },
+        },
+        inventory: {
+          "Carrot Seed": new Decimal(1),
+        },
+      },
+      action: {
+        type: "seed.planted",
+        index: 0,
+        expansionIndex: 0,
+        item: "Carrot Seed",
+      },
+      createdAt,
+    });
+
+    expect(state.bumpkin?.stamina.value).toBe(
+      MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)] -
+        PLANT_STAMINA_COST
+    );
   });
 });
