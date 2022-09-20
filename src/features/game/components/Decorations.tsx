@@ -340,10 +340,9 @@ export const Trivia: React.FC = () => {
               style={{
                 width: `${GRID_WIDTH_PX * 3}px`,
               }}
-              className="hover:img-highlight cursor-pointer mb-2 m-auto"
+              className="mb-2 m-auto"
               src={trivia}
               alt="Goblin Trivia"
-              onClick={() => setShowModal(true)}
             />
             <p className="text-left mb-2">Congratulations Team Goblin.</p>
             <p className="text-left mb-2">
