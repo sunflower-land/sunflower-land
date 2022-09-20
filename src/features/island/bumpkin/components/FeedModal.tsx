@@ -24,7 +24,7 @@ export const FeedModal: React.FC<Props> = ({ isOpen, onFeed, onClose }) => {
   ] = useActor(gameService);
 
   const availableFood = getEntries(CONSUMABLES)
-    .filter(([name, _]) => !!state.inventory[name])
+    .filter(([name, _]) => !!state.inventory[name]?.gt(0))
     .map(([_, consumable]) => consumable);
 
   return (
@@ -35,11 +35,7 @@ export const FeedModal: React.FC<Props> = ({ isOpen, onFeed, onClose }) => {
             <DynamicNFT bumpkinParts={state.bumpkin.equipped} />
           )}
         </div>
-        {availableFood.length ? (
-          <Feed food={availableFood} onFeed={onFeed} onClose={onClose} />
-        ) : (
-          <>TODO</>
-        )}
+        <Feed food={availableFood} onFeed={onFeed} onClose={onClose} />
       </Panel>
     </Modal>
   );
