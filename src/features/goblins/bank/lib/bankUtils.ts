@@ -137,6 +137,15 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
 
   if (item === "Human War Banner" || item === "Goblin War Banner") return false;
 
+  // War Bond
+  if (item === "War Bond") return false;
+
+  //Rapid Growth
+  if (item === "Rapid Growth") return false;
+
+  //Chef Hat
+  if (item === "Chef Hat") return false;
+
   // War items
   if (
     item === "Human War Point" ||
