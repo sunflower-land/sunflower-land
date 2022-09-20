@@ -109,7 +109,7 @@ export function getMultiplier({ crop, inventory }: GetFieldArgs): number {
   }
 
   if (crop === "Beetroot" && inventory["Beetroot Amulet"]?.gte(1)) {
-    multiplier *= 1.1;
+    multiplier *= 1.2;
   }
 
   if (inventory.Scarecrow?.gte(1) || inventory.Kuebiko?.gte(1)) {
