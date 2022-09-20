@@ -5,16 +5,24 @@ import cloneDeep from "lodash.clonedeep";
 
 // 1 = 100% regeneration over 1 hour
 // 1/24 = 4.16% regeneration over 1 hour
+// The maximum rate of regeneration is 100% over 1 hour
+// The minimum rate of regeneration is 100% over 24 hours
 const MAX_REGEN_PERCENTAGE = 1;
 const MIN_REGEN_PERCENTAGE = 1 / 24;
 const REGEN_RANGE = MAX_REGEN_PERCENTAGE - MIN_REGEN_PERCENTAGE;
 
+// The decay rate is 10% per level
 const DECAY_RATE = 0.1;
 
 function getRegenerationRate(level: BumpkinLevel) {
+  // The stamina regeneration decays DECAY_RATE per level.
+  // https://mathbitsnotebook.com/Algebra2/Exponential/EXGrowthDecay.html
   const regenerationRate = REGEN_RANGE * (1 - DECAY_RATE) ** (level - 1);
+
+  // Ensure the lowest possible percent is MIN_REGEN_PERCENTAGE
   const offsetRegenerationRate = regenerationRate + MIN_REGEN_PERCENTAGE;
 
+  // Convert from percentage/hour to percentage/second
   return offsetRegenerationRate / 60 / 60;
 }
 
