@@ -65,7 +65,9 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
               count={inventory[item.name]}
             />
           ))}
-        {selected === undefined && "No food in inventory"}
+        {selected === undefined && (
+          <span className="p-1">No food in inventory</span>
+        )}
       </div>
       <OuterPanel className="flex-1 w-1/2">
         <div className="flex flex-col justify-center items-center p-2 relative">
@@ -106,13 +108,14 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
           )}
           {selected === undefined && (
             <>
+              <span className="text-shadow text-center">Hungry?</span>
               <img
                 src={firePit}
-                className="h-16 img-highlight mt-1"
+                className="h-16 img-highlight my-3"
                 alt={"Fire Pit"}
               />
               <span className="text-shadow text-center mt-2 sm:text-sm">
-                Cook food to feed your bumpkin
+                You will need to cook food in order to feed your bumpkin
               </span>
             </>
           )}
