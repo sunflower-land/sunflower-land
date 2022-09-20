@@ -21,7 +21,7 @@ export const Leaderboard: React.FC = () => {
     humanTeam: { total: 0, percentage: 0 },
   });
   const [loading, setLoading] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const getValues = async () => {
     // End of Week 1 points
