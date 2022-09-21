@@ -135,8 +135,8 @@ export class Frog {
   }
 
   public async getFrogIds(
-    attempts = 0,
-    owner: string | undefined
+    owner: string | undefined,
+    attempts = 0
   ): Promise<Array<[]>> {
     console.log("get Frog");
     console.log(CONFIG.FROG_CONTRACT);
@@ -153,7 +153,7 @@ export class Frog {
     } catch (e) {
       const error = parseMetamaskError(e);
       if (attempts < 3) {
-        return this.getFrogIds(attempts + 1, owner);
+        return this.getFrogIds(owner, attempts + 1);
       }
 
       throw error;
