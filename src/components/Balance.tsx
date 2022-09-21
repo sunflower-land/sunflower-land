@@ -21,7 +21,7 @@ export const Balance: React.FC<Props> = ({ balance }) => {
         onMouseLeave={() => setIsShown(false)}
       >
         {isShown === false ? (
-          balance.toDecimalPlaces(4, Decimal.ROUND_DOWN).toString()
+          balance.toDecimalPlaces(2, Decimal.ROUND_DOWN).toString()
         ) : (
           <small>{balance.toString()}</small>
         )}
