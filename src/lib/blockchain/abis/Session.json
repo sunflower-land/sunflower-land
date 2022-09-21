@@ -26,6 +26,11 @@
         "name": "_landExpansionMinter",
         "type": "address"
       },
+      {
+        "internalType": "contract BumpkinDetails",
+        "name": "_bumpkinDetails",
+        "type": "address"
+      },
       { "internalType": "address", "name": "_wishingWell", "type": "address" },
       {
         "internalType": "address",
@@ -143,6 +148,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "bumpkinDetails",
+    "outputs": [
+      {
+        "internalType": "contract BumpkinDetails",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "bytes", "name": "signature", "type": "bytes" },
       { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
@@ -208,6 +226,44 @@
     "name": "expandLand",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "farm",
+    "outputs": [
+      {
+        "internalType": "contract SunflowerLand",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_game", "type": "address" }
+    ],
+    "name": "gameAddGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_game", "type": "address" }
+    ],
+    "name": "gameRemoveGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "gameRoles",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -362,6 +418,32 @@
     ],
     "name": "getSyncedAt",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "inventory",
+    "outputs": [
+      {
+        "internalType": "contract SunflowerLandInventory",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "landExpansionMinter",
+    "outputs": [
+      {
+        "internalType": "contract SunflowerLandExpansionMinter",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -611,27 +693,59 @@
   },
   {
     "inputs": [
-      { "internalType": "bytes", "name": "signature", "type": "bytes" },
-      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
-      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
-      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
-      { "internalType": "uint256[]", "name": "mintIds", "type": "uint256[]" },
       {
-        "internalType": "uint256[]",
-        "name": "mintAmounts",
-        "type": "uint256[]"
-      },
-      { "internalType": "uint256[]", "name": "burnIds", "type": "uint256[]" },
-      {
-        "internalType": "uint256[]",
-        "name": "burnAmounts",
-        "type": "uint256[]"
-      },
-      { "internalType": "int256", "name": "tokens", "type": "int256" },
-      { "internalType": "uint256", "name": "syncFee", "type": "uint256" }
+        "components": [
+          { "internalType": "bytes", "name": "signature", "type": "bytes" },
+          { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+          { "internalType": "uint256", "name": "bumpkinId", "type": "uint256" },
+          { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+          { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
+          {
+            "internalType": "bytes32",
+            "name": "nextSessionId",
+            "type": "bytes32"
+          },
+          { "internalType": "uint256", "name": "fee", "type": "uint256" },
+          {
+            "components": [
+              {
+                "internalType": "uint256[]",
+                "name": "mintIds",
+                "type": "uint256[]"
+              },
+              {
+                "internalType": "uint256[]",
+                "name": "mintAmounts",
+                "type": "uint256[]"
+              },
+              {
+                "internalType": "uint256[]",
+                "name": "burnIds",
+                "type": "uint256[]"
+              },
+              {
+                "internalType": "uint256[]",
+                "name": "burnAmounts",
+                "type": "uint256[]"
+              },
+              {
+                "internalType": "uint256",
+                "name": "expAmount",
+                "type": "uint256"
+              },
+              { "internalType": "int256", "name": "tokens", "type": "int256" }
+            ],
+            "internalType": "struct SunflowerLandSession.ProgressData",
+            "name": "progress",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct SunflowerLandSession.SyncProgressData",
+        "name": "data",
+        "type": "tuple"
+      }
     ],
-    "name": "sync",
+    "name": "syncProgress",
     "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
     "stateMutability": "payable",
     "type": "function"
@@ -640,6 +754,32 @@
     "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "syncedAt",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token",
+    "outputs": [
+      {
+        "internalType": "contract SunflowerLandToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "trader",
+    "outputs": [
+      {
+        "internalType": "contract SunflowerLandTrader",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },

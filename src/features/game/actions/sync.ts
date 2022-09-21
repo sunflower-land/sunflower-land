@@ -71,10 +71,10 @@ export async function syncProgress({
 
   const transaction = await response.json();
 
-  console.log({ transaction });
-
   // TODO
-  const newSessionId = await metamask.getSessionManager().sync(transaction);
+  const newSessionId = await metamask
+    .getSessionManager()
+    .syncProgress(transaction);
 
   return { verified: true, sessionId: newSessionId };
 }

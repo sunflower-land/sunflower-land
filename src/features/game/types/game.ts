@@ -81,11 +81,9 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
-export type Ticket =
-  | "Trading Ticket"
-  | "War Bond"
-  | "Goblin War Point"
-  | "Human War Point";
+type Coupons = "Trading Ticket" | "War Bond";
+
+type Points = "Human War Point" | "Goblin War Point" | "Player Experience";
 
 type WarBanner = "Human War Banner" | "Goblin War Banner";
 
@@ -120,7 +118,8 @@ export type InventoryItemName =
   | Food
   | MOMEventItem
   | MutantChicken
-  | Ticket
+  | Coupons
+  | Points
   | WarItems
   | SpecialEvent
   | BuildingName
