@@ -23,6 +23,7 @@ const API_URL = CONFIG.API_URL;
 
 const EXCLUDED_EVENTS: GameEventName<PlayingEvent | PlacementEvent>[] = [
   "expansion.revealed",
+  "bot.detected",
 ];
 
 /**
