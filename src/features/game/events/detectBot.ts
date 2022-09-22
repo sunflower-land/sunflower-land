@@ -13,7 +13,7 @@ type Options = {
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `goblin.swarm.${host}-${window.location.pathname}`;
 
-const SWARM_MINUTES = 0.1;
+const SWARM_MINUTES = 5;
 
 function setGoblinSwarm() {
   const swarmUntil = new Date(Date.now() + SWARM_MINUTES * 60 * 1000);
