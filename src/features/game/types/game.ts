@@ -234,6 +234,7 @@ export type LandExpansion = {
 
   shrubs?: Record<number, LandExpansionTree>;
   pebbles?: Record<number, LandExpansionRock>;
+  gold?: Record<number, LandExpansionRock>;
   terrains?: Record<number, LandExpansionTerrain>;
   plots?: Record<number, LandExpansionPlot>;
   trees?: Record<number, LandExpansionTree>;

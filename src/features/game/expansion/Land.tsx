@@ -20,10 +20,18 @@ import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { ITEM_DETAILS } from "../types/images";
 import { Character } from "features/island/bumpkin/components/Character";
+import { Gold } from "./components/resources/Gold";
 
 type ExpansionProps = Pick<
   LandExpansion,
-  "shrubs" | "plots" | "trees" | "terrains" | "pebbles" | "stones" | "createdAt"
+  | "shrubs"
+  | "plots"
+  | "trees"
+  | "terrains"
+  | "pebbles"
+  | "stones"
+  | "gold"
+  | "createdAt"
 >;
 
 export const Expansion: React.FC<
@@ -33,6 +41,7 @@ export const Expansion: React.FC<
   plots,
   trees,
   stones,
+  gold,
   terrains,
   pebbles,
   createdAt,
@@ -72,6 +81,23 @@ export const Expansion: React.FC<
               width={width}
             >
               <Pebble pebbleIndex={index} expansionIndex={expansionIndex} />
+            </MapPlacement>
+          );
+        })}
+
+      {gold &&
+        getKeys(gold).map((index) => {
+          const { x, y, width, height } = gold[index];
+
+          return (
+            <MapPlacement
+              key={`${createdAt}-gold-${index}`}
+              x={x + xOffset}
+              y={y + yOffset}
+              height={height}
+              width={width}
+            >
+              <Gold />
             </MapPlacement>
           );
         })}
@@ -173,7 +199,16 @@ export const Land: React.FC = () => {
           .filter((expansion) => expansion.readyAt < Date.now())
           .map(
             (
-              { shrubs, pebbles, stones, terrains, trees, plots, createdAt },
+              {
+                shrubs,
+                pebbles,
+                stones,
+                gold,
+                terrains,
+                trees,
+                plots,
+                createdAt,
+              },
               index
             ) => (
               <Expansion
@@ -183,6 +218,7 @@ export const Land: React.FC = () => {
                 shrubs={shrubs}
                 pebbles={pebbles}
                 stones={stones}
+                gold={gold}
                 terrains={terrains}
                 trees={trees}
                 plots={plots}

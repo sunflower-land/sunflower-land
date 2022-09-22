@@ -197,6 +197,19 @@ export const INITIAL_PEBBLES: GameState["pebbles"] = {
   },
 };
 
+export const INITIAL_GOLD_MINES: GameState["pebbles"] = {
+  0: {
+    stone: {
+      amount: 0.1,
+      minedAt: 0,
+    },
+    x: 2,
+    y: 2,
+    height: 1,
+    width: 1,
+  },
+};
+
 export const INITIAL_STONE: GameState["stones"] = {
   0: {
     amount: new Decimal(2),
@@ -282,12 +295,47 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
 
   shrubs: INITIAL_SHRUBS,
   pebbles: INITIAL_PEBBLES,
+  gold: INITIAL_GOLD_MINES,
   terrains: INITIAL_TERRAIN,
 
   plots: INITIAL_PLOTS,
 };
 
-export const INITIAL_EXPANSIONS = [GENESIS_LAND_EXPANSION];
+export const INITIAL_EXPANSIONS = [
+  {
+    createdAt: 0,
+    readyAt: 0,
+
+    shrubs: INITIAL_SHRUBS,
+    pebbles: INITIAL_PEBBLES,
+    gold: INITIAL_GOLD_MINES,
+    terrains: INITIAL_TERRAIN,
+
+    plots: INITIAL_PLOTS,
+  },
+  {
+    createdAt: 0,
+    readyAt: 0,
+
+    shrubs: INITIAL_SHRUBS,
+    pebbles: INITIAL_PEBBLES,
+    gold: INITIAL_GOLD_MINES,
+    terrains: INITIAL_TERRAIN,
+
+    plots: INITIAL_PLOTS,
+  },
+  {
+    createdAt: 0,
+    readyAt: 0,
+
+    shrubs: INITIAL_SHRUBS,
+    pebbles: INITIAL_PEBBLES,
+    gold: INITIAL_GOLD_MINES,
+    terrains: INITIAL_TERRAIN,
+
+    plots: INITIAL_PLOTS,
+  },
+];
 
 export const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
