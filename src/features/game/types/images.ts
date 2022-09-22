@@ -664,6 +664,10 @@ export const ITEM_DETAILS: Items = {
     description: "A display of allegiance",
     image: questionMark,
   },
+  "Player Experience": {
+    description: "Blood, sweat and tears",
+    image: questionMark,
+  },
   "Human War Banner": {
     description: "A display of allegiance to the Human cause",
     image: humanBanner,

@@ -8,6 +8,27 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 
 const address = CONFIG.SESSION_CONTRACT;
 
+type ProgressData = {
+  mintIds: number[];
+  mintAmounts: string[];
+  burnIds: number[];
+  burnAmounts: string[];
+  expAmount: number;
+  tokens: string;
+};
+
+export type SyncProgressArgs = {
+  signature: string;
+  sender: string;
+  farmId: number;
+  bumpkinId: number;
+  deadline: number;
+  sessionId: string;
+  nextSessionId: string;
+  progress: ProgressData;
+  fee: string;
+};
+
 export type Recipe = {
   mintId: number;
   tokenAmount: number;
@@ -188,6 +209,49 @@ export class SessionManager {
         .send({ from: this.account, value: fee, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });
+          const parsed = parseMetamaskError(error);
+          reject(parsed);
+        })
+        .on("transactionHash", function (transactionHash: any) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt: any) {
+          resolve(receipt);
+        });
+    });
+
+    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
+    return newSessionId;
+  }
+
+  // New sync function for land expansion
+  public async syncProgress({
+    signature,
+    sessionId,
+    nextSessionId,
+    deadline,
+    farmId,
+    bumpkinId,
+    progress,
+    fee,
+  }: SyncProgressArgs): Promise<string> {
+    const oldSessionId = await this.getSessionId(farmId);
+    const gasPrice = await estimateGasPrice(this.web3);
+
+    await new Promise((resolve, reject) => {
+      this.contract.methods
+        .syncProgress({
+          signature,
+          farmId,
+          bumpkinId,
+          deadline,
+          sessionId,
+          nextSessionId,
+          progress,
+          fee,
+        })
+        .send({ from: this.account, value: fee, gasPrice })
+        .on("error", function (error: any) {
           const parsed = parseMetamaskError(error);
           reject(parsed);
         })
