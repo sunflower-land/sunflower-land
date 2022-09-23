@@ -31,6 +31,7 @@ import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { MintingBumpkin } from "features/island/bumpkin/components/MintingBumpkin";
 import { BumpkinMinted } from "features/island/bumpkin/components/BumpkinMinted";
+import { Swarming } from "../components/Swarming";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -51,6 +52,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   noBumpkinFound: true,
   mintingBumpkin: true,
   bumpkinMinted: true,
+  swarming: true,
 };
 
 export const Game: React.FC = () => {
@@ -140,6 +142,7 @@ export const Game: React.FC = () => {
           {gameState.matches("expanded") && <ExpansionSuccess />}
           {gameState.matches("expanding") && <Expanding />}
           {gameState.matches("hoarding") && <Hoarding />}
+          {gameState.matches("swarming") && <Swarming />}
           {gameState.matches("noBumpkinFound") && <NoBumpkin />}
           {gameState.matches("mintingBumpkin") && <MintingBumpkin />}
           {gameState.matches("bumpkinMinted") && <BumpkinMinted />}

@@ -4,13 +4,12 @@ import { Modal } from "react-bootstrap";
 
 import { CropReward as Reward } from "features/game/types/game";
 
-import secure from "assets/npcs/synced.gif";
-import idle from "assets/npcs/idle.gif";
-
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { addNoise, RandomID } from "lib/images";
+import { StopTheGoblins } from "./StopTheGoblins";
+import { ChestCaptcha } from "./ChestCaptcha";
 
 interface Props {
   reward: Reward | null;
@@ -18,10 +17,7 @@ interface Props {
   onCollected: () => void;
 }
 
-function randomIntFromInterval(min: number, max: number) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+type Challenge = "goblins" | "chest";
 
 export const CropReward: React.FC<Props> = ({
   reward,
@@ -31,7 +27,10 @@ export const CropReward: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [opened, setOpened] = useState(false);
 
-  const offset = useRef(randomIntFromInterval(30, 100));
+  const challenge = useRef<Challenge>(
+    Math.random() > 0.5 ? "chest" : "goblins"
+  );
+
   const id = useRef(RandomID());
 
   useEffect(() => {
@@ -49,6 +48,12 @@ export const CropReward: React.FC<Props> = ({
     gameService.send("reward.opened", { fieldIndex });
   };
 
+  const fail = () => {
+    close();
+    gameService.send("bot.detected");
+    gameService.send("REFRESH");
+  };
+
   const close = () => {
     onCollected();
     setOpened(false);
@@ -57,11 +62,12 @@ export const CropReward: React.FC<Props> = ({
   return (
     <Modal centered show={true}>
       <Panel>
-        <div className="flex flex-col items-center justify-between h-52">
-          <span className="text-center mb-2">Woohoo! You found a reward</span>
-
+        <div className="flex flex-col items-center justify-between">
           {opened ? (
             <>
+              <span className="text-center mb-2">
+                Woohoo! Here is your reward
+              </span>
               {reward.items.map((item) => (
                 <div key={item.name} className="flex items-center">
                   <img
@@ -79,24 +85,12 @@ export const CropReward: React.FC<Props> = ({
             </>
           ) : (
             <>
-              <div
-                className="flex items-center justify-between"
-                style={{
-                  width: `${offset.current}%`,
-                  // Randomly flip the side it is on
-                  transform: `scaleX(${offset.current % 2 === 0 ? 1 : -1})`,
-                }}
-              >
-                <img src={idle} className="w-16" />
-                <img
-                  src={secure}
-                  id={id.current}
-                  className="w-16 hover:img-highlight cursor-pointer"
-                  onClick={open}
-                />
-              </div>
-
-              <span className="text-sm">Tap the chest to open it</span>
+              {challenge.current === "goblins" && (
+                <StopTheGoblins onFail={fail} onOpen={open} />
+              )}
+              {challenge.current === "chest" && (
+                <ChestCaptcha onFail={fail} onOpen={open} />
+              )}
             </>
           )}
         </div>

@@ -54,6 +54,7 @@ import {
   CollectRecipeAction,
 } from "./landExpansion/collectRecipe";
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
+import { detectBot, DetectBotAction } from "./detectBot";
 
 export type PlayingEvent =
   | CraftAction
@@ -83,7 +84,8 @@ export type PlayingEvent =
   | PickSide
   | RecipeCookedAction
   | CollectRecipeAction
-  | FeedBumpkinAction;
+  | FeedBumpkinAction
+  | DetectBotAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -121,6 +123,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "airdrop.claimed": claimAirdrop,
   "warBonds.bought": buyWarBonds,
   "side.picked": pickSide,
+  "bot.detected": detectBot,
   // Land Expansion Handlers
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,

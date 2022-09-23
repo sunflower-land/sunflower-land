@@ -81,6 +81,14 @@ export const INITIAL_FIELDS: GameState["fields"] = {
   0: {
     name: "Sunflower",
     plantedAt: 0,
+    reward: {
+      items: [
+        {
+          amount: 2,
+          name: "Sunflower",
+        },
+      ],
+    },
   },
   1: {
     name: "Sunflower",

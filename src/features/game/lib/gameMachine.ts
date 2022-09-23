@@ -41,6 +41,7 @@ import { editingMachine } from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { InitialBumpkinParts, mintBumpkin } from "../actions/mintBumpkin";
+import { isSwarming } from "../events/detectBot";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -58,6 +59,7 @@ export interface Context {
   itemsMintedAt?: MintedAt;
   notifications?: OnChainEvent[];
   maxedItem?: InventoryItemName | "SFL";
+  goblinSwarm?: Date;
 }
 
 type MintEvent = {
@@ -207,6 +209,7 @@ export type BlockchainState = {
     | "levelling"
     | "error"
     | "refreshing"
+    | "swarming"
     | "hoarding"
     | "editing"
     | "noBumpkinFound"
@@ -320,6 +323,11 @@ export function startGame(authContext: Options) {
                 actions: "assignGame",
               },
               {
+                target: "swarming",
+                cond: () => isSwarming(),
+                actions: "assignGame",
+              },
+              {
                 target: "noBumpkinFound",
                 cond: (_, event) =>
                   !event.data?.state.bumpkin &&
@@ -429,6 +437,9 @@ export function startGame(authContext: Options) {
             },
             RESET: {
               target: "refreshing",
+            },
+            REFRESH: {
+              target: "loading",
             },
             EXPAND: {
               target: "expanding",
@@ -705,6 +716,13 @@ export function startGame(authContext: Options) {
             },
             ACKNOWLEDGE: {
               target: "playing",
+            },
+          },
+        },
+        swarming: {
+          on: {
+            REFRESH: {
+              target: "loading",
             },
           },
         },

@@ -38,6 +38,7 @@ import { Hoarding } from "./components/Hoarding";
 import { Airdrop } from "./components/Airdrop";
 import { GoblinWar } from "features/war/GoblinWar";
 import { CommunityGardenEntry } from "features/farming/town/components/CommunityGardenEntry";
+import { Swarming } from "./components/Swarming";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -58,6 +59,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   noBumpkinFound: false,
   mintingBumpkin: false,
   bumpkinMinted: false,
+  swarming: true,
 };
 
 export const Game: React.FC = () => {
@@ -119,6 +121,7 @@ export const Game: React.FC = () => {
           {gameState.matches("synced") && <Success />}
           {gameState.matches("syncing") && <Syncing />}
           {gameState.matches("hoarding") && <Hoarding />}
+          {gameState.matches("swarming") && <Swarming />}
         </Panel>
       </Modal>
       {/* check local storage and show modal if not read */}
