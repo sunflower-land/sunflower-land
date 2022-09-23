@@ -75,6 +75,7 @@ export const INITIAL_STOCK: Inventory = {
   "Wheat Cake": new Decimal(1),
 
   "Boiled Egg": new Decimal(1),
+  Chicken: new Decimal(5),
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
@@ -302,23 +303,22 @@ export const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const INITIAL_FARM: GameState = {
-  balance: new Decimal(fromWei("0")),
+  balance: new Decimal(10),
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
+    "Wheat Seed": new Decimal(10),
+    "Potato Seed": new Decimal(10),
     Potato: new Decimal(12),
+    Chicken: new Decimal(5),
     "Roasted Cauliflower": new Decimal(1),
     "Carrot Cake": new Decimal(1),
     Radish: new Decimal(100),
     Wheat: new Decimal(100),
     Egg: new Decimal(15),
     "Rusty Shovel": new Decimal(1),
-    Axe: new Decimal(3),
-    Pickaxe: new Decimal(3),
-    "Trading Ticket": new Decimal(50),
-    "Chef Hat": new Decimal(1),
+    Axe: new Decimal(10),
     "Human War Banner": new Decimal(1),
-    Warrior: new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
@@ -349,22 +349,12 @@ export const INITIAL_FARM: GameState = {
 
   expansions: INITIAL_EXPANSIONS,
   buildings: {},
-  airdrops: [
-    {
-      createdAt: Date.now(),
-      id: "123",
-      items: {
-        "Rapid Growth": 5,
-      },
-      sfl: 3,
-      message: "You are a legend!",
-    },
-  ],
+  airdrops: [],
   collectibles: {},
   warCollectionOffer: {
     warBonds: 10,
     startAt: new Date().toISOString(),
-    endAt: new Date(Date.now() + 10000).toISOString(),
+    endAt: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
     ingredients: [
       {
         amount: 50,
@@ -376,7 +366,7 @@ export const INITIAL_FARM: GameState = {
 };
 
 export const EMPTY: GameState = {
-  balance: new Decimal(fromWei("0")),
+  balance: new Decimal(fromWei("10")),
   fields: {},
   inventory: {
     "Chicken Coop": new Decimal(1),
