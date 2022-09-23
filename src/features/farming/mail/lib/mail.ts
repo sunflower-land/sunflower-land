@@ -25,7 +25,14 @@ async function getSFLSupply() {
       ])
     : [toBN(0), toBN(0)];
 
-  return new Decimal(fromWei(total)).minus(new Decimal(fromWei(burned)));
+  const totalSupply = new Decimal(fromWei(total));
+
+  // total and circulating
+  return [totalSupply, totalSupply.minus(new Decimal(fromWei(burned)))];
+}
+
+function formatAmount(num: Decimal) {
+  return num.toDecimalPlaces(3, Decimal.ROUND_DOWN).toNumber().toLocaleString();
 }
 
 /**
@@ -57,25 +64,30 @@ function getNextHalvening(currentSupply: Decimal) {
 }
 
 export async function getInbox() {
-  const sflBalance = await getSFLSupply();
-  const nextHalvening = getNextHalvening(sflBalance);
+  const [totalSfl, circSfl] = await getSFLSupply();
+  const nextHalvening = getNextHalvening(totalSfl);
 
   return [
     // double space for line break
     {
-      id: "sfl-supply",
-      title: "SFL Supply",
+      id: "halvening",
+      title: "Halvening",
       body: API_URL
-        ? `Circulating SFL: ${sflBalance
-            .toDecimalPlaces(3, Decimal.ROUND_DOWN)
-            .toNumber()
-            .toLocaleString()}  
+        ? `Total SFL: ${formatAmount(totalSfl)}  
         &nbsp;  
         Next halvening is at ${nextHalvening.toNumber().toLocaleString()}  
         &nbsp;   
-        Notes:  
-        * This value is read from the Blockchain. Other farmers may not have synced yet.  
-        * Excludes burned SFL
+        Notes: This value is read from the Blockchain. Other farmers may not have synced yet. 
+      `
+        : "You're running Sunflower Land locally!",
+    },
+    {
+      id: "sfl-supply",
+      title: "SFL Supply",
+      body: API_URL
+        ? `Circulating SFL: ${formatAmount(circSfl)}  
+        &nbsp;     
+        Notes: The amount of SFL in farms, wallets, and pools. This excludes burned SFL. 
       `
         : "You're running Sunflower Land locally!",
     },
