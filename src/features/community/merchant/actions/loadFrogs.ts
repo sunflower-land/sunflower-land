@@ -83,34 +83,37 @@ function filterFrogs(frogs: Frog[]) {
   const highestRarity = frogs[0].attributes[5].value;
 
   console.log("highest rarity", highestRarity);
+  console.log("length before", frogs.length);
 
   /** Limit frogs based on highest rarity of frog in farm
-   * Legendary = 6 frogs
-   * Epic = 5 frogs
-   * Rare = 4 frogs
-   * Uncommon = 3 frogs
-   * Common = 2 frogs
+   * Legendary = 7 frogs
+   * Epic = 6 frogs
+   * Rare = 5 frogs
+   * Uncommon = 4 frogs
+   * Common = 3 frogs
    */
+
   switch (highestRarity) {
     case "Legendary":
-      frogs.splice(6, frogs.length);
+      frogs.splice(7, frogs.length);
       break;
     case "Epic":
-      frogs.slice(5, frogs.length);
+      frogs.splice(6, frogs.length);
       break;
     case "Rare":
-      frogs.slice(4, frogs.length);
+      frogs.splice(5, frogs.length);
       break;
     case "Uncommon":
-      frogs.slice(3, frogs.length);
+      frogs.splice(4, frogs.length);
       break;
     case "Common":
-      frogs.splice(2, frogs.length);
+      frogs.splice(3, frogs.length);
       break;
     default:
-      frogs.slice(0, 2);
+      frogs.splice(0, 2);
   }
 
+  console.log("length after", frogs.length);
   return frogs;
 }
 
