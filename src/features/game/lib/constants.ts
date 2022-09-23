@@ -306,34 +306,85 @@ export const INITIAL_EXPANSIONS = [
     createdAt: 0,
     readyAt: 0,
 
-    shrubs: INITIAL_SHRUBS,
-    pebbles: INITIAL_PEBBLES,
-    gold: INITIAL_GOLD_MINES,
     terrains: INITIAL_TERRAIN,
-
     plots: INITIAL_PLOTS,
+
+    pebbles: {
+      0: {
+        stone: {
+          amount: 0.1,
+          minedAt: 0,
+        },
+        x: 1,
+        y: -2,
+        height: 1,
+        width: 1,
+      },
+    },
+    trees: {
+      0: {
+        wood: {
+          amount: new Decimal(3),
+          choppedAt: 0,
+        },
+        x: -3,
+        y: 3,
+        height: 2,
+        width: 2,
+      },
+    },
   },
   {
     createdAt: 0,
     readyAt: 0,
 
-    shrubs: INITIAL_SHRUBS,
-    pebbles: INITIAL_PEBBLES,
-    gold: INITIAL_GOLD_MINES,
-    terrains: INITIAL_TERRAIN,
+    // gold: INITIAL_GOLD_MINES,
+    terrains: {
+      0: {
+        name: TerrainTypeEnum.terrain5,
+        // height: 54 / 3,
+        width: 52,
+        x: -2,
+        y: -1,
+      },
+    },
 
-    plots: INITIAL_PLOTS,
-  },
-  {
-    createdAt: 0,
-    readyAt: 0,
+    plots: {
+      0: {
+        crop: { name: "Sunflower", plantedAt: 0 },
+        x: -2,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      1: {
+        crop: { name: "Sunflower", plantedAt: 0 },
+        x: -1,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      2: {
+        crop: { name: "Sunflower", plantedAt: 0 },
+        x: 0,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+    } as GameState["plots"],
 
-    shrubs: INITIAL_SHRUBS,
-    pebbles: INITIAL_PEBBLES,
-    gold: INITIAL_GOLD_MINES,
-    terrains: INITIAL_TERRAIN,
-
-    plots: INITIAL_PLOTS,
+    trees: {
+      0: {
+        wood: {
+          amount: new Decimal(3),
+          choppedAt: 0,
+        },
+        x: 1,
+        y: 1,
+        height: 2,
+        width: 2,
+      },
+    },
   },
 ];
 
