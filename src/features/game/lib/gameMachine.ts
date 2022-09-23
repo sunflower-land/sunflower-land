@@ -252,7 +252,6 @@ export function startGame(authContext: Options) {
         loading: {
           invoke: {
             src: async () => {
-              console.log("LOAD");
               const farmId = authContext.farmId as number;
 
               const {
