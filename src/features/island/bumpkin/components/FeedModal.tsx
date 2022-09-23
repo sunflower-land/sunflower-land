@@ -35,7 +35,7 @@ export const FeedModal: React.FC<Props> = ({ isOpen, onFeed, onClose }) => {
             <DynamicNFT bumpkinParts={state.bumpkin.equipped} />
           )}
         </div>
-        <Feed food={[]} onFeed={onFeed} onClose={onClose} />
+        <Feed food={availableFood} onFeed={onFeed} onClose={onClose} />
       </Panel>
     </Modal>
   );
