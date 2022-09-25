@@ -221,7 +221,9 @@ import ancientHumanWarhammer from "src/assets/nfts/quest/ancient_human_warhammer
 import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 
 // Buildings
-import firePit from "src/assets/buildings/fire_pit.png";
+import firePit from "src/assets/buildings/kitchen.png";
+import market from "src/assets/buildings/market.png";
+import blacksmith from "src/assets/buildings/blacksmith.png";
 
 // Clothing
 import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
@@ -974,6 +976,10 @@ export const ITEM_DETAILS: Items = {
     image: firePit,
     description: "Roast your Sunflowers, feed and level up your Bumpkin",
   },
+  Market: {
+    image: market,
+    description: "Buy and sell at the Farmer's Market",
+  },
   Oven: {
     image: questionMark,
     description: "TEST",
@@ -982,8 +988,8 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "Bake your favourite cakes",
   },
-  Anvil: {
-    image: questionMark,
+  Blacksmith: {
+    image: blacksmith,
     description: "TEST",
   },
   Workbench: {

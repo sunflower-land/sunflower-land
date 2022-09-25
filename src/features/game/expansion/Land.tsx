@@ -229,7 +229,7 @@ export const Land: React.FC = () => {
         {gameState.matches("editing") && <Placeable />}
 
         {gameState.context.state.bumpkin?.equipped && (
-          <MapPlacement x={2} y={1}>
+          <MapPlacement x={2} y={-1}>
             <Character
               body={gameState.context.state.bumpkin.equipped.body}
               hair={gameState.context.state.bumpkin.equipped.hair}

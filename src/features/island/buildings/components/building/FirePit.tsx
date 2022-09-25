@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import firePit from "assets/buildings/fire_pit.png";
+import firePit from "assets/buildings/kitchen.png";
 import classNames from "classnames";
 import { FirePitModal } from "./firePit/FirePitModal";
 import { ConsumableName } from "features/game/types/consumables";

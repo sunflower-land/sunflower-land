@@ -86,15 +86,15 @@ describe("Place building", () => {
     expect(state.buildings["Oven"]).toHaveLength(1);
   });
 
-  it("Places multiple Anvils", () => {
+  it("Places multiple Blacksmiths", () => {
     const state = placeBuilding({
       state: {
         ...GAME_STATE,
         inventory: {
-          Anvil: new Decimal(2),
+          Blacksmith: new Decimal(2),
         },
         buildings: {
-          Anvil: [
+          Blacksmith: [
             {
               id: "123",
               coordinates: { x: 1, y: 1 },
@@ -107,7 +107,7 @@ describe("Place building", () => {
       createdAt: date,
       action: {
         type: "building.placed",
-        name: "Anvil",
+        name: "Blacksmith",
         coordinates: {
           x: 0,
           y: 0,
@@ -115,14 +115,14 @@ describe("Place building", () => {
       },
     });
 
-    expect(state.buildings["Anvil"]).toHaveLength(2);
-    expect(state.buildings["Anvil"]?.[0]).toEqual({
+    expect(state.buildings["Blacksmith"]).toHaveLength(2);
+    expect(state.buildings["Blacksmith"]?.[0]).toEqual({
       id: expect.any(String),
       coordinates: { x: 1, y: 1 },
       readyAt: date,
       createdAt: date,
     });
-    expect(state.buildings["Anvil"]?.[1]).toEqual({
+    expect(state.buildings["Blacksmith"]?.[1]).toEqual({
       coordinates: { x: 0, y: 0 },
       readyAt: date + 5 * 60 * 1000,
       createdAt: date,

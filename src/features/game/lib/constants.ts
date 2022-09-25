@@ -386,6 +386,58 @@ export const INITIAL_EXPANSIONS = [
       },
     },
   },
+  {
+    createdAt: 0,
+    readyAt: 0,
+
+    // gold: INITIAL_GOLD_MINES,
+    terrains: {
+      0: {
+        name: TerrainTypeEnum.terrain5,
+        // height: 54 / 3,
+        width: 52,
+        x: -2,
+        y: -1,
+      },
+    },
+
+    plots: {
+      0: {
+        crop: { name: "Sunflower", plantedAt: 0 },
+        x: -2,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      1: {
+        crop: { name: "Sunflower", plantedAt: 0 },
+        x: -1,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      2: {
+        crop: { name: "Sunflower", plantedAt: 0 },
+        x: 0,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+    } as GameState["plots"],
+
+    trees: {
+      0: {
+        wood: {
+          amount: new Decimal(3),
+          choppedAt: 0,
+        },
+        x: 1,
+        y: 1,
+        height: 2,
+        width: 2,
+      },
+    },
+  },
 ];
 
 export const INITIAL_BUMPKIN: Bumpkin = {
@@ -415,7 +467,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const INITIAL_FARM: GameState = {
-  balance: new Decimal(fromWei("0")),
+  balance: new Decimal(10),
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
@@ -461,7 +513,41 @@ export const INITIAL_FARM: GameState = {
   plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
-  buildings: {},
+  buildings: {
+    Market: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 1,
+          y: 3,
+        },
+        createdAt: 0,
+      },
+    ],
+    "Fire Pit": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 5,
+          y: 4,
+        },
+        createdAt: 0,
+      },
+    ],
+    Blacksmith: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: 9,
+        },
+        createdAt: 0,
+      },
+    ],
+  },
   airdrops: [
     {
       createdAt: Date.now(),

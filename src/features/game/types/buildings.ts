@@ -5,9 +5,10 @@ import { InventoryItemName } from "./game";
 
 export type BuildingName =
   | "Fire Pit"
+  | "Market"
   | "Oven"
   | "Bakery"
-  | "Anvil"
+  | "Blacksmith"
   | "Workbench";
 
 export type BuildingBluePrint = {
@@ -31,10 +32,25 @@ export type PlaceableName =
 
 export const UPGRADABLES: Partial<Record<BuildingName, BuildingName>> = {
   "Fire Pit": "Oven",
-  Anvil: "Workbench",
+  Blacksmith: "Workbench",
 };
 
 export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
+  Market: {
+    levelRequired: 1,
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(3),
+      },
+      {
+        item: "Stone",
+        amount: new Decimal(3),
+      },
+    ],
+    sfl: new Decimal(0),
+    constructionSeconds: 30,
+  },
   "Fire Pit": {
     levelRequired: 1,
     ingredients: [
@@ -88,7 +104,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     sfl: new Decimal(10),
     constructionSeconds: 60 * 30,
   },
-  Anvil: {
+  Blacksmith: {
     levelRequired: 1,
     ingredients: [
       {
@@ -117,9 +133,10 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
 };
 
 export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
-  "Fire Pit": { height: 1, width: 1 },
+  Market: { height: 2, width: 3 },
+  "Fire Pit": { height: 2, width: 3 },
+  Blacksmith: { height: 2, width: 3 },
   Oven: { height: 1, width: 1 },
   Bakery: { height: 3, width: 3 },
-  Anvil: { height: 1, width: 1 },
   Workbench: { height: 1, width: 1 },
 };
