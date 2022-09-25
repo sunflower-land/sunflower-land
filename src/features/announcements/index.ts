@@ -25,6 +25,17 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
+    date: new Date("2022-09-26T00:00:00"),
+    title: "Something Smells bad",
+    notes: [
+      "We are getting reports that the enemy has a secret weapon they found in a cave.",
+      "We need to craft more swords if we are going to win this war.",
+      "It's also possible to make stink bombs from rotten eggs, the pulp of a pumpkin and some mouldy cabbages.",
+    ],
+    link: "https://docs.sunflower-land.com/fundamentals/special-events/goblin-war",
+    type: "war",
+  },
+  {
     date: new Date("2022-09-19T04:00:00"),
     title: "The Halvening is coming!",
     notes: [
@@ -66,7 +77,6 @@ export const ANNOUNCEMENTS: Announcement[] = [
     ],
     link: "https://docs.sunflower-land.com/fundamentals/roadmap/launch",
     image: roadmap,
-    type: "war",
   },
   {
     date: new Date("2022-09-12T00:00:00"),
