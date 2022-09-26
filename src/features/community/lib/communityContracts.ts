@@ -126,8 +126,6 @@ export class CommunityContracts {
     const gasPrice = await estimateGasPrice(this.web3 as Web3);
 
     try {
-      console.log("send amount:", donation);
-      console.log("send matic to:", to);
       await this.web3?.eth.sendTransaction({
         from: communityContracts.myAccount as string,
         to,

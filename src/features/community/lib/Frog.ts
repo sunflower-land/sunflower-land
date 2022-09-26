@@ -41,7 +41,6 @@ export class Frog {
         .mint(_pid, _farmId)
         .send({ from: this.account, gasPrice })
         .on("error", function (error: any) {
-          console.log({ error });
           const parsed = parseMetamaskError(error);
 
           reject(parsed);
@@ -138,16 +137,12 @@ export class Frog {
     owner: string | undefined,
     attempts = 0
   ): Promise<Array<[]>> {
-    console.log("get Frog");
-    console.log(CONFIG.FROG_CONTRACT);
-
     await new Promise((res) => setTimeout(res, 3000 * attempts));
 
     try {
       const frogIds = await this.contract.methods
         .walletOfOwner(owner || this.account)
         .call({ from: this.account });
-      console.log("frog IDs:", frogIds);
 
       return frogIds;
     } catch (e) {
@@ -167,7 +162,6 @@ export class Frog {
       const baseUri = await this.contract.methods
         .baseURI()
         .call({ from: this.account });
-      console.log("frog baseURI:", baseUri);
 
       return baseUri;
     } catch (e) {
@@ -187,7 +181,6 @@ export class Frog {
       const tokenUri = await this.contract.methods
         .tokenURI(tokenId)
         .call({ from: this.account });
-      console.log("frog tokenURI:", tokenUri);
 
       return tokenUri;
     } catch (e) {

@@ -39,7 +39,6 @@ export async function loadFrogs(owner: string | undefined = undefined) {
         filteredFrogs = filterFrogs(res);
       }
 
-      console.log("filtered frogs:", filteredFrogs);
       return filteredFrogs;
     }
   } catch {
@@ -75,15 +74,10 @@ export async function isFrogPreview() {
 }
 
 function filterFrogs(frogs: Frog[]) {
-  console.log("being filtered", frogs);
-
   frogs.sort(compare);
 
   // After sorting, the first object in the array is the highest rarity
   const highestRarity = frogs[0].attributes[5].value;
-
-  console.log("highest rarity", highestRarity);
-  console.log("length before", frogs.length);
 
   /** Limit frogs based on highest rarity of frog in farm
    * Legendary = 7 frogs
@@ -113,7 +107,6 @@ function filterFrogs(frogs: Frog[]) {
       frogs.splice(0, 2);
   }
 
-  console.log("length after", frogs.length);
   return frogs;
 }
 

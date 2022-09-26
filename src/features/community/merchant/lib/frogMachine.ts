@@ -73,15 +73,12 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
             const frogCount = await communityContracts
               .getFrog()
               .getTotalSupply();
-            console.log(frogCount);
             const isWhitelistEnabled = await communityContracts
               .getFrog()
               .isWhitelistingEnabled();
-            console.log(isWhitelistEnabled);
             const isWalletBlacklisted = await communityContracts
               .getFrog()
               .isWalletBlacklisted();
-            console.log(isWalletBlacklisted);
 
             return {
               canMint: frogCount < 520,
@@ -122,7 +119,6 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
             const isWalletWhitelisted = await communityContracts
               .getFrog()
               .isWalletWhitelisted();
-            console.log("is wallet whitelisted?", isWalletWhitelisted);
 
             return { isWalletWhitelisted };
           },
@@ -147,7 +143,6 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
             const isTokenApproved = await metamask
               .getToken()
               .isTokenApprovedForContract(frogAddress);
-            console.log("is token approved?", isTokenApproved);
 
             return { isTokenApproved };
           },
@@ -177,7 +172,6 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
         invoke: {
           src: async () => {
             const _approve = await approve(frogAddress);
-            console.log(_approve);
 
             return { _approve };
           },
@@ -202,7 +196,6 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
           src: async () => {
             const farm = await metamask.getFarm()?.getFarms();
             const mint = await mintFrog({ farmId: Number(farm[0].tokenId) });
-            console.log(mint);
 
             return { mint };
           },

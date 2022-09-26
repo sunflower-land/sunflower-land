@@ -44,7 +44,6 @@ export function startCommunityMachine(authContext: AuthContext) {
               .balanceOf(metamask.myAccount as string);
 
             const farm = await metamask.getFarm()?.getFarms();
-            console.log("machine", farm[0].tokenId);
 
             return {
               balance: new Decimal(fromWei(balance)),
