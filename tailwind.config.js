@@ -44,6 +44,13 @@ module.exports = {
         float: "floating 3s ease-in-out infinite",
         pulsate: "pulsate 1s ease-in-out infinite",
       },
+      dropShadow: {
+        highlight: [
+          "1px 1px 0px white",
+          "-1px 0px 0px white",
+          "0px -1px 0px white",
+        ],
+      },
     },
   },
 };
