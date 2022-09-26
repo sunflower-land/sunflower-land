@@ -16,9 +16,23 @@ enum Halvening {
 const API_URL = CONFIG.API_URL;
 
 async function getSFLSupply() {
-  const supply = API_URL ? await metamask.getToken().totalSupply() : toBN(0);
+  const [total, burned] = API_URL
+    ? await Promise.all([
+        metamask.getToken().totalSupply(),
+        metamask
+          .getToken()
+          .balanceOf("0x000000000000000000000000000000000000dead"),
+      ])
+    : [toBN(0), toBN(0)];
 
-  return new Decimal(fromWei(supply));
+  const totalSupply = new Decimal(fromWei(total));
+
+  // total and circulating
+  return [totalSupply, totalSupply.minus(new Decimal(fromWei(burned)))];
+}
+
+function formatAmount(num: Decimal) {
+  return num.toDecimalPlaces(3, Decimal.ROUND_DOWN).toNumber().toLocaleString();
 }
 
 /**
@@ -50,23 +64,30 @@ function getNextHalvening(currentSupply: Decimal) {
 }
 
 export async function getInbox() {
-  const sflBalance = await getSFLSupply();
-  const nextHalvening = getNextHalvening(sflBalance);
+  const [totalSfl, circSfl] = await getSFLSupply();
+  const nextHalvening = getNextHalvening(totalSfl);
 
   return [
     // double space for line break
     {
-      id: "sfl-supply",
-      title: "SFL Supply",
+      id: "halvening",
+      title: "Halvening",
       body: API_URL
-        ? `Total SFL: ${sflBalance
-            .toDecimalPlaces(3, Decimal.ROUND_DOWN)
-            .toNumber()
-            .toLocaleString()}  
+        ? `Total SFL: ${formatAmount(totalSfl)}  
         &nbsp;  
         Next halvening is at ${nextHalvening.toNumber().toLocaleString()}  
         &nbsp;   
-        **Note: this value is read from the Blockchain. Other farmers may not have synced yet.**
+        Notes: This value is read from the Blockchain. Other farmers may not have synced yet. 
+      `
+        : "You're running Sunflower Land locally!",
+    },
+    {
+      id: "sfl-supply",
+      title: "SFL Supply",
+      body: API_URL
+        ? `Circulating SFL: ${formatAmount(circSfl)}  
+        &nbsp;     
+        Notes: The amount of SFL in farms, wallets, and pools. This excludes burned SFL. 
       `
         : "You're running Sunflower Land locally!",
     },
