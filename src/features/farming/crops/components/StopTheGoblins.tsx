@@ -79,24 +79,24 @@ interface Props {
 }
 
 export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
-  const [wrongAttempts, setWrongAttempts] = useState<number[]>([]);
-  const [correctAttempts, setCorrectAttempts] = useState<number[]>([]);
+  const [wrongAttempts, setWrongAttempts] = useState(new Set<number>());
+  const [correctAttempts, setCorrectAttempts] = useState(new Set<number>());
   const [items] = useState(generateImages());
 
-  const attemptsLeft = MAX_ATTEMPTS - wrongAttempts.length;
+  const attemptsLeft = MAX_ATTEMPTS - wrongAttempts.size;
 
   const check = (index: number) => {
     if (items[index].isGoblin) {
-      setCorrectAttempts((prev) => [...prev, index]);
+      setCorrectAttempts((prev) => new Set([...prev, index]));
 
-      if (correctAttempts.length === GOBLIN_COUNT - 1) {
+      if (correctAttempts.size === GOBLIN_COUNT - 1) {
         onOpen();
       }
 
       return;
     }
 
-    setWrongAttempts((prev) => [...new Set([...prev, index])]);
+    setWrongAttempts((prev) => new Set([...prev, index]));
 
     if (attemptsLeft <= 1) {
       onFail();
@@ -108,8 +108,8 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
       <span className="text-center mb-2">Stop the Goblins!</span>
       <div className="flex flex-wrap justify-center items-center">
         {items.map((item, index) => {
-          const failed = wrongAttempts.includes(index);
-          const confirmed = correctAttempts.includes(index);
+          const failed = wrongAttempts.has(index);
+          const confirmed = correctAttempts.has(index);
 
           return (
             <div
