@@ -60,6 +60,7 @@ export interface Context {
   notifications?: OnChainEvent[];
   maxedItem?: InventoryItemName | "SFL";
   goblinSwarm?: Date;
+  deviceTrackerId?: string;
 }
 
 type MintEvent = {
@@ -288,7 +289,13 @@ export function startGame(authContext: Options) {
                   throw new Error("NO_FARM");
                 }
 
-                const { game, offset, whitelistedAt, itemsMintedAt } = response;
+                const {
+                  game,
+                  offset,
+                  whitelistedAt,
+                  itemsMintedAt,
+                  deviceTrackerId,
+                } = response;
 
                 // add farm address
                 game.farmAddress = authContext.address;
@@ -306,6 +313,7 @@ export function startGame(authContext: Options) {
                   onChain,
                   owner,
                   notifications: onChainEvents,
+                  deviceTrackerId,
                 };
               }
 
@@ -468,6 +476,7 @@ export function startGame(authContext: Options) {
                 token: authContext.rawToken as string,
                 offset: context.offset,
                 fingerprint: context.fingerprint as string,
+                deviceTrackerId: context.deviceTrackerId as string,
               });
 
               // This gives the UI time to indicate that a save is taking place both when clicking save
@@ -515,6 +524,7 @@ export function startGame(authContext: Options) {
                   token: authContext.rawToken as string,
                   offset: context.offset,
                   fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
                 });
               }
 
@@ -564,6 +574,7 @@ export function startGame(authContext: Options) {
                   token: authContext.rawToken as string,
                   offset: context.offset,
                   fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
                 });
               }
 
@@ -574,6 +585,7 @@ export function startGame(authContext: Options) {
                 fingerprint: context.fingerprint as string,
                 skill: (event as LevelUpEvent).skill,
                 offset: context.offset,
+                deviceTrackerId: context.deviceTrackerId as string,
               });
 
               return {
@@ -667,6 +679,7 @@ export function startGame(authContext: Options) {
                   token: authContext.rawToken as string,
                   offset: context.offset,
                   fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
                 });
               }
 
@@ -773,6 +786,7 @@ export function startGame(authContext: Options) {
           fingerprint: (_, event) => event.data.fingerprint,
           itemsMintedAt: (_, event) => event.data.itemsMintedAt,
           notifications: (_, event) => event.data.notifications,
+          deviceTrackerId: (_, event) => event.data.deviceTrackerId,
         }),
       },
     }

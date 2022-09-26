@@ -22,6 +22,7 @@ export interface Context {
   farmId: number;
   farmAddress: string;
   token: string;
+  deviceTrackerId: string;
   farmSlots: FarmSlot[];
   remainingListings: number;
   freeListings: number;
@@ -189,6 +190,7 @@ export const tradingPostMachine = createMachine<
             sfl: (event as PurchaseEvent).sfl,
             farmId: context.farmId,
             token: context.token,
+            deviceTrackerId: context.deviceTrackerId,
           });
         },
         onDone: {

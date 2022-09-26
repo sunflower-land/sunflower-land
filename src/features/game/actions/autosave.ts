@@ -17,6 +17,7 @@ type Request = {
   token: string;
   offset: number;
   fingerprint: string;
+  deviceTrackerId: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -90,6 +91,7 @@ export async function autosaveRequest(
       actions: request.actions,
       clientVersion: CONFIG.CLIENT_VERSION as string,
       cachedKey,
+      deviceTrackerId: request.deviceTrackerId,
     }),
   });
 }
@@ -125,7 +127,10 @@ export async function autosave(request: Request) {
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error("Could not save game");
+    const data = await response.json();
+    console.log({ data });
+
+    throw new Error(data.error || "Something went wrong");
   }
 
   const { farm } = await sanitizeHTTPResponse<{

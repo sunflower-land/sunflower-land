@@ -15,6 +15,7 @@ import { SessionExpired } from "./components/SessionExpired";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { TooManyRequests } from "./components/TooManyRequests";
 import { Maintenance } from "./components/Maintenance";
+import { MultipleDevices } from "./components/MultipleDevices";
 
 interface Props {
   errorCode: ErrorCode;
@@ -76,6 +77,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.MAINTENANCE) {
     return <Maintenance />;
+  }
+
+  if (errorCode === ERRORS.MULTIPLE_DEVICES_OPEN) {
+    return <MultipleDevices />;
   }
 
   return <ConnectingError />;

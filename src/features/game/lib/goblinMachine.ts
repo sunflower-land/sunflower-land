@@ -37,6 +37,7 @@ export interface Context {
   sessionId?: string;
   errorCode?: keyof typeof ERRORS;
   farmAddress?: string;
+  deviceTrackerId?: string;
   limitedItems: Partial<Record<LimitedItemName, LimitedItem>>;
 }
 
@@ -193,6 +194,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 state: game,
                 limitedItems: limitedItemsById,
                 sessionId,
+                deviceTrackerId: response?.deviceTrackerId,
               };
             },
             onDone: {
@@ -205,6 +207,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                     event.data.limitedItems
                   ),
                 sessionId: (_, event) => event.data.sessionId,
+                deviceTrackerId: (_, event) => event.data.deviceTrackerId,
               }),
             },
             onError: {},
@@ -270,6 +273,7 @@ export function startGoblinVillage(authContext: AuthContext) {
               farmId: () => authContext.farmId,
               farmAddress: () => authContext.address,
               token: () => authContext.rawToken,
+              deviceTrackerId: (context: Context) => context.deviceTrackerId,
             },
             onDone: {
               target: "playing",

@@ -10,6 +10,7 @@ type Request = {
   sfl: number;
   farmId: number;
   token: string;
+  deviceTrackerId: string;
 };
 
 type Payload = {
@@ -45,6 +46,7 @@ export async function purchaseRequest(request: Request): Promise<Response> {
       body: JSON.stringify({
         listingId: request.listingId,
         sfl: toWei(String(request.sfl)),
+        deviceTrackerId: request.deviceTrackerId,
       }),
     }
   );
