@@ -81,17 +81,10 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
     setShowPopover(false);
   };
 
-  // Show/Hide Time left on hover
-
-  const handleMouseHoverRock = () => {
-    if (mined) setShowRockTimeLeft(true);
-  };
-
-  const handleMouseLeaveRock = () => {
-    setShowRockTimeLeft(false);
-  };
-
   const shake = () => {
+    // mineable?
+    if (mined) return;
+
     const isPlaying = sparkGif.current?.getInfo("isPlaying");
 
     const pickaxeAmount =
@@ -145,42 +138,74 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
     }
   };
 
-  const handleHover = () => {
-    if (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
-      return;
-
-    containerRef.current?.classList["add"]("cursor-not-allowed");
-    setShowLabel(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
-      return;
-    containerRef.current?.classList["remove"]("cursor-not-allowed");
-    setShowLabel(false);
-  };
-
   const recoveryTime = STONE_RECOVERY_TIME;
-
   const timeLeft = getTimeLeft(rock.minedAt, recoveryTime);
   const percentage = 100 - (timeLeft / recoveryTime) * 100;
 
+  // Show/Hide Time left on hover
+  const openTimeLeft = () => {
+    setShowRockTimeLeft(true);
+    containerRef.current?.classList["add"]("cursor-auto");
+  };
+  const closeTimeLeft = () => {
+    setShowRockTimeLeft(false);
+    containerRef.current?.classList["remove"]("cursor-auto");
+  };
+
+  // Show/Hide Label
+  const openLabel = () => {
+    setShowLabel(true);
+    containerRef.current?.classList["add"]("cursor-not-allowed");
+  };
+  const closeLabel = () => {
+    setShowLabel(false);
+    containerRef.current?.classList["remove"]("cursor-not-allowed");
+  };
+
+  // mouse interaction events
+  const [highlight, setHighlight] = useState(false);
+  const onMouseEnter = () => {
+    setHighlight(true);
+
+    if (mined) {
+      openTimeLeft();
+      return;
+    }
+
+    if (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
+      return;
+    openLabel();
+  };
+  const onMouseLeave = () => {
+    setHighlight(false);
+
+    if (mined) {
+      closeTimeLeft();
+      return;
+    }
+
+    if (selectedItem === tool && game.context.state.inventory[tool]?.gte(1))
+      return;
+    closeLabel();
+  };
+
   return (
-    <div
-      className="relative z-10"
-      onMouseEnter={handleMouseHoverRock}
-      onMouseLeave={handleMouseLeaveRock}
-    >
+    <div className="relative z-10">
+      {/* interactable area */}
+      <div
+        ref={containerRef}
+        className="absolute top-16 left-6 w-14 h-12 cursor-pointer"
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onClick={shake}
+      />
+
       {!mined && (
-        <div
-          onMouseEnter={handleHover}
-          onMouseLeave={handleMouseLeave}
-          ref={containerRef}
-          className="group cursor-pointer  w-full h-full"
-          onClick={shake}
-        >
+        <div className="w-full h-full">
           <Spritesheet
-            className="group-hover:img-highlight pointer-events-none transform z-10"
+            className={`pointer-events-none transform z-10 ${
+              highlight ? "drop-shadow-highlight" : ""
+            }`}
             style={{
               width: `${GRID_WIDTH_PX * 5}px`,
               imageRendering: "pixelated",
