@@ -3,7 +3,7 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useEffect, useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import background from "./assets/community_garden.png";
+import background from "./assets/community_garden.gif";
 import { CommunityGarden } from "./components/CommunityGarden";
 import { CommunityHud } from "./components/CommunityHUD";
 import { CommunityProvider } from "./lib/CommunityProvider";
