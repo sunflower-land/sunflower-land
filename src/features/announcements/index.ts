@@ -11,6 +11,7 @@ import warTent from "assets/announcements/war_tent.png";
 import roadmap from "assets/announcements/roadmap.png";
 import merchant from "assets/announcements/merchant.png";
 import bumpkin from "assets/announcements/bumpkin.png";
+import warriorTop from "assets/announcements/warrior_top.png";
 
 export interface Announcement {
   date: Date;
@@ -25,6 +26,16 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2022-09-27T00:00:00"),
+    title: "Warrior Shirt Drop",
+    notes: [
+      "At 12am 2022-09-28 UTC, the Warrior Shirt will be dropped.",
+      "Visit the War Tent at Goblin Village to craft it.",
+      "250 will become available for a discounted price of 650 war bonds.",
+    ],
+    image: warriorTop,
+  },
   {
     date: new Date("2022-09-26T02:00:00"),
     title: "Bumpkin Art Competition",
