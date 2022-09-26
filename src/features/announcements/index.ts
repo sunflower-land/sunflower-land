@@ -10,6 +10,7 @@ import warWeekThree from "assets/announcements/war_week_three.png";
 import warTent from "assets/announcements/war_tent.png";
 import roadmap from "assets/announcements/roadmap.png";
 import merchant from "assets/announcements/merchant.png";
+import bumpkin from "assets/announcements/bumpkin.png";
 
 export interface Announcement {
   date: Date;
@@ -24,6 +25,17 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2022-09-26T02:00:00"),
+    title: "Bumpkin Art Competition",
+    notes: [
+      "Calling all artists for the first official art contest!",
+      "Design Bumpkin NFT items and get your art in the game.",
+      "30,000 SFL in prizes to be won for the community",
+    ],
+    link: "https://github.com/sunflower-land/sunflower-land/discussions/1434",
+    image: bumpkin,
+  },
   {
     date: new Date("2022-09-26T00:00:00"),
     title: "Something Smells bad",
