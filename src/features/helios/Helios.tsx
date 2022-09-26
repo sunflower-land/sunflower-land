@@ -37,15 +37,17 @@ export const Helios: React.FC = () => {
               src={background}
               className="absolute inset-0 w-full h-full z-10"
             />
-            <div
-              className="absolute inset-0 bg-repeat w-full h-full"
-              style={{
-                backgroundImage: `url(${waterMovement})`,
-                backgroundSize: "400px",
-                imageRendering: "pixelated",
-              }}
-            />
           </div>
+          <div
+            className="absolute inset-0 bg-repeat"
+            style={{
+              width: `${80 * GRID_WIDTH_PX}px`,
+              height: `${80 * GRID_WIDTH_PX}px`,
+              backgroundImage: `url(${waterMovement})`,
+              backgroundSize: "400px",
+              imageRendering: "pixelated",
+            }}
+          />
         </ScrollContainer>
       </ToastProvider>
     </GameProvider>
