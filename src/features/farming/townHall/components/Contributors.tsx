@@ -12,9 +12,6 @@ import {
   CONTRIBUTORS,
 } from "../constants/contributors";
 import { ITEM_DETAILS } from "features/game/types/images";
-
-import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
-import classNames from "classnames";
 import { CONFIG } from "lib/config";
 
 const TAB_CONTENT_HEIGHT = 340;
@@ -38,8 +35,6 @@ interface Props {
 }
 
 export const Contributors: React.FC<Props> = ({ onClose }) => {
-  const { ref: itemContainerRef, showScrollbar } =
-    useShowScrollbar(TAB_CONTENT_HEIGHT);
   const navigate = useNavigate();
 
   return (
@@ -55,14 +50,11 @@ export const Contributors: React.FC<Props> = ({ onClose }) => {
         </p>
       </div>
       <div
-        ref={itemContainerRef}
         style={{
           maxHeight: TAB_CONTENT_HEIGHT,
           minHeight: (TAB_CONTENT_HEIGHT * 2) / 3,
         }}
-        className={classNames("overflow-y-auto pt-1 mr-2", {
-          scrollable: showScrollbar,
-        })}
+        className="overflow-y-auto pt-1 mr-2 scrollable"
       >
         <div className="flex flex-wrap items-center h-fit">
           {CONTRIBUTORS.map((contributor, index) => (

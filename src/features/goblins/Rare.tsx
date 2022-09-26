@@ -12,7 +12,6 @@ import {
 } from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ItemSupply } from "lib/blockchain/Inventory";
-import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { Context } from "features/game/GoblinProvider";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
@@ -30,7 +29,7 @@ import { mintCooldown } from "./blacksmith/lib/mintUtils";
 import { secondsToString } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 
-const TAB_CONTENT_HEIGHT = 360;
+const TAB_CONTENT_HEIGHT = 364;
 
 const API_URL = CONFIG.API_URL;
 
@@ -46,21 +45,15 @@ const Items: React.FC<{
   inventory: GameState["inventory"];
   onClick: (item: CraftableItem | LimitedItem) => void;
 }> = ({ items, selected, inventory, onClick }) => {
-  const { ref: itemContainerRef, showScrollbar } =
-    useShowScrollbar(TAB_CONTENT_HEIGHT);
-
   const ordered = Object.values(items);
 
   return (
     <div
-      ref={itemContainerRef}
       style={{
         maxHeight: TAB_CONTENT_HEIGHT,
         minHeight: (TAB_CONTENT_HEIGHT * 2) / 3,
       }}
-      className={classNames("overflow-y-auto w-3/5 pt-1 mr-2", {
-        scrollable: showScrollbar,
-      })}
+      className="overflow-y-auto w-3/5 pt-1 mr-2 scrollable"
     >
       <div className="flex flex-wrap h-fit">
         {ordered.map((item) => (
@@ -356,11 +349,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                 selected.cooldownSeconds > 0 && (
                   <div className="flex justify-center items-end">
                     <img src={timer} className="h-5 mr-1" />
-                    <span
-                      className={classNames(
-                        "text-xs text-shadow text-center mt-2 "
-                      )}
-                    >
+                    <span className="text-xs text-shadow text-center mt-2">
                       {secondsToString(selected.cooldownSeconds)}
                     </span>
                   </div>

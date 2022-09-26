@@ -10,8 +10,6 @@ import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
 
 import { secondsToMidString } from "lib/utils/time";
-import classNames from "classnames";
-import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Inventory, TabItems } from "./InventoryItems";
 import { getCropTime } from "features/game/events/plant";
@@ -44,8 +42,6 @@ export const InventoryTabContent = ({
   onClick,
   isFarming,
 }: Props) => {
-  const { ref: itemContainerRef, showScrollbar } =
-    useShowScrollbar(TAB_CONTENT_HEIGHT);
   const [scrollIntoView] = useScrollIntoView();
   const inventoryCategories = getKeys(tabItems) as InventoryItemName[];
 
@@ -130,11 +126,8 @@ export const InventoryTabContent = ({
         </OuterPanel>
       )}
       <div
-        ref={itemContainerRef}
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-        className={classNames("overflow-y-auto", {
-          scrollable: showScrollbar,
-        })}
+        className="overflow-y-auto scrollable"
       >
         {inventoryCategories.map((category) => (
           <div className="flex flex-col pl-2" key={category}>

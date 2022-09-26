@@ -3,9 +3,6 @@ import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
-
-import classNames from "classnames";
-import { useShowScrollbar } from "lib/utils/hooks/useShowScrollbar";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import {
   getKeys,
@@ -29,8 +26,6 @@ const TAB_CONTENT_HEIGHT = 400;
 
 export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
   const { gameService } = useContext(Context);
-  const { ref: itemContainerRef, showScrollbar } =
-    useShowScrollbar(TAB_CONTENT_HEIGHT);
   const [scrollIntoView] = useScrollIntoView();
 
   const chestMap = getChestItems(state);
@@ -107,11 +102,8 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
         </OuterPanel>
       }
       <div
-        ref={itemContainerRef}
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-        className={classNames("overflow-y-auto", {
-          scrollable: showScrollbar,
-        })}
+        className="overflow-y-auto scrollable"
       >
         {Object.values(collectibles) && (
           <div className="flex flex-col pl-2" key={"Collectibles"}>

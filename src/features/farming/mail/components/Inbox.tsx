@@ -57,7 +57,7 @@ export const Inbox: React.FC<Props> = ({ inbox, isLoading, onRead }) => {
               <Markdown>Announcements</Markdown>
             </Accordion.Button>
             <Accordion.Body
-              className="text-sm mt-2 text-shadow text-break divide-y-2 divide-dashed divide-brown-600 max-h-[30rem] overflow-y-auto"
+              className="text-sm mt-2 text-shadow text-break divide-y-2 divide-dashed divide-brown-600 max-h-[30rem] overflow-y-auto scrollable"
               as={InnerPanel}
             >
               {PAST_ANNOUNCEMENTS.map((announcement, index) => (
