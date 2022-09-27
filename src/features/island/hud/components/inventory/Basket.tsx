@@ -20,8 +20,8 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONSUMABLES } from "features/game/types/consumables";
 
-const ITEM_CARD_MIN_HEIGHT = "148px";
-const TAB_CONTENT_HEIGHT = 400;
+export const ITEM_CARD_MIN_HEIGHT = "148px";
+export const TAB_CONTENT_HEIGHT = 400;
 
 const isSeed = (selectedItem: InventoryItemName) => selectedItem in SEEDS();
 

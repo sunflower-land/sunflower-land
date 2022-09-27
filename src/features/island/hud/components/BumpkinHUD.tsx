@@ -8,7 +8,6 @@ import heart from "assets/icons/heart.png";
 import progressBar from "assets/ui/progress/transparent_bar.png";
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
@@ -48,9 +47,7 @@ export const BumpkinHUD: React.FC = () => {
         centered
         onHide={() => setShowBumpkinModal(false)}
       >
-        <Panel>
-          <BumpkinModal onClose={() => setShowBumpkinModal(false)} />
-        </Panel>
+        <BumpkinModal onClose={() => setShowBumpkinModal(false)} />
       </Modal>
       <div className="fixed top-2 left-2 z-50 flex">
         <div
