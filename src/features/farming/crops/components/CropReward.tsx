@@ -38,7 +38,7 @@ export const CropReward: React.FC<Props> = ({
     if (reward) {
       addNoise(id.current);
       setLoading(true);
-      setTimeout(() => setLoading(false), 500);
+      setTimeout(() => setLoading(false), 1500);
     }
   }, [reward]);
 
