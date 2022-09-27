@@ -5,6 +5,9 @@ module.exports = {
     fontFamily: {
       body: ['"Press Start 2p"'],
     },
+    colors: {
+      "overlay-white": "rgba(255, 255, 255, 0.5)",
+    },
     extend: {
       colors: {
         green: {
