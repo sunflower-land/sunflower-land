@@ -4,9 +4,9 @@ import React, { useEffect, useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import background from "assets/land/retreat.png";
-import { GameProvider } from "features/game/GameProvider";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import waterMovement from "assets/decorations/water_movement.png";
+import { GoblinProvider } from "features/game/GoblinProvider";
 
 export const Retreat: React.FC = () => {
   const container = useRef(null);
@@ -20,7 +20,7 @@ export const Retreat: React.FC = () => {
 
   // Load data
   return (
-    <GameProvider>
+    <GoblinProvider>
       <ToastProvider>
         <ScrollContainer
           className="relative w-full h-full bg-[#0099db] overflow-scroll"
@@ -50,6 +50,6 @@ export const Retreat: React.FC = () => {
           />
         </ScrollContainer>
       </ToastProvider>
-    </GameProvider>
+    </GoblinProvider>
   );
 };
