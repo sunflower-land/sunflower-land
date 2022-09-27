@@ -13,7 +13,8 @@ type ProgressData = {
   mintAmounts: string[];
   burnIds: number[];
   burnAmounts: string[];
-  expAmount: number;
+  statisticIds: number[];
+  statisticAmounts: number[];
   tokens: string;
 };
 

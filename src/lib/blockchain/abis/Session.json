@@ -31,6 +31,11 @@
         "name": "_bumpkinDetails",
         "type": "address"
       },
+      {
+        "internalType": "contract BumpkinStatistics",
+        "name": "_bumpkinStatistics",
+        "type": "address"
+      },
       { "internalType": "address", "name": "_wishingWell", "type": "address" },
       {
         "internalType": "address",
@@ -153,6 +158,19 @@
     "outputs": [
       {
         "internalType": "contract BumpkinDetails",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "bumpkinStatistics",
+    "outputs": [
+      {
+        "internalType": "contract BumpkinStatistics",
         "name": "",
         "type": "address"
       }
@@ -729,9 +747,14 @@
                 "type": "uint256[]"
               },
               {
-                "internalType": "uint256",
-                "name": "expAmount",
-                "type": "uint256"
+                "internalType": "uint256[]",
+                "name": "statisticIds",
+                "type": "uint256[]"
+              },
+              {
+                "internalType": "uint256[]",
+                "name": "statisticAmounts",
+                "type": "uint256[]"
               },
               { "internalType": "int256", "name": "tokens", "type": "int256" }
             ],
@@ -746,33 +769,6 @@
       }
     ],
     "name": "syncProgress",
-    "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "bytes", "name": "signature", "type": "bytes" },
-      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
-      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
-      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
-      { "internalType": "uint256[]", "name": "mintIds", "type": "uint256[]" },
-      {
-        "internalType": "uint256[]",
-        "name": "mintAmounts",
-        "type": "uint256[]"
-      },
-      { "internalType": "uint256[]", "name": "burnIds", "type": "uint256[]" },
-      {
-        "internalType": "uint256[]",
-        "name": "burnAmounts",
-        "type": "uint256[]"
-      },
-      { "internalType": "int256", "name": "tokens", "type": "int256" },
-      { "internalType": "uint256", "name": "syncFee", "type": "uint256" }
-    ],
-    "name": "sync",
     "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
     "stateMutability": "payable",
     "type": "function"
