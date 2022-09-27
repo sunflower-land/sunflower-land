@@ -26,6 +26,7 @@ export const CropReward: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const [opened, setOpened] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const challenge = useRef<Challenge>(
     Math.random() > 0.5 ? "chest" : "goblins"
@@ -36,6 +37,8 @@ export const CropReward: React.FC<Props> = ({
   useEffect(() => {
     if (reward) {
       addNoise(id.current);
+      setLoading(true);
+      setTimeout(() => setLoading(false), 500);
     }
   }, [reward]);
 
@@ -63,7 +66,9 @@ export const CropReward: React.FC<Props> = ({
     <Modal centered show={true}>
       <Panel>
         <div className="flex flex-col items-center justify-between">
-          {opened ? (
+          {loading ? (
+            "Loading..."
+          ) : opened ? (
             <>
               <span className="text-center mb-2">
                 Woohoo! Here is your reward
