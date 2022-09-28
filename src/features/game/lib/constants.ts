@@ -291,7 +291,7 @@ export const INITIAL_EXPANSIONS = [GENESIS_LAND_EXPANSION];
 
 export const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 100000,
+  experience: 0,
   equipped: {
     body: "Light Brown Farmer Potion",
     hair: "Basic Hair",
@@ -308,10 +308,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     value: 0,
     replenishedAt: 0,
   },
-  achievements: {
-    "Busy Bumpkin": 1,
-    Explorer: 1,
-  },
+  achievements: {},
 };
 
 export const INITIAL_FARM: GameState = {
@@ -332,7 +329,6 @@ export const INITIAL_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
     Warrior: new Decimal(1),
-    Chicken: new Decimal(5),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,

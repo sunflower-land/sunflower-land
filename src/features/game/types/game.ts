@@ -97,7 +97,7 @@ export type Bumpkin = {
     replenishedAt: number;
   };
   experience: number;
-  achievements: Partial<Record<AchievementName, number>>;
+  achievements?: Partial<Record<AchievementName, number>>;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";
