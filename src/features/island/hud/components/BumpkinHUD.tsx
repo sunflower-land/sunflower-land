@@ -9,7 +9,6 @@ import progressBar from "assets/ui/progress/transparent_bar.png";
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
-import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -18,9 +17,10 @@ import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
+import { Achievements } from "features/bumpkins/components/Achievements";
 
 export const BumpkinHUD: React.FC = () => {
-  const [showBumpkinModal, setShowBumpkinModal] = useState(false);
+  const [showBumpkinModal, setShowBumpkinModal] = useState(true);
 
   const { gameService } = useContext(Context);
   const [
@@ -49,7 +49,7 @@ export const BumpkinHUD: React.FC = () => {
         onHide={() => setShowBumpkinModal(false)}
       >
         <Panel>
-          <BumpkinModal onClose={() => setShowBumpkinModal(false)} />
+          <Achievements onClose={() => setShowBumpkinModal(false)} />
         </Panel>
       </Modal>
       <div className="fixed top-2 left-2 z-50 flex">

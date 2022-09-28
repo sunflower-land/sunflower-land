@@ -220,6 +220,7 @@ import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
+import { AchievementName, ACHIEVEMENTS } from "./achievements";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -228,7 +229,7 @@ export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   section?: Section;
 }
 
-type Items = Record<InventoryItemName, ItemDetails>;
+type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
 const crops = CROPS();
 const seeds = SEEDS();
@@ -996,5 +997,14 @@ export const ITEM_DETAILS: Items = {
   "Boiled Egg": {
     image: egg,
     description: "A boiled egg",
+  },
+
+  Explorer: {
+    image: questionMark,
+    description: ACHIEVEMENTS().Explorer.description,
+  },
+  "Busy Bumpkin": {
+    image: questionMark,
+    description: ACHIEVEMENTS()["Busy Bumpkin"].description,
   },
 };
