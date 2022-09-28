@@ -18,13 +18,16 @@ type Options = {
   createdAt?: number;
 };
 
-export const getBumpkinSkillPoints = (bumpkin: Bumpkin) => {
+export const getAvailableBumpkinSkillPoints = (bumpkin: Bumpkin) => {
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
   const totalSkillPoints = SKILL_POINTS[bumpkinLevel];
 
-  const allocatedSkillPoints = getKeys(bumpkin.skills).reduce((acc, skill) => {
-    return acc + BUMPKIN_SKILL_TREE[skill].requirements.points;
-  }, 0);
+  const allocatedSkillPoints = getKeys({ ...bumpkin.skills }).reduce(
+    (acc, skill) => {
+      return acc + BUMPKIN_SKILL_TREE[skill].requirements.points;
+    },
+    0
+  );
 
   return totalSkillPoints - allocatedSkillPoints;
 };
@@ -36,7 +39,7 @@ export function pickSkill({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  const availableSkillPoints = getBumpkinSkillPoints(bumpkin);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
   const requirements = BUMPKIN_SKILL_TREE[action.skill].requirements;
 

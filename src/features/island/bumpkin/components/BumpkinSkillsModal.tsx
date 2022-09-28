@@ -17,6 +17,8 @@ import leftArrow from "assets/icons/arrow_left.png";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import border from "assets/ui/panel/green_border.png";
+import { Bumpkin } from "features/game/types/game";
+import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 
 const CropSkillTree = ({
   onClick,
@@ -82,29 +84,36 @@ const CropSkillTree = ({
 };
 
 const SkillPointLabel = ({ points }: { points: number }) => (
-  <div
-    className="bg-green-background text-white text-shadow text-xs object-contain justify-center items-center whitespace-nowrap mb-1 max-w-min px-1"
-    // Custom styles to get pixelated border effect
-    style={{
-      // border: "5px solid transparent",
-      borderStyle: "solid",
-      borderWidth: "5px",
-      borderImage: `url(${border}) 30 stretch`,
-      borderImageSlice: "25%",
-      imageRendering: "pixelated",
-      borderImageRepeat: "repeat",
-      borderRadius: "15px",
-    }}
-  >
-    <p>{`Skill Points: ${points}`}</p>
+  <div className="flex justify-end">
+    <div
+      className="bg-green-background text-white text-shadow text-xs object-contain justify-center items-center whitespace-nowrap mb-1 max-w-min px-1"
+      // Custom styles to get pixelated border effect
+      style={{
+        // border: "5px solid transparent",
+        borderStyle: "solid",
+        borderWidth: "5px",
+        borderImage: `url(${border}) 30 stretch`,
+        borderImageSlice: "25%",
+        imageRendering: "pixelated",
+        borderImageRepeat: "repeat",
+        borderRadius: "15px",
+      }}
+    >
+      <p>{`Skill Points: ${points}`}</p>
+    </div>
   </div>
 );
 
-export const BumpkinSkillsModal: React.FC = () => {
+interface Props {
+  bumpkin: Bumpkin;
+}
+
+export const BumpkinSkillsModal: React.FC<Props> = ({ bumpkin }) => {
   const [selectedSkill, setSelectedSkill] =
     useState<BumpkinSkillName>("Green Thumb");
   const [selectedSkillTree, setSelectedSkillTree] =
     useState<BumpkinSkillTree | null>(null);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
   return (
     <Panel className="pt-5 relative">
@@ -145,9 +154,7 @@ export const BumpkinSkillsModal: React.FC = () => {
           </>
         ) : (
           <div className="flex flex-col">
-            <div className="flex justify-end">
-              <SkillPointLabel points={3} />
-            </div>
+            {availableSkillPoints > 0 && <SkillPointLabel points={3} />}
             <OuterPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center shadow-none">
               <div className="flex flex-col justify-center items-center p-2 relative w-full">
                 <img
@@ -163,17 +170,17 @@ export const BumpkinSkillsModal: React.FC = () => {
                   {BUMPKIN_SKILL_TREE[selectedSkill].boosts[0]}
                 </span>
 
-                <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
-                  <div className="flex justify-center flex-wrap items-end mt-2">
+                <div className="border-t border-white w-full pt-1 mt-2 text-center">
+                  <div className="flex justify-center flex-wrap items-end my-2">
                     <span className="text-shadow text-center text-xxs sm:text-xs">
                       Required Skill Points:
                     </span>
-                    <span className="text-xxs sm:text-xs text-shadow text-center mt-2">
+                    <span className="text-xxs sm:text-xs text-shadow text-center">
                       {BUMPKIN_SKILL_TREE[selectedSkill].requirements.points}
                     </span>
                   </div>
                   {BUMPKIN_SKILL_TREE[selectedSkill].requirements.skill && (
-                    <div className="flex justify-center flex-wrap items-center my-2">
+                    <div className="flex justify-center flex-wrap items-center mb-2">
                       <span className="text-shadow text-center text-xxs sm:text-xs">
                         Required Skills:
                       </span>
@@ -184,7 +191,6 @@ export const BumpkinSkillsModal: React.FC = () => {
                               .skill as BumpkinSkillName
                           ].image
                         }
-                        className=""
                       />
                     </div>
                   )}
