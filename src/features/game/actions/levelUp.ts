@@ -11,6 +11,7 @@ type Request = {
   fingerprint: string;
   skill: SkillName;
   offset: number;
+  deviceTrackerId: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -28,6 +29,7 @@ export async function levelUp(request: Request) {
         createdAt: new Date(Date.now() + request.offset).toISOString(),
       },
     ],
+    deviceTrackerId: request.deviceTrackerId as string,
   });
 
   const data = await sanitizeHTTPResponse<{
