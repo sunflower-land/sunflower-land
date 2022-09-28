@@ -60,6 +60,8 @@ export interface SunflowerLandSession extends BaseContract {
 
     bumpkinDetails(): NonPayableTransactionObject<string>;
 
+    bumpkinStatistics(): NonPayableTransactionObject<string>;
+
     cancelTrade(
       signature: string | number[],
       sessionId: string | number[],
@@ -271,7 +273,8 @@ export interface SunflowerLandSession extends BaseContract {
         mintAmounts: (number | string | BN)[];
         burnIds: (number | string | BN)[];
         burnAmounts: (number | string | BN)[];
-        expAmount: number | string | BN;
+        statisticIds: (number | string | BN)[];
+        statisticAmounts: (number | string | BN)[];
         tokens: number | string | BN;
       };
     }): PayableTransactionObject<boolean>;
