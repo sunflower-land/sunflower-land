@@ -18,6 +18,7 @@ import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Achievements } from "./Achievements";
+import { AchievementsPreivew } from "./AchievementsPreview";
 
 interface Props {
   onClose: () => void;
@@ -113,6 +114,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 style={{
                   borderRadius: "10px 0 0 10px",
                   width: `${(experience / nextLevelExperience) * 100}%`,
+                  maxWidth: "100%",
                 }}
               />
             </div>
@@ -141,6 +143,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 style={{
                   borderRadius: "10px 0 0 10px",
                   width: `${(stamina / staminaCapacity) * 100}%`,
+                  maxWidth: "100%",
                 }}
               />
             </div>
@@ -175,7 +178,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 View all
               </span>
             </div>
-            <p className="text-xxs">No achievements.</p>
+            <AchievementsPreivew achievemenets={state.bumpkin?.achievements} />
           </InnerPanel>
         </div>
       </div>

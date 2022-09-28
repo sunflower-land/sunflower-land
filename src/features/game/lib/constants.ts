@@ -301,6 +301,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     pants: "Farmer Pants",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
+    background: "Farm Background",
   },
   tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
   stamina: {
@@ -308,7 +309,8 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     replenishedAt: 0,
   },
   achievements: {
-    // "Busy Bumpkin": 1,
+    "Busy Bumpkin": 1,
+    Explorer: 1,
   },
 };
 
