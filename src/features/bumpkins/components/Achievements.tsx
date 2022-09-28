@@ -6,6 +6,7 @@ import chest from "assets/icons/chest.png";
 import disc from "assets/icons/disc.png";
 import sflIcon from "assets/icons/token.png";
 import experience from "assets/icons/experience.png";
+import arrowLeft from "assets/icons/arrow_left.png";
 
 import { Context } from "features/game/GameProvider";
 import {
@@ -75,6 +76,14 @@ export const Achievements: React.FC<Props> = ({ onClose }) => {
   }
   return (
     <div className="w-full">
+      <div className="flex items-center mb-2">
+        <img
+          src={arrowLeft}
+          className="w-8 mr-7 cursor-pointer"
+          onClick={onClose}
+        />
+        <span>Achievements</span>
+      </div>
       {getKeys(achievements).map((name) => {
         const achievement = achievements[name];
 

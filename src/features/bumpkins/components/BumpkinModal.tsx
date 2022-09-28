@@ -174,7 +174,10 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
               <div className="flex items-center">
                 <span className="text-xs text-shadow">Achievements</span>
               </div>
-              <span className="text-xxs underline cursor-pointer">
+              <span
+                className="text-xxs underline cursor-pointer"
+                onClick={() => setView("achievements")}
+              >
                 View all
               </span>
             </div>
