@@ -308,7 +308,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     replenishedAt: 0,
   },
   achievements: {
-    "Busy Bumpkin": 1,
+    // "Busy Bumpkin": 1,
   },
 };
 

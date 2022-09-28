@@ -7,7 +7,7 @@ export type AchievementName = "Explorer" | "Busy Bumpkin";
 //   | "My life is Potato"
 //   | "A Hard Day's work";
 
-type Achievement = {
+export type Achievement = {
   description: string;
   progress: (game: GameState) => number;
   requirement: number;
@@ -29,5 +29,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       getBumpkinLevel(gameState.bumpkin?.experience || 0),
     requirement: 2,
     sflReward: marketRate(10),
+    experienceReward: 300,
   },
 });

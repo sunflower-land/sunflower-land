@@ -200,6 +200,9 @@ import warriorShirt from "src/assets/bumpkins/shop/shirts/warrior_top.png";
 import warriorPants from "src/assets/bumpkins/shop/pants/warrior_pants.png";
 import warriorHelmet from "src/assets/bumpkins/shop/hats/warrior_helmet.png";
 
+// Achievements
+import busyBumpkin from "src/assets/icons/player.png";
+import explorer from "src/assets/icons/hammer.png";
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -1000,11 +1003,11 @@ export const ITEM_DETAILS: Items = {
   },
 
   Explorer: {
-    image: questionMark,
+    image: explorer,
     description: ACHIEVEMENTS().Explorer.description,
   },
   "Busy Bumpkin": {
-    image: questionMark,
+    image: busyBumpkin,
     description: ACHIEVEMENTS()["Busy Bumpkin"].description,
   },
 };

@@ -17,10 +17,10 @@ import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
-import { Achievements } from "features/bumpkins/components/Achievements";
+import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 
 export const BumpkinHUD: React.FC = () => {
-  const [showBumpkinModal, setShowBumpkinModal] = useState(true);
+  const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
   const { gameService } = useContext(Context);
   const [
@@ -49,7 +49,7 @@ export const BumpkinHUD: React.FC = () => {
         onHide={() => setShowBumpkinModal(false)}
       >
         <Panel>
-          <Achievements onClose={() => setShowBumpkinModal(false)} />
+          <BumpkinModal onClose={() => setShowBumpkinModal(false)} />
         </Panel>
       </Modal>
       <div className="fixed top-2 left-2 z-50 flex">
@@ -110,6 +110,7 @@ export const BumpkinHUD: React.FC = () => {
               style={{
                 borderRadius: "10px 0 0 10px",
                 width: `${(experience / nextLevelExperience) * 100}%`,
+                maxWidth: "100%",
               }}
             />
             <span className="text-xs absolute left-0 text-white">{level}</span>

@@ -1,5 +1,5 @@
 import { useActor } from "@xstate/react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import heart from "assets/icons/heart.png";
 import staminaIcon from "assets/icons/lightning.png";
@@ -17,18 +17,24 @@ import { Badges } from "features/farming/house/House";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
+import { Achievements } from "./Achievements";
 
 interface Props {
   onClose: () => void;
 }
 
 export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
+  const [view, setView] = useState<"home" | "achievements" | "skills">("home");
   const { gameService } = useContext(Context);
   const [
     {
       context: { state },
     },
   ] = useActor(gameService);
+
+  if (view === "achievements") {
+    return <Achievements onClose={() => setView("home")} />;
+  }
 
   // Do not show soul bound characteristics
   const { eyes, mouth, body, hair, background, ...wearables } = state.bumpkin
