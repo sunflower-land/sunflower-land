@@ -291,7 +291,7 @@ export const INITIAL_EXPANSIONS = [GENESIS_LAND_EXPANSION];
 
 export const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 0,
+  experience: 100000,
   equipped: {
     body: "Light Brown Farmer Potion",
     hair: "Basic Hair",

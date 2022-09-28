@@ -63,6 +63,7 @@ export const Achievements: React.FC<Props> = ({ onClose }) => {
                   className="h-full bg-[#63c74d] absolute -z-10 left-0"
                   style={{
                     width: `${(progress / achievement.requirement) * 100}%`,
+                    maxWidth: "100%",
                     borderRight: "3px solid #418848",
                   }}
                 />

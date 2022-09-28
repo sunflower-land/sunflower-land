@@ -24,10 +24,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sflReward: marketRate(5),
   },
   "Busy Bumpkin": {
-    description: "Reach level 10",
+    description: "Reach level 2",
     progress: (gameState: GameState) =>
       getBumpkinLevel(gameState.bumpkin?.experience || 0),
-    requirement: 10,
+    requirement: 2,
     sflReward: marketRate(10),
   },
 });
