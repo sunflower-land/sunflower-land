@@ -52,11 +52,10 @@
     <div id="root" class="h-full w-full"></div>
     <script type="module" src="/src/main.tsx"></script>
 
-    <script>
-      // Initialize an agent at application startup.
-      window.botdPromise = import("https://openfpcdn.io/botd/v0.1").then(
-        (Botd) => Botd.load({ publicKey: "dB8lNVTrSZ6FfoBjoNg5nSkI" })
-      );
-    </script>
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+      async
+      defer
+    ></script>
   </body>
 </html>

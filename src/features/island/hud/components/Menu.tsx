@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
-import ReCAPTCHA from "react-google-recaptcha";
 import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
@@ -22,6 +21,7 @@ import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
 import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 import { HowToPlay } from "features/farming/hud/components/howToPlay/HowToPlay";
 import { Settings } from "features/farming/hud/components/Settings";
+import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -65,6 +65,7 @@ export const Menu = () => {
   };
 
   const onCaptchaSolved = async (captcha: string | null) => {
+    console.log({ captcha });
     await new Promise((res) => setTimeout(res, 1000));
 
     gameService.send("SYNC", { captcha });
@@ -202,11 +203,12 @@ export const Menu = () => {
               alt="Close Logout Confirmation Modal"
               onClick={() => setShowCaptcha(false)}
             />
-            <ReCAPTCHA
-              sitekey={CONFIG.RECAPTCHA_SITEKEY}
-              onChange={onCaptchaSolved}
-              onExpired={() => setShowCaptcha(false)}
-              className="w-full m-4 flex items-center justify-center"
+
+            <CloudFlareCaptcha
+              onDone={onCaptchaSolved}
+              onError={() => setShowCaptcha(false)}
+              onExpire={() => setShowCaptcha(false)}
+              action="sync"
             />
           </Panel>
         </Modal>
