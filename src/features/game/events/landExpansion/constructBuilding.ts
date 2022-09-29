@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
@@ -66,6 +67,8 @@ export function constructBuilding({
     coordinates: action.coordinates,
     readyAt: createdAt + building.constructionSeconds * 1000,
   };
+
+  bumpkin.activity = trackActivity(`Building Constructed`, bumpkin.activity);
 
   return {
     ...stateCopy,

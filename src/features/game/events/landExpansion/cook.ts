@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type RecipeCookedAction = {
   type: "recipe.cooked";
@@ -24,7 +25,7 @@ export function cook({
   const stateCopy = cloneDeep(state);
 
   const { building: requiredBuilding, ingredients } = CONSUMABLES[action.item];
-  const { buildings } = stateCopy;
+  const { buildings, bumpkin } = stateCopy;
   const buildingsOfRequiredType = buildings[requiredBuilding];
 
   if (!Object.keys(buildings).length || !buildingsOfRequiredType) {
@@ -34,6 +35,10 @@ export function cook({
   const building = buildingsOfRequiredType.find(
     (building) => building.id === action.buildingId
   );
+
+  if (bumpkin === undefined) {
+    throw new Error("You do not have a Bumpkin");
+  }
 
   if (!building) {
     throw new Error(`Required building does not exist`);
@@ -72,6 +77,8 @@ export function cook({
   };
 
   stateCopy.stock[action.item] = stockAmount.minus(new Decimal(1));
+
+  bumpkin.activity = trackActivity(`${action.item} Cooked`, bumpkin.activity);
 
   return {
     ...stateCopy,

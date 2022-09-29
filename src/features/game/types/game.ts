@@ -10,6 +10,7 @@ import { GameEvent } from "../events";
 import { BumpkinParts } from "./bumpkin";
 import { ConsumableName } from "./consumables";
 import { AchievementName } from "./achievements";
+import { BumpkinActivityName } from "./bumpkinActivity";
 
 export type CropReward = {
   items: {
@@ -98,6 +99,7 @@ export type Bumpkin = {
   };
   experience: number;
   achievements?: Partial<Record<AchievementName, number>>;
+  activity?: Partial<Record<BumpkinActivityName, number>>;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";

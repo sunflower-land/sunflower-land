@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CHOP_STAMINA_COST } from "features/game/lib/constants";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
   GameState,
   Inventory,
@@ -124,6 +125,8 @@ export function chop({
   stateCopy.inventory.Wood = woodAmount.add(woodHarvested);
 
   bumpkin.stamina.value -= CHOP_STAMINA_COST;
+
+  bumpkin.activity = trackActivity("Tree Chopped", bumpkin.activity);
 
   return stateCopy;
 }
