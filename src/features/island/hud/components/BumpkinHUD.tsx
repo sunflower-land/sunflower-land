@@ -9,7 +9,6 @@ import progressBar from "assets/ui/progress/transparent_bar.png";
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
-import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -18,6 +17,7 @@ import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
+import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 
 export const BumpkinHUD: React.FC = () => {
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
@@ -110,6 +110,7 @@ export const BumpkinHUD: React.FC = () => {
               style={{
                 borderRadius: "10px 0 0 10px",
                 width: `${(experience / nextLevelExperience) * 100}%`,
+                maxWidth: "100%",
               }}
             />
             <span className="text-xs absolute left-0 text-white">{level}</span>

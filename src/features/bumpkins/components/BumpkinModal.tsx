@@ -1,5 +1,5 @@
 import { useActor } from "@xstate/react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import heart from "assets/icons/heart.png";
 import staminaIcon from "assets/icons/lightning.png";
@@ -17,18 +17,25 @@ import { Badges } from "features/farming/house/House";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
+import { Achievements } from "./Achievements";
+import { AchievementBadges } from "./AchievementBadges";
 
 interface Props {
   onClose: () => void;
 }
 
 export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
+  const [view, setView] = useState<"home" | "achievements" | "skills">();
   const { gameService } = useContext(Context);
   const [
     {
       context: { state },
     },
   ] = useActor(gameService);
+
+  if (view === "achievements") {
+    return <Achievements onClose={() => setView("home")} />;
+  }
 
   // Do not show soul bound characteristics
   const { eyes, mouth, body, hair, background, ...wearables } = state.bumpkin
@@ -107,6 +114,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 style={{
                   borderRadius: "10px 0 0 10px",
                   width: `${(experience / nextLevelExperience) * 100}%`,
+                  maxWidth: "100%",
                 }}
               />
             </div>
@@ -135,6 +143,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 style={{
                   borderRadius: "10px 0 0 10px",
                   width: `${(stamina / staminaCapacity) * 100}%`,
+                  maxWidth: "100%",
                 }}
               />
             </div>
@@ -165,11 +174,14 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
               <div className="flex items-center">
                 <span className="text-xs text-shadow">Achievements</span>
               </div>
-              <span className="text-xxs underline cursor-pointer">
+              <span
+                className="text-xxs underline cursor-pointer"
+                onClick={() => setView("achievements")}
+              >
                 View all
               </span>
             </div>
-            <p className="text-xxs">No achievements.</p>
+            <AchievementBadges achievemenets={state.bumpkin?.achievements} />
           </InnerPanel>
         </div>
       </div>
