@@ -23,6 +23,43 @@ import classNames from "classnames";
 import { SkillPath } from "./SkillPath";
 import { SkillPointsLabel } from "./SkillPointsLabel";
 import { acknowledgeSkillPoints } from "../lib/skillPointStorage";
+import { Bumpkin } from "features/game/types/game";
+
+const SkillCategoryList = ({
+  bumpkin,
+  onClick,
+}: {
+  bumpkin: Bumpkin;
+  onClick: (category: BumpkinSkillTree) => void;
+}) => {
+  return (
+    <>
+      {SKILL_TREE_CATEGORIES.map((category) => {
+        const skills = getSkills(category);
+        const icon = skills[0].image;
+        const skillsAcquiredInCategoryCount = getKeys({
+          ...bumpkin?.skills,
+        }).filter((acquiredSkillName) =>
+          skills.find((skill) => skill.name === acquiredSkillName)
+        ).length;
+
+        return (
+          <div key={category} onClick={() => onClick(category)}>
+            <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
+              <Label className="px-1 text-xxs absolute -top-3 -right-1">
+                {`${skillsAcquiredInCategoryCount}/${skills.length}`}
+              </Label>
+              <div className="flex justify-center">
+                <img src={icon} className="h-9 mr-2" />
+                <span className="text-sm">{category}</span>
+              </div>
+            </OuterPanel>
+          </div>
+        );
+      })}
+    </>
+  );
+};
 
 export const BumpkinSkillsModal: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -108,35 +145,12 @@ export const BumpkinSkillsModal: React.FC<{ onClose: () => void }> = ({
             <SkillPointsLabel points={availableSkillPoints} />
           )}
           {!selectedSkillPath ? (
-            <>
-              {SKILL_TREE_CATEGORIES.map((category) => {
-                const skills = getSkills(category);
-                const icon = skills[0].image;
-                const skillsAcquiredInCategoryCount = getKeys({
-                  ...bumpkin?.skills,
-                }).filter((acquiredSkillName) =>
-                  skills.find((skill) => skill.name === acquiredSkillName)
-                ).length;
-
-                return (
-                  <div
-                    key={category}
-                    onClick={() => onSkillCategoryClickHandler(category)}
-                  >
-                    <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
-                      <Label className="px-1 text-xxs absolute -top-3 -right-1">
-                        {`${skillsAcquiredInCategoryCount}/${skills.length}`}
-                      </Label>
-                      <div className="flex justify-center">
-                        <img src={icon} className="h-9 mr-2" />
-                        <span className="text-sm">{category}</span>
-                      </div>
-                    </OuterPanel>
-                  </div>
-                );
-              })}
-            </>
+            <SkillCategoryList
+              bumpkin={bumpkin as Bumpkin}
+              onClick={(category) => onSkillCategoryClickHandler(category)}
+            />
           ) : (
+            // Skill Path Details
             <div className="flex flex-col">
               <OuterPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center shadow-none">
                 <div className="flex flex-col justify-center items-center p-2 relative w-full">
@@ -147,6 +161,7 @@ export const BumpkinSkillsModal: React.FC<{ onClose: () => void }> = ({
                     onClick={() => setSelectedSkillPath(null)}
                   />
                   {showConfirmButton ? (
+                    // Confirmation panel
                     <div className="flex flex-col">
                       <p className="mx-4 text-center">{`Are you sure you want to claim the ${selectedSkill} skill?`}</p>
                       <div className="flex space-x-1">
@@ -162,6 +177,7 @@ export const BumpkinSkillsModal: React.FC<{ onClose: () => void }> = ({
                       </div>
                     </div>
                   ) : (
+                    // Selected Skill Details Panel
                     <>
                       <div className="flex mb-1 items-center">
                         <span className="text-shadow text-center text-sm sm:text-base mr-1">
@@ -228,7 +244,7 @@ export const BumpkinSkillsModal: React.FC<{ onClose: () => void }> = ({
               </OuterPanel>
               <span className="text-center my-2 text-sm">{`${selectedSkillPath} Skill Path`}</span>
               <SkillPath
-                bumpkinSkills={{ ...bumpkin?.skills }}
+                bumpkin={bumpkin as Bumpkin}
                 skillsInPath={skillsInPath}
                 onClick={(skillName) => setSelectedSkill(skillName)}
                 selectedSkill={selectedSkill}

@@ -26,6 +26,7 @@ export interface BoxProps {
   cooldownInProgress?: boolean;
   showOverlay?: boolean;
   overlayIcon?: React.ReactNode;
+  className?: string;
 }
 
 /**
@@ -64,6 +65,7 @@ export const Box: React.FC<BoxProps> = ({
   cooldownInProgress,
   showOverlay = false,
   overlayIcon,
+  className = "",
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [shortCount, setShortCount] = useState("");
@@ -88,7 +90,7 @@ export const Box: React.FC<BoxProps> = ({
 
   return (
     <div
-      className="relative"
+      className={`relative ${className}`}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
