@@ -25,6 +25,9 @@ export interface BoxProps {
    * this as if the NFT is under construction.
    */
   cooldownInProgress?: boolean;
+  showOverlay?: boolean;
+  overlayIcon?: React.ReactNode;
+  className?: string;
 }
 
 export const Box: React.FC<BoxProps> = ({
@@ -38,6 +41,9 @@ export const Box: React.FC<BoxProps> = ({
   locked,
   canBeLongPressed,
   cooldownInProgress,
+  showOverlay = false,
+  overlayIcon,
+  className = "",
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [shortCount, setShortCount] = useState("");
@@ -62,7 +68,7 @@ export const Box: React.FC<BoxProps> = ({
 
   return (
     <div
-      className="relative"
+      className={`relative ${className}`}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
@@ -136,7 +142,13 @@ export const Box: React.FC<BoxProps> = ({
             {isHover ? count.toString() : shortCount}
           </Label>
         )}
+        {showOverlay && (
+          <div className="absolute w-[38px] h-[38px] bg-overlay-white pointer-events-none flex justify-center items-center">
+            {overlayIcon}
+          </div>
+        )}
       </div>
+
       {(isSelected || isHover) && !locked && !disabled && (
         <img
           className="absolute w-14 h-14 top-0.5 left-0.5 pointer-events-none"

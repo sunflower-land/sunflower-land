@@ -46,6 +46,7 @@ describe("Construct building", () => {
               value: 0,
               replenishedAt: 0,
             },
+            skills: {},
           },
         },
         action: {
@@ -98,6 +99,7 @@ describe("Construct building", () => {
               shoes: "Black Farmer Boots",
             },
             tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+            skills: {},
           },
         },
         action: {
@@ -160,6 +162,7 @@ describe("Construct building", () => {
               shoes: "Black Farmer Boots",
             },
             tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+            skills: {},
           },
           balance: new Decimal(0),
         },
@@ -201,6 +204,7 @@ describe("Construct building", () => {
               shoes: "Black Farmer Boots",
             },
             tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+            skills: {},
           },
           balance: new Decimal(100),
         },
@@ -239,6 +243,7 @@ describe("Construct building", () => {
             shoes: "Black Farmer Boots",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+          skills: {},
         },
       },
       action: {
@@ -280,6 +285,7 @@ describe("Construct building", () => {
             shoes: "Black Farmer Boots",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+          skills: {},
         },
       },
       action: {
@@ -319,6 +325,7 @@ describe("Construct building", () => {
             shoes: "Black Farmer Boots",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+          skills: {},
         },
       },
       action: {
@@ -363,6 +370,7 @@ describe("Construct building", () => {
             shoes: "Black Farmer Boots",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+          skills: {},
         },
       },
       action: {
@@ -403,6 +411,7 @@ describe("Construct building", () => {
             shoes: "Black Farmer Boots",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+          skills: {},
         },
       },
       action: {
@@ -444,6 +453,7 @@ describe("Construct building", () => {
             value: 0,
             replenishedAt: 0,
           },
+          skills: {},
         },
         buildings: {
           "Fire Pit": [
@@ -515,6 +525,7 @@ describe("Construct building", () => {
             value: 0,
             replenishedAt: 0,
           },
+          skills: {},
         },
         buildings: {
           ...buildings,

@@ -7,8 +7,9 @@ import staminaIcon from "assets/icons/lightning.png";
 import heart from "assets/icons/heart.png";
 import progressBar from "assets/ui/progress/transparent_bar.png";
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
+import alert from "assets/icons/expression_alerted.png";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
+import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -17,10 +18,15 @@ import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
-import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
+import {
+  acknowledgeSkillPoints,
+  hasUnacknowledgedSkillPoints,
+} from "features/island/bumpkin/lib/skillPointStorage";
+import { BumpkinSkillsModal } from "features/island/bumpkin/components/BumpkinSkillsModal";
 
 export const BumpkinHUD: React.FC = () => {
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
+  const [showSkillModal, setShowSkillModal] = useState(false);
 
   const { gameService } = useContext(Context);
   const [
@@ -28,6 +34,11 @@ export const BumpkinHUD: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+
+  const handleShowSkillModal = () => {
+    setShowSkillModal(true);
+    acknowledgeSkillPoints(state.bumpkin);
+  };
 
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
@@ -40,17 +51,25 @@ export const BumpkinHUD: React.FC = () => {
       })
     : 0;
   const staminaCapacity = MAX_STAMINA[level];
+  const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
+
+  const handleHideModal = () => {
+    if (showBumpkinModal) setShowBumpkinModal(false);
+    if (showSkillModal) setShowSkillModal(false);
+  };
 
   return (
     <>
       <Modal
-        show={showBumpkinModal}
+        show={showBumpkinModal || showSkillModal}
         centered
-        onHide={() => setShowBumpkinModal(false)}
+        onHide={handleHideModal}
       >
-        <Panel>
-          <BumpkinModal onClose={() => setShowBumpkinModal(false)} />
-        </Panel>
+        {showBumpkinModal ? (
+          <BumpkinModal onClose={handleHideModal} />
+        ) : (
+          <BumpkinSkillsModal onClose={handleHideModal} />
+        )}
       </Modal>
       <div className="fixed top-2 left-2 z-50 flex">
         <div
@@ -88,6 +107,15 @@ export const BumpkinHUD: React.FC = () => {
             </div>
           </div>
         </div>
+        {showSkillPointAlert && (
+          <div
+            id="alert"
+            className="absolute top-[155px] left-6 ready cursor-pointer hover:img-highlight"
+            onClick={handleShowSkillModal}
+          >
+            <img src={alert} alt="Skill point available" className="w-4" />
+          </div>
+        )}
         <div>
           <div className="flex ml-2 mb-2 items-center relative">
             <img
@@ -106,7 +134,7 @@ export const BumpkinHUD: React.FC = () => {
               }}
             />
             <div
-              className="h-full bg-[#63c74d] absolute -z-10 "
+              className="h-full bg-[#63c74d] absolute -z-10"
               style={{
                 borderRadius: "10px 0 0 10px",
                 width: `${(experience / nextLevelExperience) * 100}%`,

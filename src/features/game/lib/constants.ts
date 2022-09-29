@@ -292,6 +292,7 @@ export const INITIAL_EXPANSIONS = [GENESIS_LAND_EXPANSION];
 export const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
   experience: 0,
+  tokenUri: "bla",
   equipped: {
     body: "Light Brown Farmer Potion",
     hair: "Basic Hair",
@@ -303,7 +304,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     tool: "Farmer Pitchfork",
     background: "Farm Background",
   },
-  tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
+  skills: {},
   stamina: {
     value: 0,
     replenishedAt: 0,
@@ -421,6 +422,7 @@ export const MAX_STAMINA: Record<BumpkinLevel, number> = {
   1: 10,
   2: 50,
   3: 100,
+  4: 200,
 };
 
 export const CHOP_STAMINA_COST = 2;

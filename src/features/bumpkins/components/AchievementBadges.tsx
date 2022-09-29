@@ -4,9 +4,9 @@ import { Bumpkin } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 export const AchievementBadges: React.FC<{
-  achievemenets?: Bumpkin["achievements"];
-}> = ({ achievemenets = {} }) => {
-  const badges = getKeys(achievemenets).map((name) => {
+  achievements?: Bumpkin["achievements"];
+}> = ({ achievements = {} }) => {
+  const badges = getKeys(achievements).map((name) => {
     return (
       <img
         key={name}
