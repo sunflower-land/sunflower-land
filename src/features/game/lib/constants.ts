@@ -308,7 +308,9 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     value: 0,
     replenishedAt: 0,
   },
-  achievements: {},
+  achievements: {
+    "Busy bumpkin": 1,
+  },
 };
 
 export const INITIAL_FARM: GameState = {

@@ -20,7 +20,7 @@ import { calculateBumpkinStamina } from "features/game/events/landExpansion/repl
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 
 export const BumpkinHUD: React.FC = () => {
-  const [showBumpkinModal, setShowBumpkinModal] = useState(false);
+  const [showBumpkinModal, setShowBumpkinModal] = useState(true);
 
   const { gameService } = useContext(Context);
   const [

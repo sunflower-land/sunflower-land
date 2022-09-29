@@ -32,7 +32,7 @@ export interface BoxProps {
  * - rounded down explicitly
  * - denominate by k, m for now
  */
-const shortenCount = (count: Decimal | undefined): string => {
+export const shortenCount = (count: Decimal | undefined): string => {
   if (!count) return "";
 
   if (count.lessThan(1))

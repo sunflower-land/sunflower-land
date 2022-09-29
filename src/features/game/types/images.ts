@@ -1006,8 +1006,44 @@ export const ITEM_DETAILS: Items = {
     image: explorer,
     description: ACHIEVEMENTS().Explorer.description,
   },
-  "Busy Bumpkin": {
+  "Busy bumpkin": {
     image: busyBumpkin,
-    description: ACHIEVEMENTS()["Busy Bumpkin"].description,
+    description: ACHIEVEMENTS()["Busy bumpkin"].description,
+  },
+  "You are my sunshine": {
+    image: wood,
+    description: ACHIEVEMENTS()["You are my sunshine"].description,
+  },
+  "Brighten the day": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Brighten the day"].description,
+  },
+  "My life is potato": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["My life is potato"].description,
+  },
+  "Jack O'Latern": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Jack O'Latern"].description,
+  },
+  "Farm Hand": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Farm Hand"].description,
+  },
+  "A hard day's work": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["A hard day's work"].description,
+  },
+  Timbeerrr: {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Timbeerrr"].description,
+  },
+  "Bumpkin Chainsaw Amateur": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Bumpkin Chainsaw Amateur"].description,
+  },
+  Forester: {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Forester"].description,
   },
 };
