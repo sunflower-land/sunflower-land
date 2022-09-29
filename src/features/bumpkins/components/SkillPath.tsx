@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { getKeys } from "features/game/types/craftables";
 import {
   BumpkinSkill,
@@ -9,13 +9,13 @@ import {
 
 import { Box } from "components/ui/Box";
 import confirm from "assets/icons/confirm.png";
-import { Bumpkin } from "features/game/types/game";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 interface SkillPathProps {
-  bumpkin: Bumpkin;
   skillsInPath: BumpkinSkill[];
   selectedSkill: BumpkinSkillName;
   onClick: (skill: BumpkinSkillName) => void;
@@ -25,8 +25,18 @@ export const SkillPath = ({
   onClick,
   selectedSkill,
   skillsInPath,
-  bumpkin,
 }: SkillPathProps) => {
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
+  const { bumpkin } = state;
+
+  if (!bumpkin) return null;
+
   const skillPath = createSkillPath(skillsInPath);
 
   return (
@@ -34,15 +44,16 @@ export const SkillPath = ({
       {skillPath.map((level, index) => (
         <div className="flex justify-center" key={index}>
           {level.map((skill) => {
-            const availableSkillPoints =
-              getAvailableBumpkinSkillPoints(bumpkin);
+            const availableSkillPoints = getAvailableBumpkinSkillPoints(
+              state.bumpkin
+            );
             const hasSkill = !!bumpkin.skills[skill];
 
             const { points: pointsRequired, skill: skillRequired } =
               BUMPKIN_SKILL_TREE[skill].requirements;
 
             const missingSkillRequirement = skillRequired
-              ? !getKeys({ ...bumpkin?.skills }).includes(skillRequired)
+              ? !getKeys({ ...bumpkin.skills }).includes(skillRequired)
               : false;
             const missingPointRequirement =
               availableSkillPoints < pointsRequired;
