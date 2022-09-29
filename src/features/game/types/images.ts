@@ -200,6 +200,9 @@ import warriorShirt from "src/assets/bumpkins/shop/shirts/warrior_top.png";
 import warriorPants from "src/assets/bumpkins/shop/pants/warrior_pants.png";
 import warriorHelmet from "src/assets/bumpkins/shop/hats/warrior_helmet.png";
 
+// Achievements
+import busyBumpkin from "src/assets/icons/player.png";
+import explorer from "src/assets/icons/hammer.png";
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -220,6 +223,7 @@ import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
+import { AchievementName, ACHIEVEMENTS } from "./achievements";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -228,7 +232,7 @@ export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   section?: Section;
 }
 
-type Items = Record<InventoryItemName, ItemDetails>;
+type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
 const crops = CROPS();
 const seeds = SEEDS();
@@ -996,5 +1000,50 @@ export const ITEM_DETAILS: Items = {
   "Boiled Egg": {
     image: egg,
     description: "A boiled egg",
+  },
+
+  Explorer: {
+    image: explorer,
+    description: ACHIEVEMENTS().Explorer.description,
+  },
+  "Busy bumpkin": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Busy bumpkin"].description,
+  },
+  "You are my sunshine": {
+    image: wood,
+    description: ACHIEVEMENTS()["You are my sunshine"].description,
+  },
+  "Brighten the day": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Brighten the day"].description,
+  },
+  "My life is potato": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["My life is potato"].description,
+  },
+  "Jack O'Latern": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Jack O'Latern"].description,
+  },
+  "Farm Hand": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Farm Hand"].description,
+  },
+  "A hard day's work": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["A hard day's work"].description,
+  },
+  Timbeerrr: {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Timbeerrr"].description,
+  },
+  "Bumpkin Chainsaw Amateur": {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Bumpkin Chainsaw Amateur"].description,
+  },
+  Forester: {
+    image: busyBumpkin,
+    description: ACHIEVEMENTS()["Forester"].description,
   },
 };

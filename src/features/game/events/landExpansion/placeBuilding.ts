@@ -1,3 +1,4 @@
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
@@ -24,9 +25,14 @@ export function placeBuilding({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
 
+  const { bumpkin } = stateCopy;
   const building = action.name;
   const buildingsItem = state.buildings[building];
   const inventoryItem = state.inventory[building];
+
+  if (bumpkin === undefined) {
+    throw new Error("You do not have a Bumpkin");
+  }
 
   if (!inventoryItem) {
     throw new Error("You can't place a building that is not on the inventory");
@@ -47,6 +53,8 @@ export function placeBuilding({
     coordinates: action.coordinates,
     readyAt: createdAt + 5 * 60 * 1000,
   };
+
+  bumpkin.activity = trackActivity("Building Placed", bumpkin.activity);
 
   return {
     ...stateCopy,

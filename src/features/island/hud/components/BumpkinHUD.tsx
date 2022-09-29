@@ -138,6 +138,7 @@ export const BumpkinHUD: React.FC = () => {
               style={{
                 borderRadius: "10px 0 0 10px",
                 width: `${(experience / nextLevelExperience) * 100}%`,
+                maxWidth: "100%",
               }}
             />
             <span className="text-xs absolute left-0 text-white">{level}</span>

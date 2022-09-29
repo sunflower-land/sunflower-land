@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "features/game/types/buildings";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -21,6 +22,7 @@ export function collectRecipe({
   createdAt = Date.now(),
 }: Options): GameState {
   const game = cloneDeep(state);
+  const { bumpkin } = game;
 
   const building = game.buildings[action.building]?.find(
     (b) => b.id === action.buildingId
@@ -28,6 +30,10 @@ export function collectRecipe({
 
   if (!building) {
     throw new Error("Building does not exist");
+  }
+
+  if (!bumpkin) {
+    throw new Error("You do not have a Bumpkin");
   }
 
   const recipe = building.crafting;
@@ -42,6 +48,11 @@ export function collectRecipe({
   delete building.crafting;
 
   const consumableCount = game.inventory[recipe.name] || new Decimal(0);
+
+  bumpkin.activity = trackActivity(
+    `${recipe.name} Collected`,
+    bumpkin.activity
+  );
 
   return {
     ...game,

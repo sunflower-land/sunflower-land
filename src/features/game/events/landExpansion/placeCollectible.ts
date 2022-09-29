@@ -4,6 +4,7 @@ import {
   COLLECTIBLES_DIMENSIONS,
 } from "../../types/craftables";
 import { GameState, PlacedItem } from "features/game/types/game";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -26,9 +27,14 @@ export function placeCollectible({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
+  const { bumpkin } = stateCopy;
   const collectible = action.name;
   const collectibleItems = stateCopy.collectibles[collectible];
   const inventoryItemBalance = stateCopy.inventory[collectible];
+
+  if (bumpkin === undefined) {
+    throw new Error("You do not have a Bumpkin");
+  }
 
   if (!inventoryItemBalance) {
     throw new Error("You can't place an item that is not on the inventory");
@@ -51,6 +57,8 @@ export function placeCollectible({
     coordinates: action.coordinates,
     readyAt: createdAt + 5 * 60 * 1000,
   };
+
+  bumpkin.activity = trackActivity("Collectible Placed", bumpkin.activity);
 
   return {
     ...stateCopy,

@@ -302,12 +302,17 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     pants: "Farmer Pants",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
+    background: "Farm Background",
   },
   skills: {},
   stamina: {
     value: 0,
     replenishedAt: 0,
   },
+  achievements: {
+    "Busy bumpkin": 1,
+  },
+  activity: {},
 };
 
 export const INITIAL_FARM: GameState = {

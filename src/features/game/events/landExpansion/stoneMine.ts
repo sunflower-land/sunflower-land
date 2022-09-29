@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { STONE_MINE_STAMINA_COST } from "features/game/lib/constants";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { GameState, LandExpansionRock } from "../../types/game";
 import { replenishStamina } from "./replenishStamina";
@@ -85,6 +86,8 @@ export function mineStone({
 
   stateCopy.inventory.Pickaxe = toolAmount.sub(1);
   stateCopy.inventory.Stone = amountInInventory.add(stoneMined);
+
+  bumpkin.activity = trackActivity("Stone Mined", bumpkin.activity);
 
   return stateCopy;
 }

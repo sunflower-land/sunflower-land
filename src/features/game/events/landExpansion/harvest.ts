@@ -3,6 +3,7 @@ import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { CROPS } from "../../types/crops";
 import Decimal from "decimal.js-light";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
@@ -18,11 +19,15 @@ type Options = {
 
 export function harvest({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
-  const { expansions } = stateCopy;
+  const { expansions, bumpkin } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!expansion) {
     throw new Error("Expansion does not exist");
+  }
+
+  if (bumpkin === undefined) {
+    throw new Error("You do not have a Bumpkin");
   }
 
   if (!expansion.plots) {
@@ -61,6 +66,8 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   delete plot.crop;
 
   const cropCount = stateCopy.inventory[name] || new Decimal(0);
+
+  bumpkin.activity = trackActivity(`${name} Harvested`, bumpkin.activity);
 
   return {
     ...stateCopy,

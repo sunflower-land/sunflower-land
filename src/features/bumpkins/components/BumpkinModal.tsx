@@ -17,6 +17,8 @@ import { Badges } from "features/farming/house/House";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
+import { Achievements } from "./Achievements";
+import { AchievementBadges } from "./AchievementBadges";
 import { BumpkinSkillsModal } from "features/island/bumpkin/components/BumpkinSkillsModal";
 import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillPointStorage";
 
@@ -25,13 +27,21 @@ interface Props {
 }
 
 export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
-  const [showSkills, setShowSkills] = useState(false);
+  const [view, setView] = useState<"home" | "achievements" | "skills">();
   const { gameService } = useContext(Context);
   const [
     {
       context: { state },
     },
   ] = useActor(gameService);
+
+  if (view === "achievements") {
+    return <Achievements onClose={() => setView("home")} />;
+  }
+
+  if (view === "skills") {
+    return <BumpkinSkillsModal onClose={() => setView("home")} />;
+  }
 
   // Do not show soul bound characteristics
   const { eyes, mouth, body, hair, background, ...wearables } = state.bumpkin
@@ -48,19 +58,14 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
 
   const hasSkillPoint = hasUnacknowledgedSkillPoints(state.bumpkin);
 
-  if (showSkills) {
-    return <BumpkinSkillsModal onClose={() => setShowSkills(false)} />;
-  }
-
   return (
     <Panel>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap ">
         <img
           src={close}
           className="absolute w-6 top-4 right-4 cursor-pointer z-20"
           onClick={onClose}
         />
-
         <div className="w-full sm:w-1/3 z-10 md:mr-4">
           <div className="w-full rounded-md overflow-hidden mb-1">
             <DynamicNFT
@@ -116,6 +121,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                   style={{
                     borderRadius: "10px 0 0 10px",
                     width: `${(experience / nextLevelExperience) * 100}%`,
+                    maxWidth: "100%",
                   }}
                 />
               </div>
@@ -144,6 +150,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                   style={{
                     borderRadius: "10px 0 0 10px",
                     width: `${(stamina / staminaCapacity) * 100}%`,
+                    maxWidth: "100%",
                   }}
                 />
               </div>
@@ -162,7 +169,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 </div>
                 <span
                   className="text-xxs underline cursor-pointer"
-                  onClick={() => setShowSkills(true)}
+                  onClick={() => setView("skills")}
                 >
                   View all
                 </span>
@@ -177,11 +184,14 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 <div className="flex items-center">
                   <span className="text-xs text-shadow">Achievements</span>
                 </div>
-                <span className="text-xxs underline cursor-pointer">
+                <span
+                  className="text-xxs underline cursor-pointer"
+                  onClick={() => setView("achievements")}
+                >
                   View all
                 </span>
               </div>
-              <p className="text-xxs">No achievements.</p>
+              <AchievementBadges achievements={state.bumpkin?.achievements} />
             </InnerPanel>
           </div>
         </div>
