@@ -15,8 +15,8 @@ import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
 import { AchievementDetails } from "./AchievementDetails";
-import { shortenCount } from "components/ui/Box";
 import Decimal from "decimal.js-light";
+import { shortenCount } from "lib/utils/formatNumber";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
