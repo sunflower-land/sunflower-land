@@ -1010,40 +1010,136 @@ export const ITEM_DETAILS: Items = {
     image: busyBumpkin,
     description: ACHIEVEMENTS()["Busy bumpkin"].description,
   },
-  "You are my sunshine": {
-    image: wood,
-    description: ACHIEVEMENTS()["You are my sunshine"].description,
+  "Brilliant Bumpkin": {
+    image: questionMark,
+    description: "",
   },
-  "Brighten the day": {
-    image: busyBumpkin,
-    description: ACHIEVEMENTS()["Brighten the day"].description,
+  "Sun Seeker": {
+    image: questionMark,
+    description: "",
+  },
+  "Sunflower Superstar": {
+    image: questionMark,
+    description: "",
   },
   "My life is potato": {
-    image: busyBumpkin,
-    description: ACHIEVEMENTS()["My life is potato"].description,
+    image: questionMark,
+    description: "",
   },
   "Jack O'Latern": {
-    image: busyBumpkin,
-    description: ACHIEVEMENTS()["Jack O'Latern"].description,
+    image: questionMark,
+    description: "",
+  },
+  "20/20 Vision": {
+    image: questionMark,
+    description: "",
+  },
+  "Cabbage king": {
+    image: questionMark,
+    description: "",
+  },
+  "Beetroot Beast": {
+    image: questionMark,
+    description: "",
+  },
+  "Cool Flower": {
+    image: questionMark,
+    description: "",
+  },
+  "Patient Parsnips": {
+    image: questionMark,
+    description: "",
+  },
+  "Rapid Radish": {
+    image: questionMark,
+    description: "",
+  },
+  "Staple Crop": {
+    image: questionMark,
+    description: "",
   },
   "Farm Hand": {
-    image: busyBumpkin,
-    description: ACHIEVEMENTS()["Farm Hand"].description,
+    image: questionMark,
+    description: "",
   },
-  "A hard day's work": {
-    image: busyBumpkin,
-    description: ACHIEVEMENTS()["A hard day's work"].description,
+  "Crop Champion": {
+    image: questionMark,
+    description: "",
+  },
+  "Bread Winner": {
+    image: questionMark,
+    description: "",
+  },
+  "Bumpkin Billionaire": {
+    image: questionMark,
+    description: "",
+  },
+  "Big spender": {
+    image: questionMark,
+    description: "",
+  },
+  "High roller": {
+    image: questionMark,
+    description: "",
   },
   Timbeerrr: {
-    image: busyBumpkin,
-    description: ACHIEVEMENTS()["Timbeerrr"].description,
+    image: questionMark,
+    description: "",
   },
   "Bumpkin Chainsaw Amateur": {
-    image: busyBumpkin,
-    description: ACHIEVEMENTS()["Bumpkin Chainsaw Amateur"].description,
+    image: questionMark,
+    description: "",
   },
-  Forester: {
-    image: busyBumpkin,
-    description: ACHIEVEMENTS()["Forester"].description,
+  Driller: {
+    image: questionMark,
+    description: "",
+  },
+  Canary: {
+    image: questionMark,
+    description: "",
+  },
+  "Iron Eyes": {
+    image: questionMark,
+    description: "",
+  },
+  "Something Shiny": {
+    image: questionMark,
+    description: "",
+  },
+  "El Dorado": {
+    image: questionMark,
+    description: "",
+  },
+  "Gold Fever": {
+    image: questionMark,
+    description: "",
+  },
+  "Kiss the Cook": {
+    image: questionMark,
+    description: "",
+  },
+  "Bakers Dozen": {
+    image: questionMark,
+    description: "",
+  },
+  "Chef de cuisine": {
+    image: questionMark,
+    description: "",
+  },
+  Craftmanship: {
+    image: questionMark,
+    description: "",
+  },
+  "Time to chop": {
+    image: questionMark,
+    description: "",
+  },
+  Contractor: {
+    image: questionMark,
+    description: "",
+  },
+  Museum: {
+    image: questionMark,
+    description: "",
   },
 };
