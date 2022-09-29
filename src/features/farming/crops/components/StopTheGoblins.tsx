@@ -87,9 +87,10 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
 
   const check = (index: number) => {
     if (items[index].isGoblin) {
-      setCorrectAttempts((prev) => new Set([...prev, index]));
+      const _correctAttempts = new Set([...correctAttempts, index]);
+      setCorrectAttempts(_correctAttempts);
 
-      if (correctAttempts.size === GOBLIN_COUNT - 1) {
+      if (_correctAttempts.size === GOBLIN_COUNT) {
         onOpen();
       }
 
