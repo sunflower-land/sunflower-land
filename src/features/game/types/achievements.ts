@@ -48,8 +48,8 @@ export type Achievement = {
   description: string;
   progress: (game: GameState) => number;
   requirement: number;
-  sflReward?: Decimal;
-  experienceReward?: number;
+  sflReward: Decimal;
+  experienceReward: number;
 };
 
 export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
