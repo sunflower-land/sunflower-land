@@ -18,7 +18,6 @@ import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BumpkinSkillsModal } from "features/island/bumpkin/components/BumpkinSkillsModal";
-import { Bumpkin } from "features/game/types/game";
 
 interface Props {
   onClose: () => void;
@@ -51,7 +50,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
   return (
     <>
       {showSkills ? (
-        <BumpkinSkillsModal bumpkin={state.bumpkin as Bumpkin} />
+        <BumpkinSkillsModal onClose={() => setShowSkills(false)} />
       ) : (
         <Panel>
           <div className="flex flex-wrap">

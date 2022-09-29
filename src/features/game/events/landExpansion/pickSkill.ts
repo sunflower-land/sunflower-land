@@ -18,7 +18,9 @@ type Options = {
   createdAt?: number;
 };
 
-export const getAvailableBumpkinSkillPoints = (bumpkin: Bumpkin) => {
+export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
+  if (!bumpkin) return 0;
+
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
   const totalSkillPoints = SKILL_POINTS[bumpkinLevel];
 

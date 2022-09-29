@@ -5,6 +5,7 @@ import sunflower from "assets/crops/sunflower/crop.png";
 import radish from "assets/crops/radish/crop.png";
 import wheat from "assets/crops/wheat/crop.png";
 import prospector from "assets/skills/prospector.png";
+import question from "assets/icons/expression_confused.png";
 
 export type BumpkinSkillName =
   | "Green Thumb"
@@ -44,8 +45,8 @@ export type BumpkinSkill = {
     skill?: BumpkinSkillName;
     points: number;
   };
-  boosts: string[];
-  image?: string;
+  boosts: string;
+  image: string;
 };
 
 export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
@@ -55,7 +56,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: ["Crops are worth 5% more"],
+    boosts: "Crops are worth 5% more",
     image: greenThumb,
   },
   Cultivator: {
@@ -65,7 +66,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 1,
       skill: "Green Thumb",
     },
-    boosts: ["Crops grow 5% quicker"],
+    boosts: "Crops grow 5% quicker",
     image: seedSpecialist,
   },
   "Master Farmer": {
@@ -75,7 +76,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Cultivator",
     },
-    boosts: ["Crops yield 10% more"],
+    boosts: "Crops yield 10% more",
     image: sunflower,
   },
   "Golden Flowers": {
@@ -85,7 +86,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Master Farmer",
     },
-    boosts: ["Chance for Sunflowers to Drop Gold "],
+    boosts: "Chance for Sunflowers to Drop Gold ",
     image: prospector,
   },
   "Plant Whisperer": {
@@ -95,7 +96,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 1,
       skill: "Master Farmer",
     },
-    boosts: ["Crops require 10% less stamina"],
+    boosts: "Crops require 10% less stamina",
     image: radish,
   },
   "Happy Crop": {
@@ -105,7 +106,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Master Farmer",
     },
-    boosts: ["Critical Crop Chance"],
+    boosts: "Critical Crop Chance",
     image: wheat,
   },
   Lumberjack: {
@@ -114,7 +115,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: ["Trees drop 10% more"],
+    boosts: "Trees drop 10% more",
+    image: question,
   },
   "Tree Hugger": {
     name: "Tree Hugger",
@@ -123,7 +125,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Lumberjack",
     },
-    boosts: ["Trees regrow 20% quicker"],
+    boosts: "Trees regrow 20% quicker",
+    image: question,
   },
   "Tough Tree": {
     name: "Tough Tree",
@@ -132,7 +135,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 3,
       skill: "Tree Hugger",
     },
-    boosts: ["Critical Tree Drop"],
+    boosts: "Critical Tree Drop",
+    image: question,
   },
   "Money Tree": {
     name: "Money Tree",
@@ -141,7 +145,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Tree Hugger",
     },
-    boosts: ["Chance for SFL drops"],
+    boosts: "Chance for SFL drops",
+    image: question,
   },
   Digger: {
     name: "Digger",
@@ -149,7 +154,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: ["Stone Drops 10% more"],
+    boosts: "Stone Drops 10% more",
+    image: question,
   },
   "Coal Face": {
     name: "Coal Face",
@@ -158,7 +164,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Digger",
     },
-    boosts: ["Rocks recover 20% quicker"],
+    boosts: "Rocks recover 20% quicker",
+    image: question,
   },
   Seeker: {
     name: "Seeker",
@@ -167,7 +174,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 3,
       skill: "Coal Face",
     },
-    boosts: ["Attract Rock Monsters"],
+    boosts: "Attract Rock Monsters",
+    image: question,
   },
   "Gold Rush": {
     name: "Gold Rush",
@@ -176,7 +184,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Coal Face",
     },
-    boosts: ["Chance of double drops"],
+    boosts: "Chance of double drops",
+    image: question,
   },
   "Rush Hour": {
     name: "Rush Hour",
@@ -184,7 +193,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: ["Cook meals 20% faster"],
+    boosts: "Cook meals 20% faster",
+    image: question,
   },
   "Kitchen Hand": {
     name: "Kitchen Hand",
@@ -193,7 +203,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Rush Hour",
     },
-    boosts: ["Meals yield an extra 10% experience"],
+    boosts: "Meals yield an extra 10% experience",
+    image: question,
   },
   "Michelin Stars": {
     name: "Michelin Stars",
@@ -202,7 +213,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Kitchen Hand",
     },
-    boosts: ["High quality food, earn additional 5% SFL"],
+    boosts: "High quality food, earn additional 5% SFL",
+    image: question,
   },
   Curer: {
     name: "Curer",
@@ -211,7 +223,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Michelin Stars",
     },
-    boosts: ["Consuming fermenter goods adds extra 15% exp"],
+    boosts: "Consuming fermenter goods adds extra 15% exp",
+    image: question,
   },
   "Stable Hand": {
     name: "Stable Hand",
@@ -219,7 +232,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: ["Animals produce 10% quicker"],
+    boosts: "Animals produce 10% quicker",
+    image: question,
   },
   "Free Range": {
     name: "Free Range",
@@ -228,7 +242,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Stable Hand",
     },
-    boosts: ["Animals produce 10% more"],
+    boosts: "Animals produce 10% more",
+    image: question,
   },
   "Horse Whisperer": {
     name: "Horse Whisperer",
@@ -237,16 +252,18 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Free Range",
     },
-    boosts: ["Increase chance of mutants"],
+    boosts: "Increase chance of mutants",
+    image: question,
   },
   Buckaroo: {
-    name: "Horse Whisperer",
+    name: "Buckaroo",
     tree: "Animals",
     requirements: {
       points: 2,
       skill: "Horse Whisperer",
     },
-    boosts: ["Chance of double drops"],
+    boosts: "Chance of double drops",
+    image: question,
   },
 };
 
@@ -255,3 +272,34 @@ export const SKILL_TREE_CATEGORIES = Array.from(
     getKeys(BUMPKIN_SKILL_TREE).map((skill) => BUMPKIN_SKILL_TREE[skill].tree)
   )
 );
+
+export const getSkills = (treeName: BumpkinSkillTree) => {
+  return getKeys(BUMPKIN_SKILL_TREE).reduce((treeSkills, skill) => {
+    if (BUMPKIN_SKILL_TREE[skill].tree === treeName) {
+      return [...treeSkills, BUMPKIN_SKILL_TREE[skill]];
+    }
+
+    return treeSkills;
+  }, [] as BumpkinSkill[]);
+};
+
+export const createSkillPath = (skills: BumpkinSkill[]) => {
+  const startingSkill = skills.find((item) => !item.requirements.skill);
+  const path = [[startingSkill?.name as BumpkinSkillName]];
+
+  const remainingLevels = new Set(
+    skills.map((item) => item.requirements.skill)
+  );
+
+  for (let index = 0; index < remainingLevels.size - 1; index++) {
+    const lastSkillLevelName = path[path.length - 1][0];
+
+    const skillsInCurrentLevel: BumpkinSkillName[] = skills
+      .filter((item) => item.requirements.skill === lastSkillLevelName)
+      .map((item) => item.name);
+
+    path.push(skillsInCurrentLevel);
+  }
+
+  return path;
+};
