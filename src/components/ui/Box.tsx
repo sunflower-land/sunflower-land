@@ -8,6 +8,7 @@ import { Label } from "./Label";
 import timer from "assets/icons/timer.png";
 import cancel from "assets/icons/cancel.png";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
+import { shortenCount } from "lib/utils/formatNumber";
 
 export interface BoxProps {
   hideCount?: boolean;
@@ -25,29 +26,6 @@ export interface BoxProps {
    */
   cooldownInProgress?: boolean;
 }
-
-/**
- * Format like in shortAddress
- * Rules/Limits:
- * - rounded down explicitly
- * - denominate by k, m for now
- */
-export const shortenCount = (count: Decimal | undefined): string => {
-  if (!count) return "";
-
-  if (count.lessThan(1))
-    return count.toDecimalPlaces(2, Decimal.ROUND_FLOOR).toString();
-
-  if (count.lessThan(1000))
-    return count.toDecimalPlaces(0, Decimal.ROUND_FLOOR).toString();
-
-  const isThousand = count.lessThan(1e6);
-
-  return `${count
-    .div(isThousand ? 1000 : 1e6)
-    .toDecimalPlaces(1, Decimal.ROUND_FLOOR)
-    .toString()}${isThousand ? "k" : "m"}`;
-};
 
 export const Box: React.FC<BoxProps> = ({
   hideCount = false,

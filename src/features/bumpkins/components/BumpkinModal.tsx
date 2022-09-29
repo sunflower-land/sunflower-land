@@ -18,7 +18,7 @@ import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Achievements } from "./Achievements";
-import { AchievementsPreivew } from "./AchievementsPreview";
+import { AchievementBadges } from "./AchievementBadges";
 
 interface Props {
   onClose: () => void;
@@ -181,7 +181,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
                 View all
               </span>
             </div>
-            <AchievementsPreivew achievemenets={state.bumpkin?.achievements} />
+            <AchievementBadges achievemenets={state.bumpkin?.achievements} />
           </InnerPanel>
         </div>
       </div>
