@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import classNames from "classnames";
 import { OuterPanel } from "components/ui/Panel";
 import {
   BumpkinSkill,
@@ -12,11 +13,10 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
 import { acknowledgeSkillPoints } from "../../island/bumpkin/lib/skillPointStorage";
-import classNames from "classnames";
 import { SkillPath } from "./SkillPath";
+import { Button } from "components/ui/Button";
 
 import arrowLeft from "assets/icons/arrow_left.png";
-import { Button } from "components/ui/Button";
 
 interface Props {
   selectedSkillPath: BumpkinSkillTree;
@@ -104,7 +104,7 @@ export const SkillPathDetails: React.FC<Props> = ({
           {!showConfirmButton && (
             <>
               <div className="flex mb-1 items-center">
-                <span className="text-shadow text-center text-sm sm:text-base mr-1">
+                <span className="text-shadow text-center text-sm sm:text-base mr-2">
                   {selectedSkill}
                 </span>
                 <img
