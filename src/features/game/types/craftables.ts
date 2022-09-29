@@ -611,7 +611,7 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
   },
   "Warrior Pants": {
     name: "Warrior Pants",
-    description: "Protect your thighs!",
+    description: "Protect your thighs",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
