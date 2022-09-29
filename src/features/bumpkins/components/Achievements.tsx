@@ -18,6 +18,7 @@ import { AchievementDetails } from "./AchievementDetails";
 import { shortenCount } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 
+const CONTENT_HEIGHT = 350;
 interface Props {
   onClose: () => void;
 }
@@ -59,7 +60,11 @@ export const Achievements: React.FC<Props> = ({ onClose }) => {
         />
         <span>Achievements</span>
       </div>
-      <div className="flex flex-wrap">
+
+      <div
+        style={{ maxHeight: CONTENT_HEIGHT }}
+        className="overflow-y-auto scrollable flex flex-wrap"
+      >
         {getKeys(achievements).map((name) => {
           const achievement = achievements[name];
 
