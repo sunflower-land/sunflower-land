@@ -10,8 +10,6 @@ export function hasUnacknowledgedSkillPoints(bumpkin?: Bumpkin) {
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
-  console.log({ availableSkillPoints });
-
   const acknowledgedSkillPoints = getAcknowledgedSkillPoints() ?? 0;
 
   return availableSkillPoints > Number(acknowledgedSkillPoints);
