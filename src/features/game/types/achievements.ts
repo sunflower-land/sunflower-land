@@ -237,7 +237,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     description: "Reach level 20",
     progress: (gameState: GameState) =>
       getBumpkinLevel(gameState.bumpkin?.experience || 0),
-    requirement: 10,
+    requirement: 20,
   },
 
   "Staple Crop": {
