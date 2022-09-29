@@ -25,9 +25,7 @@ interface Props {
 }
 
 export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
-  const [view, setView] = useState<"home" | "achievements" | "skills">(
-    "achievements"
-  );
+  const [view, setView] = useState<"home" | "achievements" | "skills">();
   const { gameService } = useContext(Context);
   const [
     {

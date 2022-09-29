@@ -42,7 +42,7 @@ export const AchievementDetails: React.FC<Props> = ({
       <div
         className="flex justify-center mb-2 w-full relative text-center px-10"
         style={{
-          minHeight: "4rem",
+          minHeight: "2rem",
         }}
       >
         <img
