@@ -22,6 +22,7 @@ import { getKeys } from "features/game/types/craftables";
 import classNames from "classnames";
 import { SkillPath } from "./SkillPath";
 import { SkillPointsLabel } from "./SkillPointsLabel";
+import { acknowledgeSkillPoints } from "../lib/skillPointStorage";
 
 export const BumpkinSkillsModal: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -78,6 +79,7 @@ export const BumpkinSkillsModal: React.FC<{ onClose: () => void }> = ({
   const handleClaim = () => {
     setShowConfirmButton(false);
     gameService.send("skill.picked", { skill: selectedSkill });
+    acknowledgeSkillPoints(gameService.state.context.state.bumpkin);
   };
 
   return (
