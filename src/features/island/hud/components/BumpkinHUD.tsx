@@ -22,7 +22,7 @@ import {
   acknowledgeSkillPoints,
   hasUnacknowledgedSkillPoints,
 } from "features/island/bumpkin/lib/skillPointStorage";
-import { BumpkinSkillsModal } from "features/island/bumpkin/components/BumpkinSkillsModal";
+import { Skills } from "features/bumpkins/components/Skills";
 
 export const BumpkinHUD: React.FC = () => {
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
@@ -68,7 +68,7 @@ export const BumpkinHUD: React.FC = () => {
         {showBumpkinModal ? (
           <BumpkinModal onClose={handleHideModal} />
         ) : (
-          <BumpkinSkillsModal onClose={handleHideModal} />
+          <Skills onClose={handleHideModal} />
         )}
       </Modal>
       <div className="fixed top-2 left-2 z-50 flex">

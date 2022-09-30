@@ -19,7 +19,7 @@ import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Achievements } from "./Achievements";
 import { AchievementBadges } from "./AchievementBadges";
-import { BumpkinSkillsModal } from "features/island/bumpkin/components/BumpkinSkillsModal";
+import { Skills } from "features/bumpkins/components/Skills";
 import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillPointStorage";
 
 interface Props {
@@ -40,7 +40,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
   }
 
   if (view === "skills") {
-    return <BumpkinSkillsModal onClose={() => setView("home")} />;
+    return <Skills onClose={() => setView("home")} />;
   }
 
   // Do not show soul bound characteristics
