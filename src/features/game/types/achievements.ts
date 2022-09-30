@@ -58,6 +58,8 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
     requirement: 100,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Busy bumpkin": {
     description: "Reach level 3",
@@ -72,6 +74,8 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Cabbage Harvested"] || 0,
     requirement: 200,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   Explorer: {
     description: "Expand your land 5 times",
@@ -85,24 +89,32 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Spent"] || 0,
     requirement: 10,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Cool Flower": {
     description: "Harvest 100 cauliflowers",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Cauliflower Harvested"] || 0,
     requirement: 100,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Jack O'Latern": {
     description: "Harvest 500 Pumpkins",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Pumpkin Harvested"] || 0,
     requirement: 500,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   Timbeerrr: {
     description: "Chop 150 trees",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Tree Chopped"] || 0,
     requirement: 150,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Bakers Dozen": {
     description: "Bake 13 cakes",
@@ -120,6 +132,8 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return bakedCakes;
     },
     requirement: 10000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
 
   Craftmanship: {
@@ -136,12 +150,16 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 100,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Beetroot Beast": {
     description: "Harvest 2000 beetroots",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Beetroot Harvested"] || 0,
     requirement: 2000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
 
   "Rapid Radish": {
@@ -149,12 +167,16 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Radish Harvested"] || 0,
     requirement: 200,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   Driller: {
     description: "Mine 50 stone rocks",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Stone Mined"] || 0,
     requirement: 50,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Farm Hand": {
     description: "Harvest 10000 crops",
@@ -170,30 +192,40 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 10000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Iron Eyes": {
     description: "Mine 50 iron rocks",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Iron Mined"] || 0,
     requirement: 50,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "20/20 Vision": {
     description: "Harvest 10,000 carrots",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Carrot Harvested"] || 0,
     requirement: 10000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "El Dorado": {
     description: "Mine 50 gold rocks",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Gold Mined"] || 0,
     requirement: 50,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Bread Winner": {
     description: "Earn 100 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Earned"] || 0,
     requirement: 100,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Kiss the Cook": {
     description: "Cook 20 meals",
@@ -209,35 +241,47 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 20,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Time to chop": {
     description: "Craft 500 axes",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Axe Crafted"] || 0,
     requirement: 500,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   Contractor: {
     description: "Construct 10 buildings",
     progress: (gameState: GameState) => getKeys(gameState.buildings).length,
     requirement: 10,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "My life is potato": {
     description: "Harvest 5000 potatoes",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Potato Harvested"] || 0,
     requirement: 5000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   Canary: {
     description: "Mine 1000 stone rocks",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Stone Mined"] || 0,
     requirement: 1000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Brilliant Bumpkin": {
     description: "Reach level 20",
     progress: (gameState: GameState) =>
       getBumpkinLevel(gameState.bumpkin?.experience || 0),
     requirement: 20,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
 
   "Staple Crop": {
@@ -245,23 +289,31 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Wheat Harvested"] || 0,
     requirement: 10000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Bumpkin Chainsaw Amateur": {
     description: "Chop 5000 trees",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Tree Chopped"] || 0,
     requirement: 5000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Something Shiny": {
     description: "Mine 500 iron rocks",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Iron Mined"] || 0,
     requirement: 500,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   Museum: {
     description: "Place 10 rare items",
     progress: (gameState: GameState) => getKeys(gameState.collectibles).length,
     requirement: 10,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Chef de cuisine": {
     description: "Cook 1000 meals",
@@ -277,36 +329,48 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 1000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Bumpkin Billionaire": {
     description: "Earn 1000 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Earned"] || 0,
     requirement: 1000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Patient Parsnips": {
     description: "Harvest 5000 parsnips",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Parsnip Harvested"] || 0,
     requirement: 5000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "High roller": {
     description: "Spend 1000 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Spent"] || 0,
     requirement: 1000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Sunflower Superstar": {
     description: "Harvest 100,000 sunflowers",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
     requirement: 100000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Gold Fever": {
     description: "Mine 500 gold rocks",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Gold Mined"] || 0,
     requirement: 500,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
   "Crop Champion": {
     description: "Harvest 1 million crops",
@@ -322,5 +386,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 1000000,
+    sflReward: marketRate(0),
+    experienceReward: 0,
   },
 });
