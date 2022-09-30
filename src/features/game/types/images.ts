@@ -1012,9 +1012,9 @@ export const ITEM_DETAILS: Items = {
     image: explorer,
     description: ACHIEVEMENTS().Explorer.description,
   },
-  "Busy bumpkin": {
+  "Busy Bumpkin": {
     image: busyBumpkin,
-    description: ACHIEVEMENTS()["Busy bumpkin"].description,
+    description: ACHIEVEMENTS()["Busy Bumpkin"].description,
   },
   "Brilliant Bumpkin": {
     image: questionMark,
@@ -1040,8 +1040,8 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "",
   },
-  "Cabbage king": {
-    image: cabbageKing,
+  "Cabbage King": {
+    image: questionMark,
     description: "",
   },
   "Beetroot Beast": {
@@ -1080,11 +1080,11 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "",
   },
-  "Big spender": {
-    image: bigSpender,
+  "Big Spender": {
+    image: questionMark,
     description: "",
   },
-  "High roller": {
+  "High Roller": {
     image: questionMark,
     description: "",
   },
@@ -1128,7 +1128,7 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "",
   },
-  "Chef de cuisine": {
+  "Chef de Cuisine": {
     image: questionMark,
     description: "",
   },

@@ -35,7 +35,7 @@ describe("claim achievements", () => {
         },
         action: {
           type: "achievement.claimed",
-          achievement: "Busy bumpkin",
+          achievement: "Busy Bumpkin",
         },
       })
     ).toThrow("You do not meet the requirements");
@@ -49,13 +49,13 @@ describe("claim achievements", () => {
             ...INITIAL_BUMPKIN,
             experience: 150,
             achievements: {
-              "Busy bumpkin": 1,
+              "Busy Bumpkin": 1,
             },
           },
         },
         action: {
           type: "achievement.claimed",
-          achievement: "Busy bumpkin",
+          achievement: "Busy Bumpkin",
         },
       })
     ).toThrow("You already have this achievement");
@@ -72,10 +72,10 @@ describe("claim achievements", () => {
       },
       action: {
         type: "achievement.claimed",
-        achievement: "Busy bumpkin",
+        achievement: "Busy Bumpkin",
       },
     });
-    expect(state.bumpkin?.achievements?.["Busy bumpkin"]).toBe(1);
+    expect(state.bumpkin?.achievements?.["Busy Bumpkin"]).toBe(1);
   });
   it("claims busy bumpkin rewards", () => {
     const balance = new Decimal(0);
@@ -92,14 +92,14 @@ describe("claim achievements", () => {
       },
       action: {
         type: "achievement.claimed",
-        achievement: "Busy bumpkin",
+        achievement: "Busy Bumpkin",
       },
     });
     expect(state.balance).toEqual(
-      balance.add(ACHIEVEMENTS()["Busy bumpkin"].sflReward)
+      balance.add(ACHIEVEMENTS()["Busy Bumpkin"].sflReward)
     );
     expect(state.bumpkin?.experience).toEqual(
-      experience + ACHIEVEMENTS()["Busy bumpkin"].experienceReward
+      experience + ACHIEVEMENTS()["Busy Bumpkin"].experienceReward
     );
   });
 });

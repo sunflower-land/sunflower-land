@@ -9,14 +9,14 @@ import { CROPS } from "./crops";
 
 export type AchievementName =
   | "Explorer"
-  | "Busy bumpkin"
+  | "Busy Bumpkin"
   | "Brilliant Bumpkin"
   | "Sun Seeker"
   | "Sunflower Superstar"
   | "My life is potato"
   | "Jack O'Latern"
   | "20/20 Vision"
-  | "Cabbage king"
+  | "Cabbage King"
   | "Beetroot Beast"
   | "Cool Flower"
   | "Patient Parsnips"
@@ -26,8 +26,8 @@ export type AchievementName =
   | "Crop Champion"
   | "Bread Winner"
   | "Bumpkin Billionaire"
-  | "Big spender"
-  | "High roller"
+  | "Big Spender"
+  | "High Roller"
   | "Timbeerrr"
   | "Bumpkin Chainsaw Amateur"
   | "Driller"
@@ -38,7 +38,7 @@ export type AchievementName =
   | "Gold Fever"
   | "Kiss the Cook"
   | "Bakers Dozen"
-  | "Chef de cuisine"
+  | "Chef de Cuisine"
   | "Craftmanship"
   | "Time to chop"
   | "Contractor"
@@ -61,7 +61,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sflReward: marketRate(0),
     experienceReward: 0,
   },
-  "Busy bumpkin": {
+  "Busy Bumpkin": {
     description: "Reach level 3",
     progress: (gameState: GameState) =>
       getBumpkinLevel(gameState.bumpkin?.experience || 0),
@@ -69,7 +69,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sflReward: marketRate(10),
     experienceReward: 0,
   },
-  "Cabbage king": {
+  "Cabbage King": {
     description: "Harvest 200 cabbages",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Cabbage Harvested"] || 0,
@@ -84,7 +84,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     experienceReward: 0,
     sflReward: marketRate(5),
   },
-  "Big spender": {
+  "Big Spender": {
     description: "Spend 10 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Spent"] || 0,
@@ -315,7 +315,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sflReward: marketRate(0),
     experienceReward: 0,
   },
-  "Chef de cuisine": {
+  "Chef de Cuisine": {
     description: "Cook 1000 meals",
     progress: (gameState: GameState) => {
       const cookEvents = getKeys(CONSUMABLES).map(
@@ -348,7 +348,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sflReward: marketRate(0),
     experienceReward: 0,
   },
-  "High roller": {
+  "High Roller": {
     description: "Spend 1000 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Spent"] || 0,
