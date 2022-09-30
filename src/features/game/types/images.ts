@@ -1041,7 +1041,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Cabbage King": {
-    image: questionMark,
+    image: cabbageKing,
     description: "",
   },
   "Beetroot Beast": {
@@ -1081,7 +1081,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Big Spender": {
-    image: questionMark,
+    image: bigSpender,
     description: "",
   },
   "High Roller": {
