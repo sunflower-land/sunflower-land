@@ -20,7 +20,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { OuterPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 import timer from "assets/icons/timer.png";
 import busyGoblin from "assets/npcs/goblin_doing.gif";
 

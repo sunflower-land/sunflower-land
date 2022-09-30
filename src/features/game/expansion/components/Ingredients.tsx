@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 
 import { Ingredient } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";

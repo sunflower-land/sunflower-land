@@ -1,7 +1,7 @@
 import React from "react";
 
 import close from "assets/icons/close.png";
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 
 import { Tab } from "components/ui/Tab";
 import classNames from "classnames";

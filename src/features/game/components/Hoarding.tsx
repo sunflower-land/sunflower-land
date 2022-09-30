@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import close from "assets/icons/close.png";
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 
 import { Context } from "../GameProvider";
 import { useActor } from "@xstate/react";

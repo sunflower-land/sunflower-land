@@ -2,7 +2,7 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 import bank from "assets/buildings/goblin_bank.gif";
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";

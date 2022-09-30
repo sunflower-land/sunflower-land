@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
 import leftArrow from "assets/icons/arrow_left.png";
 
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 import timer from "assets/icons/timer.png";
 import lock from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";

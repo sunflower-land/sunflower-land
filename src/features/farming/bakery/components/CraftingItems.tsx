@@ -3,8 +3,8 @@ import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
-import token from "assets/icons/token.gif";
-import tokenStatic from "assets/icons/token.png";
+import token from "assets/icons/token_2.png";
+import tokenStatic from "assets/icons/token_2.png";
 import stopwatch from "assets/icons/stopwatch.png";
 
 import { Box } from "components/ui/Box";

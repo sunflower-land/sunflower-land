@@ -6,8 +6,8 @@ import Decimal from "decimal.js-light";
 import ReCAPTCHA from "react-google-recaptcha";
 import { CONFIG } from "lib/config";
 
-import token from "assets/icons/token.gif";
-import tokenStatic from "assets/icons/token.png";
+import token from "assets/icons/token_2.png";
+import tokenStatic from "assets/icons/token_2.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";

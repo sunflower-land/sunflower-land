@@ -8,7 +8,7 @@ import goblinHead from "assets/icons/goblin_head.png";
 import player from "assets/icons/player.png";
 import timer from "assets/icons/timer.png";
 import alert from "assets/icons/expression_alerted.png";
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import sflIcon from "assets/icons/token.png";
+import sflIcon from "assets/icons/token_2.png";
 import experience from "assets/icons/experience.png";
 import arrowLeft from "assets/icons/arrow_left.png";
 

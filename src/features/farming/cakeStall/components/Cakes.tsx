@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 import { useActor } from "@xstate/react";
 
-import token from "assets/icons/token.gif";
-import tokenStatic from "assets/icons/token.png";
+import token from "assets/icons/token_2.png";
+import tokenStatic from "assets/icons/token_2.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";

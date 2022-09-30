@@ -6,7 +6,7 @@ import sunflower from "assets/crops/sunflower/planted.png";
 import seedling from "assets/crops/sunflower/seedling.png";
 import seed from "assets/crops/sunflower/seed.png";
 import cursor from "assets/ui/cursor.png";
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 
 import shop from "assets/buildings/shop_building.png";
 import { HowToModalHeader } from "./HowToModalHeader";

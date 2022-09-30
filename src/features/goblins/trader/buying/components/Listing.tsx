@@ -2,7 +2,7 @@ import React from "react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 import goblin from "assets/npcs/goblin_head.png";
 
 import { OuterPanel } from "components/ui/Panel";

@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 
 import { InnerPanel } from "components/ui/Panel";
 
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 
 interface Props {
   balance: Decimal;

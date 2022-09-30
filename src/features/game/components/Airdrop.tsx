@@ -5,7 +5,7 @@ import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import chest from "src/assets/icons/chest.png";
-import token from "src/assets/icons/token.png";
+import token from "src/assets/icons/token_2.png";
 import alerted from "assets/icons/expression_alerted.png";
 
 import { Context } from "../GameProvider";

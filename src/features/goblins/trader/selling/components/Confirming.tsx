@@ -1,6 +1,6 @@
 import React from "react";
 
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 import goblin from "assets/npcs/goblin_head.png";
 
 import { Button } from "components/ui/Button";

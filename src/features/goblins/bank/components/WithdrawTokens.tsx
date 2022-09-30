@@ -13,7 +13,7 @@ import { Button } from "components/ui/Button";
 
 import { metamask } from "lib/blockchain/metamask";
 
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 import player from "assets/icons/player.png";
 import upArrow from "assets/icons/arrow_up.png";
 import downArrow from "assets/icons/arrow_down.png";

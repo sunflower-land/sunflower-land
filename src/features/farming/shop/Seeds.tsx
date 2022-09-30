@@ -4,8 +4,8 @@ import { useActor } from "@xstate/react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { CONFIG } from "lib/config";
 
-import token from "assets/icons/token.gif";
-import tokenStatic from "assets/icons/token.png";
+import token from "assets/icons/token_2.png";
+import tokenStatic from "assets/icons/token_2.png";
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
 

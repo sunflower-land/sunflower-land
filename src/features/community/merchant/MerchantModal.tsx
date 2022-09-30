@@ -16,7 +16,7 @@ import frog_unrevealed from "assets/nfts/frogs/frog_unrevealed.gif";
 import frog_revealed from "assets/nfts/frogs/frog_revealed.gif";
 import box from "assets/nfts/frogs/box.gif";
 import big_goblin_axe from "assets/npcs/big_goblin_axe.gif";
-import sfl_token from "assets/icons/token.gif";
+import sfl_token from "assets/icons/token_2.png";
 import alert from "assets/icons/expression_alerted.png";
 import close from "assets/icons/close.png";
 import heart from "assets/icons/heart.png";

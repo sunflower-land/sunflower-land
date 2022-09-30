@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
-import token from "assets/icons/token.gif";
+import token from "assets/icons/token_2.png";
 import lightning from "assets/icons/lightning.png";
-import tokenStatic from "assets/icons/token.png";
+import tokenStatic from "assets/icons/token_2.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";
