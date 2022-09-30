@@ -143,6 +143,15 @@ import coder from "assets/skills/coder.png";
 import discord from "assets/skills/discord.png";
 import liquidityProvider from "assets/skills/liquidity_provider.png";
 
+// Achievements
+import bigSpender from "assets/achievements/big_spender.png";
+import busyBumpkin from "assets/achievements/busy_bumpkin.png";
+import cabbageKing from "assets/achievements/cabbage_king.png";
+import coolCauliflower from "assets/achievements/cool_cauliflower.png";
+import jackOLantern from "assets/achievements/jack_o_lantern.png";
+import sunSeeker from "assets/achievements/sun_seeker.png";
+import timberrr from "assets/achievements/timber.png";
+import explorer from "src/assets/icons/hammer.png";
 // Coupons
 import ticket from "assets/icons/ticket.png";
 import warBond from "assets/icons/warBond.png";
@@ -200,9 +209,6 @@ import warriorShirt from "src/assets/bumpkins/shop/shirts/warrior_top.png";
 import warriorPants from "src/assets/bumpkins/shop/pants/warrior_pants.png";
 import warriorHelmet from "src/assets/bumpkins/shop/hats/warrior_helmet.png";
 
-// Achievements
-import busyBumpkin from "src/assets/icons/player.png";
-import explorer from "src/assets/icons/hammer.png";
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -1015,7 +1021,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Sun Seeker": {
-    image: questionMark,
+    image: sunSeeker,
     description: "",
   },
   "Sunflower Superstar": {
@@ -1027,7 +1033,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Jack O'Latern": {
-    image: questionMark,
+    image: jackOLantern,
     description: "",
   },
   "20/20 Vision": {
@@ -1035,7 +1041,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Cabbage king": {
-    image: questionMark,
+    image: cabbageKing,
     description: "",
   },
   "Beetroot Beast": {
@@ -1043,7 +1049,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Cool Flower": {
-    image: questionMark,
+    image: coolCauliflower,
     description: "",
   },
   "Patient Parsnips": {
@@ -1075,7 +1081,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Big spender": {
-    image: questionMark,
+    image: bigSpender,
     description: "",
   },
   "High roller": {
@@ -1083,7 +1089,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   Timbeerrr: {
-    image: questionMark,
+    image: timberrr,
     description: "",
   },
   "Bumpkin Chainsaw Amateur": {
