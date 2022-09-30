@@ -13,18 +13,13 @@ export type ClaimAchievementAction = {
 type Options = {
   state: Readonly<GameState>;
   action: ClaimAchievementAction;
-  createdAt?: number;
 };
 
 const clone = (state: GameState): GameState => {
   return cloneDeep(state);
 };
 
-export function claimAchievement({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function claimAchievement({ state, action }: Options): GameState {
   const stateCopy = clone(state);
   const bumpkin = stateCopy.bumpkin;
   const achievement = ACHIEVEMENTS()[action.achievement];

@@ -19,7 +19,6 @@ describe("claim achievements", () => {
           type: "achievement.claimed",
           achievement: "Explorer",
         },
-        createdAt: date,
       })
     ).toThrow("You do not have a Bumpkin");
   });
@@ -38,7 +37,6 @@ describe("claim achievements", () => {
           type: "achievement.claimed",
           achievement: "Busy bumpkin",
         },
-        createdAt: date,
       })
     ).toThrow("You do not meet the requirements");
   });
@@ -59,7 +57,6 @@ describe("claim achievements", () => {
           type: "achievement.claimed",
           achievement: "Busy bumpkin",
         },
-        createdAt: date,
       })
     ).toThrow("You already have this achievement");
   });
@@ -77,7 +74,6 @@ describe("claim achievements", () => {
         type: "achievement.claimed",
         achievement: "Busy bumpkin",
       },
-      createdAt: date,
     });
     expect(state.bumpkin?.achievements?.["Busy bumpkin"]).toBe(1);
   });
@@ -98,7 +94,6 @@ describe("claim achievements", () => {
         type: "achievement.claimed",
         achievement: "Busy bumpkin",
       },
-      createdAt: date,
     });
     expect(state.balance).toEqual(
       balance.add(ACHIEVEMENTS()["Busy bumpkin"].sflReward)

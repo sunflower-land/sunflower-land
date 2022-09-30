@@ -58,7 +58,9 @@ export const Achievements: React.FC<Props> = ({ onClose }) => {
   }, []);
 
   const claim = () => {
-    console.log("TODO");
+    gameService.send("achievement.claimed", {
+      achievement: selected,
+    });
   };
 
   return (
