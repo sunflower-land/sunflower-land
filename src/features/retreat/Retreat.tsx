@@ -7,6 +7,11 @@ import background from "assets/land/retreat.png";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import waterMovement from "assets/decorations/water_movement.png";
 import { GoblinProvider } from "features/game/GoblinProvider";
+import { RetreatBank } from "./components/bank/RetreatBank";
+import { RetreatStorageHouse } from "./components/storageHouse/RetreatStorageHouse";
+import { RetreatHotAirBalloon } from "./components/hotAirBalloon/RetreatHotAirBalloon";
+import { RetreatTailor } from "./components/tailor/RetreatTailor";
+import { RetreatBlacksmith } from "./components/blacksmith/RetreatBlacksmith";
 
 export const Retreat: React.FC = () => {
   const container = useRef(null);
@@ -37,6 +42,11 @@ export const Retreat: React.FC = () => {
               src={background}
               className="absolute inset-0 w-full h-full z-10"
             />
+            <RetreatBank />
+            <RetreatStorageHouse />
+            <RetreatHotAirBalloon />
+            <RetreatTailor />
+            <RetreatBlacksmith />
           </div>
           <div
             className="absolute inset-0 bg-repeat"
