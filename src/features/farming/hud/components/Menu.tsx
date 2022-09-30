@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
-import ReCAPTCHA from "react-google-recaptcha";
 import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
@@ -29,6 +28,7 @@ import goblin from "assets/npcs/goblin_head.png";
 import { useIsNewFarm } from "../lib/onboarding";
 import { GoblinVillageModal } from "features/farming/town/components/GoblinVillageModal";
 import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
+import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 
 /**
  * TODO:
@@ -312,11 +312,14 @@ export const Menu = () => {
               alt="Close Logout Confirmation Modal"
               onClick={() => setShowCaptcha(false)}
             />
-            <ReCAPTCHA
-              sitekey={CONFIG.RECAPTCHA_SITEKEY}
-              onChange={onCaptchaSolved}
-              onExpired={() => setShowCaptcha(false)}
-              className="w-full m-4 flex items-center justify-center"
+            <CloudFlareCaptcha
+              onDone={onCaptchaSolved}
+              onError={() => setShowCaptcha(false)}
+              onExpire={() => {
+                console.log("expire");
+                setShowCaptcha(false);
+              }}
+              action="sync"
             />
           </Panel>
         </Modal>
