@@ -66,7 +66,7 @@ describe("claim achievements", () => {
         ...GAME_STATE,
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          experience: 150,
+          experience: 250,
           achievements: undefined,
         },
       },
@@ -79,7 +79,7 @@ describe("claim achievements", () => {
   });
   it("claims busy bumpkin rewards", () => {
     const balance = new Decimal(0);
-    const experience = 150;
+    const experience = 250;
     const state = claimAchievement({
       state: {
         ...GAME_STATE,
