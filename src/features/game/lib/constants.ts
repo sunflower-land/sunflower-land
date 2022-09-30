@@ -525,13 +525,24 @@ export const INITIAL_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    "Fire Pit": [
+    Tent: [
       {
         id: "123",
         readyAt: 0,
         coordinates: {
           x: 5,
           y: 4,
+        },
+        createdAt: 0,
+      },
+    ],
+    "Water Well": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: 2,
         },
         createdAt: 0,
       },

@@ -224,6 +224,8 @@ import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 import firePit from "src/assets/buildings/kitchen.png";
 import market from "src/assets/buildings/market.png";
 import blacksmith from "src/assets/buildings/blacksmith.png";
+import tent from "src/assets/buildings/tent1.png";
+import well from "src/assets/buildings/well1.png";
 
 // Clothing
 import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
@@ -995,6 +997,14 @@ export const ITEM_DETAILS: Items = {
   Workbench: {
     image: questionMark,
     description: "TEST",
+  },
+  "Water Well": {
+    image: well,
+    description: "Support more crops!",
+  },
+  Tent: {
+    image: tent,
+    description: "Rest your Bumpkin and earn more stamina",
   },
 
   "Sunflower Amulet": {

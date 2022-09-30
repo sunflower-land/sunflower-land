@@ -9,7 +9,9 @@ export type BuildingName =
   | "Oven"
   | "Bakery"
   | "Blacksmith"
-  | "Workbench";
+  | "Workbench"
+  | "Tent"
+  | "Water Well";
 
 export type BuildingBluePrint = {
   levelRequired: number;
@@ -130,6 +132,36 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     sfl: new Decimal(1),
     constructionSeconds: 60 * 5,
   },
+  Tent: {
+    levelRequired: 2,
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Stone",
+        amount: new Decimal(5),
+      },
+    ],
+    sfl: new Decimal(1),
+    constructionSeconds: 60 * 5,
+  },
+  "Water Well": {
+    levelRequired: 2,
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Stone",
+        amount: new Decimal(5),
+      },
+    ],
+    sfl: new Decimal(1),
+    constructionSeconds: 60 * 5,
+  },
 };
 
 export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
@@ -139,4 +171,6 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Oven: { height: 1, width: 1 },
   Bakery: { height: 3, width: 3 },
   Workbench: { height: 1, width: 1 },
+  "Water Well": { height: 2, width: 2 },
+  Tent: { height: 2, width: 3 },
 };
