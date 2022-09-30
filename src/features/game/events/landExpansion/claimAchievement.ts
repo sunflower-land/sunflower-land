@@ -46,7 +46,7 @@ export function claimAchievement({
   bumpkin.achievements = { ...bumpkinAchievments, [action.achievement]: 1 };
 
   bumpkin.experience += achievement.experienceReward;
-  stateCopy.balance.add(achievement.sflReward);
+  stateCopy.balance = stateCopy.balance.add(achievement.sflReward);
 
   return stateCopy;
 }

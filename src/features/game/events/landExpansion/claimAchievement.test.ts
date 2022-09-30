@@ -1,4 +1,6 @@
+import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, INITIAL_FARM } from "features/game/lib/constants";
+import { ACHIEVEMENTS } from "features/game/types/achievements";
 import { GameState } from "features/game/types/game";
 import { claimAchievement } from "./claimAchievement";
 
@@ -79,31 +81,30 @@ describe("claim achievements", () => {
     });
     expect(state.bumpkin?.achievements?.["Busy bumpkin"]).toBe(1);
   });
-  // TODO: WIP
-  // it("claims busy bumpkin rewards", () => {
-  //   const balance = new Decimal(0);
-  //   const experience = 150;
-  //   const state = claimAchievement({
-  //     state: {
-  //       ...GAME_STATE,
-  //       balance,
-  //       bumpkin: {
-  //         ...INITIAL_BUMPKIN,
-  //         experience,
-  //         achievements: undefined,
-  //       },
-  //     },
-  //     action: {
-  //       type: "achievement.claimed",
-  //       achievement: "Busy bumpkin",
-  //     },
-  //     createdAt: date,
-  //   });
-  //   expect(state.balance).toEqual(
-  //     balance.add(ACHIEVEMENTS()["Busy bumpkin"].sflReward)
-  //   );
-  //   expect(state.bumpkin?.experience).toEqual(
-  //     experience + ACHIEVEMENTS()["Busy bumpkin"].experienceReward
-  //   );
-  // });
+  it("claims busy bumpkin rewards", () => {
+    const balance = new Decimal(0);
+    const experience = 150;
+    const state = claimAchievement({
+      state: {
+        ...GAME_STATE,
+        balance,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience,
+          achievements: undefined,
+        },
+      },
+      action: {
+        type: "achievement.claimed",
+        achievement: "Busy bumpkin",
+      },
+      createdAt: date,
+    });
+    expect(state.balance).toEqual(
+      balance.add(ACHIEVEMENTS()["Busy bumpkin"].sflReward)
+    );
+    expect(state.bumpkin?.experience).toEqual(
+      experience + ACHIEVEMENTS()["Busy bumpkin"].experienceReward
+    );
+  });
 });
