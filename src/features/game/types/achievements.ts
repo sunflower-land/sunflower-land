@@ -264,7 +264,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 10,
   },
   "Chef de cuisine": {
-    description: "Cook 1000 meals",
+    description: "Cook 5000 meals",
     progress: (gameState: GameState) => {
       const cookEvents = getKeys(CONSUMABLES).map(
         (name) => `${name} Cooked` as CookEvent
@@ -276,7 +276,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
         return count + amount;
       }, 0);
     },
-    requirement: 1000,
+    requirement: 5000,
   },
   "Bumpkin Billionaire": {
     description: "Earn 1000 SFL",
@@ -291,10 +291,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 5000,
   },
   "High roller": {
-    description: "Spend 1000 SFL",
+    description: "Spend 5000 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Spent"] || 0,
-    requirement: 1000,
+    requirement: 5000,
   },
   "Sunflower Superstar": {
     description: "Harvest 100,000 sunflowers",

@@ -144,14 +144,39 @@ import discord from "assets/skills/discord.png";
 import liquidityProvider from "assets/skills/liquidity_provider.png";
 
 // Achievements
+
+import bumpkinChainsawAmateu from "assets/achievements/bumpkin_chainsaw_amateur.png";
+import twentyTwentyVision from "assets/achievements/20-20-vision.png";
+import bakersDozen from "assets/achievements/bakers_dozen.png";
+import beetrootBeast from "assets/achievements/beetrootBeast.png";
 import bigSpender from "assets/achievements/big_spender.png";
+import brilliantBumpkin from "assets/achievements/brilliant_bumpkin.png";
+import bumpkinBillionaire from "assets/achievements/bumpkin_billionaire.png";
+import craftmanship from "assets/achievements/craftmanship.png";
 import busyBumpkin from "assets/achievements/busy_bumpkin.png";
 import cabbageKing from "assets/achievements/cabbage_king.png";
+import canary from "assets/achievements/canary.png";
+import chefDeCusine from "assets/achievements/chef_de_cusine.png";
+import contractor from "assets/achievements/contractor.png";
 import coolCauliflower from "assets/achievements/cool_cauliflower.png";
 import jackOLantern from "assets/achievements/jack_o_lantern.png";
+import cropChampion from "assets/achievements/crop_champion.png";
+import driller from "assets/achievements/driller.png";
+import elDorado from "assets/achievements/el-dorado.png";
+import goldFever from "assets/achievements/gold_fever.png";
+import ironEyes from "assets/achievements/iron_eyes.png";
+import stapleCrop from "assets/achievements/staple_crop.png";
+import kissTheCook from "assets/achievements/kiss_the_cook.png";
+import museum from "assets/achievements/museum.png";
+import myLifeIsPotato from "assets/achievements/my_life_is_potato.png";
+import patientParsnip from "assets/achievements/patient_parsnip.png";
+import rapidRadish from "assets/achievements/rapidRadish.png";
+import somethingShiny from "assets/achievements/something_shiny.png";
 import sunSeeker from "assets/achievements/sun_seeker.png";
+import sunflowerSuperstar from "assets/achievements/sunflower_superstar.png";
 import timberrr from "assets/achievements/timber.png";
-import explorer from "src/assets/icons/hammer.png";
+import timeToChop from "assets/achievements/time_to_chop.png";
+
 // Coupons
 import ticket from "assets/icons/ticket.png";
 import warBond from "assets/icons/warBond.png";
@@ -1009,7 +1034,7 @@ export const ITEM_DETAILS: Items = {
   },
 
   Explorer: {
-    image: explorer,
+    image: questionMark,
     description: ACHIEVEMENTS().Explorer.description,
   },
   "Busy bumpkin": {
@@ -1017,7 +1042,7 @@ export const ITEM_DETAILS: Items = {
     description: ACHIEVEMENTS()["Busy bumpkin"].description,
   },
   "Brilliant Bumpkin": {
-    image: questionMark,
+    image: brilliantBumpkin,
     description: "",
   },
   "Sun Seeker": {
@@ -1025,11 +1050,11 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Sunflower Superstar": {
-    image: questionMark,
+    image: sunflowerSuperstar,
     description: "",
   },
   "My life is potato": {
-    image: questionMark,
+    image: myLifeIsPotato,
     description: "",
   },
   "Jack O'Latern": {
@@ -1037,7 +1062,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "20/20 Vision": {
-    image: questionMark,
+    image: twentyTwentyVision,
     description: "",
   },
   "Cabbage king": {
@@ -1045,7 +1070,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Beetroot Beast": {
-    image: questionMark,
+    image: beetrootBeast,
     description: "",
   },
   "Cool Flower": {
@@ -1053,15 +1078,15 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Patient Parsnips": {
-    image: questionMark,
+    image: patientParsnip,
     description: "",
   },
   "Rapid Radish": {
-    image: questionMark,
+    image: rapidRadish,
     description: "",
   },
   "Staple Crop": {
-    image: questionMark,
+    image: stapleCrop,
     description: "",
   },
   "Farm Hand": {
@@ -1069,7 +1094,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Crop Champion": {
-    image: questionMark,
+    image: cropChampion,
     description: "",
   },
   "Bread Winner": {
@@ -1077,7 +1102,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Bumpkin Billionaire": {
-    image: questionMark,
+    image: bumpkinBillionaire,
     description: "",
   },
   "Big spender": {
@@ -1093,59 +1118,59 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Bumpkin Chainsaw Amateur": {
-    image: questionMark,
+    image: bumpkinChainsawAmateu,
     description: "",
   },
   Driller: {
-    image: questionMark,
+    image: driller,
     description: "",
   },
   Canary: {
-    image: questionMark,
+    image: canary,
     description: "",
   },
   "Iron Eyes": {
-    image: questionMark,
+    image: ironEyes,
     description: "",
   },
   "Something Shiny": {
-    image: questionMark,
+    image: somethingShiny,
     description: "",
   },
   "El Dorado": {
-    image: questionMark,
+    image: elDorado,
     description: "",
   },
   "Gold Fever": {
-    image: questionMark,
+    image: goldFever,
     description: "",
   },
   "Kiss the Cook": {
-    image: questionMark,
+    image: kissTheCook,
     description: "",
   },
   "Bakers Dozen": {
-    image: questionMark,
+    image: bakersDozen,
     description: "",
   },
   "Chef de cuisine": {
-    image: questionMark,
+    image: chefDeCusine,
     description: "",
   },
   Craftmanship: {
-    image: questionMark,
+    image: craftmanship,
     description: "",
   },
   "Time to chop": {
-    image: questionMark,
+    image: timeToChop,
     description: "",
   },
   Contractor: {
-    image: questionMark,
+    image: contractor,
     description: "",
   },
   Museum: {
-    image: questionMark,
+    image: museum,
     description: "",
   },
 };
