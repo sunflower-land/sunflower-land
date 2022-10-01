@@ -7,6 +7,11 @@ import background from "assets/land/helios.png";
 import { GameProvider } from "features/game/GameProvider";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import waterMovement from "assets/decorations/water_movement.png";
+import { HeliosCakeStall } from "./components/cakeStall/HeliosCakeStall";
+import { Decorations } from "./components/decorations/Decorations";
+import { Furnace } from "./components/furnace/Furnace";
+import { Fertilisers } from "./components/fertilisers/Fertilisers";
+import { FarmersMarket } from "./components/farmersMarket/FarmersMarket";
 
 export const Helios: React.FC = () => {
   const container = useRef(null);
@@ -37,6 +42,11 @@ export const Helios: React.FC = () => {
               src={background}
               className="absolute inset-0 w-full h-full z-10"
             />
+            <Decorations />
+            <HeliosCakeStall />
+            <Furnace />
+            <Fertilisers />
+            <FarmersMarket />
           </div>
           <div
             className="absolute inset-0 bg-repeat"

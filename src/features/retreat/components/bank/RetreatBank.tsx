@@ -25,8 +25,8 @@ export const RetreatBank: React.FC = () => {
       className="z-10 absolute"
       style={{
         width: `${GRID_WIDTH_PX * 3.4}px`,
-        right: `${GRID_WIDTH_PX * 19}px`,
-        top: `${GRID_WIDTH_PX * 6.4}px`,
+        right: `${GRID_WIDTH_PX * 19.3}px`,
+        top: `${GRID_WIDTH_PX * 2}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">

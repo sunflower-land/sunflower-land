@@ -25,7 +25,7 @@ export const RetreatBlacksmith: React.FC = () => {
       style={{
         width: `${GRID_WIDTH_PX * 7.1}px`,
         right: `${GRID_WIDTH_PX * 9.5}px`,
-        top: `${GRID_WIDTH_PX * 22.9}px`,
+        top: `${GRID_WIDTH_PX * 22.3}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">
