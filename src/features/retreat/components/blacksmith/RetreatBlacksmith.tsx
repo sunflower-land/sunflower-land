@@ -24,7 +24,7 @@ export const RetreatBlacksmith: React.FC = () => {
       // TODO some sort of coordinate system
       style={{
         width: `${GRID_WIDTH_PX * 7.1}px`,
-        right: `${GRID_WIDTH_PX * 11}px`,
+        right: `${GRID_WIDTH_PX * 9.5}px`,
         top: `${GRID_WIDTH_PX * 22.9}px`,
       }}
     >
