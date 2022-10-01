@@ -11,7 +11,7 @@ export const Decorations: React.FC = () => {
       // TODO some sort of coordinate system
       style={{
         width: `${GRID_WIDTH_PX * 6}px`,
-        right: `${GRID_WIDTH_PX * 18}px`,
+        right: `${GRID_WIDTH_PX * 17.6}px`,
         top: `${GRID_WIDTH_PX * 25.2}px`,
       }}
     >

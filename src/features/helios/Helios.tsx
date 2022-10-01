@@ -9,9 +9,10 @@ import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import waterMovement from "assets/decorations/water_movement.png";
 import { HeliosCakeStall } from "./components/cakeStall/HeliosCakeStall";
 import { Decorations } from "./components/decorations/Decorations";
-import { Furnace } from "./components/furnace/Furnace";
 import { Fertilisers } from "./components/fertilisers/Fertilisers";
 import { FarmersMarket } from "./components/farmersMarket/FarmersMarket";
+import { HeliosSunflower } from "./components/HeliosSunflower";
+import { HeliosBlacksmith } from "./components/blacksmith/HeliosBlacksmith";
 
 export const Helios: React.FC = () => {
   const container = useRef(null);
@@ -44,9 +45,10 @@ export const Helios: React.FC = () => {
             />
             <Decorations />
             <HeliosCakeStall />
-            <Furnace />
+            <HeliosBlacksmith />
             <Fertilisers />
             <FarmersMarket />
+            <HeliosSunflower />
           </div>
           <div
             className="absolute inset-0 bg-repeat"
