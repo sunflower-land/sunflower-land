@@ -9,7 +9,7 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 
-import { Modal } from "react-bootstrap";
+import { Modal, Collapse } from "react-bootstrap";
 import { Share } from "components/Share";
 import { HowToPlay } from "./howToPlay/HowToPlay";
 import { Settings } from "./Settings";
@@ -62,6 +62,11 @@ export const Menu = () => {
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  // @note: reset menu level when menu closed
+  const resetMenuLevel = () => {
+    setMenuLevel(MENU_LEVELS.ROOT);
   };
 
   const handleNavigationClick = (section: Section) => {
@@ -135,7 +140,7 @@ export const Menu = () => {
             onClick={handleMenuClick}
           >
             <img
-              className="md:hidden w-6"
+              className="md:hidden w-5"
               src={mobileMenu}
               alt="hamburger-menu"
             />
@@ -151,16 +156,9 @@ export const Menu = () => {
           </Button>
         </div>
         {CONFIG.NETWORK === "mumbai" && <DEV_BurnLandButton />}
-        <div
-          className={`transition-all ease duration-200 ${
-            menuOpen ? "max-h-100" : "max-h-0"
-          }`}
-        >
-          <ul
-            className={`list-none pt-1 transition-all ease duration-200 origin-top ${
-              menuOpen ? "scale-y-1" : "scale-y-0"
-            }`}
-          >
+
+        <Collapse in={menuOpen} onExited={resetMenuLevel}>
+          <ul className="list-none">
             {/* Root menu */}
             {menuLevel === MENU_LEVELS.ROOT && (
               <>
@@ -284,7 +282,7 @@ export const Menu = () => {
               </>
             )}
           </ul>
-        </div>
+        </Collapse>
       </OuterPanel>
 
       <Share
