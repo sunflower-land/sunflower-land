@@ -17,6 +17,7 @@ import { DEV_Viewer } from "features/viewer/DEV_Viewer";
 import { Community } from "features/community/Community";
 import { Helios } from "features/helios/Helios";
 import { Retreat } from "features/retreat/Retreat";
+import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 
 /**
  * Entry point for game which reflects the user session state
@@ -86,6 +87,9 @@ export const Navigation: React.FC = () => {
             )}
             {CONFIG.NETWORK !== "mainnet" && (
               <Route path="/retreat/:id" element={<Retreat key="helios" />} />
+            )}
+            {CONFIG.NETWORK !== "mainnet" && (
+              <Route path="/snow/:id" element={<SnowKingdom key="snow" />} />
             )}
             {CONFIG.NETWORK !== "mainnet" && (
               <Route path="/viewer/:id" element={<DEV_Viewer key="viewer" />} />
