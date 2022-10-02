@@ -29,7 +29,7 @@ export const CropReward: React.FC<Props> = ({
   const [loading, setLoading] = useState(false);
 
   const challenge = useRef<Challenge>(
-    Math.random() > 0.5 ? "chest" : "goblins"
+    Math.random() > 0.3 ? "chest" : "goblins"
   );
 
   const id = useRef(RandomID());

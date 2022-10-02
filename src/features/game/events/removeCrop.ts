@@ -3,7 +3,7 @@ import { screenTracker } from "lib/utils/screen";
 import cloneDeep from "lodash.clonedeep";
 import { CROPS } from "../types/crops";
 import { GameState, InventoryItemName } from "../types/game";
-import { isReadyToHarvest, isShovelStolen } from "./harvest";
+import { isReadyToHarvest } from "./harvest";
 
 export enum REMOVE_CROP_ERRORS {
   SHOVEL_STOLEN = "Shovel stolen!",
@@ -30,10 +30,6 @@ type Options = {
 export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
   const { fields } = stateCopy;
-
-  if (isShovelStolen()) {
-    throw new Error(REMOVE_CROP_ERRORS.SHOVEL_STOLEN);
-  }
 
   if (action.item !== "Shovel") {
     throw new Error(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
