@@ -12,6 +12,7 @@ import roadmap from "assets/announcements/roadmap.png";
 import merchant from "assets/announcements/merchant.png";
 import bumpkin from "assets/announcements/bumpkin.png";
 import warriorTop from "assets/announcements/warrior_top.png";
+import boat from "assets/announcements/boat.png";
 
 export interface Announcement {
   date: Date;
@@ -26,6 +27,15 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2022-10-03T00:00:00"),
+    title: "Making waves",
+    notes: [
+      "It looks like we are going to run out of land if we keep expanding.",
+      "The war effort has attracted lots of attention so we should consider building a boat to explore.",
+    ],
+    image: boat,
+  },
   {
     date: new Date("2022-09-27T00:00:00"),
     title: "Warrior Shirt Drop",
