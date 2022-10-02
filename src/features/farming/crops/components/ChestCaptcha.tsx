@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 
 import background from "assets/captcha/chest_background_2.png";
 import background2 from "assets/captcha/chest_background_3.png";
@@ -26,7 +26,7 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
   const skew = useRef(randomIntFromInterval(-3, 3));
   const id = useRef(RandomID());
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     addNoise(id.current);
   }, []);
 
