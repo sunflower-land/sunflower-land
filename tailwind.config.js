@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-undef, @typescript-eslint/no-var-requires
+const colors = require("tailwindcss/colors");
 // eslint-disable-next-line no-undef
 module.exports = {
   content: ["./src/**/*.tsx"],
@@ -7,6 +9,7 @@ module.exports = {
     },
     colors: {
       "overlay-white": "rgba(255, 255, 255, 0.5)",
+      ...colors,
     },
     extend: {
       colors: {
