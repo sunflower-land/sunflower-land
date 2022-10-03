@@ -9,6 +9,7 @@ import dragonfly from "assets/decorations/dragonfly.gif";
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
 import swimmer from "assets/npcs/swimmer.gif";
+import cossies from "assets/decorations/cossies.png";
 import island from "assets/land/islands/island.png";
 import chest from "assets/icons/chest.png";
 
@@ -79,6 +80,18 @@ export const Water: React.FC<Props> = ({ level }) => {
             style={{
               width: `${16 * PIXEL_SCALE}px`,
               transform: "scaleX(-1)",
+              zIndex: 2,
+            }}
+          />
+        </MapPlacement>
+        <MapPlacement x={offset + 4} y={6}>
+          <img
+            src={cossies}
+            style={{
+              width: `${16 * PIXEL_SCALE}px`,
+              transform: "scaleX(-1)",
+              position: "relative",
+              left: `${16 * PIXEL_SCALE}px`,
               zIndex: 2,
             }}
           />
