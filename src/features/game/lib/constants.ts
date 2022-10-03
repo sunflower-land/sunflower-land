@@ -324,7 +324,7 @@ export const INITIAL_EXPANSIONS = [
     trees: {
       0: {
         wood: {
-          amount: new Decimal(3),
+          amount: 3,
           choppedAt: 0,
         },
         x: -3,
@@ -342,7 +342,7 @@ export const INITIAL_EXPANSIONS = [
     terrains: {
       0: {
         name: TerrainTypeEnum.terrain5,
-        // height: 54 / 3,
+        height: 54 / 3,
         width: 52,
         x: -2,
         y: -1,
@@ -376,7 +376,7 @@ export const INITIAL_EXPANSIONS = [
     trees: {
       0: {
         wood: {
-          amount: new Decimal(3),
+          amount: 3,
           choppedAt: 0,
         },
         x: 1,
@@ -394,7 +394,7 @@ export const INITIAL_EXPANSIONS = [
     terrains: {
       0: {
         name: TerrainTypeEnum.terrain5,
-        // height: 54 / 3,
+        height: 54 / 3,
         width: 52,
         x: -2,
         y: -1,
@@ -428,7 +428,7 @@ export const INITIAL_EXPANSIONS = [
     trees: {
       0: {
         wood: {
-          amount: new Decimal(3),
+          amount: 3,
           choppedAt: 0,
         },
         x: 1,
@@ -467,7 +467,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const INITIAL_FARM: GameState = {
-  balance: new Decimal(10),
+  balance: new Decimal(0),
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),

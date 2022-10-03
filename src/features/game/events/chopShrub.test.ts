@@ -5,7 +5,7 @@ import { chopShrub, ChopShrubAction } from "./chopShrub";
 
 const GAME_STATE: GameState = INITIAL_FARM;
 
-describe("chop shrub", () => {
+describe.skip("chop shrub", () => {
   beforeAll(() => {
     jest.useFakeTimers();
   });
