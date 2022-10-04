@@ -6,6 +6,7 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   CraftableItem,
+  CRAFTABLES,
   filterLimitedItemsByType,
   LimitedItem,
   LimitedItemName,
@@ -207,6 +208,18 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
           </p>
         </div>
       );
+
+    console.log({ selected });
+    const item = CRAFTABLES()[selected.name];
+
+    if (item.requires && !inventory[item.requires]) {
+      return (
+        <div className="flex items-center">
+          <span className="text-xs mt-2">{`Early mint requires `}</span>
+          <img src={ITEM_DETAILS[item.requires].image} className="w-8 ml-2" />
+        </div>
+      );
+    }
 
     if (selected.disabled) {
       return <span className="text-xs mt-2">Coming soon</span>;
