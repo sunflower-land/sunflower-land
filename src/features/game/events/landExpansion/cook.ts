@@ -4,6 +4,7 @@ import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 
 export type RecipeCookedAction = {
   type: "recipe.cooked";
@@ -15,6 +16,22 @@ type Options = {
   state: Readonly<GameState>;
   action: RecipeCookedAction;
   createdAt?: number;
+};
+
+type GetReadyAtArgs = {
+  item: ConsumableName;
+  skills: Partial<Record<BumpkinSkillName, number>>;
+  createdAt: number;
+};
+
+export const getReadyAt = ({ item, skills, createdAt }: GetReadyAtArgs) => {
+  let seconds = CONSUMABLES[item].cookingSeconds;
+
+  if (skills["Rush Hour"]) {
+    seconds -= CONSUMABLES[item].cookingSeconds * 0.2;
+  }
+
+  return createdAt + seconds * 1000;
 };
 
 export function cook({
