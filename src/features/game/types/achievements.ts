@@ -131,7 +131,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
       return bakedCakes;
     },
-    requirement: 10000,
+    requirement: 13,
     sflReward: marketRate(0),
     experienceReward: 0,
   },
