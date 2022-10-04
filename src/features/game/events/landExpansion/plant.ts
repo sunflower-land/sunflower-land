@@ -1,7 +1,12 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { CropName, CROPS } from "../../types/crops";
-import { GameState, Inventory, InventoryItemName } from "../../types/game";
+import {
+  Bumpkin,
+  GameState,
+  Inventory,
+  InventoryItemName,
+} from "../../types/game";
 import { getPlantedAt, isSeed } from "../plant";
 import { PLANT_STAMINA_COST } from "features/game/lib/constants";
 import { replenishStamina } from "./replenishStamina";
@@ -90,6 +95,16 @@ export const getCropTime = (
 
   return seconds;
 };
+
+export function getStaminaCost(bumpkin: Bumpkin) {
+  let staminaCost = PLANT_STAMINA_COST;
+
+  if (bumpkin.skills["Plant Whisperer"]) {
+    staminaCost = staminaCost * 0.9;
+  }
+
+  return staminaCost;
+}
 
 /**
  * Based on items, the output will be different
@@ -207,13 +222,7 @@ export function plant({
 
   expansion.plots = plots;
 
-  let staminaCost = PLANT_STAMINA_COST;
-
-  if (bumpkin.skills["Plant Whisperer"]) {
-    staminaCost = staminaCost * 0.9;
-  }
-
-  bumpkin.stamina.value -= staminaCost;
+  bumpkin.stamina.value -= getStaminaCost(bumpkin);
 
   stateCopy.inventory[action.item] = seedCount.sub(1);
 
