@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { CHOP_STAMINA_COST } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import {
   GameState,
   Inventory,
@@ -10,8 +11,9 @@ import {
 import cloneDeep from "lodash.clonedeep";
 import { replenishStamina } from "./replenishStamina";
 
-type GetChoppedAtAtgs = {
+type GetChoppedAtArgs = {
   inventory: Inventory;
+  skills: Partial<Record<BumpkinSkillName, number>>;
   createdAt: number;
 };
 
@@ -37,12 +39,20 @@ export function canChop(tree: LandExpansionTree, now: number = Date.now()) {
 /**
  * Set a chopped in the past to make it replenish faster
  */
-function getChoppedAt({ inventory, createdAt }: GetChoppedAtAtgs): number {
+export function getChoppedAt({
+  inventory,
+  skills,
+  createdAt,
+}: GetChoppedAtArgs): number {
   if (
     inventory["Apprentice Beaver"]?.gte(1) ||
     inventory["Foreman Beaver"]?.gte(1)
   ) {
     return createdAt - (TREE_RECOVERY_SECONDS / 2) * 1000;
+  }
+
+  if (skills["Tree Hugger"]) {
+    return createdAt - (TREE_RECOVERY_SECONDS - 0.2) * 1000;
   }
 
   return createdAt;
@@ -114,10 +124,14 @@ export function chop({
   }
 
   const woodHarvested = tree.wood.amount;
-  const woodAmount = state.inventory.Wood || new Decimal(0);
+  const woodAmount = stateCopy.inventory.Wood || new Decimal(0);
 
   tree.wood = {
-    choppedAt: getChoppedAt({ createdAt, inventory: state.inventory }),
+    choppedAt: getChoppedAt({
+      createdAt,
+      inventory: stateCopy.inventory,
+      skills: bumpkin.skills,
+    }),
     // Amount for next drop
     amount: 3,
   };
