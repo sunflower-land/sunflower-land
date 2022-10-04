@@ -56,6 +56,10 @@ import {
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
 import { pickSkill, PickSkillAction } from "./landExpansion/pickSkill";
+import {
+  claimAchievement,
+  ClaimAchievementAction,
+} from "./landExpansion/claimAchievement";
 
 export type PlayingEvent =
   | CraftAction
@@ -87,7 +91,8 @@ export type PlayingEvent =
   | CollectRecipeAction
   | FeedBumpkinAction
   | DetectBotAction
-  | PickSkillAction;
+  | PickSkillAction
+  | ClaimAchievementAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -139,6 +144,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "recipe.collected": collectRecipe,
   "bumpkin.feed": feedBumpkin,
   "skill.picked": pickSkill,
+  "achievement.claimed": claimAchievement,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
