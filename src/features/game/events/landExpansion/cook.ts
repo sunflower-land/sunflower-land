@@ -90,7 +90,11 @@ export function cook({
 
   building.crafting = {
     name: action.item,
-    readyAt: createdAt + CONSUMABLES[action.item].cookingSeconds * 1000,
+    readyAt: getReadyAt({
+      item: action.item,
+      skills: bumpkin.skills,
+      createdAt: Date.now(),
+    }),
   };
 
   stateCopy.stock[action.item] = stockAmount.minus(new Decimal(1));
