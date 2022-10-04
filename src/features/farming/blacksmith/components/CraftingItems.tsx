@@ -3,8 +3,6 @@ import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
-import ReCAPTCHA from "react-google-recaptcha";
-import { CONFIG } from "lib/config";
 
 import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
@@ -20,6 +18,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { Stock } from "components/ui/Stock";
 import { getBuyPrice } from "features/game/events/craft";
 import { getMaxChickens } from "features/game/events/feedChicken";
+import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 
 interface Props {
   items: Partial<Record<InventoryItemName, CraftableItem>>;
@@ -108,11 +107,11 @@ export const CraftingItems: React.FC<Props> = ({
   };
   if (showCaptcha) {
     return (
-      <ReCAPTCHA
-        sitekey={CONFIG.RECAPTCHA_SITEKEY}
-        onChange={onCaptchaSolved}
-        onExpired={() => setShowCaptcha(false)}
-        className="w-full m-4 flex items-center justify-center"
+      <CloudFlareCaptcha
+        action="carfting-sync"
+        onDone={onCaptchaSolved}
+        onExpire={() => setShowCaptcha(false)}
+        onError={() => setShowCaptcha(false)}
       />
     );
   }

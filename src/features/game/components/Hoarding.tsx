@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
 
 import close from "assets/icons/close.png";
 import token from "assets/icons/token_2.png";
@@ -7,9 +6,9 @@ import token from "assets/icons/token_2.png";
 import { Context } from "../GameProvider";
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
-import { CONFIG } from "lib/config";
 import { ITEM_DETAILS } from "../types/images";
 import { InventoryItemName } from "../types/game";
+import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 
 export const Hoarding: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -80,11 +79,11 @@ export const Hoarding: React.FC = () => {
             alt="Close Captcha Modal"
             onClick={() => setShowCaptcha(false)}
           />
-          <ReCAPTCHA
-            sitekey={CONFIG.RECAPTCHA_SITEKEY}
-            onChange={onCaptchaSolved}
-            onExpired={() => setShowCaptcha(false)}
-            className="w-full m-4 flex items-center justify-center"
+          <CloudFlareCaptcha
+            action="hoarding-sync"
+            onDone={onCaptchaSolved}
+            onExpire={() => setShowCaptcha(false)}
+            onError={() => setShowCaptcha(false)}
           />
         </div>
       )}

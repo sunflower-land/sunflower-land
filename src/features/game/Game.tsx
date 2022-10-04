@@ -31,7 +31,6 @@ import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
 import { screenTracker } from "lib/utils/screen";
 import { Refreshing } from "features/auth/components/Refreshing";
-import { GoblinShovel } from "features/farming/crops/components/GoblinShovel";
 import { Announcements } from "features/announcements/Announcement";
 import { Notifications } from "./components/Notifications";
 import { Hoarding } from "./components/Hoarding";
@@ -142,7 +141,6 @@ export const Game: React.FC = () => {
         isFarming
       />
       <Lore />
-      <GoblinShovel />
       <Airdrop />
       <CommunityGardenEntry />
       {!gameState.matches("loading") && <GoblinWar />}

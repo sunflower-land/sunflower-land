@@ -48,8 +48,8 @@ const Shark = () => {
       className="absolute top-1/2 -translate-y-20 w-full"
       style={{
         height: "280px",
-        left: "-200px",
-        width: "calc(100% + 180px)",
+        left: "280px",
+        width: "calc(100% - 390px)",
       }}
     >
       <img

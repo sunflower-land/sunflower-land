@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
-import ReCAPTCHA from "react-google-recaptcha";
-import { CONFIG } from "lib/config";
 
 import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
@@ -27,6 +25,7 @@ import { getBuyPrice } from "features/game/events/craft";
 import { getCropTime } from "features/game/events/plant";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
+import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 
 interface Props {
   onClose: () => void;
@@ -101,11 +100,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   if (showCaptcha) {
     return (
-      <ReCAPTCHA
-        sitekey={CONFIG.RECAPTCHA_SITEKEY}
-        onChange={onCaptchaSolved}
-        onExpired={() => setShowCaptcha(false)}
-        className="w-full m-4 flex items-center justify-center"
+      <CloudFlareCaptcha
+        action="seeds-sync"
+        onDone={onCaptchaSolved}
+        onExpire={() => setShowCaptcha(false)}
+        onError={() => setShowCaptcha(false)}
       />
     );
   }

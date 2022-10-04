@@ -57,8 +57,8 @@ export const Water: React.FC = () => {
           className="absolute "
           style={{
             width: `${GRID_WIDTH_PX * 3.5}px`,
-            left: `${GRID_WIDTH_PX * 3}px`,
-            top: `${GRID_WIDTH_PX * 12}px`,
+            left: `${GRID_WIDTH_PX * 5}px`,
+            top: `${GRID_WIDTH_PX * 11}px`,
           }}
         />
 

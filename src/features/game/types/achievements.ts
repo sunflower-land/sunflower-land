@@ -316,7 +316,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     experienceReward: 0,
   },
   "Chef de Cuisine": {
-    description: "Cook 1000 meals",
+    description: "Cook 5000 meals",
     progress: (gameState: GameState) => {
       const cookEvents = getKeys(CONSUMABLES).map(
         (name) => `${name} Cooked` as CookEvent
@@ -328,7 +328,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
         return count + amount;
       }, 0);
     },
-    requirement: 1000,
+    requirement: 5000,
     sflReward: marketRate(0),
     experienceReward: 0,
   },
@@ -349,10 +349,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     experienceReward: 0,
   },
   "High Roller": {
-    description: "Spend 1000 SFL",
+    description: "Spend 5000 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Spent"] || 0,
-    requirement: 1000,
+    requirement: 5000,
     sflReward: marketRate(0),
     experienceReward: 0,
   },

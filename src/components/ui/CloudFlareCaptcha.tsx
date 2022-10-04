@@ -17,8 +17,11 @@ export const CloudFlareCaptcha: React.FC<Props> = ({
     const options = {
       sitekey: CONFIG.CLOUDFLARE_CAPTCHA_SITEKEY,
       action,
-      "expired-callback": onExpire,
-      "error-callback": onError,
+      "error-callback": () => onDone(""),
+      "expired-callback": () => onDone(""),
+      // TODO
+      // "expired-callback": onExpire,
+      // "error-callback": onError,
       callback: onDone,
     };
 

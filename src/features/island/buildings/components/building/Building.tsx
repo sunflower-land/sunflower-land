@@ -10,6 +10,10 @@ import { FirePit } from "./FirePit";
 import { TimeLeftOverlay } from "components/ui/TimeLeftOverlay";
 import { Bar } from "components/ui/ProgressBar";
 import { WithCraftingMachine } from "./WithCraftingMachine";
+import { Market } from "./market/Market";
+import { Blacksmith } from "./blacksmith/Blacksmith";
+import { Tent } from "./tent/Tent";
+import { WaterWell } from "./waterWell/WaterWell";
 
 interface Prop {
   name: BuildingName;
@@ -28,10 +32,13 @@ const BUILDING_COMPONENTS: Record<BuildingName, React.FC<BuildingProps>> = {
       <FirePit buildingId={buildingId} />
     </WithCraftingMachine>
   ),
-  Anvil: () => null,
+  Blacksmith: Blacksmith,
   Bakery: () => null,
   Oven: () => null,
   Workbench: () => null,
+  Market: Market,
+  Tent: Tent,
+  "Water Well": WaterWell,
 };
 
 export const Building: React.FC<Prop> = ({

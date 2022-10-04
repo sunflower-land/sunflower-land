@@ -26,12 +26,12 @@ export const WishingWell: React.FC = () => {
   };
   return (
     <div
-      className="absolute"
+      className="absolute z-10"
       // TODO some sort of coordinate system
       style={{
         width: `${GRID_WIDTH_PX * 2.1}px`,
-        right: `${GRID_WIDTH_PX * 12.1}px`,
-        top: `${GRID_WIDTH_PX * 8.8}px`,
+        right: `${GRID_WIDTH_PX * 11.95}px`,
+        top: `${GRID_WIDTH_PX * 6.1}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">

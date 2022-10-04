@@ -1,8 +1,5 @@
 import Decimal from "decimal.js-light";
-import {
-  getGoblinCountMock,
-  getHarvestCountMock,
-} from "../lib/__mocks__/goblinShovelStorageMock";
+
 import { INITIAL_FARM } from "../lib/constants";
 import { GameState } from "../types/game";
 import { removeCrop, REMOVE_CROP_ERRORS } from "./removeCrop";
@@ -129,84 +126,6 @@ describe("removeCrop", () => {
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.READY_TO_HARVEST);
-  });
-
-  it("does not remove after 57 harvests", () => {
-    getHarvestCountMock.mockReturnValue(new Decimal(57));
-
-    expect(() =>
-      removeCrop({
-        state: { ...INITIAL_FARM, inventory: {} },
-        action: {
-          type: "item.removed",
-          item: "Shovel",
-          fieldIndex: 1,
-        },
-      })
-    ).toThrow(REMOVE_CROP_ERRORS.SHOVEL_STOLEN);
-  });
-
-  it("removes before 57 harvests", () => {
-    getHarvestCountMock.mockReturnValue(new Decimal(4));
-
-    const state = removeCrop({
-      state: {
-        ...GAME_STATE,
-        fields: {
-          0: {
-            name: "Sunflower",
-            plantedAt: Date.now(),
-          },
-        },
-      },
-      action: {
-        type: "item.removed",
-        item: "Shovel",
-        fieldIndex: 0,
-      },
-    });
-
-    expect(state.fields).toEqual({});
-  });
-
-  it("does not remove after 3648 harvests", () => {
-    getHarvestCountMock.mockReturnValue(new Decimal(3648));
-    getGoblinCountMock.mockReturnValue(new Decimal(3));
-
-    expect(() =>
-      removeCrop({
-        state: { ...INITIAL_FARM, inventory: {} },
-        action: {
-          type: "item.removed",
-          item: "Shovel",
-          fieldIndex: 1,
-        },
-      })
-    ).toThrow(REMOVE_CROP_ERRORS.SHOVEL_STOLEN);
-  });
-
-  it("removes before 3648 harvests", () => {
-    getHarvestCountMock.mockReturnValue(new Decimal(3000));
-    getGoblinCountMock.mockReturnValue(new Decimal(3));
-
-    const state = removeCrop({
-      state: {
-        ...GAME_STATE,
-        fields: {
-          0: {
-            name: "Sunflower",
-            plantedAt: Date.now(),
-          },
-        },
-      },
-      action: {
-        type: "item.removed",
-        item: "Shovel",
-        fieldIndex: 0,
-      },
-    });
-
-    expect(state.fields).toEqual({});
   });
 
   it("removes nothing if nothing is planted", () => {

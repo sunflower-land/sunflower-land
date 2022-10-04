@@ -29,7 +29,7 @@ export const CropReward: React.FC<Props> = ({
   const [loading, setLoading] = useState(false);
 
   const challenge = useRef<Challenge>(
-    Math.random() > 0.5 ? "chest" : "goblins"
+    Math.random() > 0.3 ? "chest" : "goblins"
   );
 
   const id = useRef(RandomID());
@@ -38,7 +38,7 @@ export const CropReward: React.FC<Props> = ({
     if (reward) {
       addNoise(id.current);
       setLoading(true);
-      setTimeout(() => setLoading(false), 1500);
+      setTimeout(() => setLoading(false), 750);
     }
   }, [reward]);
 
