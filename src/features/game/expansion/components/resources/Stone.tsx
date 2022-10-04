@@ -136,7 +136,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
     setTouchCount(0);
 
     try {
-      gameService.send("rock.mined", {
+      gameService.send("stoneRock.mined", {
         index: rockIndex,
         expansionIndex,
       });

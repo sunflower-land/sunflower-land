@@ -138,7 +138,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "shrub.chopped": chopShrub,
   "expansion.revealed": reveal,
   "timber.chopped": landExpansionChop,
-  "rock.mined": landExpansionMineStone,
+  "stoneRock.mined": landExpansionMineStone,
   "item.fertilised": fertiliseCrop,
   "recipe.cooked": cook,
   "recipe.collected": collectRecipe,

@@ -50,7 +50,7 @@ describe("mineStone", () => {
       mineStone({
         state: GAME_STATE,
         action: {
-          type: "rock.mined",
+          type: "stoneRock.mined",
           expansionIndex: -1,
           index: 0,
         },
@@ -63,7 +63,7 @@ describe("mineStone", () => {
       mineStone({
         state: { ...GAME_STATE, expansions: [{ createdAt: 0, readyAt: 0 }] },
         action: {
-          type: "rock.mined",
+          type: "stoneRock.mined",
           expansionIndex: 0,
           index: 0,
         },
@@ -81,7 +81,7 @@ describe("mineStone", () => {
           },
         },
         action: {
-          type: "rock.mined",
+          type: "stoneRock.mined",
           expansionIndex: 0,
           index: 0,
         },
@@ -99,7 +99,7 @@ describe("mineStone", () => {
           },
         },
         action: {
-          type: "rock.mined",
+          type: "stoneRock.mined",
           expansionIndex: 0,
           index: 3,
         },
@@ -116,7 +116,7 @@ describe("mineStone", () => {
         },
       },
       action: {
-        type: "rock.mined",
+        type: "stoneRock.mined",
         expansionIndex: 0,
         index: 0,
       } as LandExpansionStoneMineAction,
@@ -141,7 +141,7 @@ describe("mineStone", () => {
         },
       },
       action: {
-        type: "rock.mined",
+        type: "stoneRock.mined",
         expansionIndex: 0,
         index: 0,
       } as LandExpansionStoneMineAction,
@@ -162,7 +162,7 @@ describe("mineStone", () => {
         },
       },
       action: {
-        type: "rock.mined",
+        type: "stoneRock.mined",
         expansionIndex: 0,
         index: 0,
       } as LandExpansionStoneMineAction,
@@ -171,7 +171,7 @@ describe("mineStone", () => {
     game = mineStone({
       state: game,
       action: {
-        type: "rock.mined",
+        type: "stoneRock.mined",
         expansionIndex: 0,
         index: 1,
       } as LandExpansionStoneMineAction,
@@ -190,7 +190,7 @@ describe("mineStone", () => {
         },
       },
       action: {
-        type: "rock.mined",
+        type: "stoneRock.mined",
         expansionIndex: 0,
         index: 0,
       } as LandExpansionStoneMineAction,
@@ -220,7 +220,7 @@ describe("mineStone", () => {
           },
         },
         action: {
-          type: "rock.mined",
+          type: "stoneRock.mined",
           expansionIndex: 0,
           index: 0,
         } as LandExpansionStoneMineAction,
@@ -245,7 +245,7 @@ describe("mineStone", () => {
           },
         },
         action: {
-          type: "rock.mined",
+          type: "stoneRock.mined",
           expansionIndex: 0,
           index: 0,
         } as LandExpansionStoneMineAction,
@@ -271,7 +271,7 @@ describe("mineStone", () => {
         },
       },
       action: {
-        type: "rock.mined",
+        type: "stoneRock.mined",
         expansionIndex: 0,
         index: 0,
       } as LandExpansionStoneMineAction,
@@ -299,7 +299,7 @@ describe("mineStone", () => {
         },
       },
       action: {
-        type: "rock.mined",
+        type: "stoneRock.mined",
         expansionIndex: 0,
         index: 0,
       } as LandExpansionStoneMineAction,
