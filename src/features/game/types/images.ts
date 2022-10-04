@@ -237,6 +237,7 @@ import greenAmulet from "src/assets/bumpkins/shop/necklaces/green_amulet.png";
 import warriorShirt from "src/assets/bumpkins/shop/shirts/warrior_top.png";
 import warriorPants from "src/assets/bumpkins/shop/pants/warrior_pants.png";
 import warriorHelmet from "src/assets/bumpkins/shop/hats/warrior_helmet.png";
+import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1035,11 +1036,19 @@ export const ITEM_DETAILS: Items = {
     image: warriorHelmet,
     description: "Immune to arrows",
   },
-  "Reward 8": {
+  "Sunflower Shield": {
+    image: sunflowerShield,
+    description: "A hero of Sunflower Land. Free Sunflower Seeds!",
+  },
+  "Reward 9": {
     image: questionMark,
     description: "A reward for your war efforts",
   },
-  "Reward 9": {
+  "Reward 10": {
+    image: questionMark,
+    description: "A reward for your war efforts",
+  },
+  "Reward 11": {
     image: questionMark,
     description: "A reward for your war efforts",
   },
@@ -1053,9 +1062,9 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: ACHIEVEMENTS().Explorer.description,
   },
-  "Busy bumpkin": {
+  "Busy Bumpkin": {
     image: busyBumpkin,
-    description: ACHIEVEMENTS()["Busy bumpkin"].description,
+    description: ACHIEVEMENTS()["Busy Bumpkin"].description,
   },
   "Brilliant Bumpkin": {
     image: brilliantBumpkin,
@@ -1081,7 +1090,7 @@ export const ITEM_DETAILS: Items = {
     image: twentyTwentyVision,
     description: "",
   },
-  "Cabbage king": {
+  "Cabbage King": {
     image: cabbageKing,
     description: "",
   },
@@ -1121,11 +1130,11 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinBillionaire,
     description: "",
   },
-  "Big spender": {
+  "Big Spender": {
     image: bigSpender,
     description: "",
   },
-  "High roller": {
+  "High Roller": {
     image: questionMark,
     description: "",
   },
@@ -1169,7 +1178,7 @@ export const ITEM_DETAILS: Items = {
     image: bakersDozen,
     description: "",
   },
-  "Chef de cuisine": {
+  "Chef de Cuisine": {
     image: chefDeCusine,
     description: "",
   },

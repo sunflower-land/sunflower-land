@@ -74,6 +74,7 @@ export interface LimitedItem extends CraftableItem {
   cooldownSeconds?: number;
   mintedAt?: number;
   type?: LimitedItemType;
+  requires?: InventoryItemName;
 }
 
 export type MOMEventItem = "Engine Core" | "Observatory";
@@ -134,8 +135,10 @@ export type WarTentItem =
   | "Warrior Shirt"
   | "Warrior Pants"
   | "Warrior Helmet"
-  | "Reward 8"
-  | "Reward 9";
+  | "Sunflower Shield"
+  | "Reward 9"
+  | "Reward 10"
+  | "Reward 11";
 
 export type LimitedItemName =
   | BlacksmithItem
@@ -603,6 +606,7 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
     description: "Chance for 10x crop yield",
     type: LimitedItemType.WarTentItem,
     disabled: true,
+    requires: "Warrior",
   },
   "Warrior Shirt": {
     name: "Warrior Shirt",
@@ -622,14 +626,26 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
-  "Reward 8": {
-    name: "Reward 8",
-    description: "A rare item",
+  "Sunflower Shield": {
+    name: "Sunflower Shield",
+    description: "A hero of Sunflower Land. Free Sunflower Seeds!",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
   "Reward 9": {
     name: "Reward 9",
+    description: "A rare item",
+    type: LimitedItemType.WarTentItem,
+    disabled: true,
+  },
+  "Reward 10": {
+    name: "Reward 10",
+    description: "A rare item",
+    type: LimitedItemType.WarTentItem,
+    disabled: true,
+  },
+  "Reward 11": {
+    name: "Reward 11",
     description: "A rare item",
     type: LimitedItemType.WarTentItem,
     disabled: true,

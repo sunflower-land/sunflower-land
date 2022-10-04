@@ -208,8 +208,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Warrior Shirt": 1107,
   "Warrior Helmet": 1108,
   "Warrior Pants": 1109,
-  "Reward 8": 1110,
+  "Sunflower Shield": 1110,
   "Reward 9": 1111,
+  "Reward 10": 1112,
+  "Reward 11": 1113,
 };
 
 // The reverse of above
