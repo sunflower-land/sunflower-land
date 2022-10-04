@@ -63,6 +63,7 @@ export interface CraftableItem {
    * This is to reduce people viewing placeholder development code and assuming that is the price/buff
    */
   isPlaceholder?: boolean;
+  bumpkinLevel?: number;
 }
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
