@@ -12,6 +12,7 @@ import roadmap from "assets/announcements/roadmap.png";
 import merchant from "assets/announcements/merchant.png";
 import bumpkin from "assets/announcements/bumpkin.png";
 import warriorTop from "assets/announcements/warrior_top.png";
+import greenAmulet from "assets/bumpkins/shop/necklaces/green_amulet.png";
 import boat from "assets/announcements/boat.png";
 
 export interface Announcement {
@@ -27,6 +28,15 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2022-10-04T00:00:00"),
+    title: "Green Amulet Drop",
+    notes: [
+      "At 11pm 2022-10-05 UTC, the Green Amulet will be dropped.",
+      "Visit the War Tent at Goblin Village to craft it.",
+    ],
+    image: greenAmulet,
+  },
   {
     date: new Date("2022-10-03T00:00:00"),
     title: "Making waves",
