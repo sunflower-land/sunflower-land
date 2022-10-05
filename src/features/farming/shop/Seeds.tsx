@@ -64,7 +64,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const restock = () => {
-    setShowCaptcha(true);
+    // setShowCaptcha(true);
+    gameService.send("SYNC", { captcha: "" });
+
+    onClose();
   };
 
   const onCaptchaSolved = async (captcha: string | null) => {

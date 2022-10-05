@@ -26,6 +26,10 @@ export const Hoarding: React.FC = () => {
     gameService.send("SYNC", { captcha });
   };
 
+  const sync = () => {
+    gameService.send("SYNC", { captcha: "" });
+  };
+
   const onAcknowledge = () => {
     gameService.send("ACKNOWLEDGE");
   };
@@ -69,7 +73,7 @@ export const Hoarding: React.FC = () => {
               </a>
             </div>
           </div>
-          <Button onClick={() => setShowCaptcha(true)}>Sync</Button>
+          <Button onClick={sync}>Sync</Button>
         </>
       ) : (
         <div>

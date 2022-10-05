@@ -90,8 +90,15 @@ export const CraftingItems: React.FC<Props> = ({
     onClose();
   };
 
+  const sync = () => {
+    gameService.send("SYNC", { captcha: "" });
+
+    onClose();
+  };
+
   const restock = () => {
-    setShowCaptcha(true);
+    // setShowCaptcha(true);
+    sync();
   };
   // ask confirmation if crafting more than 10
   const openConfirmationModal = () => {
