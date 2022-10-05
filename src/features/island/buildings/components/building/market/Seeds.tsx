@@ -114,7 +114,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     const requiredLevel = selected.bumpkinLevel ?? 0;
     if (userBumpkinLevel < requiredLevel) {
       return (
-        <p className="text-xs mt-1 text-shadow text-center seperate-lines">
+        <p className="text-xs mt-1 text-shadow text-center separate-lines">
           Unlocks at
           <span className="whitespace-nowrap">{` level ${requiredLevel}`}</span>
         </p>

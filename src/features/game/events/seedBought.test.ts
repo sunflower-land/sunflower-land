@@ -185,6 +185,52 @@ describe("seedBought", () => {
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
 
-  // it.todo("increments the sfl spent activity ")
-  // it.todo("increments the seed bought activity ")
+  it("throws an error if the player doesnt have a bumpkin", async () => {
+    expect(() =>
+      seedBought({
+        state: {
+          ...GAME_STATE,
+          bumpkin: undefined,
+        },
+        action: {
+          type: "seed.bought",
+          item: "Sunflower Seed",
+          amount: 1,
+        },
+      })
+    ).toThrow("Bumpkin not found");
+  });
+
+  it("increments the sfl spent activity ", () => {
+    const state = seedBought({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(1),
+      },
+      action: {
+        type: "seed.bought",
+        item: "Sunflower Seed",
+        amount: 1,
+      },
+    });
+    expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
+      SEEDS()["Sunflower Seed"].tokenAmount?.toNumber()
+    );
+  });
+
+  it("increments the seed bought activity ", () => {
+    const amount = 1;
+    const state = seedBought({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(1),
+      },
+      action: {
+        type: "seed.bought",
+        item: "Sunflower Seed",
+        amount,
+      },
+    });
+    expect(state.bumpkin?.activity?.["Sunflower Seed Bought"]).toEqual(amount);
+  });
 });

@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { getBumpkinLevel } from "../lib/level";
+import { trackActivity } from "../types/bumpkinActivity";
 import { CraftableItem } from "../types/craftables";
 import { SEEDS, SeedName } from "../types/crops";
 import { GameState, Inventory } from "../types/game";
@@ -39,6 +40,12 @@ export function seedBought({ state, action }: Options) {
     throw new Error("This item is not a seed");
   }
 
+  const { bumpkin } = stateCopy;
+
+  if (!bumpkin) {
+    throw new Error("Bumpkin not found");
+  }
+
   const userBumpkinLevel = getBumpkinLevel(stateCopy.bumpkin?.experience ?? 0);
   const seed = SEEDS()[item];
   const requiredSeedLevel = seed.bumpkinLevel ?? 0;
@@ -55,6 +62,7 @@ export function seedBought({ state, action }: Options) {
     throw new Error("Not enough stock");
   }
 
+  // price = 0.9
   const price = getBuyPrice(seed, stateCopy.inventory);
   const totalExpenses = price?.mul(amount);
 
@@ -63,6 +71,13 @@ export function seedBought({ state, action }: Options) {
   }
 
   const oldAmount = stateCopy.inventory[item] ?? new Decimal(0);
+
+  bumpkin.activity = trackActivity(
+    "SFL Spent",
+    bumpkin?.activity,
+    totalExpenses?.toNumber() ?? 0
+  );
+  bumpkin.activity = trackActivity(`${item} Bought`, bumpkin?.activity, amount);
 
   return {
     ...stateCopy,
