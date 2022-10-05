@@ -5,7 +5,11 @@ const API_URL = CONFIG.API_URL;
 export async function loadBanDetails(
   id: number,
   token: string
-): Promise<{ isBanned: boolean; verificationUrl: string }> {
+): Promise<{
+  isBanned: boolean;
+  verificationUrl: string;
+  botStatus?: "VERIFY" | "PENDING" | "REJECTED";
+}> {
   // Go and fetch the metadata file for this farm
   const url = `${API_URL}/bans/${id}`;
   const response = await window.fetch(url, {
