@@ -138,10 +138,10 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   // Land Expansion Handlers
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,
-  "expansion.revealed": reveal,
-  "timber.chopped": landExpansionChop,
   "stoneRock.mined": landExpansionMineStone,
   "ironRock.mined": landExpansionIronMine,
+  "expansion.revealed": reveal,
+  "timber.chopped": landExpansionChop,
   "item.fertilised": fertiliseCrop,
   "recipe.cooked": cook,
   "recipe.collected": collectRecipe,

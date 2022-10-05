@@ -14,7 +14,7 @@ export type LandExpansionIronMineAction = {
 type Options = {
   state: Readonly<GameState>;
   action: LandExpansionIronMineAction;
-  createdAt: number;
+  createdAt?: number;
 };
 
 export enum MINE_ERRORS {
