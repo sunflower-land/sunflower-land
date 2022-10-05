@@ -86,7 +86,6 @@ export function makeGame(farm: any): GameState {
         }
       : undefined,
     tradedAt: farm.tradedAt,
-    shrubs: farm.shrubs,
     terrains: farm.terrains,
     plots: farm.plots,
     expansions: farm.expansions,
@@ -175,7 +174,6 @@ export function updateGame(
       gold: updateRocks(oldGameState.gold, newGameState.gold),
       skills: newGameState.skills,
       chickens: newGameState.chickens,
-      shrubs: newGameState.shrubs,
     };
   } catch (e) {
     console.log({ e });

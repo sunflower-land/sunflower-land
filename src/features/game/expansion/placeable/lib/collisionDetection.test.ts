@@ -12,29 +12,22 @@ describe("extractResourceBoundingBoxes", () => {
     const position1: Position = { x: 1, y: 1, height: 1, width: 1 };
     const position2: Position = { x: 3, y: 1, height: 1, width: 1 };
     const position3: Position = { x: -2, y: -1, height: 2, width: 2 };
-    const position4: Position = { x: -3, y: 2, height: 1, width: 2 };
 
     const expansions: LandExpansion[] = [
       {
-        shrubs: {
+        trees: {
           0: {
             ...position1,
             wood: { amount: 0, choppedAt: 0 },
           },
         },
-        trees: {
-          0: {
-            ...position2,
-            wood: { amount: 0, choppedAt: 0 },
-          },
-        },
         stones: {
           0: {
-            ...position3,
+            ...position2,
             stone: { amount: 0, minedAt: 0 },
           },
         },
-        plots: { 0: { ...position4 } },
+        plots: { 0: { ...position3 } },
         createdAt: 0,
         readyAt: 0,
       },
@@ -42,9 +35,7 @@ describe("extractResourceBoundingBoxes", () => {
 
     const positions = extractResourceBoundingBoxes(expansions);
 
-    expect(positions.sort()).toEqual(
-      [position1, position2, position3, position4].sort()
-    );
+    expect(positions.sort()).toEqual([position1, position2, position3].sort());
   });
 });
 

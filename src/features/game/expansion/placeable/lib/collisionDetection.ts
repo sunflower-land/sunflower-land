@@ -40,7 +40,6 @@ type Resources = Required<
 
 const getAllResources = (expansions: LandExpansion[]): Resources[] => {
   return expansions.map((expansion) => ({
-    shrubs: expansion.shrubs ?? {},
     trees: expansion.trees ?? {},
     stones: expansion.stones ?? {},
     plots: expansion.plots ?? {},

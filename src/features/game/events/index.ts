@@ -29,7 +29,6 @@ import {
 
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
-import { chopShrub, ChopShrubAction } from "./chopShrub";
 import { reveal, RevealAction } from "./revealExpansion";
 import { fertiliseCrop, FertiliseCropAction } from "./fertiliseCrop";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
@@ -79,7 +78,6 @@ export type PlayingEvent =
   | LandExpansionChopAction
   | LandExpansionStoneMineAction
   | TradeAction
-  | ChopShrubAction
   | RevealAction
   | FertiliseCropAction
   | ClaimAirdropAction
@@ -132,7 +130,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   // Land Expansion Handlers
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,
-  "shrub.chopped": chopShrub,
   "expansion.revealed": reveal,
   "timber.chopped": landExpansionChop,
   "stoneRock.mined": landExpansionMineStone,
