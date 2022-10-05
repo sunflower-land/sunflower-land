@@ -23,8 +23,6 @@ import farmerBath from "assets/nfts/farmer_bath.png";
 import swimmer from "assets/npcs/swimmer.gif";
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 
-import observatory from "assets/nfts/mom/observatory.gif";
-
 import { GRID_WIDTH_PX } from "../lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
@@ -35,6 +33,7 @@ import {
   Beavers,
   Moles,
   NyonStatue,
+  Observatory,
   RockGolem,
   Scarecrows,
   Trivia,
@@ -295,19 +294,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
       />
     )}
 
-    {state.inventory["Observatory"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 2.75}px`,
-          left: `${GRID_WIDTH_PX * 47.5}px`,
-          top: `${GRID_WIDTH_PX * 1.2}px`,
-        }}
-        id={Section.Observatory}
-        className="absolute"
-        src={observatory}
-        alt="Observatory"
-      />
-    )}
+    {state.inventory["Observatory"] && <Observatory />}
 
     {state.inventory["Mysterious Head"] && (
       <img
