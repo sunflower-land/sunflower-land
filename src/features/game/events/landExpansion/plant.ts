@@ -5,6 +5,7 @@ import { GameState, Inventory, InventoryItemName } from "../../types/game";
 import { getPlantedAt, isSeed } from "../plant";
 import { PLANT_STAMINA_COST } from "features/game/lib/constants";
 import { replenishStamina } from "./replenishStamina";
+import { getKeys } from "features/game/types/craftables";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -29,7 +30,36 @@ export function isPlotFertile({
   expansionINdex,
   gameState,
 }: IsPlotFertile): boolean {
-  return false;
+  // Get the well count
+  const wellCount = gameState.buildings["Water Well"]?.length ?? 0;
+
+  // Get the crop position across all land expansions - is it 3rd, is it 7th, is it 11th?
+
+  const cropPosition = gameState.expansions.reduce(
+    (count, expansion, index) => {
+      if (index < expansionINdex) {
+        return count + getKeys(expansion.plots || {}).length;
+      }
+
+      if (index === expansionINdex) {
+        return count + (plotIndex + 1);
+      }
+
+      return count;
+    },
+    0
+  );
+  console.log({ cropPosition });
+
+  if (cropPosition > 10 && wellCount < 1) {
+    return false;
+  }
+
+  if (cropPosition > 20 && wellCount < 2) {
+    return false;
+  }
+
+  return true;
 }
 
 /**
