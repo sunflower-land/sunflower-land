@@ -428,7 +428,7 @@ export const INITIAL_EXPANSIONS = [
 
 export const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 0,
+  experience: 10000,
   tokenUri: "bla",
   equipped: {
     body: "Light Brown Farmer Potion",
@@ -453,7 +453,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const INITIAL_FARM: GameState = {
-  balance: new Decimal(0),
+  balance: new Decimal(10),
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
@@ -472,6 +472,10 @@ export const INITIAL_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
     Warrior: new Decimal(1),
+    Chicken: new Decimal(2),
+    Wood: new Decimal(500),
+    Stone: new Decimal(500),
+    Iron: new Decimal(500),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,

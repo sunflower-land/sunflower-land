@@ -62,9 +62,12 @@ export function feedChicken({
   const stateCopy = cloneDeep(state);
   const maxChickens = getMaxChickens(stateCopy.inventory);
 
+  const chickens = stateCopy.chickens || {};
+  const chicken = chickens[action.index];
   if (
-    !stateCopy.inventory?.Chicken ||
-    stateCopy.inventory.Chicken?.lt(action.index)
+    !chicken &&
+    (!stateCopy.inventory?.Chicken ||
+      stateCopy.inventory.Chicken?.lt(action.index))
   ) {
     throw new Error("This chicken does not exist");
   }
@@ -73,16 +76,11 @@ export function feedChicken({
     throw new Error("Cannot have more than 15 chickens");
   }
 
-  const chickens = stateCopy.chickens || {};
-
-  if (chickens[action.index]) {
-    console.log({ fedAt: chickens[action.index].fedAt, createdAt });
+  if (chicken) {
+    console.log({ fedAt: chicken.fedAt, createdAt });
   }
 
-  if (
-    chickens[action.index] &&
-    createdAt - chickens[action.index].fedAt < CHICKEN_TIME_TO_EGG
-  ) {
+  if (chicken && createdAt - chicken.fedAt < CHICKEN_TIME_TO_EGG) {
     throw new Error("This chicken is not hungry");
   }
 
@@ -104,6 +102,7 @@ export function feedChicken({
     chickens: {
       ...chickens,
       [action.index]: {
+        ...chicken,
         fedAt: makeFedAt(stateCopy.inventory, createdAt),
         multiplier: 1,
       },

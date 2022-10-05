@@ -8,13 +8,29 @@ import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
 import classNames from "classnames";
 import { calculateZIndex, Coordinates } from "../components/MapPlacement";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import {
+  BUILDINGS_DIMENSIONS,
+  PlaceableName,
+} from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import {
+  ANIMAL_DIMENSIONS,
+  COLLECTIBLES_DIMENSIONS,
+} from "features/game/types/craftables";
+import { Chicken } from "features/farming/animals/components/Chicken";
+import { BUILDING_COMPONENTS } from "features/island/buildings/components/building/Building";
+import { COLLECTIBLE_COMPONENTS } from "features/island/collectibles/Collectible";
 
 type Dimensions = {
   height: number;
   width: number;
+};
+
+const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
+  Chicken: () => <Chicken index={0} position={{ right: 7, top: -20 }} />,
+  // TODO - others
+  ...BUILDING_COMPONENTS,
+  ...COLLECTIBLE_COMPONENTS,
 };
 
 export const Placeable: React.FC = () => {
@@ -33,6 +49,7 @@ export const Placeable: React.FC = () => {
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
+    ...ANIMAL_DIMENSIONS,
   }[placeable];
   const { image } = ITEM_DETAILS[placeable];
 
@@ -117,7 +134,16 @@ export const Placeable: React.FC = () => {
           })}
           style={{ pointerEvents: "auto" }}
         >
-          <img
+          <div
+            draggable={false}
+            className=" w-full h-full relative img-highlight pointer-events-none"
+            style={{
+              zIndex: 100 + coordinates.y + 1,
+            }}
+          >
+            {PLACEABLES[placeable]({})}
+          </div>
+          {/* <img
             draggable="false"
             className="img-highlight"
             style={{
@@ -128,7 +154,7 @@ export const Placeable: React.FC = () => {
             src={image}
             alt={placeable}
             onLoad={handleImageLoad}
-          />
+          /> */}
         </div>
       </Draggable>
     </div>

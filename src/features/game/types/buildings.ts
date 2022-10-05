@@ -1,5 +1,11 @@
 import Decimal from "decimal.js-light";
-import { BlacksmithItem, BarnItem, MarketItem, Dimensions } from "./craftables";
+import {
+  BlacksmithItem,
+  BarnItem,
+  MarketItem,
+  Dimensions,
+  CollectibleName,
+} from "./craftables";
 import { Flag } from "./flags";
 import { InventoryItemName } from "./game";
 
@@ -11,7 +17,8 @@ export type BuildingName =
   | "Blacksmith"
   | "Workbench"
   | "Tent"
-  | "Water Well";
+  | "Water Well"
+  | "Chicken House";
 
 export type BuildingBluePrint = {
   unlocksAtLevels: number[];
@@ -23,14 +30,7 @@ export type BuildingBluePrint = {
   constructionSeconds: number;
 };
 
-export type PlaceableName =
-  | BlacksmithItem
-  | BarnItem
-  | MarketItem
-  | Flag
-  | BuildingName
-  | "Wicker Man"
-  | "Golden Bonsai";
+export type PlaceableName = CollectibleName | BuildingName | "Chicken";
 
 export const UPGRADABLES: Partial<Record<BuildingName, BuildingName>> = {
   "Fire Pit": "Oven",
@@ -162,6 +162,21 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     sfl: new Decimal(1),
     constructionSeconds: 60 * 5,
   },
+  "Chicken House": {
+    levelRequired: 1,
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(3),
+      },
+      {
+        item: "Stone",
+        amount: new Decimal(3),
+      },
+    ],
+    sfl: new Decimal(0),
+    constructionSeconds: 30,
+  },
 };
 
 export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
@@ -173,4 +188,5 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Workbench: { height: 1, width: 1 },
   "Water Well": { height: 2, width: 2 },
   Tent: { height: 2, width: 3 },
+  "Chicken House": { height: 2, width: 2 },
 };
