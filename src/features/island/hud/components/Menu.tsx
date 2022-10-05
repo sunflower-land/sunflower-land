@@ -60,8 +60,12 @@ export const Menu = () => {
   };
 
   const syncOnChain = async () => {
-    setShowCaptcha(true);
+    // setShowCaptcha(true);
+    // setMenuOpen(false);
+
+    gameService.send("SYNC", { captcha: "" });
     setMenuOpen(false);
+    setShowCaptcha(false);
   };
 
   const onCaptchaSolved = async (captcha: string | null) => {
