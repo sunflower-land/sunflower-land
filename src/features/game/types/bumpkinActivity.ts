@@ -43,13 +43,14 @@ export type BumpkinActivityName =
 
 export function trackActivity(
   activityName: BumpkinActivityName,
-  bumpkinActivity: Bumpkin["activity"]
+  bumpkinActivity: Bumpkin["activity"],
+  activityAmount = 1
 ) {
   const previous = bumpkinActivity || {};
-  const activityAmount = previous[activityName] || 0;
+  const oldAmount = previous[activityName] || 0;
 
   return {
     ...previous,
-    [activityName]: activityAmount + 1,
+    [activityName]: oldAmount + activityAmount,
   };
 }
