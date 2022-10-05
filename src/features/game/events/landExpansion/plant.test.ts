@@ -464,3 +464,10 @@ describe("plant", () => {
     );
   });
 });
+
+describe("isPlotFertile", () => {
+  it.todo("cannot plant on 11th field if a well is not avilable");
+  it.todo("cannot plant on 21st field if 2 wells are not avilable");
+  it.todo("can plant on 6th field without a well");
+  it.todo("can plant on 11th field if they have well");
+});

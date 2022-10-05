@@ -19,6 +19,19 @@ type Options = {
   createdAt?: number;
 };
 
+type IsPlotFertile = {
+  plotIndex: number;
+  expansionINdex: number;
+  gameState: GameState;
+};
+export function isPlotFertile({
+  plotIndex,
+  expansionINdex,
+  gameState,
+}: IsPlotFertile): boolean {
+  return false;
+}
+
 /**
  * Based on items, the output will be different
  */
