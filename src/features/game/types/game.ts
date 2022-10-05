@@ -233,6 +233,7 @@ export type LandExpansion = {
   readyAt: number;
 
   gold?: Record<number, LandExpansionRock>;
+  iron?: Record<number, LandExpansionRock>;
   terrains?: Record<number, LandExpansionTerrain>;
   plots?: Record<number, LandExpansionPlot>;
   trees?: Record<number, LandExpansionTree>;

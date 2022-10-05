@@ -428,7 +428,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   },
   skills: {},
   stamina: {
-    value: 0,
+    value: 10,
     replenishedAt: 0,
   },
   achievements: {
@@ -590,4 +590,5 @@ export const MAX_STAMINA: Record<BumpkinLevel, number> = {
 
 export const CHOP_STAMINA_COST = 2;
 export const STONE_MINE_STAMINA_COST = 2;
+export const IRON_MINE_STAMINA_COST = 2;
 export const PLANT_STAMINA_COST = 1;

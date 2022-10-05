@@ -41,6 +41,7 @@ type Resources = Required<
 const getAllResources = (expansions: LandExpansion[]): Resources[] => {
   return expansions.map((expansion) => ({
     trees: expansion.trees ?? {},
+    iron: expansion.iron ?? {},
     stones: expansion.stones ?? {},
     plots: expansion.plots ?? {},
     gold: expansion.gold ?? {},
