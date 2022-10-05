@@ -75,13 +75,13 @@ describe("mineIron", () => {
     ).toThrow("Expansion has no iron");
   });
 
-  it("throws an error if no axes are left", () => {
+  it("throws an error if no pickaxes are left", () => {
     expect(() =>
       mineIron({
         state: {
           ...GAME_STATE,
           bumpkin: INITIAL_BUMPKIN,
-          inventory: { Axe: new Decimal(0) },
+          inventory: { "Stone Pickaxe": new Decimal(0) },
         },
         createdAt: Date.now(),
         action: {
@@ -90,7 +90,7 @@ describe("mineIron", () => {
           index: 0,
         },
       })
-    ).toThrow("No axes left");
+    ).toThrow("No pickaxes left");
   });
 
   it("throws an error if iron does not exist", () => {
@@ -100,7 +100,7 @@ describe("mineIron", () => {
           ...GAME_STATE,
           bumpkin: INITIAL_BUMPKIN,
           inventory: {
-            Axe: new Decimal(2),
+            "Stone Pickaxe": new Decimal(2),
           },
         },
         createdAt: Date.now(),
@@ -119,7 +119,7 @@ describe("mineIron", () => {
         ...GAME_STATE,
         bumpkin: INITIAL_BUMPKIN,
         inventory: {
-          Axe: new Decimal(2),
+          "Stone Pickaxe": new Decimal(2),
         },
       },
       createdAt: Date.now(),
@@ -148,7 +148,7 @@ describe("mineIron", () => {
         ...GAME_STATE,
         bumpkin: INITIAL_BUMPKIN,
         inventory: {
-          Axe: new Decimal(1),
+          "Stone Pickaxe": new Decimal(1),
         },
       },
       createdAt: Date.now(),
@@ -162,7 +162,7 @@ describe("mineIron", () => {
 
     const game = mineIron(payload);
 
-    expect(game.inventory.Axe).toEqual(new Decimal(0));
+    expect(game.inventory["Stone Pickaxe"]).toEqual(new Decimal(0));
     expect(game.inventory.Iron).toEqual(new Decimal(2));
   });
 
@@ -172,7 +172,7 @@ describe("mineIron", () => {
         ...GAME_STATE,
         bumpkin: INITIAL_BUMPKIN,
         inventory: {
-          Axe: new Decimal(3),
+          "Stone Pickaxe": new Decimal(3),
         },
       },
       createdAt: Date.now(),
@@ -194,7 +194,7 @@ describe("mineIron", () => {
       } as LandExpansionIronMineAction,
     });
 
-    expect(game.inventory.Axe).toEqual(new Decimal(1));
+    expect(game.inventory["Stone Pickaxe"]).toEqual(new Decimal(1));
     expect(game.inventory.Iron).toEqual(new Decimal(5));
   });
 
@@ -204,7 +204,7 @@ describe("mineIron", () => {
         ...GAME_STATE,
         bumpkin: INITIAL_BUMPKIN,
         inventory: {
-          Axe: new Decimal(2),
+          "Stone Pickaxe": new Decimal(2),
         },
       },
       createdAt: Date.now(),
@@ -226,7 +226,7 @@ describe("mineIron", () => {
       state: game,
     });
 
-    expect(game.inventory.Axe).toEqual(new Decimal(0));
+    expect(game.inventory["Stone Pickaxe"]).toEqual(new Decimal(0));
     expect(game.inventory.Iron?.toNumber()).toBe(5);
   });
 
@@ -236,7 +236,7 @@ describe("mineIron", () => {
         state: {
           ...GAME_STATE,
           inventory: {
-            Axe: new Decimal(3),
+            "Stone Pickaxe": new Decimal(3),
           },
           bumpkin: undefined,
         },
@@ -256,7 +256,7 @@ describe("mineIron", () => {
         state: {
           ...GAME_STATE,
           inventory: {
-            Axe: new Decimal(3),
+            "Stone Pickaxe": new Decimal(3),
           },
           bumpkin: {
             ...INITIAL_BUMPKIN,
@@ -282,7 +282,7 @@ describe("mineIron", () => {
         ...GAME_STATE,
         bumpkin: INITIAL_BUMPKIN,
         inventory: {
-          Axe: new Decimal(3),
+          "Stone Pickaxe": new Decimal(3),
         },
       },
       createdAt: Date.now(),
@@ -310,7 +310,7 @@ describe("mineIron", () => {
         ...GAME_STATE,
         bumpkin: bumpkin,
         inventory: {
-          Axe: new Decimal(3),
+          "Stone Pickaxe": new Decimal(3),
         },
       },
       createdAt,
@@ -324,7 +324,7 @@ describe("mineIron", () => {
     expect(game.bumpkin?.stamina.replenishedAt).toBe(createdAt);
   });
   describe("BumpkinActivity", () => {
-    it("increments Trees Chopped activity by 1 when 1 tree is chopped", () => {
+    it("increments Iron mined activity by 1", () => {
       const createdAt = Date.now();
       const bumpkin = {
         ...INITIAL_BUMPKIN,
@@ -335,7 +335,7 @@ describe("mineIron", () => {
           ...GAME_STATE,
           bumpkin: bumpkin,
           inventory: {
-            Axe: new Decimal(3),
+            "Stone Pickaxe": new Decimal(3),
           },
         },
         createdAt,
@@ -349,7 +349,7 @@ describe("mineIron", () => {
       expect(game.bumpkin?.activity?.["Iron Mined"]).toBe(1);
     });
 
-    it("increments Trees Chopped activity by 2 when 2 trees are chopped", () => {
+    it("increments Iron Mined activity by 2", () => {
       const createdAt = Date.now();
       const bumpkin = {
         ...INITIAL_BUMPKIN,
@@ -360,7 +360,7 @@ describe("mineIron", () => {
           ...GAME_STATE,
           bumpkin: bumpkin,
           inventory: {
-            Axe: new Decimal(3),
+            "Stone Pickaxe": new Decimal(3),
           },
         },
         createdAt,

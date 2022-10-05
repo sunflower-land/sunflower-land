@@ -92,10 +92,10 @@ export function mineIron({
     throw new Error("Iron is still recovering");
   }
 
-  const toolAmount = stateCopy.inventory.Axe || new Decimal(0);
+  const toolAmount = stateCopy.inventory["Stone Pickaxe"] || new Decimal(0);
 
   if (toolAmount.lessThan(1)) {
-    throw new Error("No axes left");
+    throw new Error("No pickaxes left");
   }
 
   const ironMined = ironRock.stone.amount;
@@ -111,7 +111,7 @@ export function mineIron({
   const activity = bumpkin.activity;
   bumpkin.activity = trackActivity("Iron Mined", activity);
 
-  stateCopy.inventory.Axe = toolAmount.sub(1);
+  stateCopy.inventory["Stone Pickaxe"] = toolAmount.sub(1);
   stateCopy.inventory.Iron = amountInInventory.add(ironMined);
 
   return stateCopy;
