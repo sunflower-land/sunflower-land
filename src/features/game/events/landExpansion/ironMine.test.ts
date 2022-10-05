@@ -214,7 +214,6 @@ describe("mineIron", () => {
         expansionIndex: 0,
         index: 0,
       } as LandExpansionIronMineAction,
-      dropRandomAmount: () => 3,
     };
     let game = mineIron(payload);
 
@@ -227,7 +226,7 @@ describe("mineIron", () => {
     });
 
     expect(game.inventory["Stone Pickaxe"]).toEqual(new Decimal(0));
-    expect(game.inventory.Iron?.toNumber()).toBe(5);
+    expect(game.inventory.Iron?.toNumber()).toBe(4);
   });
 
   it("throws an error if the player doesn't have a bumpkin", () => {

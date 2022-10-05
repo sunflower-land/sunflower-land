@@ -27,6 +27,11 @@ import {
   LandExpansionStoneMineAction,
 } from "./landExpansion/stoneMine";
 
+import {
+  mineIron as landExpansionIronMine,
+  LandExpansionIronMineAction,
+} from "./landExpansion/ironMine";
+
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
 import { reveal, RevealAction } from "./revealExpansion";
@@ -78,6 +83,7 @@ export type PlayingEvent =
   | LandExpansionHarvestAction
   | LandExpansionChopAction
   | LandExpansionStoneMineAction
+  | LandExpansionIronMineAction
   | TradeAction
   | RevealAction
   | FertiliseCropAction
@@ -135,6 +141,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "expansion.revealed": reveal,
   "timber.chopped": landExpansionChop,
   "stoneRock.mined": landExpansionMineStone,
+  "ironRock.mined": landExpansionIronMine,
   "item.fertilised": fertiliseCrop,
   "recipe.cooked": cook,
   "recipe.collected": collectRecipe,

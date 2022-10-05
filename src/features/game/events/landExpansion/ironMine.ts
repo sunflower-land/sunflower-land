@@ -1,9 +1,8 @@
-import { randomInt } from "crypto";
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { IRON_MINE_STAMINA_COST } from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
-import { GameState, Inventory, LandExpansionRock } from "../../types/game";
+import { GameState, LandExpansionRock } from "../../types/game";
 import { replenishStamina } from "./replenishStamina";
 
 export type LandExpansionIronMineAction = {
@@ -12,14 +11,21 @@ export type LandExpansionIronMineAction = {
   index: number;
 };
 
-type DropRandomAmount = () => number;
-
 type Options = {
   state: Readonly<GameState>;
   action: LandExpansionIronMineAction;
   createdAt: number;
-  dropRandomAmount?: DropRandomAmount;
 };
+
+export enum MINE_ERRORS {
+  NO_PICKAXES = "No pickaxes left",
+  NO_IRON = "No iron",
+  STILL_RECOVERING = "Iron is still recovering",
+  EXPANSION_HAS_NO_IRON = "Expansion has no iron",
+  NO_EXPANSION = "Expansion does not exist",
+  NO_STAMINA = "You do not have enough stamina",
+  NO_BUMPKIN = "You do not have a Bumpkin",
+}
 
 // 12 hours
 export const IRON_RECOVERY_TIME = 12 * 60 * 60;
@@ -29,31 +35,10 @@ export function canMine(rock: LandExpansionRock, now: number = Date.now()) {
   return now - rock.stone.minedAt > recoveryTime * 1000;
 }
 
-const dropAmountGenerator = () => randomInt(2, 4);
-
-/**
- * Sets the drop amount for the NEXT mine event on the rock
- */
-export function getDropAmount(
-  inventory: Inventory,
-  dropRandomAmount: DropRandomAmount
-) {
-  const drop = new Decimal(dropRandomAmount());
-
-  let mul = 1;
-
-  if (inventory["Rocky the Mole"]) {
-    mul += 0.25;
-  }
-
-  return drop.mul(mul);
-}
-
 export function mineIron({
   state,
   action,
-  createdAt,
-  dropRandomAmount = dropAmountGenerator,
+  createdAt = Date.now(),
 }: Options): GameState {
   const replenishedState = replenishStamina({
     state,
@@ -65,37 +50,37 @@ export function mineIron({
   const expansion = expansions[action.expansionIndex];
 
   if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(MINE_ERRORS.NO_BUMPKIN);
   }
 
   if (bumpkin.stamina.value < IRON_MINE_STAMINA_COST) {
-    throw new Error("You do not have enough stamina");
+    throw new Error(MINE_ERRORS.NO_STAMINA);
   }
 
   if (!expansion) {
-    throw new Error("Expansion does not exist");
+    throw new Error(MINE_ERRORS.NO_EXPANSION);
   }
 
   const { iron } = expansion;
 
   if (!iron) {
-    throw new Error("Expansion has no iron");
+    throw new Error(MINE_ERRORS.EXPANSION_HAS_NO_IRON);
   }
 
   const ironRock = iron[action.index];
 
   if (!ironRock) {
-    throw new Error("No iron");
+    throw new Error(MINE_ERRORS.NO_IRON);
   }
 
   if (!canMine(ironRock, createdAt)) {
-    throw new Error("Iron is still recovering");
+    throw new Error(MINE_ERRORS.STILL_RECOVERING);
   }
 
   const toolAmount = stateCopy.inventory["Stone Pickaxe"] || new Decimal(0);
 
   if (toolAmount.lessThan(1)) {
-    throw new Error("No pickaxes left");
+    throw new Error(MINE_ERRORS.NO_PICKAXES);
   }
 
   const ironMined = ironRock.stone.amount;
@@ -103,13 +88,11 @@ export function mineIron({
 
   ironRock.stone = {
     minedAt: createdAt,
-    amount: getDropAmount(stateCopy.inventory, dropRandomAmount).toNumber(),
+    amount: 2,
   };
+  bumpkin.stamina.value -= IRON_MINE_STAMINA_COST;
 
-  bumpkin.stamina.value = bumpkin.stamina.value - IRON_MINE_STAMINA_COST;
-
-  const activity = bumpkin.activity;
-  bumpkin.activity = trackActivity("Iron Mined", activity);
+  bumpkin.activity = trackActivity("Iron Mined", bumpkin.activity);
 
   stateCopy.inventory["Stone Pickaxe"] = toolAmount.sub(1);
   stateCopy.inventory.Iron = amountInInventory.add(ironMined);
