@@ -1,9 +1,9 @@
-const ONE_SEC = 1;
-const ONE_MIN = ONE_SEC * 60;
-const ONE_HR = ONE_MIN * 60;
-const ONE_DAY = ONE_HR * 24;
+export const ONE_SEC = 1;
+export const ONE_MIN = ONE_SEC * 60;
+export const ONE_HR = ONE_MIN * 60;
+export const ONE_DAY = ONE_HR * 24;
 
-type TimeUnit = "sec" | "min" | "hr" | "day";
+type TimeUnit = "s" | "m" | "h" | "d";
 
 type TimeStringOptions = {
   separator?: string;
@@ -16,8 +16,7 @@ function timeToStr(
     separator: "",
   }
 ) {
-  const pluralizedUnit = amount === 1 ? unit : `${unit}s`;
-  return `${amount}${options.separator}${pluralizedUnit}`;
+  return `${amount}${options.separator}${unit}`;
 }
 
 function getTimeUnits(seconds: number) {
@@ -27,34 +26,16 @@ function getTimeUnits(seconds: number) {
   const daysPart = Math.floor(seconds / ONE_DAY);
 
   return [
-    daysPart && timeToStr(daysPart, "day"),
-    hoursPart && timeToStr(hoursPart, "hr"),
-    minutesPart && timeToStr(minutesPart, "min"),
-    secondsPart && timeToStr(secondsPart, "sec"),
+    daysPart && timeToStr(daysPart, "d"),
+    (daysPart || hoursPart) && timeToStr(hoursPart, "h"),
+    (daysPart || hoursPart || minutesPart) && timeToStr(minutesPart, "m"),
+    timeToStr(secondsPart, "s"),
   ].filter(Boolean);
 }
 
-export function secondsToString(
-  seconds: number,
-  options: TimeStringOptions = { separator: "" }
-) {
-  const secondsCeil = Math.ceil(seconds);
-  if (secondsCeil < ONE_MIN) {
-    return timeToStr(secondsCeil, "sec", options);
-  }
-
-  if (seconds < ONE_HR) {
-    const minutesCeil = Math.ceil(seconds / ONE_MIN);
-    return timeToStr(minutesCeil, "min", options);
-  }
-
-  if (seconds < ONE_DAY) {
-    const hoursCeil = Math.ceil(seconds / ONE_HR);
-    return timeToStr(hoursCeil, "hr", options);
-  }
-
-  const daysCeil = Math.ceil(seconds / ONE_DAY);
-  return timeToStr(daysCeil, "day", options);
+// first unit
+export function secondsToString(seconds: number) {
+  return getTimeUnits(seconds).slice(0, 1).join(" ");
 }
 
 // first 2 units

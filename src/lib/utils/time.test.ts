@@ -13,51 +13,56 @@ const ONE_DAY = ONE_HR * 24;
 describe("time", () => {
   describe("secondsToString", () => {
     it("should return correct string", () => {
-      expect(secondsToString(ONE_SEC)).toBe("1sec");
-      expect(secondsToString(2 * ONE_SEC)).toBe("2secs");
-      expect(secondsToString(59 * ONE_SEC)).toBe("59secs");
-      expect(secondsToString(ONE_MIN)).toBe("1min");
-      expect(secondsToString(ONE_MIN + ONE_SEC)).toBe("2mins");
-      expect(secondsToString(59 * ONE_MIN)).toBe("59mins");
-      expect(secondsToString(ONE_HR)).toBe("1hr");
-      expect(secondsToString(ONE_HR + ONE_SEC)).toBe("2hrs");
-      expect(secondsToString(23 * ONE_HR)).toBe("23hrs");
-      expect(secondsToString(ONE_DAY)).toBe("1day");
-      expect(secondsToString(ONE_DAY + ONE_SEC)).toBe("2days");
+      expect(secondsToString(0)).toBe("0s");
+      expect(secondsToString(ONE_SEC)).toBe("1s");
+      expect(secondsToString(2 * ONE_SEC)).toBe("2s");
+      expect(secondsToString(59 * ONE_SEC)).toBe("59s");
+      expect(secondsToString(ONE_MIN)).toBe("1m");
+      expect(secondsToString(ONE_MIN + ONE_SEC)).toBe("1m");
+      expect(secondsToString(59 * ONE_MIN)).toBe("59m");
+      expect(secondsToString(59 * ONE_MIN + 59 * ONE_SEC)).toBe("59m");
+      expect(secondsToString(ONE_HR)).toBe("1h");
+      expect(secondsToString(ONE_HR + ONE_SEC)).toBe("1h");
+      expect(secondsToString(23 * ONE_HR)).toBe("23h");
+      expect(secondsToString(ONE_DAY)).toBe("1d");
+      expect(secondsToString(ONE_DAY + ONE_SEC)).toBe("1d");
     });
   });
 
   describe("secondsToMidString", () => {
     it("should return correct string", () => {
-      expect(secondsToMidString(ONE_SEC)).toBe("1sec");
-      expect(secondsToMidString(2 * ONE_SEC)).toBe("2secs");
-      expect(secondsToMidString(ONE_MIN)).toBe("1min");
-      expect(secondsToMidString(2 * ONE_MIN)).toBe("2mins");
-      expect(secondsToMidString(ONE_HR)).toBe("1hr");
-      expect(secondsToMidString(2 * ONE_HR)).toBe("2hrs");
-      expect(secondsToMidString(ONE_DAY)).toBe("1day");
-      expect(secondsToMidString(2 * ONE_DAY)).toBe("2days");
+      expect(secondsToMidString(0)).toBe("0s");
+      expect(secondsToMidString(ONE_SEC)).toBe("1s");
+      expect(secondsToMidString(2 * ONE_SEC)).toBe("2s");
+      expect(secondsToMidString(ONE_MIN)).toBe("1m 0s");
+      expect(secondsToMidString(2 * ONE_MIN)).toBe("2m 0s");
+      expect(secondsToMidString(59 * ONE_MIN + 59 * ONE_SEC)).toBe("59m 59s");
+      expect(secondsToMidString(ONE_HR)).toBe("1h 0m");
+      expect(secondsToMidString(2 * ONE_HR)).toBe("2h 0m");
+      expect(secondsToMidString(ONE_DAY)).toBe("1d 0h");
+      expect(secondsToMidString(2 * ONE_DAY)).toBe("2d 0h");
 
-      expect(secondsToMidString(ONE_MIN + 30 * ONE_SEC)).toBe("1min 30secs");
+      expect(secondsToMidString(ONE_MIN + 30 * ONE_SEC)).toBe("1m 30s");
       expect(secondsToMidString(2 * ONE_HR + 11 * ONE_MIN + 50 * ONE_SEC)).toBe(
-        "2hrs 11mins"
+        "2h 11m"
       );
       expect(secondsToMidString(2 * ONE_DAY + ONE_HR + 20 * ONE_MIN)).toBe(
-        "2days 1hr"
+        "2d 1h"
       );
     });
   });
 
   describe("secondsToLongString", () => {
     it("should return correct string", () => {
+      expect(secondsToLongString(0)).toBe("0s");
       expect(secondsToLongString(2 * ONE_DAY + ONE_MIN + 30 * ONE_SEC)).toBe(
-        "2days 1min 30secs"
+        "2d 0h 1m 30s"
       );
       expect(secondsToLongString(ONE_HR + 20 * ONE_MIN + 5 * ONE_SEC)).toBe(
-        "1hr 20mins 5secs"
+        "1h 20m 5s"
       );
       expect(secondsToLongString(2 * ONE_DAY + ONE_HR + 20 * ONE_MIN)).toBe(
-        "2days 1hr 20mins"
+        "2d 1h 20m 0s"
       );
     });
   });
