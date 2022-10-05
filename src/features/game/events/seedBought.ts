@@ -62,7 +62,6 @@ export function seedBought({ state, action }: Options) {
     throw new Error("Not enough stock");
   }
 
-  // price = 0.9
   const price = getBuyPrice(seed, stateCopy.inventory);
   const totalExpenses = price?.mul(amount);
 
