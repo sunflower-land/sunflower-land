@@ -2,13 +2,14 @@ import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { CROPS } from "features/game/types/crops";
 import {
+  GENESIS_LAND_EXPANSION,
   INITIAL_BUMPKIN,
   INITIAL_FARM,
   MAX_STAMINA,
   PLANT_STAMINA_COST,
 } from "../../lib/constants";
 import { GameState, LandExpansionPlot } from "../../types/game";
-import { plant } from "./plant";
+import { isPlotFertile, plant } from "./plant";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -466,7 +467,53 @@ describe("plant", () => {
 });
 
 describe("isPlotFertile", () => {
-  it.todo("cannot plant on 11th field if a well is not avilable");
+  it("cannot plant on 11th field if a well is not avilable", () => {
+    const fakePlot = {
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
+    };
+    const isFertile = isPlotFertile({
+      gameState: {
+        ...INITIAL_FARM,
+        expansions: [
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot, //11th
+              3: fakePlot, // 12th
+            },
+          },
+        ],
+      },
+      expansionINdex: 2,
+      plotIndex: 2,
+    });
+
+    expect(isFertile).toBeFalsy();
+  });
+
   it.todo("cannot plant on 21st field if 2 wells are not avilable");
   it.todo("can plant on 6th field without a well");
   it.todo("can plant on 11th field if they have well");
