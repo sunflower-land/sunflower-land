@@ -605,7 +605,6 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
     description: "Chance for 10x crop yield",
     type: LimitedItemType.WarTentItem,
     disabled: true,
-    requires: "Warrior",
   },
   "Warrior Shirt": {
     name: "Warrior Shirt",
