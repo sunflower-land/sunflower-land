@@ -23,12 +23,6 @@ describe("extractResourceBoundingBoxes", () => {
             wood: { amount: 0, choppedAt: 0 },
           },
         },
-        pebbles: {
-          0: {
-            ...position2,
-            stone: { amount: 0, minedAt: 0 },
-          },
-        },
         trees: {
           0: {
             ...position3,

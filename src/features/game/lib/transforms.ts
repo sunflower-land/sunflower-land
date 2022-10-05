@@ -87,7 +87,6 @@ export function makeGame(farm: any): GameState {
       : undefined,
     tradedAt: farm.tradedAt,
     shrubs: farm.shrubs,
-    pebbles: farm.pebbles,
     terrains: farm.terrains,
     plots: farm.plots,
     expansions: farm.expansions,
@@ -172,7 +171,6 @@ export function updateGame(
         };
       }, {} as Record<number, Tree>),
       stones: updateRocks(oldGameState.stones, newGameState.stones),
-      pebbles: newGameState.pebbles,
       iron: updateRocks(oldGameState.iron, newGameState.iron),
       gold: updateRocks(oldGameState.gold, newGameState.gold),
       skills: newGameState.skills,

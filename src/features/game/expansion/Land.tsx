@@ -7,7 +7,6 @@ import { getTerrainImageByKey } from "../lib/getTerrainImageByKey";
 import { COLLECTIBLES_DIMENSIONS, getKeys } from "../types/craftables";
 import { Plot } from "features/farming/crops/components/landExpansion/Plot";
 import { Tree } from "./components/resources/Tree";
-import { Pebble } from "./components/resources/Pebble";
 import { Shrub } from "./components/resources/Shrub";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
@@ -24,14 +23,7 @@ import { Gold } from "./components/resources/Gold";
 
 type ExpansionProps = Pick<
   LandExpansion,
-  | "shrubs"
-  | "plots"
-  | "trees"
-  | "terrains"
-  | "pebbles"
-  | "stones"
-  | "gold"
-  | "createdAt"
+  "shrubs" | "plots" | "trees" | "terrains" | "stones" | "gold" | "createdAt"
 >;
 
 export const Expansion: React.FC<
@@ -43,7 +35,6 @@ export const Expansion: React.FC<
   stones,
   gold,
   terrains,
-  pebbles,
   createdAt,
   expansionIndex,
 }) => {
@@ -64,23 +55,6 @@ export const Expansion: React.FC<
               width={width}
             >
               <Shrub shrubIndex={index} expansionIndex={expansionIndex} />
-            </MapPlacement>
-          );
-        })}
-
-      {pebbles &&
-        getKeys(pebbles).map((index) => {
-          const { x, y, width, height } = pebbles[index];
-
-          return (
-            <MapPlacement
-              key={`${createdAt}-pebble-${index}`}
-              x={x + xOffset}
-              y={y + yOffset}
-              height={height}
-              width={width}
-            >
-              <Pebble pebbleIndex={index} expansionIndex={expansionIndex} />
             </MapPlacement>
           );
         })}
@@ -199,16 +173,7 @@ export const Land: React.FC = () => {
           .filter((expansion) => expansion.readyAt < Date.now())
           .map(
             (
-              {
-                shrubs,
-                pebbles,
-                stones,
-                gold,
-                terrains,
-                trees,
-                plots,
-                createdAt,
-              },
+              { shrubs, stones, gold, terrains, trees, plots, createdAt },
               index
             ) => (
               <Expansion
@@ -216,7 +181,6 @@ export const Land: React.FC = () => {
                 expansionIndex={index}
                 key={index}
                 shrubs={shrubs}
-                pebbles={pebbles}
                 stones={stones}
                 gold={gold}
                 terrains={terrains}

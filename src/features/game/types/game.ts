@@ -233,7 +233,6 @@ export type LandExpansion = {
   readyAt: number;
 
   shrubs?: Record<number, LandExpansionTree>;
-  pebbles?: Record<number, LandExpansionRock>;
   gold?: Record<number, LandExpansionRock>;
   terrains?: Record<number, LandExpansionTerrain>;
   plots?: Record<number, LandExpansionPlot>;
@@ -267,7 +266,6 @@ export interface GameState {
   chickens: Record<number, Chicken>;
 
   shrubs: Record<number, LandExpansionTree>;
-  pebbles: Record<number, LandExpansionRock>;
   terrains: Record<number, LandExpansionTerrain>;
   plots: Record<number, LandExpansionPlot>;
 
