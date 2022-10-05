@@ -42,7 +42,8 @@ function squashEvents(events: PastAction[]): PastAction[] {
 
       const isShopEvent =
         (event.type === "item.crafted" && previous.type === "item.crafted") ||
-        (event.type === "item.sell" && previous.type === "item.sell");
+        (event.type === "item.sell" && previous.type === "item.sell") ||
+        (event.type === "seed.bought" && previous.type === "seed.bought");
 
       // We can combine the amounts when buying/selling the same item
       if (isShopEvent && event.item === previous.item) {
