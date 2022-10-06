@@ -23,7 +23,6 @@ export function buyChicken({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  console.log("BUY CHICKEN");
   const stateCopy = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
 
@@ -31,7 +30,7 @@ export function buyChicken({
     throw new Error("You do not have a Bumpkin");
   }
 
-  const price = ANIMALS().Chicken.tokenAmount || 0;
+  const price = ANIMALS().Chicken.tokenAmount || new Decimal(0);
   if (stateCopy.balance.lessThan(price)) {
     throw new Error("Insufficient SFL");
   }

@@ -218,7 +218,9 @@ describe("buyChicken", () => {
       },
     });
 
-    expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(marketRate(200));
+    expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
+      marketRate(200).toNumber()
+    );
   });
 
   it("throws an error if not enough room for more chickens", () => {
