@@ -148,7 +148,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     constructionSeconds: 60 * 5,
   },
   "Water Well": {
-    unlocksAtLevels: [2, 3, 5, 8, 13],
+    unlocksAtLevels: [2, 5, 8, 11, 15, 18, 21, 24],
     ingredients: [
       {
         item: "Wood",
