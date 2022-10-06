@@ -171,17 +171,30 @@ export const INITIAL_TREES: GameState["trees"] = {
   },
 };
 
-export const INITIAL_GOLD_MINES: GameState["gold"] = {
-  // 0: {
-  //   stone: {
-  //     amount: 0.1,
-  //     minedAt: 0,
-  //   },
-  //   x: 2,
-  //   y: 2,
-  //   height: 1,
-  //   width: 1,
-  // },
+export const INITIAL_GOLD_MINES: LandExpansion["gold"] = {
+  0: {
+    stone: {
+      amount: 0.1,
+      minedAt: 0,
+    },
+    x: 2,
+    y: 2,
+    height: 1,
+    width: 1,
+  },
+};
+
+export const INITIAL_EXPANSION_IRON: LandExpansion["iron"] = {
+  0: {
+    stone: {
+      amount: 0.1,
+      minedAt: 0,
+    },
+    x: 2,
+    y: -1,
+    height: 1,
+    width: 1,
+  },
 };
 
 export const INITIAL_STONE: GameState["stones"] = {
@@ -269,6 +282,7 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
 
   // gold: INITIAL_GOLD_MINES,
   terrains: INITIAL_TERRAIN,
+  iron: INITIAL_EXPANSION_IRON,
 
   plots: INITIAL_PLOTS,
 };
@@ -280,7 +294,8 @@ export const INITIAL_EXPANSIONS = [
 
     terrains: INITIAL_TERRAIN,
     plots: INITIAL_PLOTS,
-    stones: {
+
+    iron: {
       0: {
         stone: {
           amount: 2,
@@ -309,7 +324,7 @@ export const INITIAL_EXPANSIONS = [
     createdAt: 0,
     readyAt: 0,
 
-    // gold: INITIAL_GOLD_MINES,
+    gold: INITIAL_GOLD_MINES,
     terrains: {
       0: {
         name: TerrainTypeEnum.terrain5,
@@ -428,7 +443,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   },
   skills: {},
   stamina: {
-    value: 0,
+    value: 10,
     replenishedAt: 0,
   },
   achievements: {
@@ -452,6 +467,7 @@ export const INITIAL_FARM: GameState = {
     Axe: new Decimal(3),
     Observatory: new Decimal(1),
     Pickaxe: new Decimal(3),
+    "Stone Pickaxe": new Decimal(3),
     "Trading Ticket": new Decimal(50),
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
@@ -483,52 +499,7 @@ export const INITIAL_FARM: GameState = {
   plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
-  buildings: {
-    Market: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 1,
-          y: 3,
-        },
-        createdAt: 0,
-      },
-    ],
-    Tent: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 5,
-          y: 4,
-        },
-        createdAt: 0,
-      },
-    ],
-    "Water Well": [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 4,
-          y: 2,
-        },
-        createdAt: 0,
-      },
-    ],
-    Blacksmith: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 4,
-          y: 9,
-        },
-        createdAt: 0,
-      },
-    ],
-  },
+  buildings: {},
   airdrops: [
     {
       createdAt: Date.now(),
@@ -591,4 +562,5 @@ export const MAX_STAMINA: Record<BumpkinLevel, number> = {
 
 export const CHOP_STAMINA_COST = 2;
 export const STONE_MINE_STAMINA_COST = 2;
+export const IRON_MINE_STAMINA_COST = 2;
 export const PLANT_STAMINA_COST = 1;
