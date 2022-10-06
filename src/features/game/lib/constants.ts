@@ -171,17 +171,17 @@ export const INITIAL_TREES: GameState["trees"] = {
   },
 };
 
-export const INITIAL_GOLD_MINES: GameState["gold"] = {
-  // 0: {
-  //   stone: {
-  //     amount: 0.1,
-  //     minedAt: 0,
-  //   },
-  //   x: 2,
-  //   y: 2,
-  //   height: 1,
-  //   width: 1,
-  // },
+export const INITIAL_GOLD_MINES: LandExpansion["gold"] = {
+  0: {
+    stone: {
+      amount: 0.1,
+      minedAt: 0,
+    },
+    x: 2,
+    y: 2,
+    height: 1,
+    width: 1,
+  },
 };
 
 export const INITIAL_EXPANSION_IRON: LandExpansion["iron"] = {
@@ -301,30 +301,30 @@ export const INITIAL_EXPANSIONS = [
           amount: 2,
           minedAt: 0,
         },
+        x: 1,
+        y: -2,
+        height: 1,
+        width: 1,
+      },
+    },
+    trees: {
+      0: {
+        wood: {
+          amount: 3,
+          choppedAt: 0,
+        },
         x: -3,
         y: 3,
         height: 2,
         width: 2,
       },
     },
-    // tree: {
-    //   0: {
-    //     wood: {
-    //       amount: 3,
-    //       choppedAt: 0,
-    //     },
-    //     x: -3,
-    //     y: 3,
-    //     height: 2,
-    //     width: 2,
-    //   },
-    // },
   },
   {
     createdAt: 0,
     readyAt: 0,
 
-    // gold: INITIAL_GOLD_MINES,
+    gold: INITIAL_GOLD_MINES,
     terrains: {
       0: {
         name: TerrainTypeEnum.terrain5,
