@@ -80,7 +80,7 @@ export function feedChicken({
     console.log({ fedAt: chicken.fedAt, createdAt });
   }
 
-  if (chicken && createdAt - chicken.fedAt < CHICKEN_TIME_TO_EGG) {
+  if (chicken?.fedAt && createdAt - chicken.fedAt < CHICKEN_TIME_TO_EGG) {
     throw new Error("This chicken is not hungry");
   }
 

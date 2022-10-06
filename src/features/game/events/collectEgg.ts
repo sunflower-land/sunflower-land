@@ -15,7 +15,7 @@ type Options = {
 };
 
 export function eggIsReady(chicken: Chicken, createdAt: number) {
-  return createdAt - chicken.fedAt >= CHICKEN_TIME_TO_EGG;
+  return chicken.fedAt && createdAt - chicken.fedAt >= CHICKEN_TIME_TO_EGG;
 }
 
 export function collectEggs({
