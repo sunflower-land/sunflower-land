@@ -508,7 +508,7 @@ describe("isPlotFertile", () => {
           },
         ],
       },
-      expansionINdex: 2,
+      expansionIndex: 2,
       plotIndex: 2,
     });
 
@@ -579,13 +579,60 @@ describe("isPlotFertile", () => {
           },
         ],
       },
-      expansionINdex: 3,
+      expansionIndex: 3,
       plotIndex: 8,
     });
 
     expect(isFertile).toBeFalsy();
   });
-  it.todo("can plant on 6th field without a well");
+
+  it("can plant on 6th field without a well", () => {
+    const fakePlot = {
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
+    };
+    const isFertile = isPlotFertile({
+      gameState: {
+        ...INITIAL_FARM,
+        buildings: {},
+        expansions: [
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot, //6th
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+        ],
+      },
+      expansionIndex: 1,
+      plotIndex: 1,
+    });
+    expect(isFertile).toBeTruthy();
+  });
+
   it("can plant on 11th field if they have well", () => {
     const fakePlot = {
       x: 1,
@@ -636,7 +683,7 @@ describe("isPlotFertile", () => {
           },
         ],
       },
-      expansionINdex: 2,
+      expansionIndex: 2,
       plotIndex: 2,
     });
 

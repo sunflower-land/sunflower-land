@@ -22,26 +22,25 @@ type Options = {
 
 type IsPlotFertile = {
   plotIndex: number;
-  expansionINdex: number;
+  expansionIndex: number;
   gameState: GameState;
 };
 export function isPlotFertile({
   plotIndex,
-  expansionINdex,
+  expansionIndex,
   gameState,
 }: IsPlotFertile): boolean {
   // Get the well count
   const wellCount = gameState.buildings["Water Well"]?.length ?? 0;
-
-  // Get the crop position across all land expansions - is it 3rd, is it 7th, is it 11th?
+  const cropsWellCanWater = wellCount * 10 + 10;
 
   const cropPosition = gameState.expansions.reduce(
     (count, expansion, index) => {
-      if (index < expansionINdex) {
+      if (index < expansionIndex) {
         return count + getKeys(expansion.plots || {}).length;
       }
 
-      if (index === expansionINdex) {
+      if (index === expansionIndex) {
         return count + (plotIndex + 1);
       }
 
@@ -49,17 +48,8 @@ export function isPlotFertile({
     },
     0
   );
-  console.log({ cropPosition });
 
-  if (cropPosition > 10 && wellCount < 1) {
-    return false;
-  }
-
-  if (cropPosition > 20 && wellCount < 2) {
-    return false;
-  }
-
-  return true;
+  return cropPosition <= cropsWellCanWater;
 }
 
 /**

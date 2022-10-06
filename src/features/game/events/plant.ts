@@ -125,7 +125,7 @@ export function getMultiplier({ crop, inventory }: GetFieldArgs): number {
 
 export function plant({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
-  const { fields } = stateCopy;
+  const { fields, inventory } = stateCopy;
 
   if (action.index < 0) {
     throw new Error("Field does not exist");
@@ -133,6 +133,10 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
 
   if (!Number.isInteger(action.index)) {
     throw new Error("Field does not exist");
+  }
+
+  if (!inventory["Water Well"]) {
+    throw new Error("Water Well does not exist");
   }
 
   if (
