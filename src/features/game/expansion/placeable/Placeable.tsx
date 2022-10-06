@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineInterpreter } from "./editingMachine";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
@@ -75,29 +75,30 @@ export const Placeable: React.FC = () => {
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
 
-  if (machine.matches("placed")) {
-    return (
-      <div className="absolute left-1/2 top-1/2">
-        <div
-          className="absolute"
-          style={{
-            left: coordinates.x * GRID_WIDTH_PX,
-            top: -coordinates.y * GRID_WIDTH_PX,
-            height: imageDimensions.height * PIXEL_SCALE,
-            width: imageDimensions.width * PIXEL_SCALE,
-          }}
-        >
-          <img
-            draggable="false"
-            className="bulge h-full w-full"
-            src={image}
-            alt=""
-            onLoad={handleImageLoad}
-          />
-        </div>
-      </div>
-    );
-  }
+  // if (machine.matches("placed")) {
+  //   return (
+  //     <div className="absolute left-1/2 top-1/2">
+  //       <div
+  //         className="absolute"
+  //         style={{
+  //           left: coordinates.x * GRID_WIDTH_PX,
+  //           top: -coordinates.y * GRID_WIDTH_PX,
+  //           height: imageDimensions.height * PIXEL_SCALE,
+  //           width: imageDimensions.width * PIXEL_SCALE,
+  //         }}
+  //       >
+  //         <div className="bulge h-full w-full">{PLACEABLES[placeable]({})}</div>
+  //         {/* <img
+  //           draggable="false"
+  //           className="bulge h-full w-full"
+  //           src={image}
+  //           alt=""
+  //           onLoad={handleImageLoad}
+  //         /> */}
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
