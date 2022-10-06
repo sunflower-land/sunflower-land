@@ -72,6 +72,11 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return false;
   }
 
+  // Temporarily disable until land expansion
+  if (item === "Chicken") {
+    return false;
+  }
+
   // Make sure no trees are replenishing
   if (
     item === "Woody the Beaver" ||

@@ -318,24 +318,27 @@ export const Chicken: React.FC<Props> = ({ index }) => {
           </>
         )}
         {eggLaid && (
-          <Spritesheet
-            image={layingEggSheet}
-            className="absolute cursor-pointer hover:img-highlight"
-            style={{
-              top: "-14px",
-              left: "16px",
-              width: "34px",
-              imageRendering: "pixelated",
-            }}
-            widthFrame={17}
-            heightFrame={31}
-            fps={20}
-            steps={21}
-            direction={`forward`}
-            autoplay={true}
-            loop={false}
-            onClick={handleCollect}
-          />
+          <>
+            <img src={chickenShadow} className="absolute w-full -z-10" />
+            <Spritesheet
+              image={layingEggSheet}
+              className="absolute cursor-pointer hover:img-highlight"
+              style={{
+                top: "-14px",
+                left: "16px",
+                width: "34px",
+                imageRendering: "pixelated",
+              }}
+              widthFrame={17}
+              heightFrame={31}
+              fps={20}
+              steps={21}
+              direction={`forward`}
+              autoplay={true}
+              loop={false}
+              onClick={handleCollect}
+            />
+          </>
         )}
       </div>
       {eggIsBrewing && showTimeToEgg && (

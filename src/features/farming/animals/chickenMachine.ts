@@ -51,7 +51,7 @@ const assignRandomTimeInState = assign<ChickenContext, any>({
 const reset = assign<ChickenContext, any>({
   timeElapsed: 0,
   timeInCurrentState: 0,
-  fedAt: 0,
+  fedAt: undefined,
 });
 
 const assignFeedDetails = assign<ChickenContext, ChickenFeedEvent>({
@@ -83,7 +83,7 @@ export const chickenMachine = createMachine<
         always: [
           {
             target: "hungry",
-            cond: (context) => !("fedAt" in context),
+            cond: (context) => isNaN(context.fedAt as number),
           },
           {
             target: "eggReady",
