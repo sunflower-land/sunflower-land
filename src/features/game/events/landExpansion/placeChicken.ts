@@ -20,7 +20,6 @@ export function placeChicken({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  console.log("PLACE CHICKEN");
   const stateCopy = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
 
@@ -28,22 +27,19 @@ export function placeChicken({
     throw new Error("You do not have a Bumpkin");
   }
 
-  // TODO - check they have a spare chicken
+  const placedChickens = Object.keys(stateCopy.chickens).length;
 
-  // TODO track
-  // bumpkin.activity = trackActivity(`Building Constructed`, bumpkin.activity);
-
-  const id = Object.keys(stateCopy.chickens).length + 1;
+  if (stateCopy.inventory.Chicken?.lte(placedChickens)) {
+    throw new Error("You do not have any available chickens");
+  }
 
   const chickens: GameState["chickens"] = {
     ...stateCopy.chickens,
-    [id]: {
+    [placedChickens]: {
       multiplier: 1,
       coordinates: action.coordinates,
     },
   };
-
-  console.log({ chickens });
 
   return {
     ...stateCopy,
