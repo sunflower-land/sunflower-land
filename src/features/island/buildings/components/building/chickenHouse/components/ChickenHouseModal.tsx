@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import close from "assets/icons/close.png";
 import plus from "assets/icons/plus.png";
-import alertIcon from "assets/icons/expression_alerted.png";
 import chicken from "assets/resources/chicken.png";
+import boxChicken from "assets/animals/chickens/box_chicken.png";
 
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { ANIMALS, CRAFTABLES } from "features/game/types/craftables";
+import { ANIMALS } from "features/game/types/craftables";
 import token from "assets/icons/token_2.png";
 import { Box } from "components/ui/Box";
 import classNames from "classnames";
@@ -39,9 +39,6 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
   const [scrollIntoView] = useScrollIntoView();
 
   const inventory = state.inventory;
-
-  console.log({ chickens: state.chickens });
-  useEffect(() => {}, []);
 
   const chickenCount = inventory.Chicken || new Decimal(0);
   const placedChickenCount = Object.keys(state.chickens).length;
@@ -85,16 +82,15 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
     if (isNotPlaced) {
       return (
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="text-shadow text-center">Chicken</span>
+          <span className="text-shadow text-center">Lazy Chicken</span>
           <img
-            src={chicken}
+            src={boxChicken}
             className="h-16 img-highlight mt-1"
             alt="chicken"
           />
           <div className="flex mt-2 relative">
-            <img src={alertIcon} className="h-4 absolute right-0 top-0" />
             <span className="text-shadow text-center text-xs">
-              Place chicken on land to collect eggs
+              Put your chicken to work to start collecting eggs!
             </span>
           </div>
 
@@ -152,10 +148,10 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
     }
     return (
       <div className="flex flex-col justify-center items-center p-2 relative">
-        <span className="text-shadow text-center">Chicken</span>
+        <span className="text-shadow text-center">Working Chicken</span>
         <img src={chicken} className="h-16 img-highlight mt-1" alt="chicken" />
-        <span className="text-shadow text-center mt-2 sm:text-sm">
-          Already placed
+        <span className="text-shadow text-center mt-2 text-sm">
+          Already placed and working hard!
         </span>
       </div>
     );
@@ -186,14 +182,17 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
           <div className="w-3/5 h-fit">
             <div className=" flex flex-wrap ">
               {new Array(availableSpots).fill(null).map((item, index) => {
-                let icon = undefined;
+                let boxImage = undefined;
 
-                if (chickenCount.eq(index)) {
-                  icon = plus;
+                if (placedChickenCount > index) {
+                  boxImage = chicken;
+                }
+                if (chickenCount.gt(index) && index >= placedChickenCount) {
+                  boxImage = boxChicken;
                 }
 
-                if (chickenCount.gt(index) && index >= placedChickenCount) {
-                  icon = alertIcon;
+                if (chickenCount.eq(index)) {
+                  boxImage = plus;
                 }
 
                 return (
@@ -201,8 +200,8 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
                     isSelected={selectedIndex === index}
                     key={index}
                     onClick={() => setSelectedIndex(index)}
-                    image={chickenCount.gt(index - 1) ? chicken : undefined}
-                    secondaryImage={icon}
+                    image={boxImage}
+                    // secondaryImage={icon}
                     // count={null}
                     disabled={chickenCount.lt(index)}
                   />
@@ -210,9 +209,9 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
               })}
             </div>
             <span className="w-32 -mt-4 sm:mr-auto bg-blue-600 text-shadow border text-xxs p-1 rounded-md">
-              {`Capacity ${placedChickenCount}/${availableSpots}`}
+              {`Capacity ${chickenCount.toNumber()}/${availableSpots}`}
             </span>
-            {placedChickenCount >= availableSpots && (
+            {chickenCount.gte(availableSpots) && (
               <p className="text-xs mt-1">
                 Build an extra coop to farm more chickens
               </p>

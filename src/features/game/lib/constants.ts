@@ -472,7 +472,7 @@ export const INITIAL_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
     Warrior: new Decimal(1),
-    Chicken: new Decimal(1),
+    Chicken: new Decimal(3),
     Wood: new Decimal(500),
     Stone: new Decimal(500),
     Iron: new Decimal(50),
