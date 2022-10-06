@@ -8,7 +8,7 @@ import sparkSheet from "assets/resources/small_stone/small_stone_spark_sheet.png
 import dropSheet from "assets/resources/small_stone/small_stone_drop.png";
 import hitbox from "assets/resources/small_stone.png";
 import iron from "assets/resources/iron_ore.png";
-import pickaxe from "assets/tools/wood_pickaxe.png";
+import pickaxe from "assets/tools/stone_pickaxe.png";
 
 import {
   GRID_WIDTH_PX,
@@ -50,7 +50,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
   const [popover, setPopover] = useState<JSX.Element | null>();
 
   const [touchCount, setTouchCount] = useState(0);
-  // When to hide the wood that pops out
+  // When to hide the iron that pops out
   const [collecting, setCollecting] = useState(false);
 
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -104,9 +104,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
   const hasStamina = stamina >= IRON_MINE_STAMINA_COST;
 
   const strike = () => {
-    if (mined) {
-      return;
-    }
+    if (mined) return;
 
     if (!hasPickaxes || !hasStamina) return;
 
