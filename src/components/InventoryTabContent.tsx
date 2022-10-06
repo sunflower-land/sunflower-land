@@ -16,6 +16,7 @@ import { getCropTime } from "features/game/events/plant";
 import { getKeys } from "features/game/types/craftables";
 import { useMakeDefaultInventoryItem } from "components/hooks/useGetDefaultInventoryItem";
 import { useHasBoostForItem } from "./hooks/useHasBoostForItem";
+import { KNOWN_IDS } from "features/game/types";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -134,15 +135,17 @@ export const InventoryTabContent = ({
             {<p className="mb-2 underline">{category}</p>}
             {findIfItemsExistForCategory(category) ? (
               <div className="flex mb-2 flex-wrap -ml-1.5">
-                {inventoryMap[category].map((item) => (
-                  <Box
-                    count={inventory[item]}
-                    isSelected={selectedItem === item}
-                    key={item}
-                    onClick={() => handleItemClick(item)}
-                    image={ITEM_DETAILS[item].image}
-                  />
-                ))}
+                {inventoryMap[category]
+                  .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
+                  .map((item) => (
+                    <Box
+                      count={inventory[item]}
+                      isSelected={selectedItem === item}
+                      key={item}
+                      onClick={() => handleItemClick(item)}
+                      image={ITEM_DETAILS[item].image}
+                    />
+                  ))}
               </div>
             ) : (
               <p className="text-white text-xs text-shadow mb-2 pl-2.5">
