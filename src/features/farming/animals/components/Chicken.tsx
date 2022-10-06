@@ -23,7 +23,6 @@ import {
 import Spritesheet from "components/animation/SpriteAnimator";
 import {
   CHICKEN_TIME_TO_EGG,
-  GRID_WIDTH_PX,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -99,7 +98,9 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
 
   const percentageComplete = getPercentageComplete(chicken?.fedAt);
 
-  const chickenContext: Partial<ChickenContext> = chicken;
+  const chickenContext: Partial<ChickenContext> | undefined = chicken && {
+    fedAt: chicken.fedAt,
+  };
 
   // useInterpret returns a static reference (to just the interpreted machine) which will not rerender when its state changes
   const service = useInterpret(chickenMachine, {
@@ -116,9 +117,8 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const eggReady = useSelector(service, isEggReady);
   const eggLaid = useSelector(service, isEggLaid);
 
-  console.log({ hungry, eating, happy, sleeping });
   const eggIsBrewing = happy || sleeping;
-  const showEggProgress = chicken && !eating && !eggLaid && !hungry;
+  const showEggProgress = chicken && !eating && !eggLaid;
 
   // Popover is to indicate when player has no wheat or when wheat is not selected.
   const [showPopover, setShowPopover] = useState(false);
@@ -196,10 +196,8 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
 
   return (
     <div
-      className="relative"
+      className="absolute"
       style={{
-        width: `${GRID_WIDTH_PX}px`,
-        height: `${GRID_WIDTH_PX}px`,
         right: position.right,
         top: position.top,
       }}
@@ -210,7 +208,6 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             <img
               src={hungryChicken}
               alt="hungry-chicken"
-              draggable={false}
               onClick={feed}
               className="absolute w-16 h-16 cursor-pointer hover:img-highlight"
             />

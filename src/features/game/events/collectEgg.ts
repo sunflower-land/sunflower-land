@@ -37,7 +37,7 @@ export function collectEggs({
 
   const mutantChicken = chicken.reward?.items[0];
 
-  delete chickens[action.index];
+  delete chickens[action.index].fedAt;
 
   return {
     ...stateCopy,

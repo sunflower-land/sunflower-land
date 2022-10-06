@@ -20,11 +20,11 @@ import { Stone } from "./components/resources/Stone";
 import { Placeable } from "./placeable/Placeable";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
-import { ITEM_DETAILS } from "../types/images";
 import { Character } from "features/island/bumpkin/components/Character";
 import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
-import { Chicken } from "features/farming/animals/components/Chicken";
+import { Chicken } from "features/island/chickens/Chicken";
+import { Collectible } from "features/island/collectibles/Collectible";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -246,9 +246,7 @@ export const Land: React.FC = () => {
                 height={height}
                 width={width}
               >
-                <div className="flex justify-center w-full h-full">
-                  <img src={ITEM_DETAILS[name].image} alt={name} />
-                </div>
+                <Collectible name={name} id={collectible.id} />
               </MapPlacement>
             );
           });
@@ -262,7 +260,7 @@ export const Land: React.FC = () => {
           return (
             <MapPlacement key={index} x={x} y={y} height={height} width={width}>
               <div className="flex relative justify-center w-full h-full">
-                <Chicken index={index} position={{ right: 7, top: -20 }} />
+                <Chicken index={index} />
               </div>
             </MapPlacement>
           );

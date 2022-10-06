@@ -475,14 +475,24 @@ export const INITIAL_FARM: GameState = {
     Chicken: new Decimal(2),
     Wood: new Decimal(500),
     Stone: new Decimal(500),
-    Iron: new Decimal(500),
+    Iron: new Decimal(50),
+    "Mysterious Head": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,
   iron: INITIAL_IRON,
   gold: INITIAL_GOLD,
-  chickens: {},
+  chickens: {
+    0: {
+      coordinates: {
+        x: 5,
+        y: 2,
+      },
+      fedAt: 0,
+      multiplier: 1,
+    },
+  },
   skills: {
     farming: new Decimal(0),
     gathering: new Decimal(0),

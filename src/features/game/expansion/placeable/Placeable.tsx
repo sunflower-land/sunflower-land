@@ -17,9 +17,9 @@ import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
-import { Chicken } from "features/farming/animals/components/Chicken";
 import { BUILDING_COMPONENTS } from "features/island/buildings/components/building/Building";
 import { COLLECTIBLE_COMPONENTS } from "features/island/collectibles/Collectible";
+import { Chicken } from "features/island/chickens/Chicken";
 
 type Dimensions = {
   height: number;
@@ -27,7 +27,7 @@ type Dimensions = {
 };
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
-  Chicken: () => <Chicken index={0} position={{ right: 7, top: -20 }} />,
+  Chicken: () => <Chicken index={0} />,
   // TODO - others
   ...BUILDING_COMPONENTS,
   ...COLLECTIBLE_COMPONENTS,

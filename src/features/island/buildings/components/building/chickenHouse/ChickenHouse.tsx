@@ -6,7 +6,7 @@ import { Modal } from "react-bootstrap";
 import { ChickenHouseModal } from "./components/ChickenHouseModal";
 
 export const ChickenHouse: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const handleClick = () => {
     setIsOpen(true);
