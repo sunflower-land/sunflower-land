@@ -107,13 +107,13 @@ export const WithdrawItems: React.FC<Props> = ({
       : details;
   };
 
-  const inventoryItems = getKeys(inventory).filter((item) =>
-    inventory[item]?.gt(0)
-  );
+  const inventoryItems = getKeys(inventory)
+    .filter((item) => inventory[item]?.gt(0))
+    .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
-  const selectedItems = getKeys(selected).filter((item) =>
-    selected[item]?.gt(0)
-  );
+  const selectedItems = getKeys(selected)
+    .filter((item) => selected[item]?.gt(0))
+    .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
   const getTotalNumberOfItemType = (itemName: InventoryItemName) => {
     const state = goblinState.context.state;
