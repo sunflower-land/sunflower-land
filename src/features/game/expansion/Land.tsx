@@ -19,15 +19,25 @@ import { Building } from "features/island/buildings/components/building/Building
 import { ITEM_DETAILS } from "../types/images";
 import { Character } from "features/island/bumpkin/components/Character";
 import { Gold } from "./components/resources/Gold";
+import { Iron } from "./components/resources/Iron";
 
 type ExpansionProps = Pick<
   LandExpansion,
-  "plots" | "trees" | "terrains" | "stones" | "gold" | "createdAt"
+  "plots" | "trees" | "terrains" | "stones" | "iron" | "gold" | "createdAt"
 >;
 
 export const Expansion: React.FC<
   ExpansionProps & { expansionIndex: number }
-> = ({ plots, trees, stones, gold, terrains, createdAt, expansionIndex }) => {
+> = ({
+  plots,
+  trees,
+  stones,
+  iron,
+  gold,
+  terrains,
+  createdAt,
+  expansionIndex,
+}) => {
   const { x: xOffset, y: yOffset } = EXPANSION_ORIGINS[expansionIndex];
 
   return (
@@ -119,6 +129,23 @@ export const Expansion: React.FC<
             </MapPlacement>
           );
         })}
+
+      {iron &&
+        getKeys(iron).map((index) => {
+          const { x, y, width, height } = iron[index];
+
+          return (
+            <MapPlacement
+              key={`${createdAt}-iron-${index}`}
+              x={x + xOffset}
+              y={y + yOffset}
+              height={height}
+              width={width}
+            >
+              <Iron ironIndex={Number(index)} expansionIndex={expansionIndex} />
+            </MapPlacement>
+          );
+        })}
     </>
   );
 };
@@ -144,18 +171,24 @@ export const Land: React.FC = () => {
 
         {expansions
           .filter((expansion) => expansion.readyAt < Date.now())
-          .map(({ stones, gold, terrains, trees, plots, createdAt }, index) => (
-            <Expansion
-              createdAt={createdAt}
-              expansionIndex={index}
-              key={index}
-              stones={stones}
-              gold={gold}
-              terrains={terrains}
-              trees={trees}
-              plots={plots}
-            />
-          ))}
+          .map(
+            (
+              { stones, gold, terrains, iron, trees, plots, createdAt },
+              index
+            ) => (
+              <Expansion
+                createdAt={createdAt}
+                expansionIndex={index}
+                key={index}
+                stones={stones}
+                gold={gold}
+                terrains={terrains}
+                trees={trees}
+                iron={iron}
+                plots={plots}
+              />
+            )
+          )}
 
         {gameState.matches("editing") && <Placeable />}
 

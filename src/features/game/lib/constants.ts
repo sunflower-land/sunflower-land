@@ -184,6 +184,19 @@ export const INITIAL_GOLD_MINES: GameState["gold"] = {
   // },
 };
 
+export const INITIAL_EXPANSION_IRON: LandExpansion["iron"] = {
+  0: {
+    stone: {
+      amount: 0.1,
+      minedAt: 0,
+    },
+    x: 2,
+    y: -1,
+    height: 1,
+    width: 1,
+  },
+};
+
 export const INITIAL_STONE: GameState["stones"] = {
   0: {
     amount: new Decimal(2),
@@ -269,6 +282,7 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
 
   // gold: INITIAL_GOLD_MINES,
   terrains: INITIAL_TERRAIN,
+  iron: INITIAL_EXPANSION_IRON,
 
   plots: INITIAL_PLOTS,
 };
@@ -280,23 +294,12 @@ export const INITIAL_EXPANSIONS = [
 
     terrains: INITIAL_TERRAIN,
     plots: INITIAL_PLOTS,
-    stones: {
+
+    iron: {
       0: {
         stone: {
           amount: 2,
           minedAt: 0,
-        },
-        x: 1,
-        y: -2,
-        height: 1,
-        width: 1,
-      },
-    },
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
         },
         x: -3,
         y: 3,
@@ -304,6 +307,18 @@ export const INITIAL_EXPANSIONS = [
         width: 2,
       },
     },
+    // tree: {
+    //   0: {
+    //     wood: {
+    //       amount: 3,
+    //       choppedAt: 0,
+    //     },
+    //     x: -3,
+    //     y: 3,
+    //     height: 2,
+    //     width: 2,
+    //   },
+    // },
   },
   {
     createdAt: 0,
@@ -451,6 +466,7 @@ export const INITIAL_FARM: GameState = {
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
     Pickaxe: new Decimal(3),
+    "Stone Pickaxe": new Decimal(3),
     "Trading Ticket": new Decimal(50),
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
@@ -482,52 +498,7 @@ export const INITIAL_FARM: GameState = {
   plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
-  buildings: {
-    Market: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 1,
-          y: 3,
-        },
-        createdAt: 0,
-      },
-    ],
-    Tent: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 5,
-          y: 4,
-        },
-        createdAt: 0,
-      },
-    ],
-    "Water Well": [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 4,
-          y: 2,
-        },
-        createdAt: 0,
-      },
-    ],
-    Blacksmith: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 4,
-          y: 9,
-        },
-        createdAt: 0,
-      },
-    ],
-  },
+  buildings: {},
   airdrops: [
     {
       createdAt: Date.now(),
