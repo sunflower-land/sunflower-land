@@ -453,7 +453,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const INITIAL_FARM: GameState = {
-  balance: new Decimal(0),
+  balance: new Decimal(10),
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
@@ -471,7 +471,6 @@ export const INITIAL_FARM: GameState = {
     "Trading Ticket": new Decimal(50),
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
-    "Mysterious Head": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
