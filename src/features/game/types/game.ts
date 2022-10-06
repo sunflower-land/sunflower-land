@@ -253,6 +253,19 @@ export type Airdrop = {
   message?: string;
 };
 
+export type GoblinGrubOrder = {
+  id: string;
+  name: ConsumableName;
+  amount: number;
+  sfl: number;
+};
+
+export type GoblinGrub = {
+  opensAt: number;
+  closesAt: number;
+  orders: GoblinGrubOrder[];
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -272,6 +285,8 @@ export interface GameState {
   airdrops?: Airdrop[];
 
   warCollectionOffer?: WarCollectionOffer;
+
+  goblinGrub?: GoblinGrub;
 
   inventory: Inventory;
   stock: Inventory;
