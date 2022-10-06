@@ -10,7 +10,7 @@ import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
 import { WishingWellModal } from "features/goblins/wishingWell/WishingWellModal";
 
-export const WishingWell: React.FC = () => {
+export const RetreatWishingWell: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [_, send] = useActor(goblinService);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -26,12 +26,12 @@ export const WishingWell: React.FC = () => {
   };
   return (
     <div
-      className="absolute"
+      className="z-10 absolute"
       // TODO some sort of coordinate system
       style={{
         width: `${GRID_WIDTH_PX * 2.1}px`,
-        right: `${GRID_WIDTH_PX * 12.1}px`,
-        top: `${GRID_WIDTH_PX * 8.8}px`,
+        right: `${GRID_WIDTH_PX * 11.95}px`,
+        top: `${GRID_WIDTH_PX * 6.1}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">
