@@ -7,7 +7,7 @@ import Spritesheet, {
 import sparkSheet from "assets/resources/small_stone/small_stone_spark_sheet.png";
 import dropSheet from "assets/resources/small_stone/small_stone_drop.png";
 import hitbox from "assets/resources/small_stone.png";
-import stone from "assets/resources/stone.png";
+import iron from "assets/resources/iron_ore.png";
 import pickaxe from "assets/tools/wood_pickaxe.png";
 
 import {
@@ -62,7 +62,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
 
   const { setToast } = useContext(ToastContext);
   const expansion = game.context.state.expansions[expansionIndex];
-  const iron = expansion.iron?.[ironIndex] as LandExpansionRock;
+  const ironRock = expansion.iron?.[ironIndex] as LandExpansionRock;
   const tool = "Stone Pickaxe";
 
   const stamina = game.context.state.bumpkin
@@ -89,7 +89,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
   }, []);
 
   // Users will need to refresh to strike the iron again
-  const mined = !canMine(iron);
+  const mined = !canMine(ironRock);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -140,14 +140,14 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
 
       displayPopover(
         <div className="flex">
-          <img src={stone} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${iron.stone.amount}`}</span>
+          <img src={iron} className="w-5 h-5 mr-2" />
+          <span className="text-sm text-white text-shadow">{`+${ironRock.stone.amount}`}</span>
         </div>
       );
 
       setToast({
-        icon: stone,
-        content: `+${iron.stone.amount}`,
+        icon: iron,
+        content: `+${ironRock.stone.amount}`,
       });
 
       await new Promise((res) => setTimeout(res, 2000));
@@ -190,7 +190,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
     setErrorLabel(undefined);
   };
 
-  const timeLeft = getTimeLeft(iron.stone.minedAt, IRON_RECOVERY_TIME);
+  const timeLeft = getTimeLeft(ironRock.stone.minedAt, IRON_RECOVERY_TIME);
 
   return (
     <div
