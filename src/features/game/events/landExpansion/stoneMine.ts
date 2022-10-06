@@ -6,7 +6,7 @@ import { GameState, LandExpansionRock } from "../../types/game";
 import { replenishStamina } from "./replenishStamina";
 
 export type LandExpansionStoneMineAction = {
-  type: "rock.mined";
+  type: "stoneRock.mined";
   expansionIndex: number;
   index: number;
 };

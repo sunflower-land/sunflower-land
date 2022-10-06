@@ -171,43 +171,17 @@ export const INITIAL_TREES: GameState["trees"] = {
   },
 };
 
-export const INITIAL_SHRUBS: GameState["shrubs"] = {
-  0: {
-    wood: {
-      amount: 0.1,
-      choppedAt: 0,
-    },
-    x: -3,
-    y: 3,
-    height: 2,
-    width: 2,
-  },
-};
-
-export const INITIAL_PEBBLES: GameState["pebbles"] = {
-  0: {
-    stone: {
-      amount: 0.1,
-      minedAt: 0,
-    },
-    x: 2,
-    y: -1,
-    height: 1,
-    width: 1,
-  },
-};
-
-export const INITIAL_GOLD_MINES: GameState["pebbles"] = {
-  0: {
-    stone: {
-      amount: 0.1,
-      minedAt: 0,
-    },
-    x: 2,
-    y: 2,
-    height: 1,
-    width: 1,
-  },
+export const INITIAL_GOLD_MINES: GameState["gold"] = {
+  // 0: {
+  //   stone: {
+  //     amount: 0.1,
+  //     minedAt: 0,
+  //   },
+  //   x: 2,
+  //   y: 2,
+  //   height: 1,
+  //   width: 1,
+  // },
 };
 
 export const INITIAL_STONE: GameState["stones"] = {
@@ -293,9 +267,7 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
   createdAt: 0,
   readyAt: 0,
 
-  shrubs: INITIAL_SHRUBS,
-  pebbles: INITIAL_PEBBLES,
-  gold: INITIAL_GOLD_MINES,
+  // gold: INITIAL_GOLD_MINES,
   terrains: INITIAL_TERRAIN,
 
   plots: INITIAL_PLOTS,
@@ -308,11 +280,10 @@ export const INITIAL_EXPANSIONS = [
 
     terrains: INITIAL_TERRAIN,
     plots: INITIAL_PLOTS,
-
-    pebbles: {
+    stones: {
       0: {
         stone: {
-          amount: 0.1,
+          amount: 2,
           minedAt: 0,
         },
         x: 1,
@@ -507,8 +478,6 @@ export const INITIAL_FARM: GameState = {
     "Radish Cake": "2025-01-01T00:00:00.000Z",
     "Wheat Cake": "1970-01-01T00:00:00.000Z",
   },
-  shrubs: INITIAL_SHRUBS,
-  pebbles: INITIAL_PEBBLES,
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
 
@@ -605,8 +574,6 @@ export const EMPTY: GameState = {
     gathering: new Decimal(0),
   },
   stockExpiry: {},
-  shrubs: INITIAL_SHRUBS,
-  pebbles: INITIAL_PEBBLES,
   terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
   expansions: INITIAL_EXPANSIONS,
