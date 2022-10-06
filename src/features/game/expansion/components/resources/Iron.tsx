@@ -302,7 +302,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
           }
         )}
       >
-        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 2) * 100} />
+        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
       </div>
       {/* Recovery time panel */}
       {mined && (
