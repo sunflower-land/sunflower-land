@@ -6,7 +6,7 @@ import lightBorder from "assets/ui/panel/light_border.png";
 
 interface Props {
   className?: string;
-  style?: { [key: string]: React.CSSProperties };
+  style?: React.CSSProperties;
 }
 
 /**

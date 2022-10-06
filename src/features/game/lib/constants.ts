@@ -450,6 +450,7 @@ export const INITIAL_FARM: GameState = {
     Egg: new Decimal(15),
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
+    Observatory: new Decimal(1),
     Pickaxe: new Decimal(3),
     "Trading Ticket": new Decimal(50),
     "Chef Hat": new Decimal(1),

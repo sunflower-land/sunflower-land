@@ -1,13 +1,7 @@
 /**
  * Placeholder for future decorations that will fall on a different grid
  */
-import React, { useRef, useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Spritesheet, {
-  SpriteSheetInstance,
-} from "components/animation/SpriteAnimator";
-
-import close from "assets/icons/close.png";
+import React from "react";
 
 import sunflowerRock from "assets/nfts/sunflower_rock.png";
 import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
@@ -17,466 +11,36 @@ import christmasTree from "assets/nfts/christmas_tree.png";
 import dog from "assets/nfts/farm_dog.gif";
 import cat from "assets/nfts/farm_cat.gif";
 import gnome from "assets/nfts/gnome.gif";
-import nancy from "assets/nfts/nancy.png";
-import scarecrow from "assets/nfts/scarecrow.png";
-import kuebiko from "assets/nfts/kuebiko.gif";
 import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
 import goldenBonsai from "assets/nfts/golden_bonsai.png";
 import rooster from "assets/nfts/rooster.gif";
 import pottedSunflower from "assets/decorations/potted_sunflower.png";
-import wickerManFire from "assets/nfts/wicker_man_fire.png";
 
-import nyonStatue from "assets/nfts/nyon_statue.png";
 import mysteriousHead from "assets/nfts/mysterious_head.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
 import farmerBath from "assets/nfts/farmer_bath.png";
 import swimmer from "assets/npcs/swimmer.gif";
-import trivia from "assets/npcs/trivia.gif";
-
-import beaver from "assets/nfts/beaver.gif";
-import apprentice from "assets/nfts/apprentice_beaver.gif";
-import foreman from "assets/nfts/construction_beaver.gif";
-
-import tunnelMole from "assets/nfts/tunnel_mole.gif";
-import rockyMole from "assets/nfts/rocky_mole.gif";
-import nugget from "assets/nfts/nugget.gif";
-
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
-import observatory from "assets/nfts/mom/observatory.gif";
 
-import golemSheet from "assets/nfts/rock_golem.png";
-
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
+import { GRID_WIDTH_PX } from "../lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
-import { GameState, Inventory } from "../types/game";
-import { Panel } from "components/ui/Panel";
-import { fountainAudio, burningSound } from "lib/utils/sfx";
+import { GameState } from "../types/game";
+import { fountainAudio } from "lib/utils/sfx";
 import { Sign } from "./Sign";
-import { canMine } from "../events/stoneMine";
+import {
+  Beavers,
+  Moles,
+  NyonStatue,
+  Observatory,
+  RockGolem,
+  Scarecrows,
+  Trivia,
+  WickerMan,
+} from "./decorations/index";
 
-// Only show 1 scarecrow at a time
-export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
-  inventory,
-}) => {
-  if (inventory.Kuebiko) {
-    return (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
-        }}
-        src={kuebiko}
-        alt="Scarecrow"
-      />
-    );
-  }
-
-  if (inventory.Scarecrow) {
-    return (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.3}px`,
-        }}
-        src={scarecrow}
-        alt="Scarecrow"
-      />
-    );
-  }
-
-  if (inventory.Nancy) {
-    return (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.2}px`,
-        }}
-        src={nancy}
-        alt="Scarecrow"
-      />
-    );
-  }
-
-  return null;
-};
-
-export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
-  const [showModal, setShowModal] = useState(false);
-  if (inventory["Foreman Beaver"]) {
-    return (
-      <>
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 1.2}px`,
-          }}
-          className="hover:img-highlight cursor-pointer"
-          src={foreman}
-          alt="Foreman Beaver"
-          onClick={() => setShowModal(true)}
-        />
-        <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-          <Panel>
-            <img
-              src={close}
-              className="h-6 top-4 right-4 absolute cursor-pointer"
-              onClick={() => setShowModal(false)}
-            />
-            <div className="flex flex-col items-center justify-center m-2">
-              <img src={foreman} alt="Foreman Beaver" className="w-1/3" />
-              <span className="text-shadow mt-2 block text-center">
-                Have you got any radishes?
-              </span>
-            </div>
-          </Panel>
-        </Modal>
-      </>
-    );
-  }
-
-  if (inventory["Apprentice Beaver"]) {
-    return (
-      <>
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 1.2}px`,
-          }}
-          src={apprentice}
-          alt="Apprentice Beaver"
-          className="hover:img-highlight cursor-pointer"
-          onClick={() => setShowModal(true)}
-        />
-        <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-          <Panel>
-            <img
-              src={close}
-              className="h-6 top-4 right-4 absolute cursor-pointer"
-              onClick={() => setShowModal(false)}
-            />
-            <div className="flex flex-col items-center justify-center m-2">
-              <img src={apprentice} alt="Apprentice Beaver" className="w-1/3" />
-              <span className="text-shadow mt-2 block text-center">
-                Have you got any radishes?
-              </span>
-            </div>
-          </Panel>
-        </Modal>
-      </>
-    );
-  }
-
-  if (inventory["Woody the Beaver"]) {
-    return (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.2}px`,
-        }}
-        src={beaver}
-        alt="Woody the Beaver"
-      />
-    );
-  }
-
-  return null;
-};
-
-export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
-  const [showModal, setShowModal] = useState(false);
-
-  if (inventory["Nugget"]) {
-    return (
-      <>
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 1.52}px`,
-          }}
-          src={nugget}
-          alt="Nugget"
-          className="hover:img-highlight cursor-pointer"
-          onClick={() => setShowModal(true)}
-        />
-        <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-          <Panel>
-            <img
-              src={close}
-              className="h-6 top-4 right-4 absolute cursor-pointer"
-              onClick={() => setShowModal(false)}
-            />
-            <div className="flex flex-col items-center justify-center m-2">
-              <img src={nugget} alt="Nugget" className="w-1/3" />
-              <span className="text-shadow text-sm mt-2 block text-center">
-                One day my father ate 300 Pumpkins. Afterwards, he had so much
-                energy that he dug an entire valley!
-              </span>
-            </div>
-          </Panel>
-        </Modal>
-      </>
-    );
-  }
-
-  if (inventory["Rocky the Mole"]) {
-    return (
-      <>
-        <img
-          style={{
-            width: `${GRID_WIDTH_PX * 1.52}px`,
-          }}
-          src={rockyMole}
-          alt="Rocky the Mole"
-          className="hover:img-highlight cursor-pointer"
-          onClick={() => setShowModal(true)}
-        />
-        <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-          <Panel>
-            <img
-              src={close}
-              className="h-6 top-4 right-4 absolute cursor-pointer"
-              onClick={() => setShowModal(false)}
-            />
-            <div className="flex flex-col items-center justify-center m-2">
-              <img src={rockyMole} alt="Rocky the Mole" className="w-1/3" />
-              <span className="text-shadow text-sm mt-2 block text-center">
-                One day my father ate 300 Pumpkins. Afterwards, he had so much
-                energy that he dug an entire valley!
-              </span>
-            </div>
-          </Panel>
-        </Modal>
-      </>
-    );
-  }
-
-  if (inventory["Tunnel Mole"]) {
-    return (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.52}px`,
-        }}
-        src={tunnelMole}
-        alt="Tunnel Mole"
-      />
-    );
-  }
-
-  return null;
-};
-
-// Only show 1 Nyon statue at a time
-export const NyonStatue: React.FC = () => {
-  const [showNyonLore, setShowNyonLore] = useState(false);
-
-  return (
-    <>
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.8}px`,
-        }}
-        className="hover:img-highlight cursor-pointer"
-        src={nyonStatue}
-        alt="Nyon Statue"
-        onClick={() => setShowNyonLore(true)}
-      />
-      <Modal centered show={showNyonLore} onHide={() => setShowNyonLore(false)}>
-        <Panel>
-          <img
-            src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
-            onClick={() => setShowNyonLore(false)}
-          />
-          <div className="flex flex-col items-cetner justify-content-between">
-            <div className="flex justify-content m-2">
-              <img
-                style={{
-                  width: `${GRID_WIDTH_PX * 1.5}px`,
-                }}
-                className="img-highlight mr-2"
-                src={nyonStatue}
-                alt="Nyon Statue"
-              />
-              <div className="ml-2 mt-3">
-                <span className="text-shadow text-xs block">In memory of</span>
-                <span className="text-shadow block">Nyon Lann</span>
-              </div>
-            </div>
-            <div className="flex-1 ml-2 mr-2">
-              <span className="text-shadow block mb-2 text-xs">
-                The legendary knight responsible for clearing the goblins from
-                the mines. Shortly after his victory he died by poisoning from a
-                Goblin conspirator. The Sunflower Citizens erected this statue
-                with his armor to commemorate his conquests.
-              </span>
-            </div>
-          </div>
-        </Panel>
-      </Modal>
-    </>
-  );
-};
-
-export const Trivia: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-
-  return (
-    <>
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 1.8}px`,
-          top: `${GRID_WIDTH_PX * 20}px`,
-          right: `${GRID_WIDTH_PX * 30}px`,
-        }}
-        className="hover:img-highlight cursor-pointer absolute"
-        src={trivia}
-        alt="Goblin Trivia"
-        onClick={() => setShowModal(true)}
-      />
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <Panel>
-          <img
-            src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
-            onClick={() => setShowModal(false)}
-          />
-          <div className="flex flex-col justify-content-between">
-            <img
-              style={{
-                width: `${GRID_WIDTH_PX * 3}px`,
-              }}
-              className="mb-2 m-auto"
-              src={trivia}
-              alt="Goblin Trivia"
-            />
-            <p className="text-left mb-2">Congratulations Team Goblin.</p>
-            <p className="text-left mb-2">
-              The reigning champions of Sunflower Trivia
-            </p>
-            <span className="text-xxs text-left">Artwork - Netherzapdos</span>
-          </div>
-        </Panel>
-      </Modal>
-    </>
-  );
-};
-
-interface RockGolemProps {
-  state: GameState;
-}
-
-export const RockGolem: React.FC<RockGolemProps> = ({ state }) => {
-  const stone = state.stones[2];
-
-  const golemGif = useRef<SpriteSheetInstance>();
-  const golemClosingGif = useRef<SpriteSheetInstance>();
-
-  const canMineRock = canMine(stone);
-
-  return (
-    <>
-      {canMineRock ? (
-        <Spritesheet
-          key="standing"
-          className="group-hover:img-highlight pointer-events-none transform z-10"
-          style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
-            imageRendering: "pixelated",
-          }}
-          getInstance={(spritesheet) => {
-            golemGif.current = spritesheet;
-          }}
-          image={golemSheet}
-          widthFrame={34}
-          heightFrame={42}
-          fps={6}
-          steps={38}
-          endAt={8}
-          direction={`forward`}
-          autoplay={true}
-          loop={true}
-        />
-      ) : (
-        <Spritesheet
-          key="closing"
-          className="group-hover:img-highlight pointer-events-none transform z-10"
-          style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
-            imageRendering: "pixelated",
-          }}
-          getInstance={(spritesheet) => {
-            golemClosingGif.current = spritesheet;
-          }}
-          image={golemSheet}
-          widthFrame={34}
-          heightFrame={42}
-          fps={10}
-          startAt={8}
-          endAt={23}
-          steps={38}
-          direction={`forward`}
-          autoplay={true}
-          loop={false}
-        />
-      )}
-    </>
-  );
-};
-
-interface Props {
-  state: GameState;
-}
-
-const WickerManAnimation: React.FC = () => {
-  const wickerManGif = useRef<SpriteSheetInstance>();
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const burn = () => {
-    const isPlaying = wickerManGif.current?.getInfo("isPlaying");
-
-    if (!isPlaying) {
-      burningSound.play();
-      wickerManGif.current?.goToAndPlay(0);
-    }
-  };
-
-  return (
-    <div
-      ref={containerRef}
-      className="absolute cursor-pointer hover:img-highlight z-10"
-      onClick={burn}
-      style={{
-        width: `${PIXEL_SCALE * 19}px`,
-        height: `${PIXEL_SCALE * 25}px`,
-        left: `${GRID_WIDTH_PX * 82}px`,
-        top: `${GRID_WIDTH_PX * 21}px`,
-      }}
-      id={Section["Wicker Man"]}
-    >
-      <Spritesheet
-        className="absolute group-hover:img-highlight pointer-events-none z-10"
-        style={{
-          imageRendering: "pixelated",
-          left: `-73%`,
-          bottom: `1px`,
-          width: `${PIXEL_SCALE * 44}px`,
-        }}
-        getInstance={(spritesheet) => {
-          wickerManGif.current = spritesheet;
-        }}
-        image={wickerManFire}
-        widthFrame={48}
-        heightFrame={58}
-        fps={12}
-        endAt={32}
-        steps={32}
-        direction={`forward`}
-        autoplay={false}
-        loop={true}
-        onLoopComplete={(spritesheet) => {
-          spritesheet.pause();
-        }}
-      />
-    </div>
-  );
-};
-
-export const Decorations: React.FC<Props> = ({ state }) => (
+export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
   <div className="z-10 absolute left-0 right-0">
     <Flags state={state} />
     {state.inventory["Sunflower Rock"] && (
@@ -730,19 +294,7 @@ export const Decorations: React.FC<Props> = ({ state }) => (
       />
     )}
 
-    {state.inventory["Observatory"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 2.75}px`,
-          left: `${GRID_WIDTH_PX * 47.5}px`,
-          top: `${GRID_WIDTH_PX * 1.2}px`,
-        }}
-        id={Section.Observatory}
-        className="absolute"
-        src={observatory}
-        alt="Observatory"
-      />
-    )}
+    {state.inventory["Observatory"] && <Observatory />}
 
     {state.inventory["Mysterious Head"] && (
       <img
@@ -785,7 +337,7 @@ export const Decorations: React.FC<Props> = ({ state }) => (
       />
     )}
 
-    {state.inventory["Wicker Man"] && <WickerManAnimation />}
+    {state.inventory["Wicker Man"] && <WickerMan />}
 
     {/* Moles */}
 
