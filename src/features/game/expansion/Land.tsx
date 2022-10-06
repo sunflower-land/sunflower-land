@@ -252,19 +252,28 @@ export const Land: React.FC = () => {
           });
         })}
 
-        {getKeys(chickens).flatMap((index) => {
-          const chicken = chickens[index];
-          const { x, y } = chicken.coordinates as Coordinates;
-          const { width, height } = ANIMAL_DIMENSIONS.Chicken;
+        {getKeys(chickens)
+          // Only show placed chickens (V1 may have ones without coords)
+          .filter((index) => chickens[index].coordinates)
+          .flatMap((index) => {
+            const chicken = chickens[index];
+            const { x, y } = chicken.coordinates as Coordinates;
+            const { width, height } = ANIMAL_DIMENSIONS.Chicken;
 
-          return (
-            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
-              <div className="flex relative justify-center w-full h-full">
-                <Chicken index={index} />
-              </div>
-            </MapPlacement>
-          );
-        })}
+            return (
+              <MapPlacement
+                key={index}
+                x={x}
+                y={y}
+                height={height}
+                width={width}
+              >
+                <div className="flex relative justify-center w-full h-full">
+                  <Chicken index={index} />
+                </div>
+              </MapPlacement>
+            );
+          })}
       </div>
     </div>
   );

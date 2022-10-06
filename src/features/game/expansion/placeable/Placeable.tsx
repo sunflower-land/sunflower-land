@@ -75,6 +75,8 @@ export const Placeable: React.FC = () => {
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
 
+  // TODO - figure out new effect that can be applied on non-images
+
   // if (machine.matches("placed")) {
   //   return (
   //     <div className="absolute left-1/2 top-1/2">
@@ -140,22 +142,12 @@ export const Placeable: React.FC = () => {
             className=" w-full h-full relative img-highlight pointer-events-none"
             style={{
               zIndex: 100 + coordinates.y + 1,
+              width: `${width * GRID_WIDTH_PX}px`,
+              height: `${height * GRID_WIDTH_PX}px`,
             }}
           >
             {PLACEABLES[placeable]({})}
           </div>
-          {/* <img
-            draggable="false"
-            className="img-highlight"
-            style={{
-              height: imageDimensions.height * PIXEL_SCALE,
-              width: imageDimensions.width * PIXEL_SCALE,
-              zIndex: 100 + coordinates.y + 1,
-            }}
-            src={image}
-            alt={placeable}
-            onLoad={handleImageLoad}
-          /> */}
         </div>
       </Draggable>
     </div>

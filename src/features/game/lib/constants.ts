@@ -471,6 +471,7 @@ export const INITIAL_FARM: GameState = {
     "Trading Ticket": new Decimal(50),
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
+    "Mysterious Head": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,

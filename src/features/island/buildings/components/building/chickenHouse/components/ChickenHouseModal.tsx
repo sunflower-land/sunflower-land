@@ -7,7 +7,7 @@ import boxChicken from "assets/animals/chickens/box_chicken.png";
 
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { ANIMALS } from "features/game/types/craftables";
+import { ANIMALS, getKeys } from "features/game/types/craftables";
 import token from "assets/icons/token_2.png";
 import { Box } from "components/ui/Box";
 import classNames from "classnames";
@@ -23,11 +23,6 @@ interface Props {
   onClose: () => void;
 }
 
-type ChickenStatus = "empty" | "feeding" | "idle";
-type ChickenBox = {
-  status: ChickenStatus;
-  id: string;
-};
 export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
   const { gameService, shortcutItem } = useContext(Context);
 
@@ -41,10 +36,13 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
   const inventory = state.inventory;
 
   const chickenCount = inventory.Chicken || new Decimal(0);
-  const placedChickenCount = Object.keys(state.chickens).length;
+
+  // V1 may have ones without coords
+  const placedChickenCount = getKeys(state.chickens).filter(
+    (index) => state.chickens[index].coordinates
+  ).length;
 
   console.log({ chickenCount: chickenCount.toNumber() });
-  // const [selectedIndex, setSelectedIndex] = useState(chickenCount.toNumber());
   const [selectedIndex, setSelectedIndex] = useState(placedChickenCount);
 
   const price = getBuyPrice(ANIMALS()["Chicken"], inventory);
@@ -201,8 +199,6 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
                     key={index}
                     onClick={() => setSelectedIndex(index)}
                     image={boxImage}
-                    // secondaryImage={icon}
-                    // count={null}
                     disabled={chickenCount.lt(index)}
                   />
                 );
@@ -216,8 +212,6 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
                 Build an extra coop to farm more chickens
               </p>
             )}
-
-            {/* <Button className="text-sm">Buy Chicken</Button> */}
           </div>
           <OuterPanel className="flex-1 w-1/3">{Details()}</OuterPanel>
         </div>

@@ -1,3 +1,4 @@
+import { getKeys } from "features/game/types/craftables";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 
@@ -27,8 +28,9 @@ export function placeChicken({
     throw new Error("You do not have a Bumpkin");
   }
 
-  const placedChickens = Object.keys(stateCopy.chickens).length;
-
+  const placedChickens = getKeys(stateCopy.chickens).filter(
+    (index) => stateCopy.chickens[index].coordinates
+  ).length;
   if (stateCopy.inventory.Chicken?.lte(placedChickens)) {
     throw new Error("You do not have any available chickens");
   }
