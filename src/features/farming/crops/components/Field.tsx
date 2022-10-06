@@ -69,10 +69,7 @@ export const Field: React.FC<Props> = ({
   const onCollectReward = () => {
     setReward(null);
     setTouchCount(0);
-
-    gameService.send("item.harvested", {
-      index: fieldIndex,
-    });
+    harvestCrop();
   };
 
   const removeCrop = () => {
@@ -85,6 +82,21 @@ export const Field: React.FC<Props> = ({
       fieldIndex,
     });
     setIsRemoving(false);
+  };
+
+  const harvestCrop = () => {
+    gameService.send("item.harvested", {
+      index: fieldIndex,
+    });
+
+    harvestAudio.play();
+
+    displayPopover(
+      <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
+        <img src={ITEM_DETAILS[field.name].image} className="w-4 mr-1" />
+        <span>{`+${field.multiplier || 1}`}</span>
+      </div>
+    );
   };
 
   const handleMouseHover = () => {
@@ -189,18 +201,7 @@ export const Field: React.FC<Props> = ({
     }
 
     try {
-      gameService.send("item.harvested", {
-        index: fieldIndex,
-      });
-
-      harvestAudio.play();
-
-      displayPopover(
-        <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
-          <img src={ITEM_DETAILS[field.name].image} className="w-4 mr-1" />
-          <span>{`+${field.multiplier || 1}`}</span>
-        </div>
-      );
+      harvestCrop();
     } catch (e: any) {
       // TODO - catch more elaborate errors
       displayPopover(<img className="w-5" src={cancel} />);
