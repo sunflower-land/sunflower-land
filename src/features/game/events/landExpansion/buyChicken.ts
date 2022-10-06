@@ -1,11 +1,8 @@
 import Decimal from "decimal.js-light";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { ANIMALS } from "features/game/types/craftables";
-import { RandomID } from "lib/images";
 import cloneDeep from "lodash.clonedeep";
-import { BuildingName, BUILDINGS } from "../../types/buildings";
-import { GameState, PlacedItem } from "../../types/game";
+import { GameState } from "../../types/game";
 
 export type BuyChickenAction = {
   type: "chicken.bought";
@@ -39,11 +36,15 @@ export function buyChicken({
     throw new Error("Insufficient SFL");
   }
 
-  // TODO check capacitiy
+  const previousChickens = stateCopy.inventory.Chicken || new Decimal(0);
 
-  bumpkin.activity = trackActivity(`Building Constructed`, bumpkin.activity);
+  const chickenHouses = stateCopy.buildings["Chicken House"]?.length ?? 0;
+  const supportedChickens = chickenHouses * 10;
+  if (previousChickens.gte(supportedChickens)) {
+    throw new Error("Insufficient space for more chickens");
+  }
 
-  const id = Object.keys(stateCopy.chickens).length + 1;
+  const id = Object.keys(stateCopy.chickens).length;
 
   const chickens: GameState["chickens"] = {
     ...stateCopy.chickens,
@@ -52,8 +53,9 @@ export function buyChicken({
       coordinates: action.coordinates,
     },
   };
-  console.log({ chickens });
-  const previousChickens = stateCopy.inventory.Chicken || new Decimal(0);
+
+  bumpkin.activity = trackActivity("Chicken Bought", bumpkin.activity);
+  bumpkin.activity = trackActivity("SFL Spent", bumpkin.activity, price);
   return {
     ...stateCopy,
     balance: stateCopy.balance.sub(price),
