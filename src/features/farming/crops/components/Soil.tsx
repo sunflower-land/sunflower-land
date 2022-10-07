@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 import classNames from "classnames";
 import soil from "assets/land/soil2.png";
@@ -30,17 +30,11 @@ const Ready: React.FC<{ image: string; className: string }> = ({
 }) => {
   const id = useRef(RandomID());
 
-  useEffect(() => {
-    // Randomly add some noise to the crops
-    if (Math.random() > 0.8) {
-      addNoise(id.current, 0.15);
-    }
-  }, []);
-
   return (
     <img
       id={id.current}
       src={image}
+      onLoad={() => addNoise(id.current, 0.1)}
       className={classnames("w-full", className)}
     />
   );

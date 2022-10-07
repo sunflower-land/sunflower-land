@@ -32,7 +32,21 @@ type Item = {
 
 const GOBLINS = [goblin1, goblin2, goblin3, goblin4, goblin5, goblin6, goblin7];
 
-function generateImages() {
+const generateImages = () => {
+  const newImageItem = (src: any, isGoblin: boolean): Item => {
+    return {
+      src: src,
+      id: RandomID(),
+      isGoblin: isGoblin,
+      rotation: {
+        x: randomInt(-25, 26),
+        y: randomInt(-25, 26),
+      },
+      skew: randomInt(-5, 6),
+      scale: randomDouble(1.0, 1.2),
+    };
+  };
+
   const items: Item[] = [];
   const cropImages = getKeys(CROPS());
   const availableCropImages = cropImages.map(
@@ -49,27 +63,10 @@ function generateImages() {
     items.push(newImageItem(availableCropImages[randomIndex], false));
   }
 
-  // Shuffle
+  // shuffle positions
   const shuffled = items.sort(() => 0.5 - Math.random());
   return shuffled;
-
-  function newImageItem(src: any, isGoblin: boolean): Item {
-    const id = RandomID();
-    addNoise(id);
-
-    return {
-      src: src,
-      id: id,
-      isGoblin: isGoblin,
-      rotation: {
-        x: randomInt(-25, 26),
-        y: randomInt(-25, 26),
-      },
-      skew: randomInt(-5, 6),
-      scale: randomDouble(1.0, 1.2),
-    };
-  }
-}
+};
 
 interface Props {
   onOpen: () => void;
@@ -127,6 +124,7 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
                   src={item.src}
                   id={item.id}
                   className="h-full object-contain"
+                  onLoad={() => addNoise(item.id)}
                   style={{
                     transform: `perspective(9cm) skew(${item.skew}deg, ${item.skew}deg) rotateX(${item.rotation.x}deg) rotateY(${item.rotation.y}deg) scale(${item.scale})`,
                   }}

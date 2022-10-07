@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import background1 from "assets/captcha/chest_background_1.png";
 import background2 from "assets/captcha/chest_background_2.png";
@@ -45,11 +45,6 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
   const backgroundId = useRef(RandomID());
   const chestId = useRef(RandomID());
 
-  useLayoutEffect(() => {
-    addNoise(backgroundId.current, 0.05);
-    addNoise(chestId.current);
-  }, []);
-
   const miss = () => {
     setFailedCount((prev) => prev + 1);
 
@@ -67,6 +62,7 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
         <img
           src={background.current}
           id={backgroundId.current}
+          onLoad={() => addNoise(backgroundId.current, 0.05)}
           className="w-full rounded-md"
         />
         <img
@@ -82,6 +78,7 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
               ? { left: `${offsetX.current}%` }
               : { right: `${offsetX.current}%` }),
           }}
+          onLoad={() => addNoise(chestId.current)}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
