@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import sharkRight from "assets/animals/shark-right.gif";
 import sharkLeft from "assets/animals/shark-left.gif";
-import { randomBetweenMaxInclusive } from "../../lib/randomBetweenMaxInclusive";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { randomIntMaxInclusive } from "lib/utils/random";
 
 const blankPng =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
 const imageSources = [sharkLeft, blankPng, sharkRight, blankPng];
 
 const getSharkPosition = () => {
-  const randomLeft = randomBetweenMaxInclusive(0, 73);
-  const randomTop = randomBetweenMaxInclusive(0, 90);
+  const randomLeft = randomIntMaxInclusive(0, 73);
+  const randomTop = randomIntMaxInclusive(0, 90);
   return { top: randomTop, left: randomLeft };
 };
 
@@ -40,7 +40,7 @@ const Shark: React.FC<Props> = ({ side }) => {
   useEffect(() => {
     timer.current = setInterval(
       renderSharkPosition,
-      randomBetweenMaxInclusive(60000, 90000)
+      randomIntMaxInclusive(60000, 90000)
     );
 
     return () => clearInterval(timer.current);

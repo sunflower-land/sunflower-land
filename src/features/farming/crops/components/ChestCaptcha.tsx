@@ -1,33 +1,42 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 
-import background from "assets/captcha/chest_background_2.png";
-import background2 from "assets/captcha/chest_background_3.png";
+import background1 from "assets/captcha/chest_background_1.png";
+import background2 from "assets/captcha/chest_background_2.png";
+import background3 from "assets/captcha/chest_background_3.png";
+import background4 from "assets/captcha/chest_background_4.png";
 
 import secure from "assets/npcs/synced.gif";
 import cancel from "assets/icons/cancel.png";
 
 import { addNoise, RandomID } from "lib/images";
+import { randomDouble, randomIntMaxInclusive } from "lib/utils/random";
 
 interface Props {
   onOpen: () => void;
   onFail: () => void;
 }
 
-function randomIntFromInterval(min: number, max: number) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
 const ATTEMPTS = 3;
+
+const backgrounds = [background1, background2, background3, background4];
 
 export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
   const [failedCount, setFailedCount] = useState(0);
-  const offset = useRef(randomIntFromInterval(0, 80));
-  const skew = useRef(randomIntFromInterval(-3, 3));
-  const id = useRef(RandomID());
+  const offsetX = useRef(randomIntMaxInclusive(0, 40));
+  const offsetY = useRef(randomIntMaxInclusive(0, 40));
+  const isChestOnLeft = useRef(Math.random() < 0.5);
+  const isChestOnTop = useRef(Math.random() < 0.5);
+  const skew = useRef(randomIntMaxInclusive(-5, 5));
+  const scale = useRef(randomDouble(0.7, 1));
+  const background = useRef(
+    backgrounds[Math.floor(Math.random() * backgrounds.length)]
+  );
+  const backgroundId = useRef(RandomID());
+  const chestId = useRef(RandomID());
 
   useLayoutEffect(() => {
-    addNoise(id.current);
+    addNoise(backgroundId.current, 0.05);
+    addNoise(chestId.current);
   }, []);
 
   const miss = () => {
@@ -40,24 +49,30 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
 
   return (
     <div
-      className="flex flex-col items-center justify-betweenh-full w-full"
+      className="flex flex-col items-center justify-between w-full cursor-pointer"
       onClick={miss}
     >
-      <div className="flex items-center  py-4 w-full relative overflow-hidden rounded-md px-4">
+      <div className="relative w-full rounded-md">
         <img
-          // Alternate between backgrounds
-          src={skew.current > 0 ? background : background2}
-          className="w-full absolute inset-0"
+          src={background.current}
+          id={backgroundId.current}
+          className="w-full"
         />
         <img
           src={secure}
-          id={id.current}
-          className="w-16 hover:img-highlight cursor-pointer"
+          id={chestId.current}
+          className="absolute w-16"
           style={{
-            transform: `perspective(9cm) skew(${skew.current}deg, ${skew.current}deg) rotateX(${skew.current}deg) rotateY(${skew.current}deg)`,
-            marginLeft: `${offset.current}%`,
+            transform: `skew(${skew.current}deg, ${skew.current}deg) rotateX(${skew.current}deg) rotateY(${skew.current}deg) scale(${scale.current})`,
+            ...(isChestOnTop.current
+              ? { top: `${offsetY.current}%` }
+              : { bottom: `${offsetY.current}%` }),
+            ...(isChestOnLeft.current
+              ? { left: `${offsetX.current}%` }
+              : { right: `${offsetX.current}%` }),
           }}
           onClick={(e) => {
+            e.stopPropagation();
             e.preventDefault();
             onOpen();
           }}

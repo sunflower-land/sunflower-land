@@ -1,4 +1,5 @@
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
+import { randomIntMaxInclusive } from "lib/utils/random";
 import { assign, createMachine, Interpreter, State } from "xstate";
 
 export interface ChickenContext {
@@ -40,12 +41,9 @@ export type MachineInterpreter = Interpreter<
   ChickenState
 >;
 
-function getRndInteger(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 const assignRandomTimeInState = assign<ChickenContext, any>({
-  timeInCurrentState: (context) => context.timeElapsed + getRndInteger(7, 21),
+  timeInCurrentState: (context) =>
+    context.timeElapsed + randomIntMaxInclusive(7, 21),
 });
 
 const reset = assign<ChickenContext, any>({
