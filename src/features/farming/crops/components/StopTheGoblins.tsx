@@ -101,9 +101,10 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
       return;
     }
 
-    setWrongAttempts((prev) => new Set([...prev, index]));
+    const _wrongAttempts = new Set([...wrongAttempts, index]);
+    setWrongAttempts(_wrongAttempts);
 
-    if (attemptsLeft <= 1) {
+    if (_wrongAttempts.size >= MAX_ATTEMPTS) {
       onFail();
     }
   };
