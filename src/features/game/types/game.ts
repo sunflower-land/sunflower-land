@@ -173,6 +173,19 @@ export type WarCollectionOffer = {
   }[];
 };
 
+export type GrubShopOrder = {
+  id: string;
+  name: ConsumableName;
+  sfl: Decimal;
+};
+
+// TODO - we need to store the opening and closing times for the shop
+export type GrubShop = {
+  opensAt: number;
+  closesAt: number;
+  orders: GrubShopOrder[];
+};
+
 export type Position = {
   x: number;
   y: number;
@@ -293,6 +306,11 @@ export interface GameState {
   bumpkin?: Bumpkin;
   buildings: Buildings;
   collectibles: Collectibles;
+  grubShop?: GrubShop;
+  grubOrdersFulfilled?: {
+    id: string;
+    fulfilledAt: number;
+  }[];
 }
 
 export interface Context {

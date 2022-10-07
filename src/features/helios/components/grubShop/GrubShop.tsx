@@ -16,7 +16,7 @@ export const GrubShop: React.FC = () => {
     },
   ] = useActor(gameService);
 
-  const [showModal, setShowModal] = React.useState(true);
+  const [showModal, setShowModal] = React.useState(false);
 
   const openModal = () => {
     setShowModal(true);

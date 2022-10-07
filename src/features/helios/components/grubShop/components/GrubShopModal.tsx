@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import close from "assets/icons/close.png";
+import confirm from "assets/icons/confirm.png";
 import token from "assets/icons/token_2.png";
 import questionMark from "assets/icons/expression_confused.png";
 import grubShopIcon from "assets/bumpkins/small/hats/chef_hat.png";
@@ -9,79 +10,17 @@ import stopwatch from "assets/icons/stopwatch.png";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { Box } from "components/ui/Box";
-import { ConsumableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
-import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { secondsToString } from "lib/utils/time";
+import { GrubShop } from "features/game/types/game";
 
 interface Props {
   onClose: () => void;
 }
 
-export type GrubShopOrder = {
-  id: string;
-  name: ConsumableName;
-  sfl: Decimal;
-};
-
-// TODO - we need to store the opening and closing times for the shop
-export type GrubShop = {
-  opensAt: number;
-  closesAt: number;
-  orders: GrubShopOrder[];
-};
-
-const ORDERS: GrubShopOrder[] = [
-  {
-    id: "asdj123",
-    name: "Boiled Egg",
-    sfl: new Decimal(10),
-  },
-  {
-    id: "asdasd",
-    name: "Beetroot Cake",
-    sfl: new Decimal(20),
-  },
-  {
-    id: "3",
-    name: "Sunflower Cake",
-    sfl: new Decimal(20),
-  },
-  {
-    id: "4",
-    name: "Bumpkin Broth",
-    sfl: new Decimal(20),
-  },
-  {
-    id: "5",
-    name: "Mashed Potato",
-    sfl: new Decimal(20),
-  },
-  {
-    id: "6",
-    name: "Wheat Cake",
-    sfl: new Decimal(20),
-  },
-  {
-    id: "7",
-    name: "Pumpkin Soup",
-    sfl: new Decimal(20),
-  },
-  {
-    id: "8",
-    name: "Mashed Potato",
-    sfl: new Decimal(20),
-  },
-];
-
-const GRUB_SHOP: GrubShop = {
-  opensAt: new Date("2022-10-05").getTime(),
-  closesAt: new Date("2022-10-08").getTime(),
-  orders: ORDERS,
-};
 export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [
@@ -90,14 +29,35 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
-  const [selectedId, setSelectedId] = useState<string>(GRUB_SHOP.orders[0].id);
+  const grubShop = state.grubShop as GrubShop;
+  const [selectedId, setSelectedId] = useState<string>(
+    grubShop.orders[0].id || ""
+  );
 
-  const selected = ORDERS.find((order) => order.id === selectedId);
+  const selected = grubShop.orders.find((order) => order.id === selectedId);
 
-  const secondsLeft = (GRUB_SHOP.closesAt - Date.now()) / 1000;
+  const secondsLeft = (grubShop.closesAt - Date.now()) / 1000;
+
+  const handleSell = () => {
+    gameService.send("grubOrder.fulfilled", {
+      id: selectedId,
+    });
+
+    // Show the SFL they gained in a toast
+  };
+
+  const selectedFulFilled = !!state.grubOrdersFulfilled?.find(
+    (order) => order.id === selectedId
+  );
+
+  const fulFilledOrders = grubShop.orders.filter((order) =>
+    state.grubOrdersFulfilled?.find((fulfilled) => fulfilled.id === order.id)
+  );
+
+  const hiddenPositionStart = 3 + fulFilledOrders.length;
 
   const Content = () => {
-    const isClosed = GRUB_SHOP.closesAt < Date.now();
+    const isClosed = grubShop.closesAt < Date.now();
     if (isClosed) {
       return (
         <div className="text-center">
@@ -118,18 +78,33 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
         >
           <div className="flex">
             <div className="w-3/5 flex flex-wrap h-fit">
-              {Object.values(GRUB_SHOP.orders).map((item, index) => (
-                <Box
-                  isSelected={selectedId === item.id}
-                  key={item.name}
-                  onClick={() => setSelectedId(item.id)}
-                  image={
-                    index <= 3 ? ITEM_DETAILS[item.name].image : questionMark
-                  }
-                  disabled={index > 3}
-                  count={state.inventory[item.name]}
-                />
-              ))}
+              {Object.values(grubShop.orders).map((item, index) => {
+                const isFulfilled = !!state.grubOrdersFulfilled?.find(
+                  (order) => order.id === item.id
+                );
+                return (
+                  <Box
+                    isSelected={selectedId === item.id}
+                    key={item.name}
+                    onClick={() => setSelectedId(item.id)}
+                    image={
+                      index <= hiddenPositionStart
+                        ? ITEM_DETAILS[item.name].image
+                        : questionMark
+                    }
+                    overlayIcon={
+                      <img id="confirm" src={confirm} className="h-6" />
+                    }
+                    showOverlay={isFulfilled}
+                    disabled={index > hiddenPositionStart}
+                    count={
+                      index <= hiddenPositionStart
+                        ? state.inventory[item.name]
+                        : undefined
+                    }
+                  />
+                );
+              })}
             </div>
             {selected && (
               <OuterPanel className="flex-1 w-1/3 relative">
@@ -163,13 +138,22 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                       </span>
                     </div>
                   </div>
-                  <Button
-                    disabled={!state.inventory[selected.name]}
-                    className="text-xs mt-1"
-                    onClick={console.log}
-                  >
-                    Sell
-                  </Button>
+                  {selectedFulFilled ? (
+                    <span className="text-center text-xs mt-2">
+                      Order fulfilled
+                    </span>
+                  ) : (
+                    <Button
+                      disabled={
+                        !state.inventory[selected.name] ||
+                        state.inventory[selected.name]?.lt(1)
+                      }
+                      className="text-xs mt-1"
+                      onClick={handleSell}
+                    >
+                      Sell
+                    </Button>
+                  )}
                 </div>
               </OuterPanel>
             )}
