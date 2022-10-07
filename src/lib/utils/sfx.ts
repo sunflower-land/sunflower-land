@@ -19,7 +19,7 @@ import barnMp3 from "../../assets/sound-effects/barn.mp3";
 import battleMp3 from "../../assets/sound-effects/battle.mp3";
 import diaryMp3 from "../../assets/sound-effects/diary.mp3";
 import fountainMp3 from "../../assets/sound-effects/fountain.mp3";
-import melonDuskMp3 from "../../assets/sound-effects/SFL_in_Space.mp3";
+import observatoryAnimationMp3 from "../../assets/sound-effects/mom_observatory_animation_sounds.mp3";
 import merchantMp3 from "../../assets/sound-effects/merchant.mp3";
 import fireCracklingMp3 from "../../assets/sound-effects/fire-crackling.mp3";
 import warChantMp3 from "../../assets/sound-effects/war_chant.mp3";
@@ -119,9 +119,10 @@ export const fountainAudio = new Howl({
   volume: 0.2,
 });
 
-export const melonDuskAudio = new Howl({
-  src: [melonDuskMp3],
+export const observatoryAnimationAudio = new Howl({
+  src: [observatoryAnimationMp3],
   volume: 0.5,
+  loop: true,
 });
 
 export const merchantAudio = new Howl({

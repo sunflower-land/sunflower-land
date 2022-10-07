@@ -57,7 +57,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const isBlacklisted = !!authState.context.isBlacklisted;
+  const isBlacklisted = authState.context.blacklistStatus !== "OK";
 
   if (isBlacklisted) {
     return (

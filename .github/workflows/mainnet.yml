@@ -38,7 +38,6 @@ jobs:
           VITE_TOKEN_CONTRACT: "0xD1f9c58e33933a993A3891F8acFe05a68E1afC05"
           VITE_WISHING_WELL_CONTRACT: "0x24d32a94fA91d4C99f994622AF30Eb16bf76AEAC"
           VITE_PAIR_CONTRACT: "0x6f9e92dd4734c168a734b873dc3db77e39552eb6"
-          VITE_MOM_CONTRACT: "0xE26c7646b5661301714cD6F55ea2bb8FEc7B4926"
           VITE_DISCORD_REDIRECT: "https://sunflower-land.com/play/"
           VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
           VITE_RELEASE_VERSION: ${{ steps.get_version.outputs.VERSION }}

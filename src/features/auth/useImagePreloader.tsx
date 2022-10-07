@@ -14,7 +14,6 @@ import goblinLandBackground from "assets/land/goblin_background.png";
 import waterBackground from "assets/land/water-background.png";
 import farm from "assets/brand/nft.png";
 import secure from "assets/npcs/synced.gif";
-import brokenRocket from "assets/mom/mom_broken_rocket.gif";
 import hungryChicken from "assets/animals/chickens/hungry.gif";
 import happyChicken from "assets/animals/chickens/happy.gif";
 import walkingChicken from "assets/animals/chickens/walking.gif";
@@ -41,7 +40,6 @@ const IMAGE_LIST: string[] = [
   goblinTailor,
   goblinBank,
   secure,
-  brokenRocket,
   hungryChicken,
   happyChicken,
   walkingChicken,

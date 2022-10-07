@@ -8,8 +8,13 @@ import * as AuthProvider from "features/auth/lib/Provider";
 
 interface Props {
   verificationUrl?: string;
+  blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
 }
-export const Blacklisted: React.FC<Props> = ({ verificationUrl }) => {
+
+export const Blacklisted: React.FC<Props> = ({
+  verificationUrl,
+  blacklistStatus,
+}) => {
   const { authService } = useContext(AuthProvider.Context);
   const [showWarning, setShowWarning] = useState(false);
 
@@ -30,6 +35,54 @@ export const Blacklisted: React.FC<Props> = ({ verificationUrl }) => {
             }}
           >
             Continue
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (blacklistStatus === "REJECTED") {
+    return (
+      <div className="flex flex-col items-center p-2">
+        <span className="text-center">Uh oh!</span>
+        <img src={suspiciousGoblin} className="w-16 mt-2" />
+        <span className="text-sm mt-2 mb-2">
+          You failed the Jigger Proof of Humanity.
+        </span>
+        <span className="text-sm mt-2 mb-2">
+          You can continue playing, but some actions will be restricted while
+          you are being verified.
+        </span>
+        <span className="text-sm mt-2 mb-2">
+          Please reach out to support@usejigger.com if you beleive this was a
+          mistake.
+        </span>
+        <div className="flex w-full">
+          <Button className="mr-2" onClick={() => authService.send("SKIP")}>
+            Skip
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (blacklistStatus === "PENDING") {
+    return (
+      <div className="flex flex-col items-center p-2">
+        <span className="text-center">Uh oh!</span>
+        <img src={suspiciousGoblin} className="w-16 mt-2" />
+        <span className="text-sm mt-2 mb-2">
+          Your proof of humanity is still being processed by Jigger. This can
+          take up to 2 hours.
+        </span>
+        <span className="text-sm mt-2 mb-2">
+          You can continue playing, but some actions will be restricted while
+          you are being verified.
+        </span>
+        <span className="text-sm mt-2 mb-2">Thank you for your patience.</span>
+        <div className="flex w-full">
+          <Button className="mr-2" onClick={() => authService.send("SKIP")}>
+            Skip
           </Button>
         </div>
       </div>

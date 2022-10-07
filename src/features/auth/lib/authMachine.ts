@@ -30,7 +30,7 @@ type Farm = {
   farmId: number;
   address: string;
   createdAt: number;
-  isBlacklisted: boolean;
+  blacklistStatus: "OK" | "VERIFY" | "PENDING" | "REJECTED";
   verificationUrl?: string;
 };
 
@@ -42,7 +42,7 @@ export interface Context {
   token?: Token;
   rawToken?: string;
   captcha?: string;
-  isBlacklisted?: boolean;
+  blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
   verificationUrl?: string;
 }
 
@@ -368,7 +368,7 @@ export const authMachine = createMachine<
             on: {
               START_GAME: [
                 {
-                  cond: (context) => !!context.isBlacklisted,
+                  cond: (context) => context.blacklistStatus !== "OK",
                   target: "blacklisted",
                 },
                 {
@@ -461,7 +461,7 @@ export const authMachine = createMachine<
           onDone: [
             {
               target: "blacklisted",
-              cond: (context) => !!context.isBlacklisted,
+              cond: (context) => context.blacklistStatus !== "OK",
               actions: "assignFarm",
             },
             {
@@ -531,17 +531,16 @@ export const authMachine = createMachine<
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
         const farmAccount = farmAccounts[0];
 
-        const { isBanned, verificationUrl } = await loadBanDetails(
+        const { verificationUrl, botStatus } = await loadBanDetails(
           farmAccount.tokenId,
           context.rawToken as string
         );
-        console.log({ isBanned });
 
         return {
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           createdAt,
-          isBlacklisted: isBanned,
+          blacklistStatus: botStatus ?? "OK",
           verificationUrl,
         };
       },
@@ -586,7 +585,7 @@ export const authMachine = createMachine<
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           createdAt: 0,
-          isBlacklisted,
+          blacklistStatus: isBlacklisted ? "REJECTED" : "OK",
         };
       },
     },
@@ -594,7 +593,7 @@ export const authMachine = createMachine<
       assignFarm: assign<Context, any>({
         farmId: (_context, event) => event.data.farmId,
         address: (_context, event) => event.data.address,
-        isBlacklisted: (_context, event) => event.data.isBlacklisted,
+        blacklistStatus: (_context, event) => event.data.blacklistStatus,
         verificationUrl: (_context, event) => event.data.verificationUrl,
       }),
       assignToken: assign<Context, any>({

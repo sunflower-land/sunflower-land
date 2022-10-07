@@ -9,6 +9,7 @@ import timer from "assets/icons/timer.png";
 import cancel from "assets/icons/cancel.png";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { shortenCount } from "lib/utils/formatNumber";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 export interface BoxProps {
   hideCount?: boolean;
@@ -47,6 +48,7 @@ export const Box: React.FC<BoxProps> = ({
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [shortCount, setShortCount] = useState("");
+  const [isMobile] = useIsMobile();
 
   // re execute function on count change
   useEffect(() => setShortCount(shortenCount(count)), [count]);
@@ -69,7 +71,7 @@ export const Box: React.FC<BoxProps> = ({
   return (
     <div
       className={`relative ${className}`}
-      onMouseEnter={() => setIsHover(true)}
+      onMouseEnter={() => setIsHover(!isMobile)}
       onMouseLeave={() => setIsHover(false)}
     >
       <div
