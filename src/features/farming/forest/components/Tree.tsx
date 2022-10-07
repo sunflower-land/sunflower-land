@@ -74,8 +74,21 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
   const tree = game.context.state.trees[treeIndex];
 
-  // Users will need to refresh to chop the tree again
   const chopped = !canChop(tree);
+
+  const [_, setTimer] = React.useState<number>(0);
+  const setRecoveryTime = React.useCallback(() => {
+    setTimer((count) => count + 1);
+  }, []);
+
+  // refresh every second
+  useEffect(() => {
+    if (chopped) {
+      setRecoveryTime();
+      const interval = window.setInterval(setRecoveryTime, 1000);
+      return () => window.clearInterval(interval);
+    }
+  }, [chopped, setRecoveryTime]);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -271,7 +284,13 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
             onMouseEnter={handleMouseHoverStump}
             onMouseLeave={handleMouseLeaveStump}
           />
-          <div className="absolute -bottom-4 left-1.5">
+          <div
+            className="absolute"
+            style={{
+              top: "97px",
+              left: "12px",
+            }}
+          >
             <ProgressBar percentage={percentage} seconds={timeLeft} />
           </div>
           <TimeLeftPanel

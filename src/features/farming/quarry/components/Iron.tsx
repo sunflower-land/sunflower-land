@@ -34,7 +34,6 @@ interface Props {
 
 export const Iron: React.FC<Props> = ({ rockIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(true);
@@ -53,9 +52,22 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
 
   const tool = "Stone Pickaxe";
   const rock = game.context.state.iron[rockIndex];
-  // Users will need to refresh to chop the tree again
   const mined = !canMine(rock);
   const { setToast } = useContext(ToastContext);
+
+  const [_, setTimer] = React.useState<number>(0);
+  const setRecoveryTime = React.useCallback(() => {
+    setTimer((count) => count + 1);
+  }, []);
+
+  // refresh every second
+  useEffect(() => {
+    if (mined) {
+      setRecoveryTime();
+      const interval = window.setInterval(setRecoveryTime, 1000);
+      return () => window.clearInterval(interval);
+    }
+  }, [mined, setRecoveryTime]);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -288,7 +300,7 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
             className="absolute"
             style={{
               top: "96px",
-              left: "29px",
+              left: "33px",
             }}
           >
             <ProgressBar percentage={percentage} seconds={timeLeft} />

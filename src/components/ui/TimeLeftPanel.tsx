@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { InnerPanel } from "components/ui/Panel";
 import { secondsToMidString } from "lib/utils/time";
 import classNames from "classnames";
@@ -14,23 +14,17 @@ export const TimeLeftPanel: React.FC<Props> = ({
   showTimeLeft = false,
   timeLeft,
 }) => {
-  const [time, setTime] = useState(secondsToMidString(timeLeft));
+  const [_, setTimer] = React.useState<number>(0);
+  const setRecoveryTime = React.useCallback(() => {
+    setTimer((count) => count + 1);
+  }, []);
 
+  // refresh every second
   useEffect(() => {
-    const start = Date.now();
-    // start time interval
-    const interval = setInterval(() => {
-      const timeLeftNow = timeLeft - (Date.now() - start) / 1000;
-      setTime(secondsToMidString(timeLeftNow));
-
-      // clears interval if panel is not showing
-      if (timeLeftNow <= 0 || !showTimeLeft) {
-        clearInterval(interval);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [showTimeLeft, timeLeft]);
+    setRecoveryTime();
+    const interval = window.setInterval(setRecoveryTime, 1000);
+    return () => window.clearInterval(interval);
+  }, [setRecoveryTime]);
 
   return (
     <InnerPanel
@@ -44,7 +38,7 @@ export const TimeLeftPanel: React.FC<Props> = ({
     >
       <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
         <span className="flex-1">{text}</span>
-        <span className="flex-1">{time}</span>
+        <span className="flex-1">{secondsToMidString(timeLeft)}</span>
       </div>
     </InnerPanel>
   );

@@ -7,13 +7,13 @@ import {
   PlacedItem as IBuilding,
 } from "features/game/types/game";
 import { FirePit } from "./FirePit";
-import { TimeLeftOverlay } from "components/ui/TimeLeftOverlay";
 import { Bar } from "components/ui/ProgressBar";
 import { WithCraftingMachine } from "./WithCraftingMachine";
 import { Market } from "./market/Market";
 import { Blacksmith } from "./blacksmith/Blacksmith";
 import { Tent } from "./tent/Tent";
 import { WaterWell } from "./waterWell/WaterWell";
+import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 interface Prop {
   name: BuildingName;
@@ -77,8 +77,8 @@ export const Building: React.FC<Prop> = ({
           </div>
         </div>
         {overlayRef.current && (
-          <TimeLeftOverlay
-            target={overlayRef.current}
+          <TimeLeftPanel
+            text="Ready in:"
             timeLeft={secondsLeft}
             showTimeLeft={showTooltip}
           />

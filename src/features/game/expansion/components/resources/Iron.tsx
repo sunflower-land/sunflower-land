@@ -29,9 +29,9 @@ import {
   MINE_ERRORS,
 } from "features/game/events/landExpansion/ironMine";
 import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
-import { TimeLeftOverlay } from "components/ui/TimeLeftOverlay";
 import { Overlay } from "react-bootstrap";
 import { Label } from "components/ui/Label";
+import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -88,8 +88,21 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
     };
   }, []);
 
-  // Users will need to refresh to strike the iron again
   const mined = !canMine(ironRock);
+
+  const [_, setTimer] = React.useState<number>(0);
+  const setRecoveryTime = React.useCallback(() => {
+    setTimer((count) => count + 1);
+  }, []);
+
+  // refresh every second
+  useEffect(() => {
+    if (mined) {
+      setRecoveryTime();
+      const interval = window.setInterval(setRecoveryTime, 1000);
+      return () => window.clearInterval(interval);
+    }
+  }, [mined, setRecoveryTime]);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -312,8 +325,8 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
           }}
         >
           {overlayRef.current && (
-            <TimeLeftOverlay
-              target={overlayRef.current}
+            <TimeLeftPanel
+              text="Recovers in:"
               timeLeft={timeLeft}
               showTimeLeft={showIronTimeLeft}
             />

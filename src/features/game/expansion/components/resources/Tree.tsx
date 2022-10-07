@@ -94,8 +94,21 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     };
   }, []);
 
-  // Users will need to refresh to chop the tree again
   const chopped = !canChop(tree);
+
+  const [_, setTimer] = React.useState<number>(0);
+  const setRecoveryTime = React.useCallback(() => {
+    setTimer((count) => count + 1);
+  }, []);
+
+  // refresh every second
+  useEffect(() => {
+    if (chopped) {
+      setRecoveryTime();
+      const interval = window.setInterval(setRecoveryTime, 1000);
+      return () => window.clearInterval(interval);
+    }
+  }, [chopped, setRecoveryTime]);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
