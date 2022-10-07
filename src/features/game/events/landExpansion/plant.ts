@@ -5,6 +5,7 @@ import { GameState, Inventory, InventoryItemName } from "../../types/game";
 import { getPlantedAt, isSeed } from "../plant";
 import { PLANT_STAMINA_COST } from "features/game/lib/constants";
 import { replenishStamina } from "./replenishStamina";
+import { getKeys } from "features/game/types/craftables";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -18,6 +19,38 @@ type Options = {
   action: LandExpansionPlantAction;
   createdAt?: number;
 };
+
+type IsPlotFertile = {
+  plotIndex: number;
+  expansionIndex: number;
+  gameState: GameState;
+};
+export function isPlotFertile({
+  plotIndex,
+  expansionIndex,
+  gameState,
+}: IsPlotFertile): boolean {
+  // Get the well count
+  const wellCount = gameState.buildings["Water Well"]?.length ?? 0;
+  const cropsWellCanWater = wellCount * 10 + 10;
+
+  const cropPosition = gameState.expansions.reduce(
+    (count, expansion, index) => {
+      if (index < expansionIndex) {
+        return count + getKeys(expansion.plots || {}).length;
+      }
+
+      if (index === expansionIndex) {
+        return count + (plotIndex + 1);
+      }
+
+      return count;
+    },
+    0
+  );
+
+  return cropPosition <= cropsWellCanWater;
+}
 
 /**
  * Based on items, the output will be different
@@ -62,7 +95,7 @@ export function plant({
   });
 
   const stateCopy = cloneDeep(replenishedState);
-  const { expansions, bumpkin } = stateCopy;
+  const { expansions, bumpkin, inventory } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!expansion) {
@@ -75,6 +108,10 @@ export function plant({
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
+  }
+
+  if (!inventory["Water Well"]) {
+    throw new Error("Water Well does not exist");
   }
 
   if (bumpkin.stamina.value < PLANT_STAMINA_COST) {

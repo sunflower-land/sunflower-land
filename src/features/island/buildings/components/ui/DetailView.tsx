@@ -29,6 +29,7 @@ export const DetailView: React.FC<Props> = ({
   onBuild,
 }) => {
   const { bumpkin, inventory } = state;
+  const buildingLevels = BUILDINGS[building].unlocksAtLevels;
 
   const cantBuild = (building: BuildingName) => {
     const missingIngredients = BUILDINGS[building].ingredients.some(
@@ -45,6 +46,15 @@ export const DetailView: React.FC<Props> = ({
 
     return missingIngredients && missingBalance;
   };
+
+  const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
+  const showNextRequiredLevel = (nextLockedLevel: number): boolean => {
+    const nextLockedLevelIndex = buildingLevels.indexOf(nextLockedLevel);
+    const buildingsUserHas = inventory[building]?.toNumber() ?? 0;
+    return buildingsUserHas >= nextLockedLevelIndex;
+  };
+  const nextLockedLevel =
+    buildingLevels.find((level) => level > bumpkinLevel) ?? buildingLevels[0];
 
   return (
     <div className="flex">
@@ -128,15 +138,13 @@ export const DetailView: React.FC<Props> = ({
             </div>
           </div>
 
-          {!bumpkin ||
-          getBumpkinLevel(bumpkin.experience) <
-            BUILDINGS[building].levelRequired ? (
+          {!bumpkin || showNextRequiredLevel(nextLockedLevel) ? (
             <div className="flex items-center">
               <span
                 className="bg-error border text-xxs p-1 rounded-md"
                 style={{ lineHeight: "10px" }}
               >
-                Lvl {BUILDINGS[building].levelRequired} Required
+                Lvl {nextLockedLevel} Required
               </span>
 
               <img src={lock} className="h-4 ml-1" />

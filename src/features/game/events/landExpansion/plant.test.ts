@@ -2,13 +2,14 @@ import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { CROPS } from "features/game/types/crops";
 import {
+  GENESIS_LAND_EXPANSION,
   INITIAL_BUMPKIN,
   INITIAL_FARM,
   MAX_STAMINA,
   PLANT_STAMINA_COST,
 } from "../../lib/constants";
 import { GameState, LandExpansionPlot } from "../../types/game";
-import { plant } from "./plant";
+import { isPlotFertile, plant } from "./plant";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -19,9 +20,16 @@ const GAME_STATE: GameState = {
 
 describe("plant", () => {
   it("does not plant on a non existent expansion", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: 0,
@@ -33,11 +41,16 @@ describe("plant", () => {
   });
 
   it("does not plant on a an expansion with no plots", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
         state: {
           ...GAME_STATE,
           expansions: [{ createdAt: 0, readyAt: 0 }],
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
         },
         action: {
           type: "seed.planted",
@@ -50,9 +63,16 @@ describe("plant", () => {
   });
 
   it("does not plant on non-existent plot", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: -1,
@@ -64,9 +84,16 @@ describe("plant", () => {
   });
 
   it("does not plant on non-integer plot", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: 1.2,
@@ -77,10 +104,34 @@ describe("plant", () => {
     ).toThrow("Plot does not exist");
   });
 
-  it("does not plant on non-existent plot", () => {
+  it("does not plant if water well does not exist", () => {
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {},
+        },
+        action: {
+          type: "seed.planted",
+          index: 1,
+          expansionIndex: 0,
+          item: "Sunflower Seed",
+        },
+      })
+    ).toThrow("Water Well does not exist");
+  });
+
+  it("does not plant on non-existent plot", () => {
+    const { inventory } = GAME_STATE;
+    expect(() =>
+      plant({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: 200000,
@@ -92,6 +143,7 @@ describe("plant", () => {
   });
 
   it("does not plant if crop already exists", () => {
+    const { inventory } = GAME_STATE;
     const expansions = [...GAME_STATE.expansions];
     const expansion = expansions[0];
     const { plots } = expansion;
@@ -101,6 +153,10 @@ describe("plant", () => {
       plant({
         state: {
           ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
           expansions: [
             {
               ...expansion,
@@ -127,9 +183,16 @@ describe("plant", () => {
   });
 
   it("does not plant an invalid item", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: 0,
@@ -141,9 +204,16 @@ describe("plant", () => {
   });
 
   it("does not plant if user does not have seeds", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: 0,
@@ -162,6 +232,7 @@ describe("plant", () => {
         ...GAME_STATE,
         inventory: {
           "Sunflower Seed": seedsAmount,
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -193,6 +264,7 @@ describe("plant", () => {
         ...GAME_STATE,
         inventory: {
           "Cauliflower Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -222,6 +294,7 @@ describe("plant", () => {
         inventory: {
           "Cauliflower Seed": new Decimal(1),
           "Golden Cauliflower": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -250,6 +323,7 @@ describe("plant", () => {
         ...GAME_STATE,
         inventory: {
           "Parsnip Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -278,6 +352,7 @@ describe("plant", () => {
         inventory: {
           "Parsnip Seed": new Decimal(1),
           "Mysterious Parsnip": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -308,6 +383,7 @@ describe("plant", () => {
         inventory: {
           "Carrot Seed": new Decimal(1),
           Nancy: new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -337,6 +413,7 @@ describe("plant", () => {
         inventory: {
           "Carrot Seed": new Decimal(1),
           Scarecrow: new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -365,6 +442,7 @@ describe("plant", () => {
           bumpkin: undefined,
           inventory: {
             "Carrot Seed": new Decimal(1),
+            "Water Well": new Decimal(1),
           },
         },
         action: {
@@ -391,6 +469,7 @@ describe("plant", () => {
           },
           inventory: {
             "Carrot Seed": new Decimal(1),
+            "Water Well": new Decimal(1),
           },
         },
         action: {
@@ -418,6 +497,7 @@ describe("plant", () => {
         },
         inventory: {
           "Carrot Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -447,6 +527,7 @@ describe("plant", () => {
         },
         inventory: {
           "Carrot Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -462,5 +543,230 @@ describe("plant", () => {
       MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)] -
         PLANT_STAMINA_COST
     );
+  });
+});
+
+describe("isPlotFertile", () => {
+  it("cannot plant on 11th field if a well is not avilable", () => {
+    const fakePlot = {
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
+    };
+    const isFertile = isPlotFertile({
+      gameState: {
+        ...INITIAL_FARM,
+        buildings: {},
+        expansions: [
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot, //11th
+              3: fakePlot, // 12th
+            },
+          },
+        ],
+      },
+      expansionIndex: 2,
+      plotIndex: 2,
+    });
+
+    expect(isFertile).toBeFalsy();
+  });
+
+  it("cannot plant on 21st field if 2 wells are not avilable", () => {
+    const fakePlot = {
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
+    };
+    const isFertile = isPlotFertile({
+      gameState: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Water Well": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+        expansions: [
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot, //11th
+              3: fakePlot, // 12th
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+              4: fakePlot,
+              5: fakePlot,
+              6: fakePlot,
+              7: fakePlot,
+              8: fakePlot, //21st
+            },
+          },
+        ],
+      },
+      expansionIndex: 3,
+      plotIndex: 8,
+    });
+
+    expect(isFertile).toBeFalsy();
+  });
+
+  it("can plant on 6th field without a well", () => {
+    const fakePlot = {
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
+    };
+    const isFertile = isPlotFertile({
+      gameState: {
+        ...INITIAL_FARM,
+        buildings: {},
+        expansions: [
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot, //6th
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+        ],
+      },
+      expansionIndex: 1,
+      plotIndex: 1,
+    });
+    expect(isFertile).toBeTruthy();
+  });
+
+  it("can plant on 11th field if they have well", () => {
+    const fakePlot = {
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
+    };
+    const isFertile = isPlotFertile({
+      gameState: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Water Well": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+        expansions: [
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot,
+              3: fakePlot,
+            },
+          },
+          {
+            ...GENESIS_LAND_EXPANSION,
+            plots: {
+              0: fakePlot,
+              1: fakePlot,
+              2: fakePlot, //11th
+              3: fakePlot, // 12th
+            },
+          },
+        ],
+      },
+      expansionIndex: 2,
+      plotIndex: 2,
+    });
+
+    expect(isFertile).toBeTruthy();
   });
 });
