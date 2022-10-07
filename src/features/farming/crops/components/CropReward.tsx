@@ -61,10 +61,16 @@ export const CropReward: React.FC<Props> = ({
   return (
     <Modal centered show={true}>
       <Panel>
-        <div className="flex flex-col items-center justify-between">
-          {loading ? (
-            "Loading..."
-          ) : opened ? (
+        {loading && (
+          <div className="flex flex-col items-center justify-between">
+            Loading...
+          </div>
+        )}
+        <div
+          hidden={loading}
+          className="flex flex-col items-center justify-between"
+        >
+          {opened ? (
             <>
               <span className="text-center mb-2">
                 Woohoo! Here is your reward

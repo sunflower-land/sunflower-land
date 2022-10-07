@@ -7,14 +7,15 @@ import confirm from "assets/icons/confirm.png";
 import { CROPS } from "features/game/types/crops";
 import { getKeys } from "features/game/types/craftables";
 
-import goblin1 from "assets/captcha/goblin.png";
-import goblin2 from "assets/captcha/goblin_carry.png";
-import goblin3 from "assets/captcha/goblin_chef.png";
-import goblin4 from "assets/captcha/goblin_doing.png";
-import goblin5 from "assets/captcha/goblin_farmer.png";
-import goblin6 from "assets/captcha/goblin_female.png";
+import goblin1 from "assets/npcs/goblin.gif";
+import goblin2 from "assets/npcs/goblin_carry.gif";
+import goblin3 from "assets/npcs/goblin_chef.gif";
+import goblin4 from "assets/npcs/goblin_doing.gif";
+import goblin5 from "assets/npcs/goblin_farmer.gif";
+import goblin6 from "assets/npcs/goblin_female.gif";
+import goblin7 from "assets/npcs/wheat_goblin.gif";
 import classNames from "classnames";
-import { randomIntMaxInclusive } from "lib/utils/random";
+import { randomDouble, randomIntMaxInclusive } from "lib/utils/random";
 
 const ITEM_COUNT = 16;
 const MAX_ATTEMPTS = 3;
@@ -26,55 +27,48 @@ type Item = {
   isGoblin: boolean;
   rotation: { x: number; y: number };
   skew: number;
+  scale: number;
 };
 
-const GOBLINS = [goblin1, goblin2, goblin3, goblin4, goblin5, goblin6];
+const GOBLINS = [goblin1, goblin2, goblin3, goblin4, goblin5, goblin6, goblin7];
 
 function generateImages() {
   const items: Item[] = [];
   const cropImages = getKeys(CROPS());
-  const availableImages = cropImages.map((name) => ITEM_DETAILS[name].image);
+  const availableCropImages = cropImages.map(
+    (name) => ITEM_DETAILS[name].image
+  );
 
   while (items.length < GOBLIN_COUNT) {
     const randomIndex = Math.floor(Math.random() * GOBLINS.length);
-
-    const id = RandomID();
-    items.push({
-      src: GOBLINS[randomIndex],
-      id: id,
-      isGoblin: true,
-      rotation: {
-        x: randomIntMaxInclusive(-25, 25),
-        y: randomIntMaxInclusive(-25, 25),
-      },
-      skew: randomIntMaxInclusive(-5, 5),
-    });
-
-    addNoise(id);
+    items.push(newImageItem(GOBLINS[randomIndex], true));
   }
 
   while (items.length < ITEM_COUNT) {
-    const randomIndex = Math.floor(Math.random() * availableImages.length);
-
-    const id = RandomID();
-    items.push({
-      src: availableImages[randomIndex],
-      id: id,
-      isGoblin: false,
-      rotation: {
-        x: randomIntMaxInclusive(-25, 25),
-        y: randomIntMaxInclusive(-25, 25),
-      },
-      skew: randomIntMaxInclusive(-5, 5),
-    });
-
-    addNoise(id);
+    const randomIndex = Math.floor(Math.random() * availableCropImages.length);
+    items.push(newImageItem(availableCropImages[randomIndex], false));
   }
 
   // Shuffle
   const shuffled = items.sort(() => 0.5 - Math.random());
-
   return shuffled;
+
+  function newImageItem(src: any, isGoblin: boolean): Item {
+    const id = RandomID();
+    addNoise(id);
+
+    return {
+      src: src,
+      id: id,
+      isGoblin: isGoblin,
+      rotation: {
+        x: randomIntMaxInclusive(-25, 25),
+        y: randomIntMaxInclusive(-25, 25),
+      },
+      skew: randomIntMaxInclusive(-5, 5),
+      scale: randomDouble(1.0, 1.2),
+    };
+  }
 }
 
 interface Props {
@@ -134,7 +128,7 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
                   id={item.id}
                   className="h-full object-contain"
                   style={{
-                    transform: `perspective(9cm) skew(${item.skew}deg, ${item.skew}deg) rotateX(${item.rotation.x}deg) rotateY(${item.rotation.y}deg)`,
+                    transform: `perspective(9cm) skew(${item.skew}deg, ${item.skew}deg) rotateX(${item.rotation.x}deg) rotateY(${item.rotation.y}deg) scale(${item.scale})`,
                   }}
                 />
               )}

@@ -19,6 +19,11 @@ export async function addNoise(id: string, noise = 0.4) {
   const canvas = document.createElement("canvas") as HTMLCanvasElement;
   const context = canvas?.getContext("2d") as CanvasRenderingContext2D;
   const img = document.getElementById(id) as HTMLImageElement;
+
+  if (!img) {
+    return;
+  }
+
   canvas.width = img.naturalWidth;
   canvas.height = img.naturalHeight;
   context.drawImage(img, 0, 0);

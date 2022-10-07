@@ -4,6 +4,8 @@ import background1 from "assets/captcha/chest_background_1.png";
 import background2 from "assets/captcha/chest_background_2.png";
 import background3 from "assets/captcha/chest_background_3.png";
 import background4 from "assets/captcha/chest_background_4.png";
+import background5 from "assets/captcha/chest_background_5.png";
+import background6 from "assets/captcha/chest_background_6.png";
 
 import secure from "assets/npcs/synced.gif";
 import cancel from "assets/icons/cancel.png";
@@ -18,16 +20,25 @@ interface Props {
 
 const ATTEMPTS = 3;
 
-const backgrounds = [background1, background2, background3, background4];
+const backgrounds = [
+  background1,
+  background2,
+  background3,
+  background4,
+  background5,
+  background6,
+];
 
 export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
   const [failedCount, setFailedCount] = useState(0);
-  const offsetX = useRef(randomIntMaxInclusive(0, 40));
-  const offsetY = useRef(randomIntMaxInclusive(0, 40));
+  const offsetX = useRef(randomIntMaxInclusive(1, 40));
+  const offsetY = useRef(randomIntMaxInclusive(1, 40));
   const isChestOnLeft = useRef(Math.random() < 0.5);
   const isChestOnTop = useRef(Math.random() < 0.5);
-  const skew = useRef(randomIntMaxInclusive(-5, 5));
-  const scale = useRef(randomDouble(0.7, 1));
+  const rotateX = useRef(randomIntMaxInclusive(-15, 15));
+  const rotateY = useRef(randomIntMaxInclusive(-15, 15));
+  const skew = useRef(randomIntMaxInclusive(-3, 3));
+  const scale = useRef(randomDouble(0.8, 1));
   const background = useRef(
     backgrounds[Math.floor(Math.random() * backgrounds.length)]
   );
@@ -56,14 +67,14 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
         <img
           src={background.current}
           id={backgroundId.current}
-          className="w-full"
+          className="w-full rounded-md"
         />
         <img
           src={secure}
           id={chestId.current}
           className="absolute w-16"
           style={{
-            transform: `skew(${skew.current}deg, ${skew.current}deg) rotateX(${skew.current}deg) rotateY(${skew.current}deg) scale(${scale.current})`,
+            transform: `perspective(9cm) skew(${skew.current}deg, ${skew.current}deg) rotateX(${rotateX.current}deg) rotateY(${rotateY.current}deg) scale(${scale.current})`,
             ...(isChestOnTop.current
               ? { top: `${offsetY.current}%` }
               : { bottom: `${offsetY.current}%` }),
