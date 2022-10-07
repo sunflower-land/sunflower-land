@@ -5,7 +5,7 @@ import { useActor } from "@xstate/react";
 import { Context } from "../GameProvider";
 import { getTerrainImageByKey } from "../lib/getTerrainImageByKey";
 import { COLLECTIBLES_DIMENSIONS, getKeys } from "../types/craftables";
-import { Plot } from "features/farming/crops/components/landExpansion/Plot";
+import { Plot } from "features/island/Plots/Plot";
 import { Tree } from "./components/resources/Tree";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";

@@ -14,7 +14,7 @@ export type BuildingName =
   | "Water Well";
 
 export type BuildingBluePrint = {
-  levelRequired: number;
+  unlocksAtLevels: number[];
   ingredients: {
     item: InventoryItemName;
     amount: Decimal;
@@ -39,7 +39,7 @@ export const UPGRADABLES: Partial<Record<BuildingName, BuildingName>> = {
 
 export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
   Market: {
-    levelRequired: 1,
+    unlocksAtLevels: [1],
     ingredients: [
       {
         item: "Wood",
@@ -54,7 +54,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     constructionSeconds: 30,
   },
   "Fire Pit": {
-    levelRequired: 1,
+    unlocksAtLevels: [1],
     ingredients: [
       {
         item: "Wood",
@@ -69,7 +69,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     constructionSeconds: 30,
   },
   Oven: {
-    levelRequired: 2,
+    unlocksAtLevels: [2],
     ingredients: [
       {
         item: "Wood",
@@ -88,7 +88,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     constructionSeconds: 60 * 5,
   },
   Bakery: {
-    levelRequired: 2,
+    unlocksAtLevels: [2],
     ingredients: [
       {
         item: "Wood",
@@ -107,7 +107,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     constructionSeconds: 60 * 30,
   },
   Blacksmith: {
-    levelRequired: 1,
+    unlocksAtLevels: [1],
     ingredients: [
       {
         item: "Iron",
@@ -118,7 +118,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     constructionSeconds: 60 * 5,
   },
   Workbench: {
-    levelRequired: 2,
+    unlocksAtLevels: [2],
     ingredients: [
       {
         item: "Wood",
@@ -133,7 +133,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     constructionSeconds: 60 * 5,
   },
   Tent: {
-    levelRequired: 2,
+    unlocksAtLevels: [2],
     ingredients: [
       {
         item: "Wood",
@@ -148,7 +148,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     constructionSeconds: 60 * 5,
   },
   "Water Well": {
-    levelRequired: 2,
+    unlocksAtLevels: [2, 5, 8, 11, 15, 18, 21, 24],
     ingredients: [
       {
         item: "Wood",

@@ -35,7 +35,7 @@ export function constructBuilding({
 
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
 
-  if (bumpkinLevel < building.levelRequired) {
+  if (bumpkinLevel < building.unlocksAtLevels[0]) {
     throw new Error("Your Bumpkin does not meet the level requirements");
   }
 

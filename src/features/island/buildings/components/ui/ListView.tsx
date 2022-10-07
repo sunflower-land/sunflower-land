@@ -19,7 +19,7 @@ export const ListView: React.FC<{
   const { bumpkin, inventory } = state;
 
   const buildings = getKeys(BUILDINGS).sort((a, b) =>
-    BUILDINGS[a].levelRequired > BUILDINGS[b].levelRequired ? 1 : -1
+    BUILDINGS[a].unlocksAtLevels[0] > BUILDINGS[b].unlocksAtLevels[0] ? 1 : -1
   );
 
   return (
@@ -27,41 +27,39 @@ export const ListView: React.FC<{
       style={{ maxHeight: CONTENT_HEIGHT }}
       className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
     >
-      {buildings.map((buildingName, index) => (
-        <div key={index} onClick={() => onClick(buildingName)}>
-          <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
-            <Label className="px-1 text-xxs absolute -top-3 -right-1">
-              {inventory[buildingName]?.toNumber() || 0}/1
-            </Label>
-            <div className="w-16 justify-center flex">
-              <img src={ITEM_DETAILS[buildingName].image} className="h-12" />
-            </div>
+      {buildings.map((buildingName, index) => {
+        const buildingLevel = BUILDINGS[buildingName].unlocksAtLevels[0];
+        return (
+          <div key={index} onClick={() => onClick(buildingName)}>
+            <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
+              <Label className="px-1 text-xxs absolute -top-3 -right-1">
+                {inventory[buildingName]?.toNumber() || 0}
+              </Label>
+              <div className="w-16 justify-center flex">
+                <img src={ITEM_DETAILS[buildingName].image} className="h-12" />
+              </div>
 
-            <div className="flex-1 flex flex-col justify-center">
-              <span className="text-sm">{buildingName}</span>
+              <div className="flex-1 flex flex-col justify-center">
+                <span className="text-sm">{buildingName}</span>
 
-              {!bumpkin ||
-              getBumpkinLevel(bumpkin.experience) <
-                BUILDINGS[buildingName].levelRequired ? (
-                <div className="flex items-center">
-                  <span
-                    className="bg-error border text-xxs p-1 rounded-md"
-                    style={{ lineHeight: "10px" }}
-                  >
-                    Lvl {BUILDINGS[buildingName].levelRequired}
-                  </span>
+                {!bumpkin ||
+                  (getBumpkinLevel(bumpkin.experience) < buildingLevel && (
+                    <div className="flex items-center">
+                      <span
+                        className="bg-error border text-xxs p-1 rounded-md"
+                        style={{ lineHeight: "10px" }}
+                      >
+                        Lvl {buildingLevel}
+                      </span>
 
-                  <img src={lock} className="h-4 ml-1" />
-                </div>
-              ) : (
-                <span className="text-xxs pr-0.5">
-                  Lvl {BUILDINGS[buildingName].levelRequired}
-                </span>
-              )}
-            </div>
-          </OuterPanel>
-        </div>
-      ))}
+                      <img src={lock} className="h-4 ml-1" />
+                    </div>
+                  ))}
+              </div>
+            </OuterPanel>
+          </div>
+        );
+      })}
     </div>
   );
 };
