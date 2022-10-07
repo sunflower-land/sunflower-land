@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import { Modal } from "react-bootstrap";
 
-import stall from "assets/buildings/cake_stall.png";
+import stall from "assets/buildings/grub_shop.png";
+import closeSign from "assets/buildings/close_sign_2.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { GrubShopModal } from "./components/GrubShopModal";
@@ -26,18 +27,40 @@ export const GrubShop: React.FC = () => {
     setShowModal(false);
   };
 
+  const isClosed = !state.grubShop || state.grubShop.closesAt < Date.now();
+
   return (
     <div
       className="z-10 absolute"
       // TODO some sort of coordinate system
       style={{
-        width: `${GRID_WIDTH_PX * 6}px`,
-        right: `${GRID_WIDTH_PX * 11}px`,
+        // width: `${GRID_WIDTH_PX * 6}px`,
+        right: `${GRID_WIDTH_PX * 13}px`,
         top: `${GRID_WIDTH_PX * 20}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight">
-        <img src={stall} alt="bakery" onClick={openModal} className="w-full" />
+        <img
+          src={stall}
+          style={{
+            width: `${PIXEL_SCALE * 59}px`,
+          }}
+          alt="bakery"
+          onClick={openModal}
+        />
+        {isClosed && (
+          <img
+            src={closeSign}
+            style={{
+              width: `${PIXEL_SCALE * 29}px`,
+              top: `${PIXEL_SCALE * 19}px`,
+              left: `${PIXEL_SCALE * 23}px`,
+            }}
+            alt="closed"
+            className="absolute pointer-events-none"
+          />
+        )}
+
         {/* {specialCake && (
           <>
             <img
