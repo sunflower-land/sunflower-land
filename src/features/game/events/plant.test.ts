@@ -38,34 +38,10 @@ describe("plant", () => {
     ).toThrow("Field does not exist");
   });
 
-  it("does not plant if water well does not exsit", () => {
-    const { inventory } = GAME_STATE;
-    expect(() =>
-      plant({
-        state: {
-          ...GAME_STATE,
-          inventory: {},
-        },
-        action: {
-          type: "item.planted",
-          index: 1,
-          item: "Sunflower Seed",
-        },
-      })
-    ).toThrow("Water Well does not exist");
-  });
-
   it("does not plant if first goblin is around", () => {
-    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            ...inventory,
-            "Water Well": new Decimal(1),
-          },
-        },
+        state: GAME_STATE,
         action: {
           type: "item.planted",
           index: 6,
@@ -82,7 +58,6 @@ describe("plant", () => {
         inventory: {
           "Pumpkin Soup": new Decimal(1),
           "Potato Seed": new Decimal(2),
-          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -101,16 +76,9 @@ describe("plant", () => {
   });
 
   it("does not plant if second goblin is around", () => {
-    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            ...inventory,
-            "Water Well": new Decimal(1),
-          },
-        },
+        state: GAME_STATE,
         action: {
           type: "item.planted",
           index: 11,
@@ -127,7 +95,6 @@ describe("plant", () => {
         inventory: {
           Sauerkraut: new Decimal(1),
           "Pumpkin Seed": new Decimal(2),
-          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -146,16 +113,9 @@ describe("plant", () => {
   });
 
   it("does not plant if third goblin is around", () => {
-    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            ...inventory,
-            "Water Well": new Decimal(1),
-          },
-        },
+        state: GAME_STATE,
         action: {
           type: "item.planted",
           index: 11,
@@ -172,7 +132,6 @@ describe("plant", () => {
         inventory: {
           "Roasted Cauliflower": new Decimal(1),
           "Pumpkin Seed": new Decimal(2),
-          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -198,7 +157,6 @@ describe("plant", () => {
           inventory: {
             "Roasted Cauliflower": new Decimal(1),
             "Pumpkin Seed": new Decimal(2),
-            "Water Well": new Decimal(1),
           },
         },
         action: {
@@ -211,15 +169,10 @@ describe("plant", () => {
   });
 
   it("does not plant if crop already exists", () => {
-    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
         state: {
           ...GAME_STATE,
-          inventory: {
-            ...inventory,
-            "Water Well": new Decimal(1),
-          },
           fields: {
             0: {
               name: "Sunflower",
@@ -237,16 +190,9 @@ describe("plant", () => {
   });
 
   it("does not plant an invalid item", () => {
-    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            ...inventory,
-            "Water Well": new Decimal(1),
-          },
-        },
+        state: GAME_STATE,
         action: {
           type: "item.planted",
           index: 0,
@@ -257,16 +203,9 @@ describe("plant", () => {
   });
 
   it("does not plant if user does not have seeds", () => {
-    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            ...inventory,
-            "Water Well": new Decimal(1),
-          },
-        },
+        state: GAME_STATE,
         action: {
           type: "item.planted",
           index: 0,
@@ -282,7 +221,6 @@ describe("plant", () => {
         ...GAME_STATE,
         inventory: {
           "Sunflower Seed": new Decimal(5),
-          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -296,7 +234,6 @@ describe("plant", () => {
       ...GAME_STATE,
       inventory: {
         "Sunflower Seed": new Decimal(4),
-        "Water Well": new Decimal(1),
       },
       fields: {
         0: {

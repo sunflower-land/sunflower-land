@@ -20,9 +20,16 @@ const GAME_STATE: GameState = {
 
 describe("plant", () => {
   it("does not plant on a non existent expansion", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: 0,
@@ -34,11 +41,16 @@ describe("plant", () => {
   });
 
   it("does not plant on a an expansion with no plots", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
         state: {
           ...GAME_STATE,
           expansions: [{ createdAt: 0, readyAt: 0 }],
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
         },
         action: {
           type: "seed.planted",
@@ -51,9 +63,16 @@ describe("plant", () => {
   });
 
   it("does not plant on non-existent plot", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: -1,
@@ -65,9 +84,16 @@ describe("plant", () => {
   });
 
   it("does not plant on non-integer plot", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: 1.2,
@@ -78,10 +104,34 @@ describe("plant", () => {
     ).toThrow("Plot does not exist");
   });
 
-  it("does not plant on non-existent plot", () => {
+  it("does not plant if water well does not exist", () => {
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {},
+        },
+        action: {
+          type: "seed.planted",
+          index: 1,
+          expansionIndex: 0,
+          item: "Sunflower Seed",
+        },
+      })
+    ).toThrow("Water Well does not exist");
+  });
+
+  it("does not plant on non-existent plot", () => {
+    const { inventory } = GAME_STATE;
+    expect(() =>
+      plant({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: 200000,
@@ -93,6 +143,7 @@ describe("plant", () => {
   });
 
   it("does not plant if crop already exists", () => {
+    const { inventory } = GAME_STATE;
     const expansions = [...GAME_STATE.expansions];
     const expansion = expansions[0];
     const { plots } = expansion;
@@ -102,6 +153,10 @@ describe("plant", () => {
       plant({
         state: {
           ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
           expansions: [
             {
               ...expansion,
@@ -128,9 +183,16 @@ describe("plant", () => {
   });
 
   it("does not plant an invalid item", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: 0,
@@ -142,9 +204,16 @@ describe("plant", () => {
   });
 
   it("does not plant if user does not have seeds", () => {
+    const { inventory } = GAME_STATE;
     expect(() =>
       plant({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Water Well": new Decimal(1),
+          },
+        },
         action: {
           type: "seed.planted",
           index: 0,
@@ -163,6 +232,7 @@ describe("plant", () => {
         ...GAME_STATE,
         inventory: {
           "Sunflower Seed": seedsAmount,
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -194,6 +264,7 @@ describe("plant", () => {
         ...GAME_STATE,
         inventory: {
           "Cauliflower Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -223,6 +294,7 @@ describe("plant", () => {
         inventory: {
           "Cauliflower Seed": new Decimal(1),
           "Golden Cauliflower": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -251,6 +323,7 @@ describe("plant", () => {
         ...GAME_STATE,
         inventory: {
           "Parsnip Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -279,6 +352,7 @@ describe("plant", () => {
         inventory: {
           "Parsnip Seed": new Decimal(1),
           "Mysterious Parsnip": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -309,6 +383,7 @@ describe("plant", () => {
         inventory: {
           "Carrot Seed": new Decimal(1),
           Nancy: new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -338,6 +413,7 @@ describe("plant", () => {
         inventory: {
           "Carrot Seed": new Decimal(1),
           Scarecrow: new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -366,6 +442,7 @@ describe("plant", () => {
           bumpkin: undefined,
           inventory: {
             "Carrot Seed": new Decimal(1),
+            "Water Well": new Decimal(1),
           },
         },
         action: {
@@ -392,6 +469,7 @@ describe("plant", () => {
           },
           inventory: {
             "Carrot Seed": new Decimal(1),
+            "Water Well": new Decimal(1),
           },
         },
         action: {
@@ -419,6 +497,7 @@ describe("plant", () => {
         },
         inventory: {
           "Carrot Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {
@@ -448,6 +527,7 @@ describe("plant", () => {
         },
         inventory: {
           "Carrot Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
       },
       action: {

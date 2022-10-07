@@ -13,7 +13,7 @@ import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GRID_WIDTH_PX, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { Soil } from "./Soil";
+import { Soil } from "features/farming/crops/components/Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "features/farming/crops/components/CropReward";

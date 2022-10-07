@@ -135,10 +135,6 @@ export function plant({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Field does not exist");
   }
 
-  if (!inventory["Water Well"]) {
-    throw new Error("Water Well does not exist");
-  }
-
   if (
     action.index >= 5 &&
     action.index <= 9 &&

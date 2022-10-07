@@ -95,7 +95,7 @@ export function plant({
   });
 
   const stateCopy = cloneDeep(replenishedState);
-  const { expansions, bumpkin } = stateCopy;
+  const { expansions, bumpkin, inventory } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!expansion) {
@@ -108,6 +108,10 @@ export function plant({
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
+  }
+
+  if (!inventory["Water Well"]) {
+    throw new Error("Water Well does not exist");
   }
 
   if (bumpkin.stamina.value < PLANT_STAMINA_COST) {
