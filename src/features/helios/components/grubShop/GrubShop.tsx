@@ -2,18 +2,13 @@ import React, { useContext } from "react";
 import { Modal } from "react-bootstrap";
 
 import stall from "assets/buildings/cake_stall.png";
-import goblin from "assets/npcs/goblin.gif";
-import chef from "assets/npcs/goblin_chef.gif";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { CAKES } from "features/game/types/craftables";
-import { isExpired } from "features/game/lib/stock";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { CakeSale } from "features/farming/cakeStall/components/CakeSale";
+import { GrubShopModal } from "./components/GrubShopModal";
 
-export const HeliosCakeStall: React.FC = () => {
+export const GrubShop: React.FC = () => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -21,19 +16,15 @@ export const HeliosCakeStall: React.FC = () => {
     },
   ] = useActor(gameService);
 
-  const [showModal, setShowModal] = React.useState(false);
+  const [showModal, setShowModal] = React.useState(true);
 
-  const openCakeModal = () => {
+  const openModal = () => {
     setShowModal(true);
   };
 
-  const closeCakeModal = () => {
+  const closeModal = () => {
     setShowModal(false);
   };
-
-  const specialCake = Object.values(CAKES()).find(
-    (item) => !isExpired({ name: item.name, stockExpiry: state.stockExpiry })
-  );
 
   return (
     <div
@@ -46,13 +37,8 @@ export const HeliosCakeStall: React.FC = () => {
       }}
     >
       <div className="cursor-pointer hover:img-highlight">
-        <img
-          src={stall}
-          alt="bakery"
-          onClick={openCakeModal}
-          className="w-full"
-        />
-        {specialCake && (
+        <img src={stall} alt="bakery" onClick={openModal} className="w-full" />
+        {/* {specialCake && (
           <>
             <img
               src={ITEM_DETAILS[specialCake.name].image}
@@ -91,10 +77,10 @@ export const HeliosCakeStall: React.FC = () => {
               />
             )}
           </>
-        )}
+        )} */}
       </div>
-      <Modal centered show={showModal} onHide={closeCakeModal}>
-        <CakeSale onClose={closeCakeModal} />
+      <Modal centered show={showModal} onHide={closeModal}>
+        <GrubShopModal onClose={closeModal} />
       </Modal>
     </div>
   );

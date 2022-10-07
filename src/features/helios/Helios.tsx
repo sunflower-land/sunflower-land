@@ -7,7 +7,7 @@ import background from "assets/land/helios.png";
 import { GameProvider } from "features/game/GameProvider";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import waterMovement from "assets/decorations/water_movement.png";
-import { HeliosCakeStall } from "./components/cakeStall/HeliosCakeStall";
+import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
 import { Fertilisers } from "./components/fertilisers/Fertilisers";
 import { FarmersMarket } from "./components/farmersMarket/FarmersMarket";
@@ -44,7 +44,7 @@ export const Helios: React.FC = () => {
               className="absolute inset-0 w-full h-full z-10"
             />
             <Decorations />
-            <HeliosCakeStall />
+            <GrubShop />
             <HeliosBlacksmith />
             <Fertilisers />
             <FarmersMarket />
