@@ -5,30 +5,15 @@ const er = 0; // extra red
 const eg = 0; // extra green
 const eb = 0; // extra blue
 
-const NOISED_ATTRIBUTE = "isNoised";
-
-/**
- * Generate random ID for images.
- * @returns The random ID
- */
-export const RandomID = () => {
-  // Math.random should be unique because of its seeding algorithm.
-  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-  // after the decimal.
-  return "_" + Math.random().toString(36).substr(2, 9);
-};
-
 /**
  * Add noise to an image.  This method should be used in onload() method for images.
- * @param id The image ID
- * @param noise The image noise level
- * @returns The noised image data
+ * @param img The image element.
+ * @param noise The image noise level.
+ * @returns The noised image data.
  */
-export const addNoise = (id: string, noise = 0.4) => {
-  const img = document.getElementById(id) as HTMLImageElement;
-
+export const addNoise = (img: HTMLImageElement, noise = 0.4) => {
   // add noise only if image has loaded and noise is not added
-  if (!img?.complete || img.getAttribute(NOISED_ATTRIBUTE)) {
+  if (!img?.complete || img?.src.startsWith("data:image/png;base64")) {
     return;
   }
 
@@ -62,6 +47,5 @@ export const addNoise = (id: string, noise = 0.4) => {
   const base64URI = canvas.toDataURL();
 
   img.src = base64URI;
-  img.setAttribute(NOISED_ATTRIBUTE, "true");
   return base64URI;
 };

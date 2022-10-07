@@ -10,7 +10,7 @@ import background6 from "assets/captcha/chest_background_6.png";
 import secure from "assets/npcs/synced.gif";
 import cancel from "assets/icons/cancel.png";
 
-import { addNoise, RandomID } from "lib/images";
+import { addNoise } from "lib/images";
 import { randomDouble, randomInt } from "lib/utils/random";
 
 interface Props {
@@ -42,8 +42,6 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
   const background = useRef(
     backgrounds[Math.floor(Math.random() * backgrounds.length)]
   );
-  const backgroundId = useRef(RandomID());
-  const chestId = useRef(RandomID());
 
   const miss = () => {
     setFailedCount((prev) => prev + 1);
@@ -61,13 +59,11 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
       <div className="relative w-full rounded-md">
         <img
           src={background.current}
-          id={backgroundId.current}
-          onLoad={() => addNoise(backgroundId.current, 0.05)}
+          onLoad={(e) => addNoise(e.currentTarget, 0.05)}
           className="w-full rounded-md"
         />
         <img
           src={secure}
-          id={chestId.current}
           className="absolute w-16"
           style={{
             transform: `perspective(9cm) skew(${skew.current}deg, ${skew.current}deg) rotateX(${rotateX.current}deg) rotateY(${rotateY.current}deg) scale(${scale.current})`,
@@ -78,7 +74,7 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
               ? { left: `${offsetX.current}%` }
               : { right: `${offsetX.current}%` }),
           }}
-          onLoad={() => addNoise(chestId.current)}
+          onLoad={(e) => addNoise(e.currentTarget)}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();

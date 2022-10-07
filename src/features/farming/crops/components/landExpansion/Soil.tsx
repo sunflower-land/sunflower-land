@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 
 import classNames from "classnames";
 import soil from "assets/land/soil2.png";
@@ -8,7 +8,7 @@ import { getTimeLeft, secondsToMidString } from "lib/utils/time";
 import { InnerPanel } from "components/ui/Panel";
 
 import { CROPS } from "features/game/types/crops";
-import { addNoise, RandomID } from "lib/images";
+import { addNoise } from "lib/images";
 
 import { LIFECYCLE } from "../../lib/plant";
 import classnames from "classnames";
@@ -20,17 +20,16 @@ interface Props {
   showCropDetails?: boolean;
 }
 
-const Ready: React.FC<{ image: string; className: string }> = ({
+const CROP_NOISE_LEVEL = 0.1;
+
+const Crop: React.FC<{ image: string; className: string }> = ({
   image,
   className,
 }) => {
-  const id = useRef(RandomID());
-
   return (
     <img
-      id={id.current}
       src={image}
-      onLoad={() => addNoise(id.current, 0.1)}
+      onLoad={(e) => addNoise(e.currentTarget, CROP_NOISE_LEVEL)}
       className={classnames("w-full", className)}
     />
   );
@@ -55,7 +54,7 @@ export const Soil: React.FC<Props> = ({
   }, [plantedCrop, setHarvestTime]);
 
   if (!plantedCrop) {
-    return <img src={soil} className={classnames("w-full", className)} />;
+    return <Crop image={soil} className={className as string} />;
   }
 
   const { harvestSeconds } = CROPS()[plantedCrop.name];
@@ -68,10 +67,10 @@ export const Soil: React.FC<Props> = ({
     const isAlmostReady = percentage >= 50;
 
     return (
-      <div id="soil" className="relative w-full h-full">
-        <img
-          src={isAlmostReady ? lifecycle.almost : lifecycle.seedling}
-          className={classnames("w-full", className)}
+      <div className="relative w-full h-full">
+        <Crop
+          image={isAlmostReady ? lifecycle.almost : lifecycle.seedling}
+          className={className as string}
         />
         <InnerPanel
           className={classNames(
@@ -94,5 +93,5 @@ export const Soil: React.FC<Props> = ({
     );
   }
 
-  return <Ready className={className as string} image={lifecycle.ready} />;
+  return <Crop className={className as string} image={lifecycle.ready} />;
 };

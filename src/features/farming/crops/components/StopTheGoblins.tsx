@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { addNoise, RandomID } from "lib/images";
+import { addNoise } from "lib/images";
 
 import cancel from "assets/icons/cancel.png";
 import confirm from "assets/icons/confirm.png";
@@ -23,7 +23,6 @@ const GOBLIN_COUNT = 3;
 
 type Item = {
   src: string;
-  id: string;
   isGoblin: boolean;
   rotation: { x: number; y: number };
   skew: number;
@@ -36,7 +35,6 @@ const generateImages = () => {
   const newImageItem = (src: any, isGoblin: boolean): Item => {
     return {
       src: src,
-      id: RandomID(),
       isGoblin: isGoblin,
       rotation: {
         x: randomInt(-25, 26),
@@ -122,9 +120,8 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
               ) : (
                 <img
                   src={item.src}
-                  id={item.id}
                   className="h-full object-contain"
-                  onLoad={() => addNoise(item.id)}
+                  onLoad={(e) => addNoise(e.currentTarget)}
                   style={{
                     transform: `perspective(9cm) skew(${item.skew}deg, ${item.skew}deg) rotateX(${item.rotation.x}deg) rotateY(${item.rotation.y}deg) scale(${item.scale})`,
                   }}
