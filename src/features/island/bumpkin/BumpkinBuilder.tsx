@@ -13,7 +13,6 @@ import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import { Context } from "features/game/GameProvider";
 import { InitialBumpkinParts } from "features/game/actions/mintBumpkin";
-import { randomIntMaxExclusive } from "lib/utils/random";
 
 export type LimitedBody =
   | "Beige Farmer Potion"
@@ -90,7 +89,7 @@ const BUMPKIN_PARTS: Record<Category, CategoryDetails> = {
 
 const getRandomPart = <T,>(category: Category) => {
   const { options } = BUMPKIN_PARTS[category];
-  const randomIndex = randomIntMaxExclusive(0, options.length);
+  const randomIndex = Math.floor(Math.random() * options.length);
 
   return options[randomIndex] as unknown as T;
 };

@@ -15,7 +15,7 @@ import goblin5 from "assets/npcs/goblin_farmer.gif";
 import goblin6 from "assets/npcs/goblin_female.gif";
 import goblin7 from "assets/npcs/wheat_goblin.gif";
 import classNames from "classnames";
-import { randomDouble, randomIntMaxInclusive } from "lib/utils/random";
+import { randomDouble, randomInt } from "lib/utils/random";
 
 const ITEM_COUNT = 16;
 const MAX_ATTEMPTS = 3;
@@ -62,10 +62,10 @@ function generateImages() {
       id: id,
       isGoblin: isGoblin,
       rotation: {
-        x: randomIntMaxInclusive(-25, 25),
-        y: randomIntMaxInclusive(-25, 25),
+        x: randomInt(-25, 26),
+        y: randomInt(-25, 26),
       },
-      skew: randomIntMaxInclusive(-5, 5),
+      skew: randomInt(-5, 6),
       scale: randomDouble(1.0, 1.2),
     };
   }
