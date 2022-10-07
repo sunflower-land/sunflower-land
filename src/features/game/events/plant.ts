@@ -125,7 +125,7 @@ export function getMultiplier({ crop, inventory }: GetFieldArgs): number {
 
 export function plant({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
-  const { fields, inventory } = stateCopy;
+  const { fields } = stateCopy;
 
   if (action.index < 0) {
     throw new Error("Field does not exist");
