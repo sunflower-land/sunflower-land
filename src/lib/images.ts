@@ -16,9 +16,9 @@ export const addNoise = (img: HTMLImageElement, noise = 0.4) => {
   if (
     !img ||
     !img.complete ||
-    img.src.startsWith(
-      "data:image/png;base64" || !img.naturalWidth || !img.naturalHeight
-    )
+    img.src.startsWith("data:image/png;base64") ||
+    !img.naturalWidth ||
+    !img.naturalHeight
   ) {
     return;
   }
