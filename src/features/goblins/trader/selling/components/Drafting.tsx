@@ -40,7 +40,7 @@ export const Drafting: React.FC<DraftingProps> = ({
   );
 
   const [resourceAmount, setResourceAmount] = useState(
-    Math.min(inventory[inventoryItems[0]]?.toNumber() as number, 1)
+    Math.min((inventory[inventoryItems[0]]?.toNumber() as number) ?? 0, 1)
   );
   const [sflAmount, setSflAmount] = useState(1);
   const [selected, setSelected] = useState<InventoryItemName>(
@@ -66,7 +66,9 @@ export const Drafting: React.FC<DraftingProps> = ({
 
   const select = (itemName: InventoryItemName) => {
     setSelected(itemName);
-    setResourceAmount(Math.min(inventory[itemName]?.toNumber() as number, 1));
+    setResourceAmount(
+      Math.min((inventory[itemName]?.toNumber() as number) ?? 0, 1)
+    );
   };
 
   const handleSflChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -82,18 +84,24 @@ export const Drafting: React.FC<DraftingProps> = ({
   };
 
   const currentInventoryAmount = inventory[selected] || new Decimal(0);
-  const maxSellAmount = itemLimits[selected];
+  const maxSellAmount = itemLimits[selected] ?? 0;
 
   const disableListTradeButton =
-    sflAmount === 0 ||
-    resourceAmount === 0 ||
+    !sflAmount ||
+    !resourceAmount ||
     new Decimal(sflAmount).gt(MAX_SFL) ||
     new Decimal(resourceAmount).gt(currentInventoryAmount);
+
+  const hasItemsToList = !!inventoryItems && inventoryItems.length > 0;
 
   return (
     <>
       <div className="p-2">
-        <span>Select an item to list</span>
+        <span>
+          {hasItemsToList
+            ? "Select an item to list"
+            : "No items available to list"}
+        </span>
         <div className="flex flex-wrap mt-2">
           {inventoryItems.map((itemName) => (
             <Box
@@ -107,13 +115,24 @@ export const Drafting: React.FC<DraftingProps> = ({
         </div>
 
         <div className="flex flex-col pt-4 pb-3">
-          <h1 className="mb-4">Trade Details</h1>
+          <h1
+            className={classNames("mb-4", {
+              "opacity-50": !hasItemsToList,
+            })}
+          >
+            Trade Details
+          </h1>
           <div className="flex items-start justify-between mb-2">
-            <div className="relative w-full mr-4">
+            <div
+              className={classNames("relative w-full mr-4", {
+                "opacity-50": !hasItemsToList,
+              })}
+            >
               <input
                 type="number"
                 name="resourceAmount"
-                value={resourceAmount}
+                value={resourceAmount.toString()}
+                disabled={!hasItemsToList}
                 onChange={handleResourceChange}
                 className={classNames(
                   "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2",
@@ -127,20 +146,33 @@ export const Drafting: React.FC<DraftingProps> = ({
               <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">{`Max: ${maxSellAmount}`}</span>
             </div>
             <div className="w-[10%] flex self-center justify-center">
-              <img
-                src={ITEM_DETAILS[selected].image}
-                alt="selected item"
-                className="w-6"
-              />
+              {ITEM_DETAILS[selected] && (
+                <img
+                  src={ITEM_DETAILS[selected].image}
+                  alt="selected item"
+                  className="w-6"
+                />
+              )}
             </div>
           </div>
-          <div className="text-left w-full mb-2">for</div>
+          <div
+            className={classNames("text-left w-full mb-2", {
+              "opacity-50": !hasItemsToList,
+            })}
+          >
+            for
+          </div>
           <div className="flex items-center justify-between mb-2">
-            <div className="relative w-full mr-4">
+            <div
+              className={classNames("relative w-full mr-4", {
+                "opacity-50": !hasItemsToList,
+              })}
+            >
               <input
                 type="number"
                 name="sflAmount"
                 value={sflAmount}
+                disabled={!hasItemsToList}
                 onChange={handleSflChange}
                 className={classNames(
                   "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2",
@@ -152,7 +184,13 @@ export const Drafting: React.FC<DraftingProps> = ({
               <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">{`Max: ${MAX_SFL}`}</span>
             </div>
             <div className="w-[10%] flex self-center justify-center">
-              <img src={token} alt="sfl token" className="w-6" />
+              <img
+                className={classNames("w-6", {
+                  "opacity-50": !hasItemsToList,
+                })}
+                src={token}
+                alt="sfl token"
+              />
             </div>
           </div>
         </div>
