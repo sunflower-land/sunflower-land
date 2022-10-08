@@ -1,4 +1,12 @@
 /**
+ * Generate a random boolean.
+ * @returns A random boolean.
+ */
+export const randomBoolean = () => {
+  return Math.random() < 0.5;
+};
+
+/**
  * Generate a random floating point number.
  * @param min The minimum value.
  * @param max The maximum value.

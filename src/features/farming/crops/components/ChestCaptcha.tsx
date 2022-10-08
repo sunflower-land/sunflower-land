@@ -11,7 +11,7 @@ import secure from "assets/npcs/synced.gif";
 import cancel from "assets/icons/cancel.png";
 
 import { addNoise } from "lib/images";
-import { randomDouble, randomInt } from "lib/utils/random";
+import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
 
 interface Props {
   onOpen: () => void;
@@ -31,10 +31,10 @@ const backgrounds = [
 
 export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
   const [failedCount, setFailedCount] = useState(0);
-  const offsetX = useRef(randomInt(1, 41));
-  const offsetY = useRef(randomInt(1, 41));
-  const isChestOnLeft = useRef(Math.random() < 0.5);
-  const isChestOnTop = useRef(Math.random() < 0.5);
+  const offsetX = useRef(randomInt(1, 46));
+  const offsetY = useRef(randomInt(1, 46));
+  const isChestOnLeft = useRef(randomBoolean());
+  const isChestOnTop = useRef(randomBoolean());
   const rotateX = useRef(randomInt(-15, 16));
   const rotateY = useRef(randomInt(-15, 16));
   const skew = useRef(randomInt(-3, 4));
