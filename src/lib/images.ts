@@ -13,7 +13,13 @@ const eb = 0; // extra blue
  */
 export const addNoise = (img: HTMLImageElement, noise = 0.4) => {
   // add noise only if image has loaded and noise is not added
-  if (!img?.complete || img?.src.startsWith("data:image/png;base64")) {
+  if (
+    !img ||
+    !img.complete ||
+    img.src.startsWith(
+      "data:image/png;base64" || !img.naturalWidth || !img.naturalHeight
+    )
+  ) {
     return;
   }
 
