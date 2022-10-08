@@ -41,5 +41,12 @@ export function mineGold({
   if (!expansion) {
     throw new Error(EVENT_ERRORS.NO_EXPANSION);
   }
+
+  const { gold } = expansion;
+
+  if (!gold) {
+    throw new Error(EVENT_ERRORS.EXPANSION_HAS_NO_GOLD);
+  }
+
   return stateCopy;
 }
