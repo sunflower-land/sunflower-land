@@ -15,9 +15,15 @@ interface Props {
   onRead: (index: number) => void;
 }
 
+const outerPanelMaxHeight = 39;
+
 export const Inbox: React.FC<Props> = ({ inbox, isLoading, onRead }) => {
+  const accordionBodyMaxHeight = Math.max(
+    outerPanelMaxHeight - 1.5 - (inbox.length + 1) * 3.5,
+    0
+  );
   return (
-    <OuterPanel className="relative max-h-[39rem]">
+    <OuterPanel className={`relative max-h-[${outerPanelMaxHeight}rem]`}>
       {isLoading ? (
         <InnerPanel>
           <span className="loading">Loading</span>
@@ -39,7 +45,7 @@ export const Inbox: React.FC<Props> = ({ inbox, isLoading, onRead }) => {
                 <Markdown>{title || `${body.slice(0, 10)}...`}</Markdown>
               </Accordion.Button>
               <Accordion.Body
-                className="text-sm mt-2 text-shadow text-break max-h-[30rem] overflow-y-auto"
+                className={`text-sm mt-2 text-shadow text-break max-h-[${accordionBodyMaxHeight}rem] overflow-y-auto`}
                 as={InnerPanel}
               >
                 <Markdown>{body}</Markdown>
@@ -57,7 +63,7 @@ export const Inbox: React.FC<Props> = ({ inbox, isLoading, onRead }) => {
               <Markdown>Announcements</Markdown>
             </Accordion.Button>
             <Accordion.Body
-              className="text-sm mt-2 text-shadow text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-y-auto scrollable"
+              className={`text-sm mt-2 text-shadow text-break divide-y-2 divide-dashed divide-brown-600 max-h-[${accordionBodyMaxHeight}rem] overflow-y-auto scrollable`}
               as={InnerPanel}
             >
               {PAST_ANNOUNCEMENTS.map((announcement, index) => (
