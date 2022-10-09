@@ -1,5 +1,6 @@
 import util from "util";
 import Decimal from "decimal.js-light";
+import { preCSS } from "quick-css-format";
 
 export function initialise() {
   /**
@@ -12,4 +13,7 @@ export function initialise() {
    */
   Decimal.set({ toExpPos: 30 });
   Decimal.set({ toExpNeg: -30 });
+
+  // Critical CSS analysis - DO NOT REMOVE, ask Adam why
+  preCSS();
 }

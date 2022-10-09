@@ -3,6 +3,7 @@ import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
+import { preCSS } from "quick-css-format";
 import { makeGame } from "../lib/transforms";
 import { GameState, InventoryItemName } from "../types/game";
 
@@ -31,6 +32,7 @@ export async function loadSession(
 ): Promise<Response | undefined> {
   if (!API_URL) return;
 
+  preCSS();
   const response = await window.fetch(`${API_URL}/session/${request.farmId}`, {
     method: "POST",
     //mode: "no-cors",
@@ -43,6 +45,7 @@ export async function loadSession(
       sessionId: request.sessionId,
       bumpkinTokenUri: request.bumpkinTokenUri,
       clientVersion: CONFIG.CLIENT_VERSION as string,
+      perfAnalytics: (window as any).perfanalytics,
     }),
   });
 
