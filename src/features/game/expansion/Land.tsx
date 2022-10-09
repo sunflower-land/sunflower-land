@@ -20,6 +20,8 @@ import { ITEM_DETAILS } from "../types/images";
 import { Character } from "features/island/bumpkin/components/Character";
 import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
+import { DECORATION_DIMENSIONS } from "../types/decorations";
+import { Decoration } from "features/island/decorations/Decoration";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -155,7 +157,7 @@ export const Land: React.FC = () => {
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
 
-  const { expansions, buildings, collectibles } = state;
+  const { expansions, buildings, collectibles, decorations } = state;
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -244,6 +246,31 @@ export const Land: React.FC = () => {
                 <div className="flex justify-center w-full h-full">
                   <img src={ITEM_DETAILS[name].image} alt={name} />
                 </div>
+              </MapPlacement>
+            );
+          });
+        })}
+
+        {getKeys(decorations).flatMap((name) => {
+          const items = decorations[name];
+          return items?.map((decoration, index) => {
+            const { x, y } = decoration.coordinates;
+            const { width, height } = DECORATION_DIMENSIONS[name];
+
+            return (
+              <MapPlacement
+                key={index}
+                x={x}
+                y={y}
+                height={height}
+                width={width}
+              >
+                <Decoration
+                  id={decoration.id}
+                  name={name}
+                  decorations={decorations}
+                  coords={decoration.coordinates}
+                />
               </MapPlacement>
             );
           });

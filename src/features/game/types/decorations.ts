@@ -8,3 +8,14 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
 };
+
+type Decoration = {
+  name: DecorationName;
+  description: string;
+};
+export const DECORATIONS: Record<DecorationName, Decoration> = {
+  "Dirt Path": {
+    name: "Dirt Path",
+    description: "Follow your chosen path!",
+  },
+};

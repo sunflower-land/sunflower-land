@@ -472,6 +472,7 @@ export const INITIAL_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
     Warrior: new Decimal(1),
+    "Dirt Path": new Decimal(30),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
@@ -524,6 +525,37 @@ export const INITIAL_FARM: GameState = {
     ],
   },
   bumpkin: INITIAL_BUMPKIN,
+  decorations: {
+    "Dirt Path": [
+      {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+      {
+        coordinates: {
+          x: 3,
+          y: 2,
+        },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+      {
+        coordinates: {
+          x: 3,
+          y: 3,
+        },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
+  },
 };
 
 export const EMPTY: GameState = {
@@ -551,6 +583,7 @@ export const EMPTY: GameState = {
   expansions: INITIAL_EXPANSIONS,
   buildings: {},
   collectibles: {},
+  decorations: {},
 };
 
 export const MAX_STAMINA: Record<BumpkinLevel, number> = {

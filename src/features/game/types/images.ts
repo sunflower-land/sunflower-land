@@ -239,6 +239,8 @@ import warriorPants from "src/assets/bumpkins/shop/pants/warrior_pants.png";
 import warriorHelmet from "src/assets/bumpkins/shop/hats/warrior_helmet.png";
 import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png";
 
+import dirtPath from "src/assets/decorations/dirtPath/1_1_1_1.png";
+
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -1199,7 +1201,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Dirt Path": {
-    image: questionMark,
+    image: dirtPath,
     description: "",
   },
 };

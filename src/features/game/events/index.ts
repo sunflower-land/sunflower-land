@@ -64,6 +64,10 @@ import {
   claimAchievement,
   ClaimAchievementAction,
 } from "./landExpansion/claimAchievement";
+import {
+  placeDecoration,
+  PlaceDecorationAction,
+} from "./landExpansion/placeDecoration";
 
 export type PlayingEvent =
   | CraftAction
@@ -101,7 +105,8 @@ export type PlayingEvent =
 export type PlacementEvent =
   | ConstructBuildingAction
   | PlaceBuildingAction
-  | PlaceCollectibleAction;
+  | PlaceCollectibleAction
+  | PlaceDecorationAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -155,6 +160,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "building.constructed": constructBuilding,
   "building.placed": placeBuilding,
   "collectible.placed": placeCollectible,
+  "decoration.placed": placeDecoration,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

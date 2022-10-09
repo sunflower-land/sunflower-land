@@ -63,7 +63,7 @@ export const InventoryItems: React.FC<Props> = ({ state, onClose }) => {
         />
       </div>
 
-      {currentTab === "basket" && <Basket />}
+      {currentTab === "basket" && <Basket onClose={onClose} />}
       {currentTab === "chest" && <Chest state={state} closeModal={onClose} />}
     </Panel>
   );

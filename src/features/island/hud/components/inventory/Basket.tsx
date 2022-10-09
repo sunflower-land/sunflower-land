@@ -10,7 +10,7 @@ import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
 
 import { secondsToMidString } from "lib/utils/time";
-import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { getCropTime } from "features/game/events/plant";
 import { FOODS, getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
 import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
@@ -19,13 +19,20 @@ import { RESOURCES } from "features/game/types/resources";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONSUMABLES } from "features/game/types/consumables";
+import { DECORATIONS } from "features/game/types/decorations";
+import { DIMENSIONS, PlaceableName } from "features/game/types/buildings";
+import { Button } from "components/ui/Button";
 
 export const ITEM_CARD_MIN_HEIGHT = "148px";
 export const TAB_CONTENT_HEIGHT = 400;
 
 const isSeed = (selectedItem: InventoryItemName) => selectedItem in SEEDS();
 
-export const Basket: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+
+export const Basket: React.FC<Props> = ({ onClose }) => {
   const [scrollIntoView] = useScrollIntoView();
 
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
@@ -49,6 +56,15 @@ export const Basket: React.FC = () => {
     }
   };
 
+  const placeItem = () => {
+    gameService.send("EDIT", {
+      placeable: selectedItem,
+      action: "decoration.placed",
+    });
+    close();
+    scrollIntoView(Section.GenesisBlock);
+  };
+
   const basketIsEmpty = Object.values(basketMap).length === 0;
 
   const getItems = <T extends string | number | symbol, K>(
@@ -64,6 +80,7 @@ export const Basket: React.FC = () => {
   const resources = getItems(RESOURCES);
   const foods = getItems(FOODS());
   const consumables = getItems(CONSUMABLES);
+  const decorations = getItems(DECORATIONS);
 
   const allTools = [...tools, ...shovels];
 
@@ -97,6 +114,9 @@ export const Basket: React.FC = () => {
                     </span>
                   </div>
                 </div>
+              )}
+              {!!DIMENSIONS[selectedItem as PlaceableName] && (
+                <Button onClick={placeItem}>Place Item</Button>
               )}
             </div>
           )}
@@ -185,6 +205,22 @@ export const Basket: React.FC = () => {
                 />
               ))}
               {consumables.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!decorations.length && (
+          <div className="flex flex-col pl-2" key={"decorations"}>
+            {<p className="mb-2 underline">Decorations</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {decorations.map((item) => (
                 <Box
                   count={inventory[item]}
                   isSelected={selectedItem === item}

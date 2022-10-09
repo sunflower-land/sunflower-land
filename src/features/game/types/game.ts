@@ -229,6 +229,7 @@ export type PlacedItem = {
 
 export type Buildings = Partial<Record<BuildingName, PlacedItem[]>>;
 export type Collectibles = Partial<Record<CollectibleName, PlacedItem[]>>;
+export type Decorations = Partial<Record<DecorationName, PlacedItem[]>>;
 
 export type LandExpansion = {
   createdAt: number;
@@ -292,6 +293,7 @@ export interface GameState {
   bumpkin?: Bumpkin;
   buildings: Buildings;
   collectibles: Collectibles;
+  decorations: Decorations;
 }
 
 export interface Context {

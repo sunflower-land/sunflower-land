@@ -11,6 +11,7 @@ import { calculateZIndex, Coordinates } from "../components/MapPlacement";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { DECORATION_DIMENSIONS } from "features/game/types/decorations";
 
 type Dimensions = {
   height: number;
@@ -33,6 +34,7 @@ export const Placeable: React.FC = () => {
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
+    ...DECORATION_DIMENSIONS,
   }[placeable];
   const { image } = ITEM_DETAILS[placeable];
 

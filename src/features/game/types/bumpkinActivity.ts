@@ -37,6 +37,7 @@ export type BumpkinActivityName =
   | "Building Constructed"
   | "Building Placed"
   | "Collectible Placed"
+  | "Decoration Placed"
   | "Building Upgraded"
   | "Crop Fertilised"
   | "Crop Removed";

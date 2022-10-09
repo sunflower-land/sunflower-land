@@ -9,9 +9,12 @@ import crown from "assets/tools/hammer.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { ModalContent } from "./components/ui/ModalContent";
+import { Customise } from "./components/ui/Customise";
 
 export const Buildings: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const [tab, setTab] = useState<"buildings" | "customise">("customise");
 
   return (
     <>
@@ -28,9 +31,19 @@ export const Buildings: React.FC = () => {
         <Panel className="pt-5 relative">
           <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
             <div className="flex">
-              <Tab isActive>
+              <Tab
+                isActive={tab === "buildings"}
+                onClick={() => setTab("buildings")}
+              >
                 <img src={crown} className="h-5 mr-2" />
                 <span className="text-sm text-shadow">Buildings</span>
+              </Tab>
+              <Tab
+                isActive={tab === "customise"}
+                onClick={() => setTab("customise")}
+              >
+                <img src={crown} className="h-5 mr-2" />
+                <span className="text-sm text-shadow">Customize</span>
               </Tab>
             </div>
             <img
@@ -45,7 +58,12 @@ export const Buildings: React.FC = () => {
               minHeight: "200px",
             }}
           >
-            <ModalContent closeModal={() => setIsOpen(false)} />
+            {tab === "buildings" && (
+              <ModalContent closeModal={() => setIsOpen(false)} />
+            )}
+            {tab === "customise" && (
+              <Customise onClose={() => setIsOpen(false)} />
+            )}
           </div>
         </Panel>
       </Modal>
