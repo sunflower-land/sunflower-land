@@ -1198,4 +1198,8 @@ export const ITEM_DETAILS: Items = {
     image: museum,
     description: "",
   },
+  "Dirt Path": {
+    image: questionMark,
+    description: "",
+  },
 };
