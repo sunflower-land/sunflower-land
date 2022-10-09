@@ -29,6 +29,16 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
+    date: new Date("2022-10-10T00:00:00"),
+    title: "You are my sunshine",
+    notes: [
+      "The war is starting to take its toll on the troops.",
+      "I think we need to boost morale so we can continue fighting.",
+      "Moonshine is a popular choice of drink in this situation but we can make it stronger with Sunshine.",
+    ],
+    type: "war",
+  },
+  {
     date: new Date("2022-10-04T00:00:00"),
     title: "Green Amulet Drop",
     notes: [
@@ -45,6 +55,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
       "The war effort has attracted lots of attention so we should consider building a boat to explore.",
     ],
     image: boat,
+    type: "war",
   },
   {
     date: new Date("2022-09-27T00:00:00"),
