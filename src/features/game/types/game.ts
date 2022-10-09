@@ -12,6 +12,7 @@ import { ConsumableName } from "./consumables";
 import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
+import { DecorationName } from "./decorations";
 
 export type CropReward = {
   items: {
@@ -131,7 +132,8 @@ export type InventoryItemName =
   | BuildingName
   | Fertiliser
   | WarBanner
-  | ConsumableName;
+  | ConsumableName
+  | DecorationName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
