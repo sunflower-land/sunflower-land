@@ -169,7 +169,7 @@ describe("mineGold", () => {
     expect(game.inventory.Gold).toEqual(new Decimal(2));
   });
 
-  it("mines multiple iron", () => {
+  it("mines multiple gold", () => {
     let game = mineGold({
       state: {
         ...GAME_STATE,

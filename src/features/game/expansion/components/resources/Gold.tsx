@@ -50,7 +50,6 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const [popover, setPopover] = useState<JSX.Element | null>();
 
   const [touchCount, setTouchCount] = useState(0);
-  // When to hide the wood that pops out
   const [collecting, setCollecting] = useState(false);
 
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -62,7 +61,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
   const { setToast } = useContext(ToastContext);
   const expansion = game.context.state.expansions[expansionIndex];
-  const rock = expansion.gold?.[rockIndex] as LandExpansionRock;
+  const goldRock = expansion.gold?.[rockIndex] as LandExpansionRock;
   const tool = "Iron Pickaxe";
 
   const stamina = game.context.state.bumpkin
@@ -89,7 +88,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   }, []);
 
   // Users will need to refresh to strike the rock again
-  const mined = !canMine(rock, GOLD_RECOVERY_TIME);
+  const mined = !canMine(goldRock, GOLD_RECOVERY_TIME);
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -141,13 +140,13 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       displayPopover(
         <div className="flex">
           <img src={gold} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${rock.stone.amount}`}</span>
+          <span className="text-sm text-white text-shadow">{`+${goldRock.stone.amount}`}</span>
         </div>
       );
 
       setToast({
         icon: gold,
-        content: `+${rock.stone.amount}`,
+        content: `+${goldRock.stone.amount}`,
       });
 
       await new Promise((res) => setTimeout(res, 2000));
@@ -190,7 +189,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
     setErrorLabel(undefined);
   };
 
-  const timeLeft = getTimeLeft(rock.stone.minedAt, GOLD_RECOVERY_TIME);
+  const timeLeft = getTimeLeft(goldRock.stone.minedAt, GOLD_RECOVERY_TIME);
 
   return (
     <div
