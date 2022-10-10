@@ -15,15 +15,17 @@ import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
 import goldenBonsai from "assets/nfts/golden_bonsai.png";
 import rooster from "assets/nfts/rooster.gif";
+import undeadChicken from "assets/nfts/undead_chicken.gif";
 import pottedSunflower from "assets/decorations/potted_sunflower.png";
 
 import mysteriousHead from "assets/nfts/mysterious_head.png";
 import homelessTent from "assets/nfts/homeless_tent.png";
 import farmerBath from "assets/nfts/farmer_bath.png";
 import swimmer from "assets/npcs/swimmer.gif";
+import skullHand from "assets/decorations/skull_hand.png";
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 
-import { GRID_WIDTH_PX } from "../lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
 import { GameState } from "../types/game";
@@ -39,6 +41,7 @@ import {
   Trivia,
   WickerMan,
 } from "./decorations/index";
+import { WarSkulls, WarTombstone } from "./decorations/WarDecorations";
 
 export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
   <div className="z-10 absolute left-0 right-0">
@@ -380,5 +383,36 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
         alt="Rooster"
       />
     )}
+
+    {state.inventory["Undead Rooster"] && (
+      <img
+        style={{
+          width: `${GRID_WIDTH_PX * 0.71}px`,
+          left: `${GRID_WIDTH_PX * 51.6}px`,
+          top: `${GRID_WIDTH_PX * 15.7}px`,
+        }}
+        id={Section["Rooster"]}
+        className="absolute"
+        src={undeadChicken}
+        alt="Undead Rooster"
+      />
+    )}
+
+    {state.inventory["War Skull"] && (
+      <WarSkulls amount={state.inventory["War Skull"].toNumber()} />
+    )}
+
+    {state.inventory["War Tombstone"] && (
+      <WarTombstone amount={state.inventory["War Tombstone"].toNumber()} />
+    )}
+    <img
+      src={skullHand}
+      style={{
+        width: `${PIXEL_SCALE * 9}px`,
+        position: "absolute",
+        top: `${GRID_WIDTH_PX * 5}px`,
+        left: `${GRID_WIDTH_PX * 44.3}px`,
+      }}
+    />
   </div>
 );

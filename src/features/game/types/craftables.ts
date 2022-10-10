@@ -64,6 +64,7 @@ export interface CraftableItem {
    */
   isPlaceholder?: boolean;
   bumpkinLevel?: number;
+  canMintMultiple?: boolean;
 }
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
@@ -136,9 +137,10 @@ export type WarTentItem =
   | "Warrior Pants"
   | "Warrior Helmet"
   | "Sunflower Shield"
-  | "Reward 9"
-  | "Reward 10"
-  | "Reward 11";
+  | "Skull Hat"
+  | "War Skull"
+  | "War Tombstone"
+  | "Undead Rooster";
 
 export type LimitedItemName =
   | BlacksmithItem
@@ -155,7 +157,9 @@ export type CollectibleName =
   | BarnItem
   | MarketItem
   | Flag
-  | TravelingSalesmanItem;
+  | TravelingSalesmanItem
+  | "War Skull"
+  | "War Tombstone";
 
 export type Tool =
   | "Axe"
@@ -631,23 +635,30 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
-  "Reward 9": {
-    name: "Reward 9",
-    description: "A rare item",
+  "Skull Hat": {
+    name: "Skull Hat",
+    description: "A rare item.",
     type: LimitedItemType.WarTentItem,
     disabled: true,
   },
-  "Reward 10": {
-    name: "Reward 10",
-    description: "A rare item",
+  "War Skull": {
+    name: "War Skull",
+    description: "A rare item.",
     type: LimitedItemType.WarTentItem,
     disabled: true,
+    canMintMultiple: true,
   },
-  "Reward 11": {
-    name: "Reward 11",
-    description: "A rare item",
+  "War Tombstone": {
+    name: "War Tombstone",
+    description: "A rare item.",
     type: LimitedItemType.WarTentItem,
-    disabled: true,
+    disabled: false,
+  },
+  "Undead Rooster": {
+    name: "Undead Rooster",
+    description: "A rare item.",
+    type: LimitedItemType.WarTentItem,
+    disabled: false,
   },
 };
 
@@ -1024,6 +1035,7 @@ export const makeLimitedItemsByName = (
         type: items[name].type,
         disabled: !enabled,
         isPlaceholder: items[name].isPlaceholder || isNewItem,
+        canMintMultiple: items[name].canMintMultiple,
       };
     }
 
@@ -1117,6 +1129,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Easter Bunny": { width: 2, height: 1 },
   Rooster: { height: 1, width: 1 },
   "Egg Basket": { height: 1, width: 1 },
+  "War Skull": { height: 1, width: 1 },
+  "War Tombstone": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
