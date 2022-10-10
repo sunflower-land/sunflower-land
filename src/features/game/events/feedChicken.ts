@@ -76,10 +76,6 @@ export function feedChicken({
     throw new Error("Cannot have more than 15 chickens");
   }
 
-  if (chicken) {
-    console.log({ fedAt: chicken.fedAt, createdAt });
-  }
-
   if (chicken?.fedAt && createdAt - chicken.fedAt < CHICKEN_TIME_TO_EGG) {
     throw new Error("This chicken is not hungry");
   }

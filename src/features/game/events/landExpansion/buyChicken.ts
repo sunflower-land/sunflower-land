@@ -31,14 +31,15 @@ export function buyChicken({
   }
 
   const price = ANIMALS().Chicken.tokenAmount || new Decimal(0);
+
   if (stateCopy.balance.lessThan(price)) {
     throw new Error("Insufficient SFL");
   }
 
   const previousChickens = stateCopy.inventory.Chicken || new Decimal(0);
-
   const chickenHouses = stateCopy.buildings["Chicken House"]?.length ?? 0;
   const supportedChickens = chickenHouses * 10;
+
   if (previousChickens.gte(supportedChickens)) {
     throw new Error("Insufficient space for more chickens");
   }
@@ -55,6 +56,7 @@ export function buyChicken({
 
   bumpkin.activity = trackActivity("Chicken Bought", bumpkin.activity);
   bumpkin.activity = trackActivity("SFL Spent", bumpkin.activity, price);
+
   return {
     ...stateCopy,
     balance: stateCopy.balance.sub(price),
