@@ -7,7 +7,7 @@ import busyGoblin from "assets/npcs/goblin_doing.gif";
 import { Context } from "../GoblinProvider";
 import { MintedEvent } from "../lib/goblinMachine";
 import { ITEM_DETAILS } from "../types/images";
-import { secondsToString } from "lib/utils/time";
+import { ONE_DAY, secondsToString } from "lib/utils/time";
 
 export const Minted: React.FC = () => {
   const { goblinService } = useContext(Context);
@@ -18,7 +18,7 @@ export const Minted: React.FC = () => {
     ?.item;
   const mintedItem = goblinState.context.limitedItems[mintedItemName];
 
-  let cooldownPeriod: string | null = "7 days";
+  let cooldownPeriod: string | null = secondsToString(7 * ONE_DAY);
 
   console.log({ mintedItem, mintedItemName });
   if (mintedItem) {

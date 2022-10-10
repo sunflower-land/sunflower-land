@@ -15,7 +15,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CraftableItem } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
-import { secondsToString } from "lib/utils/time";
+import { secondsToMidString } from "lib/utils/time";
 import { isExpired } from "features/game/lib/stock";
 
 interface Props {
@@ -191,11 +191,8 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
           {expiryTime && (
             <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center absolute -top-4 p-[3px] rounded-md whitespace-nowrap">
               <img src={stopwatch} className="w-3 left-0 -top-4 mr-1" />
-              <span className="mt-[2px]">{`${secondsToString(
-                secondsLeft as number,
-                {
-                  separator: " ",
-                }
+              <span className="mt-[2px]">{`${secondsToMidString(
+                secondsLeft as number
               )} left`}</span>
             </span>
           )}
