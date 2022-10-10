@@ -1062,6 +1062,22 @@ export const ITEM_DETAILS: Items = {
     image: egg,
     description: "A boiled egg",
   },
+  "Bumpkin Broth": {
+    image: greenEgg,
+    description: "A boiled egg",
+  },
+  "Mashed Potato": {
+    image: redEgg,
+    description: "A boiled egg",
+  },
+  "Bumpkin Salad": {
+    image: redEgg,
+    description: "A boiled egg",
+  },
+  "Goblin's Treat": {
+    image: redEgg,
+    description: "A boiled egg",
+  },
 
   Explorer: {
     image: questionMark,

@@ -25,6 +25,7 @@ import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
 import { Chicken } from "features/island/chickens/Chicken";
 import { Collectible } from "features/island/collectibles/Collectible";
+import { Water } from "./components/Water";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -170,6 +171,9 @@ export const Land: React.FC = () => {
 
   return (
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute z-0 w-full h-full">
+        <Water level={gameState.context.state.expansions.length + 1} />
+      </div>
       <div className="relative w-full h-full">
         <LandBase expansions={expansions} />
         <UpcomingExpansion gameState={state} />
