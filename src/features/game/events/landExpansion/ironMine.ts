@@ -1,8 +1,9 @@
 import Decimal from "decimal.js-light";
+import { canMine } from "features/game/expansion/lib/utils";
 import cloneDeep from "lodash.clonedeep";
 import { IRON_MINE_STAMINA_COST } from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
-import { GameState, LandExpansionRock } from "../../types/game";
+import { GameState } from "../../types/game";
 import { replenishStamina } from "./replenishStamina";
 
 export type LandExpansionIronMineAction = {
@@ -29,11 +30,6 @@ export enum MINE_ERRORS {
 
 // 12 hours
 export const IRON_RECOVERY_TIME = 12 * 60 * 60;
-
-export function canMine(rock: LandExpansionRock, now: number = Date.now()) {
-  const recoveryTime = IRON_RECOVERY_TIME;
-  return now - rock.stone.minedAt > recoveryTime * 1000;
-}
 
 export function mineIron({
   state,
@@ -73,7 +69,7 @@ export function mineIron({
     throw new Error(MINE_ERRORS.NO_IRON);
   }
 
-  if (!canMine(ironRock, createdAt)) {
+  if (!canMine(ironRock, createdAt, IRON_RECOVERY_TIME)) {
     throw new Error(MINE_ERRORS.STILL_RECOVERING);
   }
 

@@ -5,7 +5,11 @@ import {
   GOLD_MINE_STAMINA_COST,
 } from "../../lib/constants";
 import { GameState } from "../../types/game";
-import { LandExpansionMineGoldAction, mineGold } from "./mineGold";
+import {
+  LandExpansionMineGoldAction,
+  mineGold,
+  EVENT_ERRORS,
+} from "./mineGold";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -90,7 +94,7 @@ describe("mineGold", () => {
           index: 0,
         },
       })
-    ).toThrow("No iron pickaxes left");
+    ).toThrow(EVENT_ERRORS.NO_PICKAXES);
   });
 
   it("throws an error if gold does not exist", () => {
@@ -132,7 +136,6 @@ describe("mineGold", () => {
     };
     const game = mineGold(payload);
 
-    // Try same payload
     expect(() =>
       mineGold({
         state: game,
