@@ -111,10 +111,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                 <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center absolute -top-4 p-[3px] rounded-md whitespace-nowrap">
                   <img src={stopwatch} className="w-3 left-0 -top-4 mr-1" />
                   <span className="mt-[2px]">{`${secondsToString(
-                    secondsLeft as number,
-                    {
-                      separator: " ",
-                    }
+                    secondsLeft as number
                   )} left`}</span>
                 </span>
                 <div className="flex flex-col justify-center items-center p-2 ">
