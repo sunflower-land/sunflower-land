@@ -239,6 +239,7 @@ import greenAmulet from "src/assets/bumpkins/shop/necklaces/green_amulet.png";
 import warriorShirt from "src/assets/bumpkins/shop/shirts/warrior_top.png";
 import warriorPants from "src/assets/bumpkins/shop/pants/warrior_pants.png";
 import warriorHelmet from "src/assets/bumpkins/shop/hats/warrior_helmet.png";
+import skullHat from "src/assets/bumpkins/shop/hats/skull_hat.png";
 import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png";
 
 import skull from "src/assets/decorations/war_skulls.png";
@@ -1050,7 +1051,7 @@ export const ITEM_DETAILS: Items = {
     description: "A hero of Sunflower Land. Free Sunflower Seeds!",
   },
   "Skull Hat": {
-    image: questionMark,
+    image: skullHat,
     description: "A reward for your war efforts",
   },
   "War Skull": {
