@@ -17,7 +17,6 @@ import { Context } from "features/game/GoblinProvider";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { Button } from "components/ui/Button";
-import ReCAPTCHA from "react-google-recaptcha";
 import { OuterPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 
@@ -85,19 +84,25 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   ] = useActor(goblinService);
   const [isLoading, setIsLoading] = useState(true);
   const [supply, setSupply] = useState<ItemSupply>();
-  const [showCaptcha, setShowCaptcha] = useState(false);
 
   useEffect(() => {
     const load = async () => {
       const supply = API_URL
         ? await metamask.getInventory().totalSupply()
         : ({} as ItemSupply);
+
+      console.log({ supply });
       setSupply(supply);
 
       setIsLoading(false);
     };
 
     load();
+
+    // Every 5 seconds grab the latest supply
+    const poller = window.setInterval(load, 5 * 1000);
+
+    return () => window.clearInterval(poller);
   }, []);
 
   const inventory = state.inventory;
@@ -130,12 +135,8 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
     return state.balance.lessThan(selected.tokenAmount.mul(amount));
   };
 
-  const craft = () => setShowCaptcha(true);
-
-  const onCaptchaSolved = async (token: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    goblinService.send("MINT", { item: selected.name, captcha: token });
+  const craft = async () => {
+    goblinService.send("MINT", { item: selected.name, captcha: "" });
     onClose();
   };
 
@@ -236,26 +237,13 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
         <Button
           disabled={lessFunds() || lessIngredients()}
           className="text-xs mt-1"
-          onClick={craft}
+          onClick={() => craft()}
         >
           Craft
         </Button>
       </>
     );
   };
-
-  if (showCaptcha) {
-    return (
-      <>
-        <ReCAPTCHA
-          sitekey={CONFIG.RECAPTCHA_SITEKEY}
-          onChange={onCaptchaSolved}
-          onExpired={() => setShowCaptcha(false)}
-          className="w-full m-4 flex items-center justify-center"
-        />
-      </>
-    );
-  }
 
   return (
     <div className="flex">
