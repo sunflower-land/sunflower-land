@@ -69,7 +69,7 @@ export function mineIron({
     throw new Error(MINE_ERRORS.NO_IRON);
   }
 
-  if (!canMine(ironRock, createdAt, IRON_RECOVERY_TIME)) {
+  if (!canMine(ironRock, IRON_RECOVERY_TIME, createdAt)) {
     throw new Error(MINE_ERRORS.STILL_RECOVERING);
   }
 

@@ -69,7 +69,7 @@ export function mineGold({
     throw new Error("No gold rock found.");
   }
 
-  if (!canMine(goldRock, createdAt, GOLD_RECOVERY_TIME)) {
+  if (!canMine(goldRock, GOLD_RECOVERY_TIME, createdAt)) {
     throw new Error(EVENT_ERRORS.STILL_RECOVERING);
   }
 
