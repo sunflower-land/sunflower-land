@@ -6,7 +6,7 @@ import Spritesheet, {
 
 import sparkSheet from "assets/resources/gold/gold_spark_sheet.png";
 import dropSheet from "assets/resources/gold/gold_rock_drop.png";
-import hitbox from "assets/resources/small_stone.png";
+import hitbox from "assets/resources/gold/gold.png";
 import gold from "assets/resources/gold_ore.png";
 import pickaxe from "assets/tools/iron_pickaxe.png";
 
@@ -200,7 +200,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Unmined stone which is strikeable */}
+      {/* Unmined gold which is strikeable */}
       {!mined && (
         <div
           ref={containerRef}
@@ -212,17 +212,17 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
               className="group-hover:img-highlight pointer-events-none z-10"
               style={{
                 position: "absolute",
-                left: "-44.7px",
-                top: "-37px",
+                left: "-86.7px",
+                top: "-55.5px",
                 imageRendering: "pixelated",
-                width: `${GRID_WIDTH_PX * 3}px`,
+                width: `${GRID_WIDTH_PX * 7}px`,
               }}
               getInstance={(spritesheet) => {
                 sparkGif.current = spritesheet;
               }}
               image={sparkSheet}
-              widthFrame={48}
-              heightFrame={32}
+              widthFrame={112}
+              heightFrame={48}
               fps={24}
               steps={6}
               direction={`forward`}
@@ -255,12 +255,11 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       <Spritesheet
         style={{
           position: "absolute",
-          left: "-10.1px",
-          top: "-47.2px",
+          left: "-86.6px",
+          top: "-49.9px",
           opacity: collecting ? 1 : 0,
-          // opacity: 1,
           transition: "opacity 0.2s ease-in",
-          width: `${GRID_WIDTH_PX * 5}px`,
+          width: `${GRID_WIDTH_PX * 7}px`,
           imageRendering: "pixelated",
         }}
         className="pointer-events-none z-20"
@@ -268,8 +267,8 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
           minedGif.current = spritesheet;
         }}
         image={dropSheet}
-        widthFrame={80}
-        heightFrame={32}
+        widthFrame={112}
+        heightFrame={48}
         fps={18}
         steps={10}
         direction={`forward`}
@@ -287,7 +286,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
             src={hitbox}
             className="pointer-events-none -z-10 absolute opacity-50"
             style={{
-              width: `${GRID_WIDTH_PX * 1.1}px`,
+              width: `${GRID_WIDTH_PX}px`,
             }}
           />
         </>
@@ -302,7 +301,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
           }
         )}
       >
-        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 2) * 100} />
+        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
       </div>
       {/* Recovery time panel */}
       {mined && (
