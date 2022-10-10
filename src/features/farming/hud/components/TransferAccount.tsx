@@ -80,6 +80,14 @@ export const TransferAccount: React.FC = () => {
       <Button className="mt-2" onClick={transfer} disabled={!isAddress(wallet)}>
         Transfer
       </Button>
+      <a
+        href="https://docs.sunflower-land.com/support/faq#how-can-i-send-my-account-to-a-new-wallet"
+        target="_blank"
+        className="underline text-xxs"
+        rel="noreferrer"
+      >
+        Read more
+      </a>
     </div>
   );
 };
