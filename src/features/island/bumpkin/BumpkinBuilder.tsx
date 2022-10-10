@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Box } from "components/ui/Box";
 import { getKeys } from "features/game/types/craftables";
-import { randomBetweenMaxExclusive as randomInt } from "features/game/expansion/lib/randomBetweenMaxExlusive";
 import { Button } from "components/ui/Button";
 import { DynamicNPC } from "./components/DynamicNPC";
 import { DynamicNFT } from "../../bumpkins/components/DynamicNFT";
@@ -14,6 +13,7 @@ import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import { Context } from "features/game/GameProvider";
 import { InitialBumpkinParts } from "features/game/actions/mintBumpkin";
+import { randomBetweenMaxExclusive } from "features/game/expansion/lib/utils";
 
 export type LimitedBody =
   | "Beige Farmer Potion"
@@ -90,7 +90,7 @@ const BUMPKIN_PARTS: Record<Category, CategoryDetails> = {
 
 const getRandomPart = <T,>(category: Category) => {
   const { options } = BUMPKIN_PARTS[category];
-  const randomIndex = randomInt(0, options.length);
+  const randomIndex = randomBetweenMaxExclusive(0, options.length);
 
   return options[randomIndex] as unknown as T;
 };
