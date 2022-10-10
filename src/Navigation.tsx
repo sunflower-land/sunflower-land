@@ -15,7 +15,6 @@ import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
 import { DEV_Viewer } from "features/viewer/DEV_Viewer";
 import { Community } from "features/community/Community";
-import { Helios } from "features/helios/Helios";
 import { Retreat } from "features/retreat/Retreat";
 import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 
@@ -80,11 +79,14 @@ export const Navigation: React.FC = () => {
             <Route path="/farm/:id" element={<Humans key="farm" />} />
             <Route path="/visit/:id" element={<Visiting key="visit" />} />
             {CONFIG.NETWORK !== "mainnet" && (
-              <Route path="/land/:id" element={<LandExpansion key="land" />} />
+              <Route
+                path="/land/:id/*"
+                element={<LandExpansion key="land" />}
+              />
             )}
-            {CONFIG.NETWORK !== "mainnet" && (
+            {/* {CONFIG.NETWORK !== "mainnet" && (
               <Route path="/helios/:id" element={<Helios key="helios" />} />
-            )}
+            )} */}
             {CONFIG.NETWORK !== "mainnet" && (
               <Route path="/retreat/:id" element={<Retreat key="helios" />} />
             )}

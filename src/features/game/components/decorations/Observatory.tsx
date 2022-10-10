@@ -14,26 +14,22 @@ export const Observatory: React.FC = () => {
   // Using rand value helps force-replay gifs.
   // Also, putting this in state ensures the gif doesn't replay during random compontent rerenders.
   const [playRand, setPlayRand] = useState<number | null>(null);
-  const [showModal, setShowModal] = useState(false);
-  let timeout: NodeJS.Timeout;
+  const [modalTimer, setModalTimer] = useState<number>();
 
   const handleOpenTelescope = () => {
-    setShowModal(true);
-    setPlayRand(Math.random());
     if (!observatoryAnimationAudio.playing()) {
       observatoryAnimationAudio.play();
     }
 
-    timeout = setTimeout(() => {
-      handleCloseTelescope();
-    }, 26000);
+    setPlayRand(Math.random());
+    setModalTimer(window.setTimeout(handleCloseTelescope, 26000));
   };
 
   const handleCloseTelescope = () => {
-    setShowModal(false);
-    setPlayRand(null);
     observatoryAnimationAudio.stop();
-    clearTimeout(timeout);
+
+    setPlayRand(null);
+    setModalTimer(clearTimeout(modalTimer) as undefined);
   };
 
   return (
@@ -50,7 +46,7 @@ export const Observatory: React.FC = () => {
         onClick={handleOpenTelescope}
         alt="Observatory"
       />
-      <Modal centered show={showModal} onHide={handleCloseTelescope}>
+      <Modal centered show={!!modalTimer} onHide={handleCloseTelescope}>
         <OuterPanel>
           <InnerPanel style={{ backgroundColor: "#1b1c1b" }}>
             <img

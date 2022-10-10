@@ -91,6 +91,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Radish Cake": 513,
   "Wheat Cake": 514,
   "Boiled Egg": 515,
+  "Bumpkin Broth": 516,
+  "Bumpkin Salad": 517,
+  "Goblin's Treat": 518,
+  "Mashed Potato": 519,
 
   Wood: 601,
   Stone: 602,
@@ -197,6 +201,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Water Well": 1006,
   Market: 1007,
   Tent: 1008,
+  "Chicken House": 1009,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,
@@ -212,6 +217,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Reward 9": 1111,
   "Reward 10": 1112,
   "Reward 11": 1113,
+
+  "Dirt Path": 1201,
 };
 
 // The reverse of above

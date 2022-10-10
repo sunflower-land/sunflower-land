@@ -110,10 +110,6 @@ export function plant({
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (!inventory["Water Well"]) {
-    throw new Error("Water Well does not exist");
-  }
-
   if (bumpkin.stamina.value < PLANT_STAMINA_COST) {
     throw new Error("You do not have enough stamina");
   }

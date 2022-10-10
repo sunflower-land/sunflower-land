@@ -74,9 +74,13 @@ export function seedBought({ state, action }: Options) {
   bumpkin.activity = trackActivity(
     "SFL Spent",
     bumpkin?.activity,
-    totalExpenses?.toNumber() ?? 0
+    totalExpenses ?? new Decimal(0)
   );
-  bumpkin.activity = trackActivity(`${item} Bought`, bumpkin?.activity, amount);
+  bumpkin.activity = trackActivity(
+    `${item} Bought`,
+    bumpkin?.activity,
+    new Decimal(amount)
+  );
 
   return {
     ...stateCopy,

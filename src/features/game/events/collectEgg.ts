@@ -15,7 +15,7 @@ type Options = {
 };
 
 export function eggIsReady(chicken: Chicken, createdAt: number) {
-  return createdAt - chicken.fedAt >= CHICKEN_TIME_TO_EGG;
+  return chicken.fedAt && createdAt - chicken.fedAt >= CHICKEN_TIME_TO_EGG;
 }
 
 export function collectEggs({
@@ -37,7 +37,7 @@ export function collectEggs({
 
   const mutantChicken = chicken.reward?.items[0];
 
-  delete chickens[action.index];
+  delete chickens[action.index].fedAt;
 
   return {
     ...stateCopy,
