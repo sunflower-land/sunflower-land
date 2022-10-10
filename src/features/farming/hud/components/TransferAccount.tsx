@@ -12,7 +12,7 @@ export const TransferAccount: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  const [wallet, setWallet] = useState("");
+  const [wallet, setWallet] = useState({ address: "" });
   const [state, setState] = useState<"idle" | "loading" | "error" | "success">(
     "idle"
   );
@@ -21,7 +21,7 @@ export const TransferAccount: React.FC = () => {
     setState("loading");
     try {
       await transferAccount({
-        receiver: wallet,
+        receiver: wallet.address,
         farmId: authState.context.farmId as number,
         token: authState.context.rawToken as string,
       });
@@ -66,8 +66,8 @@ export const TransferAccount: React.FC = () => {
         type="text"
         name="farmId"
         className="text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2"
-        value={wallet}
-        onChange={(e) => setWallet(e.target.value)}
+        value={wallet.address}
+        onChange={(e) => setWallet({ address: e.target.value })}
       />
       <div className="flex items-start">
         <img src={alerted} className="h-6 pt-2 pr-2" />
@@ -77,7 +77,11 @@ export const TransferAccount: React.FC = () => {
           incorrect addresses.
         </span>
       </div>
-      <Button className="mt-2" onClick={transfer} disabled={!isAddress(wallet)}>
+      <Button
+        className="mt-2"
+        onClick={transfer}
+        disabled={!isAddress(wallet.address)}
+      >
         Transfer
       </Button>
       <a
