@@ -156,7 +156,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     constructionSeconds: 60 * 5,
   },
   "Chicken House": {
-    levelRequired: 1,
+    unlocksAtLevels: [1],
     ingredients: [
       {
         item: "Wood",
