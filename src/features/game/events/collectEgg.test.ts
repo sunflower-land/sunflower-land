@@ -55,7 +55,9 @@ describe("collect eggs", () => {
     });
 
     expect(newState.inventory.Egg).toEqual(new Decimal(1));
-    expect(newState.chickens?.[0]).toBeUndefined();
+    expect(newState.chickens?.[0]).toEqual({
+      multiplier: 1,
+    });
   });
 
   it("can collect an egg multiple times", () => {
@@ -85,8 +87,12 @@ describe("collect eggs", () => {
     });
 
     expect(stateAfterSecondEggCollected.inventory.Egg).toEqual(new Decimal(2));
-    expect(stateAfterSecondEggCollected.chickens?.[0]).toBeUndefined();
-    expect(stateAfterSecondEggCollected.chickens?.[1]).toBeUndefined();
+    expect(stateAfterSecondEggCollected.chickens?.[0]).toEqual({
+      multiplier: 1,
+    });
+    expect(stateAfterSecondEggCollected.chickens?.[1]).toEqual({
+      multiplier: 1,
+    });
   });
 
   it("can collect a Speed Chicken", () => {

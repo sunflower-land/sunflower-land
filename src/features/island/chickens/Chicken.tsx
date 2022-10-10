@@ -3,26 +3,23 @@ import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import debounce from "lodash.debounce";
 
-import hungryChicken from "assets/animals/chickens/hungry.gif";
-import happyChicken from "assets/animals/chickens/happy.gif";
-import walkingChickenSheet from "assets/animals/chickens/walking_sheet.png";
-import sleepingChicken from "assets/animals/chickens/sleeping.gif";
-import layingEggSheet from "assets/animals/chickens/laying-egg-sheet.png";
+import hungryChicken from "assets/animals/chickens/hungry_2.gif";
+import happyChicken from "assets/animals/chickens/happy_2.gif";
+import walkingChickenSheet from "assets/animals/chickens/walking_sheet_2.png";
+import sleepingChicken from "assets/animals/chickens/sleeping_2.gif";
+import chickenShadow from "assets/animals/chickens/chicken_shadow.png";
+import layingEggSheet from "assets/animals/chickens/laying-egg-sheet_2.png";
 import wheatOnGround from "assets/animals/chickens/wheat.png";
 import cancel from "assets/icons/cancel.png";
 import wheat from "assets/crops/wheat/crop.png";
 import egg from "assets/resources/egg.png";
 
 import { Context } from "features/game/GameProvider";
-import {
-  ChickenContext,
-  chickenMachine,
-  MachineInterpreter,
-  MachineState,
-} from "../chickenMachine";
+
 import Spritesheet from "components/animation/SpriteAnimator";
 import {
   CHICKEN_TIME_TO_EGG,
+  GRID_WIDTH_PX,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -30,14 +27,17 @@ import Decimal from "decimal.js-light";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { secondsToMidString } from "lib/utils/time";
-import { MutantChickenModal } from "./MutantChickenModal";
 import { MutantChicken } from "features/game/types/craftables";
-import { ChickenPosition } from "features/game/types/game";
 import { getWheatRequiredToFeed } from "features/game/events/feedChicken";
-
+import {
+  ChickenContext,
+  chickenMachine,
+  MachineInterpreter,
+  MachineState,
+} from "features/farming/animals/chickenMachine";
+import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
 interface Props {
   index: number;
-  position: ChickenPosition;
 }
 
 const getPercentageComplete = (fedAt?: number) => {
@@ -84,7 +84,7 @@ const isHappy = (state: MachineState) => state.matches({ fed: "happy" });
 const isEggReady = (state: MachineState) => state.matches("eggReady");
 const isEggLaid = (state: MachineState) => state.matches("eggLaid");
 
-export const Chicken: React.FC<Props> = ({ index, position }) => {
+export const Chicken: React.FC<Props> = ({ index }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [
     {
@@ -98,9 +98,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
 
   const percentageComplete = getPercentageComplete(chicken?.fedAt);
 
-  const chickenContext: Partial<ChickenContext> | undefined = chicken && {
-    fedAt: chicken.fedAt,
-  };
+  const chickenContext: Partial<ChickenContext> = chicken;
 
   // useInterpret returns a static reference (to just the interpreted machine) which will not rerender when its state changes
   const service = useInterpret(chickenMachine, {
@@ -116,7 +114,6 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const happy = useSelector(service, isHappy);
   const eggReady = useSelector(service, isEggReady);
   const eggLaid = useSelector(service, isEggLaid);
-  console.log({ chickenContext, hungry });
 
   const eggIsBrewing = happy || sleeping;
   const showEggProgress = chicken && !eating && !eggLaid && !hungry;
@@ -197,10 +194,12 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
 
   return (
     <div
-      className="absolute"
+      className="relative"
       style={{
-        right: position.right,
-        top: position.top,
+        width: `${GRID_WIDTH_PX}px`,
+        height: `${GRID_WIDTH_PX}px`,
+        right: 7,
+        top: -20,
       }}
     >
       <div className="relative w-16 h-16" style={{ zIndex: index }}>
@@ -209,9 +208,11 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             <img
               src={hungryChicken}
               alt="hungry-chicken"
+              draggable={false}
               onClick={feed}
               className="absolute w-16 h-16 cursor-pointer hover:img-highlight"
             />
+            <img src={chickenShadow} className="absolute w-full -z-10" />
             <div
               className={classNames(
                 "transition-opacity absolute z-20 pointer-events-none ",
@@ -280,52 +281,63 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
           />
         )}
         {sleeping && (
-          <img
-            onMouseEnter={debouncedHandleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            src={sleepingChicken}
-            alt="sleeping-chicken"
-            className="absolute w-16 h-16 top-[2px]"
-          />
+          <>
+            <img
+              onMouseEnter={debouncedHandleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              src={sleepingChicken}
+              alt="sleeping-chicken"
+              className="absolute w-16 h-16 top-[2px]"
+            />
+            <img src={chickenShadow} className="absolute w-full -z-10" />
+          </>
         )}
         {eggReady && (
-          <Spritesheet
-            className="absolute cursor-pointer hover:img-highlight"
-            style={{
-              top: "-14px",
-              left: "16px",
-              imageRendering: "pixelated",
-            }}
-            image={layingEggSheet}
-            widthFrame={34}
-            heightFrame={62}
-            fps={3}
-            steps={21}
-            endAt={7}
-            direction={`forward`}
-            autoplay={true}
-            loop={true}
-            onClick={() => service.send("LAY")}
-          />
+          <>
+            <img src={chickenShadow} className="absolute w-full -z-10" />
+            <Spritesheet
+              className="absolute cursor-pointer hover:img-highlight w-full"
+              style={{
+                top: "-14px",
+                left: "16px",
+                imageRendering: "pixelated",
+                width: "34px",
+              }}
+              image={layingEggSheet}
+              widthFrame={17}
+              heightFrame={31}
+              fps={3}
+              steps={21}
+              endAt={7}
+              direction={`forward`}
+              autoplay={true}
+              loop={true}
+              onClick={() => service.send("LAY")}
+            />
+          </>
         )}
         {eggLaid && (
-          <Spritesheet
-            image={layingEggSheet}
-            className="absolute cursor-pointer hover:img-highlight"
-            style={{
-              top: "-14px",
-              left: "16px",
-              imageRendering: "pixelated",
-            }}
-            widthFrame={34}
-            heightFrame={62}
-            fps={20}
-            steps={21}
-            direction={`forward`}
-            autoplay={true}
-            loop={false}
-            onClick={handleCollect}
-          />
+          <>
+            <img src={chickenShadow} className="absolute w-full -z-10" />
+            <Spritesheet
+              image={layingEggSheet}
+              className="absolute cursor-pointer hover:img-highlight"
+              style={{
+                top: "-14px",
+                left: "16px",
+                width: "34px",
+                imageRendering: "pixelated",
+              }}
+              widthFrame={17}
+              heightFrame={31}
+              fps={20}
+              steps={21}
+              direction={`forward`}
+              autoplay={true}
+              loop={false}
+              onClick={handleCollect}
+            />
+          </>
         )}
       </div>
       {eggIsBrewing && showTimeToEgg && (
@@ -333,7 +345,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
       )}
       {showEggProgress && (
         <div
-          className="absolute w-2/5 bottom-1 left-4"
+          className="absolute w-7 -bottom-4 left-3.5"
           style={{ zIndex: index + 1 }}
         >
           <Bar percentage={percentageComplete} />

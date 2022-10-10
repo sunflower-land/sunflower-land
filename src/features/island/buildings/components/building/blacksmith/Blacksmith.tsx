@@ -16,6 +16,7 @@ export const Blacksmith: React.FC = () => {
     <>
       <img
         src={blacksmith}
+        draggable={false}
         style={{
           width: `${PIXEL_SCALE * 48}px`,
         }}

@@ -1118,3 +1118,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Rooster: { height: 1, width: 1 },
   "Egg Basket": { height: 1, width: 1 },
 };
+
+export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
+  Chicken: {
+    height: 1,
+    width: 1,
+  },
+};
