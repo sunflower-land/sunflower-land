@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { WarIntro } from "./components/WarIntro";
 
 import { WarCollection } from "./components/WarCollection";
@@ -16,18 +16,32 @@ const hasPickedSide = (inventory: Inventory) => {
 };
 
 export const GoblinWar: React.FC = () => {
+  const [isReady, setIsReady] = useState(false);
   const { gameService } = useContext(Context);
   const [
     {
+      matches,
+      value,
       context: {
         state: { inventory },
       },
     },
+    state,
   ] = useActor(gameService);
+
+  useEffect(() => {
+    if (matches("playing")) {
+      setIsReady(true);
+    }
+  }, [value]);
 
   const handlePickSide = (side: WarSide) => {
     gameService.send({ type: "side.picked", side });
   };
+
+  if (!isReady) {
+    return null;
+  }
 
   if (!hasPickedSide(inventory)) {
     return <WarIntro onPickSide={handlePickSide} />;
