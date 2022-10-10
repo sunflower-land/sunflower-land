@@ -461,7 +461,7 @@ export const authMachine = createMachine<
           onDone: [
             {
               target: "blacklisted",
-              cond: (context) => context.blacklistStatus !== "OK",
+              cond: (_, event) => event.data.blacklistStatus !== "OK",
               actions: "assignFarm",
             },
             {

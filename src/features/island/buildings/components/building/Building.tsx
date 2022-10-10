@@ -14,6 +14,7 @@ import { Market } from "./market/Market";
 import { Blacksmith } from "./blacksmith/Blacksmith";
 import { Tent } from "./tent/Tent";
 import { WaterWell } from "./waterWell/WaterWell";
+import { ChickenHouse } from "./chickenHouse/ChickenHouse";
 
 interface Prop {
   name: BuildingName;
@@ -26,7 +27,10 @@ export interface BuildingProps {
   craftingState?: BuildingProduct;
 }
 
-const BUILDING_COMPONENTS: Record<BuildingName, React.FC<BuildingProps>> = {
+export const BUILDING_COMPONENTS: Record<
+  BuildingName,
+  React.FC<BuildingProps>
+> = {
   "Fire Pit": ({ buildingId, craftingState }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
       <FirePit buildingId={buildingId} />
@@ -39,6 +43,7 @@ const BUILDING_COMPONENTS: Record<BuildingName, React.FC<BuildingProps>> = {
   Market: Market,
   Tent: Tent,
   "Water Well": WaterWell,
+  "Chicken House": ChickenHouse,
 };
 
 export const Building: React.FC<Prop> = ({

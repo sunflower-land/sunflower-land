@@ -23,10 +23,12 @@ export const FrogNft: React.FC = () => {
   useEffect(() => {
     const fetchFrogs = async () => {
       const data = await loadFrogs(gameState.context.owner);
-      setFrogData(data);
+      setFrogData(data as Frog[]);
     };
 
-    fetchFrogs();
+    if (gameState.context.owner) {
+      fetchFrogs();
+    }
   }, [gameState.context.owner]);
 
   return (
