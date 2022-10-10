@@ -60,7 +60,7 @@ export const Expansion: React.FC<
               height={height}
               width={width}
             >
-              <Gold />
+              <Gold rockIndex={Number(index)} expansionIndex={expansionIndex} />
             </MapPlacement>
           );
         })}
