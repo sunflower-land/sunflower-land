@@ -12,16 +12,22 @@ export const TransferAccount: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  const [wallet, setWallet] = useState({ address: "" });
+  const [wallet, setWallet] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "error" | "success">(
     "idle"
   );
 
+  // Strange bug when using onChange with 0x data - grab data from DOM
+  const onChange = () => {
+    const value = (document.getElementById("address-input") as HTMLInputElement)
+      ?.value;
+    setWallet(value);
+  };
   const transfer = async () => {
     setState("loading");
     try {
       await transferAccount({
-        receiver: wallet.address,
+        receiver: wallet,
         farmId: authState.context.farmId as number,
         token: authState.context.rawToken as string,
       });
@@ -65,8 +71,8 @@ export const TransferAccount: React.FC = () => {
       <input
         pattern="^0x[a-fA-F0-9]{40}$"
         className="text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2"
-        value={wallet.address}
-        onChange={(e) => setWallet({ address: e.target.value })}
+        id="address-input"
+        onChange={onChange}
       />
       <div className="flex items-start">
         <img src={alerted} className="h-6 pt-2 pr-2" />
@@ -76,11 +82,7 @@ export const TransferAccount: React.FC = () => {
           incorrect addresses.
         </span>
       </div>
-      <Button
-        className="mt-2"
-        onClick={transfer}
-        disabled={!isAddress(wallet.address)}
-      >
+      <Button className="mt-2" onClick={transfer} disabled={!isAddress(wallet)}>
         Transfer
       </Button>
       <a
