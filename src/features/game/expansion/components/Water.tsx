@@ -15,7 +15,7 @@ import chest from "assets/icons/chest.png";
 
 import { MapPlacement } from "./MapPlacement";
 
-const LAND_WIDTH = 6;
+export const LAND_WIDTH = 6;
 
 interface Props {
   level: number;
@@ -46,7 +46,7 @@ export const Water: React.FC<Props> = ({ level }) => {
           className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
         />
 
-        <MapPlacement x={-offset} y={1}>
+        <MapPlacement x={-offset} y={1} width={GRID_WIDTH_PX * 1.185}>
           <img
             style={{
               width: `${GRID_WIDTH_PX * 1.185}px`,
@@ -56,7 +56,7 @@ export const Water: React.FC<Props> = ({ level }) => {
           />
         </MapPlacement>
 
-        <MapPlacement x={-3 - offset} y={-1}>
+        <MapPlacement x={-3 - offset} y={-1} width={GRID_WIDTH_PX * 6.1}>
           <img
             src={goblinSwimming}
             style={{
@@ -65,7 +65,7 @@ export const Water: React.FC<Props> = ({ level }) => {
           />
         </MapPlacement>
 
-        <MapPlacement x={-2} y={offset + 2}>
+        <MapPlacement x={-2} y={offset + 2} width={64 * PIXEL_SCALE}>
           <img
             src={goblinSnorkling}
             style={{
@@ -74,7 +74,7 @@ export const Water: React.FC<Props> = ({ level }) => {
           />
         </MapPlacement>
 
-        <MapPlacement x={offset + 4} y={6}>
+        <MapPlacement x={offset + 4} y={6} width={16 * PIXEL_SCALE}>
           <img
             src={swimmer}
             style={{
@@ -84,7 +84,7 @@ export const Water: React.FC<Props> = ({ level }) => {
             }}
           />
         </MapPlacement>
-        <MapPlacement x={offset + 4} y={6}>
+        <MapPlacement x={offset + 4} y={6} width={16 * PIXEL_SCALE}>
           <img
             src={cossies}
             style={{
