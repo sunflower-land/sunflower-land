@@ -38,7 +38,7 @@ function hasFedChickens(game: GoblinState): boolean {
 
   const hasFedChickens = Object.values(game.chickens).some(
     (chicken) =>
-      !chicken.fedAt || Date.now() - chicken.fedAt < CHICKEN_TIME_TO_EGG
+      chicken.fedAt && Date.now() - chicken.fedAt < CHICKEN_TIME_TO_EGG
   );
 
   return hasFedChickens;
