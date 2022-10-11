@@ -226,6 +226,7 @@ import market from "src/assets/buildings/market.png";
 import blacksmith from "src/assets/buildings/blacksmith.png";
 import tent from "src/assets/buildings/tent1.png";
 import well from "src/assets/buildings/well1.png";
+import chickenHouse from "src/assets/buildings/chicken_house.png";
 
 // Clothing
 import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
@@ -1007,6 +1008,10 @@ export const ITEM_DETAILS: Items = {
     image: tent,
     description: "Rest your Bumpkin and earn more stamina",
   },
+  "Chicken House": {
+    image: chickenHouse,
+    description: "Grow your chicken empire",
+  },
 
   "Sunflower Amulet": {
     image: sunflowerAmulet,
@@ -1055,6 +1060,22 @@ export const ITEM_DETAILS: Items = {
 
   "Boiled Egg": {
     image: egg,
+    description: "A boiled egg",
+  },
+  "Bumpkin Broth": {
+    image: greenEgg,
+    description: "A boiled egg",
+  },
+  "Mashed Potato": {
+    image: redEgg,
+    description: "A boiled egg",
+  },
+  "Bumpkin Salad": {
+    image: redEgg,
+    description: "A boiled egg",
+  },
+  "Goblin's Treat": {
+    image: redEgg,
     description: "A boiled egg",
   },
 
@@ -1196,6 +1217,10 @@ export const ITEM_DETAILS: Items = {
   },
   Museum: {
     image: museum,
+    description: "",
+  },
+  "Dirt Path": {
+    image: questionMark,
     description: "",
   },
 };

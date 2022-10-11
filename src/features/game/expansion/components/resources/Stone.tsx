@@ -23,14 +23,12 @@ import { getTimeLeft } from "lib/utils/time";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { LandExpansionRock } from "features/game/types/game";
-import {
-  canMine,
-  STONE_RECOVERY_TIME,
-} from "features/game/events/landExpansion/stoneMine";
+import { STONE_RECOVERY_TIME } from "features/game/events/landExpansion/stoneMine";
 import { MINE_ERRORS } from "features/game/events/stoneMine";
 import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
 import { Overlay } from "react-bootstrap";
 import { Label } from "components/ui/Label";
+import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 const POPOVER_TIME_MS = 1000;
@@ -88,7 +86,8 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
     };
   }, []);
 
-  const mined = !canMine(rock);
+  // Users will need to refresh to strike the rock again
+  const mined = !canMine(rock, STONE_RECOVERY_TIME);
 
   const [_, setTimer] = React.useState<number>(0);
   const setRecoveryTime = React.useCallback(() => {

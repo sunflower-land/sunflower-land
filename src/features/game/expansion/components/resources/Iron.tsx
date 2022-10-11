@@ -24,13 +24,13 @@ import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { LandExpansionRock } from "features/game/types/game";
 import {
-  canMine,
   IRON_RECOVERY_TIME,
   MINE_ERRORS,
 } from "features/game/events/landExpansion/ironMine";
 import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
 import { Overlay } from "react-bootstrap";
 import { Label } from "components/ui/Label";
+import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 const POPOVER_TIME_MS = 1000;
@@ -88,7 +88,8 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
     };
   }, []);
 
-  const mined = !canMine(ironRock);
+  // Users will need to refresh to strike the iron again
+  const mined = !canMine(ironRock, IRON_RECOVERY_TIME);
 
   const [_, setTimer] = React.useState<number>(0);
   const setRecoveryTime = React.useCallback(() => {

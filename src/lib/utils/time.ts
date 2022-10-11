@@ -1,12 +1,13 @@
-const ONE_SEC = 1;
-const ONE_MIN = ONE_SEC * 60;
-const ONE_HR = ONE_MIN * 60;
-const ONE_DAY = ONE_HR * 24;
+export const ONE_SEC = 1;
+export const ONE_MIN = ONE_SEC * 60;
+export const ONE_HR = ONE_MIN * 60;
+export const ONE_DAY = ONE_HR * 24;
 
 type TimeUnit = "sec" | "min" | "hr" | "day";
 
 type TimeStringOptions = {
   separator?: string;
+  isShortFormat?: boolean;
 };
 
 function timeToStr(
@@ -14,56 +15,45 @@ function timeToStr(
   unit: TimeUnit,
   options: TimeStringOptions = {
     separator: "",
+    isShortFormat: false,
   }
 ) {
+  if (options.isShortFormat) {
+    return `${amount}${options.separator ?? ""}${unit.substring(0, 1)}`;
+  }
+
   const pluralizedUnit = amount === 1 ? unit : `${unit}s`;
-  return `${amount}${options.separator}${pluralizedUnit}`;
+  return `${amount}${options.separator ?? ""}${pluralizedUnit}`;
 }
 
-function getTimeUnits(seconds: number) {
+function getTimeUnits(seconds: number, isShortFormat: boolean) {
   const secondsPart = Math.ceil(seconds % ONE_MIN);
   const minutesPart = Math.floor((seconds / ONE_MIN) % ONE_MIN);
   const hoursPart = Math.floor((seconds / ONE_HR) % 24);
   const daysPart = Math.floor(seconds / ONE_DAY);
 
   return [
-    daysPart && timeToStr(daysPart, "day"),
-    hoursPart && timeToStr(hoursPart, "hr"),
-    minutesPart && timeToStr(minutesPart, "min"),
-    secondsPart && timeToStr(secondsPart, "sec"),
+    daysPart && timeToStr(daysPart, "day", { isShortFormat: isShortFormat }),
+    (daysPart || hoursPart) &&
+      timeToStr(hoursPart, "hr", { isShortFormat: isShortFormat }),
+    (daysPart || hoursPart || minutesPart) &&
+      timeToStr(minutesPart, "min", { isShortFormat: isShortFormat }),
+    timeToStr(secondsPart, "sec", { isShortFormat: isShortFormat }),
   ].filter(Boolean);
 }
 
-export function secondsToString(
-  seconds: number,
-  options: TimeStringOptions = { separator: "" }
-) {
-  const secondsCeil = Math.ceil(seconds);
-  if (secondsCeil < ONE_MIN) {
-    return timeToStr(secondsCeil, "sec", options);
-  }
-
-  if (seconds < ONE_HR) {
-    const minutesCeil = Math.ceil(seconds / ONE_MIN);
-    return timeToStr(minutesCeil, "min", options);
-  }
-
-  if (seconds < ONE_DAY) {
-    const hoursCeil = Math.ceil(seconds / ONE_HR);
-    return timeToStr(hoursCeil, "hr", options);
-  }
-
-  const daysCeil = Math.ceil(seconds / ONE_DAY);
-  return timeToStr(daysCeil, "day", options);
+// first unit
+export function secondsToString(seconds: number, isShortFormat = false) {
+  return getTimeUnits(seconds, isShortFormat).slice(0, 1).join(" ");
 }
 
 // first 2 units
-export function secondsToMidString(seconds: number) {
-  return getTimeUnits(seconds).slice(0, 2).join(" ");
+export function secondsToMidString(seconds: number, isShortFormat = false) {
+  return getTimeUnits(seconds, isShortFormat).slice(0, 2).join(" ");
 }
 
-export function secondsToLongString(seconds: number) {
-  return getTimeUnits(seconds).join(" ");
+export function secondsToLongString(seconds: number, isShortFormat = false) {
+  return getTimeUnits(seconds, isShortFormat).join(" ");
 }
 
 export function getTimeLeft(createdAt: number, totalTimeInSeconds: number) {

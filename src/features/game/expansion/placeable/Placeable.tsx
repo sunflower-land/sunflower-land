@@ -2,19 +2,35 @@ import React, { useContext, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineInterpreter } from "./editingMachine";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
 import classNames from "classnames";
 import { calculateZIndex, Coordinates } from "../components/MapPlacement";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import {
+  BUILDINGS_DIMENSIONS,
+  PlaceableName,
+} from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import {
+  ANIMAL_DIMENSIONS,
+  COLLECTIBLES_DIMENSIONS,
+} from "features/game/types/craftables";
+import { BUILDING_COMPONENTS } from "features/island/buildings/components/building/Building";
+import { COLLECTIBLE_COMPONENTS } from "features/island/collectibles/Collectible";
+import { Chicken } from "features/island/chickens/Chicken";
 
 type Dimensions = {
   height: number;
   width: number;
+};
+
+const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
+  Chicken: () => <Chicken index={0} />,
+  // TODO - others
+  ...BUILDING_COMPONENTS,
+  ...COLLECTIBLE_COMPONENTS,
 };
 
 export const Placeable: React.FC = () => {
@@ -33,6 +49,7 @@ export const Placeable: React.FC = () => {
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
+    ...ANIMAL_DIMENSIONS,
   }[placeable];
   const { image } = ITEM_DETAILS[placeable];
 
@@ -58,29 +75,32 @@ export const Placeable: React.FC = () => {
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
 
-  if (machine.matches("placed")) {
-    return (
-      <div className="absolute left-1/2 top-1/2">
-        <div
-          className="absolute"
-          style={{
-            left: coordinates.x * GRID_WIDTH_PX,
-            top: -coordinates.y * GRID_WIDTH_PX,
-            height: imageDimensions.height * PIXEL_SCALE,
-            width: imageDimensions.width * PIXEL_SCALE,
-          }}
-        >
-          <img
-            draggable="false"
-            className="bulge h-full w-full"
-            src={image}
-            alt=""
-            onLoad={handleImageLoad}
-          />
-        </div>
-      </div>
-    );
-  }
+  // TODO - figure out new effect that can be applied on non-images
+
+  // if (machine.matches("placed")) {
+  //   return (
+  //     <div className="absolute left-1/2 top-1/2">
+  //       <div
+  //         className="absolute"
+  //         style={{
+  //           left: coordinates.x * GRID_WIDTH_PX,
+  //           top: -coordinates.y * GRID_WIDTH_PX,
+  //           height: imageDimensions.height * PIXEL_SCALE,
+  //           width: imageDimensions.width * PIXEL_SCALE,
+  //         }}
+  //       >
+  //         <div className="bulge h-full w-full">{PLACEABLES[placeable]({})}</div>
+  //         {/* <img
+  //           draggable="false"
+  //           className="bulge h-full w-full"
+  //           src={image}
+  //           alt=""
+  //           onLoad={handleImageLoad}
+  //         /> */}
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
@@ -117,18 +137,17 @@ export const Placeable: React.FC = () => {
           })}
           style={{ pointerEvents: "auto" }}
         >
-          <img
-            draggable="false"
-            className="img-highlight"
+          <div
+            draggable={false}
+            className=" w-full h-full relative img-highlight pointer-events-none"
             style={{
-              height: imageDimensions.height * PIXEL_SCALE,
-              width: imageDimensions.width * PIXEL_SCALE,
               zIndex: 100 + coordinates.y + 1,
+              width: `${width * GRID_WIDTH_PX}px`,
+              height: `${height * GRID_WIDTH_PX}px`,
             }}
-            src={image}
-            alt={placeable}
-            onLoad={handleImageLoad}
-          />
+          >
+            {PLACEABLES[placeable]({})}
+          </div>
         </div>
       </Draggable>
     </div>

@@ -10,7 +10,7 @@ import close from "assets/icons/close.png";
 import stopwatch from "assets/icons/stopwatch.png";
 import warBond from "assets/icons/warBond.png";
 
-import { secondsToString } from "lib/utils/time";
+import { secondsToMidString } from "lib/utils/time";
 import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
@@ -168,9 +168,9 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
       </p>
       <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center p-[3px] rounded-md whitespace-nowrap  mb-2">
         <img src={stopwatch} className="w-3 left-0 -top-4 mr-1" />
-        <span className="mt-[2px]">{`${secondsToString(secondsLeft as number, {
-          separator: " ",
-        })} left`}</span>
+        <span className="mt-[2px]">{`${secondsToMidString(
+          secondsLeft as number
+        )} left`}</span>
       </span>
       <div className="flex justify-evenly w-full">
         <Button onClick={showOffer}>{`Continue`}</Button>
