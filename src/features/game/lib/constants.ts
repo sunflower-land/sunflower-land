@@ -472,6 +472,10 @@ export const INITIAL_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
     Warrior: new Decimal(1),
+    "Boiled Egg": new Decimal(3),
+    "Mashed Potato": new Decimal(1),
+    "Sunflower Cake": new Decimal(1),
+    "Pumpkin Soup": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
@@ -524,6 +528,53 @@ export const INITIAL_FARM: GameState = {
     ],
   },
   bumpkin: INITIAL_BUMPKIN,
+
+  grubShop: {
+    opensAt: new Date("2022-10-05").getTime(),
+    closesAt: new Date("2022-10-08").getTime(),
+    orders: [
+      {
+        id: "asdj123",
+        name: "Boiled Egg",
+        sfl: new Decimal(10),
+      },
+      {
+        id: "asdasd",
+        name: "Beetroot Cake",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "3",
+        name: "Sunflower Cake",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "4",
+        name: "Bumpkin Broth",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "5",
+        name: "Mashed Potato",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "6",
+        name: "Wheat Cake",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "7",
+        name: "Pumpkin Soup",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "8",
+        name: "Mashed Potato",
+        sfl: new Decimal(20),
+      },
+    ],
+  },
 };
 
 export const EMPTY: GameState = {
@@ -564,3 +615,4 @@ export const CHOP_STAMINA_COST = 2;
 export const STONE_MINE_STAMINA_COST = 2;
 export const IRON_MINE_STAMINA_COST = 2;
 export const PLANT_STAMINA_COST = 1;
+export const GOLD_MINE_STAMINA_COST = 2;

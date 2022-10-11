@@ -18,6 +18,10 @@ export function getBuyPrice(item: CraftableItem, inventory: Inventory) {
     return new Decimal(0);
   }
 
+  if (inventory["Sunflower Shield"]?.gte(1) && item.name === "Sunflower Seed") {
+    return new Decimal(0);
+  }
+
   let price = item.tokenAmount;
 
   if (price && inventory.Artist?.gte(1)) {
@@ -74,9 +78,13 @@ export function seedBought({ state, action }: Options) {
   bumpkin.activity = trackActivity(
     "SFL Spent",
     bumpkin?.activity,
-    totalExpenses?.toNumber() ?? 0
+    totalExpenses ?? new Decimal(0)
   );
-  bumpkin.activity = trackActivity(`${item} Bought`, bumpkin?.activity, amount);
+  bumpkin.activity = trackActivity(
+    `${item} Bought`,
+    bumpkin?.activity,
+    new Decimal(amount)
+  );
 
   return {
     ...stateCopy,

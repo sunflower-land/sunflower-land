@@ -2,7 +2,7 @@ import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import FarmABI from "./abis/Farm.json";
-import { parseMetamaskError } from "./utils";
+import { estimateGasPrice, parseMetamaskError } from "./utils";
 
 const address = CONFIG.FARM_CONTRACT;
 
@@ -109,5 +109,34 @@ export class Farm {
 
       throw error;
     }
+  }
+
+  public async transfer({
+    to,
+    tokenId,
+  }: {
+    to: string;
+    tokenId: number;
+  }): Promise<string> {
+    const gasPrice = await estimateGasPrice(this.web3);
+
+    return new Promise((resolve, reject) => {
+      this.farm.methods
+        .transferFrom(this.account, to, tokenId)
+        .send({ from: this.account, gasPrice })
+        .on("error", function (error: any) {
+          console.log({ error });
+          const parsed = parseMetamaskError(error);
+
+          reject(parsed);
+        })
+        .on("transactionHash", function (transactionHash: any) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt: any) {
+          console.log({ receipt });
+          resolve(receipt);
+        });
+    });
   }
 }

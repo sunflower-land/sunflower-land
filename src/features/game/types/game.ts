@@ -12,6 +12,7 @@ import { ConsumableName } from "./consumables";
 import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
+import { DecorationName } from "./decorations";
 
 export type CropReward = {
   items: {
@@ -131,16 +132,18 @@ export type InventoryItemName =
   | BuildingName
   | Fertiliser
   | WarBanner
-  | ConsumableName;
+  | ConsumableName
+  | DecorationName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
 export type Fields = Record<number, FieldItem>;
 
 export type Chicken = {
-  fedAt: number;
+  fedAt?: number;
   multiplier: number;
   reward?: CropReward;
+  coordinates?: { x: number; y: number };
 };
 
 export type StockExpiry = Partial<Record<InventoryItemName, string>>;
@@ -168,6 +171,19 @@ export type WarCollectionOffer = {
     name: InventoryItemName;
     amount: number;
   }[];
+};
+
+export type GrubShopOrder = {
+  id: string;
+  name: ConsumableName;
+  sfl: Decimal;
+};
+
+// TODO - we need to store the opening and closing times for the shop
+export type GrubShop = {
+  opensAt: number;
+  closesAt: number;
+  orders: GrubShopOrder[];
 };
 
 export type Position = {
@@ -290,6 +306,11 @@ export interface GameState {
   bumpkin?: Bumpkin;
   buildings: Buildings;
   collectibles: Collectibles;
+  grubShop?: GrubShop;
+  grubOrdersFulfilled?: {
+    id: string;
+    fulfilledAt: number;
+  }[];
 }
 
 export interface Context {

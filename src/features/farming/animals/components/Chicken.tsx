@@ -116,9 +116,10 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const happy = useSelector(service, isHappy);
   const eggReady = useSelector(service, isEggReady);
   const eggLaid = useSelector(service, isEggLaid);
+  console.log({ chickenContext, hungry });
 
   const eggIsBrewing = happy || sleeping;
-  const showEggProgress = chicken && !eating && !eggLaid;
+  const showEggProgress = chicken && !eating && !eggLaid && !hungry;
 
   // Popover is to indicate when player has no wheat or when wheat is not selected.
   const [showPopover, setShowPopover] = useState(false);

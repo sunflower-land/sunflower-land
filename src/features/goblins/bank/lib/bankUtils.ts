@@ -37,7 +37,8 @@ function hasFedChickens(game: GoblinState): boolean {
   if (!game.chickens) return false;
 
   const hasFedChickens = Object.values(game.chickens).some(
-    (chicken) => Date.now() - chicken.fedAt < CHICKEN_TIME_TO_EGG
+    (chicken) =>
+      chicken.fedAt && Date.now() - chicken.fedAt < CHICKEN_TIME_TO_EGG
   );
 
   return hasFedChickens;
@@ -69,6 +70,11 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
   }
 
   if (item in SHOVELS) {
+    return false;
+  }
+
+  // Temporarily disable until land expansion
+  if (item === "Chicken") {
     return false;
   }
 
