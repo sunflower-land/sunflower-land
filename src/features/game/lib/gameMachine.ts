@@ -215,7 +215,8 @@ export type BlockchainState = {
     | "editing"
     | "noBumpkinFound"
     | "mintingBumpkin"
-    | "bumpkinMinted";
+    | "bumpkinMinted"
+    | "coolingDown";
   context: Context;
 };
 
@@ -295,6 +296,7 @@ export function startGame(authContext: Options) {
                   whitelistedAt,
                   itemsMintedAt,
                   deviceTrackerId,
+                  status,
                 } = response;
 
                 // add farm address
@@ -314,12 +316,17 @@ export function startGame(authContext: Options) {
                   owner,
                   notifications: onChainEvents,
                   deviceTrackerId,
+                  status,
                 };
               }
 
               return { state: INITIAL_FARM, onChain };
             },
             onDone: [
+              {
+                target: "coolingDown",
+                cond: (_, event) => event.data?.status === "COOL_DOWN",
+              },
               {
                 target: "notifying",
                 cond: (_, event) => event.data?.notifications?.length > 0,
@@ -769,6 +776,7 @@ export function startGame(authContext: Options) {
             ...PLACEMENT_EVENT_HANDLERS,
           },
         },
+        coolingDown: {},
       },
     },
     {

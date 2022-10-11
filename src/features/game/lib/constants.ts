@@ -615,3 +615,4 @@ export const CHOP_STAMINA_COST = 2;
 export const STONE_MINE_STAMINA_COST = 2;
 export const IRON_MINE_STAMINA_COST = 2;
 export const PLANT_STAMINA_COST = 1;
+export const GOLD_MINE_STAMINA_COST = 2;

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
 
@@ -8,6 +8,7 @@ import { Panel } from "components/ui/Panel";
 
 import questionMark from "assets/icons/expression_confused.png";
 import { Context } from "features/game/GameProvider";
+import { TransferAccount } from "./TransferAccount";
 
 interface Props {
   isOpen: boolean;
@@ -18,6 +19,8 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
 
   const { gameService } = useContext(Context);
+
+  const [view, setView] = useState<"settings" | "transfer">("settings");
 
   const onLogout = () => {
     onClose();
@@ -30,14 +33,22 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const Content = () => {
+    if (view === "transfer") {
+      return <TransferAccount />;
+    }
+
     return (
       <div className="flex flex-col">
         <Button className="col p-1" onClick={onLogout}>
           Logout
         </Button>
+        <Button className="col p-1 mt-2" onClick={() => setView("transfer")}>
+          Transfer Ownership
+        </Button>
         <Button className="col p-1 mt-2" onClick={refreshSession}>
           Refresh
         </Button>
+
         <div className="flex items-start">
           <img src={questionMark} className="w-12 pt-2 pr-2" />
           <span className="text-xs mt-2">

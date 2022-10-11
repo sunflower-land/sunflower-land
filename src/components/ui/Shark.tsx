@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import sharkRight from "assets/animals/shark-right.gif";
 import sharkLeft from "assets/animals/shark-left.gif";
+import { randomBetweenMaxInclusive } from "features/game/expansion/lib/utils";
 
-const randomBetweenMaxInclusive = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
 const blankPng =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
 const imageSources = [sharkLeft, blankPng, sharkRight, blankPng];
