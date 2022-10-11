@@ -16,16 +16,13 @@ import {
   CHOP_STAMINA_COST,
   GRID_WIDTH_PX,
   PIXEL_SCALE,
+  TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
-import {
-  CHOP_ERRORS,
-  getRequiredAxeAmount,
-  TREE_RECOVERY_SECONDS,
-} from "features/game/events/chop";
+import { CHOP_ERRORS, getRequiredAxeAmount } from "features/game/events/chop";
 
 import { getTimeLeft } from "lib/utils/time";
 import { Label } from "components/ui/Label";
@@ -218,7 +215,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     setErrorLabel(undefined);
   };
 
-  const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_SECONDS);
+  const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_TIME);
 
   return (
     <div className="relative z-10 w-full h-full">

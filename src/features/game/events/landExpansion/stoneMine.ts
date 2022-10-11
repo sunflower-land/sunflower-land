@@ -1,6 +1,9 @@
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
-import { STONE_MINE_STAMINA_COST } from "features/game/lib/constants";
+import {
+  STONE_MINE_STAMINA_COST,
+  STONE_RECOVERY_TIME,
+} from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
@@ -17,9 +20,6 @@ type Options = {
   action: LandExpansionStoneMineAction;
   createdAt?: number;
 };
-
-// 4 hours
-export const STONE_RECOVERY_TIME = 4 * 60 * 60;
 
 export function mineStone({
   state,

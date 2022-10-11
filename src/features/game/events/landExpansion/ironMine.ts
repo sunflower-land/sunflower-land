@@ -1,7 +1,10 @@
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
 import cloneDeep from "lodash.clonedeep";
-import { IRON_MINE_STAMINA_COST } from "../../lib/constants";
+import {
+  IRON_MINE_STAMINA_COST,
+  IRON_RECOVERY_TIME,
+} from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
 import { GameState } from "../../types/game";
 import { replenishStamina } from "./replenishStamina";
@@ -27,9 +30,6 @@ export enum MINE_ERRORS {
   NO_STAMINA = "You do not have enough stamina",
   NO_BUMPKIN = "You do not have a Bumpkin",
 }
-
-// 12 hours
-export const IRON_RECOVERY_TIME = 12 * 60 * 60;
 
 export function mineIron({
   state,

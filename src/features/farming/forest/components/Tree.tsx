@@ -12,7 +12,7 @@ import stump from "assets/resources/tree/stump.png";
 import wood from "assets/resources/wood.png";
 import axe from "assets/tools/axe.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -21,7 +21,6 @@ import {
   canChop,
   CHOP_ERRORS,
   getRequiredAxeAmount,
-  TREE_RECOVERY_SECONDS,
 } from "features/game/events/chop";
 
 import { getTimeLeft } from "lib/utils/time";
@@ -195,8 +194,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setShowLabel(false);
   };
 
-  const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
-  const percentage = 100 - (timeLeft / TREE_RECOVERY_SECONDS) * 100;
+  const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_TIME);
+  const percentage = 100 - (timeLeft / TREE_RECOVERY_TIME) * 100;
 
   return (
     <div className="relative" style={{ height: "106px" }}>

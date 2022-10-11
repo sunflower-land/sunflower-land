@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
+import { IRON_RECOVERY_TIME } from "../lib/constants";
 import { GameState, Rock } from "../types/game";
 
 export type IronMineAction = {
@@ -12,9 +13,6 @@ type Options = {
   action: IronMineAction;
   createdAt?: number;
 };
-
-// 12 hours
-export const IRON_RECOVERY_TIME = 12 * 60 * 60;
 
 export enum MINE_ERRORS {
   NO_PICKAXES = "No pickaxes left",

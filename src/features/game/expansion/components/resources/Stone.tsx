@@ -13,6 +13,7 @@ import pickaxe from "assets/tools/wood_pickaxe.png";
 import {
   GRID_WIDTH_PX,
   STONE_MINE_STAMINA_COST,
+  STONE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -23,7 +24,6 @@ import { getTimeLeft } from "lib/utils/time";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { LandExpansionRock } from "features/game/types/game";
-import { STONE_RECOVERY_TIME } from "features/game/events/landExpansion/stoneMine";
 import { MINE_ERRORS } from "features/game/events/stoneMine";
 import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
 import { Overlay } from "react-bootstrap";

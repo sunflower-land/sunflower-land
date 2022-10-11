@@ -11,7 +11,7 @@ import dropSheet from "assets/resources/iron/iron_dropped.png";
 import empty from "assets/resources/iron/iron_empty.png";
 import ironOre from "assets/resources/iron_ore.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -20,7 +20,7 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
-import { canMine, IRON_RECOVERY_TIME } from "features/game/events/ironMine";
+import { canMine } from "features/game/events/ironMine";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";

@@ -11,7 +11,10 @@ import dropSheet from "assets/resources/stone/stone_drop.png";
 import empty from "assets/resources/stone/stone_empty.png";
 import stone from "assets/resources/stone.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import {
+  GRID_WIDTH_PX,
+  STONE_RECOVERY_TIME,
+} from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -20,7 +23,7 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
-import { canMine, STONE_RECOVERY_TIME } from "features/game/events/stoneMine";
+import { canMine } from "features/game/events/stoneMine";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";

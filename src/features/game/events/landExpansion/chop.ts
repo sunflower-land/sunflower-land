@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { CHOP_STAMINA_COST } from "features/game/lib/constants";
+import {
+  CHOP_STAMINA_COST,
+  TREE_RECOVERY_TIME,
+} from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
   GameState,
@@ -28,10 +31,8 @@ type Options = {
   createdAt?: number;
 };
 
-const TREE_RECOVERY_SECONDS = 2 * 60 * 60;
-
 export function canChop(tree: LandExpansionTree, now: number = Date.now()) {
-  return now - tree.wood.choppedAt > TREE_RECOVERY_SECONDS * 1000;
+  return now - tree.wood.choppedAt > TREE_RECOVERY_TIME * 1000;
 }
 
 /**
@@ -42,7 +43,7 @@ function getChoppedAt({ inventory, createdAt }: GetChoppedAtAtgs): number {
     inventory["Apprentice Beaver"]?.gte(1) ||
     inventory["Foreman Beaver"]?.gte(1)
   ) {
-    return createdAt - (TREE_RECOVERY_SECONDS / 2) * 1000;
+    return createdAt - (TREE_RECOVERY_TIME / 2) * 1000;
   }
 
   return createdAt;
