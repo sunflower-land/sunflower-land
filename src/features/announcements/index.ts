@@ -29,6 +29,15 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
+    date: new Date("2022-10-11T00:00:00"),
+    title: "New Wallet Transfer",
+    notes: [
+      "If you need to transfer your account to a new wallet, you can now do it in-game",
+      "Access Menu > Settings > Transfer Ownership",
+      "This is useful if your wallet is compromised or you want to move your farm to a new wallet.",
+    ],
+  },
+  {
     date: new Date("2022-10-10T00:00:00"),
     title: "You are my sunshine",
     notes: [
