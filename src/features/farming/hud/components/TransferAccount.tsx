@@ -44,7 +44,7 @@ export const TransferAccount: React.FC = () => {
           style={{
             wordBreak: "break-word",
           }}
-        >{`Your farm has been transferred to: ${wallet}`}</span>
+        >{`Your farm has been transferred to: ${wallet.address}`}</span>
         <Button onClick={handleContinue}>Continue</Button>
       </div>
     );
