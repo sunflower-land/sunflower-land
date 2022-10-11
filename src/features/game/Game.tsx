@@ -38,6 +38,7 @@ import { Airdrop } from "./components/Airdrop";
 import { GoblinWar } from "features/war/GoblinWar";
 import { CommunityGardenEntry } from "features/farming/town/components/CommunityGardenEntry";
 import { Swarming } from "./components/Swarming";
+import { Cooldown } from "./components/Cooldown";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -59,6 +60,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   mintingBumpkin: false,
   bumpkinMinted: false,
   swarming: true,
+  coolingDown: true,
 };
 
 export const Game: React.FC = () => {
@@ -121,6 +123,7 @@ export const Game: React.FC = () => {
           {gameState.matches("syncing") && <Syncing />}
           {gameState.matches("hoarding") && <Hoarding />}
           {gameState.matches("swarming") && <Swarming />}
+          {gameState.matches("coolingDown") && <Cooldown />}
         </Panel>
       </Modal>
       {/* check local storage and show modal if not read */}

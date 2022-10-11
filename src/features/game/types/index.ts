@@ -214,9 +214,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Warrior Helmet": 1108,
   "Warrior Pants": 1109,
   "Sunflower Shield": 1110,
-  "Reward 9": 1111,
-  "Reward 10": 1112,
-  "Reward 11": 1113,
+  "Skull Hat": 1111,
+  "War Skull": 1112,
+  "War Tombstone": 1113,
+  "Undead Rooster": 1113,
 
   "Dirt Path": 1201,
 };

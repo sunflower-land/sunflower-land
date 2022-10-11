@@ -62,6 +62,7 @@ import rockyMole from "assets/nfts/rocky_mole.gif";
 import nugget from "assets/nfts/nugget.gif";
 import rockGolem from "assets/nfts/rock_golem.gif";
 import rooster from "assets/nfts/rooster.gif";
+import undeadChicken from "assets/nfts/undead_chicken.gif";
 import wickerMan from "assets/nfts/wicker_man.png";
 
 // Mutant Chickens
@@ -238,7 +239,11 @@ import greenAmulet from "src/assets/bumpkins/shop/necklaces/green_amulet.png";
 import warriorShirt from "src/assets/bumpkins/shop/shirts/warrior_top.png";
 import warriorPants from "src/assets/bumpkins/shop/pants/warrior_pants.png";
 import warriorHelmet from "src/assets/bumpkins/shop/hats/warrior_helmet.png";
+import skullHat from "src/assets/bumpkins/shop/hats/skull_hat.png";
 import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png";
+
+import skull from "src/assets/decorations/war_skulls.png";
+import warTombston from "src/assets/decorations/war_tombstone.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1045,17 +1050,21 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerShield,
     description: "A hero of Sunflower Land. Free Sunflower Seeds!",
   },
-  "Reward 9": {
-    image: questionMark,
+  "Skull Hat": {
+    image: skullHat,
     description: "A reward for your war efforts",
   },
-  "Reward 10": {
-    image: questionMark,
+  "War Skull": {
+    image: skull,
+    description: "3 enemies gone",
+  },
+  "War Tombstone": {
+    image: warTombston,
     description: "A reward for your war efforts",
   },
-  "Reward 11": {
-    image: questionMark,
-    description: "A reward for your war efforts",
+  "Undead Rooster": {
+    image: undeadChicken,
+    description: "A fallen soldier during the war",
   },
 
   "Boiled Egg": {

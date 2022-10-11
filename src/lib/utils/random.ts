@@ -7,7 +7,7 @@ export const randomBoolean = () => {
 };
 
 /**
- * Generate a random floating point number.
+ * Generate a random floating point number. The maximum is exclusive and the minimum is inclusive.
  * @param min The minimum value.
  * @param max The maximum value.
  * @returns A random floating point number.

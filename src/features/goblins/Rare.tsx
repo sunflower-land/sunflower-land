@@ -43,8 +43,9 @@ const Items: React.FC<{
   items: Partial<Record<LimitedItemName, LimitedItem>>;
   selected: InventoryItemName;
   inventory: GameState["inventory"];
+  type: LimitedItemType | LimitedItemType[];
   onClick: (item: CraftableItem | LimitedItem) => void;
-}> = ({ items, selected, inventory, onClick }) => {
+}> = ({ items, selected, inventory, onClick, type }) => {
   const ordered = Object.values(items);
 
   return (
@@ -72,6 +73,11 @@ const Items: React.FC<{
           />
         ))}
       </div>
+      {type === LimitedItemType.WarTentItem && (
+        <p className="text-xxs underline mt-4">
+          You can mint multiple War Skull and War Tombstones
+        </p>
+      )}
     </div>
   );
 };
@@ -200,7 +206,8 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
 
     if (soldOut) return null;
 
-    if (hasItemOnFarm)
+    console.log({ selected });
+    if (hasItemOnFarm && !selected.canMintMultiple)
       return (
         <div className="flex flex-col text-center mt-2 border-y border-white w-full">
           <p className="text-[10px] sm:text-sm my-2">Already minted!</p>
@@ -252,6 +259,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
         selected={selected.name}
         inventory={inventory}
         onClick={setSelected}
+        type={type}
       />
       <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">

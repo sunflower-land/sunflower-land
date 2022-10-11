@@ -52,12 +52,12 @@ const generateImages = () => {
   );
 
   while (items.length < GOBLIN_COUNT) {
-    const randomIndex = Math.floor(Math.random() * GOBLINS.length);
+    const randomIndex = randomInt(0, GOBLINS.length);
     items.push(newImageItem(GOBLINS[randomIndex], true));
   }
 
   while (items.length < ITEM_COUNT) {
-    const randomIndex = Math.floor(Math.random() * availableCropImages.length);
+    const randomIndex = randomInt(0, availableCropImages.length);
     items.push(newImageItem(availableCropImages[randomIndex], false));
   }
 

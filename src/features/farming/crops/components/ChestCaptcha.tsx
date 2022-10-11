@@ -39,9 +39,7 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
   const rotateY = useRef(randomInt(-15, 16));
   const skew = useRef(randomInt(-3, 4));
   const scale = useRef(randomDouble(0.8, 1));
-  const background = useRef(
-    backgrounds[Math.floor(Math.random() * backgrounds.length)]
-  );
+  const background = useRef(backgrounds[randomInt(0, backgrounds.length)]);
 
   const miss = () => {
     setFailedCount((prev) => prev + 1);
