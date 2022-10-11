@@ -63,8 +63,7 @@ export const TransferAccount: React.FC = () => {
       <p>Transfer your account</p>
       <p className="text-xs mt-2">Wallet address:</p>
       <input
-        type="text"
-        name="farmId"
+        pattern="^0x[a-fA-F0-9]{40}$"
         className="text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2"
         value={wallet.address}
         onChange={(e) => setWallet({ address: e.target.value })}
