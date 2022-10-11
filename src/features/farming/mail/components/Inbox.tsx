@@ -17,7 +17,7 @@ interface Props {
 
 export const Inbox: React.FC<Props> = ({ inbox, isLoading, onRead }) => {
   return (
-    <OuterPanel className="relative max-h-[$39rem]">
+    <OuterPanel className="relative">
       {isLoading ? (
         <InnerPanel>
           <span className="loading">Loading</span>
