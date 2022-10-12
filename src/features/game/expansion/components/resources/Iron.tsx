@@ -7,7 +7,7 @@ import Spritesheet, {
 import sparkSheet from "assets/resources/iron/iron_rock_spark.png";
 import dropSheet from "assets/resources/iron/iron_rock_drop.png";
 import hitbox from "assets/resources/iron_small.png";
-import iron from "assets/resources/iron_ore.png";
+import iron from "assets/resources/iron_rock_ore.png";
 import pickaxe from "assets/tools/stone_pickaxe.png";
 
 import {
