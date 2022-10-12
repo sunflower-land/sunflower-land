@@ -59,6 +59,17 @@ type ReplenishStaminaAction = {
   type: "bumpkin.replenishStamina";
 };
 
+function getStaminaBoosts(gameState: GameState) {
+  let multiplier = 1;
+
+  // Only placed tent adds boost
+  if (gameState.buildings.Tent) {
+    multiplier += 0.1;
+  }
+
+  return multiplier;
+}
+
 type Options = {
   state: GameState;
   action: ReplenishStaminaAction;
@@ -69,8 +80,6 @@ type Options = {
 export function replenishStamina({ state, createdAt }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
-  // Only placed tent adds boost
-  const tent = stateCopy.buildings.Tent;
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
@@ -79,7 +88,7 @@ export function replenishStamina({ state, createdAt }: Options): GameState {
   const stamina = calculateBumpkinStamina({
     nextReplenishedAt: createdAt,
     bumpkin,
-    boostMultiplier: tent ? 1.1 : 1,
+    boostMultiplier: getStaminaBoosts(stateCopy),
   });
 
   bumpkin.stamina.replenishedAt = createdAt;

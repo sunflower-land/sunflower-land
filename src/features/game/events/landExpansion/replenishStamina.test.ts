@@ -380,9 +380,11 @@ describe("replenishStamina", () => {
     });
 
     // only one decimal
-    const bla = Number(farm1State.bumpkin?.stamina.value.toFixed(1));
+    const oneDecimalStamina = Number(
+      farm1State.bumpkin?.stamina.value.toFixed(1)
+    );
 
-    expect(bla).toBe(5.5);
+    expect(oneDecimalStamina).toBe(5.5);
     expect(farm2State.bumpkin?.stamina.value).toBe(5);
   });
 });
