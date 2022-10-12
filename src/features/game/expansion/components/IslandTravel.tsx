@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import boat from "assets/npcs/water_boat.png";
@@ -6,27 +6,22 @@ import hammer from "assets/icons/hammer.png";
 import close from "assets/icons/close.png";
 import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { LAND_WIDTH } from "./Water";
 import { Tab } from "components/ui/Tab";
 import { IslandList } from "./IslandList";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { Bumpkin } from "features/game/types/game";
 
 interface Props {
-  level: number;
+  bumpkin: Bumpkin | undefined;
+  x: number;
+  y: number;
 }
 
-export const IslandTravel = ({ level }: Props) => {
+export const IslandTravel = ({ bumpkin, x, y }: Props) => {
   const [openIslandList, setOpenIslandList] = useState(false);
-  const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const { state } = gameState.context;
-  const { bumpkin } = state;
 
   return (
     <>
-      <MapPlacement x={offset - 2} y={0} width={40 * PIXEL_SCALE}>
+      <MapPlacement x={x} y={y} width={40 * PIXEL_SCALE}>
         <img
           src={boat}
           onClick={() => setOpenIslandList(true)}

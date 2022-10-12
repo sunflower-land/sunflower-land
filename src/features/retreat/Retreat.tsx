@@ -15,6 +15,7 @@ import { RetreatBlacksmith } from "./components/blacksmith/RetreatBlacksmith";
 import { Auctioneer } from "./components/auctioneer/Auctioneer";
 import { Resale } from "./components/resale/Resale";
 import { RetreatWishingWell } from "./components/wishingWell/RetreatWishingWell";
+import { IslandTravelWrapper } from "./components/islandTravel/IslandTravelWrapper";
 
 export const Retreat: React.FC = () => {
   const container = useRef(null);
@@ -53,6 +54,7 @@ export const Retreat: React.FC = () => {
             <Auctioneer />
             <Resale />
             <RetreatWishingWell />
+            <IslandTravelWrapper />
           </div>
           <div
             className="absolute inset-0 bg-repeat"
