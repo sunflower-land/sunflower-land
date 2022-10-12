@@ -69,7 +69,8 @@ type Options = {
 export function replenishStamina({ state, createdAt }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
-  const tent = stateCopy.inventory.Tent;
+  // Only placed tent adds boost
+  const tent = stateCopy.buildings.Tent;
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");

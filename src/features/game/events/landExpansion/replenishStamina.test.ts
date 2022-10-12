@@ -1,10 +1,10 @@
-import Decimal from "decimal.js-light";
 import {
   INITIAL_BUMPKIN,
   INITIAL_FARM,
   MAX_STAMINA,
 } from "features/game/lib/constants";
 import { LEVEL_BRACKETS } from "features/game/lib/level";
+import { PlacedItem } from "features/game/types/game";
 import { replenishStamina } from "./replenishStamina";
 
 describe("replenishStamina", () => {
@@ -292,6 +292,16 @@ describe("replenishStamina", () => {
   it("restores 100% of stamina in under 55 minutes for a level 1 player", () => {
     const oneHour = 54.6 * 60 * 1000;
 
+    const tent: PlacedItem = {
+      coordinates: {
+        x: 0,
+        y: 0,
+      },
+      createdAt: 0,
+      id: "123",
+      readyAt: 0,
+    };
+
     const initialState = {
       ...INITIAL_FARM,
       bumpkin: {
@@ -301,7 +311,7 @@ describe("replenishStamina", () => {
           replenishedAt: dateNow - oneHour,
         },
       },
-      inventory: { Tent: new Decimal(1) },
+      buildings: { Tent: [tent] },
     };
 
     const state = replenishStamina({
@@ -319,6 +329,16 @@ describe("replenishStamina", () => {
     const thirtyMinutes = 30 * 60 * 1000;
     const bumpkinLevel = 1;
 
+    const tent: PlacedItem = {
+      coordinates: {
+        x: 0,
+        y: 0,
+      },
+      createdAt: 0,
+      id: "123",
+      readyAt: 0,
+    };
+
     const farm1InitialState = {
       ...INITIAL_FARM,
       bumpkin: {
@@ -329,7 +349,7 @@ describe("replenishStamina", () => {
           replenishedAt: dateNow - thirtyMinutes,
         },
       },
-      inventory: { Tent: new Decimal(1) },
+      buildings: { Tent: [tent] },
     };
 
     const farm2InitialState = {
