@@ -31,7 +31,7 @@ import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
 import {
-  acknowledgeRead,
+  getGameRulesLastRead,
   hasAnnouncements,
 } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
@@ -200,7 +200,8 @@ export type BlockchainState = {
   value:
     | "loading"
     | "announcing"
-    | "notifying"
+    | "deposited"
+    | "gameRules"
     | "playing"
     | "autosaving"
     | "syncing"
@@ -322,43 +323,65 @@ export function startGame(authContext: Options) {
 
               return { state: INITIAL_FARM, onChain };
             },
-            onDone: [
-              {
-                target: "coolingDown",
-                cond: (_, event) => event.data?.status === "COOL_DOWN",
-              },
-              {
-                target: "notifying",
-                cond: (_, event) => event.data?.notifications?.length > 0,
-                actions: "assignGame",
-              },
-              {
-                target: "announcing",
-                cond: () => hasAnnouncements(),
-                actions: "assignGame",
-              },
-              {
-                target: "swarming",
-                cond: () => isSwarming(),
-                actions: "assignGame",
-              },
-              {
-                target: "noBumpkinFound",
-                cond: (_, event) =>
-                  !event.data?.state.bumpkin &&
-                  window.location.hash.includes("/land"),
-                actions: "assignGame",
-              },
-              {
-                target: "playing",
-                actions: "assignGame",
-              },
-            ],
+            onDone: {
+              target: "notifying",
+              actions: "assignGame",
+            },
             onError: {
               target: "error",
               actions: "assignErrorMessage",
             },
           },
+        },
+        notifying: {
+          entry: [
+            {
+              target: "coolingDown",
+              cond: (_: Context, event: any) =>
+                event.data?.status === "COOL_DOWN",
+            },
+            {
+              target: "deposited",
+              cond: (_: Context, event: any) =>
+                event.data?.notifications?.length > 0,
+              actions: "assignGame",
+            },
+            {
+              target: "announcing",
+              cond: () => hasAnnouncements(),
+              actions: "assignGame",
+            },
+            {
+              target: "gameRules",
+              cond: () => {
+                console.log("Get game rules");
+                const lastRead = getGameRulesLastRead();
+                console.log({ lastRead });
+                // Show every 7 days
+                return (
+                  !lastRead ||
+                  Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
+                );
+              },
+              actions: "assignGame",
+            },
+            {
+              target: "swarming",
+              cond: () => isSwarming(),
+              actions: "assignGame",
+            },
+            {
+              target: "noBumpkinFound",
+              cond: (context: Context, event: any) =>
+                (!event.data?.state.bumpkin || !context.state.bumpkin) &&
+                window.location.hash.includes("/land"),
+              actions: "assignGame",
+            },
+            {
+              target: "playing",
+              actions: "assignGame",
+            },
+          ],
         },
         noBumpkinFound: {
           on: {
@@ -374,7 +397,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        notifying: {
+        deposited: {
           on: {
             ACKNOWLEDGE: {
               target: "refreshing",
@@ -383,19 +406,12 @@ export function startGame(authContext: Options) {
         },
         announcing: {
           on: {
-            ACKNOWLEDGE: [
-              {
-                target: "noBumpkinFound",
-                cond: (context) =>
-                  !context.state.bumpkin &&
-                  window.location.hash.includes("/land"),
-                actions: [() => acknowledgeRead()],
-              },
-              {
-                target: "playing",
-                actions: [() => acknowledgeRead()],
-              },
-            ],
+            ACKNOWLEDGE: notifyAndPlay,
+          },
+        },
+        gameRules: {
+          on: {
+            ACKNOWLEDGE: notifyAndPlay,
           },
         },
         playing: {

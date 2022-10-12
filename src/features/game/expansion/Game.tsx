@@ -46,7 +46,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   levelling: false,
   refreshing: true,
   announcing: true,
-  notifying: true,
+  deposited: true,
   expanding: true,
   expanded: true,
   hoarding: true,
@@ -133,7 +133,7 @@ export const Game: React.FC = () => {
         <Panel>
           {gameState.matches("loading") && <Loading />}
           {gameState.matches("refreshing") && <Refreshing />}
-          {gameState.matches("notifying") && <Notifications />}
+          {gameState.matches("deposited") && <Notifications />}
           {gameState.matches("announcing") && <Announcements />}
           {gameState.matches("error") && (
             <ErrorMessage
