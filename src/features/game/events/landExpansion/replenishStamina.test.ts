@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import {
   INITIAL_BUMPKIN,
   INITIAL_FARM,
@@ -286,5 +287,82 @@ describe("replenishStamina", () => {
         createdAt: dateNow - oneHour,
       })
     ).toThrow("Actions cannot go back in time");
+  });
+
+  it("restores 100% of stamina in under 55 minutes for a level 1 player", () => {
+    const oneHour = 54.6 * 60 * 1000;
+
+    const initialState = {
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        stamina: {
+          value: 0,
+          replenishedAt: dateNow - oneHour,
+        },
+      },
+      inventory: { Tent: new Decimal(1) },
+    };
+
+    const state = replenishStamina({
+      state: initialState,
+      action: {
+        type: "bumpkin.replenishStamina",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.bumpkin?.stamina.value).toBe(MAX_STAMINA[1]);
+  });
+
+  it("restores 10% more stamina with tent in 30 minutes", () => {
+    const thirtyMinutes = 30 * 60 * 1000;
+    const bumpkinLevel = 1;
+
+    const farm1InitialState = {
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_BRACKETS[bumpkinLevel],
+        stamina: {
+          value: 0,
+          replenishedAt: dateNow - thirtyMinutes,
+        },
+      },
+      inventory: { Tent: new Decimal(1) },
+    };
+
+    const farm2InitialState = {
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_BRACKETS[bumpkinLevel],
+        stamina: {
+          value: 0,
+          replenishedAt: dateNow - thirtyMinutes,
+        },
+      },
+    };
+
+    const farm1State = replenishStamina({
+      state: farm1InitialState,
+      action: {
+        type: "bumpkin.replenishStamina",
+      },
+      createdAt: dateNow,
+    });
+    const farm2State = replenishStamina({
+      state: farm2InitialState,
+      action: {
+        type: "bumpkin.replenishStamina",
+      },
+      createdAt: dateNow,
+    });
+
+    // only one decimal
+    const bla = Number(farm1State.bumpkin?.stamina.value.toFixed(1));
+
+    expect(bla).toBe(5.5);
+    expect(farm2State.bumpkin?.stamina.value).toBe(5);
   });
 });
