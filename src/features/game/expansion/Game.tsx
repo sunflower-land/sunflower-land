@@ -34,6 +34,7 @@ import { BumpkinMinted } from "features/island/bumpkin/components/BumpkinMinted"
 import { Swarming } from "../components/Swarming";
 import { Helios } from "features/helios/Helios";
 import { Cooldown } from "../components/Cooldown";
+import { Rules } from "../components/Rules";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -56,6 +57,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   bumpkinMinted: true,
   swarming: true,
   coolingDown: true,
+  gameRules: true,
 };
 
 export const Game: React.FC = () => {
@@ -150,6 +152,7 @@ export const Game: React.FC = () => {
           {gameState.matches("mintingBumpkin") && <MintingBumpkin />}
           {gameState.matches("bumpkinMinted") && <BumpkinMinted />}
           {gameState.matches("coolingDown") && <Cooldown />}
+          {gameState.matches("gameRules") && <Rules />}
         </Panel>
       </Modal>
 

@@ -352,10 +352,7 @@ export function startGame(authContext: Options) {
             {
               target: "gameRules",
               cond: () => {
-                console.log("Get game rules");
                 const lastRead = getGameRulesLastRead();
-                console.log({ lastRead });
-                // Show every 7 days
                 return (
                   !lastRead ||
                   Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
@@ -400,12 +397,16 @@ export function startGame(authContext: Options) {
         },
         announcing: {
           on: {
-            ACKNOWLEDGE: "notifying",
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
           },
         },
         gameRules: {
           on: {
-            ACKNOWLEDGE: "notifying",
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
           },
         },
         playing: {
