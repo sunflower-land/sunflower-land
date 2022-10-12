@@ -61,6 +61,7 @@ export interface Context {
   maxedItem?: InventoryItemName | "SFL";
   goblinSwarm?: Date;
   deviceTrackerId?: string;
+  status?: "COOL_DOWN";
 }
 
 type MintEvent = {
@@ -334,22 +335,19 @@ export function startGame(authContext: Options) {
           },
         },
         notifying: {
-          entry: [
+          always: [
             {
               target: "coolingDown",
-              cond: (_: Context, event: any) =>
-                event.data?.status === "COOL_DOWN",
+              cond: (context: Context) => context.status === "COOL_DOWN",
             },
             {
               target: "deposited",
-              cond: (_: Context, event: any) =>
-                event.data?.notifications?.length > 0,
-              actions: "assignGame",
+              cond: (context: Context) =>
+                !!context.notifications && context.notifications?.length > 0,
             },
             {
               target: "announcing",
               cond: () => hasAnnouncements(),
-              actions: "assignGame",
             },
             {
               target: "gameRules",
@@ -363,23 +361,19 @@ export function startGame(authContext: Options) {
                   Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
                 );
               },
-              actions: "assignGame",
             },
             {
               target: "swarming",
               cond: () => isSwarming(),
-              actions: "assignGame",
             },
             {
               target: "noBumpkinFound",
               cond: (context: Context, event: any) =>
                 (!event.data?.state.bumpkin || !context.state.bumpkin) &&
                 window.location.hash.includes("/land"),
-              actions: "assignGame",
             },
             {
               target: "playing",
-              actions: "assignGame",
             },
           ],
         },
@@ -406,12 +400,12 @@ export function startGame(authContext: Options) {
         },
         announcing: {
           on: {
-            ACKNOWLEDGE: notifyAndPlay,
+            ACKNOWLEDGE: "notifying",
           },
         },
         gameRules: {
           on: {
-            ACKNOWLEDGE: notifyAndPlay,
+            ACKNOWLEDGE: "notifying",
           },
         },
         playing: {
