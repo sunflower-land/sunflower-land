@@ -67,7 +67,7 @@ export const CropReward: React.FC<Props> = ({
           </div>
         )}
         <div
-          hidden={loading}
+          hidden={loading} // render and hide captchas so images have time to load
           className="flex flex-col items-center justify-between"
         >
           {opened ? (
