@@ -13,13 +13,17 @@ import {
 } from "features/game/types/game";
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GRID_WIDTH_PX, POPOVER_TIME_MS } from "features/game/lib/constants";
+import {
+  GRID_WIDTH_PX,
+  PIXEL_SCALE,
+  POPOVER_TIME_MS,
+} from "features/game/lib/constants";
 import { Soil } from "./Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import Spritesheet from "components/animation/SpriteAnimator";
 import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "./CropReward";
-import { HARVEST_PROC_SPRITE } from "../lib/plant";
+import { HARVEST_PROC_ANIMATION } from "../lib/plant";
 
 interface Props {
   selectedItem?: InventoryItemName;
@@ -96,14 +100,19 @@ export const Field: React.FC<Props> = ({
     if (field.multiplier && field.multiplier >= 10) {
       setProcAnimation(
         <Spritesheet
-          className="absolute pointer-events-none bottom-0 -left-[33px]"
-          image={HARVEST_PROC_SPRITE[field.name]}
-          widthFrame={1188 / 11}
-          heightFrame={108}
-          fps={10}
-          steps={11}
+          className="absolute pointer-events-none bottom-[4px] -left-[26px]"
+          style={{
+            width: `${
+              (HARVEST_PROC_ANIMATION.size / HARVEST_PROC_ANIMATION.scale) *
+              PIXEL_SCALE
+            }px`,
+          }}
+          image={HARVEST_PROC_ANIMATION.sprites[field.name]}
+          widthFrame={HARVEST_PROC_ANIMATION.size}
+          heightFrame={HARVEST_PROC_ANIMATION.size}
+          fps={HARVEST_PROC_ANIMATION.fps}
+          steps={HARVEST_PROC_ANIMATION.steps}
           hiddenWhenPaused={true}
-          loop={false}
         />
       );
     }

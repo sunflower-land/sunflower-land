@@ -79,17 +79,23 @@ export const INITIAL_STOCK: Inventory = {
 
 export const INITIAL_FIELDS: GameState["fields"] = {
   0: {
-    name: "Beetroot",
+    name: "Sunflower",
     plantedAt: 0,
-    multiplier: 10,
+    reward: {
+      items: [
+        {
+          amount: 2,
+          name: "Sunflower Seed",
+        },
+      ],
+    },
   },
   1: {
-    name: "Beetroot",
+    name: "Sunflower",
     plantedAt: 0,
-    multiplier: 10,
   },
   2: {
-    name: "Beetroot",
+    name: "Sunflower",
     plantedAt: 0,
   },
   5: {
@@ -450,7 +456,6 @@ export const INITIAL_FARM: GameState = {
   balance: new Decimal(0),
   fields: INITIAL_FIELDS,
   inventory: {
-    "Sunflower Seed": new Decimal(10),
     Sunflower: new Decimal(5),
     Potato: new Decimal(12),
     "Roasted Cauliflower": new Decimal(1),
