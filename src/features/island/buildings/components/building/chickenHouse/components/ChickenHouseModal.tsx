@@ -118,6 +118,7 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
             Feed wheat and collect eggs
           </span>
           <>
+            {/* SFL requirement */}
             <div className="border-t border-white w-full mt-2 pt-1">
               <div className="flex justify-center items-end">
                 <img src={token} className="h-5 mr-1" />
@@ -133,6 +134,7 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
                 </span>
               </div>
             </div>
+
             <Button
               disabled={lessFunds()}
               className="text-xxs sm:text-xs mt-1 whitespace-nowrap"

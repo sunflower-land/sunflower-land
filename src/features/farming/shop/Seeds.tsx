@@ -25,7 +25,6 @@ import { getBuyPrice } from "features/game/events/craft";
 import { getCropTime } from "features/game/events/plant";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
-import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 
 interface Props {
   onClose: () => void;
@@ -43,7 +42,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
   const [isTimeBoosted, setIsTimeBoosted] = useState(false);
-  const [showCaptcha, setShowCaptcha] = useState(false);
 
   const inventory = state.inventory;
 
@@ -61,21 +59,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     });
 
     shortcutItem(selected.name);
-  };
-
-  const restock = () => {
-    // setShowCaptcha(true);
-    gameService.send("SYNC", { captcha: "" });
-
-    onClose();
-  };
-
-  const onCaptchaSolved = async (captcha: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    gameService.send("SYNC", { captcha });
-
-    onClose();
   };
 
   const lessFunds = (amount = 1) => {
@@ -101,16 +84,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     [inventory, selected.name, state.inventory]
   );
 
-  if (showCaptcha) {
-    return (
-      <CloudFlareCaptcha
-        action="seeds-sync"
-        onDone={onCaptchaSolved}
-        onExpire={() => setShowCaptcha(false)}
-        onError={() => setShowCaptcha(false)}
-      />
-    );
-  }
   const Action = () => {
     const isLocked = selected.requires && !inventory[selected.requires];
     if (isLocked || selected.disabled) {
@@ -126,9 +99,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           <p className="text-xxs text-center">
             Sync your farm to the Blockchain to restock
           </p>
-          <Button className="text-xs mt-1" onClick={restock}>
-            Sync
-          </Button>
         </div>
       );
     }

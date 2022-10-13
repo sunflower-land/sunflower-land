@@ -18,7 +18,6 @@ import { InventoryItemName } from "features/game/types/game";
 import { Stock } from "components/ui/Stock";
 import { getBuyPrice } from "features/game/events/craft";
 import { getMaxChickens } from "features/game/events/feedChicken";
-import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 
 interface Props {
   items: Partial<Record<InventoryItemName, CraftableItem>>;
@@ -82,24 +81,6 @@ export const CraftingItems: React.FC<Props> = ({
     shortcutItem(selected.name);
   };
 
-  const onCaptchaSolved = async (captcha: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    gameService.send("SYNC", { captcha });
-
-    onClose();
-  };
-
-  const sync = () => {
-    gameService.send("SYNC", { captcha: "" });
-
-    onClose();
-  };
-
-  const restock = () => {
-    // setShowCaptcha(true);
-    sync();
-  };
   // ask confirmation if crafting more than 10
   const openConfirmationModal = () => {
     showCraftTenModal(true);
@@ -112,16 +93,6 @@ export const CraftingItems: React.FC<Props> = ({
     craft(10);
     closeConfirmationModal();
   };
-  if (showCaptcha) {
-    return (
-      <CloudFlareCaptcha
-        action="carfting-sync"
-        onDone={onCaptchaSolved}
-        onExpire={() => setShowCaptcha(false)}
-        onError={() => setShowCaptcha(false)}
-      />
-    );
-  }
 
   const Action = () => {
     if (selected.disabled) {
@@ -148,9 +119,6 @@ export const CraftingItems: React.FC<Props> = ({
           <p className="text-xxs text-center">
             Sync your farm to the Blockchain to restock
           </p>
-          <Button className="text-xs mt-1" onClick={restock}>
-            Sync
-          </Button>
         </div>
       );
     }
@@ -276,16 +244,22 @@ export const CraftingItems: React.FC<Props> = ({
               );
             })}
 
-            <div className="flex justify-center items-end">
-              <img src={token} className="h-5 mr-1" />
-              <span
-                className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  "text-red-500": lessFunds(),
-                })}
-              >
-                {`$${price?.toNumber()}`}
-              </span>
-            </div>
+            {/* SFL requirement */}
+            {price?.gt(0) && (
+              <div className="flex justify-center items-end">
+                <img src={token} className="h-5 mr-1" />
+                <span
+                  className={classNames(
+                    "text-xs text-shadow text-center mt-2 ",
+                    {
+                      "text-red-500": lessFunds(),
+                    }
+                  )}
+                >
+                  {`$${price?.toNumber()}`}
+                </span>
+              </div>
+            )}
           </div>
           {Action()}
         </div>
