@@ -21,6 +21,7 @@ import cabbagePlant from "assets/crops/cabbage/plant.png";
 import beetrootSeedling from "assets/crops/beetroot/seedling.png";
 import beetrootAlmostDone from "assets/crops/beetroot/almost.png";
 import beetrootPlant from "assets/crops/beetroot/plant.png";
+import beetrootProcSprite from "assets/crops/beetroot/proc_sprite.png";
 
 import cauliflowerSeedling from "assets/crops/cauliflower/seedling.png";
 import cauliflowerAlmostDone from "assets/crops/cauliflower/almost.png";
@@ -39,6 +40,19 @@ import wheatAlmostDone from "assets/crops/wheat/almost.png";
 import wheatPlant from "assets/crops/wheat/plant.png";
 
 import { CropName } from "features/game/types/crops";
+
+export const HARVEST_PROC_SPRITE: Record<CropName, any> = {
+  Sunflower: "",
+  Potato: "",
+  Pumpkin: "",
+  Carrot: "",
+  Cabbage: "",
+  Beetroot: beetrootProcSprite,
+  Cauliflower: "",
+  Parsnip: "",
+  Radish: "",
+  Wheat: "",
+};
 
 export type Lifecycle = {
   seedling: any;
