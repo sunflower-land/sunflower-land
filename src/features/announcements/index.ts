@@ -14,6 +14,7 @@ import bumpkin from "assets/announcements/bumpkin.png";
 import warriorTop from "assets/announcements/warrior_top.png";
 import greenAmulet from "assets/bumpkins/shop/necklaces/green_amulet.png";
 import boat from "assets/announcements/boat.png";
+import warDrop from "assets/announcements/war_drop.png";
 
 export interface Announcement {
   date: Date;
@@ -28,6 +29,26 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2022-10-12T00:00:00"),
+    title: "War Tent Items",
+    notes: [
+      "All war tent items will become available for crafting",
+      "6am UTC 13th October",
+      "New Items: Skull Hat, War Skull, Undead Chicken & War Tombstone.",
+    ],
+    type: "war",
+    image: warDrop,
+  },
+  {
+    date: new Date("2022-10-11T00:00:00"),
+    title: "New Wallet Transfer",
+    notes: [
+      "If you need to transfer your account to a new wallet, you can now do it in-game",
+      "Access Menu > Settings > Transfer Ownership",
+      "This is useful if your wallet is compromised or you want to move your farm to a new wallet.",
+    ],
+  },
   {
     date: new Date("2022-10-10T00:00:00"),
     title: "You are my sunshine",

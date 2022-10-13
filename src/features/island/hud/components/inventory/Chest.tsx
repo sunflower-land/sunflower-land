@@ -30,6 +30,7 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
 
   const chestMap = getChestItems(state);
 
+  console.log({ chestMap });
   const collectibles = getKeys(chestMap).reduce((acc, item) => {
     if (item in LIMITED_ITEMS) {
       return { ...acc, [item]: chestMap[item] };

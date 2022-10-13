@@ -43,6 +43,10 @@ export function getBuyPrice(item: CraftableItem, inventory: Inventory) {
     return new Decimal(0);
   }
 
+  if (inventory["Sunflower Shield"]?.gte(1) && item.name === "Sunflower Seed") {
+    return new Decimal(0);
+  }
+
   let price = item.tokenAmount;
 
   if (price && inventory.Artist?.gte(1)) {
