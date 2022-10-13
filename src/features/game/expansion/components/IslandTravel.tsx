@@ -48,7 +48,7 @@ export const IslandTravel = ({ bumpkin, x, y }: Props) => {
             <div className="flex">
               <Tab isActive>
                 <img src={hammer} className="h-5 mr-2" />
-                <span className="text-sm text-shadow">Islands</span>
+                <span className="text-sm text-shadow">Travel To</span>
               </Tab>
             </div>
             <img

@@ -22,36 +22,36 @@ const Island = ({ name, levelRequired, path, bumpkin }: Props) => {
   const navigate = useNavigate();
   const cannotNavigate =
     !bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired;
-  return (
-    <>
-      {cannotNavigate ? (
-        <div>
-          <OuterPanel className="flex relative items-center py-2 mb-1 opacity-50">
-            <div className="flex-1 flex flex-col justify-center">
-              <span className="text-sm">{name}</span>
-              <div className="flex items-center">
-                <span
-                  className="bg-error border text-xxs p-1 rounded-md"
-                  style={{ lineHeight: "10px" }}
-                >
-                  Lvl {levelRequired}
-                </span>
 
-                <img src={lock} className="h-4 ml-1" />
-              </div>
+  if (cannotNavigate) {
+    return (
+      <div>
+        <OuterPanel className="flex relative items-center py-2 mb-1 opacity-50">
+          <div className="flex-1 flex flex-col justify-center">
+            <span className="text-sm">{name}</span>
+            <div className="flex items-center">
+              <span
+                className="bg-error border text-xxs p-1 rounded-md"
+                style={{ lineHeight: "10px" }}
+              >
+                Lvl {levelRequired}
+              </span>
+
+              <img src={lock} className="h-4 ml-1" />
             </div>
-          </OuterPanel>
+          </div>
+        </OuterPanel>
+      </div>
+    );
+  }
+  return (
+    <div onClick={() => navigate(path)}>
+      <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
+        <div className="flex-1 flex flex-col justify-center">
+          <span className="text-sm">{name}</span>
         </div>
-      ) : (
-        <div onClick={() => navigate(path)}>
-          <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
-            <div className="flex-1 flex flex-col justify-center">
-              <span className="text-sm">{name}</span>
-            </div>
-          </OuterPanel>
-        </div>
-      )}
-    </>
+      </OuterPanel>
+    </div>
   );
 };
 
@@ -65,7 +65,7 @@ export const IslandList = ({ bumpkin }: { bumpkin: Bumpkin | undefined }) => {
       path: `/land/${id}/helios`,
     },
     {
-      name: "Snow",
+      name: "Snow Kingdom",
       levelRequired: 100,
       path: `/snow/${id}`,
     },
