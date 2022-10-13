@@ -806,6 +806,7 @@ export function startGame(authContext: Options) {
           itemsMintedAt: (_, event) => event.data.itemsMintedAt,
           notifications: (_, event) => event.data.notifications,
           deviceTrackerId: (_, event) => event.data.deviceTrackerId,
+          status: (_, event) => event.data.status,
         }),
       },
     }
