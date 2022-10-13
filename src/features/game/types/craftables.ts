@@ -65,6 +65,12 @@ export interface CraftableItem {
   isPlaceholder?: boolean;
   bumpkinLevel?: number;
   canMintMultiple?: boolean;
+  /**
+   * Date the item will be craftable in milliseconds
+   * Date.UTC(YEAR, MONTH, DAY, HOUR?, MINUTE?, SECONDS?, MS?)
+   * REMEMBER MONTHS START IN 0, 0 = JAN, 1 = FEB...
+   */
+  mintReleaseDate?: number;
 }
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
@@ -616,30 +622,35 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
     description: "A mark of a true warrior",
     type: LimitedItemType.WarTentItem,
     disabled: true,
+    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "Warrior Pants": {
     name: "Warrior Pants",
     description: "Protect your thighs",
     type: LimitedItemType.WarTentItem,
     disabled: true,
+    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "Warrior Helmet": {
     name: "Warrior Helmet",
     description: "Immune to arrows",
     type: LimitedItemType.WarTentItem,
     disabled: true,
+    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "Sunflower Shield": {
     name: "Sunflower Shield",
     description: "A hero of Sunflower Land. Free Sunflower Seeds!",
     type: LimitedItemType.WarTentItem,
     disabled: true,
+    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "Skull Hat": {
     name: "Skull Hat",
     description: "A rare hat for your Bumpkin.",
     type: LimitedItemType.WarTentItem,
     disabled: true,
+    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "War Skull": {
     name: "War Skull",
@@ -647,18 +658,21 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
     type: LimitedItemType.WarTentItem,
     disabled: true,
     canMintMultiple: true,
+    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "War Tombstone": {
     name: "War Tombstone",
     description: "R.I.P",
     type: LimitedItemType.WarTentItem,
     disabled: false,
+    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "Undead Rooster": {
     name: "Undead Rooster",
     description: "An unfortunate casualty of the war. 10% increased egg yield.",
     type: LimitedItemType.WarTentItem,
     disabled: false,
+    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
 };
 
@@ -1036,6 +1050,7 @@ export const makeLimitedItemsByName = (
         disabled: !enabled,
         isPlaceholder: items[name].isPlaceholder || isNewItem,
         canMintMultiple: items[name].canMintMultiple,
+        mintReleaseDate: items[name].mintReleaseDate || 0,
       };
     }
 
