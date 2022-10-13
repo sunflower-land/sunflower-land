@@ -38,3 +38,16 @@ export function acknowledgeRead() {
     PAST_ANNOUNCEMENTS[0].date.toISOString()
   );
 }
+
+export function getGameRulesLastRead(): Date | null {
+  const value = localStorage.getItem("gameRulesLastRead");
+  if (!value) {
+    return null;
+  }
+
+  return new Date(value);
+}
+
+export function acknowledgeGameRules() {
+  return localStorage.setItem("gameRulesLastRead", new Date().toISOString());
+}
