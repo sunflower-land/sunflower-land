@@ -53,7 +53,7 @@ export const DynamicNFT: React.FC<Props> = ({ bumpkinParts }) => {
             src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItems].layerImage}
             className={classNames(`inset-0 z-${index * 10} w-full absolute`, {
               // The body sets the dimensions
-              relative: part === "background",
+              relative: part === "body",
             })}
           />
         ))}
