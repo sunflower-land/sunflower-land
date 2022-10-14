@@ -97,17 +97,17 @@ export const IDS = Object.values(ITEM_IDS);
 export const NAMES = Object.keys(ITEM_IDS) as BumpkinItems[];
 
 export type BumpkinParts = {
+  background: BumpkinWallpaper;
   hair: BumpkinHair;
-  eyes: BumpkinEyes;
   body: BumpkinBody;
   shirt: BumpkinShirt;
   pants: BumpkinPants;
   shoes: BumpkinShoes;
-  mouth: BumpkinMouths;
+  eyes?: BumpkinEyes;
+  mouth?: BumpkinMouths;
   tool?: BumpkinTools;
   necklace?: BumpkinNecklace;
   hat?: BumpkinHat;
-  background?: BumpkinWallpaper;
 };
 
 export type BumpkinPart = keyof BumpkinParts;

@@ -8,7 +8,6 @@ import {
   BumpkinItems,
   BumpkinPart,
   BumpkinParts,
-  BumpkinWallpaper,
 } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEMS } from "features/bumpkins/types/BumpkinDetails";
 
@@ -25,26 +24,14 @@ export const DynamicNFT: React.FC<Props> = ({
     return null;
   }
 
-  const {
-    background,
-    body,
-    eyes,
-    hair,
-    mouth,
-    pants,
-    shirt,
-    shoes,
-    hat,
-    necklace,
-    tool,
-  } = bumpkinParts;
+  const { background, body, hair, pants, shirt, shoes, hat, necklace, tool } =
+    bumpkinParts;
 
   // Need to render layers in specific order
-  const orderedParts = {
+  const orderedParts: Partial<BumpkinParts> = {
+    background,
     body,
-    eyes,
     hair,
-    mouth,
     pants,
     shirt,
     shoes,
@@ -53,6 +40,10 @@ export const DynamicNFT: React.FC<Props> = ({
     tool,
   };
 
+  if (!showBackground) {
+    delete orderedParts.background;
+  }
+
   return (
     <div className="relative w-full">
       <img
@@ -60,20 +51,16 @@ export const DynamicNFT: React.FC<Props> = ({
         alt="drop-shadow"
         className="absolute bottom-0 z-0 opacity-30"
       />
-      {showBackground && (
-        <img
-          src={BUMPKIN_ITEMS[background as BumpkinWallpaper].layerImage}
-          alt="background"
-          className="z-0 w-full absolute"
-        />
-      )}
       {getKeys(orderedParts)
         .filter((part) => !!bumpkinParts[part])
         .map((part: BumpkinPart, index) => (
           <img
             key={part}
             src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItems].layerImage}
-            className={classNames(`inset-0 z-${index * 10} w-full absolute`, {
+            style={{
+              zIndex: index * 10,
+            }}
+            className={classNames(`inset-0 w-full absolute`, {
               // The body sets the dimensions
               relative: part === "body",
             })}
