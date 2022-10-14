@@ -339,8 +339,8 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                 );
               })}
 
-              {/* Don't render SFL for war rewards */}
-              {selected.type !== LimitedItemType.WarTentItem &&
+              {/* SFL requirement */}
+              {selected.tokenAmount?.gt(0) &&
                 (selected.isPlaceholder ? (
                   <span className="text-xs">?</span>
                 ) : (
@@ -354,7 +354,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                         }
                       )}
                     >
-                      {`${selected.tokenAmount?.toNumber()} SFL`}
+                      {`$${selected.tokenAmount?.toNumber()}`}
                     </span>
                   </div>
                 ))}
