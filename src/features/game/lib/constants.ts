@@ -177,7 +177,7 @@ export const INITIAL_GOLD_MINES: LandExpansion["gold"] = {
       amount: 0.1,
       minedAt: 0,
     },
-    x: 2,
+    x: -4,
     y: 2,
     height: 1,
     width: 1,
@@ -302,7 +302,19 @@ export const INITIAL_EXPANSIONS = [
           minedAt: 0,
         },
         x: 1,
-        y: -2,
+        y: 2,
+        height: 1,
+        width: 1,
+      },
+    },
+    stones: {
+      0: {
+        stone: {
+          amount: 2,
+          minedAt: 0,
+        },
+        x: 3,
+        y: 2,
         height: 1,
         width: 1,
       },
@@ -468,6 +480,7 @@ export const INITIAL_FARM: GameState = {
     Observatory: new Decimal(1),
     Pickaxe: new Decimal(3),
     "Stone Pickaxe": new Decimal(3),
+    "Iron Pickaxe": new Decimal(5),
     "Trading Ticket": new Decimal(50),
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
@@ -609,6 +622,7 @@ export const MAX_STAMINA: Record<BumpkinLevel, number> = {
   2: 50,
   3: 100,
   4: 200,
+  5: 300,
 };
 
 export const CHOP_STAMINA_COST = 2;

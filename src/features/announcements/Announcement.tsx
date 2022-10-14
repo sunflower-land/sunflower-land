@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "features/game/GameProvider";
 import { Announcement as IAnnouncement } from "features/announcements";
-import { getAnnouncements } from "./announcementsStorage";
+import { acknowledgeRead, getAnnouncements } from "./announcementsStorage";
 import close from "assets/icons/close.png";
 
 const CONTENT_HEIGHT = 400;
@@ -10,6 +10,7 @@ export const Announcements: React.FC = () => {
   const { gameService } = useContext(Context);
 
   function onAcknowledge() {
+    acknowledgeRead();
     gameService.send("ACKNOWLEDGE");
   }
 

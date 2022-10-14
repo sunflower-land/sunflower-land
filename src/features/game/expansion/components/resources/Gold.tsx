@@ -4,7 +4,7 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import sparkSheet from "assets/resources/gold/gold_spark_sheet.png";
+import sparkSheet from "assets/resources/gold/gold_rock_spark.png";
 import dropSheet from "assets/resources/gold/gold_rock_drop.png";
 import hitbox from "assets/resources/gold/gold.png";
 import gold from "assets/resources/gold_ore.png";
@@ -224,7 +224,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
               style={{
                 position: "absolute",
                 left: "-86.7px",
-                top: "-55.5px",
+                top: "-50px",
                 imageRendering: "pixelated",
                 width: `${GRID_WIDTH_PX * 7}px`,
               }}
@@ -266,8 +266,8 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       <Spritesheet
         style={{
           position: "absolute",
-          left: "-86.6px",
-          top: "-49.9px",
+          left: "-86.7px",
+          top: "-50px",
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
           width: `${GRID_WIDTH_PX * 7}px`,

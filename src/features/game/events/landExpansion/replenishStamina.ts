@@ -14,7 +14,7 @@ const REGEN_RANGE = MAX_REGEN_PERCENTAGE - MIN_REGEN_PERCENTAGE;
 // The decay rate is 10% per level
 const DECAY_RATE = 0.1;
 
-function getRegenerationRate(level: BumpkinLevel) {
+function getRegenerationRate(level: BumpkinLevel, boostMultiplier: number) {
   // The stamina regeneration decays DECAY_RATE per level.
   // https://mathbitsnotebook.com/Algebra2/Exponential/EXGrowthDecay.html
   const regenerationRate = REGEN_RANGE * (1 - DECAY_RATE) ** (level - 1);
@@ -23,15 +23,17 @@ function getRegenerationRate(level: BumpkinLevel) {
   const offsetRegenerationRate = regenerationRate + MIN_REGEN_PERCENTAGE;
 
   // Convert from percentage/hour to percentage/second
-  return offsetRegenerationRate / 60 / 60;
+  return (offsetRegenerationRate / 60 / 60) * boostMultiplier;
 }
 
 export function calculateBumpkinStamina({
   nextReplenishedAt,
   bumpkin,
+  boostMultiplier = 1,
 }: {
   nextReplenishedAt: number;
   bumpkin: Bumpkin;
+  boostMultiplier?: number;
 }) {
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
   const replenishedAt = bumpkin.stamina.replenishedAt;
@@ -45,7 +47,7 @@ export function calculateBumpkinStamina({
     throw new Error("Actions cannot go back in time");
   }
 
-  const regenerationRate = getRegenerationRate(bumpkinLevel);
+  const regenerationRate = getRegenerationRate(bumpkinLevel, boostMultiplier);
 
   const bonusStamina =
     MAX_STAMINA[bumpkinLevel] * regenerationRate * elapsedSeconds;
@@ -57,10 +59,22 @@ type ReplenishStaminaAction = {
   type: "bumpkin.replenishStamina";
 };
 
+function getStaminaBoosts(gameState: GameState) {
+  let multiplier = 1;
+
+  // Only placed tent adds boost
+  if (gameState.buildings.Tent) {
+    multiplier += 0.1;
+  }
+
+  return multiplier;
+}
+
 type Options = {
   state: GameState;
   action: ReplenishStaminaAction;
   createdAt: number;
+  boostMultiplier?: number;
 };
 
 export function replenishStamina({ state, createdAt }: Options): GameState {
@@ -74,6 +88,7 @@ export function replenishStamina({ state, createdAt }: Options): GameState {
   const stamina = calculateBumpkinStamina({
     nextReplenishedAt: createdAt,
     bumpkin,
+    boostMultiplier: getStaminaBoosts(stateCopy),
   });
 
   bumpkin.stamina.replenishedAt = createdAt;
