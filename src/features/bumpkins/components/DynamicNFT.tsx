@@ -16,20 +16,22 @@ interface Props {
   showBackground?: boolean;
 }
 
-export const DynamicNFT: React.FC<Props> = ({ bumpkinParts }) => {
+export const DynamicNFT: React.FC<Props> = ({
+  bumpkinParts,
+  showBackground,
+}) => {
   if (!bumpkinParts) {
     return null;
   }
 
-  const { body, eyes, hair, mouth, pants, shirt, shoes, hat, necklace, tool } =
+  const { background, body, hair, pants, shirt, shoes, hat, necklace, tool } =
     bumpkinParts;
 
   // Need to render layers in specific order
-  const orderedParts = {
+  const orderedParts: Partial<BumpkinParts> = {
+    background,
     body,
-    eyes,
     hair,
-    mouth,
     pants,
     shirt,
     shoes,
@@ -37,6 +39,10 @@ export const DynamicNFT: React.FC<Props> = ({ bumpkinParts }) => {
     necklace,
     tool,
   };
+
+  if (!showBackground) {
+    delete orderedParts.background;
+  }
 
   return (
     <div className="relative w-full">
@@ -51,7 +57,10 @@ export const DynamicNFT: React.FC<Props> = ({ bumpkinParts }) => {
           <img
             key={part}
             src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItems].layerImage}
-            className={classNames(`inset-0 z-${index * 10} w-full absolute`, {
+            style={{
+              zIndex: index * 10,
+            }}
+            className={classNames(`inset-0 w-full absolute`, {
               // The body sets the dimensions
               relative: part === "body",
             })}
