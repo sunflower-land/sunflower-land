@@ -11,7 +11,11 @@ import { Context } from "features/game/GameProvider";
 import { CropReward as Reward } from "features/game/types/game";
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GRID_WIDTH_PX, POPOVER_TIME_MS } from "features/game/lib/constants";
+import {
+  GRID_WIDTH_PX,
+  PIXEL_SCALE,
+  POPOVER_TIME_MS,
+} from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Soil } from "features/farming/crops/components/Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
@@ -20,6 +24,8 @@ import { CropReward } from "features/farming/crops/components/CropReward";
 import { isPlotFertile } from "features/game/events/landExpansion/plant";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import Spritesheet from "components/animation/SpriteAnimator";
+import { HARVEST_PROC_ANIMATION } from "features/farming/crops/lib/plant";
 
 interface Props {
   plotIndex: number;
@@ -41,6 +47,7 @@ export const Plot: React.FC<Props> = ({
   const [showPopover, setShowPopover] = useState(false);
   const [showCropDetails, setShowCropDetails] = useState(false);
   const [isFertileModalOpen, setIsFertileModalOpen] = useState(false);
+  const [procAnimation, setProcAnimation] = useState<JSX.Element | null>();
   const { setToast } = useContext(ToastContext);
   // Rewards
   const [touchCount, setTouchCount] = useState(0);
@@ -160,6 +167,26 @@ export const Plot: React.FC<Props> = ({
 
       harvestAudio.play();
 
+      if (crop.amount && crop.amount >= 10) {
+        setProcAnimation(
+          <Spritesheet
+            className="absolute pointer-events-none bottom-[4px] -left-[26px]"
+            style={{
+              width: `${
+                (HARVEST_PROC_ANIMATION.size / HARVEST_PROC_ANIMATION.scale) *
+                PIXEL_SCALE
+              }px`,
+            }}
+            image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
+            widthFrame={HARVEST_PROC_ANIMATION.size}
+            heightFrame={HARVEST_PROC_ANIMATION.size}
+            fps={HARVEST_PROC_ANIMATION.fps}
+            steps={HARVEST_PROC_ANIMATION.steps}
+            hiddenWhenPaused={true}
+          />
+        );
+      }
+
       setToast({
         icon: ITEM_DETAILS[crop.name].image,
         content: `+${crop.amount || 1}`,
@@ -275,6 +302,7 @@ export const Plot: React.FC<Props> = ({
           fieldIndex={plotIndex}
         />
       </div>
+      {procAnimation}
     </div>
   );
 };

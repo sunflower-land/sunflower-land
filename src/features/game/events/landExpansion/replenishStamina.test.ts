@@ -4,6 +4,7 @@ import {
   MAX_STAMINA,
 } from "features/game/lib/constants";
 import { LEVEL_BRACKETS } from "features/game/lib/level";
+import { PlacedItem } from "features/game/types/game";
 import { replenishStamina } from "./replenishStamina";
 
 describe("replenishStamina", () => {
@@ -286,5 +287,104 @@ describe("replenishStamina", () => {
         createdAt: dateNow - oneHour,
       })
     ).toThrow("Actions cannot go back in time");
+  });
+
+  it("restores 100% of stamina in under 55 minutes for a level 1 player", () => {
+    const oneHour = 54.6 * 60 * 1000;
+
+    const tent: PlacedItem = {
+      coordinates: {
+        x: 0,
+        y: 0,
+      },
+      createdAt: 0,
+      id: "123",
+      readyAt: 0,
+    };
+
+    const initialState = {
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        stamina: {
+          value: 0,
+          replenishedAt: dateNow - oneHour,
+        },
+      },
+      buildings: { Tent: [tent] },
+    };
+
+    const state = replenishStamina({
+      state: initialState,
+      action: {
+        type: "bumpkin.replenishStamina",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.bumpkin?.stamina.value).toBe(MAX_STAMINA[1]);
+  });
+
+  it("restores 10% more stamina with tent in 30 minutes", () => {
+    const thirtyMinutes = 30 * 60 * 1000;
+    const bumpkinLevel = 1;
+
+    const tent: PlacedItem = {
+      coordinates: {
+        x: 0,
+        y: 0,
+      },
+      createdAt: 0,
+      id: "123",
+      readyAt: 0,
+    };
+
+    const farm1InitialState = {
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_BRACKETS[bumpkinLevel],
+        stamina: {
+          value: 0,
+          replenishedAt: dateNow - thirtyMinutes,
+        },
+      },
+      buildings: { Tent: [tent] },
+    };
+
+    const farm2InitialState = {
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_BRACKETS[bumpkinLevel],
+        stamina: {
+          value: 0,
+          replenishedAt: dateNow - thirtyMinutes,
+        },
+      },
+    };
+
+    const farm1State = replenishStamina({
+      state: farm1InitialState,
+      action: {
+        type: "bumpkin.replenishStamina",
+      },
+      createdAt: dateNow,
+    });
+    const farm2State = replenishStamina({
+      state: farm2InitialState,
+      action: {
+        type: "bumpkin.replenishStamina",
+      },
+      createdAt: dateNow,
+    });
+
+    // only one decimal
+    const oneDecimalStamina = Number(
+      farm1State.bumpkin?.stamina.value.toFixed(1)
+    );
+
+    expect(oneDecimalStamina).toBe(5.5);
+    expect(farm2State.bumpkin?.stamina.value).toBe(5);
   });
 });
