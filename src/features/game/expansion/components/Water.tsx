@@ -46,7 +46,7 @@ export const Water: React.FC<Props> = ({ level }) => {
           className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
         />
 
-        <MapPlacement x={-offset} y={1} width={GRID_WIDTH_PX * 1.185}>
+        <MapPlacement x={-offset} y={1} width={1.185}>
           <img
             style={{
               width: `${GRID_WIDTH_PX * 1.185}px`,
@@ -56,7 +56,7 @@ export const Water: React.FC<Props> = ({ level }) => {
           />
         </MapPlacement>
 
-        <MapPlacement x={-3 - offset} y={-1} width={GRID_WIDTH_PX * 6.1}>
+        <MapPlacement x={-3 - offset} y={-1} width={6.1}>
           <img
             src={goblinSwimming}
             style={{
@@ -65,30 +65,30 @@ export const Water: React.FC<Props> = ({ level }) => {
           />
         </MapPlacement>
 
-        <MapPlacement x={-2} y={offset + 2} width={64 * PIXEL_SCALE}>
+        <MapPlacement x={-2} y={offset + 2} width={3}>
           <img
             src={goblinSnorkling}
             style={{
-              width: `${64 * PIXEL_SCALE}px`,
+              width: `${3 * GRID_WIDTH_PX}px`,
             }}
           />
         </MapPlacement>
 
-        <MapPlacement x={offset + 4} y={6} width={16 * PIXEL_SCALE}>
+        <MapPlacement x={offset + 4} y={6} width={1}>
           <img
             src={swimmer}
             style={{
-              width: `${16 * PIXEL_SCALE}px`,
+              width: `${1 * GRID_WIDTH_PX}px`,
               transform: "scaleX(-1)",
               zIndex: 2,
             }}
           />
         </MapPlacement>
-        <MapPlacement x={offset + 4} y={6} width={16 * PIXEL_SCALE}>
+        <MapPlacement x={offset + 4} y={6} width={1}>
           <img
             src={cossies}
             style={{
-              width: `${16 * PIXEL_SCALE}px`,
+              width: `${GRID_WIDTH_PX}px`,
               transform: "scaleX(-1)",
               position: "relative",
               left: `${16 * PIXEL_SCALE}px`,
