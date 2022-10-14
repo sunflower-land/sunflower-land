@@ -113,10 +113,6 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
   }
 
   const ItemContent = () => {
-    if (hasSelectedFood) {
-      return <span className="text-xs text-center mt-4">Already crafted</span>;
-    }
-
     if (!state.stock[selected.name] || state.stock[selected.name]?.eq(0)) {
       return (
         <div>
@@ -131,6 +127,10 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
           </Button>
         </div>
       );
+    }
+
+    if (hasSelectedFood) {
+      return <span className="text-xs text-center mt-4">Already crafted</span>;
     }
 
     return (
