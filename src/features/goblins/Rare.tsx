@@ -229,7 +229,12 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
       );
     }
 
-    if (selected.disabled) {
+    const currentDate = Date.now();
+    const mintReleaseDate = selected.mintReleaseDate;
+    if (
+      (mintReleaseDate && mintReleaseDate > currentDate) ||
+      selected.disabled
+    ) {
       return <span className="text-xs mt-2">Coming soon</span>;
     }
 
