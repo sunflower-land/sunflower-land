@@ -21,7 +21,7 @@ import warriorTopLayer from "assets/bumpkins/layer/shirts/warrior_top.png";
 import farmerPants from "assets/bumpkins/shop/pants/farmer_pants.png";
 import farmerPantsLayer from "assets/bumpkins/layer/pants/farmer_pants.png";
 import blueOveralls from "assets/bumpkins/shop/pants/blue_overalls.png";
-import blueOverallsLayer from "assets/bumpkins/layer/pants/blue_overalls.png";
+import blueOverallsLayer from "assets/bumpkins/layer/pants/farmer_overalls.png";
 import lumberjackOveralls from "assets/bumpkins/shop/pants/lumberjack_overalls.png";
 import lumberjackOverallsLayer from "assets/bumpkins/layer/pants/lumberjack_overalls.png";
 import warriorPantsLayer from "assets/bumpkins/layer/pants/warrior_pants.png";
