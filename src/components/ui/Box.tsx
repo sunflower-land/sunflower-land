@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
+import { Label } from "./Label";
 import darkBorder from "assets/ui/panel/dark_border.png";
 import selectBox from "assets/ui/select/select_box.png";
-import { Label } from "./Label";
 import timer from "assets/icons/timer.png";
 import cancel from "assets/icons/cancel.png";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
