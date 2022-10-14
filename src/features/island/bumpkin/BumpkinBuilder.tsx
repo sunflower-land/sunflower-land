@@ -15,7 +15,6 @@ import { InitialBumpkinParts } from "features/game/actions/mintBumpkin";
 import { randomInt } from "lib/utils/random";
 import { BumpkinWallpaper } from "features/game/types/bumpkin";
 
-
 export type LimitedBody =
   | "Beige Farmer Potion"
   | "Light Brown Farmer Potion"
