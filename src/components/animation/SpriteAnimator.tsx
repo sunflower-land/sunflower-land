@@ -45,10 +45,11 @@ export interface Props {
   heightFrame: number;
   steps: number;
   fps: number;
-  direction: Direction;
+  direction?: Direction;
   timeout?: number;
   autoplay?: boolean;
   loop?: boolean;
+  hiddenWhenPaused?: boolean;
   isResponsive?: boolean;
   startAt?: number;
   endAt?: number;
@@ -128,6 +129,7 @@ class Spritesheet extends React.Component<Props> {
       backgroundSize,
       backgroundRepeat,
       backgroundPosition,
+      hiddenWhenPaused,
       onClick,
       onDoubleClick,
       onMouseMove,
@@ -180,7 +182,7 @@ class Spritesheet extends React.Component<Props> {
       "div",
       {
         className: `react-responsive-spritesheet ${this.id} ${className}`,
-        style,
+        style: { opacity: hiddenWhenPaused ? 0 : 1, ...style },
         onClick: () => onClick(this.setInstance()),
         onDoubleClick: () => onDoubleClick(this.setInstance()),
         onMouseMove: () => onMouseMove(this.setInstance()),
@@ -256,7 +258,11 @@ class Spritesheet extends React.Component<Props> {
   };
 
   play = (withTimeout = false) => {
-    const { onPlay, timeout } = this.props;
+    const { onPlay, timeout, hiddenWhenPaused } = this.props;
+
+    if (hiddenWhenPaused) {
+      this.spriteEl.style.opacity = 1;
+    }
 
     if (!this.isPlaying) {
       setTimeout(
@@ -326,7 +332,11 @@ class Spritesheet extends React.Component<Props> {
   };
 
   pause = () => {
-    const { onPause } = this.props;
+    const { onPause, hiddenWhenPaused } = this.props;
+
+    if (hiddenWhenPaused) {
+      this.spriteEl.style.opacity = 0;
+    }
 
     this.isPlaying = false;
     clearInterval(this.intervalSprite);
@@ -464,6 +474,7 @@ Spritesheet.defaultProps = {
   timeout: 0,
   autoplay: true,
   loop: false,
+  hiddenWhenPaused: false,
   startAt: 0,
   endAt: false,
   background: "",

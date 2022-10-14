@@ -4,8 +4,8 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import sparkSheet from "assets/resources/small_stone/small_stone_spark_sheet.png";
-import dropSheet from "assets/resources/small_stone/small_stone_drop.png";
+import sparkSheet from "assets/resources/stone/stone_rock_spark.png";
+import dropSheet from "assets/resources/stone/stone_rock_drop.png";
 import hitbox from "assets/resources/small_stone.png";
 import stone from "assets/resources/stone.png";
 import pickaxe from "assets/tools/wood_pickaxe.png";
@@ -48,7 +48,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const [popover, setPopover] = useState<JSX.Element | null>();
 
   const [touchCount, setTouchCount] = useState(0);
-  // When to hide the wood that pops out
+  // When to hide the stone that pops out
   const [collecting, setCollecting] = useState(false);
 
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -210,17 +210,17 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
               className="group-hover:img-highlight pointer-events-none z-10"
               style={{
                 position: "absolute",
-                left: "-44.7px",
-                top: "-37px",
+                left: "-86.7px",
+                top: "-50px",
                 imageRendering: "pixelated",
-                width: `${GRID_WIDTH_PX * 3}px`,
+                width: `${GRID_WIDTH_PX * 7}px`,
               }}
               getInstance={(spritesheet) => {
                 sparkGif.current = spritesheet;
               }}
               image={sparkSheet}
-              widthFrame={48}
-              heightFrame={32}
+              widthFrame={112}
+              heightFrame={48}
               fps={24}
               steps={6}
               direction={`forward`}
@@ -253,12 +253,11 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       <Spritesheet
         style={{
           position: "absolute",
-          left: "-10.1px",
-          top: "-47.2px",
+          left: "-86.5px",
+          top: "-50px",
           opacity: collecting ? 1 : 0,
-          // opacity: 1,
           transition: "opacity 0.2s ease-in",
-          width: `${GRID_WIDTH_PX * 5}px`,
+          width: `${GRID_WIDTH_PX * 7}px`,
           imageRendering: "pixelated",
         }}
         className="pointer-events-none z-20"
@@ -266,8 +265,8 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
           minedGif.current = spritesheet;
         }}
         image={dropSheet}
-        widthFrame={80}
-        heightFrame={32}
+        widthFrame={112}
+        heightFrame={48}
         fps={18}
         steps={10}
         direction={`forward`}
@@ -278,14 +277,14 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
         }}
       />
 
-      {/* Mined Pebble  */}
+      {/* Mined stone  */}
       {mined && (
         <>
           <img
             src={hitbox}
             className="pointer-events-none -z-10 absolute opacity-50"
             style={{
-              width: `${GRID_WIDTH_PX * 1.1}px`,
+              width: `${GRID_WIDTH_PX}px`,
             }}
           />
         </>
@@ -300,7 +299,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
           }
         )}
       >
-        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 2) * 100} />
+        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
       </div>
       {/* Recovery time panel */}
       {mined && (
