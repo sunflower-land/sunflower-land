@@ -44,7 +44,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
   }
 
   // Do not show soul bound characteristics
-  const { eyes, mouth, body, hair, background, ...wearables } = state.bumpkin
+  const { body, hair, background, ...wearables } = state.bumpkin
     ?.equipped as BumpkinParts;
 
   const equippedItems = Object.values(wearables) as BumpkinItems[];

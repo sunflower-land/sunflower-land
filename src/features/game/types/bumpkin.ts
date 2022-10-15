@@ -13,13 +13,6 @@ export type BumpkinShirt =
   | "Chef Apron"
   | "Warrior Shirt";
 
-export type BumpkinEyes =
-  | "Rosy Wide Eyes"
-  | "Rosy Squinted Eyes"
-  | "Rosy Butterfly Eyes";
-
-export type BumpkinMouths = "Wide Smile" | "Wide Smile With Teeth";
-
 export type BumpkinTools = "Farmer Pitchfork";
 
 export type BumpkinShoes = "Black Farmer Boots";
@@ -45,8 +38,6 @@ export type BumpkinItems =
   | BumpkinHair
   | BumpkinShirt
   | BumpkinPants
-  | BumpkinEyes
-  | BumpkinMouths
   | BumpkinTools
   | BumpkinShoes
   | BumpkinHat
@@ -61,11 +52,6 @@ export const ITEM_IDS: Record<BumpkinItems, number> = {
   "Basic Hair": 5,
   "Rancher Hair": 6,
   "Explorer Hair": 7,
-  "Rosy Wide Eyes": 8,
-  "Rosy Squinted Eyes": 9,
-  "Rosy Butterfly Eyes": 10,
-  "Wide Smile": 11,
-  "Wide Smile With Teeth": 12,
   "Red Farmer Shirt": 13,
   "Yellow Farmer Shirt": 14,
   "Blue Farmer Shirt": 15,
@@ -103,8 +89,6 @@ export type BumpkinParts = {
   shirt: BumpkinShirt;
   pants: BumpkinPants;
   shoes: BumpkinShoes;
-  eyes?: BumpkinEyes;
-  mouth?: BumpkinMouths;
   tool?: BumpkinTools;
   necklace?: BumpkinNecklace;
   hat?: BumpkinHat;
