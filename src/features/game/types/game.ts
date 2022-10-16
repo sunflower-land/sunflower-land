@@ -13,6 +13,7 @@ import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
+import { FruitName } from "features/island/fruit/FruitPatch";
 
 export type CropReward = {
   items: {
@@ -205,6 +206,12 @@ export type PlantedCrop = {
   fertilisers?: Fertilisers;
 };
 
+export type PlantedFruit = {
+  name: FruitName;
+  plantedAt: number;
+  amount: number;
+};
+
 export type LandExpansionTree = {
   wood: Wood;
 } & Position;
@@ -225,6 +232,10 @@ export type LandExpansionTerrain = {
 
 export type LandExpansionPlot = {
   crop?: PlantedCrop;
+} & Position;
+
+export type FruitPatch = {
+  fruit?: PlantedFruit;
 } & Position;
 
 export type BuildingProduct = {
@@ -252,6 +263,7 @@ export type LandExpansion = {
   iron?: Record<number, LandExpansionRock>;
   terrains?: Record<number, LandExpansionTerrain>;
   plots?: Record<number, LandExpansionPlot>;
+  fruitPatches?: Record<number, FruitPatch>;
   trees?: Record<number, LandExpansionTree>;
   stones?: Record<number, LandExpansionRock>;
 };

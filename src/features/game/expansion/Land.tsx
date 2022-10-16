@@ -26,11 +26,18 @@ import { Iron } from "./components/resources/Iron";
 import { Chicken } from "features/island/chickens/Chicken";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { LAND_WIDTH, Water } from "./components/Water";
-import { IslandTravel } from "./components/IslandTravel";
+import { FruitPatch } from "features/island/fruit/FruitPatch";
 
 type ExpansionProps = Pick<
   LandExpansion,
-  "plots" | "trees" | "terrains" | "stones" | "iron" | "gold" | "createdAt"
+  | "plots"
+  | "trees"
+  | "terrains"
+  | "stones"
+  | "iron"
+  | "gold"
+  | "createdAt"
+  | "fruitPatches"
 >;
 
 export const Expansion: React.FC<
@@ -42,6 +49,7 @@ export const Expansion: React.FC<
   iron,
   gold,
   terrains,
+  fruitPatches,
   createdAt,
   expansionIndex,
 }) => {
@@ -153,6 +161,23 @@ export const Expansion: React.FC<
             </MapPlacement>
           );
         })}
+
+      {fruitPatches &&
+        getKeys(fruitPatches).map((index) => {
+          const { x, y, width, height, fruit } = fruitPatches[index];
+
+          return (
+            <MapPlacement
+              key={`${createdAt}-fruit-${index}`}
+              x={x + xOffset}
+              y={y + yOffset}
+              height={height}
+              width={width}
+            >
+              <FruitPatch fruit={fruit?.name} />
+            </MapPlacement>
+          );
+        })}
     </>
   );
 };
@@ -185,7 +210,16 @@ export const Land: React.FC = () => {
           .filter((expansion) => expansion.readyAt < Date.now())
           .map(
             (
-              { stones, gold, terrains, iron, trees, plots, createdAt },
+              {
+                stones,
+                gold,
+                terrains,
+                iron,
+                trees,
+                plots,
+                createdAt,
+                fruitPatches,
+              },
               index
             ) => (
               <Expansion
@@ -198,6 +232,7 @@ export const Land: React.FC = () => {
                 trees={trees}
                 iron={iron}
                 plots={plots}
+                fruitPatches={fruitPatches}
               />
             )
           )}

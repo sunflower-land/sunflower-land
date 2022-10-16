@@ -287,7 +287,7 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
   plots: INITIAL_PLOTS,
 };
 
-export const INITIAL_EXPANSIONS = [
+export const INITIAL_EXPANSIONS: LandExpansion[] = [
   {
     createdAt: 0,
     readyAt: 0,
@@ -433,6 +433,20 @@ export const INITIAL_EXPANSIONS = [
         y: 1,
         height: 2,
         width: 2,
+      },
+    },
+
+    fruitPatches: {
+      0: {
+        height: 2,
+        width: 2,
+        x: -1,
+        y: 3,
+        fruit: {
+          amount: 1,
+          name: "Apple",
+          plantedAt: 0,
+        },
       },
     },
   },
