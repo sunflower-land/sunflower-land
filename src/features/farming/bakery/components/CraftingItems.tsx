@@ -17,17 +17,21 @@ import { CraftableItem } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { secondsToMidString } from "lib/utils/time";
 import { isExpired } from "features/game/lib/stock";
+import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 
 interface Props {
   items: Partial<Record<InventoryItemName, CraftableItem>>;
+  onClose: () => void;
 }
 
-export const CraftingItems: React.FC<Props> = ({ items }) => {
+export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
   const [selected, setSelected] = useState<CraftableItem>(
     Object.values(items)[0]
   );
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
+  const [showCaptcha, setShowCaptcha] = useState(false);
+
   const [
     {
       context: { state },
@@ -72,11 +76,41 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
     shortcutItem(selected.name);
   };
 
+  const onCaptchaSolved = async (captcha: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    gameService.send("SYNC", { captcha });
+
+    onClose();
+  };
+
+  const sync = () => {
+    gameService.send("SYNC", { captcha: "" });
+
+    onClose();
+  };
+
+  const restock = () => {
+    // setShowCaptcha(true);
+    sync();
+  };
+
   const validItems = Object.values(items).filter(
     (item) => !isExpired({ name: item.name, stockExpiry: state.stockExpiry })
   );
 
   const expiryTime = state.stockExpiry[selected.name];
+
+  if (showCaptcha) {
+    return (
+      <CloudFlareCaptcha
+        action="bakery-sync"
+        onDone={onCaptchaSolved}
+        onExpire={() => setShowCaptcha(false)}
+        onError={() => setShowCaptcha(false)}
+      />
+    );
+  }
 
   const ItemContent = () => {
     if (!state.stock[selected.name] || state.stock[selected.name]?.eq(0)) {
@@ -88,6 +122,9 @@ export const CraftingItems: React.FC<Props> = ({ items }) => {
           <p className="text-xxs text-center">
             Sync your farm to the Blockchain to restock
           </p>
+          <Button className="text-xs mt-1" onClick={restock}>
+            Sync
+          </Button>
         </div>
       );
     }
