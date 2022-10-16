@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { BuildingName } from "features/game/types/buildings";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { BuildingName } from "features/game/types";
+import { trackActivity } from "lib/utils/trackActivity";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 

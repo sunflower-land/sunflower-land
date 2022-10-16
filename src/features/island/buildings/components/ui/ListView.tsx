@@ -6,7 +6,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
-import { BuildingName, BUILDINGS } from "features/game/types/buildings";
+import { BuildingName } from "features/game/types";
+import { BUILDINGS } from "features/game/data";
 import { GameState } from "features/game/types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
 

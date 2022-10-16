@@ -8,10 +8,8 @@ import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
 import classNames from "classnames";
 import { calculateZIndex, Coordinates } from "../components/MapPlacement";
-import {
-  BUILDINGS_DIMENSIONS,
-  PlaceableName,
-} from "features/game/types/buildings";
+import { PlaceableName } from "features/game/types";
+import { BUILDINGS_DIMENSIONS } from "features/game/data";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   ANIMAL_DIMENSIONS,

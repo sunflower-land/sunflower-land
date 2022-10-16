@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
 import { STONE_MINE_STAMINA_COST } from "features/game/lib/constants";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackActivity } from "lib/utils/trackActivity";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { replenishStamina } from "./replenishStamina";

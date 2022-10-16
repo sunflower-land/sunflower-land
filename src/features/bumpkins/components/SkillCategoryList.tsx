@@ -1,10 +1,7 @@
 import React, { useContext } from "react";
 import { OuterPanel } from "components/ui/Panel";
-import {
-  BumpkinSkillTree,
-  getSkills,
-  SKILL_TREE_CATEGORIES,
-} from "features/game/types/bumpkinSkills";
+import { BumpkinSkillTree } from "features/game/types";
+import { getSkills, SKILL_TREE_CATEGORIES } from "features/game/data";
 
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";

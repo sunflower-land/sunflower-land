@@ -1,9 +1,10 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { ConsumableName } from "features/game/types";
+import { CONSUMABLES } from "features/game/data";
 import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackActivity } from "lib/utils/trackActivity";
 
 export type RecipeCookedAction = {
   type: "recipe.cooked";

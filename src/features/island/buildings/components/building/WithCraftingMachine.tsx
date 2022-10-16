@@ -10,7 +10,7 @@ import {
 } from "../../lib/craftingMachine";
 import { CraftingTimerModal } from "../ui/CraftingTimerModal";
 import { BuildingProps } from "./Building";
-import { ConsumableName } from "features/game/types/consumables";
+import { ConsumableName } from "features/game/types";
 
 const isIdle = (state: MachineState) => state.matches("idle");
 const isCrafting = (state: MachineState) => state.matches("crafting");

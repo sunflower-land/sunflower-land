@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CHOP_STAMINA_COST } from "features/game/lib/constants";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackActivity } from "lib/utils/trackActivity";
 import {
   GameState,
   Inventory,

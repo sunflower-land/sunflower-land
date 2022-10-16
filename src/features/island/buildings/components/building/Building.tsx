@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import classNames from "classnames";
 
-import { BuildingName } from "features/game/types/buildings";
+import { BuildingName } from "features/game/types";
 import {
   BuildingProduct,
   PlacedItem as IBuilding,

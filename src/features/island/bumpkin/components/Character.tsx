@@ -4,7 +4,8 @@ import {
   BumpkinPants,
   BumpkinShirt,
   BumpkinHair,
-} from "features/game/types/bumpkin";
+  ConsumableName,
+} from "features/game/types";
 import React, { useContext, useState } from "react";
 
 // Bodies
@@ -31,7 +32,7 @@ import lumberjackOveralls from "assets/bumpkins/small/pants/lumberjack_overalls.
 import farmerPants from "assets/bumpkins/small/pants/lumberjack_overalls.gif"; // TODO
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { CONSUMABLES } from "features/game/data";
 import { InventoryItemName } from "features/game/types/game";
 import { FeedModal } from "./FeedModal";
 

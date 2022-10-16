@@ -13,7 +13,7 @@ import rightArrow from "assets/icons/arrow_right.png";
 import { Context } from "features/game/GameProvider";
 import { InitialBumpkinParts } from "features/game/actions/mintBumpkin";
 import { randomBetweenMaxExclusive } from "features/game/expansion/lib/utils";
-import { BumpkinWallpaper } from "features/game/types/bumpkin";
+import { BumpkinWallpaper } from "features/game/types";
 
 export type LimitedBody =
   | "Beige Farmer Potion"

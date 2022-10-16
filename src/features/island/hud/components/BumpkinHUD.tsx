@@ -13,7 +13,7 @@ import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { BumpkinParts } from "features/game/types/bumpkin";
+import { BumpkinParts } from "features/game/types";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";

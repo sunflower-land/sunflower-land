@@ -265,7 +265,8 @@ import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
-import { AchievementName, ACHIEVEMENTS } from "./achievements";
+import { AchievementName } from ".";
+import { ACHIEVEMENTS } from "features/game/data";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;

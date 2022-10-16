@@ -5,8 +5,8 @@ import {
   BumpkinSkill,
   BumpkinSkillName,
   BumpkinSkillTree,
-  BUMPKIN_SKILL_TREE,
-} from "features/game/types/bumpkinSkills";
+} from "features/game/types";
+import { BUMPKIN_SKILL_TREE } from "features/game/data";
 
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Context } from "features/game/GameProvider";

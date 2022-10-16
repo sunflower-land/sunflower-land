@@ -1,7 +1,7 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { BumpkinParts } from "../types/bumpkin";
+import { BumpkinParts } from "../types";
 
 const API_URL = CONFIG.API_URL;
 

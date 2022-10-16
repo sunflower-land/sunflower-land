@@ -1,11 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import {
-  BumpkinSkill,
-  BumpkinSkillTree,
-  getSkills,
-} from "features/game/types/bumpkinSkills";
+import { BumpkinSkill, BumpkinSkillTree } from "features/game/types";
+import { getSkills } from "features/game/data";
 
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Context } from "features/game/GameProvider";

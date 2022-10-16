@@ -11,7 +11,8 @@ import token from "assets/icons/token_2.png";
 import timer from "assets/icons/timer.png";
 import lock from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";
-import { BuildingName, BUILDINGS } from "features/game/types/buildings";
+import { BuildingName } from "features/game/types";
+import { BUILDINGS } from "features/game/data";
 import { GameState } from "features/game/types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
 

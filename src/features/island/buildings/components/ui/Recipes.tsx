@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { Stock } from "components/ui/Stock";
-import { Consumable, ConsumableName } from "features/game/types/consumables";
+import { Consumable, ConsumableName } from "features/game/types";
 
 interface Props {
   recipes: Consumable[];

@@ -59,7 +59,7 @@ import beetrootAmuletLayer from "assets/bumpkins/layer/necklaces/beetroot_amulet
 import greenAmulet from "assets/bumpkins/shop/necklaces/green_amulet.png";
 import greenAmuletLayer from "assets/bumpkins/layer/necklaces/green_amulet.png";
 
-import { BumpkinItems, BumpkinPart } from "features/game/types/bumpkin";
+import { BumpkinItems, BumpkinPart } from "features/game/types";
 
 type ItemDetails = {
   description: string;

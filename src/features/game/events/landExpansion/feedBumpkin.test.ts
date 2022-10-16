@@ -5,7 +5,7 @@ import {
   MAX_STAMINA,
 } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import { CONSUMABLES } from "features/game/types/consumables";
+import { CONSUMABLES } from "features/game/data";
 import { feedBumpkin } from "./feedBumpkin";
 import { getBumpkinLevel } from "features/game/lib/level";
 

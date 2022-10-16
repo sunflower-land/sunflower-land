@@ -4,11 +4,7 @@ import { getKeys } from "features/game/types/craftables";
 
 import dropShadow from "assets/bumpkins/shop/body_dropshadow.png";
 
-import {
-  BumpkinItems,
-  BumpkinPart,
-  BumpkinParts,
-} from "features/game/types/bumpkin";
+import { BumpkinItems, BumpkinPart, BumpkinParts } from "features/game/types";
 import { BUMPKIN_ITEMS } from "features/bumpkins/types/BumpkinDetails";
 
 interface Props {

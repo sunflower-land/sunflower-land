@@ -8,10 +8,8 @@ import busyBumpkin from "src/assets/icons/player.png";
 import close from "assets/icons/close.png";
 
 import { Context } from "features/game/GameProvider";
-import {
-  AchievementName,
-  ACHIEVEMENTS,
-} from "features/game/types/achievements";
+import { AchievementName } from "features/game/types";
+import { ACHIEVEMENTS } from "features/game/data";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";

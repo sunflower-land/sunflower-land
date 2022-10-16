@@ -11,7 +11,7 @@ import {
   COLLECTIBLES_DIMENSIONS,
   getKeys,
 } from "features/game/types/craftables";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import { BUILDINGS_DIMENSIONS } from "features/game/data";
 
 type BoundingBox = Position;
 

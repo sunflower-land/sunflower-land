@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackActivity } from "lib/utils/trackActivity";
 import { ANIMALS } from "features/game/types/craftables";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";

@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import firePit from "assets/buildings/kitchen.png";
 import classNames from "classnames";
 import { FirePitModal } from "./firePit/FirePitModal";
-import { ConsumableName } from "features/game/types/consumables";
+import { ConsumableName } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "./WithCraftingMachine";

@@ -1,11 +1,7 @@
 import React, { useContext } from "react";
 import { getKeys } from "features/game/types/craftables";
-import {
-  BumpkinSkill,
-  BumpkinSkillName,
-  BUMPKIN_SKILL_TREE,
-  createSkillPath,
-} from "features/game/types/bumpkinSkills";
+import { BumpkinSkill, BumpkinSkillName } from "features/game/types";
+import { BUMPKIN_SKILL_TREE, createSkillPath } from "features/game/data";
 
 import { Box } from "components/ui/Box";
 import confirm from "assets/icons/confirm.png";

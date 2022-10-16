@@ -1,8 +1,6 @@
 import { getBumpkinLevel, SKILL_POINTS } from "features/game/lib/level";
-import {
-  BumpkinSkillName,
-  BUMPKIN_SKILL_TREE,
-} from "features/game/types/bumpkinSkills";
+import { BumpkinSkillName } from "features/game/types";
+import { BUMPKIN_SKILL_TREE } from "features/game/data";
 import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";

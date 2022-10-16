@@ -4,7 +4,7 @@ import {
   COLLECTIBLES_DIMENSIONS,
 } from "../../types/craftables";
 import { GameState, PlacedItem } from "features/game/types/game";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackActivity } from "lib/utils/trackActivity";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";

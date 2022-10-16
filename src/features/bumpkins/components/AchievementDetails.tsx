@@ -4,10 +4,8 @@ import sflIcon from "assets/icons/token_2.png";
 import experience from "assets/icons/experience.png";
 import arrowLeft from "assets/icons/arrow_left.png";
 
-import {
-  AchievementName,
-  ACHIEVEMENTS,
-} from "features/game/types/achievements";
+import { AchievementName } from "features/game/types";
+import { ACHIEVEMENTS } from "features/game/data";
 import progressBarEdge from "assets/ui/progress/transparent_bar_edge.png";
 import progressBar from "assets/ui/progress/transparent_bar_long.png";
 import classNames from "classnames";

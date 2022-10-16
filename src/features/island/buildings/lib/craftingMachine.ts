@@ -1,4 +1,5 @@
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { ConsumableName } from "features/game/types";
+import { CONSUMABLES } from "features/game/data";
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { MachineInterpreter as GameServiceMachineInterpreter } from "src/features/game/lib/gameMachine";
 import { GameEventName, PlayingEvent } from "features/game/events";

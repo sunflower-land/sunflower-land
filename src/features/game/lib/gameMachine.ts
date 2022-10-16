@@ -38,7 +38,7 @@ import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { expand } from "../expansion/actions/expand";
 import { checkProgress, processEvent } from "./processEvent";
 import { editingMachine } from "../expansion/placeable/editingMachine";
-import { BuildingName } from "../types/buildings";
+import { BuildingName } from "../types";
 import { Context } from "../GameProvider";
 import { InitialBumpkinParts, mintBumpkin } from "../actions/mintBumpkin";
 import { isSwarming } from "../events/detectBot";

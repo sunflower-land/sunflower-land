@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { getBumpkinLevel } from "../lib/level";
-import { trackActivity } from "../types/bumpkinActivity";
+import { trackActivity } from "lib/utils/trackActivity";
 import { CraftableItem } from "../types/craftables";
 import { SEEDS, SeedName } from "../types/crops";
 import { GameState, Inventory } from "../types/game";

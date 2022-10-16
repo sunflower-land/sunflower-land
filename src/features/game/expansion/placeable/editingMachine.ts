@@ -1,5 +1,5 @@
 import { GameEventName, PlacementEvent } from "features/game/events";
-import { BuildingName } from "features/game/types/buildings";
+import { BuildingName } from "features/game/types";
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";

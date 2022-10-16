@@ -1,8 +1,9 @@
 import Decimal from "decimal.js-light";
 import { MAX_STAMINA } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { trackActivity } from "features/game/types/bumpkinActivity";
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { trackActivity } from "lib/utils/trackActivity";
+import { ConsumableName } from "features/game/types";
+import { CONSUMABLES } from "features/game/data";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { replenishStamina } from "./replenishStamina";

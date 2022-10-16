@@ -7,7 +7,7 @@ import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Consumable, ConsumableName } from "features/game/types/consumables";
+import { Consumable, ConsumableName } from "features/game/types";
 
 import staminaIcon from "assets/icons/lightning.png";
 import heart from "assets/icons/heart.png";

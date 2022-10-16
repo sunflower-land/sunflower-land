@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, INITIAL_FARM } from "features/game/lib/constants";
-import { ACHIEVEMENTS } from "features/game/types/achievements";
+import { ACHIEVEMENTS } from "features/game/data";
 import { GameState } from "features/game/types/game";
 import { claimAchievement } from "./claimAchievement";
 

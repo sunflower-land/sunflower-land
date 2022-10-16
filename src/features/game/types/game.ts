@@ -10,7 +10,7 @@ import { GameEvent } from "../events";
 import { BumpkinParts } from "./bumpkin";
 import { ConsumableName } from "./consumables";
 import { BumpkinSkillName } from "./bumpkinSkills";
-import { AchievementName } from "./achievements";
+import { AchievementName } from ".";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 

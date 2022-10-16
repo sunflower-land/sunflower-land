@@ -3,7 +3,7 @@ import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { CROPS } from "../../types/crops";
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackActivity } from "lib/utils/trackActivity";
 
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";

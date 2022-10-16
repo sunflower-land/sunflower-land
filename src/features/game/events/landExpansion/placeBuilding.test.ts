@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "../../lib/constants";
-import { BuildingName } from "../../types/buildings";
+import { BuildingName } from "../../types";
 import { GameState } from "../../types/game";
 import { placeBuilding } from "./placeBuilding";
 

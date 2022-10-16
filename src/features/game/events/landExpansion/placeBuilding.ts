@@ -1,6 +1,7 @@
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackActivity } from "lib/utils/trackActivity";
 import cloneDeep from "lodash.clonedeep";
-import { BuildingName, BUILDINGS } from "../../types/buildings";
+import { BuildingName } from "../../types";
+import { BUILDINGS } from "../../data";
 import { GameState, PlacedItem } from "../../types/game";
 
 export type PlaceBuildingAction = {

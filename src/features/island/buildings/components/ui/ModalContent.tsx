@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { BuildingName } from "features/game/types/buildings";
+import { BuildingName } from "features/game/types";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { ListView } from "./ListView";
 import { DetailView } from "./DetailView";

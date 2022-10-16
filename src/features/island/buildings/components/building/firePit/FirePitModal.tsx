@@ -5,11 +5,8 @@ import { Modal } from "react-bootstrap";
 import { getKeys } from "features/game/types/craftables";
 
 import { Recipes } from "../../ui/Recipes";
-import {
-  Consumable,
-  ConsumableName,
-  CONSUMABLES,
-} from "features/game/types/consumables";
+import { Consumable, ConsumableName } from "features/game/types";
+import { CONSUMABLES } from "features/game/data";
 
 interface Props {
   isOpen: boolean;

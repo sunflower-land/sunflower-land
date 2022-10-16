@@ -4,7 +4,8 @@ import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { getEntries } from "features/game/types/craftables";
 
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { ConsumableName } from "features/game/types";
+import { CONSUMABLES } from "features/game/data";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Feed } from "./Feed";

@@ -1,7 +1,5 @@
-import {
-  AchievementName,
-  ACHIEVEMENTS,
-} from "features/game/types/achievements";
+import { AchievementName } from "features/game/types";
+import { ACHIEVEMENTS } from "features/game/data";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 

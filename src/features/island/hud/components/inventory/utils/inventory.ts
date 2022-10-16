@@ -1,5 +1,5 @@
 import { Inventory } from "components/InventoryItems";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import { BUILDINGS_DIMENSIONS } from "features/game/data";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
