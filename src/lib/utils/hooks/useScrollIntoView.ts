@@ -7,6 +7,7 @@ export enum Section {
   Forest = "forest",
   GoblinVillage = "goblin-village",
   Merchant = "merchant",
+  Boat = "boat",
 
   // NFT IDs
   "Sunflower Statue" = "sunflower-statue",

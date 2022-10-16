@@ -4,7 +4,6 @@ import { Modal } from "react-bootstrap";
 import disc from "assets/icons/disc.png";
 import hammer from "assets/icons/hammer.png";
 import close from "assets/icons/close.png";
-import crown from "assets/tools/hammer.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
@@ -29,7 +28,7 @@ export const Buildings: React.FC = () => {
           <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
             <div className="flex">
               <Tab isActive>
-                <img src={crown} className="h-5 mr-2" />
+                <img src={hammer} className="h-5 mr-2" />
                 <span className="text-sm text-shadow">Buildings</span>
               </Tab>
             </div>
