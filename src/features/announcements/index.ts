@@ -30,6 +30,16 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
+    date: new Date("2022-10-17T00:00:00"),
+    title: "Sending the cavalry",
+    notes: [
+      "It's getting rough out there.",
+      "We are going to need more troops, let's stock up ready for their arrival.",
+      "Next week we will launch our main attack and end this war once and for all!",
+    ],
+    type: "war",
+  },
+  {
     date: new Date("2022-10-12T00:00:00"),
     title: "War Tent Items",
     notes: [
