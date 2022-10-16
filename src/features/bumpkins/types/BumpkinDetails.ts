@@ -27,18 +27,6 @@ import lumberjackOverallsLayer from "assets/bumpkins/layer/pants/lumberjack_over
 import warriorPantsLayer from "assets/bumpkins/layer/pants/warrior_pants.png";
 import warriorPants from "assets/bumpkins/shop/pants/warrior_pants.png";
 
-import rosyWideEyes from "assets/bumpkins/shop/eyes/rosy_wide.png";
-import rosyWideEyesLayer from "assets/bumpkins/layer/eyes/rosy_wide.png";
-import rosySquintEyes from "assets/bumpkins/shop/eyes/rosy_squint.png";
-import rosyEquintEyesLayer from "assets/bumpkins/layer/eyes/rosy_squint.png";
-import rosyButterflyEyes from "assets/bumpkins/shop/eyes/rosy_butterfly.png";
-import rosyButterflyEyesLayer from "assets/bumpkins/layer/eyes/rosy_butterfly.png";
-
-import smileMouth from "assets/bumpkins/shop/mouths/smile.png";
-import smileMouthLayer from "assets/bumpkins/layer/mouths/smile.png";
-import smileMouthTeeth from "assets/bumpkins/shop/mouths/smile_teeth.png";
-import smileMouthTeethLayer from "assets/bumpkins/layer/mouths/smile_teeth.png";
-
 import rancherHair from "assets/bumpkins/shop/hair/rancher.png";
 import rancherHairLayer from "assets/bumpkins/layer/hair/rancher.png";
 import explorerHair from "assets/bumpkins/shop/hair/explorer.png";
@@ -130,38 +118,6 @@ export const BUMPKIN_ITEMS: Record<BumpkinItems, ItemDetails> = {
     layerImage: explorerHairLayer,
     shopImage: explorerHair,
     part: "hair",
-  },
-  "Rosy Wide Eyes": {
-    description: "Who could resist these rosy wide eyes. ",
-    layerImage: rosyWideEyesLayer,
-    shopImage: rosyWideEyes,
-    part: "eyes",
-  },
-  "Rosy Squinted Eyes": {
-    description: "The look of a Bumpkin dazzled by a long day in the sun.",
-    layerImage: rosyEquintEyesLayer,
-    shopImage: rosySquintEyes,
-    part: "eyes",
-  },
-  "Rosy Butterfly Eyes": {
-    description: "Make your Bumpkin sparkle with these Butterfly eyes.",
-    layerImage: rosyButterflyEyesLayer,
-    shopImage: rosyButterflyEyes,
-    part: "eyes",
-  },
-  "Wide Smile": {
-    description:
-      "When the sun is shining and the crops are growing, you have every reason to smile.",
-    layerImage: smileMouthLayer,
-    shopImage: smileMouth,
-    part: "mouth",
-  },
-  "Wide Smile With Teeth": {
-    description:
-      "Looks like someone is happy! Did they just discover a mutant chicken?",
-    layerImage: smileMouthTeethLayer,
-    shopImage: smileMouthTeeth,
-    part: "mouth",
   },
   "Red Farmer Shirt": {
     description:
