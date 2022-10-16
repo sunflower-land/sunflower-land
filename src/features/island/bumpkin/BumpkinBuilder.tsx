@@ -25,11 +25,6 @@ export type LimitedShirt =
   | "Yellow Farmer Shirt"
   | "Blue Farmer Shirt";
 export type LimitedPants = "Farmer Pants";
-export type LimitedEyes =
-  | "Rosy Wide Eyes"
-  | "Rosy Squinted Eyes"
-  | "Rosy Butterfly Eyes";
-export type LimitedMouth = "Wide Smile";
 export type LimitedShoes = "Black Farmer Boots";
 export type LimitedTools = "Farmer Pitchfork";
 
@@ -38,8 +33,6 @@ type LimitedBumpkinItem =
   | LimitedHair
   | LimitedShirt
   | LimitedPants
-  | LimitedEyes
-  | LimitedMouth
   | LimitedShoes
   | LimitedTools;
 
@@ -51,8 +44,6 @@ interface Bumpkin {
   pants: LimitedPants;
   shoes: LimitedShoes;
   tool: LimitedTools;
-  eyes?: LimitedEyes;
-  mouth?: LimitedMouth;
 }
 
 type Category = "hair" | "body" | "shirt";
@@ -161,7 +152,6 @@ export const BumpkinBuilder: React.FC = () => {
       body: bumpkinParts.body,
       hair: bumpkinParts.hair,
       shirt: bumpkinParts.shirt,
-      eyes: bumpkinParts.eyes,
     };
     gameService.send("MINT_BUMPKIN", { parts });
   };
