@@ -84,12 +84,12 @@ export const CropZoneFour: React.FC = () => {
           top: `${GRID_WIDTH_PX * 3}px`,
         }}
       >
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center z-20">
           <Field selectedItem={selectedItem} fieldIndex={16} />
           <Field selectedItem={selectedItem} fieldIndex={17} />
           <Field selectedItem={selectedItem} fieldIndex={18} />
         </div>
-        <div className="flex justify-between items-center z-10">
+        <div className="flex justify-between items-center z-30">
           <Field selectedItem={selectedItem} fieldIndex={19} />
           <Field selectedItem={selectedItem} fieldIndex={20} />
           <Field selectedItem={selectedItem} fieldIndex={21} />
