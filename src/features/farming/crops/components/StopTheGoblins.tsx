@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { RandomID } from "lib/images";
+import { addNoise } from "lib/images";
 
 import cancel from "assets/icons/cancel.png";
 import confirm from "assets/icons/confirm.png";
@@ -10,68 +10,61 @@ import { getKeys } from "features/game/types/craftables";
 import goblin1 from "assets/npcs/goblin.gif";
 import goblin2 from "assets/npcs/goblin_carry.gif";
 import goblin3 from "assets/npcs/goblin_chef.gif";
-import goblin4 from "assets/npcs/goblin_female.gif";
-import goblin5 from "assets/npcs/goblin_doing.gif";
+import goblin4 from "assets/npcs/goblin_doing.gif";
+import goblin5 from "assets/npcs/goblin_farmer.gif";
+import goblin6 from "assets/npcs/goblin_female.gif";
+import goblin7 from "assets/npcs/wheat_goblin.gif";
 import classNames from "classnames";
+import { randomDouble, randomInt } from "lib/utils/random";
 
 const ITEM_COUNT = 16;
 const MAX_ATTEMPTS = 3;
 const GOBLIN_COUNT = 3;
 
-function getRndInteger(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 type Item = {
   src: string;
-  id: string;
   isGoblin: boolean;
   rotation: { x: number; y: number };
   skew: number;
+  scale: number;
 };
 
-const GOBLINS = [goblin1, goblin2, goblin3, goblin4, goblin5];
+const GOBLINS = [goblin1, goblin2, goblin3, goblin4, goblin5, goblin6, goblin7];
 
-function generateImages() {
+const generateImages = () => {
+  const newImageItem = (src: any, isGoblin: boolean): Item => {
+    return {
+      src: src,
+      isGoblin: isGoblin,
+      rotation: {
+        x: randomInt(-25, 26),
+        y: randomInt(-25, 26),
+      },
+      skew: randomInt(-5, 6),
+      scale: randomDouble(1.0, 1.2),
+    };
+  };
+
   const items: Item[] = [];
   const cropImages = getKeys(CROPS());
-  const availableImages = cropImages.map((name) => ITEM_DETAILS[name].image);
+  const availableCropImages = cropImages.map(
+    (name) => ITEM_DETAILS[name].image
+  );
 
   while (items.length < GOBLIN_COUNT) {
-    const randomIndex = Math.floor(Math.random() * GOBLINS.length);
-
-    items.push({
-      src: GOBLINS[randomIndex],
-      id: RandomID(),
-      isGoblin: true,
-      rotation: {
-        x: getRndInteger(-15, 15),
-        y: getRndInteger(-15, 15),
-      },
-      skew: getRndInteger(0, 5),
-    });
+    const randomIndex = randomInt(0, GOBLINS.length);
+    items.push(newImageItem(GOBLINS[randomIndex], true));
   }
 
   while (items.length < ITEM_COUNT) {
-    const randomIndex = Math.floor(Math.random() * availableImages.length);
-
-    items.push({
-      src: availableImages[randomIndex],
-      id: RandomID(),
-      isGoblin: false,
-      rotation: {
-        x: getRndInteger(-15, 25),
-        y: getRndInteger(-15, 25),
-      },
-      skew: getRndInteger(0, 5),
-    });
+    const randomIndex = randomInt(0, availableCropImages.length);
+    items.push(newImageItem(availableCropImages[randomIndex], false));
   }
 
-  // Shuffle
+  // shuffle positions
   const shuffled = items.sort(() => 0.5 - Math.random());
-
   return shuffled;
-}
+};
 
 interface Props {
   onOpen: () => void;
@@ -97,9 +90,10 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
       return;
     }
 
-    setWrongAttempts((prev) => new Set([...prev, index]));
+    const _wrongAttempts = new Set([...wrongAttempts, index]);
+    setWrongAttempts(_wrongAttempts);
 
-    if (attemptsLeft <= 1) {
+    if (_wrongAttempts.size >= MAX_ATTEMPTS) {
       onFail();
     }
   };
@@ -126,10 +120,10 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
               ) : (
                 <img
                   src={item.src}
-                  id={item.id}
-                  className="h-full object-contain group-hover:img-highlight "
+                  className="h-full object-contain"
+                  onLoad={(e) => addNoise(e.currentTarget)}
                   style={{
-                    transform: `perspective(9cm) skew(${item.skew}deg, ${item.skew}deg) rotateX(${item.rotation.x}deg) rotateY(${item.rotation.y}deg)`,
+                    transform: `perspective(9cm) skew(${item.skew}deg, ${item.skew}deg) rotateX(${item.rotation.x}deg) rotateY(${item.rotation.y}deg) scale(${item.scale})`,
                   }}
                 />
               )}

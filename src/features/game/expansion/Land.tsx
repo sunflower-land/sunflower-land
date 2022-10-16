@@ -25,7 +25,8 @@ import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
 import { Chicken } from "features/island/chickens/Chicken";
 import { Collectible } from "features/island/collectibles/Collectible";
-import { Water } from "./components/Water";
+import { LAND_WIDTH, Water } from "./components/Water";
+import { IslandTravel } from "./components/IslandTravel";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -161,7 +162,9 @@ export const Land: React.FC = () => {
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
 
-  const { expansions, buildings, collectibles, chickens } = state;
+  const { expansions, buildings, collectibles, chickens, bumpkin } = state;
+  const level = expansions.length + 1;
+  const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -172,7 +175,7 @@ export const Land: React.FC = () => {
   return (
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="absolute z-0 w-full h-full">
-        <Water level={gameState.context.state.expansions.length + 1} />
+        <Water level={level} />
       </div>
       <div className="relative w-full h-full">
         <LandBase expansions={expansions} />
@@ -211,6 +214,8 @@ export const Land: React.FC = () => {
             />
           </MapPlacement>
         )}
+
+        <IslandTravel bumpkin={bumpkin} x={offset - 2} y={0} />
 
         {getKeys(buildings).flatMap((name) => {
           const items = buildings[name];

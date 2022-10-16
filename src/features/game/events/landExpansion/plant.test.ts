@@ -337,12 +337,13 @@ describe("plant", () => {
     const plots = state.expansions[0].plots;
 
     expect(plots).toBeDefined();
-
-    const plantedAt =
-      (plots as Record<number, LandExpansionPlot>)[0].crop?.plantedAt || 0;
-
-    // Time should be now (+ a couple ms)
-    expect(plantedAt + 10).toBeGreaterThan(Date.now());
+    expect((plots as Record<number, LandExpansionPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Parsnip",
+        plantedAt: expect.any(Number),
+        amount: 1,
+      })
+    );
   });
 
   it("plants a special parsnip", () => {
