@@ -182,7 +182,8 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
             );
           })}
 
-          {selected.tokenAmount && (
+          {/* SFL requirement */}
+          {selected.tokenAmount?.gt(0) && (
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               <span
