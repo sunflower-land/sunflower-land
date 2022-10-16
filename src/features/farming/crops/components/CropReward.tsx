@@ -14,7 +14,7 @@ import { ChestCaptcha } from "./ChestCaptcha";
 interface Props {
   reward: Reward | null;
   fieldIndex: number;
-  onCollected: () => void;
+  onCollected: (success: boolean) => void;
 }
 
 type Challenge = "goblins" | "chest";
@@ -52,13 +52,13 @@ export const CropReward: React.FC<Props> = ({
   };
 
   const fail = () => {
-    close();
+    close(false);
     gameService.send("bot.detected");
     gameService.send("REFRESH");
   };
 
-  const close = () => {
-    onCollected();
+  const close = (success: boolean) => {
+    onCollected(success);
     setOpened(false);
   };
 
@@ -84,7 +84,7 @@ export const CropReward: React.FC<Props> = ({
                   </span>
                 </div>
               ))}
-              <Button onClick={close} className="mt-4 w-full">
+              <Button onClick={() => close(true)} className="mt-4 w-full">
                 Close
               </Button>
             </>

@@ -72,10 +72,12 @@ export const Field: React.FC<Props> = ({
     setShowPopover(false);
   };
 
-  const onCollectReward = () => {
+  const onCollectReward = (success: boolean) => {
     setReward(null);
     setTouchCount(0);
-    harvestCrop();
+    if (success) {
+      harvestCrop();
+    }
   };
 
   const removeCrop = () => {
