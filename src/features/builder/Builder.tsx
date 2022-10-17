@@ -61,7 +61,11 @@ export const Builder: React.FC = () => {
       </ToastProvider>
       <div className="fixed bottom-0 flex">
         {getKeys(BUILDABLES).map((name) => (
-          <Box image={BUILDABLES[name].icon} isSelected={name === selected} />
+          <Box
+            key={name}
+            image={BUILDABLES[name].icon}
+            isSelected={name === selected}
+          />
         ))}
       </div>
     </GameProvider>
