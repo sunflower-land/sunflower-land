@@ -461,13 +461,14 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   },
   activity: {},
 };
-
+Decimal.set({ precision: 20 });
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(0),
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
     Potato: new Decimal(12),
+    Carrot: new Decimal("502.079999999999991"),
     "Roasted Cauliflower": new Decimal(1),
     "Carrot Cake": new Decimal(1),
     Radish: new Decimal(100),
