@@ -128,12 +128,9 @@ export const Plants: React.FC = () => {
           <div className="m-auto flex flex-col">
             <span className="text-sm text-center text-shadow">
               Are you sure you want to <br className="hidden md:block" />
-              sell {cropAmount.toNumber()} {selected.name} for{" "}
+              sell {cropAmount.toString()} {selected.name} for{" "}
               <br className="hidden md:block" />
-              {displaySellPrice(selected)
-                .mul(cropAmount.toNumber())
-                .toNumber()}{" "}
-              SFL?
+              {displaySellPrice(selected).mul(cropAmount).toString()} SFL?
             </span>
           </div>
           <div className="flex justify-content-around p-1">
