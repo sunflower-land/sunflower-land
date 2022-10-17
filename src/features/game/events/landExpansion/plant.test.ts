@@ -19,6 +19,7 @@ const GAME_STATE: GameState = {
 };
 
 describe("plant", () => {
+  const dateNow = Date.now();
   it("does not plant on a non existent expansion", () => {
     const { inventory } = GAME_STATE;
     expect(() =>
@@ -165,7 +166,7 @@ describe("plant", () => {
                   ...plot,
                   crop: {
                     name: "Sunflower",
-                    plantedAt: Date.now(),
+                    plantedAt: dateNow,
                   },
                 },
               },
@@ -296,6 +297,17 @@ describe("plant", () => {
           "Golden Cauliflower": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        collectibles: {
+          "Golden Cauliflower": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
       },
       action: {
         type: "seed.planted",
@@ -352,8 +364,19 @@ describe("plant", () => {
         ...GAME_STATE,
         inventory: {
           "Parsnip Seed": new Decimal(1),
-          "Mysterious Parsnip": new Decimal(1),
+          // "Mysterious Parsnip": new Decimal(1),
           "Water Well": new Decimal(1),
+        },
+        collectibles: {
+          "Mysterious Parsnip": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
         },
       },
       action: {
@@ -362,6 +385,7 @@ describe("plant", () => {
         expansionIndex: 0,
         item: "Parsnip Seed",
       },
+      createdAt: dateNow,
     });
 
     // Should be twice as fast! (Planted in the past)
@@ -372,12 +396,12 @@ describe("plant", () => {
     expect(plots).toBeDefined();
     const plantedAt =
       (plots as Record<number, LandExpansionPlot>)[0].crop?.plantedAt || 0;
+    console.log(plantedAt);
 
-    // Offset 5 ms for CPU time
-    expect(plantedAt - 5).toBeLessThan(Date.now() - parnsipTime * 0.5);
+    expect(plantedAt).toBe(dateNow - parnsipTime * 0.5);
   });
 
-  it("grows faster with a Nancy", () => {
+  it("grows faster with a Nancy placed and ready", () => {
     const state = plant({
       state: {
         ...GAME_STATE,
@@ -386,6 +410,17 @@ describe("plant", () => {
           Nancy: new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        collectibles: {
+          Nancy: [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
       },
       action: {
         type: "seed.planted",
@@ -393,6 +428,7 @@ describe("plant", () => {
         expansionIndex: 0,
         item: "Carrot Seed",
       },
+      createdAt: dateNow,
     });
 
     // Should be twice as fast! (Planted in the psat)
@@ -403,8 +439,7 @@ describe("plant", () => {
     expect(plots).toBeDefined();
     const plantedAt = (plots as LandExpansionPlot[])[0].crop?.plantedAt || 0;
 
-    // Offset 5 ms for CPU time
-    expect(plantedAt - 5).toBeLessThan(Date.now() - carrotTime * 0.15);
+    expect(plantedAt).toBe(dateNow - carrotTime * 0.15);
   });
 
   it("yields more crop with a scarecrow", () => {
@@ -416,6 +451,17 @@ describe("plant", () => {
           Scarecrow: new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        collectibles: {
+          Scarecrow: [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
       },
       action: {
         type: "seed.planted",
@@ -429,7 +475,6 @@ describe("plant", () => {
 
     expect(plots).toBeDefined();
 
-    // Offset 5 ms for CPU time
     expect(
       (plots as Record<number, LandExpansionPlot>)[0].crop?.amount
     ).toEqual(1.2);
@@ -465,7 +510,7 @@ describe("plant", () => {
             ...INITIAL_BUMPKIN,
             stamina: {
               value: 0,
-              replenishedAt: Date.now(),
+              replenishedAt: dateNow,
             },
           },
           inventory: {
@@ -484,7 +529,7 @@ describe("plant", () => {
   });
 
   it("replenishes stamina before planting", () => {
-    const createdAt = Date.now();
+    const createdAt = dateNow;
 
     const state = plant({
       state: {
@@ -514,7 +559,7 @@ describe("plant", () => {
   });
 
   it("deducts stamina from bumpkin", () => {
-    const createdAt = Date.now();
+    const createdAt = dateNow;
 
     const state = plant({
       state: {
@@ -566,7 +611,7 @@ describe("plant", () => {
 
     const game = plant({
       state,
-      createdAt: Date.now(),
+      createdAt: dateNow,
       action: {
         type: "seed.planted",
         index: 0,
@@ -585,7 +630,7 @@ describe("plant", () => {
 
 describe("getCropTime", () => {
   it("applies a 5% speed boost with Cultivator skill", () => {
-    const time = getCropTime("Carrot", {}, { Cultivator: 1 });
+    const time = getCropTime("Carrot", {}, {}, { Cultivator: 1 });
 
     expect(time).toEqual(57 * 60);
   });
