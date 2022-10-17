@@ -1,12 +1,14 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import background from "assets/land/levels/level_1.png";
 import { GameProvider } from "features/game/GameProvider";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import waterMovement from "assets/decorations/water_movement.png";
+import { getKeys } from "features/game/types/craftables";
+import { Box } from "components/ui/Box";
 
 const BUILDABLES: Record<
   string,
@@ -23,7 +25,7 @@ const BUILDABLES: Record<
 export const Builder: React.FC = () => {
   const container = useRef(null);
 
-  const [scrollIntoView] = useScrollIntoView();
+  const [selected, setSelected] = useState(getKeys(BUILDABLES)[0]);
 
   // Load data
   return (
@@ -57,6 +59,11 @@ export const Builder: React.FC = () => {
           />
         </ScrollContainer>
       </ToastProvider>
+      <div className="fixed bottom-0 flex">
+        {getKeys(BUILDABLES).map((name) => (
+          <Box image={BUILDABLES[name].icon} isSelected={name === selected} />
+        ))}
+      </div>
     </GameProvider>
   );
 };
