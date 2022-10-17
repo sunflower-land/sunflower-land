@@ -32,7 +32,7 @@ export const Plants: React.FC = () => {
 
   const inventory = state.inventory;
 
-  const sell = (amount = 1) => {
+  const sell = (amount: Decimal) => {
     gameService.send("item.sell", {
       item: selected.name,
       amount,
@@ -48,11 +48,11 @@ export const Plants: React.FC = () => {
   const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
 
   const handleSellOne = () => {
-    sell(1);
+    sell(new Decimal(1));
   };
 
   const handleSellAll = () => {
-    sell(cropAmount.toNumber());
+    sell(cropAmount);
     showSellAllModal(false);
   };
 
