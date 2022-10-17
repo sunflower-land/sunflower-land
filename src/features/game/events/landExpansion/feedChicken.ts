@@ -69,7 +69,14 @@ export function feedChicken({
 
   const maxChickens = getMaxChickens(inventory);
 
-  if (!inventory?.Chicken || inventory.Chicken?.lt(action.index)) {
+  const chickens = stateCopy.chickens || {};
+  const chicken = chickens[action.index];
+
+  if (
+    !chicken &&
+    (!stateCopy.inventory?.Chicken ||
+      stateCopy.inventory.Chicken?.lt(action.index))
+  ) {
     throw new Error("This chicken does not exist");
   }
 
@@ -77,16 +84,10 @@ export function feedChicken({
     throw new Error(`Cannot have more than ${maxChickens} chickens`);
   }
 
-  if (!inventory?.Chicken || inventory.Chicken?.lt(action.index)) {
-    throw new Error("This chicken does not exist");
-  }
+  const isChickenHungry =
+    chicken?.fedAt && createdAt - chicken.fedAt < CHICKEN_TIME_TO_EGG;
 
-  const chickens = stateCopy.chickens || {};
-
-  if (
-    chickens[action.index] &&
-    createdAt - chickens[action.index].fedAt < CHICKEN_TIME_TO_EGG
-  ) {
+  if (isChickenHungry) {
     throw new Error("This chicken is not hungry");
   }
 
