@@ -461,7 +461,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   },
   activity: {},
 };
-Decimal.set({ precision: 20 });
+
 export const INITIAL_FARM: GameState = {
   balance: new Decimal(0),
   fields: INITIAL_FIELDS,
