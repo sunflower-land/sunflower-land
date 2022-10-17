@@ -35,7 +35,7 @@ export const Mine: React.FC = () => {
             onClick={() => setShowModal(false)}
           />
           <div className="flex flex-col justify-center items-center">
-            <p className="text-lg">You found a rare patch!</p>
+            <p className="text-lg">You found a rare mine!</p>
             <img src={pickaxe} className="w-1/4 mt-2" />
             <p className="text-sm text-center mt-2">
               {`Advanced mining on it's way.`}
