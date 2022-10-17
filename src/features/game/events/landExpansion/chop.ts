@@ -6,7 +6,6 @@ import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import {
   Collectibles,
   GameState,
-  Inventory,
   InventoryItemName,
   LandExpansionTree,
 } from "features/game/types/game";
@@ -14,7 +13,6 @@ import cloneDeep from "lodash.clonedeep";
 import { replenishStamina } from "./replenishStamina";
 
 type GetChoppedAtArgs = {
-  inventory: Inventory;
   skills: Partial<Record<BumpkinSkillName, number>>;
   collectibles: Collectibles;
   createdAt: number;
@@ -42,8 +40,7 @@ export function canChop(tree: LandExpansionTree, now: number = Date.now()) {
 /**
  * Set a chopped in the past to make it replenish faster
  */
-function getChoppedAt({
-  inventory,
+export function getChoppedAt({
   collectibles,
   skills,
   createdAt,
@@ -133,7 +130,6 @@ export function chop({
   tree.wood = {
     choppedAt: getChoppedAt({
       createdAt,
-      inventory,
       skills: bumpkin.skills,
       collectibles,
     }),

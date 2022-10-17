@@ -493,7 +493,7 @@ describe("getChoppedAt", () => {
     const now = Date.now();
 
     const time = getChoppedAt({
-      inventory: {},
+      collectibles: {},
       skills: { "Tree Hugger": 1 },
       createdAt: now,
     });
