@@ -36,7 +36,7 @@ type GetStateArgs = {
 export async function isFarmBlacklisted(id: number) {
   const metadata = await loadMetadata(id);
 
-  return metadata.image.includes("blacklisted");
+  return metadata.image.includes("banned");
 }
 
 const RECIPES_IDS = LIMITED_ITEM_NAMES.map((name) => KNOWN_IDS[name]);

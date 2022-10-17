@@ -1,11 +1,16 @@
 import Decimal from "decimal.js-light";
-import { CHICKEN_TIME_TO_EGG, INITIAL_FARM } from "features/game/lib/constants";
+import {
+  CHICKEN_TIME_TO_EGG,
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+} from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { feedChicken } from "./feedChicken";
 
 const GAME_STATE: GameState = INITIAL_FARM;
 
 describe("feed chickens", () => {
+  const dateNow = Date.now();
   beforeAll(() => {
     jest.useFakeTimers();
   });
@@ -27,7 +32,7 @@ describe("feed chickens", () => {
           inventory: { Chicken: new Decimal(1) },
           chickens: {
             0: {
-              fedAt: Date.now() - 1000,
+              fedAt: dateNow,
               multiplier: 0,
             },
           },
@@ -75,6 +80,17 @@ describe("feed chickens", () => {
         "Chicken Coop": new Decimal(1),
         Chicken: new Decimal(16),
         Wheat: new Decimal(1),
+      },
+      collectibles: {
+        "Chicken Coop": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 1, y: 1 },
+            // ready at < now
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
       },
     };
     expect(() =>
@@ -138,13 +154,24 @@ describe("feed chickens", () => {
     expect(secondFeed.inventory.Wheat).toStrictEqual(new Decimal(0));
   });
 
-  it("takes 10% less wheat to feed a chicken if a user has a single Fat Chicken", () => {
+  it("takes 10% less wheat to feed a chicken if a user has a single Fat Chicken placed and ready", () => {
     const state = {
       ...GAME_STATE,
       inventory: {
         Chicken: new Decimal(1),
         Wheat: new Decimal(1),
         ["Fat Chicken"]: new Decimal(1),
+      },
+      collectibles: {
+        "Fat Chicken": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 1, y: 1 },
+            // ready at < now
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
       },
     };
 
@@ -164,6 +191,17 @@ describe("feed chickens", () => {
         Wheat: new Decimal(1),
         ["Fat Chicken"]: new Decimal(5),
       },
+      collectibles: {
+        "Fat Chicken": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 1, y: 1 },
+            // ready at < now
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
     };
 
     const newState = feedChicken({
@@ -172,5 +210,36 @@ describe("feed chickens", () => {
     });
 
     expect(newState.inventory.Wheat).toEqual(new Decimal(0.1));
+  });
+
+  it("increases max chickens to 15 when Chicken Coop is placed and ready", () => {
+    const state = {
+      ...GAME_STATE,
+      bumpkin: INITIAL_BUMPKIN,
+      inventory: {
+        Chicken: new Decimal(15),
+        "Chicken Coop": new Decimal(1),
+        Wheat: new Decimal(1),
+      },
+      collectibles: {
+        "Chicken Coop": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 1, y: 1 },
+            // ready at < now
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.fed", index: 14 },
+      createdAt: dateNow,
+    });
+
+    expect(newState.chickens[14]).toBeTruthy();
   });
 });
