@@ -29,6 +29,7 @@ import { useIsNewFarm } from "../lib/onboarding";
 import { GoblinVillageModal } from "features/farming/town/components/GoblinVillageModal";
 import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
+import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
 
 /**
  * TODO:
@@ -53,6 +54,8 @@ export const Menu = () => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showLogoutModal, setShowSettings] = useState(false);
   const [showGoblinModal, setShowGoblinModal] = useState(false);
+  const [showCommunityGardenModal, setShowCommunityGardenModal] =
+    useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
@@ -267,15 +270,22 @@ export const Menu = () => {
               </>
             )}
 
-            {/* View menu */}
+            {/* Community menu */}
             {menuLevel === MENU_LEVELS.VIEW && (
               <>
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={() => setShowCommunityGardenModal(true)}
+                  >
+                    <span className="sm:text-sm flex-1">Community Garden</span>
+                  </Button>
+                </li>
                 <li className="p-1">
                   <Button onClick={handleShareClick}>
                     <span className="sm:text-sm">Share</span>
                   </Button>
                 </li>
-
                 <li className="p-1">
                   <Button onClick={visitFarm}>
                     <span className="sm:text-sm">Visit Farm</span>
@@ -325,13 +335,14 @@ export const Menu = () => {
         </Modal>
       )}
 
-      <Modal
-        centered
-        show={showGoblinModal}
-        onHide={() => setShowGoblinModal(false)}
-      >
-        <GoblinVillageModal onClose={() => setShowGoblinModal(false)} />
-      </Modal>
+      <GoblinVillageModal
+        isOpen={showGoblinModal}
+        onClose={() => setShowGoblinModal(false)}
+      />
+      <CommunityGardenModal
+        isOpen={showCommunityGardenModal}
+        onClose={() => setShowCommunityGardenModal(false)}
+      />
     </div>
   );
 };

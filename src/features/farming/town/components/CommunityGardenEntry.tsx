@@ -50,12 +50,10 @@ export const CommunityGardenEntry: React.FC = () => {
           }}
         />
       </div>
-      {showModal && (
-        <CommunityGardenModal
-          isOpen={showModal}
-          onClose={() => setShowModal(false)}
-        />
-      )}
+      <CommunityGardenModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </>
   );
 };
