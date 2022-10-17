@@ -28,6 +28,7 @@ import { Collectible } from "features/island/collectibles/Collectible";
 import { LAND_WIDTH, Water } from "./components/Water";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { Mine } from "features/island/mines/Mine";
+import { IslandTravel } from "./components/IslandTravel";
 
 type ExpansionProps = Pick<
   LandExpansion,
