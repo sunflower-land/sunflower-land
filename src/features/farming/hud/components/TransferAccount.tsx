@@ -53,7 +53,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
         <img
           src={farmImg}
           className="w-64 md-mt-2"
-          alt="Sunflower-Land Farm NFT Image"
+          alt="Sunflower-Land Farm Account NFT Image"
         />
         <span
           style={{
@@ -61,7 +61,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
           }}
           className="text-center mb-2"
         >
-          {`Your farm #${
+          {`Your Account #${
             authState.context.farmId as number
           } has been transferred to: ${wallet.address}`}
           !
