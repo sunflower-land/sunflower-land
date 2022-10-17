@@ -36,7 +36,13 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
   const Content = () => {
     if (view === "transfer") {
       return (
-        <TransferAccount isOpen={true} onClose={() => setView("settings")} />
+        <TransferAccount
+          isOpen={true}
+          onClose={() => {
+            onClose();
+            setView("settings");
+          }}
+        />
       );
     }
 
