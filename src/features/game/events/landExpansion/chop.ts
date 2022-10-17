@@ -52,7 +52,7 @@ export function getChoppedAt({
   }
 
   if (skills["Tree Hugger"]) {
-    return createdAt - (TREE_RECOVERY_SECONDS - 0.2) * 1000;
+    return createdAt - TREE_RECOVERY_SECONDS * 0.8 * 1000;
   }
 
   return createdAt;

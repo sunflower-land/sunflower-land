@@ -298,6 +298,7 @@ describe("getChoppedAt", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (TREE_RECOVERY_SECONDS - 0.2) * 1000);
+    const treeTimeWithBoost = TREE_RECOVERY_SECONDS * 1000 * 0.8;
+    expect(time).toEqual(now - treeTimeWithBoost);
   });
 });
