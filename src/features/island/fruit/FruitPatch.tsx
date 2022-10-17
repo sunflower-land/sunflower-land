@@ -4,7 +4,7 @@ import appleTree from "assets/fruit/apple/apple_tree.png";
 import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
 import orangeTree from "assets/fruit/orange/orange_tree.png";
 
-import fruitPatch from "assets/fruit/fruit_patch.png";
+import fruitPatch from "assets/fruit/grass_patch.png";
 import basket from "assets/fruit/fruit_basket.png";
 import close from "assets/icons/close.png";
 

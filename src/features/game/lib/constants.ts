@@ -440,13 +440,22 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
       0: {
         height: 2,
         width: 2,
-        x: -1,
+        x: -2,
         y: 3,
         fruit: {
           amount: 1,
           name: "Apple",
           plantedAt: 0,
         },
+      },
+    },
+
+    mines: {
+      0: {
+        height: 2,
+        width: 2,
+        x: 0,
+        y: 3,
       },
     },
   },

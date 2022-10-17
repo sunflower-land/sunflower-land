@@ -27,6 +27,7 @@ import { Chicken } from "features/island/chickens/Chicken";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { LAND_WIDTH, Water } from "./components/Water";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
+import { Mine } from "features/island/mines/Mine";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -38,6 +39,7 @@ type ExpansionProps = Pick<
   | "gold"
   | "createdAt"
   | "fruitPatches"
+  | "mines"
 >;
 
 export const Expansion: React.FC<
@@ -50,6 +52,7 @@ export const Expansion: React.FC<
   gold,
   terrains,
   fruitPatches,
+  mines,
   createdAt,
   expansionIndex,
 }) => {
@@ -178,6 +181,23 @@ export const Expansion: React.FC<
             </MapPlacement>
           );
         })}
+
+      {mines &&
+        getKeys(mines).map((index) => {
+          const { x, y, width, height } = mines[index];
+
+          return (
+            <MapPlacement
+              key={`${createdAt}-fruit-${index}`}
+              x={x + xOffset}
+              y={y + yOffset}
+              height={height}
+              width={width}
+            >
+              <Mine />
+            </MapPlacement>
+          );
+        })}
     </>
   );
 };
@@ -219,6 +239,7 @@ export const Land: React.FC = () => {
                 plots,
                 createdAt,
                 fruitPatches,
+                mines,
               },
               index
             ) => (
@@ -233,6 +254,7 @@ export const Land: React.FC = () => {
                 iron={iron}
                 plots={plots}
                 fruitPatches={fruitPatches}
+                mines={mines}
               />
             )
           )}

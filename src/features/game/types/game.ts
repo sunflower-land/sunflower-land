@@ -238,6 +238,8 @@ export type FruitPatch = {
   fruit?: PlantedFruit;
 } & Position;
 
+export type Mine = Position;
+
 export type BuildingProduct = {
   name: ConsumableName;
   readyAt: number;
@@ -264,6 +266,7 @@ export type LandExpansion = {
   terrains?: Record<number, LandExpansionTerrain>;
   plots?: Record<number, LandExpansionPlot>;
   fruitPatches?: Record<number, FruitPatch>;
+  mines?: Record<number, Mine>;
   trees?: Record<number, LandExpansionTree>;
   stones?: Record<number, LandExpansionRock>;
 };
