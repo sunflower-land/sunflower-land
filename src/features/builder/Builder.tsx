@@ -8,6 +8,18 @@ import { GameProvider } from "features/game/GameProvider";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import waterMovement from "assets/decorations/water_movement.png";
 
+const BUILDABLES: Record<
+  string,
+  {
+    component: React.FC;
+    icon: string;
+  }
+> = {
+  appleTree: {
+    component: () => null,
+    icon: "",
+  },
+};
 export const Builder: React.FC = () => {
   const container = useRef(null);
 
