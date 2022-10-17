@@ -84,10 +84,8 @@ export const Plot: React.FC<Props> = ({
           <Spritesheet
             className="absolute pointer-events-none bottom-[4px] -left-[26px]"
             style={{
-              width: `${
-                (HARVEST_PROC_ANIMATION.size / HARVEST_PROC_ANIMATION.scale) *
-                PIXEL_SCALE
-              }px`,
+              width: `${HARVEST_PROC_ANIMATION.size * PIXEL_SCALE}px`,
+              imageRendering: "pixelated",
             }}
             image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
             widthFrame={HARVEST_PROC_ANIMATION.size}

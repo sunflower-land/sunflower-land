@@ -64,8 +64,7 @@ export const HARVEST_PROC_SPRITES: Record<CropName, any> = {
 };
 
 export const HARVEST_PROC_ANIMATION = {
-  size: 108,
-  scale: 3,
+  size: 36,
   steps: 11,
   fps: 10,
   sprites: HARVEST_PROC_SPRITES,
