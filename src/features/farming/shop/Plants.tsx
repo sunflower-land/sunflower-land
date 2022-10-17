@@ -128,9 +128,13 @@ export const Plants: React.FC = () => {
           <div className="m-auto flex flex-col">
             <span className="text-sm text-center text-shadow">
               Are you sure you want to <br className="hidden md:block" />
-              sell {cropAmount.toString()} {selected.name} for{" "}
-              <br className="hidden md:block" />
-              {displaySellPrice(selected).mul(cropAmount).toString()} SFL?
+              sell {cropAmount.toFixed(4, Decimal.ROUND_DOWN).toString()}{" "}
+              {selected.name} for <br className="hidden md:block" />
+              {displaySellPrice(selected)
+                .mul(cropAmount)
+                .toFixed(4, Decimal.ROUND_DOWN)
+                .toString()}{" "}
+              SFL?
             </span>
           </div>
           <div className="flex justify-content-around p-1">
