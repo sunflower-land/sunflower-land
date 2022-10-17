@@ -630,9 +630,28 @@ describe("plant", () => {
 
 describe("getCropTime", () => {
   it("applies a 5% speed boost with Cultivator skill", () => {
-    const time = getCropTime("Carrot", {}, {}, { Cultivator: 1 });
+    const time = getCropTime(
+      "Carrot",
+      {},
+      {},
+      { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } }
+    );
 
     expect(time).toEqual(57 * 60);
+  });
+
+  it("reduces in 20% carrot time when Bumpkin is wearing Carrot Amulet", () => {
+    const time = getCropTime(
+      "Carrot",
+      {},
+      {},
+      {
+        ...INITIAL_BUMPKIN,
+        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Carrot Amulet" },
+      }
+    );
+
+    expect(time).toEqual(60 * 60 * 0.8);
   });
 });
 
