@@ -7,7 +7,8 @@ import {
 } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { GameState, LandExpansionTree } from "features/game/types/game";
-import { chop, LandExpansionChopAction } from "./chop";
+import { TREE_RECOVERY_SECONDS } from "../chop";
+import { chop, getChoppedAt, LandExpansionChopAction } from "./chop";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -284,5 +285,20 @@ describe("chop", () => {
       MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)] -
         CHOP_STAMINA_COST
     );
+  });
+});
+
+describe("getChoppedAt", () => {
+  it("applies a 20% speed boost with Tree Hugger skill", () => {
+    const now = Date.now();
+
+    const time = getChoppedAt({
+      inventory: {},
+      skills: { "Tree Hugger": 1 },
+      createdAt: now,
+    });
+
+    const treeTimeWithBoost = TREE_RECOVERY_SECONDS * 1000 * 0.8;
+    expect(time).toEqual(now - treeTimeWithBoost);
   });
 });

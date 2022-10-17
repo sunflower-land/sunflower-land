@@ -9,7 +9,7 @@ import {
   PLANT_STAMINA_COST,
 } from "../../lib/constants";
 import { GameState, LandExpansionPlot } from "../../types/game";
-import { isPlotFertile, plant } from "./plant";
+import { getCropTime, isPlotFertile, plant } from "./plant";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -544,6 +544,50 @@ describe("plant", () => {
       MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)] -
         PLANT_STAMINA_COST
     );
+  });
+
+  it("reduces required stamina by 10% with Plant Whisperer skill", () => {
+    const state = {
+      ...GAME_STATE,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        stamina: {
+          replenishedAt: 0,
+          value: 10,
+        },
+        skills: {
+          "Plant Whisperer": 1,
+        },
+      },
+      inventory: {
+        "Cauliflower Seed": new Decimal(1),
+      },
+    };
+
+    const game = plant({
+      state,
+      createdAt: Date.now(),
+      action: {
+        type: "seed.planted",
+        index: 0,
+        expansionIndex: 0,
+        item: "Cauliflower Seed",
+      },
+    });
+
+    const reducedStaminaAmount = PLANT_STAMINA_COST * 0.9;
+
+    expect(game.bumpkin?.stamina.value).toBe(
+      state.bumpkin.stamina.value - reducedStaminaAmount
+    );
+  });
+});
+
+describe("getCropTime", () => {
+  it("applies a 5% speed boost with Cultivator skill", () => {
+    const time = getCropTime("Carrot", {}, { Cultivator: 1 });
+
+    expect(time).toEqual(57 * 60);
   });
 });
 

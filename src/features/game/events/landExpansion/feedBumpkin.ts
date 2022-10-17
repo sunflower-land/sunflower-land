@@ -45,7 +45,14 @@ export function feedBumpkin({
   }
 
   inventory[action.food] = quantity.sub(1);
-  bumpkin.experience += CONSUMABLES[action.food].experience;
+
+  let foodExperience = CONSUMABLES[action.food].experience;
+
+  if (bumpkin.skills["Kitchen Hand"]) {
+    foodExperience += 0.1;
+  }
+
+  bumpkin.experience += foodExperience;
   bumpkin.stamina.value = Math.min(
     bumpkin.stamina.value + CONSUMABLES[action.food].stamina,
     maxStamina

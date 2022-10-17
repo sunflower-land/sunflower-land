@@ -1,11 +1,17 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
-import { CropName } from "../../types/crops";
-import { GameState, Inventory, InventoryItemName } from "../../types/game";
+import { CropName, CROPS } from "../../types/crops";
+import {
+  Bumpkin,
+  GameState,
+  Inventory,
+  InventoryItemName,
+} from "../../types/game";
 import { getPlantedAt, isSeed } from "../plant";
 import { PLANT_STAMINA_COST } from "features/game/lib/constants";
 import { replenishStamina } from "./replenishStamina";
 import { getKeys } from "features/game/types/craftables";
+import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -50,6 +56,54 @@ export function isPlotFertile({
   );
 
   return cropPosition <= cropsWellCanWater;
+}
+
+/**
+ * Based on boosts, how long a crop will take
+ */
+export const getCropTime = (
+  crop: CropName,
+  inventory: Inventory,
+  skills: Partial<Record<BumpkinSkillName, number>>
+) => {
+  let seconds = CROPS()[crop].harvestSeconds;
+
+  if (inventory["Seed Specialist"]?.gte(1)) {
+    seconds = seconds * 0.9;
+  }
+
+  if (crop === "Parsnip" && inventory["Mysterious Parsnip"]?.gte(1)) {
+    seconds = seconds * 0.5;
+  }
+
+  if (crop === "Carrot" && inventory["Carrot Amulet"]?.gte(1)) {
+    seconds = seconds * 0.8;
+  }
+
+  // Scarecrow: 15% reduction
+  if (
+    inventory.Nancy?.greaterThanOrEqualTo(1) ||
+    inventory.Scarecrow?.greaterThanOrEqualTo(1) ||
+    inventory.Kuebiko?.greaterThanOrEqualTo(1)
+  ) {
+    seconds = seconds * 0.85;
+  }
+
+  if (skills["Cultivator"]) {
+    seconds = seconds * 0.95;
+  }
+
+  return seconds;
+};
+
+export function getStaminaCost(bumpkin: Bumpkin) {
+  let staminaCost = PLANT_STAMINA_COST;
+
+  if (bumpkin.skills["Plant Whisperer"]) {
+    staminaCost = staminaCost * 0.9;
+  }
+
+  return staminaCost;
 }
 
 /**
@@ -168,7 +222,7 @@ export function plant({
 
   expansion.plots = plots;
 
-  bumpkin.stamina.value -= PLANT_STAMINA_COST;
+  bumpkin.stamina.value -= getStaminaCost(bumpkin);
 
   stateCopy.inventory[action.item] = seedCount.sub(1);
 
