@@ -27,10 +27,12 @@ function timeToStr(
 }
 
 function getTimeUnits(seconds: number, isShortFormat: boolean) {
-  const secondsPart = Math.ceil(seconds % ONE_MIN);
-  const minutesPart = Math.floor((seconds / ONE_MIN) % ONE_MIN);
-  const hoursPart = Math.floor((seconds / ONE_HR) % 24);
-  const daysPart = Math.floor(seconds / ONE_DAY);
+  const mathFunction =
+    seconds > 0 ? (x: number) => Math.floor(x) : (x: number) => Math.ceil(x);
+  const secondsPart = mathFunction(seconds % ONE_MIN);
+  const minutesPart = mathFunction((seconds / ONE_MIN) % ONE_MIN);
+  const hoursPart = mathFunction((seconds / ONE_HR) % 24);
+  const daysPart = mathFunction(seconds / ONE_DAY);
 
   return [
     daysPart && timeToStr(daysPart, "day", { isShortFormat: isShortFormat }),

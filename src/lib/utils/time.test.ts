@@ -13,10 +13,19 @@ const ONE_DAY = ONE_HR * 24;
 describe("time", () => {
   describe("secondsToString", () => {
     it("should return correct string", () => {
+      expect(secondsToString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC))).toBe(
+        "-3days"
+      );
+      expect(secondsToString(-(2 * ONE_HR + 4 * ONE_SEC))).toBe("-2hrs");
+      expect(secondsToString(-(5 * ONE_MIN + 8 * ONE_SEC))).toBe("-5mins");
+      expect(secondsToString(-59 * ONE_SEC)).toBe("-59secs");
+      expect(secondsToString(-2.1 * ONE_SEC)).toBe("-2secs");
+      expect(secondsToString(-ONE_SEC)).toBe("-1secs");
       expect(secondsToString(0)).toBe("0secs");
       expect(secondsToString(ONE_SEC)).toBe("1sec");
       expect(secondsToString(2 * ONE_SEC)).toBe("2secs");
       expect(secondsToString(59 * ONE_SEC)).toBe("59secs");
+      expect(secondsToString(59.1 * ONE_SEC)).toBe("59secs");
       expect(secondsToString(ONE_MIN)).toBe("1min");
       expect(secondsToString(ONE_MIN + ONE_SEC)).toBe("1min");
       expect(secondsToString(59 * ONE_MIN)).toBe("59mins");
@@ -28,13 +37,20 @@ describe("time", () => {
       expect(secondsToString(ONE_DAY + ONE_SEC)).toBe("1day");
       expect(secondsToString(2 * ONE_DAY)).toBe("2days");
     });
-  });
-  describe("secondsToString short unit", () => {
-    it("should return correct string", () => {
+    it("should return correct string short unit", () => {
+      expect(
+        secondsToString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC), true)
+      ).toBe("-3d");
+      expect(secondsToString(-(2 * ONE_HR + 4 * ONE_SEC), true)).toBe("-2h");
+      expect(secondsToString(-(5 * ONE_MIN + 8 * ONE_SEC), true)).toBe("-5m");
+      expect(secondsToString(-59 * ONE_SEC, true)).toBe("-59s");
+      expect(secondsToString(-2.1 * ONE_SEC, true)).toBe("-2s");
+      expect(secondsToString(-ONE_SEC, true)).toBe("-1s");
       expect(secondsToString(0, true)).toBe("0s");
       expect(secondsToString(ONE_SEC, true)).toBe("1s");
       expect(secondsToString(2 * ONE_SEC, true)).toBe("2s");
       expect(secondsToString(59 * ONE_SEC, true)).toBe("59s");
+      expect(secondsToString(59.1 * ONE_SEC, true)).toBe("59s");
       expect(secondsToString(ONE_MIN, true)).toBe("1m");
       expect(secondsToString(ONE_MIN + ONE_SEC, true)).toBe("1m");
       expect(secondsToString(59 * ONE_MIN, true)).toBe("59m");
@@ -50,11 +66,24 @@ describe("time", () => {
 
   describe("secondsToMidString", () => {
     it("should return correct string", () => {
+      expect(
+        secondsToMidString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC))
+      ).toBe("-3days 0hrs");
+      expect(secondsToMidString(-(2 * ONE_HR + 4 * ONE_SEC))).toBe(
+        "-2hrs 0mins"
+      );
+      expect(secondsToMidString(-(5 * ONE_MIN + 8 * ONE_SEC))).toBe(
+        "-5mins -8secs"
+      );
+      expect(secondsToMidString(-59 * ONE_SEC)).toBe("-59secs");
+      expect(secondsToMidString(-2.1 * ONE_SEC)).toBe("-2secs");
+      expect(secondsToMidString(-ONE_SEC)).toBe("-1secs");
       expect(secondsToMidString(0)).toBe("0secs");
       expect(secondsToMidString(ONE_SEC)).toBe("1sec");
       expect(secondsToMidString(2 * ONE_SEC)).toBe("2secs");
       expect(secondsToMidString(ONE_MIN)).toBe("1min 0secs");
       expect(secondsToMidString(ONE_MIN + 30 * ONE_SEC)).toBe("1min 30secs");
+      expect(secondsToMidString(ONE_MIN + 59.1 * ONE_SEC)).toBe("1min 59secs");
       expect(secondsToMidString(2 * ONE_MIN)).toBe("2mins 0secs");
       expect(secondsToMidString(59 * ONE_MIN + 59 * ONE_SEC)).toBe(
         "59mins 59secs"
@@ -70,15 +99,25 @@ describe("time", () => {
         "2days 1hr"
       );
     });
-  });
-
-  describe("secondsToMidString short unit", () => {
-    it("should return correct string", () => {
+    it("should return correct string short unit", () => {
+      expect(
+        secondsToMidString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC), true)
+      ).toBe("-3d 0h");
+      expect(secondsToMidString(-(2 * ONE_HR + 4 * ONE_SEC), true)).toBe(
+        "-2h 0m"
+      );
+      expect(secondsToMidString(-(5 * ONE_MIN + 8 * ONE_SEC), true)).toBe(
+        "-5m -8s"
+      );
+      expect(secondsToMidString(-59 * ONE_SEC, true)).toBe("-59s");
+      expect(secondsToMidString(-2.1 * ONE_SEC, true)).toBe("-2s");
+      expect(secondsToMidString(-ONE_SEC, true)).toBe("-1s");
       expect(secondsToMidString(0, true)).toBe("0s");
       expect(secondsToMidString(ONE_SEC, true)).toBe("1s");
       expect(secondsToMidString(2 * ONE_SEC, true)).toBe("2s");
       expect(secondsToMidString(ONE_MIN, true)).toBe("1m 0s");
       expect(secondsToMidString(ONE_MIN + 30 * ONE_SEC, true)).toBe("1m 30s");
+      expect(secondsToMidString(ONE_MIN + 59.1 * ONE_SEC, true)).toBe("1m 59s");
       expect(secondsToMidString(2 * ONE_MIN, true)).toBe("2m 0s");
       expect(secondsToMidString(59 * ONE_MIN + 59 * ONE_SEC, true)).toBe(
         "59m 59s"
@@ -98,6 +137,18 @@ describe("time", () => {
 
   describe("secondsToLongString", () => {
     it("should return correct string", () => {
+      expect(
+        secondsToLongString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC))
+      ).toBe("-3days 0hrs -6mins -9secs");
+      expect(secondsToLongString(-(2 * ONE_HR + 4 * ONE_SEC))).toBe(
+        "-2hrs 0mins -4secs"
+      );
+      expect(secondsToLongString(-(5 * ONE_MIN + 8 * ONE_SEC))).toBe(
+        "-5mins -8secs"
+      );
+      expect(secondsToLongString(-59 * ONE_SEC)).toBe("-59secs");
+      expect(secondsToLongString(-2.1 * ONE_SEC)).toBe("-2secs");
+      expect(secondsToLongString(-ONE_SEC)).toBe("-1secs");
       expect(secondsToLongString(0)).toBe("0secs");
       expect(secondsToLongString(ONE_HR + 20 * ONE_MIN + 5 * ONE_SEC)).toBe(
         "1hr 20mins 5secs"
@@ -109,10 +160,19 @@ describe("time", () => {
         "2days 1hr 20mins 0secs"
       );
     });
-  });
-
-  describe("secondsToLongString short unit", () => {
-    it("should return correct string", () => {
+    it("should return correct string short unit", () => {
+      expect(
+        secondsToLongString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC), true)
+      ).toBe("-3d 0h -6m -9s");
+      expect(secondsToLongString(-(2 * ONE_HR + 4 * ONE_SEC), true)).toBe(
+        "-2h 0m -4s"
+      );
+      expect(secondsToLongString(-(5 * ONE_MIN + 8 * ONE_SEC), true)).toBe(
+        "-5m -8s"
+      );
+      expect(secondsToLongString(-59 * ONE_SEC, true)).toBe("-59s");
+      expect(secondsToLongString(-2.1 * ONE_SEC, true)).toBe("-2s");
+      expect(secondsToLongString(-ONE_SEC, true)).toBe("-1s");
       expect(secondsToLongString(0, true)).toBe("0s");
       expect(
         secondsToLongString(ONE_HR + 20 * ONE_MIN + 5 * ONE_SEC, true)
