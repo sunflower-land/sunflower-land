@@ -28,7 +28,7 @@ function timeToStr(
 
 function getTimeUnits(seconds: number, isShortFormat: boolean) {
   const mathFunction =
-    seconds > 0 ? (x: number) => Math.floor(x) : (x: number) => Math.ceil(x);
+    seconds >= 0 ? (x: number) => Math.floor(x) : (x: number) => Math.ceil(x);
   const secondsPart = mathFunction(seconds % ONE_MIN);
   const minutesPart = mathFunction((seconds / ONE_MIN) % ONE_MIN);
   const hoursPart = mathFunction((seconds / ONE_HR) % 24);
