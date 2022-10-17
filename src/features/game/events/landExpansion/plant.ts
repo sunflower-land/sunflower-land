@@ -3,15 +3,17 @@ import Decimal from "decimal.js-light";
 import { CropName, CROPS } from "../../types/crops";
 import {
   Bumpkin,
+  Collectibles,
   GameState,
   Inventory,
   InventoryItemName,
 } from "../../types/game";
-import { getPlantedAt, isSeed } from "../plant";
+import { isSeed } from "../plant";
 import { PLANT_STAMINA_COST } from "features/game/lib/constants";
 import { replenishStamina } from "./replenishStamina";
 import { getKeys } from "features/game/types/craftables";
 import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -64,6 +66,7 @@ export function isPlotFertile({
 export const getCropTime = (
   crop: CropName,
   inventory: Inventory,
+  collectibles: Collectibles,
   skills: Partial<Record<BumpkinSkillName, number>>
 ) => {
   let seconds = CROPS()[crop].harvestSeconds;
@@ -72,7 +75,10 @@ export const getCropTime = (
     seconds = seconds * 0.9;
   }
 
-  if (crop === "Parsnip" && inventory["Mysterious Parsnip"]?.gte(1)) {
+  if (
+    crop === "Parsnip" &&
+    isCollectibleBuilt("Mysterious Parsnip", collectibles)
+  ) {
     seconds = seconds * 0.5;
   }
 
@@ -82,9 +88,9 @@ export const getCropTime = (
 
   // Scarecrow: 15% reduction
   if (
-    inventory.Nancy?.greaterThanOrEqualTo(1) ||
-    inventory.Scarecrow?.greaterThanOrEqualTo(1) ||
-    inventory.Kuebiko?.greaterThanOrEqualTo(1)
+    isCollectibleBuilt("Nancy", collectibles) ||
+    isCollectibleBuilt("Scarecrow", collectibles) ||
+    isCollectibleBuilt("Kuebiko", collectibles)
   ) {
     seconds = seconds * 0.85;
   }
@@ -96,6 +102,32 @@ export const getCropTime = (
   return seconds;
 };
 
+type GetPlantedAtArgs = {
+  crop: CropName;
+  inventory: Inventory;
+  collectibles: Collectibles;
+  skills: Partial<Record<BumpkinSkillName, number>>;
+  createdAt: number;
+};
+
+/**
+ * Set a plantedAt in the past to make a crop grow faster
+ */
+export function getPlantedAt({
+  crop,
+  inventory,
+  collectibles,
+  skills,
+  createdAt,
+}: GetPlantedAtArgs): number {
+  const cropTime = CROPS()[crop].harvestSeconds;
+  const boostedTime = getCropTime(crop, inventory, collectibles, skills);
+
+  const offset = cropTime - boostedTime;
+
+  return createdAt - offset * 1000;
+}
+
 export function getStaminaCost(bumpkin: Bumpkin) {
   let staminaCost = PLANT_STAMINA_COST;
 
@@ -105,28 +137,35 @@ export function getStaminaCost(bumpkin: Bumpkin) {
 
   return staminaCost;
 }
-
 /**
  * Based on items, the output will be different
  */
 export function getCropYieldAmount({
   crop,
   inventory,
+  collectibles,
 }: {
   crop: CropName;
   inventory: Inventory;
+  collectibles: Collectibles;
 }): number {
   let amount = 1;
 
-  if (crop === "Cauliflower" && inventory["Golden Cauliflower"]?.gte(1)) {
+  if (
+    crop === "Cauliflower" &&
+    isCollectibleBuilt("Golden Cauliflower", collectibles)
+  ) {
     amount *= 2;
   }
 
-  if (crop === "Carrot" && inventory["Easter Bunny"]?.gte(1)) {
+  if (crop === "Carrot" && isCollectibleBuilt("Easter Bunny", collectibles)) {
     amount *= 1.2;
   }
 
-  if (inventory.Scarecrow?.gte(1) || inventory.Kuebiko?.gte(1)) {
+  if (
+    isCollectibleBuilt("Scarecrow", collectibles) ||
+    isCollectibleBuilt("Kuebiko", collectibles)
+  ) {
     amount *= 1.2;
   }
 
@@ -149,7 +188,7 @@ export function plant({
   });
 
   const stateCopy = cloneDeep(replenishedState);
-  const { expansions, bumpkin, inventory } = stateCopy;
+  const { expansions, bumpkin, collectibles, inventory } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!expansion) {
@@ -196,7 +235,7 @@ export function plant({
     throw new Error("Not a seed");
   }
 
-  const seedCount = stateCopy.inventory[action.item] || new Decimal(0);
+  const seedCount = inventory[action.item] || new Decimal(0);
 
   if (seedCount.lessThan(1)) {
     throw new Error("Not enough seeds");
@@ -209,13 +248,16 @@ export function plant({
     crop: {
       plantedAt: getPlantedAt({
         crop: cropName,
-        inventory: state.inventory,
+        inventory,
+        collectibles,
+        skills: bumpkin.skills,
         createdAt,
       }),
       name: cropName,
       amount: getCropYieldAmount({
         crop: cropName,
-        inventory: state.inventory,
+        inventory: inventory,
+        collectibles,
       }),
     },
   };
@@ -224,7 +266,7 @@ export function plant({
 
   bumpkin.stamina.value -= getStaminaCost(bumpkin);
 
-  stateCopy.inventory[action.item] = seedCount.sub(1);
+  inventory[action.item] = seedCount.sub(1);
 
   return stateCopy;
 }
