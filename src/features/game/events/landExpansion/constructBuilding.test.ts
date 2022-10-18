@@ -15,7 +15,7 @@ describe("Construct building", () => {
         state: { ...GAME_STATE, bumpkin: undefined },
         action: {
           type: "building.constructed",
-          name: "Workbench",
+          name: "Blacksmith",
           coordinates: {
             x: 2,
             y: 2,
@@ -24,7 +24,7 @@ describe("Construct building", () => {
       })
     ).toThrow("You do not have a Bumpkin");
   });
-  it("ensures Bumpkin level requirements for Workbench are met", () => {
+  it("ensures Bumpkin level requirements for Blacksmith are met", () => {
     expect(() =>
       constructBuilding({
         state: {
@@ -50,7 +50,7 @@ describe("Construct building", () => {
         },
         action: {
           type: "building.constructed",
-          name: "Workbench",
+          name: "Blacksmith",
           coordinates: {
             x: 0,
             y: 0,
@@ -165,7 +165,7 @@ describe("Construct building", () => {
         },
         action: {
           type: "building.constructed",
-          name: "Workbench",
+          name: "Blacksmith",
           coordinates: {
             x: 0,
             y: 0,
@@ -206,7 +206,7 @@ describe("Construct building", () => {
         },
         action: {
           type: "building.constructed",
-          name: "Workbench",
+          name: "Blacksmith",
           coordinates: {
             x: 0,
             y: 0,
@@ -371,7 +371,7 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        name: "Workbench",
+        name: "Blacksmith",
         coordinates: {
           x: 1,
           y: 2,
@@ -412,7 +412,7 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        name: "Workbench",
+        name: "Blacksmith",
         coordinates: {
           x: 1,
           y: 2,
@@ -485,7 +485,7 @@ describe("Construct building", () => {
           id: "1",
         },
       ],
-      Workbench: [
+      Blacksmith: [
         {
           coordinates: { x: 2, y: 2 },
           createdAt: date,
@@ -553,7 +553,7 @@ describe("Construct building", () => {
           readyAt: date + 30 * 1000,
         },
       ],
-      Workbench: [
+      Blacksmith: [
         {
           coordinates: { x: 2, y: 2 },
           createdAt: date,

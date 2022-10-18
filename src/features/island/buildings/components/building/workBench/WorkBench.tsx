@@ -3,9 +3,9 @@ import React from "react";
 import blacksmith from "assets/buildings/blacksmith.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
-import { Crafting } from "features/farming/blacksmith/components/Crafting";
+import { WorkbenchModal } from "./components/WorkbenchModal";
 
-export const Blacksmith: React.FC = () => {
+export const WorkBench: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -24,7 +24,7 @@ export const Blacksmith: React.FC = () => {
         onClick={handleClick}
       />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Crafting onClose={() => setIsOpen(false)} />
+        <WorkbenchModal onClose={() => setIsOpen(false)} />
       </Modal>
     </>
   );
