@@ -61,6 +61,8 @@ export const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Parsnip: parsnipProcSprite,
   Radish: radishProcSprite,
   Wheat: wheatProcSprite,
+  // TODO
+  Kale: wheatProcSprite,
 };
 
 export const HARVEST_PROC_ANIMATION = {
@@ -128,6 +130,12 @@ export const LIFECYCLE: Record<CropName, Lifecycle> = {
     ready: radishPlant,
   },
   Wheat: {
+    seedling: wheatSeedling,
+    almost: wheatAlmostDone,
+    ready: wheatPlant,
+  },
+  // TODO
+  Kale: {
     seedling: wheatSeedling,
     almost: wheatAlmostDone,
     ready: wheatPlant,

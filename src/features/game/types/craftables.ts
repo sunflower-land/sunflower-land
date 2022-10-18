@@ -164,6 +164,7 @@ export type CollectibleName =
   | MarketItem
   | Flag
   | TravelingSalesmanItem
+  | MutantChicken
   | "War Skull"
   | "War Tombstone";
 
@@ -451,7 +452,7 @@ export const TOOLS: Record<Tool, CraftableItem> = {
     name: "Axe",
     description: "Used to collect wood",
     // Temporary price for weekly war challenge
-    tokenAmount: new Decimal(0.5),
+    tokenAmount: new Decimal(1),
     ingredients: [],
   },
   Pickaxe: {
@@ -597,82 +598,63 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
     name: "Sunflower Amulet",
     description: "10% increased Sunflower yield",
     type: LimitedItemType.WarTentItem,
-    disabled: true,
   },
   "Carrot Amulet": {
     name: "Carrot Amulet",
     description: "Carrots grow 20% faster",
     type: LimitedItemType.WarTentItem,
-    disabled: true,
   },
   "Beetroot Amulet": {
     name: "Beetroot Amulet",
     description: "20% increased Beetroot yield",
     type: LimitedItemType.WarTentItem,
-    disabled: true,
   },
   "Green Amulet": {
     name: "Green Amulet",
     description: "Chance for 10x crop yield",
     type: LimitedItemType.WarTentItem,
-    disabled: true,
   },
   "Warrior Shirt": {
     name: "Warrior Shirt",
     description: "A mark of a true warrior",
     type: LimitedItemType.WarTentItem,
-    disabled: true,
-    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "Warrior Pants": {
     name: "Warrior Pants",
     description: "Protect your thighs",
     type: LimitedItemType.WarTentItem,
-    disabled: true,
-    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "Warrior Helmet": {
     name: "Warrior Helmet",
     description: "Immune to arrows",
     type: LimitedItemType.WarTentItem,
-    disabled: true,
-    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "Sunflower Shield": {
     name: "Sunflower Shield",
     description: "A hero of Sunflower Land. Free Sunflower Seeds!",
     type: LimitedItemType.WarTentItem,
-    disabled: true,
-    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "Skull Hat": {
     name: "Skull Hat",
     description: "A rare hat for your Bumpkin.",
     type: LimitedItemType.WarTentItem,
-    disabled: true,
-    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "War Skull": {
     name: "War Skull",
     description: "Decorate the land with the bones of your enemies.",
     type: LimitedItemType.WarTentItem,
-    disabled: true,
     canMintMultiple: true,
-    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
   "War Tombstone": {
     name: "War Tombstone",
     description: "R.I.P",
     type: LimitedItemType.WarTentItem,
-    disabled: false,
-    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
+    canMintMultiple: true,
   },
   "Undead Rooster": {
     name: "Undead Rooster",
     description: "An unfortunate casualty of the war. 10% increased egg yield.",
     type: LimitedItemType.WarTentItem,
-    disabled: false,
-    mintReleaseDate: Date.UTC(2022, 9, 13, 6, 0, 0, 0),
   },
 };
 
@@ -1146,6 +1128,11 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Egg Basket": { height: 1, width: 1 },
   "War Skull": { height: 1, width: 1 },
   "War Tombstone": { height: 1, width: 1 },
+
+  // Mutant Chickens
+  "Fat Chicken": { height: 1, width: 1 },
+  "Rich Chicken": { height: 1, width: 1 },
+  "Speed Chicken": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

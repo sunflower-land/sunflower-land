@@ -1,18 +1,24 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect } from "react";
 
 import background from "assets/land/helios.png";
 import waterMovement from "assets/decorations/water_movement.png";
 import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
 import { Fertilisers } from "./components/fertilisers/Fertilisers";
-import { FarmersMarket } from "./components/farmersMarket/FarmersMarket";
+import { ExoticShop } from "./components/exoticShop/ExoticShop";
 import { HeliosSunflower } from "./components/HeliosSunflower";
 import { HeliosBlacksmith } from "./components/blacksmith/HeliosBlacksmith";
+import { IslandTravel } from "features/game/expansion/components/IslandTravel";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 export const Helios: React.FC = () => {
-  const container = useRef(null);
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+  const { state } = gameState.context;
+  const { bumpkin } = state;
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -36,8 +42,9 @@ export const Helios: React.FC = () => {
         <GrubShop />
         <HeliosBlacksmith />
         <Fertilisers />
-        <FarmersMarket />
+        <ExoticShop />
         <HeliosSunflower />
+        <IslandTravel bumpkin={bumpkin} x={5} y={-18} />
       </div>
       <div
         className="absolute inset-0 bg-repeat"

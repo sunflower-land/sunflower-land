@@ -6,7 +6,6 @@ import goblinCarry from "assets/npcs/goblin_carry.gif";
 import goblinSign from "assets/buildings/goblin_sign.png";
 import arrowRight from "assets/icons/arrow_right.png";
 import { GoblinVillageModal } from "./GoblinVillageModal";
-import { Modal } from "react-bootstrap";
 
 export const GoblinVillageEntry: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -49,9 +48,10 @@ export const GoblinVillageEntry: React.FC = () => {
         }}
       />
 
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <GoblinVillageModal onClose={() => setShowModal(false)} />
-      </Modal>
+      <GoblinVillageModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </div>
   );
 };

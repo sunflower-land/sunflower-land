@@ -22,7 +22,7 @@ describe("sell", () => {
         action: {
           type: "item.sell",
           item: "Axe" as SellableName,
-          amount: 1,
+          amount: new Decimal(1),
         },
       })
     ).toThrow("Not for sale");
@@ -40,7 +40,7 @@ describe("sell", () => {
         action: {
           type: "item.sell",
           item: "Sunflower",
-          amount: 0,
+          amount: new Decimal(0),
         },
       })
     ).toThrow("Invalid amount");
@@ -53,7 +53,7 @@ describe("sell", () => {
         action: {
           type: "item.sell",
           item: "Sunflower",
-          amount: 1,
+          amount: new Decimal(1),
         },
       })
     ).toThrow("Insufficient crops to sell");
@@ -70,7 +70,7 @@ describe("sell", () => {
       action: {
         type: "item.sell",
         item: "Sunflower",
-        amount: 1,
+        amount: new Decimal(1),
       },
     });
 
@@ -91,7 +91,7 @@ describe("sell", () => {
       action: {
         type: "item.sell",
         item: "Sunflower",
-        amount: 10,
+        amount: new Decimal(10),
       },
     });
 
@@ -113,7 +113,7 @@ describe("sell", () => {
         action: {
           type: "item.sell",
           item: "Sunflower",
-          amount: 10,
+          amount: new Decimal(10),
         },
       })
     ).toThrow("Insufficient crops to sell");
@@ -130,7 +130,7 @@ describe("sell", () => {
       action: {
         type: "item.sell",
         item: "Cauliflower",
-        amount: 1,
+        amount: new Decimal(1),
       },
     });
 

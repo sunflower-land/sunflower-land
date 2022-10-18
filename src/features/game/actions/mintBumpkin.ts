@@ -5,10 +5,7 @@ import { BumpkinParts } from "../types/bumpkin";
 
 const API_URL = CONFIG.API_URL;
 
-export type InitialBumpkinParts = Pick<
-  BumpkinParts,
-  "hair" | "eyes" | "body" | "shirt"
->;
+export type InitialBumpkinParts = Pick<BumpkinParts, "hair" | "body" | "shirt">;
 type Options = {
   bumpkinParts: InitialBumpkinParts;
   token: string;

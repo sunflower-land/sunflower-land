@@ -139,4 +139,22 @@ describe("feedBumpkin", () => {
       MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)]
     );
   });
+
+  it("provides 10% more experience with Kitchen Hand skill", () => {
+    const result = feedBumpkin({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Kitchen Hand": 1 } },
+        inventory: {
+          "Boiled Egg": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Egg",
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(1.1);
+  });
 });

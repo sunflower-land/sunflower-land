@@ -12,7 +12,7 @@ import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import { Context } from "features/game/GameProvider";
 import { InitialBumpkinParts } from "features/game/actions/mintBumpkin";
-import { randomBetweenMaxExclusive } from "features/game/expansion/lib/utils";
+import { randomInt } from "lib/utils/random";
 import { BumpkinWallpaper } from "features/game/types/bumpkin";
 
 export type LimitedBody =
@@ -25,11 +25,6 @@ export type LimitedShirt =
   | "Yellow Farmer Shirt"
   | "Blue Farmer Shirt";
 export type LimitedPants = "Farmer Pants";
-export type LimitedEyes =
-  | "Rosy Wide Eyes"
-  | "Rosy Squinted Eyes"
-  | "Rosy Butterfly Eyes";
-export type LimitedMouth = "Wide Smile";
 export type LimitedShoes = "Black Farmer Boots";
 export type LimitedTools = "Farmer Pitchfork";
 
@@ -38,8 +33,6 @@ type LimitedBumpkinItem =
   | LimitedHair
   | LimitedShirt
   | LimitedPants
-  | LimitedEyes
-  | LimitedMouth
   | LimitedShoes
   | LimitedTools;
 
@@ -51,8 +44,6 @@ interface Bumpkin {
   pants: LimitedPants;
   shoes: LimitedShoes;
   tool: LimitedTools;
-  eyes?: LimitedEyes;
-  mouth?: LimitedMouth;
 }
 
 type Category = "hair" | "body" | "shirt";
@@ -86,8 +77,7 @@ const BUMPKIN_PARTS: Record<Category, CategoryDetails> = {
 
 const getRandomPart = <T,>(category: Category) => {
   const { options } = BUMPKIN_PARTS[category];
-  const randomIndex = randomBetweenMaxExclusive(0, options.length);
-
+  const randomIndex = randomInt(0, options.length);
   return options[randomIndex] as unknown as T;
 };
 
@@ -161,7 +151,6 @@ export const BumpkinBuilder: React.FC = () => {
       body: bumpkinParts.body,
       hair: bumpkinParts.hair,
       shirt: bumpkinParts.shirt,
-      eyes: bumpkinParts.eyes,
     };
     gameService.send("MINT_BUMPKIN", { parts });
   };

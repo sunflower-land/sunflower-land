@@ -34,8 +34,6 @@ describe("Construct building", () => {
             equipped: {
               body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
-              eyes: "Rosy Wide Eyes",
-              mouth: "Wide Smile",
               shirt: "Red Farmer Shirt",
               pants: "Farmer Pants",
               shoes: "Black Farmer Boots",
@@ -93,8 +91,6 @@ describe("Construct building", () => {
             equipped: {
               body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
-              eyes: "Rosy Wide Eyes",
-              mouth: "Wide Smile",
               shirt: "Red Farmer Shirt",
               pants: "Farmer Pants",
               shoes: "Black Farmer Boots",
@@ -157,8 +153,6 @@ describe("Construct building", () => {
             equipped: {
               body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
-              eyes: "Rosy Wide Eyes",
-              mouth: "Wide Smile",
               shirt: "Red Farmer Shirt",
               pants: "Farmer Pants",
               shoes: "Black Farmer Boots",
@@ -200,8 +194,6 @@ describe("Construct building", () => {
             equipped: {
               body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
-              eyes: "Rosy Wide Eyes",
-              mouth: "Wide Smile",
               shirt: "Red Farmer Shirt",
               pants: "Farmer Pants",
               shoes: "Black Farmer Boots",
@@ -240,8 +232,7 @@ describe("Construct building", () => {
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
-            eyes: "Rosy Wide Eyes",
-            mouth: "Wide Smile",
+
             shirt: "Red Farmer Shirt",
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
@@ -283,8 +274,7 @@ describe("Construct building", () => {
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
-            eyes: "Rosy Wide Eyes",
-            mouth: "Wide Smile",
+
             shirt: "Red Farmer Shirt",
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
@@ -324,8 +314,7 @@ describe("Construct building", () => {
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
-            eyes: "Rosy Wide Eyes",
-            mouth: "Wide Smile",
+
             shirt: "Red Farmer Shirt",
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
@@ -370,8 +359,7 @@ describe("Construct building", () => {
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
-            eyes: "Rosy Wide Eyes",
-            mouth: "Wide Smile",
+
             shirt: "Red Farmer Shirt",
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
@@ -412,8 +400,7 @@ describe("Construct building", () => {
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
-            eyes: "Rosy Wide Eyes",
-            mouth: "Wide Smile",
+
             shirt: "Red Farmer Shirt",
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
@@ -450,8 +437,7 @@ describe("Construct building", () => {
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
-            eyes: "Rosy Wide Eyes",
-            mouth: "Wide Smile",
+
             shirt: "Red Farmer Shirt",
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
@@ -522,8 +508,6 @@ describe("Construct building", () => {
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
-            eyes: "Rosy Wide Eyes",
-            mouth: "Wide Smile",
             shirt: "Red Farmer Shirt",
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",

@@ -7,7 +7,6 @@ import { CropReward as Reward } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { addNoise, RandomID } from "lib/images";
 import { StopTheGoblins } from "./StopTheGoblins";
 import { ChestCaptcha } from "./ChestCaptcha";
 
@@ -32,11 +31,8 @@ export const CropReward: React.FC<Props> = ({
     Math.random() > 0.3 ? "chest" : "goblins"
   );
 
-  const id = useRef(RandomID());
-
   useEffect(() => {
     if (reward) {
-      addNoise(id.current);
       setLoading(true);
       setTimeout(() => setLoading(false), 750);
     }
@@ -65,10 +61,16 @@ export const CropReward: React.FC<Props> = ({
   return (
     <Modal centered show={true}>
       <Panel>
-        <div className="flex flex-col items-center justify-between">
-          {loading ? (
-            "Loading..."
-          ) : opened ? (
+        {loading && (
+          <div className="flex flex-col items-center justify-between">
+            Loading...
+          </div>
+        )}
+        <div
+          hidden={loading} // render and hide captchas so images have time to load
+          className="flex flex-col items-center justify-between"
+        >
+          {opened ? (
             <>
               <span className="text-center mb-2">
                 Woohoo! Here is your reward
