@@ -8,7 +8,7 @@ import cloneDeep from "lodash.clonedeep";
 export type SellAction = {
   type: "item.sell";
   item: SellableName;
-  amount: number;
+  amount: Decimal;
 };
 
 export type SellableName = CropName | Cake;
@@ -31,7 +31,7 @@ export function sell({ state, action }: Options): GameState {
     throw new Error("Not for sale");
   }
 
-  if (action.amount <= 0) {
+  if (action.amount.lessThanOrEqualTo(0)) {
     throw new Error("Invalid amount");
   }
 
@@ -52,7 +52,7 @@ export function sell({ state, action }: Options): GameState {
       .toDecimalPlaces(18, Decimal.ROUND_DOWN),
     inventory: {
       ...stateCopy.inventory,
-      [sellable.name]: itemCount.sub(1 * action.amount),
+      [sellable.name]: itemCount.sub(action.amount.mul(1)),
     },
   };
 }
