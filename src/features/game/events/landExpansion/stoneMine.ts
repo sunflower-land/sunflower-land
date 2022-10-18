@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/expansion/lib/utils";
 import { STONE_MINE_STAMINA_COST } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import cloneDeep from "lodash.clonedeep";
-import { GameState } from "../../types/game";
+import { GameState, LandExpansionRock } from "../../types/game";
 import { replenishStamina } from "./replenishStamina";
 
 export type LandExpansionStoneMineAction = {
@@ -18,8 +18,29 @@ type Options = {
   createdAt?: number;
 };
 
+type GetMinedAtArgs = {
+  skills: Partial<Record<BumpkinSkillName, number>>;
+  createdAt: number;
+};
+
 // 4 hours
 export const STONE_RECOVERY_TIME = 4 * 60 * 60;
+
+export function canMine(rock: LandExpansionRock, now: number = Date.now()) {
+  const recoveryTime = STONE_RECOVERY_TIME;
+  return now - rock.stone.minedAt > recoveryTime * 1000;
+}
+
+/**
+ * Set a mined in the past to make it replenish faster
+ */
+export function getMinedAt({ skills, createdAt }: GetMinedAtArgs): number {
+  if (skills["Coal Face"]) {
+    return createdAt - STONE_RECOVERY_TIME * 0.2 * 1000;
+  }
+
+  return createdAt;
+}
 
 export function mineStone({
   state,
@@ -60,7 +81,7 @@ export function mineStone({
     throw new Error("No rock");
   }
 
-  if (!canMine(rock, STONE_RECOVERY_TIME, createdAt)) {
+  if (!canMine(rock, createdAt)) {
     throw new Error("Rock is still recovering");
   }
 
@@ -74,7 +95,10 @@ export function mineStone({
   const amountInInventory = stateCopy.inventory.Stone || new Decimal(0);
 
   rock.stone = {
-    minedAt: Date.now(),
+    minedAt: getMinedAt({
+      skills: bumpkin.skills,
+      createdAt: Date.now(),
+    }),
     amount: 2,
   };
 

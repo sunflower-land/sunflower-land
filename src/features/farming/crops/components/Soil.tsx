@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 import classNames from "classnames";
 import soil from "assets/land/soil2.png";
@@ -9,7 +9,7 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 
 import { CROPS } from "features/game/types/crops";
-import { addNoise, RandomID } from "lib/images";
+import { addNoise } from "lib/images";
 
 import { LIFECYCLE } from "../lib/plant";
 import classnames from "classnames";
@@ -24,23 +24,16 @@ interface Props {
   isRemoving?: boolean;
 }
 
-const Ready: React.FC<{ image: string; className: string }> = ({
+const CROP_NOISE_LEVEL = 0.1;
+
+const Crop: React.FC<{ image: string; className: string }> = ({
   image,
   className,
 }) => {
-  const id = useRef(RandomID());
-
-  useEffect(() => {
-    // Randomly add some noise to the crops
-    if (Math.random() > 0.8) {
-      addNoise(id.current, 0.15);
-    }
-  }, []);
-
   return (
     <img
-      id={id.current}
       src={image}
+      onLoad={(e) => addNoise(e.currentTarget, CROP_NOISE_LEVEL)}
       className={classnames("w-full", className)}
     />
   );
@@ -66,7 +59,7 @@ export const Soil: React.FC<Props> = ({
   }, [plantedCrop, setHarvestTime]);
 
   if (!plantedCrop) {
-    return <img src={soil} className={classnames("w-full", className)} />;
+    return <Crop image={soil} className={className as string} />;
   }
 
   const { harvestSeconds } = CROPS()[plantedCrop.name];
@@ -88,6 +81,7 @@ export const Soil: React.FC<Props> = ({
               <img
                 key={name}
                 src={ITEM_DETAILS[name].image}
+                onLoad={(e) => addNoise(e.currentTarget, CROP_NOISE_LEVEL)}
                 style={{
                   width: `${PIXEL_SCALE * 10}px`,
                 }}
@@ -95,9 +89,9 @@ export const Soil: React.FC<Props> = ({
             ))}
           </div>
         )}
-        <img
-          src={isAlmostReady ? lifecycle.almost : lifecycle.seedling}
-          className={classnames("w-full", className)}
+        <Crop
+          image={isAlmostReady ? lifecycle.almost : lifecycle.seedling}
+          className={className as string}
         />
         <div className="absolute w-full -bottom-4 z-10">
           <ProgressBar percentage={percentage} seconds={timeLeft} />
@@ -123,5 +117,5 @@ export const Soil: React.FC<Props> = ({
     );
   }
 
-  return <Ready className={className as string} image={lifecycle.ready} />;
+  return <Crop image={lifecycle.ready} className={className as string} />;
 };

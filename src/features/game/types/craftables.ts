@@ -164,6 +164,7 @@ export type CollectibleName =
   | MarketItem
   | Flag
   | TravelingSalesmanItem
+  | MutantChicken
   | "War Skull"
   | "War Tombstone";
 
@@ -451,7 +452,7 @@ export const TOOLS: Record<Tool, CraftableItem> = {
     name: "Axe",
     description: "Used to collect wood",
     // Temporary price for weekly war challenge
-    tokenAmount: new Decimal(0.5),
+    tokenAmount: new Decimal(1),
     ingredients: [],
   },
   Pickaxe: {
@@ -1127,6 +1128,11 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Egg Basket": { height: 1, width: 1 },
   "War Skull": { height: 1, width: 1 },
   "War Tombstone": { height: 1, width: 1 },
+
+  // Mutant Chickens
+  "Fat Chicken": { height: 1, width: 1 },
+  "Rich Chicken": { height: 1, width: 1 },
+  "Speed Chicken": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

@@ -1,17 +1,20 @@
 import Decimal from "decimal.js-light";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { CHOP_STAMINA_COST } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import {
+  Collectibles,
   GameState,
-  Inventory,
   InventoryItemName,
   LandExpansionTree,
 } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { replenishStamina } from "./replenishStamina";
 
-type GetChoppedAtAtgs = {
-  inventory: Inventory;
+type GetChoppedAtArgs = {
+  skills: Partial<Record<BumpkinSkillName, number>>;
+  collectibles: Collectibles;
   createdAt: number;
 };
 
@@ -37,12 +40,20 @@ export function canChop(tree: LandExpansionTree, now: number = Date.now()) {
 /**
  * Set a chopped in the past to make it replenish faster
  */
-function getChoppedAt({ inventory, createdAt }: GetChoppedAtAtgs): number {
+export function getChoppedAt({
+  collectibles,
+  skills,
+  createdAt,
+}: GetChoppedAtArgs): number {
   if (
-    inventory["Apprentice Beaver"]?.gte(1) ||
-    inventory["Foreman Beaver"]?.gte(1)
+    isCollectibleBuilt("Apprentice Beaver", collectibles) ||
+    isCollectibleBuilt("Foreman Beaver", collectibles)
   ) {
     return createdAt - (TREE_RECOVERY_SECONDS / 2) * 1000;
+  }
+
+  if (skills["Tree Hugger"]) {
+    return createdAt - TREE_RECOVERY_SECONDS * 0.8 * 1000;
   }
 
   return createdAt;
@@ -51,8 +62,8 @@ function getChoppedAt({ inventory, createdAt }: GetChoppedAtAtgs): number {
 /**
  * Returns the amount of axe required to chop down a tree
  */
-export function getRequiredAxeAmount(inventory: Inventory) {
-  if (inventory["Foreman Beaver"]) {
+export function getRequiredAxeAmount(collectibles: Collectibles) {
+  if (isCollectibleBuilt("Foreman Beaver", collectibles)) {
     return new Decimal(0);
   }
 
@@ -71,7 +82,7 @@ export function chop({
   });
 
   const stateCopy = cloneDeep(replenishedState);
-  const { expansions, bumpkin } = stateCopy;
+  const { expansions, bumpkin, collectibles, inventory } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!expansion) {
@@ -92,13 +103,13 @@ export function chop({
     throw new Error("You do not have enough stamina");
   }
 
-  const requiredAxes = getRequiredAxeAmount(stateCopy.inventory);
+  const requiredAxes = getRequiredAxeAmount(collectibles);
 
   if (action.item !== "Axe" && requiredAxes.gt(0)) {
     throw new Error("No axe");
   }
 
-  const axeAmount = stateCopy.inventory.Axe || new Decimal(0);
+  const axeAmount = inventory.Axe || new Decimal(0);
   if (axeAmount.lessThan(requiredAxes)) {
     throw new Error("No axes left");
   }
@@ -114,15 +125,19 @@ export function chop({
   }
 
   const woodHarvested = tree.wood.amount;
-  const woodAmount = state.inventory.Wood || new Decimal(0);
+  const woodAmount = inventory.Wood || new Decimal(0);
 
   tree.wood = {
-    choppedAt: getChoppedAt({ createdAt, inventory: state.inventory }),
+    choppedAt: getChoppedAt({
+      createdAt,
+      skills: bumpkin.skills,
+      collectibles,
+    }),
     // Amount for next drop
     amount: 3,
   };
-  stateCopy.inventory.Axe = axeAmount.sub(requiredAxes);
-  stateCopy.inventory.Wood = woodAmount.add(woodHarvested);
+  inventory.Axe = axeAmount.sub(requiredAxes);
+  inventory.Wood = woodAmount.add(woodHarvested);
 
   bumpkin.stamina.value -= CHOP_STAMINA_COST;
 

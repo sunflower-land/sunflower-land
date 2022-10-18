@@ -36,6 +36,11 @@ import {
   LandExpansionIronMineAction,
 } from "./landExpansion/ironMine";
 
+import {
+  feedChicken as LandExpansionFeedChicken,
+  LandExpansionFeedChickenAction,
+} from "./landExpansion/feedChicken";
+
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
 import { reveal, RevealAction } from "./revealExpansion";
@@ -108,7 +113,8 @@ export type PlayingEvent =
   | PickSkillAction
   | SeedBoughtAction
   | ClaimAchievementAction
-  | FulFillGrubOrderAction;
+  | FulFillGrubOrderAction
+  | LandExpansionFeedChickenAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -165,6 +171,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,
   "grubOrder.fulfilled": fulfillGrubOrder,
+  "chicken.fed": LandExpansionFeedChicken,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

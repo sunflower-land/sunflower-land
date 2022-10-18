@@ -276,16 +276,22 @@ export const CraftingItems: React.FC<Props> = ({
               );
             })}
 
-            <div className="flex justify-center items-end">
-              <img src={token} className="h-5 mr-1" />
-              <span
-                className={classNames("text-xs text-shadow text-center mt-2 ", {
-                  "text-red-500": lessFunds(),
-                })}
-              >
-                {`$${price?.toNumber()}`}
-              </span>
-            </div>
+            {/* SFL requirement */}
+            {price?.gt(0) && (
+              <div className="flex justify-center items-end">
+                <img src={token} className="h-5 mr-1" />
+                <span
+                  className={classNames(
+                    "text-xs text-shadow text-center mt-2 ",
+                    {
+                      "text-red-500": lessFunds(),
+                    }
+                  )}
+                >
+                  {`$${price?.toNumber()}`}
+                </span>
+              </div>
+            )}
           </div>
           {Action()}
         </div>

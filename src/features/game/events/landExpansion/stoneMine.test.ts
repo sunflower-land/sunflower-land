@@ -7,7 +7,12 @@ import {
   STONE_MINE_STAMINA_COST,
 } from "../../lib/constants";
 import { GameState } from "../../types/game";
-import { LandExpansionStoneMineAction, mineStone } from "./stoneMine";
+import {
+  getMinedAt,
+  LandExpansionStoneMineAction,
+  mineStone,
+  STONE_RECOVERY_TIME,
+} from "./stoneMine";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -310,5 +315,18 @@ describe("mineStone", () => {
       MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)] -
         STONE_MINE_STAMINA_COST
     );
+  });
+});
+
+describe("getMinedAt", () => {
+  it("applies a speed boost of 20% with Coal Face skill", () => {
+    const now = Date.now();
+
+    const time = getMinedAt({
+      skills: { "Coal Face": 1 },
+      createdAt: now,
+    });
+
+    expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.2 * 1000);
   });
 });

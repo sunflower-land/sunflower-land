@@ -1,7 +1,8 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
+import { CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
-import { cook } from "./cook";
+import { cook, getReadyAt } from "./cook";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -247,5 +248,24 @@ describe("cook", () => {
         readyAt: expect.any(Number),
       })
     );
+  });
+});
+
+describe("getReadyAt", () => {
+  it("applies 20% speed boost with Rush Hour skill", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      item: "Boiled Egg",
+      skills: { "Rush Hour": 1 },
+      createdAt: now,
+    });
+
+    const boost = CONSUMABLES["Boiled Egg"].cookingSeconds * 0.2;
+
+    const readyAt =
+      now + (CONSUMABLES["Boiled Egg"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
   });
 });
