@@ -41,6 +41,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Parsnip: 208,
   Radish: 209,
   Wheat: 210,
+  Kale: 211,
 
   Axe: 301,
   Pickaxe: 302,
