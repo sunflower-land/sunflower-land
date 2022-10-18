@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
@@ -16,11 +15,10 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Stock } from "components/ui/Stock";
-import { getBuyPrice } from "features/game/events/craft";
-import { getMaxChickens } from "features/game/events/feedChicken";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { Tab } from "components/ui/Tab";
 import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
+import { getKeys } from "features/game/types/craftables";
 
 interface Props {
   onClose: () => void;
@@ -44,11 +42,11 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   const selected = craftableItems[selectedName];
   const inventory = state.inventory;
 
-  const price = getBuyPrice(selected, inventory);
+  const price = selected.sfl;
 
   const lessIngredients = (amount = 1) =>
-    selected.ingredients?.some((ingredient) =>
-      ingredient.amount.mul(amount).greaterThan(inventory[ingredient.item] || 0)
+    getKeys(selected.ingredients).some((name) =>
+      selected.ingredients[name]?.mul(amount).greaterThan(inventory[name] || 0)
     );
 
   const lessFunds = (amount = 1) => {
@@ -58,8 +56,8 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   };
 
   const craft = (amount = 1) => {
-    gameService.send("item.crafted", {
-      item: selected.name,
+    gameService.send("tool.crafted", {
+      tool: selectedName,
       amount,
     });
 
@@ -68,15 +66,15 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
       content: `-$${price?.mul(amount)}`,
     });
 
-    selected.ingredients?.map((ingredient) => {
-      const item = ITEM_DETAILS[ingredient.item];
+    getKeys(selected.ingredients).map((name) => {
+      const item = ITEM_DETAILS[name];
       setToast({
         icon: item.image,
-        content: `-${ingredient.amount.mul(amount)}`,
+        content: `-${selected.ingredients[name]?.mul(amount)}`,
       });
     });
 
-    shortcutItem(selected.name);
+    shortcutItem(selectedName);
   };
 
   const onCaptchaSolved = async (captcha: string | null) => {
@@ -97,18 +95,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
     // setShowCaptcha(true);
     sync();
   };
-  // ask confirmation if crafting more than 10
-  const openConfirmationModal = () => {
-    showCraftTenModal(true);
-  };
 
-  const closeConfirmationModal = () => {
-    showCraftTenModal(false);
-  };
-  const handleCraftTen = () => {
-    craft(10);
-    closeConfirmationModal();
-  };
   if (showCaptcha) {
     return (
       <CloudFlareCaptcha
@@ -121,21 +108,6 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   }
 
   const Action = () => {
-    if (selected.disabled) {
-      return <span className="text-xs mt-1 text-shadow">Locked</span>;
-    }
-
-    if (
-      selected.name === "Chicken" &&
-      inventory[selected.name]?.gte(getMaxChickens(inventory))
-    ) {
-      return (
-        <span className="text-xs mt-1 text-shadow text-center">
-          No more space for chickens
-        </span>
-      );
-    }
-
     if (stock?.equals(0)) {
       return (
         <div>
@@ -159,46 +131,13 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
           className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
           onClick={() => craft()}
         >
-          Craft {isBulk && "1"}
+          Craft 1
         </Button>
-        {isBulk && (
-          <Button
-            disabled={
-              lessFunds(10) || lessIngredients(10) || stock?.lessThan(10)
-            }
-            className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
-            onClick={openConfirmationModal}
-          >
-            Craft 10
-          </Button>
-        )}
-        <Modal
-          centered
-          show={isCraftTenModalOpen}
-          onHide={closeConfirmationModal}
-        >
-          <Panel className="md:w-4/5 m-auto">
-            <div className="m-auto flex flex-col">
-              <span className="text-sm text-center text-shadow">
-                Are you sure you want to <br className="hidden md:block" />
-                craft 10 {selected.name}?
-              </span>
-            </div>
-            <div className="flex justify-content-around p-1">
-              <Button className="text-xs" onClick={handleCraftTen}>
-                Yes
-              </Button>
-              <Button className="text-xs ml-2" onClick={closeConfirmationModal}>
-                No
-              </Button>
-            </div>
-          </Panel>
-        </Modal>
       </>
     );
   };
 
-  const stock = state.stock[selected.name] || new Decimal(0);
+  const stock = state.stock[selectedName] || new Decimal(0);
 
   return (
     <Panel className="pt-5 relative">
@@ -223,35 +162,37 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
       >
         <div className="flex">
           <div className="w-3/5 flex flex-wrap h-fit">
-            {craftableItems.map((item) => (
+            {getKeys(craftableItems).map((toolName) => (
               <Box
-                isSelected={selected.name === item.name}
-                key={item.name}
-                onClick={() => setSelectedName(item)}
-                image={ITEM_DETAILS[item.name].image}
-                count={inventory[item.name]}
+                isSelected={selectedName === toolName}
+                key={toolName}
+                onClick={() => setSelectedName(toolName)}
+                image={ITEM_DETAILS[toolName].image}
+                count={inventory[toolName]}
               />
             ))}
           </div>
           <OuterPanel className="flex-1 w-1/3">
             <div className="flex flex-col justify-center items-center p-2 relative">
-              <Stock item={selected} />
-              <span className="text-shadow text-center">{selected.name}</span>
+              <Stock item={{ name: selectedName }} />
+              <span className="text-shadow text-center">{selectedName}</span>
               <img
-                src={ITEM_DETAILS[selected.name].image}
+                src={ITEM_DETAILS[selectedName].image}
                 className="h-16 img-highlight mt-1"
-                alt={selected.name}
+                alt={selectedName}
               />
               <span className="text-shadow text-center mt-2 sm:text-sm">
                 {selected.description}
               </span>
 
               <div className="border-t border-white w-full mt-2 pt-1">
-                {selected.ingredients?.map((ingredient, index) => {
-                  const item = ITEM_DETAILS[ingredient.item];
+                {getKeys(selected.ingredients).map((ingredientName, index) => {
+                  const item = ITEM_DETAILS[ingredientName];
                   const inventoryAmount =
-                    inventory[ingredient.item]?.toDecimalPlaces(1) || 0;
-                  const requiredAmount = ingredient.amount.toDecimalPlaces(1);
+                    inventory[ingredientName]?.toDecimalPlaces(1) || 0;
+                  const requiredAmount =
+                    selected.ingredients[ingredientName]?.toDecimalPlaces(1) ||
+                    0;
 
                   // Ingredient difference
                   const lessIngredient = new Decimal(inventoryAmount).lessThan(

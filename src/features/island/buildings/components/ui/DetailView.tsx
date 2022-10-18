@@ -29,10 +29,10 @@ export const DetailView: React.FC<Props> = ({
   onBuild,
 }) => {
   const { bumpkin, inventory } = state;
-  const buildingLevels = BUILDINGS[building].unlocksAtLevels;
+  const buildingLevels = BUILDINGS()[building].unlocksAtLevels;
 
   const cantBuild = (building: BuildingName) => {
-    const missingIngredients = BUILDINGS[building].ingredients.some(
+    const missingIngredients = BUILDINGS()[building].ingredients.some(
       (ingredient) => {
         const inventoryAmount =
           inventory[ingredient.item]?.toDecimalPlaces(1) || 0;
@@ -42,7 +42,7 @@ export const DetailView: React.FC<Props> = ({
       }
     );
 
-    const missingBalance = BUILDINGS[building].sfl > state.balance;
+    const missingBalance = BUILDINGS()[building].sfl > state.balance;
 
     return missingIngredients && missingBalance;
   };
@@ -98,7 +98,7 @@ export const DetailView: React.FC<Props> = ({
           </span>
 
           <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
-            {BUILDINGS[building].ingredients.map((ingredient, index) => {
+            {BUILDINGS()[building].ingredients.map((ingredient, index) => {
               const item = ITEM_DETAILS[ingredient.item];
               const inventoryAmount =
                 inventory[ingredient.item]?.toDecimalPlaces(1) || 0;
@@ -131,7 +131,7 @@ export const DetailView: React.FC<Props> = ({
                 </div>
               );
             })}
-            {!!BUILDINGS[building].sfl.toNumber() && (
+            {!!BUILDINGS()[building].sfl.toNumber() && (
               <div className="flex justify-center items-end">
                 <img src={token} className="h-5 mr-1" />
                 <span
@@ -139,12 +139,12 @@ export const DetailView: React.FC<Props> = ({
                     "text-xs text-shadow text-center mt-2 ",
                     {
                       "text-red-500": state.balance.lessThan(
-                        BUILDINGS[building].sfl
+                        BUILDINGS()[building].sfl
                       ),
                     }
                   )}
                 >
-                  {BUILDINGS[building].sfl.toNumber()}
+                  {BUILDINGS()[building].sfl.toNumber()}
                 </span>
               </div>
             )}
@@ -153,7 +153,7 @@ export const DetailView: React.FC<Props> = ({
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ")}
               >
-                {secondsToString(BUILDINGS[building].constructionSeconds)}
+                {secondsToString(BUILDINGS()[building].constructionSeconds)}
               </span>
             </div>
           </div>

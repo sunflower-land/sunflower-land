@@ -1,6 +1,5 @@
 import React from "react";
-
-import blacksmith from "assets/buildings/blacksmith.png";
+import workbench from "assets/buildings/workbench.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { WorkbenchModal } from "./components/WorkbenchModal";
@@ -15,7 +14,7 @@ export const WorkBench: React.FC = () => {
   return (
     <>
       <img
-        src={blacksmith}
+        src={workbench}
         draggable={false}
         style={{
           width: `${PIXEL_SCALE * 48}px`,

@@ -42,7 +42,7 @@ export function placeBuilding({
     throw new Error("This building is already placed");
   }
 
-  if (!(building in BUILDINGS)) {
+  if (!(building in BUILDINGS())) {
     throw new Error("You cannot place this item");
   }
 

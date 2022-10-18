@@ -26,7 +26,7 @@ export function constructBuilding({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const building = BUILDINGS[action.name];
+  const building = BUILDINGS()[action.name];
   const bumpkin = stateCopy.bumpkin;
 
   if (bumpkin === undefined) {

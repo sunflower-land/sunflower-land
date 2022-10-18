@@ -73,7 +73,7 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
     constructionSeconds: 60 * 5,
   },
   "Chicken House": {
-    unlocksAtLevels: [1],
+    unlocksAtLevels: [7],
     ingredients: [
       {
         item: "Wood",
@@ -89,7 +89,7 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
   },
 
   Bakery: {
-    unlocksAtLevels: [7],
+    unlocksAtLevels: [8],
     ingredients: [
       {
         item: "Wood",
