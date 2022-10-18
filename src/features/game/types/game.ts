@@ -14,6 +14,7 @@ import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 import { FruitName } from "features/island/fruit/FruitPatch";
+import { ExoticSeedName, UpcomingSeedName } from "./seeds";
 
 export type CropReward = {
   items: {
@@ -118,6 +119,8 @@ export type WarItems =
 export type InventoryItemName =
   | CropName
   | SeedName
+  | ExoticSeedName
+  | UpcomingSeedName
   | CraftableName
   | ResourceName
   | SkillName

@@ -7,7 +7,7 @@ import waterMovement from "assets/decorations/water_movement.png";
 import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
 import { Fertilisers } from "./components/fertilisers/Fertilisers";
-import { FarmersMarket } from "./components/farmersMarket/FarmersMarket";
+import { ExoticShop } from "./components/exoticShop/ExoticShop";
 import { HeliosSunflower } from "./components/HeliosSunflower";
 import { HeliosBlacksmith } from "./components/blacksmith/HeliosBlacksmith";
 import { IslandTravel } from "features/game/expansion/components/IslandTravel";
@@ -42,7 +42,7 @@ export const Helios: React.FC = () => {
         <GrubShop />
         <HeliosBlacksmith />
         <Fertilisers />
-        <FarmersMarket />
+        <ExoticShop />
         <HeliosSunflower />
         <IslandTravel bumpkin={bumpkin} x={5} y={-18} />
       </div>

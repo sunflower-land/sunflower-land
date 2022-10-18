@@ -537,7 +537,19 @@ export const INITIAL_FARM: GameState = {
   plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
-  buildings: {},
+  buildings: {
+    Market: [
+      {
+        coordinates: {
+          x: 4,
+          y: 4,
+        },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
+  },
   airdrops: [
     {
       createdAt: Date.now(),
