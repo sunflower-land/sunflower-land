@@ -23,6 +23,7 @@ import magicBean from "assets/crops/magic_bean.png";
 import shinyBean from "assets/crops/shiny_bean.png";
 import goldenBean from "assets/crops/golden_bean.png";
 import kaleSeed from "assets/crops/kale/seed.png";
+import kaleCrop from "assets/crops/kale/crop.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
@@ -327,6 +328,10 @@ export const ITEM_DETAILS: Items = {
   Wheat: {
     ...crops.Wheat,
     image: wheatCrop,
+  },
+  Kale: {
+    ...crops.Kale,
+    image: kaleCrop,
   },
 
   // Seeds

@@ -12,7 +12,8 @@ export type CropName =
   | "Cauliflower"
   | "Parsnip"
   | "Radish"
-  | "Wheat";
+  | "Wheat"
+  | "Kale";
 
 export type Crop = {
   buyPrice: Decimal;
