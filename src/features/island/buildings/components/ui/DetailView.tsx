@@ -49,13 +49,29 @@ export const DetailView: React.FC<Props> = ({
 
   const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
 
+  //Holds how many desired buildings (e.g. water wells) does the user currently has.
   const buildingsUserHas = inventory[building]?.toNumber() ?? 0;
+  // What level of the desired building (e.g. water wells) has the user already unlocked.
+  // If this is undefined then that means the user has not unlocked any level of the building.
   const unlockedLevel = buildingLevels.find((level) => bumpkinLevel >= level);
+  // Whats the next level of the desired building (e.g. water wells), user is yet to unlock.
+  // If this is undefined then that means the user has unlocked all the levels of the building.
   const nextLockedLevel = buildingLevels.find((level) => level > bumpkinLevel);
+  // true, if the user has user has unlocked all the levels and completed all the buildings.
   const allBuildingsBuilt =
     !nextLockedLevel && buildingsUserHas === buildingLevels.length;
 
+  /**
+   * @function showBuildButton This function will return true if the user has not completed all the buildings
+   *                            for the unlocked level. E.g. if the user has unlocked 2 levels of the building then
+   *                            he would need to construct 2 buildings on the farm to reach to the next level. If he
+   *                            has not constructed 2 buildings then we need to show him the build button, if yes then
+   *                            we need to show him the 'Level X required' label.
+   * @param unlockedLevel The level of the building which the user has already unlocked.
+   * @returns Boolean
+   */
   const showBuildButton = (unlockedLevel: number): boolean => {
+    // Array index starts from zero which is why we are adding 1 to get the required number of buildings against a level.
     const buildingsRequired = buildingLevels.indexOf(unlockedLevel) + 1;
     return buildingsUserHas < buildingsRequired;
   };
@@ -141,6 +157,11 @@ export const DetailView: React.FC<Props> = ({
               </span>
             </div>
           </div>
+          {/**
+           * Do not show anything: if all the levels have been locked AND all the buildings have been completed AND there is no bumpkin.
+           * Show build button: If a level has been unlocked AND the user has not completed all the buildings required against that unlocked level.
+           * Show label: When the user has not unlocked any level OR when the user has unlocked a level but has completed all the buildings against that level.
+           */}
           {!allBuildingsBuilt && bumpkin && (
             <>
               {unlockedLevel && showBuildButton(unlockedLevel) ? (
