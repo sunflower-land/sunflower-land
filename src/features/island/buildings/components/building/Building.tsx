@@ -15,6 +15,7 @@ import { Blacksmith } from "./blacksmith/Blacksmith";
 import { Tent } from "./tent/Tent";
 import { WaterWell } from "./waterWell/WaterWell";
 import { ChickenHouse } from "./chickenHouse/ChickenHouse";
+import { Bakery } from "./bakery/Bakery";
 
 interface Prop {
   name: BuildingName;
@@ -37,7 +38,11 @@ export const BUILDING_COMPONENTS: Record<
     </WithCraftingMachine>
   ),
   Blacksmith: Blacksmith,
-  Bakery: () => null,
+  Bakery: ({ buildingId, craftingState }: BuildingProps) => (
+    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+      <Bakery buildingId={buildingId} />
+    </WithCraftingMachine>
+  ),
   Oven: () => null,
   Workbench: () => null,
   Market: Market,
