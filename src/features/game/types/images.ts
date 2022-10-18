@@ -228,6 +228,7 @@ import blacksmith from "src/assets/buildings/blacksmith.png";
 import tent from "src/assets/buildings/tent1.png";
 import well from "src/assets/buildings/well1.png";
 import chickenHouse from "src/assets/buildings/chicken_house.png";
+import bakery from "src/assets/buildings/bakery_building.png";
 
 // Clothing
 import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
@@ -994,7 +995,7 @@ export const ITEM_DETAILS: Items = {
     description: "TEST",
   },
   Bakery: {
-    image: questionMark,
+    image: bakery,
     description: "Bake your favourite cakes",
   },
   Blacksmith: {

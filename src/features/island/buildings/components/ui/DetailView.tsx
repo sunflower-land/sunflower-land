@@ -48,13 +48,17 @@ export const DetailView: React.FC<Props> = ({
   };
 
   const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
-  const showNextRequiredLevel = (nextLockedLevel: number): boolean => {
-    const nextLockedLevelIndex = buildingLevels.indexOf(nextLockedLevel);
-    const buildingsUserHas = inventory[building]?.toNumber() ?? 0;
-    return buildingsUserHas >= nextLockedLevelIndex;
+
+  const buildingsUserHas = inventory[building]?.toNumber() ?? 0;
+  const unlockedLevel = buildingLevels.find((level) => bumpkinLevel >= level);
+  const nextLockedLevel = buildingLevels.find((level) => level > bumpkinLevel);
+  const allBuildingsBuilt =
+    !nextLockedLevel && buildingsUserHas === buildingLevels.length;
+
+  const showBuildButton = (unlockedLevel: number): boolean => {
+    const buildingsRequired = buildingLevels.indexOf(unlockedLevel) + 1;
+    return buildingsUserHas < buildingsRequired;
   };
-  const nextLockedLevel =
-    buildingLevels.find((level) => level > bumpkinLevel) ?? buildingLevels[0];
 
   return (
     <div className="flex">
@@ -137,25 +141,28 @@ export const DetailView: React.FC<Props> = ({
               </span>
             </div>
           </div>
+          {!allBuildingsBuilt && bumpkin && (
+            <>
+              {unlockedLevel && showBuildButton(unlockedLevel) ? (
+                <Button
+                  onClick={() => onBuild(building)}
+                  disabled={cantBuild(building)}
+                >
+                  Build
+                </Button>
+              ) : (
+                <div className="flex items-center">
+                  <span
+                    className="bg-error border text-xxs p-1 rounded-md"
+                    style={{ lineHeight: "10px" }}
+                  >
+                    Lvl {nextLockedLevel} Required
+                  </span>
 
-          {!bumpkin || showNextRequiredLevel(nextLockedLevel) ? (
-            <div className="flex items-center">
-              <span
-                className="bg-error border text-xxs p-1 rounded-md"
-                style={{ lineHeight: "10px" }}
-              >
-                Lvl {nextLockedLevel} Required
-              </span>
-
-              <img src={lock} className="h-4 ml-1" />
-            </div>
-          ) : (
-            <Button
-              onClick={() => onBuild(building)}
-              disabled={cantBuild(building)}
-            >
-              Build
-            </Button>
+                  <img src={lock} className="h-4 ml-1" />
+                </div>
+              )}
+            </>
           )}
         </div>
       </OuterPanel>
