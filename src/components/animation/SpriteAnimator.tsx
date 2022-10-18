@@ -9,6 +9,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import * as CSS from "csstype";
+import { randomID } from "lib/utils/random";
 
 export class SpriteSheetInstance extends React.Component<Props> {
   play(): void;
@@ -78,19 +79,13 @@ export interface Props {
   }>;
 }
 
-const ID = function () {
-  // Math.random should be unique because of its seeding algorithm.
-  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-  // after the decimal.
-  return "_" + Math.random().toString(36).substr(2, 9);
-};
 class Spritesheet extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
 
     const { isResponsive, startAt, endAt, fps, steps, direction } = props;
 
-    this.id = `react-responsive-spritesheet--${ID()}`;
+    this.id = `react-responsive-spritesheet--${randomID()}`;
     this.spriteEl =
       this.spriteElContainer =
       this.spriteElMove =

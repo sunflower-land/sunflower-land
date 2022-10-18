@@ -116,6 +116,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     );
   }
   const Action = () => {
+    if (selected.disabled) {
+      return <span className="text-xs mt-2 text-center">Coming soon</span>;
+    }
+
     const userBumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
     const requiredLevel = selected.bumpkinLevel ?? 0;
     if (userBumpkinLevel < requiredLevel) {

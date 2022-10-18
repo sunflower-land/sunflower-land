@@ -19,6 +19,14 @@ import radishSeed from "assets/crops/radish/seed.png";
 import radishCrop from "assets/crops/radish/crop.png";
 import wheatSeed from "assets/crops/wheat/seed.png";
 import wheatCrop from "assets/crops/wheat/crop.png";
+import magicBean from "assets/crops/magic_bean.png";
+import shinyBean from "assets/crops/shiny_bean.png";
+import goldenBean from "assets/crops/golden_bean.png";
+import kaleSeed from "assets/crops/kale/seed.png";
+import kaleCrop from "assets/crops/kale/crop.png";
+import appleSeed from "assets/fruit/apple/apple_seed.png";
+import orangeSeed from "assets/fruit/orange/orange_seed.png";
+import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
 
 // Tools
 import axe from "assets/tools/axe.png";
@@ -266,6 +274,7 @@ import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
+import { EXOTIC_SEEDS, UPCOMING_SEEDS } from "./seeds";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -320,6 +329,10 @@ export const ITEM_DETAILS: Items = {
     ...crops.Wheat,
     image: wheatCrop,
   },
+  Kale: {
+    ...crops.Kale,
+    image: kaleCrop,
+  },
 
   // Seeds
   "Sunflower Seed": {
@@ -371,6 +384,34 @@ export const ITEM_DETAILS: Items = {
     ...seeds["Wheat Seed"],
     image: wheatSeed,
     secondaryImage: wheatCrop,
+  },
+  "Golden Bean": {
+    description: EXOTIC_SEEDS()["Golden Bean"].description,
+    image: goldenBean,
+  },
+  "Magic Bean": {
+    description: EXOTIC_SEEDS()["Magic Bean"].description,
+    image: magicBean,
+  },
+  "Shiny Bean": {
+    description: EXOTIC_SEEDS()["Shiny Bean"].description,
+    image: shinyBean,
+  },
+  "Kale Seed": {
+    description: UPCOMING_SEEDS()["Kale Seed"].description,
+    image: kaleSeed,
+  },
+  "Apple Seed": {
+    description: UPCOMING_SEEDS()["Apple Seed"].description,
+    image: appleSeed,
+  },
+  "Blueberry Seed": {
+    description: UPCOMING_SEEDS()["Blueberry Seed"].description,
+    image: blueberrySeed,
+  },
+  "Orange Seed": {
+    description: UPCOMING_SEEDS()["Orange Seed"].description,
+    image: orangeSeed,
   },
 
   // Resources

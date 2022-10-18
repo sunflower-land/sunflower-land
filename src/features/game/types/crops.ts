@@ -12,7 +12,8 @@ export type CropName =
   | "Cauliflower"
   | "Parsnip"
   | "Radish"
-  | "Wheat";
+  | "Wheat"
+  | "Kale";
 
 export type Crop = {
   buyPrice: Decimal;
@@ -99,6 +100,13 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     name: "Wheat",
     description: "The most harvested crop in the world.",
   },
+  Kale: {
+    buyPrice: marketRate(5),
+    sellPrice: marketRate(6.5),
+    harvestSeconds: 3 * 60 * 60,
+    name: "Kale",
+    description: "Bumpkin Power Food",
+  },
 });
 
 export type SeedName = `${CropName} Seed`;
@@ -178,5 +186,13 @@ export const SEEDS: () => Record<SeedName, CraftableItem> = () => ({
     ingredients: [],
     requires: "Radish Pie",
     bumpkinLevel: 5,
+  },
+  "Kale Seed": {
+    name: "Kale Seed",
+    tokenAmount: marketRate(5),
+    ingredients: [],
+    description: "A Bumpkin Power Food!",
+    plantSeconds: 24 * 60 * 60,
+    disabled: true,
   },
 });

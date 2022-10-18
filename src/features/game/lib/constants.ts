@@ -287,7 +287,7 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
   plots: INITIAL_PLOTS,
 };
 
-export const INITIAL_EXPANSIONS = [
+export const INITIAL_EXPANSIONS: LandExpansion[] = [
   {
     createdAt: 0,
     readyAt: 0,
@@ -435,6 +435,29 @@ export const INITIAL_EXPANSIONS = [
         width: 2,
       },
     },
+
+    fruitPatches: {
+      0: {
+        height: 2,
+        width: 2,
+        x: -2,
+        y: 3,
+        fruit: {
+          amount: 1,
+          name: "Apple",
+          plantedAt: 0,
+        },
+      },
+    },
+
+    mines: {
+      0: {
+        height: 2,
+        width: 2,
+        x: 0,
+        y: 3,
+      },
+    },
   },
 ];
 
@@ -468,6 +491,7 @@ export const INITIAL_FARM: GameState = {
   inventory: {
     Sunflower: new Decimal(5),
     Potato: new Decimal(12),
+    Carrot: new Decimal("502.079999999999991"),
     "Roasted Cauliflower": new Decimal(1),
     "Carrot Cake": new Decimal(1),
     Radish: new Decimal(100),
@@ -514,7 +538,19 @@ export const INITIAL_FARM: GameState = {
   plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
-  buildings: {},
+  buildings: {
+    Market: [
+      {
+        coordinates: {
+          x: 4,
+          y: 4,
+        },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
+  },
   airdrops: [
     {
       createdAt: Date.now(),

@@ -30,7 +30,7 @@ type Farm = {
   farmId: number;
   address: string;
   createdAt: number;
-  blacklistStatus: "OK" | "VERIFY" | "PENDING" | "REJECTED";
+  blacklistStatus: "OK" | "VERIFY" | "PENDING" | "REJECTED" | "BANNED";
   verificationUrl?: string;
 };
 
@@ -531,7 +531,7 @@ export const authMachine = createMachine<
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
         const farmAccount = farmAccounts[0];
 
-        const { verificationUrl, botStatus } = await loadBanDetails(
+        const { verificationUrl, botStatus, isBanned } = await loadBanDetails(
           farmAccount.tokenId,
           context.rawToken as string
         );
@@ -540,7 +540,7 @@ export const authMachine = createMachine<
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           createdAt,
-          blacklistStatus: botStatus ?? "OK",
+          blacklistStatus: botStatus ?? isBanned ? "BANNED" : "OK",
           verificationUrl,
         };
       },
