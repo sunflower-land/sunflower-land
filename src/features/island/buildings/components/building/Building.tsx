@@ -11,7 +11,7 @@ import { TimeLeftOverlay } from "components/ui/TimeLeftOverlay";
 import { Bar } from "components/ui/ProgressBar";
 import { WithCraftingMachine } from "./WithCraftingMachine";
 import { Market } from "./market/Market";
-import { Blacksmith } from "./blacksmith/Blacksmith";
+import { WorkBench } from "./workBench/WorkBench";
 import { Tent } from "./tent/Tent";
 import { WaterWell } from "./waterWell/WaterWell";
 import { ChickenHouse } from "./chickenHouse/ChickenHouse";
@@ -37,14 +37,12 @@ export const BUILDING_COMPONENTS: Record<
       <FirePit buildingId={buildingId} />
     </WithCraftingMachine>
   ),
-  Blacksmith: Blacksmith,
+  Workbench: WorkBench,
   Bakery: ({ buildingId, craftingState }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
       <Bakery buildingId={buildingId} />
     </WithCraftingMachine>
   ),
-  Oven: () => null,
-  Workbench: () => null,
   Market: Market,
   Tent: Tent,
   "Water Well": WaterWell,

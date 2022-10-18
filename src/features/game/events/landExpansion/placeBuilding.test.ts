@@ -68,14 +68,14 @@ describe("Place building", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          Oven: new Decimal(1),
+          "Fire Pit": new Decimal(1),
         },
         buildings: {},
       },
 
       action: {
         type: "building.placed",
-        name: "Oven",
+        name: "Fire Pit",
         coordinates: {
           x: 0,
           y: 0,
@@ -83,18 +83,18 @@ describe("Place building", () => {
       },
     });
 
-    expect(state.buildings["Oven"]).toHaveLength(1);
+    expect(state.buildings["Fire Pit"]).toHaveLength(1);
   });
 
-  it("Places multiple Blacksmiths", () => {
+  it("Places multiple Workbenchs", () => {
     const state = placeBuilding({
       state: {
         ...GAME_STATE,
         inventory: {
-          Blacksmith: new Decimal(2),
+          Workbench: new Decimal(2),
         },
         buildings: {
-          Blacksmith: [
+          Workbench: [
             {
               id: "123",
               coordinates: { x: 1, y: 1 },
@@ -107,7 +107,7 @@ describe("Place building", () => {
       createdAt: date,
       action: {
         type: "building.placed",
-        name: "Blacksmith",
+        name: "Workbench",
         coordinates: {
           x: 0,
           y: 0,
@@ -115,14 +115,14 @@ describe("Place building", () => {
       },
     });
 
-    expect(state.buildings["Blacksmith"]).toHaveLength(2);
-    expect(state.buildings["Blacksmith"]?.[0]).toEqual({
+    expect(state.buildings["Workbench"]).toHaveLength(2);
+    expect(state.buildings["Workbench"]?.[0]).toEqual({
       id: expect.any(String),
       coordinates: { x: 1, y: 1 },
       readyAt: date,
       createdAt: date,
     });
-    expect(state.buildings["Blacksmith"]?.[1]).toEqual({
+    expect(state.buildings["Workbench"]?.[1]).toEqual({
       coordinates: { x: 0, y: 0 },
       readyAt: date + 5 * 60 * 1000,
       createdAt: date,

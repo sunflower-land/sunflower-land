@@ -232,7 +232,7 @@ import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 // Buildings
 import firePit from "src/assets/buildings/kitchen.png";
 import market from "src/assets/buildings/market.png";
-import blacksmith from "src/assets/buildings/blacksmith.png";
+import workbench from "src/assets/buildings/workbench.png";
 import tent from "src/assets/buildings/tent1.png";
 import well from "src/assets/buildings/well1.png";
 import chickenHouse from "src/assets/buildings/chicken_house.png";
@@ -1031,20 +1031,12 @@ export const ITEM_DETAILS: Items = {
     image: market,
     description: "Buy and sell at the Farmer's Market",
   },
-  Oven: {
-    image: questionMark,
-    description: "TEST",
-  },
   Bakery: {
     image: bakery,
     description: "Bake your favourite cakes",
   },
-  Blacksmith: {
-    image: blacksmith,
-    description: "TEST",
-  },
   Workbench: {
-    image: questionMark,
+    image: workbench,
     description: "TEST",
   },
   "Water Well": {

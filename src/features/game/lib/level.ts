@@ -1,6 +1,6 @@
 import { getKeys } from "../types/craftables";
 
-export type BumpkinLevel = 1 | 2 | 3 | 4 | 5;
+export type BumpkinLevel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 export const LEVEL_BRACKETS: Record<BumpkinLevel, number> = {
   1: 100,
@@ -8,6 +8,9 @@ export const LEVEL_BRACKETS: Record<BumpkinLevel, number> = {
   3: 300,
   4: 400,
   5: 500,
+  6: 600,
+  7: 700,
+  8: 800,
 };
 
 const MAX_BUMPKIN_LEVEL =
@@ -29,4 +32,7 @@ export const SKILL_POINTS: Record<BumpkinLevel, number> = {
   3: 2,
   4: 3,
   5: 5,
+  6: 6,
+  7: 7,
+  8: 8,
 };
