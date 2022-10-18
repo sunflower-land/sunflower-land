@@ -30,6 +30,7 @@ import { Overlay } from "react-bootstrap";
 import { Label } from "components/ui/Label";
 import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -88,19 +89,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   // Users will need to refresh to strike the rock again
   const mined = !canMine(goldRock, GOLD_RECOVERY_TIME);
 
-  const [_, setTimer] = React.useState<number>(0);
-  const setRecoveryTime = React.useCallback(() => {
-    setTimer((count) => count + 1);
-  }, []);
-
-  // refresh every second
-  useEffect(() => {
-    if (mined) {
-      setRecoveryTime();
-      const interval = window.setInterval(setRecoveryTime, 1000);
-      return () => window.clearInterval(interval);
-    }
-  }, [mined, setRecoveryTime]);
+  useUiRefresher({ active: mined });
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);

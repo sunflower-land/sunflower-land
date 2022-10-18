@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { InnerPanel } from "components/ui/Panel";
 import { secondsToMidString } from "lib/utils/time";
 import classNames from "classnames";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Props {
   text?: string;
@@ -14,17 +15,7 @@ export const TimeLeftPanel: React.FC<Props> = ({
   showTimeLeft = false,
   timeLeft,
 }) => {
-  const [_, setTimer] = React.useState<number>(0);
-  const setRecoveryTime = React.useCallback(() => {
-    setTimer((count) => count + 1);
-  }, []);
-
-  // refresh every second
-  useEffect(() => {
-    setRecoveryTime();
-    const interval = window.setInterval(setRecoveryTime, 1000);
-    return () => window.clearInterval(interval);
-  }, [setRecoveryTime]);
+  useUiRefresher();
 
   return (
     <InnerPanel

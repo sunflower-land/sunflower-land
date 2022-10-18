@@ -29,6 +29,7 @@ import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -75,19 +76,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
   const chopped = !canChop(tree);
 
-  const [_, setTimer] = React.useState<number>(0);
-  const setRecoveryTime = React.useCallback(() => {
-    setTimer((count) => count + 1);
-  }, []);
-
-  // refresh every second
-  useEffect(() => {
-    if (chopped) {
-      setRecoveryTime();
-      const interval = window.setInterval(setRecoveryTime, 1000);
-      return () => window.clearInterval(interval);
-    }
-  }, [chopped, setRecoveryTime]);
+  useUiRefresher({ active: chopped });
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);

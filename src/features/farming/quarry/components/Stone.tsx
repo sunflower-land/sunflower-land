@@ -27,6 +27,7 @@ import { canMine } from "features/game/events/stoneMine";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -37,7 +38,6 @@ interface Props {
 
 export const Stone: React.FC<Props> = ({ rockIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(true);
@@ -59,19 +59,7 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
   const mined = !canMine(rock);
   const { setToast } = useContext(ToastContext);
 
-  const [_, setTimer] = React.useState<number>(0);
-  const setRecoveryTime = React.useCallback(() => {
-    setTimer((count) => count + 1);
-  }, []);
-
-  // refresh every second
-  useEffect(() => {
-    if (mined) {
-      setRecoveryTime();
-      const interval = window.setInterval(setRecoveryTime, 1000);
-      return () => window.clearInterval(interval);
-    }
-  }, [mined, setRecoveryTime]);
+  useUiRefresher({ active: mined });
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
