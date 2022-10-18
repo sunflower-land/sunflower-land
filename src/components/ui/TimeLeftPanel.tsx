@@ -15,7 +15,7 @@ export const TimeLeftPanel: React.FC<Props> = ({
   showTimeLeft = false,
   timeLeft,
 }) => {
-  useUiRefresher();
+  useUiRefresher({ active: showTimeLeft });
 
   return (
     <InnerPanel
