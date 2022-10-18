@@ -28,7 +28,6 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   const craftableItems = WORKBENCH_TOOLS();
 
   const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
-  const [isCraftTenModalOpen, showCraftTenModal] = useState(false);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -58,7 +57,6 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   const craft = (amount = 1) => {
     gameService.send("tool.crafted", {
       tool: selectedName,
-      amount,
     });
 
     setToast({
