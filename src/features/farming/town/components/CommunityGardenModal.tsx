@@ -14,10 +14,8 @@ export const CommunityGardenModal: React.FC<Props> = ({ isOpen, onClose }) => {
     window.location.href = `${window.location.pathname}#/community-garden`;
   };
 
-  const handleClose = () => onClose();
-
   return (
-    <Modal centered show={isOpen} onHide={handleClose}>
+    <Modal centered show={isOpen} onHide={onClose}>
       <Panel>
         <div className="p-2">
           <div className="flex flex-col items-center mb-3">
@@ -43,7 +41,7 @@ export const CommunityGardenModal: React.FC<Props> = ({ isOpen, onClose }) => {
         </div>
 
         <div className="flex">
-          <Button className="mr-1" onClick={handleClose}>
+          <Button className="mr-1" onClick={onClose}>
             Close
           </Button>
           <Button className="ml-1" onClick={goToCommunityGarden}>

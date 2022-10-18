@@ -9,6 +9,7 @@ import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
 import { CraftAction } from "../types/craftables";
 import { getSessionId } from "./loadSession";
+import Decimal from "decimal.js-light";
 
 type Request = {
   actions: PastAction[];
@@ -51,8 +52,9 @@ function squashEvents(events: PastAction[]): PastAction[] {
           ...items.slice(0, -1),
           {
             ...event,
-            amount:
-              (previous as SellAction | CraftAction).amount + event.amount,
+            amount: new Decimal(
+              (previous as SellAction | CraftAction).amount
+            ).plus(new Decimal(event.amount)),
           } as PastAction,
         ];
       }

@@ -12,7 +12,6 @@ import { isSeed } from "../plant";
 import { PLANT_STAMINA_COST } from "features/game/lib/constants";
 import { replenishStamina } from "./replenishStamina";
 import { getKeys } from "features/game/types/craftables";
-import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type LandExpansionPlantAction = {
@@ -67,8 +66,11 @@ export const getCropTime = (
   crop: CropName,
   inventory: Inventory,
   collectibles: Collectibles,
-  skills: Partial<Record<BumpkinSkillName, number>>
+  bumpkin: Bumpkin
 ) => {
+  const { skills, equipped } = bumpkin;
+  const { necklace } = equipped;
+
   let seconds = CROPS()[crop].harvestSeconds;
 
   if (inventory["Seed Specialist"]?.gte(1)) {
@@ -82,7 +84,7 @@ export const getCropTime = (
     seconds = seconds * 0.5;
   }
 
-  if (crop === "Carrot" && inventory["Carrot Amulet"]?.gte(1)) {
+  if (crop === "Carrot" && necklace === "Carrot Amulet") {
     seconds = seconds * 0.8;
   }
 
@@ -106,7 +108,7 @@ type GetPlantedAtArgs = {
   crop: CropName;
   inventory: Inventory;
   collectibles: Collectibles;
-  skills: Partial<Record<BumpkinSkillName, number>>;
+  bumpkin: Bumpkin;
   createdAt: number;
 };
 
@@ -117,11 +119,11 @@ export function getPlantedAt({
   crop,
   inventory,
   collectibles,
-  skills,
+  bumpkin,
   createdAt,
 }: GetPlantedAtArgs): number {
   const cropTime = CROPS()[crop].harvestSeconds;
-  const boostedTime = getCropTime(crop, inventory, collectibles, skills);
+  const boostedTime = getCropTime(crop, inventory, collectibles, bumpkin);
 
   const offset = cropTime - boostedTime;
 
@@ -250,7 +252,7 @@ export function plant({
         crop: cropName,
         inventory,
         collectibles,
-        skills: bumpkin.skills,
+        bumpkin,
         createdAt,
       }),
       name: cropName,
