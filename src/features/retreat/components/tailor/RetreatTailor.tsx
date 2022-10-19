@@ -34,8 +34,8 @@ export const RetreatTailor: React.FC = () => {
         <img src={clothesRack} className="w-3/5 absolute top-4 -right-20" />
         {
           <Action
-            className="absolute -bottom-7"
-            text="Tailor"
+            className="absolute -bottom-7 -left-4"
+            text="Wearables"
             icon={player}
             onClick={openTailor}
           />
