@@ -35,6 +35,7 @@ import { SunflowerStatue } from "./components/SunflowerStatue";
 import { SunflowerTombstone } from "./components/SunflowerTombstone";
 import { WickerMan } from "./components/WickerMan";
 import { Fountain } from "./components/Fountain";
+import { Gnome } from "./components/Gnome";
 
 interface Prop {
   name: CollectibleName;
@@ -42,7 +43,6 @@ interface Prop {
 }
 
 export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
-  // TODO
   "Mysterious Head": MysteriousHead,
   "War Skull": WarSkulls,
   "War Tombstone": WarTombstone,
@@ -77,6 +77,7 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Sunflower Tombstone": SunflowerTombstone,
   "Wicker Man": WickerMan,
   Fountain,
+  Gnome,
 } as Record<CollectibleName, React.FC>;
 
 export const Collectible: React.FC<Prop> = ({ name, id }) => {
