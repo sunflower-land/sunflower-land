@@ -4,10 +4,10 @@ import {
   INITIAL_BUMPKIN,
   INITIAL_FARM,
   MAX_STAMINA,
+  TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { GameState, LandExpansionTree } from "features/game/types/game";
-import { TREE_RECOVERY_SECONDS } from "../chop";
 import { chop, getChoppedAt, LandExpansionChopAction } from "./chop";
 
 const GAME_STATE: GameState = {
@@ -498,7 +498,7 @@ describe("getChoppedAt", () => {
       createdAt: now,
     });
 
-    const treeTimeWithBoost = TREE_RECOVERY_SECONDS * 1000 * 0.8;
+    const treeTimeWithBoost = TREE_RECOVERY_TIME * 1000 * 0.8;
     expect(time).toEqual(now - treeTimeWithBoost);
   });
 });

@@ -109,11 +109,11 @@ export const CropZoneTwo: React.FC = () => {
           <Field selectedItem={selectedItem} fieldIndex={6} />
         </div>
         {/* Middle row */}
-        <div className="flex justify-center">
+        <div className="flex justify-center z-10">
           <Field selectedItem={selectedItem} fieldIndex={7} />
         </div>
         {/* Bottom row */}
-        <div className="flex justify-between">
+        <div className="flex justify-between z-20">
           <Field selectedItem={selectedItem} fieldIndex={8} />
           <Field selectedItem={selectedItem} fieldIndex={9} />
         </div>

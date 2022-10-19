@@ -12,7 +12,7 @@ import stump from "assets/resources/tree/stump.png";
 import wood from "assets/resources/wood.png";
 import axe from "assets/tools/axe.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -21,7 +21,6 @@ import {
   canChop,
   CHOP_ERRORS,
   getRequiredAxeAmount,
-  TREE_RECOVERY_SECONDS,
 } from "features/game/events/chop";
 
 import { getTimeLeft } from "lib/utils/time";
@@ -30,6 +29,7 @@ import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -74,8 +74,9 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
 
   const tree = game.context.state.trees[treeIndex];
 
-  // Users will need to refresh to chop the tree again
   const chopped = !canChop(tree);
+
+  useUiRefresher({ active: chopped });
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -182,8 +183,8 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setShowLabel(false);
   };
 
-  const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_SECONDS);
-  const percentage = 100 - (timeLeft / TREE_RECOVERY_SECONDS) * 100;
+  const timeLeft = getTimeLeft(tree.choppedAt, TREE_RECOVERY_TIME);
+  const percentage = 100 - (timeLeft / TREE_RECOVERY_TIME) * 100;
 
   return (
     <div className="relative" style={{ height: "106px" }}>
@@ -271,7 +272,13 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
             onMouseEnter={handleMouseHoverStump}
             onMouseLeave={handleMouseLeaveStump}
           />
-          <div className="absolute -bottom-4 left-1.5">
+          <div
+            className="absolute"
+            style={{
+              top: "97px",
+              left: "12px",
+            }}
+          >
             <ProgressBar percentage={percentage} seconds={timeLeft} />
           </div>
           <TimeLeftPanel

@@ -8,7 +8,7 @@ import soilNotFertile from "assets/land/soil_not_fertile.png";
 import well from "assets/buildings/well1.png";
 
 import { Context } from "features/game/GameProvider";
-import { CropReward as Reward } from "features/game/types/game";
+import { CropReward as Reward, PlantedCrop } from "features/game/types/game";
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -70,14 +70,50 @@ export const Plot: React.FC<Props> = ({
     setShowPopover(false);
   };
 
-  const onCollectReward = () => {
+  const harvestCrop = (crop: PlantedCrop) => {
+    try {
+      gameService.send("crop.harvested", {
+        index: plotIndex,
+        expansionIndex,
+      });
+
+      harvestAudio.play();
+
+      if (crop.amount && crop.amount >= 10) {
+        setProcAnimation(
+          <Spritesheet
+            className="absolute pointer-events-none bottom-[4px] -left-[26px]"
+            style={{
+              width: `${HARVEST_PROC_ANIMATION.size * PIXEL_SCALE}px`,
+              imageRendering: "pixelated",
+            }}
+            image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
+            widthFrame={HARVEST_PROC_ANIMATION.size}
+            heightFrame={HARVEST_PROC_ANIMATION.size}
+            fps={HARVEST_PROC_ANIMATION.fps}
+            steps={HARVEST_PROC_ANIMATION.steps}
+            hiddenWhenPaused={true}
+          />
+        );
+      }
+
+      setToast({
+        icon: ITEM_DETAILS[crop.name].image,
+        content: `+${crop.amount || 1}`,
+      });
+    } catch (e: any) {
+      // TODO - catch more elaborate errors
+      displayPopover();
+    }
+  };
+
+  const onCollectReward = (success: boolean) => {
     setReward(null);
     setTouchCount(0);
 
-    gameService.send("crop.harvested", {
-      index: plotIndex,
-      expansionIndex,
-    });
+    if (success && crop) {
+      harvestCrop(crop);
+    }
   };
 
   const handleMouseHover = () => {
@@ -159,43 +195,7 @@ export const Plot: React.FC<Props> = ({
       return;
     }
 
-    try {
-      gameService.send("crop.harvested", {
-        index: plotIndex,
-        expansionIndex,
-      });
-
-      harvestAudio.play();
-
-      if (crop.amount && crop.amount >= 10) {
-        setProcAnimation(
-          <Spritesheet
-            className="absolute pointer-events-none bottom-[4px] -left-[26px]"
-            style={{
-              width: `${
-                (HARVEST_PROC_ANIMATION.size / HARVEST_PROC_ANIMATION.scale) *
-                PIXEL_SCALE
-              }px`,
-            }}
-            image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
-            widthFrame={HARVEST_PROC_ANIMATION.size}
-            heightFrame={HARVEST_PROC_ANIMATION.size}
-            fps={HARVEST_PROC_ANIMATION.fps}
-            steps={HARVEST_PROC_ANIMATION.steps}
-            hiddenWhenPaused={true}
-          />
-        );
-      }
-
-      setToast({
-        icon: ITEM_DETAILS[crop.name].image,
-        content: `+${crop.amount || 1}`,
-      });
-    } catch (e: any) {
-      // TODO - catch more elaborate errors
-      displayPopover();
-    }
-
+    harvestCrop(crop);
     setTouchCount(0);
   };
 

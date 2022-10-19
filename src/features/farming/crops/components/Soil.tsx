@@ -16,6 +16,7 @@ import classnames from "classnames";
 import { PlantedCrop } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Props {
   plantedCrop?: PlantedCrop;
@@ -45,18 +46,7 @@ export const Soil: React.FC<Props> = ({
   showCropDetails,
   isRemoving,
 }) => {
-  const [_, setTimer] = React.useState<number>(0);
-  const setHarvestTime = React.useCallback(() => {
-    setTimer((count) => count + 1);
-  }, []);
-
-  React.useEffect(() => {
-    if (plantedCrop) {
-      setHarvestTime();
-      const interval = window.setInterval(setHarvestTime, 1000);
-      return () => window.clearInterval(interval);
-    }
-  }, [plantedCrop, setHarvestTime]);
+  useUiRefresher({ active: !!plantedCrop });
 
   if (!plantedCrop) {
     return <Crop image={soil} className={className as string} />;

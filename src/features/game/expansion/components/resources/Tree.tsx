@@ -16,16 +16,13 @@ import {
   CHOP_STAMINA_COST,
   GRID_WIDTH_PX,
   PIXEL_SCALE,
+  TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
-import {
-  CHOP_ERRORS,
-  getRequiredAxeAmount,
-  TREE_RECOVERY_SECONDS,
-} from "features/game/events/chop";
+import { CHOP_ERRORS, getRequiredAxeAmount } from "features/game/events/chop";
 
 import { getTimeLeft } from "lib/utils/time";
 import { Label } from "components/ui/Label";
@@ -36,6 +33,7 @@ import { LandExpansionTree } from "features/game/types/game";
 import { canChop } from "features/game/events/landExpansion/chop";
 import { Overlay } from "react-bootstrap";
 import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -94,8 +92,9 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     };
   }, []);
 
-  // Users will need to refresh to chop the tree again
   const chopped = !canChop(tree);
+
+  useUiRefresher({ active: chopped });
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -205,7 +204,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     setErrorLabel(undefined);
   };
 
-  const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_SECONDS);
+  const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_TIME);
 
   return (
     <div className="relative z-10 w-full h-full">
