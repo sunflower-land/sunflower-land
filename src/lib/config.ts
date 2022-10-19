@@ -23,13 +23,8 @@ const FROG_CONTRACT = import.meta.env.VITE_FROG_CONTRACT as string;
 const FROG_DONATION = import.meta.env.VITE_FROG_DONATION as string;
 const BUMPKIN_DETAILS_CONTRACT = import.meta.env
   .VITE_BUMPKIN_DETAILS_CONTRACT as string;
-<<<<<<< HEAD
-const BUMPKIN_MINTER_CONTRACT = import.meta.env
-  .VITE_BUMPKIN_MINTER_CONTRACT as string;
 const BUMPKIN_ITEMS_CONTRACT = import.meta.env
   .VITE_BUMPKIN_ITEMS_CONTRACT as string;
-=======
->>>>>>> 859dc5f4 (New addresses)
 
 export const CONFIG = {
   NETWORK,
@@ -54,9 +49,5 @@ export const CONFIG = {
   FROG_CONTRACT,
   FROG_DONATION,
   BUMPKIN_DETAILS_CONTRACT,
-<<<<<<< HEAD
-  BUMPKIN_MINTER_CONTRACT,
   BUMPKIN_ITEMS_CONTRACT,
-=======
->>>>>>> 859dc5f4 (New addresses)
 };
