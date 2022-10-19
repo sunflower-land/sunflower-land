@@ -1,21 +1,42 @@
+export type BumpkinBackground = "Farm Background";
+
 export type BumpkinBody =
   | "Beige Farmer Potion"
   | "Light Brown Farmer Potion"
   | "Dark Brown Farmer Potion"
   | "Goblin Potion";
 
-export type BumpkinHair = "Basic Hair" | "Rancher Hair" | "Explorer Hair";
+export type BumpkinHair =
+  | "Basic Hair"
+  | "Rancher Hair"
+  | "Explorer Hair"
+  | "Buzz Cut"
+  | "Parlour Hair"
+  | "Sun spots";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
   | "Yellow Farmer Shirt"
   | "Blue Farmer Shirt"
   | "Chef Apron"
-  | "Warrior Shirt";
+  | "Warrior Shirt"
+  | "Fancy Top"
+  | "Maiden Top"
+  | "SFL T-Shirt";
 
-export type BumpkinTools = "Farmer Pitchfork";
+export type BumpkinEyes =
+  | "Rosy Wide Eyes"
+  | "Rosy Squinted Eyes"
+  | "Rosy Butterfly Eyes";
 
-export type BumpkinShoes = "Black Farmer Boots";
+export type BumpkinMouths = "Wide Smile" | "Wide Smile With Teeth";
+
+export type BumpkinTool = "Farmer Pitchfork" | "Sword" | "Axe";
+
+export type BumpkinShoes =
+  | "Black Farmer Boots"
+  | "Brown Boots"
+  | "Yellow Boots";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -25,26 +46,31 @@ export type BumpkinNecklace =
 
 export type BumpkinHat = "Farmer Hat" | "Chef Hat" | "Warrior Helmet";
 
-export type BumpkinWallpaper = "Farm Background";
-
 export type BumpkinPants =
   | "Farmer Overalls"
   | "Lumberjack Overalls"
   | "Farmer Pants"
-  | "Warrior Pants";
+  | "Warrior Pants"
+  | "Brown Suspenders"
+  | "Fancy Pants"
+  | "Maiden Skirt"
+  | "Peasant Skirt";
 
-export type BumpkinItems =
+export type BumpkinSecondaryTool = "Sunflower Shield";
+
+export type BumpkinItem =
   | BumpkinBody
   | BumpkinHair
   | BumpkinShirt
   | BumpkinPants
-  | BumpkinTools
+  | BumpkinTool
   | BumpkinShoes
   | BumpkinHat
   | BumpkinNecklace
-  | BumpkinWallpaper;
+  | BumpkinSecondaryTool
+  | BumpkinBackground;
 
-export const ITEM_IDS: Record<BumpkinItems, number> = {
+export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Beige Farmer Potion": 1,
   "Light Brown Farmer Potion": 2,
   "Dark Brown Farmer Potion": 3,
@@ -70,30 +96,46 @@ export const ITEM_IDS: Record<BumpkinItems, number> = {
   "Carrot Amulet": 28,
   "Beetroot Amulet": 29,
   "Green Amulet": 30,
-  "Farm Background": 33, // TODO -just testing
+  "Sunflower Shield": 31,
+  "Farm Background": 32,
+  "Fancy Top": 33,
+  "Brown Boots": 34,
+  "Brown Suspenders": 35,
+  "Fancy Pants": 36,
+  "Maiden Skirt": 37,
+  "Maiden Top": 38,
+  "Peasant Skirt": 39,
+  "SFL T-Shirt": 40,
+  "Yellow Boots": 41,
+  "Buzz Cut": 42,
+  "Parlour Hair": 43,
+  Axe: 44,
+  Sword: 45,
+  "Sun spots": 46,
 };
 
 // The reverse of above
-export const ITEM_NAMES: Record<string, BumpkinItems> = Object.assign(
+export const ITEM_NAMES: Record<string, BumpkinItem> = Object.assign(
   {},
   ...Object.entries(ITEM_IDS).map(([a, b]) => ({ [b]: a }))
 );
 
 export const IDS = Object.values(ITEM_IDS);
-export const NAMES = Object.keys(ITEM_IDS) as BumpkinItems[];
+export const NAMES = Object.keys(ITEM_IDS) as BumpkinItem[];
 
 export type BumpkinParts = {
-  background: BumpkinWallpaper;
+  background: BumpkinBackground;
   hair: BumpkinHair;
   body: BumpkinBody;
   shirt: BumpkinShirt;
   pants: BumpkinPants;
   shoes: BumpkinShoes;
-  tool?: BumpkinTools;
+  tool?: BumpkinTool;
+  secondaryTool?: BumpkinSecondaryTool;
   necklace?: BumpkinNecklace;
   hat?: BumpkinHat;
 };
 
 export type BumpkinPart = keyof BumpkinParts;
 
-export type WalletItems = Record<BumpkinItems, number>;
+export type WalletItems = Record<BumpkinItem, number>;
