@@ -1,6 +1,6 @@
 import {
   BumpkinBody,
-  BumpkinItems,
+  BumpkinItem,
   BumpkinPants,
   BumpkinShirt,
   BumpkinHair,
@@ -16,6 +16,7 @@ import goblin from "assets/bumpkins/small/body/goblin.gif";
 // Hair
 import basic from "assets/bumpkins/small/hair/basic.gif";
 import explorer from "assets/bumpkins/small/hair/explorer.gif";
+import rancher from "assets/bumpkins/small/hair/rancher.gif";
 
 // Shirts
 import redFarmerShirt from "assets/bumpkins/small/shirts/red_farmer_shirt.gif";
@@ -37,7 +38,7 @@ import { FeedModal } from "./FeedModal";
 
 const HITS = 2;
 
-const PARTS: Partial<Record<BumpkinItems, string>> = {
+const PARTS: Partial<Record<BumpkinItem, string>> = {
   // Bodies
   "Beige Farmer Potion": lightFarmer,
   "Dark Brown Farmer Potion": darkBrownFarmer,
@@ -47,6 +48,7 @@ const PARTS: Partial<Record<BumpkinItems, string>> = {
   // Hair
   "Basic Hair": basic,
   "Explorer Hair": explorer,
+  "Rancher Hair": rancher,
 
   // Shirts
   "Red Farmer Shirt": redFarmerShirt,
