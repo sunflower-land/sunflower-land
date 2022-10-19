@@ -667,3 +667,8 @@ export const STONE_MINE_STAMINA_COST = 2;
 export const IRON_MINE_STAMINA_COST = 2;
 export const PLANT_STAMINA_COST = 1;
 export const GOLD_MINE_STAMINA_COST = 2;
+
+export const TREE_RECOVERY_TIME = 2 * 60 * 60;
+export const STONE_RECOVERY_TIME = 4 * 60 * 60;
+export const IRON_RECOVERY_TIME = 12 * 60 * 60;
+export const GOLD_RECOVERY_TIME = 24 * 60 * 60;

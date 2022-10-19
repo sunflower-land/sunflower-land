@@ -1,6 +1,9 @@
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
-import { GOLD_MINE_STAMINA_COST } from "features/game/lib/constants";
+import {
+  GOLD_MINE_STAMINA_COST,
+  GOLD_RECOVERY_TIME,
+} from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
@@ -27,8 +30,6 @@ export enum EVENT_ERRORS {
   NO_STAMINA = "You do not have enough stamina",
   NO_BUMPKIN = "You do not have a Bumpkin",
 }
-
-export const GOLD_RECOVERY_TIME = 24 * 60 * 60;
 
 export function mineGold({
   state,

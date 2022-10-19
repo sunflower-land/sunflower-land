@@ -5,13 +5,13 @@ import {
   INITIAL_FARM,
   MAX_STAMINA,
   STONE_MINE_STAMINA_COST,
+  STONE_RECOVERY_TIME,
 } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import {
   getMinedAt,
   LandExpansionStoneMineAction,
   mineStone,
-  STONE_RECOVERY_TIME,
 } from "./stoneMine";
 
 const GAME_STATE: GameState = {

@@ -11,7 +11,7 @@ import dropSheet from "assets/resources/iron/iron_dropped.png";
 import empty from "assets/resources/iron/iron_empty.png";
 import ironOre from "assets/resources/iron_ore.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -20,10 +20,11 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
-import { canMine, IRON_RECOVERY_TIME } from "features/game/events/ironMine";
+import { canMine } from "features/game/events/ironMine";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -34,7 +35,6 @@ interface Props {
 
 export const Iron: React.FC<Props> = ({ rockIndex }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(true);
@@ -53,9 +53,10 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
 
   const tool = "Stone Pickaxe";
   const rock = game.context.state.iron[rockIndex];
-  // Users will need to refresh to chop the tree again
   const mined = !canMine(rock);
   const { setToast } = useContext(ToastContext);
+
+  useUiRefresher({ active: mined });
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -288,7 +289,7 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
             className="absolute"
             style={{
               top: "96px",
-              left: "29px",
+              left: "33px",
             }}
           >
             <ProgressBar percentage={percentage} seconds={timeLeft} />
