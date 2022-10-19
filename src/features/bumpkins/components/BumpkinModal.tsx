@@ -9,7 +9,7 @@ import alert from "assets/icons/expression_alerted.png";
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 
 import { Context } from "features/game/GameProvider";
-import { BumpkinItems, BumpkinParts } from "features/game/types/bumpkin";
+import { BumpkinItem, BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
 import { BUMPKIN_ITEMS } from "../types/BumpkinDetails";
 import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
@@ -47,7 +47,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
   const { body, hair, background, ...wearables } = state.bumpkin
     ?.equipped as BumpkinParts;
 
-  const equippedItems = Object.values(wearables) as BumpkinItems[];
+  const equippedItems = Object.values(wearables) as BumpkinItem[];
 
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);

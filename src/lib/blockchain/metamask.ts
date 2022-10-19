@@ -15,6 +15,7 @@ import { SunflowerFarmers } from "./SunflowerFarmers";
 import { Trader } from "./Trader";
 import { BumpkinMinter } from "./BumpkinMinter";
 import { BumpkinDetails } from "./BumpkinDetails";
+import { BumpkinItems } from "./BumpkinItems";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -28,6 +29,7 @@ export class Metamask {
   private farmMinter: FarmMinter | null = null;
   private bumpkinMinter: BumpkinMinter | null = null;
   private bumpkinDetails: BumpkinDetails | null = null;
+  private bumpkinItems: BumpkinItems | null = null;
   private inventory: Inventory | null = null;
   private pair: Pair | null = null;
   private wishingWell: WishingWell | null = null;
@@ -61,6 +63,10 @@ export class Metamask {
         this.account as string
       );
       this.bumpkinDetails = new BumpkinDetails(
+        this.web3 as Web3,
+        this.account as string
+      );
+      this.bumpkinItems = new BumpkinItems(
         this.web3 as Web3,
         this.account as string
       );
@@ -316,6 +322,10 @@ export class Metamask {
 
   public getBumpkinDetails() {
     return this.bumpkinDetails as BumpkinDetails;
+  }
+
+  public getBumpkinItems() {
+    return this.bumpkinItems as BumpkinItems;
   }
 
   public getSessionManager() {

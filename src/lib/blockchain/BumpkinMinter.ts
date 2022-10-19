@@ -45,14 +45,6 @@ export class BumpkinMinter {
   }): Promise<string> {
     const gasPrice = await estimateGasPrice(this.web3);
 
-    console.log("mint bumpkin", {
-      signature,
-      deadline,
-      fee,
-      farmId,
-      partIds,
-      tokenUri,
-    });
     return new Promise((resolve, reject) => {
       this.contract.methods
         .mintBumpkin(signature, deadline, fee, farmId, partIds, tokenUri)
