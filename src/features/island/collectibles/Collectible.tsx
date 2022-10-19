@@ -15,7 +15,7 @@ import { FarmDog } from "./components/FarmDog";
 import { FarmerBath } from "./components/FarmerBath";
 import { FatChicken } from "./components/FatChicken";
 import { GoblinCrown } from "./components/GoblinCrown";
-
+import { GoldEgg } from "./components/GoldEgg";
 interface Prop {
   name: CollectibleName;
   id: string;
@@ -37,6 +37,7 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Farmer Bath": FarmerBath,
   "Fat Chicken": FatChicken,
   "Goblin Crown": GoblinCrown,
+  "Gold Egg": GoldEgg,
 } as Record<CollectibleName, React.FC>;
 
 export const Collectible: React.FC<Prop> = ({ name, id }) => {
