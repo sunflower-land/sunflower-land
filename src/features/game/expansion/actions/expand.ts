@@ -9,25 +9,7 @@ type Request = {
   token: string;
 };
 
-type Payload = {
-  farmId: number;
-  resourceIds: number[];
-  resourceAmounts: string[];
-  sender: string;
-  sessionId: string;
-  sfl: string;
-  nonce: string;
-  metadata: string;
-  deadline: number;
-  nextSessionId: string;
-};
-
-type Response = {
-  signature: string;
-  payload: Payload;
-};
-
-export async function expandRequest(request: Request): Promise<Response> {
+export async function expandRequest(request: Request) {
   // Call backend expand-land
   const response = await window.fetch(
     `${API_URL}/expand-land/${request.farmId}`,
@@ -59,7 +41,5 @@ export async function expandRequest(request: Request): Promise<Response> {
 export async function expand(request: Request) {
   const response = await expandRequest(request);
 
-  return await metamask
-    .getSessionManager()
-    .expandLand({ ...response.payload, signature: response.signature });
+  return await metamask.getSessionManager().syncProgress(response);
 }

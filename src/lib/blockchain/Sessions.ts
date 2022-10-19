@@ -18,6 +18,14 @@ type ProgressData = {
   tokens: string;
 };
 
+export type LandExpansionData = {
+  nonce: string;
+  metadata: string;
+  sfl: string;
+  resourceIds: number[];
+  resourceAmounts: string[];
+};
+
 export type SyncProgressArgs = {
   signature: string;
   sender: string;
@@ -28,6 +36,7 @@ export type SyncProgressArgs = {
   nextSessionId: string;
   progress: ProgressData;
   fee: string;
+  expansion: LandExpansionData;
 };
 
 export type Recipe = {
@@ -235,10 +244,22 @@ export class SessionManager {
     bumpkinId,
     progress,
     fee,
+    expansion,
   }: SyncProgressArgs): Promise<string> {
     const oldSessionId = await this.getSessionId(farmId);
     const gasPrice = await estimateGasPrice(this.web3);
 
+    console.log({
+      signature,
+      farmId,
+      bumpkinId,
+      deadline,
+      sessionId,
+      nextSessionId,
+      progress,
+      expansion,
+      fee,
+    });
     await new Promise((resolve, reject) => {
       this.contract.methods
         .syncProgress({
@@ -249,6 +270,7 @@ export class SessionManager {
           sessionId,
           nextSessionId,
           progress,
+          expansion,
           fee,
         })
         .send({ from: this.account, value: fee, gasPrice })
