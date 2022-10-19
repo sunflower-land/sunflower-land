@@ -632,6 +632,7 @@ export const EMPTY: GameState = {
     Wood: new Decimal(50),
     Gold: new Decimal(10),
     Stone: new Decimal(10),
+    Carrot: new Decimal("334.119999999999991"),
   },
   chickens: {},
   stock: {},
