@@ -33,6 +33,8 @@ import { Nugget } from "./components/Nugget";
 import { SunflowerRock } from "./components/SunflowerRock";
 import { SunflowerStatue } from "./components/SunflowerStatue";
 import { SunflowerTombstone } from "./components/SunflowerTombstone";
+import { WickerMan } from "./components/WickerMan";
+import { Fountain } from "./components/Fountain";
 
 interface Prop {
   name: CollectibleName;
@@ -73,6 +75,8 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Sunflower Rock": SunflowerRock,
   "Sunflower Statue": SunflowerStatue,
   "Sunflower Tombstone": SunflowerTombstone,
+  "Wicker Man": WickerMan,
+  Fountain,
 } as Record<CollectibleName, React.FC>;
 
 export const Collectible: React.FC<Prop> = ({ name, id }) => {
