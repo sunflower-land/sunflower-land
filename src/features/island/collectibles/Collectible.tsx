@@ -20,6 +20,8 @@ import { Rooster } from "./components/Rooster";
 import { GoblinCrown } from "./components/GoblinCrown";
 import { GoldEgg } from "./components/GoldEgg";
 import { GoldenBonsai } from "./components/GoldenBonsai";
+import { UndeadRooster } from "./components/UndeadRooster";
+import { GoldenCauliflower } from "./components/GoldenCauliflower";
 
 interface Prop {
   name: CollectibleName;
@@ -43,10 +45,12 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Fat Chicken": FatChicken,
   "Rich Chicken": RichChicken,
   Rooster,
+  "Undead Rooster": UndeadRooster,
   "Speed Chicken": SpeedChicken,
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
   "Golden Bonsai": GoldenBonsai,
+  "Golden Cauliflower": GoldenCauliflower,
 } as Record<CollectibleName, React.FC>;
 
 export const Collectible: React.FC<Prop> = ({ name, id }) => {

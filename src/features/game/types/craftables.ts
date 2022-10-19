@@ -169,7 +169,8 @@ export type CollectibleName =
   | TravelingSalesmanItem
   | MutantChicken
   | "War Skull"
-  | "War Tombstone";
+  | "War Tombstone"
+  | "Undead Rooster";
 
 export type ToolName =
   | "Axe"
@@ -1144,6 +1145,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Speed Chicken": { height: 1, width: 1 },
 
   "Victoria Sisters": { height: 2, width: 2 },
+  "Undead Rooster": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
