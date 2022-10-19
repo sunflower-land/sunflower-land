@@ -197,13 +197,17 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
                         canBeLongPressed
                       />
                       <div className="flex flex-col">
-                        <span className="text-sm">{`${selected[itemName]
-                          ?.mul(1 - DELIVERY_FEE / 100)
-                          .toString()} ${itemName}`}</span>
+                        <span className="text-sm">{`${parseFloat(
+                          selected[itemName]
+                            ?.mul(1 - DELIVERY_FEE / 100)
+                            .toFixed(4, Decimal.ROUND_DOWN) as string
+                        )} ${itemName}`}</span>
                         <div className="flex">
-                          <span className="text-xxs">{`${selected[itemName]
-                            ?.mul(DELIVERY_FEE / 100)
-                            .toString()} Goblin fee`}</span>
+                          <span className="text-xxs">{`${parseFloat(
+                            selected[itemName]
+                              ?.mul(DELIVERY_FEE / 100)
+                              .toFixed(4, Decimal.ROUND_DOWN) as string
+                          )} Goblin fee`}</span>
                           <img src={goblinHead} className="w-6 ml-2" />
                         </div>
                       </div>
