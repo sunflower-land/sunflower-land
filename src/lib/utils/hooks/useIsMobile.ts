@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 
 export function detectMobile() {
-  if ("maxTouchPoints" in navigator) {
-    return navigator.maxTouchPoints > 0;
-  }
-
   if (typeof matchMedia !== "undefined") {
     const mediaQuery = matchMedia("(pointer:coarse)");
     if (mediaQuery && mediaQuery.media === "(pointer:coarse)") {
