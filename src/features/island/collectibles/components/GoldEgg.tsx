@@ -9,7 +9,7 @@ export const GoldEgg: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 32}px`,
       }}
-      alt="Chicken Coop"
+      alt="Gold Egg"
     />
   );
 };

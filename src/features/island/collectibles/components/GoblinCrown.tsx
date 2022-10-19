@@ -9,7 +9,7 @@ export const GoblinCrown: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 16}px`,
       }}
-      alt="GoblinCrown"
+      alt="Goblin Crown"
     />
   );
 };
