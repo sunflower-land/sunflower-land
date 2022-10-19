@@ -13,7 +13,7 @@ import rightArrow from "assets/icons/arrow_right.png";
 import { Context } from "features/game/GameProvider";
 import { InitialBumpkinParts } from "features/game/actions/mintBumpkin";
 import { randomInt } from "lib/utils/random";
-import { BumpkinWallpaper } from "features/game/types/bumpkin";
+import { BumpkinBackground } from "features/game/types/bumpkin";
 
 export type LimitedBody =
   | "Beige Farmer Potion"
@@ -39,7 +39,7 @@ type LimitedBumpkinItem =
 interface Bumpkin {
   body: LimitedBody;
   hair: LimitedHair;
-  background: BumpkinWallpaper;
+  background: BumpkinBackground;
   shirt: LimitedShirt;
   pants: LimitedPants;
   shoes: LimitedShoes;
