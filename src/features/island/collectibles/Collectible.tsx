@@ -100,6 +100,8 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   // Flags
   ...flags,
 } as Record<CollectibleName, React.FC>;
+// console.log(flags["Algerian Flag"]({}));
+// console.log(Fountain({}));
 
 export const Collectible: React.FC<Prop> = ({ name, id }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];

@@ -1084,8 +1084,8 @@ const flagsDimension = getKeys(FLAGS).reduce(
   (previous, flagName) => ({
     ...previous,
     [flagName]: {
-      height: 0,
-      width: 0,
+      height: 1,
+      width: 1,
     },
   }),
   {} as Record<Flag, Dimensions>
