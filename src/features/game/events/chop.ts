@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
+import { TREE_RECOVERY_TIME } from "../lib/constants";
 import { GameState, Inventory, InventoryItemName, Tree } from "../types/game";
 
 export enum CHOP_ERRORS {
@@ -9,11 +10,8 @@ export enum CHOP_ERRORS {
   STILL_GROWING = "Tree is still growing",
 }
 
-// 2 hours
-export const TREE_RECOVERY_SECONDS = 2 * 60 * 60;
-
 export function canChop(tree: Tree, now: number = Date.now()) {
-  return now - tree.choppedAt > TREE_RECOVERY_SECONDS * 1000;
+  return now - tree.choppedAt > TREE_RECOVERY_TIME * 1000;
 }
 
 type GetChoppedAtAtgs = {
@@ -29,7 +27,7 @@ function getChoppedAt({ inventory, createdAt }: GetChoppedAtAtgs): number {
     inventory["Apprentice Beaver"]?.gte(1) ||
     inventory["Foreman Beaver"]?.gte(1)
   ) {
-    return createdAt - (TREE_RECOVERY_SECONDS / 2) * 1000;
+    return createdAt - (TREE_RECOVERY_TIME / 2) * 1000;
   }
 
   return createdAt;

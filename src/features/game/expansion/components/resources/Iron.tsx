@@ -13,6 +13,7 @@ import pickaxe from "assets/tools/stone_pickaxe.png";
 import {
   GRID_WIDTH_PX,
   IRON_MINE_STAMINA_COST,
+  IRON_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -23,15 +24,13 @@ import { getTimeLeft } from "lib/utils/time";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { LandExpansionRock } from "features/game/types/game";
-import {
-  IRON_RECOVERY_TIME,
-  MINE_ERRORS,
-} from "features/game/events/landExpansion/ironMine";
+import { MINE_ERRORS } from "features/game/events/landExpansion/ironMine";
 import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
-import { TimeLeftOverlay } from "components/ui/TimeLeftOverlay";
 import { Overlay } from "react-bootstrap";
 import { Label } from "components/ui/Label";
 import { canMine } from "../../lib/utils";
+import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -90,6 +89,8 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
 
   // Users will need to refresh to strike the iron again
   const mined = !canMine(ironRock, IRON_RECOVERY_TIME);
+
+  useUiRefresher({ active: mined });
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -311,8 +312,8 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
           }}
         >
           {overlayRef.current && (
-            <TimeLeftOverlay
-              target={overlayRef.current}
+            <TimeLeftPanel
+              text="Recovers in:"
               timeLeft={timeLeft}
               showTimeLeft={showIronTimeLeft}
             />

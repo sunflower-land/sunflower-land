@@ -14,7 +14,7 @@ export const Balance: React.FC<Props> = ({ balance }) => {
 
   return (
     <InnerPanel className="fixed top-2 right-2 z-50 flex items-center shadow-lg cursor-pointer">
-      <img src={token} className="w-8 img-highlight" />
+      <img src={token} className="w-8" />
       <span
         className="text-white text-sm text-shadow ml-2"
         onMouseEnter={() => setIsShown(true)}

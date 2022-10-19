@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { STONE_MINE_STAMINA_COST } from "features/game/lib/constants";
+import {
+  STONE_MINE_STAMINA_COST,
+  STONE_RECOVERY_TIME,
+} from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import cloneDeep from "lodash.clonedeep";
@@ -22,9 +25,6 @@ type GetMinedAtArgs = {
   skills: Partial<Record<BumpkinSkillName, number>>;
   createdAt: number;
 };
-
-// 4 hours
-export const STONE_RECOVERY_TIME = 4 * 60 * 60;
 
 export function canMine(rock: LandExpansionRock, now: number = Date.now()) {
   const recoveryTime = STONE_RECOVERY_TIME;
