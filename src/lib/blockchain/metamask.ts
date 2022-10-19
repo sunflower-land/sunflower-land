@@ -15,6 +15,7 @@ import { Trader } from "./Trader";
 import { BumpkinDetails } from "./BumpkinDetails";
 import { BumpkinItems } from "./BumpkinItems";
 
+console.log({ CONFIG });
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */

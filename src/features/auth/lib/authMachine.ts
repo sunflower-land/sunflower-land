@@ -6,7 +6,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
 import { communityContracts } from "features/community/lib/communityContracts";
-import { createFarm as createFarmAction } from "../actions/createFarm";
+import { createAccount as createFarmAction } from "../actions/createAccount";
 import { login, Token, decodeToken, removeSession } from "../actions/login";
 import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";

@@ -61,6 +61,14 @@ export class AccountMinter {
   }): Promise<string> {
     const gasPrice = await estimateGasPrice(this.web3);
 
+    console.log({
+      signature,
+      charity,
+      deadline,
+      fee,
+      bumpkinWearableIds,
+      bumpkinTokenUri,
+    });
     return new Promise((resolve, reject) => {
       this.contract.methods
         .mintAccount(
