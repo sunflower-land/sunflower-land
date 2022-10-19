@@ -9,7 +9,7 @@ export const EasterBunny: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 40}px`,
       }}
-      alt="Foreman Beaver"
+      alt="Easter Bunny"
     />
   );
 };

@@ -9,7 +9,7 @@ export const ChickenCoop: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 32}px`,
       }}
-      id={"Chicken Coop"}
+      id="Chicken Coop"
     />
   );
 };
