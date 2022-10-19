@@ -7,7 +7,7 @@ export const WoodyTheBeaver: React.FC = () => {
     <img
       src={woodyTheBeaver}
       style={{
-        width: `${PIXEL_SCALE * 32}px`,
+        width: `${PIXEL_SCALE * 15}px`,
       }}
       alt="Woody the Beaver"
     />
