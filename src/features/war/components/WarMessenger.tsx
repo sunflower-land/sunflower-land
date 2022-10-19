@@ -47,12 +47,10 @@ export const WarMessenger: React.FC<Props> = ({ side }) => {
             <span>War messenger</span>
             <div
               style={{ maxHeight: CONTENT_HEIGHT }}
-              className="overflow-y-auto p-2 divide-brown-600 scrollable"
+              className="overflow-y-auto p-2 mt-2 divide-brown-600 scrollable divide-y-2 divide-dashed divide-brown-600"
             >
               {announcements.map((announcement, index) => (
-                <div className="mb-10" key={index}>
-                  <Announcement key={index} announcement={announcement} />
-                </div>
+                <Announcement key={index} announcement={announcement} />
               ))}
             </div>
           </div>
