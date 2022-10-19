@@ -6,7 +6,7 @@ import dropShadow from "assets/bumpkins/shop/body_dropshadow.png";
 
 import {
   BumpkinItem,
-  BumpkinParts,
+  BumpkinPart,
   BumpkinParts,
 } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEMS } from "features/bumpkins/types/BumpkinDetails";
@@ -53,7 +53,7 @@ export const DynamicNFT: React.FC<Props> = ({
       />
       {getKeys(orderedParts)
         .filter((part) => !!bumpkinParts[part])
-        .map((part: BumpkinParts, index) => (
+        .map((part: BumpkinPart, index) => (
           <img
             key={part}
             src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItem].layerImage}

@@ -32,7 +32,7 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
               isActive={tab === "collection"}
               onClick={() => setTab("collection")}
             >
-              <span className="text-sm text-shadow">Collection</span>
+              <span className="text-sm text-shadow ml-1">Collection</span>
             </Tab>
           </div>
           <img
