@@ -9,6 +9,7 @@ export const MysteriousHead: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 30}px`,
       }}
+      alt="Mysterious Head"
     />
   );
 };
