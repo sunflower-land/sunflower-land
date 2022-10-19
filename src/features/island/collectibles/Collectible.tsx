@@ -39,6 +39,7 @@ import { Gnome } from "./components/Gnome";
 import { Nancy } from "./components/Nancy";
 import { Scarecrow } from "./components/Scarecrow";
 import { Kuebiko } from "./components/Kuebiko";
+import { flags } from "./components/Flags";
 
 interface Prop {
   name: CollectibleName;
@@ -95,6 +96,9 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   Nancy,
   Scarecrow,
   Kuebiko,
+
+  // Flags
+  ...flags,
 } as Record<CollectibleName, React.FC>;
 
 export const Collectible: React.FC<Prop> = ({ name, id }) => {
