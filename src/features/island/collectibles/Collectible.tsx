@@ -11,6 +11,7 @@ import { ForemanBeaver } from "./components/ForemanBeaver";
 import { ChickenCoop } from "./components/ChickenCoop";
 import { EasterBunny } from "./components/EasterBunny";
 import { FarmCat } from "./components/FarmCat";
+import { FarmDog } from "./components/FarmDog";
 
 interface Prop {
   name: CollectibleName;
@@ -29,6 +30,7 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Chicken Coop": ChickenCoop,
   "Easter Bunny": EasterBunny,
   "Farm Cat": FarmCat,
+  "Farm Dog": FarmDog,
 } as Record<CollectibleName, React.FC>;
 
 export const Collectible: React.FC<Prop> = ({ name, id }) => {

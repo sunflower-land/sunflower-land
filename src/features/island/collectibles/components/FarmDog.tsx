@@ -1,15 +1,15 @@
 import React from "react";
 
-import coop from "assets/nfts/chicken_coop.png";
+import farmDog from "assets/nfts/farm_dog.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-export const ChickenCoop: React.FC = () => {
+export const FarmDog: React.FC = () => {
   return (
     <img
-      src={coop}
+      src={farmDog}
       style={{
         width: `${PIXEL_SCALE * 32}px`,
       }}
-      alt="Chicken Coop"
+      alt="Farm Dog"
     />
   );
 };
