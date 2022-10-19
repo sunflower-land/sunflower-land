@@ -11,7 +11,6 @@ import { Token } from "./Token";
 import { toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { SunflowerFarmers } from "./SunflowerFarmers";
 import { Trader } from "./Trader";
 import { BumpkinDetails } from "./BumpkinDetails";
 import { BumpkinItems } from "./BumpkinItems";
@@ -23,7 +22,6 @@ export class Metamask {
   private web3: Web3 | null = null;
 
   private farm: Farm | null = null;
-  private sunflowerFarmers: SunflowerFarmers | null = null;
   private session: SessionManager | null = null;
   private accountMinter: AccountMinter | null = null;
   private bumpkinDetails: BumpkinDetails | null = null;
@@ -38,16 +36,8 @@ export class Metamask {
 
   private async initialiseContracts() {
     try {
-      // this.legacyFarm = new LegacyFarm(
-      //   this.web3 as Web3,
-      //   this.account as string
-      // );
-
       this.farm = new Farm(this.web3 as Web3, this.account as string);
-      this.sunflowerFarmers = new SunflowerFarmers(
-        this.web3 as Web3,
-        this.account as string
-      );
+
       this.session = new SessionManager(
         this.web3 as Web3,
         this.account as string
@@ -296,10 +286,6 @@ export class Metamask {
 
   public getFarm() {
     return this.farm as Farm;
-  }
-
-  public getSunflowerFarmers() {
-    return this.sunflowerFarmers as SunflowerFarmers;
   }
 
   public getInventory() {
