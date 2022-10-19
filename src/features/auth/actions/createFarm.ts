@@ -54,7 +54,7 @@ export async function createFarm({
     captcha,
   });
 
-  await metamask.getFarmMinter().createFarm(transaction);
+  await metamask.getFarmMinter().createAccount(transaction);
 
   const farm = await metamask.getFarm().getNewFarm();
 

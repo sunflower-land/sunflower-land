@@ -6,7 +6,7 @@ const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
 
 const API_URL = import.meta.env.VITE_API_URL;
 const WISHING_WELL_CONTRACT = import.meta.env.VITE_WISHING_WELL_CONTRACT;
-const FARM_MINTER_CONTRACT = import.meta.env.VITE_FARM_MINTER_CONTRACT;
+const ACCOUNT_MINTER_CONTRACT = import.meta.env.ACCOUNT_MINTER_CONTRACT;
 const FARM_CONTRACT = import.meta.env.VITE_FARM_CONTRACT;
 const INVENTORY_CONTRACT = import.meta.env.VITE_INVENTORY_CONTRACT;
 const PAIR_CONTRACT = import.meta.env.VITE_PAIR_CONTRACT;
@@ -23,10 +23,13 @@ const FROG_CONTRACT = import.meta.env.VITE_FROG_CONTRACT as string;
 const FROG_DONATION = import.meta.env.VITE_FROG_DONATION as string;
 const BUMPKIN_DETAILS_CONTRACT = import.meta.env
   .VITE_BUMPKIN_DETAILS_CONTRACT as string;
+<<<<<<< HEAD
 const BUMPKIN_MINTER_CONTRACT = import.meta.env
   .VITE_BUMPKIN_MINTER_CONTRACT as string;
 const BUMPKIN_ITEMS_CONTRACT = import.meta.env
   .VITE_BUMPKIN_ITEMS_CONTRACT as string;
+=======
+>>>>>>> 859dc5f4 (New addresses)
 
 export const CONFIG = {
   NETWORK,
@@ -37,7 +40,7 @@ export const CONFIG = {
   DISCORD_REDIRECT,
 
   WISHING_WELL_CONTRACT,
-  FARM_MINTER_CONTRACT,
+  ACCOUNT_MINTER_CONTRACT,
   FARM_CONTRACT,
   INVENTORY_CONTRACT,
   PAIR_CONTRACT,
@@ -51,6 +54,9 @@ export const CONFIG = {
   FROG_CONTRACT,
   FROG_DONATION,
   BUMPKIN_DETAILS_CONTRACT,
+<<<<<<< HEAD
   BUMPKIN_MINTER_CONTRACT,
   BUMPKIN_ITEMS_CONTRACT,
+=======
+>>>>>>> 859dc5f4 (New addresses)
 };

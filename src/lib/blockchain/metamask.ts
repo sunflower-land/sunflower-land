@@ -3,7 +3,7 @@ import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { SessionManager } from "./Sessions";
 import { Farm } from "./Farm";
-import { FarmMinter } from "./FarmMinter";
+import { AccountMinter } from "./AccountMinter";
 import { Inventory } from "./Inventory";
 import { Pair } from "./Pair";
 import { WishingWell } from "./WishingWell";
@@ -13,7 +13,6 @@ import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { SunflowerFarmers } from "./SunflowerFarmers";
 import { Trader } from "./Trader";
-import { BumpkinMinter } from "./BumpkinMinter";
 import { BumpkinDetails } from "./BumpkinDetails";
 import { BumpkinItems } from "./BumpkinItems";
 
@@ -26,8 +25,7 @@ export class Metamask {
   private farm: Farm | null = null;
   private sunflowerFarmers: SunflowerFarmers | null = null;
   private session: SessionManager | null = null;
-  private farmMinter: FarmMinter | null = null;
-  private bumpkinMinter: BumpkinMinter | null = null;
+  private accountMinter: AccountMinter | null = null;
   private bumpkinDetails: BumpkinDetails | null = null;
   private bumpkinItems: BumpkinItems | null = null;
   private inventory: Inventory | null = null;
@@ -54,11 +52,7 @@ export class Metamask {
         this.web3 as Web3,
         this.account as string
       );
-      this.farmMinter = new FarmMinter(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.bumpkinMinter = new BumpkinMinter(
+      this.accountMinter = new AccountMinter(
         this.web3 as Web3,
         this.account as string
       );
@@ -312,12 +306,8 @@ export class Metamask {
     return this.inventory as Inventory;
   }
 
-  public getFarmMinter() {
-    return this.farmMinter as FarmMinter;
-  }
-
-  public getBumpkinMinter() {
-    return this.bumpkinMinter as BumpkinMinter;
+  public getAccountMinter() {
+    return this.accountMinter as AccountMinter;
   }
 
   public getBumpkinDetails() {

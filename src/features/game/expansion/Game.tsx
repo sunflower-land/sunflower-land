@@ -29,8 +29,6 @@ import { Notifications } from "../components/Notifications";
 import { Announcements } from "features/announcements/Announcement";
 import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
-import { MintingBumpkin } from "features/island/bumpkin/components/MintingBumpkin";
-import { BumpkinMinted } from "features/island/bumpkin/components/BumpkinMinted";
 import { Swarming } from "../components/Swarming";
 import { Helios } from "features/helios/Helios";
 import { Cooldown } from "../components/Cooldown";
@@ -53,8 +51,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   hoarding: true,
   editing: false,
   noBumpkinFound: true,
-  mintingBumpkin: true,
-  bumpkinMinted: true,
   swarming: true,
   coolingDown: true,
   gameRules: true,
@@ -149,8 +145,6 @@ export const Game: React.FC = () => {
           {gameState.matches("hoarding") && <Hoarding />}
           {gameState.matches("swarming") && <Swarming />}
           {gameState.matches("noBumpkinFound") && <NoBumpkin />}
-          {gameState.matches("mintingBumpkin") && <MintingBumpkin />}
-          {gameState.matches("bumpkinMinted") && <BumpkinMinted />}
           {gameState.matches("coolingDown") && <Cooldown />}
           {gameState.matches("gameRules") && <Rules />}
         </Panel>
