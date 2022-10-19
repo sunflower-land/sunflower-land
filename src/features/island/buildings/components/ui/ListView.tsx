@@ -18,8 +18,10 @@ export const ListView: React.FC<{
 }> = ({ state, onClick }) => {
   const { bumpkin, inventory } = state;
 
-  const buildings = getKeys(BUILDINGS).sort((a, b) =>
-    BUILDINGS[a].unlocksAtLevels[0] > BUILDINGS[b].unlocksAtLevels[0] ? 1 : -1
+  const buildings = getKeys(BUILDINGS()).sort((a, b) =>
+    BUILDINGS()[a].unlocksAtLevels[0] > BUILDINGS()[b].unlocksAtLevels[0]
+      ? 1
+      : -1
   );
 
   return (
@@ -28,7 +30,7 @@ export const ListView: React.FC<{
       className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
     >
       {buildings.map((buildingName, index) => {
-        const buildingLevel = BUILDINGS[buildingName].unlocksAtLevels[0];
+        const buildingLevel = BUILDINGS()[buildingName].unlocksAtLevels[0];
         return (
           <div key={index} onClick={() => onClick(buildingName)}>
             <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">

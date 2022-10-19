@@ -18,7 +18,7 @@ export type CraftAction = {
 
 export type CraftableName =
   | LimitedItemName
-  | Tool
+  | ToolName
   | SeedName
   | Food
   | Animal
@@ -168,7 +168,7 @@ export type CollectibleName =
   | "War Skull"
   | "War Tombstone";
 
-export type Tool =
+export type ToolName =
   | "Axe"
   | "Pickaxe"
   | "Stone Pickaxe"
@@ -447,7 +447,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
 });
 
-export const TOOLS: Record<Tool, CraftableItem> = {
+export const TOOLS: Record<ToolName, CraftableItem> = {
   Axe: {
     name: "Axe",
     description: "Used to collect wood",

@@ -1,18 +1,17 @@
 import React, { useContext, useState } from "react";
-
-import firePit from "assets/buildings/kitchen.png";
+import bakery from "assets/buildings/bakery_building.png";
 import classNames from "classnames";
-import { FirePitModal } from "./firePit/FirePitModal";
 import { ConsumableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { CraftingMachineChildProps } from "./WithCraftingMachine";
-import { BuildingProps } from "./Building";
+import { CraftingMachineChildProps } from "../WithCraftingMachine";
+import { BuildingProps } from "../Building";
+import { BakeryModal } from "./BakeryModal";
 import { InventoryItemName } from "features/game/types/game";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
-export const FirePit: React.FC<Props> = ({
+export const Bakery: React.FC<Props> = ({
   buildingId,
   crafting,
   idle,
@@ -25,7 +24,7 @@ export const FirePit: React.FC<Props> = ({
   const { setToast } = useContext(ToastContext);
 
   if (!craftingService || !handleShowCraftingTimer)
-    return <img src={firePit} className="w-full" />;
+    return <img src={bakery} className="w-full" />;
 
   const handleCook = (item: ConsumableName) => {
     craftingService.send({
@@ -82,7 +81,7 @@ export const FirePit: React.FC<Props> = ({
           </div>
         )}
         <img
-          src={firePit}
+          src={bakery}
           className={classNames("w-full", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
@@ -90,7 +89,7 @@ export const FirePit: React.FC<Props> = ({
         />
       </div>
 
-      <FirePitModal
+      <BakeryModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onCook={handleCook}

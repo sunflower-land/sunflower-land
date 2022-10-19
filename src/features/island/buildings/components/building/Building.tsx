@@ -10,11 +10,13 @@ import { FirePit } from "./FirePit";
 import { Bar } from "components/ui/ProgressBar";
 import { WithCraftingMachine } from "./WithCraftingMachine";
 import { Market } from "./market/Market";
-import { Blacksmith } from "./blacksmith/Blacksmith";
+import { WorkBench } from "./workBench/WorkBench";
 import { Tent } from "./tent/Tent";
 import { WaterWell } from "./waterWell/WaterWell";
 import { ChickenHouse } from "./chickenHouse/ChickenHouse";
+import { Bakery } from "./bakery/Bakery";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Prop {
   name: BuildingName;
@@ -36,10 +38,12 @@ export const BUILDING_COMPONENTS: Record<
       <FirePit buildingId={buildingId} />
     </WithCraftingMachine>
   ),
-  Blacksmith: Blacksmith,
-  Bakery: () => null,
-  Oven: () => null,
-  Workbench: () => null,
+  Workbench: WorkBench,
+  Bakery: ({ buildingId, craftingState }: BuildingProps) => (
+    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+      <Bakery buildingId={buildingId} />
+    </WithCraftingMachine>
+  ),
   Market: Market,
   Tent: Tent,
   "Water Well": WaterWell,
@@ -57,6 +61,8 @@ export const Building: React.FC<Prop> = ({
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
   const inProgress = building.readyAt > Date.now();
+
+  useUiRefresher({ active: inProgress });
 
   if (inProgress) {
     const totalSeconds = (building.readyAt - building.createdAt) / 1000;

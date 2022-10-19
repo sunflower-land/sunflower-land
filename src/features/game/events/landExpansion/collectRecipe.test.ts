@@ -94,8 +94,8 @@ describe("collect Recipes", () => {
       state: {
         ...GAME_STATE,
         buildings: {
-          "Fire Pit": [firePit],
-          Blacksmith: [
+          "Fire Pit": [
+            firePit,
             {
               id: "2039",
               coordinates: { x: 1, y: 1 },
@@ -119,8 +119,7 @@ describe("collect Recipes", () => {
           ...firePit,
           crafting: undefined,
         },
-      ],
-      Blacksmith: [
+
         {
           id: "2039",
           coordinates: { x: 1, y: 1 },

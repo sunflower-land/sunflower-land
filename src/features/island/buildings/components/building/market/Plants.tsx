@@ -32,7 +32,7 @@ export const Plants: React.FC = () => {
 
   const inventory = state.inventory;
 
-  const sell = (amount = 1) => {
+  const sell = (amount: Decimal) => {
     gameService.send("item.sell", {
       item: selected.name,
       amount,
@@ -48,11 +48,11 @@ export const Plants: React.FC = () => {
   const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
 
   const handleSellOne = () => {
-    sell(1);
+    sell(new Decimal(1));
   };
 
   const handleSellAll = () => {
-    sell(cropAmount.toNumber());
+    sell(cropAmount);
     showSellAllModal(false);
   };
 
@@ -128,11 +128,12 @@ export const Plants: React.FC = () => {
           <div className="m-auto flex flex-col">
             <span className="text-sm text-center text-shadow">
               Are you sure you want to <br className="hidden md:block" />
-              sell {cropAmount.toNumber()} {selected.name} for{" "}
-              <br className="hidden md:block" />
+              sell {cropAmount.toFixed(4, Decimal.ROUND_DOWN).toString()}{" "}
+              {selected.name} for <br className="hidden md:block" />
               {displaySellPrice(selected)
                 .mul(cropAmount.toNumber())
-                .toNumber()}{" "}
+                .toFixed(4, Decimal.ROUND_DOWN)
+                .toString()}{" "}
               SFL?
             </span>
           </div>

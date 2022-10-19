@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { LEVEL_BRACKETS } from "features/game/lib/level";
+import { BUILDINGS } from "features/game/types/buildings";
 import { INITIAL_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { constructBuilding } from "./constructBuilding";
@@ -74,42 +75,6 @@ describe("Construct building", () => {
         },
       })
     ).not.toThrow("Your Bumpkin does not meet the level requirements");
-  });
-
-  it("does not craft Fire Pit if there is insufficient ingredients", () => {
-    expect(() =>
-      constructBuilding({
-        state: {
-          ...GAME_STATE,
-          bumpkin: {
-            id: 1,
-            experience: 0,
-            stamina: {
-              value: 0,
-              replenishedAt: 0,
-            },
-            equipped: {
-              body: "Light Brown Farmer Potion",
-              hair: "Basic Hair",
-              shirt: "Red Farmer Shirt",
-              pants: "Farmer Pants",
-              shoes: "Black Farmer Boots",
-              background: "Farm Background",
-            },
-            tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
-            skills: {},
-          },
-        },
-        action: {
-          type: "building.constructed",
-          name: "Fire Pit",
-          coordinates: {
-            x: 0,
-            y: 0,
-          },
-        },
-      })
-    ).toThrow("Insufficient ingredient: Wood");
   });
 
   it("crafts a Fire Pit if there is sufficient ingredients", () => {
@@ -378,7 +343,9 @@ describe("Construct building", () => {
         },
       },
     });
-    expect(state.balance).toEqual(new Decimal(99));
+    expect(state.balance).toEqual(
+      new Decimal(100).sub(BUILDINGS().Workbench.sfl)
+    );
   });
 
   it("burns ingredients on construct building", () => {
@@ -389,10 +356,11 @@ describe("Construct building", () => {
         inventory: {
           Wood: new Decimal(20),
           Stone: new Decimal(15),
+          Iron: new Decimal(15),
         },
         bumpkin: {
           id: 1,
-          experience: LEVEL_BRACKETS[2],
+          experience: LEVEL_BRACKETS[8],
           stamina: {
             value: 0,
             replenishedAt: 0,
@@ -412,15 +380,15 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        name: "Workbench",
+        name: "Bakery",
         coordinates: {
           x: 1,
           y: 2,
         },
       },
     });
-    expect(state.inventory["Wood"]).toEqual(new Decimal(15));
-    expect(state.inventory["Stone"]).toEqual(new Decimal(10));
+    expect(state.inventory["Wood"]).toEqual(new Decimal(10));
+    expect(state.inventory["Stone"]).toEqual(new Decimal(5));
   });
 
   it("constructs multiple Fire Pits", () => {

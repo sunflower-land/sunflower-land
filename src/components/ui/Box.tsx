@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
+import { Label } from "./Label";
 import darkBorder from "assets/ui/panel/dark_border.png";
 import selectBox from "assets/ui/select/select_box.png";
-import { Label } from "./Label";
 import timer from "assets/icons/timer.png";
 import cancel from "assets/icons/cancel.png";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
@@ -71,7 +71,7 @@ export const Box: React.FC<BoxProps> = ({
   return (
     <div
       className={`relative ${className}`}
-      onMouseEnter={() => setIsHover(!isMobile)}
+      onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
       <div
@@ -151,7 +151,7 @@ export const Box: React.FC<BoxProps> = ({
         )}
       </div>
 
-      {(isSelected || isHover) && !locked && !disabled && (
+      {(isSelected || (isHover && !isMobile)) && !locked && !disabled && (
         <img
           className="absolute w-14 h-14 top-0.5 left-0.5 pointer-events-none"
           src={selectBox}
