@@ -14,6 +14,7 @@ import { FarmCat } from "./components/FarmCat";
 import { FarmDog } from "./components/FarmDog";
 import { FarmerBath } from "./components/FarmerBath";
 import { FatChicken } from "./components/FatChicken";
+import { RichChicken } from "./components/RichChicken";
 import { GoblinCrown } from "./components/GoblinCrown";
 import { GoldEgg } from "./components/GoldEgg";
 import { GoldenBonsai } from "./components/GoldenBonsai";
@@ -38,6 +39,7 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Farm Dog": FarmDog,
   "Farmer Bath": FarmerBath,
   "Fat Chicken": FatChicken,
+  "Rich Chicken": RichChicken,
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
   "Golden Bonsai": GoldenBonsai,
