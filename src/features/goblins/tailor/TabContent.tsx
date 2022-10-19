@@ -14,6 +14,7 @@ import {
   loadCollection,
   loadCurrentAndUpcomingDrops,
 } from "./actions/items";
+import classNames from "classnames";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -53,6 +54,13 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
 
     loadItems();
   }, []);
+
+  useEffect(() => {
+    console.log("setting");
+    const items = tab === "collection" ? collection : upcoming;
+
+    setSelected(items[0]);
+  }, [tab, collection, upcoming]);
 
   const items = tab === "collection" ? collection : upcoming;
 
@@ -109,39 +117,26 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
 
     return (
       <>
+        <span className="bg-blue-600 border text-xxs absolute left-0 -top-5 p-1 rounded-md">
+          {mintIsLive
+            ? "Available now on Bumpkins.io"
+            : `Released: ${new Date(releaseDate).toLocaleString([], {
+                dateStyle: "short",
+                timeStyle: "short",
+                hour12: true,
+              })}`}
+        </span>
         <span className="text-shadow text-center text-xs leading-5">
           {BUMPKIN_ITEMS[selected.name].description}
         </span>
         <div className="border-t border-white w-full mt-2 pt-2 text-center">
-          <span className="text-shadow text-center mt-2 text-xxs sm:text-xs">
-            {mintIsLive
-              ? "Minting is currently live on Bumpkins.io"
-              : "This wearable will be available to mint on Bumpkins.io"}
-          </span>
           <div className="flex justify-center items-end my-1">
-            <img src={token} className="h-5 mr-1" />
-            <span className="text-xs sm:text-sm text-shadow text-center mt-2">
+            <img src={token} className="h-4 mr-1" />
+            <span className="text-xs sm:text-sm text-shadow text-center">
               {`$${selected.currentRelease?.price}`}
             </span>
           </div>
         </div>
-        {!mintIsLive && (
-          <div className="flex flex-col items-center w-full mb-2">
-            <span className="text-shadow text-xxs text-center mt-2 sm:text-xs">
-              {`Release Date: ${new Date(releaseDate).toLocaleDateString()}`}
-            </span>
-            <span className="text-shadow text-xxs text-center mt-2 sm:text-xs">
-              {`Release Time: ${new Date(releaseDate).toLocaleTimeString(
-                "en-US",
-                {
-                  hour: "numeric",
-                  minute: "numeric",
-                  hour12: true,
-                }
-              )}`}
-            </span>
-          </div>
-        )}
         <Button className="text-xs mt-1" onClick={goToUpcomingDrops}>
           Go to Bumpkins.io
         </Button>
@@ -152,13 +147,20 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
   return (
     <div className="flex flex-col">
       <OuterPanel className="flex-1 w-full flex flex-col justify-between items-center">
-        <div className="flex flex-col justify-center items-center p-2 relative w-full">
+        <div
+          className={classNames(
+            "flex flex-col justify-center items-center p-2 relative w-full",
+            {
+              "mt-2": tab === "upcoming-drops",
+            }
+          )}
+        >
           <span className="text-shadow text-center text-sm">
             {selected.name}
           </span>
           <img
             src={BUMPKIN_ITEMS[selected.name].shopImage}
-            className="h-8 my-3"
+            className="h-8 my-2"
             alt={selected.name}
           />
           {PanelDetail()}
