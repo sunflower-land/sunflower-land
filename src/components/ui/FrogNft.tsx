@@ -2,17 +2,15 @@ import React, { useEffect, useState } from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-import { frogAudio } from "lib/utils/sfx";
+import { frogSounds } from "lib/utils/sfx";
 import { Frog, loadFrogs } from "features/community/merchant/actions/loadFrogs";
 
 export const FrogNft: React.FC = () => {
   const [frogData, setFrogData] = useState<Frog[]>([]);
 
-  const open = () => {
-    //Checks if frogAudio is playing, if false, plays the sound
-    if (!frogAudio.playing()) {
-      frogAudio.play();
-    }
+  const playSound = () => {
+    const rndIndex = Math.floor(Math.random() * frogSounds.length);
+    frogSounds[rndIndex].play();
   };
 
   useEffect(() => {
@@ -40,7 +38,7 @@ export const FrogNft: React.FC = () => {
               <img
                 src={frog.pixel_image}
                 className="hover:img-highlight cursor-pointer z-10"
-                onClick={open}
+                onClick={playSound}
                 style={{
                   width: `${GRID_WIDTH_PX * 2}px`,
                 }}
