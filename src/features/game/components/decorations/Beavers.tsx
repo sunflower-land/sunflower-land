@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import { GRID_WIDTH_PX } from "../../lib/constants";
+import { PIXEL_SCALE } from "../../lib/constants";
 import { Inventory } from "../../types/game";
 import { Panel } from "components/ui/Panel";
 
@@ -17,7 +17,7 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
       <>
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 1.2}px`,
+            width: `${PIXEL_SCALE * 15}px`,
           }}
           className="hover:img-highlight cursor-pointer"
           src={foreman}
@@ -48,7 +48,7 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
       <>
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 1.2}px`,
+            width: `${PIXEL_SCALE * 15}px`,
           }}
           src={apprentice}
           alt="Apprentice Beaver"
@@ -78,7 +78,7 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
     return (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.2}px`,
+          width: `${PIXEL_SCALE * 15}px`,
         }}
         src={beaver}
         alt="Woody the Beaver"

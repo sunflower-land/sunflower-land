@@ -224,8 +224,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     <div
       className="flex justify-center absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 2}px`,
-        right: `${GRID_WIDTH_PX * 24}px`,
+        right: `${GRID_WIDTH_PX * 24.3}px`,
         top: `${GRID_WIDTH_PX * 49}px`,
       }}
       id={Section.Beaver}
