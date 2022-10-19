@@ -38,6 +38,7 @@ import { Fountain } from "./components/Fountain";
 import { Gnome } from "./components/Gnome";
 import { Nancy } from "./components/Nancy";
 import { Scarecrow } from "./components/Scarecrow";
+import { Kuebiko } from "./components/Kuebiko";
 
 interface Prop {
   name: CollectibleName;
@@ -49,11 +50,16 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "War Skull": WarSkulls,
   "War Tombstone": WarTombstone,
   "Christmas Tree": ChristmasTree,
+
+  // Beavers
   "Woody the Beaver": WoodyTheBeaver,
   "Apprentice Beaver": ApprenticeBeaver,
   "Foreman Beaver": ForemanBeaver,
+
   "Chicken Coop": ChickenCoop,
   "Easter Bunny": EasterBunny,
+
+  // Animals
   "Farm Cat": FarmCat,
   "Farm Dog": FarmDog,
   "Farmer Bath": FarmerBath,
@@ -62,6 +68,7 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   Rooster,
   "Undead Rooster": UndeadRooster,
   "Speed Chicken": SpeedChicken,
+
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
   "Golden Bonsai": GoldenBonsai,
@@ -71,17 +78,23 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Potato Statue": PotatoStatue,
   "Nyon Statue": NyonStatue,
   "Rock Golem": RockGolem,
+
+  // Moles
   "Rocky the Mole": RockyTheMole,
   "Tunnel Mole": TunnelMole,
   Nugget,
+
   "Sunflower Rock": SunflowerRock,
   "Sunflower Statue": SunflowerStatue,
   "Sunflower Tombstone": SunflowerTombstone,
   "Wicker Man": WickerMan,
   Fountain,
   Gnome,
+
+  // Scarecrows
   Nancy,
   Scarecrow,
+  Kuebiko,
 } as Record<CollectibleName, React.FC>;
 
 export const Collectible: React.FC<Prop> = ({ name, id }) => {
