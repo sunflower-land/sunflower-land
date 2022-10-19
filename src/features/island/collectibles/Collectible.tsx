@@ -4,6 +4,9 @@ import { CollectibleName } from "features/game/types/craftables";
 import { MysteriousHead } from "./components/MysteriousHead";
 import { WarSkulls } from "./components/WarSkulls";
 import { WarTombstone } from "./components/WarTombstone";
+import { ChristmasTree } from "./components/ChristmasTree";
+import { ApprenticeBeaver } from "./components/ApprenticeBeaver";
+import { WoodyTheBeaver } from "./components/WoodyTheBeaver";
 
 interface Prop {
   name: CollectibleName;
@@ -15,6 +18,9 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Mysterious Head": MysteriousHead,
   "War Skull": WarSkulls,
   "War Tombstone": WarTombstone,
+  "Christmas Tree": ChristmasTree,
+  "Woody the Beaver": WoodyTheBeaver,
+  "Apprentice Beaver": ApprenticeBeaver,
 } as Record<CollectibleName, React.FC>;
 
 export const Collectible: React.FC<Prop> = ({ name, id }) => {
