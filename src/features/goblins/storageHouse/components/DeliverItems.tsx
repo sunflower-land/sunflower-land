@@ -199,10 +199,12 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
                       <div className="flex flex-col">
                         <span className="text-sm">{`${selected[itemName]
                           ?.mul(1 - DELIVERY_FEE / 100)
+                          .toFixed(4, Decimal.ROUND_DOWN)
                           .toString()} ${itemName}`}</span>
                         <div className="flex">
                           <span className="text-xxs">{`${selected[itemName]
                             ?.mul(DELIVERY_FEE / 100)
+                            .toFixed(4, Decimal.ROUND_DOWN)
                             .toString()} Goblin fee`}</span>
                           <img src={goblinHead} className="w-6 ml-2" />
                         </div>
