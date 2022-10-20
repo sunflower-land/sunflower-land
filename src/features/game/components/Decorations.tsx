@@ -235,7 +235,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Homeless Tent"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
+          width: `${GRID_WIDTH_PX * 1.9}px`,
           right: `${GRID_WIDTH_PX * 34.5}px`,
           top: `${GRID_WIDTH_PX * 31}px`,
         }}
