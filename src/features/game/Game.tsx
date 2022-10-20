@@ -26,7 +26,7 @@ import { StateValues } from "./lib/gameMachine";
 import { Town } from "features/farming/town/Town";
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
-import { House } from "features/farming/house/House";
+//import { House } from "features/farming/house/House";
 import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
 import { screenTracker } from "lib/utils/screen";
@@ -40,8 +40,10 @@ import { CommunityGardenEntry } from "features/farming/town/components/Community
 import { Swarming } from "./components/Swarming";
 import { Cooldown } from "./components/Cooldown";
 import { Rules } from "./components/Rules";
+//Events
 import { HalloweenAnimals } from "features/halloween/farming/animals/Animals";
 import { HalloweenQuarry } from "features/halloween/quarry/Quarry";
+import { HalloweenHouse } from "features/halloween/house/House";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -139,7 +141,7 @@ export const Game: React.FC = () => {
       <Forest />
       <HalloweenQuarry />
       <Town />
-      <House
+      <HalloweenHouse
         state={gameState.context.state}
         playerCanLevelUp={gameState.matches("levelling")}
         isFarming
