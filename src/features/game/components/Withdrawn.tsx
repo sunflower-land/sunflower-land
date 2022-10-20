@@ -33,7 +33,7 @@ export const Withdrawn: React.FC = () => {
             target="_blank"
             rel="noreferrer"
           >
-            Open Sea
+            OpenSea
           </a>
         </span>
 
@@ -44,7 +44,7 @@ export const Withdrawn: React.FC = () => {
           Import SFL Token to MetaMask
         </Button>
         <span className="mb-4">
-          Please note that Open Sea can take up to 30 minutes to display your
+          Please note that OpenSea can take up to 30 minutes to display your
           items. You can also view your items on{" "}
           <a
             className="underline hover:text-white"
