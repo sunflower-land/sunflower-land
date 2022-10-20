@@ -3,10 +3,10 @@ import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import debounce from "lodash.debounce";
 
-import halloweenHungryChicken from "assets/animals/chickens/hungry.gif";
+import halloweenHungryChicken from "assets/events/halloween/assets/animals/chickens/hungry.gif";
 import halloweenHappyChicken from "assets/events/halloween/assets/animals/chickens/happy.gif";
 import walkingChickenSheet from "assets/animals/chickens/walking_sheet.png";
-import sleepingChicken from "assets/animals/chickens/sleeping.gif";
+import halloweenSleepingChicken from "assets/events/halloween/assets/animals/chickens/sleeping.gif";
 import layingEggSheet from "assets/animals/chickens/laying-egg-sheet.png";
 import wheatOnGround from "assets/animals/chickens/wheat.png";
 import cancel from "assets/icons/cancel.png";
@@ -34,6 +34,8 @@ import { MutantChickenModal } from "src/features/farming/animals/components/Muta
 import { MutantChicken } from "features/game/types/craftables";
 import { ChickenPosition } from "features/game/types/game";
 import { getWheatRequiredToFeed } from "features/game/events/feedChicken";
+
+// @TODO CHICKEN SPRITESHEETs
 
 interface Props {
   index: number;
@@ -283,7 +285,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
           <img
             onMouseEnter={debouncedHandleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            src={sleepingChicken}
+            src={halloweenSleepingChicken}
             alt="sleeping-chicken"
             className="absolute w-16 h-16 top-[2px]"
           />
