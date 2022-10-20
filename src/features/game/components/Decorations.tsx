@@ -285,7 +285,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Easter Bunny"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2.5}px`,
+          width: `${PIXEL_SCALE * 37}px`,
           right: `${GRID_WIDTH_PX * 49}px`,
           top: `${GRID_WIDTH_PX * 24}px`,
         }}

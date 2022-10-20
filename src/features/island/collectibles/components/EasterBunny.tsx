@@ -7,8 +7,10 @@ export const EasterBunny: React.FC = () => {
     <img
       src={easterBunny}
       style={{
-        width: `${PIXEL_SCALE * 40}px`,
+        width: `${PIXEL_SCALE * 37}px`,
+        bottom: `${PIXEL_SCALE}px`,
       }}
+      className="absolute"
       alt="Easter Bunny"
     />
   );
