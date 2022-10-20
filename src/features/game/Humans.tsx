@@ -9,7 +9,6 @@ import { Game } from "./Game";
 import { GameProvider } from "./GameProvider";
 import { ToastProvider } from "./toast/ToastQueueProvider";
 import mapMovement from "./lib/mapMovement";
-import { ExpansionInfo } from "./expansion/ExpansionInfo";
 import { useParams } from "react-router-dom";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useActor } from "@xstate/react";
@@ -62,7 +61,7 @@ export const Humans: React.FC = () => {
               src={halloweenBackground}
               className="absolute inset-0 w-full h-full"
             />
-            <ExpansionInfo />
+            {/*<ExpansionInfo/>*/}
             <Game />
           </div>
         </ScrollContainer>

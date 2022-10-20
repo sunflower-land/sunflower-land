@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
-import coop from "assets/nfts/chicken_coop.png";
+import coop from "assets/events/halloween/assets/nfts/chicken_coop.png";
 import speedChicken from "assets/events/halloween/assets/animals/chickens/speed_chicken.gif";
 import richChicken from "assets/events/halloween/assets/animals/chickens//rich_chicken.gif";
 import fatChicken from "assets/events/halloween/assets/animals/chickens/fat_chicken.gif";

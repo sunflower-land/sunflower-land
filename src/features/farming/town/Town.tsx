@@ -1,8 +1,8 @@
 import React from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { Bakery } from "features/farming/bakery/Bakery";
-import { CakeStall } from "features/farming/cakeStall/CakeStall";
+//import { Bakery } from "features/farming/bakery/Bakery";
+//import { CakeStall } from "features/farming/cakeStall/CakeStall";
 import { Blacksmith } from "features/farming/blacksmith/Blacksmith";
 import { Shop } from "features/farming/shop/Shop";
 import { Mail } from "features/farming/mail/Mail";
@@ -11,6 +11,9 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { GoblinVillageEntry } from "./components/GoblinVillageEntry";
 import { TownHall } from "../townHall/TownHall";
 import { Salesman } from "../salesman/Salesman";
+//events
+import { HalloweenBakery } from "features/halloween/bakery/Bakery";
+import { HalloweenCakeStall } from "features/halloween/cakeStall/CakeStall";
 
 export const Town: React.FC = () => {
   return (
@@ -26,8 +29,8 @@ export const Town: React.FC = () => {
       }}
     >
       <Shop />
-      <Bakery />
-      <CakeStall />
+      <HalloweenBakery />
+      <HalloweenCakeStall />
       <Blacksmith />
       <Mail />
       <TownHall />
