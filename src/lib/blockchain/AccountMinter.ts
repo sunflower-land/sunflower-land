@@ -1,28 +1,28 @@
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
-import FarmMinterABI from "./abis/FarmMinter.json";
-import { SunflowerLandFarmMinter } from "./types/SunflowerLandFarmMinter";
+import MinterABI from "./abis/AccountMinter.json";
+import { AccountMinter as IAccountMinter } from "./types/AccountMinter";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
-const address = CONFIG.FARM_MINTER_CONTRACT;
+const address = CONFIG.ACCOUNT_MINTER_CONTRACT;
 
 /**
- * Farm minter contract
+ * Account minter contract
  */
-export class FarmMinter {
+export class AccountMinter {
   private web3: Web3;
   private account: string;
 
-  private contract: SunflowerLandFarmMinter;
+  private contract: IAccountMinter;
 
   constructor(web3: Web3, account: string) {
     this.web3 = web3;
     this.account = account;
     this.contract = new this.web3.eth.Contract(
-      FarmMinterABI as AbiItem[],
+      MinterABI as AbiItem[],
       address as string
-    ) as unknown as SunflowerLandFarmMinter;
+    ) as unknown as IAccountMinter;
   }
 
   public async getCreatedAt(address: string, attempts = 1): Promise<number> {
@@ -44,22 +44,41 @@ export class FarmMinter {
     }
   }
 
-  public async createFarm({
+  public async createAccount({
     signature,
     charity,
     deadline,
     fee,
+    bumpkinWearableIds,
+    bumpkinTokenUri,
   }: {
     signature: string;
     charity: string;
     deadline: number;
     fee: string;
+    bumpkinWearableIds: number[];
+    bumpkinTokenUri: string;
   }): Promise<string> {
     const gasPrice = await estimateGasPrice(this.web3);
 
+    console.log({
+      signature,
+      charity,
+      deadline,
+      fee,
+      bumpkinWearableIds,
+      bumpkinTokenUri,
+    });
     return new Promise((resolve, reject) => {
       this.contract.methods
-        .createFarm(signature, charity, deadline, fee)
+        .mintAccount(
+          signature,
+          charity,
+          deadline,
+          fee,
+          bumpkinWearableIds,
+          bumpkinTokenUri
+        )
         .send({ from: this.account, value: fee, gasPrice })
         .on("error", function (error: any) {
           console.log({ error });

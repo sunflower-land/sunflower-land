@@ -40,7 +40,6 @@ import { checkProgress, processEvent } from "./processEvent";
 import { editingMachine } from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
-import { InitialBumpkinParts, mintBumpkin } from "../actions/mintBumpkin";
 import { isSwarming } from "../events/detectBot";
 
 export type PastAction = GameEvent & {
@@ -94,11 +93,6 @@ type EditEvent = {
   type: "EDIT";
 };
 
-type MintBumpkinEvent = {
-  type: "MINT_BUMPKIN";
-  parts: InitialBumpkinParts;
-};
-
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -124,7 +118,6 @@ export type BlockchainEvent =
   | MintEvent
   | LevelUpEvent
   | EditEvent
-  | MintBumpkinEvent
   | { type: "EXPAND" };
 
 // // For each game event, convert it to an XState event + handler
@@ -216,8 +209,6 @@ export type BlockchainState = {
     | "hoarding"
     | "editing"
     | "noBumpkinFound"
-    | "mintingBumpkin"
-    | "bumpkinMinted"
     | "coolingDown";
   context: Context;
 };
@@ -375,20 +366,7 @@ export function startGame(authContext: Options) {
             },
           ],
         },
-        noBumpkinFound: {
-          on: {
-            MINT_BUMPKIN: {
-              target: "mintingBumpkin",
-            },
-          },
-        },
-        bumpkinMinted: {
-          on: {
-            CONTINUE: {
-              target: "loading",
-            },
-          },
-        },
+        noBumpkinFound: {},
         deposited: {
           on: {
             ACKNOWLEDGE: {
@@ -628,26 +606,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        mintingBumpkin: {
-          invoke: {
-            src: async (_, event) => {
-              await mintBumpkin({
-                farmId: Number(authContext.farmId),
-                token: authContext.rawToken as string,
-                bumpkinParts: (event as MintBumpkinEvent).parts,
-              });
-            },
-            onDone: {
-              target: "bumpkinMinted",
-            },
-            onError: [
-              {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            ],
-          },
-        },
+
         refreshing: {
           invoke: {
             src: async (context, event) => {

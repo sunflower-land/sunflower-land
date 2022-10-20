@@ -37,7 +37,7 @@ export const Cakes: React.FC = () => {
   const sell = () => {
     gameService.send("item.sell", {
       item: selected,
-      amount: 1,
+      amount: new Decimal(1),
     });
 
     setToast({
@@ -102,7 +102,7 @@ export const Cakes: React.FC = () => {
               className="text-xs mt-1"
               onClick={openConfirmationModal}
             >
-              Sell
+              Sell 1
             </Button>
           )}
         </div>

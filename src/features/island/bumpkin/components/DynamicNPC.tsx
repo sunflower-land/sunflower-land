@@ -14,18 +14,19 @@ import yellowShirtSheet from "assets/bumpkins/small/shirts/yellow_farmer_shirt_s
 import blueShirtSheet from "assets/bumpkins/small/shirts/blue_farmer_shirt_sheet.png";
 import farmerPantsSheet from "assets/bumpkins/small/pants/farmer_pants_sheet.png";
 import shadow from "assets/npcs/shadow.png";
+
 import {
-  LimitedBody,
-  LimitedHair,
-  LimitedShirt,
-  LimitedPants,
-} from "../BumpkinBuilder";
+  BumpkinBody,
+  BumpkinHair,
+  BumpkinPants,
+  BumpkinShirt,
+} from "features/game/types/bumpkin";
 
 type LimitedBumpkinItem =
-  | LimitedBody
-  | LimitedHair
-  | LimitedShirt
-  | LimitedPants;
+  | BumpkinBody
+  | BumpkinHair
+  | BumpkinShirt
+  | BumpkinPants;
 
 const PARTS: Record<LimitedBumpkinItem, string> = {
   "Beige Farmer Potion": beigeBodySheet,
@@ -38,13 +39,15 @@ const PARTS: Record<LimitedBumpkinItem, string> = {
   "Yellow Farmer Shirt": yellowShirtSheet,
   "Blue Farmer Shirt": blueShirtSheet,
   "Farmer Pants": farmerPantsSheet,
-};
+
+  // TODO - all of the NPC parts
+} as Record<LimitedBumpkinItem, string>;
 
 interface Props {
-  body: LimitedBody;
-  hair: LimitedHair;
-  shirt: LimitedShirt;
-  pants: LimitedPants;
+  body: BumpkinBody;
+  hair: BumpkinHair;
+  shirt: BumpkinShirt;
+  pants: BumpkinPants;
 }
 
 const FRAME_WIDTH = 180 / 9;

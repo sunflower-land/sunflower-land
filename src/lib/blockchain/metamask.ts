@@ -3,7 +3,7 @@ import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { SessionManager } from "./Sessions";
 import { Farm } from "./Farm";
-import { FarmMinter } from "./FarmMinter";
+import { AccountMinter } from "./AccountMinter";
 import { Inventory } from "./Inventory";
 import { Pair } from "./Pair";
 import { WishingWell } from "./WishingWell";
@@ -11,11 +11,11 @@ import { Token } from "./Token";
 import { toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { SunflowerFarmers } from "./SunflowerFarmers";
 import { Trader } from "./Trader";
-import { BumpkinMinter } from "./BumpkinMinter";
 import { BumpkinDetails } from "./BumpkinDetails";
+import { BumpkinItems } from "./BumpkinItems";
 
+console.log({ CONFIG });
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
@@ -23,11 +23,10 @@ export class Metamask {
   private web3: Web3 | null = null;
 
   private farm: Farm | null = null;
-  private sunflowerFarmers: SunflowerFarmers | null = null;
   private session: SessionManager | null = null;
-  private farmMinter: FarmMinter | null = null;
-  private bumpkinMinter: BumpkinMinter | null = null;
+  private accountMinter: AccountMinter | null = null;
   private bumpkinDetails: BumpkinDetails | null = null;
+  private bumpkinItems: BumpkinItems | null = null;
   private inventory: Inventory | null = null;
   private pair: Pair | null = null;
   private wishingWell: WishingWell | null = null;
@@ -38,29 +37,21 @@ export class Metamask {
 
   private async initialiseContracts() {
     try {
-      // this.legacyFarm = new LegacyFarm(
-      //   this.web3 as Web3,
-      //   this.account as string
-      // );
-
       this.farm = new Farm(this.web3 as Web3, this.account as string);
-      this.sunflowerFarmers = new SunflowerFarmers(
-        this.web3 as Web3,
-        this.account as string
-      );
+
       this.session = new SessionManager(
         this.web3 as Web3,
         this.account as string
       );
-      this.farmMinter = new FarmMinter(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.bumpkinMinter = new BumpkinMinter(
+      this.accountMinter = new AccountMinter(
         this.web3 as Web3,
         this.account as string
       );
       this.bumpkinDetails = new BumpkinDetails(
+        this.web3 as Web3,
+        this.account as string
+      );
+      this.bumpkinItems = new BumpkinItems(
         this.web3 as Web3,
         this.account as string
       );
@@ -298,24 +289,20 @@ export class Metamask {
     return this.farm as Farm;
   }
 
-  public getSunflowerFarmers() {
-    return this.sunflowerFarmers as SunflowerFarmers;
-  }
-
   public getInventory() {
     return this.inventory as Inventory;
   }
 
-  public getFarmMinter() {
-    return this.farmMinter as FarmMinter;
-  }
-
-  public getBumpkinMinter() {
-    return this.bumpkinMinter as BumpkinMinter;
+  public getAccountMinter() {
+    return this.accountMinter as AccountMinter;
   }
 
   public getBumpkinDetails() {
     return this.bumpkinDetails as BumpkinDetails;
+  }
+
+  public getBumpkinItems() {
+    return this.bumpkinItems as BumpkinItems;
   }
 
   public getSessionManager() {

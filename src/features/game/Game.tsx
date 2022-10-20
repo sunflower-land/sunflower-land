@@ -58,8 +58,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   hoarding: true,
   editing: false,
   noBumpkinFound: false,
-  mintingBumpkin: false,
-  bumpkinMinted: false,
   swarming: true,
   coolingDown: true,
   gameRules: true,

@@ -5,7 +5,7 @@ import { getKeys } from "features/game/types/craftables";
 import dropShadow from "assets/bumpkins/shop/body_dropshadow.png";
 
 import {
-  BumpkinItems,
+  BumpkinItem,
   BumpkinPart,
   BumpkinParts,
 } from "features/game/types/bumpkin";
@@ -56,7 +56,7 @@ export const DynamicNFT: React.FC<Props> = ({
         .map((part: BumpkinPart, index) => (
           <img
             key={part}
-            src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItems].layerImage}
+            src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItem].layerImage}
             style={{
               zIndex: index * 10,
             }}

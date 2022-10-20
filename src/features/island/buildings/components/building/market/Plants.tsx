@@ -128,12 +128,13 @@ export const Plants: React.FC = () => {
           <div className="m-auto flex flex-col">
             <span className="text-sm text-center text-shadow">
               Are you sure you want to <br className="hidden md:block" />
-              sell {cropAmount.toFixed(4, Decimal.ROUND_DOWN).toString()}{" "}
+              sell {parseFloat(cropAmount.toFixed(4, Decimal.ROUND_DOWN))}{" "}
               {selected.name} for <br className="hidden md:block" />
-              {displaySellPrice(selected)
-                .mul(cropAmount.toNumber())
-                .toFixed(4, Decimal.ROUND_DOWN)
-                .toString()}{" "}
+              {parseFloat(
+                displaySellPrice(selected)
+                  .mul(cropAmount.toNumber())
+                  .toFixed(4, Decimal.ROUND_DOWN)
+              )}{" "}
               SFL?
             </span>
           </div>

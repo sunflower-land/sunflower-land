@@ -1,43 +1,38 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import close from "assets/icons/close.png";
-import flag from "assets/nfts/flags/sunflower_flag.gif";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import { FLAGS } from "features/game/types/craftables";
-import { Rare } from "features/goblins/Rare";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GoblinProvider";
-import { LimitedItemType } from "features/game/types";
+import { TabContent } from "./TabContent";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { goblinService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(goblinService);
-  const [tab, setTab] = useState<"flags">("flags");
+export type Tab = "upcoming-drops" | "collection";
 
-  const maxFlags =
-    Object.values(FLAGS).filter((flag) => flag.name in state.inventory)
-      .length === 3;
+export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
+  const [tab, setTab] = useState<Tab>("upcoming-drops");
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
       <Panel className="pt-5 relative">
         <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
           <div className="flex">
-            <Tab isActive={tab === "flags"} onClick={() => setTab("flags")}>
-              <img src={flag} className="h-5 mr-2" />
-              <span className="text-sm text-shadow">Flags</span>
+            <Tab
+              isActive={tab === "upcoming-drops"}
+              onClick={() => setTab("upcoming-drops")}
+            >
+              <span className="text-sm text-shadow ml-1">Upcoming</span>
+            </Tab>
+            <Tab
+              isActive={tab === "collection"}
+              onClick={() => setTab("collection")}
+            >
+              <span className="text-sm text-shadow ml-1">Collection</span>
             </Tab>
           </div>
           <img
@@ -52,14 +47,7 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
             minHeight: "200px",
           }}
         >
-          <Rare
-            type={LimitedItemType.Flag}
-            onClose={onClose}
-            canCraft={!maxFlags}
-          />
-          <p className="text-xxs p-1 m-1 underline text-center">
-            Max 3 flags per farm.
-          </p>
+          <TabContent tab={tab} />
         </div>
       </Panel>
     </Modal>

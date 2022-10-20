@@ -1,6 +1,9 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { CHOP_STAMINA_COST } from "features/game/lib/constants";
+import {
+  CHOP_STAMINA_COST,
+  TREE_RECOVERY_TIME,
+} from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import {
@@ -31,10 +34,8 @@ type Options = {
   createdAt?: number;
 };
 
-const TREE_RECOVERY_SECONDS = 2 * 60 * 60;
-
 export function canChop(tree: LandExpansionTree, now: number = Date.now()) {
-  return now - tree.wood.choppedAt > TREE_RECOVERY_SECONDS * 1000;
+  return now - tree.wood.choppedAt > TREE_RECOVERY_TIME * 1000;
 }
 
 /**
@@ -49,11 +50,11 @@ export function getChoppedAt({
     isCollectibleBuilt("Apprentice Beaver", collectibles) ||
     isCollectibleBuilt("Foreman Beaver", collectibles)
   ) {
-    return createdAt - (TREE_RECOVERY_SECONDS / 2) * 1000;
+    return createdAt - (TREE_RECOVERY_TIME / 2) * 1000;
   }
 
   if (skills["Tree Hugger"]) {
-    return createdAt - TREE_RECOVERY_SECONDS * 0.8 * 1000;
+    return createdAt - TREE_RECOVERY_TIME * 0.8 * 1000;
   }
 
   return createdAt;

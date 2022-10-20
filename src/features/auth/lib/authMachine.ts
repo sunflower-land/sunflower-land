@@ -6,7 +6,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
 import { communityContracts } from "features/community/lib/communityContracts";
-import { createFarm as createFarmAction } from "../actions/createFarm";
+import { createAccount as createFarmAction } from "../actions/createAccount";
 import { login, Token, decodeToken, removeSession } from "../actions/login";
 import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
@@ -265,7 +265,7 @@ export const authMachine = createMachine<
               src: async () => {
                 const [totalSupply, maxSupply] = await Promise.all([
                   metamask.getFarm()?.getTotalSupply(),
-                  metamask.getFarmMinter().getMaxSupply(),
+                  metamask.getAccountMinter().getMaxSupply(),
                 ]);
 
                 return {
@@ -525,7 +525,7 @@ export const authMachine = createMachine<
         }
 
         const createdAt = await metamask
-          .getFarmMinter()
+          .getAccountMinter()
           ?.getCreatedAt(metamask.myAccount as string);
 
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold

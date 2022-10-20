@@ -182,39 +182,45 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
         <div className="mt-2 min-h-[64px]">
           <h2 className="text-sm">You will receive:</h2>
           <div className="mt-2 -ml-1.5">
-            {selectedItems.map((itemName) => {
-              return (
-                <div className="flex items-center pl-1" key={itemName}>
-                  <div className="w-80 flex items-center">
-                    <Box
-                      hideCount
-                      count={selected[itemName]}
-                      key={itemName}
-                      onClick={() => onSubtract(itemName)}
-                      image={ITEM_DETAILS[itemName].image}
-                      canBeLongPressed
-                    />
-                    <div className="flex flex-col">
-                      <span className="text-sm">{`${selected[itemName]
-                        ?.mul(1 - DELIVERY_FEE / 100)
-                        .toString()} ${itemName}`}</span>
-                      <div className="flex">
-                        <span className="text-xxs">{`${selected[itemName]
-                          ?.mul(DELIVERY_FEE / 100)
-                          .toString()} Goblin fee`}</span>
-                        <img src={goblinHead} className="w-6 ml-2" />
+            {selectedItems
+              .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
+              .map((itemName) => {
+                return (
+                  <div className="flex items-center pl-1" key={itemName}>
+                    <div className="w-80 flex items-center">
+                      <Box
+                        hideCount
+                        count={selected[itemName]}
+                        key={itemName}
+                        onClick={() => onSubtract(itemName)}
+                        image={ITEM_DETAILS[itemName].image}
+                        canBeLongPressed
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-sm">{`${parseFloat(
+                          selected[itemName]
+                            ?.mul(1 - DELIVERY_FEE / 100)
+                            .toFixed(4, Decimal.ROUND_DOWN) as string
+                        )} ${itemName}`}</span>
+                        <div className="flex">
+                          <span className="text-xxs">{`${parseFloat(
+                            selected[itemName]
+                              ?.mul(DELIVERY_FEE / 100)
+                              .toFixed(4, Decimal.ROUND_DOWN) as string
+                          )} Goblin fee`}</span>
+                          <img src={goblinHead} className="w-6 ml-2" />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <img
-                    src={remove}
-                    className="h-4 cursor-pointer"
-                    onClick={() => onRemove(itemName)}
-                  />
-                </div>
-              );
-            })}
+                    <img
+                      src={remove}
+                      className="h-4 cursor-pointer"
+                      onClick={() => onRemove(itemName)}
+                    />
+                  </div>
+                );
+              })}
           </div>
         </div>
 
