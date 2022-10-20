@@ -5,9 +5,9 @@ import debounce from "lodash.debounce";
 
 import halloweenHungryChicken from "assets/events/halloween/assets/animals/chickens/hungry.gif";
 import halloweenHappyChicken from "assets/events/halloween/assets/animals/chickens/happy.gif";
-import walkingChickenSheet from "assets/animals/chickens/walking_sheet.png";
+import halloweenWalkingChickenSheet from "assets/events/halloween/assets/animals/chickens/walking_sheet.png";
 import halloweenSleepingChicken from "assets/events/halloween/assets/animals/chickens/sleeping.gif";
-import layingEggSheet from "assets/animals/chickens/laying-egg-sheet.png";
+import halloweenLayingEggSheet from "assets/events/halloween/assets/animals/chickens/laying-egg-sheet.png";
 import wheatOnGround from "assets/animals/chickens/wheat.png";
 import cancel from "assets/icons/cancel.png";
 import wheat from "assets/crops/wheat/crop.png";
@@ -34,8 +34,6 @@ import { MutantChickenModal } from "src/features/farming/animals/components/Muta
 import { MutantChicken } from "features/game/types/craftables";
 import { ChickenPosition } from "features/game/types/game";
 import { getWheatRequiredToFeed } from "features/game/events/feedChicken";
-
-// @TODO CHICKEN SPRITESHEETs
 
 interface Props {
   index: number;
@@ -261,7 +259,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
                 imageRendering: "pixelated",
                 zIndex: 10 * index,
               }}
-              image={walkingChickenSheet}
+              image={halloweenWalkingChickenSheet}
               widthFrame={32}
               heightFrame={32}
               fps={10}
@@ -298,7 +296,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
               left: "16px",
               imageRendering: "pixelated",
             }}
-            image={layingEggSheet}
+            image={halloweenLayingEggSheet}
             widthFrame={34}
             heightFrame={62}
             fps={3}
@@ -312,7 +310,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
         )}
         {eggLaid && (
           <Spritesheet
-            image={layingEggSheet}
+            image={halloweenLayingEggSheet}
             className="absolute cursor-pointer hover:img-highlight"
             style={{
               top: "-14px",
