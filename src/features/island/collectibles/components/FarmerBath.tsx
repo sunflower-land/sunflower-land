@@ -1,14 +1,16 @@
 import React from "react";
 
-import farmerBath from "assets/nfts/farm_dog.gif";
+import farmerBath from "assets/nfts/farmer_bath.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const FarmerBath: React.FC = () => {
   return (
     <img
       src={farmerBath}
       style={{
-        width: `${PIXEL_SCALE * 32}px`,
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE}px`,
       }}
+      className="absolute"
       alt="Farmer Bath"
     />
   );
