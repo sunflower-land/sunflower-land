@@ -29,7 +29,6 @@ import rightArrow from "assets/icons/arrow_right.png";
 import halloweenBackground from "assets/events/halloween/assets/land/background.png";
 import halloweenHungryChicken from "assets/events/halloween/assets/animals/chickens/hungry.gif";
 import halloweenHappyChicken from "assets/events/halloween/assets/animals/chickens/happy.gif";
-import halloweenWalkingChicken from "assets/events/halloween/assets/animals/chickens/walking.gif";
 import halloweenSleepingChicken from "assets/events/halloween/assets/animals/chickens/sleeping.gif";
 
 const IMAGE_LIST: string[] = [
@@ -61,7 +60,6 @@ const IMAGE_LIST: string[] = [
   halloweenBackground,
   halloweenHungryChicken,
   halloweenHappyChicken,
-  halloweenWalkingChicken,
   halloweenSleepingChicken,
 ];
 
