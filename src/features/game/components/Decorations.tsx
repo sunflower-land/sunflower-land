@@ -119,9 +119,9 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Farm Cat"] && (
       <img
         style={{
-          width: `${PIXEL_SCALE * 20}px `,
+          width: `${PIXEL_SCALE * 16}px `,
           right: `${GRID_WIDTH_PX * 39.55}px`,
-          top: `${GRID_WIDTH_PX * 28.5}px`,
+          top: `${GRID_WIDTH_PX * 28.8}px`,
         }}
         id={Section["Farm Cat"]}
         className="absolute z-10"
@@ -133,7 +133,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Farm Dog"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1}px`,
+          width: `${PIXEL_SCALE * 12}px `,
           right: `${GRID_WIDTH_PX * 37.8}px`,
           top: `${GRID_WIDTH_PX * 32}px`,
         }}
@@ -224,7 +224,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     <div
       className="flex justify-center absolute"
       style={{
-        right: `${GRID_WIDTH_PX * 24.3}px`,
+        right: `${GRID_WIDTH_PX * 24.6}px`,
         top: `${GRID_WIDTH_PX * 49}px`,
       }}
       id={Section.Beaver}

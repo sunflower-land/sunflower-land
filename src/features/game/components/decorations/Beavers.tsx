@@ -17,7 +17,7 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
       <>
         <img
           style={{
-            width: `${PIXEL_SCALE * 15}px`,
+            width: `${PIXEL_SCALE * 12}px`,
           }}
           className="hover:img-highlight cursor-pointer"
           src={foreman}
@@ -48,7 +48,7 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
       <>
         <img
           style={{
-            width: `${PIXEL_SCALE * 15}px`,
+            width: `${PIXEL_SCALE * 12}px`,
           }}
           src={apprentice}
           alt="Apprentice Beaver"
@@ -78,7 +78,7 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
     return (
       <img
         style={{
-          width: `${PIXEL_SCALE * 15}px`,
+          width: `${PIXEL_SCALE * 12}px`,
         }}
         src={beaver}
         alt="Woody the Beaver"
