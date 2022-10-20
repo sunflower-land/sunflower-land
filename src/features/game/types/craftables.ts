@@ -1105,7 +1105,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Christmas Tree": { width: 2, height: 2 },
   Gnome: { width: 1, height: 1 },
   "Sunflower Tombstone": { width: 1, height: 1 },
-  "Sunflower Rock": { width: 4, height: 3 },
+  "Sunflower Rock": { width: 5, height: 4 },
   "Goblin Crown": { width: 1, height: 1 },
   Fountain: { width: 2, height: 2 },
   "Woody the Beaver": { width: 1, height: 1 },
