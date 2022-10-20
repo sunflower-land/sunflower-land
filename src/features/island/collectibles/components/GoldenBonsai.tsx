@@ -4,12 +4,24 @@ import goldenBonsai from "assets/nfts/golden_bonsai.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const GoldenBonsai: React.FC = () => {
   return (
-    <img
-      src={goldenBonsai}
+    <div
+      className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 45.998}px`,
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px `,
+        right: `${PIXEL_SCALE * -0.5}px `,
       }}
-      alt="Golden Bonsai"
-    />
+    >
+      <img
+        src={goldenBonsai}
+        style={{
+          width: `${PIXEL_SCALE * 18}px`,
+          bottom: `${PIXEL_SCALE * 0}px `,
+          right: `${PIXEL_SCALE * -0.5}px `,
+        }}
+        className="absolute"
+        alt="Golden Bonsai"
+      />
+    </div>
   );
 };

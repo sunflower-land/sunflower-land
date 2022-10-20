@@ -315,9 +315,9 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Golden Bonsai"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.0952}px`,
-          left: `${GRID_WIDTH_PX * 71.786}px`,
-          top: `${GRID_WIDTH_PX * 37.95}px`,
+          width: `${GRID_WIDTH_PX * 0.988}px`,
+          left: `${GRID_WIDTH_PX * 71.892}px`,
+          top: `${GRID_WIDTH_PX * 37.94}px`,
         }}
         id={Section["Golden Bonsai"]}
         className="absolute"
