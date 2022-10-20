@@ -6,7 +6,7 @@ import { Hud } from "features/farming/hud/Hud";
 import { Crops } from "features/farming/crops/Crops";
 import { Water } from "features/farming/water/Water";
 import { Loading } from "features/auth/components";
-import { Animals } from "features/farming/animals/Animals";
+//import { Animals } from "features/farming/animals/Animals";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -40,6 +40,7 @@ import { CommunityGardenEntry } from "features/farming/town/components/Community
 import { Swarming } from "./components/Swarming";
 import { Cooldown } from "./components/Cooldown";
 import { Rules } from "./components/Rules";
+import { HalloweenAnimals } from "features/halloween/farming/animals/Animals";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -105,7 +106,6 @@ export const Game: React.FC = () => {
   return (
     <>
       <ToastManager />
-
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
@@ -128,13 +128,12 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
       {/* check local storage and show modal if not read */}
-
       <ClockIssue show={gameState.context.offset > 0} />
       <Hud />
       <TeamDonation />
       <Crops />
       <Water />
-      <Animals />
+      <HalloweenAnimals />
       <Decorations state={gameState.context.state} />
       <Forest />
       <Quarry />
