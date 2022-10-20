@@ -63,18 +63,18 @@ export const INITIAL_STOCK: Inventory = {
   Sauerkraut: new Decimal(1),
   "Roasted Cauliflower": new Decimal(1),
 
-  "Sunflower Cake": new Decimal(1),
-  "Potato Cake": new Decimal(1),
-  "Pumpkin Cake": new Decimal(1),
-  "Carrot Cake": new Decimal(1),
-  "Cabbage Cake": new Decimal(1),
-  "Beetroot Cake": new Decimal(1),
-  "Cauliflower Cake": new Decimal(1),
-  "Parsnip Cake": new Decimal(1),
-  "Radish Cake": new Decimal(1),
-  "Wheat Cake": new Decimal(1),
+  "Sunflower Cake": new Decimal(2),
+  "Potato Cake": new Decimal(2),
+  "Pumpkin Cake": new Decimal(2),
+  "Carrot Cake": new Decimal(2),
+  "Cabbage Cake": new Decimal(2),
+  "Beetroot Cake": new Decimal(2),
+  "Cauliflower Cake": new Decimal(2),
+  "Parsnip Cake": new Decimal(2),
+  "Radish Cake": new Decimal(2),
+  "Wheat Cake": new Decimal(2),
 
-  "Boiled Egg": new Decimal(1),
+  "Boiled Egg": new Decimal(2),
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
@@ -496,7 +496,7 @@ export const INITIAL_FARM: GameState = {
     "Carrot Cake": new Decimal(1),
     Radish: new Decimal(100),
     Wheat: new Decimal(100),
-    Egg: new Decimal(15),
+    Egg: new Decimal(30),
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
     Observatory: new Decimal(1),
