@@ -2,6 +2,7 @@ import React from "react";
 
 import goldenBonsai from "assets/nfts/golden_bonsai.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+
 export const GoldenBonsai: React.FC = () => {
   return (
     <div
