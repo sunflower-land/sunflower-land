@@ -295,30 +295,6 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
     terrains: INITIAL_TERRAIN,
     plots: INITIAL_PLOTS,
 
-    iron: {
-      0: {
-        stone: {
-          amount: 2,
-          minedAt: 0,
-        },
-        x: 1,
-        y: 2,
-        height: 1,
-        width: 1,
-      },
-    },
-    stones: {
-      0: {
-        stone: {
-          amount: 2,
-          minedAt: 0,
-        },
-        x: 3,
-        y: 2,
-        height: 1,
-        width: 1,
-      },
-    },
     trees: {
       0: {
         wood: {
@@ -331,17 +307,26 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
         width: 2,
       },
     },
+    stones: {
+      0: {
+        x: 0,
+        y: 3,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
+      },
+    },
   },
   {
     createdAt: 0,
     readyAt: 0,
 
-    gold: INITIAL_GOLD_MINES,
+    // gold: INITIAL_GOLD_MINES,
     terrains: {
       0: {
-        name: TerrainTypeEnum.terrain5,
-        height: 54 / 3,
-        width: 52,
         x: -2,
         y: -1,
       },
@@ -349,21 +334,18 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
 
     plots: {
       0: {
-        crop: { name: "Sunflower", plantedAt: 0 },
         x: -2,
         y: -1,
         height: 1,
         width: 1,
       },
       1: {
-        crop: { name: "Sunflower", plantedAt: 0 },
         x: -1,
         y: -1,
         height: 1,
         width: 1,
       },
       2: {
-        crop: { name: "Sunflower", plantedAt: 0 },
         x: 0,
         y: -1,
         height: 1,
@@ -391,31 +373,37 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
     // gold: INITIAL_GOLD_MINES,
     terrains: {
       0: {
-        name: TerrainTypeEnum.terrain5,
-        height: 54 / 3,
-        width: 52,
         x: -2,
         y: -1,
+      },
+    },
+    stones: {
+      0: {
+        x: -2,
+        y: 2,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
       },
     },
 
     plots: {
       0: {
-        crop: { name: "Sunflower", plantedAt: 0 },
         x: -2,
         y: -1,
         height: 1,
         width: 1,
       },
       1: {
-        crop: { name: "Sunflower", plantedAt: 0 },
         x: -1,
         y: -1,
         height: 1,
         width: 1,
       },
       2: {
-        crop: { name: "Sunflower", plantedAt: 0 },
         x: 0,
         y: -1,
         height: 1,
@@ -433,29 +421,6 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
         y: 1,
         height: 2,
         width: 2,
-      },
-    },
-
-    fruitPatches: {
-      0: {
-        height: 2,
-        width: 2,
-        x: -2,
-        y: 3,
-        fruit: {
-          amount: 1,
-          name: "Apple",
-          plantedAt: 0,
-        },
-      },
-    },
-
-    mines: {
-      0: {
-        height: 2,
-        width: 2,
-        x: 0,
-        y: 3,
       },
     },
   },
@@ -539,15 +504,15 @@ export const INITIAL_FARM: GameState = {
 
   expansions: INITIAL_EXPANSIONS,
   buildings: {
-    Workbench: [
+    Market: [
       {
-        coordinates: {
-          x: 4,
-          y: 4,
-        },
-        createdAt: 0,
         id: "123",
         readyAt: 0,
+        coordinates: {
+          x: 1,
+          y: 3,
+        },
+        createdAt: 0,
       },
     ],
   },
