@@ -4,7 +4,8 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
-import chick from "assets/animals/chick.gif";
+//halloween themed chick
+import chick from "assets/events/halloween/assets/animals/chick.gif";
 import dragonfly from "assets/decorations/dragonfly.gif";
 import Shark from "../../../components/ui/Shark";
 
