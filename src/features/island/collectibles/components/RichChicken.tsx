@@ -1,15 +1,27 @@
 import React from "react";
 
-import richChicken from "assets/animals/chickens/rich_chicken.png";
+import richChicken from "assets/animals/chickens/rich_chicken.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const RichChicken: React.FC = () => {
   return (
-    <img
-      src={richChicken}
+    <div
+      className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 29.82}px`,
+        width: `${PIXEL_SCALE * 22}px `,
+        bottom: `${PIXEL_SCALE * 0}px `,
+        right: `${PIXEL_SCALE * -2}px `,
       }}
-      alt="Rich Chicken"
-    />
+    >
+      <img
+        src={richChicken}
+        style={{
+          width: `${PIXEL_SCALE * 22}px `,
+          bottom: `${PIXEL_SCALE * 0}px `,
+          right: `${PIXEL_SCALE * -2}px `,
+        }}
+        className="absolute"
+        alt="Rich Chicken"
+      />
+    </div>
   );
 };

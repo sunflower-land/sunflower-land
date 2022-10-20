@@ -64,6 +64,7 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Farm Cat": FarmCat,
   "Farm Dog": FarmDog,
   "Farmer Bath": FarmerBath,
+  // Chickens
   "Fat Chicken": FatChicken,
   "Rich Chicken": RichChicken,
   Rooster,
