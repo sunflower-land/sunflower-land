@@ -6,9 +6,9 @@ import Spritesheet, {
 
 import Decimal from "decimal.js-light";
 
-import sparkSheet from "assets/resources/gold/gold_spark.png";
-import dropSheet from "assets/resources/gold/gold_drop.png";
-import empty from "assets/resources/gold/gold_empty.png";
+import sparkSheet from "assets/events/halloween/assets/resources/gold/gold_spark.png";
+import dropSheet from "assets/events/halloween/assets/resources/gold/gold_drop.png";
+import empty from "assets/events/halloween/assets/resources/gold/gold_empty.png";
 import gold from "assets/events/halloween/assets/resources/gold/gold_ore.png";
 
 import { GOLD_RECOVERY_TIME, GRID_WIDTH_PX } from "features/game/lib/constants";

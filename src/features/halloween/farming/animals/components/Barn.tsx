@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-import barn from "assets/buildings/barn.png";
+import barn from "assets/events/halloween/assets/buildings/barn.png";
 import chicken from "assets/resources/chicken.png";
 import { barnAudio } from "lib/utils/sfx";
 

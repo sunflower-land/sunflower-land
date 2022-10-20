@@ -6,10 +6,10 @@ import Spritesheet, {
 
 import Decimal from "decimal.js-light";
 
-import sparkSheet from "assets/resources/iron/iron_spark.png";
-import dropSheet from "assets/resources/iron/iron_dropped.png";
-import empty from "assets/resources/iron/iron_empty.png";
-import ironOre from "assets/resources/iron_ore.png";
+import sparkSheet from "assets/events/halloween/assets/resources/iron/iron_spark.png";
+import dropSheet from "assets/events/halloween/assets/resources/iron/iron_dropped.png";
+import empty from "assets/events/halloween/assets/resources/iron/iron_empty.png";
+import ironOre from "assets/events/halloween/assets/resources/iron/iron_ore.png";
 
 import { GRID_WIDTH_PX, IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";

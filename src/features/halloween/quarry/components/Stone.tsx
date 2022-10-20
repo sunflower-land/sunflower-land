@@ -6,9 +6,9 @@ import Spritesheet, {
 
 import Decimal from "decimal.js-light";
 
-import sparkSheet from "assets/resources/stone/stone_spark.png";
-import dropSheet from "assets/resources/stone/stone_drop.png";
-import empty from "assets/resources/stone/stone_empty.png";
+import sparkSheet from "assets/events/halloween/assets/resources/stone/stone_spark.png";
+import dropSheet from "assets/events/halloween/assets/resources/stone/stone_drop.png";
+import empty from "assets/events/halloween/assets/resources/stone/stone_empty.png";
 import stone from "assets/events/halloween/assets/resources/stone/stone.png";
 
 import {
