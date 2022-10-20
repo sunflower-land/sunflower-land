@@ -1124,7 +1124,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Scarecrow: { height: 2, width: 2 },
   Nancy: { width: 2, height: 2 },
   Kuebiko: { width: 2, height: 2 },
-  "Golden Cauliflower": { width: 1, height: 1 },
+  "Golden Cauliflower": { width: 2, height: 2 },
   "Mysterious Parsnip": { width: 1, height: 1 },
   "Carrot Sword": { width: 1, height: 1 },
 
