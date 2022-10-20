@@ -1111,7 +1111,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Woody the Beaver": { width: 1, height: 1 },
   "Apprentice Beaver": { width: 1, height: 1 },
   "Foreman Beaver": { width: 1, height: 1 },
-  "Nyon Statue": { width: 2, height: 1 },
+  "Nyon Statue": { width: 2, height: 2 },
   "Homeless Tent": { width: 2, height: 2 },
   "Farmer Bath": { width: 2, height: 3 },
   "Mysterious Head": { width: 2, height: 2 },
