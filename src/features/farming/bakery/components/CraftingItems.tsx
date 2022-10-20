@@ -199,7 +199,9 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
         </div>
         <Button
           disabled={(hasSelectedFood && !isCake) || !canCraft}
-          className={`${hasSelectedFood ? "pe-none" : ""} text-xs mt-1`}
+          className={`${
+            hasSelectedFood && !isCake ? "pe-none" : ""
+          } text-xs mt-1`}
           onClick={craft}
         >
           {hasSelectedFood && !isCake ? "Already crafted" : "Craft"}
