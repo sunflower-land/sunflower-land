@@ -67,9 +67,9 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   // Chickens
   "Fat Chicken": FatChicken,
   "Rich Chicken": RichChicken,
+  "Speed Chicken": SpeedChicken,
   Rooster,
   "Undead Rooster": UndeadRooster,
-  "Speed Chicken": SpeedChicken,
 
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
