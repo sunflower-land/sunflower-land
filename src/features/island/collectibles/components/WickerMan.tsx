@@ -29,6 +29,8 @@ export const WickerMan: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 19}px`,
         height: `${PIXEL_SCALE * 25}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1}px`,
       }}
     >
       <Spritesheet
@@ -36,8 +38,8 @@ export const WickerMan: React.FC = () => {
         style={{
           imageRendering: "pixelated",
           left: `-73%`,
-          bottom: `1px`,
           width: `${PIXEL_SCALE * 44}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
         }}
         getInstance={(spritesheet) => {
           wickerManGif.current = spritesheet;
