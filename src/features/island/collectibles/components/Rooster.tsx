@@ -7,9 +7,11 @@ export const Rooster: React.FC = () => {
     <img
       src={rooster}
       style={{
-        width: `${PIXEL_SCALE * 29.82}px`,
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px `,
       }}
       alt="Rooster"
+      className="absolute"
     />
   );
 };
