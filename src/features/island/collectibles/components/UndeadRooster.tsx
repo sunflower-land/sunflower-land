@@ -7,8 +7,10 @@ export const UndeadRooster: React.FC = () => {
     <img
       src={undeadChicken}
       style={{
-        width: `${PIXEL_SCALE * 29.82}px`,
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
       }}
+      className="absolute"
       alt="Undead Rooster"
     />
   );
