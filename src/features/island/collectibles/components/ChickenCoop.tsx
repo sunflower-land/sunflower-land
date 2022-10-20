@@ -7,8 +7,10 @@ export const ChickenCoop: React.FC = () => {
     <img
       src={coop}
       style={{
-        width: `${PIXEL_SCALE * 32}px`,
+        width: `${PIXEL_SCALE * 33}px`,
+        bottom: `${PIXEL_SCALE}px`,
       }}
+      className="absolute"
       alt="Chicken Coop"
     />
   );
