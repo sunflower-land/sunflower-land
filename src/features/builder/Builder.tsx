@@ -12,6 +12,8 @@ import {
   Coordinates,
   MapPlacement,
 } from "features/game/expansion/components/MapPlacement";
+import { Button } from "components/ui/Button";
+import { InnerPanel } from "components/ui/Panel";
 
 type Placed = {
   name: string;
@@ -24,24 +26,48 @@ export const Builder: React.FC = () => {
   const [selected, setSelected] = useState<string>();
 
   const [placed, setPlaced] = useState<Placed[]>([]);
+  const [layouts, setLayouts] = useState<Placed[][]>([]);
+
+  const save = () => {
+    setLayouts((prev) => [...prev, placed]);
+  };
+
+  const loadLayout = (index: number) => {
+    setPlaced(layouts[index]);
+  };
 
   const place = (coords: Coordinates) => {
+    const OFFSET = {
+      x: 0,
+      y: 7,
+    };
     setPlaced((prev) => [
       ...prev,
       {
         name: selected as string,
-        coords,
+        coords: {
+          x: coords.x + OFFSET.x,
+          y: coords.y + OFFSET.y,
+        },
       },
     ]);
     setSelected("");
   };
+
   console.log({ placed });
+
   // Load data
   return (
     <GameProvider>
       <div className="h-full w-full">
-        <div className="absolute w-full h-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-          <div className="relative w-full h-full">
+        <div className="absolute w-full h-full z-20">
+          <div
+            className="relative w-full h-full"
+            style={{
+              marginTop: "20px",
+              left: "4px",
+            }}
+          >
             {selected && (
               <ResourcePlacer
                 name={selected}
@@ -51,6 +77,14 @@ export const Builder: React.FC = () => {
             )}
           </div>
         </div>
+        <InnerPanel className="fixed top-0 right-0 w-48 p-2 z-30 flex flex-col items-center">
+          <span className="text-white">Layouts</span>
+          {layouts.map((_, index) => (
+            <Button onClick={() => loadLayout(index)}>
+              {`Layout ${index + 1}`}
+            </Button>
+          ))}
+        </InnerPanel>
         <div className="absolute bottom-0 flex z-30">
           {getKeys(RESOURCES).map((name) => (
             <Box
@@ -60,6 +94,9 @@ export const Builder: React.FC = () => {
               onClick={() => setSelected(name)}
             />
           ))}
+        </div>
+        <div className="absolute bottom-2 right-2 flex z-30">
+          <Button onClick={save}>Save</Button>
         </div>
         <div className="pointer-events-none">
           <ScrollContainer
@@ -82,12 +119,12 @@ export const Builder: React.FC = () => {
                 }}
               />
               <div
-                className="absolute z-30"
+                className="absolute z-30 "
                 style={{
                   width: `${6 * GRID_WIDTH_PX}px`,
                   height: `${6 * GRID_WIDTH_PX}px`,
-                  top: `${9 * GRID_WIDTH_PX}px`,
-                  left: `${14 * GRID_WIDTH_PX}px`,
+                  top: `${5 * GRID_WIDTH_PX}px`,
+                  left: `${15 * GRID_WIDTH_PX}px`,
                 }}
               >
                 {placed.flatMap(({ name, coords }, index) => {

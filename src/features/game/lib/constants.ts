@@ -319,6 +319,18 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
         width: 1,
       },
     },
+    gold: {
+      0: {
+        stone: {
+          amount: 2,
+          minedAt: 0,
+        },
+        x: 1,
+        y: 2,
+        height: 1,
+        width: 1,
+      },
+    },
     trees: {
       0: {
         wood: {
