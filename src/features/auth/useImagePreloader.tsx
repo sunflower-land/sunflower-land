@@ -25,6 +25,12 @@ import fatChicken from "assets/animals/chickens/fat_chicken.png";
 import speedChicken from "assets/animals/chickens/speed_chicken.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
+//Events
+import halloweenBackground from "assets/events/halloween/assets/land/background.png";
+import halloweenHungryChicken from "assets/events/halloween/assets/animals/chickens/hungry.gif";
+import halloweenHappyChicken from "assets/events/halloween/assets/animals/chickens/happy.gif";
+import halloweenWalkingChicken from "assets/events/halloween/assets/animals/chickens/walking.gif";
+import halloweenSleepingChicken from "assets/events/halloween/assets/animals/chickens/sleeping.gif";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -52,6 +58,11 @@ const IMAGE_LIST: string[] = [
   waterBackground,
   leftArrow,
   rightArrow,
+  halloweenBackground,
+  halloweenHungryChicken,
+  halloweenHappyChicken,
+  halloweenWalkingChicken,
+  halloweenSleepingChicken,
 ];
 
 function preloadImage(src: string) {
