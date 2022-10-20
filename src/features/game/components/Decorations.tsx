@@ -63,7 +63,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Christmas Tree"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
+          width: `${PIXEL_SCALE * 23}px`,
           right: `${GRID_WIDTH_PX * 16}px`,
           top: `${GRID_WIDTH_PX * 1}px`,
         }}
