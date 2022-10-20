@@ -2,6 +2,7 @@ import React from "react";
 
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+
 export const EasterBunny: React.FC = () => {
   return (
     <img

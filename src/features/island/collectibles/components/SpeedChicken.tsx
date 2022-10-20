@@ -2,6 +2,7 @@ import React from "react";
 
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+
 export const SpeedChicken: React.FC = () => {
   return (
     <div

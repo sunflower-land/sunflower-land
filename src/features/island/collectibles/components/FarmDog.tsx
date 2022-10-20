@@ -2,6 +2,7 @@ import React from "react";
 
 import farmDog from "assets/nfts/farm_dog.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+
 export const FarmDog: React.FC = () => {
   return (
     <div
