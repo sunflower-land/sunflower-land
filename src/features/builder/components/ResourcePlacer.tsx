@@ -5,8 +5,7 @@ import Draggable from "react-draggable";
 import classNames from "classnames";
 
 import tree from "assets/resources/tree.png";
-import appleTree from "assets/fruit/apple/apple_tree.png";
-import orangeTree from "assets/fruit/orange/orange_tree.png";
+import fruitPatch from "assets/fruit/apple/apple_tree.png";
 import smallStone from "assets/resources/small_stone.png";
 import goldStone from "assets/resources/gold_small.png";
 import ironStone from "assets/resources/iron_small.png";
@@ -20,16 +19,17 @@ import { Iron } from "features/game/expansion/components/resources/Iron";
 import { Gold } from "features/game/expansion/components/resources/Gold";
 import { Plot } from "features/island/Plots/Plot";
 import { Tree } from "features/game/expansion/components/resources/Tree";
+import { Layout } from "../lib/layouts";
 
 export const RESOURCES: Record<
-  string,
+  keyof Layout,
   {
     component: React.FC;
     icon: string;
     dimensions: Dimensions;
   }
 > = {
-  tree: {
+  trees: {
     component: () => <Tree expansionIndex={0} treeIndex={0} />,
     icon: tree,
     dimensions: {
@@ -37,23 +37,15 @@ export const RESOURCES: Record<
       width: 2,
     },
   },
-  appleTree: {
+  fruitPatches: {
     component: () => <FruitPatch fruit="Apple" />,
-    icon: appleTree,
+    icon: fruitPatch,
     dimensions: {
       height: 2,
       width: 2,
     },
   },
-  orangeTree: {
-    component: () => <FruitPatch fruit="Orange" />,
-    icon: orangeTree,
-    dimensions: {
-      height: 2,
-      width: 2,
-    },
-  },
-  stone: {
+  stones: {
     component: () => <Stone expansionIndex={0} rockIndex={0} />,
     dimensions: {
       height: 1,
@@ -77,7 +69,7 @@ export const RESOURCES: Record<
     },
     icon: goldStone,
   },
-  plot: {
+  plots: {
     component: () => <Plot expansionIndex={0} plotIndex={0} />,
     dimensions: {
       height: 1,
@@ -93,7 +85,7 @@ type Dimensions = {
 };
 
 interface Props {
-  name: string;
+  name: keyof Layout;
   onCancel: () => void;
   onPlace: (coords: Coordinates) => void;
 }

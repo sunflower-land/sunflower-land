@@ -404,9 +404,8 @@ export function startGame(authContext: Options) {
                   cb("EXPIRED");
                 }
 
-                const bumpkins = await metamask
-                  .getBumpkinDetails()
-                  .loadBumpkins();
+                const bumpkins =
+                  (await metamask.getBumpkinDetails()?.loadBumpkins()) ?? [];
                 const tokenURI = bumpkins[0]?.tokenURI;
 
                 if (tokenURI !== context.state.bumpkin?.tokenUri) {

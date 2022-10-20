@@ -14,19 +14,23 @@ import {
 } from "features/game/expansion/components/MapPlacement";
 import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
-
-type Placed = {
-  name: string;
-  coords: Coordinates;
-};
+import { Layout } from "./lib/layouts";
 
 export const Builder: React.FC = () => {
   const container = useRef(null);
 
-  const [selected, setSelected] = useState<string>();
+  const [selected, setSelected] = useState<keyof Layout>();
 
-  const [placed, setPlaced] = useState<Placed[]>([]);
-  const [layouts, setLayouts] = useState<Placed[][]>([]);
+  const [placed, setPlaced] = useState<Layout>({
+    plots: [],
+    fruitPatches: [],
+    gold: [],
+    iron: [],
+    stones: [],
+    trees: [],
+  });
+
+  const [layouts, setLayouts] = useState<Layout[]>([]);
 
   const save = () => {
     setLayouts((prev) => [...prev, placed]);
@@ -41,17 +45,29 @@ export const Builder: React.FC = () => {
       x: 0,
       y: 7,
     };
-    setPlaced((prev) => [
+    setPlaced((prev) => ({
       ...prev,
-      {
-        name: selected as string,
-        coords: {
+      [selected as keyof Layout]: [
+        ...(prev[selected as keyof Layout] ?? []),
+        {
           x: coords.x + OFFSET.x,
           y: coords.y + OFFSET.y,
         },
-      },
-    ]);
-    setSelected("");
+      ],
+    }));
+    setSelected(undefined);
+  };
+
+  const handlePrint = () => {
+    const prefix = 240;
+    const identifiedLayouts = layouts.reduce(
+      (acc, layout, index) => ({
+        ...acc,
+        [index + prefix]: layout,
+      }),
+      {}
+    );
+    console.log(JSON.stringify(identifiedLayouts, null, 2));
   };
 
   console.log({ placed });
@@ -71,7 +87,7 @@ export const Builder: React.FC = () => {
             {selected && (
               <ResourcePlacer
                 name={selected}
-                onCancel={() => setSelected("")}
+                onCancel={() => setSelected(undefined)}
                 onPlace={place}
               />
             )}
@@ -94,6 +110,25 @@ export const Builder: React.FC = () => {
               onClick={() => setSelected(name)}
             />
           ))}
+        </div>
+        <div className="absolute bottom-24 right-2 flex z-30">
+          <Button
+            onClick={() =>
+              setPlaced({
+                plots: [],
+                fruitPatches: [],
+                gold: [],
+                iron: [],
+                stones: [],
+                trees: [],
+              })
+            }
+          >
+            clear
+          </Button>
+        </div>
+        <div className="absolute bottom-12 right-2 flex z-30">
+          <Button onClick={handlePrint}>Print</Button>
         </div>
         <div className="absolute bottom-2 right-2 flex z-30">
           <Button onClick={save}>Save</Button>
@@ -127,22 +162,26 @@ export const Builder: React.FC = () => {
                   left: `${15 * GRID_WIDTH_PX}px`,
                 }}
               >
-                {placed.flatMap(({ name, coords }, index) => {
-                  const resource = RESOURCES[name];
-                  const { x, y } = coords;
-                  const { width, height } = RESOURCES[name].dimensions;
+                {getKeys(placed).flatMap((resourceName) => {
+                  const resource = RESOURCES[resourceName];
+                  const positions = placed[resourceName];
 
-                  return (
-                    <MapPlacement
-                      key={index}
-                      x={x}
-                      y={y}
-                      height={height}
-                      width={width}
-                    >
-                      {resource.component({})}
-                    </MapPlacement>
-                  );
+                  const { width, height } = RESOURCES[resourceName].dimensions;
+
+                  return positions.map((coords, index) => {
+                    const { x, y } = coords;
+                    return (
+                      <MapPlacement
+                        key={index}
+                        x={x}
+                        y={y}
+                        height={height}
+                        width={width}
+                      >
+                        {resource.component({})}
+                      </MapPlacement>
+                    );
+                  });
                 })}
               </div>
             </div>
