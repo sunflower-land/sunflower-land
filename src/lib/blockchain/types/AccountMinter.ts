@@ -28,63 +28,42 @@ export type OwnershipTransferred = ContractEventLog<{
   1: string;
 }>;
 
-export interface BumpkinMinter extends BaseContract {
+export interface AccountMinter extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): BumpkinMinter;
-  clone(): BumpkinMinter;
+  ): AccountMinter;
+  clone(): AccountMinter;
   methods: {
-    addGameRole(_game: string): NonPayableTransactionObject<void>;
+    createdAt(arg0: string): NonPayableTransactionObject<string>;
 
-    executed(arg0: string | number[]): NonPayableTransactionObject<boolean>;
+    deposit(): PayableTransactionObject<void>;
 
-    feeWallet(): NonPayableTransactionObject<string>;
+    destroy(): PayableTransactionObject<void>;
 
-    freeBumpkinMintedAt(
-      arg0: number | string | BN
-    ): NonPayableTransactionObject<string>;
+    farmCreatedAt(account: string): NonPayableTransactionObject<string>;
 
-    gameAddGameRole(_game: string): NonPayableTransactionObject<void>;
+    maxSupply(): NonPayableTransactionObject<string>;
 
-    gameRemoveGameRole(_game: string): NonPayableTransactionObject<void>;
-
-    gameRoles(arg0: string): NonPayableTransactionObject<boolean>;
-
-    getItemAllowList(
-      itemIds: (number | string | BN)[]
-    ): NonPayableTransactionObject<boolean[]>;
-
-    itemAllowList(
-      arg0: number | string | BN
-    ): NonPayableTransactionObject<boolean>;
-
-    mintBumpkin(
+    mintAccount(
       signature: string | number[],
+      charity: string,
       deadline: number | string | BN,
       mintFee: number | string | BN,
-      farmId: number | string | BN,
-      itemIds: (number | string | BN)[],
-      tokenURI: string
+      bumpkinItemIds: (number | string | BN)[],
+      bumpkinTokenUri: string
     ): PayableTransactionObject<void>;
-
-    mintedAt(arg0: string): NonPayableTransactionObject<string>;
 
     owner(): NonPayableTransactionObject<string>;
 
-    removeGameRole(_game: string): NonPayableTransactionObject<void>;
-
     renounceOwnership(): NonPayableTransactionObject<void>;
 
-    setItemAllowList(
-      itemIds: (number | string | BN)[],
-      allowed: boolean[]
+    setMaxSupply(
+      _supply: number | string | BN
     ): NonPayableTransactionObject<void>;
 
-    signer(): NonPayableTransactionObject<string>;
-
-    transferFeeWallet(_feeWallet: string): NonPayableTransactionObject<void>;
+    transferFeeWallet(_wallet: string): NonPayableTransactionObject<void>;
 
     transferOwnership(newOwner: string): NonPayableTransactionObject<void>;
 

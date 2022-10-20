@@ -761,6 +761,30 @@
             "internalType": "struct SunflowerLandSession.ProgressData",
             "name": "progress",
             "type": "tuple"
+          },
+          {
+            "components": [
+              { "internalType": "string", "name": "nonce", "type": "string" },
+              {
+                "internalType": "string",
+                "name": "metadata",
+                "type": "string"
+              },
+              { "internalType": "uint256", "name": "sfl", "type": "uint256" },
+              {
+                "internalType": "uint256[]",
+                "name": "resourceIds",
+                "type": "uint256[]"
+              },
+              {
+                "internalType": "uint256[]",
+                "name": "resourceAmounts",
+                "type": "uint256[]"
+              }
+            ],
+            "internalType": "struct SunflowerLandSession.NewLandExpansion",
+            "name": "expansion",
+            "type": "tuple"
           }
         ],
         "internalType": "struct SunflowerLandSession.SyncProgressData",

@@ -30,7 +30,6 @@ export type { IUniswapV2Router02 } from "./IUniswapV2Router02";
 export type { Ownable } from "./Ownable";
 export type { Pausable } from "./Pausable";
 export type { SunflowerLand } from "./SunflowerLand";
-export type { SunflowerLandBeta } from "./SunflowerLandBeta";
 export type { SunflowerLandInventory } from "./SunflowerLandInventory";
 export type { SunflowerLandSession } from "./SunflowerLandSession";
 export type { SunflowerLandToken } from "./SunflowerLandToken";

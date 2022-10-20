@@ -12,7 +12,7 @@ type Request = {
 const API_URL = CONFIG.API_URL;
 
 export async function signTransaction(request: Request) {
-  const response = await window.fetch(`${API_URL}/farm`, {
+  const response = await window.fetch(`${API_URL}/account`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -32,9 +32,23 @@ export async function signTransaction(request: Request) {
     throw new Error(ERRORS.FAILED_REQUEST);
   }
 
-  const { signature, charity, deadline, fee } = await response.json();
+  const {
+    signature,
+    charity,
+    deadline,
+    fee,
+    bumpkinWearableIds,
+    bumpkinTokenUri,
+  } = await response.json();
 
-  return { signature, charity, deadline, fee };
+  return {
+    signature,
+    charity,
+    deadline,
+    fee,
+    bumpkinWearableIds,
+    bumpkinTokenUri,
+  };
 }
 
 type CreateFarmOptions = {
@@ -43,7 +57,7 @@ type CreateFarmOptions = {
   captcha: string;
 };
 
-export async function createFarm({
+export async function createAccount({
   charity,
   token,
   captcha,
@@ -54,7 +68,7 @@ export async function createFarm({
     captcha,
   });
 
-  await metamask.getFarmMinter().createFarm(transaction);
+  await metamask.getAccountMinter().createAccount(transaction);
 
   const farm = await metamask.getFarm().getNewFarm();
 
