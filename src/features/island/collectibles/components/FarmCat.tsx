@@ -4,12 +4,23 @@ import cat from "assets/nfts/farm_cat.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const FarmCat: React.FC = () => {
   return (
-    <img
-      src={cat}
+    <div
+      className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 24}px`,
+        width: `${PIXEL_SCALE * 20}px `,
+        left: `${PIXEL_SCALE * -2}px `,
+        bottom: `${PIXEL_SCALE * 0}px `,
       }}
-      alt="Farm Cat"
-    />
+    >
+      <img
+        src={cat}
+        style={{
+          width: `${PIXEL_SCALE * 20}px`,
+          left: `${PIXEL_SCALE * -2}px `,
+          bottom: `${PIXEL_SCALE * 0}px `,
+        }}
+        alt="Farm Cat"
+      />
+    </div>
   );
 };

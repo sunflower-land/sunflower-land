@@ -119,9 +119,9 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Farm Cat"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.5}px`,
+          width: `${PIXEL_SCALE * 20}px `,
           right: `${GRID_WIDTH_PX * 39.55}px`,
-          top: `${GRID_WIDTH_PX * 28.2}px`,
+          top: `${GRID_WIDTH_PX * 28.5}px`,
         }}
         id={Section["Farm Cat"]}
         className="absolute z-10"
