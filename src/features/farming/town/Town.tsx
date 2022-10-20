@@ -4,7 +4,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 //import { Bakery } from "features/farming/bakery/Bakery";
 //import { CakeStall } from "features/farming/cakeStall/CakeStall";
 import { Blacksmith } from "features/farming/blacksmith/Blacksmith";
-import { Shop } from "features/farming/shop/Shop";
+//import { Shop } from "features/farming/shop/Shop";
 import { Mail } from "features/farming/mail/Mail";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
@@ -14,6 +14,7 @@ import { Salesman } from "../salesman/Salesman";
 //events
 import { HalloweenBakery } from "features/halloween/bakery/Bakery";
 import { HalloweenCakeStall } from "features/halloween/cakeStall/CakeStall";
+import { HalloweenShop } from "features/halloween/shop/Shop";
 
 export const Town: React.FC = () => {
   return (
@@ -28,7 +29,7 @@ export const Town: React.FC = () => {
         top: `calc(50% - ${GRID_WIDTH_PX * 18}px)`,
       }}
     >
-      <Shop />
+      <HalloweenShop />
       <HalloweenBakery />
       <HalloweenCakeStall />
       <Blacksmith />
