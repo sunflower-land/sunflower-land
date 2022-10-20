@@ -14,7 +14,8 @@ import dog from "assets/nfts/farm_dog.gif";
 import cat from "assets/nfts/farm_cat.gif";
 import gnome from "assets/nfts/gnome.gif";
 import goblinKing from "assets/nfts/goblin_king.png";
-import fountain from "assets/nfts/fountain.gif";
+//fountain path edited to match event theme
+import fountain from "assets/nfts/halloween/fountain.gif";
 import goldenBonsai from "assets/nfts/golden_bonsai.png";
 //rooster path edited to match event theme
 import rooster from "assets/nfts/halloween/rooster.gif";
