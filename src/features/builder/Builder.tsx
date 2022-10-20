@@ -14,8 +14,11 @@ import {
 } from "features/game/expansion/components/MapPlacement";
 import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
-import { Layout } from "./lib/layouts";
+import { INITIAL_LAYOUTS, Layout } from "./lib/layouts";
 
+/**
+ * A test component for collision detection and resource sizing/dimensions
+ */
 export const Builder: React.FC = () => {
   const container = useRef(null);
 
@@ -30,7 +33,9 @@ export const Builder: React.FC = () => {
     trees: [],
   });
 
-  const [layouts, setLayouts] = useState<Layout[]>([]);
+  const [layouts, setLayouts] = useState<Layout[]>(
+    Object.values(INITIAL_LAYOUTS)
+  );
 
   const save = () => {
     setLayouts((prev) => [...prev, placed]);
@@ -59,7 +64,7 @@ export const Builder: React.FC = () => {
   };
 
   const handlePrint = () => {
-    const prefix = 240;
+    const prefix = 251;
     const identifiedLayouts = layouts.reduce(
       (acc, layout, index) => ({
         ...acc,
@@ -96,7 +101,7 @@ export const Builder: React.FC = () => {
         <InnerPanel className="fixed top-0 right-0 w-48 p-2 z-30 flex flex-col items-center">
           <span className="text-white">Layouts</span>
           {layouts.map((_, index) => (
-            <Button onClick={() => loadLayout(index)}>
+            <Button key={index} onClick={() => loadLayout(index)}>
               {`Layout ${index + 1}`}
             </Button>
           ))}
@@ -172,7 +177,7 @@ export const Builder: React.FC = () => {
                     const { x, y } = coords;
                     return (
                       <MapPlacement
-                        key={index}
+                        key={`${resourceName}-${index}`}
                         x={x}
                         y={y}
                         height={height}

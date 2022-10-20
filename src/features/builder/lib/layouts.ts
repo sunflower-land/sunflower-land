@@ -8,3 +8,5 @@ export type Layout = {
   gold: Coordinates[];
   fruitPatches: Coordinates[];
 };
+
+export const INITIAL_LAYOUTS: Record<string, Layout> = {};
