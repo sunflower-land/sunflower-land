@@ -3,7 +3,7 @@ import React from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 //import { Bakery } from "features/farming/bakery/Bakery";
 //import { CakeStall } from "features/farming/cakeStall/CakeStall";
-import { Blacksmith } from "features/farming/blacksmith/Blacksmith";
+//import { Blacksmith } from "features/farming/blacksmith/Blacksmith";
 //import { Shop } from "features/farming/shop/Shop";
 import { Mail } from "features/farming/mail/Mail";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
@@ -16,6 +16,7 @@ import { HalloweenBakery } from "features/halloween/bakery/Bakery";
 import { HalloweenCakeStall } from "features/halloween/cakeStall/CakeStall";
 import { HalloweenShop } from "features/halloween/shop/Shop";
 import { HalloweenTownHall } from "features/halloween/townHall/TownHall";
+import { HalloweenBlacksmith } from "features/halloween/blacksmith/Blacksmith";
 
 export const Town: React.FC = () => {
   return (
@@ -33,7 +34,7 @@ export const Town: React.FC = () => {
       <HalloweenShop />
       <HalloweenBakery />
       <HalloweenCakeStall />
-      <Blacksmith />
+      <HalloweenBlacksmith />
       <Mail />
       <HalloweenTownHall />
       <Salesman />
