@@ -34,9 +34,9 @@ export const Blocked: React.FC = () => {
           target="_blank"
           rel="noreferrer"
         >
-          Sunflower Land Discord server,
+          Sunflower Land Discord server
         </a>
-        {` go to the #verify channel and have the "farmer" role.`}
+        {`, go to the #verify channel and have the "farmer" role.`}
       </p>
       <Button onClick={tryAgain} className="overflow-hidden mb-2">
         <span>Try again</span>

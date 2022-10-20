@@ -54,6 +54,7 @@ export const Withdrawn: React.FC = () => {
           >
             PolygonScan
           </a>
+          .
         </span>
       </div>
       <Button onClick={() => goblinService.send("REFRESH")}>Ok</Button>

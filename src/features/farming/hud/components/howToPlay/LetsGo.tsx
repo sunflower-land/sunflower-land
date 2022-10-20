@@ -30,8 +30,9 @@ export const LetsGo: React.FC<Props> = ({ onClose, onBack }) => {
             target="_blank"
             rel="noreferrer"
           >
-            official docs.
+            official docs
           </a>
+          .
         </p>
       </Modal.Body>
     </>
