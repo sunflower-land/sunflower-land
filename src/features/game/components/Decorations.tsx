@@ -91,9 +91,9 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Potato Statue"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.5}px`,
-          left: `${GRID_WIDTH_PX * 52}px`,
-          top: `${GRID_WIDTH_PX * 39}px`,
+          width: `${GRID_WIDTH_PX * 1.1}px`,
+          left: `${GRID_WIDTH_PX * 52.2}px`,
+          top: `${GRID_WIDTH_PX * 39.1}px`,
         }}
         id={Section["Potato Statue"]}
         className="absolute"
