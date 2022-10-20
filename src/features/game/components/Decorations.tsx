@@ -3,10 +3,12 @@
  */
 import React from "react";
 
-import sunflowerRock from "assets/nfts/sunflower_rock.png";
+//sunflower rock path edited to match event theme
+import sunflowerRock from "assets/nfts/halloween/sunflower_rock.png";
 import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
-import potatoStatue from "assets/nfts/potato_statue.png";
+//potato statue path edited to match event theme
+import potatoStatue from "assets/nfts/halloween/potato_statue.png";
 import christmasTree from "assets/nfts/christmas_tree.png";
 import dog from "assets/nfts/farm_dog.gif";
 import cat from "assets/nfts/farm_cat.gif";
@@ -14,13 +16,17 @@ import gnome from "assets/nfts/gnome.gif";
 import goblinKing from "assets/nfts/goblin_king.png";
 import fountain from "assets/nfts/fountain.gif";
 import goldenBonsai from "assets/nfts/golden_bonsai.png";
-import rooster from "assets/nfts/rooster.gif";
-import undeadChicken from "assets/nfts/undead_chicken.gif";
+//rooster path edited to match event theme
+import rooster from "assets/nfts/halloween/rooster.gif";
+//undead chicken path edited to match event theme
+import undeadChicken from "assets/nfts/halloween/undead_chicken.gif";
 import pottedSunflower from "assets/decorations/potted_sunflower.png";
-
-import mysteriousHead from "assets/nfts/mysterious_head.png";
-import homelessTent from "assets/nfts/homeless_tent.png";
-import farmerBath from "assets/nfts/farmer_bath.png";
+// mysterious head path edited to match event theme
+import mysteriousHead from "assets/nfts/halloween/mysterious_head.png";
+// homeless tent path edited to match event theme
+import homelessTent from "assets/nfts/halloween/homeless_tent.png";
+// farmerBath path edited to match event theme
+import farmerBath from "assets/nfts/halloween/farmer_bath.png";
 import swimmer from "assets/npcs/swimmer.gif";
 import skullHand from "assets/decorations/skull_hand.png";
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
@@ -38,7 +44,6 @@ import {
   Observatory,
   RockGolem,
   Scarecrows,
-  Trivia,
   WickerMan,
 } from "./decorations/index";
 import { WarSkulls, WarTombstone } from "./decorations/WarDecorations";
@@ -170,7 +175,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
       <Scarecrows inventory={state.inventory} />
     </div>
 
-    <Trivia />
+    {/* DISABLED TRIVIA FOR EVENT <Trivia/>*/}
 
     {state.inventory["Nyon Statue"] && (
       <div
