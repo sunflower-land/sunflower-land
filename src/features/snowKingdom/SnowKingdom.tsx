@@ -7,6 +7,7 @@ import background from "assets/land/snow_kingdom.png";
 import { GameProvider } from "features/game/GameProvider";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import waterMovement from "assets/decorations/water_movement.png";
+import { IslandTravelWrapper } from "./islandTravelWrapper";
 
 export const SnowKingdom: React.FC = () => {
   const container = useRef(null);
@@ -48,6 +49,7 @@ export const SnowKingdom: React.FC = () => {
               imageRendering: "pixelated",
             }}
           />
+          <IslandTravelWrapper />
         </ScrollContainer>
       </ToastProvider>
     </GameProvider>
