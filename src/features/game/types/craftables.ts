@@ -1100,7 +1100,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   ...flagsDimension,
 
   // Blacksmith Items
-  "Sunflower Statue": { width: 2, height: 2 },
+  "Sunflower Statue": { width: 3, height: 4 },
   "Potato Statue": { width: 2, height: 2 },
   "Christmas Tree": { width: 2, height: 2 },
   Gnome: { width: 1, height: 1 },
