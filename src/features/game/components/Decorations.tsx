@@ -346,9 +346,9 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     <div
       className="flex justify-center absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 2}px`,
-        right: `${GRID_WIDTH_PX * 21.5}px`,
-        top: `${GRID_WIDTH_PX * 50.4}px`,
+        width: `${GRID_WIDTH_PX * 1.2}px`,
+        right: `${GRID_WIDTH_PX * 21.9}px`,
+        top: `${GRID_WIDTH_PX * 50.75}px`,
       }}
       id={Section.Mole}
     >
