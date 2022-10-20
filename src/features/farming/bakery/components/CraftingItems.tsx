@@ -13,7 +13,7 @@ import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CraftableItem } from "features/game/types/craftables";
+import { CAKES, CraftableItem } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { secondsToMidString } from "lib/utils/time";
 import { isExpired } from "features/game/lib/stock";
@@ -49,6 +49,7 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
   const hasSelectedFood =
     Object.keys(inventory).includes(selected.name) &&
     inventory[selected.name]?.gt(0);
+  const isCake = selected.name in CAKES();
 
   const canCraft = !(lessFunds() || lessIngredients());
 
@@ -129,7 +130,7 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
       );
     }
 
-    if (hasSelectedFood) {
+    if (hasSelectedFood && !isCake) {
       return <span className="text-xs text-center mt-4">Already crafted</span>;
     }
 
@@ -201,7 +202,7 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
           className={`${hasSelectedFood ? "pe-none" : ""} text-xs mt-1`}
           onClick={craft}
         >
-          {hasSelectedFood ? "Already crafted" : "Craft"}
+          {hasSelectedFood && !isCake ? "Already crafted" : "Craft"}
         </Button>
       </>
     );
