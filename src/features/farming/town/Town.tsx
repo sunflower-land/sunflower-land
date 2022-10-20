@@ -9,12 +9,13 @@ import { Mail } from "features/farming/mail/Mail";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 import { GoblinVillageEntry } from "./components/GoblinVillageEntry";
-import { TownHall } from "../townHall/TownHall";
+//import { TownHall } from "../townHall/TownHall";
 import { Salesman } from "../salesman/Salesman";
 //events
 import { HalloweenBakery } from "features/halloween/bakery/Bakery";
 import { HalloweenCakeStall } from "features/halloween/cakeStall/CakeStall";
 import { HalloweenShop } from "features/halloween/shop/Shop";
+import { HalloweenTownHall } from "features/halloween/townHall/TownHall";
 
 export const Town: React.FC = () => {
   return (
@@ -34,7 +35,7 @@ export const Town: React.FC = () => {
       <HalloweenCakeStall />
       <Blacksmith />
       <Mail />
-      <TownHall />
+      <HalloweenTownHall />
       <Salesman />
       <GoblinVillageEntry />
     </div>
