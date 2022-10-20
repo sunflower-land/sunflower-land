@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import boat from "assets/npcs/water_boat.png";
@@ -9,7 +9,6 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Tab } from "components/ui/Tab";
 import { IslandList } from "./IslandList";
 import { Bumpkin } from "features/game/types/game";
-import { useScrollIntoView, Section } from "lib/utils/hooks/useScrollIntoView";
 
 interface Props {
   bumpkin: Bumpkin | undefined;
@@ -19,16 +18,12 @@ interface Props {
 
 export const IslandTravel = ({ bumpkin, x, y }: Props) => {
   const [openIslandList, setOpenIslandList] = useState(false);
-  const [scrollIntoView] = useScrollIntoView();
-
-  useEffect(() => scrollIntoView(Section.Boat), []);
 
   return (
     <>
       <MapPlacement x={x} y={y} width={40 * PIXEL_SCALE}>
         <img
           src={boat}
-          id={Section.Boat}
           onClick={() => setOpenIslandList(true)}
           className="relative cursor-pointer hover:img-highlight"
           style={{

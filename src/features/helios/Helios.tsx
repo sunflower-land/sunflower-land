@@ -24,7 +24,7 @@ export const Helios: React.FC = () => {
 
   useEffect(() => {
     // Start with crops centered
-    scrollIntoView(Section.Merchant, "auto");
+    scrollIntoView(Section.HeliosBackGround, "auto");
   }, [scrollIntoView]);
 
   // Load data
@@ -37,7 +37,11 @@ export const Helios: React.FC = () => {
           height: `${40 * GRID_WIDTH_PX}px`,
         }}
       >
-        <img src={background} className="absolute inset-0 w-full h-full z-10" />
+        <img
+          src={background}
+          className="absolute inset-0 w-full h-full z-10"
+          id="heliosBackground"
+        />
         <Decorations />
         <GrubShop />
         <HeliosBlacksmith />

@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import { Loading, Splash } from "features/auth/components";
+import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { screenTracker } from "lib/utils/screen";
@@ -23,8 +23,6 @@ import { Expanding } from "./components/Expanding";
 import { ExpansionSuccess } from "./components/ExpansionSuccess";
 import { PlaceableOverlay } from "./components/PlaceableOverlay";
 
-import jumpingGoblin from "assets/npcs/goblin_jump.gif";
-import curly from "assets/npcs/curly_hair.png";
 import { Notifications } from "../components/Notifications";
 import { Announcements } from "features/announcements/Announcement";
 import { Hoarding } from "../components/Hoarding";
@@ -106,22 +104,10 @@ export const Game: React.FC = () => {
   if (loadingSession) {
     return (
       <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
-        <Splash fadeIn={false} />
         <Modal show centered backdrop={false}>
-          <div className="relative">
-            <img
-              id="curly"
-              src={curly}
-              className="absolute w-54 -top-11 right-20 -z-10 scale-[4]"
-            />
-            <img
-              src={jumpingGoblin}
-              className="absolute w-52 -top-[83px] -z-10"
-            />
-            <Panel>
-              <Loading />
-            </Panel>
-          </div>
+          <Panel>
+            <Loading />
+          </Panel>
         </Modal>
       </div>
     );
