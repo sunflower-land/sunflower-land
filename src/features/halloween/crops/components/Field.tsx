@@ -243,7 +243,7 @@ export const Field: React.FC<Props> = ({
       onMouseEnter={handleMouseHover}
       onMouseLeave={handleMouseLeave}
       className={classNames(
-        "brightness-75 hue-rotate-20 saturate-50 relative group",
+        "brightness-[60%] hue-rotate-20 saturate-50 relative group",
         className
       )}
       style={{
