@@ -15,7 +15,7 @@ import waterBoat from "assets/npcs/water_boat.png";
 import { Frog } from "./Frog";
 import { FrogNft } from "components/ui/FrogNft";
 
-export const Water: React.FC = () => {
+export const HalloweenWater: React.FC = () => {
   return (
     // Container
     <div

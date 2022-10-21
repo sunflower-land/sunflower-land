@@ -4,7 +4,7 @@ import { useActor } from "@xstate/react";
 
 import { Hud } from "features/farming/hud/Hud";
 import { Crops } from "features/farming/crops/Crops";
-import { Water } from "features/farming/water/Water";
+//import { Water } from "features/farming/water/Water";
 import { Loading } from "features/auth/components";
 //import { Animals } from "features/farming/animals/Animals";
 
@@ -47,6 +47,7 @@ import { HalloweenHouse } from "features/halloween/house/House";
 import { HalloweenForest } from "features/halloween/forest/Forest";
 import { HalloweenDecorations } from "features/halloween/game/components/Decorations";
 import { HalloweenAirdrop } from "features/halloween/game/components/Airdrop";
+import { HalloweenWater } from "features/halloween/water/Water";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -139,7 +140,7 @@ export const Game: React.FC = () => {
       <Hud />
       <TeamDonation />
       <Crops />
-      <Water />
+      <HalloweenWater />
       <HalloweenAnimals />
       <HalloweenDecorations state={gameState.context.state} />
       <HalloweenForest />
