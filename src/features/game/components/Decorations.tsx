@@ -163,7 +163,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
         left: `${GRID_WIDTH_PX * 38}px`,
-        top: `${GRID_WIDTH_PX * 34}px`,
+        top: `${GRID_WIDTH_PX * 34.1}px`,
       }}
       id={Section.Scarecrow}
     >

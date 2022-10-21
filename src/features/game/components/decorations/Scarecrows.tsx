@@ -15,7 +15,7 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
     return (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
+          width: `${GRID_WIDTH_PX * 1.8}px`,
         }}
         src={kuebiko}
         alt="Scarecrow"
@@ -39,7 +39,7 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
     return (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.2}px`,
+          width: `${GRID_WIDTH_PX * 1.1}px`,
         }}
         src={nancy}
         alt="Scarecrow"
