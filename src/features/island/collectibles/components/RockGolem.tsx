@@ -1,16 +1,22 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
 import golemSheet from "assets/nfts/rock_golem.png";
-import { GameState } from "features/game/types/game";
 import { canMine } from "features/game/events/landExpansion/stoneMine";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { useActor } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
-export const RockGolem: React.FC<{ state: GameState }> = ({ state }) => {
-  const stone = state.expansions[0].stones?.[0];
+export const RockGolem: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const state = gameState.context.state;
+
+  const stone = state.expansions?.[0].stones?.[0];
 
   const golemGif = useRef<SpriteSheetInstance>();
   const golemClosingGif = useRef<SpriteSheetInstance>();
@@ -18,13 +24,22 @@ export const RockGolem: React.FC<{ state: GameState }> = ({ state }) => {
   const canMineRock = stone ? canMine(stone) : false;
 
   return (
-    <>
+    <div
+      className="absolute"
+      style={{
+        width: `${PIXEL_SCALE * 34}px`,
+        bottom: `${PIXEL_SCALE * 5}px`,
+        right: `${PIXEL_SCALE * 2.5}px`,
+      }}
+    >
       {canMineRock ? (
         <Spritesheet
           key="standing"
-          className="group-hover:img-highlight pointer-events-none transform z-10"
+          className="absolute group-hover:img-highlight pointer-events-none transform z-10"
           style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
+            width: `${PIXEL_SCALE * 34}px`,
+            bottom: `${PIXEL_SCALE * -6}px`,
+            right: `${PIXEL_SCALE * -2}px`,
             imageRendering: "pixelated",
           }}
           getInstance={(spritesheet) => {
@@ -43,9 +58,11 @@ export const RockGolem: React.FC<{ state: GameState }> = ({ state }) => {
       ) : (
         <Spritesheet
           key="closing"
-          className="group-hover:img-highlight pointer-events-none transform z-10"
+          className="absolute group-hover:img-highlight pointer-events-none transform z-10"
           style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
+            width: `${PIXEL_SCALE * 34}px`,
+            bottom: `${PIXEL_SCALE * -6}px`,
+            right: `${PIXEL_SCALE * -2}px`,
             imageRendering: "pixelated",
           }}
           getInstance={(spritesheet) => {
@@ -63,6 +80,6 @@ export const RockGolem: React.FC<{ state: GameState }> = ({ state }) => {
           loop={false}
         />
       )}
-    </>
+    </div>
   );
 };
