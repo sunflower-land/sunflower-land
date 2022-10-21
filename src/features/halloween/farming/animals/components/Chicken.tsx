@@ -116,7 +116,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const happy = useSelector(service, isHappy);
   const eggReady = useSelector(service, isEggReady);
   const eggLaid = useSelector(service, isEggLaid);
-  console.log({ chickenContext, hungry });
+  //console.log({ chickenContext, hungry });
 
   const eggIsBrewing = happy || sleeping;
   const showEggProgress = chicken && !eating && !eggLaid && !hungry;
