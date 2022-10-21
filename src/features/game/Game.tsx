@@ -14,7 +14,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "./GameProvider";
 import { Panel } from "components/ui/Panel";
 import { ToastManager } from "./toast/ToastManager";
-import { Decorations } from "./components/Decorations";
+//import { Decorations } from "./components/Decorations";
 import { Success } from "./components/Success";
 import { Syncing } from "./components/Syncing";
 
@@ -45,6 +45,7 @@ import { HalloweenAnimals } from "features/halloween/farming/animals/Animals";
 import { HalloweenQuarry } from "features/halloween/quarry/Quarry";
 import { HalloweenHouse } from "features/halloween/house/House";
 import { HalloweenForest } from "features/halloween/forest/Forest";
+import { HalloweenDecorations } from "features/halloween/game/components/Decorations";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -138,7 +139,7 @@ export const Game: React.FC = () => {
       <Crops />
       <Water />
       <HalloweenAnimals />
-      <Decorations state={gameState.context.state} />
+      <HalloweenDecorations state={gameState.context.state} />
       <HalloweenForest />
       <HalloweenQuarry />
       <Town />
