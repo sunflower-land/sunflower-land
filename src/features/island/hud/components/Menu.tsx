@@ -23,6 +23,7 @@ import { HowToPlay } from "features/farming/hud/components/howToPlay/HowToPlay";
 import { Settings } from "features/farming/hud/components/Settings";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
+import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -114,9 +115,14 @@ export const Menu = () => {
             }`}
           >
             {CONFIG.NETWORK === "mumbai" && (
-              <li className="p-1">
-                <DEV_BurnLandButton />
-              </li>
+              <>
+                <li className="p-1">
+                  <DEV_BurnLandButton />
+                </li>
+                <li className="p-1">
+                  <DEV_GenerateLandButton />
+                </li>
+              </>
             )}
 
             {/* Root menu */}

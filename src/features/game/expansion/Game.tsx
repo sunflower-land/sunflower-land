@@ -54,6 +54,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   swarming: true,
   coolingDown: true,
   gameRules: true,
+  randomising: false,
 };
 
 export const Game: React.FC = () => {
