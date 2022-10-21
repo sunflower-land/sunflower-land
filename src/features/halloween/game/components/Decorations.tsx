@@ -28,7 +28,8 @@ import mysteriousHead from "assets/events/halloween/assets/nfts/mysterious_head.
 import homelessTent from "assets/events/halloween/assets/nfts/homeless_tent.png";
 // farmerBath path edited to match event theme
 import farmerBath from "assets/events/halloween/assets/nfts/farmer_bath.png";
-import swimmer from "assets/npcs/swimmer.gif";
+//Swimmer path edited to match event theme
+import swimmer from "assets/events/halloween/assets/npcs/swimmer.gif";
 import skullHand from "assets/decorations/skull_hand.png";
 import easterBunny from "assets/events/halloween/assets/nfts/easter/easter_bunny.gif";
 
