@@ -42,8 +42,8 @@ export const Frog: React.FC = () => {
           <div className="flex items-start">
             <img src={frog} className="w-12 img-highlight mr-2" />
             <div className="flex-1">
-              <span className="text-shadow block">Lilly the Frog</span>
-              <span className="text-shadow block mt-4">Ribbbbbit!</span>
+              <span className="text-shadow block">Lilly the Nightmare</span>
+              <span className="text-shadow block mt-4">Raawwrrrr!</span>
             </div>
           </div>
         </Panel>
