@@ -5,8 +5,7 @@ import { GRID_WIDTH_PX } from "../../lib/constants";
 import { Panel } from "components/ui/Panel";
 
 import close from "assets/icons/close.png";
-// nyon statue path edited to match event theme
-import nyonStatue from "assets/nfts/halloween/nyon_statue.png";
+import nyonStatue from "assets/nfts/nyon_statue.png";
 
 // Only show 1 Nyon statue at a time
 export const NyonStatue: React.FC = () => {

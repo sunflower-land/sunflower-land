@@ -7,8 +7,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../../lib/constants";
 import { burningSound } from "lib/utils/sfx";
 
-//wickermanFire path edited to match event theme
-import wickerManFire from "assets/nfts/halloween/wicker_man_fire.png";
+import wickerManFire from "assets/nfts/wicker_man_fire.png";
 
 export const WickerMan: React.FC = () => {
   const wickerManGif = useRef<SpriteSheetInstance>();
