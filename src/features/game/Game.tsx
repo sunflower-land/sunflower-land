@@ -35,7 +35,6 @@ import { Announcements } from "features/announcements/Announcement";
 import { Notifications } from "./components/Notifications";
 import { Hoarding } from "./components/Hoarding";
 //import { Airdrop } from "./components/Airdrop";
-import { GoblinWar } from "features/war/GoblinWar";
 import { CommunityGardenEntry } from "features/farming/town/components/CommunityGardenEntry";
 import { Swarming } from "./components/Swarming";
 import { Cooldown } from "./components/Cooldown";
@@ -156,7 +155,7 @@ export const Game: React.FC = () => {
       <Lore />
       <HalloweenAirdrop />
       <CommunityGardenEntry />
-      {!gameState.matches("loading") && <GoblinWar />}
+      {/*DISABLE WAR FOR EVENT!  !gameState.matches("loading") && <GoblinWar />*/}
     </>
   );
 };
