@@ -7,7 +7,7 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { observatoryAnimationAudio } from "lib/utils/sfx";
 
 import close from "assets/icons/close.png";
-import observatory from "assets/nfts/mom/observatory.gif";
+import observatory from "assets/events/halloween/assets/nfts/mom/observatory.gif";
 import observatoryAnimation from "assets/nfts/mom/mom_observatory_animation.gif";
 
 export const Observatory: React.FC = () => {

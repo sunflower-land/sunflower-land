@@ -34,7 +34,7 @@ import { Refreshing } from "features/auth/components/Refreshing";
 import { Announcements } from "features/announcements/Announcement";
 import { Notifications } from "./components/Notifications";
 import { Hoarding } from "./components/Hoarding";
-import { Airdrop } from "./components/Airdrop";
+//import { Airdrop } from "./components/Airdrop";
 import { GoblinWar } from "features/war/GoblinWar";
 import { CommunityGardenEntry } from "features/farming/town/components/CommunityGardenEntry";
 import { Swarming } from "./components/Swarming";
@@ -46,6 +46,7 @@ import { HalloweenQuarry } from "features/halloween/quarry/Quarry";
 import { HalloweenHouse } from "features/halloween/house/House";
 import { HalloweenForest } from "features/halloween/forest/Forest";
 import { HalloweenDecorations } from "features/halloween/game/components/Decorations";
+import { HalloweenAirdrop } from "features/halloween/game/components/Airdrop";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -150,7 +151,7 @@ export const Game: React.FC = () => {
         isFarming
       />
       <Lore />
-      <Airdrop />
+      <HalloweenAirdrop />
       <CommunityGardenEntry />
       {!gameState.matches("loading") && <GoblinWar />}
     </>
