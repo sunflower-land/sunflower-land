@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
 
 import { Hud } from "features/farming/hud/Hud";
-import { Crops } from "features/farming/crops/Crops";
+//import { Crops } from "features/farming/crops/Crops";
 //import { Water } from "features/farming/water/Water";
 import { Loading } from "features/auth/components";
 //import { Animals } from "features/farming/animals/Animals";
@@ -49,6 +49,7 @@ import { HalloweenDecorations } from "features/halloween/game/components/Decorat
 import { HalloweenAirdrop } from "features/halloween/game/components/Airdrop";
 import { HalloweenWater } from "features/halloween/water/Water";
 import { HalloweenTeamDonation } from "features/halloween/teamDonation/TeamDonation";
+import { HalloweenCrops } from "features/halloween/crops/Crops";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -140,7 +141,7 @@ export const Game: React.FC = () => {
       <ClockIssue show={gameState.context.offset > 0} />
       <Hud />
       <HalloweenTeamDonation />
-      <Crops />
+      <HalloweenCrops />
       <HalloweenWater />
       <HalloweenAnimals />
       <HalloweenDecorations state={gameState.context.state} />
