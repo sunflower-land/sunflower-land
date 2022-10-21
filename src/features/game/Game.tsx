@@ -19,7 +19,7 @@ import { Success } from "./components/Success";
 import { Syncing } from "./components/Syncing";
 
 //import { Quarry } from "features/farming/quarry/Quarry";
-import { TeamDonation } from "features/farming/teamDonation/TeamDonation";
+//import { TeamDonation } from "features/farming/teamDonation/TeamDonation";
 //import { Forest } from "features/farming/forest/Forest";
 
 import { StateValues } from "./lib/gameMachine";
@@ -48,6 +48,7 @@ import { HalloweenForest } from "features/halloween/forest/Forest";
 import { HalloweenDecorations } from "features/halloween/game/components/Decorations";
 import { HalloweenAirdrop } from "features/halloween/game/components/Airdrop";
 import { HalloweenWater } from "features/halloween/water/Water";
+import { HalloweenTeamDonation } from "features/halloween/teamDonation/TeamDonation";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -138,7 +139,7 @@ export const Game: React.FC = () => {
       {/* check local storage and show modal if not read */}
       <ClockIssue show={gameState.context.offset > 0} />
       <Hud />
-      <TeamDonation />
+      <HalloweenTeamDonation />
       <Crops />
       <HalloweenWater />
       <HalloweenAnimals />
