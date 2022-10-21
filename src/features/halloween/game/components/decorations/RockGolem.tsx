@@ -3,9 +3,9 @@ import React, { useRef } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import { canMine } from "../../events/stoneMine";
-import { GameState } from "../../types/game";
-import { GRID_WIDTH_PX } from "../../lib/constants";
+import { canMine } from "features/game/events/stoneMine";
+import { GameState } from "features/game/types/game";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import golemSheet from "assets/nfts/rock_golem.png";
 

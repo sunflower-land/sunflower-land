@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import { GRID_WIDTH_PX } from "../../lib/constants";
-import { Inventory } from "../../types/game";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { Inventory } from "features/game/types/game";
 import { Panel } from "components/ui/Panel";
 
 import close from "assets/icons/close.png";

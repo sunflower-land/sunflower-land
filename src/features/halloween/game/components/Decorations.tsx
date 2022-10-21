@@ -32,12 +32,12 @@ import swimmer from "assets/npcs/swimmer.gif";
 import skullHand from "assets/decorations/skull_hand.png";
 import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "src/features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { Flags } from "src/features/game/components/Flags";
-import { GameState } from "src/features/game/types/game";
+import { Flags } from "features/game/components/Flags";
+import { GameState } from "features/game/types/game";
 import { fountainAudio } from "lib/utils/sfx";
-import { Sign } from "src/features/game/components/Sign";
+import { Sign } from "features/game/components/Sign";
 import {
   Beavers,
   Moles,

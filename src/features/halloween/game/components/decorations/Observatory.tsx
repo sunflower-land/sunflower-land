@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import { GRID_WIDTH_PX } from "../../lib/constants";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { observatoryAnimationAudio } from "lib/utils/sfx";

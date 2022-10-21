@@ -1,7 +1,7 @@
 import React from "react";
 
-import { GRID_WIDTH_PX } from "../../lib/constants";
-import { Inventory } from "../../types/game";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { Inventory } from "features/game/types/game";
 
 import nancy from "assets/nfts/nancy.png";
 import scarecrow from "assets/nfts/scarecrow.png";

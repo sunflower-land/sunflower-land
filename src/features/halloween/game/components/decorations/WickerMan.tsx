@@ -4,7 +4,7 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "../../lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { burningSound } from "lib/utils/sfx";
 
 //wickermanFire path edited to match event theme
