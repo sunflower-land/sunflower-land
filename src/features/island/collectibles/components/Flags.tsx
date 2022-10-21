@@ -6,7 +6,7 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Flag } from "features/game/types/flags";
 
 interface Props {
@@ -15,13 +15,21 @@ interface Props {
 
 const FlagsImages: React.FC<Props> = ({ flagName }) => {
   return (
-    <img
+    <div
+      className="absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 1.2}px`,
+        width: `${PIXEL_SCALE * 11}px`,
+        right: `${PIXEL_SCALE * 2.5}px`,
       }}
-      src={ITEM_DETAILS[flagName].image}
-      alt={flagName}
-    />
+    >
+      <img
+        style={{
+          width: `${PIXEL_SCALE * 11}px`,
+        }}
+        src={ITEM_DETAILS[flagName].image}
+        alt={flagName}
+      />
+    </div>
   );
 };
 

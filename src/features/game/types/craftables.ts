@@ -1115,7 +1115,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Homeless Tent": { width: 2, height: 2 },
   "Farmer Bath": { width: 2, height: 3 },
   "Mysterious Head": { width: 2, height: 2 },
-  "Rock Golem": { width: 2, height: 3 },
+  "Rock Golem": { width: 2, height: 2 },
   "Tunnel Mole": { width: 1, height: 1 },
   "Rocky the Mole": { width: 1, height: 1 },
   Nugget: { width: 1, height: 1 },
