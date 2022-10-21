@@ -21,36 +21,11 @@ import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
 import { SupplyReached } from "./components/SupplyReached";
 import { Countdown } from "./components/Countdown";
-import { Minimized } from "./components/Minimized";
 import { Blacklisted } from "features/game/components/Blacklisted";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-
-  // TODO - refine full screens system
-  // useEffect(() => {
-  //   const resized = async () => {
-  //     await new Promise((res) => setTimeout(res, 2000));
-  //     const isFullScreen = window.screenTop === 0 && window.screenY === 0;
-
-  //     // Minimised and gone full screen
-  //     if (authState.matches("minimised") && isFullScreen) {
-  //       send("REFRESH");
-  //     }
-
-  //     // Was playing and then minimised
-  //     if (!authState.matches("minimised") && !isFullScreen) {
-  //       send("REFRESH");
-  //     }
-  //   };
-
-  //   window.addEventListener("resize", resized);
-
-  //   return () => {
-  //     window.removeEventListener("resize", resized);
-  //   };
-  // }, [authState]);
 
   return (
     <Modal
@@ -93,7 +68,6 @@ export const Auth: React.FC = () => {
             />
           )}
           {authState.matches("exploring") && <VisitFarm />}
-          {authState.matches("minimised") && <Minimized />}
           {authState.matches("unauthorised") && (
             <ErrorMessage
               errorCode={authState.context.errorCode as ErrorCode}

@@ -34,6 +34,8 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
         id="clouds"
         style={{
           backgroundImage: `url(${clouds})`,
+          backgroundSize: `70rem 29.4rem`,
+          imageRendering: "pixelated",
         }}
       />
       {fadeIn && (

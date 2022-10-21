@@ -4,12 +4,12 @@ import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 
 export const MultipleDevices: React.FC = () => {
   return (
-    <div className="flex flex-col text-center text-shadow items-center p-1">
-      <p className="text-center mb-3">Multiple devices open</p>
+    <div className="flex flex-col text-center items-center p-1">
+      <p>Multiple devices open</p>
 
-      <img src={suspiciousGoblin} alt="Maintenance" className="w-1/3" />
+      <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
 
-      <p className="text-center mb-4 text-sm">
+      <p className="mt-2 mb-2 text-sm">
         Please close any other browser tabs or devices that you are operating
         on.
       </p>

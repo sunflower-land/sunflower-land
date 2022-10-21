@@ -106,7 +106,6 @@ export type BlockchainEvent =
 export type BlockchainState = {
   value:
     | "visiting"
-    | "minimised"
     | "connecting"
     | "connected"
     | "signing"
@@ -498,7 +497,6 @@ export const authMachine = createMachine<
           },
         },
       },
-      minimised: {},
     },
     on: {
       CHAIN_CHANGED: {
