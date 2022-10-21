@@ -7,7 +7,7 @@ import { canMine } from "features/game/events/stoneMine";
 import { GameState } from "features/game/types/game";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-import golemSheet from "assets/nfts/rock_golem.png";
+import golemSheet from "assets/events/halloween/assets/nfts/rock_golem.png";
 
 export const RockGolem: React.FC<{ state: GameState }> = ({ state }) => {
   const stone = state.stones[2];
