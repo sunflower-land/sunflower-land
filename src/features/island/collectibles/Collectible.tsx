@@ -40,6 +40,7 @@ import { Nancy } from "./components/Nancy";
 import { Scarecrow } from "./components/Scarecrow";
 import { Kuebiko } from "./components/Kuebiko";
 import { flags } from "./components/Flags";
+import { CarrotSword } from "./components/CarrotSword";
 
 interface Prop {
   name: CollectibleName;
@@ -97,6 +98,7 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   Nancy,
   Scarecrow,
   Kuebiko,
+  "Carrot Sword": CarrotSword,
 
   // Flags
   ...flags,
