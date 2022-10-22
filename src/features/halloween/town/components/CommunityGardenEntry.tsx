@@ -2,12 +2,12 @@ import React, { useState } from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-import merchant from "assets/npcs/merchant.gif";
+import merchant from "assets/events/halloween/assets/npcs/merchant.gif";
 import humanSign from "assets/buildings/human_sign.png";
 import { CommunityGardenModal } from "./CommunityGardenModal";
 import { merchantAudio } from "lib/utils/sfx";
 //Events
-export const CommunityGardenEntry: React.FC = () => {
+export const HalloweenCommunityGardenEntry: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const openMerchant = () => {

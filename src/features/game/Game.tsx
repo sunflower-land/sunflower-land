@@ -23,7 +23,7 @@ import { Syncing } from "./components/Syncing";
 //import { Forest } from "features/farming/forest/Forest";
 
 import { StateValues } from "./lib/gameMachine";
-import { Town } from "features/farming/town/Town";
+//import { Town } from "features/farming/town/Town";
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 //import { House } from "features/farming/house/House";
@@ -35,7 +35,7 @@ import { Announcements } from "features/announcements/Announcement";
 import { Notifications } from "./components/Notifications";
 import { Hoarding } from "./components/Hoarding";
 //import { Airdrop } from "./components/Airdrop";
-import { CommunityGardenEntry } from "features/farming/town/components/CommunityGardenEntry";
+//import { CommunityGardenEntry } from "features/farming/town/components/CommunityGardenEntry";
 import { Swarming } from "./components/Swarming";
 import { Cooldown } from "./components/Cooldown";
 import { Rules } from "./components/Rules";
@@ -50,6 +50,8 @@ import { HalloweenAirdrop } from "features/halloween/game/components/Airdrop";
 import { HalloweenWater } from "features/halloween/water/Water";
 import { HalloweenTeamDonation } from "features/halloween/teamDonation/TeamDonation";
 import { HalloweenCrops } from "features/halloween/crops/Crops";
+import { HalloweenTown } from "features/halloween/town/Town";
+import { HalloweenCommunityGardenEntry } from "features/halloween/town/components/CommunityGardenEntry";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -147,7 +149,7 @@ export const Game: React.FC = () => {
       <HalloweenDecorations state={gameState.context.state} />
       <HalloweenForest />
       <HalloweenQuarry />
-      <Town />
+      <HalloweenTown />
       <HalloweenHouse
         state={gameState.context.state}
         playerCanLevelUp={gameState.matches("levelling")}
@@ -155,7 +157,7 @@ export const Game: React.FC = () => {
       />
       <Lore />
       <HalloweenAirdrop />
-      <CommunityGardenEntry />
+      <HalloweenCommunityGardenEntry />
       {!gameState.matches("loading") && <GoblinWar />}
     </>
   );
