@@ -11,7 +11,7 @@ import Shark from "../../../components/ui/Shark";
 
 import goblinSwimming from "assets/events/halloween/assets/npcs/goblin_swimming.gif";
 import goblinSnorkling from "assets/events/halloween/assets/npcs/goblin_snorkling.gif";
-import waterBoat from "assets/npcs/water_boat.png";
+import waterBoat from "assets/events/halloween/assets/npcs/water_boat.png";
 import { Frog } from "./Frog";
 import { FrogNft } from "components/ui/FrogNft";
 

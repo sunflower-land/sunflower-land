@@ -38,7 +38,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "features/game/components/Flags";
 import { GameState } from "features/game/types/game";
 import { fountainAudio } from "lib/utils/sfx";
-import { Sign } from "features/game/components/Sign";
+import { HalloweenSign } from "features/halloween/game/components/Sign";
 import {
   Beavers,
   Moles,
@@ -256,7 +256,7 @@ export const HalloweenDecorations: React.FC<{ state: GameState }> = ({
       />
     )}
 
-    <Sign id={state.id as number} inventory={state.inventory} />
+    <HalloweenSign id={state.id as number} inventory={state.inventory} />
 
     {state.inventory["Farmer Bath"] && (
       <div
