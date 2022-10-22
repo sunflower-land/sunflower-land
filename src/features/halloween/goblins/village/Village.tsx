@@ -9,7 +9,7 @@ import { HalloweenFarmer } from "../farmer/Farmer";
 import { HalloweenWishingWell } from "../wishingWell/WishingWell";
 import { Hud } from "src/features/goblins/hud/Hud";
 import { Tailor } from "../tailor/Tailor";
-import { Decorations } from "../Decorations";
+import { HalloweenDecorations } from "../Decorations";
 import { GoblinMachineState } from "features/game/lib/goblinMachine";
 import { AncientTree } from "../quest/AncientTree";
 import { AncientRock } from "../quest/AncientRock";
@@ -45,7 +45,7 @@ export const HalloweenVillage: React.FC<Props> = () => {
       <HalloweenWishingWell />
       <Tailor />
       <HalloweenStorageHouse />
-      <Decorations />
+      <HalloweenDecorations />
       <AncientTree />
       <AncientRock />
       <HalloweenAncientDoor />

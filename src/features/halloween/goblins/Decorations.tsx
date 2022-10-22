@@ -3,11 +3,11 @@
  */
 import React from "react";
 
-import woodGoblin from "assets/npcs/big_goblin_axe.gif";
+import bloodGoblin from "assets/events/halloween/assets/npcs/blood_goblin.gif";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-export const Decorations: React.FC = () => {
+export const HalloweenDecorations: React.FC = () => {
   return (
     <>
       <img
@@ -17,8 +17,8 @@ export const Decorations: React.FC = () => {
           top: `${GRID_WIDTH_PX * 22.6}px`,
         }}
         className="absolute"
-        src={woodGoblin}
-        alt="Wood Goblin"
+        src={bloodGoblin}
+        alt="Blood Goblin"
       />
     </>
   );
