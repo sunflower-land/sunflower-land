@@ -4,7 +4,7 @@ import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GoblinProvider";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { Village } from "./village/Village";
+//import { Village } from "./village/Village";
 import { Loading } from "features/auth/components";
 import { Panel } from "components/ui/Panel";
 import { ErrorMessage } from "features/auth/ErrorMessage";
@@ -20,6 +20,8 @@ import {
 import { screenTracker } from "lib/utils/screen";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { TownEntry } from "./components/TownEntry";
+//Events
+import { HalloweenVillage } from "features/halloween/goblins/village/Village";
 
 // const SHOW_MODAL: Record<StateValues, boolean> = {
 const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
@@ -68,7 +70,9 @@ export const GoblinLand: React.FC = () => {
         </Panel>
       </Modal>
       <TownEntry />
-      <Village state={goblinState.value as GoblinMachineState["value"]} />
+      <HalloweenVillage
+        state={goblinState.value as GoblinMachineState["value"]}
+      />
     </div>
   );
 };
