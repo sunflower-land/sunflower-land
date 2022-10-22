@@ -3,7 +3,7 @@ import React from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { Tree } from "./components/Tree";
-import { Lumberjack } from "src/features/farming/forest/components/Lumberjack";
+import { HalloweenLumberjack } from "./components/Lumberjack";
 
 export const HalloweenForest: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ export const HalloweenForest: React.FC = () => {
       }}
       className="absolute "
     >
-      <Lumberjack />
+      <HalloweenLumberjack />
       <div
         className="absolute"
         style={{

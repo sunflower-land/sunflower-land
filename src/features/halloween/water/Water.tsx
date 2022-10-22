@@ -7,7 +7,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 //halloween themed chick
 import chick from "assets/events/halloween/assets/animals/chick.gif";
 import dragonfly from "assets/events/halloween/assets/decorations/dragonfly.gif";
-import Shark from "../../../components/ui/Shark";
+import Shark from "./Shark";
 
 import goblinSwimming from "assets/events/halloween/assets/npcs/goblin_swimming.gif";
 import goblinSnorkling from "assets/events/halloween/assets/npcs/goblin_snorkling.gif";
