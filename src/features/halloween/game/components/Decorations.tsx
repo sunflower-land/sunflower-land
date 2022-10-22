@@ -5,7 +5,8 @@ import React from "react";
 
 //sunflower rock path edited to match event theme
 import sunflowerRock from "assets/events/halloween/assets/nfts/sunflower_rock.png";
-import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
+// new tombstone path
+import sunflowerTombstone from "assets/events/halloween/assets/nfts/sunflower_tombstone.png";
 import sunflowerStatue from "assets/nfts/sunflower_statue.png";
 //potato statue path edited to match event theme
 import potatoStatue from "assets/events/halloween/assets/nfts/potato_statue.png";
