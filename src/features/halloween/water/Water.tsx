@@ -11,7 +11,6 @@ import Shark from "../../../components/ui/Shark";
 
 import goblinSwimming from "assets/events/halloween/assets/npcs/goblin_swimming.gif";
 import goblinSnorkling from "assets/events/halloween/assets/npcs/goblin_snorkling.gif";
-import waterBoat from "assets/events/halloween/assets/npcs/water_boat.png";
 import { Frog } from "./Frog";
 import { FrogNft } from "components/ui/FrogNft";
 
@@ -60,16 +59,6 @@ export const HalloweenWater: React.FC = () => {
             width: `${GRID_WIDTH_PX * 3.5}px`,
             left: `${GRID_WIDTH_PX * 5}px`,
             top: `${GRID_WIDTH_PX * 11}px`,
-          }}
-        />
-
-        <img
-          src={waterBoat}
-          className="absolute"
-          style={{
-            width: `${GRID_WIDTH_PX * 4.3}px`,
-            right: `${GRID_WIDTH_PX * 6.4}px`,
-            top: `${GRID_WIDTH_PX * 4.3}px`,
           }}
         />
       </div>
