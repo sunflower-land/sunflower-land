@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -45,6 +45,8 @@ export const InventoryTabContent = ({
 }: Props) => {
   const [scrollIntoView] = useScrollIntoView();
   const inventoryCategories = getKeys(tabItems) as InventoryItemName[];
+
+  const divRef = useRef<HTMLDivElement>(null);
 
   const inventoryMap = inventoryItems.reduce((acc, curr) => {
     const category = inventoryCategories.find(
@@ -128,13 +130,13 @@ export const InventoryTabContent = ({
       )}
       <div
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-        className="overflow-y-auto scrollable"
+        className="overflow-y-auto scrollable overflow-x-hidden"
       >
         {inventoryCategories.map((category) => (
           <div className="flex flex-col pl-2" key={category}>
             {<p className="mb-2 underline">{category}</p>}
             {findIfItemsExistForCategory(category) ? (
-              <div className="flex mb-2 flex-wrap -ml-1.5">
+              <div className="flex mb-2 flex-wrap -ml-1.5" ref={divRef}>
                 {inventoryMap[category]
                   .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
                   .map((item) => (
@@ -144,6 +146,7 @@ export const InventoryTabContent = ({
                       key={item}
                       onClick={() => handleItemClick(item)}
                       image={ITEM_DETAILS[item].image}
+                      parentDivRef={divRef}
                     />
                   ))}
               </div>

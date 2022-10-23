@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
@@ -10,6 +10,9 @@ import cancel from "assets/icons/cancel.png";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { shortenCount } from "lib/utils/formatNumber";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+
+const LABEL_RIGHT_SIHFT_PX = -13;
+const LABEL_TOP_SIHFT_PX = -17;
 
 export interface BoxProps {
   hideCount?: boolean;
@@ -29,6 +32,13 @@ export interface BoxProps {
   showOverlay?: boolean;
   overlayIcon?: React.ReactNode;
   className?: string;
+  /**
+   * The ref for the parent div of the boxes.
+   * Used for shifting the item count label if it will be outside of the parent div.
+   * Only need to set if div is scrollable.
+   * Otherwise leave this unset so the shifting is done if the label is outside the viewport.
+   */
+  parentDivRef?: React.RefObject<HTMLElement>;
 }
 
 export const Box: React.FC<BoxProps> = ({
@@ -45,10 +55,15 @@ export const Box: React.FC<BoxProps> = ({
   showOverlay = false,
   overlayIcon,
   className = "",
+  parentDivRef,
 }) => {
   const [isHover, setIsHover] = useState(false);
+  const [showLabelChecker, setShowLabelChecker] = useState(false);
   const [shortCount, setShortCount] = useState("");
   const [isMobile] = useIsMobile();
+
+  const labelRef = useRef<HTMLDivElement>(null);
+  const labelCheckerRef = useRef<HTMLDivElement>(null);
 
   // re execute function on count change
   useEffect(() => setShortCount(shortenCount(count)), [count]);
@@ -68,10 +83,46 @@ export const Box: React.FC<BoxProps> = ({
     ? longPressEvents
     : { onClick: canClick ? onClick : undefined };
 
+  useEffect(() => {
+    if (isHover) {
+      const labelCheckerBounding =
+        labelCheckerRef.current?.getBoundingClientRect();
+      const parentDivBounding = parentDivRef?.current?.getBoundingClientRect();
+
+      // shift label to the right so it will not be outside of the parent div
+      if (labelRef.current && labelCheckerBounding) {
+        if (
+          parentDivBounding &&
+          labelCheckerBounding.left < parentDivBounding.left
+        ) {
+          labelRef.current.style.right = `${
+            LABEL_RIGHT_SIHFT_PX +
+            labelCheckerBounding.left -
+            parentDivBounding.left
+          }px`;
+        } else if (labelCheckerBounding?.left < 0) {
+          labelRef.current.style.right = `${
+            LABEL_RIGHT_SIHFT_PX + labelCheckerBounding.left
+          }px`;
+        }
+      }
+    } else {
+      // restore label position
+      if (labelRef.current) {
+        labelRef.current.style.right = `${LABEL_RIGHT_SIHFT_PX}px`;
+      }
+    }
+
+    setShowLabelChecker(false);
+  }, [isHover]);
+
   return (
     <div
       className={`relative ${className}`}
-      onMouseEnter={() => setIsHover(true)}
+      onMouseEnter={() => {
+        setShowLabelChecker(true);
+        setIsHover(true);
+      }}
       onMouseLeave={() => setIsHover(false)}
     >
       <div
@@ -132,18 +183,43 @@ export const Box: React.FC<BoxProps> = ({
           />
         )}
 
+        {/* Count label */}
         {!locked && !hideCount && !!count && count.greaterThan(0) && (
-          <Label
-            className={classNames(
-              "absolute -top-4 -right-3 px-0.5 text-xs z-10",
-              {
-                "z-20": isHover,
-              }
-            )}
+          <div
+            ref={labelRef}
+            className={classNames("absolute z-10", {
+              "z-20": isHover,
+            })}
+            style={{
+              right: `${LABEL_RIGHT_SIHFT_PX}px`,
+              top: `${LABEL_TOP_SIHFT_PX}px`,
+              pointerEvents: "none",
+            }}
           >
-            {isHover ? count.toString() : shortCount}
-          </Label>
+            <Label className="px-0.5 text-xxs">
+              {isHover && !showLabelChecker ? count.toString() : shortCount}
+            </Label>
+          </div>
         )}
+
+        {/* Transparent long count label to adjust the count label position on hover */}
+        {!locked &&
+          !hideCount &&
+          !!count &&
+          count.greaterThan(0) &&
+          showLabelChecker && (
+            <div
+              ref={labelCheckerRef}
+              className="absolute opacity-0"
+              style={{
+                right: `${LABEL_RIGHT_SIHFT_PX}px`,
+                top: `${LABEL_TOP_SIHFT_PX}px`,
+                pointerEvents: "none",
+              }}
+            >
+              <Label className="px-0.5 text-xxs">{count.toString()}</Label>
+            </div>
+          )}
         {showOverlay && (
           <div className="absolute w-[38px] h-[38px] bg-overlay-white pointer-events-none flex justify-center items-center">
             {overlayIcon}
