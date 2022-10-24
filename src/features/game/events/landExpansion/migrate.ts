@@ -21,7 +21,7 @@ export const canMigrate = (state: GameState) => {
   const isMod = inventory["Discord Mod"]?.gte(1);
   const isCoder = inventory.Coder?.gte(1);
 
-  return isWarrior || hasEnoughXP || isMod || isCoder;
+  return !!isWarrior || !!hasEnoughXP || !!isMod || !!isCoder;
 };
 
 export function migrate({

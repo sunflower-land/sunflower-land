@@ -40,6 +40,7 @@ import { CommunityGardenEntry } from "features/farming/town/components/Community
 import { Swarming } from "./components/Swarming";
 import { Cooldown } from "./components/Cooldown";
 import { Rules } from "./components/Rules";
+import { Migrate } from "./components/Migrate";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -62,6 +63,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   coolingDown: true,
   gameRules: true,
   randomising: false,
+  canMigrate: true,
 };
 
 export const Game: React.FC = () => {
@@ -110,6 +112,8 @@ export const Game: React.FC = () => {
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
+
+          {gameState.matches("canMigrate") && <Migrate />}
 
           {gameState.matches("announcing") && <Announcements />}
           {gameState.matches("deposited") && <Notifications />}

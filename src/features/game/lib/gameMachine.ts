@@ -42,6 +42,7 @@ import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
 import { generateTestLand } from "../expansion/actions/generateLand";
+import { canMigrate } from "../events/landExpansion/migrate";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -113,6 +114,12 @@ export type BlockchainEvent =
     }
   | {
       type: "RESET";
+    }
+  | {
+      type: "SKIP_MIGRATION";
+    }
+  | {
+      type: "MIGRATE";
     }
   | WithdrawEvent
   | GameEvent
@@ -210,6 +217,7 @@ export type BlockchainState = {
     | "swarming"
     | "hoarding"
     | "editing"
+    | "canMigrate"
     | "noBumpkinFound"
     | "coolingDown"
     | "randomising"; // TEST ONLY
@@ -365,9 +373,23 @@ export function startGame(authContext: Options) {
                 window.location.hash.includes("/land"),
             },
             {
+              target: "canMigrate",
+              cond: (context) => canMigrate(context.state),
+            },
+            {
               target: "playing",
             },
           ],
+        },
+        canMigrate: {
+          on: {
+            SKIP_MIGRATION: {
+              target: "playing",
+            },
+            MIGRATE: {
+              target: "playing",
+            },
+          },
         },
         noBumpkinFound: {},
         deposited: {
