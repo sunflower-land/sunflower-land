@@ -12,8 +12,12 @@ type Options = {
   createdAt?: number;
 };
 
-export function migrate({ state, action, createdAt = Date.now() }: Options) {
-  const stateCopy = cloneDeep(state);
+export function migrate({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
+  const stateCopy = cloneDeep(state) as GameState;
   const { skills, inventory } = stateCopy;
   const { farming, gathering } = skills;
 
@@ -25,4 +29,8 @@ export function migrate({ state, action, createdAt = Date.now() }: Options) {
   if (!isWarrior && !hasEnoughXP && !isMod && !isCoder) {
     throw new Error("You don't meet the requirements for migrating");
   }
+
+  stateCopy.migrated = true;
+
+  return stateCopy;
 }

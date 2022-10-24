@@ -329,6 +329,7 @@ export interface GameState {
     id: string;
     fulfilledAt: number;
   }[];
+  migrated?: boolean;
 }
 
 export interface Context {
