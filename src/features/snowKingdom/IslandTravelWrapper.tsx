@@ -14,7 +14,7 @@ export const IslandTravelWrapper = () => {
 
   return (
     <>
-      <MapPlacement x={-4.3} y={-20} width={25 * PIXEL_SCALE}>
+      <MapPlacement x={-1.3} y={-12} width={25 * PIXEL_SCALE}>
         <img
           src={pirateGoblin}
           style={{
@@ -22,7 +22,7 @@ export const IslandTravelWrapper = () => {
           }}
         />
       </MapPlacement>
-      <IslandTravel bumpkin={bumpkin} x={-5} y={-22} />
+      <IslandTravel bumpkin={bumpkin} x={-2} y={-14} />
     </>
   );
 };

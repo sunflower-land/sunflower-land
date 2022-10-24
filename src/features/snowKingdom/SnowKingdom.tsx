@@ -38,6 +38,7 @@ export const SnowKingdom: React.FC = () => {
               src={background}
               className="absolute inset-0 w-full h-full z-10"
             />
+            <IslandTravelWrapper />
           </div>
           <div
             className="absolute inset-0 bg-repeat"
@@ -49,7 +50,6 @@ export const SnowKingdom: React.FC = () => {
               imageRendering: "pixelated",
             }}
           />
-          <IslandTravelWrapper />
         </ScrollContainer>
       </ToastProvider>
     </GameProvider>
