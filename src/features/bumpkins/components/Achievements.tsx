@@ -136,7 +136,7 @@ export const Achievements: React.FC<Props> = ({ onClose }) => {
                     </div>
                   )}
                   {!isComplete && !isAlreadyClaimed && (
-                    <div className="flex flex-1  mt-1.5 text-xs flex-wrap justify-center">
+                    <div className="flex flex-1 mt-1.5 text-xxs flex-wrap justify-center">
                       <p>{`${shortenCount(
                         new Decimal(progress)
                       )}/${shortenCount(

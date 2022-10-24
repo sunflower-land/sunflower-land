@@ -5,8 +5,6 @@ export const formatNumber = (n: number) =>
     notation: "compact",
   }).format(n);
 
-const SHORTEN_COUNT_MAX_DISPLAY = 5;
-
 /**
  * Format like in shortAddress
  * Rules/Limits:
@@ -70,10 +68,12 @@ export const shortenCount = (count: Decimal | undefined): string => {
       .toString()}${suffix}`;
   }
 
-  let value = magnitude
-    .toDecimalPlaces(1, roundingMethod)
-    .toString()
-    .substring(0, SHORTEN_COUNT_MAX_DISPLAY - 1);
+  let value;
+  if (magnitude.lessThan(100))
+    value = magnitude.toDecimalPlaces(1, roundingMethod).toString();
+  else value = magnitude.toDecimalPlaces(0, roundingMethod).toString();
+
+  value = value.substring(0, 4);
   if (value.lastIndexOf(".") === value.length - 1) {
     value = value.substring(0, value.length - 1);
   }
