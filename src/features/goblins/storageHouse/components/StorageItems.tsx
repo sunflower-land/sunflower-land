@@ -91,7 +91,7 @@ export const StorageItems: React.FC = () => {
             rel="noreferrer"
             className="underline"
           >
-            Opensea.
+            OpenSea
           </a>
         </div>
       </div>
