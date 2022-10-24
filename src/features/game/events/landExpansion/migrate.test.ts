@@ -96,4 +96,16 @@ describe("Migrate", () => {
 
     expect(result.migrated).toBe(true);
   });
+
+  it("migrates a player that has Coder Badge", () => {
+    const result = migrate({
+      state: {
+        ...GAME_STATE,
+        inventory: { Coder: new Decimal(1) },
+      },
+      action: { type: "game.migrated" },
+    });
+
+    expect(result.migrated).toBe(true);
+  });
 });
