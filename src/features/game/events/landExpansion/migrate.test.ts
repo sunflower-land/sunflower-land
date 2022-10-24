@@ -12,6 +12,19 @@ describe("Migrate", () => {
         state: {
           ...GAME_STATE,
           skills: { farming: new Decimal(1), gathering: new Decimal(1) },
+          inventory: { Warrior: new Decimal(0) },
+        },
+        action: { type: "game.migrated" },
+      })
+    ).toThrow("You don't meet the requirements for migrating");
+  });
+
+  it("requires player to have the Warrior Badge", () => {
+    expect(() =>
+      migrate({
+        state: {
+          ...GAME_STATE,
+          inventory: { Warrior: new Decimal(0) },
         },
         action: { type: "game.migrated" },
       })

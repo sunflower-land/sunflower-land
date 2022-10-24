@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 
@@ -14,12 +14,13 @@ type Options = {
 
 export function migrate({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
-  const { skills } = stateCopy;
+  const { skills, inventory } = stateCopy;
   const { farming, gathering } = skills;
 
-  const hasEnoughXP = farming.add(gathering).gte(10000);
+  const hasEnoughXP = farming.add(gathering).gte(new Decimal(10000));
+  const isWarrior = inventory.Warrior?.gte(1);
 
-  if (!hasEnoughXP) {
+  if (!isWarrior && !hasEnoughXP) {
     throw new Error("You don't meet the requirements for migrating");
   }
 }
