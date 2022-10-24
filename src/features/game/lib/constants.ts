@@ -551,7 +551,7 @@ export const INITIAL_FARM: GameState = {
 
   expansions: INITIAL_EXPANSIONS,
   buildings: {
-    Workbench: [
+    Market: [
       {
         coordinates: {
           x: 4,
