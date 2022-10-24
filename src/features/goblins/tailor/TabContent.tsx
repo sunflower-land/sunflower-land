@@ -56,7 +56,6 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
   }, []);
 
   useEffect(() => {
-    console.log("setting");
     const items = tab === "collection" ? collection : upcoming;
 
     setSelected(items[0]);
@@ -96,7 +95,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
     if (tab === "collection") {
       return (
         <>
-          <span className="text-shadow text-center text-xs sm:text-sm leading-5">
+          <span className="text-shadow text-center text-xs leading-5">
             {BUMPKIN_ITEMS[selected.name].description}
           </span>
           <div className="border-t border-white w-full mt-2 py-2 text-center">
@@ -169,7 +168,6 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
       <div
         style={{
           maxHeight: TAB_CONTENT_HEIGHT,
-          minHeight: (TAB_CONTENT_HEIGHT * 2) / 3,
         }}
         className="overflow-y-auto w-full pt-1 mr-1 scrollable"
       >

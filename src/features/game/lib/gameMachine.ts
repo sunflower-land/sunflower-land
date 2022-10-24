@@ -41,6 +41,7 @@ import { editingMachine } from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
+import { generateTestLand } from "../expansion/actions/generateLand";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -118,7 +119,8 @@ export type BlockchainEvent =
   | MintEvent
   | LevelUpEvent
   | EditEvent
-  | { type: "EXPAND" };
+  | { type: "EXPAND" }
+  | { type: "RANDOMISE" }; // Test only
 
 // // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
@@ -209,7 +211,8 @@ export type BlockchainState = {
     | "hoarding"
     | "editing"
     | "noBumpkinFound"
-    | "coolingDown";
+    | "coolingDown"
+    | "randomising"; // TEST ONLY
   context: Context;
 };
 
@@ -404,9 +407,8 @@ export function startGame(authContext: Options) {
                   cb("EXPIRED");
                 }
 
-                const bumpkins = await metamask
-                  .getBumpkinDetails()
-                  .loadBumpkins();
+                const bumpkins =
+                  (await metamask.getBumpkinDetails()?.loadBumpkins()) ?? [];
                 const tokenURI = bumpkins[0]?.tokenURI;
 
                 if (tokenURI !== context.state.bumpkin?.tokenUri) {
@@ -451,6 +453,9 @@ export function startGame(authContext: Options) {
             },
             EDIT: {
               target: "editing",
+            },
+            RANDOMISE: {
+              target: "randomising",
             },
           },
         },
@@ -748,6 +753,28 @@ export function startGame(authContext: Options) {
           },
         },
         coolingDown: {},
+        randomising: {
+          invoke: {
+            src: async () => {
+              const { expansions } = await generateTestLand();
+
+              return { expansions };
+            },
+            onDone: {
+              target: "playing",
+              actions: assign<Context, any>({
+                state: (context, event) => ({
+                  ...context.state,
+                  expansions: event.data.expansions,
+                }),
+              }),
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
       },
     },
     {
