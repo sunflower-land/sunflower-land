@@ -508,7 +508,7 @@ export const INITIAL_FARM: GameState = {
     "Carrot Cake": new Decimal(1),
     Radish: new Decimal(100),
     Wheat: new Decimal(100),
-    Egg: new Decimal(15),
+    Egg: new Decimal(30),
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
     Observatory: new Decimal(1),
