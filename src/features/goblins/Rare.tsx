@@ -380,7 +380,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Open Sea
+          OpenSea
         </a>
       </OuterPanel>
     </div>

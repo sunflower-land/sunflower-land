@@ -100,7 +100,7 @@ const SFLItemsInstructions = () => (
 
     <li className="flex text-xs mb-3">
       <span className="mr-1">1.</span>
-      <span>{'Go to Opensea and click the "Transfer" button'}</span>
+      <span>{'Go to OpenSea and click the "Transfer" button'}</span>
     </li>
     <li className="flex text-xs mb-3">
       <span className="mr-1">2.</span>

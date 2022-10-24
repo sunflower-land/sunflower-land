@@ -34,8 +34,9 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
               target="_blank"
               rel="noreferrer"
             >
-              Goblin community treasury.
+              Goblin community treasury
             </a>
+            .
           </span>
           <Button onClick={() => setIsTalking(false)}>Continue</Button>
         </div>
