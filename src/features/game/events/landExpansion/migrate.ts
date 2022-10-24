@@ -12,13 +12,8 @@ type Options = {
   createdAt?: number;
 };
 
-export function migrate({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
-  const { skills, inventory } = stateCopy;
+export const canMigrate = (state: GameState) => {
+  const { skills, inventory } = state;
   const { farming, gathering } = skills;
 
   const hasEnoughXP = farming.add(gathering).gte(new Decimal(10000));
@@ -26,7 +21,17 @@ export function migrate({
   const isMod = inventory["Discord Mod"]?.gte(1);
   const isCoder = inventory.Coder?.gte(1);
 
-  if (!isWarrior && !hasEnoughXP && !isMod && !isCoder) {
+  return isWarrior || hasEnoughXP || isMod || isCoder;
+};
+
+export function migrate({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
+  const stateCopy = cloneDeep(state) as GameState;
+
+  if (!canMigrate(stateCopy)) {
     throw new Error("You don't meet the requirements for migrating");
   }
 
