@@ -19,8 +19,9 @@ export function migrate({ state, action, createdAt = Date.now() }: Options) {
 
   const hasEnoughXP = farming.add(gathering).gte(new Decimal(10000));
   const isWarrior = inventory.Warrior?.gte(1);
+  const isMod = inventory["Discord Mod"]?.gte(1);
 
-  if (!isWarrior && !hasEnoughXP) {
+  if (!isWarrior && !hasEnoughXP && !isMod) {
     throw new Error("You don't meet the requirements for migrating");
   }
 }

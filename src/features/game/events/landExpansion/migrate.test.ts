@@ -30,4 +30,17 @@ describe("Migrate", () => {
       })
     ).toThrow("You don't meet the requirements for migrating");
   });
+
+  it("requires player to have the Moderator Badge", () => {
+    expect(() =>
+      migrate({
+        state: {
+          ...GAME_STATE,
+          inventory: { "Discord Mod": new Decimal(0), Warrior: new Decimal(0) },
+          skills: { farming: new Decimal(1), gathering: new Decimal(1) },
+        },
+        action: { type: "game.migrated" },
+      })
+    ).toThrow("You don't meet the requirements for migrating");
+  });
 });
