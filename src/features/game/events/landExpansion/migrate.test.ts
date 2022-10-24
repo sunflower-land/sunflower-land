@@ -84,4 +84,16 @@ describe("Migrate", () => {
 
     expect(result.migrated).toBe(true);
   });
+
+  it("migrates a player that has Moderator Badge", () => {
+    const result = migrate({
+      state: {
+        ...GAME_STATE,
+        inventory: { "Discord Mod": new Decimal(1) },
+      },
+      action: { type: "game.migrated" },
+    });
+
+    expect(result.migrated).toBe(true);
+  });
 });
