@@ -122,6 +122,14 @@ export const InventoryTabContent = ({
                   </div>
                 </div>
               )}
+              <a
+                href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${KNOWN_IDS[selectedItem]}`}
+                className="underline text-xs hover:text-blue-500 mt-2"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                OpenSea
+              </a>
             </div>
           )}
         </OuterPanel>
