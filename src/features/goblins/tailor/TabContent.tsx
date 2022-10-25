@@ -9,6 +9,7 @@ import { BUMPKIN_ITEMS } from "features/bumpkins/types/BumpkinDetails";
 import { Tab } from "./ItemsModal";
 
 import token from "assets/icons/token_2.png";
+import question from "assets/icons/expression_confused.png";
 import {
   BumpkinShopItem,
   loadCollection,
@@ -90,6 +91,8 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
       </div>
     );
   }
+  // Filter out any items that we don't have details for to avoid a break
+  const itemsToShow = items.filter((item) => !!BUMPKIN_ITEMS[item.name]);
 
   const PanelDetail = () => {
     if (tab === "collection") {
@@ -158,7 +161,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
             {selected.name}
           </span>
           <img
-            src={BUMPKIN_ITEMS[selected.name].shopImage}
+            src={BUMPKIN_ITEMS[selected.name]?.shopImage ?? question}
             className="h-8 my-2"
             alt={selected.name}
           />
@@ -172,12 +175,12 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
         className="overflow-y-auto w-full pt-1 mr-1 scrollable"
       >
         <div className="flex flex-wrap h-fit justify-center">
-          {items.map((item) => (
+          {itemsToShow.map((item) => (
             <Box
               isSelected={selected === item}
               key={item.name}
               onClick={() => setSelected(item)}
-              image={BUMPKIN_ITEMS[item.name].shopImage}
+              image={BUMPKIN_ITEMS[item.name]?.shopImage ?? question}
               count={new Decimal(0)}
             />
           ))}

@@ -1,4 +1,7 @@
-export type BumpkinBackground = "Farm Background";
+export type BumpkinBackground =
+  | "Farm Background"
+  | "Seashore Background"
+  | "Forest Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -12,7 +15,10 @@ export type BumpkinHair =
   | "Explorer Hair"
   | "Buzz Cut"
   | "Parlour Hair"
-  | "Sun spots";
+  | "Blondie"
+  | "Sun Spots"
+  | "Brown Long Hair"
+  | "White Long Hair";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
@@ -23,13 +29,6 @@ export type BumpkinShirt =
   | "Fancy Top"
   | "Maiden Top"
   | "SFL T-Shirt";
-
-export type BumpkinEyes =
-  | "Rosy Wide Eyes"
-  | "Rosy Squinted Eyes"
-  | "Rosy Butterfly Eyes";
-
-export type BumpkinMouths = "Wide Smile" | "Wide Smile With Teeth";
 
 export type BumpkinTool = "Farmer Pitchfork" | "Sword" | "Axe";
 
@@ -52,6 +51,7 @@ export type BumpkinPants =
   | "Farmer Pants"
   | "Warrior Pants"
   | "Brown Suspenders"
+  | "Blue Suspenders"
   | "Fancy Pants"
   | "Maiden Skirt"
   | "Peasant Skirt";
@@ -111,7 +111,13 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Parlour Hair": 43,
   Axe: 44,
   Sword: 45,
-  "Sun spots": 46,
+  "Blue Suspenders": 46,
+  "Forest Background": 47,
+  "Seashore Background": 48,
+  Blondie: 49,
+  "Brown Long Hair": 50,
+  "Sun Spots": 51,
+  "White Long Hair": 52,
 };
 
 // The reverse of above
