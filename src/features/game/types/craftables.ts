@@ -86,7 +86,10 @@ export interface LimitedItem extends CraftableItem {
 
 export type MOMEventItem = "Engine Core" | "Observatory";
 
-export type TravelingSalesmanItem = "Wicker Man" | "Golden Bonsai";
+export type TravelingSalesmanItem =
+  | "Wicker Man"
+  | "Golden Bonsai"
+  | "Victoria Sisters";
 
 export type QuestItem =
   | "Goblin Key"
@@ -588,6 +591,12 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
   "Golden Bonsai": {
     name: "Golden Bonsai",
     description: "Goblins love bonsai too",
+    section: Section["Golden Bonsai"],
+    isPlaceholder: true,
+  },
+  "Victoria Sisters": {
+    name: "Victoria Sisters",
+    description: "The pumpkin loving sisters",
     section: Section["Golden Bonsai"],
     isPlaceholder: true,
   },
@@ -1133,6 +1142,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Fat Chicken": { height: 1, width: 1 },
   "Rich Chicken": { height: 1, width: 1 },
   "Speed Chicken": { height: 1, width: 1 },
+
+  "Victoria Sisters": { height: 2, width: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
