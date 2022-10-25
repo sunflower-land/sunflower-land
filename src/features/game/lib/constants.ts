@@ -523,7 +523,6 @@ export const INITIAL_FARM: GameState = {
     "Mashed Potato": new Decimal(1),
     "Sunflower Cake": new Decimal(1),
     "Pumpkin Soup": new Decimal(1),
-    "Victoria Sisters": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
