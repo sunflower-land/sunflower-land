@@ -42,7 +42,7 @@ export const Field: React.FC<Props> = ({
   className,
   fieldIndex,
 }) => {
-  const [showPopover, setShowPopover] = useState(true);
+  const [showPopover, setShowPopover] = useState(false);
   const [popover, setPopover] = useState<JSX.Element | null>();
   const [procAnimation, setProcAnimation] = useState<JSX.Element | null>();
   const { gameService } = useContext(Context);
@@ -71,6 +71,13 @@ export const Field: React.FC<Props> = ({
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
     setShowPopover(false);
   };
+
+  // do not show popover while hoarding
+  useEffect(() => {
+    if (showPopover && game.matches("hoarding")) {
+      setShowPopover(false);
+    }
+  }, [showPopover]);
 
   const onCollectReward = (success: boolean) => {
     setReward(null);
@@ -118,7 +125,7 @@ export const Field: React.FC<Props> = ({
     }
 
     displayPopover(
-      <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
+      <div className="flex items-center justify-center text-xs text-white overflow-visible">
         <img src={ITEM_DETAILS[field.name].image} className="w-4 mr-1" />
         <span>{`+${field.multiplier || 1}`}</span>
       </div>
@@ -187,7 +194,7 @@ export const Field: React.FC<Props> = ({
         plantAudio.play();
 
         displayPopover(
-          <div className="flex items-center justify-center text-xs text-white text-shadow overflow-visible">
+          <div className="flex items-center justify-center text-xs text-white overflow-visible">
             <img
               src={ITEM_DETAILS[selectedItem as CropName].image}
               className="w-4 mr-1"
@@ -269,17 +276,11 @@ export const Field: React.FC<Props> = ({
         <HealthBar percentage={100 - touchCount * 50} />
       </div>
 
-      <div
-        className={classNames(
-          "transition-opacity absolute -bottom-2 w-full z-20 pointer-events-none flex justify-center",
-          {
-            "opacity-100": showPopover,
-            "opacity-0": !showPopover,
-          }
-        )}
-      >
-        {popover}
-      </div>
+      {showPopover && (
+        <div className="transition-opacity absolute -bottom-2 w-full z-20 pointer-events-none flex justify-center">
+          {popover}
+        </div>
+      )}
 
       {playing && (
         <>

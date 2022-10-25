@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import femaleGoblin from "assets/npcs/goblin_female.gif";
@@ -27,6 +27,7 @@ interface Props {
 }
 export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [
     {
       context: {
@@ -76,6 +77,13 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
 
     setState("exchanged");
   };
+
+  // do not show exchanged popover while hoarding
+  useEffect(() => {
+    if (state === "exchanged" && gameState.matches("hoarding")) {
+      setState("showOffer");
+    }
+  }, [state]);
 
   if (state === "exchanged") {
     return (
@@ -143,6 +151,7 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
         inventory={inventory}
         offer={warCollectionOffer as Offer}
         onCraft={exchange}
+        onClose={onClose}
       />
     );
   }
