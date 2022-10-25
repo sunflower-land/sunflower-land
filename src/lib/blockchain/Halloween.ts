@@ -7,8 +7,8 @@ import ABI from "./abis/Halloween.json";
 import { SunflowerHalloween } from "./types/SunflowerHalloween";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
-const address = CONFIG.TRADER_CONTRACT;
-
+const address = CONFIG.HALLOWEEN_CONTRACT;
+console.log({ address });
 /**
  * Halloween contract
  */
@@ -28,7 +28,11 @@ export class Halloween {
   }
 
   public async hasMinted(farmId: number): Promise<boolean> {
-    const mintedAt = await this.contract.methods.mintedAt(farmId).call();
+    console.log({ farmId });
+    const mintedAt = await this.contract.methods
+      .mintedAt(farmId)
+      .call({ from: this.account });
+    console.log({ mintedAt });
     return Number(mintedAt) > 0;
   }
 
