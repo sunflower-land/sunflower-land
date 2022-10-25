@@ -64,12 +64,12 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
   const items = tab === "collection" ? collection : upcoming;
 
   const goToUpcomingDrops = () => {
-    window.open("https://testnet.bumpkins.io/#/upcoming-drops", "_blank");
+    window.open("https://bumpkins.io/#/upcoming-drops", "_blank");
   };
 
   const goToCollectionItem = () => {
     window.open(
-      `https://testnet.bumpkins.io/#/collection/${selected?.tokenId}`,
+      `https://bumpkins.io/#/collection/${selected?.tokenId}`,
       "_blank"
     );
   };
