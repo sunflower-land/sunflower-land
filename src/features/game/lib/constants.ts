@@ -79,13 +79,13 @@ export const INITIAL_STOCK: Inventory = {
 
 export const INITIAL_FIELDS: GameState["fields"] = {
   0: {
-    name: "Sunflower",
+    name: "Pumpkin",
     plantedAt: 0,
     reward: {
       items: [
         {
-          amount: 2,
-          name: "Sunflower Seed",
+          amount: 1,
+          name: "Jack-o-lantern",
         },
       ],
     },

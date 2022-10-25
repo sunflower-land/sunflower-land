@@ -17,12 +17,13 @@ import { HalloweenAncientDoor } from "../quest/AncientDoor";
 import { HalloweenTrader } from "../trader/tradingPost/Trader";
 import { HalloweenStorageHouse } from "../storageHouse/StorageHouse";
 import { HalloweenWarTent } from "../warTent/WarTent";
+import { Necromancer } from "features/goblins/necromancer/Necromancer";
 
 interface Props {
   state: GoblinMachineState["value"];
 }
 
-export const HalloweenVillage: React.FC<Props> = () => {
+export const HalloweenVillage: React.FC<Props> = ({ state }) => {
   return (
     <div
       style={{
@@ -51,6 +52,7 @@ export const HalloweenVillage: React.FC<Props> = () => {
       <HalloweenAncientDoor />
       <HalloweenTrader />
       <HalloweenWarTent />
+      {state !== "loading" && <Necromancer />}
     </div>
   );
 };

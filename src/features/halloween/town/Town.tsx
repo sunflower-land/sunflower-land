@@ -11,6 +11,7 @@ import { HalloweenShop } from "features/halloween/shop/Shop";
 import { HalloweenTownHall } from "features/halloween/townHall/TownHall";
 import { HalloweenBlacksmith } from "features/halloween/blacksmith/Blacksmith";
 import { HalloweenMail } from "features/halloween/mail/Mail";
+import { HalloweenSalesman } from "features/farming/salesman/HalloweenSalesman";
 
 export const HalloweenTown: React.FC = () => {
   return (
@@ -31,7 +32,7 @@ export const HalloweenTown: React.FC = () => {
       <HalloweenBlacksmith />
       <HalloweenMail />
       <HalloweenTownHall />
-      {/*<Salesman/>*/}
+      <HalloweenSalesman />
       <GoblinVillageEntry />
     </div>
   );
