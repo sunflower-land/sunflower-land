@@ -63,7 +63,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   coolingDown: true,
   gameRules: true,
   randomising: false,
-  canMigrate: true,
+  offerMigration: true,
+  migrating: true,
+  migrated: false,
 };
 
 export const Game: React.FC = () => {
@@ -113,7 +115,8 @@ export const Game: React.FC = () => {
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
 
-          {gameState.matches("canMigrate") && <Migrate />}
+          {gameState.matches("offerMigration") && <Migrate />}
+          {gameState.matches("migrating") && <Loading />}
 
           {gameState.matches("announcing") && <Announcements />}
           {gameState.matches("deposited") && <Notifications />}
