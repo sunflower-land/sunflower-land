@@ -83,6 +83,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Rocky the Mole": 429,
   Nugget: 430,
   "Wicker Man": 431,
+  "Victoria Sisters": 432,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -199,6 +200,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Human War Banner": 920,
   "Goblin War Banner": 921,
   "Player Experience": 922,
+  "Jack-o-lantern": 923,
 
   // Buildings
   Market: 1001,
