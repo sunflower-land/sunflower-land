@@ -14,7 +14,10 @@ describe("cook", () => {
   it("does not cook if building does not exist", () => {
     expect(() =>
       cook({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          buildings: {},
+        },
         action: {
           type: "recipe.cooked",
           item: "Boiled Egg",
