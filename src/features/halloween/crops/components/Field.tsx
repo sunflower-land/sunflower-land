@@ -24,6 +24,7 @@ import Spritesheet from "components/animation/SpriteAnimator";
 import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "./CropReward";
 import { HARVEST_PROC_ANIMATION } from "../lib/plant";
+import jackLantern from "assets/events/halloween/assets/crops/pumpkin/proc_sprite.png";
 
 interface Props {
   selectedItem?: InventoryItemName;
@@ -73,6 +74,23 @@ export const Field: React.FC<Props> = ({
   };
 
   const onCollectReward = (success: boolean) => {
+    if (reward && reward.items[0].name === "Jack-o-lantern") {
+      setProcAnimation(
+        <Spritesheet
+          className="absolute pointer-events-none bottom-[4px] -left-[26px]"
+          style={{
+            width: `${HARVEST_PROC_ANIMATION.size * PIXEL_SCALE}px`,
+            imageRendering: "pixelated",
+          }}
+          image={jackLantern}
+          widthFrame={HARVEST_PROC_ANIMATION.size}
+          heightFrame={HARVEST_PROC_ANIMATION.size}
+          fps={HARVEST_PROC_ANIMATION.fps}
+          steps={HARVEST_PROC_ANIMATION.steps}
+          hiddenWhenPaused={true}
+        />
+      );
+    }
     setReward(null);
     setTouchCount(0);
     if (success) {
@@ -98,7 +116,6 @@ export const Field: React.FC<Props> = ({
     });
 
     harvestAudio.play();
-
     if (field.multiplier && field.multiplier >= 10) {
       setProcAnimation(
         <Spritesheet
