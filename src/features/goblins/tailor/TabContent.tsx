@@ -69,17 +69,17 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
     window.open(
       CONFIG.NETWORK === "mumbai"
         ? "https://testnet.bumpkins.io/#/upcoming-drops"
-        : "https://bumpkins.io/#/upcoming-drops"
-        , "_blank"
-      );
+        : "https://bumpkins.io/#/upcoming-drops",
+      "_blank"
+    );
   };
 
   const goToCollectionItem = () => {
     window.open(
       CONFIG.NETWORK === "mumbai"
-      ? `https://testnet.bumpkins.io/#/collection/${selected?.tokenId}`
-      : `https://bumpkins.io/#/collection/${selected?.tokenId}`
-      , "_blank"
+        ? `https://testnet.bumpkins.io/#/collection/${selected?.tokenId}`
+        : `https://bumpkins.io/#/collection/${selected?.tokenId}`,
+      "_blank"
     );
   };
 
