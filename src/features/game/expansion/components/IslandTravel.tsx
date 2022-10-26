@@ -20,7 +20,7 @@ export const IslandTravel = ({ bumpkin, x, y }: Props) => {
 
   return (
     <>
-      <MapPlacement x={x} y={y} width={50 * PIXEL_SCALE}>
+      <MapPlacement x={x} y={y}>
         <img
           src={boat}
           onClick={() => setOpenIslandList(true)}

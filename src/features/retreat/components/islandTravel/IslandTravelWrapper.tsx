@@ -14,7 +14,7 @@ export const IslandTravelWrapper = () => {
 
   return (
     <>
-      <MapPlacement x={-1.4} y={-12} width={25 * PIXEL_SCALE}>
+      <MapPlacement x={-1.4} y={-12}>
         <img
           src={pirateGoblin}
           style={{

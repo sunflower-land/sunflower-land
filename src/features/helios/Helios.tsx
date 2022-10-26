@@ -50,7 +50,7 @@ export const Helios: React.FC = () => {
         <Fertilisers />
         <ExoticShop />
         <HeliosSunflower />
-        <MapPlacement x={1} y={-14} width={25 * PIXEL_SCALE}>
+        <MapPlacement x={1} y={-14}>
           <img
             src={pirateGoblin}
             style={{

@@ -285,11 +285,7 @@ export const Land: React.FC = () => {
           </MapPlacement>
         )}
 
-        <MapPlacement
-          x={pirateCordinates.x}
-          y={pirateCordinates.y}
-          width={25 * PIXEL_SCALE}
-        >
+        <MapPlacement x={pirateCordinates.x} y={pirateCordinates.y}>
           <img
             src={pirateGoblin}
             style={{
