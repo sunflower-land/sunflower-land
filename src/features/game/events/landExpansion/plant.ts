@@ -164,6 +164,10 @@ export function getCropYieldAmount({
     amount *= 1.2;
   }
 
+  if (crop === "Pumpkin" && inventory["Victoria Sisters"]?.gte(1)) {
+    amount *= 1.2;
+  }
+
   if (
     isCollectibleBuilt("Scarecrow", collectibles) ||
     isCollectibleBuilt("Kuebiko", collectibles)
