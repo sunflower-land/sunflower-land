@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 // TODO
-import npc from "assets/npcs/idle.gif";
+import npc from "assets/npcs/necromancer.gif";
 import bumpkin from "assets/npcs/necromancer_preview.png";
 import jackOLantern from "assets/nfts/jack-o-lantern.png";
 import victoriaSisters from "assets/nfts/victoria-sisters.gif";
