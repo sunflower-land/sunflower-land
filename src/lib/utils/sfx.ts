@@ -25,6 +25,8 @@ import fireCracklingMp3 from "../../assets/sound-effects/fire-crackling.mp3";
 import warChantMp3 from "../../assets/sound-effects/war_chant.mp3";
 import jackLanternMp3 from "assets/events/halloween/assets/sound-effects/jackLantern.mp3";
 import cursedScareCrowMp3 from "assets/events/halloween/assets/sound-effects/cursedScarecrow.mp3";
+import tombstoneMp3 from "assets/events/halloween/assets/sound-effects/tombstone.mp3";
+
 export const harvestAudio = new Howl({
   src: [harvestMp3],
   volume: 0.2,
@@ -148,5 +150,10 @@ export const jackLanternAudio = new Howl({
 
 export const cursedScarecrowAudio = new Howl({
   src: [cursedScareCrowMp3],
+  volume: 0.2,
+});
+
+export const tombstoneAudio = new Howl({
+  src: [tombstoneMp3],
   volume: 0.2,
 });
