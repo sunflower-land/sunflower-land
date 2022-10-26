@@ -8,9 +8,9 @@ import { useActor } from "@xstate/react";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import close from "assets/icons/close.png";
 
-import salesmanImage from "assets/npcs/salesman.gif";
+import salesmanImage from "assets/events/halloween/assets/npcs/salesman.gif";
 import { hasAlreadyTraded } from "features/game/events/trade";
-import { Offer } from "./component/Offer";
+import { Offer } from "../../farming/salesman/component/Offer";
 import { TradeOffer } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToMidString } from "lib/utils/time";
