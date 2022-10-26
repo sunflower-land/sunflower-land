@@ -14,7 +14,8 @@ export type Position = {
 // We want each y position to have a positive z index
 const BASE_Z_INDEX = 100;
 
-export const calculateZIndex = (y: number) => BASE_Z_INDEX - y;
+// Math.floor() is needed.  Z-index for decimal number won't be set in the DOM!!
+export const calculateZIndex = (y: number) => Math.floor(BASE_Z_INDEX - y);
 
 /**
  * This component is used to place items on the map. It uses the cartesian place coordinates

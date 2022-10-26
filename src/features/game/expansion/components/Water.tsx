@@ -11,6 +11,7 @@ import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
 import swimmer from "assets/npcs/swimmer.gif";
 import cossies from "assets/decorations/cossies.png";
 import island from "assets/land/islands/island.png";
+import warIsland from "assets/land/islands/war_island.png";
 import chest from "assets/icons/chest.png";
 
 import { MapPlacement } from "./MapPlacement";
@@ -114,6 +115,16 @@ export const Water: React.FC<Props> = ({ level }) => {
             />
           </MapPlacement>
         )}
+
+        {/* War island */}
+        <MapPlacement x={-2.5} y={-11}>
+          <img
+            src={warIsland}
+            style={{
+              width: `${GRID_WIDTH_PX * 9}px`,
+            }}
+          />
+        </MapPlacement>
       </div>
     </div>
   );

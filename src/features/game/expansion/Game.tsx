@@ -33,6 +33,7 @@ import { Swarming } from "../components/Swarming";
 import { Helios } from "features/helios/Helios";
 import { Cooldown } from "../components/Cooldown";
 import { Rules } from "../components/Rules";
+import { GoblinWar } from "./war/GoblinWar";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -163,6 +164,9 @@ export const Game: React.FC = () => {
       <div className="absolute z-20">
         <Hud />
       </div>
+
+      {/* War */}
+      {!gameState.matches("loading") && <GoblinWar />}
     </>
   );
 };

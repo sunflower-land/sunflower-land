@@ -9,6 +9,7 @@ import { Menu } from "./components/Menu";
 import { Buildings } from "../buildings/Buildings";
 import { Inventory } from "./components/inventory/Inventory";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
+import { Leaderboard } from "features/war/components/Leaderboard";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -23,6 +24,7 @@ export const Hud: React.FC = () => {
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
       <Menu />
+      <Leaderboard />
       {isEditing ? (
         <PlaceableController />
       ) : (

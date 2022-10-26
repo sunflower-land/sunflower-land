@@ -19,6 +19,7 @@ import { RESOURCES } from "features/game/types/resources";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONSUMABLES } from "features/game/types/consumables";
+import { COUPONS } from "features/game/types/coupons";
 
 export const ITEM_CARD_MIN_HEIGHT = "148px";
 export const TAB_CONTENT_HEIGHT = 400;
@@ -64,6 +65,7 @@ export const Basket: React.FC = () => {
   const resources = getItems(RESOURCES);
   const foods = getItems(FOODS());
   const consumables = getItems(CONSUMABLES);
+  const coupons = getItems(COUPONS());
 
   const allTools = [...tools, ...shovels];
 
@@ -185,6 +187,22 @@ export const Basket: React.FC = () => {
                 />
               ))}
               {consumables.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!coupons.length && (
+          <div className="flex flex-col pl-2" key={"Coupons"}>
+            {<p className="mb-2 underline">Coupons</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {coupons.map((item) => (
                 <Box
                   count={inventory[item]}
                   isSelected={selectedItem === item}
