@@ -117,6 +117,7 @@ export const Field: React.FC<Props> = ({
     });
 
     harvestAudio.play();
+
     if (field.multiplier && field.multiplier >= 10) {
       setProcAnimation(
         <Spritesheet
