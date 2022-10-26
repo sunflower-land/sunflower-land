@@ -30,17 +30,17 @@ export function placeChicken({
     throw new Error("You do not have a Bumpkin");
   }
 
-  const previousChickens = stateCopy.inventory.Chicken || new Decimal(0);
-
-  if (previousChickens.gte(getSupportedChickens(state))) {
-    throw new Error("Insufficient space for more chickens");
-  }
-
   const placedChickens = getKeys(stateCopy.chickens).filter(
     (index) => stateCopy.chickens[index].coordinates
   ).length;
   if (stateCopy.inventory.Chicken?.lte(placedChickens)) {
     throw new Error("You do not have any available chickens");
+  }
+
+  const previousChickens = stateCopy.inventory.Chicken || new Decimal(0);
+
+  if (previousChickens.gte(getSupportedChickens(state))) {
+    throw new Error("Insufficient space for more chickens");
   }
 
   const chickens: GameState["chickens"] = {

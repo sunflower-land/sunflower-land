@@ -120,6 +120,19 @@ describe("buyChicken", () => {
         inventory: {
           Chicken: new Decimal(1),
         },
+        buildings: {
+          "Chicken House": [
+            {
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
       },
       action: {
         coordinates: {
@@ -191,6 +204,19 @@ describe("buyChicken", () => {
         chickens: {},
         inventory: {
           Chicken: new Decimal(2),
+        },
+        buildings: {
+          "Chicken House": [
+            {
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
         },
       },
       action: {
