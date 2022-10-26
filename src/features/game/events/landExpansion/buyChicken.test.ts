@@ -123,6 +123,51 @@ describe("buyChicken", () => {
     });
   });
 
+  it("places a chicken on land with chicken coop available", () => {
+    const state = buyChicken({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Chicken Coop": new Decimal(1),
+          "Chicken House": new Decimal(1),
+          Chicken: new Decimal(10),
+        },
+        chickens: {},
+        balance: new Decimal(10),
+        buildings: {
+          "Chicken House": [
+            {
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        type: "chicken.bought",
+      },
+    });
+
+    expect(state.chickens).toEqual({
+      0: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        multiplier: 1,
+      },
+    });
+  });
+
   it("places multiple chickens", () => {
     let state = buyChicken({
       state: {
@@ -223,7 +268,7 @@ describe("buyChicken", () => {
     );
   });
 
-  it("throws an error if not enough room for more chickens", () => {
+  it("throws an error if not enough room for more chickens without chicken coop", () => {
     expect(() =>
       buyChicken({
         state: {
@@ -231,6 +276,40 @@ describe("buyChicken", () => {
           balance: new Decimal(10),
           inventory: {
             Chicken: new Decimal(10),
+          },
+          buildings: {
+            "Chicken House": [
+              {
+                coordinates: {
+                  x: 0,
+                  y: 0,
+                },
+                createdAt: 0,
+                id: "123",
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          coordinates: {
+            x: 2,
+            y: 2,
+          },
+          type: "chicken.bought",
+        },
+      })
+    ).toThrow("Insufficient space for more chickens");
+  });
+  it("throws an error if not enough room for more chickens with chicken coop available", () => {
+    expect(() =>
+      buyChicken({
+        state: {
+          ...INITIAL_FARM,
+          balance: new Decimal(10),
+          inventory: {
+            Chicken: new Decimal(15),
+            "Chicken Coop": new Decimal(1),
           },
           buildings: {
             "Chicken House": [
