@@ -298,5 +298,23 @@ describe("plant", () => {
 
       expect(amount).toEqual(1.2);
     });
+    it("plants a normal pumpkin", () => {
+      const amount = getMultiplier({
+        crop: "Pumpkin",
+        inventory: {},
+      });
+
+      expect(amount).toEqual(1);
+    });
+    it("plants a pumpkin with the victoria sisters boost", () => {
+      const amount = getMultiplier({
+        crop: "Pumpkin",
+        inventory: {
+          "Victoria Sisters": new Decimal(1),
+        },
+      });
+
+      expect(amount).toEqual(1.2);
+    });
   });
 });

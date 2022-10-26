@@ -96,20 +96,24 @@ type GetFieldArgs = {
  */
 export function getMultiplier({ crop, inventory }: GetFieldArgs): number {
   let multiplier = 1;
-  if (crop === "Cauliflower" && inventory["Golden Cauliflower"]?.gte(1)) {
-    multiplier *= 2;
+  if (crop === "Sunflower" && inventory["Sunflower Amulet"]?.gte(1)) {
+    multiplier *= 1.1;
+  }
+
+  if (crop === "Pumpkin" && inventory["Victoria Sisters"]?.gte(1)) {
+    multiplier *= 1.2;
   }
 
   if (crop === "Carrot" && inventory["Easter Bunny"]?.gte(1)) {
     multiplier *= 1.2;
   }
 
-  if (crop === "Sunflower" && inventory["Sunflower Amulet"]?.gte(1)) {
-    multiplier *= 1.1;
-  }
-
   if (crop === "Beetroot" && inventory["Beetroot Amulet"]?.gte(1)) {
     multiplier *= 1.2;
+  }
+
+  if (crop === "Cauliflower" && inventory["Golden Cauliflower"]?.gte(1)) {
+    multiplier *= 2;
   }
 
   if (inventory.Scarecrow?.gte(1) || inventory.Kuebiko?.gte(1)) {
