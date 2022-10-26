@@ -43,6 +43,75 @@ describe("buyChicken", () => {
     ).toThrow("You do not have any available chickens");
   });
 
+  it("throws an error if not enough room for more chickens with chicken coop available", () => {
+    expect(() =>
+      placeChicken({
+        state: {
+          ...INITIAL_FARM,
+          balance: new Decimal(10),
+          inventory: {
+            Chicken: new Decimal(15),
+            "Chicken Coop": new Decimal(1),
+          },
+          buildings: {
+            "Chicken House": [
+              {
+                coordinates: {
+                  x: 0,
+                  y: 0,
+                },
+                createdAt: 0,
+                id: "123",
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          coordinates: {
+            x: 2,
+            y: 2,
+          },
+          type: "chicken.placed",
+        },
+      })
+    ).toThrow("Insufficient space for more chickens");
+  });
+
+  it("throws an error if not enough room for more chickens without chicken coop available", () => {
+    expect(() =>
+      placeChicken({
+        state: {
+          ...INITIAL_FARM,
+          balance: new Decimal(10),
+          inventory: {
+            Chicken: new Decimal(10),
+          },
+          buildings: {
+            "Chicken House": [
+              {
+                coordinates: {
+                  x: 0,
+                  y: 0,
+                },
+                createdAt: 0,
+                id: "123",
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          coordinates: {
+            x: 2,
+            y: 2,
+          },
+          type: "chicken.placed",
+        },
+      })
+    ).toThrow("Insufficient space for more chickens");
+  });
+
   it("places a chicken", () => {
     const state = placeChicken({
       state: {
@@ -50,6 +119,49 @@ describe("buyChicken", () => {
         chickens: {},
         inventory: {
           Chicken: new Decimal(1),
+        },
+      },
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        type: "chicken.placed",
+      },
+    });
+
+    expect(state.chickens).toEqual({
+      0: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        multiplier: 1,
+      },
+    });
+  });
+
+  it("places a chicken with chicken coop available", () => {
+    const state = placeChicken({
+      state: {
+        ...INITIAL_FARM,
+        chickens: {},
+        inventory: {
+          Chicken: new Decimal(11),
+          "Chicken Coop": new Decimal(1),
+        },
+        buildings: {
+          "Chicken House": [
+            {
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
         },
       },
       action: {

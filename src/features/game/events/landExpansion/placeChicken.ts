@@ -1,6 +1,8 @@
+import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
+import { getSupportedChickens } from "./utils";
 
 export type PlaceChickenAction = {
   type: "chicken.placed";
@@ -26,6 +28,12 @@ export function placeChicken({
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
+  }
+
+  const previousChickens = stateCopy.inventory.Chicken || new Decimal(0);
+
+  if (previousChickens.gte(getSupportedChickens(state))) {
+    throw new Error("Insufficient space for more chickens");
   }
 
   const placedChickens = getKeys(stateCopy.chickens).filter(
