@@ -41,7 +41,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
       "Collect 50 Jack O Lanterns for a special trade at the travelling Salesman",
       "Will you summon the Necromancer and discover a rare prize?",
     ],
-    link: "https://docs.sunflower-land.com/",
+    link: "https://docs.sunflower-land.com/fundamentals/special-events/halloween",
   },
   {
     date: new Date("2022-10-25T00:00:00"),
