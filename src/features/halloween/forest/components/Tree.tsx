@@ -8,7 +8,7 @@ import Decimal from "decimal.js-light";
 
 import shakeSheet from "assets/events/halloween/assets/resources/tree/shake_sheet.png";
 import choppedSheet from "assets/events/halloween/assets/resources/tree/chopped_sheet.png";
-import stump from "assets/resources/tree/stump.png";
+import stump from "assets/events/halloween/assets/resources/tree/stump.png";
 import wood from "assets/resources/wood.png";
 import axe from "assets/tools/axe.png";
 
