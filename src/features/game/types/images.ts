@@ -221,6 +221,9 @@ import pumpkinCake from "src/assets/nfts/cakes/pumpkin_cake.png";
 import sunflowerCake from "src/assets/nfts/cakes/sunflower_cake.png";
 import wheatCake from "src/assets/nfts/cakes/wheat_cake.png";
 
+// Food
+import mashedPotato from "assets/food/mashed_potato.png";
+
 import goblinKey from "src/assets/nfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
 import ancientGoblinSword from "src/assets/nfts/quest/ancient_goblin_sword.png";
@@ -1112,7 +1115,7 @@ export const ITEM_DETAILS: Items = {
     description: "A boiled egg",
   },
   "Mashed Potato": {
-    image: redEgg,
+    image: mashedPotato,
     description: "A boiled egg",
   },
   "Bumpkin Salad": {

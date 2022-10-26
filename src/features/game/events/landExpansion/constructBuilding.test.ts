@@ -360,7 +360,7 @@ describe("Construct building", () => {
         },
         bumpkin: {
           id: 1,
-          experience: LEVEL_BRACKETS[8],
+          experience: 1000000000,
           stamina: {
             value: 0,
             replenishedAt: 0,

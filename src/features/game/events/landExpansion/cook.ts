@@ -65,11 +65,11 @@ export function cook({
     throw new Error("Cooking already in progress");
   }
 
-  const stockAmount = stateCopy.stock[action.item] || new Decimal(0);
+  // const stockAmount = stateCopy.stock[action.item] || new Decimal(0);
 
-  if (stockAmount.lessThan(1)) {
-    throw new Error("Not enough stock");
-  }
+  // if (stockAmount.lessThan(1)) {
+  //   throw new Error("Not enough stock");
+  // }
 
   stateCopy.inventory = getKeys(ingredients).reduce((inventory, ingredient) => {
     const count = inventory[ingredient] || new Decimal(0);
@@ -94,7 +94,7 @@ export function cook({
     }),
   };
 
-  stateCopy.stock[action.item] = stockAmount.minus(new Decimal(1));
+  // stateCopy.stock[action.item] = stockAmount.minus(new Decimal(1));
 
   bumpkin.activity = trackActivity(`${action.item} Cooked`, bumpkin.activity);
 

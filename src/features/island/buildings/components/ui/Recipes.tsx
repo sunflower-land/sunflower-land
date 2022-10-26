@@ -9,7 +9,6 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
-import { Stock } from "components/ui/Stock";
 import { Consumable, ConsumableName } from "features/game/types/consumables";
 
 interface Props {
@@ -52,23 +51,24 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
   };
 
   const Action = () => {
-    if (stock?.equals(0)) {
-      return (
-        <div>
-          <p className="text-xxs no-wrap text-center my-1 underline">
-            Sold out
-          </p>
-          <p className="text-xxs text-center">
-            Sync your farm to the Blockchain to restock
-          </p>
-        </div>
-      );
-    }
+    // if (stock?.equals(0)) {
+    //   return (
+    //     <div>
+    //       <p className="text-xxs no-wrap text-center my-1 underline">
+    //         Sold out
+    //       </p>
+    //       <p className="text-xxs text-center">
+    //         Sync your farm to the Blockchain to restock
+    //       </p>
+    //     </div>
+    //   );
+    // }
 
     return (
       <>
         <Button
-          disabled={lessIngredients() || stock?.lessThan(1)}
+          disabled={lessIngredients()}
+          // disabled={lessIngredients() || stock?.lessThan(1)}
           className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
           onClick={() => cook()}
         >
@@ -95,7 +95,7 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
       </div>
       <OuterPanel className="flex-1 w-1/2">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <Stock item={selected} />
+          {/* <Stock item={selected} /> */}
           <span className="text-shadow text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
