@@ -1,25 +1,36 @@
-import willow_tree from "./willow_tree.mp3";
-import harvesting from "./harvesting.mp3";
-import mountain_escape from "./mountain_escape.mp3";
+// Halloween
+import haunted from "./haunted.mp3";
+import blackOak from "./black_oak.mp3";
 // Playlist hardcoded, but eventually it will be fetched from the server
 const farming_songs = [
+  // {
+  //   artist: "Romy & Rick",
+  //   name: "Harvesting",
+  //   path: harvesting,
+  // },
+  // {
+  //   artist: "Romy",
+  //   name: "Willow Tree",
+  //   path: willow_tree,
+  // },
+
   {
     artist: "Romy & Rick",
-    name: "Harvesting",
-    path: harvesting,
-  },
-  {
-    artist: "Romy",
-    name: "Willow Tree",
-    path: willow_tree,
+    name: "Black Oak",
+    path: blackOak,
   },
 ];
 
 const goblin_songs = [
+  // {
+  //   artist: "Romy & Rick",
+  //   name: "Mountain Escape",
+  //   path: mountain_escape,
+  // },
   {
-    artist: "Romy & Rick",
-    name: "Mountain Escape",
-    path: mountain_escape,
+    artist: "Jc Eii",
+    name: "Haunted",
+    path: haunted,
   },
 ];
 
