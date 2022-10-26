@@ -38,7 +38,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "features/game/components/Flags";
 import { GameState } from "features/game/types/game";
-import { fountainAudio } from "lib/utils/sfx";
+import { fountainAudio, tombstoneAudio } from "lib/utils/sfx";
 import { HalloweenSign } from "features/halloween/game/components/Sign";
 import {
   Beavers,
@@ -122,6 +122,12 @@ export const HalloweenDecorations: React.FC<{ state: GameState }> = ({
         id={Section["Sunflower Tombstone"]}
         className="absolute"
         src={sunflowerTombstone}
+        onClick={() => {
+          //Checks if Audio is playing, if false, plays the sound
+          if (!tombstoneAudio.playing()) {
+            tombstoneAudio.play();
+          }
+        }}
         alt="Sunflower tombstone"
       />
     )}
