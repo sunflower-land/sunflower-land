@@ -49,9 +49,9 @@ export function mineIron({
     throw new Error(MINE_ERRORS.NO_BUMPKIN);
   }
 
-  if (bumpkin.stamina.value < IRON_MINE_STAMINA_COST) {
-    throw new Error(MINE_ERRORS.NO_STAMINA);
-  }
+  // if (bumpkin.stamina.value < IRON_MINE_STAMINA_COST) {
+  //   throw new Error(MINE_ERRORS.NO_STAMINA);
+  // }
 
   if (!expansion) {
     throw new Error(MINE_ERRORS.NO_EXPANSION);
