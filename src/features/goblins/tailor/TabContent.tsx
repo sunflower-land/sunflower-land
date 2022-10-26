@@ -16,6 +16,8 @@ import {
 } from "./actions/items";
 import classNames from "classnames";
 
+import { CONFIG } from "lib/config";
+
 const TAB_CONTENT_HEIGHT = 364;
 
 interface Props {
@@ -64,13 +66,20 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
   const items = tab === "collection" ? collection : upcoming;
 
   const goToUpcomingDrops = () => {
-    window.open("https://bumpkins.io/#/upcoming-drops", "_blank");
+    window.open(
+      CONFIG.NETWORK === "mumbai"
+        ? "https://testnet.bumpkins.io/#/upcoming-drops"
+        : "https://bumpkins.io/#/upcoming-drops"
+        , "_blank"
+      );
   };
 
   const goToCollectionItem = () => {
     window.open(
-      `https://bumpkins.io/#/collection/${selected?.tokenId}`,
-      "_blank"
+      CONFIG.NETWORK === "mumbai"
+      ? `https://testnet.bumpkins.io/#/collection/${selected?.tokenId}`
+      : `https://bumpkins.io/#/collection/${selected?.tokenId}`
+      , "_blank"
     );
   };
 
