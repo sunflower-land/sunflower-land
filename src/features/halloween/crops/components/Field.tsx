@@ -19,7 +19,7 @@ import {
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { Soil } from "./Soil";
-import { harvestAudio, plantAudio } from "lib/utils/sfx";
+import { harvestAudio, plantAudio, jackLanternAudio } from "lib/utils/sfx";
 import Spritesheet from "components/animation/SpriteAnimator";
 import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "./CropReward";
@@ -90,6 +90,7 @@ export const Field: React.FC<Props> = ({
           hiddenWhenPaused={true}
         />
       );
+      jackLanternAudio.play();
     }
     setReward(null);
     setTouchCount(0);
