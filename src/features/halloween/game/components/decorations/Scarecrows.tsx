@@ -6,6 +6,7 @@ import { Inventory } from "features/game/types/game";
 import nancy from "assets/nfts/nancy.png";
 import scarecrow from "assets/nfts/scarecrow.png";
 import kuebiko from "assets/nfts/kuebiko.gif";
+import { cursedScarecrowAudio } from "lib/utils/sfx";
 
 // Only show 1 scarecrow at a time
 export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
@@ -18,6 +19,12 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
           width: `${GRID_WIDTH_PX * 2}px`,
         }}
         src={kuebiko}
+        onClick={() => {
+          //Checks if Audio is playing, if false, plays the sound
+          if (!cursedScarecrowAudio.playing()) {
+            cursedScarecrowAudio.play();
+          }
+        }}
         alt="Scarecrow"
       />
     );
@@ -30,6 +37,12 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
           width: `${GRID_WIDTH_PX * 1.3}px`,
         }}
         src={scarecrow}
+        onClick={() => {
+          //Checks if Audio is playing, if false, plays the sound
+          if (!cursedScarecrowAudio.playing()) {
+            cursedScarecrowAudio.play();
+          }
+        }}
         alt="Scarecrow"
       />
     );
@@ -42,6 +55,12 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
           width: `${GRID_WIDTH_PX * 1.2}px`,
         }}
         src={nancy}
+        onClick={() => {
+          //Checks if Audio is playing, if false, plays the sound
+          if (!cursedScarecrowAudio.playing()) {
+            cursedScarecrowAudio.play();
+          }
+        }}
         alt="Scarecrow"
       />
     );
