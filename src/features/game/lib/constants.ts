@@ -79,13 +79,13 @@ export const INITIAL_STOCK: Inventory = {
 
 export const INITIAL_FIELDS: GameState["fields"] = {
   0: {
-    name: "Sunflower",
+    name: "Pumpkin",
     plantedAt: 0,
     reward: {
       items: [
         {
-          amount: 2,
-          name: "Sunflower Seed",
+          amount: 1,
+          name: "Jack-o-lantern",
         },
       ],
     },
@@ -508,7 +508,7 @@ export const INITIAL_FARM: GameState = {
     "Carrot Cake": new Decimal(1),
     Radish: new Decimal(100),
     Wheat: new Decimal(100),
-    Egg: new Decimal(15),
+    Egg: new Decimal(30),
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
     Observatory: new Decimal(1),
@@ -551,7 +551,7 @@ export const INITIAL_FARM: GameState = {
 
   expansions: INITIAL_EXPANSIONS,
   buildings: {
-    Workbench: [
+    Market: [
       {
         coordinates: {
           x: 4,

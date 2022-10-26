@@ -14,11 +14,13 @@ import { BUMPKIN_ITEMS } from "features/bumpkins/types/BumpkinDetails";
 interface Props {
   bumpkinParts: BumpkinParts;
   showBackground?: boolean;
+  className?: string;
 }
 
 export const DynamicNFT: React.FC<Props> = ({
   bumpkinParts,
   showBackground,
+  className,
 }) => {
   if (!bumpkinParts) {
     return null;
@@ -45,7 +47,7 @@ export const DynamicNFT: React.FC<Props> = ({
   }
 
   return (
-    <div className="relative w-full">
+    <div className={classNames("relative w-full", className ?? "")}>
       <img
         src={dropShadow}
         alt="drop-shadow"
@@ -56,7 +58,7 @@ export const DynamicNFT: React.FC<Props> = ({
         .map((part: BumpkinPart, index) => (
           <img
             key={part}
-            src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItem].layerImage}
+            src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItem]?.layerImage}
             style={{
               zIndex: index * 10,
             }}

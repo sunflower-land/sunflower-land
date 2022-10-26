@@ -236,7 +236,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
         </div>
 
         <span className="text-sm mb-4">
-          Once delivered, you will be able to view your items on Open Sea.
+          Once delivered, you will be able to view your items on OpenSea.
         </span>
       </div>
 

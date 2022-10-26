@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import mine from "assets/resources/mine.png";
+import mine from "assets/resources/rare_mine.png";
 import pickaxe from "assets/tools/stone_pickaxe.png";
 import close from "assets/icons/close.png";
 
@@ -21,8 +21,8 @@ export const Mine: React.FC = () => {
           src={mine}
           className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 30}px`,
-            left: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 26}px`,
+            left: `${PIXEL_SCALE * 3}px`,
             top: `${PIXEL_SCALE * 1}px`,
           }}
         />
