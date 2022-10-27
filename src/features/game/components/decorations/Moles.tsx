@@ -18,7 +18,7 @@ export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
       <>
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 1.52}px`,
+            width: `${GRID_WIDTH_PX * 1.2}px`,
           }}
           src={nugget}
           alt="Nugget"
@@ -50,7 +50,7 @@ export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
       <>
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 1.52}px`,
+            width: `${GRID_WIDTH_PX * 1.2}px`,
           }}
           src={rockyMole}
           alt="Rocky the Mole"
@@ -81,9 +81,11 @@ export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
     return (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.52}px`,
+          width: `${GRID_WIDTH_PX * 1.2}px`,
+          top: `${GRID_WIDTH_PX * 0.15}px`,
         }}
         src={tunnelMole}
+        className="absolute"
         alt="Tunnel Mole"
       />
     );
