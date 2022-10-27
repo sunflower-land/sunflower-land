@@ -21,14 +21,20 @@ export const IslandTravel = ({ bumpkin, x, y }: Props) => {
   return (
     <>
       <MapPlacement x={x} y={y}>
-        <img
-          src={boat}
-          onClick={() => setOpenIslandList(true)}
-          className="relative cursor-pointer hover:img-highlight"
+        <div
           style={{
-            width: `${50 * PIXEL_SCALE}px`,
+            width: `${68 * PIXEL_SCALE}px`,
           }}
-        />
+        >
+          <img
+            src={boat}
+            onClick={() => setOpenIslandList(true)}
+            className="relative cursor-pointer hover:img-highlight"
+            style={{
+              width: `${68 * PIXEL_SCALE}px`,
+            }}
+          />
+        </div>
       </MapPlacement>
 
       <Modal
