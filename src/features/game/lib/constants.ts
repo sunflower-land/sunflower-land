@@ -73,7 +73,7 @@ export const INITIAL_STOCK: Inventory = {
   "Radish Cake": new Decimal(1),
   "Wheat Cake": new Decimal(1),
 
-  "Boiled Egg": new Decimal(1),
+  "Boiled Eggs": new Decimal(1),
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
@@ -490,7 +490,7 @@ export const INITIAL_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
     Warrior: new Decimal(1),
-    "Boiled Egg": new Decimal(3),
+    "Boiled Eggs": new Decimal(3),
     "Mashed Potato": new Decimal(1),
     "Sunflower Cake": new Decimal(1),
     "Pumpkin Soup": new Decimal(1),
@@ -575,7 +575,7 @@ export const INITIAL_FARM: GameState = {
     orders: [
       {
         id: "asdj123",
-        name: "Boiled Egg",
+        name: "Boiled Eggs",
         sfl: new Decimal(10),
       },
       {

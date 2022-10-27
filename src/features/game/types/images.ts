@@ -79,7 +79,6 @@ import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 
 // Foods
-import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import cabbageSoup from "assets/nfts/saurrerkrat.png";
 import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
 import radishPie from "assets/nfts/radish_pie.png";
@@ -223,6 +222,9 @@ import wheatCake from "src/assets/nfts/cakes/wheat_cake.png";
 
 // Food
 import mashedPotato from "assets/food/mashed_potato.png";
+import pumpkinSoup from "assets/food/pumpkin_soup.png";
+import bumpkinBroth from "assets/food/bumpkin_broth.png";
+import boiledEgg from "assets/food/boiled_eggs.png";
 
 import goblinKey from "src/assets/nfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
@@ -1106,25 +1108,25 @@ export const ITEM_DETAILS: Items = {
     description: "A fallen soldier during the war",
   },
 
-  "Boiled Egg": {
-    image: egg,
-    description: "A boiled egg",
+  "Boiled Eggs": {
+    image: boiledEgg,
+    description: "Don't let the Chickens see!",
   },
   "Bumpkin Broth": {
-    image: greenEgg,
-    description: "A boiled egg",
+    image: bumpkinBroth,
+    description: "A nutritious broth to replenish your Bumpkin",
   },
   "Mashed Potato": {
     image: mashedPotato,
-    description: "A boiled egg",
+    description: "My life is potato.",
   },
   "Bumpkin Salad": {
     image: redEgg,
-    description: "A boiled egg",
+    description: "A Boiled Eggs",
   },
   "Goblin's Treat": {
     image: redEgg,
-    description: "A boiled egg",
+    description: "A Boiled Eggs",
   },
 
   Explorer: {

@@ -7,7 +7,7 @@ export type ConsumableName =
   | "Mashed Potato"
   | "Bumpkin Broth"
   | "Roasted Cauliflower"
-  | "Boiled Egg"
+  | "Boiled Eggs"
   | "Bumpkin Salad"
   | "Goblin's Treat"
   | "Pumpkin Soup"
@@ -26,60 +26,9 @@ export type Consumable = {
 };
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
-  "Boiled Egg": {
-    name: "Boiled Egg",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
-    stamina: 5,
-    building: "Fire Pit",
-    cookingSeconds: 60,
-    ingredients: {
-      Egg: new Decimal(1),
-    },
-    marketRate: 10,
-  },
-
-  "Bumpkin Broth": {
-    name: "Bumpkin Broth",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
-    stamina: 5,
-    building: "Fire Pit",
-    cookingSeconds: 60,
-    ingredients: {
-      Egg: new Decimal(1),
-    },
-    marketRate: 10,
-  },
-
-  "Bumpkin Salad": {
-    name: "Bumpkin Salad",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
-    stamina: 5,
-    building: "Fire Pit",
-    cookingSeconds: 60,
-    ingredients: {
-      Egg: new Decimal(1),
-    },
-    marketRate: 10,
-  },
-  "Goblin's Treat": {
-    name: "Goblin's Treat",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
-    stamina: 5,
-    building: "Fire Pit",
-    cookingSeconds: 60,
-    ingredients: {
-      Egg: new Decimal(1),
-    },
-    marketRate: 10,
-  },
-
   "Mashed Potato": {
     name: "Mashed Potato",
-    description: "Boiled Eggs are always a good breakfast choice",
+    description: "Boiled Eggss are always a good breakfast choice",
     experience: 6,
     stamina: 5,
     building: "Fire Pit",
@@ -92,7 +41,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
 
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
-    description: "Boiled Eggs are always a good breakfast choice",
+    description: "Boiled Eggss are always a good breakfast choice",
     experience: 24,
     stamina: 5,
     building: "Fire Pit",
@@ -103,12 +52,63 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 10,
   },
 
-  "Roasted Cauliflower": {
-    name: "Roasted Cauliflower",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
+  "Bumpkin Broth": {
+    name: "Bumpkin Broth",
+    description: "Boiled Eggss are always a good breakfast choice",
+    experience: 96,
     stamina: 5,
     building: "Fire Pit",
+    cookingSeconds: 60,
+    ingredients: {
+      Egg: new Decimal(1),
+    },
+    marketRate: 10,
+  },
+
+  "Boiled Eggs": {
+    name: "Boiled Eggs",
+    description: "Boiled Eggss are always a good breakfast choice",
+    experience: 44,
+    stamina: 5,
+    building: "Fire Pit",
+    cookingSeconds: 60,
+    ingredients: {
+      Egg: new Decimal(1),
+    },
+    marketRate: 10,
+  },
+
+  "Bumpkin Salad": {
+    name: "Bumpkin Salad",
+    description: "Boiled Eggss are always a good breakfast choice",
+    experience: 1,
+    stamina: 5,
+    building: "Kitchen",
+    cookingSeconds: 60,
+    ingredients: {
+      Egg: new Decimal(1),
+    },
+    marketRate: 10,
+  },
+  "Goblin's Treat": {
+    name: "Goblin's Treat",
+    description: "Boiled Eggss are always a good breakfast choice",
+    experience: 1,
+    stamina: 5,
+    building: "Kitchen",
+    cookingSeconds: 60,
+    ingredients: {
+      Egg: new Decimal(1),
+    },
+    marketRate: 10,
+  },
+
+  "Roasted Cauliflower": {
+    name: "Roasted Cauliflower",
+    description: "Boiled Eggss are always a good breakfast choice",
+    experience: 1,
+    stamina: 5,
+    building: "Kitchen",
     cookingSeconds: 60,
     ingredients: {
       Egg: new Decimal(1),
