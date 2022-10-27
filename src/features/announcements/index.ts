@@ -23,7 +23,7 @@ export interface Announcement {
   title: string;
   notes: string[];
   link?: string;
-  type?: "war";
+  type?: "war" | "bumpkin";
 }
 
 /**
@@ -45,7 +45,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
       "Happy minting",
     ],
     image: sflTshirt,
-    type: "war",
+    type: "bumpkin",
     link: "https://bumpkins.io/#/upcoming-drops",
   },
   {
