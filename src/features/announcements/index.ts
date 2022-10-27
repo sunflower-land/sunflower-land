@@ -15,8 +15,7 @@ import warriorTop from "assets/announcements/warrior_top.png";
 import greenAmulet from "assets/bumpkins/shop/necklaces/green_amulet.png";
 import boat from "assets/announcements/boat.png";
 import warDrop from "assets/announcements/war_drop.png";
-import halloween from "assets/announcements/halloween.png";
-import bumpkins from "assets/announcements/open-sea-bumpkins-banner.png";
+import sflTshirt from "src/assets/bumpkins/shop/shirts/sfl_tshirt.png";
 
 export interface Announcement {
   date: Date;
@@ -32,27 +31,22 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
-    date: new Date("2022-10-26T00:00:00"),
-    title: "Halloween Event!",
-    image: halloween,
+    date: new Date("2022-10-27T00:00:00"),
+    title: "SFL Tee Drop",
     notes: [
-      "Halloween has come to Sunflower Land.",
-      "Plant Pumpkins to try find the rare Jack O Lantern.",
-      "Collect 50 Jack O Lanterns for a special trade at the travelling Salesman",
-      "Will you summon the Necromancer and discover a rare prize?",
+      `The first Bumpkin Item drop will be happening on ${new Date(
+        "2022-10-27T04:30:00.227Z"
+      ).toLocaleString()}`,
+      "The SFL Tee (250 SFL) - Official Merchandise of Sunflower Land",
+      `The supply will be 250 with another 250 being released on ${new Date(
+        "2022-10-27T22:30:00.227Z"
+      ).toLocaleString()}`,
+      "Just go to https://bumpkins.io/#/upcoming-drops",
+      "Happy minting",
     ],
-    link: "https://docs.sunflower-land.com/fundamentals/special-events/halloween",
-  },
-  {
-    date: new Date("2022-10-25T00:00:00"),
-    title: "Bumpkins.io is live",
-    image: bumpkins,
-    notes: [
-      "All players can mint a free Bumpkin NFT.",
-      "When Sunflower Isles is released, you will need a Bumpkin to grow and explore.",
-      "Collect and customise your Bumpkin the way you want!",
-    ],
-    link: "https://bumpkins.io",
+    image: sflTshirt,
+    type: "war",
+    link: "https://bumpkins.io/#/upcoming-drops",
   },
   {
     date: new Date("2022-10-17T00:00:00"),
