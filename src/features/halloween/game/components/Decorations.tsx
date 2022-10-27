@@ -14,7 +14,6 @@ import christmasTree from "assets/nfts/christmas_tree.png";
 import dog from "assets/nfts/farm_dog.gif";
 import cat from "assets/nfts/farm_cat.gif";
 import gnome from "assets/nfts/gnome.gif";
-import goblinKing from "assets/nfts/goblin_king.png";
 //fountain path edited to match event theme
 import fountain from "assets/events/halloween/assets/nfts/fountain.gif";
 import goldenBonsai from "assets/nfts/golden_bonsai.png";
@@ -219,20 +218,6 @@ export const HalloweenDecorations: React.FC<{ state: GameState }> = ({
         className="absolute hover:img-highlight cursor-pointer"
         src={fountain}
         alt="Fountain"
-      />
-    )}
-
-    {state.inventory["Goblin Crown"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 3}px`,
-          right: `${GRID_WIDTH_PX * 27.5}px`,
-          top: `${GRID_WIDTH_PX * 92.5}px`,
-        }}
-        id={Section["Goblin Crown"]}
-        className="absolute"
-        src={goblinKing}
-        alt="GoblinKing"
       />
     )}
 
