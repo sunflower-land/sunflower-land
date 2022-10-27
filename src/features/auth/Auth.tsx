@@ -74,7 +74,7 @@ export const Auth: React.FC = () => {
         />
         <img
           src={jumpingGoblin}
-          className="absolute w-54 -top-[67px] right-[25rem] -z-10 scale-[4]"
+          className="absolute w-54 -top-[67px] left-8 -z-10 scale-[4]"
         />
         <Panel>
           {(authState.matches({ connected: "loadingFarm" }) ||
