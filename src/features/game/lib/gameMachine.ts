@@ -46,6 +46,7 @@ import {
   canMigrate,
   LandExpansionMigrateAction,
 } from "../events/landExpansion/migrate";
+import { CONFIG } from "lib/config";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -381,7 +382,9 @@ export function startGame(authContext: Options) {
             {
               target: "offerMigration",
               cond: (context) =>
-                !authContext.migrated && canMigrate(context.state),
+                CONFIG.NETWORK === "mumbai" &&
+                !authContext.migrated &&
+                canMigrate(context.state),
             },
             {
               target: "playing",
