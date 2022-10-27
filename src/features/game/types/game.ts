@@ -299,7 +299,6 @@ export interface GameState {
   gold: Record<number, Rock>;
   chickens: Record<number, Chicken>;
 
-  terrains: Record<number, LandExpansionTerrain>;
   plots: Record<number, LandExpansionPlot>;
 
   tradedAt?: string;

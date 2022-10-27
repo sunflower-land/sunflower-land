@@ -3,7 +3,6 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Coordinates, MapPlacement } from "./components/MapPlacement";
 import { useActor } from "@xstate/react";
 import { Context } from "../GameProvider";
-import { getTerrainImageByKey } from "../lib/getTerrainImageByKey";
 import { Plot } from "features/island/Plots/Plot";
 import {
   ANIMAL_DIMENSIONS,
@@ -14,7 +13,6 @@ import { Tree } from "./components/resources/Tree";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { LandExpansion } from "../types/game";
-import { TerrainPlacement } from "./components/TerrainPlacement";
 import { EXPANSION_ORIGINS } from "./lib/constants";
 import { Stone } from "./components/resources/Stone";
 import { Placeable } from "./placeable/Placeable";
@@ -77,23 +75,6 @@ export const Expansion: React.FC<
             >
               <Gold rockIndex={Number(index)} expansionIndex={expansionIndex} />
             </MapPlacement>
-          );
-        })}
-
-      {terrains &&
-        getKeys(terrains).map((index) => {
-          const { x, y, width, height, name } = terrains[index];
-
-          return (
-            <TerrainPlacement
-              key={`${createdAt}-terrain-${index}`}
-              x={x + xOffset}
-              y={y + yOffset}
-              height={height}
-              width={width}
-            >
-              <img src={getTerrainImageByKey(name)} className="h-full w-full" />
-            </TerrainPlacement>
           );
         })}
 

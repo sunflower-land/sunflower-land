@@ -96,7 +96,6 @@ export function makeGame(farm: any): GameState {
         }
       : undefined,
     tradedAt: farm.tradedAt,
-    terrains: farm.terrains,
     plots: farm.plots,
     expansions: farm.expansions,
     expansionRequirements: farm.expansionRequirements
