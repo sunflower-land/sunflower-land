@@ -17,6 +17,7 @@ import { ChickenHouse } from "./chickenHouse/ChickenHouse";
 import { Bakery } from "./bakery/Bakery";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { Kitchen } from "./kitchen/Kitchen";
 
 interface Prop {
   name: BuildingName;
@@ -48,6 +49,7 @@ export const BUILDING_COMPONENTS: Record<
   Tent: Tent,
   "Water Well": WaterWell,
   "Chicken House": ChickenHouse,
+  Kitchen: Kitchen,
 };
 
 export const Building: React.FC<Prop> = ({

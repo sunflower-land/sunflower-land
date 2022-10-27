@@ -1038,6 +1038,10 @@ export const ITEM_DETAILS: Items = {
     image: market,
     description: "Buy and sell at the Farmer's Market",
   },
+  Kitchen: {
+    image: bakery,
+    description: "Step up your cooking game",
+  },
   Bakery: {
     image: bakery,
     description: "Bake your favourite cakes",

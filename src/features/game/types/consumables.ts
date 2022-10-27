@@ -54,13 +54,14 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
 
   "Bumpkin Broth": {
     name: "Bumpkin Broth",
-    description: "Boiled Eggss are always a good breakfast choice",
+    description: "A perfect broth for a cold day.",
     experience: 96,
     stamina: 5,
     building: "Fire Pit",
     cookingSeconds: 60,
     ingredients: {
-      Egg: new Decimal(1),
+      Carrot: new Decimal(10),
+      Cabbage: new Decimal(5),
     },
     marketRate: 10,
   },
@@ -73,45 +74,49 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     building: "Fire Pit",
     cookingSeconds: 60,
     ingredients: {
-      Egg: new Decimal(1),
-    },
-    marketRate: 10,
-  },
-
-  "Bumpkin Salad": {
-    name: "Bumpkin Salad",
-    description: "Boiled Eggss are always a good breakfast choice",
-    experience: 1,
-    stamina: 5,
-    building: "Kitchen",
-    cookingSeconds: 60,
-    ingredients: {
-      Egg: new Decimal(1),
-    },
-    marketRate: 10,
-  },
-  "Goblin's Treat": {
-    name: "Goblin's Treat",
-    description: "Boiled Eggss are always a good breakfast choice",
-    experience: 1,
-    stamina: 5,
-    building: "Kitchen",
-    cookingSeconds: 60,
-    ingredients: {
-      Egg: new Decimal(1),
+      Egg: new Decimal(5),
     },
     marketRate: 10,
   },
 
   "Roasted Cauliflower": {
     name: "Roasted Cauliflower",
-    description: "Boiled Eggss are always a good breakfast choice",
-    experience: 1,
+    description: "Calling all cauliflower lovers!",
+    experience: 326,
     stamina: 5,
     building: "Kitchen",
-    cookingSeconds: 60,
+    cookingSeconds: 60 * 5,
     ingredients: {
-      Egg: new Decimal(1),
+      Cauliflower: new Decimal(15),
+    },
+    marketRate: 10,
+  },
+
+  "Bumpkin Salad": {
+    name: "Bumpkin Salad",
+    description: "Gotta keep your Bumpkin healthy!",
+    experience: 564,
+    stamina: 5,
+    building: "Kitchen",
+    cookingSeconds: 60 * 10,
+    ingredients: {
+      Beetroot: new Decimal(20),
+      Parsnip: new Decimal(10),
+    },
+    marketRate: 10,
+  },
+
+  "Goblin's Treat": {
+    name: "Goblin's Treat",
+    description: "Boiled Eggss are always a good breakfast choice",
+    experience: 884,
+    stamina: 5,
+    building: "Kitchen",
+    cookingSeconds: 60 * 10,
+    ingredients: {
+      Pumpkin: new Decimal(10),
+      Radish: new Decimal(20),
+      Cabbage: new Decimal(10),
     },
     marketRate: 10,
   },
