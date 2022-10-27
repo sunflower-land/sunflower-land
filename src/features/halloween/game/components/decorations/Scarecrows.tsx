@@ -25,6 +25,7 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
             cursedScarecrowAudio.play();
           }
         }}
+        className="absolute hover:img-highlight cursor-pointer"
         alt="Scarecrow"
       />
     );
@@ -43,6 +44,7 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
             cursedScarecrowAudio.play();
           }
         }}
+        className="absolute hover:img-highlight cursor-pointer"
         alt="Scarecrow"
       />
     );
@@ -61,6 +63,7 @@ export const Scarecrows: React.FC<{ inventory: Inventory }> = ({
             cursedScarecrowAudio.play();
           }
         }}
+        className="absolute hover:img-highlight cursor-pointer"
         alt="Scarecrow"
       />
     );
