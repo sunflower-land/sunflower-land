@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
+import heart from "assets/icons/heart.png";
+
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -153,6 +155,10 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
                 </div>
               );
             })}
+          </div>
+          <div className="flex mt-2 items-center">
+            <img src={heart} className="h-5 mr-2" />
+            <span className="text-xs">{selected.experience} exp</span>
           </div>
           {Action()}
         </div>
