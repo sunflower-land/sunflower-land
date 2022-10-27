@@ -32,6 +32,7 @@ import farmerBath from "assets/events/halloween/assets/nfts/farmer_bath.png";
 import swimmer from "assets/events/halloween/assets/npcs/swimmer.gif";
 import skullHand from "assets/decorations/skull_hand.png";
 import easterBunny from "assets/events/halloween/assets/nfts/easter/easter_bunny.gif";
+import victoriaSisters from "assets/nfts/victoria-sisters.gif";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
@@ -53,7 +54,6 @@ import {
   WickerMan,
 } from "./decorations/index";
 import { WarSkulls, WarTombstone } from "./decorations/WarDecorations";
-import victoriaSisters from "assets/nfts/victoria-sisters.gif";
 
 export const HalloweenDecorations: React.FC<{ state: GameState }> = ({
   state,
