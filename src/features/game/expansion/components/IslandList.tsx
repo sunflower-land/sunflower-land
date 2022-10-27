@@ -81,7 +81,7 @@ export const IslandList = ({ bumpkin }: { bumpkin: Bumpkin | undefined }) => {
     },
     {
       name: "Snow Kingdom",
-      levelRequired: 100,
+      levelRequired: 0,
       image: snowman,
       path: `/snow/${id}`,
     },

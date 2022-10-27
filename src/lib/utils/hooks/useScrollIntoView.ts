@@ -42,6 +42,7 @@ export enum Section {
 
   // Land
   GenesisBlock = "genesisBlock",
+  HeliosBackGround = "heliosBackground",
 }
 
 export const useScrollIntoView = () => {
