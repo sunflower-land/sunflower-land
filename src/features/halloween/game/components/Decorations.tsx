@@ -37,7 +37,11 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "features/game/components/Flags";
 import { GameState } from "features/game/types/game";
-import { fountainAudio, tombstoneAudio } from "lib/utils/sfx";
+import {
+  fountainAudio,
+  tombstoneAudio,
+  victoriaSistersAudio,
+} from "lib/utils/sfx";
 import { HalloweenSign } from "features/halloween/game/components/Sign";
 import {
   Beavers,
@@ -49,6 +53,7 @@ import {
   WickerMan,
 } from "./decorations/index";
 import { WarSkulls, WarTombstone } from "./decorations/WarDecorations";
+import victoriaSisters from "assets/nfts/victoria-sisters.gif";
 
 export const HalloweenDecorations: React.FC<{ state: GameState }> = ({
   state,
@@ -385,6 +390,23 @@ export const HalloweenDecorations: React.FC<{ state: GameState }> = ({
       />
     )}
 
+    {state.inventory["Victoria Sisters"] && (
+      <img
+        src={victoriaSisters}
+        className="absolute hover:img-highlight cursor-pointer"
+        style={{
+          width: `${GRID_WIDTH_PX * 2}px`,
+          right: `${GRID_WIDTH_PX * 53.42}px`,
+          top: `${GRID_WIDTH_PX * 22.02}px`,
+        }}
+        onClick={() => {
+          //Checks if Audio is playing, if false, plays the sound
+          if (!victoriaSistersAudio.playing()) {
+            victoriaSistersAudio.play();
+          }
+        }}
+      />
+    )}
     {state.inventory["Undead Rooster"] && (
       <img
         style={{
