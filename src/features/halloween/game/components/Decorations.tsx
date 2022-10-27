@@ -119,7 +119,7 @@ export const HalloweenDecorations: React.FC<{ state: GameState }> = ({
           top: `${GRID_WIDTH_PX * 36.8}px`,
         }}
         id={Section["Sunflower Tombstone"]}
-        className="absolute"
+        className="absolute hover:img-highlight cursor-pointer"
         src={sunflowerTombstone}
         onClick={() => {
           //Checks if Audio is playing, if false, plays the sound
