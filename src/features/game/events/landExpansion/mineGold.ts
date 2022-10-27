@@ -50,9 +50,9 @@ export function mineGold({
     throw new Error(EVENT_ERRORS.NO_BUMPKIN);
   }
 
-  if (bumpkin.stamina.value < GOLD_MINE_STAMINA_COST) {
-    throw new Error(EVENT_ERRORS.NO_STAMINA);
-  }
+  // if (bumpkin.stamina.value < GOLD_MINE_STAMINA_COST) {
+  //   throw new Error(EVENT_ERRORS.NO_STAMINA);
+  // }
 
   if (!expansion) {
     throw new Error(EVENT_ERRORS.NO_EXPANSION);

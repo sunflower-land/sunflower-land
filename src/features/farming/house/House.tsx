@@ -32,6 +32,8 @@ import { SkillTree } from "./components/SkillTree";
 import { homeDoorAudio } from "lib/utils/sfx";
 import { Button } from "components/ui/Button";
 import { Inventory } from "components/InventoryItems";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+import { BumpkinParts } from "features/game/types/bumpkin";
 
 export const Badges: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   const BADGES: InventoryItemName[] = Object.keys(SKILL_TREE).map(
@@ -55,7 +57,7 @@ export const Badges: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
 
   if (badges.length === 0) {
     return (
-      <span className="text-xs text-shadow">
+      <span className="text-xs">
         Reach level 5 in a profession to unlock a skill
       </span>
     );
@@ -128,10 +130,21 @@ export const House: React.FC<Props> = ({
       <>
         <div className="flex flex-col md:flex-row pt-8 md:pt-2">
           <InnerPanel className="w-full md:w-1/3 p-2 flex flex-col items-center mb-2 md:mb-0">
-            <img src={questionMark} className="w-1/4 md:w-1/2 mb-2" />
-            <span className="text-xxs">Farmer NFT</span>
-            <span className="text-sm text-shadow">Name: ?</span>
-            <span className="text-sm text-shadow">{`Level: ${totalLevel}`}</span>
+            {state.bumpkin ? (
+              <DynamicNFT
+                className="mb-2"
+                showBackground
+                bumpkinParts={state.bumpkin?.equipped as BumpkinParts}
+              />
+            ) : (
+              <>
+                <img src={questionMark} className="w-1/4 md:w-1/2 mb-2" />
+                <span className="text-xxs">Farmer NFT</span>
+                <span className="text-sm text-shadow">Name: ?</span>
+              </>
+            )}
+
+            <span className="text-sm">{`Level: ${totalLevel}`}</span>
           </InnerPanel>
           <div className="px-2 overflow-hidden">
             <div className="flex items-center -mb-.5 md:-mb-2">
@@ -200,7 +213,7 @@ export const House: React.FC<Props> = ({
 
         <InnerPanel className="flex w-1/2 sm:w-1/3 mt-2">
           <img src={player} className="h-5 mr-2" />
-          <span className="text-sm text-shadow">Skills</span>
+          <span className="text-sm">Skills</span>
         </InnerPanel>
         <InnerPanel className="relative p-2 mt-1">
           <Badges inventory={state.inventory} />

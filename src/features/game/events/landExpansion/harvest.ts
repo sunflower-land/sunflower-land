@@ -44,6 +44,7 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Plot does not exist");
   }
 
+  console.log({ idnex: action.index, length: Object.keys(plots).length });
   if (action.index > Object.keys(plots).length) {
     throw new Error("Plot does not exist");
   }

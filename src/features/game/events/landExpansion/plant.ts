@@ -164,6 +164,10 @@ export function getCropYieldAmount({
     amount *= 1.2;
   }
 
+  if (crop === "Pumpkin" && inventory["Victoria Sisters"]?.gte(1)) {
+    amount *= 1.2;
+  }
+
   if (
     isCollectibleBuilt("Scarecrow", collectibles) ||
     isCollectibleBuilt("Kuebiko", collectibles)
@@ -205,9 +209,9 @@ export function plant({
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (bumpkin.stamina.value < PLANT_STAMINA_COST) {
-    throw new Error("You do not have enough stamina");
-  }
+  // if (bumpkin.stamina.value < PLANT_STAMINA_COST) {
+  //   throw new Error("You do not have enough stamina");
+  // }
 
   const { plots } = expansion;
 

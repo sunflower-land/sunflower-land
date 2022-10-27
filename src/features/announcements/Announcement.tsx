@@ -68,7 +68,7 @@ export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
     <span className="block underline mb-1 text-sm">{announcement.title}</span>
 
     {/* Notes */}
-    <ul className="ml-2 mt-1">
+    <ul className="mt-2">
       {announcement.notes.map((note, index) => (
         <li key={index} className="text-xs mb-3">
           {note}

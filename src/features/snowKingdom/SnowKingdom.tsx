@@ -7,6 +7,7 @@ import background from "assets/land/snow_kingdom.png";
 import { GameProvider } from "features/game/GameProvider";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import waterMovement from "assets/decorations/water_movement.png";
+import { IslandTravelWrapper } from "./IslandTravelWrapper";
 
 export const SnowKingdom: React.FC = () => {
   const container = useRef(null);
@@ -37,6 +38,7 @@ export const SnowKingdom: React.FC = () => {
               src={background}
               className="absolute inset-0 w-full h-full z-10"
             />
+            <IslandTravelWrapper />
           </div>
           <div
             className="absolute inset-0 bg-repeat"
