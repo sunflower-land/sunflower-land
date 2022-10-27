@@ -92,7 +92,7 @@ describe("cook", () => {
     const state = cook({
       state: {
         ...GAME_STATE,
-        inventory: { Egg: new Decimal(2) },
+        inventory: { Egg: new Decimal(22) },
         buildings: {
           "Fire Pit": [
             {
@@ -114,7 +114,7 @@ describe("cook", () => {
       },
     });
 
-    expect(state.inventory["Egg"]).toEqual(new Decimal(1));
+    expect(state.inventory["Egg"]).toEqual(new Decimal(17));
   });
 
   it("does not affect existing inventory", () => {
@@ -122,7 +122,7 @@ describe("cook", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          Egg: new Decimal(2),
+          Egg: new Decimal(22),
           Radish: new Decimal(2),
           Gold: new Decimal(4),
         },
@@ -222,7 +222,7 @@ describe("cook", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          Egg: new Decimal(2),
+          Egg: new Decimal(20),
         },
         buildings: {
           "Fire Pit": [

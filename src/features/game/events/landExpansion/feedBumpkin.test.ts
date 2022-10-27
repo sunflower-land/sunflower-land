@@ -155,6 +155,8 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(1.1);
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Boiled Eggs"].experience * 1.1
+    );
   });
 });
