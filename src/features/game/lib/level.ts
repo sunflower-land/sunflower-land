@@ -3,14 +3,14 @@ import { getKeys } from "../types/craftables";
 export type BumpkinLevel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 export const LEVEL_BRACKETS: Record<BumpkinLevel, number> = {
-  1: 100,
-  2: 200,
-  3: 300,
-  4: 400,
-  5: 500,
-  6: 600,
-  7: 700,
-  8: 800,
+  1: 10,
+  2: 70,
+  3: 382,
+  4: 1642,
+  5: 2254,
+  6: 3000,
+  7: 3000,
+  "8": 3000,
 };
 
 const MAX_BUMPKIN_LEVEL =

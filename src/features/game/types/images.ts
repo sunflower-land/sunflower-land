@@ -221,6 +221,9 @@ import pumpkinCake from "src/assets/nfts/cakes/pumpkin_cake.png";
 import sunflowerCake from "src/assets/nfts/cakes/sunflower_cake.png";
 import wheatCake from "src/assets/nfts/cakes/wheat_cake.png";
 
+// Food
+import mashedPotato from "assets/food/mashed_potato.png";
+
 import goblinKey from "src/assets/nfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
 import ancientGoblinSword from "src/assets/nfts/quest/ancient_goblin_sword.png";
@@ -253,6 +256,8 @@ import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png
 
 import skull from "src/assets/decorations/war_skulls.png";
 import warTombston from "src/assets/decorations/war_tombstone.png";
+import jackOLanternItem from "src/assets/nfts/jack-o-lantern.png";
+import victoriaSisters from "src/assets/nfts/victoria-sisters.gif";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1110,7 +1115,7 @@ export const ITEM_DETAILS: Items = {
     description: "A boiled egg",
   },
   "Mashed Potato": {
-    image: redEgg,
+    image: mashedPotato,
     description: "A boiled egg",
   },
   "Bumpkin Salad": {
@@ -1265,5 +1270,14 @@ export const ITEM_DETAILS: Items = {
   "Dirt Path": {
     image: questionMark,
     description: "",
+  },
+  "Jack-o-lantern": {
+    image: jackOLanternItem,
+    description: "A Halloween special event item",
+  },
+  "Victoria Sisters": {
+    image: victoriaSisters,
+    description:
+      "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.",
   },
 };

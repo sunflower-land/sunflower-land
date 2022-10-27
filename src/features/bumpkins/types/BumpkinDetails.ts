@@ -38,6 +38,8 @@ import fancyPants from "src/assets/bumpkins/shop/pants/fancy_pants.png";
 import fancyPantsLayer from "assets/bumpkins/layer/pants/fancy_pants.png";
 import brownSuspenders from "src/assets/bumpkins/shop/pants/brown_suspenders.png";
 import brownSuspendersLayer from "assets/bumpkins/layer/pants/brown_suspenders.png";
+import blueSuspenders from "src/assets/bumpkins/shop/pants/blue_suspenders.png";
+import blueSuspendersLayer from "assets/bumpkins/layer/pants/blue_suspenders.png";
 import peasantSkirt from "src/assets/bumpkins/shop/pants/peasant_skirt.png";
 import peasantSkirtLayer from "assets/bumpkins/layer/pants/peasant_skirt.png";
 
@@ -53,6 +55,12 @@ import parlourHair from "assets/bumpkins/shop/hair/parlour_hair.png";
 import parlourHairLayer from "assets/bumpkins/layer/hair/parlour_hair.png";
 import sunSpots from "assets/bumpkins/shop/hair/sun_spots.png";
 import sunSpotsLayer from "assets/bumpkins/layer/hair/sun_spots.png";
+import brownLongHair from "assets/bumpkins/shop/hair/brown_long_hair.png";
+import brownLongHairLayer from "assets/bumpkins/layer/hair/brown_long_hair.png";
+import whiteHair from "assets/bumpkins/shop/hair/white_long_hair.png";
+import whiteHairLayer from "assets/bumpkins/layer/hair/white_long_hair.png";
+import blondie from "assets/bumpkins/shop/hair/blondie.png";
+import blondieLayer from "assets/bumpkins/layer/hair/blondie.png";
 
 import farmerBoots from "assets/bumpkins/shop/shoes/black_farmer_boots.png";
 import farmerBootsLayer from "assets/bumpkins/layer/shoes/black_farmer_boots.png";
@@ -76,6 +84,10 @@ import sunflowerShieldLayer from "assets/bumpkins/layer/tools/sunflower_shield.p
 
 import background from "assets/bumpkins/shop/background/farm_background.png";
 import backgroundLayer from "assets/bumpkins/layer/background/farm_background.png";
+import forestBackground from "assets/bumpkins/shop/background/forest_background.png";
+import forestLayer from "assets/bumpkins/layer/background/forest_background.png";
+import seashoreBackground from "assets/bumpkins/shop/background/seashore_background.png";
+import seashoreLayer from "assets/bumpkins/layer/background/seashore_background.png";
 
 import sunflowerAmulet from "assets/bumpkins/shop/necklaces/sunflower_amulet.png";
 import sunflowerAmuletLayer from "assets/bumpkins/layer/necklaces/sunflower_amulet.png";
@@ -181,7 +193,7 @@ export const BUMPKIN_ITEMS: Record<BumpkinItem, ItemDetails> = {
     collection: "SFL Collection #1",
     collectionIcon: sunflowerLandIcon,
   },
-  "Sun spots": {
+  "Sun Spots": {
     description:
       "Long days in the field and the blaring sun. The sign of a true worker.",
     layerImage: sunSpotsLayer,
@@ -190,7 +202,6 @@ export const BUMPKIN_ITEMS: Record<BumpkinItem, ItemDetails> = {
     collection: "SFL Collection #1",
     collectionIcon: sunflowerLandIcon,
   },
-
   "Red Farmer Shirt": {
     description:
       "The Basic Bumpkin must-have. Nothing blends in the crowd quite like this red farmer shirt.",
@@ -239,7 +250,7 @@ export const BUMPKIN_ITEMS: Record<BumpkinItem, ItemDetails> = {
   },
   "Fancy Top": {
     description:
-      "Oooh isn't that fancy? This shirt is worn in the royal kingdoms of Sunflorea.",
+      "Oooh isn't that fancy? This short is worn in the royal kingdoms of Sunflorea.",
     layerImage: fancyTopLayer,
     shopImage: fancyTop,
     part: "shirt",
@@ -457,6 +468,56 @@ export const BUMPKIN_ITEMS: Record<BumpkinItem, ItemDetails> = {
     layerImage: yellowBootsLayer,
     shopImage: yellowBoots,
     part: "shoes",
+    collection: "SFL Collection #1",
+    collectionIcon: sunflowerLandIcon,
+  },
+  "Blue Suspenders": {
+    description: "A perfect outfit for the annual barn dance",
+    shopImage: blueSuspenders,
+    layerImage: blueSuspendersLayer,
+    part: "pants",
+    collection: "SFL Collection #1",
+    collectionIcon: sunflowerLandIcon,
+  },
+  "Brown Long Hair": {
+    description: "Well groomed hair for a day out farming potatoes.",
+    shopImage: brownLongHair,
+    layerImage: brownLongHairLayer,
+    part: "hair",
+    collection: "SFL Collection #1",
+    collectionIcon: sunflowerLandIcon,
+  },
+  "Forest Background": {
+    description: "Some Bumpkins prefer the forest to the fields.",
+    shopImage: forestBackground,
+    layerImage: forestLayer,
+    part: "background",
+    collection: "SFL Collection #1",
+    collectionIcon: sunflowerLandIcon,
+  },
+  "Seashore Background": {
+    description:
+      "Bumpkins were built to explore! Nothing excites a Bumpkin quite like a vast ocean in front of them.",
+    shopImage: seashoreBackground,
+    layerImage: seashoreLayer,
+    part: "background",
+    collection: "SFL Collection #1",
+    collectionIcon: sunflowerLandIcon,
+  },
+  "White Long Hair": {
+    description:
+      "Rumour has it the long forgotten Saphiro tribe passed down the white hair gene. These days, Bumpkins bleach their hair for fashion.",
+    shopImage: whiteHair,
+    layerImage: whiteHairLayer,
+    part: "hair",
+    collection: "SFL Collection #1",
+    collectionIcon: sunflowerLandIcon,
+  },
+  Blondie: {
+    description: "Too much time in the sun results in a Bumpkin Blondie.",
+    shopImage: blondie,
+    layerImage: blondieLayer,
+    part: "hair",
     collection: "SFL Collection #1",
     collectionIcon: sunflowerLandIcon,
   },

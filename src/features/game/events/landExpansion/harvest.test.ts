@@ -73,7 +73,7 @@ describe("harvest", () => {
         action: {
           type: "crop.harvested",
           expansionIndex: 0,
-          index: 4,
+          index: 0,
         },
       })
     ).toThrow("Nothing was planted");

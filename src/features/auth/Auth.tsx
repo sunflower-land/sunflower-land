@@ -15,13 +15,17 @@ import {
   CreateFarm,
 } from "./components";
 
-import jumpingGoblin from "assets/npcs/goblin_jump.gif";
-import curly from "assets/npcs/curly_hair.png";
+// import jumpingGoblin from "assets/npcs/goblin_jump.gif";
+// import curly from "assets/npcs/curly_hair.png";
 import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
 import { SupplyReached } from "./components/SupplyReached";
 import { Countdown } from "./components/Countdown";
 import { Blacklisted } from "features/game/components/Blacklisted";
+//Events
+//Halloween themed npcs in login screen
+import jumpingGoblin from "assets/events/halloween/assets/npcs/goblin_farmer.gif";
+import curly from "assets/events/halloween/assets/npcs/goblin.gif";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -43,7 +47,10 @@ export const Auth: React.FC = () => {
           src={curly}
           className="absolute w-54 -top-11 right-20 -z-10 scale-[4]"
         />
-        <img src={jumpingGoblin} className="absolute w-52 -top-[83px] -z-10" />
+        <img
+          src={jumpingGoblin}
+          className="absolute w-54 -top-[67px] right-[25rem] -z-10 scale-[4]"
+        />
         <Panel>
           {(authState.matches({ connected: "loadingFarm" }) ||
             authState.matches("checkFarm") ||

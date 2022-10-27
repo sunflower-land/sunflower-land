@@ -4,10 +4,10 @@ import { Cake } from "./craftables";
 import { Inventory } from "./game";
 
 export type ConsumableName =
-  | "Boiled Egg"
   | "Mashed Potato"
   | "Bumpkin Broth"
   | "Roasted Cauliflower"
+  | "Boiled Egg"
   | "Bumpkin Salad"
   | "Goblin's Treat"
   | "Pumpkin Soup"
@@ -80,12 +80,12 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   "Mashed Potato": {
     name: "Mashed Potato",
     description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
+    experience: 6,
     stamina: 5,
     building: "Fire Pit",
-    cookingSeconds: 60,
+    cookingSeconds: 30,
     ingredients: {
-      Egg: new Decimal(1),
+      Potato: new Decimal(20),
     },
     marketRate: 10,
   },
@@ -93,12 +93,12 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
     description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
+    experience: 24,
     stamina: 5,
     building: "Fire Pit",
     cookingSeconds: 60,
     ingredients: {
-      Egg: new Decimal(1),
+      Pumpkin: new Decimal(10),
     },
     marketRate: 10,
   },

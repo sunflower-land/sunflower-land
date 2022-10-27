@@ -6,7 +6,7 @@ import merchant from "assets/npcs/merchant.gif";
 import humanSign from "assets/buildings/human_sign.png";
 import { CommunityGardenModal } from "./CommunityGardenModal";
 import { merchantAudio } from "lib/utils/sfx";
-
+//Events
 export const CommunityGardenEntry: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 

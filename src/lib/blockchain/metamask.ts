@@ -14,6 +14,7 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { Trader } from "./Trader";
 import { BumpkinDetails } from "./BumpkinDetails";
 import { BumpkinItems } from "./BumpkinItems";
+import { Halloween } from "./Halloween";
 
 console.log({ CONFIG });
 /**
@@ -32,6 +33,7 @@ export class Metamask {
   private wishingWell: WishingWell | null = null;
   private token: Token | null = null;
   private trader: Trader | null = null;
+  private halloween: Halloween | null = null;
 
   private account: string | null = null;
 
@@ -63,6 +65,7 @@ export class Metamask {
         this.account as string
       );
       this.trader = new Trader(this.web3 as Web3, this.account as string);
+      this.halloween = new Halloween(this.web3 as Web3, this.account as string);
 
       const isHealthy = await this.healthCheck();
 
@@ -323,6 +326,10 @@ export class Metamask {
 
   public getTrader() {
     return this.trader as Trader;
+  }
+
+  public getHalloween() {
+    return this.halloween as Halloween;
   }
 
   public get myAccount() {
