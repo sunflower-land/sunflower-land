@@ -4,10 +4,10 @@ import { Cake } from "./craftables";
 import { Inventory } from "./game";
 
 export type ConsumableName =
-  | "Boiled Egg"
   | "Mashed Potato"
   | "Bumpkin Broth"
   | "Roasted Cauliflower"
+  | "Boiled Eggs"
   | "Bumpkin Salad"
   | "Goblin's Treat"
   | "Pumpkin Soup"
@@ -26,92 +26,97 @@ export type Consumable = {
 };
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
-  "Boiled Egg": {
-    name: "Boiled Egg",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
-    stamina: 5,
-    building: "Fire Pit",
-    cookingSeconds: 60,
-    ingredients: {
-      Egg: new Decimal(1),
-    },
-    marketRate: 10,
-  },
-
-  "Bumpkin Broth": {
-    name: "Bumpkin Broth",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
-    stamina: 5,
-    building: "Fire Pit",
-    cookingSeconds: 60,
-    ingredients: {
-      Egg: new Decimal(1),
-    },
-    marketRate: 10,
-  },
-
-  "Bumpkin Salad": {
-    name: "Bumpkin Salad",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
-    stamina: 5,
-    building: "Fire Pit",
-    cookingSeconds: 60,
-    ingredients: {
-      Egg: new Decimal(1),
-    },
-    marketRate: 10,
-  },
-  "Goblin's Treat": {
-    name: "Goblin's Treat",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
-    stamina: 5,
-    building: "Fire Pit",
-    cookingSeconds: 60,
-    ingredients: {
-      Egg: new Decimal(1),
-    },
-    marketRate: 10,
-  },
-
   "Mashed Potato": {
     name: "Mashed Potato",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
+    description: "Boiled Eggss are always a good breakfast choice",
+    experience: 6,
     stamina: 5,
     building: "Fire Pit",
-    cookingSeconds: 60,
+    cookingSeconds: 30,
     ingredients: {
-      Egg: new Decimal(1),
+      Potato: new Decimal(20),
     },
     marketRate: 10,
   },
 
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
+    description: "Boiled Eggss are always a good breakfast choice",
+    experience: 24,
     stamina: 5,
     building: "Fire Pit",
     cookingSeconds: 60,
     ingredients: {
-      Egg: new Decimal(1),
+      Pumpkin: new Decimal(10),
+    },
+    marketRate: 10,
+  },
+
+  "Bumpkin Broth": {
+    name: "Bumpkin Broth",
+    description: "A perfect broth for a cold day.",
+    experience: 96,
+    stamina: 5,
+    building: "Fire Pit",
+    cookingSeconds: 60,
+    ingredients: {
+      Carrot: new Decimal(10),
+      Cabbage: new Decimal(5),
+    },
+    marketRate: 10,
+  },
+
+  "Boiled Eggs": {
+    name: "Boiled Eggs",
+    description: "Boiled Eggss are always a good breakfast choice",
+    experience: 44,
+    stamina: 5,
+    building: "Fire Pit",
+    cookingSeconds: 60,
+    ingredients: {
+      Egg: new Decimal(5),
     },
     marketRate: 10,
   },
 
   "Roasted Cauliflower": {
     name: "Roasted Cauliflower",
-    description: "Boiled Eggs are always a good breakfast choice",
-    experience: 1,
+    description: "Calling all cauliflower lovers!",
+    experience: 326,
     stamina: 5,
-    building: "Fire Pit",
-    cookingSeconds: 60,
+    building: "Kitchen",
+    cookingSeconds: 60 * 5,
     ingredients: {
-      Egg: new Decimal(1),
+      Cauliflower: new Decimal(15),
+    },
+    marketRate: 10,
+  },
+
+  "Bumpkin Salad": {
+    name: "Bumpkin Salad",
+    description: "Gotta keep your Bumpkin healthy!",
+    experience: 564,
+    stamina: 5,
+    building: "Kitchen",
+    cookingSeconds: 60 * 10,
+    ingredients: {
+      Beetroot: new Decimal(20),
+      Parsnip: new Decimal(10),
+    },
+    marketRate: 10,
+  },
+
+  "Goblin's Treat": {
+    name: "Goblin's Treat",
+    description: "Boiled Eggss are always a good breakfast choice",
+    experience: 884,
+    stamina: 5,
+    building: "Kitchen",
+    cookingSeconds: 60 * 10,
+    ingredients: {
+      Pumpkin: new Decimal(10),
+      Radish: new Decimal(20),
+      Cabbage: new Decimal(10),
     },
     marketRate: 10,
   },

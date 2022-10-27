@@ -186,6 +186,7 @@ describe("Construct building", () => {
       state: {
         ...GAME_STATE,
         balance: new Decimal(100),
+        buildings: {},
         inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
         bumpkin: {
           id: 1,
@@ -268,6 +269,7 @@ describe("Construct building", () => {
       state: {
         ...GAME_STATE,
         balance: new Decimal(100),
+        buildings: {},
         inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
         bumpkin: {
           id: 1,
@@ -360,7 +362,7 @@ describe("Construct building", () => {
         },
         bumpkin: {
           id: 1,
-          experience: LEVEL_BRACKETS[8],
+          experience: 1000000000,
           stamina: {
             value: 0,
             replenishedAt: 0,

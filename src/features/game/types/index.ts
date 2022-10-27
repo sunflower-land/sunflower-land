@@ -83,6 +83,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Rocky the Mole": 429,
   Nugget: 430,
   "Wicker Man": 431,
+  "Victoria Sisters": 432,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -98,7 +99,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Parsnip Cake": 512,
   "Radish Cake": 513,
   "Wheat Cake": 514,
-  "Boiled Egg": 515,
+  "Boiled Eggs": 515,
   "Bumpkin Broth": 516,
   "Bumpkin Salad": 517,
   "Goblin's Treat": 518,
@@ -199,6 +200,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Human War Banner": 920,
   "Goblin War Banner": 921,
   "Player Experience": 922,
+  "Jack-o-lantern": 923,
 
   // Buildings
   Market: 1001,
@@ -208,6 +210,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Water Well": 1005,
   "Chicken House": 1006,
   Bakery: 1007,
+  Kitchen: 1007,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,

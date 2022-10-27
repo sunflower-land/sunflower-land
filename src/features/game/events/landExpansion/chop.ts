@@ -100,9 +100,9 @@ export function chop({
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (bumpkin.stamina.value < CHOP_STAMINA_COST) {
-    throw new Error("You do not have enough stamina");
-  }
+  // if (bumpkin.stamina.value < CHOP_STAMINA_COST) {
+  //   throw new Error("You do not have enough stamina");
+  // }
 
   const requiredAxes = getRequiredAxeAmount(collectibles);
 

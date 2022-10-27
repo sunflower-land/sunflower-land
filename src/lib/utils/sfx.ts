@@ -8,7 +8,6 @@ import shopMp3 from "../../assets/sound-effects/shop.mp3";
 import bankMp3 from "../../assets/sound-effects/bank.mp3";
 import beggarMp3 from "../../assets/sound-effects/beggar.mp3";
 import wishingWellMp3 from "../../assets/sound-effects/wishing_well.mp3";
-import frogMp3 from "../../assets/sound-effects/frog.mp3";
 import miningMp3 from "../../assets/sound-effects/mining.mp3";
 import miningFallMp3 from "../../assets/sound-effects/mining_fall.mp3";
 import chopMp3 from "../../assets/sound-effects/chop.mp3";
@@ -23,6 +22,17 @@ import observatoryAnimationMp3 from "../../assets/sound-effects/mom_observatory_
 import merchantMp3 from "../../assets/sound-effects/merchant.mp3";
 import fireCracklingMp3 from "../../assets/sound-effects/fire-crackling.mp3";
 import warChantMp3 from "../../assets/sound-effects/war_chant.mp3";
+import jackLanternMp3 from "assets/events/halloween/assets/sound-effects/jackLantern.mp3";
+import cursedScareCrowMp3 from "assets/events/halloween/assets/sound-effects/cursedScarecrow.mp3";
+import tombstoneMp3 from "assets/events/halloween/assets/sound-effects/tombstone.mp3";
+import victoriaSistersMp3 from "assets/events/halloween/assets/sound-effects/victoriaSisters.mp3";
+
+import frog1Mp3 from "../../assets/sound-effects/frog/frog-1.mp3";
+import frog2Mp3 from "../../assets/sound-effects/frog/frog-2.mp3";
+import frog3Mp3 from "../../assets/sound-effects/frog/frog-3.mp3";
+import frog4Mp3 from "../../assets/sound-effects/frog/frog-4.mp3";
+import frog5Mp3 from "../../assets/sound-effects/frog/frog-5.mp3";
+import frog6Mp3 from "../../assets/sound-effects/frog/frog-6.mp3";
 
 export const harvestAudio = new Howl({
   src: [harvestMp3],
@@ -65,7 +75,7 @@ export const wishingWellAudio = new Howl({
 });
 
 export const frogAudio = new Howl({
-  src: [frogMp3],
+  src: [frog1Mp3],
   volume: 0.2,
 });
 
@@ -137,5 +147,49 @@ export const burningSound = new Howl({
 
 export const warChant = new Howl({
   src: [warChantMp3],
+  volume: 0.2,
+});
+
+export const frogSounds = [
+  frogAudio,
+  new Howl({
+    src: [frog2Mp3],
+    volume: 0.2,
+  }),
+  new Howl({
+    src: [frog3Mp3],
+    volume: 0.2,
+  }),
+  new Howl({
+    src: [frog4Mp3],
+    volume: 0.2,
+  }),
+  new Howl({
+    src: [frog5Mp3],
+    volume: 0.2,
+  }),
+  new Howl({
+    src: [frog6Mp3],
+    volume: 0.2,
+  }),
+];
+
+export const jackLanternAudio = new Howl({
+  src: [jackLanternMp3],
+  volume: 0.2,
+});
+
+export const cursedScarecrowAudio = new Howl({
+  src: [cursedScareCrowMp3],
+  volume: 0.2,
+});
+
+export const tombstoneAudio = new Howl({
+  src: [tombstoneMp3],
+  volume: 0.2,
+});
+
+export const victoriaSistersAudio = new Howl({
+  src: [victoriaSistersMp3],
   volume: 0.2,
 });

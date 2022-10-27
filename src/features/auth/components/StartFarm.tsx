@@ -19,7 +19,7 @@ export const StartFarm: React.FC = () => {
     authService.send("EXPLORE");
   };
 
-  // We can only ever show this state if the address is not undefin
+  // We can only ever show this state if the address is not undefined
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const farmId = authState.context.farmId!;
 

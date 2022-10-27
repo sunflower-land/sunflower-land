@@ -3,6 +3,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { ANIMALS } from "features/game/types/craftables";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
+import { getSupportedChickens } from "./utils";
 
 export type BuyChickenAction = {
   type: "chicken.bought";
@@ -37,10 +38,8 @@ export function buyChicken({
   }
 
   const previousChickens = stateCopy.inventory.Chicken || new Decimal(0);
-  const chickenHouses = stateCopy.buildings["Chicken House"]?.length ?? 0;
-  const supportedChickens = chickenHouses * 10;
 
-  if (previousChickens.gte(supportedChickens)) {
+  if (previousChickens.gte(getSupportedChickens(state))) {
     throw new Error("Insufficient space for more chickens");
   }
 

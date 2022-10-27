@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
 
 import firePit from "assets/buildings/kitchen.png";
+import npc from "assets/npcs/cook.gif";
+import shadow from "assets/npcs/shadow.png";
+
 import classNames from "classnames";
 import { FirePitModal } from "./firePit/FirePitModal";
 import { ConsumableName } from "features/game/types/consumables";
@@ -9,6 +12,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "./WithCraftingMachine";
 import { BuildingProps } from "./Building";
 import { InventoryItemName } from "features/game/types/game";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -81,6 +85,24 @@ export const FirePit: React.FC<Props> = ({
             <img src={ITEM_DETAILS[name].image} className="w-5 ready" />
           </div>
         )}
+        <img
+          src={npc}
+          className="absolute z-20"
+          style={{
+            width: `${PIXEL_SCALE * 14}px`,
+            top: `${PIXEL_SCALE * 18}px`,
+            left: `${PIXEL_SCALE * 13}px`,
+          }}
+        />
+        <img
+          src={shadow}
+          className="absolute z-10"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            top: `${PIXEL_SCALE * 30}px`,
+            left: `${PIXEL_SCALE * 13}px`,
+          }}
+        />
         <img
           src={firePit}
           className={classNames("w-full", {

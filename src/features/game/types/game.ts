@@ -87,7 +87,7 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
-type Coupons = "Trading Ticket" | "War Bond";
+type Coupons = "Trading Ticket" | "War Bond" | "Jack-o-lantern";
 
 type Points = "Human War Point" | "Goblin War Point" | "Player Experience";
 
@@ -299,7 +299,6 @@ export interface GameState {
   gold: Record<number, Rock>;
   chickens: Record<number, Chicken>;
 
-  terrains: Record<number, LandExpansionTerrain>;
   plots: Record<number, LandExpansionPlot>;
 
   tradedAt?: string;

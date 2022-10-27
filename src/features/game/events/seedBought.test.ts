@@ -27,7 +27,7 @@ describe("seedBought", () => {
           ...GAME_STATE,
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            experience: 100,
+            experience: 0,
           },
         },
         action: {
