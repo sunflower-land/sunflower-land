@@ -19,6 +19,7 @@ import { secondsToString } from "lib/utils/time";
 import Decimal from "decimal.js-light";
 import { reset } from "features/farming/hud/actions/reset";
 import classNames from "classnames";
+import { victoriaSistersAudio } from "lib/utils/sfx";
 
 const END_DATE = new Date("2022-11-03T00:00:00");
 const REQUIRED_PUMPKINS = 150;
@@ -165,11 +166,17 @@ export const Necromancer: React.FC = () => {
       </Modal>
       <img
         src={victoriaSisters}
-        className="absolute pointer-events-none"
+        className="absolute hover:img-highlight cursor-pointer"
         style={{
           width: `${PIXEL_SCALE * 26}px`,
           bottom: `${GRID_WIDTH_PX * 0.7}px`,
           left: `${GRID_WIDTH_PX * 12}px`,
+        }}
+        onClick={() => {
+          //Checks if Audio is playing, if false, plays the sound
+          if (!victoriaSistersAudio.playing()) {
+            victoriaSistersAudio.play();
+          }
         }}
       />
       <img

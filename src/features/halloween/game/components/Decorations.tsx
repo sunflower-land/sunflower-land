@@ -14,7 +14,6 @@ import christmasTree from "assets/nfts/christmas_tree.png";
 import dog from "assets/nfts/farm_dog.gif";
 import cat from "assets/nfts/farm_cat.gif";
 import gnome from "assets/nfts/gnome.gif";
-import goblinKing from "assets/nfts/goblin_king.png";
 //fountain path edited to match event theme
 import fountain from "assets/events/halloween/assets/nfts/fountain.gif";
 import goldenBonsai from "assets/nfts/golden_bonsai.png";
@@ -33,12 +32,17 @@ import farmerBath from "assets/events/halloween/assets/nfts/farmer_bath.png";
 import swimmer from "assets/events/halloween/assets/npcs/swimmer.gif";
 import skullHand from "assets/decorations/skull_hand.png";
 import easterBunny from "assets/events/halloween/assets/nfts/easter/easter_bunny.gif";
+import victoriaSisters from "assets/nfts/victoria-sisters.gif";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "features/game/components/Flags";
 import { GameState } from "features/game/types/game";
-import { fountainAudio, tombstoneAudio } from "lib/utils/sfx";
+import {
+  fountainAudio,
+  tombstoneAudio,
+  victoriaSistersAudio,
+} from "lib/utils/sfx";
 import { HalloweenSign } from "features/halloween/game/components/Sign";
 import {
   Beavers,
@@ -120,7 +124,7 @@ export const HalloweenDecorations: React.FC<{ state: GameState }> = ({
           top: `${GRID_WIDTH_PX * 36.8}px`,
         }}
         id={Section["Sunflower Tombstone"]}
-        className="absolute"
+        className="absolute hover:img-highlight cursor-pointer"
         src={sunflowerTombstone}
         onClick={() => {
           //Checks if Audio is playing, if false, plays the sound
@@ -219,20 +223,6 @@ export const HalloweenDecorations: React.FC<{ state: GameState }> = ({
         className="absolute hover:img-highlight cursor-pointer"
         src={fountain}
         alt="Fountain"
-      />
-    )}
-
-    {state.inventory["Goblin Crown"] && (
-      <img
-        style={{
-          width: `${GRID_WIDTH_PX * 3}px`,
-          right: `${GRID_WIDTH_PX * 27.5}px`,
-          top: `${GRID_WIDTH_PX * 92.5}px`,
-        }}
-        id={Section["Goblin Crown"]}
-        className="absolute"
-        src={goblinKing}
-        alt="GoblinKing"
       />
     )}
 
@@ -400,6 +390,23 @@ export const HalloweenDecorations: React.FC<{ state: GameState }> = ({
       />
     )}
 
+    {state.inventory["Victoria Sisters"] && (
+      <img
+        src={victoriaSisters}
+        className="absolute hover:img-highlight cursor-pointer"
+        style={{
+          width: `${GRID_WIDTH_PX * 2}px`,
+          right: `${GRID_WIDTH_PX * 53.42}px`,
+          top: `${GRID_WIDTH_PX * 22.02}px`,
+        }}
+        onClick={() => {
+          //Checks if Audio is playing, if false, plays the sound
+          if (!victoriaSistersAudio.playing()) {
+            victoriaSistersAudio.play();
+          }
+        }}
+      />
+    )}
     {state.inventory["Undead Rooster"] && (
       <img
         style={{

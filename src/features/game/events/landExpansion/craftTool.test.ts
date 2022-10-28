@@ -83,7 +83,7 @@ describe("craftTool", () => {
     });
 
     expect(state.inventory["Pickaxe"]).toEqual(new Decimal(1));
-    expect(state.inventory["Wood"]).toEqual(new Decimal(8));
+    expect(state.inventory["Wood"]).toEqual(new Decimal(5));
   });
 
   it("does not craft an item that is not in stock", () => {

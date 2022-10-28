@@ -277,7 +277,8 @@ export type LandExpansion = {
 interface ExpansionRequirements {
   sfl: Decimal;
   resources: Ingredient[];
-  seconds: Decimal;
+  seconds: number;
+  bumpkinLevel: number;
 }
 
 export type Airdrop = {
@@ -328,6 +329,7 @@ export interface GameState {
     id: string;
     fulfilledAt: number;
   }[];
+  migrated?: boolean;
 }
 
 export interface Context {

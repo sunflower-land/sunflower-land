@@ -63,7 +63,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Christmas Tree"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
+          width: `${PIXEL_SCALE * 23}px`,
           right: `${GRID_WIDTH_PX * 16}px`,
           top: `${GRID_WIDTH_PX * 1}px`,
         }}
@@ -91,9 +91,9 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Potato Statue"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.5}px`,
-          left: `${GRID_WIDTH_PX * 52}px`,
-          top: `${GRID_WIDTH_PX * 39}px`,
+          width: `${GRID_WIDTH_PX * 1.1}px`,
+          left: `${GRID_WIDTH_PX * 52.2}px`,
+          top: `${GRID_WIDTH_PX * 39.1}px`,
         }}
         id={Section["Potato Statue"]}
         className="absolute"
@@ -119,9 +119,9 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Farm Cat"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.5}px`,
+          width: `${PIXEL_SCALE * 16}px `,
           right: `${GRID_WIDTH_PX * 39.55}px`,
-          top: `${GRID_WIDTH_PX * 28.2}px`,
+          top: `${GRID_WIDTH_PX * 28.8}px`,
         }}
         id={Section["Farm Cat"]}
         className="absolute z-10"
@@ -133,7 +133,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Farm Dog"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1}px`,
+          width: `${PIXEL_SCALE * 12}px `,
           right: `${GRID_WIDTH_PX * 37.8}px`,
           top: `${GRID_WIDTH_PX * 32}px`,
         }}
@@ -163,7 +163,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
         left: `${GRID_WIDTH_PX * 38}px`,
-        top: `${GRID_WIDTH_PX * 34}px`,
+        top: `${GRID_WIDTH_PX * 34.1}px`,
       }}
       id={Section.Scarecrow}
     >
@@ -189,7 +189,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Fountain"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2.5}px`,
+          width: `${GRID_WIDTH_PX * 2.1}px`,
           left: `${GRID_WIDTH_PX * 35}px`,
           top: `${GRID_WIDTH_PX * 28}px`,
         }}
@@ -224,8 +224,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     <div
       className="flex justify-center absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 2}px`,
-        right: `${GRID_WIDTH_PX * 24}px`,
+        right: `${GRID_WIDTH_PX * 24.6}px`,
         top: `${GRID_WIDTH_PX * 49}px`,
       }}
       id={Section.Beaver}
@@ -236,7 +235,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Homeless Tent"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
+          width: `${GRID_WIDTH_PX * 1.9}px`,
           right: `${GRID_WIDTH_PX * 34.5}px`,
           top: `${GRID_WIDTH_PX * 31}px`,
         }}
@@ -286,7 +285,7 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Easter Bunny"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2.5}px`,
+          width: `${PIXEL_SCALE * 37}px`,
           right: `${GRID_WIDTH_PX * 49}px`,
           top: `${GRID_WIDTH_PX * 24}px`,
         }}
@@ -316,9 +315,9 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     {state.inventory["Golden Bonsai"] && (
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.0952}px`,
-          left: `${GRID_WIDTH_PX * 71.786}px`,
-          top: `${GRID_WIDTH_PX * 37.95}px`,
+          width: `${GRID_WIDTH_PX * 0.988}px`,
+          left: `${GRID_WIDTH_PX * 71.892}px`,
+          top: `${GRID_WIDTH_PX * 37.94}px`,
         }}
         id={Section["Golden Bonsai"]}
         className="absolute"
@@ -347,9 +346,9 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
     <div
       className="flex justify-center absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 2}px`,
-        right: `${GRID_WIDTH_PX * 21.5}px`,
-        top: `${GRID_WIDTH_PX * 50.4}px`,
+        width: `${GRID_WIDTH_PX * 1.2}px`,
+        right: `${GRID_WIDTH_PX * 21.9}px`,
+        top: `${GRID_WIDTH_PX * 50.75}px`,
       }}
       id={Section.Mole}
     >

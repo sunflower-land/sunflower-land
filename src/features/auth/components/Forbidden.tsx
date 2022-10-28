@@ -13,10 +13,10 @@ export const Forbidden: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center p-2">
-      <span className="text-shadow text-center">Forbidden !</span>
-      <img src={suspiciousGoblin} className="w-1/4 mt-2" />
-      <span className="text-shadow text-xs text-center mt-2 mb-2">
+    <div className="flex flex-col items-center text-center p-2">
+      <span>Forbidden !</span>
+      <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
+      <span className="text-xs mt-2 mb-2">
         You are not allowed to visit the Goblin Village while, visiting someone
         else&apos; farm !<br />
         <br />

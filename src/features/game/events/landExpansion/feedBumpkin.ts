@@ -49,7 +49,7 @@ export function feedBumpkin({
   let foodExperience = CONSUMABLES[action.food].experience;
 
   if (bumpkin.skills["Kitchen Hand"]) {
-    foodExperience += 0.1;
+    foodExperience *= 1.1;
   }
 
   bumpkin.experience += foodExperience;

@@ -73,7 +73,7 @@ export const INITIAL_STOCK: Inventory = {
   "Radish Cake": new Decimal(1),
   "Wheat Cake": new Decimal(1),
 
-  "Boiled Egg": new Decimal(1),
+  "Boiled Eggs": new Decimal(1),
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
@@ -442,6 +442,73 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
       },
     },
   },
+  {
+    createdAt: 0,
+    readyAt: 0,
+    trees: {
+      0: {
+        wood: {
+          amount: 3,
+          choppedAt: 0,
+        },
+        x: 1,
+        y: 0,
+        height: 2,
+        width: 2,
+      },
+    },
+    plots: [
+      {
+        x: -2,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      {
+        x: -2,
+        y: 0,
+        height: 1,
+        width: 1,
+      },
+      {
+        x: -1,
+        y: 0,
+        height: 1,
+        width: 1,
+      },
+      {
+        x: -1,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+    ],
+
+    iron: {
+      0: {
+        x: 1,
+        y: 3,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
+      },
+    },
+    stones: {
+      0: {
+        x: 1,
+        y: -2,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
+      },
+    },
+  },
 ];
 
 export const INITIAL_BUMPKIN: Bumpkin = {
@@ -490,7 +557,7 @@ export const INITIAL_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
     Warrior: new Decimal(1),
-    "Boiled Egg": new Decimal(3),
+    "Boiled Eggs": new Decimal(3),
     "Mashed Potato": new Decimal(1),
     "Sunflower Cake": new Decimal(1),
     "Pumpkin Soup": new Decimal(1),
@@ -543,6 +610,28 @@ export const INITIAL_FARM: GameState = {
         createdAt: 0,
       },
     ],
+    Workbench: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: 1,
+        },
+        createdAt: 0,
+      },
+    ],
+    Kitchen: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: -3,
+          y: 9,
+        },
+        createdAt: 0,
+      },
+    ],
   },
   airdrops: [
     {
@@ -575,7 +664,7 @@ export const INITIAL_FARM: GameState = {
     orders: [
       {
         id: "asdj123",
-        name: "Boiled Egg",
+        name: "Boiled Eggs",
         sfl: new Decimal(10),
       },
       {
@@ -615,6 +704,17 @@ export const INITIAL_FARM: GameState = {
       },
     ],
   },
+  expansionRequirements: {
+    bumpkinLevel: 20,
+    resources: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    seconds: 60,
+    sfl: new Decimal(0),
+  },
 };
 
 export const EMPTY: GameState = {
@@ -639,6 +739,7 @@ export const EMPTY: GameState = {
   stockExpiry: {},
   plots: INITIAL_PLOTS,
   expansions: INITIAL_EXPANSIONS,
+
   buildings: {},
   collectibles: {},
 };
@@ -652,6 +753,10 @@ export const MAX_STAMINA: Record<BumpkinLevel, number> = {
   6: 400,
   7: 500,
   8: 600,
+  9: 700,
+  10: 800,
+  11: 900,
+  12: 1000,
 };
 
 export const CHOP_STAMINA_COST = 2;

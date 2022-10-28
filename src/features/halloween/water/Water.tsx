@@ -12,7 +12,7 @@ import Shark from "./Shark";
 import goblinSwimming from "assets/events/halloween/assets/npcs/goblin_swimming.gif";
 import goblinSnorkling from "assets/events/halloween/assets/npcs/goblin_snorkling.gif";
 import { Frog } from "./Frog";
-import { FrogNft } from "components/ui/FrogNft";
+import { ProjectDignityFrogs } from "features/farming/water/ProjectDignityFrogs";
 
 export const HalloweenWater: React.FC = () => {
   return (
@@ -40,7 +40,7 @@ export const HalloweenWater: React.FC = () => {
         />
 
         <Frog />
-        <FrogNft />
+        <ProjectDignityFrogs />
         <Shark />
         <img
           src={goblinSwimming}

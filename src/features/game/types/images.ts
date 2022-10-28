@@ -79,7 +79,6 @@ import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 
 // Foods
-import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import cabbageSoup from "assets/nfts/saurrerkrat.png";
 import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
 import radishPie from "assets/nfts/radish_pie.png";
@@ -147,7 +146,7 @@ import seedSpecialist from "assets/skills/seed_specialist.png";
 import logger from "assets/skills/logger.png";
 import lumberjack from "assets/skills/lumberjack.png";
 import warrior from "assets/skills/warrior.png";
-import artist from "assets/skills/artist.gif";
+import artist from "assets/skills/artist.png";
 import coder from "assets/skills/coder.png";
 import discord from "assets/skills/discord.png";
 import liquidityProvider from "assets/skills/liquidity_provider.png";
@@ -223,6 +222,15 @@ import wheatCake from "src/assets/nfts/cakes/wheat_cake.png";
 
 // Food
 import mashedPotato from "assets/food/mashed_potato.png";
+import pumpkinSoup from "assets/food/pumpkin_soup.png";
+import bumpkinBroth from "assets/food/bumpkin_broth.png";
+import boiledEgg from "assets/food/boiled_eggs.png";
+import goblinsTreat from "assets/food/goblins_treat.png";
+import cauliflowerBurger from "assets/food/cauliflower_burger.png";
+import pancakes from "assets/food/pancakes.png";
+import roastVeggies from "assets/food/roast_veggies.png";
+import clubSandwich from "assets/food/club_sandwich.png";
+import bumpkinSalad from "assets/food/bumpkin_salad.png";
 
 import goblinKey from "src/assets/nfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
@@ -233,7 +241,8 @@ import ancientHumanWarhammer from "src/assets/nfts/quest/ancient_human_warhammer
 import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 
 // Buildings
-import firePit from "src/assets/buildings/kitchen.png";
+import firePit from "src/assets/buildings/fire_pit.png";
+import kitchen from "src/assets/buildings/kitchen.png";
 import market from "src/assets/buildings/market.png";
 import workbench from "src/assets/buildings/workbench.png";
 import tent from "src/assets/buildings/tent1.png";
@@ -1036,6 +1045,10 @@ export const ITEM_DETAILS: Items = {
     image: market,
     description: "Buy and sell at the Farmer's Market",
   },
+  Kitchen: {
+    image: kitchen,
+    description: "Step up your cooking game",
+  },
   Bakery: {
     image: bakery,
     description: "Bake your favourite cakes",
@@ -1046,11 +1059,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Water Well": {
     image: well,
-    description: "Support more crops!",
+    description: "Crops need water!",
   },
   Tent: {
     image: tent,
-    description: "Rest your Bumpkin and earn more stamina",
+    description: "Every Bumpkin needs a home!",
   },
   "Chicken House": {
     image: chickenHouse,
@@ -1106,25 +1119,41 @@ export const ITEM_DETAILS: Items = {
     description: "A fallen soldier during the war",
   },
 
-  "Boiled Egg": {
-    image: egg,
-    description: "A boiled egg",
+  "Boiled Eggs": {
+    image: boiledEgg,
+    description: "Don't let the Chickens see!",
   },
   "Bumpkin Broth": {
-    image: greenEgg,
-    description: "A boiled egg",
+    image: bumpkinBroth,
+    description: "A nutritious broth to replenish your Bumpkin",
   },
   "Mashed Potato": {
     image: mashedPotato,
-    description: "A boiled egg",
+    description: "My life is potato.",
   },
   "Bumpkin Salad": {
-    image: redEgg,
-    description: "A boiled egg",
+    image: bumpkinSalad,
+    description: "?",
   },
   "Goblin's Treat": {
-    image: redEgg,
-    description: "A boiled egg",
+    image: goblinsTreat,
+    description: "?",
+  },
+  "Cauliflower Burger": {
+    image: cauliflowerBurger,
+    description: "?",
+  },
+  "Club Sandwich": {
+    image: clubSandwich,
+    description: "",
+  },
+  "Roast Veggies": {
+    image: roastVeggies,
+    description: "",
+  },
+  Pancakes: {
+    image: pancakes,
+    description: "",
   },
 
   Explorer: {
