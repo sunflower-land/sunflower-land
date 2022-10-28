@@ -45,7 +45,7 @@ export const Blacklisted: React.FC<Props> = ({
     return (
       <div className="flex flex-col items-center p-2">
         <span className="text-center">Uh oh!</span>
-        <img src={suspiciousGoblin} className="w-16 mt-2" />
+        <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
         <span className="text-sm mt-2 mb-2">
           You failed the Jigger Proof of Humanity.
         </span>
@@ -70,7 +70,7 @@ export const Blacklisted: React.FC<Props> = ({
     return (
       <div className="flex flex-col items-center p-2">
         <span className="text-center">Uh oh!</span>
-        <img src={suspiciousGoblin} className="w-16 mt-2" />
+        <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
         <span className="text-sm mt-2 mb-2">
           Your proof of humanity is still being processed by Jigger. This can
           take up to 2 hours.
@@ -93,7 +93,7 @@ export const Blacklisted: React.FC<Props> = ({
     return (
       <div className="flex flex-col items-center p-2">
         <span className="text-center">Uh oh!</span>
-        <img src={suspiciousGoblin} className="w-16 mt-2" />
+        <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
         <span className="text-sm mt-2 mb-2">
           The multi-account detection system has picked up strange behaviour.
         </span>
@@ -114,7 +114,7 @@ export const Blacklisted: React.FC<Props> = ({
   return (
     <div className="flex flex-col items-center p-2">
       <span className="text-center">This farm is banned</span>
-      <img src={suspiciousGoblin} className="w-16 mt-2" />
+      <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
       <span className="text-sm mt-2 mb-2">
         The anti-bot and multi-account detection system has picked up strange
         behaviour. Actions have been restricted.

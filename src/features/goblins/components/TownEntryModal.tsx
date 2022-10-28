@@ -19,11 +19,9 @@ export const TownEntryModal: React.FC<{ onClose: () => void }> = ({
 
   return (
     <Panel>
-      <div className="p-2">
+      <div className="flex flex-col items-center p-2">
         <h1 className="text-lg text-center">Time to get back to your farm?</h1>
-        <div className="flex my-3 justify-center">
-          <img src={bumpkin} alt="bumpkin avatar" />
-        </div>
+        <img src={bumpkin} alt="bumpkin avatar" className="w-16 m-2" />
         <p className="text-sm mb-4">
           {
             "Tired of giving these greedy goblins all your hard earned resources?"

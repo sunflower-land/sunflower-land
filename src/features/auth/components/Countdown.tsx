@@ -27,14 +27,12 @@ export const Countdown: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center p-2">
-      <span className="text-center">Your farm has been minted!</span>
+    <div className="flex flex-col text-center items-center p-2">
+      <span>Your farm has been minted!</span>
       <img src={minting} className="w-1/2 mt-2" />
-      <span className="text-xs text-center mb-1">
-        Your farm will be ready in
-      </span>
+      <span className="text-xs mb-1">Your farm will be ready in</span>
       <span className="text-3xl">{time}</span>
-      <span className="text-xs text-center mt-4 underline mb-1">
+      <span className="text-xs mt-4 underline mb-1">
         Do not refresh this browser
       </span>
     </div>

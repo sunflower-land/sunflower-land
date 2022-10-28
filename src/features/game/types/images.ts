@@ -146,7 +146,7 @@ import seedSpecialist from "assets/skills/seed_specialist.png";
 import logger from "assets/skills/logger.png";
 import lumberjack from "assets/skills/lumberjack.png";
 import warrior from "assets/skills/warrior.png";
-import artist from "assets/skills/artist.gif";
+import artist from "assets/skills/artist.png";
 import coder from "assets/skills/coder.png";
 import discord from "assets/skills/discord.png";
 import liquidityProvider from "assets/skills/liquidity_provider.png";

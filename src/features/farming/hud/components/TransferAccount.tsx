@@ -8,11 +8,11 @@ import { transferAccount } from "../actions/transfer";
 import { useActor } from "@xstate/react";
 import { isAddress } from "web3-utils";
 import close from "assets/icons/close.png";
-import lightningAnimation from "assets/npcs/human_death.gif";
 import transferring from "assets/npcs/minting.gif";
 import farmImg from "assets/brand/nft.png";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { ConnectingError } from "features/auth/components/ConnectingError";
 
 interface Props {
   isOpen: boolean;
@@ -72,23 +72,15 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
   }
 
   if (state === "error") {
-    return (
-      <div className="flex flex-col items-center p-2">
-        <span className="text-center">Something went wrong!</span>
-        <img src={lightningAnimation} className="h-20 my-2" />
-        <span className="text-xs text-center mt-2 mb-1">
-          Looks like we were unable to connect. Please refresh and try again.
-        </span>
-      </div>
-    );
+    return <ConnectingError />;
   }
 
   if (state === "loading") {
     return (
-      <div className="flex flex-col items-center p-2">
-        <span className="text-center">Transferring your farm!</span>
+      <div className="flex flex-col text-center items-center p-2">
+        <span>Transferring your farm!</span>
         <img src={transferring} className="w-1/2 mt-2" />
-        <span className="text-xs text-center mt-4 underline mb-1">
+        <span className="text-xs mt-4 underline mb-1">
           Do not refresh this browser
         </span>
       </div>

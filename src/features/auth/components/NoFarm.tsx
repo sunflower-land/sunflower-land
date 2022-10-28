@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
-import suspicious from "assets/npcs/suspicious_goblin.gif";
+import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 import idle from "assets/npcs/idle.gif";
 import questionMark from "assets/icons/expression_confused.png";
 
@@ -34,8 +34,11 @@ export const NoFarm: React.FC = () => {
         </Button>
       ) : (
         <div className="flex flex-col items-center">
-          <div className="flex items-center mt-4 -mb-4 relative">
-            <img src={suspicious} className="w-12" />
+          <div className="flex items-center mt-5 -mb-1 relative">
+            <img
+              src={suspiciousGoblin}
+              className="w-10 relative bottom-[3px] mr-3"
+            />
             <img
               src={idle}
               className="w-8 relative bottom-[6px]"
@@ -47,14 +50,14 @@ export const NoFarm: React.FC = () => {
               style={{
                 right: "10px",
                 width: "13px",
-                top: "-30px",
+                top: "-35px",
               }}
             />
           </div>
-          <span className="text-sm text-shadow p-2 text-center mb-4">
+          <span className="text-sm p-2 text-center mb-4">
             Beta is currently open for testers on Discord.
           </span>
-          <span className="text-sm text-shadow p-2 text-center mb-2">
+          <span className="text-sm p-2 text-center mb-2">
             Only 150,000 spots available!
           </span>
           <Button onClick={connect} className="overflow-hidden mb-2">
