@@ -621,7 +621,7 @@ export const INITIAL_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Kitchen: [
+    Deli: [
       {
         id: "123",
         readyAt: 0,
