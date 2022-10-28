@@ -610,6 +610,17 @@ export const INITIAL_FARM: GameState = {
         createdAt: 0,
       },
     ],
+    Workbench: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: 1,
+        },
+        createdAt: 0,
+      },
+    ],
     Kitchen: [
       {
         id: "123",
@@ -693,6 +704,17 @@ export const INITIAL_FARM: GameState = {
       },
     ],
   },
+  expansionRequirements: {
+    bumpkinLevel: 20,
+    resources: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    seconds: 60,
+    sfl: new Decimal(0),
+  },
 };
 
 export const EMPTY: GameState = {
@@ -717,6 +739,7 @@ export const EMPTY: GameState = {
   stockExpiry: {},
   plots: INITIAL_PLOTS,
   expansions: INITIAL_EXPANSIONS,
+
   buildings: {},
   collectibles: {},
 };
@@ -730,6 +753,10 @@ export const MAX_STAMINA: Record<BumpkinLevel, number> = {
   6: 400,
   7: 500,
   8: 600,
+  9: 700,
+  10: 800,
+  11: 900,
+  12: 1000,
 };
 
 export const CHOP_STAMINA_COST = 2;

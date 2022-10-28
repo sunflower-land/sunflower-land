@@ -9,7 +9,6 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Consumable, ConsumableName } from "features/game/types/consumables";
 
-import staminaIcon from "assets/icons/lightning.png";
 import heart from "assets/icons/heart.png";
 import firePit from "src/assets/buildings/fire_pit.png";
 
@@ -34,10 +33,6 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
   const feed = (food: Consumable) => {
     onFeed(food.name);
 
-    setToast({
-      icon: staminaIcon,
-      content: `+${food.stamina}`,
-    });
     setToast({
       icon: heart,
       content: `+${food.experience}`,

@@ -1059,11 +1059,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Water Well": {
     image: well,
-    description: "Support more crops!",
+    description: "Crops need water!",
   },
   Tent: {
     image: tent,
-    description: "Rest your Bumpkin and earn more stamina",
+    description: "Every Bumpkin needs a home!",
   },
   "Chicken House": {
     image: chickenHouse,
