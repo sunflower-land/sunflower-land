@@ -129,7 +129,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Market: { height: 2, width: 3 },
   "Fire Pit": { height: 2, width: 3 },
   Workbench: { height: 2, width: 3 },
-  Kitchen: { height: 2, width: 3 },
+  Kitchen: { height: 3, width: 4 },
   Bakery: { height: 3, width: 3 },
   "Water Well": { height: 2, width: 2 },
   Tent: { height: 2, width: 3 },

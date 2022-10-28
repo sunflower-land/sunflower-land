@@ -104,6 +104,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Bumpkin Salad": 517,
   "Goblin's Treat": 518,
   "Mashed Potato": 519,
+  "Cauliflower Burger": 520,
+  "Club Sandwich": 521,
+  "Roast Veggies": 522,
+  Pancakes: 523,
 
   Wood: 601,
   Stone: 602,

@@ -442,6 +442,73 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
       },
     },
   },
+  {
+    createdAt: 0,
+    readyAt: 0,
+    trees: {
+      0: {
+        wood: {
+          amount: 3,
+          choppedAt: 0,
+        },
+        x: 1,
+        y: 0,
+        height: 2,
+        width: 2,
+      },
+    },
+    plots: [
+      {
+        x: -2,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      {
+        x: -2,
+        y: 0,
+        height: 1,
+        width: 1,
+      },
+      {
+        x: -1,
+        y: 0,
+        height: 1,
+        width: 1,
+      },
+      {
+        x: -1,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+    ],
+
+    iron: {
+      0: {
+        x: 1,
+        y: 3,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
+      },
+    },
+    stones: {
+      0: {
+        x: 1,
+        y: -2,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
+      },
+    },
+  },
 ];
 
 export const INITIAL_BUMPKIN: Bumpkin = {
@@ -539,6 +606,17 @@ export const INITIAL_FARM: GameState = {
         coordinates: {
           x: 2,
           y: 3,
+        },
+        createdAt: 0,
+      },
+    ],
+    Kitchen: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: -3,
+          y: 9,
         },
         createdAt: 0,
       },

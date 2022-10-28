@@ -6,7 +6,7 @@ import {
   BuildingProduct,
   PlacedItem as IBuilding,
 } from "features/game/types/game";
-import { FirePit } from "./FirePit";
+import { FirePit } from "./firePit/FirePit";
 import { Bar } from "components/ui/ProgressBar";
 import { WithCraftingMachine } from "./WithCraftingMachine";
 import { Market } from "./market/Market";
@@ -49,7 +49,11 @@ export const BUILDING_COMPONENTS: Record<
   Tent: Tent,
   "Water Well": WaterWell,
   "Chicken House": ChickenHouse,
-  Kitchen: Kitchen,
+  Kitchen: ({ buildingId, craftingState }: BuildingProps) => (
+    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+      <Kitchen buildingId={buildingId} />
+    </WithCraftingMachine>
+  ),
 };
 
 export const Building: React.FC<Prop> = ({

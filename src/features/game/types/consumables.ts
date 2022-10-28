@@ -5,12 +5,15 @@ import { Inventory } from "./game";
 
 export type ConsumableName =
   | "Mashed Potato"
-  | "Bumpkin Broth"
-  | "Roasted Cauliflower"
-  | "Boiled Eggs"
-  | "Bumpkin Salad"
-  | "Goblin's Treat"
   | "Pumpkin Soup"
+  | "Bumpkin Broth"
+  | "Boiled Eggs"
+  | "Roast Veggies"
+  | "Bumpkin Salad"
+  | "Cauliflower Burger"
+  | "Goblin's Treat"
+  | "Club Sandwich"
+  | "Pancakes"
   | Cake;
 
 export type Consumable = {
@@ -79,15 +82,16 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 10,
   },
 
-  "Roasted Cauliflower": {
-    name: "Roasted Cauliflower",
-    description: "Calling all cauliflower lovers!",
-    experience: 326,
+  "Roast Veggies": {
+    name: "Roast Veggies",
+    description: "Even Goblin's need to eat their veggies!",
+    experience: 226,
     stamina: 5,
     building: "Kitchen",
     cookingSeconds: 60 * 5,
     ingredients: {
       Cauliflower: new Decimal(15),
+      Carrot: new Decimal(10),
     },
     marketRate: 10,
   },
@@ -95,7 +99,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   "Bumpkin Salad": {
     name: "Bumpkin Salad",
     description: "Gotta keep your Bumpkin healthy!",
-    experience: 564,
+    experience: 440,
     stamina: 5,
     building: "Kitchen",
     cookingSeconds: 60 * 10,
@@ -109,7 +113,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   "Goblin's Treat": {
     name: "Goblin's Treat",
     description: "Boiled Eggss are always a good breakfast choice",
-    experience: 884,
+    experience: 520,
     stamina: 5,
     building: "Kitchen",
     cookingSeconds: 60 * 10,
@@ -117,6 +121,49 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
       Pumpkin: new Decimal(10),
       Radish: new Decimal(20),
       Cabbage: new Decimal(10),
+    },
+    marketRate: 10,
+  },
+
+  "Cauliflower Burger": {
+    name: "Cauliflower Burger",
+    description: "Calling all cauliflower lovers!",
+    experience: 420,
+    stamina: 5,
+    building: "Kitchen",
+    cookingSeconds: 60 * 5,
+    ingredients: {
+      Cauliflower: new Decimal(15),
+      Wheat: new Decimal(5),
+    },
+    marketRate: 10,
+  },
+
+  Pancakes: {
+    name: "Pancakes",
+    description: "A great start to a Bumpkins day",
+    experience: 460,
+    stamina: 5,
+    building: "Kitchen",
+    cookingSeconds: 60 * 5,
+    ingredients: {
+      Wheat: new Decimal(5),
+      // TODO - honey
+    },
+    marketRate: 10,
+  },
+
+  "Club Sandwich": {
+    name: "Club Sandwich",
+    description: "Filled with Carrots and Roasted Sunflower Seeds",
+    experience: 320,
+    stamina: 5,
+    building: "Kitchen",
+    cookingSeconds: 60 * 5,
+    ingredients: {
+      Sunflower: new Decimal(100),
+      Carrot: new Decimal(25),
+      Wheat: new Decimal(5),
     },
     marketRate: 10,
   },

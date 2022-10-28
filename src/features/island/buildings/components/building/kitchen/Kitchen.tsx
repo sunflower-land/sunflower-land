@@ -1,14 +1,19 @@
 import React, { useContext, useState } from "react";
 
-import firePit from "assets/buildings/kitchen.png";
-import classNames from "classnames";
+import kitchen from "assets/buildings/kitchen.png";
+// TODO NEW NPCS
+import npc from "assets/npcs/betty.gif";
+import doing from "assets/npcs/cook_doing.gif";
+import shadow from "assets/npcs/shadow.png";
+
 import { ConsumableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { InventoryItemName } from "features/game/types/game";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
-import { FirePitModal } from "../firePit/FirePitModal";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { KitchenModal } from "./KitchenModal";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -24,11 +29,8 @@ export const Kitchen: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  if (!craftingService || !handleShowCraftingTimer)
-    return <img src={firePit} className="w-full" />;
-
   const handleCook = (item: ConsumableName) => {
-    craftingService.send({
+    craftingService?.send({
       type: "CRAFT",
       event: "recipe.cooked",
       item,
@@ -37,11 +39,11 @@ export const Kitchen: React.FC<Props> = ({
   };
 
   const handleCollect = () => {
-    const { name } = craftingService.state.context;
-
+    const context = craftingService?.state.context;
+    const name = context?.name;
     if (!name) return;
 
-    craftingService.send({
+    craftingService?.send({
       type: "COLLECT",
       item: name,
       event: "recipe.collected",
@@ -54,13 +56,14 @@ export const Kitchen: React.FC<Props> = ({
   };
 
   const handleClick = () => {
+    console.log({ idle });
     if (idle) {
       setShowModal(true);
       return;
     }
 
     if (crafting) {
-      handleShowCraftingTimer();
+      handleShowCraftingTimer && handleShowCraftingTimer();
       return;
     }
 
@@ -73,7 +76,7 @@ export const Kitchen: React.FC<Props> = ({
   return (
     <>
       <div
-        className="relative cursor-pointer hover:img-highlight"
+        className="relative cursor-pointer hover:img-highlight w-full h-full"
         onClick={handleClick}
       >
         {ready && name && (
@@ -82,15 +85,48 @@ export const Kitchen: React.FC<Props> = ({
           </div>
         )}
         <img
-          src={firePit}
-          className={classNames("w-full", {
-            "opacity-100": !crafting,
-            "opacity-80": crafting,
-          })}
+          src={kitchen}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 55}px`,
+            left: `${PIXEL_SCALE * 4.5}px`,
+            bottom: `${PIXEL_SCALE * 3}px`,
+          }}
+        />
+        {crafting ? (
+          <img
+            src={doing}
+            className="absolute z-20"
+            style={{
+              width: `${PIXEL_SCALE * 16}px`,
+              bottom: `${PIXEL_SCALE * 4}px`,
+              right: `${PIXEL_SCALE * 24}px`,
+            }}
+          />
+        ) : (
+          <img
+            src={npc}
+            className="absolute z-20"
+            style={{
+              width: `${PIXEL_SCALE * 16}px`,
+
+              bottom: `${PIXEL_SCALE * 4}px`,
+              right: `${PIXEL_SCALE * 24}px`,
+            }}
+          />
+        )}
+        <img
+          src={shadow}
+          className="absolute z-10"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+            right: `${PIXEL_SCALE * 23}px`,
+          }}
         />
       </div>
 
-      <FirePitModal
+      <KitchenModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onCook={handleCook}

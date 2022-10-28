@@ -87,13 +87,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
                 <div className="flex justify-center flex-wrap items-center">
                   <img src={heart} className="me-2 w-6" />
                   <span className="text-xs text-shadow text-center">
-                    {`${selected.experience}`}
-                  </span>
-                </div>
-                <div className="flex justify-center flex-wrap items-center">
-                  <img src={staminaIcon} className="me-2 w-6" />
-                  <span className="text-xs text-shadow text-center">
-                    {`${selected.stamina}`}
+                    {`${selected.experience} EXP`}
                   </span>
                 </div>
               </div>

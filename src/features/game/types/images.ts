@@ -225,6 +225,12 @@ import mashedPotato from "assets/food/mashed_potato.png";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import bumpkinBroth from "assets/food/bumpkin_broth.png";
 import boiledEgg from "assets/food/boiled_eggs.png";
+import goblinsTreat from "assets/food/goblins_treat.png";
+import cauliflowerBurger from "assets/food/cauliflower_burger.png";
+import pancakes from "assets/food/pancakes.png";
+import roastVeggies from "assets/food/roast_veggies.png";
+import clubSandwich from "assets/food/club_sandwich.png";
+import bumpkinSalad from "assets/food/bumpkin_salad.png";
 
 import goblinKey from "src/assets/nfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
@@ -235,7 +241,8 @@ import ancientHumanWarhammer from "src/assets/nfts/quest/ancient_human_warhammer
 import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 
 // Buildings
-import firePit from "src/assets/buildings/kitchen.png";
+import firePit from "src/assets/buildings/fire_pit.png";
+import kitchen from "src/assets/buildings/kitchen.png";
 import market from "src/assets/buildings/market.png";
 import workbench from "src/assets/buildings/workbench.png";
 import tent from "src/assets/buildings/tent1.png";
@@ -1039,7 +1046,7 @@ export const ITEM_DETAILS: Items = {
     description: "Buy and sell at the Farmer's Market",
   },
   Kitchen: {
-    image: bakery,
+    image: kitchen,
     description: "Step up your cooking game",
   },
   Bakery: {
@@ -1125,12 +1132,28 @@ export const ITEM_DETAILS: Items = {
     description: "My life is potato.",
   },
   "Bumpkin Salad": {
-    image: redEgg,
-    description: "A Boiled Eggs",
+    image: bumpkinSalad,
+    description: "?",
   },
   "Goblin's Treat": {
-    image: redEgg,
-    description: "A Boiled Eggs",
+    image: goblinsTreat,
+    description: "?",
+  },
+  "Cauliflower Burger": {
+    image: cauliflowerBurger,
+    description: "?",
+  },
+  "Club Sandwich": {
+    image: clubSandwich,
+    description: "",
+  },
+  "Roast Veggies": {
+    image: roastVeggies,
+    description: "",
+  },
+  Pancakes: {
+    image: pancakes,
+    description: "",
   },
 
   Explorer: {

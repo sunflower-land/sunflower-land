@@ -1,17 +1,17 @@
 import React, { useContext, useState } from "react";
 
-import firePit from "assets/buildings/kitchen.png";
+import firePit from "assets/buildings/fire_pit.png";
 import npc from "assets/npcs/cook.gif";
 import doing from "assets/npcs/cook_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
 import classNames from "classnames";
-import { FirePitModal } from "./firePit/FirePitModal";
+import { FirePitModal } from "./FirePitModal";
 import { ConsumableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { CraftingMachineChildProps } from "./WithCraftingMachine";
-import { BuildingProps } from "./Building";
+import { CraftingMachineChildProps } from "../WithCraftingMachine";
+import { BuildingProps } from "../Building";
 import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 

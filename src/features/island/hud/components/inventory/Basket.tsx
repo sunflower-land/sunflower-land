@@ -12,7 +12,7 @@ import lightning from "assets/icons/lightning.png";
 import { secondsToMidString } from "lib/utils/time";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { getCropTime } from "features/game/events/plant";
-import { FOODS, getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
+import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
 import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
 import { getBasketItems } from "./utils/inventory";
 import { RESOURCES } from "features/game/types/resources";
@@ -62,7 +62,6 @@ export const Basket: React.FC = () => {
   const tools = getItems(TOOLS);
   const shovels = getItems(SHOVELS);
   const resources = getItems(RESOURCES);
-  const foods = getItems(FOODS());
   const consumables = getItems(CONSUMABLES);
 
   const allTools = [...tools, ...shovels];
@@ -171,19 +170,10 @@ export const Basket: React.FC = () => {
             </div>
           </div>
         )}
-        {!!(foods.length || consumables.length) && (
+        {!!consumables.length && (
           <div className="flex flex-col pl-2" key={"foods"}>
             {<p className="mb-2 underline">Foods</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
-              {foods.map((item) => (
-                <Box
-                  count={inventory[item]}
-                  isSelected={selectedItem === item}
-                  key={item}
-                  onClick={() => handleItemClick(item)}
-                  image={ITEM_DETAILS[item].image}
-                />
-              ))}
               {consumables.map((item) => (
                 <Box
                   count={inventory[item]}
