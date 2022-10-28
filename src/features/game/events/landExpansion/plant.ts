@@ -32,6 +32,12 @@ type IsPlotFertile = {
   expansionIndex: number;
   gameState: GameState;
 };
+
+// First 15 plots do not need water
+const INITIAL_SUPPORTED_PLOTS = 15;
+// Each well can support an additional 8 plots
+const WELL_PLOT_SUPPORT = 8;
+
 export function isPlotFertile({
   plotIndex,
   expansionIndex,
@@ -39,7 +45,8 @@ export function isPlotFertile({
 }: IsPlotFertile): boolean {
   // Get the well count
   const wellCount = gameState.buildings["Water Well"]?.length ?? 0;
-  const cropsWellCanWater = wellCount * 10 + 10;
+  const cropsWellCanWater =
+    wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
   const cropPosition = gameState.expansions.reduce(
     (count, expansion, index) => {
