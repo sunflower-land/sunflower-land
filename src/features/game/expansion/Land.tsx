@@ -264,7 +264,7 @@ const getIslandElements = ({
 
   if (bumpkinParts) {
     mapPlacements.push(
-      <MapPlacement x={2} y={-1}>
+      <MapPlacement key="bumpkin-parts" x={2} y={-1}>
         <Character
           body={bumpkinParts.body}
           hair={bumpkinParts.hair}
@@ -276,7 +276,11 @@ const getIslandElements = ({
   }
 
   mapPlacements.push(
-    <MapPlacement x={pirateCordinates.x} y={pirateCordinates.y}>
+    <MapPlacement
+      key="pirate-goblin"
+      x={pirateCordinates.x}
+      y={pirateCordinates.y}
+    >
       <img
         src={pirateGoblin}
         className="relative top-8"
@@ -288,20 +292,31 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    <IslandTravel bumpkin={bumpkin} x={boatCordinates.x} y={boatCordinates.y} />
+    <IslandTravel
+      key="island-travel"
+      bumpkin={bumpkin}
+      x={boatCordinates.x}
+      y={boatCordinates.y}
+    />
   );
 
   mapPlacements.push(
     ...getKeys(buildings)
       .filter((name) => buildings[name])
-      .flatMap((name) => {
+      .flatMap((name, nameIndex) => {
         const items = buildings[name]!;
-        return items.map((building, index) => {
+        return items.map((building, itemIndex) => {
           const { x, y } = building.coordinates;
           const { width, height } = BUILDINGS_DIMENSIONS[name];
 
           return (
-            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
+            <MapPlacement
+              key={`building-${nameIndex}-${itemIndex}`}
+              x={x}
+              y={y}
+              height={height}
+              width={width}
+            >
               <Building
                 id={building.id}
                 building={building}
@@ -316,14 +331,20 @@ const getIslandElements = ({
   mapPlacements.push(
     ...getKeys(collectibles)
       .filter((name) => collectibles[name])
-      .flatMap((name) => {
+      .flatMap((name, nameIndex) => {
         const items = collectibles[name]!;
-        return items.map((collectible, index) => {
+        return items.map((collectible, itemIndex) => {
           const { x, y } = collectible.coordinates;
           const { width, height } = COLLECTIBLES_DIMENSIONS[name];
 
           return (
-            <MapPlacement key={index} x={x} y={y} height={height} width={width}>
+            <MapPlacement
+              key={`collectible-${nameIndex}-${itemIndex}`}
+              x={x}
+              y={y}
+              height={height}
+              width={width}
+            >
               <Collectible name={name} id={collectible.id} />
             </MapPlacement>
           );
@@ -335,13 +356,19 @@ const getIslandElements = ({
     ...getKeys(chickens)
       // Only show placed chickens (V1 may have ones without coords)
       .filter((index) => chickens[index]?.coordinates)
-      .flatMap((index) => {
+      .flatMap((index, nameIndex) => {
         const chicken = chickens[index]!;
         const { x, y } = chicken.coordinates as Coordinates;
         const { width, height } = ANIMAL_DIMENSIONS.Chicken;
 
         return (
-          <MapPlacement key={index} x={x} y={y} height={height} width={width}>
+          <MapPlacement
+            key={`collectible-${nameIndex}`}
+            x={x}
+            y={y}
+            height={height}
+            width={width}
+          >
             <div className="flex relative justify-center w-full h-full">
               <ChickenElement index={index} />
             </div>
