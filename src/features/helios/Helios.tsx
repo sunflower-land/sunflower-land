@@ -4,7 +4,6 @@ import React, { useContext, useEffect } from "react";
 
 import background from "assets/land/helios.png";
 import pirateGoblin from "assets/npcs/pirate_goblin.gif";
-import waterMovement from "assets/decorations/water_movement.png";
 import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
 import { Fertilisers } from "./components/fertilisers/Fertilisers";
@@ -25,7 +24,7 @@ export const Helios: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   useEffect(() => {
-    // Start with crops centered
+    // Start with island centered
     scrollIntoView(Section.HeliosBackGround, "auto");
   }, [scrollIntoView]);
 
@@ -33,7 +32,7 @@ export const Helios: React.FC = () => {
   return (
     <>
       <div
-        className="relative flex"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
           width: `${40 * GRID_WIDTH_PX}px`,
           height: `${40 * GRID_WIDTH_PX}px`,
@@ -41,8 +40,8 @@ export const Helios: React.FC = () => {
       >
         <img
           src={background}
-          className="absolute inset-0 w-full h-full z-10"
-          id="heliosBackground"
+          className="absolute inset-0 w-full h-full"
+          id={Section.HeliosBackGround}
         />
         <Decorations />
         <GrubShop />
@@ -61,16 +60,6 @@ export const Helios: React.FC = () => {
 
         <IslandTravel bumpkin={bumpkin} x={5} y={-17} />
       </div>
-      <div
-        className="absolute inset-0 bg-repeat"
-        style={{
-          width: `${80 * GRID_WIDTH_PX}px`,
-          height: `${80 * GRID_WIDTH_PX}px`,
-          backgroundImage: `url(${waterMovement})`,
-          backgroundSize: "400px",
-          imageRendering: "pixelated",
-        }}
-      />
     </>
   );
 };
