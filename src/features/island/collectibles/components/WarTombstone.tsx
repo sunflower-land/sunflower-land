@@ -12,6 +12,7 @@ export const WarTombstone: React.FC = () => {
         left: `${PIXEL_SCALE}px`,
         bottom: `${PIXEL_SCALE * 2}px`,
       }}
+      alt="WarTombstone"
     />
   );
 };

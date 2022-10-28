@@ -3,7 +3,7 @@
  */
 import React from "react";
 
-import { GRID_WIDTH_PX } from "../lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { FLAGS } from "../types/flags";
 import { ITEM_DETAILS } from "../types/images";
@@ -32,7 +32,8 @@ export const Flags: React.FC<Props> = ({ state }) => {
           <img
             key={index}
             style={{
-              width: `${GRID_WIDTH_PX * 1.2}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+              marginRight: "10px",
             }}
             id={Section["Flags"]}
             src={ITEM_DETAILS[flag.name].image}

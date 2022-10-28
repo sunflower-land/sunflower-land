@@ -169,7 +169,8 @@ export type CollectibleName =
   | TravelingSalesmanItem
   | MutantChicken
   | "War Skull"
-  | "War Tombstone";
+  | "War Tombstone"
+  | "Undead Rooster";
 
 export type ToolName =
   | "Axe"
@@ -1083,8 +1084,8 @@ const flagsDimension = getKeys(FLAGS).reduce(
   (previous, flagName) => ({
     ...previous,
     [flagName]: {
-      height: 0,
-      width: 0,
+      height: 1,
+      width: 1,
     },
   }),
   {} as Record<Flag, Dimensions>
@@ -1099,31 +1100,31 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   ...flagsDimension,
 
   // Blacksmith Items
-  "Sunflower Statue": { width: 2, height: 2 },
-  "Potato Statue": { width: 1, height: 1 },
+  "Sunflower Statue": { width: 3, height: 4 },
+  "Potato Statue": { width: 2, height: 2 },
   "Christmas Tree": { width: 2, height: 2 },
   Gnome: { width: 1, height: 1 },
-  "Sunflower Tombstone": { width: 1, height: 1 },
-  "Sunflower Rock": { width: 4, height: 3 },
+  "Sunflower Tombstone": { width: 2, height: 2 },
+  "Sunflower Rock": { width: 5, height: 4 },
   "Goblin Crown": { width: 1, height: 1 },
   Fountain: { width: 2, height: 2 },
   "Woody the Beaver": { width: 1, height: 1 },
   "Apprentice Beaver": { width: 1, height: 1 },
   "Foreman Beaver": { width: 1, height: 1 },
-  "Nyon Statue": { width: 2, height: 1 },
+  "Nyon Statue": { width: 2, height: 2 },
   "Homeless Tent": { width: 2, height: 2 },
   "Farmer Bath": { width: 2, height: 3 },
   "Mysterious Head": { width: 2, height: 2 },
-  "Rock Golem": { width: 2, height: 3 },
+  "Rock Golem": { width: 2, height: 2 },
   "Tunnel Mole": { width: 1, height: 1 },
   "Rocky the Mole": { width: 1, height: 1 },
   Nugget: { width: 1, height: 1 },
 
   // Market Items
   Scarecrow: { height: 2, width: 2 },
-  Nancy: { width: 2, height: 2 },
+  Nancy: { width: 1, height: 2 },
   Kuebiko: { width: 2, height: 2 },
-  "Golden Cauliflower": { width: 1, height: 1 },
+  "Golden Cauliflower": { width: 2, height: 2 },
   "Mysterious Parsnip": { width: 1, height: 1 },
   "Carrot Sword": { width: 1, height: 1 },
 
@@ -1144,6 +1145,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Speed Chicken": { height: 1, width: 1 },
 
   "Victoria Sisters": { height: 2, width: 2 },
+  "Undead Rooster": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
