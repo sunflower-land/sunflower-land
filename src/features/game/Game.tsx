@@ -39,6 +39,7 @@ import { Hoarding } from "./components/Hoarding";
 import { Swarming } from "./components/Swarming";
 import { Cooldown } from "./components/Cooldown";
 import { Rules } from "./components/Rules";
+import { Migrate } from "./components/Migrate";
 import { GoblinWar } from "features/war/GoblinWar";
 //Events
 import { HalloweenAnimals } from "features/halloween/farming/animals/Animals";
@@ -74,6 +75,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   coolingDown: true,
   gameRules: true,
   randomising: false,
+  offerMigration: true,
+  migrating: true,
+  migrated: false,
 };
 
 export const Game: React.FC = () => {
@@ -121,6 +125,9 @@ export const Game: React.FC = () => {
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel className="text-shadow">
           {gameState.matches("loading") && <Loading />}
+
+          {gameState.matches("offerMigration") && <Migrate />}
+          {gameState.matches("migrating") && <Loading />}
 
           {gameState.matches("announcing") && <Announcements />}
           {gameState.matches("deposited") && <Notifications />}

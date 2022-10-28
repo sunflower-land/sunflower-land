@@ -195,14 +195,14 @@ export const WarIntro: React.FC<Props> = ({ onPickSide }) => {
                 src={firelighter}
                 className="cave"
                 style={{
-                  width: `${PIXEL_SCALE * 16}px`,
+                  width: `${PIXEL_SCALE * 12}px`,
                 }}
               />
               <img
                 src={firelighter}
                 className="cave"
                 style={{
-                  width: `${PIXEL_SCALE * 16}px`,
+                  width: `${PIXEL_SCALE * 12}px`,
                 }}
               />
             </div>

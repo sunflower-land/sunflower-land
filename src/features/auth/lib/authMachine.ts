@@ -10,6 +10,7 @@ import { createAccount as createFarmAction } from "../actions/createAccount";
 import { login, Token, decodeToken, removeSession } from "../actions/login";
 import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
+import { checkMigrationStatus } from "features/game/actions/checkMigrationStatus";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -44,6 +45,7 @@ export interface Context {
   captcha?: string;
   blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
   verificationUrl?: string;
+  migrated?: boolean;
 }
 
 export type Screen = "land" | "farm" | "viewer";
@@ -106,7 +108,6 @@ export type BlockchainEvent =
 export type BlockchainState = {
   value:
     | "visiting"
-    | "minimised"
     | "connecting"
     | "connected"
     | "signing"
@@ -148,7 +149,6 @@ export const authMachine = createMachine<
   {
     id: "authMachine",
     initial: API_URL ? "connecting" : "connected",
-    context: {},
     states: {
       connecting: {
         id: "connecting",
@@ -498,7 +498,6 @@ export const authMachine = createMachine<
           },
         },
       },
-      minimised: {},
     },
     on: {
       CHAIN_CHANGED: {
@@ -517,7 +516,9 @@ export const authMachine = createMachine<
         await metamask.initialise();
         await communityContracts.initialise();
       },
-      loadFarm: async (context): Promise<Farm | undefined> => {
+      loadFarm: async (
+        context
+      ): Promise<(Farm & { migrated: boolean }) | undefined> => {
         const farmAccounts = await metamask.getFarm()?.getFarms();
 
         if (farmAccounts?.length === 0) {
@@ -536,12 +537,19 @@ export const authMachine = createMachine<
           context.rawToken as string
         );
 
+        // Call migrated end point to see if migrated
+        const { migrated } = await checkMigrationStatus(
+          farmAccount.tokenId,
+          context.rawToken as string
+        );
+
         return {
           farmId: farmAccount.tokenId,
           address: farmAccount.account,
           createdAt,
           blacklistStatus: botStatus ?? isBanned ? "BANNED" : "OK",
           verificationUrl,
+          migrated,
         };
       },
       createFarm: async (context: Context, event: any): Promise<Context> => {
@@ -595,6 +603,7 @@ export const authMachine = createMachine<
         address: (_context, event) => event.data.address,
         blacklistStatus: (_context, event) => event.data.blacklistStatus,
         verificationUrl: (_context, event) => event.data.verificationUrl,
+        migrated: (_context, event) => event.data.migrated,
       }),
       assignToken: assign<Context, any>({
         token: (_context, event) => decodeToken(event.data.token),
