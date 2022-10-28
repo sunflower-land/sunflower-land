@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
-import { Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route, HashRouter, Navigate } from "react-router-dom";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -77,7 +77,16 @@ export const Navigation: React.FC = () => {
                 }
               />
             )}
-            <Route path="/farm/:id" element={<Humans key="farm" />} />
+            <Route
+              path="/farm/:id"
+              element={
+                authState.context.migrated ? (
+                  <Navigate to={`/land/${authState.context.farmId}`} />
+                ) : (
+                  <Humans key="farm" />
+                )
+              }
+            />
             <Route path="/visit/:id" element={<Visiting key="visit" />} />
             {CONFIG.NETWORK !== "mainnet" && (
               <Route

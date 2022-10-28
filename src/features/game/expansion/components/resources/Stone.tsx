@@ -238,7 +238,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
               show={errorLabel !== undefined}
               placement="right"
             >
-              {(props) => (
+              {({ show, arrowProps, ...props }) => (
                 <div {...props} className="absolute -left-1/2 z-10 w-28">
                   {errorLabel === "noPickaxe" && (
                     <Label className="p-2">Equip {tool.toLowerCase()}</Label>

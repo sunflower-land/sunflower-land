@@ -42,6 +42,11 @@ import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
 import { generateTestLand } from "../expansion/actions/generateLand";
+import {
+  canMigrate,
+  LandExpansionMigrateAction,
+} from "../events/landExpansion/migrate";
+import { CONFIG } from "lib/config";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -113,6 +118,13 @@ export type BlockchainEvent =
     }
   | {
       type: "RESET";
+    }
+  | {
+      type: "SKIP_MIGRATION";
+    }
+  | {
+      type: "game.migrated";
+      action: LandExpansionMigrateAction;
     }
   | WithdrawEvent
   | GameEvent
@@ -212,6 +224,9 @@ export type BlockchainState = {
     | "editing"
     | "noBumpkinFound"
     | "coolingDown"
+    | "offerMigration"
+    | "migrating"
+    | "migrated"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -365,9 +380,69 @@ export function startGame(authContext: Options) {
                 window.location.hash.includes("/land"),
             },
             {
+              target: "offerMigration",
+              cond: (context) =>
+                CONFIG.NETWORK === "mumbai" &&
+                !authContext.migrated &&
+                canMigrate(context.state),
+            },
+            {
               target: "playing",
             },
           ],
+        },
+        offerMigration: {
+          on: {
+            SKIP_MIGRATION: {
+              target: "playing",
+            },
+            "game.migrated": {
+              target: "migrating",
+              actions: assign(
+                (context: Context, event: LandExpansionMigrateAction) => ({
+                  state: processEvent({
+                    state: context.state as GameState,
+                    action: event,
+                  }) as GameState,
+                  actions: [
+                    ...context.actions,
+                    {
+                      ...event,
+                      createdAt: new Date(),
+                    },
+                  ],
+                })
+              ),
+            },
+          },
+        },
+        migrating: {
+          invoke: {
+            src: async (context) => {
+              await autosave({
+                farmId: Number(authContext.farmId),
+                sessionId: context.sessionId as string,
+                actions: context.actions,
+                token: authContext.rawToken as string,
+                offset: context.offset,
+                fingerprint: context.fingerprint as string,
+                deviceTrackerId: context.deviceTrackerId as string,
+              });
+
+              return true;
+            },
+            onDone: {
+              target: "migrated",
+            },
+          },
+        },
+        migrated: {
+          // type: "final",
+          entry: () => {
+            window.location.replace(
+              `${window.location.pathname}#/land/${authContext.farmId}`
+            );
+          },
         },
         noBumpkinFound: {},
         deposited: {

@@ -53,6 +53,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   coolingDown: true,
   gameRules: true,
   randomising: false,
+  migrated: false,
+  migrating: false,
+  offerMigration: false,
 };
 
 export const Game: React.FC = () => {
