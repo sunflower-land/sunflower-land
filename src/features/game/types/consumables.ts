@@ -32,12 +32,12 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   "Mashed Potato": {
     name: "Mashed Potato",
     description: "Boiled Eggss are always a good breakfast choice",
-    experience: 6,
+    experience: 3,
     stamina: 5,
     building: "Fire Pit",
     cookingSeconds: 30,
     ingredients: {
-      Potato: new Decimal(20),
+      Potato: new Decimal(10),
     },
     marketRate: 10,
   },
