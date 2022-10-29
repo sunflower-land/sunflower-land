@@ -23,18 +23,18 @@ import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
 import { Chicken } from "features/island/chickens/Chicken";
 import { Collectible } from "features/island/collectibles/Collectible";
-import { LAND_WIDTH, Water } from "./components/Water";
+import { Water } from "./components/Water";
 import pirateGoblin from "assets/npcs/pirate_goblin.gif";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { Mine } from "features/island/mines/Mine";
 import { IslandTravel } from "./components/IslandTravel";
 import { PIXEL_SCALE } from "../lib/constants";
+import { DirtRenderer } from "./components/DirtRenderer";
 
 type ExpansionProps = Pick<
   LandExpansion,
   | "plots"
   | "trees"
-  | "terrains"
   | "stones"
   | "iron"
   | "gold"
@@ -51,7 +51,6 @@ export const Expansion: React.FC<
   stones,
   iron,
   gold,
-  terrains,
   fruitPatches,
   mines,
   createdAt,
@@ -193,7 +192,6 @@ export const Land: React.FC = () => {
 
   const { expansions, buildings, collectibles, chickens, bumpkin } = state;
   const level = expansions.length + 1;
-  const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -227,7 +225,6 @@ export const Land: React.FC = () => {
               {
                 stones,
                 gold,
-                terrains,
                 iron,
                 trees,
                 plots,
@@ -243,7 +240,6 @@ export const Land: React.FC = () => {
                 key={index}
                 stones={stones}
                 gold={gold}
-                terrains={terrains}
                 trees={trees}
                 iron={iron}
                 plots={plots}
@@ -348,6 +344,8 @@ export const Land: React.FC = () => {
               </MapPlacement>
             );
           })}
+
+        <DirtRenderer expansions={expansions} />
       </div>
     </div>
   );
