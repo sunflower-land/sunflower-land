@@ -17,7 +17,12 @@ export const WorkBench: React.FC = () => {
   };
 
   return (
-    <>
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 48}px`,
+      }}
+    >
       <img
         src={workbench}
         draggable={false}
@@ -32,8 +37,8 @@ export const WorkBench: React.FC = () => {
         className="absolute z-20 pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 14}px`,
-          top: `${PIXEL_SCALE * 14}px`,
-          left: `${PIXEL_SCALE * 15}px`,
+          bottom: `${PIXEL_SCALE * 16}px`,
+          right: `${PIXEL_SCALE * 12}px`,
         }}
       />
 
@@ -42,8 +47,8 @@ export const WorkBench: React.FC = () => {
         className="absolute z-10 pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 15}px`,
-          top: `${PIXEL_SCALE * 26}px`,
-          left: `${PIXEL_SCALE * 15}px`,
+          bottom: `${PIXEL_SCALE * 14}px`,
+          right: `${PIXEL_SCALE * 11}px`,
         }}
       />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
@@ -62,6 +67,6 @@ export const WorkBench: React.FC = () => {
         </div>
         <WorkbenchModal onClose={() => setIsOpen(false)} />
       </Modal>
-    </>
+    </div>
   );
 };

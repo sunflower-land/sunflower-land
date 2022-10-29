@@ -594,7 +594,7 @@ export const INITIAL_FARM: GameState = {
         readyAt: 0,
         coordinates: {
           x: 4,
-          y: 9,
+          y: 8,
         },
         createdAt: 0,
       },
@@ -605,29 +605,7 @@ export const INITIAL_FARM: GameState = {
         readyAt: 0,
         coordinates: {
           x: 2,
-          y: 3,
-        },
-        createdAt: 0,
-      },
-    ],
-    Workbench: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 4,
-          y: 1,
-        },
-        createdAt: 0,
-      },
-    ],
-    Deli: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: -3,
-          y: 9,
+          y: 2,
         },
         createdAt: 0,
       },
