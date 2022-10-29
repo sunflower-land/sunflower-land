@@ -653,7 +653,7 @@ describe("getCropTime", () => {
 });
 
 describe("isPlotFertile", () => {
-  it("cannot plant on 11th field if a well is not avilable", () => {
+  it("cannot plant on 16th field if a well is not avilable", () => {
     const fakePlot = {
       x: 1,
       y: 1,
@@ -688,20 +688,25 @@ describe("isPlotFertile", () => {
             plots: {
               0: fakePlot,
               1: fakePlot,
-              2: fakePlot, //11th
-              3: fakePlot, // 12th
+              2: fakePlot,
+              3: fakePlot,
+              4: fakePlot,
+              5: fakePlot,
+              6: fakePlot,
+              7: fakePlot, //16th
+              8: fakePlot, // 17th
             },
           },
         ],
       },
       expansionIndex: 2,
-      plotIndex: 2,
+      plotIndex: 7,
     });
 
     expect(isFertile).toBeFalsy();
   });
 
-  it("cannot plant on 21st field if 2 wells are not avilable", () => {
+  it("cannot plant on 23rd field if 2 wells are not avilable", () => {
     const fakePlot = {
       x: 1,
       y: 1,
@@ -760,13 +765,16 @@ describe("isPlotFertile", () => {
               5: fakePlot,
               6: fakePlot,
               7: fakePlot,
-              8: fakePlot, //21st
+              8: fakePlot,
+              9: fakePlot,
+              10: fakePlot,
+              11: fakePlot, // 24th
             },
           },
         ],
       },
       expansionIndex: 3,
-      plotIndex: 8,
+      plotIndex: 11,
     });
 
     expect(isFertile).toBeFalsy();

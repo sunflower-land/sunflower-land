@@ -93,7 +93,7 @@ export const FirePit: React.FC<Props> = ({
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
-              top: `${PIXEL_SCALE * 32}px`,
+              top: `${PIXEL_SCALE * 16}px`,
               left: `${PIXEL_SCALE * 17}px`,
             }}
           />
@@ -104,7 +104,8 @@ export const FirePit: React.FC<Props> = ({
             className="absolute z-20"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
-              top: `${PIXEL_SCALE * 18}px`,
+              top: `${PIXEL_SCALE * 2}px`,
+
               left: `${PIXEL_SCALE * 13}px`,
             }}
           />
@@ -114,7 +115,7 @@ export const FirePit: React.FC<Props> = ({
             className="absolute z-20"
             style={{
               width: `${PIXEL_SCALE * 14}px`,
-              top: `${PIXEL_SCALE * 18}px`,
+              top: `${PIXEL_SCALE * 2}px`,
               left: `${PIXEL_SCALE * 13}px`,
             }}
           />
@@ -125,7 +126,7 @@ export const FirePit: React.FC<Props> = ({
           className="absolute z-10"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
-            top: `${PIXEL_SCALE * 30}px`,
+            top: `${PIXEL_SCALE * 14}px`,
             left: `${PIXEL_SCALE * 13}px`,
           }}
         />
