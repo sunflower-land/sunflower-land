@@ -4,11 +4,28 @@ import { useLongPress } from "lib/utils/hooks/useLongPress";
 
 import { Button } from "components/ui/Button";
 import gameBackground from "assets/community/arcade/greedy_goblin/greedy_goblin_background.png";
+import gameOver from "assets/community/arcade/greedy_goblin/game_over.png";
 import goblin from "assets/community/arcade/greedy_goblin/goblin_catch.png";
-import token from "assets/icons/token_2.png";
-import human from "assets/icons/player.png";
+import token from "assets/community/arcade/greedy_goblin/coin.png";
+import skull from "assets/community/arcade/greedy_goblin/skull.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
+
+type IntervalType = ReturnType<typeof setInterval>;
+
+type DropItem = {
+  catchable: boolean;
+  image: HTMLImageElement;
+};
+
+type CollisionArgs = {
+  x: number;
+  y: number;
+  imgWidth: number;
+  imgHeight: number;
+  catchable: boolean;
+  interval: IntervalType;
+};
 
 const CANVAS_WIDTH = 300;
 const CANVAS_HEIGHT = 300;
@@ -16,22 +33,21 @@ const CANVAS_HEIGHT = 300;
 const goblinImage = new Image();
 goblinImage.src = goblin;
 
-const tokenImage = new Image();
-tokenImage.src = token;
+const gameOverImage = new Image();
+gameOverImage.src = gameOver;
 
-const humanImage = new Image();
-humanImage.src = human;
-
-type IntervalType = ReturnType<typeof setInterval>;
-
-type CollisionArgs = {
-  x: number;
-  y: number;
-  imgWidth: number;
-  imgHeight: number;
-  eatable: boolean;
-  interval: IntervalType;
+const Token: DropItem = {
+  catchable: true,
+  image: new Image(),
 };
+
+const Skull: DropItem = {
+  catchable: false,
+  image: new Image(),
+};
+
+Token.image.src = token;
+Skull.image.src = skull;
 
 /**
  * @todo
@@ -81,14 +97,15 @@ export const GreedyGoblin: React.FC = () => {
     setRenderPoints(0);
     setIsPlaying(true);
 
-    canvasRef.current
-      ?.getContext("2d")
-      ?.drawImage(
-        goblinImage,
-        goblinPosX.current,
-        CANVAS_HEIGHT - goblinImage.height
-      );
-    dropItem(true);
+    const context = canvasRef.current?.getContext("2d");
+
+    context?.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    context?.drawImage(
+      goblinImage,
+      goblinPosX.current,
+      CANVAS_HEIGHT - goblinImage.height
+    );
+    dropItem(Token);
 
     const interval = setInterval(gameLogic, gameInterval.current);
     intervalIds.current.push(interval);
@@ -121,12 +138,12 @@ export const GreedyGoblin: React.FC = () => {
   };
 
   const leftLongPress = useLongPress((_) => moveGob(false), true, undefined, {
-    delay: 50,
+    delay: 100,
     interval: 100,
   });
 
   const rightLongPress = useLongPress((_) => moveGob(true), true, undefined, {
-    delay: 50,
+    delay: 100,
     interval: 100,
   });
 
@@ -141,32 +158,32 @@ export const GreedyGoblin: React.FC = () => {
     }
 
     if (points.current % 3 === 0 && points.current > 0) {
-      dropItem(false);
+      dropItem(Skull);
     }
 
-    dropItem(true);
+    dropItem(Token);
   };
 
   /**
    * Get random X value
    * At dropInterval, increase y then check for collision
-   * @param eatable should collide with goblin or not
+   * @param _.catchable should collide with gob
+   * @param _.image image element
    */
-  const dropItem = (eatable: boolean) => {
-    const img = eatable ? tokenImage : humanImage;
-    const randX = Math.floor(Math.random() * (CANVAS_WIDTH - img.width));
+  const dropItem = ({ catchable, image }: DropItem) => {
+    const randX = Math.floor(Math.random() * (CANVAS_WIDTH - image.width));
     const context = canvasRef.current?.getContext("2d");
     let y = 0;
     const interval = setInterval(() => {
-      context?.clearRect(randX, y, img.width, img.height);
+      context?.clearRect(randX, y, image.width, image.height);
       y += 5; // small y for smoother transition
-      context?.drawImage(img, randX, y);
+      context?.drawImage(image, randX, y);
       checkCollision({
         x: randX,
         y,
-        imgWidth: img.width,
-        imgHeight: img.height,
-        eatable,
+        imgWidth: image.width,
+        imgHeight: image.height,
+        catchable,
         interval,
       });
     }, dropInterval.current);
@@ -176,13 +193,13 @@ export const GreedyGoblin: React.FC = () => {
 
   /**
    * Check if drop items collide with goblin image or touches the ground
-   * Perform actions based on eatable and collide flags
+   * Perform actions based on catchable and collide flags
    * @note goblinPosX used might be the old value
    * @param _.x item's x coordinate
    * @param _.y item's y coordinate
    * @param _.imgWidth image width
    * @param _.imgHeight image Height
-   * @param _.eatable should collide with goblin or not
+   * @param _.catchable should collide with goblin or not
    * @param _.interval timer to clear if necessary
    */
   const checkCollision = ({
@@ -190,7 +207,7 @@ export const GreedyGoblin: React.FC = () => {
     y,
     imgWidth,
     imgHeight,
-    eatable,
+    catchable,
     interval,
   }: CollisionArgs) => {
     const context = canvasRef.current?.getContext("2d");
@@ -202,17 +219,19 @@ export const GreedyGoblin: React.FC = () => {
       y >= CANVAS_HEIGHT - goblinImage.height;
 
     // game over check
-    if ((eatable && collideGround) || (!eatable && collideGob)) {
+    if ((catchable && collideGround) || (!catchable && collideGob)) {
       isGameOver.current = true;
 
-      // clear whole space
+      // clear whole space and draw game over image
       context?.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+      context?.drawImage(gameOverImage, 30, CANVAS_HEIGHT / 4);
+
       intervalIds.current.forEach((id) => clearInterval(id));
       intervalIds.current = [];
       setIsPlaying(false);
 
       // point check
-    } else if (eatable && collideGob) {
+    } else if (catchable && collideGob) {
       setRenderPoints((prev) => prev + 1);
       points.current += 1;
 
@@ -226,7 +245,7 @@ export const GreedyGoblin: React.FC = () => {
       );
 
       // allow touch ground
-    } else if (!eatable && collideGround) {
+    } else if (!catchable && collideGround) {
       context?.clearRect(x, y, imgWidth, imgHeight);
       clearInterval(interval);
     }
