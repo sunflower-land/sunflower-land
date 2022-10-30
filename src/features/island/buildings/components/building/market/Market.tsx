@@ -2,6 +2,7 @@ import React from "react";
 
 import market from "assets/buildings/market.png";
 import betty from "assets/npcs/betty.gif";
+import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
@@ -16,7 +17,12 @@ export const Market: React.FC = () => {
   };
 
   return (
-    <>
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 48}px`,
+      }}
+    >
       <img
         src={market}
         style={{
@@ -27,10 +33,21 @@ export const Market: React.FC = () => {
       />
       <img
         src={betty}
-        className="absolute right-4 top-14 pointer-events-none"
+        className="absolute pointer-events-none z-20"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
+          bottom: `${PIXEL_SCALE * 8}px`,
+          right: `${PIXEL_SCALE * 4}px`,
           transform: "scaleX(-1)",
+        }}
+      />
+      <img
+        src={shadow}
+        className="absolute z-10 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          bottom: `${PIXEL_SCALE * 6}px`,
+          right: `${PIXEL_SCALE * 6}px`,
         }}
       />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
@@ -49,6 +66,6 @@ export const Market: React.FC = () => {
         </div>
         <ShopItems onClose={() => setIsOpen(false)} />
       </Modal>
-    </>
+    </div>
   );
 };

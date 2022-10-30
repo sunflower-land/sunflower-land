@@ -13,7 +13,6 @@ import { Visiting } from "features/game/Visiting";
 import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
-import { DEV_Viewer } from "features/viewer/DEV_Viewer";
 import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
@@ -106,9 +105,7 @@ export const Navigation: React.FC = () => {
             {CONFIG.NETWORK !== "mainnet" && (
               <Route path="/builder" element={<Builder key="builder" />} />
             )}
-            {CONFIG.NETWORK !== "mainnet" && (
-              <Route path="/viewer/:id" element={<DEV_Viewer key="viewer" />} />
-            )}
+
             <Route
               path="/community-garden"
               element={<Community key="farm" />}

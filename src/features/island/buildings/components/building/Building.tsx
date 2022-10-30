@@ -18,6 +18,7 @@ import { Bakery } from "./bakery/Bakery";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Kitchen } from "./kitchen/Kitchen";
+import { Deli } from "./deli/Deli";
 
 interface Prop {
   name: BuildingName;
@@ -54,6 +55,7 @@ export const BUILDING_COMPONENTS: Record<
       <Kitchen buildingId={buildingId} />
     </WithCraftingMachine>
   ),
+  Deli: Deli,
 };
 
 export const Building: React.FC<Prop> = ({

@@ -4,7 +4,6 @@ import { CropName, SeedName } from "./crops";
 import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
-import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinParts } from "./bumpkin";
@@ -229,10 +228,6 @@ export type LandExpansionRock = {
   stone: Stone;
 } & Position;
 
-export type LandExpansionTerrain = {
-  name: TerrainTypeEnum;
-} & Position;
-
 export type LandExpansionPlot = {
   crop?: PlantedCrop;
 } & Position;
@@ -266,7 +261,6 @@ export type LandExpansion = {
 
   gold?: Record<number, LandExpansionRock>;
   iron?: Record<number, LandExpansionRock>;
-  terrains?: Record<number, LandExpansionTerrain>;
   plots?: Record<number, LandExpansionPlot>;
   fruitPatches?: Record<number, FruitPatch>;
   mines?: Record<number, Mine>;
