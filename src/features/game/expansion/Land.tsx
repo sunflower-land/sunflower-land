@@ -29,15 +29,15 @@ import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { Mine } from "features/island/mines/Mine";
 import { IslandTravel } from "./components/IslandTravel";
 import { PIXEL_SCALE } from "../lib/constants";
+import { DirtRenderer } from "./components/DirtRenderer";
+import { BumpkinParts } from "../types/bumpkin";
 import { Bumpkin, Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
-import { BumpkinParts } from "../types/bumpkin";
 
 type ExpansionProps = Pick<
   LandExpansion,
   | "plots"
   | "trees"
-  | "terrains"
   | "stones"
   | "iron"
   | "gold"
@@ -61,7 +61,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-gold-${Number(index)}`}
+            key={`${expansionProps.createdAt}-gold-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -81,7 +81,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-plot-${Number(index)}`}
+            key={`${expansionProps.createdAt}-plot-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -101,7 +101,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-tree-${Number(index)}`}
+            key={`${expansionProps.createdAt}-tree-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -121,7 +121,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-stone-${Number(index)}`}
+            key={`${expansionProps.createdAt}-stone-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -141,7 +141,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-iron-${Number(index)}`}
+            key={`${expansionProps.createdAt}-iron-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -162,7 +162,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-fruit-${Number(index)}`}
+            key={`${expansionProps.createdAt}-fruit-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -182,7 +182,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-mine-${Number(index)}`}
+            key={`${expansionProps.createdAt}-mine-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -232,17 +232,7 @@ const getIslandElements = ({
       .filter((expansion) => expansion.readyAt < Date.now())
       .flatMap(
         (
-          {
-            stones,
-            gold,
-            terrains,
-            iron,
-            trees,
-            plots,
-            createdAt,
-            fruitPatches,
-            mines,
-          },
+          { stones, gold, iron, trees, plots, createdAt, fruitPatches, mines },
           index
         ) =>
           getExpansions(
@@ -250,7 +240,6 @@ const getIslandElements = ({
               createdAt: createdAt,
               stones: stones,
               gold: gold,
-              terrains: terrains,
               trees: trees,
               iron: iron,
               plots: plots,
@@ -363,7 +352,7 @@ const getIslandElements = ({
 
         return (
           <MapPlacement
-            key={`collectible-${nameIndex}`}
+            key={`chicken-${nameIndex}`}
             x={x}
             y={y}
             height={height}
@@ -402,6 +391,7 @@ export const Land: React.FC = () => {
       <div className="relative w-full h-full">
         <LandBase expansions={expansions} />
         <UpcomingExpansion gameState={state} />
+        <DirtRenderer expansions={expansions} />
 
         {/* Sort island elements by y axis */}
         {getIslandElements({
