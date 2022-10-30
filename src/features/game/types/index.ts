@@ -215,6 +215,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Chicken House": 1006,
   Bakery: 1007,
   Kitchen: 1007,
+  Deli: 1008,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,

@@ -48,7 +48,7 @@ export interface Context {
   migrated?: boolean;
 }
 
-export type Screen = "land" | "farm" | "viewer";
+export type Screen = "land" | "farm";
 
 type StartEvent = Farm & {
   type: "START_GAME";
@@ -397,11 +397,7 @@ export const authMachine = createMachine<
                 ? "land"
                 : "farm";
 
-              const viewer = window.location.hash.includes("viewer")
-                ? "viewer"
-                : undefined;
-
-              const { screen = viewer ?? defaultScreen } = event as StartEvent;
+              const { screen = defaultScreen } = event as StartEvent;
 
               window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
             },
