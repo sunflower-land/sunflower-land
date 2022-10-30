@@ -11,7 +11,8 @@ export type BuildingName =
   | "Tent"
   | "Water Well"
   | "Bakery"
-  | "Chicken House";
+  | "Chicken House"
+  | "Deli";
 
 export type BuildingBluePrint = {
   unlocksAtLevels: number[];
@@ -124,6 +125,22 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
     sfl: new Decimal(10),
     constructionSeconds: 60 * 60 * 4,
   },
+
+  Deli: {
+    unlocksAtLevels: [13],
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(50),
+      },
+      {
+        item: "Stone",
+        amount: new Decimal(50),
+      },
+    ],
+    sfl: new Decimal(10),
+    constructionSeconds: 60 * 60 * 12,
+  },
 });
 
 export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
@@ -135,4 +152,5 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Water Well": { height: 2, width: 2 },
   Tent: { height: 2, width: 3 },
   "Chicken House": { height: 2, width: 2 },
+  Deli: { height: 3, width: 4 },
 };

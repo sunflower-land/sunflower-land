@@ -249,6 +249,7 @@ import tent from "src/assets/buildings/tent1.png";
 import well from "src/assets/buildings/well1.png";
 import chickenHouse from "src/assets/buildings/chicken_house.png";
 import bakery from "src/assets/buildings/bakery_building.png";
+import deli from "src/assets/buildings/deli.png";
 
 // Clothing
 import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
@@ -1068,6 +1069,10 @@ export const ITEM_DETAILS: Items = {
   "Chicken House": {
     image: chickenHouse,
     description: "Grow your chicken empire",
+  },
+  Deli: {
+    image: deli,
+    description: "Every Bumpkin needs a home!",
   },
 
   "Sunflower Amulet": {
