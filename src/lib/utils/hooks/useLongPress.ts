@@ -15,6 +15,7 @@ function isTouchEvent(e: Event): e is TouchEvent {
 
 export const useLongPress = (
   onClick: (e: React.MouseEvent | React.TouchEvent) => void,
+  infinite = false,
   count = new Decimal(0),
   { shouldPreventDefault = true, delay = 300, interval = 200 } = {}
 ) => {
@@ -51,7 +52,9 @@ export const useLongPress = (
         let remaining = count.toNumber();
         // Call onClick in a loop until we run out of items or longpress is canceled
         timer.current = setInterval(() => {
-          if (remaining <= 1) {
+          if (infinite) {
+            onClick(e);
+          } else if (remaining <= 1) {
             clear(e, false);
           } else {
             onClick(e);

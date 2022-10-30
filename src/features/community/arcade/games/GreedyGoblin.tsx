@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import { useLongPress } from "lib/utils/hooks/useLongPress";
+
 import { Button } from "components/ui/Button";
-import forestBackground from "assets/bumpkins/shop/background/forest_background.png";
-import goblin from "assets/npcs/goblin_head.png";
+import gameBackground from "assets/community/arcade/greedy_goblin/greedy_goblin_background.png";
+import goblin from "assets/community/arcade/greedy_goblin/goblin_catch.png";
 import token from "assets/icons/token_2.png";
 import human from "assets/icons/player.png";
 import leftArrow from "assets/icons/arrow_left.png";
@@ -31,6 +33,11 @@ type CollisionArgs = {
   interval: IntervalType;
 };
 
+/**
+ * @todo
+ *  - keyboard support
+ *  - larger assets
+ */
 export const GreedyGoblin: React.FC = () => {
   const [renderPoints, setRenderPoints] = useState(0); // display
   const [isPlaying, setIsPlaying] = useState(false);
@@ -113,6 +120,16 @@ export const GreedyGoblin: React.FC = () => {
     );
   };
 
+  const leftLongPress = useLongPress((_) => moveGob(false), true, undefined, {
+    delay: 50,
+    interval: 100,
+  });
+
+  const rightLongPress = useLongPress((_) => moveGob(true), true, undefined, {
+    delay: 50,
+    interval: 100,
+  });
+
   /**
    * Perform item drop
    * Update interval rate
@@ -193,6 +210,8 @@ export const GreedyGoblin: React.FC = () => {
       intervalIds.current.forEach((id) => clearInterval(id));
       intervalIds.current = [];
       setIsPlaying(false);
+
+      // point check
     } else if (eatable && collideGob) {
       setRenderPoints((prev) => prev + 1);
       points.current += 1;
@@ -205,6 +224,8 @@ export const GreedyGoblin: React.FC = () => {
         goblinPosX.current,
         CANVAS_HEIGHT - goblinImage.height
       );
+
+      // allow touch ground
     } else if (!eatable && collideGround) {
       context?.clearRect(x, y, imgWidth, imgHeight);
       clearInterval(interval);
@@ -224,7 +245,8 @@ export const GreedyGoblin: React.FC = () => {
             borderRadius: "20px",
             maxWidth: CANVAS_WIDTH,
             maxHeight: CANVAS_HEIGHT,
-            backgroundImage: `url(${forestBackground})`,
+            backgroundImage: `url(${gameBackground})`,
+            backgroundSize: "contain",
           }}
         ></canvas>
         <span>SFL Tokens: {renderPoints}</span>
@@ -238,13 +260,13 @@ export const GreedyGoblin: React.FC = () => {
             src={leftArrow}
             alt="left-arrow"
             className="h-8 w-8 cursor-pointer"
-            onClick={() => moveGob(false)}
+            {...leftLongPress}
           />
           <img
             src={rightArrow}
             alt="right-arrow"
             className="h-8 w-8 cursor-pointer"
-            onClick={() => moveGob(true)}
+            {...rightLongPress}
           />
         </div>
       </div>

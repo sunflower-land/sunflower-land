@@ -35,18 +35,10 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
           <ul className="list-none">
             <li className="p-1">
               <Button
-                className="text-xs"
+                className="text-sm"
                 onClick={() => setCurrentGame(GAMES.GREEDY_GOBLIN)}
               >
                 {GAMES.GREEDY_GOBLIN}
-              </Button>
-            </li>
-            <li className="p-1">
-              <Button
-                className="text-xs"
-                onClick={() => setCurrentGame(GAMES.GREEDY_GOBLIN)}
-              >
-                Dummy
               </Button>
             </li>
           </ul>
