@@ -101,7 +101,7 @@ export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
           const isBlacklisted = await isFarmBlacklisted(farmToVisitID);
 
           return {
-            farmId: farmAccount.tokenId,
+            farmId: parseInt(farmAccount.tokenId),
             address: farmAccount.account,
             owner,
             isBlacklisted,
