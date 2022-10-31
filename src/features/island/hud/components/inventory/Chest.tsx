@@ -14,6 +14,7 @@ import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
 import { Context } from "features/game/GameProvider";
+import { DECORATIONS } from "features/game/types/decorations";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -30,9 +31,8 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
 
   const chestMap = getChestItems(state);
 
-  console.log({ chestMap });
   const collectibles = getKeys(chestMap).reduce((acc, item) => {
-    if (item in LIMITED_ITEMS) {
+    if (item in LIMITED_ITEMS || item in DECORATIONS()) {
       return { ...acc, [item]: chestMap[item] };
     }
     return acc;
