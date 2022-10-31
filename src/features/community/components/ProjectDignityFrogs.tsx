@@ -27,7 +27,7 @@ export const ProjectDignityFrogs: React.FC = () => {
       farmId={authState.context.farmId}
       position={{
         left: `${GRID_WIDTH_PX * 23}px`,
-        top: `${GRID_WIDTH_PX * 23}px`,
+        top: `${GRID_WIDTH_PX * 22}px`,
       }}
     />
   );
