@@ -1,3 +1,14 @@
+/**
+ * ---------- GREEDY GOBLIN ----------
+ * Credits to Boden, Vergel for the art
+ *
+ * Objectives:
+ * Collect SFL and avoid skulls. Game over when an SFL touches the ground or you caught a skull
+ *
+ * Made using html canvas and static assets. Had to source newly sized ones for boundary detection
+ * as modifying image sizes via js is buggy (or i havent found ways yet)
+ */
+
 import React, { useEffect, useRef, useState } from "react";
 
 import { useLongPress } from "lib/utils/hooks/useLongPress";
@@ -49,10 +60,6 @@ const Skull: DropItem = {
 Token.image.src = token;
 Skull.image.src = skull;
 
-/**
- * @todo
- *  - keyboard support
- */
 export const GreedyGoblin: React.FC = () => {
   const [renderPoints, setRenderPoints] = useState(0); // display
   const [isPlaying, setIsPlaying] = useState(false);
@@ -80,8 +87,21 @@ export const GreedyGoblin: React.FC = () => {
         CANVAS_HEIGHT - goblinImage.height
       );
 
+    const keyboardListener = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase();
+
+      if (key === "arrowleft" || key === "a") {
+        moveGob(false);
+      } else if (key === "arrowright" || key === "d") {
+        moveGob(true);
+      }
+    };
+
+    window.addEventListener("keydown", keyboardListener);
+
     return () => {
       intervalIds.current.forEach((id) => clearInterval(id));
+      window.removeEventListener("keydown", keyboardListener);
     };
   }, []);
 
@@ -137,13 +157,13 @@ export const GreedyGoblin: React.FC = () => {
   };
 
   const leftLongPress = useLongPress((_) => moveGob(false), true, undefined, {
-    delay: 100,
-    interval: 100,
+    delay: 200,
+    interval: 50,
   });
 
   const rightLongPress = useLongPress((_) => moveGob(true), true, undefined, {
-    delay: 100,
-    interval: 100,
+    delay: 200,
+    interval: 50,
   });
 
   /**
