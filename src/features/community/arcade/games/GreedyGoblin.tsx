@@ -52,7 +52,6 @@ Skull.image.src = skull;
 /**
  * @todo
  *  - keyboard support
- *  - larger assets
  */
 export const GreedyGoblin: React.FC = () => {
   const [renderPoints, setRenderPoints] = useState(0); // display
@@ -216,7 +215,8 @@ export const GreedyGoblin: React.FC = () => {
     const collideGob =
       imgCenterX >= goblinPosX.current &&
       imgCenterX < goblinPosX.current + goblinImage.width &&
-      y >= CANVAS_HEIGHT - goblinImage.height;
+      // slighty larger hitbox
+      y - 5 >= CANVAS_HEIGHT - goblinImage.height;
 
     // game over check
     if ((catchable && collideGround) || (!catchable && collideGob)) {
@@ -268,7 +268,9 @@ export const GreedyGoblin: React.FC = () => {
             backgroundSize: "contain",
           }}
         ></canvas>
-        <span>SFL Tokens: {renderPoints}</span>
+        <span className="flex items-center">
+          <img src={token} className="w-6" />: {renderPoints}
+        </span>
       </div>
       <div className="flex pt-1">
         <Button className="text-sm w-1/2" disabled={isPlaying} onClick={start}>
