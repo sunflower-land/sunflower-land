@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { frogSounds } from "lib/utils/sfx";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
-import { Frog } from "../models/frog";
+import { Frog, FROG_SIZE } from "../models/frog";
 
 interface Props {
   frog: Frog;
@@ -33,7 +33,7 @@ export const FrogComponent: React.FC<Props> = ({ frog, disableSound }) => {
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         style={{
-          width: `${32 * PIXEL_SCALE}px`,
+          width: `${FROG_SIZE * PIXEL_SCALE}px`,
         }}
       />
       <InnerPanel
