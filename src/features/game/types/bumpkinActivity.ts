@@ -3,8 +3,9 @@ import { ConsumableName } from "../types/consumables";
 import { Animal, Food, ToolName } from "../types/craftables";
 import { CropName, SeedName } from "../types/crops";
 import { Bumpkin } from "../types/game";
+import { DecorationName } from "./decorations";
 
-type BuyableName = SeedName | Animal;
+type BuyableName = SeedName | Animal | DecorationName;
 type SellableName = CropName | Food;
 
 type Recipes = Food | ConsumableName;
