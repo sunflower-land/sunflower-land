@@ -1,9 +1,10 @@
 /**
  * ---------- GREEDY GOBLIN ----------
  * Credits to Boden, Vergel for the art
+ * Credits to Jc Eii for the audio
  *
  * Objectives:
- * Collect SFL and avoid skulls. Game over when an SFL touches the ground or you caught a skull
+ * Collect SFL and avoid skulls. Game over when SFL touches the ground or you caught a skull
  *
  * Made using html canvas and static assets. Had to source newly sized ones for boundary detection
  * as modifying image sizes via js is buggy (or i havent found ways yet)
@@ -14,13 +15,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 
 import { Button } from "components/ui/Button";
-import gameBackground from "assets/community/arcade/greedy_goblin/greedy_goblin_background.png";
-import gameOver from "assets/community/arcade/greedy_goblin/game_over.png";
-import goblin from "assets/community/arcade/greedy_goblin/goblin_catch.png";
-import token from "assets/community/arcade/greedy_goblin/coin.png";
-import skull from "assets/community/arcade/greedy_goblin/skull.png";
+import gameBackground from "assets/community/arcade/greedy_goblin/images/greedy_goblin_background.png";
+import gameOver from "assets/community/arcade/greedy_goblin/images/game_over.png";
+import goblin from "assets/community/arcade/greedy_goblin/images/goblin_catch.png";
+import token from "assets/community/arcade/greedy_goblin/images/coin.png";
+import skull from "assets/community/arcade/greedy_goblin/images/skull.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
+
+import { greedyGoblinAudio } from "src/lib/utils/sfx";
 
 type IntervalType = ReturnType<typeof setInterval>;
 
@@ -74,7 +77,7 @@ export const GreedyGoblin: React.FC = () => {
 
   /**
    * Spawn goblin near center
-   * Cleanup intervals on dismount
+   * Cleanup on dismount
    */
   useEffect(() => {
     goblinPosX.current = CANVAS_WIDTH / 2;
@@ -99,9 +102,13 @@ export const GreedyGoblin: React.FC = () => {
 
     window.addEventListener("keydown", keyboardListener);
 
+    greedyGoblinAudio.greedyGoblinIntroAudio.play();
+
     return () => {
       intervalIds.current.forEach((id) => clearInterval(id));
       window.removeEventListener("keydown", keyboardListener);
+
+      Object.values(greedyGoblinAudio).forEach((audio) => audio.stop());
     };
   }, []);
 
@@ -115,6 +122,9 @@ export const GreedyGoblin: React.FC = () => {
     points.current = 0;
     setRenderPoints(0);
     setIsPlaying(true);
+
+    greedyGoblinAudio.greedyGoblinIntroAudio.stop();
+    greedyGoblinAudio.greedyGoblinPlayingAudio.play();
 
     const context = canvasRef.current?.getContext("2d");
 
@@ -242,6 +252,9 @@ export const GreedyGoblin: React.FC = () => {
     if ((catchable && collideGround) || (!catchable && collideGob)) {
       isGameOver.current = true;
 
+      greedyGoblinAudio.greedyGoblinGameOverAudio.play();
+      greedyGoblinAudio.greedyGoblinPlayingAudio.stop();
+
       // clear whole space and draw game over image
       context?.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       context?.drawImage(gameOverImage, 30, CANVAS_HEIGHT / 4);
@@ -254,6 +267,8 @@ export const GreedyGoblin: React.FC = () => {
     } else if (catchable && collideGob) {
       setRenderPoints((prev) => prev + 1);
       points.current += 1;
+
+      greedyGoblinAudio.greedyGoblinPickAudio.play();
 
       context?.clearRect(x, y, imgWidth, imgHeight);
       clearInterval(interval);

@@ -34,6 +34,12 @@ import frog4Mp3 from "../../assets/sound-effects/frog/frog-4.mp3";
 import frog5Mp3 from "../../assets/sound-effects/frog/frog-5.mp3";
 import frog6Mp3 from "../../assets/sound-effects/frog/frog-6.mp3";
 
+// Arcade - Greedy Goblin
+import greedyGoblinIntro from "../../assets/community/arcade/greedy_goblin/audio/intro.mp3";
+import greedyGoblinPlaying from "../../assets/community/arcade/greedy_goblin/audio/playing.mp3";
+import greedyGoblinPick from "../../assets/community/arcade/greedy_goblin/audio/pick.mp3";
+import greedyGoblinGameOver from "../../assets/community/arcade/greedy_goblin/audio/game_over.mp3";
+
 export const harvestAudio = new Howl({
   src: [harvestMp3],
   volume: 0.2,
@@ -193,3 +199,24 @@ export const victoriaSistersAudio = new Howl({
   src: [victoriaSistersMp3],
   volume: 0.2,
 });
+
+// Arcade - Greedy Goblin
+export const greedyGoblinAudio = {
+  greedyGoblinIntroAudio: new Howl({
+    src: [greedyGoblinIntro],
+    volume: 0.3,
+  }),
+  greedyGoblinPlayingAudio: new Howl({
+    src: [greedyGoblinPlaying],
+    volume: 0.2,
+    loop: true,
+  }),
+  greedyGoblinPickAudio: new Howl({
+    src: [greedyGoblinPick],
+    volume: 0.2,
+  }),
+  greedyGoblinGameOverAudio: new Howl({
+    src: [greedyGoblinGameOver],
+    volume: 0.2,
+  }),
+};
