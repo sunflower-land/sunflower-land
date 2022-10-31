@@ -77,7 +77,6 @@
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.4.0",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "husky": ">=6",
     "jest": "^27.4.7",
     "lint-staged": ">=10",
     "pixel-scale": "^1.0.0",
