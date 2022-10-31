@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "test": "jest",
     "metadata": "ts-node --project metadata/node.tsconfig.json metadata/generateMetadata.ts",
-    "prepare": "husky install"
+    "prepare": ""
   },
   "browserslist": [
     ">0.2%",
