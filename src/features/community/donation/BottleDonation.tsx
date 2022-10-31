@@ -58,7 +58,7 @@ export const BottleDonation: React.FC = () => {
     <div
       className="z-5 relative align-items-center"
       style={{
-        left: `${GRID_WIDTH_PX * 16}px`,
+        left: `${GRID_WIDTH_PX * 15}px`,
         top: `${GRID_WIDTH_PX * 32}px`,
         width: `${GRID_WIDTH_PX * 1}px`,
         height: `${GRID_WIDTH_PX * 1}px`,

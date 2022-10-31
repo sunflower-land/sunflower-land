@@ -42,7 +42,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
     CONFIG.NETWORK == "mainnet"
       ? "https://opensea.io/collection/sunflower-land-frogs-collection"
       : "https://testnets.opensea.io/collection/sunflower-land-frogs-collection-testnet";
-  const projectDignity = "https://www.project-dignity.tk";
+  const projectDignity = "https://www.projectdignity.work";
 
   const handleClose = () => onClose();
 

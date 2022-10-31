@@ -16,6 +16,7 @@ export interface Frog {
   pixel_image: string;
   attributes: FrogAttribute[];
   rarity: FrogRarity;
+  [key: string]: any;
 }
 
 interface FrogAttribute {

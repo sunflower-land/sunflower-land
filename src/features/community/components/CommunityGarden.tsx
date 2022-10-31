@@ -7,6 +7,7 @@ import { Panel } from "components/ui/Panel";
 import { Merchant } from "../merchant/Merchant";
 import { Seal } from "../aquatics/Seal";
 import { BottleDonation } from "../donation/BottleDonation";
+import { Scientist } from "../scientist/Scientist";
 
 export const CommunityGarden: React.FC = () => {
   const { communityService } = useContext(Context);
@@ -27,6 +28,7 @@ export const CommunityGarden: React.FC = () => {
       <Merchant />
       <Seal />
       <BottleDonation />
+      <Scientist />
     </>
   );
 };
