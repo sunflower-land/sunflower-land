@@ -54,11 +54,14 @@ describe("buyDecoration", () => {
   });
 
   it("burns the SFL on purchase", () => {
-    const balance = new Decimal(40);
+    const balance = new Decimal(140);
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
         balance,
+        inventory: {
+          Sunflower: new Decimal(150),
+        },
       },
       action: {
         type: "decoration.bought",
@@ -73,13 +76,16 @@ describe("buyDecoration", () => {
   });
 
   it("mints the newly bought decoration", () => {
-    const balance = new Decimal(1);
+    const balance = new Decimal(150);
     const item = "Potted Sunflower";
     const amount = 1;
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
         balance,
+        inventory: {
+          Sunflower: new Decimal(150),
+        },
       },
       action: {
         item,
@@ -113,7 +119,10 @@ describe("buyDecoration", () => {
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(1),
+        balance: new Decimal(150),
+        inventory: {
+          Sunflower: new Decimal(150),
+        },
       },
       action: {
         type: "decoration.bought",
@@ -132,6 +141,9 @@ describe("buyDecoration", () => {
       state: {
         ...GAME_STATE,
         balance: new Decimal(1),
+        inventory: {
+          Sunflower: new Decimal(150),
+        },
       },
       action: {
         type: "decoration.bought",
