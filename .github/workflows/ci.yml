@@ -1,39 +1,18 @@
-# name: CI
-# on:
-#   pull_request:
-#     branches:
-#       - main
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Install modules
-#         run: yarn
-#       - name: Typescript check
-#         run: yarn tsc
-#       - name: Run tests
-#         run: yarn test
-#       - name: Run lint
-#         run: yarn lint
-
-name: Lighthouse CI
-on: [push]
+name: CI
+on:
+  pull_request:
+    branches:
+      - main
 jobs:
-  lhci:
-    name: Lighthouse
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - name: npm install, build
-        run: |
-          npm install
-          npm run build
-      - name: run Lighthouse CI
-        run: |
-          npm install -g @lhci/cli@0.8.x
-          lhci autorun
+      - name: Install modules
+        run: yarn
+      - name: Typescript check
+        run: yarn tsc
+      - name: Run tests
+        run: yarn test
+      - name: Run lint
+        run: yarn lint
