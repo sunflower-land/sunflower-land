@@ -9,8 +9,6 @@ import {
   InventoryItemName,
 } from "../../types/game";
 import { isSeed } from "../plant";
-import { PLANT_STAMINA_COST } from "features/game/lib/constants";
-import { replenishStamina } from "./replenishStamina";
 import { getKeys } from "features/game/types/craftables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
@@ -137,15 +135,6 @@ export function getPlantedAt({
   return createdAt - offset * 1000;
 }
 
-export function getStaminaCost(bumpkin: Bumpkin) {
-  let staminaCost = PLANT_STAMINA_COST;
-
-  if (bumpkin.skills["Plant Whisperer"]) {
-    staminaCost = staminaCost * 0.9;
-  }
-
-  return staminaCost;
-}
 /**
  * Based on items, the output will be different
  */
@@ -194,13 +183,7 @@ export function plant({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const replenishedState = replenishStamina({
-    state,
-    action: { type: "bumpkin.replenishStamina" },
-    createdAt,
-  });
-
-  const stateCopy = cloneDeep(replenishedState);
+  const stateCopy = cloneDeep(state);
   const { expansions, bumpkin, collectibles, inventory } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
@@ -215,10 +198,6 @@ export function plant({
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
   }
-
-  // if (bumpkin.stamina.value < PLANT_STAMINA_COST) {
-  //   throw new Error("You do not have enough stamina");
-  // }
 
   const { plots } = expansion;
 
@@ -276,8 +255,6 @@ export function plant({
   };
 
   expansion.plots = plots;
-
-  bumpkin.stamina.value -= getStaminaCost(bumpkin);
 
   inventory[action.item] = seedCount.sub(1);
 

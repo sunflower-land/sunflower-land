@@ -13,7 +13,6 @@ import wood from "assets/resources/wood.png";
 import axe from "assets/tools/axe.png";
 
 import {
-  CHOP_STAMINA_COST,
   GRID_WIDTH_PX,
   PIXEL_SCALE,
   TREE_RECOVERY_TIME,
@@ -32,7 +31,6 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { LandExpansionTree } from "features/game/types/game";
 import { canChop } from "features/game/events/landExpansion/chop";
 import { Overlay } from "react-bootstrap";
-import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const POPOVER_TIME_MS = 1000;
@@ -55,7 +53,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(true);
-  const [errorLabel, setErrorLabel] = useState<"noStamina" | "noAxe">();
+  const [errorLabel, setErrorLabel] = useState<"noAxe">();
   const [popover, setPopover] = useState<JSX.Element | null>();
 
   const [touchCount, setTouchCount] = useState(0);
@@ -71,13 +69,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const { setToast } = useContext(ToastContext);
   const expansion = game.context.state.expansions[expansionIndex];
   const tree = expansion.trees?.[treeIndex] as LandExpansionTree;
-
-  const stamina = game.context.state.bumpkin
-    ? calculateBumpkinStamina({
-        nextReplenishedAt: Date.now(),
-        bumpkin: game.context.state.bumpkin,
-      })
-    : 0;
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -120,10 +111,9 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   // Has enough axes to chop the tree
   const hasAxes =
     (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
-  const hasStamina = stamina >= CHOP_STAMINA_COST;
 
   const shake = async () => {
-    if (!hasAxes || !hasStamina) {
+    if (!hasAxes) {
       return;
     }
 
@@ -193,9 +183,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     if (!hasAxes) {
       treeRef.current?.classList["add"]("cursor-not-allowed");
       setErrorLabel("noAxe");
-    } else if (!hasStamina) {
-      treeRef.current?.classList["add"]("cursor-not-allowed");
-      setErrorLabel("noStamina");
     }
   };
 
@@ -255,9 +242,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
               <div {...props} className="absolute -left-1/2 z-10 w-28">
                 {errorLabel === "noAxe" && (
                   <Label className="p-2">Equip {tool.toLowerCase()}</Label>
-                )}
-                {errorLabel === "noStamina" && (
-                  <Label className="p-2">No Stamina</Label>
                 )}
               </div>
             )}

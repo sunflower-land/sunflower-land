@@ -14,7 +14,6 @@ import { BUMPKIN_ITEMS } from "../types/BumpkinDetails";
 import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { Badges } from "features/farming/house/House";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
-import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Achievements } from "./Achievements";
 import { AchievementBadges } from "./AchievementBadges";
@@ -51,9 +50,6 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const nextLevelExperience = LEVEL_BRACKETS[level];
-
-  const stamina = state.bumpkin?.stamina.value ?? 0;
-  const staminaCapacity = MAX_STAMINA[level];
 
   const hasSkillPoint = hasUnacknowledgedSkillPoints(state.bumpkin);
 
