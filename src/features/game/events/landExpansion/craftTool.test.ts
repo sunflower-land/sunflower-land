@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
-import { INITIAL_FARM } from "../../lib/constants";
+import { INITIAL_FARM, INITIAL_BUMPKIN } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { craftTool } from "./craftTool";
 
@@ -103,4 +103,24 @@ describe("craftTool", () => {
       })
     ).toThrow("Not enough stock");
   });
+});
+
+it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
+  const createdAt = Date.now();
+  const bumpkin = {
+    ...INITIAL_BUMPKIN,
+  };
+  const state = craftTool({
+    state: {
+      ...GAME_STATE,
+      balance: new Decimal(1),
+      inventory: {},
+    },
+    action: {
+      type: "tool.crafted",
+      tool: "Axe",
+    },
+  });
+
+  expect(state.bumpkin?.activity?.["Axe Crafted"]).toBe(1);
 });
