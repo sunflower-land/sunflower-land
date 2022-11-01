@@ -392,7 +392,7 @@ export const Land: React.FC = () => {
         <LandBase expansions={expansions} />
         <UpcomingExpansion gameState={state} />
         <DirtRenderer
-          expansions={expansions.filter((e) => e.readyAt > Date.now())}
+          expansions={expansions.filter((e) => e.readyAt < Date.now())}
         />
 
         {/* Sort island elements by y axis */}
