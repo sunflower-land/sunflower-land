@@ -8,7 +8,7 @@ import { Context } from "features/community/lib/CommunityProvider";
 import { Box } from "components/ui/Box";
 import { CONFIG } from "lib/config";
 
-import { Frog } from "features/community/types/community";
+import { Frog } from "features/community/project-dignity/models/frog";
 import { loadFrogs } from "features/community/merchant/actions/loadFrogs";
 import { Tadpole } from "features/community/types/community";
 import { loadTadpoles } from "features/community/scientist/actions/loadTadpoles";
