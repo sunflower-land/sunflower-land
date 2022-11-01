@@ -18,7 +18,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getSellPrice, hasSellBoost } from "features/game/lib/boosts";
 
-export const Plants: React.FC = () => {
+export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
   const { setToast } = useContext(ToastContext);
   const [isSellAllModalOpen, showSellAllModal] = React.useState(false);
@@ -33,8 +33,8 @@ export const Plants: React.FC = () => {
   const inventory = state.inventory;
 
   const sell = (amount: Decimal) => {
-    gameService.send("item.sell", {
-      item: selected.name,
+    gameService.send("crop.sold", {
+      crop: selected.name,
       amount,
     });
     setToast({
