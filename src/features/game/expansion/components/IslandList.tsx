@@ -70,7 +70,7 @@ const Island = ({
             )}
 
             {/* Level requirement */}
-            {notEnoughLevel && (
+            {(notEnoughLevel || comingSoon) && (
               <div className="flex items-center">
                 <img src={heart} className="h-4 mr-1" />
                 <span
@@ -80,12 +80,12 @@ const Island = ({
                   Lvl {levelRequired}
                 </span>
                 <img src={lock} className="h-4 ml-1" />
-              </div>
-            )}
 
-            {/* Coming soon */}
-            {comingSoon && (
-              <span className="text-xxs ml-2 italic">Coming soon</span>
+                {/* Coming soon */}
+                {comingSoon && (
+                  <span className="text-xxs ml-2 italic">Coming soon</span>
+                )}
+              </div>
             )}
           </div>
         </OuterPanel>
