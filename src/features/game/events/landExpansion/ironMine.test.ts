@@ -245,85 +245,11 @@ describe("mineIron", () => {
     ).toThrow("You do not have a Bumpkin");
   });
 
-  // it("throws an error if the player doesn't have enough stamina", () => {
-  //   expect(() =>
-  //     mineIron({
-  //       state: {
-  //         ...GAME_STATE,
-  //         inventory: {
-  //           "Stone Pickaxe": new Decimal(3),
-  //         },
-  //         bumpkin: {
-  //           ...INITIAL_BUMPKIN,
-  //           stamina: {
-  //             value: 0,
-  //             replenishedAt: Date.now(),
-  //           },
-  //         },
-  //       },
-  //       createdAt: Date.now(),
-  //       action: {
-  //         type: "ironRock.mined",
-  //         expansionIndex: 0,
-  //         index: 0,
-  //       } as LandExpansionIronMineAction,
-  //     })
-  //   ).toThrow("You do not have enough stamina");
-  // });
-
-  // it("deducts stamina", () => {
-  //   const game = mineIron({
-  //     state: {
-  //       ...GAME_STATE,
-  //       bumpkin: INITIAL_BUMPKIN,
-  //       inventory: {
-  //         "Stone Pickaxe": new Decimal(3),
-  //       },
-  //     },
-  //     createdAt: Date.now(),
-  //     action: {
-  //       type: "ironRock.mined",
-
-  //       expansionIndex: 0,
-  //       index: 0,
-  //     } as LandExpansionIronMineAction,
-  //   });
-
-  //   expect(game.bumpkin?.stamina.value).toBe(
-  //     INITIAL_BUMPKIN.stamina.value - IRON_MINE_STAMINA_COST
-  //   );
-  // });
-
-  // it("replenishes stamina before ironMine", () => {
-  //   const createdAt = Date.now();
-  //   const bumpkin = {
-  //     ...INITIAL_BUMPKIN,
-  //     stamina: { value: 0, replenishedAt: 0 },
-  //   };
-  //   const game = mineIron({
-  //     state: {
-  //       ...GAME_STATE,
-  //       bumpkin: bumpkin,
-  //       inventory: {
-  //         "Stone Pickaxe": new Decimal(3),
-  //       },
-  //     },
-  //     createdAt,
-  //     action: {
-  //       type: "ironRock.mined",
-  //       expansionIndex: 0,
-  //       index: 0,
-  //     } as LandExpansionIronMineAction,
-  //   });
-
-  //   expect(game.bumpkin?.stamina.replenishedAt).toBe(createdAt);
-  // });
   describe("BumpkinActivity", () => {
     it("increments Iron mined activity by 1", () => {
       const createdAt = Date.now();
       const bumpkin = {
         ...INITIAL_BUMPKIN,
-        stamina: { value: 0, replenishedAt: 0 },
       };
       const game = mineIron({
         state: {
@@ -348,7 +274,6 @@ describe("mineIron", () => {
       const createdAt = Date.now();
       const bumpkin = {
         ...INITIAL_BUMPKIN,
-        stamina: { value: 0, replenishedAt: 0 },
       };
       const state1 = mineIron({
         state: {

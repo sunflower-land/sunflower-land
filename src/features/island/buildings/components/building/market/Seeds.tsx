@@ -6,6 +6,8 @@ import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
+import heart from "assets/icons/heart.png";
+import lock from "assets/skills/lock.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -124,10 +126,16 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     const requiredLevel = selected.bumpkinLevel ?? 0;
     if (userBumpkinLevel < requiredLevel) {
       return (
-        <p className="text-xs mt-1 text-shadow text-center separate-lines">
-          Unlocks at
-          <span className="whitespace-nowrap">{` level ${requiredLevel}`}</span>
-        </p>
+        <div className="flex items-center mt-2">
+          <img src={heart} className="h-4 ml-0.5 mr-1" />
+          <span
+            className="bg-error border text-xs p-1 rounded-md"
+            style={{ lineHeight: "10px" }}
+          >
+            Lvl {requiredLevel}
+          </span>
+          <img src={lock} className="h-4 ml-0.5 mr-2" />
+        </div>
       );
     }
 

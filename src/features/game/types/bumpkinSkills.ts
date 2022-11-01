@@ -96,7 +96,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 1,
       skill: "Master Farmer",
     },
-    boosts: "Crops require 10% less stamina",
+    boosts: "Crops require ?",
     image: radish,
   },
   "Happy Crop": {

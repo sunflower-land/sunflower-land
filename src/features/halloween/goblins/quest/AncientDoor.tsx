@@ -48,18 +48,18 @@ export const HalloweenAncientDoor: React.FC = () => {
         src={firelighter}
         className="absolute z-10"
         style={{
-          left: `${GRID_WIDTH_PX * 7.57}px`,
-          width: `${GRID_WIDTH_PX}px`,
-          top: `${GRID_WIDTH_PX * -2.14}px`,
+          left: `${GRID_WIDTH_PX * 7.88}px`,
+          width: `${GRID_WIDTH_PX * 0.44}px`,
+          top: `${GRID_WIDTH_PX * -1.83}px`,
         }}
       />
       <img
         src={firelighter}
         className="absolute z-10"
         style={{
-          left: `${GRID_WIDTH_PX * 9.55}px`,
-          width: `${GRID_WIDTH_PX}px`,
-          top: `${GRID_WIDTH_PX * -2.14}px`,
+          left: `${GRID_WIDTH_PX * 9.82}px`,
+          width: `${GRID_WIDTH_PX * 0.44}px`,
+          top: `${GRID_WIDTH_PX * -1.83}px`,
         }}
       />
       <img

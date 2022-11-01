@@ -269,6 +269,10 @@ import warTombston from "src/assets/decorations/war_tombstone.png";
 import jackOLanternItem from "src/assets/nfts/jack-o-lantern.png";
 import victoriaSisters from "src/assets/nfts/victoria-sisters.gif";
 
+//Decorations
+import pottedSunflower from "src/assets/decorations/potted_sunflower.png";
+import whiteTulips from "src/assets/decorations/white_tulips.png";
+
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -1301,9 +1305,13 @@ export const ITEM_DETAILS: Items = {
     image: museum,
     description: "",
   },
-  "Dirt Path": {
-    image: questionMark,
-    description: "",
+  "White Tulips": {
+    image: whiteTulips,
+    description: "Keep the smell of goblins away.",
+  },
+  "Potted Sunflower": {
+    image: pottedSunflower,
+    description: "Brighten up your land.",
   },
   "Jack-o-lantern": {
     image: jackOLanternItem,

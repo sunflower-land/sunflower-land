@@ -7,7 +7,6 @@ import {
   Inventory,
   LandExpansion,
 } from "../types/game";
-import { BumpkinLevel } from "./level";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -525,10 +524,6 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     background: "Farm Background",
   },
   skills: {},
-  stamina: {
-    value: 10,
-    replenishedAt: 0,
-  },
   achievements: {
     "Busy Bumpkin": 1,
   },
@@ -721,27 +716,6 @@ export const EMPTY: GameState = {
   buildings: {},
   collectibles: {},
 };
-
-export const MAX_STAMINA: Record<BumpkinLevel, number> = {
-  1: 10,
-  2: 50,
-  3: 100,
-  4: 200,
-  5: 300,
-  6: 400,
-  7: 500,
-  8: 600,
-  9: 700,
-  10: 800,
-  11: 900,
-  12: 1000,
-};
-
-export const CHOP_STAMINA_COST = 2;
-export const STONE_MINE_STAMINA_COST = 2;
-export const IRON_MINE_STAMINA_COST = 2;
-export const PLANT_STAMINA_COST = 1;
-export const GOLD_MINE_STAMINA_COST = 2;
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;
 export const STONE_RECOVERY_TIME = 4 * 60 * 60;
