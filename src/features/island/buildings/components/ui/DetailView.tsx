@@ -44,7 +44,7 @@ export const DetailView: React.FC<Props> = ({
 
     const missingBalance = BUILDINGS()[building].sfl > state.balance;
 
-    return missingIngredients && missingBalance;
+    return missingIngredients || missingBalance;
   };
 
   const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
