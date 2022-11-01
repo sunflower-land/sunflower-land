@@ -79,7 +79,6 @@ import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 
 // Foods
-import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
 import cabbageSoup from "assets/nfts/saurrerkrat.png";
 import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
 import radishPie from "assets/nfts/radish_pie.png";
@@ -147,7 +146,7 @@ import seedSpecialist from "assets/skills/seed_specialist.png";
 import logger from "assets/skills/logger.png";
 import lumberjack from "assets/skills/lumberjack.png";
 import warrior from "assets/skills/warrior.png";
-import artist from "assets/skills/artist.gif";
+import artist from "assets/skills/artist.png";
 import coder from "assets/skills/coder.png";
 import discord from "assets/skills/discord.png";
 import liquidityProvider from "assets/skills/liquidity_provider.png";
@@ -221,6 +220,18 @@ import pumpkinCake from "src/assets/nfts/cakes/pumpkin_cake.png";
 import sunflowerCake from "src/assets/nfts/cakes/sunflower_cake.png";
 import wheatCake from "src/assets/nfts/cakes/wheat_cake.png";
 
+// Food
+import mashedPotato from "assets/food/mashed_potato.png";
+import pumpkinSoup from "assets/food/pumpkin_soup.png";
+import bumpkinBroth from "assets/food/bumpkin_broth.png";
+import boiledEgg from "assets/food/boiled_eggs.png";
+import goblinsTreat from "assets/food/goblins_treat.png";
+import cauliflowerBurger from "assets/food/cauliflower_burger.png";
+import pancakes from "assets/food/pancakes.png";
+import roastVeggies from "assets/food/roast_veggies.png";
+import clubSandwich from "assets/food/club_sandwich.png";
+import bumpkinSalad from "assets/food/bumpkin_salad.png";
+
 import goblinKey from "src/assets/nfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
 import ancientGoblinSword from "src/assets/nfts/quest/ancient_goblin_sword.png";
@@ -230,13 +241,15 @@ import ancientHumanWarhammer from "src/assets/nfts/quest/ancient_human_warhammer
 import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 
 // Buildings
-import firePit from "src/assets/buildings/kitchen.png";
+import firePit from "src/assets/buildings/fire_pit.png";
+import kitchen from "src/assets/buildings/kitchen.png";
 import market from "src/assets/buildings/market.png";
 import workbench from "src/assets/buildings/workbench.png";
 import tent from "src/assets/buildings/tent1.png";
 import well from "src/assets/buildings/well1.png";
 import chickenHouse from "src/assets/buildings/chicken_house.png";
 import bakery from "src/assets/buildings/bakery_building.png";
+import deli from "src/assets/buildings/deli.png";
 
 // Clothing
 import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
@@ -253,6 +266,12 @@ import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png
 
 import skull from "src/assets/decorations/war_skulls.png";
 import warTombston from "src/assets/decorations/war_tombstone.png";
+import jackOLanternItem from "src/assets/nfts/jack-o-lantern.png";
+import victoriaSisters from "src/assets/nfts/victoria-sisters.gif";
+
+//Decorations
+import pottedSunflower from "src/assets/decorations/potted_sunflower.png";
+import whiteTulips from "src/assets/decorations/white_tulips.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1031,6 +1050,10 @@ export const ITEM_DETAILS: Items = {
     image: market,
     description: "Buy and sell at the Farmer's Market",
   },
+  Kitchen: {
+    image: kitchen,
+    description: "Step up your cooking game",
+  },
   Bakery: {
     image: bakery,
     description: "Bake your favourite cakes",
@@ -1041,15 +1064,19 @@ export const ITEM_DETAILS: Items = {
   },
   "Water Well": {
     image: well,
-    description: "Support more crops!",
+    description: "Crops need water!",
   },
   Tent: {
     image: tent,
-    description: "Rest your Bumpkin and earn more stamina",
+    description: "Every Bumpkin needs a home!",
   },
   "Chicken House": {
     image: chickenHouse,
     description: "Grow your chicken empire",
+  },
+  Deli: {
+    image: deli,
+    description: "Every Bumpkin needs a home!",
   },
 
   "Sunflower Amulet": {
@@ -1101,25 +1128,41 @@ export const ITEM_DETAILS: Items = {
     description: "A fallen soldier during the war",
   },
 
-  "Boiled Egg": {
-    image: egg,
-    description: "A boiled egg",
+  "Boiled Eggs": {
+    image: boiledEgg,
+    description: "Don't let the Chickens see!",
   },
   "Bumpkin Broth": {
-    image: greenEgg,
-    description: "A boiled egg",
+    image: bumpkinBroth,
+    description: "A nutritious broth to replenish your Bumpkin",
   },
   "Mashed Potato": {
-    image: redEgg,
-    description: "A boiled egg",
+    image: mashedPotato,
+    description: "My life is potato.",
   },
   "Bumpkin Salad": {
-    image: redEgg,
-    description: "A boiled egg",
+    image: bumpkinSalad,
+    description: "?",
   },
   "Goblin's Treat": {
-    image: redEgg,
-    description: "A boiled egg",
+    image: goblinsTreat,
+    description: "?",
+  },
+  "Cauliflower Burger": {
+    image: cauliflowerBurger,
+    description: "?",
+  },
+  "Club Sandwich": {
+    image: clubSandwich,
+    description: "",
+  },
+  "Roast Veggies": {
+    image: roastVeggies,
+    description: "",
+  },
+  Pancakes: {
+    image: pancakes,
+    description: "",
   },
 
   Explorer: {
@@ -1262,8 +1305,21 @@ export const ITEM_DETAILS: Items = {
     image: museum,
     description: "",
   },
-  "Dirt Path": {
-    image: questionMark,
-    description: "",
+  "White Tulips": {
+    image: whiteTulips,
+    description: "Keep the smell of goblins away.",
+  },
+  "Potted Sunflower": {
+    image: pottedSunflower,
+    description: "Brighten up your land.",
+  },
+  "Jack-o-lantern": {
+    image: jackOLanternItem,
+    description: "A Halloween special event item",
+  },
+  "Victoria Sisters": {
+    image: victoriaSisters,
+    description:
+      "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.",
   },
 };

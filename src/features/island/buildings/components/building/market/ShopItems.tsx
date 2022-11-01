@@ -9,6 +9,8 @@ import { Tab } from "components/ui/Tab";
 
 import { Seeds } from "./Seeds";
 import { Plants } from "./Plants";
+import { acknowledgeTutorial, hasIntroducedBuilding } from "lib/tutorial";
+import { Button } from "components/ui/Button";
 
 interface Props {
   onClose: () => void;
@@ -20,6 +22,20 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
   const handleTabClick = (tab: "buy" | "sell") => {
     setTab(tab);
   };
+
+  const acknowledge = () => {
+    acknowledgeTutorial("Market");
+    setTab("sell");
+  };
+
+  if (!hasIntroducedBuilding("Market")) {
+    return (
+      <Panel className="relative">
+        Market introduction (TODO)
+        <Button onClick={acknowledge}>Continue</Button>
+      </Panel>
+    );
+  }
 
   return (
     <Panel className="pt-5 relative">

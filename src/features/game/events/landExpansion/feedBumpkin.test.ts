@@ -1,13 +1,8 @@
 import Decimal from "decimal.js-light";
-import {
-  INITIAL_BUMPKIN,
-  INITIAL_FARM,
-  MAX_STAMINA,
-} from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, INITIAL_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { feedBumpkin } from "./feedBumpkin";
-import { getBumpkinLevel } from "features/game/lib/level";
 
 describe("feedBumpkin", () => {
   it("requires a bumpkin", () => {
@@ -15,7 +10,7 @@ describe("feedBumpkin", () => {
     expect(() =>
       feedBumpkin({
         state,
-        action: { type: "bumpkin.feed", food: "Boiled Egg" },
+        action: { type: "bumpkin.feed", food: "Boiled Eggs" },
       })
     ).toThrow("You do not have a Bumpkin");
   });
@@ -25,7 +20,7 @@ describe("feedBumpkin", () => {
     expect(() =>
       feedBumpkin({
         state,
-        action: { type: "bumpkin.feed", food: "Boiled Egg" },
+        action: { type: "bumpkin.feed", food: "Boiled Eggs" },
       })
     ).toThrow("You have none of this food type");
   });
@@ -33,110 +28,31 @@ describe("feedBumpkin", () => {
   it("deducts one food from inventory", () => {
     const state: GameState = {
       ...INITIAL_FARM,
-      inventory: { "Boiled Egg": new Decimal(2) },
+      inventory: { "Boiled Eggs": new Decimal(2) },
     };
 
     const stateCopy = feedBumpkin({
       state,
-      action: { type: "bumpkin.feed", food: "Boiled Egg" },
+      action: { type: "bumpkin.feed", food: "Boiled Eggs" },
     });
 
-    expect(stateCopy.inventory["Boiled Egg"]).toEqual(new Decimal(1));
+    expect(stateCopy.inventory["Boiled Eggs"]).toEqual(new Decimal(1));
   });
 
   it("adds experience", () => {
     const state: GameState = {
       ...INITIAL_FARM,
-      inventory: { "Boiled Egg": new Decimal(2) },
+      inventory: { "Boiled Eggs": new Decimal(2) },
     };
 
     const stateCopy = feedBumpkin({
       state,
-      action: { type: "bumpkin.feed", food: "Boiled Egg" },
+      action: { type: "bumpkin.feed", food: "Boiled Eggs" },
     });
 
     expect(stateCopy.bumpkin?.experience).toBe(
       (state.bumpkin?.experience as number) +
-        CONSUMABLES["Boiled Egg"].experience
-    );
-  });
-
-  it("adds stamina", () => {
-    const now = Date.now();
-
-    const state: GameState = {
-      ...INITIAL_FARM,
-      inventory: { "Boiled Egg": new Decimal(2) },
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        stamina: {
-          value: 0,
-          replenishedAt: now,
-        },
-      },
-    };
-
-    const stateCopy = feedBumpkin({
-      state,
-      action: { type: "bumpkin.feed", food: "Boiled Egg" },
-      createdAt: now,
-    });
-
-    expect(stateCopy.bumpkin?.stamina.value).toBe(
-      (state.bumpkin?.stamina.value as number) +
-        CONSUMABLES["Boiled Egg"].stamina
-    );
-  });
-
-  it("prevents stamina from going over max", () => {
-    const now = Date.now();
-    const maxStamina = MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)];
-
-    const state: GameState = {
-      ...INITIAL_FARM,
-      inventory: { "Boiled Egg": new Decimal(2) },
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        stamina: {
-          value: maxStamina,
-          replenishedAt: 0,
-        },
-      },
-    };
-
-    const stateCopy = feedBumpkin({
-      state,
-      action: { type: "bumpkin.feed", food: "Boiled Egg" },
-      createdAt: now,
-    });
-
-    expect(stateCopy.bumpkin?.stamina.value).toBe(maxStamina);
-  });
-
-  it("replenishes stamina before before eating", () => {
-    const now = Date.now();
-
-    const state: GameState = {
-      ...INITIAL_FARM,
-      inventory: { "Boiled Egg": new Decimal(2) },
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        stamina: {
-          value: 0,
-          replenishedAt: 0,
-        },
-      },
-    };
-
-    const stateCopy = feedBumpkin({
-      state,
-      action: { type: "bumpkin.feed", food: "Boiled Egg" },
-      createdAt: now,
-    });
-
-    expect(stateCopy.bumpkin?.stamina.replenishedAt).toBe(now);
-    expect(stateCopy.bumpkin?.stamina.value).toBe(
-      MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)]
+        CONSUMABLES["Boiled Eggs"].experience
     );
   });
 
@@ -146,15 +62,17 @@ describe("feedBumpkin", () => {
         ...INITIAL_FARM,
         bumpkin: { ...INITIAL_BUMPKIN, skills: { "Kitchen Hand": 1 } },
         inventory: {
-          "Boiled Egg": new Decimal(2),
+          "Boiled Eggs": new Decimal(2),
         },
       },
       action: {
         type: "bumpkin.feed",
-        food: "Boiled Egg",
+        food: "Boiled Eggs",
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(1.1);
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Boiled Eggs"].experience * 1.1
+    );
   });
 });

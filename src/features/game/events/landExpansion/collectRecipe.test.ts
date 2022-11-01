@@ -62,7 +62,7 @@ describe("collect Recipes", () => {
                 createdAt: 0,
                 readyAt: 0,
                 crafting: {
-                  name: "Boiled Egg",
+                  name: "Boiled Eggs",
                   readyAt: Date.now() + 60 * 1000,
                 },
               },
@@ -86,7 +86,7 @@ describe("collect Recipes", () => {
       createdAt: 0,
       readyAt: 0,
       crafting: {
-        name: "Boiled Egg",
+        name: "Boiled Eggs",
         readyAt: Date.now() - 5 * 1000,
       },
     };
@@ -136,7 +136,7 @@ describe("collect Recipes", () => {
         ...GAME_STATE,
         balance: new Decimal(10),
         inventory: {
-          "Boiled Egg": new Decimal(3),
+          "Boiled Eggs": new Decimal(3),
           Sunflower: new Decimal(22),
         },
         buildings: {
@@ -147,7 +147,7 @@ describe("collect Recipes", () => {
               createdAt: 0,
               readyAt: 0,
               crafting: {
-                name: "Boiled Egg",
+                name: "Boiled Eggs",
                 readyAt: Date.now() - 5 * 1000,
               },
             },
@@ -164,7 +164,7 @@ describe("collect Recipes", () => {
 
     expect(state.balance).toEqual(new Decimal(10));
     expect(state.inventory).toEqual({
-      "Boiled Egg": new Decimal(4),
+      "Boiled Eggs": new Decimal(4),
       Sunflower: new Decimal(22),
     });
   });

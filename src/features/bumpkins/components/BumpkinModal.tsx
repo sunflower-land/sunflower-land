@@ -2,7 +2,6 @@ import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
 import heart from "assets/icons/heart.png";
-import staminaIcon from "assets/icons/lightning.png";
 import close from "assets/icons/close.png";
 import alert from "assets/icons/expression_alerted.png";
 
@@ -15,7 +14,6 @@ import { BUMPKIN_ITEMS } from "../types/BumpkinDetails";
 import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { Badges } from "features/farming/house/House";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
-import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Achievements } from "./Achievements";
 import { AchievementBadges } from "./AchievementBadges";
@@ -52,9 +50,6 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const nextLevelExperience = LEVEL_BRACKETS[level];
-
-  const stamina = state.bumpkin?.stamina.value ?? 0;
-  const staminaCapacity = MAX_STAMINA[level];
 
   const hasSkillPoint = hasUnacknowledgedSkillPoints(state.bumpkin);
 
@@ -128,35 +123,6 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
               <p className="text-xxs">{`${formatNumber(
                 experience
               )}/${formatNumber(nextLevelExperience)} XP`}</p>
-            </div>
-          </div>
-
-          <div className="mb-2">
-            <div className="flex items-center">
-              <p className="text-sm">Energy</p>
-              <img src={staminaIcon} className="w-4 ml-1" />
-            </div>
-            <div className="flex items-center">
-              <div className="flex items-center relative w-20 z-10 mr-2">
-                <img src={progressBarSmall} className="w-full" />
-                <div
-                  className="w-full h-full bg-[#322107] absolute -z-20"
-                  style={{
-                    borderRadius: "10px",
-                  }}
-                />
-                <div
-                  className="h-full bg-[#f3a632] absolute -z-10 "
-                  style={{
-                    borderRadius: "10px 0 0 10px",
-                    width: `${(stamina / staminaCapacity) * 100}%`,
-                    maxWidth: "100%",
-                  }}
-                />
-              </div>
-              <p className="text-xxs">{`${formatNumber(stamina)}/${formatNumber(
-                staminaCapacity
-              )}`}</p>
             </div>
           </div>
 

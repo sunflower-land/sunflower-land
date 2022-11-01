@@ -4,6 +4,7 @@ import classNames from "classnames";
 
 import selectBox from "assets/ui/select/select_box.png";
 import cancel from "assets/icons/cancel.png";
+import water from "assets/icons/water.png";
 import soilNotFertile from "assets/land/soil_not_fertile.png";
 import well from "assets/buildings/well1.png";
 
@@ -208,13 +209,14 @@ export const Plot: React.FC<Props> = ({
       <>
         <Modal centered show={isFertileModalOpen} onHide={notFertileCallback}>
           <Panel className="relative">
-            <p className="text-center">
-              In order to support more crops, please build a well.
+            <p className="text-center">These crops need water!</p>
+            <p className="text-center mt-4">
+              In order to support more crops, build a well.
               <span>
                 <img
                   src={well}
                   alt="well image"
-                  className="mx-auto w-1/4 mt-2"
+                  className="mx-auto w-1/4 mt-4"
                 />
               </span>
             </p>
@@ -227,6 +229,15 @@ export const Plot: React.FC<Props> = ({
             height: `${GRID_WIDTH_PX}px`,
           }}
         >
+          <img
+            src={water}
+            className="absolute z-10 pointer-events-none"
+            style={{
+              width: `${PIXEL_SCALE * 7}px`,
+              top: `${PIXEL_SCALE * 2}px`,
+              right: `${PIXEL_SCALE * 4.5}px`,
+            }}
+          />
           <img
             src={soilNotFertile}
             alt="soil image"

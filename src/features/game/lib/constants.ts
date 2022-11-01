@@ -7,8 +7,6 @@ import {
   Inventory,
   LandExpansion,
 } from "../types/game";
-import { TerrainTypeEnum } from "./getTerrainImageByKey";
-import { BumpkinLevel } from "./level";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -74,18 +72,18 @@ export const INITIAL_STOCK: Inventory = {
   "Radish Cake": new Decimal(1),
   "Wheat Cake": new Decimal(1),
 
-  "Boiled Egg": new Decimal(1),
+  "Boiled Eggs": new Decimal(1),
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
   0: {
-    name: "Sunflower",
+    name: "Pumpkin",
     plantedAt: 0,
     reward: {
       items: [
         {
-          amount: 2,
-          name: "Sunflower Seed",
+          amount: 1,
+          name: "Jack-o-lantern",
         },
       ],
     },
@@ -230,16 +228,6 @@ export const INITIAL_GOLD: GameState["gold"] = {
   },
 };
 
-export const INITIAL_TERRAIN: GameState["terrains"] = {
-  0: {
-    name: TerrainTypeEnum.terrain11,
-    height: 54,
-    width: 52,
-    x: -2,
-    y: 1,
-  },
-};
-
 export const INITIAL_PLOTS: GameState["plots"] = {
   0: {
     crop: { name: "Sunflower", plantedAt: 0 },
@@ -281,7 +269,6 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
   readyAt: 0,
 
   // gold: INITIAL_GOLD_MINES,
-  terrains: INITIAL_TERRAIN,
   iron: INITIAL_EXPANSION_IRON,
 
   plots: INITIAL_PLOTS,
@@ -292,45 +279,66 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
     createdAt: 0,
     readyAt: 0,
 
-    terrains: INITIAL_TERRAIN,
-    plots: INITIAL_PLOTS,
+    plots: {
+      0: {
+        x: -2,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      1: {
+        x: -1,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      2: {
+        x: 0,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      3: {
+        crop: { name: "Sunflower", plantedAt: 0 },
+        x: -2,
+        y: 0,
+        height: 1,
+        width: 1,
+      },
+      4: {
+        crop: { name: "Sunflower", plantedAt: 0 },
+        x: -1,
+        y: 0,
+        height: 1,
+        width: 1,
+      },
+      5: {
+        crop: { name: "Sunflower", plantedAt: 0 },
+        x: 0,
+        y: 0,
+        height: 1,
+        width: 1,
+      },
+      6: {
+        x: -2,
+        y: 1,
+        height: 1,
+        width: 1,
+      },
+      7: {
+        x: -1,
+        y: 1,
+        height: 1,
+        width: 1,
+      },
+      8: {
+        x: 0,
+        y: 1,
+        height: 1,
+        width: 1,
+      },
+    },
 
-    iron: {
-      0: {
-        stone: {
-          amount: 2,
-          minedAt: 0,
-        },
-        x: 1,
-        y: 2,
-        height: 1,
-        width: 1,
-      },
-    },
-    stones: {
-      0: {
-        stone: {
-          amount: 2,
-          minedAt: 0,
-        },
-        x: 3,
-        y: 2,
-        height: 1,
-        width: 1,
-      },
-    },
-    gold: {
-      0: {
-        stone: {
-          amount: 2,
-          minedAt: 0,
-        },
-        x: 1,
-        y: 2,
-        height: 1,
-        width: 1,
-      },
-    },
     trees: {
       0: {
         wood: {
@@ -343,131 +351,160 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
         width: 2,
       },
     },
-  },
-  {
-    createdAt: 0,
-    readyAt: 0,
-
-    gold: INITIAL_GOLD_MINES,
-    terrains: {
+    stones: {
       0: {
-        name: TerrainTypeEnum.terrain5,
-        height: 54 / 3,
-        width: 52,
-        x: -2,
-        y: -1,
-      },
-    },
-
-    plots: {
-      0: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: -2,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      1: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: -1,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      2: {
-        crop: { name: "Sunflower", plantedAt: 0 },
         x: 0,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-    } as GameState["plots"],
-
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: 1,
-        y: 1,
-        height: 2,
-        width: 2,
-      },
-    },
-  },
-  {
-    createdAt: 0,
-    readyAt: 0,
-
-    // gold: INITIAL_GOLD_MINES,
-    terrains: {
-      0: {
-        name: TerrainTypeEnum.terrain5,
-        height: 54 / 3,
-        width: 52,
-        x: -2,
-        y: -1,
-      },
-    },
-
-    plots: {
-      0: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: -2,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      1: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: -1,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      2: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: 0,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-    } as GameState["plots"],
-
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: 1,
-        y: 1,
-        height: 2,
-        width: 2,
-      },
-    },
-
-    fruitPatches: {
-      0: {
-        height: 2,
-        width: 2,
-        x: -2,
         y: 3,
-        fruit: {
+        width: 1,
+        height: 1,
+        stone: {
           amount: 1,
-          name: "Apple",
-          plantedAt: 0,
+          minedAt: 0,
         },
       },
     },
+  },
 
-    mines: {
+  {
+    createdAt: 0,
+    readyAt: 0,
+
+    plots: {},
+
+    trees: {
       0: {
+        wood: {
+          amount: 3,
+          choppedAt: 0,
+        },
+        x: 1,
+        y: 1,
         height: 2,
         width: 2,
-        x: 0,
+      },
+    },
+
+    stones: {
+      0: {
+        x: 1,
+        y: -2,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
+      },
+    },
+  },
+  {
+    createdAt: 0,
+    readyAt: 0,
+
+    plots: {
+      0: {
+        x: -2,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      1: {
+        x: -1,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      2: {
+        x: -2,
+        y: -2,
+        height: 1,
+        width: 1,
+      },
+      3: {
+        x: -1,
+        y: -2,
+        height: 1,
+        width: 1,
+      },
+    } as GameState["plots"],
+
+    trees: {
+      0: {
+        wood: {
+          amount: 3,
+          choppedAt: 0,
+        },
+        x: 1,
+        y: 1,
+        height: 2,
+        width: 2,
+      },
+    },
+  },
+  {
+    createdAt: 0,
+    readyAt: 0,
+    trees: {
+      0: {
+        wood: {
+          amount: 3,
+          choppedAt: 0,
+        },
+        x: 1,
+        y: 0,
+        height: 2,
+        width: 2,
+      },
+    },
+    plots: [
+      {
+        x: -2,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+      {
+        x: -2,
+        y: 0,
+        height: 1,
+        width: 1,
+      },
+      {
+        x: -1,
+        y: 0,
+        height: 1,
+        width: 1,
+      },
+      {
+        x: -1,
+        y: -1,
+        height: 1,
+        width: 1,
+      },
+    ],
+
+    iron: {
+      0: {
+        x: 1,
         y: 3,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
+      },
+    },
+    stones: {
+      0: {
+        x: 1,
+        y: -2,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
       },
     },
   },
@@ -487,10 +524,6 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     background: "Farm Background",
   },
   skills: {},
-  stamina: {
-    value: 10,
-    replenishedAt: 0,
-  },
   achievements: {
     "Busy Bumpkin": 1,
   },
@@ -519,7 +552,7 @@ export const INITIAL_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
     Warrior: new Decimal(1),
-    "Boiled Egg": new Decimal(3),
+    "Boiled Eggs": new Decimal(3),
     "Mashed Potato": new Decimal(1),
     "Sunflower Cake": new Decimal(1),
     "Pumpkin Soup": new Decimal(1),
@@ -546,20 +579,30 @@ export const INITIAL_FARM: GameState = {
     "Radish Cake": "2025-01-01T00:00:00.000Z",
     "Wheat Cake": "1970-01-01T00:00:00.000Z",
   },
-  terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
   buildings: {
-    Market: [
+    "Fire Pit": [
       {
-        coordinates: {
-          x: 4,
-          y: 4,
-        },
-        createdAt: 0,
         id: "123",
         readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: 8,
+        },
+        createdAt: 0,
+      },
+    ],
+    Market: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        createdAt: 0,
       },
     ],
   },
@@ -594,7 +637,7 @@ export const INITIAL_FARM: GameState = {
     orders: [
       {
         id: "asdj123",
-        name: "Boiled Egg",
+        name: "Boiled Eggs",
         sfl: new Decimal(10),
       },
       {
@@ -634,6 +677,17 @@ export const INITIAL_FARM: GameState = {
       },
     ],
   },
+  expansionRequirements: {
+    bumpkinLevel: 20,
+    resources: [
+      {
+        amount: new Decimal(10),
+        item: "Wood",
+      },
+    ],
+    seconds: 60,
+    sfl: new Decimal(0),
+  },
 };
 
 export const EMPTY: GameState = {
@@ -656,29 +710,12 @@ export const EMPTY: GameState = {
     gathering: new Decimal(0),
   },
   stockExpiry: {},
-  terrains: INITIAL_TERRAIN,
   plots: INITIAL_PLOTS,
   expansions: INITIAL_EXPANSIONS,
+
   buildings: {},
   collectibles: {},
 };
-
-export const MAX_STAMINA: Record<BumpkinLevel, number> = {
-  1: 10,
-  2: 50,
-  3: 100,
-  4: 200,
-  5: 300,
-  6: 400,
-  7: 500,
-  8: 600,
-};
-
-export const CHOP_STAMINA_COST = 2;
-export const STONE_MINE_STAMINA_COST = 2;
-export const IRON_MINE_STAMINA_COST = 2;
-export const PLANT_STAMINA_COST = 1;
-export const GOLD_MINE_STAMINA_COST = 2;
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;
 export const STONE_RECOVERY_TIME = 4 * 60 * 60;

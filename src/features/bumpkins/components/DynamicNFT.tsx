@@ -58,7 +58,7 @@ export const DynamicNFT: React.FC<Props> = ({
         .map((part: BumpkinPart, index) => (
           <img
             key={part}
-            src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItem].layerImage}
+            src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItem]?.layerImage}
             style={{
               zIndex: index * 10,
             }}

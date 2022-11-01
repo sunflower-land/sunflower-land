@@ -1,9 +1,6 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import {
-  CHOP_STAMINA_COST,
-  TREE_RECOVERY_TIME,
-} from "features/game/lib/constants";
+import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import {
@@ -13,7 +10,6 @@ import {
   LandExpansionTree,
 } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import { replenishStamina } from "./replenishStamina";
 
 type GetChoppedAtArgs = {
   skills: Partial<Record<BumpkinSkillName, number>>;
@@ -76,13 +72,7 @@ export function chop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const replenishedState = replenishStamina({
-    state,
-    action: { type: "bumpkin.replenishStamina" },
-    createdAt,
-  });
-
-  const stateCopy = cloneDeep(replenishedState);
+  const stateCopy = cloneDeep(state);
   const { expansions, bumpkin, collectibles, inventory } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
@@ -98,10 +88,6 @@ export function chop({
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
-  }
-
-  if (bumpkin.stamina.value < CHOP_STAMINA_COST) {
-    throw new Error("You do not have enough stamina");
   }
 
   const requiredAxes = getRequiredAxeAmount(collectibles);
@@ -139,8 +125,6 @@ export function chop({
   };
   inventory.Axe = axeAmount.sub(requiredAxes);
   inventory.Wood = woodAmount.add(woodHarvested);
-
-  bumpkin.stamina.value -= CHOP_STAMINA_COST;
 
   bumpkin.activity = trackActivity("Tree Chopped", bumpkin.activity);
 

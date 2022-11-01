@@ -43,7 +43,7 @@ export const Ingredients: React.FC<Props> = ({ gameState, resources, sfl }) => {
         );
       })}
 
-      {sfl && (
+      {sfl && sfl.gt(0) && (
         <div className="flex  items-center">
           <img src={token} className="h-6 mr-2" />
           <span

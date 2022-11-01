@@ -29,29 +29,29 @@ export const WORKBENCH_TOOLS: () => Record<
     sfl: marketRate(5),
   },
   Pickaxe: {
-    name: "Axe",
+    name: "Pickaxe",
     description: "Used to collect wood",
     ingredients: {
-      Wood: new Decimal(2),
+      Wood: new Decimal(5),
     },
     sfl: marketRate(5),
   },
 
   "Stone Pickaxe": {
-    name: "Axe",
+    name: "Stone Pickaxe",
     description: "Used to collect wood",
     ingredients: {
-      Wood: new Decimal(2),
-      Stone: new Decimal(3),
+      Wood: new Decimal(5),
+      Stone: new Decimal(5),
     },
     sfl: marketRate(5),
   },
   "Iron Pickaxe": {
-    name: "Axe",
+    name: "Iron Pickaxe",
     description: "Used to collect wood",
     ingredients: {
-      Wood: new Decimal(2),
-      Iron: new Decimal(3),
+      Wood: new Decimal(10),
+      Iron: new Decimal(5),
     },
     sfl: marketRate(5),
   },

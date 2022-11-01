@@ -15,42 +15,21 @@ import {
   CreateFarm,
 } from "./components";
 
-import jumpingGoblin from "assets/npcs/goblin_jump.gif";
-import curly from "assets/npcs/curly_hair.png";
+// import jumpingGoblin from "assets/npcs/goblin_jump.gif";
+// import curly from "assets/npcs/curly_hair.png";
 import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
 import { SupplyReached } from "./components/SupplyReached";
 import { Countdown } from "./components/Countdown";
-import { Minimized } from "./components/Minimized";
 import { Blacklisted } from "features/game/components/Blacklisted";
+//Events
+//Halloween themed npcs in login screen
+import jumpingGoblin from "assets/events/halloween/assets/npcs/goblin_farmer.gif";
+import curly from "assets/events/halloween/assets/npcs/goblin.gif";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-
-  // TODO - refine full screens system
-  // useEffect(() => {
-  //   const resized = async () => {
-  //     await new Promise((res) => setTimeout(res, 2000));
-  //     const isFullScreen = window.screenTop === 0 && window.screenY === 0;
-
-  //     // Minimised and gone full screen
-  //     if (authState.matches("minimised") && isFullScreen) {
-  //       send("REFRESH");
-  //     }
-
-  //     // Was playing and then minimised
-  //     if (!authState.matches("minimised") && !isFullScreen) {
-  //       send("REFRESH");
-  //     }
-  //   };
-
-  //   window.addEventListener("resize", resized);
-
-  //   return () => {
-  //     window.removeEventListener("resize", resized);
-  //   };
-  // }, [authState]);
 
   return (
     <Modal
@@ -68,7 +47,10 @@ export const Auth: React.FC = () => {
           src={curly}
           className="absolute w-54 -top-11 right-20 -z-10 scale-[4]"
         />
-        <img src={jumpingGoblin} className="absolute w-52 -top-[83px] -z-10" />
+        <img
+          src={jumpingGoblin}
+          className="absolute w-54 -top-[67px] left-8 -z-10 scale-[4]"
+        />
         <Panel>
           {(authState.matches({ connected: "loadingFarm" }) ||
             authState.matches("checkFarm") ||
@@ -93,7 +75,6 @@ export const Auth: React.FC = () => {
             />
           )}
           {authState.matches("exploring") && <VisitFarm />}
-          {authState.matches("minimised") && <Minimized />}
           {authState.matches("unauthorised") && (
             <ErrorMessage
               errorCode={authState.context.errorCode as ErrorCode}

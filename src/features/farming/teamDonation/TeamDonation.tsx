@@ -182,7 +182,7 @@ export const TeamDonation: React.FC = () => {
         <Panel>
           {state.matches("begging") && (
             <div className="flex flex-col items-center mb-1">
-              <img src={team} alt="sunflower token" className="w-full mb-3" />
+              <img src={team} alt="team members" className="w-full m-3" />
               <div className="flex flex-col text-shadow items-center">
                 <h2 className="text-sm sm:text-base mb-2 text-center pb-2">
                   Buy the team a coffee!

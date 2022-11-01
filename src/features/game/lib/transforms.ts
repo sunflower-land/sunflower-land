@@ -12,6 +12,7 @@ import {
  * Converts API response into a game state
  */
 export function makeGame(farm: any): GameState {
+  console.log({ farm });
   return {
     inventory: Object.keys(farm.inventory).reduce(
       (items, item) => ({
@@ -96,7 +97,6 @@ export function makeGame(farm: any): GameState {
         }
       : undefined,
     tradedAt: farm.tradedAt,
-    terrains: farm.terrains,
     plots: farm.plots,
     expansions: farm.expansions,
     expansionRequirements: farm.expansionRequirements
@@ -108,7 +108,8 @@ export function makeGame(farm: any): GameState {
             })
           ),
           sfl: new Decimal(farm.expansionRequirements.sfl),
-          seconds: new Decimal(farm.expansionRequirements.seconds),
+          seconds: farm.expansionRequirements.seconds,
+          bumpkinLevel: farm.expansionRequirements.bumpkinLevel,
         }
       : undefined,
     bumpkin: farm.bumpkin,

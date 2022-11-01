@@ -3,9 +3,7 @@ import React, { useContext, useState } from "react";
 import discTop from "assets/icons/empty_disc_top.png";
 import discBottom from "assets/icons/empty_disc_bottom.png";
 import discBackground from "assets/icons/empty_disc_background.png";
-import staminaIcon from "assets/icons/lightning.png";
 import heart from "assets/icons/heart.png";
-import progressBar from "assets/ui/progress/transparent_bar.png";
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 import alert from "assets/icons/expression_alerted.png";
 import { Modal } from "react-bootstrap";
@@ -15,9 +13,6 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { BumpkinParts } from "features/game/types/bumpkin";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
-import { MAX_STAMINA } from "features/game/lib/constants";
-import { formatNumber } from "lib/utils/formatNumber";
-import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
 import {
   acknowledgeSkillPoints,
   hasUnacknowledgedSkillPoints,
@@ -44,13 +39,6 @@ export const BumpkinHUD: React.FC = () => {
   const level = getBumpkinLevel(experience);
   const nextLevelExperience = LEVEL_BRACKETS[level];
 
-  const stamina = state.bumpkin
-    ? calculateBumpkinStamina({
-        nextReplenishedAt: Date.now(),
-        bumpkin: state.bumpkin,
-      })
-    : 0;
-  const staminaCapacity = MAX_STAMINA[level];
   const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
 
   const handleHideModal = () => {
@@ -142,35 +130,6 @@ export const BumpkinHUD: React.FC = () => {
               }}
             />
             <span className="text-xs absolute left-0 text-white">{level}</span>
-          </div>
-
-          <div className="flex ml-2 items-center justify-center relative w-28 h-6">
-            <img
-              src={staminaIcon}
-              className="h-9 object-contain mr-1 absolute z-10"
-              style={{
-                width: "30px",
-                left: "-12px",
-              }}
-            />
-            <img src={progressBar} className="absolute w-full" />
-            <div
-              className="w-full h-full bg-[#322107] absolute -z-20"
-              style={{
-                borderRadius: "10px",
-              }}
-            />
-            <div
-              className="h-full bg-[#f3a632] absolute -z-10 left-0"
-              style={{
-                borderRadius: "10px 0 0 10px",
-                width: `${(stamina / staminaCapacity) * 100}%`,
-                borderRight: "3px solid #ec7122",
-              }}
-            />
-            <span className="text-xxs text-white">
-              {`${formatNumber(stamina)}/${formatNumber(staminaCapacity)}`}
-            </span>
           </div>
         </div>
       </div>

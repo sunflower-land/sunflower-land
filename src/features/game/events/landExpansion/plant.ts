@@ -9,8 +9,6 @@ import {
   InventoryItemName,
 } from "../../types/game";
 import { isSeed } from "../plant";
-import { PLANT_STAMINA_COST } from "features/game/lib/constants";
-import { replenishStamina } from "./replenishStamina";
 import { getKeys } from "features/game/types/craftables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
@@ -32,14 +30,24 @@ type IsPlotFertile = {
   expansionIndex: number;
   gameState: GameState;
 };
+
+// First 15 plots do not need water
+const INITIAL_SUPPORTED_PLOTS = 15;
+// Each well can support an additional 8 plots
+const WELL_PLOT_SUPPORT = 8;
+
 export function isPlotFertile({
   plotIndex,
   expansionIndex,
   gameState,
 }: IsPlotFertile): boolean {
   // Get the well count
-  const wellCount = gameState.buildings["Water Well"]?.length ?? 0;
-  const cropsWellCanWater = wellCount * 10 + 10;
+  const wellCount =
+    gameState.buildings["Water Well"]?.filter(
+      (well) => well.readyAt > Date.now()
+    ).length ?? 0;
+  const cropsWellCanWater =
+    wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
   const cropPosition = gameState.expansions.reduce(
     (count, expansion, index) => {
@@ -130,15 +138,6 @@ export function getPlantedAt({
   return createdAt - offset * 1000;
 }
 
-export function getStaminaCost(bumpkin: Bumpkin) {
-  let staminaCost = PLANT_STAMINA_COST;
-
-  if (bumpkin.skills["Plant Whisperer"]) {
-    staminaCost = staminaCost * 0.9;
-  }
-
-  return staminaCost;
-}
 /**
  * Based on items, the output will be different
  */
@@ -164,6 +163,10 @@ export function getCropYieldAmount({
     amount *= 1.2;
   }
 
+  if (crop === "Pumpkin" && inventory["Victoria Sisters"]?.gte(1)) {
+    amount *= 1.2;
+  }
+
   if (
     isCollectibleBuilt("Scarecrow", collectibles) ||
     isCollectibleBuilt("Kuebiko", collectibles)
@@ -183,13 +186,7 @@ export function plant({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const replenishedState = replenishStamina({
-    state,
-    action: { type: "bumpkin.replenishStamina" },
-    createdAt,
-  });
-
-  const stateCopy = cloneDeep(replenishedState);
+  const stateCopy = cloneDeep(state);
   const { expansions, bumpkin, collectibles, inventory } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
@@ -203,10 +200,6 @@ export function plant({
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
-  }
-
-  if (bumpkin.stamina.value < PLANT_STAMINA_COST) {
-    throw new Error("You do not have enough stamina");
   }
 
   const { plots } = expansion;
@@ -265,8 +258,6 @@ export function plant({
   };
 
   expansion.plots = plots;
-
-  bumpkin.stamina.value -= getStaminaCost(bumpkin);
 
   inventory[action.item] = seedCount.sub(1);
 

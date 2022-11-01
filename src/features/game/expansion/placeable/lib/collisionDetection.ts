@@ -35,9 +35,7 @@ const extractBoundingBox = <T extends Record<number, BoundingBox>>(
   }));
 };
 
-type Resources = Required<
-  Omit<LandExpansion, "terrains" | "createdAt" | "readyAt">
->;
+type Resources = Required<Omit<LandExpansion, "createdAt" | "readyAt">>;
 
 const getAllResources = (expansions: LandExpansion[]): Resources[] => {
   return expansions.map((expansion) => ({

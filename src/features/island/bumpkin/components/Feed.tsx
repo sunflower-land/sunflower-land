@@ -9,7 +9,6 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Consumable, ConsumableName } from "features/game/types/consumables";
 
-import staminaIcon from "assets/icons/lightning.png";
 import heart from "assets/icons/heart.png";
 import firePit from "src/assets/buildings/fire_pit.png";
 
@@ -34,10 +33,6 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
   const feed = (food: Consumable) => {
     onFeed(food.name);
 
-    setToast({
-      icon: staminaIcon,
-      content: `+${food.stamina}`,
-    });
     setToast({
       icon: heart,
       content: `+${food.experience}`,
@@ -87,13 +82,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
                 <div className="flex justify-center flex-wrap items-center">
                   <img src={heart} className="me-2 w-6" />
                   <span className="text-xs text-shadow text-center">
-                    {`${selected.experience}`}
-                  </span>
-                </div>
-                <div className="flex justify-center flex-wrap items-center">
-                  <img src={staminaIcon} className="me-2 w-6" />
-                  <span className="text-xs text-shadow text-center">
-                    {`${selected.stamina}`}
+                    {`${selected.experience} EXP`}
                   </span>
                 </div>
               </div>

@@ -3,7 +3,6 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Coordinates, MapPlacement } from "./components/MapPlacement";
 import { useActor } from "@xstate/react";
 import { Context } from "../GameProvider";
-import { getTerrainImageByKey } from "../lib/getTerrainImageByKey";
 import { Plot } from "features/island/Plots/Plot";
 import {
   ANIMAL_DIMENSIONS,
@@ -14,7 +13,6 @@ import { Tree } from "./components/resources/Tree";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { LandExpansion } from "../types/game";
-import { TerrainPlacement } from "./components/TerrainPlacement";
 import { EXPANSION_ORIGINS } from "./lib/constants";
 import { Stone } from "./components/resources/Stone";
 import { Placeable } from "./placeable/Placeable";
@@ -25,16 +23,18 @@ import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
 import { Chicken } from "features/island/chickens/Chicken";
 import { Collectible } from "features/island/collectibles/Collectible";
-import { LAND_WIDTH, Water } from "./components/Water";
+import { Water } from "./components/Water";
+import pirateGoblin from "assets/npcs/pirate_goblin.gif";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { Mine } from "features/island/mines/Mine";
 import { IslandTravel } from "./components/IslandTravel";
+import { PIXEL_SCALE } from "../lib/constants";
+import { DirtRenderer } from "./components/DirtRenderer";
 
 type ExpansionProps = Pick<
   LandExpansion,
   | "plots"
   | "trees"
-  | "terrains"
   | "stones"
   | "iron"
   | "gold"
@@ -51,7 +51,6 @@ export const Expansion: React.FC<
   stones,
   iron,
   gold,
-  terrains,
   fruitPatches,
   mines,
   createdAt,
@@ -75,23 +74,6 @@ export const Expansion: React.FC<
             >
               <Gold rockIndex={Number(index)} expansionIndex={expansionIndex} />
             </MapPlacement>
-          );
-        })}
-
-      {terrains &&
-        getKeys(terrains).map((index) => {
-          const { x, y, width, height, name } = terrains[index];
-
-          return (
-            <TerrainPlacement
-              key={`${createdAt}-terrain-${index}`}
-              x={x + xOffset}
-              y={y + yOffset}
-              height={height}
-              width={width}
-            >
-              <img src={getTerrainImageByKey(name)} className="h-full w-full" />
-            </TerrainPlacement>
           );
         })}
 
@@ -210,9 +192,18 @@ export const Land: React.FC = () => {
 
   const { expansions, buildings, collectibles, chickens, bumpkin } = state;
   const level = expansions.length + 1;
-  const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
 
   const [scrollIntoView] = useScrollIntoView();
+
+  const boatCordinates = {
+    x: level > 7 ? -9 : -2,
+    y: level > 7 ? -10.5 : -4.5,
+  };
+
+  const pirateCordinates = {
+    x: level > 7 ? -8.4 : -1.4,
+    y: level > 7 ? -8 : -2,
+  };
 
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
@@ -234,7 +225,6 @@ export const Land: React.FC = () => {
               {
                 stones,
                 gold,
-                terrains,
                 iron,
                 trees,
                 plots,
@@ -250,7 +240,6 @@ export const Land: React.FC = () => {
                 key={index}
                 stones={stones}
                 gold={gold}
-                terrains={terrains}
                 trees={trees}
                 iron={iron}
                 plots={plots}
@@ -273,7 +262,21 @@ export const Land: React.FC = () => {
           </MapPlacement>
         )}
 
-        <IslandTravel bumpkin={bumpkin} x={offset - 2} y={0} />
+        <MapPlacement x={pirateCordinates.x} y={pirateCordinates.y}>
+          <img
+            src={pirateGoblin}
+            className="relative top-8"
+            style={{
+              width: `${25 * PIXEL_SCALE}px`,
+            }}
+          />
+        </MapPlacement>
+
+        <IslandTravel
+          bumpkin={bumpkin}
+          x={boatCordinates.x}
+          y={boatCordinates.y}
+        />
 
         {getKeys(buildings).flatMap((name) => {
           const items = buildings[name];
@@ -341,6 +344,10 @@ export const Land: React.FC = () => {
               </MapPlacement>
             );
           })}
+
+        <DirtRenderer
+          expansions={expansions.filter((e) => e.readyAt > Date.now())}
+        />
       </div>
     </div>
   );

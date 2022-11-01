@@ -1,9 +1,13 @@
 import React from "react";
 
-import logo from "assets/brand/logo.png";
+//import logo from "assets/brand/logo.png";
 import clouds from "assets/brand/clouds.png";
-import sunflowers from "assets/brand/sunflower_border.png";
+//import sunflowers from "assets/brand/sunflower_border.png";
 import pumpkin from "assets/crops/pumpkin/crop.png";
+//Events
+//Halloween themed auth
+import logo from "assets/events/halloween/assets/brand/logo.png";
+import sunflowers from "assets/events/halloween/assets/brand/pumpkins_border.png";
 
 import { InnerPanel, Panel } from "components/ui/Panel";
 
@@ -18,7 +22,7 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
   fadeIn = true,
 }) => {
   return (
-    <div className="bg-blue-600 w-full h-full flex relative items-center justify-center">
+    <div className="bg-[#3a4466] w-full h-full flex relative items-center justify-center">
       <div className="relative w-full max-w-xl mb-96 animate-float z-10">
         <img
           src={pumpkin}
@@ -34,6 +38,8 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
         id="clouds"
         style={{
           backgroundImage: `url(${clouds})`,
+          backgroundSize: `70rem 29.4rem`,
+          imageRendering: "pixelated",
         }}
       />
       {fadeIn && (

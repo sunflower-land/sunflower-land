@@ -1,9 +1,5 @@
 import Decimal from "decimal.js-light";
-import {
-  INITIAL_FARM,
-  INITIAL_BUMPKIN,
-  GOLD_MINE_STAMINA_COST,
-} from "../../lib/constants";
+import { INITIAL_FARM, INITIAL_BUMPKIN } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import {
   LandExpansionMineGoldAction,
@@ -252,85 +248,11 @@ describe("mineGold", () => {
     ).toThrow("You do not have a Bumpkin");
   });
 
-  it("throws an error if the player doesn't have enough stamina", () => {
-    expect(() =>
-      mineGold({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Iron Pickaxe": new Decimal(3),
-          },
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            stamina: {
-              value: 0,
-              replenishedAt: Date.now(),
-            },
-          },
-        },
-        createdAt: Date.now(),
-        action: {
-          type: "goldRock.mined",
-          expansionIndex: 0,
-          index: 0,
-        } as LandExpansionMineGoldAction,
-      })
-    ).toThrow("You do not have enough stamina");
-  });
-
-  it("deducts stamina", () => {
-    const game = mineGold({
-      state: {
-        ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
-        inventory: {
-          "Iron Pickaxe": new Decimal(3),
-        },
-      },
-      createdAt: Date.now(),
-      action: {
-        type: "goldRock.mined",
-
-        expansionIndex: 0,
-        index: 0,
-      } as LandExpansionMineGoldAction,
-    });
-
-    expect(game.bumpkin?.stamina.value).toBe(
-      INITIAL_BUMPKIN.stamina.value - GOLD_MINE_STAMINA_COST
-    );
-  });
-
-  it("replenishes stamina before goldMine", () => {
-    const createdAt = Date.now();
-    const bumpkin = {
-      ...INITIAL_BUMPKIN,
-      stamina: { value: 0, replenishedAt: 0 },
-    };
-    const game = mineGold({
-      state: {
-        ...GAME_STATE,
-        bumpkin: bumpkin,
-        inventory: {
-          "Iron Pickaxe": new Decimal(3),
-        },
-      },
-      createdAt,
-      action: {
-        type: "goldRock.mined",
-        expansionIndex: 0,
-        index: 0,
-      } as LandExpansionMineGoldAction,
-    });
-
-    expect(game.bumpkin?.stamina.replenishedAt).toBe(createdAt);
-  });
   describe("BumpkinActivity", () => {
     it("increments Gold mined activity by 1", () => {
       const createdAt = Date.now();
       const bumpkin = {
         ...INITIAL_BUMPKIN,
-        stamina: { value: 0, replenishedAt: 0 },
       };
       const game = mineGold({
         state: {
@@ -355,7 +277,6 @@ describe("mineGold", () => {
       const createdAt = Date.now();
       const bumpkin = {
         ...INITIAL_BUMPKIN,
-        stamina: { value: 0, replenishedAt: 0 },
       };
       const state1 = mineGold({
         state: {

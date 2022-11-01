@@ -1,12 +1,9 @@
 import Decimal from "decimal.js-light";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { CROPS } from "features/game/types/crops";
 import {
   GENESIS_LAND_EXPANSION,
   INITIAL_BUMPKIN,
   INITIAL_FARM,
-  MAX_STAMINA,
-  PLANT_STAMINA_COST,
 } from "../../lib/constants";
 import { GameState, LandExpansionPlot } from "../../types/game";
 import { getCropTime, isPlotFertile, plant } from "./plant";
@@ -500,132 +497,6 @@ describe("plant", () => {
       })
     ).toThrow("You do not have a Bumpkin");
   });
-
-  it("requires player has enough stamina", () => {
-    expect(() =>
-      plant({
-        state: {
-          ...GAME_STATE,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            stamina: {
-              value: 0,
-              replenishedAt: dateNow,
-            },
-          },
-          inventory: {
-            "Carrot Seed": new Decimal(1),
-            "Water Well": new Decimal(1),
-          },
-        },
-        action: {
-          type: "seed.planted",
-          index: 0,
-          expansionIndex: 0,
-          item: "Carrot Seed",
-        },
-      })
-    ).toThrow("You do not have enough stamina");
-  });
-
-  it("replenishes stamina before planting", () => {
-    const createdAt = dateNow;
-
-    const state = plant({
-      state: {
-        ...GAME_STATE,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          stamina: {
-            value: 0,
-            replenishedAt: 0,
-          },
-        },
-        inventory: {
-          "Carrot Seed": new Decimal(1),
-          "Water Well": new Decimal(1),
-        },
-      },
-      action: {
-        type: "seed.planted",
-        index: 0,
-        expansionIndex: 0,
-        item: "Carrot Seed",
-      },
-      createdAt,
-    });
-
-    expect(state.bumpkin?.stamina.replenishedAt).toBe(createdAt);
-  });
-
-  it("deducts stamina from bumpkin", () => {
-    const createdAt = dateNow;
-
-    const state = plant({
-      state: {
-        ...GAME_STATE,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          stamina: {
-            value: MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)],
-            replenishedAt: createdAt,
-          },
-        },
-        inventory: {
-          "Carrot Seed": new Decimal(1),
-          "Water Well": new Decimal(1),
-        },
-      },
-      action: {
-        type: "seed.planted",
-        index: 0,
-        expansionIndex: 0,
-        item: "Carrot Seed",
-      },
-      createdAt,
-    });
-
-    expect(state.bumpkin?.stamina.value).toBe(
-      MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)] -
-        PLANT_STAMINA_COST
-    );
-  });
-
-  it("reduces required stamina by 10% with Plant Whisperer skill", () => {
-    const state = {
-      ...GAME_STATE,
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        stamina: {
-          replenishedAt: 0,
-          value: 10,
-        },
-        skills: {
-          "Plant Whisperer": 1,
-        },
-      },
-      inventory: {
-        "Cauliflower Seed": new Decimal(1),
-      },
-    };
-
-    const game = plant({
-      state,
-      createdAt: dateNow,
-      action: {
-        type: "seed.planted",
-        index: 0,
-        expansionIndex: 0,
-        item: "Cauliflower Seed",
-      },
-    });
-
-    const reducedStaminaAmount = PLANT_STAMINA_COST * 0.9;
-
-    expect(game.bumpkin?.stamina.value).toBe(
-      state.bumpkin.stamina.value - reducedStaminaAmount
-    );
-  });
 });
 
 describe("getCropTime", () => {
@@ -656,7 +527,7 @@ describe("getCropTime", () => {
 });
 
 describe("isPlotFertile", () => {
-  it("cannot plant on 11th field if a well is not avilable", () => {
+  it("cannot plant on 16th field if a well is not avilable", () => {
     const fakePlot = {
       x: 1,
       y: 1,
@@ -691,20 +562,25 @@ describe("isPlotFertile", () => {
             plots: {
               0: fakePlot,
               1: fakePlot,
-              2: fakePlot, //11th
-              3: fakePlot, // 12th
+              2: fakePlot,
+              3: fakePlot,
+              4: fakePlot,
+              5: fakePlot,
+              6: fakePlot,
+              7: fakePlot, //16th
+              8: fakePlot, // 17th
             },
           },
         ],
       },
       expansionIndex: 2,
-      plotIndex: 2,
+      plotIndex: 7,
     });
 
     expect(isFertile).toBeFalsy();
   });
 
-  it("cannot plant on 21st field if 2 wells are not avilable", () => {
+  it("cannot plant on 23rd field if 2 wells are not avilable", () => {
     const fakePlot = {
       x: 1,
       y: 1,
@@ -763,13 +639,16 @@ describe("isPlotFertile", () => {
               5: fakePlot,
               6: fakePlot,
               7: fakePlot,
-              8: fakePlot, //21st
+              8: fakePlot,
+              9: fakePlot,
+              10: fakePlot,
+              11: fakePlot, // 24th
             },
           },
         ],
       },
       expansionIndex: 3,
-      plotIndex: 8,
+      plotIndex: 11,
     });
 
     expect(isFertile).toBeFalsy();

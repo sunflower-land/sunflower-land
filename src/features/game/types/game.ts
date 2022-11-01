@@ -4,7 +4,6 @@ import { CropName, SeedName } from "./crops";
 import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
-import { TerrainTypeEnum } from "../lib/getTerrainImageByKey";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinParts } from "./bumpkin";
@@ -87,7 +86,7 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
-type Coupons = "Trading Ticket" | "War Bond";
+type Coupons = "Trading Ticket" | "War Bond" | "Jack-o-lantern";
 
 type Points = "Human War Point" | "Goblin War Point" | "Player Experience";
 
@@ -97,10 +96,6 @@ export type Bumpkin = {
   id: number;
   equipped: BumpkinParts;
   tokenUri: string;
-  stamina: {
-    value: number;
-    replenishedAt: number;
-  };
   experience: number;
   skills: Partial<Record<BumpkinSkillName, number>>;
   achievements?: Partial<Record<AchievementName, number>>;
@@ -229,10 +224,6 @@ export type LandExpansionRock = {
   stone: Stone;
 } & Position;
 
-export type LandExpansionTerrain = {
-  name: TerrainTypeEnum;
-} & Position;
-
 export type LandExpansionPlot = {
   crop?: PlantedCrop;
 } & Position;
@@ -266,7 +257,6 @@ export type LandExpansion = {
 
   gold?: Record<number, LandExpansionRock>;
   iron?: Record<number, LandExpansionRock>;
-  terrains?: Record<number, LandExpansionTerrain>;
   plots?: Record<number, LandExpansionPlot>;
   fruitPatches?: Record<number, FruitPatch>;
   mines?: Record<number, Mine>;
@@ -277,7 +267,8 @@ export type LandExpansion = {
 interface ExpansionRequirements {
   sfl: Decimal;
   resources: Ingredient[];
-  seconds: Decimal;
+  seconds: number;
+  bumpkinLevel: number;
 }
 
 export type Airdrop = {
@@ -299,7 +290,6 @@ export interface GameState {
   gold: Record<number, Rock>;
   chickens: Record<number, Chicken>;
 
-  terrains: Record<number, LandExpansionTerrain>;
   plots: Record<number, LandExpansionPlot>;
 
   tradedAt?: string;
@@ -329,6 +319,7 @@ export interface GameState {
     id: string;
     fulfilledAt: number;
   }[];
+  migrated?: boolean;
 }
 
 export interface Context {
