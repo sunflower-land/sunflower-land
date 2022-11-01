@@ -13,9 +13,17 @@ interface Props {
   bumpkin: Bumpkin | undefined;
   x: number;
   y: number;
+  allowTravel?: boolean;
+  onOpen?: () => void;
 }
 
-export const IslandTravel = ({ bumpkin, x, y }: Props) => {
+export const IslandTravel = ({
+  bumpkin,
+  x,
+  y,
+  allowTravel = true,
+  onOpen,
+}: Props) => {
   const [openIslandList, setOpenIslandList] = useState(false);
 
   return (
@@ -41,6 +49,7 @@ export const IslandTravel = ({ bumpkin, x, y }: Props) => {
         centered
         show={openIslandList}
         onHide={() => setOpenIslandList(false)}
+        onShow={onOpen}
       >
         <Panel className="pt-5 relative">
           <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
@@ -61,7 +70,8 @@ export const IslandTravel = ({ bumpkin, x, y }: Props) => {
               minHeight: "200px",
             }}
           >
-            <IslandList bumpkin={bumpkin} />
+            {allowTravel && <IslandList bumpkin={bumpkin} />}
+            {!allowTravel && <span className="loading">Loading</span>}
           </div>
         </Panel>
       </Modal>

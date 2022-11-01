@@ -209,6 +209,8 @@ export const Land: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
+  const allowTravel = !gameState.matches("autosaving");
+
   return (
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="absolute z-0 w-full h-full">
@@ -276,6 +278,8 @@ export const Land: React.FC = () => {
           bumpkin={bumpkin}
           x={boatCordinates.x}
           y={boatCordinates.y}
+          onOpen={() => gameService.send("SAVE")}
+          allowTravel={allowTravel}
         />
 
         {getKeys(buildings).flatMap((name) => {
