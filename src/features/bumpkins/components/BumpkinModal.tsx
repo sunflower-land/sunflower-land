@@ -20,12 +20,15 @@ import { AchievementBadges } from "./AchievementBadges";
 import { Skills } from "features/bumpkins/components/Skills";
 import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillPointStorage";
 
+type ViewState = "home" | "achievements" | "skills";
+
 interface Props {
+  initialView: ViewState;
   onClose: () => void;
 }
 
-export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
-  const [view, setView] = useState<"home" | "achievements" | "skills">();
+export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
+  const [view, setView] = useState<ViewState>(initialView);
   const { gameService } = useContext(Context);
   const [
     {
@@ -34,11 +37,11 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
   ] = useActor(gameService);
 
   if (view === "achievements") {
-    return <Achievements onClose={() => setView("home")} />;
+    return <Achievements onBack={() => setView("home")} onClose={onClose} />;
   }
 
   if (view === "skills") {
-    return <Skills onClose={() => setView("home")} />;
+    return <Skills onBack={() => setView("home")} onClose={onClose} />;
   }
 
   // Do not show soul bound characteristics

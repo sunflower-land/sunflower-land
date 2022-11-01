@@ -23,10 +23,11 @@ import { Tab } from "components/ui/Tab";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
+  onBack: () => void;
   onClose: () => void;
 }
 
-export const Achievements: React.FC<Props> = ({ onClose }) => {
+export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
   const [selected, setSelected] = useState<AchievementName>("Farm Hand");
 
   const { gameService } = useContext(Context);
@@ -86,7 +87,7 @@ export const Achievements: React.FC<Props> = ({ onClose }) => {
       >
         <AchievementDetails
           name={selected as AchievementName}
-          onClose={onClose}
+          onBack={onBack}
           onClaim={claim}
           gameState={state}
         />

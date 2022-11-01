@@ -17,11 +17,10 @@ import {
   acknowledgeSkillPoints,
   hasUnacknowledgedSkillPoints,
 } from "features/island/bumpkin/lib/skillPointStorage";
-import { Skills } from "features/bumpkins/components/Skills";
 
 export const BumpkinHUD: React.FC = () => {
-  const [showBumpkinModal, setShowBumpkinModal] = useState(false);
-  const [showSkillModal, setShowSkillModal] = useState(false);
+  const [viewSkillsPage, setViewSkillsPage] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const { gameService } = useContext(Context);
   const [
@@ -30,8 +29,14 @@ export const BumpkinHUD: React.FC = () => {
     },
   ] = useActor(gameService);
 
+  const handleShowHomeModal = () => {
+    setViewSkillsPage(false);
+    setShowModal(true);
+  };
+
   const handleShowSkillModal = () => {
-    setShowSkillModal(true);
+    setViewSkillsPage(true);
+    setShowModal(true);
     acknowledgeSkillPoints(state.bumpkin);
   };
 
@@ -42,27 +47,24 @@ export const BumpkinHUD: React.FC = () => {
   const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
 
   const handleHideModal = () => {
-    if (showBumpkinModal) setShowBumpkinModal(false);
-    if (showSkillModal) setShowSkillModal(false);
+    setShowModal(false);
   };
 
   return (
     <>
-      <Modal
-        show={showBumpkinModal || showSkillModal}
-        centered
-        onHide={handleHideModal}
-      >
-        {showBumpkinModal ? (
-          <BumpkinModal onClose={handleHideModal} />
-        ) : (
-          <Skills onClose={handleHideModal} />
-        )}
+      {/* Bumpkin modal */}
+      <Modal show={showModal} centered onHide={handleHideModal}>
+        <BumpkinModal
+          initialView={viewSkillsPage ? "skills" : "home"}
+          onClose={handleHideModal}
+        />
       </Modal>
+
       <div className="fixed top-2 left-2 z-50 flex">
+        {/* Bumpkin icon */}
         <div
           className="w-16 h-16 relative cursor-pointer hover:img-highlight"
-          onClick={() => setShowBumpkinModal(true)}
+          onClick={handleShowHomeModal}
         >
           <img src={discTop} className="absolute inset-0 w-full h-full z-10" />
           <img
@@ -73,6 +75,7 @@ export const BumpkinHUD: React.FC = () => {
             src={discBackground}
             className="absolute inset-0 w-full h-full z-0"
           />
+
           <div
             className="absolute inset-0 z-20 overflow-hidden"
             style={{
@@ -95,15 +98,19 @@ export const BumpkinHUD: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Skill point alert */}
         {showSkillPointAlert && (
           <div
             id="alert"
-            className="absolute top-[155px] left-6 ready cursor-pointer hover:img-highlight"
+            className="absolute top-[150px] px-4 py-3 ready cursor-pointer hover:img-highlight"
             onClick={handleShowSkillModal}
           >
             <img src={alert} alt="Skill point available" className="w-4" />
           </div>
         )}
+
+        {/* Level bar */}
         <div>
           <div className="flex ml-4 mt-1 items-center relative">
             <img

@@ -16,8 +16,14 @@ import { SkillCategoryList } from "./SkillCategoryList";
 import close from "assets/icons/close.png";
 import seedSpecialist from "assets/skills/seed_specialist.png";
 import { SkillPathDetails } from "./SkillPathDetails";
+import arrowLeft from "assets/icons/arrow_left.png";
 
-export const Skills: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+interface Props {
+  onBack: () => void;
+  onClose: () => void;
+}
+
+export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -66,9 +72,17 @@ export const Skills: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           minHeight: "200px",
         }}
       >
-        {availableSkillPoints > 0 && (
-          <SkillPointsLabel points={availableSkillPoints} />
-        )}
+        <div className="flex flex-row">
+          <img
+            src={arrowLeft}
+            className="self-start w-5 cursor-pointer mx-2"
+            alt="back"
+            onClick={onBack}
+          />
+          {availableSkillPoints > 0 && (
+            <SkillPointsLabel points={availableSkillPoints} />
+          )}
+        </div>
         {!selectedSkillPath && (
           <SkillCategoryList
             onClick={(category) => onSkillCategoryClickHandler(category)}
