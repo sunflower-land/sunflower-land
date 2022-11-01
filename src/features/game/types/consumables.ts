@@ -20,7 +20,6 @@ export type Consumable = {
   experience: number;
   name: ConsumableName;
   description: string;
-  stamina: number;
   ingredients: Inventory;
   cookingSeconds: number;
   building: BuildingName;
@@ -33,7 +32,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Mashed Potato",
     description: "Boiled Eggss are always a good breakfast choice",
     experience: 3,
-    stamina: 5,
     building: "Fire Pit",
     cookingSeconds: 30,
     ingredients: {
@@ -46,7 +44,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Pumpkin Soup",
     description: "Boiled Eggss are always a good breakfast choice",
     experience: 24,
-    stamina: 5,
     building: "Fire Pit",
     cookingSeconds: 60,
     ingredients: {
@@ -59,7 +56,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Bumpkin Broth",
     description: "A perfect broth for a cold day.",
     experience: 96,
-    stamina: 5,
     building: "Fire Pit",
     cookingSeconds: 60,
     ingredients: {
@@ -73,7 +69,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Boiled Eggs",
     description: "Boiled Eggss are always a good breakfast choice",
     experience: 44,
-    stamina: 5,
     building: "Fire Pit",
     cookingSeconds: 60,
     ingredients: {
@@ -86,7 +81,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Roast Veggies",
     description: "Even Goblin's need to eat their veggies!",
     experience: 226,
-    stamina: 5,
     building: "Kitchen",
     cookingSeconds: 60 * 5,
     ingredients: {
@@ -100,7 +94,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Bumpkin Salad",
     description: "Gotta keep your Bumpkin healthy!",
     experience: 440,
-    stamina: 5,
     building: "Kitchen",
     cookingSeconds: 60 * 10,
     ingredients: {
@@ -114,7 +107,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Goblin's Treat",
     description: "Boiled Eggss are always a good breakfast choice",
     experience: 520,
-    stamina: 5,
     building: "Kitchen",
     cookingSeconds: 60 * 10,
     ingredients: {
@@ -129,7 +121,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Cauliflower Burger",
     description: "Calling all cauliflower lovers!",
     experience: 420,
-    stamina: 5,
     building: "Kitchen",
     cookingSeconds: 60 * 5,
     ingredients: {
@@ -143,7 +134,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Pancakes",
     description: "A great start to a Bumpkins day",
     experience: 460,
-    stamina: 5,
     building: "Kitchen",
     cookingSeconds: 60 * 5,
     ingredients: {
@@ -157,7 +147,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Club Sandwich",
     description: "Filled with Carrots and Roasted Sunflower Seeds",
     experience: 320,
-    stamina: 5,
     building: "Kitchen",
     cookingSeconds: 60 * 5,
     ingredients: {
@@ -173,7 +162,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Sunflower Cake",
     building: "Bakery",
     experience: 1,
-    stamina: 5,
     cookingSeconds: 60,
     ingredients: {
       Sunflower: new Decimal(1000),
@@ -187,7 +175,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Potato Cake",
     building: "Bakery",
     experience: 1,
-    stamina: 5,
     cookingSeconds: 60,
     ingredients: {
       Potato: new Decimal(500),
@@ -201,7 +188,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Pumpkin Cake",
     building: "Bakery",
     experience: 1,
-    stamina: 5,
     cookingSeconds: 60,
     ingredients: {
       Pumpkin: new Decimal(130),
@@ -215,7 +201,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Carrot Cake",
     building: "Bakery",
     experience: 1,
-    stamina: 5,
     cookingSeconds: 60,
     ingredients: {
       Carrot: new Decimal(120),
@@ -229,7 +214,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Cabbage Cake",
     building: "Bakery",
     experience: 1,
-    stamina: 5,
     cookingSeconds: 60,
     ingredients: {
       Cabbage: new Decimal(90),
@@ -243,7 +227,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Beetroot Cake",
     building: "Bakery",
     experience: 1,
-    stamina: 5,
     cookingSeconds: 60,
     ingredients: {
       Beetroot: new Decimal(100),
@@ -257,7 +240,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Cauliflower Cake",
     building: "Bakery",
     experience: 1,
-    stamina: 5,
     cookingSeconds: 60,
     ingredients: {
       Cauliflower: new Decimal(60),
@@ -271,7 +253,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Parsnip Cake",
     building: "Bakery",
     experience: 1,
-    stamina: 5,
     cookingSeconds: 60,
     ingredients: {
       Parsnip: new Decimal(45),
@@ -285,7 +266,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Radish Cake",
     building: "Bakery",
     experience: 1,
-    stamina: 5,
     cookingSeconds: 60,
     ingredients: {
       Radish: new Decimal(25),
@@ -299,7 +279,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Wheat Cake",
     building: "Bakery",
     experience: 1,
-    stamina: 5,
     cookingSeconds: 60,
     ingredients: {
       Wheat: new Decimal(35),

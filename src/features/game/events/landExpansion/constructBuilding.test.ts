@@ -42,10 +42,6 @@ describe("Construct building", () => {
             },
             tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
             experience: 0,
-            stamina: {
-              value: 0,
-              replenishedAt: 0,
-            },
             skills: {},
           },
         },
@@ -111,10 +107,6 @@ describe("Construct building", () => {
           bumpkin: {
             id: 1,
             experience: LEVEL_BRACKETS[2],
-            stamina: {
-              value: 0,
-              replenishedAt: 0,
-            },
             equipped: {
               body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
@@ -152,10 +144,6 @@ describe("Construct building", () => {
           bumpkin: {
             id: 1,
             experience: 0,
-            stamina: {
-              value: 0,
-              replenishedAt: 0,
-            },
             equipped: {
               body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
@@ -191,10 +179,6 @@ describe("Construct building", () => {
         bumpkin: {
           id: 1,
           experience: 0,
-          stamina: {
-            value: 0,
-            replenishedAt: 0,
-          },
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -233,10 +217,6 @@ describe("Construct building", () => {
         bumpkin: {
           id: 1,
           experience: 0,
-          stamina: {
-            value: 0,
-            replenishedAt: 0,
-          },
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -274,10 +254,6 @@ describe("Construct building", () => {
         bumpkin: {
           id: 1,
           experience: 0,
-          stamina: {
-            value: 0,
-            replenishedAt: 0,
-          },
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -319,10 +295,6 @@ describe("Construct building", () => {
         bumpkin: {
           id: 1,
           experience: LEVEL_BRACKETS[2],
-          stamina: {
-            value: 0,
-            replenishedAt: 0,
-          },
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -363,10 +335,6 @@ describe("Construct building", () => {
         bumpkin: {
           id: 1,
           experience: 1000000000,
-          stamina: {
-            value: 0,
-            replenishedAt: 0,
-          },
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -415,10 +383,6 @@ describe("Construct building", () => {
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           experience: 0,
-          stamina: {
-            value: 0,
-            replenishedAt: 0,
-          },
           skills: {},
         },
         buildings: {
@@ -486,10 +450,6 @@ describe("Construct building", () => {
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           experience: 0,
-          stamina: {
-            value: 0,
-            replenishedAt: 0,
-          },
           skills: {},
         },
         buildings: {
