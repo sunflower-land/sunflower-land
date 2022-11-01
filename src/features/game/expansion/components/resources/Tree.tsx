@@ -315,7 +315,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute top-4 left-2",
+          "transition-opacity pointer-events-none absolute bottom-1 left-5",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
