@@ -265,7 +265,7 @@ export const INITIAL_PLOTS: GameState["plots"] = {
 };
 
 export const GENESIS_LAND_EXPANSION: LandExpansion = {
-  createdAt: 0,
+  createdAt: 1,
   readyAt: 0,
 
   // gold: INITIAL_GOLD_MINES,
@@ -276,7 +276,7 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
 
 export const INITIAL_EXPANSIONS: LandExpansion[] = [
   {
-    createdAt: 0,
+    createdAt: 2,
     readyAt: 0,
 
     plots: {
@@ -366,7 +366,7 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
   },
 
   {
-    createdAt: 0,
+    createdAt: 3,
     readyAt: 0,
 
     plots: {},
@@ -398,7 +398,7 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
     },
   },
   {
-    createdAt: 0,
+    createdAt: 4,
     readyAt: 0,
 
     plots: {
@@ -442,7 +442,7 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
     },
   },
   {
-    createdAt: 0,
+    createdAt: 5,
     readyAt: 0,
     trees: {
       0: {

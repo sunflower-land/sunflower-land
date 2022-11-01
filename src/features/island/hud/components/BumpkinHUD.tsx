@@ -74,7 +74,7 @@ export const BumpkinHUD: React.FC = () => {
             className="absolute inset-0 w-full h-full z-0"
           />
           <div
-            className="absolute inset-0  z-20 overflow-hidden"
+            className="absolute inset-0 z-20 overflow-hidden"
             style={{
               height: "85%",
               width: "88%",
@@ -105,7 +105,7 @@ export const BumpkinHUD: React.FC = () => {
           </div>
         )}
         <div>
-          <div className="flex ml-2 mb-2 items-center relative">
+          <div className="flex ml-4 mt-1 items-center relative">
             <img
               src={heart}
               className="h-9 object-contain mr-1 absolute"

@@ -8,8 +8,8 @@ import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { IslandTravel } from "features/game/expansion/components/IslandTravel";
 
+import ocean from "assets/decorations/ocean.png";
 import background from "assets/land/snow_kingdom.png";
-import waterMovement from "assets/decorations/water_movement.png";
 import pirateGoblin from "assets/npcs/pirate_goblin.gif";
 
 export const SnowKingdom: React.FC = () => {
@@ -32,44 +32,48 @@ const SnowKingdomView: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   useEffect(() => {
-    // Start with crops centered
-    scrollIntoView(Section.Merchant, "auto");
+    // Start with island centered
+    scrollIntoView(Section.SnowKingdomBackground, "auto");
   }, [scrollIntoView]);
 
   // Load data
   return (
     <ScrollContainer
-      className="relative w-full h-full bg-[#0099db] overflow-scroll"
+      className="bg-blue-300 overflow-scroll relative w-full h-full"
       innerRef={container}
     >
-      <div
-        className="relative flex"
-        style={{
-          width: `${40 * GRID_WIDTH_PX}px`,
-          height: `${40 * GRID_WIDTH_PX}px`,
-        }}
-      >
-        <img src={background} className="absolute inset-0 w-full h-full z-10" />
-        <MapPlacement x={-1.3} y={-12}>
+      <div className="relative h-snowKingdomGameboard w-snowKingdomGameboard">
+        <div
+          className="absolute inset-0 bg-repeat w-full h-full"
+          style={{
+            backgroundImage: `url(${ocean})`,
+            backgroundSize: "100px",
+            imageRendering: "pixelated",
+          }}
+        />
+        <div
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{
+            width: `${40 * GRID_WIDTH_PX}px`,
+            height: `${40 * GRID_WIDTH_PX}px`,
+          }}
+        >
           <img
-            src={pirateGoblin}
-            style={{
-              width: `${25 * PIXEL_SCALE}px`,
-            }}
+            src={background}
+            className="absolute inset-0 w-full h-full"
+            id={Section.SnowKingdomBackground}
           />
-        </MapPlacement>
-        <IslandTravel bumpkin={bumpkin} x={-2} y={-14} />
+          <MapPlacement x={-1.3} y={-12}>
+            <img
+              src={pirateGoblin}
+              style={{
+                width: `${25 * PIXEL_SCALE}px`,
+              }}
+            />
+          </MapPlacement>
+          <IslandTravel bumpkin={bumpkin} x={-2} y={-14} />
+        </div>
       </div>
-      <div
-        className="absolute inset-0 bg-repeat"
-        style={{
-          width: `${80 * GRID_WIDTH_PX}px`,
-          height: `${80 * GRID_WIDTH_PX}px`,
-          backgroundImage: `url(${waterMovement})`,
-          backgroundSize: "400px",
-          imageRendering: "pixelated",
-        }}
-      />
     </ScrollContainer>
   );
 };

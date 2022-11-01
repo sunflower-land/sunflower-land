@@ -7,7 +7,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
 import classNames from "classnames";
-import { calculateZIndex, Coordinates } from "../components/MapPlacement";
+import { Coordinates } from "../components/MapPlacement";
 import {
   BUILDINGS_DIMENSIONS,
   PlaceableName,
@@ -103,10 +103,7 @@ export const Placeable: React.FC = () => {
   // }
 
   return (
-    <div
-      className="absolute left-1/2 top-1/2"
-      style={{ zIndex: calculateZIndex(coordinates.y) }}
-    >
+    <div className="absolute left-1/2 top-1/2" style={{ zIndex: 100 }}>
       <Draggable
         nodeRef={nodeRef}
         grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
