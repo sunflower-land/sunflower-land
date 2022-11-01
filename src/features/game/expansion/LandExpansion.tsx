@@ -47,7 +47,7 @@ export const LandExpansion: React.FC = () => {
           ignoreElements={"*[data-prevent-drag-scroll]"}
         >
           <div
-            className="relative h-goblinGameboard w-goblinGameboard"
+            className="relative h-islandGameboard w-islandGameboard"
             // TODO dynamic game board size based on tile dimensions
           >
             <div

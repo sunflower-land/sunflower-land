@@ -239,7 +239,10 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
             placement="right"
           >
             {({ arrowProps, show, ...props }) => (
-              <div {...props} className="absolute -left-1/2 z-10 w-28">
+              <div
+                {...props}
+                className="absolute -left-1/2 z-10 w-28 pointer-events-none"
+              >
                 {errorLabel === "noAxe" && (
                   <Label className="p-2">Equip {tool.toLowerCase()}</Label>
                 )}

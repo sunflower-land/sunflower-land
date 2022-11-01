@@ -41,10 +41,16 @@ module.exports = {
       height: {
         gameboard: "4200px",
         goblinGameboard: "1600px",
+        islandGameboard: "2400px",
+        retreatGameboard: "2400px",
+        snowKingdomGameboard: "2400px",
       },
       width: {
         gameboard: "4200px",
         goblinGameboard: "3200px",
+        islandGameboard: "3200px",
+        retreatGameboard: "3200px",
+        snowKingdomGameboard: "3200px",
       },
       animation: {
         float: "floating 3s ease-in-out infinite",

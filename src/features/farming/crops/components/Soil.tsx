@@ -83,7 +83,7 @@ export const Soil: React.FC<Props> = ({
           image={isAlmostReady ? lifecycle.almost : lifecycle.seedling}
           className={className as string}
         />
-        <div className="absolute w-full -bottom-4 z-10">
+        <div className="absolute w-full -bottom-3 z-10">
           <ProgressBar percentage={percentage} seconds={timeLeft} />
         </div>
         <InnerPanel
