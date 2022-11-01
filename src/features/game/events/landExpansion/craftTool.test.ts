@@ -124,3 +124,23 @@ it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
 
   expect(state.bumpkin?.activity?.["Axe Crafted"]).toBe(1);
 });
+
+it("increments SFL spent when axe is crafted", () => {
+  const createdAt = Date.now();
+  const bumpkin = {
+    ...INITIAL_BUMPKIN,
+  };
+  const state = craftTool({
+    state: {
+      ...GAME_STATE,
+      balance: new Decimal(1),
+      inventory: {},
+    },
+    action: {
+      type: "tool.crafted",
+      tool: "Axe",
+    },
+  });
+
+  expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(0.0625);
+});
