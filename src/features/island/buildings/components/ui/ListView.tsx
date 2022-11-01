@@ -1,6 +1,7 @@
 import React from "react";
 
 import lock from "assets/skills/lock.png";
+import heart from "assets/icons/heart.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
@@ -37,7 +38,7 @@ export const ListView: React.FC<{
               <Label className="px-1 text-xxs absolute -top-3 -right-1">
                 {inventory[buildingName]?.toNumber() || 0}
               </Label>
-              <div className="w-16 justify-center flex">
+              <div className="w-16 justify-center flex mr-2">
                 <img src={ITEM_DETAILS[buildingName].image} className="h-12" />
               </div>
 
@@ -47,6 +48,7 @@ export const ListView: React.FC<{
                 {!bumpkin ||
                   (getBumpkinLevel(bumpkin.experience) < buildingLevel && (
                     <div className="flex items-center">
+                      <img src={heart} className="h-4 mr-1" />
                       <span
                         className="bg-error border text-xxs p-1 rounded-md"
                         style={{ lineHeight: "10px" }}

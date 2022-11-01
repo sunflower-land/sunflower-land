@@ -145,7 +145,7 @@ export const SEEDS: () => Record<SeedName, CraftableItem> = () => ({
     tokenAmount: marketRate(1),
     ingredients: [],
     requires: "Pumpkin Soup",
-    bumpkinLevel: 2,
+    bumpkinLevel: 3,
   },
   "Beetroot Seed": {
     name: "Beetroot Seed",
@@ -161,7 +161,7 @@ export const SEEDS: () => Record<SeedName, CraftableItem> = () => ({
     tokenAmount: marketRate(3),
     ingredients: [],
     requires: "Sauerkraut",
-    bumpkinLevel: 3,
+    bumpkinLevel: 4,
   },
   "Parsnip Seed": {
     name: "Parsnip Seed",
@@ -177,7 +177,7 @@ export const SEEDS: () => Record<SeedName, CraftableItem> = () => ({
     tokenAmount: marketRate(7),
     ingredients: [],
     requires: "Roasted Cauliflower",
-    bumpkinLevel: 4,
+    bumpkinLevel: 5,
   },
   "Wheat Seed": {
     name: "Wheat Seed",

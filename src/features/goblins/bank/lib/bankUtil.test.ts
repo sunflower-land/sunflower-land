@@ -13,6 +13,15 @@ describe("canWithdraw", () => {
     expect(enabled).toBeFalsy();
   });
 
+  it("prevents users from withdrawing tools", () => {
+    const enabled = canWithdraw({
+      item: "Axe",
+      game: INITIAL_FARM,
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
   it("enables users to withdraw crops", () => {
     const enabled = canWithdraw({
       item: "Sunflower",

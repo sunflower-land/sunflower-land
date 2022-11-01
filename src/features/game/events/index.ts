@@ -81,6 +81,7 @@ import {
 } from "./landExpansion/fulfillGrubOrder";
 import { craftTool, CraftToolAction } from "./landExpansion/craftTool";
 import { LandExpansionMigrateAction, migrate } from "./landExpansion/migrate";
+import { buyDecoration, buyDecorationAction } from "./buyDecoration";
 
 export type PlayingEvent =
   | CraftAction
@@ -118,7 +119,8 @@ export type PlayingEvent =
   | FulFillGrubOrderAction
   | LandExpansionFeedChickenAction
   | CraftToolAction
-  | LandExpansionMigrateAction;
+  | LandExpansionMigrateAction
+  | buyDecorationAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -178,6 +180,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chicken.fed": LandExpansionFeedChicken,
   "tool.crafted": craftTool,
   "game.migrated": migrate,
+  "decoration.bought": buyDecoration,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

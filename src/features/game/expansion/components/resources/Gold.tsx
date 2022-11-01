@@ -10,11 +10,7 @@ import hitbox from "assets/resources/gold/gold.png";
 import gold from "assets/resources/gold_ore.png";
 import pickaxe from "assets/tools/iron_pickaxe.png";
 
-import {
-  GRID_WIDTH_PX,
-  GOLD_MINE_STAMINA_COST,
-  GOLD_RECOVERY_TIME,
-} from "features/game/lib/constants";
+import { GRID_WIDTH_PX, GOLD_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -25,7 +21,6 @@ import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { LandExpansionRock } from "features/game/types/game";
 import { EVENT_ERRORS } from "features/game/events/landExpansion/mineGold";
-import { calculateBumpkinStamina } from "features/game/events/landExpansion/replenishStamina";
 import { Overlay } from "react-bootstrap";
 import { Label } from "components/ui/Label";
 import { canMine } from "../../lib/utils";
@@ -45,7 +40,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(true);
-  const [errorLabel, setErrorLabel] = useState<"noStamina" | "noPickaxe">();
+  const [errorLabel, setErrorLabel] = useState<"noPickaxe">();
   const [popover, setPopover] = useState<JSX.Element | null>();
 
   const [touchCount, setTouchCount] = useState(0);
@@ -62,13 +57,6 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const expansion = game.context.state.expansions[expansionIndex];
   const goldRock = expansion.gold?.[rockIndex] as LandExpansionRock;
   const tool = "Iron Pickaxe";
-
-  const stamina = game.context.state.bumpkin
-    ? calculateBumpkinStamina({
-        nextReplenishedAt: Date.now(),
-        bumpkin: game.context.state.bumpkin,
-      })
-    : 0;
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -101,14 +89,13 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
   const hasPickaxes =
     selectedItem === tool && game.context.state.inventory[tool]?.gte(1);
-  const hasStamina = stamina >= GOLD_MINE_STAMINA_COST;
 
   const strike = () => {
     if (mined) {
       return;
     }
 
-    if (!hasPickaxes || !hasStamina) return;
+    if (!hasPickaxes) return;
 
     const isPlaying = sparkGif.current?.getInfo("isPlaying");
 
@@ -177,9 +164,6 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
     if (!hasPickaxes) {
       containerRef.current?.classList["add"]("cursor-not-allowed");
       setErrorLabel("noPickaxe");
-    } else if (!hasStamina) {
-      containerRef.current?.classList["add"]("cursor-not-allowed");
-      setErrorLabel("noStamina");
     }
   };
 
@@ -241,9 +225,6 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
                 <div {...props} className="absolute -left-1/2 z-10 w-28">
                   {errorLabel === "noPickaxe" && (
                     <Label className="p-2">Equip {tool.toLowerCase()}</Label>
-                  )}
-                  {errorLabel === "noStamina" && (
-                    <Label className="p-2">No Stamina</Label>
                   )}
                 </div>
               )}

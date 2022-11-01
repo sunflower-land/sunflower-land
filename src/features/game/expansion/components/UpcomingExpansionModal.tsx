@@ -5,6 +5,7 @@ import skeleton from "assets/npcs/skeleton_walk.gif";
 import stopwatch from "assets/icons/stopwatch.png";
 import hammer from "assets/icons/hammer.png";
 import close from "assets/icons/close.png";
+import heart from "assets/icons/heart.png";
 import lock from "assets/skills/lock.png";
 
 import { GameState } from "features/game/types/game";
@@ -94,13 +95,14 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
           {getBumpkinLevel(bumpkin?.experience || 0) <
             gameState.expansionRequirements.bumpkinLevel && (
             <div className="flex items-center mt-2">
-              <img src={lock} className="h-6 ml-0.5 mr-2" />
+              <img src={heart} className="h-6 ml-0.5 mr-1" />
               <span
                 className="bg-error border text-xs p-1 rounded-md"
                 style={{ lineHeight: "10px" }}
               >
                 Lvl {gameState.expansionRequirements.bumpkinLevel}
               </span>
+              <img src={lock} className="h-6  ml-2" />
             </div>
           )}
         </div>

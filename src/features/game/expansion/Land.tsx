@@ -345,7 +345,9 @@ export const Land: React.FC = () => {
             );
           })}
 
-        <DirtRenderer expansions={expansions} />
+        <DirtRenderer
+          expansions={expansions.filter((e) => e.readyAt > Date.now())}
+        />
       </div>
     </div>
   );

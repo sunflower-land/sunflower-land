@@ -96,10 +96,6 @@ export type Bumpkin = {
   id: number;
   equipped: BumpkinParts;
   tokenUri: string;
-  stamina: {
-    value: number;
-    replenishedAt: number;
-  };
   experience: number;
   skills: Partial<Record<BumpkinSkillName, number>>;
   achievements?: Partial<Record<AchievementName, number>>;
