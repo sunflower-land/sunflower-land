@@ -3,6 +3,7 @@ import { CropName, CROPS } from "../types/crops";
 import { GameState } from "../types/game";
 import { getSellPrice } from "../lib/boosts";
 import { Cake, CAKES } from "../types/craftables";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 
 export type SellAction = {
@@ -26,6 +27,11 @@ type Options = {
 };
 export function sell({ state, action }: Options): GameState {
   const stateCopy = cloneDeep(state);
+  const bumpkin = stateCopy.bumpkin;
+
+  if (bumpkin === undefined) {
+    throw new Error("You do not have a Bumpkin");
+  }
 
   if (!(action.item in SELLABLE)) {
     throw new Error("Not for sale");
@@ -44,6 +50,12 @@ export function sell({ state, action }: Options): GameState {
   }
 
   const price = getSellPrice(sellable as SellableItem, stateCopy.inventory);
+
+  bumpkin.activity = trackActivity(
+    "SFL Earned",
+    bumpkin.activity,
+    price.mul(action.amount)
+  );
 
   return {
     ...stateCopy,
