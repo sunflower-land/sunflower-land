@@ -27,6 +27,7 @@ interface Island {
 
 interface Props extends Island {
   bumpkin: Bumpkin | undefined;
+  currentPath: string;
 }
 
 const Island = ({
@@ -36,12 +37,13 @@ const Island = ({
   bumpkin,
   image,
   comingSoon,
+  currentPath,
 }: Props) => {
   const navigate = useNavigate();
-  const cannotNavigate =
-    !bumpkin ||
-    getBumpkinLevel(bumpkin.experience) < levelRequired ||
-    comingSoon;
+  const onSameIsland = path === currentPath;
+  const notEnoughLevel =
+    !bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired;
+  const cannotNavigate = notEnoughLevel || onSameIsland || comingSoon;
 
   if (cannotNavigate) {
     return (
@@ -54,21 +56,37 @@ const Island = ({
           )}
           <div className="flex-1 flex flex-col justify-center">
             <span className="text-sm">{name}</span>
-            <div className="flex items-center">
-              <img src={heart} className="h-4 mr-1" />
 
-              <span
-                className="bg-error border text-xxs p-1 rounded-md"
-                style={{ lineHeight: "10px" }}
-              >
-                Lvl {levelRequired}
-              </span>
+            {/* Current island */}
+            {onSameIsland && (
+              <div className="flex items-center">
+                <span
+                  className="bg-blue-600 border text-xxs p-1 rounded-md"
+                  style={{ lineHeight: "10px" }}
+                >
+                  You are here
+                </span>
+              </div>
+            )}
 
-              <img src={lock} className="h-4 ml-1" />
-              {comingSoon && (
-                <span className="text-xxs ml-2 italic">Coming soon</span>
-              )}
-            </div>
+            {/* Level requirement */}
+            {(notEnoughLevel || comingSoon) && (
+              <div className="flex items-center">
+                <img src={heart} className="h-4 mr-1" />
+                <span
+                  className="bg-error border text-xxs p-1 rounded-md"
+                  style={{ lineHeight: "10px" }}
+                >
+                  Lvl {levelRequired}
+                </span>
+                <img src={lock} className="h-4 ml-1" />
+
+                {/* Coming soon */}
+                {comingSoon && (
+                  <span className="text-xxs ml-2 italic">Coming soon</span>
+                )}
+              </div>
+            )}
           </div>
         </OuterPanel>
       </div>
@@ -142,9 +160,9 @@ export const IslandList = ({ bumpkin }: { bumpkin: Bumpkin | undefined }) => {
     },
   ];
 
-  const islandList = islands
-    .filter((item) => item.path !== location.pathname)
-    .sort((a, b) => (a.levelRequired > b.levelRequired ? 1 : -1));
+  const islandList = islands.sort((a, b) =>
+    a.levelRequired > b.levelRequired ? 1 : -1
+  );
 
   return (
     <div
@@ -152,7 +170,12 @@ export const IslandList = ({ bumpkin }: { bumpkin: Bumpkin | undefined }) => {
       className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
     >
       {islandList.map((item) => (
-        <Island key={item.name} {...item} bumpkin={bumpkin} />
+        <Island
+          key={item.name}
+          {...item}
+          bumpkin={bumpkin}
+          currentPath={location.pathname}
+        />
       ))}
     </div>
   );
