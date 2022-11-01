@@ -42,7 +42,10 @@ export function isPlotFertile({
   gameState,
 }: IsPlotFertile): boolean {
   // Get the well count
-  const wellCount = gameState.buildings["Water Well"]?.length ?? 0;
+  const wellCount =
+    gameState.buildings["Water Well"]?.filter(
+      (well) => well.readyAt > Date.now()
+    ).length ?? 0;
   const cropsWellCanWater =
     wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
