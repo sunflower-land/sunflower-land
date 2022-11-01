@@ -3,7 +3,7 @@ import "lib/__mocks__/configMock";
 import { GameState } from "../types/game";
 import { CROPS } from "../types/crops";
 import { sell, SellableName } from "./sell";
-import { INITIAL_FARM, INITIAL_BUMPKIN } from "../lib/constants";
+import { INITIAL_FARM } from "../lib/constants";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -117,30 +117,6 @@ describe("sell", () => {
         },
       })
     ).toThrow("Insufficient crops to sell");
-  });
-
-  it("increments SFL earned when cauliflower is sold", () => {
-    const createdAt = Date.now();
-    const bumpkin = {
-      ...INITIAL_BUMPKIN,
-    };
-    const state = sell({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          Cauliflower: new Decimal(1),
-        },
-      },
-      action: {
-        type: "item.sell",
-        item: "Cauliflower",
-        amount: new Decimal(1),
-      },
-    });
-
-    expect(state.bumpkin?.activity?.["SFL Earned"]).toEqual(
-      new Decimal(CROPS().Cauliflower.sellPrice).toNumber()
-    );
   });
 
   it("sells a cauliflower for a normal price", () => {
