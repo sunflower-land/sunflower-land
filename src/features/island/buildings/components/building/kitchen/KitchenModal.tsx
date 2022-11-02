@@ -28,7 +28,7 @@ export const KitchenModal: React.FC<Props> = ({ isOpen, onCook, onClose }) => {
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
-      <div className="absolute w-1/2 -left-2 top-[-60%] -z-10">
+      <div className="absolute w-1/2 -left-2 top-[-150px] -z-10">
         <DynamicNFT
           bumpkinParts={{
             body: "Beige Farmer Potion",
