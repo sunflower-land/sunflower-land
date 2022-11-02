@@ -117,10 +117,6 @@ export const Menu = () => {
     gameService.send("SAVE");
   };
 
-  const visitFarm = () => {
-    authService.send("EXPLORE");
-  };
-
   // Handles closing the menu if someone clicks outside
   useEffect(() => {
     document.addEventListener("mousedown", handleClick);
@@ -284,11 +280,6 @@ export const Menu = () => {
                 <li className="p-1">
                   <Button onClick={handleShareClick}>
                     <span className="sm:text-sm">Share</span>
-                  </Button>
-                </li>
-                <li className="p-1">
-                  <Button onClick={visitFarm}>
-                    <span className="sm:text-sm">Visit Farm</span>
                   </Button>
                 </li>
               </>
