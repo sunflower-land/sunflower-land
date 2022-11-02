@@ -1,10 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-import gameBackground from "assets/community/arcade/greedy_goblin/images/greedy_goblin_background.png";
+import gameBackground from "assets/community/arcade/chicken_sabong/images/boxing_ring.png";
 import leftChickenIdle from "assets/community/arcade/chicken_sabong/images/left_chicken_idle.gif";
 import leftChickenPunch from "assets/community/arcade/chicken_sabong/images/left_chicken_punch.gif";
 import rightChickenIdle from "assets/community/arcade/chicken_sabong/images/right_chicken_idle.gif";
 import rightChickenPunch from "assets/community/arcade/chicken_sabong/images/right_chicken_punch.gif";
+import referee from "assets/community/arcade/chicken_sabong/images/referee.gif";
+import audience from "assets/community/arcade/chicken_sabong/images/audience.gif";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import disc from "assets/icons/disc.png";
@@ -12,13 +14,14 @@ import disc from "assets/icons/disc.png";
 const CANVAS_WIDTH = 300;
 const CANVAS_HEIGHT = 300;
 const CHICKEN_SIDE = 50;
-const CHICKEN_X_MOVEMENT = 10;
+const CHICKEN_MOVE = 10;
 
 type Id = "left" | "right";
 type Action = "idle" | "punch" | "block";
-type ChickenStatus = {
+type Chicken = {
   action: Action;
   position: number;
+  lives: number;
 };
 
 interface DiscButtonProps {
@@ -48,35 +51,48 @@ const DiscButton: React.FC<DiscButtonProps> = ({ letter, onClick, alt }) => {
 };
 
 export const ChickenSabong: React.FC = () => {
-  const [leftChicken, setLeftChicken] = useState<ChickenStatus>({
+  const [leftChicken, setLeftChicken] = useState<Chicken>({
     action: "idle",
     position: 60,
+    lives: 3,
   });
-  const [rightChicken, setRightChicken] = useState<ChickenStatus>({
+  const [rightChicken, setRightChicken] = useState<Chicken>({
     action: "idle",
     position: 60,
+    lives: 3,
   });
 
-  const leftChickenRef = useRef(null);
-  const rightChickenRef = useRef(null);
+  /**
+   * Watches chicken lives for game over
+   * @todo game over logic, cleanup
+   */
+  useEffect(() => {
+    if (!(leftChicken.lives && rightChicken.lives)) {
+      console.log("GAME OVER!");
+      console.log("left", leftChicken.lives);
+      console.log("right", rightChicken.lives);
+    }
+  }, [leftChicken.lives, rightChicken.lives]);
 
+  /**
+   * Move chicken to desired position without overlapping
+   * Movestep is based on xnor logic (since right chicken movement is inverted)
+   * @param id left or right chicken
+   * @param toRight if direction is to right from player POV
+   */
   const moveChicken = (id: Id, toRight: boolean) => {
     const isLeftChicken = id === "left";
+    const actorSetter = isLeftChicken ? setLeftChicken : setRightChicken;
     const currentPos = isLeftChicken
       ? leftChicken.position
       : rightChicken.position;
     const newPos =
-      currentPos +
-      CHICKEN_X_MOVEMENT * (isLeftChicken ? 1 : -1) * (toRight ? 1 : -1);
+      currentPos + CHICKEN_MOVE * (isLeftChicken === toRight ? 1 : -1);
 
     if (willCollide(id, newPos)) return;
 
     // set new chicken position
-    if (isLeftChicken) {
-      setLeftChicken((prev) => ({ ...prev, position: newPos }));
-    } else {
-      setRightChicken((prev) => ({ ...prev, position: newPos }));
-    }
+    actorSetter((prev) => ({ ...prev, position: newPos }));
   };
 
   /**
@@ -100,23 +116,35 @@ export const ChickenSabong: React.FC = () => {
     return newPos <= 0 || collideWithEnemy;
   };
 
+  /**
+   * Apply punch gif and decrease life of enemy on hit
+   * @param id left or right
+   */
   const punch = (id: Id) => {
-    if (id === "left") {
-      setLeftChicken((prev) => ({ ...prev, action: "punch" }));
+    const setters = [setLeftChicken, setRightChicken];
+    const [actorSetter, enemySetter] =
+      id === "left" ? setters : setters.reverse();
 
-      setTimeout(
-        () => setLeftChicken((prev) => ({ ...prev, action: "idle" })),
-        500
-      );
-    } else {
-      setRightChicken((prev) => ({ ...prev, action: "punch" }));
+    actorSetter((prev) => ({ ...prev, action: "punch" }));
 
-      setTimeout(
-        () => setRightChicken((prev) => ({ ...prev, action: "idle" })),
-        500
-      );
+    if (isAdjacent) {
+      // decrease enemy life
+      enemySetter((prev) => ({ ...prev, lives: Math.max(0, prev.lives - 1) }));
     }
+
+    setTimeout(() => actorSetter((prev) => ({ ...prev, action: "idle" })), 500);
   };
+
+  /**
+   * Check if chickens are adjacent to each other
+   * Use move step as buffer when chickens are adjacent near boundary
+   */
+  const isAdjacent = useMemo((): boolean => {
+    return (
+      leftChicken.position + rightChicken.position + 2 * CHICKEN_SIDE ===
+      CANVAS_WIDTH - CHICKEN_MOVE
+    );
+  }, [leftChicken.position, rightChicken.position]);
 
   return (
     <div>
@@ -134,16 +162,26 @@ export const ChickenSabong: React.FC = () => {
           }}
         >
           <img
+            src={referee}
+            alt="referee"
+            style={{
+              position: "absolute",
+              height: `${CHICKEN_SIDE}px`,
+              width: `${CHICKEN_SIDE + 15}px`,
+              top: "25%",
+              left: `${CANVAS_WIDTH / 2 - 40}px`,
+            }}
+          />
+          <img
             src={ACTIONS_TO_IMAGES["left"][leftChicken.action]}
             alt="left-chicken"
             style={{
               position: "absolute",
               height: `${CHICKEN_SIDE}px`,
               width: `${CHICKEN_SIDE}px`,
-              bottom: "100px",
+              bottom: "110px",
               left: `${leftChicken.position}px`,
             }}
-            ref={leftChickenRef}
           />
           <img
             src={ACTIONS_TO_IMAGES["right"][rightChicken.action]}
@@ -153,9 +191,17 @@ export const ChickenSabong: React.FC = () => {
               height: `${CHICKEN_SIDE}px`,
               width: `${CHICKEN_SIDE}px`,
               right: `${rightChicken.position}px`,
-              bottom: "100px",
+              bottom: "110px",
             }}
-            ref={rightChickenRef}
+          />
+          <img
+            src={audience}
+            alt="left-chicken"
+            style={{
+              position: "absolute",
+              width: `${CANVAS_WIDTH}px`,
+              bottom: "0px",
+            }}
           />
         </div>
       </div>
