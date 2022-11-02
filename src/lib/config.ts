@@ -26,6 +26,7 @@ const BUMPKIN_DETAILS_CONTRACT = import.meta.env
 const BUMPKIN_ITEMS_CONTRACT = import.meta.env
   .VITE_BUMPKIN_ITEMS_CONTRACT as string;
 const HALLOWEEN_CONTRACT = import.meta.env.VITE_HALLOWEEN_CONTRACT as string;
+const BUMPKIN_CONTRACT = import.meta.env.VITE_BUMPKIN_CONTRACT as string;
 export const CONFIG = {
   NETWORK,
   POLYGON_CHAIN_ID,
@@ -51,4 +52,5 @@ export const CONFIG = {
   BUMPKIN_DETAILS_CONTRACT,
   BUMPKIN_ITEMS_CONTRACT,
   HALLOWEEN_CONTRACT,
+  BUMPKIN_CONTRACT,
 };
