@@ -59,7 +59,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   migrating: false,
   offerMigration: false,
   visiting: false,
-  loadGameStateOfFarmToVisit: true,
+  loadFarmToVisit: true,
   landToVisitNotFound: true,
   checkIsVisiting: false,
 };
@@ -104,8 +104,7 @@ export const Game: React.FC = () => {
   }, []);
 
   const loading =
-    gameState.matches("loading") ||
-    gameState.matches("loadGameStateOfFarmToVisit");
+    gameState.matches("loading") || gameState.matches("loadFarmToVisit");
 
   if (loading) {
     return (

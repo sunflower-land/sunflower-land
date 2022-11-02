@@ -215,7 +215,7 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 export type BlockchainState = {
   value:
     | "checkIsVisiting"
-    | "loadGameStateOfFarmToVisit"
+    | "loadFarmToVisit"
     | "landToVisitNotFound"
     | "loading"
     | "announcing"
@@ -277,7 +277,7 @@ export function startGame(authContext: Options) {
         checkIsVisiting: {
           always: [
             {
-              target: "loadGameStateOfFarmToVisit",
+              target: "loadFarmToVisit",
               cond: () => window.location.href.includes("visit"),
             },
             { target: "loading" },
@@ -364,7 +364,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        loadGameStateOfFarmToVisit: {
+        loadFarmToVisit: {
           invoke: {
             src: async (_, event) => {
               let farmId: number;
@@ -402,14 +402,14 @@ export function startGame(authContext: Options) {
         landToVisitNotFound: {
           on: {
             VISIT: {
-              target: "loadGameStateOfFarmToVisit",
+              target: "loadFarmToVisit",
             },
           },
         },
         visiting: {
           on: {
             VISIT: {
-              target: "loadGameStateOfFarmToVisit",
+              target: "loadFarmToVisit",
             },
             END_VISIT: {
               target: "loading",
