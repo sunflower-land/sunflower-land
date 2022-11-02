@@ -17,7 +17,6 @@ import { AncientDoor } from "../quest/AncientDoor";
 import { Trader } from "../trader/tradingPost/Trader";
 import { StorageHouse } from "../storageHouse/StorageHouse";
 import { WarTent } from "../warTent/WarTent";
-import { Necromancer } from "../necromancer/Necromancer";
 
 interface Props {
   state: GoblinMachineState["value"];
@@ -52,7 +51,6 @@ export const Village: React.FC<Props> = () => {
       <AncientDoor />
       <Trader />
       <WarTent />
-      <Necromancer />
     </div>
   );
 };
