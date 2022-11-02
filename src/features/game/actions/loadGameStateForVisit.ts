@@ -18,6 +18,7 @@ type VisitGameState = Omit<
 
 export async function loadGameStateForVisit(id: number): Promise<{
   state: VisitGameState;
+  id: number;
   isBanned: boolean;
 }> {
   // Go and fetch the state for the farm you are trying to visit
@@ -29,11 +30,7 @@ export async function loadGameStateForVisit(id: number): Promise<{
     },
   });
 
-  console.log({ response });
-
   const data = await response.json();
-
-  console.log({ data });
 
   return data;
 }

@@ -391,18 +391,11 @@ export function startGame(authContext: Options) {
             onDone: {
               target: "visiting",
               actions: assign({
-                state: (_context, event) => {
-                  console.log("ondone", event);
-
-                  return event.data.state;
-                },
+                state: (_context, event) => event.data.state,
               }),
             },
             onError: {
               target: "landToVisitNotFound",
-              actions: (_, event) => {
-                console.log(event);
-              },
             },
           },
         },
