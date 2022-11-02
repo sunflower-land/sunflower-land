@@ -1060,7 +1060,7 @@ export const ITEM_DETAILS: Items = {
   },
   Workbench: {
     image: workbench,
-    description: "TEST",
+    description: "Craft tools to collect resources",
   },
   "Water Well": {
     image: well,
