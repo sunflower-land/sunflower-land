@@ -43,7 +43,7 @@ export const IslandTravel = ({ bumpkin, x, y }: Props) => {
         show={openIslandList}
         onHide={() => setOpenIslandList(false)}
       >
-        <div className="absolute w-1/2 -left-2 top-[-150px] -z-10">
+        <div className="absolute w-48 -left-4 -top-32 -z-10">
           <DynamicNFT
             bumpkinParts={{
               body: "Goblin Potion",
