@@ -183,7 +183,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   return (
     <div
       ref={overlayRef}
-      className="relative z-10"
+      className="relative"
       style={{ height: "40px" }}
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
@@ -272,7 +272,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
         <>
           <img
             src={hitbox}
-            className="pointer-events-none -z-10 absolute opacity-50"
+            className="pointer-events-none absolute opacity-50"
             style={{
               width: `${GRID_WIDTH_PX}px`,
             }}
