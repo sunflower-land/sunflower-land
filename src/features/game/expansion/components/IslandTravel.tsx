@@ -11,7 +11,7 @@ import { Bumpkin } from "features/game/types/game";
 
 interface Props {
   bumpkin: Bumpkin | undefined;
-  isVisiting: boolean;
+  isVisiting?: boolean;
   x: number;
   y: number;
 }
