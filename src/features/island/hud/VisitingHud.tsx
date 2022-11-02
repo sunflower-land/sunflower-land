@@ -6,7 +6,6 @@ import { Context } from "features/game/GameProvider";
 import { BumpkinHUD } from "./components/BumpkinHUD";
 
 import { Inventory } from "./components/inventory/Inventory";
-import { VisitMenu } from "./components/VisitMenu";
 import { InnerPanel } from "components/ui/Panel";
 
 /**
@@ -25,7 +24,6 @@ export const VisitingHud: React.FC = () => {
         </InnerPanel>
       )}
       <div data-html2canvas-ignore="true" aria-label="Hud">
-        <VisitMenu />
         <Balance balance={gameState.context.state.balance} />
         <Inventory
           state={gameState.context.state}
