@@ -44,7 +44,16 @@ export const CraftingTimerModal: React.FC<Props> = ({
           <div className="absolute w-1/3 left-2 -top-28 -z-10">
             {gameService.state.context.state.bumpkin && (
               <DynamicNFT
-                bumpkinParts={gameService.state.context.state.bumpkin.equipped}
+                bumpkinParts={{
+                  body: "Beige Farmer Potion",
+                  hair: "Buzz Cut",
+                  pants: "Farmer Pants",
+                  shirt: "Red Farmer Shirt",
+                  coat: "Chef Apron",
+                  tool: "Farmer Pitchfork",
+                  background: "Farm Background",
+                  shoes: "Black Farmer Boots",
+                }}
               />
             )}
           </div>

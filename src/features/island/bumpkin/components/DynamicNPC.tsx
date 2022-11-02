@@ -18,7 +18,7 @@ import shadow from "assets/npcs/shadow.png";
 import {
   BumpkinBody,
   BumpkinHair,
-  BumpkinPants,
+  BumpkinPant,
   BumpkinShirt,
 } from "features/game/types/bumpkin";
 
@@ -26,7 +26,7 @@ type LimitedBumpkinItem =
   | BumpkinBody
   | BumpkinHair
   | BumpkinShirt
-  | BumpkinPants;
+  | BumpkinPant;
 
 const PARTS: Record<LimitedBumpkinItem, string> = {
   "Beige Farmer Potion": beigeBodySheet,
@@ -47,7 +47,7 @@ interface Props {
   body: BumpkinBody;
   hair: BumpkinHair;
   shirt: BumpkinShirt;
-  pants: BumpkinPants;
+  pants: BumpkinPant;
 }
 
 const FRAME_WIDTH = 180 / 9;

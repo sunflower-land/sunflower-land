@@ -55,13 +55,13 @@ export const WorkBench: React.FC = () => {
         <div className="absolute w-1/2 -left-2 top-[-60%] -z-10">
           <DynamicNFT
             bumpkinParts={{
-              body: "Beige Farmer Potion",
-              hair: "Buzz Cut",
-              pants: "Farmer Pants",
-              shirt: "Chef Apron",
-              tool: "Farmer Pitchfork",
+              body: "Light Brown Farmer Potion",
+              hair: "Blacksmith Hair",
+              pants: "Lumberjack Overalls",
+              shirt: "SFL T-Shirt",
+              tool: "Hammer",
               background: "Farm Background",
-              shoes: "Black Farmer Boots",
+              shoes: "Brown Boots",
             }}
           />
         </div>
