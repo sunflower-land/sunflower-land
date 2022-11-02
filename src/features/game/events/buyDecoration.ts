@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
-import { getBumpkinLevel } from "../lib/level";
 import { trackActivity } from "../types/bumpkinActivity";
 import { getKeys } from "../types/craftables";
 import { DecorationName, DECORATIONS } from "../types/decorations";
