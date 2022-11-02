@@ -75,7 +75,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
             <div className="mb-1 md:mb-0">
               <OuterPanel className="relative mt-1 ">
                 <div className="flex items-center  mb-1">
-                  <span className="text-xs text-shadow">Equipped</span>
+                  <span className="text-xs">Equipped</span>
                 </div>
                 <div className="flex flex-wrap">
                   {equippedItems.map((itemName) => (
@@ -133,7 +133,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
             <InnerPanel className="relative mt-1 ">
               <div className="flex items-center  mb-1 justify-between">
                 <div className="flex items-center">
-                  <span className="text-xs text-shadow">Skills</span>
+                  <span className="text-xs">Skills</span>
                   {hasSkillPoint && <img src={alert} className="h-4 ml-2" />}
                 </div>
                 <span
@@ -151,7 +151,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
             <InnerPanel className="relative mt-1 ">
               <div className="flex items-center  mb-1 justify-between">
                 <div className="flex items-center">
-                  <span className="text-xs text-shadow">Achievements</span>
+                  <span className="text-xs">Achievements</span>
                 </div>
                 <span
                   className="text-xxs underline cursor-pointer"

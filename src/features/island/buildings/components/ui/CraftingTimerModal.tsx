@@ -41,7 +41,7 @@ export const CraftingTimerModal: React.FC<Props> = ({
     <Modal show={show} centered onHide={onClose}>
       <Panel>
         <div>
-          <div className="absolute w-1/3 left-2 -top-28 -z-10">
+          <div className="absolute w-48 -left-4 -top-32 -z-10">
             {gameService.state.context.state.bumpkin && (
               <DynamicNFT
                 bumpkinParts={gameService.state.context.state.bumpkin.equipped}

@@ -30,7 +30,7 @@ export const FeedModal: React.FC<Props> = ({ isOpen, onFeed, onClose }) => {
   return (
     <Modal show={isOpen} onHide={onClose} centered>
       <Panel>
-        <div className="absolute w-1/3 left-2 -top-28 -z-10">
+        <div className="absolute w-48 -left-4 -top-32 -z-10">
           {state.bumpkin && (
             <DynamicNFT bumpkinParts={state.bumpkin.equipped} />
           )}
