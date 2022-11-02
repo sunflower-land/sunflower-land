@@ -32,7 +32,7 @@ import { Land } from "./Land";
 import { Helios } from "features/helios/Helios";
 import { Hud } from "features/island/hud/Hud";
 import { VisitingHud } from "features/island/hud/VisitingHud";
-import { VisitLandExpansionForm } from "./components/VisitLand";
+import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -61,6 +61,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   visiting: false,
   loadGameStateOfFarmToVisit: true,
   landToVisitNotFound: true,
+  checkIsVisiting: false,
 };
 
 export const Game: React.FC = () => {
@@ -136,7 +137,7 @@ export const Game: React.FC = () => {
     );
   }
 
-  const Content = () => {
+  const GameContent = () => {
     if (gameState.matches("visiting")) {
       return (
         <>
@@ -197,7 +198,7 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
 
-      {Content()}
+      {GameContent()}
     </>
   );
 };
