@@ -20,7 +20,7 @@ export async function loadGameStateForVisit(id: number): Promise<{
   state: VisitGameState;
   isBanned: boolean;
 }> {
-  // Go and fetch the state for the land you are trying to visit
+  // Go and fetch the state for the farm you are trying to visit
   const url = `${API_URL}/visit/${id}`;
   const response = await window.fetch(url, {
     method: "GET",
@@ -29,7 +29,11 @@ export async function loadGameStateForVisit(id: number): Promise<{
     },
   });
 
+  console.log({ response });
+
   const data = await response.json();
+
+  console.log({ data });
 
   return data;
 }

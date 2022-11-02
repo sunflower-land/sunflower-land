@@ -47,7 +47,7 @@ import {
   LandExpansionMigrateAction,
 } from "../events/landExpansion/migrate";
 import { CONFIG } from "lib/config";
-import { loadGameStateForVisit } from "../actions/getGameStateForVisit";
+import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -367,35 +367,42 @@ export function startGame(authContext: Options) {
         loadLandToVisit: {
           invoke: {
             src: async (_, event) => {
-              let farmId: number;
+              let landId: number;
 
               // We can enter this state two ways
               // 1. Directly on load if the url has a visit path (/visit)
               // 2. From a VISIT event passed back to the machine which will include a farmId in the payload
 
               if (!(event as VisitEvent).landId) {
-                farmId = Number(window.location.href.split("/").pop());
+                landId = Number(window.location.href.split("/").pop());
               } else {
-                farmId = (event as VisitEvent).landId;
+                landId = (event as VisitEvent).landId;
               }
 
-              const { state } = await loadGameStateForVisit(Number(farmId));
+              const { state } = await loadGameStateForVisit(Number(landId));
 
               return {
                 state: {
                   ...makeGame(state),
-                  id: farmId,
+                  id: landId,
                 },
               };
             },
             onDone: {
               target: "visiting",
               actions: assign({
-                state: (_context, event) => event.data.state,
+                state: (_context, event) => {
+                  console.log("ondone", event);
+
+                  return event.data.state;
+                },
               }),
             },
             onError: {
               target: "landToVisitNotFound",
+              actions: (_, event) => {
+                console.log(event);
+              },
             },
           },
         },
