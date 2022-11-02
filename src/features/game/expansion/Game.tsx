@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
-import { Routes, Route } from "react-router-dom";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -12,25 +11,28 @@ import { ErrorMessage } from "features/auth/ErrorMessage";
 import { screenTracker } from "lib/utils/screen";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { Context } from "../GameProvider";
-import { INITIAL_SESSION, StateValues } from "../lib/gameMachine";
+import { StateValues } from "../lib/gameMachine";
 import { ToastManager } from "../toast/ToastManager";
 import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
-import { Land } from "./Land";
-import { Hud } from "features/island/hud/Hud";
 import { Expanding } from "./components/Expanding";
 import { ExpansionSuccess } from "./components/ExpansionSuccess";
-import { PlaceableOverlay } from "./components/PlaceableOverlay";
 
 import { Notifications } from "../components/Notifications";
 import { Announcements } from "features/announcements/Announcement";
 import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { Swarming } from "../components/Swarming";
-import { Helios } from "features/helios/Helios";
 import { Cooldown } from "../components/Cooldown";
 import { Rules } from "../components/Rules";
+import { PlaceableOverlay } from "./components/PlaceableOverlay";
+import { Route, Routes } from "react-router-dom";
+import { Land } from "./Land";
+import { Helios } from "features/helios/Helios";
+import { Hud } from "features/island/hud/Hud";
+import { VisitingHud } from "features/island/hud/VisitingHud";
+import { VisitLandExpansionForm } from "./components/VisitLand";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -56,6 +58,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   migrated: false,
   migrating: false,
   offerMigration: false,
+  visiting: false,
+  loadGameStateOfFarmToVisit: true,
+  landToVisitNotFound: true,
 };
 
 export const Game: React.FC = () => {
@@ -97,11 +102,11 @@ export const Game: React.FC = () => {
     };
   }, []);
 
-  const loadingSession =
-    gameState.matches("loading") &&
-    gameState.context.sessionId === INITIAL_SESSION;
+  const loading =
+    gameState.matches("loading") ||
+    gameState.matches("loadGameStateOfFarmToVisit");
 
-  if (loadingSession) {
+  if (loading) {
     return (
       <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
         <Modal show centered backdrop={false}>
@@ -112,6 +117,58 @@ export const Game: React.FC = () => {
       </div>
     );
   }
+
+  if (gameState.matches("landToVisitNotFound")) {
+    return (
+      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
+        <div className="absolute z-20">
+          <VisitingHud />
+        </div>
+        <Modal show centered backdrop={false}>
+          <Panel>
+            <p className="text-center mb-2">
+              It looks like this land has not migrated to Sunflower Isles yet!
+            </p>
+            <VisitLandExpansionForm />
+          </Panel>
+        </Modal>
+      </div>
+    );
+  }
+
+  const Content = () => {
+    if (gameState.matches("visiting")) {
+      return (
+        <>
+          <div className="absolute z-10 w-full h-full">
+            <Routes>
+              <Route path="/:id" element={<Land />} />
+            </Routes>
+          </div>
+          <div className="absolute z-20">
+            <VisitingHud />
+          </div>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <div className="absolute z-10 w-full h-full">
+          <PlaceableOverlay>
+            <Routes>
+              <Route path="/" element={<Land />} />
+              <Route path="/helios" element={<Helios key="helios" />} />
+              <Route element={<Land />} />
+            </Routes>
+          </PlaceableOverlay>
+        </div>
+        <div className="absolute z-20">
+          <Hud />
+        </div>
+      </>
+    );
+  };
 
   return (
     <>
@@ -140,18 +197,7 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
 
-      <div className="absolute z-10 w-full h-full">
-        <PlaceableOverlay>
-          <Routes>
-            <Route path="/" element={<Land />} />
-            <Route path="/helios" element={<Helios key="helios" />} />
-            <Route element={<Land />} />
-          </Routes>
-        </PlaceableOverlay>
-      </div>
-      <div className="absolute z-20">
-        <Hud />
-      </div>
+      {Content()}
     </>
   );
 };

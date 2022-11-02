@@ -30,6 +30,7 @@ import { Mine } from "features/island/mines/Mine";
 import { IslandTravel } from "./components/IslandTravel";
 import { PIXEL_SCALE } from "../lib/constants";
 import { DirtRenderer } from "./components/DirtRenderer";
+import classNames from "classnames";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -195,12 +196,12 @@ export const Land: React.FC = () => {
 
   const [scrollIntoView] = useScrollIntoView();
 
-  const boatCordinates = {
+  const boatCoordinates = {
     x: level > 7 ? -9 : -2,
     y: level > 7 ? -10.5 : -4.5,
   };
 
-  const pirateCordinates = {
+  const pirateCoordinates = {
     x: level > 7 ? -8.4 : -1.4,
     y: level > 7 ? -8 : -2,
   };
@@ -215,137 +216,147 @@ export const Land: React.FC = () => {
         <Water level={level} />
       </div>
       <div className="relative w-full h-full">
-        <LandBase expansions={expansions} />
-        <UpcomingExpansion gameState={state} />
+        <div
+          className={classNames("w-full h-full", {
+            "pointer-events-none": gameState.matches("visiting"),
+          })}
+        >
+          {/* IMPORTANT: All items to be rendered on the map apart from IslandTravel should be placed inside of 
+              this div as they will have no pointer events when inside the visiting state  */}
+          <LandBase expansions={expansions} />
+          <UpcomingExpansion gameState={state} />
 
-        {expansions
-          .filter((expansion) => expansion.readyAt < Date.now())
-          .map(
-            (
-              {
-                stones,
-                gold,
-                iron,
-                trees,
-                plots,
-                createdAt,
-                fruitPatches,
-                mines,
-              },
-              index
-            ) => (
-              <Expansion
-                createdAt={createdAt}
-                expansionIndex={index}
-                key={index}
-                stones={stones}
-                gold={gold}
-                trees={trees}
-                iron={iron}
-                plots={plots}
-                fruitPatches={fruitPatches}
-                mines={mines}
+          {expansions
+            .filter((expansion) => expansion.readyAt < Date.now())
+            .map(
+              (
+                {
+                  stones,
+                  gold,
+                  iron,
+                  trees,
+                  plots,
+                  createdAt,
+                  fruitPatches,
+                  mines,
+                },
+                index
+              ) => (
+                <Expansion
+                  createdAt={createdAt}
+                  expansionIndex={index}
+                  key={index}
+                  stones={stones}
+                  gold={gold}
+                  trees={trees}
+                  iron={iron}
+                  plots={plots}
+                  fruitPatches={fruitPatches}
+                  mines={mines}
+                />
+              )
+            )}
+
+          {gameState.matches("editing") && <Placeable />}
+
+          {gameState.context.state.bumpkin?.equipped && (
+            <MapPlacement x={2} y={-1}>
+              <Character
+                body={gameState.context.state.bumpkin.equipped.body}
+                hair={gameState.context.state.bumpkin.equipped.hair}
+                shirt={gameState.context.state.bumpkin.equipped.shirt}
+                pants={gameState.context.state.bumpkin.equipped.pants}
               />
-            )
+            </MapPlacement>
           )}
 
-        {gameState.matches("editing") && <Placeable />}
-
-        {gameState.context.state.bumpkin?.equipped && (
-          <MapPlacement x={2} y={-1}>
-            <Character
-              body={gameState.context.state.bumpkin.equipped.body}
-              hair={gameState.context.state.bumpkin.equipped.hair}
-              shirt={gameState.context.state.bumpkin.equipped.shirt}
-              pants={gameState.context.state.bumpkin.equipped.pants}
+          <MapPlacement x={pirateCoordinates.x} y={pirateCoordinates.y}>
+            <img
+              src={pirateGoblin}
+              className="relative top-8"
+              style={{
+                width: `${25 * PIXEL_SCALE}px`,
+              }}
             />
           </MapPlacement>
-        )}
 
-        <MapPlacement x={pirateCordinates.x} y={pirateCordinates.y}>
-          <img
-            src={pirateGoblin}
-            className="relative top-8"
-            style={{
-              width: `${25 * PIXEL_SCALE}px`,
-            }}
-          />
-        </MapPlacement>
+          {getKeys(buildings).flatMap((name) => {
+            const items = buildings[name];
+            return items?.map((building, index) => {
+              const { x, y } = building.coordinates;
+              const { width, height } = BUILDINGS_DIMENSIONS[name];
 
-        <IslandTravel
-          bumpkin={bumpkin}
-          x={boatCordinates.x}
-          y={boatCordinates.y}
-        />
-
-        {getKeys(buildings).flatMap((name) => {
-          const items = buildings[name];
-          return items?.map((building, index) => {
-            const { x, y } = building.coordinates;
-            const { width, height } = BUILDINGS_DIMENSIONS[name];
-
-            return (
-              <MapPlacement
-                key={index}
-                x={x}
-                y={y}
-                height={height}
-                width={width}
-              >
-                <Building
-                  id={building.id}
-                  building={building}
-                  name={name as BuildingName}
-                />
-              </MapPlacement>
-            );
-          });
-        })}
-
-        {getKeys(collectibles).flatMap((name) => {
-          const items = collectibles[name];
-          return items?.map((collectible, index) => {
-            const { x, y } = collectible.coordinates;
-            const { width, height } = COLLECTIBLES_DIMENSIONS[name];
-
-            return (
-              <MapPlacement
-                key={index}
-                x={x}
-                y={y}
-                height={height}
-                width={width}
-              >
-                <Collectible name={name} id={collectible.id} />
-              </MapPlacement>
-            );
-          });
-        })}
-
-        {getKeys(chickens)
-          // Only show placed chickens (V1 may have ones without coords)
-          .filter((index) => chickens[index].coordinates)
-          .flatMap((index) => {
-            const chicken = chickens[index];
-            const { x, y } = chicken.coordinates as Coordinates;
-            const { width, height } = ANIMAL_DIMENSIONS.Chicken;
-
-            return (
-              <MapPlacement
-                key={index}
-                x={x}
-                y={y}
-                height={height}
-                width={width}
-              >
-                <div className="flex relative justify-center w-full h-full">
-                  <Chicken index={index} />
-                </div>
-              </MapPlacement>
-            );
+              return (
+                <MapPlacement
+                  key={index}
+                  x={x}
+                  y={y}
+                  height={height}
+                  width={width}
+                >
+                  <Building
+                    id={building.id}
+                    building={building}
+                    name={name as BuildingName}
+                  />
+                </MapPlacement>
+              );
+            });
           })}
 
-        <DirtRenderer expansions={expansions} />
+          {getKeys(collectibles).flatMap((name) => {
+            const items = collectibles[name];
+            return items?.map((collectible, index) => {
+              const { x, y } = collectible.coordinates;
+              const { width, height } = COLLECTIBLES_DIMENSIONS[name];
+
+              return (
+                <MapPlacement
+                  key={index}
+                  x={x}
+                  y={y}
+                  height={height}
+                  width={width}
+                >
+                  <Collectible name={name} id={collectible.id} />
+                </MapPlacement>
+              );
+            });
+          })}
+
+          {getKeys(chickens)
+            // Only show placed chickens (V1 may have ones without coords)
+            .filter((index) => chickens[index].coordinates)
+            .flatMap((index) => {
+              const chicken = chickens[index];
+              const { x, y } = chicken.coordinates as Coordinates;
+              const { width, height } = ANIMAL_DIMENSIONS.Chicken;
+
+              return (
+                <MapPlacement
+                  key={index}
+                  x={x}
+                  y={y}
+                  height={height}
+                  width={width}
+                >
+                  <div className="flex relative justify-center w-full h-full">
+                    <Chicken index={index} />
+                  </div>
+                </MapPlacement>
+              );
+            })}
+
+          <DirtRenderer expansions={expansions} />
+        </div>
+        {/* The island travel component should be a sibling to the above component as it needs to have pointer events 
+            when in visiting state while the rest should have pointer events disabled */}
+        <IslandTravel
+          isVisiting={gameState.matches("visiting")}
+          bumpkin={bumpkin}
+          x={boatCoordinates.x}
+          y={boatCoordinates.y}
+        />
       </div>
     </div>
   );
