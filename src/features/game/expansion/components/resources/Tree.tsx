@@ -194,7 +194,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_TIME);
 
   return (
-    <div className="relative z-10 w-full h-full mt-3">
+    <div className="relative w-full h-full mt-3">
       {!chopped && (
         <>
           <div
