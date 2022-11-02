@@ -52,16 +52,16 @@ export const WorkBench: React.FC = () => {
         }}
       />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <div className="absolute w-48 -left-4 -top-32 -z-10">
+        <div className="absolute w-1/2 -left-2 top-[-150px] -z-10">
           <DynamicNFT
             bumpkinParts={{
-              body: "Beige Farmer Potion",
-              hair: "Buzz Cut",
-              pants: "Farmer Pants",
-              shirt: "Chef Apron",
-              tool: "Farmer Pitchfork",
+              body: "Light Brown Farmer Potion",
+              hair: "Blacksmith Hair",
+              pants: "Lumberjack Overalls",
+              shirt: "SFL T-Shirt",
+              tool: "Hammer",
               background: "Farm Background",
-              shoes: "Black Farmer Boots",
+              shoes: "Brown Boots",
             }}
           />
         </div>

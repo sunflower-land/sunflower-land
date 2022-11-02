@@ -605,6 +605,17 @@ export const INITIAL_FARM: GameState = {
         createdAt: 0,
       },
     ],
+    Workbench: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: -2,
+          y: 8,
+        },
+        createdAt: 0,
+      },
+    ],
   },
   airdrops: [
     {

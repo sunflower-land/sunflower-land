@@ -30,7 +30,7 @@ import { Mine } from "features/island/mines/Mine";
 import { IslandTravel } from "./components/IslandTravel";
 import { PIXEL_SCALE } from "../lib/constants";
 import { DirtRenderer } from "./components/DirtRenderer";
-import { BumpkinParts } from "../types/bumpkin";
+import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Bumpkin, Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 
