@@ -7,7 +7,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 
 type FormEvent = Element & {
-  farmId: {
+  landId: {
     value: string;
   };
 };
@@ -25,18 +25,18 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
   const visit = (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    const farmId = parseInt((event.target as FormEvent).farmId.value);
+    const landId = parseInt((event.target as FormEvent).landId.value);
 
-    if (isNaN(farmId) || farmId <= 0) return;
+    if (isNaN(landId) || landId <= 0) return;
 
     if (location.pathname.includes("visit")) {
-      gameSend({ type: "VISIT", farmId });
+      gameSend({ type: "VISIT", landId });
     }
 
-    navigate(`/visit/${farmId}`);
+    navigate(`/visit/${landId}`);
   };
 
-  const goBack = () => {
+  const handleEndVisit = () => {
     if (authState.matches({ connected: "authorised" })) {
       gameService.send("END_VISIT");
       navigate(`/land/${authState.context.farmId}`);
@@ -49,18 +49,18 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
     <div>
       <form onSubmit={visit}>
         <span className="text-shadow text-small mb-2 px-1">
-          Enter Farm ID:{" "}
+          Enter Land ID:{" "}
         </span>
         <input
           type="number"
-          name="farmId"
+          name="landId"
           className="text-shadow shadow-inner shadow-black bg-brown-200 w-24 p-2 m-2 text-center"
         />
         <div className="flex">
           <Button
             className="overflow-hidden mr-1"
             type="button"
-            onClick={onBack ?? goBack}
+            onClick={onBack ?? handleEndVisit}
           >
             Back
           </Button>

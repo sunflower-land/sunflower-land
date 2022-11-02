@@ -102,7 +102,7 @@ type EditEvent = {
 
 type VisitEvent = {
   type: "VISIT";
-  farmId: number;
+  landId: number;
 };
 
 export type BlockchainEvent =
@@ -215,7 +215,7 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 export type BlockchainState = {
   value:
     | "checkIsVisiting"
-    | "loadFarmToVisit"
+    | "loadLandToVisit"
     | "landToVisitNotFound"
     | "loading"
     | "announcing"
@@ -277,7 +277,7 @@ export function startGame(authContext: Options) {
         checkIsVisiting: {
           always: [
             {
-              target: "loadFarmToVisit",
+              target: "loadLandToVisit",
               cond: () => window.location.href.includes("visit"),
             },
             { target: "loading" },
@@ -364,7 +364,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        loadFarmToVisit: {
+        loadLandToVisit: {
           invoke: {
             src: async (_, event) => {
               let farmId: number;
@@ -373,10 +373,10 @@ export function startGame(authContext: Options) {
               // 1. Directly on load if the url has a visit path (/visit)
               // 2. From a VISIT event passed back to the machine which will include a farmId in the payload
 
-              if (!(event as VisitEvent).farmId) {
+              if (!(event as VisitEvent).landId) {
                 farmId = Number(window.location.href.split("/").pop());
               } else {
-                farmId = (event as VisitEvent).farmId;
+                farmId = (event as VisitEvent).landId;
               }
 
               const { state } = await loadGameStateForVisit(Number(farmId));
@@ -402,14 +402,14 @@ export function startGame(authContext: Options) {
         landToVisitNotFound: {
           on: {
             VISIT: {
-              target: "loadFarmToVisit",
+              target: "loadLandToVisit",
             },
           },
         },
         visiting: {
           on: {
             VISIT: {
-              target: "loadFarmToVisit",
+              target: "loadLandToVisit",
             },
             END_VISIT: {
               target: "loading",
