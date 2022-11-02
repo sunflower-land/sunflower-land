@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "../../types/game";
@@ -17,6 +18,7 @@ type Options = {
 
 export function craftTool({ state, action }: Options) {
   const stateCopy = cloneDeep(state);
+  const bumpkin = stateCopy.bumpkin;
 
   const tool = WORKBENCH_TOOLS()[action.tool];
 
@@ -28,6 +30,9 @@ export function craftTool({ state, action }: Options) {
     throw new Error("Not enough stock");
   }
 
+  if (bumpkin === undefined) {
+    throw new Error("You do not have a Bumpkin");
+  }
   const price = tool.sfl;
 
   if (stateCopy.balance.lessThan(price)) {
@@ -52,6 +57,9 @@ export function craftTool({ state, action }: Options) {
   );
 
   const oldAmount = stateCopy.inventory[action.tool] || new Decimal(0);
+
+  bumpkin.activity = trackActivity(`${action.tool} Crafted`, bumpkin.activity);
+  bumpkin.activity = trackActivity("SFL Spent", bumpkin.activity, price);
 
   return {
     ...stateCopy,
