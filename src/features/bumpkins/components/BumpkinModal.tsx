@@ -14,12 +14,12 @@ import { BUMPKIN_ITEMS } from "../types/BumpkinDetails";
 import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { Badges } from "features/farming/house/House";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
-import { MAX_STAMINA } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Achievements } from "./Achievements";
 import { AchievementBadges } from "./AchievementBadges";
 import { Skills } from "features/bumpkins/components/Skills";
 import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillPointStorage";
+import { CONFIG } from "lib/config";
 
 interface Props {
   onClose: () => void;
@@ -28,11 +28,26 @@ interface Props {
 export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
   const [view, setView] = useState<"home" | "achievements" | "skills">();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [gameState] = useActor(gameService);
+  const { state } = gameState.context;
+
+  const getVisitBumpkinUrl = () => {
+    if (gameState.matches("visiting")) {
+      const baseUrl =
+        CONFIG.NETWORK === "mainnet"
+          ? `https://opensea.io/assets/matic`
+          : `https://testnets.opensea.io/assets/mumbai`;
+
+      return `${baseUrl}/${CONFIG.BUMPKIN_CONTRACT}/${state.bumpkin?.id}`;
+    }
+
+    const baseUrl =
+      CONFIG.NETWORK === "mainnet"
+        ? `https://bumpkins.io/#/bumpkins`
+        : `https://testnet.bumpkins.io/#/bumpkins`;
+
+    return `${baseUrl}/${state.bumpkin?.id}`;
+  };
 
   if (view === "achievements") {
     return <Achievements onClose={() => setView("home")} />;
@@ -51,9 +66,6 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const nextLevelExperience = LEVEL_BRACKETS[level];
-
-  const stamina = state.bumpkin?.stamina.value ?? 0;
-  const staminaCapacity = MAX_STAMINA[level];
 
   const hasSkillPoint = hasUnacknowledgedSkillPoints(state.bumpkin);
 
@@ -90,7 +102,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
               </OuterPanel>
             </div>
             <a
-              href="https://testnet.bumpkins.io/#/bumpkins/1"
+              href={getVisitBumpkinUrl()}
               target="_blank"
               className="underline text-xxs"
               rel="noreferrer"
