@@ -27,3 +27,6 @@ export const shortenCount = (count: Decimal | undefined): string => {
     .toDecimalPlaces(1, Decimal.ROUND_FLOOR)
     .toString()}${isThousand ? "k" : "m"}`;
 };
+
+export const setPrecision = (number: Decimal) =>
+  number.todp(4, Decimal.ROUND_DOWN);
