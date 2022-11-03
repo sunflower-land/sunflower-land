@@ -73,7 +73,9 @@ const Island = ({ name, levelRequired, path, bumpkin, image }: Props) => {
   );
 };
 
-const VisitAFriend: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+const VisitFriendListItem: React.FC<{ onClick: () => void }> = ({
+  onClick,
+}) => {
   return (
     <div onClick={onClick}>
       <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
@@ -163,7 +165,7 @@ export const IslandList = ({
               bumpkin={bumpkin}
             />
           )}
-          <VisitAFriend onClick={() => setView("form")} />
+          <VisitFriendListItem onClick={() => setView("form")} />
         </>
       );
     }
@@ -173,7 +175,7 @@ export const IslandList = ({
         {islandList.map((item) => (
           <Island key={item.name} {...item} bumpkin={bumpkin} />
         ))}
-        <VisitAFriend onClick={() => setView("form")} />
+        <VisitFriendListItem onClick={() => setView("form")} />
       </>
     );
   };

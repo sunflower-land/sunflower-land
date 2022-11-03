@@ -33,6 +33,9 @@ import { Helios } from "features/helios/Helios";
 import { Hud } from "features/island/hud/Hud";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+
+import land from "assets/land/islands/island.png";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -124,14 +127,34 @@ export const Game: React.FC = () => {
         <div className="absolute z-20">
           <VisitingHud />
         </div>
-        <Modal show centered backdrop={false}>
-          <Panel>
-            <p className="text-center mb-2">
-              It looks like this land has not migrated to Sunflower Isles yet!
-            </p>
-            <VisitLandExpansionForm />
-          </Panel>
-        </Modal>
+        <div className="relative">
+          <Modal centered show backdrop={false}>
+            <div className="absolute w-1/2 -left-2 top-[-43%] sm:top-[-55%] -z-10">
+              <DynamicNFT
+                bumpkinParts={{
+                  body: "Beige Farmer Potion",
+                  hair: "Rancher Hair",
+                  pants: "Farmer Overalls",
+                  shirt: "Red Farmer Shirt",
+                  tool: "Farmer Pitchfork",
+                  background: "Farm Background",
+                  shoes: "Black Farmer Boots",
+                }}
+              />
+            </div>
+            <Panel>
+              <div className="flex flex-col items-center">
+                <h2 className="text-center">Land Not Found!</h2>
+                <img src={land} className="h-9 my-2" />
+                <p className="mb-3">
+                  It looks like this land has not migrated over to Sunflower
+                  Isles yet!
+                </p>
+              </div>
+              <VisitLandExpansionForm />
+            </Panel>
+          </Modal>
+        </div>
       </div>
     );
   }

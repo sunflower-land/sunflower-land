@@ -18,7 +18,7 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
-  const [_, gameSend] = useActor(gameService);
+  const [gameState, gameSend] = useActor(gameService);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -29,10 +29,19 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
 
     if (isNaN(landId) || landId <= 0) return;
 
+    // If the player has been playing and there are unsaved actions then save progress
+    if (gameState.matches("playing") && gameState.context.actions.length > 0) {
+      gameSend("SAVE");
+    }
+
+    // If the player has already been visiting ie /visit/id then there will be no rerender when navigating
+    // therefore we stay in the current game machine so we send an event back to handle the visit flow
     if (location.pathname.includes("visit")) {
       gameSend({ type: "VISIT", landId });
     }
 
+    // If a player has been playing the game ie /land/id there will be a rerender and the current gameMachine
+    // will end when we navigate and a new one will be created therefore we don't need to send an event back
     navigate(`/visit/${landId}`);
   };
 
@@ -48,14 +57,16 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
   return (
     <div>
       <form onSubmit={visit}>
-        <span className="text-shadow text-small mb-2 px-1">
-          Enter Land ID:{" "}
-        </span>
-        <input
-          type="number"
-          name="landId"
-          className="text-shadow shadow-inner shadow-black bg-brown-200 w-24 p-2 m-2 text-center"
-        />
+        <div className="flex items-center">
+          <span className="text-shadow text-small mb-2 px-1 whitespace-nowrap">
+            Enter Land ID:{" "}
+          </span>
+          <input
+            type="number"
+            name="landId"
+            className="text-shadow shadow-inner shadow-black bg-brown-200 w-[60%] p-2 m-2 text-center"
+          />
+        </div>
         <div className="flex">
           <Button
             className="overflow-hidden mr-1"
