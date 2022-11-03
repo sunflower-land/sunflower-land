@@ -555,6 +555,7 @@ export const INITIAL_FARM: GameState = {
     "Mashed Potato": new Decimal(1),
     "Sunflower Cake": new Decimal(1),
     "Pumpkin Soup": new Decimal(1),
+    Cactus: new Decimal(2),
     // Every item for testing
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({

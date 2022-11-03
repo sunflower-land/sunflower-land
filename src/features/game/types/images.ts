@@ -272,6 +272,7 @@ import victoriaSisters from "src/assets/nfts/victoria-sisters.gif";
 //Decorations
 import pottedSunflower from "src/assets/decorations/potted_sunflower.png";
 import whiteTulips from "src/assets/decorations/white_tulips.png";
+import cactus from "src/assets/decorations/cactus.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1312,6 +1313,10 @@ export const ITEM_DETAILS: Items = {
   "Potted Sunflower": {
     image: pottedSunflower,
     description: "Brighten up your land.",
+  },
+  Cactus: {
+    image: cactus,
+    description: "Saves water and makes your farm look stunning!",
   },
   "Jack-o-lantern": {
     image: jackOLanternItem,
