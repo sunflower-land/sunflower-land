@@ -122,45 +122,45 @@ export const Game: React.FC = () => {
     );
   }
 
-  if (gameState.matches("landToVisitNotFound")) {
-    return (
-      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
-        <div className="absolute z-20">
-          <VisitingHud />
-        </div>
-        <div className="relative">
-          <Modal centered show backdrop={false}>
-            <div className="absolute w-1/2 -left-2 top-[-43%] sm:top-[-55%] -z-10">
-              <DynamicNFT
-                bumpkinParts={{
-                  body: "Beige Farmer Potion",
-                  hair: "Rancher Hair",
-                  pants: "Farmer Overalls",
-                  shirt: "Red Farmer Shirt",
-                  tool: "Farmer Pitchfork",
-                  background: "Farm Background",
-                  shoes: "Black Farmer Boots",
-                }}
-              />
-            </div>
-            <Panel>
-              <div className="flex flex-col items-center">
-                <h2 className="text-center">Land Not Found!</h2>
-                <img src={land} className="h-9 my-2" />
-                <p className="mb-3">
-                  It looks like this land has not migrated over to Sunflower
-                  Isles yet!
-                </p>
-              </div>
-              <VisitLandExpansionForm />
-            </Panel>
-          </Modal>
-        </div>
-      </div>
-    );
-  }
-
   const GameContent = () => {
+    if (gameState.matches("landToVisitNotFound")) {
+      return (
+        <>
+          <div className="absolute z-20">
+            <VisitingHud />
+          </div>
+          <div className="relative">
+            <Modal centered show backdrop={false}>
+              <div className="absolute w-1/2 -left-2 top-[-43%] sm:top-[-55%] -z-10">
+                <DynamicNFT
+                  bumpkinParts={{
+                    body: "Beige Farmer Potion",
+                    hair: "Rancher Hair",
+                    pants: "Farmer Overalls",
+                    shirt: "Red Farmer Shirt",
+                    tool: "Farmer Pitchfork",
+                    background: "Farm Background",
+                    shoes: "Black Farmer Boots",
+                  }}
+                />
+              </div>
+              <Panel>
+                <div className="flex flex-col items-center">
+                  <h2 className="text-center">Land Not Found!</h2>
+                  <img src={land} className="h-9 my-2" />
+                  <p className="mb-3">
+                    It looks like this land has not migrated over to Sunflower
+                    Isles yet!
+                  </p>
+                </div>
+                <VisitLandExpansionForm />
+              </Panel>
+            </Modal>
+          </div>
+        </>
+      );
+    }
+
     if (gameState.matches("visiting")) {
       return (
         <>
