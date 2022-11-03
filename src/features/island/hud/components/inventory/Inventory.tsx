@@ -52,11 +52,7 @@ export const Inventory: React.FC<Props> = ({
       </div>
 
       <Modal centered scrollable show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems
-          state={state}
-          onClose={() => setIsOpen(false)}
-          isFarming={isFarming}
-        />
+        <InventoryItems state={state} onClose={() => setIsOpen(false)} />
       </Modal>
 
       {isFarming && (

@@ -12,11 +12,12 @@ import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 interface Props {
   bumpkin: Bumpkin | undefined;
+  isVisiting?: boolean;
   x: number;
   y: number;
 }
 
-export const IslandTravel = ({ bumpkin, x, y }: Props) => {
+export const IslandTravel = ({ bumpkin, x, y, isVisiting = false }: Props) => {
   const [openIslandList, setOpenIslandList] = useState(false);
 
   return (
@@ -70,13 +71,7 @@ export const IslandTravel = ({ bumpkin, x, y }: Props) => {
               onClick={() => setOpenIslandList(false)}
             />
           </div>
-          <div
-            style={{
-              minHeight: "200px",
-            }}
-          >
-            <IslandList bumpkin={bumpkin} />
-          </div>
+          <IslandList bumpkin={bumpkin} showVisitList={isVisiting} />
         </Panel>
       </Modal>
     </>

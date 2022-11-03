@@ -187,11 +187,6 @@ export const Menu = () => {
                     <span className="sm:text-sm">Share</span>
                   </Button>
                 </li>
-                <li className="p-1">
-                  <Button onClick={visitFarm}>
-                    <span className="sm:text-sm">Visit Farm</span>
-                  </Button>
-                </li>
               </>
             )}
           </ul>

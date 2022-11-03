@@ -9,7 +9,6 @@ import { Auth } from "features/auth/Auth";
 import { Humans } from "features/game/Humans";
 import { Goblins } from "features/game/Goblins";
 import { Forbidden } from "features/auth/components/Forbidden";
-import { Visiting } from "features/game/Visiting";
 import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
@@ -86,7 +85,7 @@ export const Navigation: React.FC = () => {
                 )
               }
             />
-            <Route path="/visit/:id" element={<Visiting key="visit" />} />
+            <Route path="/visit/*" element={<LandExpansion key="visit" />} />
             {CONFIG.NETWORK !== "mainnet" && (
               <Route
                 path="/land/:id/*"

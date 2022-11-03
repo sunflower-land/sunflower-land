@@ -21,6 +21,7 @@ import { Achievements } from "./Achievements";
 import { AchievementBadges } from "./AchievementBadges";
 import { Skills } from "features/bumpkins/components/Skills";
 import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillPointStorage";
+import { CONFIG } from "lib/config";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -32,11 +33,26 @@ interface Props {
 export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
   const [view, setView] = useState<ViewState>(initialView);
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [gameState] = useActor(gameService);
+  const { state } = gameState.context;
+
+  const getVisitBumpkinUrl = () => {
+    if (gameState.matches("visiting")) {
+      const baseUrl =
+        CONFIG.NETWORK === "mainnet"
+          ? `https://opensea.io/assets/matic`
+          : `https://testnets.opensea.io/assets/mumbai`;
+
+      return `${baseUrl}/${CONFIG.BUMPKIN_CONTRACT}/${state.bumpkin?.id}`;
+    }
+
+    const baseUrl =
+      CONFIG.NETWORK === "mainnet"
+        ? `https://bumpkins.io/#/bumpkins`
+        : `https://testnet.bumpkins.io/#/bumpkins`;
+
+    return `${baseUrl}/${state.bumpkin?.id}`;
+  };
 
   if (view === "achievements") {
     return <Achievements onBack={() => setView("home")} onClose={onClose} />;
@@ -75,7 +91,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
           </div>
           <div>
             <a
-              href="https://testnet.bumpkins.io/#/bumpkins/1"
+              href={getVisitBumpkinUrl()}
               target="_blank"
               className="underline text-xxs"
               rel="noreferrer"

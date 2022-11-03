@@ -4,6 +4,7 @@ import discTop from "assets/icons/empty_disc_top.png";
 import discBottom from "assets/icons/empty_disc_bottom.png";
 import discBackground from "assets/icons/empty_disc_background.png";
 import heart from "assets/icons/heart.png";
+import question from "assets/icons/expression_confused.png";
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 import alert from "assets/icons/expression_alerted.png";
 import { Modal } from "react-bootstrap";
@@ -83,19 +84,37 @@ export const BumpkinHUD: React.FC = () => {
               width: "88%",
             }}
           >
-            <div
-              className="z-20"
-              style={{
-                width: "200%",
-                position: "relative",
-                left: "-35%",
-                top: "-4%",
-              }}
-            >
-              <DynamicNFT
-                bumpkinParts={state.bumpkin?.equipped as BumpkinParts}
-              />
-            </div>
+            {state.bumpkin ? (
+              <div
+                className="z-20"
+                style={{
+                  width: "200%",
+                  position: "relative",
+                  left: "-35%",
+                  top: "-4%",
+                }}
+              >
+                <DynamicNFT
+                  bumpkinParts={state.bumpkin?.equipped as BumpkinParts}
+                />
+              </div>
+            ) : (
+              <div
+                style={{
+                  width: "21px",
+                  position: "absolute",
+                  left: "22px",
+                  top: "14px",
+                }}
+              >
+                <img
+                  id="no-bumpkin"
+                  src={question}
+                  alt="No Bumpkin Found"
+                  className="w-full"
+                />
+              </div>
+            )}
           </div>
         </div>
 

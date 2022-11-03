@@ -17,7 +17,6 @@ type Tab = "basket" | "chest";
 interface Props {
   state: GameState;
   onClose: () => void;
-  isFarming?: boolean;
 }
 
 export type TabItems = Record<string, { items: object }>;
