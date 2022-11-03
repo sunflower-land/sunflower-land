@@ -101,7 +101,7 @@ export const IslandList = ({
   const [authState, send] = useActor(authService);
   const { id } = useParams();
   const location = useLocation();
-  const [view, setView] = useState<"list" | "form">("list");
+  const [view, setView] = useState<"list" | "visitForm">("list");
 
   const islands: Island[] = [
     {
@@ -141,7 +141,7 @@ export const IslandList = ({
 
   const ModalContent = () => {
     // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm
-    if (view === "form" || unAuthenticatedVisit) {
+    if (view === "visitForm" || unAuthenticatedVisit) {
       return (
         <VisitLandExpansionForm
           onBack={
@@ -165,7 +165,7 @@ export const IslandList = ({
               bumpkin={bumpkin}
             />
           )}
-          <VisitFriendListItem onClick={() => setView("form")} />
+          <VisitFriendListItem onClick={() => setView("visitForm")} />
         </>
       );
     }
@@ -175,7 +175,7 @@ export const IslandList = ({
         {islandList.map((item) => (
           <Island key={item.name} {...item} bumpkin={bumpkin} />
         ))}
-        <VisitFriendListItem onClick={() => setView("form")} />
+        <VisitFriendListItem onClick={() => setView("visitForm")} />
       </>
     );
   };
