@@ -14,7 +14,6 @@ describe("buyDecoration", () => {
         action: {
           type: "decoration.bought",
           item: "Goblin Key" as DecorationName,
-          amount: 1,
         },
       })
     ).toThrow("This item is not a decoration");
@@ -30,7 +29,6 @@ describe("buyDecoration", () => {
         action: {
           type: "decoration.bought",
           item: "Potted Sunflower",
-          amount: 1,
         },
       })
     ).toThrow("Insufficient tokens");
@@ -47,7 +45,6 @@ describe("buyDecoration", () => {
         action: {
           type: "decoration.bought",
           item: "Potted Sunflower",
-          amount: 1,
         },
       })
     ).toThrow("Insufficient ingredient: Sunflower");
@@ -66,7 +63,6 @@ describe("buyDecoration", () => {
       action: {
         type: "decoration.bought",
         item: "Potted Sunflower",
-        amount: 1,
       },
     });
 
@@ -78,7 +74,6 @@ describe("buyDecoration", () => {
   it("mints the newly bought decoration", () => {
     const balance = new Decimal(150);
     const item = "Potted Sunflower";
-    const amount = 1;
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
@@ -89,14 +84,13 @@ describe("buyDecoration", () => {
       },
       action: {
         item,
-        amount,
         type: "decoration.bought",
       },
     });
 
     const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
 
-    expect(state.inventory[item]).toEqual(oldAmount.add(amount));
+    expect(state.inventory[item]).toEqual(oldAmount.add(1));
   });
 
   it("throws an error if the player doesnt have a bumpkin", async () => {
@@ -109,7 +103,6 @@ describe("buyDecoration", () => {
         action: {
           type: "decoration.bought",
           item: "Potted Sunflower",
-          amount: 1,
         },
       })
     ).toThrow("Bumpkin not found");
@@ -127,7 +120,6 @@ describe("buyDecoration", () => {
       action: {
         type: "decoration.bought",
         item: "Potted Sunflower",
-        amount: 1,
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
@@ -136,7 +128,6 @@ describe("buyDecoration", () => {
   });
 
   it("increments the decoration bought activity ", () => {
-    const amount = 1;
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
@@ -148,11 +139,8 @@ describe("buyDecoration", () => {
       action: {
         type: "decoration.bought",
         item: "Potted Sunflower",
-        amount,
       },
     });
-    expect(state.bumpkin?.activity?.["Potted Sunflower Bought"]).toEqual(
-      amount
-    );
+    expect(state.bumpkin?.activity?.["Potted Sunflower Bought"]).toEqual(1);
   });
 });

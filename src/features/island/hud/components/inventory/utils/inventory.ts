@@ -1,6 +1,10 @@
 import { Inventory } from "components/InventoryItems";
+import Decimal from "decimal.js-light";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
-import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import {
+  CollectibleName,
+  COLLECTIBLES_DIMENSIONS,
+} from "features/game/types/craftables";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 
@@ -23,10 +27,16 @@ export const getBasketItems = (inventory: Inventory) => {
 };
 
 export const getChestItems = (state: GameState) => {
+  const { collectibles } = state;
   return getKeys(state.inventory).reduce((acc, itemName) => {
+    const isCollectible = itemName in collectibles;
+    const collectiblesPlaced = new Decimal(
+      collectibles[itemName as CollectibleName]?.length ?? 0
+    );
+    const collectibleInventory = state.inventory[itemName] ?? new Decimal(0);
     if (
       itemName in COLLECTIBLES_DIMENSIONS &&
-      !(itemName in state.collectibles)
+      !(isCollectible && collectiblesPlaced.eq(collectibleInventory))
     ) {
       return {
         ...acc,

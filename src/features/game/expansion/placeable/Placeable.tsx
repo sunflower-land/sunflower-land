@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineInterpreter } from "./editingMachine";
@@ -33,6 +33,15 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   ...COLLECTIBLE_COMPONENTS,
 };
 
+const DEFAULT_POSITION_X = 0;
+const DEFAULT_POSITION_Y = 0;
+
+// TODO - get dynamic bounds for placeable
+// const BOUNDS_MIN_X = -15
+// const BOUNDS_MAX_X = 5
+// const BOUNDS_MIN_Y = -5
+// const BOUNDS_MAX_Y = 15
+
 export const Placeable: React.FC = () => {
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
@@ -40,6 +49,10 @@ export const Placeable: React.FC = () => {
     height: 0,
     width: 0,
   });
+
+  useEffect(() => {
+    detect({ x: DEFAULT_POSITION_X, y: -DEFAULT_POSITION_Y });
+  }, []);
 
   const child = gameService.state.children.editing as MachineInterpreter;
 
@@ -105,6 +118,16 @@ export const Placeable: React.FC = () => {
   return (
     <div className="absolute left-1/2 top-1/2" style={{ zIndex: 100 }}>
       <Draggable
+        // bounds={{ // TODO - apply bounds
+        //   left: BOUNDS_MIN_X * GRID_WIDTH_PX,
+        //   right: BOUNDS_MAX_X * GRID_WIDTH_PX,
+        //   top: BOUNDS_MIN_Y * GRID_WIDTH_PX,
+        //   bottom: BOUNDS_MAX_Y * GRID_WIDTH_PX
+        // }}
+        defaultPosition={{
+          x: DEFAULT_POSITION_X * GRID_WIDTH_PX,
+          y: DEFAULT_POSITION_Y * GRID_WIDTH_PX,
+        }}
         nodeRef={nodeRef}
         grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
         onStart={() => {
@@ -112,13 +135,13 @@ export const Placeable: React.FC = () => {
         }}
         onDrag={(_, data) => {
           const x = Math.round(data.x / GRID_WIDTH_PX);
-          const y = Math.round((data.y / GRID_WIDTH_PX) * -1);
+          const y = Math.round(-data.y / GRID_WIDTH_PX);
 
           detect({ x, y });
         }}
         onStop={(_, data) => {
           const x = Math.round(data.x / GRID_WIDTH_PX);
-          const y = Math.round((data.y / GRID_WIDTH_PX) * -1);
+          const y = Math.round(-data.y / GRID_WIDTH_PX);
 
           detect({ x, y });
 
@@ -138,7 +161,6 @@ export const Placeable: React.FC = () => {
             draggable={false}
             className=" w-full h-full relative img-highlight pointer-events-none"
             style={{
-              zIndex: 100 + coordinates.y + 1,
               width: `${width * GRID_WIDTH_PX}px`,
               height: `${height * GRID_WIDTH_PX}px`,
             }}
