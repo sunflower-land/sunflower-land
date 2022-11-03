@@ -248,7 +248,6 @@ function getCountToShow(total: number) {
   try {
     const daysPassed = (Date.now() - start.getTime()) / (24 * 60 * 60 * 1000);
     const percentage = (daysPassed / takeOverDays) * 100;
-    console.log({ daysPassed, percentage });
     return Math.ceil((total / 100) * percentage);
   } catch {
     return 20;
