@@ -551,11 +551,18 @@ export const INITIAL_FARM: GameState = {
     "Trading Ticket": new Decimal(50),
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
-    Warrior: new Decimal(1),
     "Boiled Eggs": new Decimal(3),
     "Mashed Potato": new Decimal(1),
     "Sunflower Cake": new Decimal(1),
     "Pumpkin Soup": new Decimal(1),
+    // Every item for testing
+    // ...getKeys(KNOWN_IDS).reduce(
+    //   (acc, name) => ({
+    //     ...acc,
+    //     [name]: new Decimal(1),
+    //   }),
+    //   {}
+    // ),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,

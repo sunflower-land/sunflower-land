@@ -41,6 +41,7 @@ import { Cooldown } from "./components/Cooldown";
 import { Rules } from "./components/Rules";
 import { Migrate } from "./components/Migrate";
 import { GoblinWar } from "features/war/GoblinWar";
+import { MoonSeekers } from "./components/MoonSeekers";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -147,6 +148,7 @@ export const Game: React.FC = () => {
       <Forest />
       <Quarry />
       <Town />
+      <MoonSeekers />
       <House
         state={gameState.context.state}
         playerCanLevelUp={gameState.matches("levelling")}
