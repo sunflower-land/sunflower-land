@@ -19,7 +19,7 @@ import { metamask } from "../../../lib/blockchain/metamask";
 
 import { GameState, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
-import { INITIAL_FARM, EMPTY } from "./constants";
+import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName, LimitedItemName } from "../types/craftables";
 import { sync } from "../actions/sync";
@@ -47,6 +47,7 @@ import {
   LandExpansionMigrateAction,
 } from "../events/landExpansion/migrate";
 import { CONFIG } from "lib/config";
+import { OFFLINE_FARM } from "./landData";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -331,7 +332,7 @@ export function startGame(authContext: Options) {
                 };
               }
 
-              return { state: INITIAL_FARM, onChain };
+              return { state: OFFLINE_FARM, onChain };
             },
             onDone: {
               target: "notifying",

@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { getBumpkinLevel } from "../lib/level";
 import { GameState } from "../types/game";
-import { CookEvent, CraftedEvent } from "./bumpkinActivity";
+import { CookEvent, CraftedEvent, HarvestEvent } from "./bumpkinActivity";
 import { CONSUMABLES } from "./consumables";
 import { CAKES, getKeys, TOOLS } from "./craftables";
 import { CROPS } from "./crops";
@@ -182,7 +182,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     description: "Harvest 10000 crops",
     progress: (gameState: GameState) => {
       const harvestEvents = getKeys(CROPS()).map(
-        (name) => `${name} Cooked` as CookEvent
+        (name) => `${name} Harvested` as HarvestEvent
       );
 
       return harvestEvents.reduce((count, activityName) => {
@@ -376,7 +376,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     description: "Harvest 1 million crops",
     progress: (gameState: GameState) => {
       const harvestEvents = getKeys(CROPS()).map(
-        (name) => `${name} Cooked` as CookEvent
+        (name) => `${name} Harvested` as HarvestEvent
       );
 
       return harvestEvents.reduce((count, activityName) => {

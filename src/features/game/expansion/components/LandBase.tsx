@@ -13,6 +13,7 @@ import level10 from "assets/land/levels/level_10.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { LandExpansion } from "features/game/types/game";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 interface Props {
   expansions: LandExpansion[];
@@ -45,7 +46,7 @@ export const LandBase: React.FC<Props> = ({ expansions }) => {
 
   return (
     <img
-      id="genesisBlock"
+      id={Section.GenesisBlock}
       src={LEVEL_IMAGES[expandedCount]}
       alt="land"
       className="h-auto"

@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { Dimensions } from "./craftables";
 
-export type DecorationName = "White Tulips" | "Potted Sunflower";
+export type DecorationName = "White Tulips" | "Potted Sunflower" | "Cactus";
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "White Tulips": {
@@ -11,6 +11,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Potted Sunflower": {
+    height: 1,
+    width: 1,
+  },
+  Cactus: {
     height: 1,
     width: 1,
   },
@@ -37,5 +41,11 @@ export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
       Sunflower: new Decimal(100),
     },
     description: "Brighten up your land.",
+  },
+  Cactus: {
+    name: "Cactus",
+    sfl: marketRate(20),
+    ingredients: {},
+    description: "Saves water and makes your farm look stunning!",
   },
 });

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { TEST_FARM } from "../lib/constants";
 import { fertiliseCrop } from "./fertiliseCrop";
 
 describe("fertiliseCrop", () => {
@@ -7,7 +7,7 @@ describe("fertiliseCrop", () => {
     expect(() =>
       fertiliseCrop({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           fields: {},
         },
         action: {
@@ -23,7 +23,7 @@ describe("fertiliseCrop", () => {
     expect(() =>
       fertiliseCrop({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           fields: {
             3: {
               name: "Sunflower",
@@ -44,7 +44,7 @@ describe("fertiliseCrop", () => {
     expect(() =>
       fertiliseCrop({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           fields: {
             3: {
               name: "Sunflower",
@@ -71,7 +71,7 @@ describe("fertiliseCrop", () => {
     expect(() =>
       fertiliseCrop({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           inventory: {
             "Rapid Growth": new Decimal(0),
           },
@@ -97,7 +97,7 @@ describe("fertiliseCrop", () => {
 
     const gameState = fertiliseCrop({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           "Rapid Growth": new Decimal(1),
         },
@@ -131,7 +131,7 @@ describe("fertiliseCrop", () => {
   it("uses the fertiliser", () => {
     const gameState = fertiliseCrop({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           "Rapid Growth": new Decimal(5),
         },

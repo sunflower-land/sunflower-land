@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { TEST_FARM } from "../lib/constants";
 import { WarSide, pickSide } from "./pickSide";
 
 describe("pickSide", () => {
@@ -7,7 +7,7 @@ describe("pickSide", () => {
     expect(() => {
       pickSide({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           inventory: { "Goblin War Banner": new Decimal(1) },
         },
         action: { type: "side.picked", side: WarSide.Human },
@@ -17,7 +17,7 @@ describe("pickSide", () => {
     expect(() => {
       pickSide({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           inventory: { "Human War Banner": new Decimal(1) },
         },
         action: { type: "side.picked", side: WarSide.Goblin },
@@ -28,7 +28,7 @@ describe("pickSide", () => {
   it("can pick the human side", () => {
     const state = pickSide({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {},
       },
       action: { type: "side.picked", side: WarSide.Human },
@@ -46,7 +46,7 @@ describe("pickSide", () => {
   it("can pick the goblin side", () => {
     const state = pickSide({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {},
       },
       action: { type: "side.picked", side: WarSide.Goblin },

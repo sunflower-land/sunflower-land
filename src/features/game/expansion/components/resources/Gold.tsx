@@ -179,7 +179,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   return (
     <div
       ref={overlayRef}
-      className="relative z-10"
+      className="relative"
       style={{ height: "40px" }}
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
@@ -222,7 +222,10 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
               placement="right"
             >
               {({ show, arrowProps, ...props }) => (
-                <div {...props} className="absolute -left-1/2 z-10 w-28">
+                <div
+                  {...props}
+                  className="absolute -left-1/2 z-10 w-28 pointer-events-none"
+                >
                   {errorLabel === "noPickaxe" && (
                     <Label className="p-2">Equip {tool.toLowerCase()}</Label>
                   )}
@@ -265,7 +268,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
         <>
           <img
             src={hitbox}
-            className="pointer-events-none -z-10 absolute opacity-50"
+            className="pointer-events-none absolute opacity-50"
             style={{
               width: `${GRID_WIDTH_PX}px`,
             }}

@@ -3,9 +3,9 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useEffect, useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
+import ocean from "assets/decorations/ocean.png";
 import background from "assets/land/retreat.png";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
-import waterMovement from "assets/decorations/water_movement.png";
 import { GoblinProvider } from "features/game/GoblinProvider";
 import { RetreatBank } from "./components/bank/RetreatBank";
 import { RetreatStorageHouse } from "./components/storageHouse/RetreatStorageHouse";
@@ -23,8 +23,8 @@ export const Retreat: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   useEffect(() => {
-    // Start with crops centered
-    scrollIntoView(Section.Merchant, "auto");
+    // Start with island centered
+    scrollIntoView(Section.RetreatBackground, "auto");
   }, [scrollIntoView]);
 
   // Load data
@@ -32,40 +32,41 @@ export const Retreat: React.FC = () => {
     <GoblinProvider>
       <ToastProvider>
         <ScrollContainer
-          className="relative w-full h-full bg-[#0099db] overflow-scroll"
+          className="bg-blue-300 overflow-scroll relative w-full h-full"
           innerRef={container}
         >
-          <div
-            className="relative flex"
-            style={{
-              width: `${40 * GRID_WIDTH_PX}px`,
-              height: `${40 * GRID_WIDTH_PX}px`,
-            }}
-          >
-            <img
-              src={background}
-              className="absolute inset-0 w-full h-full z-10"
+          <div className="relative h-retreatGameboard w-retreatGameboard">
+            <div
+              className="absolute inset-0 bg-repeat w-full h-full"
+              style={{
+                backgroundImage: `url(${ocean})`,
+                backgroundSize: "100px",
+                imageRendering: "pixelated",
+              }}
             />
-            <RetreatBank />
-            <RetreatStorageHouse />
-            <RetreatHotAirBalloon />
-            <RetreatTailor />
-            <RetreatBlacksmith />
-            <Auctioneer />
-            <Resale />
-            <RetreatWishingWell />
-            <IslandTravelWrapper />
+            <div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{
+                width: `${40 * GRID_WIDTH_PX}px`,
+                height: `${40 * GRID_WIDTH_PX}px`,
+              }}
+            >
+              <img
+                src={background}
+                className="absolute inset-0 w-full h-full"
+                id={Section.RetreatBackground}
+              />
+              <RetreatBank />
+              <RetreatStorageHouse />
+              <RetreatHotAirBalloon />
+              <RetreatTailor />
+              <RetreatBlacksmith />
+              <Auctioneer />
+              <Resale />
+              <RetreatWishingWell />
+              <IslandTravelWrapper />
+            </div>
           </div>
-          <div
-            className="absolute inset-0 bg-repeat"
-            style={{
-              width: `${80 * GRID_WIDTH_PX}px`,
-              height: `${80 * GRID_WIDTH_PX}px`,
-              backgroundImage: `url(${waterMovement})`,
-              backgroundSize: "400px",
-              imageRendering: "pixelated",
-            }}
-          />
         </ScrollContainer>
       </ToastProvider>
     </GoblinProvider>

@@ -3,7 +3,7 @@ import { CONFIG } from "lib/config";
 const API_URL = CONFIG.API_URL;
 
 export async function checkMigrationStatus(
-  farmId: number,
+  farmId: string,
   token: string
 ): Promise<{
   migrated: boolean;

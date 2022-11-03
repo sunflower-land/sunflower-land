@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../../lib/constants";
+import { TEST_FARM } from "../../lib/constants";
 import { CollectibleName } from "../../types/craftables";
 import { GameState } from "../../types/game";
 import { placeCollectible } from "./placeCollectible";
 
 const date = Date.now();
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 describe("Place Collectible", () => {
   it("Requires a collectible is not already placed", () => {
     expect(() =>

@@ -3,13 +3,13 @@ import { CROPS } from "features/game/types/crops";
 import {
   GENESIS_LAND_EXPANSION,
   INITIAL_BUMPKIN,
-  INITIAL_FARM,
+  TEST_FARM,
 } from "../../lib/constants";
 import { GameState, LandExpansionPlot } from "../../types/game";
 import { getCropTime, isPlotFertile, plant } from "./plant";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
+  ...TEST_FARM,
   balance: new Decimal(0),
   inventory: {},
   trees: {},
@@ -536,7 +536,7 @@ describe("isPlotFertile", () => {
     };
     const isFertile = isPlotFertile({
       gameState: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         buildings: {},
         expansions: [
           {
@@ -589,7 +589,7 @@ describe("isPlotFertile", () => {
     };
     const isFertile = isPlotFertile({
       gameState: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         buildings: {
           "Water Well": [
             {
@@ -663,7 +663,7 @@ describe("isPlotFertile", () => {
     };
     const isFertile = isPlotFertile({
       gameState: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         buildings: {},
         expansions: [
           {
@@ -710,7 +710,7 @@ describe("isPlotFertile", () => {
     };
     const isFertile = isPlotFertile({
       gameState: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         buildings: {
           "Water Well": [
             {

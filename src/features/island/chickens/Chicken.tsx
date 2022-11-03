@@ -202,7 +202,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
         top: -20,
       }}
     >
-      <div className="relative w-16 h-16" style={{ zIndex: index }}>
+      <div className="relative w-16 h-16">
         {hungry && (
           <>
             <img
@@ -258,7 +258,6 @@ export const Chicken: React.FC<Props> = ({ index }) => {
               className="absolute w-16 h-16"
               style={{
                 imageRendering: "pixelated",
-                zIndex: 10 * index,
               }}
               image={walkingChickenSheet}
               widthFrame={32}

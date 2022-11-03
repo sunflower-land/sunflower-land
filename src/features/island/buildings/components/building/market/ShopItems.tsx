@@ -8,7 +8,7 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
 import { Seeds } from "./Seeds";
-import { Plants } from "./Plants";
+import { Crops } from "./Crops";
 import { acknowledgeTutorial, hasIntroducedBuilding } from "lib/tutorial";
 import { Button } from "components/ui/Button";
 
@@ -58,7 +58,7 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
       </div>
 
       {tab === "buy" && <Seeds onClose={onClose} />}
-      {tab === "sell" && <Plants />}
+      {tab === "sell" && <Crops />}
     </Panel>
   );
 };
