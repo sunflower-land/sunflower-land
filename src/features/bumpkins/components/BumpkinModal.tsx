@@ -8,10 +8,12 @@ import alert from "assets/icons/expression_alerted.png";
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 
 import { Context } from "features/game/GameProvider";
-import { BumpkinItem, BumpkinParts } from "features/game/types/bumpkin";
+import {
+  BumpkinItem,
+  Equipped as BumpkinParts,
+} from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
-import { BUMPKIN_ITEMS } from "../types/BumpkinDetails";
-import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
+import { InnerPanel, Panel } from "components/ui/Panel";
 import { Badges } from "features/farming/house/House";
 import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -21,12 +23,15 @@ import { Skills } from "features/bumpkins/components/Skills";
 import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillPointStorage";
 import { CONFIG } from "lib/config";
 
+type ViewState = "home" | "achievements" | "skills";
+
 interface Props {
+  initialView: ViewState;
   onClose: () => void;
 }
 
-export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
-  const [view, setView] = useState<"home" | "achievements" | "skills">();
+export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
+  const [view, setView] = useState<ViewState>(initialView);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
@@ -50,11 +55,11 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
   };
 
   if (view === "achievements") {
-    return <Achievements onClose={() => setView("home")} />;
+    return <Achievements onBack={() => setView("home")} onClose={onClose} />;
   }
 
   if (view === "skills") {
-    return <Skills onClose={() => setView("home")} />;
+    return <Skills onBack={() => setView("home")} onClose={onClose} />;
   }
 
   // Do not show soul bound characteristics
@@ -85,22 +90,6 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
             />
           </div>
           <div>
-            <div className="mb-1 md:mb-0">
-              <OuterPanel className="relative mt-1 ">
-                <div className="flex items-center  mb-1">
-                  <span className="text-xs text-shadow">Equipped</span>
-                </div>
-                <div className="flex flex-wrap">
-                  {equippedItems.map((itemName) => (
-                    <img
-                      src={BUMPKIN_ITEMS[itemName].shopImage}
-                      key={itemName}
-                      className="h-6 w-6 object-contain mr-1"
-                    />
-                  ))}
-                </div>
-              </OuterPanel>
-            </div>
             <a
               href={getVisitBumpkinUrl()}
               target="_blank"
@@ -146,7 +135,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
             <InnerPanel className="relative mt-1 ">
               <div className="flex items-center  mb-1 justify-between">
                 <div className="flex items-center">
-                  <span className="text-xs text-shadow">Skills</span>
+                  <span className="text-xs">Skills</span>
                   {hasSkillPoint && <img src={alert} className="h-4 ml-2" />}
                 </div>
                 <span
@@ -164,7 +153,7 @@ export const BumpkinModal: React.FC<Props> = ({ onClose }) => {
             <InnerPanel className="relative mt-1 ">
               <div className="flex items-center  mb-1 justify-between">
                 <div className="flex items-center">
-                  <span className="text-xs text-shadow">Achievements</span>
+                  <span className="text-xs">Achievements</span>
                 </div>
                 <span
                   className="text-xxs underline cursor-pointer"

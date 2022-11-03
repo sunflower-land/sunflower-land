@@ -2,12 +2,12 @@ import Decimal from "decimal.js-light";
 import {
   CHICKEN_TIME_TO_EGG,
   INITIAL_BUMPKIN,
-  INITIAL_FARM,
+  TEST_FARM,
 } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { feedChicken } from "./feedChicken";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 describe("feed chickens", () => {
   const dateNow = Date.now();

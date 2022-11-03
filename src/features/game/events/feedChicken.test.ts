@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { TEST_FARM } from "../lib/constants";
 
 import { GameState } from "../types/game";
 import { feedChicken } from "./feedChicken";
 import { CHICKEN_TIME_TO_EGG } from "../lib/constants";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 describe("feed chickens", () => {
   beforeAll(() => {

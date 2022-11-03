@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM, STONE_RECOVERY_TIME } from "../../lib/constants";
+import { TEST_FARM, STONE_RECOVERY_TIME } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import {
   getMinedAt,
@@ -8,10 +8,10 @@ import {
 } from "./stoneMine";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
+  ...TEST_FARM,
   expansions: [
     {
-      ...INITIAL_FARM.expansions[0],
+      ...TEST_FARM.expansions[0],
       stones: {
         0: {
           stone: {
@@ -225,90 +225,6 @@ describe("mineStone", () => {
       })
     ).toThrow("You do not have a Bumpkin");
   });
-
-  // it("requires player has enough stamina", () => {
-  //   expect(() =>
-  //     mineStone({
-  //       state: {
-  //         ...GAME_STATE,
-  //         bumpkin: {
-  //           ...INITIAL_BUMPKIN,
-  //           stamina: {
-  //             value: 0,
-  //             replenishedAt: Date.now(),
-  //           },
-  //         },
-  //         inventory: {
-  //           Pickaxe: new Decimal(2),
-  //         },
-  //       },
-  //       action: {
-  //         type: "stoneRock.mined",
-  //         expansionIndex: 0,
-  //         index: 0,
-  //       } as LandExpansionStoneMineAction,
-  //     })
-  //   ).toThrow("You do not have enough stamina");
-  // });
-
-  // it("replenishes stamina before mining", () => {
-  //   const createdAt = Date.now();
-
-  //   const state = mineStone({
-  //     state: {
-  //       ...GAME_STATE,
-  //       bumpkin: {
-  //         ...INITIAL_BUMPKIN,
-  //         stamina: {
-  //           value: 0,
-  //           replenishedAt: 0,
-  //         },
-  //       },
-  //       inventory: {
-  //         Pickaxe: new Decimal(2),
-  //       },
-  //     },
-  //     action: {
-  //       type: "stoneRock.mined",
-  //       expansionIndex: 0,
-  //       index: 0,
-  //     } as LandExpansionStoneMineAction,
-  //     createdAt,
-  //   });
-
-  //   expect(state.bumpkin?.stamina.replenishedAt).toBe(createdAt);
-  // });
-
-  // it("deducts stamina from bumpkin", () => {
-  //   const createdAt = Date.now();
-
-  //   const state = mineStone({
-  //     state: {
-  //       ...GAME_STATE,
-  //       bumpkin: {
-  //         ...INITIAL_BUMPKIN,
-  //         stamina: {
-  //           value: MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)],
-  //           replenishedAt: createdAt,
-  //         },
-  //       },
-  //       inventory: {
-  //         Pickaxe: new Decimal(2),
-  //       },
-  //     },
-  //     action: {
-  //       type: "stoneRock.mined",
-  //       expansionIndex: 0,
-  //       index: 0,
-  //     } as LandExpansionStoneMineAction,
-  //     createdAt,
-  //   });
-
-  //   expect(state.bumpkin?.stamina.value).toBe(
-  //     MAX_STAMINA[getBumpkinLevel(INITIAL_BUMPKIN.experience)] -
-  //       STONE_MINE_STAMINA_COST
-  //   );
-  // });
 });
 
 describe("getMinedAt", () => {

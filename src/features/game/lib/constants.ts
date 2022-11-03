@@ -7,7 +7,6 @@ import {
   Inventory,
   LandExpansion,
 } from "../types/game";
-import { BumpkinLevel } from "./level";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -266,7 +265,7 @@ export const INITIAL_PLOTS: GameState["plots"] = {
 };
 
 export const GENESIS_LAND_EXPANSION: LandExpansion = {
-  createdAt: 0,
+  createdAt: 1,
   readyAt: 0,
 
   // gold: INITIAL_GOLD_MINES,
@@ -277,7 +276,7 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
 
 export const INITIAL_EXPANSIONS: LandExpansion[] = [
   {
-    createdAt: 0,
+    createdAt: 2,
     readyAt: 0,
 
     plots: {
@@ -367,7 +366,7 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
   },
 
   {
-    createdAt: 0,
+    createdAt: 3,
     readyAt: 0,
 
     plots: {},
@@ -399,7 +398,7 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
     },
   },
   {
-    createdAt: 0,
+    createdAt: 4,
     readyAt: 0,
 
     plots: {
@@ -443,7 +442,7 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
     },
   },
   {
-    createdAt: 0,
+    createdAt: 5,
     readyAt: 0,
     trees: {
       0: {
@@ -525,17 +524,13 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     background: "Farm Background",
   },
   skills: {},
-  stamina: {
-    value: 10,
-    replenishedAt: 0,
-  },
   achievements: {
     "Busy Bumpkin": 1,
   },
   activity: {},
 };
 
-export const INITIAL_FARM: GameState = {
+export const TEST_FARM: GameState = {
   balance: new Decimal(0),
   fields: INITIAL_FIELDS,
   inventory: {
@@ -556,7 +551,6 @@ export const INITIAL_FARM: GameState = {
     "Trading Ticket": new Decimal(50),
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
-    Warrior: new Decimal(1),
     "Boiled Eggs": new Decimal(3),
     "Mashed Potato": new Decimal(1),
     "Sunflower Cake": new Decimal(1),
@@ -606,6 +600,17 @@ export const INITIAL_FARM: GameState = {
         coordinates: {
           x: 2,
           y: 2,
+        },
+        createdAt: 0,
+      },
+    ],
+    Workbench: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: -2,
+          y: 8,
         },
         createdAt: 0,
       },
@@ -721,27 +726,6 @@ export const EMPTY: GameState = {
   buildings: {},
   collectibles: {},
 };
-
-export const MAX_STAMINA: Record<BumpkinLevel, number> = {
-  1: 10,
-  2: 50,
-  3: 100,
-  4: 200,
-  5: 300,
-  6: 400,
-  7: 500,
-  8: 600,
-  9: 700,
-  10: 800,
-  11: 900,
-  12: 1000,
-};
-
-export const CHOP_STAMINA_COST = 2;
-export const STONE_MINE_STAMINA_COST = 2;
-export const IRON_MINE_STAMINA_COST = 2;
-export const PLANT_STAMINA_COST = 1;
-export const GOLD_MINE_STAMINA_COST = 2;
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;
 export const STONE_RECOVERY_TIME = 4 * 60 * 60;

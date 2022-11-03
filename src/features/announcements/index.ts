@@ -33,6 +33,16 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
+    date: new Date("2022-11-03T00:00:00"),
+    title: "The Recon Patrol",
+    notes: [
+      "The patrol has returned from their mission and we have intel regarding the missing casualties of war.",
+      "It appears that our Human and Goblin friends that were slayed in battle have transitioned into the afterlife but not as we would expect.",
+      "There is a new Army making it's way to Sunflower Land.",
+    ],
+    type: "war",
+  },
+  {
     date: new Date("2022-10-27T00:00:00"),
     title: "SFL Tee Drop",
     notes: [

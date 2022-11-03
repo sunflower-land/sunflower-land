@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { TEST_FARM } from "../lib/constants";
 import { buyWarBonds } from "./buyWarBonds";
 
 describe("buyWarBonds", () => {
@@ -7,7 +7,7 @@ describe("buyWarBonds", () => {
     expect(() =>
       buyWarBonds({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           warCollectionOffer: undefined,
         },
         action: { type: "warBonds.bought" },
@@ -19,7 +19,7 @@ describe("buyWarBonds", () => {
     expect(() =>
       buyWarBonds({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           inventory: {
             Wood: new Decimal(15),
             "Goblin War Banner": new Decimal(1),
@@ -44,7 +44,7 @@ describe("buyWarBonds", () => {
   it("exchanges war bonds & subtracts ingredients", () => {
     const state = buyWarBonds({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           Wood: new Decimal(25),
           Sunflower: new Decimal(5),
@@ -78,7 +78,7 @@ describe("buyWarBonds", () => {
   it("exchanges multiple war bonds", () => {
     let state = buyWarBonds({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           Wood: new Decimal(100),
           Sunflower: new Decimal(5),
@@ -117,7 +117,7 @@ describe("buyWarBonds", () => {
   it("mints goblin war points", () => {
     const state = buyWarBonds({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           Wood: new Decimal(100),
           "Goblin War Banner": new Decimal(1),
@@ -144,7 +144,7 @@ describe("buyWarBonds", () => {
   it("mints human war points", () => {
     const state = buyWarBonds({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           Wood: new Decimal(100),
           "Goblin War Point": new Decimal(5),
@@ -170,7 +170,7 @@ describe("buyWarBonds", () => {
   it("mints extra items if they have an ancient warhammer", () => {
     const state = buyWarBonds({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           Wood: new Decimal(100),
           "Ancient Human Warhammer": new Decimal(1),

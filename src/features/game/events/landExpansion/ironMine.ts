@@ -1,13 +1,9 @@
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
 import cloneDeep from "lodash.clonedeep";
-import {
-  IRON_MINE_STAMINA_COST,
-  IRON_RECOVERY_TIME,
-} from "../../lib/constants";
+import { IRON_RECOVERY_TIME } from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
 import { GameState } from "../../types/game";
-import { replenishStamina } from "./replenishStamina";
 
 export type LandExpansionIronMineAction = {
   type: "ironRock.mined";
@@ -27,7 +23,6 @@ export enum MINE_ERRORS {
   STILL_RECOVERING = "Iron is still recovering",
   EXPANSION_HAS_NO_IRON = "Expansion has no iron",
   NO_EXPANSION = "Expansion does not exist",
-  NO_STAMINA = "You do not have enough stamina",
   NO_BUMPKIN = "You do not have a Bumpkin",
 }
 
@@ -36,22 +31,13 @@ export function mineIron({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const replenishedState = replenishStamina({
-    state,
-    action: { type: "bumpkin.replenishStamina" },
-    createdAt,
-  });
-  const stateCopy = cloneDeep(replenishedState);
+  const stateCopy = cloneDeep(state);
   const { expansions, bumpkin } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!bumpkin) {
     throw new Error(MINE_ERRORS.NO_BUMPKIN);
   }
-
-  // if (bumpkin.stamina.value < IRON_MINE_STAMINA_COST) {
-  //   throw new Error(MINE_ERRORS.NO_STAMINA);
-  // }
 
   if (!expansion) {
     throw new Error(MINE_ERRORS.NO_EXPANSION);
@@ -86,8 +72,6 @@ export function mineIron({
     minedAt: createdAt,
     amount: 2,
   };
-  bumpkin.stamina.value -= IRON_MINE_STAMINA_COST;
-
   bumpkin.activity = trackActivity("Iron Mined", bumpkin.activity);
 
   stateCopy.inventory["Stone Pickaxe"] = toolAmount.sub(1);

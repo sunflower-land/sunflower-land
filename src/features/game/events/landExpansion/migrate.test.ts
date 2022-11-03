@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { migrate } from "./migrate";
 
-const GAME_STATE: GameState = { ...INITIAL_FARM, inventory: {} };
+const GAME_STATE: GameState = { ...TEST_FARM, inventory: {} };
 
 describe("Migrate", () => {
   it("requires player to have at least 10.000 XP", () => {

@@ -9,7 +9,7 @@ const address = CONFIG.FARM_CONTRACT;
 type FarmAccount = {
   account: string;
   owner: string;
-  tokenId: number;
+  tokenId: string;
 };
 
 type FarmCreatedEvent = {
@@ -55,7 +55,7 @@ export class Farm {
     }
   }
 
-  public async ownerOf(tokenId: number): Promise<string> {
+  public async ownerOf(tokenId: string): Promise<string> {
     const account = await this.farm.methods.ownerOf(tokenId).call();
 
     return account;
@@ -77,14 +77,8 @@ export class Farm {
       return this.getNewFarm();
     }
 
-    /**
-     * TODO: Temporary logs for debugging
-     */
-    console.log({ farm: farms[0] });
     // Double check they are the owner
     const owner = await this.ownerOf(farms[0].tokenId);
-    console.log({ owner });
-    console.log({ account: this.account });
     if (owner !== this.account) {
       return this.getNewFarm();
     }

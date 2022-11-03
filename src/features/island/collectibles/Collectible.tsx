@@ -41,6 +41,9 @@ import { Scarecrow } from "./components/Scarecrow";
 import { Kuebiko } from "./components/Kuebiko";
 import { flags } from "./components/Flags";
 import { CarrotSword } from "./components/CarrotSword";
+import { WhiteTulips } from "./components/WhiteTulips";
+import { PottedSunflower } from "./components/PottedSunflower";
+import { Cactus } from "./components/Cactus";
 
 interface Prop {
   name: CollectibleName;
@@ -102,7 +105,15 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
 
   // Flags
   ...flags,
-} as Record<CollectibleName, React.FC>;
+
+  //Decorations
+  "White Tulips": WhiteTulips,
+  "Potted Sunflower": PottedSunflower,
+  Cactus: Cactus,
+
+  "Victoria Sisters": () => null,
+  "Egg Basket": () => null,
+};
 
 export const Collectible: React.FC<Prop> = ({ name, id }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];

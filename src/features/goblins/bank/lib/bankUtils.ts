@@ -10,6 +10,7 @@ import {
   getKeys,
   QUEST_ITEMS,
   SHOVELS,
+  TOOLS,
 } from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/crops";
 import { Inventory, InventoryItemName } from "features/game/types/game";
@@ -55,11 +56,6 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return false;
   }
 
-  // Wait until Halloween is over
-  if (item === "Victoria Sisters") {
-    return false;
-  }
-
   // Coming soon
   if (item in FOODS()) {
     return false;
@@ -71,6 +67,10 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
   }
 
   if (item === "Engine Core" || item == "Observatory") {
+    return false;
+  }
+
+  if (item in TOOLS) {
     return false;
   }
 
@@ -172,6 +172,6 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return false;
   }
 
-  // Tools, Crops, Resources
+  // Crops, Resources, etc.
   return true;
 }

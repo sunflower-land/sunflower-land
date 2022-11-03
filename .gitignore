@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+# /src/features/game/lib/landData.ts
+
 # testing
 /coverage
 

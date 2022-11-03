@@ -1,13 +1,9 @@
 import Decimal from "decimal.js-light";
-import {
-  STONE_MINE_STAMINA_COST,
-  STONE_RECOVERY_TIME,
-} from "features/game/lib/constants";
+import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import cloneDeep from "lodash.clonedeep";
 import { GameState, LandExpansionRock } from "../../types/game";
-import { replenishStamina } from "./replenishStamina";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -47,13 +43,7 @@ export function mineStone({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const replenishState = replenishStamina({
-    state,
-    action: { type: "bumpkin.replenishStamina" },
-    createdAt,
-  });
-
-  const stateCopy = cloneDeep(replenishState);
+  const stateCopy = cloneDeep(state);
   const { expansions, bumpkin } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
@@ -70,10 +60,6 @@ export function mineStone({
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
   }
-
-  // if (bumpkin.stamina.value < STONE_MINE_STAMINA_COST) {
-  //   throw new Error("You do not have enough stamina");
-  // }
 
   const rock = stones[action.index];
 
@@ -101,8 +87,6 @@ export function mineStone({
     }),
     amount: 2,
   };
-
-  bumpkin.stamina.value -= STONE_MINE_STAMINA_COST;
 
   stateCopy.inventory.Pickaxe = toolAmount.sub(1);
   stateCopy.inventory.Stone = amountInInventory.add(stoneMined);

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { marketRate } from "features/game/lib/halvening";
 import { buyChicken } from "./buyChicken";
 
@@ -8,7 +8,7 @@ describe("buyChicken", () => {
     expect(() =>
       buyChicken({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           bumpkin: undefined,
         },
         action: {
@@ -26,7 +26,7 @@ describe("buyChicken", () => {
     expect(() =>
       buyChicken({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           balance: new Decimal(0.01),
           buildings: {
             "Chicken House": [
@@ -56,7 +56,7 @@ describe("buyChicken", () => {
   it("burns SFL", () => {
     const state = buyChicken({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         balance: new Decimal(10),
         buildings: {
           "Chicken House": [
@@ -86,7 +86,7 @@ describe("buyChicken", () => {
   it("places a chicken on land", () => {
     const state = buyChicken({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         chickens: {},
         balance: new Decimal(10),
         buildings: {
@@ -126,7 +126,7 @@ describe("buyChicken", () => {
   it("places a chicken on land with chicken coop available", () => {
     const state = buyChicken({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           "Chicken Coop": new Decimal(1),
           "Chicken House": new Decimal(1),
@@ -171,7 +171,7 @@ describe("buyChicken", () => {
   it("places multiple chickens", () => {
     let state = buyChicken({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         chickens: {},
         balance: new Decimal(10),
         buildings: {
@@ -237,7 +237,7 @@ describe("buyChicken", () => {
   it("increments spent SFL activity", () => {
     const state = buyChicken({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         chickens: {},
         balance: new Decimal(10),
         buildings: {
@@ -272,7 +272,7 @@ describe("buyChicken", () => {
     expect(() =>
       buyChicken({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           balance: new Decimal(10),
           inventory: {
             Chicken: new Decimal(10),
@@ -305,7 +305,7 @@ describe("buyChicken", () => {
     expect(() =>
       buyChicken({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           balance: new Decimal(10),
           inventory: {
             Chicken: new Decimal(15),
@@ -338,7 +338,7 @@ describe("buyChicken", () => {
   it("increments bought chicken activity", () => {
     const state = buyChicken({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         chickens: {},
         balance: new Decimal(10),
         buildings: {
@@ -370,7 +370,7 @@ describe("buyChicken", () => {
   it("mints a chicken", () => {
     const state = buyChicken({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         chickens: {},
         inventory: {
           Sunflower: new Decimal(100),

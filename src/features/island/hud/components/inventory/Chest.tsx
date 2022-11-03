@@ -5,6 +5,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import {
+  CollectibleName,
   getKeys,
   LimitedItemName,
   LIMITED_ITEMS,
@@ -14,6 +15,7 @@ import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
 import { Context } from "features/game/GameProvider";
+import { DECORATIONS } from "features/game/types/decorations";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -29,10 +31,10 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
   const [scrollIntoView] = useScrollIntoView();
 
   const chestMap = getChestItems(state);
+  const { inventory, collectibles: placedItems } = state;
 
-  console.log({ chestMap });
   const collectibles = getKeys(chestMap).reduce((acc, item) => {
-    if (item in LIMITED_ITEMS) {
+    if (item in LIMITED_ITEMS || item in DECORATIONS()) {
       return { ...acc, [item]: chestMap[item] };
     }
     return acc;
@@ -111,7 +113,9 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
             <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
               {getKeys(collectibles).map((item) => (
                 <Box
-                  count={state.inventory[item]}
+                  count={inventory[item]?.sub(
+                    placedItems[item as CollectibleName]?.length ?? 0
+                  )}
                   isSelected={selected === item}
                   key={item}
                   onClick={() => handleItemClick(item)}

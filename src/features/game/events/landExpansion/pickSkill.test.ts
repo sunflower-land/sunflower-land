@@ -1,4 +1,4 @@
-import { INITIAL_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
+import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { LEVEL_BRACKETS } from "features/game/lib/level";
 import { pickSkill } from "./pickSkill";
 
@@ -7,7 +7,7 @@ describe("PickSkill", () => {
   it("requires bumpkin", () => {
     expect(() => {
       pickSkill({
-        state: { ...INITIAL_FARM, bumpkin: undefined },
+        state: { ...TEST_FARM, bumpkin: undefined },
         action: { type: "skill.picked", skill: "Green Thumb" },
         createdAt: dateNow,
       });
@@ -18,7 +18,7 @@ describe("PickSkill", () => {
     expect(() => {
       pickSkill({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
             experience: 0,
@@ -35,7 +35,7 @@ describe("PickSkill", () => {
     expect(() => {
       pickSkill({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_BRACKETS[2],
@@ -52,7 +52,7 @@ describe("PickSkill", () => {
     expect(() => {
       pickSkill({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_BRACKETS[3],
@@ -69,7 +69,7 @@ describe("PickSkill", () => {
     expect(() => {
       pickSkill({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_BRACKETS[4],
@@ -86,7 +86,7 @@ describe("PickSkill", () => {
     expect(() => {
       pickSkill({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_BRACKETS[4],
@@ -102,7 +102,7 @@ describe("PickSkill", () => {
   it("adds the Green Thumb skill to bumpkin", () => {
     const result = pickSkill({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_BRACKETS[2],
@@ -119,7 +119,7 @@ describe("PickSkill", () => {
   it("adds the Cultivator skill to bumpkin", () => {
     const result = pickSkill({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_BRACKETS[3],

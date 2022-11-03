@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import classNames from "classnames";
 
 import { frogSounds } from "lib/utils/sfx";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
-import { Frog } from "../models/frog";
+import { Frog, FROG_SIZE } from "../models/frog";
 
 interface Props {
   frog: Frog;
@@ -33,7 +33,7 @@ export const FrogComponent: React.FC<Props> = ({ frog, disableSound }) => {
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         style={{
-          width: `${GRID_WIDTH_PX * 2}px`,
+          width: `${FROG_SIZE * PIXEL_SCALE}px`,
         }}
       />
       <InnerPanel
@@ -47,8 +47,8 @@ export const FrogComponent: React.FC<Props> = ({ frog, disableSound }) => {
       >
         <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
           <span className="flex-1">{frog.name}</span>
-          <span className="flex-1" style={{ color: frog.rarity.color }}>
-            {frog.rarity.name}
+          <span className="flex-1" style={{ color: frog.rarity?.color }}>
+            {frog.rarity?.name}
           </span>
         </div>
       </InnerPanel>

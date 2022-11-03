@@ -7,14 +7,23 @@ import dropShadow from "assets/bumpkins/shop/body_dropshadow.png";
 import {
   BumpkinItem,
   BumpkinPart,
-  BumpkinParts,
+  Equipped as BumpkinParts,
+  ITEM_IDS,
 } from "features/game/types/bumpkin";
-import { BUMPKIN_ITEMS } from "features/bumpkins/types/BumpkinDetails";
+import { CONFIG } from "lib/config";
 
 interface Props {
   bumpkinParts: BumpkinParts;
   showBackground?: boolean;
   className?: string;
+}
+
+function getImageUrl(layerId: number) {
+  if (CONFIG.NETWORK === "mainnet") {
+    return `https://images.bumpkins.io/layers/${layerId}.png`;
+  }
+
+  return `https://testnet-images.bumpkins.io/layers/${layerId}.png`;
 }
 
 export const DynamicNFT: React.FC<Props> = ({
@@ -26,16 +35,27 @@ export const DynamicNFT: React.FC<Props> = ({
     return null;
   }
 
-  const { background, body, hair, pants, shirt, shoes, hat, necklace, tool } =
-    bumpkinParts;
+  const {
+    background,
+    body,
+    hair,
+    pants,
+    shirt,
+    shoes,
+    hat,
+    necklace,
+    tool,
+    coat,
+  } = bumpkinParts;
 
   // Need to render layers in specific order
   const orderedParts: Partial<BumpkinParts> = {
     background,
     body,
     hair,
-    pants,
     shirt,
+    pants,
+    coat,
     shoes,
     hat,
     necklace,
@@ -58,7 +78,8 @@ export const DynamicNFT: React.FC<Props> = ({
         .map((part: BumpkinPart, index) => (
           <img
             key={part}
-            src={BUMPKIN_ITEMS[bumpkinParts[part] as BumpkinItem]?.layerImage}
+            // TODO
+            src={getImageUrl(ITEM_IDS[bumpkinParts[part] as BumpkinItem])}
             style={{
               zIndex: index * 10,
             }}

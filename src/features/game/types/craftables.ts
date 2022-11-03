@@ -7,6 +7,7 @@ import { marketRate } from "../lib/halvening";
 import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
 import { OnChainLimitedItems } from "../lib/goblinMachine";
 import { isArray } from "lodash";
+import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
 
 export { FLAGS };
 
@@ -168,6 +169,7 @@ export type CollectibleName =
   | Flag
   | TravelingSalesmanItem
   | MutantChicken
+  | DecorationName
   | "War Skull"
   | "War Tombstone"
   | "Undead Rooster";
@@ -1098,6 +1100,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   // Flags
   ...flagsDimension,
+
+  ...DECORATION_DIMENSIONS,
 
   // Blacksmith Items
   "Sunflower Statue": { width: 3, height: 4 },
