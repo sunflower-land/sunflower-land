@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_BUMPKIN, INITIAL_FARM } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { ACHIEVEMENTS } from "features/game/types/achievements";
 import { GameState } from "features/game/types/game";
 import { claimAchievement } from "./claimAchievement";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 describe("claim achievements", () => {
   const date = Date.now();

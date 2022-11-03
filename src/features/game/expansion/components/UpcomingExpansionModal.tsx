@@ -32,7 +32,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   if (gameState.expansionRequirements === undefined) {
     return (
       <div>
-        <div className="absolute w-1/3 left-2 -top-28 -z-10">
+        <div className="absolute w-48 -left-4 -top-32 -z-10">
           {gameState.bumpkin && (
             <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
           )}
@@ -72,7 +72,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
 
   return (
     <div>
-      <div className="absolute w-1/3 left-2 -top-28 -z-10">
+      <div className="absolute w-48 -left-4 -top-32 -z-10">
         {gameState.bumpkin && (
           <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
         )}

@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../../lib/constants";
+import { TEST_FARM } from "../../lib/constants";
 import { GameState, LandExpansionPlot } from "../../types/game";
 import { harvest } from "./harvest";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
+  ...TEST_FARM,
   balance: new Decimal(0),
   inventory: {},
   trees: {},

@@ -265,7 +265,7 @@ export const INITIAL_PLOTS: GameState["plots"] = {
 };
 
 export const GENESIS_LAND_EXPANSION: LandExpansion = {
-  createdAt: 0,
+  createdAt: 1,
   readyAt: 0,
 
   // gold: INITIAL_GOLD_MINES,
@@ -276,7 +276,7 @@ export const GENESIS_LAND_EXPANSION: LandExpansion = {
 
 export const INITIAL_EXPANSIONS: LandExpansion[] = [
   {
-    createdAt: 0,
+    createdAt: 2,
     readyAt: 0,
 
     plots: {
@@ -366,7 +366,7 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
   },
 
   {
-    createdAt: 0,
+    createdAt: 3,
     readyAt: 0,
 
     plots: {},
@@ -398,7 +398,7 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
     },
   },
   {
-    createdAt: 0,
+    createdAt: 4,
     readyAt: 0,
 
     plots: {
@@ -442,7 +442,7 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
     },
   },
   {
-    createdAt: 0,
+    createdAt: 5,
     readyAt: 0,
     trees: {
       0: {
@@ -530,7 +530,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   activity: {},
 };
 
-export const INITIAL_FARM: GameState = {
+export const TEST_FARM: GameState = {
   balance: new Decimal(0),
   fields: INITIAL_FIELDS,
   inventory: {
@@ -551,7 +551,6 @@ export const INITIAL_FARM: GameState = {
     "Trading Ticket": new Decimal(50),
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
-    Warrior: new Decimal(1),
     "Boiled Eggs": new Decimal(3),
     "Mashed Potato": new Decimal(1),
     "Sunflower Cake": new Decimal(1),
@@ -601,6 +600,17 @@ export const INITIAL_FARM: GameState = {
         coordinates: {
           x: 2,
           y: 2,
+        },
+        createdAt: 0,
+      },
+    ],
+    Workbench: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: -2,
+          y: 8,
         },
         createdAt: 0,
       },

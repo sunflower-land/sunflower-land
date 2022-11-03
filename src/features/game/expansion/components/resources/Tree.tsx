@@ -194,7 +194,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_TIME);
 
   return (
-    <div className="relative z-10 w-full h-full mt-3">
+    <div className="relative w-full h-full mt-3">
       {!chopped && (
         <>
           <div
@@ -239,7 +239,10 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
             placement="right"
           >
             {({ arrowProps, show, ...props }) => (
-              <div {...props} className="absolute -left-1/2 z-10 w-28">
+              <div
+                {...props}
+                className="absolute -left-1/2 z-10 w-28 pointer-events-none"
+              >
                 {errorLabel === "noAxe" && (
                   <Label className="p-2">Equip {tool.toLowerCase()}</Label>
                 )}
@@ -312,7 +315,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute top-4 left-2",
+          "transition-opacity pointer-events-none absolute bottom-1 left-5",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,

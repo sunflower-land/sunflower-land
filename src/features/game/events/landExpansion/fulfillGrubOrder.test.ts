@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { fulfillGrubOrder } from "./fulfillGrubOrder";
 
 describe("fulfillGrubOrder", () => {
@@ -7,7 +7,7 @@ describe("fulfillGrubOrder", () => {
     expect(() =>
       fulfillGrubOrder({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           grubShop: {
             opensAt: new Date("1999-01-01").getTime(),
             closesAt: new Date("2000-01-01").getTime(),
@@ -26,7 +26,7 @@ describe("fulfillGrubOrder", () => {
     expect(() =>
       fulfillGrubOrder({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           grubShop: {
             opensAt: Date.now() - 1 * 60 * 60 * 1000,
             closesAt: Date.now() + 1 * 60 * 60 * 1000,
@@ -57,7 +57,7 @@ describe("fulfillGrubOrder", () => {
     expect(() =>
       fulfillGrubOrder({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           inventory: {
             "Mashed Potato": new Decimal(0),
           },
@@ -86,7 +86,7 @@ describe("fulfillGrubOrder", () => {
     expect(() =>
       fulfillGrubOrder({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           inventory: {},
           grubShop: {
             opensAt: Date.now() - 1 * 60 * 60 * 1000,
@@ -113,7 +113,7 @@ describe("fulfillGrubOrder", () => {
     expect(() =>
       fulfillGrubOrder({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           inventory: {
             "Mashed Potato": new Decimal(5),
           },
@@ -161,7 +161,7 @@ describe("fulfillGrubOrder", () => {
   it("player receives SFL", () => {
     const state = fulfillGrubOrder({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         balance: new Decimal(1),
         inventory: {
           "Mashed Potato": new Decimal(5),
@@ -192,7 +192,7 @@ describe("fulfillGrubOrder", () => {
     const fulfilledAt = Date.now();
     const state = fulfillGrubOrder({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         balance: new Decimal(1),
         inventory: {
           "Mashed Potato": new Decimal(5),
@@ -228,7 +228,7 @@ describe("fulfillGrubOrder", () => {
     const fulfilledAt = Date.now();
     const state = fulfillGrubOrder({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         balance: new Decimal(1),
         inventory: {
           "Mashed Potato": new Decimal(5),
@@ -259,7 +259,7 @@ describe("fulfillGrubOrder", () => {
   it("fulfills multiple orders", () => {
     let state = fulfillGrubOrder({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           "Mashed Potato": new Decimal(5),
         },

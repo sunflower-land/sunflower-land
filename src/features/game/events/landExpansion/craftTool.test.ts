@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
-import { INITIAL_FARM } from "../../lib/constants";
+import { TEST_FARM, INITIAL_BUMPKIN } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { craftTool } from "./craftTool";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 describe("craftTool", () => {
   it("throws an error if item is not craftable", () => {
@@ -103,4 +103,44 @@ describe("craftTool", () => {
       })
     ).toThrow("Not enough stock");
   });
+});
+
+it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
+  const createdAt = Date.now();
+  const bumpkin = {
+    ...INITIAL_BUMPKIN,
+  };
+  const state = craftTool({
+    state: {
+      ...GAME_STATE,
+      balance: new Decimal(1),
+      inventory: {},
+    },
+    action: {
+      type: "tool.crafted",
+      tool: "Axe",
+    },
+  });
+
+  expect(state.bumpkin?.activity?.["Axe Crafted"]).toBe(1);
+});
+
+it("increments SFL spent when axe is crafted", () => {
+  const createdAt = Date.now();
+  const bumpkin = {
+    ...INITIAL_BUMPKIN,
+  };
+  const state = craftTool({
+    state: {
+      ...GAME_STATE,
+      balance: new Decimal(1),
+      inventory: {},
+    },
+    action: {
+      type: "tool.crafted",
+      tool: "Axe",
+    },
+  });
+
+  expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(0.0625);
 });

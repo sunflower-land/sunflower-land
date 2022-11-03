@@ -56,11 +56,6 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return false;
   }
 
-  // Wait until Halloween is over
-  if (item === "Victoria Sisters") {
-    return false;
-  }
-
   // Coming soon
   if (item in FOODS()) {
     return false;

@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { getSupportedChickens } from "./utils";
 
 describe("getSupportedChickens", () => {
   it("gives the correct amount of supported chicken without chicken coop", () => {
     const result = getSupportedChickens({
-      ...INITIAL_FARM,
+      ...TEST_FARM,
       inventory: {},
       buildings: {
         "Chicken House": [
@@ -25,7 +25,7 @@ describe("getSupportedChickens", () => {
   });
   it("gives the correct amount of supported chicken with chicken coop", () => {
     const result = getSupportedChickens({
-      ...INITIAL_FARM,
+      ...TEST_FARM,
       inventory: {
         "Chicken Coop": new Decimal(1),
       },

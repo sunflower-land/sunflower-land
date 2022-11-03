@@ -1,16 +1,16 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "./constants";
+import { TEST_FARM } from "./constants";
 import { getLowestGameState } from "./transforms";
 
 describe("transform", () => {
   it("gets the lowest balance from the first object", () => {
     const lowest = getLowestGameState({
       first: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         balance: new Decimal(0.5),
       },
       second: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         balance: new Decimal(5),
       },
     });
@@ -21,11 +21,11 @@ describe("transform", () => {
   it("gets the lowest balance from the second object", () => {
     const lowest = getLowestGameState({
       first: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         balance: new Decimal(2),
       },
       second: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         balance: new Decimal(105),
       },
     });
@@ -36,7 +36,7 @@ describe("transform", () => {
   it("gets the lowest inventory", () => {
     const lowest = getLowestGameState({
       first: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           Sunflower: new Decimal(5),
           Axe: new Decimal(100),
@@ -44,7 +44,7 @@ describe("transform", () => {
         },
       },
       second: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           Sunflower: new Decimal(10),
           Axe: new Decimal(90),

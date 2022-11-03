@@ -540,7 +540,7 @@ export const authMachine = createMachine<
         );
 
         return {
-          farmId: farmAccount.tokenId,
+          farmId: parseInt(farmAccount.tokenId),
           address: farmAccount.account,
           createdAt,
           blacklistStatus: botStatus ?? isBanned ? "BANNED" : "OK",
@@ -558,7 +558,7 @@ export const authMachine = createMachine<
         });
 
         return {
-          farmId: newFarm.tokenId,
+          farmId: parseInt(newFarm.tokenId),
           address: newFarm.account,
         };
       },
@@ -586,7 +586,7 @@ export const authMachine = createMachine<
         const isBlacklisted = await isFarmBlacklisted(farmId);
 
         return {
-          farmId: farmAccount.tokenId,
+          farmId: parseInt(farmAccount.tokenId),
           address: farmAccount.account,
           createdAt: 0,
           blacklistStatus: isBlacklisted ? "REJECTED" : "OK",

@@ -1,5 +1,6 @@
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type FulFillGrubOrderAction = {
   type: "grubOrder.fulfilled";
@@ -18,6 +19,10 @@ export function fulfillGrubOrder({
   createdAt = Date.now(),
 }: Options): GameState {
   const game = cloneDeep(state);
+  const { bumpkin } = game;
+  if (bumpkin === undefined) {
+    throw new Error("You do not have a Bumpkin");
+  }
 
   if (!game.grubShop || game.grubShop.closesAt < createdAt) {
     throw new Error("Grub shop is not open");
@@ -45,6 +50,8 @@ export function fulfillGrubOrder({
   if (unfulFilledOrders.findIndex((order) => order.id === action.id) >= 4) {
     throw new Error("Order is locked");
   }
+
+  bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, order.sfl);
 
   return {
     ...state,

@@ -1,13 +1,13 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM, INITIAL_BUMPKIN } from "../../lib/constants";
+import { TEST_FARM, INITIAL_BUMPKIN } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { LandExpansionIronMineAction, mineIron } from "./ironMine";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
+  ...TEST_FARM,
   expansions: [
     {
-      ...INITIAL_FARM.expansions[0],
+      ...TEST_FARM.expansions[0],
       iron: {
         0: {
           stone: {

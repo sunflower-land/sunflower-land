@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { GameState, PlacedItem } from "features/game/types/game";
 import { collectRecipe } from "./collectRecipe";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 describe("collect Recipes", () => {
   it("throws an error if building does not exist", () => {

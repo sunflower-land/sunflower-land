@@ -33,7 +33,7 @@ import { homeDoorAudio } from "lib/utils/sfx";
 import { Button } from "components/ui/Button";
 import { Inventory } from "components/InventoryItems";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
-import { BumpkinParts } from "features/game/types/bumpkin";
+import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 
 export const Badges: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   const BADGES: InventoryItemName[] = Object.keys(SKILL_TREE).map(

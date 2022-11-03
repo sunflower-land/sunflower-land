@@ -70,7 +70,11 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
           />
         </div>
       </MapPlacement>
-      <Modal show={showBumpkinModal} centered>
+      <Modal
+        show={showBumpkinModal}
+        onHide={() => setShowBumpkinModal(false)}
+        centered
+      >
         <Panel>
           <UpcomingExpansionModal
             gameState={gameState}

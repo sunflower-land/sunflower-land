@@ -5,11 +5,9 @@ import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 
-import { BUMPKIN_ITEMS } from "features/bumpkins/types/BumpkinDetails";
 import { Tab } from "./ItemsModal";
 
 import token from "assets/icons/token_2.png";
-import question from "assets/icons/expression_confused.png";
 import {
   BumpkinShopItem,
   loadCollection,
@@ -32,6 +30,24 @@ export type Release = {
   price: string;
 };
 
+function getImageUrl(wearableId: number) {
+  if (CONFIG.NETWORK === "mainnet") {
+    return `https://bumpkins.io/erc1155/images/${wearableId}.png`;
+  }
+
+  return `https://bumpkins.io/erc1155/images/${wearableId}.png`;
+}
+
+// async function getDetails() {
+//   const url = `${API_URL}/bans/${id}`;
+//   const response = await window.fetch(url, {
+//     method: "GET",
+//     headers: {
+//       "content-type": "application/json;charset=UTF-8",
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+// }
 export const TabContent: React.FC<Props> = ({ tab }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [upcoming, setUpcoming] = useState<BumpkinShopItem[]>([]);
@@ -100,15 +116,13 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
       </div>
     );
   }
-  // Filter out any items that we don't have details for to avoid a break
-  const itemsToShow = items.filter((item) => !!BUMPKIN_ITEMS[item.name]);
 
   const PanelDetail = () => {
     if (tab === "collection") {
       return (
         <>
           <span className="text-shadow text-center text-xs leading-5">
-            {BUMPKIN_ITEMS[selected.name].description}
+            {/* TODO - load from metadata url? */}
           </span>
           <div className="border-t border-white w-full mt-2 py-2 text-center">
             <span className="text-shadow text-xxs text-center mt-2 sm:text-xs">
@@ -138,7 +152,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
               })}`}
         </span>
         <span className="text-shadow text-center text-xs leading-5">
-          {BUMPKIN_ITEMS[selected.name].description}
+          {/* TODO - load from metadata url? */}
         </span>
         <div className="border-t border-white w-full mt-2 pt-2 text-center">
           <div className="flex justify-center items-end my-1">
@@ -170,8 +184,8 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
             {selected.name}
           </span>
           <img
-            src={BUMPKIN_ITEMS[selected.name]?.shopImage ?? question}
-            className="h-8 my-2"
+            src={getImageUrl(selected.tokenId)}
+            className="h-24 rounded-md my-2"
             alt={selected.name}
           />
           {PanelDetail()}
@@ -184,12 +198,12 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
         className="overflow-y-auto w-full pt-1 mr-1 scrollable"
       >
         <div className="flex flex-wrap h-fit justify-center">
-          {itemsToShow.map((item) => (
+          {items.map((item) => (
             <Box
               isSelected={selected === item}
               key={item.name}
               onClick={() => setSelected(item)}
-              image={BUMPKIN_ITEMS[item.name]?.shopImage ?? question}
+              image={getImageUrl(item.tokenId)}
               count={new Decimal(0)}
             />
           ))}
