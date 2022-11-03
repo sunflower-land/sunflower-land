@@ -146,10 +146,10 @@ export const Game: React.FC = () => {
               </div>
               <Panel>
                 <div className="flex flex-col items-center">
-                  <h2 className="text-center">Land Not Found!</h2>
-                  <img src={land} className="h-9 my-2" />
+                  <h2 className="text-center">Island Not Found!</h2>
+                  <img src={land} className="h-9 my-3" />
                   <p className="mb-3">
-                    It looks like this land has not migrated over to Sunflower
+                    It looks like this player has not migrated over to Sunflower
                     Isles yet!
                   </p>
                 </div>

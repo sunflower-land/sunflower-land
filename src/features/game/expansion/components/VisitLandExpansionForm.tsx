@@ -57,9 +57,9 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
   return (
     <div>
       <form onSubmit={visit}>
-        <div className="flex items-center">
-          <span className="text-shadow text-small mb-2 px-1 whitespace-nowrap">
-            Enter Land ID:{" "}
+        <div className="flex items-center mb-2">
+          <span className="text-shadow text-small px-1 whitespace-nowrap">
+            Enter Island ID:{" "}
           </span>
           <input
             type="number"
