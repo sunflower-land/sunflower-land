@@ -245,7 +245,7 @@ export const Land: React.FC = () => {
                 <Expansion
                   createdAt={createdAt}
                   expansionIndex={index}
-                  key={index}
+                  key={`${createdAt}-${index}`}
                   stones={stones}
                   gold={gold}
                   trees={trees}
@@ -288,7 +288,7 @@ export const Land: React.FC = () => {
 
               return (
                 <MapPlacement
-                  key={index}
+                  key={`${x}-${y}-${index}`}
                   x={x}
                   y={y}
                   height={height}
@@ -312,7 +312,7 @@ export const Land: React.FC = () => {
 
               return (
                 <MapPlacement
-                  key={index}
+                  key={`${x}-${y}-${index}`}
                   x={x}
                   y={y}
                   height={height}
@@ -334,7 +334,7 @@ export const Land: React.FC = () => {
 
               return (
                 <MapPlacement
-                  key={index}
+                  key={`${x}-${y}-${index}`}
                   x={x}
                   y={y}
                   height={height}
