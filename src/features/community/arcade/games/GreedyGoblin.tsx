@@ -83,7 +83,7 @@ export const GreedyGoblin: React.FC = () => {
 
   const intervalIds = useRef<IntervalType[]>([]);
   const gameInterval = useRef(2000);
-  const dropInterval = useRef(50);
+  const dropInterval = useRef(100);
   const isGameOver = useRef(false);
   const points = useRef(0);
   const goblinPosX = useRef(0);
@@ -420,7 +420,7 @@ export const GreedyGoblin: React.FC = () => {
             backgroundSize: "contain",
           }}
         ></canvas>
-        <span className="flex items-center my-4">
+        <span className="flex items-center my-2">
           <img src={token} className="w-6 mr-2" />
           {renderPoints}
         </span>
