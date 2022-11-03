@@ -11,7 +11,7 @@ import { ErrorMessage } from "features/auth/ErrorMessage";
 import { screenTracker } from "lib/utils/screen";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { Context } from "../GameProvider";
-import { StateValues } from "../lib/gameMachine";
+import { INITIAL_SESSION, StateValues } from "../lib/gameMachine";
 import { ToastManager } from "../toast/ToastManager";
 import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
@@ -106,10 +106,11 @@ export const Game: React.FC = () => {
     };
   }, []);
 
-  const loading =
-    gameState.matches("loading") || gameState.matches("loadLandToVisit");
+  const loadingSession =
+    gameState.matches("loading") &&
+    gameState.context.sessionId === INITIAL_SESSION;
 
-  if (loading) {
+  if (loadingSession || gameState.matches("loadLandToVisit")) {
     return (
       <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
         <Modal show centered backdrop={false}>

@@ -400,6 +400,9 @@ export function startGame(authContext: Options) {
           },
         },
         landToVisitNotFound: {
+          entry: assign({
+            state: () => EMPTY,
+          }),
           on: {
             VISIT: {
               target: "loadLandToVisit",

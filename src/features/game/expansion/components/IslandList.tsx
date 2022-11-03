@@ -123,7 +123,7 @@ export const IslandList = ({
       path: `/retreat/${id}`,
     },
     {
-      name: "Land",
+      name: "Home",
       image: human,
       levelRequired: 0,
       path: `/land/${id}`,
@@ -158,7 +158,7 @@ export const IslandList = ({
         <>
           {authState.matches({ connected: "authorised" }) && (
             <Island
-              name="Land"
+              name="Home"
               image={human}
               levelRequired={0}
               path={`/land/${authState.context.farmId}`}
