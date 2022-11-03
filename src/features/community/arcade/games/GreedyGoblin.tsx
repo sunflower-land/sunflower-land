@@ -137,19 +137,19 @@ export const GreedyGoblin: React.FC = () => {
   };
 
   /**
-   * Add to list of active keys when mouse/touch is down
+   * Add to list of active keys and check active keys
    * @param key action key
    */
-  const onMouseDownArrow = (key: ActionKeys) => {
+  const addAndCheckActiveKeys = (key: ActionKeys) => {
     activeKeys.current = [...activeKeys.current.filter((k) => k !== key), key];
     checkActiveKeys(activeKeys.current);
   };
 
   /**
-   * Remove from list of active keys when mouse/touch is up
+   * Remove from list of active keys and check active keys
    * @param key action key
    */
-  const onMouseUpArrow = (key: ActionKeys) => {
+  const removeAndCheckActiveKeys = (key: ActionKeys) => {
     activeKeys.current = activeKeys.current.filter((k) => k !== key);
     checkActiveKeys(activeKeys.current);
   };
@@ -168,13 +168,8 @@ export const GreedyGoblin: React.FC = () => {
       key === "arrowright" ||
       key === "d"
     ) {
-      activeKeys.current = [
-        ...activeKeys.current.filter((k) => k !== key),
-        key,
-      ];
+      addAndCheckActiveKeys(key);
     }
-
-    checkActiveKeys(activeKeys.current);
   };
 
   /**
@@ -192,10 +187,8 @@ export const GreedyGoblin: React.FC = () => {
       key === "arrowright" ||
       key === "d"
     ) {
-      activeKeys.current = activeKeys.current.filter((k) => k !== key);
+      removeAndCheckActiveKeys(key);
     }
-
-    checkActiveKeys(activeKeys.current);
   };
 
   /**
@@ -428,12 +421,11 @@ export const GreedyGoblin: React.FC = () => {
       <div className="flex mb-2 flex justify-around">
         <div
           className="h-16 w-16 cursor-pointer"
-          style={{ color: "green" }}
-          onMouseDown={() => onMouseDownArrow("uiArrowLeft")}
-          onTouchStart={() => onMouseDownArrow("uiArrowLeft")}
-          onMouseUp={() => onMouseUpArrow("uiArrowLeft")}
-          onMouseLeave={() => onMouseUpArrow("uiArrowLeft")}
-          onTouchEnd={() => onMouseUpArrow("uiArrowLeft")}
+          onMouseDown={() => addAndCheckActiveKeys("uiArrowLeft")}
+          onTouchStart={() => addAndCheckActiveKeys("uiArrowLeft")}
+          onMouseUp={() => removeAndCheckActiveKeys("uiArrowLeft")}
+          onMouseLeave={() => removeAndCheckActiveKeys("uiArrowLeft")}
+          onTouchEnd={() => removeAndCheckActiveKeys("uiArrowLeft")}
         >
           <img
             className="h-full w-full pointer-events-none p-3"
@@ -443,11 +435,11 @@ export const GreedyGoblin: React.FC = () => {
         </div>
         <div
           className="h-16 w-16 cursor-pointer"
-          onMouseDown={() => onMouseDownArrow("uiArrowRight")}
-          onTouchStart={() => onMouseDownArrow("uiArrowRight")}
-          onMouseUp={() => onMouseUpArrow("uiArrowRight")}
-          onMouseLeave={() => onMouseUpArrow("uiArrowRight")}
-          onTouchEnd={() => onMouseUpArrow("uiArrowRight")}
+          onMouseDown={() => addAndCheckActiveKeys("uiArrowRight")}
+          onTouchStart={() => addAndCheckActiveKeys("uiArrowRight")}
+          onMouseUp={() => removeAndCheckActiveKeys("uiArrowRight")}
+          onMouseLeave={() => removeAndCheckActiveKeys("uiArrowRight")}
+          onTouchEnd={() => removeAndCheckActiveKeys("uiArrowRight")}
         >
           <img
             className="h-full w-full pointer-events-none p-3"
