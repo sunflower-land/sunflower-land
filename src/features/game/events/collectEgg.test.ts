@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { TEST_FARM } from "../lib/constants";
 import { GameState, InventoryItemName } from "../types/game";
 import { collectEggs } from "./collectEgg";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 describe("collect eggs", () => {
   beforeAll(() => {

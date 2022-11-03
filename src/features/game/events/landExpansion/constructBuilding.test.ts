@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
 import { LEVEL_BRACKETS } from "features/game/lib/level";
 import { BUILDINGS } from "features/game/types/buildings";
-import { INITIAL_FARM } from "../../lib/constants";
+import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { constructBuilding } from "./constructBuilding";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 const date = Date.now();
 

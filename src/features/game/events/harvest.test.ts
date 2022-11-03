@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
 
-import { INITIAL_FARM } from "../lib/constants";
+import { TEST_FARM } from "../lib/constants";
 import { GameState } from "../types/game";
 import { harvest } from "./harvest";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
+  ...TEST_FARM,
   fields: {},
   balance: new Decimal(0),
   inventory: {},
@@ -93,7 +93,7 @@ describe("harvest", () => {
   it("does not harvest on the first goblin land", () => {
     expect(() =>
       harvest({
-        state: { ...INITIAL_FARM, inventory: {} },
+        state: { ...TEST_FARM, inventory: {} },
         action: {
           type: "item.harvested",
           index: 6,
@@ -104,7 +104,7 @@ describe("harvest", () => {
 
   it("harvests once the first goblin is gone", () => {
     const state = harvest({
-      state: { ...INITIAL_FARM, inventory: { "Pumpkin Soup": new Decimal(1) } },
+      state: { ...TEST_FARM, inventory: { "Pumpkin Soup": new Decimal(1) } },
       action: {
         type: "item.harvested",
         index: 5,
@@ -117,7 +117,7 @@ describe("harvest", () => {
   it("does not harvest on the second goblin land", () => {
     expect(() =>
       harvest({
-        state: { ...INITIAL_FARM, inventory: {} },
+        state: { ...TEST_FARM, inventory: {} },
         action: {
           type: "item.harvested",
           index: 11,
@@ -128,7 +128,7 @@ describe("harvest", () => {
 
   it("harvests once the second goblin is gone", () => {
     const state = harvest({
-      state: { ...INITIAL_FARM, inventory: { Sauerkraut: new Decimal(1) } },
+      state: { ...TEST_FARM, inventory: { Sauerkraut: new Decimal(1) } },
       action: {
         type: "item.harvested",
         index: 10,
@@ -141,7 +141,7 @@ describe("harvest", () => {
   it("does not harvest on the third goblin land", () => {
     expect(() =>
       harvest({
-        state: { ...INITIAL_FARM, inventory: {} },
+        state: { ...TEST_FARM, inventory: {} },
         action: {
           type: "item.harvested",
           index: 16,
@@ -153,7 +153,7 @@ describe("harvest", () => {
   it("harvests once the third goblin is gone", () => {
     const state = harvest({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: { "Roasted Cauliflower": new Decimal(1) },
       },
       action: {

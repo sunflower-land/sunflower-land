@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { TEST_FARM } from "../lib/constants";
 import { claimAirdrop } from "./claimAirdrop";
 
 describe("claimAirdrop", () => {
@@ -7,7 +7,7 @@ describe("claimAirdrop", () => {
     expect(() =>
       claimAirdrop({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           airdrops: [],
         },
         action: {
@@ -22,7 +22,7 @@ describe("claimAirdrop", () => {
     expect(() =>
       claimAirdrop({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           airdrops: [
             {
               id: "123",
@@ -43,7 +43,7 @@ describe("claimAirdrop", () => {
   it("claims a SFL reward", () => {
     const state = claimAirdrop({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         airdrops: [
           {
             id: "123",
@@ -65,7 +65,7 @@ describe("claimAirdrop", () => {
   it("claims an items reward", () => {
     const state = claimAirdrop({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {},
         airdrops: [
           {
@@ -94,7 +94,7 @@ describe("claimAirdrop", () => {
   it("claims a reward of multiple items", () => {
     const state = claimAirdrop({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         inventory: {
           Wood: new Decimal(5),
         },
@@ -126,7 +126,7 @@ describe("claimAirdrop", () => {
   it("claims multiple airdrops", () => {
     let state = claimAirdrop({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         balance: new Decimal(2),
         inventory: {
           Sunflower: new Decimal(5),

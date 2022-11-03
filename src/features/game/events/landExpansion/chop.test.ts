@@ -1,17 +1,17 @@
 import Decimal from "decimal.js-light";
 import {
   INITIAL_BUMPKIN,
-  INITIAL_FARM,
+  TEST_FARM,
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { GameState, LandExpansionTree } from "features/game/types/game";
 import { chop, getChoppedAt, LandExpansionChopAction } from "./chop";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
+  ...TEST_FARM,
   expansions: [
     {
-      ...INITIAL_FARM.expansions[0],
+      ...TEST_FARM.expansions[0],
       trees: {
         0: {
           wood: {

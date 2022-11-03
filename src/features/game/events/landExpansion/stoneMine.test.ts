@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM, STONE_RECOVERY_TIME } from "../../lib/constants";
+import { TEST_FARM, STONE_RECOVERY_TIME } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import {
   getMinedAt,
@@ -8,10 +8,10 @@ import {
 } from "./stoneMine";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
+  ...TEST_FARM,
   expansions: [
     {
-      ...INITIAL_FARM.expansions[0],
+      ...TEST_FARM.expansions[0],
       stones: {
         0: {
           stone: {

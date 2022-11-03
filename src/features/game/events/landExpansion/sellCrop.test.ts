@@ -2,10 +2,10 @@ import Decimal from "decimal.js-light";
 import { GameState } from "../../types/game";
 import { CropName, CROPS } from "../../types/crops";
 import { sellCrop } from "./sellCrop";
-import { INITIAL_BUMPKIN, INITIAL_FARM } from "../../lib/constants";
+import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
+  ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
   fields: {},
   balance: new Decimal(0),

@@ -1,4 +1,4 @@
-import { INITIAL_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { GameState, LandExpansion, Position } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import {
@@ -61,7 +61,7 @@ describe("isOverlapping", () => {
 
 describe("detectCollisions", () => {
   it("returns false if a collision is not detected", () => {
-    const state: GameState = cloneDeep(INITIAL_FARM);
+    const state: GameState = cloneDeep(TEST_FARM);
     state.expansions = [{ createdAt: 0, readyAt: 0 }];
 
     const position: Position = { x: 0, y: 0, height: 1, width: 1 };
@@ -72,7 +72,7 @@ describe("detectCollisions", () => {
   });
 
   it("returns true if a collision is detected with an expansion resource", () => {
-    const state: GameState = cloneDeep(INITIAL_FARM);
+    const state: GameState = cloneDeep(TEST_FARM);
 
     const position: Position = { x: 0, y: 0, height: 1, width: 1 };
 
@@ -90,7 +90,7 @@ describe("detectCollisions", () => {
   });
 
   it("returns true if a collision is detected with water", () => {
-    const state: GameState = cloneDeep(INITIAL_FARM);
+    const state: GameState = cloneDeep(TEST_FARM);
     state.expansions = [{ createdAt: 0, readyAt: 0 }];
 
     const hasCollision = detectCollision(state, {
@@ -104,7 +104,7 @@ describe("detectCollisions", () => {
   });
 
   it("returns true if a collision is detected with a corner", () => {
-    const state: GameState = cloneDeep(INITIAL_FARM);
+    const state: GameState = cloneDeep(TEST_FARM);
     state.expansions = [{ createdAt: 0, readyAt: 0 }];
 
     const hasCollision = detectCollision(state, {
@@ -118,7 +118,7 @@ describe("detectCollisions", () => {
   });
 
   it("returns true if a collision is detected with a building", () => {
-    const state: GameState = cloneDeep(INITIAL_FARM);
+    const state: GameState = cloneDeep(TEST_FARM);
     state.buildings = {
       "Fire Pit": [
         {
@@ -144,7 +144,7 @@ describe("detectCollisions", () => {
   });
 
   it("returns true if a collision is detected with a collectible", () => {
-    const state: GameState = cloneDeep(INITIAL_FARM);
+    const state: GameState = cloneDeep(TEST_FARM);
     state.collectibles = {
       "Farm Cat": [
         {
@@ -170,7 +170,7 @@ describe("detectCollisions", () => {
   });
 
   it("returns true if a collision is detected with a chicken", () => {
-    const state: GameState = cloneDeep(INITIAL_FARM);
+    const state: GameState = cloneDeep(TEST_FARM);
     state.chickens = {
       0: {
         coordinates: {

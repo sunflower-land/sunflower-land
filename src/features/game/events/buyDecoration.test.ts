@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { TEST_FARM } from "../lib/constants";
 import { DecorationName, DECORATIONS } from "../types/decorations";
 import { GameState } from "../types/game";
 import { buyDecoration } from "./buyDecoration";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 describe("buyDecoration", () => {
   it("throws an error if item is not a decoration", () => {

@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../../lib/constants";
+import { TEST_FARM } from "../../lib/constants";
 import { BuildingName } from "../../types/buildings";
 import { GameState } from "../../types/game";
 import { placeBuilding } from "./placeBuilding";
 
 const date = Date.now();
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 describe("Place building", () => {
   it("Requires a building is not already placed", () => {
     expect(() =>

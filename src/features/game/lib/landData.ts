@@ -1,45 +1,7 @@
 import Decimal from "decimal.js-light";
-import { fromWei } from "web3-utils";
-import {
-  Bumpkin,
-  ChickenPosition,
-  GameState,
-  Inventory,
-  LandExpansion,
-} from "../types/game";
+import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
 
-// Our "zoom" factor
-export const PIXEL_SCALE = 2.625;
-
-// How many pixels a raw green square is
-export const SQUARE_WIDTH = 16;
-
-export const GRID_WIDTH_PX = PIXEL_SCALE * SQUARE_WIDTH;
-
-export const CHICKEN_TIME_TO_EGG = 1000 * 60 * 60 * 24 * 2; // 48 hours
-export const MUTANT_CHICKEN_BOOST_AMOUNT = 0.1;
-
-export const POPOVER_TIME_MS = 1000;
-
-export const CHICKEN_POSITIONS: ChickenPosition[] = [
-  { top: GRID_WIDTH_PX * 1.2, right: GRID_WIDTH_PX * 1.9 },
-  { top: GRID_WIDTH_PX * 1.4, right: GRID_WIDTH_PX * 3.3 },
-  { top: GRID_WIDTH_PX * 1.7, right: GRID_WIDTH_PX * 0.88 },
-  { top: GRID_WIDTH_PX * 2.47, right: GRID_WIDTH_PX * 3 },
-  { top: GRID_WIDTH_PX * 2.66, right: GRID_WIDTH_PX * 1.9 },
-  { top: GRID_WIDTH_PX * 1.6, right: GRID_WIDTH_PX * 4.6 },
-  { top: GRID_WIDTH_PX * 1.72, right: GRID_WIDTH_PX * 5.7 },
-  { top: GRID_WIDTH_PX * 1.28, right: GRID_WIDTH_PX * 6.7 },
-  { top: GRID_WIDTH_PX * 1.8, right: GRID_WIDTH_PX * 7.7 },
-  { top: GRID_WIDTH_PX * 1.44, right: GRID_WIDTH_PX * 8.7 },
-  { top: GRID_WIDTH_PX * 1.95, right: GRID_WIDTH_PX * 9.8 },
-  { top: GRID_WIDTH_PX * 1.17, right: GRID_WIDTH_PX * 10.6 },
-  { top: GRID_WIDTH_PX * 1.78, right: GRID_WIDTH_PX * 11.5 },
-  { top: GRID_WIDTH_PX * 1.85, right: GRID_WIDTH_PX * 12.8 },
-  { top: GRID_WIDTH_PX * 1.59, right: GRID_WIDTH_PX * 14.12 },
-];
-
-export const INITIAL_STOCK: Inventory = {
+const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),
   "Potato Seed": new Decimal(200),
   "Pumpkin Seed": new Decimal(100),
@@ -75,7 +37,7 @@ export const INITIAL_STOCK: Inventory = {
   "Boiled Eggs": new Decimal(1),
 };
 
-export const INITIAL_FIELDS: GameState["fields"] = {
+const INITIAL_FIELDS: GameState["fields"] = {
   0: {
     name: "Pumpkin",
     plantedAt: 0,
@@ -122,7 +84,7 @@ export const INITIAL_FIELDS: GameState["fields"] = {
   },
 };
 
-export const INITIAL_TREES: GameState["trees"] = {
+const INITIAL_TREES: GameState["trees"] = {
   0: {
     wood: new Decimal(3),
     choppedAt: 0,
@@ -169,33 +131,7 @@ export const INITIAL_TREES: GameState["trees"] = {
   },
 };
 
-export const INITIAL_GOLD_MINES: LandExpansion["gold"] = {
-  0: {
-    stone: {
-      amount: 0.1,
-      minedAt: 0,
-    },
-    x: -4,
-    y: 2,
-    height: 1,
-    width: 1,
-  },
-};
-
-export const INITIAL_EXPANSION_IRON: LandExpansion["iron"] = {
-  0: {
-    stone: {
-      amount: 0.1,
-      minedAt: 0,
-    },
-    x: 2,
-    y: -1,
-    height: 1,
-    width: 1,
-  },
-};
-
-export const INITIAL_STONE: GameState["stones"] = {
+const INITIAL_STONE: GameState["stones"] = {
   0: {
     amount: new Decimal(2),
     minedAt: 0,
@@ -210,7 +146,7 @@ export const INITIAL_STONE: GameState["stones"] = {
   },
 };
 
-export const INITIAL_IRON: GameState["iron"] = {
+const INITIAL_IRON: GameState["iron"] = {
   0: {
     amount: new Decimal(2),
     minedAt: 0,
@@ -221,14 +157,14 @@ export const INITIAL_IRON: GameState["iron"] = {
   },
 };
 
-export const INITIAL_GOLD: GameState["gold"] = {
+const INITIAL_GOLD: GameState["gold"] = {
   0: {
     amount: new Decimal(2),
     minedAt: 0,
   },
 };
 
-export const INITIAL_PLOTS: GameState["plots"] = {
+const INITIAL_PLOTS: GameState["plots"] = {
   0: {
     crop: { name: "Sunflower", plantedAt: 0 },
     x: -1,
@@ -264,17 +200,7 @@ export const INITIAL_PLOTS: GameState["plots"] = {
   },
 };
 
-export const GENESIS_LAND_EXPANSION: LandExpansion = {
-  createdAt: 1,
-  readyAt: 0,
-
-  // gold: INITIAL_GOLD_MINES,
-  iron: INITIAL_EXPANSION_IRON,
-
-  plots: INITIAL_PLOTS,
-};
-
-export const INITIAL_EXPANSIONS: LandExpansion[] = [
+const INITIAL_EXPANSIONS: LandExpansion[] = [
   {
     createdAt: 2,
     readyAt: 0,
@@ -441,76 +367,9 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
       },
     },
   },
-  {
-    createdAt: 5,
-    readyAt: 0,
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: 1,
-        y: 0,
-        height: 2,
-        width: 2,
-      },
-    },
-    plots: [
-      {
-        x: -2,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      {
-        x: -2,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      {
-        x: -1,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      {
-        x: -1,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-    ],
-
-    iron: {
-      0: {
-        x: 1,
-        y: 3,
-        width: 1,
-        height: 1,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
-    stones: {
-      0: {
-        x: 1,
-        y: -2,
-        width: 1,
-        height: 1,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
-  },
 ];
 
-export const INITIAL_BUMPKIN: Bumpkin = {
+const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
   experience: 0,
   tokenUri: "bla",
@@ -530,31 +389,21 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   activity: {},
 };
 
-export const TEST_FARM: GameState = {
-  balance: new Decimal(0),
+export const OFFLINE_FARM: GameState = {
+  balance: new Decimal(10),
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
-    Potato: new Decimal(12),
-    Carrot: new Decimal("502.079999999999991"),
-    "Roasted Cauliflower": new Decimal(1),
-    "Carrot Cake": new Decimal(1),
-    Radish: new Decimal(100),
-    Wheat: new Decimal(100),
-    Egg: new Decimal(30),
-    "Rusty Shovel": new Decimal(1),
-    Axe: new Decimal(3),
-    Observatory: new Decimal(1),
-    Pickaxe: new Decimal(3),
-    "Stone Pickaxe": new Decimal(3),
-    "Iron Pickaxe": new Decimal(5),
-    "Trading Ticket": new Decimal(50),
-    "Chef Hat": new Decimal(1),
-    "Human War Banner": new Decimal(1),
-    "Boiled Eggs": new Decimal(3),
-    "Mashed Potato": new Decimal(1),
-    "Sunflower Cake": new Decimal(1),
-    "Pumpkin Soup": new Decimal(1),
+    Wood: new Decimal(10),
+    Axe: new Decimal(10),
+    // Every item for testing
+    // ...getKeys(KNOWN_IDS).reduce(
+    //   (acc, name) => ({
+    //     ...acc,
+    //     [name]: new Decimal(1),
+    //   }),
+    //   {}
+    // ),
   },
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
@@ -566,18 +415,7 @@ export const TEST_FARM: GameState = {
     farming: new Decimal(0),
     gathering: new Decimal(0),
   },
-  stockExpiry: {
-    "Sunflower Cake": "1970-06-06",
-    "Potato Cake": "1970-01-01T00:00:00.000Z",
-    "Pumpkin Cake": "1970-01-01T00:00:00.000Z",
-    "Carrot Cake": "2022-08-30T00:00:00.000Z",
-    "Cabbage Cake": "1970-01-01T00:00:00.000Z",
-    "Beetroot Cake": "1970-01-01T00:00:00.000Z",
-    "Cauliflower Cake": "1970-01-01T00:00:00.000Z",
-    "Parsnip Cake": "1970-01-01T00:00:00.000Z",
-    "Radish Cake": "2025-01-01T00:00:00.000Z",
-    "Wheat Cake": "1970-01-01T00:00:00.000Z",
-  },
+  stockExpiry: {},
   plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
@@ -604,17 +442,6 @@ export const TEST_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Workbench: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: -2,
-          y: 8,
-        },
-        createdAt: 0,
-      },
-    ],
   },
   airdrops: [
     {
@@ -628,17 +455,6 @@ export const TEST_FARM: GameState = {
     },
   ],
   collectibles: {},
-  warCollectionOffer: {
-    warBonds: 10,
-    startAt: new Date().toISOString(),
-    endAt: new Date(Date.now() + 10000).toISOString(),
-    ingredients: [
-      {
-        amount: 50,
-        name: "Wood",
-      },
-    ],
-  },
   bumpkin: INITIAL_BUMPKIN,
 
   grubShop: {
@@ -699,35 +515,3 @@ export const TEST_FARM: GameState = {
     sfl: new Decimal(0),
   },
 };
-
-export const EMPTY: GameState = {
-  balance: new Decimal(fromWei("0")),
-  fields: {},
-  inventory: {
-    "Chicken Coop": new Decimal(1),
-    Wood: new Decimal(50),
-    Gold: new Decimal(10),
-    Stone: new Decimal(10),
-  },
-  chickens: {},
-  stock: {},
-  trees: INITIAL_TREES,
-  stones: INITIAL_STONE,
-  iron: INITIAL_IRON,
-  gold: INITIAL_GOLD,
-  skills: {
-    farming: new Decimal(0),
-    gathering: new Decimal(0),
-  },
-  stockExpiry: {},
-  plots: INITIAL_PLOTS,
-  expansions: INITIAL_EXPANSIONS,
-
-  buildings: {},
-  collectibles: {},
-};
-
-export const TREE_RECOVERY_TIME = 2 * 60 * 60;
-export const STONE_RECOVERY_TIME = 4 * 60 * 60;
-export const IRON_RECOVERY_TIME = 12 * 60 * 60;
-export const GOLD_RECOVERY_TIME = 24 * 60 * 60;

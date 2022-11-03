@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { placeChicken } from "./placeChicken";
 
 describe("buyChicken", () => {
@@ -7,7 +7,7 @@ describe("buyChicken", () => {
     expect(() =>
       placeChicken({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           bumpkin: undefined,
           chickens: {},
         },
@@ -26,7 +26,7 @@ describe("buyChicken", () => {
     expect(() =>
       placeChicken({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           chickens: {},
           inventory: {
             Chicken: new Decimal(0),
@@ -47,7 +47,7 @@ describe("buyChicken", () => {
     expect(() =>
       placeChicken({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           balance: new Decimal(10),
           inventory: {
             Chicken: new Decimal(15),
@@ -82,7 +82,7 @@ describe("buyChicken", () => {
     expect(() =>
       placeChicken({
         state: {
-          ...INITIAL_FARM,
+          ...TEST_FARM,
           balance: new Decimal(10),
           inventory: {
             Chicken: new Decimal(10),
@@ -115,7 +115,7 @@ describe("buyChicken", () => {
   it("places a chicken", () => {
     const state = placeChicken({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         chickens: {},
         inventory: {
           Chicken: new Decimal(1),
@@ -157,7 +157,7 @@ describe("buyChicken", () => {
   it("places a chicken with chicken coop available", () => {
     const state = placeChicken({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         chickens: {},
         inventory: {
           Chicken: new Decimal(11),
@@ -200,7 +200,7 @@ describe("buyChicken", () => {
   it("places multiple chickens", () => {
     let state = placeChicken({
       state: {
-        ...INITIAL_FARM,
+        ...TEST_FARM,
         chickens: {},
         inventory: {
           Chicken: new Decimal(2),

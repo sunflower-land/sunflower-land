@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM, INITIAL_BUMPKIN } from "../lib/constants";
+import { TEST_FARM, INITIAL_BUMPKIN } from "../lib/constants";
 import { SeedName, SEEDS } from "../types/crops";
 import { GameState } from "../types/game";
 import { seedBought } from "./seedBought";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 describe("seedBought", () => {
   it("throws an error if item is not a seed", () => {
