@@ -249,7 +249,7 @@ const getIslandElements = ({
 
   if (bumpkinParts) {
     mapPlacements.push(
-      <MapPlacement key="bumpkin-parts" x={2} y={-1}>
+      <MapPlacement key="bumpkin-parts" x={2} y={-1} width={1} height={1}>
         <Character
           body={bumpkinParts.body}
           hair={bumpkinParts.hair}
