@@ -27,7 +27,7 @@ type Dimensions = {
 };
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
-  Chicken: () => <Chicken index={0} />,
+  Chicken: () => <Chicken index={-1} />, // chicken state is always hungry for index -1
   // TODO - others
   ...BUILDING_COMPONENTS,
   ...COLLECTIBLE_COMPONENTS,
