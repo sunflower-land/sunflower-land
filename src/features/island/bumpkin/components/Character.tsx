@@ -23,13 +23,13 @@ import redFarmerShirt from "assets/bumpkins/small/shirts/red_farmer_shirt.gif";
 import yellowFarmerShirt from "assets/bumpkins/small/shirts/yellow_farmer_shirt.gif";
 import blueFarmerShirt from "assets/bumpkins/small/shirts/blue_farmer_shirt.gif";
 
-// Miscellaneous
-import shadow from "assets/npcs/shadow.png";
-
 // Pants
 import farmerOveralls from "assets/bumpkins/small/pants/farmer_overalls.gif";
 import lumberjackOveralls from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
 import farmerPants from "assets/bumpkins/small/pants/farmer_pants.gif";
+
+// Miscellaneous
+import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
