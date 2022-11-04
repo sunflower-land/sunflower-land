@@ -82,7 +82,7 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
   return (
     <>
       <div
-        className="w-full cursor-pointer hover:img-highlight"
+        className="relative cursor-pointer hover:img-highlight"
         onClick={() => setOpen(true)}
       >
         <img
@@ -102,11 +102,11 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
           className="relative"
         />
         {hair && <img src={PARTS[hair]} className="absolute w-full inset-0" />}
-        {pants && (
-          <img src={PARTS[pants]} className="absolute w-full inset-0" />
-        )}
         {shirt && (
           <img src={PARTS[shirt]} className="absolute w-full inset-0" />
+        )}
+        {pants && (
+          <img src={PARTS[pants]} className="absolute w-full inset-0" />
         )}
       </div>
       <FeedModal
