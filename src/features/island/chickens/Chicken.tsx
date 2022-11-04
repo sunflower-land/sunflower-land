@@ -1,7 +1,6 @@
 import { useActor, useInterpret, useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
-import debounce from "lodash.debounce";
 
 import hungryChicken from "assets/animals/chickens/hungry_2.gif";
 import happyChicken from "assets/animals/chickens/happy_2.gif";
@@ -9,7 +8,7 @@ import walkingChickenSheet from "assets/animals/chickens/walking_sheet_2.png";
 import sleepingChicken from "assets/animals/chickens/sleeping_2.gif";
 import chickenShadow from "assets/animals/chickens/chicken_shadow.png";
 import layingEggSheet from "assets/animals/chickens/laying-egg-sheet_2.png";
-import wheatOnGround from "assets/animals/chickens/wheat.png";
+import wheatOnGround from "assets/animals/chickens/wheat_2.png";
 import cancel from "assets/icons/cancel.png";
 import wheat from "assets/crops/wheat/crop.png";
 import egg from "assets/resources/egg.png";
@@ -19,7 +18,7 @@ import { Context } from "features/game/GameProvider";
 import Spritesheet from "components/animation/SpriteAnimator";
 import {
   CHICKEN_TIME_TO_EGG,
-  GRID_WIDTH_PX,
+  PIXEL_SCALE,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -61,14 +60,14 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
   return (
     <InnerPanel
       className={classNames(
-        "transition-opacity scale-90 absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-10 z-20 pointer-events-none",
+        "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-1 z-20 pointer-events-none",
         {
           "opacity-100": showTimeToEgg,
           "opacity-0": !showTimeToEgg,
         }
       )}
     >
-      <div className="text-[8px] text-white mx-1">
+      <div className="text-white mx-1">
         <span>
           {secondsToMidString(context.timeToEgg - context.timeElapsed)}
         </span>
@@ -123,15 +122,29 @@ export const Chicken: React.FC<Props> = ({ index }) => {
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
 
-  const debouncedHandleMouseEnter = debounce(
-    () => eggIsBrewing && setShowTimeToEgg(true),
-    300
-  );
+  const handleMouseEnter = () => {
+    eggIsBrewing && setShowTimeToEgg(true);
+  };
 
   const handleMouseLeave = () => {
     setShowTimeToEgg(false);
+  };
 
-    debouncedHandleMouseEnter.cancel();
+  const handleClick = () => {
+    if (hungry) {
+      feed();
+      return;
+    }
+
+    if (eggReady) {
+      service.send("LAY");
+      return;
+    }
+
+    if (eggLaid) {
+      handleCollect();
+      return;
+    }
   };
 
   const feed = async () => {
@@ -193,159 +206,213 @@ export const Chicken: React.FC<Props> = ({ index }) => {
   };
 
   return (
-    <div
-      className="relative"
-      style={{
-        width: `${GRID_WIDTH_PX}px`,
-        height: `${GRID_WIDTH_PX}px`,
-        right: 7,
-        top: -20,
-      }}
-    >
-      <div className="relative w-16 h-16">
-        {hungry && (
-          <>
-            <img
-              src={hungryChicken}
-              alt="hungry-chicken"
-              draggable={false}
-              onClick={feed}
-              className="absolute w-16 h-16 cursor-pointer hover:img-highlight"
-            />
-            <img src={chickenShadow} className="absolute w-full -z-10" />
-            <div
-              className={classNames(
-                "transition-opacity absolute z-20 pointer-events-none ",
-                {
+    <>
+      <div
+        className="w-full h-full relative cursor-pointer hover:img-highlight"
+        onClick={handleClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="relative pointer-events-none">
+          {hungry && (
+            <>
+              <img
+                src={chickenShadow}
+                className="absolute"
+                style={{
+                  width: `${PIXEL_SCALE * 13}px`,
+                  top: `${PIXEL_SCALE * 10}px`,
+                  left: `${PIXEL_SCALE * 1}px`,
+                }}
+              />
+              <img
+                src={hungryChicken}
+                alt="hungry-chicken"
+                style={{
+                  width: `${PIXEL_SCALE * 16}px`,
+                  top: `${PIXEL_SCALE * -5}px`,
+                  left: `${PIXEL_SCALE * 2}px`,
+                }}
+                className="absolute"
+              />
+              <img
+                src={cancel}
+                className={classNames("transition-opacity absolute z-20", {
                   "opacity-100": showPopover,
                   "opacity-0": !showPopover,
-                }
-              )}
-              style={{
-                top: "18px",
-                left: "29px",
-                transform: "translateX(-50%)",
-              }}
-            >
-              <img className="w-3" src={cancel} />
-            </div>
-            <div
-              className={classNames(
-                "transition-opacity absolute z-10 pointer-events-none ",
-                {
+                })}
+                style={{
+                  width: `${PIXEL_SCALE * 8}px`,
+                  top: `${PIXEL_SCALE * 8}px`,
+                  left: `${PIXEL_SCALE * 4}px`,
+                }}
+              />
+              <img
+                src={wheat}
+                className={classNames("transition-opacity absolute z-10", {
                   "opacity-100": showPopover,
                   "opacity-0": !showPopover,
-                }
-              )}
-              style={{
-                top: "8px",
-                left: "35px",
-                transform: "translateX(-50%)",
-              }}
-            >
-              <img className="w-5" src={wheat} />
-            </div>
-          </>
-        )}
-        {eating && (
-          <div className="relative w-16 h-16" id="test">
-            <img
-              src={wheatOnGround}
-              alt="wheat-on-ground"
-              className="absolute w-16 top-8 -left-[6px]"
-            />
-            <Spritesheet
-              className="absolute w-16 h-16"
-              style={{
-                imageRendering: "pixelated",
-              }}
-              image={walkingChickenSheet}
-              widthFrame={32}
-              heightFrame={32}
-              fps={10}
-              steps={50}
-              direction={`forward`}
-              autoplay={true}
-              loop={true}
-            />
-          </div>
-        )}
-        {happy && (
-          <img
-            onMouseEnter={debouncedHandleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            src={happyChicken}
-            alt="happy-chicken"
-            className="absolute w-16 h-16"
-          />
-        )}
-        {sleeping && (
-          <>
-            <img
-              onMouseEnter={debouncedHandleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              src={sleepingChicken}
-              alt="sleeping-chicken"
-              className="absolute w-16 h-16 top-[2px]"
-            />
-            <img src={chickenShadow} className="absolute w-full -z-10" />
-          </>
-        )}
-        {eggReady && (
-          <>
-            <img src={chickenShadow} className="absolute w-full -z-10" />
-            <Spritesheet
-              className="absolute cursor-pointer hover:img-highlight w-full"
-              style={{
-                top: "-14px",
-                left: "16px",
-                imageRendering: "pixelated",
-                width: "34px",
-              }}
-              image={layingEggSheet}
-              widthFrame={17}
-              heightFrame={31}
-              fps={3}
-              steps={21}
-              endAt={7}
-              direction={`forward`}
-              autoplay={true}
-              loop={true}
-              onClick={() => service.send("LAY")}
-            />
-          </>
-        )}
-        {eggLaid && (
-          <>
-            <img src={chickenShadow} className="absolute w-full -z-10" />
-            <Spritesheet
-              image={layingEggSheet}
-              className="absolute cursor-pointer hover:img-highlight"
-              style={{
-                top: "-14px",
-                left: "16px",
-                width: "34px",
-                imageRendering: "pixelated",
-              }}
-              widthFrame={17}
-              heightFrame={31}
-              fps={20}
-              steps={21}
-              direction={`forward`}
-              autoplay={true}
-              loop={false}
-              onClick={handleCollect}
-            />
-          </>
-        )}
+                })}
+                style={{
+                  width: `${PIXEL_SCALE * 8}px`,
+                  top: `${PIXEL_SCALE * 5}px`,
+                  left: `${PIXEL_SCALE * 9}px`,
+                }}
+              />
+            </>
+          )}
+          {eating && (
+            <>
+              <img
+                src={wheatOnGround}
+                alt="wheat-on-ground"
+                className="absolute display-block"
+                style={{
+                  width: `${PIXEL_SCALE * 126}px`,
+                  imageRendering: "pixelated",
+                }}
+              />
+              <Spritesheet
+                className="absolute"
+                style={{
+                  width: `${PIXEL_SCALE * 32}px`,
+                  top: `${PIXEL_SCALE * -9}px`,
+                  left: `${PIXEL_SCALE * -7}px`,
+                  imageRendering: "pixelated",
+                }}
+                image={walkingChickenSheet}
+                widthFrame={32}
+                heightFrame={32}
+                fps={10}
+                steps={50}
+                direction={`forward`}
+                autoplay={true}
+                loop={true}
+              />
+            </>
+          )}
+          {happy && (
+            <>
+              <img
+                src={chickenShadow}
+                className="absolute"
+                style={{
+                  width: `${PIXEL_SCALE * 13}px`,
+                  top: `${PIXEL_SCALE * 10}px`,
+                  left: `${PIXEL_SCALE * 1}px`,
+                }}
+              />
+              <img
+                src={happyChicken}
+                alt="happy-chicken"
+                className="absolute"
+                style={{
+                  width: `${PIXEL_SCALE * 16}px`,
+                  top: `${PIXEL_SCALE * -6}px`,
+                  left: `${PIXEL_SCALE * 2}px`,
+                }}
+              />
+            </>
+          )}
+          {sleeping && (
+            <>
+              <img
+                src={chickenShadow}
+                className="absolute"
+                style={{
+                  width: `${PIXEL_SCALE * 13}px`,
+                  top: `${PIXEL_SCALE * 10}px`,
+                  left: `${PIXEL_SCALE * 1}px`,
+                }}
+              />
+              <img
+                src={sleepingChicken}
+                alt="sleeping-chicken"
+                className="absolute"
+                style={{
+                  scale: "1900%",
+                  width: `${PIXEL_SCALE * 1}px`,
+                  top: `${PIXEL_SCALE * 2}px`,
+                  left: `${PIXEL_SCALE * 10}px`,
+                }}
+              />
+            </>
+          )}
+          {eggReady && (
+            <>
+              <img
+                src={chickenShadow}
+                className="absolute"
+                style={{
+                  width: `${PIXEL_SCALE * 13}px`,
+                  top: `${PIXEL_SCALE * 10}px`,
+                  left: `${PIXEL_SCALE * 1}px`,
+                }}
+              />
+              <Spritesheet
+                className="absolute"
+                style={{
+                  width: `${PIXEL_SCALE * 17}px`,
+                  top: `${PIXEL_SCALE * -16}px`,
+                  left: `${PIXEL_SCALE * 1}px`,
+                  imageRendering: "pixelated",
+                }}
+                image={layingEggSheet}
+                widthFrame={17}
+                heightFrame={31}
+                fps={3}
+                steps={21}
+                endAt={7}
+                direction={`forward`}
+                autoplay={true}
+                loop={true}
+              />
+            </>
+          )}
+          {eggLaid && (
+            <>
+              <img
+                src={chickenShadow}
+                className="absolute"
+                style={{
+                  width: `${PIXEL_SCALE * 13}px`,
+                  top: `${PIXEL_SCALE * 10}px`,
+                  left: `${PIXEL_SCALE * 1}px`,
+                }}
+              />
+              <Spritesheet
+                image={layingEggSheet}
+                className="absolute"
+                style={{
+                  width: `${PIXEL_SCALE * 17}px`,
+                  top: `${PIXEL_SCALE * -16}px`,
+                  left: `${PIXEL_SCALE * 1}px`,
+                  imageRendering: "pixelated",
+                }}
+                widthFrame={17}
+                heightFrame={31}
+                fps={20}
+                steps={21}
+                direction={`forward`}
+                autoplay={true}
+                loop={false}
+              />
+            </>
+          )}
+        </div>
       </div>
-      {eggIsBrewing && showTimeToEgg && (
+
+      {eggIsBrewing && (
         <TimeToEgg showTimeToEgg={showTimeToEgg} service={service} />
       )}
       {showEggProgress && (
         <div
-          className="absolute w-7 -bottom-4 left-3.5"
-          style={{ zIndex: index + 1 }}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            top: `${PIXEL_SCALE * 14}px`,
+            zIndex: 20,
+          }}
         >
           <Bar percentage={percentageComplete} />
         </div>
@@ -358,6 +425,6 @@ export const Chicken: React.FC<Props> = ({ index }) => {
           inventory={state.inventory}
         />
       )}
-    </div>
+    </>
   );
 };

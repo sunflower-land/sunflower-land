@@ -345,9 +345,7 @@ const getIslandElements = ({
             height={height}
             width={width}
           >
-            <div className="flex relative justify-center w-full h-full">
-              <ChickenElement index={index} />
-            </div>
+            <ChickenElement index={index} />
           </MapPlacement>
         );
       })
