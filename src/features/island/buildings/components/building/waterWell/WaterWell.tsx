@@ -11,7 +11,7 @@ export const WaterWell: React.FC = () => {
         style={{
           width: `${PIXEL_SCALE * 28}px`,
         }}
-        className="cursor-pointer hover:img-highlight relative bottom-2"
+        className="relative bottom-2"
       />
     </div>
   );
