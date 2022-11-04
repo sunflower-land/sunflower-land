@@ -29,7 +29,7 @@ import shadow from "assets/npcs/shadow.png";
 // Pants
 import farmerOveralls from "assets/bumpkins/small/pants/farmer_overalls.gif";
 import lumberjackOveralls from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
-import farmerPants from "assets/bumpkins/small/pants/lumberjack_overalls.gif"; // TODO
+import farmerPants from "assets/bumpkins/small/pants/farmer_pants.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
@@ -87,26 +87,28 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
         onClick={() => setOpen(true)}
       >
         <img
-          src={PARTS[body]}
-          className="z-0"
-          style={{ width: `${20 * PIXEL_SCALE}px` }}
-        />
-        {hair && (
-          <img src={PARTS[hair]} className="absolute w-full inset-0 z-10" />
-        )}
-        {shirt && (
-          <img src={PARTS[shirt]} className="absolute w-full inset-0 z-20" />
-        )}
-        {pants && (
-          <img src={PARTS[pants]} className="absolute w-full inset-0 z-30" />
-        )}
-        <img
           src={shadow}
           style={{
             width: `${PIXEL_SCALE * 15}px`,
+            top: `${PIXEL_SCALE * 16}px`,
+            left: `${PIXEL_SCALE * 3}px`,
           }}
-          className="absolute w-full -bottom-1.5 -z-10 left-1.5"
+          className="absolute w-full"
         />
+        <img
+          src={PARTS[body]}
+          style={{
+            width: `${PIXEL_SCALE * 20}px`,
+          }}
+          className="relative"
+        />
+        {hair && <img src={PARTS[hair]} className="absolute w-full inset-0" />}
+        {pants && (
+          <img src={PARTS[pants]} className="absolute w-full inset-0" />
+        )}
+        {shirt && (
+          <img src={PARTS[shirt]} className="absolute w-full inset-0" />
+        )}
       </div>
       <FeedModal
         isOpen={open}
