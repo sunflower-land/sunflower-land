@@ -67,8 +67,12 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
         }
       )}
     >
-      <div className="text-white mx-1">
-        <span>
+      <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
+        <div className="flex flex-1 items-center justify-center">
+          <img src={egg} className="w-4 mr-1" />
+          <span>Egg</span>
+        </div>
+        <span className="flex-1">
           {secondsToMidString(context.timeToEgg - context.timeElapsed)}
         </span>
       </div>
@@ -116,6 +120,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
 
   const eggIsBrewing = happy || sleeping;
   const showEggProgress = chicken && !eating && !eggLaid && !hungry;
+  const interactable = hungry || eggReady || eggLaid;
 
   // Popover is to indicate when player has no wheat or when wheat is not selected.
   const [showPopover, setShowPopover] = useState(false);
@@ -208,7 +213,9 @@ export const Chicken: React.FC<Props> = ({ index }) => {
   return (
     <>
       <div
-        className="w-full h-full relative cursor-pointer hover:img-highlight"
+        className={classNames("w-full h-full relative", {
+          "cursor-pointer hover:img-highlight": interactable,
+        })}
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -402,9 +409,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
         </div>
       </div>
 
-      {eggIsBrewing && (
-        <TimeToEgg showTimeToEgg={showTimeToEgg} service={service} />
-      )}
+      <TimeToEgg showTimeToEgg={showTimeToEgg} service={service} />
       {showEggProgress && (
         <div
           className="absolute pointer-events-none"
