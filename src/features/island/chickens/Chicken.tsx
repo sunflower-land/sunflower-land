@@ -337,10 +337,11 @@ export const Chicken: React.FC<Props> = ({ index }) => {
                 alt="sleeping-chicken"
                 className="absolute"
                 style={{
-                  scale: "1900%",
-                  width: `${PIXEL_SCALE * 1}px`,
-                  top: `${PIXEL_SCALE * 2}px`,
-                  left: `${PIXEL_SCALE * 10}px`,
+                  transformOrigin: "top left",
+                  scale: "calc(19/16)",
+                  width: `${PIXEL_SCALE * 16}px`,
+                  top: `${PIXEL_SCALE * -8}px`,
+                  left: `${PIXEL_SCALE * 1}px`,
                 }}
               />
             </>
