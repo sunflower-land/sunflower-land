@@ -30,13 +30,12 @@ import shadow from "assets/npcs/shadow.png";
 import farmerOveralls from "assets/bumpkins/small/pants/farmer_overalls.gif";
 import lumberjackOveralls from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
 import farmerPants from "assets/bumpkins/small/pants/farmer_pants.gif";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { InventoryItemName } from "features/game/types/game";
 import { FeedModal } from "./FeedModal";
-
-const HITS = 2;
 
 const PARTS: Partial<Record<BumpkinItem, string>> = {
   // Bodies
