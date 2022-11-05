@@ -4,7 +4,8 @@ module.exports = {
       target: "temporary-public-storage",
     },
     assert: {
-      preset: "lighthouse:recommended",
+      // preset: "lighthouse:recommended",
+      budgetsFile: "./budget.json",
     },
   },
 };
