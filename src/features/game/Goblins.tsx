@@ -1,9 +1,7 @@
 import { GoblinLand } from "features/goblins/GoblinLand";
 import React, { useRef, useEffect } from "react";
 
-//event themed background
-//import goblinBackground from "assets/land/goblin_background.png";
-import halloweenGoblinBackground from "assets/events/halloween/assets/land/goblin_background.png";
+import goblinBackground from "assets/land/goblin_background.png";
 
 import { GoblinProvider } from "./GoblinProvider";
 import mapMovement from "./lib/mapMovement";
@@ -31,7 +29,7 @@ export const Goblins: React.FC = () => {
           // TODO dynamic game board size based on tile dimensions
         >
           <img
-            src={halloweenGoblinBackground}
+            src={goblinBackground}
             className="absolute inset-0 w-full h-full"
           />
           <GoblinLand />

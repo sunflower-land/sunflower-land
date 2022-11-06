@@ -8,9 +8,11 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Tab } from "components/ui/Tab";
 import { IslandList } from "./IslandList";
 import { Bumpkin } from "features/game/types/game";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 interface Props {
   bumpkin: Bumpkin | undefined;
+  isVisiting?: boolean;
   x: number;
   y: number;
   allowTravel?: boolean;
@@ -21,6 +23,7 @@ export const IslandTravel = ({
   bumpkin,
   x,
   y,
+  isVisiting = false,
   allowTravel = true,
   onOpen,
 }: Props) => {
@@ -51,6 +54,19 @@ export const IslandTravel = ({
         onHide={() => setOpenIslandList(false)}
         onShow={onOpen}
       >
+        <div className="absolute w-48 -left-4 -top-32 -z-10">
+          <DynamicNFT
+            bumpkinParts={{
+              body: "Goblin Potion",
+              hair: "Sun Spots",
+              pants: "Brown Suspenders",
+              shirt: "SFL T-Shirt",
+              tool: "Sword",
+              background: "Farm Background",
+              shoes: "Black Farmer Boots",
+            }}
+          />
+        </div>
         <Panel className="pt-5 relative">
           <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
             <div className="flex">
@@ -65,14 +81,10 @@ export const IslandTravel = ({
               onClick={() => setOpenIslandList(false)}
             />
           </div>
-          <div
-            style={{
-              minHeight: "200px",
-            }}
-          >
-            {allowTravel && <IslandList bumpkin={bumpkin} />}
-            {!allowTravel && <span className="loading">Loading</span>}
-          </div>
+          {allowTravel && (
+            <IslandList bumpkin={bumpkin} showVisitList={isVisiting} />
+          )}
+          {!allowTravel && <span className="loading">Loading</span>}
         </Panel>
       </Modal>
     </>

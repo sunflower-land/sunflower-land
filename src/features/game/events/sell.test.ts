@@ -3,10 +3,10 @@ import "lib/__mocks__/configMock";
 import { GameState } from "../types/game";
 import { CROPS } from "../types/crops";
 import { sell, SellableName } from "./sell";
-import { INITIAL_FARM } from "../lib/constants";
+import { TEST_FARM } from "../lib/constants";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
+  ...TEST_FARM,
   fields: {},
   balance: new Decimal(0),
 

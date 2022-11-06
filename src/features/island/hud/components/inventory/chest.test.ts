@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { getChestItems } from "./utils/inventory";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 describe("chest", () => {
   it("creates an empty chest", () => {

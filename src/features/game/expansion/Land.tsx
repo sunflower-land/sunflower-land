@@ -30,7 +30,8 @@ import { Mine } from "features/island/mines/Mine";
 import { IslandTravel } from "./components/IslandTravel";
 import { PIXEL_SCALE } from "../lib/constants";
 import { DirtRenderer } from "./components/DirtRenderer";
-import { BumpkinParts } from "../types/bumpkin";
+import classNames from "classnames";
+import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Bumpkin, Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 
@@ -206,8 +207,6 @@ const getIslandElements = ({
   chickens,
   bumpkin,
   bumpkinParts,
-  allowTravel,
-  onTravelOpen,
 }: {
   islandLevel: number;
   expansions: LandExpansion[];
@@ -216,15 +215,8 @@ const getIslandElements = ({
   chickens: Partial<Record<number, Chicken>>;
   bumpkin: Bumpkin | undefined;
   bumpkinParts: BumpkinParts | undefined;
-  allowTravel: boolean;
-  onTravelOpen: () => void;
 }) => {
-  const boatCordinates = {
-    x: islandLevel > 7 ? -9 : -2,
-    y: islandLevel > 7 ? -10.5 : -4.5,
-  };
-
-  const pirateCordinates = {
+  const pirateCoordinates = {
     x: islandLevel > 7 ? -8.4 : -1.4,
     y: islandLevel > 7 ? -8 : -2,
   };
@@ -271,8 +263,8 @@ const getIslandElements = ({
   mapPlacements.push(
     <MapPlacement
       key="pirate-goblin"
-      x={pirateCordinates.x}
-      y={pirateCordinates.y}
+      x={pirateCoordinates.x}
+      y={pirateCoordinates.y}
     >
       <img
         src={pirateGoblin}
@@ -282,17 +274,6 @@ const getIslandElements = ({
         }}
       />
     </MapPlacement>
-  );
-
-  mapPlacements.push(
-    <IslandTravel
-      key="island-travel"
-      bumpkin={bumpkin}
-      x={boatCordinates.x}
-      y={boatCordinates.y}
-      allowTravel={allowTravel}
-      onOpen={onTravelOpen}
-    />
   );
 
   mapPlacements.push(
@@ -391,30 +372,49 @@ export const Land: React.FC = () => {
 
   const allowTravel = !gameState.matches("autosaving");
 
+  const boatCoordinates = {
+    x: level > 7 ? -9 : -2,
+    y: level > 7 ? -10.5 : -4.5,
+  };
+
   return (
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="absolute z-0 w-full h-full">
         <Water level={level} />
       </div>
       <div className="relative w-full h-full">
-        <LandBase expansions={expansions} />
-        <UpcomingExpansion gameState={state} />
-        <DirtRenderer
-          expansions={expansions.filter((e) => e.readyAt < Date.now())}
-        />
+        <div
+          className={classNames("w-full h-full", {
+            "pointer-events-none": gameState.matches("visiting"),
+          })}
+        >
+          <LandBase expansions={expansions} />
+          <UpcomingExpansion gameState={state} />
+          <DirtRenderer
+            expansions={expansions.filter((e) => e.readyAt < Date.now())}
+          />
 
-        {/* Sort island elements by y axis */}
-        {getIslandElements({
-          islandLevel: level,
-          expansions,
-          buildings,
-          collectibles,
-          chickens,
-          bumpkin,
-          bumpkinParts: gameState.context.state.bumpkin?.equipped,
-          allowTravel,
-          onTravelOpen: () => gameService.send("SAVE"),
-        }).sort((a, b) => b.props.y - a.props.y)}
+          {/* Sort island elements by y axis */}
+          {getIslandElements({
+            islandLevel: level,
+            expansions,
+            buildings,
+            collectibles,
+            chickens,
+            bumpkin,
+            bumpkinParts: gameState.context.state.bumpkin?.equipped,
+          }).sort((a, b) => b.props.y - a.props.y)}
+        </div>
+
+        <IslandTravel
+          key="island-travel"
+          bumpkin={bumpkin}
+          isVisiting={gameState.matches("visiting")}
+          allowTravel={allowTravel}
+          onOpen={() => gameService.send("SAVE")}
+          x={boatCoordinates.x}
+          y={boatCoordinates.y}
+        />
 
         {gameState.matches("editing") && <Placeable />}
       </div>

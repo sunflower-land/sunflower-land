@@ -236,6 +236,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   // Decorations
   "White Tulips": 1201,
   "Potted Sunflower": 1202,
+  Cactus: 1203,
 };
 
 // The reverse of above

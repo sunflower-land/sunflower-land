@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { cook, getReadyAt } from "./cook";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
+  ...TEST_FARM,
   balance: new Decimal(0),
   inventory: {},
 };

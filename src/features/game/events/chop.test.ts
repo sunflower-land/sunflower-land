@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
-import { EMPTY, INITIAL_FARM } from "../lib/constants";
+import { EMPTY, TEST_FARM } from "../lib/constants";
 import { GameState } from "../types/game";
 import { chop, ChopAction } from "./chop";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 describe("chop", () => {
   it("throws an error if axe is not selected", () => {

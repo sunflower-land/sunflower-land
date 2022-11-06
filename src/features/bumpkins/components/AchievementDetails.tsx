@@ -17,14 +17,14 @@ import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
-  onClose: () => void;
+  onBack: () => void;
   onClaim: () => void;
   name: AchievementName;
   gameState: GameState;
 }
 
 export const AchievementDetails: React.FC<Props> = ({
-  onClose,
+  onBack,
   onClaim,
   name,
   gameState,
@@ -44,7 +44,7 @@ export const AchievementDetails: React.FC<Props> = ({
             src={arrowLeft}
             className="absolute top-[7px] left-1 self-start w-5 cursor-pointer"
             alt="back"
-            onClick={onClose}
+            onClick={onBack}
           />
           <>
             <div className="flex flex-col mb-1 items-center w-full">

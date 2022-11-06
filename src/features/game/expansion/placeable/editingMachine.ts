@@ -61,6 +61,12 @@ export const editingMachine = createMachine<
   states: {
     idle: {
       on: {
+        UPDATE: {
+          actions: assign({
+            coordinates: (_, event) => event.coordinates,
+            collisionDetected: (_, event) => event.collisionDetected,
+          }),
+        },
         DRAG: {
           target: "dragging",
         },

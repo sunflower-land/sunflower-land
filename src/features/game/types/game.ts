@@ -6,7 +6,7 @@ import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
-import { BumpkinParts } from "./bumpkin";
+import { Equipped as BumpkinParts } from "./bumpkin";
 import { ConsumableName } from "./consumables";
 import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
@@ -16,6 +16,7 @@ import { FruitName } from "features/island/fruit/FruitPatch";
 import { ExoticSeedName, UpcomingSeedName } from "./seeds";
 
 export type CropReward = {
+  sfl?: Decimal;
   items: {
     name: InventoryItemName;
     amount: number;
