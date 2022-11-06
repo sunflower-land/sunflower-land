@@ -35,7 +35,7 @@ export const ScientistModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <Modal centered show={isOpen} onHide={handleClose}>
-      <Panel className="relative max-w-5xl">
+      <Panel className="relative max-w-5xl pt-5">
         <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
           <div className="flex">
             <Tab

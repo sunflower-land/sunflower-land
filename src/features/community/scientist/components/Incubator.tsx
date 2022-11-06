@@ -106,16 +106,16 @@ export const Incubator: React.FC = () => {
     <>
       {(machine.matches("loading") ||
         machine.matches("check_frog_approve")) && (
-        <span className="loading mt-5">Loading</span>
+        <span className="loading">Loading</span>
       )}
       {machine.matches("no_tadpole_or_incubator") && (
-        <span className="loading mt-5">
+        <span className="loading">
           You have no tadpoles or active incubators.
         </span>
       )}
       {machine.matches("approve_frog") && (
         <>
-          <div className="flex flex-col items-center mt-5 mb-1">
+          <div className="flex flex-col items-center mb-1">
             <h1 className="text-xl mb-2 text-center">
               {`Approve Access to your Frogs`}
             </h1>
@@ -156,7 +156,7 @@ export const Incubator: React.FC = () => {
       )}
       {machine.matches("approve_tadpole") && (
         <>
-          <div className="flex flex-col items-center mt-5 mb-1">
+          <div className="flex flex-col items-center mb-1">
             <h1 className="text-xl mb-2 text-center">
               {`Approve Access to your Tadpoles`}
             </h1>
@@ -198,27 +198,27 @@ export const Incubator: React.FC = () => {
       {(machine.matches("approving_frog") ||
         machine.matches("approving_tadpole")) && (
         <>
-          <span className="loading mt-5">Approving</span>
+          <span className="loading">Approving</span>
         </>
       )}
       {machine.matches("incubating") && (
         <>
-          <span className="loading mt-5">Incubating</span>
+          <span className="loading">Incubating</span>
         </>
       )}
       {machine.matches("claiming") && (
         <>
-          <span className="loading mt-5">Claiming</span>
+          <span className="loading">Claiming</span>
         </>
       )}
       {machine.matches("removing") && (
         <>
-          <span className="loading mt-5">Removing</span>
+          <span className="loading">Removing</span>
         </>
       )}
       {machine.matches("removed") && (
         <>
-          <div className="flex flex-col items-center mt-5 mb-1">
+          <div className="flex flex-col items-center mb-1">
             <h1 className="text-xl mb-2 text-center">{`Awesome!`}</h1>
             <img
               src={empty_incubator}
@@ -235,7 +235,7 @@ export const Incubator: React.FC = () => {
       )}
       {machine.matches("claimed") && (
         <>
-          <div className="flex flex-col items-center mt-5 mb-1">
+          <div className="flex flex-col items-center mb-1">
             <h1 className="text-xl mb-2 text-center">{`Sweet!`}</h1>
             <img
               src={active_incubator}
@@ -251,7 +251,7 @@ export const Incubator: React.FC = () => {
       )}
       {machine.matches("incubated") && (
         <>
-          <div className="flex flex-col items-center mt-5 mb-1">
+          <div className="flex flex-col items-center mb-1">
             <h1 className="text-xl mb-2 text-center">{`Congratulations!`}</h1>
             <img
               src={active_incubator}
@@ -269,7 +269,7 @@ export const Incubator: React.FC = () => {
         <>
           <div className="flex">
             <div className="w-3/5 flex flex-wrap h-fit">
-              <p className="mt-5 mb-2 underline">Empty Incubator</p>
+              <p className="mb-2 underline">Empty Incubator</p>
               <Box
                 isSelected={selected === "empty"}
                 onClick={() => {
@@ -310,7 +310,7 @@ export const Incubator: React.FC = () => {
                   />
                 ))}
             </div>
-            <OuterPanel className="flex-1 w-1/3 mt-5 mb-2">
+            <OuterPanel className="flex-1 w-1/3 mb-2">
               <div className="flex flex-col justify-center items-center p-2 ">
                 <span className="text-shadow text-center">Incubator</span>
                 <img

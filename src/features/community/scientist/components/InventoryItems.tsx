@@ -65,7 +65,7 @@ export const InventoryItems: React.FC = () => {
   return (
     <>
       <div className="mt-3 lf">
-        <p className="mt-5 mb-2 underline">Tadpole Inventory</p>
+        <p className="mb-2 underline">Tadpole Inventory</p>
         <div className="flex flex-wrap h-fit mb-2">
           {tadpoleData.map((tadpole, index) => {
             return (
