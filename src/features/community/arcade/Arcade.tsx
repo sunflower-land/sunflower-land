@@ -14,7 +14,7 @@ export const Arcade: React.FC = () => {
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
         height: `${GRID_WIDTH_PX * 3}px`,
-        left: `${GRID_WIDTH_PX * 27}px`,
+        left: `${GRID_WIDTH_PX * 24}px`,
         top: `${GRID_WIDTH_PX * 28.5}px`,
       }}
     >
