@@ -8,6 +8,8 @@ import { Merchant } from "../merchant/Merchant";
 import { Seal } from "../aquatics/Seal";
 import { BottleDonation } from "../donation/BottleDonation";
 import { Scientist } from "../scientist/Scientist";
+import { ProjectDignityFrogs } from "./ProjectDignityFrogs";
+import { Arcade } from "../arcade/Arcade";
 
 export const CommunityGarden: React.FC = () => {
   const { communityService } = useContext(Context);
@@ -29,6 +31,8 @@ export const CommunityGarden: React.FC = () => {
       <Seal />
       <BottleDonation />
       <Scientist />
+      <ProjectDignityFrogs />
+      <Arcade />
     </>
   );
 };

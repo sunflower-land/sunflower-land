@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
-import { getBumpkinLevel } from "../lib/level";
 import { trackActivity } from "../types/bumpkinActivity";
 import { getKeys } from "../types/craftables";
 import { DecorationName, DECORATIONS } from "../types/decorations";
@@ -9,7 +8,6 @@ import { GameState } from "../types/game";
 export type buyDecorationAction = {
   type: "decoration.bought";
   item: DecorationName;
-  amount: number;
 };
 
 type Options = {
@@ -24,7 +22,7 @@ const VALID_DECORATIONS: DecorationName[] = [
 
 export function buyDecoration({ state, action }: Options) {
   const stateCopy = cloneDeep(state);
-  const { item, amount } = action;
+  const { item } = action;
   const desiredItem = DECORATIONS()[item];
 
   if (!desiredItem) {
@@ -36,9 +34,6 @@ export function buyDecoration({ state, action }: Options) {
   if (!bumpkin) {
     throw new Error("Bumpkin not found");
   }
-
-  const userBumpkinLevel = getBumpkinLevel(stateCopy.bumpkin?.experience ?? 0);
-  //   const seed = SEEDS()[item];
 
   const totalExpenses = desiredItem.sfl;
 
@@ -74,7 +69,7 @@ export function buyDecoration({ state, action }: Options) {
   bumpkin.activity = trackActivity(
     `${item} Bought`,
     bumpkin?.activity,
-    new Decimal(amount)
+    new Decimal(1)
   );
 
   return {

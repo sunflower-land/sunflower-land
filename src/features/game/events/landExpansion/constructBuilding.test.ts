@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
 import { LEVEL_BRACKETS } from "features/game/lib/level";
 import { BUILDINGS } from "features/game/types/buildings";
-import { INITIAL_FARM } from "../../lib/constants";
+import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { constructBuilding } from "./constructBuilding";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 const date = Date.now();
 
@@ -39,6 +39,7 @@ describe("Construct building", () => {
               pants: "Farmer Pants",
               shoes: "Black Farmer Boots",
               background: "Farm Background",
+              tool: "Axe",
             },
             tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
             experience: 0,
@@ -114,6 +115,7 @@ describe("Construct building", () => {
               pants: "Farmer Pants",
               shoes: "Black Farmer Boots",
               background: "Farm Background",
+              tool: "Axe",
             },
             tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
             skills: {},
@@ -151,6 +153,7 @@ describe("Construct building", () => {
               pants: "Farmer Pants",
               shoes: "Black Farmer Boots",
               background: "Farm Background",
+              tool: "Axe",
             },
             tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
             skills: {},
@@ -187,6 +190,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
             background: "Farm Background",
+            tool: "Axe",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           skills: {},
@@ -225,6 +229,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
             background: "Farm Background",
+            tool: "Axe",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           skills: {},
@@ -262,6 +267,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
             background: "Farm Background",
+            tool: "Axe",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           skills: {},
@@ -303,6 +309,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
             background: "Farm Background",
+            tool: "Axe",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           skills: {},
@@ -343,6 +350,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
             background: "Farm Background",
+            tool: "Axe",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           skills: {},
@@ -380,6 +388,7 @@ describe("Construct building", () => {
             pants: "Farmer Pants",
             shoes: "Black Farmer Boots",
             background: "Farm Background",
+            tool: "Axe",
           },
           tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
           experience: 0,

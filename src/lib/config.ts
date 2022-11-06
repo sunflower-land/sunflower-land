@@ -30,6 +30,7 @@ const TADPOLE_CONTRACT = import.meta.env.VITE_TADPOLE_CONTRACT as string;
 const INCUBATOR_CONTRACT = import.meta.env.VITE_INCUBATOR_CONTRACT as string;
 const WHITELIST_TOKEN_CONTRACT = import.meta.env
   .VITE_WHITELIST_TOKEN_CONTRACT as string;
+const BUMPKIN_CONTRACT = import.meta.env.VITE_BUMPKIN_CONTRACT as string;
 export const CONFIG = {
   NETWORK,
   POLYGON_CHAIN_ID,
@@ -58,4 +59,5 @@ export const CONFIG = {
   TADPOLE_CONTRACT,
   INCUBATOR_CONTRACT,
   WHITELIST_TOKEN_CONTRACT,
+  BUMPKIN_CONTRACT,
 };

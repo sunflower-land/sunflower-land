@@ -57,6 +57,7 @@ export const Box: React.FC<BoxProps> = ({
 
   const longPressEvents = useLongPress(
     (e) => (canClick ? onClick?.() : undefined),
+    undefined,
     count,
     {
       delay: 500,

@@ -19,13 +19,13 @@ import { metamask } from "../../../lib/blockchain/metamask";
 
 import { GameState, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
-import { INITIAL_FARM, EMPTY } from "./constants";
+import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName, LimitedItemName } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
-import { updateGame } from "./transforms";
+import { makeGame, updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
@@ -47,6 +47,8 @@ import {
   LandExpansionMigrateAction,
 } from "../events/landExpansion/migrate";
 import { CONFIG } from "lib/config";
+import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
+import { OFFLINE_FARM } from "./landData";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -99,6 +101,11 @@ type EditEvent = {
   type: "EDIT";
 };
 
+type VisitEvent = {
+  type: "VISIT";
+  landId: number;
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -122,6 +129,7 @@ export type BlockchainEvent =
   | {
       type: "SKIP_MIGRATION";
     }
+  | { type: "END_VISIT" }
   | {
       type: "game.migrated";
       action: LandExpansionMigrateAction;
@@ -131,6 +139,7 @@ export type BlockchainEvent =
   | MintEvent
   | LevelUpEvent
   | EditEvent
+  | VisitEvent
   | { type: "EXPAND" }
   | { type: "RANDOMISE" }; // Test only
 
@@ -206,9 +215,13 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 
 export type BlockchainState = {
   value:
+    | "checkIsVisiting"
+    | "loadLandToVisit"
+    | "landToVisitNotFound"
     | "loading"
     | "announcing"
     | "deposited"
+    | "visiting"
     | "gameRules"
     | "playing"
     | "autosaving"
@@ -253,7 +266,7 @@ export function startGame(authContext: Options) {
   return createMachine<Context, BlockchainEvent, BlockchainState>(
     {
       id: "gameMachine",
-      initial: "loading",
+      initial: "checkIsVisiting",
       context: {
         actions: [],
         state: EMPTY,
@@ -262,6 +275,15 @@ export function startGame(authContext: Options) {
         offset: 0,
       },
       states: {
+        checkIsVisiting: {
+          always: [
+            {
+              target: "loadLandToVisit",
+              cond: () => window.location.href.includes("visit"),
+            },
+            { target: "loading" },
+          ],
+        },
         loading: {
           invoke: {
             src: async () => {
@@ -331,7 +353,7 @@ export function startGame(authContext: Options) {
                 };
               }
 
-              return { state: INITIAL_FARM, onChain };
+              return { state: OFFLINE_FARM, onChain };
             },
             onDone: {
               target: "notifying",
@@ -340,6 +362,61 @@ export function startGame(authContext: Options) {
             onError: {
               target: "error",
               actions: "assignErrorMessage",
+            },
+          },
+        },
+        loadLandToVisit: {
+          invoke: {
+            src: async (_, event) => {
+              let landId: number;
+
+              // We can enter this state two ways
+              // 1. Directly on load if the url has a visit path (/visit)
+              // 2. From a VISIT event passed back to the machine which will include a farmId in the payload
+
+              if (!(event as VisitEvent).landId) {
+                landId = Number(window.location.href.split("/").pop());
+              } else {
+                landId = (event as VisitEvent).landId;
+              }
+
+              const { state } = await loadGameStateForVisit(Number(landId));
+
+              return {
+                state: {
+                  ...makeGame(state),
+                  id: landId,
+                },
+              };
+            },
+            onDone: {
+              target: "visiting",
+              actions: assign({
+                state: (_context, event) => event.data.state,
+              }),
+            },
+            onError: {
+              target: "landToVisitNotFound",
+            },
+          },
+        },
+        landToVisitNotFound: {
+          entry: assign({
+            state: () => EMPTY,
+          }),
+          on: {
+            VISIT: {
+              target: "loadLandToVisit",
+            },
+          },
+        },
+        visiting: {
+          on: {
+            VISIT: {
+              target: "loadLandToVisit",
+            },
+            END_VISIT: {
+              target: "loading",
             },
           },
         },

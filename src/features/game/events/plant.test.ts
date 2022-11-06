@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { TEST_FARM } from "../lib/constants";
 import { GameState } from "../types/game";
 import { getCropTime, getMultiplier, plant } from "./plant";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
+  ...TEST_FARM,
   fields: {},
   balance: new Decimal(0),
   inventory: {},

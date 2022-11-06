@@ -11,6 +11,8 @@ export const FROG_RARITIES: FrogRarities = {
   },
 };
 
+export const FROG_SIZE = 32;
+
 export interface Frog {
   name: string;
   pixel_image: string;

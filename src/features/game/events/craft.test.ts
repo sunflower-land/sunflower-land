@@ -1,11 +1,11 @@
 import "lib/__mocks__/configMock.ts";
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
+import { TEST_FARM } from "../lib/constants";
 import { SEEDS } from "../types/crops";
 import { GameState } from "../types/game";
 import { craft } from "./craft";
 
-const GAME_STATE: GameState = INITIAL_FARM;
+const GAME_STATE: GameState = TEST_FARM;
 
 describe("craft", () => {
   it("throws an error if item is not craftable", () => {

@@ -3,7 +3,7 @@ import { CONFIG } from "lib/config";
 const API_URL = CONFIG.API_URL;
 
 export async function loadBanDetails(
-  id: number,
+  id: string,
   token: string
 ): Promise<{
   isBanned: boolean;

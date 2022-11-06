@@ -4,7 +4,7 @@ import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GoblinProvider";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-//import { Village } from "./village/Village";
+import { Village } from "./village/Village";
 import { Loading } from "features/auth/components";
 import { Panel } from "components/ui/Panel";
 import { ErrorMessage } from "features/auth/ErrorMessage";
@@ -19,10 +19,7 @@ import {
 } from "features/game/lib/goblinMachine";
 import { screenTracker } from "lib/utils/screen";
 import * as AuthProvider from "features/auth/lib/Provider";
-//import { TownEntry } from "./components/TownEntry";
-//Events
-import { HalloweenVillage } from "features/halloween/goblins/village/Village";
-import { HalloweenTownEntry } from "features/halloween/goblins/components/TownEntry";
+import { TownEntry } from "./components/TownEntry";
 
 // const SHOW_MODAL: Record<StateValues, boolean> = {
 const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
@@ -70,10 +67,8 @@ export const GoblinLand: React.FC = () => {
           {goblinState.matches("withdrawn") && <Withdrawn />}
         </Panel>
       </Modal>
-      <HalloweenTownEntry />
-      <HalloweenVillage
-        state={goblinState.value as GoblinMachineState["value"]}
-      />
+      <TownEntry />
+      <Village state={goblinState.value as GoblinMachineState["value"]} />
     </div>
   );
 };

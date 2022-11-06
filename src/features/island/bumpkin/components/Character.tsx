@@ -1,7 +1,7 @@
 import {
   BumpkinBody,
   BumpkinItem,
-  BumpkinPants,
+  BumpkinPant,
   BumpkinShirt,
   BumpkinHair,
 } from "features/game/types/bumpkin";
@@ -68,7 +68,7 @@ interface Props {
   body: BumpkinBody;
   hair?: BumpkinHair;
   shirt?: BumpkinShirt;
-  pants?: BumpkinPants;
+  pants?: BumpkinPant;
 }
 
 export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
