@@ -84,6 +84,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Nugget: 430,
   "Wicker Man": 431,
   "Victoria Sisters": 432,
+  "Prized Potato": 433,
+  "Cabbage Boy": 434,
+  "Cabbage Girl": 435,
+  "Wood Nymph Wendy": 436,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -237,6 +241,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "White Tulips": 1201,
   "Potted Sunflower": 1202,
   Cactus: 1203,
+  "Basic Bear": 1204,
 };
 
 // The reverse of above

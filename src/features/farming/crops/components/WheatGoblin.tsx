@@ -9,7 +9,7 @@ import { Panel } from "components/ui/Panel";
 
 import goblin from "assets/npcs/wheat_goblin.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
-import radishPie from "assets/nfts/radish_pie.png";
+import radishPie from "assets/sfts/radish_pie.png";
 import questionMark from "assets/icons/expression_confused.png";
 import heart from "assets/icons/heart.png";
 import close from "assets/icons/close.png";

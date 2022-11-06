@@ -7,6 +7,7 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import {
   CollectibleName,
   getKeys,
+  GOBLIN_RETREAT_ITEMS,
   LimitedItemName,
   LIMITED_ITEMS,
 } from "features/game/types/craftables";
@@ -34,7 +35,11 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
   const { inventory, collectibles: placedItems } = state;
 
   const collectibles = getKeys(chestMap).reduce((acc, item) => {
-    if (item in LIMITED_ITEMS || item in DECORATIONS()) {
+    if (
+      item in LIMITED_ITEMS ||
+      item in DECORATIONS() ||
+      item in GOBLIN_RETREAT_ITEMS
+    ) {
       return { ...acc, [item]: chestMap[item] };
     }
     return acc;

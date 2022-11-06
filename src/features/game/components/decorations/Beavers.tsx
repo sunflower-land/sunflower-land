@@ -6,9 +6,9 @@ import { Inventory } from "../../types/game";
 import { Panel } from "components/ui/Panel";
 
 import close from "assets/icons/close.png";
-import beaver from "assets/nfts/beaver.gif";
-import apprentice from "assets/nfts/apprentice_beaver.gif";
-import foreman from "assets/nfts/construction_beaver.gif";
+import beaver from "assets/sfts/beaver.gif";
+import apprentice from "assets/sfts/apprentice_beaver.gif";
+import foreman from "assets/sfts/construction_beaver.gif";
 
 export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   const [showModal, setShowModal] = useState(false);

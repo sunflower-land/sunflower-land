@@ -39,39 +39,43 @@ import rustyShovel from "assets/tools/rusty_shovel.png";
 import shovel from "assets/tools/shovel.png";
 
 // NFTs
-import chickenCoop from "assets/nfts/chicken_coop.png";
-import christmasTree from "assets/nfts/christmas_tree.png";
-import farmCat from "assets/nfts/farm_cat.gif";
-import farmDog from "assets/nfts/farm_dog.gif";
-import gnome from "assets/nfts/gnome.png";
-import goldEgg from "assets/nfts/gold_egg.png";
-import potatoStatue from "assets/nfts/potato_statue.png";
-import scarecrow from "assets/nfts/scarecrow.png";
-import sunflowerStatue from "assets/nfts/sunflower_statue.png";
-import sunflowerRock from "assets/nfts/sunflower_rock.png";
-import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
-import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
-import crown from "assets/nfts/goblin_crown.png";
-import fountain from "assets/nfts/fountain.gif";
-import beaver from "assets/nfts/beaver.gif";
-import apprenticeBeaver from "assets/nfts/apprentice_beaver.gif";
-import constructionBeaver from "assets/nfts/construction_beaver.gif";
-import mysteriousParsnip from "assets/nfts/mysterious_parsnip.png";
-import carrotSword from "assets/nfts/carrot_sword.png";
-import goldenBonsai from "assets/nfts/golden_bonsai.png";
-import nancy from "assets/nfts/nancy.png";
-import kuebiko from "assets/nfts/kuebiko.gif";
-import nyonStatue from "assets/nfts/nyon_statue.png";
-import homelessTent from "assets/nfts/homeless_tent.png";
-import farmerBath from "assets/nfts/farmer_bath.png";
-import mysteriousHead from "assets/nfts/mysterious_head.png";
-import tunnelMole from "assets/nfts/tunnel_mole.gif";
-import rockyMole from "assets/nfts/rocky_mole.gif";
-import nugget from "assets/nfts/nugget.gif";
-import rockGolem from "assets/nfts/rock_golem.gif";
-import rooster from "assets/nfts/rooster.gif";
-import undeadChicken from "assets/nfts/undead_chicken.gif";
-import wickerMan from "assets/nfts/wicker_man.png";
+import chickenCoop from "assets/sfts/chicken_coop.png";
+import christmasTree from "assets/sfts/christmas_tree.png";
+import farmCat from "assets/sfts/farm_cat.gif";
+import farmDog from "assets/sfts/farm_dog.gif";
+import gnome from "assets/sfts/gnome.png";
+import goldEgg from "assets/sfts/gold_egg.png";
+import potatoStatue from "assets/sfts/potato_statue.png";
+import scarecrow from "assets/sfts/scarecrow.png";
+import sunflowerStatue from "assets/sfts/sunflower_statue.png";
+import sunflowerRock from "assets/sfts/sunflower_rock.png";
+import sunflowerTombstone from "assets/sfts/sunflower_tombstone.png";
+import goldenCauliflower from "assets/sfts/golden_cauliflower.png";
+import crown from "assets/sfts/goblin_crown.png";
+import fountain from "assets/sfts/fountain.gif";
+import beaver from "assets/sfts/beaver.gif";
+import apprenticeBeaver from "assets/sfts/apprentice_beaver.gif";
+import constructionBeaver from "assets/sfts/construction_beaver.gif";
+import mysteriousParsnip from "assets/sfts/mysterious_parsnip.png";
+import carrotSword from "assets/sfts/carrot_sword.png";
+import goldenBonsai from "assets/sfts/golden_bonsai.png";
+import nancy from "assets/sfts/nancy.png";
+import kuebiko from "assets/sfts/kuebiko.gif";
+import nyonStatue from "assets/sfts/nyon_statue.png";
+import homelessTent from "assets/sfts/homeless_tent.png";
+import farmerBath from "assets/sfts/farmer_bath.png";
+import mysteriousHead from "assets/sfts/mysterious_head.png";
+import tunnelMole from "assets/sfts/tunnel_mole.gif";
+import rockyMole from "assets/sfts/rocky_mole.gif";
+import nugget from "assets/sfts/nugget.gif";
+import rockGolem from "assets/sfts/rock_golem.gif";
+import rooster from "assets/sfts/rooster.gif";
+import undeadChicken from "assets/sfts/undead_chicken.gif";
+import wickerMan from "assets/sfts/wicker_man.png";
+import wendy from "assets/sfts/wood_nymph_wendy.png";
+import cabbageBoy from "assets/sfts/cabbage_boy.png";
+import cabbageGirl from "assets/sfts/cabbage_girl.png";
+import prizedPotato from "assets/sfts/prized_potato.gif";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -79,53 +83,53 @@ import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 
 // Foods
-import cabbageSoup from "assets/nfts/saurrerkrat.png";
-import roastedCaulfilower from "assets/nfts/roasted_cauliflower.png";
-import radishPie from "assets/nfts/radish_pie.png";
+import cabbageSoup from "assets/sfts/saurrerkrat.png";
+import roastedCaulfilower from "assets/sfts/roasted_cauliflower.png";
+import radishPie from "assets/sfts/radish_pie.png";
 
 // Flags
-import australiaFlag from "assets/nfts/flags/australia_flag.gif";
-import belgiumFlag from "assets/nfts/flags/belgium_flag.gif";
-import brazilFlag from "assets/nfts/flags/brazil_flag.gif";
-import chinaFlag from "assets/nfts/flags/china_flag.gif";
-import finlandFlag from "assets/nfts/flags/finland_flag.gif";
-import franceFlag from "assets/nfts/flags/france_flag.gif";
-import germanFlag from "assets/nfts/flags/germany_flag.gif";
-import indiaFlag from "assets/nfts/flags/india_flag.gif";
-import indonesiaFlag from "assets/nfts/flags/indonesia_flag.gif";
-import iranFlag from "assets/nfts/flags/iran_flag.gif";
-import italyFlag from "assets/nfts/flags/italy_flag.gif";
-import japanFlag from "assets/nfts/flags/japan_flag.gif";
-import moroccoFlag from "assets/nfts/flags/morocco_flag.gif";
-import netherlandsFlag from "assets/nfts/flags/netherlands_flag.gif";
-import phillipinesFlag from "assets/nfts/flags/philippines_flag.gif";
-import polandFlag from "assets/nfts/flags/poland_flag.gif";
-import portugalFlag from "assets/nfts/flags/portugal_flag.gif";
-import russiaFlag from "assets/nfts/flags/russia_flag.gif";
-import saudiArabiaFlag from "assets/nfts/flags/saudi_arabia_flag.gif";
-import southKoreaFlag from "assets/nfts/flags/south_korea_flag.gif";
-import sunflowerFlag from "assets/nfts/flags/sunflower_flag.gif";
-import spainFlag from "assets/nfts/flags/spain_flag.gif";
-import thailandFlag from "assets/nfts/flags/thailand_flag.gif";
-import turkeyFlag from "assets/nfts/flags/turkey_flag.gif";
-import ukraineFlag from "assets/nfts/flags/ukraine_flag.gif";
-import usaFlag from "assets/nfts/flags/usa_flag.gif";
-import vietnamFlag from "assets/nfts/flags/vietnam_flag.gif";
-import algerian_flag from "assets/nfts/flags/algerian_flag.gif";
-import argentinian_flag from "assets/nfts/flags/argentinian_flag.gif";
-import british_flag from "assets/nfts/flags/british_flag.gif";
-import canadian_flag from "assets/nfts/flags/canadian_flag.gif";
-import colombian_flag from "assets/nfts/flags/colombian_flag.gif";
-import dominican_republic_flag from "assets/nfts/flags/dominican_republic_flag.gif";
-import goblin_flag from "assets/nfts/flags/goblin_flag.gif";
-import lithuanian_flag from "assets/nfts/flags/lithuanian_flag.gif";
-import malaysian_flag from "assets/nfts/flags/malaysian_flag.gif";
-import mexican_flag from "assets/nfts/flags/mexican_flag.gif";
-import pirate_flag from "assets/nfts/flags/pirate_flag.gif";
-import rainbow_flag from "assets/nfts/flags/rainbow_flag.gif";
-import romanian_flag from "assets/nfts/flags/romanian_flag.gif";
-import sierra_leone_flag from "assets/nfts/flags/sierra_leone_flag.gif";
-import singaporean_flag from "assets/nfts/flags/singaporean_flag.gif";
+import australiaFlag from "assets/sfts/flags/australia_flag.gif";
+import belgiumFlag from "assets/sfts/flags/belgium_flag.gif";
+import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
+import chinaFlag from "assets/sfts/flags/china_flag.gif";
+import finlandFlag from "assets/sfts/flags/finland_flag.gif";
+import franceFlag from "assets/sfts/flags/france_flag.gif";
+import germanFlag from "assets/sfts/flags/germany_flag.gif";
+import indiaFlag from "assets/sfts/flags/india_flag.gif";
+import indonesiaFlag from "assets/sfts/flags/indonesia_flag.gif";
+import iranFlag from "assets/sfts/flags/iran_flag.gif";
+import italyFlag from "assets/sfts/flags/italy_flag.gif";
+import japanFlag from "assets/sfts/flags/japan_flag.gif";
+import moroccoFlag from "assets/sfts/flags/morocco_flag.gif";
+import netherlandsFlag from "assets/sfts/flags/netherlands_flag.gif";
+import phillipinesFlag from "assets/sfts/flags/philippines_flag.gif";
+import polandFlag from "assets/sfts/flags/poland_flag.gif";
+import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
+import russiaFlag from "assets/sfts/flags/russia_flag.gif";
+import saudiArabiaFlag from "assets/sfts/flags/saudi_arabia_flag.gif";
+import southKoreaFlag from "assets/sfts/flags/south_korea_flag.gif";
+import sunflowerFlag from "assets/sfts/flags/sunflower_flag.gif";
+import spainFlag from "assets/sfts/flags/spain_flag.gif";
+import thailandFlag from "assets/sfts/flags/thailand_flag.gif";
+import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
+import ukraineFlag from "assets/sfts/flags/ukraine_flag.gif";
+import usaFlag from "assets/sfts/flags/usa_flag.gif";
+import vietnamFlag from "assets/sfts/flags/vietnam_flag.gif";
+import algerian_flag from "assets/sfts/flags/algerian_flag.gif";
+import argentinian_flag from "assets/sfts/flags/argentinian_flag.gif";
+import british_flag from "assets/sfts/flags/british_flag.gif";
+import canadian_flag from "assets/sfts/flags/canadian_flag.gif";
+import colombian_flag from "assets/sfts/flags/colombian_flag.gif";
+import dominican_republic_flag from "assets/sfts/flags/dominican_republic_flag.gif";
+import goblin_flag from "assets/sfts/flags/goblin_flag.gif";
+import lithuanian_flag from "assets/sfts/flags/lithuanian_flag.gif";
+import malaysian_flag from "assets/sfts/flags/malaysian_flag.gif";
+import mexican_flag from "assets/sfts/flags/mexican_flag.gif";
+import pirate_flag from "assets/sfts/flags/pirate_flag.gif";
+import rainbow_flag from "assets/sfts/flags/rainbow_flag.gif";
+import romanian_flag from "assets/sfts/flags/romanian_flag.gif";
+import sierra_leone_flag from "assets/sfts/flags/sierra_leone_flag.gif";
+import singaporean_flag from "assets/sfts/flags/singaporean_flag.gif";
 
 // Resources
 import stone from "assets/resources/stone.png";
@@ -190,35 +194,35 @@ import ticket from "assets/icons/ticket.png";
 import warBond from "assets/icons/warBond.png";
 
 // Banners
-import goblinBanner from "assets/nfts/goblin_banner.png";
-import humanBanner from "assets/nfts/human_banner.png";
+import goblinBanner from "assets/sfts/goblin_banner.png";
+import humanBanner from "assets/sfts/human_banner.png";
 
 // Egg
-import redEgg from "src/assets/nfts/easter/red_egg.png";
-import yellowEgg from "src/assets/nfts/easter/yellow_egg.png";
-import purpleEgg from "src/assets/nfts/easter/purple_egg.png";
-import blueEgg from "src/assets/nfts/easter/blue_egg.png";
-import greenEgg from "src/assets/nfts/easter/green_egg.png";
-import orangeEgg from "src/assets/nfts/easter/orange_egg.png";
-import pinkEgg from "src/assets/nfts/easter/pink_egg.png";
-import easterBasket from "src/assets/nfts/easter/basket.png";
-import easterBunny from "src/assets/nfts/easter/easter_bunny.gif";
+import redEgg from "src/assets/sfts/easter/red_egg.png";
+import yellowEgg from "src/assets/sfts/easter/yellow_egg.png";
+import purpleEgg from "src/assets/sfts/easter/purple_egg.png";
+import blueEgg from "src/assets/sfts/easter/blue_egg.png";
+import greenEgg from "src/assets/sfts/easter/green_egg.png";
+import orangeEgg from "src/assets/sfts/easter/orange_egg.png";
+import pinkEgg from "src/assets/sfts/easter/pink_egg.png";
+import easterBasket from "src/assets/sfts/easter/basket.png";
+import easterBunny from "src/assets/sfts/easter/easter_bunny.gif";
 
 //MOM Event
-import momCoreEngine from "src/assets/nfts/mom/engine_core.png";
-import observatory from "src/assets/nfts/mom/observatory.gif";
+import momCoreEngine from "src/assets/sfts/mom/engine_core.png";
+import observatory from "src/assets/sfts/mom/observatory.gif";
 
 // Cakes
-import carrotCake from "src/assets/nfts/cakes/carrot_cake.png";
-import radishCake from "src/assets/nfts/cakes/radish_cake.png";
-import beetrootCake from "src/assets/nfts/cakes/beetroot_cake.png";
-import cabbageCake from "src/assets/nfts/cakes/cabbage_cake.png";
-import cauliflowerCake from "src/assets/nfts/cakes/cauliflower_cake.png";
-import parsnipCake from "src/assets/nfts/cakes/parsnip_cake.png";
-import potatoCake from "src/assets/nfts/cakes/potato_cake.png";
-import pumpkinCake from "src/assets/nfts/cakes/pumpkin_cake.png";
-import sunflowerCake from "src/assets/nfts/cakes/sunflower_cake.png";
-import wheatCake from "src/assets/nfts/cakes/wheat_cake.png";
+import carrotCake from "src/assets/sfts/cakes/carrot_cake.png";
+import radishCake from "src/assets/sfts/cakes/radish_cake.png";
+import beetrootCake from "src/assets/sfts/cakes/beetroot_cake.png";
+import cabbageCake from "src/assets/sfts/cakes/cabbage_cake.png";
+import cauliflowerCake from "src/assets/sfts/cakes/cauliflower_cake.png";
+import parsnipCake from "src/assets/sfts/cakes/parsnip_cake.png";
+import potatoCake from "src/assets/sfts/cakes/potato_cake.png";
+import pumpkinCake from "src/assets/sfts/cakes/pumpkin_cake.png";
+import sunflowerCake from "src/assets/sfts/cakes/sunflower_cake.png";
+import wheatCake from "src/assets/sfts/cakes/wheat_cake.png";
 
 // Food
 import mashedPotato from "assets/food/mashed_potato.png";
@@ -232,10 +236,10 @@ import roastVeggies from "assets/food/roast_veggies.png";
 import clubSandwich from "assets/food/club_sandwich.png";
 import bumpkinSalad from "assets/food/bumpkin_salad.png";
 
-import goblinKey from "src/assets/nfts/quest/goblin_key.png";
-import sunflowerKey from "src/assets/nfts/quest/sunflower_key.png";
-import ancientGoblinSword from "src/assets/nfts/quest/ancient_goblin_sword.png";
-import ancientHumanWarhammer from "src/assets/nfts/quest/ancient_human_warhammer.png";
+import goblinKey from "src/assets/sfts/quest/goblin_key.png";
+import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
+import ancientGoblinSword from "src/assets/sfts/quest/ancient_goblin_sword.png";
+import ancientHumanWarhammer from "src/assets/sfts/quest/ancient_human_warhammer.png";
 
 // Fertiliser
 import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
@@ -266,13 +270,14 @@ import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png
 
 import skull from "src/assets/decorations/war_skulls.png";
 import warTombston from "src/assets/decorations/war_tombstone.png";
-import jackOLanternItem from "src/assets/nfts/jack-o-lantern.png";
-import victoriaSisters from "src/assets/nfts/victoria-sisters.gif";
+import jackOLanternItem from "src/assets/sfts/jack-o-lantern.png";
+import victoriaSisters from "src/assets/sfts/victoria-sisters.gif";
 
 //Decorations
 import pottedSunflower from "src/assets/decorations/potted_sunflower.png";
 import whiteTulips from "src/assets/decorations/white_tulips.png";
 import cactus from "src/assets/decorations/cactus.png";
+import basicBear from "src/assets/sfts/bears/basic_bear.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -289,6 +294,7 @@ import {
   LimitedItem,
   MUTANT_CHICKENS,
   SALESMAN_ITEMS,
+  GOBLIN_RETREAT_ITEMS,
 } from "./craftables";
 import { CROPS, SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
@@ -296,6 +302,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
 import { EXOTIC_SEEDS, UPCOMING_SEEDS } from "./seeds";
+import { DECORATIONS } from "./decorations";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -1326,5 +1333,30 @@ export const ITEM_DETAILS: Items = {
     image: victoriaSisters,
     description:
       "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.",
+  },
+
+  "Basic Bear": {
+    image: basicBear,
+    description: DECORATIONS()["Basic Bear"].description,
+  },
+
+  "Cabbage Boy": {
+    image: cabbageBoy,
+    description: GOBLIN_RETREAT_ITEMS["Cabbage Boy"].description,
+  },
+
+  "Cabbage Girl": {
+    image: cabbageGirl,
+    description: GOBLIN_RETREAT_ITEMS["Cabbage Girl"].description,
+  },
+
+  "Wood Nymph Wendy": {
+    image: wendy,
+    description: GOBLIN_RETREAT_ITEMS["Wood Nymph Wendy"].description,
+  },
+
+  "Prized Potato": {
+    image: prizedPotato,
+    description: GOBLIN_RETREAT_ITEMS["Prized Potato"].description,
   },
 };

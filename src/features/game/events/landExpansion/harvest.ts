@@ -16,10 +16,14 @@ export type LandExpansionHarvestAction = {
 type Options = {
   state: GameState;
   action: LandExpansionHarvestAction;
-  createdAt: number;
+  createdAt?: number;
 };
 
-export function harvest({ state, action, createdAt }: Options): GameState {
+export function harvest({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   const stateCopy = cloneDeep(state);
   const { expansions, bumpkin } = stateCopy;
   const expansion = expansions[action.expansionIndex];

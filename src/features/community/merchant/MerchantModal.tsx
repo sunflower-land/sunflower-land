@@ -12,9 +12,9 @@ import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ErrorCode } from "lib/errors";
 
 // images
-import frog_unrevealed from "assets/nfts/frogs/frog_unrevealed.gif";
-import frog_revealed from "assets/nfts/frogs/frog_revealed.gif";
-import box from "assets/nfts/frogs/box.gif";
+import frog_unrevealed from "assets/sfts/frogs/frog_unrevealed.gif";
+import frog_revealed from "assets/sfts/frogs/frog_revealed.gif";
+import box from "assets/sfts/frogs/box.gif";
 import big_goblin_axe from "assets/npcs/big_goblin_axe.gif";
 import sfl_token from "assets/icons/token_2.png";
 import alert from "assets/icons/expression_alerted.png";

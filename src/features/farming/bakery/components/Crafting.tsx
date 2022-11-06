@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import close from "assets/icons/close.png";
-import radishPie from "assets/nfts/radish_pie.png";
+import radishPie from "assets/sfts/radish_pie.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
