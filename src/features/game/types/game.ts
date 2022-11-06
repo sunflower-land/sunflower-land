@@ -16,6 +16,7 @@ import { FruitName } from "features/island/fruit/FruitPatch";
 import { ExoticSeedName, UpcomingSeedName } from "./seeds";
 
 export type CropReward = {
+  sfl?: Decimal;
   items: {
     name: InventoryItemName;
     amount: number;
