@@ -86,8 +86,8 @@ export const Kitchen: React.FC<Props> = ({
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
-              bottom: `${PIXEL_SCALE * 8}px`,
-              left: `${PIXEL_SCALE * 10}px`,
+              bottom: `${PIXEL_SCALE * 10}px`,
+              right: `${PIXEL_SCALE * 2}px`,
             }}
           />
         )}
@@ -95,9 +95,9 @@ export const Kitchen: React.FC<Props> = ({
           src={kitchen}
           className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 55}px`,
-            left: `${PIXEL_SCALE * 4.5}px`,
-            bottom: `${PIXEL_SCALE * 3}px`,
+            width: `${PIXEL_SCALE * 63}px`,
+            left: `${PIXEL_SCALE * 0.5}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
           }}
         />
         {crafting && name && (
@@ -107,8 +107,8 @@ export const Kitchen: React.FC<Props> = ({
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
-              bottom: `${PIXEL_SCALE * 8}px`,
-              left: `${PIXEL_SCALE * 10}px`,
+              bottom: `${PIXEL_SCALE * 10}px`,
+              right: `${PIXEL_SCALE * 2}px`,
             }}
           />
         )}
@@ -118,9 +118,8 @@ export const Kitchen: React.FC<Props> = ({
             className="absolute z-20"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
-              bottom: `${PIXEL_SCALE * 4}px`,
-              right: `${PIXEL_SCALE * 24}px`,
-              transform: "scaleX(-1)",
+              bottom: `${PIXEL_SCALE * 8}px`,
+              right: `${PIXEL_SCALE * 14}px`,
             }}
           />
         ) : (
@@ -130,9 +129,8 @@ export const Kitchen: React.FC<Props> = ({
             style={{
               width: `${PIXEL_SCALE * 16}px`,
 
-              bottom: `${PIXEL_SCALE * 4}px`,
-              right: `${PIXEL_SCALE * 24}px`,
-              transform: "scaleX(-1)",
+              bottom: `${PIXEL_SCALE * 8}px`,
+              right: `${PIXEL_SCALE * 14}px`,
             }}
           />
         )}
@@ -141,8 +139,8 @@ export const Kitchen: React.FC<Props> = ({
           className="absolute z-10"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
-            bottom: `${PIXEL_SCALE * 2}px`,
-            right: `${PIXEL_SCALE * 25}px`,
+            bottom: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 15}px`,
           }}
         />
       </div>

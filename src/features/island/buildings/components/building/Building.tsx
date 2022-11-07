@@ -55,7 +55,11 @@ export const BUILDING_COMPONENTS: Record<
       <Kitchen buildingId={buildingId} />
     </WithCraftingMachine>
   ),
-  Deli: Deli,
+  Deli: ({ buildingId, craftingState }: BuildingProps) => (
+    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+      <Deli buildingId={buildingId} />
+    </WithCraftingMachine>
+  ),
 };
 
 export const Building: React.FC<Prop> = ({

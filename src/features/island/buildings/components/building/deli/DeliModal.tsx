@@ -17,9 +17,9 @@ interface Props {
   onClose: () => void;
   onCook: (name: ConsumableName) => void;
 }
-export const BakeryModal: React.FC<Props> = ({ isOpen, onCook, onClose }) => {
-  const cakeRecipes = getKeys(CONSUMABLES).reduce((acc, name) => {
-    if (CONSUMABLES[name].building !== "Bakery") {
+export const DeliModal: React.FC<Props> = ({ isOpen, onCook, onClose }) => {
+  const deliRecipes = getKeys(CONSUMABLES).reduce((acc, name) => {
+    if (CONSUMABLES[name].building !== "Deli") {
       return acc;
     }
 
@@ -31,19 +31,18 @@ export const BakeryModal: React.FC<Props> = ({ isOpen, onCook, onClose }) => {
       <div className="absolute w-48 -left-4 -top-32 -z-10">
         <DynamicNFT
           bumpkinParts={{
-            body: "Goblin Potion",
-            hair: "Sun Spots",
-            pants: "Lumberjack Overalls",
-            shirt: "Red Farmer Shirt",
-            tool: "Golden Spatula",
+            body: "Beige Farmer Potion",
+            hair: "Parlour Hair",
+            pants: "Farmer Overalls",
+            shirt: "Bumpkin Art Competition Merch",
+            tool: "Farmer Pitchfork",
             background: "Farm Background",
-            hat: "Chef Hat",
             shoes: "Black Farmer Boots",
           }}
         />
       </div>
       <Panel>
-        <Recipes recipes={cakeRecipes} onCook={onCook} onClose={onClose} />
+        <Recipes recipes={deliRecipes} onCook={onCook} onClose={onClose} />
       </Panel>
     </Modal>
   );

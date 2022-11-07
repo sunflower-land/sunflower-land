@@ -1172,6 +1172,11 @@ export const ITEM_DETAILS: Items = {
     image: pancakes,
     description: "",
   },
+  "Fermented Carrots": {
+    // TODO
+    image: roastVeggies,
+    description: "",
+  },
 
   Explorer: {
     image: questionMark,
