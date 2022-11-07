@@ -50,7 +50,6 @@ export const Plot: React.FC<Props> = ({
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
   const [showPopover, setShowPopover] = useState(false);
-  const [popover, setPopover] = useState<JSX.Element | null>();
   const [showCropDetails, setShowCropDetails] = useState(false);
   const [isFertileModalOpen, setIsFertileModalOpen] = useState(false);
   const [procAnimation, setProcAnimation] = useState<JSX.Element | null>();
@@ -101,9 +100,11 @@ export const Plot: React.FC<Props> = ({
       if (crop.amount && crop.amount >= 10) {
         setProcAnimation(
           <Spritesheet
-            className="absolute pointer-events-none bottom-[4px] -left-[26px]"
+            className="absolute pointer-events-none"
             style={{
-              width: `${HARVEST_PROC_ANIMATION.size * PIXEL_SCALE}px`,
+              top: `${PIXEL_SCALE * -23.5}px`,
+              left: `${PIXEL_SCALE * -10}px`,
+              width: `${PIXEL_SCALE * HARVEST_PROC_ANIMATION.size}px`,
               imageRendering: "pixelated",
             }}
             image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
@@ -280,7 +281,10 @@ export const Plot: React.FC<Props> = ({
           </Panel>
         </Modal>
         <div
-          className={classNames("relative group", className)}
+          className={classNames(
+            "relative group cursor-pointer hover:img-highlight",
+            className
+          )}
           style={{
             width: `${GRID_WIDTH_PX}px`,
             height: `${GRID_WIDTH_PX}px`,
@@ -289,7 +293,7 @@ export const Plot: React.FC<Props> = ({
           <img
             src={soilNotFertile}
             alt="soil image"
-            className="w-full cursor-pointer hover:img-highlight absolute bottom-1"
+            className="w-full absolute bottom-1"
             onClick={notFertileCallback}
           />
         </div>
@@ -308,6 +312,7 @@ export const Plot: React.FC<Props> = ({
       }}
     >
       <div className="absolute bottom-1 w-full h-full">
+        {/* Crop base image */}
         <Soil
           className="absolute bottom-0 pointer-events-none"
           plantedCrop={crop}
@@ -315,17 +320,24 @@ export const Plot: React.FC<Props> = ({
           isRemoving={isRemoving}
         />
 
+        {/* Health bar for collecting rewards */}
         <div
           className={classNames(
-            "transition-opacity pointer-events-none absolute -bottom-2 left-1",
+            "transition-opacity pointer-events-none absolute z-10",
             {
               "opacity-100": touchCount > 0,
               "opacity-0": touchCount === 0,
             }
           )}
+          style={{
+            top: `${PIXEL_SCALE * 13}px`,
+            width: `${PIXEL_SCALE * 15}px`,
+          }}
         >
           <HealthBar percentage={100 - touchCount * 50} />
         </div>
+
+        {/* Popover */}
         <div
           className={classNames(
             "transition-opacity absolute -bottom-2 w-full z-20 pointer-events-none flex justify-center",
@@ -337,6 +349,7 @@ export const Plot: React.FC<Props> = ({
         >
           <img className="w-5" src={cancel} />
         </div>
+
         <img
           src={selectBox}
           style={{
@@ -352,16 +365,20 @@ export const Plot: React.FC<Props> = ({
             style={{
               opacity: 0.1,
             }}
-            className="absolute block inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-30 cursor-pointer"
+            className="absolute block inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-20 cursor-pointer"
             onClick={() => onClick()}
           />
         )}
+
+        {/* Crop reward */}
         <CropReward
           reward={reward}
           onCollected={onCollectReward}
           fieldIndex={plotIndex}
         />
       </div>
+
+      {/* Firework animation */}
       {procAnimation}
     </div>
   );

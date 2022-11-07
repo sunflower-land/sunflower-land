@@ -94,7 +94,7 @@ export const Box: React.FC<BoxProps> = ({
           borderImageSlice: "25%",
           imageRendering: "pixelated",
           borderImageRepeat: "repeat",
-          borderRadius: "20px",
+          borderRadius: "15px",
         }}
       >
         {secondaryImage ? (
