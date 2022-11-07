@@ -1,39 +1,39 @@
 import React, { useContext, useState } from "react";
 
-import beigeBody from "../assets/beige_body.png";
-import lightBrownBody from "../assets/light_brown_body.png";
-import darkBrownBody from "../assets/dark_brown_body.png";
-import goblinBody from "../assets/goblin_body.png";
+import beigeBody from "assets/npc-layers/beige_body.png";
+import lightBrownBody from "assets/npc-layers/light_brown_body.png";
+import darkBrownBody from "assets/npc-layers/dark_brown_body.png";
+import goblinBody from "assets/npc-layers/goblin_body.png";
 
-import basicHair from "../assets/basic_hair.png";
-import afro from "../assets/afro.png";
-import rancher from "../assets/rancher_hair.png";
-import blacksmithHair from "../assets/blacksmith_hair.png";
-import longBrownHair from "../assets/long_brown_hair.png";
-import longWhiteHair from "../assets/long_white_hair.png";
-import buzzCut from "../assets/buzz_cut_hair.png";
-import parlourHair from "../assets/parlour_hair.png";
-import sunSpots from "../assets/sun_spots.png";
-import tealMohawk from "../assets/teal_mohawk.png";
-import blondie from "../assets/blondie_hair.png";
-import redShirt from "../assets/red_farmer_shirt.png";
-import blueShirt from "../assets/blue_farmer_shirt.png";
-import yellowShirt from "../assets/yellow_shirt.png";
-import sflShirt from "../assets/sfl_shirt.png";
-import warriorShirt from "../assets/warrior_shirt.png";
-import developerHoodie from "../assets/developer_hoodie.png";
-import dignityHoodie from "../assets/dignity_hoodie.png";
-import artMerch from "../assets/art_merch.png";
-import fancyTop from "../assets/fancy_top.png";
-import maidenTop from "../assets/maiden_top.png";
-import whiteShirt from "../assets/white_shirt.png";
+import basicHair from "assets/npc-layers/basic_hair.png";
+import afro from "assets/npc-layers/afro.png";
+import rancher from "assets/npc-layers/rancher_hair.png";
+import blacksmithHair from "assets/npc-layers/blacksmith_hair.png";
+import longBrownHair from "assets/npc-layers/long_brown_hair.png";
+import longWhiteHair from "assets/npc-layers/long_white_hair.png";
+import buzzCut from "assets/npc-layers/buzz_cut_hair.png";
+import parlourHair from "assets/npc-layers/parlour_hair.png";
+import sunSpots from "assets/npc-layers/sun_spots.png";
+import tealMohawk from "assets/npc-layers/teal_mohawk.png";
+import blondie from "assets/npc-layers/blondie_hair.png";
+import redShirt from "assets/npc-layers/red_farmer_shirt.png";
+import blueShirt from "assets/npc-layers/blue_farmer_shirt.png";
+import yellowShirt from "assets/npc-layers/yellow_shirt.png";
+import sflShirt from "assets/npc-layers/sfl_shirt.png";
+import warriorShirt from "assets/npc-layers/warrior_shirt.png";
+import developerHoodie from "assets/npc-layers/developer_hoodie.png";
+import dignityHoodie from "assets/npc-layers/dignity_hoodie.png";
+import artMerch from "assets/npc-layers/art_merch.png";
+import fancyTop from "assets/npc-layers/fancy_top.png";
+import maidenTop from "assets/npc-layers/maiden_top.png";
+import whiteShirt from "assets/npc-layers/white_shirt.png";
 
-import farmerPants from "../assets/farmer_pants.png";
-import blueOveralls from "../assets/blue_overalls.png";
-import brownOveralls from "../assets/brown_overalls.png";
-import fancyPants from "../assets/fancy_pants.png";
-import warriorPants from "../assets/warrior_pants.png";
-import skirt from "../assets/skirt.png";
+import farmerPants from "assets/npc-layers/farmer_pants.png";
+import blueOveralls from "assets/npc-layers/blue_overalls.png";
+import brownOveralls from "assets/npc-layers/brown_overalls.png";
+import fancyPants from "assets/npc-layers/fancy_pants.png";
+import warriorPants from "assets/npc-layers/warrior_pants.png";
+import skirt from "assets/npc-layers/skirt.png";
 
 import shadow from "assets/npcs/shadow.png";
 
@@ -54,10 +54,6 @@ import { FeedModal } from "./FeedModal";
 
 type VisiblePart = BumpkinBody | BumpkinHair | BumpkinShirt | BumpkinPant;
 
-export const BUMPKIN_POSITION = {
-  x: 2,
-  y: -1,
-};
 const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
 

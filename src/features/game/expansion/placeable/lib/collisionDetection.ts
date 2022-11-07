@@ -12,7 +12,7 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
-import { BUMPKIN_POSITION } from "features/island/bumpkin/components/Character";
+import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 
 type BoundingBox = Position;
 

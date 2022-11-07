@@ -19,10 +19,7 @@ import { Stone } from "./components/resources/Stone";
 import { Placeable } from "./placeable/Placeable";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
-import {
-  BUMPKIN_POSITION,
-  Character,
-} from "features/island/bumpkin/components/Character";
+import { Character } from "features/island/bumpkin/components/Character";
 import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
 import { Collectible } from "features/island/collectibles/Collectible";
@@ -37,6 +34,7 @@ import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Bumpkin, Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
+import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 
 type ExpansionProps = Pick<
   LandExpansion,

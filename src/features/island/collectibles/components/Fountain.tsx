@@ -10,7 +10,7 @@ export const Fountain: React.FC = () => {
       className="absolute"
       style={{
         width: `${PIXEL_SCALE * 26}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
         right: `${PIXEL_SCALE * 1}px`,
       }}
     >
