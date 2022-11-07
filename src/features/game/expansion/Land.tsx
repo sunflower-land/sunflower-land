@@ -415,6 +415,8 @@ export const Land: React.FC = () => {
           key="island-travel"
           bumpkin={bumpkin}
           isVisiting={gameState.matches("visiting")}
+          isTravelAllowed={!gameState.matches("autosaving")}
+          onTravelDialogOpened={() => gameService.send("SAVE")}
           x={boatCoordinates.x}
           y={boatCoordinates.y}
         />
