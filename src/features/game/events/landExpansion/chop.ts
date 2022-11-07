@@ -11,6 +11,13 @@ import {
 } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
+export enum CHOP_ERRORS {
+  MISSING_AXE = "No axe",
+  NO_AXES = "No axes left",
+  NO_TREE = "No tree",
+  STILL_GROWING = "Tree is still growing",
+}
+
 type GetChoppedAtArgs = {
   skills: Partial<Record<BumpkinSkillName, number>>;
   collectibles: Collectibles;
@@ -93,22 +100,22 @@ export function chop({
   const requiredAxes = getRequiredAxeAmount(collectibles);
 
   if (action.item !== "Axe" && requiredAxes.gt(0)) {
-    throw new Error("No axe");
+    throw new Error(CHOP_ERRORS.MISSING_AXE);
   }
 
   const axeAmount = inventory.Axe || new Decimal(0);
   if (axeAmount.lessThan(requiredAxes)) {
-    throw new Error("No axes left");
+    throw new Error(CHOP_ERRORS.NO_AXES);
   }
 
   const tree = trees[action.index];
 
   if (!tree) {
-    throw new Error("No tree");
+    throw new Error(CHOP_ERRORS.NO_TREE);
   }
 
   if (!canChop(tree, createdAt)) {
-    throw new Error("Tree is still growing");
+    throw new Error(CHOP_ERRORS.STILL_GROWING);
   }
 
   const woodHarvested = tree.wood.amount;
