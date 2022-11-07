@@ -7,6 +7,8 @@ import { seedBought } from "./seedBought";
 const GAME_STATE: GameState = TEST_FARM;
 
 describe("seedBought", () => {
+  const dateNow = Date.now();
+
   it("throws an error if item is not a seed", () => {
     expect(() =>
       seedBought({
@@ -232,5 +234,58 @@ describe("seedBought", () => {
       },
     });
     expect(state.bumpkin?.activity?.["Sunflower Seed Bought"]).toEqual(amount);
+  });
+
+  it("purchases seeds for free when Kuebiko is placed and ready", () => {
+    const state = seedBought({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(1),
+        inventory: {
+          ...GAME_STATE.inventory,
+          "Sunflower Seed": new Decimal(0),
+        },
+        collectibles: {
+          Kuebiko: [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // Ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        item: "Sunflower Seed",
+        amount: 1,
+        type: "seed.bought",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(1));
+    expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(1));
+  });
+
+  it("will not purchase seeds for free if Kuebiko is just in inventory", () => {
+    const state = seedBought({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(1),
+        inventory: {
+          ...GAME_STATE.inventory,
+          "Sunflower Seed": new Decimal(0),
+          Kuebiko: new Decimal(1),
+        },
+      },
+      action: {
+        item: "Sunflower Seed",
+        amount: 1,
+        type: "seed.bought",
+      },
+    });
+
+    expect(state.balance).not.toEqual(new Decimal(1));
   });
 });
