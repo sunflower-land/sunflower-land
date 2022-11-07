@@ -36,7 +36,7 @@ export const InnerPanel: React.FC<Props> = ({ children, className, style }) => {
         borderImageSlice: "25%",
         imageRendering: "pixelated",
         borderImageRepeat: "repeat",
-        borderRadius: "20px",
+        borderRadius: "15px",
         ...style,
       }}
     >
@@ -64,7 +64,7 @@ export const OuterPanel: React.FC<Props> = ({ children, className, style }) => {
         borderImageSlice: "25%",
         imageRendering: "pixelated",
         borderImageRepeat: "repeat",
-        borderRadius: "20px",
+        borderRadius: "15px",
         ...style,
       }}
     >

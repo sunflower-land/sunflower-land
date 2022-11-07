@@ -12,7 +12,6 @@ import { CROPS } from "features/game/types/crops";
 import { addNoise } from "lib/images";
 
 import { LIFECYCLE } from "../lib/plant";
-import classnames from "classnames";
 import { PlantedCrop } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -20,36 +19,35 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Props {
   plantedCrop?: PlantedCrop;
-  className?: string;
   showCropDetails?: boolean;
   isRemoving?: boolean;
 }
 
 const CROP_NOISE_LEVEL = 0.1;
 
-const Crop: React.FC<{ image: string; className: string }> = ({
-  image,
-  className,
-}) => {
+const getCropImage = (imageSource: any): JSX.Element => {
   return (
     <img
-      src={image}
+      className="absolute"
+      src={imageSource}
       onLoad={(e) => addNoise(e.currentTarget, CROP_NOISE_LEVEL)}
-      className={classnames("w-full", className)}
+      style={{
+        top: `${PIXEL_SCALE * -12}px`,
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
     />
   );
 };
 
 export const Soil: React.FC<Props> = ({
   plantedCrop,
-  className,
   showCropDetails,
   isRemoving,
 }) => {
   useUiRefresher({ active: !!plantedCrop });
 
   if (!plantedCrop) {
-    return <Crop image={soil} className={className as string} />;
+    return getCropImage(soil);
   }
 
   const { harvestSeconds } = CROPS()[plantedCrop.name];
@@ -58,15 +56,20 @@ export const Soil: React.FC<Props> = ({
 
   // Seedling
   if (timeLeft > 0) {
-    const percentage = !isRemoving
-      ? 100 - (timeLeft / harvestSeconds) * 100
-      : -50;
-    const isAlmostReady = percentage >= 50;
+    const growPercentage = 100 - (timeLeft / harvestSeconds) * 100;
+    const isAlmostReady = growPercentage >= 50;
 
     return (
       <div className="relative w-full h-full">
         {plantedCrop?.fertilisers && (
-          <div className="flex-col absolute z-10 -right-1 -top-3">
+          <div
+            className="absolute z-10"
+            style={{
+              top: `${PIXEL_SCALE * -6}px`,
+              left: `${PIXEL_SCALE * 9}px`,
+              width: `${PIXEL_SCALE * 10}px`,
+            }}
+          >
             {plantedCrop.fertilisers.map(({ name }) => (
               <img
                 key={name}
@@ -79,16 +82,25 @@ export const Soil: React.FC<Props> = ({
             ))}
           </div>
         )}
-        <Crop
-          image={isAlmostReady ? lifecycle.almost : lifecycle.seedling}
-          className={className as string}
-        />
-        <div className="absolute w-full -bottom-3 z-10">
-          <ProgressBar percentage={percentage} seconds={timeLeft} />
+
+        {getCropImage(isAlmostReady ? lifecycle.almost : lifecycle.seedling)}
+
+        <div
+          className="absolute z-20"
+          style={{
+            top: `${PIXEL_SCALE * 7.5}px`,
+            width: `${PIXEL_SCALE * 15}px`,
+          }}
+        >
+          <ProgressBar
+            percentage={isRemoving ? -50 : growPercentage}
+            seconds={timeLeft}
+          />
         </div>
+
         <InnerPanel
           className={classNames(
-            "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-1 z-20 pointer-events-none",
+            "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-1 z-30 pointer-events-none",
             {
               "opacity-100": showCropDetails,
               "opacity-0": !showCropDetails,
@@ -107,5 +119,5 @@ export const Soil: React.FC<Props> = ({
     );
   }
 
-  return <Crop image={lifecycle.ready} className={className as string} />;
+  return getCropImage(lifecycle.ready);
 };

@@ -81,7 +81,7 @@ describe("plant", () => {
     ).toThrow("Plot does not exist");
   });
 
-  it("does not plant on non-integer plot", () => {
+  it("does not plant on plot with negative plot index", () => {
     const { inventory } = GAME_STATE;
     expect(() =>
       plant({
