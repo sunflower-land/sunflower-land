@@ -1,15 +1,19 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
 import selectBox from "assets/ui/select/select_box.png";
 import cancel from "assets/icons/cancel.png";
-import water from "assets/icons/water.png";
 import soilNotFertile from "assets/land/soil_not_fertile.png";
 import well from "assets/buildings/well1.png";
+import close from "assets/icons/close.png";
 
 import { Context } from "features/game/GameProvider";
-import { CropReward as Reward, PlantedCrop } from "features/game/types/game";
+import {
+  CropReward as Reward,
+  FERTILISERS,
+  PlantedCrop,
+} from "features/game/types/game";
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -27,6 +31,7 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import Spritesheet from "components/animation/SpriteAnimator";
 import { HARVEST_PROC_ANIMATION } from "features/farming/crops/lib/plant";
+import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 
 interface Props {
   plotIndex: number;
@@ -35,8 +40,7 @@ interface Props {
   onboarding?: boolean;
 }
 
-const isCropReady = (now: number, plantedAt: number, harvestSeconds: number) =>
-  now - plantedAt > harvestSeconds * 1000;
+const REMOVE_CROP_TIMEOUT = 5000; // 5 seconds
 
 export const Plot: React.FC<Props> = ({
   className,
@@ -46,14 +50,15 @@ export const Plot: React.FC<Props> = ({
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
   const [showPopover, setShowPopover] = useState(false);
+  const [popover, setPopover] = useState<JSX.Element | null>();
   const [showCropDetails, setShowCropDetails] = useState(false);
   const [isFertileModalOpen, setIsFertileModalOpen] = useState(false);
   const [procAnimation, setProcAnimation] = useState<JSX.Element | null>();
   const { setToast } = useContext(ToastContext);
-  // Rewards
   const [touchCount, setTouchCount] = useState(0);
   const [reward, setReward] = useState<Reward | null>(null);
   const clickedAt = useRef<number>(0);
+  const [isRemoving, setIsRemoving] = useState(false);
 
   const expansion = game.context.state.expansions[expansionIndex];
   const plot = expansion.plots?.[plotIndex];
@@ -64,6 +69,18 @@ export const Plot: React.FC<Props> = ({
     expansionIndex,
     gameState: game.context.state,
   });
+
+  const playing = game.matches("playing") || game.matches("autosaving");
+
+  // If selected item changes, then stop removing crops
+  useEffect(() => setIsRemoving(false), [selectedItem]);
+
+  // If enough time has passed, then stop removing crops
+  useEffect(() => {
+    if (!isRemoving) return;
+    const timer = setTimeout(() => setIsRemoving(false), REMOVE_CROP_TIMEOUT);
+    return () => clearTimeout(timer);
+  }, [isRemoving]);
 
   const displayPopover = async () => {
     setShowPopover(true);
@@ -80,6 +97,7 @@ export const Plot: React.FC<Props> = ({
 
       harvestAudio.play();
 
+      // firework animation
       if (crop.amount && crop.amount >= 10) {
         setProcAnimation(
           <Spritesheet
@@ -108,6 +126,19 @@ export const Plot: React.FC<Props> = ({
     }
   };
 
+  const removeCrop = () => {
+    if (!isRemoving) {
+      setIsRemoving(true);
+      return;
+    }
+    gameService.send("crop.removed", {
+      item: selectedItem,
+      index: plotIndex,
+      expansionIndex,
+    });
+    setIsRemoving(false);
+  };
+
   const onCollectReward = (success: boolean) => {
     setReward(null);
     setTouchCount(0);
@@ -118,20 +149,19 @@ export const Plot: React.FC<Props> = ({
   };
 
   const handleMouseHover = () => {
-    if (crop) {
-      const { harvestSeconds } = CROPS()[crop.name];
-      const now = Date.now();
-      const isReady = isCropReady(now, crop.plantedAt, harvestSeconds);
-      const isJustPlanted = now - crop.plantedAt < 1000;
-
-      // show details if field is NOT ready and NOT just planted
-      if (!isReady && !isJustPlanted) {
-        // set state to show details
-        setShowCropDetails(true);
-      }
+    if (!crop) {
+      return;
     }
 
-    return;
+    const now = Date.now();
+    const isReady = isReadyToHarvest(now, crop, CROPS()[crop.name]);
+    const isJustPlanted = now - crop.plantedAt < 1000;
+
+    // show details if field is NOT ready and NOT just planted
+    if (!isReady && !isJustPlanted) {
+      // set state to show details
+      setShowCropDetails(true);
+    }
   };
 
   const handleMouseLeave = () => {
@@ -142,24 +172,18 @@ export const Plot: React.FC<Props> = ({
   const onClick = (analytics: boolean | undefined = undefined) => {
     // Small buffer to prevent accidental double clicks
     const now = Date.now();
-    if (now - clickedAt.current < 100) return;
+    if (now - clickedAt.current < 100) {
+      return;
+    }
 
     clickedAt.current = now;
 
-    // Crop is growing do nothing
-    if (
-      crop &&
-      !isCropReady(now, crop.plantedAt, CROPS()[crop.name].harvestSeconds)
-    )
-      return;
-
     // Already looking at a reward
-    if (reward) return;
+    if (reward) {
+      return;
+    }
 
-    if (
-      crop?.reward &&
-      isCropReady(now, crop.plantedAt, CROPS()[crop.name].harvestSeconds)
-    ) {
+    if (crop?.reward && isReadyToHarvest(now, crop, CROPS()[crop.name])) {
       if (touchCount < 1) {
         // Add to touch count for reward pickup
         setTouchCount((count) => count + 1);
@@ -196,11 +220,39 @@ export const Plot: React.FC<Props> = ({
       return;
     }
 
-    harvestCrop(crop);
+    // Remove crop
+    if (
+      selectedItem === "Shovel" &&
+      !isReadyToHarvest(now, crop, CROPS()[crop.name])
+    ) {
+      removeCrop();
+      return;
+    }
+
+    if (selectedItem && selectedItem in FERTILISERS) {
+      try {
+        gameService.send("crop.fertilised", {
+          index: plotIndex,
+          expansionIndex,
+          fertiliser: selectedItem,
+        });
+
+        return;
+        // TODO - sound effects
+      } catch {
+        displayPopover();
+      }
+    }
+
+    try {
+      harvestCrop(crop);
+    } catch (e: any) {
+      // TODO - catch more elaborate errors
+      displayPopover();
+    }
+
     setTouchCount(0);
   };
-
-  const playing = game.matches("playing") || game.matches("autosaving");
 
   const notFertileCallback = () => setIsFertileModalOpen(!isFertileModalOpen);
 
@@ -209,6 +261,11 @@ export const Plot: React.FC<Props> = ({
       <>
         <Modal centered show={isFertileModalOpen} onHide={notFertileCallback}>
           <Panel className="relative">
+            <img
+              src={close}
+              className="absolute w-6 top-4 right-4 cursor-pointer z-20"
+              onClick={notFertileCallback}
+            />
             <p className="text-center">These crops need water!</p>
             <p className="text-center mt-4">
               In order to support more crops, build a well.
@@ -216,7 +273,7 @@ export const Plot: React.FC<Props> = ({
                 <img
                   src={well}
                   alt="well image"
-                  className="mx-auto w-1/4 mt-4"
+                  className="mx-auto w-16 my-4"
                 />
               </span>
             </p>
@@ -229,15 +286,6 @@ export const Plot: React.FC<Props> = ({
             height: `${GRID_WIDTH_PX}px`,
           }}
         >
-          <img
-            src={water}
-            className="absolute z-10 pointer-events-none"
-            style={{
-              width: `${PIXEL_SCALE * 7}px`,
-              top: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 4.5}px`,
-            }}
-          />
           <img
             src={soilNotFertile}
             alt="soil image"
@@ -264,6 +312,7 @@ export const Plot: React.FC<Props> = ({
           className="absolute bottom-0 pointer-events-none"
           plantedCrop={crop}
           showCropDetails={showCropDetails}
+          isRemoving={isRemoving}
         />
 
         <div
