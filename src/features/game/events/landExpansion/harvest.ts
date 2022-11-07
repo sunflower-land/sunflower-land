@@ -1,5 +1,5 @@
-import { GameState } from "../../types/game";
-import { CROPS } from "../../types/crops";
+import { GameState, PlantedCrop } from "../../types/game";
+import { Crop, CROPS } from "../../types/crops";
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import {
@@ -17,6 +17,14 @@ type Options = {
   state: GameState;
   action: LandExpansionHarvestAction;
   createdAt?: number;
+};
+
+export const isReadyToHarvest = (
+  createdAt: number,
+  plantedCrop: PlantedCrop,
+  cropDetails: Crop
+) => {
+  return createdAt - plantedCrop.plantedAt >= cropDetails.harvestSeconds * 1000;
 };
 
 export function harvest({
