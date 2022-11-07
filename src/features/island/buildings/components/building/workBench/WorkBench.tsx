@@ -54,7 +54,7 @@ export const WorkBench: React.FC = () => {
         <div className="absolute w-48 -left-4 -top-32 -z-10">
           <DynamicNFT
             bumpkinParts={{
-              body: "Beige Farmer Potion",
+              body: "Light Brown Farmer Potion",
               hair: "Blacksmith Hair",
               pants: "Lumberjack Overalls",
               shirt: "SFL T-Shirt",

@@ -82,14 +82,21 @@ export const FirePit: React.FC<Props> = ({
         onClick={handleClick}
       >
         {ready && name && (
-          <div className="flex justify-center absolute -top-7 w-full">
-            <img src={ITEM_DETAILS[name].image} className="w-5 ready" />
-          </div>
+          <img
+            src={ITEM_DETAILS[name].image}
+            className="absolute z-30 img-highlight-heavy"
+            style={{
+              // TODO - dynamically get correct width
+              width: `${PIXEL_SCALE * 12}px`,
+              top: `${PIXEL_SCALE * 16}px`,
+              left: `${PIXEL_SCALE * 17}px`,
+            }}
+          />
         )}
         {crafting && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 opacity-80"
+            className="absolute z-30"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
