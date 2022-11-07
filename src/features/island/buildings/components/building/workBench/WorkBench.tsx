@@ -4,8 +4,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { WorkbenchModal } from "./components/WorkbenchModal";
 
-// TODO
-import npc from "assets/npcs/cook.gif";
+import npc from "assets/npcs/blacksmith.gif";
 import shadow from "assets/npcs/shadow.png";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
@@ -55,7 +54,7 @@ export const WorkBench: React.FC = () => {
         <div className="absolute w-48 -left-4 -top-32 -z-10">
           <DynamicNFT
             bumpkinParts={{
-              body: "Light Brown Farmer Potion",
+              body: "Beige Farmer Potion",
               hair: "Blacksmith Hair",
               pants: "Lumberjack Overalls",
               shirt: "SFL T-Shirt",
