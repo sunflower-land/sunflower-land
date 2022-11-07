@@ -80,3 +80,6 @@ export const shortenCount = (count: Decimal | undefined): string => {
 
   return `${value}${suffix}`;
 };
+
+export const setPrecision = (number: Decimal) =>
+  number.todp(4, Decimal.ROUND_DOWN);
