@@ -30,6 +30,7 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { LandExpansionTree } from "features/game/types/game";
 import {
   canChop,
+  CHOP_ERRORS,
   getRequiredAxeAmount,
 } from "features/game/events/landExpansion/chop";
 import { Overlay } from "react-bootstrap";
@@ -165,8 +166,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
       await new Promise((res) => setTimeout(res, 2000));
       setCollecting(false);
     } catch (e: any) {
-      // TODO - Don't compare hard-coded value
-      if (e.message === "No axes left") {
+      if (e.message === CHOP_ERRORS.NO_AXES) {
         displayPopover(
           <div className="flex">
             <img src={axe} className="w-4 h-4 mr-2" />
