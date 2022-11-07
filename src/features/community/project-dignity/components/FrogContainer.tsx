@@ -1,6 +1,6 @@
 import React from "react";
 
-import frogStatue from "assets/nfts/frogs/frog_statue.png";
+import frogStatue from "assets/sfts/frogs/frog_statue.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Frog, FROG_SIZE } from "../models/frog";
 import { FrogComponent } from "./FrogComponent";

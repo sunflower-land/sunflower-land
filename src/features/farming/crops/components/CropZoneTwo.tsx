@@ -9,7 +9,7 @@ import { Panel } from "components/ui/Panel";
 
 import goblin from "assets/npcs/goblin.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
-import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
+import pumpkinSoup from "assets/sfts/pumpkin_soup.png";
 import questionMark from "assets/icons/expression_confused.png";
 import heart from "assets/icons/heart.png";
 import close from "assets/icons/close.png";

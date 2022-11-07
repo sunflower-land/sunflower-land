@@ -1,6 +1,6 @@
 import React from "react";
 
-import foremanBeaver from "assets/nfts/construction_beaver.gif";
+import foremanBeaver from "assets/sfts/construction_beaver.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shadow from "assets/npcs/shadow.png";
 

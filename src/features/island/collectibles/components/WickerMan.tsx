@@ -5,7 +5,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { burningSound } from "lib/utils/sfx";
 
-import wickerManFire from "assets/nfts/wicker_man_fire.png";
+import wickerManFire from "assets/sfts/wicker_man_fire.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const WickerMan: React.FC = () => {

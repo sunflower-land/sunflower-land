@@ -3,7 +3,7 @@ export type BumpkinBackground =
   | "Seashore Background"
   | "Forest Background"
   | "Cemetery Background"
-  | "Moon Background"
+  | "Space Background"
   | "Jail Background";
 
 export type BumpkinBody =
@@ -146,7 +146,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "White Long Hair": 52,
   "Cemetery Background": 53,
   "Teal Mohawk": 54,
-  "Moon Background": 55,
+  "Space Background": 55,
   Parsnip: 56,
   "Jail Background": 57,
   "Golden Spatula": 58,

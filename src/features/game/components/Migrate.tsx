@@ -3,10 +3,10 @@ import { Button } from "components/ui/Button";
 import React, { useContext, useState } from "react";
 import { Context } from "../GameProvider";
 import boat from "assets/decorations/isles_boat.png";
-import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
-import sauerkraut from "src/assets/nfts/saurrerkrat.png";
-import roastedCauliflower from "assets/nfts/roasted_cauliflower.png";
-import radishPie from "assets/nfts/radish_pie.png";
+import pumpkinSoup from "assets/sfts/pumpkin_soup.png";
+import sauerkraut from "src/assets/sfts/saurrerkrat.png";
+import roastedCauliflower from "assets/sfts/roasted_cauliflower.png";
+import radishPie from "assets/sfts/radish_pie.png";
 import skull from "src/assets/decorations/war_skulls.png";
 
 export const Migrate: React.FC = () => {

@@ -3,27 +3,27 @@
  */
 import React from "react";
 
-import sunflowerRock from "assets/nfts/sunflower_rock.png";
-import sunflowerTombstone from "assets/nfts/sunflower_tombstone.png";
-import sunflowerStatue from "assets/nfts/sunflower_statue.png";
-import potatoStatue from "assets/nfts/potato_statue.png";
-import christmasTree from "assets/nfts/christmas_tree.png";
-import dog from "assets/nfts/farm_dog.gif";
-import cat from "assets/nfts/farm_cat.gif";
-import gnome from "assets/nfts/gnome.gif";
-import goblinKing from "assets/nfts/goblin_king.png";
-import fountain from "assets/nfts/fountain.gif";
-import goldenBonsai from "assets/nfts/golden_bonsai.png";
-import rooster from "assets/nfts/rooster.gif";
-import undeadChicken from "assets/nfts/undead_chicken.gif";
+import sunflowerRock from "assets/sfts/sunflower_rock.png";
+import sunflowerTombstone from "assets/sfts/sunflower_tombstone.png";
+import sunflowerStatue from "assets/sfts/sunflower_statue.png";
+import potatoStatue from "assets/sfts/potato_statue.png";
+import christmasTree from "assets/sfts/christmas_tree.png";
+import dog from "assets/sfts/farm_dog.gif";
+import cat from "assets/sfts/farm_cat.gif";
+import gnome from "assets/sfts/gnome.gif";
+import goblinKing from "assets/sfts/goblin_king.png";
+import fountain from "assets/sfts/fountain.gif";
+import goldenBonsai from "assets/sfts/golden_bonsai.png";
+import rooster from "assets/sfts/rooster.gif";
+import undeadChicken from "assets/sfts/undead_chicken.gif";
 import pottedSunflower from "assets/decorations/potted_sunflower.png";
 
-import mysteriousHead from "assets/nfts/mysterious_head.png";
-import homelessTent from "assets/nfts/homeless_tent.png";
-import farmerBath from "assets/nfts/farmer_bath.png";
+import mysteriousHead from "assets/sfts/mysterious_head.png";
+import homelessTent from "assets/sfts/homeless_tent.png";
+import farmerBath from "assets/sfts/farmer_bath.png";
 import swimmer from "assets/npcs/swimmer.gif";
 import skullHand from "assets/decorations/skull_hand.png";
-import easterBunny from "assets/nfts/easter/easter_bunny_eggs.gif";
+import easterBunny from "assets/sfts/easter/easter_bunny_eggs.gif";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";

@@ -44,6 +44,11 @@ import { CarrotSword } from "./components/CarrotSword";
 import { WhiteTulips } from "./components/WhiteTulips";
 import { PottedSunflower } from "./components/PottedSunflower";
 import { Cactus } from "./components/Cactus";
+import { BasicBear } from "./components/BasicBear";
+import { CabbageBoy } from "./components/CabbageBoy";
+import { CabbageGirl } from "./components/CabbageGirl";
+import { PrizedPotato } from "./components/PrizedPotato";
+import { WoodNymphWendy } from "./components/WoodNymphWendy";
 
 interface Prop {
   name: CollectibleName;
@@ -84,6 +89,10 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Potato Statue": PotatoStatue,
   "Nyon Statue": NyonStatue,
   "Rock Golem": RockGolem,
+  "Cabbage Boy": CabbageBoy,
+  "Cabbage Girl": CabbageGirl,
+  "Prized Potato": PrizedPotato,
+  "Wood Nymph Wendy": WoodNymphWendy,
 
   // Moles
   "Rocky the Mole": RockyTheMole,
@@ -110,6 +119,7 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "White Tulips": WhiteTulips,
   "Potted Sunflower": PottedSunflower,
   Cactus: Cactus,
+  "Basic Bear": BasicBear,
 
   "Victoria Sisters": () => null,
   "Egg Basket": () => null,

@@ -377,9 +377,6 @@ export const Land: React.FC = () => {
 
   return (
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div className="absolute z-0 w-full h-full">
-        <Water level={level} />
-      </div>
       <div className="relative w-full h-full">
         <div
           className={classNames("w-full h-full", {
@@ -391,6 +388,8 @@ export const Land: React.FC = () => {
           <DirtRenderer
             expansions={expansions.filter((e) => e.readyAt < Date.now())}
           />
+
+          <Water level={level} />
 
           {/* Sort island elements by y axis */}
           {getIslandElements({

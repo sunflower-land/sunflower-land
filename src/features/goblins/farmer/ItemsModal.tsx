@@ -2,7 +2,7 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 import close from "assets/icons/close.png";
-import coop from "assets/nfts/chicken_coop.png";
+import coop from "assets/sfts/chicken_coop.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";

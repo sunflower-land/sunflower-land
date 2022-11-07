@@ -98,6 +98,12 @@ export type QuestItem =
   | "Ancient Goblin Sword"
   | "Ancient Human Warhammer";
 
+export type GoblinRetreatItemName =
+  | "Prized Potato"
+  | "Cabbage Boy"
+  | "Cabbage Girl"
+  | "Wood Nymph Wendy";
+
 export type BlacksmithItem =
   | "Sunflower Statue"
   | "Potato Statue"
@@ -170,6 +176,7 @@ export type CollectibleName =
   | TravelingSalesmanItem
   | MutantChicken
   | DecorationName
+  | GoblinRetreatItemName
   | "War Skull"
   | "War Tombstone"
   | "Undead Rooster";
@@ -921,6 +928,29 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   },
 };
 
+// TODO
+type GoblinRetreatItem = {
+  description: string;
+};
+
+export const GOBLIN_RETREAT_ITEMS: Record<
+  GoblinRetreatItemName,
+  GoblinRetreatItem
+> = {
+  "Prized Potato": {
+    description: "A precious potato, doubles potato yield",
+  },
+  "Cabbage Boy": {
+    description: "Don't wake the baby!",
+  },
+  "Cabbage Girl": {
+    description: "Shhh it's sleeping",
+  },
+  "Wood Nymph Wendy": {
+    description: "Cast an enchanchment to entice the fairies",
+  },
+};
+
 export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
   Chicken: {
     name: "Chicken",
@@ -1150,6 +1180,12 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   "Victoria Sisters": { height: 2, width: 2 },
   "Undead Rooster": { height: 1, width: 1 },
+
+  "Basic Bear": { height: 1, width: 1 },
+  "Prized Potato": { height: 1, width: 1 },
+  "Wood Nymph Wendy": { height: 1, width: 1 },
+  "Cabbage Boy": { height: 1, width: 1 },
+  "Cabbage Girl": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

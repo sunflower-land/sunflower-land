@@ -1,6 +1,6 @@
 import React from "react";
 
-import rooster from "assets/nfts/rooster.gif";
+import rooster from "assets/sfts/rooster.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Rooster: React.FC = () => {

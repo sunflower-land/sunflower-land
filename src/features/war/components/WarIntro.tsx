@@ -6,8 +6,8 @@ import warCollection from "assets/announcements/warCollection.png";
 import warBond from "assets/icons/warBond.png";
 import chest from "assets/npcs/synced.gif";
 import firelighter from "assets/quest/firelighter.gif";
-import humanBanner from "assets/nfts/human_banner.png";
-import goblinBanner from "assets/nfts/goblin_banner.png";
+import humanBanner from "assets/sfts/human_banner.png";
+import goblinBanner from "assets/sfts/goblin_banner.png";
 
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
