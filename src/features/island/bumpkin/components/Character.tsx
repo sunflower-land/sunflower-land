@@ -1,6 +1,5 @@
 import {
   BumpkinBody,
-  BumpkinItem,
   BumpkinPant,
   BumpkinShirt,
   BumpkinHair,
@@ -36,9 +35,9 @@ import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { InventoryItemName } from "features/game/types/game";
 import { FeedModal } from "./FeedModal";
 
-const HITS = 2;
+type VisiblePart = BumpkinBody | BumpkinHair | BumpkinShirt | BumpkinPant;
 
-const PARTS: Partial<Record<BumpkinItem, string>> = {
+const PARTS: Record<VisiblePart, string> = {
   // Bodies
   "Beige Farmer Potion": lightFarmer,
   "Dark Brown Farmer Potion": darkBrownFarmer,
@@ -49,16 +48,37 @@ const PARTS: Partial<Record<BumpkinItem, string>> = {
   "Basic Hair": basic,
   "Explorer Hair": explorer,
   "Rancher Hair": rancher,
+  "Blacksmith Hair": basic, // TODO
+  "Brown Long Hair": basic, // TODO
+  "Buzz Cut": basic, // TODO
+  "Parlour Hair": basic, // TODO
+  "Sun Spots": basic, // TODO
+  "Teal Mohawk": basic, // TODO
+  "White Long Hair": basic, // TODO
+  Blondie: basic, // TODO
 
   // Shirts
   "Red Farmer Shirt": redFarmerShirt,
   "Yellow Farmer Shirt": yellowFarmerShirt,
   "Blue Farmer Shirt": blueFarmerShirt,
+  "Bumpkin Art Competition Merch": redFarmerShirt, // TODO
+  "Developer Hoodie": redFarmerShirt, // TODO
+  "Fancy Top": redFarmerShirt, // TODO
+  "Maiden Top": redFarmerShirt, // TODO
+  "Project Dignity Hoodie": redFarmerShirt, // TODO
+  "SFL T-Shirt": redFarmerShirt, // TODO
+  "Warrior Shirt": redFarmerShirt, // TODO,
 
   // Pants
   "Farmer Overalls": farmerOveralls,
   "Lumberjack Overalls": lumberjackOveralls,
   "Farmer Pants": farmerPants,
+  "Blue Suspenders": farmerPants, // TODO
+  "Brown Suspenders": farmerPants, // TODO
+  "Fancy Pants": farmerPants, // TODO
+  "Maiden Skirt": farmerPants, // TODO
+  "Peasant Skirt": farmerPants, // TODO
+  "Warrior Pants": farmerPants, // TODO,
 };
 
 const isConsumeable = (item: InventoryItemName): item is ConsumableName =>

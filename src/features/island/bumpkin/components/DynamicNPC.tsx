@@ -22,19 +22,18 @@ import {
   BumpkinShirt,
 } from "features/game/types/bumpkin";
 
-type LimitedBumpkinItem =
-  | BumpkinBody
-  | BumpkinHair
-  | BumpkinShirt
-  | BumpkinPant;
+type VisiblePart = BumpkinBody | BumpkinHair | BumpkinShirt | BumpkinPant;
 
-const PARTS: Record<LimitedBumpkinItem, string> = {
+const PARTS: Record<VisiblePart, string> = {
   "Beige Farmer Potion": beigeBodySheet,
   "Light Brown Farmer Potion": lightBrownBodySheet,
   "Dark Brown Farmer Potion": darkBrownBodySheet,
+
   "Basic Hair": basicSheet,
   "Explorer Hair": explorerSheet,
   "Rancher Hair": rancherSheet,
+  "Blacksmith Hair": basicSheet, // TODO
+  "Blue Suspenders": farmerPantsSheet,
   "Red Farmer Shirt": redShirtSheet,
   "Yellow Farmer Shirt": yellowShirtSheet,
   "Blue Farmer Shirt": blueShirtSheet,
