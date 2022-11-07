@@ -15,7 +15,11 @@ import {
 import { DynamicNFT } from "./DynamicNFT";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { Badges } from "features/farming/house/House";
-import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
+import {
+  BumpkinLevel,
+  getBumpkinLevel,
+  LEVEL_BRACKETS,
+} from "features/game/lib/level";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Achievements } from "./Achievements";
 import { AchievementBadges } from "./AchievementBadges";
@@ -71,6 +75,11 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const nextLevelExperience = LEVEL_BRACKETS[level];
+  const previousLevelExperience =
+    LEVEL_BRACKETS[(level - 1) as BumpkinLevel] || 0;
+
+  const currentExperienceProgress = experience - previousLevelExperience;
+  const experienceToNextLevel = nextLevelExperience - previousLevelExperience;
 
   const hasSkillPoint = hasUnacknowledgedSkillPoints(state.bumpkin);
 
@@ -120,14 +129,16 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
                   className="h-full bg-[#63c74d] absolute -z-10 "
                   style={{
                     borderRadius: "10px 0 0 10px",
-                    width: `${(experience / nextLevelExperience) * 100}%`,
+                    width: `${
+                      (currentExperienceProgress / experienceToNextLevel) * 100
+                    }%`,
                     maxWidth: "100%",
                   }}
                 />
               </div>
               <p className="text-xxs">{`${formatNumber(
-                experience
-              )}/${formatNumber(nextLevelExperience)} XP`}</p>
+                currentExperienceProgress
+              )}/${formatNumber(experienceToNextLevel)} XP`}</p>
             </div>
           </div>
 
