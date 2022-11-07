@@ -19,7 +19,10 @@ import { Stone } from "./components/resources/Stone";
 import { Placeable } from "./placeable/Placeable";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
-import { Character } from "features/island/bumpkin/components/Character";
+import {
+  BUMPKIN_POSITION,
+  Character,
+} from "features/island/bumpkin/components/Character";
 import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
 import { Collectible } from "features/island/collectibles/Collectible";
@@ -249,7 +252,13 @@ const getIslandElements = ({
 
   if (bumpkinParts) {
     mapPlacements.push(
-      <MapPlacement key="bumpkin-parts" x={2} y={-1} width={1} height={1}>
+      <MapPlacement
+        key="bumpkin-parts"
+        x={BUMPKIN_POSITION.x}
+        y={BUMPKIN_POSITION.y}
+        width={2}
+        height={2}
+      >
         <Character
           body={bumpkinParts.body}
           hair={bumpkinParts.hair}

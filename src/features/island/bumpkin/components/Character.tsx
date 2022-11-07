@@ -38,6 +38,8 @@ import skirt from "../assets/skirt.png";
 import shadow from "assets/npcs/shadow.png";
 
 import Spritesheet from "components/animation/SpriteAnimator";
+import patch from "assets/land/bumpkin_patch.png";
+import mailbox from "assets/decorations/mailbox.png";
 
 import {
   BumpkinBody,
@@ -52,6 +54,10 @@ import { FeedModal } from "./FeedModal";
 
 type VisiblePart = BumpkinBody | BumpkinHair | BumpkinShirt | BumpkinPant;
 
+export const BUMPKIN_POSITION = {
+  x: 2,
+  y: -1,
+};
 const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
 
@@ -126,69 +132,89 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
 
   return (
     <>
+      <img
+        src={patch}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 32}px`,
+          top: 0,
+          left: 0,
+        }}
+      />
+      <img
+        src={mailbox}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 8}px`,
+          top: `${PIXEL_SCALE * -1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
       <div
-        className="w-full h-full relative cursor-pointer hover:img-highlight"
+        className="relative cursor-pointer hover:img-highlight"
         onClick={() => setOpen(true)}
+        style={{
+          top: `${PIXEL_SCALE * 8}px`,
+          left: `${PIXEL_SCALE * 0}px`,
+        }}
       >
-        <div className="relative pointer-events-none">
-          <img
-            src={shadow}
-            style={{
-              width: `${PIXEL_SCALE * 15}px`,
-              top: `${PIXEL_SCALE * 11}px`,
-              left: `${PIXEL_SCALE * 1}px`,
-            }}
-            className="absolute"
-          />
-          <Spritesheet
-            className="absolute w-full inset-0 z-20"
-            style={bodyPartStyle}
-            image={PARTS[body] ?? beigeBody}
-            widthFrame={FRAME_WIDTH}
-            heightFrame={FRAME_HEIGHT}
-            steps={9}
-            fps={14}
-            autoplay={true}
-            loop={true}
-            direction="forward"
-          />
-          <Spritesheet
-            className="absolute w-full inset-0 z-20"
-            style={bodyPartStyle}
-            image={PARTS[hair] ?? sunSpots}
-            widthFrame={FRAME_WIDTH}
-            heightFrame={FRAME_HEIGHT}
-            steps={9}
-            fps={14}
-            autoplay={true}
-            loop={true}
-            direction="forward"
-          />
-          <Spritesheet
-            className="absolute w-full inset-0 z-20"
-            style={bodyPartStyle}
-            image={PARTS[shirt] ?? whiteShirt}
-            widthFrame={FRAME_WIDTH}
-            heightFrame={FRAME_HEIGHT}
-            steps={9}
-            fps={14}
-            autoplay={true}
-            loop={true}
-            direction="forward"
-          />
-          <Spritesheet
-            className="absolute w-full inset-0 z-20"
-            style={bodyPartStyle}
-            image={PARTS[pants] ?? farmerPants}
-            widthFrame={FRAME_WIDTH}
-            heightFrame={FRAME_HEIGHT}
-            steps={9}
-            fps={14}
-            autoplay={true}
-            loop={true}
-            direction="forward"
-          />
-        </div>
+        <img
+          src={shadow}
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            top: `${PIXEL_SCALE * 11}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+          }}
+          className="absolute"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[body] ?? beigeBody}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[hair] ?? sunSpots}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[shirt] ?? whiteShirt}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[pants] ?? farmerPants}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
+        />
       </div>
       <FeedModal
         isOpen={open}
