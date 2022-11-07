@@ -61,7 +61,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-gold-${index}`}
+            key={`${expansionIndex}-gold-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -81,7 +81,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-plot-${index}`}
+            key={`${expansionIndex}-plot-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -101,7 +101,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-tree-${index}`}
+            key={`${expansionIndex}-tree-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -121,7 +121,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-stone-${index}`}
+            key={`${expansionIndex}-stone-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -141,7 +141,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-iron-${index}`}
+            key={`${expansionIndex}-iron-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -162,7 +162,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-fruit-${index}`}
+            key={`${expansionIndex}-fruit-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -182,7 +182,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-mine-${index}`}
+            key={`${expansionIndex}-mine-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
