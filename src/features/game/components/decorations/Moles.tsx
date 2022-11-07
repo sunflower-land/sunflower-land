@@ -6,9 +6,9 @@ import { Inventory } from "../../types/game";
 import { Panel } from "components/ui/Panel";
 
 import close from "assets/icons/close.png";
-import tunnelMole from "assets/nfts/tunnel_mole.gif";
-import rockyMole from "assets/nfts/rocky_mole.gif";
-import nugget from "assets/nfts/nugget.gif";
+import tunnelMole from "assets/sfts/tunnel_mole.gif";
+import rockyMole from "assets/sfts/rocky_mole.gif";
+import nugget from "assets/sfts/nugget.gif";
 
 export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   const [showModal, setShowModal] = useState(false);

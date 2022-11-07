@@ -6,7 +6,7 @@ import { AbiItem } from "web3-utils";
 import { Button } from "components/ui/Button";
 import { Context } from "features/auth/lib/Provider";
 
-const LAND_EXPANSION_ADDRESS = "0x1bAF4b9b954eD537c355469A47A995e3E4e31B48";
+const LAND_EXPANSION_ADDRESS = "0xFD205FCdBF77bcA90C3E95bD8cC2A14F166Cc249";
 
 const BALACE_OF_ABI: AbiItem = {
   name: "balanceOf",

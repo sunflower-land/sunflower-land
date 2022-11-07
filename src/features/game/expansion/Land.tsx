@@ -249,7 +249,7 @@ const getIslandElements = ({
 
   if (bumpkinParts) {
     mapPlacements.push(
-      <MapPlacement key="bumpkin-parts" x={2} y={-1}>
+      <MapPlacement key="bumpkin-parts" x={2} y={-1} width={1} height={1}>
         <Character
           body={bumpkinParts.body}
           hair={bumpkinParts.hair}
@@ -377,9 +377,6 @@ export const Land: React.FC = () => {
 
   return (
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div className="absolute z-0 w-full h-full">
-        <Water level={level} />
-      </div>
       <div className="relative w-full h-full">
         <div
           className={classNames("w-full h-full", {
@@ -391,6 +388,8 @@ export const Land: React.FC = () => {
           <DirtRenderer
             expansions={expansions.filter((e) => e.readyAt < Date.now())}
           />
+
+          <Water level={level} />
 
           {/* Sort island elements by y axis */}
           {getIslandElements({

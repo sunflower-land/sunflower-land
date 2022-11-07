@@ -7,7 +7,7 @@ import { Panel } from "components/ui/Panel";
 
 import { Rare } from "../Rare";
 import { Tab } from "components/ui/Tab";
-import crown from "assets/nfts/goblin_crown.png";
+import crown from "assets/sfts/goblin_crown.png";
 import { LimitedItemType } from "features/game/types";
 
 interface Props {

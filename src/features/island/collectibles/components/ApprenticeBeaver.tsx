@@ -1,6 +1,6 @@
 import React from "react";
 
-import apprenticeBeaver from "assets/nfts/apprentice_beaver.gif";
+import apprenticeBeaver from "assets/sfts/apprentice_beaver.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shadow from "assets/npcs/shadow.png";
 

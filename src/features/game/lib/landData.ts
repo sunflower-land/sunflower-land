@@ -396,6 +396,11 @@ export const OFFLINE_FARM: GameState = {
     Sunflower: new Decimal(5),
     Wood: new Decimal(10),
     Axe: new Decimal(10),
+    "Prized Potato": new Decimal(1),
+    "Wood Nymph Wendy": new Decimal(1),
+    "Cabbage Boy": new Decimal(1),
+    "Cabbage Girl": new Decimal(1),
+    "Basic Bear": new Decimal(1),
     // Every item for testing
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
@@ -405,6 +410,7 @@ export const OFFLINE_FARM: GameState = {
     //   {}
     // ),
   },
+  migrated: true,
   stock: INITIAL_STOCK,
   trees: INITIAL_TREES,
   stones: INITIAL_STONE,

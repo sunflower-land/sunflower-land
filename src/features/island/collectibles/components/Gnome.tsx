@@ -1,6 +1,6 @@
 import React from "react";
 
-import gnome from "assets/nfts/gnome.gif";
+import gnome from "assets/sfts/gnome.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Gnome: React.FC = () => {

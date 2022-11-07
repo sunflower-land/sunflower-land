@@ -56,7 +56,7 @@ export const Water: React.FC = () => {
           src={goblinSnorkling}
           className="absolute "
           style={{
-            width: `${GRID_WIDTH_PX * 3.5}px`,
+            width: `${GRID_WIDTH_PX * 1.5}px`,
             left: `${GRID_WIDTH_PX * 5}px`,
             top: `${GRID_WIDTH_PX * 11}px`,
           }}
