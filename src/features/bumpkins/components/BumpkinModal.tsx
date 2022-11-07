@@ -75,7 +75,8 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const nextLevelExperience = LEVEL_BRACKETS[level];
-  const previousLevelExperience = LEVEL_BRACKETS[(level - 1) as BumpkinLevel];
+  const previousLevelExperience =
+    LEVEL_BRACKETS[(level - 1) as BumpkinLevel] || 0;
 
   const currentExperienceProgress = experience - previousLevelExperience;
   const experienceToNextLevel = nextLevelExperience - previousLevelExperience;
