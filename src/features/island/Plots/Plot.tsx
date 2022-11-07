@@ -306,6 +306,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     <div
       onMouseEnter={handleMouseHover}
       onMouseLeave={handleMouseLeave}
+      onMouseUp={handleMouseLeave}
       className="w-full h-full relative"
     >
       {/* Crop base image */}
