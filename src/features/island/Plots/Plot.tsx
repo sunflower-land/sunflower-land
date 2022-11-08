@@ -296,11 +296,16 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     );
   }
 
+  // onMouseUp is needed for PC to prevent lingering issues if clicking the crop results in showing the crop reward modal
+  const onMouseUpProps = isMobile
+    ? {}
+    : { onMouseUp: () => handleMouseLeave() };
+
   return (
     <div
       onMouseEnter={handleMouseHover}
       onMouseLeave={handleMouseLeave}
-      onMouseUp={handleMouseLeave}
+      {...onMouseUpProps}
       className="w-full h-full relative"
     >
       {/* Crop base image */}

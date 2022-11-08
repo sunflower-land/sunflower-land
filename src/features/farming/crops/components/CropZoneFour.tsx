@@ -42,7 +42,7 @@ export const CropZoneFour: React.FC = () => {
         <>
           <img
             src={goblinDig}
-            className="absolute z-20 hover:img-highlight cursor-pointer -scale-x-100"
+            className="absolute z-10 hover:img-highlight cursor-pointer -scale-x-100"
             onClick={() => setShowModal(true)}
             style={{
               width: `${GRID_WIDTH_PX * 5}px`,
@@ -64,7 +64,7 @@ export const CropZoneFour: React.FC = () => {
           />
           <img
             src={cauliflowerRice}
-            className="absolute "
+            className="absolute z-10"
             style={{
               width: `${GRID_WIDTH_PX * 0.8}px`,
               left: `${GRID_WIDTH_PX * 5.3}px`,
@@ -84,12 +84,12 @@ export const CropZoneFour: React.FC = () => {
           top: `${GRID_WIDTH_PX * 3}px`,
         }}
       >
-        <div className="flex justify-between items-center z-20">
+        <div className="flex justify-between items-center">
           <Field selectedItem={selectedItem} fieldIndex={16} />
           <Field selectedItem={selectedItem} fieldIndex={17} />
           <Field selectedItem={selectedItem} fieldIndex={18} />
         </div>
-        <div className="flex justify-between items-center z-30">
+        <div className="flex justify-between items-center">
           <Field selectedItem={selectedItem} fieldIndex={19} />
           <Field selectedItem={selectedItem} fieldIndex={20} />
           <Field selectedItem={selectedItem} fieldIndex={21} />
