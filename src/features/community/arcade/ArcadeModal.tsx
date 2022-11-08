@@ -28,7 +28,7 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
             className="h-6 cursor-pointer mr-2 mb-1 top-3 right-2 absolute"
             onClick={onClose}
           />
-          <h1>{currentGame || "Mini SFL Games"}</h1>
+          <h1 className="my-2">{currentGame || "Mini SFL Games"}</h1>
         </div>
         {/* Menu */}
         {currentGame === null && (
