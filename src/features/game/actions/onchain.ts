@@ -16,7 +16,7 @@ const API_URL = CONFIG.API_URL;
 
 async function loadMetadata(id: number) {
   // Go and fetch the metadata file for this farm
-  const url = `${API_URL}/sfts/farm/${id}`;
+  const url = `${API_URL}/nfts/farm/${id}`;
   const response = await window.fetch(url, {
     method: "GET",
     headers: {
