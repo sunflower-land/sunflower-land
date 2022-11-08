@@ -296,7 +296,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     );
   }
 
-  // onMouseUp is needed for PC to prevent lingering issues when clicking the crop results in receiving a reward
+  // onMouseUp is needed for PC to prevent lingering issues if clicking the crop results in showing the crop reward modal
   const onMouseUpProps = isMobile
     ? {}
     : { onMouseUp: () => handleMouseLeave() };
