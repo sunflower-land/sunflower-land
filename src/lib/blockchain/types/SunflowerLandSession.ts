@@ -180,6 +180,22 @@ export interface SunflowerLandSession extends BaseContract {
       mintFee: number | string | BN
     ): PayableTransactionObject<boolean>;
 
+    mintCollectible(
+      signature: string | number[],
+      sessionId: string | number[],
+      nextSessionId: string | number[],
+      deadline: number | string | BN,
+      farmId: number | string | BN,
+      mintFee: number | string | BN,
+      mintData: {
+        mintId: number | string | BN;
+        supply: number | string | BN;
+        ingredientIds: (number | string | BN)[];
+        ingredientAmounts: (number | string | BN)[];
+        tokenAmount: number | string | BN;
+      }
+    ): PayableTransactionObject<boolean>;
+
     mintAllowance(): NonPayableTransactionObject<string>;
 
     mintedAmount(): NonPayableTransactionObject<string>;
