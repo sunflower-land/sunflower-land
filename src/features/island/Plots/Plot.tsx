@@ -16,11 +16,7 @@ import {
 } from "features/game/types/game";
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
-  GRID_WIDTH_PX,
-  PIXEL_SCALE,
-  POPOVER_TIME_MS,
-} from "features/game/lib/constants";
+import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Soil } from "features/farming/crops/components/Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
@@ -284,17 +280,15 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
             </p>
           </Panel>
         </Modal>
-        <div
-          className="w-full h-full relative cursor-pointer hover:img-highlight"
-          style={{
-            width: `${GRID_WIDTH_PX}px`,
-            height: `${GRID_WIDTH_PX}px`,
-          }}
-        >
+        <div className="w-full h-full relative cursor-pointer hover:img-highlight">
           <img
             src={soilNotFertile}
             alt="soil image"
             className="absolute"
+            style={{
+              top: `${PIXEL_SCALE * 2}px`,
+              width: `${PIXEL_SCALE * 16}px`,
+            }}
             onClick={notFertileCallback}
           />
         </div>
