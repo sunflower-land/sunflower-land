@@ -24,11 +24,9 @@ import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
-import pirateGoblin from "assets/npcs/pirate_goblin.gif";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { Mine } from "features/island/mines/Mine";
 import { IslandTravel } from "./components/IslandTravel";
-import { PIXEL_SCALE } from "../lib/constants";
 import { DirtRenderer } from "./components/DirtRenderer";
 import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
@@ -268,22 +266,6 @@ const getIslandElements = ({
   }
 
   mapPlacements.push(
-    <MapPlacement
-      key="pirate-goblin"
-      x={pirateCoordinates.x}
-      y={pirateCoordinates.y}
-    >
-      <img
-        src={pirateGoblin}
-        className="relative top-8"
-        style={{
-          width: `${25 * PIXEL_SCALE}px`,
-        }}
-      />
-    </MapPlacement>
-  );
-
-  mapPlacements.push(
     ...getKeys(buildings)
       .filter((name) => buildings[name])
       .flatMap((name, nameIndex) => {
@@ -352,9 +334,7 @@ const getIslandElements = ({
             height={height}
             width={width}
           >
-            <div className="flex relative justify-center w-full h-full">
-              <ChickenElement index={index} />
-            </div>
+            <ChickenElement index={index} />
           </MapPlacement>
         );
       })

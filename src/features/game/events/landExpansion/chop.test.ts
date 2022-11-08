@@ -5,7 +5,12 @@ import {
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { GameState, LandExpansionTree } from "features/game/types/game";
-import { chop, getChoppedAt, LandExpansionChopAction } from "./chop";
+import {
+  chop,
+  getChoppedAt,
+  LandExpansionChopAction,
+  CHOP_ERRORS,
+} from "./chop";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -79,7 +84,7 @@ describe("chop", () => {
           index: 0,
         },
       })
-    ).toThrow("No axe");
+    ).toThrow(CHOP_ERRORS.MISSING_AXE);
   });
 
   it("throws an error if no axes are left", () => {
@@ -93,7 +98,7 @@ describe("chop", () => {
           index: 0,
         },
       })
-    ).toThrow("No axes left");
+    ).toThrow(CHOP_ERRORS.NO_AXES);
   });
 
   it("throws an error if tree is not ready", () => {
@@ -120,7 +125,7 @@ describe("chop", () => {
         state: game,
         action: payload.action,
       })
-    ).toThrow("Tree is still growing");
+    ).toThrow(CHOP_ERRORS.STILL_GROWING);
   });
 
   it("chops a tree", () => {
