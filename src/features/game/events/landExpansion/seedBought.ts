@@ -1,12 +1,14 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
-import { isCollectibleBuilt } from "../lib/collectibleBuilt";
-import { getBumpkinLevel } from "../lib/level";
-import { trackActivity } from "../types/bumpkinActivity";
-import { CraftableItem } from "../types/craftables";
-import { SEEDS, SeedName } from "../types/crops";
-import { Collectibles, GameState, Inventory } from "../types/game";
-import { isSeed } from "./plant";
+
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { CraftableItem } from "features/game/types/craftables";
+import { SeedName, SEEDS } from "features/game/types/crops";
+import { Collectibles, GameState, Inventory } from "features/game/types/game";
+import { trackActivity } from "features/game/types/bumpkinActivity";
+import { getBumpkinLevel } from "features/game/lib/level";
+
+import { isSeed } from "../plant";
 
 export type SeedBoughtAction = {
   type: "seed.bought";

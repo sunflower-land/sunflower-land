@@ -68,7 +68,7 @@ import {
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
 import { pickSkill, PickSkillAction } from "./landExpansion/pickSkill";
-import { seedBought, SeedBoughtAction } from "./seedBought";
+import { seedBought, SeedBoughtAction } from "./landExpansion/seedBought";
 import {
   claimAchievement,
   ClaimAchievementAction,
