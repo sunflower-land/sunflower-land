@@ -221,32 +221,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "bytes", "name": "signature", "type": "bytes" },
-      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
-      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
-      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
-      { "internalType": "string", "name": "nonce", "type": "string" },
-      { "internalType": "string", "name": "metadata", "type": "string" },
-      { "internalType": "uint256", "name": "sfl", "type": "uint256" },
-      {
-        "internalType": "uint256[]",
-        "name": "resourceIds",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "resourceAmounts",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "expandLand",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "farm",
     "outputs": [
@@ -765,11 +739,6 @@
           {
             "components": [
               { "internalType": "string", "name": "nonce", "type": "string" },
-              {
-                "internalType": "string",
-                "name": "metadata",
-                "type": "string"
-              },
               { "internalType": "uint256", "name": "sfl", "type": "uint256" },
               {
                 "internalType": "uint256[]",
