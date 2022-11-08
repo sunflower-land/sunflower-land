@@ -1,8 +1,7 @@
-import { getItemUnit } from "features/game/lib/conversion";
-import { KNOWN_ITEMS } from "features/game/types";
+import { MintArgs } from "features/game/actions/mintCollectible";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
-import { AbiItem, fromWei } from "web3-utils";
+import { AbiItem } from "web3-utils";
 import SessionABI from "./abis/Session.json";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
@@ -122,18 +121,6 @@ export class SessionManager {
       // For UI purposes, do not show the wei values
       const ethBasedRecipes = recipesWithIds.map((recipe, i) => ({
         ...recipe,
-
-        tokenAmount: recipe.tokenAmount
-          ? Number(fromWei(recipe.tokenAmount.toString()))
-          : 0,
-        ingredientAmounts: recipe.ingredientAmounts.map((amount, index) =>
-          Number(
-            fromWei(
-              amount.toString(),
-              getItemUnit(KNOWN_ITEMS[recipe.ingredientIds[index]])
-            )
-          )
-        ),
         cooldownSeconds: Number(recipe.cooldownSeconds),
       }));
 
@@ -321,6 +308,47 @@ export class SessionManager {
           farmId,
           mintId,
           fee
+        )
+        .send({ from: this.account, value: fee, gasPrice })
+        .on("error", function (error: any) {
+          console.log({ error });
+          const parsed = parseMetamaskError(error);
+          reject(parsed);
+        })
+        .on("transactionHash", function (transactionHash: any) {
+          console.log({ transactionHash });
+        })
+        .on("receipt", function (receipt: any) {
+          resolve(receipt);
+        });
+    });
+
+    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
+    return newSessionId;
+  }
+
+  public async mintCollectible({
+    signature,
+    sessionId,
+    nextSessionId,
+    deadline,
+    farmId,
+    fee,
+    mintData,
+  }: MintArgs): Promise<string> {
+    const oldSessionId = await this.getSessionId(farmId);
+    const gasPrice = await estimateGasPrice(this.web3);
+
+    await new Promise((resolve, reject) => {
+      this.contract.methods
+        .mintCollectible(
+          signature,
+          sessionId,
+          nextSessionId,
+          deadline,
+          farmId,
+          fee,
+          mintData
         )
         .send({ from: this.account, value: fee, gasPrice })
         .on("error", function (error: any) {
