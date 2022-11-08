@@ -11,7 +11,7 @@ export type BuildingName =
   | "Tent"
   | "Water Well"
   | "Bakery"
-  | "Chicken House"
+  | "Hen House"
   | "Deli";
 
 export type BuildingBluePrint = {
@@ -90,7 +90,7 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
     sfl: marketRate(5),
     constructionSeconds: 60 * 60,
   },
-  "Chicken House": {
+  "Hen House": {
     unlocksAtLevels: [9],
     ingredients: [
       {
@@ -151,6 +151,6 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Bakery: { height: 3, width: 4 },
   "Water Well": { height: 2, width: 2 },
   Tent: { height: 2, width: 3 },
-  "Chicken House": { height: 2, width: 2 },
+  "Hen House": { height: 4, width: 4 },
   Deli: { height: 3, width: 4 },
 };

@@ -251,7 +251,7 @@ import market from "src/assets/buildings/market.png";
 import workbench from "src/assets/buildings/workbench.png";
 import tent from "src/assets/buildings/tent1.png";
 import well from "src/assets/buildings/well1.png";
-import chickenHouse from "src/assets/buildings/chicken_house.png";
+import chickenHouse from "src/assets/buildings/hen_house.png";
 import bakery from "src/assets/buildings/bakery_building.png";
 import deli from "src/assets/buildings/deli.png";
 
@@ -1078,7 +1078,7 @@ export const ITEM_DETAILS: Items = {
     image: tent,
     description: "Every Bumpkin needs a home!",
   },
-  "Chicken House": {
+  "Hen House": {
     image: chickenHouse,
     description: "Grow your chicken empire",
   },

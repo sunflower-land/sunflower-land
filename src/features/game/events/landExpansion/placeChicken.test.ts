@@ -54,7 +54,7 @@ describe("buyChicken", () => {
             "Chicken Coop": new Decimal(1),
           },
           buildings: {
-            "Chicken House": [
+            "Hen House": [
               {
                 coordinates: {
                   x: 0,
@@ -88,7 +88,7 @@ describe("buyChicken", () => {
             Chicken: new Decimal(10),
           },
           buildings: {
-            "Chicken House": [
+            "Hen House": [
               {
                 coordinates: {
                   x: 0,
@@ -121,7 +121,7 @@ describe("buyChicken", () => {
           Chicken: new Decimal(1),
         },
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,
@@ -164,7 +164,7 @@ describe("buyChicken", () => {
           "Chicken Coop": new Decimal(1),
         },
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,
@@ -206,7 +206,7 @@ describe("buyChicken", () => {
           Chicken: new Decimal(2),
         },
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,

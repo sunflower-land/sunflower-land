@@ -217,7 +217,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Workbench: 1003,
   Tent: 1004,
   "Water Well": 1005,
-  "Chicken House": 1006,
+  "Hen House": 1006,
   Bakery: 1007,
   Kitchen: 1008,
   Deli: 1009,

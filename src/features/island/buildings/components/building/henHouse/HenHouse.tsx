@@ -1,9 +1,9 @@
 import React from "react";
 
-import building from "assets/buildings/chicken_house.png";
+import building from "assets/buildings/hen_house.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
-import { ChickenHouseModal } from "./components/ChickenHouseModal";
+import { HenHouseModal } from "./components/HenHouseModal";
 
 export const ChickenHouse: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -17,7 +17,7 @@ export const ChickenHouse: React.FC = () => {
       <img
         src={building}
         style={{
-          width: `${PIXEL_SCALE * 30}px`,
+          width: `${PIXEL_SCALE * 61}px`,
           left: `${PIXEL_SCALE * 1}px`,
           bottom: `${PIXEL_SCALE * 2}px`,
         }}
@@ -26,7 +26,7 @@ export const ChickenHouse: React.FC = () => {
         onClick={handleClick}
       />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <ChickenHouseModal onClose={() => setIsOpen(false)} />
+        <HenHouseModal onClose={() => setIsOpen(false)} />
       </Modal>
     </div>
   );

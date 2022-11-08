@@ -23,7 +23,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
+export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   const { gameService, shortcutItem } = useContext(Context);
 
   const [
