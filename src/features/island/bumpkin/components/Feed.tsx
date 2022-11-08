@@ -43,8 +43,6 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
     });
 
     shortcutItem(food.name);
-
-    onClose();
   };
 
   return (

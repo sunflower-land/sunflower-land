@@ -78,14 +78,20 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
         )}
       </div>
       <div className="flex items-start">
-        <span>Want to expand your land and discover new resources?</span>
+        <div>
+          <p>Want to expand your land and discover new resources?</p>
+
+          <p className="text-xs mt-2 underline">
+            Each piece of land is a unique NFT on the blockchain.
+          </p>
+        </div>
         <img
           src={close}
           className="h-6 ml-2 cursor-pointer"
           onClick={onClose}
         />
       </div>
-      <div className="my-2 flex justify-between items-end">
+      <div className="my-2 mt-4 flex justify-between items-end">
         <div>
           <Ingredients
             resources={gameState.expansionRequirements.resources}

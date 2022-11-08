@@ -159,6 +159,6 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Bakery: { height: 3, width: 4 },
   "Water Well": { height: 2, width: 2 },
   Tent: { height: 2, width: 3 },
-  "Hen House": { height: 4, width: 4 },
+  "Hen House": { height: 3, width: 4 },
   Deli: { height: 3, width: 4 },
 };
