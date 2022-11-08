@@ -23,7 +23,7 @@ import { OuterPanel, Panel } from "components/ui/Panel";
 
 // images
 import alert from "assets/icons/expression_alerted.png";
-import frog_revealed from "assets/nfts/frogs/frog_revealed.gif";
+import frog_revealed from "assets/sfts/frogs/frog_revealed.gif";
 import tadpole_icon from "features/community/assets/icons/tadpole.png";
 import empty_incubator from "features/community/assets/incubator/empty-small.gif";
 import active_incubator from "features/community/assets/incubator/algae-small.gif";
