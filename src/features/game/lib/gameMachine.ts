@@ -22,7 +22,7 @@ import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName, LimitedItemName } from "../types/craftables";
-import { sync } from "../actions/sync";
+import { syncProgress } from "../actions/sync";
 import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame, updateGame } from "./transforms";
@@ -459,7 +459,8 @@ export function startGame(authContext: Options) {
             {
               target: "offerMigration",
               cond: (context) =>
-                CONFIG.NETWORK === "mumbai" &&
+                (CONFIG.NETWORK === "mumbai" ||
+                  !!authContext.token?.userAccess.admin) &&
                 !authContext.migrated &&
                 canMigrate(context.state),
             },
@@ -682,7 +683,7 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const { sessionId } = await sync({
+              const { sessionId } = await syncProgress({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
