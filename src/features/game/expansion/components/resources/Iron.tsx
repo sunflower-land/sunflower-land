@@ -192,7 +192,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
         >
           <>
             <Spritesheet
-              className="group-hover:img-highlight pointer-events-none z-10"
+              className="group-hover:img-highlight pointer-events-none"
               style={{
                 position: "absolute",
                 left: "-86.7px",

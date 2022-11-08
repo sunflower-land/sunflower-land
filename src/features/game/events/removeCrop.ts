@@ -6,7 +6,6 @@ import { GameState, InventoryItemName } from "../types/game";
 import { isReadyToHarvest } from "./harvest";
 
 export enum REMOVE_CROP_ERRORS {
-  SHOVEL_STOLEN = "Shovel stolen!",
   NO_VALID_SHOVEL_SELECTED = "No valid shovel selected!",
   NO_SHOVEL_AVAILABLE = "No shovel available!",
   FIELD_DOESNT_EXIST = "Field doesn't exist!",

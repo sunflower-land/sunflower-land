@@ -24,16 +24,15 @@ import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
-import pirateGoblin from "assets/npcs/pirate_goblin.gif";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { Mine } from "features/island/mines/Mine";
 import { IslandTravel } from "./components/IslandTravel";
-import { PIXEL_SCALE } from "../lib/constants";
 import { DirtRenderer } from "./components/DirtRenderer";
 import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Bumpkin, Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
+import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -249,7 +248,13 @@ const getIslandElements = ({
 
   if (bumpkinParts) {
     mapPlacements.push(
-      <MapPlacement key="bumpkin-parts" x={2} y={-1} width={1} height={1}>
+      <MapPlacement
+        key="bumpkin-parts"
+        x={BUMPKIN_POSITION.x}
+        y={BUMPKIN_POSITION.y}
+        width={2}
+        height={2}
+      >
         <Character
           body={bumpkinParts.body}
           hair={bumpkinParts.hair}
@@ -259,22 +264,6 @@ const getIslandElements = ({
       </MapPlacement>
     );
   }
-
-  mapPlacements.push(
-    <MapPlacement
-      key="pirate-goblin"
-      x={pirateCoordinates.x}
-      y={pirateCoordinates.y}
-    >
-      <img
-        src={pirateGoblin}
-        className="relative top-8"
-        style={{
-          width: `${25 * PIXEL_SCALE}px`,
-        }}
-      />
-    </MapPlacement>
-  );
 
   mapPlacements.push(
     ...getKeys(buildings)
@@ -345,9 +334,7 @@ const getIslandElements = ({
             height={height}
             width={width}
           >
-            <div className="flex relative justify-center w-full h-full">
-              <ChickenElement index={index} />
-            </div>
+            <ChickenElement index={index} />
           </MapPlacement>
         );
       })
@@ -406,6 +393,8 @@ export const Land: React.FC = () => {
           key="island-travel"
           bumpkin={bumpkin}
           isVisiting={gameState.matches("visiting")}
+          isTravelAllowed={!gameState.matches("autosaving")}
+          onTravelDialogOpened={() => gameService.send("SAVE")}
           x={boatCoordinates.x}
           y={boatCoordinates.y}
         />

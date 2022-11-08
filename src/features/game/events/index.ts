@@ -83,6 +83,14 @@ import { craftTool, CraftToolAction } from "./landExpansion/craftTool";
 import { LandExpansionMigrateAction, migrate } from "./landExpansion/migrate";
 import { buyDecoration, buyDecorationAction } from "./buyDecoration";
 import { sellCrop, SellCropAction } from "./landExpansion/sellCrop";
+import {
+  fertiliseCrop as landExpansionFertilise,
+  LandExpansionFertiliseCropAction,
+} from "./landExpansion/fertiliseCrop";
+import {
+  removeCrop as landExpasionRemoveCrop,
+  LandExpansionRemoveCropAction,
+} from "./landExpansion/removeCrop";
 
 export type PlayingEvent =
   | CraftAction
@@ -99,6 +107,8 @@ export type PlayingEvent =
   | CollectAction
   | TradeAction
   | LandExpansionPlantAction
+  | LandExpansionFertiliseCropAction
+  | LandExpansionRemoveCropAction
   | LandExpansionHarvestAction
   | LandExpansionChopAction
   | LandExpansionStoneMineAction
@@ -166,6 +176,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   // Land Expansion Handlers
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,
+  "crop.fertilised": landExpansionFertilise,
+  "crop.removed": landExpasionRemoveCrop,
   "stoneRock.mined": landExpansionMineStone,
   "ironRock.mined": landExpansionIronMine,
   "goldRock.mined": landExpansionMineGold,

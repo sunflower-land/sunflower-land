@@ -47,7 +47,7 @@ export const Tab: React.FC<Props> = ({
         borderImageSlice: "25%",
         imageRendering: "pixelated",
         borderImageRepeat: "repeat",
-        borderRadius: "20px 20px 0 0",
+        borderRadius: "15px 15px 0 0",
       }}
     >
       {children}

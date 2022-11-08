@@ -13,7 +13,7 @@ import { Market } from "./market/Market";
 import { WorkBench } from "./workBench/WorkBench";
 import { Tent } from "./tent/Tent";
 import { WaterWell } from "./waterWell/WaterWell";
-import { ChickenHouse } from "./chickenHouse/ChickenHouse";
+import { ChickenHouse } from "./henHouse/HenHouse";
 import { Bakery } from "./bakery/Bakery";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -49,13 +49,17 @@ export const BUILDING_COMPONENTS: Record<
   Market: Market,
   Tent: Tent,
   "Water Well": WaterWell,
-  "Chicken House": ChickenHouse,
+  "Hen House": ChickenHouse,
   Kitchen: ({ buildingId, craftingState }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
       <Kitchen buildingId={buildingId} />
     </WithCraftingMachine>
   ),
-  Deli: Deli,
+  Deli: ({ buildingId, craftingState }: BuildingProps) => (
+    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+      <Deli buildingId={buildingId} />
+    </WithCraftingMachine>
+  ),
 };
 
 export const Building: React.FC<Prop> = ({

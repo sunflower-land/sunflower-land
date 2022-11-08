@@ -20,6 +20,11 @@
       drop-shadow(0px -1px 0px white);
   }
 
+  .img-highlight-heavy {
+    filter: drop-shadow(2px 2px 0px white) drop-shadow(-2px 0px 0px white)
+      drop-shadow(0px -2px 0px white);
+  }
+
   .separate-lines {
     word-break: break-word;
   }

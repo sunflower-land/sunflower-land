@@ -1,35 +1,52 @@
+import React, { useContext, useState } from "react";
+
+import beigeBody from "assets/npc-layers/beige_body.png";
+import lightBrownBody from "assets/npc-layers/light_brown_body.png";
+import darkBrownBody from "assets/npc-layers/dark_brown_body.png";
+import goblinBody from "assets/npc-layers/goblin_body.png";
+
+import basicHair from "assets/npc-layers/basic_hair.png";
+import afro from "assets/npc-layers/afro.png";
+import rancher from "assets/npc-layers/rancher_hair.png";
+import blacksmithHair from "assets/npc-layers/blacksmith_hair.png";
+import longBrownHair from "assets/npc-layers/long_brown_hair.png";
+import longWhiteHair from "assets/npc-layers/long_white_hair.png";
+import buzzCut from "assets/npc-layers/buzz_cut_hair.png";
+import parlourHair from "assets/npc-layers/parlour_hair.png";
+import sunSpots from "assets/npc-layers/sun_spots.png";
+import tealMohawk from "assets/npc-layers/teal_mohawk.png";
+import blondie from "assets/npc-layers/blondie_hair.png";
+import redShirt from "assets/npc-layers/red_farmer_shirt.png";
+import blueShirt from "assets/npc-layers/blue_farmer_shirt.png";
+import yellowShirt from "assets/npc-layers/yellow_shirt.png";
+import sflShirt from "assets/npc-layers/sfl_shirt.png";
+import warriorShirt from "assets/npc-layers/warrior_shirt.png";
+import developerHoodie from "assets/npc-layers/developer_hoodie.png";
+import dignityHoodie from "assets/npc-layers/dignity_hoodie.png";
+import artMerch from "assets/npc-layers/art_merch.png";
+import fancyTop from "assets/npc-layers/fancy_top.png";
+import maidenTop from "assets/npc-layers/maiden_top.png";
+import whiteShirt from "assets/npc-layers/white_shirt.png";
+
+import farmerPants from "assets/npc-layers/farmer_pants.png";
+import blueOveralls from "assets/npc-layers/blue_overalls.png";
+import brownOveralls from "assets/npc-layers/brown_overalls.png";
+import fancyPants from "assets/npc-layers/fancy_pants.png";
+import warriorPants from "assets/npc-layers/warrior_pants.png";
+import skirt from "assets/npc-layers/skirt.png";
+
+import shadow from "assets/npcs/shadow.png";
+
+import Spritesheet from "components/animation/SpriteAnimator";
+import patch from "assets/land/bumpkin_patch.png";
+import mailbox from "assets/decorations/mailbox.png";
+
 import {
   BumpkinBody,
   BumpkinPant,
   BumpkinShirt,
   BumpkinHair,
 } from "features/game/types/bumpkin";
-import React, { useContext, useState } from "react";
-
-// Bodies
-import lightFarmer from "assets/bumpkins/small/body/beige_farmer.gif";
-import lightBrownFarmer from "assets/bumpkins/small/body/light_brown_farmer.gif";
-import darkBrownFarmer from "assets/bumpkins/small/body/dark_brown_farmer.gif";
-import goblin from "assets/bumpkins/small/body/goblin.gif";
-
-// Hair
-import basic from "assets/bumpkins/small/hair/basic.gif";
-import explorer from "assets/bumpkins/small/hair/explorer.gif";
-import rancher from "assets/bumpkins/small/hair/rancher.gif";
-
-// Shirts
-import redFarmerShirt from "assets/bumpkins/small/shirts/red_farmer_shirt.gif";
-import yellowFarmerShirt from "assets/bumpkins/small/shirts/yellow_farmer_shirt.gif";
-import blueFarmerShirt from "assets/bumpkins/small/shirts/blue_farmer_shirt.gif";
-
-// Pants
-import farmerOveralls from "assets/bumpkins/small/pants/farmer_overalls.gif";
-import lumberjackOveralls from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
-import farmerPants from "assets/bumpkins/small/pants/farmer_pants.gif";
-
-// Miscellaneous
-import shadow from "assets/npcs/shadow.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ConsumableName } from "features/game/types/consumables";
@@ -37,55 +54,58 @@ import { FeedModal } from "./FeedModal";
 
 type VisiblePart = BumpkinBody | BumpkinHair | BumpkinShirt | BumpkinPant;
 
+const FRAME_WIDTH = 180 / 9;
+const FRAME_HEIGHT = 19;
+
 const PARTS: Record<VisiblePart, string> = {
   // Bodies
-  "Beige Farmer Potion": lightFarmer,
-  "Dark Brown Farmer Potion": darkBrownFarmer,
-  "Light Brown Farmer Potion": lightBrownFarmer,
-  "Goblin Potion": goblin,
+  "Beige Farmer Potion": beigeBody,
+  "Dark Brown Farmer Potion": darkBrownBody,
+  "Light Brown Farmer Potion": lightBrownBody,
+  "Goblin Potion": goblinBody,
 
   // Hair
-  "Basic Hair": basic,
-  "Explorer Hair": explorer,
+  "Basic Hair": basicHair,
+  "Explorer Hair": afro,
   "Rancher Hair": rancher,
-  "Blacksmith Hair": basic, // TODO
-  "Brown Long Hair": basic, // TODO
-  "Buzz Cut": basic, // TODO
-  "Parlour Hair": basic, // TODO
-  "Sun Spots": basic, // TODO
-  "Teal Mohawk": basic, // TODO
-  "White Long Hair": basic, // TODO
-  Blondie: basic, // TODO
+  "Blacksmith Hair": blacksmithHair,
+  "Brown Long Hair": longBrownHair,
+  "Buzz Cut": buzzCut,
+  "Parlour Hair": parlourHair,
+  "Sun Spots": sunSpots,
+  "Teal Mohawk": tealMohawk,
+  "White Long Hair": longWhiteHair,
+  Blondie: blondie,
 
   // Shirts
-  "Red Farmer Shirt": redFarmerShirt,
-  "Yellow Farmer Shirt": yellowFarmerShirt,
-  "Blue Farmer Shirt": blueFarmerShirt,
-  "Bumpkin Art Competition Merch": redFarmerShirt, // TODO
-  "Developer Hoodie": redFarmerShirt, // TODO
-  "Fancy Top": redFarmerShirt, // TODO
-  "Maiden Top": redFarmerShirt, // TODO
-  "Project Dignity Hoodie": redFarmerShirt, // TODO
-  "SFL T-Shirt": redFarmerShirt, // TODO
-  "Warrior Shirt": redFarmerShirt, // TODO,
+  "Red Farmer Shirt": redShirt,
+  "Yellow Farmer Shirt": yellowShirt,
+  "Blue Farmer Shirt": blueShirt,
+  "Bumpkin Art Competition Merch": artMerch,
+  "Developer Hoodie": developerHoodie,
+  "Fancy Top": fancyTop,
+  "Maiden Top": maidenTop,
+  "Project Dignity Hoodie": dignityHoodie,
+  "SFL T-Shirt": sflShirt,
+  "Warrior Shirt": warriorShirt,
 
   // Pants
-  "Farmer Overalls": farmerOveralls,
-  "Lumberjack Overalls": lumberjackOveralls,
+  "Farmer Overalls": blueOveralls,
+  "Lumberjack Overalls": brownOveralls,
   "Farmer Pants": farmerPants,
-  "Blue Suspenders": farmerPants, // TODO
-  "Brown Suspenders": farmerPants, // TODO
-  "Fancy Pants": farmerPants, // TODO
-  "Maiden Skirt": farmerPants, // TODO
-  "Peasant Skirt": farmerPants, // TODO
-  "Warrior Pants": farmerPants, // TODO,
+  "Blue Suspenders": blueOveralls,
+  "Brown Suspenders": brownOveralls,
+  "Fancy Pants": fancyPants,
+  "Maiden Skirt": skirt,
+  "Peasant Skirt": skirt,
+  "Warrior Pants": warriorPants,
 };
 
 interface Props {
   body: BumpkinBody;
-  hair?: BumpkinHair;
-  shirt?: BumpkinShirt;
-  pants?: BumpkinPant;
+  hair: BumpkinHair;
+  shirt: BumpkinShirt;
+  pants: BumpkinPant;
 }
 
 export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
@@ -103,43 +123,94 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
     width: `${PIXEL_SCALE * 16}px`,
     top: `${PIXEL_SCALE * -4}px`,
     left: `${PIXEL_SCALE * -2}px`,
+    imageRendering: "pixelated" as const,
   };
 
   return (
     <>
+      <img
+        src={patch}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 32}px`,
+          top: 0,
+          left: 0,
+        }}
+      />
+      <img
+        src={mailbox}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 8}px`,
+          top: `${PIXEL_SCALE * -1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
       <div
-        className="w-full h-full relative cursor-pointer hover:img-highlight"
+        className="relative cursor-pointer hover:img-highlight"
         onClick={() => setOpen(true)}
+        style={{
+          top: `${PIXEL_SCALE * 8}px`,
+          left: `${PIXEL_SCALE * 0}px`,
+        }}
       >
-        <div className="relative pointer-events-none">
-          <img
-            src={shadow}
-            style={{
-              width: `${PIXEL_SCALE * 15}px`,
-              top: `${PIXEL_SCALE * 11}px`,
-              left: `${PIXEL_SCALE * 1}px`,
-            }}
-            className="absolute"
-          />
-          <img src={PARTS[body]} style={bodyPartStyle} className="absolute" />
-          {hair && (
-            <img src={PARTS[hair]} style={bodyPartStyle} className="absolute" />
-          )}
-          {shirt && (
-            <img
-              src={PARTS[shirt]}
-              style={bodyPartStyle}
-              className="absolute"
-            />
-          )}
-          {pants && (
-            <img
-              src={PARTS[pants]}
-              style={bodyPartStyle}
-              className="absolute"
-            />
-          )}
-        </div>
+        <img
+          src={shadow}
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            top: `${PIXEL_SCALE * 11}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+          }}
+          className="absolute"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[body] ?? beigeBody}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[hair] ?? sunSpots}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[shirt] ?? whiteShirt}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[pants] ?? farmerPants}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
+        />
       </div>
       <FeedModal
         isOpen={open}

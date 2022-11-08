@@ -14,7 +14,8 @@ export type ConsumableName =
   | "Goblin's Treat"
   | "Club Sandwich"
   | "Pancakes"
-  | Cake;
+  | Cake
+  | "Fermented Carrots";
 
 export type Consumable = {
   experience: number;
@@ -283,6 +284,17 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     ingredients: {
       Wheat: new Decimal(35),
       Egg: new Decimal(15),
+    },
+    marketRate: 10,
+  },
+  "Fermented Carrots": {
+    name: "Fermented Carrots",
+    description: "Richy goodness",
+    building: "Deli",
+    experience: 1,
+    cookingSeconds: 60,
+    ingredients: {
+      Carrot: new Decimal(10),
     },
     marketRate: 10,
   },

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -30,6 +30,8 @@ export const Basket: React.FC = () => {
 
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const divRef = useRef<HTMLDivElement>(null);
 
   const { inventory } = gameState.context.state;
   const basketMap = getBasketItems(inventory);
@@ -102,8 +104,9 @@ export const Basket: React.FC = () => {
         </OuterPanel>
       )}
       <div
+        ref={divRef}
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-        className="overflow-y-auto scrollable"
+        className="overflow-y-auto scrollable overflow-x-hidden"
       >
         {!!resources.length && (
           <div className="flex flex-col pl-2" key={"Resources"}>
@@ -116,6 +119,7 @@ export const Basket: React.FC = () => {
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
                 />
               ))}
             </div>
@@ -133,6 +137,7 @@ export const Basket: React.FC = () => {
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
                 />
               ))}
             </div>
@@ -149,6 +154,7 @@ export const Basket: React.FC = () => {
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
                 />
               ))}
             </div>
@@ -165,6 +171,7 @@ export const Basket: React.FC = () => {
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
                 />
               ))}
             </div>
@@ -181,6 +188,7 @@ export const Basket: React.FC = () => {
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
                 />
               ))}
             </div>

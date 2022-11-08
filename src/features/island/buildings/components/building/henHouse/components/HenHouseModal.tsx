@@ -23,7 +23,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
+export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   const { gameService, shortcutItem } = useContext(Context);
 
   const [
@@ -42,8 +42,14 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
     (index) => state.chickens[index].coordinates
   ).length;
 
-  console.log({ chickenCount: chickenCount.toNumber() });
-  const [selectedIndex, setSelectedIndex] = useState(placedChickenCount);
+  const availableSpots = getMaxChickens(inventory);
+
+  const startingIndex =
+    placedChickenCount === availableSpots
+      ? placedChickenCount - 1
+      : placedChickenCount;
+
+  const [selectedIndex, setSelectedIndex] = useState(startingIndex);
 
   const price = getBuyPrice(ANIMALS()["Chicken"], inventory);
 
@@ -52,8 +58,6 @@ export const ChickenHouseModal: React.FC<Props> = ({ onClose }) => {
 
     return state.balance.lessThan(price.mul(amount));
   };
-
-  const availableSpots = getMaxChickens(inventory);
 
   const handleBuy = () => {
     gameService.send("EDIT", {

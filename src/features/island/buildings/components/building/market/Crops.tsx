@@ -17,6 +17,7 @@ import { Modal } from "react-bootstrap";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getSellPrice, hasSellBoost } from "features/game/lib/boosts";
+import { setPrecision } from "lib/utils/formatNumber";
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
@@ -35,7 +36,7 @@ export const Crops: React.FC = () => {
   const sell = (amount: Decimal) => {
     gameService.send("crop.sold", {
       crop: selected.name,
-      amount,
+      amount: setPrecision(amount),
     });
     setToast({
       icon: tokenStatic,
@@ -82,7 +83,7 @@ export const Crops: React.FC = () => {
             key={item.name}
             onClick={() => setSelected(item)}
             image={ITEM_DETAILS[item.name].image}
-            count={inventory[item.name]}
+            count={setPrecision(inventory[item.name] ?? new Decimal(0))}
           />
         ))}
       </div>
@@ -128,8 +129,8 @@ export const Crops: React.FC = () => {
           <div className="m-auto flex flex-col">
             <span className="text-sm text-center text-shadow">
               Are you sure you want to <br className="hidden md:block" />
-              sell {parseFloat(cropAmount.toFixed(4, Decimal.ROUND_DOWN))}{" "}
-              {selected.name} for <br className="hidden md:block" />
+              sell {setPrecision(cropAmount).toNumber()} {selected.name} for{" "}
+              <br className="hidden md:block" />
               {parseFloat(
                 displaySellPrice(selected)
                   .mul(cropAmount.toNumber())
