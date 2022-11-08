@@ -86,7 +86,7 @@ export async function fetchAllItems() {
     return { items: cache.items };
   }
 
-  const response = await window.fetch(`${API_URL}/bumpkins/collection`, {
+  const response = await window.fetch(`${API_URL}/collections`, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -102,9 +102,9 @@ export async function fetchAllItems() {
   }
 
   const {
-    items,
+    bumpkin: items,
   }: {
-    items: Item[];
+    bumpkin: Item[];
   } = await response.json();
 
   cacheItems(items);
