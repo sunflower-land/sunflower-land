@@ -12,10 +12,6 @@ type Options = {
 };
 
 export async function sync({ farmId, sessionId, token, captcha }: Options) {
-  if (CONFIG.NETWORK === "mumbai") {
-    return syncProgress({ farmId, sessionId, token, captcha });
-  }
-
   const response = await window.fetch(`${API_URL}/sync/${farmId}`, {
     method: "POST",
     headers: {
