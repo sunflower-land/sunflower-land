@@ -437,7 +437,7 @@ export const OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Market: [
+    Tent: [
       {
         id: "123",
         readyAt: 0,

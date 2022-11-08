@@ -249,10 +249,10 @@ import firePit from "src/assets/buildings/fire_pit.png";
 import kitchen from "src/assets/buildings/kitchen.png";
 import market from "src/assets/buildings/market.png";
 import workbench from "src/assets/buildings/workbench.png";
-import tent from "src/assets/buildings/tent1.png";
+import tent from "src/assets/buildings/tent.png";
 import well from "src/assets/buildings/well1.png";
 import chickenHouse from "src/assets/buildings/hen_house.png";
-import bakery from "src/assets/buildings/bakery_building.png";
+import bakery from "src/assets/buildings/bakery.png";
 import deli from "src/assets/buildings/deli.png";
 
 // Clothing
@@ -1076,7 +1076,8 @@ export const ITEM_DETAILS: Items = {
   },
   Tent: {
     image: tent,
-    description: "Every Bumpkin needs a home!",
+    description:
+      "Every Bumpkin needs a home! Add extra Bumpkins to your island (coming soon)",
   },
   "Hen House": {
     image: chickenHouse,
@@ -1084,7 +1085,7 @@ export const ITEM_DETAILS: Items = {
   },
   Deli: {
     image: deli,
-    description: "Every Bumpkin needs a home!",
+    description: "Satisfy your appetite with these delicatsen foods!",
   },
 
   "Sunflower Amulet": {

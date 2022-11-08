@@ -43,14 +43,14 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
   },
 
   Workbench: {
-    unlocksAtLevels: [2],
+    unlocksAtLevels: [3],
     ingredients: [],
     sfl: marketRate(5),
     constructionSeconds: 60 * 1,
   },
 
   "Water Well": {
-    unlocksAtLevels: [3, 8, 13, 18],
+    unlocksAtLevels: [4, 8, 13, 18],
     ingredients: [
       {
         item: "Wood",
@@ -87,7 +87,7 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
         amount: new Decimal(50),
       },
     ],
-    sfl: marketRate(5),
+    sfl: marketRate(50),
     constructionSeconds: 60 * 60,
   },
   "Hen House": {
@@ -95,14 +95,18 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
     ingredients: [
       {
         item: "Wood",
-        amount: new Decimal(3),
+        amount: new Decimal(30),
       },
       {
-        item: "Stone",
-        amount: new Decimal(3),
+        item: "Iron",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Gold",
+        amount: new Decimal(5),
       },
     ],
-    sfl: new Decimal(0),
+    sfl: marketRate(100),
     constructionSeconds: 60 * 60 * 2,
   },
 
@@ -111,18 +115,18 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
     ingredients: [
       {
         item: "Wood",
-        amount: new Decimal(10),
+        amount: new Decimal(50),
       },
       {
         item: "Stone",
-        amount: new Decimal(10),
+        amount: new Decimal(20),
       },
       {
-        item: "Iron",
-        amount: new Decimal(10),
+        item: "Gold",
+        amount: new Decimal(5),
       },
     ],
-    sfl: new Decimal(10),
+    sfl: marketRate(200),
     constructionSeconds: 60 * 60 * 4,
   },
 
@@ -137,8 +141,12 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
         item: "Stone",
         amount: new Decimal(50),
       },
+      {
+        item: "Gold",
+        amount: new Decimal(10),
+      },
     ],
-    sfl: new Decimal(10),
+    sfl: marketRate(300),
     constructionSeconds: 60 * 60 * 12,
   },
 });
