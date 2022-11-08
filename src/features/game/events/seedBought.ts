@@ -1,10 +1,11 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
+import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 import { getBumpkinLevel } from "../lib/level";
 import { trackActivity } from "../types/bumpkinActivity";
 import { CraftableItem } from "../types/craftables";
 import { SEEDS, SeedName } from "../types/crops";
-import { GameState, Inventory } from "../types/game";
+import { Collectibles, GameState, Inventory } from "../types/game";
 import { isSeed } from "./plant";
 
 export type SeedBoughtAction = {
@@ -13,8 +14,12 @@ export type SeedBoughtAction = {
   amount: number;
 };
 
-export function getBuyPrice(item: CraftableItem, inventory: Inventory) {
-  if (inventory.Kuebiko?.gte(1)) {
+export function getBuyPrice(
+  item: CraftableItem,
+  inventory: Inventory,
+  collectibles: Collectibles
+) {
+  if (isCollectibleBuilt("Kuebiko", collectibles)) {
     return new Decimal(0);
   }
 
@@ -66,7 +71,7 @@ export function seedBought({ state, action }: Options) {
     throw new Error("Not enough stock");
   }
 
-  const price = getBuyPrice(seed, stateCopy.inventory);
+  const price = getBuyPrice(seed, stateCopy.inventory, stateCopy.collectibles);
   const totalExpenses = price?.mul(amount);
 
   if (totalExpenses && stateCopy.balance.lessThan(totalExpenses)) {
