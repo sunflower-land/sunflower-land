@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
 
@@ -9,8 +9,6 @@ import heart from "assets/icons/heart.png";
 import question from "assets/icons/expression_confused.png";
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 import alert from "assets/icons/expression_alerted.png";
-import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
-import profileBg from "assets/ui/profile/bg.png";
 
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
@@ -25,13 +23,9 @@ import {
   acknowledgeSkillPoints,
   hasUnacknowledgedSkillPoints,
 } from "features/island/bumpkin/lib/skillPointStorage";
-import Spritesheet, {
-  SpriteSheetInstance,
-} from "components/animation/SpriteAnimator";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { BumpkinProfile } from "./BumpkinProfile";
 
 export const BumpkinHUD: React.FC = () => {
-  const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -78,63 +72,7 @@ export const BumpkinHUD: React.FC = () => {
       </Modal>
 
       <div className="fixed top-2 left-2 z-50 flex">
-        {/* Bumpkin profile */}
-        <div
-          className="relative cursor-pointer hover:img-highlight top-52 "
-          onClick={handleShowHomeModal}
-        >
-          <img
-            src={profileBg}
-            className="absolute"
-            style={{
-              width: `${45 * PIXEL_SCALE}px`,
-              height: `${45 * PIXEL_SCALE}px`,
-              maxWidth: "none",
-              imageRendering: "pixelated",
-              left: "5px",
-            }}
-          />
-          <div
-            className="absolute"
-            style={{
-              width: `${45 * PIXEL_SCALE}px`,
-              height: `${45 * PIXEL_SCALE * 1.2}px`,
-              overflow: "hidden",
-              borderRadius: "100px",
-              top: "-20px",
-            }}
-          >
-            <div
-              className="absolute"
-              style={{
-                width: `${100 * PIXEL_SCALE}px`,
-                left: "-50px",
-              }}
-            >
-              <DynamicNFT
-                bumpkinParts={state.bumpkin?.equipped as BumpkinParts}
-              />
-            </div>
-          </div>
-          <Spritesheet
-            className="absolute z-20"
-            style={{
-              width: `${52 * PIXEL_SCALE}px`,
-              top: "24px",
-              imageRendering: "pixelated",
-            }}
-            image={progressBarSprite}
-            widthFrame={52}
-            heightFrame={39}
-            fps={10}
-            steps={50}
-            autoplay={true}
-            loop={true}
-            getInstance={(spritesheet) => {
-              progressBarEl.current = spritesheet;
-            }}
-          />
-        </div>
+        <BumpkinProfile />
         {/* Bumpkin icon */}
         <div
           className="w-16 h-16 relative cursor-pointer hover:img-highlight"
