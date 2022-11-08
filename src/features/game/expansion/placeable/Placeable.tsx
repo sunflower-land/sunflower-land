@@ -23,7 +23,7 @@ import { Chicken } from "features/island/chickens/Chicken";
 import dragIcon from "assets/icons/drag.png";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
-  Chicken: () => <Chicken index={0} />,
+  Chicken: () => <Chicken index={-1} />, // chicken state is always hungry for index -1
   ...BUILDING_COMPONENTS,
   ...COLLECTIBLE_COMPONENTS,
 };

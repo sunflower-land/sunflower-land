@@ -99,7 +99,7 @@ export const chickenMachine = createMachine<
       },
       eating: {
         after: {
-          7000: {
+          5250: {
             target: "fed",
             actions: assignRandomTimeInState,
           },
