@@ -1,7 +1,9 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM, INITIAL_BUMPKIN } from "../lib/constants";
-import { SeedName, SEEDS } from "../types/crops";
-import { GameState } from "../types/game";
+
+import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import { SeedName, SEEDS } from "features/game/types/crops";
+import { GameState } from "features/game/types/game";
+
 import { seedBought } from "./seedBought";
 
 const GAME_STATE: GameState = TEST_FARM;
