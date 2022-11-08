@@ -56,11 +56,7 @@ export const Badges: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   }).filter(Boolean);
 
   if (badges.length === 0) {
-    return (
-      <span className="text-xs">
-        Reach level 5 in a profession to unlock a skill
-      </span>
-    );
+    return null;
   }
 
   return <div className="flex flex-wrap">{badges}</div>;

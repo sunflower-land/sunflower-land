@@ -18,7 +18,7 @@ export const AchievementBadges: React.FC<{
   });
 
   if (badges.length === 0) {
-    return <span className="text-xs text-shadow">No achievements</span>;
+    return null;
   }
 
   return <div className="flex flex-wrap">{badges}</div>;

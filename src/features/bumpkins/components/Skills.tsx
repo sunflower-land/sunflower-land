@@ -17,6 +17,7 @@ import close from "assets/icons/close.png";
 import seedSpecialist from "assets/skills/seed_specialist.png";
 import { SkillPathDetails } from "./SkillPathDetails";
 import arrowLeft from "assets/icons/arrow_left.png";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onBack: () => void;
@@ -72,15 +73,19 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           minHeight: "200px",
         }}
       >
-        <div className="flex flex-row">
+        <div className="flex flex-row mb-2">
           <img
             src={arrowLeft}
             className="self-start w-5 cursor-pointer mx-2"
             alt="back"
             onClick={onBack}
           />
-          {availableSkillPoints > 0 && (
+          {availableSkillPoints > 0 ? (
             <SkillPointsLabel points={availableSkillPoints} />
+          ) : (
+            <Label>
+              <p className="text-[10px] ml-2 pr-2">{`Unlock skill point: level ${2}`}</p>
+            </Label>
           )}
         </div>
         {!selectedSkillPath && (
