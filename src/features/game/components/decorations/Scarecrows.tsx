@@ -3,9 +3,9 @@ import React from "react";
 import { GRID_WIDTH_PX } from "../../lib/constants";
 import { Inventory } from "../../types/game";
 
-import nancy from "assets/nfts/nancy.png";
-import scarecrow from "assets/nfts/scarecrow.png";
-import kuebiko from "assets/nfts/kuebiko.gif";
+import nancy from "assets/sfts/nancy.png";
+import scarecrow from "assets/sfts/scarecrow.png";
+import kuebiko from "assets/sfts/kuebiko.gif";
 
 // Only show 1 scarecrow at a time
 export const Scarecrows: React.FC<{ inventory: Inventory }> = ({

@@ -41,7 +41,7 @@ export const ProgressBar: React.FC<Props> = ({ percentage, seconds }) => {
   return (
     <div className="flex flex-col items-center justify-center">
       {seconds > 0 && (
-        <span className="text-shadow text-xxs text-white">
+        <span className="text-xxs text-white">
           {secondsToString(seconds, true)}
         </span>
       )}

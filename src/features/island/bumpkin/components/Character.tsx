@@ -1,74 +1,111 @@
+import React, { useContext, useState } from "react";
+
+import beigeBody from "assets/npc-layers/beige_body.png";
+import lightBrownBody from "assets/npc-layers/light_brown_body.png";
+import darkBrownBody from "assets/npc-layers/dark_brown_body.png";
+import goblinBody from "assets/npc-layers/goblin_body.png";
+
+import basicHair from "assets/npc-layers/basic_hair.png";
+import afro from "assets/npc-layers/afro.png";
+import rancher from "assets/npc-layers/rancher_hair.png";
+import blacksmithHair from "assets/npc-layers/blacksmith_hair.png";
+import longBrownHair from "assets/npc-layers/long_brown_hair.png";
+import longWhiteHair from "assets/npc-layers/long_white_hair.png";
+import buzzCut from "assets/npc-layers/buzz_cut_hair.png";
+import parlourHair from "assets/npc-layers/parlour_hair.png";
+import sunSpots from "assets/npc-layers/sun_spots.png";
+import tealMohawk from "assets/npc-layers/teal_mohawk.png";
+import blondie from "assets/npc-layers/blondie_hair.png";
+import redShirt from "assets/npc-layers/red_farmer_shirt.png";
+import blueShirt from "assets/npc-layers/blue_farmer_shirt.png";
+import yellowShirt from "assets/npc-layers/yellow_shirt.png";
+import sflShirt from "assets/npc-layers/sfl_shirt.png";
+import warriorShirt from "assets/npc-layers/warrior_shirt.png";
+import developerHoodie from "assets/npc-layers/developer_hoodie.png";
+import dignityHoodie from "assets/npc-layers/dignity_hoodie.png";
+import artMerch from "assets/npc-layers/art_merch.png";
+import fancyTop from "assets/npc-layers/fancy_top.png";
+import maidenTop from "assets/npc-layers/maiden_top.png";
+import whiteShirt from "assets/npc-layers/white_shirt.png";
+
+import farmerPants from "assets/npc-layers/farmer_pants.png";
+import blueOveralls from "assets/npc-layers/blue_overalls.png";
+import brownOveralls from "assets/npc-layers/brown_overalls.png";
+import fancyPants from "assets/npc-layers/fancy_pants.png";
+import warriorPants from "assets/npc-layers/warrior_pants.png";
+import skirt from "assets/npc-layers/skirt.png";
+
+import shadow from "assets/npcs/shadow.png";
+
+import Spritesheet from "components/animation/SpriteAnimator";
+import patch from "assets/land/bumpkin_patch.png";
+import mailbox from "assets/decorations/mailbox.png";
+
 import {
   BumpkinBody,
-  BumpkinItem,
   BumpkinPant,
   BumpkinShirt,
   BumpkinHair,
 } from "features/game/types/bumpkin";
-import React, { useContext, useState } from "react";
-
-// Bodies
-import lightFarmer from "assets/bumpkins/small/body/beige_farmer.gif";
-import lightBrownFarmer from "assets/bumpkins/small/body/light_brown_farmer.gif";
-import darkBrownFarmer from "assets/bumpkins/small/body/dark_brown_farmer.gif";
-import goblin from "assets/bumpkins/small/body/goblin.gif";
-
-// Hair
-import basic from "assets/bumpkins/small/hair/basic.gif";
-import explorer from "assets/bumpkins/small/hair/explorer.gif";
-import rancher from "assets/bumpkins/small/hair/rancher.gif";
-
-// Shirts
-import redFarmerShirt from "assets/bumpkins/small/shirts/red_farmer_shirt.gif";
-import yellowFarmerShirt from "assets/bumpkins/small/shirts/yellow_farmer_shirt.gif";
-import blueFarmerShirt from "assets/bumpkins/small/shirts/blue_farmer_shirt.gif";
-
-// Miscellaneous
-import shadow from "assets/npcs/shadow.png";
-
-// Pants
-import farmerOveralls from "assets/bumpkins/small/pants/farmer_overalls.gif";
-import lumberjackOveralls from "assets/bumpkins/small/pants/lumberjack_overalls.gif";
-import farmerPants from "assets/bumpkins/small/pants/lumberjack_overalls.gif"; // TODO
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
-import { InventoryItemName } from "features/game/types/game";
+import { ConsumableName } from "features/game/types/consumables";
 import { FeedModal } from "./FeedModal";
 
-const HITS = 2;
+type VisiblePart = BumpkinBody | BumpkinHair | BumpkinShirt | BumpkinPant;
 
-const PARTS: Partial<Record<BumpkinItem, string>> = {
+const FRAME_WIDTH = 180 / 9;
+const FRAME_HEIGHT = 19;
+
+const PARTS: Record<VisiblePart, string> = {
   // Bodies
-  "Beige Farmer Potion": lightFarmer,
-  "Dark Brown Farmer Potion": darkBrownFarmer,
-  "Light Brown Farmer Potion": lightBrownFarmer,
-  "Goblin Potion": goblin,
+  "Beige Farmer Potion": beigeBody,
+  "Dark Brown Farmer Potion": darkBrownBody,
+  "Light Brown Farmer Potion": lightBrownBody,
+  "Goblin Potion": goblinBody,
 
   // Hair
-  "Basic Hair": basic,
-  "Explorer Hair": explorer,
+  "Basic Hair": basicHair,
+  "Explorer Hair": afro,
   "Rancher Hair": rancher,
+  "Blacksmith Hair": blacksmithHair,
+  "Brown Long Hair": longBrownHair,
+  "Buzz Cut": buzzCut,
+  "Parlour Hair": parlourHair,
+  "Sun Spots": sunSpots,
+  "Teal Mohawk": tealMohawk,
+  "White Long Hair": longWhiteHair,
+  Blondie: blondie,
 
   // Shirts
-  "Red Farmer Shirt": redFarmerShirt,
-  "Yellow Farmer Shirt": yellowFarmerShirt,
-  "Blue Farmer Shirt": blueFarmerShirt,
+  "Red Farmer Shirt": redShirt,
+  "Yellow Farmer Shirt": yellowShirt,
+  "Blue Farmer Shirt": blueShirt,
+  "Bumpkin Art Competition Merch": artMerch,
+  "Developer Hoodie": developerHoodie,
+  "Fancy Top": fancyTop,
+  "Maiden Top": maidenTop,
+  "Project Dignity Hoodie": dignityHoodie,
+  "SFL T-Shirt": sflShirt,
+  "Warrior Shirt": warriorShirt,
 
   // Pants
-  "Farmer Overalls": farmerOveralls,
-  "Lumberjack Overalls": lumberjackOveralls,
+  "Farmer Overalls": blueOveralls,
+  "Lumberjack Overalls": brownOveralls,
   "Farmer Pants": farmerPants,
+  "Blue Suspenders": blueOveralls,
+  "Brown Suspenders": brownOveralls,
+  "Fancy Pants": fancyPants,
+  "Maiden Skirt": skirt,
+  "Peasant Skirt": skirt,
+  "Warrior Pants": warriorPants,
 };
-
-const isConsumeable = (item: InventoryItemName): item is ConsumableName =>
-  item in CONSUMABLES;
 
 interface Props {
   body: BumpkinBody;
-  hair?: BumpkinHair;
-  shirt?: BumpkinShirt;
-  pants?: BumpkinPant;
+  hair: BumpkinHair;
+  shirt: BumpkinShirt;
+  pants: BumpkinPant;
 }
 
 export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
@@ -80,32 +117,99 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
     gameService.send("bumpkin.feed", { food });
   };
 
+  const bodyPartStyle = {
+    transformOrigin: "left top",
+    scale: "calc(20/16)",
+    width: `${PIXEL_SCALE * 16}px`,
+    top: `${PIXEL_SCALE * -4}px`,
+    left: `${PIXEL_SCALE * -2}px`,
+    imageRendering: "pixelated" as const,
+  };
+
   return (
     <>
+      <img
+        src={patch}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 32}px`,
+          top: 0,
+          left: 0,
+        }}
+      />
+      <img
+        src={mailbox}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 8}px`,
+          top: `${PIXEL_SCALE * -1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
       <div
-        className="w-full cursor-pointer hover:img-highlight"
+        className="relative cursor-pointer hover:img-highlight"
         onClick={() => setOpen(true)}
+        style={{
+          top: `${PIXEL_SCALE * 8}px`,
+          left: `${PIXEL_SCALE * 0}px`,
+        }}
       >
-        <img
-          src={PARTS[body]}
-          className="z-0"
-          style={{ width: `${20 * PIXEL_SCALE}px` }}
-        />
-        {hair && (
-          <img src={PARTS[hair]} className="absolute w-full inset-0 z-10" />
-        )}
-        {shirt && (
-          <img src={PARTS[shirt]} className="absolute w-full inset-0 z-20" />
-        )}
-        {pants && (
-          <img src={PARTS[pants]} className="absolute w-full inset-0 z-30" />
-        )}
         <img
           src={shadow}
           style={{
             width: `${PIXEL_SCALE * 15}px`,
+            top: `${PIXEL_SCALE * 11}px`,
+            left: `${PIXEL_SCALE * 1}px`,
           }}
-          className="absolute w-full -bottom-1.5 -z-10 left-1.5"
+          className="absolute"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[body] ?? beigeBody}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[hair] ?? sunSpots}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[shirt] ?? whiteShirt}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
+        />
+        <Spritesheet
+          className="absolute w-full inset-0 z-20"
+          style={bodyPartStyle}
+          image={PARTS[pants] ?? farmerPants}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={9}
+          fps={14}
+          autoplay={true}
+          loop={true}
+          direction="forward"
         />
       </div>
       <FeedModal

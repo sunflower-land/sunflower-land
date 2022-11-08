@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 
 import kitchen from "assets/buildings/kitchen.png";
-// TODO NEW NPCS
-import npc from "assets/npcs/betty.gif";
-import doing from "assets/npcs/cook_doing.gif";
+
+import npc from "assets/npcs/chef.gif";
+import doing from "assets/npcs/chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
 import { ConsumableName } from "features/game/types/consumables";
@@ -80,27 +80,46 @@ export const Kitchen: React.FC<Props> = ({
         onClick={handleClick}
       >
         {ready && name && (
-          <div className="flex justify-center absolute -top-7 w-full">
-            <img src={ITEM_DETAILS[name].image} className="w-5 ready" />
-          </div>
+          <img
+            src={ITEM_DETAILS[name].image}
+            className="absolute z-30 img-highlight-heavy"
+            style={{
+              // TODO - dynamically get correct width
+              width: `${PIXEL_SCALE * 12}px`,
+              bottom: `${PIXEL_SCALE * 10}px`,
+              right: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
         )}
         <img
           src={kitchen}
           className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 55}px`,
-            left: `${PIXEL_SCALE * 4.5}px`,
-            bottom: `${PIXEL_SCALE * 3}px`,
+            width: `${PIXEL_SCALE * 63}px`,
+            left: `${PIXEL_SCALE * 0.5}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
           }}
         />
+        {crafting && name && (
+          <img
+            src={ITEM_DETAILS[name].image}
+            className="absolute z-30"
+            style={{
+              // TODO - dynamically get correct width
+              width: `${PIXEL_SCALE * 12}px`,
+              bottom: `${PIXEL_SCALE * 10}px`,
+              right: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+        )}
         {crafting ? (
           <img
             src={doing}
             className="absolute z-20"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
-              bottom: `${PIXEL_SCALE * 4}px`,
-              right: `${PIXEL_SCALE * 24}px`,
+              bottom: `${PIXEL_SCALE * 8}px`,
+              right: `${PIXEL_SCALE * 14}px`,
             }}
           />
         ) : (
@@ -110,8 +129,8 @@ export const Kitchen: React.FC<Props> = ({
             style={{
               width: `${PIXEL_SCALE * 16}px`,
 
-              bottom: `${PIXEL_SCALE * 4}px`,
-              right: `${PIXEL_SCALE * 24}px`,
+              bottom: `${PIXEL_SCALE * 8}px`,
+              right: `${PIXEL_SCALE * 14}px`,
             }}
           />
         )}
@@ -120,8 +139,8 @@ export const Kitchen: React.FC<Props> = ({
           className="absolute z-10"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
-            bottom: `${PIXEL_SCALE * 2}px`,
-            right: `${PIXEL_SCALE * 23}px`,
+            bottom: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 15}px`,
           }}
         />
       </div>

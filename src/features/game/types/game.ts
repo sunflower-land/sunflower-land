@@ -1,7 +1,13 @@
 import { Decimal } from "decimal.js-light";
 
 import { CropName, SeedName } from "./crops";
-import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
+import {
+  CollectibleName,
+  CraftableName,
+  Food,
+  GoblinRetreatItemName,
+  Ingredient,
+} from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
@@ -16,6 +22,7 @@ import { FruitName } from "features/island/fruit/FruitPatch";
 import { ExoticSeedName, UpcomingSeedName } from "./seeds";
 
 export type CropReward = {
+  sfl?: Decimal;
   items: {
     name: InventoryItemName;
     amount: number;
@@ -132,7 +139,8 @@ export type InventoryItemName =
   | Fertiliser
   | WarBanner
   | ConsumableName
-  | DecorationName;
+  | DecorationName
+  | GoblinRetreatItemName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

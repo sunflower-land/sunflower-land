@@ -21,7 +21,6 @@ import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
-import { CHOP_ERRORS, getRequiredAxeAmount } from "features/game/events/chop";
 
 import { getTimeLeft } from "lib/utils/time";
 import { Label } from "components/ui/Label";
@@ -29,7 +28,11 @@ import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { LandExpansionTree } from "features/game/types/game";
-import { canChop } from "features/game/events/landExpansion/chop";
+import {
+  canChop,
+  CHOP_ERRORS,
+  getRequiredAxeAmount,
+} from "features/game/events/landExpansion/chop";
 import { Overlay } from "react-bootstrap";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
@@ -105,7 +108,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     setShowStumpTimeLeft(false);
   };
 
-  const axesNeeded = getRequiredAxeAmount(game.context.state.inventory);
+  const axesNeeded = getRequiredAxeAmount(game.context.state.collectibles);
   const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
 
   // Has enough axes to chop the tree

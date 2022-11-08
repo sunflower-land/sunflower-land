@@ -36,10 +36,8 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
 
   const price = selected.sfl;
   const buy = () => {
-    console.log(value);
     gameService.send("decoration.bought", {
       item: selected.name,
-      amount: 1,
     });
 
     setToast({

@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import goblin from "assets/npcs/goblin.gif";
 import cursor from "assets/ui/cursor.png";
 import kitchen from "assets/buildings/bakery_building.png";
-import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
+import pumpkinSoup from "assets/sfts/pumpkin_soup.png";
 import carrot from "assets/crops/carrot/plant.png";
 import { HowToModalHeader } from "./HowToModalHeader";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";

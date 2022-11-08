@@ -13,11 +13,20 @@ import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 interface Props {
   bumpkin: Bumpkin | undefined;
   isVisiting?: boolean;
+  isTravelAllowed?: boolean;
+  onTravelDialogOpened?: () => void;
   x: number;
   y: number;
 }
 
-export const IslandTravel = ({ bumpkin, x, y, isVisiting = false }: Props) => {
+export const IslandTravel = ({
+  bumpkin,
+  x,
+  y,
+  isVisiting = false,
+  isTravelAllowed = true,
+  onTravelDialogOpened,
+}: Props) => {
   const [openIslandList, setOpenIslandList] = useState(false);
 
   return (
@@ -43,6 +52,7 @@ export const IslandTravel = ({ bumpkin, x, y, isVisiting = false }: Props) => {
         centered
         show={openIslandList}
         onHide={() => setOpenIslandList(false)}
+        onShow={onTravelDialogOpened}
       >
         <div className="absolute w-48 -left-4 -top-32 -z-10">
           <DynamicNFT
@@ -71,7 +81,10 @@ export const IslandTravel = ({ bumpkin, x, y, isVisiting = false }: Props) => {
               onClick={() => setOpenIslandList(false)}
             />
           </div>
-          <IslandList bumpkin={bumpkin} showVisitList={isVisiting} />
+          {isTravelAllowed && (
+            <IslandList bumpkin={bumpkin} showVisitList={isVisiting} />
+          )}
+          {!isTravelAllowed && <span className="loading">Loading</span>}
         </Panel>
       </Modal>
     </>

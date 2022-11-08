@@ -1,6 +1,6 @@
 import React from "react";
 
-import goldEgg from "assets/nfts/gold_egg.png";
+import goldEgg from "assets/sfts/gold_egg.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GoldEgg: React.FC = () => {

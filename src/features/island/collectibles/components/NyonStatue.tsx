@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import { Panel } from "components/ui/Panel";
 
 import close from "assets/icons/close.png";
-import nyonStatue from "assets/nfts/nyon_statue.png";
+import nyonStatue from "assets/sfts/nyon_statue.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 export const NyonStatue: React.FC = () => {

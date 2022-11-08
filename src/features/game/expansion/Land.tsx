@@ -34,6 +34,7 @@ import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Bumpkin, Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
+import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -249,7 +250,13 @@ const getIslandElements = ({
 
   if (bumpkinParts) {
     mapPlacements.push(
-      <MapPlacement key="bumpkin-parts" x={2} y={-1}>
+      <MapPlacement
+        key="bumpkin-parts"
+        x={BUMPKIN_POSITION.x}
+        y={BUMPKIN_POSITION.y}
+        width={2}
+        height={2}
+      >
         <Character
           body={bumpkinParts.body}
           hair={bumpkinParts.hair}
@@ -375,9 +382,6 @@ export const Land: React.FC = () => {
 
   return (
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div className="absolute z-0 w-full h-full">
-        <Water level={level} />
-      </div>
       <div className="relative w-full h-full">
         <div
           className={classNames("w-full h-full", {
@@ -389,6 +393,8 @@ export const Land: React.FC = () => {
           <DirtRenderer
             expansions={expansions.filter((e) => e.readyAt < Date.now())}
           />
+
+          <Water level={level} />
 
           {/* Sort island elements by y axis */}
           {getIslandElements({
@@ -405,6 +411,8 @@ export const Land: React.FC = () => {
           key="island-travel"
           bumpkin={bumpkin}
           isVisiting={gameState.matches("visiting")}
+          isTravelAllowed={!gameState.matches("autosaving")}
+          onTravelDialogOpened={() => gameService.send("SAVE")}
           x={boatCoordinates.x}
           y={boatCoordinates.y}
         />

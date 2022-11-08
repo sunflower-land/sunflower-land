@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import fountain from "assets/nfts/fountain.gif";
+import fountain from "assets/sfts/fountain.gif";
 import { fountainAudio } from "lib/utils/sfx";
 
 export const Fountain: React.FC = () => {
@@ -10,7 +10,7 @@ export const Fountain: React.FC = () => {
       className="absolute"
       style={{
         width: `${PIXEL_SCALE * 26}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
         right: `${PIXEL_SCALE * 1}px`,
       }}
     >
