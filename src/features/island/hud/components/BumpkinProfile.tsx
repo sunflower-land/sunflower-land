@@ -11,7 +11,11 @@ import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
-import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
+import {
+  BumpkinLevel,
+  getBumpkinLevel,
+  LEVEL_BRACKETS,
+} from "features/game/lib/level";
 import {
   acknowledgeSkillPoints,
   hasUnacknowledgedSkillPoints,
@@ -57,9 +61,14 @@ export const BumpkinProfile: React.FC = () => {
 
   const goToProgress = () => {
     if (progressBarEl.current) {
-      const percent = experience / LEVEL_BRACKETS[level];
+      const nextLevelExperience = LEVEL_BRACKETS[level];
+      const previousLevelExperience =
+        LEVEL_BRACKETS[(level - 1) as BumpkinLevel] || 0;
+
+      const percent =
+        (experience - previousLevelExperience) / nextLevelExperience;
       const scaledToProgress = percent * (PROFILE.steps - 1);
-      progressBarEl.current.goToAndPause(Math.floor(scaledToProgress));
+      progressBarEl.current.goToAndPause(Math.round(scaledToProgress));
     }
   };
 
@@ -91,7 +100,7 @@ export const BumpkinProfile: React.FC = () => {
           }}
         />
         <div
-          className="col-start-1 row-start-1 overflow-hidden rounded-b-full"
+          className="col-start-1 row-start-1 overflow-hidden rounded-b-full z-0"
           style={{
             width: `${PROFILE.height * PIXEL_SCALE}px`,
             height: `${PROFILE.height * PIXEL_SCALE * 1.3}px`,
@@ -120,7 +129,7 @@ export const BumpkinProfile: React.FC = () => {
           )}
         </div>
         <Spritesheet
-          className="col-start-1 row-start-1 z-20"
+          className="col-start-1 row-start-1 z-10"
           style={{
             width: `${PROFILE.width * PIXEL_SCALE}px`,
             imageRendering: "pixelated",
@@ -137,7 +146,7 @@ export const BumpkinProfile: React.FC = () => {
           }}
         />
         <span
-          className="col-start-1 row-start-1 text-xs text-white text-center z-30"
+          className="col-start-1 row-start-1 text-xs text-white text-center z-20"
           style={{
             marginLeft: "108px",
             marginTop: "74px",
@@ -149,7 +158,7 @@ export const BumpkinProfile: React.FC = () => {
         {showSkillPointAlert && (
           <img
             src={lvlUp}
-            className="col-start-1 row-start-1 animate-float z-40"
+            className="col-start-1 row-start-1 animate-float z-30"
             style={{
               width: `${4 * PIXEL_SCALE}px`,
               height: `${9 * PIXEL_SCALE}px`,
