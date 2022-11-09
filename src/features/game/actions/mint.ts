@@ -13,16 +13,11 @@ type Request = {
 
 const API_URL = CONFIG.API_URL;
 
-async function mintRequest(request: Request): Promise<{
-  signature: string;
-  sessionId: string;
-  nextSessionId: string;
-  deadline: number;
-  // Data
-  farmId: number;
-  mintId: number;
-  fee: string;
-}> {
+export async function mint(request: Request) {
+  if (CONFIG.NETWORK === "mumbai") {
+    return mintCollectible(request);
+  }
+
   const response = await window.fetch(`${API_URL}/mint/${request.farmId}`, {
     method: "POST",
     headers: {
@@ -44,13 +39,43 @@ async function mintRequest(request: Request): Promise<{
     throw new Error("Could not mint your object");
   }
 
-  return await response.json();
-}
-
-export async function mint(request: Request) {
-  const transaction = await mintRequest(request);
+  const transaction = await response.json();
 
   const sessionId = await metamask.getSessionManager().mint(transaction);
+
+  return { sessionId, verified: true };
+}
+
+async function mintCollectible(request: Request) {
+  const response = await window.fetch(
+    `${API_URL}/mint-collectible/${request.farmId}`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${request.token}`,
+      },
+      body: JSON.stringify({
+        sessionId: request.sessionId,
+        item: request.item,
+        captcha: request.captcha,
+      }),
+    }
+  );
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status !== 200 || !response.ok) {
+    throw new Error("Could not mint your object");
+  }
+
+  const transaction = await response.json();
+
+  const sessionId = await metamask
+    .getSessionManager()
+    .mintCollectible(transaction);
 
   return { sessionId, verified: true };
 }
