@@ -48,6 +48,10 @@ jobs:
           VITE_FROG_CONTRACT: "0x52A5ddFF59E0A27a1cBA75c8045A434b7D296A6c"
           VITE_FROG_DONATION: "0xE3ac99Dc50fE9F0Ce9eCb5502399aee55F219448"
 
+          VITE_BUMPKIN_DETAILS_CONTRACT: "0x687BcED586A8AECEdA5bd6b142577DE1d83a2a9c"
+          VITE_BUMPKIN_ITEMS: "0x4bb5b2461e9Ef782152c3a96698b2a4cF55B6162"
+          VITE_BUMPKIN_CONTRACT: "0x624E4fa6980Afcf8EA27BFe08e2fB5979b64DF1C"
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
         with:
