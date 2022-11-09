@@ -76,7 +76,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
         <div className="flex flex-row mb-2">
           <img
             src={arrowLeft}
-            className="self-start w-5 cursor-pointer mx-2"
+            className="self-start w-5 cursor-pointer mx-2 mb-2"
             alt="back"
             onClick={onBack}
           />
