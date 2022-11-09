@@ -77,6 +77,19 @@ export interface SunflowerLandSession extends BaseContract {
 
     executed(arg0: string | number[]): NonPayableTransactionObject<boolean>;
 
+    expandLand(
+      signature: string | number[],
+      sessionId: string | number[],
+      nextSessionId: string | number[],
+      deadline: number | string | BN,
+      farmId: number | string | BN,
+      nonce: string,
+      metadata: string,
+      sfl: number | string | BN,
+      resourceIds: (number | string | BN)[],
+      resourceAmounts: (number | string | BN)[]
+    ): NonPayableTransactionObject<void>;
+
     farm(): NonPayableTransactionObject<string>;
 
     gameAddGameRole(_game: string): NonPayableTransactionObject<void>;

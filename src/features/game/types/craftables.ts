@@ -572,65 +572,21 @@ export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
     name: "Goblin Key",
     description: "The Goblin Key",
     type: LimitedItemType.QuestItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Axe",
-        amount: new Decimal(20),
-      },
-      {
-        item: "Radish",
-        amount: new Decimal(100),
-      },
-    ],
   },
   "Sunflower Key": {
     name: "Sunflower Key",
     description: "The Sunflower Key",
     type: LimitedItemType.QuestItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Pickaxe",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Pumpkin",
-        amount: new Decimal(300),
-      },
-    ],
   },
   "Ancient Goblin Sword": {
     name: "Ancient Goblin Sword",
     description: "An Ancient Goblin Sword",
     type: LimitedItemType.QuestItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Sunflower Key",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Goblin Key",
-        amount: new Decimal(1),
-      },
-    ],
   },
   "Ancient Human Warhammer": {
     name: "Ancient Human Warhammer",
     description: "An Ancient Human Warhammer",
     type: LimitedItemType.QuestItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Sunflower Key",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Goblin Key",
-        amount: new Decimal(1),
-      },
-    ],
   },
 };
 
@@ -641,51 +597,18 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
       "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
     disabled: false,
     section: Section["Wicker Man"],
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(500),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(20),
-      },
-    ],
   },
   "Golden Bonsai": {
     name: "Golden Bonsai",
     description: "Goblins love bonsai too",
     section: Section["Golden Bonsai"],
     isPlaceholder: true,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Gold",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(3),
-      },
-      {
-        item: "Wood",
-        amount: new Decimal(5),
-      },
-    ],
   },
   "Victoria Sisters": {
     name: "Victoria Sisters",
     description: "The pumpkin loving sisters",
     section: Section["Golden Bonsai"],
     isPlaceholder: true,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Jack-o-lantern",
-        amount: new Decimal(50),
-      },
-    ],
   },
 };
 
@@ -694,155 +617,63 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
     name: "Sunflower Amulet",
     description: "10% increased Sunflower yield",
     type: LimitedItemType.WarTentItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "War Bond",
-        amount: new Decimal(200),
-      },
-    ],
   },
   "Carrot Amulet": {
     name: "Carrot Amulet",
     description: "Carrots grow 20% faster",
     type: LimitedItemType.WarTentItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "War Bond",
-        amount: new Decimal(300),
-      },
-    ],
   },
   "Beetroot Amulet": {
     name: "Beetroot Amulet",
     description: "20% increased Beetroot yield",
     type: LimitedItemType.WarTentItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "War Bond",
-        amount: new Decimal(400),
-      },
-    ],
   },
   "Green Amulet": {
     name: "Green Amulet",
     description: "Chance for 10x crop yield",
     type: LimitedItemType.WarTentItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Sunflower Amulet",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Carrot Amulet",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Beetroot Amulet",
-        amount: new Decimal(1),
-      },
-    ],
   },
   "Warrior Shirt": {
     name: "Warrior Shirt",
     description: "A mark of a true warrior",
     type: LimitedItemType.WarTentItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "War Bond",
-        amount: new Decimal(650),
-      },
-    ],
   },
   "Warrior Pants": {
     name: "Warrior Pants",
     description: "Protect your thighs",
     type: LimitedItemType.WarTentItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "War Bond",
-        amount: new Decimal(750),
-      },
-    ],
   },
   "Warrior Helmet": {
     name: "Warrior Helmet",
     description: "Immune to arrows",
     type: LimitedItemType.WarTentItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "War Bond",
-        amount: new Decimal(800),
-      },
-    ],
   },
   "Sunflower Shield": {
     name: "Sunflower Shield",
     description: "A hero of Sunflower Land. Free Sunflower Seeds!",
     type: LimitedItemType.WarTentItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "War Bond",
-        amount: new Decimal(10000),
-      },
-    ],
   },
   "Skull Hat": {
     name: "Skull Hat",
     description: "A rare hat for your Bumpkin.",
     type: LimitedItemType.WarTentItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "War Bond",
-        amount: new Decimal(10000),
-      },
-    ],
   },
   "War Skull": {
     name: "War Skull",
     description: "Decorate the land with the bones of your enemies.",
     type: LimitedItemType.WarTentItem,
     canMintMultiple: true,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "War Bond",
-        amount: new Decimal(300),
-      },
-    ],
   },
   "War Tombstone": {
     name: "War Tombstone",
     description: "R.I.P",
     type: LimitedItemType.WarTentItem,
     canMintMultiple: true,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "War Bond",
-        amount: new Decimal(500),
-      },
-    ],
   },
   "Undead Rooster": {
     name: "Undead Rooster",
     description: "An unfortunate casualty of the war. 10% increased egg yield.",
     type: LimitedItemType.WarTentItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "War Bond",
-        amount: new Decimal(1000),
-      },
-    ],
   },
 };
 
@@ -901,113 +732,48 @@ export const BLACKSMITH_ITEMS: Record<
     description: "A symbol of the holy token",
     section: Section["Sunflower Statue"],
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(5),
-    ingredients: [
-      {
-        item: "Sunflower",
-        amount: new Decimal(1000),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(50),
-      },
-    ],
   },
   "Potato Statue": {
     name: "Potato Statue",
     description: "The OG potato hustler flex",
     section: Section["Potato Statue"],
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Potato",
-        amount: new Decimal(100),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(20),
-      },
-    ],
   },
   "Christmas Tree": {
     name: "Christmas Tree",
     description: "Receive a Santa Airdrop on Christmas day",
     section: Section["Christmas Tree"],
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(50),
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(100),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(50),
-      },
-    ],
   },
   Gnome: {
     name: "Gnome",
     description: "A lucky gnome",
     section: Section.Gnome,
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(10),
-    ingredients: [],
   },
   "Homeless Tent": {
     name: "Homeless Tent",
     description: "A nice and cozy tent",
     section: Section.Tent,
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(10),
-    ingredients: [
-      {
-        item: "Wheat",
-        amount: new Decimal(5),
-      },
-      {
-        item: "Wood",
-        amount: new Decimal(5),
-      },
-      {
-        item: "Stone",
-        amount: new Decimal(5),
-      },
-    ],
   },
   "Sunflower Tombstone": {
     name: "Sunflower Tombstone",
     description: "In memory of Sunflower Farmers",
     section: Section["Sunflower Tombstone"],
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [],
   },
   "Sunflower Rock": {
     name: "Sunflower Rock",
     description: "The game that broke Polygon",
     section: Section["Sunflower Rock"],
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(100),
-    ingredients: [
-      {
-        item: "Sunflower",
-        amount: new Decimal(10000),
-      },
-      {
-        item: "Iron",
-        amount: new Decimal(100),
-      },
-    ],
   },
   "Goblin Crown": {
     name: "Goblin Crown",
     description: "Summon the leader of the Goblins",
     section: Section["Goblin Crown"],
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(5),
-    ingredients: [],
   },
   Fountain: {
     name: "Fountain",
@@ -1020,209 +786,70 @@ export const BLACKSMITH_ITEMS: Record<
     description: "In memory of Nyon Lann",
     section: Section["Nyon Statue"],
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(30),
-        item: "Stone",
-      },
-      {
-        amount: new Decimal(20),
-        item: "Iron",
-      },
-      {
-        amount: new Decimal(5),
-        item: "Gold",
-      },
-    ],
   },
   "Farmer Bath": {
     name: "Farmer Bath",
     description: "A beetroot scented bath for the farmers",
     section: Section["Bath"],
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(25),
-    ingredients: [
-      {
-        amount: new Decimal(100),
-        item: "Beetroot",
-      },
-      {
-        amount: new Decimal(20),
-        item: "Wood",
-      },
-    ],
   },
   "Woody the Beaver": {
     name: "Woody the Beaver",
     description: "Increase wood drops by 20%",
     section: Section.Beaver,
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(50),
-    ingredients: [
-      {
-        amount: new Decimal(200),
-        item: "Wood",
-      },
-    ],
   },
   "Apprentice Beaver": {
     name: "Apprentice Beaver",
     description: "Trees recover 50% faster",
     section: Section.Beaver,
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(100),
-    ingredients: [
-      {
-        amount: new Decimal(500),
-        item: "Wood",
-      },
-      {
-        amount: new Decimal(1),
-        item: "Woody the Beaver",
-      },
-    ],
   },
   "Foreman Beaver": {
     name: "Foreman Beaver",
     description: "Cut trees without axes",
     section: Section.Beaver,
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        amount: new Decimal(5000),
-        item: "Wood",
-      },
-      {
-        amount: new Decimal(1),
-        item: "Apprentice Beaver",
-      },
-    ],
   },
   "Egg Basket": {
     name: "Egg Basket",
     description: "Gives access to the Easter Egg Hunt",
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [],
   },
   "Mysterious Head": {
     name: "Mysterious Head",
     description: "A statue thought to protect farmers",
     section: Section["Mysterious Head"],
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        amount: new Decimal(100),
-        item: "Stone",
-      },
-    ],
   },
   "Tunnel Mole": {
     name: "Tunnel Mole",
     description: "Gives a 25% increase to stone mines",
     section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(5),
-    ingredients: [
-      {
-        amount: new Decimal(25),
-        item: "Stone",
-      },
-    ],
   },
   "Rocky the Mole": {
     name: "Rocky the Mole",
     description: "Gives a 25% increase to iron mines",
     section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(20),
-    ingredients: [
-      {
-        amount: new Decimal(50),
-        item: "Iron",
-      },
-    ],
   },
   Nugget: {
     name: "Nugget",
     description: "Gives a 25% increase to gold mines",
     section: Section.Mole,
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(300),
-    ingredients: [
-      {
-        amount: new Decimal(50),
-        item: "Gold",
-      },
-    ],
   },
   "Rock Golem": {
     name: "Rock Golem",
     description: "Gives a 10% chance to get 3x stone",
     section: Section["Rock Golem"],
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        amount: new Decimal(20),
-        item: "Iron",
-      },
-      {
-        amount: new Decimal(50),
-        item: "Stone",
-      },
-    ],
   },
   "Chef Apron": {
     name: "Chef Apron",
     description: "Gives 20% extra SFL selling cakes",
     type: LimitedItemType.BlacksmithItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Sunflower Cake",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Potato Cake",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Pumpkin Cake",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Carrot Cake",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Cabbage Cake",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Beetroot Cake",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Cauliflower Cake",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Parsnip Cake",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Radish Cake",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Wheat Cake",
-        amount: new Decimal(1),
-      },
-    ],
   },
 };
 
@@ -1232,38 +859,12 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
     description: "Keeps a few crows away. Crops grow 15% faster",
     section: Section.Scarecrow,
     type: LimitedItemType.MarketItem,
-    tokenAmount: new Decimal(10),
-    ingredients: [
-      {
-        item: "Wheat",
-        amount: new Decimal(100),
-      },
-      {
-        item: "Wood",
-        amount: new Decimal(50),
-      },
-    ],
   },
   Scarecrow: {
     name: "Scarecrow",
     description: "A goblin scarecrow. Yield 20% more crops",
     section: Section.Scarecrow,
     type: LimitedItemType.MarketItem,
-    tokenAmount: new Decimal(50),
-    ingredients: [
-      {
-        item: "Wheat",
-        amount: new Decimal(400),
-      },
-      {
-        item: "Wood",
-        amount: new Decimal(50),
-      },
-      {
-        item: "Nancy",
-        amount: new Decimal(1),
-      },
-    ],
   },
   Kuebiko: {
     name: "Kuebiko",
@@ -1271,61 +872,21 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
       "Even the shopkeeper is scared of this scarecrow. Seeds are free",
     section: Section.Scarecrow,
     type: LimitedItemType.MarketItem,
-    tokenAmount: new Decimal(300),
-    ingredients: [
-      {
-        item: "Wheat",
-        amount: new Decimal(600),
-      },
-      {
-        item: "Scarecrow",
-        amount: new Decimal(1),
-      },
-    ],
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
     description: "Double the rewards from cauliflowers",
     type: LimitedItemType.MarketItem,
-    tokenAmount: new Decimal(100),
-    ingredients: [
-      {
-        item: "Cauliflower",
-        amount: new Decimal(500),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(100),
-      },
-    ],
   },
   "Mysterious Parsnip": {
     name: "Mysterious Parsnip",
     description: "Parsnips grow 50% faster",
     type: LimitedItemType.MarketItem,
-    tokenAmount: new Decimal(100),
-    ingredients: [
-      {
-        item: "Parsnip",
-        amount: new Decimal(500),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(50),
-      },
-    ],
   },
   "Carrot Sword": {
     name: "Carrot Sword",
     description: "Increase chance of a mutant crop appearing",
     type: LimitedItemType.MarketItem,
-    tokenAmount: new Decimal(50),
-    ingredients: [
-      {
-        item: "Carrot",
-        amount: new Decimal(2000),
-      },
-    ],
   },
 };
 
@@ -1335,103 +896,35 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
     description: "Collect 2x the amount of eggs",
     section: Section["Chicken Coop"],
     type: LimitedItemType.BarnItem,
-    tokenAmount: new Decimal(100),
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(50),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(300),
-      },
-    ],
   },
   "Farm Cat": {
     name: "Farm Cat",
     description: "Keep the rats away",
     section: Section["Farm Cat"],
     type: LimitedItemType.BarnItem,
-    tokenAmount: new Decimal(50),
-    ingredients: [],
   },
   "Farm Dog": {
     name: "Farm Dog",
     description: "Herd sheep 4x faster",
     section: Section["Farm Dog"],
     type: LimitedItemType.BarnItem,
-    tokenAmount: new Decimal(75),
-    ingredients: [],
   },
   "Gold Egg": {
     name: "Gold Egg",
     description: "A rare egg, what lays inside?",
     type: LimitedItemType.BarnItem,
-    tokenAmount: new Decimal(100),
-    ingredients: [
-      {
-        item: "Egg",
-        amount: new Decimal(700),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(200),
-      },
-    ],
   },
   "Easter Bunny": {
     name: "Easter Bunny",
     description: "Earn 20% more Carrots",
     section: Section["Easter Bunny"],
     type: LimitedItemType.BarnItem,
-    tokenAmount: new Decimal(0),
-    ingredients: [
-      {
-        item: "Blue Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Yellow Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Green Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Purple Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Orange Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Pink Egg",
-        amount: new Decimal(1),
-      },
-      {
-        item: "Red Egg",
-        amount: new Decimal(1),
-      },
-    ],
   },
   Rooster: {
     name: "Rooster",
     description: "Doubles the chance of dropping a mutant chicken",
     section: Section["Rooster"],
     type: LimitedItemType.BarnItem,
-    tokenAmount: new Decimal(50),
-    ingredients: [
-      {
-        item: "Gold",
-        amount: new Decimal(5),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(100),
-      },
-    ],
   },
 };
 
