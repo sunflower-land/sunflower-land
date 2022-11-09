@@ -11,7 +11,6 @@ import { Goblins } from "features/game/Goblins";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
-import { CONFIG } from "lib/config";
 import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
@@ -86,24 +85,10 @@ export const Navigation: React.FC = () => {
               }
             />
             <Route path="/visit/*" element={<LandExpansion key="visit" />} />
-            {CONFIG.NETWORK !== "mainnet" && (
-              <Route
-                path="/land/:id/*"
-                element={<LandExpansion key="land" />}
-              />
-            )}
-            {/* {CONFIG.NETWORK !== "mainnet" && (
-              <Route path="/helios/:id" element={<Helios key="helios" />} />
-            )} */}
-            {CONFIG.NETWORK !== "mainnet" && (
-              <Route path="/retreat/:id" element={<Retreat key="helios" />} />
-            )}
-            {CONFIG.NETWORK !== "mainnet" && (
-              <Route path="/snow/:id" element={<SnowKingdom key="snow" />} />
-            )}
-            {CONFIG.NETWORK !== "mainnet" && (
-              <Route path="/builder" element={<Builder key="builder" />} />
-            )}
+            <Route path="/land/:id/*" element={<LandExpansion key="land" />} />
+            <Route path="/retreat/:id" element={<Retreat key="helios" />} />
+            <Route path="/snow/:id" element={<SnowKingdom key="snow" />} />
+            <Route path="/builder" element={<Builder key="builder" />} />
 
             <Route
               path="/community-garden"
