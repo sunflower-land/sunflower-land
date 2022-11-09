@@ -1,7 +1,10 @@
+import { getItemUnit } from "features/game/lib/conversion";
+import { KNOWN_ITEMS } from "features/game/types";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
-import { AbiItem } from "web3-utils";
-import SessionABI from "./abis/Session.json";
+import { AbiItem, fromWei } from "web3-utils";
+import SessionMainnetABI from "./abis/SessionMainnet.json";
+import SessionTestnetABI from "./abis/SessionTestnet.json";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
 const address = CONFIG.SESSION_CONTRACT;
@@ -58,6 +61,10 @@ export type Recipe = {
   cooldownSeconds: number;
   maxSupply: number;
   enabled: boolean;
+  tokenAmount?: number;
+  ingredientAmounts?: number[];
+  ingredientIds?: number[];
+  releaseDate?: number;
 };
 
 /**
@@ -68,12 +75,14 @@ export class SessionManager {
   private account: string;
 
   private contract: any;
+  private sessionABI =
+    CONFIG.NETWORK === "mumbai" ? SessionTestnetABI : SessionMainnetABI;
 
   constructor(web3: Web3, account: string) {
     this.web3 = web3;
     this.account = account;
     this.contract = new this.web3.eth.Contract(
-      SessionABI as AbiItem[],
+      this.sessionABI as AbiItem[],
       address as string
     );
   }
@@ -131,10 +140,36 @@ export class SessionManager {
       }));
 
       // For UI purposes, do not show the wei values
-      const ethBasedRecipes = recipesWithIds.map((recipe, i) => ({
-        ...recipe,
-        cooldownSeconds: Number(recipe.cooldownSeconds),
-      }));
+      const ethBasedRecipes = recipesWithIds.map((recipe) => {
+        if (CONFIG.NETWORK === "mumbai") {
+          return {
+            ...recipe,
+            cooldownSeconds: Number(recipe.cooldownSeconds),
+          };
+        }
+
+        const {
+          tokenAmount,
+          ingredientAmounts = [],
+          ingredientIds = [],
+        } = recipe;
+
+        return {
+          ...recipe,
+          tokenAmount: tokenAmount
+            ? Number(fromWei(tokenAmount.toString()))
+            : 0,
+          ingredientAmounts: ingredientAmounts.map((amount, index) =>
+            Number(
+              fromWei(
+                amount.toString(),
+                getItemUnit(KNOWN_ITEMS[ingredientIds[index]])
+              )
+            )
+          ),
+          cooldownSeconds: Number(recipe.cooldownSeconds),
+        };
+      });
 
       return ethBasedRecipes;
     } catch (e) {
@@ -171,69 +206,6 @@ export class SessionManager {
     }
   }
 
-  public async sync({
-    signature,
-    sessionId,
-    nextSessionId,
-    deadline,
-    farmId,
-    mintIds,
-    mintAmounts,
-    burnIds,
-    burnAmounts,
-    tokens,
-    fee,
-  }: {
-    signature: string;
-    sessionId: string;
-    nextSessionId: string;
-    deadline: number;
-    // Data
-    farmId: number;
-    mintIds: number[];
-    mintAmounts: number[];
-    burnIds: number[];
-    burnAmounts: number[];
-    tokens: number;
-    fee: string;
-  }): Promise<string> {
-    const oldSessionId = await this.getSessionId(farmId);
-    const gasPrice = await estimateGasPrice(this.web3);
-
-    await new Promise((resolve, reject) => {
-      this.contract.methods
-        .sync(
-          signature,
-          sessionId,
-          nextSessionId,
-          deadline,
-          farmId,
-          mintIds,
-          mintAmounts,
-          burnIds,
-          burnAmounts,
-          tokens,
-          fee
-        )
-        .send({ from: this.account, value: fee, gasPrice })
-        .on("error", function (error: any) {
-          console.log({ error });
-          const parsed = parseMetamaskError(error);
-          reject(parsed);
-        })
-        .on("transactionHash", function (transactionHash: any) {
-          console.log({ transactionHash });
-        })
-        .on("receipt", function (receipt: any) {
-          resolve(receipt);
-        });
-    });
-
-    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
-    return newSessionId;
-  }
-
-  // New sync function for land expansion
   public async syncProgress({
     signature,
     sessionId,
