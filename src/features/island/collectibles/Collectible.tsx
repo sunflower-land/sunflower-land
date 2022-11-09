@@ -51,6 +51,7 @@ import { PrizedPotato } from "./components/PrizedPotato";
 import { WoodNymphWendy } from "./components/WoodNymphWendy";
 import { ChefBear } from "./components/ChefBear";
 import { ConstructionBear } from "./components/ConstructionBear";
+import { VictoriaSisters } from "./components/VictoriaSisters";
 
 interface Prop {
   name: CollectibleName;
@@ -125,7 +126,7 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Chef Bear": ChefBear,
   "Construction Bear": ConstructionBear,
 
-  "Victoria Sisters": () => null,
+  "Victoria Sisters": VictoriaSisters,
   "Egg Basket": () => null,
 };
 
