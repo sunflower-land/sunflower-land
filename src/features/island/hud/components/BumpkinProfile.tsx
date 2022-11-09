@@ -1,9 +1,11 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
 
+import question from "assets/icons/expression_confused.png";
 import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
 import profileBg from "assets/ui/profile/bg.png";
+import lvlUp from "assets/ui/profile/lvl_up.png";
 
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
@@ -19,6 +21,12 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
+const PROFILE = {
+  width: 52,
+  height: 48,
+  steps: 50,
+};
+
 export const BumpkinProfile: React.FC = () => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
@@ -31,22 +39,29 @@ export const BumpkinProfile: React.FC = () => {
     },
   ] = useActor(gameService);
 
-  const handleShowHomeModal = () => {
-    setViewSkillsPage(false);
-    setShowModal(true);
-  };
-
-  const handleShowSkillModal = () => {
-    setViewSkillsPage(true);
-    setShowModal(true);
-    acknowledgeSkillPoints(state.bumpkin);
-  };
-
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
-  const nextLevelExperience = LEVEL_BRACKETS[level];
-
   const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
+
+  useEffect(() => {
+    goToProgress();
+  }, [level, experience]);
+
+  const handleShowHomeModal = () => {
+    setViewSkillsPage(showSkillPointAlert);
+    setShowModal(true);
+    if (showSkillPointAlert) {
+      acknowledgeSkillPoints(state.bumpkin);
+    }
+  };
+
+  const goToProgress = () => {
+    if (progressBarEl.current) {
+      const percent = experience / LEVEL_BRACKETS[level];
+      const scaledToProgress = percent * (PROFILE.steps - 1);
+      progressBarEl.current.goToAndPause(Math.floor(scaledToProgress));
+    }
+  };
 
   const handleHideModal = () => {
     setShowModal(false);
@@ -64,73 +79,85 @@ export const BumpkinProfile: React.FC = () => {
 
       {/* Bumpkin profile */}
       <div
-        className="grid cursor-pointer hover:img-highlight relative top-52"
+        className="grid cursor-pointer hover:img-highlight fixed top-12 left-2.5 z-50"
         onClick={handleShowHomeModal}
       >
         <img
           src={profileBg}
           className="col-start-1 row-start-1"
           style={{
-            width: `${45 * PIXEL_SCALE}px`,
-            height: `${45 * PIXEL_SCALE}px`,
-            maxWidth: "none",
-            imageRendering: "pixelated",
-            marginLeft: "5px",
+            width: `${PROFILE.width * PIXEL_SCALE}px`,
+            height: `${PROFILE.height * PIXEL_SCALE}px`,
           }}
         />
         <div
-          className="col-start-1 row-start-1"
+          className="col-start-1 row-start-1 overflow-hidden rounded-b-full"
           style={{
-            width: `${45 * PIXEL_SCALE}px`,
-            height: `${45 * PIXEL_SCALE * 1.4}px`,
-            overflow: "hidden",
-            borderRadius: "100px",
-            marginTop: "-47px",
-            marginLeft: "5px",
+            width: `${PROFILE.height * PIXEL_SCALE}px`,
+            height: `${PROFILE.height * PIXEL_SCALE * 1.3}px`,
+            marginTop: "-45px",
           }}
         >
-          <div
-            className=""
-            style={{
-              width: `${100 * PIXEL_SCALE}px`,
-              marginLeft: "-50%",
-            }}
-          >
-            <DynamicNFT
-              bumpkinParts={state.bumpkin?.equipped as BumpkinParts}
-              showTool={false}
+          {state.bumpkin ? (
+            <div
+              style={{
+                width: `${100 * PIXEL_SCALE}px`,
+                marginLeft: "-50%",
+              }}
+            >
+              <DynamicNFT
+                bumpkinParts={state.bumpkin.equipped as BumpkinParts}
+                showTool={false}
+              />
+            </div>
+          ) : (
+            <img
+              id="no-bumpkin"
+              src={question}
+              alt="No Bumpkin Found"
+              className="w-1/2 mx-auto mt-[54px]"
             />
-          </div>
+          )}
         </div>
         <Spritesheet
           className="col-start-1 row-start-1 z-20"
           style={{
-            width: `${52 * PIXEL_SCALE}px`,
-            marginTop: "24px",
+            width: `${PROFILE.width * PIXEL_SCALE}px`,
             imageRendering: "pixelated",
           }}
           image={progressBarSprite}
-          widthFrame={52}
-          heightFrame={39}
+          widthFrame={PROFILE.width}
+          heightFrame={PROFILE.height}
           fps={10}
-          steps={50}
-          autoplay={true}
-          loop={true}
+          steps={PROFILE.steps}
+          autoplay={false}
           getInstance={(spritesheet) => {
             progressBarEl.current = spritesheet;
+            goToProgress();
           }}
         />
         <span
-          className="col-start-1 row-start-1 text-xs text-white z-30"
+          className="col-start-1 row-start-1 text-xs text-white text-center z-30"
           style={{
             marginLeft: "108px",
             marginTop: "74px",
             width: "27px",
-            textAlign: "center",
           }}
         >
           {level}
         </span>
+        {showSkillPointAlert && (
+          <img
+            src={lvlUp}
+            className="col-start-1 row-start-1 animate-float z-40"
+            style={{
+              width: `${4 * PIXEL_SCALE}px`,
+              height: `${9 * PIXEL_SCALE}px`,
+              marginLeft: "116px",
+              marginTop: "48px",
+            }}
+          />
+        )}
       </div>
     </>
   );

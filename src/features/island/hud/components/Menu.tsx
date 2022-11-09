@@ -98,7 +98,7 @@ export const Menu = () => {
       {!gameService.state.matches("editing") && (
         <div
           ref={ref}
-          className="fixed top-[81px] left-2 z-50 cursor-pointer hover:img-highlight"
+          className="fixed top-48 left-2 z-50 cursor-pointer hover:img-highlight"
           onClick={() => setMenuOpen(true)}
         >
           <div className="relative w-16 h-16 flex items-center justify-center">
