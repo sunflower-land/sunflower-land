@@ -3,10 +3,10 @@ import React, { useContext } from "react";
 import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { BumpkinHUD } from "./components/BumpkinHUD";
 
 import { Inventory } from "./components/inventory/Inventory";
 import { InnerPanel } from "components/ui/Panel";
+import { BumpkinProfile } from "./components/BumpkinProfile";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -30,7 +30,7 @@ export const VisitingHud: React.FC = () => {
           shortcutItem={shortcutItem}
           isFarming={false}
         />
-        <BumpkinHUD />
+        <BumpkinProfile />
       </div>
     </>
   );
