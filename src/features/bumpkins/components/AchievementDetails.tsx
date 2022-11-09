@@ -1,7 +1,6 @@
 import React from "react";
 
 import sflIcon from "assets/icons/token_2.png";
-import experience from "assets/icons/experience.png";
 import arrowLeft from "assets/icons/arrow_left.png";
 
 import {
@@ -15,6 +14,7 @@ import { Button } from "components/ui/Button";
 import { GameState } from "features/game/types/game";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { getKeys } from "features/game/types/craftables";
 
 interface Props {
   onBack: () => void;
@@ -98,23 +98,28 @@ export const AchievementDetails: React.FC<Props> = ({
             </div>
             {!isAlreadyClaimed && (
               <div className="w-full">
-                <div
-                  className={classNames("flex flex-col items-center", {
-                    "opacity-60": !isComplete,
-                  })}
-                >
-                  {!!achievement.sflReward && (
-                    <div className="flex items-center mt-1">
+                <div className={classNames("flex flex-col items-center", {})}>
+                  {achievement.sfl?.gt(0) && (
+                    <div className={classNames("flex items-center mt-1", {})}>
                       <img src={sflIcon} className="h-5 z-10 mr-2" />
-                      <span className="text-xxs">{`${achievement.sflReward} SFL`}</span>
+                      <span className="text-xxs">{`${achievement.sfl} SFL`}</span>
                     </div>
                   )}
-                  {!!achievement.experienceReward && (
+                  {getKeys(achievement.rewards || {}).map((name) => (
+                    <div key={name} className="flex items-center mt-1">
+                      <img
+                        src={ITEM_DETAILS[name].image}
+                        className="h-7 z-10 mr-2"
+                      />
+                      <span className="text-sm">{name}</span>
+                    </div>
+                  ))}
+                  {/* {!!achievement.experienceReward && (
                     <div className="flex items-center mt-1">
                       <img src={experience} className="h-5 z-10 mr-2" />
                       <span className="text-xxs">{`${achievement.experienceReward} Exp`}</span>
                     </div>
-                  )}
+                  )} */}
                 </div>
                 <Button
                   className="text-xs mt-2"

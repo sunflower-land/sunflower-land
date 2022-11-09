@@ -1,7 +1,9 @@
+import Decimal from "decimal.js-light";
 import {
   AchievementName,
   ACHIEVEMENTS,
 } from "features/game/types/achievements";
+import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -40,8 +42,19 @@ export function claimAchievement({ state, action }: Options): GameState {
 
   bumpkin.achievements = { ...bumpkinAchievments, [action.achievement]: 1 };
 
-  bumpkin.experience += achievement.experienceReward;
-  stateCopy.balance = stateCopy.balance.add(achievement.sflReward);
+  if (achievement.sfl) {
+    stateCopy.balance = stateCopy.balance.add(achievement.sfl);
+  }
+
+  if (achievement.rewards) {
+    getKeys(achievement.rewards).forEach((name) => {
+      const previousAmount = stateCopy.inventory[name] || new Decimal(0);
+
+      stateCopy.inventory[name] = previousAmount.add(
+        achievement.rewards?.[name] || 0
+      );
+    });
+  }
 
   return stateCopy;
 }

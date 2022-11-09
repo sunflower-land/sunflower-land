@@ -278,6 +278,8 @@ import pottedSunflower from "src/assets/decorations/potted_sunflower.png";
 import whiteTulips from "src/assets/decorations/white_tulips.png";
 import cactus from "src/assets/decorations/cactus.png";
 import basicBear from "src/assets/sfts/bears/basic_bear.png";
+import chefBear from "src/assets/sfts/bears/chef_bear.png";
+import constructionBear from "src/assets/sfts/bears/construction_bear.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1345,7 +1347,14 @@ export const ITEM_DETAILS: Items = {
     image: basicBear,
     description: DECORATIONS()["Basic Bear"].description,
   },
-
+  "Chef Bear": {
+    image: chefBear,
+    description: DECORATIONS()["Chef Bear"].description,
+  },
+  "Construction Bear": {
+    image: constructionBear,
+    description: DECORATIONS()["Construction Bear"].description,
+  },
   "Cabbage Boy": {
     image: cabbageBoy,
     description: GOBLIN_RETREAT_ITEMS["Cabbage Boy"].description,

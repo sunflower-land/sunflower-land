@@ -77,7 +77,8 @@ describe("claim achievements", () => {
     });
     expect(state.bumpkin?.achievements?.["Busy Bumpkin"]).toBe(1);
   });
-  it("claims busy bumpkin rewards", () => {
+
+  it("claims busy bumpkin sfl rewards", () => {
     const balance = new Decimal(0);
     const experience = 250;
     const state = claimAchievement({
@@ -96,10 +97,39 @@ describe("claim achievements", () => {
       },
     });
     expect(state.balance).toEqual(
-      balance.add(ACHIEVEMENTS()["Busy Bumpkin"].sflReward)
+      balance.add(ACHIEVEMENTS()["Busy Bumpkin"].sfl)
     );
-    expect(state.bumpkin?.experience).toEqual(
-      experience + ACHIEVEMENTS()["Busy Bumpkin"].experienceReward
-    );
+  });
+
+  it("claims kiss the cook bear", () => {
+    const balance = new Decimal(0);
+    const experience = 250;
+    const state = claimAchievement({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Pickaxe: new Decimal(2),
+        },
+        balance,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience,
+          achievements: undefined,
+          activity: {
+            "Carrot Cake Cooked": 100,
+          },
+        },
+      },
+      action: {
+        type: "achievement.claimed",
+        achievement: "Kiss the Cook",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(0));
+    expect(state.inventory).toEqual({
+      Pickaxe: new Decimal(2),
+      "Chef Bear": new Decimal(1),
+    });
   });
 });

@@ -7,7 +7,9 @@ export type DecorationName =
   | "White Tulips"
   | "Potted Sunflower"
   | "Cactus"
-  | "Basic Bear";
+  | "Basic Bear"
+  | "Chef Bear"
+  | "Construction Bear";
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "White Tulips": {
@@ -26,13 +28,22 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
     width: 1,
   },
+  "Chef Bear": {
+    height: 2,
+    width: 1,
+  },
+  "Construction Bear": {
+    height: 2,
+    width: 1,
+  },
 };
 
 export type Decoration = {
   name: DecorationName;
-  sfl: Decimal;
   ingredients: Inventory;
   description: string;
+  // If no SFL it is not available for purchase
+  sfl?: Decimal;
 };
 
 export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
@@ -61,5 +72,15 @@ export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
     sfl: marketRate(50),
     ingredients: {},
     description: "A basic bear. Use this at Goblin Retreat to build a bear!",
+  },
+  "Chef Bear": {
+    name: "Chef Bear",
+    ingredients: {},
+    description: "Every chef needs a helping hand",
+  },
+  "Construction Bear": {
+    name: "Construction Bear",
+    ingredients: {},
+    description: "Always build in a bear market",
   },
 });
