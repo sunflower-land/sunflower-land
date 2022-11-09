@@ -1170,17 +1170,16 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Easter Bunny": { width: 2, height: 1 },
   Rooster: { height: 1, width: 1 },
   "Egg Basket": { height: 1, width: 1 },
-  "War Skull": { height: 1, width: 1 },
-  "War Tombstone": { height: 1, width: 1 },
-
-  // Mutant Chickens
   "Fat Chicken": { height: 1, width: 1 },
   "Rich Chicken": { height: 1, width: 1 },
   "Speed Chicken": { height: 1, width: 1 },
 
-  "Victoria Sisters": { height: 2, width: 2 },
+  // War Tent Items
+  "War Skull": { height: 1, width: 1 },
+  "War Tombstone": { height: 1, width: 1 },
   "Undead Rooster": { height: 1, width: 1 },
 
+  "Victoria Sisters": { height: 2, width: 2 },
   "Basic Bear": { height: 1, width: 1 },
   "Prized Potato": { height: 1, width: 1 },
   "Wood Nymph Wendy": { height: 1, width: 1 },
