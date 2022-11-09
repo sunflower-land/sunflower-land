@@ -1,4 +1,3 @@
-import { MintArgs } from "features/game/actions/mintCollectible";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
@@ -38,11 +37,24 @@ export type SyncProgressArgs = {
   expansion: LandExpansionData;
 };
 
+export type MintCollectibleArgs = {
+  signature: string;
+  sessionId: string;
+  nextSessionId: string;
+  deadline: number;
+  // Data
+  farmId: number;
+  fee: string;
+  mintData: {
+    mintId: number;
+    ingredientIds: number[];
+    ingredientAmounts: number[];
+    supply: number;
+  };
+};
+
 export type Recipe = {
   mintId: number;
-  tokenAmount: number;
-  ingredientAmounts: number[];
-  ingredientIds: number[];
   cooldownSeconds: number;
   maxSupply: number;
   enabled: boolean;
@@ -236,17 +248,6 @@ export class SessionManager {
     const oldSessionId = await this.getSessionId(farmId);
     const gasPrice = await estimateGasPrice(this.web3);
 
-    console.log({
-      signature,
-      farmId,
-      bumpkinId,
-      deadline,
-      sessionId,
-      nextSessionId,
-      progress,
-      expansion,
-      fee,
-    });
     await new Promise((resolve, reject) => {
       this.contract.methods
         .syncProgress({
@@ -335,7 +336,7 @@ export class SessionManager {
     farmId,
     fee,
     mintData,
-  }: MintArgs): Promise<string> {
+  }: MintCollectibleArgs): Promise<string> {
     const oldSessionId = await this.getSessionId(farmId);
     const gasPrice = await estimateGasPrice(this.web3);
 
