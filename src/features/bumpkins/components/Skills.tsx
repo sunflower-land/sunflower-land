@@ -48,6 +48,15 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
     setSelectedSkillPath(null);
   };
 
+  const handleBack = () => {
+    if (selectedSkillPath) {
+      handleBackToSkillList();
+      return;
+    }
+
+    onBack();
+  };
+
   const { bumpkin } = state;
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
@@ -73,12 +82,12 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           minHeight: "200px",
         }}
       >
-        <div className="flex flex-row mb-2">
+        <div className="flex flex-row mb-2 items-center">
           <img
             src={arrowLeft}
-            className="self-start w-5 cursor-pointer mx-2 mb-2"
+            className="self-start w-5 cursor-pointer mx-2"
             alt="back"
-            onClick={onBack}
+            onClick={handleBack}
           />
           {availableSkillPoints > 0 ? (
             <SkillPointsLabel points={availableSkillPoints} />
