@@ -1,188 +1,407 @@
-import {
-  secondsToMidString,
-  secondsToLongString,
-  secondsToString,
-  getTimeLeft,
-} from "./time";
+import { secondsToString as t, getTimeLeft, TimeFormatOptions } from "./time";
 
-const ONE_SEC = 1;
-const ONE_MIN = ONE_SEC * 60;
-const ONE_HR = ONE_MIN * 60;
-const ONE_DAY = ONE_HR * 24;
+const _1S = 1;
+const _1M = _1S * 60;
+const _1H = _1M * 60;
+const _1D = _1H * 24;
 
 describe("time", () => {
   describe("secondsToString", () => {
-    it("should return correct string", () => {
-      expect(secondsToString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC))).toBe(
+    it("should return correct string, short length, normal unit format, not removing trailing zeros", () => {
+      const options: TimeFormatOptions = {
+        length: "short",
+        isShortFormat: false,
+        removeTrailingZeros: false,
+      };
+      expect(t(-(3 * _1D + 0 * _1H + 6 * _1M + 9 * _1S), options)).toBe(
         "-3days"
       );
-      expect(secondsToString(-(2 * ONE_HR + 4 * ONE_SEC))).toBe("-2hrs");
-      expect(secondsToString(-(5 * ONE_MIN + 8 * ONE_SEC))).toBe("-5mins");
-      expect(secondsToString(-59 * ONE_SEC)).toBe("-59secs");
-      expect(secondsToString(-2.1 * ONE_SEC)).toBe("-2secs");
-      expect(secondsToString(-ONE_SEC)).toBe("-1secs");
-      expect(secondsToString(0)).toBe("0secs");
-      expect(secondsToString(ONE_SEC)).toBe("1sec");
-      expect(secondsToString(2 * ONE_SEC)).toBe("2secs");
-      expect(secondsToString(59 * ONE_SEC)).toBe("59secs");
-      expect(secondsToString(59.1 * ONE_SEC)).toBe("59secs");
-      expect(secondsToString(ONE_MIN)).toBe("1min");
-      expect(secondsToString(ONE_MIN + ONE_SEC)).toBe("1min");
-      expect(secondsToString(59 * ONE_MIN)).toBe("59mins");
-      expect(secondsToString(59 * ONE_MIN + 59 * ONE_SEC)).toBe("59mins");
-      expect(secondsToString(ONE_HR)).toBe("1hr");
-      expect(secondsToString(ONE_HR + ONE_SEC)).toBe("1hr");
-      expect(secondsToString(23 * ONE_HR)).toBe("23hrs");
-      expect(secondsToString(ONE_DAY)).toBe("1day");
-      expect(secondsToString(ONE_DAY + ONE_SEC)).toBe("1day");
-      expect(secondsToString(2 * ONE_DAY)).toBe("2days");
+      expect(t(-(0 * _1D + 2 * _1H + 0 * _1M + 4 * _1S), options)).toBe(
+        "-2hrs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 5 * _1M + 8 * _1S), options)).toBe(
+        "-5mins"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 59 * _1S), options)).toBe(
+        "-59secs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 2.1 * _1S), options)).toBe(
+        "-2secs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S), options)).toBe(
+        "-1secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("0secs");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S, options)).toBe("1sec");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 2 * _1S, options)).toBe("2secs");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 0 * _1S, options)).toBe("1min");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 30 * _1S, options)).toBe("1min");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 59.99 * _1S, options)).toBe(
+        "1min"
+      );
+      expect(t(0 * _1D + 0 * _1H + 2 * _1M + 0 * _1S, options)).toBe("2mins");
+      expect(t(0 * _1D + 0 * _1H + 59 * _1M + 59 * _1S, options)).toBe(
+        "59mins"
+      );
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 0 * _1S, options)).toBe("1hr");
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 42 * _1S, options)).toBe("1hr");
+      expect(t(0 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe("2hrs");
+      expect(t(0 * _1D + 2 * _1H + 11 * _1M + 50 * _1S, options)).toBe("2hrs");
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 4 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 0 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 4 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 4 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 0 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 4 * _1S, options)).toBe("1day");
+      expect(t(2 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("2days");
+      expect(t(42 * _1D + 0 * _1H + 6 * _1M + 8 * _1S, options)).toBe("42days");
     });
-    it("should return correct string short unit", () => {
-      expect(
-        secondsToString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC), true)
-      ).toBe("-3d");
-      expect(secondsToString(-(2 * ONE_HR + 4 * ONE_SEC), true)).toBe("-2h");
-      expect(secondsToString(-(5 * ONE_MIN + 8 * ONE_SEC), true)).toBe("-5m");
-      expect(secondsToString(-59 * ONE_SEC, true)).toBe("-59s");
-      expect(secondsToString(-2.1 * ONE_SEC, true)).toBe("-2s");
-      expect(secondsToString(-ONE_SEC, true)).toBe("-1s");
-      expect(secondsToString(0, true)).toBe("0s");
-      expect(secondsToString(ONE_SEC, true)).toBe("1s");
-      expect(secondsToString(2 * ONE_SEC, true)).toBe("2s");
-      expect(secondsToString(59 * ONE_SEC, true)).toBe("59s");
-      expect(secondsToString(59.1 * ONE_SEC, true)).toBe("59s");
-      expect(secondsToString(ONE_MIN, true)).toBe("1m");
-      expect(secondsToString(ONE_MIN + ONE_SEC, true)).toBe("1m");
-      expect(secondsToString(59 * ONE_MIN, true)).toBe("59m");
-      expect(secondsToString(59 * ONE_MIN + 59 * ONE_SEC, true)).toBe("59m");
-      expect(secondsToString(ONE_HR, true)).toBe("1h");
-      expect(secondsToString(ONE_HR + ONE_SEC, true)).toBe("1h");
-      expect(secondsToString(23 * ONE_HR, true)).toBe("23h");
-      expect(secondsToString(ONE_DAY, true)).toBe("1d");
-      expect(secondsToString(ONE_DAY + ONE_SEC, true)).toBe("1d");
-      expect(secondsToString(2 * ONE_DAY, true)).toBe("2d");
+    it("should return correct string, short length, short unit format, removing trailing zeros", () => {
+      const options: TimeFormatOptions = {
+        length: "short",
+        isShortFormat: true,
+        removeTrailingZeros: true,
+      };
+      expect(t(-(3 * _1D + 0 * _1H + 6 * _1M + 9 * _1S), options)).toBe("-3d");
+      expect(t(-(0 * _1D + 2 * _1H + 0 * _1M + 4 * _1S), options)).toBe("-2h");
+      expect(t(-(0 * _1D + 0 * _1H + 5 * _1M + 8 * _1S), options)).toBe("-5m");
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 59 * _1S), options)).toBe(
+        "-59s"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 2.1 * _1S), options)).toBe(
+        "-2s"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S), options)).toBe("-1s");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("0s");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S, options)).toBe("1s");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 2 * _1S, options)).toBe("2s");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 0 * _1S, options)).toBe("1m");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 30 * _1S, options)).toBe("1m");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 59.99 * _1S, options)).toBe("1m");
+      expect(t(0 * _1D + 0 * _1H + 2 * _1M + 0 * _1S, options)).toBe("2m");
+      expect(t(0 * _1D + 0 * _1H + 59 * _1M + 59 * _1S, options)).toBe("59m");
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 0 * _1S, options)).toBe("1h");
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 42 * _1S, options)).toBe("1h");
+      expect(t(0 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe("2h");
+      expect(t(0 * _1D + 2 * _1H + 11 * _1M + 50 * _1S, options)).toBe("2h");
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("1d");
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 4 * _1S, options)).toBe("1d");
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 0 * _1S, options)).toBe("1d");
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 4 * _1S, options)).toBe("1d");
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe("1d");
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 4 * _1S, options)).toBe("1d");
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 0 * _1S, options)).toBe("1d");
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 4 * _1S, options)).toBe("1d");
+      expect(t(2 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("2d");
+      expect(t(42 * _1D + 0 * _1H + 6 * _1M + 8 * _1S, options)).toBe("42d");
     });
-  });
-
-  describe("secondsToMidString", () => {
-    it("should return correct string", () => {
-      expect(
-        secondsToMidString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC))
-      ).toBe("-3days 0hrs");
-      expect(secondsToMidString(-(2 * ONE_HR + 4 * ONE_SEC))).toBe(
+    it("should return correct string, mid length, normal unit format, not removing trailing zeros", () => {
+      const options: TimeFormatOptions = {
+        length: "mid",
+        isShortFormat: false,
+        removeTrailingZeros: false,
+      };
+      expect(t(-(3 * _1D + 0 * _1H + 6 * _1M + 9 * _1S), options)).toBe(
+        "-3days 0hrs"
+      );
+      expect(t(-(0 * _1D + 2 * _1H + 0 * _1M + 4 * _1S), options)).toBe(
         "-2hrs 0mins"
       );
-      expect(secondsToMidString(-(5 * ONE_MIN + 8 * ONE_SEC))).toBe(
+      expect(t(-(0 * _1D + 0 * _1H + 5 * _1M + 8 * _1S), options)).toBe(
         "-5mins -8secs"
       );
-      expect(secondsToMidString(-59 * ONE_SEC)).toBe("-59secs");
-      expect(secondsToMidString(-2.1 * ONE_SEC)).toBe("-2secs");
-      expect(secondsToMidString(-ONE_SEC)).toBe("-1secs");
-      expect(secondsToMidString(0)).toBe("0secs");
-      expect(secondsToMidString(ONE_SEC)).toBe("1sec");
-      expect(secondsToMidString(2 * ONE_SEC)).toBe("2secs");
-      expect(secondsToMidString(ONE_MIN)).toBe("1min 0secs");
-      expect(secondsToMidString(ONE_MIN + 30 * ONE_SEC)).toBe("1min 30secs");
-      expect(secondsToMidString(ONE_MIN + 59.1 * ONE_SEC)).toBe("1min 59secs");
-      expect(secondsToMidString(2 * ONE_MIN)).toBe("2mins 0secs");
-      expect(secondsToMidString(59 * ONE_MIN + 59 * ONE_SEC)).toBe(
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 59 * _1S), options)).toBe(
+        "-59secs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 2.1 * _1S), options)).toBe(
+        "-2secs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S), options)).toBe(
+        "-1secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("0secs");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S, options)).toBe("1sec");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 2 * _1S, options)).toBe("2secs");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 0 * _1S, options)).toBe(
+        "1min 0secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 30 * _1S, options)).toBe(
+        "1min 30secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 59.99 * _1S, options)).toBe(
+        "1min 59secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 2 * _1M + 0 * _1S, options)).toBe(
+        "2mins 0secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 59 * _1M + 59 * _1S, options)).toBe(
         "59mins 59secs"
       );
-      expect(secondsToMidString(ONE_HR)).toBe("1hr 0mins");
-      expect(secondsToMidString(2 * ONE_HR)).toBe("2hrs 0mins");
-      expect(secondsToMidString(2 * ONE_HR + 11 * ONE_MIN + 50 * ONE_SEC)).toBe(
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "1hr 0mins"
+      );
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 42 * _1S, options)).toBe(
+        "1hr 0mins"
+      );
+      expect(t(0 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "2hrs 0mins"
+      );
+      expect(t(0 * _1D + 2 * _1H + 11 * _1M + 50 * _1S, options)).toBe(
         "2hrs 11mins"
       );
-      expect(secondsToMidString(ONE_DAY)).toBe("1day 0hrs");
-      expect(secondsToMidString(2 * ONE_DAY)).toBe("2days 0hrs");
-      expect(secondsToMidString(2 * ONE_DAY + ONE_HR + 20 * ONE_MIN)).toBe(
-        "2days 1hr"
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "1day 0hrs"
+      );
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 4 * _1S, options)).toBe(
+        "1day 0hrs"
+      );
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 0 * _1S, options)).toBe(
+        "1day 0hrs"
+      );
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 4 * _1S, options)).toBe(
+        "1day 0hrs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "1day 2hrs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 4 * _1S, options)).toBe(
+        "1day 2hrs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 0 * _1S, options)).toBe(
+        "1day 2hrs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 4 * _1S, options)).toBe(
+        "1day 2hrs"
+      );
+      expect(t(2 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "2days 0hrs"
+      );
+      expect(t(42 * _1D + 0 * _1H + 6 * _1M + 8 * _1S, options)).toBe(
+        "42days 0hrs"
       );
     });
-    it("should return correct string short unit", () => {
-      expect(
-        secondsToMidString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC), true)
-      ).toBe("-3d 0h");
-      expect(secondsToMidString(-(2 * ONE_HR + 4 * ONE_SEC), true)).toBe(
-        "-2h 0m"
+    it("should return correct string, mid length, normal unit format, remove trailing zeros", () => {
+      const options: TimeFormatOptions = {
+        length: "mid",
+        isShortFormat: false,
+        removeTrailingZeros: true,
+      };
+      expect(t(-(3 * _1D + 0 * _1H + 6 * _1M + 9 * _1S), options)).toBe(
+        "-3days"
       );
-      expect(secondsToMidString(-(5 * ONE_MIN + 8 * ONE_SEC), true)).toBe(
-        "-5m -8s"
+      expect(t(-(0 * _1D + 2 * _1H + 0 * _1M + 4 * _1S), options)).toBe(
+        "-2hrs"
       );
-      expect(secondsToMidString(-59 * ONE_SEC, true)).toBe("-59s");
-      expect(secondsToMidString(-2.1 * ONE_SEC, true)).toBe("-2s");
-      expect(secondsToMidString(-ONE_SEC, true)).toBe("-1s");
-      expect(secondsToMidString(0, true)).toBe("0s");
-      expect(secondsToMidString(ONE_SEC, true)).toBe("1s");
-      expect(secondsToMidString(2 * ONE_SEC, true)).toBe("2s");
-      expect(secondsToMidString(ONE_MIN, true)).toBe("1m 0s");
-      expect(secondsToMidString(ONE_MIN + 30 * ONE_SEC, true)).toBe("1m 30s");
-      expect(secondsToMidString(ONE_MIN + 59.1 * ONE_SEC, true)).toBe("1m 59s");
-      expect(secondsToMidString(2 * ONE_MIN, true)).toBe("2m 0s");
-      expect(secondsToMidString(59 * ONE_MIN + 59 * ONE_SEC, true)).toBe(
-        "59m 59s"
-      );
-      expect(secondsToMidString(ONE_HR, true)).toBe("1h 0m");
-      expect(secondsToMidString(2 * ONE_HR, true)).toBe("2h 0m");
-      expect(
-        secondsToMidString(2 * ONE_HR + 11 * ONE_MIN + 50 * ONE_SEC, true)
-      ).toBe("2h 11m");
-      expect(secondsToMidString(ONE_DAY, true)).toBe("1d 0h");
-      expect(secondsToMidString(2 * ONE_DAY, true)).toBe("2d 0h");
-      expect(
-        secondsToMidString(2 * ONE_DAY + ONE_HR + 20 * ONE_MIN, true)
-      ).toBe("2d 1h");
-    });
-  });
-
-  describe("secondsToLongString", () => {
-    it("should return correct string", () => {
-      expect(
-        secondsToLongString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC))
-      ).toBe("-3days 0hrs -6mins -9secs");
-      expect(secondsToLongString(-(2 * ONE_HR + 4 * ONE_SEC))).toBe(
-        "-2hrs 0mins -4secs"
-      );
-      expect(secondsToLongString(-(5 * ONE_MIN + 8 * ONE_SEC))).toBe(
+      expect(t(-(0 * _1D + 0 * _1H + 5 * _1M + 8 * _1S), options)).toBe(
         "-5mins -8secs"
       );
-      expect(secondsToLongString(-59 * ONE_SEC)).toBe("-59secs");
-      expect(secondsToLongString(-2.1 * ONE_SEC)).toBe("-2secs");
-      expect(secondsToLongString(-ONE_SEC)).toBe("-1secs");
-      expect(secondsToLongString(0)).toBe("0secs");
-      expect(secondsToLongString(ONE_HR + 20 * ONE_MIN + 5 * ONE_SEC)).toBe(
-        "1hr 20mins 5secs"
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 59 * _1S), options)).toBe(
+        "-59secs"
       );
-      expect(secondsToLongString(2 * ONE_DAY + ONE_MIN + 30 * ONE_SEC)).toBe(
-        "2days 0hrs 1min 30secs"
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 2.1 * _1S), options)).toBe(
+        "-2secs"
       );
-      expect(secondsToLongString(2 * ONE_DAY + ONE_HR + 20 * ONE_MIN)).toBe(
-        "2days 1hr 20mins 0secs"
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S), options)).toBe(
+        "-1secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("0secs");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S, options)).toBe("1sec");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 2 * _1S, options)).toBe("2secs");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 0 * _1S, options)).toBe("1min");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 30 * _1S, options)).toBe(
+        "1min 30secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 59.99 * _1S, options)).toBe(
+        "1min 59secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 2 * _1M + 0 * _1S, options)).toBe("2mins");
+      expect(t(0 * _1D + 0 * _1H + 59 * _1M + 59 * _1S, options)).toBe(
+        "59mins 59secs"
+      );
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 0 * _1S, options)).toBe("1hr");
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 42 * _1S, options)).toBe("1hr");
+      expect(t(0 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe("2hrs");
+      expect(t(0 * _1D + 2 * _1H + 11 * _1M + 50 * _1S, options)).toBe(
+        "2hrs 11mins"
+      );
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 4 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 0 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 4 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "1day 2hrs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 4 * _1S, options)).toBe(
+        "1day 2hrs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 0 * _1S, options)).toBe(
+        "1day 2hrs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 4 * _1S, options)).toBe(
+        "1day 2hrs"
+      );
+      expect(t(2 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("2days");
+      expect(t(42 * _1D + 0 * _1H + 6 * _1M + 8 * _1S, options)).toBe("42days");
+    });
+    it("should return correct string, full length, normal unit format, not removing trailing zeros", () => {
+      const options: TimeFormatOptions = {
+        length: "full",
+        isShortFormat: false,
+        removeTrailingZeros: false,
+      };
+      expect(t(-(3 * _1D + 0 * _1H + 6 * _1M + 9 * _1S), options)).toBe(
+        "-3days 0hrs -6mins -9secs"
+      );
+      expect(t(-(0 * _1D + 2 * _1H + 0 * _1M + 4 * _1S), options)).toBe(
+        "-2hrs 0mins -4secs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 5 * _1M + 8 * _1S), options)).toBe(
+        "-5mins -8secs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 59 * _1S), options)).toBe(
+        "-59secs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 2.1 * _1S), options)).toBe(
+        "-2secs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S), options)).toBe(
+        "-1secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("0secs");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S, options)).toBe("1sec");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 2 * _1S, options)).toBe("2secs");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 0 * _1S, options)).toBe(
+        "1min 0secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 30 * _1S, options)).toBe(
+        "1min 30secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 59.99 * _1S, options)).toBe(
+        "1min 59secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 2 * _1M + 0 * _1S, options)).toBe(
+        "2mins 0secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 59 * _1M + 59 * _1S, options)).toBe(
+        "59mins 59secs"
+      );
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "1hr 0mins 0secs"
+      );
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 42 * _1S, options)).toBe(
+        "1hr 0mins 42secs"
+      );
+      expect(t(0 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "2hrs 0mins 0secs"
+      );
+      expect(t(0 * _1D + 2 * _1H + 11 * _1M + 50 * _1S, options)).toBe(
+        "2hrs 11mins 50secs"
+      );
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "1day 0hrs 0mins 0secs"
+      );
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 4 * _1S, options)).toBe(
+        "1day 0hrs 0mins 4secs"
+      );
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 0 * _1S, options)).toBe(
+        "1day 0hrs 3mins 0secs"
+      );
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 4 * _1S, options)).toBe(
+        "1day 0hrs 3mins 4secs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "1day 2hrs 0mins 0secs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 4 * _1S, options)).toBe(
+        "1day 2hrs 0mins 4secs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 0 * _1S, options)).toBe(
+        "1day 2hrs 3mins 0secs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 4 * _1S, options)).toBe(
+        "1day 2hrs 3mins 4secs"
+      );
+      expect(t(2 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "2days 0hrs 0mins 0secs"
+      );
+      expect(t(42 * _1D + 0 * _1H + 6 * _1M + 8 * _1S, options)).toBe(
+        "42days 0hrs 6mins 8secs"
       );
     });
-    it("should return correct string short unit", () => {
-      expect(
-        secondsToLongString(-(3 * ONE_DAY + 6 * ONE_MIN + 9 * ONE_SEC), true)
-      ).toBe("-3d 0h -6m -9s");
-      expect(secondsToLongString(-(2 * ONE_HR + 4 * ONE_SEC), true)).toBe(
-        "-2h 0m -4s"
+    it("should return correct string, full length, normal unit format, remove trailing zeros", () => {
+      const options: TimeFormatOptions = {
+        length: "full",
+        isShortFormat: false,
+        removeTrailingZeros: true,
+      };
+      expect(t(-(3 * _1D + 0 * _1H + 6 * _1M + 9 * _1S), options)).toBe(
+        "-3days 0hrs -6mins -9secs"
       );
-      expect(secondsToLongString(-(5 * ONE_MIN + 8 * ONE_SEC), true)).toBe(
-        "-5m -8s"
+      expect(t(-(0 * _1D + 2 * _1H + 0 * _1M + 4 * _1S), options)).toBe(
+        "-2hrs 0mins -4secs"
       );
-      expect(secondsToLongString(-59 * ONE_SEC, true)).toBe("-59s");
-      expect(secondsToLongString(-2.1 * ONE_SEC, true)).toBe("-2s");
-      expect(secondsToLongString(-ONE_SEC, true)).toBe("-1s");
-      expect(secondsToLongString(0, true)).toBe("0s");
-      expect(
-        secondsToLongString(ONE_HR + 20 * ONE_MIN + 5 * ONE_SEC, true)
-      ).toBe("1h 20m 5s");
-      expect(
-        secondsToLongString(2 * ONE_DAY + ONE_MIN + 30 * ONE_SEC, true)
-      ).toBe("2d 0h 1m 30s");
-      expect(
-        secondsToLongString(2 * ONE_DAY + ONE_HR + 20 * ONE_MIN, true)
-      ).toBe("2d 1h 20m 0s");
+      expect(t(-(0 * _1D + 0 * _1H + 5 * _1M + 8 * _1S), options)).toBe(
+        "-5mins -8secs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 59 * _1S), options)).toBe(
+        "-59secs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 2.1 * _1S), options)).toBe(
+        "-2secs"
+      );
+      expect(t(-(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S), options)).toBe(
+        "-1secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("0secs");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 1 * _1S, options)).toBe("1sec");
+      expect(t(0 * _1D + 0 * _1H + 0 * _1M + 2 * _1S, options)).toBe("2secs");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 0 * _1S, options)).toBe("1min");
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 30 * _1S, options)).toBe(
+        "1min 30secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 1 * _1M + 59.99 * _1S, options)).toBe(
+        "1min 59secs"
+      );
+      expect(t(0 * _1D + 0 * _1H + 2 * _1M + 0 * _1S, options)).toBe("2mins");
+      expect(t(0 * _1D + 0 * _1H + 59 * _1M + 59 * _1S, options)).toBe(
+        "59mins 59secs"
+      );
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 0 * _1S, options)).toBe("1hr");
+      expect(t(0 * _1D + 1 * _1H + 0 * _1M + 42 * _1S, options)).toBe(
+        "1hr 0mins 42secs"
+      );
+      expect(t(0 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe("2hrs");
+      expect(t(0 * _1D + 2 * _1H + 11 * _1M + 50 * _1S, options)).toBe(
+        "2hrs 11mins 50secs"
+      );
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("1day");
+      expect(t(1 * _1D + 0 * _1H + 0 * _1M + 4 * _1S, options)).toBe(
+        "1day 0hrs 0mins 4secs"
+      );
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 0 * _1S, options)).toBe(
+        "1day 0hrs 3mins"
+      );
+      expect(t(1 * _1D + 0 * _1H + 3 * _1M + 4 * _1S, options)).toBe(
+        "1day 0hrs 3mins 4secs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 0 * _1S, options)).toBe(
+        "1day 2hrs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 0 * _1M + 4 * _1S, options)).toBe(
+        "1day 2hrs 0mins 4secs"
+      );
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 0 * _1S, options)).toBe(
+        "1day 2hrs 3mins"
+      );
+      expect(t(1 * _1D + 2 * _1H + 3 * _1M + 4 * _1S, options)).toBe(
+        "1day 2hrs 3mins 4secs"
+      );
+      expect(t(2 * _1D + 0 * _1H + 0 * _1M + 0 * _1S, options)).toBe("2days");
+      expect(t(42 * _1D + 0 * _1H + 6 * _1M + 8 * _1S, options)).toBe(
+        "42days 0hrs 6mins 8secs"
+      );
     });
   });
 
@@ -196,19 +415,17 @@ describe("time", () => {
     });
 
     it("should return 0 if elapsed", () => {
-      expect(getTimeLeft(getTimestamp("2022-04-15T11:00:00"), ONE_DAY)).toBe(0);
-      expect(getTimeLeft(getTimestamp("2022-04-16T00:00:00"), ONE_DAY)).toBe(0);
+      expect(getTimeLeft(getTimestamp("2022-04-15T11:00:00"), _1D)).toBe(0);
+      expect(getTimeLeft(getTimestamp("2022-04-16T00:00:00"), _1D)).toBe(0);
     });
 
     it("should return correct time left", () => {
-      expect(getTimeLeft(getTimestamp("2022-04-16T01:00:00"), ONE_DAY)).toBe(
-        ONE_HR
+      expect(getTimeLeft(getTimestamp("2022-04-16T01:00:00"), _1D)).toBe(_1H);
+      expect(getTimeLeft(getTimestamp("2022-04-16T23:59:30"), _1M)).toBe(
+        30 * _1S
       );
-      expect(getTimeLeft(getTimestamp("2022-04-16T23:59:30"), ONE_MIN)).toBe(
-        30 * ONE_SEC
-      );
-      expect(getTimeLeft(getTimestamp("2022-04-16T23:30:00"), ONE_HR)).toBe(
-        30 * ONE_MIN
+      expect(getTimeLeft(getTimestamp("2022-04-16T23:30:00"), _1H)).toBe(
+        30 * _1M
       );
     });
 
