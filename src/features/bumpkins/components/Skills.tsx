@@ -27,11 +27,10 @@ interface Props {
 
 export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [gameState] = useActor(gameService);
+  const {
+    context: { state },
+  } = gameState;
 
   const [selectedSkillPath, setSelectedSkillPath] =
     useState<BumpkinSkillTree | null>(null);
@@ -59,9 +58,24 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
   };
 
   const { bumpkin } = state;
-  const { experience } = bumpkin;
+  const experience = bumpkin?.experience || 0;
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+
+  const skillPointsInfo = () => (
+    <>
+      {availableSkillPoints > 0 && (
+        <SkillPointsLabel points={availableSkillPoints} />
+      )}
+      {!availableSkillPoints && (
+        <Label>
+          <p className="text-[10px] ml-2 pr-2">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
+            experience
+          )}`}</p>
+        </Label>
+      )}
+    </>
+  );
 
   return (
     <Panel className="pt-5 relative">
@@ -78,7 +92,6 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           onClick={onClose}
         />
       </div>
-
       <div
         style={{
           minHeight: "200px",
@@ -91,16 +104,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
             alt="back"
             onClick={handleBack}
           />
-          {availableSkillPoints > 0 && (
-            <SkillPointsLabel points={availableSkillPoints} />
-          )}
-          {!availableSkillPoints && (
-            <Label>
-              <p className="text-[10px] ml-2 pr-2">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
-                experience
-              )}`}</p>
-            </Label>
-          )}
+          {!gameState.matches("visiting") && skillPointsInfo()}
         </div>
         {!selectedSkillPath && (
           <SkillCategoryList
