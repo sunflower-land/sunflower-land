@@ -522,7 +522,6 @@ export function startGame(authContext: Options) {
           },
         },
         migrated: {
-          // type: "final",
           entry: () => {
             window.location.replace(
               `${window.location.pathname}#/land/${authContext.farmId}`
