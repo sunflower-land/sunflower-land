@@ -1,4 +1,6 @@
 import Decimal from "decimal.js-light";
+import { KNOWN_IDS } from "../types";
+import { getKeys } from "../types/craftables";
 import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
 
 const INITIAL_STOCK: Inventory = {
@@ -402,13 +404,16 @@ export const OFFLINE_FARM: GameState = {
     "Cabbage Girl": new Decimal(1),
     "Basic Bear": new Decimal(1),
     // Every item for testing
-    // ...getKeys(KNOWN_IDS).reduce(
-    //   (acc, name) => ({
-    //     ...acc,
-    //     [name]: new Decimal(1),
-    //   }),
-    //   {}
-    // ),
+    ...getKeys(KNOWN_IDS).reduce(
+      (acc, name) => ({
+        ...acc,
+        [name]: new Decimal(1),
+      }),
+      {}
+    ),
+    Coder: new Decimal(0),
+    "Discord Mod": new Decimal(0),
+    Warrior: new Decimal(0),
   },
   migrated: true,
   stock: INITIAL_STOCK,

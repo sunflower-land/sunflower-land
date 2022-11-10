@@ -245,6 +245,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Basic Bear": 1204,
   "Chef Bear": 1205,
   "Construction Bear": 1206,
+  "Angel Bear": 1207,
+  "Badass Bear": 1208,
+  "Bear Trap": 1209,
+  "Brilliant Bear": 1210,
+  "Classy Bear": 1211,
+  "Farmer Bear": 1212,
+  "Sunflower Bear": 1213,
+  "Rich Bear": 1214,
 };
 
 // The reverse of above

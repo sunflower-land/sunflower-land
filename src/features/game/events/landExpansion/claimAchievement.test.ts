@@ -101,7 +101,7 @@ describe("claim achievements", () => {
     );
   });
 
-  it("claims kiss the cook bear", () => {
+  it("claims farmer bear", () => {
     const balance = new Decimal(0);
     const experience = 250;
     const state = claimAchievement({
@@ -116,20 +116,20 @@ describe("claim achievements", () => {
           experience,
           achievements: undefined,
           activity: {
-            "Carrot Cake Cooked": 100,
+            "Sunflower Harvested": 10000,
           },
         },
       },
       action: {
         type: "achievement.claimed",
-        achievement: "Kiss the Cook",
+        achievement: "Farm Hand",
       },
     });
 
     expect(state.balance).toEqual(new Decimal(0));
     expect(state.inventory).toEqual({
       Pickaxe: new Decimal(2),
-      "Chef Bear": new Decimal(1),
+      "Farmer Bear": new Decimal(1),
     });
   });
 });

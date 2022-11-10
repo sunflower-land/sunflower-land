@@ -51,6 +51,14 @@ import { PrizedPotato } from "./components/PrizedPotato";
 import { WoodNymphWendy } from "./components/WoodNymphWendy";
 import { ChefBear } from "./components/ChefBear";
 import { ConstructionBear } from "./components/ConstructionBear";
+import { AngelBear } from "./components/AngelBear";
+import { BearTrap } from "./components/BearTrap";
+import { BrilliantBear } from "./components/BrilliantBumpkin";
+import { ClassyBear } from "./components/ClassyBear";
+import { FarmerBear } from "./components/FarmerBear";
+import { RichBear } from "./components/RichBear";
+import { SunflowerBear } from "./components/SunflowerBear";
+import { BadassBear } from "./components/BadassBear";
 
 interface Prop {
   name: CollectibleName;
@@ -124,6 +132,14 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Basic Bear": BasicBear,
   "Chef Bear": ChefBear,
   "Construction Bear": ConstructionBear,
+  "Angel Bear": AngelBear,
+  "Badass Bear": BadassBear,
+  "Bear Trap": BearTrap,
+  "Brilliant Bear": BrilliantBear,
+  "Classy Bear": ClassyBear,
+  "Farmer Bear": FarmerBear,
+  "Rich Bear": RichBear,
+  "Sunflower Bear": SunflowerBear,
 
   "Victoria Sisters": () => null,
   "Egg Basket": () => null,

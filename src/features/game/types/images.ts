@@ -280,6 +280,14 @@ import cactus from "src/assets/decorations/cactus.png";
 import basicBear from "src/assets/sfts/bears/basic_bear.png";
 import chefBear from "src/assets/sfts/bears/chef_bear.png";
 import constructionBear from "src/assets/sfts/bears/construction_bear.png";
+import angelBear from "src/assets/sfts/bears/angel_bear.png";
+import badassBear from "src/assets/sfts/bears/badass_bear.png";
+import sunflowerBear from "src/assets/sfts/bears/sunflower_bear.png";
+import brilliantBear from "src/assets/sfts/bears/brilliant_bear.png";
+import classyBear from "src/assets/sfts/bears/classy_bear.png";
+import farmerBear from "src/assets/sfts/bears/farmer_bear.png";
+import richBear from "src/assets/sfts/bears/rich_bear.png";
+import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1355,6 +1363,39 @@ export const ITEM_DETAILS: Items = {
     image: constructionBear,
     description: DECORATIONS()["Construction Bear"].description,
   },
+  "Angel Bear": {
+    image: angelBear,
+    description: DECORATIONS()["Angel Bear"].description,
+  },
+  "Badass Bear": {
+    image: badassBear,
+    description: DECORATIONS()["Badass Bear"].description,
+  },
+  "Bear Trap": {
+    image: bearTrap,
+    description: DECORATIONS()["Bear Trap"].description,
+  },
+  "Brilliant Bear": {
+    image: brilliantBear,
+    description: DECORATIONS()["Brilliant Bear"].description,
+  },
+  "Classy Bear": {
+    image: classyBear,
+    description: DECORATIONS()["Classy Bear"].description,
+  },
+  "Farmer Bear": {
+    image: farmerBear,
+    description: DECORATIONS()["Farmer Bear"].description,
+  },
+  "Rich Bear": {
+    image: richBear,
+    description: DECORATIONS()["Rich Bear"].description,
+  },
+  "Sunflower Bear": {
+    image: sunflowerBear,
+    description: DECORATIONS()["Sunflower Bear"].description,
+  },
+
   "Cabbage Boy": {
     image: cabbageBoy,
     description: GOBLIN_RETREAT_ITEMS["Cabbage Boy"].description,
