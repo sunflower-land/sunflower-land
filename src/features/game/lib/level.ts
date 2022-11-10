@@ -93,7 +93,7 @@ export const findLevelRequiredForNextSkillPoint = (
 ): BumpkinLevel | undefined => {
   const level = getBumpkinLevel(experience);
 
-  if (level >= getMaxLevel()) return undefined;
+  if (Number(level) >= getMaxLevel()) return undefined;
 
   const currentSkillPoints = SKILL_POINTS[level];
   const skillPointToLevels = flipObject(SKILL_POINTS);
