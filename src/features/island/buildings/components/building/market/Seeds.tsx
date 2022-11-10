@@ -23,7 +23,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
 import { hasBoost } from "features/game/lib/boosts";
-import { getBuyPrice } from "features/game/events/craft";
+import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/plant";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
@@ -49,8 +49,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const [showCaptcha, setShowCaptcha] = useState(false);
 
   const inventory = state.inventory;
+  const collectibles = state.collectibles;
 
-  const price = getBuyPrice(selected, inventory);
+  const price = getBuyPrice(selected, inventory, collectibles);
 
   const buy = (amount = 1) => {
     gameService.send("seed.bought", {
