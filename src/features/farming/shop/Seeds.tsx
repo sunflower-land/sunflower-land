@@ -15,7 +15,7 @@ import { secondsToMidString } from "lib/utils/time";
 
 import { Context } from "features/game/GameProvider";
 import { CraftableItem } from "features/game/types/craftables";
-import { CropName, CROPS, SEEDS } from "features/game/types/crops";
+import { CropName, CROPS, CROP_SEEDS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
@@ -33,7 +33,7 @@ interface Props {
 
 export const Seeds: React.FC<Props> = ({ onClose }) => {
   const [selected, setSelected] = useState<CraftableItem>(
-    SEEDS()["Sunflower Seed"]
+    CROP_SEEDS()["Sunflower Seed"]
   );
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
@@ -168,7 +168,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(SEEDS()).map((item: CraftableItem) => (
+        {Object.values(CROP_SEEDS()).map((item: CraftableItem) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}

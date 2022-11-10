@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { CropSeedName, SEEDS } from "features/game/types/crops";
+import { CropSeedName, CROP_SEEDS } from "features/game/types/crops";
 import { GameState } from "features/game/types/game";
 
 import { seedBought } from "./seedBought";
@@ -108,7 +108,7 @@ describe("seedBought", () => {
     });
 
     expect(state.balance).toEqual(
-      balance.minus(SEEDS()["Sunflower Seed"].tokenAmount as Decimal)
+      balance.minus(CROP_SEEDS()["Sunflower Seed"].tokenAmount as Decimal)
     );
   });
 
@@ -156,7 +156,7 @@ describe("seedBought", () => {
     const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
 
     expect(state.balance).toEqual(
-      balance.minus(SEEDS()[item].tokenAmount as Decimal)
+      balance.minus(CROP_SEEDS()[item].tokenAmount as Decimal)
     );
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
@@ -184,7 +184,7 @@ describe("seedBought", () => {
     const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
 
     expect(state.balance).toEqual(
-      balance.minus(SEEDS()[item].tokenAmount?.mul(amount) as Decimal)
+      balance.minus(CROP_SEEDS()[item].tokenAmount?.mul(amount) as Decimal)
     );
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
@@ -218,7 +218,7 @@ describe("seedBought", () => {
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      SEEDS()["Sunflower Seed"].tokenAmount?.toNumber()
+      CROP_SEEDS()["Sunflower Seed"].tokenAmount?.toNumber()
     );
   });
 

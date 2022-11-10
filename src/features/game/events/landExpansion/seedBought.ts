@@ -2,21 +2,11 @@ import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import {
-  CropSeedName as CropSeedName,
-  SEEDS as CROP_SEEDS,
-} from "features/game/types/crops";
-import {
-  Collectibles,
-  GameState,
-  Inventory,
-  InventoryItemName,
-} from "features/game/types/game";
+
+import { Collectibles, GameState, Inventory } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
-
-export type SeedName = CropSeedName | FruitSeedName;
+import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
 
 export type SeedBoughtAction = {
   type: "seed.bought";
@@ -25,7 +15,8 @@ export type SeedBoughtAction = {
 };
 
 export function getBuyPrice(
-  item: { name: InventoryItemName; tokenAmount?: Decimal },
+  name: SeedName,
+  seed: Seed,
   inventory: Inventory,
   colletibles: Collectibles
 ) {
@@ -33,11 +24,11 @@ export function getBuyPrice(
     return new Decimal(0);
   }
 
-  if (inventory["Sunflower Shield"]?.gte(1) && item.name === "Sunflower Seed") {
+  if (inventory["Sunflower Shield"]?.gte(1) && name === "Sunflower Seed") {
     return new Decimal(0);
   }
 
-  let price = item.tokenAmount;
+  let price = seed.sfl;
 
   if (price && inventory.Artist?.gte(1)) {
     price = price.mul(0.9);
@@ -55,9 +46,7 @@ export function seedBought({ state, action }: Options) {
   const stateCopy = cloneDeep(state);
   const { item, amount } = action;
 
-  const SEEDS = { ...CROP_SEEDS(), ...FRUIT_SEEDS() };
-
-  if (!(item in SEEDS)) {
+  if (!(item in SEEDS())) {
     throw new Error("This item is not a seed");
   }
 
@@ -68,7 +57,7 @@ export function seedBought({ state, action }: Options) {
   }
 
   const userBumpkinLevel = getBumpkinLevel(stateCopy.bumpkin?.experience ?? 0);
-  const seed = SEEDS[item];
+  const seed = SEEDS()[item];
   const requiredSeedLevel = seed.bumpkinLevel ?? 0;
 
   if (userBumpkinLevel < requiredSeedLevel) {
@@ -83,7 +72,12 @@ export function seedBought({ state, action }: Options) {
     throw new Error("Not enough stock");
   }
 
-  const price = getBuyPrice(seed, stateCopy.inventory, stateCopy.collectibles);
+  const price = getBuyPrice(
+    item,
+    seed,
+    stateCopy.inventory,
+    stateCopy.collectibles
+  );
   const totalExpenses = price?.mul(amount);
 
   if (totalExpenses && stateCopy.balance.lessThan(totalExpenses)) {

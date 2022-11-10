@@ -141,6 +141,9 @@ import chicken from "assets/resources/chicken.png";
 import honey from "assets/resources/honey.png";
 import wildMushroom from "assets/resources/wild_mushroom.png";
 import magicMushroom from "assets/resources/magic_mushroom.png";
+import apple from "assets/resources/apple.png";
+import orange from "assets/resources/orange.png";
+import blueberry from "assets/resources/blueberry.png";
 import questionMark from "assets/icons/expression_confused.png";
 
 // Skills
@@ -309,7 +312,7 @@ import {
   SALESMAN_ITEMS,
   GOBLIN_RETREAT_ITEMS,
 } from "./craftables";
-import { CROPS, SEEDS } from "./crops";
+import { CROPS, CROP_SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
@@ -329,7 +332,7 @@ export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
 const crops = CROPS();
-const seeds = SEEDS();
+const seeds = CROP_SEEDS();
 export const ITEM_DETAILS: Items = {
   // Crops
   Sunflower: {
@@ -441,7 +444,7 @@ export const ITEM_DETAILS: Items = {
     image: shinyBean,
   },
   "Kale Seed": {
-    description: SEEDS()["Kale Seed"].description,
+    description: CROP_SEEDS()["Kale Seed"].description,
     image: kaleSeed,
   },
   "Apple Seed": {
@@ -504,15 +507,15 @@ export const ITEM_DETAILS: Items = {
   },
   Apple: {
     description: FRUIT()["Apple"].description,
-    image: questionMark,
+    image: apple,
   },
   Blueberry: {
     description: FRUIT()["Blueberry"].description,
-    image: questionMark,
+    image: blueberry,
   },
   Orange: {
     description: FRUIT()["Orange"].description,
-    image: questionMark,
+    image: orange,
   },
   Honey: {
     description: RESOURCES["Honey"].description,

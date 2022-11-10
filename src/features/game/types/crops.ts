@@ -110,7 +110,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
 
 export type CropSeedName = `${CropName} Seed`;
 
-export const SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
+export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
   "Sunflower Seed": {
     name: "Sunflower Seed",
     tokenAmount: marketRate(0.01),

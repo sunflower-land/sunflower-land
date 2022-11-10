@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { CropSeedName, SEEDS } from "../types/crops";
+import { CropSeedName, CROP_SEEDS } from "../types/crops";
 import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
@@ -989,7 +989,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...BLACKSMITH_ITEMS,
   ...BARN_ITEMS,
   ...MARKET_ITEMS,
-  ...SEEDS(),
+  ...CROP_SEEDS(),
   ...FOODS(),
   ...ANIMALS(),
   ...FLAGS,

@@ -12,7 +12,7 @@ import {
   SHOVELS,
   TOOLS,
 } from "features/game/types/craftables";
-import { SEEDS } from "features/game/types/crops";
+import { CROP_SEEDS } from "features/game/types/crops";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { SKILL_TREE } from "features/game/types/skills";
 
@@ -31,7 +31,7 @@ function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
 }
 
 function hasSeeds(inventory: Inventory) {
-  return getKeys(inventory).some((name) => name in SEEDS());
+  return getKeys(inventory).some((name) => name in CROP_SEEDS());
 }
 
 function hasFedChickens(game: GoblinState): boolean {

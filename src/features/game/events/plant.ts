@@ -44,7 +44,7 @@ type GetPlantedAtArgs = {
  * Based on boosts, how long a crop will take
  */
 export const getCropTime = (crop: CropName, inventory: Inventory) => {
-  let seconds = CROPS()[crop].harvestSeconds;
+  let seconds = CROPS()[crop]?.harvestSeconds ?? 0;
 
   if (inventory["Seed Specialist"]?.gte(1)) {
     seconds = seconds * 0.9;

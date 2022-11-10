@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
-import { SeedName } from "../events/landExpansion/seedBought";
 import { ConsumableName } from "../types/consumables";
 import { Animal, Food, ToolName } from "../types/craftables";
 import { CropName } from "../types/crops";
 import { Bumpkin } from "../types/game";
 import { DecorationName } from "./decorations";
+import { SeedName } from "./seeds";
 
 type BuyableName = SeedName | Animal | DecorationName;
 type SellableName = CropName | Food;

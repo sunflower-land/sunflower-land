@@ -1,7 +1,7 @@
 import "lib/__mocks__/configMock.ts";
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../lib/constants";
-import { SEEDS } from "../types/crops";
+import { CROP_SEEDS } from "../types/crops";
 import { GameState } from "../types/game";
 import { craft } from "./craft";
 
@@ -81,7 +81,9 @@ describe("craft", () => {
     });
 
     expect(state.balance).toEqual(
-      new Decimal(1).minus(SEEDS()["Sunflower Seed"].tokenAmount as Decimal)
+      new Decimal(1).minus(
+        CROP_SEEDS()["Sunflower Seed"].tokenAmount as Decimal
+      )
     );
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(1));
   });
@@ -136,7 +138,7 @@ describe("craft", () => {
     });
 
     expect(state.balance).toEqual(
-      new Decimal(1).sub(SEEDS()["Carrot Seed"].tokenAmount as Decimal)
+      new Decimal(1).sub(CROP_SEEDS()["Carrot Seed"].tokenAmount as Decimal)
     );
     expect(state.inventory["Carrot Seed"]).toEqual(new Decimal(1));
   });
@@ -156,7 +158,7 @@ describe("craft", () => {
 
     expect(state.balance).toEqual(
       new Decimal(0.1).sub(
-        SEEDS()["Sunflower Seed"].tokenAmount?.mul(10) as Decimal
+        CROP_SEEDS()["Sunflower Seed"].tokenAmount?.mul(10) as Decimal
       )
     );
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(10));
