@@ -490,10 +490,6 @@ export const ITEM_DETAILS: Items = {
     description: CONSUMABLES["Sunflower Crunch"].description,
     image: questionMark,
   },
-  Sauerkraut: {
-    description: CONSUMABLES["Sauerkraut"].description,
-    image: questionMark,
-  },
 
   "Magic Mushroom": {
     description: RESOURCES["Magic Mushroom"].description,
