@@ -19,7 +19,7 @@ export type ConsumableName =
   | "Pancakes"
   | "Kale & Mushroom Pie"
   | "Fermented Carrots"
-  | "Saurrekrat"
+  | "Sauerkraut"
   | "Blueberry Jam"
   | "Apple Pie"
   | "Orange Cake"
@@ -416,8 +416,8 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 400,
   },
-  Saurrekrat: {
-    name: "Saurrekrat",
+  Sauerkraut: {
+    name: "Sauerkraut",
     description: "No more boring Cabbage!",
     building: "Deli",
     cookingSeconds: 24 * 60 * 60,
