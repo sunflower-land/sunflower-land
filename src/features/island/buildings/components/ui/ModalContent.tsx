@@ -13,20 +13,20 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
 }) => {
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
+  const { state } = game.context;
   const [scrollIntoView] = useScrollIntoView();
 
   const [selected, setSelected] = useState<BuildingName | null>(null);
 
-  const { state } = game.context;
+  const buildingInventory =
+    (selected && state.inventory[selected]) || new Decimal(0);
+  const placed = (selected && state.buildings[selected]) || [];
+  const hasUnplacedBuildings = buildingInventory
+    .minus(1)
+    .greaterThanOrEqualTo(placed.length);
 
   const handleBuild = () => {
     if (!selected) return;
-
-    const buildingInventory = state.inventory[selected] || new Decimal(0);
-    const placed = state.buildings[selected] || [];
-    const hasUnplacedBuildings = buildingInventory
-      .minus(1)
-      .greaterThanOrEqualTo(placed.length);
 
     gameService.send("EDIT", {
       placeable: selected,
@@ -51,6 +51,7 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
     <DetailView
       state={state}
       building={selected}
+      hasUnplaced={hasUnplacedBuildings}
       onBuild={handleBuild}
       onBack={() => setSelected(null)}
     />

@@ -41,6 +41,7 @@ const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
 interface Props {
   state: GameState;
   building: BuildingName;
+  hasUnplaced: boolean;
   onBack: () => void;
   onBuild: (buildingName: BuildingName) => void;
 }
@@ -48,6 +49,7 @@ interface Props {
 export const DetailView: React.FC<Props> = ({
   state,
   building,
+  hasUnplaced,
   onBack,
   onBuild,
 }) => {
@@ -203,7 +205,7 @@ export const DetailView: React.FC<Props> = ({
                   onClick={() => onBuild(building)}
                   disabled={!canBuild(building)}
                 >
-                  Build
+                  {hasUnplaced ? "Place" : "Build"}
                 </Button>
               ) : (
                 <div className="flex items-center">
