@@ -203,42 +203,6 @@ describe("Construct building", () => {
     );
     expect(state.balance).toEqual(initialSFL.minus(waterWell.sfl));
   });
-  it("places unplaced building if max building limit is not reached", () => {
-    const initialWood = new Decimal(100);
-    const initialStone = new Decimal(101);
-    const initialSFL = new Decimal(42);
-    const initialWishingWell = new Decimal(1.5);
-    const state = constructBuilding({
-      state: {
-        ...GAME_STATE,
-        bumpkin: {
-          ...GAME_STATE.bumpkin!,
-          experience: LEVEL_BRACKETS[20],
-        },
-        inventory: {
-          Wood: initialWood,
-          Stone: initialStone,
-          "Water Well": initialWishingWell,
-        },
-        balance: initialSFL,
-      },
-      action: {
-        type: "building.constructed",
-        name: "Water Well",
-        coordinates: {
-          x: 0,
-          y: 0,
-        },
-      },
-    });
-
-    expect(state.inventory["Water Well"]).toEqual(initialWishingWell);
-    expect(state.buildings["Water Well"]?.length).toEqual(1);
-
-    expect(state.inventory.Wood).toEqual(initialWood);
-    expect(state.inventory.Stone).toEqual(initialStone);
-    expect(state.balance).toEqual(initialSFL);
-  });
   it("does not affect existing inventory", () => {
     const state = constructBuilding({
       state: {
