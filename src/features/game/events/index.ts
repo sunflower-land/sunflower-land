@@ -47,10 +47,6 @@ import { reveal, RevealAction } from "./revealExpansion";
 import { fertiliseCrop, FertiliseCropAction } from "./fertiliseCrop";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
 import {
-  placeBuilding,
-  PlaceBuildingAction,
-} from "./landExpansion/placeBuilding";
-import {
   constructBuilding,
   ConstructBuildingAction,
 } from "./landExpansion/constructBuilding";
@@ -136,7 +132,6 @@ export type PlayingEvent =
 
 export type PlacementEvent =
   | ConstructBuildingAction
-  | PlaceBuildingAction
   | PlaceCollectibleAction
   | BuyChickenAction
   | PlaceChickenAction;
@@ -200,7 +195,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "building.constructed": constructBuilding,
-  "building.placed": placeBuilding,
   "collectible.placed": placeCollectible,
   "chicken.bought": buyChicken,
   "chicken.placed": placeChicken,

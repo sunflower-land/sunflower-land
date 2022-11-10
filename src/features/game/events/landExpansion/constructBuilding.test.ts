@@ -3,202 +3,184 @@ import { LEVEL_BRACKETS } from "features/game/lib/level";
 import { BUILDINGS } from "features/game/types/buildings";
 import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
-import { constructBuilding } from "./constructBuilding";
+import {
+  constructBuilding,
+  CONSTRUCT_BUILDING_ERRORS,
+} from "./constructBuilding";
 
-const GAME_STATE: GameState = TEST_FARM;
+const GAME_STATE: GameState = {
+  ...TEST_FARM,
+  inventory: {},
+  buildings: {},
+};
 
-const date = Date.now();
+const waterWell = BUILDINGS()["Water Well"];
+
+const dateNow = Date.now();
 
 describe("Construct building", () => {
-  it("ensures a player has a Bumpkin", () => {
+  it("does not construct without bumpkin", () => {
     expect(() =>
       constructBuilding({
         state: { ...GAME_STATE, bumpkin: undefined },
         action: {
           type: "building.constructed",
-          name: "Workbench",
+          name: "Water Well",
           coordinates: {
             x: 2,
             y: 2,
           },
         },
       })
-    ).toThrow("You do not have a Bumpkin");
+    ).toThrow(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
   });
-  it("ensures Bumpkin level requirements for Workbench are met", () => {
+  it("does not construct if build level is not reached", () => {
     expect(() =>
       constructBuilding({
         state: {
           ...GAME_STATE,
           bumpkin: {
-            id: 1,
-            equipped: {
-              body: "Light Brown Farmer Potion",
-              hair: "Basic Hair",
-              shirt: "Red Farmer Shirt",
-              pants: "Farmer Pants",
-              shoes: "Black Farmer Boots",
-              background: "Farm Background",
-              tool: "Axe",
-            },
-            tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
-            experience: 0,
-            skills: {},
+            ...GAME_STATE.bumpkin!,
+            experience: LEVEL_BRACKETS[1],
           },
         },
         action: {
           type: "building.constructed",
-          name: "Workbench",
+          name: "Water Well",
           coordinates: {
             x: 0,
             y: 0,
           },
         },
       })
-    ).toThrow("Your Bumpkin does not meet the level requirements");
+    ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   });
-
-  it("ensures Bumpkin level requirements for Fire Pit are met", () => {
-    expect(() =>
-      constructBuilding({
-        state: GAME_STATE,
-        action: {
-          type: "building.constructed",
-          name: "Fire Pit",
-          coordinates: {
-            x: 0,
-            y: 0,
-          },
-        },
-      })
-    ).not.toThrow("Your Bumpkin does not meet the level requirements");
-  });
-
-  it("crafts a Fire Pit if there is sufficient ingredients", () => {
+  it("does not construct if max building limit is reached", () => {
     expect(() =>
       constructBuilding({
         state: {
           ...GAME_STATE,
-          inventory: {
-            Wood: new Decimal(100),
-            Stone: new Decimal(100),
-          },
-        },
-        action: {
-          type: "building.constructed",
-          name: "Fire Pit",
-          coordinates: {
-            x: 0,
-            y: 0,
-          },
-        },
-      })
-    ).not.toThrow("Insufficient ingredient: Wood");
-  });
-
-  it("does not craft item with insufficient SFL", () => {
-    expect(() =>
-      constructBuilding({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            Wood: new Decimal(100),
-            Stone: new Decimal(100),
-          },
           bumpkin: {
-            id: 1,
-            experience: LEVEL_BRACKETS[3],
-            equipped: {
-              body: "Light Brown Farmer Potion",
-              hair: "Basic Hair",
-              shirt: "Red Farmer Shirt",
-              pants: "Farmer Pants",
-              shoes: "Black Farmer Boots",
-              background: "Farm Background",
-              tool: "Axe",
-            },
-            tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
-            skills: {},
+            ...GAME_STATE.bumpkin!,
+            experience: LEVEL_BRACKETS[20],
+          },
+          inventory: {
+            "Water Well": new Decimal(4),
+          },
+          buildings: {
+            "Water Well": [
+              {
+                coordinates: { x: 1, y: 1 },
+                createdAt: Date.now(),
+                readyAt: Date.now() + 30 * 1000,
+                id: "1",
+              },
+              {
+                coordinates: { x: 3, y: 3 },
+                createdAt: Date.now(),
+                readyAt: Date.now() + 30 * 1000,
+                id: "2",
+              },
+              {
+                coordinates: { x: 1, y: 3 },
+                createdAt: Date.now(),
+                readyAt: Date.now() + 30 * 1000,
+                id: "3",
+              },
+              {
+                coordinates: { x: 3, y: 1 },
+                createdAt: Date.now(),
+                readyAt: Date.now() + 30 * 1000,
+                id: "4",
+              },
+            ],
+          },
+        },
+        action: {
+          type: "building.constructed",
+          name: "Water Well",
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+        },
+      })
+    ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
+  });
+  it("does not construct if not enough SFL", () => {
+    expect(() =>
+      constructBuilding({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...GAME_STATE.bumpkin!,
+            experience: LEVEL_BRACKETS[20],
+          },
+          inventory: {
+            Wood: new Decimal(100),
+            Stone: new Decimal(100),
           },
           balance: new Decimal(0),
         },
         action: {
           type: "building.constructed",
-          name: "Workbench",
+          name: "Water Well",
           coordinates: {
             x: 0,
             y: 0,
           },
         },
       })
-    ).toThrow("Insufficient SFL");
+    ).toThrow(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_SFL);
   });
-
-  it("crafts item with sufficient SFL", () => {
+  it("does not construct if not enough ingredients", () => {
     expect(() =>
       constructBuilding({
         state: {
           ...GAME_STATE,
-          inventory: {
-            Wood: new Decimal(100),
-            Stone: new Decimal(100),
-          },
           bumpkin: {
-            id: 1,
-            experience: 0,
-            equipped: {
-              body: "Light Brown Farmer Potion",
-              hair: "Basic Hair",
-              shirt: "Red Farmer Shirt",
-              pants: "Farmer Pants",
-              shoes: "Black Farmer Boots",
-              background: "Farm Background",
-              tool: "Axe",
-            },
-            tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
-            skills: {},
+            ...GAME_STATE.bumpkin!,
+            experience: LEVEL_BRACKETS[20],
+          },
+          inventory: {
+            Wood: new Decimal(0.1),
+            Stone: new Decimal(0.1),
           },
           balance: new Decimal(100),
         },
         action: {
           type: "building.constructed",
-          name: "Workbench",
+          name: "Water Well",
           coordinates: {
             x: 0,
             y: 0,
           },
         },
       })
-    ).not.toThrow("Insufficient SFL");
+    ).toThrow(`${CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS}Wood, Stone`);
   });
-
-  it("adds the building to the inventory", () => {
+  it("crafts item with sufficient ingredients and SFL", () => {
+    const initialWood = new Decimal(100);
+    const initialStone = new Decimal(101);
+    const initialSFL = new Decimal(42);
+    const initialWishingWell = new Decimal(0.2);
     const state = constructBuilding({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(100),
-        buildings: {},
-        inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
         bumpkin: {
-          id: 1,
-          experience: 0,
-          equipped: {
-            body: "Light Brown Farmer Potion",
-            hair: "Basic Hair",
-
-            shirt: "Red Farmer Shirt",
-            pants: "Farmer Pants",
-            shoes: "Black Farmer Boots",
-            background: "Farm Background",
-            tool: "Axe",
-          },
-          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
-          skills: {},
+          ...GAME_STATE.bumpkin!,
+          experience: LEVEL_BRACKETS[20],
         },
+        inventory: {
+          Wood: initialWood,
+          Stone: initialStone,
+          "Water Well": initialWishingWell,
+        },
+        balance: initialSFL,
       },
       action: {
         type: "building.constructed",
-        name: "Fire Pit",
+        name: "Water Well",
         coordinates: {
           x: 0,
           y: 0,
@@ -206,9 +188,57 @@ describe("Construct building", () => {
       },
     });
 
-    expect(state.inventory["Fire Pit"]).toEqual(new Decimal(1));
-  });
+    expect(state.inventory["Water Well"]).toEqual(initialWishingWell.add(1));
+    expect(state.buildings["Water Well"]?.length).toEqual(1);
 
+    const woodRequirements = waterWell.ingredients.find(
+      (x) => x.item === "Wood"
+    )?.amount;
+    const stoneRequirements = waterWell.ingredients.find(
+      (x) => x.item === "Stone"
+    )?.amount;
+    expect(state.inventory.Wood).toEqual(initialWood.minus(woodRequirements!));
+    expect(state.inventory.Stone).toEqual(
+      initialStone.minus(stoneRequirements!)
+    );
+    expect(state.balance).toEqual(initialSFL.minus(waterWell.sfl));
+  });
+  it("places unplaced building if max building limit is not reached", () => {
+    const initialWood = new Decimal(100);
+    const initialStone = new Decimal(101);
+    const initialSFL = new Decimal(42);
+    const initialWishingWell = new Decimal(1.5);
+    const state = constructBuilding({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin!,
+          experience: LEVEL_BRACKETS[20],
+        },
+        inventory: {
+          Wood: initialWood,
+          Stone: initialStone,
+          "Water Well": initialWishingWell,
+        },
+        balance: initialSFL,
+      },
+      action: {
+        type: "building.constructed",
+        name: "Water Well",
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+      },
+    });
+
+    expect(state.inventory["Water Well"]).toEqual(initialWishingWell);
+    expect(state.buildings["Water Well"]?.length).toEqual(1);
+
+    expect(state.inventory.Wood).toEqual(initialWood);
+    expect(state.inventory.Stone).toEqual(initialStone);
+    expect(state.balance).toEqual(initialSFL);
+  });
   it("does not affect existing inventory", () => {
     const state = constructBuilding({
       state: {
@@ -217,22 +247,6 @@ describe("Construct building", () => {
           Wood: new Decimal(100),
           Stone: new Decimal(100),
           Radish: new Decimal(50),
-        },
-        bumpkin: {
-          id: 1,
-          experience: 0,
-          equipped: {
-            body: "Light Brown Farmer Potion",
-            hair: "Basic Hair",
-
-            shirt: "Red Farmer Shirt",
-            pants: "Farmer Pants",
-            shoes: "Black Farmer Boots",
-            background: "Farm Background",
-            tool: "Axe",
-          },
-          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
-          skills: {},
         },
       },
       action: {
@@ -248,30 +262,13 @@ describe("Construct building", () => {
     expect(state.inventory["Fire Pit"]).toEqual(new Decimal(1));
     expect(state.inventory["Radish"]).toEqual(new Decimal(50));
   });
-
-  it("adds the building to the buildings data structure", () => {
+  it("adds the building to the buildings data structure correctly", () => {
     const state = constructBuilding({
       state: {
         ...GAME_STATE,
         balance: new Decimal(100),
         buildings: {},
         inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
-        bumpkin: {
-          id: 1,
-          experience: 0,
-          equipped: {
-            body: "Light Brown Farmer Potion",
-            hair: "Basic Hair",
-
-            shirt: "Red Farmer Shirt",
-            pants: "Farmer Pants",
-            shoes: "Black Farmer Boots",
-            background: "Farm Background",
-            tool: "Axe",
-          },
-          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
-          skills: {},
-        },
       },
       action: {
         type: "building.constructed",
@@ -281,123 +278,32 @@ describe("Construct building", () => {
           y: 2,
         },
       },
-      createdAt: date,
+      createdAt: dateNow,
     });
 
     expect(state.buildings["Fire Pit"]).toHaveLength(1);
     expect(state.buildings["Fire Pit"]?.[0]).toEqual({
       coordinates: { x: 1, y: 2 },
-      readyAt: date + 30 * 1000,
-      createdAt: date,
+      readyAt: dateNow + 30 * 1000,
+      createdAt: dateNow,
     });
   });
-
-  it("burns SFL on construct building", () => {
+  it("constructs multiple Water Wells", () => {
     const state = constructBuilding({
       state: {
         ...GAME_STATE,
         balance: new Decimal(100),
-        inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
         bumpkin: {
-          id: 1,
-          experience: LEVEL_BRACKETS[3],
-          equipped: {
-            body: "Light Brown Farmer Potion",
-            hair: "Basic Hair",
-
-            shirt: "Red Farmer Shirt",
-            pants: "Farmer Pants",
-            shoes: "Black Farmer Boots",
-            background: "Farm Background",
-            tool: "Axe",
-          },
-          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
-          skills: {},
+          ...GAME_STATE.bumpkin!,
+          experience: LEVEL_BRACKETS[20],
         },
-      },
-      action: {
-        type: "building.constructed",
-        name: "Workbench",
-        coordinates: {
-          x: 1,
-          y: 2,
-        },
-      },
-    });
-    expect(state.balance).toEqual(
-      new Decimal(100).sub(BUILDINGS().Workbench.sfl)
-    );
-  });
-
-  it("burns ingredients on construct building", () => {
-    const state = constructBuilding({
-      state: {
-        ...GAME_STATE,
-        balance: new Decimal(100),
-        inventory: {
-          Wood: new Decimal(220),
-          Stone: new Decimal(215),
-          Iron: new Decimal(15),
-          Gold: new Decimal(15),
-        },
-        bumpkin: {
-          id: 1,
-          experience: 1000000000,
-          equipped: {
-            body: "Light Brown Farmer Potion",
-            hair: "Basic Hair",
-
-            shirt: "Red Farmer Shirt",
-            pants: "Farmer Pants",
-            shoes: "Black Farmer Boots",
-            background: "Farm Background",
-            tool: "Axe",
-          },
-          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
-          skills: {},
-        },
-      },
-      action: {
-        type: "building.constructed",
-        name: "Bakery",
-        coordinates: {
-          x: 1,
-          y: 2,
-        },
-      },
-    });
-    expect(state.inventory["Wood"]).toEqual(new Decimal(170));
-    expect(state.inventory["Stone"]).toEqual(new Decimal(195));
-    expect(state.inventory["Gold"]).toEqual(new Decimal(10));
-  });
-
-  it("constructs multiple Fire Pits", () => {
-    const state = constructBuilding({
-      state: {
-        ...GAME_STATE,
-        balance: new Decimal(100),
         inventory: {
           Wood: new Decimal(20),
           Stone: new Decimal(15),
-        },
-        bumpkin: {
-          id: 1,
-          equipped: {
-            body: "Light Brown Farmer Potion",
-            hair: "Basic Hair",
-
-            shirt: "Red Farmer Shirt",
-            pants: "Farmer Pants",
-            shoes: "Black Farmer Boots",
-            background: "Farm Background",
-            tool: "Axe",
-          },
-          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
-          experience: 0,
-          skills: {},
+          "Water Well": new Decimal(1),
         },
         buildings: {
-          "Fire Pit": [
+          "Water Well": [
             {
               coordinates: { x: 1, y: 1 },
               createdAt: Date.now(),
@@ -409,7 +315,7 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        name: "Fire Pit",
+        name: "Water Well",
         coordinates: {
           x: 1,
           y: 2,
@@ -417,24 +323,23 @@ describe("Construct building", () => {
       },
       createdAt: 234567890,
     });
-    expect(state.buildings["Fire Pit"]).toHaveLength(2);
+    expect(state.buildings["Water Well"]).toHaveLength(2);
   });
-
-  it("does not affect existing Buildings when constructing new Fire Pit", () => {
+  it("does not affect existing Buildings when constructing new Water Well", () => {
     const buildings = {
-      "Fire Pit": [
+      "Water Well": [
         {
           coordinates: { x: 1, y: 1 },
-          createdAt: date,
-          readyAt: date + 30 * 1000,
+          createdAt: dateNow,
+          readyAt: dateNow + 30 * 1000,
           id: "1",
         },
       ],
       Workbench: [
         {
           coordinates: { x: 2, y: 2 },
-          createdAt: date,
-          readyAt: date + 5 * 60 * 1000,
+          createdAt: dateNow,
+          readyAt: dateNow + 5 * 60 * 1000,
           id: "2",
         },
       ],
@@ -444,24 +349,13 @@ describe("Construct building", () => {
       state: {
         ...GAME_STATE,
         balance: new Decimal(100),
+        bumpkin: {
+          ...GAME_STATE.bumpkin!,
+          experience: LEVEL_BRACKETS[20],
+        },
         inventory: {
           Wood: new Decimal(20),
           Stone: new Decimal(15),
-        },
-        bumpkin: {
-          id: 1,
-          equipped: {
-            body: "Light Brown Farmer Potion",
-            hair: "Basic Hair",
-            shirt: "Red Farmer Shirt",
-            pants: "Farmer Pants",
-            shoes: "Black Farmer Boots",
-            tool: "Farmer Pitchfork",
-            background: "Farm Background",
-          },
-          tokenUri: "https://api-dev.sunflower-land.com/bumpkin/1_v1_1_2_3",
-          experience: 0,
-          skills: {},
         },
         buildings: {
           ...buildings,
@@ -469,20 +363,20 @@ describe("Construct building", () => {
       },
       action: {
         type: "building.constructed",
-        name: "Fire Pit",
+        name: "Water Well",
         coordinates: {
           x: 1,
           y: 2,
         },
       },
-      createdAt: date,
+      createdAt: dateNow,
     });
     expect(state.buildings).toEqual({
-      "Fire Pit": [
+      "Water Well": [
         {
           coordinates: { x: 1, y: 1 },
-          createdAt: date,
-          readyAt: date + 30 * 1000,
+          createdAt: dateNow,
+          readyAt: dateNow + 30 * 1000,
           id: "1",
         },
         {
@@ -490,15 +384,15 @@ describe("Construct building", () => {
             x: 1,
             y: 2,
           },
-          createdAt: date,
-          readyAt: date + 30 * 1000,
+          createdAt: dateNow,
+          readyAt: dateNow + waterWell.constructionSeconds * 1000,
         },
       ],
       Workbench: [
         {
           coordinates: { x: 2, y: 2 },
-          createdAt: date,
-          readyAt: date + 5 * 60 * 1000,
+          createdAt: dateNow,
+          readyAt: dateNow + 5 * 60 * 1000,
           id: "2",
         },
       ],

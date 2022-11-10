@@ -5,6 +5,13 @@ import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
 
+export enum CONSTRUCT_BUILDING_ERRORS {
+  NO_BUMPKIN = "You do not have a Bumpkin!",
+  MAX_BUILDINGS_REACHED = "Building limit reached for your bumpkin level!",
+  NOT_ENOUGH_SFL = "Insufficient SFL!",
+  NOT_ENOUGH_INGREDIENTS = "Insufficient ingredient! Missing: ",
+}
+
 export type ConstructBuildingAction = {
   type: "building.constructed";
   name: BuildingName;
@@ -30,25 +37,30 @@ export function constructBuilding({
   const bumpkin = stateCopy.bumpkin;
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
   }
 
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+  const buildingsPlaced = stateCopy.buildings[action.name]?.length || 0;
+  const allowedBuildings = building.unlocksAtLevels.filter(
+    (level) => bumpkinLevel >= level
+  ).length;
 
-  if (bumpkinLevel < building.unlocksAtLevels[0]) {
-    throw new Error("Your Bumpkin does not meet the level requirements");
+  if (buildingsPlaced >= allowedBuildings) {
+    throw new Error(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   }
 
   if (stateCopy.balance.lessThan(building.sfl)) {
-    throw new Error("Insufficient SFL");
+    throw new Error(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_SFL);
   }
 
+  let misingIngredients: string[] = [];
   const inventoryMinusIngredients = building.ingredients.reduce(
     (inventory, ingredient) => {
       const count = inventory[ingredient.item] || new Decimal(0);
 
       if (count.lessThan(ingredient.amount)) {
-        throw new Error(`Insufficient ingredient: ${ingredient.item}`);
+        misingIngredients = [...misingIngredients, ingredient.item];
       }
 
       return {
@@ -61,6 +73,27 @@ export function constructBuilding({
 
   const buildingInventory = stateCopy.inventory[action.name] || new Decimal(0);
   const placed = stateCopy.buildings[action.name] || [];
+  const hasUnplacedBuildings = buildingInventory
+    .minus(1)
+    .greaterThanOrEqualTo(placed.length);
+
+  if (!hasUnplacedBuildings && misingIngredients.length > 0) {
+    throw new Error(
+      `${
+        CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS
+      }${misingIngredients.join(", ")}`
+    );
+  }
+
+  const newInventory = hasUnplacedBuildings
+    ? stateCopy.inventory
+    : {
+        ...inventoryMinusIngredients,
+        [action.name]: buildingInventory.add(1),
+      };
+  const newBalance = hasUnplacedBuildings
+    ? stateCopy.balance
+    : stateCopy.balance.sub(building.sfl);
 
   const newBuilding: Omit<PlacedItem, "id"> = {
     createdAt: createdAt,
@@ -68,15 +101,12 @@ export function constructBuilding({
     readyAt: createdAt + building.constructionSeconds * 1000,
   };
 
-  bumpkin.activity = trackActivity(`Building Constructed`, bumpkin.activity);
+  bumpkin.activity = trackActivity("Building Constructed", bumpkin.activity);
 
   return {
     ...stateCopy,
-    balance: stateCopy.balance.sub(building.sfl),
-    inventory: {
-      ...inventoryMinusIngredients,
-      [action.name]: buildingInventory.add(1),
-    },
+    balance: newBalance,
+    inventory: newInventory,
     buildings: {
       ...stateCopy.buildings,
       [action.name]: [...placed, newBuilding],

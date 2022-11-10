@@ -4,11 +4,11 @@ import React from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
-import { secondsToString } from "lib/utils/time";
+import { secondsToMidString } from "lib/utils/time";
 import leftArrow from "assets/icons/arrow_left.png";
 
 import token from "assets/icons/token_2.png";
-import timer from "assets/icons/timer.png";
+import stopwatch from "assets/icons/stopwatch.png";
 import lock from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
@@ -16,7 +16,7 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { getKeys, TOOLS } from "features/game/types/craftables";
-import { CROP_SEEDS } from "features/game/types/crops";
+import { SEEDS } from "features/game/types/seeds";
 
 const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   "Fire Pit": getKeys(CONSUMABLES).filter(
@@ -34,7 +34,7 @@ const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   Workbench: getKeys(TOOLS),
   "Hen House": ["Chicken", "Egg"],
   "Water Well": [],
-  Market: getKeys(CROP_SEEDS()),
+  Market: getKeys(SEEDS()),
   Tent: [],
 };
 
@@ -54,35 +54,45 @@ export const DetailView: React.FC<Props> = ({
   const { bumpkin, inventory } = state;
   const buildingLevels = BUILDINGS()[building].unlocksAtLevels;
 
-  const cantBuild = (building: BuildingName) => {
-    const missingIngredients = BUILDINGS()[building].ingredients.some(
+  const canBuild = (building: BuildingName) => {
+    const hasIngredients = BUILDINGS()[building].ingredients.every(
       (ingredient) => {
-        const inventoryAmount =
-          inventory[ingredient.item]?.toDecimalPlaces(1) || 0;
-        const requiredAmount = ingredient.amount?.toDecimalPlaces(1);
+        const inventoryAmount = inventory[ingredient.item] || new Decimal(0);
+        const requiredAmount = ingredient.amount;
 
-        return new Decimal(inventoryAmount).lessThan(requiredAmount);
+        return new Decimal(inventoryAmount).greaterThanOrEqualTo(
+          requiredAmount
+        );
       }
     );
 
-    const missingBalance = BUILDINGS()[building].sfl > state.balance;
+    const hasBalance = state.balance.greaterThanOrEqualTo(
+      BUILDINGS()[building].sfl
+    );
 
-    return missingIngredients || missingBalance;
+    return hasUnplacedBuildings || (hasIngredients && hasBalance);
   };
 
   const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
 
-  //Holds how many desired buildings (e.g. water wells) does the user currently has.
-  const buildingsUserHas = inventory[building]?.toNumber() ?? 0;
-  // What level of the desired building (e.g. water wells) has the user already unlocked.
-  // If this is undefined then that means the user has not unlocked any level of the building.
-  const unlockedLevel = buildingLevels.find((level) => bumpkinLevel >= level);
+  // Holds how many desired placed buildings (e.g. water wells)
+  const buildingsPlaced = new Decimal(state.buildings[building]?.length || 0);
+  // Holds how many desired buildings (e.g. water wells) does the user currently has in the inventory.
+  const buildingsInInventory = inventory[building] || new Decimal(0);
+  // true, if users has unplaced buildings from their inventory
+  const hasUnplacedBuildings = buildingsInInventory
+    .minus(1)
+    .greaterThanOrEqualTo(buildingsPlaced);
+  // Holds how many allowed buildings the user can place on the island at the current level.
+  const allowedBuildings = buildingLevels.filter(
+    (level) => bumpkinLevel >= level
+  ).length;
   // Whats the next level of the desired building (e.g. water wells), user is yet to unlock.
   // If this is undefined then that means the user has unlocked all the levels of the building.
   const nextLockedLevel = buildingLevels.find((level) => level > bumpkinLevel);
   // true, if the user has user has unlocked all the levels and completed all the buildings.
   const allBuildingsBuilt =
-    !nextLockedLevel && buildingsUserHas === buildingLevels.length;
+    !nextLockedLevel && buildingsPlaced.greaterThanOrEqualTo(allowedBuildings);
 
   /**
    * @function showBuildButton This function will return true if the user has not completed all the buildings
@@ -93,10 +103,8 @@ export const DetailView: React.FC<Props> = ({
    * @param unlockedLevel The level of the building which the user has already unlocked.
    * @returns Boolean
    */
-  const showBuildButton = (unlockedLevel: number): boolean => {
-    // Array index starts from zero which is why we are adding 1 to get the required number of buildings against a level.
-    const buildingsRequired = buildingLevels.indexOf(unlockedLevel) + 1;
-    return buildingsUserHas < buildingsRequired;
+  const showBuildButton = (): boolean => {
+    return buildingsPlaced.lessThan(allowedBuildings);
   };
 
   return (
@@ -109,14 +117,12 @@ export const DetailView: React.FC<Props> = ({
             alt="back"
             onClick={onBack}
           />
-          <span className="text-shadow mb-3 text-center sm:text-lg">
-            {building}
-          </span>
+          <span className="mb-3 text-center sm:text-lg">{building}</span>
           <img
             src={ITEM_DETAILS[building].image}
             className="h-16 img-highlight mt-1 mb-2"
           />
-          <span className="text-shadow text-center mt-2 sm:text-sm">
+          <span className="text-center mt-2 sm:text-sm">
             {ITEM_DETAILS[building].description}
           </span>
 
@@ -149,15 +155,15 @@ export const DetailView: React.FC<Props> = ({
                   <img src={item.image} className="h-5 me-2" />
                   {insufficientIngredients ? (
                     <>
-                      <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                      <span className="text-xs text-center mt-2 text-red-500">
                         {`${inventoryAmount}`}
                       </span>
-                      <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                      <span className="text-xs text-center mt-2 text-red-500">
                         {`/${requiredAmount}`}
                       </span>
                     </>
                   ) : (
-                    <span className="text-xs text-shadow text-center mt-2">
+                    <span className="text-xs text-center mt-2">
                       {`${requiredAmount}`}
                     </span>
                   )}
@@ -168,39 +174,34 @@ export const DetailView: React.FC<Props> = ({
               <div className="flex justify-center items-end">
                 <img src={token} className="h-5 mr-1" />
                 <span
-                  className={classNames(
-                    "text-xs text-shadow text-center mt-2 ",
-                    {
-                      "text-red-500": state.balance.lessThan(
-                        BUILDINGS()[building].sfl
-                      ),
-                    }
-                  )}
+                  className={classNames("text-xs text-center mt-2 ", {
+                    "text-red-500": state.balance.lessThan(
+                      BUILDINGS()[building].sfl
+                    ),
+                  })}
                 >
                   {BUILDINGS()[building].sfl.toNumber()}
                 </span>
               </div>
             )}
             <div className="flex justify-center items-end">
-              <img src={timer} className="h-5 mr-1" />
-              <span
-                className={classNames("text-xs text-shadow text-center mt-2 ")}
-              >
-                {secondsToString(BUILDINGS()[building].constructionSeconds)}
+              <img src={stopwatch} className="h-5 mr-1" />
+              <span className={classNames("text-xs text-center mt-2 ")}>
+                {secondsToMidString(BUILDINGS()[building].constructionSeconds)}
               </span>
             </div>
           </div>
           {/**
-           * Do not show anything: if all the levels have been locked AND all the buildings have been completed AND there is no bumpkin.
-           * Show build button: If a level has been unlocked AND the user has not completed all the buildings required against that unlocked level.
-           * Show label: When the user has not unlocked any level OR when the user has unlocked a level but has completed all the buildings against that level.
+           * Do not show anything: if all the buildings have been completed OR there is no bumpkin.
+           * Show build button: If the user has not reach the building limit for that unlocked level.
+           * Show label: When the user has not unlocked any level OR when the user has unlocked a level but has completed all the buildings for that level.
            */}
           {!allBuildingsBuilt && bumpkin && (
             <>
-              {unlockedLevel && showBuildButton(unlockedLevel) ? (
+              {showBuildButton() ? (
                 <Button
                   onClick={() => onBuild(building)}
-                  disabled={cantBuild(building)}
+                  disabled={!canBuild(building)}
                 >
                   Build
                 </Button>
