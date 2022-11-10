@@ -101,7 +101,7 @@ export const Navigation: React.FC = () => {
             {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
               <Route path="/snow/:id" element={<SnowKingdom key="snow" />} />
             )}
-            {CONFIG.NETWORK === "mainnet" && (
+            {CONFIG.NETWORK === "mumbai" && (
               <Route path="/builder" element={<Builder key="builder" />} />
             )}
 
