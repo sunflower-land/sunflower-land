@@ -3,6 +3,7 @@ import { isSeed } from "../events/plant";
 import { SellableItem } from "../events/sell";
 import { CROPS } from "../types/crops";
 import { CAKES } from "../types/craftables";
+import Decimal from "decimal.js-light";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -12,6 +13,10 @@ const cakes = CAKES();
  */
 export const getSellPrice = (item: SellableItem, inventory: Inventory) => {
   let price = item.sellPrice;
+
+  if (!price) {
+    return new Decimal(0);
+  }
 
   // apply Green Thumb boost to crops
   if (item.name in crops && inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {

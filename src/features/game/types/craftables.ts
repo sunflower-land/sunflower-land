@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { SeedName, SEEDS } from "../types/crops";
+import { CropSeedName, SEEDS } from "../types/crops";
 import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
@@ -20,7 +20,7 @@ export type CraftAction = {
 export type CraftableName =
   | LimitedItemName
   | ToolName
-  | SeedName
+  | CropSeedName
   | Food
   | Animal
   | Flag
