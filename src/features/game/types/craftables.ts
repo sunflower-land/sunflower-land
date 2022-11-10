@@ -663,17 +663,38 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
     description: "Decorate the land with the bones of your enemies.",
     type: LimitedItemType.WarTentItem,
     canMintMultiple: true,
+    ingredients: [
+      {
+        id: 917,
+        item: "War Bond",
+        amount: new Decimal(300),
+      },
+    ],
   },
   "War Tombstone": {
     name: "War Tombstone",
     description: "R.I.P",
     type: LimitedItemType.WarTentItem,
     canMintMultiple: true,
+    ingredients: [
+      {
+        id: 917,
+        item: "War Bond",
+        amount: new Decimal(500),
+      },
+    ],
   },
   "Undead Rooster": {
     name: "Undead Rooster",
     description: "An unfortunate casualty of the war. 10% increased egg yield.",
     type: LimitedItemType.WarTentItem,
+    ingredients: [
+      {
+        id: 917,
+        item: "War Bond",
+        amount: new Decimal(1000),
+      },
+    ],
   },
 };
 
@@ -1054,7 +1075,7 @@ export const makeLimitedItemsByName = (
         tokenAmount,
         maxSupply,
         cooldownSeconds,
-        ingredients,
+        ingredients: items[name].ingredients || undefined,
         mintedAt,
         type: items[name].type,
         disabled: !enabled,
