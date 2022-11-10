@@ -138,6 +138,9 @@ import egg from "assets/resources/egg.png";
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
 import chicken from "assets/resources/chicken.png";
+import honey from "assets/resources/honey.png";
+import wildMushroom from "assets/resources/wild_mushroom.png";
+import magicMushroom from "assets/resources/magic_mushroom.png";
 import questionMark from "assets/icons/expression_confused.png";
 
 // Skills
@@ -493,11 +496,11 @@ export const ITEM_DETAILS: Items = {
 
   "Magic Mushroom": {
     description: RESOURCES["Magic Mushroom"].description,
-    image: questionMark,
+    image: magicMushroom,
   },
   "Wild Mushroom": {
     description: RESOURCES["Wild Mushroom"].description,
-    image: questionMark,
+    image: wildMushroom,
   },
   Apple: {
     description: FRUIT()["Apple"].description,
@@ -513,7 +516,7 @@ export const ITEM_DETAILS: Items = {
   },
   Honey: {
     description: RESOURCES["Honey"].description,
-    image: questionMark,
+    image: honey,
   },
 
   // Resources
