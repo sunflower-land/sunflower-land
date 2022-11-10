@@ -247,7 +247,11 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
     return (
       <>
         <Button
-          disabled={lessFunds() || lessIngredients()}
+          disabled={
+            lessFunds() ||
+            lessIngredients() ||
+            selected.ingredients === undefined
+          }
           className="text-xs mt-1"
           onClick={() => craft()}
         >
