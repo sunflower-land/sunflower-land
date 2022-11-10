@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { CollectibleName } from "features/game/types/craftables";
 import { MysteriousHead } from "./components/MysteriousHead";
@@ -161,8 +161,20 @@ export const Collectible: React.FC<Prop> = ({
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(
+    Math.floor((readyAt - Date.now()) / 1000)
+  );
   const totalSeconds = (readyAt - createdAt) / 1000;
-  const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
+
+      setSecondsLeft(secondsLeft);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  });
 
   const inProgress = readyAt > Date.now();
 
