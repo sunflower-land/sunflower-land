@@ -299,7 +299,8 @@ const getIslandElements = ({
       .flatMap((name, nameIndex) => {
         const items = collectibles[name]!;
         return items.map((collectible, itemIndex) => {
-          const { x, y } = collectible.coordinates;
+          const { readyAt, createdAt, coordinates, id } = collectible;
+          const { x, y } = coordinates;
           const { width, height } = COLLECTIBLES_DIMENSIONS[name];
 
           return (
@@ -310,7 +311,12 @@ const getIslandElements = ({
               height={height}
               width={width}
             >
-              <Collectible name={name} id={collectible.id} />
+              <Collectible
+                name={name}
+                id={id}
+                readyAt={readyAt}
+                createdAt={createdAt}
+              />
             </MapPlacement>
           );
         });

@@ -458,11 +458,18 @@ export function startGame(authContext: Options) {
             },
             {
               target: "offerMigration",
-              cond: (context) =>
-                (CONFIG.NETWORK === "mumbai" ||
-                  !!authContext.token?.userAccess.admin) &&
-                !authContext.migrated &&
-                canMigrate(context.state),
+              cond: (context) => {
+                const landRoute = window.location.hash.includes("/land");
+
+                if (landRoute) return false;
+
+                return (
+                  (CONFIG.NETWORK === "mumbai" ||
+                    !!authContext.token?.userAccess.admin) &&
+                  !authContext.migrated &&
+                  canMigrate(context.state)
+                );
+              },
             },
             {
               target: "playing",
