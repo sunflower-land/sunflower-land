@@ -171,7 +171,8 @@ export const BumpkinProfile: React.FC = () => {
               id="no-bumpkin"
               src={question}
               alt="No Bumpkin Found"
-              className="w-1/2 mx-auto mt-[54px]"
+              className="w-1/2 mx-auto"
+              style={{ marginTop: isMobile ? "40px" : "54px" }}
             />
           )}
         </div>
