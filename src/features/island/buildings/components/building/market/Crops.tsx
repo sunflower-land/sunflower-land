@@ -77,15 +77,17 @@ export const Crops: React.FC = () => {
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(CROPS()).map((item) => (
-          <Box
-            isSelected={selected.name === item.name}
-            key={item.name}
-            onClick={() => setSelected(item)}
-            image={ITEM_DETAILS[item.name].image}
-            count={setPrecision(inventory[item.name] ?? new Decimal(0))}
-          />
-        ))}
+        {Object.values(CROPS())
+          .filter((crop) => !!crop.sellPrice)
+          .map((item) => (
+            <Box
+              isSelected={selected.name === item.name}
+              key={item.name}
+              onClick={() => setSelected(item)}
+              image={ITEM_DETAILS[item.name].image}
+              count={setPrecision(inventory[item.name] ?? new Decimal(0))}
+            />
+          ))}
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 ">

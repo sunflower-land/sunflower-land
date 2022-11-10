@@ -311,8 +311,10 @@ import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { EXOTIC_SEEDS, UPCOMING_SEEDS } from "./seeds";
 import { DECORATIONS } from "./decorations";
+import { BEANS } from "./beans";
+import { FRUIT, FRUIT_SEEDS } from "./fruits";
+import { CONSUMABLES } from "./consumables";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -424,32 +426,98 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: wheatCrop,
   },
   "Golden Bean": {
-    description: EXOTIC_SEEDS()["Golden Bean"].description,
+    description: BEANS()["Golden Bean"].description,
     image: goldenBean,
   },
   "Magic Bean": {
-    description: EXOTIC_SEEDS()["Magic Bean"].description,
+    description: BEANS()["Magic Bean"].description,
     image: magicBean,
   },
   "Shiny Bean": {
-    description: EXOTIC_SEEDS()["Shiny Bean"].description,
+    description: BEANS()["Shiny Bean"].description,
     image: shinyBean,
   },
   "Kale Seed": {
-    description: UPCOMING_SEEDS()["Kale Seed"].description,
+    description: SEEDS()["Kale Seed"].description,
     image: kaleSeed,
   },
   "Apple Seed": {
-    description: UPCOMING_SEEDS()["Apple Seed"].description,
+    description: FRUIT_SEEDS()["Apple Seed"].description,
     image: appleSeed,
   },
   "Blueberry Seed": {
-    description: UPCOMING_SEEDS()["Blueberry Seed"].description,
+    description: FRUIT_SEEDS()["Blueberry Seed"].description,
     image: blueberrySeed,
   },
   "Orange Seed": {
-    description: UPCOMING_SEEDS()["Orange Seed"].description,
+    description: FRUIT_SEEDS()["Orange Seed"].description,
     image: orangeSeed,
+  },
+
+  "Apple Pie": {
+    description: CONSUMABLES["Apple Pie"].description,
+    image: questionMark,
+  },
+  "Blueberry Jam": {
+    description: CONSUMABLES["Blueberry Jam"].description,
+    image: questionMark,
+  },
+  "Honey Cake": {
+    description: CONSUMABLES["Honey Cake"].description,
+    image: questionMark,
+  },
+  "Kale & Mushroom Pie": {
+    description: CONSUMABLES["Kale & Mushroom Pie"].description,
+    image: questionMark,
+  },
+  "Kale Stew": {
+    description: CONSUMABLES["Kale Stew"].description,
+    image: questionMark,
+  },
+  "Mushroom Jacket Potatoes": {
+    description: CONSUMABLES["Mushroom Jacket Potatoes"].description,
+    image: questionMark,
+  },
+  "Mushroom Soup": {
+    description: CONSUMABLES["Mushroom Soup"].description,
+    image: questionMark,
+  },
+  "Orange Cake": {
+    description: CONSUMABLES["Orange Cake"].description,
+    image: questionMark,
+  },
+  "Sunflower Crunch": {
+    description: CONSUMABLES["Sunflower Crunch"].description,
+    image: questionMark,
+  },
+  Saurrekrat: {
+    description: CONSUMABLES["Saurrekrat"].description,
+    image: questionMark,
+  },
+
+  "Magic Mushroom": {
+    description: RESOURCES["Magic Mushroom"].description,
+    image: questionMark,
+  },
+  "Wild Mushroom": {
+    description: RESOURCES["Wild Mushroom"].description,
+    image: questionMark,
+  },
+  Apple: {
+    description: FRUIT()["Apple"].description,
+    image: questionMark,
+  },
+  Blueberry: {
+    description: FRUIT()["Blueberry"].description,
+    image: questionMark,
+  },
+  Orange: {
+    description: FRUIT()["Orange"].description,
+    image: questionMark,
+  },
+  Honey: {
+    description: RESOURCES["Honey"].description,
+    image: questionMark,
   },
 
   // Resources

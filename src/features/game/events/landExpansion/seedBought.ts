@@ -2,13 +2,21 @@ import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { CraftableItem } from "features/game/types/craftables";
-import { SeedName, SEEDS } from "features/game/types/crops";
-import { Collectibles, GameState, Inventory } from "features/game/types/game";
+import {
+  CropSeedName as CropSeedName,
+  SEEDS as CROP_SEEDS,
+} from "features/game/types/crops";
+import {
+  Collectibles,
+  GameState,
+  Inventory,
+  InventoryItemName,
+} from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
 
-import { isSeed } from "../plant";
+export type SeedName = CropSeedName | FruitSeedName;
 
 export type SeedBoughtAction = {
   type: "seed.bought";
@@ -17,11 +25,11 @@ export type SeedBoughtAction = {
 };
 
 export function getBuyPrice(
-  item: CraftableItem,
+  item: { name: InventoryItemName; tokenAmount?: Decimal },
   inventory: Inventory,
-  collectibles: Collectibles
+  colletibles: Collectibles
 ) {
-  if (isCollectibleBuilt("Kuebiko", collectibles)) {
+  if (isCollectibleBuilt("Kuebiko", colletibles)) {
     return new Decimal(0);
   }
 
@@ -47,7 +55,9 @@ export function seedBought({ state, action }: Options) {
   const stateCopy = cloneDeep(state);
   const { item, amount } = action;
 
-  if (!isSeed(item)) {
+  const SEEDS = { ...CROP_SEEDS(), ...FRUIT_SEEDS() };
+
+  if (!(item in SEEDS)) {
     throw new Error("This item is not a seed");
   }
 
@@ -58,7 +68,7 @@ export function seedBought({ state, action }: Options) {
   }
 
   const userBumpkinLevel = getBumpkinLevel(stateCopy.bumpkin?.experience ?? 0);
-  const seed = SEEDS()[item];
+  const seed = SEEDS[item];
   const requiredSeedLevel = seed.bumpkinLevel ?? 0;
 
   if (userBumpkinLevel < requiredSeedLevel) {

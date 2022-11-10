@@ -1,6 +1,6 @@
 import { Decimal } from "decimal.js-light";
 
-import { CropName, SeedName } from "./crops";
+import { CropName, CropSeedName } from "./crops";
 import {
   CollectibleName,
   CraftableName,
@@ -19,7 +19,8 @@ import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 import { FruitName } from "features/island/fruit/FruitPatch";
-import { ExoticSeedName, UpcomingSeedName } from "./seeds";
+import { BeanName } from "./beans";
+import { FruitSeedName } from "./fruits";
 
 export type CropReward = {
   sfl?: Decimal;
@@ -120,9 +121,10 @@ export type WarItems =
 
 export type InventoryItemName =
   | CropName
-  | SeedName
-  | ExoticSeedName
-  | UpcomingSeedName
+  | CropSeedName
+  | BeanName
+  | FruitName
+  | FruitSeedName
   | CraftableName
   | ResourceName
   | SkillName

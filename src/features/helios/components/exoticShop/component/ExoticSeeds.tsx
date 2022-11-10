@@ -17,16 +17,14 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
-import { ExoticSeed, EXOTIC_SEEDS } from "features/game/types/seeds";
+import { Bean, BEANS } from "features/game/types/beans";
 
 interface Props {
   onClose: () => void;
 }
 
 export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
-  const [selected, setSelected] = useState<ExoticSeed>(
-    EXOTIC_SEEDS()["Magic Bean"]
-  );
+  const [selected, setSelected] = useState<Bean>(BEANS()["Magic Bean"]);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
@@ -104,7 +102,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(EXOTIC_SEEDS()).map((item: ExoticSeed) => (
+        {Object.values(BEANS()).map((item: Bean) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}
