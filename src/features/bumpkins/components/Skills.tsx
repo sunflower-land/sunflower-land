@@ -62,20 +62,24 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
-  const skillPointsInfo = () => (
-    <>
-      {availableSkillPoints > 0 && (
-        <SkillPointsLabel points={availableSkillPoints} />
-      )}
-      {!availableSkillPoints && (
-        <Label>
-          <p className="text-[10px] ml-2 pr-2">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
-            experience
-          )}`}</p>
-        </Label>
-      )}
-    </>
-  );
+  const skillPointsInfo = () => {
+    const levelRequired = findLevelRequiredForNextSkillPoint(experience);
+
+    return (
+      <>
+        {availableSkillPoints > 0 && (
+          <SkillPointsLabel points={availableSkillPoints} />
+        )}
+        {!availableSkillPoints && levelRequired && (
+          <Label>
+            <p className="text-[10px] ml-2 pr-2">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
+              experience
+            )}`}</p>
+          </Label>
+        )}
+      </>
+    );
+  };
 
   return (
     <Panel className="pt-5 relative">

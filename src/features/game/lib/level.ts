@@ -82,10 +82,19 @@ export const SKILL_POINTS: Record<BumpkinLevel, number> = {
   20: 15,
 };
 
+export const getMaxLevel = () => {
+  const levels = getKeys(SKILL_POINTS);
+
+  return levels[levels.length - 1];
+};
+
 export const findLevelRequiredForNextSkillPoint = (
   experience: number
-): BumpkinLevel => {
+): BumpkinLevel | undefined => {
   const level = getBumpkinLevel(experience);
+
+  if (level >= getMaxLevel()) return undefined;
+
   const currentSkillPoints = SKILL_POINTS[level];
   const skillPointToLevels = flipObject(SKILL_POINTS);
 
