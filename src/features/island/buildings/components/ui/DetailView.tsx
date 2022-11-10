@@ -12,8 +12,31 @@ import timer from "assets/icons/timer.png";
 import lock from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
-import { GameState } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { CONSUMABLES } from "features/game/types/consumables";
+import { getKeys, TOOLS } from "features/game/types/craftables";
+import { SEEDS } from "features/game/types/crops";
+
+const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
+  "Fire Pit": getKeys(CONSUMABLES).filter(
+    (name) => CONSUMABLES[name].building === "Fire Pit"
+  ),
+  Kitchen: getKeys(CONSUMABLES).filter(
+    (name) => CONSUMABLES[name].building === "Kitchen"
+  ),
+  Bakery: getKeys(CONSUMABLES).filter(
+    (name) => CONSUMABLES[name].building === "Bakery"
+  ),
+  Deli: getKeys(CONSUMABLES).filter(
+    (name) => CONSUMABLES[name].building === "Deli"
+  ),
+  Workbench: getKeys(TOOLS),
+  "Hen House": ["Chicken", "Egg"],
+  "Water Well": [],
+  Market: getKeys(SEEDS()),
+  Tent: [],
+};
 
 interface Props {
   state: GameState;
@@ -96,6 +119,16 @@ export const DetailView: React.FC<Props> = ({
           <span className="text-shadow text-center mt-2 sm:text-sm">
             {ITEM_DETAILS[building].description}
           </span>
+
+          <div className="flex flex-wrap justify-center">
+            {UNLOCKABLES[building].map((name) => (
+              <img
+                key={name}
+                src={ITEM_DETAILS[name].image}
+                className="h-6 mr-2 mt-1"
+              />
+            ))}
+          </div>
 
           <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
             {BUILDINGS()[building].ingredients.map((ingredient, index) => {

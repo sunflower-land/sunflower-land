@@ -6,7 +6,6 @@ import heart from "assets/icons/heart.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { OuterPanel } from "components/ui/Panel";
-import { Label } from "components/ui/Label";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
 import { GameState } from "features/game/types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -35,9 +34,6 @@ export const ListView: React.FC<{
         return (
           <div key={index} onClick={() => onClick(buildingName)}>
             <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
-              <Label className="px-1 text-xxs absolute -top-3 -right-1">
-                {inventory[buildingName]?.toNumber() || 0}
-              </Label>
               <div className="w-16 justify-center flex mr-2">
                 <img src={ITEM_DETAILS[buildingName].image} className="h-12" />
               </div>
