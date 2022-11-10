@@ -23,13 +23,12 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
 import { hasBoost } from "features/game/lib/boosts";
-
+import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/plant";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 
 interface Props {
   onClose: () => void;
