@@ -24,28 +24,68 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
-const PROFILE = {
+const DIMENSIONS = {
   width: 52,
   height: 48,
-  steps: 50,
+  bumpkin: {
+    width: 100,
+    marginTop: -45,
+  },
+  level: {
+    marginLeft: 108,
+    marginTop: 74,
+    width: 27,
+  },
+  skillsMark: {
+    marginLeft: 116,
+    marginTop: 48,
+  },
 };
+
+const MOBILE_DIMENSIONS = {
+  width: 39,
+  height: 36,
+  bumpkin: {
+    width: 75,
+    marginTop: -34,
+  },
+  level: {
+    marginLeft: 80,
+    marginTop: 54,
+    width: 20,
+  },
+  skillsMark: {
+    marginLeft: 85,
+    marginTop: 25,
+  },
+};
+
+const SPRITE_STEPS = 50;
 
 export const BumpkinProfile: React.FC = () => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [dimensions, setDimensions] = useState(DIMENSIONS);
+  const [isMobile] = useIsMobile();
 
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [gameState] = useActor(gameService);
+  const {
+    context: { state },
+  } = gameState;
 
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
+
+  useEffect(() => {
+    setDimensions(
+      isMobile ? { ...DIMENSIONS, ...MOBILE_DIMENSIONS } : DIMENSIONS
+    );
+  }, [isMobile]);
 
   useEffect(() => {
     goToProgress();
@@ -65,9 +105,14 @@ export const BumpkinProfile: React.FC = () => {
       const previousLevelExperience =
         LEVEL_BRACKETS[(level - 1) as BumpkinLevel] || 0;
 
-      const percent =
+      let percent =
         (experience - previousLevelExperience) / nextLevelExperience;
-      const scaledToProgress = percent * (PROFILE.steps - 1);
+      // Progress bar cant go futher than 100%
+      if (percent > 1) {
+        percent = 1;
+      }
+
+      const scaledToProgress = percent * (SPRITE_STEPS - 1);
       progressBarEl.current.goToAndPause(Math.round(scaledToProgress));
     }
   };
@@ -88,29 +133,31 @@ export const BumpkinProfile: React.FC = () => {
 
       {/* Bumpkin profile */}
       <div
-        className="grid cursor-pointer hover:img-highlight fixed top-12 left-2.5 z-50"
+        className={`grid cursor-pointer hover:img-highlight fixed left-2.5 z-50 ${
+          isMobile ? "top-8" : "top-12"
+        }`}
         onClick={handleShowHomeModal}
       >
         <img
           src={profileBg}
           className="col-start-1 row-start-1"
           style={{
-            width: `${PROFILE.width * PIXEL_SCALE}px`,
-            height: `${PROFILE.height * PIXEL_SCALE}px`,
+            width: `${dimensions.width * PIXEL_SCALE}px`,
+            height: `${dimensions.height * PIXEL_SCALE}px`,
           }}
         />
         <div
           className="col-start-1 row-start-1 overflow-hidden rounded-b-full z-0"
           style={{
-            width: `${PROFILE.height * PIXEL_SCALE}px`,
-            height: `${PROFILE.height * PIXEL_SCALE * 1.3}px`,
-            marginTop: "-45px",
+            width: `${dimensions.height * PIXEL_SCALE}px`,
+            height: `${dimensions.height * PIXEL_SCALE * 1.3}px`,
+            marginTop: `${dimensions.bumpkin.marginTop}px`,
           }}
         >
           {state.bumpkin ? (
             <div
               style={{
-                width: `${100 * PIXEL_SCALE}px`,
+                width: `${dimensions.bumpkin.width * PIXEL_SCALE}px`,
                 marginLeft: "-50%",
               }}
             >
@@ -131,14 +178,14 @@ export const BumpkinProfile: React.FC = () => {
         <Spritesheet
           className="col-start-1 row-start-1 z-10"
           style={{
-            width: `${PROFILE.width * PIXEL_SCALE}px`,
+            width: `${dimensions.width * PIXEL_SCALE}px`,
             imageRendering: "pixelated",
           }}
           image={progressBarSprite}
-          widthFrame={PROFILE.width}
-          heightFrame={PROFILE.height}
+          widthFrame={DIMENSIONS.width}
+          heightFrame={DIMENSIONS.height}
           fps={10}
-          steps={PROFILE.steps}
+          steps={SPRITE_STEPS}
           autoplay={false}
           getInstance={(spritesheet) => {
             progressBarEl.current = spritesheet;
@@ -146,24 +193,26 @@ export const BumpkinProfile: React.FC = () => {
           }}
         />
         <span
-          className="col-start-1 row-start-1 text-xs text-white text-center z-20"
+          className={`col-start-1 row-start-1 text-white text-center z-20 ${
+            isMobile ? "text-xxs" : "text-xs"
+          }`}
           style={{
-            marginLeft: "108px",
-            marginTop: "74px",
-            width: "27px",
+            marginLeft: `${dimensions.level.marginLeft}px`,
+            marginTop: `${dimensions.level.marginTop}px`,
+            width: `${dimensions.level.width}px`,
           }}
         >
           {level}
         </span>
-        {showSkillPointAlert && (
+        {showSkillPointAlert && !gameState.matches("visiting") && (
           <img
             src={lvlUp}
             className="col-start-1 row-start-1 animate-float z-30"
             style={{
               width: `${4 * PIXEL_SCALE}px`,
               height: `${9 * PIXEL_SCALE}px`,
-              marginLeft: "116px",
-              marginTop: "48px",
+              marginLeft: `${dimensions.skillsMark.marginLeft}px`,
+              marginTop: `${dimensions.skillsMark.marginTop}px`,
             }}
           />
         )}
