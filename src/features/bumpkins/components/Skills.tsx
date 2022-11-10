@@ -18,6 +18,7 @@ import seedSpecialist from "assets/skills/seed_specialist.png";
 import { SkillPathDetails } from "./SkillPathDetails";
 import arrowLeft from "assets/icons/arrow_left.png";
 import { Label } from "components/ui/Label";
+import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
 
 interface Props {
   onBack: () => void;
@@ -58,6 +59,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
   };
 
   const { bumpkin } = state;
+  const { experience } = bumpkin;
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
@@ -89,11 +91,14 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
             alt="back"
             onClick={handleBack}
           />
-          {availableSkillPoints > 0 ? (
+          {availableSkillPoints > 0 && (
             <SkillPointsLabel points={availableSkillPoints} />
-          ) : (
+          )}
+          {!availableSkillPoints && (
             <Label>
-              <p className="text-[10px] ml-2 pr-2">{`Unlock skill point: level ${2}`}</p>
+              <p className="text-[10px] ml-2 pr-2">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
+                experience
+              )}`}</p>
             </Label>
           )}
         </div>
@@ -106,7 +111,6 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           <SkillPathDetails
             selectedSkillPath={selectedSkillPath}
             skillsInPath={skillsInPath}
-            onBack={handleBackToSkillList}
           />
         )}
       </div>
