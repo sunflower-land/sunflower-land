@@ -23,7 +23,7 @@ export const CraftingTimerModal: React.FC<Props> = ({
 }) => {
   const [
     {
-      context: { secondsTillReady, name, gameService },
+      context: { secondsTillReady, name },
     },
   ] = useActor(service);
 

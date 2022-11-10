@@ -56,7 +56,6 @@ export const Kitchen: React.FC<Props> = ({
   };
 
   const handleClick = () => {
-    console.log({ idle });
     if (idle) {
       setShowModal(true);
       return;
