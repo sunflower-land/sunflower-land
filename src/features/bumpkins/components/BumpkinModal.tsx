@@ -147,7 +147,9 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
               <div className="flex items-center  mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Skills</span>
-                  {hasSkillPoint && <img src={alert} className="h-4 ml-2" />}
+                  {hasSkillPoint && !gameState.matches("visiting") && (
+                    <img src={alert} className="h-4 ml-2" />
+                  )}
                 </div>
                 <span
                   className="text-xxs underline cursor-pointer"
