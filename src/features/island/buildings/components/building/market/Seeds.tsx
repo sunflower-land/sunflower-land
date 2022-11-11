@@ -100,7 +100,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       setIsTimeBoosted(
         hasBoost({
           item: selectedName,
-          inventory,
+          collectibles,
         })
       ),
     [inventory, selectedName, state.inventory]
