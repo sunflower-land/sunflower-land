@@ -28,11 +28,10 @@ export const BumpkinHUD: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [gameState] = useActor(gameService);
+  const {
+    context: { state },
+  } = gameState;
 
   const handleShowHomeModal = () => {
     setViewSkillsPage(false);
@@ -128,7 +127,7 @@ export const BumpkinHUD: React.FC = () => {
         </div>
 
         {/* Skill point alert */}
-        {showSkillPointAlert && (
+        {showSkillPointAlert && !gameState.matches("visiting") && (
           <div
             id="alert"
             className="absolute top-[150px] px-4 py-3 ready cursor-pointer hover:img-highlight"
