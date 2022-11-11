@@ -13,7 +13,13 @@ export const ChickenHouse: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full relative">
+    <div
+      className="relative"
+      style={{
+        width: `${PIXEL_SCALE * 61}px`,
+        height: `${PIXEL_SCALE * 49}px`,
+      }}
+    >
       <img
         src={building}
         style={{

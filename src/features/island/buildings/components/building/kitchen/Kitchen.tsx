@@ -76,6 +76,10 @@ export const Kitchen: React.FC<Props> = ({
     <>
       <div
         className="relative cursor-pointer hover:img-highlight w-full h-full"
+        style={{
+          width: `${PIXEL_SCALE * 63}px`,
+          height: `${PIXEL_SCALE * 50}px`,
+        }}
         onClick={handleClick}
       >
         {ready && name && (

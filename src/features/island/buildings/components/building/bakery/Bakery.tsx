@@ -79,6 +79,10 @@ export const Bakery: React.FC<Props> = ({
     <>
       <div
         className="relative cursor-pointer hover:img-highlight w-full h-full"
+        style={{
+          width: `${PIXEL_SCALE * 62}px`,
+          height: `${PIXEL_SCALE * 51}px`,
+        }}
         onClick={handleClick}
       >
         {ready && name && (

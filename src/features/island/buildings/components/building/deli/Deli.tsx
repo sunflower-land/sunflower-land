@@ -78,7 +78,11 @@ export const Deli: React.FC<Props> = ({
   return (
     <>
       <div
-        className="relative cursor-pointer hover:img-highlight w-full h-full"
+        className="relative cursor-pointer hover:img-highlight"
+        style={{
+          width: `${PIXEL_SCALE * 62}px`,
+          height: `${PIXEL_SCALE * 54}px`,
+        }}
         onClick={handleClick}
       >
         {ready && name && (
