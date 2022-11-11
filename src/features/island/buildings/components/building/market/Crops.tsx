@@ -16,8 +16,9 @@ import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { getSellPrice, hasSellBoost } from "features/game/lib/boosts";
+import { getSellPrice, hasSellBoost } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
+import { Bumpkin } from "features/game/types/game";
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
@@ -46,7 +47,8 @@ export const Crops: React.FC = () => {
 
   const cropAmount = new Decimal(inventory[selected.name] || 0);
   const noCrop = cropAmount.equals(0);
-  const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
+  const displaySellPrice = (crop: Crop) =>
+    getSellPrice(crop, inventory, state.bumpkin as Bumpkin);
 
   const handleSellOne = () => {
     sell(new Decimal(1));
@@ -71,7 +73,7 @@ export const Crops: React.FC = () => {
   };
 
   useEffect(() => {
-    setIsPriceBoosted(hasSellBoost(inventory));
+    setIsPriceBoosted(hasSellBoost(inventory, state.bumpkin as Bumpkin));
   }, [inventory, state.inventory]);
 
   return (
