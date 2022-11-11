@@ -29,10 +29,15 @@ import { INITIAL_STOCK } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { SeedName, SEEDS } from "features/game/types/seeds";
+import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
+import { Bumpkin } from "features/game/types/game";
 
 interface Props {
   onClose: () => void;
+}
+
+function isSeedLocked(bumpkin: Bumpkin | undefined, seed: Seed) {
+  return getBumpkinLevel(bumpkin?.experience ?? 0) < seed.bumpkinLevel;
 }
 
 export const Seeds: React.FC<Props> = ({ onClose }) => {
@@ -116,10 +121,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       />
     );
   }
+
   const Action = () => {
-    const userBumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
-    const requiredLevel = selected.bumpkinLevel ?? 0;
-    if (userBumpkinLevel < requiredLevel) {
+    if (isSeedLocked(state.bumpkin, selected)) {
       return (
         <div className="flex items-center mt-2">
           <img src={heart} className="h-4 ml-0.5 mr-1" />
@@ -127,7 +131,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             className="bg-error border text-xs p-1 rounded-md"
             style={{ lineHeight: "10px" }}
           >
-            Lvl {requiredLevel}
+            Lvl {selected.bumpkinLevel ?? 0}
           </span>
           <img src={lock} className="h-4 ml-0.5 mr-2" />
         </div>
@@ -194,6 +198,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             key={name}
             onClick={() => setSelectedName(name)}
             image={ITEM_DETAILS[name].image}
+            secondaryImage={
+              isSeedLocked(state.bumpkin, SEEDS()[name]) ? lock : undefined
+            }
             count={inventory[name]}
           />
         ))}
