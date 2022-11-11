@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import classNames from "classnames";
+import Modal from "react-bootstrap/Modal";
 
 import { CollectibleName } from "features/game/types/craftables";
 import { MysteriousHead } from "./components/MysteriousHead";
@@ -62,7 +64,8 @@ import { BadassBear } from "./components/BadassBear";
 import { VictoriaSisters } from "./components/VictoriaSisters";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { Bar } from "components/ui/ProgressBar";
-import classNames from "classnames";
+import { RemoveCollectibleModal } from "./RemoveCollectibleModal";
+import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 
 interface Prop {
   name: CollectibleName;
@@ -164,11 +167,17 @@ export const Collectible: React.FC<Prop> = ({
   const [secondsLeft, setSecondsLeft] = useState(
     Math.floor((readyAt - Date.now()) / 1000)
   );
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
   const totalSeconds = (readyAt - createdAt) / 1000;
 
   useEffect(() => {
     const interval = setInterval(() => {
       const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
+
+      if (secondsLeft < 0) {
+        clearInterval(interval);
+        return;
+      }
 
       setSecondsLeft(secondsLeft);
     }, 1000);
@@ -209,5 +218,37 @@ export const Collectible: React.FC<Prop> = ({
     );
   }
 
-  return <CollectiblePlaced key={id} />;
+  const shortcuts = getShortcuts();
+  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
+
+  const handleOnClick = () => {
+    if (!hasRustyShovelSelected) return;
+
+    setShowRemoveModal(true);
+  };
+
+  return (
+    <>
+      <div
+        className={classNames({
+          "pointer-events-none": !hasRustyShovelSelected,
+        })}
+        onClick={handleOnClick}
+      >
+        <CollectiblePlaced key={id} />
+      </div>
+      <Modal
+        show={showRemoveModal}
+        centered
+        onHide={() => setShowRemoveModal(false)}
+      >
+        {showRemoveModal && (
+          <RemoveCollectibleModal
+            name={name}
+            onClose={() => setShowRemoveModal(false)}
+          />
+        )}
+      </Modal>
+    </>
+  );
 };
