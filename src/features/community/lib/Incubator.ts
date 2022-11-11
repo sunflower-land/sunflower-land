@@ -45,7 +45,7 @@ export class Incubator {
     }
   }
 
-  public async incubate(_frogId: number, _tadpoleId: number): Promise<string> {
+  public async incubate(_frogId: string, _tadpoleId: string): Promise<string> {
     const gasPrice = await estimateGasPrice(this.web3);
 
     return new Promise((resolve, reject) => {
@@ -67,7 +67,7 @@ export class Incubator {
     });
   }
 
-  public async remove(_frogId: number, _incubatorId: number): Promise<string> {
+  public async remove(_frogId: string, _incubatorId: string): Promise<string> {
     console.log("remove", _frogId, _incubatorId);
     const gasPrice = await estimateGasPrice(this.web3);
 
@@ -90,7 +90,7 @@ export class Incubator {
     });
   }
 
-  public async claim(_frogId: number, _incubatorId: number): Promise<string> {
+  public async claim(_frogId: string, _incubatorId: string): Promise<string> {
     console.log("claim", _frogId, _incubatorId);
     const gasPrice = await estimateGasPrice(this.web3);
 
@@ -114,7 +114,7 @@ export class Incubator {
   }
 
   // returns total balance of all incubators
-  public async incubatorBalanceAll(incubatorIds: number[]) {
+  public async incubatorBalanceAll(incubatorIds: string[]) {
     const earnings = await this.contract.methods
       .earningInfo(incubatorIds)
       .call({ from: this.account });
@@ -124,7 +124,7 @@ export class Incubator {
     return earnings;
   }
 
-  public async incubatorIds(attempts = 0): Promise<number[]> {
+  public async incubatorIds(attempts = 0): Promise<string[]> {
     await new Promise((res) => setTimeout(res, 3000 * attempts));
     try {
       const incubatorIds = await this.contract.methods
@@ -142,7 +142,7 @@ export class Incubator {
     }
   }
 
-  public async incubatorEarnings(incubatorId: number) {
+  public async incubatorEarnings(incubatorId: string) {
     const earnings = await this.contract.methods
       .earningInfo([incubatorId])
       .call({ from: this.account });
@@ -151,7 +151,7 @@ export class Incubator {
   }
 
   public async getFrogIdIncubator(
-    incubatorId: number,
+    incubatorId: string,
     attempts = 0
   ): Promise<string> {
     await new Promise((res) => setTimeout(res, 3000 * attempts));
