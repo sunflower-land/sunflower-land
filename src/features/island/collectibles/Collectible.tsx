@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import classNames from "classnames";
 import Modal from "react-bootstrap/Modal";
 
@@ -64,8 +64,9 @@ import { BadassBear } from "./components/BadassBear";
 import { VictoriaSisters } from "./components/VictoriaSisters";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { Bar } from "components/ui/ProgressBar";
-import { RemoveCollectibleModal } from "./RemoveCollectibleModal";
+import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlaceableModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Prop {
   name: CollectibleName;
@@ -164,30 +165,16 @@ export const Collectible: React.FC<Prop> = ({
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(
-    Math.floor((readyAt - Date.now()) / 1000)
-  );
   const [showRemoveModal, setShowRemoveModal] = useState(false);
-  const totalSeconds = (readyAt - createdAt) / 1000;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
-
-      if (secondsLeft < 0) {
-        clearInterval(interval);
-        return;
-      }
-
-      setSecondsLeft(secondsLeft);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  });
 
   const inProgress = readyAt > Date.now();
 
+  useUiRefresher({ active: inProgress });
+
   if (inProgress) {
+    const totalSeconds = (readyAt - createdAt) / 1000;
+    const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
+
     return (
       <>
         <div
@@ -243,7 +230,8 @@ export const Collectible: React.FC<Prop> = ({
         onHide={() => setShowRemoveModal(false)}
       >
         {showRemoveModal && (
-          <RemoveCollectibleModal
+          <RemovePlaceableModal
+            type="collectible"
             name={name}
             onClose={() => setShowRemoveModal(false)}
           />
