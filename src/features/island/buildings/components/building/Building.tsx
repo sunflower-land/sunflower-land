@@ -19,6 +19,9 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Kitchen } from "./kitchen/Kitchen";
 import { Deli } from "./deli/Deli";
+import { Modal } from "react-bootstrap";
+import { RemovePlaceableModal } from "features/game/expansion/placeable/RemovePlaceableModal";
+import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 
 interface Prop {
   name: BuildingName;
@@ -69,6 +72,7 @@ export const Building: React.FC<Prop> = ({
 }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
@@ -110,7 +114,52 @@ export const Building: React.FC<Prop> = ({
     );
   }
 
+  const shortcuts = getShortcuts();
+  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
+
+  const handleOnClick = () => {
+    if (!hasRustyShovelSelected) return;
+
+    setShowRemoveModal(true);
+  };
+
+  /**
+   * If a player has the Rusty Shovel selected then the onClick action of the building will open the RemoveModal
+   * Otherwise the onClick with be the regular onClick located inside the individual buildings component
+   */
+
   return (
-    <BuildingPlaced buildingId={buildingId} craftingState={building.crafting} />
+    <>
+      <div
+        className={classNames({
+          "hover:img-highlight cursor-pointer": hasRustyShovelSelected,
+        })}
+        onClick={hasRustyShovelSelected ? handleOnClick : undefined}
+      >
+        <div
+          className={classNames({
+            "pointer-events-none": hasRustyShovelSelected,
+          })}
+        >
+          <BuildingPlaced
+            buildingId={buildingId}
+            craftingState={building.crafting}
+          />
+        </div>
+      </div>
+      <Modal
+        show={showRemoveModal}
+        centered
+        onHide={() => setShowRemoveModal(false)}
+      >
+        {showRemoveModal && (
+          <RemovePlaceableModal
+            type="building"
+            name={name}
+            onClose={() => setShowRemoveModal(false)}
+          />
+        )}
+      </Modal>
+    </>
   );
 };
