@@ -30,6 +30,7 @@ import { GoblinVillageModal } from "features/farming/town/components/GoblinVilla
 import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 /**
  * TODO:
@@ -133,7 +134,7 @@ export const Menu = () => {
   }, []);
 
   return (
-    <div ref={ref} className="w-5/12 sm:w-60 fixed top-2 left-2 z-50 shadow-lg">
+    <div ref={ref} className="w-5/12 sm:w-60 fixed top-2 left-2 z-50">
       <OuterPanel>
         <div className="flex justify-center p-1">
           <Button
@@ -309,9 +310,14 @@ export const Menu = () => {
           <Panel>
             <img
               src={close}
-              className="h-6 top-3 right-4 absolute cursor-pointer"
+              className="absolute cursor-pointer z-20"
               alt="Close Logout Confirmation Modal"
               onClick={() => setShowCaptcha(false)}
+              style={{
+                top: `${PIXEL_SCALE * 6}px`,
+                right: `${PIXEL_SCALE * 6}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
             />
             <CloudFlareCaptcha
               onDone={onCaptchaSolved}

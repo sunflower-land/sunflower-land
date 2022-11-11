@@ -1,7 +1,8 @@
 import React from "react";
 
-import tabBorder from "assets/ui/panel/tab_border.png";
 import classNames from "classnames";
+import { pixelTabBorderStyle } from "features/game/lib/style";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   isActive?: boolean;
@@ -21,11 +22,13 @@ export const Tab: React.FC<Props> = ({
   if (!isActive) {
     return (
       <div
-        className={classNames(
-          "px-1 py-2 mr-2 flex items-center cursor-pointer",
-          className
-        )}
+        className={classNames("flex items-center cursor-pointer", className)}
         onClick={onClick}
+        style={{
+          paddingLeft: `${PIXEL_SCALE * 2}px`,
+          paddingRight: `${PIXEL_SCALE * 2}px`,
+          height: `${PIXEL_SCALE * 16}px`,
+        }}
       >
         {children}
       </div>
@@ -34,20 +37,12 @@ export const Tab: React.FC<Props> = ({
 
   return (
     <div
-      className={classNames(
-        "bg-brown-300 px-1 py-2 mr-2 flex items-center",
-        className
-      )}
-      // Custom styles to get pixellated border effect
+      className={classNames("bg-brown-300 flex items-center", className)}
       style={{
-        // border: "6px solid transparent",
-        borderStyle: "solid",
-        borderWidth: "6px",
-        borderImage: `url(${tabBorder}) 30 stretch`,
-        borderImageSlice: "25%",
-        imageRendering: "pixelated",
-        borderImageRepeat: "repeat",
-        borderRadius: "15px 15px 0 0",
+        ...pixelTabBorderStyle,
+        paddingLeft: `${PIXEL_SCALE * 2}px`,
+        paddingRight: `${PIXEL_SCALE * 2}px`,
+        height: `${PIXEL_SCALE * 16}px`,
       }}
     >
       {children}

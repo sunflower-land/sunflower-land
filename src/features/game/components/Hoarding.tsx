@@ -9,6 +9,7 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "../types/images";
 import { InventoryItemName } from "../types/game";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
+import { PIXEL_SCALE } from "../lib/constants";
 
 export const Hoarding: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -48,9 +49,14 @@ export const Hoarding: React.FC = () => {
         <>
           <img
             src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
+            className="absolute cursor-pointer z-20"
             alt="Close Hoarding Modal"
             onClick={onAcknowledge}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           <div className="flex flex-col items-center p-1">
             <span className="text-center text-sm sm:text-base">

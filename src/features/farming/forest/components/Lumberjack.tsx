@@ -8,7 +8,7 @@ import close from "assets/icons/close.png";
 
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -49,16 +49,21 @@ export const Lumberjack: React.FC = () => {
         <Panel>
           <img
             src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
+            className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           <div className="flex items-start">
             <img src={axe} className="w-12 img-highlight mr-2" />
             <div className="flex-1">
-              <span className="text-shadow mr-4 block">
+              <span className="mr-4 block">
                 Something looks different about these trees...
               </span>
-              <span className="text-shadow block mt-4">
+              <span className="block mt-4">
                 I wonder if I can craft something to chop them down?
               </span>
               <Button className="text-sm" onClick={goToBlacksmith}>
