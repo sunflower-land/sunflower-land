@@ -28,6 +28,12 @@ export const WORKBENCH_TOOLS: () => Record<
     ingredients: {},
     sfl: marketRate(5),
   },
+  "Rusty Shovel": {
+    name: "Rusty Shovel",
+    description: "Used to move buildings and collectibles",
+    ingredients: {},
+    sfl: marketRate(5),
+  },
   Pickaxe: {
     name: "Pickaxe",
     description: "Used to collect wood",
@@ -36,7 +42,6 @@ export const WORKBENCH_TOOLS: () => Record<
     },
     sfl: marketRate(5),
   },
-
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
     description: "Used to collect wood",
