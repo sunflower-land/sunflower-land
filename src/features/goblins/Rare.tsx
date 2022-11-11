@@ -160,7 +160,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
     amountLeft = selected.maxSupply - supply[selected.name]?.toNumber();
   }
 
-  const soldOut = amountLeft <= 0 && !selected.isPlaceholder;
+  const soldOut = amountLeft <= 0;
   const amountOfSelectedItemInInventory =
     inventory[selected.name]?.toNumber() || 0;
   const hasItemOnFarm = amountOfSelectedItemInInventory > 0;
@@ -235,7 +235,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
       (mintReleaseDate && mintReleaseDate > currentDate) ||
       selected.disabled
     ) {
-      return <span className="text-xs mt-2">Coming soon</span>;
+      return <span className="text-xs mt-2">Coming oon</span>;
     }
 
     if (!canCraft) return;
@@ -285,7 +285,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
             alt={selected.name}
           />
           <span className="text-shadow text-center mt-2 sm:text-sm">
-            {selected.isPlaceholder ? "?" : selected.description}
+            {selected.description}
           </span>
           {canCraft && (
             <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
