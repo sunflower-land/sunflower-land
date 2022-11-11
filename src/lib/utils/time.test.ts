@@ -192,9 +192,9 @@ describe("time", () => {
         t(42 * ONE_DAY + 0 * ONE_HR + 6 * ONE_MIN + 8 * ONE_SEC, options)
       ).toBe("42d");
     });
-    it("should return correct string, mid length, normal unit format, not removing trailing zeros", () => {
+    it("should return correct string, medium length, normal unit format, not removing trailing zeros", () => {
       const options: TimeFormatOptions = {
-        length: "mid",
+        length: "medium",
         isShortFormat: false,
         removeTrailingZeros: false,
       };
@@ -283,9 +283,9 @@ describe("time", () => {
         t(42 * ONE_DAY + 0 * ONE_HR + 6 * ONE_MIN + 8 * ONE_SEC, options)
       ).toBe("42days 0hrs");
     });
-    it("should return correct string, mid length, normal unit format, remove trailing zeros", () => {
+    it("should return correct string, medium length, normal unit format, remove trailing zeros", () => {
       const options: TimeFormatOptions = {
-        length: "mid",
+        length: "medium",
         isShortFormat: false,
         removeTrailingZeros: true,
       };

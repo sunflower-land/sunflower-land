@@ -186,7 +186,10 @@ export const DetailView: React.FC<Props> = ({
               <span
                 className={classNames("text-xs text-shadow text-center mt-2 ")}
               >
-                {secondsToString(BUILDINGS()[building].constructionSeconds)}
+                {secondsToString(BUILDINGS()[building].constructionSeconds, {
+                  length: "medium",
+                  removeTrailingZeros: true,
+                })}
               </span>
             </div>
           </div>

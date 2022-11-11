@@ -4,7 +4,7 @@ export const ONE_HR = ONE_MIN * 60;
 export const ONE_DAY = ONE_HR * 24;
 
 type TimeUnit = "sec" | "min" | "hr" | "day";
-type FormatLength = "short" | "mid" | "full";
+type FormatLength = "short" | "medium" | "full";
 type TimeDuration = {
   value: number;
   unit: TimeUnit;
@@ -32,7 +32,7 @@ export type TimeFormatOptions = {
 const timeUnitToString = (
   duration: TimeDuration,
   options: TimeFormatOptions = {
-    length: "mid", // unused but still have to be set because the field is not optional
+    length: "medium", // unused but still have to be set because the field is not optional
     isShortFormat: false,
   }
 ) => {
@@ -84,7 +84,7 @@ export const secondsToString = (
     case "short":
       reducedTimeUnits = timeUnits.slice(0, 1);
       break;
-    case "mid":
+    case "medium":
       reducedTimeUnits = timeUnits.slice(0, 2);
       break;
     case "full":

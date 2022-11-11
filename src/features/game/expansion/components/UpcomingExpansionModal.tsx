@@ -11,7 +11,7 @@ import lock from "assets/skills/lock.png";
 import { GameState } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import { Ingredients } from "./Ingredients";
-import { secondsToLongString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -118,7 +118,10 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
             <img src={hammer} className="w-4 mr-2" />
             <img src={stopwatch} className="w-4 mr-2" />
             <span className="text-sm">
-              {secondsToLongString(gameState.expansionRequirements.seconds)}
+              {secondsToString(gameState.expansionRequirements.seconds, {
+                length: "medium",
+                removeTrailingZeros: true,
+              })}
             </span>
           </div>
           <Button className="w-40" onClick={onExpand} disabled={!canExpand}>

@@ -3,7 +3,7 @@ import React from "react";
 import classNames from "classnames";
 import soil from "assets/land/soil2.png";
 
-import { getTimeLeft, secondsToMidString } from "lib/utils/time";
+import { getTimeLeft, secondsToString } from "lib/utils/time";
 
 import { ProgressBar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
@@ -112,7 +112,9 @@ export const Soil: React.FC<Props> = ({
               <img src={lifecycle.ready} className="w-4 mr-1" />
               <span>{plantedCrop.name}</span>
             </div>
-            <span className="flex-1">{secondsToMidString(timeLeft)}</span>
+            <span className="flex-1">
+              {secondsToString(timeLeft, { length: "medium" })}
+            </span>
           </div>
         </InnerPanel>
       </div>

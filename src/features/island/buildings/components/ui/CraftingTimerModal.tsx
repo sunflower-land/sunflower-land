@@ -7,7 +7,7 @@ import { Panel } from "components/ui/Panel";
 import close from "assets/icons/close.png";
 import stopwatch from "assets/icons/stopwatch.png";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { secondsToMidString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 interface Props {
@@ -69,7 +69,7 @@ export const CraftingTimerModal: React.FC<Props> = ({
               <img src={ITEM_DETAILS[name].image} className="h-7" />
               <div className="flex items-center">
                 <img src={stopwatch} className="h-7 mr-2" />
-                <p>{secondsToMidString(secondsTillReady)}</p>
+                <p>{secondsToString(secondsTillReady, { length: "medium" })}</p>
               </div>
             </div>
           </div>
