@@ -1,9 +1,15 @@
-import { Bumpkin, Inventory, InventoryItemName } from "../../types/game";
+import {
+  Bumpkin,
+  Collectibles,
+  Inventory,
+  InventoryItemName,
+} from "../../types/game";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import { isSeed } from "features/game/events/plant";
 import { CROPS } from "../../types/crops";
 import { CAKES } from "../../types/craftables";
 import Decimal from "decimal.js-light";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -59,32 +65,39 @@ export const hasSellBoost = (inventory: Inventory, bumpkin: Bumpkin) => {
 
 type HasBoostArgs = {
   item: InventoryItemName;
-  inventory: Inventory;
+  collectibles: Collectibles;
 };
 /**
  * To be used as boolean flag
  * Update if more upcoming boosts
  */
-export const hasBoost = ({ item, inventory }: HasBoostArgs) => {
+export const hasBoost = ({ item, collectibles }: HasBoostArgs) => {
   if (
     isSeed(item) &&
-    (inventory.Nancy?.greaterThanOrEqualTo(1) ||
-      inventory.Scarecrow?.greaterThanOrEqualTo(1) ||
-      inventory.Kuebiko?.greaterThanOrEqualTo(1))
+    (isCollectibleBuilt("Nancy", collectibles) ||
+      isCollectibleBuilt("Scarecrow", collectibles) ||
+      isCollectibleBuilt("Kuebiko", collectibles))
+  ) {
+    return true;
+  }
+
+  if (
+    item === "Carrot Seed" &&
+    isCollectibleBuilt("Easter Bunny", collectibles)
   ) {
     return true;
   }
 
   if (
     item === "Parsnip Seed" &&
-    inventory["Mysterious Parsnip"]?.greaterThanOrEqualTo(1)
+    isCollectibleBuilt("Mysterious Parsnip", collectibles)
   ) {
     return true;
   }
 
   if (
     item === "Cauliflower Seed" &&
-    inventory["Golden Cauliflower"]?.greaterThanOrEqualTo(1)
+    isCollectibleBuilt("Golden Cauliflower", collectibles)
   ) {
     return true;
   }
