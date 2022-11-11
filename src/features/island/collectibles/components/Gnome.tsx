@@ -17,7 +17,7 @@ export const Gnome: React.FC = () => {
           width: `${PIXEL_SCALE * 17}px`,
         }}
         alt="Gnome"
-        className="absolute"
+        className="absolute hover:img-highlight"
       />
     </div>
   );

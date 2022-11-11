@@ -13,7 +13,7 @@ export const PrizedPotato: React.FC = () => {
           bottom: `${PIXEL_SCALE * 2}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
-        className="absolute"
+        className="absolute hover:img-highlight"
         alt="Prized Potato"
       />
     </>
