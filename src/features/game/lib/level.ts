@@ -1,3 +1,4 @@
+import { flipObject } from "lib/utils/flipObject";
 import { getKeys } from "../types/craftables";
 
 export type BumpkinLevel =
@@ -79,4 +80,23 @@ export const SKILL_POINTS: Record<BumpkinLevel, number> = {
   18: 13,
   19: 14,
   20: 15,
+};
+
+export const getMaxLevel = () => {
+  const levels = getKeys(SKILL_POINTS);
+
+  return levels[levels.length - 1];
+};
+
+export const findLevelRequiredForNextSkillPoint = (
+  experience: number
+): BumpkinLevel | undefined => {
+  const level = getBumpkinLevel(experience);
+
+  if (Number(level) >= getMaxLevel()) return undefined;
+
+  const currentSkillPoints = SKILL_POINTS[level];
+  const skillPointToLevels = flipObject(SKILL_POINTS);
+
+  return Number(skillPointToLevels[currentSkillPoints + 1]) as BumpkinLevel;
 };
