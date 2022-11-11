@@ -76,13 +76,6 @@ export const hasBoost = ({ item, inventory }: HasBoostArgs) => {
   }
 
   if (
-    item === "Carrot Seed" &&
-    inventory["Carrot Sword"]?.greaterThanOrEqualTo(1)
-  ) {
-    return true;
-  }
-
-  if (
     item === "Parsnip Seed" &&
     inventory["Mysterious Parsnip"]?.greaterThanOrEqualTo(1)
   ) {
