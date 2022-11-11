@@ -35,7 +35,11 @@ export const getSellPrice = (
   }
 
   // apply Chef Apron 20% boost when selling cakes
-  if (item.name in cakes && bumpkin.equipped.coat === "Chef Apron") {
+  if (
+    item.name in cakes &&
+    bumpkin.equipped.coat &&
+    bumpkin.equipped.coat === "Chef Apron"
+  ) {
     price = price.mul(1.2);
   }
 
