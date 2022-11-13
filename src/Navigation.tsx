@@ -86,7 +86,7 @@ export const Navigation: React.FC = () => {
               }
             />
             <Route path="/visit/*" element={<LandExpansion key="visit" />} />
-            {CONFIG.NETWORK !== "mainnet" && (
+            {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
               <Route
                 path="/land/:id/*"
                 element={<LandExpansion key="land" />}
@@ -95,13 +95,13 @@ export const Navigation: React.FC = () => {
             {/* {CONFIG.NETWORK !== "mainnet" && (
               <Route path="/helios/:id" element={<Helios key="helios" />} />
             )} */}
-            {CONFIG.NETWORK !== "mainnet" && (
+            {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
               <Route path="/retreat/:id" element={<Retreat key="helios" />} />
             )}
-            {CONFIG.NETWORK !== "mainnet" && (
+            {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
               <Route path="/snow/:id" element={<SnowKingdom key="snow" />} />
             )}
-            {CONFIG.NETWORK !== "mainnet" && (
+            {CONFIG.NETWORK === "mumbai" && (
               <Route path="/builder" element={<Builder key="builder" />} />
             )}
 

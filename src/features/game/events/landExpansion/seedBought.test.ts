@@ -1,7 +1,9 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM, INITIAL_BUMPKIN } from "../lib/constants";
-import { SeedName, SEEDS } from "../types/crops";
-import { GameState } from "../types/game";
+
+import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import { CropSeedName, CROP_SEEDS } from "features/game/types/crops";
+import { GameState } from "features/game/types/game";
+
 import { seedBought } from "./seedBought";
 
 const GAME_STATE: GameState = TEST_FARM;
@@ -15,7 +17,7 @@ describe("seedBought", () => {
         state: GAME_STATE,
         action: {
           type: "seed.bought",
-          item: "Goblin Key" as SeedName,
+          item: "Goblin Key" as CropSeedName,
           amount: 1,
         },
       })
@@ -106,7 +108,7 @@ describe("seedBought", () => {
     });
 
     expect(state.balance).toEqual(
-      balance.minus(SEEDS()["Sunflower Seed"].tokenAmount as Decimal)
+      balance.minus(CROP_SEEDS()["Sunflower Seed"].tokenAmount as Decimal)
     );
   });
 
@@ -154,7 +156,7 @@ describe("seedBought", () => {
     const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
 
     expect(state.balance).toEqual(
-      balance.minus(SEEDS()[item].tokenAmount as Decimal)
+      balance.minus(CROP_SEEDS()[item].tokenAmount as Decimal)
     );
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
@@ -182,7 +184,7 @@ describe("seedBought", () => {
     const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
 
     expect(state.balance).toEqual(
-      balance.minus(SEEDS()[item].tokenAmount?.mul(amount) as Decimal)
+      balance.minus(CROP_SEEDS()[item].tokenAmount?.mul(amount) as Decimal)
     );
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
@@ -216,7 +218,7 @@ describe("seedBought", () => {
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      SEEDS()["Sunflower Seed"].tokenAmount?.toNumber()
+      CROP_SEEDS()["Sunflower Seed"].tokenAmount?.toNumber()
     );
   });
 
@@ -287,5 +289,31 @@ describe("seedBought", () => {
     });
 
     expect(state.balance).not.toEqual(new Decimal(1));
+  });
+
+  it("mints a fruit seee", () => {
+    const balance = new Decimal(1);
+    const item = "Blueberry Seed";
+    const amount = 1;
+    const state = seedBought({
+      state: {
+        ...GAME_STATE,
+        balance,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+
+          experience: 100000000,
+        },
+      },
+      action: {
+        item,
+        amount,
+        type: "seed.bought",
+      },
+    });
+
+    const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
+
+    expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
 });

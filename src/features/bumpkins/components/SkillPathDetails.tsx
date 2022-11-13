@@ -16,25 +16,66 @@ import { acknowledgeSkillPoints } from "../../island/bumpkin/lib/skillPointStora
 import { SkillPath } from "./SkillPath";
 import { Button } from "components/ui/Button";
 
-import arrowLeft from "assets/icons/arrow_left.png";
+const RequiredSkillPoints = ({
+  missingPointRequirement,
+  availableSkillPoints,
+  pointsRequired,
+}: {
+  missingPointRequirement: boolean;
+  availableSkillPoints: number;
+  pointsRequired: number;
+}) => {
+  return (
+    <div
+      className={classNames("flex justify-center flex-wrap items-end mt-2", {
+        "text-error": missingPointRequirement,
+      })}
+    >
+      <span className="text-shadow text-center text-xxs sm:text-xs">
+        Required Skill Points:
+      </span>
+      <span className="text-xxs sm:text-xs text-shadow text-center">
+        {`${availableSkillPoints}/${pointsRequired}`}
+      </span>
+    </div>
+  );
+};
+
+const RequiredSkill = ({
+  missingSkillRequirement,
+  requiredSkillImage,
+}: {
+  missingSkillRequirement: boolean;
+  requiredSkillImage?: string;
+}) => {
+  return (
+    <div
+      className={classNames("flex justify-center flex-wrap items-center mt-2", {
+        "text-error": missingSkillRequirement,
+      })}
+    >
+      <span className="text-shadow text-center text-xxs sm:text-xs">
+        Required Skills:
+      </span>
+      <img src={requiredSkillImage} />
+    </div>
+  );
+};
 
 interface Props {
   selectedSkillPath: BumpkinSkillTree;
   skillsInPath: BumpkinSkill[];
-  onBack: () => void;
 }
 
 export const SkillPathDetails: React.FC<Props> = ({
-  onBack,
   selectedSkillPath,
   skillsInPath,
 }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [gameState] = useActor(gameService);
+  const {
+    context: { state },
+  } = gameState;
 
   const [showConfirmButton, setShowConfirmButton] = useState(false);
   const [selectedSkill, setSelectedSkill] =
@@ -79,12 +120,6 @@ export const SkillPathDetails: React.FC<Props> = ({
     <div className="flex flex-col">
       <OuterPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center shadow-none">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
-          <img
-            src={arrowLeft}
-            className="absolute top-1 left-1 self-start w-5 cursor-pointer right-96"
-            alt="back"
-            onClick={onBack}
-          />
           {showConfirmButton && (
             <div className="flex flex-col">
               <p className="mx-4 text-center">{`Are you sure you want to claim the ${selectedSkill} skill?`}</p>
@@ -117,38 +152,19 @@ export const SkillPathDetails: React.FC<Props> = ({
                 {BUMPKIN_SKILL_TREE[selectedSkill].boosts}
               </span>
 
-              {!hasSelectedSkill && (
+              {!hasSelectedSkill && !gameState.matches("visiting") && (
                 <>
                   <div className="border-t border-white w-full pt-1 text-center">
-                    <div
-                      className={classNames(
-                        "flex justify-center flex-wrap items-end mt-2",
-                        {
-                          "text-error": missingPointRequirement,
-                        }
-                      )}
-                    >
-                      <span className="text-shadow text-center text-xxs sm:text-xs">
-                        Required Skill Points:
-                      </span>
-                      <span className="text-xxs sm:text-xs text-shadow text-center">
-                        {`${availableSkillPoints}/${pointsRequired}`}
-                      </span>
-                    </div>
+                    <RequiredSkillPoints
+                      missingPointRequirement={missingPointRequirement}
+                      availableSkillPoints={availableSkillPoints}
+                      pointsRequired={pointsRequired}
+                    />
                     {skillRequired && (
-                      <div
-                        className={classNames(
-                          "flex justify-center flex-wrap items-center mt-2",
-                          {
-                            "text-error": missingSkillRequirement,
-                          }
-                        )}
-                      >
-                        <span className="text-shadow text-center text-xxs sm:text-xs">
-                          Required Skills:
-                        </span>
-                        <img src={requiredSkillImage} />
-                      </div>
+                      <RequiredSkill
+                        requiredSkillImage={requiredSkillImage}
+                        missingSkillRequirement={missingSkillRequirement}
+                      />
                     )}
                   </div>
                   <Button

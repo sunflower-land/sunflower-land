@@ -1,92 +1,83 @@
-/**
- * Classic seeds can be found in crops.ts
- */
-
-import { Inventory } from "components/InventoryItems";
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
+import { CropSeedName } from "./crops";
+import { FruitSeedName, FRUIT_SEEDS } from "./fruits";
 
-export type UpcomingSeedName =
-  | "Kale Seed"
-  | "Apple Seed"
-  | "Blueberry Seed"
-  | "Orange Seed";
+export type SeedName = CropSeedName | FruitSeedName;
 
-export type UpcomingSeed = {
-  name: UpcomingSeedName;
+export type Seed = {
   sfl: Decimal;
   description: string;
   plantSeconds: number;
+  bumpkinLevel: number;
 };
 
-export const UPCOMING_SEEDS: () => Record<
-  UpcomingSeedName,
-  UpcomingSeed
-> = () => ({
-  "Kale Seed": {
-    name: "Kale Seed",
+export const SEEDS: () => Record<SeedName, Seed> = () => ({
+  "Sunflower Seed": {
     sfl: marketRate(0.01),
-    description: "A Bumpkin power food",
-    plantSeconds: 2 * 24 * 60 * 60,
+    description: "A sunny flower",
+    plantSeconds: 60,
+    bumpkinLevel: 1,
   },
-  "Apple Seed": {
-    name: "Apple Seed",
-    sfl: marketRate(0.01),
-    description: "Perfect for homemade Apple Pie",
-    plantSeconds: 2 * 24 * 60 * 60,
+  "Potato Seed": {
+    sfl: marketRate(0.1),
+    description: "Healthier than you might think.",
+    plantSeconds: 5 * 60,
+    bumpkinLevel: 1,
   },
-  "Blueberry Seed": {
-    name: "Blueberry Seed",
-    sfl: marketRate(0.01),
-    description: "A Goblin's weakness",
-    plantSeconds: 2 * 24 * 60 * 60,
+  "Pumpkin Seed": {
+    description: "There's more to pumpkin than pie.",
+    sfl: marketRate(0.2),
+    plantSeconds: 30 * 60,
+    bumpkinLevel: 2,
   },
-  "Orange Seed": {
-    name: "Orange Seed",
-    sfl: marketRate(0.01),
-    description: "Vitamin C to keep your Bumpkin Healthy",
-    plantSeconds: 2 * 24 * 60 * 60,
+  "Carrot Seed": {
+    description: "They're good for your eyes!",
+    sfl: marketRate(0.5),
+    plantSeconds: 60 * 60,
+    bumpkinLevel: 2,
   },
-});
-
-export type ExoticSeedName = "Magic Bean" | "Shiny Bean" | "Golden Bean";
-
-export type ExoticSeed = {
-  name: ExoticSeedName;
-  sfl: Decimal;
-  ingredients: Inventory;
-  description: string;
-  plantSeconds: number;
-};
-
-export const EXOTIC_SEEDS: () => Record<ExoticSeedName, ExoticSeed> = () => ({
-  "Magic Bean": {
-    name: "Magic Bean",
+  "Cabbage Seed": {
+    description: "Once a luxury, now a food for many.",
+    sfl: marketRate(1),
+    bumpkinLevel: 3,
+    plantSeconds: 2 * 60 * 60,
+  },
+  "Beetroot Seed": {
+    description: "Good for hangovers!",
+    sfl: marketRate(2),
+    bumpkinLevel: 3,
+    plantSeconds: 4 * 60 * 60,
+  },
+  "Cauliflower Seed": {
+    description: "Excellent rice substitute!",
+    sfl: marketRate(3),
+    bumpkinLevel: 4,
+    plantSeconds: 8 * 60 * 60,
+  },
+  "Parsnip Seed": {
+    description: "Not to be mistaken for carrots.",
     sfl: marketRate(5),
-    ingredients: {
-      Wood: new Decimal(100),
-    },
-    description: "What will grow?",
-    plantSeconds: 2 * 24 * 60 * 60,
+    bumpkinLevel: 4,
+    plantSeconds: 12 * 60 * 60,
   },
-  "Shiny Bean": {
-    name: "Shiny Bean",
-    sfl: marketRate(10),
-    ingredients: {
-      Wood: new Decimal(100),
-      Iron: new Decimal(10),
-    },
-    description: "What will grow?",
-    plantSeconds: 3 * 24 * 60 * 60,
+  "Radish Seed": {
+    description: "Give it some time, it's worth the wait!",
+    sfl: marketRate(7),
+    bumpkinLevel: 5,
+    plantSeconds: 24 * 60 * 60,
   },
-  "Golden Bean": {
-    name: "Golden Bean",
-    sfl: marketRate(15),
-    ingredients: {
-      Wood: new Decimal(100),
-      Gold: new Decimal(10),
-    },
-    description: "What will grow?",
-    plantSeconds: 5 * 24 * 60 * 60,
+  "Wheat Seed": {
+    description: "The most harvested crop in the world.",
+    sfl: marketRate(5),
+    bumpkinLevel: 5,
+    plantSeconds: 24 * 60 * 60,
   },
+  "Kale Seed": {
+    sfl: marketRate(5),
+    description: "A Bumpkin Power Food!",
+    bumpkinLevel: 6,
+    plantSeconds: 24 * 60 * 60,
+  },
+  ...FRUIT_SEEDS(),
 });

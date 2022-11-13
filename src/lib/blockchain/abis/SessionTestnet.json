@@ -119,28 +119,18 @@
       {
         "components": [
           { "internalType": "uint256", "name": "mintId", "type": "uint256" },
-          {
-            "internalType": "uint256[]",
-            "name": "ingredientIds",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "ingredientAmounts",
-            "type": "uint256[]"
-          },
           { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
           {
             "internalType": "uint256",
             "name": "cooldownSeconds",
             "type": "uint256"
           },
+          { "internalType": "bool", "name": "enabled", "type": "bool" },
           {
             "internalType": "uint256",
-            "name": "tokenAmount",
+            "name": "releaseDate",
             "type": "uint256"
-          },
-          { "internalType": "bool", "name": "enabled", "type": "bool" }
+          }
         ],
         "internalType": "struct SunflowerLandSession.Recipe[]",
         "name": "_recipes",
@@ -221,32 +211,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "bytes", "name": "signature", "type": "bytes" },
-      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
-      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
-      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
-      { "internalType": "string", "name": "nonce", "type": "string" },
-      { "internalType": "string", "name": "metadata", "type": "string" },
-      { "internalType": "uint256", "name": "sfl", "type": "uint256" },
-      {
-        "internalType": "uint256[]",
-        "name": "resourceIds",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "resourceAmounts",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "expandLand",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "farm",
     "outputs": [
@@ -314,28 +278,18 @@
       {
         "components": [
           { "internalType": "uint256", "name": "mintId", "type": "uint256" },
-          {
-            "internalType": "uint256[]",
-            "name": "ingredientIds",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "ingredientAmounts",
-            "type": "uint256[]"
-          },
           { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
           {
             "internalType": "uint256",
             "name": "cooldownSeconds",
             "type": "uint256"
           },
+          { "internalType": "bool", "name": "enabled", "type": "bool" },
           {
             "internalType": "uint256",
-            "name": "tokenAmount",
+            "name": "releaseDate",
             "type": "uint256"
-          },
-          { "internalType": "bool", "name": "enabled", "type": "bool" }
+          }
         ],
         "internalType": "struct SunflowerLandSession.Recipe",
         "name": "",
@@ -354,28 +308,18 @@
       {
         "components": [
           { "internalType": "uint256", "name": "mintId", "type": "uint256" },
-          {
-            "internalType": "uint256[]",
-            "name": "ingredientIds",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "ingredientAmounts",
-            "type": "uint256[]"
-          },
           { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
           {
             "internalType": "uint256",
             "name": "cooldownSeconds",
             "type": "uint256"
           },
+          { "internalType": "bool", "name": "enabled", "type": "bool" },
           {
             "internalType": "uint256",
-            "name": "tokenAmount",
+            "name": "releaseDate",
             "type": "uint256"
-          },
-          { "internalType": "bool", "name": "enabled", "type": "bool" }
+          }
         ],
         "internalType": "struct SunflowerLandSession.Recipe[]",
         "name": "",
@@ -489,25 +433,48 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "mintAllowance",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "bytes", "name": "signature", "type": "bytes" },
       { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
       { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
       { "internalType": "uint256", "name": "deadline", "type": "uint256" },
       { "internalType": "uint256", "name": "farmId", "type": "uint256" },
-      { "internalType": "uint256", "name": "mintId", "type": "uint256" },
-      { "internalType": "uint256", "name": "mintFee", "type": "uint256" }
+      { "internalType": "uint256", "name": "mintFee", "type": "uint256" },
+      {
+        "components": [
+          { "internalType": "uint256", "name": "mintId", "type": "uint256" },
+          { "internalType": "uint256", "name": "supply", "type": "uint256" },
+          {
+            "internalType": "uint256[]",
+            "name": "ingredientIds",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "ingredientAmounts",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct SunflowerLandSession.MintData",
+        "name": "mintData",
+        "type": "tuple"
+      }
     ],
-    "name": "mint",
+    "name": "mintCollectible",
     "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
     "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "mintAllowance",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -765,11 +732,6 @@
           {
             "components": [
               { "internalType": "string", "name": "nonce", "type": "string" },
-              {
-                "internalType": "string",
-                "name": "metadata",
-                "type": "string"
-              },
               { "internalType": "uint256", "name": "sfl", "type": "uint256" },
               {
                 "internalType": "uint256[]",
@@ -793,33 +755,6 @@
       }
     ],
     "name": "syncProgress",
-    "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "bytes", "name": "signature", "type": "bytes" },
-      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
-      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
-      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
-      { "internalType": "uint256[]", "name": "mintIds", "type": "uint256[]" },
-      {
-        "internalType": "uint256[]",
-        "name": "mintAmounts",
-        "type": "uint256[]"
-      },
-      { "internalType": "uint256[]", "name": "burnIds", "type": "uint256[]" },
-      {
-        "internalType": "uint256[]",
-        "name": "burnAmounts",
-        "type": "uint256[]"
-      },
-      { "internalType": "int256", "name": "tokens", "type": "int256" },
-      { "internalType": "uint256", "name": "syncFee", "type": "uint256" }
-    ],
-    "name": "sync",
     "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
     "stateMutability": "payable",
     "type": "function"

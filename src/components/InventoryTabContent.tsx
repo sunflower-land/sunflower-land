@@ -4,7 +4,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
 
-import { SEEDS, CropName } from "features/game/types/crops";
+import { CROP_SEEDS, CropName } from "features/game/types/crops";
 
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
@@ -32,7 +32,8 @@ interface Props {
 
 const TAB_CONTENT_HEIGHT = 400;
 
-const isSeed = (selectedItem: InventoryItemName) => selectedItem in SEEDS();
+const isSeed = (selectedItem: InventoryItemName) =>
+  selectedItem in CROP_SEEDS();
 
 export const InventoryTabContent = ({
   tabItems,

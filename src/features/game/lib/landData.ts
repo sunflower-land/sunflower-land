@@ -1,4 +1,6 @@
 import Decimal from "decimal.js-light";
+import { KNOWN_IDS } from "../types";
+import { getKeys } from "../types/craftables";
 import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
 
 const INITIAL_STOCK: Inventory = {
@@ -12,6 +14,11 @@ const INITIAL_STOCK: Inventory = {
   "Parsnip Seed": new Decimal(60),
   "Radish Seed": new Decimal(40),
   "Wheat Seed": new Decimal(40),
+  "Kale Seed": new Decimal(30),
+
+  "Apple Seed": new Decimal(10),
+  "Orange Seed": new Decimal(10),
+  "Blueberry Seed": new Decimal(10),
 
   Axe: new Decimal(50),
   Pickaxe: new Decimal(30),
@@ -371,7 +378,7 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 0,
+  experience: 1000000,
   tokenUri: "bla",
   equipped: {
     body: "Light Brown Farmer Potion",
@@ -402,13 +409,16 @@ export const OFFLINE_FARM: GameState = {
     "Cabbage Girl": new Decimal(1),
     "Basic Bear": new Decimal(1),
     // Every item for testing
-    // ...getKeys(KNOWN_IDS).reduce(
-    //   (acc, name) => ({
-    //     ...acc,
-    //     [name]: new Decimal(1),
-    //   }),
-    //   {}
-    // ),
+    ...getKeys(KNOWN_IDS).reduce(
+      (acc, name) => ({
+        ...acc,
+        [name]: new Decimal(1),
+      }),
+      {}
+    ),
+    Coder: new Decimal(0),
+    "Discord Mod": new Decimal(0),
+    Warrior: new Decimal(0),
   },
   migrated: true,
   stock: INITIAL_STOCK,
@@ -437,7 +447,7 @@ export const OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Tent: [
+    Market: [
       {
         id: "123",
         readyAt: 0,

@@ -1,9 +1,10 @@
 import Decimal from "decimal.js-light";
 import { ConsumableName } from "../types/consumables";
 import { Animal, Food, ToolName } from "../types/craftables";
-import { CropName, SeedName } from "../types/crops";
+import { CropName } from "../types/crops";
 import { Bumpkin } from "../types/game";
 import { DecorationName } from "./decorations";
+import { SeedName } from "./seeds";
 
 type BuyableName = SeedName | Animal | DecorationName;
 type SellableName = CropName | Food;

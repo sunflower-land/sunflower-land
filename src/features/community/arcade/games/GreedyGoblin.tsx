@@ -12,8 +12,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import { useLongPress } from "lib/utils/hooks/useLongPress";
-
 import { Button } from "components/ui/Button";
 import gameBackground from "assets/community/arcade/greedy_goblin/images/greedy_goblin_background.png";
 import gameOver from "assets/community/arcade/greedy_goblin/images/game_over.png";
@@ -24,6 +22,16 @@ import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 
 import { greedyGoblinAudio } from "src/lib/utils/sfx";
+import { randomInt } from "lib/utils/random";
+
+type MoveDirection = "left" | "right";
+type ActionKeys =
+  | "a"
+  | "d"
+  | "arrowleft"
+  | "arrowright"
+  | "uiArrowLeft"
+  | "uiArrowRight";
 
 type IntervalType = ReturnType<typeof setInterval>;
 
@@ -63,6 +71,12 @@ const Skull: DropItem = {
 Token.image.src = token;
 Skull.image.src = skull;
 
+declare global {
+  export interface CanvasRenderingContext2D {
+    drawGoblinImage(): void;
+  }
+}
+
 export const GreedyGoblin: React.FC = () => {
   const [renderPoints, setRenderPoints] = useState(0); // display
   const [isPlaying, setIsPlaying] = useState(false);
@@ -74,6 +88,122 @@ export const GreedyGoblin: React.FC = () => {
   const points = useRef(0);
   const goblinPosX = useRef(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const goblinMoveTimeout = useRef<NodeJS.Timeout>();
+  const activeKeys = useRef<ActionKeys[]>([]);
+
+  /**
+   * Start moving the goblin forever until it is stopped
+   */
+  const startMovingGoblin = (direction: MoveDirection) => {
+    const loopMovingGoblin = (direction: MoveDirection) => {
+      moveGoblin(direction);
+      goblinMoveTimeout.current = setTimeout(loopMovingGoblin, 50, direction);
+    };
+
+    if (!goblinMoveTimeout.current) {
+      loopMovingGoblin(direction);
+    }
+  };
+
+  /**
+   * Stop moving the goblin
+   */
+  const stopMovingGoblin = () => {
+    if (goblinMoveTimeout.current) {
+      clearTimeout(goblinMoveTimeout.current);
+      goblinMoveTimeout.current = undefined;
+    }
+  };
+
+  /**
+   * Check the list of active keys to determine goblin movement direction
+   * Add to list of active keys when key is down
+   * @param keys keyboard event
+   */
+  const checkActiveKeys = (keys: ActionKeys[]) => {
+    const holdKeysLeft = keys.filter(
+      (k) => k === "arrowleft" || k === "a" || k === "uiArrowLeft"
+    ).length;
+    const holdKeysRight = keys.filter(
+      (k) => k === "arrowright" || k === "d" || k === "uiArrowRight"
+    ).length;
+    if (holdKeysLeft === holdKeysRight) {
+      stopMovingGoblin();
+    } else if (holdKeysLeft < holdKeysRight) {
+      startMovingGoblin("right");
+    } else if (holdKeysLeft > holdKeysRight) {
+      startMovingGoblin("left");
+    }
+  };
+
+  /**
+   * Add to list of active keys and check active keys
+   * @param key action key
+   */
+  const addAndCheckActiveKeys = (key: ActionKeys) => {
+    activeKeys.current = [...activeKeys.current.filter((k) => k !== key), key];
+    checkActiveKeys(activeKeys.current);
+  };
+
+  /**
+   * Remove from list of active keys and check active keys
+   * @param key action key
+   */
+  const removeAndCheckActiveKeys = (key: ActionKeys) => {
+    activeKeys.current = activeKeys.current.filter((k) => k !== key);
+    checkActiveKeys(activeKeys.current);
+  };
+
+  /**
+   * Listener for keyboard keydown event
+   * Add to list of active keys when key is down
+   * @param event keyboard event
+   */
+  const keydownKeboardListener = (event: KeyboardEvent) => {
+    const key = event.key.toLowerCase();
+
+    if (
+      key === "arrowleft" ||
+      key === "a" ||
+      key === "arrowright" ||
+      key === "d"
+    ) {
+      addAndCheckActiveKeys(key);
+    }
+  };
+
+  /**
+   * Listener for keyboard keyup event
+   * Remove from list of active keys when key is up
+   * @param event keyboard event
+   */
+  const keyupKeboardListener = (event: KeyboardEvent) => {
+    const key = event.key.toLowerCase();
+
+    // remove from list of active keys
+    if (
+      key === "arrowleft" ||
+      key === "a" ||
+      key === "arrowright" ||
+      key === "d"
+    ) {
+      removeAndCheckActiveKeys(key);
+    }
+  };
+
+  /**
+   * Draw goblin image in canvas
+   * @param this canvas rendering context
+   */
+  CanvasRenderingContext2D.prototype.drawGoblinImage = function (
+    this: CanvasRenderingContext2D
+  ) {
+    this.drawImage(
+      goblinImage,
+      goblinPosX.current,
+      CANVAS_HEIGHT - goblinImage.height
+    );
+  };
 
   /**
    * Spawn goblin near center
@@ -82,31 +212,17 @@ export const GreedyGoblin: React.FC = () => {
   useEffect(() => {
     goblinPosX.current = CANVAS_WIDTH / 2;
 
-    canvasRef.current
-      ?.getContext("2d")
-      ?.drawImage(
-        goblinImage,
-        CANVAS_WIDTH / 2,
-        CANVAS_HEIGHT - goblinImage.height
-      );
+    canvasRef.current?.getContext("2d")?.drawGoblinImage();
 
-    const keyboardListener = (event: KeyboardEvent) => {
-      const key = event.key.toLowerCase();
-
-      if (key === "arrowleft" || key === "a") {
-        moveGob(false);
-      } else if (key === "arrowright" || key === "d") {
-        moveGob(true);
-      }
-    };
-
-    window.addEventListener("keydown", keyboardListener);
+    window.addEventListener("keydown", keydownKeboardListener);
+    window.addEventListener("keyup", keyupKeboardListener);
 
     greedyGoblinAudio.greedyGoblinIntroAudio.play();
 
     return () => {
       intervalIds.current.forEach((id) => clearInterval(id));
-      window.removeEventListener("keydown", keyboardListener);
+      window.removeEventListener("keydown", keydownKeboardListener);
+      window.removeEventListener("keyup", keyupKeboardListener);
 
       Object.values(greedyGoblinAudio).forEach((audio) => audio.stop());
     };
@@ -117,7 +233,7 @@ export const GreedyGoblin: React.FC = () => {
    * Redraw goblin in current position
    * Start game logic
    */
-  const start = () => {
+  const startGame = () => {
     isGameOver.current = false;
     points.current = 0;
     setRenderPoints(0);
@@ -129,11 +245,7 @@ export const GreedyGoblin: React.FC = () => {
     const context = canvasRef.current?.getContext("2d");
 
     context?.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    context?.drawImage(
-      goblinImage,
-      goblinPosX.current,
-      CANVAS_HEIGHT - goblinImage.height
-    );
+    context?.drawGoblinImage();
     dropItem(Token);
 
     const interval = setInterval(gameLogic, gameInterval.current);
@@ -144,9 +256,9 @@ export const GreedyGoblin: React.FC = () => {
    * Clear current goblin
    * Get new bounded X position
    * Redraw goblin
-   * @param toRight movement direction
+   * @param direction movement direction
    */
-  const moveGob = (toRight: boolean) => {
+  const moveGoblin = (direction: MoveDirection) => {
     const context = canvasRef.current?.getContext("2d");
     context?.clearRect(
       goblinPosX.current,
@@ -155,26 +267,13 @@ export const GreedyGoblin: React.FC = () => {
       goblinImage.height
     );
 
-    goblinPosX.current = toRight
-      ? Math.min(CANVAS_WIDTH - goblinImage.width, goblinPosX.current + 10)
-      : Math.max(0, goblinPosX.current - 10);
+    goblinPosX.current =
+      direction === "right"
+        ? Math.min(CANVAS_WIDTH - goblinImage.width, goblinPosX.current + 10)
+        : Math.max(0, goblinPosX.current - 10);
 
-    context?.drawImage(
-      goblinImage,
-      goblinPosX.current,
-      CANVAS_HEIGHT - goblinImage.height
-    );
+    context?.drawGoblinImage();
   };
-
-  const leftLongPress = useLongPress((_) => moveGob(false), true, undefined, {
-    delay: 200,
-    interval: 50,
-  });
-
-  const rightLongPress = useLongPress((_) => moveGob(true), true, undefined, {
-    delay: 200,
-    interval: 50,
-  });
 
   /**
    * Perform item drop
@@ -187,28 +286,39 @@ export const GreedyGoblin: React.FC = () => {
     }
 
     if (points.current % 3 === 0 && points.current > 0) {
-      dropItem(Skull);
+      const items = [Skull, Token].sort(() => 0.5 - Math.random());
+      const item1 = items[0];
+      const item2 = items[1];
+      const randXItem1 = randomInt(5, CANVAS_WIDTH - item1.image.width - 40);
+      const randXItem2 = randomInt(
+        randXItem1 + item1.image.width + 20,
+        CANVAS_WIDTH - item2.image.width - 5
+      );
+      dropItem(item1, randXItem1);
+      dropItem(item2, randXItem2);
+    } else {
+      dropItem(Token);
     }
-
-    dropItem(Token);
   };
 
   /**
-   * Get random X value
    * At dropInterval, increase y then check for collision
-   * @param _.catchable should collide with gob
+   * @param _.catchable should collide with goblin
    * @param _.image image element
+   * @param x x position of thep drop
    */
-  const dropItem = ({ catchable, image }: DropItem) => {
-    const randX = Math.floor(Math.random() * (CANVAS_WIDTH - image.width));
+  const dropItem = ({ catchable, image }: DropItem, x?: number) => {
     const context = canvasRef.current?.getContext("2d");
+    if (!x) {
+      x = randomInt(5, CANVAS_WIDTH - image.width - 5);
+    }
     let y = 0;
     const interval = setInterval(() => {
-      context?.clearRect(randX, y, image.width, image.height);
+      context?.clearRect(x!, y, image.width, image.height);
       y += 5; // small y for smoother transition
-      context?.drawImage(image, randX, y);
+      context?.drawImage(image, x!, y);
       checkCollision({
-        x: randX,
+        x: x!,
         y,
         imgWidth: image.width,
         imgHeight: image.height,
@@ -240,16 +350,16 @@ export const GreedyGoblin: React.FC = () => {
     interval,
   }: CollisionArgs) => {
     const context = canvasRef.current?.getContext("2d");
-    const collideGround = y >= CANVAS_HEIGHT;
+    const collideGround = y + imgHeight / 2 >= CANVAS_HEIGHT;
     const imgCenterX = x + imgWidth / 2;
-    const collideGob =
+    const collideGoblin =
       imgCenterX >= goblinPosX.current &&
       imgCenterX < goblinPosX.current + goblinImage.width &&
       // slighty larger hitbox
-      y - 5 >= CANVAS_HEIGHT - goblinImage.height;
+      y + 8 >= CANVAS_HEIGHT - goblinImage.height;
 
     // game over check
-    if ((catchable && collideGround) || (!catchable && collideGob)) {
+    if ((catchable && collideGround) || (!catchable && collideGoblin)) {
       isGameOver.current = true;
 
       greedyGoblinAudio.greedyGoblinGameOverAudio.play();
@@ -258,13 +368,15 @@ export const GreedyGoblin: React.FC = () => {
       // clear whole space and draw game over image
       context?.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       context?.drawImage(gameOverImage, 30, CANVAS_HEIGHT / 4);
+      context?.drawGoblinImage();
 
       intervalIds.current.forEach((id) => clearInterval(id));
       intervalIds.current = [];
       setIsPlaying(false);
+    }
 
-      // point check
-    } else if (catchable && collideGob) {
+    // point check
+    else if (catchable && collideGoblin) {
       setRenderPoints((prev) => prev + 1);
       points.current += 1;
 
@@ -272,15 +384,13 @@ export const GreedyGoblin: React.FC = () => {
 
       context?.clearRect(x, y, imgWidth, imgHeight);
       clearInterval(interval);
-      // redraw goblin
-      context?.drawImage(
-        goblinImage,
-        goblinPosX.current,
-        CANVAS_HEIGHT - goblinImage.height
-      );
 
-      // allow touch ground
-    } else if (!catchable && collideGround) {
+      // redraw goblin after collision
+      context?.drawGoblinImage();
+    }
+
+    // allow touch ground
+    else if (!catchable && collideGround) {
       context?.clearRect(x, y, imgWidth, imgHeight);
       clearInterval(interval);
     }
@@ -303,29 +413,44 @@ export const GreedyGoblin: React.FC = () => {
             backgroundSize: "contain",
           }}
         ></canvas>
-        <span className="flex items-center">
-          <img src={token} className="w-6" />: {renderPoints}
+        <span className="flex items-center my-2">
+          <img src={token} className="w-6 mr-2" />
+          {renderPoints}
         </span>
       </div>
-      <div className="flex pt-1">
-        <Button className="text-sm w-1/2" disabled={isPlaying} onClick={start}>
-          Start
-        </Button>
-        <div className="w-1/2 flex justify-around">
+      <div className="flex mb-2 flex justify-around">
+        <div
+          className="h-16 w-16 cursor-pointer"
+          onMouseDown={() => addAndCheckActiveKeys("uiArrowLeft")}
+          onTouchStart={() => addAndCheckActiveKeys("uiArrowLeft")}
+          onMouseUp={() => removeAndCheckActiveKeys("uiArrowLeft")}
+          onMouseLeave={() => removeAndCheckActiveKeys("uiArrowLeft")}
+          onTouchEnd={() => removeAndCheckActiveKeys("uiArrowLeft")}
+        >
           <img
+            className="h-full w-full pointer-events-none p-3"
             src={leftArrow}
             alt="left-arrow"
-            className="h-8 w-8 cursor-pointer"
-            {...leftLongPress}
           />
+        </div>
+        <div
+          className="h-16 w-16 cursor-pointer"
+          onMouseDown={() => addAndCheckActiveKeys("uiArrowRight")}
+          onTouchStart={() => addAndCheckActiveKeys("uiArrowRight")}
+          onMouseUp={() => removeAndCheckActiveKeys("uiArrowRight")}
+          onMouseLeave={() => removeAndCheckActiveKeys("uiArrowRight")}
+          onTouchEnd={() => removeAndCheckActiveKeys("uiArrowRight")}
+        >
           <img
+            className="h-full w-full pointer-events-none p-3"
             src={rightArrow}
             alt="right-arrow"
-            className="h-8 w-8 cursor-pointer"
-            {...rightLongPress}
           />
         </div>
       </div>
+      <Button className="text-sm" disabled={isPlaying} onClick={startGame}>
+        Start
+      </Button>
     </div>
   );
 };

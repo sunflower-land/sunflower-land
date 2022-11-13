@@ -42,7 +42,7 @@ export const CropZoneThree: React.FC = () => {
         <>
           <img
             src={goblinWatering}
-            className="absolute z-20 hover:img-highlight cursor-pointer"
+            className="absolute z-10 hover:img-highlight cursor-pointer"
             onClick={() => setShowModal(true)}
             style={{
               width: `${GRID_WIDTH_PX * 5}px`,
@@ -64,7 +64,7 @@ export const CropZoneThree: React.FC = () => {
           />
           <img
             src={cabbageSoup}
-            className="absolute "
+            className="absolute z-10"
             style={{
               width: `${GRID_WIDTH_PX * 0.3}px`,
               left: `${GRID_WIDTH_PX * 5}px`,
@@ -91,7 +91,7 @@ export const CropZoneThree: React.FC = () => {
           <Field selectedItem={selectedItem} fieldIndex={12} />
         </div>
         {/* Bottom row */}
-        <div className="flex justify-between items-center z-10">
+        <div className="flex justify-between items-center">
           <Field selectedItem={selectedItem} fieldIndex={13} />
           <Field selectedItem={selectedItem} fieldIndex={14} />
           <Field selectedItem={selectedItem} fieldIndex={15} />

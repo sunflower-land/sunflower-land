@@ -20,3 +20,21 @@ export const SkillPointsLabel = ({ points }: { points: number }) => (
     <p className="text-[10px]">{`Skill Points: ${points}`}</p>
   </div>
 );
+
+export const NextSkillPointsLabel = ({ level }: { level: number }) => (
+  <div
+    className="bg-blue-500 text-white text-shadow text-xs object-contain justify-center items-center whitespace-nowrap mb-1 max-w-min px-1"
+    // Custom styles to get pixelated border effect
+    style={{
+      // border: "5px solid transparent",
+      borderStyle: "solid",
+      borderWidth: "5px",
+      borderImageSlice: "25%",
+      imageRendering: "pixelated",
+      borderImageRepeat: "repeat",
+      borderRadius: "15px",
+    }}
+  >
+    <p className="text-[10px]">{`Next skill point: level ${level}`}</p>
+  </div>
+);

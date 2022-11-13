@@ -138,6 +138,12 @@ import egg from "assets/resources/egg.png";
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
 import chicken from "assets/resources/chicken.png";
+import honey from "assets/resources/honey.png";
+import wildMushroom from "assets/resources/wild_mushroom.png";
+import magicMushroom from "assets/resources/magic_mushroom.png";
+import apple from "assets/resources/apple.png";
+import orange from "assets/resources/orange.png";
+import blueberry from "assets/resources/blueberry.png";
 import questionMark from "assets/icons/expression_confused.png";
 
 // Skills
@@ -278,6 +284,16 @@ import pottedSunflower from "src/assets/decorations/potted_sunflower.png";
 import whiteTulips from "src/assets/decorations/white_tulips.png";
 import cactus from "src/assets/decorations/cactus.png";
 import basicBear from "src/assets/sfts/bears/basic_bear.png";
+import chefBear from "src/assets/sfts/bears/chef_bear.png";
+import constructionBear from "src/assets/sfts/bears/construction_bear.png";
+import angelBear from "src/assets/sfts/bears/angel_bear.png";
+import badassBear from "src/assets/sfts/bears/badass_bear.png";
+import sunflowerBear from "src/assets/sfts/bears/sunflower_bear.png";
+import brilliantBear from "src/assets/sfts/bears/brilliant_bear.png";
+import classyBear from "src/assets/sfts/bears/classy_bear.png";
+import farmerBear from "src/assets/sfts/bears/farmer_bear.png";
+import richBear from "src/assets/sfts/bears/rich_bear.png";
+import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -296,13 +312,15 @@ import {
   SALESMAN_ITEMS,
   GOBLIN_RETREAT_ITEMS,
 } from "./craftables";
-import { CROPS, SEEDS } from "./crops";
+import { CROPS, CROP_SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { EXOTIC_SEEDS, UPCOMING_SEEDS } from "./seeds";
 import { DECORATIONS } from "./decorations";
+import { BEANS } from "./beans";
+import { FRUIT, FRUIT_SEEDS } from "./fruits";
+import { CONSUMABLES } from "./consumables";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -314,7 +332,7 @@ export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
 const crops = CROPS();
-const seeds = SEEDS();
+const seeds = CROP_SEEDS();
 export const ITEM_DETAILS: Items = {
   // Crops
   Sunflower: {
@@ -414,32 +432,94 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: wheatCrop,
   },
   "Golden Bean": {
-    description: EXOTIC_SEEDS()["Golden Bean"].description,
+    description: BEANS()["Golden Bean"].description,
     image: goldenBean,
   },
   "Magic Bean": {
-    description: EXOTIC_SEEDS()["Magic Bean"].description,
+    description: BEANS()["Magic Bean"].description,
     image: magicBean,
   },
   "Shiny Bean": {
-    description: EXOTIC_SEEDS()["Shiny Bean"].description,
+    description: BEANS()["Shiny Bean"].description,
     image: shinyBean,
   },
   "Kale Seed": {
-    description: UPCOMING_SEEDS()["Kale Seed"].description,
+    description: CROP_SEEDS()["Kale Seed"].description,
     image: kaleSeed,
   },
   "Apple Seed": {
-    description: UPCOMING_SEEDS()["Apple Seed"].description,
+    description: FRUIT_SEEDS()["Apple Seed"].description,
     image: appleSeed,
   },
   "Blueberry Seed": {
-    description: UPCOMING_SEEDS()["Blueberry Seed"].description,
+    description: FRUIT_SEEDS()["Blueberry Seed"].description,
     image: blueberrySeed,
   },
   "Orange Seed": {
-    description: UPCOMING_SEEDS()["Orange Seed"].description,
+    description: FRUIT_SEEDS()["Orange Seed"].description,
     image: orangeSeed,
+  },
+
+  "Apple Pie": {
+    description: CONSUMABLES["Apple Pie"].description,
+    image: questionMark,
+  },
+  "Blueberry Jam": {
+    description: CONSUMABLES["Blueberry Jam"].description,
+    image: questionMark,
+  },
+  "Honey Cake": {
+    description: CONSUMABLES["Honey Cake"].description,
+    image: questionMark,
+  },
+  "Kale & Mushroom Pie": {
+    description: CONSUMABLES["Kale & Mushroom Pie"].description,
+    image: questionMark,
+  },
+  "Kale Stew": {
+    description: CONSUMABLES["Kale Stew"].description,
+    image: questionMark,
+  },
+  "Mushroom Jacket Potatoes": {
+    description: CONSUMABLES["Mushroom Jacket Potatoes"].description,
+    image: questionMark,
+  },
+  "Mushroom Soup": {
+    description: CONSUMABLES["Mushroom Soup"].description,
+    image: questionMark,
+  },
+  "Orange Cake": {
+    description: CONSUMABLES["Orange Cake"].description,
+    image: questionMark,
+  },
+  "Sunflower Crunch": {
+    description: CONSUMABLES["Sunflower Crunch"].description,
+    image: questionMark,
+  },
+
+  "Magic Mushroom": {
+    description: RESOURCES["Magic Mushroom"].description,
+    image: magicMushroom,
+  },
+  "Wild Mushroom": {
+    description: RESOURCES["Wild Mushroom"].description,
+    image: wildMushroom,
+  },
+  Apple: {
+    description: FRUIT()["Apple"].description,
+    image: apple,
+  },
+  Blueberry: {
+    description: FRUIT()["Blueberry"].description,
+    image: blueberry,
+  },
+  Orange: {
+    description: FRUIT()["Orange"].description,
+    image: orange,
+  },
+  Honey: {
+    description: RESOURCES["Honey"].description,
+    image: honey,
   },
 
   // Resources
@@ -1344,6 +1424,46 @@ export const ITEM_DETAILS: Items = {
   "Basic Bear": {
     image: basicBear,
     description: DECORATIONS()["Basic Bear"].description,
+  },
+  "Chef Bear": {
+    image: chefBear,
+    description: DECORATIONS()["Chef Bear"].description,
+  },
+  "Construction Bear": {
+    image: constructionBear,
+    description: DECORATIONS()["Construction Bear"].description,
+  },
+  "Angel Bear": {
+    image: angelBear,
+    description: DECORATIONS()["Angel Bear"].description,
+  },
+  "Badass Bear": {
+    image: badassBear,
+    description: DECORATIONS()["Badass Bear"].description,
+  },
+  "Bear Trap": {
+    image: bearTrap,
+    description: DECORATIONS()["Bear Trap"].description,
+  },
+  "Brilliant Bear": {
+    image: brilliantBear,
+    description: DECORATIONS()["Brilliant Bear"].description,
+  },
+  "Classy Bear": {
+    image: classyBear,
+    description: DECORATIONS()["Classy Bear"].description,
+  },
+  "Farmer Bear": {
+    image: farmerBear,
+    description: DECORATIONS()["Farmer Bear"].description,
+  },
+  "Rich Bear": {
+    image: richBear,
+    description: DECORATIONS()["Rich Bear"].description,
+  },
+  "Sunflower Bear": {
+    image: sunflowerBear,
+    description: DECORATIONS()["Sunflower Bear"].description,
   },
 
   "Cabbage Boy": {

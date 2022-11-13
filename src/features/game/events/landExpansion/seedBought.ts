@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
-import { isCollectibleBuilt } from "../lib/collectibleBuilt";
-import { getBumpkinLevel } from "../lib/level";
-import { trackActivity } from "../types/bumpkinActivity";
-import { CraftableItem } from "../types/craftables";
-import { SEEDS, SeedName } from "../types/crops";
-import { Collectibles, GameState, Inventory } from "../types/game";
-import { isSeed } from "./plant";
+
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+
+import { Collectibles, GameState, Inventory } from "features/game/types/game";
+import { trackActivity } from "features/game/types/bumpkinActivity";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
 
 export type SeedBoughtAction = {
   type: "seed.bought";
@@ -15,19 +15,20 @@ export type SeedBoughtAction = {
 };
 
 export function getBuyPrice(
-  item: CraftableItem,
+  name: SeedName,
+  seed: Seed,
   inventory: Inventory,
-  collectibles: Collectibles
+  colletibles: Collectibles
 ) {
-  if (isCollectibleBuilt("Kuebiko", collectibles)) {
+  if (isCollectibleBuilt("Kuebiko", colletibles)) {
     return new Decimal(0);
   }
 
-  if (inventory["Sunflower Shield"]?.gte(1) && item.name === "Sunflower Seed") {
+  if (inventory["Sunflower Shield"]?.gte(1) && name === "Sunflower Seed") {
     return new Decimal(0);
   }
 
-  let price = item.tokenAmount;
+  let price = seed.sfl;
 
   if (price && inventory.Artist?.gte(1)) {
     price = price.mul(0.9);
@@ -45,7 +46,7 @@ export function seedBought({ state, action }: Options) {
   const stateCopy = cloneDeep(state);
   const { item, amount } = action;
 
-  if (!isSeed(item)) {
+  if (!(item in SEEDS())) {
     throw new Error("This item is not a seed");
   }
 
@@ -71,7 +72,12 @@ export function seedBought({ state, action }: Options) {
     throw new Error("Not enough stock");
   }
 
-  const price = getBuyPrice(seed, stateCopy.inventory, stateCopy.collectibles);
+  const price = getBuyPrice(
+    item,
+    seed,
+    stateCopy.inventory,
+    stateCopy.collectibles
+  );
   const totalExpenses = price?.mul(amount);
 
   if (totalExpenses && stateCopy.balance.lessThan(totalExpenses)) {

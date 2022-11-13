@@ -65,7 +65,7 @@ describe("Migrate", () => {
     const result = migrate({
       state: {
         ...GAME_STATE,
-        skills: { farming: new Decimal(5000), gathering: new Decimal(5000) },
+        skills: { farming: new Decimal(22000), gathering: new Decimal(5000) },
       },
       action: { type: "game.migrated" },
     });

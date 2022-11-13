@@ -17,6 +17,8 @@ import close from "assets/icons/close.png";
 import seedSpecialist from "assets/skills/seed_specialist.png";
 import { SkillPathDetails } from "./SkillPathDetails";
 import arrowLeft from "assets/icons/arrow_left.png";
+import { Label } from "components/ui/Label";
+import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
 
 interface Props {
   onBack: () => void;
@@ -25,11 +27,10 @@ interface Props {
 
 export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [gameState] = useActor(gameService);
+  const {
+    context: { state },
+  } = gameState;
 
   const [selectedSkillPath, setSelectedSkillPath] =
     useState<BumpkinSkillTree | null>(null);
@@ -47,9 +48,38 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
     setSelectedSkillPath(null);
   };
 
+  const handleBack = () => {
+    if (selectedSkillPath) {
+      handleBackToSkillList();
+      return;
+    }
+
+    onBack();
+  };
+
   const { bumpkin } = state;
+  const experience = bumpkin?.experience || 0;
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+
+  const skillPointsInfo = () => {
+    const levelRequired = findLevelRequiredForNextSkillPoint(experience);
+
+    return (
+      <>
+        {availableSkillPoints > 0 && (
+          <SkillPointsLabel points={availableSkillPoints} />
+        )}
+        {!availableSkillPoints && levelRequired && (
+          <Label>
+            <p className="text-[10px] ml-2 pr-2">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
+              experience
+            )}`}</p>
+          </Label>
+        )}
+      </>
+    );
+  };
 
   return (
     <Panel className="pt-5 relative">
@@ -66,22 +96,19 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           onClick={onClose}
         />
       </div>
-
       <div
         style={{
           minHeight: "200px",
         }}
       >
-        <div className="flex flex-row">
+        <div className="flex flex-row mb-2 items-center">
           <img
             src={arrowLeft}
             className="self-start w-5 cursor-pointer mx-2"
             alt="back"
-            onClick={onBack}
+            onClick={handleBack}
           />
-          {availableSkillPoints > 0 && (
-            <SkillPointsLabel points={availableSkillPoints} />
-          )}
+          {!gameState.matches("visiting") && skillPointsInfo()}
         </div>
         {!selectedSkillPath && (
           <SkillCategoryList
@@ -92,7 +119,6 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           <SkillPathDetails
             selectedSkillPath={selectedSkillPath}
             skillsInPath={skillsInPath}
-            onBack={handleBackToSkillList}
           />
         )}
       </div>

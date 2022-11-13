@@ -9,7 +9,7 @@ import {
   SHOVELS,
   TOOLS,
 } from "../types/craftables";
-import { SEEDS } from "../types/crops";
+import { CROP_SEEDS } from "../types/crops";
 import { GameState, Inventory } from "../types/game";
 import { isSeed } from "./plant";
 
@@ -26,7 +26,7 @@ export type CraftAction = {
 const VALID_ITEMS = Object.keys({
   ...TOOLS,
   ...SHOVELS,
-  ...SEEDS(),
+  ...CROP_SEEDS(),
   ...FOODS(),
   ...ANIMALS(),
 }) as CraftableName[];

@@ -151,7 +151,7 @@ export const IslandList = ({
     },
     {
       name: "Helios",
-      levelRequired: 3,
+      levelRequired: 1,
       image: helios,
       path: `/land/${id}/helios`,
     },

@@ -8,7 +8,7 @@ import close from "assets/icons/close.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
-import { SEEDS, CROPS } from "features/game/types/crops";
+import { CROP_SEEDS, CROPS } from "features/game/types/crops";
 import {
   FOODS,
   TOOLS,
@@ -44,7 +44,7 @@ export type TabItems = Record<string, { items: object }>;
 
 const BASKET_CATEGORIES: TabItems = {
   Seeds: {
-    items: SEEDS(),
+    items: CROP_SEEDS(),
   },
   Tools: {
     items: {

@@ -192,4 +192,50 @@ export class Frog {
       throw error;
     }
   }
+
+  public async setApprovalAllFrogs(
+    address: string,
+    approve: boolean,
+    attempts = 0
+  ): Promise<string> {
+    const gasPrice = await estimateGasPrice(this.web3);
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const approveAllFrogs = await this.contract.methods
+        .setApprovalForAll(address, approve)
+        .send({ from: this.account, gasPrice });
+
+      return approveAllFrogs;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.setApprovalAllFrogs(address, approve, attempts + 1);
+      }
+
+      throw error;
+    }
+  }
+
+  public async isApprovedForAll(
+    operator: string,
+    attempts = 0
+  ): Promise<boolean> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    try {
+      const isApproved = await this.contract.methods
+        .isApprovedForAll(this.account, operator)
+        .call({ from: this.account });
+
+      return isApproved;
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.isApprovedForAll(operator, attempts + 1);
+      }
+
+      throw error;
+    }
+  }
 }
