@@ -61,7 +61,7 @@ export const AuctioneerContent = () => {
             <Button>Mint</Button>
           ) : (
             <div className="p-1 text-center border border-brown-200">
-              <Countdown />
+              <Countdown time={{}} />
             </div>
           )}
         </div>
