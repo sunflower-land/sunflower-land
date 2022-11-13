@@ -4,7 +4,7 @@ import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
-import { KNOWN_IDS, LimitedItemType } from ".";
+import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
 import { OnChainLimitedItems } from "../lib/goblinMachine";
 import { isArray } from "lodash";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
@@ -1040,30 +1040,46 @@ export const makeLimitedItemsByName = (
     const id = KNOWN_IDS[name];
     // Get onchain item based on id
     const onChainItem = onChainItems[id];
-    const { ingredients, tokenAmount } = CRAFTABLES()[name];
+    const { tokenAmount } = CRAFTABLES()[name];
 
     if (onChainItem) {
-      const { cooldownSeconds, maxSupply, mintedAt, enabled } = onChainItem;
-
-      const isNewItem = !enabled && Number(maxSupply) === 0;
-
-      limitedItems[name] = {
-        id: onChainItem.mintId,
-        name,
-        description: items[name].description,
-        tokenAmount,
-        maxSupply,
+      const {
+        ingredientAmounts,
+        ingredientIds,
         cooldownSeconds,
-        ingredients,
+        maxSupply,
         mintedAt,
-        type: items[name].type,
-        disabled: !enabled,
-        isPlaceholder: items[name].isPlaceholder || isNewItem,
-        canMintMultiple: items[name].canMintMultiple,
-        mintReleaseDate: items[name].mintReleaseDate || 0,
-      };
-    }
+        enabled,
+      } = onChainItem;
 
+      // Build ingredients
+      if (ingredientAmounts) {
+        const ingredients = ingredientIds?.map((id, index) => ({
+          id,
+          item: KNOWN_ITEMS[id],
+          amount: new Decimal(ingredientAmounts[index]),
+        }));
+
+        const isNewItem = !enabled && Number(maxSupply) === 0;
+
+        limitedItems[name] = {
+          id: onChainItem.mintId,
+          name,
+          description: items[name].description,
+          tokenAmount,
+          maxSupply,
+          cooldownSeconds,
+          ingredients,
+          mintedAt,
+          type: items[name].type,
+          disabled: !enabled,
+          isPlaceholder: items[name].isPlaceholder || isNewItem,
+          canMintMultiple: items[name].canMintMultiple,
+          mintReleaseDate: items[name].mintReleaseDate || 0,
+        };
+      }
+      return limitedItems;
+    }
     return limitedItems;
     // TODO: FIX TYPE
   }, {} as Record<CraftableName, LimitedItem>);
