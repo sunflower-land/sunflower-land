@@ -45,6 +45,7 @@ export enum Section {
   HeliosBackGround = "heliosBackground",
   RetreatBackground = "retreatBackground",
   SnowKingdomBackground = "snowKingdomBackground",
+  TreasureIsland = "treasureIslandBackground",
 }
 
 export const useScrollIntoView = () => {

@@ -36,6 +36,7 @@ import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 import land from "assets/land/islands/island.png";
+import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -184,6 +185,10 @@ export const Game: React.FC = () => {
             <Routes>
               <Route path="/" element={<Land />} />
               <Route path="/helios" element={<Helios key="helios" />} />
+              <Route
+                path="/treasure-island"
+                element={<TreasureIsland key="treasure" />}
+              />
               <Route element={<Land />} />
             </Routes>
           </PlaceableOverlay>
