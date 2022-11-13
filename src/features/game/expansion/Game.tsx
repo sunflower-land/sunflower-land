@@ -37,6 +37,7 @@ import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 import land from "assets/land/islands/island.png";
 import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
+import { StoneHaven } from "features/stoneHaven/StoneHaven";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -188,6 +189,10 @@ export const Game: React.FC = () => {
               <Route
                 path="/treasure-island"
                 element={<TreasureIsland key="treasure" />}
+              />
+              <Route
+                path="/stone-haven"
+                element={<StoneHaven key="stone-haven" />}
               />
               <Route element={<Land />} />
             </Routes>
