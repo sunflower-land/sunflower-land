@@ -25,6 +25,8 @@ import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/trad
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
+import { fetchAuctioneerDrops } from "../actions/auctioneer";
+import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
 
 const API_URL = CONFIG.API_URL;
 
@@ -39,6 +41,7 @@ export interface Context {
   farmAddress?: string;
   deviceTrackerId?: string;
   limitedItems: Partial<Record<LimitedItemName, LimitedItem>>;
+  auctioneerItems: Item[];
 }
 
 type MintEvent = {
@@ -149,6 +152,7 @@ export function startGoblinVillage(authContext: AuthContext) {
         state: EMPTY,
         sessionId: INITIAL_SESSION,
         limitedItems: {},
+        auctioneerItems: [],
       },
       states: {
         loading: {
@@ -160,6 +164,10 @@ export function startGoblinVillage(authContext: AuthContext) {
                 farmAddress: authContext.address as string,
                 id: Number(authContext.farmId),
               });
+
+              const { items } = await fetchAuctioneerDrops(
+                authContext.rawToken as string
+              );
 
               // Get session id
               const sessionId = await metamask
@@ -195,6 +203,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 limitedItems: limitedItemsById,
                 sessionId,
                 deviceTrackerId: response?.deviceTrackerId,
+                auctioneerItems: items,
               };
             },
             onDone: {
@@ -208,6 +217,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                   ),
                 sessionId: (_, event) => event.data.sessionId,
                 deviceTrackerId: (_, event) => event.data.deviceTrackerId,
+                auctioneerItems: (_, event) => event.data.auctioneerItems,
               }),
             },
             onError: {},
