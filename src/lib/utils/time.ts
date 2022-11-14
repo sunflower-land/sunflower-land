@@ -106,7 +106,7 @@ export const secondsToString = (
   // format string
   return reducedTimeUnits
     .map((x) => timeUnitToString(x as TimeDuration, options))
-    .join(" ");
+    .join("\u00A0");
 };
 
 /**
