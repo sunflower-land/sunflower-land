@@ -1,8 +1,7 @@
-import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
-import { getSupportedChickens } from "./utils";
+import { getMaxChickens } from "../feedChicken";
 
 export type PlaceChickenAction = {
   type: "chicken.placed";
@@ -33,13 +32,14 @@ export function placeChicken({
   const placedChickens = getKeys(stateCopy.chickens).filter(
     (index) => stateCopy.chickens[index].coordinates
   ).length;
+
   if (stateCopy.inventory.Chicken?.lte(placedChickens)) {
     throw new Error("You do not have any available chickens");
   }
 
-  const previousChickens = stateCopy.inventory.Chicken || new Decimal(0);
+  const availableSpots = getMaxChickens(stateCopy.inventory);
 
-  if (previousChickens.gte(getSupportedChickens(state))) {
+  if (placedChickens === availableSpots) {
     throw new Error("Insufficient space for more chickens");
   }
 

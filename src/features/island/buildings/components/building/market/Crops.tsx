@@ -48,8 +48,9 @@ export const Crops: React.FC = () => {
   const noCrop = cropAmount.equals(0);
   const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
 
-  const handleSellOne = () => {
-    sell(new Decimal(1));
+  const handleSellOneOrLess = () => {
+    const sellAmount = cropAmount.gte(1) ? new Decimal(1) : cropAmount;
+    sell(sellAmount);
   };
 
   const handleSellAll = () => {
@@ -60,7 +61,7 @@ export const Crops: React.FC = () => {
   // ask confirmation if crop supply is greater than 1
   const openConfirmationModal = () => {
     if (cropAmount.equals(1)) {
-      handleSellOne();
+      handleSellOneOrLess();
     } else {
       showSellAllModal(true);
     }
@@ -111,11 +112,11 @@ export const Crops: React.FC = () => {
             </div>
           </div>
           <Button
-            disabled={cropAmount.lessThan(1)}
+            disabled={cropAmount.lte(0)}
             className="text-xs mt-1"
-            onClick={handleSellOne}
+            onClick={handleSellOneOrLess}
           >
-            Sell 1
+            {`Sell ${cropAmount.gte(1) ? "1" : "<1"}`}
           </Button>
           <Button
             disabled={noCrop}

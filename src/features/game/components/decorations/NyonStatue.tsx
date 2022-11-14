@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import { GRID_WIDTH_PX } from "../../lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "../../lib/constants";
 import { Panel } from "components/ui/Panel";
 
 import close from "assets/icons/close.png";
@@ -26,8 +26,13 @@ export const NyonStatue: React.FC = () => {
         <Panel>
           <img
             src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
+            className="absolute cursor-pointer z-20"
             onClick={() => setShowNyonLore(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           <div className="flex flex-col items-cetner justify-content-between">
             <div className="flex justify-content m-2">

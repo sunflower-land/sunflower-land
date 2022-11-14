@@ -21,7 +21,7 @@ export const ToastManager: React.FC = () => {
       {listed && (
         <div
           className={`text-shadow p-0.5 text-white shadow-lg flex flex-col items-end mr-2 sm:block fixed left-2 z-[99999] ${
-            isMobile ? "top-32" : "top-44"
+            isMobile ? "top-24" : "top-32"
           }`}
         >
           <Panel>

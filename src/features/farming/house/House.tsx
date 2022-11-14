@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Modal } from "react-bootstrap";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import {
   getLevel,
   getRequiredXpToLevelUp,
@@ -124,7 +124,7 @@ export const House: React.FC<Props> = ({
 
     return (
       <>
-        <div className="flex flex-col md:flex-row pt-8 md:pt-2">
+        <div className="flex flex-col md:flex-row pt-9 md:pt-2">
           <InnerPanel className="w-full md:w-1/3 p-2 flex flex-col items-center mb-2 md:mb-0">
             {state.bumpkin ? (
               <DynamicNFT
@@ -136,7 +136,7 @@ export const House: React.FC<Props> = ({
               <>
                 <img src={questionMark} className="w-1/4 md:w-1/2 mb-2" />
                 <span className="text-xxs">Farmer NFT</span>
-                <span className="text-sm text-shadow">Name: ?</span>
+                <span className="text-sm">Name: ?</span>
               </>
             )}
 
@@ -263,8 +263,13 @@ export const House: React.FC<Props> = ({
         <Panel className="relative">
           <img
             src={close}
-            className="h-6 cursor-pointer top-3 right-4 absolute"
+            className="absolute cursor-pointer z-20"
             onClick={() => setIsOpen(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           {Content()}
         </Panel>

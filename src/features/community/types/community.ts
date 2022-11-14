@@ -17,7 +17,7 @@ export type Tadpole = {
 export type Incubator = {
   name: IncubatorName;
   description: string;
-  id?: number;
+  id?: string;
   earnings?: Decimal;
 };
 

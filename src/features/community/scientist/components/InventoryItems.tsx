@@ -35,8 +35,6 @@ export const InventoryItems: React.FC = () => {
     const fetchTadpoles = async () => {
       const data = await loadTadpoles();
       setTadpoleData(data);
-
-      console.log(data);
     };
 
     const fetchFrogs = async () => {
@@ -47,7 +45,6 @@ export const InventoryItems: React.FC = () => {
     const fetchTokens = async () => {
       const data = await loadTokens();
       setWhitelistTokenData(data);
-      console.log(data);
     };
 
     fetchTadpoles();

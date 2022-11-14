@@ -32,18 +32,25 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   if (gameState.expansionRequirements === undefined) {
     return (
       <div>
+        <img
+          src={close}
+          className="absolute cursor-pointer z-20"
+          onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        />
         <div className="absolute w-48 -left-4 -top-32 -z-10">
           {gameState.bumpkin && (
             <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
           )}
         </div>
         <div className="flex items-start">
-          <span>More expansions will be available soon...</span>
-          <img
-            src={close}
-            className="h-6 ml-2 cursor-pointer"
-            onClick={onClose}
-          />
+          <span className="mr-8">
+            More expansions will be available soon...
+          </span>
         </div>
         <div className="flex justify-center w-1/2 my-3">
           <img
@@ -72,6 +79,16 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
 
   return (
     <div>
+      <img
+        src={close}
+        className="absolute cursor-pointer z-20"
+        onClick={onClose}
+        style={{
+          top: `${PIXEL_SCALE * 6}px`,
+          right: `${PIXEL_SCALE * 6}px`,
+          width: `${PIXEL_SCALE * 11}px`,
+        }}
+      />
       <div className="absolute w-48 -left-4 -top-32 -z-10">
         {gameState.bumpkin && (
           <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
@@ -79,17 +96,14 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
       </div>
       <div className="flex items-start">
         <div>
-          <p>Want to expand your land and discover new resources?</p>
+          <p className="mr-8">
+            Want to expand your land and discover new resources?
+          </p>
 
           <p className="text-xs mt-2 underline">
             Each piece of land is a unique NFT on the blockchain.
           </p>
         </div>
-        <img
-          src={close}
-          className="h-6 ml-2 cursor-pointer"
-          onClick={onClose}
-        />
       </div>
       <div className="my-2 mt-4 flex justify-between items-end">
         <div>

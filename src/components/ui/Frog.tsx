@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Panel } from "components/ui/Panel";
 
@@ -36,14 +36,19 @@ export const Frog: React.FC = () => {
         <Panel>
           <img
             src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
+            className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           <div className="flex items-start">
             <img src={frog} className="w-12 img-highlight mr-2" />
             <div className="flex-1">
-              <span className="text-shadow block">Lilly the Frog</span>
-              <span className="text-shadow block mt-4">Ribbbbbit!</span>
+              <span className="block">Lilly the Frog</span>
+              <span className="block mt-4">Ribbbbbit!</span>
             </div>
           </div>
         </Panel>

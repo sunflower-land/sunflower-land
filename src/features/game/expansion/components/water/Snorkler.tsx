@@ -30,11 +30,16 @@ export const Snorkler: React.FC<Props> = ({ level }) => {
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
         <img className="absolute w-48 left-4 -top-32 -z-10" src={bumpkin} />
 
-        <Panel className="text-shadow">
+        <Panel>
           <img
             src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
+            className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           <p>It is a vast ocean!</p>
           <p className="mt-2">

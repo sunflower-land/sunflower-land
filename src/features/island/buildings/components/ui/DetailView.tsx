@@ -5,7 +5,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
-import leftArrow from "assets/icons/arrow_left.png";
+import arrowLeft from "assets/icons/arrow_left.png";
 
 import token from "assets/icons/token_2.png";
 import timer from "assets/icons/timer.png";
@@ -17,6 +17,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { getKeys, TOOLS } from "features/game/types/craftables";
 import { CROP_SEEDS } from "features/game/types/crops";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   "Fire Pit": getKeys(CONSUMABLES).filter(
@@ -104,8 +105,13 @@ export const DetailView: React.FC<Props> = ({
       <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           <img
-            src={leftArrow}
-            className="self-start w-5 cursor-pointer top-3 right-96"
+            src={arrowLeft}
+            className="absolute cursor-pointer"
+            style={{
+              top: `${PIXEL_SCALE * 2}px`,
+              left: `${PIXEL_SCALE * 2}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
             alt="back"
             onClick={onBack}
           />

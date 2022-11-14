@@ -12,6 +12,7 @@ import {
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   onClose: () => void;
@@ -30,19 +31,22 @@ export const AncientTreeModal: React.FC<Props> = ({ onClose }) => {
     <Panel>
       <img
         src={close}
-        className="h-6 top-4 right-4 absolute cursor-pointer"
+        className="absolute cursor-pointer z-20"
         onClick={onClose}
+        style={{
+          top: `${PIXEL_SCALE * 6}px`,
+          right: `${PIXEL_SCALE * 6}px`,
+          width: `${PIXEL_SCALE * 11}px`,
+        }}
       />
       <div className="flex items-start">
         <img src={whiteTree} className="w-12 img-highlight mr-2" />
         <div className="flex-1">
-          <span className="text-shadow block">Ancient Tree</span>
-          <span className="text-shadow block mt-4">
-            There is something in the tree!
-          </span>
+          <span className="block">Ancient Tree</span>
+          <span className="block mt-4">There is something in the tree!</span>
           {canChopAncientTree(context) ? (
             <>
-              <span className="text-shadow block mt-4">Required Resources</span>
+              <span className="block mt-4">Required Resources</span>
               {getAncientTreeIngredients(context)?.map((ingredient) => {
                 return (
                   <div className="flex items-end" key={ingredient.item}>
@@ -50,7 +54,7 @@ export const AncientTreeModal: React.FC<Props> = ({ onClose }) => {
                       src={ITEM_DETAILS[ingredient.item].image}
                       className="w-5 me-2"
                     />
-                    <span className="text-shadow mt-2 ">
+                    <span className="mt-2 ">
                       {ingredient.amount.toString()}
                     </span>
                   </div>
@@ -62,7 +66,7 @@ export const AncientTreeModal: React.FC<Props> = ({ onClose }) => {
               </Button>
             </>
           ) : (
-            <span className="text-shadow block mt-4">
+            <span className="block mt-4">
               Alas, no human is strong enough to cut it down.
             </span>
           )}

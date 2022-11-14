@@ -1,6 +1,6 @@
 import React from "react";
 import classnames from "classnames";
-import border from "assets/ui/panel/light_border.png";
+import { pixelLightBordertyle } from "features/game/lib/style";
 
 interface Props {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -18,23 +18,13 @@ export const Button: React.FC<Props> = ({
   return (
     <button
       className={classnames(
-        "bg-brown-200 w-full p-1 shadow-sm text-white text-shadow object-contain justify-center items-center hover:bg-brown-300 cursor-pointer flex disabled:opacity-50 ",
+        "bg-brown-200 w-full p-1 text-white text-shadow object-contain justify-center items-center hover:bg-brown-300 cursor-pointer flex disabled:opacity-50 ",
         className
       )}
       type={type}
       disabled={disabled}
       onClick={onClick}
-      // Custom styles to get pixellated border effect
-      style={{
-        // border: "5px solid transparent",
-        borderStyle: "solid",
-        borderWidth: "5px",
-        borderImage: `url(${border}) 30 stretch`,
-        borderImageSlice: "25%",
-        imageRendering: "pixelated",
-        borderImageRepeat: "repeat",
-        borderRadius: "15px",
-      }}
+      style={pixelLightBordertyle}
     >
       {children}
     </button>
