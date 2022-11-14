@@ -9,7 +9,7 @@ import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
 
-import { secondsToMidString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { getCropTime } from "features/game/events/plant";
 import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
@@ -41,7 +41,7 @@ export const Basket: React.FC = () => {
   const getCropHarvestTime = (seedName = "") => {
     const crop = seedName.split(" ")[0] as CropName;
 
-    return secondsToMidString(getCropTime(crop, inventory));
+    return secondsToString(getCropTime(crop, inventory), { length: "medium" });
   };
 
   const handleItemClick = (item: InventoryItemName) => {

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import minting from "assets/npcs/minting.gif";
-import { secondsToLongString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 /**
@@ -15,7 +15,7 @@ export const Countdown: React.FC = () => {
     const start = Date.now();
     const interval = setInterval(() => {
       const timeLeft = 60 - (Date.now() - start) / 1000;
-      setTime(secondsToLongString(timeLeft));
+      setTime(secondsToString(timeLeft, { length: "full" }));
 
       if (timeLeft <= 0) {
         authService.send("REFRESH");
