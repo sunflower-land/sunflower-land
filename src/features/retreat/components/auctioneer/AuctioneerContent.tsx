@@ -13,6 +13,7 @@ import {
 import { useActor } from "@xstate/react";
 import { Countdown } from "../Countdown";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { ItemSupply } from "lib/blockchain/Inventory";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -23,7 +24,15 @@ export type Release = {
   price: string;
 };
 
-const PanelDetail = ({ item }: { item: AuctioneerItem }) => {
+const PanelDetail = ({
+  item,
+  supply,
+  onMint,
+}: {
+  item: AuctioneerItem;
+  supply: ItemSupply;
+  onMint: () => void;
+}) => {
   const releaseDate = item.currentRelease?.releaseDate as number;
   const releaseEndDate = item.currentRelease?.endDate as number;
   const start = useCountdown(releaseDate);
@@ -42,8 +51,14 @@ const PanelDetail = ({ item }: { item: AuctioneerItem }) => {
           {`$${item.currentRelease?.price}`}
         </span>
       </p>
+      {/* TODO calculate total available supply*/}
+      <p>
+        {supply[item.name].toNumber()} / {item.currentRelease?.supply}
+      </p>
       <div className="text-xs mt-4">
-        <Button disabled={!isMintStarted || isMintComplete}>Mint</Button>
+        <Button disabled={!isMintStarted || isMintComplete} onClick={onMint}>
+          Mint
+        </Button>
         {!isMintStarted && (
           <div className="p-1 text-center mt-2">
             <Countdown
@@ -72,7 +87,7 @@ const PanelDetail = ({ item }: { item: AuctioneerItem }) => {
 export const AuctioneerContent = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
-  const { auctioneerItems } = goblinState.context;
+  const { auctioneerItems, supply } = goblinState.context;
   const upcoming = getValidAuctionItems(auctioneerItems);
 
   const [selected, setSelected] = useState<AuctioneerItem | undefined>(
@@ -104,7 +119,14 @@ export const AuctioneerContent = () => {
             />
           </div>
           {/* do not remove this key as react gets confused while rendering*/}
-          <PanelDetail item={selected} key={selected.name} />
+          <PanelDetail
+            key={selected.name}
+            item={selected}
+            supply={supply}
+            onMint={() =>
+              goblinService.send("MINT", { item: selected.name, captcha: "" })
+            }
+          />
         </div>
       </OuterPanel>
       <div

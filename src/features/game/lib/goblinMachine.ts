@@ -27,6 +27,7 @@ import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
 import { fetchAuctioneerDrops } from "../actions/auctioneer";
 import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
+import { ItemSupply } from "lib/blockchain/Inventory";
 
 const API_URL = CONFIG.API_URL;
 
@@ -42,6 +43,7 @@ export interface Context {
   deviceTrackerId?: string;
   limitedItems: Partial<Record<LimitedItemName, LimitedItem>>;
   auctioneerItems: Item[];
+  supply: ItemSupply;
 }
 
 type MintEvent = {
@@ -85,6 +87,11 @@ type UpdateSession = {
   sessionId: string;
 };
 
+type TickEvent = {
+  type: "TICK";
+  supply: ItemSupply;
+};
+
 export type BlockchainEvent =
   | {
       type: "REFRESH";
@@ -101,6 +108,7 @@ export type BlockchainEvent =
   | {
       type: "RESET";
     }
+  | TickEvent
   | WithdrawEvent
   | MintEvent
   | OpeningWishingWellEvent
@@ -153,6 +161,7 @@ export function startGoblinVillage(authContext: AuthContext) {
         sessionId: INITIAL_SESSION,
         limitedItems: {},
         auctioneerItems: [],
+        supply: {} as ItemSupply,
       },
       states: {
         loading: {
@@ -236,6 +245,25 @@ export function startGoblinVillage(authContext: AuthContext) {
             },
             OPEN_TRADING_POST: {
               target: "trading",
+            },
+            TICK: {
+              actions: assign({ supply: (_, event) => event.supply }),
+            },
+          },
+          invoke: {
+            src: (context, event) => (callback) => {
+              // This will send the 'TICK' event to the parent every second
+              const id = setInterval(
+                async () =>
+                  callback({
+                    type: "TICK",
+                    supply: await metamask.getInventory().totalSupply(),
+                  }),
+                1000
+              );
+
+              // Perform cleanup
+              return () => clearInterval(id);
             },
           },
         },
