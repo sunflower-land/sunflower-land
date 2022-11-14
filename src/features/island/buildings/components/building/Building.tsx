@@ -156,6 +156,7 @@ export const Building: React.FC<Prop> = ({
           <RemovePlaceableModal
             type="building"
             name={name}
+            placeableId={buildingId}
             onClose={() => setShowRemoveModal(false)}
           />
         )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 
 import market from "assets/buildings/market.png";
 import betty from "assets/npcs/betty.gif";
@@ -8,11 +8,13 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { ShopItems } from "./ShopItems";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+import { ClickableBuildingImage } from "../ClickableBuildingImage";
 
 export const Market: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const handleClick = () => {
+  const handleClick = (e: SyntheticEvent) => {
+    e.stopPropagation();
     setIsOpen(true);
   };
 
@@ -23,7 +25,7 @@ export const Market: React.FC = () => {
         width: `${PIXEL_SCALE * 48}px`,
       }}
     >
-      <img
+      <ClickableBuildingImage
         src={market}
         style={{
           width: `${PIXEL_SCALE * 48}px`,

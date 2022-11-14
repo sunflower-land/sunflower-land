@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { SyntheticEvent, useContext, useState } from "react";
 
 import firePit from "assets/buildings/fire_pit.png";
 import npc from "assets/npcs/cook.gif";
@@ -14,6 +14,7 @@ import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
 import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ClickableBuildingImage } from "../ClickableBuildingImage";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -58,7 +59,9 @@ export const FirePit: React.FC<Props> = ({
     });
   };
 
-  const handleClick = () => {
+  const handleClick = (e: SyntheticEvent) => {
+    e.stopPropagation();
+
     if (idle) {
       setShowModal(true);
       return;
@@ -77,10 +80,7 @@ export const FirePit: React.FC<Props> = ({
 
   return (
     <>
-      <div
-        className="relative cursor-pointer hover:img-highlight"
-        onClick={handleClick}
-      >
+      <div className="relative cursor-pointer hover:img-highlight">
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}
@@ -137,12 +137,13 @@ export const FirePit: React.FC<Props> = ({
             left: `${PIXEL_SCALE * 13}px`,
           }}
         />
-        <img
+        <ClickableBuildingImage
           src={firePit}
           className={classNames("w-full", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
+          onClick={handleClick}
         />
       </div>
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { SyntheticEvent, useContext, useState } from "react";
 
 import kitchen from "assets/buildings/kitchen.png";
 
@@ -14,6 +14,7 @@ import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
+import { ClickableBuildingImage } from "../ClickableBuildingImage";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -55,7 +56,9 @@ export const Kitchen: React.FC<Props> = ({
     });
   };
 
-  const handleClick = () => {
+  const handleClick = (e: SyntheticEvent) => {
+    e.stopPropagation();
+
     if (idle) {
       setShowModal(true);
       return;
@@ -80,7 +83,6 @@ export const Kitchen: React.FC<Props> = ({
           width: `${PIXEL_SCALE * 63}px`,
           height: `${PIXEL_SCALE * 50}px`,
         }}
-        onClick={handleClick}
       >
         {ready && name && (
           <img
@@ -94,7 +96,7 @@ export const Kitchen: React.FC<Props> = ({
             }}
           />
         )}
-        <img
+        <ClickableBuildingImage
           src={kitchen}
           className="absolute"
           style={{
@@ -102,6 +104,7 @@ export const Kitchen: React.FC<Props> = ({
             left: `${PIXEL_SCALE * 0.5}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
           }}
+          onClick={handleClick}
         />
         {crafting && name && (
           <img
