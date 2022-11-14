@@ -31,8 +31,13 @@ export const Mine: React.FC = () => {
         <Panel>
           <img
             src={close}
-            className="h-6 cursor-pointer mr-2 mb-1 absolute right-4 top-4"
+            className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           <div className="flex flex-col justify-center items-center">
             <p className="text-lg">You found a rare mine!</p>

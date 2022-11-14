@@ -31,10 +31,10 @@ const RequiredSkillPoints = ({
         "text-error": missingPointRequirement,
       })}
     >
-      <span className="text-shadow text-center text-xxs sm:text-xs">
+      <span className="text-center text-xxs sm:text-xs">
         Required Skill Points:
       </span>
-      <span className="text-xxs sm:text-xs text-shadow text-center">
+      <span className="text-xxs sm:text-xs text-center">
         {`${availableSkillPoints}/${pointsRequired}`}
       </span>
     </div>
@@ -54,9 +54,7 @@ const RequiredSkill = ({
         "text-error": missingSkillRequirement,
       })}
     >
-      <span className="text-shadow text-center text-xxs sm:text-xs">
-        Required Skills:
-      </span>
+      <span className="text-center text-xxs sm:text-xs">Required Skills:</span>
       <img src={requiredSkillImage} />
     </div>
   );
@@ -118,7 +116,7 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col">
-      <OuterPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center shadow-none">
+      <OuterPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {showConfirmButton && (
             <div className="flex flex-col">
@@ -139,7 +137,7 @@ export const SkillPathDetails: React.FC<Props> = ({
           {!showConfirmButton && (
             <>
               <div className="flex mb-1 items-center">
-                <span className="text-shadow text-center text-sm sm:text-base mr-2">
+                <span className="text-center text-sm sm:text-base mr-2">
                   {selectedSkill}
                 </span>
                 <img
@@ -148,7 +146,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                 />
               </div>
 
-              <span className="text-shadow text-center mt-1 text-xxs sm:text-xs mb-1">
+              <span className="text-center mt-1 text-xxs sm:text-xs mb-1">
                 {BUMPKIN_SKILL_TREE[selectedSkill].boosts}
               </span>
 

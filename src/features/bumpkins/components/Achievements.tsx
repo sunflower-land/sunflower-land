@@ -20,6 +20,7 @@ import Decimal from "decimal.js-light";
 import { shortenCount } from "lib/utils/formatNumber";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
@@ -65,18 +66,28 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
   };
 
   return (
-    <Panel className="pt-5 relative">
-      <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-        <div className="flex">
-          <Tab isActive>
-            <img src={busyBumpkin} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Achievements</span>
-          </Tab>
-        </div>
+    <Panel className="relative" hasTabs>
+      <div
+        className="absolute flex"
+        style={{
+          top: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      >
+        <Tab isActive>
+          <img src={busyBumpkin} className="h-5 mr-2" />
+          <span className="text-sm">Achievements</span>
+        </Tab>
         <img
           src={close}
-          className="h-6 cursor-pointer mr-2 mb-1"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
       </div>
 

@@ -18,6 +18,7 @@ import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { getMaxChickens } from "features/game/events/feedChicken";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   onClose: () => void;
@@ -84,14 +85,14 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     if (isNotPlaced) {
       return (
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="text-shadow text-center">Lazy Chicken</span>
+          <span className="text-center">Lazy Chicken</span>
           <img
             src={boxChicken}
             className="h-16 img-highlight mt-1"
             alt="chicken"
           />
           <div className="flex mt-2 relative">
-            <span className="text-shadow text-center text-xs">
+            <span className="text-center text-xs">
               Put your chicken to work to start collecting eggs!
             </span>
           </div>
@@ -112,13 +113,13 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     if (isNew) {
       return (
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="text-shadow text-center">Chicken</span>
+          <span className="text-center">Chicken</span>
           <img
             src={chicken}
             className="h-16 img-highlight mt-1"
             alt="chicken"
           />
-          <span className="text-shadow text-center mt-2 sm:text-sm">
+          <span className="text-center mt-2 sm:text-sm">
             Feed wheat and collect eggs
           </span>
           <>
@@ -126,12 +127,9 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
               <div className="flex justify-center items-end">
                 <img src={token} className="h-5 mr-1" />
                 <span
-                  className={classNames(
-                    "text-xs text-shadow text-center mt-2 ",
-                    {
-                      "text-red-500": lessFunds(),
-                    }
-                  )}
+                  className={classNames("text-xs text-center mt-2 ", {
+                    "text-red-500": lessFunds(),
+                  })}
                 >
                   {`$${price?.toNumber()}`}
                 </span>
@@ -150,9 +148,9 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     }
     return (
       <div className="flex flex-col justify-center items-center p-2 relative">
-        <span className="text-shadow text-center">Working Chicken</span>
+        <span className="text-center">Working Chicken</span>
         <img src={chicken} className="h-16 img-highlight mt-1" alt="chicken" />
-        <span className="text-shadow text-center mt-2 text-sm">
+        <span className="text-center mt-2 text-sm">
           Already placed and working hard!
         </span>
       </div>
@@ -160,18 +158,28 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <Panel className="pt-5 relative">
-      <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-        <div className="flex">
-          <Tab isActive>
-            <img src={chicken} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Chickens</span>
-          </Tab>
-        </div>
+    <Panel className="relative" hasTabs>
+      <div
+        className="absolute flex"
+        style={{
+          top: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      >
+        <Tab isActive>
+          <img src={chicken} className="h-5 mr-2" />
+          <span className="text-sm">Chickens</span>
+        </Tab>
         <img
           src={close}
-          className="h-6 cursor-pointer mr-2 mb-1"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
       </div>
 
@@ -182,7 +190,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       >
         <div className="flex">
           <div className="w-3/5 h-fit">
-            <div className=" flex flex-wrap ">
+            <div className="flex flex-wrap ">
               {new Array(availableSpots).fill(null).map((item, index) => {
                 let boxImage = undefined;
 
@@ -208,7 +216,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
                 );
               })}
             </div>
-            <span className="w-32 -mt-4 sm:mr-auto bg-blue-600 text-shadow border text-xxs p-1 rounded-md">
+            <span className="w-32 -mt-4 sm:mr-auto bg-blue-600 border text-xxs p-1 rounded-md">
               {`Capacity ${chickenCount.toNumber()}/${availableSpots}`}
             </span>
             {chickenCount.gte(availableSpots) && (

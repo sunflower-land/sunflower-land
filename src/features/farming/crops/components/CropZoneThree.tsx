@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Panel } from "components/ui/Panel";
 
@@ -102,13 +102,18 @@ export const CropZoneThree: React.FC = () => {
         <Panel>
           <img
             src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
+            className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           <div className="flex items-start">
             <img src={goblinHead} className="w-16 img-highlight mr-2" />
             <div className="flex-1">
-              <span className="text-shadow block">
+              <span className="block">
                 The only thing I like more than farming is Sauerkraut
               </span>
               <img

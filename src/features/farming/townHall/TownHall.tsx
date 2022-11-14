@@ -6,7 +6,7 @@ import heart from "assets/icons/heart.png";
 import close from "assets/icons/close.png";
 import discord from "assets/skills/discord.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import { Panel } from "components/ui/Panel";
 import { Contributors } from "./components/Contributors";
@@ -42,28 +42,35 @@ export const TownHall: React.FC = () => {
       </div>
 
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Panel className="pt-5 relative max-w-5xl">
-          <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-            <div className="flex">
-              <Tab
-                isActive={tab === "contributors"}
-                onClick={() => setTab("contributors")}
-              >
-                <img src={heart} className="h-5 mr-2" />
-                <span className="text-sm text-shadow">Contributors</span>
-              </Tab>
-              <Tab
-                isActive={tab === "discord"}
-                onClick={() => setTab("discord")}
-              >
-                <img src={discord} className="h-5 mr-2" />
-                <span className="text-sm text-shadow">Discord</span>
-              </Tab>
-            </div>
+        <Panel className="relative" hasTabs>
+          <div
+            className="absolute flex"
+            style={{
+              top: `${PIXEL_SCALE * 1}px`,
+              left: `${PIXEL_SCALE * 1}px`,
+              right: `${PIXEL_SCALE * 1}px`,
+            }}
+          >
+            <Tab
+              isActive={tab === "contributors"}
+              onClick={() => setTab("contributors")}
+            >
+              <img src={heart} className="h-5 mr-2" />
+              <span className="text-sm">Contributors</span>
+            </Tab>
+            <Tab isActive={tab === "discord"} onClick={() => setTab("discord")}>
+              <img src={discord} className="h-5 mr-2" />
+              <span className="text-sm">Discord</span>
+            </Tab>
             <img
               src={close}
-              className="h-6 cursor-pointer mr-2 mb-1"
+              className="absolute cursor-pointer z-20"
               onClick={() => setIsOpen(false)}
+              style={{
+                top: `${PIXEL_SCALE * 1}px`,
+                right: `${PIXEL_SCALE * 1}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
             />
           </div>
 
