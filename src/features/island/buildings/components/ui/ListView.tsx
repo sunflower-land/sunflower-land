@@ -1,7 +1,7 @@
 import React from "react";
 
 import lock from "assets/skills/lock.png";
-import heart from "assets/icons/heart.png";
+import heart from "assets/icons/level_up.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";

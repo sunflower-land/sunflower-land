@@ -1,6 +1,6 @@
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
-import { secondsToLongString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 
 const wishingWellAddress = CONFIG.WISHING_WELL_CONTRACT;
 
@@ -47,7 +47,7 @@ export async function loadWishingWell(): Promise<WishingWellTokens> {
 
   if (secondsSinceLock <= lockedPeriod) {
     const remaining = lockedPeriod - secondsSinceLock;
-    lockedTime = secondsToLongString(remaining);
+    lockedTime = secondsToString(remaining, { length: "full" });
   }
 
   return {

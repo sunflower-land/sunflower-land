@@ -3,12 +3,12 @@ import React, { useContext } from "react";
 import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { BumpkinHUD } from "./components/BumpkinHUD";
 
 import { Menu } from "./components/Menu";
 import { Buildings } from "../buildings/Buildings";
 import { Inventory } from "./components/inventory/Inventory";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
+import { BumpkinProfile } from "./components/BumpkinProfile";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -35,7 +35,7 @@ export const Hud: React.FC = () => {
           />
 
           <Buildings />
-          <BumpkinHUD />
+          <BumpkinProfile />
         </>
       )}
       {/* <AudioPlayer isFarming /> */}

@@ -18,7 +18,9 @@ export const Minted: React.FC = () => {
     ?.item;
   const mintedItem = goblinState.context.limitedItems[mintedItemName];
 
-  let cooldownPeriod: string | null = secondsToString(7 * ONE_DAY);
+  let cooldownPeriod: string | null = secondsToString(7 * ONE_DAY, {
+    length: "short",
+  });
 
   console.log({ mintedItem, mintedItemName });
   if (mintedItem) {
@@ -40,7 +42,9 @@ export const Minted: React.FC = () => {
       );
     }
 
-    cooldownPeriod = secondsToString(mintedItem.cooldownSeconds);
+    cooldownPeriod = secondsToString(mintedItem.cooldownSeconds, {
+      length: "short",
+    });
   }
 
   return (

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
-import heart from "assets/icons/heart.png";
+import heart from "assets/icons/level_up.png";
 import watch from "assets/icons/stopwatch.png";
 
 import { Box } from "components/ui/Box";
@@ -13,7 +13,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { Consumable, ConsumableName } from "features/game/types/consumables";
-import { secondsToMidString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 
 interface Props {
   recipes: Consumable[];
@@ -165,7 +165,10 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
           <div className="flex mt-2 items-center">
             <img src={watch} className="h-5 mr-2" />
             <span className="text-xs">
-              {secondsToMidString(selected.cookingSeconds)}
+              {secondsToString(selected.cookingSeconds, {
+                length: "medium",
+                removeTrailingZeros: true,
+              })}
             </span>
           </div>
           {Action()}

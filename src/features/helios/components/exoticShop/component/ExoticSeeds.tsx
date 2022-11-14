@@ -9,7 +9,7 @@ import timer from "assets/icons/timer.png";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 
-import { secondsToMidString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
@@ -125,7 +125,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
             <div className="flex justify-center items-center scale-75 sm:scale-100">
               <img src={timer} className="h-5 me-2" />
               <span className="text-xs text-shadow text-center mt-2">
-                {secondsToMidString(selected.plantSeconds)}
+                {secondsToString(selected.plantSeconds, { length: "medium" })}
               </span>
             </div>
 

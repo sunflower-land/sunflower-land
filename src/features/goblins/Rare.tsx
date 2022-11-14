@@ -364,7 +364,9 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                   <div className="flex justify-center items-end">
                     <img src={timer} className="h-5 mr-1" />
                     <span className="text-xs text-shadow text-center mt-2">
-                      {secondsToString(selected.cooldownSeconds)}
+                      {secondsToString(selected.cooldownSeconds, {
+                        length: "short",
+                      })}
                     </span>
                   </div>
                 )}

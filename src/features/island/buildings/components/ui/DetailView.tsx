@@ -4,7 +4,7 @@ import React from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
-import { secondsToMidString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 import arrowLeft from "assets/icons/arrow_left.png";
 
 import token from "assets/icons/token_2.png";
@@ -195,7 +195,10 @@ export const DetailView: React.FC<Props> = ({
             <div className="flex justify-center items-end">
               <img src={stopwatch} className="h-5 mr-1" />
               <span className={classNames("text-xs text-center mt-2")}>
-                {secondsToMidString(BUILDINGS()[building].constructionSeconds)}
+                {secondsToString(BUILDINGS()[building].constructionSeconds, {
+                  length: "medium",
+                  removeTrailingZeros: true,
+                })}
               </span>
             </div>
           </div>

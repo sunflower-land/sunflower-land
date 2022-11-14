@@ -24,6 +24,7 @@ import { Settings } from "features/farming/hud/components/Settings";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 enum MENU_LEVELS {
@@ -34,9 +35,9 @@ enum MENU_LEVELS {
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
+  const [isMobile] = useIsMobile();
 
   const [menuOpen, setMenuOpen] = useState(false);
-
   const [showShareModal, setShowShareModal] = useState(false);
   const [showLogoutModal, setShowSettings] = useState(false);
   const [showGoblinModal, setShowGoblinModal] = useState(false);
@@ -98,7 +99,7 @@ export const Menu = () => {
       {!gameService.state.matches("editing") && (
         <div
           ref={ref}
-          className="fixed top-[81px] left-2 z-50 cursor-pointer hover:img-highlight"
+          className={`fixed right-2 z-50 cursor-pointer hover:img-highlight bottom-40`}
           onClick={() => setMenuOpen(true)}
         >
           <div className="relative w-16 h-16 flex items-center justify-center">

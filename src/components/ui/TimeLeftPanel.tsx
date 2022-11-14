@@ -1,6 +1,6 @@
 import React from "react";
 import { InnerPanel } from "components/ui/Panel";
-import { secondsToMidString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
@@ -29,7 +29,9 @@ export const TimeLeftPanel: React.FC<Props> = ({
     >
       <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
         <span className="flex-1">{text}</span>
-        <span className="flex-1">{secondsToMidString(timeLeft)}</span>
+        <span className="flex-1">
+          {secondsToString(timeLeft, { length: "medium" })}
+        </span>
       </div>
     </InnerPanel>
   );

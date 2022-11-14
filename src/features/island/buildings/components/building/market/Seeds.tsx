@@ -6,14 +6,14 @@ import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
-import heart from "assets/icons/heart.png";
+import heart from "assets/icons/level_up.png";
 import lock from "assets/skills/lock.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
-import { secondsToMidString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
@@ -219,7 +219,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
               <img src={timer} className="h-5 me-2" />
               {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
               <span className="text-xs text-shadow text-center mt-2">
-                {secondsToMidString(getCropTime(crop?.name, inventory))}
+                {secondsToString(getCropTime(crop?.name, inventory), {
+                  length: "medium",
+                  removeTrailingZeros: true,
+                })}
               </span>
             </div>
             <div className="flex justify-center items-end">
