@@ -1,7 +1,7 @@
 import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
-import heart from "assets/icons/heart.png";
+import heart from "assets/icons/level_up.png";
 import close from "assets/icons/close.png";
 import alert from "assets/icons/expression_alerted.png";
 
@@ -16,9 +16,8 @@ import { DynamicNFT } from "./DynamicNFT";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { Badges } from "features/farming/house/House";
 import {
-  BumpkinLevel,
   getBumpkinLevel,
-  LEVEL_BRACKETS,
+  getExperienceToNextLevel,
 } from "features/game/lib/level";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Achievements } from "./Achievements";
@@ -74,12 +73,8 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
 
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
-  const nextLevelExperience = LEVEL_BRACKETS[level];
-  const previousLevelExperience =
-    LEVEL_BRACKETS[(level - 1) as BumpkinLevel] || 0;
-
-  const currentExperienceProgress = experience - previousLevelExperience;
-  const experienceToNextLevel = nextLevelExperience - previousLevelExperience;
+  const { currentExperienceProgress, experienceToNextLevel } =
+    getExperienceToNextLevel(experience);
 
   const hasSkillPoint = hasUnacknowledgedSkillPoints(state.bumpkin);
 

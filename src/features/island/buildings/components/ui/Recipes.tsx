@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
-import heart from "assets/icons/heart.png";
+import heart from "assets/icons/level_up.png";
 import watch from "assets/icons/stopwatch.png";
 
 import { Box } from "components/ui/Box";

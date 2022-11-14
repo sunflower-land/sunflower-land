@@ -6,7 +6,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { Bumpkin } from "features/game/types/game";
 
 import lock from "assets/skills/lock.png";
-import heart from "assets/icons/heart.png";
+import heart from "assets/icons/level_up.png";
 
 import goblin from "assets/buildings/goblin_sign.png";
 import farm from "assets/crops/sunflower/planted.png";

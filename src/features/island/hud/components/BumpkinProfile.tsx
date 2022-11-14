@@ -14,6 +14,7 @@ import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import {
   BumpkinLevel,
   getBumpkinLevel,
+  getExperienceToNextLevel,
   LEVEL_BRACKETS,
 } from "features/game/lib/level";
 import {
@@ -24,7 +25,6 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 const DIMENSIONS = {
   width: 52,
@@ -68,8 +68,7 @@ export const BumpkinProfile: React.FC = () => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [dimensions, setDimensions] = useState(DIMENSIONS);
-  const [isMobile] = useIsMobile();
+  const dimensions = MOBILE_DIMENSIONS;
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -80,12 +79,6 @@ export const BumpkinProfile: React.FC = () => {
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
-
-  useEffect(() => {
-    setDimensions(
-      isMobile ? { ...DIMENSIONS, ...MOBILE_DIMENSIONS } : DIMENSIONS
-    );
-  }, [isMobile]);
 
   useEffect(() => {
     goToProgress();
@@ -105,8 +98,11 @@ export const BumpkinProfile: React.FC = () => {
       const previousLevelExperience =
         LEVEL_BRACKETS[(level - 1) as BumpkinLevel] || 0;
 
-      let percent =
-        (experience - previousLevelExperience) / nextLevelExperience;
+      const experience = state.bumpkin?.experience ?? 0;
+      const { currentExperienceProgress, experienceToNextLevel } =
+        getExperienceToNextLevel(experience);
+
+      let percent = currentExperienceProgress / experienceToNextLevel;
       // Progress bar cant go futher than 100%
       if (percent > 1) {
         percent = 1;
@@ -133,16 +129,14 @@ export const BumpkinProfile: React.FC = () => {
 
       {/* Bumpkin profile */}
       <div
-        className={`grid cursor-pointer hover:img-highlight fixed left-2.5 z-50 ${
-          isMobile ? "top-8" : "top-12"
-        }`}
+        className={`grid cursor-pointer hover:img-highlight fixed left-2.5 z-50  top-8`}
         onClick={handleShowHomeModal}
       >
         <img
           src={profileBg}
-          className="col-start-1 row-start-1"
+          className="col-start-1 row-start-1 opacity-50"
           style={{
-            width: `${dimensions.width * PIXEL_SCALE}px`,
+            width: `${dimensions.width * PIXEL_SCALE * 1.07}px`,
             height: `${dimensions.height * PIXEL_SCALE}px`,
           }}
         />
@@ -172,7 +166,7 @@ export const BumpkinProfile: React.FC = () => {
               src={question}
               alt="No Bumpkin Found"
               className="w-1/2 mx-auto"
-              style={{ marginTop: isMobile ? "40px" : "54px" }}
+              style={{ marginTop: "40px" }}
             />
           )}
         </div>
@@ -194,9 +188,7 @@ export const BumpkinProfile: React.FC = () => {
           }}
         />
         <span
-          className={`col-start-1 row-start-1 text-white text-center z-20 ${
-            isMobile ? "text-xxs" : "text-xs"
-          }`}
+          className={`col-start-1 row-start-1 text-white text-center z-20 text-xxs`}
           style={{
             marginLeft: `${dimensions.level.marginLeft}px`,
             marginTop: `${dimensions.level.marginTop}px`,
