@@ -182,6 +182,16 @@ describe("buyChicken", () => {
           Chicken: new Decimal(11),
           "Chicken Coop": new Decimal(1),
         },
+        collectibles: {
+          "Chicken Coop": [
+            {
+              id: "123",
+              createdAt: 0,
+              coordinates: { x: 1, y: 1 },
+              readyAt: 0,
+            },
+          ],
+        },
         buildings: {
           "Hen House": [
             {
