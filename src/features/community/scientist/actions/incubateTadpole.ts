@@ -1,8 +1,8 @@
 import { communityContracts } from "features/community/lib/communityContracts";
 
 type Request = {
-  frogId: number;
-  tadpoleId: number;
+  frogId: string;
+  tadpoleId: string;
 };
 
 export async function incubateTadpole(request: Request) {
@@ -13,24 +13,24 @@ export async function incubateTadpole(request: Request) {
   return { incubated };
 }
 
-export async function removeIncubator(incubatorId: number) {
+export async function removeIncubator(incubatorId: string) {
   const getFrogIdIncubator = await communityContracts
     .getIncubator()
     .getFrogIdIncubator(incubatorId);
   const remove = await communityContracts
     .getIncubator()
-    .remove(parseInt(getFrogIdIncubator), incubatorId);
+    .remove(getFrogIdIncubator, incubatorId);
 
   return { remove };
 }
 
-export async function claimIncubator(incubatorId: number) {
+export async function claimIncubator(incubatorId: string) {
   const getFrogIdIncubator = await communityContracts
     .getIncubator()
     .getFrogIdIncubator(incubatorId);
   const claim = await communityContracts
     .getIncubator()
-    .claim(parseInt(getFrogIdIncubator), incubatorId);
+    .claim(getFrogIdIncubator, incubatorId);
 
   return { claim };
 }

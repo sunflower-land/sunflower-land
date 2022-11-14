@@ -50,7 +50,7 @@ export const TraderModal: React.FC<TraderModalProps> = ({
       // Prevent modal from closing during asynchronous state (listing, purchasing, cancelling, etc)
       onHide={!isDisabled ? handleClose : undefined}
     >
-      <Panel className="pt-5 relative">
+      <Panel className="relative" hasTabs>
         <Tabs
           disabled={isDisabled}
           isSelling={isSelling}

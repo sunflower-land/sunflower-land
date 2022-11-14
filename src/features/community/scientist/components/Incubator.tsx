@@ -1,9 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useActor, useMachine } from "@xstate/react";
+import React, { useState, useEffect } from "react";
+import { useMachine } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
-import * as AuthProvider from "features/auth/lib/Provider";
-import { Context } from "features/community/lib/CommunityProvider";
 import { incubateMachine } from "../lib/incubateMachine";
 import { ITEM_DETAILS } from "features/community/types/images";
 import {
@@ -30,11 +28,7 @@ import active_incubator from "features/community/assets/incubator/algae-small.gi
 import token from "features/community/assets/icons/token.png";
 
 export const Incubator: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
-  const { communityService } = useContext(Context);
   const [machine, send] = useMachine(incubateMachine);
-  const { state, errorCode } = machine.context;
 
   const [incubatorData, setIncubatorData] = useState<ActiveIncubator[]>([]);
   const [tadpoleData, setTadpoleData] = useState<Tadpole[]>([]);
@@ -46,7 +40,7 @@ export const Incubator: React.FC = () => {
   // selected
   const [selected, setSelected] = useState("empty");
   const [selectedActiveIncubator, setSelectedActiveIncubator] =
-    useState<number>();
+    useState<string>();
   const [selectedIncubatorEarnings, setSelectedIncubatorEarnings] =
     useState<string>();
   const [selectedFrog, setSelectedFrog] = useState<number[]>();
@@ -299,11 +293,6 @@ export const Incubator: React.FC = () => {
                           ?.toDecimalPlaces(4, Decimal.ROUND_DOWN)
                           .toString()
                       );
-                      console.log(
-                        incubator.earnings
-                          ?.toDecimalPlaces(4, Decimal.ROUND_DOWN)
-                          .toString()
-                      );
                     }}
                     key={index}
                     image={ITEM_DETAILS[incubator.name].image}
@@ -355,21 +344,6 @@ export const Incubator: React.FC = () => {
               </div>
             </OuterPanel>
           </div>
-          {/* TODO: ADD CLAIM ALL / REMOVE ALL FUNCTION */}
-          {/* <div className="flex justify-center items-end p-1">
-            <Button
-              className="text-xs mt-1"
-              onClick={openClaimAllModal}
-              >
-              Claim All
-            </Button>
-            <Button
-              className="text-xs mt-1"
-              onClick={openUnloadAllModal}
-              >
-              Remove All
-            </Button>
-          </div> */}
 
           {/* INCUBATION MODAL */}
           <Modal
@@ -389,7 +363,6 @@ export const Incubator: React.FC = () => {
                         isSelected={selectedTadpole === tadpole.id}
                         onClick={() => {
                           setSelectedTadpole(tadpole.id);
-                          console.log(selectedTadpole);
                         }}
                         key={index}
                         image={ITEM_DETAILS[tadpole.health].image}
@@ -409,7 +382,6 @@ export const Incubator: React.FC = () => {
                         isSelected={selectedFrog === frog.edition}
                         onClick={() => {
                           setSelectedFrog(frog.edition);
-                          console.log(selectedFrog);
                         }}
                         key={index}
                         image={frog.pixel_image}

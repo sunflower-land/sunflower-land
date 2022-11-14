@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -165,8 +165,13 @@ export const Salesman: React.FC = () => {
         <Panel>
           <img
             src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer z-10"
-            onClick={handleCloseModal}
+            className="absolute cursor-pointer z-20"
+            onClick={() => handleCloseModal}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           {ModalContent()}
         </Panel>

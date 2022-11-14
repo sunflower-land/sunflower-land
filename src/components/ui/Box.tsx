@@ -3,16 +3,20 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
 import { Label } from "./Label";
-import darkBorder from "assets/ui/panel/dark_border.png";
-import selectBox from "assets/ui/select/select_box.png";
+import selectBoxBL from "assets/ui/select/selectbox_bl.png";
+import selectBoxBR from "assets/ui/select/selectbox_br.png";
+import selectBoxTL from "assets/ui/select/selectbox_tl.png";
+import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import timer from "assets/icons/timer.png";
 import cancel from "assets/icons/cancel.png";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { shortenCount } from "lib/utils/formatNumber";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { pixelDarkBorderStyle } from "features/game/lib/style";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
-const LABEL_RIGHT_SHIFT_PX = -13;
-const LABEL_TOP_SIHFT_PX = -17;
+const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
+const LABEL_TOP_SIHFT_PX = -6 * PIXEL_SCALE;
 
 export interface BoxProps {
   hideCount?: boolean;
@@ -141,25 +145,21 @@ export const Box: React.FC<BoxProps> = ({
       onMouseLeave={() => setIsHover(false)}
     >
       <div
-        className={classNames(
-          "w-12 h-12 bg-brown-600  m-1.5 cursor-pointer flex items-center justify-center relative",
-          {
-            "bg-brown-600 cursor-not-allowed": disabled,
-            "bg-brown-200": isSelected,
-            "opacity-75": locked,
-            "cursor-pointer": canClick,
-          }
-        )}
+        className={classNames("bg-brown-600 cursor-pointer relative", {
+          "bg-brown-600 cursor-not-allowed": disabled,
+          "bg-brown-200": isSelected,
+          "opacity-75": locked,
+          "cursor-pointer": canClick,
+        })}
         {...clickEvents}
-        // Custom styles to get pixelated border effect
         style={{
-          borderStyle: "solid",
-          borderWidth: "6px",
-          borderImage: `url(${darkBorder}) 30 stretch`,
-          borderImageSlice: "25%",
-          imageRendering: "pixelated",
-          borderImageRepeat: "repeat",
-          borderRadius: "15px",
+          width: `${PIXEL_SCALE * 18}px`,
+          height: `${PIXEL_SCALE * 18}px`,
+          marginTop: `${PIXEL_SCALE * 3}px`,
+          marginBottom: `${PIXEL_SCALE * 2}px`,
+          marginLeft: `${PIXEL_SCALE * 2}px`,
+          marginRight: `${PIXEL_SCALE * 3}px`,
+          ...pixelDarkBorderStyle,
         }}
       >
         {secondaryImage ? (
@@ -234,17 +234,59 @@ export const Box: React.FC<BoxProps> = ({
 
         {/** Overlay icon */}
         {showOverlay && (
-          <div className="absolute w-[38px] h-[38px] bg-overlay-white pointer-events-none flex justify-center items-center">
+          <div
+            className="absolute bg-overlay-white pointer-events-none flex justify-center items-center"
+            style={{
+              top: `${PIXEL_SCALE * 0}px`,
+              left: `${PIXEL_SCALE * 0}px`,
+              width: `${PIXEL_SCALE * 14}px`,
+              height: `${PIXEL_SCALE * 14}px`,
+            }}
+          >
             {overlayIcon}
           </div>
         )}
       </div>
 
-      {(isSelected || (isHover && !isMobile)) && !locked && !disabled && (
-        <img
-          className="absolute w-14 h-14 top-0.5 left-0.5 pointer-events-none"
-          src={selectBox}
-        />
+      {(isSelected || (isHover && !isMobile)) && canClick && (
+        <>
+          <img
+            className="absolute pointer-events-none"
+            src={selectBoxBL}
+            style={{
+              top: `${PIXEL_SCALE * 14}px`,
+              left: `${PIXEL_SCALE * 0}px`,
+              width: `${PIXEL_SCALE * 8}px`,
+            }}
+          />
+          <img
+            className="absolute pointer-events-none"
+            src={selectBoxBR}
+            style={{
+              top: `${PIXEL_SCALE * 14}px`,
+              left: `${PIXEL_SCALE * 14}px`,
+              width: `${PIXEL_SCALE * 8}px`,
+            }}
+          />
+          <img
+            className="absolute pointer-events-none"
+            src={selectBoxTL}
+            style={{
+              top: `${PIXEL_SCALE * 1}px`,
+              left: `${PIXEL_SCALE * 0}px`,
+              width: `${PIXEL_SCALE * 8}px`,
+            }}
+          />
+          <img
+            className="absolute pointer-events-none"
+            src={selectBoxTR}
+            style={{
+              top: `${PIXEL_SCALE * 1}px`,
+              left: `${PIXEL_SCALE * 14}px`,
+              width: `${PIXEL_SCALE * 8}px`,
+            }}
+          />
+        </>
       )}
     </div>
   );

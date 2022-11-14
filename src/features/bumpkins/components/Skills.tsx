@@ -19,6 +19,7 @@ import { SkillPathDetails } from "./SkillPathDetails";
 import arrowLeft from "assets/icons/arrow_left.png";
 import { Label } from "components/ui/Label";
 import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   onBack: () => void;
@@ -72,7 +73,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
         )}
         {!availableSkillPoints && levelRequired && (
           <Label>
-            <p className="text-[10px] ml-2 pr-2">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
+            <p className="text-xxs px-1">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
               experience
             )}`}</p>
           </Label>
@@ -82,18 +83,28 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
   };
 
   return (
-    <Panel className="pt-5 relative">
-      <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-        <div className="flex">
-          <Tab isActive>
-            <img src={seedSpecialist} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Skills</span>
-          </Tab>
-        </div>
+    <Panel className="relative" hasTabs>
+      <div
+        className="absolute flex"
+        style={{
+          top: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      >
+        <Tab isActive>
+          <img src={seedSpecialist} className="h-5 mr-2" />
+          <span className="text-sm">Skills</span>
+        </Tab>
         <img
           src={close}
-          className="h-6 cursor-pointer mr-2 mb-1"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
       </div>
       <div
@@ -101,11 +112,20 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           minHeight: "200px",
         }}
       >
-        <div className="flex flex-row mb-2 items-center">
+        <div
+          className="flex flex-row my-2 items-center"
+          style={{
+            margin: `${PIXEL_SCALE * 2}px`,
+          }}
+        >
           <img
             src={arrowLeft}
-            className="self-start w-5 cursor-pointer mx-2"
+            className="cursor-pointer"
             alt="back"
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+              marginRight: `${PIXEL_SCALE * 4}px`,
+            }}
             onClick={handleBack}
           />
           {!gameState.matches("visiting") && skillPointsInfo()}

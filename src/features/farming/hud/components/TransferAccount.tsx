@@ -13,6 +13,7 @@ import farmImg from "assets/brand/nft.png";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { ConnectingError } from "features/auth/components/ConnectingError";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   isOpen: boolean;
@@ -124,8 +125,13 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
         </a>
         <img
           src={close}
-          className="h-6 top-4 right-4 absolute cursor-pointer z-10"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
       </div>
     );

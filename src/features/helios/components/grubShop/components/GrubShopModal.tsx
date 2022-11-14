@@ -16,6 +16,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { secondsToString } from "lib/utils/time";
 import { GrubShop } from "features/game/types/game";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   onClose: () => void;
@@ -116,22 +117,20 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                   )} left`}</span>
                 </span>
                 <div className="flex flex-col justify-center items-center p-2 ">
-                  <span className="text-shadow text-center">
-                    {selected.name}
-                  </span>
+                  <span className="text-center">{selected.name}</span>
                   <img
                     src={ITEM_DETAILS[selected.name].image}
                     className="h-16 img-highlight mt-1"
                     alt={selected.name}
                   />
-                  <span className="text-shadow text-center mt-2 sm:text-sm">
+                  <span className="text-center mt-2 sm:text-sm">
                     {ITEM_DETAILS[selected.name].description}
                   </span>
 
                   <div className="border-t border-white w-full mt-2 pt-1">
                     <div className="flex justify-center items-end">
                       <img src={token} className="h-5 mr-1" />
-                      <span className="text-xs text-shadow text-center mt-2 ">
+                      <span className="text-xs text-center mt-2 ">
                         {`$${selected.sfl.toNumber()}`}
                       </span>
                     </div>
@@ -161,18 +160,28 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     );
   };
   return (
-    <Panel className="pt-5 relative">
-      <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-        <div className="flex">
-          <Tab isActive>
-            <img src={grubShopIcon} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Grub Shop</span>
-          </Tab>
-        </div>
+    <Panel className="relative" hasTabs>
+      <div
+        className="absolute flex"
+        style={{
+          top: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      >
+        <Tab isActive>
+          <img src={grubShopIcon} className="h-5 mr-2" />
+          <span className="text-sm">Grub Shop</span>
+        </Tab>
         <img
           src={close}
-          className="h-6 cursor-pointer mr-2 mb-1"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
       </div>
       {Content()}

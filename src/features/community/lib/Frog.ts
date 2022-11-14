@@ -136,7 +136,7 @@ export class Frog {
   public async getFrogIds(
     owner: string | undefined,
     attempts = 0
-  ): Promise<Array<[]>> {
+  ): Promise<string[]> {
     await new Promise((res) => setTimeout(res, 3000 * attempts));
 
     try {
@@ -174,7 +174,7 @@ export class Frog {
     }
   }
 
-  public async getTokenUri(tokenId: number[], attempts = 0): Promise<string> {
+  public async getTokenUri(tokenId: string, attempts = 0): Promise<string> {
     await new Promise((res) => setTimeout(res, 3000 * attempts));
 
     try {
