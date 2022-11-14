@@ -2,12 +2,14 @@ import React from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
-import building from "assets/buildings/blacksmith_building.gif";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+import building from "assets/buildings/fertilisers.png";
+import potionMaster from "assets/npcs/potion_master.gif";
+import shadow from "assets/npcs/shadow.png";
 import { Modal } from "react-bootstrap";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Panel } from "components/ui/Panel";
 
-export const HeliosBlacksmith: React.FC = () => {
+export const Potions: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -21,15 +23,33 @@ export const HeliosBlacksmith: React.FC = () => {
         // TODO some sort of coordinate system
         style={{
           width: `${GRID_WIDTH_PX * 6}px`,
-          right: `${GRID_WIDTH_PX * 20.7}px`,
-          top: `${GRID_WIDTH_PX * 20.4}px`,
+          right: `${GRID_WIDTH_PX * 10}px`,
+          top: `${GRID_WIDTH_PX * 29.1}px`,
         }}
         onClick={handleClick}
       >
         <img
+          src={potionMaster}
+          className="absolute z-20"
+          style={{
+            width: `${PIXEL_SCALE * 14}px`,
+            left: `${PIXEL_SCALE * 17.2}px`,
+            top: `${PIXEL_SCALE * 3.6}px`,
+          }}
+        />
+        <img
+          src={shadow}
+          className="absolute z-10"
+          style={{
+            width: `${PIXEL_SCALE * 14}px`,
+            left: `${PIXEL_SCALE * 17.2}px`,
+            top: `${PIXEL_SCALE * 15.6}px`,
+          }}
+        />
+        <img
           src={building}
           style={{
-            width: `${PIXEL_SCALE * 98}px`,
+            width: `${PIXEL_SCALE * 55}px`,
           }}
         />
       </div>
@@ -38,10 +58,10 @@ export const HeliosBlacksmith: React.FC = () => {
           <DynamicNFT
             bumpkinParts={{
               body: "Beige Farmer Potion",
-              hair: "Blacksmith Hair",
-              pants: "Brown Suspenders",
+              hair: "Sun Spots",
+              pants: "Farmer Overalls",
               shirt: "Red Farmer Shirt",
-              tool: "Hammer",
+              tool: "Farmer Pitchfork",
               background: "Farm Background",
               shoes: "Black Farmer Boots",
             }}
@@ -49,7 +69,8 @@ export const HeliosBlacksmith: React.FC = () => {
         </div>
         <Panel>
           <div className="p-1">
-            <p className="mb-4">Coming soon...</p>
+            <p className="mb-4">I am the potion master!</p>
+            <p>Give me some time to set up shop.</p>
           </div>
         </Panel>
       </Modal>
