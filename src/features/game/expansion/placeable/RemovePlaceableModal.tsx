@@ -4,7 +4,6 @@ import { Button } from "components/ui/Button";
 import { PlaceableName } from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { useActor } from "@xstate/react";
 
 type PlaceableType = "building" | "collectible";
@@ -24,8 +23,6 @@ export const RemovePlaceableModal: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const shortcuts = getShortcuts();
-  const selected = shortcuts[0];
 
   const {
     context: {
@@ -38,13 +35,11 @@ export const RemovePlaceableModal: React.FC<Props> = ({
   const handleRemove = () => {
     if (type === "building") {
       gameService.send("building.removed", {
-        item: selected,
         building: name,
         id: placeableId,
       });
     } else {
       gameService.send("collectible.removed", {
-        item: selected,
         collectible: name,
         id: placeableId,
       });
@@ -65,7 +60,7 @@ export const RemovePlaceableModal: React.FC<Props> = ({
     if (type === "building") {
       return (
         <>
-          <p>
+          <p className="mb-3">
             After removing this building you will be able to place it again at
             any time by going back to the buildings menu.
           </p>
