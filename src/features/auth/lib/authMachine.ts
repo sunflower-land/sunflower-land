@@ -400,7 +400,7 @@ export const authMachine = createMachine<
 
               const { screen = defaultScreen } = event as StartEvent;
 
-              // window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
+              window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
             },
             on: {
               REFRESH: {
