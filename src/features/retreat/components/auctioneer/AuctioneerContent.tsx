@@ -12,6 +12,7 @@ import {
 } from "./actions/auctioneerItems";
 import { useActor } from "@xstate/react";
 import { Countdown } from "../Countdown";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -20,6 +21,52 @@ export type Release = {
   endDate?: number;
   supply: number;
   price: string;
+};
+
+const PanelDetail = ({ item }: { item: AuctioneerItem }) => {
+  const releaseDate = item.currentRelease?.releaseDate as number;
+  const releaseEndDate = item.currentRelease?.endDate as number;
+  const start = useCountdown(releaseDate);
+  const end = useCountdown(releaseEndDate);
+  const isMintStarted =
+    !start.days && !start.hours && !start.minutes && !start.seconds;
+  const isMintComplete =
+    !end.days && !end.hours && !end.minutes && !end.seconds;
+
+  return (
+    <div className="mt-3 md:mt-0 w-1/2">
+      <p>{item.name}</p>
+      <p className="flex items-center my-2 md:my-3">
+        <img src={token} className="h-4 mr-1" />
+        <span className="text-xs sm:text-sm text-shadow text-center">
+          {`$${item.currentRelease?.price}`}
+        </span>
+      </p>
+      <div className="text-xs mt-4">
+        <Button disabled={!isMintStarted || isMintComplete}>Mint</Button>
+        {!isMintStarted && (
+          <div className="p-1 text-center mt-2">
+            <Countdown
+              days={start.days}
+              hours={start.hours}
+              minutes={start.minutes}
+              seconds={start.seconds}
+            />
+          </div>
+        )}
+        {isMintStarted && !isMintComplete && (
+          <div className="p-1 text-center mt-2">
+            <Countdown
+              days={end.days}
+              hours={end.hours}
+              minutes={end.minutes}
+              seconds={end.seconds}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export const AuctioneerContent = () => {
@@ -41,34 +88,6 @@ export const AuctioneerContent = () => {
     );
   }
 
-  const PanelDetail = () => {
-    const now = Date.now();
-    const releaseDate = selected.currentRelease?.releaseDate as number;
-    const releaseEndDate = selected.currentRelease?.endDate as number;
-    const mintIsLive = releaseDate < now && releaseEndDate > now;
-
-    return (
-      <div className="mt-3 md:mt-0">
-        <p>{selected.name}</p>
-        <p className="flex items-center my-2 md:my-3">
-          <img src={token} className="h-4 mr-1" />
-          <span className="text-xs sm:text-sm text-shadow text-center">
-            {`$${selected.currentRelease?.price}`}
-          </span>
-        </p>
-        <div className="text-xs mt-4">
-          {mintIsLive ? (
-            <Button>Mint</Button>
-          ) : (
-            <div className="p-1 text-center border border-brown-200">
-              <Countdown time={{}} />
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="flex flex-col">
       <OuterPanel className="flex-1 w-full flex flex-col justify-between items-center">
@@ -84,7 +103,8 @@ export const AuctioneerContent = () => {
               alt={selected.name}
             />
           </div>
-          {PanelDetail()}
+          {/* do not remove this key as react gets confused while rendering*/}
+          <PanelDetail item={selected} key={selected.name} />
         </div>
       </OuterPanel>
       <div
