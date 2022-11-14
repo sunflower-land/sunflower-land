@@ -1,17 +1,16 @@
 import Decimal from "decimal.js-light";
 import { CollectibleName } from "features/game/types/craftables";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { removeUnsupportedChickens } from "./removeBuilding";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
-  NO_VALID_SHOVEL_SELECTED = "No valid shovel selected!",
   NO_RUSTY_SHOVEL_AVAILABLE = "No Rusty Shovel available!",
 }
 
 export type RemoveCollectibleAction = {
   type: "collectible.removed";
-  item?: InventoryItemName;
   collectible: CollectibleName;
   id: string;
 };
@@ -52,10 +51,6 @@ export function removeCollectible({
     throw new Error(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
   }
 
-  if (action.item !== "Rusty Shovel") {
-    throw new Error(REMOVE_COLLECTIBLE_ERRORS.NO_VALID_SHOVEL_SELECTED);
-  }
-
   const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
 
   if (shovelAmount.lessThan(1)) {
@@ -66,6 +61,10 @@ export function removeCollectible({
     collectibleGroup,
     collectibleGroup[collectibleIndex]
   );
+
+  if (action.collectible === "Chicken Coop") {
+    stateCopy.chickens = removeUnsupportedChickens(stateCopy);
+  }
 
   inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
 
