@@ -100,7 +100,7 @@ export const Menu = () => {
         <div
           ref={ref}
           className={`fixed left-2 z-50 cursor-pointer hover:img-highlight ${
-            isMobile ? "top-36" : "top-48"
+            isMobile ? "top-24" : "top-36"
           }`}
           onClick={() => setMenuOpen(true)}
         >
