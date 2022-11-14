@@ -58,6 +58,21 @@ export const getBumpkinLevel = (experience: number): BumpkinLevel => {
   return bumpkinLevel ?? MAX_BUMPKIN_LEVEL;
 };
 
+export const getExperienceToNextLevel = (experience: number) => {
+  const level = getBumpkinLevel(experience);
+  const nextLevelExperience = LEVEL_BRACKETS[level];
+  const previousLevelExperience =
+    LEVEL_BRACKETS[(level - 1) as BumpkinLevel] || 0;
+
+  const currentExperienceProgress = experience - previousLevelExperience;
+  const experienceToNextLevel = nextLevelExperience - previousLevelExperience;
+
+  return {
+    currentExperienceProgress,
+    experienceToNextLevel,
+  };
+};
+
 // key: level, value: total skill points
 export const SKILL_POINTS: Record<BumpkinLevel, number> = {
   1: 0,

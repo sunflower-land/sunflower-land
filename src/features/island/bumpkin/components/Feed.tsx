@@ -9,7 +9,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Consumable, ConsumableName } from "features/game/types/consumables";
 
-import heart from "assets/icons/heart.png";
+import heart from "assets/icons/level_up.png";
 import firePit from "src/assets/buildings/fire_pit.png";
 
 interface Props {

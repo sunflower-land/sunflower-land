@@ -5,7 +5,7 @@ import skeleton from "assets/npcs/skeleton_walk.gif";
 import stopwatch from "assets/icons/stopwatch.png";
 import hammer from "assets/icons/hammer.png";
 import close from "assets/icons/close.png";
-import heart from "assets/icons/heart.png";
+import heart from "assets/icons/level_up.png";
 import lock from "assets/skills/lock.png";
 
 import { GameState } from "features/game/types/game";

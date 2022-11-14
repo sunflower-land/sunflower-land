@@ -6,7 +6,7 @@ import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
-import heart from "assets/icons/heart.png";
+import heart from "assets/icons/level_up.png";
 import lock from "assets/skills/lock.png";
 
 import { Box } from "components/ui/Box";
