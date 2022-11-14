@@ -76,6 +76,7 @@ const PARTS: Record<VisiblePart, string> = {
   "Teal Mohawk": tealMohawk,
   "White Long Hair": longWhiteHair,
   Blondie: blondie,
+  "Red Long Hair": basicHair,
 
   // Shirts
   "Red Farmer Shirt": redShirt,
@@ -88,6 +89,7 @@ const PARTS: Record<VisiblePart, string> = {
   "Project Dignity Hoodie": dignityHoodie,
   "SFL T-Shirt": sflShirt,
   "Warrior Shirt": warriorShirt,
+  "Fire Shirt": sflShirt,
 
   // Pants
   "Farmer Overalls": blueOveralls,
