@@ -16,8 +16,8 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { getKeys, TOOLS } from "features/game/types/craftables";
-import { CROP_SEEDS } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SEEDS } from "features/game/types/seeds";
 
 const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   "Fire Pit": getKeys(CONSUMABLES).filter(
@@ -35,7 +35,7 @@ const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   Workbench: getKeys(TOOLS),
   "Hen House": ["Chicken", "Egg"],
   "Water Well": [],
-  Market: getKeys(CROP_SEEDS()),
+  Market: getKeys(SEEDS()),
   Tent: [],
 };
 
