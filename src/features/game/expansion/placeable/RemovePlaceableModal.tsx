@@ -1,32 +1,77 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { PlaceableName } from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Context } from "features/game/GameProvider";
+import { getShortcuts } from "features/farming/hud/lib/shortcuts";
+import { useActor } from "@xstate/react";
+
+type PlaceableType = "building" | "collectible";
 
 interface Props {
   name: PlaceableName;
+  placeableId: string;
   onClose: () => void;
-  type: "building" | "collectible";
+  type: PlaceableType;
 }
 
 export const RemovePlaceableModal: React.FC<Props> = ({
   name,
   type,
+  placeableId,
   onClose,
 }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+  const shortcuts = getShortcuts();
+  const selected = shortcuts[0];
+
+  const {
+    context: {
+      state: { inventory },
+    },
+  } = gameState;
+
+  const hasRustyShovel = inventory["Rusty Shovel"]?.gt(0);
+
   const handleRemove = () => {
-    console.log("remove collectible");
+    if (type === "building") {
+      gameService.send("building.removed", {
+        item: selected,
+        building: name,
+        id: placeableId,
+      });
+    } else {
+      gameService.send("collectible.removed", {
+        item: selected,
+        collectible: name,
+        id: placeableId,
+      });
+    }
+
     onClose();
   };
 
   const AddedInfo = () => {
+    if (!hasRustyShovel) {
+      return (
+        <p>
+          {`It doesn't look like you have any of these shovels in your inventory.`}
+        </p>
+      );
+    }
+
     if (type === "building") {
       return (
         <>
           <p>
             After removing this building you will be able to place it again at
             any time by going back to the buildings menu.
+          </p>
+          <p>
+            If any items placed on your land are dependent on this building they
+            will also be sent back to your Inventory.
           </p>
         </>
       );
@@ -61,11 +106,16 @@ export const RemovePlaceableModal: React.FC<Props> = ({
         </div>
         <div className="flex space-x-2 w-full">
           <Button className="text-xs sm:text-sm w-full" onClick={onClose}>
-            Cancel
+            Close
           </Button>
-          <Button className="text-xs sm:text-sm w-full" onClick={handleRemove}>
-            Dig it up!
-          </Button>
+          {hasRustyShovel && (
+            <Button
+              className="text-xs sm:text-sm w-full"
+              onClick={handleRemove}
+            >
+              Dig it up!
+            </Button>
+          )}
         </div>
       </div>
     </Panel>

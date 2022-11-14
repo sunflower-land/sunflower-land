@@ -232,6 +232,7 @@ export const Collectible: React.FC<Prop> = ({
         {showRemoveModal && (
           <RemovePlaceableModal
             type="collectible"
+            placeableId={id}
             name={name}
             onClose={() => setShowRemoveModal(false)}
           />
