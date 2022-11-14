@@ -1,5 +1,5 @@
 import { useActor, useInterpret, useSelector } from "@xstate/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 
 import hungryChicken from "assets/animals/chickens/hungry_2.gif";
@@ -35,6 +35,7 @@ import {
   MachineState,
 } from "features/farming/animals/chickenMachine";
 import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
+import { ITEM_DETAILS } from "features/game/types/images";
 interface Props {
   index: number;
 }
@@ -89,6 +90,7 @@ const isEggLaid = (state: MachineState) => state.matches("eggLaid");
 
 export const Chicken: React.FC<Props> = ({ index }) => {
   const { gameService, selectedItem } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [
     {
       context: { state },
@@ -126,6 +128,8 @@ export const Chicken: React.FC<Props> = ({ index }) => {
   const [showPopover, setShowPopover] = useState(false);
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
+
+  const [collectingEgg, setCollectingEgg] = useState(false);
 
   const handleMouseEnter = () => {
     eggIsBrewing && setShowTimeToEgg(true);
@@ -194,20 +198,35 @@ export const Chicken: React.FC<Props> = ({ index }) => {
 
   const handleContinue = () => {
     setShowMutantModal(false);
+
+    setToast({
+      icon: ITEM_DETAILS[chicken.reward?.items[0].name].image,
+      content: "+1",
+    });
+
     collectEgg();
   };
+
+  // do not show toast and reset chicken state while hoarding
+  useEffect(() => {
+    if (collectingEgg && !gameState.matches("hoarding")) {
+      service.send("COLLECT");
+    }
+
+    setCollectingEgg(false);
+  }, [collectingEgg]);
 
   const collectEgg = () => {
     gameService.send("chicken.collectEgg", {
       index,
     });
 
-    service.send("COLLECT");
-
     setToast({
       icon: egg,
       content: `+${chicken.multiplier}`,
     });
+
+    setCollectingEgg(true);
   };
 
   return (
