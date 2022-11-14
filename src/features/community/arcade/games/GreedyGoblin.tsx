@@ -23,6 +23,7 @@ import rightArrow from "assets/icons/arrow_right.png";
 
 import { greedyGoblinAudio } from "src/lib/utils/sfx";
 import { randomInt } from "lib/utils/random";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type MoveDirection = "left" | "right";
 type ActionKeys =
@@ -413,38 +414,61 @@ export const GreedyGoblin: React.FC = () => {
             backgroundSize: "contain",
           }}
         ></canvas>
-        <span className="flex items-center my-2">
-          <img src={token} className="w-6 mr-2" />
+        <span className="flex items-center">
+          <img
+            src={token}
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              margin: `${PIXEL_SCALE * 3}px`,
+            }}
+          />
           {renderPoints}
         </span>
       </div>
-      <div className="flex mb-2 flex justify-around">
+      <div
+        className="flex mb-2 flex justify-around"
+        style={{
+          height: `${PIXEL_SCALE * 32}px`,
+        }}
+      >
         <div
-          className="h-16 w-16 cursor-pointer"
+          className="cursor-pointer"
           onMouseDown={() => addAndCheckActiveKeys("uiArrowLeft")}
           onTouchStart={() => addAndCheckActiveKeys("uiArrowLeft")}
           onMouseUp={() => removeAndCheckActiveKeys("uiArrowLeft")}
           onMouseLeave={() => removeAndCheckActiveKeys("uiArrowLeft")}
           onTouchEnd={() => removeAndCheckActiveKeys("uiArrowLeft")}
+          style={{
+            padding: `${PIXEL_SCALE * 10}px`,
+          }}
         >
           <img
-            className="h-full w-full pointer-events-none p-3"
+            className="pointer-events-none"
             src={leftArrow}
             alt="left-arrow"
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
         </div>
         <div
-          className="h-16 w-16 cursor-pointer"
+          className="cursor-pointer"
           onMouseDown={() => addAndCheckActiveKeys("uiArrowRight")}
           onTouchStart={() => addAndCheckActiveKeys("uiArrowRight")}
           onMouseUp={() => removeAndCheckActiveKeys("uiArrowRight")}
           onMouseLeave={() => removeAndCheckActiveKeys("uiArrowRight")}
           onTouchEnd={() => removeAndCheckActiveKeys("uiArrowRight")}
+          style={{
+            padding: `${PIXEL_SCALE * 10}px`,
+          }}
         >
           <img
-            className="h-full w-full pointer-events-none p-3"
+            className="pointer-events-none"
             src={rightArrow}
             alt="right-arrow"
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
         </div>
       </div>

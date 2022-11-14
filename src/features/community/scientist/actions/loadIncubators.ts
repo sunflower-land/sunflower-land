@@ -7,7 +7,7 @@ export async function loadIncubators() {
   try {
     const incubatorIds = await communityContracts.getIncubator().incubatorIds();
 
-    const result = incubatorIds.map(async (id: number) => ({
+    const result = incubatorIds.map(async (id) => ({
       name: "active" as IncubatorName,
       description: "An occupied incubator.",
       id,
@@ -21,7 +21,7 @@ export async function loadIncubators() {
   }
 }
 
-export async function getEarnings(incubatorId: number) {
+export async function getEarnings(incubatorId: string) {
   try {
     const earnings = await communityContracts
       .getIncubator()

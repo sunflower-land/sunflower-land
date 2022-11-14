@@ -26,8 +26,13 @@ export const NyonStatue: React.FC = () => {
         <Panel>
           <img
             src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
+            className="absolute cursor-pointer z-20"
             onClick={() => setShowNyonLore(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           <div className="flex flex-col items-cetner justify-content-between">
             <div className="flex justify-content m-2">
@@ -40,12 +45,12 @@ export const NyonStatue: React.FC = () => {
                 alt="Nyon Statue"
               />
               <div className="ml-2 mt-3">
-                <span className="text-shadow text-xs block">In memory of</span>
-                <span className="text-shadow block">Nyon Lann</span>
+                <span className="text-xs block">In memory of</span>
+                <span className="block">Nyon Lann</span>
               </div>
             </div>
             <div className="flex-1 ml-2 mr-2">
-              <span className="text-shadow block mb-2 text-xs">
+              <span className="block mb-2 text-xs">
                 The legendary knight responsible for clearing the goblins from
                 the mines. Shortly after his victory he died by poisoning from a
                 Goblin conspirator. The Sunflower Citizens erected this statue

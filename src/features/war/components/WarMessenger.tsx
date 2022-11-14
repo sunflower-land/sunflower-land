@@ -41,8 +41,13 @@ export const WarMessenger: React.FC<Props> = ({ side }) => {
           <div className="flex flex-col items-center">
             <img
               src={close}
-              className="h-6 top-4 right-4 absolute cursor-pointer z-10"
+              className="absolute cursor-pointer z-20"
               onClick={() => setShowModal(false)}
+              style={{
+                top: `${PIXEL_SCALE * 6}px`,
+                right: `${PIXEL_SCALE * 6}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
             />
             <span>War messenger</span>
             <div

@@ -261,11 +261,16 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     return (
       <>
         <Modal centered show={isFertileModalOpen} onHide={notFertileCallback}>
-          <Panel className="relative">
+          <Panel>
             <img
               src={close}
-              className="absolute w-6 top-4 right-4 cursor-pointer z-20"
+              className="absolute cursor-pointer z-20"
               onClick={notFertileCallback}
+              style={{
+                top: `${PIXEL_SCALE * 6}px`,
+                right: `${PIXEL_SCALE * 6}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
             />
             <p className="text-center">These crops need water!</p>
             <p className="text-center mt-4">

@@ -13,6 +13,7 @@ import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
 import { Blocked } from "./Blocked";
 import { CONFIG } from "lib/config";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -75,10 +76,8 @@ const CharityDetail = ({
   return (
     <OuterPanel className="flex-col inline-flex items-center justify-center w-full">
       <div className="flex flex-col items-center mb-3 whitespace-normal">
-        <h5 className="text-sm text-shadow underline mb-3 text-center">
-          {name}
-        </h5>
-        <p className="text-xs text-center text-shadow mb-2 px-5 two-line-ellipsis">
+        <h5 className="text-sm underline mb-3 text-center">{name}</h5>
+        <p className="text-xs text-center mb-2 px-5 two-line-ellipsis">
           {info}
         </p>
       </div>
@@ -156,7 +155,7 @@ export const CreateFarm: React.FC = () => {
 
   return (
     <form className="mb-4 relative">
-      <div className="flex flex-col text-shadow items-center">
+      <div className="flex flex-col items-center">
         <h2 className="text-base mb-2">$5 USD to play</h2>
         <p className="text-xs mb-3 text-center">
           To play Sunflower Land, you first need to mint an Account NFT for $5
@@ -174,7 +173,10 @@ export const CreateFarm: React.FC = () => {
           <img
             src={leftArrow}
             alt="left-arrow"
-            className="h-5 cursor-pointer absolute left-2 sm:left-4"
+            className="absolute cursor-pointer"
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
             onClick={() => updateActiveIndex(activeIdx - 1)}
           />
         }
@@ -182,7 +184,10 @@ export const CreateFarm: React.FC = () => {
           <img
             src={rightArrow}
             alt="right-arrow"
-            className="h-5 cursor-pointer absolute right-2 sm:right-4"
+            className="absolute cursor-pointer"
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
             onClick={() => updateActiveIndex(activeIdx + 1)}
           />
         }

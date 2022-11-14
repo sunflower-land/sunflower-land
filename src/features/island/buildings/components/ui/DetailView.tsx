@@ -5,7 +5,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import { secondsToMidString } from "lib/utils/time";
-import leftArrow from "assets/icons/arrow_left.png";
+import arrowLeft from "assets/icons/arrow_left.png";
 
 import token from "assets/icons/token_2.png";
 import stopwatch from "assets/icons/stopwatch.png";
@@ -16,7 +16,8 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { getKeys, TOOLS } from "features/game/types/craftables";
-import { SEEDS } from "features/game/types/seeds";
+import { CROP_SEEDS } from "features/game/types/crops";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   "Fire Pit": getKeys(CONSUMABLES).filter(
@@ -34,7 +35,7 @@ const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   Workbench: getKeys(TOOLS),
   "Hen House": ["Chicken", "Egg"],
   "Water Well": [],
-  Market: getKeys(SEEDS()),
+  Market: getKeys(CROP_SEEDS()),
   Tent: [],
 };
 
@@ -114,8 +115,13 @@ export const DetailView: React.FC<Props> = ({
       <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           <img
-            src={leftArrow}
-            className="self-start w-5 cursor-pointer top-3 right-96"
+            src={arrowLeft}
+            className="absolute cursor-pointer"
+            style={{
+              top: `${PIXEL_SCALE * 2}px`,
+              left: `${PIXEL_SCALE * 2}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
             alt="back"
             onClick={onBack}
           />
@@ -176,7 +182,7 @@ export const DetailView: React.FC<Props> = ({
               <div className="flex justify-center items-end">
                 <img src={token} className="h-5 mr-1" />
                 <span
-                  className={classNames("text-xs text-center mt-2 ", {
+                  className={classNames("text-xs text-center mt-2", {
                     "text-red-500": state.balance.lessThan(
                       BUILDINGS()[building].sfl
                     ),
@@ -188,7 +194,7 @@ export const DetailView: React.FC<Props> = ({
             )}
             <div className="flex justify-center items-end">
               <img src={stopwatch} className="h-5 mr-1" />
-              <span className={classNames("text-xs text-center mt-2 ")}>
+              <span className={classNames("text-xs text-center mt-2")}>
                 {secondsToMidString(BUILDINGS()[building].constructionSeconds)}
               </span>
             </div>

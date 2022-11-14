@@ -3,6 +3,7 @@ import { Context } from "features/game/GameProvider";
 import { Announcement as IAnnouncement } from "features/announcements";
 import { acknowledgeRead, getAnnouncements } from "./announcementsStorage";
 import close from "assets/icons/close.png";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const CONTENT_HEIGHT = 400;
 
@@ -17,14 +18,19 @@ export const Announcements: React.FC = () => {
   const announcements = getAnnouncements();
 
   return (
-    announcements && (
+    true && (
       <>
         <div className="flex justify-between items-center mb-2 px-2">
           <p className="text-sm">{`What's new!`}</p>
           <img
             src={close}
-            className="h-6 cursor-pointer"
+            className="absolute cursor-pointer z-20"
             onClick={onAcknowledge}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
         </div>
 

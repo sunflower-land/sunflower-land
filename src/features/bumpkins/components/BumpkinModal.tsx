@@ -26,6 +26,7 @@ import { AchievementBadges } from "./AchievementBadges";
 import { Skills } from "features/bumpkins/components/Skills";
 import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillPointStorage";
 import { CONFIG } from "lib/config";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -88,8 +89,13 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
       <div className="flex flex-wrap ">
         <img
           src={close}
-          className="absolute w-6 top-4 right-4 cursor-pointer z-20"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
         <div className="w-full sm:w-1/3 z-10 md:mr-4">
           <div className="w-full rounded-md overflow-hidden mb-1">
@@ -142,38 +148,34 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
             </div>
           </div>
 
-          <div className="mb-2">
+          <div
+            className="mb-2 cursor-pointer"
+            onClick={() => setView("skills")}
+          >
             <InnerPanel className="relative mt-1 ">
-              <div className="flex items-center  mb-1 justify-between">
+              <div className="flex items-center mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Skills</span>
                   {hasSkillPoint && !gameState.matches("visiting") && (
                     <img src={alert} className="h-4 ml-2" />
                   )}
                 </div>
-                <span
-                  className="text-xxs underline cursor-pointer"
-                  onClick={() => setView("skills")}
-                >
-                  View all
-                </span>
+                <span className="text-xxs underline">View all</span>
               </div>
               <Badges inventory={state.inventory} />
             </InnerPanel>
           </div>
 
-          <div className="mb-2">
-            <InnerPanel className="relative mt-1 ">
-              <div className="flex items-center  mb-1 justify-between">
+          <div
+            className="mb-2 cursor-pointer"
+            onClick={() => setView("achievements")}
+          >
+            <InnerPanel className="relative mt-1">
+              <div className="flex items-center mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Achievements</span>
                 </div>
-                <span
-                  className="text-xxs underline cursor-pointer"
-                  onClick={() => setView("achievements")}
-                >
-                  View all
-                </span>
+                <span className="text-xxs underline">View all</span>
               </div>
               <AchievementBadges achievements={state.bumpkin?.achievements} />
             </InnerPanel>

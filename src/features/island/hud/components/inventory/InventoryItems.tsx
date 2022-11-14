@@ -11,6 +11,7 @@ import { Tab } from "components/ui/Tab";
 import Decimal from "decimal.js-light";
 import { Basket } from "./Basket";
 import { Chest } from "./Chest";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type Tab = "basket" | "chest";
 
@@ -31,34 +32,44 @@ export const InventoryItems: React.FC<Props> = ({ state, onClose }) => {
   };
 
   return (
-    <Panel className="pt-5 relative">
-      <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-        <div className="flex">
-          <Tab
-            className="flex items-center"
-            isActive={currentTab === "basket"}
-            onClick={() => handleTabClick("basket")}
-          >
-            <img src={basket} className="h-4 sm:h-5 mr-2" />
-            <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
-              Basket
-            </span>
-          </Tab>
-          <Tab
-            className="flex items-center"
-            isActive={currentTab === "chest"}
-            onClick={() => handleTabClick("chest")}
-          >
-            <img src={chest} className="h-4 sm:h-5 mr-2" />
-            <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
-              Chest
-            </span>
-          </Tab>
-        </div>
+    <Panel className="relative" hasTabs>
+      <div
+        className="absolute flex"
+        style={{
+          top: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      >
+        <Tab
+          className="flex items-center"
+          isActive={currentTab === "basket"}
+          onClick={() => handleTabClick("basket")}
+        >
+          <img src={basket} className="h-4 sm:h-5 mr-2" />
+          <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
+            Basket
+          </span>
+        </Tab>
+        <Tab
+          className="flex items-center"
+          isActive={currentTab === "chest"}
+          onClick={() => handleTabClick("chest")}
+        >
+          <img src={chest} className="h-4 sm:h-5 mr-2" />
+          <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
+            Chest
+          </span>
+        </Tab>
         <img
           src={close}
-          className="h-6 cursor-pointer mr-2 mb-1"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
       </div>
 

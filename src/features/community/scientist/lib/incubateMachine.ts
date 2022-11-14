@@ -108,8 +108,6 @@ export const incubateMachine = createMachine<
             const hasTadpoleOrIncubator =
               tadpoleCount.length >= 1 || incubatorCount.length >= 1;
 
-            console.log("has tad or inc", hasTadpoleOrIncubator);
-
             return { hasTadpoleOrIncubator };
           },
           onDone: [
@@ -133,8 +131,6 @@ export const incubateMachine = createMachine<
             const isFrogApproved = await communityContracts
               .getFrog()
               .isApprovedForAll(incubatorAddress);
-
-            console.log("is approved - frog", isFrogApproved);
 
             return { isFrogApproved };
           },
@@ -247,7 +243,7 @@ export const incubateMachine = createMachine<
 
             const req = {
               frogId,
-              tadpoleId: parseInt(tadpoleId),
+              tadpoleId,
             };
             const incubated = await incubateTadpole(req);
 

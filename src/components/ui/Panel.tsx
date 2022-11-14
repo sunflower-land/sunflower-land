@@ -1,21 +1,30 @@
 import React from "react";
 import classNames from "classnames";
 
-import darkBorder from "assets/ui/panel/dark_border.png";
-import lightBorder from "assets/ui/panel/light_border.png";
+import {
+  pixelDarkBorderStyle,
+  pixelLightBordertyle,
+} from "features/game/lib/style";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   className?: string;
+  hasTabs?: boolean;
   style?: React.CSSProperties;
 }
 
 /**
  * Default panel has the double layered pixel effect
  */
-export const Panel: React.FC<Props> = ({ children, className, style }) => {
+export const Panel: React.FC<Props> = ({
+  children,
+  className,
+  hasTabs,
+  style,
+}) => {
   return (
-    <OuterPanel className={className} style={style}>
-      <InnerPanel>{children}</InnerPanel>
+    <OuterPanel className={className} style={style} hasTabs={hasTabs}>
+      <InnerPanel hasTabs={hasTabs}>{children}</InnerPanel>
     </OuterPanel>
   );
 };
@@ -23,21 +32,13 @@ export const Panel: React.FC<Props> = ({ children, className, style }) => {
 /**
  * Light panel with border effect
  */
-export const InnerPanel: React.FC<Props> = ({ children, className, style }) => {
+export const InnerPanel: React.FC<Props> = ({ children, className }) => {
   return (
     <div
-      className={classNames("bg-brown-300 p-1", className)}
-      // Custom styles to get pixellated border effect
+      className={classNames("bg-brown-300", className)}
       style={{
-        // border: "6px solid transparent",
-        borderStyle: "solid",
-        borderWidth: "6px",
-        borderImage: `url(${lightBorder}) 30 stretch`,
-        borderImageSlice: "25%",
-        imageRendering: "pixelated",
-        borderImageRepeat: "repeat",
-        borderRadius: "15px",
-        ...style,
+        ...pixelLightBordertyle,
+        padding: `${PIXEL_SCALE * 1}px`,
       }}
     >
       {children}
@@ -48,23 +49,19 @@ export const InnerPanel: React.FC<Props> = ({ children, className, style }) => {
 /**
  * A panel with a single layered pixel effect
  */
-export const OuterPanel: React.FC<Props> = ({ children, className, style }) => {
+export const OuterPanel: React.FC<Props> = ({
+  children,
+  className,
+  hasTabs,
+  style,
+}) => {
   return (
     <div
-      className={classNames(
-        "bg-brown-600 p-0.5 text-white shadow-lg",
-        className
-      )}
-      // Custom styles to get pixellated border effect
+      className={classNames("bg-brown-600 text-white", className)}
       style={{
-        // border: "6px solid transparent",
-        borderStyle: "solid",
-        borderWidth: "6px",
-        borderImage: `url(${darkBorder}) 30 stretch`,
-        borderImageSlice: "25%",
-        imageRendering: "pixelated",
-        borderImageRepeat: "repeat",
-        borderRadius: "15px",
+        ...pixelDarkBorderStyle,
+        padding: `${PIXEL_SCALE * 1}px`,
+        ...(hasTabs ? { paddingTop: `${PIXEL_SCALE * 15}px` } : {}),
         ...style,
       }}
     >

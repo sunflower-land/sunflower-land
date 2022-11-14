@@ -6,6 +6,7 @@ import close from "assets/icons/close.png";
 import { Context } from "features/game/GameProvider";
 import { OnChainEvent } from "../actions/onChainEvents";
 import { Button } from "components/ui/Button";
+import { PIXEL_SCALE } from "../lib/constants";
 
 const CONTENT_HEIGHT = 400;
 
@@ -25,8 +26,13 @@ export const Notifications: React.FC = () => {
         <p className="text-sm">{`Since you've been gone`}</p>
         <img
           src={close}
-          className="h-6 cursor-pointer"
+          className="absolute cursor-pointer z-20"
           onClick={onAcknowledge}
+          style={{
+            top: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
       </div>
 

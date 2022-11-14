@@ -4,12 +4,33 @@ import {
   FROG_RARITIES,
 } from "features/community/project-dignity/models/frog";
 
-export async function loadFrogs(owner?: string) {
+interface Props {
+  owner?: string;
+  loadIncubatedFrogs?: boolean;
+}
+
+export async function loadFrogs({ owner, loadIncubatedFrogs }: Props = {}) {
   try {
     const frogIds = await communityContracts.getFrog().getFrogIds(owner);
-    const result = frogIds.map(
-      async (id) => await getFrogMetadata({ frogId: id })
-    );
+
+    let frogIdsInIncubator: string[] = [];
+    if (loadIncubatedFrogs) {
+      const incubatorIds = await communityContracts
+        .getIncubator()
+        .incubatorIds();
+      frogIdsInIncubator = await Promise.all(
+        incubatorIds.map(async (incubatorId) => {
+          const frogId = await communityContracts
+            .getIncubator()
+            .getFrogIdIncubator(incubatorId);
+          return frogId;
+        })
+      );
+    }
+
+    const result = frogIds
+      .concat(frogIdsInIncubator)
+      .map(async (id) => await getFrogMetadata({ frogId: id }));
     const res: Frog[] = await Promise.all(result);
 
     const frogs: Frog[] = res.map((frog) => {
@@ -36,7 +57,7 @@ export async function loadFrogs(owner?: string) {
   }
 }
 
-export async function getFrogMetadata(request: { frogId: number[] }) {
+export async function getFrogMetadata(request: { frogId: string }) {
   const headers = new Headers();
 
   headers.append("Content-Type", "application/json");
