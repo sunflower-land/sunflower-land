@@ -9,7 +9,6 @@ import { Auth } from "features/auth/Auth";
 import { Humans } from "features/game/Humans";
 import { Goblins } from "features/game/Goblins";
 import { Forbidden } from "features/auth/components/Forbidden";
-import { Visiting } from "features/game/Visiting";
 import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
@@ -86,8 +85,8 @@ export const Navigation: React.FC = () => {
                 )
               }
             />
-            <Route path="/visit/:id" element={<Visiting key="visit" />} />
-            {CONFIG.NETWORK !== "mainnet" && (
+            <Route path="/visit/*" element={<LandExpansion key="visit" />} />
+            {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
               <Route
                 path="/land/:id/*"
                 element={<LandExpansion key="land" />}
@@ -96,13 +95,13 @@ export const Navigation: React.FC = () => {
             {/* {CONFIG.NETWORK !== "mainnet" && (
               <Route path="/helios/:id" element={<Helios key="helios" />} />
             )} */}
-            {CONFIG.NETWORK !== "mainnet" && (
+            {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
               <Route path="/retreat/:id" element={<Retreat key="helios" />} />
             )}
-            {CONFIG.NETWORK !== "mainnet" && (
+            {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
               <Route path="/snow/:id" element={<SnowKingdom key="snow" />} />
             )}
-            {CONFIG.NETWORK !== "mainnet" && (
+            {CONFIG.NETWORK === "mumbai" && (
               <Route path="/builder" element={<Builder key="builder" />} />
             )}
 

@@ -5,15 +5,39 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
-import leftArrow from "assets/icons/arrow_left.png";
+import arrowLeft from "assets/icons/arrow_left.png";
 
 import token from "assets/icons/token_2.png";
 import timer from "assets/icons/timer.png";
 import lock from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
-import { GameState } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { CONSUMABLES } from "features/game/types/consumables";
+import { getKeys, TOOLS } from "features/game/types/craftables";
+import { CROP_SEEDS } from "features/game/types/crops";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+
+const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
+  "Fire Pit": getKeys(CONSUMABLES).filter(
+    (name) => CONSUMABLES[name].building === "Fire Pit"
+  ),
+  Kitchen: getKeys(CONSUMABLES).filter(
+    (name) => CONSUMABLES[name].building === "Kitchen"
+  ),
+  Bakery: getKeys(CONSUMABLES).filter(
+    (name) => CONSUMABLES[name].building === "Bakery"
+  ),
+  Deli: getKeys(CONSUMABLES).filter(
+    (name) => CONSUMABLES[name].building === "Deli"
+  ),
+  Workbench: getKeys(TOOLS),
+  "Hen House": ["Chicken", "Egg"],
+  "Water Well": [],
+  Market: getKeys(CROP_SEEDS()),
+  Tent: [],
+};
 
 interface Props {
   state: GameState;
@@ -81,8 +105,13 @@ export const DetailView: React.FC<Props> = ({
       <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           <img
-            src={leftArrow}
-            className="self-start w-5 cursor-pointer top-3 right-96"
+            src={arrowLeft}
+            className="absolute cursor-pointer"
+            style={{
+              top: `${PIXEL_SCALE * 2}px`,
+              left: `${PIXEL_SCALE * 2}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
             alt="back"
             onClick={onBack}
           />
@@ -96,6 +125,16 @@ export const DetailView: React.FC<Props> = ({
           <span className="text-shadow text-center mt-2 sm:text-sm">
             {ITEM_DETAILS[building].description}
           </span>
+
+          <div className="flex flex-wrap justify-center">
+            {UNLOCKABLES[building].map((name) => (
+              <img
+                key={name}
+                src={ITEM_DETAILS[name].image}
+                className="h-6 mr-2 mt-1"
+              />
+            ))}
+          </div>
 
           <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
             {BUILDINGS()[building].ingredients.map((ingredient, index) => {

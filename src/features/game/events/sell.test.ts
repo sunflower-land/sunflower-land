@@ -76,7 +76,7 @@ describe("sell", () => {
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(4));
     expect(state.balance).toEqual(
-      GAME_STATE.balance.add(CROPS().Sunflower.sellPrice)
+      GAME_STATE.balance.add(CROPS().Sunflower.sellPrice ?? 0)
     );
   });
 
@@ -97,7 +97,9 @@ describe("sell", () => {
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(1));
     expect(state.balance).toEqual(
-      GAME_STATE.balance.add(CROPS().Sunflower.sellPrice.mul(10))
+      GAME_STATE.balance.add(
+        (CROPS().Sunflower.sellPrice ?? new Decimal(0)).mul(10)
+      )
     );
   });
 
@@ -134,6 +136,8 @@ describe("sell", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(CROPS().Cauliflower.sellPrice));
+    expect(state.balance).toEqual(
+      new Decimal(CROPS().Cauliflower.sellPrice ?? 0)
+    );
   });
 });

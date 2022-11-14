@@ -13,7 +13,10 @@ export const ProjectDignityFrogs: React.FC = () => {
 
   useEffect(() => {
     const fetchFrogs = async () => {
-      const data = await loadFrogs(gameState.context.owner);
+      const data = await loadFrogs({
+        owner: gameState.context.owner,
+        loadIncubatedFrogs: true,
+      });
       setFrogData(data as Frog[]);
     };
 

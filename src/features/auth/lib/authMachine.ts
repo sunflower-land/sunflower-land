@@ -98,6 +98,7 @@ export type BlockchainEvent =
   | {
       type: "LOGOUT";
     }
+  | { type: "MIGRATE" }
   | {
       type: "CHOOSE_CHARITY";
     }
@@ -410,6 +411,11 @@ export const authMachine = createMachine<
               },
               VISIT: {
                 target: "visitingContributor",
+              },
+              MIGRATE: {
+                actions: assign({
+                  migrated: (_context) => true,
+                }),
               },
               LOGOUT: {
                 target: "#connecting",

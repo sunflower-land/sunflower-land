@@ -12,9 +12,9 @@ import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ErrorCode } from "lib/errors";
 
 // images
-import frog_unrevealed from "assets/nfts/frogs/frog_unrevealed.gif";
-import frog_revealed from "assets/nfts/frogs/frog_revealed.gif";
-import box from "assets/nfts/frogs/box.gif";
+import frog_unrevealed from "assets/sfts/frogs/frog_unrevealed.gif";
+import frog_revealed from "assets/sfts/frogs/frog_revealed.gif";
+import box from "assets/sfts/frogs/box.gif";
 import big_goblin_axe from "assets/npcs/big_goblin_axe.gif";
 import sfl_token from "assets/icons/token_2.png";
 import alert from "assets/icons/expression_alerted.png";
@@ -23,6 +23,7 @@ import heart from "assets/icons/heart.png";
 import cancel from "assets/icons/cancel.png";
 
 import { CONFIG } from "lib/config";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   isOpen: boolean;
@@ -42,7 +43,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
     CONFIG.NETWORK == "mainnet"
       ? "https://opensea.io/collection/sunflower-land-frogs-collection"
       : "https://testnets.opensea.io/collection/sunflower-land-frogs-collection-testnet";
-  const projectDignity = "https://www.project-dignity.tk";
+  const projectDignity = "https://www.projectdignity.work";
 
   const handleClose = () => onClose();
 
@@ -79,9 +80,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               />
               <div className="flex justify-center items-end">
                 <img src={sfl_token} className="h-5 me-2" />
-                <span className="text-xs text-shadow text-center mt-2">
-                  {100} SFL
-                </span>
+                <span className="text-xs text-center mt-2">{100} SFL</span>
               </div>
               <div className="flex items-center border-2 m-2 rounded-md border-black p-2 bg-[#ffa214]">
                 <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
@@ -95,8 +94,13 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               </Button>
               <img
                 src={close}
-                className="h-6 cursor-pointer mr-2 mb-1 top-3 right-2 absolute"
+                className="absolute cursor-pointer z-20"
                 onClick={onClose}
+                style={{
+                  top: `${PIXEL_SCALE * 6}px`,
+                  right: `${PIXEL_SCALE * 6}px`,
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
               />
             </div>
           </>
@@ -138,8 +142,13 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               </div>
               <img
                 src={close}
-                className="h-6 cursor-pointer mr-2 mb-1 top-3 right-2 absolute"
+                className="absolute cursor-pointer z-20"
                 onClick={onClose}
+                style={{
+                  top: `${PIXEL_SCALE * 6}px`,
+                  right: `${PIXEL_SCALE * 6}px`,
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
               />
               <Button className="text-xs mt-2" onClick={() => send("MINT")}>
                 Mint a frog
@@ -198,8 +207,13 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               </Button>
               <img
                 src={close}
-                className="h-6 cursor-pointer mr-2 mb-1 top-3 right-2 absolute"
+                className="absolute cursor-pointer z-20"
                 onClick={onClose}
+                style={{
+                  top: `${PIXEL_SCALE * 6}px`,
+                  right: `${PIXEL_SCALE * 6}px`,
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
               />
             </div>
           </>
@@ -210,8 +224,13 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               <img src={heart} width="50px" />
               <img
                 src={close}
-                className="h-6 cursor-pointer mr-2 mb-1 top-3 right-2 absolute"
+                className="absolute cursor-pointer z-20"
                 onClick={onClose}
+                style={{
+                  top: `${PIXEL_SCALE * 6}px`,
+                  right: `${PIXEL_SCALE * 6}px`,
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
               />
               <span className="mt-2 text-center">
                 All Frogs found their home.
@@ -267,8 +286,13 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               </Button>
               <img
                 src={close}
-                className="h-6 cursor-pointer mr-2 mb-1 top-3 right-2 absolute"
+                className="absolute cursor-pointer z-20"
                 onClick={onClose}
+                style={{
+                  top: `${PIXEL_SCALE * 6}px`,
+                  right: `${PIXEL_SCALE * 6}px`,
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
               />
             </div>
           </>
@@ -279,8 +303,13 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
               <img src={cancel} width="50px" className="mt-1" />
               <img
                 src={close}
-                className="h-6 cursor-pointer mr-2 mb-1 top-3 right-2 absolute"
+                className="absolute cursor-pointer z-20"
                 onClick={onClose}
+                style={{
+                  top: `${PIXEL_SCALE * 6}px`,
+                  right: `${PIXEL_SCALE * 6}px`,
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
               />
               <span className="mt-2 text-center">
                 Sorry, you are not whitelisted for this event.

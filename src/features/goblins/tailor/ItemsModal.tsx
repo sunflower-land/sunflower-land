@@ -6,6 +6,7 @@ import close from "assets/icons/close.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { TabContent } from "./TabContent";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   isOpen: boolean;
@@ -19,26 +20,36 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
-      <Panel className="pt-5 relative">
-        <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-          <div className="flex">
-            <Tab
-              isActive={tab === "upcoming-drops"}
-              onClick={() => setTab("upcoming-drops")}
-            >
-              <span className="text-sm text-shadow ml-1">Upcoming</span>
-            </Tab>
-            <Tab
-              isActive={tab === "collection"}
-              onClick={() => setTab("collection")}
-            >
-              <span className="text-sm text-shadow ml-1">Collection</span>
-            </Tab>
-          </div>
+      <Panel className="relative" hasTabs>
+        <div
+          className="absolute flex"
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+          }}
+        >
+          <Tab
+            isActive={tab === "upcoming-drops"}
+            onClick={() => setTab("upcoming-drops")}
+          >
+            <span className="text-sm ml-1">Upcoming</span>
+          </Tab>
+          <Tab
+            isActive={tab === "collection"}
+            onClick={() => setTab("collection")}
+          >
+            <span className="text-sm ml-1">Collection</span>
+          </Tab>
           <img
             src={close}
-            className="h-6 cursor-pointer mr-2 mb-1"
+            className="absolute cursor-pointer z-20"
             onClick={onClose}
+            style={{
+              top: `${PIXEL_SCALE * 1}px`,
+              right: `${PIXEL_SCALE * 1}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
         </div>
 

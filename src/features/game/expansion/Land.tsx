@@ -24,15 +24,15 @@ import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
-import pirateGoblin from "assets/npcs/pirate_goblin.gif";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { Mine } from "features/island/mines/Mine";
 import { IslandTravel } from "./components/IslandTravel";
-import { PIXEL_SCALE } from "../lib/constants";
 import { DirtRenderer } from "./components/DirtRenderer";
+import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Bumpkin, Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
+import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -61,7 +61,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-gold-${index}`}
+            key={`${expansionIndex}-gold-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -81,7 +81,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-plot-${index}`}
+            key={`${expansionIndex}-plot-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -101,7 +101,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-tree-${index}`}
+            key={`${expansionIndex}-tree-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -121,7 +121,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-stone-${index}`}
+            key={`${expansionIndex}-stone-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -141,7 +141,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-iron-${index}`}
+            key={`${expansionIndex}-iron-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -162,7 +162,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-fruit-${index}`}
+            key={`${expansionIndex}-fruit-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -182,7 +182,7 @@ const getExpansions = (
 
         return (
           <MapPlacement
-            key={`${expansionProps.createdAt}-mine-${index}`}
+            key={`${expansionIndex}-mine-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
@@ -215,12 +215,7 @@ const getIslandElements = ({
   bumpkin: Bumpkin | undefined;
   bumpkinParts: BumpkinParts | undefined;
 }) => {
-  const boatCordinates = {
-    x: islandLevel > 7 ? -9 : -2,
-    y: islandLevel > 7 ? -10.5 : -4.5,
-  };
-
-  const pirateCordinates = {
+  const pirateCoordinates = {
     x: islandLevel > 7 ? -8.4 : -1.4,
     y: islandLevel > 7 ? -8 : -2,
   };
@@ -253,7 +248,13 @@ const getIslandElements = ({
 
   if (bumpkinParts) {
     mapPlacements.push(
-      <MapPlacement key="bumpkin-parts" x={2} y={-1}>
+      <MapPlacement
+        key="bumpkin-parts"
+        x={BUMPKIN_POSITION.x}
+        y={BUMPKIN_POSITION.y}
+        width={2}
+        height={2}
+      >
         <Character
           body={bumpkinParts.body}
           hair={bumpkinParts.hair}
@@ -263,31 +264,6 @@ const getIslandElements = ({
       </MapPlacement>
     );
   }
-
-  mapPlacements.push(
-    <MapPlacement
-      key="pirate-goblin"
-      x={pirateCordinates.x}
-      y={pirateCordinates.y}
-    >
-      <img
-        src={pirateGoblin}
-        className="relative top-8"
-        style={{
-          width: `${25 * PIXEL_SCALE}px`,
-        }}
-      />
-    </MapPlacement>
-  );
-
-  mapPlacements.push(
-    <IslandTravel
-      key="island-travel"
-      bumpkin={bumpkin}
-      x={boatCordinates.x}
-      y={boatCordinates.y}
-    />
-  );
 
   mapPlacements.push(
     ...getKeys(buildings)
@@ -323,7 +299,8 @@ const getIslandElements = ({
       .flatMap((name, nameIndex) => {
         const items = collectibles[name]!;
         return items.map((collectible, itemIndex) => {
-          const { x, y } = collectible.coordinates;
+          const { readyAt, createdAt, coordinates, id } = collectible;
+          const { x, y } = coordinates;
           const { width, height } = COLLECTIBLES_DIMENSIONS[name];
 
           return (
@@ -334,7 +311,12 @@ const getIslandElements = ({
               height={height}
               width={width}
             >
-              <Collectible name={name} id={collectible.id} />
+              <Collectible
+                name={name}
+                id={id}
+                readyAt={readyAt}
+                createdAt={createdAt}
+              />
             </MapPlacement>
           );
         });
@@ -358,9 +340,7 @@ const getIslandElements = ({
             height={height}
             width={width}
           >
-            <div className="flex relative justify-center w-full h-full">
-              <ChickenElement index={index} />
-            </div>
+            <ChickenElement index={index} />
           </MapPlacement>
         );
       })
@@ -383,28 +363,47 @@ export const Land: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
+  const boatCoordinates = {
+    x: level > 7 ? -9 : -2,
+    y: level > 7 ? -10.5 : -4.5,
+  };
+
   return (
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div className="absolute z-0 w-full h-full">
-        <Water level={level} />
-      </div>
       <div className="relative w-full h-full">
-        <LandBase expansions={expansions} />
-        <UpcomingExpansion gameState={state} />
-        <DirtRenderer
-          expansions={expansions.filter((e) => e.readyAt < Date.now())}
-        />
+        <div
+          className={classNames("w-full h-full", {
+            "pointer-events-none": gameState.matches("visiting"),
+          })}
+        >
+          <LandBase expansions={expansions} />
+          <UpcomingExpansion gameState={state} />
+          <DirtRenderer
+            expansions={expansions.filter((e) => e.readyAt < Date.now())}
+          />
 
-        {/* Sort island elements by y axis */}
-        {getIslandElements({
-          islandLevel: level,
-          expansions,
-          buildings,
-          collectibles,
-          chickens,
-          bumpkin,
-          bumpkinParts: gameState.context.state.bumpkin?.equipped,
-        }).sort((a, b) => b.props.y - a.props.y)}
+          <Water level={level} />
+
+          {/* Sort island elements by y axis */}
+          {getIslandElements({
+            islandLevel: level,
+            expansions,
+            buildings,
+            collectibles,
+            chickens,
+            bumpkin,
+            bumpkinParts: gameState.context.state.bumpkin?.equipped,
+          }).sort((a, b) => b.props.y - a.props.y)}
+        </div>
+        <IslandTravel
+          key="island-travel"
+          bumpkin={bumpkin}
+          isVisiting={gameState.matches("visiting")}
+          isTravelAllowed={!gameState.matches("autosaving")}
+          onTravelDialogOpened={() => gameService.send("SAVE")}
+          x={boatCoordinates.x}
+          y={boatCoordinates.y}
+        />
 
         {gameState.matches("editing") && <Placeable />}
       </div>

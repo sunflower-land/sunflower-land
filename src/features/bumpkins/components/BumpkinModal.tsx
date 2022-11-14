@@ -1,7 +1,7 @@
 import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
-import heart from "assets/icons/heart.png";
+import heart from "assets/icons/level_up.png";
 import close from "assets/icons/close.png";
 import alert from "assets/icons/expression_alerted.png";
 
@@ -15,12 +15,17 @@ import {
 import { DynamicNFT } from "./DynamicNFT";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { Badges } from "features/farming/house/House";
-import { getBumpkinLevel, LEVEL_BRACKETS } from "features/game/lib/level";
+import {
+  getBumpkinLevel,
+  getExperienceToNextLevel,
+} from "features/game/lib/level";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Achievements } from "./Achievements";
 import { AchievementBadges } from "./AchievementBadges";
 import { Skills } from "features/bumpkins/components/Skills";
 import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillPointStorage";
+import { CONFIG } from "lib/config";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -32,11 +37,26 @@ interface Props {
 export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
   const [view, setView] = useState<ViewState>(initialView);
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [gameState] = useActor(gameService);
+  const { state } = gameState.context;
+
+  const getVisitBumpkinUrl = () => {
+    if (gameState.matches("visiting")) {
+      const baseUrl =
+        CONFIG.NETWORK === "mainnet"
+          ? `https://opensea.io/assets/matic`
+          : `https://testnets.opensea.io/assets/mumbai`;
+
+      return `${baseUrl}/${CONFIG.BUMPKIN_CONTRACT}/${state.bumpkin?.id}`;
+    }
+
+    const baseUrl =
+      CONFIG.NETWORK === "mainnet"
+        ? `https://bumpkins.io/#/bumpkins`
+        : `https://testnet.bumpkins.io/#/bumpkins`;
+
+    return `${baseUrl}/${state.bumpkin?.id}`;
+  };
 
   if (view === "achievements") {
     return <Achievements onBack={() => setView("home")} onClose={onClose} />;
@@ -54,7 +74,8 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
 
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
-  const nextLevelExperience = LEVEL_BRACKETS[level];
+  const { currentExperienceProgress, experienceToNextLevel } =
+    getExperienceToNextLevel(experience);
 
   const hasSkillPoint = hasUnacknowledgedSkillPoints(state.bumpkin);
 
@@ -63,8 +84,13 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
       <div className="flex flex-wrap ">
         <img
           src={close}
-          className="absolute w-6 top-4 right-4 cursor-pointer z-20"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
         <div className="w-full sm:w-1/3 z-10 md:mr-4">
           <div className="w-full rounded-md overflow-hidden mb-1">
@@ -75,7 +101,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
           </div>
           <div>
             <a
-              href="https://testnet.bumpkins.io/#/bumpkins/1"
+              href={getVisitBumpkinUrl()}
               target="_blank"
               className="underline text-xxs"
               rel="noreferrer"
@@ -104,47 +130,47 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
                   className="h-full bg-[#63c74d] absolute -z-10 "
                   style={{
                     borderRadius: "10px 0 0 10px",
-                    width: `${(experience / nextLevelExperience) * 100}%`,
+                    width: `${
+                      (currentExperienceProgress / experienceToNextLevel) * 100
+                    }%`,
                     maxWidth: "100%",
                   }}
                 />
               </div>
               <p className="text-xxs">{`${formatNumber(
-                experience
-              )}/${formatNumber(nextLevelExperience)} XP`}</p>
+                currentExperienceProgress
+              )}/${formatNumber(experienceToNextLevel)} XP`}</p>
             </div>
           </div>
 
-          <div className="mb-2">
+          <div
+            className="mb-2 cursor-pointer"
+            onClick={() => setView("skills")}
+          >
             <InnerPanel className="relative mt-1 ">
-              <div className="flex items-center  mb-1 justify-between">
+              <div className="flex items-center mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Skills</span>
-                  {hasSkillPoint && <img src={alert} className="h-4 ml-2" />}
+                  {hasSkillPoint && !gameState.matches("visiting") && (
+                    <img src={alert} className="h-4 ml-2" />
+                  )}
                 </div>
-                <span
-                  className="text-xxs underline cursor-pointer"
-                  onClick={() => setView("skills")}
-                >
-                  View all
-                </span>
+                <span className="text-xxs underline">View all</span>
               </div>
               <Badges inventory={state.inventory} />
             </InnerPanel>
           </div>
 
-          <div className="mb-2">
-            <InnerPanel className="relative mt-1 ">
-              <div className="flex items-center  mb-1 justify-between">
+          <div
+            className="mb-2 cursor-pointer"
+            onClick={() => setView("achievements")}
+          >
+            <InnerPanel className="relative mt-1">
+              <div className="flex items-center mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Achievements</span>
                 </div>
-                <span
-                  className="text-xxs underline cursor-pointer"
-                  onClick={() => setView("achievements")}
-                >
-                  View all
-                </span>
+                <span className="text-xxs underline">View all</span>
               </div>
               <AchievementBadges achievements={state.bumpkin?.achievements} />
             </InnerPanel>

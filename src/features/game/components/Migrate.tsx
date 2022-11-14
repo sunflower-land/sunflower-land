@@ -1,15 +1,17 @@
-import { useActor } from "@xstate/react";
-import { Button } from "components/ui/Button";
 import React, { useContext, useState } from "react";
+import { useActor } from "@xstate/react";
+import * as AuthProvider from "features/auth/lib/Provider";
+import { Button } from "components/ui/Button";
 import { Context } from "../GameProvider";
 import boat from "assets/decorations/isles_boat.png";
-import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
-import sauerkraut from "src/assets/nfts/saurrerkrat.png";
-import roastedCauliflower from "assets/nfts/roasted_cauliflower.png";
-import radishPie from "assets/nfts/radish_pie.png";
+import pumpkinSoup from "assets/sfts/pumpkin_soup.png";
+import sauerkraut from "src/assets/sfts/saurrerkrat.png";
+import roastedCauliflower from "assets/sfts/roasted_cauliflower.png";
+import radishPie from "assets/sfts/radish_pie.png";
 import skull from "src/assets/decorations/war_skulls.png";
 
 export const Migrate: React.FC = () => {
+  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [_, send] = useActor(gameService);
   const [page, setPage] = useState<"intro" | "confirm">("intro");
@@ -20,6 +22,7 @@ export const Migrate: React.FC = () => {
     }
 
     send("game.migrated");
+    authService.send("MIGRATE");
   };
 
   const handleSkip = () => {

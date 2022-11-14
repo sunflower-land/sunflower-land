@@ -12,11 +12,21 @@ import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 interface Props {
   bumpkin: Bumpkin | undefined;
+  isVisiting?: boolean;
+  isTravelAllowed?: boolean;
+  onTravelDialogOpened?: () => void;
   x: number;
   y: number;
 }
 
-export const IslandTravel = ({ bumpkin, x, y }: Props) => {
+export const IslandTravel = ({
+  bumpkin,
+  x,
+  y,
+  isVisiting = false,
+  isTravelAllowed = true,
+  onTravelDialogOpened,
+}: Props) => {
   const [openIslandList, setOpenIslandList] = useState(false);
 
   return (
@@ -42,6 +52,7 @@ export const IslandTravel = ({ bumpkin, x, y }: Props) => {
         centered
         show={openIslandList}
         onHide={() => setOpenIslandList(false)}
+        onShow={onTravelDialogOpened}
       >
         <div className="absolute w-48 -left-4 -top-32 -z-10">
           <DynamicNFT
@@ -56,27 +67,34 @@ export const IslandTravel = ({ bumpkin, x, y }: Props) => {
             }}
           />
         </div>
-        <Panel className="pt-5 relative">
-          <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-            <div className="flex">
-              <Tab isActive>
-                <img src={boat} className="h-5 mr-2" />
-                <span className="text-sm text-shadow">Travel To</span>
-              </Tab>
-            </div>
-            <img
-              src={close}
-              className="h-6 cursor-pointer mr-2 mb-1"
-              onClick={() => setOpenIslandList(false)}
-            />
-          </div>
+        <Panel className="relative" hasTabs>
           <div
+            className="absolute flex"
             style={{
-              minHeight: "200px",
+              top: `${PIXEL_SCALE * 1}px`,
+              left: `${PIXEL_SCALE * 1}px`,
+              right: `${PIXEL_SCALE * 1}px`,
             }}
           >
-            <IslandList bumpkin={bumpkin} />
+            <Tab isActive>
+              <img src={boat} className="h-5 mr-2" />
+              <span className="text-sm">Travel To</span>
+            </Tab>
+            <img
+              src={close}
+              className="absolute cursor-pointer z-20"
+              onClick={() => setOpenIslandList(false)}
+              style={{
+                top: `${PIXEL_SCALE * 1}px`,
+                right: `${PIXEL_SCALE * 1}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
+            />
           </div>
+          {isTravelAllowed && (
+            <IslandList bumpkin={bumpkin} showVisitList={isVisiting} />
+          )}
+          {!isTravelAllowed && <span className="loading">Loading</span>}
         </Panel>
       </Modal>
     </>

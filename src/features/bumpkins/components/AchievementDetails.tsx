@@ -1,7 +1,6 @@
 import React from "react";
 
 import sflIcon from "assets/icons/token_2.png";
-import experience from "assets/icons/experience.png";
 import arrowLeft from "assets/icons/arrow_left.png";
 
 import {
@@ -15,6 +14,8 @@ import { Button } from "components/ui/Button";
 import { GameState } from "features/game/types/game";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { getKeys } from "features/game/types/craftables";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   onBack: () => void;
@@ -38,18 +39,23 @@ export const AchievementDetails: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <OuterPanel className="relative flex-1 w-full flex flex-col justify-between items-center shadow-none">
+      <OuterPanel className="relative flex-1 w-full flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           <img
             src={arrowLeft}
-            className="absolute top-[7px] left-1 self-start w-5 cursor-pointer"
+            className="absolute self-start cursor-pointer"
+            style={{
+              top: `${PIXEL_SCALE * 2}px`,
+              left: `${PIXEL_SCALE * 2}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
             alt="back"
             onClick={onBack}
           />
           <>
             <div className="flex flex-col mb-1 items-center w-full">
               <div className="ml-5 flex mb-1 items-center">
-                <span className="text-shadow text-center text-sm sm:text-base mr-2">
+                <span className="text-center text-sm sm:text-base mr-2">
                   {name}
                 </span>
                 <img
@@ -98,23 +104,28 @@ export const AchievementDetails: React.FC<Props> = ({
             </div>
             {!isAlreadyClaimed && (
               <div className="w-full">
-                <div
-                  className={classNames("flex flex-col items-center", {
-                    "opacity-60": !isComplete,
-                  })}
-                >
-                  {!!achievement.sflReward && (
-                    <div className="flex items-center mt-1">
+                <div className={classNames("flex flex-col items-center", {})}>
+                  {achievement.sfl?.gt(0) && (
+                    <div className={classNames("flex items-center mt-1", {})}>
                       <img src={sflIcon} className="h-5 z-10 mr-2" />
-                      <span className="text-xxs">{`${achievement.sflReward} SFL`}</span>
+                      <span className="text-xxs">{`${achievement.sfl} SFL`}</span>
                     </div>
                   )}
-                  {!!achievement.experienceReward && (
+                  {getKeys(achievement.rewards || {}).map((name) => (
+                    <div key={name} className="flex items-center mt-1">
+                      <img
+                        src={ITEM_DETAILS[name].image}
+                        className="h-7 z-10 mr-2"
+                      />
+                      <span className="text-sm">{name}</span>
+                    </div>
+                  ))}
+                  {/* {!!achievement.experienceReward && (
                     <div className="flex items-center mt-1">
                       <img src={experience} className="h-5 z-10 mr-2" />
                       <span className="text-xxs">{`${achievement.experienceReward} Exp`}</span>
                     </div>
-                  )}
+                  )} */}
                 </div>
                 <Button
                   className="text-xs mt-2"

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import { GRID_WIDTH_PX } from "../../lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "../../lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { observatoryAnimationAudio } from "lib/utils/sfx";
 
 import close from "assets/icons/close.png";
-import observatory from "assets/nfts/mom/observatory.gif";
-import observatoryAnimation from "assets/nfts/mom/mom_observatory_animation.gif";
+import observatory from "assets/sfts/mom/observatory.gif";
+import observatoryAnimation from "assets/sfts/mom/mom_observatory_animation.gif";
 
 export const Observatory: React.FC = () => {
   // Using rand value helps force-replay gifs.
@@ -51,14 +51,18 @@ export const Observatory: React.FC = () => {
           <InnerPanel style={{ backgroundColor: "#1b1c1b" }}>
             <img
               src={close}
-              className="h-6 top-4 right-4 absolute cursor-pointer"
+              className="absolute cursor-pointer z-20"
               onClick={handleCloseTelescope}
+              style={{
+                top: `${PIXEL_SCALE * 6}px`,
+                right: `${PIXEL_SCALE * 6}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
             />
 
             <img
               src={`${observatoryAnimation}?rand=${playRand}`} // Breaks cache and force replays the gif animation.
               alt="Telescope Animation"
-              className="p-4"
             />
           </InnerPanel>
         </OuterPanel>

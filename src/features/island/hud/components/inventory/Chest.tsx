@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -7,6 +7,7 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import {
   CollectibleName,
   getKeys,
+  GOBLIN_RETREAT_ITEMS,
   LimitedItemName,
   LIMITED_ITEMS,
 } from "features/game/types/craftables";
@@ -30,11 +31,17 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
   const { gameService } = useContext(Context);
   const [scrollIntoView] = useScrollIntoView();
 
+  const divRef = useRef<HTMLDivElement>(null);
+
   const chestMap = getChestItems(state);
   const { inventory, collectibles: placedItems } = state;
 
   const collectibles = getKeys(chestMap).reduce((acc, item) => {
-    if (item in LIMITED_ITEMS || item in DECORATIONS()) {
+    if (
+      item in LIMITED_ITEMS ||
+      item in DECORATIONS() ||
+      item in GOBLIN_RETREAT_ITEMS
+    ) {
       return { ...acc, [item]: chestMap[item] };
     }
     return acc;
@@ -105,8 +112,9 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
         </OuterPanel>
       }
       <div
+        ref={divRef}
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-        className="overflow-y-auto scrollable"
+        className="overflow-y-auto scrollable overflow-x-hidden"
       >
         {Object.values(collectibles) && (
           <div className="flex flex-col pl-2" key={"Collectibles"}>
@@ -120,6 +128,7 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
                 />
               ))}
             </div>

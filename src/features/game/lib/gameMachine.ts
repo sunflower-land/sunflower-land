@@ -22,10 +22,10 @@ import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName, LimitedItemName } from "../types/craftables";
-import { sync } from "../actions/sync";
+import { syncProgress } from "../actions/sync";
 import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
-import { updateGame } from "./transforms";
+import { makeGame, updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
@@ -47,6 +47,7 @@ import {
   LandExpansionMigrateAction,
 } from "../events/landExpansion/migrate";
 import { CONFIG } from "lib/config";
+import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { OFFLINE_FARM } from "./landData";
 
 export type PastAction = GameEvent & {
@@ -100,6 +101,11 @@ type EditEvent = {
   type: "EDIT";
 };
 
+type VisitEvent = {
+  type: "VISIT";
+  landId: number;
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -123,6 +129,7 @@ export type BlockchainEvent =
   | {
       type: "SKIP_MIGRATION";
     }
+  | { type: "END_VISIT" }
   | {
       type: "game.migrated";
       action: LandExpansionMigrateAction;
@@ -132,6 +139,7 @@ export type BlockchainEvent =
   | MintEvent
   | LevelUpEvent
   | EditEvent
+  | VisitEvent
   | { type: "EXPAND" }
   | { type: "RANDOMISE" }; // Test only
 
@@ -207,9 +215,13 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 
 export type BlockchainState = {
   value:
+    | "checkIsVisiting"
+    | "loadLandToVisit"
+    | "landToVisitNotFound"
     | "loading"
     | "announcing"
     | "deposited"
+    | "visiting"
     | "gameRules"
     | "playing"
     | "autosaving"
@@ -254,7 +266,7 @@ export function startGame(authContext: Options) {
   return createMachine<Context, BlockchainEvent, BlockchainState>(
     {
       id: "gameMachine",
-      initial: "loading",
+      initial: "checkIsVisiting",
       context: {
         actions: [],
         state: EMPTY,
@@ -263,6 +275,15 @@ export function startGame(authContext: Options) {
         offset: 0,
       },
       states: {
+        checkIsVisiting: {
+          always: [
+            {
+              target: "loadLandToVisit",
+              cond: () => window.location.href.includes("visit"),
+            },
+            { target: "loading" },
+          ],
+        },
         loading: {
           invoke: {
             src: async () => {
@@ -344,6 +365,61 @@ export function startGame(authContext: Options) {
             },
           },
         },
+        loadLandToVisit: {
+          invoke: {
+            src: async (_, event) => {
+              let landId: number;
+
+              // We can enter this state two ways
+              // 1. Directly on load if the url has a visit path (/visit)
+              // 2. From a VISIT event passed back to the machine which will include a farmId in the payload
+
+              if (!(event as VisitEvent).landId) {
+                landId = Number(window.location.href.split("/").pop());
+              } else {
+                landId = (event as VisitEvent).landId;
+              }
+
+              const { state } = await loadGameStateForVisit(Number(landId));
+
+              return {
+                state: {
+                  ...makeGame(state),
+                  id: landId,
+                },
+              };
+            },
+            onDone: {
+              target: "visiting",
+              actions: assign({
+                state: (_context, event) => event.data.state,
+              }),
+            },
+            onError: {
+              target: "landToVisitNotFound",
+            },
+          },
+        },
+        landToVisitNotFound: {
+          entry: assign({
+            state: () => EMPTY,
+          }),
+          on: {
+            VISIT: {
+              target: "loadLandToVisit",
+            },
+          },
+        },
+        visiting: {
+          on: {
+            VISIT: {
+              target: "loadLandToVisit",
+            },
+            END_VISIT: {
+              target: "loading",
+            },
+          },
+        },
         notifying: {
           always: [
             {
@@ -382,10 +458,18 @@ export function startGame(authContext: Options) {
             },
             {
               target: "offerMigration",
-              cond: (context) =>
-                CONFIG.NETWORK === "mumbai" &&
-                !authContext.migrated &&
-                canMigrate(context.state),
+              cond: (context) => {
+                const landRoute = window.location.hash.includes("/land");
+
+                if (landRoute) return false;
+
+                return (
+                  (CONFIG.NETWORK === "mumbai" ||
+                    !!authContext.token?.userAccess.admin) &&
+                  !authContext.migrated &&
+                  canMigrate(context.state)
+                );
+              },
             },
             {
               target: "playing",
@@ -438,7 +522,6 @@ export function startGame(authContext: Options) {
           },
         },
         migrated: {
-          // type: "final",
           entry: () => {
             window.location.replace(
               `${window.location.pathname}#/land/${authContext.farmId}`
@@ -606,7 +689,7 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const { sessionId } = await sync({
+              const { sessionId } = await syncProgress({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,

@@ -49,12 +49,10 @@ export interface SunflowerLandSession extends BaseContract {
     addRecipeBatch(
       _recipes: {
         mintId: number | string | BN;
-        ingredientIds: (number | string | BN)[];
-        ingredientAmounts: (number | string | BN)[];
         maxSupply: number | string | BN;
         cooldownSeconds: number | string | BN;
-        tokenAmount: number | string | BN;
         enabled: boolean;
+        releaseDate: number | string | BN;
       }[]
     ): NonPayableTransactionObject<boolean[]>;
 
@@ -111,23 +109,19 @@ export interface SunflowerLandSession extends BaseContract {
 
     getRecipe(id: number | string | BN): NonPayableTransactionObject<{
       mintId: string;
-      ingredientIds: string[];
-      ingredientAmounts: string[];
       maxSupply: string;
       cooldownSeconds: string;
-      tokenAmount: string;
       enabled: boolean;
+      releaseDate: string;
     }>;
 
     getRecipeBatch(ids: (number | string | BN)[]): NonPayableTransactionObject<
       {
         mintId: string;
-        ingredientIds: string[];
-        ingredientAmounts: string[];
         maxSupply: string;
         cooldownSeconds: string;
-        tokenAmount: string;
         enabled: boolean;
+        releaseDate: string;
       }[]
     >;
 
@@ -170,6 +164,8 @@ export interface SunflowerLandSession extends BaseContract {
       listFee: number | string | BN
     ): PayableTransactionObject<boolean>;
 
+    mintAllowance(): NonPayableTransactionObject<string>;
+
     mint(
       signature: string | number[],
       sessionId: string | number[],
@@ -180,7 +176,21 @@ export interface SunflowerLandSession extends BaseContract {
       mintFee: number | string | BN
     ): PayableTransactionObject<boolean>;
 
-    mintAllowance(): NonPayableTransactionObject<string>;
+    mintCollectible(
+      signature: string | number[],
+      sessionId: string | number[],
+      nextSessionId: string | number[],
+      deadline: number | string | BN,
+      farmId: number | string | BN,
+      mintFee: number | string | BN,
+      mintData: {
+        mintId: number | string | BN;
+        supply: number | string | BN;
+        ingredientIds: (number | string | BN)[];
+        ingredientAmounts: (number | string | BN)[];
+        tokenAmount: number | string | BN;
+      }
+    ): PayableTransactionObject<boolean>;
 
     mintedAmount(): NonPayableTransactionObject<string>;
 
@@ -260,6 +270,20 @@ export interface SunflowerLandSession extends BaseContract {
       _tax: number | string | BN
     ): NonPayableTransactionObject<void>;
 
+    sync(
+      signature: string | number[],
+      sessionId: string | number[],
+      nextSessionId: string | number[],
+      deadline: number | string | BN,
+      farmId: number | string | BN,
+      mintIds: (number | string | BN)[],
+      mintAmounts: (number | string | BN)[],
+      burnIds: (number | string | BN)[],
+      burnAmounts: (number | string | BN)[],
+      tokens: number | string | BN,
+      syncFee: number | string | BN
+    ): PayableTransactionObject<boolean>;
+
     syncProgress(data: {
       signature: string | number[];
       farmId: number | string | BN;
@@ -276,6 +300,13 @@ export interface SunflowerLandSession extends BaseContract {
         statisticIds: (number | string | BN)[];
         statisticAmounts: (number | string | BN)[];
         tokens: number | string | BN;
+      };
+      expansion: {
+        nonce: string;
+        metadata: string;
+        sfl: number | string | BN;
+        resourceIds: (number | string | BN)[];
+        resourceAmounts: (number | string | BN)[];
       };
     }): PayableTransactionObject<boolean>;
 

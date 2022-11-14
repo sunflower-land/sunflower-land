@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { CollectibleName } from "features/game/types/craftables";
 import { MysteriousHead } from "./components/MysteriousHead";
@@ -44,10 +44,31 @@ import { CarrotSword } from "./components/CarrotSword";
 import { WhiteTulips } from "./components/WhiteTulips";
 import { PottedSunflower } from "./components/PottedSunflower";
 import { Cactus } from "./components/Cactus";
+import { BasicBear } from "./components/BasicBear";
+import { CabbageBoy } from "./components/CabbageBoy";
+import { CabbageGirl } from "./components/CabbageGirl";
+import { PrizedPotato } from "./components/PrizedPotato";
+import { WoodNymphWendy } from "./components/WoodNymphWendy";
+import { ChefBear } from "./components/ChefBear";
+import { ConstructionBear } from "./components/ConstructionBear";
+import { AngelBear } from "./components/AngelBear";
+import { BearTrap } from "./components/BearTrap";
+import { BrilliantBear } from "./components/BrilliantBumpkin";
+import { ClassyBear } from "./components/ClassyBear";
+import { FarmerBear } from "./components/FarmerBear";
+import { RichBear } from "./components/RichBear";
+import { SunflowerBear } from "./components/SunflowerBear";
+import { BadassBear } from "./components/BadassBear";
+import { VictoriaSisters } from "./components/VictoriaSisters";
+import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import { Bar } from "components/ui/ProgressBar";
+import classNames from "classnames";
 
 interface Prop {
   name: CollectibleName;
   id: string;
+  readyAt: number;
+  createdAt: number;
 }
 
 export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
@@ -84,6 +105,10 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "Potato Statue": PotatoStatue,
   "Nyon Statue": NyonStatue,
   "Rock Golem": RockGolem,
+  "Cabbage Boy": CabbageBoy,
+  "Cabbage Girl": CabbageGirl,
+  "Prized Potato": PrizedPotato,
+  "Wood Nymph Wendy": WoodNymphWendy,
 
   // Moles
   "Rocky the Mole": RockyTheMole,
@@ -110,13 +135,79 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
   "White Tulips": WhiteTulips,
   "Potted Sunflower": PottedSunflower,
   Cactus: Cactus,
+  "Basic Bear": BasicBear,
+  "Chef Bear": ChefBear,
+  "Construction Bear": ConstructionBear,
+  "Angel Bear": AngelBear,
+  "Badass Bear": BadassBear,
+  "Bear Trap": BearTrap,
+  "Brilliant Bear": BrilliantBear,
+  "Classy Bear": ClassyBear,
+  "Farmer Bear": FarmerBear,
+  "Rich Bear": RichBear,
+  "Sunflower Bear": SunflowerBear,
 
-  "Victoria Sisters": () => null,
+  "Victoria Sisters": VictoriaSisters,
   "Egg Basket": () => null,
 };
 
-export const Collectible: React.FC<Prop> = ({ name, id }) => {
+export const Collectible: React.FC<Prop> = ({
+  name,
+  id,
+  readyAt,
+  createdAt,
+}) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
+
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(
+    Math.floor((readyAt - Date.now()) / 1000)
+  );
+  const totalSeconds = (readyAt - createdAt) / 1000;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
+
+      setSecondsLeft(secondsLeft);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  });
+
+  const inProgress = readyAt > Date.now();
+
+  if (inProgress) {
+    return (
+      <>
+        <div
+          className="w-full h-full cursor-pointer"
+          ref={overlayRef}
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+        >
+          <div
+            className={classNames("w-full h-full pointer-events-none", {
+              "opacity-50": inProgress,
+            })}
+          >
+            <CollectiblePlaced key={id} />
+          </div>
+          <div className="absolute bottom-0 w-8 left-1/2 -translate-x-1/2">
+            <Bar percentage={(1 - secondsLeft / totalSeconds) * 100} />
+          </div>
+        </div>
+        {overlayRef.current && (
+          <TimeLeftPanel
+            text="Ready in:"
+            timeLeft={secondsLeft}
+            showTimeLeft={showTooltip}
+          />
+        )}
+      </>
+    );
+  }
 
   return <CollectiblePlaced key={id} />;
 };

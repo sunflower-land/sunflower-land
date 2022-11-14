@@ -17,6 +17,9 @@ import close from "assets/icons/close.png";
 import seedSpecialist from "assets/skills/seed_specialist.png";
 import { SkillPathDetails } from "./SkillPathDetails";
 import arrowLeft from "assets/icons/arrow_left.png";
+import { Label } from "components/ui/Label";
+import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   onBack: () => void;
@@ -25,11 +28,10 @@ interface Props {
 
 export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [gameState] = useActor(gameService);
+  const {
+    context: { state },
+  } = gameState;
 
   const [selectedSkillPath, setSelectedSkillPath] =
     useState<BumpkinSkillTree | null>(null);
@@ -47,41 +49,86 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
     setSelectedSkillPath(null);
   };
 
+  const handleBack = () => {
+    if (selectedSkillPath) {
+      handleBackToSkillList();
+      return;
+    }
+
+    onBack();
+  };
+
   const { bumpkin } = state;
+  const experience = bumpkin?.experience || 0;
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
+  const skillPointsInfo = () => {
+    const levelRequired = findLevelRequiredForNextSkillPoint(experience);
+
+    return (
+      <>
+        {availableSkillPoints > 0 && (
+          <SkillPointsLabel points={availableSkillPoints} />
+        )}
+        {!availableSkillPoints && levelRequired && (
+          <Label>
+            <p className="text-xxs px-1">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
+              experience
+            )}`}</p>
+          </Label>
+        )}
+      </>
+    );
+  };
+
   return (
-    <Panel className="pt-5 relative">
-      <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-        <div className="flex">
-          <Tab isActive>
-            <img src={seedSpecialist} className="h-5 mr-2" />
-            <span className="text-sm text-shadow">Skills</span>
-          </Tab>
-        </div>
+    <Panel className="relative" hasTabs>
+      <div
+        className="absolute flex"
+        style={{
+          top: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      >
+        <Tab isActive>
+          <img src={seedSpecialist} className="h-5 mr-2" />
+          <span className="text-sm">Skills</span>
+        </Tab>
         <img
           src={close}
-          className="h-6 cursor-pointer mr-2 mb-1"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
       </div>
-
       <div
         style={{
           minHeight: "200px",
         }}
       >
-        <div className="flex flex-row">
+        <div
+          className="flex flex-row my-2 items-center"
+          style={{
+            margin: `${PIXEL_SCALE * 2}px`,
+          }}
+        >
           <img
             src={arrowLeft}
-            className="self-start w-5 cursor-pointer mx-2"
+            className="cursor-pointer"
             alt="back"
-            onClick={onBack}
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+              marginRight: `${PIXEL_SCALE * 4}px`,
+            }}
+            onClick={handleBack}
           />
-          {availableSkillPoints > 0 && (
-            <SkillPointsLabel points={availableSkillPoints} />
-          )}
+          {!gameState.matches("visiting") && skillPointsInfo()}
         </div>
         {!selectedSkillPath && (
           <SkillCategoryList
@@ -92,7 +139,6 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           <SkillPathDetails
             selectedSkillPath={selectedSkillPath}
             skillsInPath={skillsInPath}
-            onBack={handleBackToSkillList}
           />
         )}
       </div>

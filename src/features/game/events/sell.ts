@@ -15,7 +15,7 @@ export type SellableName = CropName | Cake;
 
 export type SellableItem = {
   name: SellableName;
-  sellPrice: Decimal;
+  sellPrice?: Decimal;
 };
 
 const SELLABLE = { ...CROPS(), ...CAKES() };
@@ -45,6 +45,9 @@ export function sell({ state, action }: Options): GameState {
 
   const price = getSellPrice(sellable as SellableItem, stateCopy.inventory);
 
+  if (!price) {
+    throw new Error("Item is not sellable");
+  }
   return {
     ...stateCopy,
     balance: stateCopy.balance

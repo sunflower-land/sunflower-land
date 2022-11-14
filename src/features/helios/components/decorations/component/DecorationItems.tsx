@@ -13,7 +13,11 @@ import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
-import { Decoration, DECORATIONS } from "features/game/types/decorations";
+import {
+  Decoration,
+  DecorationName,
+  DECORATIONS,
+} from "features/game/types/decorations";
 import { Button } from "components/ui/Button";
 
 interface Props {
@@ -21,6 +25,16 @@ interface Props {
 }
 
 export const DecorationItems: React.FC<Props> = ({ onClose }) => {
+  // Only display the decorations available for purchase
+  const availableDecorations = getKeys(DECORATIONS()).reduce((acc, name) => {
+    const decoration = DECORATIONS()[name];
+    if (!decoration.sfl) {
+      return acc;
+    }
+
+    return { ...acc, [name]: decoration };
+  }, {} as Record<DecorationName, Decoration>);
+
   const [selected, setSelected] = useState<Decoration>(
     DECORATIONS()["White Tulips"]
   );
@@ -36,10 +50,8 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
 
   const price = selected.sfl;
   const buy = () => {
-    console.log(value);
     gameService.send("decoration.bought", {
       item: selected.name,
-      amount: 1,
     });
 
     setToast({
@@ -97,7 +109,7 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(DECORATIONS()).map((item: Decoration) => (
+        {Object.values(availableDecorations).map((item: Decoration) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}

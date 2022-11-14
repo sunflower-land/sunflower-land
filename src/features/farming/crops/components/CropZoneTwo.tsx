@@ -3,13 +3,13 @@ import Modal from "react-bootstrap/Modal";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Panel } from "components/ui/Panel";
 
 import goblin from "assets/npcs/goblin.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
-import pumpkinSoup from "assets/nfts/pumpkin_soup.png";
+import pumpkinSoup from "assets/sfts/pumpkin_soup.png";
 import questionMark from "assets/icons/expression_confused.png";
 import heart from "assets/icons/heart.png";
 import close from "assets/icons/close.png";
@@ -109,11 +109,11 @@ export const CropZoneTwo: React.FC = () => {
           <Field selectedItem={selectedItem} fieldIndex={6} />
         </div>
         {/* Middle row */}
-        <div className="flex justify-center z-10">
+        <div className="flex justify-center">
           <Field selectedItem={selectedItem} fieldIndex={7} />
         </div>
         {/* Bottom row */}
-        <div className="flex justify-between z-20">
+        <div className="flex justify-between">
           <Field selectedItem={selectedItem} fieldIndex={8} />
           <Field selectedItem={selectedItem} fieldIndex={9} />
         </div>
@@ -123,14 +123,19 @@ export const CropZoneTwo: React.FC = () => {
         <Panel>
           <img
             src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
+            className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           <div className="flex items-start">
             <img src={goblinHead} className="w-16 img-highlight mr-2" />
             <div className="flex-1">
-              <span className="text-shadow block">This is Goblin land!</span>
-              <span className="text-shadow block mt-4">
+              <span className="block">This is Goblin land!</span>
+              <span className="block mt-4">
                 I will trade this land for some creamy pumpkin soup.
               </span>
               <img

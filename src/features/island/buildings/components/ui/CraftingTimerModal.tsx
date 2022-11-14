@@ -9,6 +9,7 @@ import stopwatch from "assets/icons/stopwatch.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToMidString } from "lib/utils/time";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   service: MachineInterpreter;
@@ -23,7 +24,7 @@ export const CraftingTimerModal: React.FC<Props> = ({
 }) => {
   const [
     {
-      context: { secondsTillReady, name, gameService },
+      context: { secondsTillReady, name },
     },
   ] = useActor(service);
 
@@ -54,14 +55,19 @@ export const CraftingTimerModal: React.FC<Props> = ({
         />
       </div>
       <Panel>
+        <img
+          src={close}
+          className="absolute cursor-pointer z-20"
+          onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        />
         <div>
           <div className="flex items-start w-full">
             <span className="w-full">Is it ready yet?</span>
-            <img
-              src={close}
-              className="h-6 ml-2 cursor-pointer"
-              onClick={onClose}
-            />
           </div>
           <div className="my-2 flex flex-col">
             <p>{`Your ${name.toLowerCase()} will be ready in: `}</p>

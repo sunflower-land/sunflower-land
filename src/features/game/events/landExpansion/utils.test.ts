@@ -8,7 +8,7 @@ describe("getSupportedChickens", () => {
       ...TEST_FARM,
       inventory: {},
       buildings: {
-        "Chicken House": [
+        "Hen House": [
           {
             coordinates: {
               x: 0,
@@ -30,7 +30,7 @@ describe("getSupportedChickens", () => {
         "Chicken Coop": new Decimal(1),
       },
       buildings: {
-        "Chicken House": [
+        "Hen House": [
           {
             coordinates: {
               x: 0,

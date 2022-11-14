@@ -107,7 +107,7 @@ describe("Construct building", () => {
           },
           bumpkin: {
             id: 1,
-            experience: LEVEL_BRACKETS[2],
+            experience: LEVEL_BRACKETS[3],
             equipped: {
               body: "Light Brown Farmer Potion",
               hair: "Basic Hair",
@@ -300,7 +300,7 @@ describe("Construct building", () => {
         inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
         bumpkin: {
           id: 1,
-          experience: LEVEL_BRACKETS[2],
+          experience: LEVEL_BRACKETS[3],
           equipped: {
             body: "Light Brown Farmer Potion",
             hair: "Basic Hair",
@@ -335,9 +335,10 @@ describe("Construct building", () => {
         ...GAME_STATE,
         balance: new Decimal(100),
         inventory: {
-          Wood: new Decimal(20),
-          Stone: new Decimal(15),
+          Wood: new Decimal(220),
+          Stone: new Decimal(215),
           Iron: new Decimal(15),
+          Gold: new Decimal(15),
         },
         bumpkin: {
           id: 1,
@@ -365,8 +366,9 @@ describe("Construct building", () => {
         },
       },
     });
-    expect(state.inventory["Wood"]).toEqual(new Decimal(10));
-    expect(state.inventory["Stone"]).toEqual(new Decimal(5));
+    expect(state.inventory["Wood"]).toEqual(new Decimal(170));
+    expect(state.inventory["Stone"]).toEqual(new Decimal(195));
+    expect(state.inventory["Gold"]).toEqual(new Decimal(10));
   });
 
   it("constructs multiple Fire Pits", () => {

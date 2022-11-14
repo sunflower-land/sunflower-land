@@ -40,7 +40,7 @@ export const Inventory: React.FC<Props> = ({
   return (
     <div className="flex flex-row-reverse items-center fixed bottom-2 right-2 z-50">
       <div
-        className="w-16 h-16 relative flex justify-center items-center shadow rounded-full cursor-pointer"
+        className="w-16 h-16 relative flex justify-center items-center rounded-full cursor-pointer"
         onClick={handleInventoryClick}
       >
         <img
@@ -52,11 +52,7 @@ export const Inventory: React.FC<Props> = ({
       </div>
 
       <Modal centered scrollable show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems
-          state={state}
-          onClose={() => setIsOpen(false)}
-          isFarming={isFarming}
-        />
+        <InventoryItems state={state} onClose={() => setIsOpen(false)} />
       </Modal>
 
       {isFarming && (

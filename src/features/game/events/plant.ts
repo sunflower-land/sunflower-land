@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
 import cloneDeep from "lodash.clonedeep";
-import { CropName, CROPS, SeedName } from "../types/crops";
+import { CropName, CROPS, CropSeedName } from "../types/crops";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 
 export type PlantAction = {
@@ -24,7 +24,7 @@ const VALID_SEEDS: InventoryItemName[] = [
   "Wheat Seed",
 ];
 
-export function isSeed(crop: InventoryItemName): crop is SeedName {
+export function isSeed(crop: InventoryItemName): crop is CropSeedName {
   return VALID_SEEDS.includes(crop);
 }
 
@@ -44,7 +44,7 @@ type GetPlantedAtArgs = {
  * Based on boosts, how long a crop will take
  */
 export const getCropTime = (crop: CropName, inventory: Inventory) => {
-  let seconds = CROPS()[crop].harvestSeconds;
+  let seconds = CROPS()[crop]?.harvestSeconds ?? 0;
 
   if (inventory["Seed Specialist"]?.gte(1)) {
     seconds = seconds * 0.9;

@@ -17,7 +17,7 @@ export type CropName =
 
 export type Crop = {
   buyPrice: Decimal;
-  sellPrice: Decimal;
+  sellPrice?: Decimal;
   harvestSeconds: number;
   name: CropName;
   description: string;
@@ -101,17 +101,16 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     description: "The most harvested crop in the world.",
   },
   Kale: {
-    buyPrice: marketRate(5),
-    sellPrice: marketRate(6.5),
-    harvestSeconds: 3 * 60 * 60,
+    buyPrice: marketRate(8),
+    harvestSeconds: 24 * 60 * 60,
     name: "Kale",
     description: "Bumpkin Power Food",
   },
 });
 
-export type SeedName = `${CropName} Seed`;
+export type CropSeedName = `${CropName} Seed`;
 
-export const SEEDS: () => Record<SeedName, CraftableItem> = () => ({
+export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
   "Sunflower Seed": {
     name: "Sunflower Seed",
     tokenAmount: marketRate(0.01),

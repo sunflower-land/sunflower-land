@@ -3,8 +3,8 @@ import { useActor } from "@xstate/react";
 
 import femaleGoblin from "assets/npcs/goblin_female.gif";
 import femaleHuman from "assets/npcs/human_female.gif";
-import sword from "assets/nfts/quest/ancient_goblin_sword.png";
-import warhammer from "assets/nfts/quest/ancient_human_warhammer.png";
+import sword from "assets/sfts/quest/ancient_goblin_sword.png";
+import warhammer from "assets/sfts/quest/ancient_human_warhammer.png";
 
 import close from "assets/icons/close.png";
 import stopwatch from "assets/icons/stopwatch.png";
@@ -20,6 +20,7 @@ import { WarCollectionOffer } from "./WarCollectionOffer";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getWarBonds } from "features/game/events/buyWarBonds";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   onClose: () => void;
@@ -90,8 +91,13 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
       <div className="flex flex-col items-center">
         <img
           src={close}
-          className="h-6 top-4 right-4 absolute cursor-pointer z-10"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
         <span>Thanks!</span>
         <img
@@ -112,8 +118,13 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
       <div className="flex flex-col items-center">
         <img
           src={close}
-          className="h-6 top-4 right-4 absolute cursor-pointer z-10"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
         <span>A war is coming...</span>
         <img
@@ -129,8 +140,13 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
       <div className="flex flex-col items-center">
         <img
           src={close}
-          className="h-6 top-4 right-4 absolute cursor-pointer z-10"
+          className="absolute cursor-pointer z-20"
           onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
         />
         <span>You are a warrior!</span>
         <img
@@ -160,8 +176,13 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
     <div className="flex flex-col items-center">
       <img
         src={close}
-        className="h-6 top-4 right-4 absolute cursor-pointer z-10"
+        className="absolute cursor-pointer z-20"
         onClick={onClose}
+        style={{
+          top: `${PIXEL_SCALE * 6}px`,
+          right: `${PIXEL_SCALE * 6}px`,
+          width: `${PIXEL_SCALE * 11}px`,
+        }}
       />
       <span>Help us win the war!</span>
       <img

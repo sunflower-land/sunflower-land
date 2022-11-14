@@ -1,9 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import cloneDeep from "lodash.clonedeep";
-import { GameState } from "../../types/game";
-import { CROPS } from "../../types/crops";
+import { GameState, PlantedCrop } from "../../types/game";
+import { Crop, CROPS } from "../../types/crops";
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import cloneDeep from "lodash.clonedeep";
+import {
+  BumpkinActivityName,
+  trackActivity,
+} from "features/game/types/bumpkinActivity";
 
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
@@ -12,22 +14,34 @@ export type LandExpansionHarvestAction = {
 };
 
 type Options = {
-  state: Readonly<GameState>;
+  state: GameState;
   action: LandExpansionHarvestAction;
   createdAt?: number;
 };
 
-export function harvest({ state, action, createdAt = Date.now() }: Options) {
+export const isReadyToHarvest = (
+  createdAt: number,
+  plantedCrop: PlantedCrop,
+  cropDetails: Crop
+) => {
+  return createdAt - plantedCrop.plantedAt >= cropDetails.harvestSeconds * 1000;
+};
+
+export function harvest({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   const stateCopy = cloneDeep(state);
   const { expansions, bumpkin } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
-  if (!expansion) {
-    throw new Error("Expansion does not exist");
+  if (!bumpkin) {
+    throw new Error("You do not have a Bumpkin");
   }
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+  if (!expansion) {
+    throw new Error("Expansion does not exist");
   }
 
   if (!expansion.plots) {
@@ -44,7 +58,6 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Plot does not exist");
   }
 
-  console.log({ idnex: action.index, length: Object.keys(plots).length });
   if (action.index > Object.keys(plots).length) {
     throw new Error("Plot does not exist");
   }
@@ -55,27 +68,45 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Nothing was planted");
   }
 
-  const { name, plantedAt, amount = 1 } = plot.crop;
+  const { name: cropName, plantedAt, amount = 1, reward } = plot.crop;
 
-  const { harvestSeconds } = CROPS()[name];
+  const { harvestSeconds } = CROPS()[cropName];
 
   if (createdAt - plantedAt < harvestSeconds * 1000) {
     throw new Error("Not ready");
   }
 
+  // Collect any rewards
+  if (reward) {
+    if (reward.sfl) {
+      stateCopy.balance = stateCopy.balance.add(reward.sfl);
+    }
+
+    if (reward.items) {
+      stateCopy.inventory = reward.items.reduce((acc, item) => {
+        const amount = acc[item.name] || new Decimal(0);
+
+        return {
+          ...acc,
+          [item.name]: amount.add(item.amount),
+        };
+      }, stateCopy.inventory);
+    }
+  }
+
+  const activityName: BumpkinActivityName = `${cropName} Harvested`;
+
+  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+
   // Remove crop data for plot
   delete plot.crop;
 
-  const cropCount = stateCopy.inventory[name] || new Decimal(0);
+  const cropCount = stateCopy.inventory[cropName] || new Decimal(0);
 
-  bumpkin.activity = trackActivity(`${name} Harvested`, bumpkin.activity);
+  stateCopy.inventory = {
+    ...stateCopy.inventory,
+    [cropName]: cropCount.add(amount),
+  };
 
-  return {
-    ...stateCopy,
-    expansions,
-    inventory: {
-      ...stateCopy.inventory,
-      [name]: cropCount.add(amount),
-    },
-  } as GameState;
+  return stateCopy;
 }

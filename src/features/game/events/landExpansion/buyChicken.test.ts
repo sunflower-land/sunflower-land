@@ -29,7 +29,7 @@ describe("buyChicken", () => {
           ...TEST_FARM,
           balance: new Decimal(0.01),
           buildings: {
-            "Chicken House": [
+            "Hen House": [
               {
                 coordinates: {
                   x: 0,
@@ -59,7 +59,7 @@ describe("buyChicken", () => {
         ...TEST_FARM,
         balance: new Decimal(10),
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,
@@ -90,7 +90,7 @@ describe("buyChicken", () => {
         chickens: {},
         balance: new Decimal(10),
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,
@@ -129,13 +129,13 @@ describe("buyChicken", () => {
         ...TEST_FARM,
         inventory: {
           "Chicken Coop": new Decimal(1),
-          "Chicken House": new Decimal(1),
+          "Hen House": new Decimal(1),
           Chicken: new Decimal(10),
         },
         chickens: {},
         balance: new Decimal(10),
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,
@@ -175,7 +175,7 @@ describe("buyChicken", () => {
         chickens: {},
         balance: new Decimal(10),
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,
@@ -241,7 +241,7 @@ describe("buyChicken", () => {
         chickens: {},
         balance: new Decimal(10),
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,
@@ -278,7 +278,7 @@ describe("buyChicken", () => {
             Chicken: new Decimal(10),
           },
           buildings: {
-            "Chicken House": [
+            "Hen House": [
               {
                 coordinates: {
                   x: 0,
@@ -312,7 +312,7 @@ describe("buyChicken", () => {
             "Chicken Coop": new Decimal(1),
           },
           buildings: {
-            "Chicken House": [
+            "Hen House": [
               {
                 coordinates: {
                   x: 0,
@@ -342,7 +342,7 @@ describe("buyChicken", () => {
         chickens: {},
         balance: new Decimal(10),
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,
@@ -377,7 +377,7 @@ describe("buyChicken", () => {
         },
         balance: new Decimal(10),
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,

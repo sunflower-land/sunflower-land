@@ -1,6 +1,21 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
+import { Chicken } from "features/game/types/game";
 import { placeChicken } from "./placeChicken";
+
+const makeChickensStateObject = (numOfChickens: number) => {
+  return Array.from(Array(numOfChickens).keys()).reduce((obj, curr) => {
+    obj[curr] = {
+      coordinates: {
+        x: curr,
+        y: curr,
+      },
+      multiplier: 1,
+    };
+
+    return obj;
+  }, {} as Record<number, Chicken>);
+};
 
 describe("buyChicken", () => {
   it("throws an error if no bumpkin exists", () => {
@@ -50,11 +65,14 @@ describe("buyChicken", () => {
           ...TEST_FARM,
           balance: new Decimal(10),
           inventory: {
-            Chicken: new Decimal(15),
+            Chicken: new Decimal(16),
             "Chicken Coop": new Decimal(1),
           },
+          chickens: {
+            ...makeChickensStateObject(15),
+          },
           buildings: {
-            "Chicken House": [
+            "Hen House": [
               {
                 coordinates: {
                   x: 0,
@@ -85,10 +103,11 @@ describe("buyChicken", () => {
           ...TEST_FARM,
           balance: new Decimal(10),
           inventory: {
-            Chicken: new Decimal(10),
+            Chicken: new Decimal(12),
           },
+          chickens: makeChickensStateObject(10),
           buildings: {
-            "Chicken House": [
+            "Hen House": [
               {
                 coordinates: {
                   x: 0,
@@ -121,7 +140,7 @@ describe("buyChicken", () => {
           Chicken: new Decimal(1),
         },
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,
@@ -164,7 +183,7 @@ describe("buyChicken", () => {
           "Chicken Coop": new Decimal(1),
         },
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,
@@ -206,7 +225,7 @@ describe("buyChicken", () => {
           Chicken: new Decimal(2),
         },
         buildings: {
-          "Chicken House": [
+          "Hen House": [
             {
               coordinates: {
                 x: 0,

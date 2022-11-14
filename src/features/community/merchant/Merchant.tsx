@@ -25,10 +25,10 @@ export const Merchant: React.FC = () => {
       className="relative"
       id={Section.Merchant}
       style={{
-        width: `${GRID_WIDTH_PX * 3}px`,
-        height: `${GRID_WIDTH_PX * 3}px`,
+        width: `${GRID_WIDTH_PX * 3.5}px`,
+        height: `${GRID_WIDTH_PX * 3.5}px`,
         left: `${GRID_WIDTH_PX * 27}px`,
-        top: `${GRID_WIDTH_PX * 28.5}px`,
+        top: `${GRID_WIDTH_PX * 28}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight relative">

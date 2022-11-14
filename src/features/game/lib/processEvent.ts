@@ -5,7 +5,7 @@ import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
 
 const maxItems: Inventory = {
-  // Seed limits + buffer of 10
+  // Seed limits + buffer of 20
   Sunflower: new Decimal("3000"),
   Potato: new Decimal("2000"),
   Pumpkin: new Decimal("1000"),
@@ -23,16 +23,16 @@ const maxItems: Inventory = {
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
 
-  "Sunflower Seed": new Decimal(410),
-  "Potato Seed": new Decimal(210),
-  "Pumpkin Seed": new Decimal(110),
-  "Carrot Seed": new Decimal(110),
-  "Cabbage Seed": new Decimal(100),
-  "Beetroot Seed": new Decimal(90),
-  "Cauliflower Seed": new Decimal(90),
-  "Parsnip Seed": new Decimal(70),
-  "Radish Seed": new Decimal(50),
-  "Wheat Seed": new Decimal(50),
+  "Sunflower Seed": new Decimal(420),
+  "Potato Seed": new Decimal(220),
+  "Pumpkin Seed": new Decimal(120),
+  "Carrot Seed": new Decimal(120),
+  "Cabbage Seed": new Decimal(110),
+  "Beetroot Seed": new Decimal(100),
+  "Cauliflower Seed": new Decimal(100),
+  "Parsnip Seed": new Decimal(80),
+  "Radish Seed": new Decimal(60),
+  "Wheat Seed": new Decimal(60),
 
   Gold: new Decimal("90"),
   Iron: new Decimal("400"),

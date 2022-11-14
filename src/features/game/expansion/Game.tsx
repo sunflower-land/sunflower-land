@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
-import { Routes, Route } from "react-router-dom";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -17,20 +16,28 @@ import { ToastManager } from "../toast/ToastManager";
 import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
-import { Land } from "./Land";
-import { Hud } from "features/island/hud/Hud";
 import { Expanding } from "./components/Expanding";
 import { ExpansionSuccess } from "./components/ExpansionSuccess";
-import { PlaceableOverlay } from "./components/PlaceableOverlay";
 
 import { Notifications } from "../components/Notifications";
 import { Announcements } from "features/announcements/Announcement";
 import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { Swarming } from "../components/Swarming";
-import { Helios } from "features/helios/Helios";
 import { Cooldown } from "../components/Cooldown";
 import { Rules } from "../components/Rules";
+import { PlaceableOverlay } from "./components/PlaceableOverlay";
+import { Route, Routes } from "react-router-dom";
+import { Land } from "./Land";
+import { Helios } from "features/helios/Helios";
+import { Hud } from "features/island/hud/Hud";
+import { VisitingHud } from "features/island/hud/VisitingHud";
+import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+
+import land from "assets/land/islands/island.png";
+import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
+import { StoneHaven } from "features/stoneHaven/StoneHaven";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -56,6 +63,10 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   migrated: false,
   migrating: false,
   offerMigration: false,
+  visiting: false,
+  loadLandToVisit: true,
+  landToVisitNotFound: true,
+  checkIsVisiting: false,
 };
 
 export const Game: React.FC = () => {
@@ -101,7 +112,8 @@ export const Game: React.FC = () => {
     gameState.matches("loading") &&
     gameState.context.sessionId === INITIAL_SESSION;
 
-  if (loadingSession) {
+  console.log({ state: gameState.value });
+  if (loadingSession || gameState.matches("loadLandToVisit")) {
     return (
       <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
         <Modal show centered backdrop={false}>
@@ -112,6 +124,86 @@ export const Game: React.FC = () => {
       </div>
     );
   }
+
+  const GameContent = () => {
+    if (gameState.matches("landToVisitNotFound")) {
+      return (
+        <>
+          <div className="absolute z-20">
+            <VisitingHud />
+          </div>
+          <div className="relative">
+            <Modal centered show backdrop={false}>
+              <div className="absolute w-1/2 -left-2 top-[-43%] sm:top-[-55%] -z-10">
+                <DynamicNFT
+                  bumpkinParts={{
+                    body: "Beige Farmer Potion",
+                    hair: "Rancher Hair",
+                    pants: "Farmer Overalls",
+                    shirt: "Red Farmer Shirt",
+                    tool: "Farmer Pitchfork",
+                    background: "Farm Background",
+                    shoes: "Black Farmer Boots",
+                  }}
+                />
+              </div>
+              <Panel>
+                <div className="flex flex-col items-center">
+                  <h2 className="text-center">Island Not Found!</h2>
+                  <img src={land} className="h-9 my-3" />
+                  <p className="mb-3">
+                    It looks like this player has not migrated over to Sunflower
+                    Isles yet!
+                  </p>
+                </div>
+                <VisitLandExpansionForm />
+              </Panel>
+            </Modal>
+          </div>
+        </>
+      );
+    }
+
+    if (gameState.matches("visiting")) {
+      return (
+        <>
+          <div className="absolute z-10 w-full h-full">
+            <Routes>
+              <Route path="/:id" element={<Land />} />
+            </Routes>
+          </div>
+          <div className="absolute z-20">
+            <VisitingHud />
+          </div>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <div className="absolute z-10 w-full h-full">
+          <PlaceableOverlay>
+            <Routes>
+              <Route path="/" element={<Land />} />
+              <Route path="/helios" element={<Helios key="helios" />} />
+              <Route
+                path="/treasure-island"
+                element={<TreasureIsland key="treasure" />}
+              />
+              <Route
+                path="/stone-haven"
+                element={<StoneHaven key="stone-haven" />}
+              />
+              <Route element={<Land />} />
+            </Routes>
+          </PlaceableOverlay>
+        </div>
+        <div className="absolute z-20">
+          <Hud />
+        </div>
+      </>
+    );
+  };
 
   return (
     <>
@@ -140,18 +232,7 @@ export const Game: React.FC = () => {
         </Panel>
       </Modal>
 
-      <div className="absolute z-10 w-full h-full">
-        <PlaceableOverlay>
-          <Routes>
-            <Route path="/" element={<Land />} />
-            <Route path="/helios" element={<Helios key="helios" />} />
-            <Route element={<Land />} />
-          </Routes>
-        </PlaceableOverlay>
-      </div>
-      <div className="absolute z-20">
-        <Hud />
-      </div>
+      {GameContent()}
     </>
   );
 };

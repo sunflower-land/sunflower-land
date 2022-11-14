@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { SeedName, SEEDS } from "../types/crops";
+import { CropSeedName, CROP_SEEDS } from "../types/crops";
 import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
@@ -20,7 +20,7 @@ export type CraftAction = {
 export type CraftableName =
   | LimitedItemName
   | ToolName
-  | SeedName
+  | CropSeedName
   | Food
   | Animal
   | Flag
@@ -98,6 +98,12 @@ export type QuestItem =
   | "Ancient Goblin Sword"
   | "Ancient Human Warhammer";
 
+export type GoblinRetreatItemName =
+  | "Prized Potato"
+  | "Cabbage Boy"
+  | "Cabbage Girl"
+  | "Wood Nymph Wendy";
+
 export type BlacksmithItem =
   | "Sunflower Statue"
   | "Potato Statue"
@@ -170,6 +176,7 @@ export type CollectibleName =
   | TravelingSalesmanItem
   | MutantChicken
   | DecorationName
+  | GoblinRetreatItemName
   | "War Skull"
   | "War Tombstone"
   | "Undead Rooster";
@@ -258,7 +265,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Sunflower Cake": {
     name: "Sunflower Cake",
     description: "Sunflower Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(320),
     ingredients: [
       {
@@ -278,7 +285,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Potato Cake": {
     name: "Potato Cake",
     description: "Potato Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(320),
     ingredients: [
       {
@@ -298,7 +305,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Pumpkin Cake": {
     name: "Pumpkin Cake",
     description: "Pumpkin Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(320),
     ingredients: [
       {
@@ -318,7 +325,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Carrot Cake": {
     name: "Carrot Cake",
     description: "Carrot Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(360),
     ingredients: [
       {
@@ -338,7 +345,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Cabbage Cake": {
     name: "Cabbage Cake",
     description: "Cabbage Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(360),
     ingredients: [
       {
@@ -358,7 +365,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Beetroot Cake": {
     name: "Beetroot Cake",
     description: "Beetroot Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
       {
@@ -378,7 +385,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Cauliflower Cake": {
     name: "Cauliflower Cake",
     description: "Cauliflower Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
       {
@@ -398,7 +405,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Parsnip Cake": {
     name: "Parsnip Cake",
     description: "Parsnip Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
       {
@@ -418,7 +425,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Radish Cake": {
     name: "Radish Cake",
     description: "Radish Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
       {
@@ -438,7 +445,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Wheat Cake": {
     name: "Wheat Cake",
     description: "Wheat Cake",
-    price: new Decimal(0),
+    tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
       {
@@ -921,6 +928,29 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   },
 };
 
+// TODO
+type GoblinRetreatItem = {
+  description: string;
+};
+
+export const GOBLIN_RETREAT_ITEMS: Record<
+  GoblinRetreatItemName,
+  GoblinRetreatItem
+> = {
+  "Prized Potato": {
+    description: "A precious potato, doubles potato yield",
+  },
+  "Cabbage Boy": {
+    description: "Don't wake the baby!",
+  },
+  "Cabbage Girl": {
+    description: "Shhh it's sleeping",
+  },
+  "Wood Nymph Wendy": {
+    description: "Cast an enchanchment to entice the fairies",
+  },
+};
+
 export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
   Chicken: {
     name: "Chicken",
@@ -959,7 +989,7 @@ export const CRAFTABLES: () => Craftables = () => ({
   ...BLACKSMITH_ITEMS,
   ...BARN_ITEMS,
   ...MARKET_ITEMS,
-  ...SEEDS(),
+  ...CROP_SEEDS(),
   ...FOODS(),
   ...ANIMALS(),
   ...FLAGS,
@@ -1010,10 +1040,10 @@ export const makeLimitedItemsByName = (
     const id = KNOWN_IDS[name];
     // Get onchain item based on id
     const onChainItem = onChainItems[id];
+    const { tokenAmount } = CRAFTABLES()[name];
 
     if (onChainItem) {
       const {
-        tokenAmount,
         ingredientAmounts,
         ingredientIds,
         cooldownSeconds,
@@ -1023,31 +1053,33 @@ export const makeLimitedItemsByName = (
       } = onChainItem;
 
       // Build ingredients
-      const ingredients = ingredientIds.map((id, index) => ({
-        id,
-        item: KNOWN_ITEMS[id],
-        amount: new Decimal(ingredientAmounts[index]),
-      }));
+      if (ingredientAmounts) {
+        const ingredients = ingredientIds?.map((id, index) => ({
+          id,
+          item: KNOWN_ITEMS[id],
+          amount: new Decimal(ingredientAmounts[index]),
+        }));
 
-      const isNewItem = !enabled && Number(maxSupply) === 0;
+        const isNewItem = !enabled && Number(maxSupply) === 0;
 
-      limitedItems[name] = {
-        id: onChainItem.mintId,
-        name,
-        description: items[name].description,
-        tokenAmount: new Decimal(tokenAmount),
-        maxSupply,
-        cooldownSeconds,
-        ingredients,
-        mintedAt,
-        type: items[name].type,
-        disabled: !enabled,
-        isPlaceholder: items[name].isPlaceholder || isNewItem,
-        canMintMultiple: items[name].canMintMultiple,
-        mintReleaseDate: items[name].mintReleaseDate || 0,
-      };
+        limitedItems[name] = {
+          id: onChainItem.mintId,
+          name,
+          description: items[name].description,
+          tokenAmount,
+          maxSupply,
+          cooldownSeconds,
+          ingredients,
+          mintedAt,
+          type: items[name].type,
+          disabled: !enabled,
+          isPlaceholder: items[name].isPlaceholder || isNewItem,
+          canMintMultiple: items[name].canMintMultiple,
+          mintReleaseDate: items[name].mintReleaseDate || 0,
+        };
+      }
+      return limitedItems;
     }
-
     return limitedItems;
     // TODO: FIX TYPE
   }, {} as Record<CraftableName, LimitedItem>);
@@ -1140,16 +1172,21 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Easter Bunny": { width: 2, height: 1 },
   Rooster: { height: 1, width: 1 },
   "Egg Basket": { height: 1, width: 1 },
-  "War Skull": { height: 1, width: 1 },
-  "War Tombstone": { height: 1, width: 1 },
-
-  // Mutant Chickens
   "Fat Chicken": { height: 1, width: 1 },
   "Rich Chicken": { height: 1, width: 1 },
   "Speed Chicken": { height: 1, width: 1 },
 
-  "Victoria Sisters": { height: 2, width: 2 },
+  // War Tent Items
+  "War Skull": { height: 1, width: 1 },
+  "War Tombstone": { height: 1, width: 1 },
   "Undead Rooster": { height: 1, width: 1 },
+
+  "Victoria Sisters": { height: 2, width: 2 },
+  "Basic Bear": { height: 1, width: 1 },
+  "Prized Potato": { height: 1, width: 1 },
+  "Wood Nymph Wendy": { height: 1, width: 1 },
+  "Cabbage Boy": { height: 1, width: 1 },
+  "Cabbage Girl": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

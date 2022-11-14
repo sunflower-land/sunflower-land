@@ -5,6 +5,7 @@ import cloneDeep from "lodash.clonedeep";
 import { getSellPrice } from "features/game/lib/boosts";
 import { SellableItem } from "../sell";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { setPrecision } from "lib/utils/formatNumber";
 
 export type SellCropAction = {
   type: "crop.sold";
@@ -55,7 +56,7 @@ export function sellCrop({ state, action }: Options): GameState {
     balance: game.balance.add(sflEarned),
     inventory: {
       ...game.inventory,
-      [sellables.name]: count.sub(amount),
+      [sellables.name]: setPrecision(count.sub(amount)),
     },
   };
 }

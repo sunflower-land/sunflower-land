@@ -59,14 +59,12 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
         height={LAND_SIZE}
         width={LAND_SIZE}
       >
-        <div
-          className="w-full h-full flex items-center justify-center cursor-pointer opacity-90 hover:opacity-100"
-          onClick={() => setShowBumpkinModal(true)}
-        >
+        <div className="w-full h-full flex items-center justify-center opacity-90 hover:opacity-100">
           <img
             src={expandIcon}
             width={18 * PIXEL_SCALE}
-            className="relative top-4"
+            className="relative top-4 cursor-pointer hover:img-highlight"
+            onClick={() => setShowBumpkinModal(true)}
           />
         </div>
       </MapPlacement>

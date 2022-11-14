@@ -3,13 +3,13 @@ import Modal from "react-bootstrap/Modal";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/VisitingProvider";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Panel } from "components/ui/Panel";
 
 import goblin from "assets/npcs/wheat_goblin.gif";
 import goblinHead from "assets/npcs/goblin_head.png";
-import radishPie from "assets/nfts/radish_pie.png";
+import radishPie from "assets/sfts/radish_pie.png";
 import questionMark from "assets/icons/expression_confused.png";
 import heart from "assets/icons/heart.png";
 import close from "assets/icons/close.png";
@@ -81,14 +81,19 @@ export const WheatGoblin: React.FC = () => {
         <Panel>
           <img
             src={close}
-            className="h-6 top-4 right-4 absolute cursor-pointer"
+            className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
           />
           <div className="flex items-start">
             <img src={goblinHead} className="w-16 img-highlight mr-2" />
             <div className="flex-1">
-              <span className="text-shadow block">Goblin Farmer</span>
-              <span className="text-shadow block mt-4">
+              <span className="block">Goblin Farmer</span>
+              <span className="block mt-4">
                 Do you want to know the secret to growing wheat? Perhaps a
                 radish pie will refresh my memory
               </span>

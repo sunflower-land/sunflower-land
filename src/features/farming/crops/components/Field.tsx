@@ -256,7 +256,6 @@ export const Field: React.FC<Props> = ({
       }}
     >
       <Soil
-        className="absolute bottom-0"
         plantedCrop={field}
         showCropDetails={showCropDetails}
         isRemoving={isRemoving}
@@ -277,7 +276,7 @@ export const Field: React.FC<Props> = ({
       </div>
 
       {showPopover && (
-        <div className="transition-opacity absolute -bottom-2 w-full z-20 pointer-events-none flex justify-center">
+        <div className="transition-opacity absolute -bottom-6 w-full z-20 pointer-events-none flex justify-center">
           {popover}
         </div>
       )}

@@ -8,8 +8,8 @@ import { Context } from "features/game/GoblinProvider";
 import door from "assets/quest/door.png";
 import collapsedDoor from "assets/quest/door_collapsed.png";
 import firelighter from "assets/quest/firelighter.gif";
-import ancientGoblinSword from "assets/nfts/quest/ancient_goblin_sword.png";
-import ancientHumanWarmmer from "assets/nfts/quest/ancient_human_warhammer.png";
+import ancientGoblinSword from "assets/sfts/quest/ancient_goblin_sword.png";
+import ancientHumanWarmmer from "assets/sfts/quest/ancient_human_warhammer.png";
 
 export const AncientDoor: React.FC = () => {
   const { goblinService } = useContext(Context);

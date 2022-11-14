@@ -1,9 +1,8 @@
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useContext, useEffect } from "react";
 
 import background from "assets/land/helios.png";
-import pirateGoblin from "assets/npcs/pirate_goblin.gif";
 import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
 import { Fertilisers } from "./components/fertilisers/Fertilisers";
@@ -13,7 +12,7 @@ import { HeliosBlacksmith } from "./components/blacksmith/HeliosBlacksmith";
 import { IslandTravel } from "features/game/expansion/components/IslandTravel";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { LostSunflorian } from "./components/npcs/LostSunflorian";
 
 export const Helios: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -49,14 +48,7 @@ export const Helios: React.FC = () => {
         <Fertilisers />
         <ExoticShop />
         <HeliosSunflower />
-        <MapPlacement x={1} y={-14}>
-          <img
-            src={pirateGoblin}
-            style={{
-              width: `${25 * PIXEL_SCALE}px`,
-            }}
-          />
-        </MapPlacement>
+        <LostSunflorian />
 
         <IslandTravel bumpkin={bumpkin} x={5} y={-17} />
       </div>

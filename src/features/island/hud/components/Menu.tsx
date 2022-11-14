@@ -24,6 +24,8 @@ import { Settings } from "features/farming/hud/components/Settings";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -33,9 +35,9 @@ enum MENU_LEVELS {
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
+  const [isMobile] = useIsMobile();
 
   const [menuOpen, setMenuOpen] = useState(false);
-
   const [showShareModal, setShowShareModal] = useState(false);
   const [showLogoutModal, setShowSettings] = useState(false);
   const [showGoblinModal, setShowGoblinModal] = useState(false);
@@ -97,7 +99,7 @@ export const Menu = () => {
       {!gameService.state.matches("editing") && (
         <div
           ref={ref}
-          className="fixed top-[81px] left-2 z-50 cursor-pointer hover:img-highlight"
+          className={`fixed right-2 z-50 cursor-pointer hover:img-highlight bottom-40`}
           onClick={() => setMenuOpen(true)}
         >
           <div className="relative w-16 h-16 flex items-center justify-center">
@@ -187,11 +189,6 @@ export const Menu = () => {
                     <span className="sm:text-sm">Share</span>
                   </Button>
                 </li>
-                <li className="p-1">
-                  <Button onClick={visitFarm}>
-                    <span className="sm:text-sm">Visit Farm</span>
-                  </Button>
-                </li>
               </>
             )}
           </ul>
@@ -219,9 +216,14 @@ export const Menu = () => {
           <Panel>
             <img
               src={close}
-              className="h-6 top-3 right-4 absolute cursor-pointer"
+              className="absolute cursor-pointer z-20"
               alt="Close Logout Confirmation Modal"
               onClick={() => setShowCaptcha(false)}
+              style={{
+                top: `${PIXEL_SCALE * 6}px`,
+                right: `${PIXEL_SCALE * 6}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
             />
 
             <CloudFlareCaptcha

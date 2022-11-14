@@ -1,6 +1,6 @@
 import React from "react";
 
-import goldenCauliflower from "assets/nfts/golden_cauliflower.png";
+import goldenCauliflower from "assets/sfts/golden_cauliflower.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GoldenCauliflower: React.FC = () => {

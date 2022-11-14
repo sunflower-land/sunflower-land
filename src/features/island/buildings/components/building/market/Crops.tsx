@@ -17,6 +17,7 @@ import { Modal } from "react-bootstrap";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getSellPrice, hasSellBoost } from "features/game/lib/boosts";
+import { setPrecision } from "lib/utils/formatNumber";
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
@@ -35,7 +36,7 @@ export const Crops: React.FC = () => {
   const sell = (amount: Decimal) => {
     gameService.send("crop.sold", {
       crop: selected.name,
-      amount,
+      amount: setPrecision(amount),
     });
     setToast({
       icon: tokenStatic,
@@ -47,8 +48,9 @@ export const Crops: React.FC = () => {
   const noCrop = cropAmount.equals(0);
   const displaySellPrice = (crop: Crop) => getSellPrice(crop, inventory);
 
-  const handleSellOne = () => {
-    sell(new Decimal(1));
+  const handleSellOneOrLess = () => {
+    const sellAmount = cropAmount.gte(1) ? new Decimal(1) : cropAmount;
+    sell(sellAmount);
   };
 
   const handleSellAll = () => {
@@ -59,7 +61,7 @@ export const Crops: React.FC = () => {
   // ask confirmation if crop supply is greater than 1
   const openConfirmationModal = () => {
     if (cropAmount.equals(1)) {
-      handleSellOne();
+      handleSellOneOrLess();
     } else {
       showSellAllModal(true);
     }
@@ -76,15 +78,17 @@ export const Crops: React.FC = () => {
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
-        {Object.values(CROPS()).map((item) => (
-          <Box
-            isSelected={selected.name === item.name}
-            key={item.name}
-            onClick={() => setSelected(item)}
-            image={ITEM_DETAILS[item.name].image}
-            count={inventory[item.name]}
-          />
-        ))}
+        {Object.values(CROPS())
+          .filter((crop) => !!crop.sellPrice)
+          .map((item) => (
+            <Box
+              isSelected={selected.name === item.name}
+              key={item.name}
+              onClick={() => setSelected(item)}
+              image={ITEM_DETAILS[item.name].image}
+              count={setPrecision(inventory[item.name] ?? new Decimal(0))}
+            />
+          ))}
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 ">
@@ -108,11 +112,11 @@ export const Crops: React.FC = () => {
             </div>
           </div>
           <Button
-            disabled={cropAmount.lessThan(1)}
+            disabled={cropAmount.lte(0)}
             className="text-xs mt-1"
-            onClick={handleSellOne}
+            onClick={handleSellOneOrLess}
           >
-            Sell 1
+            {`Sell ${cropAmount.gte(1) ? "1" : "<1"}`}
           </Button>
           <Button
             disabled={noCrop}
@@ -128,8 +132,8 @@ export const Crops: React.FC = () => {
           <div className="m-auto flex flex-col">
             <span className="text-sm text-center text-shadow">
               Are you sure you want to <br className="hidden md:block" />
-              sell {parseFloat(cropAmount.toFixed(4, Decimal.ROUND_DOWN))}{" "}
-              {selected.name} for <br className="hidden md:block" />
+              sell {setPrecision(cropAmount).toNumber()} {selected.name} for{" "}
+              <br className="hidden md:block" />
               {parseFloat(
                 displaySellPrice(selected)
                   .mul(cropAmount.toNumber())

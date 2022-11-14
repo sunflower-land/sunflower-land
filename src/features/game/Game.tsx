@@ -67,6 +67,10 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   offerMigration: true,
   migrating: true,
   migrated: false,
+  loadLandToVisit: false,
+  visiting: false,
+  landToVisitNotFound: false,
+  checkIsVisiting: false,
 };
 
 export const Game: React.FC = () => {

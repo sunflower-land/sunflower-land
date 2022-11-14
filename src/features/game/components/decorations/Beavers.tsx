@@ -6,9 +6,9 @@ import { Inventory } from "../../types/game";
 import { Panel } from "components/ui/Panel";
 
 import close from "assets/icons/close.png";
-import beaver from "assets/nfts/beaver.gif";
-import apprentice from "assets/nfts/apprentice_beaver.gif";
-import foreman from "assets/nfts/construction_beaver.gif";
+import beaver from "assets/sfts/beaver.gif";
+import apprentice from "assets/sfts/apprentice_beaver.gif";
+import foreman from "assets/sfts/construction_beaver.gif";
 
 export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   const [showModal, setShowModal] = useState(false);
@@ -28,8 +28,13 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
           <Panel>
             <img
               src={close}
-              className="h-6 top-4 right-4 absolute cursor-pointer"
+              className="absolute cursor-pointer z-20"
               onClick={() => setShowModal(false)}
+              style={{
+                top: `${PIXEL_SCALE * 6}px`,
+                right: `${PIXEL_SCALE * 6}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
             />
             <div className="flex flex-col items-center justify-center m-2">
               <img src={foreman} alt="Foreman Beaver" className="w-1/3" />
