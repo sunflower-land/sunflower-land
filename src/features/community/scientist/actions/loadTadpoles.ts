@@ -23,7 +23,6 @@ export async function getTadpoleHealth(tadpoleId: number[]) {
       .getTadpole()
       .getTadpoleHealth(tadpoleId);
 
-    console.log(tadpoleHealth);
     return tadpoleHealth as TadpoleName;
   } catch {
     return "dying" as TadpoleName;

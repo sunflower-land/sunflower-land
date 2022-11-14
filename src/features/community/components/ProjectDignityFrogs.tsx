@@ -14,7 +14,7 @@ export const ProjectDignityFrogs: React.FC = () => {
 
   useEffect(() => {
     const fetchFrogs = async () => {
-      const data = await loadFrogs();
+      const data = await loadFrogs({ loadIncubatedFrogs: true });
       setFrogData(data);
     };
 
