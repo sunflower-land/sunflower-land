@@ -27,6 +27,7 @@ import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
+const SPRITE_TIME_MS = 2000;
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 
@@ -46,6 +47,9 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
   const [touchCount, setTouchCount] = useState(0);
   // When to hide the iron that pops out
   const [collecting, setCollecting] = useState(false);
+  const [collectedAmount, setCollectedAmount] = useState<number | undefined>(
+    undefined
+  );
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -75,6 +79,31 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
     };
   }, []);
 
+  // Do not show popover and animation while hoarding
+  useEffect(() => {
+    if (collecting && !game.matches("hoarding")) {
+      minedGif.current?.goToAndPlay(0);
+
+      displayPopover(
+        <div className="flex">
+          <img src={iron} className="w-5 h-5 mr-2" />
+          <span className="text-sm text-white text-shadow">{`+${collectedAmount}`}</span>
+        </div>
+      );
+
+      setToast({
+        icon: iron,
+        content: `+${collectedAmount}`,
+      });
+
+      setTimeout(() => {
+        setCollecting(false);
+      }, SPRITE_TIME_MS);
+    } else {
+      setCollecting(false);
+    }
+  }, [collecting]);
+
   // Users will need to refresh to strike the iron again
   const mined = !canMine(ironRock, IRON_RECOVERY_TIME);
 
@@ -86,6 +115,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
 
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
     setShowPopover(false);
+    setCollectedAmount(undefined);
   };
 
   const hasPickaxes =
@@ -122,22 +152,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
         expansionIndex,
       });
       setCollecting(true);
-      minedGif.current?.goToAndPlay(0);
-
-      displayPopover(
-        <div className="flex">
-          <img src={iron} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${ironRock.stone.amount}`}</span>
-        </div>
-      );
-
-      setToast({
-        icon: iron,
-        content: `+${ironRock.stone.amount}`,
-      });
-
-      await new Promise((res) => setTimeout(res, 2000));
-      setCollecting(false);
+      setCollectedAmount(ironRock.stone.amount);
     } catch (e: any) {
       if (e.message === MINE_ERRORS.NO_PICKAXES) {
         displayPopover(

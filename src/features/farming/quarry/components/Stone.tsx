@@ -29,6 +29,7 @@ import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
+const SPRITE_TIME_MS = 2000;
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 
@@ -45,8 +46,11 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
   const [popover, setPopover] = useState<JSX.Element | null>();
 
   const [touchCount, setTouchCount] = useState(0);
-  // When to hide the wood that pops out
+  // When to hide the stone that pops out
   const [collecting, setCollecting] = useState(false);
+  const [collectedAmount, setCollectedAmount] = useState<number | undefined>(
+    undefined
+  );
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkGif = useRef<SpriteSheetInstance>();
@@ -77,12 +81,38 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
     };
   }, []);
 
+  // Do not show popover and animation while hoarding
+  useEffect(() => {
+    if (collecting && !game.matches("hoarding")) {
+      minedGif.current?.goToAndPlay(0);
+
+      displayPopover(
+        <div className="flex">
+          <img src={stone} className="w-5 h-5 mr-2" />
+          <span className="text-sm text-white text-shadow">{`+${collectedAmount}`}</span>
+        </div>
+      );
+
+      setToast({
+        icon: stone,
+        content: `+${collectedAmount}`,
+      });
+
+      setTimeout(() => {
+        setCollecting(false);
+      }, SPRITE_TIME_MS);
+    } else {
+      setCollecting(false);
+    }
+  }, [collecting]);
+
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
     setShowPopover(true);
 
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
     setShowPopover(false);
+    setCollectedAmount(undefined);
   };
 
   const shake = () => {
@@ -119,22 +149,7 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
         index: rockIndex,
       });
       setCollecting(true);
-      minedGif.current?.goToAndPlay(0);
-
-      displayPopover(
-        <div className="flex">
-          <img src={stone} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${rock.amount}`}</span>
-        </div>
-      );
-
-      setToast({
-        icon: stone,
-        content: `+${rock.amount}`,
-      });
-
-      await new Promise((res) => setTimeout(res, 2000));
-      setCollecting(false);
+      setCollectedAmount(rock.amount.toNumber());
     } catch (e: any) {
       displayPopover(
         <span className="text-xs text-white text-shadow">{e.message}</span>
