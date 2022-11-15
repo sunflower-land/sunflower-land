@@ -34,7 +34,8 @@ body {
   font-family: "Paytone One", sans-serif;
   overflow: hidden;
   text-shadow: 1px 1px black;
-  font-size: 12px;
+  font-size: 1.175rem;
+  line-height: 1.175;
 }
 
 button:disabled {
@@ -43,7 +44,7 @@ button:disabled {
 
 @media screen and (min-width: 480px) {
   body {
-    font-size: 16px;
+    font-size: 1.275rem;
   }
 }
 

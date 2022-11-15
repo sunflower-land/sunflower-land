@@ -14,7 +14,7 @@ export const Label: React.FC<Props> = ({ children, className }) => {
       )}
       style={pixelWhiteBorderStyle}
     >
-      {children}
+      <span>{children}</span>
     </div>
   );
 };
