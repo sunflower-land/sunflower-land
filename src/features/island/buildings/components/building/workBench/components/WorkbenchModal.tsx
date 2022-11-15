@@ -139,7 +139,19 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   const stock = state.stock[selectedName] || new Decimal(0);
 
   return (
-    <Panel className="relative" hasTabs>
+    <Panel
+      className="relative"
+      hasTabs
+      bumpkinParts={{
+        body: "Light Brown Farmer Potion",
+        hair: "Blacksmith Hair",
+        pants: "Lumberjack Overalls",
+        shirt: "SFL T-Shirt",
+        tool: "Hammer",
+        background: "Farm Background",
+        shoes: "Brown Boots",
+      }}
+    >
       <div
         className="absolute flex"
         style={{
@@ -150,7 +162,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
       >
         <Tab isActive>
           <img src={hammer} className="h-5 mr-2" />
-          <span className="text-sm text-shadow">Tools</span>
+          <span className="text-sm">Tools</span>
         </Tab>
         <img
           src={close}
@@ -184,13 +196,13 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
           <OuterPanel className="flex-1 w-1/3">
             <div className="flex flex-col justify-center items-center p-2 relative">
               <Stock item={{ name: selectedName }} />
-              <span className="text-shadow text-center">{selectedName}</span>
+              <span className="text-center">{selectedName}</span>
               <img
                 src={ITEM_DETAILS[selectedName].image}
                 className="h-16 img-highlight mt-1"
                 alt={selectedName}
               />
-              <span className="text-shadow text-center mt-2 sm:text-sm">
+              <span className="text-center mt-2 sm:text-sm">
                 {selected.description}
               </span>
 
@@ -214,10 +226,10 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
                       // if inventory items is less than required items
                       return (
                         <>
-                          <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                          <span className="text-xs text-center mt-2 text-red-500">
                             {`${inventoryAmount}`}
                           </span>
-                          <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                          <span className="text-xs text-center mt-2 text-red-500">
                             {`/${requiredAmount}`}
                           </span>
                         </>
@@ -225,7 +237,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
                     } else {
                       // if inventory items is equal to required items
                       return (
-                        <span className="text-xs text-shadow text-center mt-2">
+                        <span className="text-xs text-center mt-2">
                           {`${requiredAmount}`}
                         </span>
                       );
@@ -248,12 +260,9 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
                   <div className="flex justify-center items-end">
                     <img src={token} className="h-5 mr-1" />
                     <span
-                      className={classNames(
-                        "text-xs text-shadow text-center mt-2 ",
-                        {
-                          "text-red-500": lessFunds(),
-                        }
-                      )}
+                      className={classNames("text-xs text-center mt-2", {
+                        "text-red-500": lessFunds(),
+                      })}
                     >
                       {`$${price?.toNumber()}`}
                     </span>

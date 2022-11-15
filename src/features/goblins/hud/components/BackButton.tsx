@@ -25,10 +25,16 @@ export const BackButton = () => {
                 style={{
                   width: `${PIXEL_SCALE * 11}px`,
                   margin: `${PIXEL_SCALE * 1}px`,
-                  marginRight: `${PIXEL_SCALE * 4}px`,
                 }}
               />
-              <span className="hidden md:flex">Back</span>
+              <span
+                className="hidden md:flex"
+                style={{
+                  marginLeft: `${PIXEL_SCALE * 3}px`,
+                }}
+              >
+                Back
+              </span>
             </Button>
           </div>
         </OuterPanel>

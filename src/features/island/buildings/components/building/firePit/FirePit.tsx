@@ -93,6 +93,14 @@ export const FirePit: React.FC<Props> = ({
             }}
           />
         )}
+
+        <img
+          src={firePit}
+          className={classNames("w-full", {
+            "opacity-100": !crafting,
+            "opacity-80": crafting,
+          })}
+        />
         {crafting && name && (
           <img
             src={ITEM_DETAILS[name].image}
@@ -105,10 +113,19 @@ export const FirePit: React.FC<Props> = ({
             }}
           />
         )}
+        <img
+          src={shadow}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            top: `${PIXEL_SCALE * 14}px`,
+            left: `${PIXEL_SCALE * 13}px`,
+          }}
+        />
         {crafting ? (
           <img
             src={doing}
-            className="absolute z-20"
+            className="absolute"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               top: `${PIXEL_SCALE * 2}px`,
@@ -119,7 +136,7 @@ export const FirePit: React.FC<Props> = ({
         ) : (
           <img
             src={npc}
-            className="absolute z-20"
+            className="absolute"
             style={{
               width: `${PIXEL_SCALE * 14}px`,
               top: `${PIXEL_SCALE * 2}px`,
@@ -127,23 +144,6 @@ export const FirePit: React.FC<Props> = ({
             }}
           />
         )}
-
-        <img
-          src={shadow}
-          className="absolute z-10"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            top: `${PIXEL_SCALE * 14}px`,
-            left: `${PIXEL_SCALE * 13}px`,
-          }}
-        />
-        <img
-          src={firePit}
-          className={classNames("w-full", {
-            "opacity-100": !crafting,
-            "opacity-80": crafting,
-          })}
-        />
       </div>
 
       <FirePitModal

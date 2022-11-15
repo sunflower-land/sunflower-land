@@ -7,7 +7,6 @@ import shadow from "assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { ShopItems } from "./ShopItems";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 export const Market: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -32,8 +31,17 @@ export const Market: React.FC = () => {
         onClick={handleClick}
       />
       <img
+        src={shadow}
+        className="absolute pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          bottom: `${PIXEL_SCALE * 6}px`,
+          right: `${PIXEL_SCALE * 6}px`,
+        }}
+      />
+      <img
         src={betty}
-        className="absolute pointer-events-none z-20"
+        className="absolute pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
           bottom: `${PIXEL_SCALE * 8}px`,
@@ -41,29 +49,7 @@ export const Market: React.FC = () => {
           transform: "scaleX(-1)",
         }}
       />
-      <img
-        src={shadow}
-        className="absolute z-10 pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          bottom: `${PIXEL_SCALE * 6}px`,
-          right: `${PIXEL_SCALE * 6}px`,
-        }}
-      />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <div className="absolute w-72 -left-8 -top-44 -z-10">
-          <DynamicNFT
-            bumpkinParts={{
-              body: "Beige Farmer Potion",
-              hair: "Rancher Hair",
-              pants: "Farmer Overalls",
-              shirt: "Red Farmer Shirt",
-              tool: "Parsnip",
-              background: "Farm Background",
-              shoes: "Black Farmer Boots",
-            }}
-          />
-        </div>
         <ShopItems onClose={() => setIsOpen(false)} />
       </Modal>
     </div>

@@ -10,7 +10,6 @@ import {
   ConsumableName,
   CONSUMABLES,
 } from "features/game/types/consumables";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 interface Props {
   isOpen: boolean;
@@ -28,20 +27,17 @@ export const KitchenModal: React.FC<Props> = ({ isOpen, onCook, onClose }) => {
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
-      <div className="absolute w-72 -left-8 -top-44 -z-10">
-        <DynamicNFT
-          bumpkinParts={{
-            body: "Light Brown Farmer Potion",
-            hair: "Explorer Hair",
-            pants: "Lumberjack Overalls",
-            shirt: "Blue Farmer Shirt",
-            tool: "Axe",
-            background: "Farm Background",
-            shoes: "Black Farmer Boots",
-          }}
-        />
-      </div>
-      <Panel>
+      <Panel
+        bumpkinParts={{
+          body: "Light Brown Farmer Potion",
+          hair: "Explorer Hair",
+          pants: "Lumberjack Overalls",
+          shirt: "Blue Farmer Shirt",
+          tool: "Axe",
+          background: "Farm Background",
+          shoes: "Black Farmer Boots",
+        }}
+      >
         <Recipes recipes={kitchenRecipes} onCook={onCook} onClose={onClose} />
       </Panel>
     </Modal>

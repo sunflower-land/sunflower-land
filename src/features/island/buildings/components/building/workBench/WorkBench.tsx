@@ -6,7 +6,6 @@ import { WorkbenchModal } from "./components/WorkbenchModal";
 
 import npc from "assets/npcs/blacksmith.gif";
 import shadow from "assets/npcs/shadow.png";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 export const WorkBench: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -32,38 +31,24 @@ export const WorkBench: React.FC = () => {
         onClick={handleClick}
       />
       <img
-        src={npc}
-        className="absolute z-20 pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 14}px`,
-          bottom: `${PIXEL_SCALE * 16}px`,
-          right: `${PIXEL_SCALE * 12}px`,
-        }}
-      />
-
-      <img
         src={shadow}
-        className="absolute z-10 pointer-events-none"
+        className="absolute pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 15}px`,
           bottom: `${PIXEL_SCALE * 14}px`,
           right: `${PIXEL_SCALE * 11}px`,
         }}
       />
+      <img
+        src={npc}
+        className="absolute pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 14}px`,
+          bottom: `${PIXEL_SCALE * 16}px`,
+          right: `${PIXEL_SCALE * 12}px`,
+        }}
+      />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <div className="absolute w-72 -left-8 -top-44 -z-10">
-          <DynamicNFT
-            bumpkinParts={{
-              body: "Light Brown Farmer Potion",
-              hair: "Blacksmith Hair",
-              pants: "Lumberjack Overalls",
-              shirt: "SFL T-Shirt",
-              tool: "Hammer",
-              background: "Farm Background",
-              shoes: "Brown Boots",
-            }}
-          />
-        </div>
         <WorkbenchModal onClose={() => setIsOpen(false)} />
       </Modal>
     </div>

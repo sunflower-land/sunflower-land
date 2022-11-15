@@ -88,11 +88,23 @@ export const Bakery: React.FC<Props> = ({
         )}
         <img
           src={bakery}
-          className="absolute"
+          className={classNames("absolute", {
+            "opacity-100": !crafting,
+            "opacity-80": crafting,
+          })}
           style={{
             width: `${PIXEL_SCALE * 62}px`,
             left: `${PIXEL_SCALE * 1}px`,
             top: `${PIXEL_SCALE * -3}px`,
+          }}
+        />
+        <img
+          src={shadow}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            left: `${PIXEL_SCALE * 33}px`,
+            bottom: `${PIXEL_SCALE * 1}px`,
           }}
         />
         <img
@@ -103,15 +115,6 @@ export const Bakery: React.FC<Props> = ({
             left: `${PIXEL_SCALE * 32}px`,
             bottom: `${PIXEL_SCALE * 3}px`,
             transform: "scaleX(-1)",
-          }}
-        />
-        <img
-          src={shadow}
-          className="absolute z-10"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            left: `${PIXEL_SCALE * 33}px`,
-            bottom: `${PIXEL_SCALE * 1}px`,
           }}
         />
         {crafting && (

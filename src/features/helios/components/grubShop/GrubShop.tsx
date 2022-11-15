@@ -12,7 +12,6 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { GrubShopModal } from "./components/GrubShopModal";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ConsumableName } from "features/game/types/consumables";
 
@@ -46,7 +45,7 @@ export const GrubShop: React.FC = () => {
 
   return (
     <div
-      className="z-10 absolute"
+      className="absolute"
       // TODO some sort of coordinate system
       style={{
         // width: `${GRID_WIDTH_PX * 6}px`,
@@ -76,6 +75,15 @@ export const GrubShop: React.FC = () => {
           />
         )}
         <img
+          src={shadow}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            left: `${PIXEL_SCALE * 60}px`,
+            bottom: `${PIXEL_SCALE * 20}px`,
+          }}
+        />
+        <img
           src={goblinChef}
           className="absolute"
           style={{
@@ -85,19 +93,19 @@ export const GrubShop: React.FC = () => {
             transform: "scaleX(-1)",
           }}
         />
-        <img
-          src={shadow}
-          className="absolute z-10"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            left: `${PIXEL_SCALE * 60}px`,
-            bottom: `${PIXEL_SCALE * 20}px`,
-          }}
-        />
 
         <img
+          src={shadow}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            left: `${PIXEL_SCALE * 52}px`,
+            bottom: `${PIXEL_SCALE * -10}px`,
+          }}
+        />
+        <img
           src={goblin}
-          className="absolute z-20 pointer-events-none"
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 18}px`,
             left: `${PIXEL_SCALE * 51}px`,
@@ -105,38 +113,29 @@ export const GrubShop: React.FC = () => {
             transform: "scaleX(-1)",
           }}
         />
-        <img
-          src={shadow}
-          className="absolute z-10  pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            left: `${PIXEL_SCALE * 52}px`,
-            bottom: `${PIXEL_SCALE * -10}px`,
-          }}
-        />
 
         <img
-          src={goblin}
-          className="absolute z-20  pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 18}px`,
-            left: `${PIXEL_SCALE * 4}px`,
-            bottom: `${PIXEL_SCALE * -4}px`,
-          }}
-        />
-        <img
           src={shadow}
-          className="absolute z-10  pointer-events-none"
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             left: `${PIXEL_SCALE * 5.5}px`,
             bottom: `${PIXEL_SCALE * -6}px`,
           }}
         />
+        <img
+          src={goblin}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 18}px`,
+            left: `${PIXEL_SCALE * 4}px`,
+            bottom: `${PIXEL_SCALE * -4}px`,
+          }}
+        />
 
         <img
           src={heart}
-          className="absolute z-10 animate-float"
+          className="absolute animate-float"
           style={{
             width: `${PIXEL_SCALE * 8}px`,
             left: `${PIXEL_SCALE * 9}px`,
@@ -156,19 +155,6 @@ export const GrubShop: React.FC = () => {
         )}
       </div>
       <Modal centered show={showModal} onHide={closeModal}>
-        <div className="absolute w-72 -left-8 -top-44 -z-10">
-          <DynamicNFT
-            bumpkinParts={{
-              body: "Goblin Potion",
-              hair: "Sun Spots",
-              pants: "Lumberjack Overalls",
-              tool: "Golden Spatula",
-              background: "Farm Background",
-              hat: "Chef Hat",
-              shoes: "Black Farmer Boots",
-            }}
-          />
-        </div>
         <GrubShopModal onClose={closeModal} />
       </Modal>
     </div>
