@@ -72,10 +72,11 @@ export const Field: React.FC<Props> = ({
     setShowPopover(false);
   };
 
-  // do not show popover while hoarding
+  // Do not show popover and proc animation while hoarding
   useEffect(() => {
     if (showPopover && game.matches("hoarding")) {
       setShowPopover(false);
+      setProcAnimation(null);
     }
   }, [showPopover]);
 
@@ -202,6 +203,8 @@ export const Field: React.FC<Props> = ({
             <span>-1</span>
           </div>
         );
+
+        setProcAnimation(null);
       } catch (e: any) {
         // TODO - catch more elaborate errors
         displayPopover(<img className="w-5" src={cancel} />);
