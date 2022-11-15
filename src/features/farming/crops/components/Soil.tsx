@@ -58,6 +58,7 @@ export const Soil: React.FC<Props> = ({
   if (timeLeft > 0) {
     const growPercentage = 100 - (timeLeft / harvestSeconds) * 100;
     const isAlmostReady = growPercentage >= 50;
+    const isHalfway = growPercentage >= 25 && !isAlmostReady;
 
     return (
       <div className="relative w-full h-full">
@@ -83,7 +84,13 @@ export const Soil: React.FC<Props> = ({
           </div>
         )}
 
-        {getCropImage(isAlmostReady ? lifecycle.almost : lifecycle.seedling)}
+        {getCropImage(
+          isAlmostReady
+            ? lifecycle.almost
+            : isHalfway
+            ? lifecycle.halfway
+            : lifecycle.seedling
+        )}
 
         <div
           className="absolute z-20"
