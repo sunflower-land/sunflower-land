@@ -21,11 +21,10 @@ import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
-import { ProgressBar } from "components/ui/ProgressBar";
+import { Bar, ProgressBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { canMine } from "features/game/events/stoneMine";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
-import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
@@ -274,14 +273,17 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute top-12 left-8",
+          "transition-opacity pointer-events-none absolute top-12 left-8 z-20",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
           }
         )}
       >
-        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
+        <Bar
+          percentage={collecting ? 0 : 100 - (touchCount / 3) * 100}
+          type="health"
+        />
       </div>
 
       {mined && (
@@ -293,7 +295,11 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
               left: "31px",
             }}
           >
-            <ProgressBar percentage={percentage} seconds={timeLeft} />
+            <ProgressBar
+              percentage={percentage}
+              seconds={timeLeft}
+              type="progress"
+            />
             <TimeLeftPanel
               text="Recovers in:"
               timeLeft={timeLeft}

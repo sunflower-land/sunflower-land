@@ -25,7 +25,6 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
-import { HealthBar } from "components/ui/HealthBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { LandExpansionTree } from "features/game/types/game";
 import {
@@ -35,6 +34,7 @@ import {
 } from "features/game/events/landExpansion/chop";
 import { Overlay } from "react-bootstrap";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { Bar } from "components/ui/ProgressBar";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -318,14 +318,17 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute bottom-1 left-5",
+          "transition-opacity pointer-events-none absolute bottom-5 left-6 z-20",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
           }
         )}
       >
-        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
+        <Bar
+          percentage={collecting ? 0 : 100 - (touchCount / 3) * 100}
+          type="health"
+        />
       </div>
 
       <div
