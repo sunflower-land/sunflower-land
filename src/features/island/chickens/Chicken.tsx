@@ -25,7 +25,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import Decimal from "decimal.js-light";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
-import { secondsToMidString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 import { MutantChicken } from "features/game/types/craftables";
 import { getWheatRequiredToFeed } from "features/game/events/feedChicken";
 import {
@@ -74,7 +74,9 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
           <span>Egg</span>
         </div>
         <span className="flex-1">
-          {secondsToMidString(context.timeToEgg - context.timeElapsed)}
+          {secondsToString(context.timeToEgg - context.timeElapsed, {
+            length: "medium",
+          })}
         </span>
       </div>
     </InnerPanel>

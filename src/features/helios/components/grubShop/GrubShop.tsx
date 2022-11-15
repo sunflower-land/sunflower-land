@@ -3,11 +3,18 @@ import { Modal } from "react-bootstrap";
 
 import stall from "assets/buildings/grub_shop.png";
 import closeSign from "assets/buildings/close_sign_2.png";
+import goblinChef from "assets/npcs/goblin_chef.gif";
+import shadow from "assets/npcs/shadow.png";
+import goblin from "assets/npcs/goblin.gif";
+import heart from "assets/icons/heart.png";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { GrubShopModal } from "./components/GrubShopModal";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { ConsumableName } from "features/game/types/consumables";
 
 export const GrubShop: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -28,6 +35,14 @@ export const GrubShop: React.FC = () => {
   };
 
   const isClosed = !state.grubShop || state.grubShop.closesAt < Date.now();
+
+  const ordersFulfilled = state.grubOrdersFulfilled ?? [];
+  let lastFulfilledItemName: ConsumableName | undefined;
+  if (ordersFulfilled.length > 0) {
+    lastFulfilledItemName = state.grubShop?.orders.find(
+      (order) => order.id === ordersFulfilled[ordersFulfilled.length - 1].id
+    )?.name;
+  }
 
   return (
     <div
@@ -60,49 +75,100 @@ export const GrubShop: React.FC = () => {
             className="absolute pointer-events-none"
           />
         )}
+        <img
+          src={goblinChef}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 22}px`,
+            left: `${PIXEL_SCALE * 59}px`,
+            bottom: `${PIXEL_SCALE * 22}px`,
+            transform: "scaleX(-1)",
+          }}
+        />
+        <img
+          src={shadow}
+          className="absolute z-10"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            left: `${PIXEL_SCALE * 60}px`,
+            bottom: `${PIXEL_SCALE * 20}px`,
+          }}
+        />
 
-        {/* {specialCake && (
-          <>
-            <img
-              src={ITEM_DETAILS[specialCake.name].image}
-              className="absolute"
-              style={{
-                width: `${GRID_WIDTH_PX * 0.71}px`,
-                right: `${GRID_WIDTH_PX * 3.07}px`,
-                top: `${GRID_WIDTH_PX * 2.59}px`,
-              }}
-              onClick={openCakeModal}
-            />
+        <img
+          src={goblin}
+          className="absolute z-20 pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 18}px`,
+            left: `${PIXEL_SCALE * 51}px`,
+            bottom: `${PIXEL_SCALE * -8}px`,
+            transform: "scaleX(-1)",
+          }}
+        />
+        <img
+          src={shadow}
+          className="absolute z-10  pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            left: `${PIXEL_SCALE * 52}px`,
+            bottom: `${PIXEL_SCALE * -10}px`,
+          }}
+        />
 
-            {state.inventory["Chef Hat"] ? (
-              <img
-                src={chef}
-                className="absolute"
-                style={{
-                  width: `${GRID_WIDTH_PX * 1.22222222222}px`,
-                  right: `${GRID_WIDTH_PX * 1.71}px`,
-                  top: `${GRID_WIDTH_PX * 2}px`,
-                  transform: "scaleX(-1)",
-                }}
-                onClick={openCakeModal}
-              />
-            ) : (
-              <img
-                src={goblin}
-                className="absolute"
-                style={{
-                  width: `${GRID_WIDTH_PX}px`,
-                  right: `${GRID_WIDTH_PX * 1.95}px`,
-                  top: `${GRID_WIDTH_PX * 2.5}px`,
-                  transform: "scaleX(-1)",
-                }}
-                onClick={openCakeModal}
-              />
-            )}
-          </>
-        )} */}
+        <img
+          src={goblin}
+          className="absolute z-20  pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 18}px`,
+            left: `${PIXEL_SCALE * 4}px`,
+            bottom: `${PIXEL_SCALE * -4}px`,
+          }}
+        />
+        <img
+          src={shadow}
+          className="absolute z-10  pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            left: `${PIXEL_SCALE * 5.5}px`,
+            bottom: `${PIXEL_SCALE * -6}px`,
+          }}
+        />
+
+        <img
+          src={heart}
+          className="absolute z-10 animate-float"
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+            left: `${PIXEL_SCALE * 9}px`,
+            top: `${PIXEL_SCALE * 36.59}px`,
+          }}
+        />
+        {lastFulfilledItemName && (
+          <img
+            src={ITEM_DETAILS[lastFulfilledItemName].image}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 12}px`,
+              right: `${PIXEL_SCALE * 15.5}px`,
+              top: `${PIXEL_SCALE * 39.59}px`,
+            }}
+          />
+        )}
       </div>
       <Modal centered show={showModal} onHide={closeModal}>
+        <div className="absolute w-72 -left-8 -top-44 -z-10">
+          <DynamicNFT
+            bumpkinParts={{
+              body: "Goblin Potion",
+              hair: "Sun Spots",
+              pants: "Lumberjack Overalls",
+              tool: "Golden Spatula",
+              background: "Farm Background",
+              hat: "Chef Hat",
+              shoes: "Black Farmer Boots",
+            }}
+          />
+        </div>
         <GrubShopModal onClose={closeModal} />
       </Modal>
     </div>

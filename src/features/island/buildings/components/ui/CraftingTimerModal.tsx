@@ -7,7 +7,7 @@ import { Panel } from "components/ui/Panel";
 import close from "assets/icons/close.png";
 import stopwatch from "assets/icons/stopwatch.png";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { secondsToMidString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -40,7 +40,7 @@ export const CraftingTimerModal: React.FC<Props> = ({
 
   return (
     <Modal show={show} centered onHide={onClose}>
-      <div className="absolute w-48 -left-4 -top-32 -z-10">
+      <div className="absolute w-72 -left-8 -top-44 -z-10">
         <DynamicNFT
           bumpkinParts={{
             body: "Beige Farmer Potion",
@@ -75,7 +75,7 @@ export const CraftingTimerModal: React.FC<Props> = ({
               <img src={ITEM_DETAILS[name].image} className="h-7" />
               <div className="flex items-center">
                 <img src={stopwatch} className="h-7 mr-2" />
-                <p>{secondsToMidString(secondsTillReady)}</p>
+                <p>{secondsToString(secondsTillReady, { length: "medium" })}</p>
               </div>
             </div>
           </div>

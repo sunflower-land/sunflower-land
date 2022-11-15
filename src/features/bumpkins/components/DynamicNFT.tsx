@@ -13,7 +13,7 @@ import {
 import { CONFIG } from "lib/config";
 
 interface Props {
-  bumpkinParts: BumpkinParts;
+  bumpkinParts: Partial<BumpkinParts>;
   showBackground?: boolean;
   showTool?: boolean;
   className?: string;

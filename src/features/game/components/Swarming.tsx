@@ -9,7 +9,7 @@ import { Context } from "../GameProvider";
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { getGoblinSwarm } from "../events/detectBot";
-import { secondsToLongString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 
 export const Swarming: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -61,7 +61,7 @@ export const Swarming: React.FC = () => {
         {secondsLeft > 0 ? (
           <div className="flex items-center justify-center">
             <img src={stopwatch} className="w-6 mr-2" />
-            <span>{secondsToLongString(secondsLeft)}</span>
+            <span>{secondsToString(secondsLeft, { length: "full" })}</span>
           </div>
         ) : (
           <Button onClick={onAcknowledge}>Continue</Button>

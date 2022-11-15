@@ -202,7 +202,8 @@ export const Box: React.FC<BoxProps> = ({
         {showCountLabel && (
           <div
             ref={labelRef}
-            className={classNames("absolute z-10", {
+            className={classNames("absolute", {
+              "z-10": !isHover,
               "z-20": isHover,
             })}
             style={{
