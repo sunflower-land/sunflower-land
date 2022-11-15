@@ -93,10 +93,18 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                         ? ITEM_DETAILS[item.name].image
                         : questionMark
                     }
-                    overlayIcon={
-                      <img id="confirm" src={confirm} className="h-6" />
-                    }
                     showOverlay={isFulfilled}
+                    overlayIcon={
+                      <img
+                        src={confirm}
+                        id="confirm"
+                        alt="confirm"
+                        className="relative object-contain"
+                        style={{
+                          width: `${PIXEL_SCALE * 12}px`,
+                        }}
+                      />
+                    }
                     disabled={index > hiddenPositionStart}
                     count={
                       index <= hiddenPositionStart
