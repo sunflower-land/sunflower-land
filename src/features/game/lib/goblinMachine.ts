@@ -27,7 +27,7 @@ import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
 import { fetchAuctioneerDrops } from "../actions/auctioneer";
 import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
-import { ItemSupply } from "lib/blockchain/Inventory";
+import { ItemSupply, ZERO_SUPPLY } from "lib/blockchain/Inventory";
 
 const API_URL = CONFIG.API_URL;
 
@@ -161,7 +161,7 @@ export function startGoblinVillage(authContext: AuthContext) {
         sessionId: INITIAL_SESSION,
         limitedItems: {},
         auctioneerItems: [],
-        supply: {} as ItemSupply,
+        supply: ZERO_SUPPLY,
       },
       states: {
         loading: {
@@ -213,6 +213,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 sessionId,
                 deviceTrackerId: response?.deviceTrackerId,
                 auctioneerItems: items,
+                supply: onChainState.supply,
               };
             },
             onDone: {
@@ -227,6 +228,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 sessionId: (_, event) => event.data.sessionId,
                 deviceTrackerId: (_, event) => event.data.deviceTrackerId,
                 auctioneerItems: (_, event) => event.data.auctioneerItems,
+                supply: (_, event) => event.data.supply,
               }),
             },
             onError: {},

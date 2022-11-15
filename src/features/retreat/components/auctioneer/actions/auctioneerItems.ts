@@ -1,4 +1,4 @@
-import { AuctioneerItemName } from "features/game/types/auctioneer";
+import { GoblinRetreatItemName } from "features/game/types/craftables";
 
 export type Release = {
   releaseDate: number;
@@ -8,7 +8,7 @@ export type Release = {
 };
 
 export interface AuctioneerItem {
-  name: AuctioneerItemName;
+  name: GoblinRetreatItemName;
   tokenId: number;
   totalMinted?: number;
   price?: number;
@@ -19,7 +19,7 @@ export interface AuctioneerItem {
 export type Item = {
   id: number;
   releases: Release[];
-  name: AuctioneerItemName;
+  name: GoblinRetreatItemName;
 };
 
 export function getMaxSupply(releases: Release[]) {

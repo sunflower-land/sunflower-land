@@ -21,7 +21,6 @@ import { DecorationName } from "./decorations";
 import { FruitName } from "features/island/fruit/FruitPatch";
 import { BeanName, MutantCropName } from "./beans";
 import { FruitSeedName } from "./fruits";
-import { AuctioneerItemName } from "./auctioneer";
 
 export type CropReward = {
   sfl?: Decimal;
@@ -156,8 +155,7 @@ export type InventoryItemName =
   | WarBanner
   | ConsumableName
   | DecorationName
-  | GoblinRetreatItemName
-  | AuctioneerItemName;
+  | GoblinRetreatItemName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

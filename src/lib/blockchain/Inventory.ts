@@ -13,6 +13,16 @@ const address = CONFIG.INVENTORY_CONTRACT;
 
 export type ItemSupply = Record<InventoryItemName, Decimal>;
 
+const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
+
+export const ZERO_SUPPLY: ItemSupply = names.reduce(
+  (items, name) => ({
+    ...items,
+    [name]: new Decimal(0),
+  }),
+  {} as ItemSupply
+);
+
 /**
  * Inventory contract
  */
