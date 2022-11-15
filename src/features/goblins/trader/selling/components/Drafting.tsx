@@ -85,12 +85,14 @@ export const Drafting: React.FC<DraftingProps> = ({
 
   const currentInventoryAmount = inventory[selected] || new Decimal(0);
   const maxSellAmount = itemLimits[selected] ?? 0;
+  const decimalResourceAmount = new Decimal(resourceAmount);
 
   const disableListTradeButton =
     !sflAmount ||
     !resourceAmount ||
     new Decimal(sflAmount).gt(MAX_SFL) ||
-    new Decimal(resourceAmount).gt(currentInventoryAmount);
+    decimalResourceAmount.gt(currentInventoryAmount) ||
+    decimalResourceAmount.gt(maxSellAmount);
 
   const hasItemsToList = inventoryItems.length > 0;
 
@@ -131,9 +133,9 @@ export const Drafting: React.FC<DraftingProps> = ({
                 className={classNames(
                   "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2",
                   {
-                    "text-error": new Decimal(resourceAmount).gt(
-                      currentInventoryAmount || maxSellAmount
-                    ),
+                    "text-error":
+                      decimalResourceAmount.gt(currentInventoryAmount) ||
+                      decimalResourceAmount.gt(maxSellAmount),
                   }
                 )}
               />
