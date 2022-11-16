@@ -80,7 +80,10 @@ export const FirePit: React.FC<Props> = ({
 
   return (
     <>
-      <div className="relative cursor-pointer hover:img-highlight">
+      <ClickableBuildingImage
+        className="relative cursor-pointer hover:img-highlight"
+        onClick={handleClick}
+      >
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}
@@ -136,15 +139,14 @@ export const FirePit: React.FC<Props> = ({
             left: `${PIXEL_SCALE * 13}px`,
           }}
         />
-        <ClickableBuildingImage
+        <img
           src={firePit}
           className={classNames("w-full", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
-          onClick={handleClick}
         />
-      </div>
+      </ClickableBuildingImage>
 
       <FirePitModal
         isOpen={showModal}

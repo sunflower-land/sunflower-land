@@ -15,27 +15,29 @@ export const ChickenHouse: React.FC = () => {
   };
 
   return (
-    <ClickableBuildingImage
-      className="relative"
-      style={{
-        width: `${PIXEL_SCALE * 61}px`,
-        height: `${PIXEL_SCALE * 49}px`,
-      }}
-      onClick={handleClick}
-    >
-      <img
-        src={building}
+    <>
+      <ClickableBuildingImage
+        className="relative"
         style={{
           width: `${PIXEL_SCALE * 61}px`,
-          left: `${PIXEL_SCALE * 1}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
+          height: `${PIXEL_SCALE * 49}px`,
         }}
-        id="chicken-house"
-        className="cursor-pointer hover:img-highlight absolute"
-      />
+        onClick={handleClick}
+      >
+        <img
+          src={building}
+          style={{
+            width: `${PIXEL_SCALE * 61}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+          }}
+          id="chicken-house"
+          className="cursor-pointer hover:img-highlight absolute"
+        />
+      </ClickableBuildingImage>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <HenHouseModal onClose={() => setIsOpen(false)} />
       </Modal>
-    </ClickableBuildingImage>
+    </>
   );
 };
