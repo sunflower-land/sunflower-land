@@ -5,6 +5,7 @@ import { ERRORS } from "lib/errors";
 type Cache = {
   cachedAt: number;
   items: Item[];
+  id: string;
 };
 
 const CACHE_KEY = "auctioneer.items";
@@ -27,9 +28,10 @@ function loadCachedItems(): Cache | null {
   return cache;
 }
 
-function cacheItems(items: Item[]) {
+function cacheItems(id: string, items: Item[]) {
   const cache: Cache = {
     cachedAt: Date.now(),
+    id,
     items,
   };
   localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
@@ -39,7 +41,7 @@ export const fetchAuctioneerDrops = async (token: string) => {
   const cache = loadCachedItems();
 
   if (cache) {
-    return { items: cache.items };
+    return { id: cache.id, items: cache.items };
   }
   const response = await window.fetch(`${CONFIG.API_URL}/auctioneer`, {
     method: "GET",
@@ -58,11 +60,13 @@ export const fetchAuctioneerDrops = async (token: string) => {
 
   const {
     auctioneer: items,
+    id,
   }: {
     auctioneer: Item[];
+    id: string;
   } = await response.json();
 
-  cacheItems(items);
+  cacheItems(id, items);
 
-  return { items };
+  return { id, items };
 };

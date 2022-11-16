@@ -22,10 +22,12 @@ const PanelDetail = ({
   item,
   supply,
   onMint,
+  isMinting,
 }: {
   item: AuctioneerItem;
   supply: ItemSupply;
   onMint: () => void;
+  isMinting: boolean;
 }) => {
   const releaseDate = item.currentRelease?.releaseDate as number;
   const releaseEndDate = item.currentRelease?.endDate as number;
@@ -83,9 +85,11 @@ const PanelDetail = ({
         <span>{item.currentRelease?.supply}</span>
       </p>
       <div className="text-xs mt-4">
-        <Button disabled={!isMintStarted || isMintComplete} onClick={onMint}>
-          Mint
-        </Button>
+        {!isMinting && (
+          <Button disabled={!isMintStarted || isMintComplete} onClick={onMint}>
+            Mint
+          </Button>
+        )}
         {!isMintStarted && (
           <div className="p-1 text-center mt-2">
             <Countdown
@@ -153,6 +157,7 @@ export const AuctioneerContent = () => {
             onMint={() =>
               goblinService.send("MINT", { item: selected.name, captcha: "" })
             }
+            isMinting={goblinState.matches("auctionMinting")}
           />
         </div>
       </OuterPanel>

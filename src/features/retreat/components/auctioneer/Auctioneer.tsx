@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 
 import auctioneer from "assets/npcs/trivia.gif";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -6,12 +6,18 @@ import { Action } from "components/ui/Action";
 import player from "assets/icons/player.png";
 import { tailorAudio } from "lib/utils/sfx";
 import { AuctioneerModal } from "./AuctioneerModal";
+import { Context } from "features/game/GoblinProvider";
+import { useActor } from "@xstate/react";
 
 export const Auctioneer: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { goblinService } = useContext(Context);
+  const [goblinState] = useActor(goblinService);
+
+  const isOpen =
+    goblinState.matches("auctioning") || goblinState.matches("auctionMinting");
 
   const openAuctioneer = () => {
-    setIsOpen(true);
+    goblinService.send("OPEN_AUCTIONEER");
     //Checks if tailorAudio is playing, if false, plays the sound
     if (!tailorAudio.playing()) {
       tailorAudio.play();
@@ -44,7 +50,10 @@ export const Auctioneer: React.FC = () => {
         />
       </div>
       {isOpen && (
-        <AuctioneerModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        <AuctioneerModal
+          isOpen={isOpen}
+          onClose={() => goblinService.send("CLOSE_AUCTIONEER")}
+        />
       )}
     </div>
   );

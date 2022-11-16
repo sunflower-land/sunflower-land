@@ -2,7 +2,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 
-import { GameState, Inventory } from "../types/game";
+import { GameState } from "../types/game";
 import { mint } from "../actions/mint";
 import {
   LimitedItem,
@@ -27,7 +27,8 @@ import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
 import { fetchAuctioneerDrops } from "../actions/auctioneer";
 import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
-import { ItemSupply, ZERO_SUPPLY } from "lib/blockchain/Inventory";
+import { Inventory, ItemSupply, ZERO_SUPPLY } from "lib/blockchain/Inventory";
+import Web3 from "web3";
 
 const API_URL = CONFIG.API_URL;
 
@@ -43,6 +44,7 @@ export interface Context {
   deviceTrackerId?: string;
   limitedItems: Partial<Record<LimitedItemName, LimitedItem>>;
   auctioneerItems: Item[];
+  auctioneerId: string;
   supply: ItemSupply;
 }
 
@@ -105,6 +107,8 @@ export type BlockchainEvent =
   | {
       type: "OPEN_TRADING_POST";
     }
+  | { type: "OPEN_AUCTIONEER" }
+  | { type: "CLOSE_AUCTIONEER" }
   | {
       type: "RESET";
     }
@@ -126,6 +130,9 @@ export type GoblinMachineState = {
     | "withdrawn"
     | "playing"
     | "trading"
+    | "auctioning"
+    | "auctionMinting"
+    | "auctionMinted"
     | "error";
   context: Context;
 };
@@ -161,6 +168,7 @@ export function startGoblinVillage(authContext: AuthContext) {
         sessionId: INITIAL_SESSION,
         limitedItems: {},
         auctioneerItems: [],
+        auctioneerId: "",
         supply: ZERO_SUPPLY,
       },
       states: {
@@ -174,7 +182,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 id: Number(authContext.farmId),
               });
 
-              const { items } = await fetchAuctioneerDrops(
+              const { id, items } = await fetchAuctioneerDrops(
                 authContext.rawToken as string
               );
 
@@ -213,6 +221,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 sessionId,
                 deviceTrackerId: response?.deviceTrackerId,
                 auctioneerItems: items,
+                auctioneerId: id,
                 supply: onChainState.supply,
               };
             },
@@ -228,6 +237,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 sessionId: (_, event) => event.data.sessionId,
                 deviceTrackerId: (_, event) => event.data.deviceTrackerId,
                 auctioneerItems: (_, event) => event.data.auctioneerItems,
+                auctioneerId: (_, event) => event.data.auctioneerId,
                 supply: (_, event) => event.data.supply,
               }),
             },
@@ -248,18 +258,79 @@ export function startGoblinVillage(authContext: AuthContext) {
             OPEN_TRADING_POST: {
               target: "trading",
             },
-            TICK: {
-              actions: assign({ supply: (_, event) => event.supply }),
+            OPEN_AUCTIONEER: {
+              target: "auctioning",
+            },
+          },
+        },
+        auctionMinted: {},
+        auctionMinting: {
+          on: {
+            CLOSE_AUCTIONEER: {
+              target: "playing",
             },
           },
           invoke: {
-            src: (context, event) => (callback) => {
-              // This will send the 'TICK' event to the parent every second
+            src: async (context, event) => {
+              const { item, captcha } = event as MintEvent;
+
+              const { sessionId } = await mint({
+                farmId: Number(authContext.farmId),
+                sessionId: context.sessionId as string,
+                token: authContext.rawToken as string,
+                item,
+                captcha,
+              });
+
+              return {
+                sessionId,
+                item,
+              } as MintedEvent;
+            },
+            onDone: {
+              target: "auctionMinted",
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        auctioning: {
+          on: {
+            MINT: {
+              target: "auctionMinting",
+            },
+            CLOSE_AUCTIONEER: {
+              target: "playing",
+            },
+            TICK: {
+              actions: assign({
+                supply: (_, event) => event.supply,
+              }),
+            },
+          },
+          invoke: {
+            src: (context) => (callback) => {
+              const web3 = new Web3(
+                `wss://polygon-${CONFIG.NETWORK}.g.alchemy.com/v2/${Buffer.from(
+                  context.auctioneerId,
+                  "base64"
+                ).toString("ascii")}`
+              );
+              const inventory = new Inventory(
+                web3,
+                metamask.myAccount as string
+              );
               const id = setInterval(
                 async () =>
                   callback({
                     type: "TICK",
-                    supply: await metamask.getInventory().totalSupply(),
+                    supply: await inventory.totalSupply(),
                   }),
                 1000
               );
