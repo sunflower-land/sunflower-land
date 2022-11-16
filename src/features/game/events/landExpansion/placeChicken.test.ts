@@ -84,6 +84,19 @@ describe("buyChicken", () => {
               },
             ],
           },
+          collectibles: {
+            "Chicken Coop": [
+              {
+                coordinates: {
+                  x: 0,
+                  y: 0,
+                },
+                createdAt: 0,
+                id: "123",
+                readyAt: 0,
+              },
+            ],
+          },
         },
         action: {
           coordinates: {
