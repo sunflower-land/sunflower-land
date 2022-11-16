@@ -173,11 +173,11 @@ export const BumpkinProfile: React.FC = () => {
           }}
         />
         <span
-          className={`col-start-1 row-start-1 text-white text-center z-20 text-xxs`}
+          className={`col-start-1 row-start-1 text-white absolute text-center z-20 text-xs`}
           style={{
-            marginLeft: `${dimensions.level.marginLeft}px`,
-            marginTop: `${dimensions.level.marginTop}px`,
             width: `${dimensions.level.width}px`,
+            right: "9px",
+            bottom: "27px",
           }}
         >
           {level}

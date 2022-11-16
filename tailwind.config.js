@@ -9,6 +9,76 @@ module.exports = {
       game: '"Sigmar One", cursive, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
       // body: '"Paytone One", cursive, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
     },
+    fontSize: {
+      xxs: [
+        "0.9rem",
+        {
+          lineHeight: "0.75rem",
+          letterSpacing: "0.4px",
+        },
+      ],
+      xs: [
+        "1rem",
+        {
+          lineHeight: "1rem",
+          letterSpacing: "0.5px",
+        },
+      ],
+      sm: [
+        "1.275rem",
+        {
+          lineHeight: "1.275rem",
+          letterSpacing: "0.5px",
+        },
+      ],
+      base: [
+        "1.4rem",
+        {
+          lineHeight: "1.4rem",
+          letterSpacing: "0.5px",
+        },
+      ],
+
+      lg: [
+        "2.125rem",
+        {
+          lineHeight: "5.25rem",
+          letterSpacing: "0.5px",
+        },
+      ],
+      xl: [
+        "3.25rem",
+        {
+          lineHeight: "5.25rem",
+          letterSpacing: "0.5px",
+        },
+      ],
+      "2xl": [
+        "4.375rem",
+        {
+          lineHeight: "5.25rem",
+          letterSpacing: "0.5px",
+        },
+      ],
+      "3xl": [
+        "1.875rem",
+        {
+          lineHeight: "5.25rem",
+          letterSpacing: "0.5px",
+        },
+      ],
+    },
+    // fontWeight: {
+    //   thin: "100",
+    //   extralight: "200",
+    //   light: "300",
+    //   normal: "400",
+    //   medium: "500",
+    //   semibold: "600",
+    //   bold: "700",
+    //   extrabold: "800",
+    //   black: "900",
+    // },
     colors: {
       "overlay-white": "rgba(255, 255, 255, 0.5)",
       ...colors,
@@ -35,9 +105,7 @@ module.exports = {
         },
         error: "#e43b44",
       },
-      fontSize: {
-        xxs: "0.6rem",
-      },
+
       // This is the height and width of the gameboard
       // background image. Only change here when larger size is added.
       height: {

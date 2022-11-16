@@ -85,7 +85,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
       />
       <div className="flex items-start">
         <div>
-          <p className="mr-8">
+          <p className="mr-8 text-base mb-2">
             Want to expand your land and discover new resources?
           </p>
 

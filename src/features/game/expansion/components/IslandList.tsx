@@ -59,7 +59,7 @@ const Island = ({
             </div>
           )}
           <div className="flex-1 flex flex-col justify-center">
-            <span className="text-sm">{name}</span>
+            <span className="text-base mb-1">{name}</span>
 
             {/* Current island */}
             {onSameIsland && (

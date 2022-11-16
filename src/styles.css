@@ -4,11 +4,11 @@
 
 @layer utilities {
   .text-shadow {
-    text-shadow: 1px 1px black;
+    text-shadow: 1px 1px #1f1f1f;
   }
 
   .text-shadow-md {
-    text-shadow: 2px 2px black;
+    text-shadow: 2px 2px #1f1f1f;
   }
 
   .text-shadow-none {
@@ -32,10 +32,11 @@
 
 body {
   font-family: "Paytone One", sans-serif;
+
   overflow: hidden;
-  text-shadow: 1px 1px black;
-  font-size: 1.175rem;
-  line-height: 1.175;
+  text-shadow: 1px 1px #1f1f1f;
+  font-size: 22px;
+  line-height: 20px;
 }
 
 button:disabled {
@@ -44,7 +45,8 @@ button:disabled {
 
 @media screen and (min-width: 480px) {
   body {
-    font-size: 1.275rem;
+    font-size: 24px;
+    line-height: 22px;
   }
 }
 

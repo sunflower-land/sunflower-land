@@ -66,7 +66,9 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
         <div className="flex flex-col justify-center items-center p-2 relative">
           {selected !== undefined && (
             <>
-              <span className="text-shadow text-center">{selected.name}</span>
+              <span className="text-shadow text-base pb-1 text-center">
+                {selected.name}
+              </span>
               <img
                 src={ITEM_DETAILS[selected.name].image}
                 className="h-16 img-highlight mt-1"
@@ -86,7 +88,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
               </div>
               <Button
                 disabled={!inventory[selected.name]?.gt(0)}
-                className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+                className="text-sm mt-1 whitespace-nowrap"
                 onClick={() => feed(selected)}
               >
                 Eat 1
