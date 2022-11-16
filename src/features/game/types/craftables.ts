@@ -8,6 +8,7 @@ import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
 import { OnChainLimitedItems } from "../lib/goblinMachine";
 import { isArray } from "lodash";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
+import { CONFIG } from "lib/config";
 
 export { FLAGS };
 
@@ -1040,7 +1041,6 @@ export const makeLimitedItemsByName = (
     const id = KNOWN_IDS[name];
     // Get onchain item based on id
     const onChainItem = onChainItems[id];
-    const { tokenAmount } = CRAFTABLES()[name];
 
     if (onChainItem) {
       const {
@@ -1052,33 +1052,55 @@ export const makeLimitedItemsByName = (
         enabled,
       } = onChainItem;
 
-      // Build ingredients
-      if (ingredientAmounts) {
-        const ingredients = ingredientIds?.map((id, index) => ({
-          id,
-          item: KNOWN_ITEMS[id],
-          amount: new Decimal(ingredientAmounts[index]),
-        }));
+      const isNewItem = !enabled && Number(maxSupply) === 0;
 
-        const isNewItem = !enabled && Number(maxSupply) === 0;
+      //ONLY MAINNET NEEDS INGREDIENTS BUILDING AS TESTNET HAVE DIFFERENT CRAFT STRUCTURE
+      if (CONFIG.NETWORK === "mainnet") {
+        // Build ingredients
+        if (ingredientAmounts && onChainItem.tokenAmount) {
+          const ingredients = ingredientIds?.map((id, index) => ({
+            id,
+            item: KNOWN_ITEMS[id],
+            amount: new Decimal(ingredientAmounts[index]),
+          }));
 
-        limitedItems[name] = {
-          id: onChainItem.mintId,
-          name,
-          description: items[name].description,
-          tokenAmount,
-          maxSupply,
-          cooldownSeconds,
-          ingredients,
-          mintedAt,
-          type: items[name].type,
-          disabled: !enabled,
-          isPlaceholder: items[name].isPlaceholder || isNewItem,
-          canMintMultiple: items[name].canMintMultiple,
-          mintReleaseDate: items[name].mintReleaseDate || 0,
-        };
+          limitedItems[name] = {
+            id: onChainItem.mintId,
+            name,
+            description: items[name].description,
+            tokenAmount: new Decimal(onChainItem.tokenAmount),
+            maxSupply,
+            cooldownSeconds,
+            ingredients,
+            mintedAt,
+            type: items[name].type,
+            disabled: !enabled,
+            isPlaceholder: items[name].isPlaceholder || isNewItem,
+            canMintMultiple: items[name].canMintMultiple,
+            mintReleaseDate: items[name].mintReleaseDate || 0,
+          };
+        }
+        return limitedItems;
       }
-      return limitedItems;
+
+      //THIS IS FOR TESTNET CRAFTABLES!
+      const { ingredients, tokenAmount } = CRAFTABLES()[name];
+
+      limitedItems[name] = {
+        id: onChainItem.mintId,
+        name,
+        description: items[name].description,
+        tokenAmount,
+        maxSupply,
+        cooldownSeconds,
+        ingredients,
+        mintedAt,
+        type: items[name].type,
+        disabled: !enabled,
+        isPlaceholder: items[name].isPlaceholder || isNewItem,
+        canMintMultiple: items[name].canMintMultiple,
+        mintReleaseDate: items[name].mintReleaseDate || 0,
+      };
     }
     return limitedItems;
     // TODO: FIX TYPE
