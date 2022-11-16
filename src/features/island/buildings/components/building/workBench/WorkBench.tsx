@@ -17,6 +17,11 @@ export const WorkBench: React.FC = () => {
     setIsOpen(true);
   };
 
+  const handleClose = (event?: SyntheticEvent) => {
+    event?.stopPropagation();
+    setIsOpen(false);
+  };
+
   return (
     <>
       <ClickableBuildingImage
@@ -73,7 +78,7 @@ export const WorkBench: React.FC = () => {
             }}
           />
         </div>
-        <WorkbenchModal onClose={() => setIsOpen(false)} />
+        <WorkbenchModal onClose={handleClose} />
       </Modal>
     </>
   );

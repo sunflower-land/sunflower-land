@@ -300,7 +300,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
           <img
             src={water}
             alt="water drop"
-            className="absolute"
+            className="absolute pointer-events-none"
             style={{
               right: `${PIXEL_SCALE * 4.5}px`,
               width: `${PIXEL_SCALE * 7}px`,
