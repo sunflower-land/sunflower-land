@@ -37,6 +37,7 @@ import hammer from "assets/tools/hammer.png";
 import rod from "assets/tools/fishing_rod.png";
 import rustyShovel from "assets/tools/rusty_shovel.png";
 import shovel from "assets/tools/shovel.png";
+import powerShovel from "assets/tools/power_shovel.png";
 
 // NFTs
 import chickenCoop from "assets/sfts/chicken_coop.png";
@@ -137,6 +138,7 @@ import wood from "assets/resources/wood.png";
 import egg from "assets/resources/egg.png";
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
+import diamond from "assets/resources/diamond.png";
 import chicken from "assets/resources/chicken.png";
 import honey from "assets/resources/honey.png";
 import wildMushroom from "assets/resources/wild_mushroom.png";
@@ -539,6 +541,10 @@ export const ITEM_DETAILS: Items = {
     ...RESOURCES["Gold"],
     image: gold,
   },
+  Diamond: {
+    ...RESOURCES["Diamond"],
+    image: diamond,
+  },
   Egg: {
     ...RESOURCES["Egg"],
     image: egg,
@@ -576,6 +582,10 @@ export const ITEM_DETAILS: Items = {
   "Iron Pickaxe": {
     ...TOOLS["Iron Pickaxe"],
     image: ironPickaxe,
+  },
+  "Power Shovel": {
+    ...TOOLS["Power Shovel"],
+    image: powerShovel,
   },
   Hammer: {
     ...TOOLS["Hammer"],
