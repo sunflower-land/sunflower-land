@@ -17,15 +17,15 @@ import { getBuyPrice } from "features/game/events/craft";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { getMaxChickens } from "features/game/events/feedChicken";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { getSupportedChickens } from "features/game/events/landExpansion/utils";
 
 interface Props {
   onClose: () => void;
 }
 
 export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService } = useContext(Context);
 
   const [
     {
@@ -43,7 +43,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     (index) => state.chickens[index].coordinates
   ).length;
 
-  const availableSpots = getMaxChickens(inventory);
+  const availableSpots = getSupportedChickens(state);
 
   const startingIndex =
     placedChickenCount === availableSpots
@@ -217,7 +217,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
               })}
             </div>
             <span className="w-32 -mt-4 sm:mr-auto bg-blue-600 border text-xxs p-1 rounded-md">
-              {`Capacity ${chickenCount.toNumber()}/${availableSpots}`}
+              {`Capacity ${placedChickenCount}/${availableSpots}`}
             </span>
             {chickenCount.gte(availableSpots) && (
               <p className="text-xs mt-1">

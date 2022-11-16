@@ -118,8 +118,6 @@ export const Building: React.FC<Prop> = ({
   const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
 
   const handleOnClick = () => {
-    if (!hasRustyShovelSelected) return;
-
     setShowRemoveModal(true);
   };
 

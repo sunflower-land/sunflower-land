@@ -18,11 +18,12 @@ export const WorkBench: React.FC = () => {
   };
 
   return (
-    <div
+    <ClickableBuildingImage
       style={{
         width: `${PIXEL_SCALE * 48}px`,
         height: `${PIXEL_SCALE * 32}px`,
       }}
+      onClick={handleClick}
     >
       <div
         className="absolute bottom-0"
@@ -30,13 +31,12 @@ export const WorkBench: React.FC = () => {
           width: `${PIXEL_SCALE * 48}px`,
         }}
       >
-        <ClickableBuildingImage
+        <img
           src={workbench}
           style={{
             width: `${PIXEL_SCALE * 48}px`,
           }}
           className="cursor-pointer hover:img-highlight"
-          onClick={handleClick}
         />
         <img
           src={npc}
@@ -73,6 +73,6 @@ export const WorkBench: React.FC = () => {
           <WorkbenchModal onClose={() => setIsOpen(false)} />
         </Modal>
       </div>
-    </div>
+    </ClickableBuildingImage>
   );
 };

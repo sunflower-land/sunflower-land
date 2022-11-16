@@ -14,6 +14,7 @@ import { BakeryModal } from "./BakeryModal";
 import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
+import { ClickableBuildingImage } from "../ClickableBuildingImage";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -77,7 +78,7 @@ export const Bakery: React.FC<Props> = ({
 
   return (
     <>
-      <div
+      <ClickableBuildingImage
         className="relative cursor-pointer hover:img-highlight w-full h-full"
         style={{
           width: `${PIXEL_SCALE * 62}px`,
@@ -144,7 +145,7 @@ export const Bakery: React.FC<Props> = ({
             }}
           />
         )}
-      </div>
+      </ClickableBuildingImage>
 
       <BakeryModal
         isOpen={showModal}

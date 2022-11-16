@@ -84,7 +84,7 @@ export const FirePit: React.FC<Props> = ({
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 img-highlight-heavy"
+            className="absolute z-30 img-highlight-heavy pointer-events-none"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -96,7 +96,7 @@ export const FirePit: React.FC<Props> = ({
         {crafting && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30"
+            className="absolute z-30 pointer-events-none"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -108,7 +108,7 @@ export const FirePit: React.FC<Props> = ({
         {crafting ? (
           <img
             src={doing}
-            className="absolute z-20"
+            className="absolute z-20 pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               top: `${PIXEL_SCALE * 2}px`,
@@ -119,7 +119,7 @@ export const FirePit: React.FC<Props> = ({
         ) : (
           <img
             src={npc}
-            className="absolute z-20"
+            className="absolute z-20 pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 14}px`,
               top: `${PIXEL_SCALE * 2}px`,
@@ -127,7 +127,6 @@ export const FirePit: React.FC<Props> = ({
             }}
           />
         )}
-
         <img
           src={shadow}
           className="absolute z-10"

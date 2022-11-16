@@ -77,17 +77,18 @@ export const Kitchen: React.FC<Props> = ({
 
   return (
     <>
-      <div
+      <ClickableBuildingImage
         className="relative cursor-pointer hover:img-highlight w-full h-full"
         style={{
           width: `${PIXEL_SCALE * 63}px`,
           height: `${PIXEL_SCALE * 50}px`,
         }}
+        onClick={handleClick}
       >
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 img-highlight-heavy"
+            className="absolute z-30 img-highlight-heavy pointer-events-none"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -96,7 +97,7 @@ export const Kitchen: React.FC<Props> = ({
             }}
           />
         )}
-        <ClickableBuildingImage
+        <img
           src={kitchen}
           className="absolute"
           style={{
@@ -104,12 +105,11 @@ export const Kitchen: React.FC<Props> = ({
             left: `${PIXEL_SCALE * 0.5}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
           }}
-          onClick={handleClick}
         />
         {crafting && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30"
+            className="absolute z-30 pointer-events-none"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -131,7 +131,7 @@ export const Kitchen: React.FC<Props> = ({
         ) : (
           <img
             src={npc}
-            className="absolute z-20"
+            className="absolute z-20 pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
 
@@ -142,14 +142,14 @@ export const Kitchen: React.FC<Props> = ({
         )}
         <img
           src={shadow}
-          className="absolute z-10"
+          className="absolute z-10 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 6}px`,
             right: `${PIXEL_SCALE * 15}px`,
           }}
         />
-      </div>
+      </ClickableBuildingImage>
 
       <KitchenModal
         isOpen={showModal}
