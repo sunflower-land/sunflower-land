@@ -14,15 +14,9 @@ import { useActor } from "@xstate/react";
 import { Countdown } from "../Countdown";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { ItemSupply } from "lib/blockchain/Inventory";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const TAB_CONTENT_HEIGHT = 364;
-
-export type Release = {
-  releaseDate: number;
-  endDate?: number;
-  supply: number;
-  price: string;
-};
 
 const PanelDetail = ({
   item,
@@ -43,17 +37,50 @@ const PanelDetail = ({
     !end.days && !end.hours && !end.minutes && !end.seconds;
 
   return (
-    <div className="mt-3 md:mt-0 w-1/2">
-      <p>{item.name}</p>
-      <p className="flex items-center my-2 md:my-3">
-        <img src={token} className="h-4 mr-1" />
-        <span className="text-xs sm:text-sm text-shadow text-center">
-          {`$${item.currentRelease?.price}`}
-        </span>
+    <div className="mt-3 md:mt-0 w-full md:w-1/2 text-center md:text-left">
+      <p
+        style={{
+          marginBottom: "20px",
+        }}
+      >
+        {item.name}
       </p>
+      {!!item.currentRelease?.price && (
+        <p className="flex items-center my-2 md:my-3 justify-center md:justify-start">
+          <img src={token} className="h-4 mr-1" />
+          <span className="text-xs sm:text-sm text-shadow text-center">
+            {`$${item.currentRelease?.price}`}
+          </span>
+        </p>
+      )}
+      {item.currentRelease?.ingredients?.length && (
+        <div
+          style={{
+            margin: "10px 0px 20px",
+          }}
+        >
+          {item.currentRelease.ingredients.map((ingredient) => (
+            <p
+              className="mb-2 flex justify-center md:justify-start"
+              key={ingredient.item}
+            >
+              <span className="mr-2">{ingredient.amount}</span>
+              <img
+                src={ITEM_DETAILS[ingredient.item].image}
+                className="h-5 me-2"
+              />
+            </p>
+          ))}
+        </div>
+      )}
       {/* TODO calculate total available supply*/}
-      <p>
-        {supply[item.name].toNumber()} / {item.currentRelease?.supply}
+      <p
+        style={{
+          margin: "20px 0",
+        }}
+      >
+        <span className="text-error">{supply[item.name].toNumber()}</span>/
+        <span>{item.currentRelease?.supply}</span>
       </p>
       <div className="text-xs mt-4">
         <Button disabled={!isMintStarted || isMintComplete} onClick={onMint}>

@@ -1,10 +1,15 @@
 import { GoblinRetreatItemName } from "features/game/types/craftables";
+import { InventoryItemName } from "features/game/types/game";
 
 export type Release = {
   releaseDate: number;
-  endDate?: number;
+  endDate: number;
   supply: number;
-  price: string;
+  price: number;
+  ingredients: {
+    item: InventoryItemName;
+    amount: number;
+  }[];
 };
 
 export interface AuctioneerItem {
