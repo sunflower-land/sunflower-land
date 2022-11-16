@@ -66,7 +66,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
         <div className="flex flex-col justify-center items-center p-2 relative">
           {selected !== undefined && (
             <>
-              <span className="text-shadow text-base pb-1 text-center">
+              <span className="text-shadow text-basetext-center mb-1">
                 {selected.name}
               </span>
               <img

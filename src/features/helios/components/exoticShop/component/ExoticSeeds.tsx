@@ -18,6 +18,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
 import { Bean, BEANS } from "features/game/types/beans";
+import { RedLabel } from "components/ui/RedLabel";
 
 interface Props {
   onClose: () => void;
@@ -145,17 +146,11 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
               // rendering item remenants
               const renderRemenants = () => {
                 if (lessIngredient) {
-                  // if inventory items is less than required items
-                  return (
-                    <>
-                      <span className="text-xs text-center mt-2 text-red-500">
-                        {`${inventoryAmount}`}
-                      </span>
-                      <span className="text-xs text-center mt-2 text-red-500">
-                        {`/${requiredAmount}`}
-                      </span>
-                    </>
-                  );
+                  <RedLabel>
+                    <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                      {`${inventoryAmount}/${requiredAmount}`}
+                    </span>
+                  </RedLabel>;
                 } else {
                   // if inventory items is equal to required items
                   return (

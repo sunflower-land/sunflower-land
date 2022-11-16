@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/esm/Modal";
 
+import logo from "assets/brand/logo_with_sunflower.png";
+
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import { ErrorMessage } from "./ErrorMessage";
@@ -22,11 +24,11 @@ import { ErrorCode } from "lib/errors";
 import { SupplyReached } from "./components/SupplyReached";
 import { Countdown } from "./components/Countdown";
 import { Blacklisted } from "features/game/components/Blacklisted";
+import { Connect } from "./components/Connect";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-
   return (
     <Modal
       centered
@@ -45,13 +47,19 @@ export const Auth: React.FC = () => {
         />
         <img
           src={jumpingGoblin}
-          className="absolute w-54 -top-[59px] right-[25rem] -z-10 scale-[4]"
+          className="absolute w-54 -top-[59px] left-[1rem] -z-10 scale-[4]"
         />
+
+        <div className="absolute -top-56 left-[13%] w-full max-w-xl animate-float z-10">
+          <img src={logo} className="w-[70%]" />
+        </div>
         <Panel>
           {(authState.matches({ connected: "loadingFarm" }) ||
             authState.matches("checkFarm") ||
+            authState.matches("initialising") ||
             authState.matches({ connected: "checkingSupply" }) ||
             authState.matches({ connected: "checkingAccess" })) && <Loading />}
+          {authState.matches("idle") && <Connect />}
           {authState.matches("connecting") && <Loading text="Connecting" />}
           {authState.matches("signing") && <Signing />}
           {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}

@@ -18,7 +18,7 @@ export const Balance: React.FC<Props> = ({ balance }) => {
       <img
         src={token}
         style={{
-          width: `${PIXEL_SCALE * 10}px`,
+          width: `${PIXEL_SCALE * 14}px`,
         }}
       />
       <span

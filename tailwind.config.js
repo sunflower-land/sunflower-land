@@ -32,18 +32,18 @@ module.exports = {
         },
       ],
       base: [
-        "1.4rem",
+        "1.6rem",
         {
           lineHeight: "1.4rem",
-          letterSpacing: "0.5px",
+          letterSpacing: "0.8px",
         },
       ],
 
       lg: [
-        "2.125rem",
+        "1.725rem",
         {
-          lineHeight: "5.25rem",
-          letterSpacing: "0.5px",
+          lineHeight: "1.75rem",
+          letterSpacing: "1px",
         },
       ],
       xl: [

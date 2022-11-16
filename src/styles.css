@@ -36,6 +36,8 @@ body {
   overflow: hidden;
   text-shadow: 1px 1px #1f1f1f;
   font-size: 22px;
+  letter-spacing: 0.7px;
+
   line-height: 20px;
 }
 
@@ -167,7 +169,7 @@ img {
 .no-tadpoles {
   display: inline-block;
   overflow: hidden;
-  height: 1.5rem;
+  height: 2.5rem;
   line-height: 1.5em;
   vertical-align: text-bottom;
 }
