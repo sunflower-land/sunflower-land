@@ -66,8 +66,14 @@ export const RemovePlaceableModal: React.FC<Props> = ({
           </p>
           <p>
             If any items placed on your land are dependent on this building they
-            will also be sent back to your Inventory.
+            will also be sent back to your inventory.
           </p>
+          {name === "Water Well" && (
+            <p className="mt-3">
+              Any crops planted on plots that were supported by this water well
+              will be removed.
+            </p>
+          )}
         </>
       );
     }
@@ -77,6 +83,12 @@ export const RemovePlaceableModal: React.FC<Props> = ({
         <p className="mb-3">
           Removing this collectible will send it back into your chest.
         </p>
+        {name === "Chicken Coop" && (
+          <p className="mb-3">
+            This will reduce your chicken capacity so chickens may be removed
+            and sent back to your inventory.
+          </p>
+        )}
         <p>
           All associated boosts will lose their effect until you place it again.
         </p>
