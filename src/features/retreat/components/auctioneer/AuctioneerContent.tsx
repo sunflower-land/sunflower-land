@@ -44,6 +44,7 @@ const PanelDetail = ({
         style={{
           marginBottom: "20px",
         }}
+        className="md:text-left"
       >
         {item.name}
       </p>
@@ -77,6 +78,7 @@ const PanelDetail = ({
       )}
       {/* TODO calculate total available supply*/}
       <p
+        className="md:text-left"
         style={{
           margin: "20px 0",
         }}
