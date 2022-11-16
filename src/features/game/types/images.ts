@@ -583,10 +583,6 @@ export const ITEM_DETAILS: Items = {
     ...TOOLS["Iron Pickaxe"],
     image: ironPickaxe,
   },
-  "Power Shovel": {
-    ...TOOLS["Power Shovel"],
-    image: powerShovel,
-  },
   Hammer: {
     ...TOOLS["Hammer"],
     image: hammer,
@@ -604,6 +600,10 @@ export const ITEM_DETAILS: Items = {
   Shovel: {
     ...SHOVELS["Shovel"],
     image: shovel,
+  },
+  "Power Shovel": {
+    ...SHOVELS["Power Shovel"],
+    image: powerShovel,
   },
 
   // NFTs
