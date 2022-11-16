@@ -70,10 +70,14 @@ function removeUnsupportedCrops(gameState: GameState) {
       ...expansions[expIndex].plots,
     }).reverse();
 
-    for (let plotKey = 0; plotKey < reversedPlotKeys.length; plotKey++) {
+    for (
+      let plotKeyIdx = 0;
+      plotKeyIdx < reversedPlotKeys.length;
+      plotKeyIdx++
+    ) {
       if (count === unsupportedPlotCount) break;
 
-      const plot = expansions[expIndex].plots?.[reversedPlotKeys[plotKey]];
+      const plot = expansions[expIndex].plots?.[reversedPlotKeys[plotKeyIdx]];
 
       if (plot?.crop) delete plot.crop;
 
