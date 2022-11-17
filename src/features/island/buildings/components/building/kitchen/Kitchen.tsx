@@ -86,18 +86,18 @@ export const Kitchen: React.FC<Props> = ({
         }}
         onClick={handleClick}
       >
-      <img
-        src={kitchen}
-        className={classNames("absolute", {
-          "opacity-100": !crafting,
-          "opacity-80": crafting,
-        })}
-        style={{
-          width: `${PIXEL_SCALE * 63}px`,
-          left: `${PIXEL_SCALE * 0.5}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-        }}
-      />
+        <img
+          src={kitchen}
+          className={classNames("absolute", {
+            "opacity-100": !crafting,
+            "opacity-80": crafting,
+          })}
+          style={{
+            width: `${PIXEL_SCALE * 63}px`,
+            left: `${PIXEL_SCALE * 0.5}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}

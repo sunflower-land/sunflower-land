@@ -84,13 +84,13 @@ export const FirePit: React.FC<Props> = ({
         className="relative cursor-pointer hover:img-highlight"
         onClick={handleClick}
       >
-      <img
-        src={firePit}
-        className={classNames("w-full", {
-          "opacity-100": !crafting,
-          "opacity-80": crafting,
-        })}
-      />
+        <img
+          src={firePit}
+          className={classNames("w-full", {
+            "opacity-100": !crafting,
+            "opacity-80": crafting,
+          })}
+        />
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}

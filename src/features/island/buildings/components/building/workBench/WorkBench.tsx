@@ -6,7 +6,6 @@ import { WorkbenchModal } from "./components/WorkbenchModal";
 
 import npc from "assets/npcs/blacksmith.gif";
 import shadow from "assets/npcs/shadow.png";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { ClickableBuildingImage } from "../ClickableBuildingImage";
 
 export const WorkBench: React.FC = () => {
