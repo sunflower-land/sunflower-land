@@ -48,7 +48,7 @@ describe("plant", () => {
           item: "Sunflower Seed",
         },
       })
-    ).toThrow("Goblin land!");
+    ).not.toThrow("Goblin land!");
   });
 
   it("plants if they have pumpkin soup", () => {
@@ -85,7 +85,7 @@ describe("plant", () => {
           item: "Sunflower Seed",
         },
       })
-    ).toThrow("Goblin land!");
+    ).not.toThrow("Goblin land!");
   });
 
   it("plants if they have Sauerkraut", () => {
@@ -122,7 +122,7 @@ describe("plant", () => {
           item: "Sunflower Seed",
         },
       })
-    ).toThrow("Goblin land!");
+    ).not.toThrow("Goblin land!");
   });
 
   it("plants if they have cauliflower rice", () => {
