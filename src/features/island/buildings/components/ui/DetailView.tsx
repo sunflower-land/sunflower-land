@@ -5,7 +5,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
-import arrowLeft from "assets/icons/arrow_left.png";
+import leftArrow from "assets/icons/arrow_left.png";
 
 import token from "assets/icons/token_2.png";
 import stopwatch from "assets/icons/stopwatch.png";
@@ -17,14 +17,14 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { getKeys, TOOLS } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { SEEDS } from "features/game/types/seeds";
+import { SEEDS } from "features/game/types/seeds"; 
 
 const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   "Fire Pit": getKeys(CONSUMABLES).filter(
     (name) => CONSUMABLES[name].building === "Fire Pit"
   ),
   Kitchen: getKeys(CONSUMABLES).filter(
-    (name) => CONSUMABLES[name].building === "Kitchen"
+    (name) => CONSUMABLES[name].building === "Kitchen" 
   ),
   Bakery: getKeys(CONSUMABLES).filter(
     (name) => CONSUMABLES[name].building === "Bakery"
@@ -110,12 +110,75 @@ export const DetailView: React.FC<Props> = ({
     return buildingsPlaced.lessThan(allowedBuildings);
   };
 
+  const showIngredients = () => {
+    return (
+      <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
+        {BUILDINGS()[building].ingredients.map((ingredient, index) => {
+          const item = ITEM_DETAILS[ingredient.item];
+          const inventoryAmount =
+            inventory[ingredient.item]?.toDecimalPlaces(1) || 0;
+          const requiredAmount = ingredient.amount?.toDecimalPlaces(1);
+
+          const insufficientIngredients = new Decimal(inventoryAmount).lessThan(
+            requiredAmount
+          );
+
+          return (
+            <div
+              className="flex justify-center flex-wrap items-end"
+              key={index}
+            >
+              <img src={item.image} className="h-5 me-2" />
+              {insufficientIngredients ? (
+                <>
+                  <span className="text-xs text-center mt-2 text-red-500">
+                    {`${inventoryAmount}`}
+                  </span>
+                  <span className="text-xs text-center mt-2 text-red-500">
+                    {`/${requiredAmount}`}
+                  </span>
+                </>
+              ) : (
+                <span className="text-xs text-center mt-2">
+                  {`${requiredAmount}`}
+                </span>
+              )}
+            </div>
+          );
+        })}
+        {!!BUILDINGS()[building].sfl.toNumber() && (
+          <div className="flex justify-center items-end">
+            <img src={token} className="h-5 mr-1" />
+            <span
+              className={classNames("text-xs text-center mt-2 ", {
+                "text-red-500": state.balance.lessThan(
+                  BUILDINGS()[building].sfl
+                ),
+              })}
+            >
+              {BUILDINGS()[building].sfl.toNumber()}
+            </span>
+          </div>
+        )}
+        <div className="flex justify-center items-end">
+          <img src={stopwatch} className="h-5 mr-1" />
+          <span className={classNames("text-xs text-shadow text-center mt-2 ")}>
+            {secondsToString(BUILDINGS()[building].constructionSeconds, {
+              length: "medium",
+              removeTrailingZeros: true,
+            })}
+          </span>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="flex">
       <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           <img
-            src={arrowLeft}
+            src={leftArrow}
             className="absolute cursor-pointer"
             style={{
               top: `${PIXEL_SCALE * 2}px`,
@@ -143,72 +206,14 @@ export const DetailView: React.FC<Props> = ({
               />
             ))}
           </div>
-
-          <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
-            {BUILDINGS()[building].ingredients.map((ingredient, index) => {
-              const item = ITEM_DETAILS[ingredient.item];
-              const inventoryAmount =
-                inventory[ingredient.item]?.toDecimalPlaces(1) || 0;
-              const requiredAmount = ingredient.amount?.toDecimalPlaces(1);
-
-              const insufficientIngredients = new Decimal(
-                inventoryAmount
-              ).lessThan(requiredAmount);
-
-              return (
-                <div
-                  className="flex justify-center flex-wrap items-end"
-                  key={index}
-                >
-                  <img src={item.image} className="h-5 me-2" />
-                  {insufficientIngredients ? (
-                    <>
-                      <span className="text-xs text-center mt-2 text-red-500">
-                        {`${inventoryAmount}`}
-                      </span>
-                      <span className="text-xs text-center mt-2 text-red-500">
-                        {`/${requiredAmount}`}
-                      </span>
-                    </>
-                  ) : (
-                    <span className="text-xs text-center mt-2">
-                      {`${requiredAmount}`}
-                    </span>
-                  )}
-                </div>
-              );
-            })}
-            {!!BUILDINGS()[building].sfl.toNumber() && (
-              <div className="flex justify-center items-end">
-                <img src={token} className="h-5 mr-1" />
-                <span
-                  className={classNames("text-xs text-center mt-2", {
-                    "text-red-500": state.balance.lessThan(
-                      BUILDINGS()[building].sfl
-                    ),
-                  })}
-                >
-                  {BUILDINGS()[building].sfl.toNumber()}
-                </span>
-              </div>
-            )}
-            <div className="flex justify-center items-end">
-              <img src={stopwatch} className="h-5 mr-1" />
-              <span className={classNames("text-xs text-center mt-2")}>
-                {secondsToString(BUILDINGS()[building].constructionSeconds, {
-                  length: "medium",
-                  removeTrailingZeros: true,
-                })}
-              </span>
-            </div>
-          </div>
+          {!hasUnplacedBuildings && showIngredients()}
           {/**
            * Do not show anything: if all the buildings have been completed OR there is no bumpkin.
            * Show build button: If the user has not reach the building limit for that unlocked level.
            * Show label: When the user has not unlocked any level OR when the user has unlocked a level but has completed all the buildings for that level.
            */}
           {!allBuildingsBuilt && bumpkin && (
-            <>
+            <div className="mt-2 w-full">
               {showBuildButton() ? (
                 <Button
                   onClick={() => onBuild(building)}
@@ -228,7 +233,7 @@ export const DetailView: React.FC<Props> = ({
                   <img src={lock} className="h-4 ml-1" />
                 </div>
               )}
-            </>
+            </div>
           )}
         </div>
       </OuterPanel>

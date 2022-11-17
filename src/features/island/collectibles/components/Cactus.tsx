@@ -13,7 +13,7 @@ export const Cactus: React.FC = () => {
           bottom: `${PIXEL_SCALE * 2}px`,
           left: `${PIXEL_SCALE * 4}px`,
         }}
-        className="absolute"
+        className="absolute hover:img-highlight"
         alt="Cactus"
       />
     </>

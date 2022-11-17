@@ -10,6 +10,7 @@ import { BuildingName, BUILDINGS } from "features/game/types/buildings";
 import { GameState } from "features/game/types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
 import Decimal from "decimal.js-light";
+import { Label } from "components/ui/Label";
 
 const CONTENT_HEIGHT = 380;
 
@@ -17,7 +18,7 @@ export const ListView: React.FC<{
   state: GameState;
   onClick: (name: BuildingName) => void;
 }> = ({ state, onClick }) => {
-  const { bumpkin } = state;
+  const { bumpkin, inventory } = state;
 
   const buildings = getKeys(BUILDINGS()).sort((a, b) =>
     BUILDINGS()[a].unlocksAtLevels[0] > BUILDINGS()[b].unlocksAtLevels[0]
@@ -32,32 +33,38 @@ export const ListView: React.FC<{
     >
       {buildings.map((buildingName, index) => {
         // The unlock at levels for the building
-        const buildingLevels = BUILDINGS()[buildingName].unlocksAtLevels;
-        // The current bumpkin level
+        const buildingUnlockLevels = BUILDINGS()[buildingName].unlocksAtLevels;
         const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
         // Holds how many desired placed buildings (e.g. water wells)
         const buildingsPlaced = new Decimal(
           state.buildings[buildingName]?.length || 0
         );
         // Holds how many allowed buildings the user can place on the island at the current level.
-        const allowedBuildings = buildingLevels.filter(
+        const allowedBuildings = buildingUnlockLevels.filter(
           (level) => bumpkinLevel >= level
         ).length;
         // Whats the next level of the desired building (e.g. water wells), user is yet to unlock.
         // If this is undefined then that means the user has unlocked all the levels of the building.
-        const nextLockedLevel = buildingLevels.find(
+        const nextLockedLevel = buildingUnlockLevels.find(
           (level) => level > bumpkinLevel
         );
         const buildingLimitReached =
           buildingsPlaced.greaterThanOrEqualTo(allowedBuildings);
-        // true, if the user has user has unlocked all the levels and completed all the buildings.
+        // true, if the user has unlocked all the levels and completed all the buildings.
         const allBuildingsBuilt =
           !nextLockedLevel &&
           buildingsPlaced.greaterThanOrEqualTo(allowedBuildings);
 
+        const unplaced = inventory[buildingName]?.minus(buildingsPlaced);
+
         return (
           <div key={index} onClick={() => onClick(buildingName)}>
             <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
+              {unplaced?.gt(0) && (
+                <Label className="px-1 text-xxs absolute -top-3 -right-1">
+                  {unplaced.toNumber()}
+                </Label>
+              )}
               <div className="w-16 justify-center flex mr-2">
                 <img src={ITEM_DETAILS[buildingName].image} className="h-12" />
               </div>

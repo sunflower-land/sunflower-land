@@ -20,6 +20,7 @@ export const Nancy: React.FC = () => {
           right: `${PIXEL_SCALE * -1.5}px`,
         }}
         alt="Nancy"
+        className="hover:img-highlight"
       />
     </div>
   );

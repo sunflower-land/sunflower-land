@@ -13,7 +13,7 @@ export const RichBear: React.FC = () => {
           bottom: `${PIXEL_SCALE * 1}px`,
           left: `${PIXEL_SCALE * 4}px`,
         }}
-        className="absolute"
+        className="absolute hover:img-highlight"
         alt="Rich Bear"
       />
     </>

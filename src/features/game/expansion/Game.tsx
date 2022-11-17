@@ -112,7 +112,6 @@ export const Game: React.FC = () => {
     gameState.matches("loading") &&
     gameState.context.sessionId === INITIAL_SESSION;
 
-  console.log({ state: gameState.value });
   if (loadingSession || gameState.matches("loadLandToVisit")) {
     return (
       <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
