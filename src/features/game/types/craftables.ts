@@ -8,7 +8,8 @@ import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
 import { OnChainLimitedItems } from "../lib/goblinMachine";
 import { isArray } from "lodash";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
-import { BeanName, MutantCropName } from "./beans";
+import { BeanName } from "./beans";
+import question from "assets/icons/expression_confused.png";
 
 export { FLAGS };
 
@@ -966,6 +967,7 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
 // TODO
 type GoblinRetreatItem = {
   description: string;
+  image: string;
 };
 
 export const GOBLIN_RETREAT_ITEMS: Record<
@@ -974,15 +976,19 @@ export const GOBLIN_RETREAT_ITEMS: Record<
 > = {
   "Prized Potato": {
     description: "A precious potato, doubles potato yield",
+    image: question,
   },
   "Cabbage Boy": {
     description: "Don't wake the baby!",
+    image: question,
   },
   "Cabbage Girl": {
     description: "Shhh it's sleeping",
+    image: question,
   },
   "Wood Nymph Wendy": {
     description: "Cast an enchanchment to entice the fairies",
+    image: question,
   },
 };
 

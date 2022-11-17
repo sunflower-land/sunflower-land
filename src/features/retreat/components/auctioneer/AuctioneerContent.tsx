@@ -15,6 +15,8 @@ import { Countdown } from "../Countdown";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { InventoryItemName } from "features/game/types/game";
+import { GOBLIN_RETREAT_ITEMS } from "features/game/types/craftables";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -129,6 +131,10 @@ export const AuctioneerContent = () => {
     upcoming[0]
   );
 
+  const mint = (item: InventoryItemName) => {
+    goblinService.send("MINT", { item, captcha: "" });
+  };
+
   if (selected === undefined) {
     return (
       <div className="flex flex-col">
@@ -148,7 +154,7 @@ export const AuctioneerContent = () => {
         >
           <div>
             <img
-              src={questionMark}
+              src={GOBLIN_RETREAT_ITEMS[selected.name].image}
               className="h-24 rounded-md my-2"
               alt={selected.name}
             />
@@ -158,9 +164,7 @@ export const AuctioneerContent = () => {
             key={selected.name}
             item={selected}
             supply={supply}
-            onMint={() =>
-              goblinService.send("MINT", { item: selected.name, captcha: "" })
-            }
+            onMint={() => mint(selected.name)}
             isMinting={goblinState.matches("auctionMinting")}
           />
         </div>
