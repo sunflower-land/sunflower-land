@@ -22,7 +22,7 @@ export const canMigrate = (state: GameState) => {
   const isCoder = inventory.Coder?.gte(1);
   const isArtist = inventory.Artist?.gte(1);
 
-  return !!isWarrior || !!hasEnoughXP || !!isMod || !!isCoder || !isArtist;
+  return !!isMod || !!isCoder || !isArtist;
 };
 
 export function migrate({
