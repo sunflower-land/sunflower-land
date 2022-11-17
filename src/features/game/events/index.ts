@@ -91,6 +91,14 @@ import {
   removeCrop as landExpasionRemoveCrop,
   LandExpansionRemoveCropAction,
 } from "./landExpansion/removeCrop";
+import {
+  removeBuilding,
+  RemoveBuildingAction,
+} from "./landExpansion/removeBuilding";
+import {
+  removeCollectible,
+  RemoveCollectibleAction,
+} from "./landExpansion/removeCollectible";
 
 export type PlayingEvent =
   | CraftAction
@@ -132,7 +140,9 @@ export type PlayingEvent =
   | CraftToolAction
   | LandExpansionMigrateAction
   | buyDecorationAction
-  | SellCropAction;
+  | SellCropAction
+  | RemoveBuildingAction
+  | RemoveCollectibleAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -196,6 +206,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "game.migrated": migrate,
   "decoration.bought": buyDecoration,
   "crop.sold": sellCrop,
+  "building.removed": removeBuilding,
+  "collectible.removed": removeCollectible,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

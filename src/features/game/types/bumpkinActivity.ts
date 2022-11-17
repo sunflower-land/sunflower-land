@@ -5,6 +5,7 @@ import { CropName } from "../types/crops";
 import { Bumpkin } from "../types/game";
 import { DecorationName } from "./decorations";
 import { SeedName } from "./seeds";
+import { WorkbenchToolName } from "./tools";
 
 type BuyableName = SeedName | Animal | DecorationName;
 type SellableName = CropName | Food;
@@ -15,7 +16,7 @@ export type HarvestEvent = `${CropName} Harvested`;
 export type CookEvent = `${Recipes} Cooked`;
 export type FedEvent = `${Recipes} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
-export type CraftedEvent = `${ToolName} Crafted`;
+export type CraftedEvent = `${ToolName | WorkbenchToolName} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 
@@ -39,7 +40,9 @@ export type BumpkinActivityName =
   | "Mutant Chicken Found"
   | "Building Constructed"
   | "Building Placed"
+  | "Building Removed"
   | "Collectible Placed"
+  | "Collectible Removed"
   | "Building Upgraded"
   | "Crop Fertilised"
   | "Crop Removed";
