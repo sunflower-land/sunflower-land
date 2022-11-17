@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "features/game/types/buildings";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
@@ -8,6 +9,7 @@ import { getSupportedChickens } from "./utils";
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
   NO_RUSTY_SHOVEL_AVAILABLE = "No Rusty Shovel available!",
+  NO_BUMPKIN = "You do not have a Bumpkin",
 }
 
 export type RemoveBuildingAction = {
@@ -118,8 +120,12 @@ export function removeBuilding({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
-  const { buildings, inventory } = stateCopy;
+  const { buildings, inventory, bumpkin } = stateCopy;
   const buildingGroup = buildings[action.building];
+
+  if (bumpkin === undefined) {
+    throw new Error(REMOVE_BUILDING_ERRORS.NO_BUMPKIN);
+  }
 
   if (!buildingGroup) {
     throw new Error(REMOVE_BUILDING_ERRORS.INVALID_BUILDING);
@@ -151,6 +157,8 @@ export function removeBuilding({
   if (action.building === "Hen House") {
     stateCopy.chickens = removeUnsupportedChickens(stateCopy);
   }
+
+  bumpkin.activity = trackActivity("Building Removed", bumpkin.activity);
 
   inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
 

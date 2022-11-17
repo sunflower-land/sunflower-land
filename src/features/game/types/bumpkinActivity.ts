@@ -39,8 +39,9 @@ export type BumpkinActivityName =
   | "SFL Earned"
   | "Mutant Chicken Found"
   | "Building Constructed"
-  | "Building Placed"
+  | "Building Removed"
   | "Collectible Placed"
+  | "Collectible Removed"
   | "Building Upgraded"
   | "Crop Fertilised"
   | "Crop Removed";

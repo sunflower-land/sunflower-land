@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
@@ -7,6 +8,7 @@ import { removeUnsupportedChickens } from "./removeBuilding";
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
   NO_RUSTY_SHOVEL_AVAILABLE = "No Rusty Shovel available!",
+  NO_BUMPKIN = "You do not have a Bumpkin",
 }
 
 export type RemoveCollectibleAction = {
@@ -36,8 +38,12 @@ export function removeCollectible({
 }: Options) {
   const stateCopy = cloneDeep(state) as GameState;
 
-  const { collectibles, inventory } = stateCopy;
+  const { collectibles, inventory, bumpkin } = stateCopy;
   const collectibleGroup = collectibles[action.collectible];
+
+  if (bumpkin === undefined) {
+    throw new Error(REMOVE_COLLECTIBLE_ERRORS.NO_BUMPKIN);
+  }
 
   if (!collectibleGroup) {
     throw new Error(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
@@ -65,6 +71,8 @@ export function removeCollectible({
   if (action.collectible === "Chicken Coop") {
     stateCopy.chickens = removeUnsupportedChickens(stateCopy);
   }
+
+  bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);
 
   inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
 
