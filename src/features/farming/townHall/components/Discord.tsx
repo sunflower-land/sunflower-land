@@ -50,7 +50,7 @@ export const Discord: React.FC = () => {
 
   const [state, setState] = useState<
     "idle" | "noDiscord" | "joining" | "joined" | "error"
-  >("idle");
+  >(authState.context.token?.discordId ? "idle" : "noDiscord");
 
   const inventory = gameState.context.state.inventory;
   const oauth = () => {
