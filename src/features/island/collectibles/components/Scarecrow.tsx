@@ -20,6 +20,7 @@ export const Scarecrow: React.FC = () => {
           right: `${PIXEL_SCALE * 2.5}px`,
         }}
         alt="Scarecrow"
+        className="hover:img-highlight"
       />
     </div>
   );

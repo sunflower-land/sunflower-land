@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { SyntheticEvent, useContext, useState } from "react";
 
 import firePit from "assets/buildings/fire_pit.png";
 import npc from "assets/npcs/cook.gif";
@@ -14,6 +14,7 @@ import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
 import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ClickableBuildingImage } from "../ClickableBuildingImage";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -58,7 +59,9 @@ export const FirePit: React.FC<Props> = ({
     });
   };
 
-  const handleClick = () => {
+  const handleClick = (e: SyntheticEvent) => {
+    e.stopPropagation();
+
     if (idle) {
       setShowModal(true);
       return;
@@ -77,14 +80,14 @@ export const FirePit: React.FC<Props> = ({
 
   return (
     <>
-      <div
+      <ClickableBuildingImage
         className="relative cursor-pointer hover:img-highlight"
         onClick={handleClick}
       >
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 img-highlight-heavy"
+            className="absolute z-30 img-highlight-heavy pointer-events-none"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -96,7 +99,7 @@ export const FirePit: React.FC<Props> = ({
         {crafting && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30"
+            className="absolute z-30 pointer-events-none"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -108,7 +111,7 @@ export const FirePit: React.FC<Props> = ({
         {crafting ? (
           <img
             src={doing}
-            className="absolute z-20"
+            className="absolute z-20 pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               top: `${PIXEL_SCALE * 2}px`,
@@ -119,7 +122,7 @@ export const FirePit: React.FC<Props> = ({
         ) : (
           <img
             src={npc}
-            className="absolute z-20"
+            className="absolute z-20 pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 14}px`,
               top: `${PIXEL_SCALE * 2}px`,
@@ -127,7 +130,6 @@ export const FirePit: React.FC<Props> = ({
             }}
           />
         )}
-
         <img
           src={shadow}
           className="absolute z-10"
@@ -144,7 +146,7 @@ export const FirePit: React.FC<Props> = ({
             "opacity-80": crafting,
           })}
         />
-      </div>
+      </ClickableBuildingImage>
 
       <FirePitModal
         isOpen={showModal}

@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import classNames from "classnames";
+import Modal from "react-bootstrap/Modal";
 
 import { CollectibleName } from "features/game/types/craftables";
 import { MysteriousHead } from "./components/MysteriousHead";
@@ -62,7 +64,9 @@ import { BadassBear } from "./components/BadassBear";
 import { VictoriaSisters } from "./components/VictoriaSisters";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { Bar } from "components/ui/ProgressBar";
-import classNames from "classnames";
+import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlaceableModal";
+import { getShortcuts } from "features/farming/hud/lib/shortcuts";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Prop {
   name: CollectibleName;
@@ -161,24 +165,16 @@ export const Collectible: React.FC<Prop> = ({
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(
-    Math.floor((readyAt - Date.now()) / 1000)
-  );
-  const totalSeconds = (readyAt - createdAt) / 1000;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
-
-      setSecondsLeft(secondsLeft);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  });
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const inProgress = readyAt > Date.now();
 
+  useUiRefresher({ active: inProgress });
+
   if (inProgress) {
+    const totalSeconds = (readyAt - createdAt) / 1000;
+    const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
+
     return (
       <>
         <div
@@ -212,5 +208,39 @@ export const Collectible: React.FC<Prop> = ({
     );
   }
 
-  return <CollectiblePlaced key={id} />;
+  const shortcuts = getShortcuts();
+  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
+
+  const handleOnClick = () => {
+    if (!hasRustyShovelSelected) return;
+
+    setShowRemoveModal(true);
+  };
+
+  return (
+    <>
+      <div
+        className={classNames({
+          "pointer-events-none": !hasRustyShovelSelected,
+        })}
+        onClick={handleOnClick}
+      >
+        <CollectiblePlaced key={id} />
+      </div>
+      <Modal
+        show={showRemoveModal}
+        centered
+        onHide={() => setShowRemoveModal(false)}
+      >
+        {showRemoveModal && (
+          <RemovePlaceableModal
+            type="collectible"
+            placeableId={id}
+            name={name}
+            onClose={() => setShowRemoveModal(false)}
+          />
+        )}
+      </Modal>
+    </>
+  );
 };

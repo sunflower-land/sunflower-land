@@ -1,7 +1,7 @@
 import { getKeys } from "features/game/types/craftables";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
-import { getMaxChickens } from "../feedChicken";
+import { getSupportedChickens } from "./utils";
 
 export type PlaceChickenAction = {
   type: "chicken.placed";
@@ -37,7 +37,7 @@ export function placeChicken({
     throw new Error("You do not have any available chickens");
   }
 
-  const availableSpots = getMaxChickens(stateCopy.inventory);
+  const availableSpots = getSupportedChickens(stateCopy);
 
   if (placedChickens === availableSpots) {
     throw new Error("Insufficient space for more chickens");

@@ -14,6 +14,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { DeliModal } from "./DeliModal";
+import { ClickableBuildingImage } from "../ClickableBuildingImage";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -77,12 +78,16 @@ export const Deli: React.FC<Props> = ({
 
   return (
     <>
-      <div
-        className="relative cursor-pointer hover:img-highlight w-full h-full"
+      <ClickableBuildingImage
+        className="relative cursor-pointer hover:img-highlight"
+        style={{
+          width: `${PIXEL_SCALE * 62}px`,
+          height: `${PIXEL_SCALE * 54}px`,
+        }}
         onClick={handleClick}
       >
         {ready && name && (
-          <div className="flex justify-center absolute -top-7 w-full">
+          <div className="flex justify-center absolute -top-7 w-full pointer-events-none">
             <img src={ITEM_DETAILS[name].image} className="w-5 ready" />
           </div>
         )}
@@ -91,6 +96,7 @@ export const Deli: React.FC<Props> = ({
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 62}px`,
+            height: `${PIXEL_SCALE * 54}px`,
             left: `${PIXEL_SCALE * 1}px`,
             top: `${PIXEL_SCALE * -3}px`,
           }}
@@ -98,22 +104,22 @@ export const Deli: React.FC<Props> = ({
         {crafting ? (
           <img
             src={artisianDoing}
-            className="absolute z-20"
+            className="absolute z-20 pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 20}px`,
               right: `${PIXEL_SCALE * 1}px`,
-              bottom: `${PIXEL_SCALE * 14}px`,
+              bottom: `${PIXEL_SCALE * 16.7}px`,
               transform: "scaleX(-1)",
             }}
           />
         ) : (
           <img
             src={artisian}
-            className="absolute z-20"
+            className="absolute z-20 pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               right: `${PIXEL_SCALE * 1}px`,
-              bottom: `${PIXEL_SCALE * 14}px`,
+              bottom: `${PIXEL_SCALE * 16.7}px`,
               transform: "scaleX(-1)",
             }}
           />
@@ -121,28 +127,28 @@ export const Deli: React.FC<Props> = ({
 
         <img
           src={shadow}
-          className="absolute z-10"
+          className="absolute z-10 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             right: `${PIXEL_SCALE * 2.5}px`,
-            bottom: `${PIXEL_SCALE * 12}px`,
+            bottom: `${PIXEL_SCALE * 14.7}px`,
           }}
         />
         {name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className={classNames("absolute z-30", {
+            className={classNames("absolute z-30 pointer-events-none", {
               "img-highlight-heavy": ready,
             })}
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
-              bottom: `${PIXEL_SCALE * 4.5}px`,
+              bottom: `${PIXEL_SCALE * 8.7}px`,
               right: `${PIXEL_SCALE * 8}px`,
             }}
           />
         )}
-      </div>
+      </ClickableBuildingImage>
 
       <DeliModal
         isOpen={showModal}

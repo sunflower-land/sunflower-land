@@ -12,7 +12,7 @@ export const Rooster: React.FC = () => {
         bottom: `${PIXEL_SCALE * 0}px `,
       }}
       alt="Rooster"
-      className="absolute"
+      className="absolute hover:img-highlight"
     />
   );
 };

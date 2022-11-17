@@ -3,6 +3,7 @@ export type ResourceName =
   | "Stone"
   | "Iron"
   | "Gold"
+  | "Diamond"
   | "Egg"
   | "Honey"
   | "Chicken"
@@ -23,6 +24,9 @@ export const RESOURCES: Record<ResourceName, Resource> = {
     description: "Used to craft items",
   },
   Gold: {
+    description: "Used to craft items",
+  },
+  Diamond: {
     description: "Used to craft items",
   },
   Egg: {
