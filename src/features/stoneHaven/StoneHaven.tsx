@@ -8,6 +8,10 @@ import background from "assets/land/stone_haven.png";
 import { GameProvider } from "features/game/GameProvider";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import { IslandTravelWrapper } from "./components/IslandTravelWrapper";
+import { GoblinCook } from "./components/GoblinCooking";
+import { StoneHavenBlacksmith } from "./components/StoneHavenBlacksmith";
+import { StoneHavenJumper } from "./components/StoneHavenJumper";
+import { StoneHavenMiner } from "./components/StoneHavenMiner";
 
 export const StoneHaven: React.FC = () => {
   const container = useRef(null);
@@ -49,6 +53,10 @@ export const StoneHaven: React.FC = () => {
                 id={Section.StoneHaven}
               />
               <IslandTravelWrapper />
+              <GoblinCook />
+              <StoneHavenBlacksmith />
+              <StoneHavenJumper />
+              <StoneHavenMiner />
             </div>
           </div>
         </ScrollContainer>

@@ -26,6 +26,7 @@ import { CommunityGardenModal } from "features/farming/town/components/Community
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { LandExpansionRole } from "./LandExpansionRole";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -210,6 +211,8 @@ export const Menu = () => {
         isOpen={showLogoutModal}
         onClose={() => setShowSettings(false)}
       />
+
+      <LandExpansionRole />
 
       {showCaptcha && (
         <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>

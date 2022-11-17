@@ -8,6 +8,9 @@ import background from "assets/land/treasure_island.png";
 import { GameProvider } from "features/game/GameProvider";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import { IslandTravelWrapper } from "./components/IslandTravelWrapper";
+import { SandHills } from "./components/SandHills";
+import { GoblinDigging } from "./components/GoblinDigging";
+import { ShovelShop } from "./components/ShovelShop";
 
 export const TreasureIsland: React.FC = () => {
   const container = useRef(null);
@@ -49,6 +52,9 @@ export const TreasureIsland: React.FC = () => {
                 id={Section.TreasureIsland}
               />
               <IslandTravelWrapper />
+              <SandHills />
+              <GoblinDigging />
+              <ShovelShop />
             </div>
           </div>
         </ScrollContainer>
