@@ -35,30 +35,6 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Field does not exist");
   }
 
-  if (
-    action.index >= 5 &&
-    action.index <= 9 &&
-    !stateCopy.inventory["Pumpkin Soup"]
-  ) {
-    throw new Error("Goblin land!");
-  }
-
-  if (
-    action.index >= 10 &&
-    action.index <= 15 &&
-    !stateCopy.inventory["Sauerkraut"]
-  ) {
-    throw new Error("Goblin land!");
-  }
-
-  if (
-    action.index >= 16 &&
-    action.index <= 21 &&
-    !stateCopy.inventory["Roasted Cauliflower"]
-  ) {
-    throw new Error("Goblin land!");
-  }
-
   if (action.index > 21) {
     throw new Error("Field does not exist");
   }
