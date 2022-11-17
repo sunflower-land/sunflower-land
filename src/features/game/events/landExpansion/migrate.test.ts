@@ -61,7 +61,7 @@ describe("Migrate", () => {
     ).toThrow("You don't meet the requirements for migrating");
   });
 
-  it("migrates a player that has enough XP", () => {
+  it.skip("migrates a player that has enough XP", () => {
     const result = migrate({
       state: {
         ...GAME_STATE,
@@ -73,7 +73,7 @@ describe("Migrate", () => {
     expect(result.migrated).toBe(true);
   });
 
-  it("migrates a player that has Warrior Badge", () => {
+  it.skip("migrates a player that has Warrior Badge", () => {
     const result = migrate({
       state: {
         ...GAME_STATE,
