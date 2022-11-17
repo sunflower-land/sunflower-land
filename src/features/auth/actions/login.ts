@@ -94,6 +94,7 @@ export type Token = {
     sync: boolean;
     mintCollectible: boolean;
     admin?: boolean;
+    landExpansion?: boolean;
   };
   discordId?: string;
 };
