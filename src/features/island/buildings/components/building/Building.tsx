@@ -95,7 +95,10 @@ const InProgressBuilding: React.FC<Prop & { onClick: () => void }> = ({
           <BuildingPlaced buildingId={buildingId} />
         </div>
         <div className="absolute bottom-0 w-8 left-1/2 -translate-x-1/2">
-          <Bar percentage={(1 - secondsLeft / totalSeconds) * 100} type="progress" />
+          <Bar
+            percentage={(1 - secondsLeft / totalSeconds) * 100}
+            type="progress"
+          />
         </div>
       </div>
       {overlayRef.current && (
