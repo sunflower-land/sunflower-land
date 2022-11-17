@@ -46,7 +46,6 @@ import {
   canMigrate,
   LandExpansionMigrateAction,
 } from "../events/landExpansion/migrate";
-import { CONFIG } from "lib/config";
 import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { OFFLINE_FARM } from "./landData";
 
@@ -464,10 +463,9 @@ export function startGame(authContext: Options) {
                 if (landRoute) return false;
 
                 return (
-                  (CONFIG.NETWORK === "mumbai" ||
-                    !!authContext.token?.userAccess.landExpansion) &&
                   !authContext.migrated &&
-                  canMigrate(context.state)
+                  (canMigrate(context.state) ||
+                    !!authContext.token?.userAccess.landExpansion)
                 );
               },
             },

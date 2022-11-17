@@ -11,7 +11,6 @@ import { Context } from "features/game/GameProvider";
 import { TransferAccount } from "./TransferAccount";
 import close from "assets/icons/close.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { LandExpansionRole } from "features/island/hud/components/LandExpansionRole";
 
 interface Props {
   isOpen: boolean;
@@ -80,7 +79,6 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
             This is useful if you deposited items to your farm.
           </span>
         </div>
-        <LandExpansionRole />
       </div>
     );
   };
