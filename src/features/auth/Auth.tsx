@@ -39,7 +39,7 @@ export const Auth: React.FC = () => {
       }
       backdrop={false}
     >
-      <div className="relative">
+      <div className="relative mt-44">
         <img
           id="curly"
           src={curly}
@@ -50,8 +50,8 @@ export const Auth: React.FC = () => {
           className="absolute w-54 -top-[59px] left-[1rem] -z-10 scale-[4]"
         />
 
-        <div className="absolute -top-56 left-[13%] w-full max-w-xl animate-float z-10">
-          <img src={logo} className="w-[70%]" />
+        <div className="absolute -top-52 md:-top-56 left-[13%] w-full max-w-xl animate-float z-10">
+          <img id="logo" src={logo} className="w-[70%]" />
         </div>
         <Panel>
           {(authState.matches({ connected: "loadingFarm" }) ||
