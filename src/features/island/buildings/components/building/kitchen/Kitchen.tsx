@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { SyntheticEvent, useContext, useState } from "react";
 
 import kitchen from "assets/buildings/kitchen.png";
 
@@ -14,6 +14,7 @@ import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
+import { ClickableBuildingImage } from "../ClickableBuildingImage";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -55,7 +56,9 @@ export const Kitchen: React.FC<Props> = ({
     });
   };
 
-  const handleClick = () => {
+  const handleClick = (e: SyntheticEvent) => {
+    e.stopPropagation();
+
     if (idle) {
       setShowModal(true);
       return;
@@ -74,14 +77,18 @@ export const Kitchen: React.FC<Props> = ({
 
   return (
     <>
-      <div
+      <ClickableBuildingImage
         className="relative cursor-pointer hover:img-highlight w-full h-full"
+        style={{
+          width: `${PIXEL_SCALE * 63}px`,
+          height: `${PIXEL_SCALE * 50}px`,
+        }}
         onClick={handleClick}
       >
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 img-highlight-heavy"
+            className="absolute z-30 img-highlight-heavy pointer-events-none"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -102,7 +109,7 @@ export const Kitchen: React.FC<Props> = ({
         {crafting && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30"
+            className="absolute z-30 pointer-events-none"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -124,7 +131,7 @@ export const Kitchen: React.FC<Props> = ({
         ) : (
           <img
             src={npc}
-            className="absolute z-20"
+            className="absolute z-20 pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
 
@@ -135,14 +142,14 @@ export const Kitchen: React.FC<Props> = ({
         )}
         <img
           src={shadow}
-          className="absolute z-10"
+          className="absolute z-10 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 6}px`,
             right: `${PIXEL_SCALE * 15}px`,
           }}
         />
-      </div>
+      </ClickableBuildingImage>
 
       <KitchenModal
         isOpen={showModal}

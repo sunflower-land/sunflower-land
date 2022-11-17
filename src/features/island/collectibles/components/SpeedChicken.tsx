@@ -18,6 +18,7 @@ export const SpeedChicken: React.FC = () => {
           width: `${PIXEL_SCALE * 15}px`,
           bottom: `${PIXEL_SCALE * 0}px `,
         }}
+        className="hover:img-highlight"
         alt="Speed Chicken"
       />
     </div>

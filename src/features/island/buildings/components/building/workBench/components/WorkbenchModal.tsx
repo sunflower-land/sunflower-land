@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { SyntheticEvent, useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
@@ -22,8 +22,23 @@ import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
-  onClose: () => void;
+  onClose: (e?: SyntheticEvent) => void;
 }
+
+const CloseButton = ({ onClose }: { onClose: (e: SyntheticEvent) => void }) => {
+  return (
+    <img
+      src={close}
+      className="absolute cursor-pointer z-20"
+      onClick={onClose}
+      style={{
+        top: `${PIXEL_SCALE * 1}px`,
+        right: `${PIXEL_SCALE * 1}px`,
+        width: `${PIXEL_SCALE * 11}px`,
+      }}
+    />
+  );
+};
 
 export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   const craftableItems = WORKBENCH_TOOLS();
@@ -55,7 +70,8 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
     return state.balance.lessThan(price.mul(amount));
   };
 
-  const craft = (amount = 1) => {
+  const craft = (event: SyntheticEvent, amount = 1) => {
+    event.stopPropagation();
     gameService.send("tool.crafted", {
       tool: selectedName,
     });
@@ -90,7 +106,8 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const restock = () => {
+  const restock = (event: SyntheticEvent) => {
+    event.stopPropagation();
     // setShowCaptcha(true);
     sync();
   };
@@ -128,7 +145,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
         <Button
           disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
           className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
-          onClick={() => craft()}
+          onClick={(e) => craft(e)}
         >
           Craft 1
         </Button>
@@ -152,18 +169,8 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
           <img src={hammer} className="h-5 mr-2" />
           <span className="text-sm text-shadow">Tools</span>
         </Tab>
-        <img
-          src={close}
-          className="absolute cursor-pointer z-20"
-          onClick={onClose}
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
+        <CloseButton onClose={onClose} />
       </div>
-
       <div
         style={{
           minHeight: "200px",
@@ -209,7 +216,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
                   );
 
                   // rendering item remenants
-                  const renderRemenants = () => {
+                  const renderRemnants = () => {
                     if (lessIngredient) {
                       // if inventory items is less than required items
                       return (
@@ -238,7 +245,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
                       key={index}
                     >
                       <img src={item.image} className="h-5 me-2" />
-                      {renderRemenants()}
+                      {renderRemnants()}
                     </div>
                   );
                 })}
