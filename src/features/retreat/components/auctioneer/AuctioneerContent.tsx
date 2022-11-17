@@ -13,7 +13,6 @@ import {
 import { useActor } from "@xstate/react";
 import { Countdown } from "../Countdown";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import { ItemSupply } from "lib/blockchain/Inventory";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
 import { GOBLIN_RETREAT_ITEMS } from "features/game/types/craftables";
@@ -22,12 +21,12 @@ const TAB_CONTENT_HEIGHT = 364;
 
 const PanelDetail = ({
   item,
-  supply,
+  totalMinted,
   onMint,
   isMinting,
 }: {
   item: AuctioneerItem;
-  supply: ItemSupply;
+  totalMinted: number;
   onMint: () => void;
   isMinting: boolean;
 }) => {
@@ -86,7 +85,7 @@ const PanelDetail = ({
             margin: "20px 0",
           }}
         >
-          {item.currentRelease?.supply - supply[item.name].toNumber()} left
+          {item.currentRelease?.supply - totalMinted} left
         </p>
       )}
       <div className="text-xs mt-3">
@@ -124,7 +123,8 @@ const PanelDetail = ({
 export const AuctioneerContent = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
-  const { auctioneerItems, supply } = goblinState.context;
+  const { auctioneerItems, auctioneerSupply } = goblinState.context;
+
   const upcoming = getValidAuctionItems(auctioneerItems);
 
   const [selected, setSelected] = useState<AuctioneerItem | undefined>(
@@ -163,9 +163,9 @@ export const AuctioneerContent = () => {
           <PanelDetail
             key={selected.name}
             item={selected}
-            supply={supply}
+            totalMinted={selected.totalMinted ?? 0}
             onMint={() => mint(selected.name)}
-            isMinting={goblinState.matches("auctionMinting")}
+            isMinting={goblinState.matches("auction.minting")}
           />
         </div>
       </OuterPanel>

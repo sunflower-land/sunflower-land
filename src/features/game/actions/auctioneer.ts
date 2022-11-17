@@ -1,4 +1,5 @@
 import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
+import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -69,4 +70,8 @@ export const fetchAuctioneerDrops = async (token: string) => {
   cacheItems(id, items);
 
   return { id, items };
+};
+
+export const fetchAuctioneerSupply = (ids: number[]) => {
+  return metamask.getInventory().getSupply(ids);
 };

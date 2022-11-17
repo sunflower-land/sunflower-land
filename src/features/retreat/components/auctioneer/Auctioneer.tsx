@@ -19,8 +19,8 @@ export const Auctioneer: React.FC = () => {
     .filter((item) => item.releases.some(({ endDate }) => endDate > Date.now()))
     .sort((a, b) => a.releases[0].endDate - b.releases[0].endDate)[0];
 
-  const isOpen =
-    goblinState.matches("auctioning") || goblinState.matches("auctionMinting");
+  const isLoading = goblinState.matches("auction.loading");
+  const isPlaying = goblinState.matches("auction.playing");
 
   const openAuctioneer = () => {
     goblinService.send("OPEN_AUCTIONEER");
@@ -71,7 +71,9 @@ export const Auctioneer: React.FC = () => {
           onClick={openAuctioneer}
         />
       </div>
-      {isOpen && <AuctioneerModal isOpen={isOpen} onClose={closeAuctioneer} />}
+      {isPlaying && (
+        <AuctioneerModal isOpen={isPlaying} onClose={closeAuctioneer} />
+      )}
     </div>
   );
 };
