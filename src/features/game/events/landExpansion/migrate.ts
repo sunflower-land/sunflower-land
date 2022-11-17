@@ -32,10 +32,6 @@ export function migrate({
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
 
-  if (!canMigrate(stateCopy)) {
-    throw new Error("You don't meet the requirements for migrating");
-  }
-
   stateCopy.migrated = true;
 
   return stateCopy;
