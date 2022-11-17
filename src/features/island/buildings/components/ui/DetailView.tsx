@@ -17,14 +17,14 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { getKeys, TOOLS } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { SEEDS } from "features/game/types/seeds"; 
+import { SEEDS } from "features/game/types/seeds";
 
 const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   "Fire Pit": getKeys(CONSUMABLES).filter(
     (name) => CONSUMABLES[name].building === "Fire Pit"
   ),
   Kitchen: getKeys(CONSUMABLES).filter(
-    (name) => CONSUMABLES[name].building === "Kitchen" 
+    (name) => CONSUMABLES[name].building === "Kitchen"
   ),
   Bakery: getKeys(CONSUMABLES).filter(
     (name) => CONSUMABLES[name].building === "Bakery"
