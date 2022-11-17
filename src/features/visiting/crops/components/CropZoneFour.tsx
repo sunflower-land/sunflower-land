@@ -2,25 +2,11 @@ import React from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-import goblinDig from "assets/npcs/goblin_dig.gif";
-
 import { Field } from "./Field";
 
 export const CropZoneFour: React.FC = () => {
   return (
     <>
-      <>
-        <img
-          src={goblinDig}
-          className="absolute z-20 hover:img-highlight cursor-pointer -scale-x-100"
-          style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
-            left: `${GRID_WIDTH_PX * 4.8}px`,
-            top: `${GRID_WIDTH_PX * 3}px`,
-          }}
-        />
-      </>
-
       <div
         className="absolute flex justify-between flex-col"
         style={{

@@ -2,25 +2,11 @@ import React from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-import goblinWatering from "assets/npcs/goblin_watering.gif";
-
 import { Field } from "./Field";
 
 export const CropZoneThree: React.FC = () => {
   return (
     <>
-      <>
-        <img
-          src={goblinWatering}
-          className="absolute z-20 hover:img-highlight cursor-pointer"
-          style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
-            left: `${GRID_WIDTH_PX * 0.2}px`,
-            top: `${-GRID_WIDTH_PX * 1.5}px`,
-          }}
-        />
-      </>
-
       <div
         className="absolute flex justify-between flex-col"
         style={{
