@@ -17,6 +17,7 @@ import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
 import { Context } from "features/game/GameProvider";
 import { DECORATIONS } from "features/game/types/decorations";
+import { KNOWN_IDS } from "features/game/types";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -117,18 +118,20 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
         {Object.values(collectibles) && (
           <div className="flex flex-col pl-2" key={"Collectibles"}>
             <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
-              {getKeys(collectibles).map((item) => (
-                <Box
-                  count={inventory[item]?.sub(
-                    placedItems[item as CollectibleName]?.length ?? 0
-                  )}
-                  isSelected={selected === item}
-                  key={item}
-                  onClick={() => handleItemClick(item)}
-                  image={ITEM_DETAILS[item].image}
-                  parentDivRef={divRef}
-                />
-              ))}
+              {getKeys(collectibles)
+                .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
+                .map((item) => (
+                  <Box
+                    count={inventory[item]?.sub(
+                      placedItems[item as CollectibleName]?.length ?? 0
+                    )}
+                    isSelected={selected === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={ITEM_DETAILS[item].image}
+                    parentDivRef={divRef}
+                  />
+                ))}
             </div>
           </div>
         )}
