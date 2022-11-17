@@ -38,7 +38,7 @@ describe("PickSkill", () => {
           ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            experience: LEVEL_BRACKETS[2],
+            experience: LEVEL_BRACKETS[1],
             skills: { "Green Thumb": 1 },
           },
         },
