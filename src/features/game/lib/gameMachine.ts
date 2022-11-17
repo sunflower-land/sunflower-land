@@ -464,7 +464,8 @@ export function startGame(authContext: Options) {
                 if (landRoute) return false;
 
                 return (
-                  CONFIG.NETWORK === "mumbai" &&
+                  (CONFIG.NETWORK === "mumbai" ||
+                    !!authContext.token?.userAccess.landExpansion) &&
                   !authContext.migrated &&
                   canMigrate(context.state)
                 );
