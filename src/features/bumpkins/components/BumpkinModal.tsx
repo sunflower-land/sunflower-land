@@ -84,9 +84,12 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
 
   const hasSkillPoint = hasUnacknowledgedSkillPoints(state.bumpkin);
 
-  const progressWidth = Math.floor(
-    (PROGRESS_BAR_DIMENSIONS.innerWidth * currentExperienceProgress) /
-      experienceToNextLevel
+  const progressWidth = Math.min(
+    Math.floor(
+      (PROGRESS_BAR_DIMENSIONS.innerWidth * currentExperienceProgress) /
+        experienceToNextLevel
+    ),
+    PROGRESS_BAR_DIMENSIONS.innerWidth
   );
 
   return (
