@@ -48,7 +48,7 @@ const PanelDetail = ({
       >
         {item.name}
       </p>
-      {!!item.currentRelease?.price && (
+      {item.currentRelease?.price != 0 && (
         <p className="flex items-center my-2 md:my-3 justify-center md:justify-start">
           <img src={token} className="h-4 mr-1" />
           <span className="text-xs sm:text-sm text-shadow text-center">
@@ -77,21 +77,23 @@ const PanelDetail = ({
         </div>
       )}
       {/* TODO calculate total available supply*/}
-      <p
-        className="md:text-left"
-        style={{
-          margin: "20px 0",
-        }}
-      >
-        <span className="text-error">{supply[item.name].toNumber()}</span>/
-        <span>{item.currentRelease?.supply}</span>
-      </p>
-      <div className="text-xs mt-4">
-        {!isMinting && (
-          <Button disabled={!isMintStarted || isMintComplete} onClick={onMint}>
-            Mint
-          </Button>
-        )}
+      {item.currentRelease?.supply && (
+        <p
+          className="md:text-left"
+          style={{
+            margin: "20px 0",
+          }}
+        >
+          {item.currentRelease?.supply - supply[item.name].toNumber()} left
+        </p>
+      )}
+      <div className="text-xs mt-3">
+        <Button
+          disabled={!isMintStarted || isMintComplete || isMinting}
+          onClick={onMint}
+        >
+          {isMinting ? "Minting..." : "Mint"}
+        </Button>
         {!isMintStarted && (
           <div className="p-1 text-center mt-2">
             <Countdown
