@@ -1,25 +1,22 @@
 import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
-import heart from "assets/icons/level_up.png";
+import levelIcon from "assets/icons/level_up.png";
 import close from "assets/icons/close.png";
 import alert from "assets/icons/expression_alerted.png";
 
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 
 import { Context } from "features/game/GameProvider";
-import {
-  BumpkinItem,
-  Equipped as BumpkinParts,
-} from "features/game/types/bumpkin";
+import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { Badges } from "features/farming/house/House";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
+  isMaxLevel,
 } from "features/game/lib/level";
-import { formatNumber } from "lib/utils/formatNumber";
 import { Achievements } from "./Achievements";
 import { AchievementBadges } from "./AchievementBadges";
 import { Skills } from "features/bumpkins/components/Skills";
@@ -28,6 +25,15 @@ import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type ViewState = "home" | "achievements" | "skills";
+
+const PROGRESS_BAR_DIMENSIONS = {
+  width: 40,
+  height: 7,
+  innerWidth: 36,
+  innerHeight: 2,
+  marginTop: 2,
+  marginLeft: 2,
+};
 
 interface Props {
   initialView: ViewState;
@@ -70,14 +76,18 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
   const { body, hair, background, ...wearables } = state.bumpkin
     ?.equipped as BumpkinParts;
 
-  const equippedItems = Object.values(wearables) as BumpkinItem[];
-
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
+  const maxLevel = isMaxLevel(experience);
   const { currentExperienceProgress, experienceToNextLevel } =
     getExperienceToNextLevel(experience);
 
   const hasSkillPoint = hasUnacknowledgedSkillPoints(state.bumpkin);
+
+  const progressWidth = Math.floor(
+    (PROGRESS_BAR_DIMENSIONS.innerWidth * currentExperienceProgress) /
+      experienceToNextLevel
+  );
 
   return (
     <Panel>
@@ -114,32 +124,55 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
         <div className="flex-1">
           <div className="mb-2">
             <div className="flex items-center mt-2 md:mt-0">
-              <p className="text-sm">Level {level}</p>
-              <img src={heart} className="w-4 ml-1" />
+              <p className="text-sm">
+                Level {level}
+                {maxLevel ? " (Max)" : ""}
+              </p>
+              <img src={levelIcon} className="w-4 ml-1" />
             </div>
+
+            {/* Progress bar */}
             <div className="flex items-center">
-              <div className="flex mr-2 items-center relative w-20 z-10">
+              <div
+                className="flex mr-2 items-center relative z-10"
+                style={{
+                  width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
+                }}
+              >
                 <img src={progressBarSmall} className="w-full" />
                 <div
-                  className="w-full h-full bg-[#193c3e] absolute -z-20"
+                  className="absolute bg-[#193c3e]"
                   style={{
-                    borderRadius: "10px",
+                    top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.marginTop}px`,
+                    left: `${
+                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.marginLeft
+                    }px`,
+                    width: `${
+                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
+                    }px`,
+                    height: `${
+                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
+                    }px`,
                   }}
                 />
                 <div
-                  className="h-full bg-[#63c74d] absolute -z-10 "
+                  className="absolute bg-[#63c74d]"
                   style={{
-                    borderRadius: "10px 0 0 10px",
-                    width: `${
-                      (currentExperienceProgress / experienceToNextLevel) * 100
-                    }%`,
-                    maxWidth: "100%",
+                    top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.marginTop}px`,
+                    left: `${
+                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.marginLeft
+                    }px`,
+                    width: `${PIXEL_SCALE * progressWidth}px`,
+                    height: `${
+                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
+                    }px`,
                   }}
                 />
               </div>
-              <p className="text-xxs">{`${formatNumber(
+
+              <p className="text-xxs">{`${Math.floor(
                 currentExperienceProgress
-              )}/${formatNumber(experienceToNextLevel)} XP`}</p>
+              )}/${Math.floor(experienceToNextLevel)} XP`}</p>
             </div>
           </div>
 
