@@ -20,7 +20,7 @@ export const TunnelMole: React.FC = () => {
           bottom: `${PIXEL_SCALE * 0}px`,
           right: `${PIXEL_SCALE * -1}px`,
         }}
-        className="absolute"
+        className="absolute hover:img-highlight"
         alt="Tunnel mole"
       />
     </div>

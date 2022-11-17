@@ -21,6 +21,7 @@ export const Kuebiko: React.FC = () => {
           left: `${PIXEL_SCALE * 1}px`,
         }}
         alt="Kuebiko"
+        className="hover:img-highlight"
       />
     </div>
   );

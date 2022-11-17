@@ -10,6 +10,7 @@ export const SunflowerRock: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 76}px`,
       }}
+      className="hover:img-highlight"
       alt="Sunflower Rock"
     />
   );

@@ -44,7 +44,6 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
           src={clouds}
           onLoad={(e) => {
             document.getElementById("clouds")?.classList.add("opacity-100");
-            console.log("Loaded");
           }}
         />
       )}

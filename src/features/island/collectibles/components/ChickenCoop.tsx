@@ -11,7 +11,7 @@ export const ChickenCoop: React.FC = () => {
         width: `${PIXEL_SCALE * 33}px`,
         bottom: `${PIXEL_SCALE}px`,
       }}
-      className="absolute"
+      className="absolute hover:img-highlight"
       alt="Chicken Coop"
     />
   );
