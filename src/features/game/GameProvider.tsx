@@ -2,7 +2,7 @@
  * A wrapper that provides game state and dispatches events
  */
 import { useState, useCallback, useLayoutEffect } from "react";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -11,12 +11,7 @@ import {
   getShortcuts,
 } from "features/farming/hud/lib/shortcuts";
 
-import {
-  startGame,
-  MachineInterpreter,
-  MachineState,
-  INITIAL_SESSION,
-} from "./lib/gameMachine";
+import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 import { useParams } from "react-router-dom";
 
@@ -27,9 +22,6 @@ interface GameContext {
 }
 
 export const Context = React.createContext<GameContext>({} as GameContext);
-
-const selectInventory = (state: MachineState) => state.context.state.inventory;
-const selectSessionId = (state: MachineState) => state.context.sessionId;
 
 export const GameProvider: React.FC = ({ children }) => {
   const { authService } = useContext(Auth.Context);
@@ -48,8 +40,6 @@ export const GameProvider: React.FC = ({ children }) => {
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
-  const inventory = useSelector(gameService, selectInventory);
-  const sessionId = useSelector(gameService, selectSessionId);
   const [shortcuts, setShortcuts] = useState<InventoryItemName[]>([]);
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
@@ -61,16 +51,8 @@ export const GameProvider: React.FC = ({ children }) => {
   useLayoutEffect(() => {
     const savedShortcuts = getShortcuts();
 
-    if (sessionId !== INITIAL_SESSION && savedShortcuts.length === 0) {
-      const defaultItem: InventoryItemName = inventory["Shovel"]
-        ? "Shovel"
-        : "Rusty Shovel";
-
-      shortcutItem(defaultItem);
-    } else {
-      setShortcuts(savedShortcuts);
-    }
-  }, [inventory, sessionId, shortcutItem]);
+    setShortcuts(savedShortcuts);
+  }, []);
 
   const selectedItem = shortcuts.length > 0 ? shortcuts[0] : undefined;
 

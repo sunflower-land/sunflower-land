@@ -11,7 +11,7 @@ export const MysteriousParsnip: React.FC = () => {
         width: `${PIXEL_SCALE * 16}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
       }}
-      className="absolute"
+      className="absolute hover:img-highlight"
       alt="Mysterious Parsnip"
     />
   );

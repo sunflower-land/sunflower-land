@@ -8,6 +8,7 @@ import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 
 import timer from "assets/icons/timer.png";
 import lightning from "assets/icons/lightning.png";
+import basket from "assets/icons/basket.png";
 
 import { secondsToString } from "lib/utils/time";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
@@ -53,6 +54,20 @@ export const Basket: React.FC = () => {
   };
 
   const basketIsEmpty = Object.values(basketMap).length === 0;
+
+  if (basketIsEmpty) {
+    return (
+      <div
+        style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
+        className="flex flex-col justify-evenly items-center p-2"
+      >
+        <img src={basket} className="h-12" alt="Empty Chest" />
+        <span className="text-xs text-shadow text-center mt-2 w-80">
+          Your basket is empty!
+        </span>
+      </div>
+    );
+  }
 
   const getItems = <T extends string | number | symbol, K>(
     items: Record<T, K>
