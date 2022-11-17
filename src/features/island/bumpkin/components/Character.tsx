@@ -51,6 +51,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ConsumableName } from "features/game/types/consumables";
 import { FeedModal } from "./FeedModal";
+import { Airdrop } from "features/game/expansion/components/Airdrop";
 
 type VisiblePart = BumpkinBody | BumpkinHair | BumpkinShirt | BumpkinPant;
 
@@ -148,6 +149,7 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
           right: `${PIXEL_SCALE * 1}px`,
         }}
       />
+      <Airdrop />
       <div
         className="relative cursor-pointer hover:img-highlight"
         onClick={() => setOpen(true)}
