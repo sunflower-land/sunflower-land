@@ -123,7 +123,7 @@ export const ProgressBar: React.FC<Props> = ({ percentage, type, seconds }) => {
     <div className="absolute">
       {seconds > 0 && (
         <span
-          className="absolute text-xxs text-white text-center"
+          className="absolute text-xxs text-white text-center z-30"
           style={{
             top: `${PIXEL_SCALE * -5}px`,
             width: `${PIXEL_SCALE * 15}px`,
