@@ -23,6 +23,7 @@ const FlagsImages: React.FC<Props> = ({ flagName }) => {
       }}
     >
       <img
+        className="hover:img-highlight"
         style={{
           width: `${PIXEL_SCALE * 11}px`,
         }}

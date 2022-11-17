@@ -189,7 +189,7 @@ export type ToolName =
   | "Hammer"
   | "Rod";
 
-export type Shovel = "Rusty Shovel" | "Shovel";
+export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel";
 
 export type Food =
   | "Pumpkin Soup"
@@ -564,6 +564,22 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
         amount: new Decimal(20),
       },
     ],
+  },
+  "Power Shovel": {
+    name: "Power Shovel",
+    description: "Used for landscaping",
+    tokenAmount: new Decimal(5),
+    ingredients: [
+      {
+        item: "Diamond",
+        amount: new Decimal(2),
+      },
+      {
+        item: "Gold",
+        amount: new Decimal(5),
+      },
+    ],
+    disabled: true,
   },
 };
 
@@ -1151,7 +1167,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Homeless Tent": { width: 2, height: 2 },
   "Farmer Bath": { width: 2, height: 3 },
   "Mysterious Head": { width: 2, height: 2 },
-  "Rock Golem": { width: 2, height: 2 },
+  "Rock Golem": { width: 2, height: 3 },
   "Tunnel Mole": { width: 1, height: 1 },
   "Rocky the Mole": { width: 1, height: 1 },
   Nugget: { width: 1, height: 1 },

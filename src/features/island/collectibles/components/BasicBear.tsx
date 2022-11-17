@@ -13,7 +13,7 @@ export const BasicBear: React.FC = () => {
           bottom: `${PIXEL_SCALE * 1}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
-        className="absolute"
+        className="absolute hover:img-highlight"
         alt="Basic Bear"
       />
     </>

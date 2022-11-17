@@ -14,6 +14,7 @@ export const SunflowerTombstone: React.FC = () => {
       }}
     >
       <img
+        className="hover:img-highlight"
         src={sunflowerTombstone}
         style={{
           width: `${PIXEL_SCALE * 26}px`,
