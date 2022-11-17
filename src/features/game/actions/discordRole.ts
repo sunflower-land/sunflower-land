@@ -3,7 +3,11 @@ import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
 
-export type DiscordRole = "team sunflower" | "team goblin" | "vip-farmers";
+export type DiscordRole =
+  | "team sunflower"
+  | "team goblin"
+  | "vip-farmers"
+  | "land expansion";
 
 type Options = {
   farmId: number;
