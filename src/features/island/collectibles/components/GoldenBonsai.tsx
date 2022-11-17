@@ -20,7 +20,7 @@ export const GoldenBonsai: React.FC = () => {
           bottom: `${PIXEL_SCALE * 0}px `,
           right: `${PIXEL_SCALE * -0.5}px `,
         }}
-        className="absolute"
+        className="absolute hover:img-highlight"
         alt="Golden Bonsai"
       />
     </div>
