@@ -99,7 +99,7 @@ describe("harvest", () => {
           index: 6,
         },
       })
-    ).toThrow("Goblin land!");
+    ).not.toThrow("Goblin land!");
   });
 
   it("harvests once the first goblin is gone", () => {
@@ -123,7 +123,7 @@ describe("harvest", () => {
           index: 11,
         },
       })
-    ).toThrow("Goblin land!");
+    ).not.toThrow("Goblin land!");
   });
 
   it("harvests once the second goblin is gone", () => {
@@ -147,7 +147,7 @@ describe("harvest", () => {
           index: 16,
         },
       })
-    ).toThrow("Goblin land!");
+    ).not.toThrow("Goblin land!");
   });
 
   it("harvests once the third goblin is gone", () => {

@@ -15,6 +15,7 @@ import { Draft } from "../lib/sellingMachine";
 
 const MAX_SFL = new Decimal(10000);
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
+const INPUT_MAX_CHAR = 10;
 
 interface DraftingProps {
   slotId: number;
@@ -73,13 +74,13 @@ export const Drafting: React.FC<DraftingProps> = ({
 
   const handleSflChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (VALID_NUMBER.test(e.target.value)) {
-      setSflAmount(Number(e.target.value));
+      setSflAmount(Number(e.target.value.slice(0, INPUT_MAX_CHAR)));
     }
   };
 
   const handleResourceChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (VALID_NUMBER.test(e.target.value)) {
-      setResourceAmount(Number(e.target.value));
+      setResourceAmount(Number(e.target.value.slice(0, INPUT_MAX_CHAR)));
     }
   };
 
