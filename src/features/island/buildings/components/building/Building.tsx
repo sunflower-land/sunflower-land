@@ -65,13 +65,55 @@ export const BUILDING_COMPONENTS: Record<
   ),
 };
 
+const InProgressBuilding: React.FC<Prop & { onClick: () => void }> = ({
+  onClick,
+  building,
+  id: buildingId,
+  name,
+}) => {
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  const BuildingPlaced = BUILDING_COMPONENTS[name];
+
+  const shortcuts = getShortcuts();
+  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
+
+  const totalSeconds = (building.readyAt - building.createdAt) / 1000;
+  const secondsLeft = Math.floor((building.readyAt - Date.now()) / 1000);
+
+  return (
+    <>
+      <div
+        className="w-full h-full cursor-pointer"
+        ref={overlayRef}
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+        onClick={hasRustyShovelSelected ? onClick : undefined}
+      >
+        <div className="w-full h-full pointer-events-none opacity-50">
+          <BuildingPlaced buildingId={buildingId} />
+        </div>
+        <div className="absolute bottom-0 w-8 left-1/2 -translate-x-1/2">
+          <Bar percentage={(1 - secondsLeft / totalSeconds) * 100} />
+        </div>
+      </div>
+      {overlayRef.current && (
+        <TimeLeftPanel
+          text="Ready in:"
+          timeLeft={secondsLeft}
+          showTimeLeft={showTooltip}
+        />
+      )}
+    </>
+  );
+};
+
 export const Building: React.FC<Prop> = ({
   name,
   building,
   id: buildingId,
 }) => {
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const [showTooltip, setShowTooltip] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
@@ -79,40 +121,6 @@ export const Building: React.FC<Prop> = ({
   const inProgress = building.readyAt > Date.now();
 
   useUiRefresher({ active: inProgress });
-
-  if (inProgress) {
-    const totalSeconds = (building.readyAt - building.createdAt) / 1000;
-    const secondsLeft = Math.floor((building.readyAt - Date.now()) / 1000);
-
-    return (
-      <>
-        <div
-          className="w-full h-full cursor-pointer"
-          ref={overlayRef}
-          onMouseEnter={() => setShowTooltip(true)}
-          onMouseLeave={() => setShowTooltip(false)}
-        >
-          <div
-            className={classNames("w-full h-full pointer-events-none", {
-              "opacity-50": inProgress,
-            })}
-          >
-            <BuildingPlaced buildingId={buildingId} />
-          </div>
-          <div className="absolute bottom-0 w-8 left-1/2 -translate-x-1/2">
-            <Bar percentage={(1 - secondsLeft / totalSeconds) * 100} />
-          </div>
-        </div>
-        {overlayRef.current && (
-          <TimeLeftPanel
-            text="Ready in:"
-            timeLeft={secondsLeft}
-            showTimeLeft={showTooltip}
-          />
-        )}
-      </>
-    );
-  }
 
   const shortcuts = getShortcuts();
   const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
@@ -128,23 +136,32 @@ export const Building: React.FC<Prop> = ({
 
   return (
     <>
-      <div
-        className={classNames({
-          "hover:img-highlight cursor-pointer": hasRustyShovelSelected,
-        })}
-        onClick={hasRustyShovelSelected ? handleOnClick : undefined}
-      >
+      {inProgress ? (
+        <InProgressBuilding
+          building={building}
+          id={buildingId}
+          name={name}
+          onClick={handleOnClick}
+        />
+      ) : (
         <div
           className={classNames({
-            "pointer-events-none": hasRustyShovelSelected,
+            "hover:img-highlight cursor-pointer": hasRustyShovelSelected,
           })}
+          onClick={hasRustyShovelSelected ? handleOnClick : undefined}
         >
-          <BuildingPlaced
-            buildingId={buildingId}
-            craftingState={building.crafting}
-          />
+          <div
+            className={classNames({
+              "pointer-events-none": hasRustyShovelSelected,
+            })}
+          >
+            <BuildingPlaced
+              buildingId={buildingId}
+              craftingState={building.crafting}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <Modal
         show={showRemoveModal}
         centered
