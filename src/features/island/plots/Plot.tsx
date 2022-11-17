@@ -340,7 +340,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       {/* Health bar for collecting rewards */}
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute z-20",
+          "transition-opacity pointer-events-none absolute",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,

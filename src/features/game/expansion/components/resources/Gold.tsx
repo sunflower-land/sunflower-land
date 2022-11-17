@@ -278,7 +278,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       {/* Health bar shown when striking */}
       <div
         className={classNames(
-          "absolute top-10 left-0 transition-opacity pointer-events-none z-20",
+          "absolute top-10 left-0 transition-opacity pointer-events-none",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,

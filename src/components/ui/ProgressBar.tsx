@@ -63,6 +63,13 @@ export const Bar: React.FC<{ percentage: number; type: progressType }> = ({
           width: `${PIXEL_SCALE * DIMENSIONS.width}px`,
         }}
       />
+      <img
+        className="absolute z-30 opacity-50"
+        src={emptyBar}
+        style={{
+          width: `${PIXEL_SCALE * DIMENSIONS.width}px`,
+        }}
+      />
 
       {/* Progress bar inner background */}
       <div
@@ -75,10 +82,30 @@ export const Bar: React.FC<{ percentage: number; type: progressType }> = ({
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
         }}
       />
+      <div
+        className="absolute z-30 opacity-80"
+        style={{
+          backgroundColor: PROGRESS_COLORS[type].backgroundColor,
+          top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
+          left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
+          width: `${PIXEL_SCALE * DIMENSIONS.innerWidth}px`,
+          height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
+        }}
+      />
 
       {/* Progress */}
       <div
         className="absolute"
+        style={{
+          backgroundColor: PROGRESS_COLORS[type].color,
+          top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
+          left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
+          width: `${PIXEL_SCALE * progressWidth}px`,
+          height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
+        }}
+      />
+      <div
+        className="absolute z-30 opacity-80"
         style={{
           backgroundColor: PROGRESS_COLORS[type].color,
           top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,

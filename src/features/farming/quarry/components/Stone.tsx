@@ -273,7 +273,7 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute top-12 left-8 z-20",
+          "transition-opacity pointer-events-none absolute top-12 left-8",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,

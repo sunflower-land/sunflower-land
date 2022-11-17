@@ -419,7 +419,6 @@ export const Chicken: React.FC<Props> = ({ index }) => {
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             top: `${PIXEL_SCALE * 14}px`,
-            zIndex: 20,
           }}
         >
           <Bar percentage={percentageComplete} type="progress" />

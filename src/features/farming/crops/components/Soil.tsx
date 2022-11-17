@@ -86,7 +86,7 @@ export const Soil: React.FC<Props> = ({
         {getCropImage(isAlmostReady ? lifecycle.almost : lifecycle.seedling)}
 
         <div
-          className="absolute z-20"
+          className="absolute"
           style={{
             top: `${PIXEL_SCALE * 9}px`,
             width: `${PIXEL_SCALE * 15}px`,
