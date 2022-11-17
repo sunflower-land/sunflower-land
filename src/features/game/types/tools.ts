@@ -48,7 +48,7 @@ export const WORKBENCH_TOOLS: () => Record<
   },
   Pickaxe: {
     name: "Pickaxe",
-    description: "Used to collect wood",
+    description: "Used to collect stone",
     ingredients: {
       Wood: new Decimal(5),
     },
@@ -56,7 +56,7 @@ export const WORKBENCH_TOOLS: () => Record<
   },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
-    description: "Used to collect wood",
+    description: "Used to collect iron",
     ingredients: {
       Wood: new Decimal(5),
       Stone: new Decimal(5),
@@ -65,7 +65,7 @@ export const WORKBENCH_TOOLS: () => Record<
   },
   "Iron Pickaxe": {
     name: "Iron Pickaxe",
-    description: "Used to collect wood",
+    description: "Used to collect gold",
     ingredients: {
       Wood: new Decimal(10),
       Iron: new Decimal(5),
