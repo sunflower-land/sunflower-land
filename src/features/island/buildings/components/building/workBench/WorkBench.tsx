@@ -51,7 +51,7 @@ export const WorkBench: React.FC = () => {
         }}
       />
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <div className="absolute w-48 -left-4 -top-32 -z-10">
+        <div className="absolute w-72 -left-8 -top-44 -z-10">
           <DynamicNFT
             bumpkinParts={{
               body: "Light Brown Farmer Potion",

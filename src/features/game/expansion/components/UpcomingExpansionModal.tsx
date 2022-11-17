@@ -42,7 +42,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 11}px`,
           }}
         />
-        <div className="absolute w-48 -left-4 -top-32 -z-10">
+        <div className="absolute w-72 -left-8 -top-44 -z-10">
           {gameState.bumpkin && (
             <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
           )}
@@ -89,7 +89,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
           width: `${PIXEL_SCALE * 11}px`,
         }}
       />
-      <div className="absolute w-48 -left-4 -top-32 -z-10">
+      <div className="absolute w-72 -left-8 -top-44 -z-10">
         {gameState.bumpkin && (
           <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
         )}

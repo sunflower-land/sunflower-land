@@ -1,82 +1,17 @@
-import React, { useContext, useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import { useActor } from "@xstate/react";
+import React, { useContext } from "react";
 
 import { Context } from "features/game/GameProvider";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-
-import { Panel } from "components/ui/Panel";
-
-import goblin from "assets/npcs/goblin_jump.gif";
-import goblinDig from "assets/npcs/goblin_dig.gif";
-import goblinHead from "assets/npcs/goblin_head.png";
-import cauliflowerRice from "assets/sfts/roasted_cauliflower.png";
-import close from "assets/icons/close.png";
-
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import { Field } from "./Field";
-import { Button } from "components/ui/Button";
 
 export const CropZoneFour: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
   const { gameService, selectedItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-
-  const [scrollIntoView] = useScrollIntoView();
-
-  const goToKitchen = () => {
-    setShowModal(false);
-    scrollIntoView(Section.Town);
-  };
-
-  const isUnlocked = state.inventory["Roasted Cauliflower"];
 
   return (
     <>
-      {!isUnlocked ? (
-        <>
-          <img
-            src={goblinDig}
-            className="absolute z-10 hover:img-highlight cursor-pointer -scale-x-100"
-            onClick={() => setShowModal(true)}
-            style={{
-              width: `${GRID_WIDTH_PX * 5}px`,
-              left: `${GRID_WIDTH_PX * 4.8}px`,
-              top: `${GRID_WIDTH_PX * 3}px`,
-            }}
-          />
-        </>
-      ) : (
-        <>
-          <img
-            src={goblin}
-            className="absolute z-10 -scale-x-100"
-            style={{
-              width: `${GRID_WIDTH_PX * 5}px`,
-              left: `${GRID_WIDTH_PX * 4}px`,
-              top: `${GRID_WIDTH_PX * -3.25}px`,
-            }}
-          />
-          <img
-            src={cauliflowerRice}
-            className="absolute z-10"
-            style={{
-              width: `${GRID_WIDTH_PX * 0.8}px`,
-              left: `${GRID_WIDTH_PX * 5.3}px`,
-              top: `${GRID_WIDTH_PX * -1.5}px`,
-            }}
-          />
-        </>
-      )}
-
       <div
         className="absolute flex justify-between flex-col"
-        onClick={!isUnlocked ? () => setShowModal(true) : undefined}
         style={{
           width: `${GRID_WIDTH_PX * 4}px`,
           height: `${GRID_WIDTH_PX * 2.3}px`,
@@ -95,36 +30,6 @@ export const CropZoneFour: React.FC = () => {
           <Field selectedItem={selectedItem} fieldIndex={21} />
         </div>
       </div>
-
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <Panel>
-          <img
-            src={close}
-            className="absolute cursor-pointer z-20"
-            onClick={() => setShowModal(false)}
-            style={{
-              top: `${PIXEL_SCALE * 6}px`,
-              right: `${PIXEL_SCALE * 6}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
-          <div className="flex items-start">
-            <img src={goblinHead} className="w-16 img-highlight mr-2" />
-            <div className="flex-1">
-              <span className="block">
-                I will keep digging until I find some Cauliflowers to roast!
-              </span>
-              <img
-                src={cauliflowerRice}
-                className="w-8 img-highlight float-right mr-1 mb-2"
-              />
-              <Button className="text-sm" onClick={goToKitchen}>
-                Go to the kitchen
-              </Button>
-            </div>
-          </div>
-        </Panel>
-      </Modal>
     </>
   );
 };

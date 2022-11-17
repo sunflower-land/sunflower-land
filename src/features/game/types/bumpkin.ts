@@ -23,6 +23,7 @@ export type BumpkinHair =
   | "Brown Long Hair"
   | "White Long Hair"
   | "Teal Mohawk"
+  | "Red Long Hair"
   | "Blacksmith Hair";
 
 export type BumpkinShirt =
@@ -35,8 +36,10 @@ export type BumpkinShirt =
   | "SFL T-Shirt"
   | "Project Dignity Hoodie"
   | "Developer Hoodie"
-  | "Bumpkin Art Competition Merch";
+  | "Bumpkin Art Competition Merch"
+  | "Fire Shirt";
 
+export type BumpkinCoat = "Chef Apron";
 export type BumpkinTool =
   | "Farmer Pitchfork"
   | "Sword"
@@ -45,9 +48,11 @@ export type BumpkinTool =
   | "Golden Spatula"
   | "Hammer";
 
-export type BumpkinShoe = "Black Farmer Boots" | "Brown Boots" | "Yellow Boots";
-
-export type BumpkinCoat = "Chef Apron";
+export type BumpkinShoe =
+  | "Black Farmer Boots"
+  | "Brown Boots"
+  | "Yellow Boots"
+  | "Bumpkin Boots";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -83,18 +88,6 @@ export type BumpkinItem =
   | BumpkinSecondaryTool
   | BumpkinBackground
   | BumpkinCoat;
-
-export type Release = {
-  releaseDate: number;
-  endDate?: number;
-  supply: number;
-  price: string;
-};
-
-export type BumpkinItemShopDetails = {
-  id: number;
-  releases: Release[];
-};
 
 export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Beige Farmer Potion": 1,
@@ -156,6 +149,9 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Developer Hoodie": 62,
   "Blacksmith Hair": 63,
   Hammer: 64,
+  "Bumpkin Boots": 65,
+  "Fire Shirt": 66,
+  "Red Long Hair": 67,
 };
 
 // The reverse of above
@@ -166,6 +162,20 @@ export const ITEM_NAMES: Record<string, BumpkinItem> = Object.assign(
 
 export const IDS = Object.values(ITEM_IDS);
 export const NAMES = Object.keys(ITEM_IDS) as BumpkinItem[];
+
+export type Wallet = {
+  background: BumpkinBackground[];
+  hair: BumpkinHair[];
+  body: BumpkinBody[];
+  shirt: BumpkinShirt[];
+  pants: BumpkinPant[];
+  shoes: BumpkinShoe[];
+  tool: BumpkinTool[];
+  necklace: BumpkinNecklace[];
+  coat: BumpkinCoat[];
+  hat: BumpkinHat[];
+  secondaryTool: BumpkinSecondaryTool[];
+};
 
 export type Equipped = {
   background: BumpkinBackground;
