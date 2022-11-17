@@ -200,8 +200,6 @@ export const IslandList = ({
   // Someone who is visiting without a loaded session
   const unAuthenticatedVisit = authState.matches("visiting");
 
-  console.log({ showVisitList });
-
   const ModalContent = () => {
     // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm
     if (view === "visitForm" || unAuthenticatedVisit) {
