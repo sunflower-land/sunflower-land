@@ -17,6 +17,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SIHFT_PX = -6 * PIXEL_SCALE;
+const INNER_CANVAS_WIDTH = 14;
 
 export interface BoxProps {
   hideCount?: boolean;
@@ -153,8 +154,8 @@ export const Box: React.FC<BoxProps> = ({
         })}
         {...clickEvents}
         style={{
-          width: `${PIXEL_SCALE * 18}px`,
-          height: `${PIXEL_SCALE * 18}px`,
+          width: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
+          height: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
           marginTop: `${PIXEL_SCALE * 3}px`,
           marginBottom: `${PIXEL_SCALE * 2}px`,
           marginLeft: `${PIXEL_SCALE * 2}px`,
@@ -162,39 +163,83 @@ export const Box: React.FC<BoxProps> = ({
           ...pixelDarkBorderStyle,
         }}
       >
-        {secondaryImage ? (
-          <div className="w-full flex">
-            <img src={image} className="w-4/5 object-contain" alt="item" />
+        <div className="absolute flex justify-center items-center w-full h-full">
+          <img
+            src={image}
+            className="absolute object-contain"
+            alt="item"
+            style={{
+              opacity: "0",
+            }}
+            onLoad={(e) => {
+              // get max dimension
+              const width = e.currentTarget?.naturalWidth;
+              const height = e.currentTarget?.naturalHeight;
+              if (!width || !height) {
+                return;
+              }
+              const maxDimension = Math.max(width, height);
 
+              // image scale to match pixel size or fit inner box
+              let scale = 1;
+
+              // scale image to match pixel scale if image is small enough
+              if (maxDimension < INNER_CANVAS_WIDTH) {
+                scale = PIXEL_SCALE;
+              }
+
+              // scale image to fit inner frame if image is scaling image to pixel scale will overflow the inner frame
+              else if (maxDimension < INNER_CANVAS_WIDTH * PIXEL_SCALE) {
+                scale = (PIXEL_SCALE * INNER_CANVAS_WIDTH) / maxDimension;
+              }
+
+              // shrink image to fit inner frame if image is large and height is greater than width
+              else if (height > width) {
+                scale = width / height;
+              }
+
+              // scale and show image
+              e.currentTarget.style.transform = `scale(${scale})`;
+              e.currentTarget.style.opacity = "1";
+            }}
+          />
+
+          {secondaryImage && (
             <img
               src={secondaryImage}
-              className="absolute right-0 bottom-1 w-1/2 h-1/2 object-contain"
+              className="absolute right-0 bottom-0 w-1/2 h-1/2 object-contain"
               alt="crop"
             />
-          </div>
-        ) : (
-          image && (
-            <img
-              src={image}
-              className="h-full w-full object-contain"
-              alt="item"
-            />
-          )
-        )}
+          )}
+        </div>
 
+        {/* Cool down in process overlay */}
         {!locked && cooldownInProgress && (
           <>
-            <div className="absolute h-full w-full object-contain bg-white opacity-30" />
-            <div className="absolute flex items-center justify-center h-full w-full">
-              <img src={timer} alt="item in cooldown period" className="w-4" />
+            <div className="absolute flex justify-center w-full h-full pointer-events-none">
+              <div className="absolute object-contain bg-overlay-white w-full h-full opacity-50" />
+              <img
+                src={timer}
+                alt="item in cooldown period"
+                className="relative object-contain"
+                style={{
+                  width: `${PIXEL_SCALE * 8}px`,
+                }}
+              />
             </div>
           </>
         )}
 
+        {/* Locked icon */}
         {locked && (
           <img
-            src={!cooldownInProgress ? cancel : timer}
-            className="absolute w-6 -top-3 -right-3 px-0.5 z-20"
+            src={cooldownInProgress ? timer : cancel}
+            className="absolute z-20"
+            style={{
+              right: `${PIXEL_SCALE * (cooldownInProgress ? -5 : -6)}px`,
+              top: `${PIXEL_SCALE * (cooldownInProgress ? -6 : -6)}px`,
+              width: `${PIXEL_SCALE * (cooldownInProgress ? 8 : 11)}px`,
+            }}
           />
         )}
 
@@ -235,27 +280,21 @@ export const Box: React.FC<BoxProps> = ({
 
         {/** Overlay icon */}
         {showOverlay && (
-          <div
-            className="absolute bg-overlay-white pointer-events-none flex justify-center items-center"
-            style={{
-              top: `${PIXEL_SCALE * 0}px`,
-              left: `${PIXEL_SCALE * 0}px`,
-              width: `${PIXEL_SCALE * 14}px`,
-              height: `${PIXEL_SCALE * 14}px`,
-            }}
-          >
+          <div className="absolute flex justify-center w-full h-full pointer-events-none">
+            <div className="absolute object-contain bg-overlay-white w-full h-full opacity-50" />
             {overlayIcon}
           </div>
         )}
       </div>
 
+      {/** Selected / hover indicator */}
       {(isSelected || (isHover && !isMobile)) && canClick && (
         <>
           <img
             className="absolute pointer-events-none"
             src={selectBoxBL}
             style={{
-              top: `${PIXEL_SCALE * 14}px`,
+              top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
               left: `${PIXEL_SCALE * 0}px`,
               width: `${PIXEL_SCALE * 8}px`,
             }}
@@ -264,8 +303,8 @@ export const Box: React.FC<BoxProps> = ({
             className="absolute pointer-events-none"
             src={selectBoxBR}
             style={{
-              top: `${PIXEL_SCALE * 14}px`,
-              left: `${PIXEL_SCALE * 14}px`,
+              top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
+              left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
               width: `${PIXEL_SCALE * 8}px`,
             }}
           />
@@ -283,7 +322,7 @@ export const Box: React.FC<BoxProps> = ({
             src={selectBoxTR}
             style={{
               top: `${PIXEL_SCALE * 1}px`,
-              left: `${PIXEL_SCALE * 14}px`,
+              left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
               width: `${PIXEL_SCALE * 8}px`,
             }}
           />
