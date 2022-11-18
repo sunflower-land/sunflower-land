@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import disc from "assets/icons/disc.png";
+import roundButton from "assets/ui/button/round_button.png";
 import hammer from "assets/icons/hammer.png";
 import close from "assets/icons/close.png";
 
@@ -17,12 +17,29 @@ export const Buildings: React.FC = () => {
     <>
       <div
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-[84px] right-2 z-50 flex flex-col items-end cursor-pointer hover:img-highlight"
+        className="fixed z-50 cursor-pointer hover:img-highlight"
+        style={{
+          right: `${PIXEL_SCALE * 3}px`,
+          bottom: `${PIXEL_SCALE * 51}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+        }}
       >
-        <div className="relative w-16 h-16 flex items-center justify-center">
-          <img src={disc} className="w-full absolute inset-0" />
-          <img src={hammer} className="w-9 mb-1 z-10" />
-        </div>
+        <img
+          src={roundButton}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
+        />
+        <img
+          src={hammer}
+          className="absolute"
+          style={{
+            top: `${PIXEL_SCALE * 4}px`,
+            left: `${PIXEL_SCALE * 5}px`,
+            width: `${PIXEL_SCALE * 13}px`,
+          }}
+        />
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel className="relative" hasTabs>

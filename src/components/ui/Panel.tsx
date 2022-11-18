@@ -1,15 +1,18 @@
 import React from "react";
 import classNames from "classnames";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 import {
   pixelDarkBorderStyle,
   pixelLightBordertyle,
 } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Equipped } from "features/game/types/bumpkin";
 
 interface Props {
   className?: string;
   hasTabs?: boolean;
+  bumpkinParts?: Partial<Equipped>;
   style?: React.CSSProperties;
 }
 
@@ -20,12 +23,28 @@ export const Panel: React.FC<Props> = ({
   children,
   className,
   hasTabs,
+  bumpkinParts,
   style,
 }) => {
   return (
-    <OuterPanel className={className} style={style} hasTabs={hasTabs}>
-      <InnerPanel hasTabs={hasTabs}>{children}</InnerPanel>
-    </OuterPanel>
+    <>
+      {bumpkinParts && (
+        <div
+          className="absolute"
+          style={{
+            zIndex: -10,
+            top: `${PIXEL_SCALE * -61}px`,
+            left: `${PIXEL_SCALE * -8}px`,
+            width: `${PIXEL_SCALE * 100}px`,
+          }}
+        >
+          <DynamicNFT bumpkinParts={bumpkinParts} />
+        </div>
+      )}
+      <OuterPanel className={className} style={style} hasTabs={hasTabs}>
+        <InnerPanel hasTabs={hasTabs}>{children}</InnerPanel>
+      </OuterPanel>
+    </>
   );
 };
 

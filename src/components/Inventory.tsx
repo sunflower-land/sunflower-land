@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
 import basket from "assets/icons/basket.png";
-import button from "assets/ui/button/round_button.png";
+import roundButton from "assets/ui/button/round_button.png";
 
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
@@ -15,6 +15,7 @@ import {
   Inventory as InventoryType,
   InventoryItemName,
 } from "features/game/types/game";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   inventory: InventoryType;
@@ -42,18 +43,41 @@ export const Inventory: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-col items-end mr-2 sm:block fixed top-16 right-0 z-50">
+    <div
+      className="flex flex-col items-start mr-2 sm:block fixed z-50"
+      style={{
+        top: `${PIXEL_SCALE * 24}px`,
+        right: `${PIXEL_SCALE * 2}px`,
+      }}
+    >
       <div
-        className="w-16 h-16 sm:mx-8 mt-2 mb-1 relative flex justify-center items-center rounded-full cursor-pointer"
         onClick={handleInventoryClick}
+        className="relative flex flex-col z-50 cursor-pointer hover:img-highlight"
+        style={{
+          marginBottom: `${PIXEL_SCALE * 24}px`,
+          right: `${PIXEL_SCALE * 0}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+        }}
       >
         <img
-          src={button}
-          className="absolute w-full h-full -z-10"
-          alt="inventoryButton"
+          src={roundButton}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
         />
-        <img src={basket} className="w-8 mb-1" alt="inventory" />
-        <Label className="hidden sm:block absolute -bottom-7">Items</Label>
+        <img
+          src={basket}
+          className="absolute"
+          style={{
+            top: `${PIXEL_SCALE * 5}px`,
+            left: `${PIXEL_SCALE * 5}px`,
+            width: `${PIXEL_SCALE * 12}px`,
+          }}
+        />
+      </div>
+      <div className="flex flex-col items-center sm:mt-8">
+        <Label className="hidden sm:block absolute">Items</Label>
       </div>
 
       <Modal centered scrollable show={isOpen} onHide={() => setIsOpen(false)}>

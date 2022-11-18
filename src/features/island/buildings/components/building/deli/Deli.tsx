@@ -93,7 +93,10 @@ export const Deli: React.FC<Props> = ({
         )}
         <img
           src={deli}
-          className="absolute"
+          className={classNames("absolute", {
+            "opacity-100": !crafting,
+            "opacity-80": crafting,
+          })}
           style={{
             width: `${PIXEL_SCALE * 62}px`,
             height: `${PIXEL_SCALE * 54}px`,
@@ -101,10 +104,19 @@ export const Deli: React.FC<Props> = ({
             top: `${PIXEL_SCALE * -3}px`,
           }}
         />
+        <img
+          src={shadow}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            right: `${PIXEL_SCALE * 2.5}px`,
+            bottom: `${PIXEL_SCALE * 14.7}px`,
+          }}
+        />
         {crafting ? (
           <img
             src={artisianDoing}
-            className="absolute z-20 pointer-events-none"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 20}px`,
               right: `${PIXEL_SCALE * 1}px`,
@@ -115,7 +127,7 @@ export const Deli: React.FC<Props> = ({
         ) : (
           <img
             src={artisian}
-            className="absolute z-20 pointer-events-none"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               right: `${PIXEL_SCALE * 1}px`,
@@ -125,15 +137,6 @@ export const Deli: React.FC<Props> = ({
           />
         )}
 
-        <img
-          src={shadow}
-          className="absolute z-10 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            right: `${PIXEL_SCALE * 2.5}px`,
-            bottom: `${PIXEL_SCALE * 14.7}px`,
-          }}
-        />
         {name && (
           <img
             src={ITEM_DETAILS[name].image}

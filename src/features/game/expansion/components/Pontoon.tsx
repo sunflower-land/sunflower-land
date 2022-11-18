@@ -55,6 +55,7 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
         <ProgressBar
           seconds={secondsLeft}
           percentage={secondsLeft / constructionTime}
+          type="progress"
         />
       </div>
     </div>

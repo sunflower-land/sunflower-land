@@ -31,7 +31,7 @@ const DIMENSIONS = {
   height: 48,
   bumpkin: {
     width: 100,
-    marginTop: -45,
+    marginTop: -36,
   },
   level: {
     marginLeft: 108,
@@ -40,25 +40,7 @@ const DIMENSIONS = {
   },
   skillsMark: {
     marginLeft: 116,
-    marginTop: 48,
-  },
-};
-
-const MOBILE_DIMENSIONS = {
-  width: 39,
-  height: 36,
-  bumpkin: {
-    width: 75,
-    marginTop: -34,
-  },
-  level: {
-    marginLeft: 80,
-    marginTop: 54,
-    width: 20,
-  },
-  skillsMark: {
-    marginLeft: 85,
-    marginTop: 25,
+    marginTop: 44,
   },
 };
 
@@ -68,7 +50,7 @@ export const BumpkinProfile: React.FC = () => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const dimensions = MOBILE_DIMENSIONS;
+  const dimensions = DIMENSIONS;
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -129,22 +111,25 @@ export const BumpkinProfile: React.FC = () => {
 
       {/* Bumpkin profile */}
       <div
-        className={`grid cursor-pointer hover:img-highlight fixed left-2.5 z-50  top-8`}
+        className={`grid cursor-pointer hover:img-highlight fixed z-50`}
+        style={{
+          top: `${PIXEL_SCALE * 15}px`,
+          left: `${PIXEL_SCALE * 5}px`,
+        }}
         onClick={handleShowHomeModal}
       >
         <img
           src={profileBg}
-          className="col-start-1 row-start-1 opacity-50"
+          className="col-start-1 row-start-1 opacity-40"
           style={{
-            width: `${dimensions.width * PIXEL_SCALE * 1.07}px`,
-            height: `${dimensions.height * PIXEL_SCALE}px`,
+            width: `${dimensions.width * PIXEL_SCALE}px`,
           }}
         />
         <div
           className="col-start-1 row-start-1 overflow-hidden rounded-b-full z-0"
           style={{
             width: `${dimensions.height * PIXEL_SCALE}px`,
-            height: `${dimensions.height * PIXEL_SCALE * 1.3}px`,
+            height: `${dimensions.height * PIXEL_SCALE * 1.22}px`,
             marginTop: `${dimensions.bumpkin.marginTop}px`,
           }}
         >

@@ -8,7 +8,6 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Tab } from "components/ui/Tab";
 import { IslandList } from "./IslandList";
 import { Bumpkin } from "features/game/types/game";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 interface Props {
   bumpkin: Bumpkin | undefined;
@@ -54,20 +53,19 @@ export const IslandTravel = ({
         onHide={() => setOpenIslandList(false)}
         onShow={onTravelDialogOpened}
       >
-        <div className="absolute w-72 -left-8 -top-44 -z-10">
-          <DynamicNFT
-            bumpkinParts={{
-              body: "Goblin Potion",
-              hair: "Sun Spots",
-              pants: "Brown Suspenders",
-              shirt: "SFL T-Shirt",
-              tool: "Sword",
-              background: "Farm Background",
-              shoes: "Black Farmer Boots",
-            }}
-          />
-        </div>
-        <Panel className="relative" hasTabs>
+        <Panel
+          className="relative"
+          hasTabs
+          bumpkinParts={{
+            body: "Goblin Potion",
+            hair: "Sun Spots",
+            pants: "Brown Suspenders",
+            shirt: "SFL T-Shirt",
+            tool: "Sword",
+            background: "Farm Background",
+            shoes: "Black Farmer Boots",
+          }}
+        >
           <div
             className="absolute flex"
             style={{

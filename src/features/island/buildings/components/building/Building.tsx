@@ -95,7 +95,10 @@ const InProgressBuilding: React.FC<Prop & { onClick: () => void }> = ({
           <BuildingPlaced buildingId={buildingId} />
         </div>
         <div className="absolute bottom-0 w-8 left-1/2 -translate-x-1/2">
-          <Bar percentage={(1 - secondsLeft / totalSeconds) * 100} />
+          <Bar
+            percentage={(1 - secondsLeft / totalSeconds) * 100}
+            type="progress"
+          />
         </div>
       </div>
       {overlayRef.current && (
@@ -111,7 +114,7 @@ const InProgressBuilding: React.FC<Prop & { onClick: () => void }> = ({
 
 export const Building: React.FC<Prop> = ({
   name,
-  building,
+  building, 
   id: buildingId,
 }) => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
@@ -122,7 +125,7 @@ export const Building: React.FC<Prop> = ({
 
   useUiRefresher({ active: inProgress });
 
-  const shortcuts = getShortcuts();
+  const shortcuts = getShortcuts();      
   const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
 
   const handleOnClick = () => {

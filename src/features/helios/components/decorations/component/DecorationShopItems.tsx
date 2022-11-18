@@ -14,7 +14,19 @@ interface Props {
 
 export const DecorationShopItems: React.FC<Props> = ({ onClose }) => {
   return (
-    <Panel className="relative" hasTabs>
+    <Panel
+      className="relative"
+      hasTabs
+      bumpkinParts={{
+        body: "Beige Farmer Potion",
+        hair: "Red Long Hair",
+        pants: "Farmer Overalls",
+        shirt: "Bumpkin Art Competition Merch",
+        tool: "Farmer Pitchfork",
+        background: "Farm Background",
+        shoes: "Black Farmer Boots",
+      }}
+    >
       <div
         className="absolute flex"
         style={{

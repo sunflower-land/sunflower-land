@@ -357,7 +357,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
           className="absolute w-2/5 bottom-1 left-4"
           style={{ zIndex: index + 1 }}
         >
-          <Bar percentage={percentageComplete} />
+          <Bar percentage={percentageComplete} type="progress" />
         </div>
       )}
       {showMutantModal && (
