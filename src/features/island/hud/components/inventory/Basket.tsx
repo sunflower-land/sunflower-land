@@ -130,24 +130,6 @@ export const Basket: React.FC = () => {
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
         className="overflow-y-auto scrollable overflow-x-hidden"
       >
-        {!!resources.length && (
-          <div className="flex flex-col pl-2" key={"Resources"}>
-            {<p className="mb-2 underline">Resources</p>}
-            <div className="flex mb-2 flex-wrap -ml-1.5">
-              {resources.map((item) => (
-                <Box
-                  count={inventory[item]}
-                  isSelected={selectedItem === item}
-                  key={item}
-                  onClick={() => handleItemClick(item)}
-                  image={ITEM_DETAILS[item].image}
-                  parentDivRef={divRef}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
         {!!seeds.length && (
           <div className="flex flex-col pl-2" key={"Seeds"}>
             {<p className="mb-2 underline">Seeds</p>}
@@ -165,11 +147,11 @@ export const Basket: React.FC = () => {
             </div>
           </div>
         )}
-        {!!crops.length && (
-          <div className="flex flex-col pl-2" key={"Crops"}>
-            {<p className="mb-2 underline">Crops</p>}
+        {!!allTools.length && (
+          <div className="flex flex-col pl-2" key={"Tools"}>
+            {<p className="mb-2 underline">Tools</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
-              {crops.map((item) => (
+              {allTools.map((item) => (
                 <Box
                   count={inventory[item]}
                   isSelected={selectedItem === item}
@@ -182,11 +164,28 @@ export const Basket: React.FC = () => {
             </div>
           </div>
         )}
-        {!!allTools.length && (
-          <div className="flex flex-col pl-2" key={"Tools"}>
-            {<p className="mb-2 underline">Tools</p>}
+        {!!resources.length && (
+          <div className="flex flex-col pl-2" key={"Resources"}>
+            {<p className="mb-2 underline">Resources</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
-              {allTools.map((item) => (
+              {resources.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!crops.length && (
+          <div className="flex flex-col pl-2" key={"Crops"}>
+            {<p className="mb-2 underline">Crops</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {crops.map((item) => (
                 <Box
                   count={inventory[item]}
                   isSelected={selectedItem === item}
