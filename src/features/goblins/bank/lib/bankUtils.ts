@@ -15,6 +15,7 @@ import {
 import { CROP_SEEDS } from "features/game/types/crops";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { SKILL_TREE } from "features/game/types/skills";
+import { BUILDINGS } from "features/game/types/buildings";
 
 type CanWithdrawArgs = {
   item: InventoryItemName;
@@ -56,8 +57,17 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
     return false;
   }
 
-  // Coming soon
+  if (item in BUILDINGS()) {
+    return false;
+  }
+
+  // Placed items
+  if (item in game.collectibles) {
+    return false;
+  }
+
   if (item in FOODS()) {
+    // Coming soon
     return false;
   }
 
