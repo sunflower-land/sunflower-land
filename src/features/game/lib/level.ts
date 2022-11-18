@@ -46,16 +46,22 @@ export const LEVEL_BRACKETS: Record<BumpkinLevel, number> = {
   20: 100500,
 };
 
-const MAX_BUMPKIN_LEVEL =
+const MAX_BUMPKIN_LEVEL_BRACKET =
   getKeys(LEVEL_BRACKETS)[getKeys(LEVEL_BRACKETS).length - 1];
+const MAX_BUMPKIN_LEVEL_BRACKET_MINUS_ONE =
+  getKeys(LEVEL_BRACKETS)[getKeys(LEVEL_BRACKETS).length - 2];
+
+export const isMaxLevel = (experience: number): boolean => {
+  return experience >= LEVEL_BRACKETS[MAX_BUMPKIN_LEVEL_BRACKET_MINUS_ONE];
+};
 
 export const getBumpkinLevel = (experience: number): BumpkinLevel => {
   const levels = getKeys(LEVEL_BRACKETS);
   const bumpkinLevel = levels.find(
-    (level) => experience <= LEVEL_BRACKETS[level]
+    (level) => experience < LEVEL_BRACKETS[level]
   );
 
-  return bumpkinLevel ?? MAX_BUMPKIN_LEVEL;
+  return bumpkinLevel ?? MAX_BUMPKIN_LEVEL_BRACKET;
 };
 
 export const getExperienceToNextLevel = (experience: number) => {
