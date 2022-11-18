@@ -147,7 +147,10 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                   <img
                     src={ITEM_DETAILS[name].image}
                     className="absolute"
-                    style={{ opacity: 0 }}
+                    style={{
+                      opacity: 0,
+                      marginBottom: `${PIXEL_SCALE * 0.5}px`,
+                    }}
                     onLoad={(e) => setImageWidth(e.currentTarget)}
                   />
                 </div>
