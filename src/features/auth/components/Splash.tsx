@@ -1,15 +1,14 @@
 import React from "react";
 
-import logo from "assets/brand/logo.png";
-import clouds from "assets/brand/clouds.png";
-import sunflowers from "assets/brand/sunflower_border.png";
-import pumpkin from "assets/crops/pumpkin/crop.png";
-
-import { InnerPanel, Panel } from "components/ui/Panel";
+import ocean from "assets/decorations/ocean.png";
+import sandIslandOne from "assets/decorations/sand_island_one.png";
+import sandIslandTwo from "assets/decorations/sand_island_two.png";
+import sunflowerIslandOne from "assets/decorations/sunflower_island_one.png";
+import watering from "assets/npcs/watering.gif";
+import shadow from "assets/npcs/shadow.png";
 
 import { CONFIG } from "lib/config";
-import { Modal } from "react-bootstrap";
-import classNames from "classnames";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const releaseVersion = CONFIG.RELEASE_VERSION as string;
 
@@ -18,15 +17,64 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
   fadeIn = true,
 }) => {
   return (
-    <div className="bg-blue-600 w-full h-full flex relative items-center justify-center">
-      <div className="relative w-full max-w-xl mb-96 animate-float z-10">
-        <img
-          src={pumpkin}
-          className="absolute w-8 -rotate-[20deg] z-10 -top-5 sm:-left-3 sm:-rotate-[30deg] sm:w-12 sm:-top-7"
-        />
-        <img src={logo} className="w-full" />
-      </div>
-      <div
+    <div
+      className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
+      style={{
+        backgroundImage: `url(${ocean})`,
+        backgroundSize: "200px",
+        imageRendering: "pixelated",
+      }}
+    >
+      <img
+        src={sunflowerIslandOne}
+        style={{
+          width: `${144 * PIXEL_SCALE}px`,
+          top: 0,
+        }}
+        className="absolute"
+      />
+      <img
+        src={sandIslandOne}
+        style={{
+          width: `${87 * PIXEL_SCALE}px`,
+          left: 0,
+          bottom: 0,
+        }}
+        className="absolute"
+      />
+      <img
+        src={sandIslandTwo}
+        style={{
+          width: `${71 * PIXEL_SCALE}px`,
+          right: 0,
+          bottom: 0,
+        }}
+        className="absolute"
+      />
+      <img
+        src={watering}
+        style={{
+          width: `${33 * PIXEL_SCALE}px`,
+          top: `${10 * PIXEL_SCALE}px`,
+          bottom: 0,
+          marginLeft: "168px",
+        }}
+        className="absolute"
+      />
+      <img
+        src={shadow}
+        style={{
+          width: `${15 * PIXEL_SCALE}px`,
+          top: `${22 * PIXEL_SCALE}px`,
+          bottom: 0,
+          marginLeft: "138px",
+        }}
+        className="absolute"
+      />
+      {/* <div className="absolute top-6 w-full max-w-xl animate-float z-10">
+        <img src={logo} className="w-2/3" />
+      </div> */}
+      {/* <div
         className={classNames(
           "bg-repeat w-full h-full absolute inset-0 duration-1000",
           { "opacity-0": fadeIn, "transition-opacity": fadeIn }
@@ -37,8 +85,8 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
           backgroundSize: `70rem 29.4rem`,
           imageRendering: "pixelated",
         }}
-      />
-      {fadeIn && (
+      /> */}
+      {/* {fadeIn && (
         <img
           className="opacity-0 absolute hidden"
           src={clouds}
@@ -46,16 +94,16 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
             document.getElementById("clouds")?.classList.add("opacity-100");
           }}
         />
-      )}
-      {children && (
+      )} */}
+      {/* {children && (
         <Modal show={!!children} centered>
           <Panel className="text-shadow">{children}</Panel>
         </Modal>
-      )}
-      <img src={sunflowers} className="absolute w-full bottom-0" />
+      )} */}
+      {/* <img src={sunflowers} className="absolute w-full bottom-0" /> */}
 
       {/* z-index must be 1056 or higher to break out of bootstrap modal */}
-      <div
+      {/* <div
         className="absolute bottom-0 right-0 m-1 pointer-events-auto"
         style={{ zIndex: 1100 }}
       >
@@ -71,7 +119,7 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
             </a>
           </p>
         </InnerPanel>
-      </div>
+      </div> */}
     </div>
   );
 };

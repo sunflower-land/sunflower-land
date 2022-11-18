@@ -86,7 +86,7 @@ export const Sign: React.FC<Props> = ({ inventory, id }) => {
           fontSize: "14px",
         }}
       >
-        <p style={{ fontSize: "8px" }}>Land</p>
+        <p style={{ fontSize: "8px", height: "8px" }}>Land</p>
         {id}
       </div>
     </div>
