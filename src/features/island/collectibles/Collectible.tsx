@@ -220,7 +220,7 @@ export const Collectible: React.FC<Prop> = ({
   return (
     <>
       <div
-        className={classNames({
+        className={classNames("h-full", {
           "pointer-events-none": !hasRustyShovelSelected,
         })}
         onClick={handleOnClick}
