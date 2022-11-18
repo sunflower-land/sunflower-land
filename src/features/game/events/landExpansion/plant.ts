@@ -145,13 +145,15 @@ export function getCropYieldAmount({
   crop,
   inventory,
   collectibles,
+  bumpkin,
 }: {
   crop: CropName;
   inventory: Inventory;
   collectibles: Collectibles;
+  bumpkin: Bumpkin;
 }): number {
   let amount = 1;
-
+  const { tool } = bumpkin.equipped;
   if (
     crop === "Cauliflower" &&
     isCollectibleBuilt("Golden Cauliflower", collectibles)
@@ -163,7 +165,10 @@ export function getCropYieldAmount({
     amount *= 1.2;
   }
 
-  if (crop === "Pumpkin" && inventory["Victoria Sisters"]?.gte(1)) {
+  if (
+    crop === "Pumpkin" &&
+    isCollectibleBuilt("Victoria Sisters", collectibles)
+  ) {
     amount *= 1.2;
   }
 
@@ -171,6 +176,10 @@ export function getCropYieldAmount({
     isCollectibleBuilt("Scarecrow", collectibles) ||
     isCollectibleBuilt("Kuebiko", collectibles)
   ) {
+    amount *= 1.2;
+  }
+
+  if (tool === "Parsnip") {
     amount *= 1.2;
   }
 
@@ -253,6 +262,7 @@ export function plant({
         crop: cropName,
         inventory: inventory,
         collectibles,
+        bumpkin,
       }),
     },
   };
