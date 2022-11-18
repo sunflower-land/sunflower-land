@@ -184,6 +184,11 @@ export function getCropYieldAmount({
     amount *= 1.2;
   }
 
+  //Bumpkin Skill boost Master Farmer Skill
+  if (skills["Master Farmer"]) {
+    amount *= 1.1;
+  }
+
   //Bumpkin Wearable boost Parsnip tool
   if (crop === "Parsnip" && tool === "Parsnip") {
     amount *= 1.2;

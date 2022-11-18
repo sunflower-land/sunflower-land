@@ -434,6 +434,42 @@ describe("plant", () => {
     ).toEqual(1.2);
   });
 
+  it("yields 10% more with bumpkin skill Master Farmer", () => {
+    const SKILL_STATE: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        skills: { ...INITIAL_BUMPKIN.skills, "Master Farmer": 1 },
+      },
+    };
+
+    const state = plant({
+      state: {
+        ...SKILL_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          // "Mysterious Parsnip": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        index: 0,
+        expansionIndex: 0,
+        item: "Sunflower Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.expansions[0].plots;
+
+    expect(plots).toBeDefined();
+
+    expect(
+      (plots as Record<number, LandExpansionPlot>)[0].crop?.amount
+    ).toEqual(1.1);
+  });
   it("grows faster with a Nancy placed and ready", () => {
     const state = plant({
       state: {
