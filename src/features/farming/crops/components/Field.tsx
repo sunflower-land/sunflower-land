@@ -21,9 +21,9 @@ import {
 import { Soil } from "./Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import Spritesheet from "components/animation/SpriteAnimator";
-import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "./CropReward";
 import { HARVEST_PROC_ANIMATION } from "../lib/plant";
+import { Bar } from "components/ui/ProgressBar";
 
 interface Props {
   selectedItem?: InventoryItemName;
@@ -258,19 +258,19 @@ export const Field: React.FC<Props> = ({
 
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute -bottom-2 left-1 flex",
+          "transition-opacity pointer-events-none absolute bottom-5 flex",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
           }
         )}
       >
-        <HealthBar percentage={100 - touchCount * 50} />
+        <Bar percentage={100 - touchCount * 50} type="health" />
       </div>
 
       <div
         className={classNames(
-          "transition-opacity absolute -bottom-6 w-full z-20 pointer-events-none flex justify-center",
+          "transition-opacity absolute -bottom-4 w-full z-20 pointer-events-none flex justify-center",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,

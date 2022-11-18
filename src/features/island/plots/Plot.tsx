@@ -21,7 +21,6 @@ import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Soil } from "features/farming/crops/components/Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
-import { HealthBar } from "components/ui/HealthBar";
 import { CropReward } from "features/farming/crops/components/CropReward";
 import { isPlotFertile } from "features/game/events/landExpansion/plant";
 import { Modal } from "react-bootstrap";
@@ -30,6 +29,7 @@ import Spritesheet from "components/animation/SpriteAnimator";
 import { HARVEST_PROC_ANIMATION } from "features/farming/crops/lib/plant";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { Bar } from "components/ui/ProgressBar";
 
 interface Props {
   plotIndex: number;
@@ -340,18 +340,18 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       {/* Health bar for collecting rewards */}
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute z-20",
+          "transition-opacity pointer-events-none absolute",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
           }
         )}
         style={{
-          top: `${PIXEL_SCALE * 13}px`,
+          top: `${PIXEL_SCALE * 9}px`,
           width: `${PIXEL_SCALE * 15}px`,
         }}
       >
-        <HealthBar percentage={100 - touchCount * 50} />
+        <Bar percentage={100 - touchCount * 50} type="health" />
       </div>
 
       {/* Popover */}

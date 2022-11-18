@@ -21,7 +21,6 @@ import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
-import { HealthBar } from "components/ui/HealthBar";
 import { LandExpansionRock } from "features/game/types/game";
 import { MINE_ERRORS } from "features/game/events/stoneMine";
 import { Overlay } from "react-bootstrap";
@@ -29,6 +28,7 @@ import { Label } from "components/ui/Label";
 import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { Bar } from "components/ui/ProgressBar";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -282,14 +282,17 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       {/* Health bar shown when striking */}
       <div
         className={classNames(
-          "absolute top-10 left-1 transition-opacity pointer-events-none",
+          "absolute top-10 left-0 transition-opacity pointer-events-none",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
           }
         )}
       >
-        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
+        <Bar
+          percentage={collecting ? 0 : 100 - (touchCount / 3) * 100}
+          type="health"
+        />
       </div>
       {/* Recovery time panel */}
       {mined && (
