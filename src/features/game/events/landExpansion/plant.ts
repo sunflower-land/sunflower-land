@@ -91,7 +91,7 @@ export const getCropTime = (
   ) {
     seconds = seconds * 0.5;
   }
-
+  //Bumpkin Wearable Boost
   if (crop === "Carrot" && necklace === "Carrot Amulet") {
     seconds = seconds * 0.8;
   }
@@ -153,7 +153,8 @@ export function getCropYieldAmount({
   bumpkin: Bumpkin;
 }): number {
   let amount = 1;
-  const { tool } = bumpkin.equipped;
+  const { skills, equipped } = bumpkin;
+  const { tool, necklace } = equipped;
   if (
     crop === "Cauliflower" &&
     isCollectibleBuilt("Golden Cauliflower", collectibles)
@@ -179,12 +180,22 @@ export function getCropYieldAmount({
     amount *= 1.2;
   }
 
-  if (tool === "Parsnip") {
+  if (inventory.Coder?.gte(1)) {
     amount *= 1.2;
   }
 
-  if (inventory.Coder?.gte(1)) {
+  //Bumpkin Wearable boost Parsnip tool
+  if (crop === "Parsnip" && tool === "Parsnip") {
     amount *= 1.2;
+  }
+
+  //Bumpkin Wearable boost Beetroot Amulet
+  if (crop === "Beetroot" && necklace === "Beetroot Amulet") {
+    amount *= 1.2;
+  }
+  //Bumpkin Wearable boost Sunflower Amulet
+  if (crop === "Sunflower" && necklace === "Sunflower Amulet") {
+    amount *= 1.1;
   }
 
   return amount;
