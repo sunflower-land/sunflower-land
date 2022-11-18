@@ -120,7 +120,7 @@ export const SkillPathDetails: React.FC<Props> = ({
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {showConfirmButton && (
             <div className="flex flex-col">
-              <p className="mx-4 text-center">{`Are you sure you want to claim the ${selectedSkill} skill?`}</p>
+              <p className="mx-4 text-center text-base">{`Are you sure you want to claim the ${selectedSkill} skill?`}</p>
               <div className="flex space-x-1">
                 <Button
                   onClick={() => setShowConfirmButton(false)}
