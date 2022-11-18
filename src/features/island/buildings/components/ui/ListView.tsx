@@ -70,7 +70,7 @@ export const ListView: React.FC<{
               </div>
 
               <div className="flex-1 flex flex-col justify-center">
-                <span className="text-sm">{buildingName}</span>
+                <span className="text-sm mb-1">{buildingName}</span>
 
                 {allBuildingsBuilt && (
                   <div className="flex items-center">

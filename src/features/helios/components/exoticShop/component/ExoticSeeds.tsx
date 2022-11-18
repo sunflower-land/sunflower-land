@@ -146,11 +146,9 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
               // rendering item remenants
               const renderRemenants = () => {
                 if (lessIngredient) {
-                  <RedLabel>
-                    <span className="text-xs text-shadow text-center mt-2 text-red-500">
-                      {`${inventoryAmount}/${requiredAmount}`}
-                    </span>
-                  </RedLabel>;
+                  return (
+                    <RedLabel>{`${inventoryAmount}/${requiredAmount}`}</RedLabel>
+                  );
                 } else {
                   // if inventory items is equal to required items
                   return (

@@ -176,8 +176,8 @@ export const BumpkinProfile: React.FC = () => {
           className={`col-start-1 row-start-1 text-white absolute text-center z-20 text-xs`}
           style={{
             width: `${dimensions.level.width}px`,
-            right: "9px",
-            bottom: "27px",
+            right: "2px",
+            bottom: "38px",
           }}
         >
           {level}

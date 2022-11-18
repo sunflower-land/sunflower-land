@@ -37,53 +37,37 @@ export const Auth: React.FC = () => {
       }
       backdrop={false}
     >
-      <div className="relative mt-44">
-        {/* <img
-          id="curly"
-          src={curly}
-          className="absolute w-54 -top-11 right-20 -z-10 scale-[4]"
-        />
-        <img
-          src={jumpingGoblin}
-          className="absolute w-54 -top-[59px] left-[1rem] -z-10 scale-[4]"
-        /> */}
-
-        <div className="absolute -top-52 sm:-top-64 left-[5%] -z-20 w-full max-w-xl">
-          <img id="logo" src={logo} className="w-[90%]" />
-        </div>
-        <Panel>
-          {(authState.matches({ connected: "loadingFarm" }) ||
-            authState.matches("checkFarm") ||
-            authState.matches("initialising") ||
-            authState.matches({ connected: "checkingSupply" }) ||
-            authState.matches({ connected: "checkingAccess" })) && <Loading />}
-          {authState.matches("idle") && <Connect />}
-          {authState.matches("connecting") && <Loading text="Connecting" />}
-          {authState.matches("signing") && <Signing />}
-          {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
-          {authState.matches({ connected: "supplyReached" }) && (
-            <SupplyReached />
-          )}
-          {authState.matches("oauthorising") && <Loading />}
-          {authState.matches({ connected: "donating" }) && <CreateFarm />}
-          {authState.matches({ connected: "countdown" }) && <Countdown />}
-          {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
-          {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
-          {(authState.matches({ connected: "blacklisted" }) ||
-            authState.matches("blacklisted")) && (
-            <Blacklisted
-              verificationUrl={authState.context.verificationUrl}
-              blacklistStatus={authState.context.blacklistStatus}
-            />
-          )}
-          {authState.matches("exploring") && <VisitFarm />}
-          {authState.matches("unauthorised") && (
-            <ErrorMessage
-              errorCode={authState.context.errorCode as ErrorCode}
-            />
-          )}
-        </Panel>
+      <div className="relative mb-6 -mt-24 left-[5%] -z-20 w-full max-w-xl">
+        <img id="logo" src={logo} className="w-[90%]" />
       </div>
+      <Panel>
+        {(authState.matches({ connected: "loadingFarm" }) ||
+          authState.matches("checkFarm") ||
+          authState.matches("initialising") ||
+          authState.matches({ connected: "checkingSupply" }) ||
+          authState.matches({ connected: "checkingAccess" })) && <Loading />}
+        {authState.matches("idle") && <Connect />}
+        {authState.matches("connecting") && <Loading text="Connecting" />}
+        {authState.matches("signing") && <Signing />}
+        {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
+        {authState.matches({ connected: "supplyReached" }) && <SupplyReached />}
+        {authState.matches("oauthorising") && <Loading />}
+        {authState.matches({ connected: "donating" }) && <CreateFarm />}
+        {authState.matches({ connected: "countdown" }) && <Countdown />}
+        {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
+        {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
+        {(authState.matches({ connected: "blacklisted" }) ||
+          authState.matches("blacklisted")) && (
+          <Blacklisted
+            verificationUrl={authState.context.verificationUrl}
+            blacklistStatus={authState.context.blacklistStatus}
+          />
+        )}
+        {authState.matches("exploring") && <VisitFarm />}
+        {authState.matches("unauthorised") && (
+          <ErrorMessage errorCode={authState.context.errorCode as ErrorCode} />
+        )}
+      </Panel>
     </Modal>
   );
 };
