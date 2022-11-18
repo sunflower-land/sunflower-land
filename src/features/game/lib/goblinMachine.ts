@@ -300,7 +300,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                   target: "minting",
                 },
                 CLOSE_AUCTIONEER: {
-                  target: "playing",
+                  target: "#goblinMachine.playing",
                 },
                 TICK: {
                   actions: assign({
@@ -345,11 +345,6 @@ export function startGoblinVillage(authContext: AuthContext) {
               },
             },
             minting: {
-              on: {
-                CLOSE_AUCTIONEER: {
-                  target: "playing",
-                },
-              },
               invoke: {
                 src: async (context, event) => {
                   const { item, captcha } = event as MintEvent;
