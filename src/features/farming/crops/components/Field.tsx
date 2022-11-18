@@ -287,7 +287,7 @@ export const Field: React.FC<Props> = ({
             style={{
               opacity: 0.1,
             }}
-            className="absolute block inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-30 cursor-pointer"
+            className="absolute block inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-40 cursor-pointer"
             onClick={() => onClick()}
           />
           <img
@@ -296,7 +296,7 @@ export const Field: React.FC<Props> = ({
               opacity: 0.1,
               visibility: "hidden",
             }}
-            className="absolute block inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-20 cursor-pointer"
+            className="absolute block inset-0 w-full opacity-0 sm:group-hover:opacity-100 sm:hover:!opacity-100 z-40 cursor-pointer"
             onClick={() => onClick(true)}
           />
         </>

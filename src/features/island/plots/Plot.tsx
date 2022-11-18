@@ -374,7 +374,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       {playing && (
         <img
           src={selectBox}
-          className={classNames("absolute z-30 cursor-pointer", {
+          className={classNames("absolute z-40 cursor-pointer", {
             "opacity-100": showSelectBox,
             "opacity-0": !showSelectBox,
           })}
