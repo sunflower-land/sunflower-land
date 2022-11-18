@@ -257,10 +257,15 @@ describe("cook", () => {
 describe("getReadyAt", () => {
   it("applies 20% speed boost with Rush Hour skill", () => {
     const now = Date.now();
+    const bumpkin = GAME_STATE.bumpkin;
+
+    if (!bumpkin) return;
+
+    bumpkin.skills = { ...bumpkin.skills, "Rush Hour": 1 };
 
     const time = getReadyAt({
       item: "Boiled Eggs",
-      skills: { "Rush Hour": 1 },
+      bumpkin,
       createdAt: now,
     });
 
