@@ -8,10 +8,6 @@ import { Context } from "features/game/GameProvider";
 import confirm from "assets/icons/confirm.png";
 import cancel from "assets/icons/cancel.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BUILDINGS } from "features/game/types/buildings";
-import { ITEM_DETAILS } from "features/game/types/images";
-import token from "src/assets/icons/token_2.png";
-import { ANIMALS } from "features/game/types/craftables";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 export const PlaceableController: React.FC = () => {
@@ -33,39 +29,6 @@ export const PlaceableController: React.FC = () => {
     }
 
     send("PLACE");
-
-    if (gameService.state.event.type === "building.constructed") {
-      const buildingName = gameService.state.event.name;
-      const building = BUILDINGS()[buildingName];
-      building.ingredients?.forEach((ingredient) => {
-        const item = ITEM_DETAILS[ingredient.item];
-        setToast({
-          icon: item.image,
-          content: `-${ingredient.amount}`,
-        });
-      });
-
-      if (building.sfl.greaterThan(0)) {
-        setToast({
-          icon: token,
-          content: `-${building.sfl}`,
-        });
-      }
-
-      setToast({
-        icon: ITEM_DETAILS[buildingName].image,
-        content: "+1",
-      });
-    } else if (gameService.state.event.type === "chicken.bought") {
-      setToast({
-        icon: token,
-        content: `-${ANIMALS().Chicken.tokenAmount}`,
-      });
-      setToast({
-        icon: ITEM_DETAILS["Chicken"].image,
-        content: "+1",
-      });
-    }
   };
 
   const handleCancelPlacement = () => {
