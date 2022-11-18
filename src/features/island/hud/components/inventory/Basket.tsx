@@ -2,7 +2,11 @@ import React, { useContext, useRef } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  InventoryItemName,
+  FERTILISERS,
+  COUPONS,
+} from "features/game/types/game";
 
 import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 
@@ -81,6 +85,8 @@ export const Basket: React.FC = () => {
   const shovels = getItems(SHOVELS);
   const resources = getItems(RESOURCES);
   const consumables = getItems(CONSUMABLES);
+  const fertilisers = getItems(FERTILISERS);
+  const coupons = getItems(COUPONS);
 
   const allTools = [...tools, ...shovels];
 
@@ -198,6 +204,40 @@ export const Basket: React.FC = () => {
             {<p className="mb-2 underline">Foods</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {consumables.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!fertilisers.length && (
+          <div className="flex flex-col pl-2" key={"fertilisers"}>
+            {<p className="mb-2 underline">Fertilisers</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {fertilisers.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!coupons.length && (
+          <div className="flex flex-col pl-2" key={"coupons"}>
+            {<p className="mb-2 underline">Coupons</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {coupons.map((item) => (
                 <Box
                   count={inventory[item]}
                   isSelected={selectedItem === item}
