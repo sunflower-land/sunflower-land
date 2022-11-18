@@ -6,6 +6,9 @@ import sandIslandTwo from "assets/decorations/sand_island_two.png";
 import sunflowerIslandOne from "assets/decorations/sunflower_island_one.png";
 import watering from "assets/npcs/watering.gif";
 import shadow from "assets/npcs/shadow.png";
+import swimmer from "assets/npcs/swimmer.gif";
+import cossies from "assets/decorations/cossies.png";
+import goblinSwimming from "assets/npcs/goblin_farting.gif";
 
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -30,6 +33,34 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
         style={{
           width: `${144 * PIXEL_SCALE}px`,
           top: 0,
+        }}
+        className="absolute"
+      />
+      <img
+        src={goblinSwimming}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 28}px`,
+          transform: "scaleX(-1)",
+          top: `${70 * PIXEL_SCALE}px`,
+          right: `${70 * PIXEL_SCALE}px`,
+        }}
+      />
+      <img
+        src={swimmer}
+        style={{
+          width: `${16 * PIXEL_SCALE}px`,
+          left: `${40 * PIXEL_SCALE}px`,
+          bottom: `${80 * PIXEL_SCALE}px`,
+        }}
+        className="absolute"
+      />
+      <img
+        src={cossies}
+        style={{
+          width: `${16 * PIXEL_SCALE}px`,
+          left: `${20 * PIXEL_SCALE}px`,
+          bottom: `${80 * PIXEL_SCALE}px`,
         }}
         className="absolute"
       />
