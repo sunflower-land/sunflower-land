@@ -1056,7 +1056,6 @@ export const makeLimitedItemsByName = (
     const id = KNOWN_IDS[name];
     // Get onchain item based on id
     const onChainItem = onChainItems[id];
-    const { tokenAmount } = CRAFTABLES()[name];
 
     if (onChainItem) {
       const {
@@ -1065,24 +1064,26 @@ export const makeLimitedItemsByName = (
         cooldownSeconds,
         maxSupply,
         mintedAt,
+        tokenAmount,
         enabled,
       } = onChainItem;
 
+      const isNewItem = !enabled && Number(maxSupply) === 0;
+
+      //ONLY MAINNET NEEDS INGREDIENTS BUILDING AS TESTNET HAVE DIFFERENT CRAFT STRUCTURE
       // Build ingredients
-      if (ingredientAmounts) {
+      if ((ingredientAmounts && tokenAmount) || ingredientAmounts) {
         const ingredients = ingredientIds?.map((id, index) => ({
           id,
           item: KNOWN_ITEMS[id],
           amount: new Decimal(ingredientAmounts[index]),
         }));
 
-        const isNewItem = !enabled && Number(maxSupply) === 0;
-
         limitedItems[name] = {
           id: onChainItem.mintId,
           name,
           description: items[name].description,
-          tokenAmount,
+          tokenAmount: new Decimal(tokenAmount === undefined ? 0 : tokenAmount),
           maxSupply,
           cooldownSeconds,
           ingredients,
