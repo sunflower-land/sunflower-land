@@ -12,6 +12,7 @@ import { Crops } from "./Crops";
 import { acknowledgeTutorial, hasIntroducedBuilding } from "lib/tutorial";
 import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Equipped } from "features/game/types/bumpkin";
 
 interface Props {
   onClose: () => void;
@@ -29,9 +30,19 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
     setTab("sell");
   };
 
+  const bumpkinParts: Partial<Equipped> = {
+    body: "Beige Farmer Potion",
+    hair: "Rancher Hair",
+    pants: "Farmer Overalls",
+    shirt: "Red Farmer Shirt",
+    tool: "Parsnip",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  };
+
   if (!hasIntroducedBuilding("Market")) {
     return (
-      <Panel className="relative">
+      <Panel className="relative" bumpkinParts={bumpkinParts}>
         Market introduction (TODO)
         <Button onClick={acknowledge}>Continue</Button>
       </Panel>
@@ -39,7 +50,7 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <Panel className="relative" hasTabs>
+    <Panel className="relative" hasTabs bumpkinParts={bumpkinParts}>
       <div
         className="absolute flex"
         style={{

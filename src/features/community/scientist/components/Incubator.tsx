@@ -103,7 +103,7 @@ export const Incubator: React.FC = () => {
         <span className="loading">Loading</span>
       )}
       {machine.matches("no_tadpole_or_incubator") && (
-        <span className="loading">
+        <span className="no-tadpoles mt-3 mb-1">
           You have no tadpoles or active incubators.
         </span>
       )}

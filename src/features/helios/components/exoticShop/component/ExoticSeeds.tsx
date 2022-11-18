@@ -75,7 +75,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
 
     // if (max && inventory[selected.name]?.gt(max)) {
     //   return (
-    //     <span className="text-xs mt-1 text-shadow text-center">
+    //     <span className="text-xs mt-1 text-center">
     //       {`Max ${max} ${selected.name}s`}
     //     </span>
     //   );
@@ -115,7 +115,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
           <Stock item={selected} />
-          <span className="text-shadow text-center">{selected.name}</span>
+          <span className="text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
             className="w-8 sm:w-12 img-highlight mt-1"
@@ -124,7 +124,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
           <div className="border-t border-white w-full mt-2 pt-1">
             <div className="flex justify-center items-center scale-75 sm:scale-100">
               <img src={timer} className="h-5 me-2" />
-              <span className="text-xs text-shadow text-center mt-2">
+              <span className="text-xs text-center mt-2">
                 {secondsToString(selected.plantSeconds, { length: "medium" })}
               </span>
             </div>
@@ -148,10 +148,10 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
                   // if inventory items is less than required items
                   return (
                     <>
-                      <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                      <span className="text-xs text-center mt-2 text-red-500">
                         {`${inventoryAmount}`}
                       </span>
-                      <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                      <span className="text-xs text-center mt-2 text-red-500">
                         {`/${requiredAmount}`}
                       </span>
                     </>
@@ -159,7 +159,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
                 } else {
                   // if inventory items is equal to required items
                   return (
-                    <span className="text-xs text-shadow text-center mt-2">
+                    <span className="text-xs text-center mt-2">
                       {`${requiredAmount}`}
                     </span>
                   );
@@ -179,7 +179,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               <span
-                className={classNames("text-xs text-shadow text-center mt-2", {
+                className={classNames("text-xs text-center mt-2", {
                   "text-red-500": lessFunds(),
                 })}
               >

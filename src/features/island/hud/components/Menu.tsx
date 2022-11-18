@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 
 import { Share } from "components/Share";
 
-import disc from "assets/icons/disc.png";
+import roundButton from "assets/ui/button/round_button.png";
 import questionMark from "assets/icons/expression_confused.png";
 import settings from "assets/icons/settings.png";
 import leftArrow from "assets/icons/arrow_left.png";
@@ -40,7 +40,8 @@ export const Menu = () => {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
-  const [showLogoutModal, setShowSettings] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showLandExpansionModal, setShowLandExpansionModal] = useState(false);
   const [showGoblinModal, setShowGoblinModal] = useState(false);
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
     useState(false);
@@ -62,7 +63,12 @@ export const Menu = () => {
   };
 
   const handleSettingsClick = () => {
-    setShowSettings(true);
+    setShowSettingsModal(true);
+    setMenuOpen(false);
+  };
+
+  const handleLandExpansionClick = () => {
+    setShowLandExpansionModal(true);
     setMenuOpen(false);
   };
 
@@ -99,14 +105,30 @@ export const Menu = () => {
     <>
       {!gameService.state.matches("editing") && (
         <div
-          ref={ref}
-          className={`fixed right-2 z-50 cursor-pointer hover:img-highlight bottom-40`}
           onClick={() => setMenuOpen(true)}
+          className="fixed z-50 cursor-pointer hover:img-highlight"
+          style={{
+            right: `${PIXEL_SCALE * 3}px`,
+            bottom: `${PIXEL_SCALE * 76}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
         >
-          <div className="relative w-16 h-16 flex items-center justify-center">
-            <img src={disc} className="w-full absolute inset-0" />
-            <img src={settings} className="w-8 z-10" />
-          </div>
+          <img
+            src={roundButton}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+            }}
+          />
+          <img
+            src={settings}
+            className="absolute"
+            style={{
+              top: `${PIXEL_SCALE * 4}px`,
+              left: `${PIXEL_SCALE * 4}px`,
+              width: `${PIXEL_SCALE * 14}px`,
+            }}
+          />
         </div>
       )}
 
@@ -152,6 +174,14 @@ export const Menu = () => {
                     onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}
                   >
                     <span className="sm:text-sm flex-1">Community</span>
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button
+                    className="flex justify-between"
+                    onClick={handleLandExpansionClick}
+                  >
+                    <span className="sm:text-sm flex-1">Discord</span>
                   </Button>
                 </li>
                 <li className="p-1">
@@ -208,11 +238,14 @@ export const Menu = () => {
       />
 
       <Settings
-        isOpen={showLogoutModal}
-        onClose={() => setShowSettings(false)}
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
       />
 
-      <LandExpansionRole />
+      <LandExpansionRole
+        isOpen={showLandExpansionModal}
+        onClose={() => setShowLandExpansionModal(false)}
+      />
 
       {showCaptcha && (
         <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>

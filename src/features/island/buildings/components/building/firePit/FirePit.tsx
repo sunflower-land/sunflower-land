@@ -84,6 +84,13 @@ export const FirePit: React.FC<Props> = ({
         className="relative cursor-pointer hover:img-highlight"
         onClick={handleClick}
       >
+        <img
+          src={firePit}
+          className={classNames("w-full", {
+            "opacity-100": !crafting,
+            "opacity-80": crafting,
+          })}
+        />
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}
@@ -108,10 +115,19 @@ export const FirePit: React.FC<Props> = ({
             }}
           />
         )}
+        <img
+          src={shadow}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            top: `${PIXEL_SCALE * 14}px`,
+            left: `${PIXEL_SCALE * 13}px`,
+          }}
+        />
         {crafting ? (
           <img
             src={doing}
-            className="absolute z-20 pointer-events-none"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               top: `${PIXEL_SCALE * 2}px`,
@@ -122,7 +138,7 @@ export const FirePit: React.FC<Props> = ({
         ) : (
           <img
             src={npc}
-            className="absolute z-20 pointer-events-none"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 14}px`,
               top: `${PIXEL_SCALE * 2}px`,
@@ -130,22 +146,6 @@ export const FirePit: React.FC<Props> = ({
             }}
           />
         )}
-        <img
-          src={shadow}
-          className="absolute z-10"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            top: `${PIXEL_SCALE * 14}px`,
-            left: `${PIXEL_SCALE * 13}px`,
-          }}
-        />
-        <img
-          src={firePit}
-          className={classNames("w-full", {
-            "opacity-100": !crafting,
-            "opacity-80": crafting,
-          })}
-        />
       </ClickableBuildingImage>
 
       <FirePitModal

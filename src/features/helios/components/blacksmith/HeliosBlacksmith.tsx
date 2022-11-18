@@ -3,7 +3,6 @@ import React from "react";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import building from "assets/buildings/blacksmith_building.gif";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 
@@ -17,7 +16,7 @@ export const HeliosBlacksmith: React.FC = () => {
   return (
     <>
       <div
-        className="z-10 absolute cursor-pointer hover:img-highlight"
+        className="absolute cursor-pointer hover:img-highlight"
         // TODO some sort of coordinate system
         style={{
           width: `${GRID_WIDTH_PX * 6}px`,
@@ -34,20 +33,17 @@ export const HeliosBlacksmith: React.FC = () => {
         />
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <div className="absolute w-72 -left-8 -top-44 -z-10">
-          <DynamicNFT
-            bumpkinParts={{
-              body: "Beige Farmer Potion",
-              hair: "Blacksmith Hair",
-              pants: "Brown Suspenders",
-              shirt: "Red Farmer Shirt",
-              tool: "Hammer",
-              background: "Farm Background",
-              shoes: "Black Farmer Boots",
-            }}
-          />
-        </div>
-        <Panel>
+        <Panel
+          bumpkinParts={{
+            body: "Beige Farmer Potion",
+            hair: "Blacksmith Hair",
+            pants: "Brown Suspenders",
+            shirt: "Red Farmer Shirt",
+            tool: "Hammer",
+            background: "Farm Background",
+            shoes: "Black Farmer Boots",
+          }}
+        >
           <div className="p-1">
             <p className="mb-4">Coming soon...</p>
           </div>

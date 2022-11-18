@@ -135,7 +135,6 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     description: "They're good for your eyes!",
     tokenAmount: marketRate(0.5),
     ingredients: [],
-    requires: "Pumpkin Soup",
     bumpkinLevel: 2,
   },
   "Cabbage Seed": {
@@ -143,7 +142,6 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     description: "Once a luxury, now a food for many.",
     tokenAmount: marketRate(1),
     ingredients: [],
-    requires: "Pumpkin Soup",
     bumpkinLevel: 3,
   },
   "Beetroot Seed": {
@@ -151,7 +149,6 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     description: "Good for hangovers!",
     tokenAmount: marketRate(2),
     ingredients: [],
-    requires: "Sauerkraut",
     bumpkinLevel: 3,
   },
   "Cauliflower Seed": {
@@ -159,7 +156,6 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     description: "Excellent rice substitute!",
     tokenAmount: marketRate(3),
     ingredients: [],
-    requires: "Sauerkraut",
     bumpkinLevel: 4,
   },
   "Parsnip Seed": {
@@ -167,7 +163,6 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     description: "Not to be mistaken for carrots.",
     tokenAmount: marketRate(5),
     ingredients: [],
-    requires: "Roasted Cauliflower",
     bumpkinLevel: 4,
   },
   "Radish Seed": {
@@ -175,7 +170,6 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     description: "Give it some time, it's worth the wait!",
     tokenAmount: marketRate(7),
     ingredients: [],
-    requires: "Roasted Cauliflower",
     bumpkinLevel: 5,
   },
   "Wheat Seed": {
@@ -183,7 +177,6 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     description: "The most harvested crop in the world.",
     tokenAmount: marketRate(5),
     ingredients: [],
-    requires: "Radish Pie",
     bumpkinLevel: 5,
   },
   "Kale Seed": {
