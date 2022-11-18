@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import alert from "assets/icons/expression_alerted.png";
 import confirm from "assets/icons/confirm.png";
-import disc from "assets/icons/disc.png";
+import disc from "assets/icons/disc_large.png";
 import busyBumpkin from "src/assets/icons/player.png";
 import close from "assets/icons/close.png";
 
@@ -21,6 +21,7 @@ import { shortenCount } from "lib/utils/formatNumber";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { setImageWidth } from "lib/images";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
@@ -123,28 +124,53 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                 key={name}
               >
                 <div
+                  style={{
+                    width: `${PIXEL_SCALE * 22}px`,
+                    height: `${PIXEL_SCALE * 23}px`,
+                  }}
                   onClick={() => setSelected(name)}
                   className={classNames(
-                    "w-14 h-14 flex justify-center items-center p-2.5 rounded-md mr-2 relative cursor-pointer hover:img-highlight",
+                    "flex justify-center items-center p-1 rounded-md mr-2 relative cursor-pointer hover:img-highlight",
                     {
                       "opacity-50": !isAlreadyClaimed && !isComplete,
                       "img-highlight": selected === name,
                     }
                   )}
                 >
-                  <img src={ITEM_DETAILS[name].image} className="h-full z-10" />
-                  <img src={disc} className="absolute inset-0 w-full" />
+                  <img
+                    src={disc}
+                    className="absolute"
+                    style={{
+                      width: `${PIXEL_SCALE * 22}px`,
+                    }}
+                  />
+                  <img
+                    src={ITEM_DETAILS[name].image}
+                    className="absolute"
+                    style={{ opacity: 0 }}
+                    onLoad={(e) => setImageWidth(e.currentTarget)}
+                  />
                 </div>
 
                 <div className="h-10">
                   {isComplete && !isAlreadyClaimed && (
                     <div className="flex flex-1 pr-2 mt-1.5 text-xs flex-wrap justify-center">
-                      <img src={alert} className="h-5 object-fit" />
+                      <img
+                        src={alert}
+                        style={{
+                          width: `${PIXEL_SCALE * 4}px`,
+                        }}
+                      />
                     </div>
                   )}
                   {isAlreadyClaimed && (
                     <div className="flex flex-1 pr-2 mt-1.5 text-xs flex-wrap justify-center">
-                      <img src={confirm} className="h-5 object-fit" />
+                      <img
+                        src={confirm}
+                        style={{
+                          width: `${PIXEL_SCALE * 12}px`,
+                        }}
+                      />
                     </div>
                   )}
                   {!isComplete && !isAlreadyClaimed && (
