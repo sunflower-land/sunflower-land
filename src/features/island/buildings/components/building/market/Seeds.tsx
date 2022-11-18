@@ -24,7 +24,7 @@ import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
 import { hasBoost } from "features/game/expansion/lib/boosts";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
-import { getCropTime } from "features/game/events/plant";
+import { getCropTime } from "features/game/events/landExpansion/plant";
 import { INITIAL_STOCK, PIXEL_SCALE } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
@@ -227,10 +227,18 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
               <img src={timer} className="h-5 me-2" />
               {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
               <span className="text-xs text-shadow text-center mt-2">
-                {secondsToString(getCropTime(crop?.name, inventory), {
-                  length: "medium",
-                  removeTrailingZeros: true,
-                })}
+                {secondsToString(
+                  getCropTime(
+                    crop?.name,
+                    inventory,
+                    collectibles,
+                    state.bumpkin as Bumpkin
+                  ),
+                  {
+                    length: "medium",
+                    removeTrailingZeros: true,
+                  }
+                )}
               </span>
             </div>
             <div className="flex justify-center items-end">
