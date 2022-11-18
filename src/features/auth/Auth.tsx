@@ -17,8 +17,6 @@ import {
   CreateFarm,
 } from "./components";
 
-import jumpingGoblin from "assets/npcs/goblin_jump.gif";
-import curly from "assets/npcs/curly_hair.png";
 import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
 import { SupplyReached } from "./components/SupplyReached";
@@ -40,7 +38,7 @@ export const Auth: React.FC = () => {
       backdrop={false}
     >
       <div className="relative mt-44">
-        <img
+        {/* <img
           id="curly"
           src={curly}
           className="absolute w-54 -top-11 right-20 -z-10 scale-[4]"
@@ -48,10 +46,10 @@ export const Auth: React.FC = () => {
         <img
           src={jumpingGoblin}
           className="absolute w-54 -top-[59px] left-[1rem] -z-10 scale-[4]"
-        />
+        /> */}
 
-        <div className="absolute -top-52 md:-top-56 left-[13%] w-full max-w-xl animate-float z-10">
-          <img id="logo" src={logo} className="w-[70%]" />
+        <div className="absolute -top-52 sm:-top-64 left-[5%] -z-20 w-full max-w-xl">
+          <img id="logo" src={logo} className="w-[90%]" />
         </div>
         <Panel>
           {(authState.matches({ connected: "loadingFarm" }) ||

@@ -1,8 +1,14 @@
 import React from "react";
 
 import ocean from "assets/decorations/ocean.png";
+import sandIslandOne from "assets/decorations/sand_island_one.png";
+import sandIslandTwo from "assets/decorations/sand_island_two.png";
+import sunflowerIslandOne from "assets/decorations/sunflower_island_one.png";
+import watering from "assets/npcs/watering.gif";
+import shadow from "assets/npcs/shadow.png";
 
 import { CONFIG } from "lib/config";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const releaseVersion = CONFIG.RELEASE_VERSION as string;
 
@@ -19,6 +25,52 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
         imageRendering: "pixelated",
       }}
     >
+      <img
+        src={sunflowerIslandOne}
+        style={{
+          width: `${144 * PIXEL_SCALE}px`,
+          top: 0,
+        }}
+        className="absolute"
+      />
+      <img
+        src={sandIslandOne}
+        style={{
+          width: `${87 * PIXEL_SCALE}px`,
+          left: 0,
+          bottom: 0,
+        }}
+        className="absolute"
+      />
+      <img
+        src={sandIslandTwo}
+        style={{
+          width: `${71 * PIXEL_SCALE}px`,
+          right: 0,
+          bottom: 0,
+        }}
+        className="absolute"
+      />
+      <img
+        src={watering}
+        style={{
+          width: `${33 * PIXEL_SCALE}px`,
+          top: `${10 * PIXEL_SCALE}px`,
+          bottom: 0,
+          marginLeft: "168px",
+        }}
+        className="absolute"
+      />
+      <img
+        src={shadow}
+        style={{
+          width: `${15 * PIXEL_SCALE}px`,
+          top: `${22 * PIXEL_SCALE}px`,
+          bottom: 0,
+          marginLeft: "138px",
+        }}
+        className="absolute"
+      />
       {/* <div className="absolute top-6 w-full max-w-xl animate-float z-10">
         <img src={logo} className="w-2/3" />
       </div> */}
