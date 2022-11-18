@@ -67,7 +67,7 @@ const maxItems: Inventory = {
 /**
  * Humanly possible SFL in a single session
  */
-const MAX_SESSION_SFL = 175;
+const MAX_SESSION_SFL = 250;
 
 type checkProgressArgs = ProcessEventArgs & { onChain: GameState };
 
