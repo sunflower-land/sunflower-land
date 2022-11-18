@@ -269,6 +269,48 @@ describe("seedBought", () => {
     expect(state.balance).toEqual(new Decimal(1));
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(1));
   });
+  it("purchases sunflower seeds for free when Sunflower Shield is equipped", () => {
+    const SHIELD_STATE: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          secondaryTool: "Sunflower Shield",
+        },
+      },
+    };
+
+    const state = seedBought({
+      state: {
+        ...SHIELD_STATE,
+        balance: new Decimal(1),
+        inventory: {
+          ...GAME_STATE.inventory,
+          "Sunflower Seed": new Decimal(0),
+        },
+        collectibles: {
+          Kuebiko: [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // Ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        item: "Sunflower Seed",
+        amount: 1,
+        type: "seed.bought",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(1));
+    expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(1));
+  });
 
   it("will not purchase seeds for free if Kuebiko is just in inventory", () => {
     const state = seedBought({
@@ -278,7 +320,6 @@ describe("seedBought", () => {
         inventory: {
           ...GAME_STATE.inventory,
           "Sunflower Seed": new Decimal(0),
-          Kuebiko: new Decimal(1),
         },
       },
       action: {

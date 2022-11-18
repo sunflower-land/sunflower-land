@@ -57,7 +57,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const inventory = state.inventory;
   const collectibles = state.collectibles;
 
-  const price = getBuyPrice(selectedName, selected, inventory, collectibles);
+  const price = getBuyPrice(
+    selectedName,
+    selected,
+    inventory,
+    collectibles,
+    state.bumpkin as Bumpkin
+  );
 
   const buy = (amount = 1) => {
     gameService.send("seed.bought", {
