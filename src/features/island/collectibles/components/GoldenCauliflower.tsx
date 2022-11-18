@@ -20,7 +20,6 @@ export const GoldenCauliflower: React.FC = () => {
           bottom: `${PIXEL_SCALE * 3}px `,
           right: `${PIXEL_SCALE * 2}px `,
         }}
-        className="hover:img-highlight"
         alt="Golden Cauliflower"
       />
     </div>

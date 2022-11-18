@@ -6,7 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 export const FarmCat: React.FC = () => {
   return (
     <div
-      className="absolute hover:img-highlight"
+      className="absolute"
       style={{
         width: `${PIXEL_SCALE * 20}px `,
         left: `${PIXEL_SCALE * -2}px `,

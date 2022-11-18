@@ -11,7 +11,7 @@ export const VictoriaSisters: React.FC = () => {
         width: `${PIXEL_SCALE * 32}px`,
       }}
       alt="Victoria Sisters"
-      className="absolute hover:img-highlight"
+      className="absolute"
     />
   );
 };

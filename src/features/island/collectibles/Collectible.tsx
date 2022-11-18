@@ -221,7 +221,7 @@ export const Collectible: React.FC<Prop> = ({
     <>
       <div
         className={classNames("h-full", {
-          "pointer-events-none": !hasRustyShovelSelected,
+          "cursor-pointer hover:img-highlight": hasRustyShovelSelected,
         })}
         onClick={handleOnClick}
       >

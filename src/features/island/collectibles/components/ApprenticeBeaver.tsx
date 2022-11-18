@@ -13,7 +13,7 @@ export const ApprenticeBeaver: React.FC = () => {
           width: `${PIXEL_SCALE * 15}px`,
           bottom: `${PIXEL_SCALE * 2}px`,
         }}
-        className="absolute hover:img-highlight"
+        className="absolute"
         alt="Apprentice Beaver"
       />
       <img
