@@ -160,7 +160,8 @@ img {
 }
 
 /* Loading ellipsis animation that will be added to the end of text ie Loading... */
-.loading {
+.loading,
+.no-tadpoles {
   display: inline-block;
   overflow: hidden;
   height: 1.5rem;
@@ -174,6 +175,10 @@ img {
   text-align: left;
   content: "\A.\A..\A...";
   animation: ellipsis 1s steps(4) infinite;
+}
+
+.no-tadpoles {
+  height: 2.25rem;
 }
 
 .npc-shadow::after {

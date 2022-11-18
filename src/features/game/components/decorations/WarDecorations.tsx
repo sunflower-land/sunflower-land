@@ -7,7 +7,7 @@ interface Props {
   amount: number;
 }
 export const WarSkulls: React.FC<Props> = ({ amount }) => {
-  const skullCount = Math.min(amount, 5);
+  const skullCount = Math.min(Math.floor(amount), 5);
   return (
     <div
       className="absolute flex flex-wrap justify-center"
@@ -36,7 +36,7 @@ export const WarSkulls: React.FC<Props> = ({ amount }) => {
 };
 
 export const WarTombstone: React.FC<Props> = ({ amount }) => {
-  const count = Math.min(amount, 5);
+  const count = Math.min(Math.floor(amount), 5);
   return (
     <div
       className="absolute flex flex-wrap justify-center"

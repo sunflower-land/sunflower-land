@@ -22,10 +22,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
-import { hasBoost } from "features/game/lib/boosts";
+import { hasBoost } from "features/game/expansion/lib/boosts";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/plant";
-import { INITIAL_STOCK } from "features/game/lib/constants";
+import { INITIAL_STOCK, PIXEL_SCALE } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -105,7 +105,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       setIsTimeBoosted(
         hasBoost({
           item: selectedName,
-          inventory,
+          collectibles,
         })
       ),
     [inventory, selectedName, state.inventory]
@@ -198,8 +198,16 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             key={name}
             onClick={() => setSelectedName(name)}
             image={ITEM_DETAILS[name].image}
-            secondaryImage={
-              isSeedLocked(state.bumpkin, SEEDS()[name]) ? lock : undefined
+            showOverlay={isSeedLocked(state.bumpkin, SEEDS()[name])}
+            overlayIcon={
+              <img
+                src={lock}
+                alt="locked"
+                className="relative object-contain"
+                style={{
+                  width: `${PIXEL_SCALE * 12}px`,
+                }}
+              />
             }
             count={inventory[name]}
           />

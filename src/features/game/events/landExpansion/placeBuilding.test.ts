@@ -1,81 +1,127 @@
 import Decimal from "decimal.js-light";
+import { LEVEL_BRACKETS } from "features/game/lib/level";
 import { TEST_FARM } from "../../lib/constants";
-import { BuildingName } from "../../types/buildings";
+import { BUILDINGS } from "../../types/buildings";
 import { GameState } from "../../types/game";
-import { placeBuilding } from "./placeBuilding";
+import { placeBuilding, PLACE_BUILDING_ERRORS } from "./placeBuilding";
 
-const date = Date.now();
-const GAME_STATE: GameState = TEST_FARM;
+const GAME_STATE: GameState = {
+  ...TEST_FARM,
+  inventory: {},
+  buildings: {},
+};
+
+const waterWell = BUILDINGS()["Water Well"];
+
+const dateNow = Date.now();
+
 describe("Place building", () => {
-  it("Requires a building is not already placed", () => {
+  it("does not place without bumpkin", () => {
+    expect(() =>
+      placeBuilding({
+        state: { ...GAME_STATE, bumpkin: undefined },
+        action: {
+          type: "building.placed",
+          name: "Water Well",
+          coordinates: {
+            x: 2,
+            y: 2,
+          },
+        },
+      })
+    ).toThrow(PLACE_BUILDING_ERRORS.NO_BUMPKIN);
+  });
+  it("does not place if build level is not reached", () => {
     expect(() =>
       placeBuilding({
         state: {
           ...GAME_STATE,
+          bumpkin: {
+            ...GAME_STATE.bumpkin!,
+            experience: LEVEL_BRACKETS[1],
+          },
+        },
+        action: {
+          type: "building.placed",
+          name: "Water Well",
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+        },
+      })
+    ).toThrow(PLACE_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
+  });
+  it("does not place if max building limit is reached", () => {
+    expect(() =>
+      placeBuilding({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...GAME_STATE.bumpkin!,
+            experience: LEVEL_BRACKETS[20],
+          },
           inventory: {
-            "Fire Pit": new Decimal(1),
+            "Water Well": new Decimal(4),
           },
           buildings: {
-            "Fire Pit": [
+            "Water Well": [
               {
-                coordinates: {
-                  x: 1,
-                  y: 1,
-                },
-                createdAt: date,
-                id: "234",
-                readyAt: date + 10 * 1000,
+                coordinates: { x: 1, y: 1 },
+                createdAt: Date.now(),
+                readyAt: Date.now() + 30 * 1000,
+                id: "1",
+              },
+              {
+                coordinates: { x: 3, y: 3 },
+                createdAt: Date.now(),
+                readyAt: Date.now() + 30 * 1000,
+                id: "2",
+              },
+              {
+                coordinates: { x: 1, y: 3 },
+                createdAt: Date.now(),
+                readyAt: Date.now() + 30 * 1000,
+                id: "3",
+              },
+              {
+                coordinates: { x: 3, y: 1 },
+                createdAt: Date.now(),
+                readyAt: Date.now() + 30 * 1000,
+                id: "4",
               },
             ],
           },
         },
-
         action: {
           type: "building.placed",
-          name: "Fire Pit",
+          name: "Water Well",
           coordinates: {
             x: 0,
             y: 0,
           },
         },
       })
-    ).toThrow("This building is already placed");
+    ).toThrow(PLACE_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   });
 
-  it("Requires a building is on the inventory to be placed", () => {
-    expect(() =>
-      placeBuilding({
-        state: {
-          ...GAME_STATE,
-          inventory: {},
-          buildings: {},
-        },
-
-        action: {
-          type: "building.placed",
-          name: "Fire Pit",
-          coordinates: {
-            x: 0,
-            y: 0,
-          },
-        },
-      })
-    ).toThrow("You can't place a building that is not on the inventory");
-  });
-
-  it("Places a building", () => {
+  it("places a building", () => {
     const state = placeBuilding({
       state: {
         ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin!,
+          experience: LEVEL_BRACKETS[20],
+        },
         inventory: {
-          "Fire Pit": new Decimal(1),
+          "Water Well": new Decimal(1),
         },
         buildings: {},
       },
 
       action: {
         type: "building.placed",
-        name: "Fire Pit",
+        name: "Water Well",
         coordinates: {
           x: 0,
           y: 0,
@@ -83,31 +129,35 @@ describe("Place building", () => {
       },
     });
 
-    expect(state.buildings["Fire Pit"]).toHaveLength(1);
+    expect(state.buildings["Water Well"]).toHaveLength(1);
   });
 
-  it("Places multiple Workbenchs", () => {
+  it("places multiple buildings", () => {
     const state = placeBuilding({
       state: {
         ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin!,
+          experience: LEVEL_BRACKETS[20],
+        },
         inventory: {
-          Workbench: new Decimal(2),
+          "Water Well": new Decimal(2),
         },
         buildings: {
-          Workbench: [
+          "Water Well": [
             {
               id: "123",
               coordinates: { x: 1, y: 1 },
-              createdAt: date,
-              readyAt: date,
+              createdAt: dateNow,
+              readyAt: dateNow,
             },
           ],
         },
       },
-      createdAt: date,
+      createdAt: dateNow,
       action: {
         type: "building.placed",
-        name: "Workbench",
+        name: "Water Well",
         coordinates: {
           x: 0,
           y: 0,
@@ -115,41 +165,17 @@ describe("Place building", () => {
       },
     });
 
-    expect(state.buildings["Workbench"]).toHaveLength(2);
-    expect(state.buildings["Workbench"]?.[0]).toEqual({
+    expect(state.buildings["Water Well"]).toHaveLength(2);
+    expect(state.buildings["Water Well"]?.[0]).toEqual({
       id: expect.any(String),
       coordinates: { x: 1, y: 1 },
-      readyAt: date,
-      createdAt: date,
+      readyAt: dateNow,
+      createdAt: dateNow,
     });
-    expect(state.buildings["Workbench"]?.[1]).toEqual({
+    expect(state.buildings["Water Well"]?.[1]).toEqual({
       coordinates: { x: 0, y: 0 },
-      readyAt: date + 5 * 60 * 1000,
-      createdAt: date,
+      readyAt: dateNow + waterWell.constructionSeconds * 1000,
+      createdAt: dateNow,
     });
-  });
-
-  it("Cannot place a crop", () => {
-    expect(() =>
-      placeBuilding({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            Scarecrow: new Decimal(2),
-            Carrot: new Decimal(10),
-          },
-          buildings: {},
-        },
-
-        action: {
-          type: "building.placed",
-          name: "Carrot" as BuildingName,
-          coordinates: {
-            x: 0,
-            y: 0,
-          },
-        },
-      })
-    ).toThrow("You cannot place this item");
   });
 });

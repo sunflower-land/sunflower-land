@@ -93,10 +93,18 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                         ? ITEM_DETAILS[item.name].image
                         : questionMark
                     }
-                    overlayIcon={
-                      <img id="confirm" src={confirm} className="h-6" />
-                    }
                     showOverlay={isFulfilled}
+                    overlayIcon={
+                      <img
+                        src={confirm}
+                        id="confirm"
+                        alt="confirm"
+                        className="relative object-contain"
+                        style={{
+                          width: `${PIXEL_SCALE * 12}px`,
+                        }}
+                      />
+                    }
                     disabled={index > hiddenPositionStart}
                     count={
                       index <= hiddenPositionStart
@@ -160,7 +168,19 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     );
   };
   return (
-    <Panel className="relative" hasTabs>
+    <Panel
+      className="relative"
+      hasTabs
+      bumpkinParts={{
+        body: "Goblin Potion",
+        hair: "Sun Spots",
+        pants: "Lumberjack Overalls",
+        tool: "Golden Spatula",
+        background: "Farm Background",
+        hat: "Chef Hat",
+        shoes: "Black Farmer Boots",
+      }}
+    >
       <div
         className="absolute flex"
         style={{

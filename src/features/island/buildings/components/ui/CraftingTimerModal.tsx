@@ -8,7 +8,6 @@ import close from "assets/icons/close.png";
 import stopwatch from "assets/icons/stopwatch.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
@@ -40,21 +39,18 @@ export const CraftingTimerModal: React.FC<Props> = ({
 
   return (
     <Modal show={show} centered onHide={onClose}>
-      <div className="absolute w-72 -left-8 -top-44 -z-10">
-        <DynamicNFT
-          bumpkinParts={{
-            body: "Beige Farmer Potion",
-            hair: "Buzz Cut",
-            pants: "Farmer Pants",
-            shirt: "Yellow Farmer Shirt",
-            coat: "Chef Apron",
-            tool: "Farmer Pitchfork",
-            background: "Farm Background",
-            shoes: "Black Farmer Boots",
-          }}
-        />
-      </div>
-      <Panel>
+      <Panel
+        bumpkinParts={{
+          body: "Beige Farmer Potion",
+          hair: "Buzz Cut",
+          pants: "Farmer Pants",
+          shirt: "Yellow Farmer Shirt",
+          coat: "Chef Apron",
+          tool: "Farmer Pitchfork",
+          background: "Farm Background",
+          shoes: "Black Farmer Boots",
+        }}
+      >
         <img
           src={close}
           className="absolute cursor-pointer z-20"

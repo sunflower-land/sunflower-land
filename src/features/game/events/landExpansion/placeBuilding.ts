@@ -1,7 +1,14 @@
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import Decimal from "decimal.js-light";
+import { getBumpkinLevel } from "features/game/lib/level";
 import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
+
+export enum PLACE_BUILDING_ERRORS {
+  NO_BUMPKIN = "You do not have a Bumpkin!",
+  NO_UNPLACED_BUILDINGS = "You do not have extra buildings to place from your inventory!",
+  MAX_BUILDINGS_REACHED = "Building limit reached for your bumpkin level!",
+}
 
 export type PlaceBuildingAction = {
   type: "building.placed";
@@ -24,43 +31,44 @@ export function placeBuilding({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-
-  const { bumpkin } = stateCopy;
-  const building = action.name;
-  const buildingsItem = state.buildings[building];
-  const inventoryItem = state.inventory[building];
+  const building = BUILDINGS()[action.name];
+  const bumpkin = stateCopy.bumpkin;
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(PLACE_BUILDING_ERRORS.NO_BUMPKIN);
   }
 
-  if (!inventoryItem) {
-    throw new Error("You can't place a building that is not on the inventory");
+  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+  const buildingsPlaced = stateCopy.buildings[action.name]?.length || 0;
+  const allowedBuildings = building.unlocksAtLevels.filter(
+    (level) => bumpkinLevel >= level
+  ).length;
+
+  if (buildingsPlaced >= allowedBuildings) {
+    throw new Error(PLACE_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   }
 
-  if (buildingsItem && inventoryItem?.lessThanOrEqualTo(buildingsItem.length)) {
-    throw new Error("This building is already placed");
-  }
-
-  if (!(building in BUILDINGS())) {
-    throw new Error("You cannot place this item");
-  }
-
+  const buildingInventory = stateCopy.inventory[action.name] || new Decimal(0);
   const placed = stateCopy.buildings[action.name] || [];
+  const hasUnplacedBuildings = buildingInventory
+    .minus(1)
+    .greaterThanOrEqualTo(placed.length);
+
+  if (!hasUnplacedBuildings) {
+    throw new Error(PLACE_BUILDING_ERRORS.NO_UNPLACED_BUILDINGS);
+  }
 
   const newBuilding: Omit<PlacedItem, "id"> = {
     createdAt: createdAt,
     coordinates: action.coordinates,
-    readyAt: createdAt + 5 * 60 * 1000,
+    readyAt: createdAt + building.constructionSeconds * 1000,
   };
-
-  bumpkin.activity = trackActivity("Building Placed", bumpkin.activity);
 
   return {
     ...stateCopy,
     buildings: {
       ...stateCopy.buildings,
-      [building]: [...placed, newBuilding],
+      [action.name]: [...placed, newBuilding],
     },
   };
 }

@@ -187,6 +187,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                   100 -
                   (secondsLeft / (selected.cooldownSeconds as number)) * 100
                 }
+                type="progress"
               />
             </p>
           </div>
@@ -247,7 +248,11 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
     return (
       <>
         <Button
-          disabled={lessFunds() || lessIngredients()}
+          disabled={
+            lessFunds() ||
+            lessIngredients() ||
+            selected.ingredients === undefined
+          }
           className="text-xs mt-1"
           onClick={() => craft()}
         >

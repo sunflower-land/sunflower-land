@@ -8,7 +8,6 @@ import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Feed } from "./Feed";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 interface Props {
   isOpen: boolean;
@@ -29,10 +28,7 @@ export const FeedModal: React.FC<Props> = ({ isOpen, onFeed, onClose }) => {
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
-      <div className="absolute w-72 -left-8 -top-44 -z-10">
-        {state.bumpkin && <DynamicNFT bumpkinParts={state.bumpkin.equipped} />}
-      </div>
-      <Panel>
+      <Panel bumpkinParts={state.bumpkin?.equipped}>
         <Feed food={availableFood} onFeed={onFeed} onClose={onClose} />
       </Panel>
     </Modal>
