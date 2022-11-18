@@ -357,7 +357,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       {/* Popover */}
       <div
         className={classNames(
-          "transition-opacity absolute top-6 w-full z-20 pointer-events-none flex justify-center",
+          "transition-opacity absolute top-6 w-full z-40 pointer-events-none flex justify-center",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
