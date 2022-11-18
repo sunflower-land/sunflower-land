@@ -284,14 +284,18 @@ export function startGoblinVillage(authContext: AuthContext) {
                     auctioneerSupply: supply.map(Number),
                   };
                 },
-              },
-              onDone: {
-                target: "playing",
-                actions: assign({
-                  auctioneerItems: (_, event) => event.data.auctioneerItems,
-                  auctioneerId: (_, event) => event.data.auctioneerId,
-                  auctioneerSupply: (_, event) => event.data.auctioneerSupply,
-                }),
+                onDone: {
+                  target: "playing",
+                  actions: assign({
+                    auctioneerItems: (_, event) => event.data.auctioneerItems,
+                    auctioneerId: (_, event) => event.data.auctioneerId,
+                    auctioneerSupply: (_, event) => event.data.auctioneerSupply,
+                  }),
+                },
+                onError: {
+                  target: "#goblinMachine.error",
+                  actions: "assignErrorMessage",
+                },
               },
             },
             playing: {
