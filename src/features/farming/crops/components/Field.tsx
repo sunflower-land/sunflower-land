@@ -21,7 +21,7 @@ import {
 import { Soil } from "./Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import Spritesheet from "components/animation/SpriteAnimator";
-import { CropReward } from "./CropReward"; 
+import { CropReward } from "./CropReward";
 import { HARVEST_PROC_ANIMATION } from "../lib/plant";
 import { Bar } from "components/ui/ProgressBar";
 
