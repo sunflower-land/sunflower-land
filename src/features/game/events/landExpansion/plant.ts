@@ -78,7 +78,6 @@ export const getCropTime = (
 ) => {
   const { skills, equipped } = bumpkin;
   const { necklace } = equipped;
-
   let seconds = CROPS()[crop].harvestSeconds;
 
   if (inventory["Seed Specialist"]?.gte(1)) {
