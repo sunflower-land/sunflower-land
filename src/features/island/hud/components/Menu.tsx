@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 
 import { Share } from "components/Share";
 
-import disc from "assets/icons/disc.png";
+import roundButton from "assets/ui/button/round_button.png";
 import questionMark from "assets/icons/expression_confused.png";
 import settings from "assets/icons/settings.png";
 import leftArrow from "assets/icons/arrow_left.png";
@@ -99,14 +99,30 @@ export const Menu = () => {
     <>
       {!gameService.state.matches("editing") && (
         <div
-          ref={ref}
-          className={`fixed right-2 z-50 cursor-pointer hover:img-highlight bottom-40`}
           onClick={() => setMenuOpen(true)}
+          className="fixed z-50 cursor-pointer hover:img-highlight"
+          style={{
+            right: `${PIXEL_SCALE * 3}px`,
+            bottom: `${PIXEL_SCALE * 76}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
         >
-          <div className="relative w-16 h-16 flex items-center justify-center">
-            <img src={disc} className="w-full absolute inset-0" />
-            <img src={settings} className="w-8 z-10" />
-          </div>
+          <img
+            src={roundButton}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+            }}
+          />
+          <img
+            src={settings}
+            className="absolute"
+            style={{
+              top: `${PIXEL_SCALE * 4}px`,
+              left: `${PIXEL_SCALE * 4}px`,
+              width: `${PIXEL_SCALE * 14}px`,
+            }}
+          />
         </div>
       )}
 

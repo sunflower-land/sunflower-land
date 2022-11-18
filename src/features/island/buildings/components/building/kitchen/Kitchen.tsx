@@ -15,6 +15,7 @@ import { BuildingProps } from "../Building";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
 import { ClickableBuildingImage } from "../ClickableBuildingImage";
+import classNames from "classnames";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -85,6 +86,18 @@ export const Kitchen: React.FC<Props> = ({
         }}
         onClick={handleClick}
       >
+        <img
+          src={kitchen}
+          className={classNames("absolute", {
+            "opacity-100": !crafting,
+            "opacity-80": crafting,
+          })}
+          style={{
+            width: `${PIXEL_SCALE * 63}px`,
+            left: `${PIXEL_SCALE * 0.5}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}
@@ -97,15 +110,6 @@ export const Kitchen: React.FC<Props> = ({
             }}
           />
         )}
-        <img
-          src={kitchen}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 63}px`,
-            left: `${PIXEL_SCALE * 0.5}px`,
-            bottom: `${PIXEL_SCALE * 0}px`,
-          }}
-        />
         {crafting && name && (
           <img
             src={ITEM_DETAILS[name].image}
@@ -118,10 +122,19 @@ export const Kitchen: React.FC<Props> = ({
             }}
           />
         )}
+        <img
+          src={shadow}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 15}px`,
+          }}
+        />
         {crafting ? (
           <img
             src={doing}
-            className="absolute z-20"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               bottom: `${PIXEL_SCALE * 8}px`,
@@ -131,7 +144,7 @@ export const Kitchen: React.FC<Props> = ({
         ) : (
           <img
             src={npc}
-            className="absolute z-20 pointer-events-none"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
 
@@ -140,15 +153,6 @@ export const Kitchen: React.FC<Props> = ({
             }}
           />
         )}
-        <img
-          src={shadow}
-          className="absolute z-10 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            bottom: `${PIXEL_SCALE * 6}px`,
-            right: `${PIXEL_SCALE * 15}px`,
-          }}
-        />
       </ClickableBuildingImage>
 
       <KitchenModal

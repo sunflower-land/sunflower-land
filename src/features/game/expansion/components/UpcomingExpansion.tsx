@@ -73,7 +73,7 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
         onHide={() => setShowBumpkinModal(false)}
         centered
       >
-        <Panel>
+        <Panel bumpkinParts={gameState.bumpkin?.equipped}>
           <UpcomingExpansionModal
             gameState={gameState}
             onClose={() => setShowBumpkinModal(false)}

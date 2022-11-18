@@ -6,7 +6,6 @@ import building from "assets/buildings/fertilisers.png";
 import potionMaster from "assets/npcs/potion_master.gif";
 import shadow from "assets/npcs/shadow.png";
 import { Modal } from "react-bootstrap";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Panel } from "components/ui/Panel";
 
 export const Potions: React.FC = () => {
@@ -19,7 +18,7 @@ export const Potions: React.FC = () => {
   return (
     <>
       <div
-        className="z-10 absolute cursor-pointer hover:img-highlight"
+        className="absolute cursor-pointer hover:img-highlight"
         // TODO some sort of coordinate system
         style={{
           width: `${GRID_WIDTH_PX * 6}px`,
@@ -29,21 +28,21 @@ export const Potions: React.FC = () => {
         onClick={handleClick}
       >
         <img
-          src={potionMaster}
-          className="absolute z-20"
-          style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            left: `${PIXEL_SCALE * 17.2}px`,
-            top: `${PIXEL_SCALE * 3.6}px`,
-          }}
-        />
-        <img
           src={shadow}
-          className="absolute z-10"
+          className="absolute"
           style={{
             width: `${PIXEL_SCALE * 14}px`,
             left: `${PIXEL_SCALE * 17.2}px`,
             top: `${PIXEL_SCALE * 15.6}px`,
+          }}
+        />
+        <img
+          src={potionMaster}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 14}px`,
+            left: `${PIXEL_SCALE * 17.2}px`,
+            top: `${PIXEL_SCALE * 3.6}px`,
           }}
         />
         <img
@@ -54,20 +53,17 @@ export const Potions: React.FC = () => {
         />
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <div className="absolute w-72 -left-8 -top-44 -z-10">
-          <DynamicNFT
-            bumpkinParts={{
-              body: "Beige Farmer Potion",
-              hair: "Sun Spots",
-              pants: "Farmer Overalls",
-              shirt: "Red Farmer Shirt",
-              tool: "Farmer Pitchfork",
-              background: "Farm Background",
-              shoes: "Black Farmer Boots",
-            }}
-          />
-        </div>
-        <Panel>
+        <Panel
+          bumpkinParts={{
+            body: "Beige Farmer Potion",
+            hair: "Sun Spots",
+            pants: "Farmer Overalls",
+            shirt: "Red Farmer Shirt",
+            tool: "Farmer Pitchfork",
+            background: "Farm Background",
+            shoes: "Black Farmer Boots",
+          }}
+        >
           <div className="p-1">
             <p className="mb-4">I am the potion master!</p>
             <p>Give me some time to set up shop.</p>

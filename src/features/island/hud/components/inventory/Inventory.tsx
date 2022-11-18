@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
 import basket from "assets/icons/basket.png";
-import button from "assets/ui/button/round_button.png";
+import roundButton from "assets/ui/button/round_button.png";
 
 import { Box } from "components/ui/Box";
 
@@ -11,6 +11,7 @@ import { InventoryItems } from "./InventoryItems";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   state: GameState;
@@ -38,17 +39,38 @@ export const Inventory: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-row-reverse items-center fixed bottom-2 right-2 z-50">
+    <div
+      className="flex flex-row-reverse items-center fixed z-50"
+      style={{
+        right: `${PIXEL_SCALE * 3}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+      }}
+    >
       <div
-        className="w-16 h-16 relative flex justify-center items-center rounded-full cursor-pointer"
         onClick={handleInventoryClick}
+        className="relative flex z-50 cursor-pointer hover:img-highlight"
+        style={{
+          marginLeft: `${PIXEL_SCALE * 2}px`,
+          bottom: `${PIXEL_SCALE * 11.5}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+        }}
       >
         <img
-          src={button}
-          className="absolute w-full h-full -z-10"
-          alt="inventoryButton"
+          src={roundButton}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
         />
-        <img src={basket} className="w-8 mb-1" alt="inventory" />
+        <img
+          src={basket}
+          className="absolute"
+          style={{
+            top: `${PIXEL_SCALE * 5}px`,
+            left: `${PIXEL_SCALE * 5}px`,
+            width: `${PIXEL_SCALE * 12}px`,
+          }}
+        />
       </div>
 
       <Modal centered scrollable show={isOpen} onHide={() => setIsOpen(false)}>

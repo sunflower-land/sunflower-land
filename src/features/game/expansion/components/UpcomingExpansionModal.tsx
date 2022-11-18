@@ -13,7 +13,6 @@ import { Button } from "components/ui/Button";
 import { Ingredients } from "./Ingredients";
 import { secondsToString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { getBumpkinLevel } from "features/game/lib/level";
 
 interface Props {
@@ -42,11 +41,6 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 11}px`,
           }}
         />
-        <div className="absolute w-72 -left-8 -top-44 -z-10">
-          {gameState.bumpkin && (
-            <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
-          )}
-        </div>
         <div className="flex items-start">
           <span className="mr-8">
             More expansions will be available soon...
@@ -89,11 +83,6 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
           width: `${PIXEL_SCALE * 11}px`,
         }}
       />
-      <div className="absolute w-72 -left-8 -top-44 -z-10">
-        {gameState.bumpkin && (
-          <DynamicNFT bumpkinParts={gameState.bumpkin.equipped} />
-        )}
-      </div>
       <div className="flex items-start">
         <div>
           <p className="mr-8">
