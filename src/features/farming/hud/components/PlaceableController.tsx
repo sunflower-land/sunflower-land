@@ -8,11 +8,9 @@ import { Context } from "features/game/GameProvider";
 import confirm from "assets/icons/confirm.png";
 import cancel from "assets/icons/cancel.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
-  const { setToast } = useContext(ToastContext);
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [
