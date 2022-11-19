@@ -22,6 +22,7 @@ import { Deli } from "./deli/Deli";
 import { Modal } from "react-bootstrap";
 import { RemovePlaceableModal } from "features/game/expansion/placeable/RemovePlaceableModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Prop {
   name: BuildingName;
@@ -94,7 +95,12 @@ const InProgressBuilding: React.FC<Prop & { onClick: () => void }> = ({
         <div className="w-full h-full pointer-events-none opacity-50">
           <BuildingPlaced buildingId={buildingId} />
         </div>
-        <div className="absolute bottom-0 w-8 left-1/2 -translate-x-1/2">
+        <div
+          className="absolute bottom-0 left-1/2"
+          style={{
+            marginLeft: `${PIXEL_SCALE * -8}px`,
+          }}
+        >
           <Bar
             percentage={(1 - secondsLeft / totalSeconds) * 100}
             type="progress"
@@ -114,7 +120,7 @@ const InProgressBuilding: React.FC<Prop & { onClick: () => void }> = ({
 
 export const Building: React.FC<Prop> = ({
   name,
-  building, 
+  building,
   id: buildingId,
 }) => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
@@ -125,7 +131,7 @@ export const Building: React.FC<Prop> = ({
 
   useUiRefresher({ active: inProgress });
 
-  const shortcuts = getShortcuts();      
+  const shortcuts = getShortcuts();
   const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
 
   const handleOnClick = () => {

@@ -10,6 +10,9 @@ import level7 from "assets/land/levels/level_7.png";
 import level8 from "assets/land/levels/level_8.png";
 import level9 from "assets/land/levels/level_9.png";
 import level10 from "assets/land/levels/level_10.png";
+import level11 from "assets/land/levels/level_11.png";
+import level12 from "assets/land/levels/level_12.png";
+import level13 from "assets/land/levels/level_13.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { LandExpansion } from "features/game/types/game";
@@ -32,6 +35,9 @@ const LEVEL_IMAGES: Record<number, string> = {
   8: level8,
   9: level9,
   10: level10,
+  11: level11,
+  12: level12,
+  13: level13,
 };
 
 export const LandBase: React.FC<Props> = ({ expansions }) => {

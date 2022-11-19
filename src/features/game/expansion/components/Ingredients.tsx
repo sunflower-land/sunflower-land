@@ -7,6 +7,7 @@ import token from "assets/icons/token_2.png";
 import { Ingredient } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { RedLabel } from "components/ui/RedLabel";
 
 export interface Props {
   gameState: GameState;
@@ -30,15 +31,13 @@ export const Ingredients: React.FC<Props> = ({ gameState, resources, sfl }) => {
         return (
           <div className="flex items-center mb-1" key={index}>
             <img src={item.image} className="h-6 mr-2" />
-            <span
-              className={classNames("text-sm text-shadow text-center ", {
-                "text-red-500": isMissingIngredient,
-              })}
-            >
-              {isMissingIngredient
-                ? `${inventoryAmount}/${requiredAmount}`
-                : `${requiredAmount}`}
-            </span>
+            {isMissingIngredient ? (
+              <RedLabel>{`${inventoryAmount}/${requiredAmount}`}</RedLabel>
+            ) : (
+              <span className={classNames("text-sm text-shadow text-center ")}>
+                {requiredAmount}
+              </span>
+            )}
           </div>
         );
       })}
@@ -46,13 +45,15 @@ export const Ingredients: React.FC<Props> = ({ gameState, resources, sfl }) => {
       {sfl && sfl.gt(0) && (
         <div className="flex  items-center">
           <img src={token} className="h-6 mr-2" />
-          <span
-            className={classNames("text-sm text-shadow text-center ", {
-              "text-red-500": gameState.balance.lessThan(sfl),
-            })}
-          >
-            {`${sfl.toNumber()} SFL`}
-          </span>
+          {gameState.balance.lessThan(sfl) ? (
+            <RedLabel>{`${sfl.toNumber()} SFL`}</RedLabel>
+          ) : (
+            <span
+              className={classNames("text-sm text-shadow text-center ", {})}
+            >
+              {`${sfl.toNumber()} SFL`}
+            </span>
+          )}
         </div>
       )}
     </div>

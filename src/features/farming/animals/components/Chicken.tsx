@@ -69,7 +69,7 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
         }
       )}
     >
-      <div className="text-[8px] text-white mx-1">
+      <div className="text-xs text-white mx-1">
         <span>
           {secondsToString(context.timeToEgg - context.timeElapsed, {
             length: "medium",
@@ -354,8 +354,8 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
       )}
       {showEggProgress && (
         <div
-          className="absolute w-2/5 bottom-1 left-4"
-          style={{ zIndex: index + 1 }}
+          className="absolute bottom-4 left-4"
+          style={{ zIndex: index + 1, transform: "scale(0.7)" }}
         >
           <Bar percentage={percentageComplete} type="progress" />
         </div>

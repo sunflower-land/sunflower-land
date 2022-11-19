@@ -366,7 +366,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       {/* Popover */}
       <div
         className={classNames(
-          "transition-opacity absolute top-6 w-full z-20 pointer-events-none flex justify-center",
+          "transition-opacity absolute top-6 w-full z-40 pointer-events-none flex justify-center",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
@@ -383,7 +383,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       {playing && (
         <img
           src={selectBox}
-          className={classNames("absolute z-30 cursor-pointer", {
+          className={classNames("absolute z-40 cursor-pointer", {
             "opacity-100": showSelectBox,
             "opacity-0": !showSelectBox,
           })}
