@@ -310,6 +310,7 @@ describe("seedBought", () => {
         inventory: {
           ...GAME_STATE.inventory,
           "Sunflower Seed": new Decimal(0),
+          Kuebiko: new Decimal(1),
         },
       },
       action: {
