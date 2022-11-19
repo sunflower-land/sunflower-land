@@ -857,8 +857,7 @@ export const ITEM_DETAILS: Items = {
     image: ticket,
   },
   "War Bond": {
-    description:
-      "A mark of a true warrior. Exchange at Goblin village for rare items.",
+    description: "A mark of a true warrior",
     image: warBond,
   },
   "Goblin War Point": {
