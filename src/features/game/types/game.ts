@@ -19,7 +19,7 @@ import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 import { FruitName } from "features/island/fruit/FruitPatch";
-import { BeanName } from "./beans";
+import { BeanName, MutantCropName } from "./beans";
 import { FruitSeedName } from "./fruits";
 
 export type CropReward = {
@@ -135,6 +135,7 @@ export type InventoryItemName =
   | CropName
   | CropSeedName
   | BeanName
+  | MutantCropName
   | FruitName
   | FruitSeedName
   | CraftableName

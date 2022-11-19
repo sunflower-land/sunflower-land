@@ -1494,4 +1494,29 @@ export const ITEM_DETAILS: Items = {
     image: prizedPotato,
     description: GOBLIN_RETREAT_ITEMS["Prized Potato"].description,
   },
+
+  "Collosal Crop": {
+    image: questionMark,
+    description: "???",
+  },
+  "Peaceful Potato": {
+    image: questionMark,
+    description: "???",
+  },
+  "Perky Pumpkin": {
+    image: questionMark,
+    description: "???",
+  },
+  "Stellar Sunflower": {
+    image: questionMark,
+    description: "???",
+  },
+  "Potted Potato": {
+    image: questionMark,
+    description: "???",
+  },
+  "Potted Pumpkin": {
+    image: questionMark,
+    description: "???",
+  },
 };

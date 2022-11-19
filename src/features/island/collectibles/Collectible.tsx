@@ -162,6 +162,14 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Golden Bean": Bean,
   "Magic Bean": Bean,
   "Shiny Bean": Bean,
+
+  // TODO
+  "Potted Potato": () => null,
+  "Potted Pumpkin": () => null,
+  "Collosal Crop": () => null,
+  "Peaceful Potato": () => null,
+  "Perky Pumpkin": () => null,
+  "Stellar Sunflower": () => null,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({

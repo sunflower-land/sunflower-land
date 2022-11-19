@@ -44,3 +44,9 @@ export const BEANS: () => Record<BeanName, Bean> = () => ({
     plantSeconds: 4 * 24 * 60 * 60,
   },
 });
+
+export type MutantCropName =
+  | "Stellar Sunflower"
+  | "Peaceful Potato"
+  | "Perky Pumpkin"
+  | "Collosal Crop";
