@@ -282,11 +282,7 @@ const getIslandElements = ({
               height={height}
               width={width}
             >
-              <Building
-                id={building.id}
-                building={building}
-                name={name as BuildingName}
-              />
+              <Building building={building} name={name as BuildingName} />
             </MapPlacement>
           );
         });

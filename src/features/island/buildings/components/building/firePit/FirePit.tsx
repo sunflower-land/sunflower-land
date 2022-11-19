@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import firePit from "assets/buildings/fire_pit.png";
 import npc from "assets/npcs/cook.gif";
@@ -14,7 +14,7 @@ import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
 import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ClickableBuildingImage } from "../ClickableBuildingImage";
+import { BuildingImageWrapper } from "../BuildingImageWrapper";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -25,13 +25,16 @@ export const FirePit: React.FC<Props> = ({
   ready,
   name,
   craftingService,
+  isBuilt,
   handleShowCraftingTimer,
+  onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  if (!craftingService || !handleShowCraftingTimer)
-    return <img src={firePit} className="w-full" />;
+  if (!craftingService || !handleShowCraftingTimer) {
+    return null;
+  }
 
   const handleCook = (item: ConsumableName) => {
     craftingService.send({
@@ -59,42 +62,48 @@ export const FirePit: React.FC<Props> = ({
     });
   };
 
-  const handleClick = (e: SyntheticEvent) => {
-    e.stopPropagation();
-
-    if (idle) {
-      setShowModal(true);
+  const handleClick = () => {
+    if (onRemove) {
+      onRemove();
       return;
     }
 
-    if (crafting) {
-      handleShowCraftingTimer();
-      return;
-    }
+    if (isBuilt) {
+      if (idle) {
+        setShowModal(true);
+        return;
+      }
 
-    if (ready) {
-      handleCollect();
-      return;
+      if (crafting) {
+        handleShowCraftingTimer();
+        return;
+      }
+
+      if (ready) {
+        handleCollect();
+        return;
+      }
     }
   };
 
   return (
     <>
-      <ClickableBuildingImage
-        className="relative cursor-pointer hover:img-highlight"
-        onClick={handleClick}
-      >
+      <BuildingImageWrapper onClick={handleClick}>
         <img
           src={firePit}
-          className={classNames("w-full", {
+          className={classNames("absolute bottom-0", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
+          style={{
+            width: `${PIXEL_SCALE * 47}px`,
+            height: `${PIXEL_SCALE * 33}px`,
+          }}
         />
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 img-highlight-heavy pointer-events-none"
+            className="absolute z-30 img-highlight-heavy"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -106,7 +115,7 @@ export const FirePit: React.FC<Props> = ({
         {crafting && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 pointer-events-none"
+            className="absolute z-30"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -117,7 +126,7 @@ export const FirePit: React.FC<Props> = ({
         )}
         <img
           src={shadow}
-          className="absolute pointer-events-none"
+          className="absolute"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             top: `${PIXEL_SCALE * 14}px`,
@@ -127,7 +136,7 @@ export const FirePit: React.FC<Props> = ({
         {crafting ? (
           <img
             src={doing}
-            className="absolute pointer-events-none"
+            className="absolute"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               top: `${PIXEL_SCALE * 2}px`,
@@ -138,7 +147,7 @@ export const FirePit: React.FC<Props> = ({
         ) : (
           <img
             src={npc}
-            className="absolute pointer-events-none"
+            className="absolute"
             style={{
               width: `${PIXEL_SCALE * 14}px`,
               top: `${PIXEL_SCALE * 2}px`,
@@ -146,7 +155,7 @@ export const FirePit: React.FC<Props> = ({
             }}
           />
         )}
-      </ClickableBuildingImage>
+      </BuildingImageWrapper>
 
       <FirePitModal
         isOpen={showModal}

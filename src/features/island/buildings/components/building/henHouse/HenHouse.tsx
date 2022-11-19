@@ -1,42 +1,49 @@
-import React, { SyntheticEvent } from "react";
+import React from "react";
+import { Modal } from "react-bootstrap";
 
 import building from "assets/buildings/hen_house.png";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Modal } from "react-bootstrap";
-import { HenHouseModal } from "./components/HenHouseModal";
-import { ClickableBuildingImage } from "../ClickableBuildingImage";
 
-export const ChickenHouse: React.FC = () => {
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { HenHouseModal } from "./components/HenHouseModal";
+import { BuildingImageWrapper } from "../BuildingImageWrapper";
+import { BuildingProps } from "../Building";
+
+export const ChickenHouse: React.FC<BuildingProps> = ({
+  isBuilt,
+  onRemove,
+}) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const handleClick = (e: SyntheticEvent) => {
-    e.stopPropagation();
-    setIsOpen(true);
+  const handleClick = () => {
+    if (onRemove) {
+      onRemove();
+      return;
+    }
+
+    if (isBuilt) {
+      setIsOpen(true);
+      return;
+    }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
   };
 
   return (
     <>
-      <ClickableBuildingImage
-        className="relative"
-        style={{
-          width: `${PIXEL_SCALE * 61}px`,
-          height: `${PIXEL_SCALE * 49}px`,
-        }}
-        onClick={handleClick}
-      >
+      <BuildingImageWrapper onClick={handleClick}>
         <img
           src={building}
+          className="absolute bottom-0"
           style={{
             width: `${PIXEL_SCALE * 61}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            bottom: `${PIXEL_SCALE * 2}px`,
+            height: `${PIXEL_SCALE * 49}px`,
           }}
-          id="chicken-house"
-          className="cursor-pointer hover:img-highlight absolute"
         />
-      </ClickableBuildingImage>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <HenHouseModal onClose={() => setIsOpen(false)} />
+      </BuildingImageWrapper>
+      <Modal centered show={isOpen} onHide={handleClose}>
+        <HenHouseModal onClose={handleClose} />
       </Modal>
     </>
   );

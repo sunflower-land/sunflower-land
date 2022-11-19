@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import classNames from "classnames";
 
 import { BuildingName } from "features/game/types/buildings";
 import {
@@ -27,58 +26,62 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 interface Prop {
   name: BuildingName;
   building: IBuilding;
-  id: string;
+  onRemove?: () => void;
 }
 
 export interface BuildingProps {
   buildingId: string;
   craftingState?: BuildingProduct;
+  isBuilt?: boolean;
+  onRemove?: () => void;
 }
 
 export const BUILDING_COMPONENTS: Record<
   BuildingName,
   React.FC<BuildingProps>
 > = {
-  "Fire Pit": ({ buildingId, craftingState }: BuildingProps) => (
+  "Fire Pit": ({
+    buildingId,
+    craftingState,
+    isBuilt,
+    onRemove,
+  }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <FirePit buildingId={buildingId} />
+      <FirePit buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
     </WithCraftingMachine>
   ),
   Workbench: WorkBench,
-  Bakery: ({ buildingId, craftingState }: BuildingProps) => (
+  Bakery: ({ buildingId, craftingState, isBuilt, onRemove }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <Bakery buildingId={buildingId} />
+      <Bakery buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
     </WithCraftingMachine>
   ),
   Market: Market,
   Tent: Tent,
   "Water Well": WaterWell,
   "Hen House": ChickenHouse,
-  Kitchen: ({ buildingId, craftingState }: BuildingProps) => (
+  Kitchen: ({
+    buildingId,
+    craftingState,
+    isBuilt,
+    onRemove,
+  }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <Kitchen buildingId={buildingId} />
+      <Kitchen buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
     </WithCraftingMachine>
   ),
-  Deli: ({ buildingId, craftingState }: BuildingProps) => (
+  Deli: ({ buildingId, craftingState, isBuilt, onRemove }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <Deli buildingId={buildingId} />
+      <Deli buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
     </WithCraftingMachine>
   ),
 };
 
-const InProgressBuilding: React.FC<Prop & { onClick: () => void }> = ({
-  onClick,
-  building,
-  id: buildingId,
-  name,
-}) => {
+const InProgressBuilding: React.FC<Prop> = ({ building, name, onRemove }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
-
-  const shortcuts = getShortcuts();
-  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
 
   const totalSeconds = (building.readyAt - building.createdAt) / 1000;
   const secondsLeft = Math.floor((building.readyAt - Date.now()) / 1000);
@@ -86,26 +89,23 @@ const InProgressBuilding: React.FC<Prop & { onClick: () => void }> = ({
   return (
     <>
       <div
-        className="w-full h-full cursor-pointer"
+        className="w-full h-full opacity-50"
         ref={overlayRef}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
-        onClick={hasRustyShovelSelected ? onClick : undefined}
       >
-        <div className="w-full h-full pointer-events-none opacity-50">
-          <BuildingPlaced buildingId={buildingId} />
-        </div>
-        <div
-          className="absolute bottom-0 left-1/2"
-          style={{
-            marginLeft: `${PIXEL_SCALE * -8}px`,
-          }}
-        >
-          <Bar
-            percentage={(1 - secondsLeft / totalSeconds) * 100}
-            type="progress"
-          />
-        </div>
+        <BuildingPlaced buildingId={building.id} onRemove={onRemove} />
+      </div>
+      <div
+        className="absolute bottom-0 left-1/2"
+        style={{
+          marginLeft: `${PIXEL_SCALE * -8}px`,
+        }}
+      >
+        <Bar
+          percentage={(1 - secondsLeft / totalSeconds) * 100}
+          type="progress"
+        />
       </div>
       {overlayRef.current && (
         <TimeLeftPanel
@@ -118,11 +118,7 @@ const InProgressBuilding: React.FC<Prop & { onClick: () => void }> = ({
   );
 };
 
-export const Building: React.FC<Prop> = ({
-  name,
-  building,
-  id: buildingId,
-}) => {
+export const Building: React.FC<Prop> = ({ name, building }) => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
@@ -134,8 +130,12 @@ export const Building: React.FC<Prop> = ({
   const shortcuts = getShortcuts();
   const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
 
-  const handleOnClick = () => {
+  const handleRemove = () => {
     setShowRemoveModal(true);
+  };
+
+  const handleClose = () => {
+    setShowRemoveModal(false);
   };
 
   /**
@@ -148,42 +148,24 @@ export const Building: React.FC<Prop> = ({
       {inProgress ? (
         <InProgressBuilding
           building={building}
-          id={buildingId}
           name={name}
-          onClick={handleOnClick}
+          onRemove={hasRustyShovelSelected ? handleRemove : undefined}
         />
       ) : (
-        <div
-          className={classNames({
-            "hover:img-highlight cursor-pointer": hasRustyShovelSelected,
-          })}
-          onClick={hasRustyShovelSelected ? handleOnClick : undefined}
-        >
-          <div
-            className={classNames({
-              "pointer-events-none": hasRustyShovelSelected,
-            })}
-          >
-            <BuildingPlaced
-              buildingId={buildingId}
-              craftingState={building.crafting}
-            />
-          </div>
-        </div>
+        <BuildingPlaced
+          buildingId={building.id}
+          craftingState={building.crafting}
+          isBuilt={true}
+          onRemove={hasRustyShovelSelected ? handleRemove : undefined}
+        />
       )}
-      <Modal
-        show={showRemoveModal}
-        centered
-        onHide={() => setShowRemoveModal(false)}
-      >
-        {showRemoveModal && (
-          <RemovePlaceableModal
-            type="building"
-            name={name}
-            placeableId={buildingId}
-            onClose={() => setShowRemoveModal(false)}
-          />
-        )}
+      <Modal show={showRemoveModal} centered onHide={handleClose}>
+        <RemovePlaceableModal
+          type="building"
+          name={name}
+          placeableId={building.id}
+          onClose={handleClose}
+        />
       </Modal>
     </>
   );
