@@ -18,11 +18,11 @@ export const Balance: React.FC<Props> = ({ balance }) => {
       <img
         src={token}
         style={{
-          width: `${PIXEL_SCALE * 10}px`,
+          width: `${PIXEL_SCALE * 14}px`,
         }}
       />
       <span
-        className="text-white text-sm ml-2"
+        className="text-white text-base h-7 ml-2"
         onMouseEnter={() => setIsShown(true)}
         onMouseLeave={() => setIsShown(false)}
       >
