@@ -37,7 +37,7 @@ export const Auth: React.FC = () => {
       }
       backdrop={false}
     >
-      <div className="relative mb-6 -mt-24 left-[5%] -z-20 w-full max-w-xl">
+      <div className="relative mb-6 -mt-44 left-[5%] -z-20 w-full max-w-xl">
         <img id="logo" src={logo} className="w-[90%]" />
       </div>
       <Panel>

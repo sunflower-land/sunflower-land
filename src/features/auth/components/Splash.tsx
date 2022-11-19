@@ -42,8 +42,8 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
         style={{
           width: `${PIXEL_SCALE * 28}px`,
           transform: "scaleX(-1)",
-          top: `${70 * PIXEL_SCALE}px`,
-          right: `${70 * PIXEL_SCALE}px`,
+          bottom: `${40 * PIXEL_SCALE}px`,
+          right: `${45 * PIXEL_SCALE}px`,
         }}
       />
       <img
