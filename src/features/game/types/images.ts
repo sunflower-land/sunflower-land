@@ -1175,7 +1175,7 @@ export const ITEM_DETAILS: Items = {
   },
   Deli: {
     image: deli,
-    description: "Satisfy your appetite with these delicatsen foods!",
+    description: "Satisfy your appetite with these delicatessen foods!",
   },
 
   "Sunflower Amulet": {
