@@ -187,7 +187,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
     setShowMutantModal(false);
 
     setToast({
-      icon: ITEM_DETAILS[chicken.reward?.items[0].name].image,
+      icon: ITEM_DETAILS[chicken.reward?.items[0].name as MutantChicken].image,
       content: "+1",
     });
 
