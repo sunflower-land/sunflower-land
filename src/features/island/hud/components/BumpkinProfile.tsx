@@ -45,14 +45,14 @@ const DIMENSIONS = {
     marginLeft: -20,
   },
   level: {
-    marginTop: 40,
+    marginTop: 39,
     marginLeft: 44,
     width: 12,
-    height: 10,
+    height: 11,
   },
   skillsMark: {
-    marginLeft: 116,
-    marginTop: 44,
+    marginTop: 30,
+    marginLeft: 48,
   },
 };
 
