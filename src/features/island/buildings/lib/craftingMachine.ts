@@ -12,7 +12,13 @@ export interface CraftingContext {
 }
 
 type CraftingState = {
-  value: "loading" | "idle" | "crafting" | "ready";
+  value:
+    | "loading"
+    | "idle"
+    | "crafting"
+    | "checkCrafting"
+    | "ready"
+    | "checkReady";
   context: CraftingContext;
 };
 
@@ -64,9 +70,23 @@ export const craftingMachine = createMachine<
       idle: {
         on: {
           CRAFT: {
-            target: "crafting",
+            target: "checkCrafting",
             actions: ["sendCraftEventToGameMachine", "assignCraftingDetails"],
           },
+        },
+      },
+      checkCrafting: {
+        after: {
+          1: [
+            {
+              target: "idle",
+              cond: "isHoarding",
+              actions: ["clearCraftingDetails"],
+            },
+            {
+              target: "crafting",
+            },
+          ],
         },
       },
       crafting: {
@@ -86,9 +106,23 @@ export const craftingMachine = createMachine<
       ready: {
         on: {
           COLLECT: {
-            target: "idle",
-            actions: ["sendCollectEventToGameMachine", "clearCraftingDetails"],
+            target: "checkReady",
+            actions: ["sendCollectEventToGameMachine"],
           },
+        },
+      },
+      checkReady: {
+        after: {
+          1: [
+            {
+              target: "ready",
+              cond: "isHoarding",
+            },
+            {
+              target: "idle",
+              actions: ["clearCraftingDetails"],
+            },
+          ],
         },
       },
     },
@@ -150,6 +184,9 @@ export const craftingMachine = createMachine<
         return readyAt ? readyAt <= Date.now() : false;
       },
       isCrafting: ({ readyAt }) => (readyAt ? readyAt > Date.now() : false),
+      isHoarding: ({ gameService }) => {
+        return gameService.state.matches("hoarding");
+      },
     },
   }
 );

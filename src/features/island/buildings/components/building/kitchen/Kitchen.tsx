@@ -98,22 +98,12 @@ export const Kitchen: React.FC<Props> = ({
             bottom: `${PIXEL_SCALE * 0}px`,
           }}
         />
-        {ready && name && (
+        {(crafting || ready) && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 img-highlight-heavy pointer-events-none"
-            style={{
-              // TODO - dynamically get correct width
-              width: `${PIXEL_SCALE * 12}px`,
-              bottom: `${PIXEL_SCALE * 10}px`,
-              right: `${PIXEL_SCALE * 2}px`,
-            }}
-          />
-        )}
-        {crafting && name && (
-          <img
-            src={ITEM_DETAILS[name].image}
-            className="absolute z-30 pointer-events-none"
+            className={classNames("absolute z-30 pointer-events-none", {
+              "img-highlight-heavy": ready,
+            })}
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
