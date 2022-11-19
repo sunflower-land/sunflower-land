@@ -8,8 +8,8 @@ export const Connect: React.FC = () => {
 
   return (
     <div className="px-4">
-      <p className="text-xs text-white my-2  text-center italic">
-        Connect to Polygon Blockchain
+      <p className="text-xs text-white mt-2 mb-3  text-center italic">
+        Connect your Web3 wallet to play
       </p>
       <Button
         className="mb-2 py-2 text-sm relative"
@@ -152,10 +152,10 @@ export const Connect: React.FC = () => {
               </g>
             </g>
           </svg>
-          Connect with Metamask
+          Metamask
         </div>
       </Button>
-      <Button className="mb-2 py-2 text-sm relative " disabled>
+      {/* <Button className="mb-2 py-2 text-sm relative " disabled>
         <div className="px-8">
           <svg
             baseProfile="tiny"
@@ -176,9 +176,9 @@ export const Connect: React.FC = () => {
               d="M512.1,692c-99.4,0-180-80.5-180-180s80.6-180,180-180c89.1,0,163.1,65,177.3,150h181.3 c-15.3-184.8-170-330-358.7-330c-198.8,0-360,161.2-360,360s161.2,360,360,360c188.7,0,343.4-145.2,358.7-330H689.3 C675,627,601.2,692,512.1,692z"
             ></path>
           </svg>
-          Connect with Coinbase
+          Coinbase
         </div>
-      </Button>
+      </Button> */}
       <Button className="mb-2 py-2 text-sm relative" disabled>
         <div className="px-8">
           <svg
@@ -193,14 +193,14 @@ export const Connect: React.FC = () => {
               fill="currentColor"
             ></path>
           </svg>
-          Connect with Wallet Connect
+          Wallet Connect
         </div>
       </Button>
 
       <div className="bg-white b-1 w-full h-[1px] my-4" />
       <div className="flex justify-center relative">
-        <span className="text-xs  bg-[#c28669] px-2 absolute  top-[-34px]">
-          Create a wallet with an email
+        <span className="text-xs text-center  bg-[#c28669] px-2 absolute  top-[-34px]">
+          Connect with an email or social login
         </span>
       </div>
       <Button className="mb-2 py-2 text-sm relative" disabled>
@@ -209,7 +209,7 @@ export const Connect: React.FC = () => {
             src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
             className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
           />
-          Connect with Sequence
+          Sequence
         </div>
       </Button>
     </div>

@@ -67,6 +67,7 @@ import { Bar } from "components/ui/ProgressBar";
 import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlaceableModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Prop {
   name: CollectibleName;
@@ -190,7 +191,12 @@ export const Collectible: React.FC<Prop> = ({
           >
             <CollectiblePlaced key={id} />
           </div>
-          <div className="absolute bottom-0 w-8 left-1/2 -translate-x-1/2">
+          <div
+            className="absolute bottom-0 left-1/2"
+            style={{
+              marginLeft: `${PIXEL_SCALE * -8}px`,
+            }}
+          >
             <Bar
               percentage={(1 - secondsLeft / totalSeconds) * 100}
               type="progress"
