@@ -2,12 +2,12 @@ import React, { useState } from "react";
 
 import goblin from "assets/npcs/shovel_seller.gif";
 import shadow from "assets/npcs/shadow.png";
-import sandShovel from "assets/tools/sand_shovel.png";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { ShovelShopItems } from "./ShovelShopItems";
 
 export const ShovelShop: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -56,8 +56,7 @@ export const ShovelShop: React.FC = () => {
           />
         </div>
         <Panel>
-          <p className="mb-4">Buy a shovel and dig for treasure!</p>
-          <img src={sandShovel} className="w-1/4 m-auto my-2" />
+          <ShovelShopItems />
         </Panel>
       </Modal>
     </div>

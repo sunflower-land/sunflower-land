@@ -302,6 +302,12 @@ export type Airdrop = {
   message?: string;
 };
 
+// Mystery Prize reveals
+export type Reveal = {
+  revealedAt: number;
+  id: string;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -324,6 +330,9 @@ export interface GameState {
   inventory: Inventory;
   stock: Inventory;
   stockExpiry: StockExpiry;
+
+  // When an item is burnt, what the prize was
+  mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
 
   farmAddress?: string;
 

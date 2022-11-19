@@ -38,6 +38,7 @@ import rod from "assets/tools/fishing_rod.png";
 import rustyShovel from "assets/tools/rusty_shovel.png";
 import shovel from "assets/tools/shovel.png";
 import powerShovel from "assets/tools/power_shovel.png";
+import sandShovel from "assets/tools/sand_shovel.png";
 
 // NFTs
 import chickenCoop from "assets/sfts/chicken_coop.png";
@@ -604,6 +605,10 @@ export const ITEM_DETAILS: Items = {
   "Power Shovel": {
     ...SHOVELS["Power Shovel"],
     image: powerShovel,
+  },
+  "Sand Shovel": {
+    ...SHOVELS["Sand Shovel"],
+    image: sandShovel,
   },
 
   // NFTs

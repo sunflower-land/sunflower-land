@@ -25,7 +25,6 @@ export const Bean: React.FC<CollectibleProps> = ({
   const timeLeft = plantSeconds - secondsPassed;
 
   const harvest = () => {
-    console.log("Fire");
     gameService.send("REVEAL", {
       event: {
         type: "bean.harvested",
