@@ -24,6 +24,7 @@ import { RESOURCES } from "features/game/types/resources";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONSUMABLES } from "features/game/types/consumables";
+import { KNOWN_IDS } from "features/game/types";
 
 export const ITEM_CARD_MIN_HEIGHT = "148px";
 export const TAB_CONTENT_HEIGHT = 400;
@@ -66,7 +67,7 @@ export const Basket: React.FC = () => {
         className="flex flex-col justify-evenly items-center p-2"
       >
         <img src={basket} className="h-12" alt="Empty Chest" />
-        <span className="text-xs text-shadow text-center mt-2 w-80">
+        <span className="text-xs text-center mt-2 w-80">
           Your basket is empty!
         </span>
       </div>
@@ -97,15 +98,15 @@ export const Basket: React.FC = () => {
           {selectedItem && (
             <div
               style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
-              className="flex flex-col justify-evenly items-center p-2"
+              className="flex flex-col justify-evenly text-center items-center p-2"
             >
-              <span className="text-center text-shadow">{selectedItem}</span>
+              <span>{selectedItem}</span>
               <img
                 src={ITEM_DETAILS[selectedItem].image}
-                className="h-12"
+                className="h-12 mt-2"
                 alt={selectedItem}
               />
-              <span className="text-xs text-shadow text-center mt-2 w-80">
+              <span className="text-xs mt-2 w-80">
                 {ITEM_DETAILS[selectedItem].description}
               </span>
               {!!isSeed(selectedItem) && (
@@ -115,12 +116,22 @@ export const Basket: React.FC = () => {
                     {isTimeBoosted && (
                       <img src={lightning} className="h-6 me-2" />
                     )}
-                    <span className="text-xs text-shadow text-center mt-2 ">
+                    <span className="text-xs mt-2 ">
                       {getCropHarvestTime(selectedItem)}
                     </span>
                   </div>
                 </div>
               )}
+              <div className="flex flex-col items-center justify-center">
+                <a
+                  href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${KNOWN_IDS[selectedItem]}`}
+                  className="underline text-xxs hover:text-blue-500 p-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  OpenSea
+                </a>
+              </div>
             </div>
           )}
         </OuterPanel>

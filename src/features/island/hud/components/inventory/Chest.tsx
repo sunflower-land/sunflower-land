@@ -18,6 +18,7 @@ import chest from "assets/npcs/synced.gif";
 import { Context } from "features/game/GameProvider";
 import { DECORATIONS } from "features/game/types/decorations";
 import { KNOWN_IDS } from "features/game/types";
+import { useActor } from "@xstate/react";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -30,12 +31,14 @@ const TAB_CONTENT_HEIGHT = 400;
 
 export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [scrollIntoView] = useScrollIntoView();
 
   const divRef = useRef<HTMLDivElement>(null);
 
   const chestMap = getChestItems(state);
   const { inventory, collectibles: placedItems } = state;
+  const isVisiting = gameState.matches("visiting");
 
   const collectibles = getKeys(chestMap).reduce((acc, item) => {
     if (
@@ -78,7 +81,7 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
         className="flex flex-col justify-evenly items-center p-2"
       >
         <img src={chest} className="h-12" alt="Empty Chest" />
-        <span className="text-xs text-shadow text-center mt-2 w-80">
+        <span className="text-xs text-center mt-2 w-80">
           Your chest is empty, discover rare items today!
         </span>
       </div>
@@ -92,21 +95,34 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
           <>
             <div
               style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
-              className="flex flex-col justify-evenly items-center p-2"
+              className="flex flex-col justify-evenly text-center items-center p-2"
             >
-              <span className="text-center text-shadow">{selected}</span>
+              <span>{selected}</span>
               <img
                 src={ITEM_DETAILS[selected].image}
-                className="h-12"
+                className="h-12 mt-2"
                 alt={selected}
               />
-              <span className="text-xs text-shadow text-center mt-2 w-80">
+              <span className="text-xs mt-2 w-80">
                 {ITEM_DETAILS[selected].description}
               </span>
             </div>
-            <Button className="text-xs w-full mb-1" onClick={handlePlace}>
-              Place on map
-            </Button>
+            <div className="flex flex-col items-center justify-center">
+              <a
+                href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${KNOWN_IDS[selected]}`}
+                className="underline text-xxs hover:text-blue-500 p-2 mb-2"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                OpenSea
+              </a>
+            </div>
+
+            {!isVisiting && (
+              <Button className="text-xs w-full mb-1" onClick={handlePlace}>
+                Place on map
+              </Button>
+            )}
           </>
         )}
       </OuterPanel>

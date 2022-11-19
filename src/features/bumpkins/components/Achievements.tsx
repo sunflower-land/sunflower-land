@@ -100,7 +100,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
           name={selected as AchievementName}
           onBack={onBack}
           onClaim={claim}
-          gameState={state}
+          state={state}
         />
       </div>
       <div className="w-full mt-2">
