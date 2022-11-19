@@ -78,6 +78,10 @@ export const INITIAL_STOCK: Inventory = {
   "Wheat Cake": new Decimal(1),
 
   "Boiled Eggs": new Decimal(1),
+
+  "Magic Bean": new Decimal(5),
+  "Shiny Bean": new Decimal(5),
+  "Golden Bean": new Decimal(5),
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {

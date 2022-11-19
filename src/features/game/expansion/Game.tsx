@@ -37,6 +37,8 @@ import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 import land from "assets/land/islands/island.png";
 import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
 import { StoneHaven } from "features/stoneHaven/StoneHaven";
+import { Revealing } from "../components/Revealing";
+import { Revealed } from "../components/Revealed";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -66,6 +68,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   loadLandToVisit: true,
   landToVisitNotFound: true,
   checkIsVisiting: false,
+  revealing: true,
+  revealed: true,
 };
 
 export const Game: React.FC = () => {
@@ -224,6 +228,8 @@ export const Game: React.FC = () => {
           {gameState.matches("noBumpkinFound") && <NoBumpkin />}
           {gameState.matches("coolingDown") && <Cooldown />}
           {gameState.matches("gameRules") && <Rules />}
+          {gameState.matches("revealing") && <Revealing />}
+          {gameState.matches("revealed") && <Revealed />}
         </Panel>
       </Modal>
 

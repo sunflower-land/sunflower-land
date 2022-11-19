@@ -8,6 +8,7 @@ import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
 import { OnChainLimitedItems } from "../lib/goblinMachine";
 import { isArray } from "lodash";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
+import { BeanName } from "./beans";
 
 export { FLAGS };
 
@@ -177,6 +178,7 @@ export type CollectibleName =
   | MutantChicken
   | DecorationName
   | GoblinRetreatItemName
+  | BeanName
   | "War Skull"
   | "War Tombstone"
   | "Undead Rooster";
@@ -1204,6 +1206,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Wood Nymph Wendy": { height: 1, width: 1 },
   "Cabbage Boy": { height: 1, width: 1 },
   "Cabbage Girl": { height: 1, width: 1 },
+
+  "Magic Bean": { height: 2, width: 2 },
+  "Shiny Bean": { height: 2, width: 2 },
+  "Golden Bean": { height: 2, width: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

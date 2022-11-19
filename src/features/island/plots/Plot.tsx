@@ -213,6 +213,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
           content: `-1`,
         });
       } catch (e: any) {
+        console.log({ e });
         // TODO - catch more elaborate errors
         displayPopover();
       }
