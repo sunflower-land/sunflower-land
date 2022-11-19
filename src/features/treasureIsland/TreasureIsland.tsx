@@ -1,6 +1,6 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 
 import background from "assets/land/treasure_island.png";
 import { IslandTravelWrapper } from "./components/IslandTravelWrapper";
@@ -9,8 +9,6 @@ import { GoblinDigging } from "./components/GoblinDigging";
 import { ShovelShop } from "./components/ShovelShop";
 
 export const TreasureIsland: React.FC = () => {
-  const container = useRef(null);
-
   const [scrollIntoView] = useScrollIntoView();
 
   useEffect(() => {
