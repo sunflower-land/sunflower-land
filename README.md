@@ -93,10 +93,14 @@ Tailwind is our CSS tool of choice. It enables us to:
 
 Metadata is generated from markdown files.
 
+Prerequisites:
+
+`yarn global add ts-node`
+
 To add new item:
 
 1. Create `{SFT id}.md` file in `metadata\markdown` folder
-2. Add `{SFT id}.png` file to `public\erc1155` folder
+2. Add `{SFT id}.png(gif)` file to `public\erc1155\images` folder
 3. Run `yarn metadata`
 
 # 🗃️ Directory Organization
