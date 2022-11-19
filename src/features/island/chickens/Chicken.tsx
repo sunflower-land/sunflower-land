@@ -131,6 +131,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
 
+  const [feedingChicken, setFeedingChicken] = useState(false);
   const [collectingEgg, setCollectingEgg] = useState(false);
 
   const handleMouseEnter = () => {
@@ -158,6 +159,26 @@ export const Chicken: React.FC<Props> = ({ index }) => {
     }
   };
 
+  // do not feed chicken while hoarding
+  useEffect(() => {
+    if (feedingChicken && !gameState.matches("hoarding")) {
+      service.send("FEED", {
+        fedAt: chicken.fedAt,
+      });
+    }
+
+    setFeedingChicken(false);
+  }, [feedingChicken]);
+
+  // do not show toast and reset chicken state while hoarding
+  useEffect(() => {
+    if (collectingEgg && !gameState.matches("hoarding")) {
+      service.send("COLLECT");
+    }
+
+    setCollectingEgg(false);
+  }, [collectingEgg]);
+
   const feed = async () => {
     const currentWheatAmount = state.inventory.Wheat ?? new Decimal(0);
     const wheatRequired = getWheatRequiredToFeed(state.inventory);
@@ -169,24 +190,16 @@ export const Chicken: React.FC<Props> = ({ index }) => {
       return;
     }
 
-    const {
-      context: {
-        state: { chickens },
-      },
-    } = gameService.send("chicken.feed", {
+    gameService.send("chicken.feed", {
       index,
-    });
-
-    const chicken = chickens[index];
-
-    service.send("FEED", {
-      fedAt: chicken.fedAt,
     });
 
     setToast({
       icon: wheat,
       content: `-${wheatRequired}`,
     });
+
+    setFeedingChicken(true);
   };
 
   const handleCollect = () => {
@@ -202,21 +215,12 @@ export const Chicken: React.FC<Props> = ({ index }) => {
     setShowMutantModal(false);
 
     setToast({
-      icon: ITEM_DETAILS[chicken.reward?.items[0].name].image,
+      icon: ITEM_DETAILS[chicken.reward?.items[0].name as MutantChicken].image,
       content: "+1",
     });
 
     collectEgg();
   };
-
-  // do not show toast and reset chicken state while hoarding
-  useEffect(() => {
-    if (collectingEgg && !gameState.matches("hoarding")) {
-      service.send("COLLECT");
-    }
-
-    setCollectingEgg(false);
-  }, [collectingEgg]);
 
   const collectEgg = () => {
     gameService.send("chicken.collectEgg", {
