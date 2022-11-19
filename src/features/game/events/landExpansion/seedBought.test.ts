@@ -289,17 +289,7 @@ describe("seedBought", () => {
           ...GAME_STATE.inventory,
           "Sunflower Seed": new Decimal(0),
         },
-        collectibles: {
-          Kuebiko: [
-            {
-              id: "123",
-              createdAt: dateNow,
-              coordinates: { x: 1, y: 1 },
-              // Ready at < now
-              readyAt: dateNow - 5 * 60 * 1000,
-            },
-          ],
-        },
+        collectibles: {},
       },
       action: {
         item: "Sunflower Seed",
