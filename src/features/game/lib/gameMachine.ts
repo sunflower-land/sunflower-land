@@ -788,13 +788,22 @@ export function startGame(authContext: Options) {
               // Grab the server side event to fire
               const { event } = e as { event: any; type: "REVEAL" };
 
-              console.log({ e });
-              const actions = [...context.actions, event];
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(authContext.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.rawToken as string,
+                  offset: context.offset,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                });
+              }
 
               const { farm, changeset } = await autosave({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
-                actions,
+                actions: [event],
                 token: authContext.rawToken as string,
                 offset: context.offset,
                 fingerprint: context.fingerprint as string,

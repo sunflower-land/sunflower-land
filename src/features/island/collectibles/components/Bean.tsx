@@ -1,14 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import planted from "assets/crops/bean_planted.png";
 import ready from "assets/crops/bean_ready.png";
+import growing from "assets/crops/bean_growing.png";
 import alerted from "assets/icons/expression_alerted.png";
+import questionMark from "assets/icons/expression_confused.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { BeanName, BEANS } from "features/game/types/beans";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { Modal } from "react-bootstrap";
+import { Panel } from "components/ui/Panel";
+import { secondsToString } from "lib/utils/time";
 
 export const Bean: React.FC<CollectibleProps> = ({
   createdAt,
@@ -16,7 +20,7 @@ export const Bean: React.FC<CollectibleProps> = ({
   name = "Magic Bean",
 }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const [showModal, setShowModal] = useState(false);
 
   const plantSeconds = BEANS()[name as BeanName].plantSeconds;
 
@@ -61,10 +65,13 @@ export const Bean: React.FC<CollectibleProps> = ({
     );
   }
 
+  const image = timeLeft <= plantSeconds / 2 ? growing : planted;
+
   return (
     <>
       <img
-        src={planted}
+        src={image}
+        onClick={() => setShowModal(true)}
         style={{
           width: `${PIXEL_SCALE * 30}px`,
           bottom: `${PIXEL_SCALE * 1}px`,
@@ -72,6 +79,21 @@ export const Bean: React.FC<CollectibleProps> = ({
         className="absolute hover:img-highlight"
         alt="Bean"
       />
+      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+        <Panel>
+          <div className="flex flex-col justify-center items-center">
+            <span className="text-center mb-4">
+              {`Your mystery prize will be ready in ${secondsToString(
+                timeLeft,
+                {
+                  length: "full",
+                }
+              )}`}
+            </span>
+            <img src={questionMark} className="w-1/5 mb-2" />
+          </div>
+        </Panel>
+      </Modal>
     </>
   );
 };

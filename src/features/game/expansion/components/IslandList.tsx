@@ -19,6 +19,7 @@ import land from "assets/land/islands/island.png";
 import { VisitLandExpansionForm } from "./VisitLandExpansionForm";
 import { useActor } from "@xstate/react";
 import { RedLabel } from "components/ui/RedLabel";
+import { CONFIG } from "lib/config";
 
 const CONTENT_HEIGHT = 380;
 
@@ -162,8 +163,8 @@ export const IslandList = ({
       name: "Treasure Island",
       levelRequired: 10,
       image: treasureIsland,
-      path: `/treasure/${id}`,
-      comingSoon: true,
+      path: `/land/${id}/treasure-island`,
+      comingSoon: CONFIG.NETWORK === "mainnet" ? true : false,
     },
     {
       name: "Stone Haven",
