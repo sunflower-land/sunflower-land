@@ -67,7 +67,6 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
   }
 
   if (item in FOODS()) {
-    // Coming soon
     return false;
   }
 
