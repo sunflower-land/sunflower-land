@@ -14,28 +14,25 @@ module.exports = {
         "0.9rem",
         {
           lineHeight: "0.75rem",
-          letterSpacing: "0.4px",
         },
       ],
       xs: [
         "1rem",
         {
           lineHeight: "1rem",
-          letterSpacing: "0.5px",
         },
       ],
       sm: [
         "1.275rem",
         {
           lineHeight: "1.275rem",
-          letterSpacing: "0.5px",
         },
       ],
       base: [
         "1.6rem",
         {
           lineHeight: "1.4rem",
-          letterSpacing: "0.8px",
+          letterSpace: "-0.3px",
         },
       ],
 
@@ -43,28 +40,24 @@ module.exports = {
         "1.725rem",
         {
           lineHeight: "1.75rem",
-          letterSpacing: "1px",
         },
       ],
       xl: [
         "3.25rem",
         {
           lineHeight: "5.25rem",
-          letterSpacing: "0.5px",
         },
       ],
       "2xl": [
         "4.375rem",
         {
           lineHeight: "5.25rem",
-          letterSpacing: "0.5px",
         },
       ],
       "3xl": [
         "1.875rem",
         {
           lineHeight: "5.25rem",
-          letterSpacing: "0.5px",
         },
       ],
     },
