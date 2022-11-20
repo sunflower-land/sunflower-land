@@ -15,22 +15,16 @@ interface Props {
 
 const FlagsImages: React.FC<Props> = ({ flagName }) => {
   return (
-    <div
-      className="absolute"
+    <img
+      className="absolute max-w-none hover:img-highlight"
       style={{
-        width: `${PIXEL_SCALE * 11}px`,
-        right: `${PIXEL_SCALE * 2.5}px`,
+        width: `${PIXEL_SCALE * 1.5 * 11}px`,
+        left: `${PIXEL_SCALE * 5}px`,
+        bottom: `${PIXEL_SCALE * 6}px`,
       }}
-    >
-      <img
-        className="hover:img-highlight"
-        style={{
-          width: `${PIXEL_SCALE * 11}px`,
-        }}
-        src={ITEM_DETAILS[flagName].image}
-        alt={flagName}
-      />
-    </div>
+      src={ITEM_DETAILS[flagName].image}
+      alt={flagName}
+    />
   );
 };
 
