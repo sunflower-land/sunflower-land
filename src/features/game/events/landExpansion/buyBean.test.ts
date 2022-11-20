@@ -8,7 +8,7 @@ import { beanBought } from "./buyBean";
 
 const GAME_STATE: GameState = TEST_FARM;
 
-describe("beanBough", () => {
+describe("beanBought", () => {
   const dateNow = Date.now();
 
   it("throws an error if item is not a bean", () => {
@@ -77,6 +77,7 @@ describe("beanBough", () => {
         ...GAME_STATE,
         inventory: {
           Wood: new Decimal(500),
+          Stone: new Decimal(500),
         },
         balance,
       },
@@ -98,6 +99,7 @@ describe("beanBough", () => {
         ...GAME_STATE,
         inventory: {
           Wood: new Decimal(500),
+          Stone: new Decimal(500),
         },
         balance,
       },
@@ -111,7 +113,7 @@ describe("beanBough", () => {
       balance.minus(BEANS()["Magic Bean"].sfl as Decimal)
     );
 
-    expect(state.inventory.Wood).toEqual(new Decimal(400));
+    expect(state.inventory.Wood).toEqual(new Decimal(470));
   });
 
   it("mints the newly bought bean", () => {
@@ -122,7 +124,10 @@ describe("beanBough", () => {
       state: {
         ...GAME_STATE,
         balance,
-        inventory: { Wood: new Decimal(500) },
+        inventory: {
+          Wood: new Decimal(500),
+          Stone: new Decimal(500),
+        },
       },
       action: {
         bean,
@@ -140,7 +145,10 @@ describe("beanBough", () => {
       state: {
         ...GAME_STATE,
         balance: new Decimal(1),
-        inventory: { Wood: new Decimal(500) },
+        inventory: {
+          Wood: new Decimal(500),
+          Stone: new Decimal(500),
+        },
       },
       action: {
         type: "bean.bought",
@@ -158,7 +166,10 @@ describe("beanBough", () => {
       state: {
         ...GAME_STATE,
         balance: new Decimal(1),
-        inventory: { Wood: new Decimal(500) },
+        inventory: {
+          Wood: new Decimal(500),
+          Stone: new Decimal(500),
+        },
       },
       action: {
         type: "bean.bought",

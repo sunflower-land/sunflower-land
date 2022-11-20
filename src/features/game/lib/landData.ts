@@ -486,6 +486,7 @@ export const OFFLINE_FARM: GameState = {
       },
     ],
   },
+  mysteryPrizes: {},
   bumpkin: INITIAL_BUMPKIN,
 
   grubShop: {

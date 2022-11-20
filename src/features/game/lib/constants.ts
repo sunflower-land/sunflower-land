@@ -508,6 +508,7 @@ export const TEST_FARM: GameState = {
     farming: new Decimal(0),
     gathering: new Decimal(0),
   },
+  mysteryPrizes: {},
   stockExpiry: {
     "Sunflower Cake": "1970-06-06",
     "Potato Cake": "1970-01-01T00:00:00.000Z",
@@ -667,6 +668,7 @@ export const EMPTY: GameState = {
 
   buildings: {},
   collectibles: {},
+  mysteryPrizes: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

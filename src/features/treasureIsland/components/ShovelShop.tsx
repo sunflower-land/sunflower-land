@@ -56,7 +56,7 @@ export const ShovelShop: React.FC = () => {
           />
         </div>
         <Panel>
-          <ShovelShopItems />
+          <ShovelShopItems onClose={() => setShowModal(false)} />
         </Panel>
       </Modal>
     </div>
